@@ -999,7 +999,13 @@ bool c_gui_widget::leaf_node_of_widget(c_gui_widget* branch_widget)
 
 //.text:00AB9D40 ; 
 //.text:00AB9D50 ; 
-//.text:00AB9D60 ; 
+
+void c_gui_list_widget::mark_as_submenu_that_needs_disposal(bool dispose)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB9D60, c_gui_list_widget, mark_as_submenu_that_needs_disposal, dispose);
+
+	m_is_submenu_needs_disposal = dispose;
+}
 
 void c_gui_widget::modulate_tint_color(real_argb_color const* modulation)
 {

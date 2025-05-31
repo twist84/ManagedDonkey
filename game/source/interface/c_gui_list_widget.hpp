@@ -95,6 +95,7 @@ private:
 	void offset_horizontal_list_item_indicators();
 
 public:
+	void mark_as_submenu_that_needs_disposal(bool dispose);
 	bool set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change);
 	void set_scroll_position(int32 scroll_position);
 	void set_selectable_item_cap_count(int32 value);
