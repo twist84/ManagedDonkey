@@ -95,15 +95,30 @@ c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 }
 
 //.text:00AB0500 ; 
-//.text:00AB0550 ; public: s_runtime_screen_widget_definition::s_runtime_screen_widget_definition()
-//.text:00AB0630 ; 
+
+s_runtime_screen_widget_definition::s_runtime_screen_widget_definition()
+{
+	DECLFUNC(0x00AB0550, void, __thiscall, s_runtime_screen_widget_definition*)(this);
+}
+
+s_window_manager_screen_render_data::s_window_manager_screen_render_data() :
+	render_data_buffer(NULL),
+	render_data_buffer_length(0),
+	render_data_buffer_count(0),
+	render_list(),
+	current_count(0),
+	built_for_viewport_bounds()
+{
+	//DECLFUNC(0x00AB0630, void, __thiscall, s_window_manager_screen_render_data*)(this);
+}
+
 //.text:00AB0660 ; 
 //.text:00AB0670 ; public: virtual void* c_gui_screen_codeless_widget::`scalar deleting destructor'(unsigned int)
 
 //.text:00AB06A0 ; public: virtual void* c_gui_screen_widget::`scalar deleting destructor'(unsigned int)
 c_gui_screen_widget::~c_gui_screen_widget()
 {
-	DECLFUNC(0x00AB06A0, void, __thiscall, c_gui_screen_widget*)(this);
+	//DECLFUNC(0x00AB06A0, void, __thiscall, c_gui_screen_widget*)(this);
 }
 
 void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
@@ -113,25 +128,77 @@ void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
 	m_datasource[m_datasource_count++] = datasource;
 }
 
-//.text:00AB06F0 ; public: void c_gui_screen_widget::add_definition_fields(s_screen_widget_definition const*, bool)
+void c_gui_screen_widget::add_definition_fields(s_screen_widget_definition const* definition, bool was_templated)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB06F0, c_gui_screen_widget, add_definition_fields, definition, was_templated);
+
+	c_gui_widget::add_definition_fields(m_type, definition, &m_definition, NULL, was_templated);
+
+	if (definition->initial_button_key_name)
+	{
+		m_definition.initial_button_key_name = definition->initial_button_key_name;
+	}
+
+	if (definition->string_list_tag_reference.index != NONE && definition->string_list_tag_reference.index)
+	{
+		m_definition.string_list_tag_reference_index = definition->string_list_tag_reference.index;
+	}
+
+	if (definition->datasource_blocks.count > 0 && definition->datasource_blocks.address)
+	{
+		m_definition.datasource_blocks = definition->datasource_blocks;
+	}
+
+	if (definition->group_blocks.count > 0 && definition->group_blocks.address)
+	{
+		m_definition.group_blocks = definition->group_blocks;
+	}
+
+	if (definition->button_key_blocks.count > 0 && definition->button_key_blocks.address)
+	{
+		m_definition.button_key_blocks = definition->button_key_blocks;
+	}
+
+	if (definition->sound_override_reference.index != NONE && definition->sound_override_reference.index)
+	{
+		m_definition.sound_override_reference_index = definition->sound_override_reference.index;
+	}
+
+	if (definition->script_name[0])
+	{
+		csstrnzcpy(m_definition.script_name, definition->script_name, sizeof(m_definition.script_name));
+	}
+	else
+	{
+		m_definition.script_name[0] = 0;
+	}
+
+	m_definition.script_index = definition->script_index;
+}
 
 void c_gui_screen_widget::add_game_tag_parser(c_game_tag_parser* parser)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB0800, c_gui_screen_widget, add_game_tag_parser, parser);
 
-	if (parser)
+	if (!parser)
 	{
-		if (m_game_tag_parser_count < NUMBEROF(m_game_tag_parsers))
-		{
-			user_interface_text_parser_register(parser, m_screen_index);
-			m_game_tag_parsers[m_game_tag_parser_count++] = parser;
-		}
+		return;
 	}
+
+	if (m_game_tag_parser_count >= NUMBEROF(m_game_tag_parsers))
+	{
+		return;
+	}
+
+	user_interface_text_parser_register(parser, m_screen_index);
+	m_game_tag_parsers[m_game_tag_parser_count++] = parser;
 }
 
 bool c_gui_screen_widget::can_receive_focus() const
 {
-	return INVOKE_CLASS_MEMBER(0x00AB0840, c_gui_screen_widget, can_receive_focus);
+	//return INVOKE_CLASS_MEMBER(0x00AB0840, c_gui_screen_widget, can_receive_focus);
+
+	return false;
 }
 
 void s_window_manager_screen_render_data::clear()
@@ -144,32 +211,112 @@ void s_window_manager_screen_render_data::clear()
 
 void c_gui_screen_widget::clear_display_groups()
 {
-	INVOKE_CLASS_MEMBER(0x00AB0870, c_gui_screen_widget, clear_display_groups);
+	//INVOKE_CLASS_MEMBER(0x00AB0870, c_gui_screen_widget, clear_display_groups);
+
+	for (int32 display_group_index = 0; display_group_index < k_display_group_type_count; display_group_index++)
+	{
+		m_current_display_group_widgets[display_group_index] = NULL;
+		m_previous_display_group_widgets[display_group_index] = NULL;
+		m_current_display_group_indicies[display_group_index] = NONE;
+	}
 }
-//.text:00AB08B0 ; private: void c_gui_screen_widget::create_and_add_child_widgets_from_definition(s_runtime_screen_widget_definition*)
+
+void c_gui_screen_widget::create_and_add_child_widgets_from_definition(s_runtime_screen_widget_definition* definition)
+{
+	INVOKE_CLASS_MEMBER(0x00AB08B0, c_gui_screen_widget, create_and_add_child_widgets_from_definition, definition);
+}
 
 void c_gui_screen_widget::dispose()
 {
-	INVOKE_CLASS_MEMBER(0x00AB0980, c_gui_screen_widget, dispose);
+	//INVOKE_CLASS_MEMBER(0x00AB0980, c_gui_screen_widget, dispose);
+
+	c_gui_widget::dispose();
+	m_render_data.dispose();
+	c_gui_screen_widget::dispose_datasource();
+
+	ASSERT(VALID_COUNT(m_game_tag_parser_count, NUMBEROF(m_game_tag_parsers)));
+	for (int32 game_tag_index = 0; game_tag_index < m_game_tag_parser_count; game_tag_index++)
+	{
+		c_game_tag_parser* game_tag_parser = m_game_tag_parsers[game_tag_index];
+
+		user_interface_text_parser_unregister(game_tag_parser, m_screen_index);
+		ui_track_delete<c_game_tag_parser>(game_tag_parser);
+		game_tag_parser = NULL;
+	}
+	m_game_tag_parser_count = 0;
 }
 
-//.text:00AB0A10 ; 
+void s_window_manager_screen_render_data::dispose()
+{
+	//INVOKE_CLASS_MEMBER(0x00AB0A10, s_window_manager_screen_render_data, dispose);
+
+	if (render_data_buffer)
+	{
+		user_interface_free(render_data_buffer);
+
+		// Bungie shouldn't this be nulled out to prevent use after free?
+		//render_data_buffer = NULL;
+	}
+}
 
 void c_gui_screen_widget::dispose_child_screens()
 {
-	INVOKE_CLASS_MEMBER(0x00AB0A20, c_gui_screen_widget, dispose_child_screens);
+	//INVOKE_CLASS_MEMBER(0x00AB0A20, c_gui_screen_widget, dispose_child_screens);
+
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (child_widget->m_type != _gui_screen)
+		{
+			continue;
+		}
+	
+		window_manager_get()->dispose_screen((c_gui_screen_widget*)child_widget);
+	}
 }
 
-//.text:00AB0A90 ; private: void c_gui_screen_widget::dispose_datasource()
+void c_gui_screen_widget::dispose_datasource()
+{
+	//INVOKE_CLASS_MEMBER(0x00AB0A90, c_gui_screen_widget, dispose_datasource);
+
+	ASSERT(VALID_COUNT(m_datasource_count, NUMBEROF(m_datasource)));
+	for (int32 datasource_index = 0; datasource_index < m_datasource_count; datasource_index++)
+	{
+		c_gui_data* datasource = m_datasource[datasource_index];
+
+		datasource->dispose();
+		ui_track_delete<c_gui_data>(datasource);
+		datasource = NULL;
+	}
+	m_datasource_count = 0;
+}
+
 //.text:00AB0B00 ; private: void c_gui_screen_widget::dispose_display_group(c_gui_group_widget*)
 //.text:00AB0BC0 ; protected: c_gui_list_item_widget* c_gui_screen_widget::find_list_item(int32, int32, int32)
 //.text:00AB0C50 ; 
-//.text:00AB0C60 ; 
+
+c_gui_group_widget* c_gui_screen_widget::get_button_key_widget()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB0C60, c_gui_screen_widget, get_button_key_widget);
+
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (child_widget->m_type != _gui_button_key || !TEST_BIT(child_widget->get_core_definition()->flags, 6))
+		{
+			continue;
+		}
+
+		return (c_gui_group_widget*)child_widget;
+	}
+	return NULL;
+}
+
 //.text:00AB0CD0 ; public: int32 c_gui_screen_widget::get_constants_datasource_integer(int32)
 
 s_runtime_core_widget_definition* c_gui_screen_widget::get_core_definition()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB0DA0, c_gui_screen_widget, get_core_definition);
+	//return INVOKE_CLASS_MEMBER(0x00AB0DA0, c_gui_screen_widget, get_core_definition);
+
+	return &m_definition;
 }
 
 c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
@@ -205,19 +352,41 @@ c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
 	return m_datasource[index];
 }
 
-//.text:00AB0E20 ; 
-//.text:00AB0E30 ; 
-//.text:00AB0E40 ; 
+int32 c_gui_screen_widget::get_datasource_count() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB0E20, c_gui_screen_widget, get_datasource_count);
+
+	return m_datasource_count;
+}
+
+//.text:00AB0E30 ; public: int32 c_gui_list_widget::get_datasource_name()
+//.text:00AB0E40 ; public: void c_gui_screen_widget::get_datasources(c_gui_data** const, int32*)
 //.text:00AB0E90 ; private: int32 c_gui_screen_widget::get_display_group_index(c_gui_screen_widget::e_display_group_type, int32)
-//.text:00AB0F30 ; 
+//.text:00AB0F30 ; public: bool c_gui_group_widget::get_dispose_as_display_group() const
 
 c_gui_widget* c_gui_screen_widget::get_focused_widget()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB0F40, c_gui_screen_widget, get_focused_widget);
+	//return INVOKE_CLASS_MEMBER(0x00AB0F40, c_gui_screen_widget, get_focused_widget);
+
+	if (m_suppress_focus)
+	{
+		return NULL;
+	}
+	
+	return m_current_focused_widget;
+}
+
+int32 c_gui_screen_widget::get_multilingual_unicode_string_list_index()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB0F60, c_gui_screen_widget, get_multilingual_unicode_string_list_index);
+
+	return m_definition.string_list_tag_reference_index;
 }
 
 char const* c_gui_screen_widget::get_multilingual_unicode_string_list_tag_name()
 {
+	//return INVOKE_CLASS_MEMBER(0x00AB0F70, c_gui_screen_widget, get_multilingual_unicode_string_list_tag_name);
+
 	if (m_definition.string_list_tag_reference_index == NONE)
 	{
 		return NULL;
@@ -226,9 +395,7 @@ char const* c_gui_screen_widget::get_multilingual_unicode_string_list_tag_name()
 	return tag_get_name_safe(m_definition.string_list_tag_reference_index);
 }
 
-//.text:00AB0F60 ; 
-//.text:00AB0F70 ; 
-//.text:00AB0F80 ; 
+//.text:00AB0F80 ; public: c_gui_group_widget* c_gui_screen_widget::get_primary_group_widget()
 
 e_window_index c_gui_screen_widget::get_render_window()
 {
@@ -240,6 +407,27 @@ e_window_index c_gui_screen_widget::get_render_window()
 bool c_gui_screen_widget::get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB1000, c_gui_screen_widget, get_string_by_string_id, string_identifier, buffer);
+
+	//ASSERT(buffer!=NULL);
+	//
+	//if (string_identifier == k_string_id_empty_string)
+	//{
+	//	return false;
+	//}
+	//
+	//if (string_identifier == _string_id_invalid)
+	//{
+	//	return false;
+	//}
+	//
+	//int32 multilingual_unicode_string_list_index = get_multilingual_unicode_string_list_index();
+	//if (multilingual_unicode_string_list_index == NONE)
+	//{
+	//	return false;
+	//}
+	//
+	//string_list_get_interface_string(multilingual_unicode_string_list_index, string_identifier, buffer);
+	//return true;
 }
 
 //.text:00AB1040 ; 
@@ -371,32 +559,33 @@ void c_gui_screen_widget::predict_pending_resources(int32 a1)
 
 bool c_gui_screen_widget::process_message(c_message const* message)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB1BA0, c_gui_screen_widget, process_message, message);
+	//return INVOKE_CLASS_MEMBER(0x00AB1BA0, c_gui_screen_widget, process_message, message);
 
-	//bool result = false;
-	//switch (message->get_type())
-	//{
-	//case _message_type_controller_input:
-	//{
-	//	c_controller_input_message const* controller_input_message = (c_controller_input_message const*)message;
-	//	if (result = handle_controller_input_message(controller_input_message))
-	//	{
-	//		c_window_manager::play_controller_sound(
-	//			m_definition.sound_override_reference_index,
-	//			controller_input_message->get_event_type(),
-	//			controller_input_message->get_component());
-	//	}
-	//}
-	//break;
-	//case _message_type_dialog_result:
-	//{
-	//	c_dialog_result_message const* dialog_result_message = (c_dialog_result_message const*)message;
-	//	result = handle_dialog_result(dialog_result_message);
-	//}
-	//break;
-	//}
-	//
-	//return result;
+	switch (message->get_type())
+	{
+	case _message_type_controller_input:
+	{
+		c_controller_input_message const* controller_input_message = (c_controller_input_message const*)message;
+		if (handle_controller_input_message(controller_input_message))
+		{
+			c_window_manager::play_controller_sound(
+				m_definition.sound_override_reference_index,
+				controller_input_message->get_event_type(),
+				controller_input_message->get_component());
+	
+			return true;
+		}
+	}
+	break;
+	case _message_type_dialog_result:
+	{
+		c_dialog_result_message const* dialog_result_message = (c_dialog_result_message const*)message;
+		return handle_dialog_result(dialog_result_message);
+	}
+	break;
+	}
+	
+	return false;
 }
 
 void c_gui_screen_widget::reconstruct()
@@ -414,7 +603,29 @@ void c_gui_screen_widget::reconstruct()
 
 void c_gui_screen_widget::reload_assets()
 {
-	INVOKE_CLASS_MEMBER(0x00AB1CE0, c_gui_screen_widget, reload_assets);
+	//INVOKE_CLASS_MEMBER(0x00AB1CE0, c_gui_screen_widget, reload_assets);
+
+	int32 screen_definition_index = window_manager_get()->locate_screen_definition_tag_by_name(m_definition.widget_identifier);
+	c_gui_widget::delete_all_children();
+	s_runtime_screen_widget_definition baseline_definition{};
+	m_definition = baseline_definition;
+	m_definition.widget_identifier = m_definition.widget_identifier;
+	c_gui_screen_widget::clear_display_groups();
+	if (screen_definition_index != NONE)
+	{
+		bool was_templated = false;
+		s_screen_widget_definition* screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_definition_index);
+		if (screen_widget_definition->template_reference.index)
+		{
+			s_screen_widget_definition* template_screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_widget_definition->template_reference.index);
+			c_gui_screen_widget::add_definition_fields(template_screen_widget_definition, false);
+			was_templated = true;
+		}
+		c_gui_screen_widget::add_definition_fields(screen_widget_definition, was_templated);
+	}
+	m_name = m_definition.widget_identifier;
+	c_gui_screen_widget::reposition_for_splitscreen();
+	c_gui_screen_widget::create_and_add_child_widgets_from_definition(&m_definition);
 }
 
 void c_gui_screen_widget::reload_next_frame()
@@ -425,7 +636,11 @@ void c_gui_screen_widget::reload_next_frame()
 }
 
 //.text:00AB1E00 ; protected: void c_gui_screen_widget::remove_datasource(c_gui_data*)
-//.text:00AB1E80 ; protected: void c_gui_screen_widget::reposition_for_splitscreen()
+
+void c_gui_screen_widget::reposition_for_splitscreen()
+{
+	INVOKE_CLASS_MEMBER(0x00AB1E80, c_gui_screen_widget, reposition_for_splitscreen);
+}
 
 bool c_gui_screen_widget::running_in_codeless_mode()
 {
@@ -484,47 +699,49 @@ void c_gui_screen_widget::transfer_focus_to_list(c_gui_list_widget* list_widget,
 {
 	INVOKE_CLASS_MEMBER(0x00AB2640, c_gui_screen_widget, transfer_focus_to_list, list_widget, element_handle, play_received_animation, play_lost_animation);
 
-	c_gui_data* data = list_widget->get_data();
-	if (!data)
-	{
-		return;
-	}
-	
-	if (data->contains(element_handle))
-	{
-		element_handle = data->get_first_element_handle();
-	}
-	
-	if (element_handle == NONE)
-	{
-		return;
-	}
+	// $TODO: finish this implementation
+
+	//c_gui_data* data = list_widget->get_data();
+	//if (!data)
+	//{
+	//	return;
+	//}
+	//
+	//if (data->contains(element_handle))
+	//{
+	//	element_handle = data->get_first_element_handle();
+	//}
+	//
+	//if (element_handle == NONE)
+	//{
+	//	return;
+	//}
 }
 
 //.text:00AB2740 ; 
 
 void c_gui_screen_widget::transfer_focus_without_animations(c_gui_widget* new_focused_widget, bool play_received_animation, bool play_lost_animation)
 {
-	INVOKE_CLASS_MEMBER(0x00AB27D0, c_gui_screen_widget, transfer_focus_without_animations, new_focused_widget, play_received_animation, play_lost_animation);
+	//INVOKE_CLASS_MEMBER(0x00AB27D0, c_gui_screen_widget, transfer_focus_without_animations, new_focused_widget, play_received_animation, play_lost_animation);
 
 	ASSERT(new_focused_widget != NULL);
-
-	//if (!new_focused_widget->can_receive_focus())
-	//{
-	//	event(_event_verbose, "ui: tried to give focus to an invalid child widget (type= %s, name= %s)",
-	//		gui_widget_type_to_string(new_focused_widget->m_type),
-	//		c_gui_widget::widget_name_to_string(new_focused_widget->m_name));
-	//	return;
-	//}
-	//if (play_received_animation)
-	//{
-	//	new_focused_widget->start_animation(_control_received_focus, true);
-	//}
-	//if (play_lost_animation)
-	//{
-	//	m_current_focused_widget->start_animation(_control_lost_focus, true);
-	//}
-	//m_current_focused_widget = new_focused_widget;
+	
+	if (!new_focused_widget->can_receive_focus())
+	{
+		event(_event_verbose, "ui: tried to give focus to an invalid child widget (type= %s, name= %s)",
+			gui_widget_type_to_string(new_focused_widget->m_type),
+			c_gui_widget::widget_name_to_string(new_focused_widget->m_name));
+		return;
+	}
+	if (play_received_animation)
+	{
+		new_focused_widget->start_animation(_control_received_focus, true);
+	}
+	if (play_lost_animation)
+	{
+		m_current_focused_widget->start_animation(_control_lost_focus, true);
+	}
+	m_current_focused_widget = new_focused_widget;
 }
 
 void c_gui_screen_widget::transition_out(e_transition_out_type transition_out)
@@ -575,5 +792,10 @@ void c_gui_screen_widget::update_render()
 	//INVOKE_CLASS_MEMBER(0x00AB29A0, c_gui_screen_widget, update_render);
 }
 
-//.text:00AB29B0 ; public: bool s_window_manager_screen_render_data::valid()
+bool s_window_manager_screen_render_data::valid() const
+{
+	//INVOKE_CLASS_MEMBER(0x00AB29B0, s_window_manager_screen_render_data, valid);
+
+	return render_data_buffer != NULL;
+}
 
