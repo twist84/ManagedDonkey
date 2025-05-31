@@ -19,8 +19,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_assault_variant const* variant, bool force);
-	//void set(s_game_engine_assault_variant_definition const* definition, bool force);
+	void set(const c_game_engine_assault_variant* variant, bool force);
+	//void set(const s_game_engine_assault_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -59,12 +59,12 @@ public:
 	void set_bomb_fuse_time(int16 bomb_fuse_time);
 
 	c_player_traits* get_carrier_traits_writeable();
-	c_player_traits const* get_carrier_traits() const;
-	void set_carrier_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_carrier_traits() const;
+	void set_carrier_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_arming_traits_writeable();
-	c_player_traits const* get_arming_traits() const;
-	void set_arming_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_arming_traits() const;
+	void set_arming_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_assault_variant_flags, uns16, k_assault_variant_flags> m_variant_flags;

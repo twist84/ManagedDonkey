@@ -15,7 +15,7 @@ static_assert(sizeof(s_compiled_shader_reference) == 0x2);
 
 struct s_rasterizer_vertex_shader_entry_point
 {
-	s_compiled_shader_reference const* get_shader_reference(e_vertex_type vertex_type) const;
+	const s_compiled_shader_reference* get_shader_reference(e_vertex_type vertex_type) const;
 
 	c_typed_tag_block<s_compiled_shader_reference> vertex_types;
 };
@@ -66,12 +66,12 @@ static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
 
 struct c_rasterizer_vertex_shader
 {
-	static c_rasterizer_vertex_shader const* get(int32 definition_index);
+	static const c_rasterizer_vertex_shader* get(int32 definition_index);
 	static c_rasterizer_vertex_shader* get_modifiable(int32 definition_index);
 
-	s_rasterizer_vertex_shader_entry_point const* get_entry_point(int32 entry_point) const;
-	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(int32 shader_index) const;
-	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const;
+	const s_rasterizer_vertex_shader_entry_point* get_entry_point(int32 entry_point) const;
+	const c_rasterizer_compiled_vertex_shader* get_compiled_shader(int32 shader_index) const;
+	const c_rasterizer_compiled_vertex_shader* get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const;
 	IDirect3DVertexShader9* get_d3d_shader(e_vertex_type vertex_type, e_entry_point entry_point, int32 shader_index) const;
 
 	c_flags<e_entry_point, uns32, k_entry_point_count> entry_point_flags;
@@ -83,10 +83,10 @@ static_assert(sizeof(c_rasterizer_vertex_shader) == 0x20);
 
 struct c_rasterizer_pixel_shader
 {
-	static c_rasterizer_pixel_shader const* get(int32 definition_index);
+	static const c_rasterizer_pixel_shader* get(int32 definition_index);
 	static c_rasterizer_pixel_shader* get_modifiable(int32 definition_index);
 
-	c_rasterizer_compiled_pixel_shader const* get_compiled_shader(e_entry_point entry_point, int32 shader_index) const;
+	const c_rasterizer_compiled_pixel_shader* get_compiled_shader(e_entry_point entry_point, int32 shader_index) const;
 	IDirect3DPixelShader9* get_d3d_shader(e_entry_point entry_point, int32 shader_index) const;
 
 	c_flags<e_entry_point, uns32, k_entry_point_count> entry_point_flags;

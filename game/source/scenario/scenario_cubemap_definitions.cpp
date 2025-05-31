@@ -3,7 +3,7 @@
 #include "scenario/scenario.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 
-bool cluster_reference_valid(s_cluster_reference const* cluster_reference)
+bool cluster_reference_valid(const s_cluster_reference* cluster_reference)
 {
     return cluster_reference->bsp_index <= 15 && TEST_BIT(g_active_structure_bsp_mask, cluster_reference->bsp_index);
 }

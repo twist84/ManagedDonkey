@@ -10,7 +10,7 @@
 //.text:01435640 ; bool __cdecl actor_player_is_attacking(int32, real_vector3d*)
 //.text:014356E0 ; void __cdecl actor_player_looking_update(int32)
 //.text:014358A0 ; void __cdecl actor_player_prop_state_refresh(int32, int32)
-//.text:01435B10 ; void __cdecl actor_player_prop_status_refresh(int32, int32, real_point3d const*, int16)
+//.text:01435B10 ; void __cdecl actor_player_prop_status_refresh(int32, int32, const real_point3d*, int16)
 //.text:01435B80 ; void __cdecl actor_player_update(int32)
 //.text:01435BA0 ; void __cdecl actor_player_update_combat_movement(int32)
 //.text:01435DE0 ; void __cdecl actor_player_update_vehicle_interest(int32)
@@ -79,7 +79,7 @@ void debug_render_player_battle_vector()
 				unit_get_head_position(player->unit_index, &unit_head_position);
 				ai_debug_drawstack_setup(&unit_head_position);
 
-				real_argb_color const* color = magnitude3d(&ai_player.battle_vector) > 0.7f ? global_real_argb_green : global_real_argb_red;
+				const real_argb_color* color = magnitude3d(&ai_player.battle_vector) > 0.7f ? global_real_argb_green : global_real_argb_red;
 
 				render_debug_vector(true, &unit_head_position, &ai_player.battle_vector, 1.0f, color);
 				render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("ticks since shooting: %i", ai_player.ticks_since_shooting).get_string(), color);
@@ -102,7 +102,7 @@ void debug_render_player_needs_vehicle()
 				real_point3d unit_head_position{};
 				unit_get_head_position(player->unit_index, &unit_head_position);
 
-				real_argb_color const* color = ai_player_state_needs_vehicle(ai_player_index) ? global_real_argb_green : global_real_argb_red;
+				const real_argb_color* color = ai_player_state_needs_vehicle(ai_player_index) ? global_real_argb_green : global_real_argb_red;
 
 				render_debug_string_at_point(&unit_head_position, c_string_builder("need vehicle time: %.2f", game_ticks_to_seconds(real32(game_time_get() - ai_player.needs_vehicle_time))).get_string(), color);
 			}

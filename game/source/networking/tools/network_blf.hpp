@@ -475,13 +475,13 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + 0x8);
 
-extern bool __cdecl network_blf_verify_start_of_file(char const* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size);
-extern bool __cdecl network_blf_find_chunk(char const* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, char const** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found);
-extern bool __cdecl network_blf_read_for_known_chunk(char const* buffer, int32 buffer_count, bool byte_swap, int32 chunk_type, int16 major_version, int32* out_chunk_size, char const** out_chunk_buffer, int32* out_chunk_buffer_size, int16* out_minor_version, bool* out_eof_chunk);
-extern bool __cdecl network_blf_verify_end_of_file(char const* buffer, int32 buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);
+extern bool __cdecl network_blf_verify_start_of_file(const char* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size);
+extern bool __cdecl network_blf_find_chunk(const char* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, const char** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found);
+extern bool __cdecl network_blf_read_for_known_chunk(const char* buffer, int32 buffer_count, bool byte_swap, int32 chunk_type, int16 major_version, int32* out_chunk_size, const char** out_chunk_buffer, int32* out_chunk_buffer_size, int16* out_minor_version, bool* out_eof_chunk);
+extern bool __cdecl network_blf_verify_end_of_file(const char* buffer, int32 buffer_count, bool byte_swap, const char* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);
 
 template<typename t_blf_chunk_type>
-void find_blf_chunk(s_file_reference* file, char* const file_buffer, t_blf_chunk_type const** out_blf_chunk_type, bool* must_byte_swap)
+void find_blf_chunk(s_file_reference* file, char* const file_buffer, const t_blf_chunk_type** out_blf_chunk_type, bool* must_byte_swap)
 {
 	*out_blf_chunk_type = nullptr;
 	*must_byte_swap = false;
@@ -490,9 +490,9 @@ void find_blf_chunk(s_file_reference* file, char* const file_buffer, t_blf_chunk
 	uns32 error = 0;
 	uns32 file_size = 0;
 	int32 chunk_size = 0;
-	char const* chunk_buffer = nullptr;
+	const char* chunk_buffer = nullptr;
 	bool eof_chunk = false;
-	t_blf_chunk_type const* blf_chunk_type = nullptr;
+	const t_blf_chunk_type* blf_chunk_type = nullptr;
 	bool byte_swap = false;
 
 	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
@@ -528,8 +528,8 @@ void find_blf_chunk(s_file_reference* file, char* const file_buffer, t_blf_chunk
 
 	if (chunk_buffer)
 	{
-		blf_chunk_type = reinterpret_cast<t_blf_chunk_type const*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (char const*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		blf_chunk_type = (const t_blf_chunk_type*)(chunk_buffer - sizeof(s_blf_header));
+		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 		{
 			if (chunk_size == sizeof(s_blf_chunk_end_of_file) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), s_blf_chunk_end_of_file::k_authentication_type))
 			{

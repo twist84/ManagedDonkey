@@ -12,17 +12,17 @@ HOOK_DECLARE(0x00508F80, security_rsa_compute_and_verify_signature);
 
 bool const override_scenario_load_security_rsa_compute_and_verify_signature = true;
 
-int32 __cdecl hash_compare_function(void const* in_a, void const* in_b, void const* compare_data)
+int32 __cdecl hash_compare_function(const void* in_a, const void* in_b, const void* compare_data)
 {
 	return INVOKE(0x00508C90, hash_compare_function, in_a, in_b, compare_data);
 }
 
-int32 __cdecl rsa_signature_compare_function(void const* in_a, void const* in_b, void const* compare_data)
+int32 __cdecl rsa_signature_compare_function(const void* in_a, const void* in_b, const void* compare_data)
 {
 	return INVOKE(0x00508CE0, hash_compare_function, in_a, in_b, compare_data);
 }
 
-bool __cdecl security_calculate_hash(void const* buffer, uns32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash* hash)
+bool __cdecl security_calculate_hash(const void* buffer, uns32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash* hash)
 {
 	bool result = INVOKE(0x00508D30, security_calculate_hash, buffer, buffer_size, use_secret_hash_salt, hash);
 
@@ -68,7 +68,7 @@ void __cdecl security_get_working_memory(e_secure_memory_region region, void** o
 	}
 }
 
-bool __cdecl security_hash_manifest_find_hash(s_network_http_request_hash const* hash, void const* manifest, uns32 manifest_size)
+bool __cdecl security_hash_manifest_find_hash(const s_network_http_request_hash* hash, const void* manifest, uns32 manifest_size)
 {
 	return INVOKE(0x00508E00, security_hash_manifest_find_hash, hash, manifest, manifest_size);
 }
@@ -83,7 +83,7 @@ void __cdecl security_incremental_hash_finish(void* working_memory, int32 workin
 	INVOKE(0x00508E80, security_incremental_hash_finish, working_memory, working_memory_size, hash);
 }
 
-void __cdecl security_incremental_hash_update(void* working_memory, int32 working_memory_size, void const* buffer, uns32 buffer_size)
+void __cdecl security_incremental_hash_update(void* working_memory, int32 working_memory_size, const void* buffer, uns32 buffer_size)
 {
 	INVOKE(0x00508EA0, security_incremental_hash_update, working_memory, working_memory_size, buffer, buffer_size);
 }
@@ -96,17 +96,17 @@ void __cdecl security_initialize()
 	g_secure_memory_size = k_secure_memory_size;
 }
 
-char* __cdecl security_print_hash(s_network_http_request_hash const* hash, char* buffer, int32 buffer_size)
+char* __cdecl security_print_hash(const s_network_http_request_hash* hash, char* buffer, int32 buffer_size)
 {
 	return INVOKE(0x00508EE0, security_print_hash, hash, buffer, buffer_size);
 }
 
-char* __cdecl security_print_rsa_signature(s_rsa_signature const* rsa_signature, char* buffer, int32 buffer_size)
+char* __cdecl security_print_rsa_signature(const s_rsa_signature* rsa_signature, char* buffer, int32 buffer_size)
 {
 	return INVOKE(0x00508F30, security_print_rsa_signature, rsa_signature, buffer, buffer_size);
 }
 
-bool __cdecl security_rsa_compute_and_verify_signature(s_network_http_request_hash const* hash, s_rsa_signature* rsa_signature)
+bool __cdecl security_rsa_compute_and_verify_signature(const s_network_http_request_hash* hash, s_rsa_signature* rsa_signature)
 {
 	//return INVOKE(0x00508F80, security_rsa_compute_and_verify_signature, hash, rsa_signature);
 
@@ -119,12 +119,12 @@ bool __cdecl security_rsa_compute_and_verify_signature(s_network_http_request_ha
 	return result;
 }
 
-bool __cdecl security_rsa_manifest_find_signature(s_rsa_signature const* rsa_signature, void const* manifest, uns32 manifest_size)
+bool __cdecl security_rsa_manifest_find_signature(const s_rsa_signature* rsa_signature, const void* manifest, uns32 manifest_size)
 {
 	return INVOKE(0x00508FE0, security_rsa_manifest_find_signature, rsa_signature, manifest, manifest_size);
 }
 
-bool __cdecl security_validate_hash(void const* buffer, uns32 buffer_size, bool use_secret_hash_salt, s_network_http_request_hash const* hash, s_network_http_request_hash* out_actual_hash)
+bool __cdecl security_validate_hash(const void* buffer, uns32 buffer_size, bool use_secret_hash_salt, const s_network_http_request_hash* hash, s_network_http_request_hash* out_actual_hash)
 {
 	bool result = INVOKE(0x00509020, security_validate_hash, buffer, buffer_size, use_secret_hash_salt, hash, out_actual_hash);
 

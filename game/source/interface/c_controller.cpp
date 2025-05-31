@@ -99,7 +99,7 @@ e_controller_index c_controller_interface::get_controller_index() const
 	return INVOKE_CLASS_MEMBER(0x00A7D410, c_controller_interface, get_controller_index);
 }
 
-wchar_t const* c_controller_interface::get_display_name() const
+const wchar_t* c_controller_interface::get_display_name() const
 {
 	return m_display_name;
 }
@@ -113,7 +113,7 @@ int16 c_controller_interface::get_or_create_user_index()
 	return INVOKE_CLASS_MEMBER(0x00A7D470, c_controller_interface, get_or_create_user_index);
 }
 
-s_player_identifier const* c_controller_interface::get_player_identifier(s_player_identifier* out_player_identifier) const
+const s_player_identifier* c_controller_interface::get_player_identifier(s_player_identifier* out_player_identifier) const
 {
 	return INVOKE_CLASS_MEMBER(0x00A7D500, c_controller_interface, get_player_identifier, out_player_identifier);
 }
@@ -188,7 +188,7 @@ void c_controller_interface::reset_user_index()
 //.text:00A7DAA0 ; // vidmaster related
 //.text:00A7DAB0 ; public: void c_controller_interface::set_user_index(int16, bool)
 
-void c_controller_interface::sign_in_controller(s_player_identifier const* player_identifier, bool is_temporary)
+void c_controller_interface::sign_in_controller(const s_player_identifier* player_identifier, bool is_temporary)
 {
 	//INVOKE_CLASS_MEMBER(0x00A7DB00, c_controller_interface, sign_in_controller, player_identifier, is_temporary);
 
@@ -309,7 +309,7 @@ void c_controller_interface::update_controller_properties()
 		if (!m_state_flags.test(_temporary_bit))
 		{
 			csmemset(m_display_name, 0, sizeof(m_display_name));
-			if (wchar_t const* name = online_local_user_get_name(controller_index))
+			if (const wchar_t* name = online_local_user_get_name(controller_index))
 			{
 				ustrnzcpy(m_display_name, name, NUMBEROF(m_display_name));
 			}

@@ -151,8 +151,8 @@ static_assert(sizeof(c_model_animation) == 0x88);
 struct c_model_animation_graph
 {
 public:
-	static c_model_animation_graph const* __cdecl get(int32 definition_index);
-	static c_model_animation_graph const* __cdecl get_from_object_definition(int32 object_definition_index);
+	static const c_model_animation_graph* __cdecl get(int32 definition_index);
+	static const c_model_animation_graph* __cdecl get_from_object_definition(int32 object_definition_index);
 	s_animation_graph_node* get_node(int32 node_index) const;
 
 //protected:

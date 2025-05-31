@@ -76,7 +76,7 @@ public:
 	void block_until_not_busy();
 	bool close_file();
 	void complete_pending_async_buffer_activity();
-	int32 consume_bytes(void const* source, int32 bytes_to_consume);
+	int32 consume_bytes(const void* source, int32 bytes_to_consume);
 	int32 fill_bytes(void* destination, int32 bytes_to_fill);
 	bool flush();
 	int32 get_position();
@@ -86,7 +86,7 @@ public:
 	void initialize_internal();
 	bool is_async_io_in_progress();
 	bool is_data_waiting();
-	bool open_file(wchar_t const* file_path, e_async_buffer_file_access file_access, e_async_buffer_disposition disposition);
+	bool open_file(const wchar_t* file_path, e_async_buffer_file_access file_access, e_async_buffer_disposition disposition);
 	void prime_buffers_for_reading();
 	void read(void* destination, int32 bytes_to_read, int32* bytes_read);
 	bool ready_to_read();
@@ -96,7 +96,7 @@ public:
 	bool set_state(e_async_buffer_state new_state);
 	void swap_buffers();
 	void use_external_storage(char** buffers, int32 buffer_count, int32 buffer_size);
-	void write(void const* source, int32 bytes_to_write, int32* byte_written);
+	void write(const void* source, int32 bytes_to_write, int32* byte_written);
 
 protected:
 	bool __unknown64;

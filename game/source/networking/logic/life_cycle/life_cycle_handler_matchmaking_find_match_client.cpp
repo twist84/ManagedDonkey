@@ -7,7 +7,7 @@ c_life_cycle_state_handler_matchmaking_find_match_client::c_life_cycle_state_han
 	//DECLFUNC(0x00454050, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match_client*)(this);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_find_match_client::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_find_match_client::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454770, c_life_cycle_state_handler_matchmaking_find_match_client, get_state_string);
 

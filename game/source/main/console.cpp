@@ -182,7 +182,7 @@ void __cdecl console_complete()
 
 	char* token = console_get_token();
 
-	char const* matching_items[256]{};
+	const char* matching_items[256]{};
 	int16 matching_item_count = hs_tokens_enumerate(console_token_buffer.get_string(), NONE, matching_items, NUMBEROF(matching_items));
 	if (matching_item_count)
 	{
@@ -199,7 +199,7 @@ void __cdecl console_complete()
 			console_printf("");
 
 			int16 matching_item_index = 0;
-			char const** matching_item = matching_items;
+			const char** matching_item = matching_items;
 			for (matching_item_index = 0; matching_item_index < matching_item_count; matching_item_index++, matching_item++)
 			{
 				int16 matching_item_length_minus_one = int16(strlen(*matching_item)) - 1;
@@ -347,7 +347,7 @@ void __cdecl console_open(bool debug_menu)
 	}
 }
 
-void __cdecl console_printf(char const* format, ...)
+void __cdecl console_printf(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -356,7 +356,7 @@ void __cdecl console_printf(char const* format, ...)
 	{
 		c_static_string<255> message{};
 		message.print_va(format, list);
-		char const* message_string = message.get_string();
+		const char* message_string = message.get_string();
 
 		terminal_printf(nullptr, message_string);
 		c_console::write_line(message_string);
@@ -368,7 +368,7 @@ void __cdecl console_printf(char const* format, ...)
 	va_end(list);
 }
 
-void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...)
+void __cdecl console_printf_color(const real_argb_color* color, const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -378,7 +378,7 @@ void __cdecl console_printf_color(real_argb_color const* color, char const* form
 	{
 		c_static_string<255> message{};
 		message.print_va(format, list);
-		char const* message_string = message.get_string();
+		const char* message_string = message.get_string();
 
 		terminal_printf(color, message_string);
 		c_console::write_line(message_string);
@@ -495,7 +495,7 @@ void __cdecl console_update(real32 shell_seconds_elapsed)
 	}
 }
 
-void __cdecl console_warning(char const* format, ...)
+void __cdecl console_warning(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -505,7 +505,7 @@ void __cdecl console_warning(char const* format, ...)
 	{
 		c_static_string<255> message{};
 		message.print_va(format, list);
-		char const* message_string = message.get_string();
+		const char* message_string = message.get_string();
 
 		terminal_printf(global_real_argb_red, message_string);
 		c_console::write_line(message_string);
@@ -517,7 +517,7 @@ void __cdecl console_warning(char const* format, ...)
 	va_end(list);
 }
 
-bool __cdecl console_process_command(char const* command, bool interactive)
+bool __cdecl console_process_command(const char* command, bool interactive)
 {
 	if (strlen(command) >= 255)
 		return false;
@@ -545,7 +545,7 @@ bool __cdecl console_process_command(char const* command, bool interactive)
 	command_tokenize(command, tokens, &token_count);
 	if (token_count > 0)
 	{
-		char const* command_name = tokens[0]->get_string();
+		const char* command_name = tokens[0]->get_string();
 
 		bool command_found = false;
 		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
@@ -984,7 +984,7 @@ s_console_global const k_console_globals[] =
 };
 int32 const k_console_global_count = NUMBEROF(k_console_globals);
 
-bool string_to_boolean(char const* string, bool* value)
+bool string_to_boolean(const char* string, bool* value)
 {
 	if (!string)
 		return true;
@@ -1008,7 +1008,7 @@ bool string_to_boolean(char const* string, bool* value)
 	return input != *value;
 }
 
-bool string_to_real(char const* string, real32* value)
+bool string_to_real(const char* string, real32* value)
 {
 	if (!string)
 		return true;
@@ -1021,7 +1021,7 @@ bool string_to_real(char const* string, real32* value)
 	return input != *value;
 }
 
-bool string_to_short_integer(char const* string, int16* value)
+bool string_to_short_integer(const char* string, int16* value)
 {
 	if (!string)
 		return true;
@@ -1034,7 +1034,7 @@ bool string_to_short_integer(char const* string, int16* value)
 	return input != *value;
 }
 
-bool string_to_long_integer(char const* string, int32* value)
+bool string_to_long_integer(const char* string, int32* value)
 {
 	if (!string)
 		return true;
@@ -1047,7 +1047,7 @@ bool string_to_long_integer(char const* string, int32* value)
 	return input != *value;
 }
 
-callback_result_t set_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t set_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	ASSERT(token_count >= 1);
 
@@ -1057,23 +1057,31 @@ callback_result_t set_callback(void const* userdata, int32 token_count, tokens_t
 	for (int32 i = 0; i < k_console_global_count; i++)
 	{
 		if (!tokens[0]->is_equal(k_console_globals[i].name))
+		{
 			continue;
+		}
 
 		console_global_index = i;
 		break;
 	}
 
 	if (!VALID_INDEX(console_global_index, k_console_global_count))
+	{
 		return result;
+	}
 
-	s_console_global const* console_global = &k_console_globals[console_global_index];
+	const s_console_global* console_global = &k_console_globals[console_global_index];
 
 	if (!console_global->pointer)
+	{
 		return result;
+	}
 
-	char const* value_string = nullptr;
+	const char* value_string = nullptr;
 	if (token_count >= 2)
+	{
 		value_string = tokens[1]->get_string();
+	}
 
 	e_hs_type type = console_global->type;
 	switch (type)
@@ -1172,7 +1180,7 @@ void status_line_draw()
 
 			e_text_justification justification = e_text_justification(!status_line->flags.test(_status_line_left_justify_bit));
 
-			char const* string = status_line->text.get_string();
+			const char* string = status_line->text.get_string();
 			if (status_line->flags.test(_status_line_blink_bit) && system_milliseconds() % 500 < 250)
 				string = "|n";
 
@@ -1205,20 +1213,28 @@ void status_line_remove_single(s_status_line* status_line)
 	ASSERT(status_line->prev != NULL || status_line == g_status_line_head);
 
 	if (status_line->prev)
+	{
 		status_line->prev->next = status_line->next;
+	}
 	else
+	{
 		g_status_line_head = status_line->next;
+	}
 
 	if (status_line->next)
+	{
 		status_line->next->prev = status_line->prev;
+	}
 	else
+	{
 		g_status_line_tail = status_line->prev;
+	}
 
 	status_line->prev = NULL;
 	status_line->next = NULL;
 }
 
-bool status_line_visible(s_status_line const* line)
+bool status_line_visible(const s_status_line* line)
 {
 	return (!line->in_use || *line->in_use) && !line->text.is_empty() && !line->flags.test(_status_line_inhibit_drawing_bit);
 }
@@ -1231,14 +1247,16 @@ void status_lines_clear_text(s_status_line* status_lines, int32 count)
 	}
 }
 
-void status_lines_disable(char const* identifier)
+void status_lines_disable(const char* identifier)
 {
 	for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
 	{
 		if (status_line->identifier && status_line->in_use && !*status_line->in_use)
 		{
 			if (csstristr(status_line->identifier, identifier))
+			{
 				*status_line->in_use = false;
+			}
 		}
 	}
 }
@@ -1246,17 +1264,21 @@ void status_lines_disable(char const* identifier)
 void status_lines_dispose(s_status_line* status_lines, int32 count)
 {
 	for (int32 i = 0; i < count; i++)
+	{
 		status_line_remove_single(&status_lines[i]);
+	}
 }
 
-void status_lines_enable(char const* identifier)
+void status_lines_enable(const char* identifier)
 {
 	for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
 	{
 		if (status_line->identifier && status_line->in_use && !*status_line->in_use)
 		{
 			if (csstristr(status_line->identifier, identifier))
+			{
 				*status_line->in_use = true;
+			}
 		}
 	}
 }
@@ -1266,7 +1288,7 @@ void status_lines_initialize(s_status_line* status_lines, bool* flag, int32 coun
 	status_lines_initialize_simple(status_lines, flag, NULL, count);
 }
 
-void status_lines_initialize_simple(s_status_line* status_line, bool* flag, char const* identifier, int32 count)
+void status_lines_initialize_simple(s_status_line* status_line, bool* flag, const char* identifier, int32 count)
 {
 	csmemset(status_line, 0, sizeof(s_status_line) * count);
 
@@ -1289,7 +1311,7 @@ void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags fla
 	}
 }
 
-void status_printf(char const* format, ...)
+void status_printf(const char* format, ...)
 {
 	if (is_main_thread())
 	{
@@ -1300,14 +1322,14 @@ void status_printf(char const* format, ...)
 	}
 }
 
-void status_printf_va(char const* format, char* argument_list)
+void status_printf_va(const char* format, char* argument_list)
 {
 	char buffer[1024]{};
 	cvsnzprintf(buffer, sizeof(buffer), format, argument_list);
 	status_string_internal(format, buffer);
 }
 
-void status_string_internal(char const* status, char const* message)
+void status_string_internal(const char* status, const char* message)
 {
 	for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
 	{
@@ -1333,7 +1355,7 @@ void status_string_internal(char const* status, char const* message)
 	}
 }
 
-void status_strings(char const* status, char const* strings)
+void status_strings(const char* status, const char* strings)
 {
 	if (is_main_thread())
 	{
@@ -1351,7 +1373,7 @@ void status_strings(char const* status, char const* strings)
 	}
 }
 
-bool string_cache_add(s_string_cache* cache, char const* string, real32 alpha, real_rgb_color const& color, e_text_justification justification)
+bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, const real_rgb_color& color, e_text_justification justification)
 {
 	bool result = false;
 	if (cache->string.is_empty())

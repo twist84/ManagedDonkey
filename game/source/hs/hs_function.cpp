@@ -17,14 +17,14 @@
 }
 #define MAKE_HS_FUNCTION_TABLE_ENTRY2(_return_type, _name, _flags, _documentation, _parameters, _formal_parameter_count, ...) MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, hs_##_name##_parse, hs_##_name##_evaluate, _documentation, _parameters, _formal_parameter_count, __VA_ARGS__)
 
-REFERENCE_DECLARE_ARRAY(0x018ED378, hs_function_definition const*, hs_function_table, hs_function_table_count);
+REFERENCE_DECLARE_ARRAY(0x018ED378, const hs_function_definition*, hs_function_table, hs_function_table_count);
 
 // index (comment)
 // name (string)
 // description (comment)
 // usage (comment)
 
-char const* const hs_function_table_names[hs_function_table_count]
+const char* const hs_function_table_names[hs_function_table_count]
 {
 	// 0
 	"begin",
@@ -5184,7 +5184,7 @@ DECLARE_LAMBDA2(set_hs_function_table_debug_count, int32)
 {
 	for (int32 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
-		hs_function_definition const* definition = hs_function_table[function_index];
+		const hs_function_definition* definition = hs_function_table[function_index];
 		hs_function_table_debug[function_index] = (hs_function_definition_debug*)system_malloc(sizeof(hs_function_definition_debug) + sizeof(int16) * definition->formal_parameter_count);
 
 		hs_function_definition_debug* definition_debug = hs_function_table_debug[function_index];

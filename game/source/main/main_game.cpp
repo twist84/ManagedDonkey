@@ -49,7 +49,7 @@ HOOK_DECLARE(0x00567E40, main_game_start);
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor
 
-e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game_options const* options)
+e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(const game_options* options)
 {
 	return INVOKE(0x00566B30, compute_desired_map_memory_configuration, options);
 
@@ -84,7 +84,7 @@ e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game
 	//return _map_memory_configuration_none;
 }
 
-//.text:00566B90 ; void __cdecl data_mine_insert_single_player_game_options(char const* event_name)
+//.text:00566B90 ; void __cdecl data_mine_insert_single_player_game_options(const char* event_name)
 
 bool __cdecl sub_566CC0()
 {
@@ -102,12 +102,12 @@ bool __cdecl sub_566CC0()
 	//return main_game_globals.pending_game_options.game_mode == _game_mode_ui_shell;
 }
 
-void __cdecl main_game_campaign_loaded(game_options const* options)
+void __cdecl main_game_campaign_loaded(const game_options* options)
 {
 	INVOKE(0x00566D00, main_game_campaign_loaded, options);
 }
 
-void __cdecl main_game_change(game_options const* options)
+void __cdecl main_game_change(const game_options* options)
 {
 	//INVOKE(0x00566E70, main_game_change, options);
 
@@ -137,7 +137,7 @@ void __cdecl main_game_change_abort()
 	//main_game_globals.map_change_pending = false;
 }
 
-bool __cdecl main_game_change_immediate(game_options const* options)
+bool __cdecl main_game_change_immediate(const game_options* options)
 {
 	//return INVOKE(0x00566EF0, main_game_change_immediate, options);
 
@@ -195,8 +195,8 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 			break;
 			case _game_mode_multiplayer:
 			{
-				char const* game_engine_name = game_engine_type_get_string(options->multiplayer_variant.get_game_engine_index());
-				char const* game_variant_name = options->multiplayer_variant.get_active_variant()->get_name();
+				const char* game_engine_name = game_engine_type_get_string(options->multiplayer_variant.get_game_engine_index());
+				const char* game_variant_name = options->multiplayer_variant.get_active_variant()->get_name();
 
 				event(_event_message, "lifecycle: MULTIPLAYER-GAME %s", game_engine_name);
 				event(_event_message, "lifecycle: MULTIPLAYER-VARIANT %s", game_variant_name);
@@ -345,7 +345,7 @@ void __cdecl main_game_change_update()
 	}
 }
 
-void __cdecl main_game_configure_map_memory(game_options const* options)
+void __cdecl main_game_configure_map_memory(const game_options* options)
 {
 	//INVOKE(0x00567200, main_game_configure_map_memory, options);
 
@@ -431,7 +431,7 @@ void __cdecl main_game_internal_map_load_begin(bool reload_map)
 	main_game_globals.game_loaded_status = _game_loaded_status_map_loading;
 }
 
-bool __cdecl main_game_internal_map_load_complete(bool reload_map, game_options const* options)
+bool __cdecl main_game_internal_map_load_complete(bool reload_map, const game_options* options)
 {
 	//return INVOKE(0x00567560, main_game_internal_map_load_complete, reload_map, options);
 
@@ -469,7 +469,7 @@ void __cdecl main_game_internal_map_unload_complete()
 	main_game_globals.game_loaded_status = _game_loaded_status_none;
 }
 
-bool __cdecl main_game_internal_open_caches(game_options const* options)
+bool __cdecl main_game_internal_open_caches(const game_options* options)
 {
 	//return INVOKE(0x00567630, main_game_internal_open_caches, options);
 
@@ -566,19 +566,19 @@ void __cdecl main_game_launch_default_editor()
 
 	if (!main_game_loaded_map() && !main_game_loaded_pregame())
 	{
-		char const* map_name = editor_get_map_name();
+		const char* map_name = editor_get_map_name();
 		main_game_launch(map_name);
 	}
 }
 
-bool __cdecl main_game_load_blocking(char const* scenario_path)
+bool __cdecl main_game_load_blocking(const char* scenario_path)
 {
 	//return INVOKE(0x00567830, main_game_load_blocking, scenario_path);
 
 	return main_load_map(scenario_path, 2);
 }
 
-void __cdecl main_tag_load_begin(int32 game_mode, int32 a2, char const* map_or_zone_name)
+void __cdecl main_tag_load_begin(int32 game_mode, int32 a2, const char* map_or_zone_name)
 {
 	ASSERT(map_or_zone_name);
 	ASSERT(!loading_globals.tag_load_in_progress);
@@ -599,7 +599,7 @@ void __cdecl main_tag_load_end()
 	loading_globals.tag_load_in_progress = false;
 }
 
-bool __cdecl main_game_load_map(game_options const* options)
+bool __cdecl main_game_load_map(const game_options* options)
 {
 	//return INVOKE(0x00567850, main_game_load_map, options);
 
@@ -610,7 +610,7 @@ bool __cdecl main_game_load_map(game_options const* options)
 	bool reload_map = false;
 	bool map_loaded = false;
 
-	char const* scenario_path = options->scenario_path.get_string();
+	const char* scenario_path = options->scenario_path.get_string();
 	int32 map_load_status = main_load_map_status(scenario_path);
 
 	if (map_load_status == 0 || map_load_status == 1)
@@ -747,7 +747,7 @@ void __cdecl main_game_load_panic()
 	ASSERT(main_game_loaded_map() || main_game_loaded_pregame());
 }
 
-void __cdecl main_game_load_from_core_name(char const* core_name)
+void __cdecl main_game_load_from_core_name(const char* core_name)
 {
 	game_options options{};
 	if (game_state_get_game_options_from_core(core_name, &options))
@@ -776,7 +776,7 @@ bool __cdecl main_game_loaded_map()
 	return main_game_globals.game_loaded_status == _game_loaded_status_map_loaded;
 }
 
-char const* __cdecl main_game_loaded_map_name()
+const char* __cdecl main_game_loaded_map_name()
 {
 	//return INVOKE(0x00567BD0, main_game_loaded_map_name);
 
@@ -908,7 +908,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	}
 }
 
-bool __cdecl main_game_start(game_options const* options)
+bool __cdecl main_game_start(const game_options* options)
 {
 	//return INVOKE(0x00567E40, main_game_start, options);
 
@@ -952,7 +952,7 @@ bool __cdecl main_game_start(game_options const* options)
 	return success;
 }
 
-void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options)
+void __cdecl main_game_unload_and_prepare_for_next_game(const game_options* options)
 {
 	//INVOKE(0x00567F40, main_game_unload_and_prepare_for_next_game, options);
 

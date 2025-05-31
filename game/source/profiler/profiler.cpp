@@ -16,8 +16,8 @@ bool profile_summary_graphics_enabled = false;
 bool profile_summary_environment_artist_enabled = false;
 e_profile_summary_modes g_profile_summary_mode = _profile_summary_all;
 
-char const* const profile_dump_directory = "profiling";
-char const* const k_profile_summary_names[k_profile_summary_count]
+const char* const profile_dump_directory = "profiling";
+const char* const k_profile_summary_names[k_profile_summary_count]
 {
 	"all",
 	"objects",
@@ -48,7 +48,7 @@ void profiler_dispose_from_old_map()
 	//INVOKE(0x00530260, profiler_dispose_from_old_map);
 }
 
-void profile_render(rectangle2d const* screen_pixel_bounds, rectangle2d const* screen_safe_pixel_bounds)
+void profile_render(const rectangle2d* screen_pixel_bounds, const rectangle2d* screen_safe_pixel_bounds)
 {
 	ASSERT(screen_pixel_bounds && screen_safe_pixel_bounds);
 
@@ -231,7 +231,7 @@ void profile_render(rectangle2d const* screen_pixel_bounds, rectangle2d const* s
 		*/
 
 		draw_string.draw(&font_cache, buffer);
-		for (char const* new_line = csstrstr(buffer, "|n"); new_line; new_line = csstrstr(new_line + 2, "|n"));
+		for (const char* new_line = csstrstr(buffer, "|n"); new_line; new_line = csstrstr(new_line + 2, "|n"));
 	}
 }
 

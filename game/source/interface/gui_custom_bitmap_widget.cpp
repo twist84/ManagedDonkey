@@ -24,7 +24,7 @@ void __thiscall c_gui_custom_bitmap_widget::assemble_render_data_(s_gui_widget_r
 	c_gui_custom_bitmap_widget::assemble_render_data(render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 }
 
-bool __thiscall c_gui_custom_bitmap_widget::load_from_buffer_(bool use_compressed_format, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+bool __thiscall c_gui_custom_bitmap_widget::load_from_buffer_(bool use_compressed_format, const char* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	return c_gui_custom_bitmap_widget::load_from_buffer(use_compressed_format, buffer, buffer_length, aspect_ratio);
 }
@@ -61,10 +61,10 @@ c_gui_custom_bitmap_widget::~c_gui_custom_bitmap_widget()
 	DECLFUNC(0x00AC36C0, void, __thiscall, c_gui_custom_bitmap_widget*)(this);
 }
 
-//.text:00AC36F0 ; public: bool c_gui_custom_bitmap_widget::acquire_from_custom_bitmap(c_gui_custom_bitmap_widget const*)
+//.text:00AC36F0 ; public: bool c_gui_custom_bitmap_widget::acquire_from_custom_bitmap(const c_gui_custom_bitmap_widget*)
 //.text:00AC3730 ; public: bool c_gui_custom_bitmap_widget::allocate(bool)
 
-void c_gui_custom_bitmap_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
+void c_gui_custom_bitmap_widget::assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
 	//INVOKE_CLASS_MEMBER(0x00AC37B0, c_gui_custom_bitmap_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 
@@ -93,11 +93,11 @@ void c_gui_custom_bitmap_widget::dispose()
 
 //.text:00AC3830 ; 
 
-bitmap_data const* c_gui_custom_bitmap_widget::get_current_bitmap() const
+const bitmap_data* c_gui_custom_bitmap_widget::get_current_bitmap() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AC3840, c_gui_custom_bitmap_widget, get_current_bitmap);
 
-	c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
+	const c_gui_custom_bitmap_storage_item* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
 	if (!bitmap || !bitmap->m_bitmap_ready)
 	{
 		return NULL;
@@ -110,7 +110,7 @@ char* c_gui_custom_bitmap_widget::get_current_buffer() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AC3870, c_gui_custom_bitmap_widget, get_current_buffer);
 
-	c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
+	const c_gui_custom_bitmap_storage_item* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
 	if (!bitmap)
 	{
 		return NULL;
@@ -123,7 +123,7 @@ int32 c_gui_custom_bitmap_widget::get_current_buffer_length() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AC3890, c_gui_custom_bitmap_widget, get_current_buffer_length);
 
-	c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
+	const c_gui_custom_bitmap_storage_item* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
 	if (!bitmap)
 	{
 		return 0;
@@ -184,7 +184,7 @@ bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_typ
 //.text:00AC3A20 ; 
 //.text:00AC3A30 ; 
 
-void c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+void c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, const char* file_path, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//INVOKE_CLASS_MEMBER(0x00AC3A40, c_gui_custom_bitmap_widget, load_from_file_async, use_compressed_format, file_path, aspect_ratio);
 
@@ -193,7 +193,7 @@ void c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format
 	m_desired_aspect_ratio = aspect_ratio;
 }
 
-bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, const char* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AC3A80, c_gui_custom_bitmap_widget, load_from_buffer, use_compressed_format, buffer, buffer_length, aspect_ratio);
 
@@ -303,7 +303,7 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 		{
 			int32 image_data_length = 0;
 			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
-			char const* chunk = DECLFUNC(0x00462B40, char const*, __cdecl, char const*, int32, int32, int32, int32, int32*)(
+			const char* chunk = DECLFUNC(0x00462B40, const char*, __cdecl, const char*, int32, int32, int32, int32, int32*)(
 				work->load_image_from_file_task.load_buffer,
 				work->load_image_from_file_task.file_size,
 				s_blf_chunk_map_image::k_chunk_type,
@@ -315,8 +315,8 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 			{
 				if (image_data_length > 8 && VALID_INDEX(*chunk, k_map_image_type_count))
 				{
-					int32 buffer_size = *reinterpret_cast<int32 const*>(chunk + 4);
-					char const* buffer = reinterpret_cast<char const*>(chunk + 8);
+					int32 buffer_size = *reinterpret_cast<const int32*>(chunk + 4);
+					const char* buffer = reinterpret_cast<const char*>(chunk + 8);
 
 					// hack
 					if (bswap_uns32(buffer_size) == image_data_length - 8)

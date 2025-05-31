@@ -77,7 +77,7 @@ c_restricted_memory_callbacks::c_restricted_memory_callbacks()
 //.text:0050EFE0 ; c_game_state_compressor::allocate_buffer
 //.text:0050F020 ; c_game_state_compressor::compress_internal
 
-bool __cdecl create_file_from_buffer(char const* file_name, char const* file_contents)
+bool __cdecl create_file_from_buffer(const char* file_name, const char* file_contents)
 {
 	return INVOKE(0x0050F0C0, create_file_from_buffer, file_name, file_contents);
 }
@@ -121,7 +121,7 @@ unsigned int c_restricted_memory_callbacks::filter_size_request(unsigned int siz
 	return size;
 }
 
-void game_state_get_core_file_reference(char const* core_name, s_file_reference* file)
+void game_state_get_core_file_reference(const char* core_name, s_file_reference* file)
 {
 	ASSERT(core_name);
 	ASSERT(file);
@@ -199,7 +199,7 @@ void __cdecl game_state_dispose_from_old_map()
 	INVOKE(0x0050F5E0, game_state_dispose_from_old_map);
 }
 
-void __cdecl game_state_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
+void __cdecl game_state_dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_set* old_non_bsp_zone_set)
 {
 	INVOKE(0x0050F5F0, game_state_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
@@ -209,7 +209,7 @@ void __cdecl game_state_dispose_from_old_structure_bsp(uns32 deactivating_struct
 	INVOKE(0x0050F600, game_state_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-void const* __cdecl game_state_get_buffer_address(int32* buffer_size)
+const void* __cdecl game_state_get_buffer_address(int32* buffer_size)
 {
 	return INVOKE(0x0050F610, game_state_get_buffer_address, buffer_size);
 }
@@ -225,27 +225,27 @@ c_game_state_compressor* __cdecl game_state_get_compressor()
 	return INVOKE(0x0050F720, game_state_get_compressor);
 }
 
-bool __cdecl game_state_get_game_options_from_core(char const* core_name, game_options* options)
+bool __cdecl game_state_get_game_options_from_core(const char* core_name, game_options* options)
 {
 	return INVOKE(0x0050F740, game_state_get_game_options_from_core, core_name, options);
 }
 
-bool __cdecl game_state_get_scenario_path_from_core(char const* core_name, char* buffer, int32 buffer_length)
+bool __cdecl game_state_get_scenario_path_from_core(const char* core_name, char* buffer, int32 buffer_length)
 {
 	return INVOKE(0x0050F890, game_state_get_scenario_path_from_core, core_name, buffer, buffer_length);
 }
 
-char const* __cdecl game_state_get_test_option_string()
+const char* __cdecl game_state_get_test_option_string()
 {
 	return INVOKE(0x0050F9E0, game_state_get_test_option_string);
 }
 
-bool __cdecl game_state_header_matches(s_game_state_header const* header_a, s_game_state_header const* header_b)
+bool __cdecl game_state_header_matches(const s_game_state_header* header_a, const s_game_state_header* header_b)
 {
 	return INVOKE(0x0050F9F0, game_state_header_matches, header_a, header_b);
 }
 
-bool __cdecl game_state_header_matches_current_network_session_settings(s_game_state_header const* header)
+bool __cdecl game_state_header_matches_current_network_session_settings(const s_game_state_header* header)
 {
 	return INVOKE(0x0050FAA0, game_state_header_matches_current_network_session_settings, header);
 }
@@ -255,12 +255,12 @@ bool __cdecl game_state_header_prepare_to_load(s_game_state_header* header, bool
 	return INVOKE(0x0050FBC0, game_state_header_prepare_to_load, header, a2, a3, a4);
 }
 
-bool __cdecl game_state_header_valid(s_game_state_header const* header)
+bool __cdecl game_state_header_valid(const s_game_state_header* header)
 {
 	return INVOKE(0x0050FC70, game_state_header_valid, header);
 }
 
-bool __cdecl game_state_header_valid_for_saving(s_game_state_header const* header)
+bool __cdecl game_state_header_valid_for_saving(const s_game_state_header* header)
 {
 	return INVOKE(0x0050FCF0, game_state_header_valid_for_saving, header);
 }
@@ -282,7 +282,7 @@ void __cdecl game_state_initialize_for_new_map()
 	INVOKE(0x0050FDC0, game_state_initialize_for_new_map);
 }
 
-void __cdecl game_state_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
+void __cdecl game_state_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set)
 {
 	INVOKE(0x0050FEB0, game_state_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
@@ -297,7 +297,7 @@ bool __cdecl game_state_is_locked()
 	return INVOKE(0x0050FF00, game_state_is_locked);
 }
 
-void __cdecl game_state_load_core(char const* core_name)
+void __cdecl game_state_load_core(const char* core_name)
 {
 	INVOKE(0x0050FF10, game_state_load_core, core_name);
 }
@@ -317,7 +317,7 @@ void __cdecl game_state_preserve()
 	INVOKE(0x00510100, game_state_preserve);
 }
 
-bool __cdecl game_state_read_core(char const* core_name, void* buffer, uns32 buffer_length)
+bool __cdecl game_state_read_core(const char* core_name, void* buffer, uns32 buffer_length)
 {
 	//return INVOKE(0x00510110, game_state_read_core, core_name, buffer, buffer_length);
 
@@ -384,7 +384,7 @@ void __cdecl game_state_save()
 	INVOKE(0x00510550, game_state_save);
 }
 
-void __cdecl game_state_save_core(char const* core_name)
+void __cdecl game_state_save_core(const char* core_name)
 {
 	//INVOKE(0x005105F0, game_state_save_core, core_name);
 
@@ -451,14 +451,14 @@ void __cdecl game_state_set_revert_time()
 	INVOKE(0x00510960, game_state_prepare_for_revert);
 }
 
-char const* const k_game_state_test_option_description[]
+const char* const k_game_state_test_option_description[]
 {
 	"default",
 	"repro",
 	"stress"
 };
 
-void __cdecl game_state_set_test_options(char const* test_type)
+void __cdecl game_state_set_test_options(const char* test_type)
 {
 	//INVOKE(0x00510980, game_state_set_test_options, test_type);
 
@@ -469,11 +469,11 @@ void __cdecl game_state_set_test_options(char const* test_type)
 
 	for (int32 test_option = 0; test_option < NUMBEROF(k_game_state_test_option_description); test_option++)
 	{
-		char const* description_a = k_game_state_test_option_description[test_option];
+		const char* description_a = k_game_state_test_option_description[test_option];
 		if (!description_a)
 			continue;
 
-		char const* description_b = k_game_state_test_option_description[test_option];
+		const char* description_b = k_game_state_test_option_description[test_option];
 		if (strncmp(test_type, description_a, description_b - description_a - 1) == 0)
 		{
 			game_state_globals.test_option = test_option;
@@ -567,12 +567,12 @@ bool __cdecl game_state_validate_and_prepare_to_load_header(s_game_state_header*
 	return INVOKE(0x00510EF0, game_state_validate_and_prepare_to_load_header, header);
 }
 
-void const* __cdecl game_state_with_mirrors_get_buffer_address(int32* buffer_size)
+const void* __cdecl game_state_with_mirrors_get_buffer_address(int32* buffer_size)
 {
 	return INVOKE(0x00510F90, game_state_with_mirrors_get_buffer_address, buffer_size);
 }
 
-bool __cdecl game_state_write_core(char const* core_name, void const* buffer, uns32 buffer_length)
+bool __cdecl game_state_write_core(const char* core_name, const void* buffer, uns32 buffer_length)
 {
 	//return INVOKE(0x00510FB0, game_state_write_core, core_name, buffer, buffer_length);
 
@@ -592,7 +592,7 @@ bool __cdecl game_state_write_core(char const* core_name, void const* buffer, un
 	return result;
 }
 
-void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header const* header, int32 header_size, void const* buffer, int32 buffer_length)
+void __cdecl game_state_write_to_persistent_storage_blocking(const s_game_state_header* header, int32 header_size, const void* buffer, int32 buffer_length)
 {
 	return INVOKE(0x00511030, game_state_write_to_persistent_storage_blocking, header, header_size, buffer, buffer_length);
 }
@@ -600,7 +600,7 @@ void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header
 //.text:00511040 ; c_game_state_compressor_callback::get_memory_configuration
 
 //.text:00511070 ; c_gamestate_deterministic_allocation_callbacks::handle_allocation
-void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
@@ -608,36 +608,36 @@ void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocatio
 }
 
 //.text:00511090 ; c_gamestate_nondeterministic_allocation_callbacks::handle_allocation
-void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
 }
 
-void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 }
 
 //.text:005110B0 ; c_restricted_memory_callbacks::handle_allocation
-void c_restricted_memory_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_restricted_memory_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 }
 
 //.text:005110C0 ; c_gamestate_deterministic_allocation_callbacks::handle_release
-void c_gamestate_deterministic_allocation_callbacks::handle_release(c_restricted_memory const* memory, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_gamestate_deterministic_allocation_callbacks::handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 }
 
 //.text:005110D0 ; c_gamestate_nondeterministic_allocation_callbacks::handle_release
-void c_gamestate_nondeterministic_allocation_callbacks::handle_release(c_restricted_memory const* memory, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_gamestate_nondeterministic_allocation_callbacks::handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 }
 
 //.text:005110E0 ; c_restricted_memory_callbacks::handle_release
-void c_restricted_memory_callbacks::handle_release(c_restricted_memory const* memory, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_restricted_memory_callbacks::handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size)
 {
 }
 
@@ -676,7 +676,7 @@ void __cdecl initialize_game_state_section(int32 section_index, unsigned int siz
 //.text:00511200 ; c_game_state_compressor::locked_get_compressed_chunk
 //.text:00511240 ; c_game_state_compressor::locked_write_compressed_chunk
 
-bool __cdecl player_identifier_exists_in_game_header(s_player_identifier const* player_identifier, s_game_state_header const* header)
+bool __cdecl player_identifier_exists_in_game_header(const s_player_identifier* player_identifier, const s_game_state_header* header)
 {
 	return INVOKE(0x00511290, player_identifier_exists_in_game_header, player_identifier, header);
 }
@@ -685,7 +685,7 @@ bool __cdecl player_identifier_exists_in_game_header(s_player_identifier const* 
 //.text:00511320 ; c_game_state_compressor_callback::terminate
 //.text:00511370 ; c_game_state_compressor::unlock
 
-void __cdecl game_state_allocation_record(int32 region_index, char const* name, char const* type, int32 allocation_size)
+void __cdecl game_state_allocation_record(int32 region_index, const char* name, const char* type, int32 allocation_size)
 {
 	if (game_state_allocation_recording)
 	{

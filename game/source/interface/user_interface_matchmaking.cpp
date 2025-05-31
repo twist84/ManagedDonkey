@@ -23,7 +23,7 @@ void __cdecl user_interface_matchmaking_get_matchmaking_progress(s_life_cycle_ma
 	}
 }
 
-//.text:00A98960 ; s_replicated_life_cycle_matchmaking_progress_search_criteria const* __cdecl user_interface_matchmaking_get_search_criteria(s_life_cycle_matchmaking_progress const*)
+//.text:00A98960 ; const s_replicated_life_cycle_matchmaking_progress_search_criteria* __cdecl user_interface_matchmaking_get_search_criteria(const s_life_cycle_matchmaking_progress*)
 
 e_network_file_load_status __cdecl user_interface_matchmaking_hopper_catalog_load_status()
 {

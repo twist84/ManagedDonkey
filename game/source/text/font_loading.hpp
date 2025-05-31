@@ -110,7 +110,7 @@ struct s_font_globals
 	int32 failure_retry_count;
 	c_synchronized_long async_error;
 	s_font_loading_state package_loading_state;
-	s_font_package_file_header const* font_package_header;
+	const s_font_package_file_header* font_package_header;
 
 	//uns8 header_storage[k_font_package_file_size];
 	s_font_package_file package_file;
@@ -143,32 +143,32 @@ static_assert(sizeof(s_font_package_cache) == 0x40108);
 extern s_font_globals& g_font_globals;
 extern s_font_package_cache& g_font_package_cache;
 
-extern char const*& k_hard_drive_font_directory;
-extern char const*& k_dvd_font_directory;
-extern char const* const& k_font_package_base_name;
-extern char const* const& k_font_package_suffix;
+extern const char*& k_hard_drive_font_directory;
+extern const char*& k_dvd_font_directory;
+extern const char* const& k_font_package_base_name;
+extern const char* const& k_font_package_suffix;
 
 struct s_async_task;
 
 extern void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state);
 extern void __cdecl font_close_loaded_file(s_font_loading_state* loading_state);
 extern void __cdecl font_dispose();
-extern char const* __cdecl font_get_debug_name(e_font_index internal_index);
+extern const char* __cdecl font_get_debug_name(e_font_index internal_index);
 extern e_font_index __cdecl font_get_font_index(e_font_id font);
-extern s_font_header const* __cdecl font_get_header(e_font_id font);
-extern s_font_header const* __cdecl font_get_header_internal(e_font_index internal_index);
+extern const s_font_header* __cdecl font_get_header(e_font_id font);
+extern const s_font_header* __cdecl font_get_header_internal(e_font_index internal_index);
 extern bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle);
-extern s_font_package_file_header const* __cdecl font_get_package_header_internal();
+extern const s_font_package_file_header* __cdecl font_get_package_header_internal();
 extern void __cdecl font_idle();
 extern bool __cdecl font_in_emergency_mode();
 extern void __cdecl font_initialize();
 extern void __cdecl font_initialize_emergency();
-extern void __cdecl font_load(s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking);
+extern void __cdecl font_load(s_font_loading_state* loading_state, e_font_index font_index, const char* filename, bool load_blocking);
 extern e_async_completion __cdecl font_load_callback(s_async_task* task);
 extern void __cdecl font_load_idle(s_font_loading_state* loading_state, bool* out_failure_reported);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
-extern int32 __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, int32 max_references, int32* font_id_mapping, int32 max_font_ids);
+extern int32 __cdecl font_table_get_font_file_references(const char* text, const s_file_reference* directory, s_file_reference* references, int32 max_references, int32* font_id_mapping, int32 max_font_ids);
 extern bool __cdecl fonts_begin_loading(bool load_blocking);
 extern void __cdecl fonts_close();
 extern void __cdecl fonts_copy_to_hard_drive();

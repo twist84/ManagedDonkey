@@ -54,16 +54,16 @@ bool debug_objects_node_bounds = false;
 bool debug_objects_animation = false;
 bool debug_objects_skeletons = false;
 
-bool point_in_bounds(real_point3d const* point, real32 bounds)
+bool point_in_bounds(const real_point3d* point, real32 bounds)
 {
 	return point->x >= -bounds && point->x <= bounds
 		&& point->y >= -bounds && point->y <= bounds
 		&& point->z >= -bounds && point->z <= bounds;
 }
 
-void* __cdecl object_header_block_get(int32 object_index, object_header_block_reference const* reference)
+void* __cdecl object_header_block_get(int32 object_index, const object_header_block_reference* reference)
 {
-	object_header_datum const* object_header = object_header_get(object_index);
+	const object_header_datum* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
 
 	ASSERT(reference->offset > 0);
@@ -73,7 +73,7 @@ void* __cdecl object_header_block_get(int32 object_index, object_header_block_re
 	return (byte*)object + reference->offset;
 }
 
-void* __cdecl object_header_block_get_with_count(int32 object_index, object_header_block_reference const* reference, unsigned int element_size, int32* element_count)
+void* __cdecl object_header_block_get_with_count(int32 object_index, const object_header_block_reference* reference, unsigned int element_size, int32* element_count)
 {
 	ASSERT(element_count);
 
@@ -92,9 +92,9 @@ void* __cdecl object_header_block_get_with_count(int32 object_index, object_head
 	return block;
 }
 
-object_header_datum const* __cdecl object_header_get(int32 object_index)
+const object_header_datum* __cdecl object_header_get(int32 object_index)
 {
-	object_header_datum const* result = DATUM_TRY_AND_GET(object_header_data, object_header_datum const, object_index);
+	const object_header_datum* result = DATUM_TRY_AND_GET(object_header_data, const object_header_datum, object_index);
 	return result;
 }
 
@@ -114,7 +114,7 @@ void* __cdecl object_get_and_verify_type(int32 object_index, uns32 object_type_m
 {
 	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
-	object_header_datum const* object_header = object_header_get(object_index);
+	const object_header_datum* object_header = object_header_get(object_index);
 	if (!object_header)
 		return NULL;
 
@@ -190,7 +190,7 @@ void __cdecl object_get_bounding_sphere(int32 object_index, real_point3d* center
 //.text:00B271B0 ; void __cdecl __tls_set_g_object_message_queue_allocator(void*)
 //.text:00B271D0 ; void __cdecl __tls_set_g_object_name_list_allocator(void*)
 //.text:00B271F0 ; void __cdecl __tls_set_g_object_render_data_allocator(void*)
-//.text:00B27210 ; public: void __cdecl t_message_queue<s_object_render_thread_message, 2048>::add_message(s_object_render_thread_message const*)
+//.text:00B27210 ; public: void __cdecl t_message_queue<s_object_render_thread_message, 2048>::add_message(const s_object_render_thread_message*)
 //.text:00B27290 ; void __cdecl adopt_old_object_render_message_queue(void*)
 //.text:00B272C0 ; 
 //.text:00B27300 ; 
@@ -249,14 +249,14 @@ int32 __cdecl cluster_get_first_collideable_object(int32* datum_index, s_cluster
 	return INVOKE(0x00B27EB0, cluster_get_first_collideable_object, datum_index, cluster_reference);
 }
 
-int32 __cdecl cluster_get_first_collideable_object_and_payload(int32* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload)
+int32 __cdecl cluster_get_first_collideable_object_and_payload(int32* datum_index, s_cluster_reference cluster_reference, const s_object_cluster_payload** payload)
 {
 	return INVOKE(0x00B27EE0, cluster_get_first_collideable_object_and_payload, datum_index, cluster_reference, payload);
 }
 
 //.text:00B27F10 ; int32 __cdecl cluster_get_first_noncollideable_object(int32*, s_cluster_reference)
 
-int32 __cdecl cluster_get_first_noncollideable_object_and_payload(int32* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload)
+int32 __cdecl cluster_get_first_noncollideable_object_and_payload(int32* datum_index, s_cluster_reference cluster_reference, const s_object_cluster_payload** payload)
 {
 	return INVOKE(0x00B27F40, cluster_get_first_noncollideable_object_and_payload, datum_index, cluster_reference, payload);
 }
@@ -266,14 +266,14 @@ int32 __cdecl cluster_get_next_collideable_object(int32* datum_index)
 	return INVOKE(0x00B27F70, cluster_get_next_collideable_object, datum_index);
 }
 
-int32 __cdecl cluster_get_next_collideable_object_and_payload(int32* datum_index, s_object_cluster_payload const** payload)
+int32 __cdecl cluster_get_next_collideable_object_and_payload(int32* datum_index, const s_object_cluster_payload** payload)
 {
 	return INVOKE(0x00B27FA0, cluster_get_next_collideable_object_and_payload, datum_index, payload);
 }
 
 //.text:00B27FD0 ; int32 __cdecl cluster_get_next_noncollideable_object(int32*)
 
-int32 __cdecl cluster_get_next_noncollideable_object_and_payload(int32* datum_index, s_object_cluster_payload const** payload)
+int32 __cdecl cluster_get_next_noncollideable_object_and_payload(int32* datum_index, const s_object_cluster_payload** payload)
 {
 	return INVOKE(0x00B28000, cluster_get_next_noncollideable_object_and_payload, datum_index, payload);
 }
@@ -418,7 +418,7 @@ bool __cdecl garbage_collection_can_run()
 //.text:00B28CA0 ; 
 //.text:00B28DD0 ; 
 //.text:00B28DE0 ; 
-//.text:00B28DF0 ; real_orientation* __cdecl get_node_orientation_scratchpad_for_model(render_model_definition const*, int32)
+//.text:00B28DF0 ; real_orientation* __cdecl get_node_orientation_scratchpad_for_model(const render_model_definition*, int32)
 
 int32 c_object_identifier::get_unique_id_direct() const
 {
@@ -433,13 +433,13 @@ int32 c_object_identifier::get_unique_id_direct() const
 //.text:00B28F70 ; 
 //.text:00B28F90 ; void __cdecl hs_object_definition_predict_all(int32)
 //.text:00B28FA0 ; void __cdecl hs_object_definition_predict_low(int32)
-//.text:00B28FB0 ; void __cdecl internal_object_compute_animated_node_orientations(int32, real32, render_model_definition const*, c_animation_manager*, c_static_flags<256> const*, int32, real_orientation*, bool)
+//.text:00B28FB0 ; void __cdecl internal_object_compute_animated_node_orientations(int32, real32, const render_model_definition*, c_animation_manager*, const c_static_flags<256>*, int32, real_orientation*, bool)
 //.text:00B29080 ; int16 __cdecl internal_object_get_markers_by_string_id(int32, int32, object_marker*, int16, bool)
 //.text:00B29260 ; 
 //.text:00B29280 ; 
 //.text:00B292D0 ; 
 
-bool c_object_identifier::is_equal(c_object_identifier const* other) const
+bool c_object_identifier::is_equal(const c_object_identifier* other) const
 {
 	return INVOKE_CLASS_MEMBER(0x00B292E0, c_object_identifier, is_equal, other);
 
@@ -470,18 +470,18 @@ void __cdecl object_adjust_garbage_timer(int32 object_index, int32 time)
 }
 
 //.text:00B29540 ; void __cdecl object_adjust_node_matrices(int32, int32, real_matrix4x3*)
-//.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(int32, real_vector3d const*, real_vector3d const*)
+//.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(int32, const real_vector3d*, const real_vector3d*)
 //.text:00B296D0 ; void __cdecl object_adjust_placement(object_placement_data*)
-//.text:00B29720 ; void __cdecl object_align_marker_to_matrix(int32, object_marker const*, real_matrix4x3 const*)
-//.text:00B29900 ; void __cdecl object_animation_callback(s_animation_event_data const*, int32)
-//.text:00B29B50 ; void __cdecl object_apply_acceleration(int32, int32, real_point3d const*, real_vector3d const*, real_vector3d const*)
-//.text:00B29D40 ; void __cdecl object_apply_function_overlay_node_orientations(int32, render_model_definition const*, c_animation_manager const*, c_static_flags<256> const*, int32, real_orientation*)
+//.text:00B29720 ; void __cdecl object_align_marker_to_matrix(int32, const object_marker*, const real_matrix4x3*)
+//.text:00B29900 ; void __cdecl object_animation_callback(const s_animation_event_data*, int32)
+//.text:00B29B50 ; void __cdecl object_apply_acceleration(int32, int32, const real_point3d*, const real_vector3d*, const real_vector3d*)
+//.text:00B29D40 ; void __cdecl object_apply_function_overlay_node_orientations(int32, const render_model_definition*, const c_animation_manager*, const c_static_flags<256>*, int32, real_orientation*)
 //.text:00B29F20 ; void __cdecl object_attach_gamestate_entity(int32 object_index, int32 gamestate_entity_index)
 //.text:00B29F60 ; void __cdecl object_attach_to_marker(int32, int32, int32, int32)
 //.text:00B29FD0 ; void __cdecl object_attach_to_marker_immediate(int32, int32, int32, int32)
 //.text:00B2A250 ; void __cdecl object_attach_to_node(int32, int32, int16)
 //.text:00B2A2B0 ; void __cdecl object_attach_to_node_immediate(int32, int32, int16)
-//.text:00B2A700 ; real32 __cdecl object_bouding_sphere_within_tolerance(real_point3d const*, real32, real_point3d const*, real32, real32)
+//.text:00B2A700 ; real32 __cdecl object_bouding_sphere_within_tolerance(const real_point3d*, real32, const real_point3d*, real32, real32)
 
 bool __cdecl object_can_be_melee_instant_killed(int32 object_index)
 {
@@ -493,7 +493,7 @@ bool __cdecl object_can_interpolate(int32 object_index)
 	return INVOKE(0x00B2A7E0, object_can_interpolate, object_index);
 }
 
-//.text:00B2A820 ; void __cdecl object_choose_initial_permutation(int32, uns16, s_model_customization_region_permutation const*, int32)
+//.text:00B2A820 ; void __cdecl object_choose_initial_permutation(int32, uns16, const s_model_customization_region_permutation*, int32)
 
 void __cdecl object_choose_variant(int32 object_index, int32 name)
 {
@@ -521,14 +521,14 @@ void __cdecl object_clear_sync_action(int32 object_index)
 }
 
 //.text:00B2AB10 ; bool __cdecl object_compute_bounding_sphere(int32)
-//.text:00B2AD00 ; void __cdecl object_compute_bounding_sphere_recursive(int32, real_point3d const*, real32*)
+//.text:00B2AD00 ; void __cdecl object_compute_bounding_sphere_recursive(int32, const real_point3d*, real32*)
 //.text:00B2AEC0 ; bool __cdecl object_compute_change_colors(int32)
 //.text:00B2B120 ; bool __cdecl object_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00B2B830 ; void __cdecl object_compute_instance_bitfield_visible(int32)
 //.text:00B2B8E0 ; void __cdecl object_compute_node_matrices(int32)
 //.text:00B2B970 ; void __cdecl object_compute_node_matrices_non_recursive(int32)
-//.text:00B2C240 ; void __cdecl object_compute_origin_matrix(int32, real_point3d const*, real_vector3d const*, real_vector3d const*, real32, bool, real_matrix4x3 const*, bool, real_matrix4x3*)
-//.text:00B2C3D0 ; real_matrix4x3 const* __cdecl object_compute_render_time_node_matrices(int32, int32, uns8 const*, real_matrix4x3 const*)
+//.text:00B2C240 ; void __cdecl object_compute_origin_matrix(int32, const real_point3d*, const real_vector3d*, const real_vector3d*, real32, bool, const real_matrix4x3*, bool, real_matrix4x3*)
+//.text:00B2C3D0 ; const real_matrix4x3* __cdecl object_compute_render_time_node_matrices(int32, int32, const uns8*, const real_matrix4x3*)
 
 void __cdecl object_connect_lights(int32 object_index, bool disconnect_this_object, bool reconnect_this_object)
 {
@@ -619,7 +619,7 @@ void __cdecl object_detach(int32 object_index)
 	INVOKE(0x00B2D180, object_detach, object_index);
 }
 
-void __cdecl object_detach_from_node(int32 object_index, real_matrix4x3 const* node)
+void __cdecl object_detach_from_node(int32 object_index, const real_matrix4x3* node)
 {
 	INVOKE(0x00B2D1D0, object_detach_from_node, object_index, node);
 }
@@ -664,7 +664,7 @@ void __cdecl object_find_structure_bsp_fake_lightprobe_index(int32 structure_bsp
 	INVOKE(0x00B2D6E0, object_find_structure_bsp_fake_lightprobe_index, structure_bsp_index, object_index);
 }
 
-bool __cdecl object_force_inside_bsp(int32 object_index, real_point3d const* position, int32 ignore_object_index)
+bool __cdecl object_force_inside_bsp(int32 object_index, const real_point3d* position, int32 ignore_object_index)
 {
 	return INVOKE(0x00B2D7D0, object_force_inside_bsp, object_index, position, ignore_object_index);
 }
@@ -674,7 +674,7 @@ void __cdecl object_freeze_node_orientations(int32 object_index, bool a2)
 	INVOKE(0x00B2D9B0, object_freeze_node_orientations, object_index, a2);
 }
 
-bool __cdecl object_function_get_function_value(int32 object_index, s_object_function_definition const* function, int32 object_definition_index, real32* out_function_magnitude, bool* deterministic)
+bool __cdecl object_function_get_function_value(int32 object_index, const s_object_function_definition* function, int32 object_definition_index, real32* out_function_magnitude, bool* deterministic)
 {
 	return INVOKE(0x00B2DA20, object_function_get_function_value, object_index, function, object_definition_index, out_function_magnitude, deterministic);
 }
@@ -699,7 +699,7 @@ bool __cdecl object_get_change_color(int32 object_index, int32 change_color_inde
 	return INVOKE(0x00B2DE50, object_get_change_color, object_index, change_color_index, change_color);
 }
 
-void __cdecl object_get_closest_point_and_normal(int32 object_index, real_point3d const* origin, real_point3d* closest_point, real_vector3d* normal)
+void __cdecl object_get_closest_point_and_normal(int32 object_index, const real_point3d* origin, real_point3d* closest_point, real_vector3d* normal)
 {
 	INVOKE(0x00B2DEF0, object_get_closest_point_and_normal, object_index, origin, closest_point, normal);
 }
@@ -833,7 +833,7 @@ bool __cdecl object_is_hidden(int32 object_index)
 	return INVOKE(0x00B2F1D0, object_is_hidden, object_index);
 }
 
-bool __cdecl object_is_hidden_internal(object_header_datum const* object_header, object_datum const* object)
+bool __cdecl object_is_hidden_internal(const object_header_datum* object_header, const object_datum* object)
 {
 	return INVOKE(0x00B2F220, object_is_hidden_internal, object_header, object);
 }
@@ -942,14 +942,14 @@ void __cdecl object_marker_reopen()
 	INVOKE(0x00B2FE00, object_marker_reopen);
 }
 
-//.text:00B2FE20 ; void __cdecl object_model_state_changed(int32, int32, char const*)
+//.text:00B2FE20 ; void __cdecl object_model_state_changed(int32, int32, const char*)
 
 void __cdecl object_move(int32 object_index)
 {
 	INVOKE(0x00B2FE50, object_move, object_index);
 }
 
-void __cdecl object_move_position(int32 object_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, s_location const* location)
+void __cdecl object_move_position(int32 object_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up, const s_location* location)
 {
 	INVOKE(0x00B30050, object_move_position, object_index, position, forward, up, location);
 
@@ -1070,7 +1070,7 @@ int32 __cdecl object_new(object_placement_data* data)
 	//if (TEST_FLAG(object->object.flags, _object_hidden_bit))
 	//{
 	//	object->object.flags.set(_object_hidden_bit, false);
-	//	object_header_datum const* ultimate_parent_object = object_header_get(object_get_ultimate_parent(object_index));
+	//	const object_header_datum* ultimate_parent_object = object_header_get(object_get_ultimate_parent(object_index));
 	//	if (TEST_FLAG(ultimate_parent_object->flags, _object_header_connected_to_map_bit))
 	//		object_connect_lights_recursive(object_index, false, true, false, false);
 	//	object_update_collision_culling(object_index);
@@ -1108,7 +1108,7 @@ int32 __cdecl object_new(object_placement_data* data)
 //.text:00B30FD0 ; int32 __cdecl object_new_from_scenario(e_object_type, int32, s_scenario_object*, s_tag_block*, bool)
 //.text:00B31000 ; int32 __cdecl object_new_from_scenario_bypass_simulation_object_placement_test(e_object_type, int32, s_scenario_object*, s_tag_block*, int32, bool)
 //.text:00B31030 ; 
-//.text:00B310C0 ; int32 __cdecl object_new_from_scenario_internal(e_object_type, int16, s_scenario_object const*, s_tag_block*, int32, bool, bool, int32)
+//.text:00B310C0 ; int32 __cdecl object_new_from_scenario_internal(e_object_type, int16, const s_scenario_object*, s_tag_block*, int32, bool, bool, int32)
 
 bool __cdecl object_node_orientations_frozen(int32 object_index)
 {
@@ -1120,7 +1120,7 @@ void __cdecl object_notify_in_local_physics_object(int32 object_index, int32 loc
 	INVOKE(0x00B31270, object_notify_in_local_physics_object, object_index, local_physics_object_index);
 }
 
-//.text:00B312F0 ; void __cdecl object_offset_interpolation(int32, real_vector3d const*)
+//.text:00B312F0 ; void __cdecl object_offset_interpolation(int32, const real_vector3d*)
 //.text:00B31380 ; bool __cdecl object_owns_object(int32, int32)
 
 int32 __cdecl object_override_create(int32 object_index)
@@ -1188,7 +1188,7 @@ int32 __cdecl object_override_find(int32 object_index)
 	{
 		for (int32 i = 0; i < k_maximum_object_override_count; i++)
 		{
-			s_object_override const* override = object_override_get(i);
+			const s_object_override* override = object_override_get(i);
 			ASSERT(override_index >= 0 && override_index < k_maximum_object_override_count);
 			if (override->valid && override->object_index == object_index)
 			{
@@ -1231,7 +1231,7 @@ void __cdecl object_override_set_shader(int32 object_index, int32 shader_index)
 
 //.text:00B313E0 ; void __cdecl object_physics_dynamic_force(int32, bool)
 
-void __cdecl object_place(int32 object_index, s_scenario_object const* scenario_object)
+void __cdecl object_place(int32 object_index, const s_scenario_object* scenario_object)
 {
 	INVOKE(0x00B31470, object_place, object_index, scenario_object);
 
@@ -1261,7 +1261,7 @@ void __cdecl object_placement_data_copy_change_colors(object_placement_data* dat
 	//}
 }
 
-void __cdecl object_placement_data_new(object_placement_data* data, int32 definition_index, int32 creator_object_index, s_damage_owner const* damage_owner)
+void __cdecl object_placement_data_new(object_placement_data* data, int32 definition_index, int32 creator_object_index, const s_damage_owner* damage_owner)
 {
 	//INVOKE(0x00B31590, object_placement_data_new, data, definition_index, creator_object_index, damage_owner);
 
@@ -1323,7 +1323,7 @@ void __cdecl object_placement_data_new(object_placement_data* data, int32 defini
 	data->model_customization_override_count = 0;
 }
 
-void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location)
+void __cdecl object_placement_data_set_location(object_placement_data* data, const struct s_location* location)
 {
 	INVOKE(0x00B31750, object_placement_data_set_location, data, location);
 
@@ -1370,7 +1370,7 @@ void object_prepare_axis_vectors(int32 object_index, real_vector3d* forward, rea
 
 //.text:00B31B80 ; void __cdecl object_queue_render_thread_message(int32, e_object_render_thread_message_type, int16)
 
-void __cdecl object_reconnect_to_map(int32 object_index, bool a2, s_location const* location)
+void __cdecl object_reconnect_to_map(int32 object_index, bool a2, const s_location* location)
 {
 	INVOKE(0x00B31BD0, object_reconnect_to_map, object_index, a2, location);
 }
@@ -1410,7 +1410,7 @@ void __cdecl object_render_debug(int32 object_index)
 	object_render_debug_internal(object_index);
 }
 
-//.text:00B32140 ; bool __cdecl object_report_creation_failure(int32, char const*)
+//.text:00B32140 ; bool __cdecl object_report_creation_failure(int32, const char*)
 
 void __cdecl object_reset(int32 object_index)
 {
@@ -1432,8 +1432,8 @@ void __cdecl object_resurrect(int32 object_index)
 	INVOKE(0x00B32400, object_resurrect, object_index);
 }
 
-//.text:00B324A0 ; void __cdecl object_reverse_compute_node_orientations_from_matrices(int32, c_static_flags<256> const*)
-//.text:00B32540 ; void __cdecl object_reverse_compute_node_orientations_from_matrices(int32, c_static_flags<256> const*, render_model_definition const*, int32, real_orientation*)
+//.text:00B324A0 ; void __cdecl object_reverse_compute_node_orientations_from_matrices(int32, const c_static_flags<256>*)
+//.text:00B32540 ; void __cdecl object_reverse_compute_node_orientations_from_matrices(int32, const c_static_flags<256>*, const render_model_definition*, int32, real_orientation*)
 
 void __cdecl object_set_always_active(int32 object_index, bool always_active)
 {
@@ -1445,7 +1445,7 @@ void __cdecl object_set_at_rest(int32 object_index, bool at_rest)
 	INVOKE(0x00B327F0, object_set_at_rest, object_index, at_rest);
 }
 
-bool __cdecl object_set_base_change_color_by_index(int32 object_index, int32 color_index, real_rgb_color const* color)
+bool __cdecl object_set_base_change_color_by_index(int32 object_index, int32 color_index, const real_rgb_color* color)
 {
 	return INVOKE(0x00B328F0, object_set_base_change_color_by_index, object_index, color_index, color);
 }
@@ -1470,12 +1470,12 @@ void __cdecl object_set_custom_animations_prevent_lipsync_head_movement(bool cus
 	INVOKE(0x00B32AA0, object_set_custom_animations_prevent_lipsync_head_movement, custom_animations_prevent_lipsync_head_movement);
 }
 
-void __cdecl object_set_damage_owner(int32 object_index, s_damage_owner const* damage_owner, bool a3)
+void __cdecl object_set_damage_owner(int32 object_index, const s_damage_owner* damage_owner, bool a3)
 {
 	INVOKE(0x00B32AD0, object_set_damage_owner, object_index, damage_owner, a3);
 }
 
-void __cdecl object_set_desired_velocities(int32 object_index, real_vector3d const* transitional_velocity, real_vector3d const* angular_velocity, bool a4)
+void __cdecl object_set_desired_velocities(int32 object_index, const real_vector3d* transitional_velocity, const real_vector3d* angular_velocity, bool a4)
 {
 	INVOKE(0x00B32B80, object_set_desired_velocities, object_index, transitional_velocity, angular_velocity, a4);
 }
@@ -1500,7 +1500,7 @@ void __cdecl object_set_infinite_shield_stun(int32 object_index)
 	INVOKE(0x00B32EE0, object_set_infinite_shield_stun, object_index);
 }
 
-void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uns8, 5> active_change_colors, real_rgb_color const* change_colors)
+void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uns8, 5> active_change_colors, const real_rgb_color* change_colors)
 {
 	INVOKE(0x00B32F20, object_set_initial_change_colors, object_index, active_change_colors, change_colors);
 }
@@ -1530,19 +1530,19 @@ void __cdecl object_set_object_index_for_name_index(int16 name_index, int32 obje
 	INVOKE(0x00B334F0, object_set_object_index_for_name_index, name_index, object_index);
 }
 
-void __cdecl object_set_position(int32 object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location)
+void __cdecl object_set_position(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location)
 {
 	//INVOKE(0x00B33530, object_set_position, object_index, desired_position, desired_forward, desired_up, location);
 
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, false);
 }
 
-void __cdecl object_set_position_direct(int32 object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location, bool in_editor)
+void __cdecl object_set_position_direct(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location, bool in_editor)
 {
 	INVOKE(0x00B33550, object_set_position_direct, object_index, desired_position, desired_forward, desired_up, location, in_editor);
 }
 
-void __cdecl object_set_position_in_editor(int32 object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location, bool at_rest)
+void __cdecl object_set_position_in_editor(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location, bool at_rest)
 {
 	//INVOKE(0x00B33600, object_set_position_in_editor, object_index, desired_position, desired_forward, desired_up, location, at_rest);
 	
@@ -1552,14 +1552,14 @@ void __cdecl object_set_position_in_editor(int32 object_index, real_point3d cons
 		object_set_at_rest(object_index, false);
 }
 
-void __cdecl object_set_position_in_sandbox_editor(int32 object_index, real_point3d const* desired_position, real_vector3d const* desired_forward, real_vector3d const* desired_up, s_location const* location)
+void __cdecl object_set_position_in_sandbox_editor(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location)
 {
 	//INVOKE(0x00B33670, object_set_position_in_sandbox_editor, object_index, desired_position, desired_forward, desired_up, location);
 
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
 }
 
-bool __cdecl object_set_position_internal(int32 object_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
+bool __cdecl object_set_position_internal(int32 object_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up, const s_location* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
 {
 	return INVOKE(0x00B33690, object_set_position_internal, object_index, position, forward, up, location, compute_node_matrices, set_havok_object_position, in_editor, disconnected);
 
@@ -1619,7 +1619,7 @@ bool __cdecl object_set_position_internal(int32 object_index, real_point3d const
 }
 
 //.text:00B33830 ; void __cdecl object_set_region_permutation_direct(int32, int32, int32, bool)
-//.text:00B33960 ; void __cdecl object_set_region_state(int32, int32, uns8 const*)
+//.text:00B33960 ; void __cdecl object_set_region_state(int32, int32, const uns8*)
 //.text:00B339E0 ; 
 
 void __cdecl object_set_requires_motion(int32 object_index)
@@ -1637,15 +1637,15 @@ void __cdecl object_set_requires_motion(int32 object_index)
 //.text:00B33F80 ; void __cdecl object_set_sync_action(int32, int32, int32)
 //.text:00B33FC0 ; void __cdecl object_set_variant_direct(int32, int32)
 
-void __cdecl object_set_velocities(int32 object_index, real_vector3d const* linear_velocity, real_vector3d const* angular_velocity)
+void __cdecl object_set_velocities(int32 object_index, const real_vector3d* linear_velocity, const real_vector3d* angular_velocity)
 {
 	INVOKE(0x00B34040, object_set_velocities, object_index, linear_velocity, angular_velocity);
 }
 
-//.text:00B34130 ; void __cdecl object_set_velocities_direct(int32, real_vector3d const*, real_vector3d const*)
-//.text:00B341E0 ; void __cdecl object_set_velocities_internal(int32, real_vector3d const*, real_vector3d const*, bool)
+//.text:00B34130 ; void __cdecl object_set_velocities_direct(int32, const real_vector3d*, const real_vector3d*)
+//.text:00B341E0 ; void __cdecl object_set_velocities_internal(int32, const real_vector3d*, const real_vector3d*, bool)
 //.text:00B34280 ; void __cdecl object_set_vision_mode_render_default(int32, bool)
-//.text:00B342D0 ; bool __cdecl object_should_be_active(int32, s_game_cluster_bit_vectors const*)
+//.text:00B342D0 ; bool __cdecl object_should_be_active(int32, const s_game_cluster_bit_vectors*)
 //.text:00B34380 ; bool __cdecl object_should_be_deleted_when_deactivated(int32)
 //.text:00B343D0 ; bool __cdecl object_start_interpolation(int32, real32)
 
@@ -1698,12 +1698,12 @@ void __cdecl object_wake(int32 object_index)
 	INVOKE(0x00B34D00, object_wake, object_index);
 }
 
-void __cdecl objects_activation(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2)
+void __cdecl objects_activation(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2)
 {
 	INVOKE(0x00B34D60, objects_activation, a1, a2);
 }
 
-//.text:00B35150 ; bool __cdecl objects_activation_find_scenario_reference_in_currently_active_clusters(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_scenario_object_reference const*)
+//.text:00B35150 ; bool __cdecl objects_activation_find_scenario_reference_in_currently_active_clusters(const s_game_cluster_bit_vectors*, const s_game_cluster_bit_vectors*, const s_scenario_object_reference*)
 
 bool __cdecl objects_can_connect_to_map()
 {
@@ -1787,9 +1787,9 @@ void __cdecl objects_handle_deleted_player(int32 object_index)
 	INVOKE(0x00B35910, objects_handle_deleted_player, object_index);
 }
 
-//.text:00B35990 ; int32 __cdecl objects_in_clusters_by_indices(uns32, bool, c_flags<e_object_collision_cull_flag, uns16, 13>, int32, s_cluster_reference const*, int32, int32*)
+//.text:00B35990 ; int32 __cdecl objects_in_clusters_by_indices(uns32, bool, c_flags<e_object_collision_cull_flag, uns16, 13>, int32, const s_cluster_reference*, int32, int32*)
 
-int32 __cdecl objects_in_sphere(uns32 class_flags, uns32 type_flags, s_location const* location, real_point3d const* center, real32 radius, int32* object_indices, int32 maximum_count)
+int32 __cdecl objects_in_sphere(uns32 class_flags, uns32 type_flags, const s_location* location, const real_point3d* center, real32 radius, int32* object_indices, int32 maximum_count)
 {
 	return INVOKE(0x00B35B60, objects_in_sphere, class_flags, type_flags, location, center, radius, object_indices, maximum_count);
 }
@@ -1998,7 +1998,7 @@ void __cdecl scripted_object_function_set(int32 object_function_index, real32 ob
 
 //.text:00B373D0 ; void __cdecl set_memory_pool_address(void*)
 
-void object_debug_teleport(int32 object_index, real_point3d const* position)
+void object_debug_teleport(int32 object_index, const real_point3d* position)
 {
 	if (object_datum* object = object_get(object_index))
 	{
@@ -2037,8 +2037,8 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 	}
 
 	tag group_tag = tag_get_group_tag(object->definition_index);
-	char const* group_tag_name = tag_group_get_name(group_tag);
-	char const* tag_name = tag_get_name(object->definition_index);
+	const char* group_tag_name = tag_group_get_name(group_tag);
+	const char* tag_name = tag_get_name(object->definition_index);
 
 	if (!full_name)
 		tag_name = tag_name_strip_path(tag_get_name(object->definition_index));
@@ -2070,7 +2070,7 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 
 void object_render_debug_internal(int32 object_index)
 {
-	object_header_datum const* object_header = object_header_get(object_index);
+	const object_header_datum* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
 
 	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
@@ -2175,7 +2175,7 @@ void object_render_debug_internal(int32 object_index)
 	if (debug_objects_bounding_spheres)
 	{
 		int32 parent_object_index = object_get_ultimate_parent(object_index);
-		object_header_datum const* parent_object_header = object_header_get(parent_object_index);
+		const object_header_datum* parent_object_header = object_header_get(parent_object_index);
 		object_datum* parent_object = object_get(parent_object_index);
 
 		render_debug_sphere(true, &object->object.bounding_sphere_center, object->object.bounding_sphere_radius > 0.0f ? object->object.bounding_sphere_radius : 0.25f, global_real_argb_blue);
@@ -2238,7 +2238,7 @@ void object_render_debug_internal(int32 object_index)
 
 	if (debug_objects_early_movers && object_definition->object.flags.test(_object_early_mover_bit))
 	{
-		char const* early_mover_string = "early mover";
+		const char* early_mover_string = "early mover";
 		if (object_definition->object.flags.test(_object_early_mover_localized_physics_bit))
 			early_mover_string = "early mover + localized physics";
 
@@ -2295,7 +2295,7 @@ void object_render_debug_internal(int32 object_index)
 	}
 }
 
-char const* object_describe(int32 object_index)
+const char* object_describe(int32 object_index)
 {
 	return watch_object_describe(object_index);
 }

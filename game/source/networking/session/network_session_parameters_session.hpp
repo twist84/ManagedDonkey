@@ -91,7 +91,7 @@ static_assert(sizeof(c_network_session_parameter_lobby_vote_set) == 0x40);
 
 struct c_bitstream;
 extern bool __cdecl session_mode_decode_function(c_bitstream* packet, void* data, int32 data_size);
-extern void __cdecl session_mode_encode_function(c_bitstream* packet, void const* data, int32 data_size);
+extern void __cdecl session_mode_encode_function(c_bitstream* packet, const void* data, int32 data_size);
 extern bool __cdecl session_size_decode_function(c_bitstream* packet, void* data, int32 data_size);
-extern void __cdecl session_size_encode_function(c_bitstream* packet, void const* data, int32 data_size);
+extern void __cdecl session_size_encode_function(c_bitstream* packet, const void* data, int32 data_size);
 

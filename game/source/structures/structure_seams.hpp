@@ -40,5 +40,5 @@ extern void __cdecl structure_seams_dispose_from_old_map();
 extern void __cdecl structure_seams_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl structure_seams_initialize();
 extern void __cdecl structure_seams_initialize_for_new_map();
-extern void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uns32 new_structure_bsp_mask);
+extern void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, const s_structure_seams* structure_seams, uns32 new_structure_bsp_mask);
 

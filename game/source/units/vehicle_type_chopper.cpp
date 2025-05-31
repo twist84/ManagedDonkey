@@ -32,7 +32,7 @@ bool __cdecl c_vehicle_type_chopper::effected_by_vehicle_ceiling(int32 vehicle_i
 	return INVOKE(0x00BD3CB0, c_vehicle_type_chopper::effected_by_vehicle_ceiling, vehicle_index);
 }
 
-real_vector3d const* __cdecl c_vehicle_type_chopper::get_debug_magic_force_vector(int32 vehicle_index, real_point3d* origin)
+const real_vector3d* __cdecl c_vehicle_type_chopper::get_debug_magic_force_vector(int32 vehicle_index, real_point3d* origin)
 {
 	return INVOKE(0x00BD3CC0, c_vehicle_type_chopper::get_debug_magic_force_vector, vehicle_index, origin);
 }
@@ -62,7 +62,7 @@ bool __cdecl c_vehicle_type_chopper::physics_disabled(int32 vehicle_index)
 	return INVOKE(0x00BD3D60, c_vehicle_type_chopper::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_chopper::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_chopper::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BD3D70, c_vehicle_type_chopper, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }
@@ -97,7 +97,7 @@ void c_vehicle_type_chopper::update_physics(int32 vehicle_index, s_havok_vehicle
 	INVOKE_CLASS_MEMBER(0x00BD4200, c_vehicle_type_chopper, update_physics, vehicle_index, instance);
 }
 
-bool __cdecl c_vehicle_type_chopper::vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector)
+bool __cdecl c_vehicle_type_chopper::vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector)
 {
 	return INVOKE(0x00BD52C0, c_vehicle_type_chopper::vector_is_upsides_down, vehicle_index, vector);
 }

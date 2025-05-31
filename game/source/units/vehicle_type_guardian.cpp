@@ -27,7 +27,7 @@ bool __cdecl c_vehicle_type_guardian::effected_by_vehicle_ceiling(int32 vehicle_
 	return INVOKE(0x00BD0090, c_vehicle_type_guardian::effected_by_vehicle_ceiling, vehicle_index);
 }
 
-s_vehicle_guardian_definition const* c_vehicle_type_guardian::get_type_definition(int32 vehicle_index)
+const s_vehicle_guardian_definition* c_vehicle_type_guardian::get_type_definition(int32 vehicle_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00BD00A0, c_vehicle_type_guardian, get_type_definition, vehicle_index);
 }
@@ -52,7 +52,7 @@ bool __cdecl c_vehicle_type_guardian::physics_disabled(int32 vehicle_index)
 	return INVOKE(0x00BD0110, c_vehicle_type_guardian::physics_disabled, vehicle_index);
 }
 
-void __cdecl c_vehicle_type_guardian::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void __cdecl c_vehicle_type_guardian::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE(0x00BD0150, c_vehicle_type_guardian::process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }
@@ -77,7 +77,7 @@ void c_vehicle_type_guardian::update_physics(int32 vehicle_index, s_havok_vehicl
 	INVOKE_CLASS_MEMBER(0x00BD0280, c_vehicle_type_guardian, update_physics, vehicle_index, instance);
 }
 
-bool __cdecl c_vehicle_type_guardian::vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector)
+bool __cdecl c_vehicle_type_guardian::vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector)
 {
 	return INVOKE(0x00BD0C20, c_vehicle_type_guardian::vector_is_upsides_down, vehicle_index, vector);
 }

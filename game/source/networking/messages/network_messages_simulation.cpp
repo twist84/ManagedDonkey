@@ -15,12 +15,12 @@ bool __cdecl c_network_message_view_establishment::decode(c_bitstream* packet, i
 	return INVOKE(0x004E0110, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_player_acknowledge::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_player_acknowledge::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004E01C0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_view_establishment::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_view_establishment::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004E0290, encode, packet, message_storage_size, message_storage);
 }

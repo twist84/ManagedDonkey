@@ -47,7 +47,7 @@ t_type right_shift_safe(t_type value, int32 shift_bits)
 //.text:0043B5D0 ; c_bitstream::~c_bitstream()
 
 //template<int32 k_forward_angle_bits, int32 k_up_quantization_bits>
-//void c_bitstream::read_axes(char const* name, real_vector3d* forward, real_vector3d* up)
+//void c_bitstream::read_axes(const char* name, real_vector3d* forward, real_vector3d* up)
 //{
 //	if (read_bool("up-is-global-up3d"))
 //	{
@@ -62,7 +62,7 @@ t_type right_shift_safe(t_type value, int32 shift_bits)
 //}
 
 //template<int32 k_forward_angle_bits, int32 k_up_quantization_bits>
-//void c_bitstream::write_axes(char const* name, real_vector3d const* forward, real_vector3d const* up)
+//void c_bitstream::write_axes(const char* name, const real_vector3d* forward, const real_vector3d* up)
 //{
 //	real_vector3d dequantized_up{};
 //	if (fabs(up->i - global_up3d->i) > k_real_epsilon ||
@@ -81,14 +81,14 @@ t_type right_shift_safe(t_type value, int32 shift_bits)
 //	}
 //}
 
-void c_bitstream::read_raw_data(char const* name, void* value, int32 size_in_bits)
+void c_bitstream::read_raw_data(const char* name, void* value, int32 size_in_bits)
 {
 	//read_bits_internal(value, size_in_bits);
 
-	DECLFUNC(0x00443980, void, __thiscall, c_bitstream*, char const*, void*, int32)(this, name, value, size_in_bits);
+	DECLFUNC(0x00443980, void, __thiscall, c_bitstream*, const char*, void*, int32)(this, name, value, size_in_bits);
 }
 
-int32 c_bitstream::read_signed_integer(char const* name, int32 size_in_bits)
+int32 c_bitstream::read_signed_integer(const char* name, int32 size_in_bits)
 {
 	int32 range = 1 << (size_in_bits - 1);
 
@@ -107,35 +107,35 @@ int32 c_bitstream::read_signed_integer(char const* name, int32 size_in_bits)
 	//return DECLFUNC(0x004439A0, int32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
-void c_bitstream::write_bool(char const* name, bool value)
+void c_bitstream::write_bool(const char* name, bool value)
 {
-	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, char const*, bool)(this, name, value);
+	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, const char*, bool)(this, name, value);
 }
 
-void c_bitstream::write_integer(char const* name, uns32 value, int32 size_in_bits)
+void c_bitstream::write_integer(const char* name, uns32 value, int32 size_in_bits)
 {
-	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, char const*, uns32, int32)(this, name, value, size_in_bits);
+	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, const char*, uns32, int32)(this, name, value, size_in_bits);
 }
 
-void c_bitstream::write_raw_data(char const* name, void const* value, int32 size_in_bits)
+void c_bitstream::write_raw_data(const char* name, const void* value, int32 size_in_bits)
 {
 	//write_bits_internal(value, size_in_bits);
-	DECLFUNC(0x00444C30, void, __thiscall, c_bitstream*, char const*, void const*, int32)(this, name, value, size_in_bits);
+	DECLFUNC(0x00444C30, void, __thiscall, c_bitstream*, const char*, const void*, int32)(this, name, value, size_in_bits);
 }
 
-void c_bitstream::write_signed_integer(char const* name, int32 value, int32 size_in_bits)
+void c_bitstream::write_signed_integer(const char* name, int32 value, int32 size_in_bits)
 {
-	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, char const*, int32, int32)(this, name, value, size_in_bits);
+	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, const char*, int32, int32)(this, name, value, size_in_bits);
 }
 
-uns64 c_bitstream::read_qword(char const* name, int32 size_in_bits)
+uns64 c_bitstream::read_qword(const char* name, int32 size_in_bits)
 {
 	return read_qword_internal(size_in_bits);
 
 	//return DECLFUNC(0x0046E940, uns64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
-void c_bitstream::write_qword(char const* name, uns64 value, int32 size_in_bits)
+void c_bitstream::write_qword(const char* name, uns64 value, int32 size_in_bits)
 {
 	write_qword_internal(value, size_in_bits);
 
@@ -145,35 +145,35 @@ void c_bitstream::write_qword(char const* name, uns64 value, int32 size_in_bits)
 //.text:0049ED60 ; c_bitstream::c_bitstream()
 
 //template<>
-//void c_bitstream::read_axes<14, 20>(char const* name, real_vector3d* forward, real_vector3d* up)
+//void c_bitstream::read_axes<14, 20>(const char* name, real_vector3d* forward, real_vector3d* up)
 //{
 //	//004A9B30
 //}
 //
 //template<>
-//void c_bitstream::write_axes<14, 20>(char const* name, real_vector3d const* forward, real_vector3d const* up)
+//void c_bitstream::write_axes<14, 20>(const char* name, const real_vector3d* forward, const real_vector3d* up)
 //{
 //	//004A9BC0
 //}
 //
 //template<>
-//void c_bitstream::read_axes<8, 19>(char const* name, real_vector3d* forward, real_vector3d* up)
+//void c_bitstream::read_axes<8, 19>(const char* name, real_vector3d* forward, real_vector3d* up)
 //{
 //	//004AB910
 //}
 //
 //template<>
-//void c_bitstream::write_axes<8, 19>(char const* name, real_vector3d const* forward, real_vector3d const* up)
+//void c_bitstream::write_axes<8, 19>(const char* name, const real_vector3d* forward, const real_vector3d* up)
 //{
 //	//004AB9A0
 //}
 
-void c_bitstream::angle_to_axes_internal(real_vector3d const* up, real32 forward_angle, real_vector3d* forward)
+void c_bitstream::angle_to_axes_internal(const real_vector3d* up, real32 forward_angle, real_vector3d* forward)
 {
 	INVOKE(0x00556FC0, c_bitstream::angle_to_axes_internal, up, forward_angle, forward);
 }
 
-void c_bitstream::append(c_bitstream const* stream)
+void c_bitstream::append(const c_bitstream* stream)
 {
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
 	ASSERT(writing());
@@ -182,10 +182,10 @@ void c_bitstream::append(c_bitstream const* stream)
 	m_number_of_bits_rewound += stream->m_number_of_bits_rewound;
 	m_number_of_position_resets += stream->m_number_of_position_resets;
 
-	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, c_bitstream const*)(this, stream);
+	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, const c_bitstream*)(this, stream);
 }
 
-void c_bitstream::axes_compute_reference_internal(real_vector3d const* up, real_vector3d* forward_reference, real_vector3d* left_reference)
+void c_bitstream::axes_compute_reference_internal(const real_vector3d* up, real_vector3d* forward_reference, real_vector3d* left_reference)
 {
 	INVOKE(0x00557150, c_bitstream::axes_compute_reference_internal, up, forward_reference, left_reference);
 
@@ -209,7 +209,7 @@ void c_bitstream::axes_compute_reference_internal(real_vector3d const* up, real_
 	//assert_valid_real_vector3d_axes3(forward_reference, left_reference, up);
 }
 
-real32 c_bitstream::axes_to_angle_internal(real_vector3d const* forward, real_vector3d const* up)
+real32 c_bitstream::axes_to_angle_internal(const real_vector3d* forward, const real_vector3d* up)
 {
 	return INVOKE(0x005573F0, c_bitstream::axes_to_angle_internal, forward, up);
 
@@ -246,11 +246,11 @@ void c_bitstream::begin_writing(int32 data_size_alignment)
 }
 
 //.text:005574F0 ; void bitstream_test()
-//.text:00557770 ; public: static bool c_bitstream::compare_axes(int32, int32, real_vector3d const*, real_vector3d const*, real_vector3d const*, real_vector3d const*)
+//.text:00557770 ; public: static bool c_bitstream::compare_axes(int32, int32, const real_vector3d*, const real_vector3d*, const real_vector3d*, const real_vector3d*)
 //.text:00557970 ; 
 //.text:005579C0 ; public: static bool c_bitstream::compare_quantized_reals(real32, real32, real32, real32, int32, bool, bool, bool)
-//.text:00557A10 ; public: static bool c_bitstream::compare_unit_vectors(real_vector3d const*, real_vector3d const*, int32)
-//.text:00557A20 ; public: static bool c_bitstream::compare_vectors(real_vector3d const*, real_vector3d const*, real32, real32, int32, int32)
+//.text:00557A10 ; public: static bool c_bitstream::compare_unit_vectors(const real_vector3d*, const real_vector3d*, int32)
+//.text:00557A20 ; public: static bool c_bitstream::compare_vectors(const real_vector3d*, const real_vector3d*, real32, real32, int32, int32)
 
 void c_bitstream::data_is_untrusted(bool is_untrusted)
 {
@@ -297,12 +297,12 @@ void c_bitstream::discard_remaining_data()
 	m_bitstream_data.accumulator = 0;
 	m_bitstream_data.accumulator_bit_count = 0;
 
-	//DECLFUNC(0x00557F60, void, __thiscall, c_bitstream const*)(this);
+	//DECLFUNC(0x00557F60, void, __thiscall, const c_bitstream*)(this);
 }
 
 void c_bitstream::encode_qword_to_memory(uns64 value, int32 size_in_bits)
 {
-	DECLFUNC(0x00557F80, void, __thiscall, c_bitstream const*, uns64, int32)(this, value, size_in_bits);
+	DECLFUNC(0x00557F80, void, __thiscall, const c_bitstream*, uns64, int32)(this, value, size_in_bits);
 	//INVOKE_CLASS_MEMBER(0x00557F80, c_bitstream, encode_qword_to_memory, value, size_in_bits);
 
 	//uns64 temp_value = bswap_uns64(value);
@@ -343,7 +343,7 @@ bool c_bitstream::error_occurred() const
 		return true;
 	return result;
 
-	//DECLFUNC(0x00558090, bool, __thiscall, c_bitstream const*)(this);
+	//DECLFUNC(0x00558090, bool, __thiscall, const c_bitstream*)(this);
 }
 
 bool c_bitstream::was_reading() const
@@ -402,9 +402,9 @@ int32 c_bitstream::get_space_used_in_bits()
 	return m_bitstream_data.accumulator_bit_count + m_bitstream_data.current_stream_bit_position;
 }
 
-byte const* c_bitstream::get_data(int32* data_length) const
+const byte* c_bitstream::get_data(int32* data_length) const
 {
-	//return DECLFUNC(0x00558250, byte const*, __thiscall, c_bitstream const*, int32*)(this, data_length);
+	//return DECLFUNC(0x00558250, const byte*, __thiscall, const c_bitstream*, int32*)(this, data_length);
 
 	ASSERT(!writing());
 	ASSERT(data_length);
@@ -434,7 +434,7 @@ uns64 c_bitstream::read_accumulator_from_memory(int32 a1)
 	return DECLFUNC(0x005583D0, bool, __thiscall, c_bitstream*, int32)(this, a1);
 }
 
-bool c_bitstream::read_bool(char const* name)
+bool c_bitstream::read_bool(const char* name)
 {
 	ASSERT(reading());
 
@@ -448,7 +448,7 @@ void c_bitstream::read_bits_internal(void* data, int32 size_in_bits)
 	DECLFUNC(0x00558740, void, __thiscall, c_bitstream*, void*, int32)(this, data, size_in_bits);
 }
 
-uns32 c_bitstream::read_integer(char const* name, int32 size_in_bits)
+uns32 c_bitstream::read_integer(const char* name, int32 size_in_bits)
 {
 	ASSERT(reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
@@ -459,14 +459,14 @@ uns32 c_bitstream::read_integer(char const* name, int32 size_in_bits)
 	return DECLFUNC(0x005589A0, uns32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
-void c_bitstream::read_identifier(char const* identifier)
+void c_bitstream::read_identifier(const char* identifier)
 {
 	ASSERT(reading());
 
-	//return DECLFUNC(0x00558B90, void, __thiscall, c_bitstream*, char const*)(this, identifier);
+	//return DECLFUNC(0x00558B90, void, __thiscall, c_bitstream*, const char*)(this, identifier);
 }
 
-void c_bitstream::read_point3d(char const* name, long_point3d* point, int32 axis_encoding_size_in_bits)
+void c_bitstream::read_point3d(const char* name, long_point3d* point, int32 axis_encoding_size_in_bits)
 {
 	ASSERT(reading());
 	ASSERT(axis_encoding_size_in_bits >= 0 && axis_encoding_size_in_bits <= SIZEOF_BITS(point->n[0]));
@@ -477,14 +477,14 @@ void c_bitstream::read_point3d(char const* name, long_point3d* point, int32 axis
 	//	ASSERT(point->n[axis] < (1 << axis_encoding_size_in_bits));
 	//}
 
-	DECLFUNC(0x00558C50, void, __thiscall, c_bitstream*, char const*, long_point3d*, int32)(this, name, point, axis_encoding_size_in_bits);
+	DECLFUNC(0x00558C50, void, __thiscall, c_bitstream*, const char*, long_point3d*, int32)(this, name, point, axis_encoding_size_in_bits);
 }
 
-real32 c_bitstream::read_quantized_real(char const* name, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints)
+real32 c_bitstream::read_quantized_real(const char* name, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints)
 {
 	ASSERT(reading());
 
-	return DECLFUNC(0x00559080, real32, __thiscall, c_bitstream*, char const*, real32, real32, int32, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
+	return DECLFUNC(0x00559080, real32, __thiscall, c_bitstream*, const char*, real32, real32, int32, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
 uns64 c_bitstream::read_qword_internal(int32 size_in_bits)
@@ -495,51 +495,51 @@ uns64 c_bitstream::read_qword_internal(int32 size_in_bits)
 	return DECLFUNC(0x00559160, uns64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
-void c_bitstream::read_secure_address(char const* name, s_transport_secure_address* address)
+void c_bitstream::read_secure_address(const char* name, s_transport_secure_address* address)
 {
 	ASSERT(reading());
 	ASSERT(address);
 
 	//read_bits_internal(address, 128);
 
-	DECLFUNC(0x00559360, void, __thiscall, c_bitstream*, char const*, s_transport_secure_address*)(this, name, address);
+	DECLFUNC(0x00559360, void, __thiscall, c_bitstream*, const char*, s_transport_secure_address*)(this, name, address);
 }
 
-void c_bitstream::read_string(char const* name, char* string, int32 max_string_size)
+void c_bitstream::read_string(const char* name, char* string, int32 max_string_size)
 {
 	ASSERT(reading());
 	ASSERT(string);
 	ASSERT(max_string_size > 0);
 
-	DECLFUNC(0x00559380, void, __thiscall, c_bitstream*, char const*, char*, int32)(this, name, string, max_string_size);
+	DECLFUNC(0x00559380, void, __thiscall, c_bitstream*, const char*, char*, int32)(this, name, string, max_string_size);
 }
 
-void c_bitstream::read_string_utf8(char const* name, char* char_string, int32 max_string_size)
+void c_bitstream::read_string_utf8(const char* name, char* char_string, int32 max_string_size)
 {
 	ASSERT(reading());
 	ASSERT(char_string);
 	ASSERT(max_string_size > 0);
 
-	DECLFUNC(0x00559670, void, __thiscall, c_bitstream*, char const*, utf8*, int32)(this, name, char_string, max_string_size);
+	DECLFUNC(0x00559670, void, __thiscall, c_bitstream*, const char*, utf8*, int32)(this, name, char_string, max_string_size);
 }
 
-void c_bitstream::read_string_wchar(char const* name, wchar_t* string, int32 max_string_size)
+void c_bitstream::read_string_wchar(const char* name, wchar_t* string, int32 max_string_size)
 {
 	ASSERT(reading());
 	ASSERT(string);
 	ASSERT(max_string_size > 0);
 
-	DECLFUNC(0x00559880, void, __thiscall, c_bitstream*, char const*, wchar_t*, int32)(this, name, string, max_string_size);
+	DECLFUNC(0x00559880, void, __thiscall, c_bitstream*, const char*, wchar_t*, int32)(this, name, string, max_string_size);
 }
 
-void c_bitstream::read_unit_vector(char const* name, real_vector3d* unit_vector, int32 size_in_bits)
+void c_bitstream::read_unit_vector(const char* name, real_vector3d* unit_vector, int32 size_in_bits)
 {
-	DECLFUNC(0x00559A90, void, __thiscall, c_bitstream*, char const*, real_vector3d*, int32)(this, name, unit_vector, size_in_bits);
+	DECLFUNC(0x00559A90, void, __thiscall, c_bitstream*, const char*, real_vector3d*, int32)(this, name, unit_vector, size_in_bits);
 }
 
-void c_bitstream::read_vector(char const* name, real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits)
+void c_bitstream::read_vector(const char* name, real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits)
 {
-	DECLFUNC(0x00559AB0, void, __thiscall, c_bitstream*, char const*, real_vector3d*, real32, real32, int32, int32)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
+	DECLFUNC(0x00559AB0, void, __thiscall, c_bitstream*, const char*, real_vector3d*, real32, real32, int32, int32)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
 }
 
 void c_bitstream::reset(int32 state)
@@ -570,7 +570,7 @@ void c_bitstream::skip(int32 bits_to_skip)
 
 bool c_bitstream::would_overflow(int32 size_in_bits) const
 {
-	return DECLFUNC(0x00559E90, bool, __thiscall, c_bitstream const*, int32)(this, size_in_bits);
+	return DECLFUNC(0x00559E90, bool, __thiscall, const c_bitstream*, int32)(this, size_in_bits);
 }
 
 void c_bitstream::write_accumulator_to_memory(uns64 value, int32 size_in_bits)
@@ -610,28 +610,28 @@ void c_bitstream::write_accumulator_to_memory(uns64 value, int32 size_in_bits)
 	//}
 }
 
-void c_bitstream::write_bits_internal(void const* data, int32 size_in_bits)
+void c_bitstream::write_bits_internal(const void* data, int32 size_in_bits)
 {
-	DECLFUNC(0x0055A000, void, __thiscall, c_bitstream*, void const*, int32)(this, data, size_in_bits);
+	DECLFUNC(0x0055A000, void, __thiscall, c_bitstream*, const void*, int32)(this, data, size_in_bits);
 }
 
-void c_bitstream::write_identifier(char const* identifier)
+void c_bitstream::write_identifier(const char* identifier)
 {
 	ASSERT(writing());
 
-	//DECLFUNC(0x0055A100, void, __thiscall, c_bitstream const*, char const*)(this, identifier);
+	//DECLFUNC(0x0055A100, void, __thiscall, const c_bitstream*, const char*)(this, identifier);
 }
 
-void c_bitstream::write_point3d(char const* name, long_point3d const* point, int32 axis_encoding_size_in_bits)
+void c_bitstream::write_point3d(const char* name, const long_point3d* point, int32 axis_encoding_size_in_bits)
 {
-	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream*, char const*, long_point3d const*, int32)(this, name, point, axis_encoding_size_in_bits);
+	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream*, const char*, const long_point3d*, int32)(this, name, point, axis_encoding_size_in_bits);
 }
 
-void c_bitstream::write_quantized_real(char const* name, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints)
+void c_bitstream::write_quantized_real(const char* name, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints)
 {
 	ASSERT(writing());
 
-	DECLFUNC(0x0055A2B0, void, __thiscall, c_bitstream*, char const*, real32*, real32, real32, int32, bool, bool)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
+	DECLFUNC(0x0055A2B0, void, __thiscall, c_bitstream*, const char*, real32*, real32, real32, int32, bool, bool)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
 void c_bitstream::write_qword_internal(uns64 value, int32 size_in_bits)
@@ -642,58 +642,58 @@ void c_bitstream::write_qword_internal(uns64 value, int32 size_in_bits)
 	DECLFUNC(0x0055A3A0, void, __thiscall, c_bitstream*, uns64, int32)(this, value, size_in_bits);
 }
 
-void c_bitstream::write_secure_address(char const* name, s_transport_secure_address const* address)
+void c_bitstream::write_secure_address(const char* name, const s_transport_secure_address* address)
 {
 	ASSERT(writing());
 	ASSERT(address);
 
 	//write_bits_internal(address, 128);
 
-	DECLFUNC(0x0055A410, void, __thiscall, c_bitstream*, char const*, s_transport_secure_address const*)(this, name, address);
+	DECLFUNC(0x0055A410, void, __thiscall, c_bitstream*, const char*, const s_transport_secure_address*)(this, name, address);
 }
 
-void c_bitstream::write_string(char const* name, char const* string, int32 max_string_size)
+void c_bitstream::write_string(const char* name, const char* string, int32 max_string_size)
 {
 	ASSERT(writing());
 	ASSERT(string);
 	ASSERT(max_string_size > 0);
 	//ASSERT(strnlen(string, max_string_size) < max_string_size);
 
-	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream*, char const*, char const*, int32)(this, name, string, max_string_size);
+	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream*, const char*, const char*, int32)(this, name, string, max_string_size);
 }
 
-void c_bitstream::write_string_utf8(char const* name, utf8 const* char_string, int32 max_string_size)
+void c_bitstream::write_string_utf8(const char* name, const utf8* char_string, int32 max_string_size)
 {
 	ASSERT(writing());
 	ASSERT(char_string);
 	ASSERT(max_string_size > 0);
 	//ASSERT(strnlen(char_string, max_string_size) < max_string_size);
 
-	DECLFUNC(0x0055A650, void, __thiscall, c_bitstream*, char const*, utf8 const*, int32)(this, name, char_string, max_string_size);
+	DECLFUNC(0x0055A650, void, __thiscall, c_bitstream*, const char*, const utf8*, int32)(this, name, char_string, max_string_size);
 }
 
-void c_bitstream::write_string_wchar(char const* name, wchar_t const* string, int32 max_string_size)
+void c_bitstream::write_string_wchar(const char* name, const wchar_t* string, int32 max_string_size)
 {
 	ASSERT(writing());
 	ASSERT(string);
 	ASSERT(max_string_size > 0);
 
-	DECLFUNC(0x0055A6D0, void, __thiscall, c_bitstream*, char const*, wchar_t const*, int32)(this, name, string, max_string_size);
+	DECLFUNC(0x0055A6D0, void, __thiscall, c_bitstream*, const char*, const wchar_t*, int32)(this, name, string, max_string_size);
 }
 
-void c_bitstream::write_unit_vector(char const* name, real_vector3d const* unit_vector, int32 size_in_bits)
+void c_bitstream::write_unit_vector(const char* name, const real_vector3d* unit_vector, int32 size_in_bits)
 {
-	DECLFUNC(0x0055A750, void, __thiscall, c_bitstream*, char const*, real_vector3d const*, int32)(this, name, unit_vector, size_in_bits);
+	DECLFUNC(0x0055A750, void, __thiscall, c_bitstream*, const char*, const real_vector3d*, int32)(this, name, unit_vector, size_in_bits);
 }
 
-void c_bitstream::write_vector(char const* name, real_vector3d const* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits)
+void c_bitstream::write_vector(const char* name, const real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits)
 {
-	DECLFUNC(0x0055A7B0, void, __thiscall, c_bitstream*, char const*, real_vector3d const*, real32, real32, int32, int32)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
+	DECLFUNC(0x0055A7B0, void, __thiscall, c_bitstream*, const char*, const real_vector3d*, real32, real32, int32, int32)(this, name, vector, min_value, max_value, step_count_size_in_bits, size_in_bits);
 }
 
 bool c_bitstream::writing() const
 {
-	//return DECLFUNC(0x0055A9D0, bool, __thiscall, c_bitstream const*)(this);
+	//return DECLFUNC(0x0055A9D0, bool, __thiscall, const c_bitstream*)(this);
 
 	return m_state == _bitstream_state_write;
 }

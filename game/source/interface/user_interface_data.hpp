@@ -27,11 +27,11 @@ public:
 	virtual bool get_qword_value(int32 element_handle, int32 value_name, uns64* value);
 	virtual bool get_real_value(int32 element_handle, int32 value_name, real32* value);
 	virtual bool get_player_appearance(int32 element_handle, s_player_appearance* appearance);
-	virtual c_gui_selected_item const* get_gui_selected_item(int32 element_handle) const;
+	virtual const c_gui_selected_item* get_gui_selected_item(int32 element_handle) const;
 	virtual int32 get_maximum_item_count();
 	virtual int32 add_element();
 	virtual void delete_element(int32 element_handle);
-	virtual void set_element(int32 element_handle, void const* element, int32 element_size);
+	virtual void set_element(int32 element_handle, const void* element, int32 element_size);
 	virtual bool get_invoked_control(int32 element_handle, int32* control_name);
 	virtual void clear_disabled_elements();
 	virtual void set_disabled_element(int32 string_id_column_name, int32 string_id_value);
@@ -64,7 +64,7 @@ public:
 	virtual int32 get_maximum_item_count() override;
 	virtual int32 add_element() override;
 	virtual void delete_element(int32 element_handle) override;
-	virtual void set_element(int32 element_handle, void const* element, int32 element_size) override;
+	virtual void set_element(int32 element_handle, const void* element, int32 element_size) override;
 
 public:
 	c_gui_data_array();

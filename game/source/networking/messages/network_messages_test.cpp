@@ -10,7 +10,7 @@ bool __cdecl c_network_message_test::decode(c_bitstream* packet, int32 message_s
 	return INVOKE(0x004E0F20, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_test::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_test::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004E0F60, encode, packet, message_storage_size, message_storage);
 }

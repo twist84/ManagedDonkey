@@ -30,15 +30,17 @@ struct s_gui_game_setup_storage
 			return game_engine_variant_is_valid(&variant);
 		}
 
-		c_game_variant const* get_variant() const
+		const c_game_variant* get_variant() const
 		{
 			return &variant;
 		}
 
-		void set_variant(c_game_variant const& other)
+		void set_variant(const c_game_variant& other)
 		{
 			if (!variant.is_equal_to(&other))
+			{
 				variant.copy_from_unsafe(&other);
+			}
 		}
 
 	protected:
@@ -62,7 +64,7 @@ struct s_gui_game_setup_storage
 			return variant.is_valid();
 		}
 
-		c_map_variant const* get_variant() const
+		const c_map_variant* get_variant() const
 		{
 			return &variant;
 		}
@@ -70,7 +72,9 @@ struct s_gui_game_setup_storage
 		void set_variant(c_map_variant& source)
 		{
 			//if (!variant.is_equal_to(&source))
+			{
 				source.read_from(&variant);
+			}
 		}
 
 	protected:
@@ -431,8 +435,8 @@ extern void __cdecl global_preferences_set_hide_watermark(bool hide_watermark);
 extern void __cdecl global_preferences_set_hud_shake(bool hud_shake);
 extern void __cdecl global_preferences_set_keyboard_preset(int32 keyboard_preset);
 extern void __cdecl global_preferences_set_last_font_language(e_language last_font_language);
-extern void __cdecl global_preferences_set_last_fonts_modification_date(s_file_last_modification_date const* last_fonts_modification_date);
-extern void __cdecl global_preferences_set_last_game_setup(s_gui_game_setup_storage const* last_game_setup);
+extern void __cdecl global_preferences_set_last_fonts_modification_date(const s_file_last_modification_date* last_fonts_modification_date);
+extern void __cdecl global_preferences_set_last_game_setup(const s_gui_game_setup_storage* last_game_setup);
 extern void __cdecl global_preferences_set_last_language(e_language last_language);
 extern void __cdecl global_preferences_set_last_main_menu_item(int32 last_main_menu_item);
 extern void __cdecl global_preferences_set_lighting_quality(e_quality_setting lighting_quality);
@@ -538,8 +542,8 @@ enum e_global_preference_type
 
 struct s_global_preference
 {
-	char const* name;
-	char const* description;
+	const char* name;
+	const char* description;
 	void* get;
 	void* set;
 	e_global_preference preference;
@@ -547,15 +551,15 @@ struct s_global_preference
 	e_global_preference_type parameter_types[k_maximum_global_preference_parameters];
 };
 
-extern char const* const k_global_preference_names[k_global_preference_count];
-extern s_global_preference const* k_global_preferences[k_global_preference_count];
+extern const char* const k_global_preference_names[k_global_preference_count];
+extern const s_global_preference* k_global_preferences[k_global_preference_count];
 
-extern char const* global_preference_get_name(e_global_preference preference);
-extern e_global_preference global_preference_from_string(char const* str);
-extern bool global_preference_set_impl(char const* name, int16 parameter_count, ...);
+extern const char* global_preference_get_name(e_global_preference preference);
+extern e_global_preference global_preference_from_string(const char* str);
+extern bool global_preference_set_impl(const char* name, int16 parameter_count, ...);
 
 template<typename... parameters_t, int32 k_parameter_count = sizeof...(parameters_t)>
-bool global_preference_set(char const* name, parameters_t... parameters)
+bool global_preference_set(const char* name, parameters_t... parameters)
 {
 	return global_preference_set_impl(name, k_parameter_count, parameters...);
 }

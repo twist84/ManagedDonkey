@@ -11,7 +11,7 @@ void c_player_traits::byteswap()
 	m_sensor_traits.byteswap();
 }
 
-void c_player_traits::set(c_player_traits const* traits, bool force)
+void c_player_traits::set(const c_player_traits* traits, bool force)
 {
 	ASSERT(traits != NULL);
 
@@ -76,12 +76,12 @@ c_player_trait_shield_vitality* c_player_traits::get_shield_vitality_traits_writ
 	return &m_shield_vitality_traits;
 }
 
-c_player_trait_shield_vitality const* c_player_traits::get_shield_vitality_traits() const
+const c_player_trait_shield_vitality* c_player_traits::get_shield_vitality_traits() const
 {
 	return &m_shield_vitality_traits;
 }
 
-void c_player_traits::set_shield_vitality_traits(c_player_trait_shield_vitality const* traits, bool force)
+void c_player_traits::set_shield_vitality_traits(const c_player_trait_shield_vitality* traits, bool force)
 {
 	m_shield_vitality_traits.set(traits, force);
 }
@@ -91,12 +91,12 @@ c_player_trait_weapons* c_player_traits::get_weapons_traits_writeable()
 	return &m_weapon_traits;
 }
 
-c_player_trait_weapons const* c_player_traits::get_weapons_traits() const
+const c_player_trait_weapons* c_player_traits::get_weapons_traits() const
 {
 	return &m_weapon_traits;
 }
 
-void c_player_traits::set_weapons_traits(c_player_trait_weapons const* traits, bool force)
+void c_player_traits::set_weapons_traits(const c_player_trait_weapons* traits, bool force)
 {
 	m_weapon_traits.set(traits, force);
 }
@@ -106,12 +106,12 @@ c_player_trait_movement* c_player_traits::get_movement_traits_writeable()
 	return &m_movement_traits;
 }
 
-c_player_trait_movement const* c_player_traits::get_movement_traits() const
+const c_player_trait_movement* c_player_traits::get_movement_traits() const
 {
 	return &m_movement_traits;
 }
 
-void c_player_traits::set_movement_traits(c_player_trait_movement const* traits, bool force)
+void c_player_traits::set_movement_traits(const c_player_trait_movement* traits, bool force)
 {
 	m_movement_traits.set(traits, force);
 }
@@ -121,12 +121,12 @@ c_player_trait_appearance* c_player_traits::get_appearance_traits_writeable()
 	return &m_appearance_traits;
 }
 
-c_player_trait_appearance const* c_player_traits::get_appearance_traits() const
+const c_player_trait_appearance* c_player_traits::get_appearance_traits() const
 {
 	return &m_appearance_traits;
 }
 
-void c_player_traits::set_appearance_traits(c_player_trait_appearance const* traits, bool force)
+void c_player_traits::set_appearance_traits(const c_player_trait_appearance* traits, bool force)
 {
 	m_appearance_traits.set(traits, force);
 }
@@ -136,17 +136,17 @@ c_player_trait_sensors* c_player_traits::get_sensor_traits_writeable()
 	return &m_sensor_traits;
 }
 
-c_player_trait_sensors const* c_player_traits::get_sensor_traits() const
+const c_player_trait_sensors* c_player_traits::get_sensor_traits() const
 {
 	return &m_sensor_traits;
 }
 
-void c_player_traits::set_sensor_traits(c_player_trait_sensors const* traits, bool force)
+void c_player_traits::set_sensor_traits(const c_player_trait_sensors* traits, bool force)
 {
 	m_sensor_traits.set(traits, force);
 }
 
-void c_player_trait_shield_vitality::set(c_player_trait_shield_vitality const* traits, bool force)
+void c_player_trait_shield_vitality::set(const c_player_trait_shield_vitality* traits, bool force)
 {
 	ASSERT(traits != NULL);
 
@@ -435,7 +435,7 @@ void c_player_trait_weapons::byteswap()
 	bswap_uns16_inplace(m_initial_grenade_count_setting);
 }
 
-void c_player_trait_weapons::set(c_player_trait_weapons const* traits, bool force)
+void c_player_trait_weapons::set(const c_player_trait_weapons* traits, bool force)
 {
 	ASSERT(traits != NULL);
 
@@ -760,7 +760,7 @@ void c_player_trait_weapons::set_weapon_pickup_allowed(bool weapon_pickup_allowe
 	set_weapon_pickup_allowed_setting(static_cast<e_weapon_pickup_setting>((weapon_pickup_allowed ^ 1) + 1), force);
 }
 
-void c_player_trait_movement::set(c_player_trait_movement const* traits, bool force)
+void c_player_trait_movement::set(const c_player_trait_movement* traits, bool force)
 {
 	ASSERT(traits != NULL);
 
@@ -917,7 +917,7 @@ void c_player_trait_movement::set_vehicle_usage_setting(e_vehicle_usage_setting 
 	}
 }
 
-void c_player_trait_appearance::set(c_player_trait_appearance const* traits, bool force)
+void c_player_trait_appearance::set(const c_player_trait_appearance* traits, bool force)
 {
 	ASSERT(traits != NULL);
 
@@ -1043,7 +1043,7 @@ void c_player_trait_sensors::byteswap()
 	bswap_uns16_inplace(m_motion_tracker_range_setting);
 }
 
-void c_player_trait_sensors::set(c_player_trait_sensors const* traits, bool force)
+void c_player_trait_sensors::set(const c_player_trait_sensors* traits, bool force)
 {
 	ASSERT(traits != NULL);
 

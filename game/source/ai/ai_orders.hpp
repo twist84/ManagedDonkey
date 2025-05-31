@@ -26,5 +26,5 @@ static_assert(sizeof(orders_definition) == 0x9C);
 
 struct trigger_definition;
 
-extern int16 orders_get_by_name(char const* name);
+extern int16 orders_get_by_name(const char* name);
 

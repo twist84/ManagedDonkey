@@ -479,7 +479,7 @@ typedef c_enum<e_shield_multiplier_setting, uns8, _shield_multiplier_setting_unc
 struct c_player_trait_shield_vitality
 {
 public:
-	void set(c_player_trait_shield_vitality const* traits, bool force);
+	void set(const c_player_trait_shield_vitality* traits, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -531,7 +531,7 @@ struct c_player_trait_weapons
 {
 public:
 	void byteswap();
-	void set(c_player_trait_weapons const* traits, bool force);
+	void set(const c_player_trait_weapons* traits, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -588,7 +588,7 @@ typedef c_enum<e_vehicle_usage_setting, uns8, _vehicle_usage_setting_unchanged, 
 struct c_player_trait_movement
 {
 public:
-	void set(c_player_trait_movement const* traits, bool force);
+	void set(const c_player_trait_movement* traits, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -624,7 +624,7 @@ typedef c_enum<e_forced_change_color_setting, uns8, _forced_change_color_setting
 struct c_player_trait_appearance
 {
 public:
-	void set(c_player_trait_appearance const* traits, bool force);
+	void set(const c_player_trait_appearance* traits, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -656,7 +656,7 @@ struct c_player_trait_sensors
 {
 public:
 	void byteswap();
-	void set(c_player_trait_sensors const* traits, bool force);
+	void set(const c_player_trait_sensors* traits, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -679,30 +679,30 @@ struct c_player_traits
 public:
 	void byteswap();
 
-	void set(c_player_traits const* traits, bool force);
+	void set(const c_player_traits* traits, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
 
 	c_player_trait_shield_vitality* get_shield_vitality_traits_writeable();
-	c_player_trait_shield_vitality const* get_shield_vitality_traits() const;
-	void set_shield_vitality_traits(c_player_trait_shield_vitality const* traits, bool force);
+	const c_player_trait_shield_vitality* get_shield_vitality_traits() const;
+	void set_shield_vitality_traits(const c_player_trait_shield_vitality* traits, bool force);
 
 	c_player_trait_weapons* get_weapons_traits_writeable();
-	c_player_trait_weapons const* get_weapons_traits() const;
-	void set_weapons_traits(c_player_trait_weapons const* traits, bool force);
+	const c_player_trait_weapons* get_weapons_traits() const;
+	void set_weapons_traits(const c_player_trait_weapons* traits, bool force);
 
 	c_player_trait_movement* get_movement_traits_writeable();
-	c_player_trait_movement const* get_movement_traits() const;
-	void set_movement_traits(c_player_trait_movement const* traits, bool force);
+	const c_player_trait_movement* get_movement_traits() const;
+	void set_movement_traits(const c_player_trait_movement* traits, bool force);
 
 	c_player_trait_appearance* get_appearance_traits_writeable();
-	c_player_trait_appearance const* get_appearance_traits() const;
-	void set_appearance_traits(c_player_trait_appearance const* traits, bool force);
+	const c_player_trait_appearance* get_appearance_traits() const;
+	void set_appearance_traits(const c_player_trait_appearance* traits, bool force);
 
 	c_player_trait_sensors* get_sensor_traits_writeable();
-	c_player_trait_sensors const* get_sensor_traits() const;
-	void set_sensor_traits(c_player_trait_sensors const* traits, bool force);
+	const c_player_trait_sensors* get_sensor_traits() const;
+	void set_sensor_traits(const c_player_trait_sensors* traits, bool force);
 
 protected:
 	c_player_trait_shield_vitality m_shield_vitality_traits;

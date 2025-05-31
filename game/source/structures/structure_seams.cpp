@@ -10,7 +10,7 @@
 //.text:005F3D50 ; void __cdecl __tls_set_g_structure_seam_globals_allocator(void*)
 //.text:005F3D70 ; 
 //.text:005F3DB0 ; 
-//.text:005F3DD0 ; s_collision_materials_extant_flags const* __cdecl collision_materials_extant_flags_get(int32)
+//.text:005F3DD0 ; const s_collision_materials_extant_flags* __cdecl collision_materials_extant_flags_get(int32)
 //.text:005F3DF0 ; void __cdecl collision_materials_extant_flags_initialize(int32, s_collision_materials_extant_flags*, int32)
 //.text:005F3ED0 ; 
 //.text:005F3F00 ; 
@@ -21,7 +21,7 @@
 //.text:005F3F80 ; 
 //.text:005F3F90 ; 
 //.text:005F3FA0 ; 
-//.text:005F3FE0 ; c_static_flags<64> const* __cdecl structure_seams_active_seams_mask_get()
+//.text:005F3FE0 ; const c_static_flags<64>* __cdecl structure_seams_active_seams_mask_get()
 //.text:005F4000 ; c_static_flags<64> __cdecl structure_seams_calculate_active_seams_mask()
 //.text:005F4080 ; void __cdecl structure_seams_connect(int32, int32)
 //.text:005F4350 ; bool __cdecl structure_seams_connected_cluster_references_get(int32, s_cluster_reference, bool, c_static_stack<s_cluster_reference, 32>*)
@@ -57,7 +57,7 @@ void __cdecl structure_seams_initialize_for_new_map()
 	INVOKE(0x005F49C0, structure_seams_initialize_for_new_map);
 }
 
-void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, s_structure_seams const* structure_seams, uns32 activating_structure_bsp_mask)
+void __cdecl structure_seams_initialize_for_new_structure_bsp(int32 scenario_index, const s_structure_seams* structure_seams, uns32 activating_structure_bsp_mask)
 {
 	INVOKE(0x005F49D0, structure_seams_initialize_for_new_structure_bsp, scenario_index, structure_seams, activating_structure_bsp_mask);
 }

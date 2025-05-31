@@ -7,8 +7,8 @@
 
 struct c_network_http_request_description
 {
-	c_network_http_request_description(char const* url, e_http_request_type request_type);
-	c_network_http_request_description(char const* url, e_http_request_type request_type, s_network_http_request_hash const* request_hash);
+	c_network_http_request_description(const char* url, e_http_request_type request_type);
+	c_network_http_request_description(const char* url, e_http_request_type request_type, const s_network_http_request_hash* request_hash);
 	c_network_http_request_description();
 
 	c_static_string<256> m_url;
@@ -29,7 +29,7 @@ static_assert(0x51C == OFFSETOF(c_network_http_request_description, m_post_sourc
 struct c_network_http_request_queue;
 struct c_network_http_request_item
 {
-	c_network_http_request_item(int32 request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
+	c_network_http_request_item(int32 request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, const c_network_http_request_description* request_description);
 	c_network_http_request_item();
 
 	int32 m_request_cookie;
@@ -58,9 +58,9 @@ struct c_network_http_request_queue
 	void cancel_request(int32 request_cookie);
 	static c_network_http_request_queue* get(e_network_http_request_queue_type queue_type);
 	e_network_http_request_result read_bytes(int32 request_cookie, char* buffer, int32 buffer_length, int32* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason);
-	int32 start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
-	int32 start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, int32 buffer_length);
-	bool has_file_changed(c_network_http_request_description const* request_description) const;
+	int32 start_request(e_online_lsp_service_type service_type, const c_network_http_request_description* request_description);
+	int32 start_request_into_buffer(e_online_lsp_service_type service_type, const c_network_http_request_description* request_description, char* buffer, int32 buffer_length);
+	bool has_file_changed(const c_network_http_request_description* request_description) const;
 	e_network_http_request_result is_fill_buffer_complete(int32 request_cookie, int32* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason);
 
 	int32 m_request_queue_type;

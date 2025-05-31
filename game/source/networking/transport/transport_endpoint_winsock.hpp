@@ -62,19 +62,19 @@ struct transport_address;
 
 extern int32 __cdecl get_platform_socket_option(e_transport_endpoint_option option);
 extern transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listening_endpoint);
-extern bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, transport_address const* address);
+extern bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, const transport_address* address);
 extern bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint, bool* is_connected);
 extern bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_address* address);
 extern bool __cdecl transport_endpoint_blocking(transport_endpoint* endpoint);
-extern bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_address const* address);
+extern bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, const transport_address* address);
 extern bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint);
 extern transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type);
-extern bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, transport_address const* address);
+extern bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, const transport_address* address);
 extern void __cdecl transport_endpoint_delete(transport_endpoint* endpoint);
 extern void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint);
 extern int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option);
-extern bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, int32* socket_address_size, uns8* const socket_address);
-extern bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, uns8 const* const socket_address, transport_address* address);
+extern bool __cdecl transport_endpoint_get_socket_address(const transport_address* address, int32* socket_address_size, uns8* const socket_address);
+extern bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, const uns8* const socket_address, transport_address* address);
 extern e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listening(transport_endpoint* endpoint);
@@ -85,9 +85,9 @@ extern bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endp
 extern bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool blocking);
 extern bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, int32 value);
 extern void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_type type);
-extern bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_address const* address);
-extern int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, int16 length);
-extern int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, int16 length, transport_address const* destination);
+extern bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, const transport_address* address);
+extern int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, const void* buffer, int16 length);
+extern int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const void* buffer, int16 length, const transport_address* destination);
 extern bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint);
 extern bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transport_address* address);
 

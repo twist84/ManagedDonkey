@@ -11,12 +11,12 @@ void __cdecl scenario_zone_set_pvs_get_row(int32 scenario_index, s_scenario_pvs_
 //.text:005F1190 ; 
 //.text:005F11E0 ; 
 
-bool __cdecl scenario_zone_set_pvs_row_test(int32 scenario_index, s_scenario_pvs_row const* pvs_row, s_cluster_reference cluster_reference)
+bool __cdecl scenario_zone_set_pvs_row_test(int32 scenario_index, const s_scenario_pvs_row* pvs_row, s_cluster_reference cluster_reference)
 {
 	return INVOKE(0x005F1240, scenario_zone_set_pvs_row_test, scenario_index, pvs_row, cluster_reference);
 }
 
-void __cdecl scenario_zone_set_pvs_write_row(s_game_cluster_bit_vectors* v0, s_scenario_pvs_row const* v1)
+void __cdecl scenario_zone_set_pvs_write_row(s_game_cluster_bit_vectors* v0, const s_scenario_pvs_row* v1)
 {
 	INVOKE(0x005F1280, scenario_zone_set_pvs_write_row, v0, v1);
 }

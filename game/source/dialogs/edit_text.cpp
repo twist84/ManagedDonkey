@@ -67,7 +67,7 @@ uns8 __cdecl edit_text_get_selection_indices(edit_text* edit, int16* start_index
 	return 1;
 }
 
-void __cdecl edit_text_handle_key(edit_text* edit, s_key_state const* key)
+void __cdecl edit_text_handle_key(edit_text* edit, const s_key_state* key)
 {
 	ASSERT(valid_edit_text(edit));
 

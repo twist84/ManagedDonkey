@@ -131,7 +131,7 @@ public:
 	virtual void dispose() override;
 	virtual s_runtime_core_widget_definition* get_core_definition() override;
 	virtual void update(uns32 current_milliseconds) override;
-	virtual bool handle_controller_input_message(c_controller_input_message const* message) override;
+	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
 	virtual bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer) override;
 	virtual e_render_data_size get_render_data_size();
 	virtual e_gui_location get_gui_location() const;
@@ -143,10 +143,10 @@ public:
 	virtual void predict_pending_resources(int32 a1);
 	virtual bool can_receive_focus() const;
 	virtual void update_render();
-	virtual bool process_message(c_message const* message);
-	virtual bool handle_focused_widget_selected(c_controller_input_message const* message, c_gui_widget* widget);
-	virtual bool handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
-	virtual bool handle_dialog_result(c_dialog_result_message const* message);
+	virtual bool process_message(const c_message* message);
+	virtual bool handle_focused_widget_selected(const c_controller_input_message* message, c_gui_widget* widget);
+	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	virtual bool handle_dialog_result(const c_dialog_result_message* message);
 	virtual void submenu_invoked(c_gui_list_widget* submenu_widget);
 	virtual void transition_out_with_transition_type(e_transition_out_type transition_out, e_screen_transition_type transition_type);
 	virtual bool __funcs53();
@@ -175,7 +175,7 @@ public:
 
 protected:
 	void add_datasource(c_gui_data* datasource);
-	void add_definition_fields(s_screen_widget_definition const* definition, bool was_templated);
+	void add_definition_fields(const s_screen_widget_definition* definition, bool was_templated);
 
 public:
 	void add_game_tag_parser(c_game_tag_parser* parser);
@@ -200,7 +200,7 @@ protected:
 public:
 	c_gui_widget* get_focused_widget();
 	int32 get_multilingual_unicode_string_list_index();
-	char const* get_multilingual_unicode_string_list_tag_name();
+	const char* get_multilingual_unicode_string_list_tag_name();
 	s_window_manager_screen_render_data* get_render_state();
 	e_window_index get_render_window();
 	void play_sound(e_user_interface_sound_effect sound_effect);
@@ -216,7 +216,7 @@ private:
 
 public:
 	void set_text_widget_string_id(int32 widget_name, int32 widget_text);
-	void set_text_widget_text(int32 widget_name, wchar_t const* widget_text);
+	void set_text_widget_text(int32 widget_name, const wchar_t* widget_text);
 	void transfer_focus(c_gui_widget* new_focused_widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);
 	void transfer_focus_without_animations(c_gui_widget* new_focused_widget, bool play_received_animation, bool play_lost_animation);

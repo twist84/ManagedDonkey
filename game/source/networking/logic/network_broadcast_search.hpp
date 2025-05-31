@@ -33,7 +33,7 @@ extern bool __cdecl network_broadcast_search_active(uns64* search_nonce);
 extern bool __cdecl network_broadcast_search_begin(int32 controller_index, int32 maximum_session_count, s_available_session* session_storage);
 extern void __cdecl network_broadcast_search_dispose();
 extern void __cdecl network_broadcast_search_end();
-extern void __cdecl network_broadcast_search_handle_reply(transport_address const* address, s_network_message_broadcast_reply const* message);
+extern void __cdecl network_broadcast_search_handle_reply(const transport_address* address, const s_network_message_broadcast_reply* message);
 extern bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway);
 extern void __cdecl network_broadcast_search_update();
 

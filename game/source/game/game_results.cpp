@@ -28,7 +28,7 @@ void __cdecl game_results_statistic_set(int32 player_absolute_index, int32 team_
 	INVOKE(0x005704A0, game_results_statistic_set, player_absolute_index, team_index, statistic, a4);
 }
 
-bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, int32 statistics_count, s_integer_statistic_definition const* statistic_definitions, int32 statistics_definitions_count)
+bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, int32 statistics_count, const s_integer_statistic_definition* statistic_definitions, int32 statistics_definitions_count)
 {
 	//return INVOKE(0x00570560, game_results_statistics_decode, packet, statistics, statistics_count, statistic_definitions, statistics_definitions_count);
 
@@ -37,7 +37,7 @@ bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_stati
 	return result;
 }
 
-void __cdecl game_results_statistics_encode(c_bitstream* packet, s_integer_statistic_update const* statistics, int32 statistics_count, s_integer_statistic_definition const* statistic_definitions, int32 statistics_definitions_count)
+void __cdecl game_results_statistics_encode(c_bitstream* packet, const s_integer_statistic_update* statistics, int32 statistics_count, const s_integer_statistic_definition* statistic_definitions, int32 statistics_definitions_count)
 {
 	//INVOKE(0x00570600, game_results_statistics_encode, packet, statistics, statistics_count, statistic_definitions, statistics_definitions_count);
 

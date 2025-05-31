@@ -8,9 +8,9 @@ class c_debug_menu_item_hs_command :
 {
 public:
 	virtual void notify_selected() override;
-	virtual real_argb_color const* get_enabled_color() override;
+	virtual const real_argb_color* get_enabled_color() override;
 
-	c_debug_menu_item_hs_command(c_debug_menu* menu, char const* name, char const* command);
+	c_debug_menu_item_hs_command(c_debug_menu* menu, const char* name, const char* command);
 
 protected:
 	char* m_command;

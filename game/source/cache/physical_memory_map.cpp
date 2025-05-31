@@ -33,7 +33,7 @@ void recalculate_cache_size_increase(int32 cache_size_increase_mb)
 	g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
 }
 
-char const* const k_physical_memory_stage_names[k_memory_stage_count]
+const char* const k_physical_memory_stage_names[k_memory_stage_count]
 {
 	"initial",
 	"game_initialize",
@@ -46,7 +46,7 @@ char const* const k_physical_memory_stage_names[k_memory_stage_count]
 };
 static_assert(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
-void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, int32 size, uns32 flags)
+void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, const char* name, int32 size, uns32 flags)
 {
 	return INVOKE(0x0051D180, _physical_memory_malloc_fixed, stage, name, size, flags);
 }
@@ -93,7 +93,7 @@ void __cdecl physical_memory_create_resizeable_contiguous_region(c_physical_memo
 	//physical_memory_globals.resize_region_listener = resize_region_listener;
 }
 
-void __cdecl physical_memory_destroy_resizeable_contiguous_region(c_physical_memory_contiguous_region_listener const* resize_region_listener)
+void __cdecl physical_memory_destroy_resizeable_contiguous_region(const c_physical_memory_contiguous_region_listener* resize_region_listener)
 {
 	return INVOKE(0x0051D580, physical_memory_destroy_resizeable_contiguous_region, resize_region_listener);
 
@@ -308,7 +308,7 @@ bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_m
 	//return result;
 }
 
-bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, uns32 in_region_size, uns32 minimum_new_size, uns32 requested_size, uns32 a6, void** out_new_base_address, uns32* out_new_region_size)
+bool __cdecl physical_memory_try_to_resize_contiguous_region(const c_physical_memory_contiguous_region_listener* region_listener, void* in_region_buffer, uns32 in_region_size, uns32 minimum_new_size, uns32 requested_size, uns32 a6, void** out_new_base_address, uns32* out_new_region_size)
 {
 	return INVOKE(0x0051DCD0, physical_memory_try_to_resize_contiguous_region, region_listener, in_region_buffer, in_region_size, minimum_new_size, requested_size, a6, out_new_base_address, out_new_region_size);
 }

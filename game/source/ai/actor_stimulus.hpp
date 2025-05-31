@@ -29,11 +29,11 @@ enum e_stimulus
 	k_stimulus_count
 };
 
-extern char const* const g_stimulus_names[k_stimulus_count];
+extern const char* const g_stimulus_names[k_stimulus_count];
 
 extern void __cdecl actor_stimulus_acknowledged_danger_zone(int32 actor_index, int32 pref_index);
 extern void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_index, bool first_acknowledgement);
 extern void __cdecl actor_stimulus_prop_sighted(int32 actor_index, int32 pref_index, bool initial);
-extern void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, int32 prop_index, real_vector3d const* surprise_vector);
+extern void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, int32 prop_index, const real_vector3d* surprise_vector);
 extern void __cdecl stimuli_debug();
 

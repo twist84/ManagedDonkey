@@ -116,7 +116,7 @@ void c_camera_fx_settings::set_defaults(bool use_default_parameters)
 	//m_lightshafts.m_blur_radius = 1.0f;
 }
 
-void c_camera_fx_values::set(c_camera_fx_settings const* settings)
+void c_camera_fx_values::set(const c_camera_fx_settings* settings)
 {
 	INVOKE_CLASS_MEMBER(0x00A3E920, c_camera_fx_values, set, settings);
 

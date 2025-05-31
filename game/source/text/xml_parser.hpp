@@ -8,17 +8,17 @@ template<typename t_character_type>
 struct c_xml_tag_parser
 {
 public:
-	virtual bool parse_tag(t_character_type const* a1, int32* a2, t_character_type* a3, int32 a4, int32* a5) = 0;
-	virtual ~c_xml_tag_parser() { }
+	virtual bool parse_tag(const t_character_type* a1, int32* a2, t_character_type* a3, int32 a4, int32* a5) = 0;
+	virtual ~c_xml_tag_parser() {}
 
-	c_xml_tag_parser(t_character_type const* xml_tag) :
+	c_xml_tag_parser(const t_character_type* xml_tag) :
 		m_xml_tag(xml_tag)
 	{
-		DECLFUNC(0x014E8230, c_xml_tag_parser<t_character_type>*, __thiscall, c_xml_tag_parser<t_character_type>*, t_character_type const*)(this, xml_tag);
+		DECLFUNC(0x014E8230, c_xml_tag_parser<t_character_type>*, __thiscall, c_xml_tag_parser<t_character_type>*, const t_character_type*)(this, xml_tag);
 	}
 
 protected:
-	t_character_type const* m_xml_tag;
+	const t_character_type* m_xml_tag;
 	//wchar_t m_magic_character;
 };
 static_assert(sizeof(c_xml_tag_parser<wchar_t>) == 0x8);

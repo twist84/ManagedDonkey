@@ -8,8 +8,8 @@ struct c_file_reference :
 	s_file_reference
 {
 public:
-	c_file_reference(char const* path, uns32 flags);
-	c_file_reference(s_file_reference const* file, uns32 flags);
+	c_file_reference(const char* path, uns32 flags);
+	c_file_reference(const s_file_reference* file, uns32 flags);
 	~c_file_reference();
 
 	bool find_or_create(uns32 flags);
@@ -29,7 +29,7 @@ struct _g_upload_debug_globals
 
 extern bool g_suppress_upload_debug;
 extern _g_upload_debug_globals g_upload_debug_globals;
-extern char const* const k_crash_file_archive;
+extern const char* const k_crash_file_archive;
 
 extern bool __cdecl upload_debug_start();
 extern bool upload_debug_complete(bool* out_success);

@@ -14,7 +14,7 @@ static_assert(sizeof(s_simulation_view_player_telemetry_data) == 0x24);
 
 struct __declspec(align(8)) s_simulation_view_telemetry_data
 {
-	c_simulation_view_telemetry_provider const* provider;
+	const c_simulation_view_telemetry_provider* provider;
 	bool joining;
 	uns32 player_acknowledged_mask;
 	int32 number_of_players;

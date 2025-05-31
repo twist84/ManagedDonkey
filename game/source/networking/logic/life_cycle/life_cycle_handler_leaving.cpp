@@ -9,7 +9,7 @@ c_life_cycle_state_handler_leaving::c_life_cycle_state_handler_leaving() :
 	//DECLFUNC(0x00453F70, void, __thiscall, c_life_cycle_state_handler_leaving*)(this);
 }
 
-char const* c_life_cycle_state_handler_leaving::get_state_string()
+const char* c_life_cycle_state_handler_leaving::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454720, c_life_cycle_state_handler_leaving, get_state_string);
 

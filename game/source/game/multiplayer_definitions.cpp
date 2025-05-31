@@ -9,12 +9,12 @@ int32 __cdecl multiplayer_universal_data_get_random_weapon_definition_index()
 	return INVOKE(0x0069CC30, multiplayer_universal_data_get_random_weapon_definition_index);
 }
 
-int32 __cdecl multiplayer_universal_data_get_remapped_vehicle_definition_index(int32 vehicle_tag_index, s_multiplayer_vehicle_set const* vehicle_set)
+int32 __cdecl multiplayer_universal_data_get_remapped_vehicle_definition_index(int32 vehicle_tag_index, const s_multiplayer_vehicle_set* vehicle_set)
 {
 	return INVOKE(0x0069CDC0, multiplayer_universal_data_get_remapped_vehicle_definition_index, vehicle_tag_index, vehicle_set);
 }
 
-int32 __cdecl multiplayer_universal_data_get_remapped_weapon_definition_index(int32 weapon_tag_index, s_multiplayer_weapon_set const* weapon_set)
+int32 __cdecl multiplayer_universal_data_get_remapped_weapon_definition_index(int32 weapon_tag_index, const s_multiplayer_weapon_set* weapon_set)
 {
 	return INVOKE(0x0069CE90, multiplayer_universal_data_get_remapped_weapon_definition_index, weapon_tag_index, weapon_set);
 }
@@ -49,12 +49,12 @@ int32 __cdecl multiplayer_universal_data_get_weapon_set_name_from_absolute_index
 	return INVOKE(0x0069D1D0, multiplayer_universal_data_get_weapon_set_name_from_absolute_index, absolute_index);
 }
 
-s_multiplayer_vehicle_set const* __cdecl multiplayer_universal_data_vehicle_set_try_and_get(int16 vehicle_set_index)
+const s_multiplayer_vehicle_set* __cdecl multiplayer_universal_data_vehicle_set_try_and_get(int16 vehicle_set_index)
 {
 	return INVOKE(0x0069D250, multiplayer_universal_data_vehicle_set_try_and_get, vehicle_set_index);
 }
 
-s_multiplayer_weapon_set const* __cdecl multiplayer_universal_data_weapon_set_try_and_get(int16 weapon_set_index)
+const s_multiplayer_weapon_set* __cdecl multiplayer_universal_data_weapon_set_try_and_get(int16 weapon_set_index)
 {
 	return INVOKE(0x0069D2B0, multiplayer_universal_data_weapon_set_try_and_get, weapon_set_index);
 }

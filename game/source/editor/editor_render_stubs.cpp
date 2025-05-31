@@ -12,7 +12,7 @@ void editor_render_scene(int32 a1)
     // $TODO: implement
 }
 
-void editor_render_ui(e_window_index window_index, rectangle2d const* bounds)
+void editor_render_ui(e_window_index window_index, const rectangle2d* bounds)
 {
     // $TODO: implement
 }

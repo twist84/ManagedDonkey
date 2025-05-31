@@ -19,8 +19,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_territories_variant const* variant, bool force);
-	//void set(s_game_engine_territories_variant_definition const* definition, bool force);
+	void set(const c_game_engine_territories_variant* variant, bool force);
+	//void set(const s_game_engine_territories_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -42,12 +42,12 @@ public:
 	void set_sudden_death_time(int16 sudden_death_time);
 
 	c_player_traits* get_defender_traits_writeable();
-	c_player_traits const* get_defender_traits() const;
-	void set_defender_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_defender_traits() const;
+	void set_defender_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_attacker_traits_writeable();
-	c_player_traits const* get_attacker_traits() const;
-	void set_attacker_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_attacker_traits() const;
+	void set_attacker_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_territories_variant_flags, uns16, k_territories_variant_flags> m_variant_flags;

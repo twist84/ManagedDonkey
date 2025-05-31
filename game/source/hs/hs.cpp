@@ -89,18 +89,18 @@
 //REFERENCE_DECLARE_ARRAY(0x0166D7B8, int16 const, hs_object_type_masks, k_hs_type_object_count);
 //REFERENCE_DECLARE_ARRAY(0x0166D7C8, int32 const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
 //REFERENCE_DECLARE_ARRAY(0x0166D808, hs_enum_definition const, hs_enum_table, k_hs_type_enum_count);
-//REFERENCE_DECLARE(0x018BEC94, char const* const, _hs_type_string_default);
-//REFERENCE_DECLARE_ARRAY(0x018BEC98, char const* const, hs_type_names, k_hs_type_count);
-//REFERENCE_DECLARE_ARRAY(0x018BEDE8, char const* const, hs_script_type_names, k_hs_script_type_count);
+//REFERENCE_DECLARE(0x018BEC94, const char* const, _hs_type_string_default);
+//REFERENCE_DECLARE_ARRAY(0x018BEC98, const char* const, hs_type_names, k_hs_type_count);
+//REFERENCE_DECLARE_ARRAY(0x018BEDE8, const char* const, hs_script_type_names, k_hs_script_type_count);
 REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 
-hs_function_definition const* hs_function_get(int16 function_index)
+const hs_function_definition* hs_function_get(int16 function_index)
 {
 	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
 	return hs_function_table[function_index];
 }
 
-hs_function_definition_debug const* hs_function_get_debug(int16 function_index)
+const hs_function_definition_debug* hs_function_get_debug(int16 function_index)
 {
 	ASSERT(function_index >= 0 && function_index < hs_function_table_debug_count);
 	return hs_function_table_debug[function_index];
@@ -127,7 +127,7 @@ void __cdecl hs_dispose_from_old_map()
 	INVOKE(0x006791E0, hs_dispose_from_old_map);
 }
 
-int16 __cdecl hs_find_script_by_name(char const* name, int16 num_arguments)
+int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 {
 	//return INVOKE(0x00679220, hs_find_script_by_name, name, num_arguments);
 
@@ -193,11 +193,11 @@ void __cdecl hs_update()
 	hs_runtime_update();
 }
 
-int16 hs_find_function_by_name(char const* name, int16 parameter_count)
+int16 hs_find_function_by_name(const char* name, int16 parameter_count)
 {
 	for (int16 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
-		hs_function_definition const* const function = hs_function_table[function_index];
+		const hs_function_definition* const function = hs_function_table[function_index];
 		if (csstrcmp(hs_function_table_names[function_index], name) == 0
 			&& (TEST_BIT(function->flags, 9)
 				|| parameter_count == NONE
@@ -209,7 +209,7 @@ int16 hs_find_function_by_name(char const* name, int16 parameter_count)
 
 	for (int16 function_index = 0; function_index < hs_function_table_debug_count; function_index++)
 	{
-		hs_function_definition_debug const* const function = hs_function_table_debug[function_index];
+		const hs_function_definition_debug* const function = hs_function_table_debug[function_index];
 		if (csstrcmp(function->name, name) == 0
 			&& (TEST_BIT(function->flags, 9)
 				|| parameter_count == NONE
@@ -222,7 +222,7 @@ int16 hs_find_function_by_name(char const* name, int16 parameter_count)
 	return NONE;
 }
 
-int16 __cdecl hs_script_find_parameter_by_name(int32 script_index, char const* name)
+int16 __cdecl hs_script_find_parameter_by_name(int32 script_index, const char* name)
 {
 	hs_script& script = global_scenario_get()->scripts[script_index];
 	for (int16 parameter_index = 0; parameter_index < static_cast<int16>(script.parameters.count); parameter_index++)
@@ -249,7 +249,7 @@ hs_global_external_debug* hs_global_external_get_debug(int16 global_index)
 	return hs_external_globals_debug[global_index];
 }
 
-int16 hs_find_global_by_name(char const* name)
+int16 hs_find_global_by_name(const char* name)
 {
 	for (int16 global_index = 0; global_index < k_hs_external_global_count; global_index++)
 	{
@@ -278,7 +278,7 @@ int16 hs_find_global_by_name(char const* name)
 	return NONE;
 }
 
-char const* hs_global_get_name(int16 global_index)
+const char* hs_global_get_name(int16 global_index)
 {
 	if ((global_index & 0x8000) != 0)
 	{
@@ -294,10 +294,10 @@ char const* hs_global_get_name(int16 global_index)
 
 int16 enumeration_count = 0;
 int16 enumeration_results_count = 0;
-char const** enumeration_results = NULL;
-char const* enumeration_token = NULL;
+const char** enumeration_results = NULL;
+const char* enumeration_token = NULL;
 
-void hs_tokens_enumerate_add_string(char const* string)
+void hs_tokens_enumerate_add_string(const char* string)
 {
 	ASSERT(enumeration_results);
 
@@ -307,17 +307,17 @@ void hs_tokens_enumerate_add_string(char const* string)
 		enumeration_results[enumeration_count++] = string;
 }
 
-void hs_enumerate_from_string_list(char const* const* string_list, int16 starting_index, int16 count)
+void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count)
 {
 	while (starting_index < count)
 		hs_tokens_enumerate_add_string(string_list[starting_index++]);
 }
 
-void hs_enumerate_block_data(s_tag_block const* block, int16 offset, int32 size)
+void hs_enumerate_block_data(const s_tag_block* block, int16 offset, int32 size)
 {
 	for (int16 index = 0; index < block->count; index++)
 	{
-		char const* name = static_cast<char const*>(tag_block_get_element_with_size(block, index, size)) + offset;
+		const char* name = static_cast<const char*>(tag_block_get_element_with_size(block, index, size)) + offset;
 		hs_tokens_enumerate_add_string(name);
 	}
 }
@@ -327,17 +327,17 @@ void hs_enumerate_scenario_data(int16 scenario_offset, int16 block_offset, int32
 	if (global_scenario_index_get() == NONE)
 		return;
 
-	byte const* scenario_data = reinterpret_cast<byte const*>(global_scenario_get());
-	s_tag_block const* block = reinterpret_cast<s_tag_block const*>(scenario_data + scenario_offset);
+	const byte* scenario_data = reinterpret_cast<const byte*>(global_scenario_get());
+	const s_tag_block* block = reinterpret_cast<const s_tag_block*>(scenario_data + scenario_offset);
 	hs_enumerate_block_data(block, block_offset, block_size);
 }
 
-void hs_enumerate_block_data_string_id(s_tag_block const* block, int16 offset, int32 size)
+void hs_enumerate_block_data_string_id(const s_tag_block* block, int16 offset, int32 size)
 {
 	for (int16 index = 0; index < block->count; index++)
 	{
-		string_id name_string_id = *reinterpret_cast<string_id const*>(static_cast<char const*>(tag_block_get_element_with_size(block, index, size)) + offset);
-		char const* name = string_id_get_string_const(name_string_id);
+		string_id name_string_id = *reinterpret_cast<const string_id*>(static_cast<const char*>(tag_block_get_element_with_size(block, index, size)) + offset);
+		const char* name = string_id_get_string_const(name_string_id);
 		hs_tokens_enumerate_add_string(name);
 	}
 }
@@ -347,8 +347,8 @@ void hs_enumerate_scenario_data_string_id(int16 scenario_offset, int16 block_off
 	if (global_scenario_index_get() == NONE)
 		return;
 
-	byte const* scenario_data = reinterpret_cast<byte const*>(global_scenario_get());
-	s_tag_block const* block = reinterpret_cast<s_tag_block const*>(scenario_data + scenario_offset);
+	const byte* scenario_data = reinterpret_cast<const byte*>(global_scenario_get());
+	const s_tag_block* block = reinterpret_cast<const s_tag_block*>(scenario_data + scenario_offset);
 	hs_enumerate_block_data_string_id(block, block_offset, block_size);
 }
 
@@ -379,7 +379,7 @@ hs_enumerator_t* hs_token_enumerators[]
 };
 int32 const k_hs_token_enumerator_count = NUMBEROF(hs_token_enumerators);
 
-int16 hs_tokens_enumerate(char const* token, int32 type_mask, char const** matching_items, int16 matching_item_count)
+int16 hs_tokens_enumerate(const char* token, int32 type_mask, const char** matching_items, int16 matching_item_count)
 {
 	ASSERT(!enumeration_results);
 
@@ -402,11 +402,11 @@ int16 hs_tokens_enumerate(char const* token, int32 type_mask, char const** match
 	return enumeration_count;
 }
 
-bool __cdecl sort_by_found_index(int32 look_inside1, int32 look_inside2, void const* look_for)
+bool __cdecl sort_by_found_index(int32 look_inside1, int32 look_inside2, const void* look_for)
 {
-	char const* look_inside1_ = reinterpret_cast<char const*>(look_inside1);
-	char const* look_inside2_ = reinterpret_cast<char const*>(look_inside2);
-	char const* look_for_ = static_cast<char const*>(look_for);
+	const char* look_inside1_ = reinterpret_cast<const char*>(look_inside1);
+	const char* look_inside2_ = reinterpret_cast<const char*>(look_inside2);
+	const char* look_for_ = static_cast<const char*>(look_for);
 
 	int v7 = ascii_stristr(look_inside1_, look_for_);
 	int v4 = ascii_stristr(look_inside2_, look_for_);
@@ -926,10 +926,10 @@ hs_enum_definition const hs_enum_table[k_hs_type_enum_count]
 };
 
 // 018BEC94
-char const* const _hs_type_string_default = "";
+const char* const _hs_type_string_default = "";
 
 // 018BEC98
-char const* const hs_type_names[k_hs_type_count]
+const char* const hs_type_names[k_hs_type_count]
 {
 	"unparsed",
 	"special_form",
@@ -1025,7 +1025,7 @@ char const* const hs_type_names[k_hs_type_count]
 };
 
 // 018BEDE8
-char const* const hs_script_type_names[k_hs_script_type_count]
+const char* const hs_script_type_names[k_hs_script_type_count]
 {
 	"startup",
 	"dormant",

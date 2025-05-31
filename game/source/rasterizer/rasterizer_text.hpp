@@ -20,7 +20,7 @@ public:
 	{
 	}
 
-	c_rasterizer_texture_ref(c_rasterizer_texture_ref const& ref) :
+	c_rasterizer_texture_ref(const c_rasterizer_texture_ref& ref) :
 		m_datum_ref(ref.m_datum_ref)
 	{
 	}
@@ -32,7 +32,7 @@ public:
 	}
 
 	static void __cdecl allocate(c_rasterizer_texture_ref& texture_ref, int32 width, int32 height, int32 mipmaps, uns32 format, int32 multisample_type, bool use_srgb_curve, e_bitmap_type type, int32 a9);
-	static c_rasterizer_texture_ref& __cdecl allocate(c_rasterizer_texture_ref& texture_ref, bitmap_data const* bitmap, char const* name, bool system_memory);
+	static c_rasterizer_texture_ref& __cdecl allocate(c_rasterizer_texture_ref& texture_ref, const bitmap_data* bitmap, const char* name, bool system_memory);
 	static void __cdecl dispose();
 	uns32 get_d3d_format();
 	IDirect3DSurface9* get_d3d_surface(int32 level, int32 cubemap_face);
@@ -56,7 +56,7 @@ struct s_hardware_character
 {
 	uns32 character_key;
 	e_character_data_index character_data_index;
-	s_font_character const* font_character;
+	const s_font_character* font_character;
 	int16 prev_character_index;
 	int16 next_character_index;
 	int16 x0;
@@ -84,5 +84,5 @@ static_assert(sizeof(s_hardware_character_cache_globals) == 0x2C28);
 
 extern s_hardware_character_cache_globals& hardware_character_cache_globals;
 
-extern void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref hardware_format, rectangle2d const* dirty_rect, bool unused_wait_until_idle);
+extern void __cdecl rasterizer_bitmap_2d_changed_rect(const bitmap_data* bitmap, c_rasterizer_texture_ref hardware_format, const rectangle2d* dirty_rect, bool unused_wait_until_idle);
 

@@ -6,12 +6,14 @@ HOOK_DECLARE_CLASS(0x00757370, c_contrail, render_callback);
 
 bool contrail_render_enable = false;
 
-void __cdecl c_contrail::render_callback(void const* a1, int32 a2)
+void __cdecl c_contrail::render_callback(const void* a1, int32 a2)
 {
-	c_contrail const* contrail = static_cast<c_contrail const*>(a1);
+	const c_contrail* contrail = (const c_contrail*)a1;
 
 	if (contrail_render_enable)
+	{
 		contrail->render();
+	}
 }
 
 void c_contrail::render() const

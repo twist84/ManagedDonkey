@@ -1,6 +1,6 @@
 #include "ai/clump.hpp"
 
-char const* const group_state_names[4]
+const char* const group_state_names[4]
 {
 	"Idle",
 	"Postcombat",
@@ -22,7 +22,7 @@ char const* const group_state_names[4]
 //.text:014ABDD0 ; int32 __cdecl clump_aquire_prop(int32, int32, e_clump_importance)
 //.text:014ABE90 ; int32 __cdecl clump_aquire_prop_ref(int32, int32, e_clump_importance)
 //.text:014ABF40 ; int16 __cdecl clump_calculate_postombat_result(int32)
-//.text:014AC060 ; bool __cdecl clump_compatible(clump_datum const*, actor_datum*)
+//.text:014AC060 ; bool __cdecl clump_compatible(const clump_datum*, actor_datum*)
 //.text:014AC090 ; real32 __cdecl clump_consider_object(int32, int32, int32, temp_prop*, e_clump_importance)
 //.text:014AC700 ; int16 __cdecl clump_cull_props(int32, real32)
 //.text:014AC7D0 ; void __cdecl clump_deactivate(int32)
@@ -36,9 +36,9 @@ char const* const group_state_names[4]
 //.text:014ACF10 ; void __cdecl clump_iterator_new(clump_iterator*)
 //.text:014ACF50 ; clump_datum* __cdecl clump_iterator_next(clump_iterator*)
 //.text:014ACFA0 ; void __cdecl clump_mark_relevance(int32)
-//.text:014ACFE0 ; int32 __cdecl clump_new(real_point3d const*, int16, bool)
-//.text:014AD1A0 ; int32 __cdecl clump_new_prop(int32, int16, real32, int32, prop_datum const*)
-//.text:014AD260 ; void __cdecl clump_new_prop_absorb(prop_datum*, prop_datum const*)
+//.text:014ACFE0 ; int32 __cdecl clump_new(const real_point3d*, int16, bool)
+//.text:014AD1A0 ; int32 __cdecl clump_new_prop(int32, int16, real32, int32, const prop_datum*)
+//.text:014AD260 ; void __cdecl clump_new_prop_absorb(prop_datum*, const prop_datum*)
 //.text:014AD310 ; void __cdecl clump_new_prop_init(int32, int32, int16, real32, int32)
 //.text:014AD570 ; int32 __cdecl clump_new_prop_internal(clump_datum*, real32)
 //.text:014AD780 ; void __cdecl clump_notify_death(int32)
@@ -46,7 +46,7 @@ char const* const group_state_names[4]
 //.text:014AD7F0 ; void __cdecl clump_notify_kill(int32, int32, int32)
 //.text:014AD850 ; int16 __cdecl clump_num_props(int32)
 //.text:014AD8B0 ; void __cdecl clump_perception_update(int32)
-//.text:014ADD10 ; void __cdecl clump_prop_acknowledge(prop_datum*, prop_state const*)
+//.text:014ADD10 ; void __cdecl clump_prop_acknowledge(prop_datum*, const prop_state*)
 //.text:014ADD60 ; bool __cdecl clump_prop_acknowledged_by_someone(int32)
 //.text:014ADDD0 ; void __cdecl clump_prop_iterator_new(clump_prop_iterator*, int32)
 //.text:014ADE10 ; prop_datum* __cdecl clump_prop_iterator_next(clump_prop_iterator*)
@@ -55,7 +55,7 @@ char const* const group_state_names[4]
 //.text:014ADEF0 ; int32 __cdecl clump_prop_ref_new(int32)
 //.text:014ADF60 ; void __cdecl clump_prop_update(int32, int32)
 //.text:014AE0B0 ; void __cdecl clump_props_update(int32)
-//.text:014AE180 ; int __cdecl clump_qsort_compare_temp_props(void const*, void const*)
+//.text:014AE180 ; int __cdecl clump_qsort_compare_temp_props(const void*, const void*)
 //.text:014AE1C0 ; void __cdecl clump_refresh_props(int32)
 //.text:014AE280 ; void __cdecl clump_remove_actor(int32, int32)
 //.text:014AE340 ; void __cdecl clump_remove_dead_references(int32)
@@ -110,7 +110,7 @@ void __cdecl clumps_update_state()
 //.text:014AF370 ; 
 //.text:014AF380 ; int16 __cdecl group_state_update(c_clump_behavior_state*, real32*, real32*)
 //.text:014AF400 ; 
-//.text:014AF420 ; void __cdecl prop_ref_initialize(prop_ref_datum*, prop_datum const*)
+//.text:014AF420 ; void __cdecl prop_ref_initialize(prop_ref_datum*, const prop_datum*)
 //.text:014AF4B0 ; void __cdecl recursive_clump_consider_object(int32, int32, temp_prop*, int16*)
 //.text:014AF570 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_clump_data_allocator(void*)>::reserve_memory
 //.text:014AF5B0 ; public: void __cdecl c_clump_behavior_state::reset()

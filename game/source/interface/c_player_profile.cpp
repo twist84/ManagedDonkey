@@ -69,7 +69,7 @@ void __thiscall c_player_profile_interface::dirty_or(bool dirty)
 //.text:00AA0740 ; public: e_controller_index c_player_profile_interface::get_controller_index() const
 //.text:00AA0750 ; public: bool c_player_profile_interface::get_controller_look_inverted() const
 //.text:00AA0760 ; 
-//.text:00AA0780 ; public: wchar_t const* c_player_profile_interface::get_desired_service_tag() const
+//.text:00AA0780 ; public: const wchar_t* c_player_profile_interface::get_desired_service_tag() const
 //.text:00AA0790 ; public: e_display_brightness c_player_profile_interface::get_display_brightness() const
 //.text:00AA07A0 ; public: bool c_player_profile_interface::et_display_hints_enabled() const
 //.text:00AA07B0 ; public: bool c_player_profile_interface::get_female_voice_enabled() const
@@ -120,7 +120,7 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 }
 
 //.text:00AA0B30 ; public: bool c_player_profile_interface::get_service_tag_failed_verification() const
-//.text:00AA0B40 ; public: wchar_t const* c_player_profile_interface::get_service_tag_validated() const
+//.text:00AA0B40 ; public: const wchar_t* c_player_profile_interface::get_service_tag_validated() const
 //.text:00AA0B50 ; public: bool c_player_profile_interface::get_service_tag_was_randomly_generated() const
 //.text:00AA0B60 ; 
 //.text:00AA0B70 ; 
@@ -144,7 +144,7 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA1060 ; private: void c_player_profile_interface::initialize_to_default_settings()
 //.text:00AA18D0 ; 
 //.text:00AA1930 ; 
-//.text:00AA1990 ; public: static bool __cdecl c_player_profile_interface::is_service_tag_validly_formatted(wchar_t const*)
+//.text:00AA1990 ; public: static bool __cdecl c_player_profile_interface::is_service_tag_validly_formatted(const wchar_t*)
 //.text:00AA1A60 ; 
 //.text:00AA1AD0 ; 
 //.text:00AA1B60 ; 
@@ -250,7 +250,7 @@ void c_player_profile_interface::set_controller_look_inverted(bool invert, bool 
 //.text:00AA2C70 ; 
 //.text:00AA2D60 ; 
 
-void c_player_profile_interface::set_desired_service_tag(wchar_t const* value, bool set_by_user)
+void c_player_profile_interface::set_desired_service_tag(const wchar_t* value, bool set_by_user)
 {
 	INVOKE_CLASS_MEMBER(0x00AA2E30, c_player_profile_interface, set_desired_service_tag, value, set_by_user);
 }
@@ -334,13 +334,13 @@ void c_player_profile_interface::set_model_customization_selection(e_player_mode
 	INVOKE_CLASS_MEMBER(0x00AA34D0, c_player_profile_interface, set_model_customization_selection, player_model_choice, area_index, selection_index, set_by_user);
 }
 
-void c_player_profile_interface::set_player_appearance(s_player_appearance const* player_appearance, bool set_by_user)
+void c_player_profile_interface::set_player_appearance(const s_player_appearance* player_appearance, bool set_by_user)
 {
 	INVOKE_CLASS_MEMBER(0x00AA3560, c_player_profile_interface, set_player_appearance, player_appearance, set_by_user);
 }
 
-//.text:00AA35C0 ; public: void c_player_profile_interface::set_emblem_info(int32, s_emblem_info const*)
-void c_player_profile_interface::set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user)
+//.text:00AA35C0 ; public: void c_player_profile_interface::set_emblem_info(int32, const s_emblem_info*)
+void c_player_profile_interface::set_emblem_info(const s_emblem_info* emblem_info, bool set_by_user)
 {
 	ASSERT(emblem_info != NULL);
 	ASSERT(emblem_info->pad == 0);
@@ -403,7 +403,7 @@ void c_player_profile_interface::set_service_tag_failed_verification(bool value,
 	INVOKE_CLASS_MEMBER(0x00AA38F0, c_player_profile_interface, set_service_tag_failed_verification, value, set_by_user);
 }
 
-void c_player_profile_interface::set_service_tag_validated(wchar_t const* value, bool set_by_user)
+void c_player_profile_interface::set_service_tag_validated(const wchar_t* value, bool set_by_user)
 {
 	INVOKE_CLASS_MEMBER(0x00AA3980, c_player_profile_interface, set_service_tag_validated, value, set_by_user);
 }
@@ -424,7 +424,7 @@ void c_player_profile_interface::set_subtitle_setting(e_subtitle_setting setting
 
 //.text:00AA3C30 ; 
 //.text:00AA3D40 ; 
-//.text:00AA3DD0 ; public: void c_player_profile_interface::set_training_data(s_player_training_profile_data const*, bool)
+//.text:00AA3DD0 ; public: void c_player_profile_interface::set_training_data(const s_player_training_profile_data*, bool)
 //.text:00AA3EA0 ; 
 
 void c_player_profile_interface::set_voice_mask(e_voice_mask mask, bool set_by_user)

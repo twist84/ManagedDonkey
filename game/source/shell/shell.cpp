@@ -54,7 +54,7 @@ bool __cdecl shell_build_number_is_compatible(int32 build_number)
 	return INVOKE(0x0042E360, shell_build_number_is_compatible, build_number);
 }
 
-bool __cdecl shell_build_string_is_compatible(char const* build_string)
+bool __cdecl shell_build_string_is_compatible(const char* build_string)
 {
 	return INVOKE(0x0042E390, shell_build_string_is_compatible, build_string);
 }
@@ -78,14 +78,14 @@ void __cdecl shell_dispose()
 	cseries_dispose();
 }
 
-char const* __cdecl shell_get_target()
+const char* __cdecl shell_get_target()
 {
 	//return INVOKE(0x0042E470, shell_get_target);
 
 	return "blam";
 }
 
-char const* __cdecl shell_get_target_variant()
+const char* __cdecl shell_get_target_variant()
 {
 	//return INVOKE(0x0042E480, shell_get_target_variant);
 
@@ -99,11 +99,11 @@ void __cdecl shell_halt_on_pure_virtual_call()
 	//VASSERT("calling pure virtual function!");
 }
 
-void __cdecl shell_halt_with_message(char const* message)
+void __cdecl shell_halt_with_message(const char* message)
 {
 	INVOKE(0x0042E4B0, shell_halt_with_message, message);
 
-	//wchar_t const* spinner_states[] = { L"-", L"\\", L"||", L"/" };
+	//const wchar_t* spinner_states[] = { L"-", L"\\", L"||", L"/" };
 	//while (true)
 	//{
 	//	c_static_wchar_string<256> status_message;
@@ -199,12 +199,12 @@ e_shell_tool_type __cdecl shell_tool_type()
 	return _shell_tool_invalid;
 }
 
-char const* quality_setting_get_name(e_quality_setting quality_setting)
+const char* quality_setting_get_name(e_quality_setting quality_setting)
 {
 	if (quality_setting < _quality_setting_low || quality_setting >= k_quality_setting_count)
 		return "<invalid 'quality_setting'>";
 
-	char const* names[k_quality_setting_count]
+	const char* names[k_quality_setting_count]
 	{
 		"low",
 		"medium",
@@ -214,9 +214,9 @@ char const* quality_setting_get_name(e_quality_setting quality_setting)
 	return names[quality_setting];
 }
 
-e_quality_setting quality_setting_from_string(char const* str)
+e_quality_setting quality_setting_from_string(const char* str)
 {
-	char const* names[k_quality_setting_count]
+	const char* names[k_quality_setting_count]
 	{
 		"low",
 		"medium",
@@ -235,7 +235,7 @@ e_quality_setting quality_setting_from_string(char const* str)
 	return quality_setting;
 }
 
-char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
+const char* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
 {
 	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_number_of_subtitle_settings)
 		return "<invalid 'subtitle_setting'>";
@@ -243,7 +243,7 @@ char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
 	return global_subtitle_setting_names[subtitle_setting];
 }
 
-e_subtitle_setting subtitle_setting_from_string(char const* str)
+e_subtitle_setting subtitle_setting_from_string(const char* str)
 {
 	e_subtitle_setting subtitle_setting = e_subtitle_setting(-1);
 	for (int32 i = _subtitle_setting_automatic; i < k_number_of_subtitle_settings; i++)
@@ -257,7 +257,7 @@ e_subtitle_setting subtitle_setting_from_string(char const* str)
 	return subtitle_setting;
 }
 
-char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
+const char* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
 {
 	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_campaign_difficulty_levels_count)
 		return "<invalid 'difficulty'>";
@@ -265,7 +265,7 @@ char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level diffi
 	return global_campaign_difficulty_level_names[difficulty];
 }
 
-e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
+e_campaign_difficulty_level campaign_difficulty_level_from_string(const char* str)
 {
 	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
 	for (int32 i = _campaign_difficulty_level_easy; i < k_campaign_difficulty_levels_count; i++)
@@ -279,7 +279,7 @@ e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* st
 	return difficulty;
 }
 
-char const* network_session_mode_get_name(int32 session_mode)
+const char* network_session_mode_get_name(int32 session_mode)
 {
 	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)
 		return "<invalid 'network_session_mode'>";
@@ -287,7 +287,7 @@ char const* network_session_mode_get_name(int32 session_mode)
 	return k_network_session_mode_names[session_mode];
 }
 
-char const* ui_game_mode_get_name(int32 ui_game_mode)
+const char* ui_game_mode_get_name(int32 ui_game_mode)
 {
 	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_gui_game_setup_mode_count)
 		return "<invalid 'ui_game_mode'>";
@@ -295,7 +295,7 @@ char const* ui_game_mode_get_name(int32 ui_game_mode)
 	return k_ui_game_mode_names[ui_game_mode];
 }
 
-char const* gui_network_session_advertisement_mode_get_name(int32 advertisement_mode)
+const char* gui_network_session_advertisement_mode_get_name(int32 advertisement_mode)
 {
 	if (advertisement_mode < _gui_network_session_advertisement_mode_open_to_public || advertisement_mode >= k_gui_network_session_advertisement_mode_count)
 		return "<invalid 'ui_game_mode'>";
@@ -303,7 +303,7 @@ char const* gui_network_session_advertisement_mode_get_name(int32 advertisement_
 	return k_gui_network_session_advertisement_mode_names[advertisement_mode];
 }
 
-char const* game_variant_parameter_get_name(int32 parameter)
+const char* game_variant_parameter_get_name(int32 parameter)
 {
 	if (parameter < _game_variant_base_miscellaneous_teams || parameter >= k_game_variant_parameter_count)
 		return "<invalid 'parameter'>";
@@ -311,7 +311,7 @@ char const* game_variant_parameter_get_name(int32 parameter)
 	return k_game_variant_parameter_names[parameter];
 }
 
-char const* const k_network_session_mode_names[k_network_session_mode_count]
+const char* const k_network_session_mode_names[k_network_session_mode_count]
 {
 	"none",
 	"idle",
@@ -328,7 +328,7 @@ char const* const k_network_session_mode_names[k_network_session_mode_count]
 	"matchmaking-choosing-game"
 };
 
-char const* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
+const char* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
 {
 	"campaign",
 	"matchmaking",
@@ -338,7 +338,7 @@ char const* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
 	"survival"
 };
 
-char const* const k_gui_network_session_advertisement_mode_names[k_gui_network_session_advertisement_mode_count]
+const char* const k_gui_network_session_advertisement_mode_names[k_gui_network_session_advertisement_mode_count]
 {
 	"open_to_public",
 	"open_to_friends",
@@ -348,7 +348,7 @@ char const* const k_gui_network_session_advertisement_mode_names[k_gui_network_s
 	"full"
 };
 
-char const* const k_game_variant_parameter_names[k_game_variant_parameter_count]
+const char* const k_game_variant_parameter_names[k_game_variant_parameter_count]
 {
 	"game_misc_teams",
 	"game_misc_unknown1",
@@ -1015,7 +1015,7 @@ char const* const k_game_variant_parameter_names[k_game_variant_parameter_count]
 };
 
 // 0189DF28
-char const* const global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count]
+const char* const global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count]
 {
 	"easy",
 	"normal",
@@ -1024,7 +1024,7 @@ char const* const global_campaign_difficulty_level_names[k_campaign_difficulty_l
 };
 
 // 018BE868
-char const* const global_campaign_team_names[k_campaign_team_count]
+const char* const global_campaign_team_names[k_campaign_team_count]
 {
 	"default",
 	"player",
@@ -1045,7 +1045,7 @@ char const* const global_campaign_team_names[k_campaign_team_count]
 };
 
 // 0189EECC
-char const* const global_multiplayer_team_names[k_multiplayer_team_count]
+const char* const global_multiplayer_team_names[k_multiplayer_team_count]
 {
 	"mp_team_red",
 	"mp_team_blue",
@@ -1058,7 +1058,7 @@ char const* const global_multiplayer_team_names[k_multiplayer_team_count]
 };
 
 // 0191CB00
-char const* const global_controller_index_names[k_number_of_controllers]
+const char* const global_controller_index_names[k_number_of_controllers]
 {
 	"controller1",
 	"controller2",
@@ -1067,7 +1067,7 @@ char const* const global_controller_index_names[k_number_of_controllers]
 };
 
 // 0191CB10
-char const* const global_button_preset_names[k_button_presets_count]
+const char* const global_button_preset_names[k_button_presets_count]
 {
 	"standard",
 	"south_paw",
@@ -1078,7 +1078,7 @@ char const* const global_button_preset_names[k_button_presets_count]
 };
 
 // 0191CB28
-char const* const global_joystick_preset_names[k_joystick_presets_count]
+const char* const global_joystick_preset_names[k_joystick_presets_count]
 {
 	"standard",
 	"south_paw",
@@ -1087,28 +1087,28 @@ char const* const global_joystick_preset_names[k_joystick_presets_count]
 };
 
 // 0189DD38
-char const* const global_player_model_choice_names[k_number_of_player_model_choices]
+const char* const global_player_model_choice_names[k_number_of_player_model_choices]
 {
 	"spartan",
 	"elite"
 };
 
 // 0191CB38
-char const* const global_voice_output_setting_names[k_number_of_voice_output_settings]
+const char* const global_voice_output_setting_names[k_number_of_voice_output_settings]
 {
 	"default",
 	"headset"
 };
 
 // 0191CB40
-char const* const global_voice_mask_names[k_number_of_voice_masks]
+const char* const global_voice_mask_names[k_number_of_voice_masks]
 {
 	"none",
 	"anonymous"
 };
 
 // 0191CB48
-char const* const global_subtitle_setting_names[k_number_of_subtitle_settings]
+const char* const global_subtitle_setting_names[k_number_of_subtitle_settings]
 {
 	"automatic",
 	"enabled",
@@ -1116,7 +1116,7 @@ char const* const global_subtitle_setting_names[k_number_of_subtitle_settings]
 };
 
 // 01992AF8
-char const* const global_actor_type_names[k_number_of_actor_types]
+const char* const global_actor_type_names[k_number_of_actor_types]
 {
 	"elite",
 	"jackal",
@@ -1146,7 +1146,7 @@ char const* const global_actor_type_names[k_number_of_actor_types]
 };
 
 // 018ECC80
-char const* const global_model_state_names[k_number_of_model_states]
+const char* const global_model_state_names[k_number_of_model_states]
 {
 	"standard",
 	"minor damage",
@@ -1156,7 +1156,7 @@ char const* const global_model_state_names[k_number_of_model_states]
 };
 
 // 018ECCEC
-char const* const global_character_physics_override_names[k_total_character_physics_overrides]
+const char* const global_character_physics_override_names[k_total_character_physics_overrides]
 {
 	"NONE",
 	"player",
@@ -1164,7 +1164,7 @@ char const* const global_character_physics_override_names[k_total_character_phys
 };
 
 // 018BAE24
-char const* const global_primary_skull_names[k_number_of_primary_skulls]
+const char* const global_primary_skull_names[k_number_of_primary_skulls]
 {
 	"skull_iron",
 	"skull_black_eye",
@@ -1178,7 +1178,7 @@ char const* const global_primary_skull_names[k_number_of_primary_skulls]
 };
 
 // 018BAE48
-char const* const global_secondary_skull_names[k_number_of_secondary_skulls]
+const char* const global_secondary_skull_names[k_number_of_secondary_skulls]
 {
 	"skull_assassin",
 	"skull_blind",

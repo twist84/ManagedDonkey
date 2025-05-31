@@ -20,17 +20,17 @@ struct c_managed_session_overlapped_task :
 {
 	using t_completion_routine = void __cdecl(int32, bool, uns32);
 
-	void filter_local_users(int32 player_count, uns64 const* players, bool const* online_enabled, bool const* private_slots);
-	void process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count);
-	bool process_add_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count);
+	void filter_local_users(int32 player_count, const uns64* players, const bool* online_enabled, const bool* private_slots);
+	void process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, const uns64* player_xuids, const bool* online_enabled, const bool* private_slots, int32 player_count);
+	bool process_add_players_immediately(s_online_session* session, const uns64* player_xuids, const bool* online_enabled, const bool* private_slots, int32 player_count);
 	void process_create(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns16 mask);
 	void process_delete(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session);
 	void process_game_end(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session);
 	void process_modify(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, s_online_session* desired_session, s_online_session* actual_session);
 	static bool __cdecl process_modify_immediately(s_online_session* desired_session, s_online_session* actual_session);
 	void process_game_start(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session);
-	void process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count);
-	bool process_remove_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count);
+	void process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, const uns64* player_xuids, const bool* online_enabled, int32 player_count);
+	bool process_remove_players_immediately(s_online_session* session, const uns64* player_xuids, const bool* online_enabled, int32 player_count);
 	void process_session_host_migrate(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, bool is_host, s_transport_session_description* host_migration_description);
 	uns32 __thiscall start_(void* overlapped);
 
@@ -138,20 +138,20 @@ static_assert(0x8 == offsetof(s_online_session_manager_globals, managed_sessions
 
 extern s_online_session_manager_globals& online_session_manager_globals;
 
-extern void __cdecl add_to_player_list(s_online_session_player* players, int32 player_count, uns64 const* xuids, bool const* xuids_left_game, int32 xuid_count);
-extern void __cdecl managed_session_add_players(int32 managed_session_index, uns64 const* xuids, bool const* xuids_left_game, int32 xuid_count);
+extern void __cdecl add_to_player_list(s_online_session_player* players, int32 player_count, const uns64* xuids, const bool* xuids_left_game, int32 xuid_count);
+extern void __cdecl managed_session_add_players(int32 managed_session_index, const uns64* xuids, const bool* xuids_left_game, int32 xuid_count);
 extern int32 __cdecl managed_session_allocate();
 extern bool __cdecl managed_session_build_add_xuid_list(int32 managed_session_index);
 extern bool __cdecl managed_session_build_removal_xuid_list(int32 managed_session_index);
 extern bool __cdecl managed_session_can_create_session(e_network_session_class session_class);
 extern void __cdecl managed_session_cancel_new_host(int32 managed_session_index);
 extern void __cdecl managed_session_commit_new_host(int32 managed_session_index);
-extern bool __cdecl managed_session_compare_id(int32 managed_session_index, s_transport_secure_identifier const* session_id);
+extern bool __cdecl managed_session_compare_id(int32 managed_session_index, const s_transport_secure_identifier* session_id);
 extern void __cdecl managed_session_completely_reset_session_on_error(int32 managed_session_index);
-extern void __cdecl managed_session_connect_client_to_new_host(int32 managed_session_index, s_transport_session_description const* session_description, e_transport_platform secure_key_platform);
+extern void __cdecl managed_session_connect_client_to_new_host(int32 managed_session_index, const s_transport_session_description* session_description, e_transport_platform secure_key_platform);
 extern int32 __cdecl managed_session_count_master_sessions();
-extern int32 __cdecl managed_session_create_client(e_network_session_class session_class, c_managed_session_creation_flags creation_flags, e_transport_platform secure_key_platform, int32 private_slot_count, int32 public_slot_count, s_transport_secure_identifier const* session_id, s_transport_secure_address const* host_address, s_transport_secure_key const* key, s_online_context const* creation_contexts, int32 context_count);
-extern int32 __cdecl managed_session_create_host(e_network_session_class session_class, c_managed_session_creation_flags creation_flags, e_transport_platform secure_key_platform, int32 private_slot_count, int32 public_slot_count, s_online_context const* creation_contexts, int32 context_count);
+extern int32 __cdecl managed_session_create_client(e_network_session_class session_class, c_managed_session_creation_flags creation_flags, e_transport_platform secure_key_platform, int32 private_slot_count, int32 public_slot_count, const s_transport_secure_identifier* session_id, const s_transport_secure_address* host_address, const s_transport_secure_key* key, const s_online_context* creation_contexts, int32 context_count);
+extern int32 __cdecl managed_session_create_host(e_network_session_class session_class, c_managed_session_creation_flags creation_flags, e_transport_platform secure_key_platform, int32 private_slot_count, int32 public_slot_count, const s_online_context* creation_contexts, int32 context_count);
 extern void __cdecl managed_session_create_host_migration_internal(int32 managed_session_index, s_online_managed_session* managed_session);
 extern void __cdecl managed_session_create_session_internal(int32 managed_session_index, s_online_managed_session* managed_session);
 extern void __cdecl managed_session_creation_complete(int32 managed_session_index, bool success, uns32 return_result);
@@ -167,7 +167,7 @@ extern void __cdecl managed_session_game_start_complete(int32 managed_session_in
 extern s_online_managed_session* __cdecl managed_session_get(int32 managed_session_index);
 extern bool __cdecl managed_session_get_handle(int32 managed_session_index, void** session_handle_out);
 extern bool __cdecl managed_session_get_id(int32 managed_session_index, s_transport_secure_identifier* session_id);
-extern char const* __cdecl managed_session_get_id_string(int32 managed_session_index);
+extern const char* __cdecl managed_session_get_id_string(int32 managed_session_index);
 extern void __cdecl managed_session_get_new_host_information(int32 managed_session_index, s_transport_session_description* session_description, e_transport_platform* secure_key_platform);
 extern bool __cdecl managed_session_get_nonce(int32 managed_session_index, uns64* session_nonce_out);
 extern bool __cdecl managed_session_get_security_information(int32 managed_session_index, bool, s_transport_session_description* session_description, e_transport_platform* secure_key_platform);
@@ -183,10 +183,10 @@ extern void __cdecl managed_session_modify_slot_counts(int32 managed_session_ind
 extern void __cdecl managed_session_players_add_complete(int32 managed_session_index, bool success, uns32 return_result);
 extern void __cdecl managed_session_players_remove_complete(int32 managed_session_index, bool success, uns32 return_result);
 extern void __cdecl managed_session_process_pending_operations(int32 managed_session_index);
-extern void __cdecl managed_session_remove_players(int32 managed_session_index, uns64 const* xuids, int32 xuid_count);
+extern void __cdecl managed_session_remove_players(int32 managed_session_index, const uns64* xuids, int32 xuid_count);
 extern void __cdecl managed_session_reset_players_add_status(int32 managed_session_index);
 extern void __cdecl managed_session_reset_session(int32 managed_session_index, bool a2);
-extern int32 __cdecl managed_session_retrieve_security_information(transport_address const* usable_address, e_transport_platform secure_key_platform, s_transport_session_description* session_description, s_transport_secure_address* secure_address);
+extern int32 __cdecl managed_session_retrieve_security_information(const transport_address* usable_address, e_transport_platform secure_key_platform, s_transport_session_description* session_description, s_transport_secure_address* secure_address);
 extern void __cdecl managed_session_start_host_migration(int32 managed_session_index);
 extern void __cdecl managed_session_successful_creation_complete(int32 managed_session_index);
 extern void __cdecl managed_session_successful_delete_complete(int32 managed_session_index);
@@ -199,9 +199,9 @@ extern void __cdecl managed_session_successful_players_add_complete(int32 manage
 extern void __cdecl managed_session_successful_players_remove_complete(int32 managed_session_index);
 extern bool __cdecl managed_session_synchronize_to_player_list(int32 managed_session_index, c_network_session_membership* session_membership);
 extern void __cdecl managed_session_use_new_host(int32 managed_session_index);
-extern int32 __cdecl managed_session_who_has_this_session_id(s_transport_secure_identifier const* session_id);
+extern int32 __cdecl managed_session_who_has_this_session_id(const s_transport_secure_identifier* session_id);
 extern void __cdecl online_session_manager_dispose();
 extern void __cdecl online_session_manager_initialize();
 extern void __cdecl online_session_manager_update();
-extern void __cdecl remove_from_player_list(s_online_session_player* players, int32 player_count, uns64 const* xuids, int32 xuid_count);
+extern void __cdecl remove_from_player_list(s_online_session_player* players, int32 player_count, const uns64* xuids, int32 xuid_count);
 

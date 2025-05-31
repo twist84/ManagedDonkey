@@ -8,7 +8,7 @@ template<typename t_type>
 class c_debug_menu_value_hs_global_external
 {
 public:
-	c_debug_menu_value_hs_global_external(char const* hs_global_name)
+	c_debug_menu_value_hs_global_external(const char* hs_global_name)
 	{
 		ASSERT(hs_global_name);
 

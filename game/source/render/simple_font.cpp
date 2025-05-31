@@ -37,7 +37,7 @@ void c_simple_font_screen_display::close_session()
 	}
 }
 
-void c_simple_font_screen_display::draw(int32 column, int32 row, uns32 color, char const* format, ...)
+void c_simple_font_screen_display::draw(int32 column, int32 row, uns32 color, const char* format, ...)
 {
 	//return INVOKE_CLASS_MEMBER(0x00A76960, c_simple_font_screen_display, draw, column, row, color, format);
 
@@ -195,25 +195,25 @@ int32 __cdecl simple_font::make_quad(int32 x1, int32 y1, real32 u1, real32 v1, i
 	return INVOKE(0x00A76DB0, simple_font::make_quad, x1, y1, u1, v1, x2, y2, u2, v2, color, shadow_offset, triangle_vertices);
 }
 
-void __cdecl simple_font::print(int32 x, int32 y, uns32 color, char const* c, int32 count, bool apply_display_scalar_correction)
+void __cdecl simple_font::print(int32 x, int32 y, uns32 color, const char* c, int32 count, bool apply_display_scalar_correction)
 {
 	//INVOKE(0x00A770E0, print, x, y, color, c, count, apply_display_scalar_correction);
 
 	simple_font::render_text(g_activeFont, x, y, 1024, 0, color, c, count, apply_display_scalar_correction);
 }
 
-void __cdecl simple_font::print_block(int32 x, int32 y, int32 width, int32 height, uns32 color, char const* c)
+void __cdecl simple_font::print_block(int32 x, int32 y, int32 width, int32 height, uns32 color, const char* c)
 {
 	INVOKE(0x00A77110, print_block, x, y, width, height, color, c);
 }
 
-void __cdecl simple_font::print_white(int32 x, int32 y, char const* c, int32 count)
+void __cdecl simple_font::print_white(int32 x, int32 y, const char* c, int32 count)
 {
 	INVOKE(0x00A77140, print_white, x, y, c, count);
 }
 
 //.text:00A77160
-void __cdecl simple_font::printf(int32 x, int32 y, uns32 color, char const* c, ...)
+void __cdecl simple_font::printf(int32 x, int32 y, uns32 color, const char* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -222,7 +222,7 @@ void __cdecl simple_font::printf(int32 x, int32 y, uns32 color, char const* c, .
 }
 
 //.text:00A771D0
-void __cdecl simple_font::printf(int32 x, int32 y, char const* c, ...)
+void __cdecl simple_font::printf(int32 x, int32 y, const char* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -231,7 +231,7 @@ void __cdecl simple_font::printf(int32 x, int32 y, char const* c, ...)
 }
 
 //.text:00A77240
-void __cdecl simple_font::printf_down(int32 x, int32 y, uns32 color, char const* c, ...)
+void __cdecl simple_font::printf_down(int32 x, int32 y, uns32 color, const char* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -240,7 +240,7 @@ void __cdecl simple_font::printf_down(int32 x, int32 y, uns32 color, char const*
 }
 
 //.text:00A772B0
-void __cdecl simple_font::printf_left(int32 x, int32 y, uns32 color, char const* c, ...)
+void __cdecl simple_font::printf_left(int32 x, int32 y, uns32 color, const char* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -249,7 +249,7 @@ void __cdecl simple_font::printf_left(int32 x, int32 y, uns32 color, char const*
 }
 
 //.text:00A77320
-void __cdecl simple_font::printf_up(int32 x, int32 y, uns32 color, char const* c, ...)
+void __cdecl simple_font::printf_up(int32 x, int32 y, uns32 color, const char* c, ...)
 {
 	va_list va;
 	va_start(va, c);
@@ -278,12 +278,12 @@ void __cdecl simple_font::remove()
 		font_data->remove();
 }
 
-void __cdecl simple_font::render_text(s_font_data const* font, int32 pixelX, int32 pixelY, int32 pixelPitch, int32 flags, uns32 color, char const* text, unsigned int charCount, bool apply_display_scalar_correction)
+void __cdecl simple_font::render_text(const s_font_data* font, int32 pixelX, int32 pixelY, int32 pixelPitch, int32 flags, uns32 color, const char* text, unsigned int charCount, bool apply_display_scalar_correction)
 {
 	INVOKE(0x00A77480, render_text, font, pixelX, pixelY, pixelPitch, flags, color, text, charCount, apply_display_scalar_correction);
 }
 
-void __cdecl simple_font::vprintf(int32 x, int32 y, int32 flags, uns32 color, char const* c, char* arglist)
+void __cdecl simple_font::vprintf(int32 x, int32 y, int32 flags, uns32 color, const char* c, char* arglist)
 {
 	//INVOKE(0x00A779B0, simple_font::vprintf, x, y, flags, color, c, arglist);
 

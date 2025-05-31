@@ -8,7 +8,7 @@ c_life_cycle_state_handler_end_match_write_stats::c_life_cycle_state_handler_end
 	//DECLFUNC(0x00453EF0, void, __thiscall, c_life_cycle_state_handler_end_match_write_stats*)(this);
 }
 
-char const* c_life_cycle_state_handler_end_match_write_stats::get_state_string()
+const char* c_life_cycle_state_handler_end_match_write_stats::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x004546E0, c_life_cycle_state_handler_end_match_write_stats, get_state_string);
 

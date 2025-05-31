@@ -1,4 +1,4 @@
 #pragma once
 
-extern bool __cdecl create_configuration_file(char const* filename, void const* file_contents, int32 file_size);
+extern bool __cdecl create_configuration_file(const char* filename, const void* file_contents, int32 file_size);
 

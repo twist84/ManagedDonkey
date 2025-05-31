@@ -12,12 +12,12 @@ real_rgb_color* __cdecl pixel32_to_real_rgb_color(rgb_color color, real_rgb_colo
 	return INVOKE(0x00521300, pixel32_to_real_rgb_color, color, real_color);
 }
 
-uns32 __cdecl real_argb_color_to_pixel32(real_argb_color const* real_color)
+uns32 __cdecl real_argb_color_to_pixel32(const real_argb_color* real_color)
 {
 	return INVOKE(0x00521810, real_argb_color_to_pixel32, real_color);
 }
 
-uns32 __cdecl real_rgb_color_to_pixel32(real_rgb_color const* real_color)
+uns32 __cdecl real_rgb_color_to_pixel32(const real_rgb_color* real_color)
 {
 	return INVOKE(0x00521D90, real_rgb_color_to_pixel32, real_color);
 }
@@ -56,7 +56,7 @@ real32 __cdecl value_regamma(real32 value)
 	return powf(v5, 0.45454544f);
 }
 
-void __cdecl color_degamma(real_rgb_color const* gamma_color, real_linear_rgb_color* linear_color)
+void __cdecl color_degamma(const real_rgb_color* gamma_color, real_linear_rgb_color* linear_color)
 {
 	ASSERT(gamma_color && gamma_color->red >= 0.f && gamma_color->green >= 0.f && gamma_color->blue >= 0.f);
 
@@ -65,7 +65,7 @@ void __cdecl color_degamma(real_rgb_color const* gamma_color, real_linear_rgb_co
 	linear_color->blue = value_degamma(gamma_color->blue);
 }
 
-void __cdecl color_regamma(real_linear_rgb_color const* linear_color, real_rgb_color* gamma_color)
+void __cdecl color_regamma(const real_linear_rgb_color* linear_color, real_rgb_color* gamma_color)
 {
 	ASSERT(linear_color && linear_color->red >= 0.f && linear_color->green >= 0.f && linear_color->blue >= 0.f);
 
@@ -74,7 +74,7 @@ void __cdecl color_regamma(real_linear_rgb_color const* linear_color, real_rgb_c
 	gamma_color->blue = value_regamma(linear_color->blue);
 }
 
-bool valid_real_argb_color(real_argb_color const* color)
+bool valid_real_argb_color(const real_argb_color* color)
 {
 	//return INVOKE(0x00523B20, valid_real_argb_color, color);
 
@@ -83,7 +83,7 @@ bool valid_real_argb_color(real_argb_color const* color)
 		&& valid_real_rgb_color(&color->rgb);
 }
 
-bool valid_real_rgb_color(real_rgb_color const* color)
+bool valid_real_rgb_color(const real_rgb_color* color)
 {
 	//return INVOKE(0x00523B70, valid_real_rgb_color, color);
 

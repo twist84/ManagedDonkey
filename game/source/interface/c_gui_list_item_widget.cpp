@@ -29,49 +29,49 @@ bool c_gui_list_item_widget::can_receive_focus()
 	return INVOKE_CLASS_MEMBER(0x00B183E0, c_gui_list_item_widget, can_receive_focus);
 }
 
-c_gui_bitmap_widget* c_gui_list_item_widget::create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition)
+c_gui_bitmap_widget* c_gui_list_item_widget::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18420, c_gui_list_item_widget, create_bitmap_widget, definition);
 
 	return get_parent_screen()->create_bitmap_widget(definition);
 }
 
-c_gui_button_key_widget* c_gui_list_item_widget::create_button_key_widget(s_button_key_definition const* definition)
+c_gui_button_key_widget* c_gui_list_item_widget::create_button_key_widget(const s_button_key_definition* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18430, c_gui_list_item_widget, create_button_key_widget, definition);
 
 	return get_parent_screen()->create_button_key_widget(definition);
 }
 
-c_gui_group_widget* c_gui_list_item_widget::create_group_widget(s_group_widget_definition const* definition)
+c_gui_group_widget* c_gui_list_item_widget::create_group_widget(const s_group_widget_definition* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18440, c_gui_list_item_widget, create_group_widget, definition);
 
 	return get_parent_screen()->create_group_widget(definition);
 }
 
-c_gui_list_item_widget* c_gui_list_item_widget::create_list_item_widget(s_list_item_widget_block const* definition)
+c_gui_list_item_widget* c_gui_list_item_widget::create_list_item_widget(const s_list_item_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18450, c_gui_list_item_widget, create_list_item_widget, definition);
 
 	return get_parent_screen()->create_list_item_widget(definition);
 }
 
-c_gui_list_widget* c_gui_list_item_widget::create_list_widget(s_list_widget_block const* definition)
+c_gui_list_widget* c_gui_list_item_widget::create_list_widget(const s_list_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18460, c_gui_list_item_widget, create_list_widget, definition);
 
 	return get_parent_screen()->create_list_widget(definition);
 }
 
-c_gui_model_widget* c_gui_list_item_widget::create_model_widget(s_model_widget_block const* definition)
+c_gui_model_widget* c_gui_list_item_widget::create_model_widget(const s_model_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18470, c_gui_list_item_widget, create_model_widget, definition);
 
 	return get_parent_screen()->create_model_widget(definition);
 }
 
-c_gui_text_widget* c_gui_list_item_widget::create_text_widget(s_runtime_text_widget_definition const* definition)
+c_gui_text_widget* c_gui_list_item_widget::create_text_widget(const s_runtime_text_widget_definition* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18480, c_gui_list_item_widget, create_text_widget, definition);
 
@@ -113,7 +113,7 @@ bool c_gui_list_item_widget::handle_widget_selected()
 	return INVOKE_CLASS_MEMBER(0x00B185F0, c_gui_list_item_widget, handle_widget_selected);
 }
 
-void c_gui_list_item_widget::initialize(s_list_item_widget_block const* item_block)
+void c_gui_list_item_widget::initialize(const s_list_item_widget_block* item_block)
 {
 	//INVOKE_CLASS_MEMBER(0x00B18640, c_gui_list_item_widget, initialize, item_block);
 

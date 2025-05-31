@@ -17,8 +17,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_ctf_variant const* variant, bool force);
-	//void set(s_game_engine_ctf_variant_definition const* definition, bool force);
+	void set(const c_game_engine_ctf_variant* variant, bool force);
+	//void set(const s_game_engine_ctf_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -48,8 +48,8 @@ public:
 	void set_flag_reset_time(int16 flag_reset_time);
 
 	c_player_traits* get_carrier_traits_writeable();
-	c_player_traits const* get_carrier_traits() const;
-	void set_carrier_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_carrier_traits() const;
+	void set_carrier_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_ctf_variant_flags, int8, k_ctf_variant_flags> m_variant_flags;
@@ -72,10 +72,10 @@ struct c_ctf_engine :
 	c_game_engine
 {
 public:
-	virtual bool static_spawn_zone_is_valid_for_player(int32, s_static_spawn_zone const*) const;
+	virtual bool static_spawn_zone_is_valid_for_player(int32, const s_static_spawn_zone*) const;
 	virtual int32 get_object_definition_index(void) const;
 	virtual void process_player_holding_object(int32, int32) const;
-	virtual bool update_object(struct s_multiplayer_weapon_tracker const*) const;
+	virtual bool update_object(const struct s_multiplayer_weapon_tracker*) const;
 	virtual void initialize_object_data(int32) const;
 	virtual int16 get_sudden_death_time(void) const;
 	virtual void emit_object_returned_event(int32, bool) const;

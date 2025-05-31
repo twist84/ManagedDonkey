@@ -8,7 +8,7 @@ c_debug_menu_item_numbered::~c_debug_menu_item_numbered()
 {
 }
 
-void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, point2d const& position)
+void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, const point2d& position)
 {
 	render_number(font_cache, position);
 
@@ -17,12 +17,12 @@ void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, point2d c
 	c_debug_menu_item::render(font_cache, super_class_render_position);
 }
 
-c_debug_menu_item_numbered::c_debug_menu_item_numbered(c_debug_menu* menu, char const* name, struct c_debug_menu* child) :
+c_debug_menu_item_numbered::c_debug_menu_item_numbered(c_debug_menu* menu, const char* name, struct c_debug_menu* child) :
 	c_debug_menu_item(menu, name, child, true)
 {
 }
 
-void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, point2d const& position)
+void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, const point2d& position)
 {
 	char buffer[64]{};
 
@@ -52,7 +52,7 @@ void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, po
 
 	set_rectangle2d(&bounds, position.x - 3, position.y, bounds.x1, bounds.y1);
 
-	real_argb_color const* color = global_real_argb_black;
+	const real_argb_color* color = global_real_argb_black;
 	if (get_active())
 		color = get_enabled_color();
 

@@ -10,7 +10,7 @@ hkMoppCode* __cdecl mopp_code_data_get_mopp_code(s_tag_data* data, int32 offset)
 	return INVOKE(0x00717BF0, mopp_code_data_get_mopp_code, data, offset);
 }
 
-int32 __cdecl mopp_code_get_tag_data_size(hkMoppCode const* mopp_code)
+int32 __cdecl mopp_code_get_tag_data_size(const hkMoppCode* mopp_code)
 {
 	ASSERT(mopp_code != NULL);
 

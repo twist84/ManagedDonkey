@@ -10,12 +10,12 @@ void __cdecl render_invisible_objects_iterate(void(*function)(int32))
 	INVOKE(0x00A7BC50, render_invisible_objects_iterate, function);
 }
 
-bool __cdecl render_sphere_visible(real_point3d const* center, real32 radius)
+bool __cdecl render_sphere_visible(const real_point3d* center, real32 radius)
 {
 	return INVOKE(0x00A7BDA0, render_sphere_visible, center, radius);
 }
 
-void __cdecl render_visibility_build_projection(render_camera const* camera, render_projection const* projection, s_cluster_reference camera_cluster_reference, struct visibility_projection* visibility_projection)
+void __cdecl render_visibility_build_projection(const render_camera* camera, const render_projection* projection, s_cluster_reference camera_cluster_reference, struct visibility_projection* visibility_projection)
 {
 	INVOKE(0x00A7BDD0, render_visibility_build_projection, camera, projection, camera_cluster_reference, visibility_projection);
 }

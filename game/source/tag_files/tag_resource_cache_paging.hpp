@@ -116,7 +116,7 @@ enum e_indirect_cache_file_read_result
 struct c_indirect_cache_file_bulk_read_iterator
 {
 public:
-	virtual void __cdecl request_data(int32 requested_page_handle, s_indirect_cache_file_read_request const* read_request);
+	virtual void __cdecl request_data(int32 requested_page_handle, const s_indirect_cache_file_read_request* read_request);
 };
 static_assert(sizeof(c_indirect_cache_file_bulk_read_iterator) == 0x4);
 

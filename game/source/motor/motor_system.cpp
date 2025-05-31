@@ -24,8 +24,8 @@ bool c_motor_task::conflicts(int16 a1) const
 //.text:00B74920 ; int16 __cdecl motor_system_relaxation_state(int32)
 //.text:00B74980 ; bool __cdecl motor_system_stunned(int32)
 
-//e_motor_result __cdecl motor_system_submit(int32 motor_index, c_motor_request const* request)
-int32 __cdecl motor_system_submit(int32 motor_index, c_motor_request const* request)
+//e_motor_result __cdecl motor_system_submit(int32 motor_index, const c_motor_request* request)
+int32 __cdecl motor_system_submit(int32 motor_index, const c_motor_request* request)
 {
 	return INVOKE(0x00B749C0, motor_system_submit, motor_index, request);
 }

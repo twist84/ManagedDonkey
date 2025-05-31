@@ -13,7 +13,7 @@ HOOK_DECLARE(0x0096EF60, hs_print);
 HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
 HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
 
-void __cdecl hs_debug_variable(char const* s, bool debug)
+void __cdecl hs_debug_variable(const char* s, bool debug)
 {
 	bool variable_not_enclosed = false;
 	if (*s == '\'')
@@ -59,12 +59,12 @@ void __cdecl hs_debug_variable(char const* s, bool debug)
 		event(_event_error, "ai: please enclose the variable to be watched in single quotes");
 }
 
-void __cdecl hs_log_print(char const* s)
+void __cdecl hs_log_print(const char* s)
 {
 	event(_event_warning, "hs: %s", s);
 }
 
-void __cdecl hs_print(char const* s)
+void __cdecl hs_print(const char* s)
 {
 	terminal_printf(global_real_argb_green, s);
 }

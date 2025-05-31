@@ -57,7 +57,7 @@ enum e_experience_grade
 
 struct c_online_service_record
 {
-	char const* m_buffer;
+	const char* m_buffer;
 	int32 m_buffer_length;
 };
 static_assert(sizeof(c_online_service_record) == 0x8);

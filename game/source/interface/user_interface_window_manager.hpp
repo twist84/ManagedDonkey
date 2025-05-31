@@ -59,13 +59,13 @@ struct c_window_manager
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);
-	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, int32 window_index);
+	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, const c_load_screen_message* screen_message, int32 window_index);
 	static int32 __cdecl locate_screen_definition_tag_by_name(int32 name);
 	static bool __cdecl named_screen_defined_in_code(int32 screen_name);
 	static void __cdecl play_controller_sound(int32 optional_sound_tag_override_index, e_event_type event_type, e_controller_component controller_component);
 	static void __cdecl print_active_screen_strings_tag_name();
 	void print_active_screens();
-	void render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot);
+	void render(e_window_index window_index, int32 user_index, const rectangle2d* viewport_bounds, bool is_screenshot);
 	void render_fade();
 	void reset_screens();
 	void run_screen_hs_script(int32 script_index);
@@ -75,9 +75,9 @@ static_assert(sizeof(c_window_manager) == 0x128);
 
 extern c_window_manager& g_window_manager;
 
-extern void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const* window_bounds, c_gui_widget* root_widget, s_window_manager_screen_render_data* render_data, e_controller_index local_controller_index);
-extern void __cdecl window_manager_build_render_data_for_screen(rectangle2d const* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data);
+extern void __cdecl window_manager_add_widgets_to_render_list_recursive(const rectangle2d* window_bounds, c_gui_widget* root_widget, s_window_manager_screen_render_data* render_data, e_controller_index local_controller_index);
+extern void __cdecl window_manager_build_render_data_for_screen(const rectangle2d* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data);
 extern c_window_manager* __cdecl window_manager_get();
 extern void __cdecl window_manager_load_screen_hs(int32 screen_name);
-extern void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot);
+extern void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, const rectangle2d* viewport_bounds, bool is_screenshot);
 extern void __cdecl window_manager_reset_screens();

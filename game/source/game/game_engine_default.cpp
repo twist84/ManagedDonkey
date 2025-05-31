@@ -9,7 +9,7 @@
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
 
-void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player_traits const* traits, s_file_reference* file) const
+void c_game_engine::dump_player_trait_settings(const char* traits_name, const c_player_traits* traits, s_file_reference* file) const
 {
 	ASSERT(traits_name != NULL);
 	ASSERT(traits != NULL);
@@ -34,7 +34,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 	file_printf(file, "weapon pickup= %s\r\n", traits->get_weapons_traits()->get_weapon_pickup_allowed() ? "ENABLED" : "DISABLED");
 	
 	// MOVEMENT TRAITS
-	char const* vehicle_usage = "**INVALID SETTING**";
+	const char* vehicle_usage = "**INVALID SETTING**";
 	switch (traits->get_movement_traits()->get_vehicle_usage_setting())
 	{
 	case _vehicle_usage_setting_unchanged:
@@ -58,7 +58,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 	file_printf(file, "vehicle use= %s\r\n", vehicle_usage);
 	
 	// APPEARANCE TRAITS
-	char const* active_camo = "**INVALID SETTING**";
+	const char* active_camo = "**INVALID SETTING**";
 	switch (traits->get_appearance_traits()->get_active_camo_setting())
 	{
 	case _active_camo_setting_unchanged:
@@ -78,7 +78,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 		break;
 	}
 	
-	char const* waypoint = "**INVALID SETTING**";
+	const char* waypoint = "**INVALID SETTING**";
 	switch (traits->get_appearance_traits()->get_waypoint_setting())
 	{
 	case _waypoint_setting_unchanged:
@@ -95,7 +95,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 		break;
 	}
 	
-	char const* aura = "**INVALID SETTING**";
+	const char* aura = "**INVALID SETTING**";
 	switch (traits->get_appearance_traits()->get_aura_setting())
 	{
 	case _aura_setting_unchanged:
@@ -115,7 +115,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 		break;
 	}
 	
-	char const* forced_change_color = "**INVALID SETTING**";
+	const char* forced_change_color = "**INVALID SETTING**";
 	switch (traits->get_appearance_traits()->get_forced_change_color_setting())
 	{
 	case _forced_change_color_setting_unchanged:
@@ -168,7 +168,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 	file_printf(file, "forced change color= %s\r\n", forced_change_color);
 	
 	// SENSORS TRAITS
-	char const* motion_tracker = "**INVALID SETTING**";
+	const char* motion_tracker = "**INVALID SETTING**";
 	switch (traits->get_sensor_traits()->get_motion_tracker_setting())
 	{
 	case _motion_tracker_setting_unchanged :
@@ -188,7 +188,7 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 		break;
 	}
 	
-	char const* motion_tracker_range = "**INVALID SETTING**";
+	const char* motion_tracker_range = "**INVALID SETTING**";
 	switch (traits->get_sensor_traits()->get_motion_tracker_range_setting())
 	{
 	case _motion_tracker_range_setting_unchanged :
@@ -227,7 +227,7 @@ void c_game_engine::dump_settings(s_file_reference* file) const
 {
 	ASSERT(file != NULL);
 
-	c_game_engine_base_variant const* active_variant = current_game_variant()->get_active_variant();
+	const c_game_engine_base_variant* active_variant = current_game_variant()->get_active_variant();
 
 	file_printf(file, "---------- BASE variant settings\r\n");
 
@@ -255,7 +255,7 @@ void c_game_engine::dump_settings(s_file_reference* file) const
 	file_printf(file, "respawn growth= %d seconds\r\n", active_variant->get_respawn_options()->get_respawn_growth_seconds());
 	file_printf(file, "respawn traits duration= %d seconds\r\n", active_variant->get_respawn_options()->get_respawn_player_traits_duration_seconds());
 	dump_player_trait_settings("respawn", active_variant->get_respawn_options()->get_respawn_player_traits(), file);
-	
+
 	// SOCIAL OPTIONS
 	file_printf(file, "observers= %s\r\n", "DISABLED"); // active_variant->get_social_options()->get_observers_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "team changing= %d\r\n", active_variant->get_social_options()->get_team_changing_setting());
@@ -265,7 +265,7 @@ void c_game_engine::dump_settings(s_file_reference* file) const
 	file_printf(file, "open channel voice= %s\r\n", active_variant->get_social_options()->get_open_channel_voice_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "dead player voice= %s\r\n", active_variant->get_social_options()->get_dead_player_voice_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "spartans vs elites= %s\r\n", active_variant->get_social_options()->get_spartans_vs_elites_enabled() ? "ENABLED" : "DISABLED");
-	
+
 	// MAP-OVERRIDE OPTIONS
 	file_printf(file, "grenades on map= %s\r\n", active_variant->get_map_override_options()->get_grenades_on_map_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "indestructible vehicles= %s\r\n", active_variant->get_map_override_options()->get_indestructible_vehicles_enabled() ? "ENABLED" : "DISABLED");
@@ -330,7 +330,7 @@ void c_game_engine_base_variant::byteswap()
 	bswap_uns16_inplace(m_team_scoring_method);
 }
 
-void c_game_engine_base_variant::set(c_game_engine_base_variant const* variant, bool force)
+void c_game_engine_base_variant::set(const c_game_engine_base_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
@@ -343,7 +343,7 @@ void c_game_engine_base_variant::set(c_game_engine_base_variant const* variant, 
 	set_team_scoring_method(variant->get_team_scoring_method());
 }
 
-//void c_game_engine_base_variant::set(s_game_engine_base_variant_definition const* definition, bool force)
+//void c_game_engine_base_variant::set(const s_game_engine_base_variant_definition* definition, bool force)
 //{
 //}
 
@@ -357,22 +357,22 @@ void c_game_engine_base_variant::get_game_engine_description(c_static_wchar_stri
 	game_engine_get_multiplayer_string(get_game_engine_default_description_string_id(), game_engine_description);
 }
 
-char const* c_game_engine_base_variant::get_name() const
+const char* c_game_engine_base_variant::get_name() const
 {
 	return m_name;
 }
 
-void c_game_engine_base_variant::set_name(char const* name)
+void c_game_engine_base_variant::set_name(const char* name)
 {
 	csstrnzcpy(m_name, name, 32);
 }
 
-char const* c_game_engine_base_variant::get_description() const
+const char* c_game_engine_base_variant::get_description() const
 {
 	return m_metadata.description;
 }
 
-void c_game_engine_base_variant::set_description(char const* description)
+void c_game_engine_base_variant::set_description(const char* description)
 {
 	csstrnzcpy(m_metadata.description, description, 128);
 }
@@ -382,7 +382,7 @@ c_game_engine_miscellaneous_options* c_game_engine_base_variant::get_miscellaneo
 	return &m_miscellaneous_options;
 }
 
-c_game_engine_miscellaneous_options const* c_game_engine_base_variant::get_miscellaneous_options() const
+const c_game_engine_miscellaneous_options* c_game_engine_base_variant::get_miscellaneous_options() const
 {
 	return &m_miscellaneous_options;
 }
@@ -392,7 +392,7 @@ c_game_engine_respawn_options* c_game_engine_base_variant::get_respawn_options_w
 	return &m_respawn_options;
 }
 
-c_game_engine_respawn_options const* c_game_engine_base_variant::get_respawn_options() const
+const c_game_engine_respawn_options* c_game_engine_base_variant::get_respawn_options() const
 {
 	return &m_respawn_options;
 }
@@ -402,7 +402,7 @@ c_game_engine_social_options* c_game_engine_base_variant::get_social_options_wri
 	return &m_social_options;
 }
 
-c_game_engine_social_options const* c_game_engine_base_variant::get_social_options() const
+const c_game_engine_social_options* c_game_engine_base_variant::get_social_options() const
 {
 	return &m_social_options;
 }
@@ -412,7 +412,7 @@ c_game_engine_map_override_options* c_game_engine_base_variant::get_map_override
 	return &m_map_override_options;
 }
 
-c_game_engine_map_override_options const* c_game_engine_base_variant::get_map_override_options() const
+const c_game_engine_map_override_options* c_game_engine_base_variant::get_map_override_options() const
 {
 	return &m_map_override_options;
 }
@@ -439,14 +439,14 @@ void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_meth
 
 //int32 c_game_engine::get_type() const
 //{
-//	//return DECLFUNC(0x00749ED0, int32, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749ED0, int32, __thiscall, const c_game_engine*)(this);
 //
 //	return 0;
 //}
 //
 //int32 c_game_engine::get_score_to_win_round() const
 //{
-//	//return DECLFUNC(0x00749E90, int32, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749E90, int32, __thiscall, const c_game_engine*)(this);
 //
 //	if (current_game_variant())
 //		return current_game_variant()->get_active_variant()->get_score_to_win_round();
@@ -456,7 +456,7 @@ void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_meth
 //
 //int32 c_game_engine::get_score_to_win_round_early() const
 //{
-//	//return DECLFUNC(0x00749E50, int32, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749E50, int32, __thiscall, const c_game_engine*)(this);
 //
 //	if (current_game_variant())
 //		return current_game_variant()->get_active_variant()->get_score_to_win_round_early();
@@ -466,48 +466,48 @@ void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_meth
 //
 //void c_game_engine::recompute_team_score(e_game_team game_team, int32 a1, e_team_scoring_method team_scoring_method) const
 //{
-//	DECLFUNC(0x0074A450, void, __thiscall, c_game_engine const*, e_game_team, int32, e_team_scoring_method)(this, game_team, a1, team_scoring_method);
+//	DECLFUNC(0x0074A450, void, __thiscall, const c_game_engine*, e_game_team, int32, e_team_scoring_method)(this, game_team, a1, team_scoring_method);
 //}
 //
 //void c_game_engine::get_score_string(int32 score, c_static_wchar_string<256>* score_string) const
 //{
-//	//DECLFUNC(0x00749E70, void, __thiscall, c_game_engine const*, int32, c_static_wchar_string<256>*)(this, score, score_string);
+//	//DECLFUNC(0x00749E70, void, __thiscall, const c_game_engine*, int32, c_static_wchar_string<256>*)(this, score, score_string);
 //
 //	score_string->print(L"%d", score);
 //}
 //
 //void c_game_engine::get_hud_interface_state(int32 a1, game_engine_interface_state* hud_interface_state) const
 //{
-//	//DECLFUNC(0x00749DB0, void, __thiscall, c_game_engine const*, int32, game_engine_interface_state*)(this, a1, hud_interface_state);
+//	//DECLFUNC(0x00749DB0, void, __thiscall, const c_game_engine*, int32, game_engine_interface_state*)(this, a1, hud_interface_state);
 //}
 //
 //bool c_game_engine::initialize_for_new_map() const
 //{
-//	//return DECLFUNC(0x00749F00, bool, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749F00, bool, __thiscall, const c_game_engine*)(this);
 //
 //	return true;
 //}
 //
 //void c_game_engine::dispose_from_old_map() const
 //{
-//	//DECLFUNC(0x00749BA0, void, __thiscall, c_game_engine const*)(this);
+//	//DECLFUNC(0x00749BA0, void, __thiscall, const c_game_engine*)(this);
 //}
 //
 //bool c_game_engine::initialize_for_new_round() const
 //{
-//	//return DECLFUNC(0x00749F10, bool, __thiscall, c_game_engine const*)(this);
+//	//return DECLFUNC(0x00749F10, bool, __thiscall, const c_game_engine*)(this);
 //
 //	return true;
 //}
 //
 //void c_game_engine::stats_reset_for_round_switch() const
 //{
-//	//DECLFUNC(0x0074A670, void, __thiscall, c_game_engine const*)(this);
+//	//DECLFUNC(0x0074A670, void, __thiscall, const c_game_engine*)(this);
 //}
 //
 //bool c_game_engine::validate_team_designator_for_new_map(e_multiplayer_team_designator team_designator) const
 //{
-//	//return DECLFUNC(0x0074A7A0, bool, __thiscall, c_game_engine const*, e_multiplayer_team_designator)(this, team_designator);
+//	//return DECLFUNC(0x0074A7A0, bool, __thiscall, const c_game_engine*, e_multiplayer_team_designator)(this, team_designator);
 //
 //	s_level_datum multiplayer_level{};
 //	return !levels_try_and_get_multiplayer_map(global_scenario_get()->map_id, &multiplayer_level) || team_designator < multiplayer_level.engine_maximum_teams[get_type()];
@@ -515,125 +515,125 @@ void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_meth
 //
 //void c_game_engine::player_added(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749FB0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x00749FB0, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::player_activated(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749FA0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x00749FA0, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::player_left(int32 player_index) const
 //{
-//	//DECLFUNC(0x0074A1D0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x0074A1D0, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::player_rejoined(int32 player_index) const
 //{
-//	//DECLFUNC(0x0074A1F0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x0074A1F0, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::player_changed_indices(int32 player_index_a, int32 player_index_b) const
 //{
-//	//DECLFUNC(0x00749FD0, void, __thiscall, c_game_engine const*, int32, int32)(this, player_index_a, player_index_b);
+//	//DECLFUNC(0x00749FD0, void, __thiscall, const c_game_engine*, int32, int32)(this, player_index_a, player_index_b);
 //}
 //
 //void c_game_engine::player_changed_teams(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749FE0, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x00749FE0, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::player_about_to_spawn(int32 player_index) const
 //{
-//	//DECLFUNC(0x00749F90, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x00749F90, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::player_just_spawned(int32 player_index) const
 //{
-//	//DECLFUNC(0x0074A010, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	//DECLFUNC(0x0074A010, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::game_ending() const
 //{
-//	//DECLFUNC(0x00749D80, void, __thiscall, c_game_engine const*)(this);
+//	//DECLFUNC(0x00749D80, void, __thiscall, const c_game_engine*)(this);
 //}
 //
 //void c_game_engine::game_starting() const
 //{
-//	//DECLFUNC(0x00749D90, void, __thiscall, c_game_engine const*)(this);
+//	//DECLFUNC(0x00749D90, void, __thiscall, const c_game_engine*)(this);
 //}
 //
 //void c_game_engine::render(int32 user_index) const
 //{
-//	//DECLFUNC(0x0074A540, void, __thiscall, c_game_engine const*, int32)(this, user_index);
+//	//DECLFUNC(0x0074A540, void, __thiscall, const c_game_engine*, int32)(this, user_index);
 //}
 //
 //void c_game_engine::render_debug(int32 user_index) const
 //{
-//	//DECLFUNC(0x0074A550, void, __thiscall, c_game_engine const*, int32)(this, user_index);
+//	//DECLFUNC(0x0074A550, void, __thiscall, const c_game_engine*, int32)(this, user_index);
 //}
 //
 //void c_game_engine::submit_nav_points(int32 user_index, int32 player_index) const
 //{
-//	DECLFUNC(0x0074A680, void, __thiscall, c_game_engine const*, int32, int32)(this, user_index, player_index);
+//	DECLFUNC(0x0074A680, void, __thiscall, const c_game_engine*, int32, int32)(this, user_index, player_index);
 //}
 //
 //bool c_game_engine::build_player_nav_point(int32 a1, int32 a2, int32 a3, bool a4, s_chud_navpoint* chud_navpoint) const
 //{
-//	return DECLFUNC(0x0074A680, bool, __thiscall, c_game_engine const*, int32, int32, int32, bool, s_chud_navpoint*)(this, a1, a2, a3, a4, chud_navpoint);
+//	return DECLFUNC(0x0074A680, bool, __thiscall, const c_game_engine*, int32, int32, int32, bool, s_chud_navpoint*)(this, a1, a2, a3, a4, chud_navpoint);
 //}
 //
 //bool c_game_engine::should_draw_nav_point(int32 user_index, int32 player_index) const
 //{
-//	return DECLFUNC(0x0074A5B0, bool, __thiscall, c_game_engine const*, int32, int32)(this, user_index, player_index);
+//	return DECLFUNC(0x0074A5B0, bool, __thiscall, const c_game_engine*, int32, int32)(this, user_index, player_index);
 //}
 //
 //void c_game_engine::update() const
 //{
-//	//DECLFUNC(0x0074A790, void, __thiscall, c_game_engine const*)(this);
+//	//DECLFUNC(0x0074A790, void, __thiscall, const c_game_engine*)(this);
 //}
 //
 //void c_game_engine::player_update(int32 player_index) const
 //{
-//	DECLFUNC(0x0074A200, void, __thiscall, c_game_engine const*, int32)(this, player_index);
+//	DECLFUNC(0x0074A200, void, __thiscall, const c_game_engine*, int32)(this, player_index);
 //}
 //
 //void c_game_engine::apply_baseline_traits_for_player(int32 player_index, c_player_traits* player_traits) const
 //{
-//	//DECLFUNC(0x00748940, void, __thiscall, c_game_engine const*, int32, c_player_traits*)(this, player_index, player_traits);
+//	//DECLFUNC(0x00748940, void, __thiscall, const c_game_engine*, int32, c_player_traits*)(this, player_index, player_traits);
 //
 //	player_traits->set(current_game_variant()->get_active_variant()->get_map_override_options()->get_base_player_traits(), false);
 //}
 //
 //void c_game_engine::apply_game_engine_traits_for_player(int32 player_index, c_player_traits* player_traits) const
 //{
-//	//DECLFUNC(0x00748960, void, __thiscall, c_game_engine const*, int32, c_player_traits*)(this, player_index, player_traits);
+//	//DECLFUNC(0x00748960, void, __thiscall, const c_game_engine*, int32, c_player_traits*)(this, player_index, player_traits);
 //}
 //
 //void c_game_engine::assemble_spawn_influencers_for_player(int32 a1, s_netgame_goal_influencer* influencer, int32* a3) const
 //{
-//	//DECLFUNC(0x00748F60, void, __thiscall, c_game_engine const*, int32, s_netgame_goal_influencer*, int32*)(this, a1, influencer, a3);
+//	//DECLFUNC(0x00748F60, void, __thiscall, const c_game_engine*, int32, s_netgame_goal_influencer*, int32*)(this, a1, influencer, a3);
 //
 //	*a3 = 0;
 //}
 //
 //int32 c_game_engine::compare_players(int32 player_index_a, int32 player_index_b) const
 //{
-//	//return DECLFUNC(0x00749B40, int32, __thiscall, c_game_engine const*, int32, int32)(this, player_index_a, player_index_b);
+//	//return DECLFUNC(0x00749B40, int32, __thiscall, const c_game_engine*, int32, int32)(this, player_index_a, player_index_b);
 //
 //	return 0;
 //}
 //
 //int32 c_game_engine::compare_teams(e_game_team team_a, e_game_team team_b) const
 //{
-//	//return DECLFUNC(0x00749B50, int32, __thiscall, c_game_engine const*, int32, int32)(this, team_a, team_b);
+//	//return DECLFUNC(0x00749B50, int32, __thiscall, const c_game_engine*, int32, int32)(this, team_a, team_b);
 //
 //	return 0;
 //}
 //
 //bool c_game_engine::allow_weapon_pickup(int32 player_index, int32 weapon_index) const
 //{
-//	//return DECLFUNC(0x00748900, bool, __thiscall, c_game_engine const*, int32, int32)(this, player_index, weapon_index);
+//	//return DECLFUNC(0x00748900, bool, __thiscall, const c_game_engine*, int32, int32)(this, player_index, weapon_index);
 //
 //	bool result = game_engine_in_round();
 //	if (result)
@@ -643,52 +643,52 @@ void c_game_engine_base_variant::set_team_scoring_method(int16 team_scoring_meth
 //
 //bool c_game_engine::should_auto_pickup_weapon(int32 player_index, int32 weapon_index) const
 //{
-//	//return DECLFUNC(0x0074A5A0, bool, __thiscall, c_game_engine const*, int32, int32)(this, player_index, weapon_index);
+//	//return DECLFUNC(0x0074A5A0, bool, __thiscall, const c_game_engine*, int32, int32)(this, player_index, weapon_index);
 //
 //	return false;
 //}
 //
 //void c_game_engine::player_nearby_multiplayer_weapon(int32 a1, int32 a2) const
 //{
-//	//DECLFUNC(0x0074A1E0, void, __thiscall, c_game_engine const*, int32, int32)(this, a1, a2);
+//	//DECLFUNC(0x0074A1E0, void, __thiscall, const c_game_engine*, int32, int32)(this, a1, a2);
 //}
 //
 //int32 c_game_engine::object_get_emblem_player(int32 object_index) const
 //{
-//	//return DECLFUNC(0x00749F70, int32, __thiscall, c_game_engine const*, int32)(this, object_index);
+//	//return DECLFUNC(0x00749F70, int32, __thiscall, const c_game_engine*, int32)(this, object_index);
 //
 //	return NONE;
 //}
 //
 //real32 c_game_engine::compute_object_function(int32 object_index, int32 name) const
 //{
-//	//return DECLFUNC(0x00749B60, real32, __thiscall, c_game_engine const*, int32, int32)(this, object_index, name);
+//	//return DECLFUNC(0x00749B60, real32, __thiscall, const c_game_engine*, int32, int32)(this, object_index, name);
 //
 //	return 0.0f;
 //}
 //
 //void c_game_engine::multiplayer_weapon_register(int32 weapon_index) const
 //{
-//	//DECLFUNC(0x00749F60, void, __thiscall, c_game_engine const*, int32)(this, weapon_index);
+//	//DECLFUNC(0x00749F60, void, __thiscall, const c_game_engine*, int32)(this, weapon_index);
 //}
 //
 //void c_game_engine::multiplayer_weapon_deregister(int32 weapon_index) const
 //{
-//	//DECLFUNC(0x00749F30, void, __thiscall, c_game_engine const*, int32)(this, weapon_index);
+//	//DECLFUNC(0x00749F30, void, __thiscall, const c_game_engine*, int32)(this, weapon_index);
 //}
 //
 //void c_game_engine::multiplayer_weapon_picked_up(int32 weapon_index, int32 unit_index) const
 //{
-//	//DECLFUNC(0x00749F50, void, __thiscall, c_game_engine const*, int32, int32)(this, weapon_index, unit_index);
+//	//DECLFUNC(0x00749F50, void, __thiscall, const c_game_engine*, int32, int32)(this, weapon_index, unit_index);
 //}
 //
 //void c_game_engine::multiplayer_weapon_dropped(int32 weapon_index, int32 unit_index) const
 //{
-//	//DECLFUNC(0x00749F40, void, __thiscall, c_game_engine const*, int32, int32)(this, weapon_index, unit_index);
+//	//DECLFUNC(0x00749F40, void, __thiscall, const c_game_engine*, int32, int32)(this, weapon_index, unit_index);
 //}
 //
 //void c_game_engine::handle_deleted_object(int32 object_index) const
 //{
-//	//DECLFUNC(0x00749EF0, void, __thiscall, c_game_engine const*, int32)(this, object_index);
+//	//DECLFUNC(0x00749EF0, void, __thiscall, const c_game_engine*, int32)(this, object_index);
 //}
 

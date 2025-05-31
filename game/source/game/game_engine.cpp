@@ -22,7 +22,7 @@
 
 #include <climits>
 
-REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_game_end_condition_count);
+REFERENCE_DECLARE_ARRAY(0x0189ECF0, const char*, k_game_engine_end_conditions, k_game_engine_game_end_condition_count);
 
 HOOK_DECLARE(0x00550B80, game_engine_get_statborg);
 
@@ -90,7 +90,7 @@ void __cdecl game_engine_game_starting()
 
 //.text:0054EC60 ; void __cdecl game_engine_garbage_collect()
 //.text:0054EFC0 ; void __cdecl game_engine_garbage_collect_for_round_switch()
-//.text:0054F220 ; char const* __cdecl game_engine_get_current_variant_name() // named by us
+//.text:0054F220 ; const char* __cdecl game_engine_get_current_variant_name() // named by us
 //.text:0054F250 ; real32 __cdecl game_engine_get_change_colors(int32, uns32, e_game_team, real_rgb_color*, bool*), modified by saber
 //.text:0054F5E0 ; int32 __cdecl game_engine_get_current_talker(int32)
 //.text:0054F670 ; game_engine_get_damage_multiplier, modified by saber
@@ -121,7 +121,7 @@ void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_str
 //.text:00550580 ; int32 __cdecl game_engine_get_player_deaths(int32)
 //.text:00550620 ; int32 __cdecl game_engine_get_player_kills(int32)
 
-s_simulation_player_netdebug_data const* __cdecl game_engine_get_player_netdebug_data(int32 player_index)
+const s_simulation_player_netdebug_data* __cdecl game_engine_get_player_netdebug_data(int32 player_index)
 {
 	return INVOKE(0x005506C0, game_engine_get_player_netdebug_data, player_index);
 
@@ -299,7 +299,7 @@ void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 						{
 							player_datum* griefer = DATUM_TRY_AND_GET(player_data, player_datum, griefer_player_index);
 							e_window_index window_index = user_interface_get_window_for_controller(controller_index);
-				
+
 							if (c_load_boot_betrayer_screen_message* message = new c_load_boot_betrayer_screen_message(controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))
 							{
 								user_interface_messaging_post(message);
@@ -317,9 +317,9 @@ void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 
 //.text:005519E0 ; bool __cdecl game_engine_monitoring_object(int32)
 //.text:00551A10 ; void __cdecl game_engine_multiplayer_weapon_drop_internal(int32, int32)
-//.text:00551A90 ; s_multiplayer_weapon_tracker const* __cdecl game_engine_multiplayer_weapon_get(int16)
+//.text:00551A90 ; const s_multiplayer_weapon_tracker* __cdecl game_engine_multiplayer_weapon_get(int16)
 //.text:00551B00 ; s_multiplayer_weapon_tracker* __cdecl game_engine_multiplayer_weapon_get_internal(int32)
-//.text:00551B40 ; void __cdecl game_engine_multiplayer_weapon_reset(int32, real_point3d const*)
+//.text:00551B40 ; void __cdecl game_engine_multiplayer_weapon_reset(int32, const real_point3d*)
 //.text:00551BE0 ; void __cdecl game_engine_multiplayer_weapons_delete_all()
 //.text:00551C50 ; bool __cdecl game_engine_nearby_player_running_towards_object(int32)
 //.text:00551DA0 ; int32 __cdecl game_engine_object_get_emblem_player(int32)
@@ -619,7 +619,7 @@ void __cdecl game_engine_update_round_conditions()
 //.text:00554110 ; int16 __cdecl get_ever_active_team_or_player_count()
 //.text:00554190 ; public: e_forced_change_color_setting __cdecl c_player_trait_appearance::get_forced_change_color_setting() const
 //.text:005541A0 ; 
-//.text:005541B0 ; char const* __cdecl get_game_engine_name(int16)
+//.text:005541B0 ; const char* __cdecl get_game_engine_name(int16)
 //.text:005541C0 ; 
 //.text:005541D0 ; 
 //.text:005541E0 ; 
@@ -660,7 +660,7 @@ void __cdecl game_engine_update_round_conditions()
 //.text:00554B10 ; 
 //.text:00554B30 ; 
 
-void __cdecl game_engine_dump_variant_settings(char const* filename)
+void __cdecl game_engine_dump_variant_settings(const char* filename)
 {
 	if (game_is_multiplayer() && current_game_engine() && current_game_variant())
 	{
@@ -673,42 +673,42 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 			uns32 error = 0;
 			if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
 			{
-				c_game_engine const* game_engine = current_game_engine();
+				const c_game_engine* game_engine = current_game_engine();
 				switch (game_engine->get_type())
 				{
-					case _game_engine_type_none:
-						game_engine->dump_settings(&file);
-						break;
-					case _game_engine_type_ctf:
-						dynamic_cast<c_ctf_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_slayer:
-						dynamic_cast<c_slayer_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_oddball:
-						dynamic_cast<c_oddball_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_king:
-						dynamic_cast<c_king_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_sandbox:
-						dynamic_cast<c_sandbox_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_vip:
-						dynamic_cast<c_vip_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_juggernaut:
-						dynamic_cast<c_juggernaut_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_territories:
-						dynamic_cast<c_territories_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_assault:
-						dynamic_cast<c_assault_engine const*>(game_engine)->dump_settings(&file);
-						break;
-					case _game_engine_type_infection:
-						dynamic_cast<c_infection_engine const*>(game_engine)->dump_settings(&file);
-						break;
+				case _game_engine_type_none:
+					game_engine->dump_settings(&file);
+					break;
+				case _game_engine_type_ctf:
+					dynamic_cast<const c_ctf_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_slayer:
+					dynamic_cast<const c_slayer_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_oddball:
+					dynamic_cast<const c_oddball_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_king:
+					dynamic_cast<const c_king_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_sandbox:
+					dynamic_cast<const c_sandbox_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_vip:
+					dynamic_cast<const c_vip_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_juggernaut:
+					dynamic_cast<const c_juggernaut_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_territories:
+					dynamic_cast<const c_territories_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_assault:
+					dynamic_cast<const c_assault_engine*>(game_engine)->dump_settings(&file);
+					break;
+				case _game_engine_type_infection:
+					dynamic_cast<const c_infection_engine*>(game_engine)->dump_settings(&file);
+					break;
 				}
 				file_close(&file);
 			}
@@ -735,14 +735,14 @@ void __cdecl process_game_engine_globals_messages()
 	INVOKE(0x005547F0, process_game_engine_globals_messages);
 }
 
-//.text:00572120 ; void __cdecl set_variant<s_game_engine_assault_variant_definition>(s_game_engine_assault_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572130 ; void __cdecl set_variant<s_game_engine_ctf_variant_definition>(s_game_engine_ctf_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572140 ; void __cdecl set_variant<s_game_engine_infection_variant_definition>(s_game_engine_infection_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572150 ; void __cdecl set_variant<s_game_engine_juggernaut_variant_definition>(s_game_engine_juggernaut_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572160 ; void __cdecl set_variant<s_game_engine_king_variant_definition>(s_game_engine_king_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572170 ; void __cdecl set_variant<s_game_engine_oddball_variant_definition>(s_game_engine_oddball_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572180 ; void __cdecl set_variant<s_game_engine_sandbox_variant_definition>(s_game_engine_sandbox_variant_definition const*, c_game_engine_base_variant*)
-//.text:00572190 ; void __cdecl set_variant<s_game_engine_slayer_variant_definition>(s_game_engine_slayer_variant_definition const*, c_game_engine_base_variant*)
-//.text:005721A0 ; void __cdecl set_variant<s_game_engine_territories_variant_definition>(s_game_engine_territories_variant_definition const*, c_game_engine_base_variant*)
-//.text:005721B0 ; void __cdecl set_variant<s_game_engine_vip_variant_definition>(s_game_engine_vip_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572120 ; void __cdecl set_variant<s_game_engine_assault_variant_definition>(const s_game_engine_assault_variant_definition*, c_game_engine_base_variant*)
+//.text:00572130 ; void __cdecl set_variant<s_game_engine_ctf_variant_definition>(const s_game_engine_ctf_variant_definition*, c_game_engine_base_variant*)
+//.text:00572140 ; void __cdecl set_variant<s_game_engine_infection_variant_definition>(const s_game_engine_infection_variant_definition*, c_game_engine_base_variant*)
+//.text:00572150 ; void __cdecl set_variant<s_game_engine_juggernaut_variant_definition>(const s_game_engine_juggernaut_variant_definition*, c_game_engine_base_variant*)
+//.text:00572160 ; void __cdecl set_variant<s_game_engine_king_variant_definition>(const s_game_engine_king_variant_definition*, c_game_engine_base_variant*)
+//.text:00572170 ; void __cdecl set_variant<s_game_engine_oddball_variant_definition>(const s_game_engine_oddball_variant_definition*, c_game_engine_base_variant*)
+//.text:00572180 ; void __cdecl set_variant<s_game_engine_sandbox_variant_definition>(const s_game_engine_sandbox_variant_definition*, c_game_engine_base_variant*)
+//.text:00572190 ; void __cdecl set_variant<s_game_engine_slayer_variant_definition>(const s_game_engine_slayer_variant_definition*, c_game_engine_base_variant*)
+//.text:005721A0 ; void __cdecl set_variant<s_game_engine_territories_variant_definition>(const s_game_engine_territories_variant_definition*, c_game_engine_base_variant*)
+//.text:005721B0 ; void __cdecl set_variant<s_game_engine_vip_variant_definition>(const s_game_engine_vip_variant_definition*, c_game_engine_base_variant*)
 

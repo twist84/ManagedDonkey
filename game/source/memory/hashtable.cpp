@@ -30,12 +30,12 @@ uns32 c_hash::add_byte(byte byte_to_add)
 	//return m_hash;
 }
 
-uns32 c_hash::add_data_range(void const* data, int32 data_size)
+uns32 c_hash::add_data_range(const void* data, int32 data_size)
 {
 	return INVOKE_CLASS_MEMBER(0x00967EE0, c_hash, add_data_range, data, data_size);
 
 	//for (int32 i = 0; i < data_size; i++)
-	//	add_byte(static_cast<byte const*>(data)[i]);
+	//	add_byte(static_cast<const byte*>(data)[i]);
 	//
 	//return m_hash;
 }
@@ -47,7 +47,7 @@ uns32 c_hash::get_hash() const
 	//return m_hash;
 }
 
-bool __cdecl hash_table_add(s_hash_table* table, void const* key, void const* user_data)
+bool __cdecl hash_table_add(s_hash_table* table, const void* key, const void* user_data)
 {
 	return INVOKE(0x00967F40, hash_table_add, table, key, user_data);
 }
@@ -71,17 +71,17 @@ void __cdecl hash_table_dispose(s_hash_table* table)
 	//}
 }
 
-void const* __cdecl hash_table_find(s_hash_table* table, void const* key, void* user_data)
+const void* __cdecl hash_table_find(s_hash_table* table, const void* key, void* user_data)
 {
 	return INVOKE(0x00967FE0, hash_table_find, table, key, user_data);
 }
 
-s_hash_table_bucket* __cdecl hash_table_find_internal(s_hash_table* table, void const* key)
+s_hash_table_bucket* __cdecl hash_table_find_internal(s_hash_table* table, const void* key)
 {
 	return INVOKE(0x00968020, hash_table_find_internal, table, key);
 }
 
-s_hash_table* __cdecl hash_table_new(char const* name, uns32 user_data_size, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation)
+s_hash_table* __cdecl hash_table_new(const char* name, uns32 user_data_size, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* const hash_function, hash_table_compare_function_t* const compare_function, c_allocation_base* allocation)
 {
 	return INVOKE(0x00968070, hash_table_new, name, user_data_size, bucket_count, maximum_elements, hash_function, compare_function, allocation);
 }
@@ -99,7 +99,7 @@ void __cdecl hash_table_rebase_pointer(s_hash_table* table, s_hash_table_bucket*
 	//	*pointer = (new_free_list_elements + (table->user_data_size + sizeof(s_hash_table_bucket)) * ((*pointer - table->free_list_elements) / (table->user_data_size + sizeof(s_hash_table_bucket))));
 }
 
-bool __cdecl hash_table_remove(s_hash_table* table, void const* key)
+bool __cdecl hash_table_remove(s_hash_table* table, const void* key)
 {
 	return INVOKE(0x009681C0, hash_table_remove, table, key);
 }
@@ -125,7 +125,7 @@ void __cdecl hash_table_reset(s_hash_table* table)
 	//hash_table_verify(table);
 }
 
-bool __cdecl hash_table_set_data(s_hash_table* table, void const* key, void const* user_data)
+bool __cdecl hash_table_set_data(s_hash_table* table, const void* key, const void* user_data)
 {
 	return INVOKE(0x009682C0, hash_table_set_data, table, key, user_data);
 
@@ -170,19 +170,19 @@ void __cdecl hash_table_verify(s_hash_table* table)
 	//}
 }
 
-bool __cdecl string_hash_table_compare_function(void const* string_a, void const* string_b)
+bool __cdecl string_hash_table_compare_function(const void* string_a, const void* string_b)
 {
 	return INVOKE(0x00968330, string_hash_table_compare_function, string_a, string_b);
 
-	//return csstrcmp(static_cast<char const*>(string_a), static_cast<char const*>(string_b)) == 0;
+	//return csstrcmp(static_cast<const char*>(string_a), static_cast<const char*>(string_b)) == 0;
 }
 
-uns32 __cdecl string_hash_table_hash_function(void const* string)
+uns32 __cdecl string_hash_table_hash_function(const void* string)
 {
 	return INVOKE(0x00968380, string_hash_table_hash_function, string);
 
 	//c_hash hash;
-	//for (byte const* pos = static_cast<byte const*>(string); *pos; ++pos)
+	//for (const byte* pos = static_cast<const byte*>(string); *pos; ++pos)
 	//	hash.add_byte(*pos);
 	//
 	//return hash.get_hash();

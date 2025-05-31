@@ -17,7 +17,7 @@ static_assert(sizeof(s_main_loading_action) == 0x10C);
 
 struct loading_globals_definition
 {
-	char const* scenario_path;
+	const char* scenario_path;
 	int32 insertion_point;
 	bool tag_load_in_progress;
 	bool tag_sync_in_progress;
@@ -43,7 +43,7 @@ extern int32& total_resource_bytes;
 
 extern void __cdecl loading_basic_progress_complete();
 extern void __cdecl loading_basic_progress_disable();
-extern void __cdecl loading_basic_progress_enable(char const* scenario_path, int32 insertion_point);
+extern void __cdecl loading_basic_progress_enable(const char* scenario_path, int32 insertion_point);
 extern bool __cdecl loading_basic_progress_enabled();
 extern real32 __cdecl loading_basic_progress_get();
 extern void __cdecl loading_basic_progress_phase_begin(int32 phase, uns32 update_size);
@@ -52,11 +52,11 @@ extern void __cdecl loading_basic_progress_update_fraction(real32 progress_fract
 extern void __cdecl loading_basic_progress_update_phase_sizes();
 extern void __cdecl loading_basic_progress_update_size(uns32 update_size);
 extern bool __cdecl main_blocking_load_in_progress(real32* out_progress);
-extern bool __cdecl main_load_map(char const* scenario_path, int32 map_load_type);
-extern real32 __cdecl main_load_map_loading_progress(int32 scenario_type, int16 a2, char const* scenario_path);
-extern int32 __cdecl main_load_map_status(char const* scenario_path);
-extern int32 __cdecl main_load_map_status_with_insertion_point(int16 insertion_point, char const* scenario_path);
-extern bool __cdecl main_load_map_with_insertion_point(int16 insertion_point, char const* scenario_path, int32 map_load_type);
+extern bool __cdecl main_load_map(const char* scenario_path, int32 map_load_type);
+extern real32 __cdecl main_load_map_loading_progress(int32 scenario_type, int16 a2, const char* scenario_path);
+extern int32 __cdecl main_load_map_status(const char* scenario_path);
+extern int32 __cdecl main_load_map_status_with_insertion_point(int16 insertion_point, const char* scenario_path);
+extern bool __cdecl main_load_map_with_insertion_point(int16 insertion_point, const char* scenario_path, int32 map_load_type);
 extern bool __cdecl main_load_next_map_loading();
 extern void __cdecl main_loading_dispose();
 extern void __cdecl main_loading_enable_spinner(bool enable);
@@ -66,7 +66,7 @@ extern e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wch
 extern void __cdecl main_loading_idle();
 extern void __cdecl main_loading_initialize();
 extern bool __cdecl main_loading_is_idle();
-extern void __cdecl main_loading_progress_done(char const* description, void* userdata);
-extern void __cdecl main_loading_progress_new(char const* description, void* userdata);
-extern void __cdecl main_loading_progress_update(char const* description, char const* scenario_path, int32 progress, void* userdata);
+extern void __cdecl main_loading_progress_done(const char* description, void* userdata);
+extern void __cdecl main_loading_progress_new(const char* description, void* userdata);
+extern void __cdecl main_loading_progress_update(const char* description, const char* scenario_path, int32 progress, void* userdata);
 

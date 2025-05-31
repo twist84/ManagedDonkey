@@ -5,7 +5,7 @@
 #include "memory/thread_local.hpp"
 
 //.text:00471BC0 ; void __cdecl simulation_gamestate_entities_build_clear_flags(s_simulation_queue_gamestate_clear_data*)
-//.text:00471C50 ; void __cdecl simulation_object_glue_clear_by_flags(s_simulation_queue_object_glue_clear_data const*)
+//.text:00471C50 ; void __cdecl simulation_object_glue_clear_by_flags(const s_simulation_queue_object_glue_clear_data*)
 
 void __cdecl simulation_gamestate_entities_dispose()
 {

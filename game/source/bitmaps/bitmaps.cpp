@@ -2,7 +2,7 @@
 
 #include "bitmaps/bitmap_group_tag_definition.hpp"
 
-void* __cdecl bitmap_2d_address(bitmap_data const* bitmap, int16 x, int16 y, int16 mipmap_index)
+void* __cdecl bitmap_2d_address(const bitmap_data* bitmap, int16 x, int16 y, int16 mipmap_index)
 {
 	return INVOKE(0x00869DC0, bitmap_2d_address, bitmap, x, y, mipmap_index);
 }

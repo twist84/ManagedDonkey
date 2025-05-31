@@ -19,7 +19,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x0065F8A0, c_first_person_camera, update_);
 
-void __cdecl first_person_camera_for_unit_and_vector(int32 unit_index, real_vector3d const* forward, s_observer_command* result)
+void __cdecl first_person_camera_for_unit_and_vector(int32 unit_index, const real_vector3d* forward, s_observer_command* result)
 {
 	INVOKE(0x0065F5B0, first_person_camera_for_unit_and_vector, unit_index, forward, result);
 }

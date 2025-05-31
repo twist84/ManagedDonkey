@@ -4191,7 +4191,7 @@ struct s_string_id_globals
 	char* ascii_storage;
 	int32 ascii_storage_index;
 
-	char const** ascii_strings;
+	const char** ascii_strings;
 	int32 ascii_string_index;
 
 	c_hash_table<char, int32> string_ids;
@@ -4203,7 +4203,7 @@ static_assert(sizeof(s_string_id_globals) == 0x1C);
 struct s_constant_string_id
 {
 	int32 id;
-	char const* string;
+	const char* string;
 };
 
 extern s_string_id_globals g_string_id_globals;
@@ -4224,8 +4224,8 @@ int32 const k_constant_string_id_table_entries = k_string_id_namespace_global_co
 int32 const k_constant_string_id_table_entries_missing = 447;
 
 //extern char* __cdecl string_id_get_string(int32 string_id, char* string, int32 string_size);
-extern char const* __cdecl string_id_get_string_const(int32 string_id);
-extern int32 __cdecl string_id_retrieve(char const* string);
+extern const char* __cdecl string_id_get_string_const(int32 string_id);
+extern int32 __cdecl string_id_retrieve(const char* string);
 extern void __cdecl string_id_initialize();
 extern void __cdecl string_id_dispose();
 

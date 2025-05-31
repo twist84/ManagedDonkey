@@ -25,12 +25,12 @@ void __cdecl screen_effect_initialize_for_new_map()
 	INVOKE(0x00683040, screen_effect_initialize_for_new_map);
 }
 
-int32 __cdecl screen_effect_new(int32 definition_index, int32 object_index, int16 node_index, real_point3d const* point, real_rectangle2d const* rectangle)
+int32 __cdecl screen_effect_new(int32 definition_index, int32 object_index, int16 node_index, const real_point3d* point, const real_rectangle2d* rectangle)
 {
 	return INVOKE(0x00683060, screen_effect_new, definition_index, object_index, node_index, point, rectangle);
 }
 
-void __cdecl screen_effect_sample(real_point3d const* point, real_vector3d const* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, int32 user_index)
+void __cdecl screen_effect_sample(const real_point3d* point, const real_vector3d* vector, s_screen_effect_settings* settings, s_screen_effect_shader_sample_result* result, int32 user_index)
 {
 	INVOKE(0x00683190, screen_effect_sample, point, vector, settings, result, user_index);
 }

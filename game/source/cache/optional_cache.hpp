@@ -21,8 +21,8 @@ struct c_optional_cache_user_callback
 {
 public:
 	virtual void get_memory_configuration(e_map_memory_configuration, s_optional_cache_user_memory_configuration*);
-	virtual void idle(void const*);
-	virtual void terminate(void const*);
+	virtual void idle(const void*);
+	virtual void terminate(const void*);
 };
 static_assert(sizeof(c_optional_cache_user_callback) == sizeof(void*));
 
@@ -36,7 +36,7 @@ static_assert(sizeof(s_optional_cache_user) == 0x8);
 struct c_optional_cache_backend
 {
 private:
-	virtual void initialize(e_map_memory_configuration memory_configuration, c_static_array<s_optional_cache_user_memory_configuration, k_number_of_optional_cache_users> const*);
+	virtual void initialize(e_map_memory_configuration memory_configuration, const c_static_array<s_optional_cache_user_memory_configuration, k_number_of_optional_cache_users>*);
 	virtual void dispose();
 	virtual void* try_to_allocate(e_optional_cache_user, e_optional_cache_user_priority, int32, c_optional_cache_user_callback*);
 	virtual void deallocate(e_optional_cache_user, void*);

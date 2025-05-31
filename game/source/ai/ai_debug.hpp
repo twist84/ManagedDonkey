@@ -70,10 +70,10 @@ extern bool g_ai_render_mission_critical;
 
 extern void __cdecl ai_debug_render();
 
-extern void ai_debug_drawstack_setup(real_point3d const* position);
+extern void ai_debug_drawstack_setup(const real_point3d* position);
 extern real_point3d* ai_debug_drawstack();
 extern real_point3d* ai_debug_drawstack_offset(real32 offset);
-extern void ai_debug_string(char const* string, int16 tab_stop_count, int16 const* tab_stops, real_argb_color const* color);
+extern void ai_debug_string(const char* string, int16 tab_stop_count, const int16* tab_stops, const real_argb_color* color);
 
 extern void ai_debug_render_behavior_stacks_all();
 extern void ai_debug_render_character_names();

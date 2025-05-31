@@ -5,7 +5,7 @@
 #include "networking/online/online_arbitration_windows.hpp"
 #include "networking/session/network_managed_session.hpp"
 
-//REFERENCE_DECLARE_ARRAY(0x0189C4D8, char const*, g_network_arbitration_status_string, k_network_arbitration_status_count);
+//REFERENCE_DECLARE_ARRAY(0x0189C4D8, const char*, g_network_arbitration_status_string, k_network_arbitration_status_count);
 REFERENCE_DECLARE(0x0228E520, s_network_arbitration_globals, network_arbitration_globals);
 
 HOOK_DECLARE(0x004D9AB0, network_arbitration_get_results);
@@ -169,7 +169,7 @@ void __cdecl network_arbitration_update_registration()
 	}
 }
 
-char const* g_network_arbitration_status_string[k_network_arbitration_status_count]
+const char* g_network_arbitration_status_string[k_network_arbitration_status_count]
 {
 	"arbitration-status-none",
 	"arbitration-status-registration-in-progress",

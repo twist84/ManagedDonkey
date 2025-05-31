@@ -427,7 +427,7 @@ struct c_object_identifier
 	s_scenario_object* find_scenario_object(int32* tag_block_index) const;
 	s_scenario_object* find_scenario_object_from_scenario(struct scenario* scenario, int32* tag_block_index) const;
 	int32 get_unique_id_direct() const;
-	bool is_equal(c_object_identifier const* other) const;
+	bool is_equal(const c_object_identifier* other) const;
 	e_object_type get_type() const;
 
 	int32 m_unique_id; // SCENARIO_OBJECT_IDENTIFIER_ID

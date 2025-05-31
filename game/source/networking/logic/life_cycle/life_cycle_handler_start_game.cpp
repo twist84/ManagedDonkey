@@ -6,7 +6,7 @@ c_life_cycle_state_handler_start_game::c_life_cycle_state_handler_start_game() :
 	//DECLFUNC(0x00454110, void, __thiscall, c_life_cycle_state_handler_start_game*)(this);
 }
 
-char const* c_life_cycle_state_handler_start_game::get_state_string()
+const char* c_life_cycle_state_handler_start_game::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x004547E0, c_life_cycle_state_handler_start_game, get_state_string);
 
@@ -43,9 +43,9 @@ void c_life_cycle_state_handler_start_game::initialize(c_life_cycle_state_manage
 	c_life_cycle_state_handler::initialize(manager, _life_cycle_state_start_game, &parent_flags, 0x0ULL, 0x0ULL);
 }
 
-//.text:00490CE0 ; public: virtual bool c_generic_network_session_parameter<uns32>::set(uns32 const*)
-//.text:00490D70 ; public: virtual bool c_generic_network_session_parameter<e_language>::set(e_language const*)
-//.text:00490E00 ; public: bool c_generic_network_session_parameter<uns64>::set(uns64 const*)
+//.text:00490CE0 ; public: virtual bool c_generic_network_session_parameter<uns32>::set(const uns32*)
+//.text:00490D70 ; public: virtual bool c_generic_network_session_parameter<e_language>::set(const e_language*)
+//.text:00490E00 ; public: bool c_generic_network_session_parameter<uns64>::set(const uns64*)
 //.text:00490EA0 ; private: void c_life_cycle_state_handler_start_game::set_unique_game_parameters()
 
 void c_life_cycle_state_handler_start_game::update()

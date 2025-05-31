@@ -102,7 +102,7 @@ e_parameter_change_request_access c_network_session_parameter_base::get_change_r
 	return m_change_request_access;
 }
 
-char const* c_network_session_parameter_base::get_change_request_denied_reason(void) const
+const char* c_network_session_parameter_base::get_change_request_denied_reason(void) const
 {
 	return INVOKE_CLASS_MEMBER(0x00450D10, c_network_session_parameter_base, get_change_request_denied_reason);
 }
@@ -114,7 +114,7 @@ int32 c_network_session_parameter_base::get_change_request_size(void) const
 	return get_change_request_payload_size();
 }
 
-char const* c_network_session_parameter_base::get_session_description(void) const
+const char* c_network_session_parameter_base::get_session_description(void) const
 {
 	return INVOKE_CLASS_MEMBER(0x00450DA0, c_network_session_parameter_base, get_session_description);
 
@@ -124,7 +124,7 @@ char const* c_network_session_parameter_base::get_session_description(void) cons
 	//return "UNKNOWN";
 }
 
-char const* c_network_session_parameter_base::get_set_denied_reason(void) const
+const char* c_network_session_parameter_base::get_set_denied_reason(void) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00450DD0, c_network_session_parameter_base, get_set_denied_reason);
 
@@ -154,7 +154,7 @@ int32 c_network_session_parameter_base::get_update_size(void) const
 	return get_update_payload_size() + 4; // is the 4 `sizeof(s_network_session_parameter_update)`?
 }
 
-bool c_network_session_parameter_base::handle_change_request(void const* change_request, int32 change_request_size)
+bool c_network_session_parameter_base::handle_change_request(const void* change_request, int32 change_request_size)
 {
 	//return INVOKE_CLASS_MEMBER(0x00450E40, c_network_session_parameter_base, handle_change_request, change_request, change_request_size);
 
@@ -172,7 +172,7 @@ bool c_network_session_parameter_base::handle_change_request(void const* change_
 	return result;
 }
 
-bool c_network_session_parameter_base::handle_update(s_network_session_parameter_update const* update, int32 update_size)
+bool c_network_session_parameter_base::handle_update(const s_network_session_parameter_update* update, int32 update_size)
 {
 	//return INVOKE_CLASS_MEMBER(0x00450EA0, c_network_session_parameter_base, handle_update, update, update_size);
 
@@ -191,7 +191,7 @@ bool c_network_session_parameter_base::handle_update(s_network_session_parameter
 	return result;
 }
 
-void c_network_session_parameter_base::initialize(e_network_session_parameter_type parameter_type, char const* parameter_type_description, e_parameter_update_priority update_priority, e_parameter_change_request_access change_request_access, c_network_session* session)
+void c_network_session_parameter_base::initialize(e_network_session_parameter_type parameter_type, const char* parameter_type_description, e_parameter_update_priority update_priority, e_parameter_change_request_access change_request_access, c_network_session* session)
 {
 	//INVOKE_CLASS_MEMBER(0x00450F20, c_network_session_parameter_base, initialize, parameter_type, parameter_type_description, update_priority, change_request_access, session);
 
@@ -301,7 +301,7 @@ void c_network_session_parameter_base::reset_peer_state(int32 peer_index)
 	notify_reset_peer_state(peer_index);
 }
 
-//.text:004511F0 ; void c_static_array<bool, 17>::set_all(bool const& value)
+//.text:004511F0 ; void c_static_array<bool, 17>::set_all(const bool& value)
 
 bool c_network_session_parameter_base::set_allowed(void) const
 {
@@ -380,7 +380,7 @@ void c_network_session_parameter_base::transition_state_to_become_host(void)
 	notify_transition_state_to_become_host();
 }
 
-//void c_network_session_parameter_base::validate_buffer(int32 size, void const* original, void* temporary, void* buffer)
+//void c_network_session_parameter_base::validate_buffer(int32 size, const void* original, void* temporary, void* buffer)
 //{
 //	int32 update_size = size;
 //	c_bitstream encoded_message((byte*)buffer, size);

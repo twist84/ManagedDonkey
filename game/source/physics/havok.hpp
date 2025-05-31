@@ -69,10 +69,11 @@ extern s_havok_constants& g_havok_constants;
 extern s_havok_globals& g_havok_globals;
 extern bool& g_havok_memory_always_system;
 
+extern const s_havok_constants* get_havok_constants();
 extern void __cdecl havok_can_modify_state_allow();
 extern void __cdecl havok_can_modify_state_disallow();
 extern void __cdecl havok_display_stats(bool display_as_event);
-extern void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color const* color, char const* format, ...);
+extern void __cdecl havok_display_stats_printf(bool display_as_event, const real_argb_color* color, const char* format, ...);
 extern void __cdecl havok_dispose();
 extern void __cdecl havok_dispose_from_old_map();
 extern void __cdecl havok_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
@@ -83,7 +84,5 @@ extern void __cdecl havok_object_set_position(int32 object_index, bool a2, bool 
 extern void __cdecl havok_prepare_fpu_for_update();
 extern void __cdecl havok_restore_fpu_from_update();
 extern void __cdecl havok_update();
-
-extern s_havok_constants const* get_havok_constants();
 extern void havok_debug_render();
 

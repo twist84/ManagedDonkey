@@ -85,11 +85,11 @@ extern bool debug_biped_throttle;
 extern bool debug_objects_unit_pathfinding_surface;
 extern bool debug_objects_pendulum;
 
-extern void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, real_vector3d const* old_velocity);
+extern void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const real_vector3d* old_velocity);
 extern void __cdecl biped_get_autoaim_pill(int32 biped_index, real_point3d* base, real_vector3d* height, real32* autoaim_width);
 extern void __cdecl biped_get_physics_pill(int32 biped_index, real_point3d* position, real32* height, real32* radius);
 extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(int32 biped_index, real_point3d* position, real_vector3d* velocity);
-extern void __cdecl biped_get_sight_position(int32 biped_index, int16 estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, real_vector3d const* a5, real_vector3d const* desired_facing_vector, real_vector3d const* desired_gun_offset, real_point3d* camera_position);
+extern void __cdecl biped_get_sight_position(int32 biped_index, int16 estimate_mode, bool offset_camera, const real_point3d* estimated_body_position, const real_vector3d* a5, const real_vector3d* desired_facing_vector, const real_vector3d* desired_gun_offset, real_point3d* camera_position);
 extern bool __cdecl biped_in_airborne_state(int32 biped_index);
 extern void __cdecl biped_scripting_ragdoll(int32 biped_index);
 extern void __cdecl biped_render_debug(int32 biped_index);

@@ -40,8 +40,8 @@ enum e_thread_processor
 
 struct s_thread_assert_arguments
 {
-	char const* statement;
-	char const* file;
+	const char* statement;
+	const char* file;
 	int32 line;
 	bool fatal;
 };
@@ -49,7 +49,7 @@ static_assert(sizeof(s_thread_assert_arguments) == 0x10);
 
 struct s_thread_definition
 {
-	char const* name;
+	const char* name;
 	uns32 processor_index;
 	uns32 stack_size;
 	e_thread_priority default_priority;
@@ -86,14 +86,14 @@ extern s_thread_definition(&k_registered_thread_definitions)[k_registered_thread
 extern s_thread_system_globals& g_thread_globals;
 
 struct _EXCEPTION_POINTERS;
-extern void __cdecl SetThreadName(uns32 thread_id, char const* thread_name);
+extern void __cdecl SetThreadName(uns32 thread_id, const char* thread_name);
 extern bool __cdecl current_thread_should_exit();
 extern void __cdecl current_thread_update_test_functions();
 extern void __cdecl destroy_thread_management();
 extern uns32 __cdecl get_main_thread_id();
-extern char const* __cdecl get_registered_thread_name(int32 thread_index);
+extern const char* __cdecl get_registered_thread_name(int32 thread_index);
 extern e_thread_processor __cdecl get_registered_thread_processor(e_registered_threads thread_index);
-extern char const* __cdecl get_thread_name_from_thread_id(int32 thread_id);
+extern const char* __cdecl get_thread_name_from_thread_id(int32 thread_id);
 extern void __cdecl initialize_thread(e_registered_threads thread_index);
 extern void __cdecl initialize_thread_management();
 extern bool __cdecl is_async_thread();

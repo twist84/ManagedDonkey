@@ -10,14 +10,14 @@ HOOK_DECLARE(0x00434580, online_error_get_string);
 struct s_online_error_entry
 {
 	uns32 error;
-	char const* error_string;
+	const char* error_string;
 };
 
 extern s_online_error_entry k_windows_error_table[1515];
 extern s_online_error_entry k_com_error_table[925];
 extern s_online_error_entry k_online_error_table[167];
 
-void add_error(char const* error, c_static_string<256>* string)
+void add_error(const char* error, c_static_string<256>* string)
 {
 	if (!string->is_empty())
 		string->append(",");

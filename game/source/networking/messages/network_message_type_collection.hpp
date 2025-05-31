@@ -6,7 +6,7 @@
 
 struct c_network_message_type_collection
 {
-	using encode_t = void __cdecl(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	using encode_t = void __cdecl(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	using decode_t = bool __cdecl(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 	using compare_t = bool __cdecl(int32, void*, void*);
 	using dispose_t = void __cdecl(int32, void*);
@@ -14,7 +14,7 @@ struct c_network_message_type_collection
 	struct s_network_message_type
 	{
 		bool initialized;
-		char const* message_type_name;
+		const char* message_type_name;
 		uns32 flags;
 		int32 message_size;
 		int32 message_size_maximum;
@@ -33,11 +33,11 @@ public:
 	void __thiscall dispose_message_(e_network_message_type message_type, int32 message_storage_size, void* message_storage);
 	void __thiscall encode_message_(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, void* message_storage);
 	void __thiscall encode_message_header_(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size);
-	char const* __thiscall get_message_type_name_(e_network_message_type message_type);
+	const char* __thiscall get_message_type_name_(e_network_message_type message_type);
 
 	void __thiscall register_message_type_(
 		e_network_message_type message_type,
-		char const* message_type_name,
+		const char* message_type_name,
 		int32 flags,
 		int32 message_size,
 		int32 message_size_maximum,
@@ -52,13 +52,13 @@ public:
 	bool __cdecl decode_message(c_bitstream* packet, e_network_message_type* message_type, int32* message_storage_size, void* message_storage) const;
 	bool __cdecl decode_message_header(c_bitstream* packet, e_network_message_type* message_type, int32* message_storage_size) const;
 	void __cdecl dispose_message(e_network_message_type message_type, int32 message_storage_size, void* message_storage) const;
-	void __cdecl encode_message(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, void const* message_storage) const;
+	void __cdecl encode_message(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, const void* message_storage) const;
 	void __cdecl encode_message_header(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size) const;
-	char const* __cdecl get_message_type_name(e_network_message_type message_type) const;
+	const char* __cdecl get_message_type_name(e_network_message_type message_type) const;
 
 	void __cdecl register_message_type(
 		e_network_message_type message_type,
-		char const* message_type_name,
+		const char* message_type_name,
 		int32 flags,
 		int32 message_size,
 		int32 message_size_maximum,

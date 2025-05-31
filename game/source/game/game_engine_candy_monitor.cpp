@@ -15,7 +15,7 @@
 //.text:0058F840 ; 
 //.text:0058F850 ; 
 
-bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real32 sphere_radius, real32 distance)
+bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(const real_point3d* sphere_center, real32 sphere_radius, real32 distance)
 {
 	return INVOKE(0x0058F860, game_engine_any_player_nearby_and_looking_at_sphere, sphere_center, sphere_radius, distance);
 }
@@ -33,7 +33,7 @@ bool __cdecl game_engine_object_being_used(int32 object_index)
 
 	//if (object_index != NONE)
 	//{
-	//	object_header_datum const* object_header = object_header_get(object_index);
+	//	const object_header_datum* object_header = object_header_get(object_index);
 	//	if (object_header->datum->object.parent_object_index != NONE)
 	//		return true;
 	//
@@ -77,12 +77,12 @@ bool __cdecl game_engine_object_is_useless_weapon(int32 object_index)
 	return INVOKE(0x0058FD40, game_engine_object_is_useless_weapon, object_index);
 }
 
-bool __cdecl game_engine_player_is_looking_at_sphere(int32 player_index, real_point3d const* sphere_center, real32 sphere_radius)
+bool __cdecl game_engine_player_is_looking_at_sphere(int32 player_index, const real_point3d* sphere_center, real32 sphere_radius)
 {
 	return INVOKE(0x0058FDB0, game_engine_player_is_looking_at_sphere, player_index, sphere_center, sphere_radius);
 }
 
-bool __cdecl game_engine_player_is_nearby(real_point3d const* point, real32 radius)
+bool __cdecl game_engine_player_is_nearby(const real_point3d* point, real32 radius)
 {
 	return INVOKE(0x0058FEE0, game_engine_player_is_nearby, point, radius);
 }

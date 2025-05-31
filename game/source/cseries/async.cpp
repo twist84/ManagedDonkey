@@ -222,7 +222,7 @@ void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yi
 
 			if (spinner)
 			{
-				char const* spinner_states[] = { "/", "-", "\\" };
+				const char* spinner_states[] = { "/", "-", "\\" };
 				spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
 
 				c_static_string<64> loading_text;
@@ -292,21 +292,21 @@ s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_
 	return free_list;
 }
 
-void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, int32 line)
+void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, const char* file, int32 line)
 {
 	//INVOKE(0x00508A20, internal_async_yield_until_done, done, idle, show_debug_progress, file, line);
 
 	async_yield_until_done_function(done, simple_yield_function, idle_sound, false, show_debug_progress, _yield_for_unknown);
 }
 
-void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, char const* file, int32 line)
+void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, const char* file, int32 line)
 {
 	//INVOKE(0x00508A40, internal_async_yield_until_done_attributed, done, idle, show_debug_progress, yield_reason, file, line);
 
 	async_yield_until_done_function(done, simple_yield_function, idle_sound, false, show_debug_progress, yield_reason);
 }
 
-void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, int32 line)
+void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, const char* file, int32 line)
 {
 	//INVOKE(0x00508A60, internal_async_yield_until_done_with_networking, done, idle_sound, show_debug_progress, file, line);
 

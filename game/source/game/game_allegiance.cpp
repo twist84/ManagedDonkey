@@ -26,8 +26,8 @@ void __cdecl game_allegiance_dispose_from_old_map()
 }
 
 //.text:0066FFE0 ; int16 __cdecl game_allegiance_get_incidents(e_game_team, e_game_team, int16*)
-//.text:00670070 ; s_game_allegiance_globals const* __cdecl game_allegiance_globals_get()
-//.text:00670090 ; void __cdecl game_allegiance_globals_update(s_game_allegiance_globals const*)
+//.text:00670070 ; const s_game_allegiance_globals* __cdecl game_allegiance_globals_get()
+//.text:00670090 ; void __cdecl game_allegiance_globals_update(const s_game_allegiance_globals*)
 //.text:006700C0 ; bool __cdecl game_allegiance_incident(e_game_team, e_game_team, int16)
 
 void __cdecl game_allegiance_initialize()
@@ -57,6 +57,6 @@ void __cdecl game_allegiance_update()
 //.text:00670AE0 ; bool __cdecl game_team_is_ally(e_game_team, e_game_team)
 //.text:00670B80 ; bool __cdecl game_team_is_enemy(e_game_team, e_game_team)
 //.text:00670C10 ; bool __cdecl game_team_is_friendly(e_game_team, e_game_team)
-//.text:00670C40 ; bool __cdecl game_team_is_traitor(c_game_team const&, c_game_team const&)
+//.text:00670C40 ; bool __cdecl game_team_is_traitor(const c_game_team&, const c_game_team&)
 //.text:00670CD0 ; t_restricted_allocation_manager<3, 0, 0, &void __cdecl __tls_set_g_game_allegiance_globals_allocator(void*)>::reserve_memory
 

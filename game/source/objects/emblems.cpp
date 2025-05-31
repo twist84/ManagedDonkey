@@ -65,23 +65,31 @@ bool emblem_set_render_constants_for_local_user(e_controller_index controller_in
 		emblem_set_render_constants_from_user_interface(&emblem_info);
 
 		if (foreground_emblem)
+		{
 			*foreground_emblem = emblem_info.foreground_emblem_index;
+		}
 
 		if (background_emblem)
+		{
 			*background_emblem = emblem_info.background_emblem_index;
+		}
 
 		return true;
 	}
 
 	if (controller_index == k_any_controller)
 	{
-		if (s_player_configuration const* player_data = user_interface_squad_get_player_data(0))
+		if (const s_player_configuration* player_data = user_interface_squad_get_player_data(0))
 		{
 			if (foreground_emblem)
+			{
 				*foreground_emblem = player_data->host.appearance.emblem_info.foreground_emblem_index;
+			}
 
 			if (background_emblem)
+			{
 				*background_emblem = player_data->host.appearance.emblem_info.background_emblem_index;
+			}
 
 			return true;
 		}
@@ -90,7 +98,7 @@ bool emblem_set_render_constants_for_local_user(e_controller_index controller_in
 	return false;
 }
 
-bool emblem_set_render_constants_from_user_interface(s_emblem_info const* emblem_info)
+bool emblem_set_render_constants_from_user_interface(const s_emblem_info* emblem_info)
 {
 	ASSERT(emblem_info != NULL);
 

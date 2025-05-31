@@ -27,12 +27,12 @@ s_depth_of_field* __cdecl s_depth_of_field::get()
 	return depth_of_field_game_globals;
 }
 
-bool s_depth_of_field::get_current_depth_of_field_parameters(s_observer_depth_of_field const* observer_depth_of_field, real32* focus_distance, real32* aperture, real32* focus_half_width, real32* depth_of_field_blur)
+bool s_depth_of_field::get_current_depth_of_field_parameters(const s_observer_depth_of_field* observer_depth_of_field, real32* focus_distance, real32* aperture, real32* focus_half_width, real32* depth_of_field_blur)
 {
 	return INVOKE_CLASS_MEMBER(0x00A3EB20, s_depth_of_field, get_current_depth_of_field_parameters, observer_depth_of_field, focus_distance, aperture, focus_half_width, depth_of_field_blur);
 }
 
-real32 __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(s_observer_depth_of_field const* observer_depth_of_field)
+real32 __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(const s_observer_depth_of_field* observer_depth_of_field)
 {
 	return INVOKE(0x00A3EC30, s_depth_of_field::get_depth_of_field_blur_sigma, observer_depth_of_field);
 

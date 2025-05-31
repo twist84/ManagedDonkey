@@ -86,224 +86,224 @@ bool equipment_definition_has_type(int32 definition_index, e_equipment_type equi
 {
 	return INVOKE(0x00BA0360, equipment_definition_has_type, definition_index, equipment_type);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//void const* address = equipment_definition->equipment.equipment_types[equipment_type].address;
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const void* address = equipment_definition->equipment.equipment_types[equipment_type].address;
 	//return address != NULL;
 }
 
-s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(int32 definition_index)
+const s_equipment_type_adrenaline* equipment_get_adrenaline_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0390, equipment_get_adrenaline_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_adrenaline const* result = equipment_definition->equipment.adrenaline.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_adrenaline* result = equipment_definition->equipment.adrenaline.begin();
 	//return result;
 }
 
-s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(int32 definition_index)
+const s_equipment_type_ammo_pack* equipment_get_ammo_pack_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA03B0, equipment_get_ammo_pack_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_ammo_pack const* result = equipment_definition->equipment.ammo_pack.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_ammo_pack* result = equipment_definition->equipment.ammo_pack.begin();
 	//return result;
 }
 
-s_equipment_type_armor_lock const* equipment_get_armor_lock_definition(int32 definition_index)
+const s_equipment_type_armor_lock* equipment_get_armor_lock_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA03D0, equipment_get_armor_lock_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_armor_lock const* result = equipment_definition->equipment.armor_lock.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_armor_lock* result = equipment_definition->equipment.armor_lock.begin();
 	//return result;
 }
 
-s_equipment_type_bomb_run const* equipment_get_bomb_run_definition(int32 definition_index)
+const s_equipment_type_bomb_run* equipment_get_bomb_run_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA03F0, equipment_get_bomb_run_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_bomb_run const* result = equipment_definition->equipment.bomb_run.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_bomb_run* result = equipment_definition->equipment.bomb_run.begin();
 	//return result;
 }
 
-s_equipment_type_concussive_blast const* equipment_get_concussive_blast_definition(int32 definition_index)
+const s_equipment_type_concussive_blast* equipment_get_concussive_blast_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0410, equipment_get_concussive_blast_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_concussive_blast const* result = equipment_definition->equipment.concussive_blast.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_concussive_blast* result = equipment_definition->equipment.concussive_blast.begin();
 	//return result;
 }
 
-s_equipment_type_forced_reload const* equipment_get_forced_reload_definition(int32 definition_index)
+const s_equipment_type_forced_reload* equipment_get_forced_reload_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0430, equipment_get_forced_reload_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_forced_reload const* result = equipment_definition->equipment.forced_reload.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_forced_reload* result = equipment_definition->equipment.forced_reload.begin();
 	//return result;
 }
 
-s_equipment_type_health_pack const* equipment_get_health_pack_definition(int32 definition_index)
+const s_equipment_type_health_pack* equipment_get_health_pack_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0450, equipment_get_health_pack_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_health_pack const* result = equipment_definition->equipment.health_pack.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_health_pack* result = equipment_definition->equipment.health_pack.begin();
 	//return result;
 }
 
-s_equipment_type_hologram const* equipment_get_hologram_definition(int32 definition_index)
+const s_equipment_type_hologram* equipment_get_hologram_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0470, equipment_get_hologram_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_hologram const* result = equipment_definition->equipment.hologram.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_hologram* result = equipment_definition->equipment.hologram.begin();
 	//return result;
 }
 
-s_equipment_type_invincibility_mode const* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index)
+const s_equipment_type_invincibility_mode* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0490, equipment_get_invincibility_mode_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_invincibility_mode const* result = equipment_definition->equipment.invincibility_mode.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_invincibility_mode* result = equipment_definition->equipment.invincibility_mode.begin();
 	//return result;
 }
 
-s_equipment_type_invisibility_mode const* __cdecl equipment_get_invisibility_mode_definition(int32 definition_index)
+const s_equipment_type_invisibility_mode* __cdecl equipment_get_invisibility_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA04B0, equipment_get_invisibility_mode_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_invisibility_mode const* result = equipment_definition->equipment.invisibility_mode.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_invisibility_mode* result = equipment_definition->equipment.invisibility_mode.begin();
 	//return result;
 }
 
-s_equipment_type_lightning_strike const* __cdecl equipment_get_lightning_strike_definition(int32 definition_index)
+const s_equipment_type_lightning_strike* __cdecl equipment_get_lightning_strike_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA04D0, equipment_get_lightning_strike_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_lightning_strike const* result = equipment_definition->equipment.lightning_strike.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_lightning_strike* result = equipment_definition->equipment.lightning_strike.begin();
 	//return result;
 }
 
-s_equipment_type_mag_pulse const* __cdecl equipment_get_mag_pulse_definition(int32 definition_index)
+const s_equipment_type_mag_pulse* __cdecl equipment_get_mag_pulse_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA04F0, equipment_get_mag_pulse_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_mag_pulse const* result = equipment_definition->equipment.mag_pulse.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_mag_pulse* result = equipment_definition->equipment.mag_pulse.begin();
 	//return result;
 }
 
-s_equipment_type_motion_tracker_noise const* __cdecl equipment_get_motion_tracker_noise_definition(int32 definition_index)
+const s_equipment_type_motion_tracker_noise* __cdecl equipment_get_motion_tracker_noise_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0510, equipment_get_motion_tracker_noise_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_motion_tracker_noise const* result = equipment_definition->equipment.motion_tracker_noise.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_motion_tracker_noise* result = equipment_definition->equipment.motion_tracker_noise.begin();
 	//return result;
 }
 
-s_equipment_type_multiplayer_powerup const* __cdecl equipment_get_multiplayer_powerup_definition(int32 definition_index)
+const s_equipment_type_multiplayer_powerup* __cdecl equipment_get_multiplayer_powerup_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0530, equipment_get_multiplayer_powerup_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_multiplayer_powerup const* result = equipment_definition->equipment.multiplayer_powerup.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_multiplayer_powerup* result = equipment_definition->equipment.multiplayer_powerup.begin();
 	//return result;
 }
 
-s_equipment_type_proximity_mine const* __cdecl equipment_get_proximity_mine_definition(int32 definition_index)
+const s_equipment_type_proximity_mine* __cdecl equipment_get_proximity_mine_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0550, equipment_get_proximity_mine_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_proximity_mine const* result = equipment_definition->equipment.proximity_mine.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_proximity_mine* result = equipment_definition->equipment.proximity_mine.begin();
 	//return result;
 }
 
-s_equipment_type_reactive_armor const* __cdecl equipment_get_reactive_armor_definition(int32 definition_index)
+const s_equipment_type_reactive_armor* __cdecl equipment_get_reactive_armor_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0570, equipment_get_reactive_armor_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_reactive_armor const* result = equipment_definition->equipment.reactive_armor.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_reactive_armor* result = equipment_definition->equipment.reactive_armor.begin();
 	//return result;
 }
 
-s_equipment_type_scrambler const* __cdecl equipment_get_scrambler_definition(int32 definition_index)
+const s_equipment_type_scrambler* __cdecl equipment_get_scrambler_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0590, equipment_get_scrambler_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_scrambler const* result = equipment_definition->equipment.scrambler.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_scrambler* result = equipment_definition->equipment.scrambler.begin();
 	//return result;
 }
 
-s_equipment_type_showme const* __cdecl equipment_get_showme_definition(int32 definition_index)
+const s_equipment_type_showme* __cdecl equipment_get_showme_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA05B0, equipment_get_showme_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_showme const* result = equipment_definition->equipment.showme.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_showme* result = equipment_definition->equipment.showme.begin();
 	//return result;
 }
 
-s_equipment_type_spawner const* __cdecl equipment_get_spawner_definition(int32 definition_index)
+const s_equipment_type_spawner* __cdecl equipment_get_spawner_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA05D0, equipment_get_spawner_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_spawner const* result = equipment_definition->equipment.spawner.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_spawner* result = equipment_definition->equipment.spawner.begin();
 	//return result;
 }
 
-s_equipment_type_super_shield const* __cdecl equipment_get_super_shield_definition(int32 definition_index)
+const s_equipment_type_super_shield* __cdecl equipment_get_super_shield_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA05F0, equipment_get_super_shield_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_super_shield const* result = equipment_definition->equipment.super_shield.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_super_shield* result = equipment_definition->equipment.super_shield.begin();
 	//return result;
 }
 
-s_equipment_type_tank_mode const* __cdecl equipment_get_tank_mode_definition(int32 definition_index)
+const s_equipment_type_tank_mode* __cdecl equipment_get_tank_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0610, equipment_get_tank_mode_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_tank_mode const* result = equipment_definition->equipment.tank_mode.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_tank_mode* result = equipment_definition->equipment.tank_mode.begin();
 	//return result;
 }
 
-s_equipment_type_treeoflife const* __cdecl equipment_get_treeoflife_definition(int32 definition_index)
+const s_equipment_type_treeoflife* __cdecl equipment_get_treeoflife_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0630, equipment_get_treeoflife_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_treeoflife const* result = equipment_definition->equipment.tree_of_life.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_treeoflife* result = equipment_definition->equipment.tree_of_life.begin();
 	//return result;
 }
 
-s_equipment_type_vision const* __cdecl equipment_get_vision_definition(int32 definition_index)
+const s_equipment_type_vision* __cdecl equipment_get_vision_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0650, equipment_get_vision_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_vision const* result = equipment_definition->equipment.vision.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_vision* result = equipment_definition->equipment.vision.begin();
 	//return result;
 }
 
-s_equipment_type_weapon_jammer const* __cdecl equipment_get_weapon_jammer_definition(int32 definition_index)
+const s_equipment_type_weapon_jammer* __cdecl equipment_get_weapon_jammer_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0650, equipment_get_weapon_jammer_definition, definition_index);
 
-	//struct equipment_definition const* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//s_equipment_type_weapon_jammer const* result = equipment_definition->equipment.weapon_jammer.begin();
+	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
+	//const s_equipment_type_weapon_jammer* result = equipment_definition->equipment.weapon_jammer.begin();
 	//return result;
 }
 

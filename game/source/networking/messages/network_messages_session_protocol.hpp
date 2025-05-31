@@ -95,83 +95,83 @@ struct c_bitstream;
 class c_network_message_join_request
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_peer_connect
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_join_abort
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_join_refuse
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_leave_session
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_leave_acknowledge
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_session_disband
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_session_boot
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_host_decline
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_peer_establish
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_time_synchronize
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 	static bool __cdecl compare(int32, void*, void*);
 	static void __cdecl dispose(int32, void*);
 };
 
-extern char const* network_message_join_refuse_get_reason_string(int32 reason);
+extern const char* network_message_join_refuse_get_reason_string(int32 reason);
 
 struct c_network_message_type_collection;
 extern void __cdecl network_message_types_register_session_protocol(c_network_message_type_collection* message_collection);

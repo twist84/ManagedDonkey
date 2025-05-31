@@ -47,7 +47,7 @@ struct data_packet_field
 
 struct data_packet_definition
 {
-	char const* name;
+	const char* name;
 	uns32 flags;
 	int16 size;
 	int16 version;

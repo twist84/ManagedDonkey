@@ -654,7 +654,7 @@ c_abstract_button& s_game_input_state::get_button(e_button_action button_index)
 	return abstract_buttons[button_index];
 }
 
-c_abstract_button const& s_game_input_state::get_button(e_button_action button_index) const
+const c_abstract_button& s_game_input_state::get_button(e_button_action button_index) const
 {
 	return abstract_buttons[button_index];
 }

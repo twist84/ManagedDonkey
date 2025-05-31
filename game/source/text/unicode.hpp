@@ -3,32 +3,32 @@
 #include <stdarg.h>
 
 
-//extern int ustrcmp(wchar_t const*, wchar_t const*);
-//extern unsigned int ustrlen(wchar_t const*);
+//extern int ustrcmp(const wchar_t*, const wchar_t*);
+//extern unsigned int ustrlen(const wchar_t*);
 
-extern unsigned int ustrnlen(wchar_t const*, int32);
+extern unsigned int ustrnlen(const wchar_t*, int32);
 
-//extern wchar_t const* ustrchr(wchar_t const*,wchar_t);
-//extern int ustrcoll(wchar_t const*,wchar_t const*);
-//extern unsigned int ustrcspn(wchar_t const*,wchar_t const*);
+//extern const wchar_t* ustrchr(const wchar_t*,wchar_t);
+//extern int ustrcoll(const wchar_t*,const wchar_t*);
+//extern unsigned int ustrcspn(const wchar_t*,const wchar_t*);
 
-extern wchar_t* ustrnzcat(wchar_t*, wchar_t const*, int32);
+extern wchar_t* ustrnzcat(wchar_t*, const wchar_t*, int32);
 
-extern int ustrncmp(wchar_t const*,wchar_t const*,int32);
-//extern wchar_t* ustrncpy(wchar_t*,wchar_t const*,int32);
+extern int ustrncmp(const wchar_t*,const wchar_t*,int32);
+//extern wchar_t* ustrncpy(wchar_t*,const wchar_t*,int32);
 
-extern wchar_t* ustrnzcpy(wchar_t*, wchar_t const*, int32);
+extern wchar_t* ustrnzcpy(wchar_t*, const wchar_t*, int32);
 
-//extern wchar_t const* ustrpbrk(wchar_t const*,wchar_t const*);
-//extern wchar_t const* ustrrchr(wchar_t const*,wchar_t);
-//extern unsigned int ustrspn(wchar_t const*,wchar_t const*);
-//extern wchar_t const* ustrstr(wchar_t const*,wchar_t const*);
-//extern wchar_t* ustrtok(wchar_t*,wchar_t const*);
-//extern unsigned int ustrxfrm(wchar_t*,wchar_t const*,int32);
+//extern const wchar_t* ustrpbrk(const wchar_t*,const wchar_t*);
+//extern const wchar_t* ustrrchr(const wchar_t*,wchar_t);
+//extern unsigned int ustrspn(const wchar_t*,const wchar_t*);
+//extern const wchar_t* ustrstr(const wchar_t*,const wchar_t*);
+//extern wchar_t* ustrtok(wchar_t*,const wchar_t*);
+//extern unsigned int ustrxfrm(wchar_t*,const wchar_t*,int32);
 //extern wchar_t* ustrnlwr(wchar_t*,int32);
 extern wchar_t* ustrnupr(wchar_t* string, int32 count);
-extern int __cdecl ustricmp(wchar_t const*,wchar_t const*);
-extern int __cdecl ustrnicmp(wchar_t const*,wchar_t const*,int32);
+extern int __cdecl ustricmp(const wchar_t*,const wchar_t*);
+extern int __cdecl ustrnicmp(const wchar_t*,const wchar_t*,int32);
 //extern int uisalpha(wchar_t);
 //extern int uisupper(wchar_t);
 //extern int uislower(wchar_t);
@@ -46,49 +46,49 @@ extern int __cdecl ustrnicmp(wchar_t const*,wchar_t const*,int32);
 //extern wchar_t ufputc(wchar_t,_iobuf*);
 //extern wchar_t uungetc(wchar_t,_iobuf*);
 //extern wchar_t* ufgets(wchar_t*,int,_iobuf*);
-//extern int ufputs(wchar_t const*,_iobuf*);
+//extern int ufputs(const wchar_t*,_iobuf*);
 //extern wchar_t* ugets(wchar_t*);
-//extern int uputs(wchar_t const*);
-//extern int ufprintf(_iobuf*,wchar_t const*,...);
-//extern int uprintf(wchar_t const*,...);
-//extern int usnprintf(wchar_t*,int32,wchar_t const*,...);
+//extern int uputs(const wchar_t*);
+//extern int ufprintf(_iobuf*,const wchar_t*,...);
+//extern int uprintf(const wchar_t*,...);
+//extern int usnprintf(wchar_t*,int32,const wchar_t*,...);
 
-extern int usnzprintf(wchar_t*,int32,wchar_t const*,...);
+extern int usnzprintf(wchar_t*,int32,const wchar_t*,...);
 
-//extern int uvfprintf(_iobuf*,wchar_t const*,char*);
-//extern int uvprintf(wchar_t const*,char*);
+//extern int uvfprintf(_iobuf*,const wchar_t*,char*);
+//extern int uvprintf(const wchar_t*,char*);
 
-extern int uvsnzprintf(wchar_t* string, int32 size, wchar_t const* format, va_list list);
-extern wchar_t const* uvsnzappend(wchar_t* string, int32 size, wchar_t const* format, va_list list);
-extern wchar_t const* usnzappend(wchar_t* string, int32 size, wchar_t const* format, ...);
+extern int uvsnzprintf(wchar_t* string, int32 size, const wchar_t* format, va_list list);
+extern const wchar_t* uvsnzappend(wchar_t* string, int32 size, const wchar_t* format, va_list list);
+extern const wchar_t* usnzappend(wchar_t* string, int32 size, const wchar_t* format, ...);
 
-//extern _iobuf* ufdopen(int,wchar_t const*);
-//extern _iobuf* ufopen(wchar_t const*,wchar_t const*);
+//extern _iobuf* ufdopen(int,const wchar_t*);
+//extern _iobuf* ufopen(const wchar_t*,const wchar_t*);
 //extern int ufclose(_iobuf*);
-//extern _iobuf* ufreopen(wchar_t const*,wchar_t const*,_iobuf*);
-//extern void uperror(wchar_t const*);
-//extern int uremove(wchar_t const*);
+//extern _iobuf* ufreopen(const wchar_t*,const wchar_t*,_iobuf*);
+//extern void uperror(const wchar_t*);
+//extern int uremove(const wchar_t*);
 //extern wchar_t* utmpnam(wchar_t*);
-//extern int32 ustrtol(wchar_t const*,wchar_t**,int);
-//extern uns32 ustrtoul(wchar_t const*,wchar_t**,int);
-//extern real64 ustrtod(wchar_t const*,wchar_t**);
-//extern wchar_t* ustrftime_tm(wchar_t*,int32,wchar_t const*,tm const*);
-//extern wchar_t* ustrftime(wchar_t*,int32,wchar_t const*,int64);
-//extern int uatoi(wchar_t const*);
+//extern int32 ustrtol(const wchar_t*,wchar_t**,int);
+//extern uns32 ustrtoul(const wchar_t*,wchar_t**,int);
+//extern real64 ustrtod(const wchar_t*,wchar_t**);
+//extern wchar_t* ustrftime_tm(wchar_t*,int32,const wchar_t*,const tm*);
+//extern wchar_t* ustrftime(wchar_t*,int32,const wchar_t*,int64);
+//extern int uatoi(const wchar_t*);
 
-extern void wchar_string_to_ascii_string(wchar_t const* source, char* destination, int32 source_length, int32* destination_length);
+extern void wchar_string_to_ascii_string(const wchar_t* source, char* destination, int32 source_length, int32* destination_length);
 
-//extern utf32 ascii_string_to_utf32_characters(char const*,s_escape_table const*,char const**,int32*,utf32*,int32,int32*);
-//extern utf32 wchar_string_to_utf32_characters(wchar_t const*,s_escape_table const*,wchar_t const**,int32*,utf32*,int32,int32*);
-//extern void ascii_string_to_utf32_string(char const*,s_escape_table const*,utf32*,int32,int32*);
-//extern void wchar_string_to_utf32_string(wchar_t const*,s_escape_table const*,utf32*,int32,int32*);
+//extern utf32 ascii_string_to_utf32_characters(const char*,const s_escape_table*,const char**,int32*,utf32*,int32,int32*);
+//extern utf32 wchar_string_to_utf32_characters(const wchar_t*,const s_escape_table*,const wchar_t**,int32*,utf32*,int32,int32*);
+//extern void ascii_string_to_utf32_string(const char*,const s_escape_table*,utf32*,int32,int32*);
+//extern void wchar_string_to_utf32_string(const wchar_t*,const s_escape_table*,utf32*,int32,int32*);
 
-extern void __cdecl ascii_string_to_wchar_string(char const* src, wchar_t* dest, int32 src_len, int32* out_dest_len);
+extern void __cdecl ascii_string_to_wchar_string(const char* src, wchar_t* dest, int32 src_len, int32* out_dest_len);
 extern wchar_t* __cdecl unicode_byte_swap_wchar_string(wchar_t* string, int32 maximum_count, int32 byte_order);
 
 //extern int32 utf32_character_to_utf16_string(utf32,utf16*,int32);
-//extern utf32 utf16_string_to_utf32_character(utf16 const*,utf16 const**);
-//extern bool utf32_in_list(utf32,s_utf32_range const*,int32);
+//extern utf32 utf16_string_to_utf32_character(const utf16*,const utf16**);
+//extern bool utf32_in_list(utf32,const s_utf32_range*,int32);
 //extern bool utf32_isspace(utf32);
 //extern bool utf32_is_id_start(utf32);
 //extern bool utf32_is_id_continue(utf32);
@@ -96,12 +96,12 @@ extern wchar_t* __cdecl unicode_byte_swap_wchar_string(wchar_t* string, int32 ma
 //extern bool utf32_isprint(utf32);
 //extern bool utf32_ismonochrome(utf32);
 //extern bool utf32_can_line_break(utf32,utf32);
-//extern unsigned int utf32_strlen(utf32 const*);
+//extern unsigned int utf32_strlen(const utf32*);
 //extern bool is_private_use_character(wchar_t);
-//extern void utf8_string_to_wchar_string(utf8 const*,wchar_t*,int32,int32*);
-//extern void wchar_string_to_utf8_string(wchar_t const*,utf8*,int32,int32*);
-//extern void string_to_utf32_string<char,8>(char const*,s_escape_table const*,utf32*,utf32 (*)(char const*,s_escape_table const*,char const**,int32*,utf32*,int32,int32*),int32,int32*);
-//extern void string_to_utf32_string<wchar_t,8>(wchar_t const*,s_escape_table const*,utf32*,utf32 (*)(wchar_t const*,s_escape_table const*,wchar_t const**,int32*,utf32*,int32,int32*),int32,int32*);
+//extern void utf8_string_to_wchar_string(const utf8*,wchar_t*,int32,int32*);
+//extern void wchar_string_to_utf8_string(const wchar_t*,utf8*,int32,int32*);
+//extern void string_to_utf32_string<char,8>(const char*,const s_escape_table*,utf32*,utf32 (*)(const char*,const s_escape_table*,const char**,int32*,utf32*,int32,int32*),int32,int32*);
+//extern void string_to_utf32_string<wchar_t,8>(const wchar_t*,const s_escape_table*,utf32*,utf32 (*)(const wchar_t*,const s_escape_table*,const wchar_t**,int32*,utf32*,int32,int32*),int32,int32*);
 
 template<int32 k_buffer_size>
 struct c_static_wchar_string
@@ -113,13 +113,13 @@ public:
 		clear();
 	}
 
-	c_static_wchar_string(wchar_t const* s) :
+	c_static_wchar_string(const wchar_t* s) :
 		c_static_wchar_string()
 	{
 		set(s);
 	}
 
-	void set(wchar_t const* s)
+	void set(const wchar_t* s)
 	{
 		ustrnzcpy(m_string, s, k_buffer_size);
 	}
@@ -134,12 +134,12 @@ public:
 		return !m_string[0];
 	}
 
-	wchar_t const* get_string() const
+	const wchar_t* get_string() const
 	{
 		return m_string;
 	}
 
-	wchar_t const* get_offset(int32 offset) const
+	const wchar_t* get_offset(int32 offset) const
 	{
 		if (VALID_INDEX(offset, length()))
 			return &m_string[offset];
@@ -152,19 +152,19 @@ public:
 		return ustrnlen(m_string, k_buffer_size);
 	}
 
-	void append(wchar_t const* s)
+	void append(const wchar_t* s)
 	{
 		ustrnzcat(m_string, s, k_buffer_size);
 	}
 
-	void append_line(wchar_t const* s = nullptr)
+	void append_line(const wchar_t* s = nullptr)
 	{
 		if (s != nullptr)
 			ustrnzcat(m_string, s, k_buffer_size);
 		ustrnzcat(m_string, L"\r\n", k_buffer_size);
 	}
 
-	wchar_t const* print(wchar_t const* format, ...)
+	const wchar_t* print(const wchar_t* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
@@ -176,7 +176,7 @@ public:
 		return m_string;
 	}
 
-	wchar_t const* print_line(wchar_t const* format, ...)
+	const wchar_t* print_line(const wchar_t* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
@@ -189,14 +189,14 @@ public:
 		return m_string;
 	}
 
-	wchar_t const* print_va(wchar_t const* format, va_list list)
+	const wchar_t* print_va(const wchar_t* format, va_list list)
 	{
 		uvsnzprintf(m_string, k_buffer_size, format, list);
 
 		return m_string;
 	}
 
-	wchar_t const* append_print(wchar_t const* format, ...)
+	const wchar_t* append_print(const wchar_t* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
@@ -207,19 +207,19 @@ public:
 		return m_string;
 	}
 	
-	wchar_t const* append_print_line(wchar_t const* format, ...)
+	const wchar_t* append_print_line(const wchar_t* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
 
-		wchar_t const* result = append_print_va(format, list);
+		const wchar_t* result = append_print_va(format, list);
 		append_line();
 
 		va_end(list);
 		return result;
 	}
 
-	wchar_t const* append_print_va(wchar_t const* format, va_list list)
+	const wchar_t* append_print_va(const wchar_t* format, va_list list)
 	{
 		int32 current_length = length();
 
@@ -231,7 +231,7 @@ public:
 		return m_string;
 	}
 
-	bool is_equal(wchar_t const* s, bool case_sensitive) const
+	bool is_equal(const wchar_t* s, bool case_sensitive) const
 	{
 		if (case_sensitive)
 			return ustrncmp(m_string, s, k_buffer_size) == 0;
@@ -239,7 +239,7 @@ public:
 		return ustrnicmp(m_string, s, k_buffer_size) == 0;
 	}
 
-	bool is_equal(wchar_t const* s) const
+	bool is_equal(const wchar_t* s) const
 	{
 		return is_equal(s, true);
 	}

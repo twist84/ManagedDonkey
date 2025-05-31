@@ -11,8 +11,8 @@ struct c_camera
 	virtual void update(int32 user_index, real32 dt, s_observer_command* result);
 	virtual int32 get_target() const;
 	virtual void set_target(int32 object_index);
-	virtual void set_position(real_point3d const* position);
-	virtual void set_forward(real_vector3d const* forward);
+	virtual void set_position(const real_point3d* position);
+	virtual void set_forward(const real_vector3d* forward);
 	virtual void set_roll(real32 roll);
 	virtual void enable_orientation(bool enabled);
 	virtual void enable_movement(bool enabled);
@@ -43,9 +43,9 @@ struct c_null_camera :
 };
 static_assert(sizeof(c_null_camera) == 0x4C);
 
-//extern char const* const (&global_camera_mode_names)[k_number_of_camera_modes];
-extern char const* const global_camera_mode_names[k_number_of_camera_modes];
+//extern const char* const (&global_camera_mode_names)[k_number_of_camera_modes];
+extern const char* const global_camera_mode_names[k_number_of_camera_modes];
 
-extern char const* camera_mode_get_name(int32 camera_mode);
-extern e_camera_mode camera_mode_from_string(char const* str);
+extern const char* camera_mode_get_name(int32 camera_mode);
+extern e_camera_mode camera_mode_from_string(const char* str);
 

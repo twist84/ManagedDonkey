@@ -21,7 +21,7 @@ struct c_overlapped_task
 
 public:
 	virtual void* destructor(uns32);
-	virtual char const* get_context_string();
+	virtual const char* get_context_string();
 	virtual uns32 start(void* overlapped);
 	virtual void update(uns32 return_result);
 	virtual void success(uns32 return_result);
@@ -35,32 +35,32 @@ public:
 	void task_recycled_during_completion(bool recycled_during_completion);
 	bool task_was_recycled_during_completion() const;
 
-	c_overlapped_task* constructor(char const* file, int32 line);
+	c_overlapped_task* constructor(const char* file, int32 line);
 
 	bool busy() const;
 
-	char const* get_file() const;
-	void set_file(char const* file);
+	const char* get_file() const;
+	void set_file(const char* file);
 	int32 get_line() const;
 	void set_line(int32 line);
 
 protected:
 	c_flags<e_overlapped_task_flags, int16, k_number_of_overlapped_task_flags> m_task_flags;
 	c_enum<e_overlapped_task_state, int16, _overlapped_task_state_none, k_overlapped_task_state_count> m_task_state;
-	char const* m_file;
+	const char* m_file;
 	int32 m_line;
 };
 static_assert(sizeof(c_overlapped_task) == 0x10);
 
 struct s_task_slot;
 
-extern s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task);
+extern s_task_slot* __cdecl find_task_slot(const c_overlapped_task* task);
 extern void __cdecl overlapped_dispose();
 extern void __cdecl overlapped_initialize();
 extern void __cdecl overlapped_render();
-extern void __cdecl overlapped_task_block_until_finished(c_overlapped_task const* task);
-extern bool __cdecl overlapped_task_is_running(c_overlapped_task const* task);
-extern bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, int32 line);
+extern void __cdecl overlapped_task_block_until_finished(const c_overlapped_task* task);
+extern bool __cdecl overlapped_task_is_running(const c_overlapped_task* task);
+extern bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, const char* file, int32 line);
 extern void __cdecl overlapped_task_terminate(c_overlapped_task* task);
 extern void __cdecl overlapped_task_toggle_debug_rendering(bool toggle_debug_rendering);
 extern void __cdecl overlapped_task_wait_for_all_tasks_to_finish();
@@ -71,6 +71,6 @@ extern void __cdecl task_now_finished(s_task_slot* task_slot, uns32 return_resul
 
 extern void overlapped_tasks_log_to_debug_txt(e_event_level event_level);
 extern void overlapped_task_display_task_descriptions();
-extern void overlapped_task_inject_error(char const* context, bool inject_error);
-extern void overlapped_task_pause(char const* context, bool pause);
+extern void overlapped_task_inject_error(const char* context, bool inject_error);
+extern void overlapped_task_pause(const char* context, bool pause);
 

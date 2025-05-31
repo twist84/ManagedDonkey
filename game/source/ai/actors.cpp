@@ -10,7 +10,7 @@
 //.text:01428400 ; 
 //.text:01428410 ; 
 
-real_argb_color const* __cdecl actor_activation_debug_color(int32 actor_index)
+const real_argb_color* __cdecl actor_activation_debug_color(int32 actor_index)
 {
 	return INVOKE(0x01428470, actor_activation_debug_color, actor_index);
 }
@@ -74,7 +74,7 @@ void __cdecl actor_erase(int32 actor_index, bool delete_immediately)
 	}
 }
 
-//.text:01429E60 ; void __cdecl actor_estimate_position(int32, int16, real_point3d const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real_point3d*)
+//.text:01429E60 ; void __cdecl actor_estimate_position(int32, int16, const real_point3d*, const real_vector3d*, const real_vector3d*, const real_vector3d*, real_point3d*)
 //.text:01429ED0 ; void __cdecl actor_firing_position_hash_set_address(void*)
 //.text:01429F00 ; void __cdecl actor_flush_position_indices(int32, bool)
 //.text:0142A010 ; void __cdecl actor_flush_prop(int32, int32)
@@ -103,7 +103,7 @@ bool __cdecl actor_general_update(int32 actor_index)
 //.text:0142AC90 ; void __cdecl actor_get_timeslices(int32)
 //.text:0142ADB0 ; int32 __cdecl actor_get_weapon(int32)
 //.text:0142AE50 ; void __cdecl actor_handle_change_internal(int32, bool, bool)
-//.text:0142AF40 ; void __cdecl actor_handle_damage(int32, int16, int32, int32, real32, real_vector3d const*)
+//.text:0142AF40 ; void __cdecl actor_handle_damage(int32, int16, int32, int32, real32, const real_vector3d*)
 //.text:0142B2C0 ; void __cdecl actor_handle_deleted_actor(int32, int32)
 //.text:0142B350 ; void __cdecl actor_handle_deleted_object(int32, int32)
 //.text:0142B530 ; void __cdecl actor_handle_equipment_delete(int32)
@@ -111,7 +111,7 @@ bool __cdecl actor_general_update(int32 actor_index)
 //.text:0142B600 ; bool __cdecl actor_handle_kill_volume(int32)
 //.text:0142B6A0 ; void __cdecl actor_handle_order_change(int32, orders_definition*)
 //.text:0142B6E0 ; void __cdecl actor_handle_projectile_attach(int32, int32)
-//.text:0142B770 ; void __cdecl actor_handle_stun(int32, real32, real_vector3d const*)
+//.text:0142B770 ; void __cdecl actor_handle_stun(int32, real32, const real_vector3d*)
 //.text:0142B8E0 ; void __cdecl actor_handle_task_change(int32, s_task*)
 //.text:0142B940 ; void __cdecl actor_handle_weapon_trade(int32, int32, int32, int32)
 //.text:0142BA20 ; bool __cdecl actor_has_followers(int32)
@@ -122,7 +122,7 @@ bool __cdecl actor_general_update(int32 actor_index)
 //.text:0142BD90 ; void __cdecl actor_input_sample_position(int32, int32, actor_position_data*)
 //.text:0142BE50 ; void __cdecl actor_input_update(int32)
 
-bool __cdecl actor_is_active(actor_datum const* actor)
+bool __cdecl actor_is_active(const actor_datum* actor)
 {
 	//return INVOKE(0x0142C690, actor_is_active, actor);
 
@@ -201,10 +201,10 @@ void __cdecl actor_kill(int32 actor_index, bool silent, bool delayed)
 }
 
 //.text:0142CAA0 ; void __cdecl actor_memory_update(int32)
-//.text:0142CC20 ; void __cdecl actor_nearby_actors_iterator_new(actor_nearby_actors_iterator*, real_point3d const*, real32, int16, int16)
+//.text:0142CC20 ; void __cdecl actor_nearby_actors_iterator_new(actor_nearby_actors_iterator*, const real_point3d*, real32, int16, int16)
 //.text:0142CC80 ; actor_datum* __cdecl actor_nearby_actors_iterator_next(actor_nearby_actors_iterator*)
 //.text:0142CE20 ; int32 __cdecl actor_new(int32)
-//.text:0142D590 ; int32 __cdecl actor_place(int16, actor_spawn_definition const*)
+//.text:0142D590 ; int32 __cdecl actor_place(int16, const actor_spawn_definition*)
 //.text:0142E080 ; void __cdecl actor_preupdate(int32)
 //.text:0142E0B0 ; void __cdecl actor_randomly_control_unit(int32, int32)
 //.text:0142E170 ; void __cdecl actor_relinquish_pathfinding_timeslice(int32)
@@ -223,7 +223,7 @@ bool __cdecl actor_set_active(int32 actor_index, bool active)
 //.text:0142E9C0 ; void __cdecl actor_set_covered(int32, bool)
 //.text:0142EA10 ; void __cdecl actor_set_mission_critical(int32, int32)
 //.text:0142EAD0 ; void __cdecl actor_set_team(int32, int16)
-//.text:0142EBA0 ; int32 __cdecl actor_spawn_death_character(int32, int32, int32, int16, int16, real_point3d const*)
+//.text:0142EBA0 ; int32 __cdecl actor_spawn_death_character(int32, int32, int32, int16, int16, const real_point3d*)
 //.text:0142ED80 ; bool __cdecl actor_spawn_unit_character(int32, int32)
 //.text:0142EDC0 ; void __cdecl actor_suppress_combat(int32)
 //.text:0142EDF0 ; void __cdecl actor_suppress_combat_update(int32)
@@ -234,7 +234,7 @@ bool __cdecl actor_switch_bsp(int32 actor_index)
 }
 
 //.text:0142EFC0 ; int32 __cdecl actor_target_unit_index(int32)
-//.text:0142F010 ; bool __cdecl actor_test_activation_cluster_bit_vector(int32, s_game_cluster_bit_vectors const*)
+//.text:0142F010 ; bool __cdecl actor_test_activation_cluster_bit_vector(int32, const s_game_cluster_bit_vectors*)
 //.text:0142F150 ; void __cdecl actor_unit_control(int32)
 //.text:0142F2C0 ; void __cdecl actor_unit_control_boost(int32, bool)
 //.text:0142F340 ; void __cdecl actor_unit_control_crouch(int32, bool)
@@ -284,7 +284,7 @@ void __cdecl actors_update()
 	INVOKE(0x0142FF30, actors_update);
 }
 
-//.text:014302E0 ; bool __cdecl ai_area_type_allowed(int16, area_definition const*)
+//.text:014302E0 ; bool __cdecl ai_area_type_allowed(int16, const area_definition*)
 //.text:01430340 ; 
 //.text:01430350 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_actor_data_allocator(void*)>::allocate
 //.text:01430390 ; t_restricted_allocation_manager<1,0,0,&void __tls_set_g_ai_reference_frame_data_allocator(void*)>::allocate

@@ -54,12 +54,12 @@ struct s_character_physics_update_input_datum
 	int32 mode; // c_character_physics_component::e_mode
 
 	bool sub_initialized;
-	s_character_physics_definition const* character_physics_definition;
+	const s_character_physics_definition* character_physics_definition;
 	uns32 flags;
 	int32 early_mover_object_index;
 	int32 accepted_early_mover_object_index;
 	int32 havok_component_index;
-	c_animation_manager const* animation_manager;
+	const c_animation_manager* animation_manager;
 	real32 movement_scale;
 	int32 havok_group;
 	s_flying flying;
@@ -80,7 +80,7 @@ struct s_character_physics_update_input_datum
 	real_vector3d desired_movement_speed;
 	real32 acceleration_maximum;
 	real32 airborne_acceleration_maximum;
-	hkShape const* shape_switch_request;
+	const hkShape* shape_switch_request;
 };
 static_assert(sizeof(s_character_physics_update_input_datum) == 0x16C);
 
@@ -91,24 +91,24 @@ struct s_character_physics_update_output_datum;
 
 struct c_character_physics_mode_ground_datum
 {
-	real_vector3d const* get_ground_plane() const;
+	const real_vector3d* get_ground_plane() const;
 	real32 get_ground_plane_contact_offset() const;
 	real32 get_landing_velocity() const;
 	int32 get_support_havok_component_index() const;
-	real_matrix4x3 const* get_support_havok_component_matrix() const;
+	const real_matrix4x3* get_support_havok_component_matrix() const;
 	int32 get_support_object_index() const;
 	int32 get_support_rigid_body_index() const;
 	void initialize();
 	void initialize_internal(bool initialize_support_data);
-	void move(s_character_physics_move_output_datum* physics_output, s_character_physics_move_input_datum const* physics_input);
+	void move(s_character_physics_move_output_datum* physics_output, const s_character_physics_move_input_datum* physics_input);
 	void notify_in_slip_surface_volume();
-	void set_contact(int32 havok_component_index, s_havok_contact_point_reference const* primary_contact_point_reference, real_vector3d const* ground_plane);
-	void set_ground_plane(real_vector3d const* ground_plane);
-	void update(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input);
-	void update_internal(s_character_physics_update_output_datum* physics_output, s_character_physics_update_input_datum const* physics_input, bool localize_airborne, real_vector3d const* localized_velocity);
-	bool update_localized_physics_space_linear_velocity(s_character_physics_update_input_datum const* physics_input, real_vector3d* linear_velocity, real_vector3d* space_acceleration, real_matrix3x3* rotation);
+	void set_contact(int32 havok_component_index, const s_havok_contact_point_reference* primary_contact_point_reference, const real_vector3d* ground_plane);
+	void set_ground_plane(const real_vector3d* ground_plane);
+	void update(s_character_physics_update_output_datum* physics_output, const s_character_physics_update_input_datum* physics_input);
+	void update_internal(s_character_physics_update_output_datum* physics_output, const s_character_physics_update_input_datum* physics_input, bool localize_airborne, const real_vector3d* localized_velocity);
+	bool update_localized_physics_space_linear_velocity(const s_character_physics_update_input_datum* physics_input, real_vector3d* linear_velocity, real_vector3d* space_acceleration, real_matrix3x3* rotation);
 
-	bool __thiscall update_ground_velocity(s_character_physics_update_input_datum const* physics_input, real_vector3d* linear_velocity, real_matrix3x3* rotation);
+	bool __thiscall update_ground_velocity(const s_character_physics_update_input_datum* physics_input, real_vector3d* linear_velocity, real_matrix3x3* rotation);
 
 	real_vector3d m_last_localized_physics_velocity;
 	int32 m_last_time_animation_velocity;

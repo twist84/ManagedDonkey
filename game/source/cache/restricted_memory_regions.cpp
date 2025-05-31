@@ -33,7 +33,7 @@ void __cdecl restricted_region_add_alias(int32 index)
 	//g_restricted_alias[index] = true;
 }
 
-int32 __cdecl restricted_region_add_member(int32 index, char const* name, char const* type, unsigned int allocation, int32 alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_pre_overwrite_fixup_callback)(void*), void(__cdecl* tls_post_copy_fixup_callback)(void*))
+int32 __cdecl restricted_region_add_member(int32 index, const char* name, const char* type, unsigned int allocation, int32 alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_pre_overwrite_fixup_callback)(void*), void(__cdecl* tls_post_copy_fixup_callback)(void*))
 {
 	return INVOKE(0x005A0010, restricted_region_add_member, index, name, type, allocation, alignment_bits, tls_update_callback, tls_pre_overwrite_fixup_callback, tls_post_copy_fixup_callback);
 
@@ -147,7 +147,7 @@ int32 __cdecl restricted_region_get_mirror_count(int32 index)
 	//return g_restricted_regions[index].mirror_count();
 }
 
-char const* __cdecl restricted_region_get_name(int32 index)
+const char* __cdecl restricted_region_get_name(int32 index)
 {
 	return INVOKE(0x005A02A0, restricted_region_get_name, index);
 

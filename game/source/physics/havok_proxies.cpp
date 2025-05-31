@@ -1,6 +1,6 @@
 #include "physics/havok_proxies.hpp"
 
-//.text:00679AC0 ; void __cdecl havok_proxies_apply_hard_key_frame(hkVector4 const&, hkQuaternion const&, real32, hkVector4 const&, hkRigidBody*)
+//.text:00679AC0 ; void __cdecl havok_proxies_apply_hard_key_frame(const hkVector4&, const hkQuaternion&, real32, const hkVector4&, hkRigidBody*)
 
 void __cdecl havok_proxies_dispose()
 {

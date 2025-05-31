@@ -20,11 +20,11 @@ struct s_player_identifier
 	s_player_identifier();
 	s_player_identifier(uns64 data);
 	s_player_identifier(uns32 _ipv4_address, uns16 _port, uns16 _flags);
-	s_player_identifier(transport_address const* address);
+	s_player_identifier(const transport_address* address);
 
 	byte identifier[8];
 
-	bool operator==(s_player_identifier const& other)
+	bool operator==(const s_player_identifier& other)
 	{
 		return csmemcmp(this, &other, sizeof(*this)) == 0;
 	}
@@ -721,13 +721,13 @@ extern bool __cdecl player_consider_unit_interaction(int32 player_index, int32 u
 extern bool __cdecl player_consider_vehicle_interaction(int32 player_index, int32 vehicle_index, s_player_action_context* result);
 extern bool __cdecl player_consider_weapon_interaction(int32 player_index, int32 weapon_index, s_player_action_context* result);
 extern void __cdecl player_delete(int32 player_index);
-extern bool __cdecl player_evaluate_interaction(int32 player_index, s_player_interaction const* interaction, s_player_interaction* current_interaction);
+extern bool __cdecl player_evaluate_interaction(int32 player_index, const s_player_interaction* interaction, s_player_interaction* current_interaction);
 extern void __cdecl player_find_action_context(int32 player_index, s_player_action_context* out_action_context);
 extern int32 __cdecl player_index_from_unit_index(int32 unit_index);
-extern bool __cdecl player_interaction_exists(int32 player_index, uns32 object_mask, s_player_interaction const* interaction);
+extern bool __cdecl player_interaction_exists(int32 player_index, uns32 object_mask, const s_player_interaction* interaction);
 extern bool __cdecl player_is_local(int32 player_index);
 extern bool __cdecl player_is_reading_terminal();
-extern int32 __cdecl player_new(int32 player_array_index, game_player_options const* options, bool joined_in_progress);
+extern int32 __cdecl player_new(int32 player_array_index, const game_player_options* options, bool joined_in_progress);
 extern void __cdecl player_positions_dispose();
 extern void __cdecl player_positions_dispose_from_old_map();
 extern void __cdecl player_positions_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
@@ -735,11 +735,11 @@ extern void __cdecl player_positions_initialize();
 extern void __cdecl player_positions_initialize_for_new_map();
 extern void __cdecl player_positions_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern real_rgb_color __cdecl player_profile_get_rgb_color(int32 color_index);
-extern void __cdecl player_set_facing(int32 player_index, real_vector3d const* facing);
+extern void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing);
 extern void __cdecl player_set_unit_index(int32 player_index, int32 unit_index);
-extern bool __cdecl player_spawn(int32 player_index, real_point3d const* position, real32 const* facing);
+extern bool __cdecl player_spawn(int32 player_index, const real_point3d* position, const real32* facing);
 extern void __cdecl player_suppress_action(int32 player_index, int32 player_suppress_action_type);
-extern bool __cdecl player_teleport(int32 player_index, int32 object_index, real_point3d const* position);
+extern bool __cdecl player_teleport(int32 player_index, int32 object_index, const real_point3d* position);
 extern bool __cdecl player_try_to_drop_weapon(int32 player_index, bool primary_weapon);
 extern int32 __cdecl player_unit_get_representation_index(int32 unit_index);
 extern int32 __cdecl player_unit_get_control_index(int32 unit_index);
@@ -759,16 +759,16 @@ extern void __cdecl players_initialize();
 extern void __cdecl players_initialize_for_new_map();
 extern void __cdecl players_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl players_rebuild_user_mapping(bool force_rebuild);
-extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
-extern void __cdecl players_set_machines(uns32 new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
+extern void __cdecl players_set_local_machine(const s_machine_identifier* machine_identifier);
+extern void __cdecl players_set_machines(uns32 new_machine_valid_mask, const s_machine_identifier* new_machine_identifiers);
 extern void __cdecl players_verify();
-extern void __cdecl players_update_after_game(struct simulation_update const* update);
-extern void __cdecl players_update_before_game(struct simulation_update const* update);
+extern void __cdecl players_update_after_game(const struct simulation_update* update);
+extern void __cdecl players_update_before_game(const struct simulation_update* update);
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
-extern int32 multiplayer_universal_data_get_absolute_equipment_block_index(char const* name);
-extern int32 multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(char const* region_or_biped_name, char const* selection_name);
-extern int16 multiplayer_universal_data_get_absolute_weapons_selection_block_index(char const* selection_name);
+extern int32 multiplayer_universal_data_get_absolute_equipment_block_index(const char* name);
+extern int32 multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(const char* region_or_biped_name, const char* selection_name);
+extern int16 multiplayer_universal_data_get_absolute_weapons_selection_block_index(const char* selection_name);
 
 extern void apply_player_representation_fixup();
 

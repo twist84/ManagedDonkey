@@ -1,6 +1,6 @@
 #include "interface/user_interface_player_model_camera.hpp"
 
-//.text:00AD3020 ; public: s_player_model_camera_state const* __cdecl c_user_interface_player_model_camera::get_current_camera_state()
+//.text:00AD3020 ; public: const s_player_model_camera_state* __cdecl c_user_interface_player_model_camera::get_current_camera_state()
 //.text:00AD3030 ; 
 //.text:00AD30B0 ; 
 //.text:00AD3110 ; public: void __cdecl c_user_interface_player_model_camera::update()

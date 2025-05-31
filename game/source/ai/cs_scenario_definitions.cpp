@@ -2,7 +2,7 @@
 
 #include "scenario/scenario.hpp"
 
-int16 cs_point_set_index_by_name(char const* name)
+int16 cs_point_set_index_by_name(const char* name)
 {
 	struct scenario* scenario = global_scenario_get();
 	if (scenario->scripting_data.count > 0)
@@ -18,7 +18,7 @@ int16 cs_point_set_index_by_name(char const* name)
 	return NONE;
 }
 
-int16 cs_point_index_by_name(cs_point_set* point_set, char const* name)
+int16 cs_point_index_by_name(cs_point_set* point_set, const char* name)
 {
 	for (int16 point_index = 0; point_index < point_set->point_data.count; point_index++)
 	{

@@ -13,7 +13,7 @@ c_life_cycle_state_handler_matchmaking_assemble_match::c_life_cycle_state_handle
 	//DECLFUNC(0x00453FB0, void, __thiscall, c_life_cycle_state_handler_matchmaking_assemble_match*)(this);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_assemble_match::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_assemble_match::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454740, c_life_cycle_state_handler_matchmaking_assemble_match, get_state_string);
 
@@ -89,7 +89,7 @@ void c_life_cycle_state_handler_matchmaking_assemble_match::notify_qos_reply_blo
 //.text:00497AE0 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::ready_to_lockdown()
 //.text:00497BD0 ; private: bool c_life_cycle_state_handler_matchmaking_assemble_match::ready_to_start()
 //.text:00497C80 ; 
-//.text:00497CA0 ; public: bool c_generic_network_session_parameter<s_game_hopper_picked_game_collection>::set(s_game_hopper_picked_game_collection const*)
+//.text:00497CA0 ; public: bool c_generic_network_session_parameter<s_game_hopper_picked_game_collection>::set(const s_game_hopper_picked_game_collection*)
 //.text:00497D50 ; 
 //.text:00497D60 ; 
 

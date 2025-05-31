@@ -233,7 +233,7 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				// $TODO: figure out why these are necessary
 				service_tag_text_widget->set_visible(row_is_player);
 				service_tag_text_widget->set_text(service_tag.get_string());
-				//DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, wchar_t const*)(list_item_widget, row_is_player, service_tag.get_string());
+				//DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, const wchar_t*)(list_item_widget, row_is_player, service_tag.get_string());
 
 				skill_level_bitmap_widget->set_visible(skill_level != NONE);
 				skill_level_hilite_bitmap_widget->set_visible(skill_level != NONE);

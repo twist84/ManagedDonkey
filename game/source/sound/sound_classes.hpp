@@ -79,7 +79,7 @@ struct sound_class_datum
 };
 static_assert(sizeof(sound_class_datum) == 0x1144);
 
-extern char const* const sound_class_names[k_sound_class_count];
+extern const char* const sound_class_names[k_sound_class_count];
 
 extern void __cdecl sound_classes_dispose();
 extern void __cdecl sound_classes_dispose_from_old_map();

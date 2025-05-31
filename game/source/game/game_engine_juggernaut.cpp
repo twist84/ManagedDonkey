@@ -20,12 +20,12 @@ void c_game_engine_juggernaut_variant::byteswap()
 	ASSERT(array_is_zeroed(m_pad1));
 }
 
-void c_game_engine_juggernaut_variant::set(c_game_engine_juggernaut_variant const* variant, bool force)
+void c_game_engine_juggernaut_variant::set(const c_game_engine_juggernaut_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
 	c_game_engine_base_variant::set(variant, force);
-	
+
 	set_allied_against_juggernaut(variant->get_allied_against_juggernaut());
 	set_respawn_on_lone_juggernaut(variant->get_respawn_on_lone_juggernaut());
 	set_destination_zones_enabled(variant->get_destination_zones_enabled());
@@ -49,7 +49,7 @@ void c_game_engine_juggernaut_variant::set(c_game_engine_juggernaut_variant cons
 	zero_array(m_pad1);
 }
 
-//void c_game_engine_juggernaut_variant::set(s_game_engine_juggernaut_variant_definition const* definition, bool force)
+//void c_game_engine_juggernaut_variant::set(const s_game_engine_juggernaut_variant_definition* definition, bool force)
 //{
 //}
 
@@ -395,12 +395,12 @@ c_player_traits* c_game_engine_juggernaut_variant::get_juggernaut_traits_writeab
 	return &m_juggernaut_traits;
 }
 
-c_player_traits const* c_game_engine_juggernaut_variant::get_juggernaut_traits() const
+const c_player_traits* c_game_engine_juggernaut_variant::get_juggernaut_traits() const
 {
 	return &m_juggernaut_traits;
 }
 
-void c_game_engine_juggernaut_variant::set_juggernaut_traits(c_player_traits const* traits, bool force)
+void c_game_engine_juggernaut_variant::set_juggernaut_traits(const c_player_traits* traits, bool force)
 {
 	m_juggernaut_traits.set(traits, force);
 }

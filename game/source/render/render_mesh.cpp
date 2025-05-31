@@ -22,5 +22,5 @@ void __cdecl end_render_mesh_part_only()
 	//}
 }
 
-//.text:00A47430 ; bool __cdecl part_is_renderable(s_part const*, geometry_material const*, int32)
+//.text:00A47430 ; bool __cdecl part_is_renderable(const s_part*, const geometry_material*, int32)
 

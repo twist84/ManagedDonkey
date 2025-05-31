@@ -8,7 +8,7 @@
 
 bool const print_reference_updates = false;
 
-void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, int32 index, int32 size)
+void* __cdecl tag_block_get_element_with_size(const s_tag_block* block, int32 index, int32 size)
 {
 	//INVOKE(0x0055AA00, tag_block_get_element_with_size, block, index, size);
 
@@ -20,7 +20,7 @@ void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, int32 in
 	return block->base + index * size;
 }
 
-void* __cdecl tag_data_get_pointer(s_tag_data const* data, int32 offset, int32 size)
+void* __cdecl tag_data_get_pointer(const s_tag_data* data, int32 offset, int32 size)
 {
 	//INVOKE(0x0055AA60, tag_data_get_pointer, data, offset, size);
 
@@ -36,32 +36,32 @@ void __cdecl tag_load_missing_tags_report()
 	INVOKE(0x0055AA70, tag_load_missing_tags_report);
 }
 
-char const* __cdecl tag_name_strip_path(char const* path)
+const char* __cdecl tag_name_strip_path(const char* path)
 {
 	//return INVOKE(0x0055AA90, tag_name_strip_path, path);
 
-	char const* name = strrchr(path, '\\');
+	const char* name = strrchr(path, '\\');
 	if (name)
 		return name + 1;
 	else
 		return path;
 }
 
-wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path)
+const wchar_t* __cdecl tag_name_strip_path(const wchar_t* path)
 {
-	wchar_t const* name = wcsrchr(path, '\\');
+	const wchar_t* name = wcsrchr(path, '\\');
 	if (name)
 		return name + 1;
 	else
 		return path;
 }
 
-tag group_name_to_group_tag(char const* group_name)
+tag group_name_to_group_tag(const char* group_name)
 {
 	// string_id_retrieve
 	for (int32 i = 0; i < global_tag_group_count; i++)
 	{
-		s_cache_file_tag_group const* group = &global_tag_groups[i];
+		const s_cache_file_tag_group* group = &global_tag_groups[i];
 		if (csstricmp(group_name, group->name.get_string()) == 0)
 			return group->group_tag;
 	}
@@ -77,7 +77,7 @@ void* s_tag_reference::get_definition()
 	return tag_get(group_tag, index);
 }
 
-char const* s_tag_reference::get_name()
+const char* s_tag_reference::get_name()
 {
 	if (name)
 		return name;
@@ -85,7 +85,7 @@ char const* s_tag_reference::get_name()
 	if (!VALID_INDEX(index, g_cache_file_globals.header.debug_tag_name_count))
 		return "<unknown>";
 
-	if (char const* _name = tag_get_name_safe(index))
+	if (const char* _name = tag_get_name_safe(index))
 	{
 		name = _name;
 		name_length = csstrnlen(_name, _MAX_PATH);
@@ -98,7 +98,7 @@ char const* s_tag_reference::get_name()
 	return "<unknown>";
 }
 
-char const* s_tag_reference::get_group_name()
+const char* s_tag_reference::get_group_name()
 {
 	if (group_tag != NONE)
 		return tag_group_get_name(group_tag);
@@ -109,7 +109,7 @@ char const* s_tag_reference::get_group_name()
 	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->tag_group.name.get_string();
 }
 
-void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* name)
+void tag_reference_set(s_tag_reference* reference, tag group_tag, const char* name)
 {
 	ASSERT(reference);
 	ASSERT(strlen(name) < k_tag_file_name_length);

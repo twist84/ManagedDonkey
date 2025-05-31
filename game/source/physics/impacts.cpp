@@ -41,7 +41,7 @@ void __cdecl __tls_set_g_impact_globals_allocator(void* new_address)
 //.text:00696B90 ; public: void c_impact::calculate_effect_parameters(int32, int32, int32, real_point3d*, real_vector3d*, real_vector3d*, real_vector3d*, real32*, real32*, bool)
 //.text:00697390 ; private: void c_impact::calculate_impact_matrix(int32, real_matrix3x3*)
 //.text:00697620 ; private: void c_impact::calculate_rigid_body_indexes(int32, int32*, int32*)
-//.text:006977C0 ; public: static real32 __cdecl c_impact::calculate_score(real_point3d const*, c_impact::e_states)
+//.text:006977C0 ; public: static real32 __cdecl c_impact::calculate_score(const real_point3d*, c_impact::e_states)
 //.text:00697870 ; public: static void __cdecl c_impact::calculate_water_surface_vector(real_point3d*, real_vector3d*)
 //.text:006978F0 ; public: static bool __cdecl c_impact::can_impulse_state_interupt_looping_state(int32, real32, int32, real32)
 //.text:00697920 ; private: bool c_impact::currently_playing_looping_sound(int32, int32)
@@ -65,9 +65,9 @@ void __cdecl __tls_set_g_impact_globals_allocator(void* new_address)
 //.text:00697CA0 ; e_impact_sound_scale_type __cdecl get_impact_sound_scale_type(int32, int32, int32)
 //.text:00697DF0 ; private: static real32 __cdecl c_impact::get_impact_state_score_scale(c_impact::e_states)
 //.text:00697E20 ; 
-//.text:00697E30 ; private: void c_impact::get_material_effects(real_point3d const*, c_global_material_type, c_global_material_type, c_impact::e_states, s_material_effects_result*)
-//.text:00697F10 ; private: static void __cdecl c_impact::get_material_effects(int32, int32, real_vector3d const*, e_sweetener_size, bool, real_point3d const*, c_global_material_type, c_global_material_type, c_impact::e_states, s_material_effects_result*)
-//.text:00698010 ; public: real_vector3d const* c_impact::get_normal() const
+//.text:00697E30 ; private: void c_impact::get_material_effects(const real_point3d*, c_global_material_type, c_global_material_type, c_impact::e_states, s_material_effects_result*)
+//.text:00697F10 ; private: static void __cdecl c_impact::get_material_effects(int32, int32, const real_vector3d*, e_sweetener_size, bool, const real_point3d*, c_global_material_type, c_global_material_type, c_impact::e_states, s_material_effects_result*)
+//.text:00698010 ; public: const real_vector3d* c_impact::get_normal() const
 //.text:00698020 ; public: int32 c_impact::get_object_index_a() const
 //.text:00698030 ; public: int32 c_impact::get_object_index_b() const
 //.text:00698040 ; 
@@ -77,7 +77,7 @@ void __cdecl __tls_set_g_impact_globals_allocator(void* new_address)
 //.text:006980A0 ; public: c_impact::e_type c_impact::get_type() const
 //.text:006980B0 ; public: int32 c_impact::get_vehicle_friction_point_index() const
 //.text:006980C0 ; public: bool c_impact::get_vehicle_friction_point_sound_only() const
-//.text:006980D0 ; public: real_point3d const* c_impact::get_world_space_position() const
+//.text:006980D0 ; public: const real_point3d* c_impact::get_world_space_position() const
 //.text:006980E0 ; private: void c_impact::halt_managed_effects(bool, bool)
 
 void __cdecl impact_array_add_impact(int32 impact_array_index, int32 impact_datum_index)
@@ -115,7 +115,7 @@ void __cdecl impact_delete(int32 impact_datum_index)
 	INVOKE(0x00698310, impact_delete, impact_datum_index);
 }
 
-int32 __cdecl impact_new(c_impact::s_contact_description const* contact_description, c_impact::e_states state)
+int32 __cdecl impact_new(const c_impact::s_contact_description* contact_description, c_impact::e_states state)
 {
 	return INVOKE(0x006984F0, impact_new, contact_description, state);
 }
@@ -215,7 +215,7 @@ void __cdecl impacts_reconnect_to_physics()
 	INVOKE(0x00699600, impacts_reconnect_to_physics);
 }
 
-bool __cdecl impacts_score_compare(int32 impact_index_a, int32 impact_index_b, void const* ignored)
+bool __cdecl impacts_score_compare(int32 impact_index_a, int32 impact_index_b, const void* ignored)
 {
 	return INVOKE(0x006996C0, impacts_score_compare, impact_index_a, impact_index_b, ignored);
 }
@@ -226,15 +226,15 @@ void __cdecl impacts_update()
 }
 
 //.text:00699A30 ; public: static bool __cdecl c_impact::included_in_impact_material(int32, c_global_material_type, c_global_material_type, c_global_material_type, c_global_material_type)
-//.text:00699A60 ; public: static bool __cdecl c_impact::included_in_impact_space(real_point3d const*, real_vector3d const*, real_point3d const*, real_vector3d const*, real32*)
+//.text:00699A60 ; public: static bool __cdecl c_impact::included_in_impact_space(const real_point3d*, const real_vector3d*, const real_point3d*, const real_vector3d*, real32*)
 //.text:00699B10 ; public: static bool __cdecl c_impact::included_in_impact_type(int32, int32, int32, int32, c_global_material_type, c_global_material_type, c_global_material_type, c_global_material_type, int32, int32, bool, bool, int32, int32)
-//.text:00699BB0 ; public: bool c_impact::includes_point(c_impact::s_contact_description const*, bool)
-//.text:00699C70 ; public: static void __cdecl c_impact::initialize_contact_description(c_impact::s_contact_description*, c_impact::e_type, bool, int32, int32, c_global_material_type, int32, int32, c_global_material_type, real_point3d const*, real_vector3d const*, int32, s_physics_model_constraint_reference const*)
+//.text:00699BB0 ; public: bool c_impact::includes_point(const c_impact::s_contact_description*, bool)
+//.text:00699C70 ; public: static void __cdecl c_impact::initialize_contact_description(c_impact::s_contact_description*, c_impact::e_type, bool, int32, int32, c_global_material_type, int32, int32, c_global_material_type, const real_point3d*, const real_vector3d*, int32, const s_physics_model_constraint_reference*)
 //.text:00699D00 ; private: static bool __cdecl c_impact::is_b_dominant_body(int32, int32)
 //.text:00699D90 ; public: bool c_impact::is_between_pair_of_dynamic_rigid_bodies() const
 //.text:00699DA0 ; public: bool c_impact::is_managing_effect() const
 //.text:00699DD0 ; 
-//.text:00699DF0 ; public: static bool __cdecl c_impact::passes_the_character_test(int32, int32, real_point3d const*, real_vector3d const*)
+//.text:00699DF0 ; public: static bool __cdecl c_impact::passes_the_character_test(int32, int32, const real_point3d*, const real_vector3d*)
 //.text:00699F10 ; public: void c_impact::queue_collision(real32)
 //.text:00699F90 ; public: bool c_impact::recently_played_impulse_effect() const
 //.text:00699FD0 ; public: void c_havok_component::remove_impact(int32)
@@ -247,10 +247,10 @@ void __cdecl impacts_update()
 //.text:0069A1F0 ; public: void c_impact::update(int32)
 //.text:0069A990 ; public: void c_impact::update_effects(int32, int32, int32)
 //.text:0069B470 ; public: void c_impact::update_looping_sound(s_sound_location*, real32*) const
-//.text:0069B730 ; private: void c_impact::update_rigid_body_space_positions(real_point3d const*, int32, int32)
+//.text:0069B730 ; private: void c_impact::update_rigid_body_space_positions(const real_point3d*, int32, int32)
 //.text:0069B830 ; public: void c_impact::update_score()
 //.text:0069B890 ; public: void c_impact::update_state(int32, int32, int32)
-//.text:0069BF10 ; public: void c_impact::update_vehicle_impact(int32, c_impact::s_contact_description const*, real_vector3d const*, real32, bool)
+//.text:0069BF10 ; public: void c_impact::update_vehicle_impact(int32, const c_impact::s_contact_description*, const real_vector3d*, real32, bool)
 //.text:0069BF70 ; public: void c_impact::update_vehicle_impact_sound_only(int32)
 //.text:0069C0C0 ; public: void c_impact::update_water_impact(int32, real32, bool)
 

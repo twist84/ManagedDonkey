@@ -27,14 +27,14 @@ struct c_bitstream;
 class c_network_message_view_establishment
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_player_acknowledge
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 

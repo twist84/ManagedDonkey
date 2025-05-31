@@ -51,7 +51,7 @@ ai_meter_definition global_ai_meter_definitions[NUMBER_OF_AI_METERS]
 	{ _ai_meter_firing_point_eval, 0, NULL }
 };
 
-char const* spray_mode_names[NUMBER_OF_AI_PROFILE_RENDER_SPRAY_MODES]
+const char* spray_mode_names[NUMBER_OF_AI_PROFILE_RENDER_SPRAY_MODES]
 {
 	"none",
 	"actions",
@@ -129,7 +129,7 @@ void ai_profile_dispose_from_old_map()
 {
 }
 
-void ai_profile_draw_string(char const* string, int16 tab_count, int16 const* tabs, real_argb_color const* color)
+void ai_profile_draw_string(const char* string, int16 tab_count, const int16* tabs, const real_argb_color* color)
 {
 	c_rasterizer_draw_string draw_string{};
 	c_font_cache_mt_safe font_cache{};
@@ -213,7 +213,7 @@ void ai_profile_render()
 void ai_profile_render_spray()
 {
 	int32 active_output_user = player_mapping_first_active_output_user();
-	s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
+	const s_observer_result* camera = observer_try_and_get_camera(active_output_user);
 	if (ai_profile.render_spray_mode > _ai_profile_render_spray_none && camera && ai_globals->ai_initialized_for_map)
 	{
 		//main_set_single_thread_request_flag(_single_thread_for_ai_profile, true);
@@ -230,7 +230,7 @@ void ai_profile_render_spray()
 			{
 				actor_datum* actor = DATUM_GET(actor_data, actor_datum, iterator.index);
 
-				real_argb_color const* debug_color = NULL;
+				const real_argb_color* debug_color = NULL;
 				if (ai_profile.render_spray_mode == _ai_profile_render_spray_actions)
 				{
 					debug_color = global_real_argb_black;
@@ -404,14 +404,14 @@ bool __cdecl actor_general_update_for_ai_meters(int32 actor_index)
 HOOK_DECLARE_CALL(0x0142E08E, actor_general_update_for_ai_meters);
 HOOK_DECLARE_CALL(0x01430180, actor_general_update_for_ai_meters);
 
-bool __cdecl ai_test_line_of_fire_for_ai_meters(int32 actor_index, int32 ignore_unit_index, real_point3d const* origin, real_vector3d const* vector, int32* prop_index_reference)
+bool __cdecl ai_test_line_of_fire_for_ai_meters(int32 actor_index, int32 ignore_unit_index, const real_point3d* origin, const real_vector3d* vector, int32* prop_index_reference)
 {
 	ai_profile.meters[_ai_meter_line_of_fire].current_count++;
 	return ai_test_line_of_fire(actor_index, ignore_unit_index, origin, vector, prop_index_reference);
 }
 HOOK_DECLARE_CALL(0x01463025, ai_test_line_of_fire_for_ai_meters);
 
-int16 __cdecl ai_test_line_of_sight_for_ai_meters(real_point3d const* p0, s_cluster_reference p0_cluster_ref, real_point3d const* p1, s_cluster_reference p1_cluster_ref, int16 mode, bool test_line_of_fire, int32 ignore_object_index, int32 ignore_object_index2, bool ignore_vehicles, bool allow_early_out, int32* blocking_object_index_ref, bool* two_sided_obstruction_ref)
+int16 __cdecl ai_test_line_of_sight_for_ai_meters(const real_point3d* p0, s_cluster_reference p0_cluster_ref, const real_point3d* p1, s_cluster_reference p1_cluster_ref, int16 mode, bool test_line_of_fire, int32 ignore_object_index, int32 ignore_object_index2, bool ignore_vehicles, bool allow_early_out, int32* blocking_object_index_ref, bool* two_sided_obstruction_ref)
 {
 	ai_profile.ai_profile_info.line_of_sight++;
 	ai_profile.meters[_ai_meter_line_of_sight].current_count++;
@@ -427,7 +427,7 @@ HOOK_DECLARE_CALL(0x014A3889, ai_test_line_of_sight_for_ai_meters);
 HOOK_DECLARE_CALL(0x014B941F, ai_test_line_of_sight_for_ai_meters);
 HOOK_DECLARE_CALL(0x014B9584, ai_test_line_of_sight_for_ai_meters);
 
-bool __cdecl collision_test_line_for_ai_meters(s_collision_test_flags flags, real_point3d const* point0, real_point3d const* point1, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
+bool __cdecl collision_test_line_for_ai_meters(s_collision_test_flags flags, const real_point3d* point0, const real_point3d* point1, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
 {
 	ai_profile.meters[_ai_meter_collision_vector].current_count++;
 	return collision_test_line(flags, point0, point1, first_ignore_object_index, second_ignore_object_index, collision);
@@ -441,7 +441,7 @@ HOOK_DECLARE_CALL(0x01434F8D, collision_test_line_for_ai_meters);
 HOOK_DECLARE_CALL(0x01434FAE, collision_test_line_for_ai_meters);
 HOOK_DECLARE_CALL(0x01434FCF, collision_test_line_for_ai_meters);
 
-bool __cdecl collision_test_vector_for_ai_meters(s_collision_test_flags flags, real_point3d const* point, real_vector3d const* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
+bool __cdecl collision_test_vector_for_ai_meters(s_collision_test_flags flags, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
 {
 	ai_profile.meters[_ai_meter_collision_vector].current_count++;
 	return collision_test_vector(flags, point, vector, first_ignore_object_index, second_ignore_object_index, collision);

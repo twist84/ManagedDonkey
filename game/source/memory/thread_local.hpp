@@ -74,7 +74,7 @@ struct t_restricted_allocation_manager :
 {
 public:
 	//t_restricted_allocation_manager();
-	//void* reserve_memory(char const* name, char const* type, unsigned int allocation, int32 alignment_bits);
+	//void* reserve_memory(const char* name, const char* type, unsigned int allocation, int32 alignment_bits);
 	bool valid() const
 	{
 		return m_member_index != NONE && m_thread_id != NONE;

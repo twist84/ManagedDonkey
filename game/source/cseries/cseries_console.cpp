@@ -8,7 +8,7 @@
 FILE* c_console::m_file = NULL;
 bool c_console::m_initialized = false;
 
-void c_console::initialize(char const* window_title)
+void c_console::initialize(const char* window_title)
 {
 	if (!m_initialized)
 	{
@@ -71,7 +71,7 @@ bool c_console::console_allocated()
 	return GetConsoleWindow() != NULL;
 }
 
-void c_console::write(char const* format, ...)
+void c_console::write(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -79,7 +79,7 @@ void c_console::write(char const* format, ...)
 	va_end(list);
 }
 
-void c_console::write_line(char const* format, ...)
+void c_console::write_line(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -87,7 +87,7 @@ void c_console::write_line(char const* format, ...)
 	va_end(list);
 }
 
-void c_console::write(wchar_t const* format, ...)
+void c_console::write(const wchar_t* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -95,7 +95,7 @@ void c_console::write(wchar_t const* format, ...)
 	va_end(list);
 }
 
-void c_console::write_line(wchar_t const* format, ...)
+void c_console::write_line(const wchar_t* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -103,7 +103,7 @@ void c_console::write_line(wchar_t const* format, ...)
 	va_end(list);
 }
 
-void c_console::write_va(char const* format, va_list list)
+void c_console::write_va(const char* format, va_list list)
 {
 	if (!m_initialized)
 		return;
@@ -118,7 +118,7 @@ void c_console::write_va(char const* format, va_list list)
 		OutputDebugStringA(str.get_string());
 }
 
-void c_console::write_line_va(char const* format, va_list list)
+void c_console::write_line_va(const char* format, va_list list)
 {
 	if (!m_initialized)
 		return;
@@ -134,7 +134,7 @@ void c_console::write_line_va(char const* format, va_list list)
 		OutputDebugStringA(str.get_string());
 }
 
-void c_console::write_va(wchar_t const* format, va_list list)
+void c_console::write_va(const wchar_t* format, va_list list)
 {
 	if (!m_initialized)
 		return;
@@ -149,7 +149,7 @@ void c_console::write_va(wchar_t const* format, va_list list)
 		OutputDebugStringW(str.get_string());
 }
 
-void c_console::write_line_va(wchar_t const* format, va_list list)
+void c_console::write_line_va(const wchar_t* format, va_list list)
 {
 	if (!m_initialized)
 		return;

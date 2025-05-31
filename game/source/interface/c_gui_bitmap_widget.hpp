@@ -68,7 +68,7 @@ struct c_gui_bitmap_widget :
 	public c_gui_widget
 {
 public:
-	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 
 protected:
 	virtual e_animation_state get_ambient_state() override;
@@ -81,15 +81,15 @@ public:
 	virtual bool within_focus_chain() override;
 	virtual void update_render_state(uns32 current_milliseconds) override;
 	virtual void set_animated_state_baseline(s_animation_transform* transform) override;
-	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
-	virtual void initialize(s_bitmap_widget_block const* template_and_override_block);
-	virtual bitmap_data const* get_current_bitmap() const;
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
+	virtual void initialize(const s_bitmap_widget_block* template_and_override_block);
+	virtual const bitmap_data* get_current_bitmap() const;
 	virtual void __func39(c_tag_resource_demand_collector* demand_collector);
 	virtual void __func40(c_tag_resource_demand_collector* demand_collector);
 
 public:
 	c_gui_bitmap_widget();
-	static void __cdecl add_definition_fields(s_bitmap_widget_definition const* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated);
+	static void __cdecl add_definition_fields(const s_bitmap_widget_definition* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated);
 	bool renders_as_player_emblem() const;
 	void set_sprite_frame(int32 sprite_frame);
 	void set_sprite_sequence(int32 sprite_sequence);
@@ -151,5 +151,5 @@ struct s_gui_bitmap_widget_render_data :
 //static_assert(sizeof(s_gui_bitmap_widget_render_data) == 0x54);
 static_assert(sizeof(s_gui_bitmap_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x28);
 
-extern void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, rectangle2d const* window_bounds);
+extern void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, const rectangle2d* window_bounds);
 

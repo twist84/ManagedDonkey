@@ -16,9 +16,9 @@ REFERENCE_DECLARE(0x05106FA4, real32, g_screenspace_offset_x);
 REFERENCE_DECLARE(0x05106FA8, real32, g_screenspace_offset_y);
 
 void(__cdecl* rasterizer_draw_textured_screen_quad0)(real32, real32, real32, real32) = c_rasterizer::draw_textured_screen_quad;
-void(__cdecl* rasterizer_draw_textured_screen_quad1)(rasterizer_vertex_screen const*, bool) = c_rasterizer::draw_textured_screen_quad;
-void(__cdecl* rasterizer_draw_worldspace_polygon0)(real_point3d const*, int32) = c_rasterizer::draw_worldspace_polygon;
-void(__cdecl* rasterizer_draw_worldspace_polygon1)(rasterizer_vertex_world const*, int32) = c_rasterizer::draw_worldspace_polygon;
+void(__cdecl* rasterizer_draw_textured_screen_quad1)(const rasterizer_vertex_screen*, bool) = c_rasterizer::draw_textured_screen_quad;
+void(__cdecl* rasterizer_draw_worldspace_polygon0)(const real_point3d*, int32) = c_rasterizer::draw_worldspace_polygon;
+void(__cdecl* rasterizer_draw_worldspace_polygon1)(const rasterizer_vertex_world*, int32) = c_rasterizer::draw_worldspace_polygon;
 
 //HOOK_DECLARE_CLASS(0x00A456A0, c_rasterizer, draw_debug_line2d);
 HOOK_DECLARE_CLASS(0x00A45830, c_rasterizer, draw_debug_line);
@@ -40,12 +40,12 @@ HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
 HOOK_DECLARE(0x00A46E50, rasterizer_quad_screenspace_explicit);
 HOOK_DECLARE(0x00A46FB0, rasterizer_set_explicit_debug_shader);
 
-void __cdecl c_rasterizer::draw_debug_line2d(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1)
+void __cdecl c_rasterizer::draw_debug_line2d(const real_point3d& point1, const real_point3d& point2, uns32 color0, uns32 color1)
 {
 	INVOKE(0x00A456A0, draw_debug_line2d, point1, point2, color0, color1);
 }
 
-void __cdecl c_rasterizer::draw_debug_line(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1)
+void __cdecl c_rasterizer::draw_debug_line(const real_point3d& point1, const real_point3d& point2, uns32 color0, uns32 color1)
 {
 	//INVOKE(0x00A45830, draw_debug_line, point1, point2, color0, color1);
 
@@ -65,7 +65,7 @@ void __cdecl c_rasterizer::draw_debug_line(real_point3d const& point1, real_poin
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* points, int32 line_count)
+void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(const rasterizer_vertex_debug* points, int32 line_count)
 {
 	//INVOKE(0x00A458B0, draw_debug_line_list2d_explicit, points, line_count);
 
@@ -85,7 +85,7 @@ void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(rasterizer_vertex_deb
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_line_list_explicit(rasterizer_vertex_debug const* points, int32 line_count)
+void __cdecl c_rasterizer::draw_debug_line_list_explicit(const rasterizer_vertex_debug* points, int32 line_count)
 {
 	//INVOKE(0x00A45920, draw_debug_line_list_explicit, points, line_count);
 
@@ -99,12 +99,12 @@ void __cdecl c_rasterizer::draw_debug_line_list_explicit(rasterizer_vertex_debug
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_linestrip2d(point2d const* points, int32 point_count, uns32 color)
+void __cdecl c_rasterizer::draw_debug_linestrip2d(const point2d* points, int32 point_count, uns32 color)
 {
 	INVOKE(0x00A45970, draw_debug_linestrip2d, points, point_count, color);
 }
 
-void __cdecl c_rasterizer::draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
+void __cdecl c_rasterizer::draw_debug_polygon2d(const rasterizer_vertex_debug* polygon2d, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
 {
 	//INVOKE(0x00A45B40, draw_debug_polygon2d, polygon2d, primitive_count, primitive_type);
 
@@ -118,7 +118,7 @@ void __cdecl c_rasterizer::draw_debug_polygon2d(rasterizer_vertex_debug const* p
 	}
 }
 
-void __cdecl c_rasterizer::draw_debug_polygon(rasterizer_vertex_debug const* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
+void __cdecl c_rasterizer::draw_debug_polygon(const rasterizer_vertex_debug* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
 {
 	//INVOKE(0x00A45B90, draw_debug_polygon, vertices, primitive_count, primitive_type);
 
@@ -210,7 +210,7 @@ void __cdecl draw_tesselated_quad()
 	c_rasterizer::set_cull_mode(c_rasterizer::e_cull_mode::_cull_mode_cw);
 }
 
-void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds)
+void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, int height, const real_rectangle2d* bounds)
 {
 	//INVOKE(0x00A460A0, draw_fullscreen_quad_with_texture_xform, width, height, bounds);
 
@@ -249,7 +249,7 @@ void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, in
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl c_rasterizer::draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords)
+void __cdecl c_rasterizer::draw_screen_quad_with_texture_transform(int target_width, int target_height, const real_rectangle2d* dest_texcoords, const real_rectangle2d* source_texcoords)
 {
 	//INVOKE(0x00A461B0, c_rasterizer::draw_screen_quad_with_texture_transform, target_width, target_height, dest_texcoords, source_texcoords);
 
@@ -331,9 +331,9 @@ void __cdecl c_rasterizer::draw_textured_screen_quad(real32 x0, real32 y0, real3
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl c_rasterizer::draw_textured_screen_quad(rasterizer_vertex_screen const* vertices, bool strip)
+void __cdecl c_rasterizer::draw_textured_screen_quad(const rasterizer_vertex_screen* vertices, bool strip)
 {
-	DECLFUNC(0x00A465F0, void, __cdecl, rasterizer_vertex_screen const*, bool)(vertices, strip);
+	DECLFUNC(0x00A465F0, void, __cdecl, const rasterizer_vertex_screen*, bool)(vertices, strip);
 
 	//c_rasterizer::set_cull_mode(_cull_mode_off);
 	//c_rasterizer::set_z_buffer_mode(_z_buffer_mode_off);
@@ -344,7 +344,7 @@ void __cdecl c_rasterizer::draw_textured_screen_quad(rasterizer_vertex_screen co
 	//c_rasterizer::set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl c_rasterizer::draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, int32 primitive_count)
+void __cdecl c_rasterizer::draw_textured_screen_triangle_list(const rasterizer_vertex_screen* textured_screen_triangle_list, int32 primitive_count)
 {
 	//INVOKE(0x00A46640, draw_textured_screen_triangle_list, textured_screen_triangle_list, primitive_count);
 
@@ -355,19 +355,19 @@ void __cdecl c_rasterizer::draw_textured_screen_triangle_list(rasterizer_vertex_
 	set_cull_mode(_cull_mode_cw);
 }
 
-void __cdecl c_rasterizer::draw_textured_transparent_polygon(rasterizer_vertex_transparent const* textured_transparent_polygon, int32 polygon_count, e_alpha_blend_mode alpha_blend_mode)
+void __cdecl c_rasterizer::draw_textured_transparent_polygon(const rasterizer_vertex_transparent* textured_transparent_polygon, int32 polygon_count, e_alpha_blend_mode alpha_blend_mode)
 {
-	DECLFUNC(0x00A46680, void, __cdecl, rasterizer_vertex_transparent const*, int32, e_alpha_blend_mode)(textured_transparent_polygon, polygon_count, alpha_blend_mode);
+	DECLFUNC(0x00A46680, void, __cdecl, const rasterizer_vertex_transparent*, int32, e_alpha_blend_mode)(textured_transparent_polygon, polygon_count, alpha_blend_mode);
 }
 
-void __cdecl c_rasterizer::draw_textured_transparent_quad(rasterizer_vertex_transparent const* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode)
+void __cdecl c_rasterizer::draw_textured_transparent_quad(const rasterizer_vertex_transparent* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode)
 {
-	DECLFUNC(0x00A46750, void, __cdecl, rasterizer_vertex_transparent const*, e_alpha_blend_mode)(textured_transparent_quad, alpha_blend_mode);
+	DECLFUNC(0x00A46750, void, __cdecl, const rasterizer_vertex_transparent*, e_alpha_blend_mode)(textured_transparent_quad, alpha_blend_mode);
 }
 
-void __cdecl c_rasterizer::draw_worldspace_polygon(real_point3d const* worldspace_polygon, int32 polygon_count)
+void __cdecl c_rasterizer::draw_worldspace_polygon(const real_point3d* worldspace_polygon, int32 polygon_count)
 {
-	DECLFUNC(0x00A46820, void, __cdecl, real_point3d const*, int32)(worldspace_polygon, polygon_count);
+	DECLFUNC(0x00A46820, void, __cdecl, const real_point3d*, int32)(worldspace_polygon, polygon_count);
 
 	//rasterizer_vertex_world vertices[128]{};
 	//
@@ -377,9 +377,9 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(real_point3d const* worldspac
 	//draw_worldspace_polygon(vertices, polygon_count);
 }
 
-void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, int32 polygon_count)
+void __cdecl c_rasterizer::draw_worldspace_polygon(const rasterizer_vertex_world* worldspace_polygon, int32 polygon_count)
 {
-	//DECLFUNC(0x00A46890, void, __cdecl, rasterizer_vertex_world const*, int32)(worldspace_polygon, polygon_count);
+	//DECLFUNC(0x00A46890, void, __cdecl, const rasterizer_vertex_world*, int32)(worldspace_polygon, polygon_count);
 
 	set_cull_mode(_cull_mode_off);
 	set_indices(NULL);
@@ -390,12 +390,12 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const
 //.text:00A46910 ; public: static void __cdecl c_rasterizer::normalize_screenspace_vertices(real32, real32, rasterizer_vertex_screen*, int32)
 //.text:00A469D0 ; void __cdecl rasterizer_draw_screen_facing_lens_flare(rasterizer_vertex_screen* const, int32, int32, real32, real32, real32)
 
-void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(rasterizer_dynamic_screen_geometry_parameters const* parameters, rasterizer_vertex_screen* vertices)
+void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(const rasterizer_dynamic_screen_geometry_parameters* parameters, rasterizer_vertex_screen* vertices)
 {
 	INVOKE(0x00A46AD0, rasterizer_psuedo_dynamic_screen_quad_draw, parameters, vertices);
 }
 
-void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled)
+void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, const s_tag_reference* reference, int16 bitmap_index, bool point_sampled)
 {
 	INVOKE(0x00A46DA0, rasterizer_quad_screenspace, points, color, reference, bitmap_index, point_sampled);
 
@@ -474,8 +474,8 @@ bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explic
 	
 	c_rasterizer_globals* rasterizer_globals = TAG_GET(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, game_globals->rasterizer_globals_ref.index);
 
-	s_tag_reference const* default_vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(shader_type);
-	s_tag_reference const* default_pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(shader_type);
+	const s_tag_reference* default_vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(shader_type);
+	const s_tag_reference* default_pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(shader_type);
 	if (default_vertex_shader_ref->index == NONE || default_pixel_shader_ref->index == NONE)
 	{
 		return false;

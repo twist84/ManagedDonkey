@@ -53,7 +53,7 @@ void collision_log_usage(int16 collision_function)
 	// $TODO: implement
 }
 
-char const* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES]
+const char* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES]
 {
 	"vector",
 	"vector-early-out",
@@ -69,7 +69,7 @@ char const* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_T
 	"vector-intersect-bsp-structure"
 };
 
-char const* const global_collision_user_names[NUMBER_OF_COLLISION_USER_TYPES]
+const char* const global_collision_user_names[NUMBER_OF_COLLISION_USER_TYPES]
 {
 	/* 0	*/ "????",
 	/* 1	*/ "ai-look",

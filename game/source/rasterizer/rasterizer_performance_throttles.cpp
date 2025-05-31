@@ -14,16 +14,16 @@ s_performance_throttles* __cdecl c_performance_throttles::get_current_performanc
 	return &m_current_throttles;
 }
 
-//.text:00A5F8F0 ; public: s_tag_reference const* __cdecl c_rasterizer_globals::get_default_performance_throttles_ref() const
+//.text:00A5F8F0 ; public: const s_tag_reference* __cdecl c_rasterizer_globals::get_default_performance_throttles_ref() const
 
-real32 __cdecl get_performance_throttle(char const* name, int32 player_count)
+real32 __cdecl get_performance_throttle(const char* name, int32 player_count)
 {
 	//INVOKE(0x00A5F900, get_performance_throttle, name, player_count);
 
 	return c_performance_throttles::get_performance_throttle(name, player_count);
 }
 
-real32 __cdecl c_performance_throttles::get_performance_throttle(char const* name, int32 player_count)
+real32 __cdecl c_performance_throttles::get_performance_throttle(const char* name, int32 player_count)
 {
 	//INVOKE(0x00A5F910, c_performance_throttles::get_performance_throttle, name, player_count);
 
@@ -91,14 +91,14 @@ real32 __cdecl c_performance_throttles::get_performance_throttle(char const* nam
 
 //.text:00A5FBB0 ; 
 
-void __cdecl set_performance_throttle(char const* name, int32 player_count, real32 value)
+void __cdecl set_performance_throttle(const char* name, int32 player_count, real32 value)
 {
 	//INVOKE(0x00A5FBE0, set_performance_throttle, name, player_count, value);
 
 	c_performance_throttles::set_performance_throttle(name, player_count, value);
 }
 
-void __cdecl c_performance_throttles::set_performance_throttle(char const* name, int32 player_count, real32 value)
+void __cdecl c_performance_throttles::set_performance_throttle(const char* name, int32 player_count, real32 value)
 {
 	//INVOKE(0x00A5FC00, c_performance_throttles::set_performance_throttle, name, player_count, value);
 

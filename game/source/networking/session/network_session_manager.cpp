@@ -17,9 +17,9 @@ c_network_session* c_network_session_manager::get_session(int32 index)
 	return DECLFUNC(0x0045F0D0, c_network_session*, __thiscall, c_network_session_manager*, int32)(this, index);
 }
 
-c_network_session* c_network_session_manager::get_session(s_transport_secure_identifier const* session_id)
+c_network_session* c_network_session_manager::get_session(const s_transport_secure_identifier* session_id)
 {
-	return DECLFUNC(0x0045F0E0, c_network_session*, __thiscall, c_network_session_manager*, s_transport_secure_identifier const*)(this, session_id);
+	return DECLFUNC(0x0045F0E0, c_network_session*, __thiscall, c_network_session_manager*, const s_transport_secure_identifier*)(this, session_id);
 }
 
 c_network_session* c_network_session_manager::get_session_from_managed_session_index(int32 index)

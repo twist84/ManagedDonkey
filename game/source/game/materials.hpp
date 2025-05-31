@@ -10,7 +10,7 @@ public:
 	{
 	}
 
-	bool operator!=(c_global_material_type const& other) const
+	bool operator!=(const c_global_material_type& other) const
 	{
 		return m_index != other.m_index;
 	}

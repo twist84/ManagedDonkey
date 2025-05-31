@@ -29,7 +29,7 @@ e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_di
 
 //.text:00A80880 ; int16 __cdecl user_interface_squad_get_campaign_insertion_point()
 //.text:00A80890 ; e_campaign_metagame_scoring __cdecl user_interface_squad_get_campaign_metagame_scoring()
-//.text:00A808B0 ; c_game_variant const* __cdecl user_interface_game_settings_get_game_variant()
+//.text:00A808B0 ; const c_game_variant* __cdecl user_interface_game_settings_get_game_variant()
 //.text:00A80970 ; e_session_game_mode __cdecl user_interface_get_session_game_mode()
 
 e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, uns32* player_error_mask)
@@ -43,7 +43,7 @@ e_session_game_start_status __cdecl user_interface_get_session_game_start_status
 //.text:00A80C70 ; int32 __cdecl user_interface_group_get_machine_index(int32 player_index)
 //.text:00A80CD0 ; int32 __cdecl user_interface_group_get_player_at_local_controller(e_controller_index controller_index)
 //.text:00A80D50 ; int32 __cdecl user_interface_group_get_player_count()
-//.text:00A80D80 ; s_player_configuration const* __cdecl user_interface_group_get_player_data(int32 player_index)
+//.text:00A80D80 ; const s_player_configuration* __cdecl user_interface_group_get_player_data(int32 player_index)
 //.text:00A80F10 ; int32 __cdecl user_interface_group_get_player_join_sequence_number(int32 player_index)
 //.text:00A80F70 ; uns64 __cdecl user_interface_group_get_player_party_nonce(int32 player_index)
 //.text:00A81120 ; bool __cdecl user_interface_group_is_local_player(int32 player_index)
@@ -67,8 +67,8 @@ int32 __cdecl user_interface_local_player_count()
 	return INVOKE(0x00A812A0, user_interface_local_player_count);
 }
 
-//.text:00A81370 ; bool __cdecl user_interface_remote_squad_contains_local_peer(s_network_squad_status_data const* status_data)
-//.text:00A81440 ; bool __cdecl user_interface_remote_squad_is_joinable(s_network_squad_status_data const* status_data)
+//.text:00A81370 ; bool __cdecl user_interface_remote_squad_contains_local_peer(const s_network_squad_status_data* status_data)
+//.text:00A81440 ; bool __cdecl user_interface_remote_squad_is_joinable(const s_network_squad_status_data* status_data)
 //.text:00A81510 ; bool __cdecl user_interface_squad_can_new_user_join(int32 user_index)
 
 e_controller_index user_interface_session_get_controller_index(int32 player_index)
@@ -88,8 +88,8 @@ s_player_configuration* __cdecl user_interface_session_get_player_data(int32 pla
 	return INVOKE(0x00A818D0, user_interface_session_get_player_data, player_index);
 }
 
-//.text:00A81950 ; s_player_identifier const* __cdecl user_interface_squad_get_player_identifier(int32 player_index)
-//.text:00A81AC0 ; int32 __cdecl user_interface_session_get_player_index_from_xuid(uns64, c_network_session const*)
+//.text:00A81950 ; const s_player_identifier* __cdecl user_interface_squad_get_player_identifier(int32 player_index)
+//.text:00A81AC0 ; int32 __cdecl user_interface_session_get_player_index_from_xuid(uns64, const c_network_session*)
 //.text:00A81BC0 ; uns64 __cdecl user_interface_get_player_party_nonce(int32)
 //.text:00A81C50 ; uns64 __cdecl user_interface_session_get_player_xuid(int32)
 //.text:00A81CE0 ; uns64 __cdecl user_interface_session_get_usable_player_xuid(int32)
@@ -109,17 +109,17 @@ bool __cdecl user_interface_squad_is_player_valid(int32 player_index)
 //.text:00A81F10 ; bool __cdecl user_interface_session_is_verifying_strings()
 //.text:00A81F80 ; void __cdecl user_interface_session_memory_dispose()
 //.text:00A81FA0 ; void __cdecl user_interface_session_memory_initialize(e_map_memory_configuration)
-//.text:00A81FB0 ; bool __cdecl user_interface_session_parameters_are_valid_for_ui_game_mode(c_network_session_parameters const*)
+//.text:00A81FB0 ; bool __cdecl user_interface_session_parameters_are_valid_for_ui_game_mode(const c_network_session_parameters*)
 
-int32 __cdecl user_interface_squad_get_player_index(s_player_identifier const* player_identifier)
+int32 __cdecl user_interface_squad_get_player_index(const s_player_identifier* player_identifier)
 {
 	return INVOKE(0x00A82040, user_interface_squad_get_player_index, player_identifier);
 }
 
-//.text:00A82080 ; uns64 __cdecl user_interface_session_player_get_player_xuid(s_player_identifier const*)
-//.text:00A820E0 ; uns64 __cdecl user_interface_session_player_get_usable_player_xuid(s_player_identifier const*)
-//.text:00A82140 ; bool __cdecl user_interface_session_player_in_current_session(s_player_identifier const*)
-//.text:00A82150 ; bool __cdecl user_interface_session_set_name(wchar_t const*, wchar_t const*)
+//.text:00A82080 ; uns64 __cdecl user_interface_session_player_get_player_xuid(const s_player_identifier*)
+//.text:00A820E0 ; uns64 __cdecl user_interface_session_player_get_usable_player_xuid(const s_player_identifier*)
+//.text:00A82140 ; bool __cdecl user_interface_session_player_in_current_session(const s_player_identifier*)
+//.text:00A82150 ; bool __cdecl user_interface_session_set_name(const wchar_t*, const wchar_t*)
 //.text:00A821D0 ; void __cdecl user_interface_session_string_verify_update()
 //.text:00A827D0 ; void __cdecl user_interface_session_update()
 //.text:00A827E0 ; bool __cdecl user_interface_squad_boot_player(int32)
@@ -193,22 +193,22 @@ int32 __cdecl user_interface_squad_get_player_count()
 	return INVOKE(0x00A82E90, user_interface_squad_get_player_count);
 }
 
-s_player_configuration const* __cdecl user_interface_squad_get_player_data(int32 session_player_index)
+const s_player_configuration* __cdecl user_interface_squad_get_player_data(int32 session_player_index)
 {
 	return INVOKE(0x00A82EC0, user_interface_squad_get_player_data, session_player_index);
 }
 
-s_player_identifier const* __cdecl user_interface_session_get_player_identifier(int32 session_player_index)
+const s_player_identifier* __cdecl user_interface_session_get_player_identifier(int32 session_player_index)
 {
 	return INVOKE(0x00A82F20, user_interface_session_get_player_identifier, session_player_index);
 }
 
-//.text:00A82F90 ; int32 __cdecl user_interface_squad_get_player_index(s_player_identifier const*)
+//.text:00A82F90 ; int32 __cdecl user_interface_squad_get_player_index(const s_player_identifier*)
 //.text:00A82FD0 ; int32 __cdecl user_interface_squad_get_player_index_from_xuid(uns64)
 //.text:00A83020 ; int32 __cdecl user_interface_squad_get_player_join_sequence_number(int32 player_index)
 //.text:00A83110 ; e_network_session_class __cdecl user_interface_squad_get_session_class()
 //.text:00A83120 ; bool __cdecl user_interface_squad_get_session_id(s_transport_secure_identifier* session_id)
-//.text:00A83160 ; wchar_t const* __cdecl user_interface_squad_get_session_name()
+//.text:00A83160 ; const wchar_t* __cdecl user_interface_squad_get_session_name()
 //.text:00A83170 ; e_network_game_start_mode __cdecl user_interface_squad_get_start_mode()
 
 e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
@@ -244,32 +244,32 @@ bool __cdecl user_interface_squad_local_peer_is_leader()
 //.text:00A83630 ; bool __cdecl user_interface_squad_set_map(e_campaign_id campaign_id, e_map_id map_id)
 //.text:00A83680 ; bool __cdecl user_interface_squad_set_campaign_metagame_scoring(e_campaign_metagame_scoring campaign_metagame_scoring)
 
-bool __cdecl user_interface_squad_set_film(s_saved_film_description const* film)
+bool __cdecl user_interface_squad_set_film(const s_saved_film_description* film)
 {
 	return INVOKE(0x00A836F0, user_interface_squad_set_film, film);
 }
 
-bool __cdecl user_interface_squad_set_film_internal(s_saved_film_description const* film, bool needs_verification)
+bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_description* film, bool needs_verification)
 {
 	return INVOKE(0x00A83720, user_interface_squad_set_film_internal, film, needs_verification);
 }
 
 //.text:00A83870 ; bool __cdecl user_interface_squad_set_game_setup_changing(bool game_setup_changing)
 
-bool __cdecl user_interface_squad_set_game_variant(c_game_variant const* game_variant)
+bool __cdecl user_interface_squad_set_game_variant(const c_game_variant* game_variant)
 {
 	return INVOKE(0x00A838B0, user_interface_squad_set_game_variant, game_variant);
 }
 
-//.text:00A838F0 ; bool __cdecl user_interface_squad_set_game_variant_internal(c_game_variant const* game_variant, bool needs_verification)
+//.text:00A838F0 ; bool __cdecl user_interface_squad_set_game_variant_internal(const c_game_variant* game_variant, bool needs_verification)
 //.text:00A83AA0 ; bool __cdecl user_interface_squad_set_maximum_player_count(int32 maximum_player_count)
 
-bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_variant)
+bool __cdecl user_interface_squad_set_map_variant(const c_map_variant* map_variant)
 {
 	return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
 }
 
-bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant const* map_variant, bool needs_verification)
+bool __cdecl user_interface_squad_set_multiplayer_map_internal(const c_map_variant* map_variant, bool needs_verification)
 {
 	return INVOKE(0x00A83AF0, user_interface_squad_set_multiplayer_map_internal, map_variant, needs_verification);
 }

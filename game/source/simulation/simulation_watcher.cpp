@@ -53,7 +53,7 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 	//e_simulation_world_state state = m_world->get_state();
 	e_simulation_world_state state = m_world->m_world_state;
 
-	c_network_session_membership const* membership = m_session->get_session_membership();
+	const c_network_session_membership* membership = m_session->get_session_membership();
 	ASSERT(membership);
 
 	char host_name[256]{};

@@ -16,7 +16,12 @@ REFERENCE_DECLARE(0x04B1DA80, bool, g_havok_memory_always_system);
 
 HOOK_DECLARE(0x005C5520, havok_display_stats_printf);
 
-//.text:005C3CE0 ; hkRigidBody const* __cdecl get_havok_world_fixed_rigid_body()
+const s_havok_constants* get_havok_constants()
+{
+	return &g_havok_constants;
+}
+
+//.text:005C3CE0 ; const hkRigidBody* __cdecl get_havok_world_fixed_rigid_body()
 //.text:005C3CF0 ; 
 //.text:005C3D00 ; public: int16 const __cdecl c_havok_component::get_object_postion_controlling_rigid_body_index() const
 //.text:005C3D20 ; 
@@ -26,7 +31,7 @@ HOOK_DECLARE(0x005C5520, havok_display_stats_printf);
 //.text:005C3D70 ; 
 //.text:005C3D80 ; 
 //.text:005C3D90 ; void __cdecl havok_add_environment_rigid_bodies_to_world()
-//.text:005C3E80 ; bool __cdecl havok_all_entities_in_island_contain_players(hkpSimulationIsland const*)
+//.text:005C3E80 ; bool __cdecl havok_all_entities_in_island_contain_players(const hkpSimulationIsland*)
 //.text:005C3EE0 ; void __cdecl havok_base_system_init()
 //.text:005C3FC0 ; void __cdecl havok_base_system_quit()
 //.text:005C3FE0 ; void __cdecl havok_batch_add_entities()
@@ -50,7 +55,7 @@ void __cdecl havok_display_stats(bool display_as_event)
 	INVOKE(0x005C4FC0, havok_display_stats, display_as_event);
 }
 
-void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color const* color, char const* format, ...)
+void __cdecl havok_display_stats_printf(bool display_as_event, const real_argb_color* color, const char* format, ...)
 {
 	//0x005C5520
 
@@ -92,12 +97,12 @@ void __cdecl havok_dispose_from_old_structure_bsp(uns32 deactivating_structure_b
 //.text:005C55D0 ; void __cdecl havok_dispose_from_old_structure_bsp_internal(uns32)
 //.text:005C5700 ; void __cdecl havok_entity_post_update(hkEntity*)
 //.text:005C5AB0 ; bool __cdecl havok_environment_bodies_initialized()
-//.text:005C5AD0 ; void __cdecl havok_error_stub(char const*, void*)
+//.text:005C5AD0 ; void __cdecl havok_error_stub(const char*, void*)
 //.text:005C5AE0 ; void __cdecl havok_garbage_collection_lock(bool)
 //.text:005C5AF0 ; bool __cdecl havok_garbage_collection_locked()
-//.text:005C5B00 ; c_environment_mopp_bv_tree_shape const* __cdecl havok_get_environment_mopp_shape(int32)
-//.text:005C5B20 ; uns32 __cdecl havok_get_environment_shape_key_from_cd_body(hkCdBody const*)
-//.text:005C5B60 ; c_environment_surface_shape const* __cdecl havok_get_environment_surface_shape(int32)
+//.text:005C5B00 ; const c_environment_mopp_bv_tree_shape* __cdecl havok_get_environment_mopp_shape(int32)
+//.text:005C5B20 ; uns32 __cdecl havok_get_environment_shape_key_from_cd_body(const hkCdBody*)
+//.text:005C5B60 ; const c_environment_surface_shape* __cdecl havok_get_environment_surface_shape(int32)
 //.text:005C5B90 ; hkThreadMemory* __cdecl havok_get_render_thread_memory()
 //.text:005C5BA0 ; hkMonitorStream* __cdecl havok_get_render_thread_monitor_stream()
 
@@ -134,12 +139,12 @@ void __cdecl havok_initialize_for_new_structure_bsp(uns32 activating_structure_b
 //.text:005C68C0 ; void* __cdecl havok_next_monitor_stream_data_allocate()
 //.text:005C68E0 ; void __cdecl havok_notify_mopp_object_created(int32, int32)
 //.text:005C68F0 ; void __cdecl havok_notify_mopp_object_deleted(int32, int32)
-//.text:005C6900 ; void __cdecl havok_notify_object_changed_region_permutation(int32, int32, char const*)
+//.text:005C6900 ; void __cdecl havok_notify_object_changed_region_permutation(int32, int32, const char*)
 //.text:005C6AF0 ; void __cdecl havok_notify_static_geometry_modfied(int32, int32, int32, int32, int32)
 //.text:005C6B60 ; void __cdecl havok_notify_thread_frame_finished(int32)
 //.text:005C6BA0 ; void __cdecl havok_notify_thread_frame_started(int32)
 //.text:005C6BF0 ; void __cdecl havok_object_activate(int32)
-//.text:005C6C90 ; bool __cdecl havok_object_apply_acceleration(int32, int32, real_point3d const*, real_vector3d const*, real_vector3d const*, int32*, real_vector3d*, real_vector3d*)
+//.text:005C6C90 ; bool __cdecl havok_object_apply_acceleration(int32, int32, const real_point3d*, const real_vector3d*, const real_vector3d*, int32*, real_vector3d*, real_vector3d*)
 //.text:005C6F70 ; void __cdecl havok_object_deactivate(int32)
 //.text:005C7000 ; void __cdecl havok_object_delete(int32)
 //.text:005C7080 ; void __cdecl havok_object_delete_internal(int32)
@@ -156,7 +161,7 @@ void __cdecl havok_object_set_position(int32 object_index, bool a2, bool a3, boo
 	INVOKE(0x005C7410, havok_object_set_position, object_index, a2, a3, a4);
 }
 
-//.text:005C74F0 ; void __cdecl havok_object_set_velocities(int32, real_vector3d const*, real_vector3d const*, bool)
+//.text:005C74F0 ; void __cdecl havok_object_set_velocities(int32, const real_vector3d*, const real_vector3d*, bool)
 //.text:005C77A0 ; void __cdecl havok_post_process_simulating_entities()
 
 void __cdecl havok_prepare_fpu_for_update()
@@ -195,11 +200,6 @@ void __cdecl havok_restore_fpu_from_update()
 void __cdecl havok_update()
 {
 	INVOKE(0x005C7B50, havok_update);
-}
-
-s_havok_constants const* get_havok_constants()
-{
-	return &g_havok_constants;
 }
 
 void havok_debug_render()

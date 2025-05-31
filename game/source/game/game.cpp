@@ -120,7 +120,7 @@ bool g_debug_survival_mode = false;
 
 c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
 
-real_argb_color const* const k_activation_colors[6]
+const real_argb_color* const k_activation_colors[6]
 {
 	nullptr,
 	global_real_argb_orange,
@@ -134,7 +134,7 @@ int32 k_activation_color_override_index = 0;
 real32 const k_game_loss_time = 6.0f;
 real32 const k_game_finished_time = 7.0f;
 
-s_cluster_reference const* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index)
+const s_cluster_reference* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index)
 {
 	cluster_reference->bsp_index = static_cast<int8>(bsp_index);
 	cluster_reference->cluster_index = static_cast<int8>(cluster_index);
@@ -149,7 +149,7 @@ bool __cdecl game_is_multithreaded()
 
 //.text:005303E0 ; void __cdecl __tls_set_g_game_globals_allocator(void*)
 
-void __cdecl assert_game_options_verify(game_options const* options)
+void __cdecl assert_game_options_verify(const game_options* options)
 {
 	//INVOKE(0x00530440, assert_game_options_verify, options);
 
@@ -169,7 +169,7 @@ void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs,
 	INVOKE(0x005307B0, game_clear_structure_pvs, structure_pvs, structure_bsp_mask);
 }
 
-void __cdecl game_clusters_and(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3)
+void __cdecl game_clusters_and(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2, s_game_cluster_bit_vectors* a3)
 {
 	INVOKE(0x005307F0, game_clusters_and, a1, a2, a3);
 }
@@ -179,7 +179,7 @@ void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2)
 	INVOKE(0x00530840, game_clusters_fill, a1, a2);
 }
 
-void __cdecl game_clusters_or(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3)
+void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2, s_game_cluster_bit_vectors* a3)
 {
 	INVOKE(0x00530860, game_clusters_or, a1, a2, a3);
 }
@@ -189,7 +189,7 @@ void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_
 	INVOKE(0x005308B0, game_compute_pvs, a1, a2, a3);
 }
 
-bool game_clusters_test(s_game_cluster_bit_vectors const* vector, struct s_cluster_reference structure_reference)
+bool game_clusters_test(const s_game_cluster_bit_vectors* vector, struct s_cluster_reference structure_reference)
 {
 	return vector->flags.element(structure_reference.bsp_index).test(structure_reference.cluster_index);
 }
@@ -291,7 +291,7 @@ void __cdecl game_create_players()
 			uns64 player_identifier = online_local_user_get_player_identifier(controller_index);
 			player->player_identifier = player_identifier;
 
-			wchar_t const* name = online_local_user_get_name(controller_index);
+			const wchar_t* name = online_local_user_get_name(controller_index);
 
 			if (player->configuration.host.name.is_empty())
 				player->configuration.host.name = name;
@@ -382,7 +382,7 @@ void __cdecl game_dispose_from_old_map()
 	game_globals->map_active = false;
 }
 
-void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
+void __cdecl game_dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_set* old_non_bsp_zone_set)
 {
 	//INVOKE(0x00530E10, game_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 
@@ -551,7 +551,7 @@ void __cdecl game_globals_dispose_from_old_map()
 	main_status("game_playback", NULL);
 }
 
-void __cdecl game_globals_initialize_for_new_map(game_options const* options)
+void __cdecl game_globals_initialize_for_new_map(const game_options* options)
 {
 	//INVOKE(0x005312C0, game_globals_initialize_for_new_map, options);
 
@@ -665,7 +665,7 @@ void __cdecl game_initialize()
 	// some bool set to true
 }
 
-void __cdecl game_initialize_for_new_map(game_options const* options)
+void __cdecl game_initialize_for_new_map(const game_options* options)
 {
 	//INVOKE(0x00531600, game_initialize_for_new_map, options);
 
@@ -713,7 +713,7 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 	random_seed_disallow_use();
 }
 
-void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
+void __cdecl game_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set)
 {
 	//INVOKE(0x00531790, game_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 
@@ -1040,7 +1040,7 @@ void __cdecl game_options_print_game_id()
 	console_printf("%I64d", game_options_get()->game_instance);
 }
 
-//.text:005322F0 ; bool __cdecl game_options_match(game_options const*, game_options const*)
+//.text:005322F0 ; bool __cdecl game_options_match(const game_options*, const game_options*)
 
 void __cdecl game_options_new(game_options* options)
 {
@@ -1072,7 +1072,7 @@ void __cdecl game_options_validate(game_options* options)
 
 //.text:005326B0 ; void __cdecl game_options_validate_for_saved_game(int32)
 
-bool __cdecl game_options_verify(game_options const* options, char* error_string, int32 error_string_length)
+bool __cdecl game_options_verify(const game_options* options, char* error_string, int32 error_string_length)
 {
 	return INVOKE(0x005326F0, game_options_verify, options, error_string, error_string_length);
 
@@ -1273,7 +1273,7 @@ e_game_playback_type __cdecl game_playback_get()
 
 //.text:00532AA0 ; void __cdecl game_playback_set(e_game_playback_type playback_type)
 
-void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* currently_active_tags_registry)
+void __cdecl game_prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* currently_active_tags_registry)
 {
 	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, currently_active_tags_registry);
 
@@ -1494,7 +1494,7 @@ bool __cdecl game_survival_allow_respawn()
 	return game_globals && game_globals->options.game_mode == _game_mode_campaign && !game_skull_is_active_primary(_campaign_skull_iron);
 }
 
-//.text:005330D0 ; bool __cdecl game_test_cluster_activation(s_cluster_reference const*)
+//.text:005330D0 ; bool __cdecl game_test_cluster_activation(const s_cluster_reference*)
 
 void __cdecl game_tick()
 {
@@ -1622,7 +1622,7 @@ void __cdecl game_tick()
 	}
 }
 
-void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update const* update)
+void __cdecl game_tick_pulse_random_seed_deterministic(const struct simulation_update* update)
 {
 	INVOKE(0x005333A0, game_tick_pulse_random_seed_deterministic, update);
 }
@@ -1781,7 +1781,7 @@ void __cdecl game_won()
 }
 
 //.text:00533EF0 ; 
-//.text:00533FC0 ; char const* __cdecl get_game_difficulty_name(int16)
+//.text:00533FC0 ; const char* __cdecl get_game_difficulty_name(int16)
 
 void __cdecl game_finish_immediate()
 {
@@ -1794,7 +1794,7 @@ void __cdecl game_finish_immediate()
 	}
 }
 
-bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings)
+bool __cdecl game_options_read_launch_settings_from_string(const char* buffer, s_game_options_launch_settings* out_launch_settings)
 {
 	s_game_options_launch_settings launch_settings{};
 
@@ -1850,7 +1850,7 @@ bool __cdecl game_launch_get_settings(s_game_options_launch_settings* out_launch
 	return result;
 }
 
-bool __cdecl game_launch_get_initial_script_name(char const* script_name)
+bool __cdecl game_launch_get_initial_script_name(const char* script_name)
 {
 	//return INVOKE(0x006961B0, game_launch_get_initial_script_name, script_name);
 
@@ -1898,7 +1898,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	return true;
 }
 
-void game_bsp_debug_status(char const* status, uns32 structure_bsp_mask)
+void game_bsp_debug_status(const char* status, uns32 structure_bsp_mask)
 {
 	ASSERT(status);
 
@@ -1907,7 +1907,7 @@ void game_bsp_debug_status(char const* status, uns32 structure_bsp_mask)
 	main_status("bsp", "%s 0x%x (%s)", status, structure_bsp_mask, structure_bsp_string);
 }
 
-void game_designer_zone_set_debug_status(char const* status, uns32 designer_zone_mask)
+void game_designer_zone_set_debug_status(const char* status, uns32 designer_zone_mask)
 {
 	ASSERT(status);
 
@@ -1916,7 +1916,7 @@ void game_designer_zone_set_debug_status(char const* status, uns32 designer_zone
 	main_status("designer_zone", "%s 0x%x (%s)", status, designer_zone_mask, designer_zone_string);
 }
 
-void game_cinematic_zone_set_debug_status(char const* status, uns32 cinematic_zone_mask)
+void game_cinematic_zone_set_debug_status(const char* status, uns32 cinematic_zone_mask)
 {
 	ASSERT(status);
 
@@ -1936,7 +1936,7 @@ void __cdecl game_pvs_debug_render()
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
 			for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 			{
-				real_argb_color const* activation_color = nullptr;
+				const real_argb_color* activation_color = nullptr;
 				if (debug_pvs_activation)
 				{
 					ASSERT(g_cluster_activation_reason[structure_bsp_index][cluster_index] >= 0 && g_cluster_activation_reason[structure_bsp_index][cluster_index] < NUMBEROF(k_activation_colors));
@@ -1992,7 +1992,7 @@ void __cdecl game_pvs_debug_render()
 	}
 }
 
-char const* const k_game_simulation_names[k_game_simulation_count]
+const char* const k_game_simulation_names[k_game_simulation_count]
 {
 	"none",
 	"local",
@@ -2002,7 +2002,7 @@ char const* const k_game_simulation_names[k_game_simulation_count]
 	"dist-server"
 };
 
-char const* const k_game_playback_names[k_game_playback_count]
+const char* const k_game_playback_names[k_game_playback_count]
 {
 	"none",
 	"local",

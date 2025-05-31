@@ -25,7 +25,7 @@ struct animation_thread :
 	uns16 ticks_left;
 	uns16 flags;
 	int32 relative_ticks;
-	char const* event_stream;
+	const char* event_stream;
 	unit_control_data controller;
 	animation_playback_controller animation_state;
 	int16 version;

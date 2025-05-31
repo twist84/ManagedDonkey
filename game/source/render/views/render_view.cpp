@@ -107,7 +107,7 @@ int32 __cdecl c_view::get_current_stack_level()
 	return g_view_stack_top;
 }
 
-render_camera const* c_view::get_render_camera() const
+const render_camera* c_view::get_render_camera() const
 {
 	return &m_render_camera;
 }
@@ -117,7 +117,7 @@ render_camera* c_view::get_render_camera_modifiable()
 	return &m_render_camera;
 }
 
-render_camera const* c_view::get_rasterizer_camera() const
+const render_camera* c_view::get_rasterizer_camera() const
 {
 	return &m_rasterizer_camera;
 }
@@ -127,7 +127,7 @@ render_camera* c_view::get_rasterizer_camera_modifiable()
 	return &m_rasterizer_camera;
 }
 
-render_projection const* c_view::get_rasterizer_projection() const
+const render_projection* c_view::get_rasterizer_projection() const
 {
 	return &m_rasterizer_projection;
 }
@@ -137,7 +137,7 @@ render_projection* c_view::get_rasterizer_projection_modifiable()
 	return &m_rasterizer_projection;
 }
 
-render_projection const* c_view::get_render_projection() const
+const render_projection* c_view::get_render_projection() const
 {
 	return &m_render_projection;
 }
@@ -179,7 +179,7 @@ void c_fullscreen_view::render_debug_stuff_while_loading()
 	game_time_render_debug();
 }
 
-void c_fullscreen_view::setup_camera(s_observer_result const* observer)
+void c_fullscreen_view::setup_camera(const s_observer_result* observer)
 {
 	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
 	csmemset(rasterizer_camera_modifiable, 0, sizeof(render_camera));
@@ -194,11 +194,11 @@ void c_fullscreen_view::setup_camera(s_observer_result const* observer)
 	render_camera_build_projection(rasterizer_camera_modifiable, &frustum_bounds, rasterizer_projection_modifiable, 0.0f);
 
 	render_camera* render_camera_modifiable = get_render_camera_modifiable();
-	render_camera const* rasterizer_camera = get_rasterizer_camera();
+	const render_camera* rasterizer_camera = get_rasterizer_camera();
 	csmemcpy(render_camera_modifiable, rasterizer_camera, sizeof(render_camera));
 
 	render_projection* render_projection_modifiable = get_render_projection_modifiable();
-	render_projection const* rasterizer_projection = get_rasterizer_projection();
+	const render_projection* rasterizer_projection = get_rasterizer_projection();
 	csmemcpy(render_projection_modifiable, rasterizer_projection, sizeof(render_projection));
 }
 
@@ -265,9 +265,9 @@ void __thiscall c_first_person_view::render_albedo(int32 user_index)
 	c_object_renderer::render_albedo(k_first_person_unsquished_flags);
 }
 
-void c_fullscreen_view::render_blank_frame(real_rgb_color const* background_color)
+void c_fullscreen_view::render_blank_frame(const real_rgb_color* background_color)
 {
-	//DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(background_color);
+	//DECLFUNC(0x00A291E0, void, __cdecl, const real_rgb_color*)(background_color);
 
 	c_rasterizer::set_render_target(0, c_rasterizer::get_display_surface(), 0xFFFFFFFF);
 	c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
@@ -331,7 +331,7 @@ void __cdecl render_debug_window_render(int32 user_index)
 	}
 }
 
-void c_ui_view::setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface)
+void c_ui_view::setup_camera(const s_observer_result* result, c_rasterizer::e_surface surface)
 {
 	INVOKE_CLASS_MEMBER(0x00A29330, c_ui_view, setup_camera, result, surface);
 
@@ -356,7 +356,7 @@ c_hud_camera_view* c_hud_camera_view::constructor()
 	return INVOKE_CLASS_MEMBER(0x0060DC00, c_hud_camera_view, constructor);
 }
 
-void c_hud_camera_view::render(int32 player_index, c_player_view const* player_view, void* data)
+void c_hud_camera_view::render(int32 player_index, const c_player_view* player_view, void* data)
 {
 	INVOKE_CLASS_MEMBER(0x00A2D490, c_hud_camera_view, render, player_index, player_view, data);
 }

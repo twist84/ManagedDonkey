@@ -75,12 +75,12 @@ public:
 	virtual s_runtime_core_widget_definition* get_core_definition() override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual void update_render_state(uns32 current_milliseconds) override;
-	virtual bool handle_tab(c_controller_input_message const* message) override;
-	virtual void initialize(s_list_widget_block const* template_and_override_block);
+	virtual bool handle_tab(const c_controller_input_message* message) override;
+	virtual void initialize(const s_list_widget_block* template_and_override_block);
 
 public:
 	c_gui_list_widget();
-	void add_definition_fields(s_list_widget_definition const* definition, bool was_templated);
+	void add_definition_fields(const s_list_widget_definition* definition, bool was_templated);
 	void close_active_submenu(c_gui_list_widget* submenu_widget);
 	void create_and_add_additional_items_indicators_bitmaps();
 	void dispose_submenu(c_gui_list_widget* submenu_widget);

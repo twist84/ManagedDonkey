@@ -207,7 +207,7 @@ byte data_encode_integer(data_encoding_state* state, int32 value, int32 maximum_
 	throw "unimplemented";
 }
 
-byte data_encode_memory(data_encoding_state* state, void const* buffer, int16 count, int32 code)
+byte data_encode_memory(data_encoding_state* state, const void* buffer, int16 count, int32 code)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 
@@ -281,7 +281,7 @@ byte data_encode_string(data_encoding_state* state, char* source_string, int16 m
 	return state->overflow_flag == 0;
 }
 
-byte data_encode_structures(data_encoding_state* state, void const* source_structures, int16 structure_count, byte_swap_definition* bs_definition)
+byte data_encode_structures(data_encoding_state* state, const void* source_structures, int16 structure_count, byte_swap_definition* bs_definition)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 	ASSERT(source_structures);

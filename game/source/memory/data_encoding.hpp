@@ -23,8 +23,8 @@ extern char* data_decode_string(data_encoding_state* state, int16 maximum_string
 extern void* data_decode_structures(data_encoding_state* state, int16 structure_count, byte_swap_definition* bs_definition);
 extern byte data_encode_array(data_encoding_state* state, int32 element_count_size, void* source_array, int32 element_count, byte_swap_definition* bs_definition);
 extern byte data_encode_integer(data_encoding_state* state, int32 value, int32 maximum_value);
-extern byte data_encode_memory(data_encoding_state* state, void const* buffer, int16 count, int32 code);
+extern byte data_encode_memory(data_encoding_state* state, const void* buffer, int16 count, int32 code);
 extern void data_encode_new(data_encoding_state* state, void* buffer, int32 buffer_size);
 extern byte data_encode_string(data_encoding_state* state, char* source_string, int16 maximum_string_length);
-extern byte data_encode_structures(data_encoding_state* state, void const* source_structures, int16 structure_count, byte_swap_definition* bs_definition);
+extern byte data_encode_structures(data_encoding_state* state, const void* source_structures, int16 structure_count, byte_swap_definition* bs_definition);
 

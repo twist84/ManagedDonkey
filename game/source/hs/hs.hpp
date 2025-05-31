@@ -10,7 +10,7 @@
 struct hs_enum_definition
 {
 	int16 count;
-	char const* const* names;
+	const char* const* names;
 };
 static_assert(sizeof(hs_enum_definition) == 0x8);
 
@@ -96,38 +96,38 @@ extern tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_
 extern int16 const hs_type_sizes[k_hs_type_count];
 extern int16 const hs_object_type_masks[k_hs_type_object_count];
 extern int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];
-extern char const* const hs_type_names[k_hs_type_count];
-extern char const* const hs_script_type_names[k_hs_script_type_count];
+extern const char* const hs_type_names[k_hs_type_count];
+extern const char* const hs_script_type_names[k_hs_script_type_count];
 extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
 extern s_data_array*& g_hs_syntax_data;
 
-extern hs_function_definition const* hs_function_get(int16 function_index);
-extern hs_function_definition_debug const* hs_function_get_debug(int16 function_index);
+extern const hs_function_definition* hs_function_get(int16 function_index);
+extern const hs_function_definition_debug* hs_function_get_debug(int16 function_index);
 extern hs_syntax_node* __cdecl hs_syntax_get(int32 datum_index);
 extern void __cdecl hs_dispose();
 extern void __cdecl hs_dispose_from_old_map();
-extern int16 __cdecl hs_find_script_by_name(char const* name, int16 num_arguments);
+extern int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments);
 extern int16 __cdecl hs_global_get_type(int16 global_index);
 extern void __cdecl hs_initialize();
 extern void __cdecl hs_initialize_for_new_map();
 extern void __cdecl hs_node_gc();
 extern void __cdecl hs_update();
-extern int16 hs_find_function_by_name(char const* name, int16 parameter_count);
-extern int16 hs_script_find_parameter_by_name(int32 script_index, char const* name);
+extern int16 hs_find_function_by_name(const char* name, int16 parameter_count);
+extern int16 hs_script_find_parameter_by_name(int32 script_index, const char* name);
 extern hs_global_external* hs_global_external_get(int16 global_index);
 extern hs_global_external_debug* hs_global_external_get_debug(int16 global_index);
-extern int16 hs_find_global_by_name(char const* name);
-extern char const* hs_global_get_name(int16 global_index);
+extern int16 hs_find_global_by_name(const char* name);
+extern const char* hs_global_get_name(int16 global_index);
 
-extern void hs_tokens_enumerate_add_string(char const* string);
-extern void hs_enumerate_from_string_list(char const* const* string_list, int16 starting_index, int16 count);
-extern void hs_enumerate_block_data(s_tag_block const* block, int16 offset, int32 size);
+extern void hs_tokens_enumerate_add_string(const char* string);
+extern void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count);
+extern void hs_enumerate_block_data(const s_tag_block* block, int16 offset, int32 size);
 extern void hs_enumerate_scenario_data(int16 scenario_offset, int16 block_offset, int32 block_size);
-extern void hs_enumerate_block_data_string_id(s_tag_block const* block, int16 offset, int32 size);
+extern void hs_enumerate_block_data_string_id(const s_tag_block* block, int16 offset, int32 size);
 extern void hs_enumerate_scenario_data_string_id(int16 scenario_offset, int16 block_offset, int32 block_size);
-extern int16 hs_tokens_enumerate(char const* token, int32 type_mask, char const** matching_items, int16 matching_item_count);
+extern int16 hs_tokens_enumerate(const char* token, int32 type_mask, const char** matching_items, int16 matching_item_count);
 
-extern bool __cdecl sort_by_found_index(int32 look_inside1, int32 look_inside2, void const* look_for);
+extern bool __cdecl sort_by_found_index(int32 look_inside1, int32 look_inside2, const void* look_for);
 extern void __cdecl hs_enumerate_special_form_names(void);
 extern void __cdecl hs_enumerate_script_type_names(void);
 extern void __cdecl hs_enumerate_type_names(void);

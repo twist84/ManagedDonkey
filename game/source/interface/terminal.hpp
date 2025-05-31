@@ -54,7 +54,7 @@ extern bool g_terminal_render_enable;
 extern real32 const k_output_total_seconds;
 extern int16 const k_tab_stops[];
 
-extern void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...);
+extern void __cdecl terminal_printf(const real_argb_color* color, const char* format, ...);
 extern void __cdecl terminal_initialize();
 extern void __cdecl terminal_dispose();
 extern void __cdecl terminal_clear();
@@ -62,7 +62,7 @@ extern bool __cdecl terminal_update_input(real32 shell_seconds_elapsed);
 extern void __cdecl terminal_update_output(real32 shell_seconds_elapsed);
 extern bool __cdecl terminal_update(real32 shell_seconds_elapsed);
 extern void __cdecl terminal_remove_line(int32 line_index);
-extern int32 __cdecl terminal_new_line(char const* buffer, real_argb_color const* color, bool tabstop);
+extern int32 __cdecl terminal_new_line(const char* buffer, const real_argb_color* color, bool tabstop);
 extern void __cdecl terminal_output_to_console(bool console_output);
 extern void __cdecl terminal_suppress_output(bool suppress_output);
 extern bool __cdecl terminal_gets_active();

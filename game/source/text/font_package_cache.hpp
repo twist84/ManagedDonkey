@@ -6,7 +6,7 @@ struct s_font_package_cache_entry;
 
 extern void __cdecl font_package_entries_byteswap(s_font_package_entry* entry, int32 character_key);
 extern void __cdecl font_package_file_header_byteswap(s_font_package_file_header* package_header);
-extern bool __cdecl font_package_file_header_validate(s_font_package_file_header const* package_header);
+extern bool __cdecl font_package_file_header_validate(const s_font_package_file_header* package_header);
 extern void __cdecl font_package_cache_delete();
 extern void __cdecl font_package_cache_flush();
 extern void __cdecl font_package_cache_idle();

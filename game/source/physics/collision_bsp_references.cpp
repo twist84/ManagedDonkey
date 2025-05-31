@@ -13,13 +13,13 @@ c_collision_bsp_reference::c_collision_bsp_reference() :
 {
 }
 
-c_collision_bsp_reference::c_collision_bsp_reference(structure_bsp const* bsp) :
+c_collision_bsp_reference::c_collision_bsp_reference(const structure_bsp* bsp) :
 	c_bsp3d_reference()
 {
 	initialize(bsp->resource_interface.get_resources());
 }
 
-void c_collision_bsp_reference::initialize(s_structure_bsp_resources const* bsp_resources)
+void c_collision_bsp_reference::initialize(const s_structure_bsp_resources* bsp_resources)
 {
 	m_bsp = NULL;
 	m_large_bsp = NULL;
@@ -51,14 +51,14 @@ bool c_collision_bsp_reference::is_small() const
 	return m_bsp != NULL;
 }
 
-collision_bsp const* c_collision_bsp_reference::get_small_bsp() const
+const collision_bsp* c_collision_bsp_reference::get_small_bsp() const
 {
 	ASSERT(valid());
 
 	return m_bsp;
 }
 
-large_collision_bsp const* c_collision_bsp_reference::get_large_bsp() const
+const large_collision_bsp* c_collision_bsp_reference::get_large_bsp() const
 {
 	ASSERT(valid());
 

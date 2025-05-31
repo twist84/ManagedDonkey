@@ -13,7 +13,7 @@ bool c_vehicle_type_alien_scout::compute_function_value(int32 vehicle_index, int
 }
 
 // this belongs in vehicle_scout_utilities.cpp
-//.text:00BCAC60 ; real32 __cdecl scout_compute_function_velocity(real32, real32, bool, s_engine_function_definition const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real32, real32, real32)
+//.text:00BCAC60 ; real32 __cdecl scout_compute_function_velocity(real32, real32, bool, const s_engine_function_definition*, const real_vector3d*, const real_vector3d*, const real_vector3d*, real32, real32, real32)
 
 void c_vehicle_type_alien_scout::compute_throttle(int32 vehicle_index, real_vector3d* throttle)
 {
@@ -50,7 +50,7 @@ bool __cdecl c_vehicle_type_alien_scout::physics_disabled(int32 vehicle_index)
 	return INVOKE(0x00BCB1C0, c_vehicle_type_alien_scout::physics_disabled, vehicle_index);
 }
 
-void c_vehicle_type_alien_scout::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void c_vehicle_type_alien_scout::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE_CLASS_MEMBER(0x00BCB200, c_vehicle_type_alien_scout, process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }
@@ -75,7 +75,7 @@ void c_vehicle_type_alien_scout::update_physics(int32 vehicle_index, s_havok_veh
 	INVOKE_CLASS_MEMBER(0x00BCB510, c_vehicle_type_alien_scout, update_physics, vehicle_index, instance);
 }
 
-bool __cdecl c_vehicle_type_alien_scout::vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector)
+bool __cdecl c_vehicle_type_alien_scout::vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector)
 {
 	return INVOKE(0x00BCCC70, c_vehicle_type_alien_scout::vector_is_upsides_down, vehicle_index, vector);
 }

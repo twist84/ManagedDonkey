@@ -157,10 +157,10 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A210 ; 
 //.text:00A8A250 ; 
 //.text:00A8A290 ; 
-//.text:00A8A310 ; void __cdecl chud_set_campaign_objective(wchar_t const*, real32)
+//.text:00A8A310 ; void __cdecl chud_set_campaign_objective(const wchar_t*, real32)
 //.text:00A8A3C0 ; 
 //.text:00A8A410 ; 
-//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(int32, wchar_t const*)
+//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(int32, const wchar_t*)
 //.text:00A8A500 ; 
 //.text:00A8A570 ; s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32)
 //.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(int32)
@@ -170,9 +170,9 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A7F0 ; 
 //.text:00A8A830 ; 
 //.text:00A8A860 ; 
-//.text:00A8A900 ; void __cdecl chud_start_directional_damage(int32, real_vector3d const*, real32, int16, real32, real32, real32, real_argb_color*)
+//.text:00A8A900 ; void __cdecl chud_start_directional_damage(int32, const real_vector3d*, real32, int16, real32, real32, real32, real_argb_color*)
 
-//void __cdecl chud_submit_navpoint(int32 user_index, c_chud_navpoint const* navpoint)
+//void __cdecl chud_submit_navpoint(int32 user_index, const c_chud_navpoint* navpoint)
 void __cdecl chud_submit_navpoint(int32 user_index, s_chud_navpoint* navpoint)
 {
 	INVOKE(0x00A8A9F0, chud_submit_navpoint, user_index, navpoint);

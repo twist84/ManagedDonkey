@@ -9,9 +9,9 @@ enum : uns32
 	k_font_character_maximum_pages = 1026,
 };
 
-s_font_header const* g_fallback_font_header = NULL;
+const s_font_header* g_fallback_font_header = NULL;
 
-bool fallback_font_get_character(e_utf32 utf_character, s_font_character const** out_character, void const** out_pixel_data)
+bool fallback_font_get_character(e_utf32 utf_character, const s_font_character** out_character, const void** out_pixel_data)
 {
 	ASSERT(g_fallback_font_header);
 	ASSERT(g_fallback_font_header->location_table_offset + g_fallback_font_header->location_table_count * sizeof(uns32) <= sizeof(k_fallback_font_data));
@@ -38,7 +38,7 @@ bool fallback_font_get_character(e_utf32 utf_character, s_font_character const**
 	return false;
 }
 
-s_font_header const* fallback_font_get_header()
+const s_font_header* fallback_font_get_header()
 {
 	if (!g_fallback_font_header)
 	{

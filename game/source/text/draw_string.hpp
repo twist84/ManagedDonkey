@@ -29,7 +29,7 @@ struct c_draw_string
 	struct s_parse_string_state
 	{
 		int32 string_index;
-		e_utf32 const* string;
+		const e_utf32* string;
 		int32 result;
 		int32 previous_result;
 		utf32 character;
@@ -49,27 +49,27 @@ struct c_draw_string
 	struct
 	{
 		void(__thiscall* dtor)(c_draw_string* _this);
-		bool(__thiscall* draw_utf32)(c_draw_string* _this, c_font_cache_base* font_cache, e_utf32 const* string);
-		bool(__thiscall* draw_wchar)(c_draw_string* _this, c_font_cache_base* font_cache, wchar_t const* string);
-		bool(__thiscall* draw)(c_draw_string* _this, c_font_cache_base* font_cache, char const* string);
+		bool(__thiscall* draw_utf32)(c_draw_string* _this, c_font_cache_base* font_cache, const e_utf32* string);
+		bool(__thiscall* draw_wchar)(c_draw_string* _this, c_font_cache_base* font_cache, const wchar_t* string);
+		bool(__thiscall* draw)(c_draw_string* _this, c_font_cache_base* font_cache, const char* string);
 		bool(__thiscall* predict_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character);
-		bool(__thiscall* precache_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, s_font_character const** font_character);
+		bool(__thiscall* precache_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, const s_font_character** font_character);
 		void(__thiscall* draw_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, uns32 a4, uns32 a5, real32 a6, real32 a7, real32 a8, real32 a9, real32 a10, real32 a11);
-	}* __vftable;
+	}*__vftable;
 
 public:
 	c_draw_string();
 	~c_draw_string();
 
-	bool draw(c_font_cache_base* font_cache, e_utf32 const* string)
+	bool draw(c_font_cache_base* font_cache, const e_utf32* string)
 	{
 		return __vftable->draw_utf32(this, font_cache, string);
 	}
-	bool draw(c_font_cache_base* font_cache, wchar_t const* string)
+	bool draw(c_font_cache_base* font_cache, const wchar_t* string)
 	{
 		return __vftable->draw_wchar(this, font_cache, string);
 	}
-	bool draw(c_font_cache_base* font_cache, char const* string)
+	bool draw(c_font_cache_base* font_cache, const char* string)
 	{
 		return __vftable->draw(this, font_cache, string);
 	}
@@ -77,7 +77,7 @@ public:
 	{
 		return __vftable->predict_character(this, font_cache, font_id, character);
 	}
-	bool precache_character(c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, s_font_character const** font_character)
+	bool precache_character(c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, const s_font_character** font_character)
 	{
 		return __vftable->precache_character(this, font_cache, font_id, character, font_character);
 	}
@@ -86,7 +86,7 @@ public:
 		return __vftable->draw_character(this, font_cache, font_id, character, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
 
-	bool draw_more(c_font_cache_base* font_cache, char const* string);
+	bool draw_more(c_font_cache_base* font_cache, const char* string);
 	//draw_partial
 
 	void get_cursor(point2d* cursor) const;
@@ -95,13 +95,13 @@ public:
 	int16 get_line_height() const;
 
 	void set_align_bottom_vertically(bool align_bottom);
-	void set_bounds(real_rectangle2d const* bounds, real_rectangle2d const* clip);
-	void set_bounds(real_rectangle2d const* bounds);
-	void set_bounds(rectangle2d const* bounds);
+	void set_bounds(const real_rectangle2d* bounds, const real_rectangle2d* clip);
+	void set_bounds(const real_rectangle2d* bounds);
+	void set_bounds(const rectangle2d* bounds);
 	void set_center_vertically(bool center_vertically);
 	void set_color(uns32 color);
 	void set_color(argb_color color);
-	void set_color(real_argb_color const* color);
+	void set_color(const real_argb_color* color);
 	void set_display_resolution_scale_adjustment(real32 scale);
 	void set_drop_shadow_style(e_text_drop_shadow_style drop_shadow_style);
 	void set_font(e_font_id font);
@@ -112,16 +112,16 @@ public:
 	void set_precache_required(bool precache);
 	void set_scale(real32 scale);
 	void set_shadow_color(uns32 color);
-	void set_shadow_color(real_argb_color const* color);
+	void set_shadow_color(const real_argb_color* color);
 	void set_style(e_text_style style);
-	void set_tab_stops(int16 const* tab_stops, int16 count);
+	void set_tab_stops(const int16* tab_stops, int16 count);
 	void set_wrap_horizontally(bool wrap_horizontally);
 	void text_bounds_draw_character(real32 screen_left, real32 screen_top, real32 bitmap_widthm, real32 bitmap_height);
 
 protected:
 	c_flags<e_text_flags, uns32, k_text_flags> m_flags;
 	e_font_id m_font_id;
-	s_font_header const* m_styled_font_header;
+	const s_font_header* m_styled_font_header;
 	e_text_style m_style;
 	e_text_justification m_justification;
 	e_text_drop_shadow_style m_drop_shadow_style;
@@ -218,7 +218,7 @@ struct c_rasterizer_draw_string :
 public:
 	c_rasterizer_draw_string();
 	void set_rotation(real32 angle_radians);
-	void set_rotation_origin(real_point2d const* origin);
+	void set_rotation_origin(const real_point2d* origin);
 
 protected:
 	real_point2d m_rotation_origin;

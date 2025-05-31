@@ -40,7 +40,7 @@ static_assert(sizeof(c_contrail_system) == 0x30);
 struct c_contrail :
 	s_datum_header
 {
-	static void __cdecl render_callback(void const*, int32);
+	static void __cdecl render_callback(const void*, int32);
 	void render() const;
 
 	enum e_flags

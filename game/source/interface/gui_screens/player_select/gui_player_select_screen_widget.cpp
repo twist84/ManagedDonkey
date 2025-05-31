@@ -141,7 +141,7 @@ bool __cdecl parse_custom_value(void* this_ptr, wchar_t* buffer, int32 buffer_le
 	return false;
 };
 
-int16 game_results_get_player_from_identifier(c_game_results const* game_results, s_player_identifier const* player_identifier)
+int16 game_results_get_player_from_identifier(const c_game_results* game_results, const s_player_identifier* player_identifier)
 {
 	int16 player_index = 0;
 	while (game_results->players[player_index].player_exists
@@ -160,7 +160,7 @@ bool __cdecl parse_kills(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 	//c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	//
 	//int32 kills = 0;
-	//if (c_game_results const* game_results = user_interface_networking_get_final_game_results())
+	//if (const c_game_results* game_results = user_interface_networking_get_final_game_results())
 	//{
 	//	int16 player_index = game_results_get_player_from_identifier(game_results, &this_->m_target_player_id);
 	//	VALID_INDEX(player_index, NUMBEROF(game_results->statistics.player));
@@ -265,9 +265,9 @@ bool __thiscall c_gui_player_select_screen_widget::try_and_get_render_data_emble
 		return false;
 	}
 
-	c_game_results const* final_game_results = user_interface_networking_get_final_game_results();
+	const c_game_results* final_game_results = user_interface_networking_get_final_game_results();
 
-	s_player_configuration const* configuration = NULL;
+	const s_player_configuration* configuration = NULL;
 	if (bitmap_widget->m_name == STRING_ID(gui, killed_emblem))
 	{
 		if (final_game_results && m_killed_most_player_index != NONE)

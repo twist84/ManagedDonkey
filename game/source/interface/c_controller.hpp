@@ -11,9 +11,9 @@ struct c_controller_interface
 public:
 	bool in_use() const;
 	e_controller_index get_controller_index() const;
-	wchar_t const* get_display_name() const;
+	const wchar_t* get_display_name() const;
 	int16 get_or_create_user_index();
-	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
+	const s_player_identifier* get_player_identifier(s_player_identifier* out_player_identifier) const;
 	c_player_profile_interface* get_player_profile_interface();
 	uns64 const get_player_xuid() const;
 	int16 get_user_index() const;
@@ -28,7 +28,7 @@ public:
 	void reset_user_index();
 
 //private:
-	void sign_in_controller(s_player_identifier const* player_identifier, bool is_temporary);
+	void sign_in_controller(const s_player_identifier* player_identifier, bool is_temporary);
 	void sign_out_controller(bool sign_out_for_sign_in_change);
 	void update_controller_properties();
 	void update_for_sign_in_change();

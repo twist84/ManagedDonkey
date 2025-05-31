@@ -57,10 +57,10 @@ public:
 	virtual bool is_valid();
 	virtual e_gui_selected_item_location get_location();
 	virtual bool get_file_path(char*, int);
-	virtual wchar_t const* get_title();
-	virtual utf8 const* get_description(utf8*, int);
-	virtual wchar_t const* get_description();
-	virtual s_ui_saved_game_item_metadata const* get_metadata(s_ui_saved_game_item_metadata*);
+	virtual const wchar_t* get_title();
+	virtual const utf8* get_description(utf8*, int);
+	virtual const wchar_t* get_description();
+	virtual const s_ui_saved_game_item_metadata* get_metadata(s_ui_saved_game_item_metadata*);
 	virtual bool get_enabled();
 	virtual bool get_corrupt();
 	virtual bool get_is_new();

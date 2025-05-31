@@ -46,7 +46,7 @@ void __cdecl network_session_time_deregister_session_manager()
 	network_time_globals.session_manager = NULL;
 }
 
-bool __cdecl network_session_time_exists(s_transport_secure_identifier const* session_id)
+bool __cdecl network_session_time_exists(const s_transport_secure_identifier* session_id)
 {
 	return INVOKE(0x0045F1A0, network_session_time_get_time, session_id);
 
@@ -75,7 +75,7 @@ bool __cdecl network_session_time_get_id_and_time(int32 session_index, s_transpo
 	//return true;
 }
 
-uns32 __cdecl network_session_time_get_time(s_transport_secure_identifier const* session_id)
+uns32 __cdecl network_session_time_get_time(const s_transport_secure_identifier* session_id)
 {
 	return INVOKE(0x0045F230, network_session_time_get_time, session_id);
 

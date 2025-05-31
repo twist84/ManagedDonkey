@@ -6,7 +6,7 @@ struct c_start_menu_settings_appearance_colors :
 	public c_start_menu_pane_screen_widget
 {
 public:
-	bool __thiscall handle_controller_input_message_(c_controller_input_message const* input_message);
+	bool __thiscall handle_controller_input_message_(const c_controller_input_message* input_message);
 	void __thiscall initialize_();
 	void set_color_focused_list_item(int32 name, e_player_color_index player_color_index);
 	void __thiscall set_color_values_from_profile();

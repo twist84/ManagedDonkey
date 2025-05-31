@@ -50,7 +50,7 @@ void __cdecl font_cache_idle()
 	INVOKE(0x0065A510, font_cache_idle);
 }
 
-//.text:0065A670 ; e_character_status __cdecl font_cache_load_internal(c_font_cache_mt_safe*, e_font_id, e_utf32, c_flags<e_font_cache_flags, uns32, 3>, uns32*, e_character_data_index*, s_font_character const**)
+//.text:0065A670 ; e_character_status __cdecl font_cache_load_internal(c_font_cache_mt_safe*, e_font_id, e_utf32, c_flags<e_font_cache_flags, uns32, 3>, uns32*, e_character_data_index*, const s_font_character**)
 
 void __cdecl font_cache_new()
 {
@@ -59,7 +59,7 @@ void __cdecl font_cache_new()
 
 //.text:0065A950 ; void __cdecl font_cache_precache()
 
-e_character_status __cdecl font_cache_retrieve_character(uns32 key, c_flags<e_font_cache_flags, uns32, k_font_cache_flag_count> flags, s_font_character const** out_character, void const** out_pixel_data)
+e_character_status __cdecl font_cache_retrieve_character(uns32 key, c_flags<e_font_cache_flags, uns32, k_font_cache_flag_count> flags, const s_font_character** out_character, const void** out_pixel_data)
 {
 	//return INVOKE(0x0065A960, font_cache_retrieve_character, key, flags, out_character, out_pixel_data);
 

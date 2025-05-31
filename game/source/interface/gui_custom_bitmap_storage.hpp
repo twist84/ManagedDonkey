@@ -10,8 +10,8 @@ struct c_gui_custom_bitmap_storage_item
 	void __thiscall dispose();
 	bool __thiscall initialize(int32 width, int32 height, bool use_compressed_format);
 	bool __thiscall initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached);
-	bool __thiscall load_from_buffer(char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
-	bool __thiscall load_from_file_or_buffer(char const* filename, char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	bool __thiscall load_from_buffer(const char* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	bool __thiscall load_from_file_or_buffer(const char* filename, const char* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
 	void __thiscall unload_non_rendered_bitmap();
 	void __thiscall unload_rendered_bitmap();
 
@@ -69,10 +69,10 @@ struct c_gui_custom_bitmap_storage_manager
 	void dispose();
 	void dispose_from_old_map();
 	static c_gui_custom_bitmap_storage_manager* __cdecl get();
-	c_gui_custom_bitmap_storage_item const* get_bitmap(int32 bitmap_storage_index);
+	const c_gui_custom_bitmap_storage_item* get_bitmap(int32 bitmap_storage_index);
 	void initialize();
 	void initialize_for_new_map();
-	bool load_bitmap_from_buffer(int32 bitmap_storage_index, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	bool load_bitmap_from_buffer(int32 bitmap_storage_index, const char* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
 	void release_bitmap(int32 bitmap_storage_index);
 	void release_unused_bitmap(int32 bitmap_storage_index);
 	void update_render();

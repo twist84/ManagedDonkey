@@ -70,17 +70,17 @@ struct c_simulation_view :
 	s_datum_header
 {
 	e_simulation_view_type view_type() const;
-	char const* get_view_description() const;
+	const char* get_view_description() const;
 	int32 get_view_establishment_identifier() const;
 	e_simulation_view_establishment_mode get_view_establishment_mode() const;
-	bool handle_distributed_game_results(int32 message_establishment_identifier, int32 incremental_update_number, s_game_results_incremental_update const* incremental_update);
-	bool handle_player_acknowledge(uns32 player_valid_mask, uns32 player_in_game_mask, s_player_identifier const* player_identifiers);
-	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, int32 establishment_identifier, int32 signature_size, uns8 const* signature_data);
+	bool handle_distributed_game_results(int32 message_establishment_identifier, int32 incremental_update_number, const s_game_results_incremental_update* incremental_update);
+	bool handle_player_acknowledge(uns32 player_valid_mask, uns32 player_in_game_mask, const s_player_identifier* player_identifiers);
+	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, int32 establishment_identifier, int32 signature_size, const uns8* signature_data);
 	bool handle_synchronous_acknowledge(int32 current_update_number);
-	bool handle_synchronous_actions(int32 action_number, int32 current_action_number, uns32 user_flags, player_action const* actions);
-	bool handle_synchronous_gamestate(s_network_message_synchronous_gamestate const* synchronous_gamestate, void const* chunk);
+	bool handle_synchronous_actions(int32 action_number, int32 current_action_number, uns32 user_flags, const player_action* actions);
+	bool handle_synchronous_gamestate(const s_network_message_synchronous_gamestate* synchronous_gamestate, const void* chunk);
 	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
-	bool handle_synchronous_update(struct simulation_update const* update);
+	bool handle_synchronous_update(const struct simulation_update* update);
 	bool is_client_view() const;
 	int32 synchronous_catchup_attempt_count() const;
 	void synchronous_catchup_complete();

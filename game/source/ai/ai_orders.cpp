@@ -2,7 +2,7 @@
 
 #include "scenario/scenario.hpp"
 
-int16 orders_get_by_name(char const* name)
+int16 orders_get_by_name(const char* name)
 {
 	struct scenario* scenario = global_scenario_get();
 	if (scenario)

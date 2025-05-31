@@ -8,7 +8,7 @@ c_life_cycle_state_handler_matchmaking_select_host::c_life_cycle_state_handler_m
 	//DECLFUNC(0x00454090, void, __thiscall, c_life_cycle_state_handler_matchmaking_select_host*)(this);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_select_host::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_select_host::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454790, c_life_cycle_state_handler_matchmaking_select_host, get_state_string);
 

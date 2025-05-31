@@ -88,7 +88,7 @@ void s_parser_state::reset()
 	m_current_property_owner = _property_owner_none;
 }
 
-char const* const g_token_names[k_token_count]
+const char* const g_token_names[k_token_count]
 {
 	"none",
 	"min",
@@ -138,7 +138,7 @@ void debug_menu_look_ahead_read_token(FILE* menu_file, int32 c, char* token_buff
 	fseek(menu_file, menu_file_size, 0);
 }
 
-bool string_in_string_case_insensitive(char const* source, char const* find)
+bool string_in_string_case_insensitive(const char* source, const char* find)
 {
 	ASSERT(source && find);
 
@@ -256,7 +256,7 @@ void debug_menu_store_string_property(parse_stack_t* parse_stack)
 	g_parser_state.m_current_property_type = _property_none;
 }
 
-char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
+const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
 {
 	if (!g_parser_state.m_has_variable)
 	{
@@ -264,7 +264,7 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		return error_buffer;
 	}
 
-	char const* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
+	const char* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
 
 	int32 console_global_index = NONE;
 	for (int32 i = 0; i < k_console_global_count; i++)
@@ -330,7 +330,7 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 	return NULL;
 }
 
-char const* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
+const char* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
 {
 	if (!g_parser_state.m_has_variable)
 	{
@@ -338,14 +338,14 @@ char const* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer
 		return error_buffer;
 	}
 
-	char const* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
-	char const* command = g_parser_state.m_variable;
+	const char* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
+	const char* command = g_parser_state.m_variable;
 	menu->add_item(new c_debug_menu_item_hs_command(menu, name, command));
 
 	return NULL;
 }
 
-char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
+const char* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
 {
 	if (!g_parser_state.m_has_item_type)
 	{
@@ -369,8 +369,8 @@ char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 
 
 c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_menu* menu)
 {
-	char const* name = g_parser_state.m_has_name ? g_parser_state.m_name : "untitled menu";
-	char const* caption = g_parser_state.m_has_caption ? g_parser_state.m_caption : "";
+	const char* name = g_parser_state.m_has_name ? g_parser_state.m_name : "untitled menu";
+	const char* caption = g_parser_state.m_has_caption ? g_parser_state.m_caption : "";
 	c_debug_menu* child = NULL;
 
 	for (int32 i = 0; i < s_parser_state::k_string_length; i++)
@@ -402,14 +402,14 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	return child;
 }
 
-void debug_menu_display_error(char const* error_text, bool error)
+void debug_menu_display_error(const char* error_text, bool error)
 {
 	event(error == false ? _event_warning : _event_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR", error_text);
 }
 
-char const* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debug_menu* menu, int32* line_count, char* error_buffer, int32 error_buffer_length)
+const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debug_menu* menu, int32* line_count, char* error_buffer, int32 error_buffer_length)
 {
-	char const* parse_error = NULL;
+	const char* parse_error = NULL;
 
 	parse_stack_t parse_stack{};
 	parse_stack.push_back(_parse_state_none);
@@ -605,7 +605,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 										advance_process_type = _advance_type_process_nothing;
 
 										file_char = fgetc(menu_file);
-										char const* recursive_build_error = debug_menu_build_recursive(menu_file, file_char, built_menu, line_count, error_buffer, error_buffer_length);
+										const char* recursive_build_error = debug_menu_build_recursive(menu_file, file_char, built_menu, line_count, error_buffer, error_buffer_length);
 										PARSER_ASSERT_WITH_MESSAGE(!recursive_build_error, recursive_build_error);
 									}
 								}
@@ -704,7 +704,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 	return parse_error ? parse_error : NULL;
 }
 
-void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
+void debug_menu_parse(c_debug_menu* root_menu, const char* file_name)
 {
 	ASSERT(file_name != NULL);
 	ASSERT(root_menu != NULL);

@@ -60,7 +60,7 @@ struct fioFILE
 		int(__thiscall* IsEOF)(fioFILE*);
 		void(__thiscall* SetBuffer)(fioFILE*);
 		void* Unknown1;
-		char const* (__thiscall* GetStreamName)(fioFILE*);
+		const char* (__thiscall* GetStreamName)(fioFILE*);
 		void* Unknown1C;
 		void* Unknown20;
 		void* Unknown24;
@@ -68,7 +68,7 @@ struct fioFILE
 		void* Unknown2C;
 		void(__thiscall* DoSeek)(fioFILE*, unsigned int);
 		void(__thiscall* DoReadData)(fioFILE*, void*, int);
-		void(__thiscall* DoWriteData)(fioFILE*, void const*, int);
+		void(__thiscall* DoWriteData)(fioFILE*, const void*, int);
 		void(__thiscall* DoTruncate)(fioFILE*);
 	}*__vftable /*VFT*/;
 

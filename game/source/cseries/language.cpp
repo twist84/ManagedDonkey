@@ -9,7 +9,7 @@
 
 REFERENCE_DECLARE(0x0189DEE4, e_language, g_current_language);
 
-char const* k_language_names[k_language_count]
+const char* k_language_names[k_language_count]
 {
 	"english",
 	"japanese",
@@ -25,7 +25,7 @@ char const* k_language_names[k_language_count]
 	"russian"
 };
 
-char const* k_language_suffix_names[k_language_count]
+const char* k_language_suffix_names[k_language_count]
 {
 	"en",
 	"jpn",
@@ -41,7 +41,7 @@ char const* k_language_suffix_names[k_language_count]
 	"ru"
 };
 
-char const* k_language_iso_639_1_names[k_language_count]
+const char* k_language_iso_639_1_names[k_language_count]
 {
 	"en-US",
 	"jp-JP",
@@ -114,14 +114,14 @@ e_language get_current_language()
 	return g_current_language;
 }
 
-char const* __cdecl get_current_language_suffix(bool english_is_empty)
+const char* __cdecl get_current_language_suffix(bool english_is_empty)
 {
 	//return INVOKE(0x0052FD20, get_current_language_suffix, english_is_empty);
 
 	return get_language_suffix(get_current_language(), english_is_empty);
 }
 
-char const* get_language_display_name(e_language language)
+const char* get_language_display_name(e_language language)
 {
 	//return INVOKE(0x0052FDC0, get_language_display_name, language);
 
@@ -131,7 +131,7 @@ char const* get_language_display_name(e_language language)
 	return "";
 }
 
-e_language get_language_from_display_name_slow(char const* display_name)
+e_language get_language_from_display_name_slow(const char* display_name)
 {
 	//return INVOKE(0x0052FE60, get_language_from_display_name_slow, display_name);
 
@@ -149,7 +149,7 @@ e_language get_language_from_display_name_slow(char const* display_name)
 	return language;
 }
 
-char const* __cdecl get_language_iso_639_1_name(e_language language)
+const char* __cdecl get_language_iso_639_1_name(e_language language)
 {
 	//return INVOKE(0x0052FF30, get_language_display_name, language);
 
@@ -159,11 +159,11 @@ char const* __cdecl get_language_iso_639_1_name(e_language language)
 	return "";
 }
 
-char const* __cdecl get_language_suffix(e_language language, bool english_is_empty)
+const char* __cdecl get_language_suffix(e_language language, bool english_is_empty)
 {
 	//return INVOKE(0x0052FFD0, get_language_suffix, language, english_is_empty);
 
-	char const* result = "";
+	const char* result = "";
 	switch (language)
 	{
 	case _language_english:
@@ -239,7 +239,7 @@ void __cdecl get_localized_data_directory_name(e_language language, char* buffer
 	ASSERT(buffer != NULL);
 	ASSERT(count > 0);
 
-	char const* language_suffix = get_language_suffix(language, 1);
+	const char* language_suffix = get_language_suffix(language, 1);
 	*buffer = 0;
 	csstrnzcat(buffer, "data", count);
 	if (*language_suffix)
@@ -262,7 +262,7 @@ void __cdecl set_current_language(e_language language)
 	}
 }
 
-void __cdecl set_current_language_from_display_name_slow(char const* display_name)
+void __cdecl set_current_language_from_display_name_slow(const char* display_name)
 {
 	//INVOKE(0x00530130, set_current_language_from_display_name_slow, display_name);
 

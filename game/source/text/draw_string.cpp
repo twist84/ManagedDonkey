@@ -4,14 +4,14 @@
 #include "text/font_group.hpp"
 #include "text/font_loading.hpp"
 
-bool c_draw_string::draw_more(c_font_cache_base* font_cache, char const* string)
+bool c_draw_string::draw_more(c_font_cache_base* font_cache, const char* string)
 {
 	return INVOKE_CLASS_MEMBER(0x00657DD0, c_draw_string, draw_more, font_cache, string);
 }
 
 void c_draw_string::get_cursor(point2d* cursor) const
 {
-	//DECLFUNC(0x006583E0, void, __thiscall, c_draw_string const*, point2d*)(this, cursor);
+	//DECLFUNC(0x006583E0, void, __thiscall, const c_draw_string*, point2d*)(this, cursor);
 
 	ASSERT(cursor != NULL);
 	cursor->x = (int16)m_cursor.x;
@@ -20,7 +20,7 @@ void c_draw_string::get_cursor(point2d* cursor) const
 
 void c_draw_string::get_cursor(real_point2d* cursor) const
 {
-	//DECLFUNC(0x00658410, void, __thiscall, c_draw_string const*, real_point2d*)(this, cursor);
+	//DECLFUNC(0x00658410, void, __thiscall, const c_draw_string*, real_point2d*)(this, cursor);
 
 	ASSERT(cursor != NULL);
 	*cursor = m_cursor;
@@ -37,7 +37,7 @@ int16 c_draw_string::get_line_height() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00658440, c_draw_string, get_line_height);
 
-	s_font_header const* header = font_get_header(m_font_id);
+	const s_font_header* header = font_get_header(m_font_id);
 	real32 scale = m_display_resolution_scale_adjustment * m_scale;
 	return (int16)((real32)font_get_line_height(header) * scale);
 }
@@ -49,19 +49,19 @@ void c_draw_string::set_align_bottom_vertically(bool align_bottom)
 	m_flags.set(_text_flag_align_bottom_vertically_bit, align_bottom);
 }
 
-void c_draw_string::set_bounds(real_rectangle2d const* bounds, real_rectangle2d const* clip)
+void c_draw_string::set_bounds(const real_rectangle2d* bounds, const real_rectangle2d* clip)
 {
-	DECLFUNC(0x00658B10, void, __thiscall, c_draw_string*, real_rectangle2d const*, real_rectangle2d const*)(this, bounds, clip);
+	DECLFUNC(0x00658B10, void, __thiscall, c_draw_string*, const real_rectangle2d*, const real_rectangle2d*)(this, bounds, clip);
 }
 
-void c_draw_string::set_bounds(real_rectangle2d const* bounds)
+void c_draw_string::set_bounds(const real_rectangle2d* bounds)
 {
-	DECLFUNC(0x00658BC0, void, __thiscall, c_draw_string*, real_rectangle2d const*)(this, bounds);
+	DECLFUNC(0x00658BC0, void, __thiscall, c_draw_string*, const real_rectangle2d*)(this, bounds);
 }
 
-void c_draw_string::set_bounds(rectangle2d const* bounds)
+void c_draw_string::set_bounds(const rectangle2d* bounds)
 {
-	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, rectangle2d const*)(this, bounds);
+	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, const rectangle2d*)(this, bounds);
 }
 
 void c_draw_string::set_center_vertically(bool center_vertically)
@@ -83,7 +83,7 @@ void c_draw_string::set_color(argb_color color)
 	set_color(pixel32_to_real_argb_color(color, &real_color));
 }
 
-void c_draw_string::set_color(real_argb_color const* color)
+void c_draw_string::set_color(const real_argb_color* color)
 {
 	m_color = *color;
 }
@@ -153,7 +153,7 @@ void c_draw_string::set_shadow_color(uns32 color)
 	set_shadow_color(pixel32_to_real_argb_color({ .value = color }, &real_color));
 }
 
-void c_draw_string::set_shadow_color(real_argb_color const* color)
+void c_draw_string::set_shadow_color(const real_argb_color* color)
 {
 	ASSERT(color != NULL);
 
@@ -171,7 +171,7 @@ void c_draw_string::set_style(e_text_style style)
 	m_style = style;
 }
 
-void c_draw_string::set_tab_stops(int16 const* tab_stops, int16 count)
+void c_draw_string::set_tab_stops(const int16* tab_stops, int16 count)
 {
 	ASSERT((tab_stops != NULL && count >= 0) || (tab_stops == NULL && count == 0));
 
@@ -294,7 +294,7 @@ void c_rasterizer_draw_string::set_rotation(real32 angle_radians)
 	INVOKE_CLASS_MEMBER(0x00A28160, c_rasterizer_draw_string, set_rotation, angle_radians);
 }
 
-void c_rasterizer_draw_string::set_rotation_origin(real_point2d const* origin)
+void c_rasterizer_draw_string::set_rotation_origin(const real_point2d* origin)
 {
 	INVOKE_CLASS_MEMBER(0x00A28210, c_rasterizer_draw_string, set_rotation_origin, origin);
 

@@ -16,7 +16,7 @@ HOOK_DECLARE_CALL(0x00A970BB, chud_post_action_response); // c_chud_messaging_ma
 //.text:00A95890 ; void __cdecl chud_messaging_picked_up_weapon(int32, int32)
 //.text:00A958D0 ; void __cdecl chud_messaging_post(int32, int32, e_chud_message_context)
 
-void __cdecl chud_messaging_post(int32 user_index, wchar_t const* message_text, e_chud_message_context chud_message_context)
+void __cdecl chud_messaging_post(int32 user_index, const wchar_t* message_text, e_chud_message_context chud_message_context)
 {
 	INVOKE(0x00A95920, chud_messaging_post, user_index, message_text, chud_message_context);
 }
@@ -27,7 +27,7 @@ void __cdecl chud_messaging_post(int32 user_index, wchar_t const* message_text, 
 //.text:00A95A10 ; 
 //.text:00A95A40 ; 
 //.text:00A95A90 ; 
-//.text:00A95AC0 ; void __cdecl chud_messaging_post_primary(int32, wchar_t const*, int32, e_chud_message_context)
+//.text:00A95AC0 ; void __cdecl chud_messaging_post_primary(int32, const wchar_t*, int32, e_chud_message_context)
 //.text:00A95B40 ; 
 
 void __cdecl chud_messaging_special_autosave(bool end)
@@ -49,7 +49,7 @@ void __cdecl chud_post_action_response(int32 user_index)
 {
 	//INVOKE(0x00A95D10, chud_post_action_response, user_index);
 
-	s_player_action_context const* action_context = player_control_get_action_context(user_index);
+	const s_player_action_context* action_context = player_control_get_action_context(user_index);
 	if (action_context->interaction.type == 1 || action_context->interaction.type == 9)
 	{
 		if (!player_interaction_exists(user_index, _object_mask_item, &action_context->interaction))

@@ -21,7 +21,7 @@ void c_network_session_parameter_type_collection::clear_session_parameter_types(
 
 void c_network_session_parameter_type_collection::register_session_parameter_type(
 	e_network_session_parameter_type session_parameter_type,
-	char const* session_parameter_name,
+	const char* session_parameter_name,
 	encode_t* update_encode,
 	decode_t* update_decode,
 	int32 update_size,

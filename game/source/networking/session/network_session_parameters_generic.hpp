@@ -17,7 +17,7 @@ struct c_generic_network_session_parameter :
 {
 public:
 	t_type* get() const;
-	bool set(t_type const* parameter);
-	bool request_change(t_type const* parameter);
+	bool set(const t_type* parameter);
+	bool request_change(const t_type* parameter);
 };
 

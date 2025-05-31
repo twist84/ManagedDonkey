@@ -28,7 +28,7 @@ uns32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count]
 	0,                                                      // water
 };
 
-char const* const k_rasterizer_profile_element_names[k_rasterizer_profile_element_count]
+const char* const k_rasterizer_profile_element_names[k_rasterizer_profile_element_count]
 {
 	"total",
 	"texaccum",
@@ -49,7 +49,7 @@ char const* const k_rasterizer_profile_element_names[k_rasterizer_profile_elemen
 	"water"
 };
 
-char const* const k_rasterizer_profile_stall_names[k_rasterizer_profile_stall_count]
+const char* const k_rasterizer_profile_stall_names[k_rasterizer_profile_stall_count]
 {
 	"none",
 	"primary overrun",
@@ -167,7 +167,7 @@ real32 rasterizer_profile_get_block_total_time()
 	return (real32)*g_rasterizer_profile_globals.get_block_time_total(1);
 }
 
-char const* rasterizer_profile_get_stall_name(int32 profile_element_index)
+const char* rasterizer_profile_get_stall_name(int32 profile_element_index)
 {
 	if (profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_stall_count)
 		return k_rasterizer_profile_stall_names[profile_element_index];
@@ -175,7 +175,7 @@ char const* rasterizer_profile_get_stall_name(int32 profile_element_index)
 	return "invalid";
 }
 
-char const* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index)
+const char* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index)
 {
 	switch (g_rasterizer_profile_globals.get_mode())
 	{
@@ -325,9 +325,9 @@ void c_rasterizer_profile_globals::frame_time_callback(uns32 packed_value)
 	}
 }
 
-//c_profile_render_section_scope::c_profile_render_section_scope(char const *, e_rasterizer_profile_elements)//
+//c_profile_render_section_scope::c_profile_render_section_scope(const char*, e_rasterizer_profile_elements)//
 
-void rasterizer_profile_begin_event(e_rasterizer_profile_elements profile_element_index, wchar_t const* name)
+void rasterizer_profile_begin_event(e_rasterizer_profile_elements profile_element_index, const wchar_t* name)
 {
 	if (render_debug_pix_events)
 		D3DPERF_BeginEvent(g_rasterizer_profile_pix_colors[profile_element_index], name);
@@ -339,7 +339,7 @@ void rasterizer_profile_end_event()
 		D3DPERF_EndEvent();
 }
 
-c_rasterizer_profile_scope::c_rasterizer_profile_scope(e_rasterizer_profile_elements profile_element_index, wchar_t const* name) :
+c_rasterizer_profile_scope::c_rasterizer_profile_scope(e_rasterizer_profile_elements profile_element_index, const wchar_t* name) :
 	m_profile_element_index(profile_element_index)
 {
 	rasterizer_profile_begin_event(m_profile_element_index, name);

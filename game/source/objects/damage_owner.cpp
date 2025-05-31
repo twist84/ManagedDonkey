@@ -1,6 +1,6 @@
 #include "objects/damage_owner.hpp"
 
-REFERENCE_DECLARE(0x01949360, s_damage_owner const* const, global_damage_owner_unknown);
+REFERENCE_DECLARE(0x01949360, const s_damage_owner* const, global_damage_owner_unknown);
 
 void __cdecl damage_compute_damage_owner_from_object_index(int32 object_index, s_damage_owner* damage_owner)
 {

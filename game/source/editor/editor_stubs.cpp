@@ -29,7 +29,7 @@ HOOK_DECLARE(0x0042E130, game_in_editor);
 HOOK_DECLARE(0x0042E140, game_in_editor_player_simulation);
 
 //.text:0042DF80 ; 
-void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local)
+void __cdecl editor_change_pvs(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local)
 {
 }
 
@@ -51,12 +51,12 @@ void __cdecl editor_dispose_from_old_structure_bsp(uns32 deactivating_structure_
 //.text:0042DFC0 ; 
 
 //.text:0042DFD0 ; 
-void __cdecl editor_get_cluster_color(s_cluster_reference const* cluster_reference, real_argb_color* cluster_color)
+void __cdecl editor_get_cluster_color(const s_cluster_reference* cluster_reference, real_argb_color* cluster_color)
 {
 }
 
 //.text:0042DFE0 ; 
-char const* __cdecl editor_get_map_name()
+const char* __cdecl editor_get_map_name()
 {
 	return "";
 }
@@ -134,13 +134,13 @@ bool __cdecl editor_should_render_transparent_geometry()
 }
 
 //.text:0042E0F0 ; 
-bool __cdecl editor_should_resolve_block_references(s_tag_field const* block_field)
+bool __cdecl editor_should_resolve_block_references(const s_tag_field* block_field)
 {
 	return true;
 }
 
 //.text:0042E100 ; 
-bool __cdecl editor_should_resolve_tag_reference(s_tag_field const* reference_field)
+bool __cdecl editor_should_resolve_tag_reference(const s_tag_field* reference_field)
 {
 	return true;
 }

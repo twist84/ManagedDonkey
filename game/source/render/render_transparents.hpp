@@ -11,8 +11,8 @@ struct s_transparent_types
 	int32 sort_layer;
 	real_point3d anchor_points[9];
 	real32 importance;
-	void(__cdecl* render_callback)(void const*, int32);
-	void const* user_data;
+	void(__cdecl* render_callback)(const void*, int32);
+	const void* user_data;
 	int32 user_context;
 };
 static_assert(sizeof(s_transparent_types) == 0xA4);
@@ -36,7 +36,7 @@ static_assert(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);
 struct c_transparency_renderer
 {
 	static void __cdecl render(bool depth_test);
-	static void __cdecl set_active_camo_bounds(rectangle2d const* window_pixel_bounds, rectangle2d const* render_pixel_bounds);
+	static void __cdecl set_active_camo_bounds(const rectangle2d* window_pixel_bounds, const rectangle2d* render_pixel_bounds);
 	static void __cdecl sort();
 
 //private:

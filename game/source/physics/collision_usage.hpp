@@ -19,8 +19,8 @@ extern int16 global_current_collision_user_depth;
 extern int16 global_collision_period_depth;
 
 extern int16 global_current_collision_users[MAXIMUM_COLLISION_USER_STACK_DEPTH];
-extern char const* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES];
-extern char const* const global_collision_user_names[NUMBER_OF_COLLISION_USER_TYPES];
+extern const char* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES];
+extern const char* const global_collision_user_names[NUMBER_OF_COLLISION_USER_TYPES];
 
 extern void __cdecl collision_log_initialize();
 extern void __cdecl collision_log_dispose();

@@ -9,5 +9,5 @@ extern void __cdecl render_screen_shaders(
 	int32 a2,
 	c_rasterizer::e_surface surface_a,
 	c_rasterizer::e_surface surface_b,
-	real_rectangle2d const* rect);
+	const real_rectangle2d* rect);
 

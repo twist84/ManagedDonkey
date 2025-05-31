@@ -87,7 +87,7 @@ void apply_all_patches(bool revert)
 	}
 }
 
-c_hook::c_hook(char const* name, uns32 address, module_address const function, bool remove_base) :
+c_hook::c_hook(const char* name, uns32 address, module_address const function, bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? function.address - 0x00400000 : function.address) }),
 	m_orig({ .address = global_address_get(remove_base ? address - 0x00400000 : address) })
@@ -119,7 +119,7 @@ bool c_hook::apply(bool revert)
 	return true;
 }
 
-c_hook_call::c_hook_call(char const* name, uns32 address, module_address const function, bool remove_base) :
+c_hook_call::c_hook_call(const char* name, uns32 address, module_address const function, bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) }),
@@ -152,7 +152,7 @@ bool c_hook_call::apply(bool revert)
 	return true;
 }
 
-c_data_patch::c_data_patch(char const* name, uns32 address, int32 patch_size, byte const(&patch)[], bool remove_base) :
+c_data_patch::c_data_patch(const char* name, uns32 address, int32 patch_size, byte const(&patch)[], bool remove_base) :
 	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_byte_count(patch_size),
@@ -186,7 +186,7 @@ bool c_data_patch::apply(bool revert)
 	return true;
 }
 
-c_data_patch_array::c_data_patch_array(char const* name, int32 address_count, uns32 const(&addresses)[], int32 patch_size, void* patch, bool remove_base) :
+c_data_patch_array::c_data_patch_array(const char* name, int32 address_count, uns32 const(&addresses)[], int32 patch_size, void* patch, bool remove_base) :
 	m_name(name),
 	m_address_count(address_count),
 	m_addresses(addresses),
@@ -247,7 +247,7 @@ void buffer_as_byte_string(byte* buffer, uns32 buffer_size, char* out_string, in
 		csnzprintf(&out_string[3 * i], out_string_size, "%02X ", buffer[i]);
 }
 
-bool patch_pointer(module_address address, void const* pointer)
+bool patch_pointer(module_address address, const void* pointer)
 {
 	uns32 protect;
 	if (!VirtualProtect(address.pointer, sizeof(void*), PAGE_READWRITE, &protect))

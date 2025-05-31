@@ -2,7 +2,7 @@
 
 REFERENCE_DECLARE(0x01910748, s_hardware_character_cache_globals, hardware_character_cache_globals);
 
-void __cdecl rasterizer_bitmap_2d_changed_rect(bitmap_data const* bitmap, c_rasterizer_texture_ref hardware_format, rectangle2d const* dirty_rect, bool unused_wait_until_idle)
+void __cdecl rasterizer_bitmap_2d_changed_rect(const bitmap_data* bitmap, c_rasterizer_texture_ref hardware_format, const rectangle2d* dirty_rect, bool unused_wait_until_idle)
 {
 	INVOKE(0x00A271E0, rasterizer_bitmap_2d_changed_rect, bitmap, hardware_format, dirty_rect, unused_wait_until_idle);
 }
@@ -22,10 +22,10 @@ void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& textur
 		a9);
 }
 
-c_rasterizer_texture_ref& __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, bitmap_data const* bitmap, char const* name, bool system_memory)
+c_rasterizer_texture_ref& __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, const bitmap_data* bitmap, const char* name, bool system_memory)
 {
 	//return INVOKE_CLASS_MEMBER(0x00A6DFF0, c_rasterizer_texture_ref::allocate, bitmap, name, system_memory);
-	return DECLFUNC(0x00A6DFF0, c_rasterizer_texture_ref&, __cdecl, c_rasterizer_texture_ref&, bitmap_data const*, char const*, bool)(
+	return DECLFUNC(0x00A6DFF0, c_rasterizer_texture_ref&, __cdecl, c_rasterizer_texture_ref&, const bitmap_data*, const char*, bool)(
 		texture_ref,
 		bitmap,
 		name,

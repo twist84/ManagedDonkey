@@ -3,7 +3,7 @@
 REFERENCE_DECLARE(0x0226DAD0, bool, g_network_banhammer_initialized);
 REFERENCE_DECLARE(0x0226DAD8, s_network_banhammer_globals, g_network_banhammer_globals);
 
-//.text:004D7960 ; bool __cdecl network_banhammer_check_manifest_for_file_hash(s_rsa_signature const*, e_map_id)
+//.text:004D7960 ; bool __cdecl network_banhammer_check_manifest_for_file_hash(const s_rsa_signature*, e_map_id)
 //.text:004D7A30 ; void __cdecl network_banhammer_controller_caught_cheating(e_controller_index, uns32)
 //.text:004D7A70 ; 
 //.text:004D7B10 ; bool __cdecl network_banhammer_controller_is_xuid(e_controller_index, uns64)
@@ -28,7 +28,7 @@ bool __cdecl network_banhammer_initialize()
 //.text:004D80F0 ; e_network_file_load_status __cdecl network_banhammer_loaded_for_controller(e_controller_index, bool*)
 //.text:004D8190 ; e_network_file_load_status __cdecl network_banhammer_loaded_for_all_controllers()
 //.text:004D81C0 ; void __cdecl network_banhammer_local_box_caught_cheating(uns32)
-//.text:004D8200 ; void __cdecl network_banhammer_remote_player_caught_cheating(uns64 const*, s_transport_secure_address const*, wchar_t const*, uns64 const*, uns32)
+//.text:004D8200 ; void __cdecl network_banhammer_remote_player_caught_cheating(const uns64*, const s_transport_secure_address*, const wchar_t*, const uns64*, uns32)
 //.text:004D82D0 ; e_network_file_load_status __cdecl network_banhammer_repeated_play_list_loaded_for_all_controllers()
 //.text:004D8330 ; void __cdecl network_banhammer_report_on_cheaters()
 //.text:004D8510 ; void __cdecl network_banhammer_set_controller_experience_growth_banned(e_controller_index, bool)

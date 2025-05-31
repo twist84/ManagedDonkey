@@ -497,7 +497,7 @@ void __cdecl network_update()
 	}
 }
 
-void network_test_set_map_name(char const* scenario_path)
+void network_test_set_map_name(const char* scenario_path)
 {
 	if (network_squad_session_set_map(_campaign_id_none, _map_id_use_scenario_path, scenario_path))
 	{
@@ -521,7 +521,7 @@ void network_test_set_map_name(char const* scenario_path)
 	}
 }
 
-void network_test_set_map_variant(c_map_variant const* map_variant)
+void network_test_set_map_variant(const c_map_variant* map_variant)
 {
 	if (!user_interface_squad_set_map_variant(map_variant))
 	{
@@ -545,7 +545,7 @@ void network_test_set_game_variant(e_game_engine_type game_engine_index)
 	}
 }
 
-void network_test_set_game_variant(char const* game_engine_name)
+void network_test_set_game_variant(const char* game_engine_name)
 {
 	e_game_engine_type game_engine_index = _game_engine_type_none;
 
@@ -560,7 +560,7 @@ void network_test_set_game_variant(char const* game_engine_name)
 	network_test_set_game_variant(game_engine_index);
 }
 
-void network_test_set_session_mode(char const* session_mode_name)
+void network_test_set_session_mode(const char* session_mode_name)
 {
 	e_network_session_mode session_mode = _network_session_mode_none;
 
@@ -575,7 +575,7 @@ void network_test_set_session_mode(char const* session_mode_name)
 	network_squad_session_set_session_mode(session_mode);
 }
 
-void network_test_set_ui_game_mode(char const* ui_game_mode_name)
+void network_test_set_ui_game_mode(const char* ui_game_mode_name)
 {
 	e_gui_game_mode ui_game_mode = _ui_game_mode_none;
 
@@ -590,7 +590,7 @@ void network_test_set_ui_game_mode(char const* ui_game_mode_name)
 	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, ui_game_mode);
 }
 
-void network_test_set_advertisement_mode(char const* advertisement_mode_name)
+void network_test_set_advertisement_mode(const char* advertisement_mode_name)
 {
 	e_gui_network_session_advertisement_mode advertisement_mode = _gui_network_session_advertisement_mode_invalid;
 
@@ -605,7 +605,7 @@ void network_test_set_advertisement_mode(char const* advertisement_mode_name)
 	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, advertisement_mode);
 }
 
-void network_test_set_game_variant_parameter(char const* parameter_name, int32 value, int32* old_value)
+void network_test_set_game_variant_parameter(const char* parameter_name, int32 value, int32* old_value)
 {
 	e_game_variant_parameter parameter = k_game_variant_parameter_none;
 
@@ -664,7 +664,7 @@ void network_test_reset_objects()
 	object_placement_create_active_zone_set_objects(_object_placement_zone_set_create_always);
 }
 
-void network_test_ping_directed(transport_address const* address)
+void network_test_ping_directed(const transport_address* address)
 {
 	static uns16 id = 0;
 	if (network_initialized())
@@ -685,7 +685,7 @@ void network_test_ping_directed(transport_address const* address)
 	}
 }
 
-void network_test_text_chat(char const* text)
+void network_test_text_chat(const char* text)
 {
 	if (network_initialized())
 	{
@@ -704,7 +704,7 @@ void network_test_text_chat(char const* text)
 	}
 }
 
-void network_test_text_chat_directed(transport_address const* address, char const* text)
+void network_test_text_chat_directed(const transport_address* address, const char* text)
 {
 	if (network_initialized())
 	{

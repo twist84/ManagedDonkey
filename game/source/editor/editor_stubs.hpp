@@ -5,12 +5,12 @@
 
 struct s_tag_field;
 
-extern void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);
+extern void __cdecl editor_change_pvs(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local);
 extern void __cdecl editor_dispose();
 extern void __cdecl editor_dispose_from_old_map();
 extern void __cdecl editor_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
-extern void __cdecl editor_get_cluster_color(s_cluster_reference const* cluster_reference, real_argb_color* cluster_color);
-extern char const* __cdecl editor_get_map_name();
+extern void __cdecl editor_get_cluster_color(const s_cluster_reference* cluster_reference, real_argb_color* cluster_color);
+extern const char* __cdecl editor_get_map_name();
 extern void __cdecl editor_handle_tag_reload(bool reloading_scenario);
 extern bool __cdecl sub_42E000();
 extern void __cdecl editor_initialize();
@@ -23,8 +23,8 @@ extern void __cdecl editor_register_new_object(e_object_type object_type, int32 
 extern void __cdecl editor_save_progress();
 extern bool __cdecl editor_should_render_object(int32 object_index);
 extern bool __cdecl editor_should_render_transparent_geometry();
-extern bool __cdecl editor_should_resolve_block_references(s_tag_field const* block_field);
-extern bool __cdecl editor_should_resolve_tag_reference(s_tag_field const* reference_field);
+extern bool __cdecl editor_should_resolve_block_references(const s_tag_field* block_field);
+extern bool __cdecl editor_should_resolve_tag_reference(const s_tag_field* reference_field);
 extern bool __cdecl editor_switch_zone_set(int32 zone_set_index);
 extern void __cdecl editor_update();
 extern bool __cdecl game_in_editor();

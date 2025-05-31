@@ -18,11 +18,15 @@ bool c_network_message_text_chat::decode(c_bitstream* packet, int32 message_stor
 
 	message->payload.source_is_server = packet->read_bool("source-is-server");
 	if (!message->payload.source_is_server)
+	{
 		packet->read_secure_address("source-player", &message->payload.source_player);
+	}
 
 	message->payload.destination_player_count = packet->read_integer("destination-player-count", 8);
 	if (!VALID_COUNT(message->payload.destination_player_count, 16))
+	{
 		return false;
+	}
 
 	for (int32 i = 0; i < message->payload.destination_player_count; i++)
 	{
@@ -33,16 +37,18 @@ bool c_network_message_text_chat::decode(c_bitstream* packet, int32 message_stor
 	packet->read_string_wchar("text", message->payload.text_buffer, NUMBEROF(message->payload.text_buffer));
 
 	if (!message->payload.text.is_empty())
+	{
 		console_printf_color(global_real_argb_grey, "%s: %ls", "TEST", message->payload.text_buffer);
+	}
 
 	return !packet->error_occurred();
 }
 
-void c_network_message_text_chat::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void c_network_message_text_chat::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	ASSERT(message_storage_size == sizeof(s_network_message_text_chat));
 
-	s_network_message_text_chat const* message = static_cast<s_network_message_text_chat const*>(message_storage);
+	const s_network_message_text_chat* message = (const s_network_message_text_chat*)message_storage;
 
 	packet->write_raw_data("session-id", &message->session_id, 128);
 
@@ -51,12 +57,14 @@ void c_network_message_text_chat::encode(c_bitstream* packet, int32 message_stor
 
 	packet->write_bool("source-is-server", message->payload.source_is_server);
 	if (!message->payload.source_is_server)
+	{
 		packet->write_secure_address("source-player", &message->payload.source_player);
+	}
 
 	packet->write_integer("destination-player-count", message->payload.destination_player_count, 8);
 	for (int32 i = 0; i < message->payload.destination_player_count; i++)
 	{
-		s_transport_secure_address const* destination_player = &message->payload.destination_players[i];
+		const s_transport_secure_address* destination_player = &message->payload.destination_players[i];
 		packet->write_secure_address("destination-player", destination_player);
 	}
 

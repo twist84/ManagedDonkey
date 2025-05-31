@@ -144,7 +144,7 @@ union cache_file_tag_instance
 		__pragma(warning(disable : 4200)) uns32 dependencies[];
 	};
 
-	char const* get_name()
+	const char* get_name()
 	{
 		REFERENCE_DECLARE(base + total_size, c_static_string<k_tag_long_string_length>, tag_name);
 		return tag_name.get_string();
@@ -225,7 +225,7 @@ struct s_cache_file_debug_globals
 {
 	uns32 debug_tag_name_offsets[k_tag_cache_maximum_files_count];
 	char debug_tag_name_buffer[k_tag_cache_maximum_files_count * k_tag_long_string_length];
-	char const* debug_tag_names[k_tag_cache_maximum_files_count];
+	const char* debug_tag_names[k_tag_cache_maximum_files_count];
 };
 static_assert(sizeof(s_cache_file_debug_globals) == 0xF1B300);
 
@@ -270,25 +270,25 @@ struct s_cache_file_globals
 
 	s_cache_file_reports reports;
 
-	c_static_array<char const*, 5> resource_files;
-	char const* map_directory;
+	c_static_array<const char*, 5> resource_files;
+	const char* map_directory;
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3500);
 
-extern char const* const& k_multiplayer_shared_scenario_tag;
-extern char const* const& k_single_player_shared_scenario_tag;
-extern char const* const& k_main_menu_scenario_tag;
-extern char const* const& k_introduction_scenario_tag;
-extern char const*& k_cache_strings_file;
-extern char const*& k_cache_tags_file;
-extern char const*& k_cache_tag_list_file;
-extern char const*& k_cache_resources_file;
-extern char const*& k_cache_textures_file;
-extern char const*& k_cache_textures_b_file;
-extern char const*& k_cache_audio_file;
-extern char const*& k_cache_video_file;
-extern char const*& k_cache_file_extension;
-extern char const* k_cache_path_format;
+extern const char* const& k_multiplayer_shared_scenario_tag;
+extern const char* const& k_single_player_shared_scenario_tag;
+extern const char* const& k_main_menu_scenario_tag;
+extern const char* const& k_introduction_scenario_tag;
+extern const char*& k_cache_strings_file;
+extern const char*& k_cache_tags_file;
+extern const char*& k_cache_tag_list_file;
+extern const char*& k_cache_resources_file;
+extern const char*& k_cache_textures_file;
+extern const char*& k_cache_textures_b_file;
+extern const char*& k_cache_audio_file;
+extern const char*& k_cache_video_file;
+extern const char*& k_cache_file_extension;
+extern const char* k_cache_path_format;
 
 extern uns8 const g_cache_file_creator_key[64];
 extern int32 g_tag_total_count_pre_external_files;
@@ -296,43 +296,43 @@ extern int32 g_tag_total_count_pre_external_files;
 extern s_tag_reference g_last_tag_accessed;
 extern s_cache_file_globals& g_cache_file_globals;
 
-int32 __cdecl tag_loaded(tag group_tag, char const* tag_name);
-char const* __cdecl tag_group_get_name(tag group_tag);
+int32 __cdecl tag_loaded(tag group_tag, const char* tag_name);
+const char* __cdecl tag_group_get_name(tag group_tag);
 
 extern int32 __cdecl cache_file_get_global_tag_index(tag group_tag);
-extern s_cache_file_header const* cache_files_get_header();
+extern const s_cache_file_header* cache_files_get_header();
 
-extern char const* tag_get_name(int32 tag_name_index);
-extern char const* tag_get_name_safe(int32 tag_name_index);
-extern int32 tag_name_get_index(tag group_tag, char const* name);
+extern const char* tag_get_name(int32 tag_name_index);
+extern const char* tag_get_name_safe(int32 tag_name_index);
+extern int32 tag_name_get_index(tag group_tag, const char* name);
 
 struct s_cache_file_security_globals;
 
 extern bool __cdecl cache_file_blocking_read(int32 cache_file_section, int32 section_offset, int32 buffer_size, void* buffer);
-extern bool __cdecl cache_file_content_signatures_match(int32 signature0_size, byte const* signature0, int32 signature1_size, byte const* signature1, bool unused);
-extern bool __cdecl cache_file_get_content_signature(int32* out_signature_size, byte const** out_signature);
+extern bool __cdecl cache_file_content_signatures_match(int32 signature0_size, const byte* signature0, int32 signature1_size, const byte* signature1, bool unused);
+extern bool __cdecl cache_file_get_content_signature(int32* out_signature_size, const byte** out_signature);
 extern int32 __cdecl cache_file_get_global_tag_index(tag group_tag);
-extern void __cdecl cache_file_get_path(char const* mapname, char* buffer, int32 buffer_size);
+extern void __cdecl cache_file_get_path(const char* mapname, char* buffer, int32 buffer_size);
 extern s_cache_file_security_globals* __cdecl cache_file_get_security_globals();
-extern void const* __cdecl cache_file_globals_get_tag_cache_base_address();
-extern bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
-extern bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
+extern const void* __cdecl cache_file_globals_get_tag_cache_base_address();
+extern bool __cdecl cache_file_header_verify(const s_cache_file_header* header, const char* scenario_path, bool fail_fatally);
+extern bool __cdecl cache_file_header_verify_and_version(const s_cache_file_header* header, const char* scenario_path, bool fail_fatally);
 extern void __cdecl cache_file_invalidate_signature();
-extern real32 __cdecl cache_file_map_progress_estimated_megabytes_remaining(int32 scenario_type, char const* scenario_path);
-extern int32 __cdecl cache_file_map_progress_estimated_miliseconds_remaining(int32 scenario_type, char const* scenario_path);
-extern real32 __cdecl cache_file_map_progress_helper(int32 scenario_type, char const* scenario_path, int32 progress_type);
+extern real32 __cdecl cache_file_map_progress_estimated_megabytes_remaining(int32 scenario_type, const char* scenario_path);
+extern int32 __cdecl cache_file_map_progress_estimated_miliseconds_remaining(int32 scenario_type, const char* scenario_path);
+extern real32 __cdecl cache_file_map_progress_helper(int32 scenario_type, const char* scenario_path, int32 progress_type);
 extern uns32 __cdecl cache_files_get_checksum();
-extern s_cache_file_header const* __cdecl cache_files_get_header();
-extern s_rsa_signature const* __cdecl cache_files_get_rsa_signature();
+extern const s_cache_file_header* __cdecl cache_files_get_header();
+extern const s_rsa_signature* __cdecl cache_files_get_rsa_signature();
 extern int32 __cdecl cache_files_get_total_tags_size();
-extern char const* __cdecl cache_files_map_directory();
+extern const char* __cdecl cache_files_map_directory();
 extern s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt();
 extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
 extern uns32 __cdecl compute_realtime_checksum(char* buffer, int len);
 extern void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resource_offsets);
 extern bool __cdecl cache_file_tags_section_read(int32 offset, int32 size, void* buffer);
 extern void __cdecl cache_file_tags_unload();
-extern bool __cdecl scenario_tags_load(char const* scenario_path);
+extern bool __cdecl scenario_tags_load(const char* scenario_path);
 extern void __cdecl scenario_tags_load_finished();
 extern void __cdecl scenario_tags_unload();
 
@@ -355,10 +355,10 @@ extern int32 __cdecl tag_iterator_next(tag_iterator* iterator);
 extern bool __cdecl cache_file_tags_load_recursive(int32 tag_index);
 extern void __cdecl cache_file_tags_fixup_all_instances();
 extern void* __cdecl tag_get(tag group_tag, int32 tag_index);
-extern void* __cdecl tag_get(tag group_tag, char const* tag_name);
+extern void* __cdecl tag_get(tag group_tag, const char* tag_name);
 extern uns32 __cdecl tag_get_group_tag(int32 tag_index);
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, int32 tag_index);
-extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
+extern void cache_file_tags_load_single_tag_file_test(const char* file_name);
 
 enum e_instance_modification_stage
 {

@@ -4,13 +4,13 @@
 
 struct c_network_session_parameter_type_collection
 {
-	using encode_t = void __cdecl(c_bitstream*, void const*, int32);
+	using encode_t = void __cdecl(c_bitstream*, const void*, int32);
 	using decode_t = bool __cdecl(c_bitstream*, void*, int32);
 
 	struct s_network_session_parameter_type
 	{
 		bool initialized;
-		char const* session_parameter_name;
+		const char* session_parameter_name;
 
 		encode_t* update_encode;
 		decode_t* update_decode;
@@ -26,7 +26,7 @@ public:
 	void clear_session_parameter_types();
 	void register_session_parameter_type(
 		e_network_session_parameter_type session_parameter_type,
-		char const* session_parameter_name, 
+		const char* session_parameter_name, 
 		encode_t* update_encode,
 		decode_t* update_decode,
 		int32 update_size, 

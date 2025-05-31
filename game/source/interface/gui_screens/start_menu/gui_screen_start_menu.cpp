@@ -42,7 +42,7 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press_(c_con
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_start)
 	{
 		e_controller_index controller_index = message->get_controller();
-		c_controller_interface const* controller = controller_get(controller_index);
+		const c_controller_interface* controller = controller_get(controller_index);
 
 		if (simulation_starting_up())
 		{
@@ -63,7 +63,7 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press_(c_con
 	return false;
 }
 
-bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uns64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count)
+bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, const s_player_identifier* player_identifier, const uns64* player_xuid, const s_service_record_identity* identity, const s_start_menu_breadcrumb* breadcrumbs, int32 breadcrumb_count)
 {
 	return INVOKE(0x00AE0BE0, load_start_menu, controller_index, player_identifier, player_xuid, identity, breadcrumbs, breadcrumb_count);
 }

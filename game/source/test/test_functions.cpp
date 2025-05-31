@@ -8,7 +8,7 @@
 
 s_test_download_storage g_test_download_storage{};
 
-void test_download_storage_file(char const* url, char const* local_filename)
+void test_download_storage_file(const char* url, const char* local_filename)
 {
 	c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_optional);
 

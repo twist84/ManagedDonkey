@@ -6,7 +6,7 @@
 
 HOOK_DECLARE(0x0065B620, font_header_validate);
 
-bool __cdecl font_character_validate(s_font_character const* character)
+bool __cdecl font_character_validate(const s_font_character* character)
 {
 	return INVOKE(0x0065B4B0, font_character_validate, character);
 
@@ -28,12 +28,12 @@ bool __cdecl font_character_validate(s_font_character const* character)
 	//return bitmap_origin_y < 64 && valid;
 }
 
-int16 __cdecl font_get_kerning_pair_offset(s_font_header const* header, uns32 first_character, uns32 second_character)
+int16 __cdecl font_get_kerning_pair_offset(const s_font_header* header, uns32 first_character, uns32 second_character)
 {
 	return INVOKE(0x0065B560, font_get_kerning_pair_offset, header, first_character, second_character);
 }
 
-int32 __cdecl font_get_line_height(s_font_header const* header)
+int32 __cdecl font_get_line_height(const s_font_header* header)
 {
 	//return INVOKE(0x0065B5E0, font_get_line_height, header);
 
@@ -48,7 +48,7 @@ void __cdecl font_header_byteswap(s_font_header* header)
 	INVOKE(0x0065B610, font_header_byteswap, header);
 }
 
-bool __cdecl font_header_validate(s_font_header const* header)
+bool __cdecl font_header_validate(const s_font_header* header)
 {
 	//return INVOKE(0x0065B620, font_header_validate, header);
 

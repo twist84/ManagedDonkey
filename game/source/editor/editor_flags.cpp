@@ -15,7 +15,7 @@ void editor_flag_new_at_camera()
 	//	int32 active_output_user = player_mapping_first_active_output_user();
 	//	if (active_output_user != NONE)
 	//	{
-	//		s_observer_result const* camera = observer_get_camera(active_output_user);
+	//		const s_observer_result* camera = observer_get_camera(active_output_user);
 	//		editor_flag_new_internal(g_default_flag_name.get_string(), g_default_flag_description.get_string(), &camera->position);
 	//	}
 	//}

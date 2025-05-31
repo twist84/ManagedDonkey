@@ -112,7 +112,7 @@ bool c_http_client::do_work(
 			}
 		}
 
-		char const* stream_url = m_http_stream->get_url();
+		const char* stream_url = m_http_stream->get_url();
 		if (*upload_complete)
 		{
 			event(_event_message, "networking:http_client: request completed successfully to '%s'", stream_url);
@@ -179,7 +179,7 @@ bool c_http_client::is_started()
 }
 
 bool c_http_client::parse_http_response(
-	char const* buffer,
+	const char* buffer,
 	int32 buffer_length,
 	bool* out_completed_successfully,
 	int32* http_header_size,
@@ -477,7 +477,7 @@ void c_http_client::set_upstream_quota(int32 upstream_quota)
 	m_upstream_quota = upstream_quota;
 }
 
-bool c_http_client::start(c_http_stream* stream, int32 ip_address, uns16 port, char const* url, bool endpoint_is_alpha)
+bool c_http_client::start(c_http_stream* stream, int32 ip_address, uns16 port, const char* url, bool endpoint_is_alpha)
 {
 	ASSERT(stream);
 	ASSERT(url);

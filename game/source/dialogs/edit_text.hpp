@@ -17,5 +17,5 @@ void __cdecl edit_text_new(edit_text* edit);
 void __cdecl edit_text_selection_reset(edit_text* edit);
 void __cdecl edit_text_fix_selection(edit_text* edit);
 uns8 __cdecl edit_text_get_selection_indices(edit_text* edit, int16* out_selection_index0, int16* out_selection_index1);
-void __cdecl edit_text_handle_key(edit_text* edit, s_key_state const* key);
+void __cdecl edit_text_handle_key(edit_text* edit, const s_key_state* key);
 

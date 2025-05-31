@@ -34,7 +34,7 @@ bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, int32
 	return INVOKE(0x00A7E3C0, user_interface_join_remote_session, join_to_public_slots, session_class, remote_session_id, remote_host_address, key);
 }
 
-void __cdecl user_interface_network_update_live_service_qos(s_transport_qos_result const* qos_result)
+void __cdecl user_interface_network_update_live_service_qos(const s_transport_qos_result* qos_result)
 {
 	INVOKE(0x00A7EBF0, user_interface_network_update_live_service_qos, qos_result);
 
@@ -62,7 +62,7 @@ void __cdecl user_interface_networking_clear_last_game_started()
 	user_interface_networking_globals.start_game_last_started = false;
 }
 
-//.text:00A7EC60 ; bool __cdecl user_interface_networking_dialogs_handle_results(c_dialog_result_message const*)
+//.text:00A7EC60 ; bool __cdecl user_interface_networking_dialogs_handle_results(const c_dialog_result_message*)
 //.text:00A7EDB0 ; void __cdecl user_interface_networking_dialogs_request_join(int32 user_index)
 
 void __cdecl user_interface_networking_dispose()
@@ -138,11 +138,11 @@ int32 __cdecl user_interface_networking_get_current_party_size()
 	//return player_count;
 }
 
-c_game_results const* __cdecl user_interface_networking_get_final_game_results()
+const c_game_results* __cdecl user_interface_networking_get_final_game_results()
 {
 	return INVOKE(0x00A7F090, user_interface_networking_get_final_game_results);
 
-	//c_game_results const* final_game_results = game_results_get_final_results();
+	//const c_game_results* final_game_results = game_results_get_final_results();
 	//if (final_game_results && final_game_results->game_description.finished)
 	//	return final_game_results;
 	//
@@ -190,7 +190,7 @@ bool __cdecl user_interface_networking_get_start_game_when_ready()
 	return user_interface_networking_globals.start_game_when_ready;
 }
 
-bool __cdecl user_interface_networking_handle_dialog_result(c_dialog_result_message const* message)
+bool __cdecl user_interface_networking_handle_dialog_result(const c_dialog_result_message* message)
 {
 	return INVOKE(0x00A7F1C0, user_interface_networking_handle_dialog_result, message);
 }

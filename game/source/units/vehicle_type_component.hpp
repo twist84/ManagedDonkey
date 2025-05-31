@@ -31,7 +31,7 @@ public:
 	bool effected_by_vehicle_ceiling(int32 vehicle_index);
 	c_vehicle_auto_turret* get_auto_turret(int32 vehicle_index);
 	bool get_auto_turret_damage_owner(int32 vehicle_index, s_damage_owner* damage_owner);
-	s_vehicle_engine const* get_engine(int32 vehicle_index);
+	const s_vehicle_engine* get_engine(int32 vehicle_index);
 	c_vehicle_type_human_tank* get_type_human_tank();
 	c_vehicle_type_human_jeep* get_type_human_jeep();
 	c_vehicle_type_human_plane* get_type_human_plane();
@@ -50,14 +50,14 @@ public:
 	bool is_stopped(int32 vehicle_index);
 	bool kills_riders_at_terminal_velocity(int32 vehicle_index);
 	bool physics_disabled(int32 vehicle_index);
-	void process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	void process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(int32 vehicle_index);
 	void set_auto_turret_damage_owner(int32 vehicle_index, int32 damage_owner_index);
 	bool should_override_deactivation(int32 vehicle_index);
 	void start_trick(int32 vehicle_index, e_vehicle_trick_type trick_type);
 	void update_control(int32 vehicle_index);
 	void update_physics(int32 vehicle_index, s_havok_vehicle_physics_instance* instance);
-	bool vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector);
+	bool vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector);
 
 protected:
 	union

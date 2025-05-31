@@ -299,7 +299,7 @@ LABEL_4:;
 			object_get_origin(g_game_save_globals->unsafe_object_index, &unsafe_object_position);
 
 			real_point3d camera_position = unsafe_object_position;
-			if (s_observer_result const* camera = observer_try_and_get_camera(player_mapping_first_active_output_user()))
+			if (const s_observer_result* camera = observer_try_and_get_camera(player_mapping_first_active_output_user()))
 			{
 				camera_position.x = camera->position.x + (camera->forward.i * 0.05f);
 				camera_position.y = camera->position.y + (camera->forward.j * 0.05f);

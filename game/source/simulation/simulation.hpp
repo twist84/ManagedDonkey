@@ -11,7 +11,7 @@
 class c_wait_for_render_thread
 {
 public:
-	c_wait_for_render_thread(char const* file, int32 line);
+	c_wait_for_render_thread(const char* file, int32 line);
 	~c_wait_for_render_thread();
 
 protected:
@@ -131,10 +131,10 @@ struct s_simulation_player_netdebug_data;
 
 extern void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason);
 extern bool __cdecl simulation_aborted();
-extern void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, s_machine_identifier const* remote_machine_identifier, int32 remote_machine_index, char const* remote_machine_name);
-extern void __cdecl simulation_apply_after_game(struct simulation_update const* update);
-extern void __cdecl simulation_apply_before_game(struct simulation_update const* update);
-extern bool __cdecl simulation_boot_machine(s_machine_identifier const* machine, e_network_session_boot_reason boot_reason);
+extern void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, const s_machine_identifier* remote_machine_identifier, int32 remote_machine_index, const char* remote_machine_name);
+extern void __cdecl simulation_apply_after_game(const struct simulation_update* update);
+extern void __cdecl simulation_apply_before_game(const struct simulation_update* update);
+extern bool __cdecl simulation_boot_machine(const s_machine_identifier* machine, e_network_session_boot_reason boot_reason);
 extern void __cdecl simulation_build_machine_update(bool* machine_update_valid, simulation_machine_update* machine_update);
 extern void __cdecl simulation_build_player_updates();
 extern void __cdecl simulation_build_update(bool should_build, struct simulation_update* update, s_simulation_update_metadata* metadata);
@@ -148,21 +148,21 @@ extern void __cdecl simulation_fatal_error();
 extern bool __cdecl simulation_film_retrieve_updates(int32 ticks_remaining, int32* updates_read_out);
 extern bool __cdecl simulation_film_start_recording();
 extern void __cdecl simulation_film_stop_recording();
-extern bool __cdecl simulation_format_player_netdebug_data(int32 player_index, s_simulation_player_netdebug_data const* netdebug_data, int32* filled_bar_count);
-extern char const* __cdecl simulation_get_abort_reason_string();
+extern bool __cdecl simulation_format_player_netdebug_data(int32 player_index, const s_simulation_player_netdebug_data* netdebug_data, int32* filled_bar_count);
+extern const char* __cdecl simulation_get_abort_reason_string();
 extern e_simulation_abort_reason __cdecl simulation_get_aborted_reason();
 extern void __cdecl simulation_get_game_description(c_static_string<260>* game_description);
-extern bool __cdecl simulation_get_machine_active_in_game(s_machine_identifier const* machine);
-extern bool __cdecl simulation_get_machine_bandwidth_events(s_machine_identifier const* machine, int32 bandwidth_event_type_count, int32* bandwidth_event_counters);
-extern bool __cdecl simulation_get_machine_connectivity(s_machine_identifier const* machine);
-extern bool __cdecl simulation_get_machine_is_host(s_machine_identifier const* machine);
+extern bool __cdecl simulation_get_machine_active_in_game(const s_machine_identifier* machine);
+extern bool __cdecl simulation_get_machine_bandwidth_events(const s_machine_identifier* machine, int32 bandwidth_event_type_count, int32* bandwidth_event_counters);
+extern bool __cdecl simulation_get_machine_connectivity(const s_machine_identifier* machine);
+extern bool __cdecl simulation_get_machine_is_host(const s_machine_identifier* machine);
 extern uns32 __cdecl simulation_get_network_time_since_abort();
 extern int32 __cdecl simulation_get_player_netdebug_filled_bar_count(int32 player_index);
 extern c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_channel* channel);
-extern char const* simulation_get_starting_up_description();
+extern const char* simulation_get_starting_up_description();
 extern int32 __cdecl simulation_get_status();
 extern c_simulation_type_collection* __cdecl simulation_get_type_collection();
-extern bool __cdecl simulation_get_view_netdebug_data(c_simulation_view const* view, int32* rtt_msec, int32* packet_rate, int32* bandwidth_bps, int32* packet_loss);
+extern bool __cdecl simulation_get_view_netdebug_data(const c_simulation_view* view, int32* rtt_msec, int32* packet_rate, int32* bandwidth_bps, int32* packet_loss);
 extern c_simulation_world* __cdecl simulation_get_world();
 extern c_simulation_world* __cdecl simulation_get_world_if_exists();
 extern bool __cdecl simulation_in_progress();
@@ -186,9 +186,9 @@ extern void __cdecl simulation_player_joined_game(int32 player_index);
 extern void __cdecl simulation_player_left_game(int32 player_index);
 extern void __cdecl simulation_prepare_to_load_saved_game(int32 game_state_proc_flags);
 extern void __cdecl simulation_prepare_to_send();
-extern void __cdecl simulation_process_actor_control(int32 simulation_actor_index, unit_control_data const* actor_control);
-extern void __cdecl simulation_process_input(uns32 user_action_mask, player_action const* user_actions);
-extern void __cdecl simulation_record_update(struct simulation_update const* update);
+extern void __cdecl simulation_process_actor_control(int32 simulation_actor_index, const unit_control_data* actor_control);
+extern void __cdecl simulation_process_input(uns32 user_action_mask, const player_action* user_actions);
+extern void __cdecl simulation_record_update(const struct simulation_update* update);
 extern void __cdecl simulation_remove_view_from_world(c_simulation_view* view);
 extern void __cdecl simulation_reset();
 extern bool __cdecl simulation_reset_in_progress();
@@ -200,12 +200,12 @@ extern bool __cdecl simulation_starting_up();
 extern void __cdecl simulation_stop();
 extern int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time);
 extern void __cdecl simulation_update();
-extern void __cdecl simulation_update_aftermath(struct simulation_update const* update, s_simulation_update_metadata* metadata);
+extern void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata);
 extern void __cdecl simulation_update_out_of_sync();
 extern bool __cdecl simulation_update_player_netdebug_data(int32 player_index, s_simulation_player_netdebug_data* netdebug_data);
 extern void __cdecl simulation_update_pregame();
-extern bool __cdecl simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, uns8 const* buffer);
-extern bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, int32 buffer_size, uns8* buffer, int32* out_update_length);
+extern bool __cdecl simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, const uns8* buffer);
+extern bool __cdecl simulation_update_write_to_buffer(const struct simulation_update* update, int32 buffer_size, uns8* buffer, int32* out_update_length);
 
 extern void simulation_debug_render();
 

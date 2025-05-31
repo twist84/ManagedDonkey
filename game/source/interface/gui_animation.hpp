@@ -40,19 +40,19 @@ static_assert(sizeof(s_animation_transform) == 0x88);
 
 union gui_real_rectangle2d
 {
-	gui_real_rectangle2d* apply_projection_transform(real32 depth, rectangle2d const* window_bounds);
+	gui_real_rectangle2d* apply_projection_transform(real32 depth, const rectangle2d* window_bounds);
 	real_point2d* get_centroid(real_point2d* centroid) const;
 	real32 get_height() const;
 	real32 get_width() const;
 	gui_real_rectangle2d* offset(real32 dx, real32 dy);
-	gui_real_rectangle2d* pin(real_rectangle2d const* pin_bounds);
-	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real32 angle_radians);
-	gui_real_rectangle2d* rotate_about_local_point(real_point2d const* local_point, real32 sine_angle, real32 cosine_angle);
-	gui_real_rectangle2d* scale_about_local_point(real_point2d const* local_point, real_vector2d const* scale);
-	void scale_direct(real_vector2d const* scale);
-	void set(real_rectangle2d const* source);
-	void set(rectangle2d const* source);
-	static void transform_real_point3d(real_point3d* point, rectangle2d const* window_bounds);
+	gui_real_rectangle2d* pin(const real_rectangle2d* pin_bounds);
+	gui_real_rectangle2d* rotate_about_local_point(const real_point2d* local_point, real32 angle_radians);
+	gui_real_rectangle2d* rotate_about_local_point(const real_point2d* local_point, real32 sine_angle, real32 cosine_angle);
+	gui_real_rectangle2d* scale_about_local_point(const real_point2d* local_point, const real_vector2d* scale);
+	void scale_direct(const real_vector2d* scale);
+	void set(const real_rectangle2d* source);
+	void set(const rectangle2d* source);
+	static void transform_real_point3d(real_point3d* point, const rectangle2d* window_bounds);
 
 	real_point2d vertex[4];
 	struct

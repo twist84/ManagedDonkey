@@ -10,7 +10,7 @@
 #include <DDS.h>
 
 REFERENCE_DECLARE(0x01670A18, int32 const, g_cache_file_tag_resource_vtable_count);
-REFERENCE_DECLARE_ARRAY(0x018EB7A8, s_cache_file_tag_resource_vtable const*, g_cache_file_tag_resource_vtable_list, 2);
+REFERENCE_DECLARE_ARRAY(0x018EB7A8, const s_cache_file_tag_resource_vtable*, g_cache_file_tag_resource_vtable_list, 2);
 
 REFERENCE_DECLARE(0x023916C0, c_cache_file_tag_resource_runtime_manager_allocation, g_resource_runtime_manager);
 
@@ -22,7 +22,7 @@ HOOK_DECLARE(0x00563FE0, tag_resources_locked_for_current_thread_UGLY);
 HOOK_DECLARE(0x00564010, tag_resources_pump_io);
 HOOK_DECLARE(0x005640B0, tag_resources_unlock_game);
 
-c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_file_headers;
+c_static_sized_dynamic_array<const s_resource_file_header*, 1024> g_resource_file_headers;
 
 void c_cache_file_tag_resource_runtime_manager::commit_zone_state()
 {
@@ -61,7 +61,7 @@ struct c_runtime_resource_cache_file_decompressor :
 	{
 		for (int32 i = 0; i < g_resource_file_headers.count(); i++)
 		{
-			s_resource_file_header const* file_header = g_resource_file_headers[i];
+			const s_resource_file_header* file_header = g_resource_file_headers[i];
 
 			// check buffer size is the same as compressed file size we set as the tag index
 			if (static_cast<uns32>(file_header->tag_index) != in_buffer.m_size)
@@ -72,7 +72,7 @@ struct c_runtime_resource_cache_file_decompressor :
 
 			if (file_header->group_tag == BITMAP_TAG)
 			{
-				DirectX::DDS_FILE_HEADER const* dds_file = reinterpret_cast<DirectX::DDS_FILE_HEADER const*>(file_header + 1);
+				const DirectX::DDS_FILE_HEADER* dds_file = reinterpret_cast<const DirectX::DDS_FILE_HEADER*>(file_header + 1);
 				if (!dds_file)
 					continue;
 
@@ -218,7 +218,7 @@ void __cdecl cache_file_tag_resources_get_active_tag_set(uns32 active_bsp_zone_m
 	//g_resource_runtime_manager.get()->mark_available_tags(active_bsp_zone_mask, touched_bsp_zone_mask, active_designer_zone_mask, active_cinematic_zone_mask, out_active_tags_flags->get_tag_instance_flags());
 }
 
-//.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(void const**, uns32*)
+//.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(const void**, uns32*)
 
 void __cdecl cache_file_tag_resources_initialize()
 {
@@ -257,8 +257,8 @@ void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_resu
 	g_resource_runtime_manager.get()->load_required_resources_blocking(io_result);
 }
 
-//.text:0055F820 ; real32 __cdecl cache_file_tag_resources_map_prefetch_progress(int16, char const*)
-//.text:0055F850 ; bool __cdecl cache_file_tag_resources_map_prefetched(int16, char const*)
+//.text:0055F820 ; real32 __cdecl cache_file_tag_resources_map_prefetch_progress(int16, const char*)
+//.text:0055F850 ; bool __cdecl cache_file_tag_resources_map_prefetched(int16, const char*)
 
 bool __cdecl cache_file_tag_resources_prefetch_update_required()
 {
@@ -280,12 +280,12 @@ void __cdecl cache_file_tag_resources_update_prefetch_state()
 	return INVOKE(0x0055F960, cache_file_tag_resources_update_prefetch_state);
 }
 
-void __cdecl cache_file_tag_resources_set_zone_state(int32 scenario_index, int32 zone_set_name, s_scenario_zone_state const* zone_state)
+void __cdecl cache_file_tag_resources_set_zone_state(int32 scenario_index, int32 zone_set_name, const s_scenario_zone_state* zone_state)
 {
 	INVOKE(0x0055F8E0, cache_file_tag_resources_set_zone_state, scenario_index, zone_set_name, zone_state);
 }
 
-void __cdecl cache_file_tag_resources_start_map_prefetch(int16 campaign_id, char const* scenario_path)
+void __cdecl cache_file_tag_resources_start_map_prefetch(int16 campaign_id, const char* scenario_path)
 {
 	INVOKE(0x0055F900, cache_file_tag_resources_start_map_prefetch, campaign_id, scenario_path);
 }
@@ -374,12 +374,12 @@ void c_cache_file_tag_resource_runtime_manager::stagnate_deferred_resources()
 	INVOKE_CLASS_MEMBER(0x00563C70, c_cache_file_tag_resource_runtime_manager, stagnate_deferred_resources);
 }
 
-bool __cdecl tag_resource_available(s_tag_resource const* resource)
+bool __cdecl tag_resource_available(const s_tag_resource* resource)
 {
 	return INVOKE(0x00563DC0, tag_resource_get, resource);
 }
 
-void* __cdecl tag_resource_get(s_tag_resource const* resource)
+void* __cdecl tag_resource_get(const s_tag_resource* resource)
 {
 	//return INVOKE(0x00563E10, tag_resource_get, resource);
 
@@ -389,11 +389,11 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 }
 
 //.text:00563E50 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(int32)
-//.text:00563E80 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(s_tag_resource const*)
-//.text:00563EB0 ; bool __cdecl tag_resource_stream_async(s_tag_resource const*, bool, uns32, uns32, c_basic_buffer<void>, s_async_thread_marker*)
-//.text:00563EE0 ; bool __cdecl tag_resource_test_access_state(s_tag_resource const*, e_tag_resource_access_state_bit)
+//.text:00563E80 ; s_tag_resource_state_snapshot __cdecl tag_resource_get_state_snapshot(const s_tag_resource*)
+//.text:00563EB0 ; bool __cdecl tag_resource_stream_async(const s_tag_resource*, bool, uns32, uns32, c_basic_buffer<void>, s_async_thread_marker*)
+//.text:00563EE0 ; bool __cdecl tag_resource_test_access_state(const s_tag_resource*, e_tag_resource_access_state_bit)
 
-void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource)
+void* __cdecl tag_resource_try_to_get(const s_tag_resource* resource)
 {
 	void* result = INVOKE(0x00563F30, tag_resource_try_to_get, resource);
 	return result;
@@ -541,7 +541,7 @@ void c_cache_file_tag_resource_runtime_manager::initialize_for_new_map(
 	e_game_mode game_mode,
 	int32 cache_file_resource_gestalt_index,
 	int32 resource_vtable_list_count,
-	s_cache_file_tag_resource_vtable const** resource_vtable_list,
+	const s_cache_file_tag_resource_vtable** resource_vtable_list,
 	c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry)
 {
 	INVOKE_CLASS_MEMBER(0x00561DF0, c_cache_file_tag_resource_runtime_manager, initialize_for_new_map,

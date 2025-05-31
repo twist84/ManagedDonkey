@@ -16,12 +16,12 @@ void c_debug_menu_item_hs_command::notify_selected()
 	}
 }
 
-real_argb_color const* c_debug_menu_item_hs_command::get_enabled_color()
+const real_argb_color* c_debug_menu_item_hs_command::get_enabled_color()
 {
 	return debug_real_argb_tv_orange;
 }
 
-c_debug_menu_item_hs_command::c_debug_menu_item_hs_command(c_debug_menu* menu, char const* name, char const* command) :
+c_debug_menu_item_hs_command::c_debug_menu_item_hs_command(c_debug_menu* menu, const char* name, const char* command) :
 	c_debug_menu_item_numbered(menu, name, NULL)
 {
 	ASSERT(name != NULL && command != NULL && menu != NULL);

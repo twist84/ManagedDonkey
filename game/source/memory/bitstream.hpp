@@ -35,25 +35,25 @@ public:
 	}
 
 	//template<int32 k_angle_bits, int32 k_quantization_bits>
-	//void read_axes(char const* name, real_vector3d* forward, real_vector3d* up);
+	//void read_axes(const char* name, real_vector3d* forward, real_vector3d* up);
 	//
 	//template<int32 k_forward_angle_bits, int32 k_up_quantization_bits>
-	//void write_axes(char const* name, real_vector3d const* forward, real_vector3d const* up);
+	//void write_axes(const char* name, const real_vector3d* forward, const real_vector3d* up);
 
 	// functions as they appear in memory
 
-	void read_raw_data(char const* name, void* value, int32 size_in_bits);
-	int32 read_signed_integer(char const* name, int32 size_in_bits);
-	void write_bool(char const* name, bool value);
-	void write_integer(char const* name, uns32 value, int32 size_in_bits);
-	void write_raw_data(char const* name, void const* value, int32 size_in_bits);
-	void write_signed_integer(char const* name, int32 value, int32 size_in_bits);
-	uns64 read_qword(char const* name, int32 size_in_bits);
-	void write_qword(char const* name, uns64 value, int32 size_in_bits);
-	static void angle_to_axes_internal(real_vector3d const* up, real32 forward_angle, real_vector3d* forward);
-	void append(c_bitstream const* stream);
-	static void axes_compute_reference_internal(real_vector3d const* up, real_vector3d* forward_reference, real_vector3d* left_reference);
-	static real32 axes_to_angle_internal(real_vector3d const* forward, real_vector3d const* up);
+	void read_raw_data(const char* name, void* value, int32 size_in_bits);
+	int32 read_signed_integer(const char* name, int32 size_in_bits);
+	void write_bool(const char* name, bool value);
+	void write_integer(const char* name, uns32 value, int32 size_in_bits);
+	void write_raw_data(const char* name, const void* value, int32 size_in_bits);
+	void write_signed_integer(const char* name, int32 value, int32 size_in_bits);
+	uns64 read_qword(const char* name, int32 size_in_bits);
+	void write_qword(const char* name, uns64 value, int32 size_in_bits);
+	static void angle_to_axes_internal(const real_vector3d* up, real32 forward_angle, real_vector3d* forward);
+	void append(const c_bitstream* stream);
+	static void axes_compute_reference_internal(const real_vector3d* up, real_vector3d* forward_reference, real_vector3d* left_reference);
+	static real32 axes_to_angle_internal(const real_vector3d* forward, const real_vector3d* up);
 	bool begin_consistency_check();
 	void begin_reading();
 	void begin_writing(int32 data_size_alignment);
@@ -81,7 +81,7 @@ public:
 
 	int32 get_current_stream_bit_position();
 	int32 get_space_used_in_bits();
-	byte const* get_data(int32* data_length) const;
+	const byte* get_data(int32* data_length) const;
 	void push_position();
 	void pop_position(bool pop);
 
@@ -89,22 +89,22 @@ private:
 	uns64 read_accumulator_from_memory(int32 a1);
 
 public:
-	bool read_bool(char const* name);
+	bool read_bool(const char* name);
 	void read_bits_internal(void* data, int32 size_in_bits);
-	uns32 read_integer(char const* name, int32 size_in_bits);
-	void read_identifier(char const* identifier);
-	void read_point3d(char const* name, long_point3d* point, int32 axis_encoding_size_in_bits);
-	real32 read_quantized_real(char const* name, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
+	uns32 read_integer(const char* name, int32 size_in_bits);
+	void read_identifier(const char* identifier);
+	void read_point3d(const char* name, long_point3d* point, int32 axis_encoding_size_in_bits);
+	real32 read_quantized_real(const char* name, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	uns64 read_qword_internal(int32 size_in_bits);
-	void read_secure_address(char const* name, s_transport_secure_address* address);
-	void read_string(char const* name, char* string, int32 max_string_size);
-	void read_string_utf8(char const* name, char* char_string, int32 max_string_size);
-	void read_string_wchar(char const* name, wchar_t* string, int32 max_string_size);
-	void read_unit_vector(char const* name, real_vector3d* unit_vector, int32 size_in_bits);
-	void read_vector(char const* name, real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
+	void read_secure_address(const char* name, s_transport_secure_address* address);
+	void read_string(const char* name, char* string, int32 max_string_size);
+	void read_string_utf8(const char* name, char* char_string, int32 max_string_size);
+	void read_string_wchar(const char* name, wchar_t* string, int32 max_string_size);
+	void read_unit_vector(const char* name, real_vector3d* unit_vector, int32 size_in_bits);
+	void read_vector(const char* name, real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
 
 	template<typename t_enum, int32 size_in_bits>
-	t_enum read_enum(char const* name)
+	t_enum read_enum(const char* name)
 	{
 		return static_cast<t_enum>(read_integer(name, size_in_bits));
 	}
@@ -118,21 +118,21 @@ public:
 	void skip(int32 bits_to_skip);
 	bool would_overflow(int32 size_in_bits) const;
 	void write_accumulator_to_memory(uns64 value, int32 size_in_bits);
-	void write_bits_internal(void const* data, int32 size_in_bits);
-	void write_identifier(char const* identifier);
-	void write_point3d(char const* name, long_point3d const* point, int32 axis_encoding_size_in_bits);
-	void write_quantized_real(char const* name, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
+	void write_bits_internal(const void* data, int32 size_in_bits);
+	void write_identifier(const char* identifier);
+	void write_point3d(const char* name, const long_point3d* point, int32 axis_encoding_size_in_bits);
+	void write_quantized_real(const char* name, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	void write_qword_internal(uns64 value, int32 size_in_bits);
-	void write_secure_address(char const* name, s_transport_secure_address const* address);
-	void write_string(char const* name, char const* string, int32 max_string_size);
-	void write_string_utf8(char const* name, utf8 const* string, int32 max_string_size);
-	void write_string_wchar(char const* name, wchar_t const* string, int32 max_string_size);
-	void write_unit_vector(char const* name, real_vector3d const* unit_vector, int32 size_in_bits);
-	void write_vector(char const* name, real_vector3d const* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
+	void write_secure_address(const char* name, const s_transport_secure_address* address);
+	void write_string(const char* name, const char* string, int32 max_string_size);
+	void write_string_utf8(const char* name, const utf8* string, int32 max_string_size);
+	void write_string_wchar(const char* name, const wchar_t* string, int32 max_string_size);
+	void write_unit_vector(const char* name, const real_vector3d* unit_vector, int32 size_in_bits);
+	void write_vector(const char* name, const real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
 	bool writing() const;
 
 	template<typename t_enum, int32 size_in_bits>
-	void write_enum(char const* name, t_enum value)
+	void write_enum(const char* name, t_enum value)
 	{
 		write_integer(name, value, size_in_bits);
 	}

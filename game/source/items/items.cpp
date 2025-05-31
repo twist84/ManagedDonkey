@@ -8,7 +8,7 @@ bool __cdecl dangerous_items_near_player(int32* out_item_index)
 }
 
 //.text:00BAB8E0 ; 
-//.text:00BAB8F0 ; void __cdecl item_accelerate(int32, real_vector3d const*)
+//.text:00BAB8F0 ; void __cdecl item_accelerate(int32, const real_vector3d*)
 //.text:00BAB940 ; void __cdecl item_adjust_gravity(int32, real_vector3d*)
 //.text:00BABB50 ; void __cdecl item_adjust_scale_and_variant(int32, int32)
 //.text:00BABCB0 ; void __cdecl item_attach_to_marker(int32, int32, int32, int32)

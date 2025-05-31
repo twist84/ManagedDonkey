@@ -31,7 +31,7 @@ e_render_data_size c_gui_screen_pregame_lobby::get_render_data_size()
 //.text:00AFFA20 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_start_button_name()
 //.text:00AFFA80 ; 
 
-bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_message_(c_controller_input_message const* message)
+bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_message_(const c_controller_input_message* message)
 {
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
@@ -59,7 +59,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_mes
 	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
 }
 
-bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	if (list_name == STRING_ID(gui, lobby_list))
 	{

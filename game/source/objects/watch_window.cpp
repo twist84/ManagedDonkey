@@ -48,7 +48,7 @@ s_watch_object_results& __cdecl watch_object(int32 object_index)
 	return watch_object_results;
 }
 
-char const* __cdecl watch_object_describe(int32 object_index)
+const char* __cdecl watch_object_describe(int32 object_index)
 {
 	//INVOKE(0x0068C750, watch_object_describe, object_index);
 
@@ -59,7 +59,7 @@ char const* __cdecl watch_object_describe(int32 object_index)
 	return watch_object_description;
 }
 
-char const* __cdecl watch_object_describe_internal(int32 object_index, char* buffer, int32 buffer_size)
+const char* __cdecl watch_object_describe_internal(int32 object_index, char* buffer, int32 buffer_size)
 {
 	//INVOKE(0x0068C810, watch_object_describe_internal, object_index, buffer, buffer_size);
 
@@ -73,9 +73,9 @@ char const* __cdecl watch_object_describe_internal(int32 object_index, char* buf
 			csstrnzcat(object_name, " ", sizeof(object_name));
 		}
 
-		char const* tag_name = tag_get_name_safe(object->definition_index);
-		char const* object_tag_name = tag_name ? tag_name : NULL;
-		char const* object_type_name = object_type_get_name(object->object.object_identifier.m_type);
+		const char* tag_name = tag_get_name_safe(object->definition_index);
+		const char* object_tag_name = tag_name ? tag_name : NULL;
+		const char* object_type_name = object_type_get_name(object->object.object_identifier.m_type);
 
 		csnzprintf(buffer, buffer_size, "%s %s%s", object_type_name, object_name, object_tag_name);
 	}

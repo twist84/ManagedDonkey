@@ -226,11 +226,11 @@ public:
 	};
 
 	virtual ~c_user_interface_text();
-	virtual void set_string(wchar_t const* new_string, bool parse_xml, int32 screen_index);// = 0;
-	virtual wchar_t const* get_string();// = 0;
+	virtual void set_string(const wchar_t* new_string, bool parse_xml, int32 screen_index);// = 0;
+	virtual const wchar_t* get_string();// = 0;
 	virtual void update(int32 user_index);// = 0;
 
-	static void __cdecl render(s_user_interface_text_render_data* render_data, rectangle2d const* window_bounds);
+	static void __cdecl render(s_user_interface_text_render_data* render_data, const rectangle2d* window_bounds);
 
 	void set_argb_color(real_argb_color* color);
 	void set_font(e_font_id font);

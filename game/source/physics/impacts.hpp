@@ -146,7 +146,7 @@ extern int32 __cdecl impact_array_impact_get(int32 impact_array_index, int32 imp
 extern int32 __cdecl impact_array_new(int32 object_index);
 extern void __cdecl impact_array_remove_impact(int32 impact_array_index, int32 impact_datum_index);
 extern void __cdecl impact_delete(int32 impact_datum_index);
-extern int32 __cdecl impact_new(c_impact::s_contact_description const* contact_description, c_impact::e_states state);
+extern int32 __cdecl impact_new(const c_impact::s_contact_description* contact_description, c_impact::e_states state);
 extern void __cdecl impacts_create_constraint_impacts_for_havok_component(int32 object_index);
 extern void __cdecl impacts_create_orphaned_impact(int32 object_index, c_havok_contact_point* contact_point, bool create_new_impacts);
 extern void __cdecl impacts_create_orphaned_impacts();
@@ -166,6 +166,6 @@ extern void __cdecl impacts_notify_object_deleted(int32 object_index);
 extern void __cdecl impacts_pop_highest_score_datum_index();
 extern void __cdecl impacts_quicksort();
 extern void __cdecl impacts_reconnect_to_physics();
-extern bool __cdecl impacts_score_compare(int32 impact_index_a, int32 impact_index_b, void const* ignored);
+extern bool __cdecl impacts_score_compare(int32 impact_index_a, int32 impact_index_b, const void* ignored);
 extern void __cdecl impacts_update();
 

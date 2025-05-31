@@ -25,7 +25,7 @@ public:
 	c_synchronized_long& operator-=(int32 value);
 	c_synchronized_long& operator&=(int32 value);
 	c_synchronized_long& operator|=(int32 value);
-	c_synchronized_long& operator=(c_synchronized_long const& other);
+	c_synchronized_long& operator=(const c_synchronized_long& other);
 	c_synchronized_long& operator=(bool value);
 	c_synchronized_long& operator=(int32 value);
 
@@ -57,7 +57,7 @@ public:
 	c_synchronized_int64& operator-=(int64 value);
 	c_synchronized_int64& operator&=(int64 value);
 	c_synchronized_int64& operator|=(int64 value);
-	c_synchronized_int64& operator=(c_synchronized_int64 const& other);
+	c_synchronized_int64& operator=(const c_synchronized_int64& other);
 	c_synchronized_int64& operator=(bool value);
 	c_synchronized_int64& operator=(int64 value);
 
@@ -91,7 +91,7 @@ public:
 	c_interlocked_long& operator-=(int32 value);
 	c_interlocked_long& operator&=(int32 value);
 	c_interlocked_long& operator|=(int32 value);
-	c_interlocked_long& operator=(c_interlocked_long const& other);
+	c_interlocked_long& operator=(const c_interlocked_long& other);
 	c_interlocked_long& operator=(bool value);
 	c_interlocked_long& operator=(int32 value);
 
@@ -123,7 +123,7 @@ public:
 	c_interlocked_int64& operator-=(int64 value);
 	c_interlocked_int64& operator&=(int64 value);
 	c_interlocked_int64& operator|=(int64 value);
-	c_interlocked_int64& operator=(c_interlocked_int64 const& other);
+	c_interlocked_int64& operator=(const c_interlocked_int64& other);
 	c_interlocked_int64& operator=(bool value);
 	c_interlocked_int64& operator=(int64 value);
 

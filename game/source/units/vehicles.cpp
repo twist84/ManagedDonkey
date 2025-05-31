@@ -54,7 +54,7 @@ e_vehicle_type __cdecl vehicle_get_type(int32 vehicle_index)
 //.text:00B75FF0 ; bool __cdecl vehicle_has_fixed_camera_yaw(int32)
 //.text:00B76050 ; bool __cdecl vehicle_has_gameplay_modifier(int32, e_gameplay_modifier, int32*)
 //.text:00B76100 ; void __cdecl vehicle_hover(int32, bool)
-//.text:00B761C0 ; void __cdecl vehicle_impulse_channel_node_preprocess_callback(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*)
+//.text:00B761C0 ; void __cdecl vehicle_impulse_channel_node_preprocess_callback(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*)
 //.text:00B76230 ; bool __cdecl vehicle_is_flipped(int32)
 //.text:00B76270 ; bool __cdecl vehicle_is_running_trick(int32)
 //.text:00B762B0 ; bool __cdecl vehicle_is_stopped(int32)
@@ -68,8 +68,8 @@ bool __cdecl vehicle_moving_near_any_player(int32* out_vehicle_index)
 //.text:00B765E0 ; bool __cdecl vehicle_parse_update(int32, void*, int16*, int16)
 //.text:00B765F0 ; bool __cdecl vehicle_physics_disabled(int32)
 //.text:00B76630 ; void __cdecl vehicle_place(int32, s_scenario_vehicle*)
-//.text:00B766F0 ; void __cdecl vehicle_preprocess_node_orientations(int32, c_static_flags<255> const*, int32, real_orientation*)
-//.text:00B76720 ; void __cdecl vehicle_process_animation_channels(int32, void(__cdecl*)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void*)
+//.text:00B766F0 ; void __cdecl vehicle_preprocess_node_orientations(int32, const c_static_flags<255>*, int32, real_orientation*)
+//.text:00B76720 ; void __cdecl vehicle_process_animation_channels(int32, void(__cdecl*)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void*)
 
 void __cdecl vehicle_render_debug(int32 vehicle_index)
 {
@@ -87,8 +87,8 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 			// donkey note: there is debug.txt yet ;)
 		}
 
-		s_vehicle_engine_definition const* engine_definition = NULL;
-		s_vehicle_engine const* engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
+		const s_vehicle_engine_definition* engine_definition = NULL;
+		const s_vehicle_engine* engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
 		switch (vehicle_get_type(vehicle_index))
 		{
 		case _vehicle_type_human_tank:

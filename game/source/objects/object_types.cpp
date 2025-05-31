@@ -18,7 +18,7 @@ void __cdecl object_type_adjust_placement(object_placement_data* data)
 //.text:00B73240 ; void __cdecl object_type_attach_gamestate_entity(int32)
 //.text:00B732B0 ; void __cdecl object_type_attach_to_marker(int32, int32, int32, int32)
 //.text:00B73310 ; void __cdecl object_type_attach_to_node(int32, int32, int16)
-//.text:00B73370 ; bool __cdecl object_type_compute_activation(int32, s_game_cluster_bit_vectors const*, bool*)
+//.text:00B73370 ; bool __cdecl object_type_compute_activation(int32, const s_game_cluster_bit_vectors*, bool*)
 //.text:00B733E0 ; bool __cdecl object_type_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00B73480 ; void __cdecl object_type_create_children(int32)
 
@@ -44,7 +44,7 @@ object_type_definition* __cdecl object_type_definition_get(e_object_type object_
 //.text:00B738D0 ; int16 __cdecl object_type_get_datum_size(e_object_type)
 //.text:00B738F0 ; uns32 __cdecl object_type_get_maximum_placement_count(e_object_type)
 
-char const* __cdecl object_type_get_name(e_object_type object_type)
+const char* __cdecl object_type_get_name(e_object_type object_type)
 {
     return INVOKE(0x00B73910, object_type_get_name, object_type);
 }
@@ -59,9 +59,9 @@ char const* __cdecl object_type_get_name(e_object_type object_type)
 //.text:00B73C00 ; void __cdecl object_type_move(int32)
 //.text:00B73C60 ; bool __cdecl object_type_new(int32, object_placement_data*, bool*)
 //.text:00B73D30 ; void __cdecl object_type_notify_impulse_sound(int32, int32, int32)
-//.text:00B73DC0 ; void __cdecl object_type_place(int32, s_scenario_object const*)
+//.text:00B73DC0 ; void __cdecl object_type_place(int32, const s_scenario_object*)
 //.text:00B73E40 ; void __cdecl object_type_postprocess_node_matrices(int32, int32, real_matrix4x3*)
-//.text:00B73ED0 ; void __cdecl object_type_preprocess_node_orientations(int32, c_static_flags<255> const*, int32, real_orientation*)
+//.text:00B73ED0 ; void __cdecl object_type_preprocess_node_orientations(int32, const c_static_flags<255>*, int32, real_orientation*)
 //.text:00B73F60 ; void __cdecl object_type_preprocess_root_node_matrix(int32, real_matrix4x3*)
 
 void __cdecl object_type_render_debug(int32 object_index)
@@ -91,7 +91,7 @@ void __cdecl object_type_render_debug(int32 object_index)
 
 
 //.text:00B73FF0 ; void __cdecl object_type_reset(int32)
-//.text:00B74070 ; e_object_type __cdecl object_type_search_from_name(char const*)
+//.text:00B74070 ; e_object_type __cdecl object_type_search_from_name(const char*)
 //.text:00B74080 ; void __cdecl object_type_unplace(int32)
 //.text:00B740F0 ; bool __cdecl object_type_update(int32)
 //.text:00B741C0 ; void __cdecl object_types_dispose()

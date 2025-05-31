@@ -7,7 +7,7 @@
 //.text:006152B0 ; 
 //.text:006152E0 ; 
 //.text:00615310 ; 
-//.text:00615350 ; rumble_data __cdecl rumble_calculate(player_rumble_datum const*)
+//.text:00615350 ; rumble_data __cdecl rumble_calculate(const player_rumble_datum*)
 
 void __cdecl rumble_clear_all_now()
 {

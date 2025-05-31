@@ -31,7 +31,7 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_c
 	return result;
 }
 
-bool __thiscall c_gui_screen_pregame_lobby::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool __thiscall c_gui_screen_pregame_lobby::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	return c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
 }
@@ -73,12 +73,12 @@ c_gui_screen_pregame_lobby::~c_gui_screen_pregame_lobby()
 
 //.text:00B212A0 ; private: void c_gui_screen_pregame_lobby::commit_team_change(int32, c_gui_roster_list_widget*, int32)
 
-c_gui_bitmap_widget* c_gui_screen_pregame_lobby::create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition)
+c_gui_bitmap_widget* c_gui_screen_pregame_lobby::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00B212F0, c_gui_screen_pregame_lobby, create_bitmap_widget, definition);
 }
 
-c_gui_list_widget* c_gui_screen_pregame_lobby::create_list_widget(s_list_widget_block const* definition)
+c_gui_list_widget* c_gui_screen_pregame_lobby::create_list_widget(const s_list_widget_block* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21370, c_gui_screen_pregame_lobby, create_list_widget, definition);
 }
@@ -90,22 +90,22 @@ void c_gui_screen_pregame_lobby::dispose()
 
 //.text:00B21410 ; protected: static e_campaign_id __cdecl c_gui_screen_pregame_lobby::get_current_campaign_id()
 //.text:00B21450 ; protected: static e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
-//.text:00B214A0 ; protected: c_game_variant const* c_gui_screen_pregame_lobby::get_current_variant()
+//.text:00B214A0 ; protected: const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
 //.text:00B214D3 ; 
 //.text:00B214E0 ; protected: static int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool)
 //.text:00B21930 ; private: bool c_gui_screen_pregame_lobby::handle_back_out(e_controller_index)
 
-bool c_gui_screen_pregame_lobby::handle_controller_input_message(c_controller_input_message const* message)
+bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_controller_input_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
 }
 
-bool c_gui_screen_pregame_lobby::handle_dialog_result(c_dialog_result_message const* message)
+bool c_gui_screen_pregame_lobby::handle_dialog_result(const c_dialog_result_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21E20, c_gui_screen_pregame_lobby, handle_dialog_result, message);
 }
 
-bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B21EA0, c_gui_screen_pregame_lobby, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
@@ -178,7 +178,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(c_controller_input_mess
 		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_integer_value(element_handle, STRING_ID(gui, player_index), &target_session_player_index))
 		{
-			if (s_player_identifier const* player_identifier = user_interface_session_get_player_identifier(target_session_player_index))
+			if (const s_player_identifier* player_identifier = user_interface_session_get_player_identifier(target_session_player_index))
 			{
 				if (select_player_in_roster(message->get_controller(), player_identifier))
 					return true;
@@ -234,7 +234,7 @@ void c_gui_screen_pregame_lobby::post_initialize()
 	INVOKE_CLASS_MEMBER(0x00B22AF0, c_gui_screen_pregame_lobby, post_initialize);
 }
 
-bool c_gui_screen_pregame_lobby::select_player_in_roster(e_controller_index controller_index, s_player_identifier const* target_player_identifier)
+bool c_gui_screen_pregame_lobby::select_player_in_roster(e_controller_index controller_index, const s_player_identifier* target_player_identifier)
 {
 	return INVOKE_CLASS_MEMBER(0x00B22B80, c_gui_screen_pregame_lobby, select_player_in_roster, controller_index, target_player_identifier);
 }

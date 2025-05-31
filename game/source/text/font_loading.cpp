@@ -41,10 +41,10 @@ HOOK_DECLARE(0x00509C20, get_hard_drive_font_directory);
 REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
 REFERENCE_DECLARE(0x02457BB8, s_font_package_cache, g_font_package_cache);
 
-REFERENCE_DECLARE(0x0189D358, char const*, k_hard_drive_font_directory);
-REFERENCE_DECLARE(0x0189D35C, char const*, k_dvd_font_directory);
-REFERENCE_DECLARE(0x0189D360, char const* const, k_font_package_base_name);
-REFERENCE_DECLARE(0x0189D364, char const* const, k_font_package_suffix);
+REFERENCE_DECLARE(0x0189D358, const char*, k_hard_drive_font_directory);
+REFERENCE_DECLARE(0x0189D35C, const char*, k_dvd_font_directory);
+REFERENCE_DECLARE(0x0189D360, const char* const, k_font_package_base_name);
+REFERENCE_DECLARE(0x0189D364, const char* const, k_font_package_suffix);
 
 void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state)
 {
@@ -82,11 +82,11 @@ void __cdecl font_dispose()
 	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 }
 
-char const* __cdecl font_get_debug_name(e_font_index internal_index)
+const char* __cdecl font_get_debug_name(e_font_index internal_index)
 {
 	//return INVOKE(0x00509280, font_get_debug_name, internal_index);
 
-	s_font_header const* header = font_get_header_internal(internal_index);
+	const s_font_header* header = font_get_header_internal(internal_index);
 	if (header)
 		return header->debug_name;
 
@@ -110,16 +110,16 @@ e_font_index __cdecl font_get_font_index(e_font_id font)
 	return result;
 }
 
-s_font_header const* __cdecl font_get_header(e_font_id font)
+const s_font_header* __cdecl font_get_header(e_font_id font)
 {
 	//return INVOKE(0x005092F0, font_get_header, font);
 
 	e_font_index font_index = font_get_font_index(font);
-	s_font_header const* result = font_get_header_internal(font_index);
+	const s_font_header* result = font_get_header_internal(font_index);
 	return result;
 }
 
-s_font_header const* __cdecl font_get_header_internal(e_font_index internal_index)
+const s_font_header* __cdecl font_get_header_internal(e_font_index internal_index)
 {
 	//return INVOKE(0x00509330, font_get_header_internal, internal_index);
 
@@ -144,7 +144,7 @@ bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle)
 	return g_font_globals.package_loading_state.file_open && file_reference_get_file_handle(&g_font_globals.package_loading_state.file_reference, out_file_handle);
 }
 
-s_font_package_file_header const* __cdecl font_get_package_header_internal()
+const s_font_package_file_header* __cdecl font_get_package_header_internal()
 {
 	//return INVOKE(0x00509380, font_get_package_header_internal);
 
@@ -203,7 +203,7 @@ void __cdecl font_initialize_emergency()
 	g_font_globals.emergency_mode = true;
 }
 
-void __cdecl font_load(struct s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool blocking)
+void __cdecl font_load(struct s_font_loading_state* loading_state, e_font_index font_index, const char* filename, bool blocking)
 {
 	//INVOKE(0x00509480, font_load, loading_state, font_index, filename, blocking);
 
@@ -398,7 +398,7 @@ void __cdecl font_reload()
 	fonts_begin_loading(true);
 }
 
-int32 __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, int32 max_references, int32* font_id_mapping, int32 max_font_ids)
+int32 __cdecl font_table_get_font_file_references(const char* text, const s_file_reference* directory, s_file_reference* references, int32 max_references, int32* font_id_mapping, int32 max_font_ids)
 {
 	return INVOKE(0x00509840, font_table_get_font_file_references, text, directory, references, max_references, font_id_mapping, max_font_ids);
 }
@@ -486,7 +486,7 @@ void __cdecl get_font_master_filename(e_language language, char* buffer, int32 b
 	csstrnzcpy(buffer, k_font_package_base_name, buffer_size);
 	if (language)
 	{
-		char const* suffix = get_language_suffix(language, true);
+		const char* suffix = get_language_suffix(language, true);
 		if (*suffix)
 		{
 			csnzappendf(buffer, buffer_size, "_");

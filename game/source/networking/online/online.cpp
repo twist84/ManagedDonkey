@@ -273,9 +273,9 @@ bool __cdecl online_is_connected_to_live()
 	return g_online_is_connected_to_live;
 }
 
-wchar_t const* __cdecl online_local_user_get_name(e_controller_index controller_index)
+const wchar_t* __cdecl online_local_user_get_name(e_controller_index controller_index)
 {
-	wchar_t const* result = WindowsGetStringRawBuffer(online_globals.users[controller_index].display_name, NULL);
+	const wchar_t* result = WindowsGetStringRawBuffer(online_globals.users[controller_index].display_name, NULL);
 	return result;
 }
 
@@ -342,7 +342,7 @@ void __cdecl online_set_is_connected_to_live(bool is_connected_to_live)
 	g_online_is_connected_to_live = is_connected_to_live;
 }
 
-void __cdecl online_user_set_name(int32 user_index, wchar_t const* name)
+void __cdecl online_user_set_name(int32 user_index, const wchar_t* name)
 {
 	s_online_user_globals& user = online_globals.users[user_index];
 

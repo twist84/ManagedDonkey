@@ -21,6 +21,6 @@ extern void __cdecl set_random_seed(uns32 random_seed);
 extern bool random_seed_usable();
 extern void random_seed_allow_use();
 extern void random_seed_disallow_use();
-extern void random_seed_debug_log_begin(game_options const* options);
+extern void random_seed_debug_log_begin(const game_options* options);
 extern void random_seed_debug_log_end();
 

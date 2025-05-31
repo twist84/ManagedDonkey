@@ -51,14 +51,14 @@ HOOK_DECLARE(0x004520C0, online_url_make_vidmaster_popup_image);
 HOOK_DECLARE(0x00452100, online_url_use_hopper_directory);
 HOOK_DECLARE(0x00452150, online_url_use_user_override_hopper_directory);
 
-c_url_string::c_url_string(char const* url, e_cachable_type cachable) :
+c_url_string::c_url_string(const char* url, e_cachable_type cachable) :
 	m_string(url),
 	m_service_type(_online_lsp_service_type_title_files),
 	m_cachable(cachable),
 	m_untracked_cache_lifetime_seconds(dword_186080C),
 	m_request_type(_network_http_request_queue_type_required)
 {
-	//DECLFUNC(0x00451460, void, __thiscall, c_url_string*, char const*, e_cachable_type)(this, url, cachable);
+	//DECLFUNC(0x00451460, void, __thiscall, c_url_string*, const char*, e_cachable_type)(this, url, cachable);
 }
 
 c_url_string::c_url_string() :
@@ -71,7 +71,7 @@ c_url_string::c_url_string() :
 	//DECLFUNC(0x004514B0, void, __thiscall, c_url_string*)(this);
 }
 
-char const* c_url_string::get_string() const
+const char* c_url_string::get_string() const
 {
 	return m_string.get_string();
 }
@@ -146,7 +146,7 @@ void __cdecl online_url_dispose()
 	csmemset(&g_online_url, 0, sizeof(g_online_url));
 }
 
-char const* __cdecl online_url_get_title()// pc only?
+const char* __cdecl online_url_get_title()// pc only?
 {
 	//INVOKE(0x00451790, online_url_get_title);
 
@@ -209,7 +209,7 @@ void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, un
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_make_cache_key(c_url_string const* url, s_network_storage_cache_key* cache_key)
+void __cdecl online_url_make_cache_key(const c_url_string* url, s_network_storage_cache_key* cache_key)
 {
 	INVOKE(0x00451920, online_url_make_cache_key, url, cache_key);
 }
@@ -234,7 +234,7 @@ void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url)
 	url->m_request_type = _network_http_request_queue_type_required;
 }
 
-void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, uns16 hopper_id, char const* variant_name)
+void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, uns16 hopper_id, const char* variant_name)
 {
 	//INVOKE(0x00451A90, online_url_make_matchmaking_game_variant, url, hopper_id, variant_name);
 
@@ -283,7 +283,7 @@ void __cdecl online_url_make_matchmaking_machine(c_url_string* url, uns64 machin
 	url->m_request_type = _network_http_request_queue_type_required;
 }
 
-void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, uns16 hopper_id, char const* variant_name)
+void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, uns16 hopper_id, const char* variant_name)
 {
 	//INVOKE(0x00451BF0, online_url_make_matchmaking_map_variant, url, hopper_id, variant_name);
 
@@ -475,7 +475,7 @@ void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url)
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_use_hopper_directory(char const* hopper_directory)
+void __cdecl online_url_use_hopper_directory(const char* hopper_directory)
 {
 	//INVOKE(0x00452100, online_url_use_hopper_directory, hopper_directory);
 
@@ -487,7 +487,7 @@ void __cdecl online_url_use_hopper_directory(char const* hopper_directory)
 	}
 }
 
-void __cdecl online_url_use_user_override_hopper_directory(char const* hopper_directory)
+void __cdecl online_url_use_user_override_hopper_directory(const char* hopper_directory)
 {
 	//INVOKE(0x00452150, online_url_use_user_override_hopper_directory, hopper_directory);
 
@@ -499,7 +499,7 @@ void __cdecl online_url_use_user_override_hopper_directory(char const* hopper_di
 	}
 }
 
-void c_url_string::set(c_url_string const* other)
+void c_url_string::set(const c_url_string* other)
 {
 	//INVOKE_CLASS_MEMBER(0x004521E0, c_url_string, set, other);
 

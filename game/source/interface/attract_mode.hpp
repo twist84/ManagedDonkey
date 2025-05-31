@@ -27,7 +27,7 @@ extern uns32& g_attract_mode_countdown_timer;
 
 extern bool __cdecl attract_mode_get_built_in_movie_path(e_movie_type movie, c_static_string<256>* out_fullpath);
 extern int32 __cdecl attract_mode_get_countdown_time_milliseconds();
-extern bool __cdecl attract_mode_get_movie_path(char const* movie_name, c_static_string<256>* out_fullpath);
+extern bool __cdecl attract_mode_get_movie_path(const char* movie_name, c_static_string<256>* out_fullpath);
 extern void __cdecl attract_mode_reset_timer();
 extern void __cdecl attract_mode_set_countdown_length(int32 countdown_length);
 extern bool __cdecl attract_mode_should_music_be_playing();

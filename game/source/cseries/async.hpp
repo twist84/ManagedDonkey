@@ -108,7 +108,7 @@ static_assert(sizeof(s_read_entire_file_task) == 0x218);
 struct s_write_buffer_to_file_task
 {
 	wchar_t path[256];
-	void const* buffer;
+	const void* buffer;
 	uns32 buffer_size;
 	int32 dst_on_utility_drive;
 	c_synchronized_long* success;
@@ -192,7 +192,7 @@ static_assert(sizeof(s_load_image_from_file_task) == 0x28);
 
 struct s_load_image_from_buffer_task
 {
-	char const* buffer;
+	const char* buffer;
 	int32 buffer_length;
 	int32 storage_item_index;
 	e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
@@ -274,9 +274,9 @@ extern bool __cdecl async_work_function();
 extern void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason);
 extern void __cdecl free_list_add(s_async_queue_element* element);
 extern s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_is_full);
-extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, int32 line);
-extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, char const* file, int32 line);
-extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, char const* file, int32 line);
+extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, const char* file, int32 line);
+extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, e_yield_reason yield_reason, const char* file, int32 line);
+extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle_sound, bool show_debug_progress, const char* file, int32 line);
 extern bool __cdecl simple_yield_function(c_synchronized_long* done);
 extern int32 __cdecl work_list_add(s_async_queue_element* element);
 extern void __cdecl work_list_add_internal_assumes_locked_does_not_set_id_does_not_resume(s_async_queue_element* element);

@@ -85,7 +85,7 @@ static_assert(sizeof(s_render_object_first_person_globals) == 0xB720);
 
 extern s_render_object_first_person_globals& render_object_globals;
 
-extern render_lighting const* object_get_cached_render_lighting(int32 object_index);
+extern const render_lighting* object_get_cached_render_lighting(int32 object_index);
 extern bool __cdecl render_object_should_be_visible(int32 object_index);
 extern void __cdecl render_objects_initialize();
 extern void __cdecl render_objects_initialize_for_new_map();

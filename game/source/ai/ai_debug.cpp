@@ -337,10 +337,10 @@ void __cdecl ai_debug_render()
 	//	ai_dialogue_render_records();
 }
 
-void ai_debug_drawstack_setup(real_point3d const* position)
+void ai_debug_drawstack_setup(const real_point3d* position)
 {
 	int32 user_index = player_mapping_first_active_output_user();
-	s_observer_result const* camera = observer_try_and_get_camera(user_index);
+	const s_observer_result* camera = observer_try_and_get_camera(user_index);
 
 	global_ai_debug_drawstack_last_position = *position;
 	global_ai_debug_drawstack_next_position = global_ai_debug_drawstack_last_position;
@@ -373,7 +373,7 @@ real_point3d* ai_debug_drawstack_offset(real32 offset)
 	return &global_ai_debug_drawstack_last_position;
 }
 
-void ai_debug_string(char const* string, int16 tab_stop_count, int16 const* tab_stops, real_argb_color const* color)
+void ai_debug_string(const char* string, int16 tab_stop_count, const int16* tab_stops, const real_argb_color* color)
 {
 	c_rasterizer_draw_string draw_string;
 	c_font_cache_mt_safe font_cache;
@@ -414,7 +414,7 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 	//{
 	//	hs_thread* thread = hs_thread_get(command_script->thread_index);
 	//	hs_script* script = NULL;
-	//	real_argb_color const* color = NULL;
+	//	const real_argb_color* color = NULL;
 	//
 	//	if (thread->script_index != NONE)
 	//		script = &global_scenario_get()->scripts[thread->script_index];
@@ -517,7 +517,7 @@ void ai_debug_render_sectors()
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
 
-		pathfinding_data const* pf_data = pathfinding_data_get(structure_bsp_index);
+		const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
 		if (!pf_data)
 			continue;
 
@@ -545,7 +545,7 @@ void ai_debug_render_sectors()
 
 void ai_render_object_properties()
 {
-	char const* const ai_size_names[k_ai_size_count]
+	const char* const ai_size_names[k_ai_size_count]
 	{
 		"default",
 		"tiny",
@@ -556,7 +556,7 @@ void ai_render_object_properties()
 		"immobile"
 	};
 
-	char const* const leap_size_names[k_global_ai_jump_height_count]
+	const char* const leap_size_names[k_global_ai_jump_height_count]
 	{
 		"NONE",
 		"down",
@@ -593,7 +593,7 @@ void ai_debug_render_intersection_links()
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
 
-		pathfinding_data const* pf_data = pathfinding_data_get(structure_bsp_index);
+		const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
 		if (!pf_data)
 			continue;
 
@@ -612,7 +612,7 @@ void ai_debug_render_threshold_links()
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
 
-		pathfinding_data const* pf_data = pathfinding_data_get(structure_bsp_index);
+		const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
 		if (!pf_data)
 			continue;
 
@@ -720,7 +720,7 @@ void ai_debug_render_vehicle_reservations()
 				{
 					for (int16 i = 0; i < 2; i++)
 					{
-						real_argb_color const* color = global_real_argb_white;
+						const real_argb_color* color = global_real_argb_white;
 						int32 actor_index = ai_vehicle_get_reservation(source.vehicle_index, source.seat_index, i == 0 ? _campaign_team_player : _campaign_team_flood);
 						seat_position.z += 0.1f;
 
@@ -865,7 +865,7 @@ void render_dialogue_variants()
 			if (seat_storage->dialogue_definition_index != NONE)
 			{
 				s_dialogue_definition* dialogue_definition = TAG_GET(DIALOGUE_TAG, s_dialogue_definition, seat_storage->dialogue_definition_index);
-				char const* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
+				const char* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
 				render_debug_string_at_point(&actor->input.position.head_position, mission_dialogue_designator_name, global_real_argb_white);
 			}
 		}
@@ -879,7 +879,7 @@ void ai_debug_render_dynamic_firing_positions()
 	while (dynamic_firing_set_iter.next())
 	{
 		real_point3d position{};
-		real_argb_color const* color = NULL;
+		const real_argb_color* color = NULL;
 
 		dynamic_firing_set_datum* dynamic_firing_set = dynamic_firing_set_iter.get_datum();
 		if (dynamic_firing_set->support_object_index == NONE)

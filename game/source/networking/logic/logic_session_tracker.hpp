@@ -59,10 +59,10 @@ struct c_matchmaking_quality;
 struct c_session_tracker
 {
 public:
-	bool add_session(char const* name, s_transport_session_description const* description);
+	bool add_session(const char* name, const s_transport_session_description* description);
 
 private:
-	void add_session_to_unsuitable_sessions(s_transport_secure_identifier const* session_id);
+	void add_session_to_unsuitable_sessions(const s_transport_secure_identifier* session_id);
 
 public:
 	bool allocate_storage(e_network_session_tracker_sort_method sort_method, e_network_session_qos_status_data_type qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
@@ -85,12 +85,12 @@ public:
 	void get_session_status(int32 tracked_session_index, s_network_session_tracker_session_status* status_out);
 
 private:
-	int32 get_tracked_session_index(s_transport_secure_identifier const* session_id);
+	int32 get_tracked_session_index(const s_transport_secure_identifier* session_id);
 
 public:
 	bool initialize(bool verify);
-	bool mark_session_undesireable(s_transport_session_description const* session_description, e_network_session_tracker_session_undesirable_reason reason);
-	bool mark_session_unsuitable(s_transport_session_description const* session_description, e_network_session_tracker_session_unsuitable_reason reason);
+	bool mark_session_undesireable(const s_transport_session_description* session_description, e_network_session_tracker_session_undesirable_reason reason);
+	bool mark_session_unsuitable(const s_transport_session_description* session_description, e_network_session_tracker_session_unsuitable_reason reason);
 
 private:
 	void mark_tracked_session_undesireable(s_session_tracker_session_data* session, e_network_session_tracker_session_undesirable_reason reason);
@@ -102,7 +102,7 @@ public:
 	bool session_completed_initial_qos(int32 tracked_session_index);
 
 private:
-	bool session_is_unsuitable(s_transport_secure_identifier const* session_id);
+	bool session_is_unsuitable(const s_transport_secure_identifier* session_id);
 
 public:
 	void update();
@@ -146,11 +146,11 @@ extern int32 __cdecl network_session_tracker_get_session_count();
 extern bool __cdecl network_session_tracker_get_session_data(int32 tracked_session_index, s_network_session_tracker_session_data* session_data);
 extern void __cdecl network_session_tracker_get_session_status(int32 tracked_session_index, s_network_session_tracker_session_status* session_status);
 extern bool __cdecl network_session_tracker_initialize();
-extern bool __cdecl network_session_tracker_mark_session_undesirable(s_transport_session_description const* description, e_network_session_tracker_session_undesirable_reason undesirable_reason);
-extern bool __cdecl network_session_tracker_mark_session_unsuitable(s_transport_session_description const* description, e_network_session_tracker_session_unsuitable_reason unsuitable_reason);
+extern bool __cdecl network_session_tracker_mark_session_undesirable(const s_transport_session_description* description, e_network_session_tracker_session_undesirable_reason undesirable_reason);
+extern bool __cdecl network_session_tracker_mark_session_unsuitable(const s_transport_session_description* description, e_network_session_tracker_session_unsuitable_reason unsuitable_reason);
 extern bool __cdecl network_session_tracker_session_contacted(int32 tracked_session_index);
 extern bool __cdecl network_session_tracker_start(e_network_session_tracker_sort_method tracker_sort_method, e_network_session_qos_status_data_type qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
 extern void __cdecl network_session_tracker_stop();
-extern bool __cdecl network_session_tracker_track_session(char const* name, s_transport_session_description const* description);
+extern bool __cdecl network_session_tracker_track_session(const char* name, const s_transport_session_description* description);
 extern void __cdecl network_session_tracker_update();
 

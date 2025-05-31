@@ -6,7 +6,7 @@
 #include "main/main_game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
-void main_game_launch(char const* map_name)
+void main_game_launch(const char* map_name)
 {
 	cache_file_map_clear_all_failures();
 	main_game_launch_set_map_name(map_name);
@@ -17,7 +17,7 @@ void main_game_launch(char const* map_name)
 		{
 			event(_event_warning, "switching you from a campaign game to multiplayer, b/c it looks like you are trying to load a multiplayer map!");
 
-			char const* string = game_engine_type_get_string(_game_engine_type_slayer);
+			const char* string = game_engine_type_get_string(_game_engine_type_slayer);
 			main_game_launch_set_multiplayer_engine(string);
 		}
 
@@ -73,7 +73,7 @@ void main_game_launch_initialize()
 	game_options_new(&main_game_globals.launch_game_options);
 }
 
-void main_game_launch_legacy(char const* map_name)
+void main_game_launch_legacy(const char* map_name)
 {
 	//damaged_media_clear_error();
 	main_game_launch(map_name);
@@ -128,13 +128,13 @@ void main_game_launch_set_insertion_point(int16 insertion_point)
 	main_game_globals.launch_game_options.campaign_insertion_point = insertion_point;
 }
 
-void main_game_launch_set_map_name(char const* map_name)
+void main_game_launch_set_map_name(const char* map_name)
 {
 	ASSERT(map_name);
 	main_game_globals.launch_game_options.scenario_path.set(map_name);
 }
 
-void main_game_launch_set_multiplayer_engine(char const* engine_name)
+void main_game_launch_set_multiplayer_engine(const char* engine_name)
 {
 	for (int32 i = _game_engine_type_none; i < k_game_engine_type_count; i++)
 	{
@@ -169,7 +169,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(int32 splitscreen_count)
 	}
 }
 
-//void main_game_launch_set_multiplayer_variant(char const* variant_name)
+//void main_game_launch_set_multiplayer_variant(const char* variant_name)
 //{
 //	c_game_variant variant{};
 //	if (game_engine_get_built_in_variant(variant_name, &variant))

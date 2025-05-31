@@ -6,18 +6,18 @@
 //.text:00568770 ; 
 //.text:005687B0 ; 
 //.text:005687F0 ; 
-//.text:00568810 ; void __cdecl breakable_surface_break(int32, int32, int32, int32, int32, real_point3d const*, s_location const*, real_vector3d const*)
+//.text:00568810 ; void __cdecl breakable_surface_break(int32, int32, int32, int32, int32, const real_point3d*, const s_location*, const real_vector3d*)
 //.text:00568A00 ; 
-//.text:00568DF0 ; void __cdecl breakable_surface_break_unsupported_surfaces(int32, int32, int32, real_point3d const*, s_location const*)
-//.text:00568FB0 ; void __cdecl breakable_surface_create_impact_decal(real_point3d const*, int32, int32, int32)
-//.text:00569120 ; void __cdecl breakable_surface_damage(int32, int32, int32, int32, s_damage_data const*, int32)
-//.text:00569580 ; void __cdecl breakable_surface_damage_area_of_effect(s_damage_data const*)
-//.text:005695F0 ; void __cdecl breakable_surface_damage_area_of_effect(s_location const*, real_point3d const*, real32)
+//.text:00568DF0 ; void __cdecl breakable_surface_break_unsupported_surfaces(int32, int32, int32, const real_point3d*, const s_location*)
+//.text:00568FB0 ; void __cdecl breakable_surface_create_impact_decal(const real_point3d*, int32, int32, int32)
+//.text:00569120 ; void __cdecl breakable_surface_damage(int32, int32, int32, int32, const s_damage_data*, int32)
+//.text:00569580 ; void __cdecl breakable_surface_damage_area_of_effect(const s_damage_data*)
+//.text:005695F0 ; void __cdecl breakable_surface_damage_area_of_effect(const s_location*, const real_point3d*, real32)
 //.text:00569820 ; 
 //.text:00569AB0 ; bool __cdecl breakable_surface_extant(int32, int32, int32, int32)
 //.text:00569B10 ; void __cdecl breakable_surface_flags_internal_set(int32, int32, int32, int32, bool)
 //.text:00569BA0 ; void __cdecl breakable_surface_flags_set(int32, int32, int32, int32, bool)
-//.text:00569C00 ; c_collision_bsp_reference __cdecl breakable_surface_get_collision_bsp(int32, int32, real_matrix4x3 const**)
+//.text:00569C00 ; c_collision_bsp_reference __cdecl breakable_surface_get_collision_bsp(int32, int32, const real_matrix4x3**)
 //.text:00569C60 ; s_breakable_surface_set* __cdecl breakable_surface_get_first_set(int32, int32)
 //.text:00569D30 ; int32 __cdecl breakable_surface_get_group_count(int32)
 //.text:00569D70 ; 

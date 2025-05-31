@@ -16,7 +16,7 @@ c_http_post_source::c_http_post_source() :
 {
 }
 
-void c_http_post_source::set_source_as_buffer(char const* contents_buffer, int32 contents_buffer_length)
+void c_http_post_source::set_source_as_buffer(const char* contents_buffer, int32 contents_buffer_length)
 {
 	ASSERT(contents_buffer);
 
@@ -41,7 +41,7 @@ bool c_http_post_source::set_source_as_file(s_file_reference* contents_file)
 	return false;
 }
 
-void c_http_post_source::set_content_type(char const* content_type)
+void c_http_post_source::set_content_type(const char* content_type)
 {
 	ASSERT(content_type);
 	ASSERT(strlen(content_type) < k_content_type_length);
@@ -49,7 +49,7 @@ void c_http_post_source::set_content_type(char const* content_type)
 	m_content_type.set(content_type);
 }
 
-void c_http_post_source::set_filename(char const* filename)
+void c_http_post_source::set_filename(const char* filename)
 {
 	ASSERT(filename);
 	ASSERT(strlen(filename) < FILENAME_MAX);
@@ -64,7 +64,7 @@ void c_http_post_source::set_start_position(int32 start_position)
 	m_start_position = start_position;
 }
 
-c_http_post_source& c_http_post_source::operator=(c_http_post_source const& other)
+c_http_post_source& c_http_post_source::operator=(const c_http_post_source& other)
 {
 	m_source_type = other.m_source_type;
 	m_content_type = other.m_content_type;
@@ -78,12 +78,12 @@ c_http_post_source& c_http_post_source::operator=(c_http_post_source const& othe
 	return *this;
 }
 
-char const* c_http_post_source::get_content_type() const
+const char* c_http_post_source::get_content_type() const
 {
 	return m_content_type.get_string();
 }
 
-char const* c_http_post_source::get_filename() const
+const char* c_http_post_source::get_filename() const
 {
 	return m_filename.get_string();
 }
@@ -98,7 +98,7 @@ c_http_post_source::e_contents_source c_http_post_source::get_source_type() cons
 	return m_source_type;
 }
 
-char const* c_http_post_source::get_contents_buffer() const
+const char* c_http_post_source::get_contents_buffer() const
 {
 	return m_contents_buffer;
 }
@@ -133,7 +133,7 @@ bool c_http_stream::reset()
 	return true;
 }
 
-void c_http_stream::add_header(char const* key, char const* value)
+void c_http_stream::add_header(const char* key, const char* value)
 {
 	m_extra_headers.append_print("%s: %s\r\n", key, value);
 }
@@ -143,7 +143,7 @@ void c_http_stream::clear_headers()
 	m_extra_headers.clear();
 }
 
-void c_http_stream::set_headers(char const* headers)
+void c_http_stream::set_headers(const char* headers)
 {
 	m_extra_headers.set(headers);
 }
@@ -158,7 +158,7 @@ int32 c_http_stream::get_position()
 	return m_position;
 }
 
-void c_http_stream::set_url(char const* url)
+void c_http_stream::set_url(const char* url)
 {
 	ASSERT(url);
 	ASSERT(strlen(url) < k_url_size);
@@ -166,7 +166,7 @@ void c_http_stream::set_url(char const* url)
 	m_url.set(url);
 }
 
-char const* c_http_stream::get_url() const
+const char* c_http_stream::get_url() const
 {
 	return m_url.get_string();
 }
@@ -258,7 +258,7 @@ c_http_post_stream::c_http_post_stream() :
 {
 }
 
-void c_http_post_stream::set_source(c_http_post_source const* source)
+void c_http_post_stream::set_source(const c_http_post_source* source)
 {
 	//INVOKE_CLASS_MEMBER(0x00432D90, c_http_post_stream, set_source, source);
 

@@ -34,7 +34,7 @@ int32 __cdecl async_decompress_file_section(
 	s_file_handle file_handle,
 	uns32 offset,
 	uns32 size,
-	uns32 const* verify_decompression_hash,
+	const uns32* verify_decompression_hash,
 	c_basic_buffer<void> decompression_scratch_buffer,
 	c_cache_file_decompressor* decompressor,
 	c_basic_buffer<void> uncompressed_output_buffer,

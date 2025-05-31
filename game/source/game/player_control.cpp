@@ -151,8 +151,8 @@ void __cdecl player_control_build_action(int32 player_index, int32 input_user_in
 }
 
 //.text:005D0860 ; bool __cdecl player_control_camera_control_is_active()
-//.text:005D0880 ; bool __cdecl player_control_compute_input_inhibition(int32, e_controller_index, s_game_input_state const*, s_player_control_input*)
-//.text:005D08C0 ; void __cdecl player_control_copy_state_from_action(player_action const*, s_player_control_state*)
+//.text:005D0880 ; bool __cdecl player_control_compute_input_inhibition(int32, e_controller_index, const s_game_input_state*, s_player_control_input*)
+//.text:005D08C0 ; void __cdecl player_control_copy_state_from_action(const player_action*, s_player_control_state*)
 //.text:005D0980 ; void __cdecl player_control_copy_state_from_unit(int32, s_player_control_state*)
 
 void __cdecl player_control_dispose()
@@ -171,7 +171,7 @@ void __cdecl player_control_dispose_from_old_map()
 //.text:005D0B20 ; void __cdecl player_control_fade_out_all_input_for_player(int32, real32)
 //.text:005D0B80 ; bool __cdecl player_control_flags_test_all_players(e_player_control_bit)
 
-s_player_action_context const* __cdecl player_control_get_action_context(int32 user_index)
+const s_player_action_context* __cdecl player_control_get_action_context(int32 user_index)
 {
 	return INVOKE(0x005D0BD0, player_control_get_action_context, user_index);
 }
@@ -188,7 +188,7 @@ void __cdecl player_control_get_controller_input(int32 input_user_index, e_contr
 	INVOKE(0x005D0C90, player_control_get_controller_input, input_user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed, input_states, input);
 }
 
-//.text:005D29E0 ; real_euler_angles2d const* __cdecl player_control_get_facing_angles(int32)
+//.text:005D29E0 ; const real_euler_angles2d* __cdecl player_control_get_facing_angles(int32)
 //.text:005D2A10 ; real32 __cdecl player_control_get_field_of_view(int32)
 //.text:005D2AA0 ; real32 __cdecl player_control_get_field_of_view_change_time(int32)
 
@@ -224,7 +224,7 @@ bool __cdecl player_control_get_machinima_camera_use_old_controls()
 
 //.text:005D2C30 ; real32 __cdecl player_control_get_target_autoaim_level(int32)
 //.text:005D2C80 ; int32 __cdecl player_control_get_target_player_index(int32)
-//.text:005D2CE0 ; s_aim_assist_targeting_result const* __cdecl player_control_get_targeting(int32)
+//.text:005D2CE0 ; const s_aim_assist_targeting_result* __cdecl player_control_get_targeting(int32)
 //.text:005D2D10 ; void __cdecl player_control_get_unit_camera_info(int32, s_unit_camera_info*)
 
 int16 __cdecl player_control_get_zoom_level(int32 user_index)
@@ -262,7 +262,7 @@ bool __cdecl player_control_machinima_available()
 //.text:005D3430 ; void __cdecl player_control_modify_desired_angles_default(int32, real32, real32, real32, real32)
 //.text:005D4350 ; s_player_control_non_deterministic_input_user_state* __cdecl player_control_non_deterministic_input_user_state_get(int32)
 //.text:005D4380 ; void __cdecl player_control_output_set_unit_index(int32, int32)
-//.text:005D43E0 ; void __cdecl player_control_permanent_impulse(int32, real_euler_angles2d const*)
+//.text:005D43E0 ; void __cdecl player_control_permanent_impulse(int32, const real_euler_angles2d*)
 
 //void __cdecl player_control_propagate_output(int32)
 void __cdecl player_control_propagate_output(int32 input_user_index)
@@ -282,14 +282,14 @@ void __cdecl player_control_propagate_output(int32 input_user_index)
 //.text:005D44E0 ; void __cdecl player_control_scale_all_input(real32, real32)
 //.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(int32, real32, real32)
 //.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(int32, uns64)
-//.text:005D46C0 ; void __cdecl player_control_set_external_action(int32, player_action const*)
+//.text:005D46C0 ; void __cdecl player_control_set_external_action(int32, const player_action*)
 
-void __cdecl player_control_set_facing(int32 input_user_index, real_vector3d const* facing)
+void __cdecl player_control_set_facing(int32 input_user_index, const real_vector3d* facing)
 {
 	INVOKE(0x005D4700, player_control_set_facing, input_user_index, facing);
 }
 
-//.text:005D4760 ; void __cdecl player_control_state_build_action(s_player_control_state const*, player_action*)
+//.text:005D4760 ; void __cdecl player_control_state_build_action(const s_player_control_state*, player_action*)
 //.text:005D4820 ; void __cdecl player_control_state_clear(s_player_control_state*)
 //.text:005D4860 ; void __cdecl player_control_suppress_rotate_weapons(int32)
 //.text:005D48A0 ; void __cdecl player_control_unlock_gaze(int32)

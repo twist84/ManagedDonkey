@@ -14,11 +14,11 @@ static_assert(sizeof(s_spamming_event) == 0x80C);
 
 struct s_event_category_default_configuration
 {
-	char const* name;
+	const char* name;
 	e_event_level initial_display_level;
 	real_rgb_color initial_display_color;
 	e_event_level initial_log_level;
-	char const* log_name;
+	const char* log_name;
 	void(__cdecl* log_format_func)(char*, int32);
 	e_event_level initial_remote_log_level;
 };
@@ -59,7 +59,7 @@ struct c_event_listener :
 	public c_event_listener_base
 {
 public:
-	virtual void handle_event(e_event_level, char const*) = 0;
+	virtual void handle_event(e_event_level, const char*) = 0;
 };
 static_assert(sizeof(c_event_listener) == sizeof(c_event_listener_base) + sizeof(void*));
 
@@ -102,7 +102,7 @@ public:
 	c_event(e_event_level event_level, int32 event_category_index, uns32 event_response_suppress_flags);
 
 	bool query();
-	int32 generate(char const* format, ...);
+	int32 generate(const char* format, ...);
 
 protected:
 	e_event_level m_event_level;
@@ -128,22 +128,22 @@ extern s_event_globals event_globals;
 extern bool g_events_initialized;
 extern c_read_write_lock g_event_read_write_lock;
 
-extern char const* const k_event_level_names[k_event_level_count + 1];
-extern char const* const k_event_level_severity_strings[k_event_level_count];
-extern char const* const k_primary_event_log_filename;
-extern char const* const k_primary_full_event_log_filename;
+extern const char* const k_event_level_names[k_event_level_count + 1];
+extern const char* const k_event_level_severity_strings[k_event_level_count];
+extern const char* const k_primary_event_log_filename;
+extern const char* const k_primary_full_event_log_filename;
 
 extern bool g_events_debug_render_enable;
 
 struct s_file_reference;
-extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, char const* filename, bool use_sub_directory);
+extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, const char* filename, bool use_sub_directory);
 extern void events_clear();
 extern void events_debug_render();
-extern char const* events_get();
+extern const char* events_get();
 extern void events_initialize();
 extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
 extern void event_logs_flush();
-extern void __cdecl network_debug_print(char const* format, ...);
+extern void __cdecl network_debug_print(const char* format, ...);
 
 //#define USE_CONSOLE_FOR_EVENTS
 

@@ -76,7 +76,7 @@ void __cdecl cheat_all_chars()
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		char const* tag_name = tag_get_name(tag_index);
+		const char* tag_name = tag_get_name(tag_index);
 		if (tag_name && strstr(tag_name, "character"))
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
 	}
@@ -150,7 +150,7 @@ void __cdecl cheat_all_weapons()
 	cheat_objects(references, reference_count);
 }
 
-bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, int32 effect_index, real_point3d* position, real_vector3d* forward)
+bool __cdecl cheat_drop_effect(tag group_tag, const char* effect_name, int32 effect_index, real_point3d* position, real_vector3d* forward)
 {
 	if (effect_index == NONE)
 	{
@@ -180,9 +180,9 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, int32 eff
 	return true;
 }
 
-bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, tag base_group_tag, int32 object_definition_index, int32 variant_name, int32 shader_definition_index, real_point3d const* position, real_vector3d const* forward, s_model_customization_region_permutation const* permutations, int32 permutation_count)
+bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, tag base_group_tag, int32 object_definition_index, int32 variant_name, int32 shader_definition_index, const real_point3d* position, const real_vector3d* forward, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
-	char const* tag_group_name = "unknown";
+	const char* tag_group_name = "unknown";
 
 	tag_group_name = tag_group_get_name(drop_group_tag);
 
@@ -257,11 +257,11 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, char const* drop_tag_path, ta
 	return true;
 }
 
-int32 __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
+int32 __cdecl cheat_drop_tag(tag group_tag, const char* tag_name, const char* variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
 	int32 variant_id = NONE;
 
-	char const* tag_group_name = tag_group_get_name(group_tag);
+	const char* tag_group_name = tag_group_get_name(group_tag);
 
 	int32 tag_index = cheat_get_tag_definition(group_tag, tag_name);
 
@@ -280,7 +280,7 @@ int32 __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* va
 	return tag_index;
 }
 
-void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
+void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
 	if (tag_index == NONE)
 		return;
@@ -289,7 +289,7 @@ void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_na
 	if (user_index == k_number_of_users)
 		return;
 
-	s_observer_result const* result = observer_try_and_get_camera(user_index);
+	const s_observer_result* result = observer_try_and_get_camera(user_index);
 
 	tag group_tag_ = tag_get_group_tag(tag_index);
 	tag group_tag = group_tag_;
@@ -336,25 +336,25 @@ void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_na
 	//random_seed_disallow_use();
 }
 
-void __cdecl cheat_drop_tag_name(char const* tag_name)
+void __cdecl cheat_drop_tag_name(const char* tag_name)
 {
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, NULL, 0);
 }
 
-void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_info)
+void __cdecl cheat_drop_tag_name_with_permutation_hs(const char* tag_name, const char* permutation_info)
 {
 	s_model_customization_region_permutation permutations[16]{};
 	int32 permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_info, permutations, NUMBEROF(permutations));
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, permutations, permutation_count);
 }
 
-void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
+void __cdecl cheat_drop_tag_name_with_variant_and_permutations(const char* tag_name, const char* variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
 	c_static_string<256> name = tag_name;
 
 	if (char* position = strrchr(name.get_buffer(), '.'))
 	{
-		char const* group_name = position + 1;
+		const char* group_name = position + 1;
 		*position = 0;
 
 		tag group_tag = group_name_to_group_tag(group_name);
@@ -385,7 +385,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 	}
 }
 
-void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char const* variant_name)
+void __cdecl cheat_drop_tag_name_with_variant_hs(const char* tag_name, const char* variant_name)
 {
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, NULL, 0);
 }
@@ -402,7 +402,7 @@ void __cdecl cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, i
 	*out_droppable_tag_type_count = NUMBEROF(droppable_tag_types);
 }
 
-int32 __cdecl cheat_get_region_and_permutation_array_from_string(char const* permutation_info, s_model_customization_region_permutation* permutations, int32 maximum_permutations)
+int32 __cdecl cheat_get_region_and_permutation_array_from_string(const char* permutation_info, s_model_customization_region_permutation* permutations, int32 maximum_permutations)
 {
 	c_static_string<1022> permutations_string = permutation_info;
 	c_static_string<1022> name_string;
@@ -445,7 +445,7 @@ int32 __cdecl cheat_get_region_and_permutation_array_from_string(char const* per
 	return permutation_index;
 }
 
-int32 __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name)
+int32 __cdecl cheat_get_tag_definition(tag group_tag, const char* tag_name)
 {
 	return tag_loaded(group_tag, tag_name);
 }
@@ -535,7 +535,7 @@ void __cdecl cheat_spawn_warthog()
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		char const* tag_name = tag_get_name(tag_index);
+		const char* tag_name = tag_get_name(tag_index);
 		if (tag_name && strstr(tag_name, "warthog"))
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
 	}
@@ -548,7 +548,7 @@ void __cdecl cheat_teleport_to_camera()
 	int32 active_output_user = player_mapping_first_active_output_user();
 	if (active_output_user != NONE)
 	{
-		s_observer_result const* camera = observer_get_camera(active_output_user);
+		const s_observer_result* camera = observer_get_camera(active_output_user);
 		if (camera->location.cluster_reference.bsp_index == NONE)
 		{
 			terminal_printf(global_real_argb_orange, "Camera is outside BSP... cannot initiate teleportation...");
@@ -618,7 +618,7 @@ void __cdecl cheats_load()
 }
 
 // $TODO: find used locations and add hooks
-bool __cdecl cheats_process_gamepad(int32 controller_index, s_game_input_state const* input_state)
+bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_state* input_state)
 {
 	e_button_action banned_action = static_cast<e_button_action>(game_is_ui_shell() + _button_action_back);
 	if (!cheat.controller_enabled || controller_index == k_no_controller || game_is_networked())
@@ -630,7 +630,7 @@ bool __cdecl cheats_process_gamepad(int32 controller_index, s_game_input_state c
 	for (int32 controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
 	{
 		e_button_action controller_action = static_cast<e_button_action>(controller_button);
-		char const* cheat_string = cheat_strings[controller_button];
+		const char* cheat_string = cheat_strings[controller_button];
 
 		if (controller_action != banned_action && *cheat_string && input_state->get_button(controller_action).down_frames() == 1)
 		{

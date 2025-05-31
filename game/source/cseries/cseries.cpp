@@ -18,40 +18,40 @@
 
 REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions);
 
-//REFERENCE_DECLARE(0x0189CD54, real_argb_color const* const, global_real_argb_white);
-//REFERENCE_DECLARE(0x0189CD58, real_argb_color const* const, global_real_argb_grey);
-//REFERENCE_DECLARE(0x0189CD5C, real_argb_color const* const, global_real_argb_black);
-//REFERENCE_DECLARE(0x0189CD60, real_argb_color const* const, global_real_argb_red);
-//REFERENCE_DECLARE(0x0189CD64, real_argb_color const* const, global_real_argb_green);
-//REFERENCE_DECLARE(0x0189CD68, real_argb_color const* const, global_real_argb_blue);
-//REFERENCE_DECLARE(0x0189CD6C, real_argb_color const* const, global_real_argb_yellow);
-//REFERENCE_DECLARE(0x0189CD70, real_argb_color const* const, global_real_argb_cyan);
-//REFERENCE_DECLARE(0x0189CD74, real_argb_color const* const, global_real_argb_magenta);
-//REFERENCE_DECLARE(0x0189CD78, real_argb_color const* const, global_real_argb_pink);
-//REFERENCE_DECLARE(0x0189CD7C, real_argb_color const* const, global_real_argb_lightblue);
-//REFERENCE_DECLARE(0x0189CD80, real_argb_color const* const, global_real_argb_orange);
-//REFERENCE_DECLARE(0x0189CD84, real_argb_color const* const, global_real_argb_purple);
-//REFERENCE_DECLARE(0x0189CD88, real_argb_color const* const, global_real_argb_aqua);
-//REFERENCE_DECLARE(0x0189CD8C, real_argb_color const* const, global_real_argb_darkgreen);
-//REFERENCE_DECLARE(0x0189CD90, real_argb_color const* const, global_real_argb_salmon);
-//REFERENCE_DECLARE(0x0189CD94, real_argb_color const* const, global_real_argb_violet);
-//REFERENCE_DECLARE(0x0189CD98, real_rgb_color const* const, global_real_rgb_white);
-//REFERENCE_DECLARE(0x0189CD9C, real_rgb_color const* const, global_real_rgb_grey);
-//REFERENCE_DECLARE(0x0189CDA0, real_rgb_color const* const, global_real_rgb_black);
-//REFERENCE_DECLARE(0x0189CDA4, real_rgb_color const* const, global_real_rgb_red);
-//REFERENCE_DECLARE(0x0189CDA8, real_rgb_color const* const, global_real_rgb_green);
-//REFERENCE_DECLARE(0x0189CDAC, real_rgb_color const* const, global_real_rgb_blue);
-//REFERENCE_DECLARE(0x0189CDB0, real_rgb_color const* const, global_real_rgb_yellow);
-//REFERENCE_DECLARE(0x0189CDB4, real_rgb_color const* const, global_real_rgb_cyan);
-//REFERENCE_DECLARE(0x0189CDB8, real_rgb_color const* const, global_real_rgb_magenta);
-//REFERENCE_DECLARE(0x0189CDBC, real_rgb_color const* const, global_real_rgb_pink);
-//REFERENCE_DECLARE(0x0189CDC0, real_rgb_color const* const, global_real_rgb_lightblue);
-//REFERENCE_DECLARE(0x0189CDC4, real_rgb_color const* const, global_real_rgb_orange);
-//REFERENCE_DECLARE(0x0189CDC8, real_rgb_color const* const, global_real_rgb_purple);
-//REFERENCE_DECLARE(0x0189CDCC, real_rgb_color const* const, global_real_rgb_aqua);
-//REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkgreen);
-//REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
-//REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
+//REFERENCE_DECLARE(0x0189CD54, const real_argb_color* const, global_real_argb_white);
+//REFERENCE_DECLARE(0x0189CD58, const real_argb_color* const, global_real_argb_grey);
+//REFERENCE_DECLARE(0x0189CD5C, const real_argb_color* const, global_real_argb_black);
+//REFERENCE_DECLARE(0x0189CD60, const real_argb_color* const, global_real_argb_red);
+//REFERENCE_DECLARE(0x0189CD64, const real_argb_color* const, global_real_argb_green);
+//REFERENCE_DECLARE(0x0189CD68, const real_argb_color* const, global_real_argb_blue);
+//REFERENCE_DECLARE(0x0189CD6C, const real_argb_color* const, global_real_argb_yellow);
+//REFERENCE_DECLARE(0x0189CD70, const real_argb_color* const, global_real_argb_cyan);
+//REFERENCE_DECLARE(0x0189CD74, const real_argb_color* const, global_real_argb_magenta);
+//REFERENCE_DECLARE(0x0189CD78, const real_argb_color* const, global_real_argb_pink);
+//REFERENCE_DECLARE(0x0189CD7C, const real_argb_color* const, global_real_argb_lightblue);
+//REFERENCE_DECLARE(0x0189CD80, const real_argb_color* const, global_real_argb_orange);
+//REFERENCE_DECLARE(0x0189CD84, const real_argb_color* const, global_real_argb_purple);
+//REFERENCE_DECLARE(0x0189CD88, const real_argb_color* const, global_real_argb_aqua);
+//REFERENCE_DECLARE(0x0189CD8C, const real_argb_color* const, global_real_argb_darkgreen);
+//REFERENCE_DECLARE(0x0189CD90, const real_argb_color* const, global_real_argb_salmon);
+//REFERENCE_DECLARE(0x0189CD94, const real_argb_color* const, global_real_argb_violet);
+//REFERENCE_DECLARE(0x0189CD98, const real_rgb_color* const, global_real_rgb_white);
+//REFERENCE_DECLARE(0x0189CD9C, const real_rgb_color* const, global_real_rgb_grey);
+//REFERENCE_DECLARE(0x0189CDA0, const real_rgb_color* const, global_real_rgb_black);
+//REFERENCE_DECLARE(0x0189CDA4, const real_rgb_color* const, global_real_rgb_red);
+//REFERENCE_DECLARE(0x0189CDA8, const real_rgb_color* const, global_real_rgb_green);
+//REFERENCE_DECLARE(0x0189CDAC, const real_rgb_color* const, global_real_rgb_blue);
+//REFERENCE_DECLARE(0x0189CDB0, const real_rgb_color* const, global_real_rgb_yellow);
+//REFERENCE_DECLARE(0x0189CDB4, const real_rgb_color* const, global_real_rgb_cyan);
+//REFERENCE_DECLARE(0x0189CDB8, const real_rgb_color* const, global_real_rgb_magenta);
+//REFERENCE_DECLARE(0x0189CDBC, const real_rgb_color* const, global_real_rgb_pink);
+//REFERENCE_DECLARE(0x0189CDC0, const real_rgb_color* const, global_real_rgb_lightblue);
+//REFERENCE_DECLARE(0x0189CDC4, const real_rgb_color* const, global_real_rgb_orange);
+//REFERENCE_DECLARE(0x0189CDC8, const real_rgb_color* const, global_real_rgb_purple);
+//REFERENCE_DECLARE(0x0189CDCC, const real_rgb_color* const, global_real_rgb_aqua);
+//REFERENCE_DECLARE(0x0189CDD0, const real_rgb_color* const, global_real_rgb_darkgreen);
+//REFERENCE_DECLARE(0x0189CDD4, const real_rgb_color* const, global_real_rgb_salmon);
+//REFERENCE_DECLARE(0x0189CDD8, const real_rgb_color* const, global_real_rgb_violet);
 
 REFERENCE_DECLARE(0x0189CDDC, c_system_allocation*, g_system_allocation);
 REFERENCE_DECLARE(0x0189CDE0, c_normal_allocation*, g_normal_allocation);
@@ -66,7 +66,7 @@ REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);
 
 static c_interlocked_long g_entry_gate;
 
-void display_assert(char const* statement, char const* file, int32 line, bool fatal)
+void display_assert(const char* statement, const char* file, int32 line, bool fatal)
 {
 	for (int32 i = g_entry_gate.set_if_equal(0, 1); i == 1; g_entry_gate.set_if_equal(0, 1))
 		switch_to_thread();
@@ -133,7 +133,7 @@ void display_assert(char const* statement, char const* file, int32 line, bool fa
 	g_entry_gate.set(0);
 }
 
-bool handle_assert_as_exception(char const* statement, char const* file, int32 line, bool fatal)
+bool handle_assert_as_exception(const char* statement, const char* file, int32 line, bool fatal)
 {
 	if (is_debugger_present() && !g_catch_exceptions || !fatal || is_main_thread())
 		return false;
@@ -152,18 +152,18 @@ bool handle_assert_as_exception(char const* statement, char const* file, int32 l
 	return true;
 }
 
-int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size) = memcmp;
-void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size) = memcpy;
+int(__cdecl* csmemcmp)(const void* _Buf1, const void* _Buf2, size_t _Size) = memcmp;
+void* (__cdecl* csmemcpy)(void* _Dst, const void* _Src, size_t _Size) = memcpy;
 void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size) = memset;
 
 #define MAXIMUM_STRING_SIZE 0x100000
 
-size_t strlen_debug(char const* str)
+size_t strlen_debug(const char* str)
 {
 	return strlen(str);
 }
 
-int strncmp_debug(char const* s1, char const* s2, size_t size)
+int strncmp_debug(const char* s1, const char* s2, size_t size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
@@ -171,27 +171,27 @@ int strncmp_debug(char const* s1, char const* s2, size_t size)
 	return strncmp(s1, s2, size);
 }
 
-int32 csstricmp(char const* s1, char const* s2)
+int32 csstricmp(const char* s1, const char* s2)
 {
 	return _stricmp(s1, s2);
 }
 
-int32 csstrcmp(char const* s1, char const* s2)
+int32 csstrcmp(const char* s1, const char* s2)
 {
 	return strcmp(s1, s2);
 }
 
-int32 csstrnicmp(char const* s1, char const* s2, uns32 max_count)
+int32 csstrnicmp(const char* s1, const char* s2, uns32 max_count)
 {
 	return _strnicmp(s1, s2, max_count);
 }
 
-char* __cdecl csstristr(char const* s1, char const* s2)
+char* __cdecl csstristr(const char* s1, const char* s2)
 {
 	return INVOKE(0x00401520, csstristr, s1, s2);
 }
 
-char* csstrnzcpy(char* s1, char const* s2, uns32 size)
+char* csstrnzcpy(char* s1, const char* s2, uns32 size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -202,7 +202,7 @@ char* csstrnzcpy(char* s1, char const* s2, uns32 size)
 	return result;
 }
 
-char* csstrnzcat(char* s1, char const* s2, uns32 size)
+char* csstrnzcat(char* s1, const char* s2, uns32 size)
 {
 	ASSERT(s1 && s2);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -211,7 +211,7 @@ char* csstrnzcat(char* s1, char const* s2, uns32 size)
 	return csstrnzcpy(s1 + len, s2, size - len);
 }
 
-uns32 csstrnlen(char const* s, uns32 size)
+uns32 csstrnlen(const char* s, uns32 size)
 {
 	ASSERT(s);
 	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
@@ -241,18 +241,18 @@ char* csstrnlwr(char* s, uns32 size)
 	return s;
 }
 
-char const* csstrstr(char const* look_inside, char const* look_for)
+const char* csstrstr(const char* look_inside, const char* look_for)
 {
 	return strstr(look_inside, look_for);
 }
 
-//char* __cdecl csstrtok(char*, char const*, e_csstrtok_delimiter_mode, csstrtok_data*)
-char* __cdecl csstrtok(char* s, char const* delimiters, int32 delimiter_mode, char** data)
+//char* __cdecl csstrtok(char*, const char*, e_csstrtok_delimiter_mode, csstrtok_data*)
+char* __cdecl csstrtok(char* s, const char* delimiters, int32 delimiter_mode, char** data)
 {
 	return INVOKE(0x00401A20, csstrtok, s, delimiters, delimiter_mode, data);
 }
 
-int32 cvsnzprintf(char* buffer, uns32 size, char const* format, va_list list)
+int32 cvsnzprintf(char* buffer, uns32 size, const char* format, va_list list)
 {
 	ASSERT(buffer);
 	ASSERT(format);
@@ -267,7 +267,7 @@ int32 cvsnzprintf(char* buffer, uns32 size, char const* format, va_list list)
 	return result;
 }
 
-char* csnzprintf(char* buffer, uns32 size, char const* format, ...)
+char* csnzprintf(char* buffer, uns32 size, const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -279,7 +279,7 @@ char* csnzprintf(char* buffer, uns32 size, char const* format, ...)
 	return buffer;
 }
 
-char* csnzappendf(char* buffer, uns32 size, char const* format, ...)
+char* csnzappendf(char* buffer, uns32 size, const char* format, ...)
 {
 	uns32 current_length = strlen(buffer);
 	ASSERT(current_length >= 0 && current_length < size);
@@ -294,25 +294,25 @@ char* csnzappendf(char* buffer, uns32 size, char const* format, ...)
 	return buffer;
 }
 
-//.text:00670E70 ; char const* __cdecl find_string_end(char const*, char const*)
-//.text:00670E90 ; char const* __cdecl find_string_end_not_in_delimiter(char const *, char const *)
+//.text:00670E70 ; const char* __cdecl find_string_end(const char*, const char*)
+//.text:00670E90 ; const char* __cdecl find_string_end_not_in_delimiter(const char*, const char*)
 //.text:00670EB0 ; 
 //.text:00670EC0 ; 
 //.text:00670ED0 ; 
 //.text:00670EE0 ; 
 //.text:00670EF0 ; 
-//.text:00670F20 ; void __cdecl string_copy_until_delimiter(c_wrapped_array<char>, char const*, char const*)
+//.text:00670F20 ; void __cdecl string_copy_until_delimiter(c_wrapped_array<char>, const char*, const char*)
 
-bool string_is_not_empty(char const* s)
+bool string_is_not_empty(const char* s)
 {
 	return s && *s;
 }
 
-//.text:00670F70 ; int32 __cdecl string_list_find(char const*, int32, char const* const* const)
-//.text:00670FB0 ; int32 __cdecl string_list_find_explicit(c_wrapped_array<char const> const&, c_wrapped_array<char const*> const&)
+//.text:00670F70 ; int32 __cdecl string_list_find(const char*, int32, const char* const* const)
+//.text:00670FB0 ; int32 __cdecl string_list_find_explicit(const c_wrapped_array<char const>&, const c_wrapped_array<const char*>&)
 //.text:00671010 ; void __cdecl string_replace_character(char *, char, char)
 
-void string_terminate_at_first_delimiter(char* s, char const* delimiter)
+void string_terminate_at_first_delimiter(char* s, const char* delimiter)
 {
 	s[strcspn(s, delimiter)] = 0;
 }
@@ -339,17 +339,17 @@ void ascii_strnlwr(char* string, int32 count)
 	}
 }
 
-int __fastcall ascii_stristr(char const* look_inside, char const* look_for)
+int __fastcall ascii_stristr(const char* look_inside, const char* look_for)
 {
 	return INVOKE(0x00401160, ascii_stristr, look_inside, look_for);
 }
 
-int32 __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size)
+int32 __cdecl ascii_strnicmp(const char* s1, const char* s2, unsigned int size)
 {
 	return INVOKE(0x004011E0, ascii_strnicmp, s1, s2, size);
 }
 
-int32 __cdecl ascii_stricmp(char const* s1, char const* s2)
+int32 __cdecl ascii_stricmp(const char* s1, const char* s2)
 {
 	return INVOKE(0x00401270, ascii_stricmp, s1, s2);
 }
@@ -362,17 +362,17 @@ char* tag_to_string(tag _tag, char* buffer)
 	return buffer;
 }
 
-char const* c_string_id::get_string()
+const char* c_string_id::get_string()
 {
 	return string_id_get_string_const(m_id);
 }
 
-char const* c_string_id::get_string() const
+const char* c_string_id::get_string() const
 {
 	return string_id_get_string_const(m_id);
 }
 
-bool c_old_string_id::is_string(char const* string) const
+bool c_old_string_id::is_string(const char* string) const
 {
 	return m_id != NONE && m_id == string_id_retrieve(string);
 }
@@ -387,9 +387,9 @@ void* offset_pointer(void* pointer, int32 offset)
 	return (byte*)pointer + offset;
 }
 
-void const* offset_pointer(void const* pointer, int32 offset)
+const void* offset_pointer(const void* pointer, int32 offset)
 {
-	return (byte const*)pointer + offset;
+	return (const byte*)pointer + offset;
 }
 
 unsigned int align_address(unsigned int address, int32 alignment_bits)
@@ -402,12 +402,12 @@ void* align_pointer(void* pointer, int32 alignment_bits)
 	return (void*)align_address((unsigned int)pointer, alignment_bits);
 }
 
-int32 pointer_distance(void const* pointer_a, void const* pointer_b)
+int32 pointer_distance(const void* pointer_a, const void* pointer_b)
 {
 	return static_cast<int32>((byte*)pointer_b - (byte*)pointer_a);
 }
 
-int32 pointer_difference(void const* pointer_a, void const* pointer_b)
+int32 pointer_difference(const void* pointer_a, const void* pointer_b)
 {
 	return static_cast<int32>((byte*)pointer_b - (byte*)pointer_a);
 }
@@ -436,7 +436,7 @@ c_string_builder::c_string_builder() :
 {
 }
 
-c_string_builder::c_string_builder(char const* format, ...) :
+c_string_builder::c_string_builder(const char* format, ...) :
 	c_static_string<1024>()
 {
 	va_list list;
@@ -473,41 +473,41 @@ real_argb_color const private_real_argb_colors[17]
 	{ 1.0f, 0.81f, 0.13f, 0.56f }
 };
 
-real_argb_color const* const global_real_argb_color_table = private_real_argb_colors;
+const real_argb_color* const global_real_argb_color_table = private_real_argb_colors;
 
-real_argb_color const* const global_real_argb_white = &private_real_argb_colors[0];
-real_argb_color const* const global_real_argb_grey = &private_real_argb_colors[1];
-real_argb_color const* const global_real_argb_black = &private_real_argb_colors[2];
-real_argb_color const* const global_real_argb_red = &private_real_argb_colors[3];
-real_argb_color const* const global_real_argb_green = &private_real_argb_colors[4];
-real_argb_color const* const global_real_argb_blue = &private_real_argb_colors[5];
-real_argb_color const* const global_real_argb_yellow = &private_real_argb_colors[7];
-real_argb_color const* const global_real_argb_cyan = &private_real_argb_colors[6];
-real_argb_color const* const global_real_argb_magenta = &private_real_argb_colors[8];
-real_argb_color const* const global_real_argb_pink = &private_real_argb_colors[9];
-real_argb_color const* const global_real_argb_lightblue = &private_real_argb_colors[10];
-real_argb_color const* const global_real_argb_orange = &private_real_argb_colors[11];
-real_argb_color const* const global_real_argb_purple = &private_real_argb_colors[12];
-real_argb_color const* const global_real_argb_aqua = &private_real_argb_colors[13];
-real_argb_color const* const global_real_argb_darkgreen = &private_real_argb_colors[14];
-real_argb_color const* const global_real_argb_salmon = &private_real_argb_colors[15];
-real_argb_color const* const global_real_argb_violet = &private_real_argb_colors[16];
+const real_argb_color* const global_real_argb_white = &private_real_argb_colors[0];
+const real_argb_color* const global_real_argb_grey = &private_real_argb_colors[1];
+const real_argb_color* const global_real_argb_black = &private_real_argb_colors[2];
+const real_argb_color* const global_real_argb_red = &private_real_argb_colors[3];
+const real_argb_color* const global_real_argb_green = &private_real_argb_colors[4];
+const real_argb_color* const global_real_argb_blue = &private_real_argb_colors[5];
+const real_argb_color* const global_real_argb_yellow = &private_real_argb_colors[7];
+const real_argb_color* const global_real_argb_cyan = &private_real_argb_colors[6];
+const real_argb_color* const global_real_argb_magenta = &private_real_argb_colors[8];
+const real_argb_color* const global_real_argb_pink = &private_real_argb_colors[9];
+const real_argb_color* const global_real_argb_lightblue = &private_real_argb_colors[10];
+const real_argb_color* const global_real_argb_orange = &private_real_argb_colors[11];
+const real_argb_color* const global_real_argb_purple = &private_real_argb_colors[12];
+const real_argb_color* const global_real_argb_aqua = &private_real_argb_colors[13];
+const real_argb_color* const global_real_argb_darkgreen = &private_real_argb_colors[14];
+const real_argb_color* const global_real_argb_salmon = &private_real_argb_colors[15];
+const real_argb_color* const global_real_argb_violet = &private_real_argb_colors[16];
 
-real_rgb_color const* const global_real_rgb_white = &private_real_argb_colors[0].rgb;
-real_rgb_color const* const global_real_rgb_grey = &private_real_argb_colors[1].rgb;
-real_rgb_color const* const global_real_rgb_black = &private_real_argb_colors[2].rgb;
-real_rgb_color const* const global_real_rgb_red = &private_real_argb_colors[3].rgb;
-real_rgb_color const* const global_real_rgb_green = &private_real_argb_colors[4].rgb;
-real_rgb_color const* const global_real_rgb_blue = &private_real_argb_colors[5].rgb;
-real_rgb_color const* const global_real_rgb_yellow = &private_real_argb_colors[7].rgb;
-real_rgb_color const* const global_real_rgb_cyan = &private_real_argb_colors[6].rgb;
-real_rgb_color const* const global_real_rgb_magenta = &private_real_argb_colors[8].rgb;
-real_rgb_color const* const global_real_rgb_pink = &private_real_argb_colors[9].rgb;
-real_rgb_color const* const global_real_rgb_lightblue = &private_real_argb_colors[10].rgb;
-real_rgb_color const* const global_real_rgb_orange = &private_real_argb_colors[11].rgb;
-real_rgb_color const* const global_real_rgb_purple = &private_real_argb_colors[12].rgb;
-real_rgb_color const* const global_real_rgb_aqua = &private_real_argb_colors[13].rgb;
-real_rgb_color const* const global_real_rgb_darkgreen = &private_real_argb_colors[14].rgb;
-real_rgb_color const* const global_real_rgb_salmon = &private_real_argb_colors[15].rgb;
-real_rgb_color const* const global_real_rgb_violet = &private_real_argb_colors[16].rgb;
+const real_rgb_color* const global_real_rgb_white = &private_real_argb_colors[0].rgb;
+const real_rgb_color* const global_real_rgb_grey = &private_real_argb_colors[1].rgb;
+const real_rgb_color* const global_real_rgb_black = &private_real_argb_colors[2].rgb;
+const real_rgb_color* const global_real_rgb_red = &private_real_argb_colors[3].rgb;
+const real_rgb_color* const global_real_rgb_green = &private_real_argb_colors[4].rgb;
+const real_rgb_color* const global_real_rgb_blue = &private_real_argb_colors[5].rgb;
+const real_rgb_color* const global_real_rgb_yellow = &private_real_argb_colors[7].rgb;
+const real_rgb_color* const global_real_rgb_cyan = &private_real_argb_colors[6].rgb;
+const real_rgb_color* const global_real_rgb_magenta = &private_real_argb_colors[8].rgb;
+const real_rgb_color* const global_real_rgb_pink = &private_real_argb_colors[9].rgb;
+const real_rgb_color* const global_real_rgb_lightblue = &private_real_argb_colors[10].rgb;
+const real_rgb_color* const global_real_rgb_orange = &private_real_argb_colors[11].rgb;
+const real_rgb_color* const global_real_rgb_purple = &private_real_argb_colors[12].rgb;
+const real_rgb_color* const global_real_rgb_aqua = &private_real_argb_colors[13].rgb;
+const real_rgb_color* const global_real_rgb_darkgreen = &private_real_argb_colors[14].rgb;
+const real_rgb_color* const global_real_rgb_salmon = &private_real_argb_colors[15].rgb;
+const real_rgb_color* const global_real_rgb_violet = &private_real_argb_colors[16].rgb;
 

@@ -20,9 +20,9 @@ extern uns32 __cdecl network_time_get();
 extern uns32 __cdecl network_time_get_exact();
 extern int32 network_time_since(uns32 timestamp);
 extern void __cdecl network_session_time_deregister_session_manager();
-extern bool __cdecl network_session_time_exists(s_transport_secure_identifier const* session_id);
+extern bool __cdecl network_session_time_exists(const s_transport_secure_identifier* session_id);
 extern bool __cdecl network_session_time_get_id_and_time(int32 session_index, s_transport_secure_identifier* session_id, uns32* timestamp);
-extern uns32 __cdecl network_session_time_get_time(s_transport_secure_identifier const* session_id);
+extern uns32 __cdecl network_session_time_get_time(const s_transport_secure_identifier* session_id);
 extern void __cdecl network_session_time_register_session_manager(c_network_session_manager* session_manager);
 extern void __cdecl network_time_lock(bool locked);
 

@@ -16,8 +16,8 @@ static_assert(sizeof(c_animation_data_sizes) == 0x10);
 
 struct c_animation_data
 {
-	byte const* m_data;
-	c_animation_data_sizes const* m_data_sizes;
+	const byte* m_data;
+	const c_animation_data_sizes* m_data_sizes;
 	uns8 m_node_count;
 	uns8 m_movement_data_type;
 	int16 m_frame_count;

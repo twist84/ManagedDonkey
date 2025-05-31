@@ -12,7 +12,7 @@ c_life_cycle_state_handler_post_match::c_life_cycle_state_handler_post_match() :
 	//DECLFUNC(0x004540E0, void, __thiscall, c_life_cycle_state_handler_post_match*)(this);
 }
 
-char const* c_life_cycle_state_handler_post_match::get_state_string()
+const char* c_life_cycle_state_handler_post_match::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x004547C0, c_life_cycle_state_handler_post_match, get_state_string);
 
@@ -80,7 +80,7 @@ bool c_life_cycle_state_handler_post_match::rematch_join_in_progress() const
 //.text:0049A490 ; 
 //.text:0049A4C0 ; 
 //.text:0049A4E0 ; 
-//.text:0049A500 ; private: void c_life_cycle_state_handler_post_match::squad_host_notify_rematch_failure(char const*)
+//.text:0049A500 ; private: void c_life_cycle_state_handler_post_match::squad_host_notify_rematch_failure(const char*)
 //.text:0049A540 ; private: bool c_life_cycle_state_handler_post_match::squad_host_ready_for_matchmaking_start()
 //.text:0049A660 ; 
 
@@ -96,6 +96,6 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_post_match::update
 
 //.text:0049A890 ; private: void c_life_cycle_state_handler_post_match::update_group_host()
 //.text:0049AAC0 ; private: void c_life_cycle_state_handler_post_match::update_leader_idle_controllers()
-//.text:0049AB60 ; private: void c_life_cycle_state_handler_post_match::update_progress(s_replicated_life_cycle_progress_post_match const*)
+//.text:0049AB60 ; private: void c_life_cycle_state_handler_post_match::update_progress(const s_replicated_life_cycle_progress_post_match*)
 //.text:0049ABC0 ; private: void c_life_cycle_state_handler_post_match::update_squad_host()
 

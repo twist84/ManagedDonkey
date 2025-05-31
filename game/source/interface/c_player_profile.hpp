@@ -102,7 +102,7 @@ struct c_player_profile_interface
 	void set_controller_crouch_lock_enabled(bool crouch_lock, bool set_by_user);
 	void set_controller_flight_stick_aircraft_controls(bool aircraft_controls, bool set_by_user);
 	void set_controller_look_inverted(bool invert, bool set_by_user);
-	void set_desired_service_tag(wchar_t const* value, bool set_by_user);
+	void set_desired_service_tag(const wchar_t* value, bool set_by_user);
 	void set_display_brightness(e_display_brightness setting, bool set_by_user);
 	void set_female_voice_enabled(bool female, bool set_by_user);
 	void set_film_auto_save(e_film_auto_save_type type, bool value, bool set_by_user);
@@ -118,13 +118,13 @@ struct c_player_profile_interface
 	void set_look_sensitivity(e_look_sensitivity sensitivity, bool set_by_user);
 	void set_map_completed_at_difficulty_level(e_campaign_game_mode campaign_game_mode, int32 absolute_map_index, e_campaign_difficulty_level difficulty, bool complete, bool set_by_user);
 	void set_model_customization_selection(e_player_model_choice player_model_choice, int32 area_index, int8 selection_index, bool set_by_user);
-	void set_player_appearance(s_player_appearance const* player_appearance, bool set_by_user);
-	void set_emblem_info(s_emblem_info const* emblem_info, bool set_by_user);
+	void set_player_appearance(const s_player_appearance* player_appearance, bool set_by_user);
+	void set_emblem_info(const s_emblem_info* emblem_info, bool set_by_user);
 	void set_player_model_choice(e_player_model_choice player_model_choice, bool set_by_user);
 	void __thiscall set_primary_change_color(e_player_color_index color, bool set_by_user);
 	void __thiscall set_secondary_change_color(e_player_color_index color, bool set_by_user);
 	void set_service_tag_failed_verification(bool value, bool set_by_user);
-	void set_service_tag_validated(wchar_t const* value, bool set_by_user);
+	void set_service_tag_validated(const wchar_t* value, bool set_by_user);
 	void set_service_tag_was_randomly_generated(bool value, bool set_by_user);
 	void set_subtitle_setting(e_subtitle_setting setting, bool set_by_user);
 	void set_voice_mask(e_voice_mask mask, bool set_by_user);

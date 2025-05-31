@@ -54,7 +54,7 @@ struct s_game_tick_time_samples
 		elapsed_game_ticks = 0;
 	}
 
-	void accum(s_game_tick_time_samples const* samples)
+	void accum(const s_game_tick_time_samples* samples)
 	{
 		flags = samples->flags;
 		shell_dt += samples->shell_dt;

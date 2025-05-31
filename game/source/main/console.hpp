@@ -19,7 +19,7 @@ struct s_console_globals
 
 struct s_console_global
 {
-	char const* name;
+	const char* name;
 
 	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
 	void* pointer;
@@ -35,7 +35,7 @@ struct s_status_line
 	real32 alpha;
 	c_flags<e_status_line_flags, uns32, k_status_line_count> flags;
 	bool* in_use;
-	char const* identifier;
+	const char* identifier;
 	s_status_line* prev;
 	s_status_line* next;
 };
@@ -86,11 +86,11 @@ extern void __cdecl console_initialize();
 extern bool __cdecl console_is_active();
 extern bool __cdecl console_is_empty();
 extern void __cdecl console_open(bool debug_menu);
-extern void __cdecl console_printf(char const* format, ...);
-extern void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...);
-extern bool __cdecl console_process_command(char const* command, bool interactive);
+extern void __cdecl console_printf(const char* format, ...);
+extern void __cdecl console_printf_color(const real_argb_color* color, const char* format, ...);
+extern bool __cdecl console_process_command(const char* command, bool interactive);
 extern void __cdecl console_update(real32 shell_seconds_elapsed);
-extern void __cdecl console_warning(char const* format, ...);
+extern void __cdecl console_warning(const char* format, ...);
 
 extern bool __cdecl debugging_system_has_focus();
 
@@ -98,21 +98,21 @@ extern void status_line_add_single(s_status_line* status_line);
 extern void status_line_draw();
 extern void status_line_dump();
 extern void status_line_remove_single(s_status_line* status_line);
-extern bool status_line_visible(s_status_line const* status_line);
+extern bool status_line_visible(const s_status_line* status_line);
 
 extern void status_lines_clear_text(s_status_line* status_lines, int32 count);
-extern void status_lines_disable(char const* identifier);
+extern void status_lines_disable(const char* identifier);
 extern void status_lines_dispose(s_status_line* status_lines, int32 count);
-extern void status_lines_enable(char const* identifier);
+extern void status_lines_enable(const char* identifier);
 extern void status_lines_initialize(s_status_line* status_lines, bool* flag, int32 count);
-extern void status_lines_initialize_simple(s_status_line* status_lines, bool* flag, char const* identifier, int32 count);
+extern void status_lines_initialize_simple(s_status_line* status_lines, bool* flag, const char* identifier, int32 count);
 extern void status_lines_set_flags(s_status_line* status_lines, e_status_line_flags flag, bool enable, int32 count);
 
-extern void status_printf(char const* format, ...);
-extern void status_printf_va(char const* format, char* list);
+extern void status_printf(const char* format, ...);
+extern void status_printf_va(const char* format, char* list);
 
-extern void status_string_internal(char const* status, char const* message);
-extern void status_strings(char const* status, char const* strings);
+extern void status_string_internal(const char* status, const char* message);
+extern void status_strings(const char* status, const char* strings);
 
-extern bool string_cache_add(s_string_cache* cache, char const* string, real32 alpha, real_rgb_color const& color, e_text_justification justification);
+extern bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, const real_rgb_color& color, e_text_justification justification);
 extern void string_cache_render(s_string_cache* string_cache, struct c_draw_string* draw_string, c_font_cache_base* font_cache);

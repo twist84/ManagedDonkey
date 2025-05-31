@@ -30,7 +30,7 @@ transport_address::transport_address(uns32 _ipv4_address, uns16 _port, int16 _ad
 {
 }
 
-transport_address::transport_address(s_player_identifier const* player_identifier) :
+transport_address::transport_address(const s_player_identifier* player_identifier) :
 	ipv4_address(0),
 	port(0),
 	address_length(0)
@@ -43,7 +43,7 @@ transport_address::transport_address(s_player_identifier const* player_identifie
 	address_length = sizeof(uns32);
 }
 
-bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)
+bool __cdecl transport_address_equivalent(const transport_address* a, const transport_address* b)
 {
 	//return INVOKE(0x0043F660, transport_address_equivalent, a, b);
 
@@ -54,7 +54,7 @@ bool __cdecl transport_address_equivalent(transport_address const* a, transport_
 	return a->address_length > 0 && a->address_length == b->address_length && memcmp(a, b, address_length) == 0 && a->port == b->port;
 }
 
-char const* __cdecl transport_address_get_string(transport_address const* address)
+const char* __cdecl transport_address_get_string(const transport_address* address)
 {
 	//return INVOKE(0x0043F6F0, transport_address_get_string, address);
 
@@ -73,7 +73,7 @@ void __cdecl transport_address_ipv4_build(transport_address* address, uns32 ip_a
 	address->port = port;
 }
 
-uns32 __cdecl transport_address_ipv4_extract(transport_address const* address)
+uns32 __cdecl transport_address_ipv4_extract(const transport_address* address)
 {
 	//return INVOKE(0x0043F720, transport_address_ipv4_extract, address);
 
@@ -82,7 +82,7 @@ uns32 __cdecl transport_address_ipv4_extract(transport_address const* address)
 	return address->ipv4_address;
 }
 
-bool __cdecl transport_address_is_loopback(transport_address const* address)
+bool __cdecl transport_address_is_loopback(const transport_address* address)
 {
 	//return INVOKE(0x0043F730, transport_address_is_loopback, address);
 
@@ -91,7 +91,7 @@ bool __cdecl transport_address_is_loopback(transport_address const* address)
 	return address->address_length == sizeof(uns32) && address->ipv4_address == 0x7F000001;
 }
 
-char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* string, int16 maximum_string_length, bool include_port, bool include_extra)
+char* __cdecl transport_address_to_string(const transport_address* address, const s_transport_secure_address* secure_address, char* string, int16 maximum_string_length, bool include_port, bool include_extra)
 {
 	//return INVOKE(0x0043F750, transport_address_to_string, address, secure_address, string, maximum_string_length, include_port, include_extra);
 
@@ -168,7 +168,7 @@ char* __cdecl transport_address_to_string(transport_address const* address, s_tr
 	return string;
 }
 
-bool __cdecl transport_address_valid(transport_address const* address)
+bool __cdecl transport_address_valid(const transport_address* address)
 {
 	//return INVOKE(0x0043F860, transport_address_valid, address);
 
@@ -242,7 +242,7 @@ void __cdecl transport_get_loopback_address(transport_address* address, uns16 po
 	address->port = port;
 }
 
-void transport_address_from_string(wchar_t const* str, transport_address& address)
+void transport_address_from_string(const wchar_t* str, transport_address& address)
 {
 	uns8 ip_addr[4]{};
 	if (swscanf_s(str, L"%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
@@ -256,7 +256,7 @@ void transport_address_from_string(wchar_t const* str, transport_address& addres
 	}
 }
 
-void transport_address_from_string(char const* str, transport_address& address)
+void transport_address_from_string(const char* str, transport_address& address)
 {
 	uns8 ip_addr[4]{};
 	if (sscanf_s(str, "%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
@@ -270,7 +270,7 @@ void transport_address_from_string(char const* str, transport_address& address)
 	}
 }
 
-void transport_address_from_host(char const* name, transport_address& address)
+void transport_address_from_host(const char* name, transport_address& address)
 {
 	dns_result result{};
 	csstrnzcpy(result.name, name, sizeof(result.name));

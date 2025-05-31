@@ -33,8 +33,8 @@ actor_datum* squad_actor_iterator_next(squad_actor_iterator* iterator)
 //.text:01490090 ; void __cdecl squad_clear_arrived(int32)
 //.text:014900E0 ; void __cdecl squad_clear_create_options(squad_create_options*)
 //.text:01490100 ; bool __cdecl squad_consider_major_upgrade(int16, real32)
-//.text:01490200 ; void __cdecl squad_create(int32, squad_create_options const*)
-//.text:01490580 ; int16 __cdecl squad_create_from_spawn_definitions(int32, squad_create_options const*, c_static_stack<actor_spawn_definition, 256>*)
+//.text:01490200 ; void __cdecl squad_create(int32, const squad_create_options*)
+//.text:01490580 ; int16 __cdecl squad_create_from_spawn_definitions(int32, const squad_create_options*, c_static_stack<actor_spawn_definition, 256>*)
 
 void __cdecl squad_deactivate(int32 squad_index)
 {
@@ -51,23 +51,23 @@ squad_datum* __cdecl squad_get(int32 squad_index)
 	return squad;
 }
 
-//.text:01490B80 ; int32 __cdecl squad_get_by_name(char const*)
-//.text:01490BA0 ; int32 __cdecl squad_get_by_name(struct scenario*, char const*)
+//.text:01490B80 ; int32 __cdecl squad_get_by_name(const char*)
+//.text:01490BA0 ; int32 __cdecl squad_get_by_name(struct scenario*, const char*)
 //.text:01490C10 ; 
 //.text:01490E70 ; 
 //.text:01490F00 ; 
 //.text:01490F60 ; int32 __cdecl squad_get_leader(int16)
 //.text:01490FC0 ; 
 //.text:01491000 ; style_definition* __cdecl squad_get_style(int32)
-//.text:01491050 ; s_task* __cdecl squad_get_task(squad_datum const*)
+//.text:01491050 ; s_task* __cdecl squad_get_task(const squad_datum*)
 //.text:01491090 ; void __cdecl squad_group_activate(int32)
 //.text:014910C0 ; void __cdecl squad_group_add_group_child(int32, int32)
 //.text:01491110 ; void __cdecl squad_group_add_leaf_child(int32, int32)
-//.text:01491180 ; int32 __cdecl squad_group_get_by_name(char const *)
-//.text:014911A0 ; int32 __cdecl squad_group_get_by_name(struct scenario*, char const*)
+//.text:01491180 ; int32 __cdecl squad_group_get_by_name(const char*)
+//.text:014911A0 ; int32 __cdecl squad_group_get_by_name(struct scenario*, const char*)
 //.text:01491210 ; void __cdecl squad_group_iterator_new(squad_group_iterator*)
 //.text:01491250 ; squad_group_datum* __cdecl squad_group_iterator_next(squad_group_iterator*)
-//.text:014912A0 ; void __cdecl squad_group_new(struct squad_group_definition const*)
+//.text:014912A0 ; void __cdecl squad_group_new(const struct squad_group_definition*)
 //.text:01491320 ; void __cdecl squad_group_squad_iterator_new(squad_group_squad_iterator*, int32)
 //.text:01491390 ; squad_datum* __cdecl squad_group_squad_iterator_next(squad_group_squad_iterator*)
 //.text:01491460 ; void __cdecl squad_group_test_activation(int32)
@@ -89,11 +89,11 @@ squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator)
 }
 
 //.text:01491A60 ; void __cdecl squad_load_in_squad(int32, int32)
-//.text:01491CF0 ; void __cdecl squad_new(s_squad_definition const*)
-//.text:01491F80 ; int32 __cdecl squad_place_actor(int32, actor_spawn_definition const*)
-//.text:01491FB0 ; int32 __cdecl squad_placement_create_vehicle(int32, actor_spawn_definition const*, int32*, int16*)
+//.text:01491CF0 ; void __cdecl squad_new(const s_squad_definition*)
+//.text:01491F80 ; int32 __cdecl squad_place_actor(int32, const actor_spawn_definition*)
+//.text:01491FB0 ; int32 __cdecl squad_placement_create_vehicle(int32, const actor_spawn_definition*, int32*, int16*)
 //.text:01492170 ; int16 __cdecl squad_placement_find_seat(int32, int16, int32*, int16*)
-//.text:014922D0 ; int32 __cdecl squad_placement_find_vehicle(actor_spawn_definition const*, int32, int16*)
+//.text:014922D0 ; int32 __cdecl squad_placement_find_vehicle(const actor_spawn_definition*, int32, int16*)
 //.text:014923C0 ; void __cdecl squad_remove_vehicle(int32, int32)
 //.text:01492450 ; 
 //.text:014924C0 ; 
@@ -105,13 +105,13 @@ squad_datum* __cdecl squad_iterator_next(squad_iterator* iterator)
 //.text:01492E00 ; void __cdecl squad_set_vehicle(int32, bool)
 //.text:01492E50 ; squad_should_use_dynamic_areas?
 //.text:01492EC0 ; bool __cdecl squad_task_broken(int32)
-//.text:01492F30 ; bool __cdecl squad_test_activation_cluster_bit_vector(int32, s_game_cluster_bit_vectors const*)
+//.text:01492F30 ; bool __cdecl squad_test_activation_cluster_bit_vector(int32, const s_game_cluster_bit_vectors*)
 //.text:01492FB0 ; 
 //.text:01493010 ; void __cdecl squad_update_disengaged_status(int32)
 //.text:014930F0 ; void __cdecl squad_update_highest_rank(int16)
 //.text:01493180 ; void __cdecl squad_update_status(int32)
 //.text:01493520 ; bool __cdecl squad_update_style(int32, int16)
-//.text:014936C0 ; bool __cdecl squad_using_fronts(squad_datum const*)
+//.text:014936C0 ; bool __cdecl squad_using_fronts(const squad_datum*)
 //.text:01493750 ; void __cdecl squad_vehicle_change_squad(int32, int32)
 //.text:01493810 ; bool __cdecl squad_verify_script_references(int32, bool)
 //.text:01493820 ; void __cdecl squadless_attach_actor(int32)

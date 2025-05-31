@@ -9,7 +9,7 @@ enum
 	k_maximum_memmove_size = 0x20000000
 };
 
-void memmove_guarded(void* write_start, void const* source, unsigned int size, void const* bounds_lower, unsigned int bounds_size)
+void memmove_guarded(void* write_start, const void* source, unsigned int size, const void* bounds_lower, unsigned int bounds_size)
 {
 	ASSERT(size >= 0 && size <= k_maximum_memmove_size);
 

@@ -146,7 +146,7 @@ void c_life_cycle_state_manager::notify_lost_connection()
 	}
 }
 
-void c_life_cycle_state_manager::notify_session_disbandment_and_host_assumption(c_network_session const* session)
+void c_life_cycle_state_manager::notify_session_disbandment_and_host_assumption(const c_network_session* session)
 {
 	//INVOKE_CLASS_MEMBER(0x0048DAB0, c_life_cycle_state_manager, notify_session_disbandment_and_host_assumption, session);
 
@@ -181,7 +181,7 @@ void c_life_cycle_state_manager::request_leave_sessions(bool leave_and_disconnec
 	}
 }
 
-void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, int32 entry_data_size, void const* entry_data)
+void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, int32 entry_data_size, const void* entry_data)
 {
 	//INVOKE_CLASS_MEMBER(0x0048DE50, c_life_cycle_state_manager, request_state_change, state, entry_data_size, entry_data);
 
@@ -220,7 +220,7 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, int
 	}
 }
 
-void c_life_cycle_state_manager::set_pause_state(char const* state_string, bool enabled)
+void c_life_cycle_state_manager::set_pause_state(const char* state_string, bool enabled)
 {
 	//INVOKE_CLASS_MEMBER(0x0048E120, c_life_cycle_state_manager, set_pause_state, state_string, enabled);
 

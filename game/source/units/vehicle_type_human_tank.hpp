@@ -22,12 +22,12 @@ public:
 	bool is_stopped(int32 vehicle_index);
 	static bool __cdecl kills_riders_at_terminal_velocity(int32 vehicle_index);
 	static bool __cdecl physics_disabled(int32 vehicle_index);
-	static void __cdecl process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	static void __cdecl process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(int32 vehicle_index);
 	bool should_override_deactivation(int32 vehicle_index);
 	void update_control(int32 vehicle_index);
 	void update_physics(int32 vehicle_index, s_havok_vehicle_physics_instance* instance);
-	static bool __cdecl vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector);
 
 protected:
 	s_vehicle_engine m_engine;

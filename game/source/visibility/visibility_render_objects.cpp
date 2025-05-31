@@ -6,7 +6,7 @@
 
 //HOOK_DECLARE_CALL(0x00A44961, visibility_render_objects_compute_lod_transparency);
 
-int32 __cdecl visibility_render_objects_compute_level_of_detail(int32 object_index, int32 player_window_index, s_model_level_of_detail const* level_of_detail_definition, real32 lod_distance, int8 last_lod)
+int32 __cdecl visibility_render_objects_compute_level_of_detail(int32 object_index, int32 player_window_index, const s_model_level_of_detail* level_of_detail_definition, real32 lod_distance, int8 last_lod)
 {
 	return INVOKE(0x00A19490, visibility_render_objects_compute_level_of_detail, object_index, player_window_index, level_of_detail_definition, lod_distance, last_lod);
 }
@@ -26,7 +26,7 @@ int16 __cdecl visibility_render_objects_find_lightmap_object_index(int32 object_
 	return INVOKE(0x00A19C20, visibility_render_objects_find_lightmap_object_index, object_index);
 }
 
-bool __cdecl visibility_render_objects_geometry_in_cache(int32 render_model_index, int32 region_count, int8 const* region_permutation_indices, int8* last_region_permutation_indices, int32 level_of_detail, bool desired_geometry, uns8* mesh_indices, bool* using_old_permutation)
+bool __cdecl visibility_render_objects_geometry_in_cache(int32 render_model_index, int32 region_count, const int8* region_permutation_indices, int8* last_region_permutation_indices, int32 level_of_detail, bool desired_geometry, uns8* mesh_indices, bool* using_old_permutation)
 {
 	return INVOKE(0x00A19C60, visibility_render_objects_geometry_in_cache, render_model_index, region_count, region_permutation_indices, last_region_permutation_indices, level_of_detail, desired_geometry, mesh_indices, using_old_permutation);
 }

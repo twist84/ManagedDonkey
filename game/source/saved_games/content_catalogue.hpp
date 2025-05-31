@@ -40,5 +40,5 @@ extern s_content_catalogue_globals& g_content_catalogue_globals;
 
 extern void __cdecl content_catalogue_close_all_dlc(bool allow_exceptions);
 extern c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index controller_index);
-extern bool __cdecl content_catalogue_open_dlc(wchar_t const* path, bool block);
+extern bool __cdecl content_catalogue_open_dlc(const wchar_t* path, bool block);
 

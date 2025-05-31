@@ -59,7 +59,7 @@ HOOK_DECLARE(0x0052B850, find_files_start_with_search_spec);
 //HOOK_DECLARE(0x0052B980, get_current_file_time);
 //HOOK_DECLARE(0x0052BA20, invalidate_file_handle);
 
-bool string_is_absolute_path(char const* s)
+bool string_is_absolute_path(const char* s)
 {
 	return s < strstr(s, ":\\");
 }
@@ -93,7 +93,7 @@ bool __cdecl file_close(s_file_reference* reference)
 	return false;
 }
 
-int __cdecl file_compare_last_modification_dates(s_file_last_modification_date const* date1, s_file_last_modification_date const* date2)
+int __cdecl file_compare_last_modification_dates(const s_file_last_modification_date* date1, const s_file_last_modification_date* date2)
 {
 	int result = 0;
 	HOOK_INVOKE(result =, file_compare_last_modification_dates, date1, date2);
@@ -157,7 +157,7 @@ bool __cdecl file_delete_recursive(s_file_reference* reference)
 	return result;
 }
 
-void __cdecl file_error(char const* file_function, s_file_reference* reference_a, s_file_reference* reference_b, bool suppress_error)
+void __cdecl file_error(const char* file_function, s_file_reference* reference_a, s_file_reference* reference_b, bool suppress_error)
 {
 	file_reference_info* info0 = file_reference_get_info(reference_a);
 	file_reference_info* info1 = nullptr;
@@ -183,9 +183,9 @@ void __cdecl file_error(char const* file_function, s_file_reference* reference_a
 	//HOOK_INVOKE(, file_error, file_function, reference_a, reference_b, suppress_error);
 }
 
-//0x005295D0 void __cdecl file_error(char const* file_function, s_file_reference* reference, bool suppress_error)
+//0x005295D0 void __cdecl file_error(const char* file_function, s_file_reference* reference, bool suppress_error)
 
-bool __cdecl file_exists(s_file_reference const* reference)
+bool __cdecl file_exists(const s_file_reference* reference)
 {
 	//bool result = false;
 	//HOOK_INVOKE(result =, file_exists, reference);
@@ -196,22 +196,22 @@ bool __cdecl file_exists(s_file_reference const* reference)
 	return GetFileAttributesA(reference->path.get_string()) != INVALID_FILE_ATTRIBUTES;
 }
 
-bool __cdecl file_get_creation_date(s_file_reference const* reference, struct s_file_last_modification_date* date)
+bool __cdecl file_get_creation_date(const s_file_reference* reference, struct s_file_last_modification_date* date)
 {
 	return INVOKE(0x00529750, file_get_creation_date, reference, date);
 }
 
-uns32 __cdecl file_get_eof(s_file_reference const* reference)
+uns32 __cdecl file_get_eof(const s_file_reference* reference)
 {
 	return INVOKE(0x005298C0, file_get_eof, reference);
 }
 
-bool __cdecl file_get_last_modification_date(s_file_reference const* reference, struct s_file_last_modification_date* date)
+bool __cdecl file_get_last_modification_date(const s_file_reference* reference, struct s_file_last_modification_date* date)
 {
 	return INVOKE(0x00529980, file_get_last_modification_date, reference, date);
 }
 
-uns32 __cdecl file_get_position(s_file_reference const* reference)
+uns32 __cdecl file_get_position(const s_file_reference* reference)
 {
 	return INVOKE(0x00529AF0, file_get_position, reference);
 }
@@ -244,14 +244,14 @@ bool __cdecl file_handle_is_valid(s_file_handle handle)
 	return handle.handle && handle.handle != INVALID_HANDLE_VALUE;
 }
 
-bool __cdecl file_is_directory(s_file_reference const* reference)
+bool __cdecl file_is_directory(const s_file_reference* reference)
 {
 	//return INVOKE(0x00529C80, file_is_directory, reference);
 
 	return !TEST_BIT(reference->flags, _file_reference_flag_is_file_name);
 }
 
-bool __cdecl file_last_modification_date_to_time(s_file_last_modification_date const* date, tm* time, bool is_local)
+bool __cdecl file_last_modification_date_to_time(const s_file_last_modification_date* date, tm* time, bool is_local)
 {
 	ASSERT(date != NULL);
 	ASSERT(time != NULL);
@@ -259,12 +259,12 @@ bool __cdecl file_last_modification_date_to_time(s_file_last_modification_date c
 	return INVOKE(0x00529CA0, file_last_modification_date_to_time, date, time, is_local);
 }
 
-//0x00529DE0 void __cdecl file_location_get_full_path(int16 location, char const* path, wchar_t(&out_full_path)[256])
-//0x00529E50 void __cdecl file_location_get_full_path(int16 location, char const* path, wchar_t* out_full_path, int32 full_path_length)
-//0x00529EC0 void __cdecl file_location_get_full_path_wide(int16 location, wchar_t const* path, wchwchar_tar_t(&out_full_path)[256])
-//0x00529F10 void __cdecl file_location_get_full_path_wide(int16 location, wchar_t const* path, wchar_t* out_full_path, int32 full_path_length)
+//0x00529DE0 void __cdecl file_location_get_full_path(int16 location, const char* path, wchar_t(&out_full_path)[256])
+//0x00529E50 void __cdecl file_location_get_full_path(int16 location, const char* path, wchar_t* out_full_path, int32 full_path_length)
+//0x00529EC0 void __cdecl file_location_get_full_path_wide(int16 location, const wchar_t* path, wchwchar_tar_t(&out_full_path)[256])
+//0x00529F10 void __cdecl file_location_get_full_path_wide(int16 location, const wchar_t* path, wchar_t* out_full_path, int32 full_path_length)
 
-bool __cdecl file_move_to(s_file_reference const* reference, s_file_reference const* other)
+bool __cdecl file_move_to(const s_file_reference* reference, const s_file_reference* other)
 {
 	return INVOKE(0x0052A0C0, file_move_to, reference, other);
 }
@@ -356,14 +356,14 @@ bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* err
 	return result;
 }
 
-void __cdecl file_path_add_extension(wchar_t* path, int32 maximum_path_length, wchar_t const* extension)
+void __cdecl file_path_add_extension(wchar_t* path, int32 maximum_path_length, const wchar_t* extension)
 {
 	INVOKE(0x0052A4D0, file_path_add_extension, path, maximum_path_length, extension);
 }
 
-//0x0052A530 void __cdecl file_path_add_name(wchar_t(&path)[256], wchar_t const* name)
+//0x0052A530 void __cdecl file_path_add_name(wchar_t(&path)[256], const wchar_t* name)
 
-void __cdecl file_path_add_name(wchar_t* path, int32 maximum_path_length, wchar_t const* name)
+void __cdecl file_path_add_name(wchar_t* path, int32 maximum_path_length, const wchar_t* name)
 {
 	INVOKE(0x0052A590, file_path_add_name, path, maximum_path_length, name);
 }
@@ -446,7 +446,7 @@ bool __cdecl file_reference_create_temporary(s_file_reference* reference)
 	return INVOKE(0x0052AA50, file_reference_create_temporary, reference);
 }
 
-bool __cdecl file_reference_create_temporary_from_path(s_file_reference* reference, char const* path)
+bool __cdecl file_reference_create_temporary_from_path(s_file_reference* reference, const char* path)
 {
 	return INVOKE(0x0052AAF0, file_reference_create_temporary_from_path, reference, path);
 }
@@ -458,12 +458,12 @@ bool __cdecl file_reference_get_file_handle(s_file_reference* reference, s_file_
 	return reference->handle.handle != 0;
 }
 
-bool __cdecl file_rename(s_file_reference* reference, char const* name)
+bool __cdecl file_rename(s_file_reference* reference, const char* name)
 {
 	return INVOKE(0x0052AC80, file_rename, reference, name);
 }
 
-bool __cdecl file_rename_wide(s_file_reference* reference, wchar_t const* name)
+bool __cdecl file_rename_wide(s_file_reference* reference, const wchar_t* name)
 {
 	return INVOKE(0x0052ACB0, file_rename_wide, reference, name);
 }
@@ -495,12 +495,12 @@ bool __cdecl file_set_writeable(s_file_reference* reference, bool writeable)
 	return INVOKE(0x0052B0D0, file_set_writeable, reference, writeable);
 }
 
-bool __cdecl file_write(s_file_reference* reference, uns32 size, void const* buffer)
+bool __cdecl file_write(s_file_reference* reference, uns32 size, const void* buffer)
 {
 	return INVOKE(0x0052B250, file_write, reference, size, buffer);
 }
 
-bool __cdecl file_write_to_position(s_file_reference* reference, uns32 offset, uns32 size, void const* buffer)
+bool __cdecl file_write_to_position(s_file_reference* reference, uns32 offset, uns32 size, const void* buffer)
 {
 	return INVOKE(0x0052B350, file_write_to_position, reference, offset, size, buffer);
 }
@@ -535,12 +535,12 @@ bool __cdecl find_files_next(s_find_file_data* data, s_file_reference* out_file,
 	return result;
 }
 
-void __cdecl find_files_start(s_find_file_data* data, uns32 flags, s_file_reference const* file)
+void __cdecl find_files_start(s_find_file_data* data, uns32 flags, const s_file_reference* file)
 {
 	find_files_start_with_search_spec(data, flags, file, "*.*");
 }
 
-void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uns32 flags, s_file_reference const* file, char const* search_spec)
+void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uns32 flags, const s_file_reference* file, const char* search_spec)
 {
 	for (int16 i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
 		invalidate_file_handle(&data->active_find_file_state.handles[i]);

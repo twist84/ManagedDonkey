@@ -40,13 +40,13 @@ extern bool __cdecl set_clipboard_as_text(char* buf, int32 len);
 extern int32 XShowKeyboardUI(
 	int32 controller_index,
 	uns32 character_flags,
-	wchar_t const* default_text,
-	wchar_t const* title_text,
-	wchar_t const* description_text,
+	const wchar_t* default_text,
+	const wchar_t* title_text,
+	const wchar_t* description_text,
 	wchar_t* result_text,
 	uns32 maximum_character_count,
 	void* overlapped
 );
 
-extern void display_notification(wchar_t const* tip = L"Notification Tip", wchar_t const* info = L"Notification Message", wchar_t const* info_title = L"Notification Title");
+extern void display_notification(const wchar_t* tip = L"Notification Tip", const wchar_t* info = L"Notification Message", const wchar_t* info_title = L"Notification Title");
 

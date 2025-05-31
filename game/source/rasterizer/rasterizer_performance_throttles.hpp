@@ -51,8 +51,8 @@ struct c_performance_throttles
 {
 public:
 	static s_performance_throttles* __cdecl get_current_performance_throttles();
-	static real32 __cdecl get_performance_throttle(char const* name, int32 player_count);
-	static void __cdecl set_performance_throttle(char const* name, int32 player_count, real32 value);
+	static real32 __cdecl get_performance_throttle(const char* name, int32 player_count);
+	static void __cdecl set_performance_throttle(const char* name, int32 player_count, real32 value);
 	static void __cdecl update_current_performance_throttles();
 
 public:
@@ -68,6 +68,6 @@ public:
 	static s_performance_throttles& m_current_throttles;
 };
 
-extern real32 __cdecl get_performance_throttle(char const* name, int32 player_count);
-extern void __cdecl set_performance_throttle(char const* name, int32 player_count, real32 value);
+extern real32 __cdecl get_performance_throttle(const char* name, int32 player_count);
+extern void __cdecl set_performance_throttle(const char* name, int32 player_count, real32 value);
 

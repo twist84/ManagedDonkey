@@ -24,7 +24,7 @@ int32 __cdecl control_get_action_string(int32 control_index)
 	//return control_definition->control.action_string;
 }
 
-void __cdecl control_place(int32 control_index, s_scenario_control const* scenario_control)
+void __cdecl control_place(int32 control_index, const s_scenario_control* scenario_control)
 {
 	INVOKE(0x00BBFBB0, control_place, control_index, scenario_control);
 

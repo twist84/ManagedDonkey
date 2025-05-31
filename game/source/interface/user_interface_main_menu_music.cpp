@@ -57,7 +57,7 @@ void __thiscall c_user_interface_main_menu_music::render()
 
 	if (main_menu_music_render_debug_enabled)
 	{
-		static char const* music_states[k_music_state_count]
+		static const char* music_states[k_music_state_count]
 		{
 			"music state stopped",
 			"music state playing"

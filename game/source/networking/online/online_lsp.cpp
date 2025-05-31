@@ -18,7 +18,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00431440, c_online_lsp_manager, acquire_server);
 
 transport_address lsp_server_address(inet_addr("127.0.0.1"), htons(8000), sizeof(uns32));
 
-char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
+const char* const k_service_type_descriptions[k_online_lsp_service_type_count]
 {
 	// H3
 	/* ttl */ "title_files",
@@ -36,8 +36,8 @@ char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
 
-//e_online_lsp_server_acquire_result c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, char const* service_description)
-int32 __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, char const* service_description)
+//e_online_lsp_server_acquire_result c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description)
+int32 __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description)
 {
 	*out_connection_token = 1;
 	*ip_address_out = lsp_server_address.ipv4_address;
@@ -240,7 +240,7 @@ void online_lsp_get_info(int32* ip_address, uns16* port)
 		*port = ntohs(lsp_server_address.port);
 }
 
-void online_lsp_set_info(char const* host, char const* port)
+void online_lsp_set_info(const char* host, const char* port)
 {
 	transport_address address{};
 	transport_address_from_host(host, address);

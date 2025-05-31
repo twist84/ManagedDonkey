@@ -281,7 +281,7 @@ struct s_cache_file_tag_resource_runtime_shared_file :
 	s_file_handle async_file_handle;
 	s_file_handle overlapped_handle;
 	s_indirect_file indirect_file;
-	s_cache_file_shared_resource_usage const* shared_resource_usage;
+	const s_cache_file_shared_resource_usage* shared_resource_usage;
 	uns32 resource_section_offset;
 	int32 map_file_index;
 };
@@ -325,7 +325,7 @@ public:
 		e_game_mode game_mode,
 		int32 cache_file_resource_gestalt_index,
 		int32 resource_vtable_list_count,
-		s_cache_file_tag_resource_vtable const** resource_vtable_list,
+		const s_cache_file_tag_resource_vtable** resource_vtable_list,
 		c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry);
 
 	void* get_cached_resource_data(int32 resource_handle)
@@ -364,7 +364,7 @@ public:
 	c_tag_resource_cache_precompiled_predictor m_precomputed_resource_predictor;
 	c_static_flags<32767> m_active_resources_mask;
 	c_static_flags<32767> m_pending_resources_mask;
-	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_vtable_mapping;
+	c_static_array<const s_cache_file_tag_resource_vtable*, 16> m_vtable_mapping;
 	c_wrapped_array<void*> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_buffer;
 	c_cache_file_tag_resource_datum_handler m_resource_datum_handler;
@@ -463,13 +463,13 @@ extern void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
 extern void __cdecl cache_file_tag_resources_prepare_for_next_map();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
-extern void __cdecl cache_file_tag_resources_set_zone_state(int32 scenario_index, int32 zone_set_name, s_scenario_zone_state const* zone_state);
-extern void __cdecl cache_file_tag_resources_start_map_prefetch(int16 campaign_id, char const* scenario_path);
+extern void __cdecl cache_file_tag_resources_set_zone_state(int32 scenario_index, int32 zone_set_name, const s_scenario_zone_state* zone_state);
+extern void __cdecl cache_file_tag_resources_start_map_prefetch(int16 campaign_id, const char* scenario_path);
 extern void __cdecl cache_file_tag_resources_stop_map_prefetch();
 
-extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
-extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
-extern void* __cdecl tag_resource_try_to_get(s_tag_resource const* resource);
+extern bool __cdecl tag_resource_available(const s_tag_resource* resource);
+extern void* __cdecl tag_resource_get(const s_tag_resource* resource);
+extern void* __cdecl tag_resource_try_to_get(const s_tag_resource* resource);
 extern int32 __cdecl tag_resources_lock_game();
 extern void __cdecl tag_resources_lock_render();
 extern bool __cdecl tag_resources_locked_for_current_thread_UGLY();
@@ -491,5 +491,5 @@ struct s_resource_file_header
 };
 static_assert(sizeof(s_resource_file_header) == 0x10);
 
-extern c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_file_headers;
+extern c_static_sized_dynamic_array<const s_resource_file_header*, 1024> g_resource_file_headers;
 

@@ -4,7 +4,7 @@
 #include "hs/hs_scenario_definitions.hpp"
 #include "units/unit_definition.hpp"
 
-bool hs_get_unit_seats_from_substring(int32 unit_definition_index, char const* seat_substring, c_static_flags<64>* out_unit_seats)
+bool hs_get_unit_seats_from_substring(int32 unit_definition_index, const char* seat_substring, c_static_flags<64>* out_unit_seats)
 {
 	ASSERT(seat_substring);
 	ASSERT(out_unit_seats);
@@ -27,7 +27,7 @@ bool hs_get_unit_seats_from_substring(int32 unit_definition_index, char const* s
 	return false;
 }
 
-bool hs_unit_seat_mappings_match(s_hs_unit_seat_mapping const& a, s_hs_unit_seat_mapping const& b)
+bool hs_unit_seat_mappings_match(const s_hs_unit_seat_mapping& a, const s_hs_unit_seat_mapping& b)
 {
 	return csmemcmp(&a, &b, sizeof(s_hs_unit_seat_mapping)) == 0;
 }

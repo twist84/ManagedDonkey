@@ -77,14 +77,14 @@ bool __thiscall c_gui_custom_bitmap_storage_item::initialize_raw(int32 width, in
 	return false;
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(const char* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B20490, c_gui_custom_bitmap_storage_item, load_from_buffer, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 
 	return load_from_file_or_buffer(NULL, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 }
 
-bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(char const* filename, char const* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(const char* filename, const char* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, load_from_file_or_buffer, filename, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 
@@ -244,11 +244,11 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 	return &g_gui_custom_bitmap_storage_manager;
 }
 
-c_gui_custom_bitmap_storage_item const* c_gui_custom_bitmap_storage_manager::get_bitmap(int32 bitmap_storage_index)
+const c_gui_custom_bitmap_storage_item* c_gui_custom_bitmap_storage_manager::get_bitmap(int32 bitmap_storage_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE52F0, c_gui_custom_bitmap_storage_manager, get_bitmap, bitmap_storage_index);
 
-	c_gui_custom_bitmap_storage_item const* storage_item = NULL;
+	const c_gui_custom_bitmap_storage_item* storage_item = NULL;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
@@ -286,7 +286,7 @@ void c_gui_custom_bitmap_storage_manager::initialize_for_new_map()
 	//}
 }
 
-bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_storage_index, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
+bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_storage_index, const char* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE5440, c_gui_custom_bitmap_storage_manager, load_bitmap_from_buffer, bitmap_storage_index, buffer, buffer_length, aspect_ratio);
 

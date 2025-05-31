@@ -37,14 +37,14 @@
 //.text:01494E50 ; 
 //.text:01494E90 ; 
 //.text:01494ED0 ; void __cdecl spawner_initialize_creature(int16, int32)
-//.text:01494FA0 ; void __cdecl swarm_accelerate(int32, real_vector3d const*)
+//.text:01494FA0 ; void __cdecl swarm_accelerate(int32, const real_vector3d*)
 //.text:01495020 ; bool __cdecl swarm_action_execute_command_script(int32, int32, real_vector3d*, real_vector3d*)
 //.text:01495120 ; bool __cdecl swarm_add_creature(int32, int32)
-//.text:014951D0 ; int32 __cdecl swarm_create_creature(int32, int32, actor_spawn_definition const*, bool)
+//.text:014951D0 ; int32 __cdecl swarm_create_creature(int32, int32, const actor_spawn_definition*, bool)
 //.text:01495660 ; bool __cdecl swarm_creature_aim_jump(int32, real_vector3d*)
 //.text:014956C0 ; void __cdecl swarm_creature_control(int32)
 //.text:014957B0 ; void __cdecl swarm_creature_handle_action_finished(int32, int32, int32)
-//.text:01495910 ; bool __cdecl swarm_creature_infect(int32, int32, object_marker const*, real_vector3d const*)
+//.text:01495910 ; bool __cdecl swarm_creature_infect(int32, int32, const object_marker*, const real_vector3d*)
 
 void __cdecl swarm_creature_iterator_new(int32 swarm_index, swarm_creature_iterator* iterator)
 {
@@ -56,7 +56,7 @@ creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator* it
 	return INVOKE(0x01495BC0, swarm_creature_iterator_next, iterator);
 }
 
-//.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(int32, real32, real32, real_point3d const*, real_vector3d*)
+//.text:01495C20 ; bool __cdecl swarm_creature_moving_jump(int32, real32, real32, const real_point3d*, real_vector3d*)
 //.text:01495D20 ; void __cdecl swarm_creature_update(int32, int32)
 //.text:014968A0 ; void __cdecl swarm_creature_update_timers(int32, int32, swarm_creature_state*)
 
@@ -86,7 +86,7 @@ swarm_datum* __cdecl swarm_get(int32 swarm_index)
 //.text:01497000 ; void __cdecl swarm_movement_update(int32, int32)
 //.text:01497380 ; int16 __cdecl swarm_num_spawners_of_type(int32)
 //.text:014973C0 ; int32 __cdecl swarm_perception_creature_from_swarm(int32, actor_position_data*, int32)
-//.text:014974D0 ; bool __cdecl swarm_perception_find_sense_position(int32, real_point3d const*, actor_position_data*)
+//.text:014974D0 ; bool __cdecl swarm_perception_find_sense_position(int32, const real_point3d*, actor_position_data*)
 //.text:014975E0 ; 
 //.text:01497710 ; bool __cdecl swarm_remove_creature(int32, int32, bool, bool)
 //.text:01497870 ; void __cdecl swarm_set_team(int32, e_game_team)

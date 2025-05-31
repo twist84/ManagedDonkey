@@ -148,7 +148,7 @@ int32 c_player_render_camera_iterator::get_output_user_index() const
 	return m_output_user_index;
 }
 
-s_observer_result const* c_player_render_camera_iterator::get_observer_result() const
+const s_observer_result* c_player_render_camera_iterator::get_observer_result() const
 {
 	return m_current_observer_result;
 }
@@ -325,7 +325,7 @@ void __cdecl main_render_game()
 			c_player_view* player_view = c_player_view::get_current(view_index);
 
 			int32 user_index = NONE;
-			s_observer_result const* observer_result = NULL;
+			const s_observer_result* observer_result = NULL;
 			if (iterator.next())
 			{
 				user_index = iterator.get_output_user_index();
@@ -736,7 +736,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		c_font_cache_mt_safe font_cache;
 		c_rasterizer_draw_string draw_string;
 
-		wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
+		const wchar_t* spinner_states[] = { L"/", L"-", L"\\" };
 		int32 spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
 		status.print(L"Establishing connection... %s|n(please do not turn off your Xbox 360)|n|n%S",
 			spinner_states[spinner_state_index],
@@ -768,7 +768,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 	game_engine_render_frame_watermarks_for_controller(_controller0);
 }
 
-void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* pregame_frame_text)
+void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, const char* pregame_frame_text)
 {
 	//INVOKE(0x00604860, main_render_pregame, pregame_frame_type, pregame_frame_text);
 
@@ -883,7 +883,7 @@ void __cdecl main_render_start_blocking_frame()
 	//g_main_render_block_watch.start();
 }
 
-void __cdecl main_render_status_message(wchar_t const* loading_status)
+void __cdecl main_render_status_message(const wchar_t* loading_status)
 {
 	INVOKE(0x00604AF0, main_render_status_message, loading_status);
 }

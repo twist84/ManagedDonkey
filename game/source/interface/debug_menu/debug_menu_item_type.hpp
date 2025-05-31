@@ -8,11 +8,11 @@ struct c_debug_menu_item_type :
 {
 public:
 	virtual ~c_debug_menu_item_type();
-	virtual void render(c_font_cache_base* font_cache, point2d const& position) override;
+	virtual void render(c_font_cache_base* font_cache, const point2d& position) override;
 	virtual void to_string(char* buffer, int32 buffer_size);
-	virtual void render_value(c_font_cache_base* font_cache, point2d const& position);
+	virtual void render_value(c_font_cache_base* font_cache, const point2d& position);
 
-	c_debug_menu_item_type(c_debug_menu* menu, char const* name, bool readonly);
+	c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly);
 
 	bool get_readonly();
 
@@ -32,7 +32,7 @@ protected:
 	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
-	c_debug_menu_item_type_bool(c_debug_menu* menu, char const* name, bool readonly, char const* variable);
+	c_debug_menu_item_type_bool(c_debug_menu* menu, const char* name, bool readonly, const char* variable);
 
 protected:
 	c_debug_menu_value_hs_global_external<bool> m_value;
@@ -50,7 +50,7 @@ protected:
 	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
-	c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real32 min, real32 max, real32 inc);
+	c_debug_menu_item_type_real(c_debug_menu* menu, const char* name, bool readonly, const char* variable, real32 min, real32 max, real32 inc);
 
 protected:
 	c_debug_menu_value_hs_global_external<real32> m_value;
@@ -71,7 +71,7 @@ protected:
 	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
-	c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int16 min, int16 max, int16 inc);
+	c_debug_menu_item_type_short(c_debug_menu* menu, const char* name, bool readonly, const char* variable, int16 min, int16 max, int16 inc);
 
 protected:
 	c_debug_menu_value_hs_global_external<int16> m_value;
@@ -92,7 +92,7 @@ protected:
 	virtual void to_string(char* buffer, int32 buffer_size) override;
 
 public:
-	c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int32 min, int32 max, int32 inc);
+	c_debug_menu_item_type_long(c_debug_menu* menu, const char* name, bool readonly, const char* variable, int32 min, int32 max, int32 inc);
 
 protected:
 	c_debug_menu_value_hs_global_external<int32> m_value;

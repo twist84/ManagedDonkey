@@ -31,8 +31,8 @@ public:
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
-	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);
-	static void __cdecl compute_cluster_weights(s_cluster_reference cluster_reference, real_point3d const* point);
+	static void __cdecl change_pvs(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local);
+	static void __cdecl compute_cluster_weights(s_cluster_reference cluster_reference, const real_point3d* point);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);

@@ -76,20 +76,20 @@ struct c_simulation_player
 };
 static_assert(sizeof(c_simulation_player) == 0xB0);
 
-extern void __cdecl simulation_player_collection_apply_update(s_player_collection* collection, simulation_player_update const* player_update);
+extern void __cdecl simulation_player_collection_apply_update(s_player_collection* collection, const simulation_player_update* player_update);
 extern void __cdecl simulation_player_collection_build(s_player_collection* collection);
 extern void __cdecl simulation_player_collection_clear(s_player_collection* collection);
-extern uns32 __cdecl simulation_player_collection_get_in_game_mask(s_player_collection const* collection);
-extern void __cdecl simulation_player_collection_verify(s_player_collection const* collection);
-extern bool __cdecl simulation_player_update_apply_added(simulation_player_update const* player_update);
-extern bool __cdecl simulation_player_update_apply_configuration(simulation_player_update const* player_update);
-extern bool __cdecl simulation_player_update_apply_left_game(simulation_player_update const* player_update);
-extern bool __cdecl simulation_player_update_apply_remove(simulation_player_update const* player_update);
-extern bool __cdecl simulation_player_update_apply_swap(simulation_player_update const* player_update);
-extern void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress);
-extern void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_player_configuration const* player_data);
-extern void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier);
+extern uns32 __cdecl simulation_player_collection_get_in_game_mask(const s_player_collection* collection);
+extern void __cdecl simulation_player_collection_verify(const s_player_collection* collection);
+extern bool __cdecl simulation_player_update_apply_added(const simulation_player_update* player_update);
+extern bool __cdecl simulation_player_update_apply_configuration(const simulation_player_update* player_update);
+extern bool __cdecl simulation_player_update_apply_left_game(const simulation_player_update* player_update);
+extern bool __cdecl simulation_player_update_apply_remove(const simulation_player_update* player_update);
+extern bool __cdecl simulation_player_update_apply_swap(const simulation_player_update* player_update);
+extern void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier, const s_machine_identifier* machine_identifier, const s_player_configuration* player_data, bool joined_in_progress);
+extern void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier, const s_player_configuration* player_data);
+extern void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier);
 extern void __cdecl simulation_player_update_generate_remove(simulation_player_update* player_update, s_player_collection* players, int32 player_index);
 extern void __cdecl simulation_player_update_generate_swap(simulation_player_update* player_update, s_player_collection* players, int32 player_index, int32 swap_player_index);
-extern bool __cdecl simulation_players_apply_update(simulation_player_update const* player_update);
+extern bool __cdecl simulation_players_apply_update(const simulation_player_update* player_update);
 

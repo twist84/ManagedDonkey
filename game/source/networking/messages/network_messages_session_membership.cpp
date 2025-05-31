@@ -50,13 +50,19 @@ bool __cdecl c_network_message_player_properties::decode(c_bitstream* packet, in
 		message->player_data.host_partial.bungienet_user.set_unsafe((uns8)packet->read_integer("bungienet-user-flags", 8));
 
 		for (int32 color_index = 0; color_index < k_color_type_count; color_index++)
+		{
 			message->player_data.host_partial.colors[color_index].value = packet->read_integer("color", 32);
+		}
 
 		for (int32 armor_index = 0; armor_index < k_armor_type_count; armor_index++)
+		{
 			message->player_data.host_partial.armors[armor_index] = static_cast<uns8>(packet->read_integer("armor", 8));
+		}
 
 		for (int32 consumable_index = 0; consumable_index < 4; consumable_index++)
+		{
 			message->player_data.host_partial.consumables[consumable_index] = static_cast<int8>(packet->read_integer("consumable", 8));
+		}
 
 		message->player_data.host_partial.emblem.decode(packet);
 	}
@@ -76,36 +82,36 @@ bool __cdecl c_network_message_player_remove::decode(c_bitstream* packet, int32 
 	return INVOKE(0x004DE210, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_boot_machine::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_boot_machine::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DE240, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_delegate_leadership::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_delegate_leadership::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DE2C0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_membership_update::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_membership_update::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DE2F0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_peer_properties::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_peer_properties::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DF5D0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_player_add::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_player_add::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DFBB0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	//INVOKE(0x004DFCB0, encode, packet, message_storage_size, message_storage);
 
-	s_network_message_player_properties const* message = static_cast<s_network_message_player_properties const*>(message_storage);
+	const s_network_message_player_properties* message = (const s_network_message_player_properties*)message_storage;
 
 	packet->write_raw_data("session-id", &message->session_id, 128);
 	packet->write_integer("player-update-number", message->player_update_number, 32);
@@ -118,13 +124,19 @@ void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, in
 		packet->write_integer("bungienet-user-flags", message->player_data.host_partial.bungienet_user.get_unsafe(), 8);
 
 		for (int32 color_index = 0; color_index < k_color_type_count; color_index++)
+		{
 			packet->write_integer("color", message->player_data.host_partial.colors[color_index].value, 32);
+		}
 
 		for (int32 armor_index = 0; armor_index < k_armor_type_count; armor_index++)
+		{
 			packet->write_integer("armor", message->player_data.host_partial.armors[armor_index], 8);
+		}
 
 		for (int32 consumable_index = 0; consumable_index < 4; consumable_index++)
+		{
 			packet->write_integer("consumable", message->player_data.host_partial.consumables[consumable_index], 8);
+		}
 
 		message->player_data.host_partial.emblem.encode_const(packet);
 	}
@@ -132,12 +144,12 @@ void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, in
 	packet->write_integer("player-voice", message->player_voice_settings, 32);
 }
 
-void __cdecl c_network_message_player_refuse::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_player_refuse::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DFDA0, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_player_remove::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_player_remove::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DFE10, encode, packet, message_storage_size, message_storage);
 }

@@ -10,7 +10,7 @@
 
 HOOK_DECLARE(0x01457200, actor_stimulus_prop_acknowledged);
 
-char const* const g_stimulus_names[k_stimulus_count]
+const char* const g_stimulus_names[k_stimulus_count]
 {
 	"surprise",
 	"surprise_combat_start",
@@ -45,8 +45,8 @@ void __cdecl actor_stimulus_acknowledged_danger_zone(int32 actor_index, int32 pr
 //.text:01456A40 ; void __cdecl actor_stimulus_allegiance_update(int32, int32)
 //.text:01456B20 ; void __cdecl actor_stimulus_bumped(int32, int32)
 //.text:01456B30 ; bool __cdecl actor_stimulus_clear(int32, e_behavior_stimulus)
-//.text:01456BB0 ; void __cdecl actor_stimulus_damage(int32, int16, int32, int32, real32, real_vector3d const*)
-//.text:01456D30 ; void __cdecl actor_stimulus_environmental_noise(int32, int32, real_point3d const*, int16)
+//.text:01456BB0 ; void __cdecl actor_stimulus_damage(int32, int16, int32, int32, real32, const real_vector3d*)
+//.text:01456D30 ; void __cdecl actor_stimulus_environmental_noise(int32, int32, const real_point3d*, int16)
 //.text:01456DC0 ; void __cdecl actor_stimulus_friend_body_sighted(int32, int32)
 //.text:01456FA0 ; void __cdecl actor_stimulus_heard_shooting(int32, int32, int32)
 
@@ -100,7 +100,7 @@ void __cdecl actor_stimulus_prop_sighted(int32 actor_index, int32 pref_index, bo
 
 //.text:014575E0 ; void __cdecl actor_stimulus_prop_sound(int32, int32, bool)
 
-void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, int32 prop_index, real_vector3d const* surprise_vector)
+void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, int32 prop_index, const real_vector3d* surprise_vector)
 {
 	INVOKE(0x01457620, actor_stimulus_surprise, actor_index, surprise_level, prop_index, surprise_vector);
 }
@@ -109,8 +109,8 @@ void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, in
 //.text:01457900 ; bool __cdecl actor_stimulus_test(int32, e_behavior_stimulus)
 //.text:01457950 ; void __cdecl actor_stimulus_tracking_or_locking(int32, int32, int16)
 //.text:01457BB0 ; void __cdecl actor_stimulus_vehicle_eviction(int32, int32)
-//.text:01457CB0 ; void __cdecl actor_stimulus_weapon_detonation(int32, int32, real_point3d const*, int16)
-//.text:01457CE0 ; void __cdecl actor_stimulus_weapon_impact(int32, int32, real_point3d const*, int16)
+//.text:01457CB0 ; void __cdecl actor_stimulus_weapon_detonation(int32, int32, const real_point3d*, int16)
+//.text:01457CE0 ; void __cdecl actor_stimulus_weapon_impact(int32, int32, const real_point3d*, int16)
 //.text:01457CF0 ; 
 //.text:01457D00 ; void __cdecl stimulus_clear(actor_datum*, behavior_stimulus*)
 

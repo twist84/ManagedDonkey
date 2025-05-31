@@ -20,7 +20,7 @@ void c_game_engine_ctf_variant::byteswap()
 	ASSERT(array_is_zeroed(m_pad1));
 }
 
-void c_game_engine_ctf_variant::set(c_game_engine_ctf_variant const* variant, bool force)
+void c_game_engine_ctf_variant::set(const c_game_engine_ctf_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
@@ -40,7 +40,7 @@ void c_game_engine_ctf_variant::set(c_game_engine_ctf_variant const* variant, bo
 	zero_array(m_pad1);
 }
 
-//void c_game_engine_ctf_variant::set(s_game_engine_ctf_variant_definition const* definition, bool force)
+//void c_game_engine_ctf_variant::set(const s_game_engine_ctf_variant_definition* definition, bool force)
 //{
 //}
 
@@ -231,12 +231,12 @@ c_player_traits* c_game_engine_ctf_variant::get_carrier_traits_writeable()
 	return &m_carrier_traits;
 }
 
-c_player_traits const* c_game_engine_ctf_variant::get_carrier_traits() const
+const c_player_traits* c_game_engine_ctf_variant::get_carrier_traits() const
 {
 	return &m_carrier_traits;
 }
 
-void c_game_engine_ctf_variant::set_carrier_traits(c_player_traits const* traits, bool force)
+void c_game_engine_ctf_variant::set_carrier_traits(const c_player_traits* traits, bool force)
 {
 	m_carrier_traits.set(traits, force);
 }

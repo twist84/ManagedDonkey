@@ -110,30 +110,30 @@ struct c_gui_scoreboard_data :
 	};
 	static_assert(sizeof(s_player_row) == 0x868);
 
-	using scoreboard_sort_proc_t = int __cdecl(void const*, void const*);
+	using scoreboard_sort_proc_t = int __cdecl(const void*, const void*);
 
 	bool __cdecl add_player_internal(
 		e_player_row_type player_row_type,
 		int32 game_player_index,
 		int32 session_player_index,
-		s_player_appearance const* appearance,
-		wchar_t const* player_name,
-		wchar_t const* service_tag,
+		const s_player_appearance* appearance,
+		const wchar_t* player_name,
+		const wchar_t* service_tag,
 		int32 base_color_index,
 		int32 team_index,
 		bool show_team,
 		e_controller_index controller_index,
 		e_voice_talking_state voice_state,
 		int32 connectivity_rating,
-		wchar_t const* place,
-		wchar_t const* score,
-		wchar_t const* round_score,
+		const wchar_t* place,
+		const wchar_t* score,
+		const wchar_t* round_score,
 		bool is_dead,
 		bool left_game);
 
 	void __thiscall update_for_scoreboard_mode_(bool use_session, bool include_score);
-	static int __cdecl scoreboard_sort_proc_for_multiplayer(void const* a, void const* b);
-	static int __cdecl scoreboard_sort_proc_for_session(void const* a, void const* b);
+	static int __cdecl scoreboard_sort_proc_for_multiplayer(const void* a, const void* b);
+	static int __cdecl scoreboard_sort_proc_for_session(const void* a, const void* b);
 
 //protected:
 	int32 m_current_scoreboard_mode;

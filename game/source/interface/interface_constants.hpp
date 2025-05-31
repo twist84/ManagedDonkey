@@ -22,9 +22,9 @@ extern real_point3d* __cdecl interface_get_render_camera_position(real_point3d* 
 extern real_vector3d* __cdecl interface_get_render_camera_up(real_vector3d* up);
 extern bool __cdecl interface_is_hi_rez_split_screen();
 extern bool __cdecl interface_is_split_screen();
-extern void __cdecl interface_scale_points_for_xenon_scaler(point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale);
-extern void __cdecl interface_scale_points_for_xenon_scaler(real_point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale);
-extern void __cdecl interface_scale_real_rectangle2d_for_xenon_scaler(real_rectangle2d* rectangle, real_vector2d const* aspect_ratio_scale);
-extern void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle, real_vector2d const* aspect_ratio_scale);
-extern void __cdecl interface_scale_screenspace_vertices_for_xenon_scaler(rasterizer_vertex_screen* vertices, int32 vertex_count, real_vector2d const* aspect_ratio_scale);
+extern void __cdecl interface_scale_points_for_xenon_scaler(point2d* points, int32 point_count, const real_vector2d* aspect_ratio_scale);
+extern void __cdecl interface_scale_points_for_xenon_scaler(real_point2d* points, int32 point_count, const real_vector2d* aspect_ratio_scale);
+extern void __cdecl interface_scale_real_rectangle2d_for_xenon_scaler(real_rectangle2d* rectangle, const real_vector2d* aspect_ratio_scale);
+extern void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle, const real_vector2d* aspect_ratio_scale);
+extern void __cdecl interface_scale_screenspace_vertices_for_xenon_scaler(rasterizer_vertex_screen* vertices, int32 vertex_count, const real_vector2d* aspect_ratio_scale);
 

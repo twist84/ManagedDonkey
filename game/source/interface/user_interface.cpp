@@ -166,8 +166,8 @@ void __cdecl user_interface_non_idle_event_occured()
 //.text:00A84990 ; 
 //.text:00A849A0 ; 
 
-//void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, rectangle2d const* viewport_bounds, c_rasterizer::e_surface rasterizer_render_surface, bool is_screenshot)
-void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, rectangle2d const* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot)
+//void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, const rectangle2d* viewport_bounds, c_rasterizer::e_surface rasterizer_render_surface, bool is_screenshot)
+void __cdecl user_interface_render(e_controller_index controller, int32 user_index, e_window_index window, const rectangle2d* viewport_bounds, int32 rasterizer_render_surface, bool is_screenshot)
 {
 	//INVOKE(0x00A849B0, user_interface_render, controller, user_index, window, viewport_bounds, rasterizer_render_surface, is_screenshot);
 
@@ -241,7 +241,7 @@ void __cdecl user_interface_render_end()
 	//INVOKE(0x00A84B70, user_interface_render_end);
 }
 
-void __cdecl user_interface_render_quad_in_viewport(rectangle2d const* viewport_bounds, uns32 color)
+void __cdecl user_interface_render_quad_in_viewport(const rectangle2d* viewport_bounds, uns32 color)
 {
 	//INVOKE(0x00A84B80, user_interface_render_quad_in_viewport, viewport_bounds, color);
 
@@ -250,7 +250,7 @@ void __cdecl user_interface_render_quad_in_viewport(rectangle2d const* viewport_
 	draw_quad(&rect, color);
 }
 
-void __cdecl user_interface_render_quad_in_window(rectangle2d const* bounds, uns32 color)
+void __cdecl user_interface_render_quad_in_window(const rectangle2d* bounds, uns32 color)
 {
 	//INVOKE(0x00A84BC0, user_interface_render_quad_in_window, bounds, color);
 
@@ -289,7 +289,7 @@ void __cdecl user_interface_set_reload_from_persistent_storage(e_controller_inde
 //.text:00A84CE0 ; void __cdecl user_interface_set_selected_campaign_map_id(e_map_id)
 //.text:00A84D00 ; void __cdecl user_interface_set_storage_device_selection_deferred(bool)
 
-s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get()
+const s_user_interface_shared_globals* user_interface_shared_tag_globals_try_and_get()
 {
 	return INVOKE(0x00A84D20, user_interface_shared_tag_globals_try_and_get);
 }
@@ -312,7 +312,7 @@ bool __cdecl user_interface_should_show_console_scoreboard(int32* user_interface
 //.text:00A84E40 ; void __cdecl user_interface_show_campaign_custom_music_warning_if_needed(bool*)
 //.text:00A84E50 ; void __cdecl user_interface_shut_down()
 
-s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get()
+const s_user_interface_tag_globals* __cdecl user_interface_tag_globals_try_and_get()
 {
 	return INVOKE(0x00A84E80, user_interface_tag_globals_try_and_get);
 }

@@ -74,8 +74,8 @@ struct c_game_engine_miscellaneous_options
 public:
 	void byteswap();
 
-	void set(c_game_engine_miscellaneous_options const* options, bool force);
-	//void set(s_game_engine_miscellaneous_options_definition const* definition, bool force);
+	void set(const c_game_engine_miscellaneous_options* options, bool force);
+	//void set(const s_game_engine_miscellaneous_options_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -114,8 +114,8 @@ struct c_game_engine_respawn_options
 public:
 	void byteswap();
 
-	void set(c_game_engine_respawn_options const* options, bool force);
-	//void set(s_game_engine_respawn_options_definition const* definition, bool force);
+	void set(const c_game_engine_respawn_options* options, bool force);
+	//void set(const s_game_engine_respawn_options_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -160,8 +160,8 @@ public:
 	void set_respawn_player_traits_duration_seconds(int32 respawn_player_traits_duration_seconds);
 
 	c_player_traits* get_respawn_player_traits_writeable();
-	c_player_traits const* get_respawn_player_traits() const;
-	void set_respawn_player_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_respawn_player_traits() const;
+	void set_respawn_player_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_game_engine_respawn_options_flags, uns8, k_game_engine_respawn_options_flags> m_flags;
@@ -186,8 +186,8 @@ struct c_game_engine_social_options
 public:
 	void byteswap();
 
-	void set(c_game_engine_social_options const* options, bool force);
-	//void set(s_game_engine_social_options_definition const* definition, bool force);
+	void set(const c_game_engine_social_options* options, bool force);
+	//void set(const s_game_engine_social_options_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -200,10 +200,10 @@ public:
 
 	bool get_enemy_voice_enabled() const;
 	void set_enemy_voice_enabled(bool enemy_voice_enabled);
-	
+
 	bool get_open_channel_voice_enabled() const;
 	void set_open_channel_voice_enabled(bool open_channel_voice_enabled);
-	
+
 	bool get_dead_player_voice_enabled() const;
 	void set_dead_player_voice_enabled(bool dead_player_voice_enabled);
 
@@ -233,8 +233,8 @@ struct c_game_engine_map_override_options
 public:
 	void byteswap();
 
-	void set(c_game_engine_map_override_options const* options, bool force);
-	//void set(s_game_engine_map_override_options_definition const* definition, bool force);
+	void set(const c_game_engine_map_override_options* options, bool force);
+	//void set(const s_game_engine_map_override_options_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -246,8 +246,8 @@ public:
 	void set_indestructible_vehicles_enabled(bool indestructible_vehicles_enabled);
 
 	c_player_traits* get_base_player_traits_writeable();
-	c_player_traits const* get_base_player_traits() const;
-	void set_base_player_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_base_player_traits() const;
+	void set_base_player_traits(const c_player_traits* traits, bool force);
 
 	int16 get_weapon_set_absolute_index() const;
 	void set_weapon_set_absolute_index(int16 weapon_set_absolute_index);
@@ -262,16 +262,16 @@ public:
 	void set_vehicle_set(int32 vehicle_set);
 
 	c_player_traits* get_red_powerup_traits_writeable();
-	c_player_traits const* get_red_powerup_traits() const;
-	void set_red_powerup_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_red_powerup_traits() const;
+	void set_red_powerup_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_blue_powerup_traits_writeable();
-	c_player_traits const* get_blue_powerup_traits() const;
-	void set_blue_powerup_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_blue_powerup_traits() const;
+	void set_blue_powerup_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_yellow_powerup_traits_writeable();
-	c_player_traits const* get_yellow_powerup_traits() const;
-	void set_yellow_powerup_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_yellow_powerup_traits() const;
+	void set_yellow_powerup_traits(const c_player_traits* traits, bool force);
 
 	uns8 get_red_powerup_duration_seconds() const;
 	void set_red_powerup_duration_seconds(uns8 red_powerup_duration_seconds);

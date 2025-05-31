@@ -19,7 +19,7 @@ void c_game_engine_slayer_variant::byteswap()
 	ASSERT(array_is_zeroed(m_pad1));
 }
 
-void c_game_engine_slayer_variant::set(c_game_engine_slayer_variant const* variant, bool force)
+void c_game_engine_slayer_variant::set(const c_game_engine_slayer_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
@@ -42,7 +42,7 @@ void c_game_engine_slayer_variant::set(c_game_engine_slayer_variant const* varia
 	set_leader_traits(get_leader_traits(), force);
 }
 
-//void c_game_engine_slayer_variant::set(s_game_engine_slayer_variant_definition const* definition, bool force)
+//void c_game_engine_slayer_variant::set(const s_game_engine_slayer_variant_definition* definition, bool force)
 //{
 //}
 
@@ -389,12 +389,12 @@ c_player_traits* c_game_engine_slayer_variant::get_leader_traits_writeable()
 	return &m_leader_traits;
 }
 
-c_player_traits const* c_game_engine_slayer_variant::get_leader_traits() const
+const c_player_traits* c_game_engine_slayer_variant::get_leader_traits() const
 {
 	return &m_leader_traits;
 }
 
-void c_game_engine_slayer_variant::set_leader_traits(c_player_traits const* traits, bool force)
+void c_game_engine_slayer_variant::set_leader_traits(const c_player_traits* traits, bool force)
 {
 	m_leader_traits.set(traits, force);
 }

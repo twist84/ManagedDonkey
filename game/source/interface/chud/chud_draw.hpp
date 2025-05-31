@@ -46,8 +46,8 @@ extern bool& chud_debug_crosshair;
 
 extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence);
 extern void __cdecl chud_debug_draw(int32 user_index);
-extern void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, real_argb_color const* color);
-extern void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, char const* label, real32 a4, real_argb_color const* color);
+extern void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, const real_argb_color* color);
+extern void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, const char* label, real32 a4, const real_argb_color* color);
 extern void __cdecl chud_debug_render();
 extern void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence);
 extern void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence);

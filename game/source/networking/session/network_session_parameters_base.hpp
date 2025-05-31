@@ -16,12 +16,12 @@ public:
 
 protected:
 	//c_network_session_parameter_base(void);
-	void initialize(e_network_session_parameter_type parameter_type, char const* parameter_type_description, e_parameter_update_priority update_priority, e_parameter_change_request_access change_request_access, c_network_session* session);
+	void initialize(e_network_session_parameter_type parameter_type, const char* parameter_type_description, e_parameter_update_priority update_priority, e_parameter_change_request_access change_request_access, c_network_session* session);
 	void build_update(int32 peer_index, s_network_session_parameter_update* update, int32 update_size) const;
-	bool handle_update(s_network_session_parameter_update const* update, int32 update_size);
+	bool handle_update(const s_network_session_parameter_update* update, int32 update_size);
 	int32 get_update_size(void) const;
 	void build_change_request(int32 peer_index, void* payload, int32 payload_size) const;
-	bool handle_change_request(void const* change_request, int32 change_request_size);
+	bool handle_change_request(const void* change_request, int32 change_request_size);
 	int32 get_change_request_size(void) const;
 	bool peer_requires_update(int32 peer_index) const;
 	e_parameter_update_priority get_update_priority(void) const;
@@ -36,7 +36,7 @@ protected:
 	void reset_peer_state(int32 peer_index);
 	void transition_state_to_become_host(void);
 
-	//virtual void validate_buffer(int32 size, void const* original, void* temporary, void* buffer);
+	//virtual void validate_buffer(int32 size, const void* original, void* temporary, void* buffer);
 	virtual void notify_set_update_required(void);
 	virtual void notify_set_change_request(void);
 	virtual void notify_update_payload_sent_to_peer(int32 peer_index);
@@ -63,7 +63,7 @@ public:
 
 protected:
 	e_network_session_parameter_type m_parameter_type;
-	char const* m_parameter_type_description;
+	const char* m_parameter_type_description;
 	c_network_session* m_session;
 
 private:

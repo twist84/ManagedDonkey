@@ -47,16 +47,16 @@ public:
 	static int32 __cdecl get_current_stack_level();
 	static c_view* __cdecl top();
 
-	render_camera const* get_render_camera() const;
+	const render_camera* get_render_camera() const;
 	render_camera* get_render_camera_modifiable();
 
-	render_camera const* get_rasterizer_camera() const;
+	const render_camera* get_rasterizer_camera() const;
 	render_camera* get_rasterizer_camera_modifiable();
 
-	render_projection const* get_rasterizer_projection() const;
+	const render_projection* get_rasterizer_projection() const;
 	render_projection* get_rasterizer_projection_modifiable();
 
-	render_projection const* get_render_projection() const;
+	const render_projection* get_render_projection() const;
 	render_projection* get_render_projection_modifiable();
 
 protected:
@@ -85,7 +85,7 @@ public:
 
 	void __thiscall render_();
 
-	void setup_camera(s_observer_result const* result, c_rasterizer::e_surface surface);
+	void setup_camera(const s_observer_result* result, c_rasterizer::e_surface surface);
 
 	bool m_is_screenshot;
 	c_rasterizer::e_surface m_render_surface;
@@ -106,8 +106,8 @@ public:
 	void __thiscall render_();
 	static void render_debug_stuff_while_loading();
 
-	void setup_camera(s_observer_result const* observer);
-	void render_blank_frame(real_rgb_color const* background_color);
+	void setup_camera(const s_observer_result* observer);
+	void render_blank_frame(const real_rgb_color* background_color);
 };
 static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 
@@ -286,7 +286,7 @@ public:
 	void __thiscall render_water();
 	void __thiscall render_weather_occlusion();
 	void restore_to_display_surface();
-	void setup_camera(int32 player_window_index, int32 player_window_count, int32 player_window_arrangement, int32 user_index, s_observer_result const* observer, bool freeze_render_camera);
+	void setup_camera(int32 player_window_index, int32 player_window_count, int32 player_window_arrangement, int32 user_index, const s_observer_result* observer, bool freeze_render_camera);
 	void __thiscall setup_camera_fx_parameters(real32 exposure_boost);
 	void __thiscall setup_cinematic_clip_planes();
 	void __thiscall submit_attachments();
@@ -342,7 +342,7 @@ struct c_hud_camera_view :
 public:
 	c_hud_camera_view* constructor();
 
-	void render(int32 player_index, c_player_view const* player_view, void* data);
+	void render(int32 player_index, const c_player_view* player_view, void* data);
 };
 static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 

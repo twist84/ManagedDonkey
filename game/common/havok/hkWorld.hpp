@@ -285,7 +285,7 @@ struct hkAction :
 	hkWorld* m_world;
 	hkSimulationIsland* m_island;
 	unsigned int m_userData;
-	char const* m_name;
+	const char* m_name;
 };
 static_assert(sizeof(hkAction) == 0x18);
 

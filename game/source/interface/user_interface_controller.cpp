@@ -19,7 +19,7 @@ HOOK_DECLARE(0x00A94BD0, user_interface_controller_reset);
 HOOK_DECLARE(0x00A95170, user_interface_controller_update_network_properties);
 
 //.text:00A934C0 ; bool __cdecl dpad_button_tabbed(bool, uns8, uns16)
-//.text:00A93500 ; void __cdecl event_manager_alt_stick_depressed(e_controller_index, point2d const*, e_controller_component)
+//.text:00A93500 ; void __cdecl event_manager_alt_stick_depressed(e_controller_index, const point2d*, e_controller_component)
 
 void __cdecl event_manager_button_pressed(e_controller_index controller_index, uns8 button)
 {
@@ -73,12 +73,12 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, u
 	user_interface_controller_input_event_submit(&event);
 }
 
-void __cdecl event_manager_tab_fix_for_double_press(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uns32 now, e_controller_component component)
+void __cdecl event_manager_tab_fix_for_double_press(int32 gamepad_stick, e_controller_index controller_index, const point2d* vector, uns32 now, e_controller_component component)
 {
 }
 HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab_fix_for_double_press);
 
-void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, point2d const* vector, uns32 now, e_controller_component component)
+void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, const point2d* vector, uns32 now, e_controller_component component)
 {
 	INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, vector, now, component);
 }
@@ -149,7 +149,7 @@ bool __cdecl user_interface_controller_get_player_configuration(e_controller_ind
 	return INVOKE(0x00A946A0, user_interface_controller_get_player_configuration, controller_index, player_identifier, player_data);
 }
 
-//.text:00A94780 ; wchar_t const* __cdecl user_interface_controller_get_player_profile_name(e_controller_index)
+//.text:00A94780 ; const wchar_t* __cdecl user_interface_controller_get_player_profile_name(e_controller_index)
 //.text:00A947C0 ; user_interface_controller_get_? // offset 0x6
 //.text:00A947E0 ; bool __cdecl user_interface_controller_get_rumble_enabled(e_controller_index)
 //.text:00A947F0 ; int16 __cdecl user_interface_controller_get_signed_in_controller_count()
@@ -232,7 +232,7 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 {
 	//INVOKE(0x00A95170, user_interface_controller_update_network_properties, controller_index);
 
-	c_controller_interface const* controller_interface = controller_get(controller_index);
+	const c_controller_interface* controller_interface = controller_get(controller_index);
 	int16 user_index = controller_interface->get_user_index();
 	if (user_index != NONE && network_session_interface_local_user_exists(user_index))
 	{

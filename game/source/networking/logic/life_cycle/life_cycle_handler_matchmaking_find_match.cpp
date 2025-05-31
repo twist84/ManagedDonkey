@@ -12,7 +12,7 @@ c_life_cycle_state_handler_matchmaking_find_match::c_life_cycle_state_handler_ma
 	//DECLFUNC(0x00454010, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*)(this);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_find_match::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_find_match::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454760, c_life_cycle_state_handler_matchmaking_find_match, get_state_string);
 

@@ -10,9 +10,9 @@
 bool g_suppress_upload_debug = false;
 _g_upload_debug_globals g_upload_debug_globals{};
 
-char const* const k_crash_file_archive = "crash_report\\crash_file_archive.zip";
+const char* const k_crash_file_archive = "crash_report\\crash_file_archive.zip";
 
-c_file_reference::c_file_reference(char const* path, uns32 flags)
+c_file_reference::c_file_reference(const char* path, uns32 flags)
 {
 	ASSERT(path);
 
@@ -22,7 +22,7 @@ c_file_reference::c_file_reference(char const* path, uns32 flags)
 	m_is_open = find_or_create(flags) && file_open(this, flags, &error);
 }
 
-c_file_reference::c_file_reference(s_file_reference const* file, uns32 flags)
+c_file_reference::c_file_reference(const s_file_reference* file, uns32 flags)
 {
 	file_reference_create(this, NONE);
 	file_reference_copy(this, file);

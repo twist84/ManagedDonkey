@@ -176,7 +176,7 @@ static_assert(sizeof(c_exposure) == 0x10C);
 struct c_camera_fx_values
 {
 public:
-	void set(c_camera_fx_settings const* settings);
+	void set(const c_camera_fx_settings* settings);
 
 public:
 	static real32& g_HDR_target_stops;

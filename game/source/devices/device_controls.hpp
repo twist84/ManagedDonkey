@@ -33,7 +33,7 @@ struct s_scenario_control;
 
 extern void __cdecl control_destroyed(int32 control_index);
 extern int32 __cdecl control_get_action_string(int32 control_index);
-extern void __cdecl control_place(int32 control_index, s_scenario_control const* scenario_control);
+extern void __cdecl control_place(int32 control_index, const s_scenario_control* scenario_control);
 extern void __cdecl control_toggle(int32 control_index);
 extern void __cdecl control_touched(int32 control_index, int32 unit_index);
 

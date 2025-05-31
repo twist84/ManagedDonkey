@@ -186,7 +186,7 @@ struct s_multiplayer_object_properties_definition
 };
 static_assert(sizeof(s_multiplayer_object_properties_definition) == 0xC4);
 
-extern void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_boundary_geometry_data const* geometry_data, real_argb_color const* color);
+extern void __cdecl multiplayer_object_render_debug_boundary(const s_multiplayer_object_boundary_geometry_data* geometry_data, const real_argb_color* color);
 
 extern void debug_multiplayer_object_boundary_geometry(bool should_debug);
 

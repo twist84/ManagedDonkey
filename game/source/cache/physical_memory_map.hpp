@@ -71,14 +71,14 @@ static_assert(sizeof(s_physical_memory_globals) == 0xB4);
 extern s_physical_memory_globals& physical_memory_globals;
 extern uns32 g_physical_memory_data_size_increase_mb;
 extern uns32 g_physical_memory_cache_size_increase_mb;
-extern char const* const k_physical_memory_stage_names[];
+extern const char* const k_physical_memory_stage_names[];
 
-extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, int32 size, uns32 flags);
+extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, const char* name, int32 size, uns32 flags);
 extern uns32 align_up(uns32 value, int32 alignment_bits);
 extern void __cdecl physical_memory_adjust_resize_region(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b);
 extern bool __cdecl physical_memory_can_allocate_fixed_allocations();
 extern void __cdecl physical_memory_create_resizeable_contiguous_region(c_physical_memory_contiguous_region_listener* resize_region_listener);
-extern void __cdecl physical_memory_destroy_resizeable_contiguous_region(c_physical_memory_contiguous_region_listener const* resize_region_listener);
+extern void __cdecl physical_memory_destroy_resizeable_contiguous_region(const c_physical_memory_contiguous_region_listener* resize_region_listener);
 extern void __cdecl physical_memory_dispose();
 extern void __cdecl physical_memory_free(void* memory);
 extern uns32 __cdecl physical_memory_get_broken_memory_offset();
@@ -98,5 +98,5 @@ extern void __cdecl physical_memory_stage_push(memory_stage stage);
 extern void __cdecl physical_memory_system_free(void* address);
 extern void* __cdecl physical_memory_system_malloc(uns32 size, void* address);
 extern bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, uns32 minimum_new_size, c_basic_buffer<void>* out_new_region);
-extern bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, uns32 in_region_size, uns32 minimum_new_size, uns32 requested_size, uns32 a6, void** out_new_base_address, uns32* out_new_region_size);
+extern bool __cdecl physical_memory_try_to_resize_contiguous_region(const c_physical_memory_contiguous_region_listener* region_listener, void* in_region_buffer, uns32 in_region_size, uns32 minimum_new_size, uns32 requested_size, uns32 a6, void** out_new_base_address, uns32* out_new_region_size);
 

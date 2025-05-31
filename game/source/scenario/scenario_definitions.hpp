@@ -789,5 +789,5 @@ struct scenario_decal_palette_entry
 };
 static_assert(sizeof(scenario_decal_palette_entry) == sizeof(s_tag_reference));
 
-extern int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(struct scenario const* scenario, string_id name);
+extern int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(const struct scenario* scenario, string_id name);
 

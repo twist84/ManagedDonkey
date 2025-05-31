@@ -381,7 +381,7 @@ extern void __cdecl unit_add_starting_profile_equipment(int32 unit_index, int16 
 extern bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, int32 weapon_addition_method);
 extern bool __cdecl unit_can_access_object(int32 unit_index, int32 object_index);
 extern bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index);
-extern void __cdecl unit_control(int32 unit_index, unit_control_data const* control_data);
+extern void __cdecl unit_control(int32 unit_index, const unit_control_data* control_data);
 extern void __cdecl unit_debug_ninja_rope(int32 unit_index);
 extern bool __cdecl unit_get_acceleration_origin_and_data(int32 unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data);
 extern int32 __cdecl unit_get_active_primary_weapon(int32 unit_index, int32* parent_unit_index);
@@ -399,7 +399,7 @@ extern bool __cdecl unit_has_weapon_definition_index(int32 unit_index, int32 wea
 extern int32 __cdecl unit_inventory_get_weapon(int32 unit_index, int16 inventory_index);
 extern void __cdecl unit_render_debug(int32 unit_index);
 extern bool __cdecl unit_try_to_drop_weapon(int32 unit_index, bool drop_secondary);
-extern bool __cdecl unit_unsuspecting(int32 unit_index, real_point3d const* attacker_position, real_vector3d const* attacker_direction);
+extern bool __cdecl unit_unsuspecting(int32 unit_index, const real_point3d* attacker_position, const real_vector3d* attacker_direction);
 extern void __cdecl unit_unzoom(int32 unit_index, bool a2);
 extern bool __cdecl unit_update(int32 unit_index);
 extern void __cdecl unit_update_active_camouflage(int32 unit_index);

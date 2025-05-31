@@ -19,13 +19,13 @@ struct c_collision_bsp_reference :
 {
 public:
 	c_collision_bsp_reference();
-	c_collision_bsp_reference(structure_bsp const* bsp);
+	c_collision_bsp_reference(const structure_bsp* bsp);
 
-	void initialize(s_structure_bsp_resources const* bsp_resources);
+	void initialize(const s_structure_bsp_resources* bsp_resources);
 	bool valid() const;
 	bool is_small() const;
-	collision_bsp const* get_small_bsp() const;
-	large_collision_bsp const* get_large_bsp() const;
+	const collision_bsp* get_small_bsp() const;
+	const large_collision_bsp* get_large_bsp() const;
 	int32 get_leaf_count() const;
 	int32 get_bsp2d_reference_count() const;
 	int32 get_bsp2d_node_count() const;

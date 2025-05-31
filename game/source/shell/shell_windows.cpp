@@ -326,7 +326,7 @@ char* __cdecl shell_get_command_line()
 	return g_windows_params.cmd_line;
 }
 
-bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, int32* value, int32 default_value)
+bool shell_get_command_line_parameter(char* command_line, const char* parameter_name, int32* value, int32 default_value)
 {
 	if (!command_line)
 		return false;
@@ -525,7 +525,7 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	return 0;
 }
 
-char const* __cdecl sub_5013A0()
+const char* __cdecl sub_5013A0()
 {
 	return INVOKE(0x005013A0, sub_5013A0);
 
@@ -550,7 +550,7 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	};
 
 	int16 key_code = NONE;
-	uns8 const* key_table = NULL;
+	const uns8* key_table = NULL;
 
 	if (uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP)
 	{

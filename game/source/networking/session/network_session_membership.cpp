@@ -23,7 +23,7 @@ int32 c_network_session_membership::get_first_player() const
 	return INVOKE_CLASS_MEMBER(0x0044E6C0, c_network_session_membership, get_first_player);
 }
 
-//.text:0044E6F0 ; public: s_player_add_queue_entry const* c_network_session_membership::get_first_player_from_player_add_queue() const
+//.text:0044E6F0 ; public: const s_player_add_queue_entry* c_network_session_membership::get_first_player_from_player_add_queue() const
 
 int32 c_network_session_membership::get_next_peer(int32 peer_index) const
 {
@@ -57,27 +57,27 @@ s_network_session_peer* c_network_session_membership::get_peer(int32 peer_index)
 }
 
 //.text:0044E7E0 ; public: e_network_session_peer_state c_network_session_membership::get_peer_connection_state(int32) const
-//.text:0044E800 ; public: int32 c_network_session_membership::get_peer_from_incoming_address(transport_address const*) const
+//.text:0044E800 ; public: int32 c_network_session_membership::get_peer_from_incoming_address(const transport_address*) const
 //.text:0044E860 ; public: int32 c_network_session_membership::get_peer_from_observer_channel(int32) const
-//.text:0044E910 ; public: int32 c_network_session_membership::get_peer_from_secure_address(s_transport_secure_address const*) const
-//.text:0044E9E0 ; public: int32 c_network_session_membership::get_peer_from_unique_identifier(s_transport_unique_identifier const*) const
-//.text:0044EAE0 ; public: int32 c_network_session_membership::get_peer_index_of_player_in_queue(s_player_identifier const*) const
+//.text:0044E910 ; public: int32 c_network_session_membership::get_peer_from_secure_address(const s_transport_secure_address*) const
+//.text:0044E9E0 ; public: int32 c_network_session_membership::get_peer_from_unique_identifier(const s_transport_unique_identifier*) const
+//.text:0044EAE0 ; public: int32 c_network_session_membership::get_peer_index_of_player_in_queue(const s_player_identifier*) const
 //.text:0044EB10 ; public: uns32 c_network_session_membership::get_peer_valid_mask() const
-//.text:0044EB20 ; public: s_network_session_player const* c_network_session_membership::get_player(int32) const
-//.text:0044EB40 ; public: s_player_add_queue_entry const* c_network_session_membership::get_player_add_queue_entry(int32) const
-//.text:0044EB90 ; public: int32 c_network_session_membership::get_player_from_identifier(s_player_identifier const*) const
+//.text:0044EB20 ; public: const s_network_session_player* c_network_session_membership::get_player(int32) const
+//.text:0044EB40 ; public: const s_player_add_queue_entry* c_network_session_membership::get_player_add_queue_entry(int32) const
+//.text:0044EB90 ; public: int32 c_network_session_membership::get_player_from_identifier(const s_player_identifier*) const
 //.text:0044EC60 ; public: int32 c_network_session_membership::get_player_from_xuid(uns64) const
 //.text:0044ED30 ; public: c_flags<int32, uns32, 16> c_network_session_membership::get_player_incompatible_determinism_mask(int32) const
 //.text:0044EE00 ; public: uns32 c_network_session_membership::get_player_valid_mask() const
-//.text:0044EE10 ; public: s_player_identifier const* c_network_session_membership::get_player_identifier(int32) const
+//.text:0044EE10 ; public: const s_player_identifier* c_network_session_membership::get_player_identifier(int32) const
 //.text:0044EE30 ; 
 //.text:0044EE50 ; 
 //.text:0044EE70 ; 
 //.text:0044EE80 ; 
-//.text:0044EE90 ; public: s_network_session_shared_membership const* c_network_session_membership::get_transmitted_membership(int32) const
+//.text:0044EE90 ; public: const s_network_session_shared_membership* c_network_session_membership::get_transmitted_membership(int32) const
 //.text:0044EEB0 ; private: c_network_session* c_network_session_membership::get_session()
-//.text:0044EEC0 ; public: bool c_network_session_membership::handle_membership_update(s_network_message_membership_update const*)
-//.text:0044F930 ; public: bool c_network_session_membership::host_exists_at_incoming_address(transport_address const*) const
+//.text:0044EEC0 ; public: bool c_network_session_membership::handle_membership_update(const s_network_message_membership_update*)
+//.text:0044F930 ; public: bool c_network_session_membership::host_exists_at_incoming_address(const transport_address*) const
 //.text:0044F9B0 ; public: void c_network_session_membership::idle()
 //.text:0044FA50 ; private: void c_network_session_membership::increment_update()
 //.text:0044FA60 ; 
@@ -92,7 +92,7 @@ bool c_network_session_membership::is_peer_valid(int32 peer_index) const
 }
 
 //.text:0044FB40 ; public: bool c_network_session_membership::is_player_established(int32) const
-//.text:0044FB70 ; public: bool c_network_session_membership::is_player_in_player_add_queue(s_player_identifier const*) const
+//.text:0044FB70 ; public: bool c_network_session_membership::is_player_in_player_add_queue(const s_player_identifier*) const
 //.text:0044FB90 ; public: void c_network_session_membership::lock_slots()
 
 int32 c_network_session_membership::get_player_index_from_peer(int32 peer_index)
@@ -121,7 +121,7 @@ int32 c_network_session_membership::get_peer_from_observer_channel(int32 observe
 	return peer_index;
 }
 
-void c_network_session_membership::set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, void const* player_data_from_client, int32 player_voice_settings)
+void c_network_session_membership::set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, const void* player_data_from_client, int32 player_voice_settings)
 {
 	s_network_session_player* player = get_player(player_index);
 
@@ -138,7 +138,7 @@ void c_network_session_membership::set_player_properties(int32 player_index, int
 		update_increment = true;
 	}
 
-	s_player_configuration_for_player_properties const* player_data = (s_player_configuration_for_player_properties const*)player_data_from_client;
+	const s_player_configuration_for_player_properties* player_data = (const s_player_configuration_for_player_properties*)player_data_from_client;
 	if (csmemcmp(&player->player_data.client, &player_data->client, sizeof(s_player_configuration_from_client)))
 	{
 		player->player_data.client = player_data->client;
@@ -188,6 +188,8 @@ void c_network_session_membership::set_player_properties(int32 player_index, int
 	}
 
 	if (update_increment)
+	{
 		increment_update();
+	}
 }
 

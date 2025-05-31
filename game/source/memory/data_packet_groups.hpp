@@ -14,7 +14,7 @@ data_packet_group_definition _name =                             \
 struct data_packet_group_packet;
 struct data_packet_group_definition
 {
-	char const* name;
+	const char* name;
 	int16 packet_type_count;
 	int16 packet_class_count;
 	int32 maximum_decoded_packet_size;

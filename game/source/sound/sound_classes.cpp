@@ -20,7 +20,7 @@ void __cdecl sound_classes_initialize_for_new_map()
 	INVOKE(0x00661330, sound_classes_initialize_for_new_map);
 }
 
-char const* const sound_class_names[k_sound_class_count]
+const char* const sound_class_names[k_sound_class_count]
 {
 	"projectile_impact",
 	"projectile_detonation",

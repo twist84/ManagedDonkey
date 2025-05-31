@@ -50,6 +50,6 @@ extern void __cdecl object_early_movers_dispose_from_old_map();
 extern void __cdecl object_early_movers_initialize();
 extern void __cdecl object_early_movers_initialize_for_new_map();
 extern bool __cdecl object_get_early_mover_local_space_velocity(int32 object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool a4, bool a5);
-extern void __cdecl object_get_early_movers(int32 const** object_early_movers, int32* object_early_movers_count);
+extern void __cdecl object_get_early_movers(const int32** object_early_movers, int32* object_early_movers_count);
 extern void __cdecl object_early_mover_render_debug();
 

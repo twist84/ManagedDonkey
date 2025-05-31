@@ -43,14 +43,14 @@ void __thiscall c_network_message_type_collection::encode_message_header_(c_bits
 	encode_message_header(packet, message_type, message_storage_size);
 }
 
-char const* __thiscall c_network_message_type_collection::get_message_type_name_(e_network_message_type message_type)
+const char* __thiscall c_network_message_type_collection::get_message_type_name_(e_network_message_type message_type)
 {
 	return get_message_type_name(message_type);
 }
 
 void __thiscall c_network_message_type_collection::register_message_type_(
 	e_network_message_type message_type,
-	char const* message_type_name,
+	const char* message_type_name,
 	int32 flags,
 	int32 message_size,
 	int32 message_size_maximum,
@@ -93,7 +93,7 @@ bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* pack
 
 	if (decode_message_header(packet, message_type, message_storage_size))
 	{
-		s_network_message_type const* type_definition = &m_message_types[*message_type];
+		const s_network_message_type* type_definition = &m_message_types[*message_type];
 
 		ASSERT(*message_type >= 0 && *message_type < k_network_message_type_count);
 		ASSERT(type_definition->initialized);
@@ -123,7 +123,7 @@ bool c_network_message_type_collection::decode_message_header(c_bitstream* packe
 	*message_storage_size = packet->read_integer("size", 18);
 	if (!packet->error_occurred() && *message_type >= 0 && *message_type < k_network_message_type_count)
 	{
-		s_network_message_type const* type_definition = &m_message_types[*message_type];
+		const s_network_message_type* type_definition = &m_message_types[*message_type];
 		if (type_definition->initialized)
 		{
 			if (*message_storage_size >= type_definition->message_size && *message_storage_size <= type_definition->message_size_maximum)
@@ -139,7 +139,7 @@ bool c_network_message_type_collection::decode_message_header(c_bitstream* packe
 
 void __cdecl c_network_message_type_collection::dispose_message(e_network_message_type message_type, int32 message_storage_size, void* message_storage) const
 {
-	s_network_message_type const* type_definition = &m_message_types[message_type];
+	const s_network_message_type* type_definition = &m_message_types[message_type];
 
 	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
 	ASSERT(message_storage_size);
@@ -149,9 +149,9 @@ void __cdecl c_network_message_type_collection::dispose_message(e_network_messag
 		type_definition->dispose_function(message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_type_collection::encode_message(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, void const* message_storage) const
+void __cdecl c_network_message_type_collection::encode_message(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, const void* message_storage) const
 {
-	s_network_message_type const* type_definition = &m_message_types[message_type];
+	const s_network_message_type* type_definition = &m_message_types[message_type];
 
 	ASSERT(packet);
 	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
@@ -170,7 +170,7 @@ void __cdecl c_network_message_type_collection::encode_message(c_bitstream* pack
 
 void c_network_message_type_collection::encode_message_header(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size) const
 {
-	s_network_message_type const* type_definition = &m_message_types[message_type];
+	const s_network_message_type* type_definition = &m_message_types[message_type];
 
 	ASSERT(packet);
 	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
@@ -180,7 +180,7 @@ void c_network_message_type_collection::encode_message_header(c_bitstream* packe
 	packet->write_identifier(type_definition->message_type_name);
 }
 
-char const* c_network_message_type_collection::get_message_type_name(e_network_message_type message_type) const
+const char* c_network_message_type_collection::get_message_type_name(e_network_message_type message_type) const
 {
 	if (message_type >= 0 && message_type < k_network_message_type_count && m_message_types[message_type].initialized)
 		return m_message_types[message_type].message_type_name;
@@ -190,7 +190,7 @@ char const* c_network_message_type_collection::get_message_type_name(e_network_m
 
 void __cdecl c_network_message_type_collection::register_message_type(
 	e_network_message_type message_type,
-	char const* message_type_name,
+	const char* message_type_name,
 	int32 flags,
 	int32 message_size,
 	int32 message_size_maximum,

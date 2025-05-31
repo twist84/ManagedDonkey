@@ -208,7 +208,7 @@ bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec
 	return false;
 }
 
-void __cdecl input_xinput_update_rumble_state(uns32 user_index, rumble_state const* state, bool suppressed)
+void __cdecl input_xinput_update_rumble_state(uns32 user_index, const rumble_state* state, bool suppressed)
 {
 	//INVOKE(0x0065F220, input_xinput_update_rumble_state, user_index, state, no_rumble);
 

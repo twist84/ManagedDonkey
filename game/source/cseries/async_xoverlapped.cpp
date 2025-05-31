@@ -105,7 +105,7 @@ bool c_overlapped_task::busy() const
 		|| m_task_state == _overlapped_task_state_completing;
 }
 
-c_overlapped_task* c_overlapped_task::constructor(char const* file, int32 line)
+c_overlapped_task* c_overlapped_task::constructor(const char* file, int32 line)
 {
 	//INVOKE_CLASS_MEMBER(0x005A8C80, c_overlapped_task, constructor, file, line);
 
@@ -126,7 +126,7 @@ c_overlapped_task* c_overlapped_task::constructor(char const* file, int32 line)
 //.text:005A8D30 ; public: virtual void __cdecl c_overlapped_task::complete()
 //.text:005A8D40 ; public: virtual void __cdecl c_overlapped_task::failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
 
-s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task)
+s_task_slot* __cdecl find_task_slot(const c_overlapped_task* task)
 {
 	//return INVOKE(0x005A8D50, find_task_slot, task);
 
@@ -184,7 +184,7 @@ void __cdecl overlapped_render()
 
 		for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 		{
-			char const* status = NULL;
+			const char* status = NULL;
 			char string[256]{};
 
 			{
@@ -236,7 +236,7 @@ void __cdecl overlapped_render()
 	}
 }
 
-void __cdecl overlapped_task_block_until_finished(c_overlapped_task const* task)
+void __cdecl overlapped_task_block_until_finished(const c_overlapped_task* task)
 {
 	//INVOKE(0x005A8E30, overlapped_task_block_until_finished, task);
 
@@ -245,7 +245,7 @@ void __cdecl overlapped_task_block_until_finished(c_overlapped_task const* task)
 		task_block_until_finished(task_slot);
 }
 
-bool __cdecl overlapped_task_is_running(c_overlapped_task const* task)
+bool __cdecl overlapped_task_is_running(const c_overlapped_task* task)
 {
 	//return INVOKE(0x005A8ED0, overlapped_task_is_running, task);
 
@@ -256,7 +256,7 @@ bool __cdecl overlapped_task_is_running(c_overlapped_task const* task)
 	return false;
 }
 
-bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, int32 line)
+bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, const char* file, int32 line)
 {
 	//return INVOKE(0x005A8F40, overlapped_task_start_internal, task, file, line);
 
@@ -583,7 +583,7 @@ bool c_overlapped_task::task_was_recycled_during_completion() const
 	return m_task_flags.test(_restarted_during_completion_bit);
 }
 
-char const* c_overlapped_task::get_file() const
+const char* c_overlapped_task::get_file() const
 {
 	return m_file;
 }
@@ -593,7 +593,7 @@ int32 c_overlapped_task::get_line() const
 	return m_line;
 }
 
-void c_overlapped_task::set_file(char const* file)
+void c_overlapped_task::set_file(const char* file)
 {
 	m_file = file;
 }
@@ -614,7 +614,7 @@ void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
 		{
 			s_task_slot* task_slot = &g_overlapped_globals.task_slots[task_slot_index];
 
-			char const* status = NULL;
+			const char* status = NULL;
 			switch (task_slot->task->get_task_state())
 			{
 			case _overlapped_task_state_none:
@@ -667,7 +667,7 @@ void overlapped_task_display_task_descriptions()
 	}
 }
 
-void overlapped_task_inject_error(char const* context, bool inject_error)
+void overlapped_task_inject_error(const char* context, bool inject_error)
 {
 	c_async_xoverlapped_scope_lock scope_lock;
 
@@ -698,7 +698,7 @@ void overlapped_task_inject_error(char const* context, bool inject_error)
 	}
 }
 
-void overlapped_task_pause(char const* context, bool pause)
+void overlapped_task_pause(const char* context, bool pause)
 {
 	c_async_xoverlapped_scope_lock scope_lock;
 

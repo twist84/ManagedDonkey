@@ -12,7 +12,7 @@ c_life_cycle_state_handler_none::c_life_cycle_state_handler_none() :
 	//DECLFUNC(0x004540D0, void, __thiscall, c_life_cycle_state_handler_none*)(this);
 }
 
-char const* c_life_cycle_state_handler_none::get_state_string()
+const char* c_life_cycle_state_handler_none::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x004547B0, c_life_cycle_state_handler_none, get_state_string);
 

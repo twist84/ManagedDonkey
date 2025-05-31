@@ -383,15 +383,15 @@ struct c_visibility_collection
 		return m_input;
 	}
 
-	s_visibility_region const* get_region() const
+	const s_visibility_region* get_region() const
 	{
 		ASSERT(m_input != NULL);
 		return &m_input->region;
 	}
 
-	e_collection_shape prepare_collection_for_build(int32 flags, e_collection_type collection_type, visibility_projection const* projections, int32 projection_count, s_cluster_reference initial_cluster_reference, int32 intersection_marker_index, real_point3d const* sphere_center, real32 sphere_radius, int32 user_index, int32 player_window_index);
+	e_collection_shape prepare_collection_for_build(int32 flags, e_collection_type collection_type, const visibility_projection* projections, int32 projection_count, s_cluster_reference initial_cluster_reference, int32 intersection_marker_index, const real_point3d* sphere_center, real32 sphere_radius, int32 user_index, int32 player_window_index);
 
-	static int32 __cdecl add_root_object(int32 object_index, real_point3d const* object_center, real32 object_radius, int32 player_window_index, bool lit, bool shadow_casting, bool fully_contained, int32 region_cluster_memory, s_lod_transparency lod_transparency, bool calculate_lod, bool ignore_first_person_objects, int32 ignore_first_person_user_index, uns16* a13);
+	static int32 __cdecl add_root_object(int32 object_index, const real_point3d* object_center, real32 object_radius, int32 player_window_index, bool lit, bool shadow_casting, bool fully_contained, int32 region_cluster_memory, s_lod_transparency lod_transparency, bool calculate_lod, bool ignore_first_person_objects, int32 ignore_first_person_user_index, uns16* a13);
 	static void __cdecl expand_sky_object(int32 player_window_index);
 	static void __cdecl generate_objects_visible_subparts();
 

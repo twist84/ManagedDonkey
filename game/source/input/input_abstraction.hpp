@@ -65,7 +65,7 @@ static_assert(sizeof(c_abstract_button) == 0xC);
 struct s_game_input_state
 {
 	c_abstract_button& get_button(e_button_action button_index);
-	c_abstract_button const& get_button(e_button_action button_index) const;
+	const c_abstract_button& get_button(e_button_action button_index) const;
 
 	// player_control_get_controller_input
 	// if (unit->unit.seat_index != NONE && unit->object.parent_object_index != NONE)

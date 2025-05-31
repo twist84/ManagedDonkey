@@ -58,7 +58,7 @@ bool __cdecl closed_caption_enabled()
 	//return TEST_BIT(g_caption_globals.flags, 0);
 }
 
-wchar_t const* __cdecl closed_caption_get_text(s_caption_entry const* entry)
+const wchar_t* __cdecl closed_caption_get_text(const s_caption_entry* entry)
 {
 	return INVOKE(0x00A98CC0, closed_caption_get_text, entry);
 

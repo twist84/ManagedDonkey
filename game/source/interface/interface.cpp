@@ -18,8 +18,8 @@ void __cdecl interface_dispose_from_old_map()
 	//user_interface_objectives_dispose_from_old_map();
 }
 
-//.text:00AADC70 ; void __cdecl interface_draw_bitmap_modulated_p32(bitmap_data const*, c_rasterizer_texture_ref const*, point2d const*, real_rectangle2d const*, real32, real32, uns32, int16)
-//.text:00AADF50 ; void __cdecl interface_draw_bitmap_modulated(bitmap_data const*, c_rasterizer_texture_ref const*, point2d const*, real_rectangle2d const*, real32, real32, real_argb_color const*, int16)
+//.text:00AADC70 ; void __cdecl interface_draw_bitmap_modulated_p32(const bitmap_data*, const c_rasterizer_texture_ref*, const point2d*, const real_rectangle2d*, real32, real32, uns32, int16)
+//.text:00AADF50 ; void __cdecl interface_draw_bitmap_modulated(const bitmap_data*, const c_rasterizer_texture_ref*, const point2d*, const real_rectangle2d*, real32, real32, const real_argb_color*, int16)
 //.text:00AAE230 ; 
 
 void __cdecl interface_draw_fullscreen_overlays()

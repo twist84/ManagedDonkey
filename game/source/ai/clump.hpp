@@ -62,7 +62,7 @@ struct clump_prop_iterator
 };
 static_assert(sizeof(clump_prop_iterator) == 0xC);
 
-extern char const* const group_state_names[4];
+extern const char* const group_state_names[4];
 
 extern void __cdecl clumps_dispose();
 extern void __cdecl clumps_dispose_from_old_map();

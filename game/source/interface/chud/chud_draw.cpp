@@ -28,7 +28,7 @@ HOOK_DECLARE(0x00AC9490, chud_draw_text_widget);
 //.text:00AC67C0 ; void __cdecl chud_build_custom_render_data(s_chud_render_data* render_data, int32 chud_shader_index)
 //.text:00AC6870 ; 
 //.text:00AC69E0 ; real32 __cdecl chud_build_geometry_from_navpoint(int32 user_index, int32 sequence_index, int32 sprite_index, real32 origin_offset, real32 scale, s_widget_geometry* widget_geometry)
-//.text:00AC6B80 ; bool __cdecl chud_build_text_geometry(s_widget_geometry* result_geometry, wchar_t const* text, e_font_id text_widget_font, bool center, real32 character_scale, real_rectangle2d* pixel_clip)
+//.text:00AC6B80 ; bool __cdecl chud_build_text_geometry(s_widget_geometry* result_geometry, const wchar_t* text, e_font_id text_widget_font, bool center, real32 character_scale, real_rectangle2d* pixel_clip)
 //.text:00AC6D60 ; bool __cdecl chud_compute_anchor_basis(int32 user_index, s_chud_draw_widget_data* draw_widget_data, int32 anchor_type, s_anchor_basis* basis)
 //.text:00AC76A0 ; bool __cdecl chud_compute_anchor_basis_from_tracker(c_chud_point_tracker* tracker, s_anchor_basis* basis, bool rotate_if_offscreen)
 //.text:00AC78D0 ; s_chud_curvature_info* __cdecl chud_compute_curvature_info(int32 user_index, int32 current_resolution)
@@ -63,20 +63,20 @@ void __cdecl chud_debug_draw(int32 user_index)
 	INVOKE(0x00AC7DB0, chud_debug_draw, user_index);
 }
 
-void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, real_argb_color const* color)
+void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, const real_argb_color* color)
 {
 	//INVOKE(0x00AC7F50, chud_debug_draw_reticle, user_index, angle, color);
 
 	chud_debug_draw_reticle_labeled(user_index, angle, NULL, 0.0f, color);
 }
 
-void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, char const* label, real32 a4, real_argb_color const* color)
+void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, const char* label, real32 a4, const real_argb_color* color)
 {
 	//INVOKE(0x00AC7F80, chud_debug_draw_reticle_labeled, user_index, angle, label, a4, color);
 
 	real32 magic_crosshair_offset = observer_get(user_index)->result.magic_crosshair_offset;
 	c_player_view* player_view = c_player_view::get_current();
-	render_projection const* rasterizer_projection = player_view->get_rasterizer_projection();
+	const render_projection* rasterizer_projection = player_view->get_rasterizer_projection();
 
 	real32 v2 = tanf(angle) / CIRCLE_DIVISIONS;
 	real_point3d points[CIRCLE_DIVISIONS]{};
@@ -158,7 +158,7 @@ void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, boo
 //.text:00AC9570 ; void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence)
 //.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry* geometry, s_anchor_basis* anchor_basis, bool mirror_x, bool mirror_y)
 //.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(uns32 value, real_vector4d* result)
-//.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(s_widget_geometry const* geometry, real_matrix4x3* widget_transform)
+//.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(const s_widget_geometry* geometry, real_matrix4x3* widget_transform)
 //.text:00AC9C70 ; void __cdecl chud_get_crosshair_screen_position(int32 user_index, real_point2d* position)
 //.text:00AC9DD0 ; int32 __cdecl chud_get_current_resolution(int32 user_index)
 //.text:00AC9ED0 ; 
@@ -169,6 +169,6 @@ void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, boo
 //.text:00ACA380 ; bool __cdecl chud_text_widget_compute_geometry(s_chud_draw_widget_data* draw_widget_data, s_widget_geometry* result_geometry, s_chud_render_data* render_data)
 //.text:00ACA420 ; bool __cdecl chud_text_widget_compute_string(s_chud_draw_widget_data* draw_widget_data, s_chud_render_data* render_data, c_static_wchar_string<256>* parsed_text)
 //.text:00ACAD00 ; void __cdecl chud_widget_build_quads_from_bounds(real_rectangle2d* actual_geometry_bounds, real_rectangle2d* extended_geometry_bounds, real_rectangle2d* texture_bounds, s_widget_geometry* result_geometry, real32 scale_x, real32 scale_y)
-//.text:00ACAFA0 ; void __cdecl chud_widget_geometry_add_character(s_widget_geometry* geometry, real_rectangle2d const* src_rectangle, real_rectangle2d const* dest_rectangle, real32 character_scale)
+//.text:00ACAFA0 ; void __cdecl chud_widget_geometry_add_character(s_widget_geometry* geometry, const real_rectangle2d* src_rectangle, const real_rectangle2d* dest_rectangle, real32 character_scale)
 //.text:00ACB0E0 ; 
 

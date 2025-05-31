@@ -1,4 +1,4 @@
 #pragma once
 
-extern void memmove_guarded(void* write_start, void const* source, unsigned int size, void const* bounds_lower, unsigned int bounds_size);
+extern void memmove_guarded(void* write_start, const void* source, unsigned int size, const void* bounds_lower, unsigned int bounds_size);
 

@@ -172,7 +172,7 @@ void __cdecl c_rasterizer::end()
 	//INVOKE(0x00A1F9B0, c_rasterizer::end);
 }
 
-bool __cdecl c_rasterizer::end_albedo(rectangle2d const* bounds)
+bool __cdecl c_rasterizer::end_albedo(const rectangle2d* bounds)
 {
 	//INVOKE(0x00A1F9C0, c_rasterizer::end_albedo, bounds);
 
@@ -638,7 +638,7 @@ void __cdecl c_rasterizer::begin_high_quality_blend()
 	INVOKE(0x00A21350, c_rasterizer::begin_high_quality_blend);
 }
 
-//void __cdecl c_rasterizer::clearf(uns32, real_vector4d const*, real32, uns32)
+//void __cdecl c_rasterizer::clearf(uns32, const real_vector4d*, real32, uns32)
 
 void __cdecl c_rasterizer::clear(uns32 clear_channels, uns32 clear_color, real32 clear_z, uns8 clear_stencil)
 {
@@ -698,7 +698,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	bool v3 = shell_application_type() == _shell_application_game;
 	//
 	//	bool d3d9ex = v3;
-	//	if (char const* command_line = shell_get_command_line())
+	//	if (const char* command_line = shell_get_command_line())
 	//	{
 	//		if (strstr(command_line, "-d3d9ex") != 0)
 	//			d3d9ex = true;
@@ -732,9 +732,9 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//		if (v3)
 	//		{
 	//			int32 adapter = global_preferences_get_adapter();
-	//			if (char const* command_line = shell_get_command_line())
+	//			if (const char* command_line = shell_get_command_line())
 	//			{
-	//				if (char const* adapter_arg = strstr(command_line, "-adapter "))
+	//				if (const char* adapter_arg = strstr(command_line, "-adapter "))
 	//					adapter = atol(adapter_arg + 9);
 	//			}
 	//
@@ -790,10 +790,10 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//		}
 	//	}
 	//
-	//	if (char const* command_line = shell_get_command_line())
+	//	if (const char* command_line = shell_get_command_line())
 	//	{
-	//		char const* width_arg = strstr(command_line, "-width ");
-	//		char const* height_arg = strstr(command_line, "-height ");
+	//		const char* width_arg = strstr(command_line, "-width ");
+	//		const char* height_arg = strstr(command_line, "-height ");
 	//		if (width_arg && height_arg)
 	//		{
 	//			width = atol(width_arg + 7);
@@ -1132,7 +1132,7 @@ bool __cdecl c_rasterizer::surface_valid(e_surface surface)
 	return INVOKE(0x00A490E0, c_rasterizer::surface_valid, surface);
 }
 
-bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const* compiled_pixel_shader, e_entry_point entry_point)
+bool __cdecl c_rasterizer::set_compiled_pixel_shader(const c_rasterizer_compiled_pixel_shader* compiled_pixel_shader, e_entry_point entry_point)
 {
 	return INVOKE(0x00A23220, c_rasterizer::set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
 
@@ -1150,7 +1150,7 @@ bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel
 	//return SUCCEEDED(g_device->SetPixelShader(d3d_shader));
 }
 
-bool __cdecl c_rasterizer::set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const* compiled_vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
+bool __cdecl c_rasterizer::set_compiled_vertex_shader(const c_rasterizer_compiled_vertex_shader* compiled_vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
 	return INVOKE(0x00A23260, c_rasterizer::set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
@@ -1204,7 +1204,7 @@ void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 	//}
 }
 
-bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pixel_shader, e_entry_point entry_point)
+bool __cdecl c_rasterizer::set_pixel_shader(const c_rasterizer_pixel_shader* pixel_shader, e_entry_point entry_point)
 {
 	return INVOKE(0x00A23460, c_rasterizer::set_pixel_shader, pixel_shader, entry_point);
 
@@ -1252,7 +1252,7 @@ void __cdecl c_rasterizer::set_sampler_texture(int32 sampler_index, c_rasterizer
 	INVOKE(0x00A23810, c_rasterizer::set_sampler_texture, sampler_index, sampler_texture);
 };
 
-void __cdecl c_rasterizer::set_scissor_rect(rectangle2d const* scissor_rect)
+void __cdecl c_rasterizer::set_scissor_rect(const rectangle2d* scissor_rect)
 {
 	//INVOKE(0x00A239B0, c_rasterizer::set_scissor_rect, scissor_rect);
 
@@ -1265,7 +1265,7 @@ void __cdecl c_rasterizer::set_scissor_rect(rectangle2d const* scissor_rect)
 			.right = scissor_rect->x1,
 			.bottom = scissor_rect->y1
 		};
-	
+
 		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
 		g_device->SetScissorRect(&d3d_scissor_rect);
 	}
@@ -1352,7 +1352,7 @@ bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* v
 	//return SUCCEEDED(g_device->SetVertexDeclaration(vertex_declaration));
 }
 
-bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
+bool __cdecl c_rasterizer::set_vertex_shader(const c_rasterizer_vertex_shader* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
 	return INVOKE(0x00A246E0, c_rasterizer::set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
@@ -1602,7 +1602,7 @@ void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool render
 	INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, render_to_HDR_target, alpha_blend);
 }
 
-void __cdecl c_rasterizer::draw_indexed_primitive(c_rasterizer_index_buffer const* indices, int32 base_vertex_index, int32 num_vertices, int32 min_index, int32 triangle_count)
+void __cdecl c_rasterizer::draw_indexed_primitive(const c_rasterizer_index_buffer* indices, int32 base_vertex_index, int32 num_vertices, int32 min_index, int32 triangle_count)
 {
 	INVOKE(0x00A28270, c_rasterizer::draw_indexed_primitive, indices, base_vertex_index, num_vertices, min_index, triangle_count);
 }
@@ -1612,7 +1612,7 @@ void __cdecl c_rasterizer::draw_primitive(c_rasterizer_index_buffer::e_primitive
 	INVOKE(0x00A282F0, c_rasterizer::draw_primitive, primitive_type, start_vertex, primitive_count);
 }
 
-void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, void const* stream_data, uns32 stride)
+void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, const void* stream_data, uns32 stride)
 {
 	INVOKE(0x00A28330, c_rasterizer::draw_primitive_up, primitive_type, primitive_count, stream_data, stride);
 }
@@ -1693,7 +1693,7 @@ void __cdecl c_rasterizer::set_using_albedo_sampler(bool value)
 	INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, value);
 }
 
-void __cdecl c_rasterizer::set_viewport(rectangle2d const& viewport_bounds, real32 minz, real32 maxz)
+void __cdecl c_rasterizer::set_viewport(const rectangle2d& viewport_bounds, real32 minz, real32 maxz)
 {
 	//INVOKE(0x00A49010, c_rasterizer::set_viewport, viewport_bounds, minz, maxz);
 
@@ -1719,17 +1719,17 @@ void __cdecl c_rasterizer::wait_for_gpu_idle()
 	//INVOKE(0x00A49130, c_rasterizer::wait_for_gpu_idle);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant(int32 constant_index, int32 count, real_vector4d const* constants)
+void __cdecl c_rasterizer::set_pixel_shader_constant(int32 constant_index, int32 count, const real_vector4d* constants)
 {
 	INVOKE(0x00A66270, c_rasterizer::set_pixel_shader_constant, constant_index, count, constants);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant_bool(int32 constant_index, int32 count, int const* constants)
+void __cdecl c_rasterizer::set_pixel_shader_constant_bool(int32 constant_index, int32 count, const int* constants)
 {
 	INVOKE(0x00A66370, c_rasterizer::set_pixel_shader_constant_bool, constant_index, count, constants);
 }
 
-void __cdecl c_rasterizer::set_pixel_shader_constant_int(int32 constant_index, int32 vector_count, int const* constants)
+void __cdecl c_rasterizer::set_pixel_shader_constant_int(int32 constant_index, int32 vector_count, const int* constants)
 {
 	INVOKE(0x00A663A0, c_rasterizer::set_pixel_shader_constant_int, constant_index, vector_count, constants);
 }
@@ -1741,22 +1741,22 @@ void __cdecl c_rasterizer::set_pixel_shader_constant_single(int32 constant_index
 
 //.text:00A66400 ; 
 
-void __cdecl c_rasterizer::set_vertex_shader_constant(int32 constant_index, int32 vector_count, real_vector4d const* constants)
+void __cdecl c_rasterizer::set_vertex_shader_constant(int32 constant_index, int32 vector_count, const real_vector4d* constants)
 {
 	INVOKE(0x00A66410, c_rasterizer::set_vertex_shader_constant, constant_index, vector_count, constants);
 }
 
-void __cdecl c_rasterizer::set_vertex_shader_constant_bool(int32 constant_index, int32 count, int const* constants)
+void __cdecl c_rasterizer::set_vertex_shader_constant_bool(int32 constant_index, int32 count, const int* constants)
 {
 	INVOKE(0x00A66620, c_rasterizer::set_vertex_shader_constant_bool, constant_index, count, constants);
 }
 
-void __cdecl c_rasterizer::set_vertex_shader_constant_int(int32 start_register, int32 vector4i_count, int const* constant_data)
+void __cdecl c_rasterizer::set_vertex_shader_constant_int(int32 start_register, int32 vector4i_count, const int* constant_data)
 {
 	INVOKE(0x00A66640, c_rasterizer::set_vertex_shader_constant_int, start_register, vector4i_count, constant_data);
 }
 
-void __cdecl c_rasterizer::set_vertex_shader_constant_owned(int32 constant_index, int32 count, real_vector4d const* constants)
+void __cdecl c_rasterizer::set_vertex_shader_constant_owned(int32 constant_index, int32 count, const real_vector4d* constants)
 {
 	INVOKE(0x00A66660, c_rasterizer::set_vertex_shader_constant_owned, constant_index, count, constants);
 }
@@ -1922,7 +1922,7 @@ bool create_bitmap_info_header(HWND window_handle, HBITMAP bitmap_handle, LPBITM
 	return true;
 }
 
-bool get_device_context_for_window(HWND window_handle, char const* file_name, HBITMAP bitmap_handle, HDC window_device_context)
+bool get_device_context_for_window(HWND window_handle, const char* file_name, HBITMAP bitmap_handle, HDC window_device_context)
 {
 	if (!window_handle)
 	{
@@ -2013,7 +2013,7 @@ bool get_device_context_for_window(HWND window_handle, char const* file_name, HB
 	return true;
 }
 
-bool rasterizer_dump_display_to_bmp(char const* file_name)
+bool rasterizer_dump_display_to_bmp(const char* file_name)
 {
 	if (!file_name)
 	{
@@ -2095,7 +2095,7 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 	return result;
 }
 
-s_tag_reference const* c_rasterizer_globals::get_default_texture_ref(int32 index)
+const s_tag_reference* c_rasterizer_globals::get_default_texture_ref(int32 index)
 {
 	ASSERT(index >= 0 && index <= m_default_textures_refs.count - 1);
 
@@ -2103,7 +2103,7 @@ s_tag_reference const* c_rasterizer_globals::get_default_texture_ref(int32 index
 	return &m_default_textures_refs[index].ref;
 }
 
-c_rasterizer_globals::s_explicit_shader const* c_rasterizer_globals::get_explicit_shaders(int32 index)
+const c_rasterizer_globals::s_explicit_shader* c_rasterizer_globals::get_explicit_shaders(int32 index)
 {
 	static bool warned = false;
 	if (!warned && m_explicit_shader_refs.count < 100)
@@ -2125,16 +2125,16 @@ c_rasterizer_globals::s_explicit_shader const* c_rasterizer_globals::get_explici
 	return &m_explicit_shader_refs[index];
 }
 
-s_tag_reference const* c_rasterizer_globals::get_explicit_pixel_shader_ref(int32 index)
+const s_tag_reference* c_rasterizer_globals::get_explicit_pixel_shader_ref(int32 index)
 {
-	s_explicit_shader const* shader = get_explicit_shaders(index);
+	const s_explicit_shader* shader = get_explicit_shaders(index);
 	ASSERT(shader);
 	return &shader->pixel_shader;
 }
 
-s_tag_reference const* c_rasterizer_globals::get_explicit_vertex_shader_ref(int32 index)
+const s_tag_reference* c_rasterizer_globals::get_explicit_vertex_shader_ref(int32 index)
 {
-	s_explicit_shader const* shader = get_explicit_shaders(index);
+	const s_explicit_shader* shader = get_explicit_shaders(index);
 	ASSERT(shader);
 	return &shader->vertex_shader;
 }

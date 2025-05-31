@@ -9,7 +9,7 @@ c_life_cycle_state_handler_joining::c_life_cycle_state_handler_joining() :
 	//DECLFUNC(0x00453F50, void, __thiscall, c_life_cycle_state_handler_joining*)(this);
 }
 
-char const* c_life_cycle_state_handler_joining::get_state_string()
+const char* c_life_cycle_state_handler_joining::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454710, c_life_cycle_state_handler_joining, get_state_string);
 

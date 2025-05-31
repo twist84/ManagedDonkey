@@ -16,12 +16,12 @@ REFERENCE_DECLARE(0x018B5410, real32, k_density_decay_time);
 REFERENCE_DECLARE(0x018B5414, real32, water_physics_velocity_minimum);
 REFERENCE_DECLARE(0x018B5418, real32, water_physics_velocity_maximum);
 
-bool __cdecl water_physics_test_vector(real_point3d const* point, real_vector3d const* vector, s_water_physics_test_vector_result* result)
+bool __cdecl water_physics_test_vector(const real_point3d* point, const real_vector3d* vector, s_water_physics_test_vector_result* result)
 {
 	return INVOKE(0x005F8570, water_physics_test_vector, point, vector, result);
 }
 
-void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d const* vector)
+void __cdecl water_physics_render_debug(const real_point3d* point, const real_vector3d* vector)
 {
 	if (debug_structure_water)
 	{

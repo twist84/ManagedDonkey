@@ -7,7 +7,7 @@ bool __cdecl object_definition_can_be_placed(int32 object_definition_index, int3
 	return INVOKE(0x00B58FF0, object_definition_can_be_placed, object_definition_index, model_variant_index);
 }
 
-//.text:00B59150 ; bool __cdecl object_placement_attached_to_valid_parent(s_scenario_object const*)
+//.text:00B59150 ; bool __cdecl object_placement_attached_to_valid_parent(const s_scenario_object*)
 //.text:00B59190 ; int32 __cdecl object_placement_bsp_index_key_from_bsp_indices(int32, int32)
 
 void __cdecl object_placement_create_active_zone_set_objects(e_object_placement_zone_set_create_mode create_mode)
@@ -22,7 +22,7 @@ void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool 
 	INVOKE(0x00B59510, object_placement_create_global_objects, game_mode, test_object_existence_before_creation);
 }
 
-//.text:00B596C0 ; bool __cdecl object_placement_data_new_from_scenario_object(e_object_type, int32, s_scenario_object const*, s_tag_block*, bool, bool, struct object_placement_data*)
+//.text:00B596C0 ; bool __cdecl object_placement_data_new_from_scenario_object(e_object_type, int32, const s_scenario_object*, s_tag_block*, bool, bool, struct object_placement_data*)
 //.text:00B59CA0 ; void __cdecl object_placement_deactivate_on_zone_set_switch(int32)
 
 void __cdecl object_placement_dispose()
@@ -40,7 +40,7 @@ void __cdecl object_placement_dispose_from_old_structure_bsp(uns32 deactivating_
 	INVOKE(0x00B59D30, object_placement_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-//.text:00B59D40 ; bool __cdecl object_placement_find_initial_location(uns32, real_point3d const*, real32, s_location*)
+//.text:00B59D40 ; bool __cdecl object_placement_find_initial_location(uns32, const real_point3d*, real32, s_location*)
 
 void __cdecl object_placement_initialize()
 {
@@ -57,8 +57,8 @@ void __cdecl object_placement_initialize_for_new_structure_bsp(uns32 activating_
 	INVOKE(0x00B59FC0, object_placement_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:00B5A020 ; bool __cdecl object_placement_inside_structure_bsp(e_object_type, s_scenario_object const*)
-//.text:00B5A040 ; bool __cdecl object_placement_inside_structure_bsp_mask(uns32, e_object_type, s_scenario_object const*)
+//.text:00B5A020 ; bool __cdecl object_placement_inside_structure_bsp(e_object_type, const s_scenario_object*)
+//.text:00B5A040 ; bool __cdecl object_placement_inside_structure_bsp_mask(uns32, e_object_type, const s_scenario_object*)
 //.text:00B5A100 ; bool __cdecl object_placement_is_unloaded(int32)
 //.text:00B5A110 ; void __cdecl object_placement_mark_name_on_create(int16)
 //.text:00B5A190 ; void __cdecl object_placement_mark_name_on_delete(int16)
@@ -71,7 +71,7 @@ void __cdecl object_placement_prepare_for_new_zone_set(uns32 old_active_structur
 	INVOKE(0x00B5A310, object_placement_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
 
-void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)
+void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)
 {
 	INVOKE(0x00B5A470, object_placement_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 }
@@ -92,14 +92,14 @@ void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp
 //.text:00B5A8D0 ; 
 //.text:00B5A920 ; 
 //.text:00B5A9A0 ; 
-//.text:00B5A9E0 ; s_scenario_object const* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
-//.text:00B5AA30 ; object_definition* __cdecl scenario_object_get_object_definition(struct scenario*, s_scenario_object const*)
-//.text:00B5AA60 ; int32 __cdecl scenario_object_get_object_definition_tag_index(struct scenario*, s_scenario_object const*)
-//.text:00B5AAD0 ; scenario_object_palette_entry* __cdecl scenario_object_get_palette_entry(scenario*, s_scenario_object const*)
-//.text:00B5AB30 ; real32 __cdecl scenario_object_get_scale(s_scenario_object const*)
-//.text:00B5AB60 ; bool __cdecl scenario_object_has_persistent_state(scenario*, s_scenario_object const*)
-//.text:00B5ABB0 ; bool __cdecl scenario_object_is_placed_globally(scenario*, s_scenario_object const*)
-//.text:00B5AC40 ; bool __cdecl scenario_object_managed_by_script(struct scenario*, s_scenario_object const*)
-//.text:00B5AC60 ; s_scenario_object const* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
-//.text:00B5ACB0 ; void __cdecl scenario_objects_synchronize_parent_placement(uns32 const*, scenario*)
+//.text:00B5A9E0 ; const s_scenario_object* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
+//.text:00B5AA30 ; object_definition* __cdecl scenario_object_get_object_definition(struct scenario*, const s_scenario_object*)
+//.text:00B5AA60 ; int32 __cdecl scenario_object_get_object_definition_tag_index(struct scenario*, const s_scenario_object*)
+//.text:00B5AAD0 ; scenario_object_palette_entry* __cdecl scenario_object_get_palette_entry(scenario*, const s_scenario_object*)
+//.text:00B5AB30 ; real32 __cdecl scenario_object_get_scale(const s_scenario_object*)
+//.text:00B5AB60 ; bool __cdecl scenario_object_has_persistent_state(scenario*, const s_scenario_object*)
+//.text:00B5ABB0 ; bool __cdecl scenario_object_is_placed_globally(scenario*, const s_scenario_object*)
+//.text:00B5AC40 ; bool __cdecl scenario_object_managed_by_script(struct scenario*, const s_scenario_object*)
+//.text:00B5AC60 ; const s_scenario_object* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
+//.text:00B5ACB0 ; void __cdecl scenario_objects_synchronize_parent_placement(const uns32*, scenario*)
 

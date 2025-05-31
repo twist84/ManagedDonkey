@@ -37,6 +37,6 @@ void __cdecl object_activation_regions_update()
 	INVOKE(0x00B9A630, object_activation_regions_update);
 }
 
-//.text:00B9A720 ; void __cdecl object_ativation_region_activate(s_object_activation_region const*)
+//.text:00B9A720 ; void __cdecl object_ativation_region_activate(const s_object_activation_region*)
 //.text:00B9A740 ; 
 

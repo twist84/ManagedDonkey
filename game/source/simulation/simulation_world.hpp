@@ -33,7 +33,7 @@ public:
 
 	void debug_render();
 
-	static char const* get_state_string(int32 state);
+	static const char* get_state_string(int32 state);
 
 	void get_join_status(
 		int32* join_time_elapsed,

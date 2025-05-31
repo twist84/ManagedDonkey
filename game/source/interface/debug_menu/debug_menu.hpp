@@ -18,11 +18,11 @@ class c_debug_menu
 public:
 	virtual ~c_debug_menu();
 	virtual void update();
-	virtual void render(c_font_cache_base* font_cache, point2d const& point);
+	virtual void render(c_font_cache_base* font_cache, const point2d& point);
 	virtual void game_render();
 	virtual void notify_selected(int16 selected_value);
 	virtual void open();
-	virtual char const* get_caption();
+	virtual const char* get_caption();
 	virtual void notify_closed();
 	virtual void notify_activated();
 
@@ -41,18 +41,18 @@ protected:
 	int16 get_menu_rate();
 	int16 get_max_active_captions();
 
-	void render_background(c_font_cache_base* font_cache, point2d const& point);
-	void render_title(c_font_cache_base* font_cache, point2d const& point);
-	void render_caption(c_font_cache_base* font_cache, point2d const& point);
-	void render_global_caption(c_font_cache_base* font_cache, point2d const& point);
-	void render_items(c_font_cache_base* font_cache, point2d const& point, int16 start_index, int16 end_index);
+	void render_background(c_font_cache_base* font_cache, const point2d& point);
+	void render_title(c_font_cache_base* font_cache, const point2d& point);
+	void render_caption(c_font_cache_base* font_cache, const point2d& point);
+	void render_global_caption(c_font_cache_base* font_cache, const point2d& point);
+	void render_items(c_font_cache_base* font_cache, const point2d& point, int16 start_index, int16 end_index);
 
 private:
 	void try_left();
 	void try_right();
 
 public:
-	c_debug_menu(c_debug_menu* parent, char const* name);
+	c_debug_menu(c_debug_menu* parent, const char* name);
 
 	void clear();
 
@@ -65,10 +65,10 @@ public:
 	c_debug_menu_item* get_item(int16 item_index);
 	void add_item(c_debug_menu_item* item);
 
-	char const* get_name();
-	void set_name(char const* name);
+	const char* get_name();
+	void set_name(const char* name);
 
-	void set_caption(char const* caption);
+	void set_caption(const char* caption);
 
 	c_debug_menu* get_parent();
 

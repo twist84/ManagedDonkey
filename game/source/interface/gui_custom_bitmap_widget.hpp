@@ -29,7 +29,7 @@ public:
 
 public:
 	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
-	bool __thiscall load_from_buffer_(bool use_compressed_format, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	bool __thiscall load_from_buffer_(bool use_compressed_format, const char* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
 	void __thiscall set_map_image_(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format);
 
 public:
@@ -37,8 +37,8 @@ public:
 	virtual void dispose() override;
 	virtual bool should_render(bool* add_to_render_list) override;
 	virtual void update(uns32 current_milliseconds) override;
-	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
-	virtual bitmap_data const* get_current_bitmap() const override;
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
+	virtual const bitmap_data* get_current_bitmap() const override;
 	virtual void __func39(c_tag_resource_demand_collector* demand_collector) override;
 	virtual char* get_current_buffer() const;
 	virtual int32 get_current_buffer_length() const;
@@ -52,8 +52,8 @@ private:
 
 public:
 	static bool __cdecl get_map_filename(e_custom_map_image_type type, e_map_id map_id, c_static_string<256>* out_filename);
-	void load_from_file_async(bool use_compressed_format, char const* file_path, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
-	bool load_from_buffer(bool use_compressed_format, char const* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	void load_from_file_async(bool use_compressed_format, const char* file_path, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
+	bool load_from_buffer(bool use_compressed_format, const char* buffer, int32 buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio);
 	bool load_from_file_async_in_progress() const;
 
 private:

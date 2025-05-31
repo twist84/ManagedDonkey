@@ -19,7 +19,7 @@ c_life_cycle_state_handler_matchmaking_find_and_assemble_match::c_life_cycle_sta
 	zero_array(pad);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454750, c_life_cycle_state_handler_matchmaking_find_and_assemble_match, get_state_string);
 

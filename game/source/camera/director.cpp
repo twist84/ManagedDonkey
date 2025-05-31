@@ -27,8 +27,8 @@ HOOK_DECLARE(0x005926C0, director_update);
 bool g_director_use_dt = true;
 bool survival_mode_allow_flying_camera = true;
 
-char const* const k_camera_save_filename = "camera";
-char const* k_director_mode_names[k_number_of_director_modes]
+const char* const k_camera_save_filename = "camera";
+const char* k_director_mode_names[k_number_of_director_modes]
 {
 	"game",
 	"saved_film",
@@ -132,7 +132,7 @@ void __cdecl director_get_position(int32 user_index, real_point3d* position)
 	INVOKE(0x00591A70, director_get_position, user_index, position);
 
 	//c_director* director = director_get(user_index);
-	//s_observer_command const* observer_command = director->get_last_observer_command();
+	//const s_observer_command* observer_command = director->get_last_observer_command();
 	//
 	//real32 scale = -observer_command->focus_distance;
 	//position->x = observer_command->focus_position.x + (observer_command->forward.i * scale);
@@ -235,7 +235,7 @@ void __cdecl director_render()
 	if (player_control_get_machinima_camera_debug())
 	{
 		int32 active_output_user = player_mapping_first_active_output_user();
-		s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
+		const s_observer_result* camera = observer_try_and_get_camera(active_output_user);
 		if (camera)
 		{
 			c_rasterizer_draw_string draw_string;
@@ -246,7 +246,7 @@ void __cdecl director_render()
 			if (facing.yaw < 0.0f)
 				facing.yaw += TWO_PI;
 
-			char const* control_mode = "normal";
+			const char* control_mode = "normal";
 			if (player_control_get_machinima_camera_use_old_controls())
 				control_mode = "pan-cam";
 
@@ -412,9 +412,9 @@ c_camera* c_director::get_camera()
 	return (c_camera*)&m_camera_storage;
 }
 
-c_camera const* c_director::get_camera() const
+const c_camera* c_director::get_camera() const
 {
-	//return DECLFUNC(0x00592840, c_camera*, __thiscall, c_director const*)(this);
+	//return DECLFUNC(0x00592840, c_camera*, __thiscall, const c_director*)(this);
 
 	if (!m_camera_storage[0])
 		return nullptr;
@@ -422,7 +422,7 @@ c_camera const* c_director::get_camera() const
 	return (c_camera*)&m_camera_storage;
 }
 
-s_observer_command const* c_director::get_last_observer_command() const
+const s_observer_command* c_director::get_last_observer_command() const
 {
 	return INVOKE_CLASS_MEMBER(0x00592850, c_director, get_last_observer_command);
 
@@ -548,8 +548,8 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real32 tran
 	return result || force_update;
 }
 
-//.text:005934A0 ; void __cdecl c_camera::set_forward(real_vector3d const*)
-//.text:005934B0 ; void __cdecl c_camera::set_position(real_point3d const*)
+//.text:005934A0 ; void __cdecl c_camera::set_forward(const real_vector3d*)
+//.text:005934B0 ; void __cdecl c_camera::set_position(const real_point3d*)
 //.text:005934C0 ; void __cdecl c_camera::set_roll(real32)
 //.text:005934D0 ; void __cdecl c_director::set_watched_player(int32)
 //.text:00593520 ; bool __cdecl c_director::should_draw_hud() const
@@ -590,7 +590,7 @@ bool __cdecl camera_input_inhibited(e_controller_index controller_index)
 //.text:00725C90 ; void camera_globals_initialize_from_tags()
 //.text:007260D0 ; c_debug_director::c_debug_director(int32)
 
-char const* director_mode_get_name(e_director_mode director_mode)
+const char* director_mode_get_name(e_director_mode director_mode)
 {
 	if (director_mode < _director_mode_game || director_mode >= k_number_of_director_modes)
 		return "<invalid 'director_mode'>";
@@ -598,7 +598,7 @@ char const* director_mode_get_name(e_director_mode director_mode)
 	return k_director_mode_names[director_mode];
 }
 
-e_director_mode director_mode_from_string(char const* str)
+e_director_mode director_mode_from_string(const char* str)
 {
 	e_director_mode director_mode = e_director_mode(-1);
 	for (int32 i = _camera_mode_following; i < k_number_of_director_modes; i++)
@@ -660,7 +660,7 @@ void director_toggle_camera(int32 user_index, e_camera_mode camera_mode)
 	director_get(user_index)->set_camera_mode(camera_mode, 0.0f);
 }
 
-void __cdecl director_set_flying_camera_direct(int32 user_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up)
+void __cdecl director_set_flying_camera_direct(int32 user_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up)
 {
 	if (user_index == NONE)
 		return;
@@ -685,18 +685,18 @@ void __cdecl director_set_flying_camera_direct(int32 user_index, real_point3d co
 	flying_camera->set_roll(roll);
 }
 
-char const* scenario_get_name()
+const char* scenario_get_name()
 {
 	if (global_scenario_index == NONE)
 		return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
 
-	if (char const* name = tag_get_name(global_scenario_index))
+	if (const char* name = tag_get_name(global_scenario_index))
 		return tag_name_strip_path(name);
 
 	return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
 }
 
-void director_save_camera_named(char const* name)
+void director_save_camera_named(const char* name)
 {
 	if (!global_scenario_try_and_get())
 		return;
@@ -705,15 +705,15 @@ void director_save_camera_named(char const* name)
 		return;
 
 	c_static_string<256> filename;
-	char const* root = "";
-	char const* scenario_name = scenario_get_name();
+	const char* root = "";
+	const char* scenario_name = scenario_get_name();
 	filename.print("%s%s_%s.txt", root, name, scenario_name);
 
 	FILE* file;
 	fopen_s(&file, filename.get_string(), "w");
 	if (file)
 	{
-		s_observer_result const* camera = nullptr;
+		const s_observer_result* camera = nullptr;
 		for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 		{
 			camera = observer_try_and_get_camera(user_index);
@@ -734,7 +734,7 @@ void director_save_camera_named(char const* name)
 	}
 }
 
-void director_load_camera_named(char const* name)
+void director_load_camera_named(const char* name)
 {
 	if (!global_scenario_try_and_get())
 	{
@@ -746,8 +746,8 @@ void director_load_camera_named(char const* name)
 		return;
 
 	c_static_string<256> filename;
-	char const* root = "";
-	char const* scenario_name = scenario_get_name();
+	const char* root = "";
+	const char* scenario_name = scenario_get_name();
 	filename.print("%s%s_%s.txt", root, name, scenario_name);
 
 	s_file_reference info;

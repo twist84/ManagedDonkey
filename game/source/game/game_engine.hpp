@@ -42,7 +42,7 @@ enum e_game_engine_end_condition
 	k_game_engine_game_end_condition_count
 };
 
-extern char const* (&k_game_engine_end_conditions)[k_game_engine_game_end_condition_count];
+extern const char* (&k_game_engine_end_conditions)[k_game_engine_game_end_condition_count];
 
 // game_engine_hud_get_state_message
 // e_string_id_global
@@ -222,7 +222,7 @@ extern void __cdecl game_engine_game_starting();
 extern int32 __cdecl game_engine_get_finalized_player_place(int32 player_index);
 extern int32 __cdecl game_engine_get_finalized_team_place(e_game_team team_index);
 extern void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string);
-extern s_simulation_player_netdebug_data const* __cdecl game_engine_get_player_netdebug_data(int32 player_index);
+extern const s_simulation_player_netdebug_data* __cdecl game_engine_get_player_netdebug_data(int32 player_index);
 extern int32 __cdecl game_engine_get_player_place(int32 absolute_player_index);
 extern int32 __cdecl game_engine_get_player_score_for_display(int32 absolute_player_index, bool final_score);
 extern e_game_engine_status __cdecl game_engine_get_player_state_index(int32 player_index);
@@ -248,7 +248,7 @@ extern void __cdecl game_engine_update();
 extern void __cdecl game_engine_update_after_game();
 extern void __cdecl game_engine_update_global_fade_timers(real32 world_seconds_elapsed);
 extern void __cdecl game_engine_update_round_conditions();
-extern void __cdecl game_engine_dump_variant_settings(char const* filename);
+extern void __cdecl game_engine_dump_variant_settings(const char* filename);
 extern void __cdecl post_game_engine_globals_message(int32 message_type, int8 a2, int16 a3);
 extern void __cdecl process_game_engine_globals_messages();
 

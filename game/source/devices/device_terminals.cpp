@@ -8,7 +8,7 @@
 //.text:00BB6360 ; virtual void* c_load_terminal_screen_message::`vector deleting destructor'(unsigned int)
 //.text:00BB6390 ; virtual void c_load_terminal_screen_message::apply_initial_state(c_gui_screen_widget*) const
 //.text:00BB63B0 ; 
-//.text:00BB63C0 ; bool __cdecl device_terminal_allow_interaction(int32, union real_point3d const *)
+//.text:00BB63C0 ; bool __cdecl device_terminal_allow_interaction(int32, const real_point3d*)
 //.text:00BB6560 ; bool __cdecl device_terminal_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00BB66C0 ; void __cdecl device_terminal_delete(int32)
 //.text:00BB66D0 ; real32 __cdecl device_terminal_dummy_time_remaining(int32)

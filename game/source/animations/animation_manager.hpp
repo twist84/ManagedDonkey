@@ -16,7 +16,7 @@ static_assert(sizeof(s_animation_goal_settings) == 0x10);
 struct c_model_animation_graph;
 struct c_animation_manager
 {
-	c_model_animation_graph const* get_graph() const;
+	const c_model_animation_graph* get_graph() const;
 	bool valid_graph() const;
 	int32 get_state_name() const;
 

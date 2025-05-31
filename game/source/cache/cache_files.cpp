@@ -38,21 +38,21 @@
 #include <search.h>
 #include <string.h>
 
-REFERENCE_DECLARE(0x0189CFDC, char const* const, k_multiplayer_shared_scenario_tag);
-REFERENCE_DECLARE(0x0189CFE0, char const* const, k_single_player_shared_scenario_tag);
-REFERENCE_DECLARE(0x0189CFE4, char const* const, k_main_menu_scenario_tag);
-REFERENCE_DECLARE(0x0189CFE8, char const* const, k_introduction_scenario_tag);
-REFERENCE_DECLARE(0x0189CFEC, char const*, k_cache_strings_file);
-REFERENCE_DECLARE(0x0189CFF0, char const*, k_cache_tags_file);
-REFERENCE_DECLARE(0x0189CFF4, char const*, k_cache_tag_list_file);
-REFERENCE_DECLARE(0x0189CFF8, char const*, k_cache_resources_file);
-REFERENCE_DECLARE(0x0189CFFC, char const*, k_cache_textures_file);
-REFERENCE_DECLARE(0x0189D000, char const*, k_cache_textures_b_file);
-REFERENCE_DECLARE(0x0189D004, char const*, k_cache_audio_file);
-REFERENCE_DECLARE(0x0189D008, char const*, k_cache_video_file);
-REFERENCE_DECLARE(0x0189D00C, char const*, k_cache_file_extension);
+REFERENCE_DECLARE(0x0189CFDC, const char* const, k_multiplayer_shared_scenario_tag);
+REFERENCE_DECLARE(0x0189CFE0, const char* const, k_single_player_shared_scenario_tag);
+REFERENCE_DECLARE(0x0189CFE4, const char* const, k_main_menu_scenario_tag);
+REFERENCE_DECLARE(0x0189CFE8, const char* const, k_introduction_scenario_tag);
+REFERENCE_DECLARE(0x0189CFEC, const char*, k_cache_strings_file);
+REFERENCE_DECLARE(0x0189CFF0, const char*, k_cache_tags_file);
+REFERENCE_DECLARE(0x0189CFF4, const char*, k_cache_tag_list_file);
+REFERENCE_DECLARE(0x0189CFF8, const char*, k_cache_resources_file);
+REFERENCE_DECLARE(0x0189CFFC, const char*, k_cache_textures_file);
+REFERENCE_DECLARE(0x0189D000, const char*, k_cache_textures_b_file);
+REFERENCE_DECLARE(0x0189D004, const char*, k_cache_audio_file);
+REFERENCE_DECLARE(0x0189D008, const char*, k_cache_video_file);
+REFERENCE_DECLARE(0x0189D00C, const char*, k_cache_file_extension);
 
-char const* k_cache_path_format = "maps\\%s.map";
+const char* k_cache_path_format = "maps\\%s.map";
 
 uns8 const g_cache_file_creator_key[64]
 {
@@ -88,21 +88,21 @@ s_tag_reference g_last_tag_accessed = { .group_tag = 0xFFFFFFFF, .index = NONE }
 struct s_cache_file_tag_group_bsearch
 {
 public:
-	static int32 __cdecl compare(tag group_tag, s_cache_file_tag_group const* group)
+	static int32 __cdecl compare(tag group_tag, const s_cache_file_tag_group* group)
 	{
 		return group_tag - group->group_tag;
 	}
 
-	static int32 __cdecl search(tag group_tag, s_cache_file_tag_group const* group, int32 count)
+	static int32 __cdecl search(tag group_tag, const s_cache_file_tag_group* group, int32 count)
 	{
 		ASSERT(m_sorted);
 
 		int32 result = -1;
-		s_cache_file_tag_group const* current_group = group;
+		const s_cache_file_tag_group* current_group = group;
 
 		while (count)
 		{
-			s_cache_file_tag_group const* next_group = &current_group[count >> 1];
+			const s_cache_file_tag_group* next_group = &current_group[count >> 1];
 			int32 compare_result = compare(group_tag, next_group);
 
 			if (!compare_result)
@@ -124,10 +124,10 @@ public:
 	}
 
 private:
-	static int __cdecl sort_func(void const* a, void const* b)
+	static int __cdecl sort_func(const void* a, const void* b)
 	{
-		s_cache_file_tag_group const* group_a = static_cast<s_cache_file_tag_group const*>(a);
-		s_cache_file_tag_group const* group_b = static_cast<s_cache_file_tag_group const*>(b);
+		const s_cache_file_tag_group* group_a = static_cast<const s_cache_file_tag_group*>(a);
+		const s_cache_file_tag_group* group_b = static_cast<const s_cache_file_tag_group*>(b);
 
 		return group_a->group_tag - group_b->group_tag;
 	}
@@ -145,9 +145,9 @@ protected:
 
 bool s_cache_file_tag_group_bsearch::m_sorted = s_cache_file_tag_group_bsearch::sort();
 
-char const* tag_group_get_name(tag group_tag)
+const char* tag_group_get_name(tag group_tag)
 {
-	s_cache_file_tag_group const* group = nullptr;
+	const s_cache_file_tag_group* group = nullptr;
 	int32 index = s_cache_file_tag_group_bsearch::search(group_tag, global_tag_groups, global_tag_group_count);
 	if (index != -1)
 		group = &global_tag_groups[index];
@@ -158,7 +158,7 @@ char const* tag_group_get_name(tag group_tag)
 	return "";
 }
 
-int32 __cdecl tag_loaded(tag group_tag, char const* tag_name)
+int32 __cdecl tag_loaded(tag group_tag, const char* tag_name)
 {
 	if (g_cache_file_globals.tags_loaded)
 	{
@@ -172,7 +172,7 @@ int32 __cdecl tag_loaded(tag group_tag, char const* tag_name)
 				continue;
 
 			int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
-			char const* name = tag_get_name(tag_index);
+			const char* name = tag_get_name(tag_index);
 			if (csstricmp(tag_name, name) == 0)
 				return tag_index;
 		}
@@ -188,7 +188,7 @@ struct s_cache_file_global_tags_definition
 };
 static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
-char const* tag_get_name(int32 tag_name_index)
+const char* tag_get_name(int32 tag_name_index)
 {
 	if (!g_cache_file_globals.header.debug_tag_name_count)
 		return "";
@@ -196,7 +196,7 @@ char const* tag_get_name(int32 tag_name_index)
 	//ASSERT(g_cache_file_globals.tags_loaded);
 	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
-	if (char const* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
+	if (const char* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
 		return name;
 
 	return "";
@@ -207,7 +207,7 @@ char const* tag_get_name(int32 tag_name_index)
 	//return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
 }
 
-char const* tag_get_name_safe(int32 tag_name_index)
+const char* tag_get_name_safe(int32 tag_name_index)
 {
 	//ASSERT(g_cache_file_globals.tags_loaded);
 
@@ -216,7 +216,7 @@ char const* tag_get_name_safe(int32 tag_name_index)
 
 	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
-		if (char const* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
+		if (const char* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
 			return name;
 
 		return "";
@@ -229,11 +229,11 @@ char const* tag_get_name_safe(int32 tag_name_index)
 	return "";
 }
 
-int32 tag_name_get_index(tag group_tag, char const* name)
+int32 tag_name_get_index(tag group_tag, const char* name)
 {
 	for (int32 tag_index = 0; tag_index < g_cache_file_globals.header.debug_tag_name_count; tag_index++)
 	{
-		char const* result = g_cache_file_debug_globals->debug_tag_names[tag_index];
+		const char* result = g_cache_file_debug_globals->debug_tag_names[tag_index];
 		if (!result)
 			continue;
 
@@ -265,12 +265,12 @@ bool __cdecl cache_file_blocking_read(int32 cache_file_section, int32 section_of
 	return size.peek() == buffer_size;
 }
 
-bool __cdecl cache_file_content_signatures_match(int32 signature0_size, byte const* signature0, int32 signature1_size, byte const* signature1, bool unused)
+bool __cdecl cache_file_content_signatures_match(int32 signature0_size, const byte* signature0, int32 signature1_size, const byte* signature1, bool unused)
 {
 	return INVOKE(0x00501740, cache_file_content_signatures_match, signature0_size, signature0, signature1_size, signature1, unused);
 }
 
-bool __cdecl cache_file_get_content_signature(int32* out_signature_size, byte const** out_signature)
+bool __cdecl cache_file_get_content_signature(int32* out_signature_size, const byte** out_signature)
 {
 	return INVOKE(0x00501780, cache_file_get_content_signature, out_signature_size, out_signature);
 }
@@ -293,9 +293,9 @@ int32 __cdecl cache_file_get_global_tag_index(tag group_tag)
 }
 
 //.text:00501850 ; 
-//.text:00501870 ; c_static_string<256>* __cdecl cache_file_get_path(c_static_string<256>* result, char const* scenario_name)
+//.text:00501870 ; c_static_string<256>* __cdecl cache_file_get_path(c_static_string<256>* result, const char* scenario_name)
 
-void __cdecl cache_file_get_path(char const* scenario_name, char* cache_file_path, int32 cache_file_path_size)
+void __cdecl cache_file_get_path(const char* scenario_name, char* cache_file_path, int32 cache_file_path_size)
 {
 	INVOKE(0x005018C0, cache_file_get_path, scenario_name, cache_file_path, cache_file_path_size);
 
@@ -307,7 +307,7 @@ struct __declspec(align(8)) s_cache_file_security_globals
 	s_cache_file_header clean_header;
 	bool hashes_valid;
 	c_static_array<int32, 1> hash_sizes;
-	c_static_array<void const*, 1> hash_addresses;
+	c_static_array<const void*, 1> hash_addresses;
 	c_static_array<s_network_http_request_hash, 1> hashes;
 	byte hash_working_memory[0x400];
 	s_network_http_request_hash hash_of_hashes;
@@ -326,7 +326,7 @@ s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 	return INVOKE(0x005018F0, cache_file_get_security_globals);
 }
 
-void const* __cdecl cache_file_globals_get_tag_cache_base_address()
+const void* __cdecl cache_file_globals_get_tag_cache_base_address()
 {
 	//return INVOKE(0x00501930, cache_file_globals_get_tag_cache_base_address);
 
@@ -336,7 +336,7 @@ void const* __cdecl cache_file_globals_get_tag_cache_base_address()
 	return g_cache_file_globals.tag_cache_base_address;
 }
 
-bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
+bool __cdecl cache_file_header_verify(const s_cache_file_header* header, const char* scenario_path, bool fail_fatally)
 {
 	return INVOKE(0x00501950, cache_file_header_verify, header, scenario_path, fail_fatally);
 
@@ -408,7 +408,7 @@ bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char co
 	//return !error_occurred;
 }
 
-bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
+bool __cdecl cache_file_header_verify_and_version(const s_cache_file_header* header, const char* scenario_path, bool fail_fatally)
 {
 	return INVOKE(0x00501AD0, cache_file_header_verify_and_version, header, scenario_path, fail_fatally);
 }
@@ -418,20 +418,20 @@ void __cdecl cache_file_invalidate_signature()
 	INVOKE(0x00501B20, cache_file_invalidate_signature);
 }
 
-//real32 cache_file_map_progress_estimated_megabytes_remaining(enum e_scenario_type,char const *)
-real32 __cdecl cache_file_map_progress_estimated_megabytes_remaining(int32 scenario_type, char const* scenario_path)
+//real32 cache_file_map_progress_estimated_megabytes_remaining(enum e_scenario_type,const char*)
+real32 __cdecl cache_file_map_progress_estimated_megabytes_remaining(int32 scenario_type, const char* scenario_path)
 {
 	return INVOKE(0x00501B90, cache_file_map_progress_estimated_megabytes_remaining, scenario_type, scenario_path);
 }
 
-//int32 cache_file_map_progress_estimated_miliseconds_remaining(enum e_scenario_type,char const *)
-int32 __cdecl cache_file_map_progress_estimated_miliseconds_remaining(int32 scenario_type, char const* scenario_path)
+//int32 cache_file_map_progress_estimated_miliseconds_remaining(enum e_scenario_type,const char*)
+int32 __cdecl cache_file_map_progress_estimated_miliseconds_remaining(int32 scenario_type, const char* scenario_path)
 {
 	return INVOKE(0x00501BB0, cache_file_map_progress_estimated_miliseconds_remaining, scenario_type, scenario_path);
 }
 
-//real32 cache_file_map_progress_helper(enum e_scenario_type, char const*, enum e_cache_file_progress_type)
-real32 __cdecl cache_file_map_progress_helper(int32 scenario_type, char const* scenario_path, int32 progress_type)
+//real32 cache_file_map_progress_helper(enum e_scenario_type, const char*, enum e_cache_file_progress_type)
+real32 __cdecl cache_file_map_progress_helper(int32 scenario_type, const char* scenario_path, int32 progress_type)
 {
 	return INVOKE(0x00501BF0, cache_file_map_progress_helper, scenario_type, scenario_path, progress_type);
 }
@@ -441,7 +441,7 @@ uns32 __cdecl cache_files_get_checksum()
 	return INVOKE(0x00501F40, cache_files_get_checksum);
 }
 
-s_cache_file_header const* __cdecl cache_files_get_header()
+const s_cache_file_header* __cdecl cache_files_get_header()
 {
 	//return INVOKE(0x00501F90, cache_files_get_header);
 
@@ -452,7 +452,7 @@ s_cache_file_header const* __cdecl cache_files_get_header()
 	return &g_cache_file_globals.header;
 }
 
-s_rsa_signature const* __cdecl cache_files_get_rsa_signature()
+const s_rsa_signature* __cdecl cache_files_get_rsa_signature()
 {
 	return INVOKE(0x00501FA0, cache_files_get_rsa_signature);
 }
@@ -462,7 +462,7 @@ int32 __cdecl cache_files_get_total_tags_size()
 	return INVOKE(0x00501FB0, cache_files_get_total_tags_size);
 }
 
-char const* __cdecl cache_files_map_directory()
+const char* __cdecl cache_files_map_directory()
 {
 	//return INVOKE(0x00501FC0, cache_files_map_directory);
 
@@ -1190,7 +1190,7 @@ void cache_files_update_main_status()
 }
 
 void load_external_files();
-bool __cdecl scenario_tags_load(char const* scenario_path)
+bool __cdecl scenario_tags_load(const char* scenario_path)
 {
 	//bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
 	//ASSERT(cache_file_debug_tag_names_load());
@@ -1492,13 +1492,13 @@ void* __cdecl tag_get(tag group_tag, int32 tag_index)
 	return data;
 }
 
-void* __cdecl tag_get(tag group_tag, char const* tag_name)
+void* __cdecl tag_get(tag group_tag, const char* tag_name)
 {
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, group_tag);
 	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
-		char const* _tag_name = tag_get_name_safe(tag_index);
+		const char* _tag_name = tag_get_name_safe(tag_index);
 		if (_tag_name && csstricmp(_tag_name, tag_name) == 0)
 			return tag_get(group_tag, tag_index);
 	}
@@ -1587,7 +1587,7 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, int32* out_tag
 	return false;
 }
 
-void cache_file_tags_load_single_tag_file_test(char const* file_name)
+void cache_file_tags_load_single_tag_file_test(const char* file_name)
 {
 	s_file_reference file;
 	uns32 error = 0;
@@ -1648,8 +1648,8 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 		return;
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1686,8 +1686,8 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	//bool is_base_cache = g_cache_file_globals.tag_cache_offsets[0] == 0x20;
 
 	s_multiplayer_globals_definition* multiplayer_globals = instance->cast_to<s_multiplayer_globals_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	// Add back missing weapon selections
 	switch (stage)
@@ -1717,7 +1717,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 		//	// load vehicles
 		//	cache_file_tags_load_recursive(0x00001599); // objects\vehicles\warthog\warthog_snow
 		//
-		//	if (c_map_variant const* map_variant = network_squad_session_get_map_variant()) for (s_variant_quota const& quota : map_variant->m_quotas)
+		//	if (const c_map_variant* map_variant = network_squad_session_get_map_variant()) for (const s_variant_quota& quota : map_variant->m_quotas)
 		//	{
 		//		if (quota.object_definition_index == NONE)
 		//			continue;
@@ -1802,8 +1802,8 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 		return;
 
 	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1833,8 +1833,8 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 		return;
 
 	struct scenario* scenario = instance->cast_to<struct scenario>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1864,8 +1864,8 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 		return;
 
 	s_chud_globals_definition* chud_globals_definition = instance->cast_to<s_chud_globals_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1897,8 +1897,8 @@ void apply_vision_mode_definition_instance_modification(cache_file_tag_instance*
 		return;
 
 	s_vision_mode_definition* vision_mode_definition = instance->cast_to<s_vision_mode_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1928,8 +1928,8 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 		return;
 
 	struct object_definition* object_definition = instance->cast_to<struct object_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1959,8 +1959,8 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 		return;
 
 	struct unit_definition* unit_definition = instance->cast_to<struct unit_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1990,8 +1990,8 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 		return;
 
 	struct biped_definition* biped_definition = instance->cast_to<struct biped_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2029,8 +2029,8 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 		return;
 
 	struct vehicle_definition* vehicle_definition = instance->cast_to<struct vehicle_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2060,8 +2060,8 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 		return;
 
 	struct item_definition* item_definition = instance->cast_to<struct item_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2091,8 +2091,8 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 		return;
 
 	struct equipment_definition* equipment_definition = instance->cast_to<struct equipment_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2122,8 +2122,8 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 		return;
 
 	struct weapon_definition* weapon_definition = instance->cast_to<struct weapon_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2153,8 +2153,8 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 		return;
 
 	struct projectile_definition* projectile_definition = instance->cast_to<struct projectile_definition>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2184,8 +2184,8 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 		return;
 
 	s_multilingual_unicode_string_list_group_header* multilingual_unicode_string_list = instance->cast_to<s_multilingual_unicode_string_list_group_header>();
-	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name.get_string();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -2253,9 +2253,9 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 
 #if defined(ISEXPERIMENTAL)
 
-void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header const* file_header)
+void bitmap_fixup(cache_file_tag_instance* instance, const s_resource_file_header* file_header)
 {
-	DirectX::DDS_FILE_HEADER const* dds_file = reinterpret_cast<DirectX::DDS_FILE_HEADER const*>(file_header + 1);
+	const DirectX::DDS_FILE_HEADER* dds_file = reinterpret_cast<const DirectX::DDS_FILE_HEADER*>(file_header + 1);
 	if (!dds_file)
 	{
 		return;
@@ -2371,7 +2371,7 @@ bool check_for_specific_scenario(s_file_reference* file)
 	}
 	file_close(&specific_scenario_file);
 
-	char const* scenario_name = tag_name_strip_path(file_buffer);
+	const char* scenario_name = tag_name_strip_path(file_buffer);
 
 	return csstricmp(g_cache_file_globals.header.name.get_string(), scenario_name) != 0;
 }
@@ -2481,7 +2481,7 @@ void external_resource_fixup(int32 tag_index, cache_file_tag_instance* instance)
 {
 	for (int32 i = 0; i < g_resource_file_headers.count(); i++)
 	{
-		s_resource_file_header const* file_header = g_resource_file_headers[i];
+		const s_resource_file_header* file_header = g_resource_file_headers[i];
 
 		if (instance->tag_group == file_header->group_tag && tag_index == file_header->tag_index)
 		{

@@ -8,7 +8,7 @@ c_debug_menu_item_type::~c_debug_menu_item_type()
 {
 }
 
-void c_debug_menu_item_type::render(c_font_cache_base* font_cache, point2d const& position)
+void c_debug_menu_item_type::render(c_font_cache_base* font_cache, const point2d& position)
 {
 	point2d value_point{};
 	point2d number_point{};
@@ -28,7 +28,7 @@ void c_debug_menu_item_type::to_string(char* buffer, int32 buffer_size)
 	csstrnzcpy(buffer, "overload toString", buffer_size);
 }
 
-void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, point2d const& position)
+void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, const point2d& position)
 {
 	c_rasterizer_draw_string draw_string{};
 
@@ -50,7 +50,7 @@ void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, point2d
 		debug_menu_draw_rect(x0, y0, x1, y1, alpha, get_background_color());
 	}
 
-	real_argb_color const* color = debug_real_argb_grey;
+	const real_argb_color* color = debug_real_argb_grey;
 	if (!get_active() || get_readonly())
 		color = global_real_argb_black;
 
@@ -59,7 +59,7 @@ void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, point2d
 	draw_string.draw(font_cache, buffer);
 }
 
-c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, char const* name, bool readonly) :
+c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly) :
 	c_debug_menu_item_numbered(menu, name, NULL),
 	m_readonly(readonly)
 {
@@ -95,7 +95,7 @@ void c_debug_menu_item_type_bool::to_string(char* buffer, int32 buffer_size)
 	csnzprintf(buffer, buffer_size, "%s", m_value.get() ? "True" : "False");
 }
 
-c_debug_menu_item_type_bool::c_debug_menu_item_type_bool(c_debug_menu* menu, char const* name, bool readonly, char const* hs_global_name) :
+c_debug_menu_item_type_bool::c_debug_menu_item_type_bool(c_debug_menu* menu, const char* name, bool readonly, const char* hs_global_name) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(hs_global_name)
 {
@@ -126,7 +126,7 @@ void c_debug_menu_item_type_real::to_string(char* buffer, int32 buffer_size)
 	csnzprintf(buffer, buffer_size, "%f", m_value.get());
 }
 
-c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* variable, real32 min, real32 max, real32 inc) :
+c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, const char* name, bool readonly, const char* variable, real32 min, real32 max, real32 inc) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(variable),
 	m_min(min),
@@ -160,7 +160,7 @@ void c_debug_menu_item_type_short::to_string(char* buffer, int32 buffer_size)
 	csnzprintf(buffer, buffer_size, "%d", m_value.get());
 }
 
-c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int16 min, int16 max, int16 inc) :
+c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, const char* name, bool readonly, const char* variable, int16 min, int16 max, int16 inc) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(variable),
 	m_min(min),
@@ -194,7 +194,7 @@ void c_debug_menu_item_type_long::to_string(char* buffer, int32 buffer_size)
 	csnzprintf(buffer, buffer_size, "%d", m_value.get());
 }
 
-c_debug_menu_item_type_long::c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* variable, int32 min, int32 max, int32 inc) :
+c_debug_menu_item_type_long::c_debug_menu_item_type_long(c_debug_menu* menu, const char* name, bool readonly, const char* variable, int32 min, int32 max, int32 inc) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(variable),
 	m_min(min),

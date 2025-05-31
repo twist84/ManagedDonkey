@@ -9,7 +9,7 @@ enum e_screen_transition_type;
 struct c_gui_screen_widget;
 
 template<typename t_class>
-void ui_track_delete(t_class const* object);
+void ui_track_delete(const t_class* object);
 
 struct c_message
 {

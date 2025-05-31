@@ -29,7 +29,7 @@ public:
 	virtual bool can_add_to_recent_list() const;
 	virtual int32 get_score_to_win_round() const;
 	virtual int32 get_score_to_win_round_early() const; // halo online specific
-	virtual bool can_be_cast_to(e_game_engine_type type, void const** pointer) const;
+	virtual bool can_be_cast_to(e_game_engine_type type, const void** pointer) const;
 	virtual void custom_team_score_stats(e_game_team team_index, int32 old_score, int32 new_score) const;
 
 	void encode_to_mcc(c_bitstream* packet) const;
@@ -42,29 +42,29 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_base_variant const* variant, bool force);
-	//void set(s_game_engine_base_variant_definition const* definition, e_game_engine_type game_engine_index);
+	void set(const c_game_engine_base_variant* variant, bool force);
+	//void set(const s_game_engine_base_variant_definition* definition, e_game_engine_type game_engine_index);
 
 	void get_game_engine_name(c_static_wchar_string<1024>* game_engine_name) const;
 	void get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const;
 
-	char const* get_name() const;
-	void set_name(char const* name);
+	const char* get_name() const;
+	void set_name(const char* name);
 
-	char const* get_description() const;
-	void set_description(char const* description);
+	const char* get_description() const;
+	void set_description(const char* description);
 
 	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
-	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
+	const c_game_engine_miscellaneous_options* get_miscellaneous_options() const;
 
 	c_game_engine_respawn_options* get_respawn_options_writeable();
-	c_game_engine_respawn_options const* get_respawn_options() const;
+	const c_game_engine_respawn_options* get_respawn_options() const;
 
 	c_game_engine_social_options* get_social_options_writeable();
-	c_game_engine_social_options const* get_social_options() const;
+	const c_game_engine_social_options* get_social_options() const;
 
 	c_game_engine_map_override_options* get_map_override_options_writeable();
-	c_game_engine_map_override_options const* get_map_override_options() const;
+	const c_game_engine_map_override_options* get_map_override_options() const;
 
 	bool get_built_in() const;
 	void set_built_in(bool built_in);
@@ -173,15 +173,15 @@ public:
 	virtual void recover_state_before_promotion() const;
 	virtual void build_global_baseline(s_game_engine_state_data* state_data) const;
 	virtual void build_global_update(uns32 update_mask, c_static_flags_no_init<64>* actual_update_mask, s_game_engine_state_data* state_data) const;
-	virtual bool apply_global_update(uns32 update_mask, s_game_engine_state_data const* state_data) const;
+	virtual bool apply_global_update(uns32 update_mask, const s_game_engine_state_data* state_data) const;
 	virtual void build_simulation_baseline(int32 state_data_size, void* state_data) const;
 	virtual void build_simulation_update(c_static_flags_no_init<64>* update_mask, int32 state_data_size, void* state_data) const;
-	virtual bool apply_simulation_update(c_static_flags_no_init<64>* update_mask, int32 state_data_size, void const* state_data) const;
+	virtual bool apply_simulation_update(c_static_flags_no_init<64>* update_mask, int32 state_data_size, const void* state_data) const;
 	virtual void build_player_baseline(int16 player_absolute_index, int32 state_data_size, void* state_data) const;
 	virtual void build_player_update(int16 player_absolute_index, c_static_flags_no_init<64>* update_mask, int32 state_data_size, void* state_data) const;
-	virtual bool apply_player_update(int16 player_absolute_index, c_static_flags_no_init<64>* update_mask, int32 state_data_size, void const* state_data) const;
-	virtual int32 parse_multiplayer_string_token(int32 player_index, wchar_t const* token, int32 token_length, s_game_engine_event_data const* event, wchar_t* destination, int32 available_characters_to_write) const;
-	virtual bool handle_incoming_simulation_event(e_simulation_event_type type, void const* data) const;
+	virtual bool apply_player_update(int16 player_absolute_index, c_static_flags_no_init<64>* update_mask, int32 state_data_size, const void* state_data) const;
+	virtual int32 parse_multiplayer_string_token(int32 player_index, const wchar_t* token, int32 token_length, const s_game_engine_event_data* event, wchar_t* destination, int32 available_characters_to_write) const;
+	virtual bool handle_incoming_simulation_event(e_simulation_event_type type, const void* data) const;
 	virtual bool enable_lead_change_messages() const;
 	virtual bool enable_tied_leader_messages() const;
 	virtual int32 get_message_chud_reference(s_multiplayer_runtime_globals_definition* runtime_data) const;
@@ -191,7 +191,7 @@ private:
 public:
 	virtual void emit_game_start_event(int32) const;
 
-	void dump_player_trait_settings(char const* traits_name, c_player_traits const* traits, s_file_reference* file) const;
+	void dump_player_trait_settings(const char* traits_name, const c_player_traits* traits, s_file_reference* file) const;
 	void dump_settings(s_file_reference* file) const;
 };
 

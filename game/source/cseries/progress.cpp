@@ -36,7 +36,7 @@ void __cdecl progress_done()
 	//	progress_globals.description, ((system_milliseconds() - progress_globals.start_time) / 1000.0f));
 }
 
-void __cdecl progress_new(char const* description)
+void __cdecl progress_new(const char* description)
 {
 	INVOKE(0x005F0880, progress_new, description);
 
@@ -59,7 +59,7 @@ void __cdecl progress_new(char const* description)
 	//}
 }
 
-void __cdecl progress_set_custom_callbacks(progress_callbacks const* callbacks)
+void __cdecl progress_set_custom_callbacks(const progress_callbacks* callbacks)
 {
 	INVOKE(0x005F0910, progress_set_custom_callbacks, callbacks);
 
@@ -79,7 +79,7 @@ void __cdecl progress_set_custom_callbacks(progress_callbacks const* callbacks)
 	//}
 }
 
-void __cdecl progress_set_default_callbacks(progress_callbacks const* callbacks)
+void __cdecl progress_set_default_callbacks(const progress_callbacks* callbacks)
 {
 	INVOKE(0x005F0950, progress_set_default_callbacks, callbacks);
 
@@ -106,7 +106,7 @@ int32 __cdecl progress_update(int32 current_amount, int32 total_amount)
 	//return progress_update_with_description(current_amount, total_amount, NULL);
 }
 
-int32 __cdecl progress_update_with_description(int32 current_amount, int32 total_amount, char const* optional_description)
+int32 __cdecl progress_update_with_description(int32 current_amount, int32 total_amount, const char* optional_description)
 {
 	return INVOKE(0x005F09B0, progress_update_with_description, current_amount, total_amount, optional_description);
 

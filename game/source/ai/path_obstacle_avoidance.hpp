@@ -29,7 +29,7 @@ struct obstacle_path
 {
 	real32 radius;
 	bool ignore_broken_surfaces;
-	struct obstacles const* obstacles;
+	const struct obstacles* obstacles;
 	real_point3d goal;
 	c_sector_ref goal_sector_ref;
 	int16 goal_obstacle_index;
@@ -68,18 +68,18 @@ extern int16 __cdecl path_get_step_index(obstacle_path* path, int16 heap_index);
 extern bool __cdecl path_iterate(obstacle_path* path, bool final_step);
 extern bool __cdecl path_new(
 	obstacle_path* path,
-	struct obstacles const* obstacles,
+	const struct obstacles* obstacles,
 	bool ignore_broken_surfaces,
 	real32 radius,
-	real_point3d const* start,
+	const real_point3d* start,
 	c_sector_ref start_sector_ref,
-	real_point3d const* goal,
+	const real_point3d* goal,
 	c_sector_ref goal_sector_ref,
 	int16 projection_axis,
 	bool projection_sign,
 	bool final_step,
 	bool ignore_optional);
 
-extern void render_debug_path(obstacle_path const* path);
+extern void render_debug_path(const obstacle_path* path);
 extern void render_debug_obstacle_path();
 

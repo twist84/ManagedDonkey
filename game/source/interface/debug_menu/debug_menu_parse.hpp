@@ -193,10 +193,10 @@ struct s_parser_state
 //static_assert(sizeof(s_parser_state) == 0x330);
 static_assert(sizeof(s_parser_state) == 0x3030);
 
-extern char const* const g_token_names[k_token_count];
+extern const char* const g_token_names[k_token_count];
 
 extern s_parser_state g_parser_state;
 
 class c_debug_menu;
-extern void debug_menu_parse(c_debug_menu* root_menu, char const* file_name);
+extern void debug_menu_parse(c_debug_menu* root_menu, const char* file_name);
 

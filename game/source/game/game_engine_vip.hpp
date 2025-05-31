@@ -20,8 +20,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_vip_variant const* variant, bool force);
-	//void set(s_game_engine_vip_variant_definition const* definition, bool force);
+	void set(const c_game_engine_vip_variant* variant, bool force);
+	//void set(const s_game_engine_vip_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -76,16 +76,16 @@ public:
 	void set_influence_radius(int16 influence_radius);
 
 	c_player_traits* get_vip_team_traits_writeable();
-	c_player_traits const* get_vip_team_traits() const;
-	void set_vip_team_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_vip_team_traits() const;
+	void set_vip_team_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_vip_influence_traits_writeable();
-	c_player_traits const* get_vip_influence_traits() const;
-	void set_vip_influence_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_vip_influence_traits() const;
+	void set_vip_influence_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_vip_traits_writeable();
-	c_player_traits const* get_vip_traits() const;
-	void set_vip_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_vip_traits() const;
+	void set_vip_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_enum<int32, int16, 0, 500> m_score_to_win_round;         // default: 15

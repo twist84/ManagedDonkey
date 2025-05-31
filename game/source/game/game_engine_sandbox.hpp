@@ -20,8 +20,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_sandbox_variant const* variant, bool force);
-	//void set(s_game_engine_sandbox_variant_definition const* definition, bool force);
+	void set(const c_game_engine_sandbox_variant* variant, bool force);
+	//void set(const s_game_engine_sandbox_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -36,8 +36,8 @@ public:
 	void set_respawn_time(int16 respawn_time);
 
 	c_player_traits* get_player_traits_writeable();
-	c_player_traits const* get_player_traits() const;
-	void set_player_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_player_traits() const;
+	void set_player_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_sandbox_variant_flags, uns8, k_sandbox_variant_flags> m_variant_flags;

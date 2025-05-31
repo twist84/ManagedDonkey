@@ -113,28 +113,28 @@ extern bool g_suppress_keyboard_for_minidump;
 extern bool debug_console_pauses_game;
 extern bool debug_no_drawing;
 
-extern char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
+extern const char* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
 
 extern void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* new_address);
 extern void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address);
-extern uns32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, int32 line);
+extern uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, int32 line);
 extern uns32 __cdecl audio_thread_loop(void* blah);
 extern void __cdecl main_activate_cinematic_tag_private();
 extern void __cdecl main_activate_cinematic_zone(int32 cinematic_zone_index);
 extern void __cdecl main_activate_cinematic_zone_for_debugging(int32 cinematic_zone_index);
 extern void __cdecl main_activate_designer_zone(int32 designer_zone_index);
-extern void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count);
+extern void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count);
 extern void __cdecl main_cheat_drop_tag_private();
 extern void __cdecl main_clear_global_pending_zone_activation(int32 game_state_proc_flags);
-extern void __cdecl main_crash(char const* type);
+extern void __cdecl main_crash(const char* type);
 extern e_async_completion __cdecl main_crash_async(s_async_task* task, void* data, int32 data_size);
 extern void __cdecl main_crash_just_upload_dammit();
 extern void __cdecl main_deactivate_cinematic_tag_private();
 extern void __cdecl main_deactivate_cinematic_zone(int32 cinematic_zone_index);
 extern void __cdecl main_deactivate_designer_zone(int32 designer_zone_index);
 extern void __cdecl main_decompress_gamestate();
-extern void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool* event_flag);
-extern void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool volatile* event_flag);
+extern void __cdecl main_event_reset_internal(const char* description, e_main_reset_events_reason reason, bool* event_flag);
+extern void __cdecl main_event_reset_internal(const char* description, e_main_reset_events_reason reason, bool volatile* event_flag);
 extern bool __cdecl main_events_pending();
 extern void __cdecl main_events_reset(e_main_reset_events_reason reason);
 extern bool __cdecl main_events_pending();
@@ -149,7 +149,7 @@ extern bool __cdecl main_is_in_main_loop_pregame();
 extern bool __cdecl main_is_switching_zone_sets();
 extern bool __cdecl main_kick_startup_masking_sequence(bool kick_input);
 extern void __cdecl main_load_core();
-extern void __cdecl main_load_core_name(char const* core_name);
+extern void __cdecl main_load_core_name(const char* core_name);
 extern void __cdecl main_load_core_private();
 extern void __cdecl main_loop_dispose_restricted_regions();
 extern void __cdecl main_loop_initialize_restricted_regions();
@@ -168,7 +168,7 @@ extern void __cdecl main_loop_pregame_show_progress_screen();
 extern void __cdecl main_loop_process_global_state_changes();
 extern void __cdecl main_loop_resume();
 extern void __cdecl main_loop_suspend();
-extern void __cdecl main_loop_status_message(wchar_t const* status_message);
+extern void __cdecl main_loop_status_message(const wchar_t* status_message);
 extern bool __cdecl main_menu_has_performed_startup_sequence();
 extern void __cdecl main_modify_zone_activation_private();
 extern void __cdecl main_prepare_for_switch_zone_set(int32 zone_set_index);
@@ -188,7 +188,7 @@ extern void __cdecl main_run_demos_private();
 extern void __cdecl main_save_and_exit_campaign();
 extern void __cdecl main_save_and_exit_campaign_immediately();
 extern void __cdecl main_save_core();
-extern void __cdecl main_save_core_name(char const* core_name);
+extern void __cdecl main_save_core_name(const char* core_name);
 extern void __cdecl main_save_core_private();
 extern void __cdecl main_save_map();
 extern void __cdecl main_save_map_and_exit_private();
@@ -201,9 +201,9 @@ extern void __cdecl main_skip_cinematic_private();
 extern bool __cdecl main_startup_sequence();
 
 template<typename... parameters_t, int32 k_parameter_count = sizeof...(parameters_t)>
-bool main_status(char const* status_type, char const* format, parameters_t... parameters)
+bool main_status(const char* status_type, const char* format, parameters_t... parameters)
 {
-	return DECLFUNC(0x00506FB0, bool, __cdecl, char const*, char const*, ...)(status_type, format, parameters...);
+	return DECLFUNC(0x00506FB0, bool, __cdecl, const char*, const char*, ...)(status_type, format, parameters...);
 }
 
 extern void __cdecl main_status_dump(s_file_reference* file);
@@ -224,6 +224,6 @@ extern void __cdecl publish_waiting_gamestate();
 extern e_render_thread_mode __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting);
 extern void __cdecl unlock_resources_and_resume_render_thread(uns32 flags);
-extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);
-extern void __cdecl main_trace_event_internal(char const* context);
+extern void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, void* context);
+extern void __cdecl main_trace_event_internal(const char* context);
 

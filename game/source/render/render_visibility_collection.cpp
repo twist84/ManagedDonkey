@@ -24,7 +24,7 @@ int32 __cdecl render_visibility_add_object_to_items(int32 object_index, int32 pl
 	return INVOKE(0x00A53160, render_visibility_add_object_to_items, object_index, player_window_index, lit, shadow_casting);
 }
 
-void __cdecl render_visibility_camera_collection_compute(render_camera const* camera, s_cluster_reference camera_cluster_reference, render_projection const* projection, int32 user_index, int32 player_window_index, bool single_cluster_only, bool a7)
+void __cdecl render_visibility_camera_collection_compute(const render_camera* camera, s_cluster_reference camera_cluster_reference, const render_projection* projection, int32 user_index, int32 player_window_index, bool single_cluster_only, bool a7)
 {
 	INVOKE(0x00A53250, render_visibility_camera_collection_compute, camera, camera_cluster_reference, projection, user_index, player_window_index, single_cluster_only, a7);
 
@@ -53,7 +53,7 @@ void __cdecl render_visibility_camera_collection_compute(render_camera const* ca
 
 //.text:00A532F0 ; 
 
-bool __cdecl render_visibility_get_projection_depth_regions(real32* separation, visibility_projection const* projection)
+bool __cdecl render_visibility_get_projection_depth_regions(real32* separation, const visibility_projection* projection)
 {
 	return INVOKE(0x00A53310, render_visibility_get_projection_depth_regions, separation, projection);
 }
@@ -63,7 +63,7 @@ s_game_cluster_bit_vectors* __cdecl render_visibility_get_visible_clusters_bitve
 	return INVOKE(0x00A53320, render_visibility_get_visible_clusters_bitvector_frame);
 }
 
-bool __cdecl render_visibility_location_visible_in_frame(s_location const* location)
+bool __cdecl render_visibility_location_visible_in_frame(const s_location* location)
 {
 	return INVOKE(0x00A53330, render_visibility_location_visible_in_frame, location);
 }

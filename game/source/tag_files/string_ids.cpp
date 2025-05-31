@@ -38,7 +38,7 @@ e_string_id_namespaces const k_string_index_namespace_mapping[k_string_id_namesp
 	_string_id_namespace_global
 };
 
-char const* const k_string_namespace_names[k_string_id_namespace_count]
+const char* const k_string_namespace_names[k_string_id_namespace_count]
 {
 	"global",
 	"gui",
@@ -73,7 +73,7 @@ void __cdecl string_id_convert_static_string(c_static_string<128>* static_string
 //char* __cdecl string_id_get_string(int32 string_id, char* string, int32 string_size)
 //{
 //	int32 storage_index = NONE;
-//	g_string_id_globals.string_id_mappings.find(reinterpret_cast<int32 const*>(string_id), &storage_index);
+//	g_string_id_globals.string_id_mappings.find(reinterpret_cast<const int32*>(string_id), &storage_index);
 //	*string = 0;
 //	if (storage_index != NONE)
 //	{
@@ -84,7 +84,7 @@ void __cdecl string_id_convert_static_string(c_static_string<128>* static_string
 //	return string;
 //}
 
-int32 __cdecl string_id_retrieve(char const* string)
+int32 __cdecl string_id_retrieve(const char* string)
 {
 	c_static_string<128> string_buffer = string;
 	string_id_convert_static_string(&string_buffer);
@@ -95,13 +95,13 @@ int32 __cdecl string_id_retrieve(char const* string)
 	{
 		if (string_id_index < k_constant_string_id_table_entries)
 		{
-			char const* constant_string = g_constant_string_id_table[string_id_index].string;
+			const char* constant_string = g_constant_string_id_table[string_id_index].string;
 			if (string_buffer.is_equal(constant_string))
 				return g_constant_string_id_table[string_id_index].id;
 		}
 		else
 		{
-			char const* ascii_string = g_string_id_globals.ascii_strings[string_id_index];
+			const char* ascii_string = g_string_id_globals.ascii_strings[string_id_index];
 			if (ascii_string && string_buffer.is_equal(ascii_string))
 				return string_id_index;
 		}
@@ -110,7 +110,7 @@ int32 __cdecl string_id_retrieve(char const* string)
 	return _string_id_invalid;
 }
 
-char const* __cdecl string_id_get_string_const(int32 string_id)
+const char* __cdecl string_id_get_string_const(int32 string_id)
 {
 	int32 string_namespace = STRING_ID_NAMESPACE_FROM_STRING_ID(string_id);
 	int32 string_index = STRING_ID_INDEX_FROM_STRING_ID(string_id);
@@ -131,7 +131,7 @@ char const* __cdecl string_id_get_string_const(int32 string_id)
 
 void __cdecl string_id_initialize()
 {
-	//g_string_id_globals.ascii_strings = (char const**)malloc(0x48000);
+	//g_string_id_globals.ascii_strings = (const char**)malloc(0x48000);
 	//ASSERT(g_string_id_globals.ascii_strings != NULL);
 	//csmemset(g_string_id_globals.ascii_strings, 0, 0x48000);
 	//
@@ -156,14 +156,14 @@ void __cdecl string_id_initialize()
 	
 		fread_s(g_string_id_globals.ascii_storage, string_buffer_size, sizeof(char), string_buffer_size, strings_file);
 
-		g_string_id_globals.ascii_strings = (char const**)malloc(sizeof(char const*) * g_string_id_globals.string_id_count);
+		g_string_id_globals.ascii_strings = (const char**)malloc(sizeof(const char*) * g_string_id_globals.string_id_count);
 		ASSERT(g_string_id_globals.ascii_strings != NULL);
-		csmemset(g_string_id_globals.ascii_strings, 0, sizeof(char const*) * g_string_id_globals.string_id_count);
+		csmemset(g_string_id_globals.ascii_strings, 0, sizeof(const char*) * g_string_id_globals.string_id_count);
 
 		for (int32 string_id_index = 0; string_id_index < k_constant_string_id_table_entries; string_id_index++)
 		{
-			char const* constant_string = g_constant_string_id_table[string_id_index].string;
-			char const* string = g_string_id_globals.ascii_storage + string_offsets[string_id_index];
+			const char* constant_string = g_constant_string_id_table[string_id_index].string;
+			const char* string = g_string_id_globals.ascii_storage + string_offsets[string_id_index];
 
 			ASSERT(csstrcmp(constant_string, string) == 0);
 			g_string_id_globals.ascii_strings[string_id_index] = string;
@@ -173,7 +173,7 @@ void __cdecl string_id_initialize()
 		{
 			if (VALID_INDEX(string_offsets[string_id_index], string_buffer_size))
 			{
-				char const* string = g_string_id_globals.ascii_storage + string_offsets[string_id_index];
+				const char* string = g_string_id_globals.ascii_storage + string_offsets[string_id_index];
 				g_string_id_globals.ascii_strings[string_id_index] = string;
 			}
 			else
@@ -186,36 +186,36 @@ void __cdecl string_id_initialize()
 		fclose(strings_file);
 	}
 
-	char const* global_default = ASSERT_STRING_ID(global, default);
-	char const* global_bipeds = ASSERT_STRING_ID(global, bipeds);
-	char const* gui_primary_label = ASSERT_STRING_ID(gui, primary_label);
-	char const* gui_gp_h100_from_mainmenu = ASSERT_STRING_ID(gui, gp_h100_from_mainmenu);
-	char const* gui_alert_all_vidmaster_achievements = ASSERT_STRING_ID(gui_alert, all_vidmaster_achievements);
-	char const* gui_alert_extras_portal_unavailable = ASSERT_STRING_ID(gui_alert, extras_portal_unavailable);
-	char const* gui_dialog_not_signed_in_bring_up_guide = ASSERT_STRING_ID(gui_dialog, not_signed_in_bring_up_guide);
-	char const* gui_dialog_in_game_change_network_privacy = ASSERT_STRING_ID(gui_dialog, in_game_change_network_privacy);
-	char const* game_engine_map_default = ASSERT_STRING_ID(game_engine, map_default);
-	char const* game_engine_infection_event_survive = ASSERT_STRING_ID(game_engine, infection_event_survive);
-	char const* game_start_status_none = ASSERT_STRING_ID(game_start, status_none);
-	char const* game_start_error_signedin_controller_detatched = ASSERT_STRING_ID(game_start, error_signedin_controller_detatched);
-	char const* online__achievement_beat_sc100 = ASSERT_STRING_ID(online, _achievement_beat_sc100);
-	char const* online__achievement_tourist = ASSERT_STRING_ID(online, _achievement_tourist);
-	char const* saved_game_default_map_variant_save_name_format = ASSERT_STRING_ID(saved_game, default_map_variant_save_name_format);
-	char const* saved_game_default_film_save_description_format_editor = ASSERT_STRING_ID(saved_game, default_film_save_description_format_editor);
-	char const* gpu_g_all_memexport = ASSERT_STRING_ID(gpu, g_all_memexport);
-	char const* gpu_g_hidden_from_compiler = ASSERT_STRING_ID(gpu, g_hidden_from_compiler);
+	const char* global_default = ASSERT_STRING_ID(global, default);
+	const char* global_bipeds = ASSERT_STRING_ID(global, bipeds);
+	const char* gui_primary_label = ASSERT_STRING_ID(gui, primary_label);
+	const char* gui_gp_h100_from_mainmenu = ASSERT_STRING_ID(gui, gp_h100_from_mainmenu);
+	const char* gui_alert_all_vidmaster_achievements = ASSERT_STRING_ID(gui_alert, all_vidmaster_achievements);
+	const char* gui_alert_extras_portal_unavailable = ASSERT_STRING_ID(gui_alert, extras_portal_unavailable);
+	const char* gui_dialog_not_signed_in_bring_up_guide = ASSERT_STRING_ID(gui_dialog, not_signed_in_bring_up_guide);
+	const char* gui_dialog_in_game_change_network_privacy = ASSERT_STRING_ID(gui_dialog, in_game_change_network_privacy);
+	const char* game_engine_map_default = ASSERT_STRING_ID(game_engine, map_default);
+	const char* game_engine_infection_event_survive = ASSERT_STRING_ID(game_engine, infection_event_survive);
+	const char* game_start_status_none = ASSERT_STRING_ID(game_start, status_none);
+	const char* game_start_error_signedin_controller_detatched = ASSERT_STRING_ID(game_start, error_signedin_controller_detatched);
+	const char* online__achievement_beat_sc100 = ASSERT_STRING_ID(online, _achievement_beat_sc100);
+	const char* online__achievement_tourist = ASSERT_STRING_ID(online, _achievement_tourist);
+	const char* saved_game_default_map_variant_save_name_format = ASSERT_STRING_ID(saved_game, default_map_variant_save_name_format);
+	const char* saved_game_default_film_save_description_format_editor = ASSERT_STRING_ID(saved_game, default_film_save_description_format_editor);
+	const char* gpu_g_all_memexport = ASSERT_STRING_ID(gpu, g_all_memexport);
+	const char* gpu_g_hidden_from_compiler = ASSERT_STRING_ID(gpu, g_hidden_from_compiler);
 
 	// base tag strings
-	char const* tags_material = NULL; ASSERT_STRING_ID_TAGS(material, "material");
-	char const* tags_s3d_turf = NULL; ASSERT_STRING_ID_TAGS(s3d_turf, "s3d_turf");
+	const char* tags_material = NULL; ASSERT_STRING_ID_TAGS(material, "material");
+	const char* tags_s3d_turf = NULL; ASSERT_STRING_ID_TAGS(s3d_turf, "s3d_turf");
 
 	// 0.5 tag strings
-	char const* tags_ibr_texture = NULL; ASSERT_STRING_ID_TAGS(ibr_texture, "ibr_texture");
-	char const* tags_rations = NULL;     ASSERT_STRING_ID_TAGS(rations, "rations");
+	const char* tags_ibr_texture = NULL; ASSERT_STRING_ID_TAGS(ibr_texture, "ibr_texture");
+	const char* tags_rations = NULL;     ASSERT_STRING_ID_TAGS(rations, "rations");
 
 	// 0.6 tag string
-	char const* tags_actions_dualwield = NULL;                  ASSERT_STRING_ID_TAGS(actions_dualwield, "actions_dualwield");
-	char const* tags_social_team_changing_balanced_desc = NULL; ASSERT_STRING_ID_TAGS(social_team_changing_balanced_desc, "social_team_changing_balanced_desc");
+	const char* tags_actions_dualwield = NULL;                  ASSERT_STRING_ID_TAGS(actions_dualwield, "actions_dualwield");
+	const char* tags_social_team_changing_balanced_desc = NULL; ASSERT_STRING_ID_TAGS(social_team_changing_balanced_desc, "social_team_changing_balanced_desc");
 }
 
 void __cdecl string_id_dispose()

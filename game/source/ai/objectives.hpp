@@ -260,5 +260,5 @@ extern void __cdecl objectives_initialize_for_new_map();
 extern void __cdecl objectives_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl objectives_update();
 
-extern void ai_debug_render_objectives(int32 squad_index, real_point3d const* position);
+extern void ai_debug_render_objectives(int32 squad_index, const real_point3d* position);
 

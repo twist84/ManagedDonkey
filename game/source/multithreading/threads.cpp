@@ -19,7 +19,7 @@ c_interlocked_long thread_should_crash[k_registered_thread_count]{};
 HOOK_DECLARE(0x0051C510, initialize_thread);
 //HOOK_DECLARE(0x0051C960, thread_execution_wrapper);
 
-void __cdecl SetThreadName(uns32 thread_id, char const* thread_name)
+void __cdecl SetThreadName(uns32 thread_id, const char* thread_name)
 {
 	INVOKE(0x0051C330, SetThreadName, thread_id, thread_name);
 }
@@ -58,7 +58,7 @@ void __cdecl current_thread_update_test_functions()
 
 	ASSERT(!current_thread_should_assert());
 	if (current_thread_should_crash())
-		*(char const**)NULL = "Forced crash to test the minidump system, this is awesome";
+		*(const char**)NULL = "Forced crash to test the minidump system, this is awesome";
 }
 
 void __cdecl destroy_thread_management()
@@ -93,7 +93,7 @@ uns32 __cdecl get_main_thread_id()
 	return g_thread_globals.thread_id[k_thread_main];
 }
 
-char const* __cdecl get_registered_thread_name(int32 thread_index)
+const char* __cdecl get_registered_thread_name(int32 thread_index)
 {
 	//return INVOKE(0x0051C440, get_registered_thread_name, thread_index);
 
@@ -110,7 +110,7 @@ e_thread_processor __cdecl get_registered_thread_processor(e_registered_threads 
 	return (e_thread_processor)k_registered_thread_definitions[thread_index].processor_index;
 }
 
-char const* __cdecl get_thread_name_from_thread_id(int32 thread_id)
+const char* __cdecl get_thread_name_from_thread_id(int32 thread_id)
 {
 	return INVOKE(0x0051C480, get_thread_name_from_thread_id, thread_id);
 
@@ -287,7 +287,7 @@ uns32 __stdcall thread_execution_wrapper(void* parameter)
 	//{
 	//	int32 registered_thread_index = *static_cast<int32*>(parameter);
 	//	ASSERT(registered_thread_index > k_thread_main && registered_thread_index < k_registered_thread_count);
-	//	s_thread_definition const* definition = &k_registered_thread_definitions[registered_thread_index];
+	//	const s_thread_definition* definition = &k_registered_thread_definitions[registered_thread_index];
 	//	ASSERT(definition->start_routine);
 	//	register_thread_running(registered_thread_index);
 	//	return definition->start_routine(definition->user_parameter);

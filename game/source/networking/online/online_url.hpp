@@ -11,21 +11,21 @@ struct c_url_string
 		_cachable_type_on_success_and_failure,
 	};
 
-	c_url_string(char const* url, e_cachable_type cachable);
+	c_url_string(const char* url, e_cachable_type cachable);
 	c_url_string();
 
-	char const* get_string() const;
+	const char* get_string() const;
 	e_cachable_type get_cachable() const;
 	e_network_http_request_queue_type get_request_type() const;
 	e_online_lsp_service_type get_service_type() const;
 	int32 get_untracked_cache_lifetime_seconds() const;
 
-	void set(c_url_string const* other);
+	void set(const c_url_string* other);
 	void set_cachable(e_cachable_type cachable);
 	void set_request_type(e_network_http_request_queue_type queue_type);
 	void set_service_type(e_online_lsp_service_type service_type);
 
-	void operator=(c_url_string const* other) { set(other); }
+	void operator=(const c_url_string* other) { set(other); }
 
 	c_static_string<256> m_string;
 	e_online_lsp_service_type m_service_type;
@@ -54,20 +54,20 @@ extern void __cdecl create_title_url_base(c_url_string* url);
 extern void __cdecl create_user_url_base(c_url_string* url, uns64 user_id);
 extern void __cdecl make_hopper_network_directory(char* hopper_directory, int32 hopper_directory_size, char some_char);
 extern void __cdecl online_url_dispose();
-extern char const* __cdecl online_url_get_title();
+extern const char* __cdecl online_url_get_title();
 extern void __cdecl online_url_initialize();
 extern void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, uns64 user_id, uns32 consumable_id);
 extern void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uns64 user_id, uns32 consumable_id);
 extern void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 user_id, int32 game_region, int32 profile_region, bool extras_portal_debug);
-extern void __cdecl online_url_make_cache_key(c_url_string const* url, s_network_storage_cache_key* cache_key);
+extern void __cdecl online_url_make_cache_key(const c_url_string* url, s_network_storage_cache_key* cache_key);
 extern void __cdecl online_url_make_matchmaking_banhammer_message(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url);
-extern void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, uns16 hopper_id, char const* variant_name);
+extern void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, uns16 hopper_id, const char* variant_name);
 extern void __cdecl online_url_make_matchmaking_gameset(c_url_string* url, uns16 hopper_id);
 extern void __cdecl online_url_make_matchmaking_histogram(c_url_string* url, uns16 hopper_id, int32 hopper_skill);
 extern void __cdecl online_url_make_matchmaking_hopper(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_machine(c_url_string* url, uns64 machine_id);
-extern void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, uns16 hopper_id, char const* variant_name);
+extern void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, uns16 hopper_id, const char* variant_name);
 extern void __cdecl online_url_make_matchmaking_nightmap(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_statistics(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_tips(c_url_string* url);
@@ -86,6 +86,6 @@ extern void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url);
 extern void __cdecl online_url_make_user_service_record(c_url_string* url, uns64 user_id);
 extern void __cdecl online_url_make_vidmaster_popup(c_url_string* url);
 extern void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url);
-extern void __cdecl online_url_use_hopper_directory(char const* hopper_directory);
-extern void __cdecl online_url_use_user_override_hopper_directory(char const* hopper_directory);
+extern void __cdecl online_url_use_hopper_directory(const char* hopper_directory);
+extern void __cdecl online_url_use_user_override_hopper_directory(const char* hopper_directory);
 

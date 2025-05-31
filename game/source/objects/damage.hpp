@@ -52,7 +52,7 @@ struct s_damage_data
 	real32 material_effect_scale;
 	c_global_material_type global_material_type;
 	int16 shot_id;
-	s_projectile_material_response_definition const* material_response;
+	const s_projectile_material_response_definition* material_response;
 	s_damage_reporting_info damage_reporting_info;
 	c_aoe_damage_batchifier* optional_batchifier;
 	int32 secret_melee_material_index;
@@ -63,8 +63,8 @@ struct s_model_material;
 struct s_model_damage_info;
 struct s_damage_response_data
 {
-	s_model_material const* model_material;
-	s_model_damage_info const* damage_info;
+	const s_model_material* model_material;
+	const s_model_damage_info* damage_info;
 	int16 body_part;
 	int32 region_index;
 	int32 node_index;
@@ -120,8 +120,8 @@ extern bool debug_player_damage;
 extern bool debug_damage;
 extern int32 global_debug_damage_object_index;
 
-extern real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, int32 object_index, bool* a5);
-extern void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration);
+extern real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, const void* damage_definition, int32 object_index, bool* a5);
+extern void __cdecl damage_acceleration_apply(const s_damage_globals::s_damage_acceleration* damage_acceleration);
 extern void __cdecl damage_acceleration_queue_begin();
 extern void __cdecl damage_acceleration_queue_end();
 extern void __cdecl damage_data_new(s_damage_data* damage_data, int32 definition_index);
@@ -129,7 +129,7 @@ extern void __cdecl damage_initialize_for_new_map();
 extern void __cdecl damage_update();
 extern void __cdecl object_cause_damage(s_damage_data* damage_data, int32 object_index, int16 node_index, int16 region_index, int16 material_index, int32 predictability);
 extern void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object_index, int32 predictability);
-extern s_model_damage_info const* __cdecl object_get_damage_info(int32 object_index);
+extern const s_model_damage_info* __cdecl object_get_damage_info(int32 object_index);
 
 extern void render_debug_object_damage();
 

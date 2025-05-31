@@ -36,7 +36,7 @@ public:
 
 //private:
 	bool parse_http_response(
-		char const* buffer,
+		const char* buffer,
 		int32 buffer_length,
 		bool* out_completed_successfully,
 		int32* http_header_size,
@@ -54,7 +54,7 @@ public:
 	void set_upstream_quota(int32 upstream_quota);
 
 public:
-	bool start(c_http_stream* stream, int32 ip_address, uns16 port, char const* url, bool endpoint_is_alpha);
+	bool start(c_http_stream* stream, int32 ip_address, uns16 port, const char* url, bool endpoint_is_alpha);
 
 private:
 	bool start_connect();

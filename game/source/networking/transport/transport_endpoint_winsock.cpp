@@ -103,7 +103,7 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 	return NULL;
 }
 
-bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, transport_address const* address)
+bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, const transport_address* address)
 {
 	//return INVOKE(0x0043FAC0, transport_endpoint_async_connect, endpoint, );
 
@@ -201,7 +201,7 @@ bool __cdecl transport_endpoint_blocking(transport_endpoint* endpoint)
 	return TEST_BIT(endpoint->flags, _transport_endpoint_blocking_bit);
 }
 
-bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_address const* address)
+bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, const transport_address* address)
 {
 	//return INVOKE(0x0043FD70, transport_endpoint_connect, endpoint, address);
 
@@ -266,7 +266,7 @@ transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 	return endpoint;
 }
 
-bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, transport_address const* address)
+bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, const transport_address* address)
 {
 	//return INVOKE(0x0043FE50, transport_endpoint_create_socket, endpoint, address);
 
@@ -356,7 +356,7 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 	return option_value;
 }
 
-bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, int32* socket_address_size, uns8* const socket_address)
+bool __cdecl transport_endpoint_get_socket_address(const transport_address* address, int32* socket_address_size, uns8* const socket_address)
 {
 	//return INVOKE(0x00440000, transport_endpoint_get_socket_address, address, socket_address_size, socket_address);
 
@@ -397,7 +397,7 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 	return false;
 }
 
-bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, uns8 const* const socket_address, transport_address* address)
+bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, const uns8* const socket_address, transport_address* address)
 {
 	//return INVOKE(0x00440120, transport_endpoint_get_transport_address, socket_address_length, socket_address, address);
 
@@ -580,7 +580,7 @@ void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_
 	endpoint->type = type;
 }
 
-bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_address const* address)
+bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, const transport_address* address)
 {
 	//return INVOKE(0x004405C0, transport_endpoint_test, endpoint, address);
 
@@ -592,7 +592,7 @@ bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_add
 	return result;
 }
 
-int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, int16 length)
+int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, const void* buffer, int16 length)
 {
 	//return INVOKE(0x00440660, transport_endpoint_write, endpoint, buffer, length);
 
@@ -604,7 +604,7 @@ int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
 	int16 result = 0;
 	if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
 	{
-		int16 bytes_written = send(endpoint->socket, static_cast<char const*>(buffer), length, 0);
+		int16 bytes_written = send(endpoint->socket, static_cast<const char*>(buffer), length, 0);
 		if (bytes_written == int16(0xFFFF))
 		{
 			int error = WSAGetLastError();
@@ -634,7 +634,7 @@ int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
 	return result;
 }
 
-int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, int16 length, transport_address const* destination)
+int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const void* buffer, int16 length, const transport_address* destination)
 {
 	//return INVOKE(0x004406C0, transport_endpoint_write_to, endpoint, buffer, length, destination);
 

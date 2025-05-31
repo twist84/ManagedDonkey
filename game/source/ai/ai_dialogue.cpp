@@ -13,7 +13,7 @@
 //.text:01437440 ; 
 //.text:01437460 ; void __cdecl __tls_set_g_team_dialogue_state_allocator(void*)
 //.text:01437480 ; void __cdecl __tls_set_g_vocalization_record_allocator(void*)
-//.text:014374B0 ; bool __cdecl actor_can_vocalize(int32, c_dialogue_event const*, vocalization const*)
+//.text:014374B0 ; bool __cdecl actor_can_vocalize(int32, const c_dialogue_event*, const vocalization*)
 //.text:01437600 ; bool __cdecl actor_grunt(int32, int16)
 //.text:01437640 ; bool __cdecl actor_scream(int32, int16)
 //.text:01437690 ; bool __cdecl actor_should_play_dialogue_animation(int32)
@@ -61,11 +61,11 @@ void __cdecl ai_dialogue_update()
 //.text:01438BC0 ; bool __cdecl dialogue_category_survives_suppression(int16)
 //.text:01438C30 ; int16 __cdecl dialogue_choose_option(c_dialogue_option*, int16)
 //.text:01438D40 ; void __cdecl dialogue_emotion(int32, int16, int16)
-//.text:01438DA0 ; int32 __cdecl dialogue_find_speaker(ai_dialogue_definitions const*, c_dialogue_event*, vocalization_pattern const*, bool, bool, bool, int32*, int16*, real32*, real32*)
+//.text:01438DA0 ; int32 __cdecl dialogue_find_speaker(const ai_dialogue_definitions*, c_dialogue_event*, const vocalization_pattern*, bool, bool, bool, int32*, int16*, real32*, real32*)
 //.text:01439060 ; int32 __cdecl dialogue_find_speaker_clump(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, int32*, int16*, real32*, real32*)
-//.text:01439190 ; int32 __cdecl dialogue_find_speaker_joint(ai_dialogue_definitions const*, c_dialogue_event*, vocalization_pattern const*, bool, int32*, int16*, real32*, real32*)
+//.text:01439190 ; int32 __cdecl dialogue_find_speaker_joint(const ai_dialogue_definitions*, c_dialogue_event*, const vocalization_pattern*, bool, int32*, int16*, real32*, real32*)
 //.text:014393D0 ; int32 __cdecl dialogue_find_speaker_vehicle(ai_dialogue_definitions*, c_dialogue_event*, vocalization_pattern*, bool, int32*, int16*, real32*, real32*)
-//.text:014395B0 ; int32 __cdecl dialogue_get_team_vocalization_delay(ai_dialogue_definitions const*, team_dialogue_state*, int16)
+//.text:014395B0 ; int32 __cdecl dialogue_get_team_vocalization_delay(const ai_dialogue_definitions*, team_dialogue_state*, int16)
 
 real64 __cdecl dialogue_player_weighting(int32 unit_index)
 {
@@ -108,7 +108,7 @@ void ai_dialogue_render_player_weights()
 	actor_iterator_new(&iterator, true);
 	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
-		real_argb_color const* color = dialogue_team_get(actor->meta.team_index) == 1 ? global_real_argb_red : global_real_argb_green;
+		const real_argb_color* color = dialogue_team_get(actor->meta.team_index) == 1 ? global_real_argb_red : global_real_argb_green;
 
 		char string[50]{};
 		csnzprintf(string, sizeof(string), "%.2f", dialogue_player_weighting(actor->meta.unit_index));

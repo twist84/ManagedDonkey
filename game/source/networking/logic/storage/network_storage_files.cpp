@@ -4,7 +4,7 @@
 #include "cseries/cseries_events.hpp"
 #include "tag_files/files.hpp"
 
-bool __cdecl create_configuration_file(char const* filename, void const* file_contents, int32 file_size)
+bool __cdecl create_configuration_file(const char* filename, const void* file_contents, int32 file_size)
 {
 	//return INVOKE(0x004E7540, create_configuration_file, filename, file_contents, file_size);
 

@@ -19,8 +19,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_slayer_variant const* variant, bool force);
-	//void set(s_game_engine_slayer_variant_definition const* definition, bool force);
+	void set(const c_game_engine_slayer_variant* variant, bool force);
+	//void set(const s_game_engine_slayer_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -68,8 +68,8 @@ public:
 	void set_killing_spree_points(int8 killing_spree_points);
 
 	c_player_traits* get_leader_traits_writeable();
-	c_player_traits const* get_leader_traits() const;
-	void set_leader_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_leader_traits() const;
+	void set_leader_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_enum<int32, int16, -1, 250> m_score_to_win;        // default: 25

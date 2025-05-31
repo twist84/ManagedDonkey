@@ -36,7 +36,7 @@ extern void __cdecl simulation_action_object_create(int32 object_index);
 extern void __cdecl simulation_action_object_force_update(int32 object_index, c_simulation_object_update_flags& flags);
 extern void __cdecl simulation_action_object_update_internal(int32 object_index, c_simulation_object_update_flags& flags);
 extern bool __cdecl simulation_query_object_is_predicted(int32 object_index);
-extern bool __cdecl simulation_query_object_placement(object_placement_data const* data);
+extern bool __cdecl simulation_query_object_placement(const object_placement_data* data);
 
 template<typename t_flag_enum>
 void __cdecl simulation_action_object_update(int32 object_index, t_flag_enum flag);

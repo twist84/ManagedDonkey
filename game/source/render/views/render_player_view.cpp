@@ -37,7 +37,7 @@ REFERENCE_DECLARE(0x019147BC, real32, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real32, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real32, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, int32, render_debug_depth_render);
-REFERENCE_DECLARE(0x01694EC8, c_screen_postprocess::s_settings const* const, c_screen_postprocess::x_settings);
+REFERENCE_DECLARE(0x01694EC8, const c_screen_postprocess::s_settings* const, c_screen_postprocess::x_settings);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, render_distortions);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
@@ -88,7 +88,7 @@ void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3*
 	ASSERT(camera);
 	ASSERT(c_player_view::x_current_player_view, "cannot get the render camera when not in the player view render loop");
 
-	render_camera const* rasterizer_camera = c_player_view::x_current_player_view->get_rasterizer_camera();
+	const render_camera* rasterizer_camera = c_player_view::x_current_player_view->get_rasterizer_camera();
 
 	camera->position = rasterizer_camera->position;
 	camera->forward = rasterizer_camera->forward;
@@ -117,7 +117,7 @@ void __cdecl sub_14E56A0(int32 player_index, c_player_view* player_view)
 }
 
 // $TODO: move this
-void __cdecl vision_mode_render(int32 player_index, c_player_view const* player_view, real32 a3, real32 a4, real32 a5, int32 a6, int32 a7)
+void __cdecl vision_mode_render(int32 player_index, const c_player_view* player_view, real32 a3, real32 a4, real32 a5, int32 a6, int32 a7)
 {
 	INVOKE(0x014E3EE0, vision_mode_render, player_index, player_view, a3, a4, a5, a6, a7);
 }
@@ -902,7 +902,7 @@ void __cdecl render_texture_camera_set_position(real32 position_x, real32 positi
 	//g_render_texture_camera_globals->position_offset.k = 0.0f;
 }
 
-void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, real32 vertical_field_of_view_degrees)
+void __cdecl render_texture_camera_set_position_and_direction(bool enabled, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up, real32 vertical_field_of_view_degrees)
 {
 	INVOKE(0x00A3B150, render_texture_camera_set_position_and_direction, enabled, position, forward, up, vertical_field_of_view_degrees);
 
@@ -1042,7 +1042,7 @@ void c_player_view::restore_to_display_surface()
 	}
 }
 
-void c_player_view::setup_camera(int32 player_window_index, int32 player_window_count, int32 player_window_arrangement, int32 user_index, s_observer_result const* observer, bool freeze_render_camera)
+void c_player_view::setup_camera(int32 player_window_index, int32 player_window_count, int32 player_window_arrangement, int32 user_index, const s_observer_result* observer, bool freeze_render_camera)
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera, player_window_index, player_window_count, player_window_arrangement, user_index, observer, freeze_render_camera);
 

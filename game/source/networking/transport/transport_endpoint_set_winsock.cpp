@@ -4,7 +4,7 @@
 
 #include <WinSock2.h>
 
-char const* winsock_error_to_string_no_default(int err)
+const char* winsock_error_to_string_no_default(int err)
 {
 #define ERROR_CASE(code) case (int)code: return #code
     switch (err)
@@ -99,9 +99,9 @@ char const* winsock_error_to_string_no_default(int err)
 #undef ERROR_CASE
 }
 
-char const* winsock_error_to_string(int err)
+const char* winsock_error_to_string(int err)
 {
-	if (char const* result = winsock_error_to_string_no_default(err))
+	if (const char* result = winsock_error_to_string_no_default(err))
 		return result;
 
 	static char errbuf[256]{};

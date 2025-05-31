@@ -15,7 +15,7 @@ void __cdecl data_mine_flush()
 	INVOKE(0x005AC770, data_mine_flush);
 }
 
-//.text:005AC780 ; char const* __cdecl data_mine_get_tag_name(int32)
+//.text:005AC780 ; const char* __cdecl data_mine_get_tag_name(int32)
 
 void __cdecl data_mine_initialize()
 {
@@ -23,7 +23,7 @@ void __cdecl data_mine_initialize()
 }
 
 //.text:005AC7A0 ; 
-//.text:005AC7B0 ; void __cdecl data_mine_insert_text_and_camera_position(char const*)
+//.text:005AC7B0 ; void __cdecl data_mine_insert_text_and_camera_position(const char*)
 //.text:005AC7C0 ; 
 
 void __cdecl data_mine_update()

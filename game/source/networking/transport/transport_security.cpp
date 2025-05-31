@@ -16,20 +16,20 @@ HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
 HOOK_DECLARE(0x00430F30, transport_secure_identifier_retrieve);
 HOOK_DECLARE(0x00431100, transport_secure_nonce_get_string);
 
-//00430AF0 ; void __cdecl transport_secure_address_build_from_identifier(s_transport_unique_identifier const*, s_transport_secure_address*)
+//00430AF0 ; void __cdecl transport_secure_address_build_from_identifier(const s_transport_unique_identifier*, s_transport_secure_address*)
 
-bool __cdecl transport_secure_address_compare(s_transport_secure_address const* a, s_transport_secure_address const* b)
+bool __cdecl transport_secure_address_compare(const s_transport_secure_address* a, const s_transport_secure_address* b)
 {
 	return INVOKE(0x00430B20, transport_secure_address_compare, a, b);
 }
 
 // `transport_secure_identifier_compare` and `transport_secure_address_compare` are basically the same function
-bool __cdecl transport_secure_identifier_compare(s_transport_secure_identifier const* a, s_transport_secure_identifier const* b)
+bool __cdecl transport_secure_identifier_compare(const s_transport_secure_identifier* a, const s_transport_secure_identifier* b)
 {
 	return INVOKE(0x00430B20, transport_secure_identifier_compare, a, b);
 }
 
-bool __cdecl transport_secure_address_decode(s_transport_session_description const* secure_host_description, s_transport_secure_address const* secure_address, transport_address* usable_address)
+bool __cdecl transport_secure_address_decode(const s_transport_session_description* secure_host_description, const s_transport_secure_address* secure_address, transport_address* usable_address)
 {
 	ASSERT(secure_host_description);
 	ASSERT(secure_address);
@@ -44,7 +44,7 @@ bool __cdecl transport_secure_address_decode(s_transport_session_description con
 	return XNetXnAddrToInAddr(secure_address, &secure_host_description->id, usable_address);
 }
 
-void __cdecl transport_secure_address_extract_identifier(s_transport_secure_address const* secure_address, s_transport_unique_identifier* unique_identifier)
+void __cdecl transport_secure_address_extract_identifier(const s_transport_secure_address* secure_address, s_transport_unique_identifier* unique_identifier)
 {
 	//INVOKE(0x00430B80, transport_secure_address_extract_identifier, secure_address, unique_identifier);
 
@@ -86,7 +86,7 @@ uns64 __cdecl transport_secure_address_get_local_machine_id()
 	return 0;
 }
 
-bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, uns64* secure_machine_id)
+bool __cdecl transport_secure_address_get_machine_id(const s_transport_secure_address* secure_address, uns64* secure_machine_id)
 {
 	//return INVOKE(0x00430C30, transport_secure_address_get_machine_id, secure_address, secure_machine_id);
 
@@ -104,8 +104,8 @@ bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address 
 	return online_is_connected_to_live() && *secure_machine_id;
 }
 
-//00430C40 ; s_transport_secure_address const* __cdecl transport_secure_address_get_safe()
-//00430C50 ; char* __cdecl transport_secure_address_get_string(s_transport_secure_address const*)
+//00430C40 ; const s_transport_secure_address* __cdecl transport_secure_address_get_safe()
+//00430C50 ; char* __cdecl transport_secure_address_get_string(const s_transport_secure_address*)
 //00430CC0 ; bool __cdecl transport_secure_address_pending()
 
 //00430CD0 ; XNetAddEntry thunk
@@ -122,7 +122,7 @@ bool __cdecl transport_secure_address_resolve()
 	return INVOKE(0x00430CF0, transport_secure_address_resolve);
 }
 
-bool __cdecl transport_secure_address_retrieve(transport_address const* usable_address, int32 platform, s_transport_secure_address* secure_address)
+bool __cdecl transport_secure_address_retrieve(const transport_address* usable_address, int32 platform, s_transport_secure_address* secure_address)
 {
 	//return INVOKE(0x00430DF0, transport_secure_address_retrieve, usable_address, platform, secure_address);
 
@@ -136,18 +136,18 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 	return false;
 }
 
-char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* string, int32 maximum_string_length, bool include_online, bool include_mac)
+char* __cdecl transport_secure_address_to_string(const s_transport_secure_address* secure_address, char* string, int32 maximum_string_length, bool include_online, bool include_mac)
 {
 	return INVOKE(0x00430E20, transport_secure_address_to_string, secure_address, string, maximum_string_length, include_online, include_mac);
 }
 
 //00430E90 ; XNetRemoveEntry thunk
 
-//00430EA0 ; bool __cdecl transport_secure_connection_initiate(transport_address const*)
-//00430EB0 ; e_transport_secure_connection __cdecl transport_secure_connection_status(transport_address const*)
-//00430EC0 ; void __cdecl transport_secure_connection_terminate(transport_address const*)
+//00430EA0 ; bool __cdecl transport_secure_connection_initiate(const transport_address*)
+//00430EB0 ; e_transport_secure_connection __cdecl transport_secure_connection_status(const transport_address*)
+//00430EC0 ; void __cdecl transport_secure_connection_terminate(const transport_address*)
 
-char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifier const* secure_identifier)
+char* __cdecl transport_secure_identifier_get_string(const s_transport_secure_identifier* secure_identifier)
 {
 	//return INVOKE(0x00430ED0, transport_secure_identifier_get_string, secure_identifier);
 
@@ -156,7 +156,7 @@ char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifi
 	return result;
 }
 
-bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, int32 platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
+bool __cdecl transport_secure_identifier_retrieve(const transport_address* usable_address, int32 platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
 {
 	//return INVOKE(0x00430F30, transport_secure_identifier_retrieve, usable_address, platform, secure_identifier, secure_address);
 
@@ -187,7 +187,7 @@ uns64 __cdecl transport_secure_nonce_generate()
 	return INVOKE(0x00431010, transport_secure_nonce_generate);
 }
 
-char const* __cdecl transport_secure_nonce_get_string(uns64 nonce)
+const char* __cdecl transport_secure_nonce_get_string(uns64 nonce)
 {
 	//INVOKE(0x00431100, transport_secure_nonce_get_string, nonce);
 
@@ -249,9 +249,9 @@ void __cdecl transport_security_startup()
 	transport_secure_address_resolve();
 }
 
-//00431200 ; char const* __cdecl transport_session_description_get_string(s_transport_session_description const*)
-//004312C0 ; s_transport_unique_identifier const* __cdecl transport_unique_identifier_get()
-//004312D0 ; char const* __cdecl transport_unique_identifier_get_string(s_transport_unique_identifier const*)
+//00431200 ; const char* __cdecl transport_session_description_get_string(const s_transport_session_description*)
+//004312C0 ; const s_transport_unique_identifier* __cdecl transport_unique_identifier_get()
+//004312D0 ; const char* __cdecl transport_unique_identifier_get_string(const s_transport_unique_identifier*)
 
 void __cdecl transport_unique_identifier_resolve()
 {

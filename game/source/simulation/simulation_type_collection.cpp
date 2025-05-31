@@ -68,7 +68,7 @@ c_simulation_entity_definition* c_simulation_type_collection::get_entity_definit
 }
 
 // 00470520
-char const* c_simulation_type_collection::get_entity_type_name(e_simulation_entity_type entity_type) const
+const char* c_simulation_type_collection::get_entity_type_name(e_simulation_entity_type entity_type) const
 {
 	if (VALID_INDEX(entity_type, m_entity_type_count))
 	{
@@ -117,7 +117,7 @@ c_simulation_event_definition* c_simulation_type_collection::get_event_definitio
 }
 
 // 00470570
-char const* c_simulation_type_collection::get_event_type_name(e_simulation_event_type event_type) const
+const char* c_simulation_type_collection::get_event_type_name(e_simulation_event_type event_type) const
 {
 	if (VALID_INDEX(event_type, m_event_type_count))
 	{

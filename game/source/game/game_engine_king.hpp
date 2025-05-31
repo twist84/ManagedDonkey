@@ -19,8 +19,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_king_variant const* variant, bool force);
-	//void set(s_game_engine_king_variant_definition const* definition, bool force);
+	void set(const c_game_engine_king_variant* variant, bool force);
+	//void set(const s_game_engine_king_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -51,8 +51,8 @@ public:
 	void set_outside_hill_points(int8 outside_hill_points);
 
 	c_player_traits* get_inside_hill_traits_writeable();
-	c_player_traits const* get_inside_hill_traits() const;
-	void set_inside_hill_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_inside_hill_traits() const;
+	void set_inside_hill_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_king_flags_settings, uns32, k_king_flags_settings> m_variant_flags;

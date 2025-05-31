@@ -10,7 +10,7 @@ struct __declspec(align(32)) t_event_queue
 	s_synchronized_list_header m_free_list_header;
 	bool m_initialized;
 	int32 m_entry_limit;
-	char const* m_name;
+	const char* m_name;
 };
 static_assert(sizeof(t_event_queue<int32, 6>) == 0x40);
 

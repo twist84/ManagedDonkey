@@ -1,8 +1,8 @@
 #include "ai/event_handling.hpp"
 
 //.text:01498720 ; void __cdecl actor_handle_bump(int32, int32)
-//.text:01498860 ; void __cdecl actor_handle_sound(int32, int32, int32, int32, ai_sound_data const*)
-//.text:01498940 ; bool __cdecl actor_handle_speech(int32, int32, ai_information_data const*)
+//.text:01498860 ; void __cdecl actor_handle_sound(int32, int32, int32, int32, const ai_sound_data*)
+//.text:01498940 ; bool __cdecl actor_handle_speech(int32, int32, const ai_information_data*)
 //.text:01498A20 ; 
 //.text:01498A30 ; void __cdecl ai_handle_grenade_release(int32, int32)
 //.text:01498B20 ; bool __cdecl ai_handle_phase_start(int32, real_point3d*)

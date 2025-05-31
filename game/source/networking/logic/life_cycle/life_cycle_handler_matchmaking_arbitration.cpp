@@ -18,7 +18,7 @@ c_life_cycle_state_handler_matchmaking_arbitration::c_life_cycle_state_handler_m
 	//DECLFUNC(0x00453F90, void, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*)(this);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_arbitration::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_arbitration::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454730, c_life_cycle_state_handler_matchmaking_arbitration, get_state_string);
 
@@ -134,7 +134,7 @@ bool c_life_cycle_state_handler_matchmaking_arbitration::ready_to_start()
 	c_console::write_line("donkey:networking:logic:life_cycle:matchmaking_arbitration: c_life_cycle_state_handler_matchmaking_arbitration::ready_to_start");
 
 	c_network_session* group_session = get_manager()->get_group_session();
-	c_network_session_membership const* session_membership = group_session->get_session_membership();
+	const c_network_session_membership* session_membership = group_session->get_session_membership();
 
 	bool arbitration_completed = false;
 	if (m_flags.test(_matchmaking_arbitration_complete_bit))

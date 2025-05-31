@@ -13,7 +13,7 @@
 #include "interface/user_interface_window_manager.hpp"
 
 template<>
-void ui_track_delete<c_gui_data>(c_gui_data const* object)
+void ui_track_delete<c_gui_data>(const c_gui_data* object)
 {
 	ASSERT(object != NULL);
 
@@ -22,7 +22,7 @@ void ui_track_delete<c_gui_data>(c_gui_data const* object)
 }
 
 template<>
-void ui_track_delete<c_gui_tag_datasource>(c_gui_tag_datasource const* object)
+void ui_track_delete<c_gui_tag_datasource>(const c_gui_tag_datasource* object)
 {
 	ASSERT(object != NULL);
 
@@ -31,7 +31,7 @@ void ui_track_delete<c_gui_tag_datasource>(c_gui_tag_datasource const* object)
 }
 
 template<>
-void ui_track_delete<c_game_tag_parser>(c_game_tag_parser const* object)
+void ui_track_delete<c_game_tag_parser>(const c_game_tag_parser* object)
 {
 	ASSERT(object != NULL);
 
@@ -40,7 +40,7 @@ void ui_track_delete<c_game_tag_parser>(c_game_tag_parser const* object)
 }
 
 template<>
-void ui_track_delete<c_gui_data_array_test>(c_gui_data_array_test const* object)
+void ui_track_delete<c_gui_data_array_test>(const c_gui_data_array_test* object)
 {
 	ASSERT(object != NULL);
 
@@ -49,7 +49,7 @@ void ui_track_delete<c_gui_data_array_test>(c_gui_data_array_test const* object)
 }
 
 template<>
-void ui_track_delete<c_gui_group_widget>(c_gui_group_widget const* object)
+void ui_track_delete<c_gui_group_widget>(const c_gui_group_widget* object)
 {
 	ASSERT(object != NULL);
 
@@ -128,7 +128,7 @@ void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
 	m_datasource[m_datasource_count++] = datasource;
 }
 
-void c_gui_screen_widget::add_definition_fields(s_screen_widget_definition const* definition, bool was_templated)
+void c_gui_screen_widget::add_definition_fields(const s_screen_widget_definition* definition, bool was_templated)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB06F0, c_gui_screen_widget, add_definition_fields, definition, was_templated);
 
@@ -383,7 +383,7 @@ int32 c_gui_screen_widget::get_multilingual_unicode_string_list_index()
 	return m_definition.string_list_tag_reference_index;
 }
 
-char const* c_gui_screen_widget::get_multilingual_unicode_string_list_tag_name()
+const char* c_gui_screen_widget::get_multilingual_unicode_string_list_tag_name()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB0F70, c_gui_screen_widget, get_multilingual_unicode_string_list_tag_name);
 
@@ -432,28 +432,28 @@ bool c_gui_screen_widget::get_string_by_string_id(int32 string_identifier, c_sta
 
 //.text:00AB1040 ; 
 //.text:00AB1110 ; 
-//.text:00AB11D0 ; private: bool c_gui_screen_widget::handle_controller_alt_stick_attempt(c_controller_input_message const*)
-//.text:00AB1240 ; private: bool c_gui_screen_widget::handle_controller_alt_tab_attempt(c_controller_input_message const*)
+//.text:00AB11D0 ; private: bool c_gui_screen_widget::handle_controller_alt_stick_attempt(const c_controller_input_message*)
+//.text:00AB1240 ; private: bool c_gui_screen_widget::handle_controller_alt_tab_attempt(const c_controller_input_message*)
 
-bool c_gui_screen_widget::handle_controller_input_message(c_controller_input_message const* message)
+bool c_gui_screen_widget::handle_controller_input_message(const c_controller_input_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB1270, c_gui_screen_widget, handle_controller_input_message, message);
 }
 
-//.text:00AB1370 ; private: bool c_gui_screen_widget::handle_controller_selection_attempt(c_controller_input_message const*)
-//.text:00AB13C0 ; private: bool c_gui_screen_widget::handle_controller_tab_attempt(c_controller_input_message const*)
+//.text:00AB1370 ; private: bool c_gui_screen_widget::handle_controller_selection_attempt(const c_controller_input_message*)
+//.text:00AB13C0 ; private: bool c_gui_screen_widget::handle_controller_tab_attempt(const c_controller_input_message*)
 
-bool c_gui_screen_widget::handle_dialog_result(c_dialog_result_message const* message)
+bool c_gui_screen_widget::handle_dialog_result(const c_dialog_result_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB13F0, c_gui_screen_widget, handle_dialog_result, message);
 }
 
-bool c_gui_screen_widget::handle_focused_widget_selected(c_controller_input_message const* message, c_gui_widget* widget)
+bool c_gui_screen_widget::handle_focused_widget_selected(const c_controller_input_message* message, c_gui_widget* widget)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB1420, c_gui_screen_widget, handle_focused_widget_selected, message, widget);
 }
 
-bool c_gui_screen_widget::handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_widget::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB14C0, c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 	//return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[49], c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
@@ -495,7 +495,7 @@ bool c_gui_screen_widget::__funcs53()
 	//return true;
 }
 
-//.text:00AB17D0 ; private: c_gui_group_widget* c_gui_screen_widget::load_display_group(s_runtime_screen_widget_definition const*, c_gui_screen_widget::e_display_group_type, int32)
+//.text:00AB17D0 ; private: c_gui_group_widget* c_gui_screen_widget::load_display_group(const s_runtime_screen_widget_definition*, c_gui_screen_widget::e_display_group_type, int32)
 //.text:00AB1830 ; public: void c_gui_screen_widget::load_display_group_by_name(c_gui_screen_widget::e_display_group_type, int32)
 //.text:00AB1860 ; 
 //.text:00AB1890 ; 
@@ -519,9 +519,9 @@ void c_gui_screen_widget::post_initialize()
 		window_manager_get()->run_screen_hs_script(m_definition.script_index);
 	}
 
-	//if (s_screen_widget_definition const* screen_definition = get_screen_definition())
+	//if (const s_screen_widget_definition* screen_definition = get_screen_definition())
 	//{
-	//	if (s_mouse_cursor_definition const* mouse_cursor_definition = mouse_cursor_definition_get(screen_definition->mouse_cursor_tag.index))
+	//	if (const s_mouse_cursor_definition* mouse_cursor_definition = mouse_cursor_definition_get(screen_definition->mouse_cursor_tag.index))
 	//	{
 	//		input_set_mouse_cursors_from_tag(mouse_cursor_definition);
 	//	}
@@ -557,7 +557,7 @@ void c_gui_screen_widget::predict_pending_resources(int32 a1)
 	sub_AB1B00(this, a1);
 }
 
-bool c_gui_screen_widget::process_message(c_message const* message)
+bool c_gui_screen_widget::process_message(const c_message* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB1BA0, c_gui_screen_widget, process_message, message);
 
@@ -565,21 +565,21 @@ bool c_gui_screen_widget::process_message(c_message const* message)
 	{
 	case _message_type_controller_input:
 	{
-		c_controller_input_message const* controller_input_message = (c_controller_input_message const*)message;
+		const c_controller_input_message* controller_input_message = (const c_controller_input_message*)message;
 		if (handle_controller_input_message(controller_input_message))
 		{
 			c_window_manager::play_controller_sound(
 				m_definition.sound_override_reference_index,
 				controller_input_message->get_event_type(),
 				controller_input_message->get_component());
-	
+
 			return true;
 		}
 	}
 	break;
 	case _message_type_dialog_result:
 	{
-		c_dialog_result_message const* dialog_result_message = (c_dialog_result_message const*)message;
+		const c_dialog_result_message* dialog_result_message = (const c_dialog_result_message*)message;
 		return handle_dialog_result(dialog_result_message);
 	}
 	break;
@@ -668,7 +668,7 @@ void c_gui_screen_widget::set_text_widget_string_id(int32 widget_name, int32 wid
 //.text:00AB2300 ; public: void c_gui_screen_widget::set_text_widget_string_id_from_datasource(int32, int32, int32, int32)
 //.text:00AB23A0 ; public: void c_gui_screen_widget::set_text_widget_string_id_from_focused_list_item(int32, int32, int32)
 
-void c_gui_screen_widget::set_text_widget_text(int32 widget_name, wchar_t const* widget_text)
+void c_gui_screen_widget::set_text_widget_text(int32 widget_name, const wchar_t* widget_text)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB23E0, c_gui_screen_widget, set_text_widget_text, widget_name, widget_text);
 

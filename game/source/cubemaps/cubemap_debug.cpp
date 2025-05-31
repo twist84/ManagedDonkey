@@ -29,7 +29,7 @@ void __cdecl c_cubemap_debug::render_object_cubemap_samples(int32 object_index)
     if (!g_render || object_index == NONE)
         return;
 
-    render_lighting const* object_lighting = object_get_cached_render_lighting(object_index);
+    const render_lighting* object_lighting = object_get_cached_render_lighting(object_index);
     if (!object_lighting)
         return;
 

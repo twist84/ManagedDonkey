@@ -129,7 +129,7 @@ struct c_gui_model_widget :
 	public c_gui_widget
 {
 public:
-	static void __cdecl render(s_gui_model_widget_render_data const* render_data, rectangle2d const* window_bounds);
+	static void __cdecl render(const s_gui_model_widget_render_data* render_data, const rectangle2d* window_bounds);
 
 //protected:
 	s_runtime_model_widget_definition m_definition;

@@ -2,7 +2,7 @@
 
 #include "cseries/cseries_events.hpp"
 
-c_game_variant const* c_network_session_parameter_game_variant::get() const
+const c_game_variant* c_network_session_parameter_game_variant::get() const
 {
 	if (!get_allowed())
 	{
@@ -13,7 +13,7 @@ c_game_variant const* c_network_session_parameter_game_variant::get() const
 	return &m_data.game_variant;
 }
 
-bool c_network_session_parameter_game_variant::request_change(c_game_variant const* game_variant)
+bool c_network_session_parameter_game_variant::request_change(const c_game_variant* game_variant)
 {
 	if (set_allowed())
 		return set(game_variant);
@@ -39,7 +39,7 @@ bool c_network_session_parameter_game_variant::request_change(c_game_variant con
 	return true;
 }
 
-bool c_network_session_parameter_game_variant::set(c_game_variant const* game_variant)
+bool c_network_session_parameter_game_variant::set(const c_game_variant* game_variant)
 {
 	return INVOKE_CLASS_MEMBER(0x00456220, c_network_session_parameter_game_variant, set, game_variant);
 }

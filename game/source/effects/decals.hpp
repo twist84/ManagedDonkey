@@ -12,16 +12,16 @@ struct c_decal_system :
 {
 public:
 	static void __cdecl prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
-	static void __cdecl initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
-	static void __cdecl dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* activating_non_bsp_zone_set);
-	static void __cdecl change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local);
+	static void __cdecl initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set);
+	static void __cdecl dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_set* activating_non_bsp_zone_set);
+	static void __cdecl change_pvs(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
-	static void __cdecl prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
+	static void __cdecl prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 	static void __cdecl submit_all();
 
 //private:

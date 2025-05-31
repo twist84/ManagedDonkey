@@ -26,5 +26,5 @@ void __cdecl autosave_queue_initialize_for_new_map()
 	INVOKE(0x0067BED0, autosave_queue_initialize_for_new_map);
 }
 
-//.text:0067BEE0 ; int32 __cdecl autosave_queue_read_file(s_file_reference const*, void*, int32, c_synchronized_long*, c_synchronized_long*)
+//.text:0067BEE0 ; int32 __cdecl autosave_queue_read_file(const s_file_reference*, void*, int32, c_synchronized_long*, c_synchronized_long*)
 

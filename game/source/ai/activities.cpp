@@ -25,8 +25,8 @@ void __cdecl activities_initialize()
 //.text:01458590 ; 
 //.text:014585B0 ; 
 //.text:014585C0 ; e_ai_posture __cdecl posture_get_by_name(int32)
-//.text:014585F0 ; s_posture_info const* __cdecl posture_info_get(e_ai_posture)
-//.text:01458610 ; s_posture_info const* __cdecl posture_info_get_by_name(int32)
+//.text:014585F0 ; const s_posture_info* __cdecl posture_info_get(e_ai_posture)
+//.text:01458610 ; const s_posture_info* __cdecl posture_info_get_by_name(int32)
 
 /*e_ai_posture const g_activity_posture_variants[k_activity_count][k_ai_action_count]
 {

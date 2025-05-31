@@ -50,7 +50,7 @@ protected:
 public:
 	c_session_qos_reply_manager();
 	void dispose();
-	int32 get_qos_reply_block(s_network_squad_status_data const* qos_status, int32 max_block_size, byte* block_data);
+	int32 get_qos_reply_block(const s_network_squad_status_data* qos_status, int32 max_block_size, byte* block_data);
 	void initialize();
 	void update();
 

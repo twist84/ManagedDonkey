@@ -11,16 +11,16 @@
 //.text:00B9F1D0 ; 
 //.text:00B9F1E0 ; 
 //.text:00B9F1F0 ; public: void __cdecl c_short_quaternion::get_real_matrix4x3(real_matrix4x3*) const
-//.text:00B9F270 ; public: void __cdecl c_word_quantized_position::get_real_point3d(real_rectangle3d const*, real_point3d*) const
+//.text:00B9F270 ; public: void __cdecl c_word_quantized_position::get_real_point3d(const real_rectangle3d*, real_point3d*) const
 //.text:00B9F330 ; 
 //.text:00B9F3A0 ; public: void __cdecl c_dword_unit_vector::get_real_vector3d(real_vector3d*) const
 //.text:00B9F460 ; 
 //.text:00B9F480 ; int32 __cdecl object_get_first_widget(int32)
 //.text:00B9F4B0 ; 
-//.text:00B9F4F0 ; public: void __cdecl c_short_quaternion::set_real_matrix4x3(real_matrix4x3 const*)
-//.text:00B9F570 ; public: void __cdecl c_word_quantized_position::set_real_point3d(real_rectangle3d const*, real_point3d const*)
+//.text:00B9F4F0 ; public: void __cdecl c_short_quaternion::set_real_matrix4x3(const real_matrix4x3*)
+//.text:00B9F570 ; public: void __cdecl c_word_quantized_position::set_real_point3d(const real_rectangle3d*, const real_point3d*)
 //.text:00B9F670 ; public: void __cdecl c_short_quaternion::set_real_quaternion(real_quaternion*)
-//.text:00B9F6E0 ; public: void __cdecl c_dword_unit_vector::set_real_vector3d(real_vector3d const*)
+//.text:00B9F6E0 ; public: void __cdecl c_dword_unit_vector::set_real_vector3d(const real_vector3d*)
 //.text:00B9F700 ; int16 __cdecl tag_group_to_widget_type(uns32)
 //.text:00B9F730 ; void __cdecl widget_delete_type_datum(int32, int32, bool)
 //.text:00B9F830 ; int32 __cdecl widget_get_next_widget(int32)

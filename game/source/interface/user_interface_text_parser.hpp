@@ -9,7 +9,7 @@ struct c_game_tag_parser :
 public:
 	virtual bool get_magic_string(wchar_t* buffer, int32 buffer_length) = 0;
 
-	c_game_tag_parser(wchar_t const* magic_character);
+	c_game_tag_parser(const wchar_t* magic_character);
 
 protected:
 	wchar_t m_magic_character;
@@ -20,14 +20,14 @@ struct c_magic_string_game_tag_parser :
 	public c_game_tag_parser
 {
 public:
-	virtual bool parse_tag(wchar_t const* a1, int32* a2, wchar_t* a3, int32 a4, int32* a5) override
+	virtual bool parse_tag(const wchar_t* a1, int32* a2, wchar_t* a3, int32 a4, int32* a5) override
 	{
 		return INVOKE_CLASS_MEMBER(0x00AA67C0, c_magic_string_game_tag_parser, parse_tag, a1, a2, a3, a4, a5);
 	}
 
 	virtual bool get_magic_string(wchar_t* buffer, int32 buffer_length) override;
 
-	c_magic_string_game_tag_parser(wchar_t const* xml_tag, void* game_data, bool(*game_data_function)(void*, wchar_t*, int32));
+	c_magic_string_game_tag_parser(const wchar_t* xml_tag, void* game_data, bool(*game_data_function)(void*, wchar_t*, int32));
 
 protected:
 	void* m_game_data;

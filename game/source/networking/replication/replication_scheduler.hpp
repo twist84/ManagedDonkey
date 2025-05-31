@@ -11,9 +11,9 @@ struct c_replication_scheduler_client
 {
 public:
 	virtual bool has_data_to_transmit();
-	virtual int32 build_outgoing_requests(void const* telemetry_data, int32 maximum_number_of_requests, s_replication_outgoing_request* requests);
+	virtual int32 build_outgoing_requests(const void* telemetry_data, int32 maximum_number_of_requests, s_replication_outgoing_request* requests);
 	virtual int32 terminator_required_bits(void) const;
-	virtual void write_to_packet(int32 request_identifier, int32 request_type, void const* telemetry_data, int32 packet_sequence_number, c_bitstream* packet, int32 must_leave_space_bits);
+	virtual void write_to_packet(int32 request_identifier, int32 request_type, const void* telemetry_data, int32 packet_sequence_number, c_bitstream* packet, int32 must_leave_space_bits);
 	virtual void write_terminator_to_packet(int32 packet_sequence_number, c_bitstream* packet);
 	virtual e_network_read_result read_from_packet(int32 packet_sequence_number, c_bitstream* packet, int32 maximum_number_of_requests, s_replication_incoming_request* requests, int32* out_number_of_requests);
 	virtual void process_incoming_request(s_replication_incoming_request*);

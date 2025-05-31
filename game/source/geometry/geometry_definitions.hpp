@@ -137,6 +137,6 @@ struct s_render_geometry
 };
 static_assert(sizeof(s_render_geometry) == 0x84);
 
-//extern bool mesh_has_subpart_mopp(s_render_geometry const* render_geometry, int32 mesh_index);
+//extern bool mesh_has_subpart_mopp(const s_render_geometry* render_geometry, int32 mesh_index);
 extern bool mesh_has_subpart_mopp(s_render_geometry* render_geometry, int32 mesh_index);
 

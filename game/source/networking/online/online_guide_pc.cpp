@@ -39,12 +39,12 @@ HOOK_DECLARE(0x004E1970, online_guide_show_virtual_keyboard_ui);
 HOOK_DECLARE(0x004E1980, online_guide_update);
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
-	char const* file,
+	const char* file,
 	int32 line,
 	e_controller_index controller_index,
-	wchar_t const* default_text,
-	wchar_t const* title_text,
-	wchar_t const* description_text,
+	const wchar_t* default_text,
+	const wchar_t* title_text,
+	const wchar_t* description_text,
 	uns32 maximum_input_characters,
 	uns32 character_flags,
 	bool sanitize_result
@@ -77,17 +77,17 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::constructor(
 	return this;
 }
 
-void __thiscall c_virtual_keyboard_task::set_default_text_(wchar_t const* default_text)
+void __thiscall c_virtual_keyboard_task::set_default_text_(const wchar_t* default_text)
 {
 	set_default_text(default_text);
 }
 
-void __thiscall c_virtual_keyboard_task::set_description_text_(wchar_t const* description_text)
+void __thiscall c_virtual_keyboard_task::set_description_text_(const wchar_t* description_text)
 {
 	set_description_text(description_text);
 }
 
-void __thiscall c_virtual_keyboard_task::set_title_text_(wchar_t const* title_text)
+void __thiscall c_virtual_keyboard_task::set_title_text_(const wchar_t* title_text)
 {
 	set_title_text(title_text);
 }
@@ -97,7 +97,7 @@ void __cdecl c_virtual_keyboard_task::set_controller_index(e_controller_index co
 	m_controller_index = controller_index;
 }
 
-void __cdecl c_virtual_keyboard_task::set_default_text(wchar_t const* default_text)
+void __cdecl c_virtual_keyboard_task::set_default_text(const wchar_t* default_text)
 {
 	if (default_text)
 		ustrnzcpy(m_default_text_buffer, default_text, 256);
@@ -105,7 +105,7 @@ void __cdecl c_virtual_keyboard_task::set_default_text(wchar_t const* default_te
 		m_default_text_buffer[0] = 0;
 }
 
-void __cdecl c_virtual_keyboard_task::set_description_text(wchar_t const* description_text)
+void __cdecl c_virtual_keyboard_task::set_description_text(const wchar_t* description_text)
 {
 	if (description_text)
 		ustrnzcpy(m_description_text_buffer, description_text, 64);
@@ -113,7 +113,7 @@ void __cdecl c_virtual_keyboard_task::set_description_text(wchar_t const* descri
 		m_description_text_buffer[0] = 0;
 }
 
-void __cdecl c_virtual_keyboard_task::set_title_text(wchar_t const* title_text)
+void __cdecl c_virtual_keyboard_task::set_title_text(const wchar_t* title_text)
 {
 	if (title_text)
 		ustrnzcpy(m_title_text_buffer, title_text, 64);
@@ -137,12 +137,12 @@ void __cdecl c_virtual_keyboard_task::set_sanitize_result(bool sanitize_result)
 }
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
-	char const* file,
+	const char* file,
 	int32 line,
 	e_controller_index controller_index,
-	wchar_t const* default_text,
-	wchar_t const* title_text,
-	wchar_t const* description_text,
+	const wchar_t* default_text,
+	const wchar_t* title_text,
+	const wchar_t* description_text,
 	uns32 maximum_input_characters,
 	uns32 character_flags,
 	bool sanitize_result
@@ -207,7 +207,7 @@ void* c_virtual_keyboard_task::destructor(uns32 a1)
 	return this;
 }
 
-char const* c_virtual_keyboard_task::get_context_string()
+const char* c_virtual_keyboard_task::get_context_string()
 {
 	return "XShowKeyboardUI";
 }
@@ -309,7 +309,7 @@ uns32 __cdecl online_guide_show_device_selector_ui(e_controller_index controller
 	return NONE;
 }
 
-void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, uns64 file_share_xuid, int32 slot_index, char const* server_id, s_service_record_identity const* service_record_identity, s_custom_message_text* custom_message_text)
+void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, uns64 file_share_xuid, int32 slot_index, const char* server_id, const s_service_record_identity* service_record_identity, s_custom_message_text* custom_message_text)
 {
 	MessageBoxA(NULL, "File Share Recommendation UI Placeholder", "networking:online:guide", MB_OK);
 
@@ -429,8 +429,8 @@ bool __cdecl online_guide_show_sign_in_ui(int32 pane_count, uns32 flags)
 	return true;
 }
 
-//uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, uns32 maximum_character_count, struct _XOVERLAPPED* platform_handle)
-uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, uns32 maximum_character_count, void* overlapped)
+//uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, const wchar_t* default_text, const wchar_t* title_text, const wchar_t* description_text, wchar_t* result_text, uns32 maximum_character_count, struct _XOVERLAPPED* platform_handle)
+uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, const wchar_t* default_text, const wchar_t* title_text, const wchar_t* description_text, wchar_t* result_text, uns32 maximum_character_count, void* overlapped)
 {
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	ASSERT(result_text != NULL);

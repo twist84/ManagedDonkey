@@ -25,7 +25,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5B150 ; 
 //.text:00B5B160 ; 
 //.text:00B5B180 ; 
-//.text:00B5B1A0 ; void __cdecl emulated_first_person_animation_callback(s_animation_event_data const*, int32)
+//.text:00B5B1A0 ; void __cdecl emulated_first_person_animation_callback(const s_animation_event_data*, int32)
 //.text:00B5B3D0 ; 
 //.text:00B5B460 ; 
 //.text:00B5B470 ; 
@@ -35,7 +35,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5B4B0 ; 
 //.text:00B5B4C0 ; 
 //.text:00B5B4D0 ; real32 __cdecl indirect_fire_compute_arcing_fraction(int32, real32)
-//.text:00B5B5B0 ; bool __cdecl indirect_fire_compute_ballistics(int32, int32, int32, real_point3d const*, real_vector3d*, real32*)
+//.text:00B5B5B0 ; bool __cdecl indirect_fire_compute_ballistics(int32, int32, int32, const real_point3d*, real_vector3d*, real32*)
 //.text:00B5B770 ; bool __cdecl indirect_fire_get_aim_target_position(int32, real_point3d*)
 //.text:00B5B7D0 ; 
 //.text:00B5B7E0 ; 
@@ -50,7 +50,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5BD90 ; bool __cdecl weapon_action_can_be_interrupted(int32)
 //.text:00B5BDD0 ; void __cdecl weapon_age(int32, real32)
 //.text:00B5BEC0 ; bool __cdecl weapon_age_external(int32)
-//.text:00B5BF40 ; bool __cdecl weapon_aim(int32, int16, real_point3d const*, real_point3d const*, real32*, bool, real_vector3d*, real32*, real32*, real32*, bool*)
+//.text:00B5BF40 ; bool __cdecl weapon_aim(int32, int16, const real_point3d*, const real_point3d*, real32*, bool, real_vector3d*, real32*, real32*, real32*, bool*)
 //.text:00B5C010 ; bool __cdecl weapon_allows_unaimed_lunge(int32)
 //.text:00B5C060 ; void __cdecl weapon_apply_predicted_state(int32)
 //.text:00B5C100 ; 
@@ -59,7 +59,7 @@ bool debug_weapons_secondary = false;
 //.text:00B5C430 ; void __cdecl weapon_barrel_accuracy_penalty_jump(int32)
 //.text:00B5C450 ; void __cdecl weapon_barrel_accuracy_penalty_movement(int32, int32)
 //.text:00B5C610 ; void __cdecl weapon_barrel_accuracy_penalty_reload(int32)
-//.text:00B5C630 ; void __cdecl weapon_barrel_accuracy_penalty_rotation(int32, real_vector3d const*, real_vector3d const*)
+//.text:00B5C630 ; void __cdecl weapon_barrel_accuracy_penalty_rotation(int32, const real_vector3d*, const real_vector3d*)
 //.text:00B5C830 ; void __cdecl weapon_barrel_accuracy_penalty_weapon_switch(int32)
 //.text:00B5C850 ; void __cdecl weapon_barrel_accuracy_penalty_zoom(int32)
 //.text:00B5C870 ; bool __cdecl weapon_barrel_apply_fire_error(int32, int32, bool)
@@ -70,8 +70,8 @@ bool debug_weapons_secondary = false;
 //.text:00B5D100 ; void __cdecl weapon_barrel_clear_empty_click_bit(int32, int16)
 //.text:00B5D150 ; void __cdecl weapon_barrel_compute_recovery_ticks(int32, int16, real32*, real32*)
 //.text:00B5D360 ; real32 __cdecl weapon_barrel_compute_ticks_per_round(int32, int16)
-//.text:00B5D5A0 ; void __cdecl weapon_barrel_create_projectiles(int32, int16, s_predicted_weapon_fire_data const*, bool)
-//.text:00B5F2D0 ; uns32 __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(int32, s_predicted_weapon_fire_data const*, bool, bool, uns32*)
+//.text:00B5D5A0 ; void __cdecl weapon_barrel_create_projectiles(int32, int16, const s_predicted_weapon_fire_data*, bool)
+//.text:00B5F2D0 ; uns32 __cdecl weapon_barrel_create_projectiles_get_initial_random_seed(int32, const s_predicted_weapon_fire_data*, bool, bool, uns32*)
 //.text:00B5F470 ; bool __cdecl weapon_barrel_evaluate_penalty_function(int32, int32, bool, s_projectile_accuracy_penalty_functions::e_penalty_function, real32, real32*)
 //.text:00B5F5D0 ; 
 
@@ -153,7 +153,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 		int32 text_x_offset = (200 - screen_display.m_base_x) / screen_display.m_char_width;
 		int32 text_y_offset = (525 - screen_display.m_base_y) / screen_display.m_char_height;
 
-		char const* weapon_state_string = NULL;
+		const char* weapon_state_string = NULL;
 
 		e_weapon_state weapon_state = weapon->weapon.state;
 		switch (weapon_state)
@@ -209,8 +209,8 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 			bool current_state_invalid = current_state_string_id == _string_id_invalid;
 			bool pending_state_invalid = pending_state_string_id == _string_id_invalid;
 
-			char const* current_state_string = current_state_invalid ? "<unknown>" : string_id_get_string_const(current_state_string_id);
-			char const* pending_state_string = pending_state_invalid ? "<unknown>" : string_id_get_string_const(pending_state_string_id);
+			const char* current_state_string = current_state_invalid ? "<unknown>" : string_id_get_string_const(current_state_string_id);
+			const char* pending_state_string = pending_state_invalid ? "<unknown>" : string_id_get_string_const(pending_state_string_id);
 
 			if (pending_state_invalid)
 			{
@@ -235,10 +235,10 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 		{
 			for (int32 trigger_index = 0; trigger_index < weapon_definition->weapon.triggers.count; trigger_index++)
 			{
-				weapon_trigger const& trigger = weapon->weapon.triggers[trigger_index];
+				const weapon_trigger& trigger = weapon->weapon.triggers[trigger_index];
 				ASSERT(trigger_index >= 0 && trigger_index < weapon_definition->weapon.triggers.count);
 
-				char const* trigger_behavior_string = NULL;
+				const char* trigger_behavior_string = NULL;
 				e_weapon_trigger_behavior trigger_behavior = weapon_definition->weapon.triggers[trigger_index].behavior;
 				switch (trigger_behavior)
 				{
@@ -271,7 +271,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 					break;
 				}
 
-				char const* trigger_state_string = NULL;
+				const char* trigger_state_string = NULL;
 				e_weapon_trigger_state trigger_state = trigger.state;
 				switch (trigger_state)
 				{
@@ -319,10 +319,10 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 		{
 			for (int32 barrel_index = 0; barrel_index < weapon_definition->weapon.barrels.count; barrel_index++)
 			{
-				weapon_barrel const& barrel = weapon->weapon.barrels[barrel_index];
+				const weapon_barrel& barrel = weapon->weapon.barrels[barrel_index];
 				ASSERT(barrel_index >= 0 && barrel_index < weapon_definition->weapon.barrels.count);
 
-				char const* barrel_state_string = NULL;
+				const char* barrel_state_string = NULL;
 
 				e_weapon_barrel_state barrel_state = barrel.state;
 				switch (barrel_state)
@@ -382,10 +382,10 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 		{
 			for (; magazine_index < weapon_definition->weapon.magazines.count; magazine_index++)
 			{
-				weapon_magazine const& magazine = weapon->weapon.magazines[magazine_index];
+				const weapon_magazine& magazine = weapon->weapon.magazines[magazine_index];
 				ASSERT(magazine_index >= 0 && magazine_index < weapon_definition->weapon.magazines.count);
 
-				char const* magazine_state_string = NULL;
+				const char* magazine_state_string = NULL;
 
 				e_weapon_magazine_state magazine_state = magazine.state;
 				switch (magazine_state)
@@ -442,7 +442,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 //.text:00B626F0 ; void __cdecl weapon_effect_fire_empty_click(int32)
 //.text:00B62770 ; int32 __cdecl weapon_effect_new(int32, int32, int32, real32, real32)
 //.text:00B628C0 ; real32 __cdecl weapon_estimate_time_to_target(int32, int16, real32, bool)
-//.text:00B62950 ; void __cdecl weapon_fire_barrels(int32, s_predicted_weapon_fire_data const*, bool, int32)
+//.text:00B62950 ; void __cdecl weapon_fire_barrels(int32, const s_predicted_weapon_fire_data*, bool, int32)
 //.text:00B629F0 ; bool __cdecl weapon_firing_is_disabled(int32)
 //.text:00B62A50 ; int32 __cdecl weapon_get_active_barrel_index(int32)
 
@@ -481,7 +481,7 @@ real32 __cdecl weapon_get_field_of_view_change_time(int32 weapon_index)
 //.text:00B632C0 ; int32 __cdecl weapon_get_rounds_total(int32, int32, bool)
 //.text:00B63310 ; 
 //.text:00B63350 ; real32 __cdecl weapon_get_switch_weapon_speed_modifier(int32)
-//.text:00B63410 ; void __cdecl weapon_get_target_tracking_reticle_position(c_aim_target_object const*, real_point3d*)
+//.text:00B63410 ; void __cdecl weapon_get_target_tracking_reticle_position(const c_aim_target_object*, real_point3d*)
 //.text:00B63550 ; bool __cdecl weapon_get_trigger_position(int32, int16, real_point3d*)
 //.text:00B63690 ; 
 //.text:00B636E0 ; real32 __cdecl weapon_get_zoom_magnification(int32, int16)
@@ -539,7 +539,7 @@ bool __cdecl weapon_is_support_weapon(int32 weapon_index)
 //.text:00B650F0 ; bool __cdecl weapon_overcharged(int32)
 //.text:00B65130 ; bool __cdecl weapon_owner_submit_reload_action(int32, int16, bool)
 //.text:00B65270 ; void __cdecl weapon_owner_update(int32, uns16, real32)
-//.text:00B652F0 ; int32 __cdecl weapon_place(int32, s_scenario_weapon const*)
+//.text:00B652F0 ; int32 __cdecl weapon_place(int32, const s_scenario_weapon*)
 //.text:00B65390 ; bool __cdecl weapon_prevents_crouching(int32)
 //.text:00B653E0 ; bool __cdecl weapon_prevents_equipment_throwing(int32)
 //.text:00B65460 ; bool __cdecl weapon_prevents_grenade_throwing(int32)
@@ -559,7 +559,7 @@ bool __cdecl weapon_is_support_weapon(int32 weapon_index)
 //.text:00B667F0 ; void __cdecl weapon_send_message_to_unit(int32, e_unit_messages)
 //.text:00B66870 ; void __cdecl weapon_set_current_amount(int32, real32)
 //.text:00B669A0 ; void __cdecl weapon_set_initial_rounds(int32, int16, int16, int16)
-//.text:00B66A80 ; void __cdecl weapon_set_initial_rounds_from_scenario_weapon(int32, s_scenario_weapon const*)
+//.text:00B66A80 ; void __cdecl weapon_set_initial_rounds_from_scenario_weapon(int32, const s_scenario_weapon*)
 //.text:00B66B30 ; void __cdecl weapon_set_power(int32, real32)
 //.text:00B66B90 ; void __cdecl weapon_set_predicted_age(int32, real32)
 //.text:00B66BE0 ; void __cdecl weapon_set_predicted_rounds_loaded(int32, int16, int16, int16)

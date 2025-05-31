@@ -11,11 +11,11 @@
 //	struct s_incoming_fragment_record;
 //
 //public:
-//	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
+//	void send_message(e_network_message_type message_type, int32 raw_message_size, const void* raw_message_payload);
 //
 //	int8 __data[4];
 //
-//	char const* name;
+//	const char* name;
 //	c_network_message_type_collection* m_message_types;
 //
 //	c_sliding_window m_outgoing_window;

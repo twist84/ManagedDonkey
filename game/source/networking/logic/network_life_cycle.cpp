@@ -9,7 +9,7 @@
 #include "networking/session/network_session_parameters_matchmaking.hpp"
 #include "text/unicode.hpp"
 
-//REFERENCE_DECLARE_ARRAY(0x01860878, char const*, k_life_cycle_state_descriptions, k_life_cycle_state_count);
+//REFERENCE_DECLARE_ARRAY(0x01860878, const char*, k_life_cycle_state_descriptions, k_life_cycle_state_count);
 REFERENCE_DECLARE(0x019AB7F0, s_network_life_cycle_globals, life_cycle_globals);
 
 // $TODO: remove this when we have full control over `life_cycle_globals`
@@ -336,7 +336,7 @@ e_life_cycle_state __cdecl network_life_cycle_get_state()
 	return life_cycle_globals.life_cycle_state_manager.get_current_state();
 }
 
-char const* __cdecl network_life_cycle_get_state_description()
+const char* __cdecl network_life_cycle_get_state_description()
 {
 	//return INVOKE(0x00454DC0, network_life_cycle_get_state_description);
 
@@ -632,14 +632,14 @@ void __cdecl network_life_cycle_notify_qos_reply_block_set_for_group()
 	}
 }
 
-void __cdecl network_life_cycle_notify_session_disbandment_and_host_assumption(c_network_session const* session)
+void __cdecl network_life_cycle_notify_session_disbandment_and_host_assumption(const c_network_session* session)
 {
 	//INVOKE(0x004551F0, network_life_cycle_notify_session_disbandment_and_host_assumption, session);
 
 	life_cycle_globals.life_cycle_state_manager.notify_session_disbandment_and_host_assumption(session);
 }
 
-void __cdecl network_life_cycle_pause(char const* state_string, bool enabled)
+void __cdecl network_life_cycle_pause(const char* state_string, bool enabled)
 {
 	//INVOKE(0x00455210, network_life_cycle_pause, state_string, enabled);
 
@@ -793,7 +793,7 @@ void __cdecl network_life_cycle_update()
 	logic_qos_reply_manager_update();
 }
 
-char const* k_life_cycle_state_descriptions[k_life_cycle_state_count] // 01860878
+const char* k_life_cycle_state_descriptions[k_life_cycle_state_count] // 01860878
 {
 	"none",
 	"pre-game",

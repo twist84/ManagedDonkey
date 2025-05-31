@@ -17,7 +17,7 @@ c_life_cycle_state_handler_pre_game::c_life_cycle_state_handler_pre_game() :
 	//DECLFUNC(0x00454100, void, __thiscall, c_life_cycle_state_handler_pre_game*)(this);
 }
 
-char const* c_life_cycle_state_handler_pre_game::get_state_string()
+const char* c_life_cycle_state_handler_pre_game::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x004547D0, c_life_cycle_state_handler_pre_game, get_state_string);
 
@@ -97,7 +97,7 @@ void c_life_cycle_state_handler_pre_game::update()
 	//	matchmaking_update_required_files_for_hopper();
 	//}
 	//
-	//c_network_session_membership const* session_membership = active_squad_session->get_session_membership();
+	//const c_network_session_membership* session_membership = active_squad_session->get_session_membership();
 	//
 	//if (session_membership->is_leader())
 	//{

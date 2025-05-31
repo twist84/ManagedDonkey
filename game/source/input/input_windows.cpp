@@ -145,7 +145,7 @@ void __cdecl sub_511710()
 }
 
 // Halo 3 (H3EK) uses DirectInput, it's possible so did Halo Online until RawInput was added
-void __cdecl sub_511760(int error, char const* format, ...)
+void __cdecl sub_511760(int error, const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -159,7 +159,7 @@ void __cdecl sub_511760(int error, char const* format, ...)
 		char error_message[4096]{};
 		cvsnzprintf(error_message, sizeof(error_message), format, list);
 
-		char const* error_string = "<unknown error>";
+		const char* error_string = "<unknown error>";
 		//switch (error)
 		//{
 		//#define DIERR_ERROR_CASE(ERROR) case ERROR: error_string = #ERROR; break;
@@ -231,7 +231,7 @@ void __cdecl input_flush()
 	//input_globals.gamepad_states.clear();
 }
 
-gamepad_state const* __cdecl input_get_gamepad_state(int16 gamepad_index)
+const gamepad_state* __cdecl input_get_gamepad_state(int16 gamepad_index)
 {
 	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
 

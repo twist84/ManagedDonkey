@@ -32,7 +32,7 @@ struct c_service_client
 			bool* bool_value;
 			int64* integer_value;
 			real32* float_value;
-			wchar_t const** string_value;
+			const wchar_t** string_value;
 		};
 
 		uns32 __unknownC;

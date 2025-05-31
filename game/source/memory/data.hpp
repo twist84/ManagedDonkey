@@ -132,12 +132,12 @@ struct c_wrapped_data_array
 		data_dispose(*m_data_array);
 	}
 
-	t_datum_type const* get(int32 datum_index) const
+	const t_datum_type* get(int32 datum_index) const
 	{
 		return m_data_array[datum_index];
 	}
 
-	s_data_array const* get_data()
+	const s_data_array* get_data()
 	{
 		return m_data_array.m_data_array;
 	}
@@ -174,32 +174,32 @@ static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_arra
 
 extern int32 __cdecl data_allocation_size(int32 maximum_count, int32 size, int32 alignment_bits);
 extern void __cdecl data_connect(s_data_array* data, int32 count, void* datums);
-extern void __cdecl data_copy(s_data_array const* src, s_data_array* dst);
+extern void __cdecl data_copy(const s_data_array* src, s_data_array* dst);
 extern void __cdecl data_delete_all(s_data_array* data);
 extern void __cdecl data_disconnect(s_data_array* data);
 extern void __cdecl data_dispose(s_data_array* data);
-extern void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
-extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uns32* in_use_bit_vector);
-extern bool __cdecl data_is_full(s_data_array const* data);
-extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array const* data);
+extern void __cdecl data_initialize(s_data_array* data, const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
+extern void __cdecl data_initialize_disconnected(s_data_array* data, const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uns32* in_use_bit_vector);
+extern bool __cdecl data_is_full(const s_data_array* data);
+extern void __cdecl data_iterator_begin(s_data_iterator* iterator, const s_data_array* data);
 extern void* __cdecl data_iterator_next(s_data_iterator* iterator);
 extern void* __cdecl data_iterator_next_with_byte_flags(s_data_iterator* iterator, int32 flag_offset, uns8 flag_mask, uns8 flag_value);
 extern int32 __cdecl data_last_index(s_data_array* data);
 extern void __cdecl data_make_invalid(s_data_array* data);
 extern void __cdecl data_make_valid(s_data_array* data);
-extern s_data_array* __cdecl data_new(char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
-extern s_data_array* __cdecl data_new_disconnected(char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
-extern int32 __cdecl data_next_absolute_index(s_data_array const* data, int32 index);
-extern int32 __cdecl data_next_index(s_data_array const* data, int32 index);
+extern s_data_array* __cdecl data_new(const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
+extern s_data_array* __cdecl data_new_disconnected(const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation);
+extern int32 __cdecl data_next_absolute_index(const s_data_array* data, int32 index);
+extern int32 __cdecl data_next_index(const s_data_array* data, int32 index);
 extern int32 __cdecl data_previous_index(s_data_array* data, int32 index);
 extern void __cdecl data_set_new_base_address(s_data_array** pointer_to_set, s_data_array* new_address);
-extern void __cdecl data_set_protection(s_data_array const* data, int32 unproteced_element_count);
-extern bool __cdecl data_should_verify_data_pattern(s_data_array const* data);
-extern void __cdecl data_unprotect_all(s_data_array const* data);
-extern void __cdecl data_update_protection(s_data_array const* data);
-extern void __cdecl data_verify(s_data_array const* data);
-extern int32 __cdecl datum_absolute_index_to_index(s_data_array const* data, int32 absolute_index);
-extern bool __cdecl datum_available_at_index(s_data_array const* data, int32 index);
+extern void __cdecl data_set_protection(const s_data_array* data, int32 unproteced_element_count);
+extern bool __cdecl data_should_verify_data_pattern(const s_data_array* data);
+extern void __cdecl data_unprotect_all(const s_data_array* data);
+extern void __cdecl data_update_protection(const s_data_array* data);
+extern void __cdecl data_verify(const s_data_array* data);
+extern int32 __cdecl datum_absolute_index_to_index(const s_data_array* data, int32 absolute_index);
+extern bool __cdecl datum_available_at_index(const s_data_array* data, int32 index);
 extern void __cdecl datum_delete(s_data_array* data, int32 index);
 extern void __cdecl datum_initialize(s_data_array* data, s_datum_header* header);
 extern void __cdecl datum_initialize_common(s_data_array* data, s_datum_header* header);
@@ -209,10 +209,10 @@ extern int32 __cdecl datum_new_at_absolute_index(s_data_array* data, int32 absol
 extern int32 __cdecl datum_new_at_index(s_data_array* data, int32 index);
 extern int32 __cdecl datum_new_in_range(s_data_array* data, int32 minimum_index, int32 count_indices, bool initialize);
 extern void* __cdecl datum_get(s_data_array* data, int32 index);
-extern void* __cdecl datum_try_and_get(s_data_array const* data, int32 index);
+extern void* __cdecl datum_try_and_get(const s_data_array* data, int32 index);
 extern void* __cdecl datum_get_absolute(s_data_array* data, int32 index);
-extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, int32 index);
-extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, int32 index);
+extern void* __cdecl datum_try_and_get_absolute(const s_data_array* data, int32 index);
+extern void* __cdecl datum_try_and_get_unsafe(const s_data_array* data, int32 index);
 
 template<typename t_datum_type>
 struct c_data_iterator
@@ -231,7 +231,7 @@ public:
 		data_iterator_begin(&iterator, data);
 	}
 
-	void begin(s_data_array const* data)
+	void begin(const s_data_array* data)
 	{
 		data_iterator_begin(&iterator, data);
 	}
@@ -286,7 +286,7 @@ public:
 		data_iterator_begin(&iterator, data);
 	}
 
-	void begin(s_data_array const* data, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
+	void begin(const s_data_array* data, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
 	{
 		iterator.m_flag_offset = flag_offset;
 		iterator.m_flag_mask = flag_mask;

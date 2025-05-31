@@ -15,7 +15,7 @@ protected:
 	virtual void notify_down() override;
 
 public:
-	c_debug_menu_zone_sets(c_debug_menu* parent, int16 num_visible, char const* name);
+	c_debug_menu_zone_sets(c_debug_menu* parent, int16 num_visible, const char* name);
 
 private:
 	void update_caption();

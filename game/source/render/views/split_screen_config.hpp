@@ -15,7 +15,7 @@ static_assert(sizeof(s_splitscreen_view_config) == 0x14);
 struct c_splitscreen_config
 {
 public:
-	static s_splitscreen_view_config const* get_view_bounds(int32 player_index, int32 player_count, bool is_widescreen);
+	static const s_splitscreen_view_config* get_view_bounds(int32 player_index, int32 player_count, bool is_widescreen);
 
 private:
 

@@ -71,7 +71,7 @@ struct s_location_message
 	e_map_id map_id;
 	real32 radius;
 	real_point3d position;
-	wchar_t const* message;
+	const wchar_t* message;
 };
 
 static s_location_message location_messages[] =
@@ -224,7 +224,7 @@ void __cdecl test_main_loop_body_begin()
 		//file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
 		//
 		//static char file_buffer[0x200000]{};
-		//s_blf_saved_film::s_blf_chunk_saved_film_header_delta const* saved_film_header = nullptr;
+		//const s_blf_saved_film::s_blf_chunk_saved_film_header_delta* saved_film_header = nullptr;
 		//bool byte_swap = false;
 		//
 		//find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);

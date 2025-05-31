@@ -39,7 +39,7 @@ struct c_bitstream;
 class c_network_message_synchronous_update
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 	static bool __cdecl compare(int32, void*, void*);
 	static void __cdecl dispose(int32, void*);
@@ -48,14 +48,14 @@ public:
 class c_network_message_synchronous_playback_control
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_synchronous_actions
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 	static bool __cdecl compare(int32, void*, void*);
 	static void __cdecl dispose(int32, void*);
@@ -64,14 +64,14 @@ public:
 class c_network_message_synchronous_acknowledge
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_synchronous_gamestate
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 

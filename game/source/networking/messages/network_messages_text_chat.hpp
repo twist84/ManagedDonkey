@@ -34,7 +34,7 @@ struct c_bitstream;
 class c_network_message_text_chat
 {
 public:
-	static void encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 

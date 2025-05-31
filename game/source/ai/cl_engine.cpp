@@ -7,7 +7,7 @@
 //.text:014423C0 ; 
 //.text:014423D0 ; void __cdecl __tls_set_g_command_script_allocator(void*)
 //.text:01442400 ; bool __cdecl actor_allow_vignette(int32, int32, int16, bool*)
-//.text:01442490 ; real32 __cdecl actor_can_fill_role(int32, int32, int16, mission_dialogue_line const*, s_role_set*, int16, int32*, int16*, bool*)
+//.text:01442490 ; real32 __cdecl actor_can_fill_role(int32, int32, int16, const mission_dialogue_line*, s_role_set*, int16, int32*, int16*, bool*)
 //.text:01442720 ; 
 //.text:01442760 ; int32 __cdecl command_script_new(int32, int32, int32)
 //.text:01442910 ; void __cdecl cs_abort_on_alert2(int32, int32, bool)
@@ -29,7 +29,7 @@
 //.text:01443420 ; int32 __cdecl cs_attach_command_script(int32, int16, int32)
 //.text:01443510 ; bool __cdecl cs_blocked(int32)
 //.text:01443680 ; bool __cdecl cs_cast(int32, int32, bool, int16, int32*, int16)
-//.text:014439F0 ; bool __cdecl cs_cast_internal(int32, bool, int16, mission_dialogue_line const**, int16, int16, s_role_set*, int16*, int16, int32, int32*, int16*)
+//.text:014439F0 ; bool __cdecl cs_cast_internal(int32, bool, int16, const mission_dialogue_line**, int16, int16, s_role_set*, int16*, int16, int32, int32*, int16*)
 //.text:01443BF0 ; void __cdecl cs_command_clear(cs_command*)
 //.text:01443C20 ; int16 __cdecl cs_command_end(int32, int32, cs_command*, s_atom_control*, int32)
 //.text:01443C60 ; int16 __cdecl cs_command_start(int32, int32, cs_command*, s_atom_control*, int32)

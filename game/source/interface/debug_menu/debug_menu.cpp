@@ -35,8 +35,8 @@ void c_debug_menu::update()
 	for (int16 item_index = 0; item_index < get_num_items(); item_index++)
 		get_item(item_index)->update();
 
-	gamepad_state const& state = debug_menu_get_gamepad_state();
-	gamepad_state const& last_state = debug_menu_get_last_gamepad_state();
+	const gamepad_state& state = debug_menu_get_gamepad_state();
+	const gamepad_state& last_state = debug_menu_get_last_gamepad_state();
 	s_game_input_state* input_state;
 	input_abstraction_get_input_state(_controller0, &input_state);
 	if (get_enabled())
@@ -165,7 +165,7 @@ void c_debug_menu::update()
 	}
 }
 
-void c_debug_menu::render(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu::render(c_font_cache_base* font_cache, const point2d& point)
 {
 	render_background(font_cache, point);
 	render_title(font_cache, point);
@@ -191,7 +191,7 @@ void c_debug_menu::open()
 	set_enabled(true);
 }
 
-char const* c_debug_menu::get_caption()
+const char* c_debug_menu::get_caption()
 {
 	return m_caption ? m_caption : "";
 }
@@ -331,7 +331,7 @@ int16 c_debug_menu::get_max_active_captions()
 	return max_active_captions;
 }
 
-void c_debug_menu::render_background(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu::render_background(c_font_cache_base* font_cache, const point2d& point)
 {
 	real32 item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
 
@@ -344,7 +344,7 @@ void c_debug_menu::render_background(c_font_cache_base* font_cache, point2d cons
 	debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_tv_blue);
 }
 
-void c_debug_menu::render_title(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu::render_title(c_font_cache_base* font_cache, const point2d& point)
 {
 	c_rasterizer_draw_string draw_string{};
 
@@ -365,7 +365,7 @@ void c_debug_menu::render_title(c_font_cache_base* font_cache, point2d const& po
 	draw_string.draw(font_cache, m_name);
 }
 
-void c_debug_menu::render_caption(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu::render_caption(c_font_cache_base* font_cache, const point2d& point)
 {
 	c_rasterizer_draw_string draw_string{};
 
@@ -386,7 +386,7 @@ void c_debug_menu::render_caption(c_font_cache_base* font_cache, point2d const& 
 	draw_string.draw(font_cache, get_caption());
 }
 
-void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, point2d const& point)
+void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, const point2d& point)
 {
 	c_rasterizer_draw_string draw_string{};
 
@@ -420,7 +420,7 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, point2d 
 	}
 }
 
-void c_debug_menu::render_items(c_font_cache_base* font_cache, point2d const& point, int16 start_index, int16 end_index)
+void c_debug_menu::render_items(c_font_cache_base* font_cache, const point2d& point, int16 start_index, int16 end_index)
 {
 	ASSERT(start_index >= 0);
 	ASSERT(start_index <= end_index);
@@ -483,7 +483,7 @@ void c_debug_menu::try_right()
 	get_item(get_selection())->notify_right();
 }
 
-c_debug_menu::c_debug_menu(c_debug_menu* parent, char const* name) :
+c_debug_menu::c_debug_menu(c_debug_menu* parent, const char* name) :
 	m_name(NULL),
 	m_caption(NULL),
 	m_parent_ref(parent)
@@ -551,12 +551,12 @@ void c_debug_menu::add_item(c_debug_menu_item* item)
 	set_num_items(get_num_items() + 1);
 }
 
-char const* c_debug_menu::get_name()
+const char* c_debug_menu::get_name()
 {
 	return m_name;
 }
 
-void c_debug_menu::set_name(char const* name)
+void c_debug_menu::set_name(const char* name)
 {
 	int32 name_size = strlen(name) + 1;
 
@@ -565,7 +565,7 @@ void c_debug_menu::set_name(char const* name)
 	csstrnzcpy(m_name, name, name_size);
 }
 
-void c_debug_menu::set_caption(char const* caption)
+void c_debug_menu::set_caption(const char* caption)
 {
 	int32 caption_size = strlen(caption) + 1;
 

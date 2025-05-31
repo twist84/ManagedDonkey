@@ -50,7 +50,7 @@ bool __cdecl get_clipboard_as_text(char* buf, int32 len)
 		return false;
 	}
 
-	if (char const* clipboard_text = (char const*)GlobalLock(clipboard_data))
+	if (const char* clipboard_text = (const char*)GlobalLock(clipboard_data))
 	{
 		csstrnzcpy(buf, clipboard_text, len);
 		GlobalUnlock(clipboard_data);
@@ -91,9 +91,9 @@ struct XShowKeyboardUI_struct
 {
 	int32& controller_index;
 	uns32& character_flags;
-	wchar_t const*& default_text;
-	wchar_t const*& title_text;
-	wchar_t const*& description_text;
+	const wchar_t*& default_text;
+	const wchar_t*& title_text;
+	const wchar_t*& description_text;
 	wchar_t*& result_text;
 	uns32& maximum_character_count;
 	void*& platform_handle;
@@ -148,9 +148,9 @@ INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 int32 XShowKeyboardUI(
 	int32 controller_index,
 	uns32 character_flags,
-	wchar_t const* default_text,
-	wchar_t const* title_text,
-	wchar_t const* description_text,
+	const wchar_t* default_text,
+	const wchar_t* title_text,
+	const wchar_t* description_text,
 	wchar_t* result_text,
 	uns32 maximum_character_count,
 	void* overlapped
@@ -173,7 +173,7 @@ int32 XShowKeyboardUI(
 }
 
 // $TODO: add an icon for notifications, more customization?
-void display_notification(wchar_t const* tip, wchar_t const* info, wchar_t const* info_title)
+void display_notification(const wchar_t* tip, const wchar_t* info, const wchar_t* info_title)
 {
 	ASSERT(tip != NULL);
 	ASSERT(info != NULL);

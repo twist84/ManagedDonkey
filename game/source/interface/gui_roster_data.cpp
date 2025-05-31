@@ -25,13 +25,13 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, update_);
 //.text:00B24890 ; public: virtual void* __cdecl c_gui_active_roster_data::`vector deleting destructor'(unsigned int)
 //.text:00B248C0 ; public: virtual void* __cdecl c_gui_roster_data::`vector deleting destructor'(unsigned int)
 //.text:00B248F0 ; public: virtual void* __cdecl c_gui_static_roster_data::`vector deleting destructor'(unsigned int)
-//.text:00B24920 ; public: bool __cdecl c_gui_static_roster_data::add_player(int32, s_player_configuration const*, e_controller_index)
-//.text:00B24940 ; protected: bool __cdecl c_gui_roster_data::add_player_internal(c_gui_roster_data::e_player_row_type, int32, s_player_configuration const*, e_controller_index, c_gui_roster_data::e_voice_talking_state, bool, bool)
-//.text:00B24A20 ; protected: c_gui_roster_data::s_player_row* __cdecl c_gui_roster_data::add_player_simple(c_gui_roster_data::e_player_row_type, s_player_identifier const*, s_player_configuration const*, e_controller_index)
+//.text:00B24920 ; public: bool __cdecl c_gui_static_roster_data::add_player(int32, const s_player_configuration*, e_controller_index)
+//.text:00B24940 ; protected: bool __cdecl c_gui_roster_data::add_player_internal(c_gui_roster_data::e_player_row_type, int32, const s_player_configuration*, e_controller_index, c_gui_roster_data::e_voice_talking_state, bool, bool)
+//.text:00B24A20 ; protected: c_gui_roster_data::s_player_row* __cdecl c_gui_roster_data::add_player_simple(c_gui_roster_data::e_player_row_type, const s_player_identifier*, const s_player_configuration*, e_controller_index)
 //.text:00B24A40 ; private: void __cdecl c_gui_active_roster_data::calculate_group_aggregates_for_sorting()
 //.text:00B24B00 ; bool __cdecl compare_ascending_long(int32, int32, int*)
 //.text:00B24B30 ; bool __cdecl compare_descending_long(int32, int32, int*)
-//.text:00B24B60 ; protected: static bool __cdecl c_gui_roster_data::considered_to_be_in_same_party(c_gui_roster_data::s_player_row const*, c_gui_roster_data::s_player_row const*)
+//.text:00B24B60 ; protected: static bool __cdecl c_gui_roster_data::considered_to_be_in_same_party(const c_gui_roster_data::s_player_row*, const c_gui_roster_data::s_player_row*)
 //.text:00B24BC0 ; public: virtual void __cdecl c_gui_roster_data::get_column_names(int32* const, int32*)
 //.text:00B24C80 ; public: static int32 __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::get_count()
 //.text:00B24C90 ; protected: virtual int32 __cdecl c_gui_roster_data::get_current_item_count_internal()
@@ -153,7 +153,7 @@ bool __thiscall c_gui_roster_data::get_integer_value_(int32 element_handle, int3
 	return false;
 }
 
-//.text:00B24E30 ; private: bool __cdecl c_gui_active_roster_data::get_local_party_voted_to_party_up(s_life_cycle_matchmaking_progress const*)
+//.text:00B24E30 ; private: bool __cdecl c_gui_active_roster_data::get_local_party_voted_to_party_up(const s_life_cycle_matchmaking_progress*)
 //.text:00B24EA0 ; public: virtual bool __cdecl c_gui_roster_data::get_player_appearance(int32, s_player_appearance*)
 //.text:00B24F40 ; public: virtual bool __cdecl c_gui_roster_data::get_player_configuration_value(int32, s_player_configuration*)
 //.text:00B24F90 ; public: virtual bool __cdecl c_gui_roster_data::get_player_identifier_value(int32, s_player_identifier*)
@@ -225,9 +225,9 @@ bool __thiscall c_gui_roster_data::get_text_value_(int32 element_handle, int32 v
 }
 
 //.text:00B25180 ; public: static c_gui_roster_data::e_voice_talking_state __cdecl c_gui_roster_data::get_voice_for_player(e_controller_index, int32)
-//.text:00B25190 ; int __cdecl group_roster_sort_proc(void const*, void const*)
-//.text:00B252D0 ; public: void __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::sort(int32, int(__cdecl*)(void const*, void const*))
-//.text:00B252F0 ; int __cdecl squad_roster_sort_proc(void const*, void const*)
+//.text:00B25190 ; int __cdecl group_roster_sort_proc(const void*, const void*)
+//.text:00B252D0 ; public: void __cdecl c_static_array<c_gui_roster_data::s_player_row, 16>::sort(int32, int(__cdecl*)(const void*, const void*))
+//.text:00B252F0 ; int __cdecl squad_roster_sort_proc(const void*, const void*)
 
 void __thiscall c_gui_active_roster_data::update_()
 {

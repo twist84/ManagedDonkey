@@ -29,7 +29,7 @@ extern void __cdecl render_texture_camera_set_fov(real32 vertical_field_of_view_
 extern void __cdecl render_texture_camera_set_fov_frame_target(real32 target_zoom);
 extern void __cdecl render_texture_camera_set_object_marker(int32 object_index, int32 marker_id, real32 vertical_field_of_view_degrees);
 extern void __cdecl render_texture_camera_set_position(real32 position_x, real32 position_y, real32 position_z);
-extern void __cdecl render_texture_camera_set_position_and_direction(bool enabled, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up, real32 vertical_field_of_view_degrees);
+extern void __cdecl render_texture_camera_set_position_and_direction(bool enabled, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up, real32 vertical_field_of_view_degrees);
 extern void __cdecl render_texture_camera_set_sub_A3B240(int32 object_index);
 extern void __cdecl render_texture_camera_set_resolution(int32 width, int32 height);
 extern void __cdecl render_texture_camera_set_target(real32 position_x, real32 position_y, real32 position_z);

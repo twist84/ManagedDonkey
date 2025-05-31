@@ -10,11 +10,11 @@ REFERENCE_DECLARE(0x050FB668, s_render_object_first_person_globals, render_objec
 //.text:00A420D0 ; bool __cdecl director_targeting_object(int32)
 //.text:00A42110 ; 
 //.text:00A42140 ; 
-//.text:00A421E0 ; void __cdecl interpolate_vector(real_vector3d*, real_vector3d const*, real32)
-//.text:00A425E0 ; bool __cdecl interpoloate_lighting_sample(s_geometry_sample*, s_geometry_sample const*, real32, bool)
+//.text:00A421E0 ; void __cdecl interpolate_vector(real_vector3d*, const real_vector3d*, real32)
+//.text:00A425E0 ; bool __cdecl interpoloate_lighting_sample(s_geometry_sample*, const s_geometry_sample*, real32, bool)
 //.text:00A439A0 ; bool __cdecl is_dynamic_object(e_object_type)
 
-render_lighting const* object_get_cached_render_lighting(int32 object_index)
+const render_lighting* object_get_cached_render_lighting(int32 object_index)
 {
 	return INVOKE(0x00A43A40, object_get_cached_render_lighting, object_index);
 }
@@ -24,13 +24,13 @@ render_lighting const* object_get_cached_render_lighting(int32 object_index)
 //.text:00A43D70 ; void __cdecl object_refresh_lighting(int32, int32, real32)
 //.text:00A445A0 ; render_lighting* __cdecl object_update_cached_render_lighting(int32, real32)
 //.text:00A44740 ; 
-//.text:00A44750 ; int32 __cdecl render_model_allocate_and_fill_skinning_matrices(int32, uns8*, uns8, real_matrix4x3 const*, int32*, int32)
+//.text:00A44750 ; int32 __cdecl render_model_allocate_and_fill_skinning_matrices(int32, uns8*, uns8, const real_matrix4x3*, int32*, int32)
 //.text:00A447B0 ; 
-//.text:00A447C0 ; void __cdecl render_object_adjust_skinning_for_sky(int32, int32, real_matrix4x3 const*, real_matrix4x3*)
-//.text:00A44840 ; void __cdecl render_object_calculate_lod_transparency(int32, real_point3d const*, real32, int32, uns32, uns32, s_lod_transparency*)
+//.text:00A447C0 ; void __cdecl render_object_adjust_skinning_for_sky(int32, int32, const real_matrix4x3*, real_matrix4x3*)
+//.text:00A44840 ; void __cdecl render_object_calculate_lod_transparency(int32, const real_point3d*, real32, int32, uns32, uns32, s_lod_transparency*)
 //.text:00A44BE0 ; bool __cdecl render_object_first_person_globals_valid()
 //.text:00A44C10 ; int16 __cdecl render_object_get_render_model_count(int32, bool)
-//.text:00A44C70 ; void __cdecl render_object_get_render_model_from_index(int32, bool, int32*, real_matrix4x3 const**, int32*)
+//.text:00A44C70 ; void __cdecl render_object_get_render_model_from_index(int32, bool, int32*, const real_matrix4x3**, int32*)
 //.text:00A44D30 ; s_shader_extern_info* __cdecl render_object_get_render_state_info(int32)
 //.text:00A44D80 ; char* __cdecl render_object_get_render_state_last_level_of_detail(int32)
 //.text:00A44DD0 ; char* __cdecl render_object_get_render_state_last_permutations(int32, int32)

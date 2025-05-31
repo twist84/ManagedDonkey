@@ -25,7 +25,7 @@ static inline struct
 	int32 string_constant_buffer_offset;
 	int32 string_constant_buffer_size;
 
-	char const* error_message;
+	const char* error_message;
 	int32 error_offset;
 	char error_buffer[k_hs_compile_error_buffer_size];
 
@@ -91,7 +91,7 @@ extern bool hs_parse_primitive(int32 expression_index);
 extern bool hs_parse_nonprimitive(int32 expression_index);
 extern bool hs_parse(int32 expression_index, int16 expected_type);
 extern bool hs_macro_function_parse(int16 function_index, int32 expression_index);
-extern bool hs_compile_get_tag_by_name(char const* group_name, tag* group_tag_out);
+extern bool hs_compile_get_tag_by_name(const char* group_name, tag* group_tag_out);
 extern int16 hs_count_children(int32 expression_index);
 extern void hs_compile_add_reference(int32 referred_index, e_reference_type reference_type, int32 expression_index);
 extern void hs_parse_call_predicate(int32 expression_index, bool* a2, bool* a3);
@@ -100,8 +100,8 @@ extern bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int
 extern int32 hs_tokenize(hs_tokenizer* state);
 extern void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index);
 extern void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index);
-extern bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char const* expression, bool interactive);
-extern void hs_compile_source_error(char const* file_name, char const* error_message, char const* error_source, char const* source);
+extern bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive);
+extern void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source);
 
 template<typename block_index_type_t, typename return_type_t>
 return_type_t hs_check_block_index_type_and_return(return_type_t return_value)

@@ -19,7 +19,7 @@
 
 struct s_exception_type_info
 {
-	char const* exception_string;
+	const char* exception_string;
 	uns32 exception_parameters[3];
 };
 static_assert(sizeof(s_exception_type_info) == 0x10);
@@ -50,9 +50,9 @@ REFERENCE_DECLARE(0x0238E888, s_exception_information, g_exception_information);
 
 HOOK_DECLARE(0x0051C020, exceptions_update);
 
-char const* const k_screenshot_file = "crash_report\\crash_screenshot.bmp";
+const char* const k_screenshot_file = "crash_report\\crash_screenshot.bmp";
 
-char const* GetExceptionFlagsString(DWORD exception)
+const char* GetExceptionFlagsString(DWORD exception)
 {
 	switch (exception)
 	{
@@ -137,7 +137,7 @@ bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
 	//	//binary_filename->append(shell_get_configuration());
 	//
 	//	//// halo reach
-	//	//char const* target_application = version_get_target_application();
+	//	//const char* target_application = version_get_target_application();
 	//	//if (!strcmp(target_application, "blam"))
 	//	//	target_application = version_get_project_executable_name();
 	//	//binary_filename->print(target_application);
@@ -147,7 +147,7 @@ bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
 	//	//binary_filename->append(version_get_target_configuration());
 	//
 	//	//// halo online
-	//	//char const* target = "unknown_target";
+	//	//const char* target = "unknown_target";
 	//	//if (game_is_halo3() || game_is_client())
 	//	//	target = "halo3";
 	//	//else if (game_is_sapien())
@@ -160,7 +160,7 @@ bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
 	//	//	target = "hf2p_dedicated_server";
 	//	//binary_filename->print(target);
 	//	//binary_filename->append("_");
-	//	//char const* target_variant = shell_get_target_variant();
+	//	//const char* target_variant = shell_get_target_variant();
 	//	//if (string_is_not_empty(target_variant))
 	//	//{
 	//	//	binary_filename->append(target_variant);
@@ -173,7 +173,7 @@ bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
 	//return false;
 }
 
-char const* __cdecl exception_code_get_string(uns32 code)
+const char* __cdecl exception_code_get_string(uns32 code)
 {
 	return INVOKE(0x0051BE40, exception_code_get_string, code);
 
@@ -214,7 +214,7 @@ int32 __cdecl exceptions_update()
 	main_loop_pregame_disable(true);
 
 	uns32 code = g_exception_information.exception_code;
-	char const* exception_code_string = exception_code_get_string(g_exception_information.exception_code);
+	const char* exception_code_string = exception_code_get_string(g_exception_information.exception_code);
 	if (!g_catch_exceptions)
 	{
 		g_exception_information.exception_occurred = false;
@@ -236,7 +236,7 @@ int32 __cdecl exceptions_update()
 	}
 
 	c_static_string<1156> crash_info;
-	char const* thread_name = get_thread_name_from_thread_id(g_exception_information.thread_id);
+	const char* thread_name = get_thread_name_from_thread_id(g_exception_information.thread_id);
 	int32 thread_id = g_exception_information.thread_id;
 
 	_clearfp();
@@ -249,7 +249,7 @@ int32 __cdecl exceptions_update()
 	event(_event_message, "crash: ");
 
 	uns32 exception_address = (uns32)g_exception_information.exception_address;
-	char const* symbol_name = symbol_name_from_address(exception_address, nullptr);
+	const char* symbol_name = symbol_name_from_address(exception_address, nullptr);
 	event(_event_message, "crash: %s",
 		version_get_full_string());
 
@@ -265,8 +265,8 @@ int32 __cdecl exceptions_update()
 
 	if (code == 'asrt' && g_exception_information.number_parameters >= 4)
 	{
-		char const* exception_string = g_exception_information.thread_assert_arguments.statement;
-		char const* file = g_exception_information.thread_assert_arguments.file;
+		const char* exception_string = g_exception_information.thread_assert_arguments.statement;
+		const char* file = g_exception_information.thread_assert_arguments.file;
 		int32 line = g_exception_information.thread_assert_arguments.line;
 		bool assertion_failed = g_exception_information.thread_assert_arguments.fatal;
 
@@ -335,9 +335,9 @@ int32 __cdecl exceptions_update()
 		else if (code == 0xC06D007E && g_exception_information.number_parameters) // VCPPEXCEPTION_MODULE_NOT_FOUND
 		{
 			event(_event_message, "crash:   tried to load %s",
-				*((char const**)g_exception_information.exception_type_info.exception_string + 3));
+				*((const char**)g_exception_information.exception_type_info.exception_string + 3));
 			crash_info.append_print("  tried to load %s\r\n",
-				*((char const**)g_exception_information.exception_type_info.exception_string + 3));
+				*((const char**)g_exception_information.exception_type_info.exception_string + 3));
 		}
 	}
 

@@ -138,20 +138,20 @@ public:
 	};
 
 public:
-	c_gui_bitmap_widget* __thiscall create_bitmap_widget_(s_runtime_bitmap_widget_definition const* definition);
-	c_gui_button_key_widget* __thiscall create_button_key_widget_(s_button_key_definition const* definition);
-	c_gui_group_widget* __thiscall create_group_widget_(s_group_widget_definition const* definition);
-	c_gui_list_item_widget* __thiscall create_list_item_widget_(s_list_item_widget_block const* definition);
-	c_gui_list_widget* __thiscall create_list_widget_(s_list_widget_block const* definition);
-	c_gui_model_widget* __thiscall create_model_widget_(s_model_widget_block const* definition);
-	c_gui_text_widget* __thiscall create_text_widget_(s_runtime_text_widget_definition const* definition);
+	c_gui_bitmap_widget* __thiscall create_bitmap_widget_(const s_runtime_bitmap_widget_definition* definition);
+	c_gui_button_key_widget* __thiscall create_button_key_widget_(const s_button_key_definition* definition);
+	c_gui_group_widget* __thiscall create_group_widget_(const s_group_widget_definition* definition);
+	c_gui_list_item_widget* __thiscall create_list_item_widget_(const s_list_item_widget_block* definition);
+	c_gui_list_widget* __thiscall create_list_widget_(const s_list_widget_block* definition);
+	c_gui_model_widget* __thiscall create_model_widget_(const s_model_widget_block* definition);
+	c_gui_text_widget* __thiscall create_text_widget_(const s_runtime_text_widget_definition* definition);
 
 	gui_real_rectangle2d* __thiscall get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 
-	bool __thiscall handle_alt_stick_(c_controller_input_message const* message);
-	bool __thiscall handle_alt_tab_(c_controller_input_message const* message);
-	bool __thiscall handle_controller_input_message_(c_controller_input_message const* message);
-	bool __thiscall handle_tab_(c_controller_input_message const* message);
+	bool __thiscall handle_alt_stick_(const c_controller_input_message* message);
+	bool __thiscall handle_alt_tab_(const c_controller_input_message* message);
+	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
+	bool __thiscall handle_tab_(const c_controller_input_message* message);
 
 protected:
 	virtual e_animation_state get_ambient_state();
@@ -173,30 +173,30 @@ public:
 	virtual real_argb_color* get_cumulative_color_tint(real_argb_color* tint);
 	virtual bool can_receive_focus();
 	virtual bool within_focus_chain();
-	virtual c_gui_text_widget* create_text_widget(s_runtime_text_widget_definition const* definition);
-	virtual c_gui_bitmap_widget* create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition);
-	virtual c_gui_group_widget* create_group_widget(s_group_widget_definition const* definition);
-	virtual c_gui_button_key_widget* create_button_key_widget(s_button_key_definition const* definition);
-	virtual c_gui_list_widget* create_list_widget(s_list_widget_block const* definition);
-	virtual c_gui_list_item_widget* create_list_item_widget(s_list_item_widget_block const* definition);
-	virtual c_gui_model_widget* create_model_widget(s_model_widget_block const* definition);
+	virtual c_gui_text_widget* create_text_widget(const s_runtime_text_widget_definition* definition);
+	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition);
+	virtual c_gui_group_widget* create_group_widget(const s_group_widget_definition* definition);
+	virtual c_gui_button_key_widget* create_button_key_widget(const s_button_key_definition* definition);
+	virtual c_gui_list_widget* create_list_widget(const s_list_widget_block* definition);
+	virtual c_gui_list_item_widget* create_list_item_widget(const s_list_item_widget_block* definition);
+	virtual c_gui_model_widget* create_model_widget(const s_model_widget_block* definition);
 	virtual void update(uns32 current_milliseconds);
 	virtual void update_render_state(uns32 current_milliseconds);
 	virtual void set_animated_state_baseline(s_animation_transform* transform);
 	virtual bool transitioning_in();
 	virtual bool transitioning_out();
-	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 	virtual bool handle_widget_back_out();
 	virtual bool handle_widget_selected();
-	virtual bool handle_tab(c_controller_input_message const* message);
-	virtual bool handle_alt_stick(c_controller_input_message const* message);
-	virtual bool handle_alt_tab(c_controller_input_message const* message);
-	virtual bool handle_controller_input_message(c_controller_input_message const* message);
+	virtual bool handle_tab(const c_controller_input_message* message);
+	virtual bool handle_alt_stick(const c_controller_input_message* message);
+	virtual bool handle_alt_tab(const c_controller_input_message* message);
+	virtual bool handle_controller_input_message(const c_controller_input_message* message);
 	virtual bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer);
 
 public:
 	c_gui_widget(e_gui_widget_type type);
-	static void __cdecl add_definition_fields(e_gui_widget_type type, s_core_widget_definition const* source_definition, s_runtime_core_widget_definition* dest_definition, real_rectangle2d const* unanimated_bounds, bool was_templated);
+	static void __cdecl add_definition_fields(e_gui_widget_type type, const s_core_widget_definition* source_definition, s_runtime_core_widget_definition* dest_definition, const real_rectangle2d* unanimated_bounds, bool was_templated);
 
 private:
 	void animate(uns32 current_milliseconds);
@@ -205,11 +205,11 @@ protected:
 	void animate_recursively(uns32 current_milliseconds);
 
 public:
-	void calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, s_widget_animation_definition const* animation, s_animation_transform* transform, real_vector2d const* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
+	void calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, const s_widget_animation_definition* animation, s_animation_transform* transform, const real_vector2d* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
 	bool const can_all_children_be_disposed();
 	bool const can_be_disposed();
 	bool controller_can_drive(e_controller_index controller_index);
-	void create_and_add_child_list_item_widgets(s_tag_block const* list_items_block, int32 gui_skin_tag_index);
+	void create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index);
 	void delete_all_children();
 	e_controller_index get_arbitrary_responding_controller() const;
 	real_rectangle2d* get_authored_bounds(real_rectangle2d* unanimated_bounds);
@@ -222,7 +222,7 @@ public:
 	c_gui_widget* get_child_widget(e_gui_widget_type type, int32 name);
 	c_gui_widget* get_children();
 	int32 get_controller_mask() const;
-	real_argb_color const* get_debug_color();
+	const real_argb_color* get_debug_color();
 	c_gui_widget* get_deepest_widget_that_can_receive_focus();
 	int32 get_definition_index();
 	e_controller_index get_driving_controller() const;
@@ -248,16 +248,16 @@ public:
 	c_gui_model_widget* get_previous_model_widget();
 	c_gui_text_widget* get_previous_text_widget();
 	c_gui_widget* get_previous_widget_of_type(e_gui_widget_type type);
-	gui_real_rectangle2d* get_projected_bounds(rectangle2d const* window_bounds, gui_real_rectangle2d* projected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	gui_real_rectangle2d* get_projected_bounds(const rectangle2d* window_bounds, gui_real_rectangle2d* projected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 	int16 get_render_depth_bias();
 	bool get_render_in_screenshot();
 	e_controller_index get_single_responding_controller() const;
 	gui_real_rectangle2d* get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 	bool is_animation_active(e_animation_state animation_state);
 	bool leaf_node_of_widget(c_gui_widget* branch_widget);
-	void modulate_tint_color(real_argb_color const* modulation);
+	void modulate_tint_color(const real_argb_color* modulation);
 	void remove_child_widget(c_gui_widget* child);
-	static void render(int32 user_index, s_gui_widget_render_data const* render_data, rectangle2d const* window_bounds, bool is_screenshot);
+	static void render(int32 user_index, const s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, bool is_screenshot);
 	void set_child_bitmap_sprite_frame(int32 widget_name, int32 sprite_frame_index);
 	void set_child_enabled(e_gui_widget_type widget_type, int32 widget_name, bool enabled);
 	void set_child_use_alternate_ambient_state(e_gui_widget_type widget_type, int32 widget_name, bool value);
@@ -268,19 +268,19 @@ public:
 	void set_debug_name(bool activate);
 	void set_debug_rotation_origin(bool activate);
 	void set_driving_controller(e_controller_index controller_index);
-	void set_full_animation_state(s_animation_transform const* transform, bool recursive);
+	void set_full_animation_state(const s_animation_transform* transform, bool recursive);
 	void set_next(c_gui_widget* next);
 	void set_parent(c_gui_widget* parent);
 	void set_previous(c_gui_widget* previous);
-	void set_tint_color_direct(real_argb_color const* color);
+	void set_tint_color_direct(const real_argb_color* color);
 	void set_use_alternate_ambient_state(bool value);
 	void set_visible(bool value);
 	void start_animation(e_animation_state animation_state, bool recursive);
 	void start_animation_at_time(e_animation_state animation_state, uns32 animation_start_time, bool recursive);
-	void stomp_bounds(real_rectangle2d const* new_bounds);
+	void stomp_bounds(const real_rectangle2d* new_bounds);
 	void update_animation(uns32 current_milliseconds);
 	bool verify_animation_period(e_animation_state animation_state, int32 period);
-	static char const* __cdecl widget_name_to_string(int32 name);
+	static const char* __cdecl widget_name_to_string(int32 name);
 
 //protected:
 	int32 __unknown4;
@@ -328,4 +328,4 @@ extern bool gui_debug_list_bounds_global;
 extern bool gui_debug_group_bounds_global;
 extern bool gui_debug_screen_bounds_global;
 
-extern char const* __cdecl gui_widget_type_to_string(e_gui_widget_type type);
+extern const char* __cdecl gui_widget_type_to_string(e_gui_widget_type type);

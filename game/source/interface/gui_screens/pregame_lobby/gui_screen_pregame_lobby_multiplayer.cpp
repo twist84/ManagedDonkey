@@ -8,7 +8,7 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B01250, c_gui_screen_pregame_lobby_multiplayer, handle_list_item_chosen_);
 
-bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
@@ -58,7 +58,7 @@ bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_
 //.text:00B01220 ; public: virtual int32 c_gui_screen_pregame_lobby_multiplayer::get_lobby_header()
 //.text:00B01230 ; public: virtual int32 c_gui_screen_pregame_lobby_multiplayer::get_lobby_title()
 //.text:00B01240 ; public: virtual int32 c_gui_screen_pregame_lobby_multiplayer::get_start_button_name()
-//.text:00B01250 ; public: virtual bool c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
+//.text:00B01250 ; public: virtual bool c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00B013B0 ; public: virtual void c_gui_screen_pregame_lobby_multiplayer::initialize()
 //.text:00B01470 ; parse_xml_lobby_multiplayer_game
 //.text:00B01490 ; parse_xml_lobby_multiplayer_map

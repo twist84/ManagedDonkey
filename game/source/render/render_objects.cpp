@@ -11,10 +11,10 @@ HOOK_DECLARE_CLASS(0x00A78410, c_object_renderer, render_albedo);
 
 //.text:00A78140 ; public: static void __cdecl c_object_renderer::initialize()
 //.text:00A781A0 ; public: static void __cdecl c_render_flags::or_window_bit(c_render_flags::e_window_bit, uns32)
-//.text:00A781C0 ; void __cdecl override_shield_impact_parameters(int32, s_shield_impact_parameters const*)
+//.text:00A781C0 ; void __cdecl override_shield_impact_parameters(int32, const s_shield_impact_parameters*)
 //.text:00A781F0 ; public: static void __cdecl c_object_renderer::pop_marker()
 //.text:00A78230 ; public: static void __cdecl c_object_renderer::push_marker()
-//.text:00A78280 ; public: static void __cdecl c_object_renderer::render_active_camo_object_context(void const*, int32)
+//.text:00A78280 ; public: static void __cdecl c_object_renderer::render_active_camo_object_context(const void*, int32)
 
 void __cdecl c_object_renderer::render_albedo(uns32 mesh_part_flags)
 {
@@ -41,8 +41,8 @@ void __cdecl c_object_renderer::render_albedo(uns32 mesh_part_flags)
 //.text:00A78480 ; 
 //.text:00A784F0 ; public: static void __cdecl c_object_renderer::render_lights(e_entry_point)
 //.text:00A78530 ; public: static void __cdecl c_object_renderer::render_object_context(int32, e_entry_point, int32, bool)
-//.text:00A786B0 ; public: static void __cdecl c_object_renderer::render_object_context_instances(s_context_mesh_part const*, e_entry_point, uns32 const*, s_lod_transparency, int32)
-//.text:00A78940 ; public: static void __cdecl c_object_renderer::render_object_context_mesh_part(s_context_mesh_part const*, e_entry_point, int32, bool)
+//.text:00A786B0 ; public: static void __cdecl c_object_renderer::render_object_context_instances(const s_context_mesh_part*, e_entry_point, const uns32*, s_lod_transparency, int32)
+//.text:00A78940 ; public: static void __cdecl c_object_renderer::render_object_context_mesh_part(const s_context_mesh_part*, e_entry_point, int32, bool)
 
 void __cdecl c_object_renderer::render_object_contexts(e_entry_point entry_point, int32 mesh_part_mask)
 {
@@ -58,15 +58,15 @@ void __cdecl c_object_renderer::render_object_widgets(e_entry_point entry_point)
 //.text:00A78D10 ; 
 //.text:00A78EC0 ; public: static void __cdecl c_object_renderer::render_shadows_apply()
 //.text:00A78F00 ; public: static void __cdecl c_object_renderer::render_shadows_generate(int32)
-//.text:00A78F50 ; public: static void __cdecl c_object_renderer::render_shield_impact_mesh_part(void const*, int32)
+//.text:00A78F50 ; public: static void __cdecl c_object_renderer::render_shield_impact_mesh_part(const void*, int32)
 //.text:00A79060 ; public: static void __cdecl c_object_renderer::render_static_lighting(int32)
-//.text:00A790E0 ; public: static void __cdecl c_object_renderer::render_transparent_object_mesh_part(void const*, int32)
+//.text:00A790E0 ; public: static void __cdecl c_object_renderer::render_transparent_object_mesh_part(const void*, int32)
 //.text:00A79160 ; 
 //.text:00A79180 ; public: static void __cdecl c_object_renderer::render_unattached_widgets(e_entry_point)
 //.text:00A791A0 ; 
 //.text:00A791E0 ; 
 //.text:00A79220 ; public: static void __cdecl c_object_renderer::reset()
-//.text:00A79260 ; public: static void __cdecl c_object_renderer::setup_shared_state_for_mesh_part(s_context_mesh_part const*, bool)
+//.text:00A79260 ; public: static void __cdecl c_object_renderer::setup_shared_state_for_mesh_part(const s_context_mesh_part*, bool)
 
 void __cdecl c_object_renderer::submit_and_render_sky(int32 entry_point_type, int32 player_window_index)
 {

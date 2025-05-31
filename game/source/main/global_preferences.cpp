@@ -993,7 +993,7 @@ void __cdecl global_preferences_set_last_font_language(e_language last_font_lang
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_last_fonts_modification_date(s_file_last_modification_date const* last_fonts_modification_date)
+void __cdecl global_preferences_set_last_fonts_modification_date(const s_file_last_modification_date* last_fonts_modification_date)
 {
 	//INVOKE(0x0050D850, global_preferences_set_last_fonts_modification_date, last_fonts_modification_date);
 
@@ -1005,7 +1005,7 @@ void __cdecl global_preferences_set_last_fonts_modification_date(s_file_last_mod
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_last_game_setup(s_gui_game_setup_storage const* last_game_setup)
+void __cdecl global_preferences_set_last_game_setup(const s_gui_game_setup_storage* last_game_setup)
 {
 	//INVOKE(0x0050D8E0, global_preferences_set_last_game_setup, last_game_setup);
 
@@ -1448,7 +1448,7 @@ void __stdcall sound_system_set_sfx_volume(int32 volume, bool update_preference)
 	INVOKE(0x0079B9E0, sound_system_set_sfx_volume, volume, update_preference);
 }
 
-char const* const k_global_preference_names[k_global_preference_count]
+const char* const k_global_preference_names[k_global_preference_count]
 {
 	"antialiasing",
 	//"aspect_ratio",
@@ -1503,7 +1503,7 @@ char const* const k_global_preference_names[k_global_preference_count]
 
 #define DECLARE_GLOBAL_PREFERENCE(NAME, DESCRIPTION, PARAMETER_COUNT, ...) new s_global_preference({ (#NAME), (DESCRIPTION), (global_preferences_get_##NAME), (global_preferences_set_##NAME), (_global_preference_##NAME), (PARAMETER_COUNT), { __VA_ARGS__ } })
 
-s_global_preference const* k_global_preferences[k_global_preference_count]
+const s_global_preference* k_global_preferences[k_global_preference_count]
 {
 	DECLARE_GLOBAL_PREFERENCE(antialiasing, "<bool>", 1, _global_preference_type_bool),
 	//DECLARE_GLOBAL_PREFERENCE(aspect_ratio, "<long>", 1, _global_preference_type_long),
@@ -1567,8 +1567,8 @@ union value_converter_t
 	e_gui_network_session_advertisement_mode type_advertisement_mode;
 };
 
-template<int32 const k_maximum_parameter_count>
-void value_handler(s_global_preference const& global_preference, value_converter_t(&values)[k_maximum_parameter_count], va_list parameters)
+template<const int32 k_maximum_parameter_count>
+void value_handler(const s_global_preference& global_preference, value_converter_t(&values)[k_maximum_parameter_count], va_list parameters)
 {
 	ASSERT(VALID_COUNT(k_maximum_parameter_count, k_maximum_global_preference_parameters));
 
@@ -1620,8 +1620,8 @@ union function_converter_t
 	void(__cdecl* type_screen_resolution)(int32, int32);
 };
 
-template<int32 const k_maximum_parameter_count>
-void function_handler(s_global_preference const& global_preference, value_converter_t(&values)[k_maximum_parameter_count])
+template<const int32 k_maximum_parameter_count>
+void function_handler(const s_global_preference& global_preference, value_converter_t(&values)[k_maximum_parameter_count])
 {
 	function_converter_t function = { .pointer = global_preference.set };
 	ASSERT(function.pointer != nullptr);
@@ -1707,13 +1707,13 @@ void function_handler(s_global_preference const& global_preference, value_conver
 	}
 }
 
-bool global_preference_set_impl(char const* name, int16 parameter_count, ...)
+bool global_preference_set_impl(const char* name, int16 parameter_count, ...)
 {
 	e_global_preference preference = global_preference_from_string(name);
 	if (preference == e_global_preference(-1))
 		return false;
 
-	s_global_preference const* global_preference = k_global_preferences[preference];
+	const s_global_preference* global_preference = k_global_preferences[preference];
 	ASSERT(VALID_COUNT(global_preference->parameter_count, k_maximum_global_preference_parameters));
 
 	if (parameter_count != global_preference->parameter_count)
@@ -1731,7 +1731,7 @@ bool global_preference_set_impl(char const* name, int16 parameter_count, ...)
 	return true;
 }
 
-char const* global_preference_get_name(e_global_preference preference)
+const char* global_preference_get_name(e_global_preference preference)
 {
 	if (VALID_INDEX(preference, k_global_preference_count))
 		return k_global_preference_names[preference];
@@ -1739,7 +1739,7 @@ char const* global_preference_get_name(e_global_preference preference)
 	return nullptr;
 }
 
-e_global_preference global_preference_from_string(char const* str)
+e_global_preference global_preference_from_string(const char* str)
 {
 	e_global_preference preference = e_global_preference(-1);
 	for (int32 i = _global_preference_antialiasing; i < k_global_preference_count; i++)

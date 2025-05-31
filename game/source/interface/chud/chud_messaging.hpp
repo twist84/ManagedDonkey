@@ -27,7 +27,7 @@ struct c_chud_messaging_manager
 	// $TODO: map this whole ass struct
 };
 
-extern void __cdecl chud_messaging_post(int32 user_index, wchar_t const* message_text, e_chud_message_context chud_message_context);
+extern void __cdecl chud_messaging_post(int32 user_index, const wchar_t* message_text, e_chud_message_context chud_message_context);
 extern void __cdecl chud_messaging_special_autosave(bool end);
 extern void __cdecl chud_messaging_special_load(bool end);
 extern void __cdecl chud_messaging_special_saving(bool end);

@@ -104,7 +104,7 @@ extern int16 ai_profile_change_render_spray();
 extern void ai_profile_display(char* textbuffer, int32 textbuffer_size);
 extern void ai_profile_dispose();
 extern void ai_profile_dispose_from_old_map();
-extern void ai_profile_draw_string(char const* string, int16 tab_count, int16 const* tabs, real_argb_color const* color);
+extern void ai_profile_draw_string(const char* string, int16 tab_count, const int16* tabs, const real_argb_color* color);
 extern void ai_profile_initialize();
 extern void ai_profile_initialize_for_new_map();
 extern void ai_profile_render();

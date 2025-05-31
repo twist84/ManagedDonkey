@@ -14,7 +14,7 @@ void c_game_engine_sandbox_variant::byteswap()
 	m_player_traits.byteswap();
 }
 
-void c_game_engine_sandbox_variant::set(c_game_engine_sandbox_variant const* variant, bool force)
+void c_game_engine_sandbox_variant::set(const c_game_engine_sandbox_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
@@ -26,7 +26,7 @@ void c_game_engine_sandbox_variant::set(c_game_engine_sandbox_variant const* var
 	set_player_traits(variant->get_player_traits(), force);
 }
 
-//void c_game_engine_sandbox_variant::set(s_game_engine_sandbox_variant_definition const* definition, bool force)
+//void c_game_engine_sandbox_variant::set(const s_game_engine_sandbox_variant_definition* definition, bool force)
 //{
 //}
 
@@ -113,12 +113,12 @@ c_player_traits* c_game_engine_sandbox_variant::get_player_traits_writeable()
 	return &m_player_traits;
 }
 
-c_player_traits const* c_game_engine_sandbox_variant::get_player_traits() const
+const c_player_traits* c_game_engine_sandbox_variant::get_player_traits() const
 {
 	return &m_player_traits;
 }
 
-void c_game_engine_sandbox_variant::set_player_traits(c_player_traits const* traits, bool force)
+void c_game_engine_sandbox_variant::set_player_traits(const c_player_traits* traits, bool force)
 {
 	m_player_traits.set(traits, force);
 }

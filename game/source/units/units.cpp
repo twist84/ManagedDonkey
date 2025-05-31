@@ -45,9 +45,9 @@ bool __cdecl any_unit_is_dangerous(int32* out_unit_index)
 }
 
 //.text:00B37990 ; public: void __cdecl c_multi_unit_passenger_iterator::begin(int32)
-//.text:00B37A80 ; void __cdecl data_mine_add_player_death_with_killer_data(c_datamine*, int32, s_damage_aftermath_result_data const*)
-//.text:00B37CE0 ; void __cdecl data_mine_insert_sp_actor_death(int32, s_damage_aftermath_result_data const*)
-//.text:00B380B0 ; void __cdecl data_mine_insert_sp_player_death(int32, s_damage_aftermath_result_data const*)
+//.text:00B37A80 ; void __cdecl data_mine_add_player_death_with_killer_data(c_datamine*, int32, const s_damage_aftermath_result_data*)
+//.text:00B37CE0 ; void __cdecl data_mine_insert_sp_actor_death(int32, const s_damage_aftermath_result_data*)
+//.text:00B380B0 ; void __cdecl data_mine_insert_sp_player_death(int32, const s_damage_aftermath_result_data*)
 //.text:00B38180 ; 
 //.text:00B38210 ; public: bool __cdecl c_multi_unit_passenger_iterator::next()
 //.text:00B38450 ; void __cdecl unit_arbiter_active_camouflage_play_sound(int32, int16)
@@ -107,7 +107,7 @@ bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, 
 }
 
 //.text:00B39820 ; bool __cdecl unit_adjust_first_person_camera(int32, real_vector3d*)
-//.text:00B399C0 ; void __cdecl unit_adjust_projectile_ray(int32, real_point3d*, real_vector3d*, real_vector3d*, real_point3d const*, real_point3d const*, bool, bool, bool, e_aiming_vector)
+//.text:00B399C0 ; void __cdecl unit_adjust_projectile_ray(int32, real_point3d*, real_vector3d*, real_vector3d*, const real_point3d*, const real_point3d*, bool, bool, bool, e_aiming_vector)
 //.text:00B39E40 ; 
 //.text:00B39EC0 ; voic __cdecl unit_apply_predicted_weapon_state(int32, int32)
 //.text:00B39F60 ; void __cdecl unit_build_unit_interface_state(int32, unit_interface_state*)
@@ -126,17 +126,17 @@ bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index)
 }
 
 //.text:00B3AC10 ; bool __cdecl unit_can_pickup_weapon(int32, int32, e_weapon_addition_method, unit_weapon_pickup_result*)
-//.text:00B3B190 ; bool __cdecl unit_can_see_point(int32, real_point3d const*, real32)
-//.text:00B3B360 ; bool __cdecl unit_can_use_seat_entry_marker(int32, int32, int16, real_point3d const*, real_vector3d const*)
+//.text:00B3B190 ; bool __cdecl unit_can_see_point(int32, const real_point3d*, real32)
+//.text:00B3B360 ; bool __cdecl unit_can_use_seat_entry_marker(int32, int32, int16, const real_point3d*, const real_vector3d*)
 //.text:00B3B5B0 ; bool __cdecl unit_can_use_weapon(int32, int32)
 //.text:00B3B5D0 ; bool __cdecl unit_can_use_weapon_in_seat(int32, int32, int32)
 //.text:00B3B780 ; bool __cdecl unit_can_zoom(int32)
 //.text:00B3B920 ; void __cdecl unit_cause_ai_melee_attack(int32, int16)
-//.text:00B3BD20 ; void __cdecl unit_cause_assassination_damage(int32, int32, s_damage_owner const*, int32, bool)
-//.text:00B3BE30 ; void __cdecl unit_cause_melee_damage_response(int32, int32, int32, int32, c_global_material_type, real_point3d const*, real_vector3d const*)
+//.text:00B3BD20 ; void __cdecl unit_cause_assassination_damage(int32, int32, const s_damage_owner*, int32, bool)
+//.text:00B3BE30 ; void __cdecl unit_cause_melee_damage_response(int32, int32, int32, int32, c_global_material_type, const real_point3d*, const real_vector3d*)
 //.text:00B3BFE0 ; void __cdecl unit_cause_player_melee_attack_apply(int32, int32, int16, real32, bool, s_player_melee_attack_query_result*, s_simulation_biped_melee_damage_event_data*)
 //.text:00B3C360 ; unit_cause_player_melee_attack_query
-//.text:00B3CDE0 ; void __cdecl unit_cause_player_melee_damage(int32, int32, s_damage_owner const*, s_unit_player_melee_damage_target const*)
+//.text:00B3CDE0 ; void __cdecl unit_cause_player_melee_damage(int32, int32, const s_damage_owner*, const s_unit_player_melee_damage_target*)
 //.text:00B3D3A0 ; void __cdecl unit_check_ping_thresholds(int32, real32, real32, int32*)
 //.text:00B3D470 ; void __cdecl unit_clear_aim_assist(int32)
 //.text:00B3D4F0 ; bool __cdecl unit_clip_vector_to_aiming_screen_bounds(int32, real_vector3d*, bool)
@@ -145,10 +145,12 @@ bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index)
 //.text:00B3DDC0 ; int32 __cdecl unit_compute_ping_type(int32, bool, bool, bool, bool, bool, bool, real32, real32)
 //.text:00B3DEE0 ; void __cdecl unit_consider_nearby_seats(int32, int32, int32*, int16*, int16*, real32*, bool*)
 
-void __cdecl unit_control(int32 unit_index, unit_control_data const* control_data)
+void __cdecl unit_control(int32 unit_index, const unit_control_data* control_data)
 {
 	if (g_player_desired_mode_override != NONE)
-		const_cast<unit_control_data*>(control_data)->desired_mode = g_player_desired_mode_override;
+	{
+		((unit_control_data*)control_data)->desired_mode = g_player_desired_mode_override;
+	}
 
 	INVOKE(0x00B3E240, unit_control, unit_index, control_data);
 }
@@ -161,9 +163,9 @@ void __cdecl unit_control(int32 unit_index, unit_control_data const* control_dat
 //.text:00B3E780 ; void __cdecl unit_correct_dual_wield_state(int32)
 //.text:00B3E820 ; void __cdecl unit_create_children(int32)
 //.text:00B3E850 ; void __cdecl unit_create_reflexive_damage(int32, int32, real32)
-//.text:00B3E9F0 ; int32 __cdecl unit_create_starting_weapon(int32, starting_weapon_info const*, bool)
-//.text:00B3EAB0 ; void __cdecl unit_damage_aftermath_apply(int32, s_damage_aftermath_result_data const*)
-//.text:00B3F590 ; void __cdecl unit_damage_aftermath_compute(int32, int32, s_damage_data const*, s_damage_aftermath_result_data*)
+//.text:00B3E9F0 ; int32 __cdecl unit_create_starting_weapon(int32, const starting_weapon_info*, bool)
+//.text:00B3EAB0 ; void __cdecl unit_damage_aftermath_apply(int32, const s_damage_aftermath_result_data*)
+//.text:00B3F590 ; void __cdecl unit_damage_aftermath_compute(int32, int32, const s_damage_data*, s_damage_aftermath_result_data*)
 
 void __cdecl unit_debug_ninja_rope(int32 unit_index)
 {
@@ -199,7 +201,7 @@ void __cdecl unit_debug_ninja_rope(int32 unit_index)
 //.text:00B3FD90 ; void __cdecl unit_destroy(int32)
 //.text:00B3FDE0 ; void __cdecl unit_detach_from_parent(int32)
 //.text:00B40020 ; void __cdecl unit_detach_simulation_entity(int32)
-//.text:00B40080 ; void __cdecl unit_determine_melee_contest(int32, int32, int32, s_damage_owner const*, s_unit_player_melee_damage_target const*, bool*, bool*)
+//.text:00B40080 ; void __cdecl unit_determine_melee_contest(int32, int32, int32, const s_damage_owner*, const s_unit_player_melee_damage_target*, bool*, bool*)
 //.text:00B40230 ; void __cdecl unit_determine_melee_damage(int32, int32, int32*, int32*, int32*, int32*)
 //.text:00B40410 ; void __cdecl unit_died(int32, bool, bool)
 //.text:00B40750 ; void __cdecl unit_dispose_from_old_structure_bsp(int32)
@@ -211,19 +213,19 @@ void __cdecl unit_debug_ninja_rope(int32 unit_index)
 //.text:00B40B80 ; bool __cdecl unit_equipment_desires_3rd_person_camera(int32)
 
 // these should it in equipment.cpp
-//.text:00B40BF0 ; bool __cdecl equipment_get_unit_camera(int32, s_unit_camera const**)
+//.text:00B40BF0 ; bool __cdecl equipment_get_unit_camera(int32, const s_unit_camera**)
 //.text:00B40CC0 ; equipment related
 
-//.text:00B40D50 ; void __cdecl unit_estimate_position(int32, int16, real_point3d const*, real_vector3d const*, real_vector3d const*, real_vector3d const*, real_point3d*)
-//.text:00B40EF0 ; void __cdecl unit_euler_aiming_update(real_matrix4x3 const*, real32, real_vector3d*, real_vector3d const*, real32, real_vector3d*, real_rectangle2d const*, real32, real32, real32*)
+//.text:00B40D50 ; void __cdecl unit_estimate_position(int32, int16, const real_point3d*, const real_vector3d*, const real_vector3d*, const real_vector3d*, real_point3d*)
+//.text:00B40EF0 ; void __cdecl unit_euler_aiming_update(const real_matrix4x3*, real32, real_vector3d*, const real_vector3d*, real32, real_vector3d*, const real_rectangle2d*, real32, real32, real32*)
 //.text:00B42080 ; void __cdecl unit_euler_axis_buildplan(real32, real32, real32, real32, euler_axis_plan*)
 //.text:00B423A0 ; void __cdecl unit_euler_axis_couple(euler_axis_plan*, euler_axis_plan*, real32, real32)
-//.text:00B42570 ; bool __cdecl unit_euler_axis_doplan(euler_axis_plan const*, real32, real32, real32*, real32, real32*)
+//.text:00B42570 ; bool __cdecl unit_euler_axis_doplan(const euler_axis_plan*, real32, real32, real32*, real32, real32*)
 //.text:00B42670 ; bool __cdecl unit_evict_parent_seat_occupant(int32, bool, bool)
 //.text:00B427D0 ; void __cdecl unit_falling_damage_disable(int32, bool)
 //.text:00B42820 ; int16 __cdecl unit_find_nearby_seat(int32, int32, int32*, int16*)
 //.text:00B42890 ; int16 __cdecl unit_first_free_weapon_index(int32)
-//.text:00B428E0 ; bool __cdecl unit_fix_position(int32, int32, real_point3d const*, real_point3d const*, real_point3d*, real32, real32, bool)
+//.text:00B428E0 ; bool __cdecl unit_fix_position(int32, int32, const real_point3d*, const real_point3d*, real_point3d*, real32, real32, bool)
 //.text:00B42BA0 ; void __cdecl unit_force_detach_from_parent_object(int32)
 //.text:00B42C50 ; void __cdecl unit_force_drop_weapon(int32, int32, bool, bool)
 
@@ -315,7 +317,7 @@ void __cdecl unit_get_head_position(int32 unit_index, real_point3d* position)
 //.text:00B444F0 ; int32 __cdecl unit_get_time_to_end_of_assasination(int32)
 //.text:00B445B0 ; int32 __cdecl unit_get_ultimate_motion_control_unit_index(int32)
 //.text:00B44600 ; int32 __cdecl unit_get_ultimate_weapon_control_unit_index(int32)
-//.text:00B44650 ; int32 __cdecl unit_get_weapon(unit_datum const*, int16)
+//.text:00B44650 ; int32 __cdecl unit_get_weapon(const unit_datum*, int16)
 //.text:00B44680 ; real32 __cdecl unit_get_weapon_dual_error_theta(int32, int32)
 
 int16 __cdecl unit_get_zoom_level(int32 unit_index)
@@ -371,7 +373,7 @@ int32 __cdecl unit_inventory_get_weapon(int32 unit_index, int16 inventory_index)
 //.text:00B45AB0 ; bool __cdecl unit_is_unarmed(int32)
 //.text:00B45B40 ; void __cdecl unit_kill_hologram(int32)
 //.text:00B45B70 ; void __cdecl unit_kill_no_statistics(int32)
-//.text:00B45C00 ; void __cdecl unit_melee_effects(int32, int32, int32, e_sweetener_size, c_global_material_type, real_vector3d const*, real_point3d const*, real_vector3d const*, bool)
+//.text:00B45C00 ; void __cdecl unit_melee_effects(int32, int32, int32, e_sweetener_size, c_global_material_type, const real_vector3d*, const real_point3d*, const real_vector3d*, bool)
 //.text:00B45EE0 ; bool __cdecl unit_new(int32, object_placement_data*, bool*)
 //.text:00B464E0 ; void __cdecl unit_notify_of_tracking_or_locking(int32, int32, int16)
 //.text:00B465A0 ; c_global_material_type __cdecl unit_override_damage_info_material_type(int32, c_global_material_type) // possibly needs c_global_material_type* as first argument for result
@@ -382,12 +384,12 @@ int32 __cdecl unit_inventory_get_weapon(int32 unit_index, int16 inventory_index)
 //.text:00B46780 ; bool __cdecl unit_pathfinding_is_attached(int32)
 //.text:00B467B0 ; void __cdecl unit_perform_detach_and_damage(int32, int32)
 //.text:00B469E0 ; void __cdecl unit_persistent_control(int32, int32, uns32)
-//.text:00B46A20 ; void __cdecl unit_place(int32, s_scenario_unit_datum const*)
+//.text:00B46A20 ; void __cdecl unit_place(int32, const s_scenario_unit_datum*)
 //.text:00B46B20 ; bool __cdecl unit_placement_try_to_put_unit_in_seat_using_marker_name(int32, int32, int32)
 //.text:00B46BF0 ; bool __cdecl unit_post_update(int32)
 //.text:00B46C10 ; void __cdecl unit_prepare_to_change_seats(int32)
 //.text:00B46C30 ; bool __cdecl unit_put_away_weapon(int32, int16, bool)
-//.text:00B46D00 ; void __cdecl unit_record_damage(int32, real32, int16, bool, int32, c_game_team, int32, s_damage_reporting_info const&)
+//.text:00B46D00 ; void __cdecl unit_record_damage(int32, real32, int16, bool, int32, c_game_team, int32, const s_damage_reporting_info&)
 
 void __cdecl unit_render_debug(int32 unit_index)
 {
@@ -460,7 +462,7 @@ void __cdecl unit_render_debug(int32 unit_index)
 			if (acceleration_scale <= absolute_k)
 				acceleration_scale = absolute_k;
 
-			real_argb_color const* acceleration_color = global_real_argb_blue;
+			const real_argb_color* acceleration_color = global_real_argb_blue;
 			if (acceleration_data.action_limit != 0.0f && acceleration_scale >= acceleration_data.action_limit)
 				acceleration_color = global_real_argb_yellow;
 			if (acceleration_data.attachment_limit != 0.0f && acceleration_scale >= acceleration_data.attachment_limit)
@@ -484,11 +486,11 @@ void __cdecl unit_render_debug(int32 unit_index)
 }
 
 //.text:00B470A0 ; void __cdecl unit_reset_seat_acceleration_data(int32)
-//.text:00B470F0 ; void __cdecl unit_resolve_melee_attack(int32, int32, int32, s_damage_owner const*, s_unit_player_melee_damage_target const*, bool, bool)
+//.text:00B470F0 ; void __cdecl unit_resolve_melee_attack(int32, int32, int32, const s_damage_owner*, const s_unit_player_melee_damage_target*, bool, bool)
 //.text:00B474C0 ; void __cdecl unit_respond_to_emp(int32, bool)
 //.text:00B47630 ; int16 __cdecl unit_rotate_zoom_level(int32, int16)
 //.text:00B47770 ; void __cdecl unit_running_blind(int32, real_vector3d*)
-//.text:00B47A20 ; void __cdecl unit_seat_acceleration_clear(int32, real_vector3d const*)
+//.text:00B47A20 ; void __cdecl unit_seat_acceleration_clear(int32, const real_vector3d*)
 //.text:00B47AD0 ; void __cdecl unit_seat_acceleration_update(int32)
 //.text:00B47F80 ; bool __cdecl unit_seat_allow_noncombatants(int32, int16)
 //.text:00B47FF0 ; bool __cdecl unit_seat_filled(int32, int16)
@@ -504,13 +506,13 @@ void __cdecl unit_render_debug(int32 unit_index)
 //.text:00B48380 ; void __cdecl unit_seat_try_opening(int32, int32, bool, bool, bool)
 //.text:00B48440 ; 
 //.text:00B484D0 ; void __cdecl unit_set_actively_controlled(int32, bool)
-//.text:00B48590 ; void __cdecl unit_set_aiming_vectors(int32, real_vector3d const*, real_vector3d const*)
+//.text:00B48590 ; void __cdecl unit_set_aiming_vectors(int32, const real_vector3d*, const real_vector3d*)
 //.text:00B48610 ; void __cdecl unit_set_controllable(int32, bool)
 //.text:00B48650 ; void __cdecl unit_set_desired_grenade_type(int32, int16)
-//.text:00B48690 ; void __cdecl unit_set_desired_weapon_set(int32, s_unit_weapon_set const*)
+//.text:00B48690 ; void __cdecl unit_set_desired_weapon_set(int32, const s_unit_weapon_set*)
 //.text:00B486D0 ; 
-//.text:00B48710 ; void __cdecl unit_set_grenade_counts(int32, char const*)
-//.text:00B48770 ; void __cdecl unit_set_hologram(int32, int32, int32, real_point3d const*)
+//.text:00B48710 ; void __cdecl unit_set_grenade_counts(int32, const char*)
+//.text:00B48770 ; void __cdecl unit_set_hologram(int32, int32, int32, const real_point3d*)
 //.text:00B48980 ; void __cdecl unit_set_melee_attack_resolved(int32)
 //.text:00B489E0 ; void __cdecl unit_set_mouth_aperture(int32, real32)
 //.text:00B48A60 ; void __cdecl unit_set_player_melee_suppression(int32, int32)
@@ -519,7 +521,7 @@ void __cdecl unit_render_debug(int32 unit_index)
 //.text:00B48BB0 ; void __cdecl unit_set_predicted_vehicle(int32, int32, int16)
 //.text:00B48C00 ; void __cdecl unit_set_prefer_tight_camera_track(int32, bool)
 //.text:00B48C40 ; void __cdecl unit_set_weapon_state(int32, int32, int32, int32, real32)
-//.text:00B48CB0 ; void __cdecl unit_set_weapon_type(int32, int32, int32, int16, uns8, s_unit_weapon_set const*)
+//.text:00B48CB0 ; void __cdecl unit_set_weapon_type(int32, int32, int32, int16, uns8, const s_unit_weapon_set*)
 //.text:00B48EC0 ; bool __cdecl unit_should_clip_to_aiming_bounds(int32)
 //.text:00B48F10 ; void __cdecl unit_show_weapon_from_inventory(int32, int32, e_unit_hand)
 //.text:00B48FF0 ; void __cdecl unit_start_running_blindly(int32 unit_index)
@@ -527,7 +529,7 @@ void __cdecl unit_render_debug(int32 unit_index)
 //.text:00B49150 ; void __cdecl unit_swap_weapons_begin(int32 unit_index)
 //.text:00B49170 ; void __cdecl unit_swap_weapons_end(int32 unit_index)
 //.text:00B49190 ; void __cdecl unit_take_item(int32, int32)
-//.text:00B491B0 ; bool __cdecl unit_test_pickup_with_mode(int32, unit_weapon_pickup_result const*, e_weapon_addition_method, int16*)
+//.text:00B491B0 ; bool __cdecl unit_test_pickup_with_mode(int32, const unit_weapon_pickup_result*, e_weapon_addition_method, int16*)
 //.text:00B492A0 ; bool __cdecl unit_test_seat_entrance_markers(int32, int32, int16)
 //.text:00B49580 ; void __cdecl unit_toss_item(int32 unit_index, int32 item_index, int32 marker_name, real32 a4, bool a5)
 //.text:00B49940 ; bool __cdecl unit_transfers_flashlight_value(int32 unit_index)
@@ -538,7 +540,7 @@ bool __cdecl unit_try_to_drop_weapon(int32 unit_index, bool drop_secondary)
 	return INVOKE(0x00B49B00, unit_try_to_drop_weapon, unit_index, drop_secondary);
 }
 
-bool __cdecl unit_unsuspecting(int32 unit_index, real_point3d const* attacker_position, real_vector3d const* attacker_direction)
+bool __cdecl unit_unsuspecting(int32 unit_index, const real_point3d* attacker_position, const real_vector3d* attacker_direction)
 {
 	return INVOKE(0x00B49BA0, unit_unsuspecting, unit_index, attacker_position, attacker_direction);
 }
@@ -768,7 +770,7 @@ bool __cdecl units_debug_can_select_unit(int32 unit_index)
 {
 	//return INVOKE(0x00B4D3D0, units_debug_can_select_unit, unit_index);
 
-	object_header_datum const* header = object_header_get(unit_index);
+	const object_header_datum* header = object_header_get(unit_index);
 	void* object = nullptr;
 	if (header && TEST_BIT(_object_mask_unit, header->object_type.get()))
 		object = header->datum;

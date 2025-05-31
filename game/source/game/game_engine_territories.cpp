@@ -18,7 +18,7 @@ void c_game_engine_territories_variant::byteswap()
 	m_attacker_traits.byteswap();
 }
 
-void c_game_engine_territories_variant::set(c_game_engine_territories_variant const* variant, bool force)
+void c_game_engine_territories_variant::set(const c_game_engine_territories_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
@@ -33,7 +33,7 @@ void c_game_engine_territories_variant::set(c_game_engine_territories_variant co
 	set_attacker_traits(variant->get_attacker_traits(), force);
 }
 
-//void c_game_engine_territories_variant::set(s_game_engine_territories_variant_definition const* definition, bool force)
+//void c_game_engine_territories_variant::set(const s_game_engine_territories_variant_definition* definition, bool force)
 //{
 //}
 
@@ -158,12 +158,12 @@ c_player_traits* c_game_engine_territories_variant::get_defender_traits_writeabl
 	return &m_defender_traits;
 }
 
-c_player_traits const* c_game_engine_territories_variant::get_defender_traits() const
+const c_player_traits* c_game_engine_territories_variant::get_defender_traits() const
 {
 	return &m_defender_traits;
 }
 
-void c_game_engine_territories_variant::set_defender_traits(c_player_traits const* traits, bool force)
+void c_game_engine_territories_variant::set_defender_traits(const c_player_traits* traits, bool force)
 {
 	m_defender_traits.set(traits, force);
 }
@@ -173,12 +173,12 @@ c_player_traits* c_game_engine_territories_variant::get_attacker_traits_writeabl
 	return &m_attacker_traits;
 }
 
-c_player_traits const* c_game_engine_territories_variant::get_attacker_traits() const
+const c_player_traits* c_game_engine_territories_variant::get_attacker_traits() const
 {
 	return &m_attacker_traits;
 }
 
-void c_game_engine_territories_variant::set_attacker_traits(c_player_traits const* traits, bool force)
+void c_game_engine_territories_variant::set_attacker_traits(const c_player_traits* traits, bool force)
 {
 	m_attacker_traits.set(traits, force);
 }

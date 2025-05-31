@@ -278,8 +278,8 @@ struct render_structure_globals
 	{
 		uns32 flags;
 		c_static_array<int32, 16> lightmap_bsp_type;
-		s_scenario_lightmap_bsp_data const* lightmap_bsp_data[16];
-		s_render_geometry const* render_geometry[16];
+		const s_scenario_lightmap_bsp_data* lightmap_bsp_data[16];
+		const s_render_geometry* render_geometry[16];
 	} cached;
 
 	s_render_cluster_part render_cluster_parts[2048];

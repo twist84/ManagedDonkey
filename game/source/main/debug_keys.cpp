@@ -757,7 +757,7 @@ bool __cdecl debug_key_update(int32 key_index, debug_key* key, bool* modifier_do
 }
 
 // name assumption
-bool __cdecl debug_key_execute(char const* name, bool key_down)
+bool __cdecl debug_key_execute(const char* name, bool key_down)
 {
 	int32 v4 = 2; // debug_key not found
 
@@ -765,7 +765,7 @@ bool __cdecl debug_key_execute(char const* name, bool key_down)
 	csmemset(modifier_down, 0, NUMBEROF(modifier_down));
 
 	debug_key* key = global_debug_key_list;
-	char const* key_name = key->name;
+	const char* key_name = key->name;
 
 	if (key_name)
 	{
@@ -1077,7 +1077,7 @@ void __cdecl debug_key_print_screen(bool key_is_down)
 			screenshot_path.clear();
 			screenshot_filepath.clear();
 
-			char const* root = "screenshots\\";
+			const char* root = "screenshots\\";
 			screenshot_path.print("%sscreenshot_%d", root, index);
 			screenshot_filepath.print("%s.jpg", screenshot_path.get_string());
 

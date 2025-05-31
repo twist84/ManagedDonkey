@@ -23,7 +23,7 @@ void __cdecl tint_widget_to_change_argb_color(c_gui_widget* widget, argb_color c
 //.text:00AA50D0 ; 
 //.text:00AA5120 ; bool __cdecl user_interface_get_percentage_string(real32, c_static_wchar_string<1024>*)
 //.text:00AA51C0 ; 
-//.text:00AA5340 ; int32 __cdecl user_interface_get_player_appearance_biped(s_player_appearance const*)
+//.text:00AA5340 ; int32 __cdecl user_interface_get_player_appearance_biped(const s_player_appearance*)
 //.text:00AA53B0 ; 
 //.text:00AA5410 ; bool __cdecl user_interface_get_player_grade_string(e_experience_rank, e_experience_grade, bool, bool, c_static_wchar_string<1024>*)
 //.text:00AA54B0 ; bool __cdecl user_interface_get_player_rank_and_grade_string(e_experience_rank, e_experience_grade, bool, c_static_wchar_string<1024>*)

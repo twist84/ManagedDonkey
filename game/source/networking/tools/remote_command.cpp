@@ -218,14 +218,14 @@ void __cdecl remote_command_process()
 		{
 			if (player_mapping_output_user_is_active(user_index))
 			{
-				if (s_observer_result const* camera = observer_try_and_get_camera(user_index))
+				if (const s_observer_result* camera = observer_try_and_get_camera(user_index))
 					remote_camera_update(user_index, camera);
 			}
 		}
 	}
 }
 
-bool __cdecl remote_command_process_received_chunk(char const* buffer, int32 buffer_length)
+bool __cdecl remote_command_process_received_chunk(const char* buffer, int32 buffer_length)
 {
 	ASSERT(buffer);
 	ASSERT(buffer_length > 0);
@@ -240,7 +240,7 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, int32 buf
 	return true;
 }
 
-bool __cdecl remote_command_send_encoded(int32 encoded_command_size, void const* encoded_command_buffer, int32 payload_size, void const* payload)
+bool __cdecl remote_command_send_encoded(int32 encoded_command_size, const void* encoded_command_buffer, int32 payload_size, const void* payload)
 {
 	// Ensure that the input is valid
 	ASSERT((encoded_command_size > 0) && (encoded_command_size <= MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE));
@@ -307,7 +307,7 @@ data_packet_group_packet remote_command_packets[NUMBER_OF_REMOTE_COMMANDS]
 
 DATA_PACKET_GROUP_DEFINITION(remote_command_packets_group, NUMBER_OF_REMOTE_COMMANDS, 1, MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE, MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE, remote_command_packets);
 
-bool __cdecl remote_command_send(int32 command_type, void const* a2, int32 payload_size, void const* payload)
+bool __cdecl remote_command_send(int32 command_type, const void* a2, int32 payload_size, const void* payload)
 {
 	ASSERT((command_type >= 0) && (command_type < NUMBER_OF_REMOTE_COMMANDS));
 
@@ -327,7 +327,7 @@ bool __cdecl remote_command_send(int32 command_type, void const* a2, int32 paylo
 	return false;
 }
 
-bool __cdecl remote_camera_update(int32 user_index, s_observer_result const* camera)
+bool __cdecl remote_camera_update(int32 user_index, const s_observer_result* camera)
 {
 	// Check if the game is being run in the editor or if the user index is not the first active user.
 	if (!game_in_editor() || user_index != player_mapping_first_active_input_user())
@@ -352,7 +352,7 @@ bool __cdecl remote_camera_update(int32 user_index, s_observer_result const* cam
 
 //-----------------------------------------------------------------------------
 
-void command_tokenize(char const* input, tokens_t& tokens, int32* token_count)
+void command_tokenize(const char* input, tokens_t& tokens, int32* token_count)
 {
 	bool in_quotes = false;
 	int32 num_chars = strlen(input);
@@ -401,10 +401,12 @@ void command_tokenize(char const* input, tokens_t& tokens, int32* token_count)
 	}
 }
 
-void command_execute(int32 token_count, tokens_t& tokens, int32 command_count, s_command const* commands)
+void command_execute(int32 token_count, tokens_t& tokens, int32 command_count, const s_command* commands)
 {
 	if (token_count == 0)
+	{
 		return;
+	}
 
 	callback_result_t output;
 
@@ -434,9 +436,9 @@ void command_handler(char* buffer, int32 buffer_length)
 	command_execute(token_count, tokens, NUMBEROF(k_registered_commands), k_registered_commands);
 }
 
-int32 token_try_parse_bool(token_t const& token)
+int32 token_try_parse_bool(const token_t& token)
 {
-	char const* value = token->get_string();
+	const char* value = token->get_string();
 	if (IN_RANGE_INCLUSIVE(*value, '0', '1'))
 	{
 		return !!atol(value) + 1;
@@ -455,7 +457,7 @@ int32 token_try_parse_bool(token_t const& token)
 
 //-----------------------------------------------------------------------------
 
-bool load_preference(char const* name, char const* value)
+bool load_preference(const char* name, const char* value)
 {
 	// special case
 	if (csstricmp(name, "screen_resolution") == 0)
@@ -483,7 +485,7 @@ bool load_preference(char const* name, char const* value)
 	return false;
 }
 
-callback_result_t help_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t help_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	ASSERT(token_count >= 1);
 
@@ -492,7 +494,7 @@ callback_result_t help_callback(void const* userdata, int32 token_count, tokens_
 	{
 		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
-			s_command const& command = k_registered_commands[i];
+			const s_command& command = k_registered_commands[i];
 
 			result.append_print("%s ", command.name);
 			result.append_line(command.parameter_types && *command.parameter_types != 0 ? command.parameter_types : "");
@@ -504,16 +506,20 @@ callback_result_t help_callback(void const* userdata, int32 token_count, tokens_
 	return result;
 }
 
-callback_result_t script_doc_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t script_doc_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	s_file_reference help_file{};
 	if (!file_reference_create_from_path(&help_file, "hs_doc.txt", false)) // should this actually be named `hs_doc.txt` if it isn't actually for the halo scriping system?
+	{
 		return result;
+	}
 
 	if (file_exists(&help_file))
+	{
 		file_delete(&help_file);
+	}
 
 	file_create(&help_file);
 
@@ -523,12 +529,14 @@ callback_result_t script_doc_callback(void const* userdata, int32 token_count, t
 		file_printf(&help_file, "; %s\n\n", "AVAILABLE FUNCTIONS:");
 		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
-			s_command const& command = k_registered_commands[i];
+			const s_command& command = k_registered_commands[i];
 
 			callback_result_t out("(");
 			out.append_print("%s", command.name);
 			if (command.parameter_types && *command.parameter_types != 0)
+			{
 				out.append_print(" %s", command.parameter_types);
+			}
 			out.append_print_line(")");
 			out.append_line();
 
@@ -542,7 +550,7 @@ callback_result_t script_doc_callback(void const* userdata, int32 token_count, t
 		file_printf(&help_file, "; %s\n\n", "AVAILABLE EXTERNAL GLOBALS:");
 		for (int32 global_index = 0; global_index < k_console_global_count; global_index++)
 		{
-			s_console_global const* global = &k_console_globals[global_index];
+			const s_console_global* global = &k_console_globals[global_index];
 
 			callback_result_t out;
 			out.append_print("(<%s> %s)", hs_type_names[global->type.get()], global->name);
@@ -554,22 +562,24 @@ callback_result_t script_doc_callback(void const* userdata, int32 token_count, t
 	return result;
 }
 
-callback_result_t breakpoint_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t breakpoint_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* message = tokens[1]->get_string();
+	const char* message = tokens[1]->get_string();
 	c_console::write_line(message);
 
 	if (!is_debugger_present())
+	{
 		return __FUNCTION__ ": failed, no debugger present";
+	}
 
 	__asm { int 3 };
 
 	return result;
 }
 
-callback_result_t exit_game_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t exit_game_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -578,17 +588,17 @@ callback_result_t exit_game_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t script_start_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t script_start_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name = tokens[1]->get_string();
+	const char* name = tokens[1]->get_string();
 	user_interface_start_hs_script_by_name(name);
 
 	return result;
 }
 
-callback_result_t map_reset_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t map_reset_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -597,7 +607,7 @@ callback_result_t map_reset_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t map_reset_random_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t map_reset_random_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -606,27 +616,27 @@ callback_result_t map_reset_random_callback(void const* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t map_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t map_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name = tokens[1]->get_string();
+	const char* name = tokens[1]->get_string();
 	main_game_launch_legacy(name);
 
 	return result;
 }
 
-callback_result_t game_multiplayer_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_multiplayer_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* multiplayer_engine = tokens[1]->get_string();
+	const char* multiplayer_engine = tokens[1]->get_string();
 	main_game_launch_set_multiplayer_engine(multiplayer_engine);
 
 	return result;
 }
 
-callback_result_t game_splitscreen_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_splitscreen_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -636,18 +646,18 @@ callback_result_t game_splitscreen_callback(void const* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t game_difficulty_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_difficulty_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* difficulty_name = tokens[1]->get_string();
+	const char* difficulty_name = tokens[1]->get_string();
 	e_campaign_difficulty_level difficulty = campaign_difficulty_level_from_string(difficulty_name);
 	main_game_launch_set_difficulty(difficulty);
 
 	return result;
 }
 
-callback_result_t game_active_primary_skulls_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_active_primary_skulls_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -657,7 +667,7 @@ callback_result_t game_active_primary_skulls_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t game_active_secondary_skulls_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_active_secondary_skulls_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -667,7 +677,7 @@ callback_result_t game_active_secondary_skulls_callback(void const* userdata, in
 	return result;
 }
 
-callback_result_t game_coop_players_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_coop_players_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -677,7 +687,7 @@ callback_result_t game_coop_players_callback(void const* userdata, int32 token_c
 	return result;
 }
 
-callback_result_t game_initial_bsp_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_initial_bsp_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -687,7 +697,7 @@ callback_result_t game_initial_bsp_callback(void const* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t game_tick_rate_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_tick_rate_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -697,27 +707,27 @@ callback_result_t game_tick_rate_callback(void const* userdata, int32 token_coun
 	return result;
 }
 
-callback_result_t game_start_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_start_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* map_name = tokens[1]->get_string();
+	const char* map_name = tokens[1]->get_string();
 	main_game_launch(map_name);
 
 	return result;
 }
 
-callback_result_t language_set_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t language_set_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* display_name = tokens[1]->get_string();
+	const char* display_name = tokens[1]->get_string();
 	set_current_language_from_display_name_slow(display_name);
 
 	return result;
 }
 
-callback_result_t game_won_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_won_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -726,7 +736,7 @@ callback_result_t game_won_callback(void const* userdata, int32 token_count, tok
 	return result;
 }
 
-callback_result_t game_revert_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_revert_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -735,7 +745,7 @@ callback_result_t game_revert_callback(void const* userdata, int32 token_count, 
 	return result;
 }
 
-callback_result_t main_menu_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t main_menu_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -744,7 +754,7 @@ callback_result_t main_menu_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t core_load_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t core_load_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -753,17 +763,17 @@ callback_result_t core_load_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t core_load_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t core_load_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* core_name = tokens[1]->get_string();
+	const char* core_name = tokens[1]->get_string();
 	main_load_core_name(core_name);
 
 	return result;
 }
 
-callback_result_t core_save_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t core_save_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -772,17 +782,17 @@ callback_result_t core_save_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t core_save_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t core_save_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* core_name = tokens[1]->get_string();
+	const char* core_name = tokens[1]->get_string();
 	main_save_core_name(core_name);
 
 	return result;
 }
 
-callback_result_t core_load_game_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t core_load_game_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -791,17 +801,17 @@ callback_result_t core_load_game_callback(void const* userdata, int32 token_coun
 	return result;
 }
 
-callback_result_t core_load_game_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t core_load_game_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* core_name = tokens[1]->get_string();
+	const char* core_name = tokens[1]->get_string();
 	main_game_load_from_core_name(core_name);
 
 	return result;
 }
 
-callback_result_t game_save_and_quit_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_and_quit_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -810,7 +820,7 @@ callback_result_t game_save_and_quit_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t game_save_unsafe_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_unsafe_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -819,7 +829,7 @@ callback_result_t game_save_unsafe_callback(void const* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t game_safe_to_save_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_safe_to_save_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -828,7 +838,7 @@ callback_result_t game_safe_to_save_callback(void const* userdata, int32 token_c
 	return result;
 }
 
-callback_result_t game_safe_to_speak_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_safe_to_speak_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -837,7 +847,7 @@ callback_result_t game_safe_to_speak_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t game_all_quiet_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_all_quiet_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -846,7 +856,7 @@ callback_result_t game_all_quiet_callback(void const* userdata, int32 token_coun
 	return result;
 }
 
-callback_result_t game_save_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -855,7 +865,7 @@ callback_result_t game_save_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t game_save_cancel_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_cancel_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -864,7 +874,7 @@ callback_result_t game_save_cancel_callback(void const* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t game_save_no_timeout_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_no_timeout_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -873,7 +883,7 @@ callback_result_t game_save_no_timeout_callback(void const* userdata, int32 toke
 	return result;
 }
 
-callback_result_t game_save_immediate_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_immediate_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -882,7 +892,7 @@ callback_result_t game_save_immediate_callback(void const* userdata, int32 token
 	return result;
 }
 
-callback_result_t game_save_cinematic_skip_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_save_cinematic_skip_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -891,7 +901,7 @@ callback_result_t game_save_cinematic_skip_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t game_saving_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_saving_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -900,7 +910,7 @@ callback_result_t game_saving_callback(void const* userdata, int32 token_count, 
 	return result;
 }
 
-callback_result_t game_reverted_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_reverted_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -909,7 +919,7 @@ callback_result_t game_reverted_callback(void const* userdata, int32 token_count
 	return result;
 }
 
-callback_result_t gui_reset_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_reset_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -918,14 +928,14 @@ callback_result_t gui_reset_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t net_session_create_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_session_create_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	//network_test_create_session();
 
-	char const* ui_game_mode_name = tokens[1]->get_string();
-	char const* advertisement_mode_name = tokens[2]->get_string();
+	const char* ui_game_mode_name = tokens[1]->get_string();
+	const char* advertisement_mode_name = tokens[2]->get_string();
 
 	network_test_set_ui_game_mode(ui_game_mode_name);
 	network_test_set_advertisement_mode(advertisement_mode_name);
@@ -976,17 +986,17 @@ bool split_host_string_into_parts(c_static_string<k_maximum_count>* str, c_stati
 	return true;
 }
 
-callback_result_t net_session_add_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_session_add_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	token_t const& str = tokens[1];
+	const token_t& str = tokens[1];
 	c_static_string<256> parts[2];
 	if (!split_host_string_into_parts(str, parts))
 		parts[1].set("11774");
 
-	char const* host = parts[0].get_string();
-	char const* port = parts[1].get_string();
+	const char* host = parts[0].get_string();
+	const char* port = parts[1].get_string();
 
 	static transport_address address{};
 	csmemset(&address, 0, sizeof(address));
@@ -1005,7 +1015,7 @@ callback_result_t net_session_add_callback(void const* userdata, int32 token_cou
 	return result;
 }
 
-callback_result_t net_test_ping_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_ping_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1014,11 +1024,11 @@ callback_result_t net_test_ping_callback(void const* userdata, int32 token_count
 	return result;
 }
 
-callback_result_t net_test_ping_directed_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_ping_directed_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ip_port = tokens[1]->get_string();
+	const char* ip_port = tokens[1]->get_string();
 	if (tokens[1]->index_of(":") == -1)
 	{
 		result = "Invalid usage. ";
@@ -1036,23 +1046,23 @@ callback_result_t net_test_ping_directed_callback(void const* userdata, int32 to
 	return result;
 }
 
-callback_result_t net_test_text_chat_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_text_chat_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* text = tokens[1]->get_string();
+	const char* text = tokens[1]->get_string();
 
 	network_test_text_chat(text);
 
 	return result;
 }
 
-callback_result_t net_test_text_chat_directed_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_text_chat_directed_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ip_port = tokens[1]->get_string();
-	char const* text = tokens[2]->get_string();
+	const char* ip_port = tokens[1]->get_string();
+	const char* text = tokens[2]->get_string();
 	if (tokens[1]->index_of(":") == -1)
 	{
 		result = "Invalid usage. ";
@@ -1070,7 +1080,7 @@ callback_result_t net_test_text_chat_directed_callback(void const* userdata, int
 	return result;
 }
 
-callback_result_t net_test_player_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_player_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1080,27 +1090,27 @@ callback_result_t net_test_player_color_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t net_test_map_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_map_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* scenario_path = tokens[1]->get_string();
+	const char* scenario_path = tokens[1]->get_string();
 	network_test_set_map_name(scenario_path);
 
 	return result;
 }
 
-callback_result_t net_test_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* game_engine_name = tokens[1]->get_string();
+	const char* game_engine_name = tokens[1]->get_string();
 	network_test_set_game_variant(game_engine_name);
 
 	return result;
 }
 
-callback_result_t net_test_reset_objects_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_reset_objects_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1109,41 +1119,41 @@ callback_result_t net_test_reset_objects_callback(void const* userdata, int32 to
 	return result;
 }
 
-callback_result_t net_test_session_mode_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_session_mode_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* session_mode_name = tokens[1]->get_string();
+	const char* session_mode_name = tokens[1]->get_string();
 	network_test_set_session_mode(session_mode_name);
 
 	return result;
 }
 
-callback_result_t net_test_ui_game_mode_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_ui_game_mode_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ui_game_mode_name = tokens[1]->get_string();
+	const char* ui_game_mode_name = tokens[1]->get_string();
 	network_test_set_ui_game_mode(ui_game_mode_name);
 
 	return result;
 }
 
-callback_result_t net_test_advertisement_mode_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_advertisement_mode_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* advertisement_mode_name = tokens[1]->get_string();
+	const char* advertisement_mode_name = tokens[1]->get_string();
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
 	return result;
 }
 
-callback_result_t net_test_game_variant_parameter_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_test_game_variant_parameter_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* parameter_name = tokens[1]->get_string();
+	const char* parameter_name = tokens[1]->get_string();
 	int32 value = (int32)atol(tokens[2]->get_string());
 	int32 old_value = -1;
 	network_test_set_game_variant_parameter(parameter_name, value, &old_value);
@@ -1153,7 +1163,7 @@ callback_result_t net_test_game_variant_parameter_callback(void const* userdata,
 	return result;
 }
 
-callback_result_t net_build_network_config_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_build_network_config_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1162,117 +1172,117 @@ callback_result_t net_build_network_config_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t net_build_game_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_build_game_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_build_game_variant(filename);
 
 	return result;
 }
 
-callback_result_t net_verify_game_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_verify_game_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_verify_game_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_load_and_use_game_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_load_and_use_game_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_load_and_use_game_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_verify_packed_game_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_verify_packed_game_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_verify_packed_game_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_load_and_use_packed_game_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_load_and_use_packed_game_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_load_and_use_packed_game_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_build_map_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_build_map_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_build_map_variant(filename);
 
 	return result;
 }
 
-callback_result_t net_verify_map_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_verify_map_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_verify_map_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_load_and_use_map_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_load_and_use_map_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_load_and_use_map_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_verify_packed_map_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_verify_packed_map_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_verify_packed_map_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t net_load_and_use_packed_map_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t net_load_and_use_packed_map_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	network_load_and_use_packed_map_variant_file(filename);
 
 	return result;
 }
 
-callback_result_t game_export_variant_settings_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t game_export_variant_settings_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens[1]->get_string();
+	const char* filename = tokens[1]->get_string();
 	game_engine_dump_variant_settings(filename);
 
 	return result;
 }
 
-callback_result_t online_set_is_connected_to_live_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t online_set_is_connected_to_live_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1283,12 +1293,12 @@ callback_result_t online_set_is_connected_to_live_callback(void const* userdata,
 	return result;
 }
 
-callback_result_t online_user_set_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t online_user_set_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 user_index = (int32)atol(tokens[1]->get_string());
-	char const* name = tokens[2]->get_string();
+	const char* name = tokens[2]->get_string();
 	c_static_wchar_string<16> name_wide;
 	name_wide.print(L"%hs", name);
 	online_user_set_name(user_index, name_wide.get_string());
@@ -1296,7 +1306,7 @@ callback_result_t online_user_set_name_callback(void const* userdata, int32 toke
 	return result;
 }
 
-callback_result_t mp_players_by_team_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_players_by_team_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1306,7 +1316,7 @@ callback_result_t mp_players_by_team_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t deterministic_end_game_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t deterministic_end_game_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1315,7 +1325,7 @@ callback_result_t deterministic_end_game_callback(void const* userdata, int32 to
 	return result;
 }
 
-callback_result_t mp_active_player_count_by_team_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_active_player_count_by_team_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1325,7 +1335,7 @@ callback_result_t mp_active_player_count_by_team_callback(void const* userdata, 
 	return result;
 }
 
-callback_result_t mp_game_won_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_game_won_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1335,7 +1345,7 @@ callback_result_t mp_game_won_callback(void const* userdata, int32 token_count, 
 	return result;
 }
 
-callback_result_t mp_respawn_override_timers_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_respawn_override_timers_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1345,7 +1355,7 @@ callback_result_t mp_respawn_override_timers_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t mp_ai_allegiance_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_ai_allegiance_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1356,7 +1366,7 @@ callback_result_t mp_ai_allegiance_callback(void const* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t mp_allegiance_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_allegiance_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1367,7 +1377,7 @@ callback_result_t mp_allegiance_callback(void const* userdata, int32 token_count
 	return result;
 }
 
-callback_result_t mp_object_belongs_to_team_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_object_belongs_to_team_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1378,7 +1388,7 @@ callback_result_t mp_object_belongs_to_team_callback(void const* userdata, int32
 	return result;
 }
 
-callback_result_t mp_weapon_belongs_to_team_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_weapon_belongs_to_team_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1389,7 +1399,7 @@ callback_result_t mp_weapon_belongs_to_team_callback(void const* userdata, int32
 	return result;
 }
 
-callback_result_t mp_debug_goal_object_boundary_geometry_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t mp_debug_goal_object_boundary_geometry_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1400,11 +1410,11 @@ callback_result_t mp_debug_goal_object_boundary_geometry_callback(void const* us
 	return result;
 }
 
-callback_result_t load_preferences_from_file_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t load_preferences_from_file_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* preferences_filename = tokens[1]->get_string();
+	const char* preferences_filename = tokens[1]->get_string();
 
 	FILE* preferences_file = NULL;
 	if (fopen_s(&preferences_file, preferences_filename, "r") == 0 && preferences_file)
@@ -1434,14 +1444,14 @@ callback_result_t load_preferences_from_file_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t load_customization_from_file_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t load_customization_from_file_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	bool cache_file_has_halo3_armors = false;
 	c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& armor_regions = get_armor_regions(_player_model_choice_spartan, &cache_file_has_halo3_armors);
 
-	char const* customization_filename = tokens[1]->get_string();
+	const char* customization_filename = tokens[1]->get_string();
 
 	FILE* customization_file = NULL;
 	if (fopen_s(&customization_file, customization_filename, "r") == 0 && customization_file)
@@ -1509,7 +1519,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 					int32 armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : armor_loadout.armors.get_count();
 					for (int32 armor_region_index = 0; armor_region_index < armor_region_count; armor_region_index++)
 					{
-						char const* armor_region = NULL;
+						const char* armor_region = NULL;
 						switch (armor_region_index)
 						{
 						case _armor_type_helmet:
@@ -1630,7 +1640,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 			{
 				c_static_array<c_static_string<64>, 100>& armor_types = armor_regions[armor_region_index];
 
-				char const* armor_region = NULL;
+				const char* armor_region = NULL;
 				switch (armor_region_index)
 				{
 				case _armor_type_helmet:
@@ -1661,7 +1671,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 					fprintf_s(customization_info_file, "%s:\n", armor_region);
 					for (int32 armor_type_index = 0; armor_type_index < armor_types.get_count(); armor_type_index++)
 					{
-						char const* value = armor_types[armor_type_index].get_string();
+						const char* value = armor_types[armor_type_index].get_string();
 						if (*value)
 						{
 							fprintf_s(customization_info_file, "\t%s\n", value);
@@ -1683,7 +1693,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, in
 	return result;
 }
 
-callback_result_t cheat_all_powerups_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_all_powerups_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1692,7 +1702,7 @@ callback_result_t cheat_all_powerups_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t cheat_all_vehicles_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_all_vehicles_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1701,7 +1711,7 @@ callback_result_t cheat_all_vehicles_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t cheat_all_weapons_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_all_weapons_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1710,7 +1720,7 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, int32 token_c
 	return result;
 }
 
-callback_result_t cheat_all_chars_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_all_chars_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1719,7 +1729,7 @@ callback_result_t cheat_all_chars_callback(void const* userdata, int32 token_cou
 	return result;
 }
 
-callback_result_t cheat_teleport_to_camera_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_teleport_to_camera_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1729,7 +1739,7 @@ callback_result_t cheat_teleport_to_camera_callback(void const* userdata, int32 
 }
 
 
-callback_result_t cheat_active_camouflage_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_active_camouflage_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1740,7 +1750,7 @@ callback_result_t cheat_active_camouflage_callback(void const* userdata, int32 t
 	return result;
 }
 
-callback_result_t cheat_active_camouflage_by_player_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t cheat_active_camouflage_by_player_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1755,7 +1765,7 @@ callback_result_t cheat_active_camouflage_by_player_callback(void const* userdat
 	return result;
 }
 
-callback_result_t debug_menu_rebuild_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t debug_menu_rebuild_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1764,39 +1774,39 @@ callback_result_t debug_menu_rebuild_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t drop_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t drop_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* tag_name = tokens[1]->get_string();
+	const char* tag_name = tokens[1]->get_string();
 	cheat_drop_tag_name(tag_name);
 
 	return result;
 }
 
-callback_result_t drop_variant_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t drop_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* tag_name = tokens[1]->get_string();
-	char const* variant_name = tokens[2]->get_string();
+	const char* tag_name = tokens[1]->get_string();
+	const char* variant_name = tokens[2]->get_string();
 	cheat_drop_tag_name_with_variant_hs(tag_name, variant_name);
 
 	return result;
 }
 
-callback_result_t drop_permutation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t drop_permutation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* tag_name = tokens[1]->get_string();
-	char const* permutation = tokens[2]->get_string();
+	const char* tag_name = tokens[1]->get_string();
+	const char* permutation = tokens[2]->get_string();
 	cheat_drop_tag_name_with_permutation_hs(tag_name, permutation);
 
 	return result;
 }
 
-callback_result_t ai_enable_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t ai_enable_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1807,7 +1817,7 @@ callback_result_t ai_enable_callback(void const* userdata, int32 token_count, to
 	return result;
 }
 
-callback_result_t director_debug_camera_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t director_debug_camera_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1818,7 +1828,7 @@ callback_result_t director_debug_camera_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t camera_control_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t camera_control_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1829,7 +1839,7 @@ callback_result_t camera_control_callback(void const* userdata, int32 token_coun
 	return result;
 }
 
-callback_result_t camera_set_mode_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t camera_set_mode_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1841,7 +1851,7 @@ callback_result_t camera_set_mode_callback(void const* userdata, int32 token_cou
 	return result;
 }
 
-callback_result_t debug_camera_save_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t debug_camera_save_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1850,7 +1860,7 @@ callback_result_t debug_camera_save_callback(void const* userdata, int32 token_c
 	return result;
 }
 
-callback_result_t debug_camera_load_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t debug_camera_load_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1859,17 +1869,17 @@ callback_result_t debug_camera_load_callback(void const* userdata, int32 token_c
 	return result;
 }
 
-callback_result_t crash_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t crash_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* type = tokens[1]->get_string();
+	const char* type = tokens[1]->get_string();
 	main_crash(type);
 
 	return result;
 }
 
-callback_result_t status_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t status_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1878,7 +1888,7 @@ callback_result_t status_callback(void const* userdata, int32 token_count, token
 	return result;
 }
 
-callback_result_t font_set_emergency_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t font_set_emergency_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1887,11 +1897,11 @@ callback_result_t font_set_emergency_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t player_force_mode_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t player_force_mode_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* desired_mode_string = tokens[1]->get_string();
+	const char* desired_mode_string = tokens[1]->get_string();
 	int32 desired_mode = string_id_retrieve(desired_mode_string);
 
 	player_override_desired_mode(desired_mode);
@@ -1900,18 +1910,18 @@ callback_result_t player_force_mode_callback(void const* userdata, int32 token_c
 }
 
 //test_download_storage_file /storage/test.txt test/storage/test.txt
-callback_result_t test_download_storage_file_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t test_download_storage_file_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* url = tokens[1]->get_string();
-	char const* filename = tokens[2]->get_string();
+	const char* url = tokens[1]->get_string();
+	const char* filename = tokens[2]->get_string();
 	test_download_storage_file(url, filename);
 
 	return result;
 }
 
-callback_result_t lsp_info_get_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t lsp_info_get_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1928,22 +1938,22 @@ callback_result_t lsp_info_get_callback(void const* userdata, int32 token_count,
 	return result;
 }
 
-callback_result_t lsp_info_set_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t lsp_info_set_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	token_t const& str = tokens[1];
+	const token_t& str = tokens[1];
 	c_static_string<256> parts[2];
 
 	split_host_string_into_parts(str, parts);
-	char const* host = parts[0].get_string();
-	char const* port = parts[1].get_string();
+	const char* host = parts[0].get_string();
+	const char* port = parts[1].get_string();
 	online_lsp_set_info(host, port);
 
 	return result;
 }
 
-callback_result_t player_ragdoll_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t player_ragdoll_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1955,7 +1965,7 @@ callback_result_t player_ragdoll_callback(void const* userdata, int32 token_coun
 	return result;
 }
 
-callback_result_t player_drop_weapon_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t player_drop_weapon_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -1967,11 +1977,11 @@ callback_result_t player_drop_weapon_callback(void const* userdata, int32 token_
 	return result;
 }
 
-callback_result_t player_add_weapon_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t player_add_weapon_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* weapon_name = tokens[1]->get_string();
+	const char* weapon_name = tokens[1]->get_string();
 	int32 method = (int32)atol(tokens[2]->get_string());
 
 	int32 weapon_definition_index = tag_loaded(WEAPON_TAG, weapon_name);
@@ -1989,49 +1999,49 @@ callback_result_t player_add_weapon_callback(void const* userdata, int32 token_c
 	return result;
 }
 
-callback_result_t levels_add_fake_map_solo_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t levels_add_fake_map_solo_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* scenario_path = tokens[1]->get_string();
+	const char* scenario_path = tokens[1]->get_string();
 	levels_add_fake_map_from_scripting(scenario_path);
 
 	return result;
 }
 
-callback_result_t levels_add_map_solo_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t levels_add_map_solo_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	e_map_id map_id = (e_map_id)atol(tokens[1]->get_string());
-	char const* scenario_path = tokens[2]->get_string();
+	const char* scenario_path = tokens[2]->get_string();
 	levels_add_map_from_scripting(map_id, scenario_path);
 
 	return result;
 }
 
-callback_result_t levels_add_fake_map_multi_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t levels_add_fake_map_multi_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* scenario_path = tokens[1]->get_string();
+	const char* scenario_path = tokens[1]->get_string();
 	levels_add_fake_multiplayer_map_from_scripting(scenario_path);
 
 	return result;
 }
 
-callback_result_t levels_add_map_multi_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t levels_add_map_multi_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	e_map_id map_id = (e_map_id)atol(tokens[1]->get_string());
-	char const* scenario_path = tokens[2]->get_string();
+	const char* scenario_path = tokens[2]->get_string();
 	levels_add_multiplayer_map_from_scripting(map_id, scenario_path);
 
 	return result;
 }
 
-callback_result_t xoverlapped_debug_render_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t xoverlapped_debug_render_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2042,7 +2052,7 @@ callback_result_t xoverlapped_debug_render_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t overlapped_display_task_descriptions_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t overlapped_display_task_descriptions_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2051,11 +2061,11 @@ callback_result_t overlapped_display_task_descriptions_callback(void const* user
 	return result;
 }
 
-callback_result_t overlapped_task_inject_error_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t overlapped_task_inject_error_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* context = tokens[1]->get_string();
+	const char* context = tokens[1]->get_string();
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
 		overlapped_task_inject_error(context, static_cast<bool>(value - 1));
@@ -2063,11 +2073,11 @@ callback_result_t overlapped_task_inject_error_callback(void const* userdata, in
 	return result;
 }
 
-callback_result_t overlapped_task_pause_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t overlapped_task_pause_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* context = tokens[1]->get_string();
+	const char* context = tokens[1]->get_string();
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
 		overlapped_task_pause(context, static_cast<bool>(value - 1));
@@ -2075,7 +2085,7 @@ callback_result_t overlapped_task_pause_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t controller_set_background_emblem_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_background_emblem_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2086,7 +2096,7 @@ callback_result_t controller_set_background_emblem_color_callback(void const* us
 	return result;
 }
 
-callback_result_t controller_set_button_preset_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_button_preset_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2097,7 +2107,7 @@ callback_result_t controller_set_button_preset_callback(void const* userdata, in
 	return result;
 }
 
-callback_result_t controller_set_auto_center_look_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_auto_center_look_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2109,7 +2119,7 @@ callback_result_t controller_set_auto_center_look_callback(void const* userdata,
 	return result;
 }
 
-callback_result_t controller_set_crouch_lock_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_crouch_lock_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2121,7 +2131,7 @@ callback_result_t controller_set_crouch_lock_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t controller_set_flight_stick_aircraft_controls_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_flight_stick_aircraft_controls_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2133,7 +2143,7 @@ callback_result_t controller_set_flight_stick_aircraft_controls_callback(void co
 	return result;
 }
 
-callback_result_t controller_set_look_inverted_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_look_inverted_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2145,7 +2155,7 @@ callback_result_t controller_set_look_inverted_callback(void const* userdata, in
 	return result;
 }
 
-callback_result_t controller_set_vibration_enabled_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_vibration_enabled_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2157,7 +2167,7 @@ callback_result_t controller_set_vibration_enabled_callback(void const* userdata
 	return result;
 }
 
-callback_result_t controller_set_emblem_info_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_emblem_info_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2169,7 +2179,7 @@ callback_result_t controller_set_emblem_info_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t controller_set_joystick_preset_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_joystick_preset_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2180,7 +2190,7 @@ callback_result_t controller_set_joystick_preset_callback(void const* userdata, 
 	return result;
 }
 
-callback_result_t controller_set_look_sensitivity_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_look_sensitivity_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2191,7 +2201,7 @@ callback_result_t controller_set_look_sensitivity_callback(void const* userdata,
 	return result;
 }
 
-callback_result_t controller_set_player_character_type_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_player_character_type_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2202,7 +2212,7 @@ callback_result_t controller_set_player_character_type_callback(void const* user
 	return result;
 }
 
-callback_result_t controller_set_popup_message_index_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_popup_message_index_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2213,7 +2223,7 @@ callback_result_t controller_set_popup_message_index_callback(void const* userda
 	return result;
 }
 
-callback_result_t controller_set_primary_change_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_primary_change_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2224,7 +2234,7 @@ callback_result_t controller_set_primary_change_color_callback(void const* userd
 	return result;
 }
 
-callback_result_t controller_set_primary_emblem_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_primary_emblem_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2235,7 +2245,7 @@ callback_result_t controller_set_primary_emblem_color_callback(void const* userd
 	return result;
 }
 
-callback_result_t controller_set_secondary_change_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_secondary_change_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2246,7 +2256,7 @@ callback_result_t controller_set_secondary_change_color_callback(void const* use
 	return result;
 }
 
-callback_result_t controller_set_secondary_emblem_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_secondary_emblem_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2257,7 +2267,7 @@ callback_result_t controller_set_secondary_emblem_color_callback(void const* use
 	return result;
 }
 
-callback_result_t controller_set_single_player_level_completed_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_single_player_level_completed_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2276,7 +2286,7 @@ callback_result_t controller_set_single_player_level_completed_callback(void con
 	return result;
 }
 
-callback_result_t controller_set_single_player_level_unlocked_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_single_player_level_unlocked_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2289,7 +2299,7 @@ callback_result_t controller_set_single_player_level_unlocked_callback(void cons
 	return result;
 }
 
-callback_result_t controller_set_subtitle_setting_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_subtitle_setting_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2300,7 +2310,7 @@ callback_result_t controller_set_subtitle_setting_callback(void const* userdata,
 	return result;
 }
 
-callback_result_t controller_set_tertiary_change_color_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_tertiary_change_color_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2311,7 +2321,7 @@ callback_result_t controller_set_tertiary_change_color_callback(void const* user
 	return result;
 }
 
-callback_result_t controller_set_voice_mask_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_voice_mask_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2322,7 +2332,7 @@ callback_result_t controller_set_voice_mask_callback(void const* userdata, int32
 	return result;
 }
 
-callback_result_t controller_set_voice_output_setting_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t controller_set_voice_output_setting_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2333,11 +2343,11 @@ callback_result_t controller_set_voice_output_setting_callback(void const* userd
 	return result;
 }
 
-callback_result_t gui_debug_bitmap_animation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_bitmap_animation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2348,11 +2358,11 @@ callback_result_t gui_debug_bitmap_animation_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t gui_debug_bitmap_bounds_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_bitmap_bounds_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2363,11 +2373,11 @@ callback_result_t gui_debug_bitmap_bounds_callback(void const* userdata, int32 t
 	return result;
 }
 
-callback_result_t gui_debug_bitmap_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_bitmap_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2378,11 +2388,11 @@ callback_result_t gui_debug_bitmap_name_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t gui_debug_bitmap_rotation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_bitmap_rotation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2394,11 +2404,11 @@ callback_result_t gui_debug_bitmap_rotation_callback(void const* userdata, int32
 	return result;
 }
 
-callback_result_t gui_debug_group_animation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_group_animation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2413,11 +2423,11 @@ callback_result_t gui_debug_group_animation_callback(void const* userdata, int32
 	return result;
 }
 
-callback_result_t gui_debug_group_bounds_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_group_bounds_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2432,11 +2442,11 @@ callback_result_t gui_debug_group_bounds_callback(void const* userdata, int32 to
 	return result;
 }
 
-callback_result_t gui_debug_group_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_group_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2448,11 +2458,11 @@ callback_result_t gui_debug_group_name_callback(void const* userdata, int32 toke
 	return result;
 }
 
-callback_result_t gui_debug_group_rotation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_group_rotation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2464,11 +2474,11 @@ callback_result_t gui_debug_group_rotation_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t gui_debug_list_animation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_animation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2480,11 +2490,11 @@ callback_result_t gui_debug_list_animation_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t gui_debug_list_bounds_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_bounds_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2496,11 +2506,11 @@ callback_result_t gui_debug_list_bounds_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t gui_debug_list_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2512,11 +2522,11 @@ callback_result_t gui_debug_list_name_callback(void const* userdata, int32 token
 	return result;
 }
 
-callback_result_t gui_debug_list_item_animation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_item_animation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2528,11 +2538,11 @@ callback_result_t gui_debug_list_item_animation_callback(void const* userdata, i
 	return result;
 }
 
-callback_result_t gui_debug_list_item_bounds_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_item_bounds_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2544,11 +2554,11 @@ callback_result_t gui_debug_list_item_bounds_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t gui_debug_list_item_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_item_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2560,11 +2570,11 @@ callback_result_t gui_debug_list_item_name_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t gui_debug_list_item_rotation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_item_rotation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2576,11 +2586,11 @@ callback_result_t gui_debug_list_item_rotation_callback(void const* userdata, in
 	return result;
 }
 
-callback_result_t gui_debug_list_rotation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_list_rotation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2592,11 +2602,11 @@ callback_result_t gui_debug_list_rotation_callback(void const* userdata, int32 t
 	return result;
 }
 
-callback_result_t gui_debug_screen_animation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_screen_animation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2608,11 +2618,11 @@ callback_result_t gui_debug_screen_animation_callback(void const* userdata, int3
 	return result;
 }
 
-callback_result_t gui_debug_screen_bounds_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_screen_bounds_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2624,11 +2634,11 @@ callback_result_t gui_debug_screen_bounds_callback(void const* userdata, int32 t
 	return result;
 }
 
-callback_result_t gui_debug_screen_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_screen_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2640,11 +2650,11 @@ callback_result_t gui_debug_screen_name_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t gui_debug_screen_rotation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_screen_rotation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
@@ -2656,11 +2666,11 @@ callback_result_t gui_debug_screen_rotation_callback(void const* userdata, int32
 	return result;
 }
 
-callback_result_t gui_debug_text_animation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_text_animation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2671,11 +2681,11 @@ callback_result_t gui_debug_text_animation_callback(void const* userdata, int32 
 	return result;
 }
 
-callback_result_t gui_debug_text_bounds_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_text_bounds_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2686,11 +2696,11 @@ callback_result_t gui_debug_text_bounds_callback(void const* userdata, int32 tok
 	return result;
 }
 
-callback_result_t gui_debug_text_name_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_text_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2701,11 +2711,11 @@ callback_result_t gui_debug_text_name_callback(void const* userdata, int32 token
 	return result;
 }
 
-callback_result_t gui_debug_text_rotation_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_debug_text_rotation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name_string = tokens[1]->get_string();
+	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	if (name != _string_id_invalid && activate != NONE)
@@ -2716,7 +2726,7 @@ callback_result_t gui_debug_text_rotation_callback(void const* userdata, int32 t
 	return result;
 }
 
-callback_result_t gui_print_active_screen_strings_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_print_active_screen_strings_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -2725,7 +2735,7 @@ callback_result_t gui_print_active_screen_strings_callback(void const* userdata,
 	return result;
 }
 
-callback_result_t gui_print_active_screens_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+callback_result_t gui_print_active_screens_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 

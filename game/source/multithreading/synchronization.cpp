@@ -10,20 +10,20 @@ REFERENCE_DECLARE(0x0238F45C, s_synchronization_globals, g_synch_globals);
 // synchronization objects initialization arrays
 
 // .data:0189DA28 ; critical sections
-// char const* name;
+// const char* name;
 // int32 spin_count;
 
 // .data:0189DC00 ; mutexes
-// char const* name;
+// const char* name;
 // bool initial_owner;
 
 // .data:0189DC88 ; events
-// char const* name;
+// const char* name;
 // bool manual_reset;
 // bool initial_state;
 
 // .data:0189DC78 ; semaphores
-// char const* name;
+// const char* name;
 // int32 initial_signal_count;
 // int32 max_signal_count;
 // bool dont_use_current_thread; //?
@@ -69,7 +69,7 @@ bool __cdecl event_has_automatic_reset(int32 event_id)
 	return INVOKE(0x0052C250, event_has_automatic_reset, event_id);
 }
 
-char const* __cdecl get_sync_primitive_name(int32 type, int32 index)
+const char* __cdecl get_sync_primitive_name(int32 type, int32 index)
 {
 	return INVOKE(0x0052C290, get_sync_primitive_name, type, index);
 }

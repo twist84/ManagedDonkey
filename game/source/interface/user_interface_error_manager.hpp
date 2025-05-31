@@ -20,8 +20,8 @@ struct c_gui_queued_error
 public:
 	c_gui_queued_error();
 
-	void set(s_gui_alert_description const* alert_description, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, int32 posted_time, bool requires_resolution, bool blocking);
-	bool match(e_controller_index controller_index, int32 error_name, wchar_t const* custom_message) const;
+	void set(const s_gui_alert_description* alert_description, const wchar_t* custom_title, const wchar_t* custom_message, e_controller_index controller_index, int32 posted_time, bool requires_resolution, bool blocking);
+	bool match(e_controller_index controller_index, int32 error_name, const wchar_t* custom_message) const;
 	bool is_valid() const;
 	void clear();
 	bool get_resolved() const;
@@ -33,8 +33,8 @@ public:
 	bool get_blocking() const;
 	int32 get_posted_time() const;
 	void set_posted_time(int32 posted_time);
-	wchar_t const* get_custom_title() const;
-	wchar_t const* get_custom_message() const;
+	const wchar_t* get_custom_title() const;
+	const wchar_t* get_custom_message() const;
 	e_controller_index get_controller_index() const;
 
 protected:
@@ -64,18 +64,18 @@ public:
 	bool any_error_active_for_window(e_window_index window_index);
 	void clear_all_errors();
 	void clear_error(int32 error_name, e_controller_index controller_index);
-	void clear_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message);
+	void clear_error_with_custom_message(int32 error_name, e_controller_index controller_index, const wchar_t* custom_message);
 	void dismiss_auto_dismissable_errors(e_controller_index controller_index);
 	void dispose_from_old_map();
-	c_gui_queued_error const* get_error(e_controller_index controller_index, int32 error_name, wchar_t const* custom_message) const;
+	const c_gui_queued_error* get_error(e_controller_index controller_index, int32 error_name, const wchar_t* custom_message) const;
 	void initialize();
 	void initialize_for_new_map();
 	void post_error(int32 error_name, e_controller_index controller_index, bool requires_resolution);
-	void post_error_with_custom_message(int32 error_name, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution);
+	void post_error_with_custom_message(int32 error_name, const wchar_t* custom_message, e_controller_index controller_index, bool requires_resolution);
 	void post_toast(int32 error_name);
-	void post_toast_with_custom_message(int32 error_name, wchar_t const* custom_title, wchar_t const* custom_message);
+	void post_toast_with_custom_message(int32 error_name, const wchar_t* custom_title, const wchar_t* custom_message);
 	void resolve_error(int32 error_name, e_controller_index controller_index);
-	void resolve_error_with_custom_message(int32 error_name, e_controller_index controller_index, wchar_t const* custom_message);
+	void resolve_error_with_custom_message(int32 error_name, e_controller_index controller_index, const wchar_t* custom_message);
 	void update(uns32 current_milliseconds);
 	
 private:
@@ -89,10 +89,10 @@ private:
 	};
 
 	void clean_out_error_queue();
-	c_gui_queued_error const* get_current_for_user(e_controller_index controller_index);
-	c_gui_queued_error const* get_current_for_window(e_window_index window_index);
+	const c_gui_queued_error* get_current_for_user(e_controller_index controller_index);
+	const c_gui_queued_error* get_current_for_window(e_window_index window_index);
 	e_alert_display_mode get_error_display_mode(e_controller_index* controller_index);
-	void post_error_with_custom_message(int32 error_name, wchar_t const* custom_title, wchar_t const* custom_message, e_controller_index controller_index, bool requires_resolution, bool blocking);
+	void post_error_with_custom_message(int32 error_name, const wchar_t* custom_title, const wchar_t* custom_message, e_controller_index controller_index, bool requires_resolution, bool blocking);
 	void sort_queue();
 
 protected:
@@ -104,6 +104,6 @@ static_assert(sizeof(c_gui_error_manager) == 0x8488);
 
 extern c_gui_error_manager& g_gui_error_manager;
 
-extern int __cdecl queued_error_sort_proc(void const* a, void const* b);
+extern int __cdecl queued_error_sort_proc(const void* a, const void* b);
 extern c_gui_error_manager* __cdecl user_interface_error_manager_get();
 

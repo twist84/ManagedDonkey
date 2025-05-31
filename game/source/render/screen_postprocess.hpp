@@ -76,8 +76,8 @@ struct c_screen_postprocess
 		real_rectangle2d* dest_texture_rect);
 
 	static void __cdecl render_ssao_old(
-		render_projection const* projection,
-		render_camera const* camera,
+		const render_projection* projection,
+		const render_camera* camera,
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b,
 		c_rasterizer::e_surface surface_c);
@@ -117,23 +117,23 @@ struct c_screen_postprocess
 		bool use_depth_of_field,
 		real32 z_near,
 		real32 z_far,
-		rectangle2d const* target_rect,
-		real_rectangle2d const* window_rect,
-		s_observer_depth_of_field const* observer_depth_of_field);
+		const rectangle2d* target_rect,
+		const real_rectangle2d* window_rect,
+		const s_observer_depth_of_field* observer_depth_of_field);
 
 	static void __cdecl postprocess_player_view(
 		c_camera_fx_values& fx_values,
-		render_projection const* projection,
-		render_camera const* camera,
+		const render_projection* projection,
+		const render_camera* camera,
 		s_screen_effect_settings& screen_effect_settings,
 		c_rasterizer::e_splitscreen_res splitscreen_res,
-		s_observer_depth_of_field const* observer_dof,
+		const s_observer_depth_of_field* observer_dof,
 		int32 user_index);
 
 	static void __cdecl sub_A62710(
-		render_projection const* projection,
-		render_camera const* camera,
-		real_matrix4x3 const* matrix,
+		const render_projection* projection,
+		const render_camera* camera,
+		const real_matrix4x3* matrix,
 		real32 const(*projection_matrix)[4],
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b,
@@ -152,8 +152,8 @@ struct c_screen_postprocess
 		render_camera* camera);
 
 	static void __cdecl postprocess_ssr(
-		render_projection const* projection,
-		render_camera const* camera,
+		const render_projection* projection,
+		const render_camera* camera,
 		c_rasterizer::e_surface surface_a,
 		c_rasterizer::e_surface surface_b,
 		c_rasterizer::e_surface surface_c,
@@ -169,7 +169,7 @@ struct c_screen_postprocess
 
 	static void __cdecl setup_rasterizer_for_postprocess(bool clear_targets);
 
-	static c_screen_postprocess::s_settings const* const& x_settings;
+	static const c_screen_postprocess::s_settings* const& x_settings;
 	static c_screen_postprocess::s_settings& x_settings_internal;
 	static c_screen_postprocess::s_settings& x_editable_settings;
 };

@@ -38,9 +38,9 @@ void __cdecl player_effect_render(int32 user_index)
 
 //.text:00684D40 ; void __cdecl player_effect_screen_flash(int32, s_damage_response_screen_flash_definition*, real32)
 //.text:00684D90 ; void __cdecl player_effect_screen_flash_stop(int32)
-//.text:00684DF0 ; void __cdecl player_effect_start(int32, int32, int32, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
-//.text:00684E30 ; void __cdecl player_effect_start_internal(int32, int32, int32, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
-//.text:00684F30 ; void __cdecl player_effect_start_response(int32, int32, int32, s_damage_owner const*, real_vector3d const*, real32, real32, bool)
+//.text:00684DF0 ; void __cdecl player_effect_start(int32, int32, int32, const s_damage_owner*, const real_vector3d*, real32, real32, bool)
+//.text:00684E30 ; void __cdecl player_effect_start_internal(int32, int32, int32, const s_damage_owner*, const real_vector3d*, real32, real32, bool)
+//.text:00684F30 ; void __cdecl player_effect_start_response(int32, int32, int32, const s_damage_owner*, const real_vector3d*, real32, real32, bool)
 
 void __cdecl player_effect_update()
 {

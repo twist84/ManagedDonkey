@@ -45,7 +45,7 @@ void __cdecl c_render_globals::advance_frame_time(real32 seconds_elapsed)
 	m_frame_time += seconds_elapsed;
 }
 
-void __cdecl combine_projection_and_view_matrix(real_matrix4x3 const* view_matrix, real32 const (* const projection_matrix)[4], real32* const projection_and_view_matrix)
+void __cdecl combine_projection_and_view_matrix(const real_matrix4x3* view_matrix, real32 const (* const projection_matrix)[4], real32* const projection_and_view_matrix)
 {
 	INVOKE(0x00A29440, combine_projection_and_view_matrix, view_matrix, projection_matrix, projection_and_view_matrix);
 }
@@ -127,7 +127,7 @@ void __cdecl render_frame_begin()
 	c_rasterizer::g_tiling_force_4x_msaa = game_options_valid() && game_is_ui_shell();
 }
 
-void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* context, bool simple_font)
+void __cdecl render_fullscreen_text(const s_render_fullscreen_text_context* context, bool simple_font)
 {
 	//INVOKE(0x00A297A0, render_fullscreen_text, context, simple_font);
 
@@ -146,7 +146,7 @@ void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* cont
 	}
 }
 
-void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context const* context, c_draw_string* draw_string, c_font_cache_base* font_cache)
+void __cdecl render_fullscreen_text_internal(const s_render_fullscreen_text_context* context, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
 	//INVOKE(0x00A29860, render_fullscreen_text_internal, context, draw_string, font_cache);
 

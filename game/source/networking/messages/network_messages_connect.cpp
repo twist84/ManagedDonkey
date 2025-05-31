@@ -25,22 +25,22 @@ bool __cdecl c_network_message_connect_request::decode(c_bitstream* packet, int3
 	return INVOKE(0x004DC550, decode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_connect_closed::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_connect_closed::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DC590, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_connect_establish::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_connect_establish::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DC670, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_connect_refuse::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_connect_refuse::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DC710, encode, packet, message_storage_size, message_storage);
 }
 
-void __cdecl c_network_message_connect_request::encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage)
+void __cdecl c_network_message_connect_request::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
 {
 	INVOKE(0x004DC7B0, encode, packet, message_storage_size, message_storage);
 }
@@ -96,7 +96,7 @@ void __cdecl network_message_types_register_connect(c_network_message_type_colle
 		nullptr);
 }
 
-char const* network_message_connect_refuse_get_reason_string(int32 reason)
+const char* network_message_connect_refuse_get_reason_string(int32 reason)
 {
 	if (VALID_INDEX(reason, k_network_connect_refuse_reason_count))
 		return k_connect_refuse_reason_strings[reason];
@@ -104,7 +104,7 @@ char const* network_message_connect_refuse_get_reason_string(int32 reason)
 	return "<unknown>";
 }
 
-char const* const k_connect_refuse_reason_strings[k_network_connect_refuse_reason_count]
+const char* const k_connect_refuse_reason_strings[k_network_connect_refuse_reason_count]
 {
 	"no-reason-given",
 	"invalid-flags",

@@ -210,12 +210,12 @@ void collision_debug_render()
 			}
 			else
 			{
-				real_argb_color const* color = global_real_argb_green;
+				const real_argb_color* color = global_real_argb_green;
 			
 				e_collision_result_type collision_result_type{};
 				if (collision_test_point(collision_test_flags, &debug_point, collision_debug_ignore_object_index, NONE, &collision_result_type))
 				{
-					char const* const collision_result_type_names[k_collision_result_type_count]
+					const char* const collision_result_type_names[k_collision_result_type_count]
 					{
 						"none",
 						"structure",
@@ -376,7 +376,7 @@ void collision_debug_render()
 				if (seam_material_index != NONE)
 					seam_material_string.print("seam material %d", seam_material_index);
 			
-				char const* string1 = "";
+				const char* string1 = "";
 			
 				g_collision_debug_status_lines[1].text.print("%s%s (shader: %s)",
 					seam_material_string.get_string(),
@@ -554,7 +554,7 @@ void collision_debug_render()
 		//	
 		//			for (point.x = x1; x2 >= x1; x1 += 0.0625f, point.x += x1)
 		//			{
-		//				real_argb_color const* color = global_real_argb_green;
+		//				const real_argb_color* color = global_real_argb_green;
 		//				if (collision_test_point(collision_test_flags, &point, NONE, NONE))
 		//					color = global_real_argb_red;
 		//	
@@ -567,7 +567,7 @@ void collision_debug_render()
 
 	if (collision_debug_features)
 	{
-		real_argb_color const* features_color = global_real_argb_green;
+		const real_argb_color* features_color = global_real_argb_green;
 		real32 height_absolute = fabsf(collision_debug_height);
 		real32 width_absolute = fabsf(collision_debug_width);
 

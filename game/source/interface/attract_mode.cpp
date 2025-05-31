@@ -65,7 +65,7 @@ int32 __cdecl attract_mode_get_countdown_time_milliseconds()
 	//return INVOKE(0x00A99220, attract_mode_get_countdown_time_milliseconds);
 
 	int32 attract_mode_delay_seconds = 75;
-	if (s_user_interface_shared_globals const* ui_shared_globals = user_interface_shared_tag_globals_try_and_get())
+	if (const s_user_interface_shared_globals* ui_shared_globals = user_interface_shared_tag_globals_try_and_get())
 	{
 		attract_mode_delay_seconds = ui_shared_globals->attract_mode_delay_seconds;
 	}
@@ -73,7 +73,7 @@ int32 __cdecl attract_mode_get_countdown_time_milliseconds()
 	return 1000 * attract_mode_delay_seconds;
 }
 
-bool __cdecl attract_mode_get_movie_path(char const* movie_name, c_static_string<256>* out_fullpath)
+bool __cdecl attract_mode_get_movie_path(const char* movie_name, c_static_string<256>* out_fullpath)
 {
 	//return INVOKE(0x00A99250, attract_mode_get_movie_path, movie_name, out_fullpath);
 

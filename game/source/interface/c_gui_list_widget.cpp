@@ -54,7 +54,7 @@ c_gui_list_widget::~c_gui_list_widget()
 	//DECLFUNC(0x00B14A80, void, __thiscall, c_gui_list_widget*)(this);
 }
 
-void c_gui_list_widget::add_definition_fields(s_list_widget_definition const* definition, bool was_templated)
+void c_gui_list_widget::add_definition_fields(const s_list_widget_definition* definition, bool was_templated)
 {
 	INVOKE_CLASS_MEMBER(0x00B14AB0, c_gui_list_widget, add_definition_fields, definition, was_templated);
 }
@@ -170,7 +170,7 @@ int32 c_gui_list_widget::get_selectable_item_count()
 //.text:00B15390 ; 
 //.text:00B15450 ; private: bool c_gui_list_widget::handle_grid_tab(c_gui_list_item_widget*, e_event_type)
 
-bool c_gui_list_widget::handle_tab(c_controller_input_message const* message)
+bool c_gui_list_widget::handle_tab(const c_controller_input_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B156B0, c_gui_list_widget, handle_tab, message);
 }
@@ -178,7 +178,7 @@ bool c_gui_list_widget::handle_tab(c_controller_input_message const* message)
 //.text:00B157F0 ; private: bool c_gui_list_widget::handle_tab_direction(c_gui_list_item_widget*, e_list_scroll_direction)
 //.text:00B15B70 ; private: bool c_gui_list_widget::handle_tab_to_list_item(c_gui_list_item_widget*, c_gui_list_item_widget*)
 
-void c_gui_list_widget::initialize(s_list_widget_block const* template_and_override_block)
+void c_gui_list_widget::initialize(const s_list_widget_block* template_and_override_block)
 {
 	//INVOKE_CLASS_MEMBER(0x00B15BA0, c_gui_list_widget, initialize, template_and_override_block);
 
@@ -204,7 +204,7 @@ void c_gui_list_widget::initialize(s_list_widget_block const* template_and_overr
 }
 
 //.text:00B15C20 ; public: bool c_gui_list_widget::invoke_submenu(int32, int32, bool)
-//.text:00B15CD0 ; public: bool c_gui_list_widget::invoke_submenu(s_list_widget_block const*, int32, bool)
+//.text:00B15CD0 ; public: bool c_gui_list_widget::invoke_submenu(const s_list_widget_block*, int32, bool)
 //.text:00B15EA0 ; public: bool c_gui_list_widget::is_submenu_that_needs_disposal() const
 //.text:00B15EB0 ; public: bool c_gui_list_widget::list_has_more_elements_following()
 //.text:00B15F40 ; public: bool c_gui_list_widget::list_has_more_elements_preceeding()

@@ -10,7 +10,7 @@ void c_game_engine_miscellaneous_options::byteswap()
 {
 }
 
-void c_game_engine_miscellaneous_options::set(c_game_engine_miscellaneous_options const* options, bool force)
+void c_game_engine_miscellaneous_options::set(const c_game_engine_miscellaneous_options* options, bool force)
 {
 	ASSERT(options != NULL);
 
@@ -22,7 +22,7 @@ void c_game_engine_miscellaneous_options::set(c_game_engine_miscellaneous_option
 	set_early_victory_win_count(options->get_early_victory_win_count());
 }
 
-//void c_game_engine_miscellaneous_options::set(s_game_engine_miscellaneous_options_definition const* definition, bool force)
+//void c_game_engine_miscellaneous_options::set(const s_game_engine_miscellaneous_options_definition* definition, bool force)
 //{
 //}
 
@@ -135,7 +135,7 @@ void c_game_engine_respawn_options::byteswap()
 	m_respawn_player_traits.byteswap();
 }
 
-void c_game_engine_respawn_options::set(c_game_engine_respawn_options const* options, bool force)
+void c_game_engine_respawn_options::set(const c_game_engine_respawn_options* options, bool force)
 {
 	ASSERT(options != NULL);
 
@@ -153,7 +153,7 @@ void c_game_engine_respawn_options::set(c_game_engine_respawn_options const* opt
 	set_respawn_player_traits(options->get_respawn_player_traits(), force);
 }
 
-//void c_game_engine_respawn_options::set(s_game_engine_respawn_options_definition const* definition, bool force)
+//void c_game_engine_respawn_options::set(const s_game_engine_respawn_options_definition* definition, bool force)
 //{
 //}
 
@@ -343,7 +343,7 @@ void c_game_engine_respawn_options::set_respawn_player_traits_duration_seconds(i
 	m_respawn_player_traits_duration_seconds = respawn_player_traits_duration_seconds;
 }
 
-c_player_traits const* c_game_engine_respawn_options::get_respawn_player_traits() const
+const c_player_traits* c_game_engine_respawn_options::get_respawn_player_traits() const
 {
 	return &m_respawn_player_traits;
 }
@@ -353,7 +353,7 @@ c_player_traits* c_game_engine_respawn_options::get_respawn_player_traits_writea
 	return &m_respawn_player_traits;
 }
 
-void c_game_engine_respawn_options::set_respawn_player_traits(c_player_traits const* traits, bool force)
+void c_game_engine_respawn_options::set_respawn_player_traits(const c_player_traits* traits, bool force)
 {
 	m_respawn_player_traits.set(traits, force);
 }
@@ -364,7 +364,7 @@ void c_game_engine_social_options::byteswap()
 	bswap_uns16_inplace(m_team_changing);
 }
 
-void c_game_engine_social_options::set(c_game_engine_social_options const* options, bool force)
+void c_game_engine_social_options::set(const c_game_engine_social_options* options, bool force)
 {
 	ASSERT(options != NULL);
 
@@ -378,7 +378,7 @@ void c_game_engine_social_options::set(c_game_engine_social_options const* optio
 	set_dead_player_voice_enabled(options->get_dead_player_voice_enabled());
 }
 
-//void c_game_engine_social_options::set(s_game_engine_social_options_definition const* definition, bool force)
+//void c_game_engine_social_options::set(const s_game_engine_social_options_definition* definition, bool force)
 //{
 //}
 
@@ -540,7 +540,7 @@ void c_game_engine_map_override_options::byteswap()
 	m_yellow_powerup_traits.byteswap();
 }
 
-void c_game_engine_map_override_options::set(c_game_engine_map_override_options const* options, bool force)
+void c_game_engine_map_override_options::set(const c_game_engine_map_override_options* options, bool force)
 {
 	ASSERT(options != NULL);
 
@@ -559,7 +559,7 @@ void c_game_engine_map_override_options::set(c_game_engine_map_override_options 
 	csmemset(pad, 0, sizeof(pad));
 }
 
-//void c_game_engine_map_override_options::set(s_game_engine_map_override_options_definition const* definition, bool force)
+//void c_game_engine_map_override_options::set(const s_game_engine_map_override_options_definition* definition, bool force)
 //{
 //}
 
@@ -634,12 +634,12 @@ c_player_traits* c_game_engine_map_override_options::get_base_player_traits_writ
 	return &m_base_player_traits;
 }
 
-c_player_traits const* c_game_engine_map_override_options::get_base_player_traits() const
+const c_player_traits* c_game_engine_map_override_options::get_base_player_traits() const
 {
 	return &m_base_player_traits;
 }
 
-void c_game_engine_map_override_options::set_base_player_traits(c_player_traits const* traits, bool force)
+void c_game_engine_map_override_options::set_base_player_traits(const c_player_traits* traits, bool force)
 {
 	m_base_player_traits.set(traits, force);
 }
@@ -707,12 +707,12 @@ c_player_traits* c_game_engine_map_override_options::get_red_powerup_traits_writ
 	return &m_red_powerup_traits;
 }
 
-c_player_traits const* c_game_engine_map_override_options::get_red_powerup_traits() const
+const c_player_traits* c_game_engine_map_override_options::get_red_powerup_traits() const
 {
 	return &m_red_powerup_traits;
 }
 
-void c_game_engine_map_override_options::set_red_powerup_traits(c_player_traits const* traits, bool force)
+void c_game_engine_map_override_options::set_red_powerup_traits(const c_player_traits* traits, bool force)
 {
 	m_red_powerup_traits.set(traits, force);
 }
@@ -722,12 +722,12 @@ c_player_traits* c_game_engine_map_override_options::get_blue_powerup_traits_wri
 	return &m_blue_powerup_traits;
 }
 
-c_player_traits const* c_game_engine_map_override_options::get_blue_powerup_traits() const
+const c_player_traits* c_game_engine_map_override_options::get_blue_powerup_traits() const
 {
 	return &m_blue_powerup_traits;
 }
 
-void c_game_engine_map_override_options::set_blue_powerup_traits(c_player_traits const* traits, bool force)
+void c_game_engine_map_override_options::set_blue_powerup_traits(const c_player_traits* traits, bool force)
 {
 	m_blue_powerup_traits.set(traits, force);
 }
@@ -737,12 +737,12 @@ c_player_traits* c_game_engine_map_override_options::get_yellow_powerup_traits_w
 	return &m_yellow_powerup_traits;
 }
 
-c_player_traits const* c_game_engine_map_override_options::get_yellow_powerup_traits() const
+const c_player_traits* c_game_engine_map_override_options::get_yellow_powerup_traits() const
 {
 	return &m_yellow_powerup_traits;
 }
 
-void c_game_engine_map_override_options::set_yellow_powerup_traits(c_player_traits const* traits, bool force)
+void c_game_engine_map_override_options::set_yellow_powerup_traits(const c_player_traits* traits, bool force)
 {
 	m_yellow_powerup_traits.set(traits, force);
 }

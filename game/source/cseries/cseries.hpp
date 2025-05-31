@@ -89,11 +89,11 @@ union t_value_type
 };
 
 extern void* offset_pointer(void* pointer, int32 offset);
-extern void const* offset_pointer(void const* pointer, int32 offset);
+extern const void* offset_pointer(const void* pointer, int32 offset);
 extern unsigned int align_address(unsigned int address, int32 alignment_bits);
 extern void* align_pointer(void* pointer, int32 alignment_bits);
-extern int32 pointer_distance(void const* pointer_a, void const* pointer_b);
-extern int32 pointer_difference(void const* pointer_a, void const* pointer_b);
+extern int32 pointer_distance(const void* pointer_a, const void* pointer_b);
+extern int32 pointer_difference(const void* pointer_a, const void* pointer_b);
 
 template<typename t_element_type>
 void _swap(t_element_type* a, t_element_type* b)
@@ -117,7 +117,7 @@ void _reverse(t_element_type* begin, t_element_type* end)
 struct c_allocation_base
 {
 public:
-	virtual void* allocate(uns32 allocation, char const* name);
+	virtual void* allocate(uns32 allocation, const char* name);
 	virtual void deallocate(void* buffer);
 };
 
@@ -328,39 +328,39 @@ do { \
 
 extern bool& g_catch_exceptions;
 
-extern void display_assert(char const* statement, char const* file, int32 line, bool fatal);
-extern bool handle_assert_as_exception(char const* statement, char const* file, int32 line, bool fatal);
+extern void display_assert(const char* statement, const char* file, int32 line, bool fatal);
+extern bool handle_assert_as_exception(const char* statement, const char* file, int32 line, bool fatal);
 
-extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size);
-extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);
+extern int(__cdecl* csmemcmp)(const void* _Buf1, const void* _Buf2, size_t _Size);
+extern void* (__cdecl* csmemcpy)(void* _Dst, const void* _Src, size_t _Size);
 extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
 
-extern size_t strlen_debug(char const* str);
-extern int strncmp_debug(char const* s1, char const* s2, size_t size);
+extern size_t strlen_debug(const char* str);
+extern int strncmp_debug(const char* s1, const char* s2, size_t size);
 
-extern int32 csstricmp(char const* s1, char const* s2);
-extern int32 csstrcmp(char const* s1, char const* s2);
-extern int32 csstrnicmp(char const* s1, char const* s2, uns32 max_count);
-extern char* __cdecl csstristr(char const* s1, char const* s2);
-extern char* csstrnzcpy(char* s1, char const* s2, uns32 size);
-extern char* csstrnzcat(char* s1, char const* s2, uns32 size);
-extern uns32 csstrnlen(char const* s, uns32 size);
+extern int32 csstricmp(const char* s1, const char* s2);
+extern int32 csstrcmp(const char* s1, const char* s2);
+extern int32 csstrnicmp(const char* s1, const char* s2, uns32 max_count);
+extern char* __cdecl csstristr(const char* s1, const char* s2);
+extern char* csstrnzcpy(char* s1, const char* s2, uns32 size);
+extern char* csstrnzcat(char* s1, const char* s2, uns32 size);
+extern uns32 csstrnlen(const char* s, uns32 size);
 extern char* csstrnupr(char* s, uns32 size);
 extern char* csstrnlwr(char* s, uns32 size);
-extern char const* csstrstr(char const* look_for, char const* look_inside);
-extern char* __cdecl csstrtok(char* s, char const* delimiters, int32 delimiter_mode, char** data);
-extern int32 cvsnzprintf(char* buffer, uns32 size, char const* format, va_list list);
-extern char* csnzprintf(char* buffer, uns32 size, char const* format, ...);
-extern char* csnzappendf(char* buffer, uns32 size, char const* format, ...);
-extern bool string_is_not_empty(char const* s);
-extern void string_terminate_at_first_delimiter(char* s, char const* delimiter);
+extern const char* csstrstr(const char* look_for, const char* look_inside);
+extern char* __cdecl csstrtok(char* s, const char* delimiters, int32 delimiter_mode, char** data);
+extern int32 cvsnzprintf(char* buffer, uns32 size, const char* format, va_list list);
+extern char* csnzprintf(char* buffer, uns32 size, const char* format, ...);
+extern char* csnzappendf(char* buffer, uns32 size, const char* format, ...);
+extern bool string_is_not_empty(const char* s);
+extern void string_terminate_at_first_delimiter(char* s, const char* delimiter);
 
 extern int32 ascii_tolower(int32 C);
 extern bool ascii_isupper(char C);
 extern void ascii_strnlwr(char* string, int32 count);
-extern int __fastcall ascii_stristr(char const* look_inside, char const* look_for);
-extern int32 __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size);
-extern int32 __cdecl ascii_stricmp(char const* s1, char const* s2);
+extern int __fastcall ascii_stristr(const char* look_inside, const char* look_for);
+extern int32 __cdecl ascii_strnicmp(const char* s1, const char* s2, unsigned int size);
+extern int32 __cdecl ascii_stricmp(const char* s1, const char* s2);
 
 template<typename t_type, int32 k_count>
 typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
@@ -456,7 +456,7 @@ public:
 	//{
 	//}
 	//
-	//c_basic_buffer(void* start, void const* end) :
+	//c_basic_buffer(void* start, const void* end) :
 	//	m_buffer(start),
 	//	m_size(pointer_distance(start, end))
 	//{
@@ -531,12 +531,12 @@ public:
 		return &m_storage[k_count];
 	}
 
-	t_type const* begin() const
+	const t_type* begin() const
 	{
 		return m_storage;
 	}
 
-	t_type const* end() const
+	const t_type* end() const
 	{
 		return &m_storage[k_count];
 	}
@@ -556,7 +556,7 @@ public:
 		return m_storage;
 	}
 
-	t_type const& element(int32 index) const
+	const t_type& element(int32 index) const
 	{
 		ASSERT(valid(index));
 
@@ -575,7 +575,7 @@ public:
 		return VALID_INDEX(index, k_count);
 	}
 
-	void set_all(t_type const& value)
+	void set_all(const t_type& value)
 	{
 		for (int32 i = 0; i < k_count; i++)
 			m_storage[i] = value;
@@ -591,7 +591,7 @@ public:
 		return sizeof(t_type) * k_count;
 	}
 
-	t_type const& operator[](int32 index) const
+	const t_type& operator[](int32 index) const
 	{
 		ASSERT(valid(index));
 
@@ -636,12 +636,12 @@ public:
 		return begin() + m_allocated_count;
 	}
 
-	t_type const* begin() const
+	const t_type* begin() const
 	{
 		return m_storage.begin();
 	}
 
-	t_type const* end() const
+	const t_type* end() const
 	{
 		return begin() + m_allocated_count;
 	}
@@ -730,7 +730,7 @@ public:
 		m_count--;
 	}
 
-	void push_back(t_type const& cache)
+	void push_back(const t_type& cache)
 	{
 		*get(push()) = cache;
 	}
@@ -904,12 +904,12 @@ public:
 		return k_maximum_count;
 	}
 	
-	bool operator==(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa) const
+	bool operator==(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa) const
 	{
 		return m_flags == rsa.m_flags;
 	}
 
-	bool operator!=(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa) const
+	bool operator!=(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa) const
 	{
 		return m_flags != rsa.m_flags;
 	}
@@ -924,14 +924,14 @@ public:
 		m_flags = new_flags;
 	}
 
-	c_flags_no_init<t_type, t_storage_type, k_count>& operator|=(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa)
+	c_flags_no_init<t_type, t_storage_type, k_count>& operator|=(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa)
 	{
 		m_flags |= rsa.m_flags;
 		ASSERT(valid());
 		return this;
 	}
 
-	c_flags_no_init<t_type, t_storage_type, k_count>& operator&=(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa)
+	c_flags_no_init<t_type, t_storage_type, k_count>& operator&=(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa)
 	{
 		m_flags &= rsa.m_flags;
 		ASSERT(valid());
@@ -946,8 +946,8 @@ public:
 	}
 
 	//c_flags_no_init<t_type, t_storage_type, k_count> operator&(t_storage_type const rsa) const
-	
-	c_flags_no_init<t_type, t_storage_type, k_count> operator&(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa) const
+
+	c_flags_no_init<t_type, t_storage_type, k_count> operator&(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa) const
 	{
 		c_flags_no_init<t_type, t_storage_type, k_count> flags;
 		flags.set_unsafe(m_flags & rsa.m_flags);
@@ -956,7 +956,7 @@ public:
 
 	//c_flags_no_init<t_type, t_storage_type, k_count> operator|(t_storage_type const rsa) const
 
-	c_flags_no_init<t_type, t_storage_type, k_count> operator|(c_flags_no_init<t_type, t_storage_type, k_count> const& rsa)
+	c_flags_no_init<t_type, t_storage_type, k_count> operator|(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa)
 	{
 		c_flags_no_init<t_type, t_storage_type, k_count> flags;
 		flags.set_unsafe(m_flags | rsa.m_flags);
@@ -999,7 +999,7 @@ struct c_static_flags_no_init
 {
 	static int32 const MAX_COUNT = k_maximum_count;
 
-	void and_(c_static_flags_no_init<k_maximum_count> const* vector_a)
+	void and_(const c_static_flags_no_init<k_maximum_count>* vector_a)
 	{
 		ASSERT(vector_a);
 
@@ -1007,23 +1007,23 @@ struct c_static_flags_no_init
 			m_flags[i] &= vector_a[i];
 	}
 
-	void and_not_range(c_static_flags_no_init<k_maximum_count> const* vector_a, c_static_flags_no_init<k_maximum_count> const* vector_b, int32 count)
+	void and_not_range(const c_static_flags_no_init<k_maximum_count>* vector_a, const c_static_flags_no_init<k_maximum_count>* vector_b, int32 count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		uns32 const* vector_a_bits = vector_a->get_bits_direct();
-		uns32 const* vector_b_bits = vector_b->get_bits_direct();
+		const uns32* vector_a_bits = vector_a->get_bits_direct();
+		const uns32* vector_b_bits = vector_b->get_bits_direct();
 
 		for (int32 i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			m_flags[i] = vector_a_bits[i] & ~vector_b_bits[i];
 	}
 
-	void and_range(c_static_flags_no_init<k_maximum_count> const* vector_a, c_static_flags_no_init<k_maximum_count> const* vector_b, int32 count)
+	void and_range(const c_static_flags_no_init<k_maximum_count>* vector_a, const c_static_flags_no_init<k_maximum_count>* vector_b, int32 count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
-		uns32 const* vector_a_bits = vector_a->get_bits_direct();
-		uns32 const* vector_b_bits = vector_b->get_bits_direct();
+		const uns32* vector_a_bits = vector_a->get_bits_direct();
+		const uns32* vector_b_bits = vector_b->get_bits_direct();
 
 		for (int32 i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
 			m_flags[i] = vector_a_bits[i] & vector_b_bits[i];
@@ -1041,7 +1041,7 @@ struct c_static_flags_no_init
 		csmemset(m_flags, 0, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
-	void copy(c_static_flags_no_init<k_maximum_count> const* vector_a)
+	void copy(const c_static_flags_no_init<k_maximum_count>* vector_a)
 	{
 		csmemcpy(m_flags, vector_a, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
@@ -1058,7 +1058,7 @@ struct c_static_flags_no_init
 		csmemset(m_flags, fill_value, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
-	uns32 const* get_bits_direct() const
+	const uns32* get_bits_direct() const
 	{
 		return m_flags;
 	}
@@ -1103,7 +1103,7 @@ struct c_static_flags_no_init
 		m_flags[BIT_VECTOR_SIZE_IN_LONGS(count) - 1] &= ((count & (LONG_BITS - 1)) != 0) ? 0xFFFFFFFF >> (LONG_BITS - (count & (LONG_BITS - 1))) : 0xFFFFFFFF;
 	}
 
-	void or_bits(uns32 const* bits, int32 count)
+	void or_bits(const uns32* bits, int32 count)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
@@ -1126,7 +1126,7 @@ struct c_static_flags_no_init
 		csmemset(m_flags, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
 	}
 
-	void set_bits_direct_destructive(int32 count, uns32 const* bits)
+	void set_bits_direct_destructive(int32 count, const uns32* bits)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
 
@@ -1304,49 +1304,49 @@ public:
 		clear();
 	}
 
-	c_static_string(char const* s) :
+	c_static_string(const char* s) :
 		m_string{}
 	{
 		clear();
 		set(s);
 	}
 
-	void append(char const* s)
+	void append(const char* s)
 	{
 		csstrnzcat(m_string, s, k_maximum_count);
 	}
 
-	void append_line(char const* s = nullptr)
+	void append_line(const char* s = nullptr)
 	{
 		if (s != nullptr)
 			csstrnzcat(m_string, s, k_maximum_count);
 		csstrnzcat(m_string, "\r\n", k_maximum_count);
 	}
 
-	char const* append_print(char const* format, ...)
+	const char* append_print(const char* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
 
-		char const* result = append_print_va(format, list);
+		const char* result = append_print_va(format, list);
 
 		va_end(list);
 		return result;
 	}
 
-	char const* append_print_line(char const* format, ...)
+	const char* append_print_line(const char* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
 
-		char const* result = append_print_va(format, list);
+		const char* result = append_print_va(format, list);
 		append_line();
 
 		va_end(list);
 		return result;
 	}
 
-	char const* append_print_va(char const* format, va_list argument_list)
+	const char* append_print_va(const char* format, va_list argument_list)
 	{
 		uns32 current_length = length();
 
@@ -1371,7 +1371,7 @@ public:
 		return csstrnzcpy(string, m_string, string_length);
 	}
 
-	bool ends_with(char const* string) const
+	bool ends_with(const char* string) const
 	{
 		ASSERT(string);
 
@@ -1381,7 +1381,7 @@ public:
 		if (suffix_length > _length)
 			return false;
 
-		char const* suffix = get_string() + (_length - suffix_length);
+		const char* suffix = get_string() + (_length - suffix_length);
 
 		bool result = csmemcmp(suffix, string, suffix_length) == 0;
 		return result;
@@ -1392,7 +1392,7 @@ public:
 		return m_string;
 	}
 
-	char const* get_offset(int32 offset) const
+	const char* get_offset(int32 offset) const
 	{
 		if (VALID_INDEX(offset, length()))
 			return &m_string[offset];
@@ -1400,12 +1400,12 @@ public:
 		return "";
 	}
 
-	char const* get_string() const
+	const char* get_string() const
 	{
 		return m_string;
 	}
 
-	int32 index_of(char const* string) const
+	int32 index_of(const char* string) const
 	{
 		ASSERT(string);
 
@@ -1417,7 +1417,7 @@ public:
 		return !m_string[0];
 	}
 
-	bool is_equal(char const* string) const
+	bool is_equal(const char* string) const
 	{
 		ASSERT(string);
 
@@ -1429,7 +1429,7 @@ public:
 		return csstrnlen(m_string, k_maximum_count);
 	}
 
-	int32 next_index_of(char const* string, int32 start_at) const
+	int32 next_index_of(const char* string, int32 start_at) const
 	{
 		ASSERT(string);
 
@@ -1437,7 +1437,7 @@ public:
 
 		if (start_at < length())
 		{
-			char const* s = csstrstr(m_string + start_at, string);
+			const char* s = csstrstr(m_string + start_at, string);
 			if (s)
 				result = s - get_string();
 		}
@@ -1450,7 +1450,7 @@ public:
 		m_string[k_maximum_count - 1] = 0;
 	}
 
-	char const* print(char const* format, ...)
+	const char* print(const char* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
@@ -1462,7 +1462,7 @@ public:
 		return m_string;
 	}
 
-	char const* print_line(char const* format, ...)
+	const char* print_line(const char* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
@@ -1475,19 +1475,19 @@ public:
 		return m_string;
 	}
 
-	char const* print_va(char const* format, va_list argument_list)
+	const char* print_va(const char* format, va_list argument_list)
 	{
 		cvsnzprintf(m_string, k_maximum_count, format, argument_list);
 
 		return m_string;
 	}
 
-	void set(char const* s)
+	void set(const char* s)
 	{
 		csstrnzcpy(m_string, s, k_maximum_count);
 	}
 
-	void set_bounded(char const* src, int32 length)
+	void set_bounded(const char* src, int32 length)
 	{
 		if (length + 1 < k_maximum_count)
 			length++;
@@ -1531,12 +1531,12 @@ public:
 		}
 	}
 
-	//void set_wchar(wchar_t const* src)
+	//void set_wchar(const wchar_t* src)
 	//{
 	//	wchar_string_to_ascii_string(src, m_string, k_maximum_count, nullptr);
 	//}
 
-	bool starts_with(char const* string) const
+	bool starts_with(const char* string) const
 	{
 		ASSERT(string);
 
@@ -1562,7 +1562,7 @@ struct c_string_builder :
 {
 public:
 	c_string_builder();
-	c_string_builder(char const* format, ...);
+	c_string_builder(const char* format, ...);
 	~c_string_builder();
 };
 
@@ -1573,14 +1573,14 @@ struct c_string_id
 public:
 	c_string_id() : m_id(NONE) {}
 	c_string_id(int32 value) : m_id(value) {}
-	c_string_id(c_string_id const& other) : m_id(other.m_id) {}
+	c_string_id(const c_string_id& other) : m_id(other.m_id) {}
 
-	char const* get_string();
-	char const* get_string() const;
+	const char* get_string();
+	const char* get_string() const;
 	int32 get_value() const { return m_id; }
 
-	bool operator==(c_string_id const& other) const { return m_id == other.m_id; }
-	void operator=(c_string_id const& other) { m_id = other.m_id; }
+	bool operator==(const c_string_id& other) const { return m_id == other.m_id; }
+	void operator=(const c_string_id& other) { m_id = other.m_id; }
 
 protected:
 	string_id m_id;
@@ -1591,7 +1591,7 @@ struct c_old_string_id :
 	public c_string_id
 {
 public:
-	bool is_string(char const* string) const;
+	bool is_string(const char* string) const;
 };
 static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
@@ -1665,40 +1665,40 @@ inline typename std::enable_if<sizeof(T) <= sizeof(F), T>::type __coerce(F f)
 extern void __cdecl cseries_dispose();
 extern void __cdecl cseries_initialize();
 
-extern real_argb_color const* const global_real_argb_white;
-extern real_argb_color const* const global_real_argb_grey;
-extern real_argb_color const* const global_real_argb_black;
-extern real_argb_color const* const global_real_argb_red;
-extern real_argb_color const* const global_real_argb_green;
-extern real_argb_color const* const global_real_argb_blue;
-extern real_argb_color const* const global_real_argb_yellow;
-extern real_argb_color const* const global_real_argb_cyan;
-extern real_argb_color const* const global_real_argb_magenta;
-extern real_argb_color const* const global_real_argb_pink;
-extern real_argb_color const* const global_real_argb_lightblue;
-extern real_argb_color const* const global_real_argb_orange;
-extern real_argb_color const* const global_real_argb_purple;
-extern real_argb_color const* const global_real_argb_aqua;
-extern real_argb_color const* const global_real_argb_darkgreen;
-extern real_argb_color const* const global_real_argb_salmon;
-extern real_argb_color const* const global_real_argb_violet;
-extern real_rgb_color const* const global_real_rgb_white;
-extern real_rgb_color const* const global_real_rgb_grey;
-extern real_rgb_color const* const global_real_rgb_black;
-extern real_rgb_color const* const global_real_rgb_red;
-extern real_rgb_color const* const global_real_rgb_green;
-extern real_rgb_color const* const global_real_rgb_blue;
-extern real_rgb_color const* const global_real_rgb_yellow;
-extern real_rgb_color const* const global_real_rgb_cyan;
-extern real_rgb_color const* const global_real_rgb_magenta;
-extern real_rgb_color const* const global_real_rgb_pink;
-extern real_rgb_color const* const global_real_rgb_lightblue;
-extern real_rgb_color const* const global_real_rgb_orange;
-extern real_rgb_color const* const global_real_rgb_purple;
-extern real_rgb_color const* const global_real_rgb_aqua;
-extern real_rgb_color const* const global_real_rgb_darkgreen;
-extern real_rgb_color const* const global_real_rgb_salmon;
-extern real_rgb_color const* const global_real_rgb_violet;
+extern const real_argb_color* const global_real_argb_white;
+extern const real_argb_color* const global_real_argb_grey;
+extern const real_argb_color* const global_real_argb_black;
+extern const real_argb_color* const global_real_argb_red;
+extern const real_argb_color* const global_real_argb_green;
+extern const real_argb_color* const global_real_argb_blue;
+extern const real_argb_color* const global_real_argb_yellow;
+extern const real_argb_color* const global_real_argb_cyan;
+extern const real_argb_color* const global_real_argb_magenta;
+extern const real_argb_color* const global_real_argb_pink;
+extern const real_argb_color* const global_real_argb_lightblue;
+extern const real_argb_color* const global_real_argb_orange;
+extern const real_argb_color* const global_real_argb_purple;
+extern const real_argb_color* const global_real_argb_aqua;
+extern const real_argb_color* const global_real_argb_darkgreen;
+extern const real_argb_color* const global_real_argb_salmon;
+extern const real_argb_color* const global_real_argb_violet;
+extern const real_rgb_color* const global_real_rgb_white;
+extern const real_rgb_color* const global_real_rgb_grey;
+extern const real_rgb_color* const global_real_rgb_black;
+extern const real_rgb_color* const global_real_rgb_red;
+extern const real_rgb_color* const global_real_rgb_green;
+extern const real_rgb_color* const global_real_rgb_blue;
+extern const real_rgb_color* const global_real_rgb_yellow;
+extern const real_rgb_color* const global_real_rgb_cyan;
+extern const real_rgb_color* const global_real_rgb_magenta;
+extern const real_rgb_color* const global_real_rgb_pink;
+extern const real_rgb_color* const global_real_rgb_lightblue;
+extern const real_rgb_color* const global_real_rgb_orange;
+extern const real_rgb_color* const global_real_rgb_purple;
+extern const real_rgb_color* const global_real_rgb_aqua;
+extern const real_rgb_color* const global_real_rgb_darkgreen;
+extern const real_rgb_color* const global_real_rgb_salmon;
+extern const real_rgb_color* const global_real_rgb_violet;
 
 extern c_system_allocation*& g_system_allocation;
 extern c_normal_allocation*& g_normal_allocation;

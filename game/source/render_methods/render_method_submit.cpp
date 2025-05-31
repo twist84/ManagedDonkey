@@ -50,7 +50,7 @@ void __cdecl render_state_cache_initialize_for_new_structure_bsp(uns32 activatin
 	INVOKE(0x00A3DB40, render_state_cache_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-char const* k_render_method_extern_names[k_render_method_extern_count]
+const char* k_render_method_extern_names[k_render_method_extern_count]
 {
 	"none",
 	"texaccum target",

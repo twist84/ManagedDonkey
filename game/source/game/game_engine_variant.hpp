@@ -38,49 +38,49 @@ public:
 	void encode_to_mcc(c_bitstream* packet) const;
 	bool decode_from_mcc(c_bitstream* packet);
 
-	void copy_from_and_validate(c_game_variant const* other);
-	void copy_from_unsafe(c_game_variant const* other);
+	void copy_from_and_validate(const c_game_variant* other);
+	void copy_from_unsafe(const c_game_variant* other);
 	bool decode(c_bitstream* packet);
 	void encode(c_bitstream* packet) const;
 
 	int32 get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
-	bool is_equal_to(c_game_variant const* other) const;
+	bool is_equal_to(const c_game_variant* other) const;
 	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
 
 	e_game_engine_type get_game_engine_index() const;
 	void set_game_engine_index(e_game_engine_type game_engine_index);
 
-	c_game_engine_base_variant const* get_active_variant() const;
+	const c_game_engine_base_variant* get_active_variant() const;
 	c_game_engine_base_variant* get_active_variant_writeable();
 
-	c_game_engine_ctf_variant const* get_ctf_variant() const;
+	const c_game_engine_ctf_variant* get_ctf_variant() const;
 	c_game_engine_ctf_variant* get_ctf_variant_writeable();
 
-	c_game_engine_slayer_variant const* get_slayer_variant() const;
+	const c_game_engine_slayer_variant* get_slayer_variant() const;
 	c_game_engine_slayer_variant* get_slayer_variant_writeable();
 
-	c_game_engine_oddball_variant const* get_oddball_variant() const;
+	const c_game_engine_oddball_variant* get_oddball_variant() const;
 	c_game_engine_oddball_variant* get_oddball_variant_writeable();
 
-	c_game_engine_king_variant const* get_king_variant() const;
+	const c_game_engine_king_variant* get_king_variant() const;
 	c_game_engine_king_variant* get_king_variant_writeable();
 
-	c_game_engine_sandbox_variant const* get_sandbox_variant() const;
+	const c_game_engine_sandbox_variant* get_sandbox_variant() const;
 	c_game_engine_sandbox_variant* get_sandbox_variant_writeable();
 
-	c_game_engine_vip_variant const* get_vip_variant() const;
+	const c_game_engine_vip_variant* get_vip_variant() const;
 	c_game_engine_vip_variant* get_vip_variant_writeable();
 
-	c_game_engine_juggernaut_variant const* get_juggernaut_variant() const;
+	const c_game_engine_juggernaut_variant* get_juggernaut_variant() const;
 	c_game_engine_juggernaut_variant* get_juggernaut_variant_writeable();
 
-	c_game_engine_territories_variant const* get_territories_variant() const;
+	const c_game_engine_territories_variant* get_territories_variant() const;
 	c_game_engine_territories_variant* get_territories_variant_writeable();
 
-	c_game_engine_assault_variant const* get_assault_variant() const;
+	const c_game_engine_assault_variant* get_assault_variant() const;
 	c_game_engine_assault_variant* get_assault_variant_writeable();
 
-	c_game_engine_infection_variant const* get_infection_variant() const;
+	const c_game_engine_infection_variant* get_infection_variant() const;
 	c_game_engine_infection_variant* get_infection_variant_writeable();
 
 	bool get_integer_game_engine_setting(e_game_variant_parameter parameter, int32* out_value) const;
@@ -112,13 +112,13 @@ protected:
 };
 static_assert(sizeof(c_game_variant) == 0x264);
 
-extern char const* game_engine_type_get_string(int32 game_engine_variant);
+extern const char* game_engine_type_get_string(int32 game_engine_variant);
 extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
 extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, int32 variant_index, c_game_variant* game_variant);
 extern int32 __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index);
-extern int32 __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant);
+extern int32 __cdecl game_engine_tag_defined_variant_get_default_variant_index(const c_game_variant* game_variant);
 extern bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, int32 variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description);
-extern void __cdecl game_engine_variant_describe_invalidity(c_game_variant const* game_variant);
-extern bool __cdecl game_engine_variant_is_valid(c_game_variant const* variant);
+extern void __cdecl game_engine_variant_describe_invalidity(const c_game_variant* game_variant);
+extern bool __cdecl game_engine_variant_is_valid(const c_game_variant* variant);
 extern bool game_engine_variant_validate(c_game_variant* variant);
 

@@ -346,7 +346,7 @@ static_assert(sizeof(c_game_results_replicator) == 0x1B468);
 
 struct s_integer_statistic_definition
 {
-	char const* name;
+	const char* name;
 
 	// type?
 	uns32 __unknown4;
@@ -370,7 +370,7 @@ struct c_bitstream;
 
 extern void __cdecl game_results_statistic_increment(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
 extern void __cdecl game_results_statistic_set(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
-extern bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, int32 statistics_count, s_integer_statistic_definition const* statistic_definitions, int32 statistics_definitions_count);
-extern void __cdecl game_results_statistics_encode(c_bitstream* packet, s_integer_statistic_update const* statistics, int32 statistics_count, s_integer_statistic_definition const* statistic_definitions, int32 statistics_definitions_count);
+extern bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, int32 statistics_count, const s_integer_statistic_definition* statistic_definitions, int32 statistics_definitions_count);
+extern void __cdecl game_results_statistics_encode(c_bitstream* packet, const s_integer_statistic_update* statistics, int32 statistics_count, const s_integer_statistic_definition* statistic_definitions, int32 statistics_definitions_count);
 extern void __cdecl game_results_update();
 

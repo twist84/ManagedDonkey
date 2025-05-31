@@ -22,7 +22,7 @@ void c_game_engine_vip_variant::byteswap()
 	m_vip_traits.byteswap();
 }
 
-void c_game_engine_vip_variant::set(c_game_engine_vip_variant const* variant, bool force)
+void c_game_engine_vip_variant::set(const c_game_engine_vip_variant* variant, bool force)
 {
 	ASSERT(variant != NULL);
 
@@ -53,7 +53,7 @@ void c_game_engine_vip_variant::set(c_game_engine_vip_variant const* variant, bo
 	set_vip_traits(get_vip_traits(), force);
 }
 
-//void set(s_game_engine_vip_variant_definition const* definition, bool force);
+//void set(const s_game_engine_vip_variant_definition* definition, bool force);
 //{
 //}
 
@@ -426,12 +426,12 @@ c_player_traits* c_game_engine_vip_variant::get_vip_team_traits_writeable()
 	return &m_vip_team_traits;
 }
 
-c_player_traits const* c_game_engine_vip_variant::get_vip_team_traits() const
+const c_player_traits* c_game_engine_vip_variant::get_vip_team_traits() const
 {
 	return &m_vip_team_traits;
 }
 
-void c_game_engine_vip_variant::set_vip_team_traits(c_player_traits const* traits, bool force)
+void c_game_engine_vip_variant::set_vip_team_traits(const c_player_traits* traits, bool force)
 {
 	m_vip_team_traits.set(traits, force);
 }
@@ -441,12 +441,12 @@ c_player_traits* c_game_engine_vip_variant::get_vip_influence_traits_writeable()
 	return &m_vip_influence_traits;
 }
 
-c_player_traits const* c_game_engine_vip_variant::get_vip_influence_traits() const
+const c_player_traits* c_game_engine_vip_variant::get_vip_influence_traits() const
 {
 	return &m_vip_influence_traits;
 }
 
-void c_game_engine_vip_variant::set_vip_influence_traits(c_player_traits const* traits, bool force)
+void c_game_engine_vip_variant::set_vip_influence_traits(const c_player_traits* traits, bool force)
 {
 	m_vip_influence_traits.set(traits, force);
 }
@@ -456,12 +456,12 @@ c_player_traits* c_game_engine_vip_variant::get_vip_traits_writeable()
 	return &m_vip_traits;
 }
 
-c_player_traits const* c_game_engine_vip_variant::get_vip_traits() const
+const c_player_traits* c_game_engine_vip_variant::get_vip_traits() const
 {
 	return &m_vip_traits;
 }
 
-void c_game_engine_vip_variant::set_vip_traits(c_player_traits const* traits, bool force)
+void c_game_engine_vip_variant::set_vip_traits(const c_player_traits* traits, bool force)
 {
 	m_vip_traits.set(traits, force);
 }

@@ -59,7 +59,7 @@ void user_interface_mouse_update()
 	}
 }
 
-void widget_bounds_from_window_bounds(real_rectangle2d const* window_bounds, real_rectangle2d* widget_bounds)
+void widget_bounds_from_window_bounds(const real_rectangle2d* window_bounds, real_rectangle2d* widget_bounds)
 {
 	real_vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
 
@@ -144,7 +144,7 @@ void user_interface_mouse_update_internal()
 	user_interface_mouse_globals.mouse_hwheel_delta = input_globals.raw_mouse_state.hwheel_delta;
 }
 
-void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_rectangle2d* accumulated_bounds, bool(*child_filter)(c_gui_widget const*))
+void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_rectangle2d* accumulated_bounds, bool(*child_filter)(const c_gui_widget*))
 {
 	real_rectangle2d bounds{};
 	for (c_gui_widget* child_widget = widget->get_children();
@@ -183,7 +183,7 @@ void user_interface_mouse_compute_widget_bounds(c_gui_widget* widget, real_recta
 
 void user_interface_mouse_compute_list_item_bounds(c_gui_list_item_widget* list_item_widget, real_rectangle2d* bounds)
 {
-	user_interface_mouse_compute_widget_bounds(list_item_widget, bounds, [](c_gui_widget const* widget) -> bool { return widget->m_visible && widget->m_type == _gui_bitmap; });
+	user_interface_mouse_compute_widget_bounds(list_item_widget, bounds, [](const c_gui_widget* widget) -> bool { return widget->m_visible && widget->m_type == _gui_bitmap; });
 
 	real_point2d anchor_position{};
 	anchor_position.x = list_item_widget->m_animated_state.position.x;

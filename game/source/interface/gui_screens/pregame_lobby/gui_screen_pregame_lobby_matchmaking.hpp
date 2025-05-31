@@ -10,7 +10,7 @@ struct c_gui_screen_pregame_lobby_matchmaking :
 	public c_gui_screen_pregame_lobby
 {
 public:
-	//bool __thiscall handle_list_item_chosen_(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
+	//bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 
 	c_gui_screen_pregame_lobby_matchmaking(int32 name) :
 		c_gui_screen_pregame_lobby(name)

@@ -47,7 +47,7 @@ bool __cdecl c_vehicle_type_turret::physics_disabled(int32 vehicle_index)
 	return INVOKE(0x00BCEC80, c_vehicle_type_turret::physics_disabled, vehicle_index);
 }
 
-void __cdecl c_vehicle_type_turret::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
+void __cdecl c_vehicle_type_turret::process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations)
 {
 	INVOKE(0x00BCECC0, c_vehicle_type_turret::process_animation_channels, vehicle_index, callback, user_data, channel, find_animations);
 }
@@ -72,7 +72,7 @@ void __cdecl c_vehicle_type_turret::update_physics(int32 vehicle_index, s_havok_
 	INVOKE(0x00BCED00, c_vehicle_type_turret::update_physics, vehicle_index, physics);
 }
 
-bool __cdecl c_vehicle_type_turret::vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector)
+bool __cdecl c_vehicle_type_turret::vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector)
 {
 	return INVOKE(0x00BCED10, c_vehicle_type_turret::vector_is_upsides_down, vehicle_index, vector);
 }

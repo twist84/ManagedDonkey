@@ -30,7 +30,7 @@ HOOK_DECLARE(0x0065C960, runtime_state_free_buffer);
 //.text:00509D10 ; c_runtime_state_allocation::deallocate
 //.text:00509D20
 
-s_data_array* __cdecl runtime_state_data_new(char const* name, int32 maximum_count, int32 size)
+s_data_array* __cdecl runtime_state_data_new(const char* name, int32 maximum_count, int32 size)
 {
 	//return INVOKE(0x00509D30, runtime_state_data_new, name, maximum_count, size);
 
@@ -49,7 +49,7 @@ void __cdecl runtime_state_dispose_from_old_map()
 	//INVOKE(0x00509DD0, runtime_state_dispose_from_old_map);
 }
 
-void const* __cdecl runtime_state_get_buffer_address(int32* buffer_size)
+const void* __cdecl runtime_state_get_buffer_address(int32* buffer_size)
 {
 	//return INVOKE(0x00509DE0, runtime_state_get_buffer_address, buffer_size);
 
@@ -73,7 +73,7 @@ void __cdecl runtime_state_initialize_for_new_map()
 	g_runtime_state_globals.locked = true;
 }
 
-void* __cdecl runtime_state_malloc_aligned(char const* name, char const* type, int32 size, int32 alignment_bits)
+void* __cdecl runtime_state_malloc_aligned(const char* name, const char* type, int32 size, int32 alignment_bits)
 {
 	//return INVOKE(0x00509E20, runtime_state_malloc_aligned, name, type, size, alignment_bits);
 
@@ -93,7 +93,7 @@ void* __cdecl runtime_state_malloc_aligned(char const* name, char const* type, i
 	return allocation_end_aligned;
 }
 
-void* __cdecl runtime_state_malloc(char const* name, char const* type, int32 size)
+void* __cdecl runtime_state_malloc(const char* name, const char* type, int32 size)
 {
 	//return INVOKE(0x00509EA0, runtime_state_malloc, name, type, size);
 

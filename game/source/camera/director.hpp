@@ -26,8 +26,8 @@ public:
 
 	bool in_free_camera_mode() const;
 	c_camera* get_camera();
-	c_camera const* get_camera() const;
-	s_observer_command const* get_last_observer_command() const;
+	const c_camera* get_camera() const;
+	const s_observer_command* get_last_observer_command() const;
 	e_director_perspective get_perspective() const;
 	bool set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update);
 	bool set_camera_mode(e_camera_mode camera_mode, real32 transition_time);
@@ -104,22 +104,22 @@ extern void __cdecl director_setup_flying_camera_at_scenario_point(int32 user_in
 extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
 extern void __cdecl director_update(real32 dt);
 
-extern char const* director_mode_get_name(e_director_mode director_mode);
-extern e_director_mode director_mode_from_string(char const* str);
+extern const char* director_mode_get_name(e_director_mode director_mode);
+extern e_director_mode director_mode_from_string(const char* str);
 extern s_director_info* director_get_info(int32 user_index);
 extern void director_set_perspective(int32 user_index, e_director_perspective director_perspective);
 extern void director_toggle(int32 user_index, e_director_mode director_mode);
 extern void director_toggle_perspective(int32 user_index, e_director_perspective director_perspective);
 extern void director_toggle_camera(int32 user_index, e_camera_mode camera_mode);
-extern void director_set_flying_camera_direct(int32 user_index, real_point3d const* position, real_vector3d const* forward, real_vector3d const* up);
-extern void director_save_camera_named(char const* name);
-extern void director_load_camera_named(char const* name);
+extern void director_set_flying_camera_direct(int32 user_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up);
+extern void director_save_camera_named(const char* name);
+extern void director_load_camera_named(const char* name);
 extern void director_save_camera();
 extern void director_load_camera();
 extern void director_debug_camera(bool render);
 extern void survival_mode_update_flying_camera(int32 user_index);
 extern void control_toggling_of_debug_directors(int32 user_index);
 
-extern char const* const k_camera_save_filename;
-extern char const* k_director_mode_names[k_number_of_director_modes];
+extern const char* const k_camera_save_filename;
+extern const char* k_director_mode_names[k_number_of_director_modes];
 

@@ -149,13 +149,13 @@ struct c_network_observer
 	};
 	static_assert(sizeof(s_channel_observer) == 0x10D8);
 
-	s_channel_observer const* find_observer_by_channel(c_network_channel const* channel) const;
+	const s_channel_observer* find_observer_by_channel(const c_network_channel* channel) const;
 	void destroy_observer();
-	void handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request);
-	bool initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration);
+	void handle_connect_request(const transport_address* incoming_address, const s_network_message_connect_request* connect_request);
+	bool initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, const s_observer_configuration* configuration);
 	void monitor();
 	int32 observer_channel_find_by_network_channel(int32 owner_type, c_network_channel* channel) const;
-	void observer_channel_send_message(int32 owner_type, int32 observer_channel_index, bool out_of_band, e_network_message_type message_type, int32 message_size, void const* message_payload);
+	void observer_channel_send_message(int32 owner_type, int32 observer_channel_index, bool out_of_band, e_network_message_type message_type, int32 message_size, const void* message_payload);
 	void observer_prioritize_upload_bandwidth(bool prioritize);
 	void quality_statistics_get_ratings(int32* out_connectivity_badness_rating, int32* out_host_badness_rating, int32* out_client_badness_rating);
 	void set_online_network_environment(bool online_network_environment);

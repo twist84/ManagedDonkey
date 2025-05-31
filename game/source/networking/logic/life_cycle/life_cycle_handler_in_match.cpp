@@ -11,7 +11,7 @@ c_life_cycle_state_handler_in_match::c_life_cycle_state_handler_in_match() :
 	//DECLFUNC(0x00453F30, void, __thiscall, c_life_cycle_state_handler_in_match*)(this);
 }
 
-char const* c_life_cycle_state_handler_in_match::get_state_string()
+const char* c_life_cycle_state_handler_in_match::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454700, c_life_cycle_state_handler_in_match, get_state_string);
 

@@ -9,15 +9,15 @@ HOOK_DECLARE(0x00689EF0, player_training_render_screen);
 //.text:00689570 ; 
 //.text:00689580 ; void __cdecl __tls_set_g_player_training_globals_allocator(void*)
 //.text:006895A0 ; 
-//.text:006895D0 ; public: bool __cdecl s_player_training_profile_data::add_training_data(s_player_training_profile_data const*)
+//.text:006895D0 ; public: bool __cdecl s_player_training_profile_data::add_training_data(const s_player_training_profile_data*)
 //.text:00689640 ; 
-//.text:00689680 ; public: void __cdecl c_hold_watcher::check_action(int32, player_action const*)
+//.text:00689680 ; public: void __cdecl c_hold_watcher::check_action(int32, const player_action*)
 //.text:006896F0 ; 
 //.text:00689720 ; public: bool __cdecl c_recent_actions::did_player_recently_perform_action(int32, int32)
 //.text:00689770 ; 
 //.text:006897A0 ; s_player_training_entry_data* __cdecl get_player_training_entry_data(int32)
 //.text:006897D0 ; int32 __cdecl get_training_text(int32)
-//.text:00689800 ; bool __cdecl increment_training_completion(int32, s_player_training_user*, s_player_training_entry_data const*, s_player_training_state*)
+//.text:00689800 ; bool __cdecl increment_training_completion(int32, s_player_training_user*, const s_player_training_entry_data*, s_player_training_state*)
 //.text:006898F0 ; void __cdecl player_training_activate_crouch()
 //.text:00689900 ; void __cdecl player_training_activate_equipment()
 //.text:00689910 ; void __cdecl player_training_activate_flashlight()
@@ -37,7 +37,7 @@ void __cdecl player_training_dispose_from_old_map()
 }
 
 //.text:00689A40 ; void __cdecl player_training_enable_scripted(bool)
-//.text:00689A70 ; void __cdecl player_training_examine_action(int32, player_action const*)
+//.text:00689A70 ; void __cdecl player_training_examine_action(int32, const player_action*)
 //.text:00689B80 ; void __cdecl player_training_handle_saved_game(int32)
 
 void __cdecl player_training_initialize()
@@ -53,7 +53,7 @@ void __cdecl player_training_initialize_for_new_map()
 //.text:00689C90 ; void __cdecl player_training_notify_equipment_pickup(int32)
 //.text:00689CD0 ; void __cdecl player_training_notify_grenade_pickup(int32)
 //.text:00689D10 ; void __cdecl player_training_notify_kill(int32, int32, uns8)
-//.text:00689E10 ; int32 __cdecl player_training_profile_data_get_completion_count(s_player_training_profile_data const*, int32)
+//.text:00689E10 ; int32 __cdecl player_training_profile_data_get_completion_count(const s_player_training_profile_data*, int32)
 //.text:00689E50 ; void __cdecl player_training_profile_data_set_completion_count(s_player_training_profile_data*, int32, int32)
 //.text:00689EB0 ; void __cdecl player_training_profile_data_set_completion_count_all(s_player_training_profile_data*, bool)
 

@@ -21,7 +21,7 @@ c_ui_memory_scope_lock::~c_ui_memory_scope_lock()
 		internal_critical_section_leave(k_crit_section_ui_memory_lock);
 }
 
-void __cdecl user_interface_free(void const* ptr)
+void __cdecl user_interface_free(const void* ptr)
 {
 	//INVOKE(0x00AB4E50, user_interface_free, ptr);
 
@@ -36,7 +36,7 @@ void __cdecl user_interface_free(void const* ptr)
 	memory_pool_block_free(g_ui_memory_pool, &ptr);
 }
 
-void* __cdecl user_interface_malloc_tracked(uns32 size, char const* file, int32 line)
+void* __cdecl user_interface_malloc_tracked(uns32 size, const char* file, int32 line)
 {
 	return INVOKE(0x00AB4EF0, user_interface_malloc_tracked, size, file, line);
 }

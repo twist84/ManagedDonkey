@@ -41,7 +41,7 @@ s_visible_items& __cdecl get_global_items()
 //.text:00686BB0 ; 
 //.text:00686BC0 ; public: uns32* __cdecl c_visibility_collection::get_part_bitvector_space(int32)
 
-e_collection_shape c_visibility_collection::prepare_collection_for_build(int32 flags, e_collection_type collection_type, visibility_projection const* projections, int32 projection_count, s_cluster_reference initial_cluster_reference, int32 intersection_marker_index, real_point3d const* sphere_center, real32 sphere_radius, int32 user_index, int32 player_window_index)
+e_collection_shape c_visibility_collection::prepare_collection_for_build(int32 flags, e_collection_type collection_type, const visibility_projection* projections, int32 projection_count, s_cluster_reference initial_cluster_reference, int32 intersection_marker_index, const real_point3d* sphere_center, real32 sphere_radius, int32 user_index, int32 player_window_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00686E80, c_visibility_collection, prepare_collection_for_build, flags, collection_type, projections, projection_count, initial_cluster_reference, intersection_marker_index, sphere_center, sphere_radius, user_index, player_window_index);
 

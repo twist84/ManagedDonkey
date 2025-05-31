@@ -27,8 +27,8 @@ bool debug_player_damage = false;
 bool debug_damage = false;
 int32 global_debug_damage_object_index = NONE;
 
-//real32 __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, int32 object_index, bool* a5)
-real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, int32 object_index, bool* a5)
+//real32 __cdecl compute_total_damage(s_damage_data* damage_data, s_damage_effect_definition* damage_effect_definition, const damage_definition* damage_definition, int32 object_index, bool* a5)
+real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, const void* damage_definition, int32 object_index, bool* a5)
 {
 	real32 result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
 
@@ -50,7 +50,7 @@ real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_eff
 	return result;
 };
 
-void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration)
+void __cdecl damage_acceleration_apply(const s_damage_globals::s_damage_acceleration* damage_acceleration)
 {
 	INVOKE(0x00B4FD70, damage_acceleration_apply, damage_acceleration);
 }
@@ -180,7 +180,7 @@ void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object
 	INVOKE(0x00B542A0, object_cause_damage_simple, damage_data, object_index, predictability);
 }
 
-s_model_damage_info const* __cdecl object_get_damage_info(int32 object_index)
+const s_model_damage_info* __cdecl object_get_damage_info(int32 object_index)
 {
 	return INVOKE(0x00B578D0, object_get_damage_info, object_index);
 }
@@ -217,7 +217,7 @@ void render_debug_object_damage()
 					object->object.current_body_damage,
 					object->object.recent_body_damage);
 
-				if (s_model_damage_info const* damage_info = object_get_damage_info(global_debug_damage_object_index))
+				if (const s_model_damage_info* damage_info = object_get_damage_info(global_debug_damage_object_index))
 				{
 					if (damage_info->damage_sections.count > 0)
 					{

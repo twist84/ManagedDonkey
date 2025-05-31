@@ -12,7 +12,7 @@
 //.text:00BB88D0 ; void __cdecl scenery_animation_start_relative(int32, c_animation_id, real_matrix4x3*)
 //.text:00BB8950 ; void __cdecl scenery_animation_start_relative_at_frame(int32, int32, int32, int32, int16)
 //.text:00BB8970 ; void __cdecl scenery_animation_start_relative_loop(int32, int32, int32, int32)
-//.text:00BB8990 ; bool __cdecl scenery_compute_activation(int32, s_game_cluster_bit_vectors const*, bool*)
+//.text:00BB8990 ; bool __cdecl scenery_compute_activation(int32, const s_game_cluster_bit_vectors*, bool*)
 //.text:00BB8A70 ; void __cdecl scenery_delete(int32)
 //.text:00BB8A80 ; void __cdecl scenery_detach_from_physics(int32)
 //.text:00BB8A90 ; int32 __cdecl scenery_get_lightmap_object_index(c_object_identifier*, int32)

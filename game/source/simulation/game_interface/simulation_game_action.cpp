@@ -108,7 +108,7 @@ void __cdecl simulation_action_game_engine_player_update(int32 player_index, c_f
 }
 
 //.text:004B2BE0 ; void __cdecl simulation_action_hit_marker(int32)
-//.text:004B2C00 ; void __cdecl simulation_action_multiplayer_event(s_game_engine_event_data const*)
+//.text:004B2C00 ; void __cdecl simulation_action_multiplayer_event(const s_game_engine_event_data*)
 
 void __cdecl simulation_action_object_create(int32 object_index)
 {
@@ -194,7 +194,7 @@ void simulation_action_object_update_internal(int32 object_index, c_simulation_o
 //.text:004B31C0 ; void __cdecl simulation_action_pickup_powerup(int32, int32)
 //.text:004B3240 ; void __cdecl simulation_action_pickup_weapon(int32, int32)
 //.text:004B32C0 ; simulation_action_player_taunt
-//.text:004B3300 ; void __cdecl simulation_action_projectile_attached(int32, int32, int16, real_point3d const*, s_location const*)
+//.text:004B3300 ; void __cdecl simulation_action_projectile_attached(int32, int32, int16, const real_point3d*, const s_location*)
 
 //.text:004B4650 ; void __cdecl simulation_player_force_base_respawn(int32)
 //.text:004B4690 ; bool __cdecl simulation_query_control(int32, int32, int32*)
@@ -206,7 +206,7 @@ bool __cdecl simulation_query_object_is_predicted(int32 object_index)
 	return INVOKE(0x004B4850, simulation_query_object_is_predicted, object_index);
 }
 
-bool __cdecl simulation_query_object_placement(object_placement_data const* data)
+bool __cdecl simulation_query_object_placement(const object_placement_data* data)
 {
 	return INVOKE(0x004B48A0, simulation_query_object_placement, data);
 }
@@ -227,7 +227,7 @@ bool __cdecl simulation_query_object_placement(object_placement_data const* data
 //.text:004B4E10 ; void __cdecl simulation_request_player_boot(int32, int32)
 //.text:004B4E50 ; void __cdecl simulation_request_player_detach(int32)
 //.text:004B4E90 ; void __cdecl simulation_request_player_editor(int32, e_player_editor_request_type, bool, int32)
-//.text:004B4F10 ; void __cdecl simulation_request_player_event(s_player_editor_request_event_data const*)
+//.text:004B4F10 ; void __cdecl simulation_request_player_event(const s_player_editor_request_event_data*)
 //.text:004B4F70 ; 
 //.text:004B4FF0 ; 
 //.text:004B5020 ; void __cdecl simulation_request_unit_current_equipment_use(int32, int32)
@@ -235,13 +235,13 @@ bool __cdecl simulation_query_object_placement(object_placement_data const* data
 //.text:004B5100 ; void __cdecl simulation_request_put_away_weapon(int32, int16)
 //.text:004B51E0 ; void __cdecl simulation_request_touch_device(int32, int32)
 //.text:004B51E0 ; void __cdecl simulation_request_touch_device(int32, int32)
-//.text:004B5240 ; void __cdecl simulation_request_unit_assassinate(int32, int32, int32, real_point3d const*, real_vector3d const*, real_vector3d const*, s_simulation_biped_melee_damage_event_data const*)
+//.text:004B5240 ; void __cdecl simulation_request_unit_assassinate(int32, int32, int32, const real_point3d*, const real_vector3d*, const real_vector3d*, const s_simulation_biped_melee_damage_event_data*)
 //.text:004B5300 ; void __cdecl simulation_request_unit_enter_vehicle(int32, int32, int16)
 //.text:004B5360 ; void __cdecl simulation_request_unit_exit_and_detach_vehicle(int32)
 //.text:004B53F0 ; void __cdecl simulation_request_unit_exit_vehicle(int32)
-//.text:004B5480 ; void __cdecl simulation_request_unit_melee_damage(int32, int32, int32, s_unit_player_melee_damage_target const*)
+//.text:004B5480 ; void __cdecl simulation_request_unit_melee_damage(int32, int32, int32, const s_unit_player_melee_damage_target*)
 //.text:004B5630 ; void __cdecl simulation_request_unit_melee_damage_with_prebuilt_event_data(int32, int32, s_simulation_biped_melee_damage_event_data*)
-//.text:004B56C0 ; void __cdecl simulation_request_unit_throw_release(int32, int16, int32, real_point3d const*, real_vector3d const*)
+//.text:004B56C0 ; void __cdecl simulation_request_unit_throw_release(int32, int16, int32, const real_point3d*, const real_vector3d*)
 //.text:004B5810 ; void __cdecl simulation_request_vehicle_trick(int32, int32)
 
 c_simulation_object_update_flags::c_simulation_object_update_flags() :

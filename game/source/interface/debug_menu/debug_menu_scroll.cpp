@@ -40,7 +40,7 @@ void c_debug_menu_scroll::update()
 	}
 }
 
-void c_debug_menu_scroll::render(c_font_cache_base* font_cache, point2d const& position)
+void c_debug_menu_scroll::render(c_font_cache_base* font_cache, const point2d& position)
 {
 	render_background(font_cache, position);
 	render_title(font_cache, position);
@@ -93,7 +93,7 @@ int32 c_debug_menu_scroll::get_num_items_to_render()
 	return get_num_visible();
 }
 
-c_debug_menu_scroll::c_debug_menu_scroll(c_debug_menu* parent, int16 num_visible, char const* name) :
+c_debug_menu_scroll::c_debug_menu_scroll(c_debug_menu* parent, int16 num_visible, const char* name) :
 	c_debug_menu(parent, name)
 {
 	set_num_visible(num_visible);

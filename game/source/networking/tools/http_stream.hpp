@@ -23,19 +23,19 @@ public:
 
 	c_http_post_source();
 
-	void set_source_as_buffer(char const* contents_buffer, int32 contents_buffer_length);
+	void set_source_as_buffer(const char* contents_buffer, int32 contents_buffer_length);
 	bool set_source_as_file(s_file_reference* contents_file);
-	void set_content_type(char const* content_type);
-	void set_filename(char const* filename);
+	void set_content_type(const char* content_type);
+	void set_filename(const char* filename);
 	void set_start_position(int32 start_position);
 
-	c_http_post_source& operator=(c_http_post_source const& other);
+	c_http_post_source& operator=(const c_http_post_source& other);
 
-	char const* get_content_type() const;
-	char const* get_filename() const;
+	const char* get_content_type() const;
+	const char* get_filename() const;
 	int32 get_contents_length() const;
 	e_contents_source get_source_type() const;
-	char const* get_contents_buffer() const;
+	const char* get_contents_buffer() const;
 	s_file_reference* get_contents_file() const;
 	int32 get_start_position() const;
 	bool is_json() const;
@@ -44,7 +44,7 @@ protected:
 	c_enum<e_contents_source, int32, _contents_source_none, k_contents_source_count> m_source_type;
 	c_static_string<k_content_type_length> m_content_type;
 	c_static_string<260> m_filename;
-	char const* m_contents_buffer;
+	const char* m_contents_buffer;
 	s_file_reference* m_contents_file;
 	uns32 m_contents_length;
 	int32 m_start_position;
@@ -74,13 +74,13 @@ public:
 	virtual bool at_end() = 0;
 	virtual bool reset();
 
-	void add_header(char const* key, char const* value);
+	void add_header(const char* key, const char* value);
 	void clear_headers();
-	void set_headers(char const* headers);
+	void set_headers(const char* headers);
 	void set_position(int32 position);
 	int32 get_position();
-	void set_url(char const* url);
-	char const* get_url() const;
+	void set_url(const char* url);
+	const char* get_url() const;
 
 protected:
 	c_static_string<k_url_size> m_url;
@@ -118,7 +118,7 @@ private:
 public:
 	c_http_post_stream();
 
-	void set_source(c_http_post_source const* source);
+	void set_source(const c_http_post_source* source);
 
 protected:
 	virtual void build_headers() override;

@@ -17,8 +17,8 @@ extern int32 __cdecl async_close_file_no_stfs_flush(
 	c_synchronized_long* done);
 extern e_async_completion __cdecl async_copy_file_callback(s_async_task* task);
 extern int32 __cdecl async_copy_file_from_existing_file(
-	wchar_t const* source_file,
-	wchar_t const* destination_file,
+	const wchar_t* source_file,
+	const wchar_t* destination_file,
 	void* copy_buffer,
 	uns32 copy_buffer_size,
 	e_async_category category,
@@ -39,7 +39,7 @@ extern int32 __cdecl async_copy_position(
 	c_synchronized_long* done);
 extern e_async_completion __cdecl async_copy_position_callback(s_async_task* task);
 int32 __cdecl async_create_file(
-	wchar_t const* file_name,
+	const wchar_t* file_name,
 	uns32 flags1,
 	int32 file_open_disposition,
 	uns32 flags2,
@@ -49,7 +49,7 @@ int32 __cdecl async_create_file(
 	c_synchronized_long* done);
 extern e_async_completion __cdecl async_create_file_callback(s_async_task* task);
 void __cdecl async_create_file_task_initialize(
-	wchar_t const* file_name,
+	const wchar_t* file_name,
 	uns32 flags1,
 	int32 file_open_disposition,
 	uns32 flags2,
@@ -73,7 +73,7 @@ extern int32 __cdecl async_get_file_size(
 extern e_async_completion __cdecl async_nuke_file_callback(s_async_task* task);
 extern int32 __cdecl async_queue_simple_callback(
 	e_async_completion(__cdecl* callback)(s_async_task* task, void* data, int32 data_size),
-	void const* data,
+	const void* data,
 	int32 data_size,
 	e_async_priority priority,
 	c_synchronized_long* done);

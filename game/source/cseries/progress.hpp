@@ -4,9 +4,9 @@
 
 struct progress_callbacks
 {
-	void(__cdecl* progress_new_proc)(char const*, void*);
-	void(__cdecl* progress_update_proc)(char const*, char const*, int32, void*);
-	void(__cdecl* progress_done_proc)(char const*, void*);
+	void(__cdecl* progress_new_proc)(const char*, void*);
+	void(__cdecl* progress_update_proc)(const char*, const char*, int32, void*);
+	void(__cdecl* progress_done_proc)(const char*, void*);
 	void* progress_data;
 };
 
@@ -28,9 +28,9 @@ extern s_progress_globals& progress_globals;
 
 extern void __cdecl progress_disable_callbacks(bool disable_callbacks);
 extern void __cdecl progress_done();
-extern void __cdecl progress_new(char const* description);
-extern void __cdecl progress_set_custom_callbacks(progress_callbacks const* callbacks);
-extern void __cdecl progress_set_default_callbacks(progress_callbacks const* callbacks);
+extern void __cdecl progress_new(const char* description);
+extern void __cdecl progress_set_custom_callbacks(const progress_callbacks* callbacks);
+extern void __cdecl progress_set_default_callbacks(const progress_callbacks* callbacks);
 extern int32 __cdecl progress_update(int32 current_amount, int32 total_amount);
-extern int32 __cdecl progress_update_with_description(int32 current_amount, int32 total_amount, char const* optional_description);
+extern int32 __cdecl progress_update_with_description(int32 current_amount, int32 total_amount, const char* optional_description);
 

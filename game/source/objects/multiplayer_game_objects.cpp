@@ -21,7 +21,7 @@ bool __cdecl editor_should_render_transparent_geometry_for_multiplayer_object_re
 }
 HOOK_DECLARE_CALL(0x006E5025, editor_should_render_transparent_geometry_for_multiplayer_object_render_debug_boundary);
 
-void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_boundary_geometry_data const* geometry_data, real_argb_color const* color)
+void __cdecl multiplayer_object_render_debug_boundary(const s_multiplayer_object_boundary_geometry_data* geometry_data, const real_argb_color* color)
 {
 	// requires `game_in_editor` and `editor_should_render_transparent_geometry` to return true
 
@@ -81,12 +81,12 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 	}
 }
 
-//.text:00BA0FC0 ; void __cdecl multiplayer_object_submit_boundary(s_multiplayer_object_boundary_geometry_data const*, real_argb_color const*, int32)
-//.text:00BA10B0 ; bool __cdecl player_in_multiplayer_object_boundary(int32, s_multiplayer_object_boundary_geometry_data const*)
-//.text:00BA11F0 ; bool __cdecl point_in_multiplayer_object_boundary(real_point3d const*, s_multiplayer_object_boundary_geometry_data const*)
-//.text:00BA1310 ; bool __cdecl point_in_multiplayer_object_box_boundary(real_point3d const*, s_multiplayer_object_boundary_geometry_data const*)
-//.text:00BA1390 ; bool __cdecl point_in_multiplayer_object_cylinder_boundary(real_point3d const*, s_multiplayer_object_boundary_geometry_data const*)
-//.text:00BA1400 ; bool __cdecl point_in_multiplayer_object_sphere_boundary(real_point3d const*, s_multiplayer_object_boundary_geometry_data const*)
+//.text:00BA0FC0 ; void __cdecl multiplayer_object_submit_boundary(const s_multiplayer_object_boundary_geometry_data*, const real_argb_color*, int32)
+//.text:00BA10B0 ; bool __cdecl player_in_multiplayer_object_boundary(int32, const s_multiplayer_object_boundary_geometry_data*)
+//.text:00BA11F0 ; bool __cdecl point_in_multiplayer_object_boundary(const real_point3d*, const s_multiplayer_object_boundary_geometry_data*)
+//.text:00BA1310 ; bool __cdecl point_in_multiplayer_object_box_boundary(const real_point3d*, const s_multiplayer_object_boundary_geometry_data*)
+//.text:00BA1390 ; bool __cdecl point_in_multiplayer_object_cylinder_boundary(const real_point3d*, const s_multiplayer_object_boundary_geometry_data*)
+//.text:00BA1400 ; bool __cdecl point_in_multiplayer_object_sphere_boundary(const real_point3d*, const s_multiplayer_object_boundary_geometry_data*)
 
 void debug_multiplayer_object_boundary_geometry(bool should_debug)
 {

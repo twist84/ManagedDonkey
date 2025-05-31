@@ -15,13 +15,13 @@ public:
 	static void __cdecl create_effects(int32 vehicle_index);
 	void deplete_function_variables(int32 vehicle_index);
 	static bool __cdecl effected_by_vehicle_ceiling(int32 vehicle_index);
-	static real_vector3d const* __cdecl get_debug_magic_force_vector(int32 vehicle_index, real_point3d* origin);
+	static const real_vector3d* __cdecl get_debug_magic_force_vector(int32 vehicle_index, real_point3d* origin);
 	s_vehicle_engine* const get_engine(int32 vehicle_index);
 	bool is_e_braking(int32 vehicle_index);
 	bool is_stopped(int32 vehicle_index);
 	static bool __cdecl kills_riders_at_terminal_velocity(int32 vehicle_index);
 	static bool __cdecl physics_disabled(int32 vehicle_index);
-	void process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, render_model_definition const*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
+	void process_animation_channels(int32 vehicle_index, void(__cdecl* callback)(int32, const render_model_definition*, c_animation_channel*, real32, real32, real32, void*), void* user_data, c_animation_channel* channel, bool find_animations);
 	void reset(int32 vehicle_index);
 	bool should_override_deactivation(int32 vehicle_index);
 
@@ -36,7 +36,7 @@ private:
 
 public:
 	void update_physics(int32 vehicle_index, s_havok_vehicle_physics_instance* instance);
-	static bool __cdecl vector_is_upsides_down(int32 vehicle_index, real_vector3d const* vector);
+	static bool __cdecl vector_is_upsides_down(int32 vehicle_index, const real_vector3d* vector);
 
 protected:
 	s_vehicle_engine m_engine;

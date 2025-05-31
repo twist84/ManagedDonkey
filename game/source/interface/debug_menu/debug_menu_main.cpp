@@ -63,13 +63,13 @@ real_argb_color const instance_debug_real_argb_tv_magenta = { 1.0f,  0.7f, 0.05f
 real_argb_color const instance_debug_real_argb_tv_orange  = { 1.0f,  1.0f, 0.5f,  0.0f  };
 real_argb_color const instance_debug_real_argb_tv_green   = { 1.0f, 0.05f, 0.65f, 0.05f };
 
-real_argb_color const* const debug_real_argb_grey       = &instance_debug_real_argb_grey;
-real_argb_color const* const debug_real_argb_white      = &instance_debug_real_argb_white;
-real_argb_color const* const debug_real_argb_tv_white   = &instance_debug_real_argb_tv_white;
-real_argb_color const* const debug_real_argb_tv_blue    = &instance_debug_real_argb_tv_blue;
-real_argb_color const* const debug_real_argb_tv_magenta = &instance_debug_real_argb_tv_magenta;
-real_argb_color const* const debug_real_argb_tv_orange  = &instance_debug_real_argb_tv_orange;
-real_argb_color const* const debug_real_argb_tv_green   = &instance_debug_real_argb_tv_green;
+const real_argb_color* const debug_real_argb_grey       = &instance_debug_real_argb_grey;
+const real_argb_color* const debug_real_argb_white      = &instance_debug_real_argb_white;
+const real_argb_color* const debug_real_argb_tv_white   = &instance_debug_real_argb_tv_white;
+const real_argb_color* const debug_real_argb_tv_blue    = &instance_debug_real_argb_tv_blue;
+const real_argb_color* const debug_real_argb_tv_magenta = &instance_debug_real_argb_tv_magenta;
+const real_argb_color* const debug_real_argb_tv_orange  = &instance_debug_real_argb_tv_orange;
+const real_argb_color* const debug_real_argb_tv_green   = &instance_debug_real_argb_tv_green;
 
 bool debug_menu_enabled = true;
 s_debug_menu_globals g_debug_menu_globals = {};
@@ -78,7 +78,7 @@ bool g_debug_menu_rebuild_request = false;
 
 c_static_stack<int32, 262144> g_debug_menu_stack;
 
-void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, real_argb_color const* color)
+void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, const real_argb_color* color)
 {
 	point2d points[4]{};
 
@@ -141,7 +141,7 @@ void debug_menu_update_current_gamepad_state()
 	csmemset(&g_debug_menu_globals.m_current_gamepad, 0, sizeof(g_debug_menu_globals.m_current_gamepad));
 	for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
-		if (gamepad_state const* state = input_get_gamepad_state(static_cast<int16>(controller_index)))
+		if (const gamepad_state* state = input_get_gamepad_state(static_cast<int16>(controller_index)))
 			xor_buffers(&g_debug_menu_globals.m_current_gamepad, state, sizeof(gamepad_state));
 	}
 
@@ -154,7 +154,7 @@ void debug_menu_update()
 {
 	debug_menu_update_current_gamepad_state();
 
-	gamepad_state const& state = debug_menu_get_gamepad_state();
+	const gamepad_state& state = debug_menu_get_gamepad_state();
 	if (state.button_frames[_controller_button_left_stick])
 	{
 		g_debug_menu_globals.m_do_render = false;
@@ -248,12 +248,12 @@ void render_debug_debug_menu()
 	}
 }
 
-gamepad_state const& debug_menu_get_gamepad_state()
+const gamepad_state& debug_menu_get_gamepad_state()
 {
 	return g_debug_menu_globals.m_current_gamepad;
 }
 
-gamepad_state const& debug_menu_get_last_gamepad_state()
+const gamepad_state& debug_menu_get_last_gamepad_state()
 {
 	return g_debug_menu_globals.m_last_gamepad;
 }
@@ -328,14 +328,14 @@ void debug_menu_set_active_menu(c_debug_menu* active_menu, bool dont_open)
 		debug_menu_set_caption(caption_index, "");
 }
 
-void debug_menu_set_caption(int16 caption_index, char const* caption)
+void debug_menu_set_caption(int16 caption_index, const char* caption)
 {
 	ASSERT(caption_index >= 0 && caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS);
 
 	csstrnzcpy(g_debug_menu_globals.m_caption[caption_index], caption, sizeof(*g_debug_menu_globals.m_caption));
 }
 
-char const* debug_menu_get_caption(int16 caption_index)
+const char* debug_menu_get_caption(int16 caption_index)
 {
 	ASSERT(caption_index >= 0 && caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS);
 
@@ -356,9 +356,9 @@ void* debug_menu_malloc(int32 size)
 	return result;
 }
 
-void xor_buffers(void* dest, void const* source, int32 count)
+void xor_buffers(void* dest, const void* source, int32 count)
 {
 	for (int32 i = 0; i < count; i++)
-		((byte*)dest)[i] ^= ((byte const*)source)[i];
+		((byte*)dest)[i] ^= ((const byte*)source)[i];
 }
 

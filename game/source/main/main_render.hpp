@@ -12,14 +12,14 @@ public:
 	int32 get_window_count() const;
 	int32 get_window_arrangement() const;
 	int32 get_output_user_index() const;
-	s_observer_result const* get_observer_result() const;
+	const s_observer_result* get_observer_result() const;
 
 protected:
 	int32 m_window_count;
 	int32 m_window_arrangement;
 	int32 m_next;
 	int32 m_output_user_index;
-	s_observer_result const* m_current_observer_result;
+	const s_observer_result* m_current_observer_result;
 };
 static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
 
@@ -32,7 +32,7 @@ struct s_render_fullscreen_text_context_colors
 
 struct s_render_fullscreen_text_context
 {
-	char const* string;
+	const char* string;
 	real_rgb_color* text_color;
 	real_rgb_color* shadow_color;
 	real32 font_scale;
@@ -56,7 +56,7 @@ extern void __cdecl main_render_game();
 extern void __cdecl game_engine_render_window_watermarks(int32 user_index);
 extern void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_index controller_index);
 extern void __cdecl game_engine_render_frame_watermarks(bool pregame);
-extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame, char const* pregame_frame_text);
+extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame, const char* pregame_frame_text);
 extern void __cdecl main_render_pregame_loading_screen();
 extern void __cdecl sub_604A20();
 extern void __cdecl main_render_process_messages();
@@ -64,7 +64,7 @@ extern void __cdecl main_render_purge_pending_messages();
 extern void __cdecl main_render_sapien();
 extern void __cdecl main_render_sub_604AD0();
 extern void __cdecl main_render_start_blocking_frame();
-extern void __cdecl main_render_status_message(wchar_t const* loading_status);
+extern void __cdecl main_render_status_message(const wchar_t* loading_status);
 extern void __cdecl main_render_update_loading_screen();
 extern void __cdecl main_render_view(c_player_view* player_view, int32 player_index);
 

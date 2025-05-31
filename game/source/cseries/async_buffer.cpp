@@ -194,7 +194,7 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 	//}
 }
 
-int32 c_async_buffer_set::consume_bytes(void const* source, int32 bytes_to_consume)
+int32 c_async_buffer_set::consume_bytes(const void* source, int32 bytes_to_consume)
 {
 	return INVOKE_CLASS_MEMBER(0x005AE440, c_async_buffer_set, consume_bytes, source, bytes_to_consume);
 
@@ -354,7 +354,7 @@ bool c_async_buffer_set::is_data_waiting()
 	//return async_usable() && (ready_to_read() || ready_to_write()) && get_buffer(m_buffer_index)->data_size > 0;
 }
 
-bool c_async_buffer_set::open_file(wchar_t const* file_path, e_async_buffer_file_access file_access, e_async_buffer_disposition disposition)
+bool c_async_buffer_set::open_file(const wchar_t* file_path, e_async_buffer_file_access file_access, e_async_buffer_disposition disposition)
 {
 	return INVOKE_CLASS_MEMBER(0x005AE980, c_async_buffer_set, open_file, file_path, file_access, disposition);
 
@@ -471,7 +471,7 @@ void c_async_buffer_set::use_external_storage(char** buffers, int32 buffer_count
 	//}
 }
 
-void c_async_buffer_set::write(void const* source, int32 bytes_to_write, int32* byte_written)
+void c_async_buffer_set::write(const void* source, int32 bytes_to_write, int32* byte_written)
 {
 	INVOKE_CLASS_MEMBER(0x005AF2A0, c_async_buffer_set, write, source, bytes_to_write, byte_written);
 

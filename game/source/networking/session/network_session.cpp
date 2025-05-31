@@ -10,7 +10,7 @@
 #include "networking/session/network_managed_session.hpp"
 #include "networking/session/network_observer.hpp"
 
-bool __fastcall network_session_peer_request_player_desired_properties_update(c_network_session* _this, void* usused, int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice)
+bool __fastcall network_session_peer_request_player_desired_properties_update(c_network_session* _this, void* usused, int32 player_update_number, e_controller_index controller_index, const s_player_configuration_from_client* player_data_from_client, uns32 player_voice)
 {
 	return _this->peer_request_player_desired_properties_update(player_update_number, controller_index, player_data_from_client, player_voice);
 }
@@ -99,7 +99,7 @@ void c_network_session::force_disconnect()
 	INVOKE_CLASS_MEMBER(0x0045BE20, c_network_session, force_disconnect);
 }
 
-bool c_network_session::force_disconnect_peer(s_transport_secure_address const* peer_secure_address)
+bool c_network_session::force_disconnect_peer(const s_transport_secure_address* peer_secure_address)
 {
 	return INVOKE_CLASS_MEMBER(0x0045BE80, c_network_session, force_disconnect_peer, peer_secure_address);
 }
@@ -116,7 +116,7 @@ int32 c_network_session::get_peer_observer_channel(int32 peer_index) const
 	return NONE;
 }
 
-c_network_session_membership const* c_network_session::get_session_membership() const
+const c_network_session_membership* c_network_session::get_session_membership() const
 {
 	return INVOKE_CLASS_MEMBER(0x0045C250, c_network_session, get_session_membership);
 
@@ -141,7 +141,7 @@ c_network_session_membership* c_network_session::get_session_membership_for_upda
 	return &m_session_membership;
 }
 
-c_network_session_membership const* c_network_session::get_session_membership_unsafe() const
+const c_network_session_membership* c_network_session::get_session_membership_unsafe() const
 {
 	//return INVOKE_CLASS_MEMBER(0x0045C270, c_network_session, get_session_membership_unsafe);
 
@@ -171,16 +171,16 @@ c_network_session_parameters* c_network_session::get_session_parameters()
 	return &m_session_parameters;
 }
 
-c_network_session_parameters const* c_network_session::get_session_parameters() const
+const c_network_session_parameters* c_network_session::get_session_parameters() const
 {
-	//return DECLFUNC(0x0045C2B0, c_network_session_parameters const*, __thiscall, c_network_session const*)(this);
+	//return DECLFUNC(0x0045C2B0, const c_network_session_parameters*, __thiscall, const c_network_session*)(this);
 
 	return &m_session_parameters;
 }
 
-char const* c_network_session::get_type_string(e_network_session_type type)
+const char* c_network_session::get_type_string(e_network_session_type type)
 {
-	static char const* const type_names[k_network_session_type_count]
+	static const char* const type_names[k_network_session_type_count]
 	{
 		"none",
 		"squad",
@@ -193,9 +193,9 @@ char const* c_network_session::get_type_string(e_network_session_type type)
 	return "<unknown>";
 }
 
-char const* __cdecl c_network_session::get_class_string(e_network_session_class session_class)
+const char* __cdecl c_network_session::get_class_string(e_network_session_class session_class)
 {
-	static char const* const session_class_names[k_network_session_class_count]
+	static const char* const session_class_names[k_network_session_class_count]
 	{
 		"offline",
 		"system-link",
@@ -208,9 +208,9 @@ char const* __cdecl c_network_session::get_class_string(e_network_session_class 
 	return "<unknown>";
 }
 
-char const* c_network_session::get_state_string() const
+const char* c_network_session::get_state_string() const
 {
-	static char const* const state_names[k_network_session_state_count]
+	static const char* const state_names[k_network_session_state_count]
 	{
 		"none",
 		"peer-creating",
@@ -232,9 +232,9 @@ char const* c_network_session::get_state_string() const
 	return state_names[current_state];
 }
 
-char const* c_network_session::get_mode_string() const
+const char* c_network_session::get_mode_string() const
 {
-	static char const* const mode_names[k_network_session_mode_count]
+	static const char* const mode_names[k_network_session_mode_count]
 	{
 		"none"
 		"idle"
@@ -390,7 +390,7 @@ bool c_network_session::host_boot_machine(int32 peer_index, e_network_session_bo
 	//return false;
 }
 
-void c_network_session::host_connection_refused(transport_address const* address, e_network_join_refuse_reason refuse_reason)
+void c_network_session::host_connection_refused(const transport_address* address, e_network_join_refuse_reason refuse_reason)
 {
 	INVOKE_CLASS_MEMBER(0x0045C530, c_network_session, host_connection_refused, address, refuse_reason);
 
@@ -422,7 +422,7 @@ bool c_network_session::host_established() const
 	//return current_local_state() == _network_session_state_host_established;
 }
 
-bool c_network_session::host_set_player_current_properties(int32 player_index, struct s_player_configuration const* player_data)
+bool c_network_session::host_set_player_current_properties(int32 player_index, const s_player_configuration* player_data)
 {
 	return INVOKE_CLASS_MEMBER(0x0045C5D0, c_network_session, host_set_player_current_properties, player_index, player_data);
 
@@ -471,7 +471,7 @@ bool c_network_session::is_peer_joining_this_session() const
 
 	//if (established())
 	//{
-	//	c_network_session_membership const* session_membership = get_session_membership();
+	//	const c_network_session_membership* session_membership = get_session_membership();
 	//	for (int32 peer_index = session_membership->get_first_peer(); peer_index != NONE; peer_index = session_membership->get_next_peer(peer_index))
 	//	{
 	//		if (peer_index != session_membership->local_peer_index() && session_membership->get_peer_connection_state(peer_index) != _network_session_peer_state_established)
@@ -482,22 +482,22 @@ bool c_network_session::is_peer_joining_this_session() const
 	//return false;
 }
 
-bool c_network_session::join_abort(transport_address const* incoming_address, uns64 join_nonce)
+bool c_network_session::join_abort(const transport_address* incoming_address, uns64 join_nonce)
 {
 	return INVOKE_CLASS_MEMBER(0x0045CC80, c_network_session, join_abort, incoming_address, join_nonce);
 }
 
-bool c_network_session::join_abort_in_progress(transport_address const* address) const
+bool c_network_session::join_abort_in_progress(const transport_address* address) const
 {
 	return INVOKE_CLASS_MEMBER(0x0045CCD0, c_network_session, join_abort_in_progress, address);
 }
 
-void c_network_session::join_abort_successful(transport_address const* address)
+void c_network_session::join_abort_successful(const transport_address* address)
 {
 	return INVOKE_CLASS_MEMBER(0x0045CD00, c_network_session, join_abort_successful, address);
 }
 
-void c_network_session::join_accept(s_network_session_join_request const* join_request, transport_address const* address)
+void c_network_session::join_accept(const s_network_session_join_request* join_request, const transport_address* address)
 {
 	return INVOKE_CLASS_MEMBER(0x0045CDA0, c_network_session, join_accept, join_request, address);
 }
@@ -509,12 +509,12 @@ bool c_network_session::join_allowed_by_privacy() const
 
 //.text:0045D1E0 ; c_network_session::join_remote_session
 
-bool c_network_session::leader_request_boot_machine(s_transport_secure_address const* boot_peer_address, e_network_session_boot_reason boot_reason)
+bool c_network_session::leader_request_boot_machine(const s_transport_secure_address* boot_peer_address, e_network_session_boot_reason boot_reason)
 {
 	return INVOKE_CLASS_MEMBER(0x0045D4A0, c_network_session, leader_request_boot_machine, boot_peer_address, boot_reason);
 }
 
-bool c_network_session::leader_request_delegate_leadership(s_transport_secure_address const* leader_address)
+bool c_network_session::leader_request_delegate_leadership(const s_transport_secure_address* leader_address)
 {
 	return INVOKE_CLASS_MEMBER(0x0045D600, c_network_session, leader_request_delegate_leadership, leader_address);
 }
@@ -549,10 +549,10 @@ void c_network_session::leave_session()
 //.text:0045D8C0 ; virtual void c_network_session::notify_channel_connection(int32, uns32, bool)
 //.text:0045D9E0 ; virtual void c_network_session::notify_channel_died(int32)
 //.text:0045D9F0 ; bool c_network_session::observing_channel(int32) const
-//.text:0045DA10 ; void c_network_session::peer_complete_player_add(int32, s_player_identifier const*)
-//.text:0045DA50 ; bool c_network_session::peer_is_member(s_transport_secure_address const*) const
-//.text:0045DA70 ; void c_network_session::peer_request_player_add(int32, s_player_identifier const*, int32, e_controller_index, s_player_configuration_from_client const*, uns32)
-//.text:0045DCC0 ; e_network_join_refuse_reason c_network_session::peer_request_player_add_status(int32, s_player_identifier const*)
+//.text:0045DA10 ; void c_network_session::peer_complete_player_add(int32, const s_player_identifier*)
+//.text:0045DA50 ; bool c_network_session::peer_is_member(const s_transport_secure_address*) const
+//.text:0045DA70 ; void c_network_session::peer_request_player_add(int32, const s_player_identifier*, int32, e_controller_index, const s_player_configuration_from_client*, uns32)
+//.text:0045DCC0 ; e_network_join_refuse_reason c_network_session::peer_request_player_add_status(int32, const s_player_identifier*)
 
 // custom function for `c_network_session::peer_request_player_desired_properties_update`
 void update_player_data(s_player_configuration_for_player_properties* player_data)
@@ -570,7 +570,7 @@ void update_player_data(s_player_configuration_for_player_properties* player_dat
 	player_data->host_partial.emblem = player_profile.get_emblem_info();
 }
 
-bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, uns32 player_voice_settings)
+bool c_network_session::peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, const s_player_configuration_from_client* player_data_from_client, uns32 player_voice_settings)
 {
 	//return INVOKE_CLASS_MEMBER(0x0045DD20, c_network_session, peer_request_player_desired_properties_update, player_update_number, controller_index, player_data_from_client, player_voice_settings);
 
@@ -632,8 +632,8 @@ bool c_network_session::peer_request_player_desired_properties_update(int32 play
 }
 
 //.text:0045DEB0 ; bool c_network_session::peer_request_player_remove(int32)
-//.text:0045DFE0 ; bool c_network_session::peer_request_properties_update(s_transport_secure_address const*, s_network_session_peer_properties const*)
-//.text:0045E110 ; bool c_network_session::player_is_member(s_player_identifier const*) const
+//.text:0045DFE0 ; bool c_network_session::peer_request_properties_update(const s_transport_secure_address*, const s_network_session_peer_properties*)
+//.text:0045E110 ; bool c_network_session::player_is_member(const s_player_identifier*) const
 //.text:0045E130 ; 
 //.text:0045E140 ; void c_network_session::process_pending_joins()
 
@@ -647,8 +647,8 @@ e_network_session_class c_network_session::session_class() const
 //.text:0045E920 ; bool c_network_session::ready_for_remote_peers_to_join() const
 //.text:0045EA40 ; void c_network_session::reset_connection_state()
 //.text:0045EA70 ; void c_network_session::reset_local_host_state(bool)
-//.text:0045EAA0 ; void c_network_session::send_message_to_all_peers(c_network_session::e_session_message_transmission_type, e_network_message_type, int32, void const*) const
-//.text:0045EB50 ; void c_network_session::send_message_to_peer(c_network_session::e_session_message_transmission_type, int32, e_network_message_type, int32, void const*) const
+//.text:0045EAA0 ; void c_network_session::send_message_to_all_peers(c_network_session::e_session_message_transmission_type, e_network_message_type, int32, const void*) const
+//.text:0045EB50 ; void c_network_session::send_message_to_peer(c_network_session::e_session_message_transmission_type, int32, e_network_message_type, int32, const void*) const
 //.text:0045EBD0 ; bool c_network_session::session_is_full(int32, int32) const
 //.text:0045EC20 ; e_network_session_mode c_network_session::session_mode() const
 //.text:0045ED30 ; void c_network_session::set_default_session_parameters()
@@ -659,7 +659,7 @@ e_network_session_class c_network_session::session_class() const
 //.text:0045EFE0 ; void c_network_session::time_release()
 //.text:0045EFF0 ; void c_network_session::time_set(int32)
 
-bool c_network_session::waiting_for_host_connection(transport_address const* address) const
+bool c_network_session::waiting_for_host_connection(const transport_address* address) const
 {
 	return INVOKE_CLASS_MEMBER(0x0045F030, c_network_session, waiting_for_host_connection, address);
 }
@@ -672,47 +672,47 @@ void c_network_session::leave_session_and_disconnect()
 	INVOKE_CLASS_MEMBER(0x0047DC40, c_network_session, leave_session_and_disconnect);
 }
 
-bool c_network_session::handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message)
+bool c_network_session::handle_boot_machine(c_network_channel* channel, const s_network_message_boot_machine* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA040, c_network_session, handle_boot_machine, channel, message);
 }
 
-bool c_network_session::handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message)
+bool c_network_session::handle_delegate_leadership(c_network_channel* channel, const s_network_message_delegate_leadership* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA1B0, c_network_session, handle_delegate_leadership, channel, message);
 }
 
-bool c_network_session::handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message)
+bool c_network_session::handle_host_decline(c_network_channel* channel, const s_network_message_host_decline* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA300, c_network_session, handle_host_decline, channel, message);
 }
 
-bool c_network_session::handle_join_request(transport_address const* address, s_network_message_join_request const* message)
+bool c_network_session::handle_join_request(const transport_address* address, const s_network_message_join_request* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA410, c_network_session, handle_join_request, address, message);
 }
 
-void c_network_session::handle_leave_acknowledgement(transport_address const* address)
+void c_network_session::handle_leave_acknowledgement(const transport_address* address)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA540, c_network_session, handle_leave_acknowledgement, address);
 }
 
-bool c_network_session::handle_leave_request(transport_address const* address)
+bool c_network_session::handle_leave_request(const transport_address* address)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA5F0, c_network_session, handle_leave_request, address);
 }
 
-bool c_network_session::handle_membership_update(s_network_message_membership_update const* message)
+bool c_network_session::handle_membership_update(const s_network_message_membership_update* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA680, c_network_session, handle_membership_update, message);
 }
 
-bool c_network_session::handle_parameters_request(c_network_channel* channel, s_network_message_parameters_request const* message)
+bool c_network_session::handle_parameters_request(c_network_channel* channel, const s_network_message_parameters_request* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA690, c_network_session, handle_parameters_request, channel, message);
 }
 
-bool c_network_session::handle_parameters_update(s_network_message_parameters_update const* message)
+bool c_network_session::handle_parameters_update(const s_network_message_parameters_update* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DA770, c_network_session, handle_parameters_update, message);
 
@@ -755,27 +755,27 @@ bool c_network_session::handle_parameters_update(s_network_message_parameters_up
 	//return false;
 }
 
-void c_network_session::handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message)
+void c_network_session::handle_peer_connect(const transport_address* address, const s_network_message_peer_connect* message)
 {
 	INVOKE_CLASS_MEMBER(0x004DA870, c_network_session, handle_peer_connect, address, message);
 }
 
-bool c_network_session::handle_peer_establish(c_network_channel* channel, s_network_message_peer_establish const* message)
+bool c_network_session::handle_peer_establish(c_network_channel* channel, const s_network_message_peer_establish* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DAAB0, c_network_session, handle_peer_establish, channel, message);
 }
 
-bool c_network_session::handle_peer_properties(c_network_channel* channel, s_network_message_peer_properties const* message)
+bool c_network_session::handle_peer_properties(c_network_channel* channel, const s_network_message_peer_properties* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DAC30, c_network_session, handle_peer_properties, channel, message);
 }
 
-bool c_network_session::handle_player_add(c_network_channel* channel, s_network_message_player_add const* message)
+bool c_network_session::handle_player_add(c_network_channel* channel, const s_network_message_player_add* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DAD20, c_network_session, handle_player_add, channel, message);
 }
 
-bool c_network_session::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
+bool c_network_session::handle_player_properties(c_network_channel* channel, const s_network_message_player_properties* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x004DAEC0, c_network_session, handle_player_properties, channel, message);
 
@@ -830,27 +830,27 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, s_n
 	return false;
 }
 
-bool c_network_session::handle_player_refuse(c_network_channel* channel, s_network_message_player_refuse const* message)
+bool c_network_session::handle_player_refuse(c_network_channel* channel, const s_network_message_player_refuse* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DB000, c_network_session, handle_player_refuse, channel, message);
 }
 
-bool c_network_session::handle_player_remove(c_network_channel* channel, s_network_message_player_remove const* message)
+bool c_network_session::handle_player_remove(c_network_channel* channel, const s_network_message_player_remove* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DB0E0, c_network_session, handle_player_remove, channel, message);
 }
 
-bool c_network_session::handle_session_boot(transport_address const* address, s_network_message_session_boot const* message)
+bool c_network_session::handle_session_boot(const transport_address* address, const s_network_message_session_boot* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DB200, c_network_session, handle_session_boot, address, message);
 }
 
-bool c_network_session::handle_session_disband(transport_address const* address, s_network_message_session_disband const* message)
+bool c_network_session::handle_session_disband(const transport_address* address, const s_network_message_session_disband* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DB2B0, c_network_session, handle_session_disband, address, message);
 }
 
-bool c_network_session::handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message)
+bool c_network_session::handle_time_synchronize(const transport_address* address, const s_network_message_time_synchronize* message)
 {
 	return INVOKE_CLASS_MEMBER(0x004DB340, c_network_session, handle_time_synchronize, address, message);
 }

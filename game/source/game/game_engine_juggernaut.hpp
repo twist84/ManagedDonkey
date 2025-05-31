@@ -20,8 +20,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_juggernaut_variant const* variant, bool force);
-	//void set(s_game_engine_juggernaut_variant_definition const* definition, bool force);
+	void set(const c_game_engine_juggernaut_variant* variant, bool force);
+	//void set(const s_game_engine_juggernaut_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -72,8 +72,8 @@ public:
 	void set_juggernaut_delay(uns8 juggernaut_delay);
 
 	c_player_traits* get_juggernaut_traits_writeable();
-	c_player_traits const* get_juggernaut_traits() const;
-	void set_juggernaut_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_juggernaut_traits() const;
+	void set_juggernaut_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_enum<int32, int16, 0, 500> m_score_to_win_round;         // default: 15

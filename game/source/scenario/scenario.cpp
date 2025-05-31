@@ -163,7 +163,7 @@ s_structure_design* global_structure_design_get(int32 structure_bsp_index)
 	return INVOKE(0x004E97D0, global_structure_design_get, structure_bsp_index);
 }
 
-//.text:004E9800 ; s_structure_seams const* __cdecl global_structure_seams_get()
+//.text:004E9800 ; const s_structure_seams* __cdecl global_structure_seams_get()
 //.text:004E9810 ; 
 //.text:004E9820 ; lowest_bit_set?
 //.text:004E9850 ; 
@@ -200,20 +200,20 @@ bool __cdecl scenario_activate_initial_zone_set(int32 zone_set_index)
 
 //.text:004E99C0 ; 
 //.text:004E99D0 ; 
-//.text:004E99E0 ; bool __cdecl scenario_attach_game_to_new_non_bsp_zones(s_scenario_zone_change const*)
+//.text:004E99E0 ; bool __cdecl scenario_attach_game_to_new_non_bsp_zones(const s_scenario_zone_change*)
 //.text:004E9A70 ; int32 __cdecl scenario_budget_resource_get_looping_sound_reference(int32)
 //.text:004E9A90 ; int32 __cdecl scenario_budget_resource_get_model_animation_graph_reference(int32)
 //.text:004E9AB0 ; int32 __cdecl scenario_budget_resource_get_sound_reference(int32)
 //.text:004E9AD0 ; 
 //.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(int32, int32)
-//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(int32, real_point3d const*)
+//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(int32, const real_point3d*)
 
-s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point)
+s_cluster_reference __cdecl scenario_cluster_reference_from_point(const real_point3d* point)
 {
 	return INVOKE(0x004E9BD0, scenario_cluster_reference_from_point, point);
 }
 
-//.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(s_cluster_reference const*)
+//.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(const s_cluster_reference*)
 
 bool __cdecl scenario_connect_game_to_new_bsps(uns32 game_structure_bsp_mask, uns32 new_structure_bsp_mask)
 {
@@ -275,7 +275,7 @@ bool __cdecl scenario_connect_zone_set_resources(
 
 //.text:004E9D90 ; bool __cdecl scenario_couple_structure_objects_to_structure()
 //.text:004E9DA0 ; void __cdecl scenario_deactivate_all_zones_for_cache_builder()
-//.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(uns32, uns32, s_scenario_zone_change const*, bool)
+//.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(uns32, uns32, const s_scenario_zone_change*, bool)
 
 void __cdecl scenario_disconnect_from_old_zone_set(uns32 loaded_structure_bsp_mask, uns32 new_structure_bsp_mask)
 {
@@ -335,10 +335,10 @@ void __cdecl scenario_frame_update(real32 game_seconds_elapsed)
 }
 
 //.text:004EA100 ; void __cdecl scenario_game_state_grab_global_state(s_scenario_game_state*)
-//.text:004EA140 ; bool __cdecl scenario_game_state_matches_global_state(s_scenario_game_state const*)
-//.text:004EA1A0 ; bool __cdecl scenario_game_states_match(s_scenario_game_state const*, s_scenario_game_state const*)
+//.text:004EA140 ; bool __cdecl scenario_game_state_matches_global_state(const s_scenario_game_state*)
+//.text:004EA1A0 ; bool __cdecl scenario_game_states_match(const s_scenario_game_state*, const s_scenario_game_state*)
 
-char const* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic_zone_mask, char* cinematic_zone_string, uns32 cinematic_zone_string_size)
+const char* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic_zone_mask, char* cinematic_zone_string, uns32 cinematic_zone_string_size)
 {
 	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
 
@@ -349,7 +349,7 @@ char const* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic
 	{
 		if (TEST_BIT(cinematic_zone_mask, cinematic_zone_index))
 		{
-			if (char const* cinematic_zone_name = scenario_get_cinematic_zone_name(scenario, cinematic_zone_index))
+			if (const char* cinematic_zone_name = scenario_get_cinematic_zone_name(scenario, cinematic_zone_index))
 			{
 				if (!first_cinematic)
 					csstrnzcat(cinematic_zone_string, ", ", cinematic_zone_string_size);
@@ -362,7 +362,7 @@ char const* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic
 	return cinematic_zone_string;
 }
 
-int32 __cdecl scenario_get_designer_zone_index_by_name(struct scenario const* scenario, char const* name)
+int32 __cdecl scenario_get_designer_zone_index_by_name(const struct scenario* scenario, const char* name)
 {
 	string_id retrieved_string_id = string_id_retrieve(name);
 	if (retrieved_string_id != NONE)
@@ -378,7 +378,7 @@ int32 __cdecl scenario_get_designer_zone_index_by_name(struct scenario const* sc
 	return NONE;
 }
 
-char const* __cdecl scenario_get_designer_zone_string_from_mask(uns32 designer_zone_mask, char* designer_zone_string, uns32 designer_zone_string_size)
+const char* __cdecl scenario_get_designer_zone_string_from_mask(uns32 designer_zone_mask, char* designer_zone_string, uns32 designer_zone_string_size)
 {
 	csnzprintf(designer_zone_string, designer_zone_string_size, "");
 
@@ -389,7 +389,7 @@ char const* __cdecl scenario_get_designer_zone_string_from_mask(uns32 designer_z
 	{
 		if (TEST_BIT(designer_zone_mask, designer_zone_index))
 		{
-			if (char const* designer_zone_name = scenario_get_designer_zone_name(scenario, designer_zone_index))
+			if (const char* designer_zone_name = scenario_get_designer_zone_name(scenario, designer_zone_index))
 			{
 				if (!first_designer_zone)
 					csstrnzcat(designer_zone_string, ", ", designer_zone_string_size);
@@ -413,12 +413,12 @@ void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_s
 	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
 }
 
-char const* __cdecl scenario_get_structure_bsp_name(int32 structure_bsp_index)
+const char* __cdecl scenario_get_structure_bsp_name(int32 structure_bsp_index)
 {
 	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
 }
 
-char const* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_bsp_mask, char* structure_bsp_string, uns32 structure_bsp_string_size)
+const char* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_bsp_mask, char* structure_bsp_string, uns32 structure_bsp_string_size)
 {
 	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
 
@@ -429,7 +429,7 @@ char const* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_
 	{
 		if (TEST_BIT(structure_bsp_mask, structure_bsp_index))
 		{
-			if (char const* structure_bsp_name = scenario_get_structure_bsp_name(structure_bsp_index))
+			if (const char* structure_bsp_name = scenario_get_structure_bsp_name(structure_bsp_index))
 			{
 				if (!first_structure_bsp)
 					csstrnzcat(structure_bsp_string, ", ", structure_bsp_string_size);
@@ -446,13 +446,13 @@ char const* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_
 //.text:004EA290 ; uns32 __cdecl scenario_get_touched_bsp_mask_internal()
 //.text:004EA2A0 ; uns32 __cdecl scenario_get_touched_cinematics_mask_internal()
 
-int32 __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
+int32 __cdecl scenario_get_zone_set_index_by_name(const struct scenario* scenario, const char* name, bool strip_path)
 {
 	for (int32 zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
 	{
 		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
 
-		char const* zone_set_name = zone_set.name.get_string();
+		const char* zone_set_name = zone_set.name.get_string();
 		if (strip_path)
 			zone_set_name = tag_name_strip_path(zone_set_name);
 
@@ -465,7 +465,7 @@ int32 __cdecl scenario_get_zone_set_index_by_name(struct scenario const* scenari
 
 //.text:004EA2B0 ; void __cdecl scenario_handle_tag_resource_lock(int32)
 //.text:004EA2C0 ; void __cdecl scenario_handle_tag_resource_unlock(int32)
-//.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, real_vector3d*, real_vector3d*, real_rgb_color*, real_rgb_color*)
+//.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(const real_point3d*, real_vector3d*, real_vector3d*, real_rgb_color*, real_rgb_color*)
 
 void __cdecl scenario_initialize()
 {
@@ -495,7 +495,7 @@ void __cdecl scenario_initialize_for_new_structure_bsp(uns32 activating_structur
 	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, activating_structure_bsp_mask);
 }
 
-//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(int32, s_structure_seams const*, uns32)
+//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(int32, const s_structure_seams*, uns32)
 //.text:004EA3A0 ; void __cdecl scenario_initialize_game_state(s_scenario_game_state*)
 
 void __cdecl scenario_invalidate()
@@ -526,12 +526,12 @@ void __cdecl scenario_language_pack_unload()
 	INVOKE(0x004EA4B0, scenario_language_pack_unload);
 }
 
-//.text:004EA4F0 ; int32 __cdecl scenario_leaf_index_from_point(int32, real_point3d const*)
-//.text:004EA540 ; int32 __cdecl scenario_leaf_index_from_point(real_point3d const*, int32*)
+//.text:004EA4F0 ; int32 __cdecl scenario_leaf_index_from_point(int32, const real_point3d*)
+//.text:004EA540 ; int32 __cdecl scenario_leaf_index_from_point(const real_point3d*, int32*)
 
 void on_scenario_loaded();
 
-bool __cdecl scenario_load(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
+bool __cdecl scenario_load(e_campaign_id campaign_id, e_map_id map_id, const char* scenario_path)
 {
 	//return INVOKE(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
 
@@ -582,7 +582,7 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 	scenario_load_resources_blocking_in_progress = true;
 
 	scenario_load_resources_blocking_watch.start();
-	
+
 	bool succeeded = false;
 	int32 failure_count = 0;
 	while (!succeeded && failure_count < 3)
@@ -592,7 +592,7 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 			cache_file_tag_resources_load_pending_resources_blocking(&io_result);
 		else
 			cache_file_tag_resources_load_required_resources_blocking(&io_result);
-	
+
 		if (io_result.check_success())
 		{
 			succeeded = true;
@@ -602,36 +602,36 @@ bool __cdecl scenario_load_resources_blocking(bool include_pending_in_blockingne
 			io_result.handle_failure();
 		}
 	}
-	
+
 	if (int64 blocking_cycles = scenario_load_resources_blocking_watch.stop())
 		status_printf("scenario_load_resources_blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
 
 	scenario_load_resources_blocking_in_progress = false;
-	
+
 	return succeeded;
 }
 
-//.text:004EA7D0 ; bool __cdecl scenario_location_deafening(s_location const*)
+//.text:004EA7D0 ; bool __cdecl scenario_location_deafening(const s_location*)
 //.text:004EA8C0 ; void __cdecl scenario_location_from_leaf(s_location*, int32, int32)
-//.text:004EA920 ; void __cdecl scenario_location_from_line(s_location*, s_location const*, real_point3d const*, real_point3d const*)
+//.text:004EA920 ; void __cdecl scenario_location_from_line(s_location*, const s_location*, const real_point3d*, const real_point3d*)
 
-void __cdecl scenario_location_from_point(s_location* location, real_point3d const* point)
+void __cdecl scenario_location_from_point(s_location* location, const real_point3d* point)
 {
 	INVOKE(0x004EA940, scenario_location_from_point, location, point);
 }
 
-//.text:004EAA40 ; bool __cdecl scenario_location_potentially_visible(s_location const*)
-//.text:004EAA80 ; bool __cdecl scenario_location_potentially_visible_local(s_location const*)
+//.text:004EAA40 ; bool __cdecl scenario_location_potentially_visible(const s_location*)
+//.text:004EAA80 ; bool __cdecl scenario_location_potentially_visible_local(const s_location*)
 //.text:004EAAC0 ; bool __cdecl scenario_location_valid(s_location)
 //.text:004EAAD0 ; 
-//.text:004EAE20 ; bool __cdecl scenario_modify_active_zones(s_scenario_zone_activation const*)
+//.text:004EAE20 ; bool __cdecl scenario_modify_active_zones(const s_scenario_zone_activation*)
 
-bool __cdecl scenario_modify_zone_activation_internal(int32 new_zone_set_index, uns32 old_structure_bsp_mask, uns32 new_structure_bsp_mask, uns32 new_touched_bsp_mask, s_scenario_zone_change const* non_bsp_zone_change, uns32 new_touched_cinematics_mask, bool unload_old_bsps)
+bool __cdecl scenario_modify_zone_activation_internal(int32 new_zone_set_index, uns32 old_structure_bsp_mask, uns32 new_structure_bsp_mask, uns32 new_touched_bsp_mask, const s_scenario_zone_change* non_bsp_zone_change, uns32 new_touched_cinematics_mask, bool unload_old_bsps)
 {
 	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, new_zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, new_touched_bsp_mask, non_bsp_zone_change, new_touched_cinematics_mask, unload_old_bsps);
 }
 
-int16 __cdecl scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
+int16 __cdecl scenario_object_name_index_from_string(struct scenario* scenario, const char* name)
 {
 	for (int16 object_name_index = 0; object_name_index < static_cast<int16>(global_scenario_get()->object_names.count); object_name_index++)
 	{
@@ -665,7 +665,7 @@ bool __cdecl scenario_preload_initial_zone_set(int16 initial_zone_set_index)
 	return true;
 }
 
-//.text:004EB300 ; bool __cdecl scenario_prepare_for_game_state_revert(s_scenario_game_state const* pending_game_state)
+//.text:004EB300 ; bool __cdecl scenario_prepare_for_game_state_revert(const s_scenario_game_state* pending_game_state)
 
 void __cdecl scenario_prepare_for_map_reset(int16 initial_zone_set_index)
 {
@@ -676,7 +676,7 @@ void __cdecl scenario_prepare_for_map_reset(int16 initial_zone_set_index)
 	zone_change.original_cinematic_zone_mask = game_get_active_cinematic_zone_mask();
 	zone_change.new_designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(initial_zone_set_index);
 	zone_change.new_cinematic_zone_mask = 0;
-	
+
 	if (!scenario_modify_zone_activation_internal(
 		initial_zone_set_index,
 		game_get_active_structure_bsp_mask(),
@@ -703,7 +703,7 @@ void __cdecl scenario_reset_zone_resources_from_main()
 }
 
 //.text:004EB4E0 ; bool __cdecl scenario_structure_bsp_load_runtime(int32, int16, s_tag_reference*)
-//.text:004EB4F0 ; int16 __cdecl scenario_structure_index_from_point(real_point3d const*)
+//.text:004EB4F0 ; int16 __cdecl scenario_structure_index_from_point(const real_point3d*)
 //.text:004EB550 ; bool __cdecl scenario_switch_to_designer_zone_mask(uns32)
 
 void __cdecl scenario_switch_to_null_zone_set()
@@ -776,21 +776,21 @@ bool __cdecl scenario_switch_zone_set_internal(int32 new_zone_set_index, bool un
 	//return succeeded;
 }
 
-char const* __cdecl scenario_tag_get_structure_bsp_name(int32 scenario_index, int32 structure_bsp_index)
+const char* __cdecl scenario_tag_get_structure_bsp_name(int32 scenario_index, int32 structure_bsp_index)
 {
 	struct scenario* scenario = TAG_GET(SCENARIO_TAG, struct scenario, scenario_index);
 	scenario_structure_bsp_reference& structure_bsp_reference = scenario->structure_bsp_references[structure_bsp_index];
 
-	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
+	const char* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
 	if (structure_bsp_name)
 	{
-		for (char const* i = csstrstr(structure_bsp_name, "\\"); i; i = csstrstr(i + 1, "\\"))
+		for (const char* i = csstrstr(structure_bsp_name, "\\"); i; i = csstrstr(i + 1, "\\"))
 			structure_bsp_name = i + 1;
 	}
 	return structure_bsp_name;
 }
 
-bool __cdecl scenario_tags_match(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
+bool __cdecl scenario_tags_match(e_campaign_id campaign_id, e_map_id map_id, const char* scenario_path)
 {
 	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
 
@@ -839,7 +839,7 @@ void __cdecl scenario_unload()
 //.text:004EBA00 ; bool __cdecl scenario_use_designer_zones()
 //.text:004EBA10 ; 
 
-void __cdecl scenario_zone_set_debug_status(char const* status, int32 zone_set_index)
+void __cdecl scenario_zone_set_debug_status(const char* status, int32 zone_set_index)
 {
 	ASSERT(status);
 
@@ -885,14 +885,14 @@ int32 __cdecl scenario_zone_set_name_get()
 	return INVOKE(0x004EBAF0, scenario_zone_set_name_get);
 }
 
-structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, int32 structure_bsp_index)
+const structure_bsp* __cdecl scenario_structure_bsp_get(const struct scenario* scenario, int32 structure_bsp_index)
 {
 	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
 }
 
-//.text:007662B0 ; int32 __cdecl scenario_structure_bsp_tag_index_get(struct scenario const*, int32)
-//.text:007662D0 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(scenario const*, int32, int32, int32)
-//.text:00766380 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(scenario const*, int32, int32, int32)
+//.text:007662B0 ; int32 __cdecl scenario_structure_bsp_tag_index_get(const struct scenario*, int32)
+//.text:007662D0 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(const struct scenario*, int32, int32, int32)
+//.text:00766380 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(const struct scenario*, int32, int32, int32)
 //.text:00766430 ; 
 //.text:00766470 ; 
 
@@ -902,7 +902,7 @@ if (scenario->zone_sets.count)\
 	c_console::write_line("    zone sets: %d", scenario->zone_sets.count);\
 	for (auto zone_set : scenario->zone_sets)\
 	{\
-		char const* name = zone_set.name.get_string();\
+		const char* name = zone_set.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -915,7 +915,7 @@ if (scenario->lighting_zone_sets.count)\
 	c_console::write_line("    lighting zone sets: %d", scenario->lighting_zone_sets.count);\
 	for (auto lighting_zone_set : scenario->lighting_zone_sets)\
 	{\
-		char const* name = lighting_zone_set.name.get_string();\
+		const char* name = lighting_zone_set.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -928,7 +928,7 @@ if (scenario->campaign_players.count)\
 	c_console::write_line("    campaign players: %d", scenario->campaign_players.count);\
 	for (auto campaign_player : scenario->campaign_players)\
 	{\
-		char const* name = campaign_player.name.get_string();\
+		const char* name = campaign_player.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -941,7 +941,7 @@ if (scenario->object_names.count)\
 	c_console::write_line("    object names: %d", scenario->object_names.count);\
 	for (auto object_name : scenario->object_names)\
 	{\
-		char const* name = object_name.name.get_string();\
+		const char* name = object_name.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -954,7 +954,7 @@ if (scenario->map_variant_##NAME##_palette.count)\
 	c_console::write_line("    %s palettes: %d", #NAME, scenario->map_variant_##NAME##_palette.count);\
 	for (auto palette : scenario->map_variant_##NAME##_palette)\
 	{\
-		char const* display_name = palette.display_name.get_string();\
+		const char* display_name = palette.display_name.get_string();\
 		if (display_name && *display_name)\
 			c_console::write_line("        display name: %s", display_name);\
 	}\
@@ -967,7 +967,7 @@ if (scenario->soft_ceilings.count)\
 	c_console::write_line("    soft ceilings: %d", scenario->soft_ceilings.count);\
 	for (auto soft_ceiling : scenario->soft_ceilings)\
 	{\
-		char const* name = soft_ceiling.name.get_string();\
+		const char* name = soft_ceiling.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -980,7 +980,7 @@ if (scenario->player_starting_profile.count)\
 	c_console::write_line("    player starting profiles: %d", scenario->player_starting_profile.count);\
 	for (auto profile : scenario->player_starting_profile)\
 	{\
-		char const* name = profile.name.get_string();\
+		const char* name = profile.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -993,7 +993,7 @@ if (scenario->trigger_volumes.count)\
 	c_console::write_line("    trigger volumes: %d", scenario->trigger_volumes.count);\
 	for (auto trigger_volume : scenario->trigger_volumes)\
 	{\
-		char const* name = trigger_volume.name.get_string();\
+		const char* name = trigger_volume.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -1006,7 +1006,7 @@ if (scenario->scripts.count)\
 	c_console::write_line("    scripts: %d", scenario->scripts.count);\
 	for (auto script : scenario->scripts)\
 	{\
-		char const* script_name = script.name;\
+		const char* script_name = script.name;\
 		if (script_name && *script_name)\
 			c_console::write_line("        name: %s", script_name);\
 		if (script.parameters.count)\
@@ -1014,7 +1014,7 @@ if (scenario->scripts.count)\
 			c_console::write_line("            parameters: %d", script.parameters.count);\
 			for (auto parameter : script.parameters)\
 			{\
-				char const* parameter_name = parameter.name;\
+				const char* parameter_name = parameter.name;\
 				if (parameter_name && *parameter_name)\
 					c_console::write_line("                name: %s", parameter_name);\
 			}\
@@ -1030,7 +1030,7 @@ if (scenario->globals.count)\
 	c_console::write_line("    globals: %d", scenario->globals.count);\
 	for (auto global : scenario->globals)\
 	{\
-		char const* name = global.name;\
+		const char* name = global.name;\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 	}\
@@ -1043,10 +1043,10 @@ if (game_globals->player_representation.count)\
 	c_console::write_line("    player representation: %d", game_globals->player_representation.count);\
 	for (auto player_representation : game_globals->player_representation)\
 	{\
-		char const* name = player_representation.name.get_string();\
+		const char* name = player_representation.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
-		char const* third_person_variant = player_representation.third_person_variant.get_string();\
+		const char* third_person_variant = player_representation.third_person_variant.get_string();\
 		if (third_person_variant && *third_person_variant)\
 			c_console::write_line("        third person variant: %s", third_person_variant);\
 	}\
@@ -1059,7 +1059,7 @@ if (universal_data->equipment.count)\
 	c_console::write_line("    equipment: %d", universal_data->equipment.count);\
 	for (auto equipment : universal_data->equipment)\
 	{\
-		char const* name = equipment.name.get_string();\
+		const char* name = equipment.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name); \
 	}\
@@ -1072,7 +1072,7 @@ if (universal_data->NAME##_selections.count)\
 	c_console::write_line("    %s selections: %d", #NAME, universal_data->NAME##_selections.count);\
 	for (auto selection : universal_data->NAME##_selections)\
 	{\
-		char const* name = selection.name.get_string();\
+		const char* name = selection.name.get_string();\
 		if (name && *name)\
 		{\
 			c_console::write_line("        name: %s, 0x%08X", name, selection.NAME##_tag.index);\
@@ -1087,7 +1087,7 @@ if (universal_data->NAME##_sets.count)\
 	c_console::write_line("    %s sets: %d", #NAME, universal_data->NAME##_sets.count);\
 	for (auto set : universal_data->NAME##_sets)\
 	{\
-		char const* name = set.name.get_string();\
+		const char* name = set.name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
 		if (set.remap_table.count)\
@@ -1095,8 +1095,8 @@ if (universal_data->NAME##_sets.count)\
 			c_console::write_line("            remap table: %d", set.remap_table.count);\
 			for (auto remap_entry : set.remap_table)\
 			{\
-				char const* placed_object_name = remap_entry.placed_object_name.get_string();\
-				char const* remapped_object_name = remap_entry.remapped_object_name.get_string();\
+				const char* placed_object_name = remap_entry.placed_object_name.get_string();\
+				const char* remapped_object_name = remap_entry.remapped_object_name.get_string();\
 				if (placed_object_name && *placed_object_name)\
 					c_console::write_line("                  placed object name: %s", placed_object_name);\
 				if (remapped_object_name && *remapped_object_name)\
@@ -1114,10 +1114,10 @@ if (universal_data->customized_##NAME##_characters.count)\
 	c_console::write_line("    customized %s characters: %d", #NAME, universal_data->customized_##NAME##_characters.count);\
 	for (auto customized_character : universal_data->customized_##NAME##_characters)\
 	{\
-		char const* armor_region = customized_character.armor_region.get_string();\
+		const char* armor_region = customized_character.armor_region.get_string();\
 		if (armor_region && *armor_region)\
 			c_console::write_line("        armor region: %s", armor_region);\
-		char const* biped_region = customized_character.biped_region.get_string();\
+		const char* biped_region = customized_character.biped_region.get_string();\
 		if (biped_region && *biped_region)\
 			c_console::write_line("        biped region: %s", biped_region);\
 		if (customized_character.customized_selection.count)\
@@ -1125,7 +1125,7 @@ if (universal_data->customized_##NAME##_characters.count)\
 			c_console::write_line("            customized areas: %d", customized_character.customized_selection.count);\
 			for (auto customized_area : customized_character.customized_selection)\
 			{\
-				char const* selection_name = customized_area.selection_name.get_string();\
+				const char* selection_name = customized_area.selection_name.get_string();\
 				if (selection_name && *selection_name)\
 					c_console::write_line("                selection name: %s", selection_name);\
 			}\

@@ -18,7 +18,7 @@ struct c_network_message_type_collection;
 struct c_network_channel_client
 {
 public:
-	virtual char const* get_client_name() const;
+	virtual const char* get_client_name() const;
 	virtual bool connection_lost(e_network_channel_closure_reason*) const;
 	virtual bool has_data_to_transmit(bool*) const;
 	virtual int32 space_required_bits(int32, int32);
@@ -52,7 +52,7 @@ public:
 //private:
 	bool m_allocated;
 	bool m_connection_lost;
-	char const* m_channel_name;
+	const char* m_channel_name;
 	c_sliding_window m_incoming_window;
 	c_sliding_window m_outgoing_window;
 	int32 m_incoming_window_size_bytes;
@@ -107,16 +107,16 @@ public:
 
 public:
 	bool has_channel_been_used() const;
-	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
+	void send_message(e_network_message_type message_type, int32 raw_message_size, const void* raw_message_payload);
 
 	bool m_allocated;
 	bool m_connection_lost;
 	bool m_first_fragment_reserved;
 	bool m_second_fragment_sent;
 	bool m_establishment_received;
-	char const* m_channel_name;
+	const char* m_channel_name;
 
-	c_network_message_type_collection const* m_message_types;
+	const c_network_message_type_collection* m_message_types;
 
 	c_sliding_window m_outgoing_window;
 	s_outgoing_fragment_record* m_outgoing_fragment_list_head;
@@ -180,15 +180,15 @@ public:
 	};
 	static_assert(sizeof(s_activity_timer) == 0x4);
 
-	char const* get_short_name() const;
-	char const* get_name() const;
-	static char const* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
-	static char const* __cdecl get_state_string(e_network_channel_state state);
+	const char* get_short_name() const;
+	const char* get_name() const;
+	static const char* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
+	static const char* __cdecl get_state_string(e_network_channel_state state);
 	bool get_remote_address(transport_address* address) const;
 	uns32 get_remote_identifier() const;
 	uns32 get_identifier() const;
-	c_network_message_queue const* network_message_queue_get() const;
-	c_network_connection const* network_connection_get() const;
+	const c_network_message_queue* network_message_queue_get() const;
+	const c_network_connection* network_connection_get() const;
 	bool allocated() const;
 	e_network_channel_state get_state() const;
 	bool closed() const;
@@ -196,9 +196,9 @@ public:
 	bool connected() const;
 	void close(e_network_channel_closure_reason reason);
 	void establish(uns32 remote_channel_identifier);
-	void open(transport_address const* remote_address, bool send_connect_packets, int32 channel_identifier);
+	void open(const transport_address* remote_address, bool send_connect_packets, int32 channel_identifier);
 
-	void send_message(e_network_message_type message_type, int32 raw_message_size, void const* raw_message_payload);
+	void send_message(e_network_message_type message_type, int32 raw_message_size, const void* raw_message_payload);
 
 //protected:
 	c_network_link* m_link;

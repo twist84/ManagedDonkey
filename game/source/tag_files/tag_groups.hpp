@@ -234,7 +234,7 @@ static_assert(sizeof(s_tag_block) == 0xC);
 struct s_tag_reference
 {
 	tag group_tag = _tag_none;
-	char const* name;
+	const char* name;
 	int32 name_length;
 	int32 index = NONE;
 
@@ -246,8 +246,8 @@ struct s_tag_reference
 		return static_cast<t_type*>(get_definition());
 	}
 
-	char const* get_name();
-	char const* get_group_name();
+	const char* get_name();
+	const char* get_group_name();
 };
 static_assert(sizeof(s_tag_reference) == 0x10);
 
@@ -279,7 +279,7 @@ public:
 		return static_cast<t_element_type*>(address);
 	}
 
-	t_element_type const* begin() const
+	const t_element_type* begin() const
 	{
 		return static_cast<t_element_type*>(address);
 	}
@@ -289,9 +289,9 @@ public:
 		return static_cast<t_element_type*>(address) + s_tag_block::count;
 	}
 
-	t_element_type const* end() const
+	const t_element_type* end() const
 	{
-		return static_cast<t_element_type*>(address) + s_tag_block::count;
+		return static_cast<const t_element_type*>(address) + s_tag_block::count;
 	}
 
 	t_element_type& operator[](int32 index)
@@ -376,13 +376,13 @@ struct s_cache_file_tag_group
 };
 static_assert(sizeof(s_cache_file_tag_group) == 0x10);
 
-extern void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, int32 index, int32 size);
-extern void* __cdecl tag_data_get_pointer(s_tag_data const* data, int32 offset, int32 size);
+extern void* __cdecl tag_block_get_element_with_size(const s_tag_block* block, int32 index, int32 size);
+extern void* __cdecl tag_data_get_pointer(const s_tag_data* data, int32 offset, int32 size);
 extern void __cdecl tag_load_missing_tags_report();
-extern char const* __cdecl tag_name_strip_path(char const* path);
-extern wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path);
-extern tag group_name_to_group_tag(char const* group_name);
-extern void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* name);
+extern const char* __cdecl tag_name_strip_path(const char* path);
+extern const wchar_t* __cdecl tag_name_strip_path(const wchar_t* path);
+extern tag group_name_to_group_tag(const char* group_name);
+extern void tag_reference_set(s_tag_reference* reference, tag group_tag, const char* name);
 extern void tag_block_set_elements(s_tag_block* block, void* elements);
 extern void tag_block_set_element_count(s_tag_block* block, int32 count);
 

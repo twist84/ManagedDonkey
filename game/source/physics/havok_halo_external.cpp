@@ -13,7 +13,7 @@ void __cdecl halo_external_breakpoint()
     VASSERT("havok breakpoint :-)");
 }
 
-bool __cdecl halo_managed_memory_address(hkReferencedObject const* object)
+bool __cdecl halo_managed_memory_address(const hkReferencedObject* object)
 {
     int32 total_tags_size = cache_files_get_total_tags_size();
     unsigned int tag_cache_base_address = (unsigned int)cache_file_globals_get_tag_cache_base_address();

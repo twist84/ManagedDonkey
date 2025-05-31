@@ -18,15 +18,15 @@
 
 HOOK_DECLARE(0x000D858D0, network_debug_print);
 
-char const* const k_reports_directory_name = "reports\\";
-char const* const k_reports_directory_root_name = "\\";
+const char* const k_reports_directory_name = "reports\\";
+const char* const k_reports_directory_root_name = "\\";
 
 s_event_globals event_globals{};
 bool g_events_initialized = false;
 
 c_read_write_lock g_event_read_write_lock;
 
-char const* const k_event_level_names[k_event_level_count + 1]
+const char* const k_event_level_names[k_event_level_count + 1]
 {
 	"verbose",
 	"status",
@@ -37,7 +37,7 @@ char const* const k_event_level_names[k_event_level_count + 1]
 	"none"
 };
 
-char const* const k_event_level_severity_strings[k_event_level_count]
+const char* const k_event_level_severity_strings[k_event_level_count]
 {
 	"verbose",
 	"status ",
@@ -48,10 +48,10 @@ char const* const k_event_level_severity_strings[k_event_level_count]
 };
 
 bool g_events_debug_render_enable = true;
-char const* const k_primary_event_log_filename = "debug.txt";
-char const* const k_primary_full_event_log_filename = "debug_full.txt";
+const char* const k_primary_event_log_filename = "debug.txt";
+const char* const k_primary_full_event_log_filename = "debug_full.txt";
 
-s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, char const* filename, bool use_sub_directory)
+s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, const char* filename, bool use_sub_directory)
 {
 	c_static_string<256> reports_file_path;
 	reports_file_path.print("%s", use_sub_directory ? k_reports_directory_name : k_reports_directory_root_name);
@@ -71,7 +71,7 @@ void __cdecl build_networking_buffer_for_log(char*, int32)
 
 }
 
-s_event_category_default_configuration const g_log_events[]
+const s_event_category_default_configuration g_log_events[]
 {
 	{
 		"lifecycle:",
@@ -421,7 +421,7 @@ void events_debug_render()
 	}
 }
 
-char const* __cdecl events_get()
+const char* __cdecl events_get()
 {
 	return event_globals.message_buffer;
 }
@@ -436,16 +436,16 @@ bool __cdecl event_thread_query()
 	return _bittest(&event_globals.permitted_thread_bits, get_current_thread_index());
 }
 
-int32 event_parse_categories(char const* event_name, int32 max_categories, int32 category_name_max_length, char(*category_names)[64])
+int32 event_parse_categories(const char* event_name, int32 max_categories, int32 category_name_max_length, char(*category_names)[64])
 {
-	char const* category_substring = event_name;
+	const char* category_substring = event_name;
 	int32 category_index = 0;
 	int32 category_count = 0;
 	bool succeeded = false;
 	bool failed = false;
 	do
 	{
-		char const* category_name = category_substring;
+		const char* category_name = category_substring;
 		int32 category_name_length = 0;
 		bool category_found = false;
 		do
@@ -518,7 +518,7 @@ int32 event_find_category_recursive(int32 parent_category_index, bool create_cat
 {
 	while (true)
 	{
-		char const* category_name = category_names[0];
+		const char* category_name = category_names[0];
 		int32 category_index = parent_category_index;
 
 		ASSERT(category_count > 0);
@@ -602,7 +602,7 @@ int32 event_find_category(bool create_category, int32 category_count, char(*cate
 	return 0;
 }
 
-int32 event_category_from_name(char const* event_name, bool create_category)
+int32 event_category_from_name(const char* event_name, bool create_category)
 {
 	ASSERT(event_name);
 
@@ -639,7 +639,7 @@ void event_initialize_categories()
 
 	for (int32 i = 0; i < NUMBEROF(g_log_events); i++)
 	{
-		s_event_category_default_configuration const* log_event = &g_log_events[i];
+		const s_event_category_default_configuration* log_event = &g_log_events[i];
 		int32 category_index = event_category_from_name(log_event->name, true);
 		s_event_category* next_category = event_category_get(category_index);
 		next_category->current_display_level = log_event->initial_display_level;
@@ -784,7 +784,7 @@ uns32 event_query(e_event_level event_level, int32 category_index, uns32 event_r
 	return flags;
 }
 
-void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_add_result* result_out)
+void add_event_to_spamming_list(const char* event_text, s_event_spamming_list_add_result* result_out)
 {
 	ASSERT(event_text);
 	ASSERT(result_out);
@@ -822,7 +822,7 @@ void add_event_to_spamming_list(char const* event_text, s_event_spamming_list_ad
 	}
 }
 
-uns32 event_update_spam_prevention(uns32 response_flags, e_event_level event_level, int32 category_index, char const* event_text)
+uns32 event_update_spam_prevention(uns32 response_flags, e_event_level event_level, int32 category_index, const char* event_text)
 {
 	if (event_globals.enable_spam_suppression
 		&& event_level != _event_critical
@@ -907,7 +907,7 @@ bool console_update_spam_prevention(e_event_level event_level)
 	return true;
 }
 
-void write_to_console(e_event_level event_level, int32 category_index, char const* string)
+void write_to_console(e_event_level event_level, int32 category_index, const char* string)
 {
 	enum
 	{
@@ -1002,7 +1002,7 @@ void write_to_console(e_event_level event_level, int32 category_index, char cons
 	}
 }
 
-void event_generated_handle_console(e_event_level event_level, int32 category_index, char const* event_text, bool force)
+void event_generated_handle_console(e_event_level event_level, int32 category_index, const char* event_text, bool force)
 {
 	char context_text[256]{};
 	char final_text[2048]{};
@@ -1049,15 +1049,15 @@ void event_generated_handle_console(e_event_level event_level, int32 category_in
 	write_to_console(event_level, category_index, final_text);
 }
 
-void event_generated_handle_log(e_event_level event_level, int32 category_index, char const* event_text)
+void event_generated_handle_log(e_event_level event_level, int32 category_index, const char* event_text)
 {
 }
 
-void event_generated_handle_datamine(e_event_level event_level, char const* format, va_list argument_list)
+void event_generated_handle_datamine(e_event_level event_level, const char* format, va_list argument_list)
 {
 }
 
-void event_generated_handle_debugger_break(char const* event_text)
+void event_generated_handle_debugger_break(const char* event_text)
 {
 	//static bool x_disable_debugger = false;
 	//if (x_disable_debugger)
@@ -1067,7 +1067,7 @@ void event_generated_handle_debugger_break(char const* event_text)
 	//}
 }
 
-void event_generated_handle_halt(char const* event_text)
+void event_generated_handle_halt(const char* event_text)
 {
 	static bool x_disable_halt = false;
 	if (x_disable_halt)
@@ -1077,7 +1077,7 @@ void event_generated_handle_halt(char const* event_text)
 	}
 }
 
-void event_generate(e_event_level event_level, int32 category_index, uns32 event_response_suppress_flags, char const* format, va_list argument_list)
+void event_generate(e_event_level event_level, int32 category_index, uns32 event_response_suppress_flags, const char* format, va_list argument_list)
 {
 	ASSERT(g_events_initialized);
 
@@ -1124,7 +1124,7 @@ void event_generate(e_event_level event_level, int32 category_index, uns32 event
 	}
 }
 
-int32 c_event::generate(char const* format, ...)
+int32 c_event::generate(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -1158,7 +1158,7 @@ int32 c_event::generate(char const* format, ...)
 
 // used inplace of `c_event::generate`
 // net::REMOTE_BINLOGGER
-void __cdecl network_debug_print(char const* format, ...)
+void __cdecl network_debug_print(const char* format, ...)
 {
 	int32 format_address = (int32)format;
 

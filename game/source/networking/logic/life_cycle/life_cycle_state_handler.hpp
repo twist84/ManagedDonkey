@@ -34,7 +34,7 @@ public:
 	virtual e_life_cycle_state_transition_type update_for_state_transition() = 0;
 	virtual void enter(c_life_cycle_state_handler* from, int32 entry_data_size, void* entry_data);
 	virtual void exit(c_life_cycle_state_handler* to);
-	virtual char const* get_state_string() = 0;
+	virtual const char* get_state_string() = 0;
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type);
 
 public:
@@ -44,7 +44,7 @@ public:
 	uns64 get_required_group_session_parameter_mask() const;
 	uns64 get_required_squad_session_parameter_mask() const;
 	e_life_cycle_state get_state() const;
-	void initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, c_life_cycle_state_handler_flags const* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask);
+	void initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, const c_life_cycle_state_handler_flags* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask);
 
 //protected:
 	bool setup_initial_participants(c_network_session* session);

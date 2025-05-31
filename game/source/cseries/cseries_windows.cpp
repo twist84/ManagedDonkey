@@ -22,7 +22,7 @@ c_static_string<256> g_cache_video_file;
 c_static_string<256> g_hard_drive_font_directory;
 c_static_string<256> g_dvd_font_directory;
 
-void __cdecl display_debug_string(char const* format, ...)
+void __cdecl display_debug_string(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -108,7 +108,7 @@ void __cdecl system_set_dll_directory()
 }
 
 template<int32 k_maximum_count>
-bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, c_static_string<k_maximum_count>* value, char const* default_value)
+bool shell_get_command_line_parameter(char* command_line, const char* parameter_name, c_static_string<k_maximum_count>* value, const char* default_value)
 {
 	if (!command_line)
 		return false;

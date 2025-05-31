@@ -19,9 +19,9 @@ void c_debug_menu_item::update()
 {
 }
 
-void c_debug_menu_item::render(c_font_cache_base* font_cache, point2d const& position)
+void c_debug_menu_item::render(c_font_cache_base* font_cache, const point2d& position)
 {
-	real_argb_color const* color = global_real_argb_black;
+	const real_argb_color* color = global_real_argb_black;
 	if (get_active() && get_menu()->get_enabled())
 		color = get_enabled_color();
 
@@ -55,7 +55,7 @@ void c_debug_menu_item::notify_right()
 {
 }
 
-real_argb_color const* c_debug_menu_item::get_enabled_color()
+const real_argb_color* c_debug_menu_item::get_enabled_color()
 {
 	if (get_child())
 		return debug_real_argb_tv_green;
@@ -63,7 +63,7 @@ real_argb_color const* c_debug_menu_item::get_enabled_color()
 	return debug_real_argb_grey;
 }
 
-real_argb_color const* c_debug_menu_item::get_background_color()
+const real_argb_color* c_debug_menu_item::get_background_color()
 {
 	if (!get_is_selection())
 		return debug_real_argb_tv_white;
@@ -84,7 +84,7 @@ real_argb_color const* c_debug_menu_item::get_background_color()
 	return &background_color;
 }
 
-c_debug_menu_item::c_debug_menu_item(c_debug_menu* menu, char const* name, c_debug_menu* child, bool active) :
+c_debug_menu_item::c_debug_menu_item(c_debug_menu* menu, const char* name, c_debug_menu* child, bool active) :
 	m_name(),
 	m_menu_ref(menu),
 	m_child_ref(child)
@@ -94,12 +94,12 @@ c_debug_menu_item::c_debug_menu_item(c_debug_menu* menu, char const* name, c_deb
 	set_data(NONE);
 }
 
-char const* c_debug_menu_item::get_name()
+const char* c_debug_menu_item::get_name()
 {
 	return m_name ? m_name : "";
 }
 
-void c_debug_menu_item::set_name(char const* name)
+void c_debug_menu_item::set_name(const char* name)
 {
 	int32 name_size = strlen(name) + 1;
 

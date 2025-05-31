@@ -39,9 +39,9 @@ REFERENCE_DECLARE(0x018EB5E8, c_assault_engine, internal_assault_engine);
 REFERENCE_DECLARE(0x0190E390, c_game_engine*, infection_engine);
 REFERENCE_DECLARE(0x0190E3C0, c_infection_engine, internal_infection_engine);
 
-c_game_engine const* __cdecl current_game_engine()
+const c_game_engine* __cdecl current_game_engine()
 {
-	c_game_engine const* result = nullptr;
+	const c_game_engine* result = nullptr;
 	//HOOK_INVOKE(result =, current_game_engine);
 
 	if (game_engine_globals && (game_engine_globals->game_engine_index > _game_engine_type_none && game_engine_globals->game_engine_index < k_game_engine_type_count))
@@ -50,7 +50,7 @@ c_game_engine const* __cdecl current_game_engine()
 	return result;
 }
 
-c_game_variant const* __cdecl current_game_variant()
+const c_game_variant* __cdecl current_game_variant()
 {
 	game_options* options = game_options_get();
 	if (options->game_mode == _game_mode_multiplayer)
@@ -59,7 +59,7 @@ c_game_variant const* __cdecl current_game_variant()
 	return nullptr;
 }
 
-void __cdecl build_multiplayer_string(int32 player_index, wchar_t const* formatted_string, s_game_engine_event_data const* event_data, int32 buffer_size, wchar_t* dest_ptr)
+void __cdecl build_multiplayer_string(int32 player_index, const wchar_t* formatted_string, const s_game_engine_event_data* event_data, int32 buffer_size, wchar_t* dest_ptr)
 {
 	INVOKE(0x005CE070, build_multiplayer_string, player_index, formatted_string, event_data, buffer_size, dest_ptr);
 }

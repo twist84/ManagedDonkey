@@ -56,14 +56,14 @@ static_assert(sizeof(s_remote_command_globals) == 0x104B4);
 #define k_maximum_number_of_tokens 100
 #define k_token_length 256
 
-#define COMMAND_CALLBACK_DECLARE(_command) callback_result_t _command##_callback(void const* userdata, int32 token_count, tokens_t const tokens)
+#define COMMAND_CALLBACK_DECLARE(_command) callback_result_t _command##_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 #define COMMAND_CALLBACK_REGISTER(_command, _parameter_count, _parameters, ...) { #_command, _command##_callback, _parameter_count, _parameters, __VA_ARGS__ }
 
 #define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
 ASSERT(userdata != nullptr);                                                  \
 ASSERT((token_count - 1) >= 0);                                               \
                                                                               \
-s_command const& command = *static_cast<s_command const*>(userdata);          \
+const s_command& command = *static_cast<const s_command*>(userdata);          \
 callback_result_t result = command.name;                                      \
 result.append_line(": succeeded");                                            \
 if ((token_count - 1) != command.parameter_count)                             \
@@ -81,15 +81,15 @@ using token_t = _token_t*;
 using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
 
 using callback_result_t = c_static_string<4096>;
-using callback_t = callback_result_t(void const*, int32, tokens_t const);
+using callback_t = callback_result_t(const void*, int32, tokens_t const);
 
 struct s_command
 {
-	char const* name;
+	const char* name;
 	callback_t* callback;
 	int32 parameter_count;
-	char const* parameter_types;
-	char const* extra_info;
+	const char* parameter_types;
+	const char* extra_info;
 };
 
 //-----------------------------------------------------------------------------
@@ -464,9 +464,9 @@ s_command const k_registered_commands[] =
 
 };
 
-extern void command_tokenize(char const* input, tokens_t& tokens, int32* token_count);
-extern int32 token_try_parse_bool(token_t const& token);
-extern bool load_preference(char const* name, char const* value);;
+extern void command_tokenize(const char* input, tokens_t& tokens, int32* token_count);
+extern int32 token_try_parse_bool(const token_t& token);
+extern bool load_preference(const char* name, const char* value);;
 
 extern s_remote_command_globals remote_command_globals;
 
@@ -475,8 +475,8 @@ extern void __cdecl remote_command_initialize();
 extern bool __cdecl remote_command_connected();
 extern void __cdecl remote_command_disconnect();
 extern void __cdecl remote_command_process();
-extern bool __cdecl remote_command_process_received_chunk(char const* buffer, int32 buffer_length);
-extern bool __cdecl remote_command_send_encoded(int32 encoded_command_size, void const* encoded_command_buffer, int32 payload_size, void const* payload);
-extern bool __cdecl remote_command_send(int32 command_type, void const* a2, int32 payload_size, void const* payload);
-extern bool __cdecl remote_camera_update(int32 user_index, s_observer_result const* camera);
+extern bool __cdecl remote_command_process_received_chunk(const char* buffer, int32 buffer_length);
+extern bool __cdecl remote_command_send_encoded(int32 encoded_command_size, const void* encoded_command_buffer, int32 payload_size, const void* payload);
+extern bool __cdecl remote_command_send(int32 command_type, const void* a2, int32 payload_size, const void* payload);
+extern bool __cdecl remote_camera_update(int32 user_index, const s_observer_result* camera);
 

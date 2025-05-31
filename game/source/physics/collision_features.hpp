@@ -96,10 +96,10 @@ static_assert(0x0008 == OFFSETOF(collision_feature_list, spheres));
 static_assert(0x2408 == OFFSETOF(collision_feature_list, cylinders));
 static_assert(0x5408 == OFFSETOF(collision_feature_list, prisms));
 
-extern bool __cdecl collision_features_test_point(collision_feature_list const* features, real_point3d const* point, collision_plane* plane);
+extern bool __cdecl collision_features_test_point(const collision_feature_list* features, const real_point3d* point, collision_plane* plane);
 
-extern void render_debug_collision_features(collision_feature_list const* features);
-extern void render_debug_collision_prism(collision_prism const* prism, real_argb_color const* color);
-extern void render_debug_collision_cylinder(collision_cylinder const* cylinder, real_argb_color const* color);
-extern void render_debug_collision_sphere(collision_sphere const* sphere, real_argb_color const* color);
+extern void render_debug_collision_features(const collision_feature_list* features);
+extern void render_debug_collision_prism(const collision_prism* prism, const real_argb_color* color);
+extern void render_debug_collision_cylinder(const collision_cylinder* cylinder, const real_argb_color* color);
+extern void render_debug_collision_sphere(const collision_sphere* sphere, const real_argb_color* color);
 

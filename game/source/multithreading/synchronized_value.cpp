@@ -112,7 +112,7 @@ c_synchronized_long& c_synchronized_long::operator|=(int32 value)
 	return *this;
 }
 
-c_synchronized_long& c_synchronized_long::operator=(c_synchronized_long const& other)
+c_synchronized_long& c_synchronized_long::operator=(const c_synchronized_long& other)
 {
 	set(other.m_value);
 	return *this;
@@ -226,7 +226,7 @@ c_synchronized_int64& c_synchronized_int64::operator|=(int64 value)
 	return *this;
 }
 
-c_synchronized_int64& c_synchronized_int64::operator=(c_synchronized_int64 const& other)
+c_synchronized_int64& c_synchronized_int64::operator=(const c_synchronized_int64& other)
 {
 	int64 result = set(other.m_value);
 	return *this;
@@ -352,7 +352,7 @@ c_interlocked_long& c_interlocked_long::operator|=(int32 value)
 	return *this;
 }
 
-c_interlocked_long& c_interlocked_long::operator=(c_interlocked_long const& other)
+c_interlocked_long& c_interlocked_long::operator=(const c_interlocked_long& other)
 {
 	int32 result = set(other.m_value);
 	return *this;
@@ -466,7 +466,7 @@ c_interlocked_int64& c_interlocked_int64::operator|=(int64 value)
 	return *this;
 }
 
-c_interlocked_int64& c_interlocked_int64::operator=(c_interlocked_int64 const& other)
+c_interlocked_int64& c_interlocked_int64::operator=(const c_interlocked_int64& other)
 {
 	int64 result = set(other.m_value);
 	return *this;

@@ -125,7 +125,7 @@ int32 c_squad_session_qos_reply_manager::get_qos_reply_bandwidth_limit()
 	return INVOKE_CLASS_MEMBER(0x0049AFA0, c_squad_session_qos_reply_manager, get_qos_reply_bandwidth_limit);
 }
 
-int32 c_session_qos_reply_manager::get_qos_reply_block(s_network_squad_status_data const* qos_status, int32 max_block_size, byte* block_data)
+int32 c_session_qos_reply_manager::get_qos_reply_block(const s_network_squad_status_data* qos_status, int32 max_block_size, byte* block_data)
 {
 	return INVOKE_CLASS_MEMBER(0x0049AFC0, c_session_qos_reply_manager, get_qos_reply_block, qos_status, max_block_size, block_data);
 }

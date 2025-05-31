@@ -28,16 +28,16 @@ bool debug_first_person_skeleton = false;
 //.text:00A99B70 ; bool __cdecl first_person_handle_unit_death(int32)
 //.text:00A99BF0 ; bool __cdecl first_person_handle_weapon_down_state(int32)
 //.text:00A99D10 ; bool __cdecl first_person_handle_weapon_lowering_complete(int32)
-//.text:00A99E70 ; void __cdecl first_person_primary_animation_event_callback(s_animation_event_data const*, int32)
+//.text:00A99E70 ; void __cdecl first_person_primary_animation_event_callback(const s_animation_event_data*, int32)
 //.text:00A99E90 ; bool __cdecl first_person_scripting_lower_weapon_on_unit(int32, int32)
 //.text:00A99F00 ; bool __cdecl first_person_scripting_raise_weapon_on_unit(int32, int32)
-//.text:00A99F60 ; void __cdecl first_person_secondary_animation_event_callback(s_animation_event_data const*, int32)
+//.text:00A99F60 ; void __cdecl first_person_secondary_animation_event_callback(const s_animation_event_data*, int32)
 //.text:00A99F80 ; bool __cdecl first_person_setup_custom_animation_on_unit(int32, int32, int32, bool)
 //.text:00A9A050 ; bool __cdecl first_person_weapon_adjust_light(int32, int32, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:00A9A190 ; void __cdecl first_person_weapon_apply_camera_effect(int32, real_matrix4x3*)
 //.text:00A9A1E0 ; bool __cdecl first_person_weapon_attach(int32, int32, bool)
-//.text:00A9A4B0 ; void __cdecl first_person_weapon_attach_weapon_slot(int32, int32, first_person_weapon_attachment const*, bool)
-//.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(int32, int32, uns32, real_matrix4x3 const*, int32, real_matrix4x3 const*, int32 const*, render_first_person_model*)
+//.text:00A9A4B0 ; void __cdecl first_person_weapon_attach_weapon_slot(int32, int32, const first_person_weapon_attachment*, bool)
+//.text:00A9AA40 ; void __cdecl first_person_weapon_build_model(int32, int32, uns32, const real_matrix4x3*, int32, const real_matrix4x3*, const int32*, render_first_person_model*)
 
 int32 __cdecl first_person_weapon_build_models(int32 user_index, int32 object_index, int32 maximum_model_count, render_first_person_model* first_person_model)
 {
@@ -52,7 +52,7 @@ int32 __cdecl first_person_weapon_build_models(int32 user_index, int32 object_in
 		{
 			for (int32 node_index = 0; node_index < weapon_data->node_matrices_count; node_index++)
 			{
-				c_model_animation_graph const* graph = weapon_data->animation_manager.get_graph();
+				const c_model_animation_graph* graph = weapon_data->animation_manager.get_graph();
 				s_animation_graph_node* node = graph->get_node(node_index);
 
 				real_matrix4x3 node_matrix{};
@@ -91,8 +91,8 @@ first_person_weapon* __cdecl first_person_weapon_get(int32 user_index)
 	return &first_person_weapons[user_index];
 }
 
-//.text:00A9BC30 ; real_matrix4x3 const* __cdecl first_person_weapon_get_camera_offset_matrix(int32)
-//.text:00A9BC70 ; real_matrix4x3 const* __cdecl first_person_weapon_get_camera_relative_node_matrix(int32, int32, int16)
+//.text:00A9BC30 ; const real_matrix4x3* __cdecl first_person_weapon_get_camera_offset_matrix(int32)
+//.text:00A9BC70 ; const real_matrix4x3* __cdecl first_person_weapon_get_camera_relative_node_matrix(int32, int32, int16)
 //.text:00A9BCE0 ; int16 __cdecl first_person_weapon_get_markers_by_string_id(int32, int32, object_marker*, int16)
 //.text:00A9BE40 ; int16 __cdecl first_person_weapon_get_markers_by_string_id_render(int32, int32, int32, object_marker*, int16)
 //.text:00A9BE70 ; int32 __cdecl first_person_weapon_get_non_deterministic_unit_index_from_user(int32)
@@ -159,12 +159,12 @@ void __cdecl first_person_weapons_update_camera_estimates()
 //.text:00A9EED0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void*)>::free_memory
 //.text:00A9EF00 ; 
 //.text:00A9EF10 ; 
-//.text:00A9EF20 ; void __cdecl handle_first_person_animation_event_callback(int32, s_animation_event_data const*, int32)
-//.text:00A9F0F0 ; void __cdecl model_remap_node_matrices_to_match_animation_graph(int32, real_matrix4x3 const*, real_matrix4x3*, int32, real_matrix4x3 const*, int32 const*)
-//.text:00A9F170 ; void __cdecl process_first_person_weapon_ik(int32, render_first_person_model*, render_first_person_model const*)
+//.text:00A9EF20 ; void __cdecl handle_first_person_animation_event_callback(int32, const s_animation_event_data*, int32)
+//.text:00A9F0F0 ; void __cdecl model_remap_node_matrices_to_match_animation_graph(int32, const real_matrix4x3*, real_matrix4x3*, int32, const real_matrix4x3*, const int32*)
+//.text:00A9F170 ; void __cdecl process_first_person_weapon_ik(int32, render_first_person_model*, const render_first_person_model*)
 //.text:00A9F370 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapon_orientations_allocator(void*)>::reserve_memory
 //.text:00A9F3B0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_first_person_weapons_allocator(void*)>::reserve_memory
-//.text:00A9F3F0 ; c_model_animation const* __cdecl weapon_get_deterministic_first_person_animation(int32, int32, int32*)
+//.text:00A9F3F0 ; const c_model_animation* __cdecl weapon_get_deterministic_first_person_animation(int32, int32, int32*)
 //.text:00A9F580 ; int16 __cdecl weapon_get_deterministic_first_person_animation_duration_ticks(int32, int32, int16)
 //.text:00A9F6B0 ; int32 __cdecl weapon_get_deterministic_first_person_animation_from_message(int32, int16)
 

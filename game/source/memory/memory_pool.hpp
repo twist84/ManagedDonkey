@@ -5,7 +5,7 @@
 struct s_memory_pool_block_header
 {
 	uns32 header_signature;
-	char const* file;
+	const char* file;
 	int32 line;
 	int32 timestamp;
 };
@@ -39,8 +39,8 @@ struct s_memory_pool
 };
 static_assert(sizeof(s_memory_pool) == 0x44);
 
-extern uns32 memory_pool_handle_from_address(s_memory_pool const* memory_pool, void const* pointer);
+extern uns32 memory_pool_handle_from_address(const s_memory_pool* memory_pool, const void* pointer);
 extern void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, uns32 payload_handle);
-extern void memory_pool_block_free(s_memory_pool* pool, void const** payload_data);
-extern int32 __cdecl memory_pool_get_block_size(s_memory_pool* memory_pool, void const** payload_handle);
+extern void memory_pool_block_free(s_memory_pool* pool, const void** payload_data);
+extern int32 __cdecl memory_pool_get_block_size(s_memory_pool* memory_pool, const void** payload_handle);
 

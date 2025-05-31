@@ -92,7 +92,7 @@ protected:
 extern s_synchronization_globals& g_synch_globals;
 
 extern bool __cdecl event_has_automatic_reset(int32 event_id);
-extern char const* __cdecl get_sync_primitive_name(int32 type, int32 index);
+extern const char* __cdecl get_sync_primitive_name(int32 type, int32 index);
 extern void __cdecl initialize_synchronization_objects();
 extern void __cdecl internal_critical_section_enter(int32 critical_section_id);
 extern void __cdecl internal_critical_section_leave(int32 critical_section_id);

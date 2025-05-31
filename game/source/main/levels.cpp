@@ -61,12 +61,12 @@ HOOK_DECLARE(0x0054CAD0, levels_try_and_get_main_menu_map);
 HOOK_DECLARE(0x0054CB00, levels_try_and_get_multiplayer_map);
 //HOOK_DECLARE(0x0054CB20, levels_update);
 
-void __cdecl levels_add_campaign_from_configuration_file(s_blf_chunk_campaign const* campaign_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content)
+void __cdecl levels_add_campaign_from_configuration_file(const s_blf_chunk_campaign* campaign_data, bool must_byte_swap, const wchar_t* source_directory_path, bool dlc_content)
 {
 	HOOK_INVOKE(, levels_add_campaign_from_configuration_file, campaign_data, must_byte_swap, source_directory_path, dlc_content);
 }
 
-void __cdecl levels_add_map_from_scripting(e_map_id map_id, char const* scenario_path)
+void __cdecl levels_add_map_from_scripting(e_map_id map_id, const char* scenario_path)
 {
 	//HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
 
@@ -132,14 +132,14 @@ void __cdecl levels_add_map_from_scripting(e_map_id map_id, char const* scenario
 	}
 }
 
-void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
+void __cdecl levels_add_fake_map_from_scripting(const char* scenario_path)
 {
 	//HOOK_INVOKE(, levels_add_fake_map_from_scripting, scenario_path);
 
 	levels_add_map_from_scripting(_map_id_use_scenario_path, scenario_path);
 }
 
-void __cdecl levels_add_multiplayer_map_from_scripting(e_map_id map_id, char const* scenario_path)
+void __cdecl levels_add_multiplayer_map_from_scripting(e_map_id map_id, const char* scenario_path)
 {
 	if (g_level_globals.need_to_enumerate_dvd)
 	{
@@ -191,12 +191,12 @@ void __cdecl levels_add_multiplayer_map_from_scripting(e_map_id map_id, char con
 	}
 }
 
-void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path)
+void __cdecl levels_add_fake_multiplayer_map_from_scripting(const char* scenario_path)
 {
 	levels_add_multiplayer_map_from_scripting(_map_id_use_scenario_path, scenario_path);
 }
 
-void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const* level_data, bool must_byte_swap, wchar_t const* source_directory_path, bool dlc_content)
+void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario* level_data, bool must_byte_swap, const wchar_t* source_directory_path, bool dlc_content)
 {
 	//HOOK_INVOKE(, levels_add_level_from_configuration_file, level_data, must_byte_swap, maps_path, dlc_content);
 
@@ -290,7 +290,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 				case 0x4D50:
 				{
 					s_blf_chunk_scenario_halo3* scenario_halo3 = (s_blf_chunk_scenario_halo3*)level_data;
-					s_scenario_insertion_point_halo3 const* scenario_insertion = scenario_halo3->insertions;
+					const s_scenario_insertion_point_halo3* scenario_insertion = scenario_halo3->insertions;
 
 					for (int32 i = 0; i < NUMBEROF(scenario_halo3->insertions); i++)
 					{
@@ -325,7 +325,7 @@ void __cdecl levels_add_level_from_configuration_file(s_blf_chunk_scenario const
 				case 0x98C0:
 				{
 					s_blf_chunk_scenario_atlas* scenario_atlas = (s_blf_chunk_scenario_atlas*)level_data;
-					s_scenario_insertion_point_atlas const* scenario_insertion = scenario_atlas->insertions;
+					const s_scenario_insertion_point_atlas* scenario_insertion = scenario_atlas->insertions;
 
 					for (int32 i = 0; i < NUMBEROF(scenario_atlas->insertions); i++)
 					{
@@ -651,7 +651,7 @@ int32 __cdecl levels_get_campaign_count()
 	return g_level_globals.initialized && !levels_enumeration_in_progress() ? g_level_globals.campaigns->actual_count : 0;
 }
 
-e_campaign_id __cdecl levels_get_campaign_id_from_path(char const* path)
+e_campaign_id __cdecl levels_get_campaign_id_from_path(const char* path)
 {
 	return INVOKE(0x0054B6A0, levels_get_campaign_id_from_path, path);
 }
@@ -716,7 +716,7 @@ uns32 __cdecl levels_get_checksum()
 
 //.text:0054BDC0 ; levels_get_campaign_insertion_zone_set_by_map_id_and_index?
 
-e_map_id __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name)
+e_map_id __cdecl levels_get_multiplayer_map_by_display_name(const wchar_t* display_name)
 {
 	//return INVOKE(0x0054BE10, levels_get_multiplayer_map_by_display_name, display_name);
 
@@ -873,22 +873,22 @@ bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 	return map_id == _map_id_use_scenario_path;
 }
 
-void __cdecl levels_open_dlc(char const* scenario_path, bool blocking)
+void __cdecl levels_open_dlc(const char* scenario_path, bool blocking)
 {
 	INVOKE(0x0054C330, levels_open_dlc, scenario_path, blocking);
 }
 
-bool __cdecl levels_path_is_dlc(char const* scenario_path)
+bool __cdecl levels_path_is_dlc(const char* scenario_path)
 {
 	return INVOKE(0x0054C360, levels_path_is_dlc, scenario_path);
 }
 
-void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content)
+void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, const wchar_t* source_directory_path, bool dlc_content)
 {
 	//HOOK_INVOKE(, levels_process_campaign_configuration_file, file, source_directory_path, dlc_content);
 
 	static char file_buffer[sizeof(s_blf_chunk_campaign)]{};
-	s_blf_chunk_campaign const* campaign = nullptr;
+	const s_blf_chunk_campaign* campaign = nullptr;
 	bool must_byte_swap = false;
 
 	levels_find_campaign_chunk(file, file_buffer, &campaign, &must_byte_swap);
@@ -896,12 +896,12 @@ void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, 
 		levels_add_campaign_from_configuration_file(campaign, must_byte_swap, source_directory_path, dlc_content);
 }
 
-void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* source_directory_path, bool dlc_content)
+void __cdecl levels_process_level_configuration_file(s_file_reference* file, const wchar_t* source_directory_path, bool dlc_content)
 {
 	//HOOK_INVOKE(, levels_process_level_configuration_file, file, source_directory_path, dlc_content);
 
 	static char file_buffer[sizeof(s_blf_chunk_scenario_atlas)]{};
-	s_blf_chunk_scenario const* level = nullptr;
+	const s_blf_chunk_scenario* level = nullptr;
 	bool must_byte_swap = false;
 
 	levels_find_scenario_chunk(file, file_buffer, &level, &must_byte_swap);
@@ -1043,7 +1043,7 @@ void __cdecl sub_54CC00()
 //.text:0054CCA0 ; 
 //.text:0054CCC0 ; 
 
-void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap)
+void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, const s_blf_chunk_campaign** out_campaign, bool* must_byte_swap)
 {
 	*out_campaign = nullptr;
 	*must_byte_swap = false;
@@ -1052,9 +1052,9 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 	uns32 error = 0;
 	uns32 file_size = 0;
 	int32 chunk_size = 0;
-	char const* chunk_buffer = nullptr;
+	const char* chunk_buffer = nullptr;
 	bool eof_chunk = false;
-	s_blf_chunk_campaign const* campaign = nullptr;
+	const s_blf_chunk_campaign* campaign = nullptr;
 	bool byte_swap = false;
 
 	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
@@ -1100,8 +1100,8 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 
 	if (chunk_buffer)
 	{
-		campaign = reinterpret_cast<s_blf_chunk_campaign const*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (char const*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		campaign = reinterpret_cast<const s_blf_chunk_campaign*>(chunk_buffer - sizeof(s_blf_header));
+		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 		{
 			if (chunk_buffer)
 			{
@@ -1134,7 +1134,7 @@ function_end:
 	}
 }
 
-void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_scenario const** out_scenario, bool* must_byte_swap)
+void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer, const s_blf_chunk_scenario** out_scenario, bool* must_byte_swap)
 {
 	*out_scenario = nullptr;
 	*must_byte_swap = false;
@@ -1143,9 +1143,9 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	uns32 error = 0;
 	uns32 file_size = 0;
 	int32 chunk_size = 0;
-	char const* chunk_buffer = nullptr;
+	const char* chunk_buffer = nullptr;
 	bool eof_chunk = false;
-	s_blf_chunk_scenario const* scenario = nullptr;
+	const s_blf_chunk_scenario* scenario = nullptr;
 	bool byte_swap = false;
 
 	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
@@ -1192,8 +1192,8 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 
 	if (chunk_buffer)
 	{
-		scenario = reinterpret_cast<s_blf_chunk_scenario const*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (char const*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		scenario = reinterpret_cast<const s_blf_chunk_scenario*>(chunk_buffer - sizeof(s_blf_header));
+		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 		{
 			if (eof_chunk)
 			{

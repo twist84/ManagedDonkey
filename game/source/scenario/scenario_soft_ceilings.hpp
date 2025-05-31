@@ -27,7 +27,7 @@ extern void __cdecl scenario_soft_ceilings_initialize();
 extern void __cdecl scenario_soft_ceilings_initialize_for_new_map();
 
 extern void __cdecl scenario_soft_ceilings_render_debug(
-	real_point3d const* point,
+	const real_point3d* point,
 	bool render_soft_ceilings,
 	bool render_soft_kill,
 	bool render_slip_surfaces);

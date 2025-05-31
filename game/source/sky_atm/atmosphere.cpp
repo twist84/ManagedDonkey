@@ -19,12 +19,12 @@ void __cdecl c_atmosphere_fog_interface::dispose_from_old_structure_bsp(uns32 de
 	INVOKE(0x00530190, c_atmosphere_fog_interface::dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-void __cdecl c_atmosphere_fog_interface::change_pvs(s_game_cluster_bit_vectors const* old_cluster_activation, s_game_cluster_bit_vectors const* new_cluster_activation, bool local)
+void __cdecl c_atmosphere_fog_interface::change_pvs(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local)
 {
 	INVOKE(0x00672230, c_atmosphere_fog_interface::change_pvs, old_cluster_activation, new_cluster_activation, local);
 }
 
-void __cdecl c_atmosphere_fog_interface::compute_cluster_weights(s_cluster_reference cluster_reference, real_point3d const* point)
+void __cdecl c_atmosphere_fog_interface::compute_cluster_weights(s_cluster_reference cluster_reference, const real_point3d* point)
 {
 	INVOKE(0x006724B0, c_atmosphere_fog_interface::compute_cluster_weights, cluster_reference, point);
 }

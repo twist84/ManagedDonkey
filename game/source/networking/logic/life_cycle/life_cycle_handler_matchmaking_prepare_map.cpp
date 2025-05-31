@@ -10,7 +10,7 @@ c_life_cycle_state_handler_matchmaking_prepare_map::c_life_cycle_state_handler_m
 	//DECLFUNC(0x00454070, void, __thiscall, c_life_cycle_state_handler_matchmaking_prepare_map*)(this);
 }
 
-char const* c_life_cycle_state_handler_matchmaking_prepare_map::get_state_string()
+const char* c_life_cycle_state_handler_matchmaking_prepare_map::get_state_string()
 {
 	//return INVOKE_CLASS_MEMBER(0x00454780, c_life_cycle_state_handler_matchmaking_prepare_map, get_state_string);
 
@@ -35,7 +35,7 @@ void c_life_cycle_state_handler_matchmaking_prepare_map::exit(c_life_cycle_state
 }
 
 //.text:00498500 ; 
-//.text:00498510 ; public: s_game_hopper_picked_game_collection const* c_generic_network_session_parameter<s_game_hopper_picked_game_collection>::get() const
+//.text:00498510 ; public: const s_game_hopper_picked_game_collection* c_generic_network_session_parameter<s_game_hopper_picked_game_collection>::get() const
 //.text:00498540 ; 
 
 void c_life_cycle_state_handler_matchmaking_prepare_map::get_progress(s_life_cycle_matchmaking_progress* progress_out)
@@ -85,9 +85,9 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_matchmaking_prepar
 }
 
 //.text:00498D20 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_game_and_map_download(s_replicated_life_cycle_matchmaking_progress_configuring_match*)
-//.text:00498ED0 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_game_variant_download(s_game_set_file const*)
+//.text:00498ED0 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_game_variant_download(const s_game_set_file*)
 //.text:00498FC0 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_loading(s_replicated_life_cycle_matchmaking_progress_configuring_match*)
 //.text:00499350 ; private: bool c_life_cycle_state_handler_matchmaking_prepare_map::update_map_variant_download(int32)
-//.text:00499470 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_progress(s_replicated_life_cycle_matchmaking_progress_configuring_match const*)
+//.text:00499470 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_progress(const s_replicated_life_cycle_matchmaking_progress_configuring_match*)
 //.text:004994E0 ; private: void c_life_cycle_state_handler_matchmaking_prepare_map::update_veto(s_replicated_life_cycle_matchmaking_progress_configuring_match*)
 

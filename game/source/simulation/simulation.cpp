@@ -21,7 +21,7 @@ REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
 HOOK_DECLARE(0x004411E0, simulation_describe_status);
 
-c_wait_for_render_thread::c_wait_for_render_thread(char const* file, int32 line) :
+c_wait_for_render_thread::c_wait_for_render_thread(const char* file, int32 line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
 {
 }
@@ -43,17 +43,17 @@ bool __cdecl simulation_aborted()
 	return simulation_globals.initialized && simulation_globals.simulation_aborted;
 }
 
-void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, s_machine_identifier const* remote_machine_identifier, int32 remote_machine_index, char const* remote_machine_name)
+void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, const s_machine_identifier* remote_machine_identifier, int32 remote_machine_index, const char* remote_machine_name)
 {
 	INVOKE(0x00440DF0, simulation_add_view_to_world, view_type, remote_machine_identifier, remote_machine_index, remote_machine_name);
 }
 
-void __cdecl simulation_apply_after_game(struct simulation_update const* update)
+void __cdecl simulation_apply_after_game(const struct simulation_update* update)
 {
 	INVOKE(0x00440E40, simulation_apply_after_game, update);
 }
 
-void __cdecl simulation_apply_before_game(struct simulation_update const* update)
+void __cdecl simulation_apply_before_game(const struct simulation_update* update)
 {
 	INVOKE(0x00440E50, simulation_apply_before_game, update);
 
@@ -125,7 +125,7 @@ void __cdecl simulation_apply_before_game(struct simulation_update const* update
 	//}
 }
 
-bool __cdecl simulation_boot_machine(s_machine_identifier const* machine, e_network_session_boot_reason boot_reason)
+bool __cdecl simulation_boot_machine(const s_machine_identifier* machine, e_network_session_boot_reason boot_reason)
 {
 	return INVOKE(0x00440FE0, simulation_boot_machine, machine, boot_reason);
 }
@@ -314,12 +314,12 @@ void __cdecl simulation_film_stop_recording()
 	INVOKE(0x00441410, simulation_film_stop_recording);
 }
 
-bool __cdecl simulation_format_player_netdebug_data(int32 player_index, s_simulation_player_netdebug_data const* netdebug_data, int32* filled_bar_count)
+bool __cdecl simulation_format_player_netdebug_data(int32 player_index, const s_simulation_player_netdebug_data* netdebug_data, int32* filled_bar_count)
 {
 	return INVOKE(0x00441420, simulation_format_player_netdebug_data, player_index, netdebug_data, filled_bar_count);
 }
 
-char const* __cdecl simulation_get_abort_reason_string()
+const char* __cdecl simulation_get_abort_reason_string()
 {
 	return INVOKE(0x00441580, simulation_get_abort_reason_string);
 }
@@ -334,22 +334,22 @@ void __cdecl simulation_get_game_description(c_static_string<260>* game_descript
 	INVOKE(0x004415C0, simulation_get_game_description, game_description);
 }
 
-bool __cdecl simulation_get_machine_active_in_game(s_machine_identifier const* machine)
+bool __cdecl simulation_get_machine_active_in_game(const s_machine_identifier* machine)
 {
 	return INVOKE(0x00441630, simulation_get_machine_active_in_game, machine);
 }
 
-bool __cdecl simulation_get_machine_bandwidth_events(s_machine_identifier const* machine, int32 bandwidth_event_type_count, int32* bandwidth_event_counters)
+bool __cdecl simulation_get_machine_bandwidth_events(const s_machine_identifier* machine, int32 bandwidth_event_type_count, int32* bandwidth_event_counters)
 {
 	return INVOKE(0x004416B0, simulation_get_machine_bandwidth_events, machine, bandwidth_event_type_count, bandwidth_event_counters);
 }
 
-bool __cdecl simulation_get_machine_connectivity(s_machine_identifier const* machine)
+bool __cdecl simulation_get_machine_connectivity(const s_machine_identifier* machine)
 {
 	return INVOKE(0x00441700, simulation_get_machine_connectivity, machine);
 }
 
-bool __cdecl simulation_get_machine_is_host(s_machine_identifier const* machine)
+bool __cdecl simulation_get_machine_is_host(const s_machine_identifier* machine)
 {
 	return INVOKE(0x00441720, simulation_get_machine_is_host, machine);
 }
@@ -364,10 +364,10 @@ int32 __cdecl simulation_get_player_netdebug_filled_bar_count(int32 player_index
 	//return INVOKE(0x00441780, simulation_get_player_netdebug_filled_bar_count, player_index);
 
 	int32 temp_result = NONE;
-	s_simulation_player_netdebug_data const* netdebug_data = game_engine_get_player_netdebug_data(player_index);
+	const s_simulation_player_netdebug_data* netdebug_data = game_engine_get_player_netdebug_data(player_index);
 	if (simulation_format_player_netdebug_data(player_index, netdebug_data, &temp_result))
 		return temp_result;
-	
+
 	return NONE;
 }
 
@@ -376,7 +376,7 @@ c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_chann
 	return INVOKE(0x004417C0, simulation_get_remote_view_by_channel, channel);
 }
 
-char const* simulation_get_starting_up_description()
+const char* simulation_get_starting_up_description()
 {
 	//return INVOKE(0x004417F0, simulation_get_starting_up_description);
 
@@ -405,7 +405,7 @@ c_simulation_type_collection* __cdecl simulation_get_type_collection()
 	//return simulation_globals.type_collection;
 }
 
-bool __cdecl simulation_get_view_netdebug_data(c_simulation_view const* view, int32* rtt_msec, int32* packet_rate, int32* bandwidth_bps, int32* packet_loss)
+bool __cdecl simulation_get_view_netdebug_data(const c_simulation_view* view, int32* rtt_msec, int32* packet_rate, int32* bandwidth_bps, int32* packet_loss)
 {
 	return INVOKE(0x00441860, simulation_get_view_netdebug_data, view, rtt_msec, packet_rate, bandwidth_bps, packet_loss);
 }
@@ -444,21 +444,21 @@ void __cdecl simulation_initialize()
 	//INVOKE(0x004419C0, simulation_initialize);
 
 	ASSERT(!simulation_globals.initialized);
-	
+
 	simulation_gamestate_entities_initialize();
 	if (network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
 	{
 		ASSERT(simulation_globals.world);
 		ASSERT(simulation_globals.watcher);
 		ASSERT(simulation_globals.type_collection);
-	
+
 		int32 entity_type_count = NONE;
 		int32 event_type_count = NONE;
-	
+
 		simulation_globals.type_collection->clear_types();
 		simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
 		simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
-	
+
 		simulation_globals.simulation_reset_in_progress = false;
 		simulation_globals.recording_film = false;
 		simulation_globals.initialized = true;
@@ -669,7 +669,7 @@ void __cdecl simulation_prepare_to_send()
 	//	simulation_globals.world->process_pending_updates();
 }
 
-void __cdecl simulation_process_actor_control(int32 simulation_actor_index, unit_control_data const* actor_control)
+void __cdecl simulation_process_actor_control(int32 simulation_actor_index, const unit_control_data* actor_control)
 {
 	INVOKE(0x00441F30, simulation_process_actor_control, simulation_actor_index, actor_control);
 
@@ -683,7 +683,7 @@ void __cdecl simulation_process_actor_control(int32 simulation_actor_index, unit
 	//}
 }
 
-void __cdecl simulation_process_input(uns32 user_action_mask, player_action const* user_actions)
+void __cdecl simulation_process_input(uns32 user_action_mask, const player_action* user_actions)
 {
 	INVOKE(0x00441F60, simulation_process_input, user_action_mask, user_actions);
 
@@ -697,7 +697,7 @@ void __cdecl simulation_process_input(uns32 user_action_mask, player_action cons
 	//}
 }
 
-void __cdecl simulation_record_update(struct simulation_update const* update)
+void __cdecl simulation_record_update(const struct simulation_update* update)
 {
 	INVOKE(0x00441F90, simulation_record_update, update);
 
@@ -807,7 +807,7 @@ void __cdecl simulation_update()
 	INVOKE(0x004421B0, simulation_update);
 }
 
-void __cdecl simulation_update_aftermath(struct simulation_update const* update, s_simulation_update_metadata* metadata)
+void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	INVOKE(0x004423F0, simulation_update_aftermath, update, metadata);
 
@@ -856,7 +856,7 @@ void __cdecl simulation_update_pregame()
 	//}
 }
 
-bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, uns8 const* buffer)
+bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, const uns8* buffer)
 {
 	return INVOKE(0x004427C0, simulation_update_read_from_buffer, update, buffer_size, buffer);
 
@@ -874,7 +874,7 @@ bool simulation_update_read_from_buffer(struct simulation_update* update, int32 
 	//return true;
 }
 
-bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, int32 buffer_size, uns8* buffer, int32* out_update_length)
+bool __cdecl simulation_update_write_to_buffer(const struct simulation_update* update, int32 buffer_size, uns8* buffer, int32* out_update_length)
 {
 	return INVOKE(0x00442840, simulation_update_write_to_buffer, update, buffer_size, buffer, out_update_length);
 

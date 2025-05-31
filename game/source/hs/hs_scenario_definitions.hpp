@@ -92,7 +92,7 @@ struct hs_syntax_node :
 		real32 real_value;
 		int16 short_value;
 		int32 long_value;
-		char const* string_value;
+		const char* string_value;
 		string_id string_id_value;
 
 		byte storage[4];

@@ -5,7 +5,7 @@
 #include "hs/hs_runtime.hpp"
 #include "scenario/scenario.hpp"
 
-int32 start_script(hs_script const* script, int32 index)
+int32 start_script(const hs_script* script, int32 index)
 {
 	ASSERT(script);
 	ASSERT(index != NONE);
@@ -23,14 +23,14 @@ int32 start_script(hs_script const* script, int32 index)
 	return thread_index;
 }
 
-int32 user_interface_start_hs_script_by_name(char const* name)
+int32 user_interface_start_hs_script_by_name(const char* name)
 {
 	struct scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 		return NONE;
 
 	int32 script_index;
-	hs_script const* script = nullptr;
+	const hs_script* script = nullptr;
 	for (script_index = 0; script_index < scenario->scripts.count; script_index++)
 	{
 		if (ascii_stricmp(name, scenario->scripts[script_index].name) == 0)

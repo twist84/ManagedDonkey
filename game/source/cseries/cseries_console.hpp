@@ -5,7 +5,7 @@
 class c_console
 {
 public:
-	static void initialize(char const* window_title);
+	static void initialize(const char* window_title);
 	static void dispose();
 	static void toggle_window_visibility();
 	static void clear();
@@ -14,15 +14,15 @@ private:
 	static bool console_allocated();
 
 public:
-	static void write(char const* format, ...);
-	static void write_line(char const* format, ...);
-	static void write(wchar_t const* format, ...);
-	static void write_line(wchar_t const* format, ...);
+	static void write(const char* format, ...);
+	static void write_line(const char* format, ...);
+	static void write(const wchar_t* format, ...);
+	static void write_line(const wchar_t* format, ...);
 
-	static void write_va(char const* format, va_list list);
-	static void write_line_va(char const* format, va_list list);
-	static void write_va(wchar_t const* format, va_list list);
-	static void write_line_va(wchar_t const* format, va_list list);
+	static void write_va(const char* format, va_list list);
+	static void write_line_va(const char* format, va_list list);
+	static void write_va(const wchar_t* format, va_list list);
+	static void write_line_va(const wchar_t* format, va_list list);
 
 protected:
 	static bool m_initialized;

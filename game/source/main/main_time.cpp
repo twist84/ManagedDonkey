@@ -58,7 +58,7 @@ void rasterizer_render_debug_frame_deltas()
 		char str[8]{};
 		csnzprintf(str, 4, "%d", rasterizer_globals.flip_deltas[flip_delta_index]);
 
-		real_argb_color const* color = global_real_argb_green;
+		const real_argb_color* color = global_real_argb_green;
 		if (rasterizer_globals.flip_deltas[flip_delta_index] > 2)
 			color = global_real_argb_red;
 

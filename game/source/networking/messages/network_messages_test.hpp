@@ -12,7 +12,7 @@ struct c_bitstream;
 class c_network_message_test
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 

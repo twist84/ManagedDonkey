@@ -12,18 +12,18 @@
 //.text:00B92380 ; 
 //.text:00B923B0 ; void __cdecl device_add_control_children_to_groups(int32)
 //.text:00B92540 ; 
-//.text:00B92550 ; bool __cdecl device_allow_interaction(int32, real_point3d const*, real_vector3d const*)
+//.text:00B92550 ; bool __cdecl device_allow_interaction(int32, const real_point3d*, const real_vector3d*)
 //.text:00B92630 ; 
 //.text:00B92670 ; void __cdecl device_animate_overlay(int32, real32, real32, real32, real32)
 //.text:00B92700 ; void __cdecl device_animate_position(int32, real32, real32, real32, real32, bool)
 //.text:00B927A0 ; bool __cdecl device_can_change_position(int32)
 //.text:00B92840 ; 
 //.text:00B928E0 ; void __cdecl device_closes_automatically_set(int32, bool)
-//.text:00B92930 ; bool __cdecl device_compute_activation(int32, s_game_cluster_bit_vectors const*, bool*)
+//.text:00B92930 ; bool __cdecl device_compute_activation(int32, const s_game_cluster_bit_vectors*, bool*)
 //.text:00B92980 ; bool __cdecl device_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00B92CC0 ; void __cdecl device_delete(int32)
 //.text:00B92CD0 ; void __cdecl device_effect_new(int32, int32)
-//.text:00B92DA0 ; bool __cdecl device_frontfacing(int32, real_point3d const*, real_vector3d const*)
+//.text:00B92DA0 ; bool __cdecl device_frontfacing(int32, const real_point3d*, const real_vector3d*)
 //.text:00B92E30 ; int32 __cdecl device_get_action_string(int32)
 //.text:00B92E90 ; real64 __cdecl device_get_position(int32)
 //.text:00B92EE0 ; real64 __cdecl device_get_power(int32)
@@ -47,7 +47,7 @@ int32 __cdecl device_group_get_from_scenario_index(int16 device_index)
 //.text:00B936A0 ; void __cdecl device_one_sided_set(int32, bool)
 //.text:00B936D0 ; void __cdecl device_operates_automatically_set(int32, bool)
 //.text:00B93720 ; void __cdecl device_place(int32, s_scenario_device*)
-//.text:00B938E0 ; void __cdecl device_preprocess_node_orientations(int32, c_static_flags<255> const*, int32, real_orientation*)
+//.text:00B938E0 ; void __cdecl device_preprocess_node_orientations(int32, const c_static_flags<255>*, int32, real_orientation*)
 //.text:00B939C0 ; void __cdecl device_render_debug(int32)
 //.text:00B939D0 ; void __cdecl device_reset_animation_channels(int32)
 //.text:00B93A00 ; void __cdecl device_set_actual_position(int32, real32)
@@ -73,5 +73,5 @@ int32 __cdecl device_group_get_from_scenario_index(int16 device_index)
 //.text:00B94F00 ; 
 //.text:00B94F20 ; 
 //.text:00B94F60 ; void __cdecl setup_device_animation_control(s_device_animation_control*, real32, real32, real32, real32, real32, real32)
-//.text:00B95140 ; bool __cdecl update_device_animation_control(int32, s_device_animation_control*, c_animation_manager const*, c_animation_channel*, real32, real32*)
+//.text:00B95140 ; bool __cdecl update_device_animation_control(int32, s_device_animation_control*, const c_animation_manager*, c_animation_channel*, real32, real32*)
 

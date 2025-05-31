@@ -39,7 +39,7 @@
 //.text:01454150 ; bool __cdecl ai_vehicle_desirable(int32, int32, bool, bool)
 //.text:01454270 ; bool __cdecl ai_vehicle_enterable(int32, int32, real32, bool)
 //.text:01454370 ; bool __cdecl ai_vehicle_evaluate_seat(int32, int32, int16, bool, seat_entry_info*)
-//.text:01454800 ; bool __cdecl ai_vehicle_find_seat(int32, int32, unit_seat_source const*, int16, seat_entry_info*)
+//.text:01454800 ; bool __cdecl ai_vehicle_find_seat(int32, int32, const unit_seat_source*, int16, seat_entry_info*)
 //.text:01454A10 ; int32 __cdecl ai_vehicle_get_driver(int32, e_game_team)
 //.text:01454A80 ; int16 __cdecl ai_vehicle_get_num_flip_actors(int32)
 //.text:01454AD0 ; int16 __cdecl ai_vehicle_get_num_reservations(int32, e_game_team, bool)

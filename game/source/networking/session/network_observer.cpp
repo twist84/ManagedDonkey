@@ -6,14 +6,14 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00447B70, c_network_observer, quality_statistics_get_ratings);
 
-c_network_observer::s_channel_observer const* c_network_observer::find_observer_by_channel(c_network_channel const* observer) const
+const c_network_observer::s_channel_observer* c_network_observer::find_observer_by_channel(const c_network_channel* observer) const
 {
     //ASSERT(observer >= &m_channel_observers[0] && observer < &m_channel_observers[k_network_maximum_observers]);
     ASSERT((void*)observer >= &m_channel_observers[0] && (void*)observer < &m_channel_observers[k_network_maximum_observers]);
 
     ASSERT(((byte*)observer - (byte*)&m_channel_observers[0]) % sizeof(s_channel_observer) == 0);
 
-    return (c_network_observer::s_channel_observer const*)observer;
+    return (const c_network_observer::s_channel_observer*)observer;
 }
 
 void c_network_observer::destroy_observer()
@@ -22,9 +22,9 @@ void c_network_observer::destroy_observer()
 }
 
 //.text:004463A0 ; bool c_network_channel::established() const
-//.text:004463B0 ; c_network_observer::s_channel_observer const* c_network_observer::find_observer_by_channel(c_network_channel const*) const
-//.text:004463C0 ; c_network_observer::s_channel_observer* c_network_observer::find_observer_by_channel(c_network_channel const*)
-//.text:004463D0 ; int32 c_network_observer::find_observer_index_by_channel(c_network_channel const*) const
+//.text:004463B0 ; const c_network_observer::s_channel_observer* c_network_observer::find_observer_by_channel(const c_network_channel*) const
+//.text:004463C0 ; c_network_observer::s_channel_observer* c_network_observer::find_observer_by_channel(const c_network_channel*)
+//.text:004463D0 ; int32 c_network_observer::find_observer_index_by_channel(const c_network_channel*) const
 //.text:004463F0 ; bool c_network_observer::get_bandwidth_results(int32*, real32*, int32*) const
 //.text:00446490 ; 
 //.text:004464A0 ; 
@@ -41,14 +41,14 @@ void c_network_observer::destroy_observer()
 //.text:004465D0 ; e_transport_secure_connection c_network_observer::get_secure_connection_status(int32) const
 //.text:00446610 ; bool c_network_observer::get_simple_status(int32, int32*, real32*, int32*, int32*)
 
-void c_network_observer::handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request)
+void c_network_observer::handle_connect_request(const transport_address* incoming_address, const s_network_message_connect_request* connect_request)
 {
     INVOKE_CLASS_MEMBER(0x004466A0, c_network_observer, handle_connect_request, incoming_address, connect_request);
 }
 
 //.text:00446A10 ; void c_network_observer::handle_packet_event(c_network_channel*, e_network_packet_event, int32, int32, int32)
 
-bool c_network_observer::initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration)
+bool c_network_observer::initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, const s_observer_configuration* configuration)
 {
     return INVOKE_CLASS_MEMBER(0x00446C00, c_network_observer, initialize_observer, link, message_types, message_gateway, message_handler, configuration);
 
@@ -69,12 +69,12 @@ void c_network_observer::monitor()
     INVOKE_CLASS_MEMBER(0x00446DD0, c_network_observer, monitor);
 }
 
-//.text:00446ED0 ; void c_network_observer::notify_channel_packet_received(c_network_channel const*, int32)
+//.text:00446ED0 ; void c_network_observer::notify_channel_packet_received(const c_network_channel*, int32)
 //.text:00446EF0 ; void c_network_observer::notify_channel_packet_sent(c_network_channel*, int32, bool, int32, int32, int32)
 //.text:00446F60 ; bool c_network_observer::observer_channel_backlogged(e_network_observer_owner, int32, e_network_message_type) const
 //.text:00446FE0 ; bool c_network_observer::observer_channel_currently_alive(e_network_observer_owner, int32) const
-//.text:00447070 ; int32 c_network_observer::observer_channel_find_by_machine_identifier(e_network_observer_owner, s_transport_unique_identifier const*) const
-//.text:004470F0 ; int32 c_network_observer::observer_channel_find_by_network_address(e_network_observer_owner, s_transport_secure_address const*)
+//.text:00447070 ; int32 c_network_observer::observer_channel_find_by_machine_identifier(e_network_observer_owner, const s_transport_unique_identifier*) const
+//.text:004470F0 ; int32 c_network_observer::observer_channel_find_by_network_address(e_network_observer_owner, const s_transport_secure_address*)
 
 int32 c_network_observer::observer_channel_find_by_network_channel(int32 owner_type, c_network_channel* channel) const
 {
@@ -83,7 +83,7 @@ int32 c_network_observer::observer_channel_find_by_network_channel(int32 owner_t
     //ASSERT(owner_type >= 0 && owner_type < k_network_observer_owner_count);
     ASSERT(channel != NULL);
 
-    s_channel_observer const* observer = find_observer_by_channel(channel);
+    const s_channel_observer* observer = find_observer_by_channel(channel);
     ASSERT(observer != NULL);
 
     if (observer->state && TEST_BIT(observer->owner_flags, owner_type))
@@ -95,18 +95,18 @@ int32 c_network_observer::observer_channel_find_by_network_channel(int32 owner_t
 //.text:004471A0 ; void c_network_observer::observer_channel_get_bandwidth_events(e_network_observer_owner, int32, int32, int32*) const
 //.text:004471E0 ; bool c_network_observer::observer_channel_get_last_receive_activity(e_network_observer_owner, int32, uns32*) const
 //.text:00447220 ; c_network_channel* c_network_observer::observer_channel_get_network_channel(e_network_observer_owner, int32)
-//.text:00447240 ; c_network_channel const* c_network_observer::observer_channel_get_network_channel(e_network_observer_owner, int32) const
+//.text:00447240 ; const c_network_channel* c_network_observer::observer_channel_get_network_channel(e_network_observer_owner, int32) const
 //.text:00447260 ; void c_network_observer::observer_channel_get_secure_address(e_network_observer_owner, int32, s_transport_secure_address*) const
 //.text:00447290 ; bool c_network_observer::observer_channel_get_waiting_on_backlog(e_network_observer_owner, int32, e_network_message_type)
 //.text:004472E0 ; void c_network_observer::observer_channel_initiate_connection(e_network_observer_owner, int32)
 //.text:00447340 ; int32 c_network_observer::observer_channel_iterate(e_network_observer_owner, int32) const
 //.text:004473A0 ; void c_network_observer::observer_channel_release(e_network_observer_owner, int32)
-//.text:004473D0 ; int32 c_network_observer::observer_channel_request(e_network_observer_owner, s_transport_secure_address const*)
+//.text:004473D0 ; int32 c_network_observer::observer_channel_request(e_network_observer_owner, const s_transport_secure_address*)
 //.text:004473E0 ; void c_network_observer::observer_channel_reset(e_network_observer_owner, int32)
 //.text:00447420 ; void c_network_observer::observer_channel_reset_security(e_network_observer_owner, int32)
 //.text:004474B0 ; bool c_network_observer::observer_channel_secure_connection_established(e_network_observer_owner, int32) const
 
-void c_network_observer::observer_channel_send_message(int32 owner_type, int32 observer_channel_index, bool out_of_band, e_network_message_type message_type, int32 message_size, void const* message_payload)
+void c_network_observer::observer_channel_send_message(int32 owner_type, int32 observer_channel_index, bool out_of_band, e_network_message_type message_type, int32 message_size, const void* message_payload)
 {
     INVOKE_CLASS_MEMBER(0x004474F0, c_network_observer, observer_channel_send_message, owner_type, observer_channel_index, out_of_band, message_type, message_size, message_payload);
 }
@@ -149,8 +149,8 @@ void c_network_observer::quality_statistics_get_ratings(int32* out_connectivity_
 
 //.text:00447CC0 ; void c_network_observer::quality_statistics_notify_established_connectivity(e_network_observer_owner, int32, bool)
 //.text:00447D90 ; void c_network_observer::quality_statistics_notify_peer_left_gracefully(e_network_observer_owner, int32)
-//.text:00447DE0 ; void c_network_observer::quality_statistics_report_badness(int32, bool, char const*)
-//.text:00447F60 ; void c_network_observer::quality_statistics_set(s_network_quality_statistics const*)
+//.text:00447DE0 ; void c_network_observer::quality_statistics_report_badness(int32, bool, const char*)
+//.text:00447F60 ; void c_network_observer::quality_statistics_set(const s_network_quality_statistics*)
 //.text:00447F90 ; void c_network_observer::record_congestion_bandwidth(int32, bool)
 //.text:00447FE0 ; void c_network_observer::record_throughput_bandwidth(int32, int32, int32, int32)
 //.text:004481C0 ; void c_network_observer::recreate_channels()

@@ -89,5 +89,5 @@ struct style_behavior_name
 };
 static_assert(sizeof(style_behavior_name) == sizeof(c_static_string<k_tag_string_length>));
 
-extern int32 __cdecl style_get_by_name(char const* name);
+extern int32 __cdecl style_get_by_name(const char* name);
 

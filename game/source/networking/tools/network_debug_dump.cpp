@@ -19,14 +19,14 @@ REFERENCE_DECLARE(0x0199FA20, c_synchronized_long, g_net_debug_thread_has_exited
 //HOOK_DECLARE(0x00430300, netdebug_upload_file);
 //HOOK_DECLARE(0x00430380, remove_current_task);
 
-char const* const k_sessionid_filename_pack_token = "#";
-char const* const k_session_description_title_string = "title= ";
-char const* const k_session_description_build_string = "build= ";
-char const* const k_session_description_system_string = "system name= ";
-char const* const k_netdebug_session_description_file_location = "session_description.txt";
-char const* const k_debug_server_url = "/upload_server/upload.ashx";
+const char* const k_sessionid_filename_pack_token = "#";
+const char* const k_session_description_title_string = "title= ";
+const char* const k_session_description_build_string = "build= ";
+const char* const k_session_description_system_string = "system name= ";
+const char* const k_netdebug_session_description_file_location = "session_description.txt";
+const char* const k_debug_server_url = "/upload_server/upload.ashx";
 
-void __cdecl add_http_xbox_upload_info_headers(c_http_post_stream* stream, struct s_netdebug_upload_task const* task)
+void __cdecl add_http_xbox_upload_info_headers(c_http_post_stream* stream, const s_netdebug_upload_task* task)
 {
 	INVOKE(0x0042F360, add_http_xbox_upload_info_headers, stream, task);
 }
@@ -47,13 +47,13 @@ void __cdecl create_sessionid()
 }
 
 template<int32 k_filename_size>
-char* file_reference_get_filename(s_file_reference const* file, char(&filename)[k_filename_size])
+char* file_reference_get_filename(const s_file_reference* file, char(&filename)[k_filename_size])
 {
 	constexpr uns32 flags = FLAG(_name_file_bit) | FLAG(_name_extension_bit);
 	return file_reference_get_name(file, flags, filename, k_filename_size);
 }
 
-void __cdecl fill_packed_sessionid_filename(char const* filename, c_static_string<256>* sessionid_filename)
+void __cdecl fill_packed_sessionid_filename(const char* filename, c_static_string<256>* sessionid_filename)
 {
 	//INVOKE(0x0042FAF0, fill_packed_sessionid_filename, filename, sessionid_filename);
 
@@ -72,7 +72,7 @@ void __cdecl netdebug_dispose()
 	INVOKE(0x0042FCB0, netdebug_dispose);
 }
 
-char const* __cdecl netdebug_get_build()
+const char* __cdecl netdebug_get_build()
 {
 	return INVOKE(0x0042FCE0, netdebug_get_build);
 
@@ -104,7 +104,7 @@ void __cdecl netdebug_get_next_task()
 	}
 }
 
-char const* __cdecl netdebug_get_sessionid()
+const char* __cdecl netdebug_get_sessionid()
 {
 	return INVOKE(0x0042FE40, netdebug_get_sessionid);
 
@@ -113,7 +113,7 @@ char const* __cdecl netdebug_get_sessionid()
 	//return "UNINIT_SESSIONID";
 }
 
-char const* __cdecl netdebug_get_system()
+const char* __cdecl netdebug_get_system()
 {
 	return INVOKE(0x0042FE60, netdebug_get_system);
 
@@ -122,7 +122,7 @@ char const* __cdecl netdebug_get_system()
 	//return "UNINIT_SYSTEM";
 }
 
-char const* __cdecl netdebug_get_title()
+const char* __cdecl netdebug_get_title()
 {
 	return INVOKE(0x0042FE80, netdebug_get_title);
 
@@ -131,7 +131,7 @@ char const* __cdecl netdebug_get_title()
 	//return "UNINIT_TITLE";
 }
 
-bool __cdecl netdebug_initialize(char const* title_string, char const* build_identifier_string, char const* system_identifier_string)
+bool __cdecl netdebug_initialize(const char* title_string, const char* build_identifier_string, const char* system_identifier_string)
 {
 	return INVOKE(0x0042FEA0, netdebug_initialize, title_string, build_identifier_string, system_identifier_string);
 
@@ -215,12 +215,12 @@ void __cdecl netdebug_process_next_task()
 	}
 }
 
-bool __cdecl netdebug_queue_task(s_netdebug_upload_task const* task)
+bool __cdecl netdebug_queue_task(const s_netdebug_upload_task* task)
 {
 	return INVOKE(0x00430160, netdebug_queue_task, task);
 }
 
-void __cdecl netdebug_set_sessionid(char const* sessionid)
+void __cdecl netdebug_set_sessionid(const char* sessionid)
 {
 	INVOKE(0x004301B0, netdebug_set_sessionid, sessionid);
 
@@ -250,7 +250,7 @@ uns32 __cdecl netdebug_thread_function(void* thread_parameter)
 	return 0;
 }
 
-void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(int32 upload_position, int32 upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data)
+void __cdecl netdebug_upload_file(const char* a1, const char* path, void(__cdecl* update_proc)(int32 upload_position, int32 upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data)
 {
 	//INVOKE(0x00430300, netdebug_upload_file, a1, path, update_proc, completion_proc, completion_data);
 
@@ -312,7 +312,7 @@ void __cdecl netdebug_set_xtl_version()
 	//g_netdebug_globals.xtl_version.set("UNKNOWN");
 }
 
-bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, int32 seconds, s_netdebug_upload_task const* task)
+bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, int32 seconds, const s_netdebug_upload_task* task)
 {
 	//return INVOKE(0x00430470, upload_synchronous, client, stream, seconds, task);
 

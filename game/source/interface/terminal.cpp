@@ -15,7 +15,7 @@ bool g_terminal_render_enable = true;
 real32 const k_output_total_seconds = 4.0f + 1.0f;
 int16 const k_tab_stops[] = { 160, 320, 470, 620, 770 };
 
-void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
+void __cdecl terminal_printf(const real_argb_color* color, const char* format, ...)
 {
 	ASSERT(format != NULL);
 
@@ -206,7 +206,7 @@ void __cdecl terminal_remove_line(int32 line_index)
 	datum_delete(terminal_globals.output_lines, line_index);
 }
 
-int32 __cdecl terminal_new_line(char const* buffer, real_argb_color const* color, bool tabstop)
+int32 __cdecl terminal_new_line(const char* buffer, const real_argb_color* color, bool tabstop)
 {
 	c_font_cache_mt_safe font_cache;
 	c_critical_section_scope critical_section_scope(k_crit_section_terminal);

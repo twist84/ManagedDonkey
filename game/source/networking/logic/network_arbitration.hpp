@@ -34,8 +34,8 @@ struct s_network_arbitration_globals
 };
 static_assert(sizeof(s_network_arbitration_globals) == 0x198);
 
-//extern char const*(&g_network_arbitration_status_string)[k_network_arbitration_status_count];
-extern char const* g_network_arbitration_status_string[k_network_arbitration_status_count];
+//extern const char*(&g_network_arbitration_status_string)[k_network_arbitration_status_count];
+extern const char* g_network_arbitration_status_string[k_network_arbitration_status_count];
 extern s_network_arbitration_globals& network_arbitration_globals;
 
 extern void __cdecl network_arbitration_destory();

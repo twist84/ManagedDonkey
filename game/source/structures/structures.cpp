@@ -8,10 +8,10 @@
 //.text:006774F0 ; 
 //.text:00677530 ; 
 //.text:006775D0 ; 
-//.text:006778A0 ; int32 __cdecl structure_clusters_in_sphere(s_cluster_reference, real_point3d const*, real32, int32, s_cluster_reference*, int32*)
+//.text:006778A0 ; int32 __cdecl structure_clusters_in_sphere(s_cluster_reference, const real_point3d*, real32, int32, s_cluster_reference*, int32*)
 //.text:00677C20 ; 
 //.text:00677D20 ; 
-//.text:00677EE0 ; real32 __cdecl structure_distance_to_portal(structure_bsp const*, cluster_portal const*, real_point3d const*)
+//.text:00677EE0 ; real32 __cdecl structure_distance_to_portal(const structure_bsp*, const cluster_portal*, const real_point3d*)
 //.text:00678020 ; 
 //.text:006781A0 ; 
 //.text:006781C0 ; 

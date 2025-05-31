@@ -20,7 +20,7 @@ HOOK_DECLARE(0x00B170F0, render_bitmap);
 
 void __thiscall c_gui_bitmap_widget::assemble_render_data_(
 	s_gui_widget_render_data* render_data,
-	rectangle2d const* window_bounds,
+	const rectangle2d* window_bounds,
 	e_controller_index local_controller_index,
 	bool apply_translation,
 	bool apply_scale,
@@ -53,16 +53,16 @@ c_gui_bitmap_widget::~c_gui_bitmap_widget()
 	//c_gui_widget::~c_gui_widget();
 }
 
-void __cdecl c_gui_bitmap_widget::add_definition_fields(s_bitmap_widget_definition const* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated)
+void __cdecl c_gui_bitmap_widget::add_definition_fields(const s_bitmap_widget_definition* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated)
 {
 	INVOKE(0x00B166E0, c_gui_bitmap_widget::add_definition_fields, source_definition, dest_definition, positioning_bounds, was_templated);
 }
 
-//.text:00B16760 ; public: static void __cdecl c_gui_bitmap_widget::assemble_definition(s_bitmap_widget_block const*, s_runtime_bitmap_widget_definition*, real_rectangle2d*)
+//.text:00B16760 ; public: static void __cdecl c_gui_bitmap_widget::assemble_definition(const s_bitmap_widget_block*, s_runtime_bitmap_widget_definition*, real_rectangle2d*)
 
 void c_gui_bitmap_widget::assemble_render_data(
 	s_gui_widget_render_data* render_data,
-	rectangle2d const* window_bounds,
+	const rectangle2d* window_bounds,
 	e_controller_index local_controller_index,
 	bool apply_translation,
 	bool apply_scale,
@@ -185,12 +185,12 @@ s_runtime_core_widget_definition* c_gui_bitmap_widget::get_core_definition()
 	return &m_definition;
 }
 
-bitmap_data const* c_gui_bitmap_widget::get_current_bitmap() const
+const bitmap_data* c_gui_bitmap_widget::get_current_bitmap() const
 {
 	return INVOKE_CLASS_MEMBER(0x00B16AC0, c_gui_bitmap_widget, get_current_bitmap);
 }
 
-//.text:00B16B70 ; public: bitmap_data const* c_gui_bitmap_widget::get_current_bitmap_hardware_format(c_rasterizer_texture_ref*) const
+//.text:00B16B70 ; public: const bitmap_data* c_gui_bitmap_widget::get_current_bitmap_hardware_format(c_rasterizer_texture_ref*) const
 
 real_rectangle2d* c_gui_bitmap_widget::get_current_bounds(real_rectangle2d* unanimated_bounds)
 {
@@ -204,7 +204,7 @@ real_rectangle2d* c_gui_bitmap_widget::get_current_bounds(real_rectangle2d* unan
 //.text:00B16F20 ; 
 //.text:00B16FC0 ; 
 
-void c_gui_bitmap_widget::initialize(s_bitmap_widget_block const* template_and_override_block)
+void c_gui_bitmap_widget::initialize(const s_bitmap_widget_block* template_and_override_block)
 {
 	//INVOKE_CLASS_MEMBER(0x00B16FE0, c_gui_bitmap_widget, initialize, template_and_override_block);
 
@@ -254,7 +254,7 @@ struct s_dynamic_render_target
 };
 static_assert(sizeof(s_dynamic_render_target) == 0x1C);
 
-void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, rectangle2d const* window_bounds)
+void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, const rectangle2d* window_bounds)
 {
 	//INVOKE(0x00B170F0, render_bitmap, render_data, window_bounds);
 
@@ -335,7 +335,7 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 			//real32 horizontal_blur_factor = 1.5f;
 			//real32 vertical_blur_factor = 1.5f;
 			//
-			//if (s_user_interface_shared_globals const* user_interface_shared_globals = user_interface_shared_tag_globals_try_and_get())
+			//if (const s_user_interface_shared_globals* user_interface_shared_globals = user_interface_shared_tag_globals_try_and_get())
 			//{
 			//	horizontal_blur_factor = user_interface_shared_globals->horizontal_blur_factor;
 			//	vertical_blur_factor = user_interface_shared_globals->vertical_blur_factor;
@@ -367,7 +367,7 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 	{
 		if (render_data->source.custom_bitmap.storage_index != NONE)
 		{
-			c_gui_custom_bitmap_storage_item const* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(render_data->source.custom_bitmap.storage_index);
+			const c_gui_custom_bitmap_storage_item* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(render_data->source.custom_bitmap.storage_index);
 			if (bitmap && bitmap->m_bitmap_ready && &bitmap->m_bitmap_data)
 			{
 				hardware_format_primary = bitmap->m_bitmap_data.internal_hardware_format;
@@ -390,7 +390,7 @@ void __cdecl render_bitmap(s_gui_bitmap_widget_render_data const* render_data, r
 	
 			if (render_data->source.sprite.sequence != 0xFFFFi16 && render_data->source.sprite.frame != 0xFFFFi16)
 			{
-				real_rectangle2d const* bounding_rect = bitmap_group_get_bounding_rect_from_sequence(
+				const real_rectangle2d* bounding_rect = bitmap_group_get_bounding_rect_from_sequence(
 					render_data->bitmap_definition_index,
 					render_data->source.sprite.sequence,
 					render_data->source.sprite.frame);

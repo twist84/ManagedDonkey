@@ -22,7 +22,7 @@ bool __cdecl screenshot_allow_ui_render()
 	return INVOKE(0x006101C0, screenshot_allow_ui_render);
 }
 
-//.text:006101E0 ; void __cdecl screenshot_cubemap(char const*)
+//.text:006101E0 ; void __cdecl screenshot_cubemap(const char*)
 //.text:006101F0 ; void __cdecl screenshot_cubemap_callback(void(__cdecl*)(int32, int32, int32, int32, int32, int32, int32, int32), bool(__cdecl*)(int32, real_point3d*), int32)
 
 bool __cdecl screenshot_disable_hud()
@@ -50,8 +50,8 @@ bool __cdecl screenshot_in_progress()
 }
 
 //.text:00610320 ; real32 __cdecl screenshot_mipmap_lod_bias()
-//.text:00610330 ; void __cdecl screenshot_multiple(int16, char const*)
-//.text:00610390 ; void __cdecl screenshot_multiple_raw(int16, char const*)
+//.text:00610330 ; void __cdecl screenshot_multiple(int16, const char*)
+//.text:00610390 ; void __cdecl screenshot_multiple_raw(int16, const char*)
 //.text:006103F0 ; bool __cdecl is_taking_screenshot()
 
 bool __cdecl screenshot_post_render()
@@ -60,14 +60,14 @@ bool __cdecl screenshot_post_render()
 }
 
 //.text:00610410 ; bool __cdecl screenshot_render(c_player_view*, c_camera_fx_values*, int32)
-//.text:00610430 ; void __cdecl screenshot_simple(char const*)
-//.text:00610470 ; void __cdecl screenshot_single(char const*)
-//.text:006104B0 ; void __cdecl screenshot_single_webmap(char const*)
-//.text:006104F0 ; void __cdecl screenshot_size(int16, int16, char const*)
+//.text:00610430 ; void __cdecl screenshot_simple(const char*)
+//.text:00610470 ; void __cdecl screenshot_single(const char*)
+//.text:006104B0 ; void __cdecl screenshot_single_webmap(const char*)
+//.text:006104F0 ; void __cdecl screenshot_size(int16, int16, const char*)
 //.text:00610520 ; void __cdecl screenshot_sub_610520()
 //.text:00610530 ; bool __cdecl screenshot_sub_610530()
 //.text:00610540 ; 
-//.text:00610550 ; void __cdecl screenshot_sub_610550(char const*, int32, real32, real32, real32)
+//.text:00610550 ; void __cdecl screenshot_sub_610550(const char*, int32, real32, real32, real32)
 
 bool __cdecl screenshot_sub_6105E0()
 {

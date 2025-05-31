@@ -77,7 +77,7 @@ void __cdecl network_broadcast_search_end()
 	g_broadcast_search_globals.search_active = 0;
 }
 
-void __cdecl network_broadcast_search_handle_reply(transport_address const* address, s_network_message_broadcast_reply const* message)
+void __cdecl network_broadcast_search_handle_reply(const transport_address* address, const s_network_message_broadcast_reply* message)
 {
 	//INVOKE(0x004D9D30, network_broadcast_search_handle_reply, address, message);
 

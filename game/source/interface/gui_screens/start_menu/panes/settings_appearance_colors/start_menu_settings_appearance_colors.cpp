@@ -112,7 +112,7 @@ int32 c_gui_list_item_widget::get_list_item_index()
 	return m_list_item_index;
 }
 
-bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(c_controller_input_message const* message)
+bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input_message_(const c_controller_input_message* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AF9A30, c_start_menu_settings_appearance_colors*, handle_controller_input_message, message);
 

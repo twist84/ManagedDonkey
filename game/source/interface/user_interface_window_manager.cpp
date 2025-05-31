@@ -283,7 +283,7 @@ void c_window_manager::begin_transition_out(c_gui_screen_widget* screen, e_scree
 	INVOKE_CLASS_MEMBER(0x00AAA7F0, c_window_manager, begin_transition_out, screen, transition_type);
 }
 
-//.text:00AAA870 ; public: void c_window_manager::close_all_screens(c_gui_screen_widget const**, int32)
+//.text:00AAA870 ; public: void c_window_manager::close_all_screens(const c_gui_screen_widget**, int32)
 //.text:00AAA970 ; public: bool c_window_manager::controller_input_should_be_suppressed(e_controller_index)
 
 void c_window_manager::debug_widget_state(e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children)
@@ -462,7 +462,7 @@ c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_
 //.text:00AAB690 ; public: c_gui_widget* c_robust_pointer<c_gui_widget>::get_value()
 //.text:00AAB6B0 ; public: void* c_robust_void_pointer::get_value()
 //.text:00AAB6D0 ; 
-//.text:00AAB750 ; int __cdecl gui_widget_depth_sort_proc(void const*, void const*)
+//.text:00AAB750 ; int __cdecl gui_widget_depth_sort_proc(const void*, const void*)
 
 void c_window_manager::handle_global_controller_event(s_event_record* event_record)
 {
@@ -475,7 +475,7 @@ void c_window_manager::handle_global_controller_event(s_event_record* event_reco
 //.text:00AABBB0 ; private: bool __cdecl c_robust_void_pointer::internally_consistent() const
 //.text:00AABBD0 ; public: bool c_window_manager::is_screen_queued_to_be_loaded(int32, e_window_index)
 
-c_gui_screen_widget* c_window_manager::load_screen(e_controller_index controller_index, bool load_as_error, c_load_screen_message const* screen_message, int32 window_index)
+c_gui_screen_widget* c_window_manager::load_screen(e_controller_index controller_index, bool load_as_error, const c_load_screen_message* screen_message, int32 window_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00AABC30, c_window_manager, load_screen, controller_index, load_as_error, screen_message, window_index);
 }
@@ -632,13 +632,13 @@ void __cdecl c_window_manager::print_active_screen_strings_tag_name()
 		return;
 	}
 
-	char const* tag_name = topmost_screen->get_multilingual_unicode_string_list_tag_name();
+	const char* tag_name = topmost_screen->get_multilingual_unicode_string_list_tag_name();
 	if (!tag_name)
 	{
 		tag_name = "unavailable";
 	}
 
-	char const* topmost_screen_name_string = string_id_get_string_const(topmost_screen->m_name);
+	const char* topmost_screen_name_string = string_id_get_string_const(topmost_screen->m_name);
 	console_printf("ui:debug: screen '%s' uses tag file '%s'",
 		topmost_screen_name_string,
 		tag_name);
@@ -648,7 +648,7 @@ void c_window_manager::print_active_screens()
 {
 	//INVOKE_CLASS_MEMBER(0x00AAC750, c_window_manager, print_active_screens);
 
-	char const* window_strings[k_number_of_render_windows]
+	const char* window_strings[k_number_of_render_windows]
 	{
 		"player 1",
 		"player 2",
@@ -659,7 +659,7 @@ void c_window_manager::print_active_screens()
 
 	for (int32 window_index = 0; window_index < k_number_of_render_windows; window_index++)
 	{
-		char const* window_string = window_strings[window_index];
+		const char* window_string = window_strings[window_index];
 
 		for (int32 channel_count = 0; channel_count < m_current_channel_count[window_index].peek(); channel_count++)
 		{
@@ -670,7 +670,7 @@ void c_window_manager::print_active_screens()
 			}
 
 			int32 channel_name = screen->m_name;
-			char const* channel_name_string = string_id_get_string_const(channel_name);
+			const char* channel_name_string = string_id_get_string_const(channel_name);
 			console_printf("ui:debug: window '%s' name '%s'",
 				window_string,
 				channel_name_string);
@@ -680,7 +680,7 @@ void c_window_manager::print_active_screens()
 
 //.text:00AAC760 ; private: void c_window_manager::process_unhandled_events(uns32)
 
-void c_window_manager::render(e_window_index window_index, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)
+void c_window_manager::render(e_window_index window_index, int32 user_index, const rectangle2d* viewport_bounds, bool is_screenshot)
 {
 	//INVOKE_CLASS_MEMBER(0x00AAC910, c_window_manager, render, window_index, user_index, viewport_bounds, is_screenshot);
 
@@ -797,7 +797,7 @@ void c_window_manager::update(uns32 milliseconds)
 //.text:00AAD540 ; public: void c_window_manager::update_fade(uns32)
 //.text:00AAD670 ; 
 
-void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const* window_bounds, c_gui_widget* root_widget, s_window_manager_screen_render_data* render_data, e_controller_index local_controller_index)
+void __cdecl window_manager_add_widgets_to_render_list_recursive(const rectangle2d* window_bounds, c_gui_widget* root_widget, s_window_manager_screen_render_data* render_data, e_controller_index local_controller_index)
 {
 	//INVOKE(0x00AAD730, window_manager_add_widgets_to_render_list_recursive, window_bounds, root_widget, render_data, local_controller_index);
 
@@ -906,7 +906,7 @@ void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d con
 	render_data->current_count++;
 }
 
-void __cdecl window_manager_build_render_data_for_screen(rectangle2d const* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data)
+void __cdecl window_manager_build_render_data_for_screen(const rectangle2d* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data)
 {
 	INVOKE(0x00AAD8B0, window_manager_build_render_data_for_screen, viewport_bounds, screen, render_data);
 
@@ -931,7 +931,7 @@ c_window_manager* __cdecl window_manager_get()
 	return &g_window_manager;
 }
 
-//.text:00AAD940 ; bool __cdecl window_manager_handle_dialog_result_message(c_dialog_result_message const*)
+//.text:00AAD940 ; bool __cdecl window_manager_handle_dialog_result_message(const c_dialog_result_message*)
 
 void __cdecl window_manager_load_screen_hs(int32 screen_name)
 {
@@ -946,7 +946,7 @@ void __cdecl window_manager_load_screen_hs(int32 screen_name)
 	//}
 }
 
-void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, rectangle2d const* viewport_bounds, bool is_screenshot)
+void __cdecl window_manager_render_screen_internal(s_window_manager_static_render_data* render_data, int32 user_index, const rectangle2d* viewport_bounds, bool is_screenshot)
 {
 	//INVOKE(0x00AADA20, window_manager_render_screen_internal, render_data, user_index, viewport_bounds, is_screenshot);
 
@@ -988,7 +988,7 @@ void __cdecl window_manager_reset_screens()
 	//user_interface_error_manager_get()->clear_all_errors();
 }
 
-//.text:00AADAE0 ; bool __cdecl window_manager_screen_is_alert_or_dialog(c_gui_screen_widget const*)
+//.text:00AADAE0 ; bool __cdecl window_manager_screen_is_alert_or_dialog(const c_gui_screen_widget*)
 //.text:00AADB10 ; void __cdecl window_manager_storage_devices_changed()
 
 

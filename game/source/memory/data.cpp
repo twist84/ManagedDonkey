@@ -25,7 +25,7 @@ void __cdecl data_connect(s_data_array* data, int32 count, void* datums)
 	//ASSERT(data->in_use_bit_vector);
 }
 
-void __cdecl data_copy(s_data_array const* src, s_data_array* dst)
+void __cdecl data_copy(const s_data_array* src, s_data_array* dst)
 {
 	INVOKE(0x0055ABE0, data_copy, src, dst);
 
@@ -68,7 +68,7 @@ void __cdecl data_dispose(s_data_array* data)
 	//	allocation->deallocate(data);
 }
 
-void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
+void __cdecl data_initialize(s_data_array* data, const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
 {
 	INVOKE(0x0055ACF0, data_initialize, data, name, maximum_count, size, alignment_bits, allocation);
 
@@ -82,7 +82,7 @@ void __cdecl data_initialize(s_data_array* data, char const* name, int32 maximum
 	//data_update_protection(data);
 }
 
-void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uns32* in_use_bit_vector)
+void __cdecl data_initialize_disconnected(s_data_array* data, const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation, uns32* in_use_bit_vector)
 {
 	INVOKE(0x0055ADA0, data_initialize_disconnected, data, name, maximum_count, size, alignment_bits, allocation, in_use_bit_vector);
 
@@ -113,7 +113,7 @@ void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, 
 	////data->flags |= FLAG(_data_array_verify_data_pattern_bit);
 }
 
-bool __cdecl data_is_full(s_data_array const* data)
+bool __cdecl data_is_full(const s_data_array* data)
 {
 	ASSERT(data);
 	ASSERT(data->valid);
@@ -121,7 +121,7 @@ bool __cdecl data_is_full(s_data_array const* data)
 	return data->maximum_count == data->count;
 }
 
-void data_iterator_begin(s_data_iterator* iterator, s_data_array const* data)
+void data_iterator_begin(s_data_iterator* iterator, const s_data_array* data)
 {
 	INVOKE(0x0055AE10, data_iterator_begin, iterator, data);
 
@@ -165,7 +165,7 @@ void __cdecl data_make_valid(s_data_array* data)
 	//data_verify(data);
 }
 
-s_data_array* __cdecl data_new(char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
+s_data_array* __cdecl data_new(const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
 {
 	return INVOKE(0x0055AFA0, data_new, name, maximum_count, size, alignment_bits, allocation);
 
@@ -178,7 +178,7 @@ s_data_array* __cdecl data_new(char const* name, int32 maximum_count, int32 size
 	//return data;
 }
 
-s_data_array* __cdecl data_new_disconnected(char const* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
+s_data_array* __cdecl data_new_disconnected(const char* name, int32 maximum_count, int32 size, int32 alignment_bits, c_allocation_base* allocation)
 {
 	return INVOKE(0x0055B010, data_new_disconnected, name, maximum_count, size, alignment_bits, allocation);
 
@@ -190,17 +190,17 @@ s_data_array* __cdecl data_new_disconnected(char const* name, int32 maximum_coun
 	//return data;
 }
 
-int32 __cdecl data_next_absolute_index(s_data_array const* data, int32 absolute_index)
+int32 __cdecl data_next_absolute_index(const s_data_array* data, int32 absolute_index)
 {
 	return INVOKE(0x0055B060, data_next_absolute_index, data, absolute_index);
 }
 
-int32 __cdecl data_next_absolute_index_with_byte_flags(s_data_array const* data, int32 absolute_index, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
+int32 __cdecl data_next_absolute_index_with_byte_flags(const s_data_array* data, int32 absolute_index, int32 flag_offset, uns8 flag_mask, uns8 flag_value)
 {
 	return INVOKE(0x0055B0B0, data_next_absolute_index_with_byte_flags, data, absolute_index, flag_offset, flag_mask, flag_value);
 }
 
-int32 __cdecl data_next_index(s_data_array const* data, int32 index)
+int32 __cdecl data_next_index(const s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B130, data_next_index, data, index);
 }
@@ -215,27 +215,27 @@ void __cdecl data_set_new_base_address(s_data_array** pointer_to_set, s_data_arr
 	INVOKE(0x0055B1D0, data_set_new_base_address, pointer_to_set, new_address);
 }
 
-void __cdecl data_set_protection(s_data_array const* data, int32 unproteced_element_count)
+void __cdecl data_set_protection(const s_data_array* data, int32 unproteced_element_count)
 {
 	INVOKE(0x0055B220, data_set_protection, data, unproteced_element_count);
 }
 
-bool __cdecl data_should_verify_data_pattern(s_data_array const* data)
+bool __cdecl data_should_verify_data_pattern(const s_data_array* data)
 {
 	return INVOKE(0x0055B230, data_should_verify_data_pattern, data);
 }
 
-void __cdecl data_unprotect_all(s_data_array const* data)
+void __cdecl data_unprotect_all(const s_data_array* data)
 {
 	INVOKE(0x0055B250, data_unprotect_all, data);
 }
 
-void __cdecl data_update_protection(s_data_array const* data)
+void __cdecl data_update_protection(const s_data_array* data)
 {
 	INVOKE(0x0055B260, data_update_protection, data);
 }
 
-void __cdecl data_verify(s_data_array const* data)
+void __cdecl data_verify(const s_data_array* data)
 {
 	INVOKE(0x0055B270, data_verify, data);
 
@@ -258,12 +258,12 @@ void __cdecl data_verify(s_data_array const* data)
 	//}
 }
 
-int32 __cdecl datum_absolute_index_to_index(s_data_array const* data, int32 absolute_index)
+int32 __cdecl datum_absolute_index_to_index(const s_data_array* data, int32 absolute_index)
 {
 	return INVOKE(0x0055B280, datum_absolute_index_to_index, data, absolute_index);
 }
 
-bool __cdecl datum_available_at_index(s_data_array const* data, int32 index)
+bool __cdecl datum_available_at_index(const s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B2B0, datum_available_at_index, data, index);
 }
@@ -352,7 +352,7 @@ void* __cdecl datum_get(s_data_array* data, int32 index)
 	return header;
 }
 
-void* __cdecl datum_try_and_get(s_data_array const* data, int32 index)
+void* __cdecl datum_try_and_get(const s_data_array* data, int32 index)
 {
 	//return INVOKE(0x0055B6D0, datum_try_and_get, data, index);
 
@@ -432,7 +432,7 @@ void* __cdecl datum_get_absolute(s_data_array* data, int32 index)
 	return header;
 }
 
-void* __cdecl datum_try_and_get_absolute(s_data_array const* data, int32 index)
+void* __cdecl datum_try_and_get_absolute(const s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B710, datum_try_and_get_absolute, data, index);
 
@@ -481,7 +481,7 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, int32 index)
 	//return result;
 }
 
-void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, int32 index)
+void* __cdecl datum_try_and_get_unsafe(const s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B740, datum_try_and_get_unsafe, data, index);
 

@@ -13,9 +13,9 @@ c_life_cycle_state_handler::c_life_cycle_state_handler() :
 	//DECLFUNC(0x00453EC0, void, __thiscall, c_life_cycle_state_handler*)(this);
 }
 
-//.text:0048CDB0 ; protected: bool c_life_cycle_state_handler::all_peers_have_main_menu_ready(c_network_session const*)
+//.text:0048CDB0 ; protected: bool c_life_cycle_state_handler::all_peers_have_main_menu_ready(const c_network_session*)
 //.text:0048CE20 ; protected: bool c_life_cycle_state_handler::all_squad_peers_established_in_group()
-//.text:0048CF70 ; protected: void c_life_cycle_state_handler::build_player_options(s_network_session_player const*, uns32, s_machine_identifier const*, c_game_variant const*, int32, int32, int32, game_player_options*)
+//.text:0048CF70 ; protected: void c_life_cycle_state_handler::build_player_options(const s_network_session_player*, uns32, const s_machine_identifier*, const c_game_variant*, int32, int32, int32, game_player_options*)
 //.text:0048D010 ; protected: bool c_life_cycle_state_handler::can_pick_teams_for_group_with_party_exclude_mask(uns32)
 //.text:0048D1A0 ; protected: void c_life_cycle_state_handler::disband_group_session()
 
@@ -90,7 +90,7 @@ void c_life_cycle_state_handler::handle_missing_required_session_parameter(e_net
 	//INVOKE_CLASS_MEMBER(0x0048D7D0, c_life_cycle_state_handler, handle_missing_required_session_parameter, session_type);
 }
 
-void c_life_cycle_state_handler::initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, c_life_cycle_state_handler_flags const* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask)
+void c_life_cycle_state_handler::initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, const c_life_cycle_state_handler_flags* flags, uns64 required_squad_session_parameter_mask, uns64 required_group_session_parameter_mask)
 {
 	//INVOKE_CLASS_MEMBER(0x0048D7E0, c_life_cycle_state_handler, initialize, manager, state, flags, required_squad_session_parameter_mask, m_required_group_session_parameter_mask);
 
@@ -109,12 +109,12 @@ void c_life_cycle_state_handler::initialize(c_life_cycle_state_manager* manager,
 	manager->register_state_handler(state, this);
 }
 
-//.text:0048D8A0 ; protected: static bool __cdecl c_life_cycle_state_handler::is_map_precached(c_network_session const*, uns32*)
+//.text:0048D8A0 ; protected: static bool __cdecl c_life_cycle_state_handler::is_map_precached(const c_network_session*, uns32*)
 //.text:0048D910 ; protected: void c_life_cycle_state_handler::matchmaking_update_required_files_for_hopper()
 //.text:0048DAF0 ; protected: bool c_life_cycle_state_handler::pick_teams_for_group(bool)
 //.text:0048DB10 ; private: bool c_life_cycle_state_handler::pick_teams_for_group_internal(bool, uns32)
-//.text:0048DE90 ; protected: bool c_life_cycle_state_handler::session_composition_valid(c_network_session const*)
-//.text:0048DEE0 ; protected: bool c_life_cycle_state_handler::session_has_minimum_player_count_to_start_game_in_hopper(c_network_session const*)
+//.text:0048DE90 ; protected: bool c_life_cycle_state_handler::session_composition_valid(const c_network_session*)
+//.text:0048DEE0 ; protected: bool c_life_cycle_state_handler::session_has_minimum_player_count_to_start_game_in_hopper(const c_network_session*)
 
 bool c_life_cycle_state_handler::setup_initial_participants(c_network_session* session)
 {
@@ -140,9 +140,9 @@ bool c_life_cycle_state_handler::test_flag(e_life_cycle_state_handler_flags flag
 	return m_handler_flags.test(flag);
 }
 
-//.text:0048E5D0 ; protected: void c_life_cycle_state_handler::update_advertised_session(s_matchmaking_session_properties const*)
+//.text:0048E5D0 ; protected: void c_life_cycle_state_handler::update_advertised_session(const s_matchmaking_session_properties*)
 //.text:0048E790 ; protected: void c_life_cycle_state_handler::update_group_qos_listener_data(s_qos_listener_data*)
 //.text:0048EC60 ; protected: void c_life_cycle_state_handler::update_main_menu_precaching()
 //.text:0048ECB0 ; protected: void c_life_cycle_state_handler::update_matchmaking_search_criteria(bool)
-//.text:0048F0B0 ; protected: void c_life_cycle_state_handler::update_search_progress(c_matchmaking_seeker const*, bool, uns32)
+//.text:0048F0B0 ; protected: void c_life_cycle_state_handler::update_search_progress(const c_matchmaking_seeker*, bool, uns32)
 

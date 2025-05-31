@@ -42,8 +42,8 @@ c_map_variant::c_map_variant()
 //.text:00580D80 ; 
 //.text:00580D90 ; 
 //.text:00580E30 ; public: void c_map_variant::apply_multiplayer_properties(int32, int32) const
-//.text:00580E80 ; public: void c_map_variant::apply_multiplayer_properties(s_variant_multiplayer_object_properties_definition const*, int32) const
-//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(int32, uns32, int32, void const*)
+//.text:00580E80 ; public: void c_map_variant::apply_multiplayer_properties(const s_variant_multiplayer_object_properties_definition*, int32) const
+//.text:00580FE0 ; public: virtual bool __cdecl c_simulation_map_variant_entity_definition::update_game_entity(int32, uns32, int32, const void*)
 //.text:00581400 ; public: bool c_map_variant::build_simulation_baseline(int32, int32, void*)
 //.text:005816C0 ; 
 //.text:00581B90 ; public: bool c_map_variant::can_place_scenario_object(e_object_type, int32) const
@@ -57,7 +57,7 @@ void c_map_variant::create_default(e_map_id map_id)
 	INVOKE_CLASS_MEMBER(0x00581F70, c_map_variant, create_default, map_id);
 }
 
-//.text:00582110 ; public: int32 c_map_variant::create_object(int32, int32, int32, real_point3d const*, real_vector3d const*, real_vector3d const*, int32, e_object_type, s_variant_multiplayer_object_properties_definition const*, uns16)
+//.text:00582110 ; public: int32 c_map_variant::create_object(int32, int32, int32, const real_point3d*, const real_vector3d*, const real_vector3d*, int32, e_object_type, const s_variant_multiplayer_object_properties_definition*, uns16)
 
 bool c_map_variant::decode(c_bitstream* packet)
 {
@@ -192,13 +192,13 @@ void c_map_variant::encode(c_bitstream* packet) const
 //.text:00583250 ; public: real32 c_map_variant::get_budget_fraction(int32*, int32*) const
 //.text:005832A0 ; 
 //.text:005832E0 ; public: int32 c_map_variant::get_object_index(int32) const
-//.text:00583300 ; public: s_variant_quota const* c_map_variant::get_object_quota_datum(int32)
+//.text:00583300 ; public: const s_variant_quota* c_map_variant::get_object_quota_datum(int32)
 //.text:00583320 ; 
 //.text:005833F0 ; public: bool c_map_variant::get_object_scenario_properties(int32, e_object_type*, int32*)
 //.text:005834E0 ; 
 //.text:00583530 ; 
 //.text:005835F0 ; 
-//.text:00583600 ; public: s_variant_object_datum const* c_map_variant::get_variant_object_datum(int32) const
+//.text:00583600 ; public: const s_variant_object_datum* c_map_variant::get_variant_object_datum(int32) const
 //.text:00583630 ; public: void c_map_variant::get_variant_object_datum(int32, s_variant_object_datum*) const
 //.text:005836C0 ; public: void c_map_variant::get_variant_object_spawn_location(int32, real_point3d*, real_vector3d*, real_vector3d*)
 //.text:00583860 ; public: s_variant_quota* c_map_variant::get_writable_object_quota_datum(int32)
@@ -212,7 +212,7 @@ void c_map_variant::encode(c_bitstream* packet) const
 //.text:00584010 ; 
 //.text:00584030 ; 
 //.text:00584050 ; 
-//.text:00584070 ; public: bool c_map_variant::is_equal_to(c_map_variant const*) const
+//.text:00584070 ; public: bool c_map_variant::is_equal_to(const c_map_variant*) const
 //.text:005841C0 ; public: bool c_map_variant::is_showing_helpers()
 
 bool c_map_variant::is_valid() const
@@ -247,12 +247,12 @@ bool c_map_variant::lossily_compare_to(c_map_variant* map_variant)
 //.text:00585EE0 ; public: void c_map_variant::reset_objects()
 //.text:00586090 ; public: void c_map_variant::sanity_check(int32)
 
-bool c_map_variant::read_from(c_map_variant const* source)
+bool c_map_variant::read_from(const c_map_variant* source)
 {
 	return INVOKE_CLASS_MEMBER(0x005860F0, c_map_variant, read_from, source);
 }
 
-//.text:00586270 ; s_scenario_multiplayer_object_properties const* __cdecl scenario_multiplayer_object_properties_try_and_get(e_object_type, int32)
+//.text:00586270 ; const s_scenario_multiplayer_object_properties* __cdecl scenario_multiplayer_object_properties_try_and_get(e_object_type, int32)
 //.text:00586300 ; 
 //.text:00586330 ; 
 //.text:00586350 ; 
@@ -263,21 +263,21 @@ bool c_map_variant::read_from(c_map_variant const* source)
 //.text:00586420 ; 
 //.text:00586440 ; public: void c_map_variant::set_client_spent_budget(int32)
 
-void c_map_variant::set_description(char const* description)
+void c_map_variant::set_description(const char* description)
 {
 	return INVOKE_CLASS_MEMBER(0x00586460, c_map_variant, set_description, description);
 }
 
-//.text:005864A0 ; public: void c_map_variant::set_metadata(s_saved_game_item_metadata const*)
+//.text:005864A0 ; public: void c_map_variant::set_metadata(const s_saved_game_item_metadata*)
 
-void c_map_variant::set_name(wchar_t const* name)
+void c_map_variant::set_name(const wchar_t* name)
 {
 	return INVOKE_CLASS_MEMBER(0x00586570, c_map_variant, set_name, name);
 }
 
 //.text:005865B0 ;
 //.text:005865C0 ;
-//.text:005865D0 ; public: void c_map_variant::set_variant_object_datum(int32, s_variant_object_datum const*, bool)
+//.text:005865D0 ; public: void c_map_variant::set_variant_object_datum(int32, const s_variant_object_datum*, bool)
 //.text:00586680 ; public: void c_map_variant::setup_object_properties(s_variant_object_datum*)
 //.text:00586860 ; public: void c_map_variant::show_helpers(bool)
 //.text:005868E0 ; 
@@ -358,7 +358,7 @@ void s_variant_quota::print(int32 const tab_count)
 	PRINT_TABS; c_console::write("<item name = \"Object\" value = ");
 	if (object_definition_index != NONE)
 	{
-		char const* tag_name = tag_get_name_safe(object_definition_index);
+		const char* tag_name = tag_get_name_safe(object_definition_index);
 		c_console::write("\"%s\"", tag_name);
 	}
 	else

@@ -25,11 +25,11 @@ struct _stack_walk_globals
 struct s_file_reference;
 struct _CONTEXT;
 
-//extern uns32 base_address_from_symbol_name(char const*, struct debug_symbol_table*);
-extern char const* symbol_name_from_address(uns32 routine_address, int32* out_symbol_offset);
+//extern uns32 base_address_from_symbol_name(const char*, struct debug_symbol_table*);
+extern const char* symbol_name_from_address(uns32 routine_address, int32* out_symbol_offset);
 //extern void free_symbol_table(struct debug_symbol_table*);
-//extern bool load_symbol_table(char const*, struct debug_symbol_table*);
-//extern void stack_walk_print(struct s_file_reference*, struct _CONTEXT*, int32, uns32 const*);
+//extern bool load_symbol_table(const char*, struct debug_symbol_table*);
+//extern void stack_walk_print(struct s_file_reference*, struct _CONTEXT*, int32, const uns32*);
 extern void stack_walk_with_context(s_file_reference* file, int16 levels_to_ignore, _CONTEXT* context);
 //extern void stack_walk_to_buffer(int16, int32, uns32*);
 extern void stack_walk_to_file(s_file_reference* file, int16 levels_to_ignore);

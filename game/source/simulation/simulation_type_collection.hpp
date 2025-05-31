@@ -15,12 +15,12 @@ public:
 
 	int32 get_entity_definition_count() const;
 	c_simulation_entity_definition* get_entity_definition(e_simulation_entity_type) const;
-	char const* get_entity_type_name(e_simulation_entity_type) const;
+	const char* get_entity_type_name(e_simulation_entity_type) const;
 	void register_entity_definition(e_simulation_entity_type, c_simulation_entity_definition*);
 
 	int32 get_event_definition_count() const;
 	c_simulation_event_definition* get_event_definition(e_simulation_event_type) const;
-	char const* get_event_type_name(e_simulation_event_type) const;
+	const char* get_event_type_name(e_simulation_event_type) const;
 	void register_event_definition(e_simulation_event_type, c_simulation_event_definition*);
 
 protected:

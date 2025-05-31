@@ -139,13 +139,13 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_chunk_map_variant), &byte_swap, &chunk_size))
 		return false;
 
-	char const* next_chunk = (char*)this + chunk_size;
+	const char* next_chunk = (char*)this + chunk_size;
 
 	bool eof_chunk = false;
-	char const* chunk = nullptr;
+	const char* chunk = nullptr;
 	if (network_blf_read_for_known_chunk(
-		(char const*)this + chunk_size,
-		sizeof(s_blf_chunk_map_variant) - (chunk - (char const*)this),
+		(const char*)this + chunk_size,
+		sizeof(s_blf_chunk_map_variant) - (chunk - (const char*)this),
 		byte_swap,
 		s_blf_chunk_map_variant::k_chunk_type,
 		s_blf_chunk_map_variant::k_version_major,
@@ -171,7 +171,7 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 			next_chunk += chunk_size;
 			if (!network_blf_read_for_known_chunk(
 				next_chunk,
-				(char const*)this - chunk + sizeof(s_blf_chunk_map_variant),
+				(const char*)this - chunk + sizeof(s_blf_chunk_map_variant),
 				byte_swap,
 				s_blf_chunk_map_variant::k_chunk_type,
 				s_blf_chunk_map_variant::k_version_major,
@@ -246,10 +246,10 @@ bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_
 
 	while (true)
 	{
-		char const* chunk = (char const*)this + chunk_size;
+		const char* chunk = (const char*)this + chunk_size;
 
 		bool eof_chunk = false;
-		if (!network_blf_read_for_known_chunk(chunk, sizeof(s_blf_saved_film) - (chunk - (char const*)this), byte_swap, s_blf_saved_film::k_chunk_type, s_blf_saved_film::k_version_major, &chunk_size, &chunk, nullptr, nullptr, &eof_chunk) || eof_chunk)
+		if (!network_blf_read_for_known_chunk(chunk, sizeof(s_blf_saved_film) - (chunk - (const char*)this), byte_swap, s_blf_saved_film::k_chunk_type, s_blf_saved_film::k_version_major, &chunk_size, &chunk, nullptr, nullptr, &eof_chunk) || eof_chunk)
 			break;
 
 		if (!chunk)
@@ -320,13 +320,13 @@ s_blf_chunk_scenario_atlas::s_blf_chunk_scenario_atlas() :
 {
 }
 
-bool __cdecl network_blf_find_chunk(char const* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, char const** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found)
+bool __cdecl network_blf_find_chunk(const char* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, const char** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found)
 {
 	bool result = false;
 
 	while (!result)
 	{
-		char const* chunk_buffer = nullptr;
+		const char* chunk_buffer = nullptr;
 		int32 chunk_size = 0;
 		bool eof_chunk = false;
 
@@ -353,7 +353,7 @@ bool __cdecl network_blf_find_chunk(char const* buffer, int32 buffer_count, bool
 	return result;
 }
 
-bool __cdecl network_blf_read_for_known_chunk(char const* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, char const** found_chunk_data, int32* out_found_chunk_data_size, int16* out_version_minor, bool* out_eof_found)
+bool __cdecl network_blf_read_for_known_chunk(const char* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, const char** found_chunk_data, int32* out_found_chunk_data_size, int16* out_version_minor, bool* out_eof_found)
 {
 	ASSERT(out_chunk_size);
 
@@ -375,7 +375,7 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, int32 buffer_c
 
 	if (buffer_count >= sizeof(s_blf_header))
 	{
-		s_blf_header const* chunk = reinterpret_cast<s_blf_header const*>(buffer);
+		const s_blf_header* chunk = (const s_blf_header*)buffer;
 
 		int32 chunk_type = chunk->chunk_type;
 		int32 chunk_size = chunk->chunk_size;
@@ -435,14 +435,14 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, int32 buffer_c
 	return result;
 }
 
-bool __cdecl network_blf_verify_end_of_file(char const* buffer, int32 buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type)
+bool __cdecl network_blf_verify_end_of_file(const char* buffer, int32 buffer_count, bool byte_swap, const char* eof_chunk_buffer, e_blf_file_authentication_type authentication_type)
 {
 	bool result = false;
 	HOOK_INVOKE(result =, network_blf_verify_end_of_file, buffer, buffer_count, byte_swap, eof_chunk_buffer, authentication_type);
 	return result;
 }
 
-bool __cdecl network_blf_verify_start_of_file(char const* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size)
+bool __cdecl network_blf_verify_start_of_file(const char* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size)
 {
 	bool result = false;
 
@@ -451,7 +451,7 @@ bool __cdecl network_blf_verify_start_of_file(char const* buffer, int32 buffer_c
 
 	if (buffer_count >= sizeof(s_blf_chunk_start_of_file))
 	{
-		s_blf_chunk_start_of_file const* sof_chunk = reinterpret_cast<s_blf_chunk_start_of_file const*>(buffer);
+		const s_blf_chunk_start_of_file* sof_chunk = (const s_blf_chunk_start_of_file*)buffer;
 
 		int32 chunk_type = sof_chunk->header.chunk_type;
 		int32 chunk_size = sof_chunk->header.chunk_size;

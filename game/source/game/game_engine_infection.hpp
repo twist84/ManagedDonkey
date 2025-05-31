@@ -20,8 +20,8 @@ public:
 
 	void byteswap();
 
-	void set(c_game_engine_infection_variant const* variant, bool force);
-	//void set(s_game_engine_infection_variant_definition const* definition, bool force);
+	void set(const c_game_engine_infection_variant* variant, bool force);
+	//void set(const s_game_engine_infection_variant_definition* definition, bool force);
 
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
@@ -60,20 +60,20 @@ public:
 	void set_last_man_bonus_points(int8 last_man_bonus_points);
 
 	c_player_traits* get_zombie_traits_writeable();
-	c_player_traits const* get_zombie_traits() const;
-	void set_zombie_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_zombie_traits() const;
+	void set_zombie_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_first_zombie_traits_writeable();
-	c_player_traits const* get_first_zombie_traits() const;
-	void set_first_zombie_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_first_zombie_traits() const;
+	void set_first_zombie_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_safe_haven_defender_traits_writeable();
-	c_player_traits const* get_safe_haven_defender_traits() const;
-	void set_safe_haven_defender_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_safe_haven_defender_traits() const;
+	void set_safe_haven_defender_traits(const c_player_traits* traits, bool force);
 
 	c_player_traits* get_last_human_traits_writeable();
-	c_player_traits const* get_last_human_traits() const;
-	void set_last_human_traits(c_player_traits const* traits, bool force);
+	const c_player_traits* get_last_human_traits() const;
+	void set_last_human_traits(const c_player_traits* traits, bool force);
 
 protected:
 	c_flags<e_infection_variant_flags, uns8, k_infection_variant_flags> m_variant_flags;

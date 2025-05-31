@@ -4,7 +4,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 
-// cseries, char const* const g_zero_buffer;
+// cseries, const char* const g_zero_buffer;
 char const g_zero_buffer[256]{};
 
 //HOOK_DECLARE(0x004A7BC0, simulation_player_collection_apply_update);
@@ -24,7 +24,7 @@ char const g_zero_buffer[256]{};
 //HOOK_DECLARE(0x004A84C0, simulation_player_update_generate_swap);
 //HOOK_DECLARE(0x004A8560, simulation_players_apply_update);
 
-void __cdecl simulation_player_collection_apply_update(s_player_collection* collection, simulation_player_update const* player_update)
+void __cdecl simulation_player_collection_apply_update(s_player_collection* collection, const simulation_player_update* player_update)
 {
 	INVOKE(0x004A7BC0, simulation_player_collection_apply_update, collection, player_update);
 
@@ -225,7 +225,7 @@ void __cdecl simulation_player_collection_clear(s_player_collection* collection)
 	//}
 }
 
-uns32 simulation_player_collection_get_in_game_mask(s_player_collection const* collection)
+uns32 simulation_player_collection_get_in_game_mask(const s_player_collection* collection)
 {
 	return INVOKE(0x004A7E90, simulation_player_collection_get_in_game_mask, collection);
 
@@ -240,7 +240,7 @@ uns32 simulation_player_collection_get_in_game_mask(s_player_collection const* c
 	//return in_game_mask;
 }
 
-void __cdecl simulation_player_collection_verify(s_player_collection const* collection)
+void __cdecl simulation_player_collection_verify(const s_player_collection* collection)
 {
 	INVOKE(0x004A7ED0, simulation_player_collection_verify, collection);
 
@@ -248,7 +248,7 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 	//
 	//for (int32 player_index = 0; player_index < k_maximum_players; player_index++)
 	//{
-	//	s_player_collection_player const* collection_player = &collection->collection_players[player_index];
+	//	const s_player_collection_player* collection_player = &collection->collection_players[player_index];
 	//	if (TEST_BIT(collection->player_valid_mask, player_index))
 	//	{
 	//		ASSERT(csmemcmp(&collection_player->identifier, g_zero_buffer, sizeof(collection_player->identifier)) != 0);
@@ -271,7 +271,7 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 	//		//{
 	//		//	if (TEST_BIT(collection->player_valid_mask, test_player_index))
 	//		//	{
-	//		//		s_player_collection_player const* test_player = &collection->collection_players[test_player_index];
+	//		//		const s_player_collection_player* test_player = &collection->collection_players[test_player_index];
 	//		//		ASSERT(csmemcmp(&collection_player->identifier, &test_player->identifier, sizeof(collection_player->identifier)) != 0);
 	//		//
 	//		//		if (collection_player->left_game &&
@@ -296,7 +296,7 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 	//}
 }
 
-bool __cdecl simulation_player_update_apply_added(simulation_player_update const* player_update)
+bool __cdecl simulation_player_update_apply_added(const simulation_player_update* player_update)
 {
 	return INVOKE(0x004A7EE0, simulation_player_update_apply_added, player_update);
 
@@ -329,7 +329,7 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 	//return true;
 }
 
-bool __cdecl simulation_player_update_apply_configuration(simulation_player_update const* player_update)
+bool __cdecl simulation_player_update_apply_configuration(const simulation_player_update* player_update)
 {
 	return INVOKE(0x004A8160, simulation_player_update_apply_configuration, player_update);
 
@@ -338,7 +338,7 @@ bool __cdecl simulation_player_update_apply_configuration(simulation_player_upda
 	// $TODO: implement me
 }
 
-bool __cdecl simulation_player_update_apply_left_game(simulation_player_update const* player_update)
+bool __cdecl simulation_player_update_apply_left_game(const simulation_player_update* player_update)
 {
 	return INVOKE(0x004A81D0, simulation_player_update_apply_left_game, player_update);
 
@@ -347,7 +347,7 @@ bool __cdecl simulation_player_update_apply_left_game(simulation_player_update c
 	// $TODO: implement me
 }
 
-bool __cdecl simulation_player_update_apply_remove(simulation_player_update const* player_update)
+bool __cdecl simulation_player_update_apply_remove(const simulation_player_update* player_update)
 {
 	return INVOKE(0x004A8240, simulation_player_update_apply_remove, player_update);
 
@@ -356,7 +356,7 @@ bool __cdecl simulation_player_update_apply_remove(simulation_player_update cons
 	// $TODO: implement me
 }
 
-bool __cdecl simulation_player_update_apply_swap(simulation_player_update const* player_update)
+bool __cdecl simulation_player_update_apply_swap(const simulation_player_update* player_update)
 {
 	return INVOKE(0x004A82B0, simulation_player_update_apply_swap, player_update);
 
@@ -365,8 +365,8 @@ bool __cdecl simulation_player_update_apply_swap(simulation_player_update const*
 	// $TODO: implement me
 }
 
-//void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, int32 machine_user_index, e_controller_index machine_controller_index, s_player_configuration const* player_data, bool joined_in_progress)
-void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress)
+//void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier, const s_machine_identifier* machine_identifier, int32 machine_user_index, e_controller_index machine_controller_index, const s_player_configuration* player_data, bool joined_in_progress)
+void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier, const s_machine_identifier* machine_identifier, const s_player_configuration* player_data, bool joined_in_progress)
 {
 	INVOKE(0x004A8390, simulation_player_update_generate_add, player_update, players, player_index, player_identifier, machine_identifier, player_data, joined_in_progress);
 
@@ -397,7 +397,7 @@ void __cdecl simulation_player_update_generate_add(simulation_player_update* pla
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier, s_player_configuration const* player_data)
+void __cdecl simulation_player_update_generate_configuration(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier, const s_player_configuration* player_data)
 {
 	INVOKE(0x004A8400, simulation_player_update_generate_configuration, player_update, players, player_index, player_identifier, player_data);
 
@@ -422,7 +422,7 @@ void __cdecl simulation_player_update_generate_configuration(simulation_player_u
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, int32 player_index, s_player_identifier const* player_identifier)
+void __cdecl simulation_player_update_generate_left_game(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier)
 {
 	INVOKE(0x004A8450, simulation_player_update_generate_left_game, player_update, players, player_index, player_identifier);
 
@@ -494,7 +494,7 @@ void __cdecl simulation_player_update_generate_swap(simulation_player_update* pl
 	//simulation_player_collection_apply_update(players, player_update);
 }
 
-bool __cdecl simulation_players_apply_update(simulation_player_update const* player_update)
+bool __cdecl simulation_players_apply_update(const simulation_player_update* player_update)
 {
 	return INVOKE(0x004A8560, simulation_players_apply_update, player_update);
 

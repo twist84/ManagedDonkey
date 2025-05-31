@@ -315,7 +315,7 @@ struct c_rasterizer
 	static bool __cdecl reset_device();
 	static bool __cdecl begin_frame();
 	static void __cdecl begin_high_quality_blend();
-	//static void __cdecl clearf(uns32, real_vector4d const*, real32, uns32);
+	//static void __cdecl clearf(uns32, const real_vector4d*, real32, uns32);
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
 	static bool __cdecl sub_A218C0();
@@ -333,24 +333,24 @@ struct c_rasterizer
 	static void __cdecl set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex*, e_alpha_blend_mode);
 	static void __cdecl set_color_write_enable(int32 target_index, int32 enable);
 	static bool __cdecl surface_valid(e_surface surface);
-	static bool __cdecl set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const*, e_entry_point);
-	static bool __cdecl set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
+	static bool __cdecl set_compiled_pixel_shader(const c_rasterizer_compiled_pixel_shader*, e_entry_point);
+	static bool __cdecl set_compiled_vertex_shader(const c_rasterizer_compiled_vertex_shader*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_cull_mode(e_cull_mode);
 	static bool __cdecl set_explicit_shaders(int32, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_fill_mode(e_fill_mode);
 	static void __cdecl set_indices(IDirect3DIndexBuffer9*);
-	static bool __cdecl set_pixel_shader(c_rasterizer_pixel_shader const*, e_entry_point);
+	static bool __cdecl set_pixel_shader(const c_rasterizer_pixel_shader*, e_entry_point);
 	static void __cdecl set_sampler_texture_direct(int32 sampler_index, e_surface surface);
 	static void __cdecl set_sampler_address_mode(int32 sampler_index, e_sampler_address_mode u, e_sampler_address_mode v, e_sampler_address_mode w);
 	static void __cdecl set_sampler_filter_mode(int32 sampler_index, e_sampler_filter_mode sampler_filter_mode);
 	static void __cdecl set_sampler_texture(int32 sampler_index, c_rasterizer_texture_ref sampler_texture);
-	static void __cdecl set_scissor_rect(rectangle2d const* scissor_rect);
+	static void __cdecl set_scissor_rect(const rectangle2d* scissor_rect);
 	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode mode);
 	static void __cdecl set_stencil_mode(e_stencil_mode stencil_mode);
 	static void __cdecl set_stencil_mode_with_value(e_stencil_mode stencil_mode, uns8 value);
 	static void __cdecl set_stencil_write_mask(uns8 mask);
 	static bool __cdecl set_vertex_declaration(IDirect3DVertexDeclaration9*);
-	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point);
+	static bool __cdecl set_vertex_shader(const c_rasterizer_vertex_shader* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point);
 	static void __cdecl set_z_buffer_mode(e_z_buffer_mode mode);
 	static bool __cdecl get_is_using_floating_point_depth_buffer();
 
@@ -363,9 +363,9 @@ struct c_rasterizer
 	static void __cdecl setup_targets_static_lighting(real32 view_exposure, real32 illum_scale, bool render_to_HDR_target, real32 HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7);
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend);
 
-	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const* indices, int32 base_vertex_index, int32 num_vertices, int32 min_index, int32 triangle_count);
+	static void __cdecl draw_indexed_primitive(const c_rasterizer_index_buffer* indices, int32 base_vertex_index, int32 num_vertices, int32 min_index, int32 triangle_count);
 	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count);
-	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, void const* stream_data, uns32 stride);
+	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, const void* stream_data, uns32 stride);
 	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count);
 
 	static void __cdecl set_current_splitscreen_res(e_splitscreen_res res);
@@ -383,36 +383,36 @@ struct c_rasterizer
 	static void __cdecl set_render_target(int32 surface_index, e_surface surface, int32 force_is_srgb);
 	static void __cdecl set_surface_as_texture(int32 sampler_index, e_surface surface);
 	static void __cdecl set_using_albedo_sampler(bool value);
-	static void __cdecl set_viewport(rectangle2d const& viewport, real32 min_z, real32 max_z);
+	static void __cdecl set_viewport(const rectangle2d& viewport, real32 min_z, real32 max_z);
 	static void __cdecl stretch_rect(e_surface source_surface, e_surface dest_surface);
 	static void __cdecl wait_for_gpu_idle();
 
-	static void __cdecl draw_debug_line2d(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1);
-	static void __cdecl draw_debug_line(real_point3d const& point1, real_point3d const& point2, uns32 color0, uns32 color1);
-	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* points, int32 primitive_count);
-	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* points, int32 line_count);
-	static void __cdecl draw_debug_linestrip2d(point2d const* points, int32 point_count, uns32 color);
-	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
-	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
+	static void __cdecl draw_debug_line2d(const real_point3d& point1, const real_point3d& point2, uns32 color0, uns32 color1);
+	static void __cdecl draw_debug_line(const real_point3d& point1, const real_point3d& point2, uns32 color0, uns32 color1);
+	static void __cdecl draw_debug_line_list2d_explicit(const rasterizer_vertex_debug* points, int32 primitive_count);
+	static void __cdecl draw_debug_line_list_explicit(const rasterizer_vertex_debug* points, int32 line_count);
+	static void __cdecl draw_debug_linestrip2d(const point2d* points, int32 point_count, uns32 color);
+	static void __cdecl draw_debug_polygon2d(const rasterizer_vertex_debug* polygon2d, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
+	static void __cdecl draw_debug_polygon(const rasterizer_vertex_debug* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
-	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds);
-	static void __cdecl draw_screen_quad_with_texture_transform(int target_width, int target_height, real_rectangle2d const* dest_texcoords, real_rectangle2d const* source_texcoords);
+	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, const real_rectangle2d* bounds);
+	static void __cdecl draw_screen_quad_with_texture_transform(int target_width, int target_height, const real_rectangle2d* dest_texcoords, const real_rectangle2d* source_texcoords);
 	static void __cdecl draw_textured_screen_quad(real32 x0, real32 y0, real32 x1, real32 y1);
-	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* vertices, bool strip);
-	static void __cdecl draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, int32 primitive_count);
-	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* textured_transparent_polygon, int32 polygon_count, e_alpha_blend_mode alpha_blend_mode);
-	static void __cdecl draw_textured_transparent_quad(rasterizer_vertex_transparent const* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode);
-	static void __cdecl draw_worldspace_polygon(real_point3d const* worldspace_polygon, int32 polygon_count);
-	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, int32 polygon_count);
+	static void __cdecl draw_textured_screen_quad(const rasterizer_vertex_screen* vertices, bool strip);
+	static void __cdecl draw_textured_screen_triangle_list(const rasterizer_vertex_screen* textured_screen_triangle_list, int32 primitive_count);
+	static void __cdecl draw_textured_transparent_polygon(const rasterizer_vertex_transparent* textured_transparent_polygon, int32 polygon_count, e_alpha_blend_mode alpha_blend_mode);
+	static void __cdecl draw_textured_transparent_quad(const rasterizer_vertex_transparent* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode);
+	static void __cdecl draw_worldspace_polygon(const real_point3d* worldspace_polygon, int32 polygon_count);
+	static void __cdecl draw_worldspace_polygon(const rasterizer_vertex_world* worldspace_polygon, int32 polygon_count);
 
-	static void __cdecl set_pixel_shader_constant(int32 constant_index, int32 count, real_vector4d const* constants);
-	static void __cdecl set_pixel_shader_constant_bool(int32 constant_index, int32 count, int const* constants);
-	static void __cdecl set_pixel_shader_constant_int(int32 constant_index, int32 vector_count, int const* constants);
+	static void __cdecl set_pixel_shader_constant(int32 constant_index, int32 count, const real_vector4d* constants);
+	static void __cdecl set_pixel_shader_constant_bool(int32 constant_index, int32 count, const int* constants);
+	static void __cdecl set_pixel_shader_constant_int(int32 constant_index, int32 vector_count, const int* constants);
 	static void __cdecl set_pixel_shader_constant_single(int32 constant_index, real32 value);
-	static void __cdecl set_vertex_shader_constant(int32 constant_index, int32 vector_count, real_vector4d const* constants);
-	static void __cdecl set_vertex_shader_constant_bool(int32 constant_index, int32 count, int const* constants);
-	static void __cdecl set_vertex_shader_constant_int(int32 start_register, int32 vector4i_count, int const* constant_data);
-	static void __cdecl set_vertex_shader_constant_owned(int32 constant_index, int32 count, real_vector4d const* constants);
+	static void __cdecl set_vertex_shader_constant(int32 constant_index, int32 vector_count, const real_vector4d* constants);
+	static void __cdecl set_vertex_shader_constant_bool(int32 constant_index, int32 count, const int* constants);
+	static void __cdecl set_vertex_shader_constant_int(int32 start_register, int32 vector4i_count, const int* constant_data);
+	static void __cdecl set_vertex_shader_constant_owned(int32 constant_index, int32 count, const real_vector4d* constants);
 
 	static bool& g_d3d_device_is_lost;
 	static bool& g_d3d_device_reset;
@@ -462,7 +462,7 @@ struct c_rasterizer
 	static void __cdecl clear(uns32 clear_channels, uns32 clear_color, real32 clear_z, uns8 clear_stencil);
 	static void __cdecl sub_A21440();
 	static void __cdecl end();
-	static bool __cdecl end_albedo(rectangle2d const* bounds);
+	static bool __cdecl end_albedo(const rectangle2d* bounds);
 };
 
 struct s_global_bitmaps;
@@ -600,10 +600,10 @@ public:
 	};
 	static_assert(sizeof(s_explicit_shader) == 0x20);
 
-	s_tag_reference const* get_default_texture_ref(int32 index);
-	s_explicit_shader const* get_explicit_shaders(int32 index);
-	s_tag_reference const* get_explicit_pixel_shader_ref(int32 index);
-	s_tag_reference const* get_explicit_vertex_shader_ref(int32 index);
+	const s_tag_reference* get_default_texture_ref(int32 index);
+	const s_explicit_shader* get_explicit_shaders(int32 index);
+	const s_tag_reference* get_explicit_pixel_shader_ref(int32 index);
+	const s_tag_reference* get_explicit_vertex_shader_ref(int32 index);
 	uns32 __cdecl get_max_vs_gprs() const;
 	uns32 __cdecl get_max_ps_gprs() const;
 	void update_reference_names();
@@ -839,10 +839,10 @@ extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
-extern void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(rasterizer_dynamic_screen_geometry_parameters const* parameters, rasterizer_vertex_screen* vertices);
-extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, s_tag_reference const* reference, int16 bitmap_index, bool point_sampled);
+extern void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(const rasterizer_dynamic_screen_geometry_parameters* parameters, rasterizer_vertex_screen* vertices);
+extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, const s_tag_reference* reference, int16 bitmap_index, bool point_sampled);
 extern void __cdecl rasterizer_quad_screenspace_explicit(point2d const(&points)[4], uns32 color, c_rasterizer_texture_ref texture_ref, bool point_sampled, c_rasterizer::e_alpha_blend_mode blend_mode);
 extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type);
 
-extern bool rasterizer_dump_display_to_bmp(char const* file_name);
+extern bool rasterizer_dump_display_to_bmp(const char* file_name);
 

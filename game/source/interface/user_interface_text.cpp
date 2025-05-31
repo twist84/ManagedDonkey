@@ -63,9 +63,9 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_l
 //.text:00ABCE90 ; public: c_user_interface_text::c_user_interface_text()
 //.text:00ABCF40 ; public: virtual c_user_interface_text::~c_user_interface_text()
 //.text:00ABCF70 ; public: virtual void* c_user_interface_text::`scalar deleting destructor'(unsigned int)
-//.text:00ABCFA0 ; protected: bool c_user_interface_text::compute_bounds_internal(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, int16, rectangle2d*, rectangle2d*)
-//.text:00ABD170 ; public: void c_user_interface_text::compute_caret_bounds(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, int16, rectangle2d*)
-//.text:00ABD1B0 ; public: bool c_user_interface_text::compute_text_bounds(c_font_cache_base*, int32, rectangle2d const*, real32, rectangle2d const*, rectangle2d*)
+//.text:00ABCFA0 ; protected: bool c_user_interface_text::compute_bounds_internal(c_font_cache_base*, int32, const rectangle2d*, real32, const rectangle2d*, int16, rectangle2d*, rectangle2d*)
+//.text:00ABD170 ; public: void c_user_interface_text::compute_caret_bounds(c_font_cache_base*, int32, const rectangle2d*, real32, const rectangle2d*, int16, rectangle2d*)
+//.text:00ABD1B0 ; public: bool c_user_interface_text::compute_text_bounds(c_font_cache_base*, int32, const rectangle2d*, real32, const rectangle2d*, rectangle2d*)
 //.text:00ABD200 ; 
 //.text:00ABD210 ; public: bool c_user_interface_text::get_align_vertically() const
 //.text:00ABD220 ; public: real_argb_color c_user_interface_text::get_argb_color() const
@@ -75,16 +75,16 @@ bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_l
 //.text:00ABD3E0 ; public: e_text_justification c_user_interface_text::get_justification() const
 //.text:00ABD3F0 ; public: bool c_user_interface_text::get_render_uppercase() const
 //.text:00ABD400 ; public: real64 c_user_interface_text::get_rotation() const
-//.text:00ABD410 ; public: real_point2d const* c_user_interface_text::get_rotation_origin() const
+//.text:00ABD410 ; public: const real_point2d* c_user_interface_text::get_rotation_origin() const
 //.text:00ABD420 ; public: real64 c_user_interface_text::get_scale() const
 //.text:00ABD430 ; public: e_text_style c_user_interface_text::get_style() const
 //.text:00ABD440 ; public: void c_user_interface_text::get_tab_stops(int16*, int16*)
 //.text:00ABD480 ; 
 //.text:00ABD490 ; public: bool c_user_interface_text::get_wrap_horizontally() const
-//.text:00ABD4A0 ; public: void c_user_interface_text::initialize(wchar_t const*, int16, e_font_id, real_rgb_color const*, int32, e_text_style, e_text_justification, e_controller_index)
+//.text:00ABD4A0 ; public: void c_user_interface_text::initialize(const wchar_t*, int16, e_font_id, const real_rgb_color*, int32, e_text_style, e_text_justification, e_controller_index)
 //.text:00ABD510 ; 
 
-void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* render_data, rectangle2d const* window_bounds)
+void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* render_data, const rectangle2d* window_bounds)
 {
 	//INVOKE(0x00ABD530, c_user_interface_text::render, render_data, window_bounds);
 
@@ -114,7 +114,7 @@ void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* re
 	draw_string.draw(&font_cache, ((s_gui_text_widget_extra_large_render_data*)render_data)->text);
 }
 
-//.text:00ABD750 ; public: void c_user_interface_text::render_halox(int32, real_rectangle2d const*, real_rectangle2d const*, real32, real32, rectangle2d const*)
+//.text:00ABD750 ; public: void c_user_interface_text::render_halox(int32, const real_rectangle2d*, const real_rectangle2d*, real32, real32, const rectangle2d*)
 
 void c_user_interface_text::set_argb_color(real_argb_color* color)
 {
@@ -145,7 +145,7 @@ void c_user_interface_text::set_style(e_text_style new_style)
 }
 
 //.text:00ABDAE0 ; 
-//.text:00ABDB00 ; bool __cdecl string_contains_special_characters(wchar_t const*)
+//.text:00ABDB00 ; bool __cdecl string_contains_special_characters(const wchar_t*)
 //.text:00ABDB60 ; 
 //.text:00ABDBA0 ; void __cdecl user_interface_parse_interface_string(e_controller_index, c_static_wchar_string<1024>*)
 //.text:00ABDBF0 ; bool __cdecl user_interface_parse_string(int32, wchar_t*, int32)
@@ -159,8 +159,8 @@ void c_user_interface_text::set_style(e_text_style new_style)
 // this hook never gets hit
 void __cdecl parse_build_number_string(int32 user_index, e_utf32 character, c_static_wchar_string<1024>* text)
 {
-	char const* build_name = version_get_build_name();
-	char const* build_string = version_get_build_string();
+	const char* build_name = version_get_build_name();
+	const char* build_string = version_get_build_string();
 
 	if (strlen(build_name) > 1)
 	{

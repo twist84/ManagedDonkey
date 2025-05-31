@@ -36,11 +36,11 @@ public:
 	virtual ~c_http_buffer_downloader() {};
 
 	e_download_status __thiscall get_download_status();
-	e_download_status __thiscall get_data(char const** out_data, int32* out_data_length);
+	e_download_status __thiscall get_data(const char** out_data, int32* out_data_length);
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
 	void __thiscall update();
 
-	bool set_url(c_url_string const* url)
+	bool set_url(const c_url_string* url)
 	{
 		m_url.set(url);
 	}
@@ -81,7 +81,7 @@ template<typename t_blf_type, int32 k_buffer_size = sizeof(t_blf_type)>
 struct c_http_blf_simple_downloader
 {
 public:
-	e_download_status __thiscall get_data(t_blf_type const** data, int32* data_size)
+	e_download_status __thiscall get_data(const t_blf_type** data, int32* data_size)
 	{
 		// override this function for hooks
 	}
@@ -89,7 +89,7 @@ public:
 protected:
 	c_http_stored_buffer_downloader<k_buffer_size> m_downloader;
 	int32 m_last_attempt_index;
-	t_blf_type const* m_last_chunk_data;
+	const t_blf_type* m_last_chunk_data;
 	int32 m_last_data_length;
 };
 
@@ -99,7 +99,7 @@ protected:
 //	int32 many_things[256];
 //};
 //using t_some_data_downloader = c_http_blf_simple_downloader<s_some_data>;
-//e_download_status __thiscall t_some_data_downloader::get_data(s_some_data const** data, int32* data_size)
+//e_download_status __thiscall t_some_data_downloader::get_data(const s_some_data** data, int32* data_size)
 //{
 //	static s_some_data static_data{};
 //	if (!static_data.some_count)

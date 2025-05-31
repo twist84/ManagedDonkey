@@ -35,7 +35,7 @@ public:
 	};
 
 	static c_network_storage_manifest* __cdecl get();
-	e_entry_state __thiscall get_entry_state(s_network_storage_cache_key const* cache_key);
+	e_entry_state __thiscall get_entry_state(const s_network_storage_cache_key* cache_key);
 	void update();
 
 //protected:

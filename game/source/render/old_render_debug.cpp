@@ -88,7 +88,7 @@ void render_debug_camera()
 {
 	if (debug_render_freeze)
 	{
-		s_visibility_region const* region = get_global_camera_collection()->get_region();
+		const s_visibility_region* region = get_global_camera_collection()->get_region();
 		real_point3d const(&world_vertices)[5] = region->projections[0].volume.world_vertices;
 		render_debug_line(true, &world_vertices[0], &world_vertices[1], global_real_argb_yellow);
 		render_debug_line(true, &world_vertices[1], &world_vertices[3], global_real_argb_yellow);
@@ -166,7 +166,7 @@ void render_debug_structure_decals()
 			scenario_decal_palette_entry& decal_palette = scenario->decal_palette[runtime_decal.decal_palette_index];
 
 			s_cluster_reference scenario_cluster = scenario_cluster_reference_from_point(&runtime_decal.position);
-			structure_bsp const* bsp = scenario_structure_bsp_get(scenario, scenario_cluster.bsp_index);
+			const structure_bsp* bsp = scenario_structure_bsp_get(scenario, scenario_cluster.bsp_index);
 
 			ASSERT(VALID_INDEX(scenario_cluster.cluster_index, bsp->clusters.count));
 			structure_cluster& cluster = bsp->clusters[scenario_cluster.cluster_index];
@@ -178,7 +178,7 @@ void render_debug_structure_decals()
 			scale_vector3d(&vector, -1.0f, &matrix.up);
 
 			real_point3d* point = &runtime_decal.position;
-			real_argb_color const* color = global_real_argb_red;
+			const real_argb_color* color = global_real_argb_red;
 
 			collision_result collision;
 			if (collision_test_vector(_collision_test_environment_flags, &runtime_decal.position, &vector, NONE, NONE, &collision))
@@ -197,8 +197,8 @@ void render_debug_structure_decals()
 
 			render_debug_sphere(true, point, 0.1f, color);
 
-			char const* tag_name = tag_get_name(decal_palette.reference.index);
-			char const* name = tag_name_strip_path(tag_name);
+			const char* tag_name = tag_get_name(decal_palette.reference.index);
+			const char* name = tag_name_strip_path(tag_name);
 			render_debug_string_at_point(&runtime_decal.position, name, global_real_argb_green);
 
 			runtime_decal_index++;

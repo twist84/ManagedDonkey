@@ -191,7 +191,7 @@ int32 c_gui_tag_datasource::get_current_item_count_internal()
 	return INVOKE_CLASS_MEMBER(0x00AD4C90, c_gui_tag_datasource, get_current_item_count_internal);
 }
 
-//.text:00AD4CC0 ; private: s_datasource_definition const* c_gui_tag_datasource::get_definition()
+//.text:00AD4CC0 ; private: const s_datasource_definition* c_gui_tag_datasource::get_definition()
 
 bool c_gui_data::get_element(int32 element_handle, void* element, int32 element_size)
 {
@@ -220,7 +220,7 @@ int32 c_gui_ordered_data::get_first_element_handle()
 	return INVOKE_CLASS_MEMBER(0x00AD4DD0, c_gui_ordered_data, get_first_element_handle);
 }
 
-c_gui_selected_item const* c_gui_data::get_gui_selected_item(int32 element_handle) const
+const c_gui_selected_item* c_gui_data::get_gui_selected_item(int32 element_handle) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD4E70, c_gui_data, get_gui_selected_item, element_handle);
 
@@ -393,12 +393,12 @@ void c_gui_ordered_data::set_disabled_element(int32 string_id_column_name, int32
 	INVOKE_CLASS_MEMBER(0x00AD5440, c_gui_ordered_data, set_disabled_element, string_id_column_name, string_id_value);
 }
 
-void c_gui_data::set_element(int32 element_handle, void const* element, int32 element_size)
+void c_gui_data::set_element(int32 element_handle, const void* element, int32 element_size)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD5480, c_gui_data, set_element, element_handle, element, element_size);
 }
 
-void c_gui_data_array::set_element(int32 element_handle, void const* element, int32 element_size)
+void c_gui_data_array::set_element(int32 element_handle, const void* element, int32 element_size)
 {
 	INVOKE_CLASS_MEMBER(0x00AD5490, c_gui_data_array, set_element, element_handle, element, element_size);
 }

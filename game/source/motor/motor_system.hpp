@@ -46,5 +46,5 @@ public:
 };
 static_assert(sizeof(c_motor_request) == 0x38);
 
-extern int32 __cdecl motor_system_submit(int32 motor_index, c_motor_request const* request);
+extern int32 __cdecl motor_system_submit(int32 motor_index, const c_motor_request* request);
 

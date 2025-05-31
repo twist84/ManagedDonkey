@@ -24,7 +24,7 @@ void __cdecl c_transparency_renderer::render(bool depth_test)
 
 //.text:00A736E0 ; public: static void __cdecl c_transparency_renderer::reset()
 
-void __cdecl c_transparency_renderer::set_active_camo_bounds(rectangle2d const* window_pixel_bounds, rectangle2d const* render_pixel_bounds)
+void __cdecl c_transparency_renderer::set_active_camo_bounds(const rectangle2d* window_pixel_bounds, const rectangle2d* render_pixel_bounds)
 {
 	INVOKE(0x00A73710, c_transparency_renderer::set_active_camo_bounds, window_pixel_bounds, render_pixel_bounds);
 }

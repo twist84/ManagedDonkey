@@ -21,7 +21,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process
 HOOK_DECLARE_CLASS_MEMBER(0x00442CA0, c_managed_session_overlapped_task, process_session_host_migrate);
 HOOK_DECLARE_CLASS_MEMBER(0x00442CB0, c_managed_session_overlapped_task, start_);
 
-void c_managed_session_overlapped_task::filter_local_users(int32 player_count, uns64 const* players, bool const* online_enabled, bool const* private_slots)
+void c_managed_session_overlapped_task::filter_local_users(int32 player_count, const uns64* players, const bool* online_enabled, const bool* private_slots)
 {
 	int32 filtered_player_count = 0;
 
@@ -44,7 +44,7 @@ void c_managed_session_overlapped_task::filter_local_users(int32 player_count, u
 	m_player_count = filtered_player_count;
 }
 
-void c_managed_session_overlapped_task::process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count)
+void c_managed_session_overlapped_task::process_add_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, const uns64* player_xuids, const bool* online_enabled, const bool* private_slots, int32 player_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00442C00, c_managed_session_overlapped_task, process_add_players, managed_session_index, completion_routine, session, player_xuids, online_enabled, private_slots, player_count);
 
@@ -68,7 +68,7 @@ void c_managed_session_overlapped_task::process_add_players(int32 managed_sessio
 	}
 }
 
-bool c_managed_session_overlapped_task::process_add_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, bool const* private_slots, int32 player_count)
+bool c_managed_session_overlapped_task::process_add_players_immediately(s_online_session* session, const uns64* player_xuids, const bool* online_enabled, const bool* private_slots, int32 player_count)
 {
 	//return INVOKE_CLASS_MEMBER(0x00442C10, c_managed_session_overlapped_task, process_add_players_immediately, session, player_xuids, online_enabled, private_slots, player_count);
 
@@ -164,7 +164,7 @@ bool __cdecl c_managed_session_overlapped_task::process_modify_immediately(s_onl
 	return true;
 }
 
-void c_managed_session_overlapped_task::process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count)
+void c_managed_session_overlapped_task::process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, const uns64* player_xuids, const bool* online_enabled, int32 player_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00442C80, c_managed_session_overlapped_task, process_remove_players, managed_session_index, completion_routine, session, player_xuids, online_enabled, player_count);
 
@@ -188,7 +188,7 @@ void c_managed_session_overlapped_task::process_remove_players(int32 managed_ses
 	}
 }
 
-bool c_managed_session_overlapped_task::process_remove_players_immediately(s_online_session* session, uns64 const* player_xuids, bool const* online_enabled, int32 player_count)
+bool c_managed_session_overlapped_task::process_remove_players_immediately(s_online_session* session, const uns64* player_xuids, const bool* online_enabled, int32 player_count)
 {
 	//return INVOKE_CLASS_MEMBER(0x00442C90, c_managed_session_overlapped_task, process_remove_players_immediately, session, player_xuids, online_enabled, player_count);
 

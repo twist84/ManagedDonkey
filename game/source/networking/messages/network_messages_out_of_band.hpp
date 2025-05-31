@@ -148,7 +148,7 @@ struct s_network_squad_status_data
 	uns8 : 8;
 	uns8 : 8;
 
-	void update_host_player_identifier(transport_address const* address)
+	void update_host_player_identifier(const transport_address* address)
 	{
 		game_details.players[0].identifier = address;
 	}
@@ -172,35 +172,35 @@ struct c_bitstream;
 class c_network_message_ping
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_pong
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_broadcast_search
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_directed_search
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
 class c_network_message_broadcast_reply
 {
 public:
-	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, void const* message_storage);
+	static void __cdecl encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 

@@ -36,7 +36,7 @@ struct c_multiplayer_candy_monitor_manager
 };
 static_assert(sizeof(c_multiplayer_candy_monitor_manager) == 0x3800);
 
-extern bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(real_point3d const* sphere_center, real32 sphere_radius, real32 distance);
+extern bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(const real_point3d* sphere_center, real32 sphere_radius, real32 distance);
 extern void __cdecl game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority();
 extern bool __cdecl game_engine_object_being_used(int32 object_index);
 extern bool __cdecl game_engine_object_has_been_abandoned(int32 object_index);
@@ -44,8 +44,8 @@ extern bool __cdecl game_engine_object_has_been_disturbed(int32 object_index);
 extern bool __cdecl game_engine_object_can_be_damaged(int32 object_index);
 extern bool __cdecl game_engine_object_is_item_in_inventory(int32 object_index);
 extern bool __cdecl game_engine_object_is_useless_weapon(int32 object_index);
-extern bool __cdecl game_engine_player_is_looking_at_sphere(int32 player_index, real_point3d const* sphere_center, real32 sphere_radius);
-extern bool __cdecl game_engine_player_is_nearby(real_point3d const* point, real32 radius);
+extern bool __cdecl game_engine_player_is_looking_at_sphere(int32 player_index, const real_point3d* sphere_center, real32 sphere_radius);
+extern bool __cdecl game_engine_player_is_nearby(const real_point3d* point, real32 radius);
 extern void __cdecl game_engine_register_object(int32 object_index);
 extern int32 __cdecl game_engine_remap_vehicle_definition_index(int32 vehicle_definition_index);
 extern int32 __cdecl game_engine_remap_weapon_definition_index(int32 weapon_definition_index);

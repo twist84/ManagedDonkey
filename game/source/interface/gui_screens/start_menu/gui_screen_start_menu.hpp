@@ -26,7 +26,7 @@ public:
 
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	static bool __cdecl handle_global_start_button_press_(c_controller_input_message* message);
-	static bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, uns64 const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, int32 breadcrumb_count);
+	static bool __cdecl load_start_menu(e_controller_index controller_index, const s_player_identifier* player_identifier, const uns64* player_xuid, const s_service_record_identity* identity, const s_start_menu_breadcrumb* breadcrumbs, int32 breadcrumb_count);
 
 protected:
 	s_player_identifier m_owner_player_id;

@@ -1,6 +1,6 @@
 #include "cache/cache_file_builder_tag_resource_manager.hpp"
 
-char const* const k_cache_file_resource_type_names[k_cache_file_resource_type_count]
+const char* const k_cache_file_resource_type_names[k_cache_file_resource_type_count]
 {
 	"structure_bsp_cache_file_tag_resources",
 	"bitmap_texture_interop_resource",
@@ -12,7 +12,7 @@ char const* const k_cache_file_resource_type_names[k_cache_file_resource_type_co
 	"structure_bsp_tag_resources"
 };
 
-char const* cache_file_resource_type_get_name(int32 resource_type)
+const char* cache_file_resource_type_get_name(int32 resource_type)
 {
 	if (resource_type < _cache_file_resource_type_structure_bsp_cache_file_tag_resources || resource_type >= k_cache_file_resource_type_count)
 		return "<invalid 'cache_file_resource_type'>";

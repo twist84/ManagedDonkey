@@ -81,11 +81,11 @@ HOOK_DECLARE(0x00506A10, main_prepare_for_switch_zone_set);
 HOOK_DECLARE(0x00507210, main_switch_zone_set);
 HOOK_DECLARE(0x00507450, process_published_game_state);
 
-#define NULL_BELONGS_TO_CHUCKY *(char const**)NULL = "chucky was here!  NULL belongs to me!!!!!"
+#define NULL_BELONGS_TO_CHUCKY *(const char**)NULL = "chucky was here!  NULL belongs to me!!!!!"
 
 static c_synchronized_long ill_never_be_done{};
 
-char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
+const char* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
 {
 	"changing the map",
 	"xsync in progress"
@@ -93,7 +93,7 @@ char const* const k_main_event_reason_description[k_number_of_main_reset_event_r
 
 bool g_fake_minidump_creation = true;
 bool g_suppress_keyboard_for_minidump = false;
-char const* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
+const char* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
 
 bool debug_console_pauses_game = true;
 bool debug_no_drawing = false;
@@ -119,7 +119,7 @@ void __cdecl __tls_set_g_main_render_timing_data_allocator(void* new_address)
 	//g_main_render_timing_data = (s_game_tick_time_samples*)new_address;
 }
 
-uns32 __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, int32 line)
+uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, int32 line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
 
@@ -232,10 +232,12 @@ void __cdecl main_activate_designer_zone(int32 designer_zone_index)
 
 //.text:00505370 ; void __cdecl sub_505370() // saber function called within `c_rasterizer::cleanup_before_device_reset`
 
-void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, s_model_customization_region_permutation const* permutations, int32 permutation_count)
+void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
 	if (tag_index == NONE)
+	{
 		return;
+	}
 
 	cheat_drop_tag_index = tag_index;
 	cheat_drop_variant_name = variant_name;
@@ -291,7 +293,7 @@ void __cdecl main_clear_global_pending_zone_activation(int32 game_state_proc_fla
 	//}
 }
 
-void __cdecl main_crash(char const* type)
+void __cdecl main_crash(const char* type)
 {
 	stack_walk(0);
 
@@ -408,7 +410,7 @@ void __cdecl main_decompress_gamestate()
 }
 
 //.text:00505510
-void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool* event_flag)
+void __cdecl main_event_reset_internal(const char* description, e_main_reset_events_reason reason, bool* event_flag)
 {
 	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
 
@@ -420,7 +422,7 @@ void __cdecl main_event_reset_internal(char const* description, e_main_reset_eve
 }
 
 //.text:00505520
-void __cdecl main_event_reset_internal(char const* description, e_main_reset_events_reason reason, bool volatile* event_flag)
+void __cdecl main_event_reset_internal(const char* description, e_main_reset_events_reason reason, bool volatile* event_flag)
 {
 	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
 
@@ -747,7 +749,7 @@ void __cdecl main_load_core()
 	main_load_core_name("core");
 }
 
-void __cdecl main_load_core_name(char const* core_name)
+void __cdecl main_load_core_name(const char* core_name)
 {
 	//INVOKE(0x005059A0, main_load_core_name, core_name);
 
@@ -1533,7 +1535,7 @@ void __cdecl main_loop_suspend()
 		main_loop_suspended = true;
 }
 
-void __cdecl main_loop_status_message(wchar_t const* status_message)
+void __cdecl main_loop_status_message(const wchar_t* status_message)
 {
 	//INVOKE(0x00506900, main_loop_status_message, status_message);
 
@@ -1750,7 +1752,7 @@ void __cdecl main_save_core()
 	main_save_core_name("core");
 }
 
-void __cdecl main_save_core_name(char const* core_name)
+void __cdecl main_save_core_name(const char* core_name)
 {
 	//INVOKE(0x00506D40, main_save_core_name, core_name);
 
@@ -1857,7 +1859,7 @@ bool __cdecl main_startup_sequence()
 }
 
 // main_status in main.hpp
-//.text:00506FB0 ; void __cdecl main_status(char const* status_type, char const* format, ...)
+//.text:00506FB0 ; void __cdecl main_status(const char* status_type, const char* format, ...)
 
 struct s_file_reference;
 void __cdecl main_status_dump(s_file_reference* file)
@@ -2103,7 +2105,7 @@ void __cdecl unlock_resources_and_resume_render_thread(uns32 flags)
 	//}
 }
 
-void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context)
+void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, void* context)
 {
 	//INVOKE(0x0066D180, main_write_stack_to_crash_info_status_file, crash_info, context);
 
@@ -2117,7 +2119,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 	uns32 error = 0;
 	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
-		char const* string = "stack:\r\n";
+		const char* string = "stack:\r\n";
 		file_write(&crash_info_output_file, strlen(string), string);
 
 		if (context)
@@ -2225,7 +2227,7 @@ void event_context_pop()
 	//}
 }
 
-void event_context_push(char const* type, bool display_to_console, char const* description)
+void event_context_push(const char* type, bool display_to_console, const char* description)
 {
 	//ASSERT(type);
 	//ASSERT(description);
@@ -2244,7 +2246,7 @@ void event_context_push(char const* type, bool display_to_console, char const* d
 
 struct c_event_context_string_builder
 {
-	//c_event_context_string_builder(char const* description, ...) :
+	//c_event_context_string_builder(const char* description, ...) :
 	//	m_string()
 	//{
 	//	va_list arglist;
@@ -2253,7 +2255,7 @@ struct c_event_context_string_builder
 	//	va_end(arglist);
 	//}
 	//
-	//char const* get_string() const
+	//const char* get_string() const
 	//{
 	//	return m_string;
 	//}
@@ -2263,7 +2265,7 @@ struct c_event_context_string_builder
 
 struct c_event_context
 {
-	//c_event_context(char const* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder)
+	//c_event_context(const char* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder)
 	//{
 	//	event_context_push(type, display_to_console, event_context_string_builder->get_string());
 	//}
@@ -2276,7 +2278,7 @@ struct c_event_context
 
 bool debug_trace_main_events = false;
 
-void __cdecl main_trace_event_internal(char const* function_name)
+void __cdecl main_trace_event_internal(const char* function_name)
 {
 	//if (debug_trace_main_events)
 	//{

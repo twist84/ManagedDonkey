@@ -5,7 +5,7 @@
 #include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
 
-char const* const inhibit_behavior_flag_names[k_inhibit_behavior_flags]
+const char* const inhibit_behavior_flag_names[k_inhibit_behavior_flags]
 {
 	"Cover",
 	"Retreat",
@@ -68,7 +68,7 @@ char const* const inhibit_behavior_flag_names[k_inhibit_behavior_flags]
 //.text:014485E0 ; int32 __cdecl objective_get_count(int32)
 //.text:01448680 ; bool __cdecl objective_get_position(int32, real_point3d*, e_objective_position_mode)
 //.text:014487F0 ; s_task* __cdecl objective_get_task(int16, int16)
-//.text:01448820 ; s_task* __cdecl objective_get_task(s_objective const*, int16)
+//.text:01448820 ; s_task* __cdecl objective_get_task(const s_objective*, int16)
 
 s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 task_index)
 {
@@ -88,22 +88,22 @@ s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 ta
 //.text:014492A0 ; int16 __cdecl objective_task_get_body_count(int16, int16)
 //.text:014492F0 ; int16 __cdecl objective_task_get_by_name(int32, int32)
 //.text:01449350 ; int16 __cdecl objective_task_get_firing_position_count(int16, int16)
-//.text:01449410 ; char const* __cdecl objective_task_get_fragment(s_task const*)
+//.text:01449410 ; const char* __cdecl objective_task_get_fragment(const s_task*)
 //.text:01449430 ; int32 __cdecl objective_task_get_leader(int16, int16)
 //.text:01449470 ; int16 __cdecl objective_task_get_lifetime_count(int16, int16)
 //.text:014494C0 ; e_task_movement __cdecl objective_task_get_movement(int16, s_task*)
-//.text:014494F0 ; real_point3d const* __cdecl objective_task_get_position(int16, int16)
+//.text:014494F0 ; const real_point3d* __cdecl objective_task_get_position(int16, int16)
 //.text:01449540 ; bool __cdecl objective_task_group_grenade_allowed(int16, int16)
 //.text:014495B0 ; bool __cdecl objective_task_is_vehicle_task(int32, int32)
 //.text:01449610 ; void __cdecl objective_task_request_engage(int16, int16, bool)
 //.text:014496C0 ; void __cdecl objective_task_request_group_grenade(int16, int16)
 //.text:01449740 ; void __cdecl objective_task_request_search(int16, int16)
 //.text:014497A0 ; int16 __cdecl objective_task_search_allowed(int16, int16)
-//.text:01449830 ; bool __cdecl objective_task_set_fragment(s_task*, char const*)
+//.text:01449830 ; bool __cdecl objective_task_set_fragment(s_task*, const char*)
 //.text:01449890 ; void __cdecl objective_task_signal_engage(int32)
 //.text:014498F0 ; bool __cdecl objective_task_signal_group_grenade(int32)
 //.text:01449960 ; void __cdecl objective_task_signal_search(int32)
-//.text:014499B0 ; bool __cdecl objective_task_test_activation(int16, int16, s_task_info const*, bool, bool*)
+//.text:014499B0 ; bool __cdecl objective_task_test_activation(int16, int16, const s_task_info*, bool, bool*)
 //.text:01449CB0 ; bool __cdecl objective_task_test_script_activation(int16, int16)
 //.text:01449D10 ; int16 __cdecl objective_task_update_fight_count_internal(int32, int32, uns64*)
 //.text:0144A150 ; bool __cdecl objective_unassigned_add_squad(int16, int32)
@@ -111,7 +111,7 @@ s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 ta
 //.text:0144A1F0 ; void __cdecl objective_update(int32)
 //.text:0144A460 ; void __cdecl objective_update_fight_count(int32)
 //.text:0144A4D0 ; void __cdecl objective_update_leadership(int16, int16, int16, int32)
-//.text:0144A790 ; void __cdecl objectives_handle_areas_delete(int16, uns32 const*)
+//.text:0144A790 ; void __cdecl objectives_handle_areas_delete(int16, const uns32*)
 //.text:0144A7A0 ; void __cdecl objectives_handle_source_editing(s_script_fragment*)
 
 void __cdecl objectives_initialize()
@@ -175,10 +175,10 @@ void __cdecl objectives_update()
 //.text:0144D0E0 ; 
 //.text:0144D100 ; 
 //.text:0144D120 ; bool __cdecl test_filter(int32, s_task*, s_task_info*, s_task_record*, int16, bool, bool*)
-//.text:0144D720 ; bool __cdecl test_vehicle_filter(int32, s_task const*, s_task_info*, s_task_record*, int16, bool)
+//.text:0144D720 ; bool __cdecl test_vehicle_filter(int32, const s_task*, s_task_info*, s_task_record*, int16, bool)
 //.text:0144D960 ; 
 
-void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
+void ai_debug_render_objectives(int32 squad_index, const real_point3d* position)
 {
 	squad_datum* squad = DATUM_GET_ABSOLUTE(squad_data, squad_datum, DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_index));
 	if (squad->objective_index != NONE)
@@ -227,13 +227,13 @@ void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
 			}
 		}
 
-		char const* objective_name = objective.name.get_string();
+		const char* objective_name = objective.name.get_string();
 
 		if (task)
 		{
 			s_task_record* record = objective_get_task_record(squad->objective_index, squad->task_index);
 		
-			real_argb_color const* group_color = global_real_argb_green;
+			const real_argb_color* group_color = global_real_argb_green;
 			if (TEST_BIT(record->flags, 2))
 				group_color = global_real_argb_red;
 
@@ -270,7 +270,7 @@ void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
 
 			// Engage
 
-			real_argb_color const* engage_color = global_real_argb_red;
+			const real_argb_color* engage_color = global_real_argb_red;
 			if (TEST_BIT(record->flags, 12))
 				engage_color = global_real_argb_green;
 			else if (record->__time14 != NONE)
@@ -279,7 +279,7 @@ void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
 
 			// Search
 
-			real_argb_color const* search_color = global_real_argb_red;
+			const real_argb_color* search_color = global_real_argb_red;
 			if (TEST_BIT(record->flags, 10))
 				search_color = global_real_argb_green;
 			else if (TEST_BIT(record->flags, 11))
@@ -288,7 +288,7 @@ void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
 
 			// Group Grenade
 
-			real_argb_color const* group_grenade_color = global_real_argb_red;
+			const real_argb_color* group_grenade_color = global_real_argb_red;
 			if (record->__time18 != NONE)
 			{
 				ASSERT(record->leader);
@@ -300,7 +300,7 @@ void ai_debug_render_objectives(int32 squad_index, real_point3d const* position)
 
 			// Group Name
 
-			char const* task_name = task->name.get_string();
+			const char* task_name = task->name.get_string();
 			csnzprintf(string, sizeof(string), "%s/%s", objective_name, task_name);
 			render_debug_string_at_point(ai_debug_drawstack(), string, group_color);
 

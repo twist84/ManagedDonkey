@@ -34,7 +34,7 @@ void c_network_message_gateway::destroy_gateway()
 	}
 }
 
-bool c_network_message_gateway::initialize_gateway(c_network_link* link, c_network_message_type_collection const* message_types)
+bool c_network_message_gateway::initialize_gateway(c_network_link* link, const c_network_message_type_collection* message_types)
 {
 	ASSERT(link);
 	ASSERT(message_types);
@@ -60,7 +60,7 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 
 	ASSERT(packet);
 
-	char const* header_chars = k_network_message_packet_header;
+	const char* header_chars = k_network_message_packet_header;
 	if (net_experimental)
 		header_chars = k_network_message_experimental_packet_header;
 
@@ -94,7 +94,7 @@ c_network_message_gateway::~c_network_message_gateway()
 	m_outgoing_packet.~c_bitstream();
 }
 
-bool c_network_message_gateway::receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
+bool c_network_message_gateway::receive_out_of_band_packet(const transport_address* incoming_address, c_bitstream* packet)
 {
 	//return INVOKE_CLASS_MEMBER(0x00483E80, c_network_message_gateway, receive_out_of_band_packet, incoming_address, packet);
 
@@ -145,7 +145,7 @@ bool c_network_message_gateway::receive_out_of_band_packet(transport_address con
 		result = false;
 
 		int32 data_length = 0;
-		uns8 const* data = packet->get_data(&data_length);
+		const uns8* data = packet->get_data(&data_length);
 		c_static_string<256> data_string;
 
 		// added by us
@@ -232,7 +232,7 @@ void c_network_message_gateway::send_all_pending_messages()
 	ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
 }
 
-bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, int32 data_size, void const* data, uns16 port)
+bool c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, int32 data_size, const void* data, uns16 port)
 {
 	//return INVOKE_CLASS_MEMBER(0x00484080, c_network_message_gateway, send_message_broadcast, message_type, data_size, data, port);
 
@@ -241,7 +241,7 @@ bool c_network_message_gateway::send_message_broadcast(e_network_message_type me
 	return send_message_directed(&outgoing_address, message_type, data_size, data);
 }
 
-bool c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, int32 data_size, void const* data)
+bool c_network_message_gateway::send_message_directed(const transport_address* outgoing_address, e_network_message_type message_type, int32 data_size, const void* data)
 {
 	//return INVOKE_CLASS_MEMBER(0x004840C0, c_network_message_gateway, send_message_directed, outgoing_address, message_type, data_size, data);
 
@@ -315,7 +315,7 @@ bool c_network_message_gateway::send_message_directed(transport_address const* o
 	return false;
 }
 
-void c_network_message_gateway::send_pending_messages_to_address(transport_address const* address)
+void c_network_message_gateway::send_pending_messages_to_address(const transport_address* address)
 {
 	ASSERT(m_initialized);
 
@@ -329,7 +329,7 @@ void c_network_message_gateway::write_packet_header()
 
 	ASSERT(m_outgoing_packet_pending);
 
-	char const* header_chars = k_network_message_packet_header;
+	const char* header_chars = k_network_message_packet_header;
 	if (net_experimental)
 		header_chars = k_network_message_experimental_packet_header;
 

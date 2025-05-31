@@ -6,9 +6,9 @@
 struct s_saved_game_file_text_parser_input
 {
 	int32 user_index;
-	wchar_t const* map_variant_name;
-	wchar_t const* game_variant_name;
-	wchar_t const* campaign_map_name;
+	const wchar_t* map_variant_name;
+	const wchar_t* game_variant_name;
+	const wchar_t* campaign_map_name;
 	int32 campaign_difficulty;
 };
 static_assert(sizeof(s_saved_game_file_text_parser_input) == 0x14);

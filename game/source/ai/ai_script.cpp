@@ -9,7 +9,7 @@
 bool ai_print_scripting = false;
 
 //.text:0143BD40 ; bool __cdecl actor_member_of_ai_index(int32, int32)
-//.text:0143BDC0 ; int16 __cdecl ai_assign_actors_to_seats(int32 const*, int16, unit_seat_source const*, int16, bool)
+//.text:0143BDC0 ; int16 __cdecl ai_assign_actors_to_seats(const int32*, int16, const unit_seat_source*, int16, bool)
 //.text:0143C800 ; void __cdecl ai_attach_cs(int32, int16)
 //.text:0143C850 ; bool __cdecl ai_cast(int32, int32, bool, int16, int32)
 //.text:0143C870 ; bool __cdecl ai_cast(int32, int32, bool, int16, int32, int32)
@@ -87,7 +87,7 @@ void __cdecl ai_script_initialize_for_new_map()
 //.text:0143E850 ; void __cdecl ai_scripting_deselect()
 //.text:0143E860 ; void __cdecl ai_scripting_disposable(int32, bool)
 //.text:0143E960 ; void __cdecl ai_scripting_dont_do_avoidance(int32, bool)
-//.text:0143E9B0 ; void __cdecl ai_scripting_drop_ai(char const*, char const*)
+//.text:0143E9B0 ; void __cdecl ai_scripting_drop_ai(const char*, const char*)
 //.text:0143E9C0 ; void __cdecl ai_scripting_engineer_explode(int32)
 //.text:0143EA20 ; void __cdecl ai_scripting_erase(int32)
 
@@ -127,7 +127,7 @@ void __cdecl ai_scripting_erase_all()
 //.text:0143F630 ; int32 __cdecl ai_scripting_living_count(int32)
 //.text:0143F650 ; real64 __cdecl ai_scripting_living_fraction(int32)
 //.text:0143F6A0 ; void __cdecl ai_scripting_migrate(int32, int32)
-//.text:0143F6D0 ; void __cdecl ai_scripting_migrate_and_speak(int32, int32, char const*)
+//.text:0143F6D0 ; void __cdecl ai_scripting_migrate_and_speak(int32, int32, const char*)
 //.text:0143F720 ; void __cdecl ai_scripting_migrate_by_unit(int32, int32)
 //.text:0143F7C0 ; void __cdecl ai_scripting_migrate_by_unit_internal(int32, int32, bool, bool)
 //.text:0143F7D0 ; void __cdecl ai_scripting_migrate_infantry(int32, int32)
@@ -204,15 +204,15 @@ void __cdecl ai_scripting_erase_all()
 //.text:01441E40 ; int32 __cdecl object_get_ai(int32)
 //.text:01441EA0 ; int32 __cdecl object_index_from_ai(int32, e_hs_type)
 //.text:01441F90 ; int32 __cdecl object_list_from_ai_reference(int32)
-//.text:01442040 ; bool __cdecl play_line_compare(int32, int32, void const*)
+//.text:01442040 ; bool __cdecl play_line_compare(int32, int32, const void*)
 //.text:014420D0 ; int16 __cdecl play_line_compile_actor_list(int32, int32*, int16, int16)
 //.text:01442150 ; bool __cdecl point_compare(int32, int32, void*)
-//.text:01442170 ; int16 __cdecl point_distance(cs_point const*)
+//.text:01442170 ; int16 __cdecl point_distance(const cs_point*)
 //.text:01442280 ; public: void __cdecl c_static_flags_no_init<20>::set(int32, bool)
 //.text:014422B0 ; bool __cdecl squad_member_of_ai_index(int32, int32)
 //.text:01442370 ; public: bool __cdecl c_static_flags_no_init<20>::test(int32) const
 
-bool ai_index_from_string(struct scenario* scenario, char const* ai_string, int32* ai_index_reference)
+bool ai_index_from_string(struct scenario* scenario, const char* ai_string, int32* ai_index_reference)
 {
 	ASSERT(ai_string && ai_index_reference);
 

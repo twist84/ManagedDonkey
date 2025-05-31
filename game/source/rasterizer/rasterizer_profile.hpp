@@ -116,7 +116,7 @@ static_assert(sizeof(c_rasterizer_profile_globals) == 0x9D0);
 class c_rasterizer_profile_scope
 {
 public:
-	c_rasterizer_profile_scope(e_rasterizer_profile_elements profile_element_index, wchar_t const* name);
+	c_rasterizer_profile_scope(e_rasterizer_profile_elements profile_element_index, const wchar_t* name);
 	~c_rasterizer_profile_scope();
 
 protected:
@@ -126,7 +126,7 @@ protected:
 extern c_rasterizer_profile_globals g_rasterizer_profile_globals;
 extern uns32 g_rasterizer_profile_pix_colors[k_rasterizer_profile_element_count];
 
-extern void rasterizer_profile_begin_event(e_rasterizer_profile_elements profile_element_index, wchar_t const* name);
+extern void rasterizer_profile_begin_event(e_rasterizer_profile_elements profile_element_index, const wchar_t* name);
 extern void rasterizer_profile_end_event();
 
 extern void rasterizer_profile_initialize();
@@ -142,6 +142,6 @@ extern void rasterizer_profile_set_mode(e_rasterizer_profile_modes mode);
 extern real32 rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_elements profile_element_index);
 extern real32 rasterizer_profile_get_element_elapsed_block_milliseconds(e_rasterizer_profile_stall_elements profile_element_index);
 extern real32 rasterizer_profile_get_block_total_time();;
-extern char const* rasterizer_profile_get_stall_name(int32 profile_element_index);
-extern char const* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index);
+extern const char* rasterizer_profile_get_stall_name(int32 profile_element_index);
+extern const char* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index);
 

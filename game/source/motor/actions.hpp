@@ -727,6 +727,6 @@ struct action_request
 };
 static_assert(sizeof(action_request) == 0x4 + 0x44);
 
-extern bool __cdecl action_submit(int32 mover_index, action_request const* request);
+extern bool __cdecl action_submit(int32 mover_index, const action_request* request);
 extern bool __cdecl action_submit(int32 mover_index, e_action action_type);
 

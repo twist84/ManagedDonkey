@@ -58,7 +58,7 @@ void c_simulation_world::debug_render()
 	}
 }
 
-char const* c_simulation_world::get_state_string(int32 state)
+const char* c_simulation_world::get_state_string(int32 state)
 {
 	switch (state)
 	{

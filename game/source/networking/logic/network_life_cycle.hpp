@@ -77,7 +77,7 @@ static_assert(0x3D488 == OFFSETOF(s_network_life_cycle_globals, life_cycle_state
 static_assert(0x3D4C8 == OFFSETOF(s_network_life_cycle_globals, life_cycle_state_handler_end_match_write_stats));
 static_assert(0x3D4F8 == OFFSETOF(s_network_life_cycle_globals, life_cycle_state_handler_post_match));
 
-extern char const* k_life_cycle_state_descriptions[k_life_cycle_state_count]; // char const*(&k_life_cycle_state_descriptions)[k_life_cycle_state_count];
+extern const char* k_life_cycle_state_descriptions[k_life_cycle_state_count]; // const char*(&k_life_cycle_state_descriptions)[k_life_cycle_state_count];
 extern s_network_life_cycle_globals& life_cycle_globals;
 
 extern bool __cdecl network_life_cycle_can_change_network_files();
@@ -95,7 +95,7 @@ extern bool __cdecl network_life_cycle_get_matchmaking_search_party_properties(s
 extern bool __cdecl network_life_cycle_get_observer(c_network_observer** observer);
 extern c_network_session* __cdecl network_life_cycle_get_squad_session_for_join();
 extern e_life_cycle_state __cdecl network_life_cycle_get_state();
-extern char const* __cdecl network_life_cycle_get_state_description();
+extern const char* __cdecl network_life_cycle_get_state_description();
 extern c_network_session* __cdecl network_life_cycle_get_target_session_for_join();
 extern bool __cdecl network_life_cycle_in_group_session(c_network_session** session);
 extern bool __cdecl network_life_cycle_in_interactive_session(c_network_session** session);
@@ -109,8 +109,8 @@ extern void __cdecl network_life_cycle_notify_core_load();
 extern void __cdecl network_life_cycle_notify_lost_connection();
 extern void __cdecl network_life_cycle_notify_out_of_sync(bool determinism_failure);
 extern void __cdecl network_life_cycle_notify_qos_reply_block_set_for_group();
-extern void __cdecl network_life_cycle_notify_session_disbandment_and_host_assumption(c_network_session const* session);
-extern void __cdecl network_life_cycle_pause(char const* state_string, bool enabled);
+extern void __cdecl network_life_cycle_notify_session_disbandment_and_host_assumption(const c_network_session* session);
+extern void __cdecl network_life_cycle_pause(const char* state_string, bool enabled);
 extern bool __cdecl network_life_cycle_post_match_rematch_join_in_progress();
 extern void __cdecl network_life_cycle_prepare_for_squad_join();
 extern void __cdecl network_life_cycle_request_leave(bool leave_and_disconnect);

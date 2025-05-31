@@ -114,7 +114,7 @@ struct c_restricted_memory
 };
 static_assert(sizeof(c_restricted_memory) == 0xC88);
 
-extern char const*(&g_restricted_region_names)[k_total_restricted_memory_regions];
+extern const char*(&g_restricted_region_names)[k_total_restricted_memory_regions];
 extern c_restricted_section(&g_restricted_section)[k_total_restricted_memory_regions];
 extern c_restricted_memory(&g_restricted_regions)[k_total_restricted_memory_regions];
 

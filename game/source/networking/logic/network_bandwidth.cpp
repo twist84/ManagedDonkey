@@ -9,7 +9,7 @@ REFERENCE_DECLARE(0x019E8D28, s_network_bandwidth_globals, network_bandwidth_glo
 
 HOOK_DECLARE(0x00455890, network_bandwidth_set_online_network_environment);
 
-int32 __cdecl network_bandwidth_compute_average(int32 sample_count, int32 const* samples)
+int32 __cdecl network_bandwidth_compute_average(int32 sample_count, const int32* samples)
 {
 	return INVOKE(0x00455550, network_bandwidth_compute_average, sample_count, samples);
 }
@@ -55,7 +55,7 @@ bool __cdecl network_bandwidth_get_online_network_environment()
 	//return network_bandwidth_globals.online_network_environment;
 }
 
-bool __cdecl network_bandwidth_initialize(c_network_observer* observer, s_bandwidth_configuration const* configuration)
+bool __cdecl network_bandwidth_initialize(c_network_observer* observer, const s_bandwidth_configuration* configuration)
 {
 	return INVOKE(0x004557A0, network_bandwidth_initialize, observer, configuration);
 
@@ -71,7 +71,7 @@ bool __cdecl network_bandwidth_initialize(c_network_observer* observer, s_bandwi
 	//network_bandwidth_globals.initialized = true;
 }
 
-void __cdecl network_bandwidth_notify_live_service_qos_measurement(s_transport_qos_result const* qos_result)
+void __cdecl network_bandwidth_notify_live_service_qos_measurement(const s_transport_qos_result* qos_result)
 {
 	INVOKE(0x004557F0, network_bandwidth_notify_live_service_qos_measurement, qos_result);
 }

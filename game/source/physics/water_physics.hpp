@@ -50,6 +50,6 @@ extern real32& k_density_decay_time;
 extern real32& water_physics_velocity_minimum;
 extern real32& water_physics_velocity_maximum;
 
-extern bool __cdecl water_physics_test_vector(real_point3d const* point, real_vector3d const* vector, s_water_physics_test_vector_result* result);
-extern void __cdecl water_physics_render_debug(real_point3d const* point, real_vector3d const* vector);
+extern bool __cdecl water_physics_test_vector(const real_point3d* point, const real_vector3d* vector, s_water_physics_test_vector_result* result);
+extern void __cdecl water_physics_render_debug(const real_point3d* point, const real_vector3d* vector);
 

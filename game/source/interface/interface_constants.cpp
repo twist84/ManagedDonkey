@@ -97,19 +97,19 @@ bool __cdecl interface_is_split_screen()
 	return INVOKE(0x00A9FD40, interface_is_split_screen);
 }
 
-void __cdecl interface_scale_points_for_xenon_scaler_point2d_dont_call_me(point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale);
-void __cdecl interface_scale_points_for_xenon_scaler(point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale)
+void __cdecl interface_scale_points_for_xenon_scaler_point2d_dont_call_me(point2d* points, int32 point_count, const real_vector2d* aspect_ratio_scale);
+void __cdecl interface_scale_points_for_xenon_scaler(point2d* points, int32 point_count, const real_vector2d* aspect_ratio_scale)
 {
 	INVOKE(0x00A9FD50, interface_scale_points_for_xenon_scaler_point2d_dont_call_me, points, point_count, aspect_ratio_scale);
 }
 
-void __cdecl interface_scale_points_for_xenon_scaler_real_point2d_dont_call_me(real_point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale);
-void __cdecl interface_scale_points_for_xenon_scaler(real_point2d* points, int32 point_count, real_vector2d const* aspect_ratio_scale)
+void __cdecl interface_scale_points_for_xenon_scaler_real_point2d_dont_call_me(real_point2d* points, int32 point_count, const real_vector2d* aspect_ratio_scale);
+void __cdecl interface_scale_points_for_xenon_scaler(real_point2d* points, int32 point_count, const real_vector2d* aspect_ratio_scale)
 {
 	INVOKE(0x00A9FDA0, interface_scale_points_for_xenon_scaler_real_point2d_dont_call_me, points, point_count, aspect_ratio_scale);
 }
 
-void __cdecl interface_scale_real_rectangle2d_for_xenon_scaler(real_rectangle2d* rectangle, real_vector2d const* aspect_ratio_scale)
+void __cdecl interface_scale_real_rectangle2d_for_xenon_scaler(real_rectangle2d* rectangle, const real_vector2d* aspect_ratio_scale)
 {
 	//INVOKE(0x00A9FDE0, interface_scale_real_rectangle2d_for_xenon_scaler, rectangle, aspect_ratio_scale);
 
@@ -119,7 +119,7 @@ void __cdecl interface_scale_real_rectangle2d_for_xenon_scaler(real_rectangle2d*
 	rectangle->y1 *= aspect_ratio_scale->j;
 }
 
-void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle, real_vector2d const* aspect_ratio_scale)
+void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle, const real_vector2d* aspect_ratio_scale)
 {
 	//INVOKE(0x00A9FE30, interface_scale_rectangle2d_for_xenon_scaler, rectangle, aspect_ratio_scale);
 
@@ -129,7 +129,7 @@ void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle
 	rectangle->x1 = int16(((real32)rectangle->x1 * aspect_ratio_scale->j) * 0.001f);
 }
 
-void __cdecl interface_scale_screenspace_vertices_for_xenon_scaler(rasterizer_vertex_screen* vertices, int32 vertex_count, real_vector2d const* aspect_ratio_scale)
+void __cdecl interface_scale_screenspace_vertices_for_xenon_scaler(rasterizer_vertex_screen* vertices, int32 vertex_count, const real_vector2d* aspect_ratio_scale)
 {
 	INVOKE(0x00A9FEB0, interface_scale_screenspace_vertices_for_xenon_scaler, vertices, vertex_count, aspect_ratio_scale);
 }

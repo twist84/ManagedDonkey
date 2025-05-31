@@ -21,20 +21,20 @@
 //.text:00615FE0 ; void __cdecl __tls_set_g_bink_globals_allocator(void*)
 //.text:00616000 ; 
 //.text:00616020 ; 
-//.text:00616060 ; public: virtual void* __cdecl c_bink_allocation::allocate(unsigned int, char const *)
+//.text:00616060 ; public: virtual void* __cdecl c_bink_allocation::allocate(unsigned int, const char*)
 //.text:00616070 ; void* __cdecl bink_alloc(unsigned int)
 //.text:006161B0 ; void __cdecl bink_close(s_bink_runtime*)
 //.text:00616220 ; 
 //.text:00616240 ; void __cdecl bink_destroy_rasterizer()
-//.text:00616250 ; void __cdecl bink_display_frame(rectangle2d const*)
+//.text:00616250 ; void __cdecl bink_display_frame(const rectangle2d*)
 //.text:00616420 ; void __cdecl bink_draw_frame()
 //.text:006165A0 ; 
 //.text:006166A0 ; 
 //.text:006166E0 ; void __cdecl bink_free(void*)
 //.text:00616780 ; real32 __cdecl bink_get_fade_amount()
 //.text:00616800 ; int32 __cdecl bink_get_last_updated_frame()
-//.text:00616830 ; void __cdecl bink_get_memory_available(char const*, bool)
-//.text:00616870 ; int32 __cdecl bink_get_next_decompression_frame(s_bink_video_frame const*)
+//.text:00616830 ; void __cdecl bink_get_memory_available(const char*, bool)
+//.text:00616870 ; int32 __cdecl bink_get_next_decompression_frame(const s_bink_video_frame*)
 //.text:00616890 ; int32 __cdecl bink_get_texture_index_to_render()
 
 void __cdecl bink_notify_load_masking_complete()
@@ -69,7 +69,7 @@ void __cdecl bink_playback_dispose_from_old_map()
 	INVOKE(0x00616A00, bink_playback_dispose_from_old_map);
 }
 
-void __cdecl bink_playback_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
+void __cdecl bink_playback_dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_set* old_non_bsp_zone_set)
 {
 	INVOKE(0x00616A10, bink_playback_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
@@ -99,7 +99,7 @@ void __cdecl bink_playback_initialize_for_new_map()
 	INVOKE(0x00616B70, bink_playback_initialize_for_new_map);
 }
 
-void __cdecl bink_playback_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
+void __cdecl bink_playback_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set)
 {
 	INVOKE(0x00616B80, bink_playback_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
@@ -126,7 +126,7 @@ void __cdecl bink_playback_prepare_for_new_zone_set(uns32 old_active_structure_b
 	INVOKE(0x00616C50, bink_playback_prepare_for_new_zone_set, old_active_structure_bsp_mask, new_active_structure_bsp_mask);
 }
 
-void __cdecl bink_playback_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* active_tags_registry)
+void __cdecl bink_playback_prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* active_tags_registry)
 {
 	INVOKE(0x00616C80, bink_playback_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, active_tags_registry);
 }
@@ -145,14 +145,14 @@ bool __cdecl bink_playback_should_be_playing_deterministic_bink()
 	return INVOKE(0x00616D50, bink_playback_should_be_playing_deterministic_bink);
 }
 
-void __cdecl bink_playback_start(char const* bink_full_path, int32 tag_index, uns32 flags)
+void __cdecl bink_playback_start(const char* bink_full_path, int32 tag_index, uns32 flags)
 {
 	INVOKE(0x00616D60, bink_playback_start, bink_full_path, tag_index, flags);
 }
 
-//.text:00616DB0 ; void __cdecl bink_playback_start_explicit(char const*, int32, uns32, BINK*)
+//.text:00616DB0 ; void __cdecl bink_playback_start_explicit(const char*, int32, uns32, BINK*)
 //.text:00616E00 ; void __cdecl bink_playback_start_internal(uns32)
-//.text:00616F20 ; void __cdecl bink_playback_start_or_queue(char const*, int32, uns32)
+//.text:00616F20 ; void __cdecl bink_playback_start_or_queue(const char*, int32, uns32)
 
 void __cdecl bink_playback_stop()
 {
@@ -189,7 +189,7 @@ bool __cdecl bink_playback_using_io_during_map_load_masking()
 //.text:006176B0 ; void __cdecl bink_playback_wait_for_stop()
 //.text:006176D0 ; 
 //.text:00617720 ; bink_prediction_async_callback
-//.text:00617760 ; bool __cdecl bink_prediction_in_progress_for_movie(char const*, int32)
+//.text:00617760 ; bool __cdecl bink_prediction_in_progress_for_movie(const char*, int32)
 //.text:006177B0 ; bool __cdecl bink_prediction_in_progress_or_queued()
 //.text:006177C0 ; bool __cdecl bink_prediction_queued_and_not_active()
 //.text:006177D0 ; void __cdecl bink_prediction_update()
@@ -200,9 +200,9 @@ bool __cdecl bink_playback_using_io_during_map_load_masking()
 //.text:006179B0 ; void __cdecl bink_setup_rasterizer(int32)
 //.text:00617B60 ; 
 //.text:00617BC0 ; bool __cdecl bink_thread_get_prediction_message(s_bink_runtime*, s_bink_prediction_message*)
-//.text:00617C10 ; bool __cdecl bink_thread_should_predict(s_bink_runtime const*)
-//.text:00617C20 ; bool __cdecl bink_thread_should_start(s_bink_runtime const*)
-//.text:00617C30 ; bool __cdecl bink_thread_should_stop_playback(s_bink_runtime const*)
+//.text:00617C10 ; bool __cdecl bink_thread_should_predict(const s_bink_runtime*)
+//.text:00617C20 ; bool __cdecl bink_thread_should_start(const s_bink_runtime*)
+//.text:00617C30 ; bool __cdecl bink_thread_should_stop_playback(const s_bink_runtime*)
 //.text:00617C40 ; void __cdecl bink_try_to_decompress_frame(s_bink_runtime*, bool)
 //.text:00617D40 ; 
 //.text:00617DE0 ; 
@@ -215,7 +215,7 @@ bool __cdecl bink_playback_using_io_during_map_load_masking()
 //.text:00618010 ; 
 //.text:00618180 ; bool __cdecl is_all_bink_memory_free()
 
-void __cdecl play_bink_movie(char const* name)
+void __cdecl play_bink_movie(const char* name)
 {
 	INVOKE(0x006181B0, play_bink_movie, name);
 }
@@ -223,10 +223,10 @@ void __cdecl play_bink_movie(char const* name)
 //.text:00618260 ; void __cdecl play_bink_movie_from_tag(int32)
 //.text:006182F0 ; void __cdecl play_credits_movie_skippable_to_main_menu()
 //.text:00618360 ; void __cdecl play_credits_movie_unskippable()
-//.text:006183D0 ; void __cdecl predict_bink_movie(char const*)
+//.text:006183D0 ; void __cdecl predict_bink_movie(const char*)
 //.text:00618410 ; void __cdecl predict_bink_movie_from_tag(int32)
-//.text:00618430 ; bool __cdecl predict_bink_movie_fullpath(char const*, int32, uns32, BINK*)
-//.text:00618500 ; bool __cdecl prepare_bink_movie_for_playback_async(s_bink_runtime*, s_bink_prediction_message const*)
+//.text:00618430 ; bool __cdecl predict_bink_movie_fullpath(const char*, int32, uns32, BINK*)
+//.text:00618500 ; bool __cdecl prepare_bink_movie_for_playback_async(s_bink_runtime*, const s_bink_prediction_message*)
 //.text:006187B0 ; void __cdecl process_bink_messages()
 //.text:00618810 ; void __cdecl rebase_bink_on_base_address_change(void*, void*)
 //.text:00618860 ; 
@@ -234,5 +234,5 @@ void __cdecl play_bink_movie(char const* name)
 //.text:006188B0 ; 
 //.text:006188F0 ; 
 //.text:00618940 ; 
-//.text:00618960 ; public: virtual void __cdecl c_bink_optional_cache_callback::terminate(void const*)
+//.text:00618960 ; public: virtual void __cdecl c_bink_optional_cache_callback::terminate(const void*)
 

@@ -12,7 +12,7 @@
 
 int32 const k_max_stack_depth = 256;
 
-char const* symbol_name_from_address(uns32 routine_address, int32* out_symbol_offset)
+const char* symbol_name_from_address(uns32 routine_address, int32* out_symbol_offset)
 {
 	static char buffer[16384]{};
 	csstrnzcpy(buffer, "<unknown>", sizeof(buffer));
@@ -101,7 +101,7 @@ void walk_stack(uns32* routine_addresses, uns32 number_of_levels, int16 levels_t
 	*levels_dumped = stack_trace_result;
 }
 
-void stack_walk_with_context_internal(s_file_reference const* file, int16 levels_to_ignore, _CONTEXT* context, int32 number_of_levels, uns32* routine_addresses, int32* out_levels_dumped)
+void stack_walk_with_context_internal(const s_file_reference* file, int16 levels_to_ignore, _CONTEXT* context, int32 number_of_levels, uns32* routine_addresses, int32* out_levels_dumped)
 {
 	levels_to_ignore++;
 
@@ -112,14 +112,14 @@ void stack_walk_with_context_internal(s_file_reference const* file, int16 levels
 		*out_levels_dumped = levels_dumped;
 }
 
-void stack_walk_print(s_file_reference* file, _CONTEXT* context, int32 levels_dumped, uns32 const* routine_addresses)
+void stack_walk_print(s_file_reference* file, _CONTEXT* context, int32 levels_dumped, const uns32* routine_addresses)
 {
 	for (int32 i = levels_dumped - 1; i >= 0; i--)
 	{
 		uns32 routine_address = routine_addresses[i];
 
 		int32 symbol_offset = 0;
-		char const* symbol_name = symbol_name_from_address(routine_address, &symbol_offset);
+		const char* symbol_name = symbol_name_from_address(routine_address, &symbol_offset);
 
 		if (file)
 		{

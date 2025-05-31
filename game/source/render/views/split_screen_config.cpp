@@ -19,7 +19,7 @@ s_splitscreen_view_config(&c_splitscreen_config::m_config_table)[4][4] = *reinte
 //c_splitscreen_config::m_config_table[3][2] = { { 0.0f, 0.5f, 0.5f, 1.0f }, 3 };
 //c_splitscreen_config::m_config_table[3][3] = { { 0.5f, 0.5f, 1.0f, 1.0f }, 3 };
 
-s_splitscreen_view_config const* c_splitscreen_config::get_view_bounds(int32 player_index, int32 player_count, bool is_widescreen)
+const s_splitscreen_view_config* c_splitscreen_config::get_view_bounds(int32 player_index, int32 player_count, bool is_widescreen)
 {
 	return INVOKE(0x00604270, get_view_bounds, player_index, player_count, is_widescreen);
 }

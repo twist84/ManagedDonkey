@@ -729,7 +729,7 @@ bool hs_parse_tag_reference(int32 expression_index)
 	{
 		if (tag_reference.reference.index != NONE)
 		{
-			char const* tag_name = tag_get_name(tag_reference.reference.index);
+			const char* tag_name = tag_get_name(tag_reference.reference.index);
 			if (csstrcmp(tag_name, source_offset) == 0 && tag_reference.reference.group_tag == group_tag)
 			{
 				expression->long_value = tag_reference.reference.index;
@@ -818,7 +818,7 @@ bool hs_parse_enum(int32 expression_index)
 		return false;
 	}
 
-	hs_enum_definition const* enum_definition = &hs_enum_table[expression->type.get() - _hs_type_game_difficulty];
+	const hs_enum_definition* enum_definition = &hs_enum_table[expression->type.get() - _hs_type_game_difficulty];
 	ASSERT(enum_definition->count);
 
 	int16 i = 0;
@@ -1234,7 +1234,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 		}
 		else
 		{
-			hs_function_definition_debug const* function = hs_function_get_debug(expression->constant_type.get());
+			const hs_function_definition_debug* function = hs_function_get_debug(expression->constant_type.get());
 			if (expression->type.get() && !hs_can_cast(function->return_type.get(), expression->type.get()))
 			{
 				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
@@ -1316,7 +1316,7 @@ bool hs_parse(int32 expression_index, int16 expected_type)
 
 bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 {
-	hs_function_definition_debug const* definition = hs_function_get_debug(function_index);
+	const hs_function_definition_debug* definition = hs_function_get_debug(function_index);
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
@@ -1355,7 +1355,7 @@ bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 	return false;
 }
 
-bool hs_compile_get_tag_by_name(char const* group_name, tag* group_tag_out)
+bool hs_compile_get_tag_by_name(const char* group_name, tag* group_tag_out)
 {
 	tag group_tag = group_name_to_group_tag(group_name);
 	if (group_tag == NONE)
@@ -1527,7 +1527,7 @@ bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int32 scen
 	bool valid = false;
 	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
-		char const* block_element = static_cast<char const*>(tag_block_get_element_with_size(block, block_index, element_size));
+		const char* block_element = static_cast<const char*>(tag_block_get_element_with_size(block, block_index, element_size));
 		if (ascii_stricmp(block_element + offset, source_offset) == 0)
 		{
 			expression->short_value = static_cast<int16>(block_index);
@@ -1613,7 +1613,7 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 	csmemset(state->failed_scripts, 0, sizeof(state->failed_scripts));
 }
 
-char* hs_compile_add_source(int32 source_size, char const* source_data)
+char* hs_compile_add_source(int32 source_size, const char* source_data)
 {
 	// $TODO: implement me
 
@@ -1633,7 +1633,7 @@ char* hs_compile_add_source(int32 source_size, char const* source_data)
 	//return result;
 }
 
-int32 hs_source_pointer_get_line_number(char const* source_pointer, char const* source)
+int32 hs_source_pointer_get_line_number(const char* source_pointer, const char* source)
 {
 	int32 line_number = 1;
 
@@ -1651,7 +1651,7 @@ int32 hs_source_pointer_get_line_number(char const* source_pointer, char const* 
 struct hs_tokenizer
 {
 	char* cursor;
-	char const* source_file_data;
+	const char* source_file_data;
 	int32 source_file_size;
 };
 
@@ -1824,7 +1824,7 @@ void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 	}
 }
 
-void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_size, char const* source_file_data, char const** error_message_pointer, int32* error_offset)
+void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_size, const char* source_file_data, const char** error_message_pointer, int32* error_offset)
 {
 	// $TODO: implement me
 
@@ -1961,7 +1961,7 @@ void hs_compile_dispose()
 	//resize_scenario_syntax_data(count);
 }
 
-int32 hs_compile_expression(int32 source_size, char const* source_data, char const** error_message_pointer, char const** error_source_pointer)
+int32 hs_compile_expression(int32 source_size, const char* source_data, const char** error_message_pointer, const char** error_source_pointer)
 {
 	int32 compiled_expression_index = NONE;
 
@@ -2095,7 +2095,7 @@ void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<
 	//out_dest_string.m_elements[copy_length] = 0;
 }
 
-void hs_validify_expression(char const* expression, char* out_valid_expression_buffer, int32 out_expression_length)
+void hs_validify_expression(const char* expression, char* out_valid_expression_buffer, int32 out_expression_length)
 {
 	// $TODO: actually validate the expression
 	csstrnzcpy(out_valid_expression_buffer, expression, out_expression_length);
@@ -2108,7 +2108,7 @@ bool hs_runtime_safe_to_gc()
 	return false;
 }
 
-bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char const* expression, bool interactive)
+bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive)
 {
 	// $TODO: enable once all sub functions are implemented
 	return false;
@@ -2123,8 +2123,8 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 	hs_validify_expression(expression, expression_buffer, sizeof(expression_buffer));
 	if (string_is_not_empty(expression_buffer))
 	{
-		char const* error_message = NULL;
-		char const* error_source = NULL;
+		const char* error_message = NULL;
+		const char* error_source = NULL;
 	
 		if (g_hs_syntax_data && g_hs_syntax_data->valid && hs_runtime_safe_to_gc())
 			hs_node_gc();
@@ -2168,7 +2168,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, char const* source, char
 	return result;
 }
 
-void hs_compile_source_error(char const* file_name, char const* error_message, char const* error_source, char const* source)
+void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source)
 {
 	// $TODO: implement me
 }

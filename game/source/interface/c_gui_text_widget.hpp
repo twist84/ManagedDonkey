@@ -52,7 +52,7 @@ struct c_gui_text_widget :
 	public c_gui_widget
 {
 public:
-	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
+	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 
 	struct s_text_source_data
 	{
@@ -78,16 +78,16 @@ public:
 	virtual void update(uns32 current_milliseconds) override;
 	virtual void update_render_state(uns32 current_milliseconds) override;
 	virtual void set_animated_state_baseline(s_animation_transform* transform) override;
-	virtual void assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
 	virtual c_user_interface_text* get_text_internal() = 0;
 	virtual unsigned int get_text_buffer_size() const = 0;
-	virtual void initialize(s_text_widget_block const* template_and_override_block);
-	virtual void set_text(wchar_t const* text);
+	virtual void initialize(const s_text_widget_block* template_and_override_block);
+	virtual void set_text(const wchar_t* text);
 	virtual void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
-	virtual wchar_t const* get_text();
+	virtual const wchar_t* get_text();
 
 private:
-	void compute_text_bounds(rectangle2d const* window_bounds, real_point2d rotation_origin, real32 position_x, real32 position_y, real32 depth, real32 scale_i, real32 scale_j, real_point2d* out_rotation_origin, real_rectangle2d* out_transformed_text_rect, real_rectangle2d* out_transformed_clip_rect, real32* out_glyph_scale);
+	void compute_text_bounds(const rectangle2d* window_bounds, real_point2d rotation_origin, real32 position_x, real32 position_y, real32 depth, real32 scale_i, real32 scale_j, real_point2d* out_rotation_origin, real_rectangle2d* out_transformed_text_rect, real_rectangle2d* out_transformed_clip_rect, real32* out_glyph_scale);
 
 protected:
 	s_text_source_data m_text_source_data;
@@ -102,12 +102,12 @@ struct c_sized_user_interface_text :
 	public c_user_interface_text
 {
 public:
-	//virtual void set_string(wchar_t const* new_string, bool parse_xml, int32 screen_index)
+	//virtual void set_string(const wchar_t* new_string, bool parse_xml, int32 screen_index)
 	//{
 	//	// $TODO: implement me
 	//}
 	//
-	//virtual wchar_t const* get_string()
+	//virtual const wchar_t* get_string()
 	//{
 	//	return m_text_render_buffer.get_string();
 	//}

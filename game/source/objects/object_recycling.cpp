@@ -16,7 +16,7 @@
 //.text:00BB94D0 ; 
 //.text:00BB9550 ; 
 //.text:00BB9580 ; 
-//.text:00BB95B0 ; int32 __cdecl find_worst_object_in_group(int32, s_recycling_group const*, int32)
+//.text:00BB95B0 ; int32 __cdecl find_worst_object_in_group(int32, const s_recycling_group*, int32)
 //.text:00BB96B0 ; 
 //.text:00BB96C0 ; 
 //.text:00BB96F0 ; 
@@ -50,7 +50,7 @@
 //.text:00BBAB30 ; 
 //.text:00BBAB70 ; 
 //.text:00BBABB0 ; 
-//.text:00BBABE0 ; int __cdecl sort_recycling_entry_descending(void const*, void const*)
+//.text:00BBABE0 ; int __cdecl sort_recycling_entry_descending(const void*, const void*)
 //.text:00BBAC00 ; void __cdecl sort_recycling_entry_list(s_recycling_workspace*)
 //.text:00BBAC30 ; 
 //.text:00BBAC50 ; void __cdecl update_active_recycling_volumes(s_recycling_workspace*)

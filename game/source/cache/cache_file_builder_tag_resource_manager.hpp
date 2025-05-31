@@ -93,7 +93,7 @@ struct s_tag_resource_interop_location
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
-extern char const* const k_cache_file_resource_type_names[k_cache_file_resource_type_count];
+extern const char* const k_cache_file_resource_type_names[k_cache_file_resource_type_count];
 
 struct s_cache_file_resource_runtime_data_new
 {
@@ -187,5 +187,5 @@ struct s_cache_file_resource_gestalt
 };
 static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
 
-extern char const* cache_file_resource_type_get_name(int32 resource_type);
+extern const char* cache_file_resource_type_get_name(int32 resource_type);
 

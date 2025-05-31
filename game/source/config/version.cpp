@@ -130,31 +130,31 @@ byte const k_build_time[] = VERSION_BUILD_TIME;
 DATA_PATCH_DECLARE(0x016704A8, build_date, k_build_date);
 DATA_PATCH_DECLARE(0x016704B4, build_time, k_build_time);
 
-char const* __cdecl version_get_target_variant()
+const char* __cdecl version_get_target_variant()
 {
 	//return "cache";
 	return k_version_target_variant;
 }
 
-char const* __cdecl version_get_full_string()
+const char* __cdecl version_get_full_string()
 {
 	//return "blam cache release pc 1.106708 cert_ms23  Mar 20 2015 17:24:42";
 	return k_version_full_string;
 }
 
-char const* __cdecl version_get_project_name()
+const char* __cdecl version_get_project_name()
 {
 	//return "cert_ms23";
 	return k_version_project_name;
 }
 
-char const* __cdecl version_get_build_identifier()
+const char* __cdecl version_get_build_identifier()
 {
 	//return version_is_tracked_build() ? "1.106708_cert_ms23___release" : "untracked_cert_ms23__release";
 	return version_is_tracked_build() ? k_version_tracked_string : k_version_untracked_string;
 }
 
-char const* __cdecl version_get_build_name()
+const char* __cdecl version_get_build_name()
 {
 	//return "";
 	return k_version_build_name;
@@ -176,13 +176,13 @@ int32 __cdecl version_get_build_number_sequence_identifier()
 	return 2;
 }
 
-char const* __cdecl version_get_build_string()
+const char* __cdecl version_get_build_string()
 {
 	//return "1.106708 cert_ms23";
 	return k_version_build_string;
 }
 
-char const* __cdecl version_get_target_configuration()
+const char* __cdecl version_get_target_configuration()
 {
 	//return "release";
 	return k_version_target_configuration;

@@ -121,7 +121,7 @@ extern bool debug_sound_listeners;
 extern bool debug_sound;
 extern bool debug_sound_manager_channels;
 
-extern real32 sound_definition_map_pitch(void const* sound_definition, real32 a1, real32 a2);
+extern real32 sound_definition_map_pitch(const void* sound_definition, real32 a1, real32 a2);
 extern void __cdecl sound_delete(int32 sound_index);
 extern void __cdecl sound_dispose();
 extern void __cdecl sound_dispose_from_old_map();
@@ -133,7 +133,7 @@ extern void __cdecl sound_initialize_for_new_map();
 extern void __cdecl sound_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern bool __cdecl sound_is_active();
 extern bool __cdecl sound_is_fading_out(int32 sound_index);
-extern s_sound_listener const* __cdecl sound_manager_get_listener(int32 listener_index);
+extern const s_sound_listener* __cdecl sound_manager_get_listener(int32 listener_index);
 extern void __cdecl sound_render();
 extern void __cdecl sound_render_dispatch();
 extern void __cdecl sound_stop_all(int32 game_state_proc_flags);

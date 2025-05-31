@@ -18,7 +18,7 @@ inline t_type* c_generic_network_session_parameter<t_type>::get() const
 }
 
 template<typename t_type>
-inline bool c_generic_network_session_parameter<t_type>::set(t_type const* parameter)
+inline bool c_generic_network_session_parameter<t_type>::set(const t_type* parameter)
 {
 	event(_event_status, "networking:session_parameters: [%s] parameter type %d [%s] being set",
 		get_session_description(),
@@ -45,7 +45,7 @@ inline bool c_generic_network_session_parameter<t_type>::set(t_type const* param
 }
 
 template<typename t_type>
-inline bool c_generic_network_session_parameter<t_type>::request_change(t_type const* parameter)
+inline bool c_generic_network_session_parameter<t_type>::request_change(const t_type* parameter)
 {
 	if (set_allowed())
 		return set(parameter);
