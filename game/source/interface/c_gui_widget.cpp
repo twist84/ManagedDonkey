@@ -1547,6 +1547,38 @@ void c_gui_widget::update(uns32 current_milliseconds)
 void c_gui_widget::update_animation(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABB0E0, c_gui_widget, update_animation, current_milliseconds);
+
+	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (child_widget->m_type == _gui_screen)
+		{
+			continue;
+		}
+
+		child_widget->update_animation(current_milliseconds);
+	}
+
+	c_gui_widget::animate(current_milliseconds);
+
+	if (!c_gui_widget::can_be_disposed() || !c_gui_widget::can_all_children_be_disposed())
+	{
+		return;
+	}
+
+	switch (m_type)
+	{
+	case _gui_group:
+	case _gui_button_key:
+	{
+		((c_gui_group_widget*)this)->set_dispose_as_display_group(true);
+	}
+	break;
+	case _gui_list:
+	{
+		((c_gui_list_widget*)this)->mark_as_submenu_that_needs_disposal(true);
+	}
+	break;
+	}
 }
 
 void c_gui_widget::update_render_state(uns32 current_milliseconds)
