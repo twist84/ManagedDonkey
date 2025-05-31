@@ -3,7 +3,10 @@
 #include "bink/bink_playback.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "interface/c_gui_bitmap_widget.hpp"
+#include "interface/c_gui_model_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/c_gui_text_widget.hpp"
 #include "interface/c_gui_widget.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/gui_screens/boot_betrayer/gui_screen_boot_betrayer.hpp"
@@ -27,6 +30,7 @@
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen);
 //HOOK_DECLARE_CLASS(0x00AABFD0, c_window_manager, named_screen_defined_in_code);
+HOOK_DECLARE(0x00AAD730, window_manager_add_widgets_to_render_list_recursive);
 
 //.text:00AA8C50 ; public: c_window_manager::c_window_manager()
 //.text:00AA8D20 ; public: c_window_manager::~c_window_manager()
@@ -780,7 +784,115 @@ void c_window_manager::update(uns32 milliseconds)
 
 //.text:00AAD540 ; public: void c_window_manager::update_fade(uns32)
 //.text:00AAD670 ; 
-//.text:00AAD730 ; void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const*, c_gui_widget*, s_window_manager_screen_render_data*, e_controller_index, int32)
+
+void __cdecl window_manager_add_widgets_to_render_list_recursive(rectangle2d const* window_bounds, c_gui_widget* root_widget, s_window_manager_screen_render_data* render_data, e_controller_index local_controller_index)
+{
+	//INVOKE(0x00AAD730, window_manager_add_widgets_to_render_list_recursive, window_bounds, root_widget, render_data, local_controller_index);
+
+	for (c_gui_widget* child_widget = root_widget->get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		if (child_widget->m_type == _gui_screen || !child_widget->should_render(NULL))
+		{
+			continue;
+		}
+
+		window_manager_add_widgets_to_render_list_recursive(window_bounds, child_widget, render_data, local_controller_index);
+	}
+
+	bool add_to_render_list = false;
+	if (!root_widget->should_render(&add_to_render_list) || !add_to_render_list)
+	{
+		return;
+	}
+
+	if (render_data->current_count >= s_window_manager_screen_render_data::k_maximum_rendered_child_widgets_per_screen)
+	{
+		int32 widget_name = root_widget->m_name;
+		if (c_gui_screen_widget* parent_screen = root_widget->get_parent_screen())
+		{
+			widget_name = parent_screen->m_name;
+		}
+		event(_event_error, "ui: '%s' is trying to render too many widgets! (max= %ld)",
+			string_id_get_string_const(widget_name),
+			s_window_manager_screen_render_data::k_maximum_rendered_child_widgets_per_screen);
+
+		return;
+	}
+
+	int32 size_needed = 0;
+	switch (root_widget->m_type)
+	{
+	case _gui_text:
+	{
+		unsigned int text_buffer_size = ((c_gui_text_widget*)root_widget)->get_text_buffer_size();
+		switch (text_buffer_size)
+		{
+		case 48:
+		{
+			size_needed = sizeof(s_gui_text_widget_small_render_data);
+		}
+		break;
+		case 256:
+		{
+			size_needed = sizeof(s_gui_text_widget_large_render_data);
+		}
+		break;
+		case 1024:
+		{
+			size_needed = sizeof(s_gui_text_widget_extra_large_render_data);
+		}
+		break;
+		default:
+		{
+			VASSERT("unhandled text widget buffer size!");
+		}
+		break;
+		}
+	}
+	break;
+	case _gui_bitmap:
+	{
+		size_needed = sizeof(s_gui_bitmap_widget_render_data);
+	}
+	break;
+	case _gui_model:
+	{
+		size_needed = sizeof(s_gui_model_widget_render_data);
+	}
+	break;
+	default:
+	{
+		size_needed = sizeof(s_gui_widget_render_data);
+	}
+	break;
+	}
+
+	ASSERT(render_data->render_data_buffer_count >= 0 && size_needed >= 0 && (render_data->render_data_buffer_count + size_needed >= render_data->render_data_buffer_count));
+	if ((render_data->render_data_buffer_count + size_needed) >= render_data->render_data_buffer_length)
+	{
+		int32 widget_name = root_widget->m_name;
+		if (c_gui_screen_widget* parent_screen = root_widget->get_parent_screen())
+		{
+			widget_name = parent_screen->m_name;
+		}
+		event(_event_error, "ui: no render buffer space for '%s'",
+			string_id_get_string_const(widget_name));
+
+		return;
+	}
+
+	s_gui_widget_render_data* render_data_assemble = (s_gui_widget_render_data*)&render_data->render_data_buffer[render_data->render_data_buffer_count];
+	root_widget->assemble_render_data(render_data_assemble, window_bounds, local_controller_index, true, true, true);
+
+	render_data->render_list[render_data->current_count].type = root_widget->m_type;
+	render_data->render_list[render_data->current_count].render_data_offset = render_data->render_data_buffer_count;
+	render_data->render_list[render_data->current_count].depth = root_widget->m_animated_state.position.z;
+	render_data->render_list[render_data->current_count].depth_bias = root_widget->get_render_depth_bias();
+
+	ASSERT(render_data_assemble == (s_gui_widget_render_data*)&render_data->render_data_buffer[render_data->render_list[render_data->current_count].render_data_offset]);
+	render_data->render_data_buffer_count += size_needed;
+	render_data->current_count++;
+}
 
 void __cdecl window_manager_build_render_data_for_screen(rectangle2d const* viewport_bounds, c_gui_screen_widget* screen, s_window_manager_screen_render_data* render_data)
 {

@@ -28,21 +28,6 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9A40, c_gui_widget, handle_controller_input_message_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9B40, c_gui_widget, handle_tab_);
 
-// $TODO: implement `window_manager_add_widgets_to_render_list_recursive`
-t_value_type<int32> const gui_widget_render_data                   = { .value = sizeof(s_gui_widget_render_data)                  }; // 0x0x2C 
-t_value_type<int32> const gui_model_widget_render_data             = { .value = sizeof(s_gui_model_widget_render_data)            }; // 0x0x6F0
-t_value_type<int32> const gui_bitmap_widget_render_data            = { .value = sizeof(s_gui_bitmap_widget_render_data)           }; // 0x0x54 
-t_value_type<int32> const gui_text_widget_extra_large_render_data  = { .value = sizeof(s_gui_text_widget_extra_large_render_data) }; // 0x0x898
-t_value_type<int32> const gui_text_widget_large_render_data        = { .value = sizeof(s_gui_text_widget_large_render_data)       }; // 0x0x298
-t_value_type<int32> const gui_text_widget_small_render_data        = { .value = sizeof(s_gui_text_widget_small_render_data)       }; // 0x0xF8
-
-DATA_PATCH_DECLARE(0x00AAD7E9 + 1, gui_widget_render_data, gui_widget_render_data.bytes);
-DATA_PATCH_DECLARE(0x00AAD7F0 + 1, gui_model_widget_render_data, gui_model_widget_render_data.bytes);
-DATA_PATCH_DECLARE(0x00AAD7F7 + 1, gui_bitmap_widget_render_data, gui_bitmap_widget_render_data.bytes);
-DATA_PATCH_DECLARE(0x00AAD81B + 1, gui_text_widget_extra_large_render_data, gui_text_widget_extra_large_render_data.bytes);
-DATA_PATCH_DECLARE(0x00AAD822 + 1, gui_text_widget_large_render_data, gui_text_widget_large_render_data.bytes);
-DATA_PATCH_DECLARE(0x00AAD829 + 1, gui_text_widget_small_render_data, gui_text_widget_small_render_data.bytes);
-
 bool gui_debug_text_bounds_global = false;
 bool gui_debug_bitmap_bounds_global = false;
 bool gui_debug_model_bounds_global = false;
@@ -815,7 +800,12 @@ gui_real_rectangle2d* c_gui_widget::get_projected_bounds(rectangle2d const* wind
 	return projected_bounds;
 }
 
-//.text:00AB9610 ; public: int16 c_gui_widget::get_render_depth_bias()
+int16 c_gui_widget::get_render_depth_bias()
+{
+	return INVOKE_CLASS_MEMBER(0x00AB9610, c_gui_widget, get_render_depth_bias);
+
+	//return (int16)get_core_definition()->render_depth_bias;
+}
 
 bool c_gui_widget::get_render_in_screenshot()
 {

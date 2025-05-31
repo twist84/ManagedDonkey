@@ -249,6 +249,7 @@ public:
 	c_gui_text_widget* get_previous_text_widget();
 	c_gui_widget* get_previous_widget_of_type(e_gui_widget_type type);
 	gui_real_rectangle2d* get_projected_bounds(rectangle2d const* window_bounds, gui_real_rectangle2d* projected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	int16 get_render_depth_bias();
 	bool get_render_in_screenshot();
 	e_controller_index get_single_responding_controller() const;
 	gui_real_rectangle2d* get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
