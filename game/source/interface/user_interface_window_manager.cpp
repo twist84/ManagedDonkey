@@ -351,10 +351,22 @@ void c_window_manager::debug_widget_state_for_widget(c_gui_widget* widget, e_wid
 	//}
 }
 
-//.text:00AAABB0 ; public: void c_window_manager::dispose()
-//.text:00AAABE0 ; public: void c_window_manager::dispose_from_old_map()
-//.text:00AAAE80 ; public: void c_window_manager::dispose_screen(c_gui_screen_widget*)
-//.text:00AAB090 ; 
+void c_window_manager::dispose()
+{
+	INVOKE_CLASS_MEMBER(0x00AAABB0, c_window_manager, dispose);
+}
+
+void c_window_manager::dispose_from_old_map()
+{
+	INVOKE_CLASS_MEMBER(0x00AAABE0, c_window_manager, dispose_from_old_map);
+}
+
+void c_window_manager::dispose_screen(c_gui_screen_widget* screen)
+{
+	INVOKE_CLASS_MEMBER(0x00AAAE80, c_window_manager, dispose_screen, screen);
+}
+
+//.text:00AAB090 ; public: bool c_load_screen_message::get_applies_even_to_codeless_screens() const
 //.text:00AAB0A0 ; public: c_gui_screen_widget* c_window_manager::get_bottommost_screen(e_window_index)
 
 c_gui_widget* c_gui_widget::get_children()
@@ -370,11 +382,11 @@ c_gui_widget* c_gui_widget::get_children()
 //.text:00AAB130 ; public: real32 c_window_manager::get_fading_amount() const
 //.text:00AAB140 ; public: bool c_window_manager::get_fading_max() const
 //.text:00AAB160 ; public: bool c_window_manager::get_fading_min() const
-//.text:00AAB180 ; 
-//.text:00AAB190 ; 
-//.text:00AAB1A0 ; 
-//.text:00AAB1B0 ; 
-//.text:00AAB1C0 ; 
+//.text:00AAB180 ; public: int32 c_load_screen_message::get_focus_on_load_column_name() const
+//.text:00AAB190 ; public: int32 c_load_screen_message::get_focus_on_load_column_value() const
+//.text:00AAB1A0 ; public: int32 c_load_screen_message::get_focus_on_load_element_handle() const
+//.text:00AAB1B0 ; public: int32 c_load_screen_message::get_focus_on_load_list_name() const
+//.text:00AAB1C0 ; public: int32 c_message::get_game_time_at_creation() const
 
 e_gui_location c_gui_screen_widget::get_gui_location() const
 {
@@ -383,7 +395,7 @@ e_gui_location c_gui_screen_widget::get_gui_location() const
 	return _gui_location_none;
 }
 
-//.text:00AAB1E0 ; 
+//.text:00AAB1E0 ; public: int32 c_load_screen_message::get_layered_position() const
 
 c_gui_widget* c_gui_widget::get_next()
 {
@@ -399,7 +411,7 @@ c_gui_widget* c_gui_widget::get_parent()
 	return m_parent.get_value();
 }
 
-//.text:00AAB250 ; 
+//.text:00AAB250 ; public: int32 c_load_screen_message::get_parent_screen_index() const
 
 e_render_data_size c_gui_screen_widget::get_render_data_size()
 {
@@ -425,11 +437,11 @@ e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widge
 	return INVOKE_CLASS_MEMBER(0x00AAB290, c_window_manager, get_render_window_for_screen, screen);
 }
 
-//.text:00AAB300 ; 
-//.text:00AAB310 ; 
+//.text:00AAB300 ; public: real32 c_gui_widget::get_rendered_depth()
+//.text:00AAB310 ; public: bool c_load_screen_message::get_respond_to_controller_events() const
 //.text:00AAB320 ; public: c_gui_screen_widget* c_window_manager::get_responding_screen(e_controller_index, e_window_index*)
 //.text:00AAB3F0 ; public: c_gui_screen_widget* c_window_manager::get_responding_screen_in_window(e_controller_index, e_window_index)
-//.text:00AAB480 ; 
+//.text:00AAB480 ; public: bool c_gui_screen_widget::get_responds_to_controller_events() const
 
 c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_index, c_gui_screen_widget* screen)
 {
