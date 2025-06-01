@@ -80,6 +80,24 @@ c_gui_screen_pregame_lobby::~c_gui_screen_pregame_lobby()
 	DECLFUNC(0x00B21230, c_gui_screen_pregame_lobby*, __thiscall, c_gui_screen_pregame_lobby*)(this);
 }
 
+bool c_gui_screen_pregame_lobby::advanced_options_enabled()
+{
+	bool result = false;
+	switch (m_name)
+	{
+	case STRING_ID(gui, pregame_lobby_campaign):
+	case STRING_ID(gui, pregame_lobby_matchmaking):
+	case STRING_ID(gui, pregame_lobby_multiplayer):
+	case STRING_ID(gui, pregame_lobby_mapeditor):
+	{
+		result = true;
+	}
+	break;
+	}
+
+	return result;
+}
+
 //.text:00B212A0 ; private: void c_gui_screen_pregame_lobby::commit_team_change(int32, c_gui_roster_list_widget*, int32)
 
 c_gui_bitmap_widget* c_gui_screen_pregame_lobby::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
@@ -100,7 +118,42 @@ void c_gui_screen_pregame_lobby::dispose()
 //.text:00B21410 ; protected: static e_campaign_id __cdecl c_gui_screen_pregame_lobby::get_current_campaign_id()
 //.text:00B21450 ; protected: static e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
 //.text:00B214A0 ; protected: const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
-//.text:00B214D3 ; 
+//.text:00B214D0 ; 
+
+int32 c_gui_screen_pregame_lobby::get_options_button_name(bool is_leader)
+{
+	int32 result = _string_id_invalid;
+	switch (m_name)
+	{
+	case STRING_ID(gui, pregame_lobby_campaign):
+	{
+		result = is_leader ? STRING_ID(gui, options_leader_campaign) : STRING_ID(gui, options_member_campaign);
+	}
+	break;
+	case STRING_ID(gui, pregame_lobby_matchmaking):
+	{
+		result = is_leader ? STRING_ID(gui, options_leader_matchmaking) : STRING_ID(gui, options_member_matchmaking);
+	}
+	break;
+	case STRING_ID(gui, pregame_lobby_multiplayer):
+	{
+		result = is_leader ? STRING_ID(gui, options_leader_multiplayer) : STRING_ID(gui, options_member_multiplayer);
+	}
+	break;
+	case STRING_ID(gui, pregame_lobby_mapeditor):
+	{
+		result = is_leader ? STRING_ID(gui, options_leader_mapeditor) : STRING_ID(gui, options_member_mapeditor);
+	}
+	break;
+	case STRING_ID(gui, pregame_lobby_theater):
+	{
+		result = is_leader ? STRING_ID(gui, options_leader_theater) : STRING_ID(gui, options_member_theater);
+	}
+	break;
+	}
+
+	return result;
+}
 
 int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool is_leader)
 {
@@ -308,5 +361,68 @@ void c_gui_screen_pregame_lobby::update_status()
 }
 
 //.text:00B23340 ; private: void c_gui_screen_pregame_lobby::update_vidmaster_popup()?
-//.text:00B23440 ; private: void c_gui_screen_pregame_lobby::update_widget_visiblility()
+
+void c_gui_screen_pregame_lobby::update_widget_visiblility()
+{
+	//INVOKE_CLASS_MEMBER(0x00B23440, c_gui_screen_pregame_lobby, update_widget_visiblility);
+
+	bool is_leader = user_interface_squad_local_peer_is_leader();
+	bool in_or_after_countdown = user_interface_squad_in_or_after_countdown();
+
+	c_gui_bitmap_widget* advanced_options_bitmap_widget = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, advanced_options));
+	c_gui_text_widget* advanced_options_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(gui, advanced_options));
+	c_gui_text_widget* change_teams_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(global, change_teams));
+	c_gui_text_widget* postgame_stats_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(gui, postgame_stats));
+
+	bool advanced_options_visible = !in_or_after_countdown && advanced_options_enabled();
+
+	if (advanced_options_text_widget)
+	{
+		advanced_options_text_widget->set_text_from_string_id(this, get_options_button_name(is_leader));
+		advanced_options_text_widget->set_use_alternate_ambient_state(!advanced_options_visible);
+
+		if (advanced_options_visible != m_advanced_options_visible)
+		{
+			advanced_options_text_widget->start_animation(advanced_options_visible ? _custom_animation0 : _custom_animation1, 0);
+		}
+	}
+
+	if (advanced_options_bitmap_widget)
+	{
+		advanced_options_bitmap_widget->set_use_alternate_ambient_state(!advanced_options_visible);
+
+		if (advanced_options_visible != m_advanced_options_visible)
+		{
+			advanced_options_bitmap_widget->start_animation(advanced_options_visible ? _custom_animation0 : _custom_animation1, false);
+		}
+	}
+
+	m_advanced_options_visible = advanced_options_visible;
+
+	if (change_teams_text_widget)
+	{
+		bool change_teams_visible = !in_or_after_countdown && team_switching_allowed();
+		change_teams_text_widget->set_use_alternate_ambient_state(!change_teams_visible);
+
+		if (change_teams_visible != m_change_teams_visible)
+		{
+			change_teams_text_widget->start_animation(change_teams_visible ? _custom_animation0 : _custom_animation1, false);
+		}
+
+		m_change_teams_visible = change_teams_visible;
+	}
+
+	if (postgame_stats_text_widget)
+	{
+		bool postgame_stats_visible = !in_or_after_countdown && user_interface_networking_get_final_game_results();
+		postgame_stats_text_widget->set_use_alternate_ambient_state(!postgame_stats_visible);
+
+		if (postgame_stats_visible != m_postgame_stats_visible)
+		{
+			postgame_stats_text_widget->start_animation(postgame_stats_visible ? _custom_animation0 : _custom_animation1, false);
+		}
+
+		m_postgame_stats_visible = postgame_stats_visible;
+	}
+}
 

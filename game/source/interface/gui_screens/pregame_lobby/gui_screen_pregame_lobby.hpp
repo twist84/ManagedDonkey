@@ -12,6 +12,7 @@ public:
 	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void __thiscall initialize_();
+	void __thiscall update_widget_visiblility_();
 
 public:
 	virtual ~c_gui_screen_pregame_lobby();
@@ -39,8 +40,14 @@ public:
 public:
 	c_gui_screen_pregame_lobby(int32 name);
 
+private:
+	bool advanced_options_enabled();
+
 protected:
 	static int32 __cdecl get_start_status_text(bool is_leader);
+
+private:
+	int32 get_options_button_name(bool is_leader);
 
 public:
 	void load_game_variant_editing_screen(e_controller_index controller_index);
@@ -51,6 +58,9 @@ private:
 public:
 	void update_status();
 
+private:
+	void update_widget_visiblility();
+
 protected:
 	int32 m_last_countdown_value;
 	bool m_is_fading;
@@ -59,6 +69,10 @@ protected:
 	bool m_vidmaster_popup_downloaded;
 	c_http_blf_simple_downloader<s_message_of_the_day_popup, 4665> m_vidmaster_popup_downloader;
 	bool m_vidmaster_popup_shown;
+
+	// Added back for `update_widget_visiblility`
+	bool m_advanced_options_visible;
+
 	int32 m_url_key;
 };
 static_assert(sizeof(c_gui_screen_pregame_lobby) == sizeof(c_gui_screen_widget) + 0x18F0);
