@@ -201,7 +201,25 @@ void __cdecl managed_session_game_end_complete(int32 managed_session_index, bool
 
 void __cdecl managed_session_game_start(int32 managed_session_index)
 {
-	INVOKE(0x00481F10, managed_session_game_start, managed_session_index);
+	//INVOKE(0x00481F10, managed_session_game_start, managed_session_index);
+
+	c_managed_session_status_flags session_status = managed_session_get_status(managed_session_index);
+	if (session_status.test(_managed_session_game_started_bit) &&
+		!session_status.test(_managed_session_game_ended_bit) &&
+		!session_status.test(_managed_session_game_end_in_progress_bit))
+	{
+		event(_event_warning, "networking:managed_session: [0x%08X] calling game start, and game end has not been called? ending",
+			managed_session_index);
+
+		managed_session_game_end(managed_session_index);
+	}
+
+	s_online_managed_session* managed_session = managed_session_get(managed_session_index);
+	managed_session->pending_operation_flags.set(_online_managed_session_game_start_bit, true);
+	managed_session->flags.set(_online_managed_session_pending_retry_bit, false);
+	managed_session->flags.set(_online_managed_session_game_started_bit, false);
+	managed_session->flags.set(_online_managed_session_game_start_failed_bit, false);
+	managed_session->time_of_last_failure = 0;
 }
 
 void __cdecl managed_session_game_start_complete(int32 managed_session_index, bool success, uns32 return_result)

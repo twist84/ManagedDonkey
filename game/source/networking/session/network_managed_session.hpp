@@ -12,8 +12,26 @@ struct c_network_session_membership;
 //typedef c_flags<e_managed_session_creation_flags, uns8, k_managed_session_creation_flags_count> c_managed_session_creation_flags;
 typedef uns8 c_managed_session_creation_flags;
 
-//typedef c_flags_no_init<e_managed_session_status_flags, uns16, k_managed_session_status_flags_count> c_managed_session_status_flags;
-typedef uns16 c_managed_session_status_flags;
+enum e_managed_session_status_flags
+{
+	_managed_session_creation_in_progress_bit = 0,
+	_managed_session_creation_succeeded_bit,
+	_managed_session_creation_failed_bit,
+	_managed_session_host_migration_in_progress_bit,
+	_managed_session_host_migration_session_created_bit,
+	_managed_session_players_add_in_progress_bit,
+	_managed_session_players_add_succeeded_bit,
+	_managed_session_players_add_failed_bit,
+	_managed_session_game_start_in_progress_bit,
+	_managed_session_game_started_bit,
+	_managed_session_game_start_failed_bit,
+	_managed_session_game_end_in_progress_bit,
+	_managed_session_game_ended_bit,
+	_managed_session_game_end_failed_bit,
+
+	k_managed_session_status_flags_count,
+};
+typedef c_flags_no_init<e_managed_session_status_flags, uns16, k_managed_session_status_flags_count> c_managed_session_status_flags;
 
 struct c_managed_session_overlapped_task :
 	public c_overlapped_task
