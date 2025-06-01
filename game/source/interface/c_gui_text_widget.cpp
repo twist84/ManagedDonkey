@@ -6,6 +6,7 @@
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B18A10, c_gui_text_widget, assemble_render_data_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B19220, c_gui_text_widget, set_string_from_string_id_);
 
 void __thiscall c_gui_text_widget::assemble_render_data_(
 	s_gui_widget_render_data* render_data,
@@ -24,8 +25,20 @@ void __thiscall c_gui_text_widget::assemble_render_data_(
 		apply_rotation);
 }
 
+bool __thiscall c_gui_text_widget::set_string_from_string_id_(c_static_wchar_string<1024>* buffer, c_gui_widget* string_list_owner, int32 value_name, bool forcibly_set_text)
+{
+	return c_gui_text_widget::set_string_from_string_id(buffer, string_list_owner, value_name, forcibly_set_text);
+}
+
 //.text:00B18810 ; public: c_gui_text_widget::c_gui_text_widget()
-//.text:00B18850 ; 
+
+c_gui_text_widget::s_text_source_data::s_text_source_data() :
+	type(_source_invalid),
+	name(_string_id_invalid),
+	element_handle(NONE)
+{
+	//DECLFUNC(0x00B18850, void, __thiscall, c_gui_text_widget::s_text_source_data*)(this);
+}
 
 //.text:00B18870 ; public: virtual void * __cdecl c_gui_text_widget::`vector deleting destructor'(unsigned int)
 c_gui_text_widget::~c_gui_text_widget()
@@ -159,7 +172,32 @@ void c_gui_text_widget::set_animated_state_baseline(s_animation_transform* trans
 
 //.text:00B191F0 ; 
 //.text:00B19200 ; 
-//.text:00B19220 ; private: bool c_gui_text_widget::set_string_from_string_id(c_static_wchar_string<1024>*, c_gui_widget*, int32, bool)
+
+bool c_gui_text_widget::set_string_from_string_id(c_static_wchar_string<1024>* buffer, c_gui_widget* string_list_owner, int32 value_name, bool forcibly_set_text)
+{
+	//INVOKE_CLASS_MEMBER(0x00B19220, c_gui_text_widget, set_string_from_string_id, buffer, string_list_owner, value_name, forcibly_set_text);
+
+	s_text_source_data source_data{};
+	if (value_name == _string_id_invalid || value_name == k_string_id_empty_string)
+	{
+		return false;
+	}
+
+	if (string_list_owner->get_string_by_string_id(value_name, buffer))
+	{
+		source_data.type = s_text_source_data::_source_string_id;
+		source_data.name = value_name;
+	}
+	else
+	{
+		buffer->print(L"#%hs#", string_id_get_string_const(value_name));
+		source_data.type = s_text_source_data::_source_raw;
+	}
+
+	c_gui_text_widget::set_text_internal(buffer->get_string(), &source_data, forcibly_set_text);
+	return true;
+}
+
 //.text:00B192A0 ; public: void c_gui_text_widget::set_tab_stops(const int16*, int32)
 //.text:00B192D0 ; 
 
@@ -173,7 +211,11 @@ void c_gui_text_widget::set_text_from_string_id(c_gui_screen_widget* screen, int
 	INVOKE_CLASS_MEMBER(0x00B19340, c_gui_text_widget, set_text_from_string_id, screen, id);
 }
 
-//.text:00B19390 ; private: void c_gui_text_widget::set_text_internal(const wchar_t*, const c_gui_text_widget::s_text_source_data*, bool)
+void c_gui_text_widget::set_text_internal(const wchar_t* string, const s_text_source_data* source_data, bool forcibly_set)
+{
+	INVOKE_CLASS_MEMBER(0x00B19390, c_gui_text_widget, set_text_internal, string, source_data, forcibly_set);
+}
+
 //.text:00B194B0 ; 
 
 void c_gui_text_widget::update(uns32 current_milliseconds)
