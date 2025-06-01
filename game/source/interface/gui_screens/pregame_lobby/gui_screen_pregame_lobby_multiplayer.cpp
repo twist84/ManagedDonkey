@@ -20,11 +20,15 @@ bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_
 			switch (target_name)
 			{
 			case STRING_ID(global, variant):
+			{
 				selection_type = _gui_selection_type_game_variant;
-				break;
+			}
+			break;
 			case STRING_ID(global, map):
+			{
 				selection_type = _gui_selection_type_map;
-				break;
+			}
+			break;
 			}
 
 			if (selection_type != _gui_selection_type_none)

@@ -190,6 +190,9 @@ public:
 private:
 	void dispose_datasource();
 
+protected:
+	c_gui_list_item_widget* find_list_item(int32 list_name, int32 list_column, int32 data_to_find);
+
 public:
 	c_gui_group_widget* get_button_key_widget();
 	c_gui_data* get_data(int32 name, int32* datasource_index);

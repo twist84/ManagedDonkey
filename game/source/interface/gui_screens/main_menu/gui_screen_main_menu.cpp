@@ -28,16 +28,23 @@ int32 c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index*
 
 	int32 in_use_controller_count = 0;
 	if (out_first_in_use_controller)
+	{
 		*out_first_in_use_controller = k_no_controller;
+	}
+
 	for (e_controller_index controller = _controller0; controller < k_number_of_controllers; controller++)
 	{
-		if (controller_get(controller)->in_use())
+		if (!controller_get(controller)->in_use())
 		{
-			if (out_first_in_use_controller && *out_first_in_use_controller == k_no_controller)
-				*out_first_in_use_controller = controller;
-
-			in_use_controller_count++;
+			continue;
 		}
+
+		if (out_first_in_use_controller && *out_first_in_use_controller == k_no_controller)
+		{
+			*out_first_in_use_controller = controller;
+		}
+
+		in_use_controller_count++;
 	}
 	return in_use_controller_count;
 }
@@ -66,14 +73,20 @@ void c_main_menu_screen_widget::set_list_elements()
 		bool has_saved_game_state_blocking = false;
 		e_controller_index saved_game_controller = k_no_controller;
 		if (get_in_use_controller_count(&saved_game_controller) == 1 /*&& !get_is_blue_disk()*/)
+		{
 			has_saved_game_state_blocking = saved_game_files_controller_has_saved_game_state_blocking(saved_game_controller);
+		}
 
 		data->clear_disabled_elements();
 
 		if (has_saved_game_state_blocking)
+		{
 			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, start_new_campaign));
+		}
 		else
+		{
 			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, resume_campaign));
+		}
 
 		if (get_alpha_is_internal_beta())
 		{
@@ -83,11 +96,15 @@ void c_main_menu_screen_widget::set_list_elements()
 		else
 		{
 			if (!x_enable_leave_game_element)
+			{
 				data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
+			}
 		}
 
 		if (get_alpha_custom_games_disabled())
+		{
 			data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, multiplayer));
+		}
 
 		if (get_alpha_is_locked_down())
 		{
@@ -100,7 +117,9 @@ void c_main_menu_screen_widget::set_list_elements()
 		}
 
 		if (x_disable_theater_element)
+		{
 			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, theater));
+		}
 	}
 
 	//if (!get_is_blue_disk())

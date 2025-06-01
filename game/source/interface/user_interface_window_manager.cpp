@@ -781,7 +781,14 @@ void c_window_manager::run_screen_hs_script(int32 script_index)
 //.text:00AACEF0 ; 
 //.text:00AACF10 ; 
 //.text:00AACF40 ; public: void c_window_manager::set_fade_out_and_quit_campaign(bool, bool)
-//.text:00AACF60 ; public: void c_window_manager::set_fading(bool)
+
+void c_window_manager::set_fading(bool fade_state)
+{
+	//INVOKE_CLASS_MEMBER(0x00AACF60, c_window_manager, set_fading, fade_state);
+
+	m_fade_in = fade_state;
+}
+
 //.text:00AACF70 ; public: void c_window_manager::set_fading_instant(bool)
 //.text:00AACFB0 ; 
 //.text:00AACFD0 ; 

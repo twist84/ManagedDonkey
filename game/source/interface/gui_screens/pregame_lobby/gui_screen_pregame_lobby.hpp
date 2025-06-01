@@ -9,7 +9,7 @@ struct c_gui_screen_pregame_lobby :
 	public c_gui_screen_widget
 {
 public:
-	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
+	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void __thiscall initialize_();
 
@@ -38,9 +38,14 @@ public:
 
 public:
 	c_gui_screen_pregame_lobby(int32 name);
+
+protected:
+	static int32 __cdecl get_start_status_text(bool is_leader);
+
+public:
 	void load_game_variant_editing_screen(e_controller_index controller_index);
 
-//private:
+private:
 	bool select_player_in_roster(e_controller_index controller_index, const s_player_identifier* target_player_identifier);
 
 public:

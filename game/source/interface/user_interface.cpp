@@ -35,6 +35,7 @@ REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals
 HOOK_DECLARE(0x00A849B0, user_interface_render);
 HOOK_DECLARE(0x00A84EE0, user_interface_update);
 
+//.text:00A84020 ; void __cdecl debug_enable_text_bounds(bool)
 //.text:00A84030 ; void __cdecl debug_render_title_safe_bounds(bool)
 
 bool __cdecl get_alpha_custom_games_disabled()

@@ -291,7 +291,12 @@ void c_gui_screen_widget::dispose_datasource()
 }
 
 //.text:00AB0B00 ; private: void c_gui_screen_widget::dispose_display_group(c_gui_group_widget*)
-//.text:00AB0BC0 ; protected: c_gui_list_item_widget* c_gui_screen_widget::find_list_item(int32, int32, int32)
+
+c_gui_list_item_widget* c_gui_screen_widget::find_list_item(int32 list_name, int32 list_column, int32 data_to_find)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB0BC0, c_gui_screen_widget, find_list_item, list_name, list_column, data_to_find);
+}
+
 //.text:00AB0C50 ; 
 
 c_gui_group_widget* c_gui_screen_widget::get_button_key_widget()

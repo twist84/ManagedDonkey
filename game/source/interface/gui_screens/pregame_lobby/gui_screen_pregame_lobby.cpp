@@ -1,6 +1,8 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 
+#include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/c_gui_text_widget.hpp"
 #include "interface/gui_selected_items.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
@@ -9,15 +11,17 @@
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text.hpp"
 #include "interface/user_interface_text_parser.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B21EA0, c_gui_screen_pregame_lobby, handle_list_item_chosen_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B22140, c_gui_screen_pregame_lobby, initialize_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B23440, c_gui_screen_pregame_lobby, update_widget_visiblility_);
 
 // $TODO: remove this once things are properly implemented for `advanced_options`
-bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_controller_input_message* message)
+bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(const c_controller_input_message* message)
 {
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
@@ -59,6 +63,11 @@ void __thiscall c_gui_screen_pregame_lobby::initialize_()
 	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_xml_lobby_percent_loaded));
 }
 
+void c_gui_screen_pregame_lobby::update_widget_visiblility_()
+{
+	c_gui_screen_pregame_lobby::update_widget_visiblility();
+}
+
 c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(int32 name) :
 	c_gui_screen_widget(name)
 {
@@ -92,7 +101,12 @@ void c_gui_screen_pregame_lobby::dispose()
 //.text:00B21450 ; protected: static e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
 //.text:00B214A0 ; protected: const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
 //.text:00B214D3 ; 
-//.text:00B214E0 ; protected: static int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool)
+
+int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool is_leader)
+{
+	return INVOKE(0x00B214E0, c_gui_screen_pregame_lobby::get_start_status_text, is_leader);
+}
+
 //.text:00B21930 ; private: bool c_gui_screen_pregame_lobby::handle_back_out(e_controller_index)
 
 bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_controller_input_message* message)
@@ -181,7 +195,9 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 			if (const s_player_identifier* player_identifier = user_interface_session_get_player_identifier(target_session_player_index))
 			{
 				if (select_player_in_roster(message->get_controller(), player_identifier))
+				{
 					return true;
+				}
 			}
 		}
 	}
@@ -240,14 +256,19 @@ bool c_gui_screen_pregame_lobby::select_player_in_roster(e_controller_index cont
 }
 
 //.text:00B22C90 ; private: void c_gui_screen_pregame_lobby::show_vidmaster_popup_if_needed()?
+
 void c_gui_screen_pregame_lobby::start_fade_during_countdown()
 {
-	INVOKE_CLASS_MEMBER(0x00B22DB0, c_gui_screen_pregame_lobby, start_fade_during_countdown);
+	//INVOKE_CLASS_MEMBER(0x00B22DB0, c_gui_screen_pregame_lobby, start_fade_during_countdown);
+
+	window_manager_get()->set_fading(true);
 }
 
 void c_gui_screen_pregame_lobby::stop_fade_during_countdown()
 {
-	INVOKE_CLASS_MEMBER(0x00B22DC0, c_gui_screen_pregame_lobby, stop_fade_during_countdown);
+	//INVOKE_CLASS_MEMBER(0x00B22DC0, c_gui_screen_pregame_lobby, stop_fade_during_countdown);
+
+	window_manager_get()->set_fading(false);
 }
 
 bool c_gui_screen_pregame_lobby::team_switching_allowed()
@@ -266,7 +287,24 @@ void c_gui_screen_pregame_lobby::update(uns32 current_milliseconds)
 
 void c_gui_screen_pregame_lobby::update_status()
 {
-	INVOKE_CLASS_MEMBER(0x00B23290, c_gui_screen_pregame_lobby, update_status);
+	//INVOKE_CLASS_MEMBER(0x00B23290, c_gui_screen_pregame_lobby, update_status);
+
+	c_gui_text_widget* lobby_status_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(gui, lobby_status));
+	c_gui_list_item_widget* start_game_list_item_widget = c_gui_screen_widget::find_list_item(STRING_ID(gui, lobby_list), STRING_ID(global, name), STRING_ID(gui, start_game));
+	bool error = user_interface_get_session_game_start_status(NULL, NULL) == _session_game_start_status_error;
+	bool is_leader = user_interface_squad_local_peer_is_leader();
+	int32 start_status_text = c_gui_screen_pregame_lobby::get_start_status_text(is_leader);
+	c_gui_screen_widget::set_text_widget_string_id(STRING_ID(gui, lobby_status), start_status_text);
+
+	if (lobby_status_text_widget)
+	{
+		lobby_status_text_widget->set_use_alternate_ambient_state(error);
+	}
+
+	if (start_game_list_item_widget)
+	{
+		start_game_list_item_widget->set_enabled(is_leader && !user_interface_squad_in_or_after_countdown() && !error);
+	}
 }
 
 //.text:00B23340 ; private: void c_gui_screen_pregame_lobby::update_vidmaster_popup()?
