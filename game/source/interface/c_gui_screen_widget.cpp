@@ -315,7 +315,10 @@ c_gui_group_widget* c_gui_screen_widget::get_button_key_widget()
 	return NULL;
 }
 
-//.text:00AB0CD0 ; public: int32 c_gui_screen_widget::get_constants_datasource_integer(int32)
+int32 c_gui_screen_widget::get_constants_datasource_integer(int32 constant_name)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB0CD0, c_gui_screen_widget, get_constants_datasource_integer, constant_name);
+}
 
 s_runtime_core_widget_definition* c_gui_screen_widget::get_core_definition()
 {

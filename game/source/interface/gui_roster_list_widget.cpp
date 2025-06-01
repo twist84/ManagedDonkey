@@ -49,15 +49,47 @@ c_gui_roster_list_widget::~c_gui_roster_list_widget()
 	DECLFUNC(0x00B25AD0, void, __thiscall, c_gui_roster_list_widget*)(this);
 }
 
-//.text:00B25B00 ; public: void c_gui_roster_list_widget::end_team_change(int32, int32)
-//.text:00B25B30 ; public: bool c_gui_roster_list_widget::get_current_team_change_is_active(int32)
-//.text:00B25B50 ; public: bool c_gui_roster_list_widget::get_current_team_change_is_lying(int32)
-//.text:00B25B70 ; public: int32 c_gui_roster_list_widget::get_current_team_change_team_index(int32)
-//.text:00B25BB0 ; public: int32 c_gui_roster_list_widget::get_current_team_change_time(int32)
-//.text:00B25BD0 ; public: bool c_gui_roster_list_widget::get_game_roster_is_local_party() const
-//.text:00B25BE0 ; public: bool c_gui_roster_list_widget::get_team_switching_enabled() const
+void c_gui_roster_list_widget::end_team_change(int32 session_player_index, int32 lying_end_time)
+{
+	INVOKE_CLASS_MEMBER(0x00B25B00, c_gui_roster_list_widget, end_team_change, session_player_index, lying_end_time);
+}
+
+bool c_gui_roster_list_widget::get_current_team_change_is_active(int32 session_player_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00B25B30, c_gui_roster_list_widget, get_current_team_change_is_active, session_player_index);
+}
+
+bool c_gui_roster_list_widget::get_current_team_change_is_lying(int32 session_player_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00B25B50, c_gui_roster_list_widget, get_current_team_change_is_lying, session_player_index);
+}
+
+int32 c_gui_roster_list_widget::get_current_team_change_team_index(int32 session_player_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00B25B70, c_gui_roster_list_widget, get_current_team_change_team_index, session_player_index);
+}
+
+int32 c_gui_roster_list_widget::get_current_team_change_time(int32 session_player_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00B25BB0, c_gui_roster_list_widget, get_current_team_change_time, session_player_index);
+}
+
+bool c_gui_roster_list_widget::get_game_roster_is_local_party() const
+{
+	return INVOKE_CLASS_MEMBER(0x00B25BD0, c_gui_roster_list_widget, get_game_roster_is_local_party);
+}
+
+bool c_gui_roster_list_widget::get_team_switching_enabled() const
+{
+	return INVOKE_CLASS_MEMBER(0x00B25BE0, c_gui_roster_list_widget, get_team_switching_enabled);
+}
+
 //.text:00B25BF0 ; 
-//.text:00B25C00 ; public: void c_gui_roster_list_widget::set_is_team_game(bool)
+
+void c_gui_roster_list_widget::set_is_team_game(bool team_game)
+{
+	INVOKE_CLASS_MEMBER(0x00B25C00, c_gui_roster_list_widget, set_is_team_game, team_game);
+}
 
 void c_gui_list_widget::set_selectable_item_cap_count(int32 value)
 {
@@ -66,8 +98,8 @@ void c_gui_list_widget::set_selectable_item_cap_count(int32 value)
 	m_selectable_item_cap = value;
 }
 
-//.text:00B25C20 ; public: void c_gui_roster_list_widget::set_team_switching_enabled(bool)
-//.text:00B25C30 ; public: void c_gui_roster_list_widget::start_team_change(int32, int32, int32)
+//.text:00B25C20 ; public: void c_gui_roster_list_widget::set_team_switching_enabled(bool enabled)
+//.text:00B25C30 ; public: void c_gui_roster_list_widget::start_team_change(int32 session_player_index, int32 team_index, int32 current_time)
 
 void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 {

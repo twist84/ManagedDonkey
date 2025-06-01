@@ -3,6 +3,8 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
+struct c_game_variant;
+struct c_gui_roster_list_widget;
 struct s_message_of_the_day_popup;
 struct s_player_identifier;
 struct c_gui_screen_pregame_lobby :
@@ -42,12 +44,21 @@ public:
 
 private:
 	bool advanced_options_enabled();
+	void commit_team_change(int32 player_index, c_gui_roster_list_widget* roster_list_widget, int32 lying_end_time);
+
+protected:
+	static e_campaign_id __cdecl get_current_campaign_id();
+	static e_map_id __cdecl get_current_map_id();
+	static const c_game_variant* get_current_variant();
+
+private:
+	int32 get_options_button_name(bool is_leader);
 
 protected:
 	static int32 __cdecl get_start_status_text(bool is_leader);
 
 private:
-	int32 get_options_button_name(bool is_leader);
+	bool handle_back_out(e_controller_index controller_index);
 
 public:
 	void load_game_variant_editing_screen(e_controller_index controller_index);

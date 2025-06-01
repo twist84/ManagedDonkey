@@ -81,7 +81,10 @@ bool __cdecl user_interface_session_get_map(e_campaign_id* campaign_id, e_map_id
 	return INVOKE(0x00A817B0, user_interface_session_get_map, campaign_id, map_id);
 }
 
-//.text:00A817F0 ; int32 __cdecl user_interface_session_get_player_at_local_controller(e_controller_index controller_index)
+int32 __cdecl user_interface_session_get_player_at_local_controller(e_controller_index controller_index)
+{
+	return INVOKE(0x00A817F0, user_interface_session_get_player_at_local_controller, controller_index);
+}
 
 s_player_configuration* __cdecl user_interface_session_get_player_data(int32 player_index)
 {

@@ -16,6 +16,14 @@ public:
 	virtual void update_render_state(uns32 current_milliseconds) override;
 	
 	c_gui_roster_list_widget(bool game_roster_is_local_party, bool remote_team_game);
+	void end_team_change(int32 session_player_index, int32 lying_end_time);
+	bool get_current_team_change_is_active(int32 session_player_index);
+	bool get_current_team_change_is_lying(int32 session_player_index);
+	int32 get_current_team_change_team_index(int32 session_player_index);
+	int32 get_current_team_change_time(int32 session_player_index);
+	bool get_game_roster_is_local_party() const;
+	bool get_team_switching_enabled() const;
+	void set_is_team_game(bool team_game);
 	void update_team_mode();
 	
 protected:

@@ -16,6 +16,7 @@ extern void __cdecl user_interface_leave_sessions(e_user_interface_session_leave
 extern int32 __cdecl user_interface_local_player_count();
 extern e_controller_index user_interface_session_get_controller_index(int32 player_index);
 extern bool __cdecl user_interface_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id);
+extern int32 __cdecl user_interface_session_get_player_at_local_controller(e_controller_index controller_index);
 extern s_player_configuration* __cdecl user_interface_session_get_player_data(int32 player_index);
 extern bool __cdecl user_interface_session_is_local_player(int32 player_index);
 extern bool __cdecl user_interface_squad_is_player_valid(int32 player_index);

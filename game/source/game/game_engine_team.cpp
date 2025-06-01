@@ -38,7 +38,12 @@ bool __cdecl game_engine_is_team_ever_active(int32 team)
 //.text:00556C30 ; int32 __cdecl game_engine_teams_get_number_of_shared_lives(void)
 //.text:00556C40 ; bool __cdecl game_engine_teams_player_can_change_teams(int32)
 //.text:00556DD0 ; bool __cdecl game_engine_teams_use_one_shared_life(enum e_game_team)
-//.text:00556E60 ; int32 __cdecl game_engine_variant_get_maximum_team_count(const c_game_variant*, enum e_map_id)
+
+int32 __cdecl game_engine_variant_get_maximum_team_count(const c_game_variant* variant, e_map_id multiplayer_map_id)
+{
+	return INVOKE(0x00556E60, game_engine_variant_get_maximum_team_count, variant, multiplayer_map_id);
+}
+
 //.text:00556EB0 ; bool __cdecl game_engine_variant_has_teams(const c_game_variant*)
 //.text:00556ED0 ; bool __cdecl game_engine_variant_is_observer_allowed(const c_game_variant*)
 

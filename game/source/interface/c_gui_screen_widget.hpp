@@ -195,6 +195,7 @@ protected:
 
 public:
 	c_gui_group_widget* get_button_key_widget();
+	int32 get_constants_datasource_integer(int32 constant_name);
 	c_gui_data* get_data(int32 name, int32* datasource_index);
 
 protected:

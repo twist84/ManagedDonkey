@@ -1,8 +1,11 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 
+#include "game/game_engine_team.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
+#include "interface/gui_roster_list_widget.hpp"
 #include "interface/gui_selected_items.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
@@ -13,6 +16,7 @@
 #include "interface/user_interface_text_parser.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
+#include "networking/online/online.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message_);
@@ -98,7 +102,10 @@ bool c_gui_screen_pregame_lobby::advanced_options_enabled()
 	return result;
 }
 
-//.text:00B212A0 ; private: void c_gui_screen_pregame_lobby::commit_team_change(int32, c_gui_roster_list_widget*, int32)
+void c_gui_screen_pregame_lobby::commit_team_change(int32 player_index, c_gui_roster_list_widget* roster_list_widget, int32 lying_end_time)
+{
+	INVOKE_CLASS_MEMBER(0x00B212A0, c_gui_screen_pregame_lobby, commit_team_change, player_index, roster_list_widget, lying_end_time);
+}
 
 c_gui_bitmap_widget* c_gui_screen_pregame_lobby::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {
@@ -115,9 +122,21 @@ void c_gui_screen_pregame_lobby::dispose()
 	return INVOKE_CLASS_MEMBER(0x00B21400, c_gui_screen_pregame_lobby, dispose);
 }
 
-//.text:00B21410 ; protected: static e_campaign_id __cdecl c_gui_screen_pregame_lobby::get_current_campaign_id()
-//.text:00B21450 ; protected: static e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
-//.text:00B214A0 ; protected: const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
+e_campaign_id __cdecl c_gui_screen_pregame_lobby::get_current_campaign_id()
+{
+	return INVOKE(0x00B21410, c_gui_screen_pregame_lobby::get_current_campaign_id);
+}
+
+e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
+{
+	return INVOKE(0x00B21450, c_gui_screen_pregame_lobby::get_current_map_id);
+}
+
+const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
+{
+	return INVOKE(0x00B214A0, c_gui_screen_pregame_lobby::get_current_variant);
+}
+
 //.text:00B214D0 ; 
 
 int32 c_gui_screen_pregame_lobby::get_options_button_name(bool is_leader)
@@ -160,11 +179,179 @@ int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool is_leader)
 	return INVOKE(0x00B214E0, c_gui_screen_pregame_lobby::get_start_status_text, is_leader);
 }
 
-//.text:00B21930 ; private: bool c_gui_screen_pregame_lobby::handle_back_out(e_controller_index)
+bool c_gui_screen_pregame_lobby::handle_back_out(e_controller_index controller_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00B21930, c_gui_screen_pregame_lobby, handle_back_out, controller_index);
+}
 
 bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_controller_input_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
+
+	//bool in_or_after_countdown = user_interface_squad_in_or_after_countdown();
+	//
+	//if (message->get_event_type() == _event_type_tab_left || message->get_event_type() == _event_type_tab_right)
+	//{
+	//	if (in_or_after_countdown)
+	//	{
+	//		return c_gui_screen_widget::handle_controller_input_message(message);
+	//	}
+	//
+	//	c_gui_list_widget* lobby_list = c_gui_widget::get_child_list_widget(STRING_ID(gui, lobby_list));
+	//	c_gui_list_widget* roster = c_gui_widget::get_child_list_widget(STRING_ID(gui, roster));
+	//	c_gui_widget* focused_widget = c_gui_screen_widget::get_focused_widget();
+	//	if (!lobby_list || !roster || !focused_widget || focused_widget->m_type != _gui_list_item)
+	//	{
+	//		return c_gui_screen_widget::handle_controller_input_message(message);
+	//	}
+	//
+	//	bool focused_parent_list_is_lobby = focused_widget->get_parent_list() == lobby_list;
+	//	if (message->get_event_type() == _event_type_tab_right && focused_parent_list_is_lobby)
+	//	{
+	//		c_gui_screen_widget::transfer_focus_to_list(roster, roster->get_focused_element_handle(), true, true);
+	//		return true;
+	//	}
+	//	if (message->get_event_type() == _event_type_tab_left && !focused_parent_list_is_lobby && user_interface_squad_local_peer_is_leader())
+	//	{
+	//		c_gui_screen_widget::transfer_focus_to_list(roster, lobby_list->get_focused_element_handle(), true, true);
+	//		return true;
+	//	}
+	//}
+	//
+	//if (message->get_event_type() != _event_type_button_press)
+	//{
+	//	return c_gui_screen_widget::handle_controller_input_message(message);
+	//}
+	//
+	//switch (message->get_event_type())
+	//{
+	//break;
+	//case _controller_component_button_a:
+	//{
+	//	if (in_or_after_countdown)
+	//	{
+	//		user_interface_squad_start_countdown_timer(message->get_controller(), 6, 4);
+	//		return false;
+	//	}
+	//
+	//	if (!c_gui_screen_pregame_lobby::team_switching_allowed())
+	//	{
+	//		break;
+	//	}
+	//
+	//	c_gui_roster_list_widget* roster_list_widget = (c_gui_roster_list_widget*)c_gui_widget::get_child_list_widget(STRING_ID(gui, roster));
+	//	if (!roster_list_widget)
+	//	{
+	//		break;
+	//	}
+	//
+	//	int32 player_at_local_controller = user_interface_session_get_player_at_local_controller(message->get_controller());
+	//	if (player_at_local_controller == NONE || !roster_list_widget->get_current_team_change_is_active(player_at_local_controller))
+	//	{
+	//		break;
+	//	}
+	//
+	//	int32 team_change_lying_time = (int32)user_interface_milliseconds() + c_gui_screen_widget::get_constants_datasource_integer(STRING_ID(gui, team_change_lying_time));
+	//	c_gui_screen_pregame_lobby::commit_team_change(player_at_local_controller, roster_list_widget, team_change_lying_time);
+	//	return true;
+	//}
+	//break;
+	//case _controller_component_button_b:
+	//{
+	//	if (!in_or_after_countdown)
+	//	{
+	//		if (!c_gui_screen_pregame_lobby::team_switching_allowed())
+	//		{
+	//			c_gui_screen_pregame_lobby::handle_back_out(message->get_controller());
+	//			return true;
+	//		}
+	//
+	//		c_gui_roster_list_widget* roster_list_widget = (c_gui_roster_list_widget*)c_gui_widget::get_child_list_widget(STRING_ID(gui, roster));
+	//		if (!roster_list_widget)
+	//		{
+	//			c_gui_screen_pregame_lobby::handle_back_out(message->get_controller());
+	//			return true;
+	//		}
+	//
+	//		int32 player_at_local_controller = user_interface_session_get_player_at_local_controller(message->get_controller());
+	//		if (player_at_local_controller == NONE || !roster_list_widget->get_current_team_change_is_active(player_at_local_controller))
+	//		{
+	//			c_gui_screen_pregame_lobby::handle_back_out(message->get_controller());
+	//			return true;
+	//		}
+	//
+	//		int32 team_change_lying_time = (int32)user_interface_milliseconds() + c_gui_screen_widget::get_constants_datasource_integer(STRING_ID(gui, team_change_lying_time));
+	//		roster_list_widget->end_team_change(player_at_local_controller, 0);
+	//		return true;
+	//	}
+	//
+	//	if (!user_interface_squad_local_peer_is_leader())
+	//	{
+	//		c_gui_screen_pregame_lobby::handle_back_out(message->get_controller());
+	//		return true;
+	//	}
+	//
+	//	user_interface_squad_stop_countdown_timer(message->get_controller(), -1, false);
+	//	return true;
+	//}
+	//break;
+	//case _controller_component_button_x:
+	//{
+	//	if (in_or_after_countdown)
+	//	{
+	//		user_interface_squad_stop_countdown_timer(message->get_controller(), -1, false);
+	//	}
+	//	return true;
+	//}
+	//break;
+	//case _controller_component_button_y:
+	//{
+	//	if (online_is_connected_to_live())
+	//	{
+	//		online_guide_show_friends_ui(message->get_controller());
+	//	}
+	//	return true;
+	//}
+	//break;
+	//case _controller_component_button_left_shoulder:
+	//case _controller_component_button_right_shoulder:
+	//{
+	//	if (!in_or_after_countdown || !team_switching_allowed())
+	//	{
+	//		break;
+	//	}
+	//
+	//	c_gui_roster_list_widget* roster_list_widget = (c_gui_roster_list_widget*)c_gui_widget::get_child_list_widget(STRING_ID(gui, roster));
+	//	if (!roster_list_widget)
+	//	{
+	//		break;
+	//	}
+	//
+	//	const c_game_variant* current_variant = c_gui_screen_pregame_lobby::get_current_variant();
+	//	if (!current_variant)
+	//	{
+	//		break;
+	//	}
+	//
+	//	e_map_id current_map_id = c_gui_screen_pregame_lobby::get_current_map_id();
+	//	if (!current_map_id)
+	//	{
+	//		break;
+	//	}
+	//
+	//	int32 player_at_local_controller = user_interface_session_get_player_at_local_controller(message->get_controller());
+	//	if (player_at_local_controller == NONE)
+	//	{
+	//		break;
+	//	}
+	//
+	//	const s_player_configuration* player_data = user_interface_session_get_player_data(player_at_local_controller);
+	//	int32 maximum_team = game_engine_variant_get_maximum_team_count(current_variant, current_map_id);
+	//}
+	//break;
+	//}
+	//
+	//return c_gui_screen_widget::handle_controller_input_message(message);
 }
 
 bool c_gui_screen_pregame_lobby::handle_dialog_result(const c_dialog_result_message* message)
