@@ -325,17 +325,10 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 					}
 				}
 
-				// $TODO: figure out why these are necessary
-				// set name font to the correct id
-				name_text_widget->get_text_internal()->set_font(_body_text_font);
-				name_hilite_text_widget->get_text_internal()->set_font(_body_text_font);
-				service_tag_text_widget->get_text_internal()->set_font(_body_text_font);
-				player_found_text_widget->get_text_internal()->set_font(_body_text_font);
-				looking_for_player_text_widget->get_text_internal()->set_font(_body_text_font);
-				press_a_to_join_text_widget->get_text_internal()->set_font(_body_text_font);
-
 				if (!team_change_active)
+				{
 					data->get_text_value(element_handle, STRING_ID(global, player_name), &name);
+				}
 
 				name_text_widget->set_text(name.get_string());
 				name_hilite_text_widget->set_text(name.get_string());
