@@ -19,6 +19,7 @@
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_text.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "interface/user_interface_window_manager_debug.hpp"
 #include "main/console.hpp"
@@ -112,7 +113,9 @@ void __cdecl remote_command_disconnect()
 	{
 		// If the receive and send endpoints are the same, set the send endpoint to NULL
 		if (remote_command_globals.send_endpoint == remote_command_globals.receive_endpoint)
+		{
 			remote_command_globals.send_endpoint = NULL;
+		}
 
 		transport_endpoint_delete(remote_command_globals.receive_endpoint);
 		remote_command_globals.receive_endpoint = NULL;
@@ -216,10 +219,14 @@ void __cdecl remote_command_process()
 	{
 		for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 		{
-			if (player_mapping_output_user_is_active(user_index))
+			if (!player_mapping_output_user_is_active(user_index))
 			{
-				if (const s_observer_result* camera = observer_try_and_get_camera(user_index))
-					remote_camera_update(user_index, camera);
+				continue;
+			}
+
+			if (const s_observer_result* camera = observer_try_and_get_camera(user_index))
+			{
+				remote_camera_update(user_index, camera);
 			}
 		}
 	}
@@ -249,7 +256,9 @@ bool __cdecl remote_command_send_encoded(int32 encoded_command_size, const void*
 
 	// Check if the remote command is connected
 	if (!remote_command_connected())
+	{
 		return false;
+	}
 
 	// Create a buffer for the encoded packet and construct the packet header
 	static char encode_packet[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE + MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE]{};
@@ -331,7 +340,9 @@ bool __cdecl remote_camera_update(int32 user_index, const s_observer_result* cam
 {
 	// Check if the game is being run in the editor or if the user index is not the first active user.
 	if (!game_in_editor() || user_index != player_mapping_first_active_input_user())
+	{
 		return false;
+	}
 
 	// If less than 4 seconds have passed since the last update, store the updated camera information and return false.
 	if (network_time_since(remote_command_globals.last_camera_sync_milliseconds) < 4000)
@@ -471,13 +482,19 @@ bool load_preference(const char* name, const char* value)
 	else
 	{
 		if (csstricmp(value, "true") == 0)
+		{
 			return global_preference_set(name, true);
+		}
 
 		if (csstricmp(value, "false") == 0)
+		{
 			return global_preference_set(name, false);
+		}
 
 		if (csstrstr(value, "."))
+		{
 			return global_preference_set(name, real32(atof(value)));
+		}
 
 		return global_preference_set(name, atol(value));
 	}
@@ -940,31 +957,29 @@ callback_result_t net_session_create_callback(const void* userdata, int32 token_
 	network_test_set_ui_game_mode(ui_game_mode_name);
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
+	c_static_string<512> invite_string;
 	{
-		c_static_string<512> invite_string;
-		{
-			transport_address insecure{};
-			transport_secure_address_get_insecure(&insecure);
+		transport_address insecure{};
+		transport_secure_address_get_insecure(&insecure);
 
-			static char ip_port[256]{};
-			transport_address_to_string(&insecure, NULL, ip_port, 256, true, false);
-			invite_string.print("add_session %s", ip_port);
-		}
+		static char ip_port[256]{};
+		transport_address_to_string(&insecure, NULL, ip_port, 256, true, false);
+		invite_string.print("add_session %s", ip_port);
+	}
 
-		s_file_reference invite_file{};
-		if (file_reference_create_from_path(&invite_file, "invite.txt", false))
-		{
-			if (file_exists(&invite_file))
-				file_delete(&invite_file);
+	s_file_reference invite_file{};
+	if (file_reference_create_from_path(&invite_file, "invite.txt", false))
+	{
+		if (file_exists(&invite_file))
+			file_delete(&invite_file);
 
-			file_create(&invite_file);
+		file_create(&invite_file);
 
-			uns32 error = 0;
-			if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
-				file_printf(&invite_file, "%s", invite_string.get_string());
+		uns32 error = 0;
+		if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
+			file_printf(&invite_file, "%s", invite_string.get_string());
 
-			file_close(&invite_file);
-		}
+		file_close(&invite_file);
 	}
 
 	return result;
@@ -978,7 +993,9 @@ bool split_host_string_into_parts(c_static_string<k_maximum_count>* str, c_stati
 
 	int32 index = str->index_of(":");
 	if (index == -1)
+	{
 		return false;
+	}
 
 	parts[1] = parts[0].get_offset(index + 1);
 	parts[0].set_length(index);
@@ -993,7 +1010,9 @@ callback_result_t net_session_add_callback(const void* userdata, int32 token_cou
 	const token_t& str = tokens[1];
 	c_static_string<256> parts[2];
 	if (!split_host_string_into_parts(str, parts))
+	{
 		parts[1].set("11774");
+	}
 
 	const char* host = parts[0].get_string();
 	const char* port = parts[1].get_string();
@@ -1051,7 +1070,6 @@ callback_result_t net_test_text_chat_callback(const void* userdata, int32 token_
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	const char* text = tokens[1]->get_string();
-
 	network_test_text_chat(text);
 
 	return result;
@@ -1157,7 +1175,6 @@ callback_result_t net_test_game_variant_parameter_callback(const void* userdata,
 	int32 value = (int32)atol(tokens[2]->get_string());
 	int32 old_value = -1;
 	network_test_set_game_variant_parameter(parameter_name, value, &old_value);
-
 	result.print("game_variant_parameter:%s: '%d' -> '%d'", parameter_name, old_value, value);
 
 	return result;
@@ -1288,7 +1305,9 @@ callback_result_t online_set_is_connected_to_live_callback(const void* userdata,
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		online_set_is_connected_to_live(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -1405,7 +1424,9 @@ callback_result_t mp_debug_goal_object_boundary_geometry_callback(const void* us
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		debug_multiplayer_object_boundary_geometry(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -1745,7 +1766,9 @@ callback_result_t cheat_active_camouflage_callback(const void* userdata, int32 t
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		cheat_active_camouflage(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -1812,7 +1835,9 @@ callback_result_t ai_enable_callback(const void* userdata, int32 token_count, to
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		ai_globals_set_ai_active(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -1823,7 +1848,9 @@ callback_result_t director_debug_camera_callback(const void* userdata, int32 tok
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		director_debug_camera(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -1834,7 +1861,9 @@ callback_result_t camera_control_callback(const void* userdata, int32 token_coun
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		director_script_camera(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -1846,7 +1875,9 @@ callback_result_t camera_set_mode_callback(const void* userdata, int32 token_cou
 	int32 user_index = (int32)atol(tokens[1]->get_string());
 	e_camera_mode camera_mode = static_cast<e_camera_mode>(atol(tokens[2]->get_string()));
 	if (user_index != NONE && VALID_INDEX(camera_mode, 4))
+	{
 		director_set_camera_mode(user_index, camera_mode);
+	}
 
 	return result;
 }
@@ -1960,7 +1991,9 @@ callback_result_t player_ragdoll_callback(const void* userdata, int32 token_coun
 	int32 user_index = player_mapping_first_active_output_user();
 	int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (unit_index != NONE)
+	{
 		biped_scripting_ragdoll(unit_index);
+	}
 
 	return result;
 }
@@ -1972,7 +2005,9 @@ callback_result_t player_drop_weapon_callback(const void* userdata, int32 token_
 	int32 user_index = player_mapping_first_active_output_user();
 	int32 player_index = player_mapping_get_player_by_output_user(user_index);
 	if (player_index != NONE)
+	{
 		player_try_to_drop_weapon(player_index, true);
+	}
 
 	return result;
 }
@@ -1986,7 +2021,9 @@ callback_result_t player_add_weapon_callback(const void* userdata, int32 token_c
 
 	int32 weapon_definition_index = tag_loaded(WEAPON_TAG, weapon_name);
 	if (!VALID_INDEX(method, 8))
+	{
 		method = 1;
+	}
 
 	int32 user_index = player_mapping_first_active_output_user();
 	int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
@@ -2041,13 +2078,28 @@ callback_result_t levels_add_map_multi_callback(const void* userdata, int32 toke
 	return result;
 }
 
+callback_result_t ui_debug_text_font_callback(const void* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int32 value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+	{
+		user_interface_text_debug_display_font_index(static_cast<bool>(value - 1));
+	}
+
+	return result;
+}
+
 callback_result_t xoverlapped_debug_render_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
+	{
 		overlapped_task_toggle_debug_rendering(static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2068,7 +2120,9 @@ callback_result_t overlapped_task_inject_error_callback(const void* userdata, in
 	const char* context = tokens[1]->get_string();
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		overlapped_task_inject_error(context, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2080,7 +2134,9 @@ callback_result_t overlapped_task_pause_callback(const void* userdata, int32 tok
 	const char* context = tokens[1]->get_string();
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		overlapped_task_pause(context, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2114,7 +2170,9 @@ callback_result_t controller_set_auto_center_look_callback(const void* userdata,
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		debug_set_controller_auto_center_look(controller_index, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2126,7 +2184,9 @@ callback_result_t controller_set_crouch_lock_callback(const void* userdata, int3
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		debug_set_controller_crouch_lock(controller_index, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2138,7 +2198,9 @@ callback_result_t controller_set_flight_stick_aircraft_controls_callback(const v
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		debug_set_controller_flight_stick_aircraft_controls(controller_index, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2150,7 +2212,9 @@ callback_result_t controller_set_look_inverted_callback(const void* userdata, in
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		debug_set_controller_look_inverted(controller_index, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2162,7 +2226,9 @@ callback_result_t controller_set_vibration_enabled_callback(const void* userdata
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
+	{
 		debug_set_controller_vibration_enabled(controller_index, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }
@@ -2280,7 +2346,9 @@ callback_result_t controller_set_single_player_level_completed_callback(const vo
 		int16 difficulty = (int16)atol(tokens[4]->get_string());
 		int32 completed = token_try_parse_bool(tokens[5]);
 		if (completed != NONE)
+		{
 			debug_set_single_player_level_completed(controller_index, level_index, static_cast<bool>(coop - 1), difficulty, static_cast<bool>(completed - 1));
+		}
 	}
 
 	return result;
@@ -2294,7 +2362,9 @@ callback_result_t controller_set_single_player_level_unlocked_callback(const voi
 	int16 level_index = (int16)atol(tokens[2]->get_string());
 	int32 completed = token_try_parse_bool(tokens[3]);
 	if (completed != NONE)
+	{
 		debug_set_single_player_level_unlocked(controller_index, level_index, static_cast<bool>(completed - 1));
+	}
 
 	return result;
 }
@@ -2412,12 +2482,9 @@ callback_result_t gui_debug_group_animation_callback(const void* userdata, int32
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
 	{
-		if (include_children != NONE)
-		{
-			gui_debug_group_animation_state(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
-		}
+		gui_debug_group_animation_state(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
 	}
 
 	return result;
@@ -2431,12 +2498,9 @@ callback_result_t gui_debug_group_bounds_callback(const void* userdata, int32 to
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
 	{
-		if (include_children != NONE)
-		{
-			gui_debug_group_bounds(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
-		}
+		gui_debug_group_bounds(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
 	}
 
 	return result;

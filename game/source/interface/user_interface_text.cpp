@@ -15,6 +15,8 @@ HOOK_DECLARE(0x00ABC070, parse_build_number_string);
 t_value_type<bool> const use_keyboard_hints = { .value = true }; // Press <E> to pick up
 DATA_PATCH_DECLARE(0x052697B1, use_keyboard_hints, use_keyboard_hints.bytes);
 
+bool g_render_text_as_font_index = false;
+
 void wchar_string_sanitize_for_game(wchar_t* string, int32 maximum_character_count)
 {
 	ASSERT(string != NULL);
@@ -88,6 +90,18 @@ void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* re
 {
 	//INVOKE(0x00ABD530, c_user_interface_text::render, render_data, window_bounds);
 
+	ASSERT(render_data != NULL);
+
+	wchar_t* render_data_text = ((s_gui_text_widget_extra_large_render_data*)render_data)->text;
+	if (g_render_text_as_font_index)
+	{
+		// making this static to fix stack corruption
+		static wchar_t string_with_font_prepended[1024]{};
+
+		usnzprintf(string_with_font_prepended, sizeof(string_with_font_prepended), L"(%d):%s", render_data->font, render_data_text);
+		render_data_text = string_with_font_prepended;
+	}
+
 	c_rasterizer_draw_string draw_string;
 	c_font_cache_mt_safe font_cache;
 
@@ -111,7 +125,7 @@ void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* re
 	draw_string.set_scale(render_data->glyph_scale);
 	draw_string.set_bounds(&bounds_rect, &clip_rect);
 	draw_string.set_precache_required(true);
-	draw_string.draw(&font_cache, ((s_gui_text_widget_extra_large_render_data*)render_data)->text);
+	draw_string.draw(&font_cache, render_data_text);
 }
 
 //.text:00ABD750 ; public: void c_user_interface_text::render_halox(int32, const real_rectangle2d*, const real_rectangle2d*, real32, real32, const rectangle2d*)
@@ -272,5 +286,10 @@ void c_user_interface_text::set_scroll_amount(real32 i, real32 j)
 void c_user_interface_text::set_scale(real32 scale)
 {
 	m_scale = scale;
+}
+
+void user_interface_text_debug_display_font_index(bool display_font_index_in_place_of_text)
+{
+	g_render_text_as_font_index = display_font_index_in_place_of_text;
 }
 

@@ -282,6 +282,7 @@ static_assert(sizeof(s_last_known_session_state) == 0x808);
 
 extern s_parse_text_entry(&g_parse_text_table)[131];
 extern s_last_known_session_state& g_last_known_session_state;
+extern bool g_render_text_as_font_index;
 
 extern void wchar_string_sanitize_for_game(wchar_t* string, int32 maximum_character_count);
 extern void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2]);
@@ -300,4 +301,5 @@ extern bool __cdecl parse_xml_lobby_party_leader(void* this_ptr, wchar_t* buffer
 extern bool __cdecl parse_xml_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_start_button_name(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_title(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern void user_interface_text_debug_display_font_index(bool display_font_index_in_place_of_text);
 
