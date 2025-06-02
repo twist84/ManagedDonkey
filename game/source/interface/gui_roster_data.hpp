@@ -7,6 +7,7 @@
 struct c_gui_roster_data :
 	c_gui_ordered_data
 {
+public:
 	enum e_player_row_type
 	{
 		_player_row_type_player,
@@ -37,6 +38,8 @@ struct c_gui_roster_data :
 
 	struct s_player_row
 	{
+		s_player_row();
+
 		e_player_row_type player_row_type;
 		int32 session_player_index;
 		s_player_identifier player_identifier;
@@ -76,6 +79,21 @@ public:
 	bool __thiscall get_integer_value_(int32 element_handle, int32 value_name, int32* value);
 	bool __thiscall get_text_value_(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* value);
 
+public:
+	virtual ~c_gui_roster_data();
+	virtual void get_column_names(int32* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_player_appearance(int32 element_handle, s_player_appearance* appearance) override;
+
+protected:
+	c_gui_roster_data(e_controller_index driving_controller);
+	virtual int32 get_current_item_count_internal() override;
+
+public:
+	virtual bool get_player_identifier_value(int32 element_handle, s_player_identifier* player_identifier);
+	virtual bool get_player_configuration_value(int32 element_handle, s_player_configuration* player_configuration);
+
 protected:
 	int32 m_matchmaking_last_known_good_extra_slots_searching;
 	int32 m_matchmaking_last_known_good_extra_slots_found;
@@ -111,13 +129,26 @@ static_assert(0x1674 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for
 struct c_gui_active_roster_data :
 	c_gui_roster_data
 {
+public:
 	void __thiscall update_();
+
+public:
+	virtual ~c_gui_active_roster_data();
+	virtual void update() override;
+
+public:
+	c_gui_active_roster_data(e_controller_index driving_controller);
 };
 static_assert(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
 
 struct c_gui_static_roster_data :
 	c_gui_roster_data
 {
+public:
+	virtual~c_gui_static_roster_data();
+
+public:
+	c_gui_static_roster_data();
 };
 static_assert(sizeof(c_gui_static_roster_data) == sizeof(c_gui_roster_data));
 
