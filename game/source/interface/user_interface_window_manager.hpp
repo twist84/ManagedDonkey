@@ -49,6 +49,7 @@ struct c_window_manager
 	c_gui_screen_widget* allocate_codeless_screen(int32 screen_name);
 	c_gui_screen_widget* allocate_named_screen(int32 screen_name);
 	void begin_transition_out(c_gui_screen_widget* screen, e_screen_transition_type transition_type);
+	void close_all_screens(const c_gui_screen_widget** except_these, int32 except_these_count);
 	void debug_widget_state(e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children);
 	void debug_widget_state_for_screen(c_gui_screen_widget* screen, e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children);
 	void debug_widget_state_for_widget(c_gui_widget* widget, e_widget_debug_state state, bool activate, bool include_children);
@@ -56,7 +57,9 @@ struct c_window_manager
 	void dispose_from_old_map();
 	void dispose_screen(c_gui_screen_widget* screen);
 	e_window_index get_render_window_for_screen(c_gui_screen_widget* screen);
-	c_gui_screen_widget* get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
+	c_gui_screen_widget* get_screen_above(e_window_index window_index, const c_gui_screen_widget* screen);
+	c_gui_screen_widget* get_screen_below(e_window_index window_index, const c_gui_screen_widget* screen_widget);
+	c_gui_screen_widget* get_screen_by_name(e_window_index window_index, int32 screen_name);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);
 	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, const c_load_screen_message* screen_message, int32 window_index);

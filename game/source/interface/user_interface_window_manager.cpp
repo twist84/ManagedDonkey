@@ -283,7 +283,11 @@ void c_window_manager::begin_transition_out(c_gui_screen_widget* screen, e_scree
 	INVOKE_CLASS_MEMBER(0x00AAA7F0, c_window_manager, begin_transition_out, screen, transition_type);
 }
 
-//.text:00AAA870 ; public: void c_window_manager::close_all_screens(const c_gui_screen_widget**, int32)
+void c_window_manager::close_all_screens(const c_gui_screen_widget** except_these, int32 except_these_count)
+{
+	INVOKE_CLASS_MEMBER(0x00AAA870, c_window_manager, close_all_screens, except_these, except_these_count);
+}
+
 //.text:00AAA970 ; public: bool c_window_manager::controller_input_should_be_suppressed(e_controller_index)
 
 void c_window_manager::debug_widget_state(e_gui_widget_type type, int32 name, e_widget_debug_state state, bool activate, bool include_children)
@@ -443,13 +447,21 @@ e_window_index c_window_manager::get_render_window_for_screen(c_gui_screen_widge
 //.text:00AAB3F0 ; public: c_gui_screen_widget* c_window_manager::get_responding_screen_in_window(e_controller_index, e_window_index)
 //.text:00AAB480 ; public: bool c_gui_screen_widget::get_responds_to_controller_events() const
 
-c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_index, c_gui_screen_widget* screen)
+c_gui_screen_widget* c_window_manager::get_screen_above(e_window_index window_index, const c_gui_screen_widget* screen)
 {
 	return INVOKE_CLASS_MEMBER(0x00AAB490, c_window_manager, get_screen_above, window_index, screen);
 }
 
-//.text:00AAB4E0 ; public: c_gui_screen_widget* c_window_manager::get_screen_below(e_window_index, c_gui_screen_widget*)
-//.text:00AAB550 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_name(e_window_index, int32)
+c_gui_screen_widget* c_window_manager::get_screen_below(e_window_index window_index, const c_gui_screen_widget* screen_widget)
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB4E0, c_window_manager, get_screen_below, window_index, screen_widget);
+}
+
+c_gui_screen_widget* c_window_manager::get_screen_by_name(e_window_index window_index, int32 screen_name)
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB550, c_window_manager, get_screen_by_name, window_index, screen_name);
+}
+
 //.text:00AAB5B0 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(int32)
 //.text:00AAB620 ; public: int32 c_gui_screen_widget::get_screen_index() const
 
