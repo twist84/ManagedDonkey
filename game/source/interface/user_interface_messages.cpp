@@ -443,14 +443,22 @@ void c_message_globals::initialize_for_new_map()
 	for (int32 node_index = 0; node_index < NUMBEROF(m_queue); node_index++)
 	{
 		if (node_index == NUMBEROF(m_queue) - 1)
+		{
 			next = m_queue;
+		}
 		else
+		{
 			next = &m_queue[node_index + 1];
+		}
 
 		if (node_index)
+		{
 			prev = &m_queue[node_index - 1];
+		}
 		else
+		{
 			prev = &m_queue[NUMBEROF(m_queue) - 1];
+		}
 
 		m_queue[node_index].m_next = next;
 		m_queue[node_index].m_prev = prev;
@@ -470,7 +478,7 @@ void c_message_globals::empty_queue()
 {
 	while (can_read())
 	{
-		ui_track_delete(dequeue_node(m_next_read, true));
+		ui_track_delete<c_message>(dequeue_node(m_next_read, true));
 	}
 }
 
@@ -486,7 +494,9 @@ c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unkn
 	if (unknown)
 	{
 		if (node == m_next_read)
+		{
 			m_next_read = m_next_read->m_next;
+		}
 
 		s_message_queue_node* prev = node->m_prev;
 		node->m_next->m_prev = prev;
@@ -518,11 +528,13 @@ void c_message_globals::queue(c_message* message)
 
 	for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 	{
-		if (node->m_message && node->m_message == message)
+		if (!node->m_message || node->m_message != message)
 		{
-			VASSERT("ui: attempting to queue a message that has already been queued");
-			break;
+			continue;
 		}
+
+		VASSERT("ui: attempting to queue a message that has already been queued");
+		break;
 	}
 
 	m_prev_read->m_message = message;
@@ -545,11 +557,13 @@ void c_message_globals::get_next_message(int32 screen_name, e_controller_index c
 	{
 		for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 		{
-			if (node->m_message && node->m_message == *message_reference)
+			if (!node->m_message || node->m_message != *message_reference)
 			{
-				next_node = node->m_next;
-				break;
+				continue;
 			}
+
+			next_node = node->m_next;
+			break;
 		}
 	}
 	else
@@ -560,13 +574,14 @@ void c_message_globals::get_next_message(int32 screen_name, e_controller_index c
 
 	while (next_node && next_node != m_prev_read)
 	{
-		if (next_node->m_message && message_match(next_node->m_message, screen_name, controller, window))
+		if (!next_node->m_message || !message_match(next_node->m_message, screen_name, controller, window))
 		{
-			next_message = next_node->m_message;
-			break;
+			next_node = next_node->m_next;
+			continue;
 		}
 
-		next_node = next_node->m_next;
+		next_message = next_node->m_message;
+		break;
 	}
 
 	*message_reference = next_message;
@@ -585,11 +600,13 @@ void c_message_globals::dequeue(c_message* message)
 {
 	for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 	{
-		if (node->m_message && node->m_message == message)
+		if (!node->m_message || node->m_message != message)
 		{
-			dequeue_node(node, true);
-			break;
+			continue;
 		}
+
+		dequeue_node(node, true);
+		break;
 	}
 }
 
@@ -634,13 +651,13 @@ bool __cdecl user_interface_messaging_get_next_message(int32 screen_name, e_cont
 {
 	//return INVOKE(0x00A933D0, user_interface_messaging_get_next_message, screen_name, controller, window, message_reference);
 
-	if (game_in_progress())
+	if (!game_in_progress())
 	{
-		g_message_globals.get_next_message(screen_name, controller, window, message_reference);
-		return *message_reference != NULL;
+		return false;
 	}
 
-	return false;
+	g_message_globals.get_next_message(screen_name, controller, window, message_reference);
+	return *message_reference != NULL;
 }
 
 void __cdecl user_interface_messaging_initialize()
@@ -661,8 +678,12 @@ void __cdecl user_interface_messaging_pop(c_message* message)
 {
 	//INVOKE(0x00A93430, user_interface_messaging_pop, message);
 
-	if (game_in_progress())
-		g_message_globals.dequeue(message);
+	if (!game_in_progress())
+	{
+		return;
+	}
+
+	g_message_globals.dequeue(message);
 }
 
 void __cdecl user_interface_messaging_post(c_message* message)
@@ -672,25 +693,22 @@ void __cdecl user_interface_messaging_post(c_message* message)
 	ASSERT(message != NULL);
 
 	bool message_queued = false;
-	if (game_in_progress())
-	{
-		if (g_message_globals.can_write())
-		{
-			g_message_globals.queue(message);
-			message_queued = true;
-		}
-		else
-		{
-			event(_event_message, "ui: failed to post message because message queue is not writeable!");
-		}
-	}
-	else
+	if (!game_in_progress())
 	{
 		event(_event_message, "ui: failed to post message because game is not in progress!");
+		ui_track_delete<c_message>(message);
+		return;
 	}
 
-	if (!message_queued)
-		ui_track_delete(message);
+	if (!g_message_globals.can_write())
+	{
+		event(_event_message, "ui: failed to post message because message queue is not writeable!");
+		ui_track_delete<c_message>(message);
+		return;
+	}
+
+	g_message_globals.queue(message);
+	message_queued = true;
 }
 
 void __cdecl user_interface_messaging_update()
