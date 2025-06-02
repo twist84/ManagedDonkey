@@ -87,6 +87,8 @@ extern bool controller_centered_crosshair;
 
 extern void __cdecl controller_activate_as_unsigned_in_user(int16 controller_index, bool activate);
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
+extern e_controller_index __cdecl controller_get_first_non_guest_signed_in_controller();
+extern e_controller_index __cdecl controller_get_first_signed_in_controller();
 extern e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index);
 extern e_controller_index __cdecl controller_index_from_user_index(int32 user_index);
 extern void __cdecl controllers_render();

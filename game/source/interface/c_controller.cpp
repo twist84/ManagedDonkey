@@ -53,8 +53,16 @@ c_controller_interface* __cdecl controller_get(e_controller_index controller_ind
 }
 
 //.text:00A7CD70 ; public: void c_controller_interface::controller_get_achievements(s_launch_and_dlc_achievment_bit_vector*) const
-//.text:00A7CD90 ; e_controller_index __cdecl controller_get_first_non_guest_signed_in_controller()
-//.text:00A7CE20 ; e_controller_index __cdecl controller_get_first_signed_in_controller()
+
+e_controller_index __cdecl controller_get_first_non_guest_signed_in_controller()
+{
+	return INVOKE(0x00A7CD90, controller_get_first_non_guest_signed_in_controller);
+}
+
+e_controller_index __cdecl controller_get_first_signed_in_controller()
+{
+	return INVOKE(0x00A7CE20, controller_get_first_signed_in_controller);
+}
 
 e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index)
 {
