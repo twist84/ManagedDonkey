@@ -121,8 +121,7 @@ bool __cdecl sub_A7EF60()
 	//return sub_438C00();
 }
 
-//e_gui_location __cdecl user_interface_networking_get_current_location()
-int32 __cdecl user_interface_networking_get_current_location()
+e_gui_location __cdecl user_interface_networking_get_current_location()
 {
 	return INVOKE(0x00A7EF70, user_interface_networking_get_current_location);
 }
@@ -276,9 +275,9 @@ void __cdecl user_interface_networking_notify_booted_from_session(e_network_sess
 //.text:00A7F930 ; void __cdecl user_interface_networking_set_maximum_party_size(int32 maximum_party_size)
 //.text:00A7F950 ; bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode)
 
-void __cdecl user_interface_networking_set_start_game_when_ready(bool a1, int32 controller_index)
+void __cdecl user_interface_networking_set_start_game_when_ready(bool value, int32 controller_index)
 {
-	INVOKE(0x00A7FAC0, user_interface_networking_set_start_game_when_ready, a1, controller_index);
+	INVOKE(0x00A7FAC0, user_interface_networking_set_start_game_when_ready, value, controller_index);
 }
 
 void __cdecl user_interface_networking_set_ui_upload_quota(int32 ui_upload_quota)
