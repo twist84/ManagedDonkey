@@ -14,6 +14,8 @@ public:
 	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 	void __thiscall initialize_();
+	void __thiscall initialize_datasource_();
+	void __thiscall post_initialize_();
 	void __thiscall update_widget_visiblility_();
 
 public:
