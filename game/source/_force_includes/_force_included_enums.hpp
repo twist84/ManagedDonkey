@@ -1537,20 +1537,20 @@ enum e_game_engine_category
 	_sandbox_editor_traits_appearance,
 	_sandbox_editor_templated,
 
-	_game_engine_ctf_top_level_options,
-	_game_engine_slayer_top_level_options,
-	_game_engine_oddball_top_level_options,
-	_game_engine_king_top_level_options,
-	_game_engine_sandbox_top_level_options,
-	_game_engine_juggernaut_top_level_options,
-	_game_engine_territories_top_level_options,
-	_game_engine_assault_top_level_options,
-	_game_engine_infection_top_level_options,
-	_game_engine_vip_top_level_options,
-	_game_engine_training_top_level_options,
-	_game_engine_map_override_advanced_options,
-	_game_engine_respawn_advanced_options,
-	_game_engine_respawn_modifiers,
+	_game_variant_ctf_top_category_options,
+	_game_variant_slayer_top_category_options,
+	_game_variant_oddball_top_category_options,
+	_game_variant_king_top_category_options,
+	_game_variant_sandbox_top_category_options,
+	_game_variant_juggernaut_top_category_options,
+	_game_variant_territories_top_category_options,
+	_game_variant_assault_top_category_options,
+	_game_variant_infection_top_category_options,
+	_game_variant_vip_top_category_options,
+	_game_variant_target_training_top_category_options,
+	_game_variant_map_override_advanced_options,
+	_game_variant_respawn_advanced_options,
+	_game_variant_respawn_modifiers,
 
 	_slayer_primary_options,
 	_slayer_advanced_options,
@@ -1609,7 +1609,8 @@ enum e_game_engine_category
 	_player_alternate_template_traits_sensors,
 	_player_alternate_template_traits_appearance,
 
-	k_number_of_editable_game_engine_category_groups
+	k_number_of_editable_game_engine_category_groups,
+	k_invalid_category = NONE,
 };
 
 enum e_game_variant_parameter
