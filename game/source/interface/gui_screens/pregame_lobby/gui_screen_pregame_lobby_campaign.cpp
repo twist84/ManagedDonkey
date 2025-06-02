@@ -13,25 +13,133 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AFFAE0, c_gui_screen_pregame_lobby_campaign, handl
 //HOOK_DECLARE_CLASS_MEMBER(0x00AFFDA0, c_gui_screen_pregame_lobby_campaign, initialize_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign, load_progress_ui_);
 
-//.text:00AFF9D0 ; public: virtual enum e_gui_game_mode c_gui_screen_pregame_lobby_campaign::get_gui_game_mode()
+bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_message_(const c_controller_input_message* message)
+{
+	return c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(message);
+}
+
+bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+{
+	return c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+}
+
+void __thiscall c_gui_screen_pregame_lobby_campaign::initialize_()
+{
+	//HOOK_INVOKE_CLASS_MEMBER(, c_gui_screen_pregame_lobby_campaign, initialize_);
+
+	//c_gui_screen_pregame_lobby_campaign::initialize();
+}
+
+void __thiscall c_gui_screen_pregame_lobby_campaign::load_progress_ui_(e_controller_index controller_index)
+{
+	//HOOK_INVOKE_CLASS_MEMBER(, c_gui_screen_pregame_lobby_campaign, load_progress_ui_, controller_index);
+
+	//c_gui_screen_pregame_lobby_campaign::load_progress_ui(controller_index);
+}
+
+//.text:00AFE260 ; public: c_gui_screen_campaign_select_scoring::c_gui_screen_campaign_select_scoring(int32)
+//.text:00AFE290 ; 
+//.text:00AFE2A0 ; 
+//.text:00AFE2B0 ; public: virtual void* c_gui_screen_campaign_select_scoring::`scalar deleting destructor'(unsigned int)
+//.text:00AFE2E0 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_dialog_result(c_dialog_result_message const*)
+//.text:00AFE330 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
+//.text:00AFE400 ; public: virtual void c_gui_screen_campaign_select_scoring::initialize()
+//.text:00AFE470 ; public: c_gui_primary_skulls_data::c_gui_primary_skulls_data()
+//.text:00AFE4C0 ; public: c_gui_screen_campaign_select_skulls::c_gui_screen_campaign_select_skulls(int32)
+//.text:00AFE510 ; public: c_gui_secondary_skulls_data::c_gui_secondary_skulls_data()
+//.text:00AFE560 ; 
+//.text:00AFE570 ; 
+//.text:00AFE580 ; 
+//.text:00AFE590 ; public: virtual void* c_gui_primary_skulls_data::`vector deleting destructor'(unsigned int)
+//.text:00AFE5C0 ; public: virtual void* c_gui_screen_campaign_select_skulls::`scalar deleting destructor'(unsigned int)
+//.text:00AFE5F0 ; public: virtual void* c_gui_secondary_skulls_data::`scalar deleting destructor'(unsigned int)
+//.text:00AFE620 ; public: virtual void c_gui_primary_skulls_data::get_column_names(int32* const, int32*)
+//.text:00AFE680 ; public: virtual void c_gui_secondary_skulls_data::get_column_names(int32* const, int32*)
+//.text:00AFE6E0 ; protected: virtual int32 c_gui_primary_skulls_data::get_current_item_count_internal()
+//.text:00AFE6F0 ; protected: virtual int32 c_gui_secondary_skulls_data::get_current_item_count_internal()
+//.text:00AFE700 ; public: virtual bool c_gui_primary_skulls_data::get_integer_value(int32, int32, int32*)
+//.text:00AFE770 ; public: virtual bool c_gui_secondary_skulls_data::get_integer_value(int32, int32, int32*)
+//.text:00AFE7D0 ; public: virtual bool c_gui_primary_skulls_data::get_string_id_value(int32, int32, int32*)
+//.text:00AFE890 ; public: virtual bool c_gui_secondary_skulls_data::get_string_id_value(int32, int32, int32*)
+//.text:00AFE960 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_controller_input_message(c_controller_input_message const*)
+//.text:00AFED80 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_dialog_result(c_dialog_result_message const*)
+//.text:00AFEE20 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
+//.text:00AFEF60 ; public: virtual void c_gui_screen_campaign_select_skulls::initialize()
+//.text:00AFEF90 ; public: virtual void c_gui_screen_campaign_select_skulls::initialize_datasource()
+//.text:00AFF0D0 ; public: void c_gui_screen_campaign_select_skulls::set_focus(c_gui_screen_campaign_select_skulls::e_focus_state, int16)
+//.text:00AFF270 ; 
+//.text:00AFF290 ; 
+//.text:00AFF2B0 ; public: virtual void c_gui_primary_skulls_data::update()
+//.text:00AFF460 ; public: virtual void c_gui_screen_campaign_select_skulls::update(uns32)
+//.text:00AFF650 ; public: virtual void c_gui_secondary_skulls_data::update()
+
+c_gui_screen_pregame_lobby_campaign::c_gui_screen_pregame_lobby_campaign(int32 name) :
+	c_gui_screen_pregame_lobby(name),
+	m_last_player_count(NONE),
+	m_session_class(_network_session_class_offline),
+	m_last_player_identifiers(),
+	m_use_saved_game_from_controller(k_no_controller),
+	m_progress_dialog_start_time_milliseconds(0),
+	m_catalogue_enumeration_active(false)
+{
+	//DECLFUNC(0x00AFF7A0, c_gui_screen_pregame_lobby_campaign*, __thiscall, c_gui_screen_pregame_lobby_campaign*, int32)(this, name);
+}
+
+//.text:00AFF800 ; public: c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(e_controller_index, e_window_index, int32, e_gui_campaign_level_setup_mode, e_campaign_id, e_map_id)
+//.text:00AFF840 ; 
+//.text:00AFF890 ; 
+//.text:00AFF8E0 ; 
+//.text:00AFF8F0 ; 
+
+//.text:00AFF900 ; public: virtual void* c_gui_screen_pregame_lobby_campaign::`scalar deleting destructor'(unsigned int)
+c_gui_screen_pregame_lobby_campaign::~c_gui_screen_pregame_lobby_campaign()
+{
+}
+
+e_gui_game_mode c_gui_screen_pregame_lobby_campaign::get_gui_game_mode()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AFF9D0, c_gui_screen_pregame_lobby_campaign, get_gui_game_mode);
+
+	return _ui_game_mode_campaign;
+}
 
 e_gui_location c_gui_screen_pregame_lobby::get_gui_location() const
 {
-	return INVOKE_CLASS_MEMBER(0x00AFF9E0, c_gui_screen_pregame_lobby, get_gui_location);
+	//return INVOKE_CLASS_MEMBER(0x00AFF9E0, c_gui_screen_pregame_lobby, get_gui_location);
+
+	return _gui_location_pregame_lobby;
 }
 
-//.text:00AFF9F0 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_lobby_header()
-//.text:00AFFA00 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_lobby_title()
+int32 c_gui_screen_pregame_lobby_campaign::get_lobby_header()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AFF9F0, c_gui_screen_pregame_lobby_campaign, get_lobby_header);
+
+	return STRING_ID(gui, header_campaign);
+}
+
+int32 c_gui_screen_pregame_lobby_campaign::get_lobby_title()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AFFA00, c_gui_screen_pregame_lobby_campaign, get_lobby_title);
+
+	return STRING_ID(gui, title_campaign);
+}
+
 
 e_render_data_size c_gui_screen_pregame_lobby::get_render_data_size()
 {
-	return INVOKE_CLASS_MEMBER(0x00AFFA10, c_gui_screen_pregame_lobby, get_render_data_size);
+	//return INVOKE_CLASS_MEMBER(0x00AFFA10, c_gui_screen_pregame_lobby, get_render_data_size);
+
+	return k_render_data_size_large;
 }
 
-//.text:00AFFA20 ; public: virtual int32 c_gui_screen_pregame_lobby_campaign::get_start_button_name()
-//.text:00AFFA80 ; 
+int32 c_gui_screen_pregame_lobby_campaign::get_start_button_name()
+{
+	return INVOKE_CLASS_MEMBER(0x00AFFA20, c_gui_screen_pregame_lobby_campaign, get_start_button_name);
+}
 
-bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_message_(const c_controller_input_message* message)
+//.text:00AFFA80 ; public: int32 c_static_array<struct s_player_identifier, 16>::get_total_element_size() const
+
+bool c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(const c_controller_input_message* message)
 {
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
@@ -40,6 +148,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_mes
 			user_interface_squad_stop_countdown_timer(message->get_controller(), -1, false);
 			return true;
 		}
+
 		if (user_interface_squad_local_peer_is_leader() /*&& !get_is_blue_disk()*/)
 		{
 			// $TODO: implement all of `c_gui_screen_campaign_settings`
@@ -59,7 +168,7 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_mes
 	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
 }
 
-bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
@@ -140,40 +249,52 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(co
 	return c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
 }
 
-//.text:00AFFD80 ; 
+bool c_gui_screen_pregame_lobby_campaign::postgame_stats_enabled()
+{
+	return INVOKE_CLASS_MEMBER(0x00AFFD80, c_gui_screen_pregame_lobby_campaign, postgame_stats_enabled);
+}
 
-//void __thiscall c_gui_screen_pregame_lobby_campaign::initialize_()
-//{
-//	INVOKE_CLASS_MEMBER(0x00B22140, c_gui_screen_pregame_lobby, initialize);
-//
-//	m_initial_focused_widget = STRING_ID(gui, lobby_list);
-//
-//	// value of 4 in halo 3 and 6 in odst/halo online
-//	m_initial_focused_widget_element_handle = 6; // should we use 4 or 6?
-//
-//	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
-//	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
-//	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
-//}
+void c_gui_screen_pregame_lobby_campaign::initialize()
+{
+	INVOKE_CLASS_MEMBER(0x00AFFDA0, c_gui_screen_pregame_lobby_campaign, initialize);
 
-//void __thiscall c_gui_screen_pregame_lobby_campaign::load_progress_ui_(e_controller_index controller_index)
-//{
-//	ASSERT(m_progress_dialog_start_time_milliseconds == 0);
-//	// $TODO: Add `c_load_in_progress_screen_message`
-//	if (c_load_in_progress_screen_message* in_progress_screen_message = new c_load_in_progress_screen_message(
-//		controller_index,
-//		get_render_window(),
-//		STRING_ID(gui, pregame_selection_enumeration_in_progress_title),
-//		STRING_ID(gui, pregame_selection_enumeration_in_progress_message)))
-//	{
-//		in_progress_screen_message->set_parent_screen_index(m_screen_index);
-//		user_interface_messaging_post(in_progress_screen_message);
-//		m_progress_dialog_start_time_milliseconds = user_interface_milliseconds();
-//	}
-//	user_interface_set_reload_from_persistent_storage(k_no_controller);
-//}
+	//c_gui_screen_pregame_lobby::initialize();
+	//
+	//m_initial_focused_widget = STRING_ID(gui, lobby_list);
+	//
+	//// value of 4 in halo 3 and 6 in odst/halo online
+	//m_initial_focused_widget_element_handle = 6; // should we use 4 or 6?
+	//
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
+	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
+}
+
+void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index controller_index)
+{
+	INVOKE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign,load_progress_ui, controller_index);
+
+	//ASSERT(m_progress_dialog_start_time_milliseconds == 0);
+	//// $TODO: Add `c_load_in_progress_screen_message`
+	//if (c_load_in_progress_screen_message* in_progress_screen_message = new c_load_in_progress_screen_message(
+	//	controller_index,
+	//	get_render_window(),
+	//	STRING_ID(gui, pregame_selection_enumeration_in_progress_title),
+	//	STRING_ID(gui, pregame_selection_enumeration_in_progress_message)))
+	//{
+	//	in_progress_screen_message->set_parent_screen_index(m_screen_index);
+	//	user_interface_messaging_post(in_progress_screen_message);
+	//	m_progress_dialog_start_time_milliseconds = user_interface_milliseconds();
+	//}
+	//user_interface_set_reload_from_persistent_storage(k_no_controller);
+}
 
 //.text:00B00000 ; private: void c_gui_screen_pregame_lobby_campaign::restore_game_setup_from_controller_saved_game(e_controller_index)
-//.text:00B00230 ; public: virtual void c_gui_screen_pregame_lobby_campaign::update(uns32)
+
+void c_gui_screen_pregame_lobby_campaign::update(uns32 current_milliseconds)
+{
+	INVOKE_CLASS_MEMBER(0x00B00230, c_gui_screen_pregame_lobby_campaign, update, current_milliseconds);
+}
+
 //.text:00B00510 ; 
 

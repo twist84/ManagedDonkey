@@ -9,6 +9,10 @@ struct c_gui_screen_campaign_select_level :
 public:
 	void __thiscall post_initialize_();
 
+public:
+	virtual void post_initialize() override;
+
+public:
 	c_gui_screen_campaign_select_level(int32 name) :
 		c_gui_screen_widget(name)
 	{

@@ -6,6 +6,11 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AFD9B0, c_gui_screen_campaign_select_level, post_initialize_);
 
+void __thiscall c_gui_screen_campaign_select_level::post_initialize_()
+{
+	c_gui_screen_campaign_select_level::post_initialize();
+}
+
 //.text:00AFCA00 ; public: c_gui_screen_campaign_select_level::c_gui_screen_campaign_select_level(int32)
 //.text:00AFCAE0 ; public: virtual c_gui_screen_campaign_select_level::~c_gui_screen_campaign_select_level()
 //.text:00AFCBA0 ; public: virtual void* c_gui_screen_campaign_select_level::`vector deleting destructor'(unsigned int)
@@ -16,43 +21,63 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AFD9B0, c_gui_screen_campaign_select_level, post_i
 //.text:00AFD180 ; public: virtual void c_gui_screen_campaign_select_level::initialize()
 //.text:00AFD600 ; public: virtual void c_gui_screen_campaign_select_level::initialize_datasource()
 //.text:00AFD6F0 ; private: void c_gui_screen_campaign_select_level::level_chosen_immediate()
-//.text:00AFD850 ; 
+//.text:00AFD850 ; bool __cdecl parse_xml_last_played_time(void*, wchar_t*, int32)
 
-void __thiscall c_gui_screen_campaign_select_level::post_initialize_()
+void c_gui_screen_campaign_select_level::post_initialize()
 {
-	//c_gui_screen_widget::post_initialize();
-	INVOKE_CLASS_MEMBER(0x00AB18E0, c_gui_screen_widget, post_initialize);
+	//INVOKE_CLASS_MEMBER(0x00AFD9B0, c_gui_screen_campaign_select_level, post_initialize);
+
+	c_gui_screen_widget::post_initialize();
 
 	c_gui_data* level_data = get_data(STRING_ID(global, level), NULL);
 	c_gui_list_widget* level_list_widget = get_child_list_widget(STRING_ID(global, level));
-	if (level_list_widget && level_data)
+	if (!level_list_widget || !level_data)
 	{
-		DECLARE_LAMBDA2(get_element_handle, int32, c_gui_screen_campaign_select_level* this_ptr, c_gui_data* level_data)
+		return;
+	}
+
+	DECLARE_LAMBDA2(get_element_handle, int32, c_gui_screen_campaign_select_level * this_ptr, c_gui_data * level_data)
+	{
+		for (int32 element_handle = level_data->get_first_element_handle();
+			element_handle != NONE;
+			element_handle = level_data->get_next_element_handle(element_handle))
 		{
-			for (int32 element_handle = level_data->get_first_element_handle();
-				element_handle != NONE;
-				element_handle = level_data->get_next_element_handle(element_handle))
+			const c_gui_selected_item* selected_item = level_data->get_gui_selected_item(element_handle);
+			if (!selected_item || selected_item->m_selection_type != _gui_selection_type_level)
 			{
-				const c_gui_selected_item* selected_item = level_data->get_gui_selected_item(element_handle);
-				if (selected_item && selected_item->m_selection_type == _gui_selection_type_level)
-				{
-					c_gui_level_selected_item* level_selected_item = (c_gui_level_selected_item*)selected_item;
-					if (level_selected_item->m_campaign_id == this_ptr->m_campaign_id &&
-						level_selected_item->m_map_id == this_ptr->m_map_id)
-					{
-						return element_handle;
-					}
-				}
+				continue;
 			}
 
-			return NONE;
-		};
+			c_gui_level_selected_item* level_selected_item = (c_gui_level_selected_item*)selected_item;
+			if (level_selected_item->m_campaign_id == this_ptr->m_campaign_id &&
+				level_selected_item->m_map_id == this_ptr->m_map_id)
+			{
+				return element_handle;
+			}
+		}
 
-		int32 element_handle = get_element_handle(this, level_data);
-		if (element_handle != NONE)
-			c_gui_screen_widget::transfer_focus_to_list(level_list_widget, element_handle, false, false);
+		return NONE;
+	};
+
+	int32 element_handle = get_element_handle(this, level_data);
+	if (element_handle == NONE)
+	{
+		return;
 	}
+
+	c_gui_screen_widget::transfer_focus_to_list(level_list_widget, element_handle, false, false);
 }
+
+
+//.text:00AFDA80 ; 
+//.text:00AFDB80 ; 
+//.text:00AFDBA0 ; public: void c_gui_screen_campaign_select_level::setup(e_gui_campaign_level_setup_mode, e_campaign_id, e_map_id, int16)
+//.text:00AFDBD0 ; 
+//.text:00AFDC50 ; public: virtual void c_gui_screen_campaign_select_level::update(uns32)
+//.text:00AFDED0 ; 
+//.text:00AFE0A0 ; 
+//.text:00AFE160 ; 
+//.text:00AFE1E0 ; 
 
 void c_gui_screen_campaign_select_level::setup(e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, int16 campaign_insertion_point)
 {

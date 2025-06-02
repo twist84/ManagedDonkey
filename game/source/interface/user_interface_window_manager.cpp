@@ -148,8 +148,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_gui_screen_campaign_select_difficulty(screen_name);
 	case STRING_ID(gui, campaign_select_level):
 		return new c_gui_screen_campaign_select_level(screen_name);
-	//case STRING_ID(gui, pregame_lobby_campaign):
-	//	return new c_gui_screen_pregame_lobby_campaign(screen_name);
+	case STRING_ID(gui, pregame_lobby_campaign):
+		return new c_gui_screen_pregame_lobby_campaign(screen_name);
 	//case STRING_ID(gui, pregame_lobby_matchmaking):
 	//	return new c_gui_screen_pregame_lobby_matchmaking(screen_name);
 	//case STRING_ID(gui, pregame_lobby_multiplayer):

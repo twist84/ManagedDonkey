@@ -10,19 +10,33 @@ struct c_gui_screen_pregame_lobby_campaign :
 public:
 	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
-	//void __thiscall initialize_();
-	//void __thiscall load_progress_ui_(e_controller_index controller_index);
+	void __thiscall initialize_();
+	void __thiscall load_progress_ui_(e_controller_index controller_index);
 
-	c_gui_screen_pregame_lobby_campaign(int32 name) :
-		c_gui_screen_pregame_lobby(name)
-	{
-		DECLFUNC(0x00AFF7A0, c_gui_screen_pregame_lobby_campaign*, __thiscall, c_gui_screen_pregame_lobby_campaign*, int32)(this, name);
-	}
+public:
+	virtual ~c_gui_screen_pregame_lobby_campaign();
+	virtual void initialize() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
+	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
+	virtual bool postgame_stats_enabled() override;
+	virtual int32 get_lobby_header() override;
+	virtual int32 get_lobby_title() override;
+	virtual int32 get_start_button_name() override;
+	virtual e_gui_game_mode get_gui_game_mode() override;
+
+public:
+	c_gui_screen_pregame_lobby_campaign(int32 name);
+
+private:
+	void load_progress_ui(e_controller_index controller_index);
+
+public:
 
 //protected:
 	int32 m_last_player_count;
 	e_network_session_class m_session_class;
-	s_player_identifier m_last_player_identifiers[16];
+	c_static_array<s_player_identifier, 16> m_last_player_identifiers;
 	e_controller_index m_use_saved_game_from_controller;
 	uns32 m_progress_dialog_start_time_milliseconds;
 	bool m_catalogue_enumeration_active;
