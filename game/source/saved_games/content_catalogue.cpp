@@ -2,7 +2,11 @@
 
 REFERENCE_DECLARE(0x0240A340, s_content_catalogue_globals, g_content_catalogue_globals);
 
-//.text:00479C00 ; public: bool c_content_catalogue::valid() const
+bool c_content_catalogue::valid() const
+{
+	return INVOKE_CLASS_MEMBER(0x00479C00, c_content_catalogue, valid);
+}
+
 //.text:005A4A20 ; public: c_content_catalogue::c_content_catalogue()
 //.text:005A4AC0 ; public: c_saved_game_scope_lock::c_saved_game_scope_lock()
 //.text:005A4AE0 ; public: s_content_catalogue_globals::s_content_catalogue_globals()
@@ -35,7 +39,11 @@ void __cdecl content_catalogue_close_all_dlc(bool allow_exceptions)
 //.text:005A53F0 ; void __cdecl content_catalogue_display_device_selection_guide_interface(e_controller_index)
 //.text:005A5490 ; void __cdecl content_catalogue_dispose()
 //.text:005A5530 ; void __cdecl content_catalogue_dispose_from_old_map()
-//.text:005A5540 ; bool __cdecl content_catalogue_enumeration_active_on_controllers(int32*)
+
+bool __cdecl content_catalogue_enumeration_active_on_controllers(int32* out_controller_mask)
+{
+	return INVOKE(0x005A5540, content_catalogue_enumeration_active_on_controllers, out_controller_mask);
+}
 
 c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index controller_index)
 {
@@ -93,6 +101,12 @@ bool __cdecl content_catalogue_open_dlc(const wchar_t* path, bool block)
 //.text:005A76E0 ; protected: void c_content_catalogue::dispose_content_item_array()
 //.text:005A7760 ; 
 //.text:005A7790 ; public: bool c_content_catalogue::enumerating_content_metadata() const
+
+bool c_content_catalogue::enumeration_has_completed()
+{
+	return m_flags.test(_enumeration_completed_bit);
+}
+
 //.text:005A77A0 ; 
 //.text:005A77C0 ; private: int32 c_content_catalogue::find_content_item_index_from_name_and_type(const wchar_t*, e_game_content_type) const
 //.text:005A78A0 ; public: int32 c_content_catalogue::first_content_item_index() const
