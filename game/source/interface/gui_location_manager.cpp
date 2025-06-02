@@ -1,108 +1,391 @@
 #include "interface/gui_location_manager.hpp"
 
-#include "interface/user_interface_memory.hpp"
+#include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
+#include "interface/c_gui_screen_widget.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
+#include "interface/user_interface.hpp"
 #include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_session.hpp"
+#include "interface/user_interface_window_manager.hpp"
+#include "main/main_game.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_life_cycle.hpp"
+#include "networking/session/network_session.hpp"
 #include "tag_files/string_ids.hpp"
-
 
 REFERENCE_DECLARE(0x01944204, c_gui_location_manager, g_location_manager);
 
-HOOK_DECLARE_CLASS_MEMBER(0x00ADF6E0, c_gui_location_manager, change_location);
-HOOK_DECLARE_CLASS_MEMBER(0x00ADF870, c_gui_location_manager, get_current_ui_location);
+HOOK_DECLARE_CLASS_MEMBER(0x00ADFA10, c_gui_location_manager, update_);
 HOOK_DECLARE(0x00ADF9D0, location_manager_get);
 HOOK_DECLARE(0x00ADF9E0, location_manager_start);
 HOOK_DECLARE(0x00ADF9F0, location_manager_stop);
 
-// 00ADF680
+void __thiscall c_gui_location_manager::update_()
+{
+	c_gui_location_manager::update();
+}
+
 c_gui_location_manager::c_gui_location_manager() :
 	m_running(true),
-	__unknown4(0),
-	m_show_postgame_stats_upon_lobby_entrance(false),
-	m_change_time(0xFFFFFFFF),
-	m_change_location(30)
+	m_location_mode(_location_mode_unset),
+	m_show_postgame_stats(false),
+	m_location_change_throttle_time(-1),
+	m_location_change_throttle_count(30)
 {
+	//DECLFUNC(0x00ADF680, void, __thiscall, c_gui_location_manager*)(this);
 }
 
-// 00ADF6C0
+void __cdecl c_gui_location_manager::begin_enter_location(e_gui_location old_location, e_gui_location new_location)
+{
+	INVOKE(0x00ADF6A0, c_gui_location_manager::begin_enter_location, old_location, new_location);
+
+	//switch (new_location)
+	//{
+	//case _gui_location_main_menu:
+	//case _gui_location_pregame_lobby:
+	//{
+	//	c_online_file_manager::get()->start();
+	//}
+	//break;
+	//case _gui_location_matchmaking_searching:
+	//case _gui_location_matchmaking_match_found:
+	//case _gui_location_in_game:
+	//case _gui_location_postgame_lobby:
+	//{
+	//	c_online_file_manager::get()->stop();
+	//}
+	//break;
+	//default:
+	//{
+	//	VASSERT("unreachable");
+	//}
+	//break;
+	//}
+}
+
 bool c_gui_location_manager::can_change_location()
 {
-	return m_change_location >= 30;
+	//return INVOKE_CLASS_MEMBER(0x00ADF6C0, c_gui_location_manager, can_change_location);
+
+	return m_location_change_throttle_count >= 30;
 }
 
-// 00ADF6E0
-void __thiscall c_gui_location_manager::change_location(int32 screen_name)
+void c_gui_location_manager::change_location(int32 new_location_name)
 {
-	bool can_change_location_ = can_change_location();
+	//INVOKE_CLASS_MEMBER(0x00ADF6E0, c_gui_location_manager, change_location, new_location_name);
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_gui_location_manager, change_location, screen_name);
-
-	if (can_change_location_)
+	if (!c_gui_location_manager::can_change_location())
 	{
-		if (c_load_screen_message* message = new c_load_screen_message(screen_name, k_any_controller, _console_window, STRING_ID(gui, bottom_most)))
-			user_interface_messaging_post(message);
+		return;
 	}
+	m_location_change_throttle_count = 0;
+
+	if (new_location_name == _string_id_invalid)
+	{
+		return;
+	}
+
+	e_screen_transition_type transition_type = _screen_transition_type_normal;
+	if (c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen())
+	{
+		if (new_location_name == STRING_ID(gui, matchmaking_searching))
+		{
+			if (location_screen->m_name == STRING_ID(gui, pregame_lobby_matchmaking))
+			{
+				transition_type = _screen_transition_type_custom0;
+			}
+		}
+		else if (new_location_name == STRING_ID(gui, pregame_lobby_matchmaking))
+		{
+			if (location_screen->m_name == STRING_ID(gui, matchmaking_searching))
+			{
+				transition_type = _screen_transition_type_custom0;
+			}
+		}
+		location_screen->transition_out_with_transition_type(_transition_out_normal, transition_type);
+	}
+
+	const c_gui_screen_widget* exempt_screens[7]{};
+	int32 except_these_count = 6;
+	if (new_location_name == STRING_ID(gui, matchmaking_searching))
+	{
+		except_these_count = 7;
+		exempt_screens[0] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, carnage_report));
+	}
+
+	exempt_screens[0] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, spartan_milestone_dialog));
+	exempt_screens[1] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, spartan_rank_dialog));
+	exempt_screens[2] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_toast));
+	exempt_screens[3] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_nonblocking));
+	exempt_screens[4] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_full));
+	exempt_screens[5] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_split));
+	window_manager_get()->close_all_screens(exempt_screens, except_these_count);
+
+	c_load_screen_message* screen_message = new c_load_screen_message(new_location_name, k_any_controller, _console_window, STRING_ID(gui, bottom_most));
+	if (!screen_message)
+	{
+		return;
+	}
+	user_interface_messaging_post(screen_message);
+	screen_message->set_transition_type(transition_type);
 }
 
-// 00ADF870
-int32 __thiscall c_gui_location_manager::get_current_ui_location()
+e_gui_location c_gui_location_manager::get_current_ui_location()
 {
-	int32 result = 0;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_location_manager, get_current_ui_location);
-	return result;
+	//return INVOKE_CLASS_MEMBER(0x00ADF870, c_gui_location_manager, get_current_ui_location);
+
+	if (game_in_progress() && !game_is_ui_shell())
+	{
+		return _gui_location_in_game;
+	}
+
+	c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen();
+	if (!location_screen)
+	{
+		return _gui_location_none;
+	}
+
+	return location_screen->get_gui_location();
 }
 
-// 00ADF8A0
 c_gui_screen_widget* c_gui_location_manager::get_location_screen()
 {
-	c_gui_screen_widget* result = INVOKE_CLASS_MEMBER(0x00ADF8A0, c_gui_location_manager, get_location_screen);
+	//return INVOKE_CLASS_MEMBER(0x00ADF8A0, c_gui_location_manager, get_location_screen);
 
-	return result;
+	for (c_gui_screen_widget* location_screen = window_manager_get()->get_topmost_screen(k_number_of_player_windows);
+		location_screen;
+		location_screen = window_manager_get()->get_screen_below(k_number_of_player_windows, location_screen))
+	{
+		if (location_screen->transitioning_out() || location_screen->get_gui_location() == _gui_location_none)
+		{
+			continue;
+		}
+
+		return location_screen;
+	}
+
+	return NULL;
 }
 
-// 00ADF8F0
-int32 c_gui_location_manager::get_location_screen_name(int32 gui_location)
+int32 c_gui_location_manager::get_location_screen_name(int32 new_location)
 {
-	int32 result = INVOKE_CLASS_MEMBER(0x00ADF8F0, c_gui_location_manager, get_location_screen_name, gui_location);
+	//return INVOKE_CLASS_MEMBER(0x00ADF8F0, c_gui_location_manager, get_location_screen_name, new_location);
 
+	int32 result = _string_id_invalid;
+	switch (new_location)
+	{
+	case _gui_location_main_menu:
+	{
+		result = STRING_ID(gui, main_menu);
+	}
+	break;
+	case _gui_location_pregame_lobby:
+	{
+		result = c_gui_location_manager::get_pregame_lobby_name(user_interface_squad_get_ui_game_mode());
+	}
+	break;
+	case _gui_location_matchmaking_searching:
+	{
+		result = STRING_ID(gui, matchmaking_searching);
+	}
+	break;
+	case _gui_location_matchmaking_match_found:
+	{
+		result = STRING_ID(gui, matchmaking_match_found);
+	}
+	break;
+	case _gui_location_in_game:
+	{
+		result = _string_id_invalid;
+	}
+	break;
+	case _gui_location_postgame_lobby:
+	{
+		result = STRING_ID(gui, postgame_lobby);
+	}
+	break;
+	}
 	return result;
 }
 
-// 00ADF960
-int32 c_gui_location_manager::get_pregame_lobby_name(int32 gui_game_mode)
+int32 c_gui_location_manager::get_pregame_lobby_name(int32 game_mode)
 {
-	int32 result = INVOKE_CLASS_MEMBER(0x00ADF960, c_gui_location_manager, get_pregame_lobby_name, gui_game_mode);
+	//return INVOKE_CLASS_MEMBER(0x00ADF960, c_gui_location_manager, get_pregame_lobby_name, game_mode);
 
+	int32 result = _string_id_invalid;
+	switch (game_mode)
+	{
+	case _ui_game_mode_none:
+	{
+		result = _string_id_invalid;
+	}
+	break;
+	case _ui_game_mode_campaign:
+	{
+		result = STRING_ID(gui, pregame_lobby_campaign);
+	}
+	break;
+	case _ui_game_mode_matchmaking:
+	{
+		result = STRING_ID(gui, pregame_lobby_matchmaking);
+	}
+	break;
+	case _ui_game_mode_multiplayer:
+	{
+		result = STRING_ID(gui, pregame_lobby_multiplayer);
+	}
+	break;
+	case _ui_game_mode_map_editor:
+	{
+		result = STRING_ID(gui, pregame_lobby_mapeditor);
+	}
+	break;
+	case _ui_game_mode_theater:
+	{
+		result = STRING_ID(gui, pregame_lobby_theater);
+	}
+	break;
+	//case _ui_game_mode_survival:
+	//{
+	//	result = STRING_ID(gui, pregame_lobby_survival);
+	//}
+	//break;
+	}
 	return result;
 }
 
-// 00ADF9D0
+bool c_gui_location_manager::get_show_postgame_stats_upon_lobby_entrance() const
+{
+	return m_show_postgame_stats;
+}
+
 c_gui_location_manager* __cdecl location_manager_get()
 {
+	//return INVOKE(0x00ADF9D0, location_manager_get);
+
 	return &g_location_manager;
 }
 
-// 00ADF9E0
 void __cdecl location_manager_start()
 {
+	//INVOKE(0x00ADF9E0, location_manager_start);
+
 	g_location_manager.m_running = true;
 }
 
-// 00ADF9F0
 void __cdecl location_manager_stop()
 {
+	//INVOKE(0x00ADF9F0, location_manager_stop);
+
 	g_location_manager.m_running = false;
 }
 
-// 00ADFA00
 void c_gui_location_manager::set_running(bool running)
 {
+	//INVOKE_CLASS_MEMBER(0x00ADFA00, c_gui_location_manager, set_running, running);
+
 	m_running = running;
 }
 
-// 00ADFA10
+void c_gui_location_manager::set_show_postgame_stats_upon_lobby_entrance(bool value)
+{
+	m_show_postgame_stats = value;
+}
+
 void c_gui_location_manager::update()
 {
-	INVOKE_CLASS_MEMBER(0x00ADFA10, c_gui_location_manager, update);
+	//INVOKE_CLASS_MEMBER(0x00ADFA10, c_gui_location_manager, update);
+
+	if (!m_running)
+	{
+		return;
+	}
+
+	uns32 current_milliseconds = user_interface_milliseconds();
+	if (m_location_change_throttle_time != current_milliseconds)
+	{
+		if (m_location_change_throttle_count < 30)
+		{
+			m_location_change_throttle_count++;
+		}
+	}
+	m_location_change_throttle_time = current_milliseconds;
+
+	e_gui_location current_location = user_interface_networking_get_current_location();
+	if (current_location == _gui_location_none || user_interface_networking_get_start_game_when_ready())
+	{
+		return;
+	}
+
+	if (m_location_mode == _location_mode_unset || current_location)
+	{
+		m_location_mode = e_location_mode(_location_mode_editor_or_game_start - user_interface_squad_exists());
+	}
+
+	e_gui_location current_ui_location = c_gui_location_manager::get_current_ui_location();
+	const c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen();
+
+	c_network_session* session = NULL;
+	bool in_session = network_life_cycle_in_session(&session);
+	if (game_in_progress() &&
+		game_is_ui_shell() &&
+		current_location == _gui_location_in_game &&
+		!network_life_cycle_map_load_pending() &&
+		(!in_session || session->is_host()))
+	{
+		event(_event_warning, "ui:location_manager: Resetting network location.  If you got here and didn't just issue a console command, this is a bug.");
+		network_life_cycle_end();
+	}
+	else if (current_ui_location == current_location)
+	{
+		if (current_ui_location != _gui_location_pregame_lobby)
+		{
+			e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
+			if (game_mode == _ui_game_mode_none)
+			{
+				return;
+			}
+
+			ASSERT(location_screen && location_screen->get_gui_location() == _gui_location_pregame_lobby);
+
+			c_gui_screen_pregame_lobby* pregame_lobby_screen = (c_gui_screen_pregame_lobby*)location_screen;
+			if (pregame_lobby_screen->get_gui_game_mode() != game_mode)
+			{
+				c_gui_location_manager::change_location(c_gui_location_manager::get_pregame_lobby_name(game_mode));
+			}
+		}
+	}
+	else if (current_location == _gui_location_main_menu || current_ui_location != _gui_location_in_game || m_location_mode != _location_mode_editor_or_game_start)
+	{
+		if (!game_is_ui_shell() && (current_ui_location == _gui_location_in_game || current_location == _gui_location_pregame_lobby))
+		{
+			main_menu_launch();
+			c_gui_location_manager::set_show_postgame_stats_upon_lobby_entrance(true);
+		}
+		else
+		{
+			c_gui_location_manager::begin_enter_location(current_ui_location, current_location);
+			c_gui_location_manager::change_location(c_gui_location_manager::get_location_screen_name(current_location));
+		}
+	}
+
+	if (!location_screen)
+	{
+		return;
+	}
+
+	for (c_gui_screen_widget* screen = window_manager_get()->get_screen_below(k_number_of_player_windows, location_screen);
+		screen;
+		screen = window_manager_get()->get_screen_below(k_number_of_player_windows, screen))
+	{
+		if (screen->transitioning_out())
+		{
+			break;
+		}
+
+		screen->transition_out(_transition_out_normal);
+	}
 }
 
