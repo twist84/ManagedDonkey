@@ -25,6 +25,7 @@ struct c_gui_pregame_setup_manager
 {
 public:
 	static c_gui_pregame_setup_manager* __cdecl get();
+	void restore_from_last(e_gui_game_mode lobby);
 	void update();
 
 protected:
