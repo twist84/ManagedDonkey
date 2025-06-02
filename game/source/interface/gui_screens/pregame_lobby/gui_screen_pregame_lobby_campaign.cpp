@@ -1,17 +1,19 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_campaign.hpp"
 
+#include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_selected_items.hpp"
+#include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
 #include "memory/module.hpp"
+#include "saved_games/content_catalogue.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AFFA90, c_gui_screen_pregame_lobby_campaign, handle_controller_input_message_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AFFAE0, c_gui_screen_pregame_lobby_campaign, handle_list_item_chosen_);
-//HOOK_DECLARE_CLASS_MEMBER(0x00AFFDA0, c_gui_screen_pregame_lobby_campaign, initialize_);
-//HOOK_DECLARE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign, load_progress_ui_);
 
 bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_message_(const c_controller_input_message* message)
 {
@@ -21,20 +23,6 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_controller_input_mes
 bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	return c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
-}
-
-void __thiscall c_gui_screen_pregame_lobby_campaign::initialize_()
-{
-	//HOOK_INVOKE_CLASS_MEMBER(, c_gui_screen_pregame_lobby_campaign, initialize_);
-
-	//c_gui_screen_pregame_lobby_campaign::initialize();
-}
-
-void __thiscall c_gui_screen_pregame_lobby_campaign::load_progress_ui_(e_controller_index controller_index)
-{
-	//HOOK_INVOKE_CLASS_MEMBER(, c_gui_screen_pregame_lobby_campaign, load_progress_ui_, controller_index);
-
-	//c_gui_screen_pregame_lobby_campaign::load_progress_ui(controller_index);
 }
 
 //.text:00AFE260 ; public: c_gui_screen_campaign_select_scoring::c_gui_screen_campaign_select_scoring(int32)
@@ -289,11 +277,27 @@ void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index co
 	//user_interface_set_reload_from_persistent_storage(k_no_controller);
 }
 
-//.text:00B00000 ; private: void c_gui_screen_pregame_lobby_campaign::restore_game_setup_from_controller_saved_game(e_controller_index)
+void c_gui_screen_pregame_lobby_campaign::restore_game_setup_from_controller_saved_game(e_controller_index controller_index)
+{
+	INVOKE_CLASS_MEMBER(0x00B00000, c_gui_screen_pregame_lobby_campaign, restore_game_setup_from_controller_saved_game, controller_index);
+}
 
 void c_gui_screen_pregame_lobby_campaign::update(uns32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00B00230, c_gui_screen_pregame_lobby_campaign, update, current_milliseconds);
+
+	// $TODO: implement me, more than just what delta did
+
+	//c_gui_screen_pregame_lobby::update(current_milliseconds);
+	//
+	//if (user_interface_squad_exists() && user_interface_get_session_game_mode() == _session_game_mode_pregame)
+	//{
+	//	c_gui_bitmap_widget* difficulty_image_bitmap_widget = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, difficulty_image));
+	//	if (difficulty_image_bitmap_widget)
+	//	{
+	//		difficulty_image_bitmap_widget->set_sprite_frame(user_interface_game_settings_get_campaign_difficulty());
+	//	}
+	//}
 }
 
 //.text:00B00510 ; 

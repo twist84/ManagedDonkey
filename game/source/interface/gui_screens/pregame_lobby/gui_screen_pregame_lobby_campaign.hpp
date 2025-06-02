@@ -10,8 +10,6 @@ struct c_gui_screen_pregame_lobby_campaign :
 public:
 	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
-	void __thiscall initialize_();
-	void __thiscall load_progress_ui_(e_controller_index controller_index);
 
 public:
 	virtual ~c_gui_screen_pregame_lobby_campaign();
@@ -30,6 +28,7 @@ public:
 
 private:
 	void load_progress_ui(e_controller_index controller_index);
+	void restore_game_setup_from_controller_saved_game(e_controller_index controller_index);
 
 public:
 
