@@ -29,7 +29,12 @@ e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_di
 
 //.text:00A80880 ; int16 __cdecl user_interface_squad_get_campaign_insertion_point()
 //.text:00A80890 ; e_campaign_metagame_scoring __cdecl user_interface_squad_get_campaign_metagame_scoring()
-//.text:00A808B0 ; const c_game_variant* __cdecl user_interface_game_settings_get_game_variant()
+
+const c_game_variant* __cdecl user_interface_game_settings_get_game_variant()
+{
+	return INVOKE(0x00A808B0, user_interface_game_settings_get_game_variant);
+}
+
 //.text:00A80970 ; e_session_game_mode __cdecl user_interface_get_session_game_mode()
 
 e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, uns32* player_error_mask)
@@ -109,7 +114,11 @@ bool __cdecl user_interface_squad_is_player_valid(int32 player_index)
 	return INVOKE(0x00A81E80, user_interface_squad_is_player_valid, player_index);
 }
 
-//.text:00A81F10 ; bool __cdecl user_interface_session_is_verifying_strings()
+bool __cdecl user_interface_session_is_verifying_strings()
+{
+	return INVOKE(0x00A81F10, user_interface_session_is_verifying_strings);
+}
+
 //.text:00A81F80 ; void __cdecl user_interface_session_memory_dispose()
 //.text:00A81FA0 ; void __cdecl user_interface_session_memory_initialize(e_map_memory_configuration)
 //.text:00A81FB0 ; bool __cdecl user_interface_session_parameters_are_valid_for_ui_game_mode(const c_network_session_parameters*)

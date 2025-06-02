@@ -2,14 +2,15 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_map_variant;
 struct c_game_variant;
+struct c_map_variant;
 struct s_player_configuration;
 struct s_player_identifier;
 struct s_saved_film_description;
 
 extern bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode);
 extern e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_difficulty();
+extern const c_game_variant* __cdecl user_interface_game_settings_get_game_variant();
 extern e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, uns32* player_error_mask);
 extern bool __cdecl user_interface_interactive_session_is_squad();
 extern void __cdecl user_interface_leave_sessions(e_user_interface_session_leave_type leave_type, e_user_interface_session_leave_reason leave_reason);
@@ -20,6 +21,7 @@ extern int32 __cdecl user_interface_session_get_player_at_local_controller(e_con
 extern s_player_configuration* __cdecl user_interface_session_get_player_data(int32 player_index);
 extern bool __cdecl user_interface_session_is_local_player(int32 player_index);
 extern bool __cdecl user_interface_squad_is_player_valid(int32 player_index);
+extern bool __cdecl user_interface_session_is_verifying_strings();
 extern int32 __cdecl user_interface_squad_get_player_index(const s_player_identifier* player_identifier);
 extern bool __cdecl user_interface_squad_exists();
 extern int32 __cdecl user_interface_squad_get_countdown_delaying_player();
