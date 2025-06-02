@@ -90,19 +90,11 @@ void c_gui_location_manager::change_location(int32 new_location_name)
 	e_screen_transition_type transition_type = _screen_transition_type_normal;
 	if (c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen())
 	{
-		if (new_location_name == STRING_ID(gui, matchmaking_searching))
+		bool goto_matchmaking_searching = new_location_name == STRING_ID(gui, matchmaking_searching) && location_screen->m_name == STRING_ID(gui, pregame_lobby_matchmaking);
+		bool goto_pregame_lobby_matchmaking = new_location_name == STRING_ID(gui, pregame_lobby_matchmaking) && location_screen->m_name == STRING_ID(gui, matchmaking_searching);
+		if (goto_matchmaking_searching || goto_pregame_lobby_matchmaking)
 		{
-			if (location_screen->m_name == STRING_ID(gui, pregame_lobby_matchmaking))
-			{
-				transition_type = _screen_transition_type_custom0;
-			}
-		}
-		else if (new_location_name == STRING_ID(gui, pregame_lobby_matchmaking))
-		{
-			if (location_screen->m_name == STRING_ID(gui, matchmaking_searching))
-			{
-				transition_type = _screen_transition_type_custom0;
-			}
+			transition_type = _screen_transition_type_custom0;
 		}
 		location_screen->transition_out_with_transition_type(_transition_out_normal, transition_type);
 	}
@@ -115,13 +107,13 @@ void c_gui_location_manager::change_location(int32 new_location_name)
 		exempt_screens[0] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, carnage_report));
 	}
 
-	exempt_screens[0] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, spartan_milestone_dialog));
-	exempt_screens[1] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, spartan_rank_dialog));
-	exempt_screens[2] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_toast));
-	exempt_screens[3] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_nonblocking));
-	exempt_screens[4] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_full));
-	exempt_screens[5] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_split));
-	window_manager_get()->close_all_screens(exempt_screens, except_these_count);
+	exempt_screens[1] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, spartan_milestone_dialog));
+	exempt_screens[2] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, spartan_rank_dialog));
+	exempt_screens[3] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_toast));
+	exempt_screens[4] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_nonblocking));
+	exempt_screens[5] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_full));
+	exempt_screens[6] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_split));
+	window_manager_get()->close_all_screens(exempt_screens + (except_these_count == 7), except_these_count);
 
 	c_load_screen_message* screen_message = new c_load_screen_message(new_location_name, k_any_controller, _console_window, STRING_ID(gui, bottom_most));
 	if (!screen_message)
@@ -340,20 +332,18 @@ void c_gui_location_manager::update()
 	}
 	else if (current_ui_location == current_location)
 	{
-		if (current_ui_location != _gui_location_pregame_lobby)
+		if (current_ui_location == _gui_location_pregame_lobby)
 		{
 			e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-			if (game_mode == _ui_game_mode_none)
+			if (game_mode != _ui_game_mode_none)
 			{
-				return;
-			}
+				ASSERT(location_screen && location_screen->get_gui_location() == _gui_location_pregame_lobby);
 
-			ASSERT(location_screen && location_screen->get_gui_location() == _gui_location_pregame_lobby);
-
-			c_gui_screen_pregame_lobby* pregame_lobby_screen = (c_gui_screen_pregame_lobby*)location_screen;
-			if (pregame_lobby_screen->get_gui_game_mode() != game_mode)
-			{
-				c_gui_location_manager::change_location(c_gui_location_manager::get_pregame_lobby_name(game_mode));
+				c_gui_screen_pregame_lobby* pregame_lobby_screen = (c_gui_screen_pregame_lobby*)location_screen;
+				if (pregame_lobby_screen->get_gui_game_mode() != game_mode)
+				{
+					c_gui_location_manager::change_location(c_gui_location_manager::get_pregame_lobby_name(game_mode));
+				}
 			}
 		}
 	}
