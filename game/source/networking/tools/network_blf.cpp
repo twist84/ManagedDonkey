@@ -41,7 +41,7 @@ void s_blf_chunk_end_of_file::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	file_size = 0;
+	total_file_size = 0;
 	authentication_type = _blf_file_authentication_type_none;
 }
 
@@ -54,7 +54,7 @@ void s_blf_chunk_end_of_file_with_crc::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	file_size = 0;
+	total_file_size = 0;
 	authentication_type = _blf_file_authentication_type_crc;
 }
 
@@ -70,14 +70,14 @@ void s_blf_chunk_content_header::initialize()
 	build_number = static_cast<int16>(version_get_build_number());
 	map_minor_version = static_cast<int16>(get_map_minor_version());
 
-	metadata.name[0] = 0;
+	metadata.display_name[0] = 0;
 	metadata.description[0] = 0;
 	metadata.file_type = _saved_game_file_type_none;
 	metadata.author[0] = 0;
 	metadata.date = 0;
 	metadata.length_seconds = 0;
 	metadata.map_id = _map_id_none;
-	metadata.game_engine_type = 0;
+	metadata.game_engine_index = _game_engine_type_none;
 }
 
 s_blf_chunk_author::s_blf_chunk_author()

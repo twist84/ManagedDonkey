@@ -69,7 +69,7 @@ public:
 
 	s_blf_header header;
 
-	int32 file_size;
+	int32 total_file_size;
 	c_enum<e_blf_file_authentication_type, int8, _blf_file_authentication_type_none, k_blf_file_authentication_type_count> authentication_type;
 };
 static_assert(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
