@@ -2,11 +2,6 @@
 
 REFERENCE_DECLARE(0x0240A340, s_content_catalogue_globals, g_content_catalogue_globals);
 
-bool c_content_catalogue::valid() const
-{
-	return INVOKE_CLASS_MEMBER(0x00479C00, c_content_catalogue, valid);
-}
-
 //.text:005A4A20 ; public: c_content_catalogue::c_content_catalogue()
 //.text:005A4AC0 ; public: c_saved_game_scope_lock::c_saved_game_scope_lock()
 //.text:005A4AE0 ; public: s_content_catalogue_globals::s_content_catalogue_globals()
