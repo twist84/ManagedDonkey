@@ -49,6 +49,9 @@ struct s_network_storage_cache_key
 };
 static_assert(sizeof(s_network_storage_cache_key) == 0x50);
 
+extern int32& g_online_url_hopper_directory_key;
+extern int32& k_default_untracked_lifetime_seconds;
+
 extern void __cdecl create_machine_url_base(c_url_string* url, uns64 machine_id);
 extern void __cdecl create_title_url_base(c_url_string* url);
 extern void __cdecl create_user_url_base(c_url_string* url, uns64 user_id);

@@ -9,8 +9,8 @@
 
 #include <string.h>
 
-REFERENCE_DECLARE(0x01860808, int32, dword_1860808); // initial value: 1
-REFERENCE_DECLARE(0x0186080C, int32, dword_186080C); // initial value: 600
+REFERENCE_DECLARE(0x01860808, int32, g_online_url_hopper_directory_key); // initial value: 1
+REFERENCE_DECLARE(0x0186080C, int32, k_default_untracked_lifetime_seconds); // initial value: 600
 REFERENCE_DECLARE(0x019AB758, _g_online_url, g_online_url);
 
 HOOK_DECLARE(0x004515F0, create_title_url_base);
@@ -55,7 +55,7 @@ c_url_string::c_url_string(const char* url, e_cachable_type cachable) :
 	m_string(url),
 	m_service_type(_online_lsp_service_type_title_files),
 	m_cachable(cachable),
-	m_untracked_cache_lifetime_seconds(dword_186080C),
+	m_untracked_cache_lifetime_seconds(k_default_untracked_lifetime_seconds),
 	m_request_type(_network_http_request_queue_type_required)
 {
 	//DECLFUNC(0x00451460, void, __thiscall, c_url_string*, const char*, e_cachable_type)(this, url, cachable);
@@ -65,7 +65,7 @@ c_url_string::c_url_string() :
 	m_string(),
 	m_service_type(_online_lsp_service_type_title_files),
 	m_cachable(_cachable_type_no),
-	m_untracked_cache_lifetime_seconds(dword_186080C),
+	m_untracked_cache_lifetime_seconds(k_default_untracked_lifetime_seconds),
 	m_request_type(_network_http_request_queue_type_required)
 {
 	//DECLFUNC(0x004514B0, void, __thiscall, c_url_string*)(this);
@@ -483,7 +483,7 @@ void __cdecl online_url_use_hopper_directory(const char* hopper_directory)
 	if (!_hopper_directory.is_empty())
 	{
 		_hopper_directory.copy_to(g_online_url.current_hopper_directory, sizeof(g_online_url.current_hopper_directory));
-		dword_1860808++;
+		g_online_url_hopper_directory_key++;
 	}
 }
 
@@ -495,7 +495,7 @@ void __cdecl online_url_use_user_override_hopper_directory(const char* hopper_di
 	if (!_hopper_directory.is_empty())
 	{
 		_hopper_directory.copy_to(g_online_url.current_user_override_hopper_directory, sizeof(g_online_url.current_user_override_hopper_directory));
-		dword_1860808++;
+		g_online_url_hopper_directory_key++;
 	}
 }
 
