@@ -160,7 +160,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(const 
 			if (c_load_screen_message* screen_message = new c_load_screen_message(
 				STRING_ID(gui, campaign_settings),
 				message->get_controller(),
-				get_render_window(),
+				c_gui_screen_widget::get_render_window(),
 				m_name))
 			{
 				screen_message->set_parent_screen_index(m_screen_index);
@@ -190,7 +190,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 				if (c_load_campaign_select_level_screen_message* screen_message = new c_load_campaign_select_level_screen_message(
 					STRING_ID(gui, campaign_select_level),
 					message->get_controller(),
-					get_render_window(),
+					c_gui_screen_widget::get_render_window(),
 					m_name,
 					_campaign_level_setup_mode_lobby,
 					campaign_id,
@@ -207,7 +207,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 				if (c_load_campaign_select_difficulty_screen_message* screen_message = new c_load_campaign_select_difficulty_screen_message(
 					STRING_ID(gui, campaign_select_difficulty),
 					message->get_controller(),
-					get_render_window(),
+					c_gui_screen_widget::get_render_window(),
 					m_name,
 					_campaign_difficulty_setup_mode_lobby,
 					_campaign_id_default,
@@ -227,7 +227,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 				if (c_load_screen_message* screen_message = new c_load_screen_message(
 					STRING_ID(gui, select_scoring),
 					message->get_controller(),
-					get_render_window(),
+					c_gui_screen_widget::get_render_window(),
 					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
@@ -240,7 +240,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 				if (c_load_screen_message* screen_message = new c_load_screen_message(
 					STRING_ID(gui, campaign_select_skulls),
 					message->get_controller(),
-					get_render_window(),
+					c_gui_screen_widget::get_render_window(),
 					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
@@ -270,9 +270,9 @@ void c_gui_screen_pregame_lobby_campaign::initialize()
 	// value of 4 in halo 3 and 6 in odst/halo online
 	m_initial_focused_widget_element_handle = 6; // should we use 4 or 6?
 	
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
 }
 
 void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index controller_index)
@@ -283,7 +283,7 @@ void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index co
 	//// $TODO: Add `c_load_in_progress_screen_message`
 	//if (c_load_in_progress_screen_message* in_progress_screen_message = new c_load_in_progress_screen_message(
 	//	controller_index,
-	//	get_render_window(),
+	//	c_gui_screen_widget::get_render_window(),
 	//	STRING_ID(gui, pregame_selection_enumeration_in_progress_title),
 	//	STRING_ID(gui, pregame_selection_enumeration_in_progress_message)))
 	//{

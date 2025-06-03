@@ -124,7 +124,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_controller_input_message(con
 		if (c_load_screen_message* screen_message = new c_load_screen_message(
 			STRING_ID(gui, pregame_advanced_options_matchmaking),
 			message->get_controller(),
-			get_render_window(),
+			c_gui_screen_widget::get_render_window(),
 			m_name))
 		{
 			screen_message->set_parent_screen_index(m_screen_index);
@@ -169,7 +169,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(c_controlle
 				if (c_load_screen_message* screen_message = new c_load_screen_message(
 					STRING_ID(gui, pregame_advanced_options_matchmaking),
 					message->get_controller(),
-					get_render_window(),
+					c_gui_screen_widget::get_render_window(),
 					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
@@ -184,7 +184,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(c_controlle
 				{
 					if (c_load_dialog_screen_message* dialog_screen_message = new c_load_dialog_screen_message(
 						message->get_controller(),
-						get_render_window(),
+						c_gui_screen_widget::get_render_window(),
 						m_name,
 						STRING_ID(gui_dialog, matchmaking_lobby_switch_to_live),
 						m_name))
@@ -198,7 +198,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(c_controlle
 					{
 						if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = new c_load_pregame_selection_screen_message(
 							message->get_controller(),
-							get_render_window(),
+							c_gui_screen_widget::get_render_window(),
 							m_name,
 							_gui_selection_type_hopper))
 						{
@@ -226,9 +226,9 @@ void c_gui_screen_pregame_lobby_matchmaking::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 3;
 
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper", this, parse_xml_lobby_matchmaking_hopper));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper-population", this, parse_xml_lobby_matchmaking_hopper_population));
-	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-total-population", this, parse_xml_lobby_matchmaking_total_population));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper", this, parse_xml_lobby_matchmaking_hopper));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper-population", this, parse_xml_lobby_matchmaking_hopper_population));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-total-population", this, parse_xml_lobby_matchmaking_total_population));
 }
 
 bool c_gui_screen_pregame_lobby_matchmaking::is_lobby_in_live_mode()
