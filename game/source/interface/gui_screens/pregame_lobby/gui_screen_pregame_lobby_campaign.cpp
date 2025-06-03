@@ -261,18 +261,18 @@ bool c_gui_screen_pregame_lobby_campaign::postgame_stats_enabled()
 
 void c_gui_screen_pregame_lobby_campaign::initialize()
 {
-	INVOKE_CLASS_MEMBER(0x00AFFDA0, c_gui_screen_pregame_lobby_campaign, initialize);
+	//INVOKE_CLASS_MEMBER(0x00AFFDA0, c_gui_screen_pregame_lobby_campaign, initialize);
 
-	//c_gui_screen_pregame_lobby::initialize();
-	//
-	//m_initial_focused_widget = STRING_ID(gui, lobby_list);
-	//
-	//// value of 4 in halo 3 and 6 in odst/halo online
-	//m_initial_focused_widget_element_handle = 6; // should we use 4 or 6?
-	//
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
-	//add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
+	c_gui_screen_pregame_lobby::initialize();
+	
+	m_initial_focused_widget = STRING_ID(gui, lobby_list);
+	
+	// value of 4 in halo 3 and 6 in odst/halo online
+	m_initial_focused_widget_element_handle = 6; // should we use 4 or 6?
+	
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
 }
 
 void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index controller_index)
