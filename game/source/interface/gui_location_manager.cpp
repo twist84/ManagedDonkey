@@ -12,6 +12,7 @@
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_life_cycle.hpp"
+#include "networking/online/online_files.hpp"
 #include "networking/session/network_session.hpp"
 #include "tag_files/string_ids.hpp"
 
@@ -39,30 +40,30 @@ c_gui_location_manager::c_gui_location_manager() :
 
 void __cdecl c_gui_location_manager::begin_enter_location(e_gui_location old_location, e_gui_location new_location)
 {
-	INVOKE(0x00ADF6A0, c_gui_location_manager::begin_enter_location, old_location, new_location);
+	//INVOKE(0x00ADF6A0, c_gui_location_manager::begin_enter_location, old_location, new_location);
 
-	//switch (new_location)
-	//{
-	//case _gui_location_main_menu:
-	//case _gui_location_pregame_lobby:
-	//{
-	//	c_online_file_manager::get()->start();
-	//}
-	//break;
-	//case _gui_location_matchmaking_searching:
-	//case _gui_location_matchmaking_match_found:
-	//case _gui_location_in_game:
-	//case _gui_location_postgame_lobby:
-	//{
-	//	c_online_file_manager::get()->stop();
-	//}
-	//break;
-	//default:
-	//{
-	//	VASSERT("unreachable");
-	//}
-	//break;
-	//}
+	switch (new_location)
+	{
+	case _gui_location_main_menu:
+	case _gui_location_pregame_lobby:
+	{
+		c_online_file_manager::get()->start();
+	}
+	break;
+	case _gui_location_matchmaking_searching:
+	case _gui_location_matchmaking_match_found:
+	case _gui_location_in_game:
+	case _gui_location_postgame_lobby:
+	{
+		c_online_file_manager::get()->stop();
+	}
+	break;
+	default:
+	{
+		VASSERT("unreachable");
+	}
+	break;
+	}
 }
 
 bool c_gui_location_manager::can_change_location()
