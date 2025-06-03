@@ -152,10 +152,10 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_gui_screen_pregame_lobby_campaign(screen_name);
 	case STRING_ID(gui, pregame_lobby_matchmaking):
 		return new c_gui_screen_pregame_lobby_matchmaking(screen_name);
-	//case STRING_ID(gui, pregame_lobby_multiplayer):
-	//	return new c_gui_screen_pregame_lobby_multiplayer(screen_name);
 	//case STRING_ID(gui, pregame_lobby_mapeditor):
 	//	return new c_gui_screen_pregame_lobby_mapeditor(screen_name);
+	case STRING_ID(gui, pregame_lobby_multiplayer):
+		return new c_gui_screen_pregame_lobby_multiplayer(screen_name);
 	//case STRING_ID(gui, pregame_lobby_theater):
 	//	return new c_gui_screen_pregame_lobby_theater(screen_name);
 	//case STRING_ID(gui, pregame_switch_lobby):
