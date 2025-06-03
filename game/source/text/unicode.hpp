@@ -124,6 +124,11 @@ public:
 		ustrnzcpy(m_string, s, k_buffer_size);
 	}
 
+	void set_char(const char* src)
+	{
+		ascii_string_to_wchar_string(src, m_string, k_buffer_size, nullptr);
+	}
+
 	void clear()
 	{
 		*m_string = 0;
@@ -141,10 +146,11 @@ public:
 
 	const wchar_t* get_offset(int32 offset) const
 	{
-		if (VALID_INDEX(offset, length()))
-			return &m_string[offset];
-
-		return L"";
+		if (!VALID_INDEX(offset, length()))
+		{
+			return L"";
+		}
+		return &m_string[offset];
 	}
 
 	int32 length() const
@@ -160,7 +166,9 @@ public:
 	void append_line(const wchar_t* s = nullptr)
 	{
 		if (s != nullptr)
-			ustrnzcat(m_string, s, k_buffer_size);
+		{
+			append(s);
+		}
 		ustrnzcat(m_string, L"\r\n", k_buffer_size);
 	}
 
