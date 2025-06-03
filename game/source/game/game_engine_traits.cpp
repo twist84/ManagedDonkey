@@ -556,7 +556,7 @@ void c_game_engine_map_override_options::set(const c_game_engine_map_override_op
 	set_blue_powerup_duration_seconds(get_blue_powerup_duration_seconds());
 	set_yellow_powerup_duration_seconds(get_yellow_powerup_duration_seconds());
 
-	csmemset(pad, 0, sizeof(pad));
+	zero_array(pad);
 }
 
 //void c_game_engine_map_override_options::set(const s_game_engine_map_override_options_definition* definition, bool force)

@@ -81,16 +81,26 @@ void ui_track_delete<c_gui_active_roster_data>(const c_gui_active_roster_data* o
 }
 
 c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(int32 name) :
-	c_gui_screen_widget(name)
+	c_gui_screen_widget(name),
+	m_last_countdown_value(NONE),
+	m_is_fading(false),
+	m_change_teams_visible(false),
+	m_postgame_stats_visible(false),
+	m_vidmaster_popup_downloaded(false),
+	m_vidmaster_popup_downloader(),
+	m_vidmaster_popup_shown(false),
+	m_advanced_options_visible(false),
+	m_url_key(0)
 {
-	DECLFUNC(0x00B21180, c_gui_screen_pregame_lobby*, __thiscall, c_gui_screen_pregame_lobby*, int32)(this, name);
-	m_advanced_options_visible = false;
+	//DECLFUNC(0x00B21180, void, __thiscall, c_gui_screen_pregame_lobby*, int32)(this, name);
+
+	DECLFUNC(0x00AE7120, void, __thiscall, c_http_blf_simple_downloader<s_message_of_the_day_popup, 4665>*)(&m_vidmaster_popup_downloader);
 }
 
 //.text:00B21230 ; public: virtual void* c_gui_screen_pregame_lobby::`vector deleting destructor'(unsigned int)
 c_gui_screen_pregame_lobby::~c_gui_screen_pregame_lobby()
 {
-	//DECLFUNC(0x00B21230, c_gui_screen_pregame_lobby*, __thiscall, c_gui_screen_pregame_lobby*)(this);
+	//DECLFUNC(0x00B21230, void, __thiscall, c_gui_screen_pregame_lobby*)(this);
 }
 
 bool c_gui_screen_pregame_lobby::advanced_options_enabled()
