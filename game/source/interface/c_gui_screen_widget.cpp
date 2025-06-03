@@ -66,7 +66,7 @@ c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	m_current_focused_widget(NULL),
 	m_suppress_focus(false),
 	m_render_in_screenshot(false),
-	m_reload_next_frame(true),
+	m_reload_next_frame(false),
 	m_responds_to_controller_events(true),
 	m_initial_focused_widget(NONE),
 	m_initial_focused_widget_element_handle(NONE),
@@ -471,7 +471,17 @@ bool c_gui_screen_widget::handle_list_item_chosen(const c_controller_input_messa
 
 void c_gui_screen_widget::initialize()
 {
-	INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
+	//INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
+
+	m_render_data.initialize(get_render_data_size());
+	reload_assets();
+	c_gui_widget::initialize();
+	initialize_datasource();
+}
+
+bool s_window_manager_screen_render_data::initialize(int32 buffer_size)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB1520, s_window_manager_screen_render_data, initialize, buffer_size);
 }
 
 //.text:00AB1560 ; public: virtual void c_gui_screen_codeless_widget::initialize_datasource()

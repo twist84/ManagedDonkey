@@ -95,7 +95,7 @@ struct s_window_manager_screen_render_data
 	s_window_manager_screen_render_data();
 	void clear();
 	void dispose();
-	//bool initialize(int32);
+	bool initialize(int32 buffer_size);
 	bool valid() const;
 
 	char* render_data_buffer;
