@@ -16,7 +16,7 @@ REFERENCE_DECLARE(0x019AB758, _g_online_url, g_online_url);
 HOOK_DECLARE(0x004515F0, create_title_url_base);
 HOOK_DECLARE(0x00451710, make_hopper_network_directory);
 HOOK_DECLARE(0x00451770, online_url_dispose);
-HOOK_DECLARE(0x00451790, online_url_get_title);
+HOOK_DECLARE(0x00451790, online_url_get_title_string);
 HOOK_DECLARE(0x004517A0, online_url_initialize);
 HOOK_DECLARE(0x00451810, online_url_make_bnet_consume_begin);
 HOOK_DECLARE(0x00451860, online_url_make_bnet_consume_complete);
@@ -95,9 +95,9 @@ void __cdecl create_title_url_base(c_url_string* url)
 	url->m_string.print("/storage/title/%08x/%s/", k_title_id, hopper_directory);
 }
 
-void __cdecl create_user_url_base(c_url_string* url, uns64 user_id)
+void __cdecl create_user_url_base(c_url_string* url, uns64 xuid)
 {
-	INVOKE(0x00451660, create_user_url_base, url, user_id);
+	INVOKE(0x00451660, create_user_url_base, url, xuid);
 }
 
 e_network_http_request_queue_type c_url_string::get_request_type() const
@@ -146,11 +146,18 @@ void __cdecl online_url_dispose()
 	csmemset(&g_online_url, 0, sizeof(g_online_url));
 }
 
-const char* __cdecl online_url_get_title()// pc only?
+const char* __cdecl online_url_get_title_string()
 {
-	//INVOKE(0x00451790, online_url_get_title);
+	//INVOKE(0x00451790, online_url_get_title_string);
 
-	return g_online_url.title_strings[3].get_string();
+	return g_online_url.title_strings[_bungie_title_index_donkey].get_string();
+
+	//if (get_is_blue_disk())
+	//{
+	//	return g_online_url.title_strings[_bungie_title_index_halo3_blue].get_string();
+	//}
+	//
+	//return g_online_url.title_strings[_bungie_title_index_halo3_black].get_string();
 }
 
 void __cdecl online_url_initialize()
@@ -159,47 +166,48 @@ void __cdecl online_url_initialize()
 
 	csmemset(&g_online_url, 0, sizeof(g_online_url));
 
-	g_online_url.title_strings[0].print("%d", 0); // unknown
-	g_online_url.title_strings[1].print("%d", 1); // Halo 3
-	g_online_url.title_strings[2].print("%d", 2); // Halo 3: Mythic
-	g_online_url.title_strings[3].print("%d", 3); // Halo 3: ODST and Halo Online
-	g_online_url.title_strings[4].print("%d", 4); // unknown
+	g_online_url.title_strings[_bungie_title_index_halo3_legacy].print("%d", _bungie_title_index_halo3_legacy);
+	g_online_url.title_strings[_bungie_title_index_halo3].print("%d", _bungie_title_index_halo3);
+	g_online_url.title_strings[_bungie_title_index_halo3_blue].print("%d", _bungie_title_index_halo3_blue);
+	g_online_url.title_strings[_bungie_title_index_halo3_black].print("%d", _bungie_title_index_halo3_black);
+	g_online_url.title_strings[_bungie_title_index_halo3_shared_content].print("%d", _bungie_title_index_halo3_shared_content);
+	g_online_url.title_strings[_bungie_title_index_donkey].print("%d", _bungie_title_index_donkey);
 }
 
-void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, uns64 user_id, uns32 consumable_id)
+void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, uns64 xuid, uns32 consumable_id)
 {
-	//INVOKE(0x00451810, online_url_make_bnet_consume_begin, url, user_id, consumable_id);
+	//INVOKE(0x00451810, online_url_make_bnet_consume_begin, url, xuid, consumable_id);
 
 	url->m_string.print("/gameapi/UserBeginConsume.ashx?title=%s&userId=%016I64X&consumableId=%08X",
-		online_url_get_title(),
-		user_id,
+		online_url_get_title_string(),
+		xuid,
 		consumable_id);
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uns64 user_id, uns32 consumable_id)
+void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uns64 xuid, uns32 consumable_id)
 {
-	//INVOKE(0x00451860, online_url_make_bnet_consume_complete, url, user_id, consumable_id);
+	//INVOKE(0x00451860, online_url_make_bnet_consume_complete, url, xuid, consumable_id);
 
 	url->m_string.print("/gameapi/UserCompleteConsume.ashx?title=%s&userId=%016I64X&consumableId=%08X",
-		online_url_get_title(),
-		user_id,
+		online_url_get_title_string(),
+		xuid,
 		consumable_id);
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-//void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 user_id, e_game_region game_region, e_profile_region profile_region, bool extras_portal_debug)
-void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 user_id, int32 game_region, int32 profile_region, bool extras_portal_debug)
+//void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 xuid, e_game_region game_region, e_profile_region profile_region, bool extras_portal_debug)
+void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 xuid, int32 game_region, int32 profile_region, bool extras_portal_debug)
 {
-	//INVOKE(0x004518B0, online_url_make_bnet_subscription_get_details, url, user_id, game_region, profile_region, extras_portal_debug);
+	//INVOKE(0x004518B0, online_url_make_bnet_subscription_get_details, url, xuid, game_region, profile_region, extras_portal_debug);
 
 	url->m_string.print("/gameapi/UserGetBnetSubscription.ashx?title=%s&userId=%016I64X&locale=%s&gameRegion=%d&profileRegion=%d&isDebug=%s",
-		online_url_get_title(),
-		user_id,
+		online_url_get_title_string(),
+		xuid,
 		get_current_language_suffix(false),
 		game_region,
 		profile_region,
@@ -323,21 +331,21 @@ void __cdecl online_url_make_matchmaking_tips(c_url_string* url)
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_make_matchmaking_user(c_url_string* url, uns64 user_id)
+void __cdecl online_url_make_matchmaking_user(c_url_string* url, uns64 xuid)
 {
-	//INVOKE(0x00451CF0, online_url_make_matchmaking_user, url, user_id);
+	//INVOKE(0x00451CF0, online_url_make_matchmaking_user, url, xuid);
 
-	create_user_url_base(url, user_id);
+	create_user_url_base(url, xuid);
 	url->m_string.append_print("user.bin");
 	url->m_service_type = _online_lsp_service_type_user_files;
 	url->m_request_type = _network_http_request_queue_type_required;
 }
 
-void __cdecl online_url_make_matchmaking_user_recent_players(c_url_string* url, uns64 user_id)
+void __cdecl online_url_make_matchmaking_user_recent_players(c_url_string* url, uns64 xuid)
 {
-	//INVOKE(0x00451D50, online_url_make_matchmaking_user_recent_players, url, user_id);
+	//INVOKE(0x00451D50, online_url_make_matchmaking_user_recent_players, url, xuid);
 
-	create_user_url_base(url, user_id);
+	create_user_url_base(url, xuid);
 	url->m_string.append_print("recent_players.bin");
 	url->m_service_type = _online_lsp_service_type_user_files;
 	url->m_request_type = _network_http_request_queue_type_required;
@@ -422,13 +430,13 @@ void __cdecl online_url_make_update_machine_network_stats(c_url_string* url)
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, uns64 user_id, int32 highest_skill)
+void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, uns64 xuid, int32 highest_skill)
 {
-	//INVOKE(0x00451FA0, online_url_make_update_user_highest_skill, url, user_id, highest_skill);
+	//INVOKE(0x00451FA0, online_url_make_update_user_highest_skill, url, xuid, highest_skill);
 
 	url->m_string.print("/gameapi/UserUpdatePlayerStats.ashx?title=%s&userId=%016I64X&highestSkill=%d",
-		online_url_get_title(), // missing from the original function
-		user_id,
+		online_url_get_title_string(), // missing from the original function
+		xuid,
 		highest_skill);
 	url->m_cachable = c_url_string::_cachable_type_no;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
@@ -445,11 +453,11 @@ void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url)
 	url->m_request_type = _network_http_request_queue_type_optional;
 }
 
-void __cdecl online_url_make_user_service_record(c_url_string* url, uns64 user_id)
+void __cdecl online_url_make_user_service_record(c_url_string* url, uns64 xuid)
 {
-	//INVOKE(0x00452020, online_url_make_user_service_record, url, user_id);
+	//INVOKE(0x00452020, online_url_make_user_service_record, url, xuid);
 
-	create_user_url_base(url, user_id);
+	create_user_url_base(url, xuid);
 	url->m_string.append_print("user.bin");
 	url->m_service_type = _online_lsp_service_type_user_files;
 	url->m_request_type = _network_http_request_queue_type_required;

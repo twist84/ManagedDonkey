@@ -382,6 +382,7 @@ void __cdecl online_guide_show_marketplace(e_controller_index controller_index)
 
 void __cdecl online_guide_show_marketplace_offer(e_controller_index controller_index, uns64 marketplace_offer_id)
 {
+	ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
 }
 
 uns32 __cdecl online_guide_show_message_ui(e_controller_index controller_index, uns64 target_player_xuid)

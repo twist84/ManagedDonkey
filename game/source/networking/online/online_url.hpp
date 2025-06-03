@@ -2,6 +2,29 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_bungie_title_index
+{
+	// pre-release
+	_bungie_title_index_halo3_legacy = 0,
+
+	// release
+	_bungie_title_index_halo3,
+
+	// mythic
+	_bungie_title_index_halo3_blue,
+
+	// ODST
+	_bungie_title_index_halo3_black,
+
+	// ?
+	_bungie_title_index_halo3_shared_content,
+
+	// the current project
+	_bungie_title_index_donkey,
+
+	k_bungie_title_index_count,
+};
+
 struct c_url_string
 {
 	enum e_cachable_type
@@ -39,7 +62,7 @@ struct _g_online_url // supposed to be unnamed
 {
 	char current_hopper_directory[64];
 	char current_user_override_hopper_directory[64];
-	c_static_string<4> title_strings[5];
+	c_static_string<4> title_strings[k_bungie_title_index_count];
 };
 extern _g_online_url& g_online_url;
 
@@ -54,14 +77,14 @@ extern int32& k_default_untracked_lifetime_seconds;
 
 extern void __cdecl create_machine_url_base(c_url_string* url, uns64 machine_id);
 extern void __cdecl create_title_url_base(c_url_string* url);
-extern void __cdecl create_user_url_base(c_url_string* url, uns64 user_id);
+extern void __cdecl create_user_url_base(c_url_string* url, uns64 xuid);
 extern void __cdecl make_hopper_network_directory(char* hopper_directory, int32 hopper_directory_size, char some_char);
 extern void __cdecl online_url_dispose();
-extern const char* __cdecl online_url_get_title();
+extern const char* __cdecl online_url_get_title_string();
 extern void __cdecl online_url_initialize();
-extern void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, uns64 user_id, uns32 consumable_id);
-extern void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uns64 user_id, uns32 consumable_id);
-extern void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 user_id, int32 game_region, int32 profile_region, bool extras_portal_debug);
+extern void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, uns64 xuid, uns32 consumable_id);
+extern void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uns64 xuid, uns32 consumable_id);
+extern void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 xuid, int32 game_region, int32 profile_region, bool extras_portal_debug);
 extern void __cdecl online_url_make_cache_key(const c_url_string* url, s_network_storage_cache_key* cache_key);
 extern void __cdecl online_url_make_matchmaking_banhammer_message(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url);
@@ -74,8 +97,8 @@ extern void __cdecl online_url_make_matchmaking_map_variant(c_url_string* url, u
 extern void __cdecl online_url_make_matchmaking_nightmap(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_statistics(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_tips(c_url_string* url);
-extern void __cdecl online_url_make_matchmaking_user(c_url_string* url, uns64 user_id);
-extern void __cdecl online_url_make_matchmaking_user_recent_players(c_url_string* url, uns64 user_id);
+extern void __cdecl online_url_make_matchmaking_user(c_url_string* url, uns64 xuid);
+extern void __cdecl online_url_make_matchmaking_user_recent_players(c_url_string* url, uns64 xuid);
 extern void __cdecl online_url_make_message_of_the_day(c_url_string* url);
 extern void __cdecl online_url_make_message_of_the_day_image(c_url_string* url);
 extern void __cdecl online_url_make_message_of_the_day_popup(c_url_string* url);
@@ -84,9 +107,9 @@ extern void __cdecl online_url_make_network_configuration(c_url_string* url);
 extern void __cdecl online_url_make_network_manifest(c_url_string* url);
 extern void __cdecl online_url_make_network_map_signatures(c_url_string* url);
 extern void __cdecl online_url_make_update_machine_network_stats(c_url_string* url);
-extern void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, uns64 user_id, int32 highest_skill);
+extern void __cdecl online_url_make_update_user_highest_skill(c_url_string* url, uns64 xuid, int32 highest_skill);
 extern void __cdecl online_url_make_upload_saved_screenshot(c_url_string* url);
-extern void __cdecl online_url_make_user_service_record(c_url_string* url, uns64 user_id);
+extern void __cdecl online_url_make_user_service_record(c_url_string* url, uns64 xuid);
 extern void __cdecl online_url_make_vidmaster_popup(c_url_string* url);
 extern void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url);
 extern void __cdecl online_url_use_hopper_directory(const char* hopper_directory);
