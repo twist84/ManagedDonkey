@@ -130,12 +130,16 @@ bool __cdecl user_interface_session_is_verifying_strings()
 //.text:00A81FA0 ; void __cdecl user_interface_session_memory_initialize(e_map_memory_configuration)
 //.text:00A81FB0 ; bool __cdecl user_interface_session_parameters_are_valid_for_ui_game_mode(const c_network_session_parameters*)
 
-int32 __cdecl user_interface_squad_get_player_index(const s_player_identifier* player_identifier)
+int32 __cdecl user_interface_squad_get_player_index(const s_player_identifier* identifier)
 {
-	return INVOKE(0x00A82040, user_interface_squad_get_player_index, player_identifier);
+	return INVOKE(0x00A82040, user_interface_squad_get_player_index, identifier);
 }
 
-//.text:00A82080 ; uns64 __cdecl user_interface_session_player_get_player_xuid(const s_player_identifier*)
+uns64 __cdecl user_interface_session_player_get_player_xuid(const s_player_identifier* identifier)
+{
+	return INVOKE(0x00A82080, user_interface_session_player_get_player_xuid, identifier);
+}
+
 //.text:00A820E0 ; uns64 __cdecl user_interface_session_player_get_usable_player_xuid(const s_player_identifier*)
 //.text:00A82140 ; bool __cdecl user_interface_session_player_in_current_session(const s_player_identifier*)
 //.text:00A82150 ; bool __cdecl user_interface_session_set_name(const wchar_t*, const wchar_t*)
