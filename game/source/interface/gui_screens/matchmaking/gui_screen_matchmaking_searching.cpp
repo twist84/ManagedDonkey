@@ -7,16 +7,16 @@
 //HOOK_DECLARE(0x00B0EF90, matchmaking_searching_parse_current_players);
 //HOOK_DECLARE(0x00B0F150, matchmaking_searching_parse_hopper_name);
 
-bool __cdecl matchmaking_searching_parse_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_size)
+bool __cdecl matchmaking_searching_parse_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	ustrnzcpy(buffer, L"16205740", buffer_size);
+	ustrnzcpy(buffer, L"16205740", buffer_length);
 
 	return true;
 }
 
-bool __cdecl matchmaking_searching_parse_hopper_name(void* this_ptr, wchar_t* buffer, int32 buffer_size)
+bool __cdecl matchmaking_searching_parse_hopper_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	ustrnzcpy(buffer, L"TEST HOPPER NAME", buffer_size);
+	ustrnzcpy(buffer, L"TEST HOPPER NAME", buffer_length);
 
 	return true;
 }

@@ -31,7 +31,7 @@ public:
 
 protected:
 	void* m_game_data;
-	bool(__cdecl* m_game_data_function)(void* this_ptr, wchar_t* buffer, int32 buffer_size);
+	bool(__cdecl* m_game_data_function)(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 };
 static_assert(sizeof(c_magic_string_game_tag_parser) == sizeof(c_game_tag_parser) + 0x8);
 

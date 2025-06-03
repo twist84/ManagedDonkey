@@ -25,6 +25,23 @@ bool __thiscall c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen_(co
 	return c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
 }
 
+bool __cdecl parse_xml_lobby_campaign_difficulty(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00ADD8C0, parse_xml_lobby_campaign_difficulty, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_campaign_insertion(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00ADDA00, parse_xml_lobby_campaign_insertion, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_lobby_campaign_level(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	//c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_level);
+
+	return INVOKE(0x00ADDA00, parse_xml_lobby_campaign_level, this_ptr, buffer, buffer_length);
+}
+
 //.text:00AFE260 ; public: c_gui_screen_campaign_select_scoring::c_gui_screen_campaign_select_scoring(int32)
 //.text:00AFE290 ; 
 //.text:00AFE2A0 ; 
