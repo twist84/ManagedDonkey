@@ -7,7 +7,7 @@
 struct s_async_task;
 struct s_blf_chunk_campaign;
 struct s_blf_chunk_scenario;
-struct s_configuration_enumeration_task;
+union s_configuration_enumeration_task;
 
 struct s_campaign_datum :
 	s_datum_header

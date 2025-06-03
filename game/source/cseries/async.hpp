@@ -4,136 +4,193 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
-struct s_create_file_task
+struct s_async_task
 {
-	wchar_t file_path[256];
-	uns32 desired_access;
-	uns32 share_mode;
-	uns32 creation_disposition;
-	uns32 flags_and_attributes;
-	s_file_handle volatile* file;
-	bool always_open;
+	byte data[k_maximum_async_task_data_size];
 };
-static_assert(sizeof(s_create_file_task) == 0x218);
 
-struct s_read_position_task
+union s_create_file_task
 {
-	s_file_handle file_handle;
-	void* buffer;
-	int32 buffer_size;
-	int32 file_offset;
-	c_synchronized_long* size;
-	int32 buffer_offset;
-};
-static_assert(sizeof(s_read_position_task) == 0x18);
+	struct 
+	{
+		wchar_t file_path[256];
+		uns32 desired_access;
+		uns32 share_mode;
+		uns32 creation_disposition;
+		uns32 flags_and_attributes;
+		s_file_handle volatile* file;
+		bool always_open;
+	};
 
-struct s_write_position_task
-{
-	s_file_handle file_handle;
-	void* buffer;
-	int32 size;
-	uns32 offset;
-	c_synchronized_long* success;
-	uns32 total_bytes_written;
-	c_flags<e_write_position_flags, uns32, k_write_position_flags> flags;
-	bool __unknown1C;
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_write_position_task) == 0x20);
 
-struct s_write_position_task2
+union s_read_position_task
 {
-	s_file_handle file_handle;
-	int32 buffer_length;
-	void* buffer;
-	bool* success;
-};
-static_assert(sizeof(s_write_position_task2) == 0x10);
+	struct
+	{
+		void* file;
+		void* buffer;
+		uns32 size;
+		uns32 offset;
+		c_synchronized_long* bytes_read;
+		uns32 total_bytes_read;
+	};
 
-struct s_copy_position_task
-{
-	s_file_handle source_file;
-	s_file_handle destination_file;
-	int32 source_offset;
-	int32 destination_offset;
-	void* buffer;
-	int32 buffer_size;
-	c_synchronized_long* success;
-	int32 buffer_offset;
-	int32 __unknown20;
-	bool __unknown24;
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_copy_position_task) == 0x28);
 
-struct s_set_file_size_task
+union s_write_position_task
 {
-	s_file_handle file_handle;
-	int32 file_size;
-	c_synchronized_long* success;
-};
-static_assert(sizeof(s_set_file_size_task) == 0xC);
+	struct 
+	{
+		void* file;
+		void* buffer;
+		uns32 size;
+		uns32 offset;
+		c_synchronized_long* bytes_written;
+		uns32 total_bytes_written;
+		c_flags<e_write_position_flags, uns32, k_write_position_flags> flags;
+		bool dst_on_utility_drive;
+	};
 
-struct s_delete_file_task
-{
-	char file_path[256];
-	bool directory;
-	c_synchronized_long* success;
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_delete_file_task) == 0x108);
 
-struct s_enumerate_files_task
+union s_write_position_task2
 {
-	bool find_files_start_called;
-	char directory[256];
-	s_find_file_data* find_file_data;
-	uns32 find_files_flags;
-	int32 maximum_count;
-	s_file_reference* out_references;
-	int32* out_reference_count;
-	c_synchronized_long* success;
-};
-static_assert(sizeof(s_enumerate_files_task) == 0x11C);
+	struct
+	{
+		s_file_handle file_handle;
+		int32 buffer_length;
+		void* buffer;
+		bool* success;
+	};
 
-struct s_read_entire_file_task
-{
-	wchar_t path[256];
-	void* buffer;
-	uns32 buffer_size;
-	uns32 volatile* file_size_result;
-	c_synchronized_long* success;
-	s_file_handle file_handle;
-	uns32 file_size;
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_read_entire_file_task) == 0x218);
 
-struct s_write_buffer_to_file_task
+enum e_copy_position_state
 {
-	wchar_t path[256];
-	const void* buffer;
-	uns32 buffer_size;
-	int32 dst_on_utility_drive;
-	c_synchronized_long* success;
-	s_file_handle file_handle;
+	_copy_position_state_read = 0,
+	_copy_position_state_write,
 };
-static_assert(sizeof(s_write_buffer_to_file_task) == 0x214);
 
-struct s_close_file_task
+union s_copy_position_task
 {
-	s_file_handle file_handle;
-};
-static_assert(sizeof(s_close_file_task) == 0x4);
+	struct
+	{
+		s_file_handle source_file;
+		s_file_handle destination_file;
+		uns32 src_offset;
+		uns32 dst_offset;
+		void* buffer;
+		uns32 size;
+		c_synchronized_long* bytes_copied;
+		uns32 total_bytes_copied;
+		e_copy_position_state state;
+		bool dst_on_utility_drive;
+	};
 
-struct s_get_file_size_task
-{
-	s_file_handle file_handle;
-	uns32 volatile* file_size;
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_get_file_size_task) == 0x8);
 
-struct s_file_raw_handle_based_task
+
+union s_set_file_size_task
 {
-	s_file_handle file_handle;
+	struct
+	{
+		void* file;
+		int32 size;
+		c_synchronized_long* success;
+	};
+
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_file_raw_handle_based_task) == 0x4);
+
+union s_delete_file_task
+{
+	struct
+	{
+		char file_name[256];
+		bool is_directory;
+		c_synchronized_long* success;
+	};
+
+	s_async_task dummy_for_size;
+};
+
+union s_enumerate_files_task
+{
+	struct
+	{
+		bool find_files_start_called;
+		char directory[256];
+		s_find_file_data* find_file_data;
+		uns32 find_files_flags;
+		int32 maximum_count;
+		s_file_reference* out_references;
+		int32* out_reference_count;
+		c_synchronized_long* success;
+	};
+
+	s_async_task dummy_for_size;
+};
+
+union s_read_entire_file_task
+{
+	struct
+	{
+		wchar_t path[256];
+		void* buffer;
+		uns32 buffer_size;
+		volatile uns32* file_size_result;
+		c_synchronized_long* success;
+		void* hFile;
+		uns32 file_size;
+	};
+
+	s_async_task dummy_for_size;
+};
+
+union s_write_buffer_to_file_task
+{
+	struct
+	{
+		wchar_t path[256];
+		const void* buffer;
+		uns32 buffer_size;
+		int32 dst_on_utility_drive;
+		c_synchronized_long* success;
+		void* hFile;
+	};
+
+	s_async_task dummy_for_size;
+};
+
+union s_async_flush_file_task
+{
+	void* hFile;
+	s_async_task dummy_for_size;
+};
+
+union s_close_file_task
+{
+	void* hFile;
+
+	s_async_task dummy_for_size;
+};
+
+union s_get_file_size_task
+{
+	struct
+	{
+		void* hFile;
+		volatile uns32* file_size;
+	};
+
+	s_async_task dummy_for_size;
+};
 
 struct s_font_loading_state;
 struct s_font_loading_task
@@ -142,32 +199,43 @@ struct s_font_loading_task
 };
 static_assert(sizeof(s_font_loading_task) == 0x4);
 
-struct s_configuration_enumeration_task
+union s_configuration_enumeration_task
 {
-	e_dvd_find_files_stage stage;
-	s_find_file_data* enumeration_data;
-};
-static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
+	struct
+	{
+		e_dvd_find_files_stage stage;
+		s_find_file_data* enumeration_data;
+	} data;
 
-struct s_dlc_enumeration_task
+	s_async_task _force_size;
+};
+
+union s_dlc_enumeration_task
 {
-	e_controller_index controller_index;
-	e_dlc_find_files_stage stage;
-	int32 content_item_index;
-	s_find_file_data* enumeration_data;
-};
-static_assert(sizeof(s_dlc_enumeration_task) == 0x10);
+	struct
+	{
+		e_controller_index controller_index;
+		e_dlc_find_files_stage stage;
+		int32 content_item_index;
+		s_find_file_data* enumeration_data;
+	} data;
 
-struct s_async_task;
-struct s_async_simple_callback_task
+	s_async_task _force_size;
+};
+
+union s_async_simple_callback_task
 {
-	e_async_completion(__cdecl* callback)(s_async_task* task, void* data, int32 data_size);
-	byte callback_data[0x11C - sizeof(int16)];
-	c_enum<int32, int16, 0, 0x120> callback_data_size;
-};
-static_assert(sizeof(s_async_simple_callback_task) == 0x120);
+	struct
+	{
+		e_async_completion(__cdecl* callback)(s_async_task*, void*, int32);
+		byte callback_data[0x11C - sizeof(int16)];
+		c_enum<int32, int16, 0, 0x120> callback_data_size;
+	};
 
-struct s_load_image_from_file_task
+	s_async_task dummy_for_size;
+};
+
+union s_load_image_from_file_task
 {
 	enum e_state
 	{
@@ -177,56 +245,42 @@ struct s_load_image_from_file_task
 		_state_done,
 	};
 
-	e_state state;
-	s_file_reference* file;
-	uns32 file_size;
-	char* load_buffer;
-	int32 load_buffer_length;
-	int32 storage_item_index;
-	e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
-	c_synchronized_long* cancelled;
-	c_synchronized_long* success;
-	bool image_source_was_dlc;
-};
-static_assert(sizeof(s_load_image_from_file_task) == 0x28);
-
-struct s_load_image_from_buffer_task
-{
-	const char* buffer;
-	int32 buffer_length;
-	int32 storage_item_index;
-	e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
-	c_synchronized_long* success;
-};
-static_assert(sizeof(s_load_image_from_buffer_task) == 0x14);
-
-struct s_async_task
-{
-	union
+	struct
 	{
-		s_create_file_task create_file_task;
-		s_read_position_task read_position_task;
-		s_write_position_task write_position_task;
-		s_copy_position_task copy_position_task;
-		s_set_file_size_task set_file_size_task;
-		s_delete_file_task delete_file_task;
-		s_enumerate_files_task enumerate_files_task;
-		s_read_entire_file_task read_entire_file_task;
-		s_write_buffer_to_file_task write_buffer_to_file_task;
-		s_close_file_task close_file_task;
-		s_get_file_size_task get_file_size_task;
-		s_file_raw_handle_based_task file_raw_handle_based_task;
-		s_font_loading_task font_loading_task;
-		s_configuration_enumeration_task configuration_enumeration_task;
-		s_dlc_enumeration_task dlc_enumeration_task;
-		s_async_simple_callback_task simple_callback_task;
-		s_load_image_from_file_task load_image_from_file_task;
-		s_load_image_from_buffer_task load_image_from_buffer_task;
-
-		byte storage[k_maximum_async_task_data_size];
+		e_state state;
+		s_file_reference* file;
+		uns32 file_size;
+		char* load_buffer;
+		int32 load_buffer_length;
+		int32 storage_item_index;
+		e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
+		c_synchronized_long* cancelled;
+		c_synchronized_long* success;
+		bool image_source_was_dlc;
 	};
+
+	s_async_task dummy_for_size;
 };
-static_assert(sizeof(s_async_task) == k_maximum_async_task_data_size);
+
+union s_load_image_from_buffer_task
+{
+	struct
+	{
+		const char* buffer;
+		int32 buffer_length;
+		int32 storage_item_index;
+		e_custom_bitmap_desired_aspect_ratio desired_aspect_ratio;
+		c_synchronized_long* success;
+	};
+
+	s_async_task dummy_for_size;
+};
+
+union s_cancel_transfer_task
+{
+	char base_filename[17];
+	s_async_task dummy_for_size;
+};
 
 using async_work_callback_t = e_async_completion __cdecl(s_async_task*);
 
@@ -234,7 +288,7 @@ struct s_async_queue_element
 {
 	e_async_priority priority;
 	int32 task_id;
-	s_async_task task;
+	s_async_task work;
 	e_async_category category;
 	async_work_callback_t* work_callback;
 	c_synchronized_long* done;
@@ -244,15 +298,15 @@ static_assert(sizeof(s_async_queue_element) == 0x238);
 
 struct s_async_globals
 {
-	int32 __unknown0;
-	s_async_queue_element task_list[25];
+	int32 global_id;
+	s_async_queue_element free_list_blocks[25];
 	s_async_queue_element* free_list;
 	s_async_queue_element* work_list;
-	s_async_queue_element* temp_list;
-	int32 tasks_in_queue;
+	s_async_queue_element* current_thread;
+	int32 cached_tasks_in_queue;
 
 	// Added back by us
-	static c_synchronized_long work_delay_milliseconds;
+	static c_synchronized_long async_work_delay_milliseconds;
 };
 static_assert(sizeof(s_async_globals) == 0x378C);
 

@@ -214,12 +214,12 @@ bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, co
 		return false;
 	}
 
-	s_async_task task{};
-	task.load_image_from_buffer_task.buffer = buffer;
-	task.load_image_from_buffer_task.buffer_length = buffer_length;
-	task.load_image_from_buffer_task.storage_item_index = m_storage_item_index;
-	task.load_image_from_buffer_task.desired_aspect_ratio = aspect_ratio;
-	task.load_image_from_buffer_task.success = &m_async_task_success;
+	s_load_image_from_buffer_task task{};
+	task.buffer = buffer;
+	task.buffer_length = buffer_length;
+	task.storage_item_index = m_storage_item_index;
+	task.desired_aspect_ratio = aspect_ratio;
+	task.success = &m_async_task_success;
 	m_async_task_success.set(false);
 	
 	//while (m_async_task_success.peek() != 1 && load_image_from_buffer_callback(&task) != _async_completion_done)
@@ -227,7 +227,7 @@ bool c_gui_custom_bitmap_widget::load_from_buffer(bool use_compressed_format, co
 	//	sleep(5);
 	//}
 
-	m_async_task_id = async_task_add(_async_priority_important_non_blocking, &task, _async_category_online_files, load_image_from_buffer_callback, &m_async_task_signal);
+	m_async_task_id = async_task_add(_async_priority_important_non_blocking, &task.dummy_for_size, _async_category_online_files, load_image_from_buffer_callback, &m_async_task_signal);
 	if (!load_from_file_async_in_progress())
 	{
 		reset();
@@ -248,53 +248,55 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 {
 	//return INVOKE(0x00AC3B80, load_image_from_blf_file_callback, work);
 
+	s_load_image_from_file_task* task = (s_load_image_from_file_task*)work;
+
 	wchar_t name_buffer[256];
 
 	bool v2 = false;
 	bool success = false;
-	bool cancelled = work->load_image_from_file_task.cancelled->peek() != 0;
+	bool cancelled = task->cancelled->peek() != 0;
 
-	switch (work->load_image_from_file_task.state)
+	switch (task->state)
 	{
 	case s_load_image_from_file_task::_state_starting:
 	{
 		if (!cancelled)
 		{
 			constexpr int32 name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
-			wchar_t* name = file_reference_get_name_wide(work->load_image_from_file_task.file, name_flags, name_buffer, NUMBEROF(name_buffer));
+			wchar_t* name = file_reference_get_name_wide(task->file, name_flags, name_buffer, NUMBEROF(name_buffer));
 
-			work->load_image_from_file_task.image_source_was_dlc = content_catalogue_open_dlc(name, true);
+			task->image_source_was_dlc = content_catalogue_open_dlc(name, true);
 
 			uns32 error = 0;
-			if (file_open(work->load_image_from_file_task.file, FLAG(_file_open_flag_desired_access_read), &error))
+			if (file_open(task->file, FLAG(_file_open_flag_desired_access_read), &error))
 			{
-				if (file_get_size(work->load_image_from_file_task.file, &work->load_image_from_file_task.file_size)
-					&& work->load_image_from_file_task.file_size < (uns32)work->load_image_from_file_task.load_buffer_length)
+				if (file_get_size(task->file, &task->file_size)
+					&& task->file_size < (uns32)task->load_buffer_length)
 				{
-					work->load_image_from_file_task.state = s_load_image_from_file_task::_state_reading;
+					task->state = s_load_image_from_file_task::_state_reading;
 					v2 = true;
 
 					break;
 				}
 
-				file_close(work->load_image_from_file_task.file);
+				file_close(task->file);
 			}
 		}
 	}
 	break;
 	case s_load_image_from_file_task::_state_reading:
 	{
-		if (!cancelled && file_read(work->load_image_from_file_task.file, work->load_image_from_file_task.file_size, true, work->load_image_from_file_task.load_buffer))
+		if (!cancelled && file_read(task->file, task->file_size, true, task->load_buffer))
 		{
-			file_close(work->load_image_from_file_task.file);
+			file_close(task->file);
 
-			work->load_image_from_file_task.state = s_load_image_from_file_task::_state_decompressing;
+			task->state = s_load_image_from_file_task::_state_decompressing;
 			v2 = true;
 
 			break;
 		}
 		// left over from `case 0`
-		file_close(work->load_image_from_file_task.file);
+		file_close(task->file);
 	}
 	break;
 	case s_load_image_from_file_task::_state_decompressing:
@@ -304,8 +306,8 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 			int32 image_data_length = 0;
 			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
 			const char* chunk = DECLFUNC(0x00462B40, const char*, __cdecl, const char*, int32, int32, int32, int32, int32*)(
-				work->load_image_from_file_task.load_buffer,
-				work->load_image_from_file_task.file_size,
+				task->load_buffer,
+				task->file_size,
 				s_blf_chunk_map_image::k_chunk_type,
 				s_blf_chunk_map_image::k_version_major,
 				_blf_file_authentication_type_rsa,
@@ -324,9 +326,9 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 
 					if (buffer_size == image_data_length - 8)
 					{
-						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(work->load_image_from_file_task.storage_item_index, buffer, buffer_size, work->load_image_from_file_task.desired_aspect_ratio))
+						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(task->storage_item_index, buffer, buffer_size, task->desired_aspect_ratio))
 						{
-							work->load_image_from_file_task.state = s_load_image_from_file_task::_state_done;
+							task->state = s_load_image_from_file_task::_state_done;
 							v2 = true;
 							success = true;
 						}
@@ -338,13 +340,17 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 	break;
 	}
 
-	*work->load_image_from_file_task.success = success;
+	*task->success = success;
 
 	if (v2 && !success)
+	{
 		return _async_completion_retry;
+	}
 
-	if (work->load_image_from_file_task.image_source_was_dlc)
+	if (task->image_source_was_dlc)
+	{
 		content_catalogue_close_all_dlc(true);
+	}
 
 	return _async_completion_done;
 }
@@ -353,13 +359,15 @@ e_async_completion __cdecl load_image_from_buffer_callback(s_async_task* work)
 {
 	//return INVOKE(0x00AC3D00, load_image_from_buffer_callback, work);
 
+	s_load_image_from_buffer_task* task = (s_load_image_from_buffer_task*)work;
+
 	if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(
-		work->load_image_from_buffer_task.storage_item_index,
-		work->load_image_from_buffer_task.buffer,
-		work->load_image_from_buffer_task.buffer_length,
-		work->load_image_from_buffer_task.desired_aspect_ratio))
+		task->storage_item_index,
+		task->buffer,
+		task->buffer_length,
+		task->desired_aspect_ratio))
 	{
-		work->load_image_from_buffer_task.success->set(true);
+		task->success->set(true);
 	}
 
 	return _async_completion_done;

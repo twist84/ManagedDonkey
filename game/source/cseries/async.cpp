@@ -39,7 +39,7 @@ void __cdecl async_idle()
 {
 	INVOKE(0x005084E0, async_idle);
 
-	//async_globals.tasks_in_queue = async_tasks_in_queue();
+	//async_globals.cached_tasks_in_queue = async_tasks_in_queue();
 }
 
 void __cdecl async_initialize()
@@ -47,16 +47,16 @@ void __cdecl async_initialize()
 	INVOKE(0x00508520, async_initialize);
 
 	//async_helpers_initialize();
-	//csmemset(async_globals.task_list, 0, sizeof(async_globals.task_list));
-	//for (int32 i = 0; i < NUMBEROF(async_globals.task_list) - 1; i++)
+	//csmemset(async_globals.free_list_blocks, 0, sizeof(async_globals.free_list_blocks));
+	//for (int32 i = 0; i < NUMBEROF(async_globals.free_list_blocks) - 1; i++)
 	//{
-	//	s_async_queue_element* task = &async_globals.task_list[i];
-	//	s_async_queue_element* next_task = &async_globals.task_list[i + 1];
+	//	s_async_queue_element* task = &async_globals.free_list_blocks[i];
+	//	s_async_queue_element* next_task = &async_globals.free_list_blocks[i + 1];
 	//	task->next = next_task;
 	//	next_task->task_id = INVALID_ASYNC_TASK_ID;
 	//}
-	//async_globals.task_list[NUMBEROF(async_globals.task_list) - 1].next = NULL;
-	//async_globals.free_list = async_globals.task_list;
+	//async_globals.free_list_blocks[NUMBEROF(async_globals.free_list_blocks) - 1].next = NULL;
+	//async_globals.free_list = async_globals.free_list_blocks;
 	//async_globals.work_list = NULL;
 	//async_task_buffer_initialize();
 	//start_thread(k_thread_async_io);
@@ -84,7 +84,7 @@ int32 __cdecl async_task_add_ex(e_async_priority priority, s_async_task* task, e
 	return INVOKE(0x00508660, async_task_add_ex, priority, task, category, work_callback, done, a6);
 
 	//ASSERT(done);
-	//async_globals.tasks_in_queue++;
+	//async_globals.cached_tasks_in_queue++;
 	//done = 0;
 	//if (s_async_queue_element* element = free_list_get_and_remove(a6))
 	//{
@@ -104,9 +104,9 @@ bool __cdecl async_task_change_priority(int32 task_id, e_async_priority priority
 
 	//bool result = false;
 	//internal_mutex_take(k_mutex_async_work_list); // mutex_async_work_take
-	//if (task_id < NUMBEROF(async_globals.task_list))
+	//if (task_id < NUMBEROF(async_globals.free_list_blocks))
 	//{
-	//	s_async_queue_element* element = &async_globals.task_list[task_id];
+	//	s_async_queue_element* element = &async_globals.free_list_blocks[task_id];
 	//	if (element->task_id == task_id)
 	//	{
 	//		work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend(element);
@@ -153,14 +153,14 @@ bool __cdecl async_work_function()
 
 		internal_semaphore_take(k_semaphore_async_work);
 
-		async_globals.temp_list = work_list_get();
+		async_globals.current_thread = work_list_get();
 
-		//if (async_globals.work_delay_milliseconds > 0)
-		//	sleep(async_globals.work_delay_milliseconds);
+		//if (async_globals.async_work_delay_milliseconds > 0)
+		//	sleep(async_globals.async_work_delay_milliseconds);
 
-		if (async_globals.temp_list)
+		if (async_globals.current_thread)
 		{
-			e_async_completion completion_status = async_globals.temp_list->work_callback(&async_globals.temp_list->task);
+			e_async_completion completion_status = async_globals.current_thread->work_callback(&async_globals.current_thread->work);
 			//g_statistics.work_callbacks++;
 
 			if (completion_status)
@@ -168,12 +168,12 @@ bool __cdecl async_work_function()
 				//g_statistics.work_retired++;
 				if (completion_status == _async_completion_done)
 				{
-					if (async_globals.temp_list->done)
-						*async_globals.temp_list->done = true;
+					if (async_globals.current_thread->done)
+						*async_globals.current_thread->done = true;
 				}
 
-				work_list_remove(async_globals.temp_list);
-				free_list_add(async_globals.temp_list);
+				work_list_remove(async_globals.current_thread);
+				free_list_add(async_globals.current_thread);
 			}
 			else
 			{

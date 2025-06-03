@@ -220,20 +220,20 @@ void __cdecl font_load(struct s_font_loading_state* loading_state, e_font_index 
 	file_reference_set_name(&loading_state->file_reference, filename);
 	loading_state->started = true;
 
-	s_async_task task{};
-	task.font_loading_task.loading_state = loading_state;
+	s_font_loading_task task{};
+	task.loading_state = loading_state;
 	
-	loading_state->task_id = async_task_add(priority, &task, _async_category_text, font_load_callback, &loading_state->finished);
+	loading_state->task_id = async_task_add(priority, (s_async_task*)&task, _async_category_text, (e_async_completion(__cdecl*)(s_async_task*))font_load_callback, &loading_state->finished);
 	
 	if (blocking)
 		font_block_until_load_completes(loading_state);
 }
 
-e_async_completion __cdecl font_load_callback(s_async_task* task)
+e_async_completion __cdecl font_load_callback(s_font_loading_task* in_task)
 {
-	//return INVOKE(0x00509550, font_load_callback, task);
+	//return INVOKE(0x00509550, font_load_callback, in_task);
 
-	s_font_loading_state* loading_state = task->font_loading_task.loading_state;
+	s_font_loading_state* loading_state = in_task->loading_state;
 	e_async_completion completion = _async_completion_retry;
 
 	uns32 unused_error_code = 0;

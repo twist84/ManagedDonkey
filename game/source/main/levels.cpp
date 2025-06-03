@@ -388,12 +388,12 @@ bool __cdecl levels_begin_dlc_enumeration()
 
 	//ASSERT(!g_level_globals.enumeration_in_progress());
 
-	s_async_task task{};
-	task.dlc_enumeration_task.controller_index = _controller0;
-	task.dlc_enumeration_task.stage = _dlc_begin_next_content_catalogue_stage;
-	task.dlc_enumeration_task.content_item_index = NONE;
-	task.dlc_enumeration_task.enumeration_data = &g_level_globals.find_files_data;
-	g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dlc_enumeration_callback, &g_level_globals.finished);
+	s_dlc_enumeration_task task{};
+	task.data.controller_index = _controller0;
+	task.data.stage = _dlc_begin_next_content_catalogue_stage;
+	task.data.content_item_index = NONE;
+	task.data.enumeration_data = &g_level_globals.find_files_data;
+	g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task._force_size, _async_category_saved_games, levels_dlc_enumeration_callback, &g_level_globals.finished);
 	return g_level_globals.enumeration_task != NONE;
 }
 
@@ -405,10 +405,10 @@ bool __cdecl levels_begin_dvd_enumeration()
 
 	if (shell_application_type() == _shell_application_game)
 	{
-		s_async_task task{};
-		task.configuration_enumeration_task.stage = _dvd_find_files_start_stage;
-		task.configuration_enumeration_task.enumeration_data = &g_level_globals.find_files_data;
-		g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dvd_enumeration_callback, &g_level_globals.finished);
+		s_configuration_enumeration_task task{};
+		task.data.stage = _dvd_find_files_start_stage;
+		task.data.enumeration_data = &g_level_globals.find_files_data;
+		g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task._force_size, _async_category_saved_games, levels_dvd_enumeration_callback, &g_level_globals.finished);
 
 		if (g_level_globals.enumeration_task != NONE)
 		{
@@ -569,23 +569,25 @@ e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work)
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
-	switch (work->configuration_enumeration_task.stage)
+	s_configuration_enumeration_task* task = (s_configuration_enumeration_task*)work;
+
+	switch (task->data.stage)
 	{
 	case _dvd_find_files_start_stage:
 	{
 		found_file_name.append_print("%sinfo", cache_files_map_directory());
 		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
-		find_files_start(work->configuration_enumeration_task.enumeration_data, 0, &found_file);
-		work->configuration_enumeration_task.stage = _dvd_find_next_file_stage;
+		find_files_start(task->data.enumeration_data, 0, &found_file);
+		task->data.stage = _dvd_find_next_file_stage;
 	}
 	break;
 	case _dvd_find_next_file_stage:
 	{
 		s_file_reference file{};
 		s_file_last_modification_date date{};
-		if (!find_files_next(work->configuration_enumeration_task.enumeration_data, &file, &date))
+		if (!find_files_next(task->data.enumeration_data, &file, &date))
 		{
-			find_files_end(work->configuration_enumeration_task.enumeration_data);
+			find_files_end(task->data.enumeration_data);
 			return _async_completion_done;
 		}
 
