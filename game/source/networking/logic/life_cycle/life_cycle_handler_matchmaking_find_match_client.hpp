@@ -7,7 +7,7 @@ struct s_life_cycle_matchmaking_progress;
 //typedef c_flags<e_matchmaking_find_match_client_flags, uns8, k_matchmaking_find_match_client_flags_count> c_matchmaking_find_match_client_flags;
 typedef uns8 c_matchmaking_find_match_client_flags;
 
-struct c_life_cycle_state_handler_matchmaking_find_match_client :
+class c_life_cycle_state_handler_matchmaking_find_match_client :
 	public c_life_cycle_state_handler
 {
 public:

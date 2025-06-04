@@ -42,8 +42,9 @@ enum e_campaign_game_mode
 };
 
 template<int32 max_map_count, int32 max_insertion_point_count>
-struct c_player_profile_insertion_point_flags
+class c_player_profile_insertion_point_flags
 {
+public:
 	static int32 const k_max_map_count = max_map_count;
 	static int32 const k_max_insertion_point_count = max_insertion_point_count;
 
@@ -76,8 +77,9 @@ enum e_film_auto_save_type
 	k_film_auto_save_type_count
 };
 
-struct c_player_profile_interface
+class c_player_profile_interface
 {
+public:
 //private:
 	void dirty_or(bool dirty);
 

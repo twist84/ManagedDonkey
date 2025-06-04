@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_list_widget.hpp"
 
-struct c_gui_roster_list_widget :
+class c_gui_roster_list_widget :
 	c_gui_list_widget
 {
 public:

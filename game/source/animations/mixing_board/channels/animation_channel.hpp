@@ -3,9 +3,10 @@
 #include "animations/mixing_board/channels/channel_base.hpp"
 #include "cseries/cseries.hpp"
 
-struct c_animation_channel :
+class c_animation_channel :
 	public c_channel_base
 {
+public:
 	real32 m_playback_speed;
 	real32 m_frame_position;
 	real32 m_playback_ratio;

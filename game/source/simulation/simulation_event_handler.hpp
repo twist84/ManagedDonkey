@@ -2,12 +2,13 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_simulation_world;
-struct c_replication_event_manager;
-struct c_simulation_type_collection;
-struct c_simulation_entity_database;
-struct c_simulation_event_handler
+class c_simulation_world;
+class c_replication_event_manager;
+class c_simulation_type_collection;
+class c_simulation_entity_database;
+class c_simulation_event_handler
 {
+public:
 	bool m_initialized;
 	c_simulation_world* m_world;
 	c_replication_event_manager* m_event_manager;

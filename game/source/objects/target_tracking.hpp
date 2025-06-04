@@ -3,8 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "game/aim_target.hpp"
 
-struct c_tracked_target
+class c_tracked_target
 {
+public:
 	c_aim_target_object m_aim_target;
 
 	int16 __unknownC;
@@ -19,8 +20,9 @@ struct c_tracked_target
 };
 static_assert(sizeof(c_tracked_target) == 0x1C);
 
-struct c_target_tracking_system
+class c_target_tracking_system
 {
+public:
 	c_static_array<c_tracked_target, 2> m_tracked_targets;
 	int32 m_best_target_index;
 	int32 __unknown8;

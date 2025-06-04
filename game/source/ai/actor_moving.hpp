@@ -5,8 +5,9 @@
 #include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
 
-struct c_destination_orders
+class c_destination_orders
 {
+public:
 	int16 m_destination_type;
 	int16 m_flags;
 

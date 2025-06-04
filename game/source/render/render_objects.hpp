@@ -50,8 +50,9 @@ struct s_render_object_globals
 };
 static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
-struct c_object_renderer
+class c_object_renderer
 {
+public:
 	static void __cdecl render_albedo(uns32 flags);
 	static void __cdecl render_object_contexts(e_entry_point entry_point, int32 mesh_part_mask);
 	static void __cdecl render_object_widgets(e_entry_point entry_point);

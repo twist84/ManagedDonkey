@@ -9,7 +9,7 @@ public:
 	~c_async_xoverlapped_scope_lock();
 };
 
-struct c_overlapped_task
+class c_overlapped_task
 {
 	enum e_overlapped_task_flags
 	{

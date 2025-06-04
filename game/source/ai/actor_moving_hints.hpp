@@ -1,7 +1,8 @@
 #pragma once
 
-struct c_hint_ref
+class c_hint_ref
 {
+public:
 	int16 m_structure_index;
 	int16 m_hint_index;
 };

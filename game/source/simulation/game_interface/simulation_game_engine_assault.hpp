@@ -2,7 +2,7 @@
 
 #include "simulation/game_interface/simulation_game_interface.hpp"
 
-struct c_simulation_assault_engine_globals_definition :
+class c_simulation_assault_engine_globals_definition :
 	public c_simulation_game_engine_globals_definition
 {
 public:

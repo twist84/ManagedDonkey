@@ -5,10 +5,10 @@
 #include "networking/session/network_session.hpp"
 #include "simulation/simulation_players.hpp"
 
-struct c_simulation_world;
-struct c_network_observer;
-struct c_network_session;
-struct c_simulation_watcher :
+class c_simulation_world;
+class c_network_observer;
+class c_network_session;
+class c_simulation_watcher :
 	public c_network_channel_owner
 {
 public:

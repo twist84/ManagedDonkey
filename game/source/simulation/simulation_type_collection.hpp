@@ -4,7 +4,7 @@
 #include "simulation/game_interface/simulation_game_entities.hpp"
 #include "simulation/game_interface/simulation_game_events.hpp"
 
-struct c_simulation_type_collection
+class c_simulation_type_collection
 {
 public:
 	c_simulation_type_collection();

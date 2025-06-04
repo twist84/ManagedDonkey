@@ -25,8 +25,9 @@ enum e_bungie_title_index
 	k_bungie_title_index_count,
 };
 
-struct c_url_string
+class c_url_string
 {
+public:
 	enum e_cachable_type
 	{
 		_cachable_type_no = 0,

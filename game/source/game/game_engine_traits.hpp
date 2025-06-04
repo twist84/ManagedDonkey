@@ -69,7 +69,7 @@ enum e_game_engine_map_override_option_flags
 	k_game_engine_map_override_option_flags
 };
 
-struct c_game_engine_miscellaneous_options
+class c_game_engine_miscellaneous_options
 {
 public:
 	void byteswap();
@@ -109,7 +109,7 @@ protected:
 };
 static_assert(sizeof(c_game_engine_miscellaneous_options) == 0x4);
 
-struct c_game_engine_respawn_options
+class c_game_engine_respawn_options
 {
 public:
 	void byteswap();
@@ -181,7 +181,7 @@ protected:
 };
 static_assert(sizeof(c_game_engine_respawn_options) == 0x28);
 
-struct c_game_engine_social_options
+class c_game_engine_social_options
 {
 public:
 	void byteswap();
@@ -228,7 +228,7 @@ protected:
 };
 static_assert(sizeof(c_game_engine_social_options) == 0x4);
 
-struct c_game_engine_map_override_options
+class c_game_engine_map_override_options
 {
 public:
 	void byteswap();

@@ -2,10 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_replication_outgoing_event;
+class c_replication_outgoing_event;
 struct s_simulation_view_telemetry_data;
-struct c_bitstream;
-struct c_simulation_event_definition
+class c_bitstream;
+class c_simulation_event_definition
 {
 public:
 	virtual e_simulation_event_type event_type() = 0;

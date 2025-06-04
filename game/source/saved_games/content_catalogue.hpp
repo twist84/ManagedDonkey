@@ -6,7 +6,7 @@
 #include "saved_games/content_item.hpp"
 
 struct s_data_array;
-struct c_content_catalogue
+class c_content_catalogue
 {
 public:
 	enum e_content_catalogue_flags

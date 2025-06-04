@@ -30,9 +30,10 @@ enum e_content_origin
 };
 
 
-struct c_content_item_overlapped_task :
+class c_content_item_overlapped_task :
 	public c_overlapped_task
 {
+public:
 	e_content_item_task_type m_task_type;
 	s_content_item* m_content_item;
 	int32 m_content_creation_flags;
@@ -40,10 +41,11 @@ struct c_content_item_overlapped_task :
 };
 static_assert(sizeof(c_content_item_overlapped_task) == 0x20);
 
-struct c_content_catalogue;
-struct c_content_enumeration_overlapped_task :
+class c_content_catalogue;
+class c_content_enumeration_overlapped_task :
 	public c_overlapped_task
 {
+public:
 	void* m_enumeration_handle;
 	c_content_catalogue* m_content_catalogue;
 	e_controller_index m_controller_index;

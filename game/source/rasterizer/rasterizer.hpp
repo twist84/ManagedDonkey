@@ -15,8 +15,9 @@ __interface IDirect3DVertexBuffer9;
 __interface IDirect3DIndexBuffer9;
 __interface IDirect3DVertexDeclaration9;
 
-struct c_rasterizer_index_buffer
+class c_rasterizer_index_buffer
 {
+public:
 	enum e_primitive_type
 	{
 		_primitive_type_point_list = 0,
@@ -64,8 +65,9 @@ struct s_rasterizer_render_globals
 };
 static_assert(sizeof(s_rasterizer_render_globals) == 0x44);
 
-struct c_rasterizer
+class c_rasterizer
 {
+public:
 	enum e_splitscreen_res
 	{
 		_res_default = 0,
@@ -467,7 +469,7 @@ struct c_rasterizer
 
 struct s_global_bitmaps;
 struct s_texture_references_block;
-struct c_rasterizer_globals
+class c_rasterizer_globals
 {
 public:
 	static tag const k_group_tag = RASTERIZER_GLOBALS_TAG;

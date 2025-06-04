@@ -4,7 +4,7 @@
 #include "game/players.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 
-struct c_gui_screen_pregame_lobby_campaign :
+class c_gui_screen_pregame_lobby_campaign :
 	public c_gui_screen_pregame_lobby
 {
 public:

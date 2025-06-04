@@ -3,7 +3,7 @@
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
 #include "interface/debug_menu/debug_menu_value_hs_global_external.hpp"
 
-struct c_debug_menu_item_type :
+class c_debug_menu_item_type :
 	public c_debug_menu_item_numbered
 {
 public:

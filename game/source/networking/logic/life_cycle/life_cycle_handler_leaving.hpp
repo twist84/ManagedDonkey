@@ -5,7 +5,7 @@
 //typedef c_flags<e_leaving_flags, uns8, k_leaving_flags_count> c_leaving_flags;
 typedef uns8 c_leaving_flags;
 
-struct c_life_cycle_state_handler_leaving :
+class c_life_cycle_state_handler_leaving :
 	public c_life_cycle_state_handler
 {
 public:

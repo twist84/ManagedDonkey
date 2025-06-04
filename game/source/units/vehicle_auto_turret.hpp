@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "objects/damage_owner.hpp"
 
-struct c_vehicle_auto_turret
+class c_vehicle_auto_turret
 {
 public:
 	bool control(int32 vehicle_index);

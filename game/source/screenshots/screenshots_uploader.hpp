@@ -4,7 +4,7 @@
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "tag_files/files.hpp"
 
-struct c_screenshots_uploader
+class c_screenshots_uploader
 {
 public:
 	//c_screenshots_uploader();

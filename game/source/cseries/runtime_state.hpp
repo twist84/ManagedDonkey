@@ -7,7 +7,7 @@ enum
 	k_runtime_state_size = 0x380000
 };
 
-struct c_runtime_state_allocation :
+class c_runtime_state_allocation :
 	public c_allocation_base
 {
 };

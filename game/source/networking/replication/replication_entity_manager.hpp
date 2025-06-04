@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_replication_entity_manager_view;
-struct c_simulation_entity_database;
+class c_replication_entity_manager_view;
+class c_simulation_entity_database;
 
 enum e_replication_entity_flags
 {
@@ -23,8 +23,9 @@ struct s_replication_entity_data
 };
 static_assert(sizeof(s_replication_entity_data) == 0x4);
 
-struct c_replication_entity_manager
+class c_replication_entity_manager
 {
+public:
 	c_simulation_entity_database* m_client;
 	c_replication_entity_manager_view* m_views[16];
 	uns32 m_view_mask;

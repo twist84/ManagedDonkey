@@ -2,7 +2,7 @@
 
 #include "interface/gui_selected_items.hpp"
 
-struct c_gui_level_selected_item :
+class c_gui_level_selected_item :
 	public c_gui_selected_item
 {
 public:

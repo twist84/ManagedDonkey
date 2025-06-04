@@ -4,7 +4,7 @@
 
 #define RENDER_ENABLED(true_false) if (sub_42E5D0() == true_false)
 
-struct c_player_render_camera_iterator
+class c_player_render_camera_iterator
 {
 public:
 	c_player_render_camera_iterator();
@@ -46,7 +46,7 @@ extern int32 g_watermark_enabled;
 extern real32 pregame_frame_scales[k_main_pregame_frame_count];
 extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_pregame_frame_count];
 
-struct c_player_view;
+class c_player_view;
 
 extern bool __cdecl sub_42E5D0();
 extern void __cdecl main_render();

@@ -2,7 +2,7 @@
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
-struct c_life_cycle_state_handler_none :
+class c_life_cycle_state_handler_none :
 	public c_life_cycle_state_handler
 {
 public:

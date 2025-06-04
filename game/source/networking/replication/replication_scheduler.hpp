@@ -3,11 +3,11 @@
 #include "networking/delivery/network_channel.hpp"
 
 enum e_network_read_result;
-struct c_bitstream;
+class c_bitstream;
 
 struct s_replication_outgoing_request;
 struct s_replication_incoming_request;
-struct c_replication_scheduler_client
+class c_replication_scheduler_client
 {
 public:
 	virtual bool has_data_to_transmit();
@@ -25,10 +25,11 @@ public:
 };
 static_assert(sizeof(c_replication_scheduler_client) == 0x8);
 
-struct c_replication_telemetry_provider;
-struct c_replication_scheduler :
+class c_replication_telemetry_provider;
+class c_replication_scheduler :
 	public c_network_channel_client
 {
+public:
 	bool m_initialized;
 	int32 m_view_index;
 

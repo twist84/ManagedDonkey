@@ -167,7 +167,7 @@ struct s_network_message_broadcast_reply
 };
 static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
 
-struct c_bitstream;
+class c_bitstream;
 
 class c_network_message_ping
 {
@@ -204,6 +204,6 @@ public:
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
-struct c_network_message_type_collection;
+class c_network_message_type_collection;
 extern void __cdecl network_message_types_register_out_of_band(c_network_message_type_collection* message_collection);
 

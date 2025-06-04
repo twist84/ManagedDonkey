@@ -25,7 +25,7 @@ struct s_weighted_atmosphere_parameters
 static_assert(sizeof(s_weighted_atmosphere_parameters) == 0x7C);
 
 struct s_game_cluster_bit_vectors;
-struct c_atmosphere_fog_interface
+class c_atmosphere_fog_interface
 {
 public:
 	static void __cdecl dispose_from_old_map();

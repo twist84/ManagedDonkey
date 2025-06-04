@@ -5,9 +5,9 @@
 #include "multithreading/threads.hpp"
 #include "tag_files/tag_resource_cache_external_access.hpp"
 
-struct c_tag_resource_cache_file_access_cache;
-struct c_tag_resource_cache_thread_lock_lock_freeish;
-struct c_tag_resource_thread_access
+class c_tag_resource_cache_file_access_cache;
+class c_tag_resource_cache_thread_lock_lock_freeish;
+class c_tag_resource_thread_access
 {
 public:
 	bool resource_available(int32 resource_handle);
@@ -27,8 +27,8 @@ protected:
 };
 static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
 
-struct c_io_result;
-struct c_thread_safeish_tag_resource_cache :
+class c_io_result;
+class c_thread_safeish_tag_resource_cache :
 	public c_tag_resource_cache_new//, c_tag_resource_thread_access
 {
 public:

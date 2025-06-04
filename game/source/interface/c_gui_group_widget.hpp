@@ -34,7 +34,7 @@ struct s_runtime_group_widget_definition :
 };
 static_assert(sizeof(s_runtime_group_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x34);
 
-struct c_gui_group_widget :
+class c_gui_group_widget :
 	public c_gui_widget
 {
 public:
@@ -51,7 +51,7 @@ static_assert(0x0E0 == OFFSETOF(c_gui_group_widget, m_core_definition));
 static_assert(0x148 == OFFSETOF(c_gui_group_widget, m_dispose_as_display_group));
 static_assert(0x14C == OFFSETOF(c_gui_group_widget, __unknown14C));
 
-struct c_gui_button_key_widget :
+class c_gui_button_key_widget :
 	public c_gui_group_widget
 {
 };

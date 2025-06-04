@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_light_volume_location :
-	s_datum_header
+class c_light_volume_location :
+	public s_datum_header
 {
 	int32 m_next_sibling_index;
 	int32 m_parent_system_index;
@@ -14,8 +14,8 @@ struct c_light_volume_location :
 };
 static_assert(sizeof(c_light_volume_location) == 0x2C);
 
-struct c_light_volume :
-	s_datum_header
+class c_light_volume :
+	public s_datum_header
 {
 	int32 m_next_sibling_index;
 	int32 m_light_volume_gpu_index;
@@ -31,8 +31,8 @@ struct c_light_volume :
 };
 static_assert(sizeof(c_light_volume) == 0x34);
 
-struct c_light_volume_system :
-	s_datum_header
+class c_light_volume_system :
+	public s_datum_header
 {
 public:
 	static void __cdecl submit_all(int32 user_index, e_effect_pass effect_pass);

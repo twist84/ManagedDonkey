@@ -1,7 +1,7 @@
 #pragma once
 
 struct hkWorld;
-struct c_havok_entity_iterator
+class c_havok_entity_iterator
 {
 protected:
 	bool m_iterating;

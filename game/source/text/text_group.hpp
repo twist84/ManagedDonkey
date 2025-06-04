@@ -13,8 +13,9 @@ struct s_string_reference
 };
 static_assert(sizeof(s_string_reference) == 0x8);
 
-struct c_language_pack
+class c_language_pack
 {
+public:
 	s_string_reference* m_string_references;
 	void* m_string_data;
 	int32 m_num_of_strings;

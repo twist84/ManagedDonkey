@@ -414,8 +414,9 @@ struct s_scenario_multiplayer_object_properties
 static_assert(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
 
 struct s_scenario_object;
-struct c_object_identifier
+class c_object_identifier
 {
+public:
 	void clear();
 	void clear_for_deletion();
 	void create_dynamic(e_object_type type);

@@ -13,12 +13,13 @@ struct s_tag_resource_control_datum :
 };
 static_assert(sizeof(s_tag_resource_control_datum) == 0xC);
 
-struct c_tag_resource_page_table_control_interface;
-struct c_tag_resource_runtime_listener;
-struct c_cache_file_combined_tag_resource_datum_handler;
-struct c_tag_resource_control_datum;
-struct c_tag_resource_cache_controller
+class c_tag_resource_page_table_control_interface;
+class c_tag_resource_runtime_listener;
+class c_cache_file_combined_tag_resource_datum_handler;
+class c_tag_resource_control_datum;
+class c_tag_resource_cache_controller
 {
+public:
 	c_allocation_base* m_tracking_data_allocator;
 	void* m_tracking_allocation_base;
 	c_smart_data_array<s_tag_resource_control_datum> m_resource_control_data;

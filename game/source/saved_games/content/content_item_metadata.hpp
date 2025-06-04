@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 struct s_saved_game_item_metadata
 {
 	uns64 unique_id;

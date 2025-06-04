@@ -5,10 +5,10 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
-struct c_gui_data;
-struct c_virtual_keyboard_task;
+class c_gui_data;
+class c_virtual_keyboard_task;
 
-struct c_gui_screen_pregame_selection :
+class c_gui_screen_pregame_selection :
 	public c_gui_screen_widget
 {
 public:

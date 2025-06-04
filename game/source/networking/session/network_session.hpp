@@ -13,7 +13,7 @@ enum e_network_session_disconnection_policy
 	k_network_session_disconnection_policy_count
 };
 
-struct c_network_channel_owner
+class c_network_channel_owner
 {
 public:
 	virtual bool desire_channel_heartbeat(int32 observer_channel_index) const;
@@ -42,13 +42,14 @@ struct s_network_message_session_boot;
 struct s_network_message_session_disband;
 struct s_network_message_time_synchronize;
 
-struct c_network_message_gateway;
-struct c_network_observer;
-struct c_network_session_manager;
-struct c_network_channel;
-struct c_network_session :
+class c_network_message_gateway;
+class c_network_observer;
+class c_network_session_manager;
+class c_network_channel;
+class c_network_session :
 	public c_network_channel_owner
 {
+public:
 	int32 current_local_state() const;
 	bool disconnected() const;
 	bool established() const;

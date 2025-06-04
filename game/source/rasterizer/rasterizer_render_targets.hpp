@@ -6,8 +6,9 @@
 __interface IDirect3DSurface9;
 __interface IDirect3DTexture9;
 
-struct c_render_surface
+class c_render_surface
 {
+public:
 	IDirect3DSurface9* m_d3d_surface;
 	IDirect3DTexture9* m_d3d_texture;
 
@@ -49,16 +50,18 @@ struct s_surface_group_description
 };
 
 // $TODO: move this
-struct c_render_surface_group
+class c_render_surface_group
 {
+public:
 	s_surface_group_description description;
 	int32 m_count_specializations;
 	c_render_surface* m_surfaces;
 };
 
 // $TODO: move this
-struct c_render_surfaces_interface
+class c_render_surfaces_interface
 {
+public:
 	static c_render_surface* get_render_surface(c_rasterizer::e_surface surface);
 
 	static c_render_surface_group(&m_render_surface_groups)[60];

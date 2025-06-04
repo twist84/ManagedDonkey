@@ -3,8 +3,8 @@
 #include "cseries/cseries.hpp"
 
 struct s_cache_file_resource_gestalt;
-struct c_cache_file_resource_uber_location_table;
-struct c_cache_file_combined_tag_resource_datum_handler
+class c_cache_file_resource_uber_location_table;
+class c_cache_file_combined_tag_resource_datum_handler
 {
 	void* __vftable;
 	s_cache_file_resource_gestalt* m_resource_gestalt;

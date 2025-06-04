@@ -7,7 +7,7 @@
 
 struct s_online_session;
 struct s_transport_secure_identifier;
-struct c_network_session_membership;
+class c_network_session_membership;
 
 //typedef c_flags<e_managed_session_creation_flags, uns8, k_managed_session_creation_flags_count> c_managed_session_creation_flags;
 typedef uns8 c_managed_session_creation_flags;
@@ -33,9 +33,10 @@ enum e_managed_session_status_flags
 };
 typedef c_flags_no_init<e_managed_session_status_flags, uns16, k_managed_session_status_flags_count> c_managed_session_status_flags;
 
-struct c_managed_session_overlapped_task :
+class c_managed_session_overlapped_task :
 	public c_overlapped_task
 {
+public:
 	using t_completion_routine = void __cdecl(int32, bool, uns32);
 
 	void filter_local_users(int32 player_count, const uns64* players, const bool* online_enabled, const bool* private_slots);

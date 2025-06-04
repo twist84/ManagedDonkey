@@ -2,8 +2,9 @@
 
 #include "memory/bitstream.hpp"
 
-struct c_network_session_parameter_type_collection
+class c_network_session_parameter_type_collection
 {
+public:
 	using encode_t = void __cdecl(c_bitstream*, const void*, int32);
 	using decode_t = bool __cdecl(c_bitstream*, void*, int32);
 

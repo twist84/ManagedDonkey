@@ -125,7 +125,7 @@ struct s_gui_model_widget_render_data :
 };
 static_assert(sizeof(s_gui_model_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x6C4);
 
-struct c_gui_model_widget :
+class c_gui_model_widget :
 	public c_gui_widget
 {
 public:

@@ -7,7 +7,7 @@
 
 struct s_async_task;
 
-struct c_gui_custom_bitmap_widget :
+class c_gui_custom_bitmap_widget :
 	public c_gui_bitmap_widget
 {
 public:

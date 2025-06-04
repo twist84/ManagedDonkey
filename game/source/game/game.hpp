@@ -16,7 +16,7 @@
 #define MAXIMUM_CLUSTERS_PER_STRUCTURE 255
 
 struct s_game_non_bsp_zone_set;
-struct c_scenario_resource_registry;
+class c_scenario_resource_registry;
 
 struct s_game_system
 {

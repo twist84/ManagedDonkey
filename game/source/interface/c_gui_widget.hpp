@@ -6,13 +6,13 @@
 #include "text/unicode.hpp"
 
 struct s_runtime_core_widget_definition;
-struct c_gui_text_widget;
-struct c_gui_bitmap_widget;
-struct c_gui_group_widget;
-struct c_gui_button_key_widget;
-struct c_gui_list_widget;
-struct c_gui_list_item_widget;
-struct c_gui_model_widget;
+class c_gui_text_widget;
+class c_gui_bitmap_widget;
+class c_gui_group_widget;
+class c_gui_button_key_widget;
+class c_gui_list_widget;
+class c_gui_list_item_widget;
+class c_gui_model_widget;
 struct s_runtime_text_widget_definition;
 struct s_runtime_bitmap_widget_definition;
 struct s_widget_animation_definition;
@@ -22,8 +22,8 @@ struct s_list_widget_block;
 struct s_list_item_widget_block;
 struct s_model_widget_block;
 struct s_animation_transform;
-struct c_controller_input_message;
-struct c_gui_screen_widget;
+class c_controller_input_message;
+class c_gui_screen_widget;
 
 struct s_core_widget_definition
 {
@@ -117,7 +117,7 @@ struct s_gui_widget_render_data
 //static_assert(sizeof(s_gui_widget_render_data) == 0x30); // == profile
 //static_assert(sizeof(s_gui_widget_render_data) == 0x50); // >= play
 
-struct c_gui_widget
+class c_gui_widget
 {
 public:
 	enum e_gui_widget_flags

@@ -17,7 +17,7 @@ enum e_life_cycle_state_handler_in_game_flags
 };
 typedef c_flags<e_life_cycle_state_handler_in_game_flags, uns8, k_life_cycle_state_handler_in_game_flags_count> c_life_cycle_state_handler_in_game_flags;
 
-struct c_life_cycle_state_handler_in_game :
+class c_life_cycle_state_handler_in_game :
 	public c_life_cycle_state_handler
 {
 public:

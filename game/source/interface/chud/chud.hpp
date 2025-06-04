@@ -28,16 +28,18 @@ struct chud_player_hud_elements
 };
 static_assert(sizeof(chud_player_hud_elements) == 0xD);
 
-struct c_chud_persistent_global_data
+class c_chud_persistent_global_data
 {
+public:
 	byte __data[0x14D];
 	chud_player_hud_elements player_hud;
 	byte __unknown181[0x316];
 };
 static_assert(sizeof(c_chud_persistent_global_data) == 0x470);
 
-struct c_chud_persistent_user_data
+class c_chud_persistent_user_data
 {
+public:
 	byte __unknown0[0x14D];
 	chud_player_hud_elements player_hud[4];
 	byte __unknown181[0x273];

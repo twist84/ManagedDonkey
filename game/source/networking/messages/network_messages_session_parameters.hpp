@@ -25,7 +25,7 @@ struct s_network_message_parameters_request
 };
 static_assert(sizeof(s_network_message_parameters_request) == 0x20018);
 
-struct c_bitstream;
+class c_bitstream;
 
 class c_network_message_parameters_update
 {
@@ -41,6 +41,6 @@ public:
 	static bool __cdecl decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
-struct c_network_message_type_collection;
+class c_network_message_type_collection;
 extern void __cdecl network_message_types_register_session_parameters(c_network_message_type_collection* message_collection);
 

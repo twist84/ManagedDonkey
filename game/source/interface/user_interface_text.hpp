@@ -4,7 +4,7 @@
 #include "interface/c_gui_widget.hpp"
 #include "text/unicode.hpp"
 
-struct c_font_cache_base;
+class c_font_cache_base;
 
 #define UTF32_STRING(name) wchar_t name[2]{}; utf32_to_string(_utf32_##name, name);
 
@@ -210,7 +210,7 @@ struct s_gui_text_widget_extra_large_render_data :
 };
 static_assert(sizeof(s_gui_text_widget_extra_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 1024));
 
-struct c_user_interface_text
+class c_user_interface_text
 {
 public:
 	enum // m_flags

@@ -12,7 +12,7 @@ struct s_network_session_parameter_saved_film_game_options
 };
 static_assert(sizeof(s_network_session_parameter_saved_film_game_options) == 0x24B50);
 
-struct c_network_session_parameter_saved_film_game_options :
+class c_network_session_parameter_saved_film_game_options :
 	public c_network_session_parameter_chunked<s_network_session_parameter_saved_film_game_options, 34816>
 {
 };

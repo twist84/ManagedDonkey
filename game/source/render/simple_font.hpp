@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
-struct c_simple_font_screen_display
+class c_simple_font_screen_display
 {
 public:
 	c_simple_font_screen_display();

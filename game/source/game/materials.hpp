@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_global_material_type
+class c_global_material_type
 {
 public:
 	c_global_material_type() :

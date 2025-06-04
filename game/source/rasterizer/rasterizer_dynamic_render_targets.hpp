@@ -1,6 +1,6 @@
 #pragma once
 
-struct c_dynamic_render_targets
+class c_dynamic_render_targets
 {
 public:
 	static void __cdecl shell_dispose();

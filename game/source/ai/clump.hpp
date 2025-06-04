@@ -4,8 +4,9 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_clump_behavior_state
+class c_clump_behavior_state
 {
+public:
 	int16 m_state;
 	uns16 m_flags;
 	int32 m_time;

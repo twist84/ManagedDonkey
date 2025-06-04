@@ -8,7 +8,7 @@ struct s_font_header;
 struct s_font_character;
 
 // 0165FCB0
-struct c_font_cache_base
+class c_font_cache_base
 {
 public:
 	// HACK: so we don't have to manually construct the class
@@ -57,7 +57,7 @@ public:
 };
 static_assert(sizeof(c_font_cache_base) == 0x4);
 
-struct c_font_cache_scope_lock
+class c_font_cache_scope_lock
 {
 public:
 	c_font_cache_scope_lock();
@@ -71,8 +71,8 @@ static_assert(sizeof(c_font_cache_scope_lock) == sizeof(bool));
 #define FONT_CACHE_SCOPE_LOCK c_font_cache_scope_lock __local_font_cache_scope_lock
 
 // 0165FCCC
-struct c_font_cache_mt_safe : // thread safe
-	c_font_cache_base
+class c_font_cache_mt_safe : // thread safe
+	public c_font_cache_base
 {
 public:
 	c_font_cache_mt_safe();

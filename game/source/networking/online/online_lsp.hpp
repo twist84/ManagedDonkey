@@ -10,8 +10,9 @@ struct s_server_connect_info
 };
 static_assert(sizeof(s_server_connect_info) == 0xDA);
 
-struct c_online_lsp_manager
+class c_online_lsp_manager
 {
+public:
 	enum e_client_state
 	{
 		_client_state_none = 0,

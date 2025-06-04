@@ -1,8 +1,8 @@
 #pragma once
 
-struct c_network_session_manager;
-struct c_map_variant;
-struct c_game_variant;
+class c_network_session_manager;
+class c_map_variant;
+class c_game_variant;
 struct transport_address;
 
 struct s_network_globals
@@ -14,15 +14,15 @@ struct s_network_globals
 	// $TODO: add back all the missing globals
 };
 
-extern struct c_network_session_parameter_type_collection*& g_network_parameter_types;
-extern struct c_network_link*& g_network_link;
-extern struct c_network_message_type_collection*& g_network_message_types;
-extern struct c_network_message_gateway*& g_network_message_gateway;
-extern struct c_network_message_handler*& g_network_message_handler;
-extern struct c_network_observer*& g_network_observer;
-extern struct c_network_session*& g_network_sessions;
-extern struct c_network_session_parameter_type_collection*& g_network_session_parameter_types;
-extern struct c_network_session_manager*& g_network_session_manager;
+extern class c_network_session_parameter_type_collection*& g_network_parameter_types;
+extern class c_network_link*& g_network_link;
+extern class c_network_message_type_collection*& g_network_message_types;
+extern class c_network_message_gateway*& g_network_message_gateway;
+extern class c_network_message_handler*& g_network_message_handler;
+extern class c_network_observer*& g_network_observer;
+extern class c_network_session*& g_network_sessions;
+extern class c_network_session_parameter_type_collection*& g_network_session_parameter_types;
+extern class c_network_session_manager*& g_network_session_manager;
 extern struct s_network_globals& network_globals;
 
 extern void __cdecl network_memory_base_dispose();

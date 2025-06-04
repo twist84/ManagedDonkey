@@ -269,7 +269,7 @@ static_assert(sizeof(s_tag_data) == 0x14);
 
 template<typename t_element_type, uns32 ...t_extra>
 //using c_typed_tag_block = s_tag_block;
-struct c_typed_tag_block :
+class c_typed_tag_block :
 	public s_tag_block
 {
 public:
@@ -320,9 +320,10 @@ using c_typed_tag_reference = s_tag_reference;
 
 template<typename t_data_type, uns32 ...t_extra>
 //using c_typed_tag_data = s_tag_data;
-struct c_typed_tag_data :
-	s_tag_data
+class c_typed_tag_data :
+	public s_tag_data
 {
+public:
 	t_data_type* get()
 	{
 		return reinterpret_cast<t_data_type*>(base);
@@ -343,9 +344,10 @@ struct s_tag_resource
 static_assert(sizeof(s_tag_resource) == 0x8);
 
 template<typename t_resource_type, uns32 ...t_extra>
-struct c_typed_tag_resource :
-	s_tag_resource
+class c_typed_tag_resource :
+	public s_tag_resource
 {
+public:
 	t_resource_type* get()
 	{
 		return reinterpret_cast<t_resource_type*>(resource_handle);

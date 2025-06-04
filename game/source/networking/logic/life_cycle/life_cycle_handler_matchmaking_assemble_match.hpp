@@ -9,7 +9,7 @@ struct s_life_cycle_matchmaking_progress;
 //typedef c_flags<e_matchmaking_assemble_match_flags, uns8, k_matchmaking_assemble_match_flags_count> c_matchmaking_assemble_match_flags;
 typedef uns8 c_matchmaking_assemble_match_flags;
 
-struct c_life_cycle_state_handler_matchmaking_assemble_match :
+class c_life_cycle_state_handler_matchmaking_assemble_match :
 	public c_life_cycle_state_handler
 {
 public:

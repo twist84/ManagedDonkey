@@ -680,7 +680,7 @@ static_assert(0x1F0 == OFFSETOF(players_global_data, terminal_being_read));
 static_assert(0x1F4 == OFFSETOF(players_global_data, combined_pvs));
 static_assert(0x214 == OFFSETOF(players_global_data, combined_pvs_local));
 
-struct c_player_in_game_iterator
+class c_player_in_game_iterator
 {
 public:
 	void begin();
@@ -693,7 +693,7 @@ protected:
 	c_data_iterator<player_datum> m_iterator;
 };
 
-struct c_player_with_unit_iterator
+class c_player_with_unit_iterator
 {
 public:
 	void begin();

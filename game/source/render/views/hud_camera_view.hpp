@@ -4,8 +4,9 @@
 
 struct s_hud_camera_globals
 {
-	struct c_player_window_data
+	class c_player_window_data
 	{
+	public:
 		byte __data[0x120];
 	};
 	static_assert(sizeof(c_player_window_data) == 0x120);

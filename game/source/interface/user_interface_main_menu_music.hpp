@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 
-struct c_user_interface_main_menu_music
+class c_user_interface_main_menu_music
 {
 public:
 	enum e_music_state

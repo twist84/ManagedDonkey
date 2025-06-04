@@ -155,8 +155,9 @@ struct actor_input_data
 };
 static_assert(sizeof(actor_input_data) == 0xB8);
 
-struct c_recent_obstacle
+class c_recent_obstacle
 {
+public:
 	int32 m_object_index;
 	int16 m_ticks;
 	uns16 m_flags;
@@ -444,8 +445,9 @@ struct actor_action_data
 };
 static_assert(sizeof(actor_action_data) == 0x30);
 
-struct c_path_destination
+class c_path_destination
 {
+public:
 	c_ai_point3d m_point;
 	real_vector3d m_alignment;
 	c_sector_ref m_sector_ref;

@@ -3,11 +3,11 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
-struct c_game_variant;
-struct c_gui_roster_list_widget;
+class c_game_variant;
+class c_gui_roster_list_widget;
 struct s_message_of_the_day_popup;
 struct s_player_identifier;
-struct c_gui_screen_pregame_lobby :
+class c_gui_screen_pregame_lobby :
 	public c_gui_screen_widget
 {
 public:

@@ -43,7 +43,7 @@ static_assert(0x16D == OFFSETOF(s_ui_saved_game_item_metadata, campaign_survival
 static_assert(0x16E == OFFSETOF(s_ui_saved_game_item_metadata, pad));
 static_assert(0x170 == OFFSETOF(s_ui_saved_game_item_metadata, game_id));
 
-struct c_gui_selected_item
+class c_gui_selected_item
 {
 public:
 	enum e_special_item_type

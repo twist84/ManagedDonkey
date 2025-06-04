@@ -4,21 +4,21 @@
 #include "units/vehicle_definitions.hpp"
 #include "units/vehicle_engine.hpp"
 
-struct c_vehicle_auto_turret;
+class c_vehicle_auto_turret;
 struct s_vehicle_engine;
-struct c_vehicle_type_human_tank;
-struct c_vehicle_type_human_jeep;
-struct c_vehicle_type_human_plane;
-struct c_vehicle_type_alien_scout;
-struct c_vehicle_type_alien_fighter;
-struct c_vehicle_type_turret;
-struct c_vehicle_type_mantis;
-struct c_vehicle_type_vtol;
-struct c_vehicle_type_chopper;
-struct c_vehicle_type_guardian;
+class c_vehicle_type_human_tank;
+class c_vehicle_type_human_jeep;
+class c_vehicle_type_human_plane;
+class c_vehicle_type_alien_scout;
+class c_vehicle_type_alien_fighter;
+class c_vehicle_type_turret;
+class c_vehicle_type_mantis;
+class c_vehicle_type_vtol;
+class c_vehicle_type_chopper;
+class c_vehicle_type_guardian;
 struct s_damage_owner;
 struct render_model_definition;
-struct c_animation_channel;
+class c_animation_channel;
 struct s_havok_vehicle_physics_instance;
 struct __declspec(align(4)) c_vehicle_type_component
 {

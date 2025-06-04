@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_mixing_board_slider
+class c_mixing_board_slider
 {
+public:
 	int16 m_value;
 	int16 m_starting_value;
 	int16 m_total_seconds;

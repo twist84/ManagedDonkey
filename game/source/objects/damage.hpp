@@ -25,7 +25,7 @@ struct s_damage_globals
 static_assert(sizeof(s_damage_globals) == 0x810);
 
 struct s_projectile_material_response_definition;
-struct c_aoe_damage_batchifier;
+class c_aoe_damage_batchifier;
 struct s_damage_data
 {
 	int32 definition_index;

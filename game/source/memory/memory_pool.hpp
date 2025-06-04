@@ -20,7 +20,7 @@ struct s_memory_pool_block
 };
 static_assert(sizeof(s_memory_pool_block) == 0x10);
 
-struct c_allocation_base;
+class c_allocation_base;
 struct s_memory_pool
 {
 	uns32 signature;

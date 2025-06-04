@@ -41,7 +41,7 @@ struct s_matchmaking_start_data
 };
 static_assert(sizeof(s_matchmaking_start_data) == 0xC);
 
-struct c_life_cycle_state_handler_matchmaking_start :
+class c_life_cycle_state_handler_matchmaking_start :
 	public c_life_cycle_state_handler
 {
 public:

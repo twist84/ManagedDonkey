@@ -34,9 +34,10 @@ struct s_simulation_view_statistics
 };
 static_assert(sizeof(s_simulation_view_statistics) == 0x24);
 
-struct c_simulation_distributed_view :
-	s_datum_header
+class c_simulation_distributed_view :
+	public s_datum_header
 {
+public:
 	c_replication_scheduler m_replication_scheduler;
 	c_replication_entity_manager_view m_entity_view;
 	c_replication_event_manager_view m_event_view;
@@ -64,11 +65,12 @@ struct s_network_message_synchronous_gamestate
 };
 static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 
-struct c_simulation_world;
-struct c_network_observer;
-struct c_simulation_view :
-	s_datum_header
+class c_simulation_world;
+class c_network_observer;
+class c_simulation_view :
+	public s_datum_header
 {
+public:
 	e_simulation_view_type view_type() const;
 	const char* get_view_description() const;
 	int32 get_view_establishment_identifier() const;

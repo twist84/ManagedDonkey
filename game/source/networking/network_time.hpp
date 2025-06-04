@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_network_session_manager;
+class c_network_session_manager;
 struct s_network_time_globals
 {
 	bool time_locked;

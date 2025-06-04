@@ -7,9 +7,9 @@
 #include "game/game_engine_player_traits.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 
-struct c_game_engine_sandbox_variant :
+class c_game_engine_sandbox_variant :
 	public c_game_engine_base_variant
 {
 public:
@@ -47,8 +47,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
 
-struct c_sandbox_engine :
-	c_game_engine
+class c_sandbox_engine :
+	public c_game_engine
 {
 };
 

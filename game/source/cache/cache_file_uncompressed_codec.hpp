@@ -2,7 +2,7 @@
 
 #include "cache/cache_file_runtime_codecs.hpp"
 
-struct c_cache_file_uncompressed_decompressor :
+class c_cache_file_uncompressed_decompressor :
 	public c_cache_file_decompressor
 {
 	virtual bool begin(c_basic_buffer<void> a1)

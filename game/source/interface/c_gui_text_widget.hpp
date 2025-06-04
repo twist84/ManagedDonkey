@@ -46,9 +46,9 @@ struct s_runtime_text_widget_definition :
 };
 static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 
-struct c_gui_screen_widget;
+class c_gui_screen_widget;
 struct s_text_widget_block;
-struct c_gui_text_widget :
+class c_gui_text_widget :
 	public c_gui_widget
 {
 public:
@@ -103,7 +103,7 @@ static_assert(sizeof(c_gui_text_widget) == 0x140);
 static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x60);
 
 template<int32 k_maximum_count>
-struct c_sized_user_interface_text :
+class c_sized_user_interface_text :
 	public c_user_interface_text
 {
 public:
@@ -139,7 +139,7 @@ static_assert(sizeof(c_sized_user_interface_text<256>) == 0x45C);
 static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x105C);
 
 template<int32 k_text_buffer_size>
-struct c_gui_sized_text_widget :
+class c_gui_sized_text_widget :
 	public c_gui_text_widget
 {
 public:

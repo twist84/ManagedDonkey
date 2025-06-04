@@ -3,8 +3,9 @@
 #include "cseries/cseries.hpp"
 
 struct s_data_array;
-struct c_tag_resource_inverse_page_table
+class c_tag_resource_inverse_page_table
 {
+public:
 	struct s_page_resource_reference_range :
 		s_datum_header
 	{

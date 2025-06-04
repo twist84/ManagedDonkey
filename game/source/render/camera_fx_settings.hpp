@@ -78,8 +78,9 @@ struct s_lightshafts
 };
 static_assert(sizeof(s_lightshafts) == 0x2C);
 
-struct c_camera_fx_settings
+class c_camera_fx_settings
 {
+public:
 	void set_defaults(bool use_default_parameters);
 
 	enum e_parameter_flags
@@ -158,8 +159,9 @@ struct c_camera_fx_settings
 static_assert(sizeof(c_camera_fx_settings) == 0x170);
 
 // $TODO: figure out the difference
-struct c_exposure
+class c_exposure
 {
+public:
 	int32 m_render_target_queue_size;
 	int32 m_render_target_queue_index;
 	int32 m_render_target_queue[1];
@@ -173,7 +175,7 @@ struct c_exposure
 };
 static_assert(sizeof(c_exposure) == 0x10C);
 
-struct c_camera_fx_values
+class c_camera_fx_values
 {
 public:
 	void set(const c_camera_fx_settings* settings);

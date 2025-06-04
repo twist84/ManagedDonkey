@@ -4,7 +4,7 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "networking/online/online_service_record.hpp"
 
-struct c_start_menu_pane_screen_widget :
+class c_start_menu_pane_screen_widget :
 	public c_gui_screen_widget
 {
 public:

@@ -5,7 +5,7 @@
 #include "interface/c_gui_widget.hpp"
 
 struct bitmap_data;
-struct c_tag_resource_demand_collector;
+class c_tag_resource_demand_collector;
 struct s_gui_bitmap_widget_render_data;
 
 enum e_bitmap_widget_definition_flags
@@ -64,7 +64,7 @@ struct s_runtime_bitmap_widget_definition :
 };
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
-struct c_gui_bitmap_widget :
+class c_gui_bitmap_widget :
 	public c_gui_widget
 {
 public:

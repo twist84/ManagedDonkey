@@ -3,8 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/sliding_window.hpp"
 
-//struct c_network_message_type_collection;
-//struct c_network_message_queue :
+//class c_network_message_type_collection;
+//class c_network_message_queue :
 //	public c_network_channel_client
 //{
 //	struct s_incoming_outgoing_record;

@@ -27,7 +27,7 @@ static_assert(0x51 == OFFSETOF(s_hopper_information, is_playable));
 static_assert(0x52 == OFFSETOF(s_hopper_information, is_ranked));
 static_assert(0x53 == OFFSETOF(s_hopper_information, has_xp_penalty));
 
-struct c_gui_hopper_selected_item :
+class c_gui_hopper_selected_item :
 	public c_gui_selected_item
 {
 public:

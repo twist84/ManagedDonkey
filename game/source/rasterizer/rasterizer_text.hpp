@@ -12,7 +12,7 @@ __interface IDirect3DCubeTexture9;
 __interface IDirect3DSurface9;
 __interface IDirect3DTexture9;
 
-struct c_rasterizer_texture_ref
+class c_rasterizer_texture_ref
 {
 public:
 	c_rasterizer_texture_ref() :

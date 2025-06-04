@@ -68,8 +68,9 @@ struct s_queued_work_item
 };
 static_assert(sizeof(s_queued_work_item) == 0x250);
 
-struct c_online_files_enqueuer
+class c_online_files_enqueuer
 {
+public:
 	enum
 	{
 		k_maximum_enqueue_length = 8,
@@ -83,8 +84,9 @@ struct c_online_files_enqueuer
 };
 static_assert(sizeof(c_online_files_enqueuer) == 0x14E0);
 
-struct c_signed_in_users_watcher
+class c_signed_in_users_watcher
 {
+public:
 	enum e_watched_state
 	{
 		_watched_state_signed_in_users = 0,
@@ -141,8 +143,9 @@ struct __declspec(align(8)) c_online_files_active_transfer_tracker
 };
 static_assert(sizeof(c_online_files_active_transfer_tracker) == 0x1448);
 
-struct c_aligned_buffered_file_writer
+class c_aligned_buffered_file_writer
 {
+public:
 	s_file_reference* m_file;
 	char* m_write_buffer;
 	int32 m_write_buffer_size;
@@ -151,8 +154,9 @@ struct c_aligned_buffered_file_writer
 static_assert(sizeof(c_aligned_buffered_file_writer) == 0x10);
 
 template<int32 t_write_buffer>
-struct c_aligned_stored_buffered_file_writer
+class c_aligned_stored_buffered_file_writer
 {
+public:
 	c_aligned_buffered_file_writer m_writer;
 	char m_write_buffer[t_write_buffer];
 };
@@ -185,7 +189,7 @@ struct __declspec(align(8)) z_stream_s
 };
 static_assert(sizeof(z_stream_s) == 0x38);
 
-struct c_online_file_manager
+class c_online_file_manager
 {
 public:
 	enum

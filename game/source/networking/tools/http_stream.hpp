@@ -6,7 +6,7 @@ int32 const k_url_size = 256;
 
 struct s_file_reference;
 
-struct c_http_post_source
+class c_http_post_source
 {
 private:
 	static int32 const k_content_type_length = 32;
@@ -55,7 +55,7 @@ protected:
 };
 static_assert(sizeof(c_http_post_source) == 0x13C);
 
-struct c_http_stream
+class c_http_stream
 {
 protected:
 	static int32 const k_http_header_size = 1536;
@@ -91,7 +91,7 @@ protected:
 };
 static_assert(sizeof(c_http_stream) == 0xB0C);
 
-struct c_http_get_stream :
+class c_http_get_stream :
 	public c_http_stream
 {
 public:
@@ -108,7 +108,7 @@ public:
 };
 static_assert(sizeof(c_http_get_stream) == sizeof(c_http_stream));
 
-struct c_http_post_stream :
+class c_http_post_stream :
 	public c_http_stream
 {
 private:

@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_tron_effect
+class c_tron_effect
 {
 public:
 

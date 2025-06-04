@@ -6,8 +6,9 @@
 
 #include <hkArray.hpp>
 
-struct c_havok_contact_point
+class c_havok_contact_point
 {
+public:
 	uns32 m_environment_shape_key;
 	int32 m_impact_datum_index;
 	int32 m_contact_surface_index;
@@ -41,11 +42,13 @@ static_assert(sizeof(c_havok_contact_point) == 0x44);
 struct hkRigidBody;
 struct hkConstraintInstance;
 struct hkWorldObject;
-struct c_havok_component :
-	s_datum_header
+class c_havok_component :
+	public s_datum_header
 {
-	struct c_rigid_body
+public:
+	class c_rigid_body
 	{
+	public:
 		struct s_contact_point_buffer
 		{
 			c_havok_contact_point contact_point;
@@ -69,8 +72,9 @@ struct c_havok_component :
 	};
 	static_assert(sizeof(c_rigid_body) == 0x48);
 
-	struct c_constraint
+	class c_constraint
 	{
+	public:
 		// FLAG(0) powered_bit
 		uns8 m_flags;
 

@@ -5,7 +5,7 @@
 #include "networking/online/online_marketplace.hpp"
 #include "text/unicode.hpp"
 
-struct c_player_marketplace
+class c_player_marketplace
 {
 public:
 	enum

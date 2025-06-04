@@ -301,7 +301,7 @@ struct object_header_datum :
 };
 static_assert(sizeof(object_header_datum) == 0x10);
 
-struct c_object_iterator_base
+class c_object_iterator_base
 {
 public:
 	int32 get_index();
@@ -330,9 +330,10 @@ private:
 static_assert(sizeof(c_object_iterator_base) == 0x1C);
 
 template<typename t_object_type>
-struct c_object_iterator :
-	c_object_iterator_base
+class c_object_iterator :
+	public c_object_iterator_base
 {
+public:
 	void begin(uns32 type_flags, uns8 match_flags)
 	{
 		object_iterator_begin_internal(type_flags, match_flags, 0, NONE);

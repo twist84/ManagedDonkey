@@ -17,7 +17,7 @@ static_assert(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
 enum e_optional_cache_user_priority;
 struct s_optional_cache_user_memory_configuration;
 
-struct c_optional_cache_user_callback
+class c_optional_cache_user_callback
 {
 public:
 	virtual void get_memory_configuration(e_map_memory_configuration, s_optional_cache_user_memory_configuration*);
@@ -33,7 +33,7 @@ struct s_optional_cache_user
 };
 static_assert(sizeof(s_optional_cache_user) == 0x8);
 
-struct c_optional_cache_backend
+class c_optional_cache_backend
 {
 private:
 	virtual void initialize(e_map_memory_configuration memory_configuration, const c_static_array<s_optional_cache_user_memory_configuration, k_number_of_optional_cache_users>*);

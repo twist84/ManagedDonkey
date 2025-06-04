@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_tag_resource_cache_stoler
+class c_tag_resource_cache_stoler
 {
+public:
 	struct s_stolen_memory_user
 	{
 		byte __data[0x14];

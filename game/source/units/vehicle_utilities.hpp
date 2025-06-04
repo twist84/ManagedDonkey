@@ -2,14 +2,16 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_vehicle_stop_counter
+class c_vehicle_stop_counter
 {
+public:
 	uns8 m_value;
 };
 static_assert(sizeof(c_vehicle_stop_counter) == sizeof(uns8));
 
-struct c_vehicle_braking_counter
+class c_vehicle_braking_counter
 {
+public:
 	uns8 m_value;
 };
 static_assert(sizeof(c_vehicle_braking_counter) == sizeof(uns8));

@@ -114,26 +114,26 @@ void _reverse(t_element_type* begin, t_element_type* end)
 	}
 }
 
-struct c_allocation_base
+class c_allocation_base
 {
 public:
 	virtual void* allocate(uns32 allocation, const char* name);
 	virtual void deallocate(void* buffer);
 };
 
-struct c_system_allocation :
+class c_system_allocation :
 	public c_allocation_base
 {
 public:
 };
 
-struct c_normal_allocation :
+class c_normal_allocation :
 	public c_allocation_base
 {
 public:
 };
 
-struct c_no_allocation :
+class c_no_allocation :
 	public c_allocation_base
 {
 public:
@@ -159,8 +159,9 @@ static uns32 count_bits(void* v)
 	return INVOKE(0x014E9ED0, count_bits_dont_call_me<void*>, v);
 }
 
-struct c_robust_void_pointer
+class c_robust_void_pointer
 {
+public:
 	c_robust_void_pointer(void* value) :
 		c_robust_void_pointer()
 	{
@@ -241,7 +242,7 @@ struct c_robust_void_pointer
 };
 
 template<typename t_type>
-struct c_robust_pointer
+class c_robust_pointer
 {
 public:
 	c_robust_pointer() :
@@ -382,7 +383,7 @@ void zero_array(t_type(&data)[k_count])
 }
 
 template<typename t_type>
-struct c_wrapped_array
+class c_wrapped_array
 {
 public:
 	c_wrapped_array()
@@ -435,7 +436,7 @@ public:
 };
 
 template<typename t_type>
-struct c_basic_buffer
+class c_basic_buffer
 {
 public:
 	//c_basic_buffer() :
@@ -506,7 +507,7 @@ public:
 };
 
 template<typename t_type, int32 k_count>
-struct c_static_array
+class c_static_array
 {
 public:
 	c_static_array()
@@ -610,7 +611,7 @@ protected:
 };
 
 template<typename t_type, int32 k_count>
-struct c_static_sized_dynamic_array
+class c_static_sized_dynamic_array
 {
 public:
 	c_static_sized_dynamic_array() :
@@ -690,7 +691,7 @@ protected:
 };
 
 template<typename t_type, int32 k_count>
-struct c_static_stack
+class c_static_stack
 {
 public:
 	c_static_stack() :
@@ -798,8 +799,9 @@ protected:
 };
 
 template<typename t_type, int32 k_type_size = sizeof(t_type), int32 k_alignment_mask = __alignof(t_type) - 1>
-struct c_typed_opaque_data
+class c_typed_opaque_data
 {
+public:
 	t_type* get()
 	{
 		ASSERT(((uns32)m_opaque_storage & k_alignment_mask) == 0);
@@ -811,8 +813,9 @@ struct c_typed_opaque_data
 };
 
 template<typename t_type, int32 k_maximum_mapped, int32 k_a_hash_scalar, int32 k_b_hash_scalar, int32 k_c_hash_scalar>
-struct c_simple_hash_table
+class c_simple_hash_table
 {
+public:
 	struct s_data
 	{
 		t_type entry;
@@ -830,21 +833,23 @@ struct c_simple_hash_table
 static_assert(sizeof(c_simple_hash_table<int32, 8192, 3307, 3, 337>) == 0x28004);
 
 template<typename t_type>
-struct c_reference_count
+class c_reference_count
 {
+public:
 	t_type m_reference_count;
 };
 static_assert(sizeof(c_reference_count<int32>) == 0x4);
 
-struct c_wrapped_flags
+class c_wrapped_flags
 {
+public:
 	uns32* m_bit_storage;
 	int32 m_bit_count;
 };
 static_assert(sizeof(c_wrapped_flags) == 0x8);
 
 template<typename t_type, typename t_storage_type, int32 k_count>
-struct c_flags_no_init
+class c_flags_no_init
 {
 public:
 	static t_type const k_maximum_count = (t_type)k_count;
@@ -979,7 +984,7 @@ protected:
 };
 
 template<typename t_type, typename t_storage_type, int32 k_count>
-struct c_flags :
+class c_flags :
 	public c_flags_no_init<t_type, t_storage_type, k_count>
 {
 public:
@@ -995,8 +1000,9 @@ public:
 };
 
 template<int32 k_maximum_count>
-struct c_static_flags_no_init
+class c_static_flags_no_init
 {
+public:
 	static int32 const MAX_COUNT = k_maximum_count;
 
 	void and_(const c_static_flags_no_init<k_maximum_count>* vector_a)
@@ -1147,17 +1153,18 @@ struct c_static_flags_no_init
 		return BIT_VECTOR_TEST_FLAG(m_flags, index);
 	}
 
+private:
 	uns32 m_flags[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
 };
 
 template<int32 k_maximum_count>
-struct c_static_flags :
+class c_static_flags :
 	public c_static_flags_no_init<k_maximum_count>
 {
 };
 
 template<typename t_type, typename t_storage_type, t_type k_minimum_value, t_type k_maximum_value_plus_one>
-struct c_enum
+class c_enum
 {
 public:
 	c_enum() :
@@ -1278,15 +1285,16 @@ static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
 //static_assert(sizeof(s_location) == 0x4);
 
 // $TODO: find an actual home
-struct c_animation_id
+class c_animation_id
 {
+public:
 	int16 m_subgraph;
 	int16 m_index;
 };
 static_assert(sizeof(c_animation_id) == sizeof(int16) * 2);
 
 template<int32 k_maximum_count>
-struct c_static_string
+class c_static_string
 {
 	using t_type = char[k_maximum_count];
 
@@ -1557,7 +1565,7 @@ protected:
 	char m_string[k_maximum_count];
 };
 
-struct c_string_builder :
+class c_string_builder :
 	public c_static_string<1024>
 {
 public:
@@ -1568,7 +1576,7 @@ public:
 
 extern char* tag_to_string(tag _tag, char* buffer);
 
-struct c_string_id
+class c_string_id
 {
 public:
 	c_string_id() : m_id(NONE) {}
@@ -1587,7 +1595,7 @@ protected:
 };
 static_assert(sizeof(c_string_id) == sizeof(string_id));
 
-struct c_old_string_id :
+class c_old_string_id :
 	public c_string_id
 {
 public:
@@ -1595,20 +1603,23 @@ public:
 };
 static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
-struct c_word_quantized_position
+class c_word_quantized_position
 {
+public:
 	uns16 m_position[3];
 };
 static_assert(sizeof(c_word_quantized_position) == 0x6);
 
-struct c_dword_unit_vector
+class c_dword_unit_vector
 {
+public:
 	uns32 m_vector;
 };
 static_assert(sizeof(c_dword_unit_vector) == 0x4);
 
-struct c_short_quaternion
+class c_short_quaternion
 {
+public:
 	int16 m_quaternion[4];
 };
 static_assert(sizeof(c_short_quaternion) == 0x8);

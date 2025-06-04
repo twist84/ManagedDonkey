@@ -4,7 +4,7 @@
 
 struct s_observer_command;
 
-struct c_first_person_camera :
+class c_first_person_camera :
 	public c_camera
 {
 public:
@@ -22,7 +22,7 @@ public:
 };
 static_assert(sizeof(c_first_person_camera) == 0x20);
 
-struct c_authored_camera :
+class c_authored_camera :
 	public c_camera
 {
 public:

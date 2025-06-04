@@ -20,7 +20,7 @@ if (game_engine_tag_defined_variant_get_default_variant_count(_game_engine_index
 else                                                                                             \
     build_default_game_variant(&_game_variant, _game_engine_index);
 
-struct c_bitstream;
+class c_bitstream;
 
 //#pragma pack(push, 4)
 //
@@ -28,9 +28,7 @@ struct c_bitstream;
 
 int32 const k_maximum_game_engine_variant_size = 0x260;
 
-struct c_bitstream;
-
-struct c_game_variant
+class c_game_variant
 {
 public:
 	c_game_variant();

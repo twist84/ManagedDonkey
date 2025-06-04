@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_beam_system :
-	s_datum_header
+class c_beam_system :
+	public s_datum_header
 {
 public:
 	static void __cdecl submit_all(int32 user_index, e_effect_pass effect_pass);
@@ -25,8 +25,8 @@ public:
 };
 static_assert(sizeof(c_beam_system) == 0x2C);
 
-struct c_beam :
-	s_datum_header
+class c_beam :
+	public s_datum_header
 {
 	int32 m_next_sibling_index;
 	int32 m_beam_gpu_index;
@@ -42,8 +42,8 @@ struct c_beam :
 };
 static_assert(sizeof(c_beam) == 0x34);
 
-struct c_beam_location :
-	s_datum_header
+class c_beam_location :
+	public s_datum_header
 {
 	int32 m_next_sibling_index;
 	int32 m_parent_system_index;

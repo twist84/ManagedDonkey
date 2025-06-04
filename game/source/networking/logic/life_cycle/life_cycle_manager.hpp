@@ -5,11 +5,11 @@
 
 const int32 k_maximum_state_change_entry_data_size = 16;
 
-struct c_life_cycle_state_handler;
-struct c_network_session_manager;
-struct c_network_session;
-struct c_network_observer;
-struct c_life_cycle_state_manager
+class c_life_cycle_state_handler;
+class c_network_session_manager;
+class c_network_session;
+class c_network_observer;
+class c_life_cycle_state_manager
 {
 public:
 	c_life_cycle_state_manager();

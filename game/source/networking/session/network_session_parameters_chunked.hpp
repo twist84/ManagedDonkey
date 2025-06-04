@@ -4,9 +4,9 @@
 #include "networking/session/network_session_parameters_generic.hpp"
 
 template <typename t_type, int32 k_payload_size>
-struct c_network_session_parameter_chunked :
+class c_network_session_parameter_chunked :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<t_type>
+	public c_generic_network_session_parameter_data<t_type>
 {
 protected:
 	int32 m_transmitted_peer_update_chunk_indices[17];

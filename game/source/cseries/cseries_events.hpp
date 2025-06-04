@@ -47,7 +47,7 @@ struct s_event_category
 };
 static_assert(sizeof(s_event_category) == 0x188);
 
-struct c_event_listener_base
+class c_event_listener_base
 {
 	char m_categories[128];
 	int32 m_category_index;
@@ -55,7 +55,7 @@ struct c_event_listener_base
 };
 static_assert(sizeof(c_event_listener_base) == 0x88);
 
-struct c_event_listener : 
+class c_event_listener : 
 	public c_event_listener_base
 {
 public:
@@ -96,7 +96,7 @@ struct s_event_globals
 };
 static_assert(sizeof(s_event_globals) == 0x82B6C);
 
-struct c_event
+class c_event
 {
 public:
 	c_event(e_event_level event_level, int32 event_category_index, uns32 event_response_suppress_flags);

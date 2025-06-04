@@ -15,7 +15,7 @@ enum e_live_service_qos_manager_flags
 };
 typedef c_flags<e_live_service_qos_manager_flags, uns8, k_live_service_qos_manager_flags_count> c_live_service_qos_manager_flags;
 
-struct c_live_service_qos_manager
+class c_live_service_qos_manager
 {
 public:
 	c_live_service_qos_manager();
@@ -38,7 +38,7 @@ private:
 };
 static_assert(sizeof(c_live_service_qos_manager) == 0x2C);
 
-struct c_session_qos_reply_manager
+class c_session_qos_reply_manager
 {
 protected:
 	virtual bool get_session_id(s_transport_secure_identifier* session_id_out) = 0;
@@ -62,8 +62,8 @@ private:
 };
 static_assert(sizeof(c_session_qos_reply_manager) == 0x164D0);
 
-struct c_squad_session_qos_reply_manager :
-	c_session_qos_reply_manager
+class c_squad_session_qos_reply_manager :
+	public c_session_qos_reply_manager
 {
 protected:
 	virtual bool get_session_id(s_transport_secure_identifier* session_id_out) override;
@@ -77,8 +77,8 @@ public:
 };
 static_assert(sizeof(c_squad_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
 
-struct c_group_session_qos_reply_manager :
-	c_session_qos_reply_manager
+class c_group_session_qos_reply_manager :
+	public c_session_qos_reply_manager
 {
 protected:
 	virtual bool get_session_id(s_transport_secure_identifier* session_id_out) override;

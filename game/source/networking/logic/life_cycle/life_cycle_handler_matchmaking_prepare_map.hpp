@@ -7,7 +7,7 @@ struct s_life_cycle_matchmaking_progress;
 //typedef c_flags<e_matchmaking_prepare_map_flags, uns8, k_matchmaking_prepare_map_flags_count> c_matchmaking_prepare_map_flags;
 typedef uns8 c_matchmaking_prepare_map_flags;
 
-struct c_life_cycle_state_handler_matchmaking_prepare_map :
+class c_life_cycle_state_handler_matchmaking_prepare_map :
 	public c_life_cycle_state_handler
 {
 public:

@@ -6,7 +6,7 @@
 #include "interface/gui_screens/motd_popup/gui_screen_motd_popup.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
-struct c_main_menu_screen_widget :
+class c_main_menu_screen_widget :
 	public c_gui_screen_widget
 {
 public:

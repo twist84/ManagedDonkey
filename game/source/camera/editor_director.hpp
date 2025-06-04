@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "camera/director.hpp"
 
-struct c_editor_director :
+class c_editor_director :
 	public c_director
 {
 public:

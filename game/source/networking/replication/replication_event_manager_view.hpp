@@ -11,20 +11,20 @@ struct s_replication_event_manager_view_statistics
 };
 static_assert(sizeof(s_replication_event_manager_view_statistics) == 0xC);
 
-struct c_replication_outgoing_event;
-struct c_replication_event_manager;
-struct c_replication_event_manager_view :
+class c_replication_outgoing_event;
+class c_replication_event_manager;
+class c_replication_event_manager_view :
 	public c_replication_scheduler_client
 {
 public:
-	struct c_event_record
+	class c_event_record
 	{
 		c_replication_outgoing_event* m_event;
 		c_event_record* m_next;
 	};
 	static_assert(sizeof(c_event_record) == 0x8);
 	
-	struct c_packet_record
+	class c_packet_record
 	{
 		int32 m_packet_sequence_number;
 		c_event_record* m_event_list;

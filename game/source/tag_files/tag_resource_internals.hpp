@@ -6,7 +6,7 @@
 #define LONG_DESIGNATOR_PRIMARY_INDEX_BITS(SECONDARY_INDEX_BITS, HAS_FLAG) (LONG_BITS - (SECONDARY_INDEX_BITS))
 
 template<int32 k_secondary_index_bits, bool k_has_flag>
-struct c_long_designator
+class c_long_designator
 {
 	static int32 const k_primary_index_bits = LONG_DESIGNATOR_PRIMARY_INDEX_BITS(k_secondary_index_bits, k_has_flag);
 	static int32 const k_max_primary_index_with_bits = MAX_INDEX_WITH_BITS(k_primary_index_bits);
@@ -71,7 +71,7 @@ enum e_tag_resource_fixup_type
 	k_tag_resource_fixup_type_count
 };
 
-struct c_tag_resource_fixup
+class c_tag_resource_fixup
 {
 	static int32 const k_tag_resource_fixup_type_bits = bit_count(k_tag_resource_fixup_type_count);
 	static int32 const k_maximum_resource_fixup_value = MAX_INDEX_WITH_BITS(LONG_DESIGNATOR_PRIMARY_INDEX_BITS(k_tag_resource_fixup_type_bits, false));

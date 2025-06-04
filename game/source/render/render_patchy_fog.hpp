@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_patchy_fog
+class c_patchy_fog
 {
+public:
 	static void __cdecl frame_advance_all(real32 seconds_elapsed);
 
 	real_point3d m_last_eye_position;

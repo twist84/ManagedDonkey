@@ -12,10 +12,11 @@ struct s_network_session_parameter_session_mode
 };
 static_assert(sizeof(s_network_session_parameter_session_mode) == 0xC);
 
-struct c_network_session_parameter_session_mode :
+class c_network_session_parameter_session_mode :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_session_mode>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_session_mode>
 {
+public:
 	e_network_session_mode get() const;
 	bool request_change(e_network_session_mode session_mode);
 	bool set(e_network_session_mode session_mode);
@@ -29,9 +30,9 @@ struct s_network_session_parameter_session_size
 };
 static_assert(sizeof(s_network_session_parameter_session_size) == 0x8);
 
-struct c_network_session_parameter_session_size :
+class c_network_session_parameter_session_size :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_session_size>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_session_size>
 {
 };
 static_assert(sizeof(c_network_session_parameter_session_size) == 0x40);
@@ -53,16 +54,16 @@ struct s_network_session_remote_session_join_data
 };
 static_assert(sizeof(s_network_session_remote_session_join_data) == 0x58);
 
-struct c_network_session_parameter_requested_remote_join_data :
+class c_network_session_parameter_requested_remote_join_data :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_remote_session_join_data>
+	public c_generic_network_session_parameter_data<s_network_session_remote_session_join_data>
 {
 };
 static_assert(sizeof(c_network_session_parameter_requested_remote_join_data) == 0xE0);
 
-struct c_network_session_parameter_remote_join_data :
+class c_network_session_parameter_remote_join_data :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_remote_session_join_data>
+	public c_generic_network_session_parameter_data<s_network_session_remote_session_join_data>
 {
 };
 static_assert(sizeof(c_network_session_parameter_remote_join_data) == 0xE0);
@@ -82,14 +83,14 @@ struct s_network_session_parameter_lobby_vote_set
 };
 static_assert(sizeof(s_network_session_parameter_lobby_vote_set) == 0x8);
 
-struct c_network_session_parameter_lobby_vote_set :
+class c_network_session_parameter_lobby_vote_set :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_lobby_vote_set>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_lobby_vote_set>
 {
 };
 static_assert(sizeof(c_network_session_parameter_lobby_vote_set) == 0x40);
 
-struct c_bitstream;
+class c_bitstream;
 extern bool __cdecl session_mode_decode_function(c_bitstream* packet, void* data, int32 data_size);
 extern void __cdecl session_mode_encode_function(c_bitstream* packet, const void* data, int32 data_size);
 extern bool __cdecl session_size_decode_function(c_bitstream* packet, void* data, int32 data_size);

@@ -3,7 +3,7 @@
 #include "game/materials.hpp"
 
 struct s_character_physics_definition;
-struct c_animation_manager;
+class c_animation_manager;
 struct hkShape;
 struct s_character_physics_update_input_datum
 {
@@ -89,8 +89,9 @@ struct s_character_physics_move_output_datum;
 struct s_character_physics_move_input_datum;
 struct s_character_physics_update_output_datum;
 
-struct c_character_physics_mode_ground_datum
+class c_character_physics_mode_ground_datum
 {
+public:
 	const real_vector3d* get_ground_plane() const;
 	real32 get_ground_plane_contact_offset() const;
 	real32 get_landing_velocity() const;

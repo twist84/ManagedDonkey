@@ -5,8 +5,8 @@
 #include "text/unicode.hpp"
 
 struct s_player_identifier;
-struct c_player_marketplace;
-struct c_controller_interface
+class c_player_marketplace;
+class c_controller_interface
 {
 public:
 	bool in_use() const;

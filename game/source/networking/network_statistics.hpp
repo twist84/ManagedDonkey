@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_network_time_statistics
+class c_network_time_statistics
 {
 private:
 	static int32 const k_network_statistics_interval_count = 20;
@@ -29,7 +29,7 @@ public:
 };
 static_assert(sizeof(c_network_time_statistics) == 0xD8);
 
-struct c_network_window_statistics
+class c_network_window_statistics
 {
 private:
 	static int32 const k_network_statistics_maximum_window_size = 32;

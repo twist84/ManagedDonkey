@@ -11,14 +11,14 @@ enum
 	k_saved_game_storage_max_count = 2
 };
 
-struct c_game_state_compressor_callback :
+class c_game_state_compressor_callback :
 	public c_optional_cache_user_callback
 {
 };
 static_assert(sizeof(c_game_state_compressor_callback) == sizeof(c_optional_cache_user_callback));
 
-struct c_restricted_memory;
-struct c_restricted_memory_callbacks
+class c_restricted_memory;
+class c_restricted_memory_callbacks
 {
 public:
 	c_restricted_memory_callbacks();
@@ -29,7 +29,7 @@ public:
 	virtual void handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size);
 };
 
-struct c_gamestate_deterministic_allocation_callbacks :
+class c_gamestate_deterministic_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
@@ -41,7 +41,7 @@ public:
 	virtual int32 filter_base_offset(int32 a1, int32 a2);
 };
 
-struct c_gamestate_nondeterministic_allocation_callbacks :
+class c_gamestate_nondeterministic_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
@@ -53,7 +53,7 @@ public:
 	virtual void handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size) override;
 };
 
-struct c_gamestate_allocation_record_allocation_callbacks :
+class c_gamestate_allocation_record_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
@@ -62,7 +62,7 @@ public:
 	virtual void handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size) override;
 };
 
-struct c_game_state_compressor
+class c_game_state_compressor
 {
 public:
 	void initialize();

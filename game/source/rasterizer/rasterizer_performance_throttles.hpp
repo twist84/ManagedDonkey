@@ -47,7 +47,7 @@ struct s_performance_throttles
 };
 static_assert(sizeof(s_performance_throttles) == 0x38);
 
-struct c_performance_throttles
+class c_performance_throttles
 {
 public:
 	static s_performance_throttles* __cdecl get_current_performance_throttles();

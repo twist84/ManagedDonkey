@@ -3,16 +3,18 @@
 #include "physics/physics_model_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
-struct c_cluster_collision_instanced_geometry_shape
+class c_cluster_collision_instanced_geometry_shape
 {
+public:
 	s_havok_shape_collection cluster_collsion_shape;
 	s_tag_reference structure_bsp_reference;
 	int32 cluster_index;
 };
 static_assert(sizeof(c_cluster_collision_instanced_geometry_shape) == 0x2C);
 
-struct c_cluster_collision_instanced_geometry_mopp_bv_tree_shape
+class c_cluster_collision_instanced_geometry_mopp_bv_tree_shape
 {
+public:
 	s_havok_shape base;
 	void* field_pointer_skip;
 	void* shape_collection_ptr;

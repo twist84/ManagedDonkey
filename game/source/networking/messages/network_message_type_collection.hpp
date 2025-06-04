@@ -4,8 +4,9 @@
 
 #define k_network_message_maximum_size 0x40000
 
-struct c_network_message_type_collection
+class c_network_message_type_collection
 {
+public:
 	using encode_t = void __cdecl(c_bitstream* packet, int32 message_storage_size, const void* message_storage);
 	using decode_t = bool __cdecl(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 	using compare_t = bool __cdecl(int32, void*, void*);

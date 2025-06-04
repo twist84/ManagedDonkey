@@ -104,7 +104,7 @@ extern wchar_t* __cdecl unicode_byte_swap_wchar_string(wchar_t* string, int32 ma
 //extern void string_to_utf32_string<wchar_t,8>(const wchar_t*,const s_escape_table*,utf32*,utf32 (*)(const wchar_t*,const s_escape_table*,const wchar_t**,int32*,utf32*,int32,int32*),int32,int32*);
 
 template<int32 k_buffer_size>
-struct c_static_wchar_string
+class c_static_wchar_string
 {
 public:
 	c_static_wchar_string() :

@@ -5,7 +5,7 @@
 enum e_network_mode_category;
 enum e_network_mode_choice;
 
-struct c_gui_network_mode_selected_item :
+class c_gui_network_mode_selected_item :
 	public c_gui_selected_item
 {
 public:

@@ -82,10 +82,11 @@ struct s_data_iterator
 static_assert(sizeof(s_data_iterator) == 0xC);
 
 template <typename t_datum_type>
-struct c_smart_data_array
+class c_smart_data_array
 {
 	static_assert(__is_base_of(s_datum_header, t_datum_type));
 
+public:
 	s_data_array*& get_restricted_data_array_address()
 	{
 		return this;
@@ -123,10 +124,11 @@ struct c_smart_data_array
 static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
 
 template <typename t_datum_type>
-struct c_wrapped_data_array
+class c_wrapped_data_array
 {
 	static_assert(__is_base_of(s_datum_header, t_datum_type));
 
+public:
 	void dispose()
 	{
 		data_dispose(*m_data_array);
@@ -215,7 +217,7 @@ extern void* __cdecl datum_try_and_get_absolute(const s_data_array* data, int32 
 extern void* __cdecl datum_try_and_get_unsafe(const s_data_array* data, int32 index);
 
 template<typename t_datum_type>
-struct c_data_iterator
+class c_data_iterator
 {
 	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
 
@@ -264,7 +266,7 @@ public:
 static_assert(sizeof(c_data_iterator<void>) == 0x10);
 
 template<typename t_datum_type>
-struct c_data_iterator_with_byte_flags
+class c_data_iterator_with_byte_flags
 {
 	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
 

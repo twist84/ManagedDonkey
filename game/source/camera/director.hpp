@@ -10,7 +10,7 @@
 #include "camera/orbiting_camera.hpp"
 #include "camera/static_camera.hpp"
 
-struct c_director
+class c_director
 {
 public:
 	virtual e_director_mode get_type() const;

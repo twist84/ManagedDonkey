@@ -2,10 +2,11 @@
 
 #include "cseries/async_xoverlapped.hpp"
 
-struct c_storage_device;
-struct c_storage_device_selector_overlapped_task :
+class c_storage_device;
+class c_storage_device_selector_overlapped_task :
 	public c_overlapped_task
 {
+public:
 	uns32 __thiscall start_(void* xenon_task_handle);
 
 	c_storage_device* m_storage_device;
@@ -16,8 +17,9 @@ struct c_storage_device_selector_overlapped_task :
 };
 static_assert(sizeof(c_storage_device_selector_overlapped_task) == 0x24);
 
-struct c_storage_device
+class c_storage_device
 {
+public:
 	void set_device_selection_cancelled(bool device_selection_cancelled);
 
 	int32 m_flags;

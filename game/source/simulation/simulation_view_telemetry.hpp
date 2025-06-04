@@ -22,9 +22,10 @@ struct __declspec(align(8)) s_simulation_view_telemetry_data
 };
 static_assert(sizeof(s_simulation_view_telemetry_data) == 0xA0);
 
-struct c_simulation_view;
-struct c_simulation_view_telemetry_provider
+class c_simulation_view;
+class c_simulation_view_telemetry_provider
 {
+public:
 	c_simulation_view* m_view;
 	s_simulation_view_telemetry_data m_telemetry_data;
 };

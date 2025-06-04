@@ -42,8 +42,9 @@ enum e_memory_protection
 	_memory_protection_readwrite
 };
 
-struct c_restricted_section
+class c_restricted_section
 {
+public:
 	enum e_internal_flags
 	{
 		_initialized = 0
@@ -58,9 +59,10 @@ struct c_restricted_section
 };
 static_assert(sizeof(c_restricted_section) == 0x18);
 
-struct c_restricted_memory_callbacks;
-struct c_restricted_memory
+class c_restricted_memory_callbacks;
+class c_restricted_memory
 {
+public:
 	enum e_internal_flags
 	{
 		_initialized = 0

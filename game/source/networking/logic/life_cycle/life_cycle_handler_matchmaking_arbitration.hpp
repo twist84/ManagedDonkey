@@ -32,7 +32,7 @@ enum e_matchmaking_arbitration_flags
 
 typedef c_flags<e_matchmaking_arbitration_flags, uns32, k_matchmaking_arbitration_flags_count> c_matchmaking_arbitration_flags;
 
-struct c_life_cycle_state_handler_matchmaking_arbitration :
+class c_life_cycle_state_handler_matchmaking_arbitration :
 	public c_life_cycle_state_handler
 {
 public:

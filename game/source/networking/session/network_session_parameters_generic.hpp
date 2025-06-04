@@ -3,7 +3,7 @@
 #include "networking/session/network_session_parameters_base.hpp"
 
 template <typename t_type>
-struct c_generic_network_session_parameter_data
+class c_generic_network_session_parameter_data
 {
 protected:
 	t_type m_data;
@@ -11,9 +11,9 @@ protected:
 };
 
 template <typename t_type>
-struct c_generic_network_session_parameter :
+class c_generic_network_session_parameter :
 	public c_network_session_parameter_base, 
-	c_generic_network_session_parameter_data<t_type>
+	public c_generic_network_session_parameter_data<t_type>
 {
 public:
 	t_type* get() const;

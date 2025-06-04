@@ -6,7 +6,7 @@
 #include "networking/session/network_session_parameters_matchmaking.hpp"
 
 struct s_dynamic_matchmaking_hopper_statistics;
-struct c_gui_screen_pregame_lobby_matchmaking :
+class c_gui_screen_pregame_lobby_matchmaking :
 	public c_gui_screen_pregame_lobby
 {
 public:

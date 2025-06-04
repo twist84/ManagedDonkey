@@ -12,8 +12,9 @@ struct s_cubemap_sample
 };
 static_assert(sizeof(s_cubemap_sample) == 0x6);
 
-struct c_dynamic_cubemap_sample
+class c_dynamic_cubemap_sample
 {
+public:
 	s_cubemap_sample m_current;
 	s_cubemap_sample m_last;
 	real32 m_blend_factor;

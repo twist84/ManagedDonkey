@@ -2,7 +2,7 @@
 
 #include "camera/camera.hpp"
 
-struct c_static_camera :
+class c_static_camera :
 	public c_camera
 {
 public:
@@ -23,7 +23,7 @@ public:
 };
 static_assert(sizeof(c_static_camera) == 0x4C);
 
-struct c_scripted_camera :
+class c_scripted_camera :
 	public c_camera
 {
 public:

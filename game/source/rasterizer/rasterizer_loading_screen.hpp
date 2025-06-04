@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_rasterizer_loading_screen
+class c_rasterizer_loading_screen
 {
+public:
 	static bool __cdecl active();
 	static void __cdecl dispose();
 	static bool __cdecl fading_out();

@@ -30,7 +30,7 @@ struct s_network_message_text_chat
 };
 static_assert(sizeof(s_network_message_text_chat) == 0x224 /* 0x194 */);
 
-struct c_bitstream;
+class c_bitstream;
 class c_network_message_text_chat
 {
 public:
@@ -38,6 +38,6 @@ public:
 	static bool decode(c_bitstream* packet, int32 message_storage_size, void* message_storage);
 };
 
-struct c_network_message_type_collection;
+class c_network_message_type_collection;
 extern void __cdecl network_message_types_register_text_chat(c_network_message_type_collection* message_collection);
 

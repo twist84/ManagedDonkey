@@ -5,7 +5,7 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "networking/online/online_service_record.hpp"
 
-struct c_controller_input_message;
+class c_controller_input_message;
 
 struct s_start_menu_breadcrumb
 {
@@ -14,7 +14,7 @@ struct s_start_menu_breadcrumb
 };
 static_assert(sizeof(s_start_menu_breadcrumb) == 0x8);
 
-struct c_start_menu_screen_widget :
+class c_start_menu_screen_widget :
 	public c_gui_screen_widget
 {
 public:

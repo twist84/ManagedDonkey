@@ -6,9 +6,9 @@
 #include "game/game_engine_assault_traits.hpp"
 #include "game/game_engine_player_traits.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 
-struct c_game_engine_assault_variant :
+class c_game_engine_assault_variant :
 	public c_game_engine_base_variant
 {
 public:
@@ -88,8 +88,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
 
-struct c_assault_engine :
-	c_ctf_engine
+class c_assault_engine :
+	public c_ctf_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;

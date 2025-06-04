@@ -42,27 +42,34 @@ struct s_critical_section // RTL_CRITICAL_SECTION
 };
 static_assert(sizeof(s_critical_section) == 0x18);
 
-struct c_synchronization_object
+class c_synchronization_object
 {
+public:
 	c_interlocked_long locking_thread;
 	c_interlocked_long lock_count;
 };
 static_assert(sizeof(c_synchronization_object) == 0x8);
 
-struct c_critical_section_data : c_synchronization_object
+class c_critical_section_data :
+	public c_synchronization_object
 {
+public:
 	s_critical_section critical_section;
 };
 static_assert(sizeof(c_critical_section_data) == 0x20);
 
-struct c_synchronization_handle : c_synchronization_object
+class c_synchronization_handle :
+	public c_synchronization_object
 {
+public:
 	void* handle;
 };
 static_assert(sizeof(c_synchronization_handle) == 0xC);
 
-struct c_semaphore_handle : c_synchronization_handle
+class c_semaphore_handle :
+	public c_synchronization_handle
 {
+public:
 	int32 thread_reference_count[k_registered_thread_count];
 };
 static_assert(sizeof(c_semaphore_handle) == 0x34);
@@ -77,7 +84,7 @@ struct s_synchronization_globals
 };
 static_assert(sizeof(s_synchronization_globals) == 0x91C);
 
-struct c_critical_section_scope
+class c_critical_section_scope
 {
 public:
 	c_critical_section_scope(int32 critical_section_id);

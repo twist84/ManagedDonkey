@@ -69,8 +69,9 @@ struct s_trigger_volume_triangle
 };
 static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 
-struct c_trigger_volume_query
+class c_trigger_volume_query
 {
+public:
 	scenario_trigger_volume* m_trigger_volume;
 	real_matrix4x3 m_transform;
 	bool m_valid;

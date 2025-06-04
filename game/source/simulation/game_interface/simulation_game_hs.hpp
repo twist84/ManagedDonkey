@@ -10,7 +10,7 @@ struct s_simulation_hs_script_wake_event_data
 };
 static_assert(sizeof(s_simulation_hs_script_wake_event_data) == 0x24);
 
-struct c_simulation_hs_script_wake_event_definition :
+class c_simulation_hs_script_wake_event_definition :
 	public c_simulation_event_definition
 {
 public:

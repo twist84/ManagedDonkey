@@ -63,7 +63,7 @@ enum e_model_self_shadow_detail
 };
 
 struct s_model_variant;
-struct c_model_instance_group;
+class c_model_instance_group;
 struct s_model_material;
 struct s_model_damage_info;
 struct s_model_target;
@@ -293,8 +293,9 @@ struct s_model_variant_object
 };
 static_assert(sizeof(s_model_variant_object) == 0x1C);
 
-struct c_model_instance_group_member
+class c_model_instance_group_member
 {
+public:
 	// if this member is chosen, this subgroup will be chosen as well
 	int32 subgroup;
 
@@ -316,8 +317,9 @@ enum e_model_instance_group_choice
 	k_model_instance_group_choice_count
 };
 
-struct c_model_instance_group
+class c_model_instance_group
 {
+public:
 	// name of this instance group
 	c_string_id name;
 

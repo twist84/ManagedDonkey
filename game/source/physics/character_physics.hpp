@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_character_physics_component
+class c_character_physics_component
 {
 public:
 	enum e_mode

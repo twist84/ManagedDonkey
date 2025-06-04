@@ -11,7 +11,7 @@
 struct s_observer_result;
 
 // 0165DB98
-struct c_view
+class c_view
 {
 protected:
 
@@ -71,7 +71,7 @@ protected:
 static_assert(sizeof(c_view) == 0x294);
 
 // 0165DBAC
-struct c_ui_view :
+class c_ui_view :
 	public c_view
 {
 public:
@@ -93,7 +93,7 @@ public:
 static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 
 // 0165DBC0
-struct c_fullscreen_view :
+class c_fullscreen_view :
 	public c_view
 {
 public:
@@ -112,7 +112,7 @@ public:
 static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 
 // 01692BDC
-struct c_world_view :
+class c_world_view :
 	public c_view
 {
 public:
@@ -131,7 +131,7 @@ static_assert(0x2 == OFFSETOF(c_world_view, m_stored_cluster) - sizeof(c_view));
 __interface IDirect3DSurface9;
 
 // 0165E0C4
-struct c_lights_view :
+class c_lights_view :
 	public c_world_view
 {
 public:
@@ -184,7 +184,7 @@ protected:
 static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
 
 // 0165E0D8
-struct c_lightmap_shadows_view :
+class c_lightmap_shadows_view :
 	public c_world_view
 {
 protected:
@@ -193,21 +193,21 @@ protected:
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 
 // 0165E0EC
-struct c_occlusion_view :
+class c_occlusion_view :
 	public c_lightmap_shadows_view
 {
 };
 static_assert(sizeof(c_occlusion_view) == sizeof(c_lightmap_shadows_view));
 
 // 0165E108
-struct c_reflection_view :
+class c_reflection_view :
 	public c_view
 {
 };
 static_assert(sizeof(c_reflection_view) == sizeof(c_view));
 
 // 0165E11C
-struct c_first_person_view :
+class c_first_person_view :
 	public c_view
 {
 public:
@@ -231,7 +231,7 @@ static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
 enum c_rasterizer::e_splitscreen_res;
 
 // 0165E130
-struct c_player_view :
+class c_player_view :
 	public c_world_view
 {
 public:
@@ -336,7 +336,7 @@ public:
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
 
-struct c_hud_camera_view :
+class c_hud_camera_view :
 	public c_player_view
 {
 public:
@@ -346,7 +346,7 @@ public:
 };
 static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 
-struct c_texture_camera_view :
+class c_texture_camera_view :
 	public c_player_view
 {
 protected:

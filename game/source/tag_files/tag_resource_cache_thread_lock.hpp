@@ -14,16 +14,20 @@ struct s_access_cache_available_event :
 static_assert(sizeof(s_access_cache_available_event) == 0x10);
 //static_assert(sizeof(t_event_queue<s_access_cache_available_event, 3>) == 0x50);
 
-struct c_tag_resource_cache_dpc_event
+class c_tag_resource_cache_dpc_event
 {
+public:
 	c_interlocked_int64 m_dpc_event_plus_flag;
 };
 static_assert(sizeof(c_tag_resource_cache_dpc_event) == 0x8);
 
-struct c_tag_resource_cache_thread_lock_lock_freeish
+class c_tag_resource_cache_thread_lock_lock_freeish
 {
-	struct c_synchronized_access_cache : c_tag_resource_cache_file_access_cache
+public:
+	class c_synchronized_access_cache :
+		public c_tag_resource_cache_file_access_cache
 	{
+	public:
 		c_tag_resource_cache_dpc_event m_dpc_event;
 		c_interlocked_long m_reference_count;
 		int32 : 32;

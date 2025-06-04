@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_gui_screen_widget;
-struct c_gui_location_manager
+class c_gui_screen_widget;
+class c_gui_location_manager
 {
 public:
 	enum e_location_mode

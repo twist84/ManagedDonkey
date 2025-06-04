@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_contrail_gpu :
-	s_datum_header
+class c_contrail_gpu :
+	public s_datum_header
 {
 public:
 	static void __cdecl shell_initialize();

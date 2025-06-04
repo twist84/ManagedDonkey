@@ -50,7 +50,7 @@ struct s_async_buffer
 };
 static_assert(sizeof(s_async_buffer) == 0x20);
 
-struct c_async_buffer_set_base
+class c_async_buffer_set_base
 {
 public:
 	c_async_buffer_set_base(int32 buffer_count);
@@ -63,7 +63,7 @@ public:
 };
 static_assert(sizeof(c_async_buffer_set_base) == 0x64);
 
-struct c_async_buffer_set :
+class c_async_buffer_set :
 	public c_async_buffer_set_base
 {
 public:

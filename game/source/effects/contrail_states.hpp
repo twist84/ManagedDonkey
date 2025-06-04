@@ -2,11 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_contrail_system;
-struct c_contrail_location;
-struct c_contrail;
-struct c_contrail_profile;
-struct c_contrail_states
+class c_contrail_system;
+class c_contrail_location;
+class c_contrail;
+class c_contrail_profile;
+class c_contrail_states
 {
 	const c_contrail_system* m_contrail_system;
 	const c_contrail_location* m_contrail_location;

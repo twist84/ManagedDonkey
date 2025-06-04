@@ -62,7 +62,7 @@ struct s_simulation_projectile_supercombine_request_event_data
 };
 static_assert(sizeof(s_simulation_projectile_supercombine_request_event_data) == 0x4);
 
-struct c_simulation_projectile_entity_definition :
+class c_simulation_projectile_entity_definition :
 	public c_simulation_game_engine_globals_definition
 {
 public:

@@ -76,7 +76,7 @@ struct s_gpu_time_profile
 };
 static_assert(sizeof(s_gpu_time_profile) == 0x20);
 
-struct c_rasterizer_profile_globals
+class c_rasterizer_profile_globals
 {
 public:
 	c_rasterizer_profile_globals();

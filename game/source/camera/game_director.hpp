@@ -2,7 +2,7 @@
 
 #include "camera/director.hpp"
 
-struct c_game_director :
+class c_game_director :
 	public c_director
 {
 public:

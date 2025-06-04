@@ -5,8 +5,8 @@
 struct s_simulation_entity;
 struct s_simulation_view_telemetry_data;
 struct s_entity_update_data;
-struct c_bitstream;
-struct c_simulation_entity_definition
+class c_bitstream;
+class c_simulation_entity_definition
 {
 public:
 	virtual e_simulation_entity_type entity_type() = 0;

@@ -4,7 +4,7 @@
 #include "multithreading/synchronized_value.hpp"
 #include "saved_games/content/content_item_metadata.hpp"
 
-struct c_content_catalogue;
+class c_content_catalogue;
 
 struct s_content_item
 {

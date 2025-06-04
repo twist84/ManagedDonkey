@@ -5,7 +5,7 @@
 #include "cseries/language.hpp"
 #include "networking/online/online_service_record.hpp"
 
-struct c_virtual_keyboard_task :
+class c_virtual_keyboard_task :
 	public c_overlapped_task
 {
 public:
@@ -68,9 +68,10 @@ protected:
 };
 static_assert(sizeof(c_virtual_keyboard_task) == 0x6A0);
 
-struct c_string_verify_task :
+class c_string_verify_task :
 	public c_overlapped_task
 {
+public:
 	enum
 	{
 		k_maximum_simultaneous_strings = 4

@@ -221,10 +221,14 @@ void __cdecl string_id_initialize()
 void __cdecl string_id_dispose()
 {
 	if (g_string_id_globals.ascii_strings)
+	{
 		free(g_string_id_globals.ascii_strings);
+	}
 
 	if (g_string_id_globals.ascii_storage)
+	{
 		free(g_string_id_globals.ascii_storage);
+	}
 }
 
 s_string_id_globals g_string_id_globals{};

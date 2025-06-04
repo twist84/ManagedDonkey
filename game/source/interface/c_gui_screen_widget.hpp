@@ -4,11 +4,11 @@
 #include "interface/c_gui_widget.hpp"
 #include "tag_files/tag_groups.hpp"
 
-struct c_dialog_result_message;
-struct c_game_tag_parser;
-struct c_gui_bitmap_widget;
-struct c_gui_data;
-struct c_message;
+class c_dialog_result_message;
+class c_game_tag_parser;
+class c_gui_bitmap_widget;
+class c_gui_data;
+class c_message;
 struct s_emblem_info;
 
 enum e_screen_widget_definition_flags
@@ -107,7 +107,7 @@ struct s_window_manager_screen_render_data
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
-struct c_gui_screen_widget :
+class c_gui_screen_widget :
 	public c_gui_widget
 {
 public:

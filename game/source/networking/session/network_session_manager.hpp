@@ -2,10 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_network_session;
+class c_network_session;
 struct s_transport_secure_identifier;
 
-struct c_network_session_manager
+class c_network_session_manager
 {
 public:
 	void deregister_session(c_network_session* session);

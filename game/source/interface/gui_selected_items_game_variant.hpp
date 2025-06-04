@@ -3,7 +3,7 @@
 #include "interface/gui_selected_items.hpp"
 #include "tag_files/files.hpp"
 
-struct c_gui_game_variant_selected_item :
+class c_gui_game_variant_selected_item :
 	public c_gui_selected_item
 {
 public:

@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_animation_data_sizes
+class c_animation_data_sizes
 {
+public:
 	int8 m_static_node_flags;
 	int8 m_animated_node_flags;
 	int16 m_movement_data;
@@ -14,8 +15,9 @@ struct c_animation_data_sizes
 };
 static_assert(sizeof(c_animation_data_sizes) == 0x10);
 
-struct c_animation_data
+class c_animation_data
 {
+public:
 	const byte* m_data;
 	const c_animation_data_sizes* m_data_sizes;
 	uns8 m_node_count;

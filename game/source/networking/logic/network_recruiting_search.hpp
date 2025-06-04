@@ -9,8 +9,9 @@ struct s_recruiting_session_search
 };
 static_assert(sizeof(s_recruiting_session_search) == 0x2E8);
 
-struct c_recruiting_seeker
+class c_recruiting_seeker
 {
+public:
 	void update();
 
 	uns8 m_flags;

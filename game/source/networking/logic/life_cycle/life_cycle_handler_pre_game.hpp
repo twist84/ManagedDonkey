@@ -4,7 +4,7 @@
 
 extern bool net_skip_countdown;
 
-struct c_life_cycle_state_handler_pre_game :
+class c_life_cycle_state_handler_pre_game :
 	public c_life_cycle_state_handler
 {
 public:

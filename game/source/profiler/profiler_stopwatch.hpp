@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_stop_watch
+class c_stop_watch
 {
 public:
 	c_stop_watch();

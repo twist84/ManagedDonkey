@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_ring_buffer
+class c_ring_buffer
 {
+public:
 	int32 ring_size;
 	int32 head_index;
 	int32 element_count;

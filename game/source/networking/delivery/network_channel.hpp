@@ -6,16 +6,16 @@
 #include "networking/transport/transport_address.hpp"
 
 enum e_network_read_result;
-struct c_bitstream;
-struct c_network_message_type_collection;
-struct c_network_link;
-struct c_network_observer;
-struct c_network_message_gateway;
-struct c_network_message_handler;
+class c_bitstream;
+class c_network_message_type_collection;
+class c_network_link;
+class c_network_observer;
+class c_network_message_gateway;
+class c_network_message_handler;
 struct s_channel_configuration;
-struct c_network_message_type_collection;
+class c_network_message_type_collection;
 
-struct c_network_channel_client
+class c_network_channel_client
 {
 public:
 	virtual const char* get_client_name() const;
@@ -29,7 +29,7 @@ public:
 };
 static_assert(sizeof(c_network_channel_client) == sizeof(void*));
 
-struct c_network_connection :
+class c_network_connection :
 	public c_network_channel_client
 {
 public:
@@ -68,7 +68,7 @@ public:
 };
 static_assert(sizeof(c_network_connection) == 0x960);
 
-struct c_network_message_queue :
+class c_network_message_queue :
 	public c_network_channel_client
 {
 public:
@@ -138,7 +138,7 @@ struct s_network_channel_client_info
 };
 static_assert(sizeof(s_network_channel_client_info) == 0x8);
 
-struct c_network_channel_simulation_interface
+class c_network_channel_simulation_interface
 {
 public:
 	void __cdecl notify_closed() const
@@ -161,15 +161,16 @@ protected:
 };
 static_assert(sizeof(c_network_channel_simulation_interface) == 0x34);
 
-struct c_network_channel_simulation_gatekeeper :
+class c_network_channel_simulation_gatekeeper :
 	public c_network_channel_client
 {
+public:
 	bool m_write_simulation_data_available;
 	bool m_read_simulation_data_expected;
 };
 static_assert(sizeof(c_network_channel_simulation_gatekeeper) == 0x8);
 
-struct c_network_channel
+class c_network_channel
 {
 public:
 	static int32 const k_network_channel_name_size;

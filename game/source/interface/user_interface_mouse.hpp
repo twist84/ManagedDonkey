@@ -2,10 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_gui_widget;
-struct c_gui_list_item_widget;
-struct c_gui_list_widget;
-struct c_gui_screen_widget;
+class c_gui_widget;
+class c_gui_list_item_widget;
+class c_gui_list_widget;
+class c_gui_screen_widget;
 
 struct s_user_interface_mouse_globals
 {

@@ -2244,8 +2244,9 @@ void event_context_push(const char* type, bool display_to_console, const char* d
 	//}
 }
 
-struct c_event_context_string_builder
+class c_event_context_string_builder
 {
+public:
 	//c_event_context_string_builder(const char* description, ...) :
 	//	m_string()
 	//{
@@ -2263,8 +2264,9 @@ struct c_event_context_string_builder
 	//char m_string[128];
 };
 
-struct c_event_context
+class c_event_context
 {
+public:
 	//c_event_context(const char* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder)
 	//{
 	//	event_context_push(type, display_to_console, event_context_string_builder->get_string());

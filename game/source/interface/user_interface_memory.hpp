@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_ui_memory_scope_lock
+class c_ui_memory_scope_lock
 {
 public:
 	c_ui_memory_scope_lock();

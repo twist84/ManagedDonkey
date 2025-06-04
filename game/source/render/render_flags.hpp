@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_render_flags
+class c_render_flags
 {
 public:
 	enum e_frame_bit

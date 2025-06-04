@@ -3,11 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
-struct c_gui_selected_item;
+class c_gui_selected_item;
 struct s_data_array;
 struct s_player_appearance;
 
-struct c_gui_data
+class c_gui_data
 {
 public:
 	virtual ~c_gui_data();
@@ -50,7 +50,7 @@ protected:
 };
 static_assert(sizeof(c_gui_data) == 0x8);
 
-struct c_gui_data_array :
+class c_gui_data_array :
 	public c_gui_data
 {
 public:
@@ -75,7 +75,7 @@ protected:
 static_assert(sizeof(c_gui_data_array) == 0xC);
 static_assert(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
 
-struct c_gui_data_array_test:
+class c_gui_data_array_test:
 	public c_gui_data_array
 {
 public:
@@ -107,7 +107,7 @@ protected:
 static_assert(sizeof(c_gui_data_array) == 0xC);
 static_assert(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
 
-struct c_gui_ordered_data :
+class c_gui_ordered_data :
 	public c_gui_data
 {
 public:
@@ -147,7 +147,7 @@ protected:
 static_assert(sizeof(c_gui_ordered_data) == 0x10C);
 static_assert(sizeof(c_gui_ordered_data) == sizeof(c_gui_data) + 0x104);
 
-struct c_gui_tag_datasource :
+class c_gui_tag_datasource :
 	public c_gui_ordered_data
 {
 public:

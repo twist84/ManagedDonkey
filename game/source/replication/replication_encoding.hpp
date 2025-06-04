@@ -55,7 +55,7 @@ struct s_player_motion
 };
 static_assert(sizeof(s_player_motion) == 0x4C);
 
-struct c_bitstream;
+class c_bitstream;
 
 extern bool __cdecl player_motion_compare(const s_player_motion* player_motion_a, s_player_motion* player_motion_b);
 extern bool __cdecl player_motion_decode(c_bitstream* packet, s_player_motion* player_motion);

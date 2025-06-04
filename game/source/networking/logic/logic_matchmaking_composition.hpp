@@ -3,9 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"
 
-struct c_hopper_configuration;
-struct c_network_session;
-struct c_network_session_membership;
+class c_hopper_configuration;
+class c_network_session;
+class c_network_session_membership;
 
 enum e_network_session_matchmaking_composition_build_result
 {

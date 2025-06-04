@@ -6,9 +6,9 @@
 
 struct s_game_non_bsp_zone_set;
 struct s_game_cluster_bit_vectors;
-struct c_scenario_resource_registry;
-struct c_decal_system :
-	s_datum_header
+class c_scenario_resource_registry;
+class c_decal_system :
+	public s_datum_header
 {
 public:
 	static void __cdecl prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
@@ -43,8 +43,8 @@ struct s_decal_counts
 };
 static_assert(sizeof(s_decal_counts) == 0x10);
 
-struct c_decal :
-	s_datum_header
+class c_decal :
+	public s_datum_header
 {
 public:
 	void __thiscall render(int32 pass);

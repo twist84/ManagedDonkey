@@ -2,16 +2,18 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_ai_point3d
+class c_ai_point3d
 {
+public:
 	real_point3d m_point;
 	int16 m_reference_frame;
 	int16 m_bsp_index;
 };
 static_assert(sizeof(c_ai_point3d) == 0x10);
 
-struct c_ai_direction
+class c_ai_direction
 {
+public:
 	int32 m_type;
 
 	union
@@ -25,8 +27,9 @@ struct c_ai_direction
 };
 static_assert(sizeof(c_ai_direction) == 0x14);
 
-struct c_ai_action
+class c_ai_action
 {
+public:
 	int32 m_ai_action;
 	bool m_point_valid;
 	byte m_pad0;

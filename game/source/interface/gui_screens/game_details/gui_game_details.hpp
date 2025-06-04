@@ -4,8 +4,8 @@
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
 
-struct c_gui_game_details :
-	c_gui_game_info_screen
+class c_gui_game_details :
+	public c_gui_game_info_screen
 {
 public:
 	c_gui_game_details(int32 name) :

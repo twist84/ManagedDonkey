@@ -2,7 +2,7 @@
 
 #include "simulation/game_interface/simulation_game_entities.hpp"
 
-struct c_simulation_game_engine_globals_definition :
+class c_simulation_game_engine_globals_definition :
 	public c_simulation_entity_definition
 {
 public:
@@ -38,6 +38,6 @@ public:
 	//virtual void write_update_description_to_string(const s_simulation_entity*, const s_entity_update_data*, int32, char*);
 };
 
-struct c_simulation_type_collection;
+class c_simulation_type_collection;
 extern void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, int32* entity_type_count, int32* event_type_count);
 

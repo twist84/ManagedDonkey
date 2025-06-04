@@ -29,9 +29,10 @@ struct s_physics_model_constraint_reference
 };
 static_assert(sizeof(s_physics_model_constraint_reference) == 0x4);
 
-struct c_impact :
-	s_datum_header
+class c_impact :
+	public s_datum_header
 {
+public:
 	enum e_flags
 	{
 		_flag_active_bit = 0,
@@ -134,7 +135,7 @@ struct c_impact :
 };
 static_assert(sizeof(c_impact) == 0xB4);
 
-struct c_havok_contact_point;
+class c_havok_contact_point;
 
 extern void __cdecl __tls_set_g_impact_array_data_allocator(void* new_address);
 extern void __cdecl __tls_set_g_impact_data_allocator(void* new_address);

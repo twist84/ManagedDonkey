@@ -6,10 +6,10 @@
 #include "game/game_engine_vip_traits.hpp"
 #include "game/game_engine_player_traits.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 struct s_file_reference;
 
-struct c_game_engine_vip_variant :
+class c_game_engine_vip_variant :
 	public c_game_engine_base_variant
 {
 public:
@@ -112,16 +112,17 @@ protected:
 };
 static_assert(sizeof(c_game_engine_vip_variant) == 0x238);
 
-struct c_vip_engine :
-	c_game_engine
+class c_vip_engine :
+	public c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;
 };
 
-struct c_destination_zone :
-	c_area
+class c_destination_zone :
+	public c_area
 {
+public:
 	uns8 m_team_has_visited;
 };
 static_assert(sizeof(c_destination_zone) == 0x68);

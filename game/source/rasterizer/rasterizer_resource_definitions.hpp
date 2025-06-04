@@ -2,8 +2,9 @@
 
 #include <d3d9.h>
 
-struct c_vertex_declaration_table
+class c_vertex_declaration_table
 {
+public:
 	static IDirect3DVertexDeclaration9* __cdecl get_d3d_vertex_declaration(e_vertex_type base_vertex_type, e_lighting_vertex_types lighting_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type);
 	static IDirect3DVertexDeclaration9* __cdecl get_d3d_vertex_declaration_by_entry_point(e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, int32 entry_point);
 	static bool __cdecl set(e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, int32 entry_point);

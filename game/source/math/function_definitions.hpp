@@ -24,7 +24,8 @@ struct mapping_function
 };
 static_assert(sizeof(mapping_function) == sizeof(s_tag_data));
 
-struct c_function_definition : mapping_function
+class c_function_definition :
+	public mapping_function
 {
 };
 static_assert(sizeof(c_function_definition) == sizeof(mapping_function));

@@ -46,7 +46,7 @@ struct s_cache_file_share_map // this probably isn't the correct name
 };
 static_assert(sizeof(s_cache_file_share_map) == 0xC);
 
-struct c_cache_file_copy_optional_cache_callback :
+class c_cache_file_copy_optional_cache_callback :
 	public c_optional_cache_user_callback
 {
 };
@@ -121,7 +121,7 @@ struct s_cache_file_copy_globals
 };
 static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 
-struct c_cache_file_copy_fake_decompressor :
+class c_cache_file_copy_fake_decompressor :
 	public c_cache_file_decompressor
 {
 	virtual bool begin(c_basic_buffer<void> output_buffer)

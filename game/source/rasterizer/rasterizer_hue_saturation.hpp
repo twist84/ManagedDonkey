@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 
 struct real_linear_rgb_color;
-struct c_hue_saturation_control
+class c_hue_saturation_control
 {
 public:
 	static void __cdecl copy_from_gamestate();

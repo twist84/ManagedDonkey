@@ -56,7 +56,7 @@ struct s_cache_file_shared_resource_usage
 static_assert(sizeof(s_cache_file_shared_resource_usage) == 0x2980);
 
 template<typename t_type, int32 k_depth>
-struct c_typed_allocation_data_no_destruct
+class c_typed_allocation_data_no_destruct
 {
 public:
 	t_type* get()
@@ -78,9 +78,10 @@ protected:
 };
 static_assert(sizeof(c_typed_allocation_data_no_destruct<int32, 0>) == 0x10);
 
-struct c_cache_file_streamed_sublocation_decompressor :
+class c_cache_file_streamed_sublocation_decompressor :
 	public c_cache_file_decompressor
 {
+public:
 	virtual bool begin(c_basic_buffer<void> a1)
 	{
 		throw;
@@ -124,16 +125,18 @@ struct s_cache_file_resource_runtime_prefetching_state
 };
 static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x214);
 
-struct c_cache_file_tag_resource_runtime_control_allocation :
+class c_cache_file_tag_resource_runtime_control_allocation :
 	c_allocation_base
 {
+public:
 	c_basic_buffer<void> m_available_region;
 	c_basic_buffer<void> m_allocated_region;
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x14);
 
-struct c_tag_resource_cache_file_location_handler
+class c_tag_resource_cache_file_location_handler
 {
+public:
 	struct
 	{
 		void* get_location_sub_location;
@@ -145,8 +148,9 @@ struct c_tag_resource_cache_file_location_handler
 };
 static_assert(sizeof(c_tag_resource_cache_file_location_handler) == 0x4);
 
-struct c_cache_file_resource_rollover_table
+class c_cache_file_resource_rollover_table
 {
+public:
 	struct s_rollover_entry_estimated
 	{
 		int32 file_size;
@@ -161,17 +165,19 @@ struct c_cache_file_resource_rollover_table
 };
 static_assert(sizeof(c_cache_file_resource_rollover_table) == 0x40010);
 
-struct c_indirect_cache_file_decompressor_service
+class c_indirect_cache_file_decompressor_service
 {
+public:
 	virtual c_cache_file_decompressor* begin_decompression(uns64, int32, c_basic_buffer<void>) = 0;
 	virtual void dispose_decompressor(uns64, int32, c_cache_file_decompressor*) = 0;
 };
 static_assert(sizeof(c_indirect_cache_file_decompressor_service) == 0x4);
 
-struct c_cache_file_uncompressed_decompressor;
-struct c_cache_file_tag_resource_codec_service :
+class c_cache_file_uncompressed_decompressor;
+class c_cache_file_tag_resource_codec_service :
 	c_indirect_cache_file_decompressor_service
 {
+public:
 	virtual c_cache_file_decompressor* begin_decompression(uns64, int32, c_basic_buffer<void>)
 	{
 		throw;
@@ -194,10 +200,11 @@ struct c_cache_file_tag_resource_codec_service :
 };
 static_assert(sizeof(c_cache_file_tag_resource_codec_service) == 0x26C);
 
-struct c_cache_file_resource_stoler;
-struct c_cache_file_resource_optional_cache_backend :
+class c_cache_file_resource_stoler;
+class c_cache_file_resource_optional_cache_backend :
 	public c_optional_cache_backend
 {
+public:
 	c_tag_resource_cache_stoler m_cache_stoler;
 	c_static_flags<32> m_flags;
 	c_cache_file_resource_stoler* m_resource_stoler;
@@ -205,67 +212,68 @@ struct c_cache_file_resource_optional_cache_backend :
 static_assert(sizeof(c_cache_file_resource_optional_cache_backend) == 0x90);
 
 struct s_tag_resource_definition;
-struct c_tag_resource_runtime_listener
+class c_tag_resource_runtime_listener
 {
 public:
-	virtual bool __cdecl register_resource(int32 tag_index, int32 tag_resource_type_index, void* data);
-	virtual void __cdecl unregister_resource(int32 tag_index, int32 tag_resource_type_index, void* data);
+	virtual bool register_resource(int32 tag_index, int32 tag_resource_type_index, void* data);
+	virtual void unregister_resource(int32 tag_index, int32 tag_resource_type_index, void* data);
 };
 static_assert(sizeof(c_tag_resource_runtime_listener) == 0x4);
 
-struct c_tag_resource_runtime_active_set
+class c_tag_resource_runtime_active_set
 {
 public:
-	virtual bool __cdecl any_resources_active() const;
-	virtual bool __cdecl is_resource_required(int32 resource_handle, int32 resource_owner) const;
-	virtual bool __cdecl is_resource_deferred(int32 resource_handle, int32 resource_owner) const;
-	virtual bool __cdecl is_resource_pending(int32 resource_handle, int32 resource_owner) const;
+	virtual bool any_resources_active() const;
+	virtual bool is_resource_required(int32 resource_handle, int32 resource_owner) const;
+	virtual bool is_resource_deferred(int32 resource_handle, int32 resource_owner) const;
+	virtual bool is_resource_pending(int32 resource_handle, int32 resource_owner) const;
 };
 static_assert(sizeof(c_tag_resource_runtime_active_set) == 0x4);
 
 struct s_tag_resource_location_handle_struct;
-struct c_tag_resource_cache_file_prefetch_set
+class c_tag_resource_cache_file_prefetch_set
 {
 public:
-	virtual bool __cdecl should_prefetch_location(s_tag_resource_location_handle_struct* location_handle)const;
+	virtual bool should_prefetch_location(s_tag_resource_location_handle_struct* location_handle)const;
 };
 static_assert(sizeof(c_tag_resource_cache_file_prefetch_set) == 0x4);
 
-struct c_tag_resource_page_range_allocator
+class c_tag_resource_page_range_allocator
 {
 public:
-	virtual bool __cdecl try_to_grab_restore_range(c_basic_buffer<void> desired_range, c_basic_buffer<void>* in_out_range);
-	virtual bool __cdecl try_to_resize_contiguous_range(c_basic_buffer<void>* in_out_range, uns32, uns32, uns32);
-	virtual void __cdecl shrink_for_buyback(c_basic_buffer<void>* in_out_range, uns32 new_size);
-	virtual void __cdecl reclaim_stolen_memory(c_basic_buffer<void>* in_out_range);
-	virtual void __cdecl release_allocation(c_basic_buffer<void>* in_out_range);
-	virtual void __cdecl make_range_writeable(c_basic_buffer<void> range);
-	virtual void __cdecl make_range_read_only(c_basic_buffer<void> range);
+	virtual bool try_to_grab_restore_range(c_basic_buffer<void> desired_range, c_basic_buffer<void>* in_out_range);
+	virtual bool try_to_resize_contiguous_range(c_basic_buffer<void>* in_out_range, uns32, uns32, uns32);
+	virtual void shrink_for_buyback(c_basic_buffer<void>* in_out_range, uns32 new_size);
+	virtual void reclaim_stolen_memory(c_basic_buffer<void>* in_out_range);
+	virtual void release_allocation(c_basic_buffer<void>* in_out_range);
+	virtual void make_range_writeable(c_basic_buffer<void> range);
+	virtual void make_range_read_only(c_basic_buffer<void> range);
 };
 static_assert(sizeof(c_tag_resource_page_range_allocator) == 0x4);
 
-struct c_tag_resource_cache_file_reader
+class c_tag_resource_cache_file_reader
 {
-	struct c_tag_resource_cache_file_reader_vtbl* __vftable /*VFT*/;
+public:
+	class c_tag_resource_cache_file_reader_vtbl* __vftable /*VFT*/;
 };
 
 struct s_indirect_cache_file_location;
-struct c_indirect_cache_file_location_atlas
+class c_indirect_cache_file_location_atlas
 {
 public:
 	virtual bool get_location(uns64, s_indirect_cache_file_location* out_location);
 };
 static_assert(sizeof(c_indirect_cache_file_location_atlas) == 0x4);
 
-struct c_tag_resource_prediction_atom_collector;
-struct c_tag_resource_prediction_atom_generator
+class c_tag_resource_prediction_atom_collector;
+class c_tag_resource_prediction_atom_generator
 {
 public:
 	virtual bool collect_tag_resources(int32 tag_index, int32 prediction_atom_handle, c_tag_resource_prediction_atom_collector* atom_collector);
 };
 static_assert(sizeof(c_tag_resource_prediction_atom_generator) == 0x4);
 
-struct c_cache_file_resource_stoler
+class c_cache_file_resource_stoler
 {
 public:
 	virtual void* try_to_steal_memory(uns32 size);
@@ -275,7 +283,7 @@ public:
 static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
 
 struct s_cache_file_tag_resource_runtime_shared_file :
-	s_datum_header
+	public s_datum_header
 {
 	uns16 flags;
 	s_file_handle async_file_handle;
@@ -287,15 +295,16 @@ struct s_cache_file_tag_resource_runtime_shared_file :
 };
 static_assert(sizeof(s_cache_file_tag_resource_runtime_shared_file) == 0x1C);
 
-struct c_tag_resource_cache_file_datum_handler
+class c_tag_resource_cache_file_datum_handler
 {
-	struct c_tag_resource_cache_file_datum_handler_vtbl* __vftable /*VFT*/;
+public:
+	class c_tag_resource_cache_file_datum_handler_vtbl* __vftable /*VFT*/;
 };
 
-struct c_io_result;
+class c_io_result;
 struct s_cache_file_resource_gestalt;
 struct s_cache_file_resource_runtime_data_new;
-struct c_cache_file_tag_resource_runtime_manager :
+class c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_runtime_listener,
 	public c_tag_resource_runtime_active_set,
 	public c_tag_resource_cache_file_prefetch_set,
@@ -334,7 +343,7 @@ public:
 	}
 
 //protected:
-	struct c_cache_file_tag_resource_datum_handler :
+	class c_cache_file_tag_resource_datum_handler :
 		public c_tag_resource_cache_file_datum_handler
 	{
 	private:
@@ -442,7 +451,7 @@ static_assert(0x6ACA8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_c
 static_assert(0x6ACA9 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_pages_for_next_map));
 static_assert(0x6ACAA == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __data6ACAA));
 
-struct c_cache_file_tag_resource_runtime_manager_allocation :
+class c_cache_file_tag_resource_runtime_manager_allocation :
 	public c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>
 {
 public:
@@ -450,7 +459,7 @@ public:
 };
 extern c_cache_file_tag_resource_runtime_manager_allocation& g_resource_runtime_manager;
 
-struct c_scenario_resource_registry;
+class c_scenario_resource_registry;
 struct s_scenario_game_state;
 
 extern void __cdecl cache_file_tag_resources_dispose();

@@ -14,10 +14,10 @@ enum
 	_network_packet_mode_out_of_band
 };
 
-struct c_network_out_of_band_consumer;
-struct c_network_channel;
-struct c_bitstream;
-struct c_network_link
+class c_network_out_of_band_consumer;
+class c_network_channel;
+class c_bitstream;
+class c_network_link
 {
 public:
 	struct s_link_packet

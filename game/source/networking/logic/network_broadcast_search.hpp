@@ -3,8 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/network_search.hpp"
 
-struct c_network_link;
-struct c_network_message_gateway;
+class c_network_link;
+class c_network_message_gateway;
 struct s_available_session;
 
 struct s_network_broadcast_search_globals

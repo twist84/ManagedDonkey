@@ -16,7 +16,7 @@ enum e_tag_resource_access_state_bit
 	k_tag_resource_access_state_bits,
 };
 
-struct c_tag_resource_cache_file_access_cache
+class c_tag_resource_cache_file_access_cache
 {
 public:
 	bool __cdecl cached_resource_available(int32 resource_handle)

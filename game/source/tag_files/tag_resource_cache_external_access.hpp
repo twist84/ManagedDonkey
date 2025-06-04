@@ -7,18 +7,20 @@
 #include "tag_files/tag_resource_cache_paging.hpp"
 #include "tag_files/tag_resource_cache_thread_lock.hpp"
 
-struct c_tag_resource_cache_new;
-struct c_tag_resource_cache_published_location_interface
+class c_tag_resource_cache_new;
+class c_tag_resource_cache_published_location_interface
 {
+public:
 	c_tag_resource_cache_new* m_resource_cache;
 };
 static_assert(sizeof(c_tag_resource_cache_published_location_interface) == sizeof(c_tag_resource_cache_new*));
 
-struct c_tag_resource_cache_file_datum_handler;
-struct c_tag_resource_runtime_active_set;
-struct c_tag_resource_cache_file_prefetch_set;
-struct c_tag_resource_cache_new
+class c_tag_resource_cache_file_datum_handler;
+class c_tag_resource_runtime_active_set;
+class c_tag_resource_cache_file_prefetch_set;
+class c_tag_resource_cache_new
 {
+public:
 	c_tag_resource_cache_published_location_interface m_published_resource_interface;
 	c_tag_resource_page_table_io_listener m_page_io_listener;
 	c_tag_resource_page_table m_page_table;

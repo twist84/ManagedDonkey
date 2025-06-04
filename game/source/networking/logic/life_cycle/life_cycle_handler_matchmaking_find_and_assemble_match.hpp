@@ -18,7 +18,7 @@ struct s_find_and_assemble_data
 };
 static_assert(sizeof(s_find_and_assemble_data) == 0xC);
 
-struct c_life_cycle_state_handler_matchmaking_find_and_assemble_match :
+class c_life_cycle_state_handler_matchmaking_find_and_assemble_match :
 	public c_life_cycle_state_handler
 {
 public:

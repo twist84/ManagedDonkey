@@ -5,7 +5,7 @@
 //typedef c_flags<e_end_match_write_stats_flags, int16, k_end_match_write_stats_flags_count> c_end_match_write_stats_flags;
 typedef int16 c_end_match_write_stats_flags;
 
-struct c_life_cycle_state_handler_end_match_write_stats :
+class c_life_cycle_state_handler_end_match_write_stats :
 	public c_life_cycle_state_handler
 {
 public:

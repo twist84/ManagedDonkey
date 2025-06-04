@@ -13,10 +13,10 @@ struct s_chud_navpoint;
 struct s_netgame_goal_influencer;
 struct s_game_engine_event_data;
 struct s_multiplayer_runtime_globals_definition;
-struct c_bitstream;
+class c_bitstream;
 struct s_file_reference;
 
-struct c_game_engine_base_variant
+class c_game_engine_base_variant
 {
 public:
 	virtual int32 get_game_engine_name_string_id() const;
@@ -105,7 +105,7 @@ struct s_game_engine_state_data
 static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
 enum e_game_engine_kill_flags;
-struct c_game_engine
+class c_game_engine
 {
 public:
 	virtual int32 get_type() const;

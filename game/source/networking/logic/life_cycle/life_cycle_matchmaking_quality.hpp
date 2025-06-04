@@ -144,8 +144,9 @@ struct __declspec(align(8)) s_matchmaking_quality_data
 };
 static_assert(sizeof(s_matchmaking_quality_data) == 0x98F0);
 
-struct c_matchmaking_quality
+class c_matchmaking_quality
 {
+public:
 	c_matchmaking_quality();
 
 	bool m_needs_submission_to_webstats;

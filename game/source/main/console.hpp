@@ -4,6 +4,8 @@
 #include "interface/terminal.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 
+class c_draw_string;
+
 struct s_console_globals
 {
 	bool active;
@@ -74,8 +76,8 @@ extern s_status_line* g_status_line_tail;
 
 extern s_status_string g_status_strings[20];
 
-struct c_draw_string;
-struct c_font_cache_base;
+class c_draw_string;
+class c_font_cache_base;
 
 extern void __cdecl console_clear();
 extern void __cdecl console_close();
@@ -115,4 +117,4 @@ extern void status_string_internal(const char* status, const char* message);
 extern void status_strings(const char* status, const char* strings);
 
 extern bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, const real_rgb_color& color, e_text_justification justification);
-extern void string_cache_render(s_string_cache* string_cache, struct c_draw_string* draw_string, c_font_cache_base* font_cache);
+extern void string_cache_render(s_string_cache* string_cache, c_draw_string* draw_string, c_font_cache_base* font_cache);

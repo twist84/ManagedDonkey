@@ -50,10 +50,11 @@ struct s_network_session_parameter_request_campaign_quit
 static_assert(sizeof(s_network_session_parameter_request_campaign_quit) == 0x8);
 
 struct s_network_message_parameters_update;
-struct c_network_session;
-struct c_network_observer;
-struct c_network_session_parameters
+class c_network_session;
+class c_network_observer;
+class c_network_session_parameters
 {
+public:
 	struct// s_network_session_parameters_internal
 	{
 		c_network_session_parameter_session_mode session_mode;

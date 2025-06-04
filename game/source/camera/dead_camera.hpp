@@ -2,7 +2,7 @@
 
 #include "camera/camera.hpp"
 
-struct c_dead_camera :
+class c_dead_camera :
 	public c_camera
 {
 public:

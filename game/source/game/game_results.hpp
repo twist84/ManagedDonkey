@@ -301,8 +301,9 @@ struct s_game_results_event
 };
 static_assert(sizeof(s_game_results_event) == 0x24);
 
-struct c_game_results
+class c_game_results
 {
+public:
 	uns8 finish_reason;
 	bool initialized;
 	bool finalized;
@@ -329,9 +330,10 @@ struct s_game_results_globals
 };
 static_assert(sizeof(s_game_results_globals) == 0x10);
 
-struct c_simulation_view;
-struct c_game_results_replicator
+class c_simulation_view;
+class c_game_results_replicator
 {
+public:
 	c_simulation_view* m_view;
 	bool m_has_fatal_error;
 	bool m_sending_updates;
@@ -366,7 +368,7 @@ extern s_integer_statistic_definition(&g_game_results_medal_statistic_definition
 extern s_game_results_globals& g_game_results_globals;
 extern c_game_results& g_current_game_results;
 
-struct c_bitstream;
+class c_bitstream;
 
 extern void __cdecl game_results_statistic_increment(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
 extern void __cdecl game_results_statistic_set(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);

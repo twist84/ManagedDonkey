@@ -19,10 +19,10 @@ struct s_simulation_entity
 };
 static_assert(sizeof(s_simulation_entity) == 0x30);
 
-struct c_simulation_world;
-struct c_replication_entity_manager;
-struct c_simulation_type_collection;
-struct c_simulation_entity_database
+class c_simulation_world;
+class c_replication_entity_manager;
+class c_simulation_type_collection;
+class c_simulation_entity_database
 {
 public:
 	void debug_render();

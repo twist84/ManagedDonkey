@@ -10,8 +10,9 @@ enum e_chud_message_context
 	k_chud_message_context_count
 };
 
-struct c_chud_messaging_manager
+class c_chud_messaging_manager
 {
+public:
 	enum e_chud_state_text_placement
 	{
 		_chud_state_text_right = 0,

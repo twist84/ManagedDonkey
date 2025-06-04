@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_cpu_gpu_synchronizer
+class c_cpu_gpu_synchronizer
 {
 public:
 	static void __cdecl insert_fence_at_beginning_of_frame();

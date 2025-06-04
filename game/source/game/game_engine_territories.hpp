@@ -6,9 +6,9 @@
 #include "game/game_engine_territories_traits.hpp"
 #include "game/game_engine_player_traits.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 
-struct c_game_engine_territories_variant :
+class c_game_engine_territories_variant :
 	public c_game_engine_base_variant
 {
 public:
@@ -59,8 +59,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_territories_variant) == 0x210);
 
-struct c_territories_engine :
-	c_game_engine
+class c_territories_engine :
+	public c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;

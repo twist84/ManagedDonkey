@@ -1,6 +1,6 @@
 #pragma once
 
-struct c_bitstream;
+class c_bitstream;
 
 struct s_player_configuration_from_client;
 struct s_network_squad_status_data;

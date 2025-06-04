@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_sector_ref
+class c_sector_ref
 {
+public:
 	int16 structure_bsp_index;
 	uns16 sector_index;
 };

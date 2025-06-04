@@ -4,8 +4,8 @@
 #include "game/players.hpp"
 #include "interface/user_interface_data.hpp"
 
-struct c_gui_roster_data :
-	c_gui_ordered_data
+class c_gui_roster_data :
+	public c_gui_ordered_data
 {
 public:
 	enum e_player_row_type
@@ -126,8 +126,8 @@ static_assert(0x1670 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for
 static_assert(0x1670 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group.highest_party_skill));
 static_assert(0x1674 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group.highest_party_experience));
 
-struct c_gui_active_roster_data :
-	c_gui_roster_data
+class c_gui_active_roster_data :
+	public c_gui_roster_data
 {
 public:
 	void __thiscall update_();
@@ -141,8 +141,8 @@ public:
 };
 static_assert(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
 
-struct c_gui_static_roster_data :
-	c_gui_roster_data
+class c_gui_static_roster_data :
+	public c_gui_roster_data
 {
 public:
 	virtual~c_gui_static_roster_data();

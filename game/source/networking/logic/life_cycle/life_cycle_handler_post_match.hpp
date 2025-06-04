@@ -20,7 +20,7 @@ enum e_life_cycle_post_match_flags
 };
 typedef c_flags<e_life_cycle_post_match_flags, int16, k_life_cycle_post_match_flags_count> c_life_cycle_post_match_flags;
 
-struct c_life_cycle_state_handler_post_match :
+class c_life_cycle_state_handler_post_match :
 	public c_life_cycle_state_handler
 {
 public:

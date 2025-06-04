@@ -1,11 +1,11 @@
 #pragma once
 
-struct c_network_channel;
-struct c_network_link;
-struct c_network_message_type_collection;
-struct c_network_message_gateway;
-struct c_network_observer;
-struct c_network_session_manager;
+class c_network_channel;
+class c_network_link;
+class c_network_message_type_collection;
+class c_network_message_gateway;
+class c_network_observer;
+class c_network_session_manager;
 struct transport_address;
 
 struct s_network_message_ping;
@@ -94,7 +94,7 @@ union network_message_converter_t
 	const s_network_message_directed_search* message_directed_search;
 };
 
-struct c_network_message_handler
+class c_network_message_handler
 {
 public:
 	void destroy_handler();

@@ -14,9 +14,10 @@ enum e_online_arbitration_registration_status
 	k_online_arbitration_registration_count,
 };
 
-//struct c_arbitration_overlapped_task :
+//class c_arbitration_overlapped_task :
 //	public c_overlapped_task
 //{
+//public:
 //	byte m_registration_result[0x1000];
 //	void* m_session_handle;
 //	uns64 m_session_nonce;

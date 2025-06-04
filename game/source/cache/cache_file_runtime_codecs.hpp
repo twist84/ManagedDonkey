@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_cache_file_decompressor
+class c_cache_file_decompressor
 {
 public:
 	virtual bool begin(c_basic_buffer<void> output_buffer) = 0;
@@ -11,7 +11,7 @@ public:
 };
 static_assert(sizeof(c_cache_file_decompressor) == 0x4);
 
-struct c_cache_file_decompressor_service
+class c_cache_file_decompressor_service
 {
 public:
 	virtual bool decompressor_available() = 0;
@@ -22,7 +22,7 @@ public:
 static_assert(sizeof(c_cache_file_decompressor_service) == 0x4);
 
 struct s_tag_persistent_identifier;
-struct c_cache_file_decompressor_registry
+class c_cache_file_decompressor_registry
 {
 public:
 	c_cache_file_decompressor_registry();
@@ -32,7 +32,7 @@ public:
 static_assert(sizeof(c_cache_file_decompressor_registry) == 0x4);
 
 template<typename decompressor_class_t>
-struct c_single_instance_cache_file_decompressor_service :
+class c_single_instance_cache_file_decompressor_service :
 	public c_cache_file_decompressor_service
 {
 	virtual bool decompressor_available()
@@ -68,7 +68,7 @@ struct c_single_instance_cache_file_decompressor_service :
 	c_cache_file_decompressor* m_decompressor;
 };
 
-struct c_cache_file_runtime_decompressor_registry :
+class c_cache_file_runtime_decompressor_registry :
 	public c_cache_file_decompressor_registry
 {
 public:

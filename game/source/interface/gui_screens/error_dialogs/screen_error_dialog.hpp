@@ -9,7 +9,7 @@ struct s_gui_error
 };
 static_assert(sizeof(s_gui_error) == 0x8);
 
-struct c_error_dialog_screen_widget :
+class c_error_dialog_screen_widget :
 	public c_gui_screen_widget
 {
 public:

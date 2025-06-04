@@ -6,12 +6,12 @@
 
 enum e_gui_dialog_choice;
 enum e_screen_transition_type;
-struct c_gui_screen_widget;
+class c_gui_screen_widget;
 
 template<typename t_class>
 void ui_track_delete(const t_class* object);
 
-struct c_message
+class c_message
 {
 public:
 	c_message(e_ui_message_type type, int32 screen_name, e_controller_index controller, e_window_index window);
@@ -37,7 +37,7 @@ protected:
 static_assert(sizeof(c_message) == 0x18);
 
 //_ui_message_type_controller_input
-struct c_controller_input_message :
+class c_controller_input_message :
 	public c_message
 {
 public:
@@ -57,7 +57,7 @@ protected:
 static_assert(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
 
 //_ui_message_type_xenon
-struct c_xenon_message :
+class c_xenon_message :
 	public c_message
 {
 	enum e_xenon_message_type;
@@ -76,7 +76,7 @@ protected:
 static_assert(sizeof(c_xenon_message) == sizeof(c_message) + 0x8);
 
 //_ui_message_type_load_screen
-struct c_load_screen_message :
+class c_load_screen_message :
 	public c_message
 {
 public:
@@ -114,7 +114,7 @@ protected:
 static_assert(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
 
 //_ui_message_type_screen_custom
-struct c_screen_custom_message :
+class c_screen_custom_message :
 	public c_message
 {
 public:
@@ -129,7 +129,7 @@ protected:
 static_assert(sizeof(c_screen_custom_message) == sizeof(c_message) + 0x4);
 
 //_ui_message_type_dialog_result
-struct c_dialog_result_message :
+class c_dialog_result_message :
 	public c_message
 {
 public:
@@ -148,7 +148,7 @@ protected:
 };
 static_assert(sizeof(c_dialog_result_message) == sizeof(c_message) + 0xC);
 
-struct c_load_terminal_screen_message :
+class c_load_terminal_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -160,7 +160,7 @@ protected:
 };
 static_assert(sizeof(c_load_terminal_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
-struct c_load_alert_screen_message :
+class c_load_alert_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -172,7 +172,7 @@ protected:
 };
 static_assert(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x424);
 
-struct c_load_dialog_screen_message :
+class c_load_dialog_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -191,7 +191,7 @@ protected:
 };
 static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
-struct c_load_game_browser_screen_message :
+class c_load_game_browser_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -204,7 +204,7 @@ protected:
 };
 static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
 
-struct c_load_pregame_selection_screen_message :
+class c_load_pregame_selection_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -217,7 +217,7 @@ protected:
 };
 static_assert(sizeof(c_load_pregame_selection_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
-struct c_load_campaign_select_difficulty_screen_message :
+class c_load_campaign_select_difficulty_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -233,7 +233,7 @@ protected:
 };
 static_assert(sizeof(c_load_campaign_select_difficulty_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
-struct c_load_campaign_select_level_screen_message :
+class c_load_campaign_select_level_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -249,8 +249,9 @@ protected:
 };
 static_assert(sizeof(c_load_campaign_select_level_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
-struct c_message_globals
+class c_message_globals
 {
+public:
 	struct s_message_queue_node
 	{
 		s_message_queue_node* m_next;

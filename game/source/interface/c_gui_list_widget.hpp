@@ -51,8 +51,8 @@ struct s_list_widget_block
 };
 static_assert(sizeof(s_list_widget_block) == 0x80);
 
-struct c_gui_data;
-struct c_gui_list_widget :
+class c_gui_data;
+class c_gui_list_widget :
 	public c_gui_widget
 {
 public:

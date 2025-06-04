@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "physics/collision_bsp_references.hpp"
 
-struct c_collision_edge_reference :
+class c_collision_edge_reference :
 	public c_collision_bsp_reference
 {
 public:
@@ -19,7 +19,7 @@ protected:
 	int32 m_edge_index;
 };
 
-struct c_collision_vertex_reference :
+class c_collision_vertex_reference :
 	public c_collision_bsp_reference
 {
 public:
@@ -35,7 +35,7 @@ protected:
 	int32 m_vertex_index;
 };
 
-struct c_collision_surface_reference :
+class c_collision_surface_reference :
 	public c_collision_bsp_reference
 {
 public:

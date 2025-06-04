@@ -38,9 +38,10 @@ void __thiscall c_cache_file_tag_resource_runtime_manager_allocation::construct(
 
 #if defined(ISEXPERIMENTAL)
 
-struct c_runtime_resource_cache_file_decompressor :
+class c_runtime_resource_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
+public:
 	c_runtime_resource_cache_file_decompressor() :
 		m_holding_buffer()
 	{
@@ -94,9 +95,10 @@ struct c_runtime_resource_cache_file_decompressor :
 	c_basic_buffer<void> m_holding_buffer;
 };
 
-struct c_runtime_resource_cache_file_decompressor_service :
+class c_runtime_resource_cache_file_decompressor_service :
 	public c_single_instance_cache_file_decompressor_service<c_runtime_resource_cache_file_decompressor>
 {
+public:
 	virtual void initialize_decompressor(c_typed_opaque_data<c_runtime_resource_cache_file_decompressor>* decompressor_storage)
 	{
 		c_runtime_resource_cache_file_decompressor* decompressor = decompressor_storage->get();
@@ -113,9 +115,10 @@ struct c_runtime_resource_cache_file_decompressor_service :
 };
 static_assert(sizeof(c_runtime_resource_cache_file_decompressor_service) == 0x18);
 
-struct c_runtime_tag_resource_cache_file_decompressor :
+class c_runtime_tag_resource_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
+public:
 	c_runtime_tag_resource_cache_file_decompressor() :
 		m_holding_buffer()
 	{
@@ -150,9 +153,10 @@ struct c_runtime_tag_resource_cache_file_decompressor :
 	c_basic_buffer<void> m_holding_buffer;
 };
 
-struct c_runtime_tag_resource_cache_file_decompressor_service :
+class c_runtime_tag_resource_cache_file_decompressor_service :
 	public c_single_instance_cache_file_decompressor_service<c_runtime_tag_resource_cache_file_decompressor>
 {
+public:
 	virtual void initialize_decompressor(c_typed_opaque_data<c_runtime_tag_resource_cache_file_decompressor>* decompressor_storage)
 	{
 		c_runtime_tag_resource_cache_file_decompressor* decompressor = decompressor_storage->get();

@@ -5,8 +5,9 @@
 #include "memory/data.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
-struct c_gui_custom_bitmap_storage_item
+class c_gui_custom_bitmap_storage_item
 {
+public:
 	void __thiscall dispose();
 	bool __thiscall initialize(int32 width, int32 height, bool use_compressed_format);
 	bool __thiscall initialize_raw(int32 width, int32 height, char* buffer, int32 buffer_length, bool cpu_cached);
@@ -40,8 +41,9 @@ static_assert(0x48 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_
 static_assert(0x4C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer));
 static_assert(0x50 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_length));
 
-struct c_gui_custom_bitmap_storage_manager
+class c_gui_custom_bitmap_storage_manager
 {
+public:
 	enum
 	{
 		k_maximum_number_of_bitmap_items = 32

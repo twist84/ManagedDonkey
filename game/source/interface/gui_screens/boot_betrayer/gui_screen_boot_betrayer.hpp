@@ -4,7 +4,7 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/user_interface_messages.hpp"
 
-struct c_gui_screen_boot_betrayer :
+class c_gui_screen_boot_betrayer :
 	public c_gui_screen_widget
 {
 public:
@@ -28,7 +28,7 @@ protected:
 };
 static_assert(sizeof(c_gui_screen_boot_betrayer) == sizeof(c_gui_screen_widget) + 0x18);
 
-struct c_load_boot_betrayer_screen_message :
+class c_load_boot_betrayer_screen_message :
 	public c_load_screen_message
 {
 public:

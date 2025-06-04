@@ -2,8 +2,8 @@
 
 #include "game/game_engine_default.hpp"
 
-struct c_game_engine;
-struct c_game_variant;
+class c_game_engine;
+class c_game_variant;
 struct s_game_engine_event_data;
 
 extern c_game_engine* (&game_engines)[k_game_engine_type_count];

@@ -1,6 +1,6 @@
 #pragma once
 
-struct c_game_variant;
+class c_game_variant;
 
 extern bool __cdecl game_engine_has_teams();
 extern bool __cdecl game_engine_is_team_ever_active(int32 team);

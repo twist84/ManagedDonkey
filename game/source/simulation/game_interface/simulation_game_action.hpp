@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_simulation_object_update_flags :
+class c_simulation_object_update_flags :
 	public c_flags<int32, uns64, 64>
 {
 public:

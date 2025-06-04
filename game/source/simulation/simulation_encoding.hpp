@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 struct player_action;
 struct s_simulation_camera_update;
 struct simulation_machine_update;

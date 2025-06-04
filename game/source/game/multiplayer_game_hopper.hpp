@@ -8,9 +8,9 @@
 int32 const k_hopper_maximum_hopper_count = 32;
 
 struct s_game_hopper_picked_game_collection;
-struct c_network_session_membership;
-struct c_game_variant;
-struct c_map_variant;
+class c_network_session_membership;
+class c_game_variant;
+class c_map_variant;
 
 struct s_hopper_universal_configuration
 {
@@ -135,8 +135,9 @@ struct s_hopper_type_configuration
 	};
 };
 
-struct c_hopper_configuration
+class c_hopper_configuration
 {
+public:
 	s_hopper_universal_configuration m_universal;
 	s_hopper_type_configuration m_type;
 };

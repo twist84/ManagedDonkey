@@ -156,7 +156,7 @@ static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
 extern bool debug_damage_effects;
 
 struct s_game_non_bsp_zone_set;
-struct c_scenario_resource_registry;
+class c_scenario_resource_registry;
 extern void __cdecl effects_prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
 extern void __cdecl effects_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set);
 extern void __cdecl effects_dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_set* old_non_bsp_zone_set);

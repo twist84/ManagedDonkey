@@ -8,7 +8,7 @@ struct s_bink_shared_game_state
 static_assert(sizeof(s_bink_shared_game_state) == 0x8);
 
 struct s_game_non_bsp_zone_set;
-struct c_scenario_resource_registry;
+class c_scenario_resource_registry;
 
 extern void __cdecl bink_notify_load_masking_complete();
 extern bool __cdecl bink_playback_active();

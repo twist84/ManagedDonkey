@@ -90,7 +90,7 @@ struct s_network_message_time_synchronize
 };
 static_assert(sizeof(s_network_message_time_synchronize) == 0x24);
 
-struct c_bitstream;
+class c_bitstream;
 
 class c_network_message_join_request
 {
@@ -173,6 +173,6 @@ public:
 
 extern const char* network_message_join_refuse_get_reason_string(int32 reason);
 
-struct c_network_message_type_collection;
+class c_network_message_type_collection;
 extern void __cdecl network_message_types_register_session_protocol(c_network_message_type_collection* message_collection);
 

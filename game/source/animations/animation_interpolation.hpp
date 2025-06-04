@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_interpolator_control
+class c_interpolator_control
 {
+public:
 	real32 m_time_remaining;
 	real32 m_status;
 	int16 m_interpolation_type;

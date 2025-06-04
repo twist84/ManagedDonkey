@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "objects/objects.hpp"
 
-struct c_mover_definition_data;
+class c_mover_definition_data;
 struct object_placement_data;
 struct s_game_cluster_bit_vectors;
 struct object_type_definition

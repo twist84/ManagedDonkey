@@ -5,10 +5,10 @@
 #include "game/game_engine_oddball_traits.hpp"
 #include "game/game_engine_player_traits.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 struct s_file_reference;
 
-struct c_game_engine_oddball_variant :
+class c_game_engine_oddball_variant :
 	public c_game_engine_base_variant
 {
 public:
@@ -77,8 +77,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_oddball_variant) == 0x200);
 
-struct c_oddball_engine :
-	c_game_engine
+class c_oddball_engine :
+	public c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;

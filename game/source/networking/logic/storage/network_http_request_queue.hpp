@@ -5,8 +5,9 @@
 #include "networking/tools/http_client.hpp"
 #include "networking/tools/http_stream.hpp"
 
-struct c_network_http_request_description
+class c_network_http_request_description
 {
+public:
 	c_network_http_request_description(const char* url, e_http_request_type request_type);
 	c_network_http_request_description(const char* url, e_http_request_type request_type, const s_network_http_request_hash* request_hash);
 	c_network_http_request_description();
@@ -26,9 +27,10 @@ static_assert(0x105 == OFFSETOF(c_network_http_request_description, m_file_hash)
 static_assert(0x119 == OFFSETOF(c_network_http_request_description, m_headers));
 static_assert(0x51C == OFFSETOF(c_network_http_request_description, m_post_source));
 
-struct c_network_http_request_queue;
-struct c_network_http_request_item
+class c_network_http_request_queue;
+class c_network_http_request_item
 {
+public:
 	c_network_http_request_item(int32 request_cookie, c_network_http_request_queue* request_queue, e_online_lsp_service_type service_type, const c_network_http_request_description* request_description);
 	c_network_http_request_item();
 
@@ -51,8 +53,9 @@ struct c_network_http_request_item
 };
 static_assert(sizeof(c_network_http_request_item) == 0x67C);
 
-struct c_network_http_request_queue
+class c_network_http_request_queue
 {
+public:
 	c_network_http_request_queue(e_network_http_request_queue_type queue_type);
 
 	void cancel_request(int32 request_cookie);

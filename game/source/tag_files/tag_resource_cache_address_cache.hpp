@@ -2,17 +2,19 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_tag_resource_address_cache;
-struct c_tag_resource_address_cache_control_interface
+class c_tag_resource_address_cache;
+class c_tag_resource_address_cache_control_interface
 {
+public:
 	c_tag_resource_address_cache* m_address_cache;
 };
 static_assert(sizeof(c_tag_resource_address_cache_control_interface) == 0x4);
 
 struct s_tag_resource_location_handle_struct;
-struct c_tag_resource_cache_file_access_cache;
-struct c_tag_resource_address_cache
+class c_tag_resource_cache_file_access_cache;
+class c_tag_resource_address_cache
 {
+public:
 	struct s_published_resources_state
 	{
 		c_tag_resource_cache_file_access_cache* access_cache;

@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_particle_location :
-	s_datum_header
+class c_particle_location :
+	public s_datum_header
 {
 	uns8 m_random_seed;
 	int32 m_flags;

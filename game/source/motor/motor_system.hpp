@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "motor/actions.hpp"
 
-struct c_motor_task
+class c_motor_task
 {
 public:
 	void clear();
@@ -27,7 +27,7 @@ public:
 };
 static_assert(sizeof(c_motor_task) == 0x1C);
 
-struct c_motor_request
+class c_motor_request
 {
 public:
 	c_motor_request();

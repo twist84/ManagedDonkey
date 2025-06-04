@@ -60,9 +60,10 @@ struct s_player_collection
 };
 static_assert(sizeof(s_player_collection) == 0x16408);
 
-struct c_simulation_world;
-struct c_simulation_player
+class c_simulation_world;
+class c_simulation_player
 {
+public:
 	int32 m_player_index;
 	int32 m_player_datum_index;
 	int32 m_player_type;

@@ -17,7 +17,7 @@ enum e_bitstream_state
 	k_bitstream_state_count
 };
 
-struct c_bitstream
+class c_bitstream
 {
 public:
 	c_bitstream() :

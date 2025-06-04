@@ -97,9 +97,9 @@ struct s_simulation_queued_update
 };
 static_assert(sizeof(s_simulation_queued_update) == 0x1680);
 
-struct c_simulation_world;
-struct c_simulation_watcher;
-struct c_simulation_type_collection;
+class c_simulation_world;
+class c_simulation_watcher;
+class c_simulation_type_collection;
 struct s_simulation_globals
 {
 	bool initialized;

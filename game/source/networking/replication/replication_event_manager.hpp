@@ -2,9 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_replication_entity_manager;
-struct c_replication_event_manager_view;
-struct c_simulation_event_handler;
+class c_replication_entity_manager;
+class c_replication_event_manager_view;
+class c_simulation_event_handler;
 
 enum e_replication_event_state
 {
@@ -15,8 +15,9 @@ enum e_replication_event_state
 };
 
 
-struct c_replication_outgoing_event
+class c_replication_outgoing_event
 {
+public:
 	e_replication_event_state m_state;
 	int32 m_type;
 	uns32 m_timestamp;
@@ -30,8 +31,9 @@ struct c_replication_outgoing_event
 };
 static_assert(sizeof(c_replication_outgoing_event) == 0x2C);
 
-struct c_replication_event_manager
+class c_replication_event_manager
 {
+public:
 	c_replication_entity_manager* m_entity_manager;
 	c_simulation_event_handler* m_client;
 	uns32 m_view_mask;

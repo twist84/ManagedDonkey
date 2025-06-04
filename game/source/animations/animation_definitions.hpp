@@ -49,8 +49,9 @@ struct s_animation_inheritence
 };
 static_assert(sizeof(s_animation_inheritence) == 0x30);
 
-struct c_animation_graph_definitions
+class c_animation_graph_definitions
 {
+public:
 	// GRAPH DATA
 
 	s_tag_reference parent_animation_graph;
@@ -66,8 +67,9 @@ struct c_animation_graph_definitions
 };
 static_assert(sizeof(c_animation_graph_definitions) == 0x5C);
 
-struct c_model_animation_graph_contents
+class c_model_animation_graph_contents
 {
+public:
 	// MODE-n-STATE GRAPH
 	s_tag_block modes;
 
@@ -77,8 +79,9 @@ struct c_model_animation_graph_contents
 };
 static_assert(sizeof(c_model_animation_graph_contents) == 0x24);
 
-struct c_model_animation_runtime_data
+class c_model_animation_runtime_data
 {
+public:
 	// RUN-TIME DATA
 
 	s_tag_block inheritence_block;
@@ -88,21 +91,24 @@ struct c_model_animation_runtime_data
 };
 static_assert(sizeof(c_model_animation_runtime_data) == 0x58);
 
-struct c_model_animation_tag_resource
+class c_model_animation_tag_resource
 {
+public:
 	s_tag_block members;
 };
 static_assert(sizeof(c_model_animation_tag_resource) == sizeof(s_tag_block));
 
-struct c_model_animation_tag_resource_group
+class c_model_animation_tag_resource_group
 {
+public:
 	int32 reference_count;
 	s_tag_resource tag_resource;
 };
 static_assert(sizeof(c_model_animation_tag_resource_group) == 0xC);
 
-struct c_model_animation_tag_resource_member
+class c_model_animation_tag_resource_member
 {
+public:
 	int32 UNUSED_animation_index;
 	uns32 production_checksum;
 	int16 frame_count;
@@ -113,8 +119,9 @@ struct c_model_animation_tag_resource_member
 };
 static_assert(sizeof(c_model_animation_tag_resource_member) == 0x30);
 
-struct c_model_animation
+class c_model_animation
 {
+public:
 	c_string_id name;
 	real32 weight;
 	int16 private_loop_frame_index;
@@ -148,7 +155,7 @@ struct c_model_animation
 };
 static_assert(sizeof(c_model_animation) == 0x88);
 
-struct c_model_animation_graph
+class c_model_animation_graph
 {
 public:
 	static const c_model_animation_graph* __cdecl get(int32 definition_index);

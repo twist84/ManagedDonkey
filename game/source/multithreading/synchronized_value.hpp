@@ -149,7 +149,7 @@ public:
 static_assert(sizeof(c_synchronized_array<1>) == (sizeof(c_synchronized_long) * 1));
 
 template<int32 k_bit_count>
-struct c_synchronized_bitvector :
+class c_synchronized_bitvector :
 	public c_synchronized_array<((k_bit_count + (32 - 1)) >> 5)>
 {
 };

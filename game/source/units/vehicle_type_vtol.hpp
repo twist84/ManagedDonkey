@@ -4,8 +4,8 @@
 
 struct s_havok_vehicle_physics_instance;
 struct render_model_definition;
-struct c_animation_channel;
-struct c_vehicle_type_vtol
+class c_animation_channel;
+class c_vehicle_type_vtol
 {
 public:
 	static void __cdecl adjust_gravity(int32 vehicle_index, real_vector3d* gravity_acceleration);

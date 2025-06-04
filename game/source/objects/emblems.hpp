@@ -11,7 +11,7 @@ enum e_emblem_info_flags
 	k_emblem_info_flags_count
 };
 
-struct c_bitstream;
+class c_bitstream;
 struct s_emblem_info
 {
 	s_emblem_info() :

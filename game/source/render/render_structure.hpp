@@ -4,14 +4,15 @@
 #include "tag_files/tag_groups.hpp"
 
 struct s_structure_bsp_resources;
-struct c_structure_bsp_resource_interface
+class c_structure_bsp_resource_interface
 {
+public:
+	s_structure_bsp_resources* get_resources() const;
+
 	c_typed_tag_block<s_structure_bsp_resources> raw_resources;
 	s_tag_resource tag_resources;
 	s_tag_resource cache_file_resources;
 	int32 use_resource_items;
-
-	s_structure_bsp_resources* get_resources() const;
 };
 static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 
@@ -297,8 +298,9 @@ struct render_structure_globals
 };
 static_assert(sizeof(render_structure_globals) == 0x1210C);
 
-struct c_structure_renderer
+class c_structure_renderer
 {
+public:
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);

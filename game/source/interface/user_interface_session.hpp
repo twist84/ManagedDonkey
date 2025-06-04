@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_game_variant;
-struct c_map_variant;
+class c_game_variant;
+class c_map_variant;
 struct s_player_configuration;
 struct s_player_identifier;
 struct s_saved_film_description;

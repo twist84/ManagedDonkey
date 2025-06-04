@@ -33,7 +33,7 @@ struct s_gamepad_input_preferences
 };
 static_assert(sizeof(s_gamepad_input_preferences) == 0x208);
 
-struct c_abstract_button
+class c_abstract_button
 {
 public:
 	c_abstract_button();

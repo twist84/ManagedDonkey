@@ -3,7 +3,7 @@
 #include "game/players.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 
-struct c_gui_player_select_screen_widget :
+class c_gui_player_select_screen_widget :
 	public c_gui_screen_widget
 {
 public:

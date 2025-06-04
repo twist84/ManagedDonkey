@@ -5,9 +5,9 @@
 #include "units/vehicle_utilities.hpp"
 
 struct render_model_definition;
-struct c_animation_channel;
+class c_animation_channel;
 struct s_havok_vehicle_physics_instance;
-struct c_vehicle_type_human_jeep
+class c_vehicle_type_human_jeep
 {
 public:
 	void adjust_gravity(int32 vehicle_index, real_vector3d* gravity_acceleration);

@@ -24,8 +24,9 @@ struct s_transparency_marker
 static_assert(sizeof(s_transparency_marker) == sizeof(uns16));
 
 template<typename t_type, int32 k_count>
-struct c_sorter
+class c_sorter
 {
+public:
 	c_static_array<uns16, k_count> m_order;
 	int32 m_range[2];
 	uns16 m_count;
@@ -33,8 +34,9 @@ struct c_sorter
 };
 static_assert(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);
 
-struct c_transparency_renderer
+class c_transparency_renderer
 {
+public:
 	static void __cdecl render(bool depth_test);
 	static void __cdecl set_active_camo_bounds(const rectangle2d* window_pixel_bounds, const rectangle2d* render_pixel_bounds);
 	static void __cdecl sort();

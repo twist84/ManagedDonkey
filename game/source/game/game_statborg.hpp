@@ -60,8 +60,9 @@ struct s_game_statborg_team
 };
 static_assert(sizeof(s_game_statborg_team) == 0x1A);
 
-struct c_game_statborg
+class c_game_statborg
 {
+public:
 	uns16 __unknown0;
 	uns16 __unknown2;
 	c_static_array<s_game_statborg_player, 16> player;

@@ -3,9 +3,10 @@
 #include "cseries/cseries.hpp"
 #include "memory/sliding_window.hpp"
 
-//struct c_network_connection :
+//class c_network_connection :
 //	c_network_channel_client
 //{
+//public:
 //	struct s_connection_incoming_packet
 //	{
 //		uns16 flags;

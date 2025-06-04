@@ -55,8 +55,8 @@ struct s_session_tracker_qos_attempt
 };
 static_assert(sizeof(s_session_tracker_qos_attempt) == 0x10);
 
-struct c_matchmaking_quality;
-struct c_session_tracker
+class c_matchmaking_quality;
+class c_session_tracker
 {
 public:
 	bool add_session(const char* name, const s_transport_session_description* description);

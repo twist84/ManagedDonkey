@@ -4,8 +4,9 @@
 
 struct s_observer_command;
 
-struct c_camera
+class c_camera
 {
+public:
 	virtual e_camera_mode get_type() const;
 	virtual e_director_perspective get_perspective() const;
 	virtual void update(int32 user_index, real32 dt, s_observer_command* result);
@@ -36,9 +37,10 @@ struct c_camera
 };
 static_assert(sizeof(c_camera) == 0x10);
 
-struct c_null_camera :
+class c_null_camera :
 	public c_camera
 {
+public:
 	byte unused[0x3C];
 };
 static_assert(sizeof(c_null_camera) == 0x4C);

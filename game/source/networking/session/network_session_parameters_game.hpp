@@ -11,9 +11,9 @@ struct s_network_session_parameter_countdown_timer
 };
 static_assert(sizeof(s_network_session_parameter_countdown_timer) == 0x8);
 
-struct c_network_session_parameter_countdown_timer :
+class c_network_session_parameter_countdown_timer :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_countdown_timer>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_countdown_timer>
 {
 public:
 	int32 get_countdown_timer();
@@ -36,9 +36,9 @@ struct s_network_session_parameter_initial_participants
 };
 static_assert(sizeof(s_network_session_parameter_initial_participants) == 0x16530);
 
-struct c_network_session_parameter_initial_participants :
+class c_network_session_parameter_initial_participants :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_initial_participants>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_initial_participants>
 {
 };
 static_assert(sizeof(c_network_session_parameter_initial_participants) == 0x2CA90);
@@ -52,9 +52,9 @@ struct s_network_session_parameter_game_start_status
 };
 static_assert(sizeof(s_network_session_parameter_game_start_status) == 0xC);
 
-struct c_network_session_parameter_game_start_status :
+class c_network_session_parameter_game_start_status :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_game_start_status>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_game_start_status>
 {
 public:
 	bool set(const s_network_session_parameter_game_start_status* game_status);

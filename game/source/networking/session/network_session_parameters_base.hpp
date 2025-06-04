@@ -2,9 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_network_session;
+class c_network_session;
 struct s_network_session_parameter_update;
-struct c_network_session_parameter_base
+class c_network_session_parameter_base
 {
 public:
 	bool get_allowed(void) const;

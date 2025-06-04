@@ -23,22 +23,24 @@ struct s_overlapped
 };
 static_assert(sizeof(s_overlapped) == 0x14);
 
-struct c_asynchronous_io_marker
+class c_asynchronous_io_marker
 {
+public:
 	s_overlapped m_overlapped;
 	uns32 m_unaligned_requested_size;
 	c_synchronized_long m_io_status;
 };
 static_assert(sizeof(c_asynchronous_io_marker) == 0x1C);
 
-struct c_asynchronous_io_arena
+class c_asynchronous_io_arena
 {
 public:
 	void close_file(int32 file_index);
 	void close_file(s_indirect_file* indirect_file_handle);
 
-	struct c_idle_io_handler
+	class c_idle_io_handler
 	{
+	public:
 		enum e_state
 		{
 		};

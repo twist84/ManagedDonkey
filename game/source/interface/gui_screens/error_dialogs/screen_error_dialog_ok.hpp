@@ -2,7 +2,7 @@
 
 #include "interface/gui_screens/error_dialogs/screen_error_dialog.hpp"
 
-struct c_error_dialog_ok_screen_widget :
+class c_error_dialog_ok_screen_widget :
 	public c_error_dialog_screen_widget
 {
 public:

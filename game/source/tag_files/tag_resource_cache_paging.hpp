@@ -2,9 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_tag_resource_cache_new;
-struct c_tag_resource_page_table_io_listener
+class c_tag_resource_cache_new;
+class c_tag_resource_page_table_io_listener
 {
+public:
 	c_tag_resource_cache_new* m_resource_cache_new;
 };
 static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
@@ -25,14 +26,15 @@ struct s_tag_resource_page_datum :
 static_assert(sizeof(s_tag_resource_page_datum) == 0x14);
 
 struct s_lruv_cache;
-struct c_tag_resource_page_range_allocator;
-struct c_tag_resource_cache_file_reader;
-struct c_cache_file_tag_resource_location_handler;
-struct c_tag_resource_cache_published_location_interface;
-struct c_tag_resource_page_table_control_interface;
-struct c_tag_resource_page_table
+class c_tag_resource_page_range_allocator;
+class c_tag_resource_cache_file_reader;
+class c_cache_file_tag_resource_location_handler;
+class c_tag_resource_cache_published_location_interface;
+class c_tag_resource_page_table_control_interface;
+class c_tag_resource_page_table
 {
-	struct c_tag_resource_lruv_cache
+public:
+	class c_tag_resource_lruv_cache
 	{
 		int32 m_allocation_alignment;
 		c_tag_resource_page_range_allocator* m_storage_allocator;
@@ -113,19 +115,20 @@ enum e_indirect_cache_file_read_result
 	k_indirect_cache_file_read_result_count
 };
 
-struct c_indirect_cache_file_bulk_read_iterator
+class c_indirect_cache_file_bulk_read_iterator
 {
 public:
 	virtual void __cdecl request_data(int32 requested_page_handle, const s_indirect_cache_file_read_request* read_request);
 };
 static_assert(sizeof(c_indirect_cache_file_bulk_read_iterator) == 0x4);
 
-struct c_tag_resource_cache_file_reader;
-struct c_tag_resource_cache_file_datum_handler;
+class c_tag_resource_cache_file_reader;
+class c_tag_resource_cache_file_datum_handler;
 #pragma	pack(push, 4)
-struct c_synchronous_resource_io :
+class c_synchronous_resource_io :
 	c_indirect_cache_file_bulk_read_iterator
 {
+public:
 //protected:
 	c_static_sized_dynamic_array<uns64, 1500> m_resource_sort_keys;
 	c_static_sized_dynamic_array<s_indirect_cache_file_read_request, 1500> m_resource_read_requests;

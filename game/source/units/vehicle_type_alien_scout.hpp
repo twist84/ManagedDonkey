@@ -3,9 +3,9 @@
 #include "cseries/cseries.hpp"
 
 struct render_model_definition;
-struct c_animation_channel;
+class c_animation_channel;
 struct s_havok_vehicle_physics_instance;
-struct c_vehicle_type_alien_scout
+class c_vehicle_type_alien_scout
 {
 public:
 	static void __cdecl adjust_gravity(int32 vehicle_index, real_vector3d* gravity_acceleration);

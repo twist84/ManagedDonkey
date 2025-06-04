@@ -16,7 +16,7 @@ struct s_suitable_matchmaking_session
 };
 static_assert(sizeof(s_suitable_matchmaking_session) == sizeof(s_network_session_tracker_session_data));
 
-struct c_life_cycle_state_handler_matchmaking_find_match :
+class c_life_cycle_state_handler_matchmaking_find_match :
 	public c_life_cycle_state_handler
 {
 public:

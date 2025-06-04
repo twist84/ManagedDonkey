@@ -977,8 +977,9 @@ struct s_network_configuration
 };
 static_assert(sizeof(s_network_configuration) == 0x16C4);
 
-struct c_network_configuration_globals
+class c_network_configuration_globals
 {
+public:
 	c_http_blf_simple_downloader<s_network_configuration, 8033> downloader;
 	bool last_download_failed;
 	bool has_downloaded_network_configuration;

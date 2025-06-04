@@ -6,7 +6,7 @@
 #include "interface/user_interface_messages.hpp"
 #include "text/unicode.hpp"
 
-struct c_scoreboard_load_screen_message :
+class c_scoreboard_load_screen_message :
 	public c_load_screen_message
 {
 public:
@@ -17,8 +17,8 @@ protected:
 };
 static_assert(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
-struct c_gui_screen_scoreboard :
-	c_gui_screen_widget
+class c_gui_screen_scoreboard :
+	public c_gui_screen_widget
 {
 public:
 	c_gui_screen_scoreboard(int32 name) :
@@ -54,7 +54,7 @@ private:
 };
 static_assert(sizeof(c_gui_screen_scoreboard) == sizeof(c_gui_screen_widget) + 0x8);
 
-struct c_gui_scoreboard_data :
+class c_gui_scoreboard_data :
 	c_gui_ordered_data
 {
 	enum e_player_row_type

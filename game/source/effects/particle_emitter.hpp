@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_particle_emitter :
-	s_datum_header
+class c_particle_emitter :
+	public s_datum_header
 {
 	struct s_property_values
 	{

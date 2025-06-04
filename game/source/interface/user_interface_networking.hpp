@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "networking/transport/transport_security.hpp"
 
-struct c_game_results;
+class c_game_results;
 struct s_transport_qos_result;
 
 struct s_user_interface_networking_globals

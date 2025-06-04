@@ -2,9 +2,10 @@
 
 #include "cseries/async_xoverlapped.hpp"
 
-struct c_online_marketplace_purchase_task :
+class c_online_marketplace_purchase_task :
 	public c_overlapped_task
 {
+public:
 	static unsigned int const k_max_offer_count = 4;
 
 	e_controller_index m_controller_index;
@@ -15,9 +16,10 @@ struct c_online_marketplace_purchase_task :
 };
 static_assert(sizeof(c_online_marketplace_purchase_task) == 0x40);
 
-struct c_online_marketplace_enumerate_assets_task :
+class c_online_marketplace_enumerate_assets_task :
 	public c_overlapped_task
 {
+public:
 	enum
 	{
 		k_maximum_number_of_assets_to_enumerate = 32,
@@ -31,9 +33,10 @@ struct c_online_marketplace_enumerate_assets_task :
 };
 static_assert(sizeof(c_online_marketplace_enumerate_assets_task) == 0xA0);
 
-struct c_online_marketplace_consume_asset_task :
+class c_online_marketplace_consume_asset_task :
 	public c_overlapped_task
 {
+public:
 	e_controller_index m_controller_index;
 	int32 m_asset; // XMARKETPLACE_ASSET
 };

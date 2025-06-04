@@ -8,12 +8,13 @@ struct s_data_array;
 struct s_event_record;
 struct s_window_manager_screen_render_data;
 struct s_window_manager_static_render_data;
-struct c_gui_screen_widget;
-struct c_gui_widget;
-struct c_load_screen_message;
+class c_gui_screen_widget;
+class c_gui_widget;
+class c_load_screen_message;
 
-struct c_window_manager
+class c_window_manager
 {
+public:
 	enum
 	{
 		k_maximum_number_of_channels_per_render_window = 10

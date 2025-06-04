@@ -26,7 +26,7 @@ struct s_network_storage_manifest_untracked_entry
 };
 static_assert(sizeof(s_network_storage_manifest_untracked_entry) == 0x6C);
 
-struct c_network_storage_manifest
+class c_network_storage_manifest
 {
 public:
 	enum e_entry_state

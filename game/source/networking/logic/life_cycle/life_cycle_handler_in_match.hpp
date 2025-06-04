@@ -12,7 +12,7 @@ enum e_life_cycle_state_handler_in_match_flags
 };
 typedef c_flags<e_life_cycle_state_handler_in_match_flags, uns8, k_life_cycle_state_handler_in_match_flags_count> c_life_cycle_state_handler_in_match_flags;
 
-struct c_life_cycle_state_handler_in_match :
+class c_life_cycle_state_handler_in_match :
 	public c_life_cycle_state_handler
 {
 public:

@@ -2,7 +2,7 @@
 
 #include "cache/cache_file_runtime_codecs.hpp"
 
-struct c_xor_cache_file_decompressor :
+class c_xor_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
 	virtual bool begin(c_basic_buffer<void> a1)
@@ -24,7 +24,7 @@ struct c_xor_cache_file_decompressor :
 };
 static_assert(sizeof(c_xor_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x14);
 
-struct c_xor_cache_file_decompressor_service :
+class c_xor_cache_file_decompressor_service :
 	c_single_instance_cache_file_decompressor_service<c_xor_cache_file_decompressor>
 {
 };

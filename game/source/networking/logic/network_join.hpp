@@ -7,8 +7,8 @@
 #include "networking/transport/transport_security.hpp"
 
 enum e_network_join_squad_join_source;
-struct c_network_session;
-struct c_network_session_membership;
+class c_network_session;
+class c_network_session_membership;
 
 struct s_group_session_join_request_payload
 {

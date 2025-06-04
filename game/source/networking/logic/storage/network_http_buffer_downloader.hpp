@@ -16,8 +16,9 @@ enum e_download_status
 	k_download_status_count
 };
 
-struct c_http_buffer_downloader
+class c_http_buffer_downloader
 {
+public:
 	enum e_internal_status
 	{
 		_internal_status_none = 0,
@@ -71,14 +72,15 @@ protected:
 static_assert(sizeof(c_http_buffer_downloader) == 0x694);
 
 template<int32 k_buffer_size>
-struct c_http_stored_buffer_downloader :
+class c_http_stored_buffer_downloader :
 	public c_http_buffer_downloader
 {
+public:
 	char m_stored_buffer[ALIGN_UP(k_buffer_size, 3)];
 };
 
 template<typename t_blf_type, int32 k_buffer_size = sizeof(t_blf_type)>
-struct c_http_blf_simple_downloader
+class c_http_blf_simple_downloader
 {
 public:
 	e_download_status __thiscall get_data(const t_blf_type** data, int32* data_size)

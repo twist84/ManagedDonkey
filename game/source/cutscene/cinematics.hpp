@@ -49,7 +49,7 @@ struct s_cinematic_light_globals
 static_assert(sizeof(s_cinematic_light_globals) == 0xB2C8);
 
 struct s_game_non_bsp_zone_set;
-struct c_scenario_resource_registry;
+class c_scenario_resource_registry;
 
 extern void __cdecl cinematic_dispose();
 extern void __cdecl cinematic_dispose_from_old_map();

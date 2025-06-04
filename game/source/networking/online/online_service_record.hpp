@@ -55,15 +55,17 @@ enum e_experience_grade
 	k_experience_grade_bits = 2
 };
 
-struct c_online_service_record
+class c_online_service_record
 {
+public:
 	const char* m_buffer;
 	int32 m_buffer_length;
 };
 static_assert(sizeof(c_online_service_record) == 0x8);
 
-struct c_online_service_record_manager
+class c_online_service_record_manager
 {
+public:
 	int32 m_last_download_status;
 	c_http_stored_buffer_downloader<4373> m_downloader;
 	byte __align17B0[0x8];

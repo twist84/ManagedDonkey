@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_particle_system :
-	s_datum_header
+class c_particle_system :
+	public s_datum_header
 {
 public:
 	static void __cdecl submit_all(int32 user_index, e_effect_pass effect_pass);

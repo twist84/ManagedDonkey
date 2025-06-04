@@ -21,8 +21,9 @@ struct s_rasterizer_vertex_shader_entry_point
 };
 static_assert(sizeof(s_rasterizer_vertex_shader_entry_point) == sizeof(s_tag_block));
 
-struct c_rasterizer_constant_table_definition
+class c_rasterizer_constant_table_definition
 {
+public:
 	s_tag_block constants;
 	c_enum<e_rasterizer_constant_table_type, int8, _rasterizer_constant_table_type_vertex, k_rasterizer_constant_table_type_count> type;
 
@@ -31,8 +32,9 @@ struct c_rasterizer_constant_table_definition
 };
 static_assert(sizeof(c_rasterizer_constant_table_definition) == 0x10);
 
-struct c_rasterizer_compiled_shader
+class c_rasterizer_compiled_shader
 {
+public:
 	// ..:xenon compiled shader
 	// ..:dx9 compiled shader
 	s_tag_data compiled_shader[2]; // c_rasterizer::e_platform::k_platform_count
@@ -46,25 +48,27 @@ struct c_rasterizer_compiled_shader
 };
 static_assert(sizeof(c_rasterizer_compiled_shader) == 0x4C);
 
-struct c_rasterizer_compiled_vertex_shader :
+class c_rasterizer_compiled_vertex_shader :
 	public c_rasterizer_compiled_shader // compiled shader splut
 {
+public:
 	IDirect3DVertexShader9* get_d3d_shader() const;
 
 	IDirect3DVertexShader9* runtime_shader;
 };
 static_assert(sizeof(c_rasterizer_compiled_vertex_shader) == 0x50);
 
-struct c_rasterizer_compiled_pixel_shader :
+class c_rasterizer_compiled_pixel_shader :
 	public c_rasterizer_compiled_shader // compiled shader splut
 {
+public:
 	IDirect3DPixelShader9* get_d3d_shader() const;
 
 	IDirect3DPixelShader9* runtime_shader;
 };
 static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
 
-struct c_rasterizer_vertex_shader
+class c_rasterizer_vertex_shader
 {
 	static const c_rasterizer_vertex_shader* get(int32 definition_index);
 	static c_rasterizer_vertex_shader* get_modifiable(int32 definition_index);
@@ -81,8 +85,9 @@ struct c_rasterizer_vertex_shader
 };
 static_assert(sizeof(c_rasterizer_vertex_shader) == 0x20);
 
-struct c_rasterizer_pixel_shader
+class c_rasterizer_pixel_shader
 {
+public:
 	static const c_rasterizer_pixel_shader* get(int32 definition_index);
 	static c_rasterizer_pixel_shader* get_modifiable(int32 definition_index);
 

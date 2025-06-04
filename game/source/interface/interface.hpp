@@ -1,6 +1,6 @@
 #pragma once
 
-struct c_draw_string;
+class c_draw_string;
 union real_argb_color;
 
 extern void __cdecl interface_dispose();

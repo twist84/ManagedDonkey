@@ -1,6 +1,6 @@
 #pragma once
 
-struct c_font_cache_base;
+class c_font_cache_base;
 union point2d;
 
 class c_debug_menu_item;

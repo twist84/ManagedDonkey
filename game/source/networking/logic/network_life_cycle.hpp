@@ -21,9 +21,9 @@
 #include "networking/logic/life_cycle/life_cycle_handler_end_match_write_stats.hpp"
 #include "networking/logic/life_cycle/life_cycle_handler_post_match.hpp"
 
-struct c_network_observer;
-struct c_network_session;
-struct c_network_session_manager;
+class c_network_observer;
+class c_network_session;
+class c_network_session_manager;
 struct s_life_cycle_matchmaking_progress;
 struct s_matchmaking_gather_party_properties;
 struct s_matchmaking_search_party_properties;

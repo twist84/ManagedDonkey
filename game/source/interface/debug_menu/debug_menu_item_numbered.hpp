@@ -4,7 +4,7 @@
 #include "interface/debug_menu/debug_menu_item.hpp"
 #include "interface/debug_menu/debug_menu_value_hs_global_external.hpp"
 
-struct c_font_cache_base;
+class c_font_cache_base;
 class c_debug_menu_item_numbered :
 	public c_debug_menu_item
 {

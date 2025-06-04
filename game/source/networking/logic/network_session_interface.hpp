@@ -8,8 +8,8 @@
 #include "networking/transport/transport_qos.hpp"
 #include "text/unicode.hpp"
 
-struct c_game_variant;
-struct c_map_variant;
+class c_game_variant;
+class c_map_variant;
 struct s_saved_film_description;
 struct s_network_ui_state;
 struct s_network_squad_status_data;

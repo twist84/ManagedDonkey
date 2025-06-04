@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_hash
+class c_hash
 {
 	static byte const k_hash_polynomials[];
 	static int32 const k_hash_polynomial_count;
@@ -69,8 +69,9 @@ extern bool __cdecl string_hash_table_compare_function(const void* string_a, con
 extern uns32 __cdecl string_hash_table_hash_function(const void* string);
 
 template<typename t_key_type, typename t_user_data_type>
-struct c_hash_table
+class c_hash_table
 {
+public:
 	c_hash_table() :
 		m_hash_table(NULL)
 	{
@@ -79,7 +80,9 @@ struct c_hash_table
 	~c_hash_table()
 	{
 		if (m_hash_table)
+		{
 			hash_table_dispose(m_hash_table);
+		}
 	}
 
 	bool __cdecl create(const char* name, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* hash_function, hash_table_compare_function_t* compare_function, c_allocation_base* allocation)

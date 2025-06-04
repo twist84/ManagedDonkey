@@ -13,10 +13,11 @@ struct s_simple_read_file_ex_overlapped_result
 };
 static_assert(sizeof(s_simple_read_file_ex_overlapped_result) == 0x10);
 
-struct c_asynchronous_io_marker;
-struct c_cache_file_decompressor;
-struct c_cache_file_async_decompression_task
+class c_asynchronous_io_marker;
+class c_cache_file_decompressor;
+class c_cache_file_async_decompression_task
 {
+public:
 	int32 m_task_id;
 	bool m_task_done;
 	c_synchronized_long m_task_done_async;

@@ -3,9 +3,10 @@
 #include "cseries/cseries.hpp"
 #include "units/units.hpp"
 
-struct c_simulation_world;
-struct c_simulation_actor
+class c_simulation_world;
+class c_simulation_actor
 {
+public:
 	int32 m_simulation_actor_index;
 	int32 m_unit_index;
 	c_simulation_world* m_world;

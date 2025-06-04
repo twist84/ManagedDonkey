@@ -17,7 +17,7 @@ void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, const poi
 	c_debug_menu_item::render(font_cache, super_class_render_position);
 }
 
-c_debug_menu_item_numbered::c_debug_menu_item_numbered(c_debug_menu* menu, const char* name, struct c_debug_menu* child) :
+c_debug_menu_item_numbered::c_debug_menu_item_numbered(c_debug_menu* menu, const char* name, c_debug_menu* child) :
 	c_debug_menu_item(menu, name, child, true)
 {
 }

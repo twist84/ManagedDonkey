@@ -144,16 +144,18 @@ struct s_havok_vector4 // hkVector4
 	real32 havok_w_sphere;
 };
 
-struct c_multi_sphere_shape
+class c_multi_sphere_shape
 {
+public:
 	s_havok_shape sphere_rep_shape;
 	int32 num_spheres;
 	int8 cock_suck[0xC];
 	s_havok_vector4 four_vectors_storage[8];
 };
 
-struct c_list_shape
+class c_list_shape
 {
+public:
 	struct ChildInfo
 	{
 		int32 child_shape_pointer;

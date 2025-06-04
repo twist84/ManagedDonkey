@@ -125,8 +125,8 @@ struct s_player_add_queue_entry
 };
 static_assert(sizeof(s_player_add_queue_entry) == 0x48);
 
-struct c_network_session;
-struct c_network_session_membership
+class c_network_session;
+class c_network_session_membership
 {
 public:
 	bool has_membership() const

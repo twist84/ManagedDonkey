@@ -11,8 +11,9 @@ struct dynamic_screen_vertex;
 struct s_widget_geometry;
 
 // 0165FC44
-struct c_draw_string
+class c_draw_string
 {
+public:
 	enum e_text_flags
 	{
 		_text_flag_wrap_horizontally_bit = 0,
@@ -149,8 +150,8 @@ protected:
 static_assert(sizeof(c_draw_string) == 0x100);
 
 // 01692AD0
-struct c_hardware_draw_string :
-	c_draw_string
+class c_hardware_draw_string :
+	public c_draw_string
 {
 public:
 	c_hardware_draw_string();
@@ -164,9 +165,10 @@ protected:
 static_assert(sizeof(c_hardware_draw_string) == sizeof(c_draw_string) + 0x14);
 
 // 01697104
-struct c_simple_font_draw_string :
-	c_draw_string
+class c_simple_font_draw_string :
+	public c_draw_string
 {
+public:
 	struct s_character_group_render_data
 	{
 		s_character_group_render_data();
@@ -190,9 +192,10 @@ protected:
 static_assert(sizeof(c_simple_font_draw_string) == sizeof(c_draw_string) + 0x110);
 
 // 01692AF0
-struct c_rasterizer_draw_string :
-	c_draw_string
+class c_rasterizer_draw_string :
+	public c_draw_string
 {
+public:
 	struct s_glyph_group_render_data
 	{
 		struct s_glyph_render_data
@@ -232,8 +235,8 @@ protected:
 static_assert(sizeof(c_rasterizer_draw_string) == sizeof(c_draw_string) + 0x728);
 
 // 01692AF0
-struct c_chud_draw_string :
-	c_draw_string
+class c_chud_draw_string :
+	public c_draw_string
 {
 public:
 	c_chud_draw_string();

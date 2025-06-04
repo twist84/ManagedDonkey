@@ -3,8 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
-struct c_service_client
+class c_service_client
 {
+public:
 	enum e_json_data_type
 	{
 		_json_data_type_undefined = 0,

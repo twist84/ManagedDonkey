@@ -15,7 +15,7 @@ struct s_gui_alert_description
 };
 static_assert(sizeof(s_gui_alert_description) == 0x10);
 
-struct c_gui_queued_error
+class c_gui_queued_error
 {
 public:
 	c_gui_queued_error();
@@ -55,7 +55,7 @@ protected:
 };
 static_assert(sizeof(c_gui_queued_error) == 0x424);
 
-struct c_gui_error_manager
+class c_gui_error_manager
 {
 public:
 	c_gui_error_manager();

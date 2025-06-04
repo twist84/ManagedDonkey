@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 
-struct c_gui_screen_campaign_select_difficulty :
+class c_gui_screen_campaign_select_difficulty :
 	public c_gui_screen_widget
 {
 public:

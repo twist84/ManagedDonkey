@@ -14,8 +14,9 @@ struct s_player_model_camera_state
 };
 static_assert(sizeof(s_player_model_camera_state) == 0x3C);
 
-struct c_user_interface_player_model_camera
+class c_user_interface_player_model_camera
 {
+public:
 	s_player_model_camera_state m_current_camera_state;
 	s_player_model_camera_state m_desired_camera_state;
 	real32 __unknown78;

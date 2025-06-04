@@ -5,8 +5,9 @@
 
 #pragma pack(push, 4)
 
-struct c_gui_single_game_setup_storage
+class c_gui_single_game_setup_storage
 {
+public:
 	e_gui_game_mode m_game_mode;
 
 	union
@@ -21,7 +22,7 @@ struct c_gui_single_game_setup_storage
 };
 static_assert(sizeof(c_gui_single_game_setup_storage) == 0x24E84);
 
-struct c_gui_pregame_setup_manager
+class c_gui_pregame_setup_manager
 {
 public:
 	static c_gui_pregame_setup_manager* __cdecl get();

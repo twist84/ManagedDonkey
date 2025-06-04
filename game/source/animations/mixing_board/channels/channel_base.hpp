@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_base_channel_settings
+class c_base_channel_settings
 {
+public:
 	int32 graph_index;
 	int32 impulse_name;
 	c_animation_id primary_animation_id;
@@ -12,8 +13,9 @@ struct c_base_channel_settings
 };
 static_assert(sizeof(c_base_channel_settings) == 0x10);
 
-struct c_channel_base
+class c_channel_base
 {
+public:
 	int32 m_graph_index;
 	int32 m_impulse_name;
 	c_animation_id m_animation_id;

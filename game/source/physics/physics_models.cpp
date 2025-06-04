@@ -5,43 +5,43 @@
 
 #include <hkShape.hpp>
 
-struct c_sphere_shape :
+class c_sphere_shape :
 	public hkSphereShape
 {
 public:
 };
 
-struct c_triangle_shape :
+class c_triangle_shape :
 	public hkTriangleShape
 {
 public:
 };
 
-struct c_box_shape :
+class c_box_shape :
 	public hkBoxShape
 {
 public:
 };
 
-struct c_capsule_shape :
+class c_capsule_shape :
 	public hkCapsuleShape
 {
 public:
 };
 
-struct c_bv_shape :
+class c_bv_shape :
 	public hkBvShape
 {
 public:
 };
 
-struct c_multi_sphere_shape :
+class c_multi_sphere_shape :
 	public hkMultiSphereShape
 {
 public:
 };
 
-struct c_convex_vertices_shape :
+class c_convex_vertices_shape :
 	public hkConvexVerticesShape
 {
 public:

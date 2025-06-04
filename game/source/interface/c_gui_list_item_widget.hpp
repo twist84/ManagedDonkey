@@ -18,7 +18,7 @@ struct s_runtime_list_item_widget_definition :
 };
 static_assert(sizeof(s_runtime_list_item_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x4);
 
-struct c_gui_list_item_widget :
+class c_gui_list_item_widget :
 	public c_gui_widget
 {
 public:

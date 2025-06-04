@@ -1,6 +1,6 @@
 #include "cseries/cseries.hpp"
 
-struct c_bitstream;
+class c_bitstream;
 
 #pragma once
 #pragma pack(push, 1)
@@ -476,7 +476,7 @@ typedef c_enum<e_shield_recharge_rate_percentage_setting, uns8, _shield_recharge
 typedef c_enum<e_vampirism_percentage_setting, uns8, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> c_vampirism_percentage_setting;
 typedef c_enum<e_headshot_immunity_setting, uns8, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> c_headshot_immunity_setting;
 typedef c_enum<e_shield_multiplier_setting, uns8, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> c_shield_multiplier_setting;
-struct c_player_trait_shield_vitality
+class c_player_trait_shield_vitality
 {
 public:
 	void set(const c_player_trait_shield_vitality* traits, bool force);
@@ -527,7 +527,7 @@ typedef c_enum<e_damage_modifier_percentage_setting, uns8, _damage_modifier_perc
 typedef c_enum<e_recharging_grenades_setting, uns8, _recharging_grenades_setting_unchanged, k_recharging_grenades_settings> c_recharging_grenades_setting;
 typedef c_enum<e_infinite_ammo_setting, uns8, _infinite_ammo_setting_unchanged, k_infinite_ammo_settings> c_infinite_ammo_setting;
 typedef c_enum<e_weapon_pickup_setting, uns8, _weapon_pickup_setting_unchanged, k_weapon_pickup_settings> c_weapon_pickup_setting;
-struct c_player_trait_weapons
+class c_player_trait_weapons
 {
 public:
 	void byteswap();
@@ -585,7 +585,7 @@ static_assert(sizeof(c_player_trait_weapons) == 0x8);
 typedef c_enum<e_player_speed_setting, uns8, _player_speed_setting_unchanged, k_player_speed_settings> c_player_speed_setting;
 typedef c_enum<e_player_gravity_setting, uns8, _player_gravity_setting_unchanged, k_player_gravity_settings> c_player_gravity_setting;
 typedef c_enum<e_vehicle_usage_setting, uns8, _vehicle_usage_setting_unchanged, k_vehicle_usage_settings> c_vehicle_usage_setting;
-struct c_player_trait_movement
+class c_player_trait_movement
 {
 public:
 	void set(const c_player_trait_movement* traits, bool force);
@@ -621,7 +621,7 @@ typedef c_enum<e_active_camo_setting, uns8, _active_camo_setting_unchanged, k_ac
 typedef c_enum<e_waypoint_setting, uns8, _waypoint_setting_unchanged, k_waypoint_settings> c_waypoint_setting;
 typedef c_enum<e_aura_setting, uns8, _aura_setting_unchanged, k_aura_settings> c_aura_setting;
 typedef c_enum<e_forced_change_color_setting, uns8, _forced_change_color_setting_unchanged, k_forced_change_color_settings> c_forced_change_color_setting;
-struct c_player_trait_appearance
+class c_player_trait_appearance
 {
 public:
 	void set(const c_player_trait_appearance* traits, bool force);
@@ -652,7 +652,7 @@ static_assert(sizeof(c_player_trait_appearance) == 0x4);
 // Traits that affect the HUD motion sensor behavior
 typedef c_enum<e_motion_tracker_setting, uns16, _motion_tracker_setting_unchanged, k_motion_tracker_settings> c_motion_tracker_setting;
 typedef c_enum<e_motion_tracker_range_setting, uns16, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> c_motion_tracker_range_setting;
-struct c_player_trait_sensors
+class c_player_trait_sensors
 {
 public:
 	void byteswap();
@@ -674,7 +674,7 @@ protected:
 };
 static_assert(sizeof(c_player_trait_sensors) == 0x4);
 
-struct c_player_traits
+class c_player_traits
 {
 public:
 	void byteswap();

@@ -48,7 +48,7 @@ struct s_player_editor_request_event_data
 };
 static_assert(sizeof(s_player_editor_request_event_data) == 0x78);
 
-struct c_simulation_game_engine_player_entity_definition :
+class c_simulation_game_engine_player_entity_definition :
 	public c_simulation_entity_definition
 {
 public:

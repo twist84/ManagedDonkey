@@ -48,7 +48,7 @@ struct s_physical_memory_stage
 };
 static_assert(sizeof(s_physical_memory_stage) == 0x14);
 
-struct c_physical_memory_contiguous_region_listener
+class c_physical_memory_contiguous_region_listener
 {
 public:
 	virtual void initialize_resize_buffer(c_basic_buffer<void>) = 0;

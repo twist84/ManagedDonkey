@@ -40,9 +40,9 @@ struct s_network_session_matchmaking_hopper_list
 };
 static_assert(sizeof(s_network_session_matchmaking_hopper_list) == 0x6A4);
 
-struct c_network_session_parameter_matchmaking_hopper_list :
+class c_network_session_parameter_matchmaking_hopper_list :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_matchmaking_hopper_list>
+	public c_generic_network_session_parameter_data<s_network_session_matchmaking_hopper_list>
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 0xD78);
@@ -75,9 +75,9 @@ struct s_network_session_matchmaking_hopper
 };
 static_assert(sizeof(s_network_session_matchmaking_hopper) == 0x4C);
 
-struct c_network_session_parameter_matchmaking_hopper :
+class c_network_session_parameter_matchmaking_hopper :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_matchmaking_hopper>
+	public c_generic_network_session_parameter_data<s_network_session_matchmaking_hopper>
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper) == 0xC8);
@@ -247,9 +247,9 @@ struct s_network_session_parameter_matchmaking_rematch_data
 };
 static_assert(sizeof(s_network_session_parameter_matchmaking_rematch_data) == 0x3C4);
 
-struct c_network_session_parameter_matchmaking_rematch_data :
+class c_network_session_parameter_matchmaking_rematch_data :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_matchmaking_rematch_data>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_matchmaking_rematch_data>
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_rematch_data) == 0x7B8);
@@ -261,9 +261,9 @@ struct s_matchmaking_single_hopper_statistics
 };
 static_assert(sizeof(s_matchmaking_single_hopper_statistics) == 0x8);
 
-struct c_network_session_parameter_matchmaking_hopper_statistics :
+class c_network_session_parameter_matchmaking_hopper_statistics :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_matchmaking_single_hopper_statistics>
+	public c_generic_network_session_parameter_data<s_matchmaking_single_hopper_statistics>
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_statistics) == 0x40);
@@ -276,9 +276,9 @@ struct s_network_session_parameter_matchmaking_messaging
 };
 static_assert(sizeof(s_network_session_parameter_matchmaking_messaging) == 0xC);
 
-struct c_network_session_parameter_matchmaking_messaging :
+class c_network_session_parameter_matchmaking_messaging :
 	public c_network_session_parameter_base,
-	c_generic_network_session_parameter_data<s_network_session_parameter_matchmaking_messaging>
+	public c_generic_network_session_parameter_data<s_network_session_parameter_matchmaking_messaging>
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_messaging) == 0x48);

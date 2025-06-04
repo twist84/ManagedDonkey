@@ -8,8 +8,9 @@
 #include "simulation/simulation_players.hpp"
 #include "simulation/simulation_queue.hpp"
 
-struct c_simulation_distributed_world
+class c_simulation_distributed_world
 {
+public:
 	c_replication_entity_manager m_entity_manager;
 	c_replication_event_manager m_event_manager;
 	c_simulation_entity_database m_entity_database;
@@ -17,10 +18,10 @@ struct c_simulation_distributed_world
 };
 static_assert(sizeof(c_simulation_distributed_world) == 0xD0C8);
 
-struct c_simulation_watcher;
-struct c_simulation_view;
+class c_simulation_watcher;
+class c_simulation_view;
 struct s_simulation_queued_update;
-struct c_simulation_world
+class c_simulation_world
 {
 public:
 	bool exists() const;

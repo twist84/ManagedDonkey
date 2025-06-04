@@ -19,7 +19,7 @@ enum e_lruv_cache_block_bit
 	k_lruv_cache_block_bits
 };
 
-struct c_lruv_block_long
+class c_lruv_block_long
 {
 public:
 	int32 peek() const;

@@ -4,7 +4,7 @@
 
 #define CIRCLE_DIVISIONS 16
 
-struct c_render_debug_line_drawer
+class c_render_debug_line_drawer
 {
 public:
 	enum

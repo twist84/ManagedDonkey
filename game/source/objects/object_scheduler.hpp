@@ -14,8 +14,9 @@ struct s_object_schedule
 };
 static_assert(sizeof(s_object_schedule) == 0x10);
 
-struct c_schedule_iterator
+class c_schedule_iterator
 {
+public:
 	// all names subject to change
 
 	int32 phase_index;

@@ -2,7 +2,7 @@
 
 #include "text/unicode.hpp"
 
-struct c_gui_widget;
+class c_gui_widget;
 union argb_color;
 
 extern void __cdecl tint_widget_to_change_color(c_gui_widget* widget, int32 change_color_index, bool change_color_is_team_color);

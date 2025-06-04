@@ -45,7 +45,7 @@ struct s_network_message_connect_closed
 };
 static_assert(sizeof(s_network_message_connect_closed) == 0xC);
 
-struct c_bitstream;
+class c_bitstream;
 
 class c_network_message_connect_request
 {
@@ -77,7 +77,7 @@ public:
 
 extern const char* const k_connect_refuse_reason_strings[k_network_connect_refuse_reason_count];
 
-struct c_network_message_type_collection;
+class c_network_message_type_collection;
 extern void __cdecl network_message_types_register_connect(c_network_message_type_collection* message_collection);
 extern const char* network_message_connect_refuse_get_reason_string(int32 reason);
 

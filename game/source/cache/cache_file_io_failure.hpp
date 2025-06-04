@@ -1,6 +1,6 @@
 #pragma once
 
-struct c_io_result
+class c_io_result
 {
 public:
 	virtual void set_fail_boat() = 0;
@@ -10,7 +10,7 @@ public:
 	c_io_result();
 };
 
-struct c_simple_io_result :
+class c_simple_io_result :
 	public c_io_result
 {
 public:

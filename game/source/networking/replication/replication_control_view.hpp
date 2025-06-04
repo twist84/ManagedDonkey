@@ -7,10 +7,11 @@
 
 int32 const k_network_maximum_control_streams = 32;
 
-struct c_simulation_view_telemetry_provider;
-struct c_replication_control_view :
+class c_simulation_view_telemetry_provider;
+class c_replication_control_view :
 	public c_replication_scheduler_client
 {
+public:
 //protected:
 	bool m_initialized;
 	c_simulation_view_telemetry_provider* m_telemetry_provider;

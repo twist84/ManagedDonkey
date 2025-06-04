@@ -5,7 +5,7 @@
 const wchar_t k_xml_tag_start_character = '<';
 
 template<typename t_character_type>
-struct c_xml_tag_parser
+class c_xml_tag_parser
 {
 public:
 	virtual bool parse_tag(const t_character_type* a1, int32* a2, t_character_type* a3, int32 a4, int32* a5) = 0;

@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "text/xml_parser.hpp"
 
-struct c_game_tag_parser :
+class c_game_tag_parser :
 	public c_xml_tag_parser<wchar_t>
 {
 public:
@@ -16,7 +16,7 @@ protected:
 };
 static_assert(sizeof(c_game_tag_parser) == 0xC);
 
-struct c_magic_string_game_tag_parser :
+class c_magic_string_game_tag_parser :
 	public c_game_tag_parser
 {
 public:
@@ -35,8 +35,9 @@ protected:
 };
 static_assert(sizeof(c_magic_string_game_tag_parser) == sizeof(c_game_tag_parser) + 0x8);
 
-struct c_user_interface_text_parse_manager
+class c_user_interface_text_parse_manager
 {
+public:
 	void register_parser(c_game_tag_parser* parser, int32 screen_index);
 	void unregister_parser(c_game_tag_parser* parser, int32 screen_index);
 

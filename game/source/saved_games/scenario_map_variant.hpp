@@ -4,7 +4,7 @@
 #include "objects/objects.hpp"
 #include "saved_games/content/content_item_metadata.hpp"
 
-struct c_map_variant;
+class c_map_variant;
 
 using c_teleporter_channel = c_enum<enum e_teleporter_channel, uns8, k_channel_default, k_teleporter_channel_count>;
 
@@ -136,9 +136,9 @@ public:
 };
 static_assert(sizeof(s_variant_quota) == 0xC);
 
-struct c_bitstream;
+class c_bitstream;
 
-struct c_map_variant
+class c_map_variant
 {
 public:
 	c_map_variant();

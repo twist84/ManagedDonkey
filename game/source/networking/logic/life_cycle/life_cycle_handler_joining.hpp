@@ -5,7 +5,7 @@
 //typedef c_flags<e_joining_flags, uns8, k_joining_flags_count> c_joining_flags;
 typedef uns8 c_joining_flags;
 
-struct c_life_cycle_state_handler_joining :
+class c_life_cycle_state_handler_joining :
 	public c_life_cycle_state_handler
 {
 public:

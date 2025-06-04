@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_life_cycle_state_manager;
-struct c_network_session;
+class c_life_cycle_state_manager;
+class c_network_session;
 
 enum e_life_cycle_state_transition_type
 {
@@ -27,7 +27,7 @@ enum e_life_cycle_state_handler_flags
 };
 typedef c_flags<e_life_cycle_state_handler_flags, uns8, k_life_cycle_state_handler_flags_count> c_life_cycle_state_handler_flags;
 
-struct c_life_cycle_state_handler
+class c_life_cycle_state_handler
 {
 public:
 	virtual void update() = 0;

@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 
-struct c_gui_screen_pregame_lobby_multiplayer :
+class c_gui_screen_pregame_lobby_multiplayer :
 	public c_gui_screen_pregame_lobby
 {
 public:

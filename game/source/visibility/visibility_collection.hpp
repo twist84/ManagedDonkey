@@ -14,8 +14,9 @@ enum
 };
 
 template<typename t_type, uns16 k_maximum_count>
-struct c_simple_list
+class c_simple_list
 {
+public:
 	c_simple_list()
 	{
 		m_maximum_count = k_maximum_count;
@@ -181,8 +182,9 @@ struct s_visible_items
 };
 static_assert(sizeof(s_visible_items) == 0x29AC0);
 
-struct c_visible_items
+class c_visible_items
 {
+public:
 	struct s_marker_indices
 	{
 		uns16 root_objects_starting_index;
@@ -363,8 +365,9 @@ static_assert(0x2E3C8 == OFFSETOF(s_visibility_input, visible_items_marker_index
 static_assert(0x2E3CC == OFFSETOF(s_visibility_input, visible_cluster_bitvector));
 static_assert(0x2E5CC == OFFSETOF(s_visibility_input, cluster_to_visibility_cluster_lookup));
 
-struct c_visibility_collection
+class c_visibility_collection
 {
+public:
 	s_cluster_reference get_cluster_reference() const
 	{
 		ASSERT(m_input != NULL);

@@ -14,7 +14,7 @@ enum e_upload_state
 	_upload_state_receiving_content
 };
 
-struct c_http_client
+class c_http_client
 {
 public:
 	c_http_client();

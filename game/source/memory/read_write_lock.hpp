@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronization.hpp"
 
-struct c_read_write_lock
+class c_read_write_lock
 {
 public:
 	c_read_write_lock();

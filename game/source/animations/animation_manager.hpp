@@ -13,9 +13,10 @@ struct s_animation_goal_settings
 };
 static_assert(sizeof(s_animation_goal_settings) == 0x10);
 
-struct c_model_animation_graph;
-struct c_animation_manager
+class c_model_animation_graph;
+class c_animation_manager
 {
+public:
 	const c_model_animation_graph* get_graph() const;
 	bool valid_graph() const;
 	int32 get_state_name() const;

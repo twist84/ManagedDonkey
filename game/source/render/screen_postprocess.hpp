@@ -2,8 +2,8 @@
 
 #include "rasterizer/rasterizer.hpp"
 
-struct c_camera_fx_values;
-struct c_camera_fx_settings;
+class c_camera_fx_values;
+class c_camera_fx_settings;
 struct render_projection;
 struct render_camera;
 struct s_screen_effect_settings;
@@ -11,8 +11,9 @@ struct s_observer_depth_of_field;
 struct s_oriented_bounding_box;
 struct s_lightshafts;
 
-struct c_screen_postprocess
+class c_screen_postprocess
 {
+public:
 	struct s_settings
 	{
 		bool m_postprocess;

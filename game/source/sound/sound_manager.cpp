@@ -208,8 +208,8 @@ struct s_sound_effect_datum :
 };
 static_assert(sizeof(s_sound_effect_datum) == 0x64);
 
-struct c_sound_playback_controller :
-	s_datum_header
+class c_sound_playback_controller :
+	public s_datum_header
 {
 	// reference ^= (reference ^ (reference + 1)) & 0x3F
 	uns8 reference;

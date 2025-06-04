@@ -2,8 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_candy_spawner
+class c_candy_spawner
 {
+public:
 	int8 m_flags;
 	int32 m_map_variant_index;
 	int32 m_last_object_spawned_index;
@@ -12,8 +13,9 @@ struct c_candy_spawner
 };
 static_assert(sizeof(c_candy_spawner) == 0x10);
 
-struct c_candy_monitor
+class c_candy_monitor
 {
+public:
 	int32 m_spawned_object_index;
 	int16 m_abandoned_seconds;
 	bool m_disturbed_from_initial_placement;
@@ -22,8 +24,9 @@ struct c_candy_monitor
 };
 static_assert(sizeof(c_candy_monitor) == 0xC);
 
-struct c_multiplayer_candy_monitor_manager
+class c_multiplayer_candy_monitor_manager
 {
+public:
 	enum
 	{
 		k_dummy_spawn_monitor_index = 0x1971,

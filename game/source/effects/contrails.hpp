@@ -2,9 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_contrail_system :
-	s_datum_header
+class c_contrail_system :
+	public s_datum_header
 {
+public:
 	enum e_flags
 	{
 		_should_live_bit = 0,
@@ -37,12 +38,10 @@ public:
 };
 static_assert(sizeof(c_contrail_system) == 0x30);
 
-struct c_contrail :
-	s_datum_header
+class c_contrail :
+	public s_datum_header
 {
-	static void __cdecl render_callback(const void*, int32);
-	void render() const;
-
+public:
 	enum e_flags
 	{
 		_should_frame_advance_bit = 0,
@@ -50,6 +49,10 @@ struct c_contrail :
 
 		k_flags
 	};
+
+public:
+	static void __cdecl render_callback(const void*, int32);
+	void render() const;
 
 	int32 m_next_sibling_index;
 	int32 m_contrail_gpu_index;
@@ -68,9 +71,10 @@ struct c_contrail :
 };
 static_assert(sizeof(c_contrail) == 0x4C);
 
-struct c_contrail_location :
-	s_datum_header
+class c_contrail_location :
+	public s_datum_header
 {
+public:
 	enum e_flags
 	{
 		_should_frame_advance_bit = 0,
@@ -88,9 +92,10 @@ struct c_contrail_location :
 };
 static_assert(sizeof(c_contrail_location) == 0x60);
 
-struct c_contrail_profile :
-	s_datum_header
+class c_contrail_profile :
+	public s_datum_header
 {
+public:
 	enum e_flags
 	{
 		_temporary_bit = 0,

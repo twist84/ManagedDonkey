@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_render_globals
+class c_render_globals
 {
 public:
 	static void __cdecl advance_frame_time(real32 seconds_elapsed);
@@ -40,8 +40,8 @@ public:
 extern bool& render_pc_specular;
 
 
-struct c_draw_string;
-struct c_font_cache_base;
+class c_draw_string;
+class c_font_cache_base;
 
 struct s_render_fullscreen_text_context;
 struct render_camera;

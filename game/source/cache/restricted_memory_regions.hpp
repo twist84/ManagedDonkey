@@ -1,7 +1,7 @@
 #pragma once
 
-struct c_restricted_section;
-struct c_restricted_memory_callbacks;
+class c_restricted_section;
+class c_restricted_memory_callbacks;
 
 extern void* __cdecl restricted_memory_get_address(int32 index, uns32 offset);
 extern void __cdecl restricted_memory_set_base_address(int32 index, void* address);

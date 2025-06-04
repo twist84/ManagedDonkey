@@ -109,7 +109,7 @@ struct s_simulation_unit_enter_vehicle_event_data
 };
 static_assert(sizeof(s_simulation_unit_enter_vehicle_event_data) == 0x4);
 
-struct c_simulation_unit_entity_definition :
+class c_simulation_unit_entity_definition :
 	public c_simulation_entity_definition
 {
 public:

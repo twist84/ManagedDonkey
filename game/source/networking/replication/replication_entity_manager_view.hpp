@@ -25,10 +25,10 @@ struct s_replication_entity_manager_view_statistics
 };
 static_assert(sizeof(s_replication_entity_manager_view_statistics) == 0x18);
 
-struct c_replication_entity_manager;
-struct c_replication_entity_packet_record;
-struct c_replication_entity_status_record;
-struct c_replication_entity_manager_view :
+class c_replication_entity_manager;
+class c_replication_entity_packet_record;
+class c_replication_entity_status_record;
+class c_replication_entity_manager_view :
 	public c_replication_scheduler_client
 {
 public:

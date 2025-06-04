@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_scenario_resource_registry
+class c_scenario_resource_registry
 {
 public:
 	c_static_flags<20000>* get_tag_instance_flags();

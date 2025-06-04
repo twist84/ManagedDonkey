@@ -2,7 +2,7 @@
 
 struct collision_bsp;
 struct large_collision_bsp;
-struct c_bsp3d_reference
+class c_bsp3d_reference
 {
 public:
 	c_bsp3d_reference();
@@ -14,7 +14,7 @@ protected:
 
 struct structure_bsp;
 struct s_structure_bsp_resources;
-struct c_collision_bsp_reference :
+class c_collision_bsp_reference :
 	public c_bsp3d_reference
 {
 public:

@@ -16,7 +16,7 @@
 #include "simulation/simulation_world.hpp"
 
 struct s_data_array;
-struct c_fixed_memory_rockall_heap;
+class c_fixed_memory_rockall_heap;
 struct s_network_shared_memory_globals
 {
 	int32 current_configuration;
