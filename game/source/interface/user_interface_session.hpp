@@ -10,6 +10,7 @@ struct s_saved_film_description;
 
 extern bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode);
 extern e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_difficulty();
+extern const s_saved_film_description* __cdecl user_interface_game_settings_get_film();
 extern const c_game_variant* __cdecl user_interface_game_settings_get_game_variant();
 extern e_session_game_mode __cdecl user_interface_get_session_game_mode();
 extern e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, uns32* player_error_mask);

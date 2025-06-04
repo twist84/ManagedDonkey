@@ -30,10 +30,17 @@ e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_di
 //.text:00A80880 ; int16 __cdecl user_interface_squad_get_campaign_insertion_point()
 //.text:00A80890 ; e_campaign_metagame_scoring __cdecl user_interface_squad_get_campaign_metagame_scoring()
 
+const s_saved_film_description* __cdecl user_interface_game_settings_get_film()
+{
+	return INVOKE(0x00A808A0, user_interface_game_settings_get_film);
+}
+
 const c_game_variant* __cdecl user_interface_game_settings_get_game_variant()
 {
 	return INVOKE(0x00A808B0, user_interface_game_settings_get_game_variant);
 }
+
+//.text:00A808C0 ; 
 
 e_session_game_mode __cdecl user_interface_get_session_game_mode()
 {
