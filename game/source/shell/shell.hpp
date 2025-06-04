@@ -50,6 +50,6 @@ extern const char* const global_subtitle_setting_names[k_number_of_subtitle_sett
 extern const char* const global_actor_type_names[k_number_of_actor_types];
 extern const char* const global_model_state_names[k_number_of_model_states];
 extern const char* const global_character_physics_override_names[k_total_character_physics_overrides];
-extern const char* const global_primary_skull_names[k_number_of_primary_skulls];
-extern const char* const global_secondary_skull_names[k_number_of_secondary_skulls];
+extern const char* const global_primary_skull_names[k_campaign_skull_primary_count];
+extern const char* const global_secondary_skull_names[k_campaign_skull_secondary_count];
 

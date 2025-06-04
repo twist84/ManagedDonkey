@@ -1491,7 +1491,7 @@ bool __cdecl game_survival_allow_respawn()
 {
 	//return INVOKE(0x005330B0, game_survival_allow_respawn);
 
-	return game_globals && game_globals->options.game_mode == _game_mode_campaign && !game_skull_is_active_primary(_campaign_skull_iron);
+	return game_globals && game_globals->options.game_mode == _game_mode_campaign && !game_skull_is_active_primary(_campaign_skull_primary_iron);
 }
 
 //.text:005330D0 ; bool __cdecl game_test_cluster_activation(const s_cluster_reference*)

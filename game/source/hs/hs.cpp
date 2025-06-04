@@ -551,8 +551,8 @@ void __cdecl hs_enumerate_cutscene_recording_names(void)
 
 void __cdecl hs_enumerate_enum_skull_names(void)
 {
-	hs_enumerate_from_string_list(global_primary_skull_names, _campaign_skull_iron, k_number_of_primary_skulls);
-	hs_enumerate_from_string_list(global_secondary_skull_names, _campaign_skull_assassin, k_number_of_secondary_skulls);
+	hs_enumerate_from_string_list(global_primary_skull_names, _campaign_skull_primary_iron, k_campaign_skull_primary_count);
+	hs_enumerate_from_string_list(global_secondary_skull_names, _campaign_skull_secondary_assassin, k_campaign_skull_secondary_count);
 }
 
 // 0166D5E8

@@ -1164,7 +1164,7 @@ const char* const global_character_physics_override_names[k_total_character_phys
 };
 
 // 018BAE24
-const char* const global_primary_skull_names[k_number_of_primary_skulls]
+const char* const global_primary_skull_names[k_campaign_skull_primary_count]
 {
 	"skull_iron",
 	"skull_black_eye",
@@ -1178,7 +1178,7 @@ const char* const global_primary_skull_names[k_number_of_primary_skulls]
 };
 
 // 018BAE48
-const char* const global_secondary_skull_names[k_number_of_secondary_skulls]
+const char* const global_secondary_skull_names[k_campaign_skull_secondary_count]
 {
 	"skull_assassin",
 	"skull_blind",

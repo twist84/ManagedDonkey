@@ -50,14 +50,14 @@ void render_debug_campaign_metagame()
 			int32 text_y_offset = 0;
 
 			screen_display.draw(0, text_y_offset++, 0xFFFFFFFF, "PRIMARY SKULLS");
-			for (e_primary_skulls primary_skull = _campaign_skull_iron; primary_skull < k_number_of_primary_skulls; primary_skull = e_primary_skulls(primary_skull + 1))
+			for (e_primary_skulls primary_skull = _campaign_skull_primary_iron; primary_skull < k_campaign_skull_primary_count; primary_skull = e_primary_skulls(primary_skull + 1))
 			{
 				bool active = game_skull_is_active_primary(primary_skull);
 				screen_display.draw(4, text_y_offset++, active ? 0xFF00FF00 : 0xFFFF0000, "%s", global_primary_skull_names[primary_skull]);
 			}
 
 			screen_display.draw(0, text_y_offset++, 0xFFFFFFFF, "SECONDARY SKULLS");
-			for (e_secondary_skulls secondary_skull = _campaign_skull_assassin; secondary_skull < k_number_of_secondary_skulls; secondary_skull = e_secondary_skulls(secondary_skull + 1))
+			for (e_secondary_skulls secondary_skull = _campaign_skull_secondary_assassin; secondary_skull < k_campaign_skull_secondary_count; secondary_skull = e_secondary_skulls(secondary_skull + 1))
 			{
 				bool active = game_skull_is_active_secondary(secondary_skull);
 				screen_display.draw(4, text_y_offset++, active ? 0xFF00FF00 : 0xFFFF0000, "%s", global_secondary_skull_names[secondary_skull]);

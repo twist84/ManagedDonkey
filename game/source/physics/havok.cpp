@@ -63,7 +63,7 @@ void __cdecl havok_display_stats_printf(bool display_as_event, const real_argb_c
 	va_start(arglist, format);
 
 	char buffer[255]{};
-	cvsnzprintf(buffer, sizeof(buffer), format, arglist);;
+	cvsnzprintf(buffer, sizeof(buffer), format, arglist);
 
 	va_end(arglist);
 

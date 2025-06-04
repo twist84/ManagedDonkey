@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 
-enum e_screen_transition_type;
 struct s_data_array;
 struct s_event_record;
 struct s_window_manager_screen_render_data;

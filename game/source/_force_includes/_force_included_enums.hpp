@@ -522,34 +522,34 @@ enum e_voice_mute_setting
 	k_voice_mute_setting_default = _voice_mute_setting_off,
 };
 
-
-// e_game_skulls
 enum e_primary_skulls
 {
-	_campaign_skull_iron = 0,
-	_campaign_skull_black_eye,
-	_campaign_skull_tough_luck,
-	_campaign_skull_catch,
-	_campaign_skull_fog,
-	_campaign_skull_famine,
-	_campaign_skull_thunderstorm,
-	_campaign_skull_tilt,
-	_campaign_skull_mythic,
+	_campaign_skull_primary_iron = 0,
+	_campaign_skull_primary_black_eye,
+	_campaign_skull_primary_tough_luck,
+	_campaign_skull_primary_catch,
+	_campaign_skull_primary_fog,
+	_campaign_skull_primary_famine,
+	_campaign_skull_primary_thunderstorm,
+	_campaign_skull_primary_tilt,
+	_campaign_skull_primary_mythic,
 
-	k_number_of_primary_skulls,
+	k_campaign_skull_primary_count,
 };
 
 enum e_secondary_skulls
 {
-	_campaign_skull_assassin = 0,
-	_campaign_skull_blind,
-	_campaign_skull_superman,
-	_campaign_skull_birthday_party,
-	_campaign_skull_daddy,
-	_campaign_skull_third_person,
-	_campaign_skull_directors_cut,
+	_campaign_skull_secondary_assassin = 0,
+	_campaign_skull_secondary_blind,
+	_campaign_skull_secondary_superman,
+	_campaign_skull_secondary_grunt_birthday_party,
+	_campaign_skull_secondary_IWHBYD,
 
-	k_number_of_secondary_skulls,
+	// ODST
+	_campaign_skull_secondary_third_person,
+	_campaign_skull_secondary_directors_cut,
+
+	k_campaign_skull_secondary_count,
 };
 
 enum e_game_simulation_type
@@ -5421,5 +5421,17 @@ enum e_network_leaderboard_write_status
 	_network_leaderboard_write_completed,
 
 	k_network_leaderboard_write_status_count,
+};
+
+enum e_gui_dialog_choice
+{
+	_gui_dialog_choice_first = 0,
+	_gui_dialog_choice_second,
+	_gui_dialog_choice_third,
+	_gui_dialog_choice_fourth,
+
+	k_gui_dialog_choice_count,
+	k_gui_dialog_choice_ok = _gui_dialog_choice_first,
+	k_gui_dialog_choice_cancel = _gui_dialog_choice_second,
 };
 

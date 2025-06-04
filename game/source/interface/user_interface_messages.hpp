@@ -4,8 +4,6 @@
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_error_manager.hpp"
 
-enum e_gui_dialog_choice;
-enum e_screen_transition_type;
 class c_gui_screen_widget;
 
 template<typename t_class>

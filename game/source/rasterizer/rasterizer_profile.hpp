@@ -141,7 +141,7 @@ extern void rasterizer_profile_stop_element_timer(e_rasterizer_profile_elements 
 extern void rasterizer_profile_set_mode(e_rasterizer_profile_modes mode);
 extern real32 rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_elements profile_element_index);
 extern real32 rasterizer_profile_get_element_elapsed_block_milliseconds(e_rasterizer_profile_stall_elements profile_element_index);
-extern real32 rasterizer_profile_get_block_total_time();;
+extern real32 rasterizer_profile_get_block_total_time();
 extern const char* rasterizer_profile_get_stall_name(int32 profile_element_index);
 extern const char* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index);
 
