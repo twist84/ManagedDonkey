@@ -54,16 +54,16 @@ public:
 		_special_item_type_category
 	};
 
-	virtual bool is_valid();
-	virtual e_gui_selected_item_location get_location();
-	virtual bool get_file_path(char*, int);
-	virtual const wchar_t* get_title();
-	virtual const utf8* get_description(utf8*, int);
-	virtual const wchar_t* get_description();
-	virtual const s_ui_saved_game_item_metadata* get_metadata(s_ui_saved_game_item_metadata*);
-	virtual bool get_enabled();
-	virtual bool get_corrupt();
-	virtual bool get_is_new();
+	virtual bool is_valid() const;
+	virtual e_gui_selected_item_location get_location() const;
+	virtual bool get_file_path(char* path, int32 maximum_characters) const;
+	virtual const wchar_t* get_title() const;
+	virtual const utf8* get_description(utf8* buffer, int32 buffer_length) const;
+	virtual const wchar_t* get_description() const;
+	virtual const s_ui_saved_game_item_metadata* get_metadata(s_ui_saved_game_item_metadata* metadata) const;
+	virtual bool get_enabled() const;
+	virtual bool get_corrupt() const;
+	virtual bool get_is_new() const;
 
 //protected:
 	e_gui_selected_item_type m_selection_type;

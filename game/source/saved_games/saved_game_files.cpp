@@ -18,7 +18,11 @@ bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_control
 //.text:00525C40 ; int32 __cdecl saved_game_files_delete(e_controller_index, int32, c_synchronized_long*, c_synchronized_long*)
 //.text:00525CA0 ; e_async_completion __cdecl saved_game_files_delete_callback(s_async_task*)
 //.text:00525D10 ; void __cdecl saved_game_files_delete_last_film()
-//.text:00525D20 ; void __cdecl saved_game_files_delete_saved_game_state(e_controller_index)
+
+void __cdecl saved_game_files_delete_saved_game_state_blocking(e_controller_index controller_index)
+{
+	INVOKE(0x00525D20, saved_game_files_delete_saved_game_state_blocking, controller_index);
+}
 
 void __cdecl saved_game_files_dispose()
 {

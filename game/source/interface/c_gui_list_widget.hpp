@@ -88,14 +88,19 @@ public:
 	int32 get_element_handle_from_list_item_index(int32 list_item_index);
 	int32 get_focused_element_handle();
 	int32 get_focused_item_index();
+	int32 get_item_count(bool include_empty_items);
+	int32 get_list_item_index_from_element_handle(int32 element_handle);
 	int32 get_scroll_position();
 	int32 get_selectable_item_count();
+	bool invoke_submenu(int32 submenu_name, int32 custom_datasource_name, bool reset_datasource);
+	bool invoke_submenu(const s_list_widget_block* submenu_definition, int32 custom_datasource_name, bool reset_datasource);
 
 private:
 	void offset_horizontal_list_item_indicators();
 
 public:
 	void mark_as_submenu_that_needs_disposal(bool dispose);
+	bool set_focused_element_handle(int32 element_handle, bool play_animations_on_focus_change);
 	bool set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change);
 	void set_scroll_position(int32 scroll_position);
 	void set_selectable_item_cap_count(int32 value);

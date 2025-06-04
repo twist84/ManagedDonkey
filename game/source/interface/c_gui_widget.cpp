@@ -879,7 +879,14 @@ gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*
 
 //.text:00AB9870 ; 
 //.text:00AB9880 ; 
-//.text:00AB9920 ; public: bool c_gui_widget::get_visible() const
+
+bool c_gui_widget::get_visible() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB9920, c_gui_widget, get_visible);
+
+	return m_visible;
+}
+
 //.text:00AB9930 ; public: const s_widget_animation_definition* c_gui_widget::get_widget_animation_definition(e_animation_state)
 
 bool c_gui_widget::handle_alt_stick(const c_controller_input_message* message)

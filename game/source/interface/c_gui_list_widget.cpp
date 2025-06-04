@@ -151,8 +151,15 @@ int32 c_gui_list_widget::get_focused_item_index()
 	return m_focused_item_index;
 }
 
-//.text:00B15170 ; public: int32 c_gui_list_widget::get_item_count(bool)
-//.text:00B151C0 ; public: int32 c_gui_list_widget::get_list_item_index_from_element_handle(int32)
+int32 c_gui_list_widget::get_item_count(bool include_empty_items)
+{
+	return INVOKE_CLASS_MEMBER(0x00B15170, c_gui_list_widget, get_item_count, include_empty_items);
+}
+
+int32 c_gui_list_widget::get_list_item_index_from_element_handle(int32 element_handle)
+{
+	return INVOKE_CLASS_MEMBER(0x00B151C0, c_gui_list_widget, get_list_item_index_from_element_handle, element_handle);
+}
 
 int32 c_gui_list_widget::get_scroll_position()
 {
@@ -203,8 +210,18 @@ void c_gui_list_widget::initialize(const s_list_widget_block* template_and_overr
 	c_gui_widget::initialize();
 }
 
-//.text:00B15C20 ; public: bool c_gui_list_widget::invoke_submenu(int32, int32, bool)
-//.text:00B15CD0 ; public: bool c_gui_list_widget::invoke_submenu(const s_list_widget_block*, int32, bool)
+bool c_gui_list_widget::invoke_submenu(int32 submenu_name, int32 custom_datasource_name, bool reset_datasource)
+{
+	//return INVOKE_CLASS_MEMBER(0x00B15C20, c_gui_list_widget, invoke_submenu, submenu_name, custom_datasource_name, reset_datasource);
+	return DECLFUNC(0x00B15C20, bool, __thiscall, c_gui_list_widget*, int32, int32, bool)(this, submenu_name, custom_datasource_name, reset_datasource);
+}
+
+bool c_gui_list_widget::invoke_submenu(const s_list_widget_block* submenu_definition, int32 custom_datasource_name, bool reset_datasource)
+{
+	//return INVOKE_CLASS_MEMBER(0x00B15CD0, c_gui_list_widget, invoke_submenu, submenu_definition, custom_datasource_name, reset_datasource);
+	return DECLFUNC(0x00B15CD0, bool, __thiscall, c_gui_list_widget*, const s_list_widget_block*, int32, bool)(this, submenu_definition, custom_datasource_name, reset_datasource);
+}
+
 //.text:00B15EA0 ; public: bool c_gui_list_widget::is_submenu_that_needs_disposal() const
 //.text:00B15EB0 ; public: bool c_gui_list_widget::list_has_more_elements_following()
 //.text:00B15F40 ; public: bool c_gui_list_widget::list_has_more_elements_preceeding()
@@ -227,7 +244,11 @@ void c_gui_list_widget::post_initialize()
 //.text:00B16150 ; public: bool c_gui_list_widget::scrolls_vertically()
 //.text:00B16160 ; private: void c_gui_list_widget::set_datasource_name(int32)
 //.text:00B16170 ; public: bool c_gui_list_widget::set_focused_datasource_element_from_value(int32, int32, bool)
-//.text:00B16230 ; public: bool c_gui_list_widget::set_focused_element_handle(int32, bool)
+
+bool c_gui_list_widget::set_focused_element_handle(int32 element_handle, bool play_animations_on_focus_change)
+{
+	return INVOKE_CLASS_MEMBER(0x00B16230, c_gui_list_widget, set_focused_element_handle, element_handle, play_animations_on_focus_change);
+}
 
 bool c_gui_list_widget::set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change)
 {

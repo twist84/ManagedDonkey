@@ -88,6 +88,8 @@ public:
 	e_player_color_index get_primary_change_color() const;
 	e_player_color_index get_secondary_change_color() const;
 
+	bool player_campaign_progress_test_insertion_point(int16 map_index, int16 insertion_point_index) const;
+
 //public:
 	void set_button_preset(e_button_presets preset, bool set_by_user);
 	void set_camera_attached_horizontal(e_camera_attached_horizontal value, bool set_by_user);

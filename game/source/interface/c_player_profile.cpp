@@ -9,8 +9,8 @@ REFERENCE_DECLARE(0x0191D4FC, bool, g_all_level_unlocked);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA36B0, c_player_profile_interface, set_primary_change_color);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA3860, c_player_profile_interface, set_secondary_change_color);
 
-t_value_type<bool> const all_level_unlocked = { .value = false };
-DATA_PATCH_DECLARE(0x0191D4FC, all_level_unlocked, all_level_unlocked.bytes);
+//t_value_type<bool> const all_level_unlocked = { .value = false };
+//DATA_PATCH_DECLARE(0x0191D4FC, all_level_unlocked, all_level_unlocked.bytes);
 
 //.text:00A9FEF0 ; 
 //.text:00A9FF00 ; 
@@ -154,7 +154,12 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA1C70 ; public: void c_player_profile_interface::player_campaign_progress_finished_map(int16, bool)
 //.text:00AA1C90 ; public: void c_player_profile_interface::player_campaign_progress_set_insertion_point(int16, int16, bool, bool)
 //.text:00AA1D50 ; public: void c_player_profile_interface::player_campaign_progress_set_map(int16, bool, bool)
-//.text:00AA1E10 ; 
+
+bool c_player_profile_interface::player_campaign_progress_test_insertion_point(int16 map_index, int16 insertion_point_index) const
+{
+	return INVOKE_CLASS_MEMBER(0x00AA1E10, c_player_profile_interface, player_campaign_progress_test_insertion_point, map_index, insertion_point_index);
+}
+
 //.text:00AA1E60 ; public: bool c_player_profile_interface::player_campaign_progress_test_map(int16) const
 //.text:00AA1EB0 ; 
 //.text:00AA1F50 ; 

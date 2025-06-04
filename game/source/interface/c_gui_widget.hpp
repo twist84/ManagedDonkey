@@ -253,6 +253,7 @@ public:
 	bool get_render_in_screenshot();
 	e_controller_index get_single_responding_controller() const;
 	gui_real_rectangle2d* get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
+	bool get_visible() const;
 	bool is_animation_active(e_animation_state animation_state);
 	bool leaf_node_of_widget(c_gui_widget* branch_widget);
 	void modulate_tint_color(const real_argb_color* modulation);

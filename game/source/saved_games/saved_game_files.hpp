@@ -27,6 +27,7 @@ static_assert(sizeof(s_saved_game_file_globals) == 0x68);
 extern s_saved_game_file_globals& g_saved_game_files_globals;
 
 extern bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_controller_index controller_index);
+extern void __cdecl saved_game_files_delete_saved_game_state_blocking(e_controller_index controller_index);
 extern void __cdecl saved_game_files_dispose();
 extern void __cdecl saved_game_files_dispose_from_old_map();
 extern void __cdecl saved_game_files_initialize();

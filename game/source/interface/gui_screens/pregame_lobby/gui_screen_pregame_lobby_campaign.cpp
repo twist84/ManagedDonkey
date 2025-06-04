@@ -9,6 +9,7 @@
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
+#include "main/levels.hpp"
 #include "memory/module.hpp"
 #include "saved_games/content_catalogue.hpp"
 
@@ -32,7 +33,24 @@ bool __cdecl parse_xml_lobby_campaign_difficulty(void* this_ptr, wchar_t* buffer
 
 bool __cdecl parse_xml_lobby_campaign_insertion(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	return INVOKE(0x00ADDA00, parse_xml_lobby_campaign_insertion, this_ptr, buffer, buffer_length);
+	//return INVOKE(0x00ADDA00, parse_xml_lobby_campaign_insertion, this_ptr, buffer, buffer_length);
+
+	e_campaign_id campaign_id = _campaign_id_none;
+	e_map_id map_id = _map_id_none;
+	if (!user_interface_session_get_map(&campaign_id, &map_id))
+	{
+		return false;
+	}
+
+	s_level_insertion_datum insertion{};
+	int16 campaign_insertion_point = user_interface_game_settings_get_campaign_insertion_point();
+	if (!levels_try_and_get_campaign_insertion(map_id, &insertion) || !VALID_INDEX(campaign_insertion_point, insertion.insertion_point_count))
+	{
+		return false;
+	}
+
+	ustrnzcpy(buffer, insertion.insertion_point_names[campaign_insertion_point], buffer_length);
+	return true;
 }
 
 bool __cdecl parse_xml_lobby_campaign_level(void* this_ptr, wchar_t* buffer, int32 buffer_length)
@@ -49,34 +67,6 @@ bool __cdecl parse_xml_lobby_campaign_level(void* this_ptr, wchar_t* buffer, int
 //.text:00AFE2E0 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_dialog_result(const c_dialog_result_message*)
 //.text:00AFE330 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00AFE400 ; public: virtual void c_gui_screen_campaign_select_scoring::initialize()
-//.text:00AFE470 ; public: c_gui_primary_skulls_data::c_gui_primary_skulls_data()
-//.text:00AFE4C0 ; public: c_gui_screen_campaign_select_skulls::c_gui_screen_campaign_select_skulls(int32)
-//.text:00AFE510 ; public: c_gui_secondary_skulls_data::c_gui_secondary_skulls_data()
-//.text:00AFE560 ; 
-//.text:00AFE570 ; 
-//.text:00AFE580 ; 
-//.text:00AFE590 ; public: virtual void* c_gui_primary_skulls_data::`vector deleting destructor'(unsigned int)
-//.text:00AFE5C0 ; public: virtual void* c_gui_screen_campaign_select_skulls::`scalar deleting destructor'(unsigned int)
-//.text:00AFE5F0 ; public: virtual void* c_gui_secondary_skulls_data::`scalar deleting destructor'(unsigned int)
-//.text:00AFE620 ; public: virtual void c_gui_primary_skulls_data::get_column_names(int32* const, int32*)
-//.text:00AFE680 ; public: virtual void c_gui_secondary_skulls_data::get_column_names(int32* const, int32*)
-//.text:00AFE6E0 ; protected: virtual int32 c_gui_primary_skulls_data::get_current_item_count_internal()
-//.text:00AFE6F0 ; protected: virtual int32 c_gui_secondary_skulls_data::get_current_item_count_internal()
-//.text:00AFE700 ; public: virtual bool c_gui_primary_skulls_data::get_integer_value(int32, int32, int32*)
-//.text:00AFE770 ; public: virtual bool c_gui_secondary_skulls_data::get_integer_value(int32, int32, int32*)
-//.text:00AFE7D0 ; public: virtual bool c_gui_primary_skulls_data::get_string_id_value(int32, int32, int32*)
-//.text:00AFE890 ; public: virtual bool c_gui_secondary_skulls_data::get_string_id_value(int32, int32, int32*)
-//.text:00AFE960 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_controller_input_message(const c_controller_input_message*)
-//.text:00AFED80 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_dialog_result(const c_dialog_result_message*)
-//.text:00AFEE20 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
-//.text:00AFEF60 ; public: virtual void c_gui_screen_campaign_select_skulls::initialize()
-//.text:00AFEF90 ; public: virtual void c_gui_screen_campaign_select_skulls::initialize_datasource()
-//.text:00AFF0D0 ; public: void c_gui_screen_campaign_select_skulls::set_focus(c_gui_screen_campaign_select_skulls::e_focus_state, int16)
-//.text:00AFF270 ; 
-//.text:00AFF290 ; 
-//.text:00AFF2B0 ; public: virtual void c_gui_primary_skulls_data::update()
-//.text:00AFF460 ; public: virtual void c_gui_screen_campaign_select_skulls::update(uns32)
-//.text:00AFF650 ; public: virtual void c_gui_secondary_skulls_data::update()
 
 c_gui_screen_pregame_lobby_campaign::c_gui_screen_pregame_lobby_campaign(int32 name) :
 	c_gui_screen_pregame_lobby(name),
@@ -170,7 +160,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(const 
 		}
 	}
 
-	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
+	return c_gui_screen_pregame_lobby::handle_controller_input_message(message);
 }
 
 bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
@@ -213,35 +203,6 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 					_campaign_id_default,
 					_map_id_none,
 					user_interface_game_settings_get_campaign_difficulty()))
-				{
-					screen_message->set_parent_screen_index(m_screen_index);
-					user_interface_messaging_post(screen_message);
-				}
-				return true;
-			}
-		}
-		else if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &target_name)) // ODST
-		{
-			if (target_name == STRING_ID(gui, select_scoring))
-			{
-				if (c_load_screen_message* screen_message = new c_load_screen_message(
-					STRING_ID(gui, select_scoring),
-					message->get_controller(),
-					c_gui_screen_widget::get_render_window(),
-					m_name))
-				{
-					screen_message->set_parent_screen_index(m_screen_index);
-					user_interface_messaging_post(screen_message);
-				}
-				return true;
-			}
-			if (target_name == STRING_ID(gui, select_skulls))
-			{
-				if (c_load_screen_message* screen_message = new c_load_screen_message(
-					STRING_ID(gui, campaign_select_skulls),
-					message->get_controller(),
-					c_gui_screen_widget::get_render_window(),
-					m_name))
 				{
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);

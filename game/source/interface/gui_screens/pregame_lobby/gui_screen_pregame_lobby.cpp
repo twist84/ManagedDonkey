@@ -485,7 +485,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 				}
 				else
 				{
-					play_sound(_ui_global_sound_effect_failure);
+					c_gui_screen_widget::play_sound(_ui_global_sound_effect_failure);
 				}
 				return true;
 			}
@@ -546,17 +546,14 @@ void c_gui_screen_pregame_lobby::initialize_datasource()
 	c_gui_screen_widget::initialize_datasource();
 
 	c_gui_active_roster_data* active_roster = new c_gui_active_roster_data(c_gui_widget::get_driving_controller());
-	if (!active_roster)
+	if (active_roster && active_roster->initialize(STRING_ID(gui, roster)))
 	{
-		return;
+		c_gui_screen_widget::add_datasource(active_roster);
 	}
-
-	if (!active_roster->initialize(STRING_ID(gui, roster)))
+	else
 	{
 		ui_track_delete<c_gui_active_roster_data>(active_roster);
 	}
-
-	c_gui_screen_widget::add_datasource(active_roster);
 }
 
 //.text:00B22580 ; private: bool c_gui_screen_pregame_lobby::is_team_game()
