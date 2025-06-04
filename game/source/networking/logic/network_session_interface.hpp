@@ -55,7 +55,6 @@ static_assert(0x167C == OFFSETOF(s_network_session_interface_user, desired_team_
 static_assert(0x1680 == OFFSETOF(s_network_session_interface_user, user_update_timestamp));
 static_assert(0x168C == OFFSETOF(s_network_session_interface_user, user_remove_timestamp));
 
-enum e_saved_film_category;
 struct s_saved_film_description
 {
 	e_saved_film_category category;

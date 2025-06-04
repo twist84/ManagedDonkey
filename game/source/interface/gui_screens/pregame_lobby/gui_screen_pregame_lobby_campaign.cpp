@@ -37,9 +37,9 @@ bool __cdecl parse_xml_lobby_campaign_insertion(void* this_ptr, wchar_t* buffer,
 
 bool __cdecl parse_xml_lobby_campaign_level(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	//c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_level);
+	//return INVOKE(0x00ADDA00, parse_xml_lobby_campaign_level, this_ptr, buffer, buffer_length);
 
-	return INVOKE(0x00ADDA00, parse_xml_lobby_campaign_level, this_ptr, buffer, buffer_length);
+	return c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_level);
 }
 
 //.text:00AFE260 ; public: c_gui_screen_campaign_select_scoring::c_gui_screen_campaign_select_scoring(int32)

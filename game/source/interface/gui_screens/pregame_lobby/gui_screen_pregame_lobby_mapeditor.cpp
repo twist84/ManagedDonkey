@@ -1,6 +1,7 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_mapeditor.hpp"
 
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
@@ -106,9 +107,9 @@ void c_gui_screen_pregame_lobby_mapeditor::initialize()
 
 bool __cdecl parse_xml_lobby_mapeditor_map(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	return INVOKE(0x00B02450, parse_xml_lobby_mapeditor_map, this_ptr, buffer, buffer_length);
+	//return INVOKE(0x00B02450, parse_xml_lobby_mapeditor_map, this_ptr, buffer, buffer_length);
 
-	//return c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_map);
+	return c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_map);
 }
 
 void c_gui_screen_pregame_lobby_mapeditor::post_initialize()

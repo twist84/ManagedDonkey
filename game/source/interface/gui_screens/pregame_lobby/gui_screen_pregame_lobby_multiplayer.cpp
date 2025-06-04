@@ -142,16 +142,16 @@ void c_gui_screen_pregame_lobby_multiplayer::initialize()
 
 bool __cdecl parse_xml_lobby_multiplayer_game(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	return INVOKE(0x00B01470, parse_xml_lobby_multiplayer_game, this_ptr, buffer, buffer_length);
+	//return INVOKE(0x00B01470, parse_xml_lobby_multiplayer_game, this_ptr, buffer, buffer_length);
 
-	//c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_game_variant);
+	return c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_game_variant);
 }
 
 bool __cdecl parse_xml_lobby_multiplayer_map(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	return INVOKE(0x00B01490, parse_xml_lobby_multiplayer_map, this_ptr, buffer, buffer_length);
+	//return INVOKE(0x00B01490, parse_xml_lobby_multiplayer_map, this_ptr, buffer, buffer_length);
 
-	//c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_map);
+	return c_gui_pregame_setup_manager::get()->get_selected_item_title(buffer, buffer_length, _gui_selection_type_map);
 }
 
 void c_gui_screen_pregame_lobby_multiplayer::update(uns32 current_milliseconds)

@@ -364,6 +364,34 @@ enum e_campaign_difficulty_level
 	k_campaign_difficulty_level_none = NONE,
 };
 
+enum e_campaign_metagame_scoring
+{
+	_metagame_off = 0,
+	_metagame_on_group_scoring,
+	_metagame_on,
+
+	k_metagame_scoring_count,
+	k_metagame_scoring_bits = 2,
+};
+
+enum e_saved_film_category
+{
+	_saved_film_category_none = 0,
+	_saved_film_category_recent_films,
+	_saved_film_category_film_clips,
+	_saved_film_category_campaign,
+	_saved_film_category_multiplayer,
+	_saved_film_category_editor,
+
+	// ODST
+	_saved_film_category_survival,
+
+	_saved_film_category_invalid,
+
+	k_saved_film_category_count,
+	k_saved_film_category_bits = 4,
+};
+
 enum e_button_presets
 {
 	_button_preset_first = 0,

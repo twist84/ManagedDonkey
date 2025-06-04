@@ -3,6 +3,8 @@
 #include "interface/user_interface_networking.hpp"
 #include "main/global_preferences.hpp"
 
+class c_gui_selected_item;
+
 #pragma pack(push, 4)
 
 class c_gui_single_game_setup_storage
@@ -26,15 +28,17 @@ class c_gui_pregame_setup_manager
 {
 public:
 	static c_gui_pregame_setup_manager* __cdecl get();
+	static bool __cdecl get_selected_item_title(wchar_t* buffer, int32 buffer_count, e_gui_selected_item_type selection_type);
 	void restore_from_last(e_gui_game_mode lobby);
+	void set_selected_item(e_controller_index controller_index, const c_gui_selected_item* selected_item, bool selected_from_recent_list, int32 source_screen_index_to_dispose);
 	void update();
 
 protected:
-	uns8 m_selected_item_category_ids[8];
-	int32 m_advertisement_mode;
-	c_gui_single_game_setup_storage m_storage;
+	bool m_selected_from_recent_list[8];
+	int32 m_network_mode_change_request;
+	c_gui_single_game_setup_storage m_storage_to_set_on_next_update;
 	e_gui_game_mode m_game_mode;
-	bool __unknown24E94;
+	bool m_start_countdown_when_ready;
 };
 static_assert(sizeof(c_gui_pregame_setup_manager) == 0x24E98);
 
