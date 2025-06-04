@@ -29,7 +29,7 @@ c_gui_pregame_setup_manager* __cdecl c_gui_pregame_setup_manager::get()
 //.text:00AA6DA0 ; public: int32 c_gui_pregame_setup_manager::get_selected_item_category_id(e_gui_selected_item_type)
 //.text:00AA6EA0 ; public: bool c_gui_pregame_setup_manager::get_selected_item_title(wchar_t*, int32, e_gui_selected_item_type)
 //.text:00AA70C0 ; 
-//.text:00AA70D0 ; public: bool c_gui_pregame_setup_manager::handle_dialog_result(c_dialog_result_message const*)
+//.text:00AA70D0 ; public: bool c_gui_pregame_setup_manager::handle_dialog_result(const c_dialog_result_message*)
 //.text:00AA7130 ; public: bool c_gui_pregame_setup_manager::initialize_game_mode(e_gui_game_mode, bool)
 
 void c_gui_pregame_setup_manager::restore_from_last(e_gui_game_mode lobby)
@@ -39,7 +39,7 @@ void c_gui_pregame_setup_manager::restore_from_last(e_gui_game_mode lobby)
 
 //.text:00AA7270 ; public: void c_gui_pregame_setup_manager::restore_game_setup(e_gui_game_mode, s_gui_game_setup_storage*)
 //.text:00AA72A0 ; private: void c_gui_pregame_setup_manager::restore_game_setup_internal(e_gui_game_mode, s_gui_game_setup_storage*)
-//.text:00AA7B00 ; public: static void __cdecl c_gui_pregame_setup_manager::save_game_setup(s_gui_game_setup_storage const*, c_gui_single_game_setup_storage*)
+//.text:00AA7B00 ; public: static void __cdecl c_gui_pregame_setup_manager::save_game_setup(const s_gui_game_setup_storage*, c_gui_single_game_setup_storage*)
 //.text:00AA7D90 ; 
 //.text:00AA7DB0 ; public: void c_gui_pregame_setup_manager::set_selected_item(e_controller_index, c_gui_selected_item const*, bool, int32)
 //.text:00AA8760 ; 

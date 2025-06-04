@@ -337,12 +337,12 @@ void c_online_file_manager::start()
 
 //.text:004786F0 ; public: void c_online_files_deleter::start(uns64, uns64, int32, const char* const)
 //.text:00478730 ; public: void c_online_files_enumerator::start(uns64, uns64)
-//.text:00478780 ; private: void c_online_file_manager::start_compressing_file(s_queued_work_item_status_tracker const*)
-//.text:00478910 ; private: void c_online_file_manager::start_decompressing_file(s_queued_work_item_status_tracker const*)
-//.text:00478AA0 ; private: void c_online_file_manager::start_downloading_file(const*, bool)
+//.text:00478780 ; private: void c_online_file_manager::start_compressing_file(const s_queued_work_item_status_tracker*)
+//.text:00478910 ; private: void c_online_file_manager::start_decompressing_file(const s_queued_work_item_status_tracker*)
+//.text:00478AA0 ; private: void c_online_file_manager::start_downloading_file(const s_queued_work_item_status_tracker*, bool)
 //.text:00478C40 ; private: void c_online_file_manager::start_enumerate_files()
 //.text:00478D40 ; private: void c_online_files_active_transfer_tracker::start_enumerate_files()
-//.text:00478E20 ; private: void c_online_file_manager::start_uploading_file(s_queued_work_item_status_tracker const*, bool)
+//.text:00478E20 ; private: void c_online_file_manager::start_uploading_file(const s_queued_work_item_status_tracker*, bool)
 
 void c_online_file_manager::stop()
 {

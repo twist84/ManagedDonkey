@@ -46,8 +46,8 @@ bool __cdecl parse_xml_lobby_campaign_level(void* this_ptr, wchar_t* buffer, int
 //.text:00AFE290 ; 
 //.text:00AFE2A0 ; 
 //.text:00AFE2B0 ; public: virtual void* c_gui_screen_campaign_select_scoring::`scalar deleting destructor'(unsigned int)
-//.text:00AFE2E0 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_dialog_result(c_dialog_result_message const*)
-//.text:00AFE330 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
+//.text:00AFE2E0 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_dialog_result(const c_dialog_result_message*)
+//.text:00AFE330 ; public: virtual bool c_gui_screen_campaign_select_scoring::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00AFE400 ; public: virtual void c_gui_screen_campaign_select_scoring::initialize()
 //.text:00AFE470 ; public: c_gui_primary_skulls_data::c_gui_primary_skulls_data()
 //.text:00AFE4C0 ; public: c_gui_screen_campaign_select_skulls::c_gui_screen_campaign_select_skulls(int32)
@@ -66,9 +66,9 @@ bool __cdecl parse_xml_lobby_campaign_level(void* this_ptr, wchar_t* buffer, int
 //.text:00AFE770 ; public: virtual bool c_gui_secondary_skulls_data::get_integer_value(int32, int32, int32*)
 //.text:00AFE7D0 ; public: virtual bool c_gui_primary_skulls_data::get_string_id_value(int32, int32, int32*)
 //.text:00AFE890 ; public: virtual bool c_gui_secondary_skulls_data::get_string_id_value(int32, int32, int32*)
-//.text:00AFE960 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_controller_input_message(c_controller_input_message const*)
-//.text:00AFED80 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_dialog_result(c_dialog_result_message const*)
-//.text:00AFEE20 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_list_item_chosen(c_controller_input_message const*, int32, c_gui_list_item_widget*, c_gui_data*)
+//.text:00AFE960 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_controller_input_message(const c_controller_input_message*)
+//.text:00AFED80 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_dialog_result(const c_dialog_result_message*)
+//.text:00AFEE20 ; public: virtual bool c_gui_screen_campaign_select_skulls::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00AFEF60 ; public: virtual void c_gui_screen_campaign_select_skulls::initialize()
 //.text:00AFEF90 ; public: virtual void c_gui_screen_campaign_select_skulls::initialize_datasource()
 //.text:00AFF0D0 ; public: void c_gui_screen_campaign_select_skulls::set_focus(c_gui_screen_campaign_select_skulls::e_focus_state, int16)
@@ -266,9 +266,7 @@ void c_gui_screen_pregame_lobby_campaign::initialize()
 	c_gui_screen_pregame_lobby::initialize();
 	
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
-	
-	// value of 4 in halo 3 and 6 in odst/halo online
-	m_initial_focused_widget_element_handle = 6; // should we use 4 or 6?
+	m_initial_focused_widget_element_handle = 4;
 	
 	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
 	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));

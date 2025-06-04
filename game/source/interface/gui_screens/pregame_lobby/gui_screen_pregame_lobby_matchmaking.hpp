@@ -17,11 +17,11 @@ public:
 public:
 	virtual ~c_gui_screen_pregame_lobby_matchmaking();
 	virtual void initialize() override;
-	virtual c_gui_bitmap_widget* create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition) override;
+	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition) override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
-	virtual bool handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
-	virtual bool handle_dialog_result(c_dialog_result_message const* message) override;
+	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
+	virtual bool handle_dialog_result(const c_dialog_result_message* message) override;
 	virtual int32 get_lobby_header() override;
 	virtual int32 get_lobby_title() override;
 	virtual int32 get_start_button_name() override;

@@ -64,7 +64,7 @@ c_gui_screen_pregame_lobby_matchmaking::~c_gui_screen_pregame_lobby_matchmaking(
 {
 }
 
-c_gui_bitmap_widget* c_gui_screen_pregame_lobby_matchmaking::create_bitmap_widget(s_runtime_bitmap_widget_definition const* definition)
+c_gui_bitmap_widget* c_gui_screen_pregame_lobby_matchmaking::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B017F0, c_gui_screen_pregame_lobby_matchmaking, create_bitmap_widget, definition);
 
@@ -88,7 +88,7 @@ e_gui_game_mode c_gui_screen_pregame_lobby_matchmaking::get_gui_game_mode()
 	return _ui_game_mode_matchmaking;
 }
 
-//.text:00B01880 ; public: s_matchmaking_single_hopper_statistics const* c_gui_screen_pregame_lobby_matchmaking::get_hopper_statistics()
+//.text:00B01880 ; public: const s_matchmaking_single_hopper_statistics* c_gui_screen_pregame_lobby_matchmaking::get_hopper_statistics()
 
 int32 c_gui_screen_pregame_lobby_matchmaking::get_lobby_header()
 {
@@ -136,7 +136,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_controller_input_message(con
 	return c_gui_screen_pregame_lobby::handle_controller_input_message(message);
 }
 
-bool c_gui_screen_pregame_lobby_matchmaking::handle_dialog_result(c_dialog_result_message const* message)
+bool c_gui_screen_pregame_lobby_matchmaking::handle_dialog_result(const c_dialog_result_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B018E0, c_gui_screen_pregame_lobby_matchmaking, handle_dialog_result, message);
 
@@ -153,7 +153,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_dialog_result(c_dialog_resul
 	//return true;
 }
 
-bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(c_controller_input_message const* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B01920, c_gui_screen_pregame_lobby_matchmaking, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 

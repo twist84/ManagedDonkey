@@ -49,9 +49,9 @@ struct s_gui_game_setup_storage
 		struct
 		{
 			bool valid;
-			int32 location;
+			e_gui_selected_item_location location;
 			s_player_identifier owner;
-			c_static_wchar_string<256> file_path;
+			wchar_t file_path[256];
 		} only_local;
 	};
 	static_assert(sizeof(s_game_variant_settings) == 0x474);
@@ -83,9 +83,9 @@ struct s_gui_game_setup_storage
 		struct
 		{
 			bool valid;
-			int32 location;
+			e_gui_selected_item_location location;
 			s_player_identifier owner;
-			c_static_wchar_string<256> file_path;
+			wchar_t file_path[256];
 		} only_local;
 	};
 	static_assert(sizeof(s_map_variant_settings) == 0xE2A0);
@@ -98,52 +98,33 @@ struct s_gui_game_setup_storage
 			return valid;
 		}
 
-//protected:
+	//protected:
 		bool valid;
 		e_campaign_id campaign_id;
 		e_map_id map_id;
+
+		// ODST
 		int16 insertion_point;
-		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
-		int32 metagame_scoring_option;
-		uns32 active_primary_skulls;
-		uns32 active_secondary_skulls;
+
+		e_campaign_difficulty_level difficulty;
+		e_campaign_metagame_scoring metagame_scoring_policy;
+		int32 active_primary_skulls;
+		int32 active_secondary_skulls;
+
+		// ODST
 		s_campaign_armaments campaign_armaments;
 		s_campaign_game_progression campaign_progression;
 		s_hub_progression hub_progression;
 	};
 	static_assert(sizeof(s_campaign_settings) == 0x198);
 
-	// `s_survival_settings` is `s_campaign_settings`
-	struct s_survival_settings
-	{
-	public:
-		bool is_valid() const
-		{
-			return valid;
-		}
-
-//protected:
-		bool valid;
-
-		e_campaign_id campaign_id;
-		e_map_id map_id;
-		int16 insertion_point;
-		c_enum<e_campaign_difficulty_level, int32, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
-		int32 metagame_scoring_option;
-		uns32 active_primary_skulls;
-		uns32 active_secondary_skulls;
-		s_campaign_armaments campaign_armaments;
-		s_campaign_game_progression campaign_progression;
-		s_hub_progression hub_progression;
-	};
-	static_assert(sizeof(s_survival_settings) == sizeof(s_campaign_settings));
+	typedef s_campaign_settings s_survival_settings;
 
 	struct s_matchmaking_settings
 	{
 		bool valid;
 		uns16 hopper_id;
-
-		int32 : 32;
+		int32 pad;
 	};
 	static_assert(sizeof(s_matchmaking_settings) == 0x8);
 
@@ -155,7 +136,7 @@ struct s_gui_game_setup_storage
 			return valid && game_variant_settings.is_valid() && map_variant_settings.is_valid();
 		}
 
-//protected:
+	//protected:
 		bool valid;
 		s_game_variant_settings game_variant_settings;
 		s_map_variant_settings map_variant_settings;
@@ -170,11 +151,10 @@ struct s_gui_game_setup_storage
 			return valid && map_variant_settings.is_valid();
 		}
 
-//protected:
+	//protected:
 		bool valid;
 		bool dirtied_in_game;
-		int32 : 32;
-
+		int32 pad;
 		s_map_variant_settings map_variant_settings;
 	};
 	static_assert(sizeof(s_mapeditor_settings) == 0xE2A8);
@@ -187,12 +167,12 @@ struct s_gui_game_setup_storage
 			return valid;
 		}
 
-//protected:
+	//protected:
 		bool valid;
-		int32 location;
+		e_gui_selected_item_location location;
 		s_player_identifier owner;
 		s_saved_film_description film_description;
-		game_options options;
+		game_options game_options;
 		int32 length_in_ticks;
 		int32 start_tick;
 	};
