@@ -218,7 +218,7 @@ void c_gui_screen_pregame_lobby_theater::update(uns32 current_milliseconds)
 					}
 				}
 
-				c_gui_widget::set_child_visible(_gui_text, STRING_ID(gui, map_image), true);
+				c_gui_widget::set_child_visible(_gui_bitmap, STRING_ID(gui, map_image), true);
 				c_gui_widget::set_child_visible(_gui_text, STRING_ID(gui, game_name), true);
 			}
 		}
