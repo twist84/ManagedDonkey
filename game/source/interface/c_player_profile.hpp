@@ -83,6 +83,7 @@ public:
 //private:
 	void dirty_or(bool dirty);
 
+	e_campaign_difficulty_level get_campaign_difficulty() const;
 	s_emblem_info get_emblem_info() const;
 
 	e_player_color_index get_primary_change_color() const;

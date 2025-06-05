@@ -58,7 +58,14 @@ void __thiscall c_player_profile_interface::dirty_or(bool dirty)
 //.text:00AA0440 ; public: e_camera_panning c_player_profile_interface::get_camera_panning() const
 //.text:00AA0450 ; public: int32 c_player_profile_interface::get_campaign_awarded_primary_skull_bitvector(int32*) const
 //.text:00AA0470 ; public: int32 c_player_profile_interface::get_campaign_awarded_secondary_skull_bitvector(int32*) const
-//.text:00AA0490 ; public: e_campaign_difficulty_level c_player_profile_interface::get_campaign_difficulty() const
+
+e_campaign_difficulty_level c_player_profile_interface::get_campaign_difficulty() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AA0490, c_player_profile_interface, get_campaign_difficulty);
+
+	return m_campaign.current_difficulty;
+}
+
 //.text:00AA04A0 ; 
 //.text:00AA0500 ; 
 //.text:00AA06F0 ; public: int32 c_player_profile_interface::get_campaign_terminal_read_level1_bitvector() const

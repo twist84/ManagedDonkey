@@ -5,6 +5,7 @@
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
+#include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_selected_items_level.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_messages.hpp"
@@ -179,7 +180,73 @@ void c_gui_screen_campaign_select_level::initialize_datasource()
 
 void c_gui_screen_campaign_select_level::level_chosen_immediate(e_controller_index controller_index)
 {
-	INVOKE_CLASS_MEMBER(0x00AFD6F0, c_gui_screen_campaign_select_level, level_chosen_immediate, controller_index);
+	//INVOKE_CLASS_MEMBER(0x00AFD6F0, c_gui_screen_campaign_select_level, level_chosen_immediate, controller_index);
+
+	c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), NULL);
+	c_gui_list_widget* level_list_widget = get_child_list_widget(STRING_ID(global, level));
+	if (!level_data || !level_list_widget)
+	{
+		return;
+	}
+
+	c_gui_level_selected_item* item = (c_gui_level_selected_item*)level_data->get_gui_selected_item(level_list_widget->get_focused_element_handle());
+	if (!item)
+	{
+		return;
+	}
+
+	c_gui_level_selected_item level_item = *item;
+	//ASSERT(item->get_selection_type() == _gui_selection_type_level);
+	ASSERT(item->m_selection_type == _gui_selection_type_level);
+
+	c_gui_list_widget* insertion_point_list_widget = get_child_list_widget(STRING_ID(gui, insertion_point));
+	if (insertion_point_list_widget)
+	{
+		level_item.m_insertion_point = (int16)insertion_point_list_widget->get_focused_element_handle();
+	}
+	else
+	{
+		level_item.m_insertion_point = 0;
+	}
+
+	switch (m_campaign_setup_mode)
+	{
+	case _campaign_level_setup_mode_replay_level:
+	{
+		c_controller_interface* controller = controller_get(controller_index);
+		if (controller)
+		{
+			return;
+		}
+		c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+		if (!player_profile)
+		{
+			return;
+		}
+
+		c_load_campaign_select_difficulty_screen_message* difficulty_screen_message = new c_load_campaign_select_difficulty_screen_message(
+			STRING_ID(gui, campaign_select_difficulty),
+			controller_index,
+			c_gui_screen_widget::get_render_window(),
+			m_name,
+			_campaign_difficulty_setup_mode_replay_level,
+			level_item.m_campaign_id,
+			level_item.m_map_id,
+			player_profile->get_campaign_difficulty());
+		if (difficulty_screen_message)
+		{
+			difficulty_screen_message->set_parent_screen_index(m_screen_index);
+			user_interface_messaging_post(difficulty_screen_message);
+		}
+	}
+	break;
+	case _campaign_level_setup_mode_lobby:
+	{
+		c_gui_pregame_setup_manager::get()->set_selected_item(controller_index, &level_item, false, NONE);
+		c_gui_screen_widget::transition_out(_transition_out_normal);
+	}
+	break;
+	}
 }
 
 //.text:00AFD850 ; bool __cdecl parse_xml_last_played_time(void*, wchar_t*, int32)
@@ -190,7 +257,7 @@ void c_gui_screen_campaign_select_level::post_initialize()
 
 	c_gui_screen_widget::post_initialize();
 
-	c_gui_data* level_data = get_data(STRING_ID(global, level), NULL);
+	c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), NULL);
 	c_gui_list_widget* level_list_widget = get_child_list_widget(STRING_ID(global, level));
 	if (!level_list_widget || !level_data)
 	{
