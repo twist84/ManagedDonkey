@@ -93,7 +93,7 @@ extern uns32 __cdecl levels_get_available_map_mask();
 extern int32 __cdecl levels_get_campaign_count();
 extern e_campaign_id __cdecl levels_get_campaign_id_from_path(const char* path);
 extern int32 __cdecl levels_get_campaign_level_count(e_campaign_id campaign_id);
-extern int32 __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id);
+extern int16 __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id);
 extern e_map_id __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name);
 extern void __cdecl levels_get_campaign_map_ids(e_campaign_id campaign_id, e_map_id* out_map_ids, int32* in_out_count);
 extern e_map_id __cdecl levels_get_campaign_next_map_id(e_campaign_id campaign_id, e_map_id map_id);

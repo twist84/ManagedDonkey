@@ -360,7 +360,7 @@ enum e_scenario_insertion_flags
 
 struct s_scenario_insertion_point_halo3
 {
-	bool visible;
+	bool valid;
 
 	uns8 flags;
 
@@ -375,7 +375,7 @@ static_assert(sizeof(s_scenario_insertion_point_halo3) == 0xF08);
 
 struct s_scenario_insertion_point_atlas
 {
-	bool visible;
+	bool valid;
 
 	uns8 flags;
 

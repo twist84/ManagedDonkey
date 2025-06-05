@@ -289,17 +289,22 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 				{
 				case 0x4D50:
 				{
-					s_blf_chunk_scenario_halo3* scenario_halo3 = (s_blf_chunk_scenario_halo3*)level_data;
-					const s_scenario_insertion_point_halo3* scenario_insertion = scenario_halo3->insertions;
+					s_blf_chunk_scenario_halo3* scenario = (s_blf_chunk_scenario_halo3*)level_data;
+					const s_scenario_insertion_point_halo3* scenario_insertion = scenario->insertions;
 
-					for (int32 i = 0; i < NUMBEROF(scenario_halo3->insertions); i++)
+					for (int32 i = 0; i < NUMBEROF(scenario->insertions); i++)
 					{
+						if (!scenario->insertions[i].valid)
+						{
+							continue;
+						}
+
 						if (must_byte_swap)
 						{
-							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_halo3->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_names[i], NUMBEROF(level_insertion->insertion_point_names[i]), byte_swap_get_runtime_byte_order() != 1);
 
-							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
 
 							level_insertion->insertion_point_initial_zone_set[i] = uns8(bswap_uns16(scenario_insertion->zone_set));
@@ -310,8 +315,8 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 						}
 						else
 						{
-							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_halo3->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
-							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_halo3->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 
 							level_insertion->insertion_point_initial_zone_set[i] = uns8(scenario_insertion->zone_set);
 							level_insertion->return_from_map_ids[i] = NONE;
@@ -324,17 +329,22 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 				break;
 				case 0x98C0:
 				{
-					s_blf_chunk_scenario_atlas* scenario_atlas = (s_blf_chunk_scenario_atlas*)level_data;
-					const s_scenario_insertion_point_atlas* scenario_insertion = scenario_atlas->insertions;
+					s_blf_chunk_scenario_atlas* scenario = (s_blf_chunk_scenario_atlas*)level_data;
+					const s_scenario_insertion_point_atlas* scenario_insertion = scenario->insertions;
 
-					for (int32 i = 0; i < NUMBEROF(scenario_atlas->insertions); i++)
+					for (int32 i = 0; i < NUMBEROF(scenario->insertions); i++)
 					{
+						if (!scenario->insertions[i].valid)
+						{
+							continue;
+						}
+
 						if (must_byte_swap)
 						{
-							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_atlas->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_names[i], NUMBEROF(level_insertion->insertion_point_names[i]), byte_swap_get_runtime_byte_order() != 1);
 
-							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_atlas->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 							unicode_byte_swap_wchar_string(level_insertion->insertion_point_descriptions[i], NUMBEROF(level_insertion->insertion_point_descriptions[i]), byte_swap_get_runtime_byte_order() != 1);
 
 							level_insertion->return_from_map_ids[i] = bswap_uns32(scenario_insertion->return_from_map_id);
@@ -344,8 +354,8 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 						}
 						else
 						{
-							ustrnzcpy(level_insertion->insertion_point_names[i], scenario_atlas->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
-							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario_atlas->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
+							ustrnzcpy(level_insertion->insertion_point_names[i], scenario->insertions[i].names[language], NUMBEROF(level_insertion->insertion_point_names[i]));
+							ustrnzcpy(level_insertion->insertion_point_descriptions[i], scenario->insertions[i].descriptions[language], NUMBEROF(level_insertion->insertion_point_descriptions[i]));
 
 							level_insertion->return_from_map_ids[i] = scenario_insertion->return_from_map_id;
 							level_insertion->survival_presence_context_ids[i] = scenario_insertion->survival_presence_context_id;
@@ -663,7 +673,7 @@ int32 __cdecl levels_get_campaign_level_count(e_campaign_id campaign_id)
 	return INVOKE(0x0054B7B0, levels_get_campaign_level_count, campaign_id);
 }
 
-int32 __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id)
+int16 __cdecl levels_get_campaign_level_index(e_campaign_id campaign_id, e_map_id map_id)
 {
 	return INVOKE(0x0054B8A0, levels_get_campaign_level_index, campaign_id, map_id);
 }
