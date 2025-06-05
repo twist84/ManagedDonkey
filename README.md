@@ -8,6 +8,7 @@
 
 - Donkey is a project I started in August 2022, inspired by years of reverse engineering the Halo engine and learning C++.
 - The goal is to create my own version of a Halo mod, documenting all the information for others to use.
+- This project is intended for technical folk such as developers, not for users who want a finished product.
 
 ### Why Halo Online and why `ms23 1.106708` specifically?
 
