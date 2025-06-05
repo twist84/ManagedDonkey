@@ -1,5 +1,6 @@
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
 
+#include "input/controllers.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
@@ -11,6 +12,7 @@
 #include "main/levels.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_game_files.hpp"
+#include "text/text_group.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AFD9B0, c_gui_screen_campaign_select_level, post_initialize_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AFD600, c_gui_screen_campaign_select_level, initialize_datasource_);
@@ -265,15 +267,50 @@ c_gui_insertion_point_data::~c_gui_insertion_point_data()
 
 void c_gui_insertion_point_data::get_column_names(int32* const column_names, int32* column_count)
 {
+	*column_count = 0;
+	column_names[(*column_count)++] = STRING_ID(gui, insertion_point);
 }
 
 int32 c_gui_insertion_point_data::get_current_item_count_internal()
 {
-	return int32();
+	return m_insertion_point_count;
 }
 
 bool c_gui_insertion_point_data::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
 {
+	if (!VALID_INDEX(element_handle, m_insertion_point_count))
+	{
+		return false;
+	}
+
+	switch (value_name)
+	{
+	case STRING_ID(gui, insertion_point):
+	{
+		if (!TEST_BIT(m_insertion_point_unlocked, element_handle))
+		{
+			return string_list_get_interface_string(m_string_list_index, STRING_ID(gui, insertion_point_locked), buffer);
+		}
+
+		buffer->set(m_insertion_point_names[element_handle]);
+		return true;
+	}
+	break;
+	case STRING_ID(gui, insertion_point_description):
+	{
+		if (TEST_BIT(m_insertion_point_unlocked, element_handle))
+		{
+			buffer->set(m_insertion_point_descriptions[element_handle]);
+		}
+		else
+		{
+			string_list_get_interface_string(m_string_list_index, STRING_ID(gui, insertion_point_description_locked), buffer);
+		}
+		return true;
+	}
+	break;
+	}
+
 	return false;
 }
 
@@ -305,11 +342,27 @@ int16 c_gui_insertion_point_data::set_campaign_level_id(e_campaign_id campaign_i
 		ustrnzcpy(m_insertion_point_descriptions[insertion_point_index], insertion.insertion_point_descriptions[insertion_point_index], NUMBEROF(m_insertion_point_descriptions[0]));
 	}
 
+	int16 campaign_level_index = levels_get_campaign_level_index(campaign_id, map_id);
+
 	int16 insertion_point_count = 0;
-	for (int32 insertion_point_index = 0; insertion_point_index < m_insertion_point_count; insertion_point_index++)
+	for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
-		SET_BIT(m_insertion_point_unlocked, insertion_point_index, true);
-		insertion_point_count++;
+		c_controller_interface* controller = controller_get(controller_index);
+		if (!controller->in_use())
+		{
+			continue;
+		}
+
+		c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+		for (int16 insertion_point_index = 0; insertion_point_index < m_insertion_point_count; insertion_point_index++)
+		{
+			//if (!TEST_BIT(m_insertion_point_unlocked, insertion_point_index) &&
+			//	(player_profile->player_campaign_progress_test_insertion_point(campaign_level_index, insertion_point_index) || !insertion_point_index))
+			//{
+				SET_BIT(m_insertion_point_unlocked, insertion_point_index, true);
+				insertion_point_count++;
+			//}
+		}
 	}
 
 	return insertion_point_count;
