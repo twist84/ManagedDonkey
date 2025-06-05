@@ -51,5 +51,6 @@ struct s_multilingual_unicode_string_list_group_header
 };
 static_assert(sizeof(s_multilingual_unicode_string_list_group_header) == 0x50);
 
+extern bool __cdecl string_list_get_interface_string(int32 tag_index, int32 string, c_static_wchar_string<1024>* buffer);
 extern bool __cdecl string_list_get_normal_string(int32 definition_index, int32 id, c_static_wchar_string<256>* buffer);
 
