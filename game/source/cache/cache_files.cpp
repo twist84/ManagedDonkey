@@ -147,13 +147,17 @@ bool s_cache_file_tag_group_bsearch::m_sorted = s_cache_file_tag_group_bsearch::
 
 const char* tag_group_get_name(tag group_tag)
 {
-	const s_cache_file_tag_group* group = nullptr;
+	const s_cache_file_tag_group* group = NULL;
 	int32 index = s_cache_file_tag_group_bsearch::search(group_tag, global_tag_groups, global_tag_group_count);
 	if (index != -1)
+	{
 		group = &global_tag_groups[index];
+	}
 
 	if (group)
+	{
 		return group->name.get_string();
+	}
 
 	return "";
 }
@@ -169,12 +173,16 @@ int32 __cdecl tag_loaded(tag group_tag, const char* tag_name)
 			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 
 			if (instance->tag_group != group_tag)
+			{
 				continue;
+			}
 
 			int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 			const char* name = tag_get_name(tag_index);
 			if (csstricmp(tag_name, name) == 0)
+			{
 				return tag_index;
+			}
 		}
 	}
 
@@ -191,13 +199,17 @@ static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 const char* tag_get_name(int32 tag_name_index)
 {
 	if (!g_cache_file_globals.header.debug_tag_name_count)
+	{
 		return "";
+	}
 
 	//ASSERT(g_cache_file_globals.tags_loaded);
 	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
 	if (const char* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
+	{
 		return name;
+	}
 
 	return "";
 
@@ -212,12 +224,16 @@ const char* tag_get_name_safe(int32 tag_name_index)
 	//ASSERT(g_cache_file_globals.tags_loaded);
 
 	if (!g_cache_file_globals.header.debug_tag_name_count)
+	{
 		return "";
+	}
 
 	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
 		if (const char* name = g_cache_file_debug_globals->debug_tag_names[tag_name_index])
+		{
 			return name;
+		}
 
 		return "";
 
@@ -235,18 +251,26 @@ int32 tag_name_get_index(tag group_tag, const char* name)
 	{
 		const char* result = g_cache_file_debug_globals->debug_tag_names[tag_index];
 		if (!result)
+		{
 			continue;
+		}
 
 		int32 tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
 		if (tag_absolute_index == NONE)
+		{
 			continue;
+		}
 
 		cache_file_tag_instance* tag_instance = g_cache_file_globals.tag_instances[tag_absolute_index];
 		if (!tag_instance || tag_instance->tag_group != group_tag)
+		{
 			continue;
+		}
 
 		if (csstricmp(name, result) == 0)
+		{
 			return tag_index;
+		}
 	}
 
 	return NONE;
@@ -331,7 +355,9 @@ const void* __cdecl cache_file_globals_get_tag_cache_base_address()
 	//return INVOKE(0x00501930, cache_file_globals_get_tag_cache_base_address);
 
 	if (!g_cache_file_globals.tags_loaded)
+	{
 		return NULL;
+	}
 
 	return g_cache_file_globals.tag_cache_base_address;
 }
@@ -467,7 +493,9 @@ const char* __cdecl cache_files_map_directory()
 	//return INVOKE(0x00501FC0, cache_files_map_directory);
 
 	if (!g_cache_file_globals.map_directory)
+	{
 		g_cache_file_globals.map_directory = "maps\\";
+	}
 
 	return g_cache_file_globals.map_directory;
 }
@@ -493,15 +521,21 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 			cache_address resource_fixup = resource_fixups[resource_fixup_index];
 
 			if (!resource_fixup.value)
+			{
 				continue;
+			}
 
 			if (resource_fixup.persistent)
+			{
 				resource_fixup.persistent = false;
+			}
 			resource_fixup.value += (uns32)instance;
 
 			s_tag_resource* resource = (s_tag_resource*)resource_fixup.value;
 			if (!resource)
+			{
 				continue;
+			}
 
 			if (!resource->resource_data)
 			{
@@ -583,7 +617,9 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 	cache_file_tags_fixup_all_resources(resource_offsets, resource_gestalt);
 
 	if (resource_offsets.m_elements)
+	{
 		physical_memory_free(resource_offsets.m_elements);
+	}
 
 	return resource_gestalt;
 }
@@ -611,7 +647,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 
 	static char hash_string[4096]{};
 	s_network_http_request_hash hash{};
-	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, nullptr))
+	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, NULL))
 	{
 		if (!override_cache_file_header_security_validate_hash)
 		{
@@ -701,7 +737,9 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resou
 		e_map_file_index next_map_file_index = e_map_file_index(i + 1);
 
 		if (!cached_map_file_is_shared(map_file_index))
+		{
 			continue;
+		}
 
 		if (!cache_file_get_async_file_handle_from_index(next_map_file_index, &section_handles[map_file_index]))
 		{
@@ -749,7 +787,9 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resou
 	{
 		e_map_file_index map_file_index = e_map_file_index(i);
 		if (!cached_map_file_is_shared(map_file_index))
+		{
 			continue;
+		}
 
 		void* offsets = (byte*)file_offsets + offset_index_offset;
 		int32 offsets_size = sizeof(int32) * section_headers[i].file_count;
@@ -799,7 +839,9 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
 
 	if (g_cache_file_globals.tag_cache_size <= g_cache_file_globals.tag_loaded_size)
+	{
 		VASSERT("tag cache insufficient memory allocation size, either decrease the size of the loaded tags for this scenario or try enabling the 'EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE' define if this persists");
+	}
 
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 
@@ -807,10 +849,14 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 	int32 tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
 
 	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != NONE)
+	{
 		return true;
+	}
 
 	if (!cache_file_tags_section_read(tag_cache_offset, cache_file_round_up_read_size(sizeof(cache_file_tag_instance)), instance))
+	{
 		return false;
+	}
 
 	g_cache_file_globals.tag_loaded_size += instance->total_size;
 	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
@@ -822,10 +868,14 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(cache_file_round_up_read_size(tag_name.length()));
 
 	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, instance->base))
+	{
 		return false;
+	}
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
+	{
 		return false;
+	}
 
 	// not needed
 	//sub_503470(&g_cache_file_globals.reports, tag_instance, tag_index);
@@ -835,13 +885,17 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 	tag_instance_modification_apply(instance, _instance_modification_stage_post_tag_load);
 
 	if (instance->dependency_count <= 0)
+	{
 		return true;
+	}
 
 	int16 dependency_index = 0;
 	while (cache_file_tags_load_recursive(instance->dependencies[dependency_index]))
 	{
 		if (++dependency_index >= instance->dependency_count)
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -849,34 +903,38 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 
 // to mitigate a lot of file read operations we load all of `tags.dat` into this buffer
 // I don't like having this as a global but for right now its fine
-static void* tags_section = nullptr;
+static void* tags_section = NULL;
 
 void __cdecl cache_file_load_tags_section()
 {
 	//INVOKE(0x005028C0, cache_file_load_tags_section);
 
-	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+	if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
 	{
-		if (g_cache_file_globals.tags_section.path.is_empty())
-			file_reference_create_from_path(&g_cache_file_globals.tags_section, k_cache_tags_file, false);
+		return;
+	}
 
-		uns32 error = 0;
-		if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
+	if (g_cache_file_globals.tags_section.path.is_empty())
+	{
+		file_reference_create_from_path(&g_cache_file_globals.tags_section, k_cache_tags_file, false);
+	}
+
+	uns32 error = 0;
+	if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
+	{
+		uns32 file_size = 0;
+		file_get_size(&g_cache_file_globals.tags_section, &file_size);
+
+		if (tags_section)
 		{
-			uns32 file_size = 0;
-			file_get_size(&g_cache_file_globals.tags_section, &file_size);
+			free(tags_section);
+			tags_section = NULL;
+		}
 
-			if (tags_section)
-			{
-				free(tags_section);
-				tags_section = nullptr;
-			}
-
-			if (tags_section = malloc(file_size))
-			{
-				csmemset(tags_section, 0, file_size);
-				file_read(&g_cache_file_globals.tags_section, file_size, false, tags_section);
-			}
+		if (tags_section = malloc(file_size))
+		{
+			csmemset(tags_section, 0, file_size);
+			file_read(&g_cache_file_globals.tags_section, file_size, false, tags_section);
 		}
 	}
 }
@@ -886,15 +944,17 @@ void __cdecl cache_file_close_tags_section()
 {
 	//INVOKE(0x00502900, cache_file_close_tags_section);
 
-	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+	if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
 	{
-		file_close(&g_cache_file_globals.tags_section);
+		return;
+	}
 
-		if (tags_section)
-		{
-			free(tags_section);
-			tags_section = nullptr;
-		}
+	file_close(&g_cache_file_globals.tags_section);
+
+	if (tags_section)
+	{
+		free(tags_section);
+		tags_section = NULL;
 	}
 }
 //HOOK_DECLARE(0x00502900, cache_file_close_tags_section);
@@ -918,11 +978,15 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 
 		// 0.4.11.2 tags messed up `ui\halox\pregame_lobby\switch_lobby\lobbies.gui_datasource_definition` data fixups
 		if (!data_fixup.value)
+		{
 			continue;
+		}
 
 		// 0.4.11.2 tags messed up `levels\multi\s3d_avalanche\s3d_avalanche.scenario` data fixups
 		if (!data_fixup.persistent)
+		{
 			continue;
+		}
 
 		ASSERT(data_fixup.persistent == true);
 		data_fixup.persistent = false;
@@ -958,10 +1022,14 @@ bool __cdecl cache_file_debug_tag_names_load()
 	if (debug_tag_name_count)
 	{
 		if (!cache_file_blocking_read(_cache_file_debug_section, debug_tag_name_data_offset, cache_file_round_up_read_size(debug_tag_name_data_size), buffer))
+		{
 			return false;
+		}
 
 		if (!cache_file_blocking_read(_cache_file_debug_section, debug_tag_name_index_offset, cache_file_round_up_read_size(debug_tag_name_count * sizeof(int32)), offsets))
+		{
 			return false;
+		}
 	}
 	else
 	{
@@ -1013,13 +1081,17 @@ bool __cdecl cache_file_debug_tag_names_load()
 			if (sscanf_s(line, "0x%X,", &debug_tag_name_index))
 			{
 				while (debug_tag_name_count < debug_tag_name_index)
+				{
 					debug_tag_name_count++;
+				}
 			}
 
 			offsets[debug_tag_name_count++] = comma_pos - (char*)offsets - offsets_size;
 
 			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
+			{
 				break;
+			}
 
 			line = line_end + 1;
 		}
@@ -1030,10 +1102,14 @@ bool __cdecl cache_file_debug_tag_names_load()
 	for (int32 tag_names_index = 0; tag_names_index < NUMBEROF(offsets); ++tag_names_index)
 	{
 		if (offsets[tag_names_index] >= buffer_size)
+		{
 			break;
+		}
 
 		if (offsets[tag_names_index] != 0)
+		{
 			storage[tag_names_index] = &buffer[offsets[tag_names_index]];
+		}
 	}
 
 	return true;
@@ -1065,7 +1141,9 @@ bool __cdecl cache_file_tags_load_allocate()
 		else
 		{
 			if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_section_header), false, &tags_header))
+			{
 				return false;
+			}
 		}
 
 		tag_offsets_size = sizeof(int32) * tags_header.file_count;
@@ -1074,11 +1152,15 @@ bool __cdecl cache_file_tags_load_allocate()
 		int32* tag_offsets = (int32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 
 		if (!cache_file_tags_section_read(tags_header.file_offsets, tag_offsets_size, tag_offsets))
+		{
 			return false;
+		}
 
 		int32 tag_offset = 0;
 		for (int32 tag_index = 0; tag_index < tags_header.file_count; g_cache_file_globals.tag_cache_offsets[tag_index - 1] = tag_offset)
+		{
 			tag_offset = tag_offsets[tag_index++];
+		}
 
 		physical_memory_free(tag_offsets);
 	}
@@ -1106,7 +1188,9 @@ bool __cdecl cache_file_tags_section_read(int32 offset, int32 size, void* buffer
 
 		bool result = file_set_position(&g_cache_file_globals.tags_section, offset, 0);
 		if (result)
+		{
 			return file_read(&g_cache_file_globals.tags_section, size, false, buffer);
+		}
 
 		return result;
 	}
@@ -1170,12 +1254,16 @@ void __cdecl cache_file_tags_unload()
 
 void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_string)
 {
-	if (in_out_creator_string[0])
+	if (!in_out_creator_string[0])
 	{
-		ASSERT(NUMBEROF(g_cache_file_creator_key) >= in_out_creator_string.count());
+		return;
+	}
 
-		for (int32 i = 0; i < in_out_creator_string.count(); i++)
-			in_out_creator_string[i] ^= g_cache_file_creator_key[i];
+	ASSERT(NUMBEROF(g_cache_file_creator_key) >= in_out_creator_string.count());
+
+	for (int32 i = 0; i < in_out_creator_string.count(); i++)
+	{
+		in_out_creator_string[i] ^= g_cache_file_creator_key[i];
 	}
 }
 
@@ -1225,7 +1313,9 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 
 			g_cache_file_globals.tags_section = {};
 			if (file_exists(&tags_file))
+			{
 				g_cache_file_globals.tags_section = tags_file;
+			}
 		}
 
 		cache_file_load_tags_section();
@@ -1259,7 +1349,9 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 		}
 
 		if (success)
+		{
 			success = cache_file_debug_tag_names_load();
+		}
 
 		if (!success)
 		{
@@ -1355,7 +1447,9 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 
 			// if no global scenario reference was found in cache file global tags we fallback to the cache file header
 			if (tag_index == NONE)
+			{
 				tag_index = g_cache_file_globals.header.scenario_index;
+			}
 
 			g_cache_file_globals.tags_loaded = true;
 
@@ -1485,9 +1579,23 @@ void* __cdecl tag_get(tag group_tag, int32 tag_index)
 
 	int32 tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
 	if (tag_absolute_index == NONE)
-		return nullptr;
+	{
+		return NULL;
+	}
 
-	void* data = g_cache_file_globals.tag_instances[tag_absolute_index]->base + g_cache_file_globals.tag_instances[tag_absolute_index]->offset;
+	cache_file_tag_instance* tag_instance = g_cache_file_globals.tag_instances[tag_absolute_index];
+	if (!tag_instance)
+	{
+		return NULL;
+	}
+
+	void* data = tag_instance->base + tag_instance->offset;
+
+	// due to bad caches the tag address needs checking
+	if (!IN_RANGE_INCLUSIVE((uns32)data, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size))
+	{
+		return NULL;
+	}
 
 	return data;
 }
@@ -1500,10 +1608,12 @@ void* __cdecl tag_get(tag group_tag, const char* tag_name)
 	{
 		const char* _tag_name = tag_get_name_safe(tag_index);
 		if (_tag_name && csstricmp(_tag_name, tag_name) == 0)
+		{
 			return tag_get(group_tag, tag_index);
+		}
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 uns32 __cdecl tag_get_group_tag(int32 tag_index)
@@ -1530,7 +1640,9 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	ASSERT(instance);
 
 	if (instance->dependency_count || instance->data_fixup_count || instance->resource_fixup_count)
+	{
 		return;
+	}
 
 	c_console::write_line("0x%08X.%s", tag_index, instance->tag_group.name.get_string());
 	static char tag_instance_byte_string[sizeof(cache_file_tag_instance) * 3]{};
@@ -1546,10 +1658,14 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, int32* out_tag
 	int32& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
 
 	if (out_instance)
+	{
 		*out_instance = instance;
+	}
 
 	if (!file_read_from_position(file, 0, sizeof(cache_file_tag_instance), false, instance))
+	{
 		return false;
+	}
 
 	uns32 file_size = 0;
 	file_get_size(file, &file_size);
@@ -1560,29 +1676,41 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, int32* out_tag
 	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = g_cache_file_globals.tag_total_count;
 
 	if (*out_tag_index)
+	{
 		*out_tag_index = g_cache_file_globals.tag_total_count++;
+	}
 
 	if (!file_read_from_position(file, 0, file_size, false, instance))
+	{
 		return false;
+	}
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
+	{
 		return false;
+	}
 
 	tag_loaded_count++;
 	g_cache_file_globals.tag_total_count++;
 
 	if (instance->dependency_count <= 0)
+	{
 		return true;
+	}
 
 	int16 dependency_index = 0;
 	while (cache_file_tags_load_recursive(instance->dependencies[dependency_index]))
 	{
 		if (++dependency_index >= instance->dependency_count)
+		{
 			return true;
+		}
 	}
 
 	if (out_instance)
-		*out_instance = nullptr;
+	{
+		*out_instance = NULL;
+	}
 
 	return false;
 }
@@ -1597,7 +1725,7 @@ void cache_file_tags_load_single_tag_file_test(const char* file_name)
 	if (file_open(&file, FLAG(_file_open_flag_desired_access_read), &error)/* && error == 0*/)
 	{
 		int32 tag_index = NONE;
-		cache_file_tag_instance* instance = nullptr;
+		cache_file_tag_instance* instance = NULL;
 		if (cache_file_tags_single_tag_file_load(&file, &tag_index, &instance) && tag_index != NONE && instance)
 		{
 			cache_file_tags_single_tag_instance_fixup(instance);
@@ -1614,7 +1742,9 @@ void cache_file_tags_load_single_tag_file_test(const char* file_name)
 				s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
 
 				if (!resource_data->runtime_data.control_data.base)
+				{
 					return;
+				}
 
 				s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
 
@@ -1642,10 +1772,12 @@ void cache_file_tags_load_single_tag_file_test(const char* file_name)
 // $TODO: create some sort of tag modification manager
 void apply_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != GLOBALS_TAG)
+	{
 		return;
+	}
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
 	const char* tag_name = instance->get_name();
@@ -1677,10 +1809,12 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 // $TODO: create some sort of tag modification manager
 void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != MULTIPLAYER_GLOBALS_TAG)
+	{
 		return;
+	}
 
 	//// if the very first offset is not 0x20 there is a very high likelihood that this is an ElDewrito tag set
 	//bool is_base_cache = g_cache_file_globals.tag_cache_offsets[0] == 0x20;
@@ -1720,7 +1854,9 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 		//	if (const c_map_variant* map_variant = network_squad_session_get_map_variant()) for (const s_variant_quota& quota : map_variant->m_quotas)
 		//	{
 		//		if (quota.object_definition_index == NONE)
+		//		{
 		//			continue;
+		//		}
 		//
 		//		cache_file_tags_load_recursive(quota.object_definition_index);
 		//	}
@@ -1731,53 +1867,81 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 		//if (is_base_cache)
 		//{
-		//	if (multiplayer_globals == nullptr || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count <= 0)
+		//	if (multiplayer_globals == NULL || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count <= 0)
+		//	{
 		//		return;
+		//	}
 		//
 		//	for (s_multiplayer_weapon_selection& weapon_selection : multiplayer_globals->universal[0].weapon_selections)
 		//	{
 		//		if (weapon_selection.weapon_tag.index != NONE)
+		//		{
 		//			continue;
+		//		}
 		//
 		//		switch (weapon_selection.name.get_value())
 		//		{
 		//		case STRING_ID(global, spike_rifle):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\spike_rifle\\spike_rifle");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, sword):
 		//		case STRING_ID(global, energy_blade):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\melee\\energy_blade\\energy_blade");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, needler):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\pistol\\needler\\needler");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, rocket_launcher):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\support_high\\rocket_launcher\\rocket_launcher");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, shotgun):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\shotgun\\shotgun");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, sniper_rifle):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\sniper_rifle\\sniper_rifle");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, brute_shot):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\support_low\\brute_shot\\brute_shot");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, beam_rifle):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\beam_rifle\\beam_rifle");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, spartan_laser):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\support_high\\spartan_laser\\spartan_laser");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, gravity_hammer):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\melee\\gravity_hammer\\gravity_hammer");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, flame_thrower):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\turret\\flamethrower\\flamethrower");
-		//			break;
+		//		}
+		//		break;
 		//		case STRING_ID(global, missile_launcher):
+		//		{
 		//			tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\turret\\missile_pod\\missile_pod");
-		//			break;
+		//		}
+		//		break;
 		//		}
 		//	}
 		//}
@@ -1796,10 +1960,12 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 // $TODO: create some sort of tag modification manager
 void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != RASTERIZER_GLOBALS_TAG)
+	{
 		return;
+	}
 
 	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
 	const char* tag_name = instance->get_name();
@@ -1827,10 +1993,12 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 // $TODO: create some sort of tag modification manager
 void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != SCENARIO_TAG)
+	{
 		return;
+	}
 
 	struct scenario* scenario = instance->cast_to<struct scenario>();
 	const char* tag_name = instance->get_name();
@@ -1858,10 +2026,12 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 // $TODO: create some sort of tag modification manager
 void apply_chud_globals_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != CHUD_GLOBALS_DEFINITION_TAG)
+	{
 		return;
+	}
 
 	s_chud_globals_definition* chud_globals_definition = instance->cast_to<s_chud_globals_definition>();
 	const char* tag_name = instance->get_name();
@@ -1882,7 +2052,9 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 	case _instance_modification_stage_post_scenario_tags_load:
 	{
 		if (chud_globals_definition->sprint_fov_multiplier == 0.0f)
+		{
 			chud_globals_definition->sprint_fov_multiplier = 1.0f;
+		}
 	}
 	break;
 	}
@@ -1891,10 +2063,12 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 // $TODO: create some sort of tag modification manager
 void apply_vision_mode_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != VISION_MODE_TAG)
+	{
 		return;
+	}
 
 	s_vision_mode_definition* vision_mode_definition = instance->cast_to<s_vision_mode_definition>();
 	const char* tag_name = instance->get_name();
@@ -1922,10 +2096,12 @@ void apply_vision_mode_definition_instance_modification(cache_file_tag_instance*
 // $TODO: create some sort of tag modification manager
 void apply_object_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != OBJECT_TAG)
+	{
 		return;
+	}
 
 	struct object_definition* object_definition = instance->cast_to<struct object_definition>();
 	const char* tag_name = instance->get_name();
@@ -1953,10 +2129,12 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 // $TODO: create some sort of tag modification manager
 void apply_unit_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != UNIT_TAG)
+	{
 		return;
+	}
 
 	struct unit_definition* unit_definition = instance->cast_to<struct unit_definition>();
 	const char* tag_name = instance->get_name();
@@ -1984,10 +2162,12 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 // $TODO: create some sort of tag modification manager
 void apply_biped_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != BIPED_TAG)
+	{
 		return;
+	}
 
 	struct biped_definition* biped_definition = instance->cast_to<struct biped_definition>();
 	const char* tag_name = instance->get_name();
@@ -2023,10 +2203,12 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 // $TODO: create some sort of tag modification manager
 void apply_vehicle_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != VEHICLE_TAG)
+	{
 		return;
+	}
 
 	struct vehicle_definition* vehicle_definition = instance->cast_to<struct vehicle_definition>();
 	const char* tag_name = instance->get_name();
@@ -2054,10 +2236,12 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 // $TODO: create some sort of tag modification manager
 void apply_item_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != ITEM_TAG)
+	{
 		return;
+	}
 
 	struct item_definition* item_definition = instance->cast_to<struct item_definition>();
 	const char* tag_name = instance->get_name();
@@ -2085,10 +2269,12 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 // $TODO: create some sort of tag modification manager
 void apply_equipment_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != EQUIPMENT_TAG)
+	{
 		return;
+	}
 
 	struct equipment_definition* equipment_definition = instance->cast_to<struct equipment_definition>();
 	const char* tag_name = instance->get_name();
@@ -2116,10 +2302,12 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 // $TODO: create some sort of tag modification manager
 void apply_weapon_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != WEAPON_TAG)
+	{
 		return;
+	}
 
 	struct weapon_definition* weapon_definition = instance->cast_to<struct weapon_definition>();
 	const char* tag_name = instance->get_name();
@@ -2147,10 +2335,12 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 // $TODO: create some sort of tag modification manager
 void apply_projectile_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != PROJECTILE_TAG)
+	{
 		return;
+	}
 
 	struct projectile_definition* projectile_definition = instance->cast_to<struct projectile_definition>();
 	const char* tag_name = instance->get_name();
@@ -2178,10 +2368,12 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 // $TODO: create some sort of tag modification manager
 void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != nullptr);
+	ASSERT(instance != NULL);
 
 	if (instance->tag_group != MULTILINGUAL_UNICODE_STRING_LIST_TAG)
+	{
 		return;
+	}
 
 	s_multilingual_unicode_string_list_group_header* multilingual_unicode_string_list = instance->cast_to<s_multilingual_unicode_string_list_group_header>();
 	const char* tag_name = instance->get_name();
@@ -2201,7 +2393,9 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 			{
 				s_multilingual_unicode_string_reference& string_reference = multilingual_unicode_string_list->string_references[block_index];
 				if (string_reference.id != STRING_ID(global, leave_game))
+				{
 					continue;
+				}
 
 				static char x_english_string[] = "QUIT TO DESKTOP";
 				char* string = (char*)tag_data_get_pointer(&multilingual_unicode_string_list->text_data, string_reference.offset[_language_english], sizeof(x_english_string));
@@ -2225,8 +2419,10 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 // $TODO: create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	if (instance == nullptr)
+	if (instance == NULL)
+	{
 		return;
+	}
 
 #define APPLY_INSTANCE_MODIFICATION(GROUP_NAME) apply_##GROUP_NAME##_instance_modification(instance, stage)
 
@@ -2389,7 +2585,7 @@ bool load_external_tag(s_file_reference* file)
 		}
 
 		int32 tag_index = NONE;
-		cache_file_tag_instance* instance = nullptr;
+		cache_file_tag_instance* instance = NULL;
 		if (!cache_file_tags_single_tag_file_load(file, &tag_index, &instance))
 		{
 			return false;
@@ -2515,7 +2711,7 @@ bool load_external_resource(s_file_reference* file)
 	}
 
 	void* buffer = new byte[file_size]{};
-	ASSERT(buffer != nullptr);
+	ASSERT(buffer != NULL);
 
 	if (!file_read(file, file_size, false, buffer))
 	{
@@ -2534,7 +2730,9 @@ bool load_external_resource(s_file_reference* file)
 	for (int32 i = 0; i < g_resource_file_headers.count(); i++)
 	{
 		if (csmemcmp(g_resource_file_headers[i], file_header, sizeof(s_resource_file_header)) == 0)
+		{
 			add_new_resource = false;
+		}
 	}
 
 	if (!add_new_resource)

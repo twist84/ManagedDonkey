@@ -17,6 +17,12 @@ void* __cdecl tag_block_get_element_with_size(const s_tag_block* block, int32 in
 	ASSERT(VALID_INDEX(index, block->count));
 	ASSERT(block->address);
 
+	// due to bad caches the block address needs checking
+	if (!IN_RANGE_INCLUSIVE((uns32)block->address, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_cache_size))
+	{
+		return NULL;
+	}
+
 	return block->base + index * size;
 }
 
@@ -27,13 +33,18 @@ void* __cdecl tag_data_get_pointer(const s_tag_data* data, int32 offset, int32 s
 	ASSERT(size >= 0);
 	ASSERT(offset >= 0 && offset + size <= data->size);
 
+	// due to bad caches the data address needs checking
+	if (!IN_RANGE_INCLUSIVE((uns32)data->address, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_cache_size))
+	{
+		return NULL;
+	}
+
 	return data->base + offset;
 }
 
 void __cdecl tag_load_missing_tags_report()
 {
-	// nullsub
-	INVOKE(0x0055AA70, tag_load_missing_tags_report);
+	//INVOKE(0x0055AA70, tag_load_missing_tags_report);
 }
 
 const char* __cdecl tag_name_strip_path(const char* path)
@@ -42,18 +53,20 @@ const char* __cdecl tag_name_strip_path(const char* path)
 
 	const char* name = strrchr(path, '\\');
 	if (name)
+	{
 		return name + 1;
-	else
-		return path;
+	}
+	return path;
 }
 
 const wchar_t* __cdecl tag_name_strip_path(const wchar_t* path)
 {
 	const wchar_t* name = wcsrchr(path, '\\');
 	if (name)
+	{
 		return name + 1;
-	else
-		return path;
+	}
+	return path;
 }
 
 tag group_name_to_group_tag(const char* group_name)
@@ -63,7 +76,9 @@ tag group_name_to_group_tag(const char* group_name)
 	{
 		const s_cache_file_tag_group* group = &global_tag_groups[i];
 		if (csstricmp(group_name, group->name.get_string()) == 0)
+		{
 			return group->group_tag;
+		}
 	}
 
 	return NONE;
@@ -72,7 +87,9 @@ tag group_name_to_group_tag(const char* group_name)
 void* s_tag_reference::get_definition()
 {
 	if (index == NONE)
-		return nullptr;
+	{
+		return NULL;
+	}
 
 	return tag_get(group_tag, index);
 }
@@ -80,10 +97,14 @@ void* s_tag_reference::get_definition()
 const char* s_tag_reference::get_name()
 {
 	if (name)
+	{
 		return name;
+	}
 
 	if (!VALID_INDEX(index, g_cache_file_globals.header.debug_tag_name_count))
+	{
 		return "<unknown>";
+	}
 
 	if (const char* _name = tag_get_name_safe(index))
 	{
@@ -101,10 +122,14 @@ const char* s_tag_reference::get_name()
 const char* s_tag_reference::get_group_name()
 {
 	if (group_tag != NONE)
+	{
 		return tag_group_get_name(group_tag);
+	}
 
 	if (!g_cache_file_globals.tag_instances || !g_cache_file_globals.tag_index_absolute_mapping)
+	{
 		return "<unknown>";
+	}
 
 	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->tag_group.name.get_string();
 }
@@ -116,13 +141,17 @@ void tag_reference_set(s_tag_reference* reference, tag group_tag, const char* na
 	ASSERT(strlen(name) <= LONG_MAX);
 
 	if (reference->index != NONE)
+	{
 		event(_event_message, "tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+	}
 
 	reference->group_tag = group_tag;
 	reference->index = tag_name_get_index(group_tag, name);
 
 	if (reference->index != NONE)
+	{
 		event(_event_message, "tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+	}
 }
 
 void tag_block_set_elements(s_tag_block* block, void* elements)
