@@ -26,6 +26,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_utilities.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"
 #include "text/font_cache.hpp"
@@ -640,11 +641,100 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 
 void __cdecl c_window_manager::play_controller_sound(int32 optional_sound_tag_override_index, e_event_type event_type, e_controller_component controller_component)
 {
-#if defined(ISWIP)
 	//INVOKE(0x00AAC510, c_window_manager::play_controller_sound, optional_sound_tag_override_index, event_type, controller_component);
-#else
-	INVOKE(0x00AAC510, c_window_manager::play_controller_sound, optional_sound_tag_override_index, event_type, controller_component);
-#endif
+
+	switch (event_type)
+	{
+	case _event_type_tab_up:
+	case _event_type_tab_down:
+	case _event_type_alt_stick_up:
+	case _event_type_alt_stick_down:
+	case _event_type_alt_tab_up:
+	case _event_type_alt_tab_down:
+	{
+		user_interface_play_sound(_ui_global_sound_effect_cursor_up_down, optional_sound_tag_override_index);
+	}
+	break;
+	case _event_type_tab_left:
+	case _event_type_tab_right:
+	case _event_type_alt_stick_left:
+	case _event_type_alt_stick_right:
+	case _event_type_alt_tab_left:
+	case _event_type_alt_tab_right:
+	{
+		user_interface_play_sound(_ui_global_sound_effect_cursor_left_right, optional_sound_tag_override_index);
+	}
+	break;
+	case _event_type_button_press:
+	{
+		switch (controller_component)
+		{
+		case _controller_component_button_a:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_a, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_b:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_b, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_x:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_x, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_y:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_y, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_right_shoulder:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_right_shoulder, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_left_shoulder:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_left_shoulder, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_left_trigger:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_left_trigger, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_right_trigger:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_right_trigger, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_dpad_up:
+		case _controller_component_button_dpad_down:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_cursor_up_down, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_dpad_left:
+		case _controller_component_button_dpad_right:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_cursor_left_right, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_start:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_start, optional_sound_tag_override_index);
+		}
+		break;
+		case _controller_component_button_back:
+		{
+			user_interface_play_sound(_ui_global_sound_effect_button_back, optional_sound_tag_override_index);
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 //.text:00AAC650 ; c_window_manager::predict_immediate_resources
