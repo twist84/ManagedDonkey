@@ -269,7 +269,7 @@ void c_gui_screen_widget::dispose_child_screens()
 		{
 			continue;
 		}
-	
+
 		window_manager_get()->dispose_screen((c_gui_screen_widget*)child_widget);
 	}
 }
@@ -380,7 +380,7 @@ c_gui_widget* c_gui_screen_widget::get_focused_widget()
 	{
 		return NULL;
 	}
-	
+
 	return m_current_focused_widget;
 }
 
@@ -488,7 +488,40 @@ bool s_window_manager_screen_render_data::initialize(int32 buffer_size)
 
 void c_gui_screen_widget::initialize_datasource()
 {
-	INVOKE_CLASS_MEMBER(0x00AB1650, c_gui_screen_widget, initialize_datasource);
+	//INVOKE_CLASS_MEMBER(0x00AB1650, c_gui_screen_widget, initialize_datasource);
+
+	c_gui_screen_widget::dispose_datasource();
+
+	for (int32 datasource_block_index = 0; datasource_block_index < m_definition.datasource_blocks.count; datasource_block_index++)
+	{
+		s_datasource_definition_block* datasource_definition_block = TAG_BLOCK_GET(&m_definition.datasource_blocks, s_datasource_definition_block, datasource_block_index);
+		if (!datasource_definition_block)
+		{
+			continue;
+		}
+
+		s_datasource_definition* datasource_definition = TAG_GET(GUI_DATASOURCE_DEFINITION_TAG, s_datasource_definition, datasource_definition_block->datasource_tag_reference.index);
+		if (!datasource_definition)
+		{
+			continue;
+		}
+
+		int32 name = datasource_definition->name;
+		if (name == _string_id_invalid || name == k_string_id_empty_string)
+		{
+			name = m_name;
+		}
+
+		c_gui_tag_datasource* datasource = new c_gui_tag_datasource(datasource_definition_block->datasource_tag_reference.index);
+		if (datasource && datasource->initialize(name))
+		{
+			m_datasource[m_datasource_count++] = datasource;
+		}
+		else
+		{
+			ui_track_delete<c_gui_tag_datasource>(datasource);
+		}
+	}
 }
 
 bool c_gui_screen_widget::__funcs53()
@@ -602,7 +635,7 @@ bool c_gui_screen_widget::process_message(const c_message* message)
 	}
 	break;
 	}
-	
+
 	return false;
 }
 
@@ -743,7 +776,7 @@ void c_gui_screen_widget::transfer_focus_without_animations(c_gui_widget* new_fo
 	//INVOKE_CLASS_MEMBER(0x00AB27D0, c_gui_screen_widget, transfer_focus_without_animations, new_focused_widget, play_received_animation, play_lost_animation);
 
 	ASSERT(new_focused_widget != NULL);
-	
+
 	if (!new_focused_widget->can_receive_focus())
 	{
 		event(_event_verbose, "ui: tried to give focus to an invalid child widget (type= %s, name= %s)",
@@ -790,18 +823,18 @@ void c_gui_screen_widget::update(uns32 current_milliseconds)
 	//INVOKE_CLASS_MEMBER(0x00AB2940, c_gui_screen_widget, update, current_milliseconds);
 
 	c_gui_widget::update(current_milliseconds);
-	
+
 	e_controller_index driving_controller = c_gui_widget::get_driving_controller();
 	if (driving_controller == k_no_controller || driving_controller == k_any_controller)
 	{
 		return;
 	}
-	
+
 	if (!controller_get(driving_controller)->in_use())
 	{
 		return;
 	}
-	
+
 	transition_out_with_transition_type(_transition_out_normal, _screen_transition_type_normal);
 }
 

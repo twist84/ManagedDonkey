@@ -62,6 +62,20 @@ struct s_runtime_screen_widget_definition :
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
+struct s_datasource_definition
+{
+	int32 name;
+	int32 pad[3];
+	s_tag_block elements;
+};
+static_assert(sizeof(s_datasource_definition) == 0x1C);
+
+struct s_datasource_definition_block
+{
+	s_tag_reference datasource_tag_reference;
+};
+static_assert(sizeof(s_datasource_definition_block) == sizeof(s_tag_reference));
+
 struct s_depth_sorted_render_widget
 {
 	e_gui_widget_type type;
