@@ -29,7 +29,8 @@ c_gui_ordered_data::c_gui_ordered_data() :
 }
 
 c_gui_tag_datasource::c_gui_tag_datasource(int32 tag_index) :
-	c_gui_ordered_data()
+	c_gui_ordered_data(),
+	m_tag_index(tag_index)
 {
 	//DECLFUNC(0x00AD4570, void, __thiscall, c_gui_tag_datasource*)(this);
 }
