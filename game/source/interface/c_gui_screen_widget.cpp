@@ -515,7 +515,7 @@ void c_gui_screen_widget::initialize_datasource()
 		c_gui_tag_datasource* datasource = new c_gui_tag_datasource(datasource_definition_block->datasource_tag_reference.index);
 		if (datasource && datasource->initialize(name))
 		{
-			m_datasource[m_datasource_count++] = datasource;
+			c_gui_screen_widget::add_datasource(datasource);
 		}
 		else
 		{
@@ -666,7 +666,7 @@ void c_gui_screen_widget::reload_assets()
 	{
 		bool was_templated = false;
 		s_screen_widget_definition* screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_definition_index);
-		if (screen_widget_definition->template_reference.index)
+		if (screen_widget_definition->template_reference.index != NONE)
 		{
 			s_screen_widget_definition* template_screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_widget_definition->template_reference.index);
 			c_gui_screen_widget::add_definition_fields(template_screen_widget_definition, false);
