@@ -283,6 +283,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_skulls.cpp" />
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_settings.cpp" />
     <ClCompile Include="source\interface\gui_screens\error_dialogs\screen_error_dialog_ok.cpp" />
+    <ClCompile Include="source\interface\gui_screens\game_options\gui_screen_game_options.cpp" />
     <ClCompile Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\advanced_screen\gui_screen_matchmaking_advanced_options.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby_campaign.cpp" />
@@ -1004,6 +1005,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\interface\gui_pregame_setup_manager.hpp" />
     <ClInclude Include="source\interface\gui_screens\error_dialogs\screen_error_dialog.hpp" />
     <ClInclude Include="source\interface\gui_screens\error_dialogs\screen_error_dialog_ok.hpp" />
+    <ClInclude Include="source\interface\gui_screens\game_options\gui_screen_game_options.hpp" />
     <ClInclude Include="source\interface\gui_selected_items_saved_screenshot.hpp" />
     <ClInclude Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.hpp" />
     <ClInclude Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_difficulty.hpp" />
