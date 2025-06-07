@@ -339,6 +339,17 @@ extern void __cdecl scenario_tags_unload();
 extern void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_string);
 extern void cache_files_update_main_status();
 
+struct s_tag_instance_datum : 
+	s_datum_header
+{
+	uns16 flags;
+	const char* name;
+	s_cache_file_tag_group tag_group;
+	int32 tag_index;
+	void* instance;
+	bool loaded;
+};
+
 struct tag_iterator
 {
 	c_data_iterator<void/*s_tag_instance_datum*/> iterator;
