@@ -1974,6 +1974,9 @@
     <ClCompile Include="source\interface\gui_screens\game_options\gui_screen_game_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\online\online_marketplace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
