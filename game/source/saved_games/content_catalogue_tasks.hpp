@@ -2,6 +2,7 @@
 
 #include "cseries/async_xoverlapped.hpp"
 
+class c_content_catalogue;
 struct s_content_item;
 
 enum e_content_item_task_type
@@ -29,22 +30,21 @@ enum e_content_origin
 	_content_origin_invalid = NONE,
 };
 
-
-class c_content_item_overlapped_task :
-	public c_overlapped_task
-{
-public:
-	e_content_item_task_type m_task_type;
-	s_content_item* m_content_item;
-	int32 m_content_creation_flags;
-	int32 m_maximum_content_size_bytes;
-};
-static_assert(sizeof(c_content_item_overlapped_task) == 0x20);
-
-class c_content_catalogue;
 class c_content_enumeration_overlapped_task :
 	public c_overlapped_task
 {
+public:
+	virtual ~c_content_enumeration_overlapped_task();
+	virtual const char* get_context_string() const override;
+	virtual uns32 start(void* overlapped) override;
+	virtual void success(uns32 return_result) override;
+	virtual void failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error) override;
+	virtual void complete() override;
+	virtual bool is_result_successful(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error) override;
+
+public:
+	c_content_enumeration_overlapped_task(const char* file, int32 line);
+
 public:
 	void* m_enumeration_handle;
 	c_content_catalogue* m_content_catalogue;
@@ -56,4 +56,26 @@ public:
 	int32 m_dlc_content_data_count;
 };
 static_assert(sizeof(c_content_enumeration_overlapped_task) == 0x30);
+
+class c_content_item_overlapped_task :
+	public c_overlapped_task
+{
+public:
+	virtual ~c_content_item_overlapped_task();
+	virtual const char* get_context_string() const override;
+	virtual uns32 start(void* overlapped) override;
+	virtual void success(uns32 return_result) override;
+	virtual void failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error) override;
+	virtual void complete() override;
+
+public:
+	c_content_item_overlapped_task(const char* file, int32 line);
+
+public:
+	e_content_item_task_type m_task_type;
+	s_content_item* m_content_item;
+	int32 m_content_creation_flags;
+	int32 m_maximum_content_size_bytes;
+};
+static_assert(sizeof(c_content_item_overlapped_task) == 0x20);
 
