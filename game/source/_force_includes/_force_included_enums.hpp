@@ -17,6 +17,11 @@ enum
 
 enum
 {
+	k_invalid_storage_device_id = 0xCACACACA,
+};
+
+enum
+{
 	k_network_maximum_machines_per_session = 17,
 	k_network_maximum_players_per_session = 16,
 };
