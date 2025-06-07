@@ -2306,8 +2306,8 @@ enum e_game_variant_parameter
 	_template_visual,
 	_template_forced_change_colors,
 
-	k_game_variant_parameter_count,
-	k_game_variant_parameter_none = NONE,
+	k_number_of_editable_game_variant_parameters,
+	k_invalid_parameter = NONE,
 };
 
 enum e_text_value_pair_parameter_type

@@ -347,6 +347,16 @@ void c_game_engine_base_variant::set(const c_game_engine_base_variant* variant, 
 //{
 //}
 
+s_saved_game_item_metadata* c_game_engine_base_variant::get_metadata()
+{
+	return &m_metadata;
+}
+
+const s_saved_game_item_metadata* c_game_engine_base_variant::get_metadata() const
+{
+	return &m_metadata;
+}
+
 void c_game_engine_base_variant::get_game_engine_name(c_static_wchar_string<1024>* out_game_engine_name) const
 {
 	game_engine_get_multiplayer_string(get_game_engine_name_string_id(), out_game_engine_name);

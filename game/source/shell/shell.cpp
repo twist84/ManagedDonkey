@@ -305,7 +305,7 @@ const char* gui_network_session_advertisement_mode_get_name(int32 advertisement_
 
 const char* game_variant_parameter_get_name(int32 parameter)
 {
-	if (parameter < _game_variant_base_miscellaneous_teams || parameter >= k_game_variant_parameter_count)
+	if (parameter < _game_variant_base_miscellaneous_teams || parameter >= k_number_of_editable_game_variant_parameters)
 		return "<invalid 'parameter'>";
 
 	return k_game_variant_parameter_names[parameter];
@@ -348,7 +348,7 @@ const char* const k_gui_network_session_advertisement_mode_names[k_gui_network_s
 	"full"
 };
 
-const char* const k_game_variant_parameter_names[k_game_variant_parameter_count]
+const char* const k_game_variant_parameter_names[k_number_of_editable_game_variant_parameters]
 {
 	"game_misc_teams",
 	"game_misc_unknown1",

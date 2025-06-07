@@ -231,7 +231,7 @@ bool __cdecl parse_rematch_timer(void* this_ptr, wchar_t* buffer, int32 buffer_l
 
 void __thiscall c_gui_player_select_screen_widget::initialize_()
 {
-	INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
+	c_gui_screen_widget::initialize();
 
 	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<target-player-name", this, parse_target_player_name));
 	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<player-rank", this, parse_player_rank));

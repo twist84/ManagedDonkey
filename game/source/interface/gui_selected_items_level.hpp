@@ -23,7 +23,7 @@ static_assert(0x194 == OFFSETOF(c_gui_level_selected_item, m_map_id));
 static_assert(0x198 == OFFSETOF(c_gui_level_selected_item, m_level_is_locked));
 static_assert(0x19A == OFFSETOF(c_gui_level_selected_item, m_insertion_point));
 
-struct c_gui_level_category_datasource :
+class c_gui_level_category_datasource :
 	public c_gui_ordered_data
 {
 public:

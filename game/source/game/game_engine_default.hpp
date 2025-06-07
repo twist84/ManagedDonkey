@@ -45,6 +45,9 @@ public:
 	void set(const c_game_engine_base_variant* variant, bool force);
 	//void set(const s_game_engine_base_variant_definition* definition, e_game_engine_type game_engine_index);
 
+	s_saved_game_item_metadata* get_metadata();
+	const s_saved_game_item_metadata* get_metadata() const;
+
 	void get_game_engine_name(c_static_wchar_string<1024>* game_engine_name) const;
 	void get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const;
 

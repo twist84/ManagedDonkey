@@ -11,7 +11,7 @@ enum e_skull_state
 	k_skull_state_count,
 };
 
-struct c_gui_primary_skulls_data :
+class c_gui_primary_skulls_data :
 	public c_gui_ordered_data
 {
 public:
@@ -36,7 +36,7 @@ public:
 };
 static_assert(sizeof(c_gui_primary_skulls_data) == sizeof(c_gui_ordered_data) + 0x24);
 
-struct c_gui_secondary_skulls_data :
+class c_gui_secondary_skulls_data :
 	public c_gui_ordered_data
 {
 public:

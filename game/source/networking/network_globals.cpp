@@ -607,9 +607,9 @@ void network_test_set_advertisement_mode(const char* advertisement_mode_name)
 
 void network_test_set_game_variant_parameter(const char* parameter_name, int32 value, int32* old_value)
 {
-	e_game_variant_parameter parameter = k_game_variant_parameter_none;
+	e_game_variant_parameter parameter = k_invalid_parameter;
 
-	for (int32 i = _game_variant_base_miscellaneous_teams; i < k_game_variant_parameter_count; i++)
+	for (int32 i = _game_variant_base_miscellaneous_teams; i < k_number_of_editable_game_variant_parameters; i++)
 	{
 		if (csstricmp(parameter_name, game_variant_parameter_get_name(i)) != 0)
 			continue;
