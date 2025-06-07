@@ -277,13 +277,13 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 	// $TODO: remove this when each of the above classes exist and have a constructor 
 	c_gui_screen_widget* result = NULL;
 	HOOK_INVOKE_CLASS_MEMBER(result =, c_window_manager, allocate_named_screen, screen_name);
-	if (result != NULL)
+	if (result == NULL)
 	{
-		return result;
+		event(_event_warning, "ui: no c_gui_screen_class registered for ui screen '%s'", string_id_get_string_const(screen_name));
+		return NULL;
 	}
 	
-	event(_event_warning, "ui: no c_gui_screen_class registered for ui screen '%s'", string_id_get_string_const(screen_name));
-	return NULL;
+	return result;
 #endif
 }
 
