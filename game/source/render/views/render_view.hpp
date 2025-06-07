@@ -8,6 +8,7 @@
 #include "render/render_patchy_fog.hpp"
 #include "visibility/visibility_collection.hpp"
 
+__interface IDirect3DSurface9;
 struct s_observer_result;
 
 // 0165DB98
@@ -128,8 +129,6 @@ static_assert(0x0 == OFFSETOF(c_world_view, m_using_stored_cluster) - sizeof(c_v
 static_assert(0x1 == OFFSETOF(c_world_view, pad) - sizeof(c_view));
 static_assert(0x2 == OFFSETOF(c_world_view, m_stored_cluster) - sizeof(c_view));
 
-__interface IDirect3DSurface9;
-
 // 0165E0C4
 class c_lights_view :
 	public c_world_view
@@ -227,8 +226,6 @@ public:
 	render_camera* m_default_rasterizer_camera;
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
-
-enum c_rasterizer::e_splitscreen_res;
 
 // 0165E130
 class c_player_view :
