@@ -1977,6 +1977,9 @@
     <ClCompile Include="source\networking\online\online_marketplace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\start_menu\panes\game_campaign\start_menu_game_campaign.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4392,6 +4395,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\game_options\gui_screen_game_options.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\start_menu\panes\game_campaign\start_menu_game_campaign.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
