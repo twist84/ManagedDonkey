@@ -9,7 +9,7 @@ class c_virtual_keyboard_task :
 	public c_overlapped_task
 {
 public:
-	c_virtual_keyboard_task* __cdecl constructor(
+	static c_virtual_keyboard_task* __cdecl get_instance_(
 		const char* file,
 		int32 line,
 		e_controller_index controller_index,
@@ -18,21 +18,33 @@ public:
 		const wchar_t* description_text,
 		uns32 maximum_input_characters,
 		uns32 character_flags,
-		bool cancelled
+		bool sanitize_result
 	);
-
 	void __thiscall set_default_text_(const wchar_t* default_text);
 	void __thiscall set_description_text_(const wchar_t* description_text);
 	void __thiscall set_title_text_(const wchar_t* title_text);
+	uns32 __thiscall start_(void* overlapped);
+	void __thiscall success_(uns32 return_result);
 
-	void __cdecl set_controller_index(e_controller_index controller_index);
-	void __cdecl set_default_text(const wchar_t* default_text);
-	void __cdecl set_description_text(const wchar_t* description_text);
-	void __cdecl set_title_text(const wchar_t* title_text);
-	void __cdecl set_maximum_input_characters(uns32 maximum_input_characters);
-	void __cdecl set_character_flags(uns32 character_flags);
-	void __cdecl set_sanitize_result(bool sanitize_result);
+public:
+	virtual ~c_virtual_keyboard_task();
+	virtual const char* get_context_string() const override;
+	virtual uns32 start(void* overlapped) override;
+	virtual void success(uns32 return_result) override;
 
+public:
+	c_virtual_keyboard_task(
+		const char* file,
+		int32 line,
+		e_controller_index controller_index,
+		const wchar_t* default_text,
+		const wchar_t* title_text,
+		const wchar_t* description_text,
+		uns32 maximum_input_characters,
+		uns32 character_flags,
+		bool sanitize_result);
+
+	static void __cdecl dispose_instance();
 	static c_virtual_keyboard_task* __cdecl get_instance(
 		const char* file,
 		int32 line,
@@ -44,15 +56,14 @@ public:
 		uns32 character_flags,
 		bool sanitize_result
 	);
-	
-	static void __cdecl dispose_instance();
 
-	virtual void* destructor(uns32 a1) override;
-	virtual const char* get_context_string() override;
-	virtual uns32 start(void* overlapped) override;
-
-	uns32 __thiscall start_(void* overlapped);
-	void __thiscall success_(uns32 return_result);
+	void set_character_flags(uns32 character_flags);
+	void set_controller_index(e_controller_index controller_index);
+	void set_default_text(const wchar_t* default_text);
+	void set_description_text(const wchar_t* description_text);
+	void set_maximum_input_characters(uns32 maximum_input_characters);
+	void set_sanitize_result(bool sanitize_result);
+	void set_title_text(const wchar_t* title_text);
 
 	static c_virtual_keyboard_task* m_instance;
 
@@ -67,6 +78,7 @@ protected:
 	bool m_sanitize_result;
 };
 static_assert(sizeof(c_virtual_keyboard_task) == 0x6A0);
+static_assert(sizeof(c_virtual_keyboard_task) == sizeof(c_overlapped_task) + 0x690);
 
 class c_string_verify_task :
 	public c_overlapped_task
@@ -77,11 +89,24 @@ public:
 		k_maximum_simultaneous_strings = 4
 	};
 
+public:
+	virtual ~c_string_verify_task();
+	virtual const char* get_context_string() const override;
+	virtual uns32 start(void* overlapped) override;
+	virtual void success(uns32 return_result) override;
+	virtual void reset() override;
+
+public:
+	c_string_verify_task(const char* file, int32 line);
+	c_string_verify_task();
+
+protected:
 	e_language m_language;
 	wchar_t m_strings_to_verify[k_maximum_simultaneous_strings][256];
 	int32 m_strings_to_verify_count;
 	bool m_results[k_maximum_simultaneous_strings];
 };
+static_assert(sizeof(c_string_verify_task) == 0x81C);
 static_assert(sizeof(c_string_verify_task) == sizeof(c_overlapped_task) + 0x80C);
 
 enum e_online_guide_toast_position
