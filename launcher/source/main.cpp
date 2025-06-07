@@ -8,10 +8,6 @@
 #endif // DLL_FROM_RESOURCE
 #endif // _DEBUG
 
-#if defined(DEDICATED_SERVER)
-#define REMOTE_CONSOLE_ENABLED
-#endif // DEDICATED_SERVER
-
 char k_exe_name[] = "eldorado.exe";
 
 #if defined(DLL_FROM_RESOURCE)

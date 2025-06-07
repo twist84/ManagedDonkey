@@ -22,7 +22,7 @@ void c_console::initialize(const char* window_title)
 		freopen_s(&m_file, "CONOUT$", "w", stderr);
 		freopen_s(&m_file, "CONOUT$", "w", stdout);
 
-#if !defined(_DEBUG) && !defined(DEDICATED_SERVER)
+#if !defined(_DEBUG)
 		toggle_window_visibility();
 #endif
 	}

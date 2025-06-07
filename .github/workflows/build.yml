@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [ Debug, Release, ReleaseDedicated ]
+        BUILD_CONFIGURATION: [ Debug, Release ]
 
     runs-on: windows-latest
 
