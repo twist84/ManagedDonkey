@@ -96,6 +96,11 @@ c_async_xoverlapped_scope_lock::~c_async_xoverlapped_scope_lock()
 		internal_critical_section_leave(k_crit_section_async_xoverlapped_memory);
 }
 
+void* c_overlapped_task::operator new(unsigned int size)
+{
+	return overlapped_malloc_tracked(sizeof(c_virtual_keyboard_task), __FILE__, __LINE__);
+}
+
 bool c_overlapped_task::busy() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00476C30, c_overlapped_task, busy);
@@ -105,26 +110,34 @@ bool c_overlapped_task::busy() const
 		|| m_task_state == _overlapped_task_state_completing;
 }
 
-c_overlapped_task* c_overlapped_task::constructor(const char* file, int32 line)
+c_overlapped_task::c_overlapped_task(const char* file, int32 line) :
+	m_task_flags(),
+	m_task_state(_overlapped_task_state_none),
+	m_file(file),
+	m_line(line)
 {
-	//INVOKE_CLASS_MEMBER(0x005A8C80, c_overlapped_task, constructor, file, line);
-
-	REFERENCE_DECLARE(this, uns32, vftable);
-	vftable = 0x0165B220;
-
-	m_task_flags.clear();
-	set_file(file);
-	set_line(line);
-
-	set_task_state_internal(_overlapped_task_state_none);
-
-	return this;
+	//DECLFUNC(0x005A8C80, void, __thiscall, c_overlapped_task*, const char*, int32)(this, file, line);
 }
 
-//.text:005A8CB0 ; public: virtual __cdecl c_overlapped_task::~c_overlapped_task()
-//.text:005A8CE0 ; public: virtual void* __cdecl c_overlapped_task::`vector deleting destructor'(unsigned int)
-//.text:005A8D30 ; public: virtual void __cdecl c_overlapped_task::complete()
-//.text:005A8D40 ; public: virtual void __cdecl c_overlapped_task::failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
+//.text:005A8CB0 ; public: virtual c_overlapped_task::~c_overlapped_task()
+//.text:005A8CE0 ; public: virtual void* c_overlapped_task::`vector deleting destructor'(unsigned int)
+c_overlapped_task::~c_overlapped_task()
+{
+	if (c_overlapped_task::busy())
+	{
+		overlapped_task_block_until_finished(this);
+	}
+}
+
+void c_overlapped_task::complete()
+{
+	INVOKE_CLASS_MEMBER(0x005A8D30, c_overlapped_task, complete);
+}
+
+void c_overlapped_task::failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
+{
+	INVOKE_CLASS_MEMBER(0x005A8D40, c_overlapped_task, failure, calling_result, overlapped_error, overlapped_extended_error);
+}
 
 s_task_slot* __cdecl find_task_slot(const c_overlapped_task* task)
 {
@@ -142,7 +155,10 @@ s_task_slot* __cdecl find_task_slot(const c_overlapped_task* task)
 	return task_slot;
 }
 
-//.text:005A8DA0 ; public: virtual bool __cdecl c_overlapped_task::is_result_successful(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
+bool c_overlapped_task::is_result_successful(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
+{
+	return INVOKE_CLASS_MEMBER(0x005A8DA0, c_overlapped_task, is_result_successful, calling_result, overlapped_error, overlapped_extended_error);
+}
 
 void __cdecl overlapped_dispose()
 {
@@ -242,7 +258,9 @@ void __cdecl overlapped_task_block_until_finished(const c_overlapped_task* task)
 
 	c_async_xoverlapped_scope_lock scope_lock;
 	if (s_task_slot* task_slot = find_task_slot(task))
+	{
 		task_block_until_finished(task_slot);
+	}
 }
 
 bool __cdecl overlapped_task_is_running(const c_overlapped_task* task)
@@ -251,7 +269,9 @@ bool __cdecl overlapped_task_is_running(const c_overlapped_task* task)
 
 	c_async_xoverlapped_scope_lock scope_lock;
 	if (s_task_slot* task_slot = find_task_slot(task))
+	{
 		return task_slot->task->get_task_state() == _overlapped_task_state_pending || task_slot->task->get_task_state() == _overlapped_task_state_completing;
+	}
 
 	return false;
 }
@@ -278,51 +298,48 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, const char*
 		}
 	}
 
-	if (first_free_task_slot)
+	if (!first_free_task_slot)
 	{
-		first_free_task_slot->task = task;
-		first_free_task_slot->task->set_task_state_internal(_overlapped_task_state_starting);
+		event(_event_status, "xoverlapped: overlapped_task_start() failed: maximum tasks already active!");
+		return false;
+	}
 
-		bool context_matches_description = false;
-		if (strlen(task->get_context_string()) < k_maximum_task_slots)
-		{
-			for (int32 description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
-			{
-				if (g_overlapped_globals.descriptions[description_index].is_equal(task->get_context_string()))
-				{
-					context_matches_description = true;
-					break;
-				}
-			}
-		
-			if (!context_matches_description)
-			{
-				if (g_overlapped_globals.description_count < g_overlapped_globals.descriptions.get_count())
-				{
-					g_overlapped_globals.descriptions[g_overlapped_globals.description_count++].set(task->get_context_string());
-				}
-				else
-				{
-					event(_event_warning, "xoverlapped: task context string '%s' not added to error-code-injection table, maximum tasks already being tracked!",
-						task->get_context_string());
-				}
-			}
-		}
-		else
-		{
-			event(_event_warning, "xoverlapped: task context string '%s' is too long to fit into error-code-injection table (maximum %ld characters)",
-				task->get_context_string(),
-				64);
-		}
+	first_free_task_slot->task = task;
+	first_free_task_slot->task->set_task_state_internal(_overlapped_task_state_starting);
 
-		result = true;
+	bool context_matches_description = false;
+	if (strlen(task->get_context_string()) >= k_maximum_task_slots)
+	{
+		event(_event_warning, "xoverlapped: task context string '%s' is too long to fit into error-code-injection table (maximum %ld characters)",
+			task->get_context_string(),
+			64);
 	}
 	else
 	{
-		event(_event_status, "xoverlapped: overlapped_task_start() failed: maximum tasks already active!");
+		for (int32 description_index = 0; description_index < g_overlapped_globals.description_count; description_index++)
+		{
+			if (g_overlapped_globals.descriptions[description_index].is_equal(task->get_context_string()))
+			{
+				context_matches_description = true;
+				break;
+			}
+		}
+
+		if (!context_matches_description)
+		{
+			if (g_overlapped_globals.description_count >= g_overlapped_globals.descriptions.get_count())
+			{
+				event(_event_warning, "xoverlapped: task context string '%s' not added to error-code-injection table, maximum tasks already being tracked!",
+					task->get_context_string());
+			}
+			else
+			{
+				g_overlapped_globals.descriptions[g_overlapped_globals.description_count++].set(task->get_context_string());
+			}
+		}
 	}
 
-	return result;
+	return true;
 }
 
 void __cdecl overlapped_task_terminate(c_overlapped_task* task)
@@ -331,7 +348,9 @@ void __cdecl overlapped_task_terminate(c_overlapped_task* task)
 
 	c_async_xoverlapped_scope_lock scope_lock;
 	if (s_task_slot* task_slot = find_task_slot(task))
+	{
 		task_slot->cancelled = true;
+	}
 }
 
 void __cdecl overlapped_task_toggle_debug_rendering(bool toggle_debug_rendering)
@@ -348,11 +367,17 @@ void __cdecl overlapped_task_wait_for_all_tasks_to_finish()
 	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		c_async_xoverlapped_scope_lock scope_lock;
-		if (g_overlapped_globals.task_slots[task_slot_index].task)
+		if (!g_overlapped_globals.task_slots[task_slot_index].task)
 		{
-			if (g_overlapped_globals.task_slots[task_slot_index].task->get_task_state() == _overlapped_task_state_pending)
-				task_block_until_finished(&g_overlapped_globals.task_slots[task_slot_index]);
+			continue;
 		}
+
+		if (g_overlapped_globals.task_slots[task_slot_index].task->get_task_state() != _overlapped_task_state_pending)
+		{
+			continue;
+		}
+
+		task_block_until_finished(&g_overlapped_globals.task_slots[task_slot_index]);
 	}
 }
 
@@ -373,9 +398,13 @@ void __cdecl overlapped_update()
 				uns32 overlapped_error = ERROR_SUCCESS;
 				uns32 overlapped_extended_error = ERROR_SUCCESS;
 				if (task_is_complete(task_slot, &return_result, &calling_result, &overlapped_error, &overlapped_extended_error))
+				{
 					task_now_finished(task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
+				}
 				else
+				{
 					task_slot->task->update(return_result);
+				}
 			}
 		}
 
@@ -390,7 +419,9 @@ void __cdecl overlapped_update()
 				for (s_task_slot& pending_task_slot : g_overlapped_globals.task_slots)
 				{
 					if (pending_task_slot.task && pending_task_slot.task->get_task_state() == _overlapped_task_state_pending)
+					{
 						pending_task_count++;
+					}
 				}
 			
 				if (pending_task_count < 3)
@@ -404,7 +435,10 @@ void __cdecl overlapped_update()
 	}
 }
 
-//.text:005A9130 ; public: virtual void __cdecl c_overlapped_task::reset()
+void c_overlapped_task::reset()
+{
+	INVOKE_CLASS_MEMBER(0x005A9130, c_overlapped_task, reset);
+}
 
 e_overlapped_task_state c_overlapped_task::get_task_state() const
 {
@@ -418,7 +452,10 @@ void c_overlapped_task::set_task_state_internal(e_overlapped_task_state task_sta
 	m_task_state = task_state;
 }
 
-//.text:005A91D0 ; public: virtual void __cdecl c_overlapped_task::success(uns32 return_result)
+void c_overlapped_task::success(uns32 return_result)
+{
+	INVOKE_CLASS_MEMBER(0x005A91D0, c_overlapped_task, success, return_result);
+}
 
 void __cdecl task_block_until_finished(s_task_slot* task_slot)
 {
@@ -471,7 +508,9 @@ bool __cdecl task_is_complete(s_task_slot* task_slot, uns32* return_result, uns3
 			if (*overlapped_error)
 			{
 				if (*overlapped_error != ERROR_IO_INCOMPLETE && *overlapped_error != ERROR_IO_PENDING)
+				{
 					*overlapped_extended_error = XGetOverlappedExtendedError(&task_slot->overlapped);
+				}
 			}
 		}
 	}
@@ -530,7 +569,9 @@ void __cdecl task_now_finished(s_task_slot* task_slot, uns32 return_result, uns3
 		task_state = _overlapped_task_state_failed;
 
 		if (task_slot->cancelled)
+		{
 			overlapped_error = ERROR_CANCELLED;
+		}
 
 		task_slot->task->failure(calling_result, overlapped_error, overlapped_extended_error);
 		if (task_slot->cancelled ||
@@ -583,6 +624,11 @@ bool c_overlapped_task::task_was_recycled_during_completion() const
 	return m_task_flags.test(_restarted_during_completion_bit);
 }
 
+void c_overlapped_task::update(uns32 return_result)
+{
+	INVOKE_CLASS_MEMBER(0x005A93B0, c_overlapped_task, update, return_result);
+}
+
 const char* c_overlapped_task::get_file() const
 {
 	return m_file;
@@ -618,26 +664,40 @@ void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
 			switch (task_slot->task->get_task_state())
 			{
 			case _overlapped_task_state_none:
+			{
 				status = "none";
-				break;
+			}
+			break;
 			case _overlapped_task_state_starting:
+			{
 				status = "starting";
-				break;
+			}
+			break;
 			case _overlapped_task_state_pending:
+			{
 				status = "pending";
-				break;
+			}
+			break;
 			case _overlapped_task_state_completing:
+			{
 				status = "completing";
-				break;
+			}
+			break;
 			case _overlapped_task_state_succeeded:
+			{
 				status = "success";
-				break;
+			}
+			break;
 			case _overlapped_task_state_failed:
+			{
 				status = "failure";
-				break;
+			}
+			break;
 			default:
+			{
 				status = "<unknown>";
-				break;
+			}
+			break;
 			}
 
 			event(event_level, "xoverlapped: #%ld task info: context= '%s', status= '%s', file= '%s', line= '%ld'",

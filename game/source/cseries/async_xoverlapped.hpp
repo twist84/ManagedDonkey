@@ -20,9 +20,9 @@ class c_overlapped_task
 	};
 
 public:
-	virtual void* destructor(uns32);
-	virtual const char* get_context_string();
-	virtual uns32 start(void* overlapped);
+	virtual ~c_overlapped_task();
+	virtual const char* get_context_string() const = 0;
+	virtual uns32 start(void* overlapped) = 0;
 	virtual void update(uns32 return_result);
 	virtual void success(uns32 return_result);
 	virtual void failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error);
@@ -30,19 +30,20 @@ public:
 	virtual void reset();
 	virtual bool is_result_successful(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error);
 
+public:
+	c_overlapped_task(const char* file, int32 line);
+
+	bool busy() const;
+	const char* get_file() const;
+	int32 get_line() const;
 	e_overlapped_task_state get_task_state() const;
+	void set_file(const char* file);
+	void set_line(int32 line);
 	void set_task_state_internal(e_overlapped_task_state task_state);
 	void task_recycled_during_completion(bool recycled_during_completion);
 	bool task_was_recycled_during_completion() const;
 
-	c_overlapped_task* constructor(const char* file, int32 line);
-
-	bool busy() const;
-
-	const char* get_file() const;
-	void set_file(const char* file);
-	int32 get_line() const;
-	void set_line(int32 line);
+	void* operator new(unsigned int size);
 
 protected:
 	c_flags<e_overlapped_task_flags, int16, k_number_of_overlapped_task_flags> m_task_flags;
