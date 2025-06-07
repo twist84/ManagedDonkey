@@ -7,14 +7,30 @@
 REFERENCE_DECLARE(0x02247448, s_online_session_manager_globals, online_session_manager_globals);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00480420, c_managed_session_overlapped_task, complete_);
-//HOOK_DECLARE_CLASS_MEMBER(0x00480440, c_managed_session_overlapped_task, failure_
+//HOOK_DECLARE_CLASS_MEMBER(0x00480440, c_managed_session_overlapped_task, failure_);
 HOOK_DECLARE(0x00481F10, managed_session_game_start);
 HOOK_DECLARE(0x00481F80, managed_session_game_start_complete);
 //HOOK_DECLARE_CLASS_MEMBER(0x00483CB0, c_managed_session_overlapped_task, success_);
 
+void __thiscall c_managed_session_overlapped_task::complete_()
+{
+	c_managed_session_overlapped_task::complete();
+}
+
+void __thiscall c_managed_session_overlapped_task::failure_(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
+{
+	c_managed_session_overlapped_task::failure(calling_result, overlapped_error, overlapped_extended_error);
+}
+
+void __thiscall c_managed_session_overlapped_task::success_(uns32 return_result)
+{
+	c_managed_session_overlapped_task::success(return_result);
+	m_return_result = return_result;
+	m_result = true;
+}
+
 //.text:00480200 ; c_managed_session_overlapped_task* __cdecl c_managed_session_overlapped_task::c_managed_session_overlapped_task(const char*, int32);
 //.text:00480220 ; c_managed_session_overlapped_task* __cdecl c_managed_session_overlapped_task::c_managed_session_overlapped_task();
-// 
 //.text:00480240 ; s_online_managed_session* __cdecl s_online_managed_session::s_online_managed_session();
 //.text:004802A0 ; s_online_managed_session* __cdecl s_online_managed_session::~s_online_managed_session();
 
@@ -23,20 +39,67 @@ void __cdecl add_to_player_list(s_online_session_player* players, int32 player_c
 	INVOKE(0x00480350, add_to_player_list, players, player_count, xuids, xuids_left_game, xuid_count);
 }
 
-//.text:00480420 ; virtual void __cdecl c_managed_session_overlapped_task::complete();
-void __thiscall c_managed_session_overlapped_task::complete_()
+void c_managed_session_overlapped_task::complete()
 {
+	//INVOKE_CLASS_MEMBER(0x00480420, c_managed_session_overlapped_task, complete);
+
 	m_completion_routine(m_managed_session_index, m_result, m_return_result);
 }
 
-//.text:00480440 ; virtual void __cdecl c_managed_session_overlapped_task::failure(uns32, uns32, uns32);
-void __thiscall c_managed_session_overlapped_task::failure_(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
+void c_managed_session_overlapped_task::failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
 {
+	//INVOKE_CLASS_MEMBER(0x00480440, c_managed_session_overlapped_task, failure, calling_result, overlapped_error, overlapped_extended_error);
+
 	m_return_result = overlapped_extended_error;
 	m_result = false;
 }
 
-//.text:004804B0 ; virtual const char* __cdecl c_managed_session_overlapped_task::get_context_string() const;
+const char* c_managed_session_overlapped_task::get_context_string() const
+{
+	//return INVOKE_CLASS_MEMBER(0x004804B0, c_managed_session_overlapped_task, get_context_string);
+
+	const char* result = "unknown";
+	switch (m_context)
+	{
+	case _process_create:
+	{
+		result = "session create";
+	}
+	break;
+	case _process_delete:
+	{
+		result = "session delete";
+	}
+	break;
+	case _process_modify:
+	{
+		result = "session modify";
+	}
+	break;
+	case _process_add_players:
+	{
+		result = "session add players";
+	}
+	break;
+	case _process_remove_players:
+	{
+		result = "session remove players";
+	}
+	break;
+	case _process_start:
+	{
+		result = "session start";
+	}
+	break;
+	case _process_end:
+	{
+		result = "session end";
+	}
+	break;
+	}
+	return result;
+}
+
 //.text:00480510 ; e_controller_index __cdecl get_first_signed_in_controller_index()
 //.text:00480590 ; public: bool __cdecl c_controller_interface::in_use() const
 
@@ -435,10 +498,8 @@ void __cdecl remove_from_player_list(s_online_session_player* players, int32 pla
 	INVOKE(0x00483B50, remove_from_player_list, players, player_count, xuids, xuid_count);
 }
 
-//.text:00483CB0 ; virtual void __cdecl c_managed_session_overlapped_task::success(uns32)
-void __thiscall c_managed_session_overlapped_task::success_(uns32 return_result)
+void c_managed_session_overlapped_task::success(uns32 return_result)
 {
-	m_return_result = return_result;
-	m_result = true;
+	INVOKE_CLASS_MEMBER(0x00483CB0, c_managed_session_overlapped_task, success, return_result);
 }
 

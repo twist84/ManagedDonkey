@@ -37,6 +37,20 @@ class c_managed_session_overlapped_task :
 	public c_overlapped_task
 {
 public:
+	void __thiscall complete_();
+	void __thiscall failure_(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error);
+	uns32 __thiscall start_(void* overlapped);
+	void __thiscall success_(uns32 return_result);
+
+public:
+	virtual ~c_managed_session_overlapped_task();
+	virtual const char* get_context_string() const override;
+	virtual uns32 start(void* overlapped) override;
+	virtual void success(uns32 return_result) override;
+	virtual void failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error) override;
+	virtual void complete() override;
+
+public:
 	using t_completion_routine = void __cdecl(int32, bool, uns32);
 
 	void filter_local_users(int32 player_count, const uns64* players, const bool* online_enabled, const bool* private_slots);
@@ -51,11 +65,6 @@ public:
 	void process_remove_players(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, const uns64* player_xuids, const bool* online_enabled, int32 player_count);
 	bool process_remove_players_immediately(s_online_session* session, const uns64* player_xuids, const bool* online_enabled, int32 player_count);
 	void process_session_host_migrate(int32 managed_session_index, t_completion_routine* completion_routine, s_online_session* session, bool is_host, s_transport_session_description* host_migration_description);
-	uns32 __thiscall start_(void* overlapped);
-
-	void __thiscall complete_();
-	void __thiscall failure_(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error);
-	void __thiscall success_(uns32 return_result);
 
 	enum e_overlapped_task
 	{
@@ -85,6 +94,7 @@ public:
 	uns32 m_private_slots[16];
 };
 static_assert(sizeof(c_managed_session_overlapped_task) == 0x100);
+static_assert(sizeof(c_managed_session_overlapped_task) == sizeof(c_overlapped_task) + 0xF0);
 
 struct s_online_context
 {
