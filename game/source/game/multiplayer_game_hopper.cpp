@@ -436,7 +436,7 @@ int32 __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, int32 buff
 	//c_game_variant test_game_variant = c_game_variant();
 	//bool success = multiplayer_game_hopper_unpack_game_variant(buffer, current - buffer, &test_game_variant);
 	//ASSERT(success);
-	//ASSERT(!memcmp(&test_game_variant, game_variant, sizeof(c_game_variant)));
+	//ASSERT(!csmemcmp(&test_game_variant, game_variant, sizeof(c_game_variant)));
 	//
 	//ASSERT(current - start <= buffer_size);
 	//return current - start;

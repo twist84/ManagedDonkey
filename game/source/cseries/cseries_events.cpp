@@ -979,7 +979,7 @@ void write_to_console(e_event_level event_level, int32 category_index, const cha
 			ASSERT(prefix_size >= 0 && copy_size >= 0 && new_size >= 0);
 			ASSERT(VALID_INDEX(prefix_size + copy_size, NUMBEROF(event_globals.message_buffer)));
 
-			memcpy(event_globals.message_buffer, "\r\n", 2);
+			csmemcpy(event_globals.message_buffer, "\r\n", 2);
 			if (prefix_size > 0 && newline_pos)
 			{
 				memmove(&event_globals.message_buffer[copy_size], newline_pos, prefix_size);

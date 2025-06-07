@@ -60,7 +60,7 @@ bool __cdecl network_arbitration_initialize()
 {
 	//return INVOKE(0x004D9B30, network_arbitration_initialize);
 
-	memset(&network_arbitration_globals, 0, sizeof(network_arbitration_globals));
+	csmemset(&network_arbitration_globals, 0, sizeof(network_arbitration_globals));
 	network_arbitration_globals.arbitration_managed_session_index = NONE;
 	network_arbitration_globals.initialized = true;
 	return true;

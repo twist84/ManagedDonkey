@@ -51,7 +51,7 @@ bool __cdecl transport_address_equivalent(const transport_address* a, const tran
 	ASSERT(b != NULL);
 
 	int16 address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
-	return a->address_length > 0 && a->address_length == b->address_length && memcmp(a, b, address_length) == 0 && a->port == b->port;
+	return a->address_length > 0 && a->address_length == b->address_length && csmemcmp(a, b, address_length) == 0 && a->port == b->port;
 }
 
 const char* __cdecl transport_address_get_string(const transport_address* address)

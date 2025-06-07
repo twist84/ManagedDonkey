@@ -272,8 +272,8 @@ uns32 c_managed_session_overlapped_task::start(void* overlapped)
 
 		//SessionInfo->hostAddress.inaOnline.S_un.S_addr = 0x7F000001;
 		//SessionInfo->hostAddress.wPortOnline = 8080;
-		//memset(SessionInfo->hostAddress.abEnet, 0x8B, sizeof(SessionInfo->hostAddress.abEnet));
-		//memset(SessionInfo->hostAddress.abOnline, 0x56, sizeof(SessionInfo->hostAddress.abOnline));
+		//csmemset(SessionInfo->hostAddress.abEnet, 0x8B, sizeof(SessionInfo->hostAddress.abEnet));
+		//csmemset(SessionInfo->hostAddress.abOnline, 0x56, sizeof(SessionInfo->hostAddress.abOnline));
 
 		c_console::write_line("donkey-matchmaking: Made session with ID '%s'", transport_secure_identifier_get_string(&m_session->session_description.id));
 

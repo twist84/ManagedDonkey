@@ -62,7 +62,7 @@ void __cdecl system_memory_information_get(s_system_memory_information* informat
 
 	// 64-bit
 	//MEMORYSTATUSEX status;
-	//memset(&status.dwMemoryLoad, 0, sizeof(MEMORYSTATUSEX) - OFFSETOF(MEMORYSTATUSEX, dwMemoryLoad));
+	//csmemset(&status.dwMemoryLoad, 0, sizeof(MEMORYSTATUSEX) - OFFSETOF(MEMORYSTATUSEX, dwMemoryLoad));
 	//status.dwLength = sizeof(MEMORYSTATUSEX);
 	//GlobalMemoryStatusEx(&status);
 	//csmemset(information, 0, sizeof(s_system_memory_information));
