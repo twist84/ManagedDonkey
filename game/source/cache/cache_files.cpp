@@ -52,6 +52,21 @@ REFERENCE_DECLARE(0x0189D004, const char*, k_cache_audio_file);
 REFERENCE_DECLARE(0x0189D008, const char*, k_cache_video_file);
 REFERENCE_DECLARE(0x0189D00C, const char*, k_cache_file_extension);
 
+void* (__cdecl* tag_get_hook)(tag group_tag, int32 tag_index) = tag_get;
+
+REFERENCE_DECLARE(0x022AAFE8, s_cache_file_debug_globals*, g_cache_file_debug_globals);
+REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
+
+HOOK_DECLARE(0x005016D0, cache_file_blocking_read);
+HOOK_DECLARE(0x00501FC0, cache_files_map_directory);
+HOOK_DECLARE(0x00501FD0, cache_files_populate_resource_gestalt);
+HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
+HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
+HOOK_DECLARE(0x00502CE0, cache_file_tags_unload);
+HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
+HOOK_DECLARE(0x00503370, tag_get_hook);
+HOOK_DECLARE(0x00503470, sub_503470);
+
 const char* k_cache_path_format = "maps\\%s.map";
 
 uns8 const g_cache_file_creator_key[64]
@@ -67,21 +82,6 @@ uns8 const g_cache_file_creator_key[64]
 };
 
 int32 g_tag_total_count_pre_external_files = 0;
-
-void* (__cdecl* tag_get_hook)(tag group_tag, int32 tag_index) = tag_get;
-
-REFERENCE_DECLARE(0x022AAFE8, s_cache_file_debug_globals*, g_cache_file_debug_globals);
-REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
-
-HOOK_DECLARE(0x005016D0, cache_file_blocking_read);
-HOOK_DECLARE(0x00501FC0, cache_files_map_directory);
-HOOK_DECLARE(0x00501FD0, cache_files_populate_resource_gestalt);
-HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
-HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
-HOOK_DECLARE(0x00502CE0, cache_file_tags_unload);
-HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
-HOOK_DECLARE(0x00503370, tag_get_hook);
-HOOK_DECLARE(0x00503470, sub_503470);
 
 s_tag_reference g_last_tag_accessed = { .group_tag = 0xFFFFFFFF, .index = NONE };
 
