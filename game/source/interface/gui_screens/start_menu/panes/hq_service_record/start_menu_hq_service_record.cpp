@@ -1,2 +1,0 @@
-#include "interface/gui_screens/start_menu/panes/hq_service_record/start_menu_hq_service_record.hpp"
-

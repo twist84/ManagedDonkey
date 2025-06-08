@@ -1989,7 +1989,7 @@
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\game_saved_film\start_menu_game_saved_film.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record\start_menu_hq_service_record.cpp">
+    <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record\gui_start_menu_hq_service_record.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share.cpp">
@@ -4433,7 +4433,7 @@
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\game_saved_film\start_menu_game_saved_film.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record\start_menu_hq_service_record.hpp">
+    <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record\gui_start_menu_hq_service_record.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share.hpp">
