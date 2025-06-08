@@ -5,7 +5,9 @@
 #include "saved_games/content_catalogue_tasks.hpp"
 #include "saved_games/content_item.hpp"
 
+class c_dialog_result_message;
 struct s_data_array;
+
 class c_content_catalogue
 {
 public:
@@ -62,6 +64,8 @@ static_assert(sizeof(s_content_catalogue_globals) == 0xB88);
 extern s_content_catalogue_globals& g_content_catalogue_globals;
 
 extern void __cdecl content_catalogue_close_all_dlc(bool allow_exceptions);
+extern void __cdecl content_catalogue_display_device_selection_guide_interface(e_controller_index controller_index);
+extern bool __cdecl content_catalogue_handle_dialog_result_message(const c_dialog_result_message* dialog_result_message);
 extern bool __cdecl content_catalogue_enumeration_active_on_controllers(int32* out_controller_mask);
 extern c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index controller_index);
 extern bool __cdecl content_catalogue_open_dlc(const wchar_t* path, bool block);

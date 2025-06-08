@@ -5354,6 +5354,7 @@ enum e_event_type
 	_event_type_alt_tab_down,
 	_event_type_alt_tab_right,
 	_event_type_button_press,
+	//_event_type_mouse_click,
 
 	k_event_type_count
 };

@@ -1,5 +1,8 @@
 #include "saved_games/content_catalogue.hpp"
 
+#include "interface/user_interface_messages.hpp"
+#include "tag_files/string_ids.hpp"
+
 REFERENCE_DECLARE(0x0240A340, s_content_catalogue_globals, g_content_catalogue_globals);
 
 //.text:005A4A20 ; public: c_content_catalogue::c_content_catalogue()
@@ -31,7 +34,12 @@ void __cdecl content_catalogue_close_all_dlc(bool allow_exceptions)
 
 //.text:005A5390 ; bool __cdecl content_catalogue_device_selection_active(e_controller_index)
 //.text:005A53D0 ; 
-//.text:005A53F0 ; void __cdecl content_catalogue_display_device_selection_guide_interface(e_controller_index)
+
+void __cdecl content_catalogue_display_device_selection_guide_interface(e_controller_index controller_index)
+{
+	return INVOKE(0x005A53F0, content_catalogue_display_device_selection_guide_interface, controller_index);
+}
+
 //.text:005A5490 ; void __cdecl content_catalogue_dispose()
 //.text:005A5530 ; void __cdecl content_catalogue_dispose_from_old_map()
 
@@ -47,7 +55,26 @@ c_content_catalogue* __cdecl content_catalogue_get_interface(e_controller_index 
 
 //.text:005A5620 ; e_game_content_type __cdecl content_catalogue_get_saved_game_file_type_from_container_name(const char*)
 //.text:005A57B0 ; 
-//.text:005A57D0 ; bool __cdecl content_catalogue_handle_dialog_result_message(const c_dialog_result_message*)
+
+bool __cdecl content_catalogue_handle_dialog_result_message(const c_dialog_result_message* dialog_result_message)
+{
+	//return INVOKE(0x005A57D0, content_catalogue_handle_dialog_result_message, dialog_result_message);
+
+	ASSERT(dialog_result_message != NULL);
+
+	if (dialog_result_message->get_screen_name() == STRING_ID(gui, controller_no_storage_device_chosen))
+	{
+		return false;
+	}
+
+	if (dialog_result_message->get_dialog_result() == _gui_dialog_choice_first)
+	{
+		content_catalogue_display_device_selection_guide_interface(dialog_result_message->get_controller());
+	}
+
+	return true;
+}
+
 //.text:005A5800 ; void __cdecl content_catalogue_initialize()
 //.text:005A58A0 ; void __cdecl content_catalogue_initialize_for_new_map()
 

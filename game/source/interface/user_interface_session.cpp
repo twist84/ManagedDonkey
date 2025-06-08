@@ -212,7 +212,11 @@ int32 __cdecl user_interface_squad_get_countdown_timer()
 //.text:00A82B90 ; int32 __cdecl user_interface_squad_get_host_player_index()
 //.text:00A82BA0 ; e_squad_join_permission __cdecl user_interface_squad_get_join_permission()
 //.text:00A82BE0 ; int32 __cdecl user_interface_squad_get_leader_player_index()
-//.text:00A82C90 ; int32 __cdecl user_interface_squad_get_local_player_count()
+
+int32 __cdecl user_interface_squad_get_local_player_count()
+{
+	return INVOKE(0x00A82C90, user_interface_squad_get_local_player_count);
+}
 
 int32 __cdecl user_interface_squad_get_machine_count()
 {
@@ -260,7 +264,10 @@ e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
 	return network_life_cycle_squad_session_get_ui_game_mode();
 }
 
-//.text:00A83240 ; bool __cdecl user_interface_squad_in_matchmaking()
+bool __cdecl user_interface_squad_in_matchmaking()
+{
+	return INVOKE(0x00A83240, user_interface_squad_in_matchmaking);
+}
 
 bool __cdecl user_interface_squad_in_or_after_countdown()
 {

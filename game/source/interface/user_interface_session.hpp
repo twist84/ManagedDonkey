@@ -32,12 +32,14 @@ extern uns64 __cdecl user_interface_session_player_get_player_xuid(const s_playe
 extern bool __cdecl user_interface_squad_exists();
 extern int32 __cdecl user_interface_squad_get_countdown_delaying_player();
 extern int32 __cdecl user_interface_squad_get_countdown_timer();
+extern int32 __cdecl user_interface_squad_get_local_player_count();
 extern int32 __cdecl user_interface_squad_get_machine_count();
 extern int32 __cdecl user_interface_squad_get_player_count();
 extern const s_player_configuration* __cdecl user_interface_squad_get_player_data(int32 session_player_index);
 extern const s_player_identifier* __cdecl user_interface_session_get_player_identifier(int32 session_player_index);
 extern e_network_session_class __cdecl user_interface_squad_get_session_class();
 extern e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode();
+extern bool __cdecl user_interface_squad_in_matchmaking();
 extern bool __cdecl user_interface_squad_in_or_after_countdown();
 extern bool __cdecl user_interface_squad_local_peer_is_leader();
 extern bool __cdecl user_interface_squad_set_film(const s_saved_film_description* film);

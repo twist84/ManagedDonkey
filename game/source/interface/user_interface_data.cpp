@@ -16,13 +16,15 @@ c_gui_data_array::c_gui_data_array() :
 }
 
 c_gui_data_array_test::c_gui_data_array_test() :
-	c_gui_data_array()
+	c_gui_data_array(),
+	m_list_data(NULL)
 {
 	//DECLFUNC(0x00AD4530, void, __thiscall, c_gui_data_array_test*)(this);
 }
 
 c_gui_ordered_data::c_gui_ordered_data() :
 	c_gui_data(),
+	m_disabled_elements(),
 	m_disabled_element_count(0)
 {
 	//DECLFUNC(0x00AD4550, void, __thiscall, c_gui_ordered_data*)(this);
@@ -387,11 +389,20 @@ bool c_gui_data::is_busy() const
 void c_gui_data::set_disabled_element(int32 string_id_column_name, int32 string_id_value)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD5430, c_gui_data, set_disabled_element, string_id_column_name, string_id_value);
+
+	VASSERT("datasource doesn't support enabling and disabling");
 }
 
 void c_gui_ordered_data::set_disabled_element(int32 string_id_column_name, int32 string_id_value)
 {
-	INVOKE_CLASS_MEMBER(0x00AD5440, c_gui_ordered_data, set_disabled_element, string_id_column_name, string_id_value);
+	//INVOKE_CLASS_MEMBER(0x00AD5440, c_gui_ordered_data, set_disabled_element, string_id_column_name, string_id_value);
+
+	if (VALID_INDEX(m_disabled_element_count + 1, k_maximum_disabled_elements))
+	{
+		m_disabled_elements[m_disabled_element_count].name = string_id_column_name;
+		m_disabled_elements[m_disabled_element_count].value = string_id_value;
+		m_disabled_element_count++;
+	}
 }
 
 void c_gui_data::set_element(int32 element_handle, const void* element, int32 element_size)
