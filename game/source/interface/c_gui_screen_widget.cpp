@@ -11,6 +11,7 @@
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_text_parser.hpp"
 #include "interface/user_interface_window_manager.hpp"
+#include "saved_games/content_catalogue.hpp"
 
 template<>
 void ui_track_delete<c_gui_data>(const c_gui_data* object)
@@ -440,20 +441,219 @@ bool c_gui_screen_widget::get_string_by_string_id(int32 string_identifier, c_sta
 
 //.text:00AB1040 ; 
 //.text:00AB1110 ; 
-//.text:00AB11D0 ; private: bool c_gui_screen_widget::handle_controller_alt_stick_attempt(const c_controller_input_message*)
-//.text:00AB1240 ; private: bool c_gui_screen_widget::handle_controller_alt_tab_attempt(const c_controller_input_message*)
+
+bool c_gui_screen_widget::handle_controller_alt_stick_attempt(const c_controller_input_message* message)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB11D0, c_gui_screen_widget, handle_controller_alt_stick_attempt, message);
+
+	if (m_suppress_focus)
+	{
+		return false;
+	}
+
+	for (c_gui_widget* focused_widget = m_current_focused_widget; focused_widget; focused_widget = focused_widget->get_parent())
+	{
+		if (focused_widget->handle_alt_stick(message))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool c_gui_screen_widget::handle_controller_alt_tab_attempt(const c_controller_input_message* message)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB1240, c_gui_screen_widget, handle_controller_alt_tab_attempt, message);
+
+	if (m_suppress_focus)
+	{
+		return false;
+	}
+
+	return m_current_focused_widget && m_current_focused_widget->handle_alt_tab(message);
+}
 
 bool c_gui_screen_widget::handle_controller_input_message(const c_controller_input_message* message)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB1270, c_gui_screen_widget, handle_controller_input_message, message);
+	//return INVOKE_CLASS_MEMBER(0x00AB1270, c_gui_screen_widget, handle_controller_input_message, message);
+
+	ASSERT(message != NULL);
+
+	if (c_gui_screen_widget* focused_widget = (c_gui_screen_widget*)m_current_focused_widget)
+	{
+		switch (message->get_event_type())
+		{
+		case _event_type_tab_up:
+		case _event_type_tab_left:
+		case _event_type_tab_down:
+		case _event_type_tab_right:
+		{
+			if (c_gui_screen_widget::handle_controller_tab_attempt(message))
+			{
+				return true;
+			}
+		}
+		break;
+		case _event_type_alt_stick_up:
+		case _event_type_alt_stick_left:
+		case _event_type_alt_stick_down:
+		case _event_type_alt_stick_right:
+		{
+			if (c_gui_screen_widget::handle_controller_alt_stick_attempt(message))
+			{
+				return true;
+			}
+		}
+		break;
+		case _event_type_alt_tab_up:
+		case _event_type_alt_tab_left:
+		case _event_type_alt_tab_down:
+		case _event_type_alt_tab_right:
+		{
+			if (c_gui_screen_widget::handle_controller_alt_tab_attempt(message))
+			{
+				return true;
+			}
+		}
+		break;
+		case _event_type_button_press:
+		{
+			switch (message->get_component())
+			{
+			case _controller_component_button_a:
+			{
+				if (c_gui_screen_widget::handle_controller_selection_attempt(message))
+				{
+					return true;
+				}
+			}
+			break;
+			case _controller_component_button_b:
+			{
+				if (m_suppress_focus)
+				{
+					break;
+				}
+
+				if (m_current_focused_widget == this)
+				{
+					c_gui_widget::handle_widget_back_out();
+					break;
+				}
+
+				if (m_current_focused_widget->handle_widget_back_out())
+				{
+					c_gui_widget::handle_widget_back_out();
+					return true;
+				}
+			}
+			break;
+			case _controller_component_button_left_trigger:
+			case _controller_component_button_right_trigger:
+			{
+				if (c_gui_screen_widget::handle_controller_tab_attempt(message))
+				{
+					return true;
+				}
+			}
+			break;
+			}
+		}
+		break;
+		//case _event_type_mouse_click:
+		//{
+		//	if (transitioning_in() || transitioning_out())
+		//	{
+		//		break;
+		//	}
+		//
+		//	point2d cursor_location{};
+		//	user_interface_get_cursor_coords(&cursor_location);
+		//
+		//	c_gui_widget* new_hovered_widget = NULL;
+		//	find_hovered_widget(&cursor_location, true, &new_hovered_widget);
+		//	if (!new_hovered_widget)
+		//	{
+		//		find_hovered_widget(&cursor_location, true, &new_hovered_widget);
+		//		if (!new_hovered_widget)
+		//		{
+		//			break;
+		//		}
+		//	}
+		//
+		//	if (handle_mouse_click(message, new_hovered_widget))
+		//	{
+		//		return true;
+		//	}
+		//}
+		//break;
+		}
+	}
+
+	if (message->get_event_type() != _event_type_button_press)
+	{
+		return false;
+	}
+
+	if (message->get_component() != _controller_component_button_b)
+	{
+		return false;
+	}
+
+	if (TEST_BIT(get_core_definition()->flags, 3))
+	{
+		return false;
+	}
+
+	transition_out_with_transition_type(_transition_out_back_out, _screen_transition_type_normal);
+	return true;
 }
 
-//.text:00AB1370 ; private: bool c_gui_screen_widget::handle_controller_selection_attempt(const c_controller_input_message*)
-//.text:00AB13C0 ; private: bool c_gui_screen_widget::handle_controller_tab_attempt(const c_controller_input_message*)
+bool c_gui_screen_widget::handle_controller_selection_attempt(const c_controller_input_message* message)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB1370, c_gui_screen_widget, handle_controller_selection_attempt, message);
+
+	if (m_suppress_focus)
+	{
+		return false;
+	}
+
+	if (!m_current_focused_widget)
+	{
+		return false;
+	}
+
+	return m_current_focused_widget->handle_widget_selected() || handle_focused_widget_selected(message, m_current_focused_widget);
+}
+
+bool c_gui_screen_widget::handle_controller_tab_attempt(const c_controller_input_message* message)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB13C0, c_gui_screen_widget, handle_controller_tab_attempt, message);
+
+	if (m_suppress_focus)
+	{
+		return false;
+	}
+
+	return m_current_focused_widget && m_current_focused_widget->handle_tab(message);
+}
 
 bool c_gui_screen_widget::handle_dialog_result(const c_dialog_result_message* message)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB13F0, c_gui_screen_widget, handle_dialog_result, message);
+	//return INVOKE_CLASS_MEMBER(0x00AB13F0, c_gui_screen_widget, handle_dialog_result, message);
+
+	if (message->get_screen_name() == STRING_ID(gui_dialog, need_to_select_storage_device_to_save))
+	{
+		return false;
+	}
+
+	if (message->get_dialog_result() == _gui_dialog_choice_first)
+	{
+		content_catalogue_display_device_selection_guide_interface(message->get_controller());
+	}
+
+	return true;
 }
 
 bool c_gui_screen_widget::handle_focused_widget_selected(const c_controller_input_message* message, c_gui_widget* widget)

@@ -203,6 +203,14 @@ public:
 	const char* get_multilingual_unicode_string_list_tag_name();
 	s_window_manager_screen_render_data* get_render_state();
 	e_window_index get_render_window();
+
+private:
+	bool handle_controller_alt_stick_attempt(const c_controller_input_message* message);
+	bool handle_controller_alt_tab_attempt(const c_controller_input_message* message);
+	bool handle_controller_selection_attempt(const c_controller_input_message* message);
+	bool handle_controller_tab_attempt(const c_controller_input_message* message);
+
+public:
 	void play_sound(e_user_interface_sound_effect sound_effect);
 
 protected:
