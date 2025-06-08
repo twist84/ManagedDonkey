@@ -13,14 +13,17 @@ public:
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
 	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
 	virtual bool __funcs53() override;
-
-public:
 	virtual bool allow_pane_tab_change();
 
 public:
 	c_start_menu_pane_screen_widget(int32 name);
 	void close_current_subpane();
+	static bool __cdecl is_change_teams_allowed(e_controller_index controller_index);
 
+protected:
+	void set_automatic_button_key(int32 value);
+
+public:
 //protected:
 	s_player_identifier m_owner_player_id;
 	s_player_identifier m_target_player_id;

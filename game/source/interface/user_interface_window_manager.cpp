@@ -25,6 +25,10 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
+#include "interface/gui_screens/start_menu/panes/game_campaign/start_menu_game_campaign.hpp"
+#include "interface/gui_screens/start_menu/panes/game_editor/start_menu_game_editor.hpp"
+#include "interface/gui_screens/start_menu/panes/game_multiplayer/start_menu_game_multiplayer.hpp"
+#include "interface/gui_screens/start_menu/panes/game_saved_film/start_menu_game_saved_film.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "main/console.hpp"
@@ -81,8 +85,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_start_menu_screen_widget(screen_name);
 	//case STRING_ID(gui, start_menu_game_campaign):
 	//	return new c_start_menu_game_campaign(screen_name);
-	//case STRING_ID(gui, start_menu_game_multiplayer):
-	//	return new c_start_menu_game_multiplayer(screen_name);
+	case STRING_ID(gui, start_menu_game_multiplayer):
+		return new c_start_menu_game_multiplayer(screen_name);
 	//case STRING_ID(gui, start_menu_game_editor):
 	//	return new c_start_menu_game_editor(screen_name);
 	//case STRING_ID(gui, start_menu_game_saved_film):
