@@ -18,13 +18,11 @@ public:
 
 	enum e_custom_map_image_type
 	{
-		_custom_map_image_type_blf = 0,
-		_custom_map_image_type_sm_blf,
-		_custom_map_image_type_variant_blf,
-		_custom_map_image_type_film_blf,
-		_custom_map_image_type_clip_blf,
-
-		k_custom_map_image_type_count
+		_custom_map_image_type_normal = 0,
+		_custom_map_image_type_small,
+		_custom_map_image_type_variant,
+		_custom_map_image_type_film,
+		_custom_map_image_type_film_clip,
 	};
 
 public:

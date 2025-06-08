@@ -159,19 +159,19 @@ bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_typ
 	{
 		switch (type)
 		{
-		case _custom_map_image_type_blf:
+		case _custom_map_image_type_normal:
 			out_filename->print("%s.blf", image_file_path.get_string());
 			break;
-		case _custom_map_image_type_sm_blf:
+		case _custom_map_image_type_small:
 			out_filename->print("%s_sm.blf", image_file_path.get_string());
 			break;
-		case _custom_map_image_type_variant_blf:
+		case _custom_map_image_type_variant:
 			out_filename->print("%s_variant.blf", image_file_path.get_string());
 			break;
-		case _custom_map_image_type_film_blf:
+		case _custom_map_image_type_film:
 			out_filename->print("%s_film.blf", image_file_path.get_string());
 			break;
-		case _custom_map_image_type_clip_blf:
+		case _custom_map_image_type_film_clip:
 			out_filename->print("%s_clip.blf", image_file_path.get_string());
 			break;
 		}
