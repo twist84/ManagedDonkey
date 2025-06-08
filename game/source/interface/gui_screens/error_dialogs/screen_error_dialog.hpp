@@ -16,7 +16,7 @@ public:
 	c_error_dialog_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00AE6DF0, c_error_dialog_screen_widget*, __thiscall, c_error_dialog_screen_widget*, int32)(this, name);
+		DECLFUNC(0x00AE6DF0, void, __thiscall, c_error_dialog_screen_widget*, int32)(this, name);
 	}
 
 //protected:

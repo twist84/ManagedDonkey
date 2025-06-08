@@ -10,7 +10,7 @@ public:
 	c_gui_screen_campaign_select_difficulty(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00AFC2D0, c_gui_screen_campaign_select_difficulty*, __thiscall, c_gui_screen_campaign_select_difficulty*, int32)(this, name);
+		DECLFUNC(0x00AFC2D0, void, __thiscall, c_gui_screen_campaign_select_difficulty*, int32)(this, name);
 	}
 
 	void setup(e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty);

@@ -44,7 +44,7 @@ c_gui_screen_pregame_lobby_matchmaking::c_gui_screen_pregame_lobby_matchmaking(i
 	m_statistics_current_hopper_id(0xFFFFi16),
 	m_statistics_current_statistics()
 {
-	//DECLFUNC(0x00B01580, c_gui_screen_pregame_lobby_matchmaking*, __thiscall, c_gui_screen_pregame_lobby_matchmaking*, int32)(this, name);
+	//DECLFUNC(0x00B01580, void, __thiscall, c_gui_screen_pregame_lobby_matchmaking*, int32)(this, name);
 
 	DECLFUNC(0x00B01500, void, __thiscall, c_http_blf_simple_downloader<s_dynamic_matchmaking_hopper_statistics, 2465>*)(&m_hopper_statstics_downloader);
 	DECLFUNC(0x00B01540, void, __thiscall, c_http_stored_buffer_downloader<102400>*)(&m_nightmap_downloader);

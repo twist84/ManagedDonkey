@@ -5,7 +5,7 @@ c_stop_watch::c_stop_watch() :
 	m_paused(),
 	__data11()
 {
-	DECLFUNC(0x00618DD0, c_stop_watch*, __thiscall, c_stop_watch*)(this);
+	DECLFUNC(0x00618DD0, void, __thiscall, c_stop_watch*)(this);
 }
 
 c_stop_watch::c_stop_watch(bool paused) :
@@ -13,7 +13,7 @@ c_stop_watch::c_stop_watch(bool paused) :
 	m_paused(),
 	__data11()
 {
-	DECLFUNC(0x00618E30, c_stop_watch*, __thiscall, c_stop_watch*, bool)(this, paused);
+	DECLFUNC(0x00618E30, void, __thiscall, c_stop_watch*, bool)(this, paused);
 }
 
 c_stop_watch::~c_stop_watch()

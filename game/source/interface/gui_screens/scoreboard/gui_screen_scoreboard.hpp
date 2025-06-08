@@ -24,7 +24,7 @@ public:
 	c_gui_screen_scoreboard(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00AB2A90, c_gui_screen_scoreboard*, __thiscall, c_gui_screen_scoreboard*, int32)(this, name);
+		DECLFUNC(0x00AB2A90, void, __thiscall, c_gui_screen_scoreboard*, int32)(this, name);
 	}
 
 private:

@@ -14,7 +14,7 @@ public:
 		c_gui_screen_widget(name),
 		m_motd_popup_downloader()
 	{
-		DECLFUNC(0x00AE71E0, c_main_menu_screen_widget*, __thiscall, c_main_menu_screen_widget*, int32)(this, name);
+		DECLFUNC(0x00AE71E0, void, __thiscall, c_main_menu_screen_widget*, int32)(this, name);
 	}
 
 //private:

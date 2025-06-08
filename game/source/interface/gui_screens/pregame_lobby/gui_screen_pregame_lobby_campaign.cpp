@@ -77,7 +77,7 @@ c_gui_screen_pregame_lobby_campaign::c_gui_screen_pregame_lobby_campaign(int32 n
 	m_progress_dialog_start_time_milliseconds(0),
 	m_catalogue_enumeration_active(false)
 {
-	//DECLFUNC(0x00AFF7A0, c_gui_screen_pregame_lobby_campaign*, __thiscall, c_gui_screen_pregame_lobby_campaign*, int32)(this, name);
+	//DECLFUNC(0x00AFF7A0, void, __thiscall, c_gui_screen_pregame_lobby_campaign*, int32)(this, name);
 }
 
 //.text:00AFF800 ; public: c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen_message(e_controller_index, e_window_index, int32, e_gui_campaign_level_setup_mode, e_campaign_id, e_map_id)

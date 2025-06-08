@@ -7,12 +7,12 @@ c_hash::c_hash() :
 	m_hash(0),
 	m_polynomial_index(0)
 {
-	DECLFUNC(0x00967E80, c_hash*, __thiscall, c_hash*)(this);
+	DECLFUNC(0x00967E80, void, __thiscall, c_hash*)(this);
 }
 
 c_hash::~c_hash()
 {
-	DECLFUNC(0x00967E90, c_hash*, __thiscall, c_hash*)(this);
+	DECLFUNC(0x00967E90, void, __thiscall, c_hash*)(this);
 }
 
 uns32 c_hash::add_byte(byte byte_to_add)

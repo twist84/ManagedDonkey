@@ -14,7 +14,7 @@ public:
 	c_xml_tag_parser(const t_character_type* xml_tag) :
 		m_xml_tag(xml_tag)
 	{
-		DECLFUNC(0x014E8230, c_xml_tag_parser<t_character_type>*, __thiscall, c_xml_tag_parser<t_character_type>*, const t_character_type*)(this, xml_tag);
+		DECLFUNC(0x014E8230, void, __thiscall, c_xml_tag_parser<t_character_type>*, const t_character_type*)(this, xml_tag);
 	}
 
 protected:

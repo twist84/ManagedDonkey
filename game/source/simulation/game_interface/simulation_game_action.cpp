@@ -275,7 +275,7 @@ void __cdecl simulation_action_object_update<e_simulation_unit_update_flag>(int3
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_object_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x0054CF60, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_object_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x0054CF60, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_object_update_flag)(this, object_index, flag);
 
 	set_flag(object_index, flag);
 }
@@ -301,7 +301,7 @@ void __cdecl simulation_action_object_update<e_simulation_weapon_update_flag>(in
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_weapon_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x005A06E0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_weapon_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x005A06E0, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_weapon_update_flag)(this, object_index, flag);
 
 	set_flag(object_index, flag);
 }
@@ -336,7 +336,7 @@ void __cdecl simulation_action_object_update<e_simulation_projectile_update_flag
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_generic_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x00B26ED0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_generic_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x00B26ED0, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_generic_update_flag)(this, object_index, flag);
 
 	set_flag(object_index, flag);
 }
@@ -344,7 +344,7 @@ c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_item_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x00B26F00, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_item_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x00B26F00, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_item_update_flag)(this, object_index, flag);
 
 	set_flag(object_index, flag);
 }
@@ -352,7 +352,7 @@ c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_projectile_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x00B26F30, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_projectile_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x00B26F30, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_projectile_update_flag)(this, object_index, flag);
 
 	set_flag(object_index, flag);
 }
@@ -369,7 +369,7 @@ void __cdecl simulation_action_object_update<e_simulation_vehicle_update_flag>(i
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_vehicle_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x00B37810, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_vehicle_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x00B37810, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_vehicle_update_flag)(this, object_index, flag);
 
 	set_flag(object_index, flag);
 }
@@ -386,7 +386,7 @@ void __cdecl simulation_action_object_update<e_simulation_device_update_flag>(in
 c_simulation_object_update_flags::c_simulation_object_update_flags(int32 object_index, e_simulation_device_update_flag flag) :
 	c_flags<int32, uns64, 64>()
 {
-	//DECLFUNC(0x00B921B0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_device_update_flag)(this, object_index, flag);
+	//DECLFUNC(0x00B921B0, void, __thiscall, c_simulation_object_update_flags*, int32, e_simulation_device_update_flag)(this, object_index, flag);
 	
 	set_flag(object_index, flag);
 }

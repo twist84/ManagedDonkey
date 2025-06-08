@@ -44,7 +44,7 @@ c_gui_screen_campaign_select_level::c_gui_screen_campaign_select_level(int32 nam
 	m_saved_game(false),
 	m_coop_saved_game(false)
 {
-	//DECLFUNC(0x00AFCA00, c_gui_screen_campaign_select_level*, __thiscall, c_gui_screen_campaign_select_level*, int32)(this, name);
+	//DECLFUNC(0x00AFCA00, void, __thiscall, c_gui_screen_campaign_select_level*, int32)(this, name);
 }
 
 //.text:00AFCAE0 ; public: virtual c_gui_screen_campaign_select_level::~c_gui_screen_campaign_select_level()

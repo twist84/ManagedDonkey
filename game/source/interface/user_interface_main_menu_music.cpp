@@ -14,7 +14,7 @@ c_user_interface_main_menu_music::c_user_interface_main_menu_music() :
 	__unknown14(0),
 	__unknown18(0)
 {
-	DECLFUNC(0x00AD54F0, c_user_interface_main_menu_music*, __thiscall, c_user_interface_main_menu_music*)(this);
+	DECLFUNC(0x00AD54F0, void, __thiscall, c_user_interface_main_menu_music*)(this);
 }
 
 void c_user_interface_main_menu_music::change_state(c_user_interface_main_menu_music::e_music_state state)

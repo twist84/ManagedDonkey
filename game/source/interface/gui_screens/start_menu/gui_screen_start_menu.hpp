@@ -21,7 +21,7 @@ public:
 	c_start_menu_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00ADFE60, c_start_menu_screen_widget*, __thiscall, c_start_menu_screen_widget*, int32)(this, name);
+		DECLFUNC(0x00ADFE60, void, __thiscall, c_start_menu_screen_widget*, int32)(this, name);
 	}
 
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);

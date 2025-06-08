@@ -78,7 +78,7 @@ c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	m_render_data(),
 	m_running_in_codeless_mode()
 {
-	//DECLFUNC(0x00AB02B0, c_gui_screen_widget*, __thiscall, c_gui_screen_widget*, int32)(this, name);
+	//DECLFUNC(0x00AB02B0, void, __thiscall, c_gui_screen_widget*, int32)(this, name);
 
 	m_definition.widget_identifier = name;
 	for (int32 datasource_index = 0; datasource_index < NUMBEROF(m_datasource); datasource_index++)

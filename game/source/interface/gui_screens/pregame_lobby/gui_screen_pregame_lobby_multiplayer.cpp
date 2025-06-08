@@ -20,7 +20,7 @@ bool __thiscall c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen_
 c_gui_screen_pregame_lobby_multiplayer::c_gui_screen_pregame_lobby_multiplayer(int32 name) :
 	c_gui_screen_pregame_lobby(name)
 {
-	//DECLFUNC(0x00B01130, c_gui_screen_pregame_lobby_multiplayer*, __thiscall, c_gui_screen_pregame_lobby_multiplayer*, int32)(this, name);
+	//DECLFUNC(0x00B01130, void, __thiscall, c_gui_screen_pregame_lobby_multiplayer*, int32)(this, name);
 }
 
 //.text:00B01150 ; public: virtual c_gui_screen_pregame_lobby_multiplayer::~c_gui_screen_pregame_lobby_multiplayer()

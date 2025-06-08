@@ -14,7 +14,7 @@ public:
 	c_gui_player_select_screen_widget(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00B07790, c_gui_player_select_screen_widget*, __thiscall, c_gui_player_select_screen_widget*, int32)(this, name);
+		DECLFUNC(0x00B07790, void, __thiscall, c_gui_player_select_screen_widget*, int32)(this, name);
 	}
 
 //protected:

@@ -11,7 +11,7 @@ public:
 	c_gui_game_details(int32 name) :
 		c_gui_game_info_screen(name)
 	{
-		DECLFUNC(0x00B0AB70, c_gui_game_info_screen*, __thiscall, c_gui_game_info_screen*, int32)(this, name);
+		DECLFUNC(0x00B0AB70, void, __thiscall, c_gui_game_info_screen*, int32)(this, name);
 	}
 
 //protected:

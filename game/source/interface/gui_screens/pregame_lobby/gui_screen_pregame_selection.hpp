@@ -15,7 +15,7 @@ public:
 	c_gui_screen_pregame_selection(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00B030B0, c_gui_screen_pregame_selection*, __thiscall, c_gui_screen_pregame_selection*, int32)(this, name);
+		DECLFUNC(0x00B030B0, void, __thiscall, c_gui_screen_pregame_selection*, int32)(this, name);
 	}
 
 //protected:

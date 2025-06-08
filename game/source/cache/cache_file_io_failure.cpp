@@ -4,7 +4,7 @@
 
 c_io_result::c_io_result()
 {
-	//DECLFUNC(0x005FB380, c_io_result*, __thiscall, c_io_result*)(this);
+	//DECLFUNC(0x005FB380, void, __thiscall, c_io_result*)(this);
 }
 
 c_simple_io_result::c_simple_io_result() :
@@ -15,12 +15,12 @@ c_simple_io_result::c_simple_io_result() :
 	m_checksum_failure(false),
 	m_checked_failure(false)
 {
-	//DECLFUNC(0x005FB380, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
+	//DECLFUNC(0x005FB380, void, __thiscall, c_simple_io_result*)(this);
 }
 
 c_simple_io_result::~c_simple_io_result()
 {
-	//DECLFUNC(0x005FB3A0, c_simple_io_result*, __thiscall, c_simple_io_result*)(this);
+	//DECLFUNC(0x005FB3A0, void, __thiscall, c_simple_io_result*)(this);
 
 	// you must check for failure!
 }

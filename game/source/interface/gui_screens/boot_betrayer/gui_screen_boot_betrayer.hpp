@@ -11,7 +11,7 @@ public:
 	c_gui_screen_boot_betrayer(int32 name) :
 		c_gui_screen_widget(name)
 	{
-		DECLFUNC(0x00AB5410, c_gui_screen_boot_betrayer*, __thiscall, c_gui_screen_boot_betrayer*, int32)(this, name);
+		DECLFUNC(0x00AB5410, void, __thiscall, c_gui_screen_boot_betrayer*, int32)(this, name);
 	}
 
 	void set_current_player_id(const s_player_identifier* current_player_id);
