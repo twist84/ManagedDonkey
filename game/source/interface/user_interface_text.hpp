@@ -287,7 +287,7 @@ extern bool g_render_text_as_font_index;
 extern void wchar_string_sanitize_for_game(wchar_t* string, int32 maximum_character_count);
 extern void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2]);
 extern void __cdecl parse_build_number_string(int32 user_index, e_utf32 character, c_static_wchar_string<1024>* text);
-extern bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_length);
+extern bool __cdecl parse_xml_ui_screen_party_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_current_players(void* this_ptr, wchar_t* buffer, int32 buffer_length);

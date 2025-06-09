@@ -57,9 +57,9 @@ void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2])
 	ustrnzcpy(out_string, out.str, 2);
 }
 
-bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+bool __cdecl parse_xml_ui_screen_party_privacy(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	return INVOKE(0x00AA4B50, parse_lobby_privacy, this_ptr, buffer, buffer_length);
+	return INVOKE(0x00AA4B50, parse_xml_ui_screen_party_privacy, this_ptr, buffer, buffer_length);
 }
 
 //.text:00ABCE90 ; public: c_user_interface_text::c_user_interface_text()
