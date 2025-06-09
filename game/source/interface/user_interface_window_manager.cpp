@@ -83,8 +83,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_main_menu_screen_widget(screen_name);
 	case STRING_ID(gui, start_menu):
 		return new c_start_menu_screen_widget(screen_name);
-	//case STRING_ID(gui, start_menu_game_campaign):
-	//	return new c_start_menu_game_campaign(screen_name);
+	case STRING_ID(gui, start_menu_game_campaign):
+		return new c_start_menu_game_campaign(screen_name);
 	case STRING_ID(gui, start_menu_game_multiplayer):
 		return new c_start_menu_game_multiplayer(screen_name);
 	//case STRING_ID(gui, start_menu_game_editor):
@@ -903,7 +903,15 @@ void c_window_manager::run_screen_hs_script(int32 script_index)
 //.text:00AACEC0 ; 
 //.text:00AACEF0 ; 
 //.text:00AACF10 ; 
-//.text:00AACF40 ; public: void c_window_manager::set_fade_out_and_quit_campaign(bool, bool)
+
+void c_window_manager::set_fade_out_and_quit_campaign(bool value, bool render_fade)
+{
+	//INVOKE_CLASS_MEMBER(0x00AACF40, c_window_manager, set_fade_out_and_quit_campaign, value, render_fade);
+
+	m_fade_in = true;
+	m_fade_out_and_quit_campaign = value;
+	m_render_fade = render_fade;
+}
 
 void c_window_manager::set_fading(bool fade_state)
 {

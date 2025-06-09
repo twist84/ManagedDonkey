@@ -18,6 +18,8 @@ public:
 public:
 	c_start_menu_pane_screen_widget(int32 name);
 	void close_current_subpane();
+	void close_start_menu1();
+	void close_start_menu0();
 	static bool __cdecl is_change_teams_allowed(e_controller_index controller_index);
 
 protected:

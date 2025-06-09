@@ -41,6 +41,7 @@ extern e_network_session_class __cdecl user_interface_squad_get_session_class();
 extern e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode();
 extern bool __cdecl user_interface_squad_in_matchmaking();
 extern bool __cdecl user_interface_squad_in_or_after_countdown();
+extern bool __cdecl user_interface_squad_local_peer_is_host();
 extern bool __cdecl user_interface_squad_local_peer_is_leader();
 extern bool __cdecl user_interface_squad_set_film(const s_saved_film_description* film);
 extern bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_description* film, bool needs_verification);

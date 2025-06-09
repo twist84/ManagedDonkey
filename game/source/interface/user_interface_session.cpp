@@ -279,7 +279,11 @@ bool __cdecl user_interface_squad_in_or_after_countdown()
 //.text:00A833A0 ; bool __cdecl user_interface_squad_is_local_player(int32 player_index)
 //.text:00A83410 ; bool __cdecl user_interface_squad_is_offline()
 //.text:00A834B0 ; bool __cdecl user_interface_squad_is_player_valid(int32 player_index)
-//.text:00A83510 ; bool __cdecl user_interface_squad_local_peer_is_host()
+
+bool __cdecl user_interface_squad_local_peer_is_host()
+{
+	return INVOKE(0x00A83510, user_interface_squad_local_peer_is_host);
+}
 
 bool __cdecl user_interface_squad_local_peer_is_leader()
 {

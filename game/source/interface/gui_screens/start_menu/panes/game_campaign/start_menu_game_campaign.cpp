@@ -1,17 +1,233 @@
 #include "interface/gui_screens/start_menu/panes/game_campaign/start_menu_game_campaign.hpp"
 
-//.text:00AE86E0 ; public: c_start_menu_game_campaign::c_start_menu_game_campaign(int32)
+#include "cseries/cseries_events.hpp"
+#include "game/campaign_metagame.hpp"
+#include "game/game.hpp"
+#include "interface/c_gui_bitmap_widget.hpp"
+#include "interface/gui_custom_bitmap_widget.hpp"
+#include "interface/gui_screens/start_menu/panes/game_multiplayer/start_menu_game_multiplayer.hpp"
+#include "interface/user_interface_data.hpp"
+#include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_session.hpp"
+#include "interface/user_interface_text.hpp"
+#include "interface/user_interface_text_parser.hpp"
+#include "interface/user_interface_window_manager.hpp"
+#include "simulation/simulation_queue_global_events.hpp"
+
+c_start_menu_game_campaign::c_start_menu_game_campaign(int32 name) :
+	c_start_menu_pane_screen_widget(name)
+{
+	//DECLFUNC(0x00AE86E0, void, __thiscall, c_start_menu_game_campaign*, int32)(this, name);
+}
+
 //.text:00AE8700 ; public: virtual c_start_menu_game_campaign::~c_start_menu_game_campaign()
 //.text:00AE8710 ; 
 //.text:00AE8720 ; public: virtual void* c_start_menu_game_campaign::`scalar deleting destructor'(unsigned int)
-//.text:00AE8750 ; public: virtual bool c_start_menu_game_campaign::allow_pane_tab_change()
-//.text:00AE8760 ; public: virtual c_gui_bitmap_widget* c_start_menu_game_campaign::create_bitmap_widget(const s_runtime_bitmap_widget_definition*)
-//.text:00AE87E0 ; public: virtual bool c_start_menu_game_campaign::handle_dialog_result(const c_dialog_result_message*)
-//.text:00AE8930 ; public: virtual bool c_start_menu_game_campaign::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
-//.text:00AE8B90 ; public: virtual void c_start_menu_game_campaign::initialize()
-//.text:00AE8C80 ; public: virtual void c_start_menu_game_campaign::initialize_datasource()
-//.text:00AE8D80 ; bool __cdecl parse_xml_primary_mission_objectives(void*, wchar_t*, int32)
-//.text:00AE8DD0 ; bool __cdecl parse_xml_secondary_mission_objectives(void*, wchar_t*, int32)
-//.text:00AE8E20 ; public: virtual void c_start_menu_game_campaign::post_initialize()
-//.text:00AE8E90 ; public: virtual void c_start_menu_game_campaign::update(uns32)
+c_start_menu_game_campaign::~c_start_menu_game_campaign()
+{
+}
+
+bool c_start_menu_game_campaign::allow_pane_tab_change()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AE8750, c_start_menu_game_campaign, allow_pane_tab_change);
+
+	return true;
+}
+
+c_gui_bitmap_widget* c_start_menu_game_campaign::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AE8760, c_start_menu_game_campaign, create_bitmap_widget, definition);
+
+	if (definition->widget_identifier == STRING_ID(gui, map_image))
+	{
+		return new c_gui_custom_bitmap_widget();
+	}
+
+	return c_gui_widget::create_bitmap_widget(definition);
+}
+
+bool c_start_menu_game_campaign::handle_dialog_result(const c_dialog_result_message* message)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AE87E0, c_start_menu_game_campaign, handle_dialog_result, message);
+
+	if (c_start_menu_game_multiplayer::handle_leave_game_response(this, message))
+	{
+		return true;
+	}
+
+	int32 dialog_name = message->get_dialog_name();
+	switch (dialog_name)
+	{
+	case STRING_ID(gui_dialog, in_game_end_game):
+	case STRING_ID(gui_dialog, in_campaign_save_and_quit):
+	case STRING_ID(gui_dialog, in_coop_end_game):
+	{
+		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		{
+			window_manager_get()->set_fade_out_and_quit_campaign(true, dialog_name == STRING_ID(gui_dialog, in_campaign_save_and_quit));
+			c_start_menu_pane_screen_widget::close_start_menu0();
+		}
+
+		return true;
+	}
+	break;
+	case STRING_ID(gui_dialog, in_campaign_revert_to_last_save):
+	{
+		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		{
+			simulation_queue_game_global_event_insert(_simulation_queue_game_global_event_type_revert_map);
+			c_start_menu_pane_screen_widget::close_start_menu0();
+		}
+
+		return true;
+	}
+	break;
+	case STRING_ID(gui_dialog, in_campaign_restart_level):
+	{
+		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		{
+			simulation_queue_game_global_event_insert(_simulation_queue_game_global_event_type_reset_map);
+			c_start_menu_pane_screen_widget::close_start_menu0();
+		}
+
+		return true;
+	}
+	break;
+	case STRING_ID(gui_dialog, in_game_change_network_privacy):
+	{
+		e_gui_network_session_advertisement_mode session_advertisement = user_interface_networking_get_session_advertisement();
+
+		switch (message->get_dialog_result())
+		{
+		case _gui_dialog_choice_first:
+		{
+			session_advertisement = _network_advertise_xbox_live_public;
+		}
+		break;
+		case _gui_dialog_choice_second:
+		{
+			session_advertisement = _network_advertise_xbox_live_friends_only;
+		}
+		break;
+		case _gui_dialog_choice_third:
+		{
+			session_advertisement = _network_advertise_xbox_live_invite_only;
+		}
+		break;
+		}
+
+		if (!user_interface_networking_set_session_advertisement(session_advertisement))
+		{
+			event(_event_warning, "ui: failed to set session advertisement mode to mode #%d",
+				session_advertisement);
+		}
+		return true;
+	}
+	break;
+	}
+
+	return c_gui_screen_widget::handle_dialog_result(message);
+}
+
+bool c_start_menu_game_campaign::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+{
+	return INVOKE_CLASS_MEMBER(0x00AE8930, c_start_menu_game_campaign, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
+
+	// $TODO: implement me
+}
+
+void c_start_menu_game_campaign::initialize()
+{
+	//INVOKE_CLASS_MEMBER(0x00AE8B90, c_start_menu_game_campaign, initialize);
+
+	c_gui_screen_widget::initialize();
+
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<primary-objectives", this, parse_xml_primary_mission_objectives));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<secondary-objectives", this, parse_xml_secondary_mission_objectives));
+	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
+}
+
+void c_start_menu_game_campaign::initialize_datasource()
+{
+	//INVOKE_CLASS_MEMBER(0x00AE8C80, c_start_menu_game_campaign, initialize_datasource);
+
+	c_gui_screen_widget::initialize_datasource();
+
+	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
+	if (!sidebar_items_data)
+	{
+		return;
+	}
+
+	sidebar_items_data->clear_disabled_elements();
+
+	if (user_interface_squad_local_peer_is_host())
+	{
+		if (game_is_campaign() && !game_is_cooperative() && campaign_skull_is_active(_campaign_skull_primary_iron))
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, revert_to_last_save));
+		}
+	}
+	else
+	{
+		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, revert_to_last_save));
+		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, restart_level));
+	}
+
+	if (user_interface_squad_exists() && user_interface_squad_get_player_count() != 1)
+	{
+		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, save_and_quit));
+	}
+	else
+	{
+		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
+	}
+
+	if (!user_interface_squad_local_peer_is_leader())
+	{
+		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+	}
+
+	if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || game_is_cooperative())
+	{
+		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+	}
+}
+
+bool __cdecl parse_xml_primary_mission_objectives(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00AE8D80, parse_xml_primary_mission_objectives, this_ptr, buffer, buffer_length);
+}
+
+bool __cdecl parse_xml_secondary_mission_objectives(void* this_ptr, wchar_t* buffer, int32 buffer_length)
+{
+	return INVOKE(0x00AE8DD0, parse_xml_secondary_mission_objectives, this_ptr, buffer, buffer_length);
+}
+
+void c_start_menu_game_campaign::post_initialize()
+{
+	//INVOKE_CLASS_MEMBER(0x00AE8E20, c_start_menu_game_campaign, post_initialize);
+	
+	c_gui_screen_widget::post_initialize();
+
+	// H3 360 has profile and storage device popups
+}
+
+void c_start_menu_game_campaign::update(uns32 current_milliseconds)
+{
+	//INVOKE_CLASS_MEMBER(0x00AE8E90, c_start_menu_game_campaign, update, current_milliseconds);
+
+	c_start_menu_pane_screen_widget::update(current_milliseconds);
+
+	c_gui_widget::set_child_visible(_gui_group, STRING_ID(global, pause), game_time_get_paused_for_reason(_game_time_pause_ui));
+
+	if (c_gui_custom_bitmap_widget* map_image_bitmap = (c_gui_custom_bitmap_widget*)c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, map_image)))
+	{
+		if (game_options_valid())
+		{
+			map_image_bitmap->set_map_image(c_gui_custom_bitmap_widget::_custom_map_image_type_normal, game_options_get()->map_id, true);
+		}
+	}
+}
 

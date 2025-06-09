@@ -1,5 +1,6 @@
 #include "interface/gui_screens/start_menu/start_menu_pane_screen_widget.hpp"
 
+#include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_window_manager.hpp"
 
 c_start_menu_pane_screen_widget::c_start_menu_pane_screen_widget(int32 name) :
@@ -37,8 +38,36 @@ void c_start_menu_pane_screen_widget::close_current_subpane()
 	//}
 }
 
-//.text:00B1F400 ; public: void c_start_menu_pane_screen_widget::close_start_menu1()
-//.text:00B1F4A0 ; public: void c_start_menu_pane_screen_widget::close_start_menu0()
+void c_start_menu_pane_screen_widget::close_start_menu1()
+{
+	INVOKE_CLASS_MEMBER(0x00B1F400, c_start_menu_pane_screen_widget, close_start_menu1);
+
+	//if (c_start_menu_custom_message* message = new c_start_menu_custom_message(
+	//	_message_type_close_start_menu,
+	//	STRING_ID(gui, start_menu),
+	//	c_gui_widget::get_single_responding_controller(),
+	//	c_gui_screen_widget::get_render_window(),
+	//	true))
+	//{
+	//	user_interface_messaging_post(message);
+	//}
+}
+
+void c_start_menu_pane_screen_widget::close_start_menu0()
+{
+	INVOKE_CLASS_MEMBER(0x00B1F4A0, c_start_menu_pane_screen_widget, close_start_menu0);
+
+	//if (c_start_menu_custom_message* message = new c_start_menu_custom_message(
+	//	_message_type_close_start_menu,
+	//	STRING_ID(gui, start_menu),
+	//	c_gui_widget::get_single_responding_controller(),
+	//	c_gui_screen_widget::get_render_window(),
+	//	false))
+	//{
+	//	user_interface_messaging_post(message);
+	//}
+}
+
 //.text:00B1F540 ; protected: bool c_start_menu_pane_screen_widget::controller_event_should_go_to_parent(const c_controller_input_message*)
 
 bool __cdecl gui_screen_widget_is_start_menu_pane_screen(c_gui_screen_widget* screen)

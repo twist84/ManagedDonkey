@@ -72,6 +72,7 @@ public:
 	void render_fade();
 	void reset_screens();
 	void run_screen_hs_script(int32 script_index);
+	void set_fade_out_and_quit_campaign(bool value, bool render_fade);
 	void set_fading(bool fade_state);
 	void update(uns32 milliseconds);
 };

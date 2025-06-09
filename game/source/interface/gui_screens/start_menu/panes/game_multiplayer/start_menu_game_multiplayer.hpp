@@ -18,6 +18,9 @@ public:
 
 public:
 	c_start_menu_game_multiplayer(int32 name);
+	static void handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, const c_controller_input_message* message);
+	static void handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, e_controller_index controller_index);
+	static bool handle_leave_game_response(c_start_menu_pane_screen_widget* screen, const c_dialog_result_message* dialog_result_message);
 
 public:
 	wchar_t m_gametype[32];

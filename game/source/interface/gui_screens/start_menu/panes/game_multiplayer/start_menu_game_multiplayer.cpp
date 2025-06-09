@@ -53,9 +53,22 @@ bool c_start_menu_game_multiplayer::handle_dialog_result(const c_dialog_result_m
 	return INVOKE_CLASS_MEMBER(0x00AE91F0, c_start_menu_game_multiplayer, handle_dialog_result, message);
 }
 
-//.text:00AE9310 ; public: static void c_start_menu_game_multiplayer::handle_leave_game_choice(c_start_menu_pane_screen_widget*, const c_controller_input_message*)
-//.text:00AE9330 ; public: static void c_start_menu_pane_screen_widget::handle_leave_game_choice(c_start_menu_pane_screen_widget*, const c_controller_input_message*)
-//.text:00AE94E0 ; public: static bool c_start_menu_game_multiplayer::handle_leave_game_response(c_start_menu_pane_screen_widget*, const c_dialog_result_message*)
+void c_start_menu_game_multiplayer::handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, const c_controller_input_message* message)
+{
+	//INVOKE(0x00AE9310, c_start_menu_game_multiplayer::handle_leave_game_choice, screen, message);
+	DECLFUNC(0x00AE9310, void, __cdecl, c_start_menu_pane_screen_widget*, const c_controller_input_message*)(screen, message);
+}
+
+void c_start_menu_game_multiplayer::handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, e_controller_index controller_index)
+{
+	//INVOKE(0x00AE9330, c_start_menu_game_multiplayer::handle_leave_game_choice, screen, controller_index);
+	DECLFUNC(0x00AE9330, void, __cdecl, c_start_menu_pane_screen_widget*, e_controller_index)(screen, controller_index);
+}
+
+bool c_start_menu_game_multiplayer::handle_leave_game_response(c_start_menu_pane_screen_widget* screen, const c_dialog_result_message* dialog_result_message)
+{
+	return INVOKE(0x00AE94E0, c_start_menu_game_multiplayer::handle_leave_game_response, screen, dialog_result_message);
+}
 
 bool c_start_menu_game_multiplayer::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
