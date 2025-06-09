@@ -592,9 +592,9 @@ void network_test_set_ui_game_mode(const char* ui_game_mode_name)
 
 void network_test_set_advertisement_mode(const char* advertisement_mode_name)
 {
-	e_gui_network_session_advertisement_mode advertisement_mode = _gui_network_session_advertisement_mode_invalid;
+	e_gui_network_session_advertisement_mode advertisement_mode = user_interface_networking_get_session_advertisement();
 
-	for (int32 i = _gui_network_session_advertisement_mode_open_to_public; i < k_gui_network_session_advertisement_mode_count; i++)
+	for (int32 i = _network_advertise_xbox_live_public; i < k_network_session_advertisement_mode_count; i++)
 	{
 		if (csstricmp(advertisement_mode_name, gui_network_session_advertisement_mode_get_name(i)) != 0)
 			continue;

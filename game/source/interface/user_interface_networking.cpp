@@ -26,7 +26,7 @@ do                                              \
 } while (_get_value() != _value);               \
 
 	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, _ui_game_mode_multiplayer);
-	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, _gui_network_session_advertisement_mode_system_link);
+	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, _network_advertise_system_link);
 }
 
 bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, int32 session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key)
@@ -233,8 +233,7 @@ void __cdecl user_interface_networking_memory_dispose()
 	//user_interface_session_memory_dispose();
 }
 
-//void __cdecl user_interface_networking_memory_initialize(e_map_memory_configuration configuration)
-void __cdecl user_interface_networking_memory_initialize(int32 configuration)
+void __cdecl user_interface_networking_memory_initialize(e_map_memory_configuration configuration)
 {
 	//INVOKE(0x00A7F570, user_interface_networking_memory_initialize, configuration);
 
@@ -242,38 +241,50 @@ void __cdecl user_interface_networking_memory_initialize(int32 configuration)
 
 void __cdecl user_interface_networking_notify_booted_from_session(e_network_session_type type, e_network_session_boot_reason boot_reason)
 {
-	INVOKE(0x00A7F580, user_interface_networking_notify_booted_from_session, type, boot_reason);
+	//INVOKE(0x00A7F580, user_interface_networking_notify_booted_from_session, type, boot_reason);
 
 	event(_event_message, "networking:ui: notified that we have been booted from a session [type %d / reason %d]", type, boot_reason);
 
-	if (boot_reason == _network_session_boot_from_ui)
+	switch (boot_reason)
 	{
-		event(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (from-ui)");
-		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_session), k_any_controller, false);
-	}
-	else
+	case _network_session_boot_user_request_in_game:
 	{
 		event(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (in-game)");
 		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_game), k_any_controller, false);
+	}
+	break;
+	case _network_session_boot_from_ui:
+	{
+
+		event(_event_message, "networking:ui: posting alert and taking us back to the pre-game lobby (from-ui)");
+		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_session), k_any_controller, false);
+	}
+	break;
+	default:
+		return;
 	}
 
 	user_interface_leave_sessions(_user_interface_session_leave_to_pre_game_lobby, _user_interface_session_leaving_booted);
 }
 
-//.text:00A7F5D0
-//.text:00A7F660
-//.text:00A7F680
-//.text:00A7F710
-//.text:00A7F730
-//.text:00A7F7C0
-//.text:00A7F850
-//.text:00A7F870
-//.text:00A7F890
-//.text:00A7F8B0 ; bool __cdecl user_interface_interactive_session_request_campaign_quit(e_network_session_request_campaign_quit_reason campaign_quit_reason)
+//.text:00A7F5D0 ; void __cdecl user_interface_networking_notify_file_download_complete(const s_saved_game_item_metadata*)
+//.text:00A7F660 ; void __cdecl user_interface_networking_notify_file_download_paused(const s_saved_game_item_metadata*)
+//.text:00A7F680 ; void __cdecl user_interface_networking_notify_file_download_resumed(const s_saved_game_item_metadata*)
+//.text:00A7F710 ; void __cdecl user_interface_networking_notify_file_download_started(const s_saved_game_item_metadata*)
+//.text:00A7F730 ; void __cdecl user_interface_networking_notify_file_transfer_event(const s_content_item_metadata*, int32)
+//.text:00A7F7C0 ; void __cdecl user_interface_networking_notify_file_upload_complete(const s_saved_game_item_metadata*)
+//.text:00A7F850 ; void __cdecl user_interface_networking_notify_file_upload_paused(const s_saved_game_item_metadata*)
+//.text:00A7F870 ; void __cdecl user_interface_networking_notify_file_upload_resumed(const s_saved_game_item_metadata*)
+//.text:00A7F890 ; void __cdecl user_interface_networking_notify_file_upload_started(const s_saved_game_item_metadata*)
+//.text:00A7F8B0 ; bool __cdecl user_interface_networking_request_campaign_quit(e_network_session_request_campaign_quit_reason)
 //.text:00A7F8D0 ; void __cdecl user_interface_networking_reset()
-//.text:00A7F920 ; bool __cdecl user_interface_squad_set_closed_by_user(bool closed_by_user)
-//.text:00A7F930 ; void __cdecl user_interface_networking_set_maximum_party_size(int32 maximum_party_size)
-//.text:00A7F950 ; bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode)
+//.text:00A7F920 ; bool __cdecl user_interface_networking_set_closed_by_user(bool)
+//.text:00A7F930 ; void __cdecl user_interface_networking_set_maximum_party_size(int32)
+
+bool __cdecl user_interface_networking_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode)
+{
+	return INVOKE(0x00A7F950, user_interface_networking_set_session_advertisement, advertisement_mode);
+}
 
 void __cdecl user_interface_networking_set_start_game_when_ready(bool value, int32 controller_index)
 {
@@ -290,9 +301,9 @@ bool __cdecl user_interface_networking_should_allow_team_switching()
 	return INVOKE(0x00A7FB20, user_interface_networking_should_allow_team_switching);
 }
 
-bool __cdecl sub_A7FB70()
+bool __cdecl user_interface_networking_should_show_skill()
 {
-	return INVOKE(0x00A7FB70, sub_A7FB70);
+	return INVOKE(0x00A7FB70, user_interface_networking_should_show_skill);
 }
 
 bool __cdecl user_interface_networking_should_show_teams()

@@ -694,7 +694,7 @@ e_gui_network_session_advertisement_mode __cdecl global_preferences_get_xbox_liv
 	//return INVOKE(0x0050C750, global_preferences_get_xbox_live_private_privacy_setting);
 
 	if (!global_preferences_available() || get_alpha_is_internal_beta())
-		return _gui_network_session_advertisement_mode_open_to_public;
+		return _network_advertise_xbox_live_public;
 
 	c_global_preferences_scope_lock scope_lock;
 	return global_preferences_get()->current.data.xbox_live_private_privacy_setting;
@@ -765,10 +765,10 @@ void __cdecl global_preferences_make_safe(s_global_preferences* preferences)
 		preferences->data.contrast = 50;
 
 	if (preferences->data.xbox_live_private_privacy_setting
-		&& preferences->data.xbox_live_private_privacy_setting != _gui_network_session_advertisement_mode_open_to_friends
-		&& preferences->data.xbox_live_private_privacy_setting != _gui_network_session_advertisement_mode_invite_only)
+		&& preferences->data.xbox_live_private_privacy_setting != _network_advertise_xbox_live_friends_only
+		&& preferences->data.xbox_live_private_privacy_setting != _network_advertise_xbox_live_invite_only)
 	{
-		preferences->data.xbox_live_private_privacy_setting = _gui_network_session_advertisement_mode_open_to_friends;
+		preferences->data.xbox_live_private_privacy_setting = _network_advertise_xbox_live_friends_only;
 	}
 }
 

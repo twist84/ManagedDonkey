@@ -288,7 +288,7 @@ struct s_global_preferences_data
 	c_enum<e_gui_game_mode, int32, _ui_game_mode_none, k_gui_game_setup_mode_count> last_main_menu_item;
 	int32 last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
-	c_enum<e_gui_network_session_advertisement_mode, int32, _gui_network_session_advertisement_mode_invalid, k_gui_network_session_advertisement_mode_count> xbox_live_private_privacy_setting;
+	e_gui_network_session_advertisement_mode xbox_live_private_privacy_setting;
 	uns32 hardware_crc;
 	int32 adapter;
 	bool fullscreen;

@@ -57,10 +57,11 @@ extern int32 __cdecl user_interface_networking_get_name_from_gui_game_mode(e_gui
 extern e_controller_index __cdecl user_interface_networking_get_saved_game_controller();
 extern e_gui_network_session_advertisement_mode __cdecl user_interface_networking_get_session_advertisement();
 extern bool __cdecl user_interface_networking_get_start_game_when_ready();
+extern bool __cdecl user_interface_networking_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode);
 extern void __cdecl user_interface_networking_set_start_game_when_ready(bool value, int32 controller_index);
 extern void __cdecl user_interface_networking_set_ui_upload_quota(int32 ui_upload_quota);
 extern bool __cdecl user_interface_networking_should_allow_team_switching();
-extern bool __cdecl sub_A7FB70();
+extern bool __cdecl user_interface_networking_should_show_skill();
 extern bool __cdecl user_interface_networking_should_show_teams();
 extern void __cdecl user_interface_networking_show_signed_out_while_in_live_alert();
 extern void __cdecl user_interface_networking_start_game_when_ready_update();

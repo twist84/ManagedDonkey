@@ -1140,15 +1140,13 @@ enum e_network_session_peer_state
 
 enum e_gui_network_session_advertisement_mode
 {
-	_gui_network_session_advertisement_mode_invalid = -1,
-	_gui_network_session_advertisement_mode_open_to_public,
-	_gui_network_session_advertisement_mode_open_to_friends,
-	_gui_network_session_advertisement_mode_invite_only,
-	_gui_network_session_advertisement_mode_system_link,
-	_gui_network_session_advertisement_mode_offline,
-	_gui_network_session_advertisement_mode_full,
+	_network_advertise_xbox_live_public = 0,
+	_network_advertise_xbox_live_friends_only,
+	_network_advertise_xbox_live_invite_only,
+	_network_advertise_system_link,
+	_network_advertise_nothing,
 
-	k_gui_network_session_advertisement_mode_count
+	k_network_session_advertisement_mode_count,
 };
 
 enum e_user_interface_session_leave_type
