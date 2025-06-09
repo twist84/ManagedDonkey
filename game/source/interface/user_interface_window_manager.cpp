@@ -23,6 +23,7 @@
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_multiplayer.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby_theater.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
+#include "interface/gui_screens/pregame_lobby/gui_screen_pregame_switch_lobby.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 #include "interface/gui_screens/start_menu/panes/game_campaign/start_menu_game_campaign.hpp"
@@ -171,8 +172,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_gui_screen_pregame_lobby_mapeditor(screen_name);
 	case STRING_ID(gui, pregame_lobby_theater):
 		return new c_gui_screen_pregame_lobby_theater(screen_name);
-	//case STRING_ID(gui, pregame_switch_lobby):
-	//	return new c_gui_screen_pregame_switch_lobby(screen_name);
+	case STRING_ID(gui, pregame_switch_lobby):
+		return new c_gui_screen_pregame_switch_lobby(screen_name);
 	case STRING_ID(gui, pregame_selection):
 		return new c_gui_screen_pregame_selection(screen_name);
 	//case STRING_ID(gui, pregame_advanced_options_matchmaking):
