@@ -527,7 +527,7 @@ enum e_voice_mute_setting
 	k_voice_mute_setting_default = _voice_mute_setting_off,
 };
 
-enum e_primary_skulls
+enum e_campaign_skulls_primary
 {
 	_campaign_skull_primary_iron = 0,
 	_campaign_skull_primary_black_eye,
@@ -542,7 +542,7 @@ enum e_primary_skulls
 	k_campaign_skull_primary_count,
 };
 
-enum e_secondary_skulls
+enum e_campaign_skulls_secondary
 {
 	_campaign_skull_secondary_assassin = 0,
 	_campaign_skull_secondary_blind,

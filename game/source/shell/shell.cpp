@@ -297,7 +297,7 @@ const char* ui_game_mode_get_name(int32 ui_game_mode)
 
 const char* gui_network_session_advertisement_mode_get_name(int32 advertisement_mode)
 {
-	if (advertisement_mode < _gui_network_session_advertisement_mode_open_to_public || advertisement_mode >= k_gui_network_session_advertisement_mode_count)
+	if (advertisement_mode < _network_advertise_xbox_live_public || advertisement_mode >= k_network_session_advertisement_mode_count)
 		return "<invalid 'ui_game_mode'>";
 
 	return k_gui_network_session_advertisement_mode_names[advertisement_mode];
@@ -338,14 +338,13 @@ const char* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
 	"survival"
 };
 
-const char* const k_gui_network_session_advertisement_mode_names[k_gui_network_session_advertisement_mode_count]
+const char* const k_gui_network_session_advertisement_mode_names[k_network_session_advertisement_mode_count]
 {
 	"open_to_public",
 	"open_to_friends",
 	"invite_only",
 	"system_link",
-	"offline",
-	"full"
+	"offline"
 };
 
 const char* const k_game_variant_parameter_names[k_number_of_editable_game_variant_parameters]

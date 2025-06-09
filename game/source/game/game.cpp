@@ -1388,7 +1388,7 @@ void __cdecl game_pvs_scripted_set_object(int32 object_index)
 
 //.text:00532D90 ; void __cdecl update_controller_game_progression()
 
-void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, bool enable)
+void __cdecl game_skull_enable_secondary(e_campaign_skulls_secondary secondary_skull, bool enable)
 {
 	//INVOKE(0x00532EE0, game_skull_enable_secondary, secondary_skull, enable);
 
@@ -1399,7 +1399,7 @@ void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, boo
 //.text:00532F20 ; game_set_active_primary_skulls
 //.text:00532F50 ; game_set_active_secondary_skulls
 
-bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
+bool __cdecl game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
 {
 	if (game_globals)
 		return game_globals->active_primary_skulls == primary_skull;
@@ -1407,7 +1407,7 @@ bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
 	return false;
 }
 
-bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull)
+bool __cdecl game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
 {
 	if (game_globals)
 		return game_globals->active_secondary_skulls == secondary_skull;
@@ -1415,7 +1415,7 @@ bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull)
 	return false;
 }
 
-void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enable)
+void __cdecl game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool enable)
 {
 	if (game_globals)
 		SET_BIT(game_globals->active_primary_skulls, primary_skull, enable);
