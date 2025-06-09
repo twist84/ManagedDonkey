@@ -40,7 +40,7 @@ void c_gui_screen_pregame_switch_lobby::post_initialize()
 			switch_lobby_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, multiplayer));
 		}
 
-		if (get_alpha_is_locked_down())
+		if (!get_alpha_is_locked_down())
 		{
 			switch_lobby_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, locked));
 		}
