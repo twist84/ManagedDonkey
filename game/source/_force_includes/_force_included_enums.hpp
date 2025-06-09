@@ -1156,7 +1156,7 @@ enum e_user_interface_session_leave_type
 	_user_interface_session_leave_to_pre_game_lobby = 0,
 	_user_interface_session_leave_to_main_menu,
 
-	k_user_interface_session_leave_type_count
+	k_user_interface_session_leave_type_count,
 };
 
 enum e_user_interface_session_leave_reason

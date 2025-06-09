@@ -2004,6 +2004,9 @@
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_item_selected.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\simulation_queue_global_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4446,6 +4449,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_item_selected.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\simulation\simulation_queue_global_events.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

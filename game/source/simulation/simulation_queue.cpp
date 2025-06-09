@@ -2,7 +2,7 @@
 
 #include "memory/bitstream.hpp"
 
-void c_simulation_queue::allocate(int32 size, c_simulation_queue_element** element_out)
+void c_simulation_queue::allocate(int32 size, s_simulation_queue_element** element_out)
 {
 	INVOKE_CLASS_MEMBER(0x00465240, c_simulation_queue, allocate, size, element_out);
 }
@@ -42,7 +42,7 @@ bool c_simulation_queue::contains_element_type(e_simulation_queue_element_type e
 	return INVOKE_CLASS_MEMBER(0x004655A0, c_simulation_queue, contains_element_type, element_type);
 }
 
-void c_simulation_queue::deallocate(c_simulation_queue_element* element)
+void c_simulation_queue::deallocate(s_simulation_queue_element* element)
 {
 	INVOKE_CLASS_MEMBER(0x004655F0, c_simulation_queue, deallocate, element);
 }
@@ -52,7 +52,7 @@ bool c_simulation_queue::decode(c_bitstream* packet)
 	return INVOKE_CLASS_MEMBER(0x00465620, c_simulation_queue, decode, packet);
 }
 
-void c_simulation_queue::deque(c_simulation_queue_element** element_out)
+void c_simulation_queue::deque(s_simulation_queue_element** element_out)
 {
 	INVOKE_CLASS_MEMBER(0x00465760, c_simulation_queue, deque, element_out);
 }
@@ -67,7 +67,7 @@ void c_simulation_queue::encode(c_bitstream* packet) const
 	INVOKE_CLASS_MEMBER(0x004657E0, c_simulation_queue, encode, packet);
 }
 
-void c_simulation_queue::enqueue(c_simulation_queue_element* element)
+void c_simulation_queue::enqueue(s_simulation_queue_element* element)
 {
 	INVOKE_CLASS_MEMBER(0x00465930, c_simulation_queue, enqueue, element);
 }
@@ -77,17 +77,17 @@ void c_simulation_queue::get_allocation_status(real32* a1, real32* a2) const
 	INVOKE_CLASS_MEMBER(0x00465970, c_simulation_queue, get_allocation_status, a1, a2);
 }
 
-int32 c_simulation_queue::get_element_size_in_bytes(c_simulation_queue_element* element) const
+int32 c_simulation_queue::get_element_size_in_bytes(s_simulation_queue_element* element) const
 {
 	return INVOKE_CLASS_MEMBER(0x004659B0, c_simulation_queue, get_element_size_in_bytes, element);
 }
 
-c_simulation_queue_element* c_simulation_queue::get_first_element() const
+s_simulation_queue_element* c_simulation_queue::get_first_element() const
 {
 	return INVOKE_CLASS_MEMBER(0x004659C0, c_simulation_queue, get_first_element);
 }
 
-c_simulation_queue_element* c_simulation_queue::get_next_element(c_simulation_queue_element* element) const
+s_simulation_queue_element* c_simulation_queue::get_next_element(s_simulation_queue_element* element) const
 {
 	return INVOKE_CLASS_MEMBER(0x004659E0, c_simulation_queue, get_next_element, element);
 }

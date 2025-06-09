@@ -1,0 +1,21 @@
+#pragma once
+
+enum e_simulation_queue_game_global_event_type
+{
+	_simulation_queue_game_global_event_type_claim_authority_gameworld = 0,
+	_simulation_queue_game_global_event_type_game_simulation_server,
+	_simulation_queue_game_global_event_type_game_finish,
+	_simulation_queue_game_global_event_type_revert_map,
+	_simulation_queue_game_global_event_type_reset_map,
+	_simulation_queue_game_global_event_type_save_and_quit,
+	_simulation_queue_game_global_event_type_simulation_reset_complete,
+	_simulation_queue_game_global_event_type_simulation_reset_initiate,
+	_simulation_queue_game_global_event_type_simulation_going_active,
+
+	k_simulation_queue_game_global_event_type_count,
+	k_simulation_queue_game_global_event_type_bits = 4,
+	k_simulation_queue_game_global_event_type_none = NONE,
+};
+
+extern void __cdecl simulation_queue_game_global_event_insert(e_simulation_queue_game_global_event_type game_global_event_type);
+

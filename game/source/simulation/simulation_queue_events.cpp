@@ -78,6 +78,6 @@ bool __cdecl encode_event_to_buffer(byte* buffer, int32 buffer_size, int32* size
 	return INVOKE(0x004A88B0, encode_event_to_buffer, buffer, buffer_size, size_out, event_type, reference_count, references, payload, payload_size);
 }
 
-//.text:004A8A60 ; void __cdecl simulation_queue_event_apply(const c_simulation_queue_element*)
+//.text:004A8A60 ; void __cdecl simulation_queue_event_apply(const s_simulation_queue_element*)
 //.text:004A8AE0 ; void __cdecl simulation_queue_event_insert(e_simulation_event_type, int32, const int32*, int32, void*)
 

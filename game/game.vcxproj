@@ -736,6 +736,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\simulation\simulation_gamestate_entities.cpp" />
     <ClCompile Include="source\simulation\simulation_queue.cpp" />
     <ClCompile Include="source\simulation\simulation_queue_events.cpp" />
+    <ClCompile Include="source\simulation\simulation_queue_global_events.cpp" />
     <ClCompile Include="source\simulation\simulation_type_collection.cpp" />
     <ClCompile Include="source\simulation\simulation_view.cpp" />
     <ClCompile Include="source\simulation\simulation_watcher.cpp" />
@@ -1529,6 +1530,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
     <ClInclude Include="source\simulation\simulation_queue_entities.hpp" />
     <ClInclude Include="source\simulation\simulation_queue_events.hpp" />
+    <ClInclude Include="source\simulation\simulation_queue_global_events.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
     <ClInclude Include="source\simulation\simulation_view.hpp" />
     <ClInclude Include="source\simulation\simulation_view_telemetry.hpp" />
