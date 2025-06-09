@@ -59,7 +59,8 @@ extern void __cdecl campaign_metagame_initialize();
 extern void __cdecl campaign_metagame_initialize_for_new_map();
 extern void __cdecl campaign_metagame_update();
 extern bool __cdecl campaign_skull_is_active(e_campaign_skulls_primary primary_skull);
-extern bool __cdecl sub_60B080();
+extern void __cdecl metagame_postgame_dismiss_ui();
+extern bool __cdecl metagame_postgame_in_progress();
 
 extern void render_debug_campaign_metagame();
 

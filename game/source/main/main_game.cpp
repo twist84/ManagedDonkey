@@ -55,29 +55,42 @@ e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(cons
 
 	//if (options)
 	//{
-	//	e_game_mode game_mode = options->game_mode;
+	//	e_game_mode game_mode = (e_game_mode)options->game_mode;
 	//	switch (game_mode)
 	//	{
 	//	case _game_mode_campaign:
 	//	{
 	//		if (options->game_playback)
+	//		{
 	//			return _map_memory_configuration_campaign_saved_film;
+	//		}
 	//		else if (options->map_id == 4200) // ODST: C200, COASTAL HIGHWAY
+	//		{
 	//			return _map_memory_configuration_campaign_epilogue;
+	//		}
 	//
 	//		return _map_memory_configuration_campaign;
 	//	}
+	//	break;
 	//	case _game_mode_multiplayer:
 	//	{
 	//		if (options->game_playback)
+	//		{
 	//			return _map_memory_configuration_multiplayer_saved_film;
+	//		}
 	//
 	//		return _map_memory_configuration_multiplayer;
 	//	}
 	//	case _game_mode_ui_shell:
+	//	{
 	//		return _map_memory_configuration_main_menu;
+	//	}
+	//	break;
 	//	default:
+	//	{
 	//		return _map_memory_configuration_none;
+	//	}
+	//	break;
 	//	}
 	//}
 	//
@@ -94,10 +107,14 @@ bool __cdecl sub_566CC0()
 	return INVOKE(0x00566CC0, sub_566CC0);
 
 	//if (game_options_valid() && game_is_ui_shell())
+	//{
 	//	return true;
+	//}
 	//
 	//if (!main_game_globals.map_change_pending || main_game_globals.map_change_pending_unload)
+	//{
 	//	return false;
+	//}
 	//
 	//return main_game_globals.pending_game_options.game_mode == _game_mode_ui_shell;
 }
@@ -124,9 +141,13 @@ void __cdecl main_game_change(const game_options* options)
 	if (!options)
 	{
 		if (network_life_cycle_get_state() != _life_cycle_state_none)
+		{
 			network_life_cycle_request_leave(false);
+		}
 		else
+		{
 			network_life_cycle_end();
+		}
 	}
 }
 
@@ -188,7 +209,9 @@ bool __cdecl main_game_change_immediate(const game_options* options)
 			{
 				//data_mine_upload();
 				if (!main_startup_sequence())
+				{
 					user_interface_enter_game_shell();
+				}
 
 				online_guide_delay_toasts(0);
 			}
@@ -248,77 +271,36 @@ bool __cdecl main_game_change_in_progress()
 	return main_game_globals.map_change_pending;
 }
 
-// functions for `main_game_change_update`
-
-void __cdecl carnage_report_transition_out()
-{
-	INVOKE(0x0060AFD0, carnage_report_transition_out);
-
-	//if (c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(_console_window, STRING_ID(gui, carnage_report)))
-	//	sub_AB2830(screen, 0);
-}
-
 void __cdecl main_game_change_update()
 {
 	//INVOKE(0x005670F0, main_game_change_update);
 
 	//main_game_editor_world_controller_update();
 
-	// $TODO: test campaign for following code path
-	if (main_game_globals.map_advance_pending && !sub_60B080())
+	if (main_game_globals.map_advance_pending && !metagame_postgame_in_progress())
 	{
+		bool session_is_leader = false;
 		if (game_is_playback())
 		{
-			carnage_report_transition_out();
+			metagame_postgame_dismiss_ui();
 		}
-		//else if (!game_in_progress() || !game_is_campaign() || (main_game_goto_next_level(), !v0))
-		else
+		else if ((!game_in_progress() || !game_is_campaign() || (main_game_goto_next_level())
+			&& (!network_squad_session_controls_coop_game_options(&session_is_leader) || session_is_leader)))
 		{
-			bool goto_next_level = false;
+			event(_event_message, "networking:main_game: congratulations, you won the game! or, the next map failed to load");
 
-			if (game_in_progress() && game_is_campaign() && !game_is_survival())
+			if (game_in_progress() && game_is_ui_shell())
 			{
-				// ODST
-				e_game_progression_level map_advance_type = main_game_globals.gp_level_advance_type;
-				switch (map_advance_type)
-				{
-				case _game_progression_level_none:
-					goto_next_level = main_game_goto_next_level();
-					break;
-					//case _game_progression_level_normal:
-					//	goto_next_level = ;
-					//	break;
-					//case _game_progression_level_hub_and_level_is_hub:
-					//	goto_next_level = ;
-					//	break;
-					//case _game_progression_level_spoke_and_level_is_spoke:
-					//	goto_next_level = ;
-					//	break;
-					//default:
-					//	event(_event_error, "networking:main_game: invalid map advance type %d!", map_advance_type);
-					//	break;
-				}
+				event(_event_message, "networking:main_game: already in the ui, not ending the simulation");
+			}
+			else
+			{
+				simulation_end(_simulation_abort_reason_failed_to_find_next_level);
 			}
 
-			if (!goto_next_level)
+			if (!user_interface_reset_networking_to_pregame())
 			{
-				bool is_leader = false;
-				if (!network_squad_session_controls_coop_game_options(&is_leader) || is_leader)
-				{
-					event(_event_message, "networking:main_game: congratulations, you won the game! or, the next map failed to load");
-
-					if (game_in_progress() && game_is_ui_shell())
-					{
-						event(_event_message, "networking:main_game: already in the ui, not ending the simulation");
-					}
-					else
-					{
-						simulation_end(_simulation_abort_reason_failed_to_find_next_map);
-					}
-
-					if (!user_interface_reset_networking_to_pregame())
-						main_menu_launch();
-				}
+				main_menu_launch();
 			}
 		}
 
@@ -327,15 +309,12 @@ void __cdecl main_game_change_update()
 
 	if (main_game_globals.map_change_pending)
 	{
-		if (main_game_globals.map_change_pending_unload)
+		game_options* pending_game_options = &main_game_globals.pending_game_options;
+		if (main_game_globals.map_change_pending_unload && !main_game_loaded_pregame())
 		{
-			if (!main_game_loaded_pregame())
-				main_game_change_immediate(NULL);
+			pending_game_options = NULL;
 		}
-		else
-		{
-			main_game_change_immediate(&main_game_globals.pending_game_options);
-		}
+		main_game_change_immediate(pending_game_options);
 
 		sub_5129B0();
 
@@ -426,7 +405,9 @@ void __cdecl main_game_internal_map_load_begin(bool reload_map)
 	ASSERT(main_game_globals.game_loaded_status == (reload_map ? _game_loaded_status_map_reloading : _game_loaded_status_none));
 
 	if (!reload_map)
+	{
 		physical_memory_stage_push(_memory_stage_level_initialize);
+	}
 
 	main_game_globals.game_loaded_status = _game_loaded_status_map_loading;
 }
@@ -440,7 +421,9 @@ bool __cdecl main_game_internal_map_load_complete(bool reload_map, const game_op
 
 	bool result = true;
 	if (!reload_map)
+	{
 		result = main_game_internal_open_caches(options);
+	}
 
 	main_game_globals.game_loaded_status = _game_loaded_status_map_loaded;
 	options->scenario_path.copy_to(main_game_globals.game_loaded_scenario_path, 260);
@@ -594,7 +577,9 @@ void __cdecl main_tag_load_end()
 	ASSERT(loading_globals.tag_load_in_progress);
 
 	if (shell_application_type() == _shell_application_tool)
+	{
 		tag_load_missing_tags_report();
+	}
 
 	loading_globals.tag_load_in_progress = false;
 }
@@ -620,10 +605,14 @@ bool __cdecl main_game_load_map(const game_options* options)
 	}
 
 	if (!main_kick_startup_masking_sequence(true) || !bink_playback_active())
+	{
 		loading_basic_progress_enable(scenario_path, options->campaign_insertion_point);
+	}
 
 	if (levels_path_is_dlc(scenario_path))
+	{
 		levels_open_dlc(scenario_path, true);
+	}
 
 	if (map_load_status != _map_load_status_loaded)
 	{
@@ -650,10 +639,14 @@ bool __cdecl main_game_load_map(const game_options* options)
 	}
 
 	if (!success)
+	{
 		main_game_internal_map_load_abort(reload_map);
+	}
 
 	if ((map_load_status != _map_load_status_loaded && !map_loaded) || !success)
+	{
 		damaged_media_exception();
+	}
 
 	main_tag_load_end();
 
@@ -663,7 +656,9 @@ bool __cdecl main_game_load_map(const game_options* options)
 	while (bink_playback_active())
 	{
 		if (main_game_is_exiting())
+		{
 			break;
+		}
 
 		input_update();
 		main_loop_pregame();
@@ -876,16 +871,22 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	}
 
 	if (reset_map_random)
+	{
 		options.random_seed = generate_random_seed();
+	}
 
 	int16 zone_set_index = options.initial_zone_set_index;
 	if (game_in_editor())
 	{
 		zone_set_index = (int16)scenario_zone_set_index_get();
 		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
+		{
 			options.initial_zone_set_index = zone_set_index;
+		}
 		else
+		{
 			options.initial_zone_set_index = 0;
+		}
 	}
 	scenario_prepare_for_map_reset(zone_set_index);
 
@@ -914,10 +915,14 @@ bool __cdecl main_game_start(const game_options* options)
 
 	int32 zone_set_index = 0;
 	if (options->initial_zone_set_index > 0)
+	{
 		zone_set_index = options->initial_zone_set_index;
+	}
 
 	if (zone_set_index > global_scenario->zone_sets.count - 1)
+	{
 		zone_set_index = global_scenario->zone_sets.count - 1;
+	}
 
 	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 
@@ -985,7 +990,9 @@ void __cdecl main_game_unload_and_prepare_for_next_game(const game_options* opti
 	}
 	break;
 	case _game_loaded_status_pregame:
+	{
 		main_game_internal_pregame_unload();
+	}
 	break;
 	}
 
@@ -1001,9 +1008,13 @@ void __cdecl main_menu_build_game_options(game_options* options)
 	//options->game_mode = _game_mode_ui_shell;
 	//s_level_datum level{};
 	//if (levels_try_and_get_main_menu_map(&level))
-	//	options->scenario_path.set(level.scenario_path);
+	//{
+	//	options->scenario_path.set(level.scenario_file);
+	//}
 	//else
+	//{
 	//	options->scenario_path.set(k_main_menu_scenario_tag);
+	//}
 	//game_options_setup_default_players(1, options);
 }
 

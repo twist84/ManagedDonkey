@@ -354,9 +354,9 @@ bool __cdecl network_squad_session_can_set_game_settings()
 		&& in_squad_session->session_mode() == _network_session_mode_idle;
 }
 
-bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader)
+bool __cdecl network_squad_session_controls_coop_game_options(bool* out_is_leader)
 {
-	return INVOKE(0x004385F0, network_squad_session_controls_coop_game_options, is_leader);
+	return INVOKE(0x004385F0, network_squad_session_controls_coop_game_options, out_is_leader);
 }
 
 //.text:00438640 ; bool __cdecl network_squad_session_delegate_leadership(int32)

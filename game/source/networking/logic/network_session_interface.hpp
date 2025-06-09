@@ -211,7 +211,7 @@ extern void __cdecl network_session_update_user_removal(c_network_session* sessi
 extern bool __cdecl network_squad_session_boot_player(int32 player_index, e_network_session_boot_reason reason);
 extern bool __cdecl network_squad_session_build_status(s_network_squad_status_data* game_status);
 extern bool __cdecl network_squad_session_can_set_game_settings();
-extern bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader);
+extern bool __cdecl network_squad_session_controls_coop_game_options(bool* out_is_leader);
 extern bool __cdecl network_squad_session_get_membership(int32* update_number, int32* local_peer_index, int32* host_peer_index, int32* leader_peer_index, int32* peer_count, uns32* peer_valid_flags, const s_network_session_peer** peers, int32* player_count, uns32* player_valid_flags, const s_network_session_player** players);
 extern e_network_game_start_mode __cdecl network_squad_session_get_start_mode();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);

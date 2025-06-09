@@ -586,8 +586,8 @@ enum e_simulation_abort_reason
 {
 	_simulation_abort_reason_exiting_in_game = 0,
 	_simulation_abort_reason_exiting_in_match,
-	_simulation_abort_reason_failed_to_find_next_map,
-	_simulation_abort_reason_playing_film,
+	_simulation_abort_reason_failed_to_find_next_level,
+	_simulation_abort_reason_preparing_to_play_film,
 	_simulation_abort_reason_reset_failed,
 	_simulation_abort_reason_fatal_error,
 	_simulation_abort_reason_lost_connection,

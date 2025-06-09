@@ -1,6 +1,8 @@
 #include "game/campaign_metagame.hpp"
 
 #include "game/game.hpp"
+#include "interface/c_gui_screen_widget.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "render/simple_font.hpp"
 #include "shell/shell.hpp"
 
@@ -40,9 +42,19 @@ bool __cdecl campaign_skull_is_active(e_campaign_skulls_primary primary_skull)
 	return INVOKE(0x0060AE20, campaign_skull_is_active, primary_skull);
 }
 
-bool __cdecl sub_60B080()
+void __cdecl metagame_postgame_dismiss_ui()
 {
-	return INVOKE(0x0060B080, sub_60B080);
+	//INVOKE(0x0060AFD0, metagame_postgame_dismiss_ui);
+
+	if (c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, carnage_report)))
+	{
+		screen->transition_out(_transition_out_normal);
+	}
+}
+
+bool __cdecl metagame_postgame_in_progress()
+{
+	return INVOKE(0x0060B080, metagame_postgame_in_progress);
 }
 
 void render_debug_campaign_metagame()
