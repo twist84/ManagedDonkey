@@ -34,7 +34,15 @@ struct s_text_widget_definition :
 	int16 font;
 	int16 pad0;
 };
+static_assert(sizeof(s_text_widget_definition) == 0x3C);
 static_assert(sizeof(s_text_widget_definition) == sizeof(s_core_widget_definition) + 0x10);
+
+struct s_text_widget_block
+{
+	s_tag_reference widget_template_reference;
+	s_text_widget_definition override_definition;
+};
+static_assert(sizeof(s_text_widget_block) == 0x4C);
 
 struct s_runtime_text_widget_definition :
 	s_runtime_core_widget_definition
