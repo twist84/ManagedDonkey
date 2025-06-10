@@ -41,6 +41,11 @@ public:
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
 	void __thiscall update();
 
+	bool is_submitting_to_cache() const
+	{
+		return m_internal_status == _internal_status_cache_submitting;
+	}
+
 	void set_url(const c_url_string* url)
 	{
 		m_url.set(url);
