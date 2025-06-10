@@ -235,8 +235,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 	//	return new c_saved_film_snippet_screen(screen_name);
 	//case STRING_ID(gui, terminal_screen):
 	//	return new c_gui_screen_terminal(screen_name);
-	//case STRING_ID(gui, message):
-	//	return new c_motd_popup_screen_widget(screen_name);
+	case STRING_ID(gui, message):
+		return new c_motd_popup_screen_widget(screen_name);
 	}
 	
 	//switch (screen_name) // ODST
