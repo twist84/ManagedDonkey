@@ -27,16 +27,16 @@ enum e_bitmap_widget_definition_flags
 struct s_bitmap_widget_definition :
 	s_core_widget_definition
 {
-	s_tag_reference bitmap_tag;
-	s_tag_reference custom_pixel_shader;
-	int16 bitmap_blend_method;
+	s_tag_reference bitmap_reference;
+	s_tag_reference explicit_shader_reference;
+	int16 render_blend_mode;
 	int16 initial_sprite_sequence;
 	int16 initial_sprite_frame;
-	uns8 : 8;
-	uns8 : 8;
-	c_string_id value_override_list;
-	c_string_id value_identifier;
+	int16 pad0;
+	int32 value_override_list;
+	int32 value_identifier;
 };
+static_assert(sizeof(s_bitmap_widget_definition) == 0x5C);
 static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
 struct s_bitmap_widget_block
