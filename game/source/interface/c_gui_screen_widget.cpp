@@ -5,6 +5,7 @@
 #include "interface/c_gui_group_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
+#include "interface/gui_screens/motd_popup/gui_screen_motd_popup.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_memory.hpp"
@@ -862,7 +863,15 @@ void c_gui_screen_widget::reload_assets()
 	m_definition = baseline_definition;
 	m_definition.widget_identifier = m_definition.widget_identifier;
 	c_gui_screen_widget::clear_display_groups();
-	if (screen_definition_index != NONE)
+	if (screen_definition_index == NONE)
+	{
+		if (m_definition.widget_identifier == STRING_ID(gui, message))
+		{
+			c_motd_popup_screen_widget* motd_popup_screen_widget = (c_motd_popup_screen_widget*)this;
+			motd_popup_screen_widget->setup_screen_in_code();
+		}
+	}
+	else
 	{
 		bool was_templated = false;
 		s_screen_widget_definition* screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_definition_index);

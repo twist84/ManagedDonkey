@@ -84,6 +84,8 @@ private:
 	static void __cdecl set_widget_bounds(rectangle2d* bounds, int16 l, int16 t, int16 r, int16 b);
 
 public:
+	void setup_screen_in_code();
+
 //private:
 	int32 m_allow_dismissal_milliseconds;
 	s_message_of_the_day_popup m_message;

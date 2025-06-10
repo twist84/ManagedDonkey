@@ -196,6 +196,11 @@ void __cdecl c_motd_popup_screen_widget::set_widget_bounds(rectangle2d* bounds, 
 	bounds->y1 = b;
 }
 
+void c_motd_popup_screen_widget::setup_screen_in_code()
+{
+	// $TODO: implement me
+}
+
 void c_motd_popup_screen_widget::update(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00B13D70, c_motd_popup_screen_widget, update, current_milliseconds);
