@@ -21,7 +21,15 @@ struct s_group_widget_definition :
 	s_tag_block bitmaps;
 	s_tag_block models;
 };
+static_assert(sizeof(s_group_widget_definition) == 0x5C);
 static_assert(sizeof(s_group_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
+
+struct s_group_widget_block
+{
+	s_tag_reference template_reference;
+	s_group_widget_definition definition;
+};
+static_assert(sizeof(s_group_widget_block) == 0x6C);
 
 struct s_runtime_group_widget_definition :
 	s_runtime_core_widget_definition
@@ -55,5 +63,6 @@ class c_gui_button_key_widget :
 	public c_gui_group_widget
 {
 };
+static_assert(sizeof(c_gui_button_key_widget) == 0x150);
 static_assert(sizeof(c_gui_button_key_widget) == sizeof(c_gui_group_widget));
 
