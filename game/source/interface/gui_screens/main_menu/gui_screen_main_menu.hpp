@@ -10,6 +10,9 @@ class c_main_menu_screen_widget :
 	public c_gui_screen_widget
 {
 public:
+	void __thiscall set_list_elements_();
+
+public:
 	c_main_menu_screen_widget(int32 name) :
 		c_gui_screen_widget(name),
 		m_motd_popup_downloader()
@@ -17,10 +20,11 @@ public:
 		DECLFUNC(0x00AE71E0, void, __thiscall, c_main_menu_screen_widget*, int32)(this, name);
 	}
 
-//private:
+private:
 	int32 get_in_use_controller_count(e_controller_index* out_first_in_use_controller);
 	void set_list_elements();
 
+public:
 //protected:
 	int32 m_last_ui_lockdown_level;
 	bool m_checked_for_film_autoplayback;

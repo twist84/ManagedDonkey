@@ -5,6 +5,7 @@
 #include "interface/c_gui_group_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "text/unicode.hpp"
 
@@ -35,6 +36,20 @@ struct s_message_of_the_day_popup
 };
 static_assert(sizeof(s_message_of_the_day_popup) == 0x99C);
 
+class c_motd_popup_screen_message :
+	public c_load_screen_message
+{
+public:
+	c_motd_popup_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, const s_message_of_the_day_popup* message, int32 message_index);
+	virtual ~c_motd_popup_screen_message();
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	s_message_of_the_day_popup m_message;
+	int32 m_message_index;
+};
+static_assert(sizeof(c_motd_popup_screen_message) == 0x9DC);
+static_assert(sizeof(c_motd_popup_screen_message) == sizeof(c_load_screen_message) + 0x9A0);
 
 class c_motd_popup_screen_widget :
 	public c_gui_screen_widget

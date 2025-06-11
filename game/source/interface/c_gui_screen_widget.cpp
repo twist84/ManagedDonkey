@@ -857,11 +857,12 @@ void c_gui_screen_widget::reload_assets()
 {
 	//INVOKE_CLASS_MEMBER(0x00AB1CE0, c_gui_screen_widget, reload_assets);
 
-	int32 screen_definition_index = window_manager_get()->locate_screen_definition_tag_by_name(m_definition.widget_identifier);
+	int32 widget_identifier = m_definition.widget_identifier;
+	int32 screen_definition_index = window_manager_get()->locate_screen_definition_tag_by_name(widget_identifier);
 	c_gui_widget::delete_all_children();
 	s_runtime_screen_widget_definition baseline_definition{};
 	m_definition = baseline_definition;
-	m_definition.widget_identifier = m_definition.widget_identifier;
+	m_definition.widget_identifier = widget_identifier;
 	c_gui_screen_widget::clear_display_groups();
 	if (screen_definition_index == NONE)
 	{

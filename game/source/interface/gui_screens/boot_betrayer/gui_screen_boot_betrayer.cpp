@@ -21,12 +21,14 @@ c_load_boot_betrayer_screen_message::~c_load_boot_betrayer_screen_message()
 //.text:00AB54D0 ; public: virtual void* c_gui_screen_boot_betrayer::`vector deleting destructor'(unsigned int)
 //.text:00AB5500 ; public: virtual void* c_load_boot_betrayer_screen_message::`vector deleting destructor'(unsigned int)
 
-void c_load_boot_betrayer_screen_message::apply_initial_state(c_gui_screen_widget* screen) const
+void c_load_boot_betrayer_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
 {
 	//INVOKE_CLASS_MEMBER(0x00AB5530, c_load_boot_betrayer_screen_message, apply_initial_state, screen);
 
-	static_cast<c_gui_screen_boot_betrayer*>(screen)->set_current_player_id(&m_current_player_id);
-	static_cast<c_gui_screen_boot_betrayer*>(screen)->set_target_player_id(&m_target_player_id);
+	c_gui_screen_boot_betrayer* boot_betrayer = (c_gui_screen_boot_betrayer*)screen_widget;
+
+	boot_betrayer->set_current_player_id(&m_current_player_id);
+	boot_betrayer->set_target_player_id(&m_target_player_id);
 }
 
 //.text:00AB5560 ; private: void c_gui_screen_boot_betrayer::boot_player()

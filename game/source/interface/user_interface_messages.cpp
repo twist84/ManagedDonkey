@@ -170,7 +170,7 @@ c_load_screen_message::~c_load_screen_message()
 {
 }
 
-void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen) const
+void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
 {
 }
 

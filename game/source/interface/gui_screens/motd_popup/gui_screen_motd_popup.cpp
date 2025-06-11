@@ -10,7 +10,7 @@
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
 using t_motd_popup_data_downloader = c_http_blf_simple_downloader<s_message_of_the_day_popup, 4665>;
-e_download_status __thiscall t_motd_popup_data_downloader::get_data(const s_message_of_the_day_popup** data, int32* data_size)
+e_download_status __thiscall t_motd_popup_data_downloader::get_data_no_update(const s_message_of_the_day_popup** data, int32* data_size)
 {
 	static s_message_of_the_day_popup static_data{};
 
@@ -33,16 +33,26 @@ TEXT_LEN = sizeof(wchar_t) * ustrnlen(TEXT, NUMBEROF(TEXT));
 	}
 
 	if (data)
+	{
 		*data = &static_data;
+	}
 
 	if (data_size)
+	{
 		*data_size = sizeof(static_data);
+	}
 
 	return _http_download_status_succeeded;
 }
-//HOOK_DECLARE_CLASS_MEMBER(0x00AE74E0, t_motd_popup_data_downloader, get_data);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AE74E0, t_motd_popup_data_downloader, get_data_no_update);
 
-//.text:00B12F10 ; public: c_motd_popup_screen_message::c_motd_popup_screen_message(e_controller_index, e_window_index, int32, const s_message_of_the_day_popup*)
+c_motd_popup_screen_message::c_motd_popup_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, const s_message_of_the_day_popup* message, int32 message_index) :
+	c_load_screen_message(STRING_ID(gui, message), controller, window, layered_position),
+	m_message(*message),
+	m_message_index(message_index)
+{
+	//DECLFUNC(0x00B12F10, void, __thiscall, c_motd_popup_screen_message*, e_controller_index, e_window_index, int32, const s_message_of_the_day_popup*, int32)(this, controller, window, layered_position, message, message_index);
+}
 
 c_motd_popup_screen_widget::c_motd_popup_screen_widget(int32 name) :
 	c_gui_screen_widget(name),
@@ -60,6 +70,8 @@ c_motd_popup_screen_widget::c_motd_popup_screen_widget(int32 name) :
 	m_fake_group1_bitmaps()
 {
 	//DECLFUNC(0x00B12F50, void, __thiscall, c_motd_popup_screen_widget*, int32)(this, name);
+
+	DECLFUNC(0x00AEC040, void, __thiscall, c_http_stored_buffer_downloader<61440>*)(&m_image_downloader);
 }
 
 //.text:00B133F0 ; public: s_group_widget_block::s_group_widget_block()
@@ -70,6 +82,11 @@ c_motd_popup_screen_widget::c_motd_popup_screen_widget(int32 name) :
 //.text:00B135E0 ; public: virtual c_motd_popup_screen_widget::~c_motd_popup_screen_widget()
 //.text:00B13630 ; public: virtual void* c_motd_popup_screen_message::`vector deleting destructor'(unsigned int)
 //.text:00B13660 ; public: virtual void* c_motd_popup_screen_widget::`scalar deleting destructor'(unsigned int)
+
+c_motd_popup_screen_message::~c_motd_popup_screen_message()
+{
+}
+
 c_motd_popup_screen_widget::~c_motd_popup_screen_widget()
 {
 }
@@ -106,7 +123,15 @@ void __cdecl c_motd_popup_screen_widget::add_text_widget(s_text_widget_block* te
 	text->override_definition.animation_collection_reference = c_motd_popup_screen_widget::get_bitmap_widget_from_screen(GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG, STRING_ID(gui, start_menu), 0, 0)->override_definition.animation_collection_reference;
 }
 
-//.text:00B13890 ; public: virtual void c_motd_popup_screen_message::apply_initial_state(c_gui_screen_widget*) const
+void c_motd_popup_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
+{
+	//INVOKE_CLASS_MEMBER(0x00B13890, c_motd_popup_screen_message, apply_initial_state, screen_widget);
+
+	ASSERT(screen_widget);
+
+	c_motd_popup_screen_widget* motd_popup = (c_motd_popup_screen_widget*)screen_widget;
+	motd_popup->set_message(&m_message, m_message_index);
+}
 
 c_gui_bitmap_widget* c_motd_popup_screen_widget::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {

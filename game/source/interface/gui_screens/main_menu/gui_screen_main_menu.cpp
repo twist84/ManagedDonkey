@@ -6,7 +6,12 @@
 #include "memory/module.hpp"
 #include "saved_games/saved_game_files.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elements);
+HOOK_DECLARE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elements_);
+
+void __thiscall c_main_menu_screen_widget::set_list_elements_()
+{
+	c_main_menu_screen_widget::set_list_elements();
+}
 
 //.text:00AE71E0 ; public: c_main_menu_screen_widget::c_main_menu_screen_widget(int32)
 //.text:00AE72A0 ; 
@@ -63,7 +68,7 @@ int32 c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index*
 
 void c_main_menu_screen_widget::set_list_elements()
 {
-	//HOOK_INVOKE_CLASS_MEMBER(, c_main_menu_screen_widget, set_list_elements);
+	//INVOKE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elements);
 
 	static bool x_enable_leave_game_element = true; // $TODO: make the menu taller?
 	static bool x_disable_theater_element = true;   // $TODO: enable when saved films actually work?

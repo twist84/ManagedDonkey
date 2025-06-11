@@ -161,7 +161,7 @@ class c_load_game_options_screen_message :
 {
 public:
 	virtual ~c_load_game_options_screen_message();
-	virtual void apply_initial_state(c_gui_screen_widget* screen) const override;
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
 
 public:
 	c_load_game_options_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, const c_game_variant* edit_game_variant, const c_game_variant* revert_game_variant, e_game_engine_category template_category, e_game_engine_category interface_category, int32 focused_element_handle, s_game_options_history_stack_node* settings_history_stack, int32 history_stack_depth);

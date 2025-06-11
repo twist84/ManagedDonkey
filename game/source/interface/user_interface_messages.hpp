@@ -81,7 +81,7 @@ public:
 	c_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position);
 	virtual ~c_load_screen_message();
 
-	virtual void apply_initial_state(c_gui_screen_widget* screen) const;
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
 
 	void set_focus_on_load_by_name(int32 list_name, int32 column_name, int32 column_value);
 	void set_transition_type(e_screen_transition_type transition_type);
@@ -109,6 +109,7 @@ protected:
 	int32 m_layered_position;
 	bool m_applies_even_to_codeless_screens;
 };
+static_assert(sizeof(c_load_screen_message) == 0x3C);
 static_assert(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
 
 //_ui_message_type_screen_custom
@@ -208,7 +209,7 @@ class c_load_pregame_selection_screen_message :
 public:
 	c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, e_gui_selected_item_type selection_type);
 	virtual ~c_load_pregame_selection_screen_message();
-	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
 
 protected:
 	e_gui_selected_item_type m_selection_type;
@@ -221,7 +222,7 @@ class c_load_campaign_select_difficulty_screen_message :
 public:
 	c_load_campaign_select_difficulty_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty);
 	virtual ~c_load_campaign_select_difficulty_screen_message();
-	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
 
 protected:
 	e_gui_campaign_difficulty_setup_mode m_campaign_setup_mode;
@@ -237,7 +238,7 @@ class c_load_campaign_select_level_screen_message :
 public:
 	c_load_campaign_select_level_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, int16 campaign_insertion_point);
 	virtual ~c_load_campaign_select_level_screen_message();
-	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
 
 protected:
 	e_gui_campaign_level_setup_mode m_campaign_setup_mode;

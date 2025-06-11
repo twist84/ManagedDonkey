@@ -4,7 +4,7 @@
 #include "memory/module.hpp"
 
 using t_motd_data_downloader = c_http_blf_simple_downloader<s_motd_data, 2721>;
-e_download_status __thiscall t_motd_data_downloader::get_data(const s_motd_data** data, int32* data_size)
+e_download_status __thiscall t_motd_data_downloader::get_data_no_update(const s_motd_data** data, int32* data_size)
 {
 	static s_motd_data static_data{};
 
@@ -15,10 +15,14 @@ e_download_status __thiscall t_motd_data_downloader::get_data(const s_motd_data*
 	}
 
 	if (data)
+	{
 		*data = &static_data;
+	}
 
 	if (data_size)
+	{
 		*data_size = sizeof(static_data);
+	}
 
 	return _http_download_status_succeeded;
 }
