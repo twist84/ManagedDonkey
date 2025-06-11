@@ -70,7 +70,7 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 	//HOOK_INVOKE_CLASS_MEMBER(result =, c_window_manager, allocate_named_screen, screen_name);
 	//return result;
 	
-	if (c_window_manager::locate_screen_definition_tag_by_name(screen_name) == NONE && screen_name != _string_id_gui__message)
+	if (c_window_manager::locate_screen_definition_tag_by_name(screen_name) == NONE && screen_name != STRING_ID(gui, message))
 	{
 		event(_event_warning, "ui: failed to allocate screen '%s': no tag definition found", string_id_get_string_const(screen_name));
 		return NULL;
