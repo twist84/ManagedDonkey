@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "multithreading/synchronized_value.hpp"
 
 class c_user_interface_main_menu_music
 {
@@ -18,7 +17,7 @@ public:
 
 private:
 	void change_state(e_music_state state);
-	void update_state();
+	void change_state_update();
 
 public:
 	real32 fade_out_progress();
@@ -43,13 +42,15 @@ private:
 
 public:
 //protected:
-	int32 __unknown0;
-	int32 m_state;
-	int32 m_game_shell_music_state;
-	int32 __unknownC;
+	e_music_state m_music_state;
+	e_music_state m_next_music_state;
+	e_music_state m_game_shell_music_state;
+	int32 m_last_music_state_set_time;
 	int32 m_looping_sound_index;
-	int32 __unknown14;
-	c_synchronized_long __unknown18;
+	uns32 m_msecs_when_stopped;
+
+	// >= profile builds
+	//bool m_debug_render_music_state;
 };
-static_assert(sizeof(c_user_interface_main_menu_music) == 0x1C);
+static_assert(sizeof(c_user_interface_main_menu_music) == 0x18);
 

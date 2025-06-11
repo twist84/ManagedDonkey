@@ -6,13 +6,12 @@
 bool main_menu_music_render_debug_enabled = false;
 
 c_user_interface_main_menu_music::c_user_interface_main_menu_music() :
-	__unknown0(0),
-	m_state(_music_state_stopped),
-	m_game_shell_music_state(0),
-	__unknownC(0),
+	m_music_state(_music_state_stopped),
+	m_next_music_state(_music_state_stopped),
+	m_game_shell_music_state(_music_state_stopped),
+	m_last_music_state_set_time(0),
 	m_looping_sound_index(NONE),
-	__unknown14(0),
-	__unknown18(0)
+	m_msecs_when_stopped(0)
 {
 	DECLFUNC(0x00AD54F0, void, __thiscall, c_user_interface_main_menu_music*)(this);
 }
@@ -22,9 +21,9 @@ void c_user_interface_main_menu_music::change_state(c_user_interface_main_menu_m
 	INVOKE_CLASS_MEMBER(0x00AD5520, c_user_interface_main_menu_music, change_state, state);
 }
 
-void c_user_interface_main_menu_music::update_state()
+void c_user_interface_main_menu_music::change_state_update()
 {
-	INVOKE_CLASS_MEMBER(0x00AD5530, c_user_interface_main_menu_music, update_state);
+	INVOKE_CLASS_MEMBER(0x00AD5530, c_user_interface_main_menu_music, change_state_update);
 }
 
 real32 c_user_interface_main_menu_music::fade_out_progress()
@@ -65,7 +64,7 @@ void __thiscall c_user_interface_main_menu_music::render()
 
 		c_simple_font_draw_string draw_string;
 		draw_string.set_color(global_real_argb_yellow);
-		draw_string.draw(NULL, music_states[m_state]);
+		draw_string.draw(NULL, music_states[m_next_music_state]);
 	}
 }
 
