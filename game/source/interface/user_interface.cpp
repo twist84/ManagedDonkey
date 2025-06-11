@@ -268,13 +268,13 @@ void __cdecl user_interface_scoreboard_update()
 {
 	//INVOKE(0x00A84C00, user_interface_scoreboard_update);
 
-	for (int32 i = 0; i < k_number_of_controllers; i++)
+	for (e_controller_index controller_index = _controller0; controller_index < k_number_of_controllers; controller_index++)
 	{
-		e_controller_index controller_index = static_cast<e_controller_index>(i);
-
 		c_controller_interface* controller = controller_get(controller_index);
 		if (!controller->in_use() && !user_interface_should_show_console_scoreboard(0))
+		{
 			c_gui_screen_scoreboard::hide_scoreboard(controller_index);
+		}
 	}
 }
 
@@ -329,12 +329,12 @@ void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 	
 		g_user_interface_globals.shell_seconds_elapsed = ui_time;
 		g_user_interface_globals.m_current_milliseconds.add(int32(ui_time * 1000));
-		int32 milliseconds = g_user_interface_globals.m_current_milliseconds.peek();
+		int32 current_ui_milliseconds = g_user_interface_globals.m_current_milliseconds.peek();
 	
-		int32 output_user_active_count = player_mapping_output_user_active_count();
-		bool v3 = g_user_interface_globals.m_active_output_user_count == output_user_active_count;
-		g_user_interface_globals.m_active_output_user_count = output_user_active_count;
-		bool update_toast_position = !v3;
+		int32 active = player_mapping_output_user_active_count();
+		bool active_same = g_user_interface_globals.m_active_user_count == active;
+		g_user_interface_globals.m_active_user_count = active;
+		bool update_toast_position = !active_same;
 
 		damaged_media_update();
 		//user_interface_memory_update();
@@ -342,34 +342,44 @@ void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 		if (game_in_progress())
 		{
 			if (!debugging_system_has_focus())
+			{
 				user_interface_controller_update();
+			}
 
 			saved_game_files_update();
 			user_interface_messaging_update();
 			user_interface_mouse_update();
 			user_interface_update_console_scoreboard();
 			user_interface_scoreboard_update();
-			window_manager_get()->update(milliseconds);
-			user_interface_error_manager_get()->update(milliseconds);
+			window_manager_get()->update(current_ui_milliseconds);
+			user_interface_error_manager_get()->update(current_ui_milliseconds);
 			c_gui_pregame_setup_manager::get()->update();
 			user_interface_networking_update();
 			//user_interface_process_magic_key_combos();
 	
 			if (user_interface_xbox_guide_is_active())
+			{
 				user_interface_non_idle_event_occured();
+			}
 	
 			if (attract_mode_should_start())
+			{
 				attract_mode_start();
+			}
 	
 			g_user_interface_globals.m_music_manager.update();
 	
 			if (game_is_ui_shell() && user_interface_should_render_fancy())
-				g_user_interface_globals.m_music_manager.__unknown18 = milliseconds;
+			{
+				g_user_interface_globals.m_last_fancy_render_time = current_ui_milliseconds;
+			}
 	
 			if (game_is_ui_shell())
 			{
 				if (update_toast_position)
+				{
 					user_interface_update_toast_position();
+				}
 
 				//if (user_interface_squad_exists() && user_interface_squad_get_ui_game_mode() == _ui_game_mode_survival)
 				//	user_interface_show_campaign_custom_music_warning_if_needed(NULL);

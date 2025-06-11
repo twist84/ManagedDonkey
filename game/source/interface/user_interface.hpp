@@ -204,11 +204,12 @@ struct s_user_interface_globals
 	c_synchronized_long m_selected_campaign_map_id;
 	c_synchronized_long m_selected_campaign_difficulty;
 	c_user_interface_main_menu_music m_music_manager;
-	c_static_array<c_gui_tag_datasource, 32> m_global_datasources;
+	c_synchronized_long m_last_fancy_render_time;
+	c_gui_tag_datasource m_global_datasources[32];
 	int32 m_global_datasources_count;
 	int32 m_user_interface_shutdown_start_time;
+	int32 __unknown224C;
 	int32 m_active_user_count;
-	int32 m_active_output_user_count;
 	bool m_campaign_custom_music_warning_shown;
 };
 static_assert(sizeof(s_user_interface_globals) == 0x2258);
