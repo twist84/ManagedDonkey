@@ -695,7 +695,7 @@ void c_gui_screen_widget::initialize_datasource()
 
 	for (int32 datasource_block_index = 0; datasource_block_index < m_definition.datasource_blocks.count; datasource_block_index++)
 	{
-		s_datasource_definition_block* datasource_definition_block = TAG_BLOCK_GET(&m_definition.datasource_blocks, s_datasource_definition_block, datasource_block_index);
+		s_datasource_definition_block* datasource_definition_block = TAG_BLOCK_GET_ELEMENT(&m_definition.datasource_blocks, datasource_block_index, s_datasource_definition_block);
 		if (!datasource_definition_block)
 		{
 			continue;
