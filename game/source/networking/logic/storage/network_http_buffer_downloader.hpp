@@ -88,9 +88,29 @@ template<typename t_blf_type, int32 k_buffer_size = sizeof(t_blf_type)>
 class c_http_blf_simple_downloader
 {
 public:
-	e_download_status __thiscall get_data(const t_blf_type** data, int32* data_size)
+	e_download_status __thiscall get_data_no_update(const t_blf_type** data, int32* data_size)
 	{
 		// override this function for hooks
+	}
+
+	e_download_status get_download_status()
+	{
+		return m_downloader.get_download_status();
+	}
+
+	bool is_submitting_to_cache() const
+	{
+		return m_downloader.is_submitting_to_cache();
+	}
+
+	void set_url(const c_url_string* url)
+	{
+		m_downloader.set_url(url);
+	}
+
+	void update()
+	{
+		m_downloader.update();
 	}
 
 protected:
