@@ -54,8 +54,8 @@ HOOK_DECLARE(0x0052B060, file_set_position);
 //HOOK_DECLARE(0x0052B350, file_write_to_position);
 HOOK_DECLARE(0x0052B450, find_files_end);
 HOOK_DECLARE(0x0052B4A0, find_files_next);
-HOOK_DECLARE(0x0052B830, find_files_start);
-HOOK_DECLARE(0x0052B850, find_files_start_with_search_spec);
+//HOOK_DECLARE(0x0052B830, find_files_start);
+//HOOK_DECLARE(0x0052B850, find_files_start_with_search_spec);
 //HOOK_DECLARE(0x0052B980, get_current_file_time);
 //HOOK_DECLARE(0x0052BA20, invalidate_file_handle);
 
