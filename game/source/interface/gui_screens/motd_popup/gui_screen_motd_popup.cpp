@@ -6,6 +6,7 @@
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
@@ -148,11 +149,30 @@ c_gui_bitmap_widget* c_motd_popup_screen_widget::create_bitmap_widget(const s_ru
 s_tag_reference __cdecl c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(int32 screen_name, int32 group_index, int32 bitmap_block_index)
 {
 	return INVOKE(0x00B13940, c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen, screen_name, group_index, bitmap_block_index);
+
+	//s_tag_reference bitmap_reference = c_motd_popup_screen_widget::get_bitmap_widget_from_screen(BITMAP_TAG, screen_name, group_index, bitmap_block_index)->override_definition.bitmap_reference;
+	//return bitmap_reference;
 }
 
 const s_bitmap_widget_block* __cdecl c_motd_popup_screen_widget::get_bitmap_widget_from_screen(uns32 reference_type, int32 screen_name, int32 group_index, int32 bitmap_block_index)
 {
 	return INVOKE(0x00B139A0, c_motd_popup_screen_widget::get_bitmap_widget_from_screen, reference_type, screen_name, group_index, bitmap_block_index);
+
+	//int32 screen_definition_index = window_manager_get()->locate_screen_definition_tag_by_name(screen_name);
+	//s_screen_widget_definition* screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_definition_index);
+	//if (!VALID_INDEX(group_index, screen_widget_definition->group_blocks.count))
+	//{
+	//	return NULL;
+	//}
+	//
+	//s_group_widget_block* group_widget_block = TAG_BLOCK_GET_ELEMENT(&screen_widget_definition->group_blocks, group_index, s_group_widget_block);
+	//if (!VALID_INDEX(bitmap_block_index, group_widget_block->override_definition.bitmap_blocks.count))
+	//{
+	//	return NULL;
+	//}
+	//
+	//s_bitmap_widget_block* bitmap_widget_block = TAG_BLOCK_GET_ELEMENT(&group_widget_block->override_definition.bitmap_blocks, bitmap_block_index, s_bitmap_widget_block);
+	//return bitmap_widget_block;
 }
 
 int32 __cdecl c_motd_popup_screen_widget::get_color_preset(e_color_preset color_preset)
@@ -229,16 +249,16 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 	m_fake_definition.flags = 0x8;
 	m_fake_definition.widget_identifier = STRING_ID(gui, message);
 	m_fake_definition.initial_button_key_name = k_string_id_empty_string;
-	
-	c_motd_popup_screen_widget::set_widget_bounds(&m_fake_definition.bounds[0], -360, -640, 104, 640);
-	c_motd_popup_screen_widget::set_widget_bounds(&m_fake_definition.bounds[1], -267, -449, 0, 348);
-	
+
+	c_motd_popup_screen_widget::set_widget_bounds(&m_fake_definition.bounds[0], -640, -360, 640, 104);
+	c_motd_popup_screen_widget::set_widget_bounds(&m_fake_definition.bounds[1], -449, -267, 348, 0);
+
 	tag_block_set_element_count(&m_fake_definition.group_blocks, NUMBEROF(m_fake_groups));
 	tag_block_set_elements(&m_fake_definition.group_blocks, m_fake_groups);
-	
+
 	ASSERT(TAG_BLOCK_GET_ELEMENT(&m_fake_definition.group_blocks, 0, s_group_widget_block) == &m_fake_groups[0]);
 	ASSERT(TAG_BLOCK_GET_ELEMENT(&m_fake_definition.group_blocks, 1, s_group_widget_block) == &m_fake_groups[1]);
-	
+
 	s_tag_reference empty_bitmap_widget_reference{};
 	empty_bitmap_widget_reference.group_tag = GUI_BITMAP_WIDGET_DEFINITION_TAG;
 	empty_bitmap_widget_reference.name = "";
@@ -303,17 +323,16 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 			0x8,
 			k_string_id_empty_string,
 			-5,
-			140, 203, 643, 1220,
-			103, 96, 470, 1220,
+			203, 140, 1220, 643,
+			96, 103, 1220, 470,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu),
-				0, 0)->override_definition.bitmap_reference);
+				0, 0));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[1],
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
@@ -323,48 +342,46 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 			0x0,
 			STRING_ID(gui, flavor_image),
 			2,
-			140, 247, 605, 554,
-			102, 173, 567, 480,
+			247, 140, 554, 605,
+			173, 102, 480, 567,
 			0,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			empty_bitmap_reference);
+			empty_bitmap_reference);;
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[2],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			-22,
-			-64, -180, 1000, 1250,
+			-180, -64, 1250, 1000,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 2)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu),
-				0, 2)->override_definition.bitmap_reference);
+				0, 2));;
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[3],
 			empty_bitmap_widget_reference,
 			0x18,
 			k_string_id_empty_string,
 			-23,
-			-64, -180, 1000, 1250,
+			-180, -64, 1250, 1000,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 2)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu),
-				0, 2)->override_definition.bitmap_reference);
+				0, 2));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[4],
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
@@ -374,34 +391,32 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 			0x8,
 			k_string_id_empty_string,
 			0,
-			140, 247, 642, 554,
+			247, 140, 554, 642,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
-				STRING_ID(gui, start_menu),
-				1, 4)->override_definition.bitmap_reference);
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
+				STRING_ID(gui, start_menu_settings),
+				1, 4));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[5],
 			empty_bitmap_widget_reference,
 			0x18,
 			k_string_id_empty_string,
 			5,
-			160, 511, 586, 1036,
+			511, 160, 1036, 586,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu),
-				0, 2)->override_definition.bitmap_reference);
+				0, 2));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[6],
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
@@ -411,103 +426,96 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 			0x8,
 			k_string_id_empty_string,
 			0,
-			140, 554, 605, 1036,
+			554, 140, 1036, 605,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
-				STRING_ID(gui, start_menu),
-				7, 1)->override_definition.bitmap_reference);
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
+				STRING_ID(gui, start_menu_settings_appearance_colors),
+				7, 1));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[7],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			7,
-			160, 511, 586, 1300,
+			511, 160, 1300, 586,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
-				STRING_ID(gui, start_menu),
-				0, 5)->override_definition.bitmap_reference);
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
+				STRING_ID(gui, game_options),
+				0, 5));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[8],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			8,
-			86, 203, 140, 1220,
-			70, 150, 103, 1220,
+			203, 86, 1220, 140,
+			150, 70, 1220, 103,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu),
-				0, 1)->override_definition.bitmap_reference);
+				0, 1));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[9],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			8,
-			160, 511, 161, 1300,
+			511, 160, 1300, 161,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, pregame_switch_lobby),
-				0, 0)->override_definition.bitmap_reference);
+				0, 0));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[10],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			8,
-			197, 511, 198, 1300,
+			511, 197, 1300, 198,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, pregame_switch_lobby),
-				0, 0)->override_definition.bitmap_reference);
+				0, 0));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[11],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			8,
-			161, 511, 197, 1300,
+			511, 161, 1300, 197,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu_settings),
-				1, 1)->override_definition.bitmap_reference);
-
+				1, 1));
 	}
 
 	m_fake_groups[1].override_definition.widget_identifier = STRING_ID(gui, in_progress);
@@ -520,68 +528,64 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 			0x8,
 			k_string_id_empty_string,
 			0,
-			140, 247, 605, 554,
+			247, 140, 554, 605,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu_hq_service_record),
-				0, 5)->override_definition.bitmap_reference);
+				0, 5));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group1_bitmaps[1],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			1,
-			250, 306, 432, 488,
+			306, 250, 488, 432,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu_hq),
 				9, 1)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, in_progress),
-				0, 0)->override_definition.bitmap_reference);
+				0, 0));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group1_bitmaps[2],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			1,
-			284, 340, 400, 456,
+			340, 284, 456, 400,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu_hq),
 				9, 2)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, in_progress),
-				0, 1)->override_definition.bitmap_reference);
+				0, 1));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group1_bitmaps[3],
 			empty_bitmap_widget_reference,
 			0x8,
 			k_string_id_empty_string,
 			1,
-			304, 360, 380, 436,
+			360, 304, 436, 380,
 			0, 0, 0, 0,
 			3,
 			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu_hq),
 				9, 3)->override_definition.animation_collection_reference,
-			c_motd_popup_screen_widget::get_bitmap_widget_from_screen(
-				BITMAP_TAG,
+			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, in_progress),
-				0, 2)->override_definition.bitmap_reference);
+				0, 2));
 	}
 
 	c_gui_screen_widget::add_definition_fields(&m_fake_definition, false);
@@ -622,7 +626,7 @@ void c_motd_popup_screen_widget::update(uns32 current_milliseconds)
 				!m_image_downloader.is_submitting_to_cache())
 			{
 				flavor_image_bitmap->load_from_buffer(true, image_buffer, image_size, _custom_bitmap_desired_aspect_ratio_stretch_to_fit);
-				flavor_image_bitmap->start_animation(_custom_animation0, true);
+				flavor_image_bitmap->start_animation((e_animation_state)(download_status + _child_submenu_ambient_focused), true);
 				m_motd_displayed = true;
 			}
 
