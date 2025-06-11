@@ -17,11 +17,11 @@ void* __cdecl tag_block_get_element_with_size(const s_tag_block* block, int32 in
 	ASSERT(VALID_INDEX(index, block->count));
 	ASSERT(block->address);
 
-	// due to bad caches the block address needs checking
-	if (!IN_RANGE_INCLUSIVE((uns32)block->address, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_cache_size))
-	{
-		return NULL;
-	}
+	//// due to bad caches the block address needs checking
+	//if (!IN_RANGE_INCLUSIVE((uns32)block->address, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_cache_size))
+	//{
+	//	return NULL;
+	//}
 
 	return block->base + index * size;
 }
