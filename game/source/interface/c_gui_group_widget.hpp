@@ -16,18 +16,18 @@ enum e_group_widget_definition_flags
 struct s_group_widget_definition :
 	s_core_widget_definition
 {
-	s_tag_block list;
-	s_tag_block text_items;
-	s_tag_block bitmaps;
-	s_tag_block models;
+	s_tag_block list_blocks;
+	s_tag_block text_blocks;
+	s_tag_block bitmap_blocks;
+	s_tag_block model_blocks;
 };
 static_assert(sizeof(s_group_widget_definition) == 0x5C);
 static_assert(sizeof(s_group_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
 struct s_group_widget_block
 {
-	s_tag_reference template_reference;
-	s_group_widget_definition definition;
+	s_tag_reference widget_template_reference;
+	s_group_widget_definition override_definition;
 };
 static_assert(sizeof(s_group_widget_block) == 0x6C);
 
