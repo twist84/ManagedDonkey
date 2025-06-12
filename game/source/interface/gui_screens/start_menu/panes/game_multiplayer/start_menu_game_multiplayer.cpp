@@ -6,6 +6,7 @@
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 
 c_start_menu_game_multiplayer::c_start_menu_game_multiplayer(int32 name) :
@@ -56,7 +57,9 @@ bool c_start_menu_game_multiplayer::handle_dialog_result(const c_dialog_result_m
 void c_start_menu_game_multiplayer::handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, const c_controller_input_message* message)
 {
 	//INVOKE(0x00AE9310, c_start_menu_game_multiplayer::handle_leave_game_choice, screen, message);
-	DECLFUNC(0x00AE9310, void, __cdecl, c_start_menu_pane_screen_widget*, const c_controller_input_message*)(screen, message);
+	//DECLFUNC(0x00AE9310, void, __cdecl, c_start_menu_pane_screen_widget*, const c_controller_input_message*)(screen, message);
+
+	c_start_menu_game_multiplayer::handle_leave_game_choice(screen, message->get_controller());
 }
 
 void c_start_menu_game_multiplayer::handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, e_controller_index controller_index)
