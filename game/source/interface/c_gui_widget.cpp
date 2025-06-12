@@ -9,6 +9,8 @@
 #include "interface/c_gui_text_widget.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
@@ -97,6 +99,15 @@ bool __thiscall c_gui_widget::handle_tab_(const c_controller_input_message* mess
 	return c_gui_widget::handle_tab(message);
 }
 
+template<>
+void ui_track_delete<c_gui_widget>(const c_gui_widget* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_gui_widget();
+	user_interface_free(object);
+}
+
 c_gui_widget::c_gui_widget(e_gui_widget_type type) :
 	__unknown4(0),
 	m_type(type),
@@ -126,7 +137,7 @@ c_gui_widget::~c_gui_widget()
 {
 	//DECLFUNC(0x00AB63A0, void, __thiscall, c_gui_widget*)(this);
 
-	delete_all_children();
+	c_gui_widget::delete_all_children();
 }
 
 //.text:00AB63D0 ; public: void c_gui_widget::add_child_widget(c_gui_widget*)
@@ -362,6 +373,15 @@ c_gui_text_widget* c_gui_widget::create_text_widget(const s_runtime_text_widget_
 void c_gui_widget::delete_all_children()
 {
 	INVOKE_CLASS_MEMBER(0x00AB8590, c_gui_widget, delete_all_children);
+
+	//for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	//{
+	//	c_gui_widget::set_children(NULL);
+	//	c_gui_widget::set_parent(NULL);
+	//
+	//	child_widget->dispose();
+	//	ui_track_delete<c_gui_widget>(child_widget);
+	//}
 }
 
 void c_gui_widget::dispose()
