@@ -74,6 +74,7 @@ extern void __cdecl event_manager_button_pressed(e_controller_index controller_i
 extern void __cdecl event_manager_tab(int32 gamepad_stick, e_controller_index controller_index, const point2d* vector, uns32 now, e_controller_component component);
 extern void __cdecl user_interface_controller_attached(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_detached(e_controller_index controller_index);
+extern void __cdecl user_interface_controller_dispose();
 extern s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index controller_index);
 extern bool __cdecl user_interface_controller_get_player_configuration(e_controller_index controller_index, s_player_identifier* player_identifier, s_player_configuration* player_data);
 extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event);

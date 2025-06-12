@@ -20,6 +20,7 @@
 #include "memory/module.hpp"
 #include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "saved_games/content_catalogue.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 #include <windows.h>
@@ -84,14 +85,36 @@ bool __cdecl get_is_alpha_version()
 void __cdecl user_interface_dispose()
 {
 	INVOKE(0x00A84270, user_interface_dispose);
+
+	//user_interface_networking_dispose();
+	//user_interface_controller_dispose();
+	//user_interface_error_manager_get()->dispose();
+	//window_manager_get()->dispose();
+	//user_interface_messaging_dispose();
+	//user_interface_text_parser_dispose();
+	//user_interface_memory_dispose();
 }
 
 void __cdecl user_interface_dispose_from_old_map()
 {
-	INVOKE(0x00A842A0, user_interface_dispose_from_old_map);
+	//INVOKE(0x00A842A0, user_interface_dispose_from_old_map);
+
+	content_catalogue_dispose_from_old_map();
+	user_interface_messaging_dispose_from_old_map();
+	user_interface_error_manager_get()->dispose_from_old_map();
+	window_manager_get()->dispose_from_old_map();
+
+	//user_interface_available_squads_dispose();
+
+	g_user_interface_globals.m_music_manager.reset();
+	user_interface_dispose_global_datasources();
+	user_interface_networking_dispose_from_old_map();
 }
 
-//.text:00A842F0 ; void __cdecl user_interface_dispose_global_datasources()
+void __cdecl user_interface_dispose_global_datasources()
+{
+	INVOKE(0x00A842F0, user_interface_dispose_global_datasources);
+}
 
 void __cdecl user_interface_enter_game_shell()
 {

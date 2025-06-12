@@ -40,8 +40,15 @@ void __cdecl content_catalogue_display_device_selection_guide_interface(e_contro
 	return INVOKE(0x005A53F0, content_catalogue_display_device_selection_guide_interface, controller_index);
 }
 
-//.text:005A5490 ; void __cdecl content_catalogue_dispose()
-//.text:005A5530 ; void __cdecl content_catalogue_dispose_from_old_map()
+void __cdecl content_catalogue_dispose()
+{
+	INVOKE(0x005A5490, content_catalogue_dispose);
+}
+
+void __cdecl content_catalogue_dispose_from_old_map()
+{
+	INVOKE(0x005A5530, content_catalogue_dispose_from_old_map);
+}
 
 bool __cdecl content_catalogue_enumeration_active_on_controllers(int32* out_controller_mask)
 {

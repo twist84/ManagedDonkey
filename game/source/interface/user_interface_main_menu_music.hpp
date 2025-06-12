@@ -5,6 +5,9 @@
 class c_user_interface_main_menu_music
 {
 public:
+	void __thiscall render_();
+
+public:
 	enum e_music_state
 	{
 		_music_state_stopped = 0,
@@ -16,11 +19,12 @@ public:
 	c_user_interface_main_menu_music();
 
 private:
-	void change_state(e_music_state state);
+	void change_state(e_music_state new_state);
 	void change_state_update();
 
 public:
 	real32 fade_out_progress();
+	static int32 __cdecl get_music_fade_time_milliseconds();
 
 private:
 	int32 get_music_index();
@@ -28,7 +32,8 @@ private:
 
 public:
 	bool music_done_fading_out();
-	void __thiscall render();
+	void render();
+	void reset();
 
 private:
 	void start();
@@ -51,6 +56,7 @@ public:
 
 	// >= profile builds
 	//bool m_debug_render_music_state;
+	static bool m_debug_render_music_state;
 };
 static_assert(sizeof(c_user_interface_main_menu_music) == 0x18);
 

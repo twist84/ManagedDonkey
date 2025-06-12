@@ -49,6 +49,8 @@ extern s_user_interface_networking_globals& user_interface_networking_globals;
 extern void __cdecl sub_69D600();
 extern bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, int32 session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key);
 extern void __cdecl user_interface_network_update_live_service_qos(const s_transport_qos_result* qos_result);
+extern void __cdecl user_interface_networking_dispose();
+extern void __cdecl user_interface_networking_dispose_from_old_map();
 extern bool __cdecl user_interface_networking_enter_pregame_location(e_gui_game_mode game_mode);
 extern e_gui_location __cdecl user_interface_networking_get_current_location();
 extern const c_game_results* __cdecl user_interface_networking_get_final_game_results();

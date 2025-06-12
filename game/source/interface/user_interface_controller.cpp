@@ -123,7 +123,11 @@ void __cdecl user_interface_controller_detached(e_controller_index controller_in
 	user_interface_controller_update_network_properties(controller_index);
 }
 
-//.text:00A94410 ; void __cdecl user_interface_controller_dispose()
+void __cdecl user_interface_controller_dispose()
+{
+	INVOKE(0x00A94410, user_interface_controller_dispose);
+}
+
 //.text:00A94420 ; void __cdecl user_interface_controller_event_manager_suppress(bool)
 
 s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index controller_index)

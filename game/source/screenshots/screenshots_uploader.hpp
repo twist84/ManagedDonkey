@@ -10,7 +10,7 @@ public:
 	//c_screenshots_uploader();
 	//~c_screenshots_uploader();
 	//bool begin_screenshot_upload(e_controller_index controller_index, int32 content_item_index, const s_file_reference* file_reference, int32 game_id);
-	//void cancel_upload();
+	void cancel_upload();
 	//void dispose();
 
 private:
