@@ -33,7 +33,7 @@ bool c_start_menu_game_saved_film::allow_pane_tab_change()
 
 bool c_start_menu_game_saved_film::handle_dialog_result(const c_dialog_result_message* message)
 {
-	return INVOKE_CLASS_MEMBER(0x00AEBBC0, c_start_menu_game_saved_film, handle_dialog_result, message);
+	//return INVOKE_CLASS_MEMBER(0x00AEBBC0, c_start_menu_game_saved_film, handle_dialog_result, message);
 
 	if (c_start_menu_game_multiplayer::handle_leave_game_response(this, message))
 	{

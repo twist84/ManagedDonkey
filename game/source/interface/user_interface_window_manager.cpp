@@ -90,8 +90,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return new c_start_menu_game_multiplayer(screen_name);
 	//case STRING_ID(gui, start_menu_game_editor):
 	//	return new c_start_menu_game_editor(screen_name);
-	//case STRING_ID(gui, start_menu_game_saved_film):
-	//	return new c_start_menu_game_saved_film(screen_name);
+	case STRING_ID(gui, start_menu_game_saved_film):
+		return new c_start_menu_game_saved_film(screen_name);
 	//case STRING_ID(gui, start_menu_hq):
 	//	return new c_start_menu_headquarters(screen_name);
 	//case STRING_ID(gui, start_menu_hq_service_record):
@@ -375,11 +375,34 @@ void c_window_manager::debug_widget_state_for_widget(c_gui_widget* widget, e_wid
 void c_window_manager::dispose()
 {
 	INVOKE_CLASS_MEMBER(0x00AAABB0, c_window_manager, dispose);
+
+	//c_gui_custom_bitmap_storage_manager::get()->dispose();
+	//if (m_active_screens)
+	//{
+	//	ASSERT(m_active_screens->actual_count == 0);
+	//	data_dispose(m_active_screens);
+	//	m_active_screens = NULL;
+	//}
 }
 
 void c_window_manager::dispose_from_old_map()
 {
 	INVOKE_CLASS_MEMBER(0x00AAABE0, c_window_manager, dispose_from_old_map);
+
+	//FONT_CACHE_SCOPE_LOCK;
+	//
+	//for (int32 window_index = 0; window_index < k_number_of_render_windows; window_index++)
+	//{
+	//	for (int32 channel_count = 0; channel_count < m_current_channel_count[window_index].peek(); channel_count++)
+	//	{
+	//		c_gui_screen_widget* screen = m_channels[window_index][channel_count];
+	//		if (!screen)
+	//		{
+	//			continue;
+	//		}
+	//		c_window_manager::dispose_screen(screen);
+	//	}
+	//}
 }
 
 void c_window_manager::dispose_screen(c_gui_screen_widget* screen)

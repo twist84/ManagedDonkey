@@ -835,10 +835,10 @@ void __cdecl main_render_pregame_loading_screen()
 
 void __cdecl sub_604A20()
 {
-	INVOKE(0x00604A20, sub_604A20);
+	//INVOKE(0x00604A20, sub_604A20);
 
-	//c_rasterizer::end_frame();
-	//g_main_render_timing_data->reset();
+	c_rasterizer::end_frame();
+	g_main_render_timing_data->reset();
 }
 
 void __cdecl main_render_process_messages()
