@@ -25,6 +25,11 @@ void __cdecl network_memory_shared_dispose()
     INVOKE(0x00462640, network_memory_shared_dispose);
 }
 
+void __cdecl network_memory_shared_initialize(e_map_memory_configuration memory_configuration)
+{
+    INVOKE(0x004626E0, network_memory_shared_initialize, memory_configuration);
+}
+
 bool __cdecl network_memory_simulation_initialize(c_simulation_world** world, c_simulation_watcher** watcher, c_simulation_type_collection** type_collection)
 {
     //return INVOKE(0x00462830, network_memory_simulation_initialize, world, watcher, type_collection);

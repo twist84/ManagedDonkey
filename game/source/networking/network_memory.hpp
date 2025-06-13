@@ -68,5 +68,6 @@ extern void* __cdecl network_heap_allocate_block(int32 block_size);
 extern char* __cdecl network_heap_describe(char* buffer, int32 buffer_size);
 extern void __cdecl network_heap_free_block(void* block);
 extern void __cdecl network_memory_shared_dispose();
+extern void __cdecl network_memory_shared_initialize(e_map_memory_configuration memory_configuration);
 extern bool __cdecl network_memory_simulation_initialize(c_simulation_world** world, c_simulation_watcher** watcher, c_simulation_type_collection** type_collection);
 

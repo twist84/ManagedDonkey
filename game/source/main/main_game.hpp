@@ -4,6 +4,12 @@
 #include "game/game_progression.hpp"
 #include "game/game_options.hpp"
 
+struct s_configure_memory
+{
+	void(__cdecl* dispose_memory_proc)();
+	void(__cdecl* configure_memory_proc)(e_map_memory_configuration);
+};
+
 struct s_main_game_globals
 {
 	int32 map_memory_configuration;
@@ -32,6 +38,8 @@ struct s_main_game_globals
 };
 static_assert(sizeof(s_main_game_globals) == 0x497B8);
 
+//extern const s_configure_memory(&g_configure_memory_procs)[8];
+extern const s_configure_memory g_configure_memory_procs[8];
 extern s_main_game_globals& main_game_globals;
 
 // main_game_load_panic

@@ -16,6 +16,7 @@
 #include "input/input_windows.hpp"
 #include "interface/damaged_media.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
 #include "main/global_preferences.hpp"
@@ -29,22 +30,42 @@
 #include "memory/module.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/network_memory.hpp"
+#include "networking/online/online_files.hpp"
 #include "networking/online/online_guide_pc.hpp"
+#include "screenshots/screenshots_uploader.hpp"
 #include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 
+//REFERENCE_DECLARE_ARRAY(0x016587D8, const s_configure_memory, g_configure_memory_procs, 8);
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, load_panic_recursion_lock);
 
-bool debug_load_panic_to_main_menu = true;
-
 HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
+HOOK_DECLARE(0x00567230, main_game_configure_map_memory_pop);
+HOOK_DECLARE(0x00567270, main_game_configure_map_memory_push);
+HOOK_DECLARE(0x00567670, main_game_pregame_blocking_load);
 HOOK_DECLARE(0x00567AD0, main_game_load_panic);
 HOOK_DECLARE(0x00567C10, main_game_progression_request_level_advance_spoke);
 HOOK_DECLARE(0x00567C30, main_game_progression_request_level_advance);
 HOOK_DECLARE(0x00567C50, main_game_progression_request_level_advance_hub);
 HOOK_DECLARE(0x00567C70, main_game_progression_request_level_advance_normal);
 HOOK_DECLARE(0x00567E40, main_game_start);
+
+
+bool debug_load_panic_to_main_menu = true;
+
+const s_configure_memory g_configure_memory_procs[8]
+{
+	{ optional_cache_memory_dispose, optional_cache_memory_initialize },
+	{ network_memory_shared_dispose, network_memory_shared_initialize },
+	{ user_interface_memory_dispose, user_interface_memory_initialize },
+	{ user_interface_networking_memory_dispose, user_interface_networking_memory_initialize },
+	{ online_files_memory_dispose, online_files_memory_initialize },
+	{ bink_playback_memory_dispose, bink_playback_memory_initialize },
+	{ NULL, NULL /*saved_film_manager_memory_dispose, saved_film_manager_memory_initialize*/ },
+	{ screenshots_uploader_memory_dispose, screenshots_uploader_memory_initialize },
+};
 
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor

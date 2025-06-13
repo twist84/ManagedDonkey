@@ -11,6 +11,7 @@
 #include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/interface_constants.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_mouse.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_player_model_camera.hpp"

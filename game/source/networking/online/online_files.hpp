@@ -307,5 +307,6 @@ extern int32& k_online_files_automatic_refresh_milliseconds;
 extern void __cdecl online_files_dispose();
 extern void __cdecl online_files_initialize();
 extern void __cdecl online_files_memory_dispose();
+extern void __cdecl online_files_memory_initialize(e_map_memory_configuration memory_configuration);
 extern void __cdecl online_files_update();
 
