@@ -39,6 +39,11 @@ bool gui_debug_list_bounds_global = false;
 bool gui_debug_group_bounds_global = false;
 bool gui_debug_screen_bounds_global = false;
 
+void* c_gui_widget::operator new(unsigned int size)
+{
+	return user_interface_malloc_tracked(size, __FILE__, __LINE__);
+}
+
 c_gui_bitmap_widget* __thiscall c_gui_widget::create_bitmap_widget_(const s_runtime_bitmap_widget_definition* definition)
 {
 	return c_gui_widget::create_bitmap_widget(definition);
@@ -157,7 +162,7 @@ void c_gui_widget::animate_recursively(uns32 current_milliseconds)
 	//INVOKE_CLASS_MEMBER(0x00AB6C20, c_gui_widget, animate_recursively, current_milliseconds);
 
 	c_gui_widget::animate(current_milliseconds);
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type == _gui_screen)
 		{
@@ -667,7 +672,7 @@ c_gui_widget* c_gui_widget::get_last_child_widget_by_type(e_gui_widget_type type
 	return INVOKE_CLASS_MEMBER(0x00AB9010, c_gui_widget, get_last_child_widget_by_type, type);
 
 	//c_gui_widget* last_child_widget = NULL;
-	//for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	//for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	//{
 	//	if (child_widget->m_type != type)
 	//	{
@@ -1048,7 +1053,7 @@ void c_gui_widget::post_initialize()
 {
 	//INVOKE_CLASS_MEMBER(0x00AB9DD0, c_gui_widget, post_initialize);
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type == _gui_screen)
 		{
@@ -1417,7 +1422,7 @@ void c_gui_widget::set_enabled(bool value)
 
 	m_enabled = value;
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type == _gui_screen)
 		{
@@ -1435,7 +1440,7 @@ void c_gui_widget::set_full_animation_state(const s_animation_transform* transfo
 	m_animated_state = *transform;
 	if (recursive)
 	{
-		for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+		for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 		{
 			child_widget->set_full_animation_state(transform, recursive);
 		}
@@ -1482,7 +1487,7 @@ void c_gui_widget::set_use_alternate_ambient_state(bool value)
 	//INVOKE_CLASS_MEMBER(0x00ABA760, c_gui_widget, set_use_alternate_ambient_state, value);
 
 	m_use_alternate_ambient_state = value;
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		child_widget->set_use_alternate_ambient_state(value);
 	}
@@ -1495,7 +1500,7 @@ void c_gui_widget::set_visible(bool value)
 	//INVOKE_CLASS_MEMBER(0x00ABA7E0, c_gui_widget, set_visible, value);
 
 	m_visible = value;
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (m_type == _gui_screen)
 		{
@@ -1560,7 +1565,7 @@ void c_gui_widget::update(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABB070, c_gui_widget, update, current_milliseconds);
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type == _gui_screen)
 		{
@@ -1575,7 +1580,7 @@ void c_gui_widget::update_animation(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABB0E0, c_gui_widget, update_animation, current_milliseconds);
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type == _gui_screen)
 		{
@@ -1617,7 +1622,7 @@ void c_gui_widget::update_render_state(uns32 current_milliseconds)
 		return;
 	}
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type == _gui_screen)
 		{

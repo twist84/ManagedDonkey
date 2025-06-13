@@ -84,6 +84,11 @@ static_assert(sizeof(s_overlapped_globals) == 0x1A8C);
 
 static s_overlapped_globals g_overlapped_globals{};
 
+void* c_overlapped_task::operator new(unsigned int size)
+{
+	return overlapped_malloc_tracked(size, __FILE__, __LINE__);
+}
+
 c_async_xoverlapped_scope_lock::c_async_xoverlapped_scope_lock()
 {
 	if (game_is_multithreaded())
@@ -94,11 +99,6 @@ c_async_xoverlapped_scope_lock::~c_async_xoverlapped_scope_lock()
 {
 	if (game_is_multithreaded())
 		internal_critical_section_leave(k_crit_section_async_xoverlapped_memory);
-}
-
-void* c_overlapped_task::operator new(unsigned int size)
-{
-	return overlapped_malloc_tracked(sizeof(c_virtual_keyboard_task), __FILE__, __LINE__);
 }
 
 bool c_overlapped_task::busy() const
