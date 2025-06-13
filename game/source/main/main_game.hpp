@@ -57,7 +57,7 @@ extern bool __cdecl main_game_change_in_progress();
 extern void __cdecl main_game_change_update();
 extern void __cdecl main_game_configure_map_memory(const game_options* options);
 extern void __cdecl main_game_configure_map_memory_pop();
-extern void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration configuration);
+extern void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration desired_memory_configuration);
 extern bool __cdecl main_game_goto_next_level();
 extern void __cdecl main_game_initialize();
 extern void __cdecl main_game_internal_close_caches();
