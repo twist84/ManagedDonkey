@@ -28,30 +28,167 @@ REFERENCE_DECLARE(0x05269798, real32, c_gui_screen_scoreboard::m_console_scorebo
 HOOK_DECLARE_CLASS_MEMBER(0x00AB42F0, c_gui_scoreboard_data, update_for_scoreboard_mode_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, update_render_state_);
 
-void c_scoreboard_load_screen_message::set_is_interactive(bool is_interactive)
+void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_session, bool include_score)
 {
-	m_is_interactive = is_interactive;
+	c_gui_scoreboard_data::update_for_scoreboard_mode(use_session, include_score);
 }
 
-void c_gui_screen_scoreboard::set_is_interactive(bool is_interactive)
+void __thiscall c_gui_screen_scoreboard::update_render_state_(uns32 current_milliseconds)
 {
-	m_is_interactive = is_interactive;
+	c_gui_screen_scoreboard::update_render_state(current_milliseconds);
 }
 
-void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, int32 x, int32 y)
+c_gui_screen_scoreboard::c_gui_screen_scoreboard(int32 name) :
+	c_gui_screen_widget(name),
+	m_current_scoreboard_mode(_scoreboard_mode_none),
+	m_is_interactive(false)
 {
-	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, x, y);
+	//DECLFUNC(0x00AB2A90, void, __thiscall, c_gui_screen_scoreboard*, int32)(this, name);
+
+	m_render_in_screenshot = true;
 }
 
-// c_scoreboard_load_screen_message::c_scoreboard_load_screen_message
-c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboard_load_screen_message* message,
-	int32 screen_name,
-	e_controller_index controller,
-	e_window_index window,
-	int32 layered_position,
-	bool is_interactive)
+c_scoreboard_load_screen_message::c_scoreboard_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, bool is_interactive) :
+	c_load_screen_message(screen_name, controller, window, layered_position),
+	m_is_interactive(is_interactive)
 {
-	return DECLFUNC(0x00AB2AD0, c_scoreboard_load_screen_message*, __thiscall, c_scoreboard_load_screen_message*, int32, e_controller_index, e_window_index, int32, bool)(message, screen_name, controller, window, layered_position, is_interactive);
+	//DECLFUNC(0x00AB2AD0, void, __thiscall, c_scoreboard_load_screen_message*, int32, e_controller_index, e_window_index, int32, bool)(this, screen_name, controller, window, layered_position, is_interactive);
+}
+
+c_gui_scoreboard_data::s_player_row::s_player_row()
+{
+	DECLFUNC(0x00AB2B00, void, __thiscall, c_gui_scoreboard_data::s_player_row*)(this);
+}
+
+//.text:00AB2B40 ; public: virtual c_gui_scoreboard_data::~c_gui_scoreboard_data()
+//.text:00AB2B50 ; public: virtual c_gui_screen_scoreboard::~c_gui_screen_scoreboard()
+//.text:00AB2B60 ; public: virtual c_scoreboard_load_screen_message::~c_scoreboard_load_screen_message()
+//.text:00AB2B70 ; 
+//.text:00AB2B90 ; 
+//.text:00AB2BA0 ; public: virtual void* c_gui_scoreboard_data::`vector deleting destructor'(unsigned int)
+//.text:00AB2BD0 ; public: virtual void* c_gui_screen_scoreboard::`scalar deleting destructor'(unsigned int)
+//.text:00AB2C00 ; public: virtual void* c_scoreboard_load_screen_message::`vector deleting destructor'(unsigned int)
+
+c_gui_scoreboard_data::~c_gui_scoreboard_data()
+{
+}
+
+c_gui_screen_scoreboard::~c_gui_screen_scoreboard()
+{
+}
+
+c_scoreboard_load_screen_message::~c_scoreboard_load_screen_message()
+{
+}
+
+//.text:00AB2C30 ; private: bool __cdecl c_gui_scoreboard_data::add_player_internal(e_player_row_type, int32, int32, const s_player_appearance*, const wchar_t*, const wchar_t*, int32, int32, bool, e_controller_index, e_voice_talking_state, int32, const wchar_t*, const wchar_t*, const wchar_t*, bool, bool)
+bool c_gui_scoreboard_data::add_player_internal(
+	e_player_row_type player_row_type,
+	int32 game_player_index,
+	int32 session_player_index,
+	const s_player_appearance* appearance,
+	const wchar_t* name,
+	const wchar_t* service_tag,
+	int32 base_color_index,
+	int32 team_index,
+	bool show_team,
+	e_controller_index local_controller_index,
+	e_voice_talking_state voice_state,
+	int32 connectivity_rating,
+	const wchar_t* place,
+	const wchar_t* score,
+	const wchar_t* round_score,
+	bool is_dead,
+	bool left_game
+)
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB2C30, c_gui_scoreboard_data, add_player_internal,
+	//	player_row_type,
+	//	game_player_index,
+	//	session_player_index,
+	//	appearance,
+	//	name,
+	//	service_tag,
+	//	base_color_index,
+	//	team_index,
+	//	show_team,
+	//	local_controller_index,
+	//	voice_state,
+	//	connectivity_rating,
+	//	place,
+	//	score,
+	//	round_score,
+	//	is_dead,
+	//	left_game);
+
+	if (m_player_row_count >= 25)
+	{
+		return false;
+	}
+
+	m_player_rows[m_player_row_count].player_row_type = player_row_type;
+	m_player_rows[m_player_row_count].game_player_index = game_player_index;
+	m_player_rows[m_player_row_count].session_player_index = session_player_index;
+	csmemcpy(&m_player_rows[m_player_row_count].appearance, appearance, sizeof(s_player_appearance));
+	m_player_rows[m_player_row_count].name = name;
+	m_player_rows[m_player_row_count].service_tag = service_tag;
+	m_player_rows[m_player_row_count].base_color_index = base_color_index;
+	m_player_rows[m_player_row_count].team_index = team_index;
+	m_player_rows[m_player_row_count].show_team = show_team;
+	m_player_rows[m_player_row_count].local_controller_index = local_controller_index;
+	m_player_rows[m_player_row_count].voice_state = voice_state;
+	m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
+	m_player_rows[m_player_row_count].place = place;
+	m_player_rows[m_player_row_count].score = score;
+	m_player_rows[m_player_row_count].round_score = round_score;
+	m_player_rows[m_player_row_count].is_dead = is_dead;
+	m_player_rows[m_player_row_count].left_game = left_game;
+	m_player_row_count++;
+
+	return true;
+}
+
+void c_scoreboard_load_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
+{
+	//INVOKE_CLASS_MEMBER(0x00AB2E10, c_scoreboard_load_screen_message, apply_initial_state, screen_widget);
+
+	c_gui_screen_scoreboard* scoreboard = (c_gui_screen_scoreboard*)screen_widget;
+	scoreboard->set_is_interactive(m_is_interactive);
+}
+
+void c_gui_scoreboard_data::get_column_names(int32* const column_names, int32* column_count)
+{
+	INVOKE_CLASS_MEMBER(0x00AB2E30, c_gui_scoreboard_data, get_column_names, column_names, column_count);
+}
+
+//.text:00AB2EE0 ; public: static int32 c_static_array<c_gui_scoreboard_data::s_player_row, 25>::get_count()
+
+int32 c_gui_scoreboard_data::get_current_item_count_internal()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB2EF0, c_gui_scoreboard_data, get_current_item_count_internal);
+
+	return m_player_row_count;
+}
+
+//.text:00AB2F00 ; 
+
+bool c_gui_scoreboard_data::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB2F10, c_gui_scoreboard_data, get_integer_value, element_handle, value_name, value);
+}
+
+//.text:00AB3070 ; public: bool c_gui_screen_scoreboard::get_is_interactive() const
+
+bool c_gui_scoreboard_data::get_player_appearance(int32 element_handle, s_player_appearance* appearance)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB3090, c_gui_scoreboard_data, get_player_appearance, element_handle, appearance);
+}
+
+e_render_data_size c_gui_screen_scoreboard::get_render_data_size()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AB30E0, c_gui_screen_scoreboard, get_render_data_size);
+
+	return k_render_data_size_large;
 }
 
 real32 __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
@@ -64,9 +201,35 @@ c_gui_screen_scoreboard* __cdecl c_gui_screen_scoreboard::get_scoreboard_screen(
 	return INVOKE(0x00AB3120, c_gui_screen_scoreboard::get_scoreboard_screen, controller_index);
 }
 
+bool c_gui_scoreboard_data::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB31A0, c_gui_scoreboard_data, get_text_value, element_handle, value_name, buffer);
+}
+
+bool c_gui_screen_scoreboard::handle_controller_input_message(const c_controller_input_message* message)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB3230, c_gui_screen_scoreboard, handle_controller_input_message, message);
+}
+
+bool c_gui_screen_scoreboard::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB3470, c_gui_screen_scoreboard, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
+}
+
 void __cdecl c_gui_screen_scoreboard::hide_scoreboard(e_controller_index controller_index)
 {
-	return INVOKE(0x00AB3560, c_gui_screen_scoreboard::hide_scoreboard, controller_index);
+	//return INVOKE(0x00AB3560, c_gui_screen_scoreboard::hide_scoreboard, controller_index);
+
+	c_gui_screen_scoreboard* scoreboard = c_gui_screen_scoreboard::get_scoreboard_screen(controller_index);
+	if (scoreboard && !scoreboard->transitioning_out())
+	{
+		scoreboard->transition_out(_transition_out_normal);
+	}
+}
+
+void c_gui_screen_scoreboard::initialize_datasource()
+{
+	INVOKE_CLASS_MEMBER(0x00AB3590, c_gui_screen_scoreboard, initialize_datasource);
 }
 
 bool __cdecl c_gui_screen_scoreboard::is_scoreboard_displayed(e_controller_index controller_index)
@@ -76,216 +239,137 @@ bool __cdecl c_gui_screen_scoreboard::is_scoreboard_displayed(e_controller_index
 
 bool __cdecl c_gui_screen_scoreboard::is_scoreboard_interactive(e_controller_index controller_index)
 {
-	return INVOKE(0x00AB3740, c_gui_screen_scoreboard::is_scoreboard_interactive, controller_index);
+	//return INVOKE(0x00AB3740, c_gui_screen_scoreboard::is_scoreboard_interactive, controller_index);
+
+	c_gui_screen_scoreboard* scoreboard = c_gui_screen_scoreboard::get_scoreboard_screen(controller_index);
+	return scoreboard && scoreboard->m_is_interactive && !scoreboard->transitioning_out();
 }
+
+//.text:00AB3770 ; uns64 __cdecl user_interface_session_player_get_usable_player_xuid(const s_player_identifier*)
+
+void c_gui_screen_scoreboard::post_initialize()
+{
+	INVOKE_CLASS_MEMBER(0x00AB3810, c_gui_screen_scoreboard, post_initialize);
+}
+
+int __cdecl c_gui_scoreboard_data::scoreboard_sort_proc_for_multiplayer(const void* a, const void* b)
+{
+	return INVOKE(0x00AB38A0, c_gui_scoreboard_data::scoreboard_sort_proc_for_multiplayer, a, b);
+}
+
+int __cdecl c_gui_scoreboard_data::scoreboard_sort_proc_for_session(const void* a, const void* b)
+{
+	return INVOKE(0x00AB3A00, c_gui_scoreboard_data::scoreboard_sort_proc_for_session, a, b);
+}
+
+//.text:00AB3A20 ; private: bool c_gui_screen_scoreboard::select_player_in_scoreboard(e_controller_index, const s_player_identifier*)
+
+void c_gui_screen_scoreboard::set_is_interactive(bool value)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB3B30, c_gui_screen_scoreboard, set_is_interactive, value);
+
+	m_is_interactive = value;
+}
+
+void c_gui_scoreboard_data::set_scoreboard_mode(c_gui_screen_scoreboard::e_scoreboard_mode value)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB3B40, c_gui_scoreboard_data, set_scoreboard_mode, value);
+
+	m_current_scoreboard_mode = value;
+}
+
+void c_gui_screen_scoreboard::set_scoreboard_mode(e_scoreboard_mode scoreboard_mode)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB3B50, c_gui_screen_scoreboard, set_scoreboard_mode, scoreboard_mode);
+
+	c_gui_scoreboard_data* scoreboard_data = (c_gui_scoreboard_data*)c_gui_screen_widget::get_data(STRING_ID(gui, scoreboard), NULL);
+	if (scoreboard_data)
+	{
+		m_current_scoreboard_mode = scoreboard_mode;
+		scoreboard_data->set_scoreboard_mode(scoreboard_mode);
+	}
+}
+
+//.text:00AB3B80 ; 
+//.text:00AB3B90 ; 
+//.text:00AB3BA0 ; private: bool c_gui_screen_scoreboard::should_show_round_score(e_controller_index, e_scoreboard_mode) const
+//.text:00AB3C30 ; public: static bool __cdecl c_gui_screen_scoreboard::should_show_score(e_scoreboard_mode)
 
 void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index controller_index, bool is_interactive)
 {
-	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
+	//INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
 
-	//if (is_scoreboard_displayed(controller_index))
-	//{
-	//	if (c_gui_screen_scoreboard* scoreboard_screen = get_scoreboard_screen(controller_index))
-	//	{
-	//		scoreboard_screen->set_is_interactive(is_interactive);
-	//	}
-	//}
-	//else
-	//{
-	//	bool half_screen = false;
-	//	if (controller_index == k_any_controller)
-	//	{
-	//		half_screen = true;
-	//	}
-	//	else
-	//	{
-	//		int32 user_index = controller_get(controller_index)->get_user_index();
-	//		if (user_index != NONE)
-	//		{
-	//			int32 v1 = 0;
-	//			int32 v2 = 0;
-	//			user_interface_get_number_of_render_windows(user_index, &v1, &v2);
-	//			half_screen = v2 == 1;
-	//		}
-	//	}
-	//
-	//	c_scoreboard_load_screen_message* message = (c_scoreboard_load_screen_message*)user_interface_malloc_tracked(sizeof(c_scoreboard_load_screen_message), __FILE__, __LINE__);
-	//	if (scoreboard_load_screen_message_ctor(
-	//		message,
-	//		!half_screen + STRING_ID(gui, scoreboard),
-	//		controller_index,
-	//		user_interface_get_window_for_controller(controller_index),
-	//		STRING_ID(gui, top_most),
-	//		is_interactive))
-	//	{
-	//		user_interface_messaging_post(message);
-	//	}
-	//}
-}
-
-void __thiscall c_gui_screen_scoreboard::update_render_state_(uns32 current_milliseconds)
-{
-	// 0x00AB4920
-	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, uns32), _this, a2);
-
-	c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
-	c_gui_data* data = get_data(STRING_ID(gui, scoreboard), 0);
-
-	INVOKE_CLASS_MEMBER(0x00ABB1A0, c_gui_widget, update_render_state, current_milliseconds);
-
-	if (child_list_widget)
+	if (c_gui_screen_scoreboard::is_scoreboard_displayed(controller_index))
 	{
-		if (data)
+		if (c_gui_screen_scoreboard* scoreboard_screen = c_gui_screen_scoreboard::get_scoreboard_screen(controller_index))
 		{
-			bool has_teams = game_engine_has_teams();
-
-			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_list_item));
-				list_item_widget;
-				list_item_widget = list_item_widget->get_next_list_item_widget(true))
+			scoreboard_screen->set_is_interactive(is_interactive);
+		}
+	}
+	else
+	{
+		bool half_screen = false;
+		if (controller_index == k_any_controller)
+		{
+			half_screen = true;
+		}
+		else
+		{
+			int32 user_index = controller_get(controller_index)->get_user_index();
+			if (user_index != NONE)
 			{
-				c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
-				c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
-				c_gui_text_widget* team_bar_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, team_bar));
-				c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
-				c_gui_text_widget* service_tag_hilite_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag_hilite));
-				c_gui_text_widget* place_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, place));
-				c_gui_text_widget* score_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, score));
-				c_gui_text_widget* round_score_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, round_score));
-				c_gui_bitmap_widget* team_bar_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, team_bar));
-				c_gui_bitmap_widget* observer_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, observer));
-
-				int32 element_handle = list_item_widget->get_element_handle();
-
-				int32 player_row_type = 0;
-				int32 base_color = 0;
-				int32 team_color = NONE;
-
-				if (data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
-					&& data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color)
-					&& data->get_integer_value(element_handle, STRING_ID(gui, team_color), &team_color))
-				{
-					int32 color_list_index = base_color;
-					if (has_teams)
-					{
-						color_list_index = team_color;
-						tint_widget_to_change_color(base_color_bitmap_widget, color_list_index, has_teams);
-					}
-					else
-					{
-						base_color |= (255 << 24);
-						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uns32>(base_color) });
-					}
-
-					tint_widget_to_change_color((c_gui_widget*)name_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color((c_gui_widget*)team_bar_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color((c_gui_widget*)service_tag_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color((c_gui_widget*)service_tag_hilite_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color((c_gui_widget*)place_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color((c_gui_widget*)score_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color((c_gui_widget*)round_score_text_widget, color_list_index, has_teams);
-					tint_widget_to_change_color(team_bar_bitmap_widget, color_list_index, true);
-					tint_widget_to_change_color(observer_bitmap_widget, 16, true);
-				}
+				int32 horizontal_window_count = 0;
+				int32 vertical_window_count = 0;
+				user_interface_get_number_of_render_windows(user_index, &horizontal_window_count, &vertical_window_count);
+				half_screen = vertical_window_count == 1;
 			}
 		}
-
-		c_gui_widget* button_key_child_list_widget = get_first_child_widget_by_type(_gui_button_key);
-		if (button_key_child_list_widget)
+	
+		if (c_scoreboard_load_screen_message* message = new c_scoreboard_load_screen_message(!half_screen + STRING_ID(gui, scoreboard),
+			controller_index,
+			user_interface_get_window_for_controller(controller_index),
+			STRING_ID(gui, top_most),
+			is_interactive))
 		{
-			int32 v18 = 0;
-			int32 y19 = 0;
-			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_list_item));
-				list_item_widget;
-				list_item_widget = list_item_widget->get_next_list_item_widget(false))
-			{
-				real_rectangle2d current_bounds{};
-				list_item_widget->get_current_bounds(&current_bounds);
-
-				if (list_item_widget->get_element_handle() != NONE)
-					y19 = (int32)current_bounds.y0;
-
-				v18 = (int32)current_bounds.y0;
-			}
-
-			if (y19 != v18)
-				translate_widget_recursive(button_key_child_list_widget, 0, y19 - v18);
+			user_interface_messaging_post(message);
 		}
 	}
 }
 
-void __cdecl c_gui_screen_scoreboard::update_scoreboard_alpha(e_controller_index controller_index)
-{
-	INVOKE(0x00AB4C50, c_gui_screen_scoreboard::update_scoreboard_alpha, controller_index);
-}
+//.text:00AB3D80 ; public: void c_static_array<c_gui_scoreboard_data::s_player_row, 25>::sort(int32, int(__cdecl*)(const void*, const void*))
 
-bool __cdecl c_gui_scoreboard_data::add_player_internal(
-	e_player_row_type player_row_type,
-	int32 game_player_index,
-	int32 session_player_index,
-	const s_player_appearance* appearance,
-	const wchar_t* player_name,
-	const wchar_t* service_tag,
-	int32 base_color_index,
-	int32 team_index,
-	bool show_team,
-	e_controller_index controller_index,
-	e_voice_talking_state voice_state,
-	int32 connectivity_rating,
-	const wchar_t* place,
-	const wchar_t* score,
-	const wchar_t* round_score,
-	bool is_dead,
-	bool left_game
-)
+void c_gui_scoreboard_data::update()
 {
-	//return INVOKE_CLASS_MEMBER(0x00B24940, c_gui_scoreboard_data, add_player_internal,
-	//	player_row_type,
-	//	game_player_index,
-	//	session_player_index,
-	//	appearance,
-	//	player_name,
-	//	service_tag,
-	//	base_color_index,
-	//	team_index,
-	//	show_team,
-	//	controller_index,
-	//	voice_state,
-	//	connectivity_rating,
-	//	place,
-	//	score,
-	//	round_score,
-	//	is_dead,
-	//	left_game);
+	//INVOKE_CLASS_MEMBER(0x00AB3DA0, c_gui_scoreboard_data, update);
 
-	if (m_player_row_count < 25)
+	switch (m_current_scoreboard_mode)
 	{
-		m_player_rows[m_player_row_count].player_row_type = player_row_type;
-		m_player_rows[m_player_row_count].game_player_index = game_player_index;
-		m_player_rows[m_player_row_count].session_player_index = session_player_index;
-		csmemcpy(&m_player_rows[m_player_row_count].player_appearance, appearance, sizeof(s_player_appearance));
-		m_player_rows[m_player_row_count].player_name = player_name;
-		m_player_rows[m_player_row_count].service_tag = service_tag;
-		m_player_rows[m_player_row_count].base_color_index = base_color_index;
-		m_player_rows[m_player_row_count].team_index = team_index;
-		m_player_rows[m_player_row_count].show_team = show_team;
-		m_player_rows[m_player_row_count].local_controller_index = controller_index;
-		m_player_rows[m_player_row_count].voice_state = voice_state;
-		m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
-		m_player_rows[m_player_row_count].place = place;
-		m_player_rows[m_player_row_count].score = score;
-		m_player_rows[m_player_row_count].round_score = round_score;
-		m_player_rows[m_player_row_count].is_dead = is_dead;
-		m_player_rows[m_player_row_count].left_game = left_game;
-		m_player_row_count++;
-
-		return true;
+	case c_gui_screen_scoreboard::_scoreboard_mode_game:
+	case c_gui_screen_scoreboard::_scoreboard_mode_game_film:
+	{
+		c_gui_scoreboard_data::update_for_scoreboard_mode(false, game_in_progress() && game_is_multiplayer());
 	}
-
-	return false;
+	break;
+	case c_gui_screen_scoreboard::_scoreboard_mode_session:
+	case c_gui_screen_scoreboard::_scoreboard_mode_session_film:
+	{
+		c_gui_scoreboard_data::update_for_scoreboard_mode(true, false);
+	}
+	break;
+	}
 }
 
-void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_session, bool include_score)
+void c_gui_screen_scoreboard::update(uns32 current_milliseconds)
 {
+	INVOKE_CLASS_MEMBER(0x00AB3E10, c_gui_screen_scoreboard, update, current_milliseconds);
+}
+
+//.text:00AB4060 ; private: void c_gui_screen_scoreboard::update_button_key()
+
+void c_gui_scoreboard_data::update_for_scoreboard_mode(bool use_session, bool include_score)
+{
+	//INVOKE_CLASS_MEMBER(0x00AB42F0, c_gui_scoreboard_data, update_for_scoreboard_mode, use_session, include_score);
+
 	static c_static_wchar_string<256> place_string;
 	static c_static_wchar_string<256> score_string;
 	static c_static_wchar_string<256> round_score_string;
@@ -498,21 +582,108 @@ void __thiscall c_gui_scoreboard_data::update_for_scoreboard_mode_(bool use_sess
 	qsort(m_player_rows.get_elements(), m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
 }
 
-int __cdecl c_gui_scoreboard_data::scoreboard_sort_proc_for_multiplayer(const void* a, const void* b)
+//.text:00AB44E0 ; private: void c_gui_screen_scoreboard::update_player_list()
+
+void c_gui_screen_scoreboard::update_render_state(uns32 current_milliseconds)
 {
-	return INVOKE(0x00AB38A0, c_gui_scoreboard_data::scoreboard_sort_proc_for_multiplayer, a, b);
+	//INVOKE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, update_render_state, current_milliseconds);
+
+	c_gui_widget::update_render_state(current_milliseconds);
+
+	c_gui_list_widget* scoreboard_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
+	if (!scoreboard_list_widget)
+	{
+		return;
+	}
+
+	c_gui_scoreboard_data* scoreboard_data = (c_gui_scoreboard_data*)c_gui_screen_widget::get_data(STRING_ID(gui, scoreboard), NULL);
+	if (scoreboard_data)
+	{
+		bool has_teams = game_engine_has_teams();
+
+		for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)scoreboard_list_widget->get_first_child_widget_by_type(_gui_list_item);
+			list_item_widget;
+			list_item_widget = list_item_widget->get_next_list_item_widget(true))
+		{
+			c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
+			c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
+			c_gui_text_widget* team_bar_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, team_bar));
+			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
+			c_gui_text_widget* service_tag_hilite_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag_hilite));
+			c_gui_text_widget* place_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, place));
+			c_gui_text_widget* score_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, score));
+			c_gui_text_widget* round_score_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, round_score));
+			c_gui_bitmap_widget* team_bar_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, team_bar));
+			c_gui_bitmap_widget* observer_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, observer));
+
+			int32 element_handle = list_item_widget->get_element_handle();
+
+			int32 player_row_type = 0;
+			int32 base_color = 0;
+			int32 team_color = NONE;
+
+			if (!scoreboard_data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
+				|| !scoreboard_data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color)
+				|| !scoreboard_data->get_integer_value(element_handle, STRING_ID(gui, team_color), &team_color))
+			{
+				continue;
+			}
+
+			int32 color_list_index = base_color;
+			if (has_teams)
+			{
+				color_list_index = team_color;
+				tint_widget_to_change_color(base_color_bitmap_widget, color_list_index, has_teams);
+			}
+			else
+			{
+				base_color |= (255 << 24);
+				tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<uns32>(base_color) });
+			}
+
+			tint_widget_to_change_color((c_gui_widget*)name_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color((c_gui_widget*)team_bar_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color((c_gui_widget*)service_tag_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color((c_gui_widget*)service_tag_hilite_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color((c_gui_widget*)place_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color((c_gui_widget*)score_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color((c_gui_widget*)round_score_text_widget, color_list_index, has_teams);
+			tint_widget_to_change_color(team_bar_bitmap_widget, color_list_index, true);
+			tint_widget_to_change_color(observer_bitmap_widget, 16, true);
+		}
+	}
+
+	c_gui_widget* button_key_child_list_widget = get_first_child_widget_by_type(_gui_button_key);
+	if (button_key_child_list_widget)
+	{
+		int32 v18 = 0;
+		int32 y19 = 0;
+		for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)scoreboard_list_widget->get_first_child_widget_by_type(_gui_list_item);
+			list_item_widget;
+			list_item_widget = list_item_widget->get_next_list_item_widget(false))
+		{
+			real_rectangle2d current_bounds{};
+			list_item_widget->get_current_bounds(&current_bounds);
+
+			if (list_item_widget->get_element_handle() != NONE)
+			{
+				y19 = (int32)current_bounds.y0;
+			}
+
+			v18 = (int32)current_bounds.y0;
+		}
+
+		if (y19 != v18)
+		{
+			translate_widget_recursive(button_key_child_list_widget, 0, y19 - v18);
+		}
+	}
 }
 
-int __cdecl c_gui_scoreboard_data::scoreboard_sort_proc_for_session(const void* a, const void* b)
-{
-	return INVOKE(0x00AB3A00, c_gui_scoreboard_data::scoreboard_sort_proc_for_session, a, b);
-}
+//.text:00AB4B90 ; private: void c_gui_screen_scoreboard::update_score_message()
 
-//.text:00AB3A20 ; private: bool c_gui_screen_scoreboard::select_player_in_scoreboard(e_controller_index, const s_player_identifier*)
-//.text:00AB3B30 ; public: void c_gui_screen_scoreboard::set_is_interactive(bool)
-//.text:00AB3B80 ; 
-//.text:00AB3B90 ; 
-//.text:00AB3B40 ; 
-//.text:00AB3BA0 ; private: bool __cdecl c_gui_screen_scoreboard::should_show_round_score(e_controller_index, c_gui_screen_scoreboard::e_scoreboard_mode) const
-//.text:00AB3C30 ; public: static bool __cdecl c_gui_screen_scoreboard::should_show_score(c_gui_screen_scoreboard::e_scoreboard_mode)
+void __cdecl c_gui_screen_scoreboard::update_scoreboard_alpha(e_controller_index controller_index)
+{
+	INVOKE(0x00AB4C50, c_gui_screen_scoreboard::update_scoreboard_alpha, controller_index);
+}
 

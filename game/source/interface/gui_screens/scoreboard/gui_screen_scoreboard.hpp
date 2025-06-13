@@ -6,43 +6,52 @@
 #include "interface/user_interface_messages.hpp"
 #include "text/unicode.hpp"
 
-class c_scoreboard_load_screen_message :
-	public c_load_screen_message
-{
-public:
-	void set_is_interactive(bool is_interactive);
-
-protected:
-	bool m_is_interactive;
-};
-static_assert(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_message) + 0x4);
-
 class c_gui_screen_scoreboard :
 	public c_gui_screen_widget
 {
 public:
-	c_gui_screen_scoreboard(int32 name) :
-		c_gui_screen_widget(name)
+	enum e_scoreboard_mode
 	{
-		DECLFUNC(0x00AB2A90, void, __thiscall, c_gui_screen_scoreboard*, int32)(this, name);
-	}
+		_scoreboard_mode_none = 0,
+		_scoreboard_mode_game,
+		_scoreboard_mode_game_film,
+		_scoreboard_mode_session,
+		_scoreboard_mode_session_film,
+	};
+
+public:
+	void __thiscall update_render_state_(uns32 current_milliseconds);
+
+public:
+	virtual ~c_gui_screen_scoreboard();
+	virtual void post_initialize() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual void update_render_state(uns32 current_milliseconds) override;
+	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
+	virtual e_render_data_size get_render_data_size() override;
+	virtual void initialize_datasource() override;
+	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
+
+public:
+	c_gui_screen_scoreboard(int32 name);
 
 private:
 	static void __cdecl translate_widget_recursive(c_gui_widget* widget, int32 x, int32 y);
 
 public:
-	enum e_scoreboard_mode;
-
-	void set_is_interactive(bool is_interactive);
 	static real32 __cdecl get_scoreboard_alpha(e_controller_index controller_index);
 	static c_gui_screen_scoreboard* __cdecl get_scoreboard_screen(e_controller_index controller_index);
 	static void __cdecl hide_scoreboard(e_controller_index controller_index);
 	static bool __cdecl is_scoreboard_displayed(e_controller_index controller_index);
 	static bool __cdecl is_scoreboard_interactive(e_controller_index controller_index);
+	void set_is_interactive(bool value);
+
+private:
+	void set_scoreboard_mode(e_scoreboard_mode scoreboard_mode);
+
+public:
 	static void __cdecl show_scoreboard(e_controller_index controller_index, bool is_interactive);
 	static void __cdecl update_scoreboard_alpha(e_controller_index controller_index);
-
-	void __thiscall update_render_state_(uns32 current_milliseconds);
 
 protected:
 	int32 m_current_scoreboard_mode;
@@ -52,11 +61,32 @@ private:
 	static real32(&m_scoreboard_alpha)[4];
 	static real32& m_console_scoreboard_alpha;
 };
+static_assert(sizeof(c_gui_screen_scoreboard) == 0x1AA8);
 static_assert(sizeof(c_gui_screen_scoreboard) == sizeof(c_gui_screen_widget) + 0x8);
 
-class c_gui_scoreboard_data :
-	c_gui_ordered_data
+class c_scoreboard_load_screen_message :
+	public c_load_screen_message
 {
+public:
+	virtual ~c_scoreboard_load_screen_message();
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_scoreboard_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, bool is_interactive);
+
+protected:
+	bool m_is_interactive;
+};
+static_assert(sizeof(c_scoreboard_load_screen_message) == 0x40);
+static_assert(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_message) + 0x4);
+
+class c_gui_scoreboard_data :
+	public c_gui_ordered_data
+{
+public:
+	void __thiscall update_for_scoreboard_mode_(bool use_session, bool include_score);
+
+public:
 	enum e_player_row_type
 	{
 		_player_row_type_player = 0,
@@ -76,35 +106,23 @@ class c_gui_scoreboard_data :
 
 	struct s_player_row
 	{
-		e_player_row_type player_row_type;
+		s_player_row();
 
+		e_player_row_type player_row_type;
 		int32 game_player_index;
 		int32 session_player_index;
-
-		s_player_appearance player_appearance;
-		c_static_wchar_string<48> player_name;
+		s_player_appearance appearance;
+		c_static_wchar_string<48> name;
 		c_static_wchar_string<48> service_tag;
-
-		// `base_color_index` -> `color_list_index`
-		// tint_color = user_interface_shared_tag_globals->tint_colors
-		// color_list = tint_color->text_player[color_list_index]
-		// color_list = tint_color->text_team[color_list_index]
-		// color_list = tint_color->bitmap_player[color_list_index]
-		// color_list = tint_color->bitmap_team[color_list_index]
-		// color = color_list.color
 		int32 base_color_index;
-
 		int32 team_index;
 		bool show_team;
-
 		e_controller_index local_controller_index;
 		e_voice_talking_state voice_state;
 		int32 connectivity_rating;
-
 		c_static_wchar_string<48> place;
 		c_static_wchar_string<48> score;
 		c_static_wchar_string<48> round_score;
-
 		bool is_dead;
 		bool left_game;
 	};
@@ -112,7 +130,19 @@ class c_gui_scoreboard_data :
 
 	using scoreboard_sort_proc_t = int __cdecl(const void*, const void*);
 
-	bool __cdecl add_player_internal(
+public:
+	virtual ~c_gui_scoreboard_data();
+	virtual void update() override;
+	virtual void get_column_names(int32* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_player_appearance(int32 element_handle, s_player_appearance* appearance) override;
+
+protected:
+	virtual int32 get_current_item_count_internal() override;
+
+private:
+	bool add_player_internal(
 		e_player_row_type player_row_type,
 		int32 game_player_index,
 		int32 session_player_index,
@@ -131,22 +161,19 @@ class c_gui_scoreboard_data :
 		bool is_dead,
 		bool left_game);
 
-	void __thiscall update_for_scoreboard_mode_(bool use_session, bool include_score);
 	static int __cdecl scoreboard_sort_proc_for_multiplayer(const void* a, const void* b);
 	static int __cdecl scoreboard_sort_proc_for_session(const void* a, const void* b);
 
+public:
+	void set_scoreboard_mode(c_gui_screen_scoreboard::e_scoreboard_mode value);
+	void update_for_scoreboard_mode(bool use_session, bool include_score);
+
 //protected:
-	int32 m_current_scoreboard_mode;
+	c_gui_screen_scoreboard::e_scoreboard_mode m_current_scoreboard_mode;
 	c_static_array<s_player_row, 25> m_player_rows;
 	int32 m_player_row_count;
-	c_enum<e_controller_index, int32, _controller0, k_number_of_controllers> m_controller_index;
+	e_controller_index m_driving_controller;
 };
+static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
 static_assert(sizeof(c_gui_scoreboard_data) == sizeof(c_gui_ordered_data) + 0xD234);
-
-extern c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboard_load_screen_message* message,
-	int32 screen_name,
-	e_controller_index controller,
-	e_window_index window,
-	int32 layered_position,
-	bool is_interactive);
 

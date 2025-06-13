@@ -6,6 +6,7 @@
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
 #include "interface/gui_screens/motd_popup/gui_screen_motd_popup.hpp"
+#include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_memory.hpp"
@@ -265,7 +266,7 @@ void c_gui_screen_widget::dispose_child_screens()
 {
 	//INVOKE_CLASS_MEMBER(0x00AB0A20, c_gui_screen_widget, dispose_child_screens);
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type != _gui_screen)
 		{
@@ -305,7 +306,7 @@ c_gui_group_widget* c_gui_screen_widget::get_button_key_widget()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB0C60, c_gui_screen_widget, get_button_key_widget);
 
-	for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	{
 		if (child_widget->m_type != _gui_button_key || !TEST_BIT(child_widget->get_core_definition()->flags, 6))
 		{
@@ -1020,6 +1021,21 @@ void c_gui_screen_widget::transition_out_with_transition_type(e_transition_out_t
 }
 
 //.text:00AB2870 ; private: void c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget*, int32, int32)
+
+void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, int32 x, int32 y)
+{
+	//INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, x, y);
+
+	s_animation_transform transform = widget->m_animated_state;
+	transform.position.x += (real32)x;
+	transform.position.y += (real32)y;
+	widget->set_full_animation_state(&transform, false);
+
+	for (c_gui_widget* child_widget = widget->get_children(); child_widget; child_widget = child_widget->get_next())
+	{
+		c_gui_screen_scoreboard::translate_widget_recursive(child_widget, x, y);
+	}
+}
 
 bool c_gui_screen_widget::try_and_get_render_data_emblem_info(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info)
 {
