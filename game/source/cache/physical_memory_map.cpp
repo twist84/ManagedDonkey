@@ -1,6 +1,5 @@
 #include "cache/physical_memory_map.hpp"
 
-#include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0238EC50, s_physical_memory_globals, physical_memory_globals);
@@ -9,6 +8,9 @@ REFERENCE_DECLARE(0x0238ED08, void*, k_physical_memory_base_virtual_address);
 REFERENCE_DECLARE(0x0238ED0C, void*, k_virtual_to_physical_base_offset);
 
 HOOK_DECLARE(0x0051DB10, physical_memory_resize_region_lock);
+
+// enabled by default as `physical_memory_free` doesn't free anything
+#define EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_FIXED_MEMORY
 
 uns32 g_physical_memory_data_size_increase_mb = 0;
 uns32 g_physical_memory_cache_size_increase_mb = 100;
@@ -48,7 +50,11 @@ static_assert(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
 void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, const char* name, int32 size, uns32 flags)
 {
+#if !defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_FIXED_MEMORY)
 	return INVOKE(0x0051D180, _physical_memory_malloc_fixed, stage, name, size, flags);
+#else
+	return physical_memory_system_malloc(size, NULL);
+#endif
 }
 
 uns32 __cdecl align_up(uns32 value, int32 alignment_bits)
@@ -110,7 +116,11 @@ void __cdecl physical_memory_dispose()
 
 void __cdecl physical_memory_free(void* memory) // nullsub
 {
+#if !defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_FIXED_MEMORY)
 	INVOKE(0x0051D5C0, physical_memory_free, memory);
+#else
+	physical_memory_system_free(memory);
+#endif
 }
 //HOOK_DECLARE(0x0051D5C0, physical_memory_free);
 

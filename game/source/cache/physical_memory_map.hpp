@@ -9,6 +9,7 @@ enum
 	k_physical_memory_compression_scratch_buffer_size = 0x4B000,
 	k_physical_memory_runtime_state_size = 0x380000,
 	k_physical_memory_tag_cache_size = 0x4B00000,
+	k_physical_memory_tag_cache_size_new = 0x6400000,
 	k_physical_memory_cache_file_debug_globals_size = 0xF1B300,
 
 	k_physical_memory_data_size = 0xAE00000,
@@ -37,6 +38,14 @@ enum memory_stage
 
 	k_memory_stage_count
 };
+
+class c_physical_memory_allocation :
+	public c_allocation_base
+{
+	memory_stage m_memory_stage;
+};
+static_assert(sizeof(c_physical_memory_allocation) == 0x8);
+static_assert(sizeof(c_physical_memory_allocation) == sizeof(c_allocation_base) + 0x4);
 
 struct s_physical_memory_stage
 {

@@ -834,6 +834,17 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resou
 
 //#define EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE
 
+enum
+{
+#if !defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE)
+	//  75 * 1024 * 1024 or 75MiB
+	k_tag_cache_size = k_physical_memory_tag_cache_size,
+#else
+	// 100 * 1024 * 1024 or 100MiB
+	k_tag_cache_size = k_physical_memory_tag_cache_size_new
+#endif
+};
+
 bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 {
 	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
@@ -1204,11 +1215,7 @@ void __cdecl cache_file_tags_unload()
 
 	if (g_cache_file_globals.tag_cache_base_address)
 	{
-#if defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE)
-		physical_memory_system_free(g_cache_file_globals.tag_cache_base_address);
-#else
 		physical_memory_free(g_cache_file_globals.tag_cache_base_address);
-#endif
 
 		g_cache_file_globals.tag_cache_base_address = NULL;
 		g_cache_file_globals.tag_loaded_size = 0;
@@ -1331,14 +1338,10 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 
 		g_cache_file_globals.tag_loaded_count = 0;
 
-#if defined(EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_TAG_CACHE)
 		//g_cache_file_globals.tag_cache_size = g_cache_file_globals.header.total_tags_size;
-		g_cache_file_globals.tag_cache_size = 0x6400000; // 100 * 1024 * 1024 or 100MiB
-		g_cache_file_globals.tag_cache_base_address = (byte*)physical_memory_system_malloc(g_cache_file_globals.tag_cache_size, NULL);
-#else
-		g_cache_file_globals.tag_cache_size = 0x4B00000; //  75 * 1024 * 1024 or 75MiB
+		g_cache_file_globals.tag_cache_size = k_tag_cache_size;
 		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
-#endif
+		csmemset(g_cache_file_globals.tag_cache_base_address, 0, g_cache_file_globals.tag_cache_size);
 
 		g_cache_file_globals.tag_loaded_size = 0;
 
