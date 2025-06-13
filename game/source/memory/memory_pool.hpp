@@ -2,6 +2,15 @@
 
 #include "cseries/cseries.hpp"
 
+typedef void __cdecl t_memory_pool_callback_list(int32, int32);
+
+enum e_memory_pool_callback_list
+{
+	k_memory_pool_no_callback = 0,
+	k_memory_pool_objects_update_header_callback = 1,
+	k_total_memory_pool_callbacks = 2,
+};
+
 struct s_memory_pool_block_header
 {
 	uns32 header_signature;
@@ -20,7 +29,6 @@ struct s_memory_pool_block
 };
 static_assert(sizeof(s_memory_pool_block) == 0x10);
 
-class c_allocation_base;
 struct s_memory_pool
 {
 	uns32 signature;
@@ -35,12 +43,23 @@ struct s_memory_pool
 	bool can_allocate_from_anywhere_in_the_pool;
 	bool verification_disabled;
 	bool debug;
-	int32 reference_tracking_callback_index;
+	e_memory_pool_callback_list reference_tracking_callback_index;
 };
 static_assert(sizeof(s_memory_pool) == 0x44);
 
-extern uns32 memory_pool_handle_from_address(const s_memory_pool* memory_pool, const void* pointer);
-extern void __cdecl memory_pool_block_free_handle(s_memory_pool* pool, uns32 payload_handle);
+extern int32 __cdecl memory_pool_allocation_size(int32 size);
+extern void __cdecl memory_pool_block_free(s_memory_pool* pool, uns32 payload_handle);
 extern void memory_pool_block_free(s_memory_pool* pool, const void** payload_data);
-extern int32 __cdecl memory_pool_get_block_size(s_memory_pool* memory_pool, const void** payload_handle);
+extern s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool* pool, int32 payload_handle);
+extern int32 __cdecl memory_pool_block_handle_from_payload_handle(int32 payload_handle);
+extern uns32 __cdecl memory_pool_block_sizeof(const s_memory_pool* pool);
+extern void __cdecl memory_pool_check_validity(s_memory_pool* pool);
+extern uns32 memory_pool_create_handle(const s_memory_pool* memory_pool, const void* data);
+extern void __cdecl memory_pool_dispose(s_memory_pool* pool);
+extern void* __cdecl memory_pool_get_address(const s_memory_pool* memory_pool, int32 handle);
+extern s_memory_pool_block* __cdecl memory_pool_get_block(const s_memory_pool* pool, int32 handle);
+extern int32 __cdecl memory_pool_get_block_size(s_memory_pool* pool, const void** payload_data);
+extern s_memory_pool* __cdecl memory_pool_new(const char* name, int32 size, e_memory_pool_callback_list tracking_callback_index, c_allocation_base* allocation);
+extern void __cdecl memory_pool_toggle_allocation_from_anywhere_in_pool(s_memory_pool* pool, bool can_allocate_from_anywhere);
+extern void __cdecl memory_pool_toggle_reference_tracking(s_memory_pool* pool, bool track_references);
 
