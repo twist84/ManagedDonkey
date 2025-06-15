@@ -38,8 +38,8 @@ struct s_main_game_globals
 };
 static_assert(sizeof(s_main_game_globals) == 0x497B8);
 
-//extern const s_configure_memory(&g_configure_memory_procs)[8];
-extern const s_configure_memory g_configure_memory_procs[8];
+extern const s_configure_memory(&g_configure_memory_procs)[8];
+//extern const s_configure_memory g_configure_memory_procs[8];
 extern s_main_game_globals& main_game_globals;
 
 // main_game_load_panic

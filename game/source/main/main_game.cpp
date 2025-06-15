@@ -37,13 +37,13 @@
 #include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 
-//REFERENCE_DECLARE_ARRAY(0x016587D8, const s_configure_memory, g_configure_memory_procs, 8);
+REFERENCE_DECLARE_ARRAY(0x016587D8, const s_configure_memory, g_configure_memory_procs, 8);
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, load_panic_recursion_lock);
 
 HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
-HOOK_DECLARE(0x00567230, main_game_configure_map_memory_pop);
-HOOK_DECLARE(0x00567270, main_game_configure_map_memory_push);
+//HOOK_DECLARE(0x00567230, main_game_configure_map_memory_pop);
+//HOOK_DECLARE(0x00567270, main_game_configure_map_memory_push);
 HOOK_DECLARE(0x00567670, main_game_pregame_blocking_load);
 HOOK_DECLARE(0x00567AD0, main_game_load_panic);
 HOOK_DECLARE(0x00567C10, main_game_progression_request_level_advance_spoke);
@@ -52,20 +52,19 @@ HOOK_DECLARE(0x00567C50, main_game_progression_request_level_advance_hub);
 HOOK_DECLARE(0x00567C70, main_game_progression_request_level_advance_normal);
 HOOK_DECLARE(0x00567E40, main_game_start);
 
-
 bool debug_load_panic_to_main_menu = true;
 
-const s_configure_memory g_configure_memory_procs[8]
-{
-	{ optional_cache_memory_dispose, optional_cache_memory_initialize },
-	{ network_memory_shared_dispose, network_memory_shared_initialize },
-	{ user_interface_memory_dispose, user_interface_memory_initialize },
-	{ user_interface_networking_memory_dispose, user_interface_networking_memory_initialize },
-	{ online_files_memory_dispose, online_files_memory_initialize },
-	{ bink_playback_memory_dispose, bink_playback_memory_initialize },
-	{ NULL, NULL /*saved_film_manager_memory_dispose, saved_film_manager_memory_initialize*/ },
-	{ screenshots_uploader_memory_dispose, screenshots_uploader_memory_initialize },
-};
+//const s_configure_memory g_configure_memory_procs[8]
+//{
+//	{ optional_cache_memory_dispose, optional_cache_memory_initialize },
+//	{ network_memory_shared_dispose, network_memory_shared_initialize },
+//	{ user_interface_memory_dispose, user_interface_memory_initialize },
+//	{ user_interface_networking_memory_dispose, user_interface_networking_memory_initialize },
+//	{ online_files_memory_dispose, online_files_memory_initialize },
+//	{ bink_playback_memory_dispose, bink_playback_memory_initialize },
+//	{ NULL, NULL /*saved_film_manager_memory_dispose, saved_film_manager_memory_initialize*/ },
+//	{ screenshots_uploader_memory_dispose, screenshots_uploader_memory_initialize },
+//};
 
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor
@@ -366,43 +365,43 @@ void __cdecl main_game_configure_map_memory(const game_options* options)
 
 void __cdecl main_game_configure_map_memory_pop()
 {
-	//INVOKE(0x00567230, main_game_configure_map_memory_pop);
+	INVOKE(0x00567230, main_game_configure_map_memory_pop);
 
-	if (main_game_globals.map_memory_configuration <= _map_memory_configuration_none)
-	{
-		return;
-	}
-
-	for (int32 i = NUMBEROF(g_configure_memory_procs); i >= 0; i--)
-	{
-		const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
-		if (configure_memory->dispose_memory_proc)
-		{
-			configure_memory->dispose_memory_proc();
-		}
-	}
+	//if (main_game_globals.map_memory_configuration <= _map_memory_configuration_none)
+	//{
+	//	return;
+	//}
+	//
+	//for (int32 i = NUMBEROF(g_configure_memory_procs); i >= 0; i--)
+	//{
+	//	const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
+	//	if (configure_memory->dispose_memory_proc)
+	//	{
+	//		configure_memory->dispose_memory_proc();
+	//	}
+	//}
 }
 
 void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration desired_memory_configuration)
 {
-	//INVOKE(0x00567270, main_game_configure_map_memory_push, desired_memory_configuration);
+	INVOKE(0x00567270, main_game_configure_map_memory_push, desired_memory_configuration);
 
-	if (desired_memory_configuration <= _map_memory_configuration_none)
-	{
-		return;
-	}
-
-	physical_memory_stage_push(_memory_stage_map_configuration);
-	main_game_globals.map_memory_configuration = desired_memory_configuration;
-
-	for (int32 i = 0; i < NUMBEROF(g_configure_memory_procs); i++)
-	{
-		const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
-		if (configure_memory->configure_memory_proc)
-		{
-			configure_memory->configure_memory_proc(desired_memory_configuration);
-		}
-	}
+	//if (desired_memory_configuration <= _map_memory_configuration_none)
+	//{
+	//	return;
+	//}
+	//
+	//physical_memory_stage_push(_memory_stage_map_configuration);
+	//main_game_globals.map_memory_configuration = desired_memory_configuration;
+	//
+	//for (int32 i = 0; i < NUMBEROF(g_configure_memory_procs); i++)
+	//{
+	//	const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
+	//	if (configure_memory->configure_memory_proc)
+	//	{
+	//		configure_memory->configure_memory_proc(desired_memory_configuration);
+	//	}
+	//}
 }
 
 bool __cdecl main_game_goto_next_level()
