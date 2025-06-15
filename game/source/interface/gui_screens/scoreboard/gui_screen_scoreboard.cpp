@@ -81,7 +81,6 @@ c_scoreboard_load_screen_message::~c_scoreboard_load_screen_message()
 {
 }
 
-//.text:00AB2C30 ; private: bool __cdecl c_gui_scoreboard_data::add_player_internal(e_player_row_type, int32, int32, const s_player_appearance*, const wchar_t*, const wchar_t*, int32, int32, bool, e_controller_index, e_voice_talking_state, int32, const wchar_t*, const wchar_t*, const wchar_t*, bool, bool)
 bool c_gui_scoreboard_data::add_player_internal(
 	e_player_row_type player_row_type,
 	int32 game_player_index,
@@ -99,8 +98,7 @@ bool c_gui_scoreboard_data::add_player_internal(
 	const wchar_t* score,
 	const wchar_t* round_score,
 	bool is_dead,
-	bool left_game
-)
+	bool left_game)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB2C30, c_gui_scoreboard_data, add_player_internal,
 	//	player_row_type,

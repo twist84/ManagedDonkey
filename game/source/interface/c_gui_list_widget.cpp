@@ -5,6 +5,7 @@
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/user_interface_memory.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00B14B90, c_gui_list_widget, close_active_submenu_);
@@ -12,6 +13,15 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B14B90, c_gui_list_widget, close_active_submenu_);
 void __thiscall c_gui_list_widget::close_active_submenu_(c_gui_list_widget* submenu_widget)
 {
 	c_gui_list_widget::close_active_submenu(submenu_widget);
+}
+
+template<>
+void ui_track_delete<c_gui_list_widget>(const c_gui_list_widget* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_gui_list_widget();
+	user_interface_free(object);
 }
 
 c_gui_list_widget::c_gui_list_widget() :
@@ -85,8 +95,7 @@ void c_gui_list_widget::dispose_submenu(c_gui_list_widget* submenu_widget)
 	//INVOKE_CLASS_MEMBER(0x00B14CE0, c_gui_list_widget, dispose_submenu, submenu_widget);
 
 	submenu_widget->get_parent()->remove_child_widget(submenu_widget);
-	submenu_widget->~c_gui_list_widget();
-	user_interface_free(submenu_widget);
+	ui_track_delete<c_gui_list_widget>(submenu_widget);
 }
 
 //.text:00B14D30 ; public: void c_gui_list_widget::get_child_list_item_text_bounds(c_font_cache_base*, rectangle2d*, bool*)
