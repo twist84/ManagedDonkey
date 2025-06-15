@@ -10,8 +10,13 @@ public:
 };
 
 extern void __cdecl user_interface_free(const void* ptr);
-extern void* __cdecl user_interface_malloc_tracked(uns32 size, const char* file, int32 line);
+extern void* __cdecl user_interface_malloc(unsigned int size);
+extern void* __cdecl user_interface_malloc_tracked(unsigned int size, const char* file, int32 line);
 extern c_allocation_base* __cdecl user_interface_memory_allocation();
 extern void __cdecl user_interface_memory_dispose();
 extern void __cdecl user_interface_memory_initialize(e_map_memory_configuration memory_configuration);
+extern void __cdecl user_interface_memory_update_status_line();
+extern void __cdecl user_interface_out_of_memory(unsigned int size, const char* file, int32 line);
+extern void* __cdecl user_interface_realloc(void* ptr, unsigned int size);
+extern void* __cdecl user_interface_realloc_tracked(void* ptr, unsigned int size, const char* file, int32 line);
 
