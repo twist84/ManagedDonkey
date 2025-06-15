@@ -81,7 +81,7 @@ HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 
 HOOK_DECLARE_CLASS(0x00A1FC90, c_rasterizer, get_is_widescreen);
 
-HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
+//HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
 HOOK_DECLARE_CLASS(0x00A22130, c_rasterizer, set_render_resolution);
 HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 
@@ -598,39 +598,39 @@ bool __cdecl c_rasterizer::reset_device()
 
 bool __cdecl c_rasterizer::begin_frame()
 {
-	//return INVOKE(0x00A212A0, c_rasterizer::begin_frame);
+	return INVOKE(0x00A212A0, c_rasterizer::begin_frame);
 
-	if (!c_rasterizer::g_device)
-		return true;
-
-	g_render_thread_begin_scene = GetCurrentThreadId();
-
-	if (g_d3d_device_is_lost || g_d3d_device_reset)
-	{
-		if (g_render_thread != get_current_thread_index())
-		{
-			main_set_single_thread_request_flag(_single_thread_for_render_device_reset, true);
-			return 0;
-		}
-
-		if (g_d3d_device_is_lost)
-		{
-			if (!test_cooperative_level())
-				return true;
-		}
-		else if (g_d3d_device_reset)
-		{
-			reset_device();
-		}
-	}
-
-	main_set_single_thread_request_flag(_single_thread_for_render_device_reset, false);
-
-	bool result = SUCCEEDED(c_rasterizer::g_device->BeginScene());
-
-	//rasterizer_profile_frame_begin();
-
-	return result;
+	//if (!c_rasterizer::g_device)
+	//	return true;
+	//
+	//g_render_thread_begin_scene = GetCurrentThreadId();
+	//
+	//if (g_d3d_device_is_lost || g_d3d_device_reset)
+	//{
+	//	if (g_render_thread != get_current_thread_index())
+	//	{
+	//		main_set_single_thread_request_flag(_single_thread_for_render_device_reset, true);
+	//		return 0;
+	//	}
+	//
+	//	if (g_d3d_device_is_lost)
+	//	{
+	//		if (!test_cooperative_level())
+	//			return true;
+	//	}
+	//	else if (g_d3d_device_reset)
+	//	{
+	//		reset_device();
+	//	}
+	//}
+	//
+	//main_set_single_thread_request_flag(_single_thread_for_render_device_reset, false);
+	//
+	//bool result = SUCCEEDED(c_rasterizer::g_device->BeginScene());
+	//
+	////rasterizer_profile_frame_begin();
+	//
+	//return result;
 }
 
 void __cdecl c_rasterizer::begin_high_quality_blend()
