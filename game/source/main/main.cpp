@@ -794,12 +794,13 @@ void __cdecl main_loop()
 	if (game_is_multithreaded())
 	{
 		g_render_thread_user_setting = true;
-		g_render_thread_enabled = true;
+		g_render_thread_enabled.set(_render_thread_mode_enabled);
 	}
 
 	main_loop_enter();
+	main_loop_initialize_restricted_regions();
 
-	uns32 wait_for_render_thread = 0;
+	uns32 render_token = 0;
 	uns32 time = system_milliseconds();
 	while (!main_globals.exit_game)
 	{
@@ -811,10 +812,12 @@ void __cdecl main_loop()
 		{
 			uns32 time_delta = system_milliseconds() - time;
 			if (!disable_main_loop_throttle && time_delta < 7)
+			{
 				sleep(7 - time_delta);
+			}
 			time = system_milliseconds();
 
-			bool requested_single_thread = false;
+			bool single_threaded = false;
 			main_globals.main_loop_pregame_last_time = system_milliseconds();
 
 			main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
@@ -825,26 +828,30 @@ void __cdecl main_loop()
 			}
 			else
 			{
-				requested_single_thread = true;
+				single_threaded = true;
 				main_thread_process_pending_messages();
 				main_loop_body_single_threaded();
 			}
 
-			bool take_screenshot = screenshot_globals.take_screenshot2 /* is_taking_screenshot */ || screenshot_globals.take_screenshot /* screenshot_sub_610530 */;
-			g_single_thread_request_flags.set_bit(3, take_screenshot);
-			if (game_is_multithreaded())
+			g_single_thread_request_flags.set_bit(3, screenshot_globals.take_screenshot2 && screenshot_globals.take_screenshot);
+
+			if (game_is_multithreaded() && (g_single_thread_request_flags.peek() == _single_thread_for_user_request) != single_threaded)
 			{
-				if ((g_single_thread_request_flags.peek() == 0) != requested_single_thread)
+				if (single_threaded)
 				{
-					if (requested_single_thread)
-						unlock_resources_and_resume_render_thread(wait_for_render_thread);
-					else
-						wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+					unlock_resources_and_resume_render_thread(render_token);
+				}
+				else
+				{
+					render_token = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
 				}
 			}
 		}
 	}
 
+	render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled);
+
+	main_loop_dispose_restricted_regions();
 	main_loop_exit();
 }
 
@@ -1236,16 +1243,11 @@ void __cdecl main_loop_enter()
 		start_thread(k_thread_update);
 	}
 	start_thread(k_thread_audio);
-
-	main_loop_initialize_restricted_regions();
 }
 
 void __cdecl main_loop_exit()
 {
 	//INVOKE(0x00506360, main_loop_exit);
-
-	render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled);
-	main_loop_dispose_restricted_regions();
 
 	if (game_is_multithreaded())
 	{
@@ -2069,7 +2071,9 @@ e_render_thread_mode __cdecl render_thread_get_mode()
 	//return INVOKE(0x00507550, render_thread_get_mode);
 
 	if (game_is_multithreaded())
+	{
 		return (e_render_thread_mode)g_render_thread_enabled.peek();
+	}
 
 	return _render_thread_mode_disabled;
 }
