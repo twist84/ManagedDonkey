@@ -48,10 +48,12 @@ struct s_memory_pool
 static_assert(sizeof(s_memory_pool) == 0x44);
 
 extern int32 __cdecl memory_pool_allocation_size(int32 size);
+extern bool __cdecl memory_pool_block_allocate(s_memory_pool* pool, void** ptr, int32 size, const char* file, int32 line);
 extern void __cdecl memory_pool_block_free(s_memory_pool* pool, uns32 payload_handle);
 extern void memory_pool_block_free(s_memory_pool* pool, const void** payload_data);
 extern s_memory_pool_block* __cdecl memory_pool_block_get(s_memory_pool* pool, int32 payload_handle);
 extern int32 __cdecl memory_pool_block_handle_from_payload_handle(int32 payload_handle);
+extern bool __cdecl memory_pool_block_reallocate(s_memory_pool* pool, void** ptr, int32 size, const char* file, int32 line);
 extern uns32 __cdecl memory_pool_block_sizeof(const s_memory_pool* pool);
 extern void __cdecl memory_pool_check_validity(s_memory_pool* pool);
 extern uns32 memory_pool_create_handle(const s_memory_pool* memory_pool, const void* data);
