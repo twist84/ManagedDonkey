@@ -40,6 +40,7 @@ const int32 LONG_BYTES = sizeof(int32);
 const int32 CHAR_BITS = SIZEOF_BITS(char);
 const int32 SHORT_BITS = SIZEOF_BITS(int16);
 const int32 LONG_BITS = SIZEOF_BITS(int32);
+const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 
 #define FLAG(bit) (1 << (bit))
 #define FLAG_64(bit) (1ULL << (bit))

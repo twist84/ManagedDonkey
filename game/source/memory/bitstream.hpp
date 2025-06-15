@@ -83,10 +83,10 @@ public:
 	int32 get_space_used_in_bits();
 	const byte* get_data(int32* data_length) const;
 	void push_position();
-	void pop_position(bool pop);
+	void pop_position(bool reset_to_pushed_state);
 
 private:
-	uns64 read_accumulator_from_memory(int32 a1);
+	uns64 read_accumulator_from_memory(int32 size_in_bits);
 
 public:
 	bool read_bool(const char* name);
