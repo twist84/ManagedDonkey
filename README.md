@@ -57,8 +57,6 @@
 - No outside contributions, please.
 
 
-<!--
 ## Other
 
-- For more information, join the [Anvil Station](https://discord.gg/Bp6knsfG2z) discord and the [ᴅᴏɴᴋᴇʏ ᴅᴇᴠᴇʟᴏᴘᴍᴇɴᴛ](https://discord.com/channels/933259958701654016/1082719367512465430) thread.
--->
+- For more information, join the [Halo Mods](https://discord.gg/halo-mods-615301822474878977) discord and the [ᴅᴏɴᴋᴇʏ ᴅᴇᴠᴇʟᴏᴘᴍᴇɴᴛ](https://discord.com/channels/615301822474878977/1380333857508950159) post.
