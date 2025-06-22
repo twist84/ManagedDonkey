@@ -118,7 +118,7 @@ public:
 	void skip(int32 bits_to_skip);
 	bool would_overflow(int32 size_in_bits) const;
 	void write_accumulator_to_memory(uns64 value, int32 size_in_bits);
-	void write_bits_internal(const void* data, int32 size_in_bits);
+	void write_bits_internal(const byte* data, int32 size_in_bits);
 	void write_identifier(const char* identifier);
 	void write_point3d(const char* name, const long_point3d* point, int32 axis_encoding_size_in_bits);
 	void write_quantized_real(const char* name, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);

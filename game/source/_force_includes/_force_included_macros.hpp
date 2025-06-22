@@ -37,6 +37,7 @@
 const int32 CHAR_BYTES = sizeof(char);
 const int32 SHORT_BYTES = sizeof(int16);
 const int32 LONG_BYTES = sizeof(int32);
+const int32 QWORD_BYTES = sizeof(uns64);
 const int32 CHAR_BITS = SIZEOF_BITS(char);
 const int32 SHORT_BITS = SIZEOF_BITS(int16);
 const int32 LONG_BITS = SIZEOF_BITS(int32);
