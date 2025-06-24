@@ -1,7 +1,8 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "networking/transport/transport_security.hpp"
+struct s_transport_secure_address;
+union long_point3d;
+union real_vector3d;
 
 enum
 {
@@ -96,6 +97,13 @@ public:
 	bool read_bit_internal();
 	void read_bits_internal(byte* data, int32 size_in_bits);
 	uns32 read_dword_internal(int32 size_in_bits);
+
+	template<typename t_enum, int32 size_in_bits>
+	t_enum read_enum(const char* debug_string)
+	{
+		return static_cast<t_enum>(read_integer(debug_string, size_in_bits));
+	}
+
 	void read_identifier(const char* debug_string);
 	real32 read_logarithmic_quantized_real(char const* debug_string, real32 min_value, real32 max_value, int32 size_in_bits);
 	void read_point3d(const char* debug_string, long_point3d* point, int32 axis_encoding_size_in_bits);
@@ -107,34 +115,17 @@ public:
 	void read_string_wchar(const char* debug_string, wchar_t* string, int32 max_string_size);
 	void read_unit_vector(const char* debug_string, real_vector3d* value, int32 size_in_bits);
 	void read_vector(const char* debug_string, real_vector3d* value, real32 min_magnitude, real32 max_magnitude, int32 magnitude_size_in_bits, int32 size_in_bits);
-
-	template<typename t_enum, int32 size_in_bits>
-	t_enum read_enum(const char* debug_string)
-	{
-		return static_cast<t_enum>(read_integer(debug_string, size_in_bits));
-	}
+	bool reading() const;
 
 private:
 	void reset(int32 state);
 
 public:
-	bool reading() const;
 	void set_data(byte* data, int32 data_length);
 	void skip(int32 bits_to_skip);
 	bool would_overflow(int32 size_in_bits) const;
 	void write_accumulator_to_memory(uns64 value, int32 size_in_bits);
 	void write_bits_internal(const byte* data, int32 size_in_bits);
-	void write_identifier(const char* identifier);
-	void write_point3d(const char* debug_string, const long_point3d* point, int32 axis_encoding_size_in_bits);
-	void write_quantized_real(const char* debug_string, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
-	void write_qword_internal(uns64 value, int32 size_in_bits);
-	void write_secure_address(const char* debug_string, const s_transport_secure_address* address);
-	void write_string(const char* debug_string, const char* string, int32 max_string_size);
-	void write_string_utf8(const char* debug_string, const utf8* string, int32 max_string_size);
-	void write_string_wchar(const char* debug_string, const wchar_t* string, int32 max_string_size);
-	void write_unit_vector(const char* debug_string, const real_vector3d* unit_vector, int32 size_in_bits);
-	void write_vector(const char* debug_string, const real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
-	bool writing() const;
 
 	template<typename t_enum, int32 size_in_bits>
 	void write_enum(const char* debug_string, t_enum value)
@@ -142,6 +133,19 @@ public:
 		write_integer(debug_string, value, size_in_bits);
 	}
 
+	void write_identifier(const char* identifier);
+	void write_point3d(const char* debug_string, const long_point3d* point, int32 axis_encoding_size_in_bits);
+	void write_point3d_efficient(char const* debug_string, const long_point3d* point1, const long_point3d* point2);
+	void write_quantized_real(const char* debug_string, real32* value, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints);
+	void write_qword_internal(uns64 value, int32 size_in_bits);
+	void write_secure_address(const char* debug_string, const s_transport_secure_address* address);
+	void write_string(const char* debug_string, const char* string, int32 max_string_size);
+	void write_string_id(char const* debug_string, int32 size_in_bits);
+	void write_string_utf8(const char* debug_string, const utf8* string, int32 max_string_size);
+	void write_string_wchar(const char* debug_string, const wchar_t* string, int32 max_string_size);
+	void write_unit_vector(const char* debug_string, const real_vector3d* value, int32 size_in_bits);
+	void write_vector(const char* debug_string, const real_vector3d* vector, real32 min_value, real32 max_value, int32 step_count_size_in_bits, int32 size_in_bits);
+	bool writing() const;
 private:
 	static int32 const k_bitstream_maximum_position_stack_size = 4;
 
