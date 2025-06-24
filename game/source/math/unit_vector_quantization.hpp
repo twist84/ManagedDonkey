@@ -2,5 +2,5 @@
 
 #include "cseries/cseries.hpp"
 
-extern void __cdecl dequantize_unit_vector3d(int32 quantized_value, real_vector3d* up, int32 size_in_bits);
+extern void __cdecl dequantize_unit_vector3d(int32 unit_vector_quantization, real_vector3d* unit_vector, int32 size_in_bits);
 
