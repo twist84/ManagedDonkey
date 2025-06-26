@@ -182,6 +182,24 @@ void c_bitstream::write_bool(const char* debug_string, bool value)
 void c_bitstream::write_dword_internal(uns32 value, int32 size_in_bits)
 {
 	DECLFUNC(0x00444B90, void, __thiscall, c_bitstream*, uns32, int32)(this, value, size_in_bits);
+
+	//ASSERT(m_state == _bitstream_state_write);
+	//ASSERT(size_in_bits >= 0 && size_in_bits <= LONG_BITS);
+	//ASSERT((value & ~((1 << size_in_bits) - 1)) == 0);
+	//
+	//int32 shift = QWORD_BITS - m_bitstream_data.accumulator_bit_count;
+	//
+	//if (size_in_bits > shift)
+	//{
+	//	write_accumulator_to_memory((uns64)value, size_in_bits);
+	//}
+	//else
+	//{
+	//	m_bitstream_data.current_stream_bit_position += size_in_bits;
+	//	m_bitstream_data.accumulator <<= size_in_bits;
+	//	m_bitstream_data.accumulator |= value;
+	//	m_bitstream_data.accumulator_bit_count += size_in_bits;
+	//}
 }
 
 void c_bitstream::write_integer(const char* debug_string, uns32 value, int32 size_in_bits)
@@ -290,9 +308,13 @@ void c_bitstream::axes_compute_reference_internal(const real_vector3d* up, real_
 	//assert_valid_real_normal3d(up);
 	//
 	//if (fabsf(dot_product3d(up, global_forward3d)) < fabsf(dot_product3d(up, global_left3d)))
+	//{
 	//	cross_product3d(up, global_forward3d, forward_reference);
+	//}
 	//else
+	//{
 	//	cross_product3d(global_left3d, up, forward_reference);
+	//}
 	//real32 forward_magnitude = normalize3d(forward_reference);
 	//ASSERT(forward_magnitude > k_real_epsilon);
 	//
@@ -826,12 +848,12 @@ void c_bitstream::reset(int32 state)
 
 void c_bitstream::set_data(byte* data, int32 data_length)
 {
+	//DECLFUNC(0x00559D90, void, __thiscall, c_bitstream*, byte*, int32)(this, data, data_length);
+
 	m_data = data;
 	m_data_max = &data[data_length];
 	m_data_size_bytes = data_length;
 	reset(_bitstream_state_none);
-
-	//DECLFUNC(0x00559D90, void, __thiscall, c_bitstream*, byte*, int32)(this, data, data_length);
 }
 
 //.text:00559DB0 ; 
@@ -968,12 +990,12 @@ void c_bitstream::write_qword_internal(uns64 value, int32 size_in_bits)
 
 void c_bitstream::write_secure_address(const char* debug_string, const s_transport_secure_address* address)
 {
-	//ASSERT(writing());
-	//ASSERT(address);
-	//
-	//write_bits_internal(address->data, SIZEOF_BITS(s_transport_secure_address));
+	//DECLFUNC(0x0055A410, void, __thiscall, c_bitstream*, const char*, const s_transport_secure_address*)(this, debug_string, address);
 
-	DECLFUNC(0x0055A410, void, __thiscall, c_bitstream*, const char*, const s_transport_secure_address*)(this, debug_string, address);
+	ASSERT(writing());
+	ASSERT(address);
+	
+	write_bits_internal(address->data, SIZEOF_BITS(s_transport_secure_address));
 }
 
 void c_bitstream::write_string(const char* debug_string, const char* string, int32 max_string_size)
