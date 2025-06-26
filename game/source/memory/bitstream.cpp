@@ -123,7 +123,9 @@ void c_bitstream::read_raw_data(const char* debug_string, void* raw_data, int32 
 
 int32 c_bitstream::read_signed_integer(const char* debug_string, int32 size_in_bits)
 {
-	int32 range = 1 << (size_in_bits - 1);
+	//return DECLFUNC(0x004439A0, int32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
+
+	int32 range = RANGE(size_in_bits);
 
 	ASSERT(was_reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
@@ -133,13 +135,19 @@ int32 c_bitstream::read_signed_integer(const char* debug_string, int32 size_in_b
 	if (size_in_bits < LONG_BITS && (value & range) != 0)
 	{
 		value |= ~MASK(size_in_bits);
+
+		//int32 v5 = 0;
+		//if (size_in_bits >= LONG_BITS)
+		//{
+		//	v5 = FLAG(size_in_bits);
+		//}
+		//
+		//value |= ~((v5 ^ FLAG(size_in_bits)) - 1);
 	}
 
 	ASSERT(value >= -range && value < range);
 
 	return value;
-
-	//return DECLFUNC(0x004439A0, int32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 }
 
 void c_bitstream::write_bit_internal(bool value)

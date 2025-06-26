@@ -45,6 +45,7 @@ const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 
 #define FLAG(bit) (1 << (bit))
 #define FLAG_64(bit) (1ULL << (bit))
+#define RANGE(bit) (1 << ((bit) - 1))
 #define MASK(bit) ((1 << (bit)) - 1)
 #define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
 #define TEST_RANGE(flags, start_bit, end_bit) (((flags) & (((1 << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
