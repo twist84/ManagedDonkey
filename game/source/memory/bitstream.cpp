@@ -225,7 +225,7 @@ void c_bitstream::write_raw_data(const char* debug_string, const void* raw_data,
 {
 	DECLFUNC(0x00444C30, void, __thiscall, c_bitstream*, const char*, const void*, int32)(this, debug_string, raw_data, size_in_bits);
 
-	//write_bits_internal((const byte*)raw_data, size_in_bits);
+	//c_bitstream::write_bits_internal((const byte*)raw_data, size_in_bits);
 }
 
 void c_bitstream::write_signed_integer(const char* debug_string, int32 value, int32 size_in_bits)
@@ -353,12 +353,12 @@ void c_bitstream::begin_reading()
 
 void c_bitstream::begin_writing(int32 data_size_alignment)
 {
+	//DECLFUNC(0x005574B0, void, __thiscall, c_bitstream*, int32)(this, data_size_alignment);
+
 	ASSERT(m_data_size_bytes % data_size_alignment == 0);
 
 	m_data_size_alignment = data_size_alignment;
 	reset(_bitstream_state_write);
-
-	//DECLFUNC(0x005574B0, void, __thiscall, c_bitstream*, int32)(this, data_size_alignment);
 }
 
 //.text:005574F0 ; void bitstream_test()
@@ -515,7 +515,7 @@ void c_bitstream::finish_writing(int32* bits_wasted)
 	//	m_bitstream_data.accumulator = left_shift_fast<uns64>(m_bitstream_data.accumulator, QWORD_BITS - accumulator_bit_count);
 	//}
 	//
-	//encode_qword_to_memory(m_bitstream_data.accumulator, QWORD_BITS);
+	//c_bitstream::encode_qword_to_memory(m_bitstream_data.accumulator, QWORD_BITS);
 	//
 	//m_bitstream_data.current_memory_bit_position += accumulator_bit_count;
 	//
@@ -831,7 +831,7 @@ void c_bitstream::reset(int32 state)
 	//}
 	//else if (c_bitstream::reading())
 	//{
-	//	uns64 value = decode_qword_from_memory();
+	//	uns64 value = c_bitstream::decode_qword_from_memory();
 	//	m_bitstream_data.accumulator = value;
 	//
 	////#if PROFILE?
@@ -889,14 +889,14 @@ void c_bitstream::write_accumulator_to_memory(uns64 value, int32 size_in_bits)
 	//	accumulator = shifted_accumulator | (value >> accumulator_bit_count);
 	//}
 	//
-	//encode_qword_to_memory(accumulator, QWORD_BITS);
+	//c_bitstream::encode_qword_to_memory(accumulator, QWORD_BITS);
 }
 
 void c_bitstream::write_bits_internal(const byte* data, int32 size_in_bits)
 {
 	DECLFUNC(0x0055A000, void, __thiscall, c_bitstream*, const byte*, int32)(this, data, size_in_bits);
 
-	//ASSERT(reading());
+	//ASSERT(writing());
 	//
 	//int32 size_in_qwords = size_in_bits / QWORD_BITS;
 	//for (int32 qword_index = 0; qword_index < size_in_qwords; qword_index++)
@@ -995,7 +995,7 @@ void c_bitstream::write_secure_address(const char* debug_string, const s_transpo
 	ASSERT(writing());
 	ASSERT(address);
 	
-	write_bits_internal(address->data, SIZEOF_BITS(s_transport_secure_address));
+	c_bitstream::write_bits_internal(address->data, SIZEOF_BITS(s_transport_secure_address));
 }
 
 void c_bitstream::write_string(const char* debug_string, const char* string, int32 max_string_size)
