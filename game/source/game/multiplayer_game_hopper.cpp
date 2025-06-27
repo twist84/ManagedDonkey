@@ -92,16 +92,24 @@ int32 override_game_entry_index = NONE;
 e_hopper_load_status multiplayer_file_load::get_load_status()
 {
 	if (force_hopper_load_status_complete)
+	{
 		return _hopper_load_complete;
+	}
 
 	if (had_load_failure)
+	{
 		return _hopper_load_failed;
+	}
 
 	if (request_cookie)
+	{
 		return _hopper_load_pending;
+	}
 
 	if (is_valid)
+	{
 		return _hopper_load_complete;
+	}
 
 	return _hopper_load_none;
 }
@@ -202,7 +210,9 @@ const s_game_hopper_custom_category* __cdecl multiplayer_game_hopper_get_categor
 	//return INVOKE(0x00548230, multiplayer_game_hopper_get_category_from_index, category_index);
 
 	if (category_index < multiplayer_game_hopper_globals.configuration.hopper_configuration_count)
+	{
 		return &multiplayer_game_hopper_globals.configuration.hopper_category[category_index];
+	}
 
 	return NULL;
 }
@@ -221,7 +231,9 @@ uns16 __cdecl multiplayer_game_hopper_get_current_hopper_identifier()
 	//return INVOKE(0x00548250, multiplayer_game_hopper_get_current_hopper_identifier);
 
 	if (multiplayer_game_hopper_globals.current_configuration)
+	{
 		return multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier;
+	}
 
 	return NONE;
 }
@@ -242,7 +254,9 @@ const utf8* __cdecl multiplayer_game_hopper_get_description(uns16 hopper_identif
 	for (int32 description_index = 0; description_index < multiplayer_game_hopper_globals.description.hopper_description_count; description_index++)
 	{
 		if (multiplayer_game_hopper_globals.description.hopper_descriptions[description_index].hopper_identifier == hopper_identifier)
+		{
 			return multiplayer_game_hopper_globals.description.hopper_descriptions[description_index].hopper_description.get_string();
+		}
 	}
 
 	return NULL;
@@ -259,7 +273,9 @@ uns16 __cdecl multiplayer_game_hopper_get_hopper_identifier(int32 hopper_index)
 		//uns16 hopper_identifier = multiplayer_game_hopper_globals.configuration.hopper_configurations[hopper_index].get_hopper_identifier();
 		uns16 hopper_identifier = multiplayer_game_hopper_globals.configuration.hopper_configurations[hopper_index].m_universal.hopper_identifier;
 		if (hopper_identifier != NONE)
+		{
 			return hopper_identifier;
+		}
 	}
 
 	return NONE;
@@ -650,7 +666,9 @@ bool packed_game_variant_is_mcc(const void* buffer_, int32 bytes_read)
 		chunk_header = (const s_blf_header*)buffer;
 
 		if (buffer >= buffer_end)
+		{
 			return false;
+		}
 	}
 
 	return chunk_header->chunk_type == 'msf_';
@@ -677,7 +695,9 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(const void* buffer, int
 		}
 
 		if (buffer >= buffer_end)
+		{
 			return false;
+		}
 
 		int32 chunk_size = bswap_uns32(chunk_header->chunk_size) - sizeof(s_blf_header);
 		byte* chunk_data = (byte*)offset_pointer(buffer, sizeof(s_blf_header));
@@ -697,21 +717,21 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(const void* buffer, int
 			{
 				return false;
 			}
-			else
+
+			// is end of file
+			while (chunk_header->chunk_type != 'foe_')
 			{
-				// is end of file
-				while (chunk_header->chunk_type != 'foe_')
-				{
-					buffer = offset_pointer(buffer, bswap_uns32(chunk_header->chunk_size));
-					chunk_header = (const s_blf_header*)buffer;
+				buffer = offset_pointer(buffer, bswap_uns32(chunk_header->chunk_size));
+				chunk_header = (const s_blf_header*)buffer;
 
-					if (buffer >= buffer_end)
-						return false;
-				}
+				if (buffer >= buffer_end)
+					return false;
+			}
 
-				result = false;
-				if (buffer < buffer_end)
-					return true;
+			result = false;
+			if (buffer < buffer_end)
+			{
+				return true;
 			}
 		}
 
@@ -745,7 +765,9 @@ void __cdecl multiplayer_game_hopper_update()
 	{
 		multiplayer_file_load* multiplayer_file = &multiplayer_game_hopper_globals.multiplayer_files[multiplayer_game_file];
 		if (!multiplayer_file->request_cookie)
+		{
 			continue;
+		}
 
 		bool failed = false;
 
@@ -817,8 +839,10 @@ void __cdecl multiplayer_game_hopper_update()
 			}
 			break;
 			default:
+			{
 				VASSERT("unreachable");
-				break;
+			}
+			break;
 			}
 
 			if (!failed)
@@ -883,7 +907,9 @@ c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuratio
 
 	//if (multiplayer_game_hopper_globals.current_configuration && multiplayer_game_hopper_globals.current_configuration->get_hopper_identifier() == hopper_identifier)
 	if (multiplayer_game_hopper_globals.current_configuration && multiplayer_game_hopper_globals.current_configuration->m_universal.hopper_identifier == hopper_identifier)
+	{
 		return multiplayer_game_hopper_globals.current_configuration;
+	}
 
 	for (int32 category_index = 0; category_index < multiplayer_game_hopper_globals.configuration.hopper_category_count; category_index++)
 	{
@@ -1064,10 +1090,14 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(uns16 hopper_ide
 	}
 
 	if (game_start_error == _session_game_start_error_none && check_hopper)
+	{
 		game_start_error = multiplayer_game_hopper_check_required_files(check_hopper, hopper_identifier != int16(0xFFFF));
+	}
 
 	if (game_start_error == _session_game_start_error_none && check_hopper && (hopper_identifier == int16(0xFFFF) || hopper == NULL))
+	{
 		game_start_error = _session_game_start_match_error_invalid_hopper;
+	}
 
 	if (game_start_error == _session_game_start_error_none && is_matchmaking)
 	{
@@ -1084,7 +1114,9 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(uns16 hopper_ide
 	}
 
 	if (game_start_error == _session_game_start_error_none && network_squad_session_get_start_mode() == _network_game_start_mode_custom_game && get_alpha_custom_games_disabled())
+	{
 		game_start_error = _session_game_start_error_custom_games_are_disabled_for_alpha;
+	}
 
 	if (game_start_error == _session_game_start_error_none)
 	{
@@ -1098,11 +1130,15 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(uns16 hopper_ide
 			{
 				int32 player_index = bit_vector_lowest_bit_set(peer->player_mask, 16);
 				if (player_index != NONE)
+				{
 					player_mask |= FLAG(player_index);
+				}
 			}
 
 			if (player_mask)
+			{
 				game_start_error = _session_game_start_error_maximum_multiplayer_split_screen_exceeded;
+			}
 		}
 	}
 
@@ -1171,7 +1207,9 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(uns16 hopper_ide
 	}
 
 	if (out_player_error_mask)
+	{
 		*out_player_error_mask = player_mask;
+	}
 
 	return game_start_error;
 }
@@ -1478,13 +1516,17 @@ void __cdecl network_map_variant_file_juju(const char* file_path, bool use_varia
 	for (s_variant_object_datum& object : map_variant->m_variant_objects)
 	{
 		if (object.variant_quota_index == NONE)
+		{
 			continue;
+		}
 
 		s_variant_quota& quota = map_variant->m_quotas[object.variant_quota_index];
 
 		int32 object_definition_index = quota.object_definition_index;
 		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
+		{
 			continue;
+		}
 
 		//removed_variant_objects++;
 		//object = s_variant_object_datum();
@@ -1494,7 +1536,9 @@ void __cdecl network_map_variant_file_juju(const char* file_path, bool use_varia
 	for (s_variant_quota& quota : map_variant->m_quotas)
 	{
 		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
+		{
 			continue;
+		}
 
 		removed_placeable_object_quotas++;
 		//quota = s_variant_quota();
