@@ -126,16 +126,24 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//PROFILER(internal_halt_render_thread)
 	//{
 	//	if (!game_is_multithreaded() || render_thread_get_mode() == _render_thread_mode_loading_screen)
+	//	{
 	//		return 0;
+	//	}
 	//
 	//	if (!thread_system_initialized())
+	//	{
 	//		return 0;
+	//	}
 	//
 	//	if (!restricted_region_valid(k_game_state_render_region))
+	//	{
 	//		return 0;
+	//	}
 	//
 	//	if (get_current_thread_index() == k_thread_render)
+	//	{
 	//		return 0;
+	//	}
 	//
 	//	uns32 result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
 	//	if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
@@ -160,7 +168,9 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//					}
 	//
 	//					if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+	//					{
 	//						restricted_region_unlock_mirror(k_game_state_shared_region);
+	//					}
 	//				}
 	//			}
 	//			restricted_region_lock_primary(k_game_state_shared_region);
@@ -168,7 +178,9 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//	}
 	//
 	//	if (get_current_thread_index() == k_game_state_update_region && restricted_region_locked_for_current_thread(k_game_state_update_region))
+	//	{
 	//		main_thread_process_pending_messages();
+	//	}
 	//
 	//	return result;
 	//}
@@ -575,7 +587,9 @@ void __cdecl main_halt_and_catch_fire()
 	console_close();
 
 	if (x_just_upload_dammit)
+	{
 		main_crash_just_upload_dammit();
+	}
 
 	c_static_string<256> reason;
 	bool upload_to_server = game_state_debug_server_file_uploading_enabled(&reason);
@@ -651,9 +665,13 @@ void __cdecl main_halt_and_catch_fire()
 				if (upload_debug_started)
 				{
 					if ((system_seconds() & 1) != 0)
+					{
 						text.append("\r\n\r\nDO NOT REBOOT YOUR CONSOLE\r\nWE NEED THE CRASH LOGS!1!!");
+					}
 					else
+					{
 						text.append("\r\n\r\nEACH TIME YOU REBOOT A CRASH\r\n  A BABY KITTEN DIES!1!!");
+					}
 				}
 			}
 			else if ((system_seconds() & 1) != 0)
@@ -807,44 +825,43 @@ void __cdecl main_loop()
 		if (main_loop_is_suspended())
 		{
 			switch_to_thread();
+			continue;
+		}
+
+		uns32 time_delta = system_milliseconds() - time;
+		if (!disable_main_loop_throttle && time_delta < 7)
+		{
+			sleep(7 - time_delta);
+		}
+		time = system_milliseconds();
+
+		bool single_threaded = false;
+		main_globals.main_loop_pregame_last_time = system_milliseconds();
+
+		main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
+		if (game_is_multithreaded() && (render_thread_get_mode() == _render_thread_mode_enabled || render_thread_get_mode() == _render_thread_mode_loading_screen))
+		{
+			main_thread_process_pending_messages();
+			main_loop_body_multi_threaded();
 		}
 		else
 		{
-			uns32 time_delta = system_milliseconds() - time;
-			if (!disable_main_loop_throttle && time_delta < 7)
-			{
-				sleep(7 - time_delta);
-			}
-			time = system_milliseconds();
+			single_threaded = true;
+			main_thread_process_pending_messages();
+			main_loop_body_single_threaded();
+		}
 
-			bool single_threaded = false;
-			main_globals.main_loop_pregame_last_time = system_milliseconds();
+		g_single_thread_request_flags.set_bit(3, screenshot_globals.take_screenshot2 && screenshot_globals.take_screenshot);
 
-			main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
-			if (game_is_multithreaded() && (render_thread_get_mode() == _render_thread_mode_enabled || render_thread_get_mode() == _render_thread_mode_loading_screen))
+		if (game_is_multithreaded() && (g_single_thread_request_flags.peek() == _single_thread_for_user_request) != single_threaded)
+		{
+			if (single_threaded)
 			{
-				main_thread_process_pending_messages();
-				main_loop_body_multi_threaded();
+				unlock_resources_and_resume_render_thread(render_token);
 			}
 			else
 			{
-				single_threaded = true;
-				main_thread_process_pending_messages();
-				main_loop_body_single_threaded();
-			}
-
-			g_single_thread_request_flags.set_bit(3, screenshot_globals.take_screenshot2 && screenshot_globals.take_screenshot);
-
-			if (game_is_multithreaded() && (g_single_thread_request_flags.peek() == _single_thread_for_user_request) != single_threaded)
-			{
-				if (single_threaded)
-				{
-					unlock_resources_and_resume_render_thread(render_token);
-				}
-				else
-				{
-					render_token = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-				}
+				render_token = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
 			}
 		}
 	}
@@ -955,11 +972,15 @@ void __cdecl main_loop_body()
 						LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 
 						if (main_globals.drop_cheat_tag)
+						{
 							main_cheat_drop_tag_private();
+						}
 
-						real32 seconds_elapsed = shell_seconds_elapsed;
-						if (main_time_halted())
-							seconds_elapsed = 0.0f;
+						real32 seconds_elapsed = 0.0f;
+						if (!main_time_halted())
+						{
+							seconds_elapsed = shell_seconds_elapsed;
+						}
 
 						terminal_update(seconds_elapsed);
 						console_update(seconds_elapsed);
@@ -973,10 +994,11 @@ void __cdecl main_loop_body()
 					{
 						LOCAL_TAG_RESOURCE_SCOPE_LOCK;
 
-						if (main_time_halted())
-							world_seconds_elapsed = 0.0f;
-						else
+						world_seconds_elapsed = 0.0f;
+						if (!main_time_halted())
+						{
 							world_seconds_elapsed = shell_seconds_elapsed;
+						}
 
 						g_main_gamestate_timing_data->shell_dt += shell_seconds_elapsed;
 						g_main_gamestate_timing_data->world_dt += world_seconds_elapsed;
@@ -1039,9 +1061,13 @@ void __cdecl main_loop_body()
 									first_person_weapons_update_camera_estimates();
 
 									if (main_time_halted())
+									{
 										sound_idle();
+									}
 									else
+									{
 										sound_render();
+									}
 								}
 
 								//render_debug_game_thread();
@@ -1058,18 +1084,26 @@ void __cdecl main_loop_body()
 								g_main_gamestate_timing_data->flags.set(_game_published_pregame, true);
 
 								if (main_time_halted())
+								{
 									sound_idle();
+								}
 								else
+								{
 									sound_render();
+								}
 
 								//static uns32 main_loop_network_time_since_abort = 0;
 								//if (simulation_aborted())
 								//{
 								//	uns32 network_time_since_abort = simulation_get_network_time_since_abort();
 								//	if (network_time_since_abort > 1000)
+								//	{
 								//		network_time_since_abort /= 1000;
+								//	}
 								//	else
+								//	{
 								//		network_time_since_abort = 0;
+								//	}
 								//
 								//	if (network_time_since_abort >= 5)
 								//	{
@@ -1097,13 +1131,19 @@ void __cdecl main_loop_body()
 			}
 
 			if (game_time_get_paused())
+			{
 				g_main_gamestate_timing_data->flags.set(_game_published_game_time_paused, true);
+			}
 
 			if (game_time_initialized() && fabsf(game_time_get_speed() - 1.0f) > k_real_epsilon)
+			{
 				g_main_gamestate_timing_data->flags.set(_game_published_game_speed_slowed, true);
+			}
 
 			if (game_in_progress() && game_is_playback() && !game_is_authoritative_playback())
+			{
 				g_main_gamestate_timing_data->flags.set(_game_published_network_playback_client, true);
+			}
 
 			if (g_main_gamestate_timing_data->world_dt < 0.06666667f)
 			{
@@ -1128,7 +1168,9 @@ void __cdecl main_loop_body()
 			}
 
 			if (game_is_multithreaded())
+			{
 				g_main_gamestate_timing_data->flags.set(_game_published_framerate_infinite, !main_time_is_throttled());
+			}
 
 			PROFILER(predict_tag_resources)
 			{
@@ -1162,46 +1204,50 @@ void __cdecl main_loop_body_single_threaded()
 		main_loop_body();
 	}
 
-	if (!game_is_multithreaded() || !g_main_gamestate_timing_data->flags.is_empty())
+	if (game_is_multithreaded() && g_main_gamestate_timing_data->flags.is_empty())
 	{
-		font_idle();
+		return;
+	}
 
-		if (game_is_multithreaded())
+	font_idle();
+
+	if (game_is_multithreaded())
+	{
+		main_time_mark_publishing_start_time();
+		if (restricted_region_publish_to_mirror(k_game_state_shared_region))
 		{
-			main_time_mark_publishing_start_time();
-			if (restricted_region_publish_to_mirror(k_game_state_shared_region))
+			PROFILER(single_thread_render)
 			{
-				PROFILER(single_thread_render)
+				main_time_mark_publishing_end_time();
+
+				restricted_region_unlock_primary(k_game_state_shared_region);
+				if (restricted_region_lock_mirror(k_game_state_shared_region))
 				{
-					main_time_mark_publishing_end_time();
+					main_thread_lock_rasterizer_and_resources();
+					process_published_game_state(true);
+					main_thread_unlock_rasterizer_and_resources();
 
-					restricted_region_unlock_primary(k_game_state_shared_region);
-					if (restricted_region_lock_mirror(k_game_state_shared_region))
+					if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
 					{
-						main_thread_lock_rasterizer_and_resources();
-						process_published_game_state(true);
-						main_thread_unlock_rasterizer_and_resources();
-
-						if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
-							restricted_region_unlock_mirror(k_game_state_shared_region);
+						restricted_region_unlock_mirror(k_game_state_shared_region);
 					}
-					restricted_region_lock_primary(k_game_state_shared_region);
 				}
+				restricted_region_lock_primary(k_game_state_shared_region);
 			}
 		}
-		else
-		{
-			main_time_mark_publishing_start_time();
-			main_time_mark_publishing_end_time();
-
-			main_thread_lock_rasterizer_and_resources();
-			process_published_game_state(!shell_application_is_paused());
-			main_thread_unlock_rasterizer_and_resources();
-		}
-
-		g_main_gamestate_timing_data->reset();
-		main_render_purge_pending_messages();
 	}
+	else
+	{
+		main_time_mark_publishing_start_time();
+		main_time_mark_publishing_end_time();
+
+		main_thread_lock_rasterizer_and_resources();
+		process_published_game_state(!shell_application_is_paused());
+		main_thread_unlock_rasterizer_and_resources();
+	}
+
+	g_main_gamestate_timing_data->reset();
+	main_render_purge_pending_messages();
 }
 
 void __cdecl main_loop_enter()
@@ -1277,7 +1323,9 @@ void __cdecl main_loop_pregame_do_work()
 		//hf2p_idle();
 
 		if (render_thread_get_mode() == _render_thread_mode_disabled)
+		{
 			main_loop_pregame_show_progress_screen();
+		}
 
 		//if (render_debug_initialized())
 		//	render_debug_update();
@@ -1299,29 +1347,35 @@ void __cdecl main_loop_pregame()
 {
 	//INVOKE(0x005063A0, main_loop_pregame);
 
-	if (is_main_thread())
+	if (!is_main_thread())
 	{
-		uns32 current_time = system_milliseconds();
-		bool bink_active = bink_playback_active();
+		return;
+	}
 
-		if (!main_globals.main_loop_pregame_entered
-			&& main_globals.main_loop_pregame_last_time
-			&& current_time - main_globals.main_loop_pregame_last_time >= uns32(!bink_active ? 24 : 15))
+	uns32 current_time = system_milliseconds();
+	bool bink_active = bink_playback_active();
+
+	if (!main_globals.main_loop_pregame_entered
+		&& main_globals.main_loop_pregame_last_time
+		&& current_time - main_globals.main_loop_pregame_last_time >= uns32(!bink_active ? 24 : 15))
+	{
+		main_globals.main_loop_pregame_entered++;
+		if (bink_active)
 		{
-			main_globals.main_loop_pregame_entered++;
-			if (bink_active)
-				main_globals.main_loop_pregame_last_time = current_time;
-
-			//main_loop_pregame_update_stack_high_water_mark();
-			main_loop_pregame_do_work();
-
-			if (!bink_active)
-				main_globals.main_loop_pregame_last_time = system_milliseconds();
-			main_globals.main_loop_pregame_entered--;
+			main_globals.main_loop_pregame_last_time = current_time;
 		}
 
-		//main_globals.pregame_progress_screen_shown = 0;
+		//main_loop_pregame_update_stack_high_water_mark();
+		main_loop_pregame_do_work();
+
+		if (!bink_active)
+		{
+			main_globals.main_loop_pregame_last_time = system_milliseconds();
+		}
+		main_globals.main_loop_pregame_entered--;
 	}
+
+	//main_globals.pregame_progress_screen_shown = 0;
 }
 
 void __cdecl main_loop_pregame_disable(bool disable)
@@ -1331,22 +1385,30 @@ void __cdecl main_loop_pregame_disable(bool disable)
 	if (is_main_thread())
 	{
 		if (disable)
+		{
 			main_globals.main_loop_pregame_entered++;
+		}
 		else
+		{
 			main_globals.main_loop_pregame_entered--;
+		}
 	}
 }
 
 void __cdecl main_loop_pregame_halt_and_catch_fire_pop()
 {
 	if (is_main_thread())
+	{
 		main_globals.main_loop_pregame_entered--;
+	}
 }
 
 void __cdecl main_loop_pregame_halt_and_catch_fire_push()
 {
 	if (is_main_thread())
+	{
 		main_globals.main_loop_pregame_entered++;
+	}
 }
 
 void __cdecl main_loop_pregame_show_progress_screen()
@@ -1407,57 +1469,91 @@ void __cdecl main_loop_process_global_state_changes()
 		main_game_change_update();
 
 		if (main_globals.skip_cinematic)
+		{
 			main_globals.skip_cinematic = false;
+		}
 
 		if (main_globals.revert_map)
+		{
 			main_globals.revert_map = false;
+		}
 
 		if (!main_globals.revert_map_flags.is_empty())
+		{
 			main_globals.revert_map_flags.clear();
+		}
 
 		if (main_globals.reset_map)
+		{
 			main_reset_map_private();
+		}
 
 		if (main_globals.deactivate_cinematic_zone_from_tag)
+		{
 			main_deactivate_cinematic_tag_private();
+		}
 
 		if (main_globals.activate_cinematic_zone_from_tag)
+		{
 			main_activate_cinematic_tag_private();
+		}
 
 		if (main_globals.reset_zone_resources)
+		{
 			main_reset_zone_resources_private();
+		}
 
 		if (main_globals.switch_zone_set)
+		{
 			main_switch_zone_set_private();
+		}
 
 		if (main_globals.save_map)
+		{
 			main_globals.save_map = false;
+		}
 
 		if (main_globals.save_map_and_exit)
+		{
 			main_globals.save_map_and_exit = false;
+		}
 
 		if (main_globals.save_core)
+		{
 			main_globals.save_core = false;
+		}
 
 		if (main_globals.load_core)
+		{
 			main_globals.load_core = false;
+		}
 
 		if (main_globals.ui_saving_files)
+		{
 			main_globals.ui_saving_files = false;
+		}
 
 		if (main_globals.reload_active_zone_set)
+		{
 			main_reload_active_zone_set_private();
+		}
 
 		if (main_globals.modify_zone_activation)
+		{
 			main_modify_zone_activation_private();
+		}
 
 		if (main_globals.gamestate_decompression_pending)
+		{
 			main_globals.gamestate_decompression_pending = false;
+		}
 	}
 	else
 	{
 		if (main_globals.run_xdemos)
+		{
 			main_run_demos_private();
+		}
 
 		main_game_launch_default();
 		main_game_change_update();
@@ -1469,58 +1565,94 @@ void __cdecl main_loop_process_global_state_changes()
 			exceptions_update();
 
 			if (main_globals.skip_cinematic)
+			{
 				main_skip_cinematic_private();
+			}
 
 			if (main_globals.revert_map)
+			{
 				main_revert_map_private();
+			}
 
 			if (main_globals.reset_map)
+			{
 				main_reset_map_private();
+			}
 
 			if (main_globals.deactivate_cinematic_zone_from_tag)
+			{
 				main_deactivate_cinematic_tag_private();
+			}
 
 			if (main_globals.activate_cinematic_zone_from_tag)
+			{
 				main_activate_cinematic_tag_private();
+			}
 
 			if (main_globals.gamestate_decompression_pending)
+			{
 				main_game_gamestate_decompress_and_apply_private();
+			}
 
 			if (game_state_compressor_lock_pending())
+			{
 				game_state_compressor_lock_update();
+			}
 
 			if (main_globals.reset_zone_resources)
+			{
 				main_reset_zone_resources_private();
+			}
 
 			if (main_globals.prepare_to_switch_zone_set)
+			{
 				main_prepare_to_switch_zone_set_private();
+			}
 
 			if (main_globals.switch_zone_set)
+			{
 				main_switch_zone_set_private();
+			}
 
 			if (main_globals.modify_zone_activation)
+			{
 				main_modify_zone_activation_private();
+			}
 
 			if (main_globals.save_map)
+			{
 				main_save_map_private();
+			}
 
 			if (main_globals.save_map_and_exit)
+			{
 				main_save_map_and_exit_private();
+			}
 
 			if (main_globals.save_core)
+			{
 				main_save_core_private();
+			}
 
 			if (main_globals.load_core)
+			{
 				main_load_core_private();
+			}
 
 			if (main_globals.ui_saving_files)
+			{
 				main_user_interface_save_files_private();
+			}
 
 			if (main_globals.reload_active_zone_set)
+			{
 				main_reload_active_zone_set_private();
+			}
 
 			if (cache_file_tag_resources_prefetch_update_required())
+			{
 				cache_file_tag_resources_update_prefetch_state();
+			}
 		}
 	}
 }
@@ -1528,13 +1660,17 @@ void __cdecl main_loop_process_global_state_changes()
 void __cdecl main_loop_resume()
 {
 	if (main_loop_suspended)
+	{
 		main_loop_suspended = false;
+	}
 }
 
 void __cdecl main_loop_suspend()
 {
 	if (!main_loop_suspended)
+	{
 		main_loop_suspended = true;
+	}
 }
 
 void __cdecl main_loop_status_message(const wchar_t* status_message)
@@ -1570,37 +1706,37 @@ void __cdecl main_prepare_for_switch_zone_set(int32 zone_set_index)
 {
 	//INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
 
-	if (struct scenario* scenario = global_scenario_try_and_get())
-	{
-		if (!VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
-		{
-			console_warning("tried to switch to invalid zone-set %d", zone_set_index);
-		}
-		else if (zone_set_index == scenario_zone_set_index_get())
-		{
-			if (main_globals.prepare_to_switch_zone_set)
-			{
-				main_globals.prepare_to_switch_zone_set = false;
-				main_globals.prepare_to_switch_to_zone_set_index = 0;
-				//chud_messaging_special_load(false);
-			}
-			else
-			{
-				console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
-			}
-		}
-		else
-		{
-			main_trace_event_internal(__FUNCTION__);
-			main_globals.prepare_to_switch_zone_set = true;
-			main_globals.prepare_to_switch_to_zone_set_index = zone_set_index;
-			//chud_messaging_special_load(true);
-		}
-	}
-	else
+	struct scenario* scenario = global_scenario_try_and_get();
+	if (!scenario)
 	{
 		console_warning("tried to switch to a zone-set without a scenario loaded");
+		return;
 	}
+
+	if (!VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
+	{
+		console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+		return;
+	}
+
+	if (zone_set_index != scenario_zone_set_index_get())
+	{
+		main_trace_event_internal(__FUNCTION__);
+		main_globals.prepare_to_switch_zone_set = true;
+		main_globals.prepare_to_switch_to_zone_set_index = zone_set_index;
+		//chud_messaging_special_load(true);
+		return;
+	}
+
+	if (!main_globals.prepare_to_switch_zone_set)
+	{
+		console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
+		return;
+	}
+
+	main_globals.prepare_to_switch_zone_set = false;
+	main_globals.prepare_to_switch_to_zone_set_index = 0;
+	//chud_messaging_special_load(false);
 }
 
 void __cdecl main_prepare_to_switch_zone_set_private()
@@ -1657,13 +1793,15 @@ void __cdecl main_reset_map_private()
 {
 	//INVOKE(0x00506B20, main_reset_map_private);
 
-	if (game_in_progress() && !game_time_get_paused())
+	if (!game_in_progress() || game_time_get_paused())
 	{
-		main_clear_global_pending_zone_activation(NONE);
-		main_game_reset_map(main_globals.reset_map_random_seed);
-		main_globals.reset_map = false;
-		main_globals.reset_map_random_seed = false;
+		return;
 	}
+
+	main_clear_global_pending_zone_activation(NONE);
+	main_game_reset_map(main_globals.reset_map_random_seed);
+	main_globals.reset_map = false;
+	main_globals.reset_map_random_seed = false;
 }
 
 void __cdecl main_reset_map_random()
@@ -1678,15 +1816,14 @@ void __cdecl main_reset_zone_resources()
 {
 	INVOKE(0x00506B70, main_reset_zone_resources);
 
-	//if (global_scenario_try_and_get())
-	//{
-	//	//main_trace_event_internal(__FUNCTION__);
-	//	main_globals.reset_zone_resources = true;
-	//}
-	//else
+	//if (!global_scenario_try_and_get())
 	//{
 	//	console_warning("tried to switch to a zone-set without a scenario loaded");
+	//	return;
 	//}
+	//
+	////main_trace_event_internal(__FUNCTION__);
+	//main_globals.reset_zone_resources = true;
 }
 
 void __cdecl main_reset_zone_resources_private()
@@ -1735,9 +1872,13 @@ void __cdecl main_save_and_exit_campaign()
 	INVOKE(0x00506CE0, main_save_and_exit_campaign);
 
 	//if (game_in_progress() && game_is_campaign())
-	//	user_interface_interactive_session_request_campaign_quit(2);
+	//{
+	//	user_interface_interactive_session_request_campaign_quit(_campaign_quit_reason_quit_from_command);
+	//}
 	//else
+	//{
 	//	main_save_and_exit_campaign_immediately();
+	//}
 }
 
 void __cdecl main_save_and_exit_campaign_immediately()
@@ -1766,11 +1907,13 @@ void __cdecl main_save_core_private()
 {
 	//INVOKE(0x00506D60, main_save_core_private);
 
-	if (game_in_progress())
+	if (!game_in_progress())
 	{
-		game_state_save_core(main_globals.core_file_name.get_string());
-		main_globals.save_core = false;
+		return;
 	}
+
+	game_state_save_core(main_globals.core_file_name.get_string());
+	main_globals.save_core = false;
 }
 
 void __cdecl main_save_map()
@@ -1787,6 +1930,7 @@ void __cdecl main_save_map_and_exit_private()
 
 	if (!game_is_playback())
 	{
+		//saved_film_manager_close();
 		game_state_save_to_persistent_storage_blocking();
 		game_finish();
 	}
@@ -1876,7 +2020,9 @@ void __cdecl main_status_print()
 	for (int32 i = 0; i < NUMBEROF(g_status_values); i++)
 	{
 		if (csstrnlen(g_status_values[i].status_type, NUMBEROF(g_status_values[i].status_type)))
+		{
 			console_printf("%s: %s", g_status_values[i].status_type, g_status_values[i].status_data);
+		}
 	}
 }
 
@@ -2002,7 +2148,9 @@ bool __cdecl main_time_halted()
 	}
 
 	if (main_globals.reset_zone_resources)
+	{
 		time_halted = true;
+	}
 
 	return time_halted;
 }
@@ -2011,11 +2159,15 @@ void __cdecl main_user_interface_save_files()
 {
 	INVOKE(0x00507380, main_user_interface_save_files);
 
-	//if (!main_globals.ui_saving_files)
+	//if (main_globals.ui_saving_files)
 	//{
-	//	main_globals.ui_saving_files = true;
-	//	if (game_in_progress())
-	//		chud_messaging_special_saving(true);
+	//	return;
+	//}
+	//
+	//main_globals.ui_saving_files = true;
+	//if (game_in_progress())
+	//{
+	//	chud_messaging_special_saving(true);
 	//}
 }
 
@@ -2025,7 +2177,9 @@ void __cdecl main_user_interface_save_files_private()
 
 	//main_globals.ui_saving_files = false;
 	//if (game_in_progress())
+	//{
 	//	chud_messaging_special_saving(false);
+	//}
 }
 
 void __cdecl process_published_game_state(bool render)
@@ -2051,17 +2205,19 @@ void __cdecl publish_waiting_gamestate()
 {
 	INVOKE(0x005074D0, publish_waiting_gamestate);
 
-	//if (render_thread_get_mode() == _render_thread_mode_disabled)
+	//if (render_thread_get_mode() != _render_thread_mode_enabled)
 	//{
-	//	TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flag_count));
+	//	return;
+	//}
+	//
+	//if (TEST_MASK(g_main_gamestate_timing_data->flags.get_unsafe(), MASK(k_game_tick_publishing_flag_count)))
+	//{
+	//	main_time_mark_publishing_start_time();
+	//	if (restricted_region_publish_to_mirror(k_game_state_shared_region))
 	//	{
-	//		main_time_mark_publishing_start_time();
-	//		if (restricted_region_publish_to_mirror(k_game_state_shared_region))
-	//		{
-	//			g_main_gamestate_timing_data->reset();
-	//			main_render_purge_pending_messages();
-	//			main_time_mark_publishing_end_time();
-	//		}
+	//		g_main_gamestate_timing_data->reset();
+	//		main_render_purge_pending_messages();
+	//		main_time_mark_publishing_end_time();
 	//	}
 	//}
 }
@@ -2070,12 +2226,12 @@ e_render_thread_mode __cdecl render_thread_get_mode()
 {
 	//return INVOKE(0x00507550, render_thread_get_mode);
 
-	if (game_is_multithreaded())
+	if (!game_is_multithreaded())
 	{
-		return (e_render_thread_mode)g_render_thread_enabled.peek();
+		return _render_thread_mode_disabled;
 	}
 
-	return _render_thread_mode_disabled;
+	return (e_render_thread_mode)g_render_thread_enabled.peek();
 }
 
 //.text:00507570 ; bool __cdecl render_thread_is_halted_waiting_for_lock()
@@ -2118,7 +2274,9 @@ void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, 
 	file_create_parent_directories_if_not_present(&crash_info_output_file);
 
 	if (file_exists(&crash_info_output_file))
+	{
 		file_delete(&crash_info_output_file);
+	}
 
 	uns32 error = 0;
 	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
@@ -2127,12 +2285,18 @@ void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, 
 		file_write(&crash_info_output_file, strlen(string), string);
 
 		if (context)
+		{
 			stack_walk_with_context(&crash_info_output_file, 1, static_cast<_CONTEXT*>(context));
+		}
 		else
+		{
 			stack_walk_to_file(&crash_info_output_file, 3);
+		}
 
 		if (crash_info)
+		{
 			file_write(&crash_info_output_file, strlen(crash_info), crash_info);
+		}
 
 		main_status("system_milliseconds", "time %d", system_milliseconds());
 		main_status_dump(&crash_info_output_file);
