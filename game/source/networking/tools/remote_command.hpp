@@ -237,6 +237,7 @@ COMMAND_CALLBACK_DECLARE(xoverlapped_debug_render);
 COMMAND_CALLBACK_DECLARE(overlapped_display_task_descriptions);
 COMMAND_CALLBACK_DECLARE(overlapped_task_inject_error);
 COMMAND_CALLBACK_DECLARE(overlapped_task_pause);
+COMMAND_CALLBACK_DECLARE(sound_loop_spam);
 
 COMMAND_CALLBACK_DECLARE(controller_set_background_emblem_color);
 COMMAND_CALLBACK_DECLARE(controller_set_button_preset);
@@ -440,6 +441,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(overlapped_display_task_descriptions, 0, "", "displays all tasks\r\nNETWORK SAFE: lol"),
 	COMMAND_CALLBACK_REGISTER(overlapped_task_inject_error, 2, "<string> <boolean>", "inject error for tasks\r\nNETWORK SAFE: lol"),
 	COMMAND_CALLBACK_REGISTER(overlapped_task_pause, 2, "<string> <boolean>", "pause tasks\r\nNETWORK SAFE: lol"),
+
+	COMMAND_CALLBACK_REGISTER(sound_loop_spam, 0, "", "start all loaded looping sounds\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(controller_set_background_emblem_color, 2, "<controller> <player_color>", "set tertiary color for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_button_preset, 2, "<controller> <button_preset>", "set button preset for specified controller\r\nNETWORK SAFE: No"),

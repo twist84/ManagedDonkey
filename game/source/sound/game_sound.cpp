@@ -1,5 +1,9 @@
 #include "sound/game_sound.hpp"
 
+#include "cache/cache_files.hpp"
+#include "sound/sound_definitions.hpp"
+#include "tag_files/tag_groups.hpp"
+
 //.text:005D7920 ; int32 __cdecl game_looping_sound_attachment_new(int32, int32, int32, int32)
 //.text:005D79D0 ; void __cdecl game_looping_sound_delete(int32, int32)
 //.text:005D7A00 ; void __cdecl game_looping_sound_get_parameters(int32, s_game_looping_sound_parameters*)
@@ -80,4 +84,37 @@ void __cdecl game_sound_update(real32 game_seconds_elapsed)
 //.text:005D9F20 ; void __cdecl game_sound_update_background_sound(const s_cluster_reference&, int32, const real_matrix4x3*, int32, real32, real32)
 //.text:005DAB20 ; void __cdecl game_sound_update_listeners(real32)
 //.text:005DB160 ; int32 __cdecl generate_game_looping_sound_controller_identifier(int32, int32)
+
+//.text:005DC410 ; void __cdecl scripted_looping_sound_set_alternate(int32, bool)
+//.text:005DC470 ; void __cdecl scripted_looping_sound_set_scale(int32, real32)
+//.text:005DC4D0 ; void __cdecl scripted_looping_sound_start(int32, int32, real32)
+
+void __cdecl scripted_looping_sound_start_with_effect(int32 definition_index, int32 source_object_index, real32 scale, int32 playback_label)
+{
+	INVOKE(0x005DC500, scripted_looping_sound_start_with_effect, definition_index, source_object_index, scale, playback_label);
+}
+
+//.text:005DC530 ; void __cdecl scripted_looping_sound_start_with_effect_internal(int32, int32, real32, int32, bool)
+//.text:005DC670 ; void __cdecl scripted_looping_sound_stop(int32)
+//.text:005DC690 ; void __cdecl scripted_looping_sound_stop_immediately(int32)
+//.text:005DC6B0 ; void __cdecl scripted_looping_sound_stop_internal(int32, e_looping_sound_fadeout_type)
+//.text:005DC770 ; void __cdecl scripted_looping_sound_stop_music_internal(game_looping_sound_datum*, e_looping_sound_fadeout_type)
+//.text:005DC830 ; void __cdecl scripted_music_stop_all()
+
+void __cdecl scripting_looping_sound_spam()
+{
+	tag_iterator loop_iterator{};
+	tag_iterator_new(&loop_iterator, SOUND_LOOPING_TAG);
+
+	for (int32 loop_tag_index = tag_iterator_next(&loop_iterator); loop_tag_index != NONE; loop_tag_index = tag_iterator_next(&loop_iterator))
+	{
+		struct looping_sound_definition* looping_sound_definition = TAG_GET(SOUND_LOOPING_TAG, struct looping_sound_definition, loop_tag_index);
+		if (TEST_BIT(looping_sound_definition->flags, _looping_sound_behave_like_impulse_sound_bit))
+		{
+			continue;
+		}
+
+		scripted_looping_sound_start_with_effect(loop_tag_index, NONE, 1.0f, 0);
+	}
+}
 

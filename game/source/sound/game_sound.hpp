@@ -54,4 +54,6 @@ extern void __cdecl game_sound_initialize_for_new_map();
 extern void __cdecl game_sound_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl game_sound_process_update_messages();
 extern void __cdecl game_sound_update(real32 game_seconds_elapsed);
+extern void __cdecl scripted_looping_sound_start_with_effect(int32 definition_index, int32 source_object_index, real32 scale, int32 playback_label);
+extern void __cdecl scripting_looping_sound_spam();
 

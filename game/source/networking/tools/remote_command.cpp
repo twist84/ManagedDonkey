@@ -47,6 +47,7 @@
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 #include "shell/shell.hpp"
+#include "sound/game_sound.hpp"
 #include "test/test_functions.hpp"
 #include "text/font_loading.hpp"
 #include "units/bipeds.hpp"
@@ -2137,6 +2138,15 @@ callback_result_t overlapped_task_pause_callback(const void* userdata, int32 tok
 	{
 		overlapped_task_pause(context, static_cast<bool>(value - 1));
 	}
+
+	return result;
+}
+
+callback_result_t sound_loop_spam_callback(const void* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	scripting_looping_sound_spam();
 
 	return result;
 }
