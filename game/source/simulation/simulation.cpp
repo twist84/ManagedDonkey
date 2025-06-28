@@ -164,12 +164,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//	{
 	//		ASSERT(simulation_globals.initialized);
 	//		ASSERT(simulation_globals.world);
-	//
-	//		if (simulation_globals.simulation_aborted)
-	//		{
-	//			VASSERT("simulation aborted inside game update!");
-	//		}
-	//
+	//		VASSERT(simulation_globals.simulation_aborted, "simulation aborted inside game update!");
 	//		ASSERT(simulation_globals.world->exists());
 	//		ASSERT(game_in_progress());
 	//		ASSERT(update);

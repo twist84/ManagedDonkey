@@ -492,6 +492,17 @@ void __cdecl network_update()
 
 		NETWORK_ENTER_AND_LOCK_TIME;
 
+		//static uns32 time_of_last_update = 0;
+		//if (time_of_last_update)
+		//{
+		//	if (network_time_since(time_of_last_update) > 1000)
+		//	{
+		//		event(_event_message, "networking:update: *** it has been %d milliseconds since the last network update",
+		//			network_time_since(time_of_last_update));
+		//	}
+		//}
+		//time_of_last_update = network_time_get();
+
 		network_configuration_update();
 		network_bandwidth_update();
 		network_broadcast_search_update();
