@@ -68,15 +68,23 @@ void __cdecl simulation_apply_before_game(const struct simulation_update* update
 	//
 	//		for (int32 actor_index = 0; actor_index < k_maximum_players; actor_index++)
 	//		{
-	//			if (TEST_BIT(update->valid_actor_mask, actor_index))
+	//			if (!TEST_BIT(update->valid_actor_mask, actor_index))
 	//			{
-	//				if (UNIT_GET(update->actor_unit_indices[actor_index]))
-	//					unit_control(update->actor_unit_indices[actor_index], &update->actor_control[actor_index]);
+	//				continue;
 	//			}
+	//
+	//			if (!UNIT_GET(update->actor_unit_indices[actor_index]))
+	//			{
+	//				continue;
+	//			}
+	//
+	//			unit_control(update->actor_unit_indices[actor_index], &update->actor_control[actor_index]);
 	//		}
 	//
 	//		if (update->machine_update_exists)
+	//		{
 	//			players_set_machines(update->machine_update.machine_valid_mask, update->machine_update.machine_identifiers);
+	//		}
 	//
 	//		c_data_iterator<player_datum> player_iterator;
 	//		player_iterator.begin(*player_data);
@@ -87,7 +95,9 @@ void __cdecl simulation_apply_before_game(const struct simulation_update* update
 	//				int32 player_index = player_iterator.get_index();
 	//				int32 player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index);
 	//				if ((update->valid_player_prediction_mask & (1 << player_index)) != 0)
+	//				{
 	//					simulation_game_process_player_prediction(player_index, &update->player_prediction[player_absolute_index]);
+	//				}
 	//			}
 	//		}
 	//
@@ -104,7 +114,9 @@ void __cdecl simulation_apply_before_game(const struct simulation_update* update
 	//			ASSERT(update->flags.test(_simulation_update_simulation_in_progress_bit) || update->flags.test(_simulation_update_game_simulation_queue_requires_application_bit));
 	//
 	//			if (!update->flags.test(_simulation_update_simulation_in_progress_bit) && !game_is_playback())
+	//			{
 	//				resource_lock = tag_resources_lock_game();
+	//			}
 	//
 	//			simulation_globals.world->apply_simulation_queue(&update->game_simulation_queue);
 	//
@@ -112,7 +124,9 @@ void __cdecl simulation_apply_before_game(const struct simulation_update* update
 	//			{
 	//				objects_purge_deleted_objects();
 	//				if (!game_is_playback())
+	//				{
 	//					tag_resources_unlock_game(resource_lock);
+	//				}
 	//			}
 	//		}
 	//
@@ -152,7 +166,9 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//		ASSERT(simulation_globals.world);
 	//
 	//		if (simulation_globals.simulation_aborted)
+	//		{
 	//			VASSERT("simulation aborted inside game update!");
+	//		}
 	//
 	//		ASSERT(simulation_globals.world->exists());
 	//		ASSERT(game_in_progress());
@@ -171,7 +187,9 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//			bool should_go_out_of_sync = false;
 	//
 	//			if (update->flags.test(_simulation_update_gamestate_flushed_outside_game_tick_bit))
+	//			{
 	//				simulation_globals.world->gamestate_flush();
+	//			}
 	//
 	//			if (update->update_number == simulation_globals.world->get_next_update_number())
 	//			{
@@ -211,13 +229,19 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//			determinism_debug_manager_generate_game_state_checksum(&determinism_verification);
 	//
 	//			if (!determinism_debug_manager_compare_game_state_checksum(&update->determinism_verification, &determinism_verification))
+	//			{
 	//				should_go_out_of_sync = true;
+	//			}
 	//
 	//			if (net_allow_out_of_sync)
+	//			{
 	//				should_go_out_of_sync = true;
+	//			}
 	//
 	//			if (should_go_out_of_sync)
+	//			{
 	//				determinism_debug_manager_notify_out_of_sync();
+	//			}
 	//
 	//			if (should_go_out_of_sync)
 	//			{
@@ -262,29 +286,34 @@ void __cdecl simulation_dispose()
 {
 	//INVOKE(0x00441230, simulation_dispose);
 
-	simulation_gamestate_entities_dispose();
-	if (simulation_globals.initialized)
-	{
-		simulation_globals.world = NULL;
-		simulation_globals.watcher = NULL;
-		simulation_globals.type_collection = NULL;
-		simulation_globals.initialized = false;
-	}
+	//simulation_gamestate_entities_dispose();
+	//
+	//if (!simulation_globals.initialized)
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.world = NULL;
+	//simulation_globals.watcher = NULL;
+	//simulation_globals.type_collection = NULL;
+	//simulation_globals.initialized = false;
 }
 
 void __cdecl simulation_dispose_from_old_map()
 {
 	INVOKE(0x00441270, simulation_dispose_from_old_map);
 
-	//if (!main_game_reset_in_progress())
+	//if (main_game_reset_in_progress())
 	//{
-	//	simulation_globals.watcher->destroy_watcher();
-	//	simulation_globals.world->destroy_world();
-	//	game_results_dispose_from_old_map();
-	//	simulation_gamestate_entities_dispose_from_old_map();
-	//	simulation_globals.recording_film = false;
-	//	simulation_globals.simulation_reset_in_progress = false;
+	//	return;
 	//}
+	//
+	//simulation_globals.watcher->destroy_watcher();
+	//simulation_globals.world->destroy_world();
+	//game_results_dispose_from_old_map();
+	//simulation_gamestate_entities_dispose_from_old_map();
+	//simulation_globals.recording_film = false;
+	//simulation_globals.simulation_reset_in_progress = false;
 }
 
 void __cdecl simulation_end(e_simulation_abort_reason abort_reason)
@@ -297,7 +326,25 @@ void __cdecl simulation_fatal_error()
 	INVOKE(0x00441310, simulation_fatal_error);
 }
 
-// 00441320
+bool __cdecl simulation_film_record_update(const struct simulation_update* update)
+{
+	return INVOKE(0x00441320, simulation_film_record_update, update);
+
+	//ASSERT(update);
+	//
+	//if (!simulation_globals.recording_film)
+	//{
+	//	return false;
+	//}
+	//
+	//if (!saved_film_manager_write_simulation_update(update))
+	//{
+	//	event(_event_error, "networking:simulation:saved_film: failed to write update #%d to film", update->update_number);
+	//	simulation_film_stop_recording();
+	//}
+	//
+	//return true;
+}
 
 bool __cdecl simulation_film_retrieve_updates(int32 ticks_remaining, int32* updates_read_out)
 {
@@ -307,11 +354,46 @@ bool __cdecl simulation_film_retrieve_updates(int32 ticks_remaining, int32* upda
 bool __cdecl simulation_film_start_recording()
 {
 	return INVOKE(0x004413B0, simulation_film_start_recording);
+
+	//if (simulation_globals.recording_film)
+	//{
+	//	event(_event_warning, "networking:simulation: attempting to start recording a film while we have one already open?");
+	//	simulation_film_stop_recording();
+	//}
+	//
+	//const game_options* options = game_options_get();
+	//if (!options->record_saved_film)
+	//{
+	//	return false;
+	//}
+	//
+	//c_static_string<260> game_description{};
+	//simulation_get_game_description(&game_description);
+	//
+	//ASSERT(!simulation_globals.recording_film);
+	//simulation_globals.recording_film = saved_film_manager_open_film_for_writing(game_description.get_string(), options);
+	//if (!simulation_globals.recording_film)
+	//{
+	//	saved_film_manager_close();
+	//	event(_event_warning, "saved_film: unable to open saved film for recording");
+	//	return false;
+	//}
+	//
+	//return true;
 }
 
 void __cdecl simulation_film_stop_recording()
 {
 	INVOKE(0x00441410, simulation_film_stop_recording);
+
+	//if (!simulation_globals.recording_film)
+	//{
+	//	return;
+	//}
+	//
+	//saved_film_manager_close();
+	//simulation_globals.recording_film = false;
+	//saved_film_manager_copy_film_to_debug_path();
 }
 
 bool __cdecl simulation_format_player_netdebug_data(int32 player_index, const s_simulation_player_netdebug_data* netdebug_data, int32* filled_bar_count)
@@ -365,10 +447,11 @@ int32 __cdecl simulation_get_player_netdebug_filled_bar_count(int32 player_index
 
 	int32 temp_result = NONE;
 	const s_simulation_player_netdebug_data* netdebug_data = game_engine_get_player_netdebug_data(player_index);
-	if (simulation_format_player_netdebug_data(player_index, netdebug_data, &temp_result))
-		return temp_result;
-
-	return NONE;
+	if (!simulation_format_player_netdebug_data(player_index, netdebug_data, &temp_result))
+	{
+		return NONE;
+	}
+	return temp_result;
 }
 
 c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_channel* channel)
@@ -390,10 +473,11 @@ int32 __cdecl simulation_get_status()
 
 	//if (simulation_globals.initialized)
 	//{
-	//	ASSERT(simulation_globals.watcher);
-	//	return simulation_globals.watcher->describe_status_simple();
+	//	return 0;
 	//}
-	//return 0;
+	//
+	//ASSERT(simulation_globals.watcher);
+	//return simulation_globals.watcher->describe_status_simple();
 }
 
 c_simulation_type_collection* __cdecl simulation_get_type_collection()
@@ -424,14 +508,17 @@ c_simulation_world* __cdecl simulation_get_world_if_exists()
 {
 	return INVOKE(0x00441950, simulation_get_world_if_exists);
 
-	//if (simulation_globals.initialized && simulation_globals.world)
+	//if (!simulation_globals.initialized || !simulation_globals.world)
 	//{
-	//	if (simulation_globals.world->m_world_type)
-	//	{
-	//		return simulation_globals.world;
-	//	}
+	//	return NULL;
 	//}
-	//return NULL;
+	//
+	//if (simulation_globals.world->m_world_type == _simulation_world_type_none)
+	//{
+	//	return NULL;
+	//}
+	//
+	//return simulation_globals.world;
 }
 
 bool __cdecl simulation_in_progress()
@@ -446,23 +533,25 @@ void __cdecl simulation_initialize()
 	ASSERT(!simulation_globals.initialized);
 
 	simulation_gamestate_entities_initialize();
-	if (network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
+	if (!network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
 	{
-		ASSERT(simulation_globals.world);
-		ASSERT(simulation_globals.watcher);
-		ASSERT(simulation_globals.type_collection);
-
-		int32 entity_type_count = NONE;
-		int32 event_type_count = NONE;
-
-		simulation_globals.type_collection->clear_types();
-		simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
-		simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
-
-		simulation_globals.simulation_reset_in_progress = false;
-		simulation_globals.recording_film = false;
-		simulation_globals.initialized = true;
+		return;
 	}
+
+	ASSERT(simulation_globals.world);
+	ASSERT(simulation_globals.watcher);
+	ASSERT(simulation_globals.type_collection);
+
+	int32 entity_type_count = NONE;
+	int32 event_type_count = NONE;
+
+	simulation_globals.type_collection->clear_types();
+	simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
+	simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
+
+	simulation_globals.simulation_reset_in_progress = false;
+	simulation_globals.recording_film = false;
+	simulation_globals.initialized = true;
 }
 
 void __cdecl simulation_initialize_for_new_map()
@@ -470,36 +559,41 @@ void __cdecl simulation_initialize_for_new_map()
 	INVOKE(0x00441A40, simulation_initialize_for_new_map);
 
 	//ASSERT(simulation_globals.initialized);
-	//if (!main_game_reset_in_progress())
+	//
+	//if (main_game_reset_in_progress())
 	//{
-	//	c_simulation_distributed_world* distributed_world = NULL;
-	//	simulation_gamestate_entities_initialize_for_new_map();
-	//	simulation_globals.simulation_fatal_error = false;
-	//	simulation_globals.simulation_deferred = false;
-	//	simulation_globals.simulation_aborted = false;
-	//	simulation_globals.handled_determinism_failure = false;
-	//	simulation_globals.performed_main_save_and_exit_campaign_immediately_this_map = false;
-	//	simulation_film_start_recording();
-	//
-	//	if (game_is_distributed() && !game_is_playback())
-	//		distributed_world = network_allocate_simulation_distributed_world();
-	//
-	//	ASSERT(simulation_globals.world);
-	//	simulation_globals.world->initialize_world(
-	//		game_simulation_get(),
-	//		game_playback_get(),
-	//		true,
-	//		simulation_globals.type_collection,
-	//		simulation_globals.watcher,
-	//		distributed_world);
-	//
-	//	ASSERT(simulation_globals.world->exists());
-	//	ASSERT(simulation_globals.watcher);
-	//	simulation_globals.watcher->initialize_watcher(simulation_globals.world);
-	//	simulation_globals.watcher->setup_connection();
-	//	game_results_initialize_for_new_map();
-	//	simulation_globals.simulation_in_initial_state = true;
+	//	return;
 	//}
+	//
+	//c_simulation_distributed_world* distributed_world = NULL;
+	//simulation_gamestate_entities_initialize_for_new_map();
+	//simulation_globals.simulation_fatal_error = false;
+	//simulation_globals.simulation_deferred = false;
+	//simulation_globals.simulation_aborted = false;
+	//simulation_globals.handled_determinism_failure = false;
+	//simulation_globals.performed_main_save_and_exit_campaign_immediately_this_map = false;
+	//simulation_film_start_recording();
+	//
+	//if (game_is_distributed() && !game_is_playback())
+	//{
+	//	distributed_world = network_allocate_simulation_distributed_world();
+	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//simulation_globals.world->initialize_world(
+	//	game_simulation_get(),
+	//	game_playback_get(),
+	//	true,
+	//	simulation_globals.type_collection,
+	//	simulation_globals.watcher,
+	//	distributed_world);
+	//
+	//ASSERT(simulation_globals.world->exists());
+	//ASSERT(simulation_globals.watcher);
+	//simulation_globals.watcher->initialize_watcher(simulation_globals.world);
+	//simulation_globals.watcher->setup_connection();
+	//game_results_initialize_for_new_map();
+	//simulation_globals.simulation_in_initial_state = true;
 }
 
 void __cdecl simulation_initialize_for_saved_game(int32 game_state_proc_flags)
@@ -534,45 +628,62 @@ void __cdecl simulation_notify_core_save()
 {
 	INVOKE(0x00441CF0, simulation_notify_core_save);
 
-	//if (game_in_progress())
+	//if (!game_in_progress())
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	simulation_globals.world->notify_gamestate_flush_outside_game_tick();
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//simulation_globals.world->notify_gamestate_flush_outside_game_tick();
 }
 
 void __cdecl simulation_notify_going_active()
 {
 	INVOKE(0x00441D10, simulation_notify_going_active);
 
-	//if (game_is_campaign() && game_is_cooperative())
-	//	players_update_for_checkpoint();
+	//if (!game_is_campaign() || !game_is_cooperative())
+	//{
+	//	return;
+	//}
+	//
+	//players_update_for_checkpoint();
 }
 
 void __cdecl simulation_notify_initial_core_load(int32 update_number)
 {
 	INVOKE(0x00441D30, simulation_notify_initial_core_load, update_number);
 
-	//if (game_in_progress())
+	//if (!game_in_progress())
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	simulation_globals.world->notify_initial_gamestate_load(update_number);
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//simulation_globals.world->notify_initial_gamestate_load(update_number);
 }
 
 void __cdecl simulation_notify_players_created()
 {
 	INVOKE(0x00441D50, simulation_notify_players_created);
 
-	//if (simulation_globals.initialized)
+	//if (!simulation_globals.initialized)
 	//{
-	//	ASSERT(simulation_globals.watcher);
-	//	if (!simulation_globals.gamestate_load_in_progress)
-	//	{
-	//		if (!simulation_globals.world->is_playback())
-	//			simulation_globals.watcher->handle_player_creation();
-	//	}
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.watcher);
+	//
+	//if (simulation_globals.gamestate_load_in_progress)
+	//{
+	//	return;
+	//}
+	//
+	//if (simulation_globals.world->is_playback())
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.watcher->handle_player_creation();
 }
 
 void __cdecl simulation_notify_reset_complete()
@@ -591,39 +702,41 @@ void __cdecl simulation_notify_revert()
 {
 	INVOKE(0x00441DD0, simulation_notify_revert);
 
-	//if (game_in_progress())
+	//if (!game_in_progress())
 	//{
-	//	ASSERT(simulation_globals.watcher);
-	//	simulation_globals.watcher->notify_game_revert();
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.watcher);
+	//simulation_globals.watcher->notify_game_revert();
 }
 
 void __cdecl simulation_notify_saved_film_ended()
 {
 	INVOKE(0x00441DF0, simulation_notify_saved_film_ended);
 
-	//if (game_in_progress())
+	//if (!game_in_progress())
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	simulation_globals.world->notify_playback_control(
-	//		_network_synchronous_playback_control_end_playback,
-	//		NONE,
-	//		NONE);
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//
+	//simulation_globals.world->notify_playback_control(_network_synchronous_playback_control_end_playback, NONE, NONE);
 }
 
 void __cdecl simulation_notify_saved_film_revert(int32 history_record_index, int32 next_update_number)
 {
 	INVOKE(0x00441E10, simulation_notify_saved_film_revert, history_record_index, next_update_number);
 
-	//if (game_in_progress())
+	//if (!game_in_progress())
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	simulation_globals.world->notify_playback_control(
-	//		_network_synchronous_playback_control_revert,
-	//		history_record_index,
-	//		next_update_number);
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//
+	//simulation_globals.world->notify_playback_control(_network_synchronous_playback_control_revert, history_record_index, next_update_number);
 }
 
 bool __cdecl simulation_performed_main_save_and_exit_campaign_immediately_this_map()
@@ -635,15 +748,24 @@ void __cdecl simulation_player_joined_game(int32 player_index)
 {
 	INVOKE(0x00441E50, simulation_player_joined_game, player_index);
 
-	//if (simulation_globals.initialized)
+	//if (!simulation_globals.initialized)
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	if (!simulation_globals.gamestate_load_in_progress)
-	//	{
-	//		if (!simulation_globals.world->is_playback())
-	//			simulation_globals.world->create_player(player_index, game_simulation_get());
-	//	}
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//
+	//if (simulation_globals.gamestate_load_in_progress)
+	//{
+	//	return;
+	//}
+	//
+	//if (simulation_globals.world->is_playback())
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.world->create_player(player_index, game_simulation_get());
 }
 
 void __cdecl simulation_player_left_game(int32 player_index)
@@ -665,8 +787,13 @@ void __cdecl simulation_prepare_to_send()
 
 	//ASSERT(simulation_globals.initialized);
 	//ASSERT(simulation_globals.world);
-	//if (!simulation_globals.simulation_aborted && simulation_globals.world->m_world_type && game_in_progress())
-	//	simulation_globals.world->process_pending_updates();
+	//
+	//if (simulation_globals.simulation_aborted || simulation_globals.world->m_world_type == _simulation_world_type_none || !game_in_progress())
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.world->process_pending_updates();
 }
 
 void __cdecl simulation_process_actor_control(int32 simulation_actor_index, const unit_control_data* actor_control)
@@ -676,11 +803,18 @@ void __cdecl simulation_process_actor_control(int32 simulation_actor_index, cons
 	//ASSERT(simulation_globals.initialized);
 	//ASSERT(simulation_globals.world);
 	//ASSERT(game_in_progress());
-	//if (!simulation_globals.simulation_aborted)
+	//
+	//if (simulation_globals.simulation_aborted)
 	//{
-	//	if (simulation_globals.world->m_world_type)
-	//		simulation_globals.world->process_actor_control(simulation_actor_index, actor_control);
+	//	return;
 	//}
+	//
+	//if (simulation_globals.world->m_world_type == _simulation_world_type_none)
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.world->process_actor_control(simulation_actor_index, actor_control);
 }
 
 void __cdecl simulation_process_input(uns32 user_action_mask, const player_action* user_actions)
@@ -690,11 +824,18 @@ void __cdecl simulation_process_input(uns32 user_action_mask, const player_actio
 	//ASSERT(simulation_globals.initialized);
 	//ASSERT(simulation_globals.world);
 	//ASSERT(game_in_progress());
-	//if (!simulation_globals.simulation_aborted)
+	//
+	//if (simulation_globals.simulation_aborted)
 	//{
-	//	if (simulation_globals.world->m_world_type)
-	//		simulation_globals.world->process_input(user_action_mask, user_actions);
+	//	return;
 	//}
+	//
+	//if (simulation_globals.world->m_world_type == _simulation_world_type_none)
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.world->process_input(user_action_mask, user_actions);
 }
 
 void __cdecl simulation_record_update(const struct simulation_update* update)
@@ -704,8 +845,11 @@ void __cdecl simulation_record_update(const struct simulation_update* update)
 	//ASSERT(simulation_globals.initialized);
 	//ASSERT(simulation_globals.world);
 	//ASSERT(game_in_progress());
+	//
 	//if (simulation_globals.recording_film)
+	//{
 	//	simulation_film_record_update(update);
+	//}
 }
 
 void __cdecl simulation_remove_view_from_world(c_simulation_view* view)
@@ -720,9 +864,13 @@ void __cdecl simulation_reset()
 	//ASSERT(simulation_globals.world);
 	//ASSERT(simulation_globals.world->is_authority());
 	//if (simulation_globals.simulation_in_initial_state)
+	//{
 	//	simulation_globals.simulation_in_initial_state = false;
+	//}
 	//else
+	//{
 	//	simulation_reset_immediate();
+	//}
 }
 
 bool __cdecl simulation_reset_in_progress()
@@ -762,26 +910,39 @@ void __cdecl simulation_start()
 	INVOKE(0x004420C0, simulation_start);
 
 	//ASSERT(game_in_progress());
-	//if (simulation_globals.initialized)
+	//
+	//if (!simulation_globals.initialized)
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	if (!simulation_globals.world->attached_to_map())
-	//		simulation_globals.world->attach_to_map();
+	//	return;
 	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//
+	//if (simulation_globals.world->attached_to_map())
+	//{
+	//	return;
+	//}
+	//
+	//simulation_globals.world->attach_to_map();
 }
 
 bool __cdecl simulation_starting_up()
 {
 	//return INVOKE(0x004420E0, simulation_starting_up);
 
-	if (simulation_globals.initialized)
+	if (!simulation_globals.initialized)
 	{
-		ASSERT(simulation_globals.world);
-
-		if (!simulation_globals.simulation_aborted && simulation_globals.world->exists())
-			return !simulation_globals.world->is_active();
+		return false;
 	}
-	return false;
+
+	ASSERT(simulation_globals.world);
+
+	if (simulation_globals.simulation_aborted || !simulation_globals.world->exists())
+	{
+		return false;
+	}
+
+	return !simulation_globals.world->is_active();
 }
 
 void __cdecl simulation_stop()
@@ -789,11 +950,16 @@ void __cdecl simulation_stop()
 	INVOKE(0x00442110, simulation_stop);
 
 	//ASSERT(game_in_progress());
-	//if (simulation_globals.initialized)
+	//
+	//if (!simulation_globals.initialized)
 	//{
-	//	ASSERT(simulation_globals.world);
-	//	if (simulation_globals.world->attached_to_map() && !simulation_reset_in_progress() && !main_game_reset_in_progress())
-	//		simulation_globals.world->detach_from_map();
+	//	return;
+	//}
+	//
+	//ASSERT(simulation_globals.world);
+	//if (simulation_globals.world->attached_to_map() && !simulation_reset_in_progress() && !main_game_reset_in_progress())
+	//{
+	//	simulation_globals.world->detach_from_map();
 	//}
 }
 
@@ -817,7 +983,9 @@ void __cdecl simulation_update_aftermath(const struct simulation_update* update,
 	//ASSERT(simulation_globals.world);
 	//ASSERT(game_in_progress());
 	//if (simulation_globals.world->is_authority())
+	//{
 	//	simulation_globals.world->distribute_update(update, metadata);
+	//}
 	//simulation_globals.world->advance_update(update);
 }
 
@@ -835,25 +1003,27 @@ void __cdecl simulation_update_pregame()
 {
 	INVOKE(0x004426F0, simulation_update_pregame);
 
-	//if (simulation_globals.initialized
-	//	&& game_in_progress()
-	//	&& simulation_globals.watcher->need_to_generate_updates())
+	//if (!simulation_globals.initialized
+	//	|| !game_in_progress()
+	//	|| !simulation_globals.watcher->need_to_generate_updates())
 	//{
-	//	struct simulation_update update{};
-	//	s_simulation_update_metadata metadata{};
-	//	simulation_build_update(false, &update, &metadata);
-	//	ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
-	//	//saved_film_history_after_update_built(&update, &metadata);
-	//	//simulation_record_update(&update);
-	//	simulation_globals.recording_film = false;
-	//	random_seed_allow_use();
-	//	damage_acceleration_queue_begin();
-	//	simulation_apply_before_game(&update);
-	//	damage_acceleration_queue_end();
-	//	random_seed_disallow_use();
-	//	simulation_update_aftermath(&update, &metadata);
-	//	simulation_destroy_update(&update);
+	//	return;
 	//}
+	//
+	//struct simulation_update update {};
+	//s_simulation_update_metadata metadata{};
+	//simulation_build_update(false, &update, &metadata);
+	//ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
+	////saved_film_history_after_update_built(&update, &metadata);
+	////simulation_record_update(&update);
+	//simulation_globals.recording_film = false;
+	//random_seed_allow_use();
+	//damage_acceleration_queue_begin();
+	//simulation_apply_before_game(&update);
+	//damage_acceleration_queue_end();
+	//random_seed_disallow_use();
+	//simulation_update_aftermath(&update, &metadata);
+	//simulation_destroy_update(&update);
 }
 
 bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, const uns8* buffer)
@@ -897,10 +1067,12 @@ bool __cdecl simulation_update_write_to_buffer(const struct simulation_update* u
 
 void simulation_debug_render()
 {
-	if (simulation_globals.initialized)
+	if (!simulation_globals.initialized)
 	{
-		ASSERT(simulation_globals.world);
-		simulation_globals.world->debug_render();
+		return;
 	}
+
+	ASSERT(simulation_globals.world);
+	simulation_globals.world->debug_render();
 }
 
