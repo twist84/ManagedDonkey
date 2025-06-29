@@ -12,7 +12,7 @@ int32 const k_seat_acceleration_memory_length = 6;
 struct s_unit_weapon_set
 {
 	uns16 set_identifier;
-	c_static_array<int8, k_weapon_set_count> weapon_indices;
+	c_static_array<int8, k_unit_weapon_set_count> weapon_indices;
 };
 
 struct unit_control_data

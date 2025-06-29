@@ -581,7 +581,7 @@ struct scenario_starting_profile
 	real32 starting_shield_damage;
 
 	// multiplayer_globals->universal[0]->weapon_selections
-	starting_weapon_info starting_weapons[k_weapon_set_count];
+	starting_weapon_info starting_weapons[k_unit_weapon_set_count];
 
 	// multiplayer_globals->universal[0]->equipment
 	int16 starting_equipment[4]; // short_block_index

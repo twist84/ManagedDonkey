@@ -148,7 +148,7 @@ void __cdecl hf2p_game_update()
 			DECLFUNC(0x005A2FA0, void, __cdecl, uns32)(mainmenu_unit_index);
 		}
 
-		int32 primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ int16(0xFFFD), _weapon_set_primary);
+		int32 primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ int16(0xFFFD), _unit_weapon_set_primary);
 		game_engine_add_starting_weapon_to_player(mainmenu_unit_index, primary_weapon_index, 1);
 	}
 }

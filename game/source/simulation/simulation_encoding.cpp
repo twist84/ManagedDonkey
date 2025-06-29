@@ -256,7 +256,7 @@ bool __cdecl unit_control_decode(c_bitstream* bitstream, unit_control_data* unit
 	//unit_control->aiming_speed = bitstream->read_integer("animation-speed", 32);
 	//
 	//unit_control->weapon_set.set_identifier = bitstream->read_integer("weapon-set-id", 32);
-	//bitstream->read_bits_internal(unit_control->weapon_set.weapon_indices.begin(), SIZEOF_BITS(k_weapon_set_count));
+	//bitstream->read_bits_internal(unit_control->weapon_set.weapon_indices.begin(), SIZEOF_BITS(k_unit_weapon_set_count));
 	//
 	//unit_control->grenade_index = bitstream->read_integer("grenade-index", 32);
 	//unit_control->zoom_level = bitstream->read_integer("zoom-level", 32);

@@ -79,8 +79,8 @@ void s_scenario_sky_reference::update_reference_names()
 
 void scenario_starting_profile::update_reference_names()
 {
-	UPDATE_REFERENCE_NAME(starting_weapons[_weapon_set_primary].weapon);
-	UPDATE_REFERENCE_NAME(starting_weapons[_weapon_set_secondary].weapon);
+	UPDATE_REFERENCE_NAME(starting_weapons[_unit_weapon_set_primary].weapon);
+	UPDATE_REFERENCE_NAME(starting_weapons[_unit_weapon_set_secondary].weapon);
 }
 
 void s_background_bitmap_reference_definition::update_reference_names()
