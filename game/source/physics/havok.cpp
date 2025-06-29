@@ -204,8 +204,6 @@ void __cdecl havok_update()
 
 void havok_debug_render()
 {
-	return;
-
 	bool set_single_thread_request_flag = debug_objects
 		&& (debug_objects_physics_models
 			|| debug_objects_water_physics
@@ -227,20 +225,28 @@ void havok_debug_render()
 		havok_prepare_fpu_for_update();
 
 		if (get_havok_constants()->havok_display_stats)
+		{
 			havok_display_stats(false);
+		}
 
 		//if (get_havok_constants()->havok_render_impacts)
-		//    impacts_render_debug(); // $TODO: implement
-		//
-		//if (get_havok_constants()->havok_render_proxies)
-		//    havok_proxies_render_debug(); // $TODO: implement
-		//
+		//{
+		//	impacts_render_debug(); // $TODO: implement
+		//}
+
+		if (get_havok_constants()->havok_render_proxies)
+		{
+			havok_proxies_render_debug();
+		}
+
 		//if (get_havok_constants()->havok_render_collision_damage)
-		//    havok_collision_damage_render_debug(); // $TODO: implement
-		//
+		//{
+		//	havok_collision_damage_render_debug(); // $TODO: implement
+		//}
+
 		//if (get_havok_constants()->havok_render_shape_properties)
 		//{
-		//    // $TODO: implement
+		//	// $TODO: implement
 		//}
 
 		havok_restore_fpu_from_update();
