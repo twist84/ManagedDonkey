@@ -96,21 +96,21 @@ extern void __cdecl render_debug_box(bool draw_immediately, const real_rectangle
 extern void __cdecl render_debug_box_oriented(bool draw_immediately, const real_rectangle3d* bounds, const real_matrix4x3* matrix, const real_argb_color* color);
 extern void __cdecl render_debug_box_outline(bool draw_immediately, const real_rectangle3d* bounds, const real_argb_color* color);
 extern void __cdecl render_debug_box_outline_oriented(bool draw_immediately, const real_rectangle3d* bounds, const real_matrix4x3* matrix, const real_argb_color* color);
-extern void __cdecl render_debug_polygon(const real_point3d* points, int16 total_point_count, const real_argb_color* color);
-extern void __cdecl render_debug_polygon_edges(const real_point3d* points, int16 total_point_count, const real_argb_color* color);
-extern void __cdecl render_debug_k_graph(const real_point3d* points, int16 total_point_count, const real_argb_color* color);
+extern void __cdecl render_debug_polygon(const real_point3d* points, int16 point_count, const real_argb_color* color);
+extern void __cdecl render_debug_polygon_edges(const real_point3d* points, int16 point_count, const real_argb_color* color);
+extern void __cdecl render_debug_k_graph(const real_point3d* points, int16 point_count, const real_argb_color* color);
 extern void __cdecl render_debug_cone_outline(bool draw_immediately, const real_point3d* point, const real_vector3d* direction, real32 radius, real32 cone_angle, const real_argb_color* color);
 extern void __cdecl render_debug_string(const char* string);
 extern void __cdecl render_debug_string_at_point(const real_point3d* point, const char* string, const real_argb_color* color);
 
 extern void __cdecl render_debug_string_immediate(bool draw_immediately, const int16* tab_stops, int16 tab_stop_count, const char* string);
-extern void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, const char* string, const real_argb_color* color, real32 scale);
+extern void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, const char* string, const real_argb_color* color);
 
 extern bool __cdecl render_debug_draw_immediately(const real_argb_color* color);
 extern void __cdecl render_debug_add_cache_entry(int16 type, ...);
 extern void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_render_strings, bool clear_cache);
 
-extern void __cdecl render_debug_polygon_fan(const real_point3d* points, int16 total_point_count, const real_argb_color* color);
+extern void __cdecl render_debug_polygon_fan(const real_point3d* points, int16 point_count, const real_argb_color* color);
 
 extern real32 __cdecl build_height_matrix(const real_point3d* base, const real_vector3d* height, real_matrix4x3* out_matrix);
 extern void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* points, int32 total_point_count);

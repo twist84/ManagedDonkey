@@ -2011,7 +2011,9 @@ void object_debug_teleport(int32 object_index, const real_point3d* position)
 		havok_can_modify_state_allow();
 
 		if (object->object.flags.test(_object_in_limbo_bit))
+		{
 			object_set_in_limbo(object_index, false);
+		}
 
 		object_set_position_internal(object_index, position, NULL, NULL, NULL, false, true, false, true);
 
@@ -2047,7 +2049,9 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 	const char* tag_name = tag_get_name(object->definition_index);
 
 	if (!full_name)
+	{
 		tag_name = tag_name_strip_path(tag_get_name(object->definition_index));
+	}
 
 	name->append_print("%s.%s|n", tag_name, group_tag_name);
 
@@ -2061,7 +2065,9 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 
 		s_model_definition* model_definition = NULL;
 		if (object_definition->object.model.index != NONE)
+		{
 			model_definition = object_definition->object.model.cast_to<s_model_definition>();
+		}
 
 		//if (model_definition && object_definition->object.variant_index < 128 && object_definition->object.variant_index < model_definition)
 		//{
@@ -2084,7 +2090,9 @@ void object_render_debug_internal(int32 object_index)
 	c_static_string<4096> string;
 
 	if (debug_objects_indices)
+	{
 		string.append_print("%d (%#x)|n", object_index, object_index);
+	}
 
 	if (debug_objects_programmer)
 	{
@@ -2204,7 +2212,9 @@ void object_render_debug_internal(int32 object_index)
 	{
 		s_model_definition* model_definition = NULL;
 		if (object_definition->object.model.index != NONE)
+		{
 			model_definition = object_definition->object.model.cast_to<s_model_definition>();
+		}
 
 		if (model_definition)
 		{
@@ -2219,9 +2229,13 @@ void object_render_debug_internal(int32 object_index)
 					render_debug_vector(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, global_real_argb_darkgreen);
 
 					if (target.cone_angle <= 3.1414928f)
+					{
 						render_debug_cone_outline(true, &markers[0].matrix.position, &markers[0].matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
+					}
 					else
+					{
 						render_debug_sphere(true, &markers[0].matrix.position, target.size, global_real_argb_darkgreen);
+					}
 				}
 				break;
 				case 2:

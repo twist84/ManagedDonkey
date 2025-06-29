@@ -162,7 +162,6 @@ struct cache_entry
 			int32 string_index;
 			real_point3d point;
 			real_argb_color color;
-			real32 scale;
 		} string_at_point;
 
 		struct // _render_debug_type_box2d_outline
@@ -1135,31 +1134,31 @@ void __cdecl render_debug_box_outline_oriented(bool draw_immediately, const real
 	}
 }
 
-void __cdecl render_debug_polygon(const real_point3d* points, int16 total_point_count, const real_argb_color* color)
+void __cdecl render_debug_polygon(const real_point3d* points, int16 point_count, const real_argb_color* color)
 {
-	if (total_point_count > 1)
+	if (point_count > 1)
 	{
 		ASSERT(points);
 		ASSERT(color);
 
-		for (int16 i = 1; i < total_point_count - 1; i++)
+		for (int16 i = 1; i < point_count - 1; i++)
 		{
 			render_debug_triangle(true, points, &points[i], &points[i + 1], color);
 		}
 	}
 }
 
-void __cdecl render_debug_polygon_edges(const real_point3d* points, int16 total_point_count, const real_argb_color* color)
+void __cdecl render_debug_polygon_edges(const real_point3d* points, int16 point_count, const real_argb_color* color)
 {
-	if (total_point_count > 1)
+	if (point_count > 1)
 	{
 		ASSERT(points);
 		ASSERT(color);
 
-		if (total_point_count > 2)
+		if (point_count > 2)
 		{
-			render_debug_line(true, &points[total_point_count - 1], points, color);
-			for (int16 i = 1; i < total_point_count; i++)
+			render_debug_line(true, &points[point_count - 1], points, color);
+			for (int16 i = 1; i < point_count; i++)
 			{
 				render_debug_line(true, &points[i - 1], &points[i], color);
 			}
@@ -1167,16 +1166,16 @@ void __cdecl render_debug_polygon_edges(const real_point3d* points, int16 total_
 	}
 }
 
-void __cdecl render_debug_k_graph(const real_point3d* points, int16 total_point_count, const real_argb_color* color)
+void __cdecl render_debug_k_graph(const real_point3d* points, int16 point_count, const real_argb_color* color)
 {
 	ASSERT(points);
 	ASSERT(color);
 
-	if (total_point_count > 2)
+	if (point_count > 2)
 	{
-		for (int16 i = 0; i < total_point_count; i++)
+		for (int16 i = 0; i < point_count; i++)
 		{
-			for (int16 j = i + 1; j < total_point_count; j++)
+			for (int16 j = i + 1; j < point_count; j++)
 			{
 				render_debug_line(1, &points[i], &points[j], color);
 			}
@@ -1237,8 +1236,7 @@ void __cdecl render_debug_string_at_point(const real_point3d* point, const char*
 	ASSERT(string);
 	ASSERT(color);
 
-	real32 font_scale = get_render_debug_globals()->use_simple_font_text_rendering ? 1.0f : 0.6f;
-	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color, font_scale);
+	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color);
 }
 
 void __cdecl render_debug_string_immediate(bool draw_immediately, const int16* tab_stops, int16 tab_stop_count, const char* string)
@@ -1264,7 +1262,7 @@ void __cdecl render_debug_string_immediate(bool draw_immediately, const int16* t
 	}
 }
 
-void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, const char* string, const real_argb_color* color, real32 scale)
+void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, const char* string, const real_argb_color* color)
 {
 	ASSERT(point);
 	ASSERT(string);
@@ -1284,14 +1282,6 @@ void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, c
 	real_point2d screen_point{};
 	if (render_camera_world_to_window(camera, projection, &window_display_bounds, point, &screen_point))
 	{
-		real32 text_scale = inverse_aspect_ratio_scale.i;
-		if (scale > 0.01f)
-		{
-			real32 v9 = point->y - camera->position.y;
-			real32 v10 = point->z - camera->position.z;
-			text_scale = scale / (square_root(((v9 * v9) + ((point->x - camera->position.x) * (point->x - camera->position.x))) + (v10 * v10)) + scale);
-		}
-
 		rectangle2d bounds{};
 		bounds.x0 = (int16)real32(screen_point.x - (real32)window_display_bounds.x0);
 		bounds.y0 = (int16)real32(screen_point.y - (real32)window_display_bounds.y0);
@@ -1305,10 +1295,6 @@ void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, c
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
-			if (scale > 0.01f)
-			{
-				draw_string.set_scale(scale);
-			}
 			draw_string.draw(NULL, string);
 		}
 		else
@@ -1320,10 +1306,6 @@ void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, c
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
-			if (scale > 0.01f)
-			{
-				draw_string.set_scale(scale);
-			}
 			draw_string.draw(&font_cache, string);
 		}
 	}
@@ -1482,7 +1464,6 @@ void __cdecl render_debug_add_cache_entry(int16 type, ...)
 				entry->string_at_point.string_index = string_index;
 				entry->string_at_point.point = *va_arg(list, real_point3d*);
 				entry->string_at_point.color = *va_arg(list, real_argb_color*);
-				entry->string_at_point.scale = (real32)va_arg(list, real64);
 				alpha = entry->string_at_point.color.alpha;
 			}
 		}
@@ -1691,8 +1672,7 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 					render_debug_string_at_point_immediate(
 						&entry->string_at_point.point,
 						string,
-						&entry->string_at_point.color,
-						entry->string_at_point.scale);
+						&entry->string_at_point.color);
 				}
 				break;
 				case _render_debug_type_box2d_outline:
@@ -1703,8 +1683,10 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 				}
 				break;
 				default:
+				{
 					// ASSERT(halt());
-					break;
+				}
+				break;
 				}
 			}
 		}
@@ -1720,22 +1702,22 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 }
 
 // `sound/game_sound_spatialization.cpp`
-void __cdecl render_debug_polygon_fan(const real_point3d* points, int16 total_point_count, const real_argb_color* color)
+void __cdecl render_debug_polygon_fan(const real_point3d* points, int16 point_count, const real_argb_color* color)
 {
-	if (total_point_count > 1)
+	if (point_count > 1)
 	{
 		ASSERT(points);
 		ASSERT(color);
 
-		real_argb_color color_ = *color;
-		color_.alpha = 1.0f;
+		real_argb_color edge_color = *color;
+		edge_color.alpha = 1.0f;
 
-		for (int16 i = 1; i < total_point_count - 1; i++)
+		for (int16 i = 1; i < point_count - 1; i++)
 		{
-			render_debug_triangle(true, points, &points[i], &points[i + 1], color);
-			render_debug_line(true, points, &points[i], &color_);
-			render_debug_line(true, &points[i], &points[i + 1], &color_);
-			render_debug_line(true, points, &points[i + 1], &color_);
+			render_debug_triangle(true, &points[0], &points[i], &points[i + 1], color);
+			render_debug_line(true, &points[0], &points[i], &edge_color);
+			render_debug_line(true, &points[i], &points[i + 1], &edge_color);
+			render_debug_line(true, &points[0], &points[i + 1], &edge_color);
 		}
 	}
 }
