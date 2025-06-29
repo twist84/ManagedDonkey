@@ -5,6 +5,7 @@
 #include "game/materials.hpp"
 
 #include <hkArray.hpp>
+#include <hkMath.hpp>
 
 class c_havok_contact_point
 {
@@ -39,16 +40,43 @@ public:
 };
 static_assert(sizeof(c_havok_contact_point) == 0x44);
 
-struct hkRigidBody;
+struct hkAabbPhantom;
 struct hkConstraintInstance;
-struct hkWorldObject;
+struct hkRigidBody;
+struct hkSimpleShapePhantom;
 class c_havok_component :
 	public s_datum_header
 {
 public:
+	void render_debug(bool water_physics, bool render_physics_model, bool expensive_physics, bool contact_points, bool constraints, bool vehicle_physics, bool render_mass);
+
+	hkRigidBody* get_rigid_body(int32 rigid_body_index)
+	{
+		//ASSERT(get_havok_rigid_bodies()[rigid_body_index].get_rigid_body() != NULL);
+		ASSERT(m_havok_rigid_bodies.m_data[rigid_body_index].get_rigid_body() != NULL);
+
+		return m_havok_rigid_bodies.m_data[rigid_body_index].get_rigid_body();
+	}
+
+public:
 	class c_rigid_body
 	{
 	public:
+
+		enum
+		{
+			k_inplace_rigid_body_indexes = 4,
+		};
+
+	public:
+		hkRigidBody* get_rigid_body()
+		{
+			ASSERT(m_rigid_body != NULL);
+			return m_rigid_body;
+		}
+
+	public:
+
 		struct s_contact_point_buffer
 		{
 			c_havok_contact_point contact_point;
@@ -56,10 +84,7 @@ public:
 		static_assert(sizeof(s_contact_point_buffer) == 0x44);
 
 		hkArray<s_contact_point_buffer> m_havok_contact_points;
-		hkArray<int8> m_physics_model_rigid_body_indexes;
-
-		byte __dataC[0x4];
-
+		hkInplaceArray<int8, k_inplace_rigid_body_indexes> m_rigid_body_indexes;
 		real_point3d m_pre_simulation_position;
 		real_vector3d m_pre_simulation_linear_velocity;
 		real_vector3d m_pre_simulation_angular_velocity;
@@ -69,6 +94,8 @@ public:
 		// FLAG(1) _has_infinite_inertia_tensor_bit
 		// FLAG(2) _get_does_not_collide_with_environment_bit
 		uns8 m_flags;
+
+		char pad0[3];
 	};
 	static_assert(sizeof(c_rigid_body) == 0x48);
 
@@ -114,8 +141,8 @@ public:
 	c_rigid_body m_rigid_body;
 	hkArray<c_constraint> m_constraints;
 	hkArray<s_body_in_phantom>* m_bodies_in_phantom;
-	hkWorldObject* m_simple_shape_phantom;
-	hkWorldObject* m_aabb_phantom;
+	hkSimpleShapePhantom* m_simple_shape_phantom;
+	hkAabbPhantom* m_aabb_phantom;
 };
 static_assert(sizeof(c_havok_component) == 0x80);
 
