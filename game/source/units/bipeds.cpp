@@ -231,9 +231,13 @@ void __cdecl biped_render_debug(int32 biped_index)
 
 		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
 		if (magnitude_squared3d(&height) <= 0.0f)
+		{
 			render_debug_sphere(true, &base, autoaim_width, global_real_argb_red);
+		}
 		else
+		{
 			render_debug_pill(true, &base, &height, autoaim_width, global_real_argb_red);
+		}
 	}
 
 	if (debug_objects_ground_plane)

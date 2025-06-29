@@ -337,17 +337,17 @@ bool __cdecl render_camera_world_to_screen(const render_camera* camera, const re
 
 bool __cdecl render_camera_world_to_window(const render_camera* camera, const render_projection* projection, const rectangle2d* window_display_bounds, const real_point3d* world_point, real_point2d* screen_point)
 {
+	//return INVOKE(0x00A65C10, render_camera_world_to_window, camera, projection, window_display_bounds, world_point, screen_point);
+
 	ASSERT(camera);
 	ASSERT(projection);
 	ASSERT(window_display_bounds);
 	ASSERT(world_point);
 	ASSERT(screen_point);
 
-	return INVOKE(0x00A65C10, render_camera_world_to_window, camera, projection, window_display_bounds, world_point, screen_point);
-
-	//real_point3d point{};
-	//matrix4x3_transform_point(&projection->world_to_view, world_point, &point);
-	//return render_camera_view_to_screen(camera, projection, window_display_bounds, &point, screen_point);
+	real_point3d point{};
+	matrix4x3_transform_point(&projection->world_to_view, world_point, &point);
+	return render_camera_view_to_screen(camera, projection, window_display_bounds, &point, screen_point);
 }
 
 real32 __cdecl render_projection_sphere_diameter_in_pixels(const render_projection* projection, const real_point3d* point, real32 scale)
