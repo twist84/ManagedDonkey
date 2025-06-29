@@ -123,10 +123,10 @@ void __cdecl interface_scale_rectangle2d_for_xenon_scaler(rectangle2d* rectangle
 {
 	//INVOKE(0x00A9FE30, interface_scale_rectangle2d_for_xenon_scaler, rectangle, aspect_ratio_scale);
 
-	rectangle->y0 = int16(((real32)rectangle->y0 * aspect_ratio_scale->i) * 0.001f);
-	rectangle->y1 = int16(((real32)rectangle->y1 * aspect_ratio_scale->i) * 0.001f);
-	rectangle->x0 = int16(((real32)rectangle->x0 * aspect_ratio_scale->j) * 0.001f);
-	rectangle->x1 = int16(((real32)rectangle->x1 * aspect_ratio_scale->j) * 0.001f);
+	rectangle->y0 = (int16)((real32)rectangle->y0 * aspect_ratio_scale->j);
+	rectangle->x0 = (int16)((real32)rectangle->x0 * aspect_ratio_scale->i);
+	rectangle->y1 = (int16)((real32)rectangle->y1 * aspect_ratio_scale->j);
+	rectangle->x1 = (int16)((real32)rectangle->x1 * aspect_ratio_scale->i);
 }
 
 void __cdecl interface_scale_screenspace_vertices_for_xenon_scaler(rasterizer_vertex_screen* vertices, int32 vertex_count, const real_vector2d* aspect_ratio_scale)
