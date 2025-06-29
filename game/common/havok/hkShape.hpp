@@ -71,10 +71,12 @@ struct hkTriangleShape :
 	public hkConvexShape
 {
 public:
-	uns16 m_welding_info;
-	unsigned char m_welding_type;
-	unsigned char m_is_extruded;
-	hkVector4 m_vertices[3];
+	uns16 m_weldingInfo;
+	unsigned char m_weldingType;
+	unsigned char m_isExtruded;
+	hkVector4 m_vertexA;
+	hkVector4 m_vertexB;
+	hkVector4 m_vertexC;
 	hkVector4 m_extrusion;
 };
 
@@ -82,14 +84,15 @@ struct hkBoxShape :
 	public hkConvexShape
 {
 public:
-	hkVector4 m_half_extents;
+	hkVector4 m_halfExtents;
 };
 
 struct hkCapsuleShape :
 	public hkConvexShape
 {
 public:
-	hkVector4 m_vertices[2];
+	hkVector4 m_vertexA;
+	hkVector4 m_vertexB;
 };
 
 struct hkShapeContainer
@@ -109,14 +112,14 @@ struct hkShapeContainer
 struct hkSingleShapeContainer :
 	public hkShapeContainer
 {
-	hkShape* m_child_shape;
+	hkShape* m_childShape;
 };
 
 struct hkBvShape :
 	public hkShape
 {
-	hkShape* m_bounding_volume_shape;
-	hkSingleShapeContainer m_shape_container;
+	hkShape* m_boundingVolumeShape;
+	hkSingleShapeContainer m_childShape;
 };
 
 struct hkTransformShape :
@@ -136,7 +139,7 @@ public:
 		MAX_SPHERES = 8
 	};
 
-	int m_num_spheres;
+	int m_numSpheres;
 	hkVector4 m_spheres[MAX_SPHERES];
 };
 
@@ -155,3 +158,20 @@ struct hkConvexVerticesShape :
 	hkArray<FourVectors> m_rotatedVertices;
 	hkArray<hkVector4> m_planeEquations;
 };
+
+struct hkConvexTranslateShape :
+	public hkConvexShape
+{
+	hkSingleShapeContainer m_childShape;
+	int m_childShapeSize;
+	hkVector4 m_translation;
+};
+
+struct hkConvexTransformShape :
+	public hkConvexShape
+{
+	hkSingleShapeContainer m_childShape;
+	int m_childShapeSize;
+	hkTransform m_transform;
+};
+

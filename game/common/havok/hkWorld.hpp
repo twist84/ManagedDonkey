@@ -348,3 +348,268 @@ static_assert(0x3C == __builtin_offsetof(hkSimulationIsland, m_actions));
 static_assert(0x48 == __builtin_offsetof(hkSimulationIsland, m_timeOfDeactivation));
 static_assert(0x4C == __builtin_offsetof(hkSimulationIsland, m_entities));
 static_assert(0x5C == __builtin_offsetof(hkSimulationIsland, m_agentTrack));
+
+// $TODO: find these a better home
+
+struct hkShape;
+struct hkCdBody
+{
+	const hkShape* m_shape;
+	unsigned int m_shapeKey;
+	const void* m_motion;
+	const hkCdBody* m_parent;
+};
+
+struct hkBroadPhaseHandle
+{
+	unsigned int m_id;
+};
+
+struct hkTypedBroadPhaseHandle :
+	public hkBroadPhaseHandle
+{
+	char m_type;
+	char m_ownerOffset;
+	unsigned __int16 m_objectQualityType;
+	unsigned int m_collisionFilterInfo;
+};
+
+#pragma pack(push, 4)
+struct hkCollidable :
+	public hkCdBody
+{
+	char m_ownerOffset;
+	unsigned __int8 m_forceCollideOntoPpu;
+	unsigned __int16 m_shapeSizeOnSpu;
+	hkTypedBroadPhaseHandle m_broadPhaseHandle;
+	float m_allowedPenetrationDepth;
+};
+#pragma pack(pop)
+
+struct hkAgentNnEntry;
+struct hkLinkedCollidable :
+	public hkCollidable
+{
+	struct CollisionEntry
+	{
+		hkAgentNnEntry* m_agentEntry;
+		hkLinkedCollidable* m_partner;
+	};
+
+	hkArray<CollisionEntry> m_collisionEntries;
+};
+
+struct hkPropertyValue
+{
+	unsigned __int64 m_data;
+};
+
+struct hkProperty
+{
+	unsigned int m_key;
+	unsigned int m_alignmentPadding;
+	hkPropertyValue m_value;
+};
+
+struct hkWorldObject :
+	public hkReferencedObject
+{
+	hkWorld* m_World;
+	void* m_userData;
+	hkLinkedCollidable m_collidable;
+	hkMultiThreadLock m_multithreadLock;
+	const char* m_name;
+	hkArray<hkProperty> m_properties;
+};
+
+struct hkMaterial
+{
+	signed __int8 m_responseType;
+	float m_friction;
+	float m_restitution;
+};
+
+struct hkConstraintAtom
+{
+	unsigned __int16 m_type;
+};
+
+struct hkConstraintInstance;
+struct __declspec(align(8)) hkConstraintInternal
+{
+	hkConstraintInstance* m_constraint;
+	hkEntity* m_entities[2];
+	hkConstraintAtom* m_atoms;
+	unsigned __int16 m_atomsSize;
+	unsigned __int8 m_callbackRequest;
+	unsigned __int8 m_priority;
+	unsigned __int16 m_sizeOfSchemas;
+	unsigned __int16 m_numSolverResults;
+	unsigned __int16 m_numSolverElemTemps;
+	unsigned __int8 m_whoIsMaster;
+	hkBool m_isNormalType;
+	void* m_runtime;
+	unsigned __int16 m_runtimeSize;
+	unsigned __int16 m_slaveIndex;
+};
+
+template<typename t_type>
+struct __declspec(align(4)) hkSmallArray
+{
+	t_type* m_data;
+	unsigned __int16 m_size;
+	unsigned __int16 m_capacityAndFlags;
+};
+struct hkEntityDeactivator :
+	public hkReferencedObject
+{
+};
+
+template<typename t_type, typename t_storage_type>
+struct hkEnum
+{
+	t_storage_type m_storage;
+};
+
+struct hkPhantomOverlapListener
+{
+	void* __vftable /*VFT*/;
+};
+
+struct hkPhantomListener
+{
+	void* __vftable /*VFT*/;
+};
+
+struct hkPhantom :
+	public hkWorldObject
+{
+	hkArray<hkPhantomOverlapListener> m_overlapListeners;
+	hkArray<hkPhantomListener> m_phantomListeners;
+};
+
+struct hkSweptTransform
+{
+	hkVector4 m_centerOfMass0;
+	hkVector4 m_centerOfMass1;
+	hkQuaternion m_rotation0;
+	hkQuaternion m_rotation1;
+	hkVector4 m_centerOfMassLocal;
+};
+
+struct hkMotionState
+{
+	hkTransform m_transform;
+	hkSweptTransform m_sweptTransform;
+	hkVector4 m_deltaAngle;
+	float m_objectRadius;
+	float m_maxLinearVelocity;
+	float m_maxAngularVelocity;
+	float m_linearDamping;
+	float m_angularDamping;
+	unsigned __int16 m_deactivationClass;
+	unsigned __int16 m_deactivationCounter;
+	unsigned int m_deactivationRefOrientation[2];
+};
+
+struct hkShapePhantom :
+	public hkPhantom
+{
+	hkMotionState m_motionState;
+};
+
+struct hkMotion : 
+	public hkReferencedObject
+{
+	enum MotionType
+	{
+		MOTION_INVALID = 0,
+		MOTION_DYNAMIC = 1,
+		MOTION_SPHERE_INERTIA = 2,
+		MOTION_STABILIZED_SPHERE_INERTIA = 3,
+		MOTION_BOX_INERTIA = 4,
+		MOTION_STABILIZED_BOX_INERTIA = 5,
+		MOTION_KEYFRAMED = 6,
+		MOTION_FIXED = 7,
+		MOTION_THIN_BOX_INERTIA = 8,
+		MOTION_MAX_ID = 9,
+	};
+
+	hkEnum<MotionType, unsigned char> m_type;
+	unsigned __int8 m_deactivationIntegrateCounter;
+	unsigned __int16 m_deactivationNumInactiveFrames[2];
+	hkMotionState m_motionState;
+	hkVector4 m_inertiaAndMassInv;
+	hkVector4 m_linearVelocity;
+	hkVector4 m_angularVelocity;
+	hkVector4 m_deactivationRefPosition[2];
+};
+
+struct hkMaxSizeMotion;
+struct hkKeyframedRigidMotion :
+	public hkMotion
+{
+	hkMaxSizeMotion* m_savedMotion;
+	int m_savedQualityTypeIndex;
+};
+
+struct hkMaxSizeMotion :
+	public hkKeyframedRigidMotion
+{
+};
+
+struct hkCollisionListener;
+struct hkEntityActivationListener;
+struct hkEntityListener;
+
+struct hkEntity :
+	public hkWorldObject
+{
+	hkBool isActive()
+	{
+		hkBool result = { false };
+		if (m_simulationIsland)
+		{
+			result.m_bool = m_simulationIsland->m_active;
+		}
+		return result;
+	}
+
+	hkMaterial m_material;
+	unsigned int m_solverData;
+	unsigned __int16 m_storageIndex;
+	unsigned __int16 m_processContactCallbackDelay;
+	hkSmallArray<hkConstraintInternal> m_constraintsMaster;
+	hkArray<hkConstraintInstance*> m_constraintsSlave;
+	hkArray<unsigned char> m_constraintRuntime;
+	hkEntityDeactivator* m_deactivator;
+	hkSimulationIsland* m_simulationIsland;
+	char m_autoRemoveLevel;
+	unsigned int m_uid;
+	__declspec(align(16)) hkMaxSizeMotion m_motion;
+	hkSmallArray<hkCollisionListener*> m_collisionListeners;
+	hkSmallArray<hkEntityActivationListener*> m_activationListeners;
+	hkSmallArray<hkEntityListener*> m_entityListeners;
+	hkSmallArray<hkAction*> m_actions;
+	int m_spuCollisionCallback;
+};
+static_assert(sizeof(hkEntity) == 0x200);
+static_assert(0x90 == __builtin_offsetof(hkEntity, m_simulationIsland));
+
+struct hkCollidable;
+struct hkSimpleShapePhantom :
+	public hkShapePhantom
+{
+	struct hkCollisionDetail
+	{
+		hkCollidable* m_collidable;
+	};
+
+	hkArray<hkCollisionDetail> m_collisionDetails;
+};
+
+struct hkRigidBody :
+	public hkEntity
+{
+};
+

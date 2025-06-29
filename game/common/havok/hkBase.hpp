@@ -23,6 +23,11 @@ static_assert(sizeof(hkPadSpu<char*>) == sizeof(char*));
 
 struct hkBool
 {
+	operator bool()
+	{
+		return m_bool != 0;
+	}
+
 	char m_bool;
 };
 static_assert(sizeof(hkBool) == sizeof(char));
