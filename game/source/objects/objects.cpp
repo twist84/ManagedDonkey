@@ -9,6 +9,7 @@
 #include "models/model_definitions.hpp"
 #include "objects/object_types.hpp"
 #include "objects/watch_window.hpp"
+#include "physics/collision_models.hpp"
 #include "physics/havok.hpp"
 #include "physics/havok_component.hpp"
 #include "physics/physics_models.hpp"
@@ -2250,11 +2251,11 @@ void object_render_debug_internal(int32 object_index)
 		}
 	}
 
-	//collision_model_instance instance{};
-	//if (debug_objects_collision_models && collision_model_instance_new(&instance, object_index))
-	//{
-	//	render_debug_collision_model(&instance);
-	//}
+	collision_model_instance instance{};
+	if (debug_objects_collision_models && collision_model_instance_new(&instance, object_index))
+	{
+		render_debug_collision_model(&instance);
+	}
 
 	if (debug_objects_early_movers && object_definition->object.flags.test(_object_early_mover_bit))
 	{

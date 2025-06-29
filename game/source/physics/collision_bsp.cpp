@@ -27,18 +27,18 @@ void render_debug_collision_edge(c_collision_bsp_reference bsp_reference, int32 
 {
 	c_collision_edge_reference edge_reference(bsp_reference, edge_index);
 
-	real_point3d* start_vertex_position = c_collision_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0)).get_position();
-	real_point3d* end_vertex_position = c_collision_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1)).get_position();
+	real_point3d* point0 = c_collision_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0)).get_position();
+	real_point3d* point1 = c_collision_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1)).get_position();
 
 	if (matrix)
 	{
-		real_point3d start_vertex_position_{};
-		real_point3d end_vertex_position_{};
+		real_point3d transformed_point0{};
+		real_point3d transformed_point1{};
 
-		start_vertex_position = matrix4x3_transform_point(matrix, start_vertex_position, &start_vertex_position_);
-		end_vertex_position = matrix4x3_transform_point(matrix, end_vertex_position, &end_vertex_position_);
+		point0 = matrix4x3_transform_point(matrix, point0, &transformed_point0);
+		point1 = matrix4x3_transform_point(matrix, point1, &transformed_point1);
 	}
 
-	render_debug_line(true, start_vertex_position, end_vertex_position, color);
+	render_debug_line(true, point0, point1, color);
 }
 

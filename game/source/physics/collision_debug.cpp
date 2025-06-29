@@ -249,7 +249,7 @@ void collision_debug_render()
 			if (collision_test_vector_result)
 			{
 				c_static_string<128> shader_name("UNKNOWN");
-				real_matrix4x3* matrix = NULL;
+				const real_matrix4x3* matrix = NULL;
 		
 				e_collision_result_type collision_result_type = collision.type;
 				switch (collision_result_type)
@@ -296,7 +296,7 @@ void collision_debug_render()
 					if (collision_model_instance_new(&instance, collision.object_index))
 					{
 						int32 bsp_node_index = collision_model_get_bsp_node_index(&instance, collision.bsp_reference);
-						matrix = &instance.nodes[bsp_node_index];
+						matrix = &instance.matrices[bsp_node_index];
 		
 						c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
 						int32 material_index = surface_reference.get_material_index();
