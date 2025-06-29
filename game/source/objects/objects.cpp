@@ -10,6 +10,8 @@
 #include "objects/object_types.hpp"
 #include "objects/watch_window.hpp"
 #include "physics/havok.hpp"
+#include "physics/havok_component.hpp"
+#include "physics/physics_models.hpp"
 #include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
@@ -23,7 +25,11 @@ HOOK_DECLARE(0x00B32130, object_render_debug);
 s_object_override_globals object_override_globals;
 
 bool debug_objects = true;
-bool debug_objects_early_movers = false;
+bool debug_objects_early_movers = true;
+bool debug_objects_bounding_spheres = true;
+bool debug_objects_render_models = true;
+bool debug_objects_collision_models = true;
+bool debug_objects_physics_models = true;
 bool debug_objects_sound_spheres = false;
 bool debug_objects_indices = false;
 bool debug_objects_programmer = false;
@@ -37,14 +43,12 @@ bool debug_objects_position_velocity = false;
 bool debug_objects_origin = false;
 bool debug_objects_root_node = false;
 bool debug_objects_root_node_print = false;
-bool debug_objects_bounding_spheres = false;
 bool debug_objects_attached_bounding_spheres = false;
 bool debug_objects_dynamic_render_bounding_spheres = false;
 bool debug_objects_model_targets = false;
-bool debug_objects_collision_models = false;
 bool debug_objects_profile_times = false;
 bool debug_objects_water_physics = false;
-bool debug_objects_physics_models = false;
+bool debug_objects_expensive_physics = false;
 bool debug_objects_contact_points = false;
 bool debug_objects_constraints = false;
 bool debug_objects_vehicle_physics = false;
@@ -1405,7 +1409,9 @@ void __cdecl object_render_debug(int32 object_index)
 	//INVOKE(0x00B32130, object_render_debug, object_index);
 
 	if (TEST_BIT(_object_mask_sound_scenery, object_get_type(object_index)) && !debug_objects_sound_spheres)
+	{
 		return;
+	}
 
 	object_render_debug_internal(object_index);
 }
@@ -2240,7 +2246,9 @@ void object_render_debug_internal(int32 object_index)
 	{
 		const char* early_mover_string = "early mover";
 		if (object_definition->object.flags.test(_object_early_mover_localized_physics_bit))
+		{
 			early_mover_string = "early mover + localized physics";
+		}
 
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
 		render_debug_string_at_point(&root_node_matrix->position, early_mover_string, global_real_argb_darkgreen);
@@ -2252,21 +2260,26 @@ void object_render_debug_internal(int32 object_index)
 	//
 	//}
 
-	//if (object->object.havok_component_index == NONE)
-	//{
-	//	//s_physics_model_instance instance{};
-	//	//if (physics_model_instance_new(&instance, object_index) && debug_objects_physics_models)
-	//	//	render_debug_physics_model(&instance, global_real_argb_black);
-	//}
-	//else if (restricted_region_locked_for_current_thread(k_thread_main))
-	//{
-	//	//debug_objects_water_physics
-	//	//debug_objects_physics_models
-	//	//debug_objects_contact_points
-	//	//debug_objects_constraints
-	//	//debug_objects_vehicle_physics
-	//	//debug_objects_mass
-	//}
+	if (object->object.havok_component_index == NONE)
+	{
+		s_physics_model_instance instance{};
+		if (physics_model_instance_new(&instance, object_index) && debug_objects_physics_models)
+		{
+			render_debug_physics_model(&instance, global_real_argb_black);
+		}
+	}
+	else if (restricted_region_locked_for_current_thread(k_thread_main))
+	{
+		c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, object->object.havok_component_index);
+		havok_component->render_debug(
+			debug_objects_water_physics,
+			debug_objects_physics_models,
+			debug_objects_expensive_physics,
+			debug_objects_contact_points,
+			debug_objects_constraints,
+			debug_objects_vehicle_physics,
+			debug_objects_mass);
+	}
 
 	if (debug_objects_pathfinding)
 	{

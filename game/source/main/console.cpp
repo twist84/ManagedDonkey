@@ -847,6 +847,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_profile_times),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_water_physics),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_physics_models),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_expensive_physics),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_contact_points),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_constraints),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_vehicle_physics),

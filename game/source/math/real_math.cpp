@@ -303,7 +303,7 @@ bool __cdecl real_rectangle2d_compute_intersection(const real_rectangle2d* a, co
 
 real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* bounds, const real_point3d* point)
 {
-	//return INVOKE(0x004FBD80, real_rectangle3d_enclose_point, bounds, point);
+	return INVOKE(0x004FBD80, real_rectangle3d_enclose_point, bounds, point);
 
 	if (bounds->x0 > point->x)
 	{
@@ -340,7 +340,7 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* bound
 
 real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* bounds, int32 point_count, const real_point3d* points)
 {
-	//return INVOKE(0x004FBE40, real_rectangle3d_enclose_points, bounds, point_count, points);
+	return INVOKE(0x004FBE40, real_rectangle3d_enclose_points, bounds, point_count, points);
 
 	//ASSERT(valid_polygon3d(point_count, points));
 
@@ -354,7 +354,7 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* boun
 
 real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* bounds, const real_rectangle3d* rectangle)
 {
-	//return INVOKE(0x004FBF30, real_rectangle3d_enclose_rectangle, bounds, rectangle);
+	return INVOKE(0x004FBF30, real_rectangle3d_enclose_rectangle, bounds, rectangle);
 
 	real32 x_lower = bounds->x0;
 	if (x_lower > rectangle->x0)
@@ -410,7 +410,7 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* b
 
 int32 __cdecl rectangle3d_build_edges(const real_rectangle3d* bounds, int32 maximum_edge_count, real_point3d(* const edges)[2])
 {
-	//return INVOKE(0x004FCF10, rectangle3d_build_edges, bounds, maximum_edge_count, edges);
+	return INVOKE(0x004FCF10, rectangle3d_build_edges, bounds, maximum_edge_count, edges);
 
 	ASSERT(bounds);
 	ASSERT(maximum_edge_count >= k_edges_per_cube_count);
@@ -449,7 +449,7 @@ int32 __cdecl rectangle3d_build_edges(const real_rectangle3d* bounds, int32 maxi
 
 int32 __cdecl rectangle3d_build_faces(const real_rectangle3d* bounds, int32 maximum_face_count, real_point3d(* const faces)[4])
 {
-	//return INVOKE(0x004FD030, rectangle3d_build_faces, bounds, maximum_face_count, faces);
+	return INVOKE(0x004FD030, rectangle3d_build_faces, bounds, maximum_face_count, faces);
 
 	ASSERT(bounds);
 	ASSERT(maximum_face_count >= k_faces_per_cube_count);
@@ -483,7 +483,7 @@ int32 __cdecl rectangle3d_build_faces(const real_rectangle3d* bounds, int32 maxi
 
 int32 __cdecl rectangle3d_build_vertices(const real_rectangle3d* bounds, int32 maximum_vertex_count, real_point3d* const vertices)
 {
-	//return INVOKE(0x004FD1A0, rectangle3d_build_vertices, bounds, maximum_vertex_count, vertices);
+	return INVOKE(0x004FD1A0, rectangle3d_build_vertices, bounds, maximum_vertex_count, vertices);
 
 	ASSERT(bounds);
 	ASSERT(maximum_vertex_count >= k_vertices_per_cube_count);
