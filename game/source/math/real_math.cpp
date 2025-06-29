@@ -306,22 +306,34 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* bound
 	//return INVOKE(0x004FBD80, real_rectangle3d_enclose_point, bounds, point);
 
 	if (bounds->x0 > point->x)
+	{
 		bounds->x0 = point->x;
+	}
 
 	if (bounds->x1 < point->x)
+	{
 		bounds->x1 = point->x;
+	}
 
 	if (bounds->y0 > point->y)
+	{
 		bounds->y0 = point->y;
+	}
 
 	if (bounds->y1 < point->y)
+	{
 		bounds->y1 = point->y;
+	}
 
 	if (bounds->z0 > point->z)
+	{
 		bounds->z0 = point->z;
+	}
 
 	if (bounds->z1 < point->z)
+	{
 		bounds->z1 = point->z;
+	}
 
 	return bounds;
 }
@@ -333,7 +345,9 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* boun
 	//ASSERT(valid_polygon3d(point_count, points));
 
 	for (int32 i = 0; i < point_count; i++)
+	{
 		real_rectangle3d_enclose_point(bounds, &points[i]);
+	}
 
 	return bounds;
 }
@@ -344,32 +358,44 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* b
 
 	real32 x_lower = bounds->x0;
 	if (x_lower > rectangle->x0)
+	{
 		x_lower = rectangle->x0;
+	}
 	bounds->x0 = x_lower;
 
 	real32 x_upper = rectangle->x1;
 	if (bounds->x1 > x_upper)
+	{
 		x_upper = bounds->x1;
+	}
 	bounds->x1 = x_upper;
 
 	real32 y_lower = rectangle->y0;
 	if (bounds->y0 <= y_lower)
+	{
 		y_lower = bounds->y0;
+	}
 	bounds->y0 = y_lower;
 
 	real32 y_upper = rectangle->y1;
 	if (bounds->y1 > y_upper)
+	{
 		y_upper = bounds->y1;
+	}
 	bounds->y1 = y_upper;
 
 	real32 z_lower = rectangle->z0;
 	if (bounds->z0 <= z_lower)
+	{
 		z_lower = bounds->z0;
+	}
 	bounds->z0 = z_lower;
 
 	real32 z_upper = rectangle->z1;
 	if (bounds->z1 > z_upper)
+	{
 		z_upper = bounds->z1;
+	}
 	bounds->z1 = z_upper;
 
 	return bounds;
@@ -642,7 +668,7 @@ real32 __cdecl magnitude_squared2d(const real_vector2d* v)
 
 real32 __cdecl magnitude_squared3d(const real_vector3d* v)
 {
-	return (v->i * v->i) + (v->j * v->j) + (v->k * v->k);
+	return ((v->i * v->i) + (v->j * v->j)) + (v->k * v->k);
 }
 
 real32 __cdecl magnitude2d(const real_vector2d* v)
