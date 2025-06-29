@@ -18,5 +18,6 @@ extern void __cdecl havok_proxies_dispose_from_old_map();
 extern void __cdecl havok_proxies_initialize();
 extern void __cdecl havok_proxies_initialize_for_new_map();
 extern void __cdecl havok_proxies_move();
+extern void __cdecl havok_proxies_render_debug();
 extern void __cdecl havok_proxies_update();
 
