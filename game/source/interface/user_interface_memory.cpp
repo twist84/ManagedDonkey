@@ -12,7 +12,7 @@
 REFERENCE_DECLARE(0x0526979C, s_memory_pool*, g_ui_memory_pool);
 REFERENCE_DECLARE(0x052697A0, int32, g_ui_memory_pool_size);
 REFERENCE_DECLARE(0x052697A5, bool, g_ui_memory_pool_dumped);
-REFERENCE_DECLARE(0x019428EC, c_physical_memory_allocation, g_physical_memory_allocation); // only use in this translation unit
+static REFERENCE_DECLARE(0x019428EC, c_physical_memory_allocation, g_physical_memory_allocation); // only use in this translation unit
 
 HOOK_DECLARE(0x00AB4E50, user_interface_free);
 HOOK_DECLARE(0x00AB4ED0, user_interface_malloc);

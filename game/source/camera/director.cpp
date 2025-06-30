@@ -40,7 +40,7 @@ const char* k_director_mode_names[k_number_of_director_modes]
 
 s_director_globals* director_globals_get()
 {
-	return (director_globals && director_globals->directors[0][0]) ? director_globals : nullptr;
+	return (director_globals && director_globals->directors[0][0]) ? director_globals : NULL;
 }
 
 //.text:005914B0 ; c_director::c_director(int32)
@@ -92,7 +92,7 @@ c_director* __cdecl director_get(int32 user_index)
 	//return INVOKE(0x00591990, director_get, user_index);
 
 	if (!director_globals_get())
-		return nullptr;
+		return NULL;
 
 	return (c_director*)&director_globals_get()->directors[user_index];
 }
@@ -262,7 +262,7 @@ void __cdecl director_render()
 			);
 
 			rectangle2d bounds{};
-			interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
+			interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
 			bounds.y0 += 80;
 
 			draw_string.set_font(_large_body_text_font);
@@ -400,14 +400,22 @@ void __cdecl director_update(real32 dt)
 //.text:00592780 ; void __cdecl c_camera::enable_movement(bool)
 //.text:00592790 ; void __cdecl c_camera::enable_orientation(bool)
 //.text:005927A0 ; void __cdecl c_camera::enable_roll(bool)
-//.text:005927B0 ; bool __cdecl c_director::force_set_camera_mode(e_camera_mode, real32)
+
+bool c_director::force_set_camera_mode(e_camera_mode camera_mode, real32 interpolation_time)
+{
+	//return INVOKE_CLASS_MEMBER(0x005927B0, c_director, force_set_camera_mode, camera_mode, interpolation_time);
+
+	return c_director::set_camera_mode_internal(camera_mode, interpolation_time, true);
+}
 
 c_camera* c_director::get_camera()
 {
 	//return DECLFUNC(0x00592830, c_camera*, __thiscall, c_director*)(this);
 
 	if (!m_camera_storage[0])
-		return nullptr;
+	{
+		return NULL;
+	}
 
 	return (c_camera*)&m_camera_storage;
 }
@@ -417,7 +425,7 @@ const c_camera* c_director::get_camera() const
 	//return DECLFUNC(0x00592840, c_camera*, __thiscall, const c_director*)(this);
 
 	if (!m_camera_storage[0])
-		return nullptr;
+		return NULL;
 
 	return (c_camera*)&m_camera_storage;
 }
@@ -434,12 +442,18 @@ e_director_perspective c_director::get_perspective() const
 	//return INVOKE_CLASS_MEMBER(0x00592860, c_director, get_perspective);
 
 	if (!game_in_progress())
+	{
 		return _director_perspective_neutral;
+	}
 	e_director_perspective director_perspective = get_camera()->get_perspective();
 	if (!director_perspective)
+	{
 		director_perspective = e_director_perspective(m_change_camera_pause > 0.0f);
+	}
 	if (game_is_ui_shell())
+	{
 		return _director_perspective_neutral;
+	}
 
 	return director_perspective;
 }
@@ -450,7 +464,14 @@ e_director_perspective c_director::get_perspective() const
 //.text:00592930 ; 
 //.text:00592940 ; e_camera_mode __cdecl c_null_camera::get_type() const
 //.text:00592950 ; int32 __cdecl c_director::get_user_index() const
-//.text:00592960 ; int32 __cdecl c_director::get_watched_player() const
+
+int32 c_director::get_watched_player() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00592960, c_director, get_watched_player);
+
+	return m_watched_player_index;
+}
+
 //.text:00592970 ; void __cdecl c_director::handle_deleted_object(int32)
 //.text:00592980 ; void __cdecl c_director::handle_deleted_player(int32)
 //.text:005929B0 ; void __cdecl hs_director_set_camera_mode(int32, int32)
@@ -461,16 +482,22 @@ bool c_director::in_free_camera_mode() const
 	//return INVOKE_CLASS_MEMBER(0x00592A20, c_director, in_free_camera_mode);
 
 	if (!m_camera_storage[0])
+	{
 		return false;
+	}
 
 	e_camera_mode camera_mode = get_camera()->get_type();
 	if (camera_mode == _camera_mode_flying || camera_mode == _camera_mode_scripted)
+	{
 		return true;
+	}
 
-	if (camera_mode == _camera_mode_authored)
-		return get_camera()->get_target() == NONE;
+	if (camera_mode != _camera_mode_authored)
+	{
+		return false;
+	}
 
-	return false;
+	return get_camera()->get_target() == NONE;
 }
 
 //.text:00592A60 ; bool __cdecl c_director::inhibits_facing() const
@@ -548,27 +575,32 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real32 tran
 	return result || force_update;
 }
 
-//.text:005934A0 ; void __cdecl c_camera::set_forward(const real_vector3d*)
-//.text:005934B0 ; void __cdecl c_camera::set_position(const real_point3d*)
-//.text:005934C0 ; void __cdecl c_camera::set_roll(real32)
-//.text:005934D0 ; void __cdecl c_director::set_watched_player(int32)
-//.text:00593520 ; bool __cdecl c_director::should_draw_hud() const
-//.text:00593530 ; bool __cdecl c_director::should_draw_hud_saved_film() const
-//.text:00593540 ; void __cdecl c_director::update(real32)
-//.text:00593770 ; void __cdecl c_null_camera::update(int32, real32, s_observer_command*)
-//.text:00593780 ; void __cdecl c_director::update_perspective()
-//.text:005937F0 ; void __cdecl update_vtables()
+//.text:005934A0 ; void c_camera::set_forward(const real_vector3d*)
+//.text:005934B0 ; void c_camera::set_position(const real_point3d*)
+//.text:005934C0 ; void c_camera::set_roll(real32)
+
+void c_director::set_watched_player(int32 player_index)
+{
+	INVOKE_CLASS_MEMBER(0x005934D0, c_director, set_watched_player, player_index);
+}
+
+//.text:00593520 ; bool c_director::should_draw_hud() const
+//.text:00593530 ; bool c_director::should_draw_hud_saved_film() const
+//.text:00593540 ; void c_director::update(real32)
+//.text:00593770 ; void c_null_camera::update(int32, real32, s_observer_command*)
+//.text:00593780 ; void c_director::update_perspective()
+//.text:005937F0 ; void update_vtables()
 
 //.text:007215C0 ; c_game_director::c_game_director(int32)
 //.text:007215F0 ; c_game_director::c_game_director()
-//.text:00721610 ; e_director_perspective __cdecl director_game_camera_deterministic(int32, real_point3d*, real_vector3d*)
-//.text:00721660 ; bool __cdecl c_game_director::dead_camera_should_switch_to_orbiting(int32, int32)
-//.text:00721910 ; e_director_mode __cdecl c_game_director::get_type() const
-//.text:00721920 ; bool __cdecl c_game_director::inhibits_facing() const
-//.text:00721970 ; bool __cdecl c_game_director::inhibits_input() const
-//.text:00721980 ; bool __cdecl c_game_director::should_draw_hud() const
-//.text:00721990 ; bool __cdecl c_game_director::should_draw_hud_saved_film() const
-//.text:007219A0 ; void __cdecl c_game_director::update(real32)
+//.text:00721610 ; e_director_perspective director_game_camera_deterministic(int32, real_point3d*, real_vector3d*)
+//.text:00721660 ; bool c_game_director::dead_camera_should_switch_to_orbiting(int32, int32)
+//.text:00721910 ; e_director_mode c_game_director::get_type() const
+//.text:00721920 ; bool c_game_director::inhibits_facing() const
+//.text:00721970 ; bool c_game_director::inhibits_input() const
+//.text:00721980 ; bool c_game_director::should_draw_hud() const
+//.text:00721990 ; bool c_game_director::should_draw_hud_saved_film() const
+//.text:007219A0 ; void c_game_director::update(real32)
 
 //.text:00725A80 ; c_camera::c_camera()
 
@@ -615,7 +647,7 @@ e_director_mode director_mode_from_string(const char* str)
 s_director_info* director_get_info(int32 user_index)
 {
 	if (!director_globals_get())
-		return nullptr;
+		return NULL;
 
 	return &director_globals_get()->director_info[user_index];
 }
@@ -713,7 +745,7 @@ void director_save_camera_named(const char* name)
 	fopen_s(&file, filename.get_string(), "w");
 	if (file)
 	{
-		const s_observer_result* camera = nullptr;
+		const s_observer_result* camera = NULL;
 		for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 		{
 			camera = observer_try_and_get_camera(user_index);

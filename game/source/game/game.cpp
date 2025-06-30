@@ -76,6 +76,7 @@
 #include "render_methods/render_method_submit.hpp"
 #include "saved_games/autosave_queue.hpp"
 #include "saved_games/determinism_debug_manager.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "saved_games/saved_game_files.hpp"
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_interpolators.hpp"
@@ -1879,7 +1880,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	game_options_new(options);
 	options->scenario_path.set(launch_settings.scenario_path);
 	options->game_mode = launch_settings.game_mode;
-	options->record_saved_film = true;//saved_film_manager_should_record_film(options);
+	options->record_saved_film = saved_film_manager_should_record_film(options);
 	options->campaign_difficulty = launch_settings.campaign_difficulty;
 
 	build_default_game_variant(&options->multiplayer_variant, options->game_mode != _game_mode_multiplayer ? _game_engine_type_none : launch_settings.game_engine_index);

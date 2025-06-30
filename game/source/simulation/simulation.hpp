@@ -44,25 +44,25 @@ struct simulation_update
 	uns32 player_flags;
 
 	uns32 action_test_flags;
-	c_static_array<player_action, 16> player_actions;
+	player_action player_actions[16];
 
 	uns32 valid_actor_mask;
-	c_static_array<int32, 16> actor_unit_indices;
-	c_static_array<unit_control_data, 16> actor_control;
+	int32 actor_unit_indices[16];
+	unit_control_data actor_control[16];
 
 	bool machine_update_exists;
 	simulation_machine_update machine_update;
 
 	uns32 valid_player_prediction_mask;
-	c_static_array<s_player_prediction, 16> player_prediction;
+	s_player_prediction player_prediction[16];
 
 	int32 verify_game_time;
 	int32 verify_random;
 
 	//s_determinism_verification determinism_verification;
 
-	uns32 valid_camera_mask;
-	c_static_array<s_simulation_camera_update, 1> camera_updates;
+	uns32 valid_camera_update_mask;
+	s_simulation_camera_update camera_updates[1];
 
 	c_simulation_queue bookkeeping_simulation_queue;
 	c_simulation_queue game_simulation_queue;

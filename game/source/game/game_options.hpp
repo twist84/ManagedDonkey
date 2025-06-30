@@ -36,7 +36,7 @@ struct game_options
 	bool playtest_mode;
 	int16 game_playback;
 	bool record_saved_film;
-	int32 playback_start_ticks;
+	int32 playback_start_tick;
 	int32 playback_length_in_ticks;
 	int16 campaign_difficulty;
 	int16 campaign_insertion_point;

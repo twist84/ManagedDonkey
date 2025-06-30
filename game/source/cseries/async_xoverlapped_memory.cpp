@@ -1,5 +1,17 @@
 #include "cseries/async_xoverlapped_memory.hpp"
 
+void __cdecl overlapped_free(void const* ptr)
+{
+	INVOKE(0x0066D4D0, overlapped_free, ptr);
+}
+
+void* __cdecl overlapped_malloc(uns32 size)
+{
+	//return INVOKE(0x0066D550, overlapped_malloc, size);
+
+	return overlapped_malloc_tracked(size, NULL, 0);
+}
+
 void* __cdecl overlapped_malloc_tracked(uns32 size, const char* file, int32 line)
 {
 	return INVOKE(0x0066D570, overlapped_malloc_tracked, size, file, line);

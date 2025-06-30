@@ -19,6 +19,7 @@ enum e_restricted_memory_region
 
 enum
 {
+	k_maximum_game_state_header_size = 0x10000,
 	k_game_state_header_region_size = 0x30000,
 	k_game_state_update_region_size = 0x200000,
 	k_game_state_render_region_size = 0x2D0000,
@@ -26,6 +27,9 @@ enum
 
 	k_game_state_allocation_size = k_game_state_header_region_size + k_game_state_update_region_size + k_game_state_render_region_size + k_game_state_shared_region_size,
 	k_game_state_file_size = k_game_state_allocation_size + (k_game_state_shared_region_size * 2),
+
+	k_game_state_compressor_allocation_size = 0x480000,
+	k_game_state_maximum_compressed_size = 0x480000,
 };
 static_assert(0x0980000 == k_game_state_allocation_size);
 static_assert(0x1280000 == k_game_state_file_size);

@@ -7,7 +7,6 @@
 
 enum
 {
-	k_game_state_maximum_compressed_size = 0x4F0000,
 	k_saved_game_storage_max_count = 2
 };
 

@@ -1315,7 +1315,7 @@ void __cdecl network_game_variant_file_juju(const char* file_path, bool use_vari
 	}
 
 	s_blffile_game_variant* game_variant_file = (s_blffile_game_variant*)buffer;
-	c_game_variant* game_variant = &game_variant_file->game_variant_chunk.game_variant;
+	c_game_variant* game_variant = &game_variant_file->variant.game_variant;
 
 	if (!game_engine_variant_is_valid(game_variant))
 	{
@@ -1468,7 +1468,7 @@ void __cdecl network_map_variant_file_juju(const char* file_path, bool use_varia
 	}
 
 	s_blffile_map_variant* map_variant_file = (s_blffile_map_variant*)buffer;
-	c_map_variant* map_variant = &map_variant_file->map_variant_chunk.map_variant;
+	c_map_variant* map_variant = &map_variant_file->variant.map_variant;
 
 	if (!map_variant->validate())
 	{

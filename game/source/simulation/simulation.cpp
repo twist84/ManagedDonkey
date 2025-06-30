@@ -5,12 +5,14 @@
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
 #include "main/main.hpp"
+#include "main/main_game.hpp"
 #include "math/random_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "networking/network_memory.hpp"
 #include "profiler/profiler.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "simulation/game_interface/simulation_game_interface.hpp"
 #include "simulation/simulation_encoding.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
@@ -336,6 +338,7 @@ bool __cdecl simulation_film_record_update(const struct simulation_update* updat
 	//{
 	//	event(_event_error, "networking:simulation:saved_film: failed to write update #%d to film", update->update_number);
 	//	simulation_film_stop_recording();
+	//	return false;
 	//}
 	//
 	//return true;
@@ -1005,13 +1008,12 @@ void __cdecl simulation_update_pregame()
 	//	return;
 	//}
 	//
-	//struct simulation_update update {};
+	//struct simulation_update update{};
 	//s_simulation_update_metadata metadata{};
 	//simulation_build_update(false, &update, &metadata);
 	//ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
 	////saved_film_history_after_update_built(&update, &metadata);
-	////simulation_record_update(&update);
-	//simulation_globals.recording_film = false;
+	//simulation_record_update(&update);
 	//random_seed_allow_use();
 	//damage_acceleration_queue_begin();
 	//simulation_apply_before_game(&update);

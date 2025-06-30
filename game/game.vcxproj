@@ -171,6 +171,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\cache\cache_file_bulk_reader.cpp" />
     <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
     <ClCompile Include="source\cache\cache_file_io_failure.cpp" />
+    <ClCompile Include="source\camera\saved_film_director.cpp" />
     <ClCompile Include="source\creatures\creatures.cpp" />
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />
     <ClCompile Include="source\devices\device_arg_device.cpp" />
@@ -372,6 +373,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\saved_games\autosave_queue.cpp" />
     <ClCompile Include="source\saved_games\content\content_item_metadata.cpp" />
     <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
+    <ClCompile Include="source\saved_games\saved_film_manager.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\scenario\scenario_pvs.cpp" />
@@ -1477,6 +1479,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\saved_games\game_state_procs.hpp" />
     <ClInclude Include="source\saved_games\saved_film.hpp" />
     <ClInclude Include="source\saved_games\saved_film_history.hpp" />
+    <ClInclude Include="source\saved_games\saved_film_manager.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />

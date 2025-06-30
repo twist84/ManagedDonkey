@@ -11,8 +11,10 @@ public:
 		INVOKE_CLASS_MEMBER(0x007276C0, c_saved_film_director, constructor, user_index);
 	}
 
+	void notify_revert();
+
 //protected:
-	bool __unknown158;
+	bool m_speed_controlled_by_trigger;
 	bool __unknown159;
 
 	byte pad[0x2];

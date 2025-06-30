@@ -12,8 +12,8 @@
 struct s_message_of_the_day_popup
 {
 	static int32 const k_chunk_type = 'mtdp';
-	static int32 const k_version_major = 4;
-	//static int32 const k_version_minor = 0;
+	static int32 const k_chunk_major_version = 4;
+	//static int32 const k_chunk_minor_version = 0;
 
 	// c_player_profile_interface::popup_message_titles[title_index] = message_index;
 	int32 message_index;

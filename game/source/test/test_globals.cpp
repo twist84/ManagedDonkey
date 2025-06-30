@@ -221,10 +221,10 @@ void __cdecl test_main_loop_body_begin()
 		console_process_command("net_test_session_mode setup", true);
 
 		//s_file_reference file_reference;
-		//file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
+		//file_reference_create_from_path(&file_reference, "saved_films\\default.film", false);
 		//
 		//static char file_buffer[0x200000]{};
-		//const s_blf_saved_film::s_blf_chunk_saved_film_header_delta* saved_film_header = nullptr;
+		//const s_blf_saved_film::s_blf_chunk_saved_film_header* saved_film_header = NULL;
 		//bool byte_swap = false;
 		//
 		//find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);
@@ -234,7 +234,9 @@ void __cdecl test_main_loop_body_begin()
 		//static c_map_variant map_variant;
 		//bool is_valid = false;
 		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
+		//{
 		//	event(_event_warning, "ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
+		//}
 
 		players_globals->sprint_inhibited = !players_globals->sprint_inhibited;
 #else

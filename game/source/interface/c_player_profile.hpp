@@ -85,6 +85,7 @@ public:
 
 	e_campaign_difficulty_level get_campaign_difficulty() const;
 	s_emblem_info get_emblem_info() const;
+	e_player_model_choice get_player_model_choice() const;
 
 	e_player_color_index get_primary_change_color() const;
 	e_player_color_index get_secondary_change_color() const;
@@ -245,17 +246,15 @@ public:
 
 	struct
 	{
-		c_enum<e_player_color_index, int32, _player_color_none, k_player_color_index_count> primary_color;
-		c_enum<e_player_color_index, int32, _player_color_none, k_player_color_index_count> secondary_color;
-
-		int32 __unknown490;
-		int32 __unknown494;
-		int32 __unknown498;
-
-		int32 player_model_choice;
+		e_player_color_index primary_color;
+		e_player_color_index secondary_color;
+		e_player_color_index tertiary_color;
+		e_player_color_index quaternary_color;
+		e_player_color_index quinary_color;
+		e_player_model_choice player_model_choice;
 		s_emblem_info emblem;
 		byte emblem_pad[0x648];
-		uns8 model_area_selections[10];
+		char model_area_selections[2][5];
 		wchar_t last_known_good_service_tag[5];
 		wchar_t desired_service_tag[5];
 		bool service_tag_was_randomly_generated;

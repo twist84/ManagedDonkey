@@ -5,6 +5,7 @@
 #include "game/game.hpp"
 #include "main/main_game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
+#include "saved_games/saved_film_manager.hpp"
 
 void main_game_launch(const char* map_name)
 {
@@ -30,7 +31,9 @@ void main_game_launch(const char* map_name)
 	}
 
 	if (network_life_cycle_get_state())
+	{
 		network_life_cycle_end();
+	}
 
 	if (main_game_globals.launch_game_options.game_mode == _game_mode_campaign)
 	{
@@ -43,7 +46,7 @@ void main_game_launch(const char* map_name)
 	}
 
 	main_game_globals.launch_player_count = int_pin(main_game_globals.launch_player_count, 1, 4);
-	main_game_globals.launch_game_options.record_saved_film = false; // saved_film_manager_should_record_film(&main_game_globals.launch_game_options);
+	main_game_globals.launch_game_options.record_saved_film = saved_film_manager_should_record_film(&main_game_globals.launch_game_options);
 	game_options_setup_default_players(main_game_globals.launch_player_count, &main_game_globals.launch_game_options);
 	game_options_validate(&main_game_globals.launch_game_options);
 	main_game_change(&main_game_globals.launch_game_options);

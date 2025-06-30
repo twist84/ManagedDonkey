@@ -304,12 +304,12 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 		if (!cancelled)
 		{
 			int32 image_data_length = 0;
-			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_version_major, _blf_file_authentication_type_rsa, &chunk_size);
+			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_chunk_major_version, _blf_file_authentication_type_rsa, &chunk_size);
 			const char* chunk = DECLFUNC(0x00462B40, const char*, __cdecl, const char*, int32, int32, int32, int32, int32*)(
 				task->load_buffer,
 				task->file_size,
 				s_blf_chunk_map_image::k_chunk_type,
-				s_blf_chunk_map_image::k_version_major,
+				s_blf_chunk_map_image::k_chunk_major_version,
 				_blf_file_authentication_type_rsa,
 				&image_data_length);
 

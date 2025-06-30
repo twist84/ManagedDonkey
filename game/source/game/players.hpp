@@ -723,6 +723,7 @@ extern bool __cdecl player_consider_weapon_interaction(int32 player_index, int32
 extern void __cdecl player_delete(int32 player_index);
 extern bool __cdecl player_evaluate_interaction(int32 player_index, const s_player_interaction* interaction, s_player_interaction* current_interaction);
 extern void __cdecl player_find_action_context(int32 player_index, s_player_action_context* out_action_context);
+extern int32 __cdecl player_index_from_absolute_player_index(int32 player_index);
 extern int32 __cdecl player_index_from_unit_index(int32 unit_index);
 extern bool __cdecl player_interaction_exists(int32 player_index, uns32 object_mask, const s_player_interaction* interaction);
 extern bool __cdecl player_is_local(int32 player_index);

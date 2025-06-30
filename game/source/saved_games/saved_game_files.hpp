@@ -3,6 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_text_parser.hpp"
 
+class c_synchronized_long;
+struct s_saved_game_item_metadata;
+
 struct s_saved_game_file_text_parser_input
 {
 	int32 user_index;
@@ -32,5 +35,8 @@ extern void __cdecl saved_game_files_dispose();
 extern void __cdecl saved_game_files_dispose_from_old_map();
 extern void __cdecl saved_game_files_initialize();
 extern void __cdecl saved_game_files_initialize_for_new_map();
+extern int32 __cdecl saved_game_files_save_last_film(e_controller_index controller_index, c_synchronized_long* success, c_synchronized_long* done, wchar_t* out_display_name, int32 maximum_display_name_characters);
+extern int32 __cdecl saved_game_files_save_last_film_to_debugging_hard_drive(e_controller_index controller_index, void* copy_buffer, uns32 copy_buffer_size, c_synchronized_long* success, c_synchronized_long* done);
 extern void __cdecl saved_game_files_update();
+extern bool __cdecl saved_game_read_metadata_from_file(s_file_reference* file, s_saved_game_item_metadata* out_metadata);
 

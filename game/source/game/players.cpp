@@ -483,7 +483,11 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 //.text:0053B090 ; const char* __cdecl player_identifier_get_string(const s_player_identifier*)
 //.text:0053B0E0 ; bool __cdecl player_identifier_is_valid(const s_player_identifier*)
 //.text:0053B120 ; void __cdecl player_increment_control_context(int32)
-//.text:0053B1A0 ; int32 __cdecl player_index_from_absolute_player_index(int32)
+
+int32 __cdecl player_index_from_absolute_player_index(int32 player_index)
+{
+	return INVOKE(0x0053B1A0, player_index_from_absolute_player_index, player_index);
+}
 
 int32 __cdecl player_index_from_unit_index(int32 unit_index)
 {

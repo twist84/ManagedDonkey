@@ -1574,6 +1574,45 @@ public:
 	~c_string_builder();
 };
 
+class c_debug_output_path
+{
+public:
+	c_debug_output_path() :
+		m_root(),
+		m_path()
+	{
+		m_root.clear();
+		m_path.clear();
+	}
+
+	const char* get_path(const char* file_path)
+	{
+		m_path.print("%s%s", c_debug_output_path::get_root(), file_path);
+
+		return m_path.get_string();
+	}
+
+	const char* get_root()
+	{
+		build_root_if_necessary();
+
+		return m_root.get_string();
+	}
+
+private:
+	void build_root_if_necessary()
+	{
+		if (m_root.is_empty())
+		{
+			m_root.set("");
+		}
+	}
+
+	c_static_string<260> m_root;
+	c_static_string<260> m_path;
+};
+static_assert(sizeof(c_debug_output_path) == 260 * 2);
+
 extern char* tag_to_string(tag _tag, char* buffer);
 
 class c_string_id

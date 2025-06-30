@@ -24,8 +24,8 @@ struct s_blf_chunk_start_of_file
 {
 public:
 	static int32 const k_chunk_type = '_blf';
-	static int32 const k_version_major = 1;
-	static int32 const k_version_minor = 2;
+	static int32 const k_chunk_major_version = 1;
+	static int32 const k_chunk_minor_version = 2;
 
 	s_blf_chunk_start_of_file();
 
@@ -59,8 +59,8 @@ struct s_blf_chunk_end_of_file
 {
 public:
 	static int32 const k_chunk_type = '_eof';
-	static int32 const k_version_major = 1;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 1;
+	static int32 const k_chunk_minor_version = 1;
 	static e_blf_file_authentication_type const k_authentication_type = _blf_file_authentication_type_none;
 
 	s_blf_chunk_end_of_file();
@@ -101,8 +101,8 @@ struct s_blf_chunk_author
 {
 public:
 	static int32 const k_chunk_type = 'athr';
-	static int32 const k_version_major = 3;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 3;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_chunk_author();
 
@@ -123,8 +123,8 @@ struct s_blf_chunk_content_header
 {
 public:
 	static int32 const k_chunk_type = 'chdr';
-	static int32 const k_version_major = 9;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 9;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_chunk_content_header();
 
@@ -143,8 +143,8 @@ struct s_blf_chunk_game_variant
 {
 public:
 	static int32 const k_chunk_type = 'mpvr';
-	static int32 const k_version_major = 3;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 3;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_chunk_game_variant();
 
@@ -158,8 +158,8 @@ struct s_blf_chunk_map_variant
 {
 public:
 	static int32 const k_chunk_type = 'mapv';
-	static int32 const k_version_major = 12;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 12;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_chunk_map_variant();
 
@@ -174,8 +174,8 @@ struct s_blffile_saved_game_file
 public:
 	s_blffile_saved_game_file();
 
-	s_blf_chunk_start_of_file start_of_file_chunk;
-	s_blf_chunk_content_header content_header_chunk;
+	s_blf_chunk_start_of_file start_of_file;
+	s_blf_chunk_content_header content_header;
 };
 static_assert(sizeof(s_blffile_saved_game_file) == 0x138);
 
@@ -186,8 +186,8 @@ struct s_blffile_game_variant :
 public:
 	s_blffile_game_variant();
 
-	s_blf_chunk_game_variant game_variant_chunk;
-	s_blf_chunk_end_of_file end_of_file_chunk;
+	s_blf_chunk_game_variant variant;
+	s_blf_chunk_end_of_file end_of_file;
 
 	byte pad[0x3];
 };
@@ -195,77 +195,30 @@ static_assert(sizeof(s_blffile_game_variant) == 0x3BC);
 #pragma pack(pop)
 
 struct s_blffile_map_variant :
-	s_blffile_saved_game_file
+	public s_blffile_saved_game_file
 {
 public:
 	s_blffile_map_variant();
 
 	bool copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const;
 
-	s_blf_chunk_map_variant map_variant_chunk;
-	s_blf_chunk_end_of_file end_of_file_chunk;
+	s_blf_chunk_map_variant variant;
+	s_blf_chunk_end_of_file end_of_file;
 
 	byte pad[0x7];
 };
 static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
 struct s_blf_saved_film :
-	s_blffile_saved_game_file,
-	s_blf_chunk_author
+	public s_blffile_saved_game_file
 {
 #pragma pack(push, 4)
-	struct s_blf_chunk_saved_film_header_delta // 08172.07.03.08.2240.delta
+	struct s_blf_chunk_saved_film_header
 	{
 	public:
 		static int32 const k_chunk_type = 'flmh';
-		static int32 const k_version_major = 2;
-		static int32 const k_version_minor = 1;
-
-		s_blf_header header;
-		uns32 __unknownC; // alignment
-
-		// build_string.set(version_get_build_string());
-		c_static_string<k_tag_string_length> build_string;
-
-		// network_get_build_identifiers(&executable_type, &executable_version, &compatible_version)
-		int32 executable_type;
-		int32 executable_version;
-		int32 compatible_version;
-
-		// map_language = get_map_language();
-		int32 map_language;
-
-		// map_minor_version = get_map_minor_version();
-		int32 map_minor_version;
-
-		// tracked = get_map_minor_version_is_tracked();
-		uns32 tracked;                 // bool
-
-		// valid_and_authoritative = game_options_valid() && game_is_authoritative();
-		uns32 valid_and_authoritative; // bool
-
-		uns32 __unknown4C; // padding
-
-		// sessionid.set(netdebug_get_sessionid());
-		c_static_string<128> sessionid;
-
-		// sizeof(game_options) == 0xD300
-		byte options[0xD300];
-
-		// start_ticks = system_seconds();
-		int32 start_ticks;
-
-		// length_in_ticks = 0;
-		int32 length_in_ticks;
-	};
-	static_assert(sizeof(s_blf_chunk_saved_film_header_delta) == sizeof(s_blf_header) + 0xD3CC);
-
-	struct s_blf_chunk_saved_film_header // same as delta but more
-	{
-	public:
-		static int32 const k_chunk_type = 'flmh';
-		static int32 const k_version_major = 10;
-		static int32 const k_version_minor = 2;
+		static int32 const k_chunk_major_version = 10;
+		static int32 const k_chunk_minor_version = 2;
 
 		s_blf_chunk_saved_film_header();
 
@@ -273,7 +226,7 @@ struct s_blf_saved_film :
 		{
 			s_saved_film_build_compatibility();
 
-			c_static_string<k_tag_string_length> build_number;
+			char build_number[32];
 			int32 executable_type;
 			int32 network_executable_version;
 			int32 network_compatible_version;
@@ -281,20 +234,20 @@ struct s_blf_saved_film :
 			int32 map_minor_version;
 			bool map_minor_version_is_tracked;
 			byte pad1[0x3];
-			uns32 pad2[2];
+			int32 pad2[2];
 			int32 map_signature_size;
 			byte map_signature_bytes[0x3C];
 		};
 		static_assert(sizeof(s_saved_film_build_compatibility) == 0x80);
 
 		s_blf_header header;
-		byte pad0[4];
+		int8 pad0[4];
 		s_saved_film_build_compatibility build_compatibility;
 		bool is_host_film;
 		bool contains_gamestate;
 		bool is_snippet;
-		byte pad3[0x5];
-		c_static_string<128> session_id;
+		int8 pad3[0x5];
+		char session_id[128];
 		game_options options;
 		int32 recorded_time;
 		int32 length_in_ticks;
@@ -308,8 +261,8 @@ struct s_blf_saved_film :
 	{
 	public:
 		static int32 const k_chunk_type = 'flmd';
-		static int32 const k_version_major = 1;
-		static int32 const k_version_minor = 1;
+		static int32 const k_chunk_major_version = 1;
+		static int32 const k_chunk_minor_version = 1;
 
 		s_blf_chunk_saved_film_data();
 
@@ -322,6 +275,7 @@ public:
 
 	bool copy_to_and_validate(c_game_variant* game_variant, c_map_variant* map_variant, bool* is_valid) const;
 
+	s_blf_chunk_author author;
 	s_blf_chunk_saved_film_header film_header;
 	s_blf_chunk_saved_film_data film_data;
 };
@@ -331,8 +285,8 @@ struct s_blf_chunk_campaign
 {
 public:
 	static int32 const k_chunk_type = 'cmpn';
-	static int32 const k_version_major = 1;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 1;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_chunk_campaign();
 
@@ -397,8 +351,8 @@ static_assert(sizeof(s_scenario_insertion_point_atlas) == 0xF10);
 struct s_blf_chunk_scenario
 {
 	static int32 const k_chunk_type = 'levl';
-	static int32 const k_version_major = 3;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 3;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_chunk_scenario();
 	
@@ -464,8 +418,8 @@ struct s_blf_chunk_map_image
 {
 public:
 	static int32 const k_chunk_type = 'mapi';
-	static int32 const k_version_major = 1;
-	static int32 const k_version_minor = 1;
+	static int32 const k_chunk_major_version = 1;
+	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_header header;
 
@@ -520,7 +474,7 @@ void find_blf_chunk(s_file_reference* file, char* const file_buffer, const t_blf
 		goto function_finish;
 	}
 
-	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, t_blf_chunk_type::k_chunk_type, t_blf_chunk_type::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, t_blf_chunk_type::k_chunk_type, t_blf_chunk_type::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 	{
 		//c_console::write_line("blf: failed to find chunk");
 		goto function_finish;
@@ -529,7 +483,7 @@ void find_blf_chunk(s_file_reference* file, char* const file_buffer, const t_blf
 	if (chunk_buffer)
 	{
 		blf_chunk_type = (const t_blf_chunk_type*)(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 		{
 			if (chunk_size == sizeof(s_blf_chunk_end_of_file) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), s_blf_chunk_end_of_file::k_authentication_type))
 			{

@@ -25,7 +25,7 @@ s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
 
 void s_blf_chunk_start_of_file::initialize()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	byte_order_mark = 0xFFFE;
 	name.clear();
@@ -39,7 +39,7 @@ s_blf_chunk_end_of_file::s_blf_chunk_end_of_file()
 
 void s_blf_chunk_end_of_file::initialize()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	total_file_size = 0;
 	authentication_type = _blf_file_authentication_type_none;
@@ -52,7 +52,7 @@ s_blf_chunk_end_of_file_with_crc::s_blf_chunk_end_of_file_with_crc()
 
 void s_blf_chunk_end_of_file_with_crc::initialize()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	total_file_size = 0;
 	authentication_type = _blf_file_authentication_type_crc;
@@ -65,7 +65,7 @@ s_blf_chunk_content_header::s_blf_chunk_content_header()
 
 void s_blf_chunk_content_header::initialize()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	build_number = static_cast<int16>(version_get_build_number());
 	map_minor_version = static_cast<int16>(get_map_minor_version());
@@ -87,7 +87,7 @@ s_blf_chunk_author::s_blf_chunk_author()
 
 void s_blf_chunk_author::initialize()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	build_name.set("");
 	build_identifier = 0;
@@ -98,34 +98,34 @@ void s_blf_chunk_author::initialize()
 s_blf_chunk_game_variant::s_blf_chunk_game_variant() :
 	game_variant()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 }
 
 s_blf_chunk_map_variant::s_blf_chunk_map_variant() :
 	map_variant()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 	zero_array(pad);
 }
 
 s_blffile_saved_game_file::s_blffile_saved_game_file() :
-	start_of_file_chunk(),
-	content_header_chunk()
+	start_of_file(),
+	content_header()
 {
 }
 
 s_blffile_game_variant::s_blffile_game_variant() :
 	s_blffile_saved_game_file(),
-	game_variant_chunk(),
-	end_of_file_chunk()
+	variant(),
+	end_of_file()
 {
 	zero_array(pad);
 }
 
 s_blffile_map_variant::s_blffile_map_variant() :
 	s_blffile_saved_game_file(),
-	map_variant_chunk(),
-	end_of_file_chunk()
+	variant(),
+	end_of_file()
 {
 	zero_array(pad);
 }
@@ -148,7 +148,7 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 		sizeof(s_blf_chunk_map_variant) - (chunk - (const char*)this),
 		byte_swap,
 		s_blf_chunk_map_variant::k_chunk_type,
-		s_blf_chunk_map_variant::k_version_major,
+		s_blf_chunk_map_variant::k_chunk_major_version,
 		&chunk_size,
 		&chunk,
 		nullptr,
@@ -174,7 +174,7 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 				(const char*)this - chunk + sizeof(s_blf_chunk_map_variant),
 				byte_swap,
 				s_blf_chunk_map_variant::k_chunk_type,
-				s_blf_chunk_map_variant::k_version_major,
+				s_blf_chunk_map_variant::k_chunk_major_version,
 				&chunk_size,
 				&chunk,
 				nullptr,
@@ -218,7 +218,7 @@ s_blf_saved_film::s_blf_chunk_saved_film_header::s_blf_chunk_saved_film_header()
 	snippet_start_tick(),
 	padding_to_align_for_utility_drive()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	// game_options::game_options
 	DECLFUNC(0x00485420, void, __thiscall, game_options*)(&options);
@@ -226,12 +226,12 @@ s_blf_saved_film::s_blf_chunk_saved_film_header::s_blf_chunk_saved_film_header()
 
 s_blf_saved_film::s_blf_chunk_saved_film_data::s_blf_chunk_saved_film_data()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 }
 
 s_blf_saved_film::s_blf_saved_film() :
 	s_blffile_saved_game_file(),
-	s_blf_chunk_author(),
+	author(),
 	film_header(),
 	film_data()
 {
@@ -242,18 +242,24 @@ bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_
 	bool byte_swap = false;
 	int32 chunk_size = 0;
 	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_saved_film), &byte_swap, &chunk_size))
+	{
 		return false;
+	}
 
 	while (true)
 	{
 		const char* chunk = (const char*)this + chunk_size;
 
 		bool eof_chunk = false;
-		if (!network_blf_read_for_known_chunk(chunk, sizeof(s_blf_saved_film) - (chunk - (const char*)this), byte_swap, s_blf_saved_film::k_chunk_type, s_blf_saved_film::k_version_major, &chunk_size, &chunk, nullptr, nullptr, &eof_chunk) || eof_chunk)
+		if (!network_blf_read_for_known_chunk(chunk, sizeof(s_blf_saved_film) - (chunk - (const char*)this), byte_swap, s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_type, s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_major_version, &chunk_size, &chunk, nullptr, nullptr, &eof_chunk) || eof_chunk)
+		{
 			break;
+		}
 
 		if (!chunk)
+		{
 			continue;
+		}
 
 		s_blf_saved_film::s_blf_chunk_saved_film_header* saved_film_header = (s_blf_saved_film::s_blf_chunk_saved_film_header*)chunk;
 
@@ -264,7 +270,9 @@ bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_
 		valid &= map_variant->read_from(&saved_film_header->options.map_variant);
 
 		if (is_valid)
+		{
 			*is_valid = valid;
+		}
 
 		return true;
 	}
@@ -274,7 +282,7 @@ bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_
 
 s_blf_chunk_campaign::s_blf_chunk_campaign()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	type_flags = 0;
 	campaign_id = _campaign_id_none;
@@ -286,7 +294,7 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 
 s_blf_chunk_scenario::s_blf_chunk_scenario()
 {
-	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	map_id = _map_id_none;
 	flags.clear();

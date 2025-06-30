@@ -2007,6 +2007,12 @@
     <ClCompile Include="source\simulation\simulation_queue_global_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\saved_film_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\camera\saved_film_director.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4452,6 +4458,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\simulation\simulation_queue_global_events.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\saved_games\saved_film_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

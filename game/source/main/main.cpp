@@ -19,10 +19,12 @@
 #include "game/game_time.hpp"
 #include "hf2p/hf2p.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/chud/chud_messaging.hpp"
 #include "interface/closed_caption.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/console.hpp"
 #include "main/loading.hpp"
@@ -44,6 +46,7 @@
 #include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_debug.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 #include "shell/shell.hpp"
 #include "shell/shell_windows.hpp"
@@ -580,7 +583,7 @@ void __cdecl main_halt_and_catch_fire()
 	transport_initialize();
 	input_clear_all_rumblers();
 	progress_set_default_callbacks(NULL);
-	//saved_film_manager_close();
+	saved_film_manager_close();
 	c_online_lsp_manager::get()->go_into_crash_mode();
 	network_webstats_force_reset();
 	user_interface_networking_set_ui_upload_quota(NONE);
@@ -1930,7 +1933,7 @@ void __cdecl main_save_map_and_exit_private()
 
 	if (!game_is_playback())
 	{
-		//saved_film_manager_close();
+		saved_film_manager_close();
 		game_state_save_to_persistent_storage_blocking();
 		game_finish();
 	}

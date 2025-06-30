@@ -9,6 +9,7 @@
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text.hpp"
 #include "interface/user_interface_text_parser.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 
 c_start_menu_game_saved_film::c_start_menu_game_saved_film(int32 name) :
@@ -148,7 +149,7 @@ void c_start_menu_game_saved_film::update(uns32 current_milliseconds)
 
 	c_start_menu_pane_screen_widget::update(current_milliseconds);
 
-	bool visible = game_time_get_paused_for_reason(_game_time_pause_ui) /*|| saved_film_manager_get_playback_game_speed() == 0.0f*/;
+	bool visible = game_time_get_paused_for_reason(_game_time_pause_ui) || saved_film_manager_get_playback_game_speed() == 0.0f;
 	c_gui_widget::set_child_visible(_gui_group, STRING_ID(global, pause), visible);
 }
 

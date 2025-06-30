@@ -25,12 +25,15 @@ public:
 	//virtual void select_fallback_target(); // c_observer_director, c_saved_film_director
 
 	bool in_free_camera_mode() const;
+	bool force_set_camera_mode(e_camera_mode camera_mode, real32 interpolation_time);
 	c_camera* get_camera();
 	const c_camera* get_camera() const;
 	const s_observer_command* get_last_observer_command() const;
 	e_director_perspective get_perspective() const;
-	bool set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update);
+	int32 get_watched_player() const;
 	bool set_camera_mode(e_camera_mode camera_mode, real32 transition_time);
+	bool set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update);
+	void set_watched_player(int32 player_index);
 
 //protected:
 	byte m_camera_storage[0x4C];

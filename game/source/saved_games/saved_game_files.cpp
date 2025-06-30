@@ -1,6 +1,7 @@
 #include "saved_games/saved_game_files.hpp"
 
 #include "saved_games/content/content_item_metadata.hpp"
+#include "multithreading/synchronized_value.hpp"
 
 REFERENCE_DECLARE(0x0189D930, s_saved_game_file_globals, g_saved_game_files_globals);
 
@@ -74,8 +75,17 @@ void __cdecl saved_game_files_initialize_for_new_map()
 //.text:00526A90 ; public: void s_saved_game_file_globals::register_text_parsers(const s_saved_game_file_text_parser_input*)
 //.text:00526B00 ; void __cdecl saved_game_files_remove_corrupt_content_item(e_controller_index, int32)
 //.text:00526B30 ; int32 __cdecl saved_game_files_save_film_snippet(e_controller_index, const wchar_t*, const wchar_t*, c_synchronized_long*, c_synchronized_long*, int32*)
-//.text:00526B80 ; int32 __cdecl saved_game_files_save_last_film(e_controller_index, c_synchronized_long*, c_synchronized_long*, wchar_t*, int32)
-//.text:00526BB0 ; int32 __cdecl saved_game_files_save_last_film_to_debugging_hard_drive(e_controller_index, void*, uns32, c_synchronized_long*, c_synchronized_long*)
+
+int32 __cdecl saved_game_files_save_last_film(e_controller_index controller_index, c_synchronized_long* success, c_synchronized_long* done, wchar_t* out_display_name, int32 maximum_display_name_characters)
+{
+	return INVOKE(0x00526B80, saved_game_files_save_last_film, controller_index, success, done, out_display_name, maximum_display_name_characters);
+}
+
+int32 __cdecl saved_game_files_save_last_film_to_debugging_hard_drive(e_controller_index controller_index, void* copy_buffer, uns32 copy_buffer_size, c_synchronized_long* success, c_synchronized_long* done)
+{
+	return INVOKE(0x00526BB0, saved_game_files_save_last_film_to_debugging_hard_drive, controller_index, copy_buffer, copy_buffer_size, success, done);
+}
+
 //.text:00526BC0 ; void __cdecl saved_game_files_uniquify_name(e_controller_index, e_saved_game_file_type, wchar_t*, int32)
 //.text:00526D70 ; void __cdecl saved_game_files_unregister_text_parsers()
 
@@ -87,8 +97,13 @@ void __cdecl saved_game_files_update()
 //.text:00526E00 ; int32 __cdecl saved_game_files_update_metadata(e_controller_index, int32, const wchar_t*, const wchar_t*, c_synchronized_long*, c_synchronized_long*)
 //.text:00526E90 ; e_async_completion __cdecl saved_game_files_update_metadata_callback(s_async_task*)
 //.text:00527040 ; int32 __cdecl saved_game_files_write(e_controller_index, int32, e_saved_game_file_type, const s_blffile_saved_game_file*, uns32, c_synchronized_long*, c_synchronized_long*)
-//.text:005270F0 ; void __cdecl saved_game_files_write_saved_game_state_blocking(const s_game_state_header*, int32, const void*, int32)
-//.text:00527380 ; bool __cdecl saved_game_read_metadata_from_file_blocking(s_file_reference*, s_saved_game_item_metadata*)
+//.text:005270F0 ; void __cdecl saved_game_files_write_saved_game_state(const s_game_state_header*, int32, const void*, int32)
+
+bool __cdecl saved_game_read_metadata_from_file(s_file_reference* file, s_saved_game_item_metadata* out_metadata)
+{
+	return INVOKE(0x00527380, saved_game_read_metadata_from_file, file, out_metadata);
+}
+
 //.text:005273E0 ; bool __cdecl saved_game_read_metadata_from_open_file_internal(s_file_reference*, s_saved_game_item_metadata*)
 //.text:005274C0 ; saved_game_synchronize_contents_from_metadata
 //.text:005276E0 ; bool __cdecl saved_game_write_metadata_to_file(s_file_reference*, const s_saved_game_item_metadata*, e_game_content_type, bool)

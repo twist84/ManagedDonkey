@@ -1104,7 +1104,7 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 		goto function_finish;
 	}
 
-	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_campaign::k_chunk_type, s_blf_chunk_campaign::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_campaign::k_chunk_type, s_blf_chunk_campaign::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 	{
 		event(_event_warning, "levels: failed to find blf campaign chunk");
 		goto function_finish;
@@ -1113,7 +1113,7 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 	if (chunk_buffer)
 	{
 		campaign = reinterpret_cast<const s_blf_chunk_campaign*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 		{
 			if (chunk_buffer)
 			{
@@ -1196,7 +1196,7 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 		goto function_finish;
 	}
 
-	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_scenario::k_chunk_type, s_blf_chunk_scenario::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_scenario::k_chunk_type, s_blf_chunk_scenario::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 	{
 		event(_event_warning, "levels: failed to find blf scenario chunk");
 		goto function_finish;
@@ -1205,7 +1205,7 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	if (chunk_buffer)
 	{
 		scenario = reinterpret_cast<const s_blf_chunk_scenario*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 		{
 			if (eof_chunk)
 			{

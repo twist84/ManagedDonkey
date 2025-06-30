@@ -106,17 +106,27 @@ s_emblem_info c_player_profile_interface::get_emblem_info() const
 	return m_appearance.emblem;
 }
 
-//.text:00AA0AC0 ; public: e_player_model_choice c_player_profile_interface::get_player_model_choice() const
+e_player_model_choice c_player_profile_interface::get_player_model_choice() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AA0AC0, c_player_profile_interface, get_player_model_choice);
+
+	//if (!IN_RANGE_INCLUSIVE(m_appearance.player_model_choice, _player_model_choice_spartan, _player_model_choice_elite))
+	//{
+	//	return _player_model_choice_first;
+	//}
+	//
+	//return (e_player_model_choice)m_appearance.player_model_choice;
+}
 
 e_player_color_index c_player_profile_interface::get_primary_change_color() const
 {
 	return INVOKE_CLASS_MEMBER(0x00AA0AE0, c_player_profile_interface, get_primary_change_color);
 
-	return m_appearance.primary_color;
+	//return m_appearance.primary_color;
 }
 
-//.text:00AA0AF0 ; 
-//.text:00AA0B00 ; 
+//.text:00AA0AF0 ; public: e_player_color_index c_player_profile_interface::get_quaternary_change_color() const
+//.text:00AA0B00 ; public: e_player_color_index c_player_profile_interface::get_quinary_change_color() const
 //.text:00AA0B10 ; public: static e_region __cdecl c_player_profile_interface::get_region()
 
 e_player_color_index c_player_profile_interface::get_secondary_change_color() const
@@ -392,8 +402,8 @@ void __thiscall c_player_profile_interface::set_primary_change_color(e_player_co
 	//}
 }
 
-//.text:00AA3740 ; 
-//.text:00AA37D0 ; 
+//.text:00AA3740 ; public: void c_player_profile_interface::set_quaternary_change_color(e_player_color_index, bool)
+//.text:00AA37D0 ; public: void c_player_profile_interface::set_quinary_change_color(e_player_color_index, bool)
 
 void __thiscall c_player_profile_interface::set_secondary_change_color(e_player_color_index color, bool set_by_user)
 {
@@ -435,7 +445,7 @@ void c_player_profile_interface::set_subtitle_setting(e_subtitle_setting setting
 }
 
 //.text:00AA3C30 ; 
-//.text:00AA3D40 ; 
+//.text:00AA3D40 ; public: void c_player_profile_interface::set_tertiary_change_color(e_player_color_index, bool)
 //.text:00AA3DD0 ; public: void c_player_profile_interface::set_training_data(const s_player_training_profile_data*, bool)
 //.text:00AA3EA0 ; 
 

@@ -53,15 +53,22 @@ static_assert(sizeof(s_async_buffer) == 0x20);
 class c_async_buffer_set_base
 {
 public:
+	enum
+	{
+		k_maximum_buffer_count = 3,
+	};
+
+public:
 	c_async_buffer_set_base(int32 buffer_count);
 
 	s_async_buffer* get_buffer(int32 buffer_index);
 	int32 get_buffer_count() const;
 
 	int32 m_buffer_count;
-	c_static_array<s_async_buffer, 3> m_buffers;
+	c_static_array<s_async_buffer, k_maximum_buffer_count> m_buffers;
+	bool m_destination_on_utility_drive;
 };
-static_assert(sizeof(c_async_buffer_set_base) == 0x64);
+static_assert(sizeof(c_async_buffer_set_base) == 0x68);
 
 class c_async_buffer_set :
 	public c_async_buffer_set_base
@@ -99,18 +106,31 @@ public:
 	void write(const void* source, int32 bytes_to_write, int32* byte_written);
 
 protected:
-	bool __unknown64;
 	e_async_buffer_file_access m_file_access;
 	e_async_buffer_state m_state;
 	s_file_handle m_async_file_handle;
-	int32 __unknown74;
+	int32 m_file_offset;
 	int32 m_file_position;
 	int32 m_file_size;
 	int32 m_buffer_index;
 	bool m_storage_initialized;
-	bool m_at_end_of_file;
-	bool m_fatal_error_occurred;
-	bool __unknown87;
+	bool m_end_of_file_reached;
+	bool m_fatal_error_encountered;
+	bool m_explicit_flush;
 };
 static_assert(sizeof(c_async_buffer_set) == 0x88);
+static_assert(sizeof(c_async_buffer_set) == sizeof(c_async_buffer_set_base) + 0x20);
+
+template<int32 k_buffer_count>
+class c_async_stored_buffer_set :
+	public c_async_buffer_set
+{
+public:
+	c_async_stored_buffer_set() :
+		c_async_buffer_set(k_buffer_count)
+	{
+
+	}
+};
+
 
