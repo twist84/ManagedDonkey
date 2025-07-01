@@ -8,6 +8,7 @@
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "shell/shell.hpp"
+#include "shell/shell_splash.hpp"
 
 #include <commctrl.h>  // For common controls like status bar
 #pragma comment(lib, "Comctl32.lib")
@@ -458,9 +459,6 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 	//return INVOKE(0x0042EB10, WinMain, hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
-	if (GetAsyncKeyState(VK_SHIFT) & 0x8000) // if shift is held open the "Choose Rasterizer" dialog
-		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
-
 	SetLastError(NO_ERROR);
 	SetProcessDPIAware();
 
@@ -470,15 +468,32 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	g_windows_params.window_proc = WndProc;
 	g_windows_params.window_handle = NULL;
 
+	static bool x_splash_enabled = false;
+	if (x_splash_enabled && shell_get_command_line_parameter(g_windows_params.cmd_line, "-nosplash", NULL, 0))
+	{
+		splash_screen_show(L"donkey_splash.png", 500, 2000, 500);
+	}
+
+	c_console::toggle_window_visibility();
+
+	if (GetAsyncKeyState(VK_SHIFT) & 0x8000) // if shift is held open the "Choose Rasterizer" dialog
+	{
+		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
+	}
+
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-haltonstartup", NULL, 0))
 	{
 		while (!is_debugger_present())
+		{
 			sleep(1000);
+		}
 	}
 
 	int32 cache_size_increase = 0;
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
+	{
 		g_physical_memory_cache_size_increase_mb = static_cast<uns32>(cache_size_increase);
+	}
 
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-editor", NULL, 0))
 	{
@@ -518,7 +533,9 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	}
 
 	if (!shell_initialized)
+	{
 		shell_dispose();
+	}
 
 	physical_memory_dispose();
 

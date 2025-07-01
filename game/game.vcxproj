@@ -381,6 +381,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\scenario\scenario_zone_resources.cpp" />
     <ClCompile Include="source\scenario\scenario_zone_sets.cpp" />
     <ClCompile Include="source\screenshots\screenshots_loader.cpp" />
+    <ClCompile Include="source\shell\shell_splash.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_player.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_hs.cpp" />
@@ -1500,6 +1501,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\scenario\scenario_zone_sets.hpp" />
     <ClInclude Include="source\screenshots\screenshots_loader.hpp" />
     <ClInclude Include="source\screenshots\screenshots_uploader.hpp" />
+    <ClInclude Include="source\shell\shell_splash.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_sandbox.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_entities.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_events.hpp" />

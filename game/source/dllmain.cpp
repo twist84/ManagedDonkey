@@ -14,6 +14,8 @@ void process_attach(HMODULE hModule)
 
 	apply_all_patches(false);
 	apply_all_hooks(false);
+
+	c_console::toggle_window_visibility();
 }
 
 void process_detach(HMODULE hModule)
