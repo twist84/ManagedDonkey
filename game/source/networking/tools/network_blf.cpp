@@ -28,8 +28,8 @@ void s_blf_chunk_start_of_file::initialize()
 	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
 	byte_order_mark = 0xFFFE;
-	name.clear();
-	zero_array(pad);
+	csmemset(file_type, 0, sizeof(file_type));
+	zero_array(alignment_padding_unused);
 }
 
 s_blf_chunk_end_of_file::s_blf_chunk_end_of_file()
@@ -89,10 +89,10 @@ void s_blf_chunk_author::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_chunk_major_version, k_chunk_minor_version);
 
-	build_name.set("");
-	build_identifier = 0;
-	build_string.set("");
-	author_name.set("");
+	csmemset(program_name, 0, sizeof(program_name));
+	program_build_number = 0;
+	csmemset(program_build_string, 0, sizeof(program_build_string));
+	csmemset(user, 0, sizeof(user));
 }
 
 s_blf_chunk_game_variant::s_blf_chunk_game_variant() :

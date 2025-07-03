@@ -1,10 +1,16 @@
 #include "saved_games/saved_film.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cache/restricted_memory.hpp"
+#include "config/version.hpp"
 #include "content_catalogue.hpp"
 #include "cseries/async.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
+#include "main/levels.hpp"
+#include "memory/byte_swapping.hpp"
+#include "networking/network_utilities.hpp"
+#include "networking/tools/network_debug_dump.hpp"
 #include "simulation/simulation.hpp"
 
 bool g_saved_films_show_timestamp = false;
@@ -238,9 +244,167 @@ bool c_saved_film::set_position(int32 position)
 
 bool c_saved_film::open_for_write(const char* filename, const game_options* options, e_controller_index controller_index)
 {
-	// $TODO: implement this
-
 	return false;
+
+	//ASSERT(filename);
+	//ASSERT(m_content_controller_index == k_no_controller);
+	//ASSERT(m_film_state == k_saved_film_state_none);
+	//
+	//assert_game_options_verify(options);
+	//
+	//c_static_wchar_string<256> file_name;
+	//file_name.set_char(filename);
+	//bool valid = m_async_double_buffer.open_file(file_name.get_string(), _async_buffer_file_access_write, _async_buffer_disposition_create_always);
+	//if (!valid)
+	//{
+	//	event(_event_warning, "networking:saved_film: failed to open saved film %s for writing",
+	//		filename);
+	//
+	//	event(_event_warning, "networking:saved_film: failed to open saved film '%s' for writing",
+	//		filename);
+	//
+	//	c_saved_film::close();
+	//	return false;
+	//}
+	//
+	//file_reference_create_from_path(&m_file_reference, filename, false);
+	//
+	//s_saved_game_item_metadata metadata{};
+	////metadata.initialize_from_current_game_settings(controller_index, _saved_game_film, "", "", 0);
+	//e_gui_game_mode game_mode = _ui_game_mode_multiplayer;// metadata.get_gui_game_mode();
+	//
+	//const wchar_t* active_session_map_name = NULL;
+	//switch (game_mode)
+	//{
+	//case _ui_game_mode_campaign:
+	//{
+	//	wchar_t level_name[64]{};
+	//	active_session_map_name = levels_get_active_session_map_name(level_name, sizeof(level_name));
+	//}
+	//break;
+	//case _ui_game_mode_matchmaking:
+	//{
+	//}
+	//break;
+	//case _ui_game_mode_multiplayer:
+	//{
+	//	active_session_map_name = options->map_variant.m_metadata.display_name;
+	//}
+	//	break;
+	//case _ui_game_mode_map_editor:
+	//{
+	//}
+	//break;
+	//case _ui_game_mode_theater:
+	//{
+	//}
+	//break;
+	//case _ui_game_mode_survival:
+	//{
+	//}
+	//break;
+	//}
+	//
+	//wchar_t display_name[16]{};
+	//saved_game_files_get_default_film_save_name(
+	//	controller_index,
+	//	game_mode,
+	//	active_session_map_name,
+	//	options->multiplayer_variant.get_active_variant()->get_metadata()->display_name,
+	//	metadata.campaign_difficulty,
+	//	false,
+	//	display_name,
+	//	sizeof(display_name));
+	//
+	//wchar_t description[128]{};
+	//saved_game_files_get_default_film_save_description(
+	//	controller_index,
+	//	game_mode,
+	//	active_session_map_name,
+	//	options->multiplayer_variant.get_active_variant()->get_metadata()->display_name,
+	//	metadata.campaign_difficulty,
+	//	description,
+	//	sizeof(description));
+	//
+	//s_blf_saved_film saved_film{};
+	//s_blf_saved_film* header = &saved_film;
+	//
+	//csmemcpy(header, &m_film_header, sizeof(s_blf_saved_film));
+	//
+	////header->content_header.initialize_from_current_game_settings(
+	////	controller_index,
+	////	_saved_game_film,
+	////	display_name,
+	////	description,
+	////	0);
+	//
+	//csstrnzcpy(header->start_of_file.file_type, "halo 3 saved film", sizeof(header->start_of_file.file_type));
+	//
+	//csstrnzcpy(header->author.program_name, version_get_build_name(), sizeof(header->author.program_name));
+	//header->author.program_build_number = bswap_uns64(version_get_build_number_identifier());
+	//csstrnzcpy(header->author.program_build_string, version_get_build_string(), sizeof(header->author.program_build_string));
+	//csstrnzcpy(header->author.user, "", sizeof(header->author.user));
+	//
+	//csstrnzcpy(header->film_header.build_compatibility.build_number, version_get_build_string(), sizeof(header->film_header.build_compatibility.build_number));
+	//network_get_build_identifiers(
+	//	&header->film_header.build_compatibility.executable_type,
+	//	&header->film_header.build_compatibility.network_executable_version,
+	//	&header->film_header.build_compatibility.network_compatible_version);
+	//
+	//header->film_header.build_compatibility.map_signature_size = 0;
+	//csmemset(header->film_header.build_compatibility.map_signature_bytes, 0, k_saved_film_maximum_map_signature_bytes);
+	//
+	//int32 signature_size = 0;
+	//const byte* signature_bytes = NULL;
+	//if (cache_file_get_content_signature(&signature_size, &signature_bytes))
+	//{
+	//	ASSERT(signature_size <= sizeof(header->film_header.build_compatibility.map_signature_bytes));
+	//	if (signature_size > k_saved_film_maximum_map_signature_bytes)
+	//	{
+	//		signature_size = k_saved_film_maximum_map_signature_bytes;
+	//	}
+	//	header->film_header.build_compatibility.map_signature_size = signature_size;
+	//	csmemcpy(header->film_header.build_compatibility.map_signature_bytes, signature_bytes, signature_size);
+	//}
+	//
+	//header->film_header.build_compatibility.map_language = _language_english;// get_map_language();
+	//header->film_header.build_compatibility.map_minor_version = get_map_minor_version();
+	//header->film_header.build_compatibility.map_minor_version_is_tracked = false;// get_map_minor_version_is_tracked();
+	//
+	//header->film_header.length_in_ticks = 0;
+	//header->film_header.recorded_time = system_seconds();
+	//header->film_header.is_host_film = game_options_valid() && game_is_authoritative();
+	//
+	//header->film_header.contains_gamestate = false;
+	//header->film_header.snippet_start_tick = NONE;
+	//
+	//if (const char* sessionid = netdebug_get_sessionid())
+	//{
+	//	csstrnzcpy(header->film_header.session_id, sessionid, sizeof(header->film_header.session_id));
+	//}
+	//
+	//csmemcpy(&header->film_header.options, options, sizeof(game_options));
+	//m_film_state = _saved_film_open_for_write;
+	//
+	//valid = c_saved_film::write_data(header, sizeof(s_blf_saved_film));
+	//if (!valid)
+	//{
+	//	event(_event_warning, "networking:saved_film: film %s succesfully opened, but we failed to write the film header in",
+	//		filename);
+	//
+	//	event(_event_warning, "networking:saved_film: failed to open saved film '%s' for writing",
+	//		filename);
+	//
+	//	c_saved_film::close();
+	//	return false;
+	//}
+	//
+	//m_current_film_offset = sizeof(s_blf_saved_film);
+	//m_start_of_film_data_offset = sizeof(s_blf_saved_film);
+	//
+	//ASSERT(m_start_of_film_data_offset == m_async_double_buffer.get_position());
+	//
+	//return valid;
 }
 
 // $TODO: check my work

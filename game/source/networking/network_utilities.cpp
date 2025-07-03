@@ -20,7 +20,11 @@ int16 __cdecl _random_range(uns32* seed, const char* purpose, const char* source
 //.text:0042ECD0 ; 
 //.text:0042ECE0 ; bool __cdecl network_build_is_compatible(int32, int32, int32)
 //.text:0042ED10 ; 
-//.text:0042ED20 ; void __cdecl network_get_build_identifiers(int32*, int32*, int32*)
+
+void __cdecl network_get_build_identifiers(int32* executable_type, int32* executable_version, int32* compatible_version)
+{
+	INVOKE(0x0042ED20, network_get_build_identifiers, executable_type, executable_version, compatible_version);
+}
 
 bool __cdecl network_get_machine_name(wchar_t* name, int32 name_length)
 {

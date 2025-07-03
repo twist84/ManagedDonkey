@@ -88,6 +88,7 @@ extern void __cdecl levels_dispose();
 extern void __cdecl levels_dispose_from_old_map();
 extern e_async_completion __cdecl levels_dlc_enumeration_callback(s_async_task* work);
 extern e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work);
+extern wchar_t* __cdecl levels_get_active_session_map_name(wchar_t* map_name_buffer, int32 maximum_characters);
 extern bool __cdecl levels_enumeration_in_progress();
 extern uns32 __cdecl levels_get_available_map_mask();
 extern int32 __cdecl levels_get_campaign_count();

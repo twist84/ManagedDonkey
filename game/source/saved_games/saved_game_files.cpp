@@ -29,19 +29,32 @@ void __cdecl saved_game_files_delete_saved_game_state_blocking(e_controller_inde
 void __cdecl saved_game_files_dispose()
 {
 	INVOKE(0x00525DA0, saved_game_files_dispose);
+
+	saved_film_manager_dispose();
 }
 
 void __cdecl saved_game_files_dispose_from_old_map()
 {
 	INVOKE(0x00525DB0, saved_game_files_dispose_from_old_map);
+
+	saved_film_manager_dispose_from_old_map();
 }
 
 //.text:00525DC0 ; bool __cdecl saved_game_files_does_file_exist(e_controller_index, uns64)
 //.text:00525E60 ; bool __cdecl saved_game_files_enumeration_in_progress()
 //.text:00525E90 ; bool __cdecl saved_game_files_file_exists(e_controller_index, e_game_content_type, const wchar_t*)
 //.text:00525EC0 ; bool __cdecl saved_game_files_get_content_item_file_path(e_controller_index, int32, wchar_t*, int32)
-//.text:00525F00 ; bool __cdecl saved_game_files_get_default_film_save_description(e_controller_index, e_gui_game_mode, const wchar_t*, const wchar_t*, e_campaign_difficulty_level, wchar_t*, int32)
-//.text:00525FB0 ; bool __cdecl saved_game_files_get_default_film_save_name(e_controller_index, e_gui_game_mode, const wchar_t*, const wchar_t*, e_campaign_difficulty_level, bool, wchar_t*, int32)
+
+bool __cdecl saved_game_files_get_default_film_save_description(e_controller_index controller_index, e_gui_game_mode game_mode, const wchar_t* map_name, const wchar_t* game_variant_name, e_campaign_difficulty_level difficulty, wchar_t* description, int32 maximum_characters)
+{
+	return INVOKE(0x00525F00, saved_game_files_get_default_film_save_description, controller_index, game_mode, map_name, game_variant_name, difficulty, description, maximum_characters);
+}
+
+bool __cdecl saved_game_files_get_default_film_save_name(e_controller_index controller_index, e_gui_game_mode game_mode, const wchar_t* map_name, const wchar_t* game_variant_name, e_campaign_difficulty_level difficulty, bool uniquify, wchar_t* name, int32 maximum_characters)
+{
+	return INVOKE(0x00525FB0, saved_game_files_get_default_film_save_name, controller_index, game_mode, map_name, game_variant_name, difficulty, uniquify, name, maximum_characters);
+}
+
 //.text:00526080 ; bool __cdecl saved_game_files_get_default_game_variant_save_description(e_controller_index, e_game_engine_type, const wchar_t*, wchar_t*, int32)
 //.text:005260F0 ; bool __cdecl saved_game_files_get_default_game_variant_save_name(e_controller_index, e_game_engine_type, const wchar_t*, wchar_t*, int32)
 //.text:00526180 ; bool __cdecl saved_game_files_get_default_map_variant_save_description(e_controller_index, const wchar_t*, wchar_t*, int32)

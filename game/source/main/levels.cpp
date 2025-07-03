@@ -634,7 +634,12 @@ bool __cdecl levels_enumeration_in_progress()
 }
 
 //.text:0054B3C0 ; 
-//.text:0054B400 ; wchar_t* __cdecl levels_get_active_session_map_name(wchar_t*, int32)
+
+wchar_t* __cdecl levels_get_active_session_map_name(wchar_t* map_name_buffer, int32 maximum_characters)
+{
+	return INVOKE(0x0054B400, levels_get_active_session_map_name, map_name_buffer, maximum_characters);
+}
+
 //.text:0054B500 ; wchar_t* __cdecl levels_get_active_session_campaign_name(wchar_t*, int32)
 
 uns32 __cdecl levels_get_available_map_mask()

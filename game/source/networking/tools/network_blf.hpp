@@ -37,9 +37,9 @@ public:
 	// BOM: { UTF-16 (BE): FE FF }
 	uns16 byte_order_mark;
 
-	c_static_string<k_tag_string_length> name;
+	char file_type[32];
 
-	byte pad[0x2];
+	char alignment_padding_unused[0x2];
 };
 static_assert(sizeof(s_blf_chunk_start_of_file) == sizeof(s_blf_header) + 0x24);
 
@@ -110,10 +110,10 @@ public:
 
 	s_blf_header header;
 
-	c_static_string<16> build_name;
-	uns64 build_identifier;
-	c_static_string<28> build_string;
-	c_static_string<16> author_name;
+	char program_name[16];
+	uns64 program_build_number;
+	char program_build_string[28];
+	char user[16];
 };
 static_assert(sizeof(s_blf_chunk_author) == sizeof(s_blf_header) + 0x44);
 

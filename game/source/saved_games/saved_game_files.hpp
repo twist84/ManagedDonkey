@@ -33,6 +33,8 @@ extern bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_
 extern void __cdecl saved_game_files_delete_saved_game_state_blocking(e_controller_index controller_index);
 extern void __cdecl saved_game_files_dispose();
 extern void __cdecl saved_game_files_dispose_from_old_map();
+extern bool __cdecl saved_game_files_get_default_film_save_description(e_controller_index controller_index, e_gui_game_mode game_mode, const wchar_t* map_name, const wchar_t* game_variant_name, e_campaign_difficulty_level difficulty, wchar_t* description, int32 maximum_characters);
+extern bool __cdecl saved_game_files_get_default_film_save_name(e_controller_index controller_index, e_gui_game_mode game_mode, const wchar_t* map_name, const wchar_t* game_variant_name, e_campaign_difficulty_level difficulty, bool uniquify, wchar_t* name, int32 maximum_characters);
 extern void __cdecl saved_game_files_initialize();
 extern void __cdecl saved_game_files_initialize_for_new_map();
 extern int32 __cdecl saved_game_files_save_last_film(e_controller_index controller_index, c_synchronized_long* success, c_synchronized_long* done, wchar_t* out_display_name, int32 maximum_display_name_characters);

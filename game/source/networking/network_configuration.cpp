@@ -188,11 +188,11 @@ void network_build_network_configuration()
 	network_configuration_file.start_of_file_chunk.initialize();
 	network_configuration_file.author_chunk.initialize();
 
-	network_configuration_file.start_of_file_chunk.name.set("halo3 net config");
-	network_configuration_file.author_chunk.build_name.set(version_get_build_name());
-	network_configuration_file.author_chunk.build_identifier = version_get_build_number_identifier();
-	network_configuration_file.author_chunk.build_string.set(version_get_build_string());
-	network_configuration_file.author_chunk.author_name.clear();
+	csstrnzcpy(network_configuration_file.start_of_file_chunk.file_type, "halo3 net config", sizeof(network_configuration_file.start_of_file_chunk.file_type));
+	csstrnzcpy(network_configuration_file.author_chunk.program_name, version_get_build_name(), sizeof(network_configuration_file.author_chunk.program_name));
+	network_configuration_file.author_chunk.program_build_number = version_get_build_number_identifier();
+	csstrnzcpy(network_configuration_file.author_chunk.program_build_string, version_get_build_string(), sizeof(network_configuration_file.author_chunk.program_build_string));
+	csmemset(network_configuration_file.author_chunk.user, 0, sizeof(network_configuration_file.author_chunk.user));
 
 	network_configuration_file.memory_header.setup('netc', sizeof(s_blf_header) + sizeof(s_network_configuration), 142, 0);
 	network_configuration_file.memory = g_network_configuration;
