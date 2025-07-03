@@ -7,6 +7,11 @@ bool c_simulation_world::exists() const
 	return m_world_type > _simulation_world_type_none;
 }
 
+void c_simulation_world::initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world)
+{
+	INVOKE_CLASS_MEMBER(0x00469A00, c_simulation_world, initialize_world, simulation_type, playback_type, reset_next_update_number, type_collection, watcher, distributed_world);
+}
+
 bool c_simulation_world::is_active()
 {
 	ASSERT(exists());

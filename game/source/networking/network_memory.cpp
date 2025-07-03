@@ -5,6 +5,13 @@ REFERENCE_DECLARE(0x01A28D88, s_network_base_memory_globals, network_base_memory
 
 REFERENCE_DECLARE(0x01860454, uns16, g_broadcast_port);
 
+c_simulation_distributed_world* __cdecl network_allocate_simulation_distributed_world()
+{
+    return INVOKE(0x004621A0, network_allocate_simulation_distributed_world);
+}
+
+//.text:004621B0 ; c_network_channel* __cdecl network_channel_iterate(c_network_channel*)
+
 void* __cdecl network_heap_allocate_block(int32 block_size)
 {
     return INVOKE(0x004621D0, network_heap_allocate_block, block_size);

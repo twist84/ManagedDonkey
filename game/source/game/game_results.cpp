@@ -13,6 +13,11 @@ REFERENCE_DECLARE(0x023DAEA8, c_game_results, g_current_game_results);
 HOOK_DECLARE(0x00570560, game_results_statistics_decode);
 HOOK_DECLARE(0x00570600, game_results_statistics_encode);
 
+void __cdecl game_results_initialize_for_new_map()
+{
+	INVOKE(0x0056F340, game_results_initialize_for_new_map);
+}
+
 int32 __cdecl game_results_statistic_get_current(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic)
 {
 	return INVOKE(0x005702F0, game_results_statistic_get_current, player_absolute_index, team_index, statistic);

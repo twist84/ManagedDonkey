@@ -1,7 +1,8 @@
 #include "saved_games/saved_game_files.hpp"
 
-#include "saved_games/content/content_item_metadata.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "saved_games/content/content_item_metadata.hpp"
+#include "saved_games/saved_film_manager.hpp"
 
 REFERENCE_DECLARE(0x0189D930, s_saved_game_file_globals, g_saved_game_files_globals);
 
@@ -57,11 +58,15 @@ void __cdecl saved_game_files_dispose_from_old_map()
 void __cdecl saved_game_files_initialize()
 {
 	INVOKE(0x00526840, saved_game_files_initialize);
+
+	saved_film_manager_initialize();
 }
 
 void __cdecl saved_game_files_initialize_for_new_map()
 {
 	INVOKE(0x00526890, saved_game_files_initialize_for_new_map);
+
+	saved_film_manager_initialize_for_new_map();
 }
 
 //.text:005268C0 ; bool __cdecl saved_game_files_is_content_item_corrupt(e_controller_index, int32)

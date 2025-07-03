@@ -370,6 +370,7 @@ extern c_game_results& g_current_game_results;
 
 class c_bitstream;
 
+extern void __cdecl game_results_initialize_for_new_map();
 extern void __cdecl game_results_statistic_increment(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
 extern void __cdecl game_results_statistic_set(int32 player_absolute_index, int32 team_index, e_game_results_statistic statistic, int32 a4);
 extern bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, int32 statistics_count, const s_integer_statistic_definition* statistic_definitions, int32 statistics_definitions_count);

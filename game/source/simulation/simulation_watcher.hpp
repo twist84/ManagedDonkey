@@ -15,7 +15,9 @@ public:
 	void describe_status(char* buffer, int32 buffer_length) const;
 	int32 describe_status_simple() const;
 	bool in_online_networked_session();
+	void initialize_watcher(c_simulation_world* world);
 	bool need_to_generate_updates() const;
+	void setup_connection();
 
 protected:
 	c_simulation_world* m_world;

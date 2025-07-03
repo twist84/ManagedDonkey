@@ -64,6 +64,7 @@ extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;
 extern uns16& g_broadcast_port;
 
+extern c_simulation_distributed_world* __cdecl network_allocate_simulation_distributed_world();
 extern void* __cdecl network_heap_allocate_block(int32 block_size);
 extern char* __cdecl network_heap_describe(char* buffer, int32 buffer_size);
 extern void __cdecl network_heap_free_block(void* block);

@@ -198,8 +198,28 @@ bool c_simulation_watcher::in_online_networked_session()
 	//return m_session->session_class() == _network_session_class_xbox_live
 	//	&& m_session->get_session_membership_unsafe()->m_shared_network_membership.peer_count > 1;
 }
+
+void c_simulation_watcher::initialize_watcher(c_simulation_world* world)
+{
+	INVOKE_CLASS_MEMBER(0x0046CDA0, c_simulation_watcher, initialize_watcher, world);
+
+	//ASSERT(world);
+	//ASSERT(m_world == NULL);
+	//
+	//m_world = world;
+	//m_session = NULL;
+	//m_observer = NULL;
+	//m_game_revert_occured = false;
+	//c_simulation_watcher::reset_tracking_arrays();
+}
+
 bool c_simulation_watcher::need_to_generate_updates() const
 {
 	return INVOKE_CLASS_MEMBER(0x0046D090, c_simulation_watcher, need_to_generate_updates);
+}
+
+void c_simulation_watcher::setup_connection()
+{
+	INVOKE_CLASS_MEMBER(0x0046D380, c_simulation_watcher, setup_connection);
 }
 

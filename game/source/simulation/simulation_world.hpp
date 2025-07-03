@@ -25,6 +25,7 @@ class c_simulation_world
 {
 public:
 	bool exists() const;
+	void initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world);
 	bool is_active();
 	bool is_authority() const;
 	bool is_distributed() const;
