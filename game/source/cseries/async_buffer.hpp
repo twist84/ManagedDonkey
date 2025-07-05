@@ -6,33 +6,30 @@
 
 enum e_async_buffer_state
 {
-	k_async_buffer_state_none = NONE,
-	// 0: ready_to_read
-	// 1: ready_to_write
+	_async_buffer_state_reading = 0,
+	_async_buffer_state_writing,
 
-	k_async_buffer_state_count
+	k_async_buffer_state_count,
+	k_async_buffer_state_none = NONE,
 };
 
 enum e_async_buffer_file_access
 {
-	_async_buffer_file_access_none = NONE,
-	_async_buffer_file_access_write,
+	_async_buffer_file_access_write = 0,
 	_async_buffer_file_access_read,
 	_async_buffer_file_access_read_write,
 
-	k_async_buffer_file_access_count
+	k_async_buffer_file_access_count,
+	k_async_buffer_file_access_none = NONE,
 };
 
 enum e_async_buffer_disposition
 {
-	_async_buffer_disposition_open_existing = 0,
-	_async_buffer_disposition_create_always,
-	_async_buffer_disposition_create_new,
-	_async_buffer_disposition_open_always0,
-	_async_buffer_disposition_open_always1,
-	_async_buffer_disposition_truncate_existing,
+	_async_buffer_disposition_create_always = 0,
+	_async_buffer_disposition_open_existing,
 
-	k_async_buffer_disposition_count
+	k_async_buffer_disposition_count,
+	k_async_buffer_disposition_none = NONE,
 };
 
 struct s_async_buffer
