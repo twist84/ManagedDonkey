@@ -9,6 +9,9 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/c_gui_screen_widget.hpp"
+#include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "main/levels.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
@@ -1685,10 +1688,70 @@ void saved_film_manager_update_snippet_authored_cameras()
 
 void saved_film_manager_update_ui_screens()
 {
+	//if (!game_is_playback())
+	//{
+	//	return;
+	//}
+	//
+	//const int32 snippet_start_tick = saved_film_manager_get_snippet_start_tick();
+	//if (snippet_start_tick == NONE || g_universal_saved_film_tick.peek() >= snippet_start_tick)
+	//{
+	//	if (!saved_film_manager_globals.ui_screen_active)
+	//	{
+	//		return;
+	//	}
+	//
+	//	c_gui_screen_widget* screen_widget = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
+	//	if (screen_widget)
+	//	{
+	//		screen_widget->transition_out(_transition_out_normal);
+	//	}
+	//
+	//	saved_film_manager_globals.ui_screen_active = false;
+	//	return;
+	//}
+	//
+	//if (!saved_film_manager_globals.ui_screen_active)
+	//{
+	//	c_gui_screen_widget* screen_widget = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
+	//	if (screen_widget)
+	//	{
+	//		return;
+	//	}
+	//
+	//	if (c_load_in_progress_screen_message* screen_message = new c_load_in_progress_screen_message(
+	//		screen_message,
+	//		STRING_ID(gui, in_progress_mini_me),
+	//		k_any_controller,
+	//		k_number_of_player_windows,
+	//		STRING_ID(gui, film_snippet_preparing_title),
+	//		STRING_ID(gui, film_snippet_preparing_message),
+	//		false,
+	//		true))
+	//	{
+	//		user_interface_messaging_post(screen_message);
+	//		saved_film_manager_globals.ui_screen_active = true;
+	//	}
+	//}
 }
 
 void saved_film_manager_update()
 {
+	saved_film_manager_update_ui_screens();
+
+	if (!game_in_progress())
+	{
+		return;
+	}
+
+	if (!game_is_playback() && saved_film_manager_globals.saved_film.m_film_state > _saved_film_open_for_write)
+	{
+		g_universal_saved_film_tick.set(game_time_get());
+
+		return;
+	}
+
+	// $TODO: implement this
 }
 
 int32 saved_film_manager_upload_start(int32 maximum_file_count, s_file_reference* out_file_list)
