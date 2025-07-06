@@ -1042,6 +1042,7 @@ void __cdecl main_loop_body()
 							bink_playback_update();
 							screenshots_uploader_update();
 							spartan_program_handler_update();
+							saved_film_manager_update();
 						}
 
 						PROFILER(network_io) // main_loop, netio

@@ -22,6 +22,7 @@
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
 HOOK_DECLARE(0x004411E0, simulation_describe_status);
+HOOK_DECLARE(0x00441F90, simulation_record_update);
 
 c_wait_for_render_thread::c_wait_for_render_thread(const char* file, int32 line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
@@ -325,7 +326,7 @@ void __cdecl simulation_fatal_error()
 
 bool __cdecl simulation_film_record_update(const struct simulation_update* update)
 {
-	return INVOKE(0x00441320, simulation_film_record_update, update);
+	//return INVOKE(0x00441320, simulation_film_record_update, update);
 
 	ASSERT(update);
 	
@@ -382,16 +383,16 @@ bool __cdecl simulation_film_start_recording()
 
 void __cdecl simulation_film_stop_recording()
 {
-	INVOKE(0x00441410, simulation_film_stop_recording);
+	//INVOKE(0x00441410, simulation_film_stop_recording);
 
-	//if (!simulation_globals.recording_film)
-	//{
-	//	return;
-	//}
-	//
-	//saved_film_manager_close();
-	//simulation_globals.recording_film = false;
-	//saved_film_manager_copy_film_to_debug_path();
+	if (!simulation_globals.recording_film)
+	{
+		return;
+	}
+	
+	saved_film_manager_close();
+	simulation_globals.recording_film = false;
+	saved_film_manager_copy_film_to_debug_path();
 }
 
 bool __cdecl simulation_format_player_netdebug_data(int32 player_index, const s_simulation_player_netdebug_data* netdebug_data, int32* filled_bar_count)
@@ -554,7 +555,7 @@ void __cdecl simulation_initialize()
 
 void __cdecl simulation_initialize_for_new_map()
 {
-	INVOKE(0x00441A40, simulation_initialize_for_new_map);
+	//INVOKE(0x00441A40, simulation_initialize_for_new_map);
 
 	ASSERT(simulation_globals.initialized);
 	
@@ -838,16 +839,16 @@ void __cdecl simulation_process_input(uns32 user_action_mask, const player_actio
 
 void __cdecl simulation_record_update(const struct simulation_update* update)
 {
-	INVOKE(0x00441F90, simulation_record_update, update);
+	//INVOKE(0x00441F90, simulation_record_update, update);
 
-	//ASSERT(simulation_globals.initialized);
-	//ASSERT(simulation_globals.world);
-	//ASSERT(game_in_progress());
-	//
-	//if (simulation_globals.recording_film)
-	//{
-	//	simulation_film_record_update(update);
-	//}
+	ASSERT(simulation_globals.initialized);
+	ASSERT(simulation_globals.world);
+	ASSERT(game_in_progress());
+	
+	if (simulation_globals.recording_film)
+	{
+		simulation_film_record_update(update);
+	}
 }
 
 void __cdecl simulation_remove_view_from_world(c_simulation_view* view)

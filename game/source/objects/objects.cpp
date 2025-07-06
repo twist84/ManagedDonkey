@@ -25,7 +25,7 @@ HOOK_DECLARE(0x00B32130, object_render_debug);
 
 s_object_override_globals object_override_globals;
 
-bool debug_objects = true;
+bool debug_objects = false;
 bool debug_objects_early_movers = true;
 bool debug_objects_bounding_spheres = true;
 bool debug_objects_render_models = true;
