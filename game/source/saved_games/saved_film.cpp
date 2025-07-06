@@ -322,6 +322,11 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	
 	s_blf_saved_film saved_film{};
 	s_blf_saved_film* header = &saved_film;
+
+	csmemcpy(offset_pointer(&header->author.header, sizeof(s_blf_header)), offset_pointer(&m_film_header.author.header, sizeof(s_blf_header)), sizeof(s_blf_chunk_author) - sizeof(s_blf_header));
+	csmemcpy(offset_pointer(&header->film_header.header, sizeof(s_blf_header)), offset_pointer(&m_film_header.film_header.header, sizeof(s_blf_header)), sizeof(s_blf_saved_film::s_blf_chunk_saved_film_header) - sizeof(s_blf_header));
+	csmemcpy(offset_pointer(&header->film_data.header, sizeof(s_blf_header)), offset_pointer(&m_film_header.film_data.header, sizeof(s_blf_header)), sizeof(s_blf_saved_film::s_blf_chunk_saved_film_data) - sizeof(s_blf_header));
+	zero_array(header->film_header.padding_to_align_for_utility_drive);
 	
 	header->content_header.initialize_from_current_game_settings(
 		controller_index,
