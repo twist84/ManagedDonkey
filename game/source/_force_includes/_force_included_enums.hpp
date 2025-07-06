@@ -4404,23 +4404,33 @@ enum e_synchronization_semaphore
 
 enum e_saved_game_file_type
 {
-	_saved_game_file_type_none = NONE,
-	_saved_game_file_type_personal,
-	_saved_game_file_type_ctf,
-	_saved_game_file_type_slayer,
-	_saved_game_file_type_oddball,
-	_saved_game_file_type_king,
-	_saved_game_file_type_juggernaut,
-	_saved_game_file_type_territories,
-	_saved_game_file_type_assault,
-	_saved_game_file_type_infection,
-	_saved_game_file_type_vip,
-	_saved_game_file_type_usermap,
-	_saved_game_file_type_film,
-	_saved_game_file_type_clip,
-	_saved_game_file_type_screenshot,
+	_saved_game_file_type_first = 0,
+	_saved_game_campaign = _saved_game_file_type_first,
 
-	k_saved_game_file_type_count
+	_saved_game_file_type_first_game_variant,
+
+	_saved_game_variant_ctf = _saved_game_file_type_first_game_variant,
+	_saved_game_variant_slayer,
+	_saved_game_variant_oddball,
+	_saved_game_variant_king,
+	_saved_game_variant_juggernaut,
+	_saved_game_variant_territories,
+	_saved_game_variant_assault,
+	_saved_game_variant_infection,
+	_saved_game_variant_vip,
+
+	_saved_game_file_type_last_game_variant = _saved_game_variant_vip,
+
+	_saved_game_map_variant,
+	_saved_game_film,
+	_saved_game_film_clip,
+	_saved_game_screen_shot,
+
+	k_saved_game_file_type_count,
+	k_saved_game_file_type_any = k_saved_game_file_type_count,
+	k_saved_game_file_type_any_game_variant,
+	k_saved_game_file_type_none = NONE,
+	k_saved_game_file_type_bits = 5,
 };
 
 enum e_vertex_type
