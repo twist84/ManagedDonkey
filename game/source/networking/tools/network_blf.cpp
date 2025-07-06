@@ -20,7 +20,7 @@ void s_blf_header::setup(int32 _chunk_type, int32 _chunk_size, int32 _major_vers
 
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
 {
-	initialize();
+	s_blf_chunk_start_of_file::initialize();
 }
 
 void s_blf_chunk_start_of_file::initialize()
@@ -34,7 +34,7 @@ void s_blf_chunk_start_of_file::initialize()
 
 s_blf_chunk_end_of_file::s_blf_chunk_end_of_file()
 {
-	initialize();
+	s_blf_chunk_end_of_file::initialize();
 }
 
 void s_blf_chunk_end_of_file::initialize()
@@ -47,7 +47,7 @@ void s_blf_chunk_end_of_file::initialize()
 
 s_blf_chunk_end_of_file_with_crc::s_blf_chunk_end_of_file_with_crc()
 {
-	initialize();
+	s_blf_chunk_end_of_file_with_crc::initialize();
 }
 
 void s_blf_chunk_end_of_file_with_crc::initialize()
@@ -60,7 +60,7 @@ void s_blf_chunk_end_of_file_with_crc::initialize()
 
 s_blf_chunk_content_header::s_blf_chunk_content_header()
 {
-	initialize();
+	s_blf_chunk_content_header::initialize();
 }
 
 void s_blf_chunk_content_header::initialize()
@@ -72,7 +72,7 @@ void s_blf_chunk_content_header::initialize()
 
 	metadata.display_name[0] = 0;
 	metadata.description[0] = 0;
-	metadata.file_type = _saved_game_file_type_none;
+	metadata.file_type = k_saved_game_file_type_none;
 	metadata.author[0] = 0;
 	metadata.date = 0;
 	metadata.length_seconds = 0;
@@ -80,9 +80,17 @@ void s_blf_chunk_content_header::initialize()
 	metadata.game_engine_index = _game_engine_type_none;
 }
 
+void s_blf_chunk_content_header::initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type saved_game_file_type, wchar_t const* name, wchar_t const* description, uns64 size, int32 length_in_seconds)
+{
+	//INVOKE_CLASS_MEMBER(0x00462ED0, s_blf_chunk_content_header, initialize_from_current_game_settings, controller_index, saved_game_file_type, name, description, size, length_in_seconds);
+
+	s_blf_chunk_content_header::initialize();
+	metadata.initialize_from_current_game_settings(controller_index, saved_game_file_type, name, description, size);
+}
+
 s_blf_chunk_author::s_blf_chunk_author()
 {
-	initialize();
+	s_blf_chunk_author::initialize();
 }
 
 void s_blf_chunk_author::initialize()
@@ -137,7 +145,9 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 	bool byte_swap = false;
 	int32 chunk_size = 0;
 	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_chunk_map_variant), &byte_swap, &chunk_size))
+	{
 		return false;
+	}
 
 	const char* next_chunk = (char*)this + chunk_size;
 

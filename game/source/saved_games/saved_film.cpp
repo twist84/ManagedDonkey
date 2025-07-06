@@ -323,14 +323,13 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	s_blf_saved_film saved_film{};
 	s_blf_saved_film* header = &saved_film;
 	
-	csmemcpy(header, &m_film_header, sizeof(s_blf_saved_film));
-	
-	//header->content_header.initialize_from_current_game_settings(
-	//	controller_index,
-	//	_saved_game_film,
-	//	display_name,
-	//	description,
-	//	0);
+	header->content_header.initialize_from_current_game_settings(
+		controller_index,
+		_saved_game_film,
+		display_name,
+		description,
+		0,
+		0);
 	
 	csstrnzcpy(header->start_of_file.file_type, "halo 3 saved film", sizeof(header->start_of_file.file_type));
 	

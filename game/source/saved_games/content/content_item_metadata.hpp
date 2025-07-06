@@ -39,9 +39,10 @@ struct s_saved_game_item_metadata
 	uns64 game_id;
 
 	void byteswap();
-	bool is_valid() const;
 	void decode(c_bitstream* packet);
 	void encode(c_bitstream* packet) const;
+	void initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 size);
+	bool is_valid() const;
 
 	void decode_from_mcc(c_bitstream* packet);
 	void encode_to_mcc(c_bitstream* packet) const;

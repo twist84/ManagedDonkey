@@ -21,11 +21,6 @@ void s_saved_game_item_metadata::byteswap()
 	bswap_uns64_inplace(game_id);
 }
 
-bool s_saved_game_item_metadata::is_valid() const
-{
-	return false; //content_item_metadata_valid(this);
-}
-
 void s_saved_game_item_metadata::decode(c_bitstream* packet)
 {
 	//INVOKE_CLASS_MEMBER(0x00523FE0, s_saved_game_item_metadata, decode, packet);
@@ -82,6 +77,16 @@ void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 	packet->write_qword("game-id", game_id, 64);
 }
 
+void s_saved_game_item_metadata::initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 size)
+{
+	INVOKE_CLASS_MEMBER(0x00525000, s_saved_game_item_metadata, initialize_from_current_game_settings, controller_index, file_type, in_name, in_description, size);
+}
+
+bool s_saved_game_item_metadata::is_valid() const
+{
+	return false; //content_item_metadata_valid(this);
+}
+
 void s_saved_game_item_metadata::decode_from_mcc(c_bitstream* packet)
 {
 	int32 const k_display_name_size = NUMBEROF(display_name);
@@ -131,5 +136,4 @@ void s_saved_game_item_metadata::encode_to_mcc(c_bitstream* packet) const
 	packet->write_integer("hopper-id", 0xFF, 16);
 	packet->write_qword("game-id", game_id, 64);
 }
-
 

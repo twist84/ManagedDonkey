@@ -129,6 +129,7 @@ public:
 	s_blf_chunk_content_header();
 
 	void initialize();
+	void initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type saved_game_file_type, wchar_t const* name, wchar_t const* description, uns64 size, int32 length_in_seconds);
 
 	s_blf_header header;
 
@@ -252,9 +253,9 @@ struct s_blf_saved_film :
 		int32 recorded_time;
 		int32 length_in_ticks;
 		int32 snippet_start_tick;
-		byte padding_to_align_for_utility_drive[0xD80];
+		byte padding_to_align_for_utility_drive[0x200];
 	};
-	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
+	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x24E60);
 #pragma pack(pop)
 
 	struct s_blf_chunk_saved_film_data
@@ -279,7 +280,7 @@ public:
 	s_blf_chunk_saved_film_header film_header;
 	s_blf_chunk_saved_film_data film_data;
 };
-static_assert(sizeof(s_blf_saved_film) == 0x25B80);
+static_assert(sizeof(s_blf_saved_film) == 0x25000);
 
 struct s_blf_chunk_campaign
 {
