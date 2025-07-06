@@ -15,6 +15,7 @@
 #include "main/levels.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "networking/logic/network_life_cycle.hpp"
@@ -1527,6 +1528,17 @@ void saved_film_manager_should_record_film_default_set(bool b)
 {
 	saved_film_manager_should_record_film_default = b;
 }
+
+bool __cdecl game_options_verify_begin_load_map(game_options* options, char* error_string, int32 error_string_length)
+{
+	if (!network_squad_session_get_film())
+	{
+		options->record_saved_film = saved_film_manager_should_record_film(options);
+	}
+
+	return game_options_verify(options, error_string, error_string_length);
+}
+HOOK_DECLARE_CALL(0x00491F77, game_options_verify_begin_load_map);
 
 bool saved_film_manager_should_record_film(const game_options* options)
 {

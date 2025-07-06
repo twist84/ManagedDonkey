@@ -100,17 +100,17 @@ bool c_bitstream::read_bool(const char* debug_string)
 
 uns32 c_bitstream::read_integer(const char* debug_string, int32 size_in_bits)
 {
-	return DECLFUNC(0x00443970, uns32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
+	//return DECLFUNC(0x00443970, uns32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 	//return INVOKE_CLASS_MEMBER(0x00443970, c_bitstream, read_integer, debug_string, size_in_bits);
-	//
-	//ASSERT(reading());
-	//ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
-	//
-	//uns32 value = c_bitstream::read_dword_internal(size_in_bits);
-	//
-	//ASSERT(value < (uns32)(1 << size_in_bits));
-	//
-	//return value;
+	
+	ASSERT(reading());
+	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
+	
+	uns32 value = c_bitstream::read_dword_internal(size_in_bits);
+	
+	ASSERT(value < (uns32)(1 << size_in_bits));
+	
+	return value;
 }
 
 void c_bitstream::read_raw_data(const char* debug_string, void* raw_data, int32 size_in_bits)
