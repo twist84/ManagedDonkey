@@ -100,6 +100,7 @@ extern void __cdecl scenario_dispose();
 extern void __cdecl scenario_dispose_from_old_map();
 extern void __cdecl scenario_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 extern void __cdecl scenario_frame_update(real32 game_seconds_elapsed);
+extern void __cdecl scenario_game_state_grab_global_state(s_scenario_game_state* out_game_state);
 extern const char* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic_zone_mask, char* cinematic_zone_string, uns32 cinematic_zone_string_size);
 extern s_game_globals* __cdecl scenario_get_game_globals();
 extern int32 __cdecl scenario_get_designer_zone_index_by_name(const struct scenario* scenario, const char* name);
@@ -110,6 +111,7 @@ extern int32 __cdecl scenario_get_zone_set_index_by_name(const struct scenario* 
 extern void __cdecl scenario_initialize();
 extern void __cdecl scenario_initialize_for_new_map();
 extern void __cdecl scenario_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
+extern void __cdecl scenario_initialize_game_state(s_scenario_game_state* out_game_state);
 extern void __cdecl scenario_invalidate();
 extern void __cdecl scenario_invalidate_zone_set_internal();
 extern bool __cdecl scenario_language_pack_load();

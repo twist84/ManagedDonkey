@@ -1529,7 +1529,7 @@ void saved_film_manager_should_record_film_default_set(bool b)
 	saved_film_manager_should_record_film_default = b;
 }
 
-bool __cdecl game_options_verify_begin_load_map(game_options* options, char* error_string, int32 error_string_length)
+bool __cdecl game_options_verify_for_begin_load_map(game_options* options, char* error_string, int32 error_string_length)
 {
 	if (!network_squad_session_get_film())
 	{
@@ -1538,7 +1538,7 @@ bool __cdecl game_options_verify_begin_load_map(game_options* options, char* err
 
 	return game_options_verify(options, error_string, error_string_length);
 }
-HOOK_DECLARE_CALL(0x00491F77, game_options_verify_begin_load_map);
+HOOK_DECLARE_CALL(0x00491F77, game_options_verify_for_begin_load_map);
 
 bool saved_film_manager_should_record_film(const game_options* options)
 {
@@ -1756,14 +1756,18 @@ void saved_film_manager_update()
 		return;
 	}
 
+	if (game_is_playback())
+	{
+		// $TODO: implement this
+
+	}
+
 	if (!game_is_playback() && saved_film_manager_globals.saved_film.m_film_state > _saved_film_open_for_write)
 	{
 		g_universal_saved_film_tick.set(game_time_get());
 
 		return;
 	}
-
-	// $TODO: implement this
 }
 
 int32 saved_film_manager_upload_start(int32 maximum_file_count, s_file_reference* out_file_list)

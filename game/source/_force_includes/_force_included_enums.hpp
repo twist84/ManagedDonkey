@@ -4937,6 +4937,24 @@ enum e_game_state_revert_bit
 	k_number_of_game_state_revert_bits
 };
 
+enum e_game_state_proc_flags
+{
+	_flush_physics_environment_bit = 0,
+	_flush_networking_bit,
+	_rebuild_players_bit,
+	_doesnt_effect_location_after_death_bit,
+	_restored_by_scripting_bit,
+	_keep_playing_cinematic_outros_bit,
+	_dont_cancel_pending_game_save_bit,
+	_dont_rebuild_havok_bit,
+	_use_insecure_signature_bit,
+	_defer_writing_signature_bit,
+	_disable_campaign_metagame_bit,
+	_dont_save_gpu_effect_data_bit,
+
+	k_game_state_proc_flags_count,
+};
+
 enum e_single_threaded_request_flags
 {
 	_single_thread_for_user_request = 0,

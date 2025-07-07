@@ -22,6 +22,9 @@ bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_sessio
 //.text:00A80770 ; bool __cdecl user_interface_create_new_squad(e_network_session_class squad_session_class)
 //.text:00A807F0 ; bool __cdecl user_interface_game_ending_writing_stats()
 
+//.text:00A80810 ; int32 __cdecl user_interface_game_settings_get_campaign_active_primary_skulls()
+//.text:00A80840 ; int32 __cdecl user_interface_game_settings_get_campaign_active_secondary_skulls()
+
 e_campaign_difficulty_level __cdecl user_interface_game_settings_get_campaign_difficulty()
 {
 	return INVOKE(0x00A80870, user_interface_game_settings_get_campaign_difficulty);

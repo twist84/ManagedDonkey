@@ -334,7 +334,11 @@ void __cdecl scenario_frame_update(real32 game_seconds_elapsed)
 	INVOKE(0x004EA0F0, scenario_frame_update, game_seconds_elapsed);
 }
 
-//.text:004EA100 ; void __cdecl scenario_game_state_grab_global_state(s_scenario_game_state*)
+void __cdecl scenario_game_state_grab_global_state(s_scenario_game_state* out_game_state)
+{
+	INVOKE(0x004EA100, scenario_game_state_grab_global_state, out_game_state);
+}
+
 //.text:004EA140 ; bool __cdecl scenario_game_state_matches_global_state(const s_scenario_game_state*)
 //.text:004EA1A0 ; bool __cdecl scenario_game_states_match(const s_scenario_game_state*, const s_scenario_game_state*)
 
@@ -496,7 +500,11 @@ void __cdecl scenario_initialize_for_new_structure_bsp(uns32 activating_structur
 }
 
 //.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(int32, const s_structure_seams*, uns32)
-//.text:004EA3A0 ; void __cdecl scenario_initialize_game_state(s_scenario_game_state*)
+
+void __cdecl scenario_initialize_game_state(s_scenario_game_state* out_game_state)
+{
+	INVOKE(0x004EA3A0, scenario_initialize_game_state, out_game_state);
+}
 
 void __cdecl scenario_invalidate()
 {
