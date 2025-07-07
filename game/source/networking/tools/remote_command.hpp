@@ -262,6 +262,9 @@ COMMAND_CALLBACK_DECLARE(controller_set_tertiary_change_color);
 COMMAND_CALLBACK_DECLARE(controller_set_voice_mask);
 COMMAND_CALLBACK_DECLARE(controller_set_voice_output_setting);
 
+COMMAND_CALLBACK_DECLARE(saved_film_play);
+COMMAND_CALLBACK_DECLARE(saved_film_play_last);
+
 //-----------------------------------------------------------------------------
 
 s_command const k_registered_commands[] =
@@ -466,6 +469,9 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(controller_set_tertiary_change_color, 2, "<controller> <player_color>", "set tertiary color for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_voice_mask, 2, "<controller> <voice_mask>", "set voice mask for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_voice_output_setting, 2, "<controller> <voice_output_setting>", "set voice output setting for specified controller\r\nNETWORK SAFE: No"),
+
+	COMMAND_CALLBACK_REGISTER(saved_film_play, 2, "<controller> <string>", "plays a saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_film_play_last, 0, "", "play back last recorded saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 };
 

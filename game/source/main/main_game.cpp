@@ -16,6 +16,7 @@
 #include "input/input_windows.hpp"
 #include "interface/damaged_media.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
@@ -141,7 +142,28 @@ bool __cdecl sub_566CC0()
 
 void __cdecl main_game_campaign_loaded(const game_options* options)
 {
-	INVOKE(0x00566D00, main_game_campaign_loaded, options);
+	//INVOKE(0x00566D00, main_game_campaign_loaded, options);
+
+	ASSERT(options);
+	ASSERT(game_in_progress() && game_is_campaign());
+
+	if (options->game_mode == _game_mode_campaign)
+	{
+		if (options->map_id != _map_id_none)
+		{
+			user_interface_set_last_campaign_level(options->campaign_id, options->map_id);
+		}
+	}
+
+	if (options->game_playback == _game_playback_none && !game_is_or_was_cooperative())
+	{
+		e_controller_index controller_index = user_interface_get_reload_from_persistent_storage();
+		if (controller_index != k_no_controller)
+		{
+			game_state_try_and_load_from_persistent_storage(controller_index);
+			user_interface_set_reload_from_persistent_storage(k_no_controller);
+		}
+	}
 }
 
 void __cdecl main_game_change(const game_options* options)
@@ -155,7 +177,7 @@ void __cdecl main_game_change(const game_options* options)
 	}
 
 	main_game_globals.map_change_pending = true;
-	main_game_globals.map_change_pending_unload = options == nullptr;
+	main_game_globals.map_change_pending_unload = options == NULL;
 	main_game_globals.map_change_initiate_time = system_milliseconds();
 
 	if (!options)

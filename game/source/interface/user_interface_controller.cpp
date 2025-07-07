@@ -270,7 +270,12 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 //.text:00A95340 ; char* __cdecl user_interface_get_last_campaign_level_path(char*, int32)
 //.text:00A953D0 ; int32 __cdecl user_interface_get_player_last_used_hopper(e_controller_index)
 //.text:00A95420 ; void __cdecl user_interface_queue_event(s_event_record*)
-//.text:00A95460 ; void __cdecl user_interface_set_last_campaign_level(e_campaign_id, e_map_id)
+
+void __cdecl user_interface_set_last_campaign_level(e_campaign_id campaign_id, e_map_id map_id)
+{
+	INVOKE(0x00A95460, user_interface_set_last_campaign_level, campaign_id, map_id);
+}
+
 //.text:00A95520 ; void __cdecl user_interface_set_player_last_used_hopper(e_controller_index, uns16)
 //.text:00A95560 ; 
 

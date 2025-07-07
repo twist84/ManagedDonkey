@@ -46,6 +46,7 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "shell/shell.hpp"
 #include "sound/game_sound.hpp"
 #include "test/test_functions.hpp"
@@ -2814,6 +2815,26 @@ callback_result_t gui_print_active_screens_callback(const void* userdata, int32 
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	gui_print_active_screens();
+
+	return result;
+}
+
+callback_result_t saved_film_play_callback(const void* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	int16 controller_index = (int16)atol(tokens[1]->get_string());
+	const char* film_name = tokens[2]->get_string();
+	saved_film_manager_play_hs(controller_index, film_name);
+
+	return result;
+}
+
+callback_result_t saved_film_play_last_callback(const void* userdata, int32 token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	saved_film_manager_play_last_hs();
 
 	return result;
 }

@@ -84,4 +84,5 @@ extern void __cdecl user_interface_controller_set_user_index(e_controller_index 
 extern void __cdecl user_interface_controller_switch_to_offline(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_update();
 extern void __cdecl user_interface_controller_update_network_properties(e_controller_index controller_index);
+extern void __cdecl user_interface_set_last_campaign_level(e_campaign_id campaign_id, e_map_id map_id);
 

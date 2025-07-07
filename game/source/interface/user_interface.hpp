@@ -232,6 +232,7 @@ extern void __cdecl user_interface_dispose_global_datasources();
 extern void __cdecl user_interface_enter_game_shell();
 extern void __cdecl user_interface_get_number_of_render_windows(int32 user_index, int32* horizontal_window_count, int32* vertical_window_count);
 extern void __cdecl user_interface_get_projection_plane_distances(real32* near_clip_plane_distance, real32* projection_plane_distance, real32* far_clip_plane_distance);
+extern e_controller_index __cdecl user_interface_get_reload_from_persistent_storage();
 extern void __cdecl user_interface_initialize();
 extern void __cdecl user_interface_initialize_for_new_map();
 extern bool __cdecl user_interface_is_active();

@@ -1621,6 +1621,11 @@ void __cdecl main_loop_process_global_state_changes()
 				main_activate_cinematic_tag_private();
 			}
 
+			if (saved_film_manager_has_pending_global_state_change())
+			{
+				saved_film_manager_perform_global_state_change();
+			}
+
 			if (main_globals.gamestate_decompression_pending)
 			{
 				main_game_gamestate_decompress_and_apply_private();

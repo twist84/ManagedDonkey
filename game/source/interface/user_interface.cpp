@@ -139,7 +139,11 @@ void __cdecl user_interface_get_projection_plane_distances(real32* near_clip_pla
 	INVOKE(0x00A84450, user_interface_get_projection_plane_distances, near_clip_plane_distance, projection_plane_distance, far_clip_plane_distance);
 }
 
-//.text:00A844D0 ; e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
+e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
+{
+	return INVOKE(0x00A844D0, user_interface_get_reload_from_persistent_storage);
+}
+
 //.text:00A844E0 ; 
 //.text:00A844F0 ; int32 __cdecl user_interface_get_selected_campaign_difficulty()
 //.text:00A84500 ; e_campaign_id __cdecl user_interface_get_selected_campaign_id()

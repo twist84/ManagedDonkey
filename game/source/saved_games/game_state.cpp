@@ -409,60 +409,60 @@ bool __cdecl game_state_is_locked()
 
 void __cdecl game_state_load_core(const char* name)
 {
-	INVOKE(0x0050FF10, game_state_load_core, name);
+	//INVOKE(0x0050FF10, game_state_load_core, name);
 
-	//game_state_header header{};
-	//
-	//bool changed_maps = false;
-	//if (!game_state_read_core(name, &header, sizeof(game_state_header)))
-	//{
-	//	event(_event_warning, "unable to read core '%s'!",
-	//		name);
-	//	return;
-	//}
-	//
-	//if (!game_state_header_valid(&header))
-	//{
-	//	event(_event_warning, "invalid core '%s'!",
-	//		name);
-	//	return;
-	//}
-	//
-	//game_options_validate(&header.options);
-	//
-	//if (!game_state_header_prepare_to_load(&header, false, true, &changed_maps))
-	//{
-	//	event(_event_warning, "unable to load game/map for core '%s'!",
-	//		name);
-	//	return;
-	//}
-	//
-	//if (!game_state_header_matches(game_state_globals.header, &header))
-	//{
-	//	event(_event_warning, "unable to load core '%s' due to header mismatch!",
-	//		name);
-	//	return;
-	//}
-	//
-	//game_state_call_before_load_procs(_rebuild_players_flag | _flush_networking_flag);
-	//bool core_loaded = game_state_read_core(name, game_state_globals.base_address, k_game_state_file_size);
-	//game_options_clear_game_playback();
-	//game_options_game_engine_fixup();
-	//game_state_call_after_load_procs(_rebuild_players_flag | _flush_networking_flag);
-	//
-	//if (!core_loaded)
-	//{
-	//	event(_event_critical, "core '%s' did not load into memory successfully, we are toast",
-	//		name);
-	//	return;
-	//}
-	//
-	//console_printf("loaded '%s'", name);
-	//saved_film_manager_notify_gamestate_load(_saved_film_game_state_load_source_core);
-	//if (game_state_globals.game_state_test_option == GAME_STATE_TEST_OPTION_STRESS)
-	//{
-	//	game_save_immediate();
-	//}
+	game_state_header header{};
+	
+	bool changed_maps = false;
+	if (!game_state_read_core(name, &header, sizeof(game_state_header)))
+	{
+		event(_event_warning, "unable to read core '%s'!",
+			name);
+		return;
+	}
+	
+	if (!game_state_header_valid(&header))
+	{
+		event(_event_warning, "invalid core '%s'!",
+			name);
+		return;
+	}
+	
+	game_options_validate(&header.options);
+	
+	if (!game_state_header_prepare_to_load(&header, false, true, &changed_maps))
+	{
+		event(_event_warning, "unable to load game/map for core '%s'!",
+			name);
+		return;
+	}
+	
+	if (!game_state_header_matches(game_state_globals.header, &header))
+	{
+		event(_event_warning, "unable to load core '%s' due to header mismatch!",
+			name);
+		return;
+	}
+	
+	game_state_call_before_load_procs(_rebuild_players_flag | _flush_networking_flag);
+	bool core_loaded = game_state_read_core(name, game_state_globals.base_address, k_game_state_file_size);
+	game_options_clear_game_playback();
+	game_options_game_engine_fixup();
+	game_state_call_after_load_procs(_rebuild_players_flag | _flush_networking_flag);
+	
+	if (!core_loaded)
+	{
+		event(_event_critical, "core '%s' did not load into memory successfully, we are toast",
+			name);
+		return;
+	}
+	
+	console_printf("loaded '%s'", name);
+	saved_film_manager_notify_gamestate_load(_saved_film_game_state_load_source_core);
+	if (game_state_globals.game_state_test_option == GAME_STATE_TEST_OPTION_STRESS)
+	{
+		game_save_immediate();
+	}
 }
 
 void __cdecl game_state_lock(bool locked)
@@ -749,6 +749,14 @@ void __cdecl game_state_shell_initialize()
 	game_state_globals.initialized = true;
 }
 
+void __cdecl game_state_save_for_game_state_try_and_load_from_persistent_storage()
+{
+	saved_film_manager_notify_gamestate_load(_saved_film_game_state_load_source_storage);
+
+	game_state_save();
+}
+HOOK_DECLARE_CALL(0x00510E71, game_state_save_for_game_state_try_and_load_from_persistent_storage);
+
 void __cdecl game_state_try_and_load_from_persistent_storage(e_controller_index controller_index)
 {
 	INVOKE(0x00510C40, game_state_try_and_load_from_persistent_storage, controller_index);
@@ -762,6 +770,11 @@ bool __cdecl game_state_validate_and_prepare_to_load_header(game_state_header* h
 const void* __cdecl game_state_with_mirrors_get_buffer_address(int32* buffer_size)
 {
 	return INVOKE(0x00510F90, game_state_with_mirrors_get_buffer_address, buffer_size);
+
+	//ASSERT(buffer_size);
+	//
+	//*buffer_size = k_game_state_allocation_size;
+	//return game_state_globals.base_address;
 }
 
 bool __cdecl game_state_write_core(const char* core_name, const void* buffer, uns32 buffer_length)
