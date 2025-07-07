@@ -51,14 +51,14 @@ s_player_identifier::s_player_identifier()
 	csmemset(identifier, 0, sizeof(identifier));
 }
 
-s_player_identifier::s_player_identifier(uns64 data)
+s_player_identifier::s_player_identifier(uns64 data) :
+	s_player_identifier()
 {
-	csmemset(identifier, 0, sizeof(identifier));
 	csmemcpy(identifier, &data, sizeof(identifier));
 }
 
 s_player_identifier::s_player_identifier(uns32 _ipv4_address, uns16 _port, uns16 _flags) :
-	identifier(0)
+	s_player_identifier()
 {
 	REFERENCE_DECLARE(identifier + 0, uns32, ipv4_address);
 	REFERENCE_DECLARE(identifier + 4, uns16, port);
@@ -69,7 +69,7 @@ s_player_identifier::s_player_identifier(uns32 _ipv4_address, uns16 _port, uns16
 }
 
 s_player_identifier::s_player_identifier(const transport_address* address) :
-	identifier(0)
+	s_player_identifier()
 {
 	REFERENCE_DECLARE(identifier + 0, uns32, ipv4_address);
 	REFERENCE_DECLARE(identifier + 4, uns16, port);
