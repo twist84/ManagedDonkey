@@ -261,6 +261,30 @@ bool c_gui_widget::can_receive_focus()
 	return false;
 }
 
+bool c_gui_widget::contains_point(const point2d* point)
+{
+	ASSERT(point != NULL);
+
+	rectangle2d bounds{};
+	c_gui_widget::get_mouse_region(&bounds);
+
+	int16 x0 = bounds.x0;
+	if (bounds.x0 > bounds.x1)
+	{
+		bounds.x0 = bounds.x1;
+		bounds.x1 = x0;
+	}
+
+	int16 y0 = bounds.y0;
+	if (bounds.y0 > bounds.y1)
+	{
+		bounds.y0 = bounds.y1;
+		bounds.y1 = y0;
+	}
+
+	return point2d_in_rectangle2d(&bounds, point);
+}
+
 bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB7960, c_gui_widget, controller_can_drive, controller_index);
@@ -687,6 +711,31 @@ c_gui_widget* c_gui_widget::get_last_child_widget_by_type(e_gui_widget_type type
 //.text:00AB9080 ; void __cdecl get_local_coordinate_system_position_from_rotation_keyframe(c_gui_widget*, const s_rotation_keyframe_block*, real_point2d*)
 //.text:00AB90C0 ; void __cdecl get_local_coordinate_system_position_from_scale_keyframe(c_gui_widget*, const s_scale_keyframe_block*, real_point2d*)
 //.text:00AB9100 ; void __cdecl get_local_widget_coordinate_system_position_from_positioning(c_gui_widget*, e_widget_anchoring, real_point2d*)
+
+void c_gui_widget::get_mouse_region(rectangle2d* mouse_region_out)
+{
+	ASSERT(mouse_region_out);
+
+	rectangle2d null_bounds{};
+
+	c_gui_screen_widget* parent_screen = c_gui_widget::get_parent_screen();
+	if (parent_screen && parent_screen->get_render_state())
+	{
+		s_window_manager_screen_render_data* render_state = parent_screen->get_render_state();
+		const rectangle2d* window_bounds = &render_state->built_for_viewport_bounds;
+
+		gui_real_rectangle2d bounds{};
+		c_gui_widget::get_projected_bounds(window_bounds, &bounds, true, true, true);
+		mouse_region_out->x0 = (int16)bounds.top_left.x;
+		mouse_region_out->y0 = (int16)bounds.top_left.y;
+		mouse_region_out->x1 = (int16)bounds.bottom_right.x;
+		mouse_region_out->y1 = (int16)bounds.bottom_right.y;
+	}
+	else
+	{
+		*mouse_region_out = null_bounds;
+	}
+}
 
 c_gui_bitmap_widget* c_gui_widget::get_next_bitmap_widget()
 {

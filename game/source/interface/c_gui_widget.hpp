@@ -208,6 +208,7 @@ public:
 	void calculate_animation_transform(e_animation_state animation_state, int32 start_time_milliseconds, int32 current_time_milliseconds, const s_widget_animation_definition* animation, s_animation_transform* transform, const real_vector2d* aspect_ratio_scale, bool initialize, bool combinative, bool* finished);
 	bool const can_all_children_be_disposed();
 	bool const can_be_disposed();
+	bool contains_point(const point2d* point);
 	bool controller_can_drive(e_controller_index controller_index);
 	void create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index);
 	void delete_all_children();
@@ -230,6 +231,7 @@ public:
 	c_gui_widget* get_first_child_widget_by_type(e_gui_widget_type type);
 	c_gui_widget* get_last_child_widget_by_type(e_gui_widget_type type);
 	c_gui_widget* get_next();
+	void get_mouse_region(rectangle2d* mouse_region_out);
 	c_gui_bitmap_widget* get_next_bitmap_widget();
 	c_gui_list_item_widget* get_next_list_item_widget(bool only_consider_valid_items);
 	c_gui_list_widget* get_next_list_widget();
