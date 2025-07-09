@@ -245,12 +245,17 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 
 void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget, int32 scroll_amount)
 {
-	if (scroll_amount < 1)
+	if (scroll_amount == 0 || list_widget->m_scroll_position == NONE)
 	{
 		return;
 	}
 
 	c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
+	if (!data)
+	{
+		return;
+	}
+
 	int32 current_item_count = data->get_current_item_count();
 	if (current_item_count < 1)
 	{
@@ -258,72 +263,70 @@ void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_
 	}
 
 	s_runtime_list_widget_definition* definition = (s_runtime_list_widget_definition*)list_widget->get_core_definition();
-	if (list_widget->m_scroll_position == NONE)
+
+	int32 max_scroll = current_item_count - definition->list_items.count;
+	if (max_scroll < 0)
 	{
-		return;
+		max_scroll = 0;
 	}
 
-	int32 scroll_position = list_widget->m_scroll_position + scroll_amount;
-
-	if (scroll_position > current_item_count - definition->list_items.count)
-		scroll_position = current_item_count - definition->list_items.count;
-
-	if (scroll_position < 0)
-		scroll_position = 0;
+	int32 scroll_position = CLAMP(list_widget->m_scroll_position + scroll_amount, 0, max_scroll);
 
 	if (list_widget->m_scroll_position != scroll_position)
+	{
 		list_widget->m_focused_item_index = NONE;
+	}
 
 	list_widget->m_scroll_position = scroll_position;
 }
 
 bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget, c_gui_list_widget* list_widget)
 {
-	for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)list_widget->get_first_child_widget_by_type(_gui_list_item);
-		list_item_widget;
-		list_item_widget = list_item_widget->get_next_list_item_widget(true))
+	for (c_gui_list_item_widget* child_widget = (c_gui_list_item_widget*)list_widget->get_first_child_widget_by_type(_gui_list_item);
+		child_widget;
+		child_widget = child_widget->get_next_list_item_widget(true))
 	{
-		if (!list_item_widget->m_visible || list_item_widget->get_element_handle() == NONE)
+		if (!child_widget->can_receive_focus())
 		{
 			continue;
 		}
 
 		real_rectangle2d bounds{};
-		user_interface_mouse_compute_list_item_bounds(list_item_widget, &bounds);
+		user_interface_mouse_compute_list_item_bounds(child_widget, &bounds);
 		widget_bounds_from_window_bounds(&user_interface_mouse_globals.window_bounds, &bounds);
 
 		if (point_intersects_rectangle2d(&user_interface_mouse_globals.window_cursor_position, &bounds))
 		{
-			c_gui_list_item_widget* focused_widget = static_cast<c_gui_list_item_widget*>(screen_widget->get_focused_widget());
+			c_gui_list_item_widget* current_focused_widget = (c_gui_list_item_widget*)screen_widget->get_focused_widget();
 
-			if (user_interface_mouse_globals.mouse_move_ticks && user_interface_mouse_globals.last_focused_widget != list_item_widget || user_interface_mouse_globals.list_item_selected_dirty)
+			if (user_interface_mouse_globals.mouse_move_ticks && user_interface_mouse_globals.last_focused_widget != child_widget || user_interface_mouse_globals.list_item_selected_dirty)
 			{
 				user_interface_mouse_globals.list_item_selected_dirty = false;
 
-				if (!focused_widget || focused_widget->get_parent_list() == list_widget)
+				if (!current_focused_widget || current_focused_widget->get_parent_list() == list_widget)
 				{
-					if (focused_widget != list_item_widget)
+					if (current_focused_widget != child_widget)
 					{
 						user_interface_mouse_globals.last_focused_widget = NULL;
-						screen_widget->transfer_focus_to_list(list_widget, list_item_widget->get_element_handle(), true, true);
+						screen_widget->transfer_focus_to_list(list_widget, child_widget->get_element_handle(), true, true);
 					}
 				}
 				else
 				{
 					user_interface_mouse_globals.last_focused_widget = NULL;
-					screen_widget->transfer_focus_to_list(list_widget, list_item_widget->get_element_handle(), true, false);
+					screen_widget->transfer_focus_to_list(list_widget, child_widget->get_element_handle(), true, false);
 				}
 			}
 
 			REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uns32, state_flags);
 			bool v19 = state_flags >> 3 || state_flags >> 5;
-			if (user_interface_mouse_globals.left_button_frames_down == 1 && list_item_widget == focused_widget && !v19)
+			if (user_interface_mouse_globals.left_button_frames_down == 1 && child_widget == current_focused_widget && !v19)
 			{
-				user_interface_mouse_globals.last_focused_widget = list_item_widget;
+				user_interface_mouse_globals.last_focused_widget = child_widget;
 				event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
 			}
 		}
-		else if (user_interface_mouse_globals.last_focused_widget == list_item_widget)
+		else if (user_interface_mouse_globals.last_focused_widget == child_widget)
 		{
 			user_interface_mouse_globals.last_focused_widget = NULL;
 		}
@@ -341,24 +344,28 @@ bool user_interface_mouse_handle_list_widgets(c_gui_screen_widget* screen_widget
 		parent_widget = screen_widget;
 	}
 
-	for (c_gui_list_widget* list_widget = (c_gui_list_widget*)parent_widget->get_children();
-		list_widget && !result;
-		list_widget = (c_gui_list_widget*)list_widget->get_next())
+	for (c_gui_widget* child_widget = parent_widget->get_children();
+		child_widget && !result;
+		child_widget = child_widget->get_next())
 	{
-		if (!list_widget->m_visible)
+		if (!child_widget->m_visible)
 		{
 			continue;
 		}
 
-		e_gui_widget_type widget_type = list_widget->m_type;
+		e_gui_widget_type widget_type = child_widget->m_type;
 		switch (widget_type)
 		{
 		case _gui_list:
-			result = user_interface_mouse_handle_list_widget(screen_widget, list_widget);
-			break;
+		{
+			result = user_interface_mouse_handle_list_widget(screen_widget, (c_gui_list_widget*)child_widget);
+		}
+		break;
 		default:
-			result = user_interface_mouse_handle_list_widgets(screen_widget, list_widget);
-			break;
+		{
+			result = user_interface_mouse_handle_list_widgets(screen_widget, child_widget);
+		}
+		break;
 		}
 	}
 
