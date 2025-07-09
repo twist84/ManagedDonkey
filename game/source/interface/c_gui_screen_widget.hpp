@@ -210,6 +210,7 @@ private:
 	bool handle_controller_alt_tab_attempt(const c_controller_input_message* message);
 	bool handle_controller_selection_attempt(const c_controller_input_message* message);
 	bool handle_controller_tab_attempt(const c_controller_input_message* message);
+	bool handle_mouse_click(const c_controller_input_message* message, c_gui_widget* widget);
 
 public:
 	void play_sound(e_user_interface_sound_effect sound_effect);

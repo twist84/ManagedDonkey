@@ -60,6 +60,15 @@ void ui_track_delete<c_gui_group_widget>(const c_gui_group_widget* object)
 	user_interface_free(object);
 }
 
+template<>
+void ui_track_delete<c_controller_input_message>(const c_controller_input_message* object)
+{
+	ASSERT(object != NULL);
+
+	object->~c_controller_input_message();
+	user_interface_free(object);
+}
+
 c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	c_gui_widget(_gui_screen),
 	m_screen_index(NONE),
@@ -591,7 +600,7 @@ bool c_gui_screen_widget::handle_controller_input_message(const c_controller_inp
 		break;
 		//case _event_type_mouse_click:
 		//{
-		//	if (transitioning_in() || transitioning_out())
+		//	if (c_gui_widget::transitioning_in() || c_gui_widget::transitioning_out())
 		//	{
 		//		break;
 		//	}
@@ -600,17 +609,17 @@ bool c_gui_screen_widget::handle_controller_input_message(const c_controller_inp
 		//	user_interface_get_cursor_coords(&cursor_location);
 		//
 		//	c_gui_widget* new_hovered_widget = NULL;
-		//	find_hovered_widget(&cursor_location, true, &new_hovered_widget);
+		//	c_gui_screen_widget::find_hovered_widget(&cursor_location, true, &new_hovered_widget);
 		//	if (!new_hovered_widget)
 		//	{
-		//		find_hovered_widget(&cursor_location, true, &new_hovered_widget);
+		//		c_gui_screen_widget::find_hovered_widget(&cursor_location, true, &new_hovered_widget);
 		//		if (!new_hovered_widget)
 		//		{
 		//			break;
 		//		}
 		//	}
 		//
-		//	if (handle_mouse_click(message, new_hovered_widget))
+		//	if (c_gui_screen_widget::handle_mouse_click(message, new_hovered_widget))
 		//	{
 		//		return true;
 		//	}
@@ -695,6 +704,117 @@ bool c_gui_screen_widget::handle_list_item_chosen(const c_controller_input_messa
 	//return INVOKE_CLASS_MEMBER((uns32)__vftable->__funcs[49], c_gui_screen_widget, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
 	return false;
+}
+
+bool c_gui_screen_widget::handle_mouse_click(const c_controller_input_message* message, c_gui_widget* widget)
+{
+	switch (widget->m_type)
+	{
+	case _gui_text:
+	{
+		e_controller_component controller_component{};
+		if (c_gui_screen_widget::button_key_to_controller_component((c_gui_text_widget*)widget, &controller_component))
+		{
+			c_controller_input_message* input_message = new c_controller_input_message(
+				message->get_screen_name(),
+				message->get_controller(),
+				message->get_window(),
+				_event_type_button_press,
+				controller_component,
+				0xFF);
+			if (input_message)
+			{
+				if (c_gui_screen_widget::handle_controller_input_message(input_message))
+				{
+					ui_track_delete<c_controller_input_message>(input_message);
+					return true;
+				}
+				else
+				{
+					user_interface_messaging_post(input_message);
+					return true;
+				}
+			}
+		}
+	}
+	break;
+	case _gui_bitmap:
+	{
+		c_gui_list_widget* parent_list = widget->get_parent_list();
+		if (parent_list)
+		{
+			e_event_type event_type = _event_type_none;
+			if (widget == parent_list->m_more_items_preceeding_bitmap)
+			{
+				event_type = e_event_type(TEST_BIT(parent_list->m_definition.flags, 4) + _event_type_tab_up);
+			}
+			else if (widget == parent_list->m_more_items_following_bitmap)
+			{
+				event_type = e_event_type(TEST_BIT(parent_list->m_definition.flags, 4) + _event_type_tab_down);
+			}
+
+			if (event_type != _event_type_none)
+			{
+				c_controller_input_message* input_message = new c_controller_input_message(
+					message->get_screen_name(),
+					message->get_controller(),
+					message->get_window(),
+					event_type,
+					_controller_component_button_left_thumb,
+					0xFF);
+
+				if (input_message)
+				{
+					if (c_gui_screen_widget::handle_controller_input_message(input_message))
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	break;
+	}
+
+	if (widget->can_receive_focus())
+	{
+		 c_gui_widget* current_focused_widget = c_gui_screen_widget::get_focused_widget();
+
+		if (current_focused_widget != widget)
+		{
+			c_gui_list_widget* widget_parent = widget->get_parent_list();
+			c_gui_list_widget* current_parent = m_current_focused_widget->get_parent_list();
+
+			for (; current_parent && current_parent->m_is_submenu && current_parent != widget_parent;)
+			{
+				c_gui_list_widget* parent = current_parent->get_parent_list();
+				parent->close_active_submenu(current_parent);
+				current_parent = parent;
+			}
+
+			if (widget_parent)
+			{
+				int32 focused_element_handle = widget->get_element_handle();
+				if (focused_element_handle < 0)
+				{
+					focused_element_handle = widget_parent->get_focused_element_handle();
+				}
+
+				c_gui_screen_widget::transfer_focus_to_list(widget_parent, focused_element_handle, false, false);
+			}
+			else
+			{
+				c_gui_screen_widget::transfer_focus_without_animations(widget, true, true);
+			}
+		}
+	}
+
+	bool result = widget->handle_widget_selected();
+	if (widget->can_receive_focus())
+	{
+		result |= c_gui_screen_widget::handle_focused_widget_selected(message, widget);
+	}
+	return result;
 }
 
 void c_gui_screen_widget::initialize()
