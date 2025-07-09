@@ -2,6 +2,13 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_online_lsp_server_acquire_result
+{
+	_online_lsp_server_acquire_result_pending = 0,
+	_online_lsp_server_acquire_result_success = 1,
+	_online_lsp_server_acquire_result_failure = 2,
+};
+
 struct s_server_connect_info
 {
 	c_static_string<16> ip;
@@ -22,7 +29,7 @@ public:
 		k_client_state_count
 	};
 
-	int32 __thiscall acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description);
+	e_online_lsp_server_acquire_result __thiscall acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description);
 	
 	void clear_activated_servers();
 	void clear_client(int32 client_index);

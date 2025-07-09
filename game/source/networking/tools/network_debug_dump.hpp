@@ -6,41 +6,38 @@
 #include "networking/tools/http_stream.hpp"
 #include "tag_files/files.hpp"
 
+typedef void(__cdecl* netdebug_update_routine)(int32, int32);
+typedef void(__cdecl* netdebug_completion_routine)(bool, void*);
+typedef void* netdebug_completion_routine_argument;
+
 struct s_netdebug_upload_task
 {
 	bool active;
-	c_static_string<256> __string4;
-
-	void(__cdecl* update_proc)(int32 upload_position, int32 upload_length);
-	void(__cdecl* completion_proc)(bool succeeded, void* data);
-	void* completion_data;
-
-	s_file_reference file;
+	c_static_string<256> custom_directory;
+	netdebug_update_routine update_routine;
+	netdebug_completion_routine completion_routine;
+	netdebug_completion_routine_argument args;
+	s_file_reference file_to_upload;
 	uns32 checksum;
 };
 static_assert(sizeof(s_netdebug_upload_task) == 0x224);
 
 struct s_netdebug_globals
 {
+	// $TODO: replace with raw string
 	c_static_string<64> title;
 	c_static_string<64> build;
 	c_static_string<160> system;
 	c_static_string<128> sessionid;
 	c_static_string<256> system_version;
 	c_static_string<256> xtl_version;
-
 	bool prefer_internet;
-
-	c_http_post_stream http_post_stream;
-	c_http_client http_client;
-
-	int16 task_fails;
-
+	c_http_post_stream upload_input_stream;
+	c_http_client upload_client;
+	int16 current_task_fail_count;
 	s_netdebug_upload_task current_task;
-	c_static_array<s_netdebug_upload_task, 10> task_queue;
-
+	s_netdebug_upload_task task_queue[10];
 	bool initialized;
-	byte __pad3969[0x7];
 };
 static_assert(sizeof(s_netdebug_globals) == 0x3970);
 
@@ -73,7 +70,7 @@ extern void __cdecl netdebug_process_next_task();
 extern bool __cdecl netdebug_queue_task(const s_netdebug_upload_task* task);
 extern void __cdecl netdebug_set_sessionid(const char* sessionid);
 extern uns32 __cdecl netdebug_thread_function(void* thread_parameter);
-extern void __cdecl netdebug_upload_file(const char* a1, const char* path, void(__cdecl* update_proc)(int32 upload_position, int32 upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data);
+extern void __cdecl netdebug_upload_file(const char* custom_directory, const char* path, netdebug_update_routine update_routine, netdebug_completion_routine completion_routine, netdebug_completion_routine_argument args);
 extern void __cdecl remove_current_task(bool succeeded);
 extern void __cdecl netdebug_set_system_version();
 extern void __cdecl netdebug_set_xtl_version();

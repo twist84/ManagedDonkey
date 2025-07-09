@@ -36,13 +36,13 @@ const char* const k_service_type_descriptions[k_online_lsp_service_type_count]
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
 
-//e_online_lsp_server_acquire_result c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description)
-int32 __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description)
+e_online_lsp_server_acquire_result __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, int32* out_connection_token, int32* ip_address_out, uns16* port_out, const char* service_description)
 {
 	*out_connection_token = 1;
 	*ip_address_out = lsp_server_address.ipv4_address;
 	*port_out = lsp_server_address.port;
-	return 1;
+
+	return _online_lsp_server_acquire_result_success;
 }
 
 //.text:004316A0 ; c_online_lsp_manager::anyone_connected
@@ -60,7 +60,9 @@ void c_online_lsp_manager::clear_activated_servers()
 	}
 	
 	for (int32 i = 0; i < NUMBEROF(m_current_clients); i++)
+	{
 		clear_client(i);
+	}
 }
 
 void c_online_lsp_manager::clear_client(int32 client_index)
@@ -82,7 +84,9 @@ void c_online_lsp_manager::disconnect_from_server(int32 connection_token, bool s
 	c_critical_section_scope section_scope(k_crit_section_lsp_manager);
 	int32 slot_index = find_slot_index_from_token(connection_token);
 	if (slot_index == NONE)
+	{
 		return;
+	}
 
 	ASSERT(m_current_clients[slot_index].client_state != _client_state_none);
 	event(_event_message, "networking:online:lsp: token=%d, server disconnected with %s",
@@ -90,7 +94,11 @@ void c_online_lsp_manager::disconnect_from_server(int32 connection_token, bool s
 		success ? "success" : "failure");
 
 	if (!success)
-		m_best_service_indices[m_service[m_current_clients[slot_index].service_type].currently_activated_server_index]++;
+	{
+		int32 service_type = m_current_clients[slot_index].service_type;
+		int32 currently_activated_server_index = m_service[service_type].currently_activated_server_index;
+		m_best_service_indices[currently_activated_server_index]++;
+	}
 
 	clear_client(slot_index);
 	m_last_use_time = system_milliseconds();
@@ -103,7 +111,9 @@ int32 c_online_lsp_manager::find_empty_slot_index()
 	for (int32 slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
 	{
 		if (m_current_clients[slot_index].client_state == _client_state_none)
+		{
 			return slot_index;
+		}
 	}
 	return NONE;
 }
@@ -115,7 +125,9 @@ int32 c_online_lsp_manager::find_slot_index_from_token(int32 connection_token)
 	for (int32 slot_index = 0; slot_index < NUMBEROF(m_current_clients); slot_index++)
 	{
 		if (m_current_clients[slot_index].client_state != _client_state_none && m_current_clients[slot_index].connection_token == connection_token)
+		{
 			return slot_index;
+		}
 	}
 	return NONE;
 }
@@ -234,10 +246,14 @@ void __cdecl online_lsp_update()
 void online_lsp_get_info(int32* ip_address, uns16* port)
 {
 	if (ip_address)
+	{
 		*ip_address = ntohl(lsp_server_address.ipv4_address);
+	}
 
 	if (port)
+	{
 		*port = ntohs(lsp_server_address.port);
+	}
 }
 
 void online_lsp_set_info(const char* host, const char* port)
@@ -245,7 +261,14 @@ void online_lsp_set_info(const char* host, const char* port)
 	transport_address address{};
 	transport_address_from_host(host, address);
 
-	if (host) lsp_server_address.ipv4_address = htonl(address.ipv4_address);
-	if (port) lsp_server_address.port = htons(static_cast<uns16>(atol(port)));
+	if (host)
+	{
+		lsp_server_address.ipv4_address = htonl(address.ipv4_address);
+	}
+
+	if (port)
+	{
+		lsp_server_address.port = htons(uns16(atol(port)));
+	}
 }
 

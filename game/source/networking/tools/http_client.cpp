@@ -51,7 +51,9 @@ bool c_http_client::do_work(
 	case _upload_state_connecting:
 	{
 		if (out_response_content_buffer_count)
+		{
 			*out_response_content_buffer_count = 0;
+		}
 
 		bool is_connected = false;
 		if (transport_endpoint_async_is_connected(m_endpoint_ptr, &is_connected))
@@ -66,10 +68,14 @@ bool c_http_client::do_work(
 	case _upload_state_sending:
 	{
 		if (out_response_content_buffer_count)
+		{
 			*out_response_content_buffer_count = 0;
+		}
 
 		if (send_data())
+		{
 			result = true;
+		}
 	}
 	break;
 	case _upload_state_receiving_header:
@@ -204,7 +210,9 @@ bool c_http_client::parse_http_response(
 	if (http_response.length() > 9)
 	{
 		if (!http_response.starts_with("HTTP/1.0 ") && !http_response.starts_with("HTTP/1.1 "))
+		{
 			return false;
+		}
 
 		*http_response_code = atoi(http_response.get_string() + 9);
 
@@ -212,7 +220,9 @@ bool c_http_client::parse_http_response(
 		for (int32 index = http_response.index_of("\r\n") + 2;; index = next_index + 2)
 		{
 			if (index >= http_response.length())
+			{
 				break;
+			}
 
 			next_index = http_response.next_index_of("\r\n", index);
 			if (index == next_index)
@@ -225,16 +235,22 @@ bool c_http_client::parse_http_response(
 			if (http_response.substring(index, next_index - index, contents))
 			{
 				if (contents.starts_with("Content-Length: ") || contents.starts_with("content-length: "))
+				{
 					*content_length = atoi(contents.get_string() + strlen("Content-Length: "));
+				}
 			}
 		}
 
 		if (*http_header_size > 0)
 		{
 			if (*content_length < 0)
+			{
 				return false;
+			}
 			else
+			{
 				*out_completed_successfully = true;
+			}
 		}
 	}
 
@@ -314,7 +330,9 @@ bool __thiscall c_http_client::receive_data(
 				if (completed_successfully)
 				{
 					if (out_http_response_code)
+					{
 						*out_http_response_code = http_response_code;
+					}
 
 					if (http_response_code == 200)
 					{
@@ -367,24 +385,31 @@ bool __thiscall c_http_client::receive_data(
 			result = true;
 		}
 	}
+
 	if (result && m_current_state == _upload_state_receiving_content && out_response_content_buffer && out_response_content_buffer_count)
 	{
 		ASSERT(input_buffer_size > 0);
 		ASSERT(m_response_buffer_count >= 0);
 
 		if (input_buffer_size > m_response_buffer_count)
+		{
 			input_buffer_size = m_response_buffer_count;
+		}
 
 		csmemcpy(out_response_content_buffer, m_response_buffer, input_buffer_size);
 		*out_response_content_buffer_count = input_buffer_size;
 
 		for (int32 i = 0; i < m_response_buffer_count - input_buffer_size; ++i)
+		{
 			m_response_buffer[i] = m_response_buffer[i + input_buffer_size];
+		}
 
 		m_response_buffer_count -= input_buffer_size;
 
 		if (!m_bytes_remaining && !m_response_buffer_count)
+		{
 			*out_completed_successfully = true;
+		}
 	}
 
 	return result;
@@ -399,7 +424,9 @@ bool c_http_client::send_data()
 
 	int32 upstream_quota = NONE;
 	if (m_upstream_quota != NONE)
+	{
 		upstream_quota = static_cast<int32>((m_upstream_quota * (m_start_time - m_previous_time)) / 1000);
+	}
 
 	bool result = true;
 	while (result && (upstream_quota == NONE || upstream_quota > 0))
@@ -420,9 +447,13 @@ bool c_http_client::send_data()
 			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
+			{
 				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, static_cast<int16>(bytes_read));
+			}
 			else
+			{
 				bytes_written = 0;
+			}
 
 			if (bytes_written <= 0)
 			{
@@ -447,7 +478,9 @@ bool c_http_client::send_data()
 				result = true;
 
 				if (upstream_quota != NONE)
+				{
 					upstream_quota -= bytes_written;
+				}
 
 				if (bytes_written < bytes_read)
 				{
@@ -492,23 +525,27 @@ bool c_http_client::start(c_http_stream* stream, int32 ip_address, uns16 port, c
 	m_address.port = port;
 	get_ip_address_string(ip_address, &m_ip_address_string);
 
-	if (transport_address_valid(&m_address))
+	if (!transport_address_valid(&m_address))
 	{
-		transport_endpoint_setup(m_endpoint_ptr, _transport_type_tcp);
-
-		if (endpoint_is_alpha)
-			m_endpoint_ptr->flags |= FLAG(6);
-
-		if (start_connect())
-		{
-			event(_event_message, "networking:http_client: request started to '%s'", url);
-			m_http_stream->set_url(url);
-
-			return true;
-		}
+		return false;
 	}
 
-	return false;
+	transport_endpoint_setup(m_endpoint_ptr, _transport_type_tcp);
+
+	if (endpoint_is_alpha)
+	{
+		m_endpoint_ptr->flags |= FLAG(6);
+	}
+
+	if (!start_connect())
+	{
+		return false;
+	}
+
+	event(_event_message, "networking:http_client: request started to '%s'", url);
+	m_http_stream->set_url(url);
+
+	return true;
 }
 
 
@@ -537,7 +574,9 @@ bool c_http_client::start_connect()
 bool c_http_client::stop()
 {
 	if (m_current_state == _upload_state_none)
+	{
 		return true;
+	}
 
 	bool result = m_http_stream->reset();
 	ASSERT(m_socket_count == 1);
