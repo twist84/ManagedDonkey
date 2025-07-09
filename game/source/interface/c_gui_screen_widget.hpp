@@ -175,6 +175,7 @@ protected:
 
 public:
 	void add_game_tag_parser(c_game_tag_parser* parser);
+	bool button_key_to_controller_component(c_gui_text_widget* widget, e_controller_component* component);
 
 private:
 	void clear_display_groups();

@@ -349,8 +349,8 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 					{
 						game_engine_get_team_name(m_temporary_team[session_player_index].desired_team, &team_name);
 
-						UTF32_STRING(left_bumper);
-						UTF32_STRING(right_bumper);
+						UNICODE_PRIVATE_FONT_ICON_STRING(left_bumper);
+						UNICODE_PRIVATE_FONT_ICON_STRING(right_bumper);
 						name.append_print(L"%ls %s %ls", left_bumper, team_name.get_string(), right_bumper);
 
 						team_change_active = true;

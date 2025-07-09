@@ -197,6 +197,32 @@ void c_gui_screen_widget::add_game_tag_parser(c_game_tag_parser* parser)
 	m_game_tag_parsers[m_game_tag_parser_count++] = parser;
 }
 
+bool c_gui_screen_widget::button_key_to_controller_component(c_gui_text_widget* widget, e_controller_component* component)
+{
+	ASSERT(widget);
+
+	switch (*widget->get_text())
+	{
+	case _unicode_private_font_icon_a_button:
+		*component = _controller_component_button_a;
+		return true;
+	case _unicode_private_font_icon_b_button:
+		*component = _controller_component_button_b;
+		return true;
+	case _unicode_private_font_icon_x_button:
+		*component = _controller_component_button_x;
+		return true;
+	case _unicode_private_font_icon_y_button:
+		*component = _controller_component_button_y;
+		return true;
+	case _unicode_private_font_icon_start_button:
+		*component = _controller_component_button_start;
+		return true;
+	}
+
+	return false;
+}
+
 bool c_gui_screen_widget::can_receive_focus() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB0840, c_gui_screen_widget, can_receive_focus);
