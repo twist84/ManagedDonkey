@@ -348,7 +348,7 @@ void c_gui_location_manager::update()
 			}
 		}
 	}
-	else if (current_location == _gui_location_main_menu || current_ui_location != _gui_location_in_game || m_location_mode != _location_mode_editor_or_game_start)
+	else if (current_location || current_ui_location != _gui_location_in_game || m_location_mode != _location_mode_editor_or_game_start)
 	{
 		if (!game_is_ui_shell() && (current_ui_location == _gui_location_in_game || current_location == _gui_location_pregame_lobby))
 		{
