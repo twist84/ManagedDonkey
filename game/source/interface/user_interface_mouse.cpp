@@ -317,9 +317,8 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 					screen_widget->transfer_focus(list_widget);
 				}
 			}
-
-			REFERENCE_DECLARE(offset_pointer(screen_widget, 0x68), uns32, state_flags);
-			bool v19 = state_flags >> 3 || state_flags >> 5;
+			
+			bool v19 = screen_widget->m_animated_state.state_flags >> 3 || screen_widget->m_animated_state.state_flags >> 5;
 			if (user_interface_mouse_globals.left_button_frames_down == 1 && child_widget == current_focused_widget && !v19)
 			{
 				user_interface_mouse_globals.last_focused_widget = child_widget;
