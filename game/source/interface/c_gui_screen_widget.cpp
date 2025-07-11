@@ -804,7 +804,7 @@ bool c_gui_screen_widget::handle_mouse_click(const c_controller_input_message* m
 			}
 			else
 			{
-				c_gui_screen_widget::transfer_focus_without_animations(widget, true, true);
+				c_gui_screen_widget::transfer_focus(widget);
 			}
 		}
 	}

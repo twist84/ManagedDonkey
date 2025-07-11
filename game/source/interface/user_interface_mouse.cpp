@@ -314,7 +314,7 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 				else
 				{
 					user_interface_mouse_globals.last_focused_widget = NULL;
-					screen_widget->transfer_focus_to_list(list_widget, child_widget->get_element_handle(), true, false);
+					screen_widget->transfer_focus(list_widget);
 				}
 			}
 

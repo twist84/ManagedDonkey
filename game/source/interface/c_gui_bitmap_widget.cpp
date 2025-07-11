@@ -216,7 +216,7 @@ void c_gui_bitmap_widget::initialize(const s_bitmap_widget_block* template_and_o
 		bool was_templated = false;
 		if (template_and_override_block->widget_template_reference.index != NONE)
 		{
-			s_bitmap_widget_definition* bitmap_widget_definition = TAG_GET(BITMAP_TAG, s_bitmap_widget_definition, template_and_override_block->widget_template_reference.index);
+			s_bitmap_widget_definition* bitmap_widget_definition = TAG_GET(GUI_BITMAP_WIDGET_DEFINITION_TAG, s_bitmap_widget_definition, template_and_override_block->widget_template_reference.index);
 			c_gui_bitmap_widget::add_definition_fields(bitmap_widget_definition, &m_definition, &positioning_bounds, false);
 			was_templated = true;
 		}
