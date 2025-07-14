@@ -62,8 +62,8 @@ void __thiscall c_debug_director::update_(real32 dt)
 
 void c_debug_director::constructor(int32 user_index)
 {
-	changed_camera();
 	INVOKE_CLASS_MEMBER(0x007260D0, c_debug_director, constructor, user_index);
+	changed_camera();
 }
 
 void c_debug_director::changed_camera()
