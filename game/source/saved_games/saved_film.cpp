@@ -93,9 +93,6 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 		return false;
 	}
 
-	// $HACK: just to get into theater for now
-	m_film_header.film_header.length_in_ticks = 60;
-
 	if (!c_saved_film::header_valid(&m_film_header, disable_version_check))
 	{
 		event(_event_warning, "networking:saved_film: film header not valid for '%s'",

@@ -24,7 +24,7 @@ enum
 enum
 {
 	k_saved_film_maximum_size = 0x6400000,
-	k_saved_film_async_io_buffer_size = 0x10000,
+	k_saved_film_async_io_buffer_size = sizeof(s_blf_saved_film),
 	k_saved_film_maximum_map_signature_bytes = 0x3C,
 };
 
