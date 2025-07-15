@@ -36,7 +36,7 @@
 #include "memory/module.hpp"
 #include "text/font_cache.hpp"
 
-#define ISWIP
+//#define ISWIP
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 #if defined(ISWIP)
