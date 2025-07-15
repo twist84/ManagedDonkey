@@ -45,7 +45,7 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 	ASSERT(m_film_state == k_saved_film_state_none);
 	ASSERT(m_content_controller_index == k_no_controller);
 
-	if (controller_index < k_number_of_controllers)
+	if (VALID_CONTROLLER(controller_index))
 	{
 		c_content_catalogue* content_catalogue = content_catalogue_get_interface(controller_index);
 		file_reference_create_from_path(&m_file_reference, filename, false);
