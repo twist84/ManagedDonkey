@@ -463,6 +463,7 @@ bool __cdecl main_events_pending()
 		|| main_globals.revert_map
 		|| main_globals.deactivate_cinematic_zone_from_tag
 		|| main_globals.activate_cinematic_zone_from_tag
+		|| saved_film_manager_has_pending_global_state_change()
 		|| main_globals.gamestate_decompression_pending
 		|| game_state_compressor_lock_pending()
 		|| main_globals.reset_zone_resources

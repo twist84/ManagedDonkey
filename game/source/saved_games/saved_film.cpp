@@ -70,8 +70,7 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 	c_static_wchar_string<260> file;
 	file.set_char(filename);
 
-	bool read_success = m_async_double_buffer.open_file(file.get_string(), _async_buffer_file_access_read, _async_buffer_disposition_open_existing);
-	if (!read_success)
+	if (!m_async_double_buffer.open_file(file.get_string(), _async_buffer_file_access_read, _async_buffer_disposition_open_existing))
 	{
 		event(_event_warning, "networking:saved_film: async_double_buffer.open_file() failed for '%s'",
 			filename);
@@ -83,8 +82,7 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 	}
 
 	m_film_state = _saved_film_open_for_read;
-	read_success = c_saved_film::read_data(&m_film_header, k_saved_film_async_io_buffer_size);
-	if (!read_success)
+	if (!c_saved_film::read_data(&m_film_header, k_saved_film_async_io_buffer_size))
 	{
 		event(_event_warning, "networking:saved_film: failed to get saved film header for '%s'",
 			filename);
@@ -98,8 +96,7 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 	// $HACK: just to get into theater for now
 	m_film_header.film_header.length_in_ticks = 60;
 
-	read_success = c_saved_film::header_valid(&m_film_header, disable_version_check);
-	if (!read_success)
+	if (!c_saved_film::header_valid(&m_film_header, disable_version_check))
 	{
 		event(_event_warning, "networking:saved_film: film header not valid for '%s'",
 			filename);
@@ -111,7 +108,7 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 	}
 
 	m_current_film_offset = k_saved_film_async_io_buffer_size;
-	return read_success;
+	return true;
 }
 
 bool c_saved_film::read_update(s_saved_film_update* update_out)
@@ -255,8 +252,7 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	
 	c_static_wchar_string<256> file_name;
 	file_name.set_char(filename);
-	bool valid = m_async_double_buffer.open_file(file_name.get_string(), _async_buffer_file_access_write, _async_buffer_disposition_create_always);
-	if (!valid)
+	if (!m_async_double_buffer.open_file(file_name.get_string(), _async_buffer_file_access_write, _async_buffer_disposition_create_always))
 	{
 		event(_event_warning, "networking:saved_film: failed to open saved film %s for writing",
 			filename);
@@ -271,7 +267,7 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	file_reference_create_from_path(&m_file_reference, filename, false);
 	
 	s_saved_game_item_metadata metadata{};
-	//metadata.initialize_from_current_game_settings(controller_index, _saved_game_film, "", "", 0);
+	metadata.initialize_from_current_game_settings(controller_index, _saved_game_film, L"", L"", 0);
 	e_gui_game_mode game_mode = _ui_game_mode_multiplayer;// metadata.get_gui_game_mode();
 	
 	const wchar_t* active_session_map_name = NULL;
@@ -386,9 +382,8 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	
 	csmemcpy(&header->film_header.options, options, sizeof(game_options));
 	m_film_state = _saved_film_open_for_write;
-	
-	valid = c_saved_film::write_data(header, sizeof(s_blf_saved_film));
-	if (!valid)
+
+	if (!c_saved_film::write_data(header, sizeof(s_blf_saved_film)))
 	{
 		event(_event_warning, "networking:saved_film: film %s succesfully opened, but we failed to write the film header in",
 			filename);
@@ -404,8 +399,10 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	m_start_of_film_data_offset = sizeof(s_blf_saved_film);
 	
 	ASSERT(m_start_of_film_data_offset == m_async_double_buffer.get_position());
-	
-	return valid;
+
+	csmemcpy(&m_film_header, header, sizeof(s_blf_saved_film));
+
+	return true;
 }
 
 // $TODO: check my work
@@ -901,14 +898,18 @@ bool c_saved_film::write_game_state_internal(int32 update_number, const void* co
 	return true;
 }
 
+int32 const k_main_time_default_vblank_rate = 60;
+int32 const k_main_time_ideal_vblank_interval_per_game_update = 1;
+
 bool c_saved_film::write_finish()
 {
 	ASSERT(m_film_state == _saved_film_open_for_write);
 
 	m_finalizing_film = true;
+
 	if (!async_usable())
 	{
-		event(_event_warning, "networking:saved_film: async not usable,won't be able to finish the write!");
+		event(_event_warning, "networking:saved_film: async not usable, won't be able to finish the write!");
 		m_finalizing_film = false;
 		return false;
 	}
@@ -924,29 +925,98 @@ bool c_saved_film::write_finish()
 	}
 
 	s_blf_chunk_end_of_file end_of_file{};
+	end_of_file.total_file_size = m_async_double_buffer.get_position();
+	const int32 current_film_offset = m_current_film_offset;
 
-	bool write_success = false;
+	bool write_success = c_saved_film::write_data(&end_of_file, sizeof(end_of_file));
+	if (!write_success)
 	{
-		int32 current_film_offset = this->m_current_film_offset;
-		end_of_file.total_file_size = m_async_double_buffer.get_position();
-		bool write_success = c_saved_film::write_data(&end_of_file, sizeof(end_of_file));
-		if (!write_success)
-		{
-			event(_event_error, "networking:saved_film: saved_film_write_finish failed to write footer");
-		}
-		m_current_film_offset = current_film_offset;
+		event(_event_error, "networking:saved_film: saved_film_write_finish failed to write footer");
+		m_finalizing_film = false;
+		return false;
 	}
 
-	int32 position = m_async_double_buffer.get_position();
-	int32 current_film_offset = this->m_current_film_offset;
+	m_current_film_offset = current_film_offset;
+	const int32 file_size_before_padding = m_async_double_buffer.get_position();
 
-	if (write_success)
+	const int32 padding_dwords = (((file_size_before_padding + 0xFFF) & ~0xFFFu) - file_size_before_padding) >> 2;
+	uns32 pad = 0;
+	for (int32 i = 0; i < padding_dwords; i++)
 	{
-		// $TODO: implement this
+		if (!c_saved_film::write_data(&pad, sizeof(pad)))
+		{
+			event(_event_warning, "networking:saved_film: failed to write dword padding data at end of film");
+			write_success = false;
+			break;
+		}
+	}
+
+	byte pad_byte = 0;
+	for (int32 i = 0, pad_bytes = (-(byte)file_size_before_padding & 3); write_success && i < pad_bytes; i++)
+	{
+		if (!c_saved_film::write_data(&pad_byte, sizeof(pad_byte)))
+		{
+			event(_event_warning, "networking:saved_film: failed to write byte padding data at end of film");
+			write_success = false;
+			break;
+		}
+	}
+
+	if (!write_success || m_fatal_error_encountered_during_write)
+	{
+		m_finalizing_film = false;
+		return false;
+	}
+
+	s_blf_saved_film* header = &m_film_header;
+
+	header->film_header.length_in_ticks = m_current_tick;
+
+	real32 length_seconds = 0.0f;
+	if (game_time_initialized())
+	{
+		length_seconds = game_ticks_to_seconds((real32)m_current_tick);
+	}
+	else
+	{
+		length_seconds = (real32)(m_current_tick / (k_main_time_default_vblank_rate / k_main_time_ideal_vblank_interval_per_game_update));
+	}
+
+	header->content_header.metadata.size_in_bytes = file_size_before_padding;
+	header->content_header.metadata.length_seconds = (int32)length_seconds;
+	header->content_header.metadata.map_id = header->film_header.options.map_id;
+	header->content_header.metadata.file_type = e_saved_game_file_type(_saved_game_film + header->film_header.is_snippet);
+	header->content_header.metadata.game_engine_index = header->film_header.options.multiplayer_variant.get_game_engine_index();
+
+	const int32 film_data_size = current_film_offset - m_start_of_film_data_offset;
+	header->film_data.header.chunk_size = film_data_size + sizeof(s_blf_header);
+
+	ASSERT(header->film_data.header.chunk_size >= 0);
+	ASSERT(header->film_data.header.chunk_size == (int32)(file_size_before_padding - sizeof(s_blf_saved_film) - sizeof(s_blf_chunk_end_of_file) + sizeof(s_blf_header)));
+
+	if (!c_saved_film::header_valid(header, false))
+	{
+		event(_event_warning, "networking:saved_film: header built but is invalid");
+		m_finalizing_film = false;
+		return false;
+	}
+
+	if (!m_async_double_buffer.set_position(0))
+	{
+		event(_event_error, "networking:saved_film: failed to seek to beginning to write header");
+		m_finalizing_film = false;
+		return false;
+	}
+
+	if (!c_saved_film::write_data(header, sizeof(s_blf_saved_film)))
+	{
+		event(_event_error, "networking:saved_film: failed to write header");
+		m_finalizing_film = false;
+		return false;
 	}
 
 	m_finalizing_film = false;
-	return write_success;
+	return true;
 }
 
 bool c_saved_film::read_data(void* data, int32 data_size)

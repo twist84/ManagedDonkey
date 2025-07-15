@@ -970,6 +970,11 @@ int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time)
 void __cdecl simulation_update()
 {
 	INVOKE(0x004421B0, simulation_update);
+
+	//if (simulation_globals.initialized && simulation_globals.simulation_deferred)
+	//{
+	//	simulation_globals.simulation_deferred = saved_film_manager_has_pending_global_state_change();
+	//}
 }
 
 void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata)
