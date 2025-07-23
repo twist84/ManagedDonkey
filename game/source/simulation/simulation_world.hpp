@@ -8,6 +8,13 @@
 #include "simulation/simulation_players.hpp"
 #include "simulation/simulation_queue.hpp"
 
+struct s_simulation_world_view_iterator
+{
+	uns32 view_type_mask;
+	int32 next_world_view_index;
+};
+static_assert(sizeof(s_simulation_world_view_iterator) == 0x8);
+
 class c_simulation_distributed_world
 {
 public:
@@ -18,25 +25,66 @@ public:
 };
 static_assert(sizeof(c_simulation_distributed_world) == 0xD0C8);
 
+class c_network_channel;
 class c_simulation_watcher;
 class c_simulation_view;
 struct s_simulation_queued_update;
+struct s_simulation_update_metadata;
 class c_simulation_world
 {
 public:
-	bool exists() const;
-	void initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world);
-	bool is_active();
-	bool is_authority() const;
-	bool is_distributed() const;
-	bool is_local() const;
-	
-	static void destroy_update(struct simulation_update* update);
+	enum e_join_progress
+	{
+		_join_progress_waiting = 0x0,
+		_join_progress_ready = 0x1,
+		_join_progress_complete = 0x2,
+		_join_progress_failed = 0x3,
+		k_join_progress_count = 0x4,
+	};
 
+public:
+	bool actor_exists(int32 simulation_actor_index) const;
+	void advance_update(const struct simulation_update* update);
+	bool all_client_views_active() const;
+	void apply_simulation_queue(const c_simulation_queue* simulation_queue);
+	void attach_simulation_queues_to_update(struct simulation_update* update);
+	void attach_to_map();
+	int32 attach_view(c_simulation_view* view);
+	bool authority_join_timeout_expired() const;
+	void build_player_actions(struct simulation_update* update);
+	void build_update(bool build_for_simulation_in_progress, struct simulation_update* update, s_simulation_update_metadata* metadata);
+	void change_state_active();
+	void change_state_dead();
+	void change_state_disconnected();
+	void change_state_internal(e_simulation_world_state new_state);
+	void change_state_joining(uns32 joining_client_machine_mask);
+	void change_state_leaving();
+	void claim_authority_gameworld();
+	int32 control_stream_get_unit_index(int32 control_index) const;
+	int32 create_actor(int32 simulation_actor_index, int32 unit_index);
+	void create_player(int32 player_index, e_game_simulation_type simulation_type);
+	void deactivate_all_players();
 	void debug_render();
-
-	static const char* get_state_string(int32 state);
-
+	void delete_actor(int32 simulation_actor_index);
+	void delete_all_actors();
+	void delete_all_players();
+	void delete_player(int32 player_index);
+	static void destroy_update(struct simulation_update* update);
+	void destroy_world();
+	void detach_from_map();
+	void detach_view(c_simulation_view* view, int32 view_index);
+	void disconnect();
+	void distribute_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	void distributed_authority_dispatch_actor_control(uns32 actor_valid_mask, const unit_control_data* actor_control);
+	void distributed_authority_dispatch_player_actions(uns32 player_valid_mask, const player_action* player_actions);
+	void drop_simulation_from_active_to_joining();
+	bool exists() const;
+	c_simulation_player* find_player_by_machine(const s_machine_identifier* machine_identifier, int32 user_index);
+	void gamestate_flush();
+	uns32 get_acknowledged_player_mask() const;
+	c_simulation_view* get_authority_view() const;
+	c_simulation_view* get_client_view_by_machine_identifier(const s_machine_identifier* remote_machine_identifier);
+	c_simulation_view* get_client_view_by_machine_index(int32 remote_machine_index);
 	void get_join_status(
 		int32* join_time_elapsed,
 		int32* join_time_to_abort,
@@ -48,6 +96,84 @@ public:
 		int32* join_client_complete_count,
 		int32* join_client_total_count,
 		int32* join_time_to_failure) const;
+	void get_machine_identifier(s_machine_identifier* identifier) const;
+	int32 get_machine_index() const;
+	int32 get_machine_index_by_identifier(const s_machine_identifier* remote_machine_identifier) const;
+	uns32 get_player_active_mask() const;
+	uns32 get_player_exists_mask() const;
+	uns32 get_player_in_game_mask() const;
+	void get_player_machine(int32 player_index, s_machine_identifier* machine_identifier) const;
+	static const char* get_state_string(int32 state);
+	c_simulation_view* get_view_by_channel(const c_network_channel* channel);
+	c_simulation_view* get_view_by_observer(int32 observer_channel_index);
+	int32 get_view_count() const;
+	void go_out_of_sync(bool determinism_failure);
+	bool handle_playback_update(const struct simulation_update* update, s_simulation_update_metadata* metadata);
+	void handle_synchronous_client_actions(const s_machine_identifier* remote_machine_identifier, uns32 valid_user_mask, const player_action* user_actions);
+	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
+	bool handle_synchronous_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	void handle_view_activation(c_simulation_view* view, bool active);
+	void handle_view_establishment(c_simulation_view* view, bool established);
+	void initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world);
+	bool is_active();
+	bool is_authority() const;
+	bool is_distributed() const;
+	bool is_local() const;
+
+	void iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask) const;
+	bool iterator_next(s_simulation_world_view_iterator* iterator, c_simulation_view** view) const;
+	void mark_player_pending_deletion(int32 player_index);
+	void notify_gamestate_flush();
+	void notify_gamestate_flush_outside_game_tick();
+	void notify_initial_gamestate_load(int32 update_number);
+	void notify_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
+	bool player_exists(int32 player_index, s_player_identifier* out_player_identifier) const;
+	bool player_is_active(int32 player_index) const;
+	bool player_is_in_game(int32 player_index, const s_player_identifier* player_identifier) const;
+	void process_actor_control(int32 simulation_actor_index, const unit_control_data* actor_control);
+	void process_input(uns32 user_action_mask, struct player_action* user_actions);
+	void process_pending_updates();
+	void process_playback_events();
+	void recreate_players(e_game_simulation_type simulation_type);
+	void remove_all_views();
+	void reset_world();
+	void send_player_acknowledgements(bool force_acknowledgement);
+	void send_synchronous_acknowledgements(bool force_acknowledgement);
+	void set_machine_identifier(const s_machine_identifier* identifier);
+	void set_machine_index(int32 machine_index);
+	void simulation_queue_allocate(e_simulation_queue_element_type type, int32 data_size, s_simulation_queue_element** element_out);
+	void simulation_queue_enqueue(s_simulation_queue_element* element);
+	void simulation_queue_free(s_simulation_queue_element* element);
+	bool simulation_queues_empty();
+	void synchronous_authority_dispatch_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	int32 synchronous_authority_get_maximum_update_queue_size();
+	int32 synchronous_authority_get_maximum_updates();
+	bool synchronous_catchup_in_progress() const;
+	int32 time_get_available(bool* out_match_remote_time, int32* out_updates_available);
+	void time_set_immediate_update(bool immediate_update);
+	void time_set_next_update_number(int32 next_update_number, bool flush_update_queue);
+	void time_start(int32 next_update_number, bool flush_update_queue);
+	void time_stop();
+	void update();
+	void update_authority_active();
+	void update_authority_join_initiate();
+	void update_authority_join_progress();
+	void update_client_disconnection();
+	void update_client_failure();
+	void update_client_join_initiate();
+	void update_client_join_progress();
+	void update_establishing_view(c_simulation_view* view);
+	e_join_progress update_joining_view(c_simulation_view* view);
+	void update_player_activation();
+	int32 update_queue_get_available_updates() const;
+	int32 update_queue_get_next_expected_update_number() const;
+	bool update_queue_handle_playback_event(e_simulation_playback_event event_type, int32 event_data, int32 event_update_number);
+	bool update_queue_handle_server_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	void update_queue_reset();
+	bool update_queue_retrieve_event(e_simulation_playback_event* out_event_type, int32* out_event_data, int32* out_event_update_number);
+	void update_queue_retrieve_update(struct simulation_update* update, s_simulation_update_metadata* metadata);
+	void update_queue_start(int32 next_update_number, bool flush_update_queue);
+	void update_queue_stop();
 
 public:
 	struct s_world_state_data_disconnected

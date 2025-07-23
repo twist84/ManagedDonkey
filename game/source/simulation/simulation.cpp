@@ -348,6 +348,24 @@ bool __cdecl simulation_film_record_update(const struct simulation_update* updat
 bool __cdecl simulation_film_retrieve_updates(int32 ticks_remaining, int32* updates_read_out)
 {
 	return INVOKE(0x00441330, simulation_film_retrieve_updates, ticks_remaining, updates_read_out);
+
+	//real32 v1 = game_time_get_speed();
+	//int32 v2 = game_seconds_to_ticks_round(v1 * 0.25f);
+	//
+	//int32 updates_available = 0;
+	//simulation_globals.world->time_get_available(NULL, &updates_available);
+	//
+	//if (!updates_available && v2 < 1)
+	//	v2 = 1;
+	//if (v2 > ticks_remaining)
+	//	v2 = ticks_remaining;
+	//
+	//simulation_globals.world->time_get_available(NULL, &ticks_remaining);
+	//bool result = ticks_remaining >= v2;
+	//
+	//*updates_read_out = NULL;
+	//
+	//return result;
 }
 
 bool __cdecl simulation_film_start_recording()
