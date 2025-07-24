@@ -699,3 +699,8 @@ void c_simulation_world::update_queue_stop()
 	INVOKE_CLASS_MEMBER(0x0046BD40, c_simulation_world, update_queue_stop);
 }
 
+bool c_simulation_world::view_has_acknowledged_active_players(const c_simulation_view* view) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046BD50, c_simulation_world, view_has_acknowledged_active_players, view);
+}
+

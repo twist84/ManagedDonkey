@@ -35,22 +35,61 @@ class c_simulation_world
 public:
 	enum e_join_progress
 	{
-		_join_progress_waiting = 0x0,
-		_join_progress_ready = 0x1,
-		_join_progress_complete = 0x2,
-		_join_progress_failed = 0x3,
-		k_join_progress_count = 0x4,
+		_join_progress_waiting = 0,
+		_join_progress_ready,
+		_join_progress_complete,
+		_join_progress_failed,
+
+		k_join_progress_count,
 	};
+
+	struct s_world_state_data_disconnected
+	{
+		uns32 disconnected_timestamp;
+	};
+	static_assert(sizeof(s_world_state_data_disconnected) == 0x4);
+
+	struct s_world_state_data_joining
+	{
+		uns32 join_start_timestamp;
+		uns32 join_client_machine_mask;
+	};
+	static_assert(sizeof(s_world_state_data_joining) == 0x8);
+
+	struct s_world_state_data_active
+	{
+		uns32 active_client_machine_mask;
+	};
+	static_assert(sizeof(s_world_state_data_active) == 0x4);
+
+	struct s_world_state_data
+	{
+		union
+		{
+			s_world_state_data_disconnected disconnected;
+			s_world_state_data_joining joining;
+			s_world_state_data_active active;
+		};
+	};
+	static_assert(sizeof(s_world_state_data) == 0x8);
 
 public:
 	bool actor_exists(int32 simulation_actor_index) const;
 	void advance_update(const struct simulation_update* update);
 	bool all_client_views_active() const;
 	void apply_simulation_queue(const c_simulation_queue* simulation_queue);
+
+private:
 	void attach_simulation_queues_to_update(struct simulation_update* update);
+
+public:
 	void attach_to_map();
 	int32 attach_view(c_simulation_view* view);
+
+private:
 	bool authority_join_timeout_expired() const;
+
+public:
 	void build_player_actions(struct simulation_update* update);
 	void build_update(bool build_for_simulation_in_progress, struct simulation_update* update, s_simulation_update_metadata* metadata);
 	void change_state_active();
@@ -66,7 +105,11 @@ public:
 	void deactivate_all_players();
 	void debug_render();
 	void delete_actor(int32 simulation_actor_index);
+
+private:
 	void delete_all_actors();
+
+public:
 	void delete_all_players();
 	void delete_player(int32 player_index);
 	static void destroy_update(struct simulation_update* update);
@@ -75,13 +118,21 @@ public:
 	void detach_view(c_simulation_view* view, int32 view_index);
 	void disconnect();
 	void distribute_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+
+private:
 	void distributed_authority_dispatch_actor_control(uns32 actor_valid_mask, const unit_control_data* actor_control);
 	void distributed_authority_dispatch_player_actions(uns32 player_valid_mask, const player_action* player_actions);
+
+public:
 	void drop_simulation_from_active_to_joining();
 	bool exists() const;
 	c_simulation_player* find_player_by_machine(const s_machine_identifier* machine_identifier, int32 user_index);
 	void gamestate_flush();
+
+private:
 	uns32 get_acknowledged_player_mask() const;
+
+public:
 	c_simulation_view* get_authority_view() const;
 	c_simulation_view* get_client_view_by_machine_identifier(const s_machine_identifier* remote_machine_identifier);
 	c_simulation_view* get_client_view_by_machine_index(int32 remote_machine_index);
@@ -119,7 +170,6 @@ public:
 	bool is_authority() const;
 	bool is_distributed() const;
 	bool is_local() const;
-
 	void iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask) const;
 	bool iterator_next(s_simulation_world_view_iterator* iterator, c_simulation_view** view) const;
 	void mark_player_pending_deletion(int32 player_index);
@@ -145,9 +195,13 @@ public:
 	void simulation_queue_enqueue(s_simulation_queue_element* element);
 	void simulation_queue_free(s_simulation_queue_element* element);
 	bool simulation_queues_empty();
+
+private:
 	void synchronous_authority_dispatch_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
 	int32 synchronous_authority_get_maximum_update_queue_size();
 	int32 synchronous_authority_get_maximum_updates();
+
+public:
 	bool synchronous_catchup_in_progress() const;
 	int32 time_get_available(bool* out_match_remote_time, int32* out_updates_available);
 	void time_set_immediate_update(bool immediate_update);
@@ -155,6 +209,8 @@ public:
 	void time_start(int32 next_update_number, bool flush_update_queue);
 	void time_stop();
 	void update();
+
+private:
 	void update_authority_active();
 	void update_authority_join_initiate();
 	void update_authority_join_progress();
@@ -176,35 +232,7 @@ public:
 	void update_queue_stop();
 
 public:
-	struct s_world_state_data_disconnected
-	{
-		uns32 disconnected_timestamp;
-	};
-	static_assert(sizeof(s_world_state_data_disconnected) == 0x4);
-
-	struct s_world_state_data_joining
-	{
-		uns32 join_start_timestamp;
-		uns32 join_client_machine_mask;
-	};
-	static_assert(sizeof(s_world_state_data_joining) == 0x8);
-
-	struct s_world_state_data_active
-	{
-		uns32 active_client_machine_mask;
-	};
-	static_assert(sizeof(s_world_state_data_active) == 0x4);
-
-	struct s_world_state_data
-	{
-		union
-		{
-			s_world_state_data_disconnected disconnected;
-			s_world_state_data_joining joining;
-			s_world_state_data_active active;
-		};
-	};
-	static_assert(sizeof(s_world_state_data) == 0x8);
+	bool view_has_acknowledged_active_players(const c_simulation_view* view) const;
 
 //protected:
 	c_simulation_watcher* m_watcher;
