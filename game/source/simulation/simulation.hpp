@@ -145,7 +145,7 @@ extern void __cdecl simulation_dispose();
 extern void __cdecl simulation_dispose_from_old_map();
 extern void __cdecl simulation_end(e_simulation_abort_reason abort_reason);
 extern void __cdecl simulation_fatal_error();
-extern bool __cdecl simulation_film_retrieve_updates(int32 ticks_remaining, int32* updates_read_out);
+extern bool __cdecl simulation_film_retrieve_updates(int32 maximum_updates_to_read, int32* updates_read_out);
 extern bool __cdecl simulation_film_start_recording();
 extern void __cdecl simulation_film_stop_recording();
 extern bool __cdecl simulation_format_player_netdebug_data(int32 player_index, const s_simulation_player_netdebug_data* netdebug_data, int32* filled_bar_count);
