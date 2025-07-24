@@ -7,6 +7,14 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x0046CD70, c_simulation_watcher, in_online_networked_session);
 
+//.text:0046BD80 ; 
+//.text:0046BD90 ; private: void c_simulation_watcher::apply_machines_to_players()
+//.text:0046BEE0 ; public: virtual bool c_simulation_watcher::attempt_channel_reconnection(int32 observer_channel_index, bool preexisting_connection) const
+//.text:0046BEF0 ; public: bool c_simulation_watcher::boot_machine(const s_machine_identifier* machine_identifier, e_network_session_boot_reason boot_reason) const
+//.text:0046BF30 ; public: void c_simulation_watcher::boot_machines(uns32 boot_machine_mask, e_network_session_boot_reason boot_reason) const
+//.text:0046BF90 ; public: bool c_simulation_world::can_generate_updates() const
+//.text:0046C030 ; public: virtual bool c_simulation_watcher::channel_is_load_bearing(int32 observer_index) const
+
 void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) const
 {
 	//INVOKE_CLASS_MEMBER(0x0046C080, c_simulation_watcher, describe_status, buffer, buffer_length);
@@ -184,6 +192,24 @@ int32 c_simulation_watcher::describe_status_simple() const
 	return INVOKE_CLASS_MEMBER(0x0046C0A0, c_simulation_watcher, describe_status_simple);
 }
 
+//.text:0046C1B0 ; public: virtual bool c_simulation_watcher::desire_channel_heartbeat(int32 observer_channel_index) const
+//.text:0046C1C0 ; public: void c_simulation_watcher::destroy_watcher()
+//.text:0046C1F0 ; public: void c_simulation_watcher::generate_machine_update(bool* machine_update_valid, simulation_machine_update* machine_update)
+//.text:0046C240 ; public: void c_simulation_watcher::generate_player_updates(int32* player_update_count, int32 maximum_player_update_count, simulation_player_update* player_updates)
+//.text:0046C540 ; public: uns32 c_simulation_watcher::get_machine_ban_flags(int32 machine_index) const
+//.text:0046C5D0 ; public: bool c_simulation_watcher::get_machine_connectivity(const s_machine_identifier* machine_identifier) const
+//.text:0046C640 ; public: int32 c_simulation_watcher::get_machine_index_by_identifier(const s_machine_identifier* remote_machine_identifier) const
+//.text:0046C6B0 ; public: bool c_simulation_watcher::get_machine_is_host(const s_machine_identifier* machine_identifier) const
+//.text:0046C730 ; public: uns32 c_simulation_watcher::get_machine_valid_mask() const
+//.text:0046C740 ; 
+//.text:0046C750 ; public: bool c_simulation_watcher::get_pending_acknowledgement(bool force_acknowledgement, uns32* machine_valid_mask, s_machine_identifier* machine_identifiers, uns32* player_valid_mask, uns32* player_in_game_mask, s_player_identifier* player_identifiers)
+//.text:0046C840 ; public: uns32 c_simulation_watcher::get_player_in_game_mask() const
+//.text:0046C850 ; public: bool c_simulation_watcher::get_player_is_in_game(int32 player_index, const s_player_identifier* player_identifier) const
+//.text:0046C8C0 ; 
+//.text:0046C8E0 ; public: void c_simulation_watcher::handle_new_gamestate(uns32 game_state_proc_flags)
+//.text:0046CC50 ; public: void c_simulation_watcher::handle_player_creation()
+//.text:0046CCB0 ; public: void c_simulation_watcher::handle_player_leave_game(int32 player_index)
+
 bool c_simulation_watcher::in_online_networked_session()
 {
 	//return INVOKE_CLASS_MEMBER(0x0046CD70, c_simulation_watcher, in_online_networked_session);
@@ -213,13 +239,31 @@ void c_simulation_watcher::initialize_watcher(c_simulation_world* world)
 	//c_simulation_watcher::reset_tracking_arrays();
 }
 
+//.text:0046CDD0 ; public: void c_simulation_watcher::log_acknowledgement_status(bool force_acknowledgement, uns32 machine_valid_mask, uns32 player_valid_mask, uns32 player_in_game_mask) const
+//.text:0046CDE0 ; public: bool c_simulation_watcher::maintain_connection()
+//.text:0046CEF0 ; private: bool c_simulation_watcher::maintain_simulation_authority(c_network_session* session, int32 local_peer_index, c_static_flags<16> peer_valid_flags, const s_network_session_peer* peers)
+//.text:0046CFF0 ; private: bool c_simulation_watcher::maintain_simulation_client(int32 host_peer_index)
+
 bool c_simulation_watcher::need_to_generate_updates() const
 {
 	return INVOKE_CLASS_MEMBER(0x0046D090, c_simulation_watcher, need_to_generate_updates);
 }
 
+//.text:0046D130 ; public: virtual void c_simulation_watcher::notify_channel_connection(int32 observer_channel_index, uns32 connection_identifier, bool connected)
+//.text:0046D140 ; public: virtual void c_simulation_watcher::notify_channel_died(int32 observer_channel_index)
+//.text:0046D150 ; public: void c_simulation_watcher::notify_game_revert()
+//.text:0046D160 ; 
+//.text:0046D170 ; private: static simulation_player_update* __cdecl c_simulation_watcher::player_update_allocate(int32* player_update_count, int32 maximum_player_update_count, simulation_player_update* player_updates)
+//.text:0046D190 ; private: static void __cdecl c_simulation_watcher::player_update_find_swap_location(const s_player_collection* players, int32 add_player_index, const s_player_identifier* add_player_identifier, int32* swap_player_index, bool* remove_existing_player)
+//.text:0046D280 ; private: static bool __cdecl c_simulation_watcher::player_update_must_leave_game(int32 player_index, const s_player_collection_player* player, c_static_flags<16> peer_valid_flags, const s_machine_identifier* network_machine_identifiers, c_static_flags<16> valid_network_player_flags, const s_network_session_player* network_players)
+//.text:0046D2F0 ; public: void c_simulation_watcher::reset_tracking_arrays()
+//.text:0046D370 ; 
+
 void c_simulation_watcher::setup_connection()
 {
 	INVOKE_CLASS_MEMBER(0x0046D380, c_simulation_watcher, setup_connection);
 }
+
+//.text:0046D5B0 ; private: bool c_simulation_watcher::setup_view(int32 machine_index, const s_network_session_peer* session_peer, int32 observer_channel_index)
+//.text:0046D6D0 ; private: bool c_simulation_watcher::update_machines(const s_transport_secure_address* session_host_address, int32 session_local_update_number, int32 session_update_number, int32 session_peer_index, c_static_flags<16> peer_valid_flags, const s_network_session_peer* session_peers)
 
