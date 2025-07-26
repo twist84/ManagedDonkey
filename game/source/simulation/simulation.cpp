@@ -405,83 +405,83 @@ bool __cdecl simulation_film_record_update(const struct simulation_update* updat
 
 bool __cdecl simulation_film_retrieve_updates(int32 maximum_updates_to_read, int32* updates_read_out)
 {
-	return INVOKE(0x00441330, simulation_film_retrieve_updates, maximum_updates_to_read, updates_read_out);
+	//return INVOKE(0x00441330, simulation_film_retrieve_updates, maximum_updates_to_read, updates_read_out);
 
-	//ASSERT(updates_read_out);
-	//
-	//real32 speed = game_time_get_speed();
-	//int32 target_updates = game_seconds_to_ticks_round(speed * 0.25f);
-	//if (target_updates < 1)
-	//{
-	//	target_updates = 1;
-	//}
-	//if (target_updates > maximum_updates_to_read)
-	//{
-	//	target_updates = maximum_updates_to_read;
-	//}
-	//
-	//int32 updates_read = 0;
-	//
-	//for (int32 i = 0; i < 30; i++)
-	//{
-	//	int32 updates_available = 0;
-	//	simulation_globals.world->time_get_available(NULL, &updates_available);
-	//
-	//	if (updates_available >= target_updates)
-	//	{
-	//		break;
-	//	}
-	//
-	//	int32 position = saved_film_manager_get_position();
-	//
-	//	s_saved_film_update update_out{};
-	//	if (!saved_film_manager_read_update(&update_out))
-	//	{
-	//		event(_event_warning,
-	//			"networking:simulation:saved_film: failed to read update at time time %d",
-	//			game_time_get());
-	//		return false;
-	//	}
-	//
-	//	if (update_out.update_type != _saved_film_update_type_simulation_update)
-	//	{
-	//		event(_event_error,
-	//			"networking:simulation:saved_film: failed to handle update type %d from film",
-	//			update_out.update_type);
-	//		return false;
-	//	}
-	//
-	//	struct simulation_update simulation_update_out{};
-	//	s_simulation_update_metadata metadata{};
-	//	metadata.flags.set(_simulation_update_from_saved_film_bit, true);
-	//	metadata.saved_film_position = position;
-	//	metadata.saved_film_tick = saved_film_manager_get_current_tick();
-	//
-	//	if (!saved_film_manager_read_simulation_update(&update_out, &simulation_update_out))
-	//	{
-	//		event(_event_warning,
-	//			"networking:simulation:saved_film: failed to read update at time time %d",
-	//			game_time_get());
-	//		continue;
-	//	}
-	//
-	//	if (!simulation_globals.world->handle_playback_update(&simulation_update_out, &metadata))
-	//	{
-	//		event(_event_error,
-	//			"networking:simulation:saved_film: update #%d failed insert into world at time %d",
-	//			simulation_update_out.update_number,
-	//			game_time_get());
-	//
-	//		c_simulation_world::destroy_update(&simulation_update_out);
-	//		continue;
-	//	}
-	//
-	//	updates_read++;
-	//}
-	//
-	//*updates_read_out = updates_read;
-	//
-	//return true;
+	ASSERT(updates_read_out);
+	
+	real32 speed = game_time_get_speed();
+	int32 target_updates = game_seconds_to_ticks_round(speed * 0.25f);
+	if (target_updates < 1)
+	{
+		target_updates = 1;
+	}
+	if (target_updates > maximum_updates_to_read)
+	{
+		target_updates = maximum_updates_to_read;
+	}
+	
+	int32 updates_read = 0;
+	
+	for (int32 i = 0; i < 30; i++)
+	{
+		int32 updates_available = 0;
+		simulation_globals.world->time_get_available(NULL, &updates_available);
+	
+		if (updates_available >= target_updates)
+		{
+			break;
+		}
+	
+		int32 position = saved_film_manager_get_position();
+	
+		s_saved_film_update update_out{};
+		if (!saved_film_manager_read_update(&update_out))
+		{
+			event(_event_warning,
+				"networking:simulation:saved_film: failed to read update at time time %d",
+				game_time_get());
+			return false;
+		}
+	
+		if (update_out.update_type != _saved_film_update_type_simulation_update)
+		{
+			event(_event_error,
+				"networking:simulation:saved_film: failed to handle update type %d from film",
+				update_out.update_type);
+			return false;
+		}
+	
+		struct simulation_update simulation_update_out{};
+		s_simulation_update_metadata metadata{};
+		metadata.flags.set(_simulation_update_from_saved_film_bit, true);
+		metadata.saved_film_position = position;
+		metadata.saved_film_tick = saved_film_manager_get_current_tick();
+	
+		if (!saved_film_manager_read_simulation_update(&update_out, &simulation_update_out))
+		{
+			event(_event_warning,
+				"networking:simulation:saved_film: failed to read update at time time %d",
+				game_time_get());
+			continue;
+		}
+	
+		if (!simulation_globals.world->handle_playback_update(&simulation_update_out, &metadata))
+		{
+			event(_event_error,
+				"networking:simulation:saved_film: update #%d failed insert into world at time %d",
+				simulation_update_out.update_number,
+				game_time_get());
+	
+			c_simulation_world::destroy_update(&simulation_update_out);
+			continue;
+		}
+	
+		updates_read++;
+	}
+	
+	*updates_read_out = updates_read;
+	
+	return true;
 }
 
 bool __cdecl simulation_film_start_recording()
@@ -1103,134 +1103,134 @@ int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time)
 
 void __cdecl simulation_update()
 {
-	INVOKE(0x004421B0, simulation_update);
+	//INVOKE(0x004421B0, simulation_update);
 
-	//if (!simulation_globals.initialized)
-	//{
-	//	return;
-	//}
-	//
-	//if (simulation_globals.simulation_aborted
-	//	&& game_in_progress()
-	//	&& game_is_ui_shell()
-	//	&& simulation_globals.simulation_aborted_reason != _simulation_abort_reason_preparing_to_play_film)
-	//{
-	//	main_menu_launch_force();
-	//}
-	//
-	//if (!simulation_globals.initialized)
-	//{
-	//	return;
-	//}
-	//
-	//if (simulation_globals.simulation_deferred)
-	//{
-	//	simulation_globals.simulation_deferred = saved_film_manager_has_pending_global_state_change();
-	//}
-	//
-	//if (simulation_globals.initialized && !simulation_globals.simulation_aborted && game_in_progress())
-	//{
-	//	ASSERT(simulation_globals.world && simulation_globals.watcher);
-	//
-	//	if (simulation_globals.simulation_fatal_error)
-	//	{
-	//		simulation_abort_immediate(_simulation_abort_reason_fatal_error);
-	//	}
-	//	else if (!simulation_globals.watcher->maintain_connection())
-	//	{
-	//		simulation_abort_immediate(_simulation_abort_reason_lost_connection);
-	//	}
-	//	else if (simulation_globals.world->is_playback() && saved_film_manager_playback_aborted())
-	//	{
-	//		simulation_abort_immediate(_simulation_abort_reason_film_playback_error);
-	//	}
-	//
-	//	if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
-	//	{
-	//		simulation_globals.world->update();
-	//	}
-	//
-	//	simulation_update_out_of_sync();
-	//
-	//	if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
-	//	{
-	//		if (!simulation_globals.world->runs_simulation()
-	//			&& simulation_globals.world->time_running()
-	//			&& simulation_globals.world->is_active()
-	//			&& !simulation_globals.world->is_out_of_sync())
-	//		{
-	//			simulation_globals.world->process_playback_events();
-	//		}
-	//
-	//		if (simulation_globals.world->is_playback()
-	//			&& simulation_globals.world->is_authority()
-	//			&& simulation_globals.world->time_running()
-	//			&& simulation_globals.world->is_active()
-	//			&& !simulation_globals.world->is_out_of_sync())
-	//		{
-	//			int32 ticks_remaining = saved_film_manager_get_ticks_remaining();
-	//			if (ticks_remaining > 0)
-	//			{
-	//				int32 updates_read = 0;
-	//				if (!simulation_film_retrieve_updates(ticks_remaining, &updates_read) && updates_read != ticks_remaining)
-	//				{
-	//					saved_film_manager_abort_playback(_saved_film_playback_abort_simulation_failed_to_read);
-	//					if (network_life_cycle_get_state() == _life_cycle_state_none)
-	//					{
-	//						main_menu_launch();
-	//					}
-	//				}
-	//			}
-	//
-	//			int32 tick_rate = game_seconds_to_ticks_round(game_time_get_speed() * 0.25f);
-	//			if (tick_rate > 0)
-	//			{
-	//				int32 updates_available = 0;
-	//				simulation_globals.world->time_get_available(NULL, &updates_available);
-	//				if (ticks_remaining && updates_available == 0)
-	//				{
-	//					event(_event_error, "networking:simulation: update queue empty and it should not be (film ticks remaining %d)",
-	//						ticks_remaining);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-	//
-	//if (simulation_starting_up())
-	//{
-	//	if (simulation_globals.initialized && simulation_globals.watcher)
-	//	{
-	//		simulation_globals.watcher->describe_status(simulation_globals.status_buffer, sizeof(simulation_globals.status_buffer));
-	//	}
-	//	else
-	//	{
-	//		csstrnzcpy(simulation_globals.status_buffer, "simulation initializing", sizeof(simulation_globals.status_buffer));
-	//	}
-	//}
-	//
-	//if (!simulation_globals.initialized)
-	//{
-	//	return;
-	//}
-	//
-	//if (simulation_globals.simulation_aborted)
-	//{
-	//	simulation_film_stop_recording();
-	//}
-	//
-	//if (simulation_globals.simulation_aborted && saved_film_manager_is_reading())
-	//{
-	//	saved_film_manager_close();
-	//}
-	//
-	//if (simulation_globals.must_close_saved_film)
-	//{
-	//	saved_film_manager_close();
-	//	simulation_globals.must_close_saved_film = false;
-	//}
-	//
-	//simulation_globals.simulation_in_online_networked_session = simulation_globals.watcher->in_online_networked_session();
+	if (!simulation_globals.initialized)
+	{
+		return;
+	}
+	
+	if (simulation_globals.simulation_aborted
+		&& game_in_progress()
+		&& game_is_ui_shell()
+		&& simulation_globals.simulation_aborted_reason != _simulation_abort_reason_preparing_to_play_film)
+	{
+		main_menu_launch_force();
+	}
+	
+	if (!simulation_globals.initialized)
+	{
+		return;
+	}
+	
+	if (simulation_globals.simulation_deferred)
+	{
+		simulation_globals.simulation_deferred = saved_film_manager_has_pending_global_state_change();
+	}
+	
+	if (simulation_globals.initialized && !simulation_globals.simulation_aborted && game_in_progress())
+	{
+		ASSERT(simulation_globals.world && simulation_globals.watcher);
+	
+		if (simulation_globals.simulation_fatal_error)
+		{
+			simulation_abort_immediate(_simulation_abort_reason_fatal_error);
+		}
+		else if (!simulation_globals.watcher->maintain_connection())
+		{
+			simulation_abort_immediate(_simulation_abort_reason_lost_connection);
+		}
+		else if (simulation_globals.world->is_playback() && saved_film_manager_playback_aborted())
+		{
+			simulation_abort_immediate(_simulation_abort_reason_film_playback_error);
+		}
+	
+		if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
+		{
+			simulation_globals.world->update();
+		}
+	
+		simulation_update_out_of_sync();
+	
+		if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
+		{
+			if (!simulation_globals.world->runs_simulation()
+				&& simulation_globals.world->time_running()
+				&& simulation_globals.world->is_active()
+				&& !simulation_globals.world->is_out_of_sync())
+			{
+				simulation_globals.world->process_playback_events();
+			}
+	
+			if (simulation_globals.world->is_playback()
+				&& simulation_globals.world->is_authority()
+				&& simulation_globals.world->time_running()
+				&& simulation_globals.world->is_active()
+				&& !simulation_globals.world->is_out_of_sync())
+			{
+				int32 ticks_remaining = saved_film_manager_get_ticks_remaining();
+				if (ticks_remaining > 0)
+				{
+					int32 updates_read = 0;
+					if (!simulation_film_retrieve_updates(ticks_remaining, &updates_read) && updates_read != ticks_remaining)
+					{
+						saved_film_manager_abort_playback(_saved_film_playback_abort_simulation_failed_to_read);
+						if (network_life_cycle_get_state() == _life_cycle_state_none)
+						{
+							main_menu_launch();
+						}
+					}
+				}
+	
+				int32 tick_rate = game_seconds_to_ticks_round(game_time_get_speed() * 0.25f);
+				if (tick_rate > 0)
+				{
+					int32 updates_available = 0;
+					simulation_globals.world->time_get_available(NULL, &updates_available);
+					if (ticks_remaining && updates_available == 0)
+					{
+						event(_event_error, "networking:simulation: update queue empty and it should not be (film ticks remaining %d)",
+							ticks_remaining);
+					}
+				}
+			}
+		}
+	}
+	
+	if (simulation_starting_up())
+	{
+		if (simulation_globals.initialized && simulation_globals.watcher)
+		{
+			simulation_globals.watcher->describe_status(simulation_globals.status_buffer, sizeof(simulation_globals.status_buffer));
+		}
+		else
+		{
+			csstrnzcpy(simulation_globals.status_buffer, "simulation initializing", sizeof(simulation_globals.status_buffer));
+		}
+	}
+	
+	if (!simulation_globals.initialized)
+	{
+		return;
+	}
+	
+	if (simulation_globals.simulation_aborted)
+	{
+		simulation_film_stop_recording();
+	}
+	
+	if (simulation_globals.simulation_aborted && saved_film_manager_is_reading())
+	{
+		saved_film_manager_close();
+	}
+	
+	if (simulation_globals.must_close_saved_film)
+	{
+		saved_film_manager_close();
+		simulation_globals.must_close_saved_film = false;
+	}
+	
+	simulation_globals.simulation_in_online_networked_session = simulation_globals.watcher->in_online_networked_session();
 }
 
 void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata)
