@@ -16,6 +16,7 @@ public:
 	int32 describe_status_simple() const;
 	bool in_online_networked_session();
 	void initialize_watcher(c_simulation_world* world);
+	bool maintain_connection();
 	bool need_to_generate_updates() const;
 	void setup_connection();
 

@@ -240,7 +240,12 @@ void c_simulation_watcher::initialize_watcher(c_simulation_world* world)
 }
 
 //.text:0046CDD0 ; public: void c_simulation_watcher::log_acknowledgement_status(bool force_acknowledgement, uns32 machine_valid_mask, uns32 player_valid_mask, uns32 player_in_game_mask) const
-//.text:0046CDE0 ; public: bool c_simulation_watcher::maintain_connection()
+
+bool c_simulation_watcher::maintain_connection()
+{
+	return INVOKE_CLASS_MEMBER(0x0046CDE0, c_simulation_watcher, maintain_connection);
+}
+
 //.text:0046CEF0 ; private: bool c_simulation_watcher::maintain_simulation_authority(c_network_session* session, int32 local_peer_index, c_static_flags<16> peer_valid_flags, const s_network_session_peer* peers)
 //.text:0046CFF0 ; private: bool c_simulation_watcher::maintain_simulation_client(int32 host_peer_index)
 

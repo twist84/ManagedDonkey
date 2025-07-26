@@ -367,45 +367,27 @@ void c_simulation_world::initialize_world(e_game_simulation_type simulation_type
 	INVOKE_CLASS_MEMBER(0x00469A00, c_simulation_world, initialize_world, simulation_type, playback_type, reset_next_update_number, type_collection, watcher, distributed_world);
 }
 
-bool c_simulation_world::is_active()
+bool c_simulation_world::is_connected() const
 {
-	ASSERT(exists());
-
-	return m_world_state == _simulation_world_state_active;
+	return INVOKE_CLASS_MEMBER(0x00469C10, c_simulation_world, is_connected);
 }
 
-bool c_simulation_world::is_authority() const
+bool c_simulation_world::is_dead() const
 {
-	ASSERT(exists());
-
-	bool is_client = m_world_type == _simulation_world_type_synchronous_game_client
-		|| m_world_type == _simulation_world_type_synchronous_film_client
-		|| m_world_type == _simulation_world_type_distributed_client;
-	return !is_client;
+	return INVOKE_CLASS_MEMBER(0x00469C30, c_simulation_world, is_dead);
 }
 
-bool c_simulation_world::is_distributed() const
+bool c_simulation_world::is_joining() const
 {
-	ASSERT(exists());
-
-	return m_world_type == _simulation_world_type_distributed_server || m_world_type == _simulation_world_type_distributed_client;
+	return INVOKE_CLASS_MEMBER(0x00469C40, c_simulation_world, is_joining);
 }
 
-bool c_simulation_world::is_local() const
-{
-	ASSERT(exists());
-
-	bool is_local = m_world_type == _simulation_world_type_local || m_world_type == _simulation_world_type_local_playback;
-	ASSERT(!is_local || m_view_count == 0);
-
-	return is_local;
-}
-
-//.text:00469C10 ; 
-//.text:00469C30 ; 
-//.text:00469C40 ; 
 //.text:00469C50 ; 
-//.text:00469C60 ; 
+
+bool c_simulation_world::is_synchronous() const
+{
+	return INVOKE_CLASS_MEMBER(0x00469C60, c_simulation_world, is_synchronous);
+}
 
 void c_simulation_world::iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask) const
 {
@@ -575,6 +557,13 @@ bool c_simulation_world::synchronous_catchup_in_progress() const
 int32 c_simulation_world::time_get_available(bool* out_match_remote_time, int32* out_updates_available)
 {
 	return INVOKE_CLASS_MEMBER(0x0046A8F0, c_simulation_world, time_get_available, out_match_remote_time, out_updates_available);
+}
+
+bool c_simulation_world::time_running() const
+{
+	ASSERT(exists());
+
+	return m_time_running;
 }
 
 void c_simulation_world::time_set_immediate_update(bool immediate_update)

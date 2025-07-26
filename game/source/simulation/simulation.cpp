@@ -10,6 +10,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/delivery/network_channel.hpp"
+#include "networking/logic/network_life_cycle.hpp"
 #include "networking/network_memory.hpp"
 #include "profiler/profiler.hpp"
 #include "saved_games/saved_film_manager.hpp"
@@ -32,6 +33,63 @@ c_wait_for_render_thread::c_wait_for_render_thread(const char* file, int32 line)
 c_wait_for_render_thread::~c_wait_for_render_thread()
 {
 	unlock_resources_and_resume_render_thread(m_flags);
+}
+
+bool c_simulation_world::is_active()
+{
+	return INVOKE_CLASS_MEMBER(0x00440AF0, c_simulation_world, is_out_of_sync);
+
+	//ASSERT(exists());
+	//
+	//return m_world_state == _simulation_world_state_active;
+}
+
+bool c_simulation_world::is_authority() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440B00, c_simulation_world, is_authority);
+
+	//ASSERT(exists());
+	//
+	//bool is_client = m_world_type == _simulation_world_type_synchronous_game_client
+	//	|| m_world_type == _simulation_world_type_synchronous_film_client
+	//	|| m_world_type == _simulation_world_type_distributed_client;
+	//return !is_client;
+}
+
+bool c_simulation_world::is_distributed() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440B20, c_simulation_world, is_distributed);
+
+	//ASSERT(exists());
+	//
+	//return m_world_type == _simulation_world_type_distributed_server || m_world_type == _simulation_world_type_distributed_client;
+}
+
+bool c_simulation_world::is_local() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440B40, c_simulation_world, is_authority);
+
+	//ASSERT(exists());
+	//
+	//bool is_local = m_world_type == _simulation_world_type_local || m_world_type == _simulation_world_type_local_playback;
+	//ASSERT(!is_local || m_view_count == 0);
+	//
+	//return is_local;
+}
+
+bool c_simulation_world::is_out_of_sync() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440B60, c_simulation_world, is_out_of_sync);
+}
+
+bool c_simulation_world::is_playback() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440B90, c_simulation_world, is_playback);
+}
+
+bool c_simulation_world::runs_simulation() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440C30, c_simulation_world, runs_simulation);
 }
 
 void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason)
@@ -1047,10 +1105,132 @@ void __cdecl simulation_update()
 {
 	INVOKE(0x004421B0, simulation_update);
 
-	//if (simulation_globals.initialized && simulation_globals.simulation_deferred)
+	//if (!simulation_globals.initialized)
+	//{
+	//	return;
+	//}
+	//
+	//if (simulation_globals.simulation_aborted
+	//	&& game_in_progress()
+	//	&& game_is_ui_shell()
+	//	&& simulation_globals.simulation_aborted_reason != _simulation_abort_reason_preparing_to_play_film)
+	//{
+	//	main_menu_launch_force();
+	//}
+	//
+	//if (!simulation_globals.initialized)
+	//{
+	//	return;
+	//}
+	//
+	//if (simulation_globals.simulation_deferred)
 	//{
 	//	simulation_globals.simulation_deferred = saved_film_manager_has_pending_global_state_change();
 	//}
+	//
+	//if (simulation_globals.initialized && !simulation_globals.simulation_aborted && game_in_progress())
+	//{
+	//	ASSERT(simulation_globals.world && simulation_globals.watcher);
+	//
+	//	if (simulation_globals.simulation_fatal_error)
+	//	{
+	//		simulation_abort_immediate(_simulation_abort_reason_fatal_error);
+	//	}
+	//	else if (!simulation_globals.watcher->maintain_connection())
+	//	{
+	//		simulation_abort_immediate(_simulation_abort_reason_lost_connection);
+	//	}
+	//	else if (simulation_globals.world->is_playback() && saved_film_manager_playback_aborted())
+	//	{
+	//		simulation_abort_immediate(_simulation_abort_reason_film_playback_error);
+	//	}
+	//
+	//	if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
+	//	{
+	//		simulation_globals.world->update();
+	//	}
+	//
+	//	simulation_update_out_of_sync();
+	//
+	//	if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
+	//	{
+	//		if (!simulation_globals.world->runs_simulation()
+	//			&& simulation_globals.world->time_running()
+	//			&& simulation_globals.world->is_active()
+	//			&& !simulation_globals.world->is_out_of_sync())
+	//		{
+	//			simulation_globals.world->process_playback_events();
+	//		}
+	//
+	//		if (simulation_globals.world->is_playback()
+	//			&& simulation_globals.world->is_authority()
+	//			&& simulation_globals.world->time_running()
+	//			&& simulation_globals.world->is_active()
+	//			&& !simulation_globals.world->is_out_of_sync())
+	//		{
+	//			int32 ticks_remaining = saved_film_manager_get_ticks_remaining();
+	//			if (ticks_remaining > 0)
+	//			{
+	//				int32 updates_read = 0;
+	//				if (!simulation_film_retrieve_updates(ticks_remaining, &updates_read) && updates_read != ticks_remaining)
+	//				{
+	//					saved_film_manager_abort_playback(_saved_film_playback_abort_simulation_failed_to_read);
+	//					if (network_life_cycle_get_state() == _life_cycle_state_none)
+	//					{
+	//						main_menu_launch();
+	//					}
+	//				}
+	//			}
+	//
+	//			int32 tick_rate = game_seconds_to_ticks_round(game_time_get_speed() * 0.25f);
+	//			if (tick_rate > 0)
+	//			{
+	//				int32 updates_available = 0;
+	//				simulation_globals.world->time_get_available(NULL, &updates_available);
+	//				if (ticks_remaining && updates_available == 0)
+	//				{
+	//					event(_event_error, "networking:simulation: update queue empty and it should not be (film ticks remaining %d)",
+	//						ticks_remaining);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	//
+	//if (simulation_starting_up())
+	//{
+	//	if (simulation_globals.initialized && simulation_globals.watcher)
+	//	{
+	//		simulation_globals.watcher->describe_status(simulation_globals.status_buffer, sizeof(simulation_globals.status_buffer));
+	//	}
+	//	else
+	//	{
+	//		csstrnzcpy(simulation_globals.status_buffer, "simulation initializing", sizeof(simulation_globals.status_buffer));
+	//	}
+	//}
+	//
+	//if (!simulation_globals.initialized)
+	//{
+	//	return;
+	//}
+	//
+	//if (simulation_globals.simulation_aborted)
+	//{
+	//	simulation_film_stop_recording();
+	//}
+	//
+	//if (simulation_globals.simulation_aborted && saved_film_manager_is_reading())
+	//{
+	//	saved_film_manager_close();
+	//}
+	//
+	//if (simulation_globals.must_close_saved_film)
+	//{
+	//	saved_film_manager_close();
+	//	simulation_globals.must_close_saved_film = false;
+	//}
+	//
+	//simulation_globals.simulation_in_online_networked_session = simulation_globals.watcher->in_online_networked_session();
 }
 
 void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata)

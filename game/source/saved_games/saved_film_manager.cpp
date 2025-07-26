@@ -445,7 +445,7 @@ bool saved_film_manager_get_current_film_name(c_static_string<64>* film_name_out
 
 const game_options* saved_film_manager_get_current_game_options()
 {
-	if (saved_film_manager_globals.saved_film.get_film_state())
+	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_read)
 	{
 		return NULL;
 	}
@@ -455,7 +455,7 @@ const game_options* saved_film_manager_get_current_game_options()
 
 const s_saved_game_item_metadata* saved_film_manager_get_current_metadata()
 {
-	if (saved_film_manager_globals.saved_film.get_film_state())
+	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_read)
 	{
 		return NULL;
 	}
@@ -661,7 +661,7 @@ int32 saved_film_manager_get_ticks_remaining()
 {
 	ASSERT(saved_film_manager_globals.initialized);
 
-	if (saved_film_manager_globals.saved_film.get_film_state())
+	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_read)
 	{
 		return NULL;
 	}

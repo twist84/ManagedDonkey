@@ -168,8 +168,14 @@ public:
 	void initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world);
 	bool is_active();
 	bool is_authority() const;
+	bool is_connected() const;
+	bool is_dead() const;
 	bool is_distributed() const;
+	bool is_joining() const;
 	bool is_local() const;
+	bool is_out_of_sync() const;
+	bool is_playback() const;
+	bool is_synchronous() const;
 	void iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask) const;
 	bool iterator_next(s_simulation_world_view_iterator* iterator, c_simulation_view** view) const;
 	void mark_player_pending_deletion(int32 player_index);
@@ -187,6 +193,7 @@ public:
 	void recreate_players(e_game_simulation_type simulation_type);
 	void remove_all_views();
 	void reset_world();
+	bool runs_simulation() const;
 	void send_player_acknowledgements(bool force_acknowledgement);
 	void send_synchronous_acknowledgements(bool force_acknowledgement);
 	void set_machine_identifier(const s_machine_identifier* identifier);
@@ -204,6 +211,7 @@ private:
 public:
 	bool synchronous_catchup_in_progress() const;
 	int32 time_get_available(bool* out_match_remote_time, int32* out_updates_available);
+	bool time_running() const;
 	void time_set_immediate_update(bool immediate_update);
 	void time_set_next_update_number(int32 next_update_number, bool flush_update_queue);
 	void time_start(int32 next_update_number, bool flush_update_queue);
