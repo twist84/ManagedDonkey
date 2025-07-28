@@ -510,12 +510,59 @@ void saved_film_manager_get_director_state(s_saved_film_manager_director_state* 
 	}
 }
 
+__declspec(naked) void saved_film_manager_get_hud_interface_state_inline()
+{
+	// original instructions
+	//      call    game_is_multiplayer
+	//      test    al, al
+	//      jz      short loc_A86C64
+
+	ASM_ADDR(0x00A86C38, addr_A86C38);
+	ASM_ADDR(0x00A86C64, addr_A86C64);
+
+	__asm
+	{
+		// execute our instructions
+		lea     eax, [edi + 0x8BC]
+		push    eax
+		call    saved_film_manager_get_hud_interface_state
+
+		// execute the original instructions
+		call    game_is_multiplayer
+		test    al, al
+		jz      short loc_A86C64
+
+		// jump out to after our hook
+		jmp     addr_A86C38
+
+		loc_A86C64:
+		jmp     addr_A86C64
+	}
+}
+HOOK_DECLARE(0x00A86C2F, saved_film_manager_get_hud_interface_state_inline);
+
 void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state* hud_state)
 {
 	csmemset(hud_state, 0, sizeof(s_saved_film_hud_interface_state));
 
 	//saved_film_history_get_hud_interface_state(hud_state);
 	//saved_film_snippet_get_hud_interface_state(hud_state);
+
+	// stop-gap `saved_film_history_get_hud_interface_state` implemention
+	{
+		s_saved_film_hud_interface_state* state = hud_state;
+
+		int32 length_in_ticks = saved_film_manager_globals.saved_film.get_length_in_ticks();
+		int32 current_tick = saved_film_manager_globals.saved_film.get_current_tick();
+
+		state->duration_in_seconds = game_ticks_to_seconds((real32)length_in_ticks);
+		state->marker_position_in_seconds = game_ticks_to_seconds((real32)current_tick);
+
+		real32 theta = length_in_ticks <= 0 ? 0.0f : state->marker_position_in_seconds / state->duration_in_seconds;
+
+		state->current_position_theta = theta;
+		state->buffered_theta = theta;
+	}
 }
 
 // $TODO: check my work
