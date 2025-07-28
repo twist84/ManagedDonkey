@@ -8,11 +8,24 @@
 HOOK_DECLARE_CLASS_MEMBER(0x0046CD70, c_simulation_watcher, in_online_networked_session);
 
 //.text:0046BD80 ; 
-//.text:0046BD90 ; private: void c_simulation_watcher::apply_machines_to_players()
+
+void c_simulation_watcher::apply_machines_to_players()
+{
+	INVOKE_CLASS_MEMBER(0x0046BD90, c_simulation_watcher, apply_machines_to_players);
+}
+
 //.text:0046BEE0 ; public: virtual bool c_simulation_watcher::attempt_channel_reconnection(int32 observer_channel_index, bool preexisting_connection) const
-//.text:0046BEF0 ; public: bool c_simulation_watcher::boot_machine(const s_machine_identifier* machine_identifier, e_network_session_boot_reason boot_reason) const
-//.text:0046BF30 ; public: void c_simulation_watcher::boot_machines(uns32 boot_machine_mask, e_network_session_boot_reason boot_reason) const
-//.text:0046BF90 ; public: bool c_simulation_world::can_generate_updates() const
+
+bool c_simulation_watcher::boot_machine(const s_machine_identifier* machine_identifier, e_network_session_boot_reason boot_reason) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046BEF0, c_simulation_watcher, boot_machine, machine_identifier, boot_reason);
+}
+
+void c_simulation_watcher::boot_machines(uns32 boot_machine_mask, e_network_session_boot_reason boot_reason) const
+{
+	INVOKE_CLASS_MEMBER(0x0046BF30, c_simulation_watcher, boot_machines, boot_machine_mask, boot_reason);
+}
+
 //.text:0046C030 ; public: virtual bool c_simulation_watcher::channel_is_load_bearing(int32 observer_index) const
 
 void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) const
@@ -193,22 +206,92 @@ int32 c_simulation_watcher::describe_status_simple() const
 }
 
 //.text:0046C1B0 ; public: virtual bool c_simulation_watcher::desire_channel_heartbeat(int32 observer_channel_index) const
-//.text:0046C1C0 ; public: void c_simulation_watcher::destroy_watcher()
-//.text:0046C1F0 ; public: void c_simulation_watcher::generate_machine_update(bool* machine_update_valid, simulation_machine_update* machine_update)
-//.text:0046C240 ; public: void c_simulation_watcher::generate_player_updates(int32* player_update_count, int32 maximum_player_update_count, simulation_player_update* player_updates)
-//.text:0046C540 ; public: uns32 c_simulation_watcher::get_machine_ban_flags(int32 machine_index) const
-//.text:0046C5D0 ; public: bool c_simulation_watcher::get_machine_connectivity(const s_machine_identifier* machine_identifier) const
-//.text:0046C640 ; public: int32 c_simulation_watcher::get_machine_index_by_identifier(const s_machine_identifier* remote_machine_identifier) const
-//.text:0046C6B0 ; public: bool c_simulation_watcher::get_machine_is_host(const s_machine_identifier* machine_identifier) const
-//.text:0046C730 ; public: uns32 c_simulation_watcher::get_machine_valid_mask() const
+
+void c_simulation_watcher::destroy_watcher()
+{
+	return INVOKE_CLASS_MEMBER(0x0046C1C0, c_simulation_watcher, destroy_watcher);
+
+	//if (m_observer)
+	//{
+	//	m_observer->deregister_owner((e_network_observer_owner)3, this);
+	//	m_observer = NULL;
+	//}
+	//
+	//m_session = NULL;
+	//m_world = NULL;
+	//m_game_revert_occured = false;
+}
+
+void c_simulation_watcher::generate_machine_update(bool* machine_update_valid, simulation_machine_update* machine_update)
+{
+	return INVOKE_CLASS_MEMBER(0x0046C1F0, c_simulation_watcher, generate_machine_update, machine_update_valid, machine_update);
+}
+
+void c_simulation_watcher::generate_player_updates(int32* player_update_count, int32 maximum_player_update_count, simulation_player_update* player_updates)
+{
+	return INVOKE_CLASS_MEMBER(0x0046C240, c_simulation_watcher, generate_player_updates, player_update_count, maximum_player_update_count, player_updates);
+}
+
+uns32 c_simulation_watcher::get_machine_ban_flags(int32 machine_index) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C540, c_simulation_watcher, get_machine_ban_flags, machine_index);
+}
+
+bool c_simulation_watcher::get_machine_connectivity(const s_machine_identifier* machine_identifier) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C5D0, c_simulation_watcher, get_machine_connectivity, machine_identifier);
+}
+
+int32 c_simulation_watcher::get_machine_index_by_identifier(const s_machine_identifier* remote_machine_identifier) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C640, c_simulation_watcher, get_machine_index_by_identifier, remote_machine_identifier);
+}
+
+bool c_simulation_watcher::get_machine_is_host(const s_machine_identifier* machine_identifier) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C6B0, c_simulation_watcher, get_machine_is_host, machine_identifier);
+}
+
+uns32 c_simulation_watcher::get_machine_valid_mask() const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C730, c_simulation_watcher, get_machine_valid_mask);
+
+	//return m_machine_valid_mask;
+}
+
 //.text:0046C740 ; 
-//.text:0046C750 ; public: bool c_simulation_watcher::get_pending_acknowledgement(bool force_acknowledgement, uns32* machine_valid_mask, s_machine_identifier* machine_identifiers, uns32* player_valid_mask, uns32* player_in_game_mask, s_player_identifier* player_identifiers)
-//.text:0046C840 ; public: uns32 c_simulation_watcher::get_player_in_game_mask() const
-//.text:0046C850 ; public: bool c_simulation_watcher::get_player_is_in_game(int32 player_index, const s_player_identifier* player_identifier) const
+
+bool c_simulation_watcher::get_pending_acknowledgement(bool force_acknowledgement, uns32* machine_valid_mask, s_machine_identifier* machine_identifiers, uns32* player_valid_mask, uns32* player_in_game_mask, s_player_identifier* player_identifiers)
+{
+	return INVOKE_CLASS_MEMBER(0x0046C750, c_simulation_watcher, get_pending_acknowledgement, force_acknowledgement, machine_valid_mask, machine_identifiers, player_valid_mask, player_in_game_mask, player_identifiers);
+}
+
+uns32 c_simulation_watcher::get_player_in_game_mask() const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C840, c_simulation_watcher, get_player_in_game_mask);
+}
+
+bool c_simulation_watcher::get_player_is_in_game(int32 player_index, const s_player_identifier* player_identifier) const
+{
+	return INVOKE_CLASS_MEMBER(0x0046C850, c_simulation_watcher, get_player_is_in_game, player_index, player_identifier);
+}
+
 //.text:0046C8C0 ; 
-//.text:0046C8E0 ; public: void c_simulation_watcher::handle_new_gamestate(uns32 game_state_proc_flags)
-//.text:0046CC50 ; public: void c_simulation_watcher::handle_player_creation()
-//.text:0046CCB0 ; public: void c_simulation_watcher::handle_player_leave_game(int32 player_index)
+
+void c_simulation_watcher::handle_new_gamestate(uns32 game_state_proc_flags)
+{
+	INVOKE_CLASS_MEMBER(0x0046C8E0, c_simulation_watcher, handle_new_gamestate, game_state_proc_flags);
+}
+
+void c_simulation_watcher::handle_player_creation()
+{
+	INVOKE_CLASS_MEMBER(0x0046CC50, c_simulation_watcher, handle_player_creation);
+}
+
+void c_simulation_watcher::handle_player_leave_game(int32 player_index)
+{
+	INVOKE_CLASS_MEMBER(0x0046CCB0, c_simulation_watcher, handle_player_leave_game, player_index);
+}
 
 bool c_simulation_watcher::in_online_networked_session()
 {
@@ -239,15 +322,25 @@ void c_simulation_watcher::initialize_watcher(c_simulation_world* world)
 	//c_simulation_watcher::reset_tracking_arrays();
 }
 
-//.text:0046CDD0 ; public: void c_simulation_watcher::log_acknowledgement_status(bool force_acknowledgement, uns32 machine_valid_mask, uns32 player_valid_mask, uns32 player_in_game_mask) const
+void c_simulation_watcher::log_acknowledgement_status(bool force_acknowledgement, uns32 machine_valid_mask, uns32 player_valid_mask, uns32 player_in_game_mask) const
+{
+	INVOKE_CLASS_MEMBER(0x0046CDD0, c_simulation_watcher, log_acknowledgement_status, force_acknowledgement, machine_valid_mask, player_valid_mask, player_in_game_mask);
+}
 
 bool c_simulation_watcher::maintain_connection()
 {
 	return INVOKE_CLASS_MEMBER(0x0046CDE0, c_simulation_watcher, maintain_connection);
 }
 
-//.text:0046CEF0 ; private: bool c_simulation_watcher::maintain_simulation_authority(c_network_session* session, int32 local_peer_index, c_static_flags<16> peer_valid_flags, const s_network_session_peer* peers)
-//.text:0046CFF0 ; private: bool c_simulation_watcher::maintain_simulation_client(int32 host_peer_index)
+bool c_simulation_watcher::maintain_simulation_authority(c_network_session* session, int32 local_peer_index, c_static_flags<17> peer_valid_flags, const s_network_session_peer* peers)
+{
+	return INVOKE_CLASS_MEMBER(0x0046CEF0, c_simulation_watcher, maintain_simulation_authority, session, local_peer_index, peer_valid_flags, peers);
+}
+
+bool c_simulation_watcher::maintain_simulation_client(int32 host_peer_index)
+{
+	return INVOKE_CLASS_MEMBER(0x0046CFF0, c_simulation_watcher, maintain_simulation_client, host_peer_index);
+}
 
 bool c_simulation_watcher::need_to_generate_updates() const
 {
@@ -256,12 +349,36 @@ bool c_simulation_watcher::need_to_generate_updates() const
 
 //.text:0046D130 ; public: virtual void c_simulation_watcher::notify_channel_connection(int32 observer_channel_index, uns32 connection_identifier, bool connected)
 //.text:0046D140 ; public: virtual void c_simulation_watcher::notify_channel_died(int32 observer_channel_index)
-//.text:0046D150 ; public: void c_simulation_watcher::notify_game_revert()
+
+void c_simulation_watcher::notify_game_revert()
+{
+	INVOKE_CLASS_MEMBER(0x0046D150, c_simulation_watcher, notify_game_revert);
+
+	//m_game_revert_occured = true;
+}
+
 //.text:0046D160 ; 
-//.text:0046D170 ; private: static simulation_player_update* __cdecl c_simulation_watcher::player_update_allocate(int32* player_update_count, int32 maximum_player_update_count, simulation_player_update* player_updates)
-//.text:0046D190 ; private: static void __cdecl c_simulation_watcher::player_update_find_swap_location(const s_player_collection* players, int32 add_player_index, const s_player_identifier* add_player_identifier, int32* swap_player_index, bool* remove_existing_player)
-//.text:0046D280 ; private: static bool __cdecl c_simulation_watcher::player_update_must_leave_game(int32 player_index, const s_player_collection_player* player, c_static_flags<16> peer_valid_flags, const s_machine_identifier* network_machine_identifiers, c_static_flags<16> valid_network_player_flags, const s_network_session_player* network_players)
-//.text:0046D2F0 ; public: void c_simulation_watcher::reset_tracking_arrays()
+
+simulation_player_update* __cdecl c_simulation_watcher::player_update_allocate(int32* player_update_count, int32 maximum_player_update_count, simulation_player_update* player_updates)
+{
+	return INVOKE(0x0046D170, c_simulation_watcher::player_update_allocate, player_update_count, maximum_player_update_count, player_updates);
+}
+
+void __cdecl c_simulation_watcher::player_update_find_swap_location(const s_player_collection* players, int32 add_player_index, const s_player_identifier* add_player_identifier, int32* swap_player_index, bool* remove_existing_player)
+{
+	INVOKE(0x0046D190, c_simulation_watcher::player_update_find_swap_location, players, add_player_index, add_player_identifier, swap_player_index, remove_existing_player);
+}
+
+bool __cdecl c_simulation_watcher::player_update_must_leave_game(int32 player_index, const s_player_collection_player* player, c_static_flags<17> peer_valid_flags, const s_machine_identifier* network_machine_identifiers, c_static_flags<17> valid_network_player_flags, const s_network_session_player* network_players)
+{
+	return INVOKE(0x0046D280, c_simulation_watcher::player_update_must_leave_game, player_index, player, peer_valid_flags, network_machine_identifiers, valid_network_player_flags, network_players);
+}
+
+void c_simulation_watcher::reset_tracking_arrays()
+{
+	INVOKE_CLASS_MEMBER(0x0046D2F0, c_simulation_watcher, reset_tracking_arrays);
+}
+
 //.text:0046D370 ; 
 
 void c_simulation_watcher::setup_connection()
@@ -269,6 +386,13 @@ void c_simulation_watcher::setup_connection()
 	INVOKE_CLASS_MEMBER(0x0046D380, c_simulation_watcher, setup_connection);
 }
 
-//.text:0046D5B0 ; private: bool c_simulation_watcher::setup_view(int32 machine_index, const s_network_session_peer* session_peer, int32 observer_channel_index)
-//.text:0046D6D0 ; private: bool c_simulation_watcher::update_machines(const s_transport_secure_address* session_host_address, int32 session_local_update_number, int32 session_update_number, int32 session_peer_index, c_static_flags<16> peer_valid_flags, const s_network_session_peer* session_peers)
+bool c_simulation_watcher::setup_view(int32 machine_index, const s_network_session_peer* session_peer, int32 observer_channel_index)
+{
+	return INVOKE_CLASS_MEMBER(0x0046D5B0, c_simulation_watcher, setup_view, machine_index, session_peer, observer_channel_index);
+}
+
+bool c_simulation_watcher::update_machines(const s_transport_secure_address* session_host_address, int32 session_local_update_number, int32 session_update_number, int32 session_peer_index, c_static_flags<17> peer_valid_flags, const s_network_session_peer* session_peers)
+{
+	return INVOKE_CLASS_MEMBER(0x0046D6D0, c_simulation_watcher, update_machines, session_host_address, session_local_update_number, session_update_number, session_peer_index, peer_valid_flags, session_peers);
+}
 
