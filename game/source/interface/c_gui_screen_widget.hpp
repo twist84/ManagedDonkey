@@ -62,11 +62,41 @@ struct s_runtime_screen_widget_definition :
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
+struct s_integer_data_nugget
+{
+	int32 name;
+	int32 value;
+};
+static_assert(sizeof(s_integer_data_nugget) == 0x8);
+
+struct s_string_data_nugget
+{
+	int32 name;
+	char string[32];
+};
+static_assert(sizeof(s_string_data_nugget) == 0x24);
+
+struct s_string_id_data_nugget
+{
+	int32 name;
+	int32 value;
+};
+static_assert(sizeof(s_string_id_data_nugget) == 0x8);
+
+struct s_datasource_block
+{
+	c_typed_tag_block<s_integer_data_nugget> integer_nuggets;
+	c_typed_tag_block<s_string_data_nugget> text_nuggets;
+	c_typed_tag_block<s_string_id_data_nugget> string_id_nuggets;
+	int32 submenu_control_name;
+};
+static_assert(sizeof(s_datasource_block) == 0x28);
+
 struct s_datasource_definition
 {
 	int32 name;
 	int32 pad[3];
-	s_tag_block elements;
+	c_typed_tag_block<s_datasource_block> elements;
 };
 static_assert(sizeof(s_datasource_definition) == 0x1C);
 
