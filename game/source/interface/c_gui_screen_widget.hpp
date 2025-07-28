@@ -256,6 +256,7 @@ private:
 
 public:
 	void set_text_widget_string_id(int32 widget_name, int32 widget_text);
+	void set_text_widget_string_id_from_focused_list_item(int32 text_widget_name, int32 list_name, int32 column_name);
 	void set_text_widget_text(int32 widget_name, const wchar_t* widget_text);
 	void transfer_focus(c_gui_widget* new_focused_widget);
 	void transfer_focus_to_list(c_gui_list_widget* list_widget, int32 element_handle, bool play_received_animation, bool play_lost_animation);

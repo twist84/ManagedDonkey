@@ -1074,7 +1074,11 @@ void c_gui_screen_widget::set_text_widget_string_id(int32 widget_name, int32 wid
 }
 
 //.text:00AB2300 ; public: void c_gui_screen_widget::set_text_widget_string_id_from_datasource(int32, int32, int32, int32)
-//.text:00AB23A0 ; public: void c_gui_screen_widget::set_text_widget_string_id_from_focused_list_item(int32, int32, int32)
+
+void c_gui_screen_widget::set_text_widget_string_id_from_focused_list_item(int32 text_widget_name, int32 list_name, int32 column_name)
+{
+	INVOKE_CLASS_MEMBER(0x00AB23A0, c_gui_screen_widget, set_text_widget_string_id_from_focused_list_item, text_widget_name, list_name, column_name);
+}
 
 void c_gui_screen_widget::set_text_widget_text(int32 widget_name, const wchar_t* widget_text)
 {
