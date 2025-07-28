@@ -8,6 +8,12 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00AE4B10, c_saved_film_control_pad, handle_list_item_chosen_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AE4F90, c_saved_film_control_pad, update_enabled_menu_items_);
 
+// skip `STRING_ID(gui, play_film)` check in `c_saved_film_control_pad::update`
+// jnz     short loc_AE4F38
+// jmp     short loc_AE4F38
+const t_value_type<byte> gui_play_film_jump = { .value = 0xEB };
+DATA_PATCH_DECLARE(0x00AE4F2D, gui_play_film, gui_play_film_jump.bytes);
+
 bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	bool result = false;
