@@ -548,7 +548,8 @@ void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state
 	//saved_film_history_get_hud_interface_state(hud_state);
 	//saved_film_snippet_get_hud_interface_state(hud_state);
 
-	// stop-gap `saved_film_history_get_hud_interface_state` implemention
+	// stop-gap `saved_film_history_get_hud_interface_state` implementation
+	if (saved_film_manager_is_reading())
 	{
 		s_saved_film_hud_interface_state* state = hud_state;
 
