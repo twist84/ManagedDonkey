@@ -1,11 +1,14 @@
 #include "interface/gui_screens/director/gui_screen_saved_film_control_pad.hpp"
 
+#include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
+#include "interface/c_gui_list_widget.hpp"
 #include "interface/user_interface_data.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_film_manager.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AE4B10, c_saved_film_control_pad, handle_list_item_chosen_);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AE4D80, c_saved_film_control_pad, update_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AE4F90, c_saved_film_control_pad, update_enabled_menu_items_);
 
 // skip `STRING_ID(gui, play_film)` check in `c_saved_film_control_pad::update`
@@ -88,6 +91,67 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 
 	HOOK_INVOKE_CLASS_MEMBER(result =, c_saved_film_control_pad, handle_list_item_chosen_, message, list_name, list_item_widget, datasource);
 	return result;
+}
+
+void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
+{
+	e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
+
+	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), NULL);
+	c_gui_list_widget* button_list = c_gui_widget::get_child_list_widget(STRING_ID(gui, button_list));
+
+	c_gui_screen_widget::update(current_milliseconds);
+	c_saved_film_control_pad::update_enabled_menu_items();
+
+	if (data && button_list)
+	{
+		button_list->set_enabled(!!(snippet_state));
+
+		for (c_gui_list_item_widget* child_button = (c_gui_list_item_widget*)button_list->get_first_child_widget_by_type(_gui_list_item);
+			child_button != NULL;
+			child_button = child_button->get_next_list_item_widget(true))
+		{
+			int32 element_handle = child_button->get_element_handle();
+
+			static_assert(0x10010 == STRING_ID(gui, gui_item));
+
+			if (element_handle != NONE)
+			{
+				int32 button_name = NONE;
+				if (data->get_string_id_value(element_handle, STRING_ID(gui, gui_item), &button_name))
+				{
+					for (c_gui_bitmap_widget* child_button_bitmap = (c_gui_bitmap_widget*)child_button->get_first_child_widget_by_type(_gui_bitmap);
+						child_button_bitmap != NULL;
+						child_button_bitmap = child_button_bitmap->get_next_bitmap_widget())
+					{
+						if (child_button_bitmap->get_name() != STRING_ID(gui, hilite))
+						{
+							child_button_bitmap->set_visible(false);
+						}
+					}
+
+					child_button->set_child_visible(_gui_bitmap, button_name, true);
+
+					// $TODO: implement the rest
+				}
+			}
+		}
+	}
+
+	c_gui_screen_widget::set_text_widget_string_id_from_focused_list_item(STRING_ID(gui, status), STRING_ID(gui, button_list), STRING_ID(gui, gui_item));
+
+	if (m_previous_snippet_state != _saved_film_snippet_state_recorded_and_ready &&
+		snippet_state == _saved_film_snippet_state_recorded_and_ready)
+	{
+		// $TODO: implement me
+	}
+
+	if (saved_film_manager_film_is_ended(NULL))
+	{
+		c_gui_screen_widget::transition_out(_transition_out_normal);
+	}
+
+	m_previous_snippet_state = snippet_state;
 }
 
 void __thiscall c_saved_film_control_pad::update_enabled_menu_items_()
