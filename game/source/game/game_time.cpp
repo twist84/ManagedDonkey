@@ -7,6 +7,7 @@
 #include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/sound_manager.hpp"
 
@@ -327,10 +328,10 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 {
 	//return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
 
-	uns32 game_ticks_target = 0;
+	int32 game_ticks_target = 0;
 	bool result = false;
-	uns32 game_ticks_limit = 0;
-	uns32 game_ticks_elapsed = 0;
+	int32 game_ticks_limit = 0;
+	int32 game_ticks_elapsed = 0;
 	bool discontinuity = false;
 	real32 elapsed_game_dt = 0.0f;
 	real32 real_desired_ticks = 0.0f;
@@ -343,12 +344,17 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 	}
 	
 	if (debug_game_speed != game_time_get_speed())
+	{
 		game_time_set_speed(debug_game_speed);
+	}
 	
 	game_time_update_paused_flags();
 	
 	if (game_is_playback())
-		game_time_set_speed(0.0f);
+	{
+		real32 playback_game_speed = saved_film_manager_get_playback_game_speed();
+		game_time_set_speed(playback_game_speed);
+	}
 
 	game_time_set_cinematic_rate();
 
@@ -380,9 +386,19 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 		bool v36 = cinematic_in_progress() && debug_game_speed == 1.0f;
 	
 		if (game_is_networked() || game_is_playback())
+		{
 			game_ticks_limit = simulation_time_get_maximum_available(&match_remote_time);
+
+			int32 seek_time_available = 0;
+			if (saved_film_manager_seeking(&seek_time_available) && game_ticks_limit > seek_time_available)
+			{
+				game_ticks_limit = seek_time_available;
+			}
+		}
 		else
+		{
 			game_ticks_limit = 5 * game_time_globals->tick_rate;
+		}
 	
 		if (!match_remote_time && !v36)
 		{
@@ -475,10 +491,14 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 	game_time_globals->leftover_ticks = game_ticks_leftover;
 	
 	if (game_seconds_elapsed)
+	{
 		*game_seconds_elapsed = elapsed_game_dt;
+	}
 	
 	if (game_ticks_elapsed_)
+	{
 		*game_ticks_elapsed_ = game_ticks_elapsed;
+	}
 	
 	return result;
 }

@@ -1410,7 +1410,7 @@ bool saved_film_manager_seeking(int32* seek_time_available_out)
 
 	if (!game_in_progress()
 		|| !game_is_playback()
-		|| saved_film_manager_globals.saved_film.m_film_state
+		|| saved_film_manager_globals.saved_film.m_film_state != _saved_film_open_for_read
 		|| saved_film_manager_globals.seek_film_tick == NONE
 		|| saved_film_manager_globals.seek_film_tick < saved_film_manager_get_current_tick_estimate())
 	{
