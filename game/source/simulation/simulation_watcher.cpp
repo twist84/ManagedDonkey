@@ -26,6 +26,11 @@ void c_simulation_watcher::boot_machines(uns32 boot_machine_mask, e_network_sess
 	INVOKE_CLASS_MEMBER(0x0046BF30, c_simulation_watcher, boot_machines, boot_machine_mask, boot_reason);
 }
 
+bool c_simulation_world::can_generate_updates() const
+{
+	return INVOKE_CLASS_MEMBER(0x0046BF90, c_simulation_world, can_generate_updates);
+}
+
 //.text:0046C030 ; public: virtual bool c_simulation_watcher::channel_is_load_bearing(int32 observer_index) const
 
 void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) const

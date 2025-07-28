@@ -92,6 +92,7 @@ private:
 public:
 	void build_player_actions(struct simulation_update* update);
 	void build_update(bool build_for_simulation_in_progress, struct simulation_update* update, s_simulation_update_metadata* metadata);
+	bool can_generate_updates() const;
 	void change_state_active();
 	void change_state_dead();
 	void change_state_disconnected();
@@ -150,14 +151,18 @@ public:
 	void get_machine_identifier(s_machine_identifier* identifier) const;
 	int32 get_machine_index() const;
 	int32 get_machine_index_by_identifier(const s_machine_identifier* remote_machine_identifier) const;
+	int32 get_next_update_number() const;
 	uns32 get_player_active_mask() const;
 	uns32 get_player_exists_mask() const;
 	uns32 get_player_in_game_mask() const;
 	void get_player_machine(int32 player_index, s_machine_identifier* machine_identifier) const;
+	e_simulation_world_state get_state() const;
 	static const char* get_state_string(int32 state);
+	int32 get_time() const;
 	c_simulation_view* get_view_by_channel(const c_network_channel* channel);
 	c_simulation_view* get_view_by_observer(int32 observer_channel_index);
 	int32 get_view_count() const;
+	e_simulation_world_type get_world_type() const;
 	void go_out_of_sync(bool determinism_failure);
 	bool handle_playback_update(const struct simulation_update* update, s_simulation_update_metadata* metadata);
 	void handle_synchronous_client_actions(const s_machine_identifier* remote_machine_identifier, uns32 valid_user_mask, const player_action* user_actions);

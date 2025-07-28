@@ -35,6 +35,36 @@ c_wait_for_render_thread::~c_wait_for_render_thread()
 	unlock_resources_and_resume_render_thread(m_flags);
 }
 
+
+//.text:00440A50 ; 
+//.text:00440A60 ; 
+
+int32 c_simulation_world::get_next_update_number() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440A70, c_simulation_world, get_next_update_number);
+}
+
+//.text:00440A80 ; 
+//.text:00440A90 ; 
+//.text:00440AA0 ; 
+
+e_simulation_world_state c_simulation_world::get_state() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440AB0, c_simulation_world, get_state);
+}
+
+int32 c_simulation_world::get_time() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440AC0, c_simulation_world, get_time);
+}
+
+//.text:00440AD0 ; 
+
+e_simulation_world_type c_simulation_world::get_world_type() const
+{
+	return INVOKE_CLASS_MEMBER(0x00440AE0, c_simulation_world, get_world_type);
+}
+
 bool c_simulation_world::is_active()
 {
 	return INVOKE_CLASS_MEMBER(0x00440AF0, c_simulation_world, is_out_of_sync);
