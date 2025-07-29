@@ -7,6 +7,13 @@
 class c_screenshots_uploader
 {
 public:
+	enum e_screenshots_uploader_task
+	{
+		_screenshots_uploader_task_none = 0,
+		_screenshots_uploader_task_upload = 1,
+	};
+
+public:
 	//c_screenshots_uploader();
 	//~c_screenshots_uploader();
 	//bool begin_screenshot_upload(e_controller_index controller_index, int32 content_item_index, const s_file_reference* file_reference, int32 game_id);

@@ -1,11 +1,15 @@
 #include "interface/gui_screens/director/gui_screen_saved_film_control_pad.hpp"
 
+#include "cseries/cseries_events.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_film_manager.hpp"
+#include "screenshots/screenshots_uploader.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AE4B10, c_saved_film_control_pad, handle_list_item_chosen_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AE4D80, c_saved_film_control_pad, update_);
@@ -36,6 +40,42 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 			case STRING_ID(gui, skip_forward):
 			{
 				saved_film_manager_request_revert(_saved_film_revert_forwards);
+				result = true;
+			}
+			break;
+			case STRING_ID(gui, take_screenshot):
+			case STRING_ID(gui, take_screenshot_upload):
+			{
+				c_controller_interface* controller = controller_get(message->get_controller());
+
+				// skip storage device check
+				//if (!controller->storage_device_valid())
+				//{
+				//	event(_event_message, "ui: failed to take sscreenshot - user has no storage device selected");
+				//	user_interface_offer_opportunity_to_select_storage_device(message->get_controller(), m_name, m_screen_index);
+				//	break;
+				//}
+
+				if (!controller->is_signed_in_to_machine())
+				{
+					c_gui_screen_widget::play_sound(_ui_global_sound_effect_failure);
+					break;
+				}
+
+				if (screenshots_uploader_try_and_get() &&
+					screenshots_uploader_try_and_get()->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none)
+				{
+					if (c_load_screen_message* screen_message = new c_load_screen_message(
+						STRING_ID(gui, saved_film_take_screenshot),
+						message->get_controller(),
+						c_gui_screen_widget::get_render_window(),
+						STRING_ID(gui, top_most)))
+					{
+						user_interface_messaging_post(screen_message);
+						c_gui_screen_widget::transition_out(_transition_out_normal);
+					}
+				}
+
 				result = true;
 			}
 			break;
