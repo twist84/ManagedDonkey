@@ -145,7 +145,7 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 					{
 						if (focused_item_index == child_list_item->get_list_item_index())
 						{
-							transfer_focus(child_list_item);
+							c_gui_screen_widget::transfer_focus(child_list_item);
 							result = true;
 						}
 					}
@@ -168,7 +168,7 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 				if (child_list_item->m_name == parent_list_name)
 				{
 					group_selector_child_list->set_focused_item_index(child_list_item->get_list_item_index(), false);
-					transfer_focus(child_list_item);
+					c_gui_screen_widget::transfer_focus(child_list_item);
 					return true;
 				}
 			}
