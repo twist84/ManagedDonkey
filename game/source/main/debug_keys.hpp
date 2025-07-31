@@ -78,6 +78,7 @@ extern void __cdecl debug_key_decrement_game_speed_major(bool key_is_down);
 extern void __cdecl debug_dump_assert_log(bool key_is_down);
 extern void __cdecl debug_time_stats_display(bool key_is_down);
 extern void __cdecl debug_time_stats_pause(bool key_is_down);
+extern void __cdecl debug_toggle_controls_method(bool key_is_down);
 extern void __cdecl debug_key_force_respawn(bool key_is_down);
 
 extern void __cdecl debug_button_drop_flag_at_camera(bool button_is_down);

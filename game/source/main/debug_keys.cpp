@@ -43,7 +43,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = true,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Select This Actor",
@@ -53,7 +53,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Select Prev Encounter",
@@ -63,7 +63,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Select Next Encounter",
@@ -73,7 +73,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Select Next Actor",
@@ -83,7 +83,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Select Prev Actor",
@@ -93,7 +93,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Show Actor Spray",
@@ -103,7 +103,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Erase All Actors",
@@ -113,7 +113,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Rotate Units",
@@ -123,7 +123,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Rotate All Units",
@@ -133,7 +133,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Ninja Rope",
@@ -143,13 +143,13 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Breakpoint",
 		.key_code = _key_b,
 		.modifier = 0,
-		.function = nullptr,
+		.function = NULL,
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
@@ -163,7 +163,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Summary",
@@ -173,7 +173,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr // $TODO
+		.variable = NULL // $TODO
 	},
 	{
 		.name = "Profile Summary Off",
@@ -183,7 +183,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Off",
@@ -193,7 +193,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Next Thread",
@@ -203,7 +203,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Prev Thread",
@@ -213,7 +213,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Next Attrib",
@@ -223,7 +223,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Prev Attrib",
@@ -233,7 +233,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Next Sort",
@@ -243,7 +243,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Prev Sort",
@@ -253,7 +253,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Disp Type",
@@ -263,7 +263,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Profile Dump Frame",
@@ -273,7 +273,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Input debug",
@@ -283,7 +283,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = true,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "Weapon Debug",
@@ -293,17 +293,17 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = true,
-		.variable = nullptr
+		.variable = NULL
 	},
 	//{
 	//	.name = "4x3 view in widescreen",
 	//	.key_code = _key_f11,
 	//	.modifier = 2,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = true,
 	//	.allow_in_editor = true,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO: `bool render_debug_show_4x3_bounds`
+	//	.variable = NULL // $TODO: `bool render_debug_show_4x3_bounds`
 	//},
 	{
 		.name = "exit game",
@@ -313,7 +313,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = true,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "toggle mouse focus",
@@ -323,7 +323,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "clear screen",
@@ -333,13 +333,13 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = true,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "deathless player",
 		.key_code = _key_c,
 		.modifier = 2,
-		.function = nullptr,
+		.function = NULL,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = true,
@@ -349,7 +349,7 @@ debug_key global_debug_key_list[]
 		.name = "infinite ammo",
 		.key_code = _key_c,
 		.modifier = 4,
-		.function = nullptr,
+		.function = NULL,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = true,
@@ -359,7 +359,7 @@ debug_key global_debug_key_list[]
 		.name = "display framerate",
 		.key_code = _key_f,
 		.modifier = 2,
-		.function = nullptr,
+		.function = NULL,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = true,
@@ -369,7 +369,7 @@ debug_key global_debug_key_list[]
 		.name = "infinite framerate",
 		.key_code = _key_f,
 		.modifier = 4,
-		.function = nullptr,
+		.function = NULL,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = true,
@@ -379,21 +379,21 @@ debug_key global_debug_key_list[]
 	//	.name = "render model vertex",
 	//	.key_code = _key_r,
 	//	.modifier = 2,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO: `bool debug_render_model_vertex_counts`
+	//	.variable = NULL // $TODO: `bool debug_render_model_vertex_counts`
 	//},
 	//{
 	//	.name = "render model names",
 	//	.key_code = _key_r,
 	//	.modifier = 4,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = false,
-	//	.variable = nullptr // $TODO: `bool debug_render_model_names`
+	//	.variable = NULL // $TODO: `bool debug_render_model_names`
 	//},
 	{
 		.name = "save camera",
@@ -403,7 +403,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "load camera",
@@ -413,7 +413,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "teleport to Camera",
@@ -423,87 +423,87 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	//{
 	//	.name = "texture cache usage",
 	//	.key_code = _key_6,
 	//	.modifier = 2,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "texture cache debug mip",
 	//	.key_code = _key_6,
 	//	.modifier = 1,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "texture cache status",
 	//	.key_code = _key_7,
 	//	.modifier = 2,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "texture cache graph",
 	//	.key_code = _key_7,
 	//	.modifier = 1,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "texture cache list",
 	//	.key_code = _key_7,
 	//	.modifier = 4,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "geometry cache status",
 	//	.key_code = _key_8,
 	//	.modifier = 2,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "geometry cache graph",
 	//	.key_code = _key_8,
 	//	.modifier = 1,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	//{
 	//	.name = "geometry cache list",
 	//	.key_code = _key_8,
 	//	.modifier = 4,
-	//	.function = nullptr,
+	//	.function = NULL,
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // $TODO
+	//	.variable = NULL // $TODO
 	//},
 	{
 		.name = "toggle pause",
@@ -513,7 +513,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "print screen",
@@ -523,7 +523,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed minor +",
@@ -533,7 +533,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed minor -",
@@ -543,7 +543,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed major +",
@@ -553,7 +553,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed major -",
@@ -563,7 +563,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed minor +",
@@ -573,7 +573,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed minor -",
@@ -583,7 +583,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed major +",
@@ -593,7 +593,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "game speed major -",
@@ -603,7 +603,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "dump asserts",
@@ -613,7 +613,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "time stats display",
@@ -623,7 +623,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "time stats pause",
@@ -633,17 +633,27 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
-		.name = nullptr,
-		.key_code = _key_not_a_key,
-		.modifier = 0,
-		.function = nullptr,
+		.name = "toggle controls method",
+		.key_code = _key_c,
+		.modifier = 5,
+		.function = debug_toggle_controls_method,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
+	},
+	{
+		.name = NULL,
+		.key_code = _key_not_a_key,
+		.modifier = 0,
+		.function = NULL,
+		.allow_out_of_game = false,
+		.allow_in_editor = false,
+		.toggle_variable = false,
+		.variable = NULL
 	}
 };
 
@@ -660,7 +670,7 @@ s_debug_button g_debug_button_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	},
 	{
 		.name = "drop flag as bullet",
@@ -669,7 +679,7 @@ s_debug_button g_debug_button_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
 		.toggle_variable = false,
-		.variable = nullptr
+		.variable = NULL
 	}
 };
 
@@ -702,7 +712,7 @@ void __cdecl debug_keys_dispose()
 	//if (global_debug_key_down)
 	//{
 	//	free(global_debug_key_down);
-	//	global_debug_key_down = nullptr;
+	//	global_debug_key_down = NULL;
 	//}
 }
 
@@ -1180,6 +1190,18 @@ void __cdecl debug_time_stats_pause(bool key_is_down)
 	{
 		//game_time_toggle_history_gather();
 		console_warning("Unimplemented: " __FUNCTION__);
+	}
+}
+
+void __cdecl debug_toggle_controls_method(bool key_is_down)
+{
+	if (key_is_down)
+	{
+		static int32 controls_method = 0;
+		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
+		input_abstraction_globals.controls_method = controls_method;
+
+		console_printf("controls method: %s", controls_method == 0 ? "keyboard" : "controller");
 	}
 }
 
