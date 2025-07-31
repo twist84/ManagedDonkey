@@ -107,10 +107,10 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 
 	int32 selectable_item_cap_count = 0;
 
-	c_gui_roster_data* data = (c_gui_roster_data*)get_data();
+	c_gui_roster_data* data = (c_gui_roster_data*)c_gui_list_widget::get_data();
 	if (data)
 	{
-		update_team_mode();
+		c_gui_roster_list_widget::update_team_mode();
 
 		for (c_gui_list_item_widget* list_item_widget = (c_gui_list_item_widget*)get_first_child_widget_by_type(_gui_list_item);
 			list_item_widget;
@@ -215,7 +215,9 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				bool is_team_game = m_is_team_game_internal;
 
 				if (row_is_player)
+				{
 					selectable_item_cap_count++;
+				}
 
 				for (c_gui_widget* list_item_child_widget = list_item_widget->get_children();
 					list_item_child_widget != NULL;
@@ -296,14 +298,20 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				switch (special_status_value)
 				{
 				case c_gui_roster_data::_special_status_party_up_undecided_leader:
+				{
 					check_bitmap_widget->set_sprite_frame(0);
-					break;
+				}
+				break;
 				case c_gui_roster_data::_special_status_party_up_chosen_leader:
+				{
 					check_bitmap_widget->set_sprite_frame(1);
-					break;
+				}
+				break;
 				case c_gui_roster_data::_special_status_party_up_chosen_member:
+				{
 					check_bitmap_widget->set_sprite_frame(2);
-					break;
+				}
+				break;
 				}
 
 				if (voice_state_index == c_gui_roster_data::_voice_state_talking)
@@ -365,10 +373,14 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				name_text_widget->set_text(name.get_string());
 				name_hilite_text_widget->set_text(name.get_string());
 			}
+			else
+			{
+				selectable_item_cap_count = NONE;
+			}
 		}
 	}
 
-	set_selectable_item_cap_count(selectable_item_cap_count);
+	c_gui_list_widget::set_selectable_item_cap_count(selectable_item_cap_count);
 
 	//INVOKE_CLASS_MEMBER(0x00B16510, c_gui_list_widget, update, current_milliseconds);
 	c_gui_list_widget::update(current_milliseconds);
@@ -378,7 +390,7 @@ void c_gui_roster_list_widget::update_render_state(uns32 current_milliseconds)
 {
 	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, uns32), _this, current_milliseconds);
 
-	c_gui_data* data = get_data();
+	c_gui_data* data = c_gui_list_widget::get_data();
 
 	//INVOKE_CLASS_MEMBER(0x00B165D0, c_gui_list_widget, update_render_state, current_milliseconds);
 	c_gui_list_widget::update_render_state(current_milliseconds);
