@@ -602,10 +602,12 @@ e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work)
 		}
 
 		wchar_t file_directory[256]{};
+		wchar_t name_file[256]{};
 		wchar_t file_extension[256]{};
 		wchar_t file_name_with_extension[256]{};
 
 		file_reference_get_name_wide(&file, FLAG(_name_directory_bit), file_directory, NUMBEROF(file_directory));
+		file_reference_get_name_wide(&file, FLAG(_name_file_bit), name_file, NUMBEROF(name_file));
 		file_reference_get_name_wide(&file, FLAG(_name_extension_bit), file_extension, NUMBEROF(file_extension));
 		file_reference_get_name_wide(&file, FLAG(_name_file_bit) | FLAG(_name_extension_bit), file_name_with_extension, NUMBEROF(file_name_with_extension));
 
@@ -617,6 +619,17 @@ e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* work)
 		}
 		else if (ustricmp(file_extension, L"mapinfo") == 0)
 		{
+			static bool x_show_all_maps = false;
+			if (!x_show_all_maps)
+			{
+				s_file_reference map_file{};
+				file_reference_create_from_path(&map_file, c_string_builder("%s%ls.map", cache_files_map_directory(), name_file).get_string(), false);
+				if (!file_exists(&map_file))
+				{
+					break;
+				}
+			}
+
 			levels_process_level_configuration_file(&file, file_directory, false);
 		}
 	}
