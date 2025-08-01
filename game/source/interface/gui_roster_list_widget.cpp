@@ -373,14 +373,13 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				name_text_widget->set_text(name.get_string());
 				name_hilite_text_widget->set_text(name.get_string());
 			}
-			else
-			{
-				selectable_item_cap_count = NONE;
-			}
 		}
 	}
 
-	c_gui_list_widget::set_selectable_item_cap_count(selectable_item_cap_count);
+	if (selectable_item_cap_count)
+	{
+		c_gui_list_widget::set_selectable_item_cap_count(selectable_item_cap_count);
+	}
 
 	//INVOKE_CLASS_MEMBER(0x00B16510, c_gui_list_widget, update, current_milliseconds);
 	c_gui_list_widget::update(current_milliseconds);
