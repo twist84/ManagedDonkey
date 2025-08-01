@@ -140,7 +140,7 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 			c_gui_bitmap_widget* rank_tray_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray));
 			c_gui_bitmap_widget* rank_tray_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray_hilite));
 
-			// $TODO: figure out why this is need here
+			// $TODO: figure out why this is necessary
 			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
 
 			int32 element_handle = list_item_widget->get_element_handle();

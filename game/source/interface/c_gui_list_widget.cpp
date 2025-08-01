@@ -4,6 +4,7 @@
 #include "cseries/cseries_events.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/user_interface_data.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
@@ -231,11 +232,34 @@ bool c_gui_list_widget::invoke_submenu(const s_list_widget_block* submenu_defini
 	return DECLFUNC(0x00B15CD0, bool, __thiscall, c_gui_list_widget*, const s_list_widget_block*, int32, bool)(this, submenu_definition, custom_datasource_name, reset_datasource);
 }
 
-//.text:00B15EA0 ; public: bool c_gui_list_widget::is_submenu_that_needs_disposal() const
-//.text:00B15EB0 ; public: bool c_gui_list_widget::list_has_more_elements_following()
-//.text:00B15F40 ; public: bool c_gui_list_widget::list_has_more_elements_preceeding()
-//.text:00B15FB0 ; public: bool c_gui_list_widget::list_wraps() const
-//.text:00B15FC0 ; public: void c_gui_list_widget::mark_as_submenu(bool)
+bool c_gui_list_widget::is_submenu_that_needs_disposal() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00B15EA0, c_gui_list_widget, is_submenu_that_needs_disposal);
+
+	return m_is_submenu_needs_disposal;
+}
+
+bool c_gui_list_widget::list_has_more_elements_following()
+{
+	return INVOKE_CLASS_MEMBER(0x00B15EB0, c_gui_list_widget, list_has_more_elements_following);
+}
+
+bool c_gui_list_widget::list_has_more_elements_preceeding()
+{
+	return INVOKE_CLASS_MEMBER(0x00B15F40, c_gui_list_widget, list_has_more_elements_preceeding);
+}
+
+bool c_gui_list_widget::list_wraps() const
+{
+	return INVOKE_CLASS_MEMBER(0x00B15FB0, c_gui_list_widget, list_wraps);
+}
+
+void c_gui_list_widget::mark_as_submenu(bool is_submenu)
+{
+	//INVOKE_CLASS_MEMBER(0x00B15FC0, c_gui_list_widget, mark_as_submenu, is_submenu);
+
+	m_is_submenu = is_submenu;
+}
 
 void c_gui_list_widget::offset_horizontal_list_item_indicators()
 {
@@ -274,10 +298,36 @@ void c_gui_list_widget::set_scroll_position(int32 scroll_position)
 
 void c_gui_list_widget::update(uns32 current_milliseconds)
 {
-	INVOKE_CLASS_MEMBER(0x00B16510, c_gui_list_widget, update, current_milliseconds);
+	//INVOKE_CLASS_MEMBER(0x00B16510, c_gui_list_widget, update, current_milliseconds);
+
+	c_gui_widget::update(current_milliseconds);
+
+	if (m_focused_item_index >= c_gui_list_widget::get_selectable_item_count())
+	{
+		if (c_gui_screen_widget* parent_screen = c_gui_widget::get_parent_screen())
+		{
+			int32 selectable_item_count = c_gui_list_widget::get_selectable_item_count();
+			int32 element_handle = c_gui_list_widget::get_element_handle_from_list_item_index(selectable_item_count - 1);
+			parent_screen->transfer_focus_to_list(this, element_handle, false, false);
+		}
+	}
+
+	c_gui_list_widget::update_indicator_bitmap_widget_animation_states();
+
+	m_current_scroll_direction = _list_scroll_direction_none;
+
+	if (c_gui_list_widget::is_submenu_that_needs_disposal())
+	{
+		c_gui_list_widget* parent_list = c_gui_widget::get_parent_list();
+		ASSERT(parent_list != NULL);
+		parent_list->close_active_submenu(this);
+	}
 }
 
-//.text:00B165D0 ; private: void __cdecl c_gui_list_widget::update_indicator_bitmap_widget_animation_states()
+void c_gui_list_widget::update_indicator_bitmap_widget_animation_states()
+{
+	INVOKE_CLASS_MEMBER(0x00B165D0, c_gui_list_widget, update_indicator_bitmap_widget_animation_states);
+}
 
 void c_gui_list_widget::update_render_state(uns32 current_milliseconds)
 {

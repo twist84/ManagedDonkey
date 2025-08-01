@@ -94,6 +94,11 @@ public:
 	int32 get_selectable_item_count();
 	bool invoke_submenu(int32 submenu_name, int32 custom_datasource_name, bool reset_datasource);
 	bool invoke_submenu(const s_list_widget_block* submenu_definition, int32 custom_datasource_name, bool reset_datasource);
+	bool is_submenu_that_needs_disposal() const;
+	bool list_has_more_elements_following();
+	bool list_has_more_elements_preceeding();
+	bool list_wraps() const;
+	void mark_as_submenu(bool is_submenu);
 
 private:
 	void offset_horizontal_list_item_indicators();
@@ -105,6 +110,10 @@ public:
 	void set_scroll_position(int32 scroll_position);
 	void set_selectable_item_cap_count(int32 value);
 
+private: 
+	void update_indicator_bitmap_widget_animation_states();
+
+public:
 //protected:
 	s_runtime_list_widget_definition m_definition;
 	c_string_id m_datasource_name;
