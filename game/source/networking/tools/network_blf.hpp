@@ -253,9 +253,9 @@ struct s_blf_saved_film :
 		int32 recorded_time;
 		int32 length_in_ticks;
 		int32 snippet_start_tick;
-		byte padding_to_align_for_utility_drive[0x200];
+		byte padding_to_align_for_utility_drive[0xD80];
 	};
-	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x24E60);
+	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
 #pragma pack(pop)
 
 	struct s_blf_chunk_saved_film_data
@@ -280,7 +280,7 @@ public:
 	s_blf_chunk_saved_film_header film_header;
 	s_blf_chunk_saved_film_data film_data;
 };
-static_assert(sizeof(s_blf_saved_film) == 0x25000);
+static_assert(sizeof(s_blf_saved_film) == 0x25B80);
 
 struct s_blf_chunk_campaign
 {
