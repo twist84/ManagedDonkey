@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
+#include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/user_interface_data.hpp"
@@ -88,7 +89,36 @@ void c_gui_list_widget::close_active_submenu(c_gui_list_widget* submenu_widget)
 
 void c_gui_list_widget::create_and_add_additional_items_indicators_bitmaps()
 {
-	INVOKE_CLASS_MEMBER(0x00B14C10, c_gui_list_widget, create_and_add_additional_items_indicators_bitmaps);
+	//INVOKE_CLASS_MEMBER(0x00B14C10, c_gui_list_widget, create_and_add_additional_items_indicators_bitmaps);
+
+	s_bitmap_widget_block bitmap_widget_block;
+	csmemset(&bitmap_widget_block, 0, sizeof(bitmap_widget_block));
+	bitmap_widget_block.widget_template_reference.group_tag = GUI_BITMAP_WIDGET_DEFINITION_TAG;
+	bitmap_widget_block.widget_template_reference.index = NONE;
+
+	if (m_definition.previous_indicator_bitmap_reference_index != NONE)
+	{
+		s_bitmap_widget_definition* bitmap_widget_definition = TAG_GET(GUI_BITMAP_WIDGET_DEFINITION_TAG, s_bitmap_widget_definition, m_definition.previous_indicator_bitmap_reference_index);
+		bitmap_widget_block.override_definition = *bitmap_widget_definition;
+		m_more_items_preceeding_bitmap = c_gui_widget::create_and_add_child_bitmap_widget(&bitmap_widget_block);
+	}
+
+	if (m_definition.next_indicator_bitmap_reference_index != NONE)
+	{
+		s_bitmap_widget_definition* bitmap_widget_definition = TAG_GET(GUI_BITMAP_WIDGET_DEFINITION_TAG, s_bitmap_widget_definition, m_definition.next_indicator_bitmap_reference_index);
+		bitmap_widget_block.override_definition = *bitmap_widget_definition;
+		m_more_items_following_bitmap = c_gui_widget::create_and_add_child_bitmap_widget(&bitmap_widget_block);
+	}
+
+	if (m_more_items_preceeding_bitmap)
+	{
+		m_more_items_preceeding_bitmap->set_visible(false);
+	}
+
+	if (m_more_items_following_bitmap)
+	{
+		m_more_items_following_bitmap->set_visible(false);
+	}
 }
 
 void c_gui_list_widget::dispose_submenu(c_gui_list_widget* submenu_widget)

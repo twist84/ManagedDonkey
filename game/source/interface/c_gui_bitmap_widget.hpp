@@ -41,6 +41,11 @@ static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definit
 
 struct s_bitmap_widget_block
 {
+	s_bitmap_widget_block()
+	{
+		DECLFUNC(0x00AB5C70, void, __thiscall, s_bitmap_widget_block*)(this);
+	}
+
 	s_tag_reference widget_template_reference;
 	s_bitmap_widget_definition override_definition;
 };
