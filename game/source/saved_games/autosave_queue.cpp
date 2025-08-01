@@ -7,6 +7,7 @@
 #include "game/game.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "saved_games/saved_film_manager.hpp"
 
 HOOK_DECLARE(0x0067BDC0, autosave_queue_get_directory_path);
@@ -49,6 +50,10 @@ const wchar_t* __cdecl autosave_queue_get_directory_path()
 {
 	//return INVOKE(0x0067BDC0, autosave_queue_get_directory_path);
 
+	g_autosave_queue_globals;
+	blamlib_replays_path;
+	const wchar_t* result = NULL;
+	HOOK_INVOKE(result =, autosave_queue_get_directory_path);
 	return L"autosave";
 }
 

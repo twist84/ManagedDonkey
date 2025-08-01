@@ -6,17 +6,27 @@
 #include "tag_files/files.hpp"
 
 class c_gui_data;
+class c_gui_selected_item;
 class c_virtual_keyboard_task;
 
 class c_gui_screen_pregame_selection :
 	public c_gui_screen_widget
 {
 public:
+	bool handle_controller_input_message_(const c_controller_input_message* message);
+	void handle_x_button_press_on_autosave_queue_file_(e_controller_index controller_index, const c_gui_selected_item* selected_item);
+
+public:
 	c_gui_screen_pregame_selection(int32 name) :
 		c_gui_screen_widget(name)
 	{
 		DECLFUNC(0x00B030B0, void, __thiscall, c_gui_screen_pregame_selection*, int32)(this, name);
 	}
+
+private:
+	void handle_x_button_press_on_autosave_queue_file(e_controller_index controller_index, const c_gui_selected_item* selected_item);
+
+public:
 
 //protected:
 	e_gui_selected_item_type m_selection_type;
