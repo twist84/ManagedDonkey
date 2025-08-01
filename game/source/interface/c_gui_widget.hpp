@@ -5,25 +5,26 @@
 #include "tag_files/tag_groups.hpp"
 #include "text/unicode.hpp"
 
-struct s_runtime_core_widget_definition;
-class c_gui_text_widget;
+class c_controller_input_message;
 class c_gui_bitmap_widget;
-class c_gui_group_widget;
 class c_gui_button_key_widget;
-class c_gui_list_widget;
+class c_gui_group_widget;
 class c_gui_list_item_widget;
+class c_gui_list_widget;
 class c_gui_model_widget;
+class c_gui_screen_widget;
+class c_gui_text_widget;
+struct s_animation_transform;
+struct s_button_key_definition;
+struct s_bitmap_widget_block;
+struct s_group_widget_definition;
+struct s_list_item_widget_block;
+struct s_list_widget_block;
+struct s_model_widget_block;
+struct s_runtime_core_widget_definition;
 struct s_runtime_text_widget_definition;
 struct s_runtime_bitmap_widget_definition;
 struct s_widget_animation_definition;
-struct s_group_widget_definition;
-struct s_button_key_definition;
-struct s_list_widget_block;
-struct s_list_item_widget_block;
-struct s_model_widget_block;
-struct s_animation_transform;
-class c_controller_input_message;
-class c_gui_screen_widget;
 
 struct s_core_widget_definition
 {
@@ -210,6 +211,7 @@ public:
 	bool const can_be_disposed();
 	bool contains_point(const point2d* point);
 	bool controller_can_drive(e_controller_index controller_index);
+	c_gui_bitmap_widget* create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block);
 	void create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index);
 	void delete_all_children();
 	e_controller_index get_arbitrary_responding_controller() const;

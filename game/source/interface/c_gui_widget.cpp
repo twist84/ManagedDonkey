@@ -293,7 +293,11 @@ bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 }
 
 //.text:00AB79D0 ; public: c_gui_button_key_widget* c_gui_widget::create_and_add_button_key(const s_button_key_block*)
-//.text:00AB7A30 ; public: c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bitmap_widget_block*)
+
+c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
+}
 
 void c_gui_widget::create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index)
 {
