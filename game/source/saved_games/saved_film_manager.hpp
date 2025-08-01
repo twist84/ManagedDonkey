@@ -174,7 +174,7 @@ extern int32 saved_film_manager_get_length_in_ticks();
 extern real32 saved_film_manager_get_pending_playback_game_speed();
 extern real32 saved_film_manager_get_playback_game_speed();
 extern int32 saved_film_manager_get_position();
-extern const char* saved_film_manager_get_recording_directory();
+extern const wchar_t* saved_film_manager_get_recording_directory();
 extern bool saved_film_manager_get_reproduction_enabled();
 extern uns32 saved_film_manager_get_simulation_camera_update_mask();
 extern bool saved_film_manager_get_simulation_camera_updates(int32 camera_index, s_simulation_camera_update* simulation_camera_update_out);

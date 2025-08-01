@@ -821,10 +821,10 @@ void c_gui_screen_widget::initialize()
 {
 	//INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
 
-	m_render_data.initialize(get_render_data_size());
-	reload_assets();
+	m_render_data.initialize(c_gui_screen_widget::get_render_data_size());
+	c_gui_screen_widget::reload_assets();
 	c_gui_widget::initialize();
-	initialize_datasource();
+	c_gui_screen_widget::initialize_datasource();
 }
 
 bool s_window_manager_screen_render_data::initialize(int32 buffer_size)

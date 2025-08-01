@@ -6,6 +6,16 @@
 
 REFERENCE_DECLARE(0x0189D930, s_saved_game_file_globals, g_saved_game_files_globals);
 
+e_game_content_type __cdecl saved_game_file_type_to_game_content_type(e_saved_game_file_type saved_game_file_type)
+{
+	return INVOKE(0x00525330, saved_game_file_type_to_game_content_type, saved_game_file_type);
+}
+
+const wchar_t* __cdecl saved_game_filename_extension_by_game_file_type(e_saved_game_file_type game_file_type, bool exclude_dot_character)
+{
+	return INVOKE(0x005253E0, saved_game_filename_extension_by_game_file_type, game_file_type, exclude_dot_character);
+}
+
 bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_controller_index controller_index)
 {
 	return INVOKE(0x005254A0, saved_game_files_controller_has_saved_game_state_blocking, controller_index);

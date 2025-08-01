@@ -19,6 +19,7 @@
 #include "memory/thread_local.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "networking/logic/network_life_cycle.hpp"
+#include "saved_games/autosave_queue.hpp"
 #include "simulation/simulation.hpp"
 
 namespace
@@ -53,16 +54,6 @@ const char* k_playback_abort_reason_names[k_saved_film_playback_abort_reason_cou
 	"failed_to_load_gamestate_for_party",
 	"map_signature_failed",
 };
-
-const char* autosave_queue_get_directory_path()
-{
-	return "autosave";
-}
-
-const char* autosave_queue_get_filename_prefix()
-{
-	return "asq";
-}
 
 c_string_builder cache_file_signature_summary(int32 signature_size, const byte* signature_bytes)
 {
@@ -112,24 +103,24 @@ void saved_film_manager_build_file_path_from_name(const char* film_name, e_saved
 	{
 	case _file_path_for_creation:
 	{
-		const char* filename_prefix = "";
-		const char* directory_path = autosave_queue_get_directory_path();
+		const wchar_t* filename_prefix = L"";
+		const wchar_t* directory_path = autosave_queue_get_directory_path();
 		if (autosave_queue_get_filename_prefix())
 		{
 			filename_prefix = autosave_queue_get_filename_prefix();
 		}
-		film_path_out->print("%s\\%s_%s.film", directory_path, filename_prefix, film_name);
+		film_path_out->print("%ls\\%ls_%s.film", directory_path, filename_prefix, film_name);
 	}
 	break;
 	case _file_path_for_creation_final:
 	{
-		const char* filename_prefix = "";
-		const char* directory_path = autosave_queue_get_directory_path();
+		const wchar_t* filename_prefix = L"";
+		const wchar_t* directory_path = autosave_queue_get_directory_path();
 		if (autosave_queue_get_filename_prefix())
 		{
 			filename_prefix = autosave_queue_get_filename_prefix();
 		}
-		film_path_out->print("%s\\%s_%s.film", directory_path, filename_prefix, film_name);
+		film_path_out->print("%ls\\%ls_%s.film", directory_path, filename_prefix, film_name);
 	}
 	break;
 	case _file_path_for_reading:
@@ -312,9 +303,9 @@ void saved_film_manager_copy_film_to_debug_path()
 void saved_film_manager_create_film_directory()
 {
 	s_file_reference film_directory{};
-	const char* directory_path = autosave_queue_get_directory_path();
+	const wchar_t* directory_path = autosave_queue_get_directory_path();
 
-	if (!file_reference_create_from_path(&film_directory, directory_path, true))
+	if (!file_reference_create_from_path_wide(&film_directory, directory_path, true))
 	{
 		return;
 	}
@@ -570,7 +561,7 @@ void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state
 bool saved_film_manager_get_last_recorded_film(char* filepath, int32 maximum_characters, s_saved_game_item_metadata* out_optional_metadata)
 {
 	s_file_reference directory{};
-	file_reference_create_from_path(&directory, autosave_queue_get_directory_path(), true);
+	file_reference_create_from_path_wide(&directory, autosave_queue_get_directory_path(), true);
 
 	s_find_file_data file_data{};
 	find_files_start_with_search_spec(&file_data, 0, &directory, "*.film");
@@ -635,7 +626,7 @@ int32 saved_film_manager_get_position()
 	return saved_film_manager_globals.saved_film.get_position();
 }
 
-const char* saved_film_manager_get_recording_directory()
+const wchar_t* saved_film_manager_get_recording_directory()
 {
 	return autosave_queue_get_directory_path();
 }

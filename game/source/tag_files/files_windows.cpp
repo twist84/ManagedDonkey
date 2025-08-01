@@ -88,7 +88,7 @@ bool __cdecl file_close(s_file_reference* reference)
 		return true;
 	}
 
-	file_error(__FUNCTION__, reference, nullptr, false);
+	file_error(__FUNCTION__, reference, NULL, false);
 
 	return false;
 }
@@ -132,7 +132,9 @@ bool __cdecl file_create(s_file_reference* reference)
 		}
 	}
 	else if (CreateDirectoryA(reference->path.get_string(), NULL))
+	{
 		return true;
+	}
 
 	return false;
 }
@@ -160,18 +162,24 @@ bool __cdecl file_delete_recursive(s_file_reference* reference)
 void __cdecl file_error(const char* file_function, s_file_reference* reference_a, s_file_reference* reference_b, bool suppress_error)
 {
 	file_reference_info* info0 = file_reference_get_info(reference_a);
-	file_reference_info* info1 = nullptr;
+	file_reference_info* info1 = NULL;
 	if (reference_b)
+	{
 		info1 = file_reference_get_info(reference_b);
+	}
 
 	DWORD error_message_id = GetLastError();
 	if (!file_errors_suppressed() && !suppress_error)
 	{
 		char system_message[1024]{};
 		if (info1)
+		{
 			csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path.get_string(), info1->path.get_string());
+		}
 		else
+		{
 			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path);
+		}
 
 		char error_message[2048]{};
 		get_error_message(error_message_id, error_message);
@@ -232,7 +240,7 @@ bool __cdecl file_get_size(s_file_reference* reference, uns32* out_file_size)
 		return true;
 	}
 
-	file_error(__FUNCTION__, reference, nullptr, false);
+	file_error(__FUNCTION__, reference, NULL, false);
 
 	return false;
 }
@@ -286,23 +294,39 @@ bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* err
 	*error = _file_open_error_none;
 
 	if (TEST_BIT(open_flags, _file_open_flag_desired_access_read))
+	{
 		desired_access = GENERIC_READ;
+	}
 	if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+	{
 		desired_access |= GENERIC_WRITE;
+	}
 
 	if (TEST_BIT(open_flags, _file_open_flag_share_mode_read))
+	{
 		share_mode |= FILE_SHARE_READ;
+	}
 	if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+	{
 		share_mode |= FILE_SHARE_WRITE;
+	}
 
 	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_write))
+	{
 		flags_and_attributes = FILE_WRITE_ATTRIBUTES;
+	}
 	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_delete_on_close))
+	{
 		flags_and_attributes = FILE_FLAG_DELETE_ON_CLOSE;
+	}
 	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_random_access))
+	{
 		flags_and_attributes = FILE_FLAG_RANDOM_ACCESS;
+	}
 	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_sequecial_scan))
+	{
 		flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
+	}
 
 	HANDLE handle = CreateFileA(reference->path.get_string(), desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
 	if (!handle || handle == INVALID_HANDLE_VALUE)
@@ -310,23 +334,35 @@ bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* err
 		switch (GetLastError())
 		{
 		case ERROR_FILE_NOT_FOUND:
+		{
 			*error = _file_open_error_file_not_found;
-			break;
+		}
+		break;
 		case ERROR_PATH_NOT_FOUND:
+		{
 			*error = _file_open_error_path_not_found;
-			break;
+		}
+		break;
 		case ERROR_ACCESS_DENIED:
+		{
 			*error = _file_open_error_access_denied;
-			break;
+		}
+		break;
 		case ERROR_INVALID_DRIVE:
+		{
 			*error = _file_open_error_invalid_drive;
-			break;
+		}
+		break;
 		case ERROR_SHARING_VIOLATION:
+		{
 			*error = _file_open_error_sharing_violation;
-			break;
+		}
+		break;
 		default:
+		{
 			*error = _file_open_error_unknown;
-			break;
+		}
+		break;
 		}
 	}
 	else
@@ -351,7 +387,9 @@ bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* err
 	}
 
 	if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+	{
 		reference->flags &= ~FLAG(_file_reference_flag_open_for_write);
+	}
 
 	return result;
 }
@@ -409,7 +447,9 @@ bool __cdecl file_read(s_file_reference* reference, uns32 size, bool print_error
 	reference->position += bytes_read;
 
 	if (!result)
-		file_error(__FUNCTION__, reference, nullptr, print_error);
+	{
+		file_error(__FUNCTION__, reference, NULL, print_error);
+	}
 
 	return result;
 }
@@ -425,7 +465,9 @@ bool __cdecl file_read_from_position(s_file_reference* reference, uns32 offset, 
 
 	bool result = false;
 	if (file_set_position(reference, offset, false))
+	{
 		result = file_read(reference, size, print_error, buffer);
+	}
 
 	return result;
 }
@@ -455,7 +497,7 @@ bool __cdecl file_reference_get_file_handle(s_file_reference* reference, s_file_
 {
 	*out_file_handle = reference->handle;
 
-	return reference->handle.handle != 0;
+	return reference->handle.handle != NULL;
 }
 
 bool __cdecl file_rename(s_file_reference* reference, const char* name)
@@ -479,13 +521,19 @@ bool __cdecl file_set_position(s_file_reference* reference, uns32 offset, bool p
 		return true;
 
 	if (file_handle_is_valid(reference->handle))
+	{
 		reference->position = SetFilePointer(reference->handle.handle, offset, 0, 0);
+	}
 	else
+	{
 		SetLastError(ERROR_INVALID_HANDLE);
+	}
 
 	bool result = reference->position != INVALID_SET_FILE_POINTER;
 	if (!result)
-		file_error(__FUNCTION__, reference, nullptr, print_error);
+	{
+		file_error(__FUNCTION__, reference, NULL, print_error);
+	}
 
 	return result;
 }
@@ -543,7 +591,9 @@ void __cdecl find_files_start(s_find_file_data* data, uns32 flags, const s_file_
 void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uns32 flags, const s_file_reference* file, const char* search_spec)
 {
 	for (int16 i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
+	{
 		invalidate_file_handle(&data->active_find_file_state.handles[i]);
+	}
 
 	data->flags = flags;
 	data->depth = 0;
@@ -569,10 +619,12 @@ void find_files_recursive(s_file_reference* directory, uns32 open_flags, bool(*f
 	find_files_start(&find_file_data, FLAG(1) | FLAG(2), directory);
 
 	s_file_reference found_file{};
-	while (find_files_next(&find_file_data, &found_file, nullptr))
+	while (find_files_next(&find_file_data, &found_file, NULL))
 	{
 		if (found_file.path.is_equal(".") || found_file.path.is_equal(".."))
+		{
 			continue;
+		}
 
 		if (find_file_data.active_find_file_state.find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
@@ -582,7 +634,9 @@ void find_files_recursive(s_file_reference* directory, uns32 open_flags, bool(*f
 		{
 			uns32 error = 0;
 			if (!file_open(&found_file, open_flags, &error))
+			{
 				continue;
+			}
 
 			file_handler(&found_file);
 
