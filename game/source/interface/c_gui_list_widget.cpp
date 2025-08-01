@@ -180,7 +180,36 @@ int32 c_gui_list_widget::get_scroll_position()
 
 int32 c_gui_list_widget::get_selectable_item_count()
 {
-	return INVOKE_CLASS_MEMBER(0x00B15260, c_gui_list_widget, get_selectable_item_count);
+	//return INVOKE_CLASS_MEMBER(0x00B15260, c_gui_list_widget, get_selectable_item_count);
+
+	// Halo Online, probably an ODST change
+	//int32 datasource_index = NONE;
+	//c_gui_screen_widget* parent_screen = c_gui_widget::get_parent_screen();
+	//if (!parent_screen)
+	//{
+	//	return 0;
+	//}
+	//
+	//c_gui_data* data = parent_screen->get_data(m_datasource_name.get_value(), &datasource_index);
+
+	c_gui_data* data = c_gui_list_widget::get_data();
+	if (!data)
+	{
+		return 0;
+	}
+
+	if (m_selectable_item_cap == NONE)
+	{
+		return data->get_current_item_count();
+	}
+
+	int32 current_item_count = data->get_current_item_count();
+	if (current_item_count > m_selectable_item_cap)
+	{
+		return m_selectable_item_cap;
+	}
+
+	return current_item_count;
 }
 
 //.text:00B152C0 ; 
