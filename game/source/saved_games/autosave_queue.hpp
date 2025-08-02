@@ -51,6 +51,7 @@ private:
 	static e_async_completion __cdecl async_do_enumerate(s_async_task* work);
 
 public:
+	bool dequeue_item(s_saved_game_item_enumeration_data* item);
 	bool is_busy();
 	void start(e_saved_game_file_type game_file_type);
 	void stop();

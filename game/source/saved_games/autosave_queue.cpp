@@ -145,7 +145,10 @@ void __cdecl delete_incomplete_files()
 	find_files_end(&find_file_data);
 }
 
-//.text:0067BF30 ; public: bool c_autosave_queue_enumerator::dequeue_item(s_saved_game_item_enumeration_data* item)
+bool c_autosave_queue_enumerator::dequeue_item(s_saved_game_item_enumeration_data* item)
+{
+	return INVOKE_CLASS_MEMBER(0x0067BF30, c_autosave_queue_enumerator, dequeue_item, item);
+}
 
 bool c_autosave_queue_enumerator::is_busy()
 {
