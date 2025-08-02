@@ -32,8 +32,8 @@ struct c_gui_saved_film_subitem_datasource :
 	public c_gui_ordered_data
 {
 public:
-	void update_autosave_enumeration_();
-	void update_content_enumeration_();
+	void __thiscall update_autosave_enumeration_();
+	void __thiscall update_content_enumeration_();
 
 public:
 	enum

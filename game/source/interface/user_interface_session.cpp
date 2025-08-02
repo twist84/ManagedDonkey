@@ -6,6 +6,7 @@
 
 HOOK_DECLARE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
 HOOK_DECLARE(0x00A82AE0, user_interface_squad_get_countdown_timer);
+HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
 
 //.text:00A7F8B0 ; bool __cdecl user_interface_interactive_session_request_campaign_quit(e_network_session_request_campaign_quit_reason campaign_quit_reason)
 //.text:00A7F920 ; bool __cdecl user_interface_squad_set_closed_by_user(bool closed_by_user)
@@ -177,7 +178,6 @@ bool __cdecl user_interface_squad_delegate_leadership(int32 player_index)
 	// $TODO: fix any underlying issues causing the above behaviour
 	return false;
 }
-HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
 
 //.text:00A82960 ; bool __cdecl user_interface_squad_end_game()
 
@@ -197,7 +197,7 @@ int32 __cdecl user_interface_squad_get_countdown_delaying_player()
 
 	//return network_squad_session_get_countdown_delayed_culprit();
 
-	return -1;
+	return NONE;
 }
 
 int32 __cdecl user_interface_squad_get_countdown_timer()
@@ -205,9 +205,11 @@ int32 __cdecl user_interface_squad_get_countdown_timer()
 	//return INVOKE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 
 	if (user_interface_get_session_game_start_status(NULL, NULL) == _session_game_start_status_countdown)
+	{
 		return network_squad_session_get_countdown_timer();
+	}
 
-	return -1;
+	return NONE;
 }
 
 //.text:00A82AF0 ; bool __cdecl user_interface_squad_get_game_setup_changing()

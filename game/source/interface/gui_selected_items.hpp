@@ -2,8 +2,12 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_saved_game_item_metadata;
+
 struct s_ui_saved_game_item_metadata
 {
+	void set(const s_saved_game_item_metadata* metadata);
+
 	uns64 unique_id;
 	wchar_t display_name[16];
 	wchar_t description[128];

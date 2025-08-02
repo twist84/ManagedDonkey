@@ -1,5 +1,6 @@
 #include "saved_games/saved_game_files.hpp"
 
+#include "interface/gui_selected_items.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "saved_games/content/content_item_metadata.hpp"
 #include "saved_games/saved_film_manager.hpp"
@@ -139,5 +140,9 @@ bool __cdecl saved_game_read_metadata_from_file(s_file_reference* file, s_saved_
 //.text:00527860 ; e_async_completion __cdecl saved_games_async_work_slice_finish(bool, bool, e_saved_game_file_operation_result, c_synchronized_long*, c_synchronized_long*)
 //.text:005278C0 ; 
 //.text:005278F0 ; public: void __cdecl s_saved_game_item_metadata::set(const s_ui_saved_game_item_metadata*)
-//.text:00527A30 ; public: void __cdecl s_ui_saved_game_item_metadata::set(const s_saved_game_item_metadata*)
+
+void s_ui_saved_game_item_metadata::set(const s_saved_game_item_metadata* metadata)
+{
+	INVOKE_CLASS_MEMBER(0x00527A30, s_ui_saved_game_item_metadata, set, metadata);
+}
 

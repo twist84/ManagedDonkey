@@ -8,12 +8,12 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00ADD3E0, c_gui_saved_film_subitem_datasource, update_autosave_enumeration_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADD560, c_gui_saved_film_subitem_datasource, update_content_enumeration_);
 
-void c_gui_saved_film_subitem_datasource::update_autosave_enumeration_()
+void __thiscall c_gui_saved_film_subitem_datasource::update_autosave_enumeration_()
 {
 	c_gui_saved_film_subitem_datasource::update_autosave_enumeration();
 }
 
-void c_gui_saved_film_subitem_datasource::update_content_enumeration_()
+void __thiscall c_gui_saved_film_subitem_datasource::update_content_enumeration_()
 {
 	c_gui_saved_film_subitem_datasource::update_content_enumeration();
 }
