@@ -191,7 +191,7 @@ void c_autosave_queue_enumerator::start(e_saved_game_file_type game_file_type)
 	ASSERT(!is_busy());
 
 	csmemset(&task, 0, sizeof(task));
-	task.game_file_type = this->m_game_file_type;
+	task.game_file_type = m_game_file_type;
 	task.enumerator = this;
 
 	m_game_file_type = game_file_type;

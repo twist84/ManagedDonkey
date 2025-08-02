@@ -220,24 +220,6 @@ void __cdecl test_main_loop_body_begin()
 		console_process_command("net_load_and_use_game_variant \"ed\\0.4.11.2\\variants\\Highlander - Air Ball.bin\"", true);
 		console_process_command("net_test_session_mode setup", true);
 
-		//s_file_reference file_reference;
-		//file_reference_create_from_path(&file_reference, "saved_films\\default.film", false);
-		//
-		//static char file_buffer[0x200000]{};
-		//const s_blf_saved_film::s_blf_chunk_saved_film_header* saved_film_header = NULL;
-		//bool byte_swap = false;
-		//
-		//find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);
-		//
-		//static s_blf_saved_film blf_saved_film;
-		//static c_game_variant game_variant;
-		//static c_map_variant map_variant;
-		//bool is_valid = false;
-		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
-		//{
-		//	event(_event_warning, "ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
-		//}
-
 		players_globals->sprint_inhibited = !players_globals->sprint_inhibited;
 #else
 		//shell_halt_with_message("FUCK");
