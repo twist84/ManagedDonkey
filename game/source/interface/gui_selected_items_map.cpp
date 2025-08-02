@@ -1,11 +1,11 @@
 #include "interface/gui_selected_items_map.hpp"
 
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
+#include "networking/tools/network_blf.hpp"
+#include "saved_games/saved_game_files.hpp"
 
 #include <cstdlib>
-#include <saved_games/saved_game_files.hpp>
-#include <memory/thread_local.hpp>
-#include <networking/tools/network_blf.hpp>
 
 HOOK_DECLARE_CLASS_MEMBER(0x00ADA360, c_gui_map_subitem_selectable_item_datasource, update_autosave_enumeration_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADA550, c_gui_map_subitem_selectable_item_datasource, update_content_enumeration_);
@@ -145,89 +145,95 @@ void c_gui_map_subitem_selectable_item_datasource::update_content_enumeration()
 
 	s_file_reference map_variants_directory{};
 	file_reference_create_from_path_wide(&map_variants_directory, L"map_variants", true);
-
-	s_find_file_data find_file_data{};
-	find_files_start_with_search_spec(&find_file_data, 0, &map_variants_directory, "*.map");
-
-	byte buffer[0xF000]{};
-
-	s_saved_game_item_enumeration_data item{};
-	while (find_files_next(&find_file_data, &item.file, NULL))
-	{
-		if (m_map_count >= k_maximum_game_variants_shown)
-		{
-			break;
-		}
-
-		csmemset(buffer, 0, sizeof(buffer));
-
-		if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
-		{
-			//continue;
-
-			uns32 unused_error_code = 0;
-			if (!file_open(&item.file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
-			{
-				continue;
-			}
-
-			uns32 size = 0;
-			if (!file_get_size(&item.file, &size))
-			{
-				file_close(&item.file);
-				continue;
-			}
-
-			if (size > 0xF000)
-			{
-				file_close(&item.file);
-				continue;
-			}
-
-
-			if (!file_read(&item.file, size, false, buffer))
-			{
-				file_close(&item.file);
-				continue;
-			}
-
-			s_blffile_map_variant* map_variant_file = (s_blffile_map_variant*)buffer;
-			c_map_variant* map_variant = &map_variant_file->variant.map_variant;
-
-			if (!map_variant->validate())
-			{
-				file_close(&item.file);
-				continue;
-			}
-
-			item.metadata = map_variant_file->variant.map_variant.m_metadata;
-
-			file_close(&item.file);
-		}
-
-		if (item.metadata.file_type != _saved_game_map_variant || m_enumeration_map_id != item.metadata.map_id)
-		{
-			continue;
-		}
-
-		s_ui_saved_game_item_metadata metadata{};
-		metadata.set(&item.metadata);
-
-		m_maps[m_map_count++] = c_gui_map_selected_item(
-			&metadata,
-			_gui_stored_item_location_saved_game_file,
-			m_controller_index,
-			&item.file,
-			0,
-			c_gui_selected_item::_special_item_type_none,
-			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-			false);
-	}
-	find_files_end(&find_file_data);
+	find_files_recursive(this, &map_variants_directory, 0, c_gui_map_subitem_selectable_item_datasource::update_content_enumeration_proc);
 
 	//m_maps.sort(m_map_count, map_selected_item_sort_proc);
 	qsort(&m_maps, m_map_count, sizeof(c_gui_map_selected_item), map_selected_item_sort_proc);
 
 	m_enumeration_complete = true;
 }
+
+bool c_gui_map_subitem_selectable_item_datasource::update_content_enumeration_proc(void* userdata, s_file_reference* found_file)
+{
+	c_gui_map_subitem_selectable_item_datasource* _this = (c_gui_map_subitem_selectable_item_datasource*)userdata;
+
+	if (!found_file->path.ends_with("map"))
+	{
+		return false;
+	}
+
+	byte buffer[0xF000]{};
+	s_saved_game_item_enumeration_data item{};
+
+	item.file = *found_file;
+
+	if (_this->m_map_count >= k_maximum_game_variants_shown)
+	{
+		return false;
+	}
+
+	csmemset(buffer, 0, sizeof(buffer));
+
+	if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
+	{
+		uns32 unused_error_code = 0;
+		if (!file_open(&item.file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+		{
+			return false;
+		}
+
+		uns32 size = 0;
+		if (!file_get_size(&item.file, &size))
+		{
+			file_close(&item.file);
+			return false;
+		}
+
+		if (size > 0xF000)
+		{
+			file_close(&item.file);
+			return false;
+		}
+
+
+		if (!file_read(&item.file, size, false, buffer))
+		{
+			file_close(&item.file);
+			return false;
+		}
+
+		s_blffile_map_variant* map_variant_file = (s_blffile_map_variant*)buffer;
+		c_map_variant* map_variant = &map_variant_file->variant.map_variant;
+
+		if (!map_variant->validate())
+		{
+			file_close(&item.file);
+			return false;
+		}
+
+		item.metadata = map_variant_file->variant.map_variant.m_metadata;
+
+		file_close(&item.file);
+	}
+
+	if (item.metadata.file_type != _saved_game_map_variant || _this->m_enumeration_map_id != item.metadata.map_id)
+	{
+		return false;
+	}
+
+	s_ui_saved_game_item_metadata metadata{};
+	metadata.set(&item.metadata);
+
+	_this->m_maps[_this->m_map_count++] = c_gui_map_selected_item(
+		&metadata,
+		_gui_stored_item_location_saved_game_file,
+		_this->m_controller_index,
+		&item.file,
+		0,
+		c_gui_selected_item::_special_item_type_none,
+		item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+		false);
+
+	return true;
+};
 
