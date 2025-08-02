@@ -328,10 +328,10 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 {
 	//return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
 
-	int32 game_ticks_target = 0;
+	uns32 game_ticks_target = 0;
 	bool result = false;
-	int32 game_ticks_limit = 0;
-	int32 game_ticks_elapsed = 0;
+	uns32 game_ticks_limit = 0;
+	uns32 game_ticks_elapsed = 0;
 	bool discontinuity = false;
 	real32 elapsed_game_dt = 0.0f;
 	real32 real_desired_ticks = 0.0f;
@@ -390,9 +390,9 @@ bool __cdecl game_time_update(real32 world_seconds_elapsed, real32* game_seconds
 			game_ticks_limit = simulation_time_get_maximum_available(&match_remote_time);
 
 			int32 seek_time_available = 0;
-			if (saved_film_manager_seeking(&seek_time_available) && game_ticks_limit > seek_time_available)
+			if (saved_film_manager_seeking(&seek_time_available) && game_ticks_limit > (uns32)seek_time_available)
 			{
-				game_ticks_limit = seek_time_available;
+				game_ticks_limit = (uns32)seek_time_available;
 			}
 		}
 		else
