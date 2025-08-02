@@ -1,6 +1,8 @@
 #include "networking/tools/network_blf.hpp"
 
 #include "config/version.hpp"
+#include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
 #include "game/game_globals.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
@@ -9,6 +11,12 @@ HOOK_DECLARE(0x00462F00, network_blf_find_chunk);
 HOOK_DECLARE(0x004630D0, network_blf_read_for_known_chunk);
 HOOK_DECLARE(0x00463240, network_blf_verify_end_of_file);
 HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
+
+HOOK_DECLARE_CLASS_MEMBER(0x014E9FE0, s_blf_saved_film, copy_to_and_validate_);
+bool __thiscall s_blf_saved_film::copy_to_and_validate_(game_options* options, int32* out_length_in_ticks, int32* out_start_tick, bool* out_was_valid)
+{
+	return s_blf_saved_film::copy_to_and_validate(options, out_length_in_ticks, out_start_tick, out_was_valid);
+}
 
 void s_blf_header::setup(int32 _chunk_type, int32 _chunk_size, int32 _major_version, int32 _minor_version)
 {
@@ -247,44 +255,95 @@ s_blf_saved_film::s_blf_saved_film() :
 {
 }
 
-bool s_blf_saved_film::copy_to_and_validate(c_game_variant* game_variant, c_map_variant* map_variant, bool* is_valid) const
+bool s_blf_saved_film::copy_to_and_validate(game_options* options, int32* out_length_in_ticks, int32* out_start_tick, bool* out_was_valid) const
 {
-	bool byte_swap = false;
+	//return INVOKE_CLASS_MEMBER(0x014E9FE0, s_blf_saved_film, copy_to_and_validate, options, out_length_in_ticks, out_start_tick, out_was_valid);
+
+	ASSERT(options);
+	ASSERT(out_length_in_ticks);
+	ASSERT(out_start_tick);
+
+	bool must_byte_swap = false;
 	int32 chunk_size = 0;
-	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_saved_film), &byte_swap, &chunk_size))
+	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_saved_film), &must_byte_swap, &chunk_size) || chunk_size <= 0)
 	{
 		return false;
 	}
 
-	while (true)
+	const char* chunk = (const char*)this + chunk_size;
+	const char* chunk_data = NULL;
+	bool eof_found = false;
+	if (network_blf_read_for_known_chunk(
+		chunk,
+		sizeof(s_blf_saved_film) - chunk_size,
+		must_byte_swap,
+		s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_type,
+		s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_major_version,
+		&chunk_size,
+		&chunk_data,
+		NULL,
+		NULL,
+		&eof_found))
 	{
-		const char* chunk = (const char*)this + chunk_size;
-
-		bool eof_chunk = false;
-		if (!network_blf_read_for_known_chunk(chunk, sizeof(s_blf_saved_film) - (chunk - (const char*)this), byte_swap, s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_type, s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_major_version, &chunk_size, &chunk, nullptr, nullptr, &eof_chunk) || eof_chunk)
+		while (!eof_found && chunk_size > 0)
 		{
-			break;
+			if (must_byte_swap)
+			{
+				event(_event_critical, "saved_film: doesn't support byte swapping BLF files");
+			}
+			else
+			{
+				
+				s_blf_saved_film::s_blf_chunk_saved_film_header* saved_film_header = (s_blf_saved_film::s_blf_chunk_saved_film_header*)((byte*)chunk_data - sizeof(s_blf_header));
+				if (chunk_data)
+				{
+					csmemcpy(options, &saved_film_header->options, sizeof(game_options));
+					game_options_validate(options);
+
+					bool was_valid = true;
+					bool result = true;
+
+					char error_string_storage[1024]{};
+					if (!game_options_verify(options, error_string_storage, sizeof(error_string_storage)))
+					{
+						event(_event_warning, "networking:saved_film: film header has invalid game options [%s]",
+							error_string_storage);
+
+						was_valid = false;
+						result = false;
+					}
+
+					*out_length_in_ticks = saved_film_header->length_in_ticks;
+					*out_start_tick = saved_film_header->snippet_start_tick;
+
+					if (out_was_valid)
+					{
+						*out_was_valid = was_valid;
+					}
+
+					return result;
+				}
+			}
+
+			chunk += chunk_size;
+
+			int32 buffer_count = (uns32)this - (uns32)chunk + sizeof(s_blf_saved_film);
+
+			if (!network_blf_read_for_known_chunk(
+				chunk,
+				buffer_count,
+				must_byte_swap,
+				s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_type,
+				s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_major_version,
+				&chunk_size,
+				&chunk_data,
+				NULL,
+				NULL,
+				&eof_found))
+			{
+				return false;
+			}
 		}
-
-		if (!chunk)
-		{
-			continue;
-		}
-
-		s_blf_saved_film::s_blf_chunk_saved_film_header* saved_film_header = (s_blf_saved_film::s_blf_chunk_saved_film_header*)chunk;
-
-		game_variant->copy_from_and_validate(&saved_film_header->options.multiplayer_variant);
-
-		bool valid = true;
-		valid &= game_engine_variant_validate(game_variant);
-		valid &= map_variant->read_from(&saved_film_header->options.map_variant);
-
-		if (is_valid)
-		{
-			*is_valid = valid;
-		}
-
-		return true;
 	}
 
 	return false;

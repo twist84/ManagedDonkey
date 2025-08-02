@@ -213,6 +213,9 @@ static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 struct s_blf_saved_film :
 	public s_blffile_saved_game_file
 {
+public:
+	bool copy_to_and_validate_(game_options* options, int32* out_length_in_ticks, int32* out_start_tick, bool* out_was_valid);
+
 #pragma pack(push, 4)
 	struct s_blf_chunk_saved_film_header
 	{
@@ -274,7 +277,7 @@ struct s_blf_saved_film :
 public:
 	s_blf_saved_film();
 
-	bool copy_to_and_validate(c_game_variant* game_variant, c_map_variant* map_variant, bool* is_valid) const;
+	bool copy_to_and_validate(game_options* options, int32* out_length_in_ticks, int32* out_start_tick, bool* out_was_valid) const;
 
 	s_blf_chunk_author author;
 	s_blf_chunk_saved_film_header film_header;
