@@ -29,6 +29,7 @@ extern bool __cdecl user_interface_squad_is_player_valid(int32 player_index);
 extern bool __cdecl user_interface_session_is_verifying_strings();
 extern int32 __cdecl user_interface_squad_get_player_index(const s_player_identifier* identifier);
 extern uns64 __cdecl user_interface_session_player_get_player_xuid(const s_player_identifier* identifier);
+extern bool __cdecl user_interface_squad_delegate_leadership(int32 player_index);
 extern bool __cdecl user_interface_squad_exists();
 extern int32 __cdecl user_interface_squad_get_countdown_delaying_player();
 extern int32 __cdecl user_interface_squad_get_countdown_timer();
