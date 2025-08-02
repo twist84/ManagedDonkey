@@ -58,6 +58,22 @@ enum
 	k_round_index_bits = 5,
 };
 
+enum
+{
+	k_content_catalog_dlc_map_count = 50,
+	k_content_catalog_maximum_number_of_core_files_per_user = 1,
+	k_content_catalog_maximum_number_of_general_user_content = 100,
+	k_content_catalog_maximum_number_of_user_screenshots = 50,
+	k_content_catalog_count_per_box = 50,
+	k_content_catalog_count_per_user = 151,
+	k_content_catalog_enumeration_count = 151,
+
+	k_maximum_thumbnail_png_data_size = 0x4000,
+	k_personal_storage_content_item_required_size_bytes = 0xA00000,
+
+	k_content_item_display_name_maximum_length = 128,
+};
+
 enum e_campaign_id
 {
 	_campaign_id_default = 1,

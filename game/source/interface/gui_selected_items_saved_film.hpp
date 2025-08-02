@@ -1,9 +1,11 @@
 #pragma once
 
 #include "interface/gui_selected_items.hpp"
+#include "interface/user_interface_data.hpp"
+#include "saved_games/autosave_queue.hpp"
 #include "tag_files/files.hpp"
 
-enum e_saved_film_category;
+struct s_saved_game_item_metadata;
 
 class c_gui_saved_film_selected_item :
 	public c_gui_selected_item
@@ -16,9 +18,40 @@ public:
 	uns64 m_sort_order;
 	e_saved_film_category m_category;
 };
+static_assert(sizeof(c_gui_saved_film_selected_item) == 0x2B8);
 static_assert(sizeof(c_gui_saved_film_selected_item) == sizeof(c_gui_selected_item) + 0x128);
 static_assert(0x190 == OFFSETOF(c_gui_saved_film_selected_item, m_controller_index));
 static_assert(0x194 == OFFSETOF(c_gui_saved_film_selected_item, m_file_reference));
 static_assert(0x2A8 == OFFSETOF(c_gui_saved_film_selected_item, m_sort_order));
 static_assert(0x2B0 == OFFSETOF(c_gui_saved_film_selected_item, m_category));
+
+struct c_gui_saved_film_subitem_datasource :
+	public c_gui_ordered_data
+{
+public:
+	enum
+	{
+		k_maximum_saved_films_shown = 151,
+	};
+
+public:
+	// $TODO: virtual functions
+
+//private:
+	c_static_array<c_gui_saved_film_selected_item, k_maximum_saved_films_shown> m_saved_films;
+	int32 m_saved_film_count;
+	e_saved_film_category m_category;
+	e_controller_index m_controller_index;
+	bool m_enumeration_complete;
+	c_autosave_queue_enumerator m_autosave_enumerator;
+};
+static_assert(sizeof(c_gui_saved_film_subitem_datasource) == 0x1D8D0);
+static_assert(sizeof(c_gui_saved_film_subitem_datasource) == sizeof(c_gui_ordered_data) + 0x1D7C4);
+static_assert(0x00110 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_saved_films));
+static_assert(0x19B98 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_saved_film_count));
+static_assert(0x19B9C == OFFSETOF(c_gui_saved_film_subitem_datasource, m_category));
+static_assert(0x19BA0 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_controller_index));
+static_assert(0x19BA4 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_enumeration_complete));
+static_assert(0x19BA8 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_autosave_enumerator));
+
 
