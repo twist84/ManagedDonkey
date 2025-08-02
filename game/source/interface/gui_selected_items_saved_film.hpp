@@ -32,6 +32,10 @@ struct c_gui_saved_film_subitem_datasource :
 	public c_gui_ordered_data
 {
 public:
+	void update_autosave_enumeration_();
+	void update_content_enumeration_();
+
+public:
 	enum
 	{
 		k_maximum_saved_films_shown = 151,
@@ -40,6 +44,12 @@ public:
 public:
 	// $TODO: virtual functions
 
+protected:
+	bool film_matches_category(s_saved_game_item_metadata* metadata);
+	void update_autosave_enumeration();
+	void update_content_enumeration();
+
+public:
 //private:
 	c_static_array<c_gui_saved_film_selected_item, k_maximum_saved_films_shown> m_saved_films;
 	int32 m_saved_film_count;

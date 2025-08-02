@@ -1,5 +1,22 @@
 #include "interface/gui_selected_items_saved_film.hpp"
 
+#include "memory/module.hpp"
+#include "saved_games/saved_game_files.hpp"
+
+#include <cstdlib>
+
+HOOK_DECLARE_CLASS_MEMBER(0x00ADD3E0, c_gui_saved_film_subitem_datasource, update_autosave_enumeration_);
+HOOK_DECLARE_CLASS_MEMBER(0x00ADD560, c_gui_saved_film_subitem_datasource, update_content_enumeration_);
+
+void c_gui_saved_film_subitem_datasource::update_autosave_enumeration_()
+{
+	c_gui_saved_film_subitem_datasource::update_autosave_enumeration();
+}
+
+void c_gui_saved_film_subitem_datasource::update_content_enumeration_()
+{
+	c_gui_saved_film_subitem_datasource::update_content_enumeration();
+}
 
 //.text:00ADC230 ; public: c_static_array<c_gui_saved_film_selected_item, 151>::c_static_array<c_gui_saved_film_selected_item, 151>()
 //.text:00ADC2C0 ; public: c_gui_saved_film_category_datasource::c_gui_saved_film_category_datasource(c_gui_screen_widget*)
@@ -35,6 +52,11 @@ c_gui_saved_film_selected_item& c_gui_saved_film_selected_item::operator=(const 
 //.text:00ADC7D0 ; private: void c_gui_saved_film_category_datasource::add_category(int32, int32, e_saved_film_category, c_gui_selected_item::e_special_item_type)
 //.text:00ADC8D0 ; public: virtual void c_gui_saved_film_subitem_datasource::dispose()
 
+bool c_gui_saved_film_subitem_datasource::film_matches_category(s_saved_game_item_metadata* metadata)
+{
+	return INVOKE_CLASS_MEMBER(0x00ADC8F0, c_gui_saved_film_subitem_datasource, film_matches_category, metadata);
+}
+
 //.text:00ADC9C0 ; public: virtual void c_gui_saved_film_category_datasource::get_column_names(int32* const, int32*)
 //.text:00ADCA00 ; public: virtual void c_gui_saved_film_subitem_datasource::get_column_names(int32* const, int32*)
 //.text:00ADCAA0 ; 
@@ -56,6 +78,121 @@ c_gui_saved_film_selected_item& c_gui_saved_film_selected_item::operator=(const 
 //.text:00ADD290 ; public: virtual bool c_gui_saved_film_subitem_datasource::initialize(int32)
 //.text:00ADD2D0 ; public: virtual bool c_gui_saved_film_subitem_datasource::is_busy() const
 
+int __cdecl saved_film_sort_proc(const void* a, const void* b)
+{
+	return INVOKE(0x00ADD2E0, saved_film_sort_proc, a, b);
+}
+
 //.text:00ADD3A0 ; public: void c_static_array<c_gui_saved_film_selected_item, 151>::sort(long, int(__cdecl*)(const void *, const void*))
 //.text:00ADD3C0 ; public: virtual void c_gui_saved_film_subitem_datasource::update()
+
+void c_gui_saved_film_subitem_datasource::update_autosave_enumeration()
+{
+	//INVOKE_CLASS_MEMBER(0x00ADD3E0, c_gui_saved_film_subitem_datasource, update_autosave_enumeration);
+
+	if (m_enumeration_complete)
+	{
+		return;
+	}
+
+	while (m_autosave_enumerator.are_items_available())
+	{
+		s_saved_game_item_enumeration_data item{};
+		if (!m_autosave_enumerator.dequeue_item(&item))
+		{
+			break;
+		}
+
+		if (item.state != s_saved_game_item_enumeration_data::_item_state_ready)
+		{
+			continue;
+		}
+
+		if (!c_gui_saved_film_subitem_datasource::film_matches_category(&item.metadata))
+		{
+			continue;
+		}
+
+		if (m_saved_film_count >= k_maximum_saved_films_shown)
+		{
+			break;
+		}
+
+		m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
+			&item.metadata,
+			m_category,
+			_gui_stored_item_location_autosave_queue,
+			m_controller_index,
+			&item.file,
+			0,
+			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+			false);
+	}
+
+	//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
+	qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
+
+	if (!m_autosave_enumerator.is_busy() && !m_autosave_enumerator.are_items_available())
+	{
+		m_enumeration_complete = true;
+	}
+}
+
+void c_gui_saved_film_subitem_datasource::update_content_enumeration()
+{
+	//INVOKE_CLASS_MEMBER(0x00ADD560, c_gui_saved_film_subitem_datasource, update_content_enumeration);
+
+	// $TODO: properly implement content items and un/reimplement this function at that time
+
+	if (m_enumeration_complete)
+	{
+		return;
+	}
+
+	s_file_reference saved_films_directory{};
+	file_reference_create_from_path_wide(&saved_films_directory, L"saved_films", true);
+
+	s_find_file_data find_file_data{};
+	find_files_start_with_search_spec(&find_file_data, 0, &saved_films_directory, "*.film");
+
+	s_saved_game_item_enumeration_data item{};
+	while (find_files_next(&find_file_data, &item.file, NULL))
+	{
+		if (m_saved_film_count >= k_maximum_saved_films_shown)
+		{
+			break;
+		}
+
+		if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
+		{
+			continue;
+		}
+
+		if (item.metadata.file_type != _saved_game_film && item.metadata.file_type != _saved_game_film_clip)
+		{
+			continue;
+		}
+
+		if (!c_gui_saved_film_subitem_datasource::film_matches_category(&item.metadata))
+		{
+			continue;
+		}
+
+		m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
+			&item.metadata,
+			m_category,
+			_gui_stored_item_location_saved_game_file,
+			m_controller_index,
+			&item.file,
+			0,
+			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+			true);
+	}
+	find_files_end(&find_file_data);
+
+	//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
+	qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
+
+	m_enumeration_complete = true;
+}
 
