@@ -29,6 +29,32 @@ enum e_file_open_error
 	k_file_open_error_count
 };
 
+enum : uns32
+{
+	k_file_attribute_readonly               = 0x00000001,
+	k_file_attribute_hidden                 = 0x00000002,
+	k_file_attribute_system                 = 0x00000004,
+	k_file_attribute_directory              = 0x00000010,
+	k_file_attribute_archive                = 0x00000020,
+	k_file_attribute_device                 = 0x00000040,
+	k_file_attribute_normal                 = 0x00000080,
+	k_file_attribute_temporary              = 0x00000100,
+	k_file_attribute_sparse_file            = 0x00000200,
+	k_file_attribute_reparse_point          = 0x00000400,
+	k_file_attribute_compressed             = 0x00000800,
+	k_file_attribute_offline                = 0x00001000,
+	k_file_attribute_not_content_indexed    = 0x00002000,
+	k_file_attribute_encrypted              = 0x00004000,
+	k_file_attribute_integrity_stream       = 0x00008000,
+	k_file_attribute_virtual                = 0x00010000,
+	k_file_attribute_no_scrub_data          = 0x00020000,
+	k_file_attribute_ea                     = 0x00040000,
+	k_file_attribute_pinned                 = 0x00080000,
+	k_file_attribute_unpinned               = 0x00100000,
+	k_file_attribute_recall_on_open         = 0x00040000,
+	k_file_attribute_recall_on_data_access  = 0x00400000,
+};
+
 struct s_file_last_modification_date
 {
 	uns32 low;
@@ -145,7 +171,7 @@ extern void __cdecl find_files_start(s_find_file_data* data, uns32 flags, const 
 extern void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uns32 flags, const s_file_reference* file, const char* search_spec);
 extern void __cdecl get_current_file_time(s_file_last_modification_date* date);
 extern void __cdecl invalidate_file_handle(s_file_handle* handle);
-extern void find_files_recursive(s_file_reference* directory, uns32 open_flags, bool(*file_handler)(s_file_reference*));
+extern void find_files_recursive(void* userdata, s_file_reference* directory, uns32 open_flags, bool(*file_handler)(void*, s_file_reference*));
 
 extern void file_activity_debug_render();
 

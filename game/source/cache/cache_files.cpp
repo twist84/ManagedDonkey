@@ -2640,7 +2640,7 @@ bool check_for_specific_scenario(s_file_reference* file)
 	return csstricmp(g_cache_file_globals.header.name.get_string(), scenario_name) != 0;
 }
 
-bool load_external_tag(s_file_reference* file)
+bool load_external_tag(void* userdata, s_file_reference* file)
 {
 	static bool x_bitmap = false;
 	static bool x_dds = false;
@@ -2754,7 +2754,7 @@ void external_resource_fixup(int32 tag_index, cache_file_tag_instance* instance)
 	}
 }
 
-bool load_external_resource(s_file_reference* file)
+bool load_external_resource(void* userdata, s_file_reference* file)
 {
 	int32 valid_extension = 0;
 	for (int32 i = 0; i < k_cache_file_resource_type_count; i++)
@@ -2823,10 +2823,10 @@ void load_external_files()
 
 	// Add tags at runtime starting at 0x00004441
 	file_reference_create_from_path(&search_directory, "tags\\", true);
-	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_tag);
+	find_files_recursive(NULL, &search_directory, FLAG(_file_open_flag_desired_access_read), load_external_tag);
 
 	file_reference_create_from_path(&search_directory, "data\\", true);
-	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_resource);
+	find_files_recursive(NULL, &search_directory, FLAG(_file_open_flag_desired_access_read), load_external_resource);
 
 	for (int32 i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{

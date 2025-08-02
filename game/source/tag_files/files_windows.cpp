@@ -613,7 +613,7 @@ void __cdecl invalidate_file_handle(s_file_handle* handle)
 	handle->handle = INVALID_HANDLE_VALUE;
 }
 
-void find_files_recursive(s_file_reference* directory, uns32 open_flags, bool(*file_handler)(s_file_reference*))
+void find_files_recursive(void* userdata, s_file_reference* directory, uns32 open_flags, bool(*file_handler)(void*, s_file_reference*))
 {
 	s_find_file_data find_file_data{};
 	find_files_start(&find_file_data, FLAG(1) | FLAG(2), directory);
@@ -626,9 +626,9 @@ void find_files_recursive(s_file_reference* directory, uns32 open_flags, bool(*f
 			continue;
 		}
 
-		if (find_file_data.active_find_file_state.find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		if (find_file_data.active_find_file_state.find_data.dwFileAttributes & k_file_attribute_directory)
 		{
-			find_files_recursive(&found_file, open_flags, file_handler);
+			find_files_recursive(userdata, &found_file, open_flags, file_handler);
 		}
 		else
 		{
@@ -638,7 +638,7 @@ void find_files_recursive(s_file_reference* directory, uns32 open_flags, bool(*f
 				continue;
 			}
 
-			file_handler(&found_file);
+			file_handler(userdata, &found_file);
 
 			file_close(&found_file);
 		}
