@@ -9,7 +9,7 @@ REFERENCE_DECLARE(0x0191D4FC, bool, g_all_level_unlocked);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA36B0, c_player_profile_interface, set_primary_change_color);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA3860, c_player_profile_interface, set_secondary_change_color);
 
-//t_value_type<bool> const all_level_unlocked = { .value = false };
+//const t_value_type<bool> all_level_unlocked = { .value = false };
 //DATA_PATCH_DECLARE(0x0191D4FC, all_level_unlocked, all_level_unlocked.bytes);
 
 //.text:00A9FEF0 ; 

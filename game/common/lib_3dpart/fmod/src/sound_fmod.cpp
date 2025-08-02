@@ -4,12 +4,12 @@
 
 #define MAX_CHANNELS 256
 
-t_value_type<uns8> const fmod_wasapi_fix = { .value = 2 };
-t_value_type<uns32> const max_channels_as_dword = { .value = uns32(MAX_CHANNELS) };
-t_value_type<uns8> const max_channels_as_byte = { .value = uns8(MAX_CHANNELS) };
-//t_value_type<uns32> const sound_preferences_channel_counts_loop_count = { .value = 0 };
-//t_value_type<uns32> const sound_channels_datum_size = { .value = uns32(MAX_CHANNELS * 0x38) };
-//t_value_type<int16[5]> const sound_preferences_channel_counts = { .value = { 112, 112, 18, 12, 0 } };
+const t_value_type<uns8> fmod_wasapi_fix = { .value = 2 };
+const t_value_type<uns32> max_channels_as_dword = { .value = uns32(MAX_CHANNELS) };
+const t_value_type<uns8> max_channels_as_byte = { .value = uns8(MAX_CHANNELS) };
+//const t_value_type<uns32> sound_preferences_channel_counts_loop_count = { .value = 0 };
+//const t_value_type<uns32> sound_channels_datum_size = { .value = uns32(MAX_CHANNELS * 0x38) };
+//const t_value_type<int16[5]> sound_preferences_channel_counts = { .value = { 112, 112, 18, 12, 0 } };
 
 HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, LoadCinePreload);
 HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, LoadTagParams);
