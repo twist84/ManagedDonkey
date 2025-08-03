@@ -176,7 +176,7 @@ struct s_network_message_player_remove
 };
 static_assert(sizeof(s_network_message_player_remove) == 0x10);
 
-struct s_player_configuration_from_host_patial
+struct s_player_configuration_from_host_partial
 {
 	c_static_wchar_string<5> service_tag;
 	c_flags<e_bungienet_user, uns8, k_bungienet_user_count> bungienet_user;
@@ -185,12 +185,12 @@ struct s_player_configuration_from_host_patial
 	c_static_array<int8, 4> consumables;
 	s_emblem_info emblem;
 };
-static_assert(sizeof(s_player_configuration_from_host_patial) == 0x38);
+static_assert(sizeof(s_player_configuration_from_host_partial) == 0x38);
 
 struct s_player_configuration_for_player_properties
 {
 	s_player_configuration_from_client client;
-	s_player_configuration_from_host_patial host_partial;
+	s_player_configuration_from_host_partial host_partial;
 };
 static_assert(sizeof(s_player_configuration_for_player_properties) == 0x68);
 
@@ -202,7 +202,7 @@ struct s_network_message_player_properties
 	s_player_configuration_for_player_properties player_data;
 	int32 player_voice_settings;
 };
-static_assert(sizeof(s_network_message_player_properties) == 0x4C + sizeof(s_player_configuration_from_host_patial));
+static_assert(sizeof(s_network_message_player_properties) == 0x4C + sizeof(s_player_configuration_from_host_partial));
 
 class c_bitstream;
 
