@@ -108,7 +108,10 @@ uns32 c_bitstream::read_integer(const char* debug_string, int32 size_in_bits)
 	
 	uns32 value = c_bitstream::read_dword_internal(size_in_bits);
 	
-	ASSERT(value < (uns32)(1 << size_in_bits));
+	if (size_in_bits < LONG_BITS)
+	{
+		ASSERT(value < (uns32)(1 << size_in_bits));
+	}
 	
 	return value;
 }
