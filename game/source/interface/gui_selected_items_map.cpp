@@ -104,7 +104,7 @@ void c_gui_map_subitem_selectable_item_datasource::update_autosave_enumeration()
 			continue;
 		}
 
-		if (m_map_count >= k_maximum_game_variants_shown)
+		if (m_map_count >= k_maximum_maps_shown)
 		{
 			break;
 		}
@@ -167,7 +167,7 @@ bool c_gui_map_subitem_selectable_item_datasource::update_content_enumeration_pr
 
 	item.file = *found_file;
 
-	if (_this->m_map_count >= k_maximum_game_variants_shown)
+	if (_this->m_map_count >= k_maximum_maps_shown)
 	{
 		return false;
 	}
