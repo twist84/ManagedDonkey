@@ -26,8 +26,10 @@
 #include "memory/module.hpp"
 #include "objects/object_definitions.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/camera_fx_settings.hpp"
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
+#include "shell/shell_windows.hpp"
 #include "tag_files/string_ids.hpp"
 #include "text/text_group.hpp"
 #include "units/biped_definitions.hpp"
@@ -2484,6 +2486,41 @@ void apply_gui_datasource_definition_tag_instance_modification(cache_file_tag_in
 }
 
 // $TODO: create some sort of tag modification manager
+void apply_camera_fx_settings_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != NULL);
+
+	if (instance->tag_group != CAMERA_FX_SETTINGS_TAG)
+	{
+		return;
+	}
+
+	c_camera_fx_settings* camera_fx_settings = instance->cast_to<c_camera_fx_settings>();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_post_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_post_tag_fixup:
+	{
+		if (strstr(shell_get_command_line(), "-disable-auto-exposure") != 0)
+		{
+			SET_BIT(camera_fx_settings->m_exposure.m_flags, c_camera_fx_settings::_parameter_auto_bit, false);
+		}
+	}
+	break;
+	case _instance_modification_stage_post_scenario_tags_load:
+	{
+	}
+	break;
+	}
+}
+
+// $TODO: create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	if (instance == NULL)
@@ -2509,6 +2546,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	APPLY_INSTANCE_MODIFICATION(projectile_definition);
 	APPLY_INSTANCE_MODIFICATION(multilingual_unicode_string_list);
 	APPLY_INSTANCE_MODIFICATION(gui_datasource_definition_tag);
+	APPLY_INSTANCE_MODIFICATION(camera_fx_settings);
 
 #undef APPLY_INSTANCE_MODIFICATION
 }
