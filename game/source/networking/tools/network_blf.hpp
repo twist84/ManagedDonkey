@@ -187,6 +187,8 @@ struct s_blffile_game_variant :
 public:
 	s_blffile_game_variant();
 
+	bool copy_to_and_validate(c_game_variant* game_variant, bool* out_was_valid) const;
+
 	s_blf_chunk_game_variant variant;
 	s_blf_chunk_end_of_file end_of_file;
 

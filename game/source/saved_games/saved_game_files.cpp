@@ -7,6 +7,15 @@
 
 REFERENCE_DECLARE(0x0189D930, s_saved_game_file_globals, g_saved_game_files_globals);
 
+//.text:00524440 ; e_game_engine_type __cdecl game_content_type_to_game_engine_index(e_game_content_type)
+//.text:005244C0 ; e_saved_game_file_type __cdecl game_content_type_to_saved_game_file_type(e_game_content_type)
+//.text:00524570 ; e_game_content_type __cdecl game_engine_index_to_game_content_type(e_game_engine_type)
+
+e_saved_game_file_type __cdecl game_engine_index_to_saved_game_file_type(e_game_engine_type game_engine_type)
+{
+	return INVOKE(0x005245F0, game_engine_index_to_saved_game_file_type, game_engine_type);
+}
+
 e_game_content_type __cdecl saved_game_file_type_to_game_content_type(e_saved_game_file_type saved_game_file_type)
 {
 	return INVOKE(0x00525330, saved_game_file_type_to_game_content_type, saved_game_file_type);

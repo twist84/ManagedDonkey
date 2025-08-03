@@ -205,63 +205,39 @@ bool c_gui_map_subitem_selectable_item_datasource::update_content_enumeration_pr
 {
 	c_gui_map_subitem_selectable_item_datasource* _this = (c_gui_map_subitem_selectable_item_datasource*)userdata;
 
-	if (!found_file->path.ends_with("map"))
-	{
-		return false;
-	}
-
-	byte buffer[0xF000]{};
-	s_saved_game_item_enumeration_data item{};
-
-	item.file = *found_file;
-
 	if (_this->m_map_count >= k_maximum_maps_shown)
 	{
 		return false;
 	}
 
-	csmemset(buffer, 0, sizeof(buffer));
+	wchar_t found_file_extension[256]{};
+	file_reference_get_name_wide(found_file, FLAG(_name_extension_bit), found_file_extension, NUMBEROF(found_file_extension));
 
-	if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
+	const wchar_t* filename_extension = L"map";
+	if (ustricmp(found_file_extension, filename_extension) != 0)
 	{
-		uns32 unused_error_code = 0;
-		if (!file_open(&item.file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+		return false;
+	}
+
+	s_saved_game_item_enumeration_data item{};
+	{
+		s_blffile_saved_game_file variant_on_disk{};
+		c_synchronized_long success = 0;
+		c_synchronized_long done = 0;
+		if (autosave_queue_read_file(found_file, &variant_on_disk, sizeof(s_blffile_saved_game_file), &success, &done) == NONE)
 		{
 			return false;
 		}
 
-		uns32 size = 0;
-		if (!file_get_size(&item.file, &size))
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+
+		if (success.peek() != 1)
 		{
-			file_close(&item.file);
 			return false;
 		}
 
-		if (size > 0xF000)
-		{
-			file_close(&item.file);
-			return false;
-		}
-
-
-		if (!file_read(&item.file, size, false, buffer))
-		{
-			file_close(&item.file);
-			return false;
-		}
-
-		s_blffile_map_variant* map_variant_file = (s_blffile_map_variant*)buffer;
-		c_map_variant* map_variant = &map_variant_file->variant.map_variant;
-
-		if (!map_variant->validate())
-		{
-			file_close(&item.file);
-			return false;
-		}
-
-		item.metadata = map_variant_file->variant.map_variant.m_metadata;
-
-		file_close(&item.file);
+		item.file = *found_file;
+		item.metadata = variant_on_disk.content_header.metadata;
 	}
 
 	if (item.metadata.file_type != _saved_game_map_variant || _this->m_enumeration_map_id != item.metadata.map_id)

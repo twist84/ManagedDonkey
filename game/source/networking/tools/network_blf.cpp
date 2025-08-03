@@ -138,6 +138,11 @@ s_blffile_game_variant::s_blffile_game_variant() :
 	zero_array(pad);
 }
 
+bool s_blffile_game_variant::copy_to_and_validate(c_game_variant* game_variant, bool* out_was_valid) const
+{
+	return INVOKE_CLASS_MEMBER(0x00573150, s_blffile_game_variant, copy_to_and_validate, game_variant, out_was_valid);
+}
+
 s_blffile_map_variant::s_blffile_map_variant() :
 	s_blffile_saved_game_file(),
 	variant(),

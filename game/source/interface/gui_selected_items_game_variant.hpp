@@ -5,10 +5,21 @@
 #include "saved_games/autosave_queue.hpp"
 #include "tag_files/files.hpp"
 
+class c_game_variant;
+
 class c_gui_game_variant_selected_item :
 	public c_gui_selected_item
 {
 public:
+	bool __thiscall get_game_variant_(c_game_variant* game_variant);
+
+public:
+	c_gui_game_variant_selected_item(const s_ui_saved_game_item_metadata* metadata, e_gui_selected_item_location location, e_controller_index controller_index, const s_file_reference* file_reference, int32 variant_index, int32 sort_order, bool corrupt, bool is_new);
+
+	c_gui_game_variant_selected_item& operator=(const c_gui_game_variant_selected_item& __that);
+
+public:
+	bool get_game_variant(c_game_variant* game_variant) const;
 
 //protected:
 	e_controller_index m_controller_index;
@@ -26,6 +37,10 @@ struct c_gui_game_variant_subitem_selectable_item_datasource :
 	public c_gui_ordered_data
 {
 public:
+	void __thiscall update_autosave_enumeration_();
+	void __thiscall update_content_enumeration_();
+
+public:
 	enum
 	{
 		k_maximum_game_variants_shown = 151,
@@ -35,6 +50,12 @@ public:
 public:
 	// $TODO: virtual functions
 
+protected:
+	void update_autosave_enumeration();
+	void update_content_enumeration();
+	static bool update_content_enumeration_proc(void* userdata, s_file_reference* found_file);
+
+public:
 //private:
 	e_game_engine_type m_game_engine_type;
 	c_static_array<c_gui_game_variant_selected_item, k_maximum_game_variants_shown> m_game_variants;
@@ -51,4 +72,6 @@ static_assert(0x196E0 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_dat
 static_assert(0x196E4 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_controller_index));
 static_assert(0x196E8 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_enumeration_complete));
 static_assert(0x196F0 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_autosave_enumerator));
+
+extern int __cdecl game_variant_selected_item_sort_proc(const void* a, const void* b);
 
