@@ -5,13 +5,21 @@
 #include "saved_games/autosave_queue.hpp"
 #include "tag_files/files.hpp"
 
+class c_map_variant;
+
 class c_gui_map_selected_item :
 	public c_gui_selected_item
 {
 public:
+	bool __thiscall get_map_variant_(c_map_variant* map_variant);
+
+public:
 	c_gui_map_selected_item(const s_ui_saved_game_item_metadata* metadata, e_gui_selected_item_location location, e_controller_index controller_index, const s_file_reference* file_reference, int32 sort_order, e_special_item_type special_item_type, bool corrupt, bool is_new);
 
 	c_gui_map_selected_item& operator=(const c_gui_map_selected_item& __that);
+
+public:
+	bool get_map_variant(c_map_variant* map_variant) const;
 
 //protected:
 	e_controller_index m_controller_index;

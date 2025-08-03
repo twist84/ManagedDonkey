@@ -117,7 +117,10 @@ void __cdecl autosave_queue_initialize_for_new_map()
 	}
 }
 
-//.text:0067BEE0 ; int32 __cdecl autosave_queue_read_file(const s_file_reference*, void*, int32, c_synchronized_long*, c_synchronized_long*)
+int32 __cdecl autosave_queue_read_file(const s_file_reference* file, void* buffer, int32 buffer_size, c_synchronized_long* success, c_synchronized_long* done)
+{
+	return INVOKE(0x0067BEE0, autosave_queue_read_file, file, buffer, buffer_size, success, done);
+}
 
 void __cdecl autosave_queue_save_current_game_variant_to_queue()
 {

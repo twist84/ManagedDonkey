@@ -73,7 +73,7 @@ struct s_gui_game_setup_storage
 		{
 			//if (!variant.is_equal_to(&source))
 			{
-				source.read_from(&variant);
+				source.save_to(&variant);
 			}
 		}
 

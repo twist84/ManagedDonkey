@@ -1,5 +1,6 @@
 #include "interface/gui_selected_items_map.hpp"
 
+#include "cseries/async.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/tools/network_blf.hpp"
@@ -7,8 +8,14 @@
 
 #include <cstdlib>
 
+HOOK_DECLARE_CLASS_MEMBER(0x00AD9A30, c_gui_map_selected_item, get_map_variant_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADA360, c_gui_map_subitem_selectable_item_datasource, update_autosave_enumeration_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADA550, c_gui_map_subitem_selectable_item_datasource, update_content_enumeration_);
+
+bool __thiscall c_gui_map_selected_item::get_map_variant_(c_map_variant* map_variant)
+{
+	return c_gui_map_selected_item::get_map_variant(map_variant);
+}
 
 void __thiscall c_gui_map_subitem_selectable_item_datasource::update_autosave_enumeration_()
 {
@@ -61,7 +68,48 @@ c_gui_map_selected_item& c_gui_map_selected_item::operator=(const c_gui_map_sele
 //.text:00AD97F0 ; public: virtual const c_gui_selected_item* c_gui_map_subitem_selectable_item_datasource::get_gui_selected_item(int32) const
 //.text:00AD9820 ; public: virtual bool c_gui_map_category_datasource::get_integer_value(int32, int32, int32*)
 //.text:00AD98D0 ; public: virtual bool c_gui_map_subitem_selectable_item_datasource::get_integer_value(int32, int32, int32*)
-//.text:00AD9A30 ; public: bool c_gui_map_selected_item::get_map_variant(c_map_variant*) const
+
+bool c_gui_map_selected_item::get_map_variant(c_map_variant* map_variant) const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AD9A30, c_gui_map_selected_item, get_map_variant, map_variant);
+
+	s_blffile_map_variant variant_on_disk{};
+
+	switch (c_gui_map_selected_item::get_location())
+	{
+	case _gui_stored_item_location_saved_game_file:
+	case _gui_stored_item_location_autosave_queue:
+	{
+		c_synchronized_long success = 0;
+		c_synchronized_long done = 0;
+		if (autosave_queue_read_file(&m_file_reference, &variant_on_disk, sizeof(s_blffile_map_variant), &success, &done) == NONE)
+		{
+			break;
+		}
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+		if (success.peek() != 1)
+		{
+			break;
+		}
+
+		bool was_valid = false;
+		if (variant_on_disk.copy_to_and_validate(map_variant, &was_valid))
+		{
+			return was_valid;
+		}
+
+		if (variant_on_disk.variant.map_variant.save_to(map_variant))
+		{
+			was_valid = true;
+		}
+		return was_valid;
+	}
+	break;
+	}
+
+	return false;
+}
+
 //.text:00AD9C30 ; 
 //.text:00AD9C40 ; 
 //.text:00AD9C50 ; public: virtual bool c_gui_map_category_datasource::get_string_id_value(int32, int32, int32*)

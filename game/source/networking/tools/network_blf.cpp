@@ -146,58 +146,69 @@ s_blffile_map_variant::s_blffile_map_variant() :
 	zero_array(pad);
 }
 
-bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const
+bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, bool* out_was_valid) const
 {
-	//return INVOKE_CLASS_MEMBER(0x00573250, s_blffile_map_variant, copy_to_and_validate, map_variant, is_valid);
+	//return INVOKE_CLASS_MEMBER(0x00573250, s_blffile_map_variant, copy_to_and_validate, map_variant, out_was_valid);
 
-	bool byte_swap = false;
+	bool must_byte_swap = false;
 	int32 chunk_size = 0;
-	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_chunk_map_variant), &byte_swap, &chunk_size))
+	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_chunk_map_variant), &must_byte_swap, &chunk_size) || chunk_size <= 0)
 	{
 		return false;
 	}
 
-	const char* next_chunk = (char*)this + chunk_size;
-
-	bool eof_chunk = false;
-	const char* chunk = nullptr;
+	const char* chunk = (const char*)this + chunk_size;
+	const char* chunk_data = NULL;
+	bool eof_found = false;
 	if (network_blf_read_for_known_chunk(
-		(const char*)this + chunk_size,
-		sizeof(s_blf_chunk_map_variant) - (chunk - (const char*)this),
-		byte_swap,
+		chunk,
+		sizeof(s_blf_chunk_map_variant) - chunk_size,
+		must_byte_swap,
 		s_blf_chunk_map_variant::k_chunk_type,
 		s_blf_chunk_map_variant::k_chunk_major_version,
 		&chunk_size,
-		&chunk,
-		nullptr,
-		nullptr,
-		&eof_chunk))
+		&chunk_data,
+		NULL,
+		NULL,
+		&eof_found))
 	{
-		while (!eof_chunk)
+		while (!eof_found && chunk_size > 0)
 		{
-			if (!byte_swap && chunk)
+			if (must_byte_swap)
 			{
-				s_blf_chunk_map_variant* map_variant_chunk = (s_blf_chunk_map_variant*)chunk;
-				map_variant_chunk->map_variant.read_from(map_variant);
+				event(_event_critical, "map_variant: doesn't support byte swapping BLF files");
+			}
+			else
+			{
+				c_map_variant* variant = (c_map_variant*)((byte*)chunk_data - sizeof(s_blf_header));
+				if (chunk_data)
+				{
+					variant->save_to(map_variant);
 
-				if (is_valid)
-					*is_valid = true;
+					if (out_was_valid)
+					{
+						*out_was_valid = true;
+					}
 
-				return true;
+					return true;
+				}
 			}
 
-			next_chunk += chunk_size;
+			chunk += chunk_size;
+
+			int32 buffer_count = (uns32)this - (uns32)chunk + sizeof(s_blf_chunk_map_variant);
+
 			if (!network_blf_read_for_known_chunk(
-				next_chunk,
-				(const char*)this - chunk + sizeof(s_blf_chunk_map_variant),
-				byte_swap,
+				chunk,
+				buffer_count,
+				must_byte_swap,
 				s_blf_chunk_map_variant::k_chunk_type,
 				s_blf_chunk_map_variant::k_chunk_major_version,
 				&chunk_size,
-				&chunk,
-				nullptr,
-				nullptr,
-				&eof_chunk))
+				&chunk_data,
+				NULL,
+				NULL,
+				&eof_found))
 			{
 				return false;
 			}

@@ -201,7 +201,7 @@ struct s_blffile_map_variant :
 public:
 	s_blffile_map_variant();
 
-	bool copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const;
+	bool copy_to_and_validate(c_map_variant* map_variant, bool* out_was_valid) const;
 
 	s_blf_chunk_map_variant variant;
 	s_blf_chunk_end_of_file end_of_file;

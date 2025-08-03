@@ -91,6 +91,7 @@ extern void __cdecl autosave_queue_free_up_space();
 extern void __cdecl autosave_queue_generate_new_filename(e_saved_game_file_type file_type, c_static_string<256>* filename);
 extern void __cdecl autosave_queue_initialize();
 extern void __cdecl autosave_queue_initialize_for_new_map();
+extern int32 __cdecl autosave_queue_read_file(const s_file_reference* file, void* buffer, int32 buffer_size, c_synchronized_long* success, c_synchronized_long* done);
 extern void __cdecl autosave_queue_save_current_game_variant_to_queue();
 extern void __cdecl autosave_queue_save_current_map_to_queue();
 extern void __cdecl delete_incomplete_files();

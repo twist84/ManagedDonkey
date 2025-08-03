@@ -148,7 +148,7 @@ public:
 	void encode(c_bitstream* packet) const;
 	bool is_valid() const;
 	bool lossily_compare_to(c_map_variant* map_variant);
-	bool read_from(const c_map_variant* source);
+	bool save_to(const c_map_variant* source);
 	void set_description(const char* description);
 	void set_name(const wchar_t* name);
 	bool validate();

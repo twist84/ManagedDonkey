@@ -247,9 +247,9 @@ bool c_map_variant::lossily_compare_to(c_map_variant* map_variant)
 //.text:00585EE0 ; public: void c_map_variant::reset_objects()
 //.text:00586090 ; public: void c_map_variant::sanity_check(int32)
 
-bool c_map_variant::read_from(const c_map_variant* source)
+bool c_map_variant::save_to(const c_map_variant* source)
 {
-	return INVOKE_CLASS_MEMBER(0x005860F0, c_map_variant, read_from, source);
+	return INVOKE_CLASS_MEMBER(0x005860F0, c_map_variant, save_to, source);
 }
 
 //.text:00586270 ; const s_scenario_multiplayer_object_properties* __cdecl scenario_multiplayer_object_properties_try_and_get(e_object_type, int32)
