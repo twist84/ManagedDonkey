@@ -1,12 +1,21 @@
 #include "interface/gui_selected_items_saved_film.hpp"
 
+#include "cseries/async.hpp"
+#include "game/game_options.hpp"
 #include "memory/module.hpp"
+#include "networking/tools/network_blf.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 #include <cstdlib>
 
+HOOK_DECLARE_CLASS_MEMBER(0x00ADCB00, c_gui_saved_film_selected_item, get_film_details_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADD3E0, c_gui_saved_film_subitem_datasource, update_autosave_enumeration_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADD560, c_gui_saved_film_subitem_datasource, update_content_enumeration_);
+
+bool __thiscall c_gui_saved_film_selected_item::get_film_details_(game_options* options, int32* out_length_in_ticks, int32* out_start_tick)
+{
+	return c_gui_saved_film_selected_item::get_film_details(options, out_length_in_ticks, out_start_tick);
+}
 
 void __thiscall c_gui_saved_film_subitem_datasource::update_autosave_enumeration_()
 {
@@ -64,7 +73,43 @@ bool c_gui_saved_film_subitem_datasource::film_matches_category(s_saved_game_ite
 //.text:00ADCAC0 ; protected: virtual int32 c_gui_saved_film_category_datasource::get_current_item_count_internal()
 //.text:00ADCAD0 ; protected: virtual int32 c_gui_saved_film_subitem_datasource::get_current_item_count_internal()
 //.text:00ADCAE0 ; public: virtual bool c_gui_saved_film_selected_item::get_file_path(wchar_t*, int32) const
-//.text:00ADCB00 ; public: bool c_gui_saved_film_selected_item::get_film_details(game_options*, int32*, int32*) const
+
+bool c_gui_saved_film_selected_item::get_film_details(game_options* options, int32* out_length_in_ticks, int32* out_start_tick) const
+{
+	//return INVOKE_CLASS_MEMBER(0x00ADCB00, c_gui_saved_film_selected_item, get_film_details, options, out_length_in_ticks, out_start_tick);
+
+	s_blf_saved_film film_on_disk{};
+
+	switch (c_gui_saved_film_selected_item::get_location())
+	{
+	case _gui_stored_item_location_saved_game_file:
+	case _gui_stored_item_location_autosave_queue:
+	{
+		c_synchronized_long success = 0;
+		c_synchronized_long done = 0;
+		if (autosave_queue_read_file(&m_file_reference, &film_on_disk, sizeof(s_blf_saved_film), &success, &done) == NONE)
+		{
+			break;
+		}
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+		if (success.peek() != 1)
+		{
+			break;
+		}
+
+		bool was_valid = false;
+		if (!film_on_disk.copy_to_and_validate(options, out_length_in_ticks, out_start_tick, &was_valid))
+		{
+			printf("");
+		}
+		return was_valid;
+	}
+	break;
+	}
+
+	return false;
+}
+
 //.text:00ADCCD0 ; public: e_game_engine_type c_gui_saved_film_selected_item::get_game_engine_type() const
 //.text:00ADCCE0 ; public: virtual const c_gui_selected_item* c_gui_saved_film_subitem_datasource::get_gui_selected_item(int32) const
 //.text:00ADCD10 ; public: virtual bool c_gui_saved_film_category_datasource::get_integer_value(int32, int32, int32*)
