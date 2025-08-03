@@ -19,6 +19,10 @@
       "Command": "-centered"
     },
     {
+      "Id": "124e3552-fbdf-470f-b0d2-b9b7b30058f0",
+      "Command": "-disable-auto-exposure"
+    },
+    {
       "Id": "1b5f4b15-7371-47e7-bea4-911db9f41246",
       "Command": "-cache-memory-increase 1200"
     },
