@@ -629,19 +629,18 @@ void find_files_recursive(void* userdata, s_file_reference* directory, uns32 ope
 		if (find_file_data.active_find_file_state.find_data.dwFileAttributes & k_file_attribute_directory)
 		{
 			find_files_recursive(userdata, &found_file, open_flags, file_handler);
+			continue;
 		}
-		else
+
+		uns32 error = 0;
+		if (!file_open(&found_file, open_flags, &error))
 		{
-			uns32 error = 0;
-			if (!file_open(&found_file, open_flags, &error))
-			{
-				continue;
-			}
-
-			file_handler(userdata, &found_file);
-
-			file_close(&found_file);
+			continue;
 		}
+
+		file_handler(userdata, &found_file);
+
+		file_close(&found_file);
 	}
 
 	find_files_end(&find_file_data);
