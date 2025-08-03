@@ -178,7 +178,7 @@ void __cdecl file_error(const char* file_function, s_file_reference* reference_a
 		}
 		else
 		{
-			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path);
+			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path.get_string());
 		}
 
 		char error_message[2048]{};
