@@ -18,8 +18,8 @@ class c_network_channel_owner
 public:
 	virtual bool desire_channel_heartbeat(int32 observer_channel_index) const;
 	virtual bool channel_is_load_bearing(int32 observer_channel_index) const;
-	virtual bool attempt_channel_reconnection(int32 observer_channel_index, bool a2) const;
-	virtual void notify_channel_connection(int32 observer_channel_index, uns32 a2, bool a3);
+	virtual bool attempt_channel_reconnection(int32 observer_channel_index, bool preexisting_connection) const;
+	virtual void notify_channel_connection(int32 observer_channel_index, uns32 connection_identifier, bool connected);
 	virtual void notify_channel_died(int32 observer_channel_index);
 };
 static_assert(sizeof(c_network_channel_owner) == 0x4);
