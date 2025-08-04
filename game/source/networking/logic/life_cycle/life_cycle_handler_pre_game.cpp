@@ -138,7 +138,7 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_pre_game::update_f
 }
 
 // $TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
-__declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown()
+__declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown_for_net_skip_countdown()
 {
 	// original instructions
 	// loc_48F66A:
@@ -172,7 +172,25 @@ __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown()
 		jmp     addr_48F7C1
 	}
 }
-HOOK_DECLARE(0x0048F66A, life_cycle_state_handler_pre_game_host_update_countdown);
+HOOK_DECLARE(0x0048F66A, life_cycle_state_handler_pre_game_host_update_countdown_for_net_skip_countdown);
+
+// $TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
+__declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown_for_saved_films()
+{
+	// prevent countdown from stopping
+	
+	// run cleanup and return
+	__asm
+	{
+		pop     edi
+		pop     esi
+		pop     ebx
+		mov     esp, ebp
+		pop     ebp
+		retn
+	}
+}
+HOOK_DECLARE(0x0048F704, life_cycle_state_handler_pre_game_host_update_countdown_for_saved_films);
 
 // $TODO: rewrite `c_life_cycle_state_handler_pre_game::update` 
 __declspec(naked) void life_cycle_state_handler_pre_game_update()

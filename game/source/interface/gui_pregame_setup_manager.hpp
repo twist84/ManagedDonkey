@@ -19,7 +19,7 @@ public:
 	void set_selected_item(e_controller_index controller_index, const c_gui_selected_item* selected_item, bool selected_from_recent_list, int32 source_screen_index_to_dispose);
 	void update();
 
-protected:
+//protected:
 	bool m_selected_from_recent_list[8];
 	int32 m_network_mode_change_request;
 	s_gui_single_game_setup_storage m_storage_to_set_on_next_update;
