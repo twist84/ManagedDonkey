@@ -63,7 +63,43 @@ c_gui_saved_film_selected_item& c_gui_saved_film_selected_item::operator=(const 
 
 bool c_gui_saved_film_subitem_datasource::film_matches_category(s_saved_game_item_metadata* metadata)
 {
-	return INVOKE_CLASS_MEMBER(0x00ADC8F0, c_gui_saved_film_subitem_datasource, film_matches_category, metadata);
+	//return INVOKE_CLASS_MEMBER(0x00ADC8F0, c_gui_saved_film_subitem_datasource, film_matches_category, metadata);
+
+	switch (m_category)
+	{
+	case _saved_film_category_recent_films:
+	{
+		return true;
+	}
+	break;
+	case _saved_film_category_film_clips:
+	{
+		return metadata->get_metadata_file_type() == _metadata_file_type_film_clip;
+	}
+	break;
+	case _saved_film_category_campaign:
+	{
+		return metadata->get_metadata_file_type() == _metadata_file_type_film && metadata->game_engine_index == _game_engine_type_none && !metadata->campaign_survival_enabled;
+	}
+	break;
+	case _saved_film_category_multiplayer:
+	{
+		return metadata->get_metadata_file_type() == _metadata_file_type_film && metadata->campaign_id == _campaign_id_none && metadata->game_engine_index != _game_engine_type_sandbox;
+	}
+	break;
+	case _saved_film_category_editor:
+	{
+		return metadata->get_metadata_file_type() == _metadata_file_type_film && metadata->campaign_id == _campaign_id_none && metadata->game_engine_index == _game_engine_type_sandbox;
+	}
+	break;
+	case _saved_film_category_survival:
+	{
+		return metadata->get_metadata_file_type() == _metadata_file_type_film && metadata->game_engine_index == _game_engine_type_none && metadata->campaign_survival_enabled;
+	}
+	break;
+	}
+
+	return false;
 }
 
 //.text:00ADC9C0 ; public: virtual void c_gui_saved_film_category_datasource::get_column_names(int32* const, int32*)
