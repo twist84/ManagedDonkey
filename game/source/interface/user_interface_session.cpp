@@ -333,7 +333,7 @@ bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_descripti
 		c_static_string<256> film_path;
 		film_path.print("%ls", description->film_path);
 
-		is_valid = (controller_index == k_no_controller) || saved_film_manager_film_valid(k_any_controller /*controller_index*/, film_path.get_string());
+		is_valid = (controller_index == k_no_controller) || saved_film_manager_film_valid(controller_index, film_path.get_string());
 	}
 
 	if (needs_verification && online_is_connected_to_live())

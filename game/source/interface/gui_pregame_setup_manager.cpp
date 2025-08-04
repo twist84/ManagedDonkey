@@ -20,6 +20,8 @@ void __thiscall c_gui_pregame_setup_manager::set_selected_item_(e_controller_ind
 		return;
 	}
 
+	return;
+
 	ASSERT(selected_item);
 
 	const s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
@@ -58,7 +60,7 @@ void __thiscall c_gui_pregame_setup_manager::set_selected_item_(e_controller_ind
 		c_static_string<256> film_path;
 		film_path.print("%ls", game_setup_storage.theater.film_description.film_path);
 
-		if (saved_film_manager_film_valid(k_any_controller /*controller_index*/, film_path.get_string()))
+		if (saved_film_manager_film_valid(controller_index, film_path.get_string()))
 		{
 			user_interface_squad_set_film(
 				&game_setup_storage.theater.film_description);

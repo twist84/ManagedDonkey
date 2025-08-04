@@ -74,4 +74,25 @@ static_assert(0x19BA0 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_control
 static_assert(0x19BA4 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_enumeration_complete));
 static_assert(0x19BA8 == OFFSETOF(c_gui_saved_film_subitem_datasource, m_autosave_enumerator));
 
+class c_gui_saved_film_category_datasource :
+	public c_gui_ordered_data
+{
+public:
+	struct s_film_category
+	{
+		wchar_t name[48];
+		wchar_t description[256];
+		e_saved_film_category category;
+		c_gui_selected_item::e_special_item_type special_item_type;
+	};
+	static_assert(sizeof(s_film_category) == 0x268);
+
+public:
+//private:
+	c_static_array<s_film_category, k_saved_film_category_count> m_saved_films;
+	int32 m_saved_film_count;
+	int32 m_owner_screen_index;
+};
+static_assert(sizeof(c_gui_saved_film_category_datasource) == 0x1454);
+//static_assert(sizeof(c_gui_saved_film_category_datasource) == sizeof(c_gui_ordered_data) + 0x1348);
 
