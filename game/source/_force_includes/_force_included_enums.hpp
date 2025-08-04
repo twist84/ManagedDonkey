@@ -413,6 +413,15 @@ enum e_saved_film_category
 	k_saved_film_category_bits = 4,
 };
 
+enum e_metadata_file_type
+{
+	_metadata_file_type_film = 0,
+	_metadata_file_type_film_clip,
+	_metadata_file_type_map_variant,
+	_metadata_file_type_screenshot,
+	_metadata_file_type_game_variant,
+};
+
 enum e_button_presets
 {
 	_button_preset_first = 0,

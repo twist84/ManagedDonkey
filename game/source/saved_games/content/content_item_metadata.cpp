@@ -77,6 +77,26 @@ void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 	packet->write_qword("game-id", game_id, 64);
 }
 
+//.text:00524430 ; 
+//.text:00524440 ; e_game_engine_type __cdecl game_content_type_to_game_engine_index(e_game_content_type)
+//.text:005244C0 ; e_saved_game_file_type __cdecl game_content_type_to_saved_game_file_type(e_game_content_type)
+//.text:00524570 ; e_game_content_type __cdecl game_engine_index_to_game_content_type(e_game_engine_type)
+//.text:005245F0 ; e_saved_game_file_type __cdecl game_engine_index_to_saved_game_file_type(e_game_engine_type)
+//.text:00524670 ; public: static uns64 __cdecl s_saved_game_item_metadata::generate_unique_id()
+//.text:005246C0 ; public: c_game_engine_base_variant* c_game_variant::get_active_variant_writeable()
+//.text:005246E0 ; public: static e_metadata_file_type s_saved_game_item_metadata::get_file_type_from_saved_game_type(e_saved_game_file_type)
+//.text:00524740 ; public: e_game_content_type s_saved_game_item_metadata::get_game_content_type() const
+//.text:00524750 ; public: e_gui_game_mode s_saved_game_item_metadata::get_gui_game_mode() const
+//.text:005247A0 ; public: bool s_saved_game_item_metadata::get_map_image_filename(c_static_string<256>*) const
+
+e_metadata_file_type s_saved_game_item_metadata::get_metadata_file_type() const
+{
+	return INVOKE_CLASS_MEMBER(0x00524820, s_saved_game_item_metadata, get_metadata_file_type);
+}
+
+//.text:00524830 ; public: bool s_saved_game_item_metadata::get_metadata_integer(int32, int32*) const
+//.text:00524940 ; public: bool s_saved_game_item_metadata::get_metadata_text(int32, c_static_wchar_string<1024>*) const
+
 void s_saved_game_item_metadata::initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 size)
 {
 	INVOKE_CLASS_MEMBER(0x00525000, s_saved_game_item_metadata, initialize_from_current_game_settings, controller_index, file_type, in_name, in_description, size);
