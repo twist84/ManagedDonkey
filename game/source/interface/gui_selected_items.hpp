@@ -60,7 +60,7 @@ public:
 
 	virtual bool is_valid() const;
 	virtual e_gui_selected_item_location get_location() const;
-	virtual bool get_file_path(char* path, int32 maximum_characters) const;
+	virtual bool get_file_path(wchar_t* path, int32 maximum_characters) const;
 	virtual const wchar_t* get_title() const;
 	virtual const utf8* get_description(utf8* buffer, int32 buffer_length) const;
 	virtual const wchar_t* get_description() const;

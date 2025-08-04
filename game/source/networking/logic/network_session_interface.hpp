@@ -213,13 +213,14 @@ extern bool __cdecl network_squad_session_build_status(s_network_squad_status_da
 extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_controls_coop_game_options(bool* out_is_leader);
 extern bool __cdecl network_squad_session_get_membership(int32* update_number, int32* local_peer_index, int32* host_peer_index, int32* leader_peer_index, int32* peer_count, uns32* peer_valid_flags, const s_network_session_peer** peers, int32* player_count, uns32* player_valid_flags, const s_network_session_player** players);
+extern e_network_session_class __cdecl network_squad_session_get_session_class();
 extern e_network_game_start_mode __cdecl network_squad_session_get_start_mode();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(int16 campaign_insertion_point);
 extern bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user);
 extern bool __cdecl network_squad_session_set_closed_status(e_network_session_closed_status closed_status);
 extern bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_id, e_map_id map_id, const char* scenario_path);
-extern bool __cdecl network_squad_session_set_film(const s_saved_film_description* film);
+extern bool __cdecl network_squad_session_set_film(const s_saved_film_description* description);
 extern bool __cdecl network_squad_session_set_game_variant(const c_game_variant* game_variant);
 extern bool __cdecl network_squad_session_set_map(e_campaign_id campaign_id, e_map_id map_id, const char* scenario_path);
 extern bool __cdecl network_squad_session_set_map_variant(const c_map_variant* map_variant);

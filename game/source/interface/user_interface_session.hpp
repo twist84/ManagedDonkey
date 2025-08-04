@@ -4,6 +4,7 @@
 
 class c_game_variant;
 class c_map_variant;
+struct game_options;
 struct s_player_configuration;
 struct s_player_identifier;
 struct s_saved_film_description;
@@ -44,11 +45,12 @@ extern bool __cdecl user_interface_squad_in_matchmaking();
 extern bool __cdecl user_interface_squad_in_or_after_countdown();
 extern bool __cdecl user_interface_squad_local_peer_is_host();
 extern bool __cdecl user_interface_squad_local_peer_is_leader();
-extern bool __cdecl user_interface_squad_set_film(const s_saved_film_description* film);
-extern bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_description* film, bool needs_verification);
+extern bool __cdecl user_interface_squad_set_film(const s_saved_film_description* description);
+extern bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_description* description, bool needs_verification);
 extern bool __cdecl user_interface_squad_set_game_variant(const c_game_variant* game_variant);
-extern bool __cdecl user_interface_squad_set_map_variant(const c_map_variant* map_variant);
+extern bool __cdecl user_interface_squad_set_multiplayer_map(const c_map_variant* map_variant);
 extern bool __cdecl user_interface_squad_set_multiplayer_map_internal(const c_map_variant* map_variant, bool needs_verification);
+extern bool __cdecl user_interface_squad_set_saved_film_game_options(int32 length_in_ticks, int32 start_tick, const game_options* options);
 extern bool __cdecl user_interface_squad_start_countdown_timer(e_controller_index controller_index, int32 countdown_timer, int32 accelerate_countdown_timer);
 extern bool __cdecl user_interface_squad_stop_countdown_timer(e_controller_index controller_index, int32 countdown_timer, bool halo2);
 

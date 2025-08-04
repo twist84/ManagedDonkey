@@ -558,7 +558,7 @@ void network_test_set_map_name(const char* scenario_path)
 
 void network_test_set_map_variant(const c_map_variant* map_variant)
 {
-	if (user_interface_squad_set_map_variant(map_variant))
+	if (user_interface_squad_set_multiplayer_map(map_variant))
 	{
 		return;
 	}
@@ -566,7 +566,7 @@ void network_test_set_map_variant(const c_map_variant* map_variant)
 	static c_map_variant default_map_variant;
 	e_map_id multiplayer_map = levels_get_default_multiplayer_map_id();
 	default_map_variant.create_default(multiplayer_map);
-	user_interface_squad_set_map_variant(&default_map_variant);
+	user_interface_squad_set_multiplayer_map(&default_map_variant);
 }
 
 void network_test_set_game_variant(e_game_engine_type game_engine_index)

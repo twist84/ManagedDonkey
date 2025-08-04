@@ -3,6 +3,8 @@
 #include "main/console.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/online/online.hpp"
+#include "saved_games/saved_film_manager.hpp"
 
 HOOK_DECLARE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
 HOOK_DECLARE(0x00A82AE0, user_interface_squad_get_countdown_timer);
@@ -302,14 +304,61 @@ bool __cdecl user_interface_squad_local_peer_is_leader()
 //.text:00A83630 ; bool __cdecl user_interface_squad_set_map(e_campaign_id campaign_id, e_map_id map_id)
 //.text:00A83680 ; bool __cdecl user_interface_squad_set_campaign_metagame_scoring(e_campaign_metagame_scoring campaign_metagame_scoring)
 
-bool __cdecl user_interface_squad_set_film(const s_saved_film_description* film)
+bool __cdecl user_interface_squad_set_film(const s_saved_film_description* description)
 {
-	return INVOKE(0x00A836F0, user_interface_squad_set_film, film);
+	//return INVOKE(0x00A836F0, user_interface_squad_set_film, description);
+
+	return user_interface_squad_set_film_internal(description, network_squad_session_get_session_class() == _network_session_class_xbox_live);
 }
 
-bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_description* film, bool needs_verification)
+bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_description* description, bool needs_verification)
 {
-	return INVOKE(0x00A83720, user_interface_squad_set_film_internal, film, needs_verification);
+	//return INVOKE(0x00A83720, user_interface_squad_set_film_internal, description, needs_verification);
+
+	ASSERT(description);
+
+	bool is_valid = true;
+
+	if (description->category == _saved_film_category_none)
+	{
+		// nothing to verify
+	}
+	else if (description->category == _saved_film_category_invalid)
+	{
+		is_valid = false;
+	}
+	else
+	{
+		e_controller_index controller_index = description->controller_index;
+		c_static_string<256> film_path;
+		film_path.print("%ls", description->film_path);
+
+		is_valid = (controller_index == k_no_controller) || saved_film_manager_film_valid(k_any_controller /*controller_index*/, film_path.get_string());
+	}
+
+	if (needs_verification && online_is_connected_to_live())
+	{
+		// $TODO: ...
+	}
+
+	if (!is_valid)
+	{
+		s_saved_film_description blank_description{};
+		csmemset(&blank_description, 0, sizeof(s_saved_film_description));
+		blank_description.difficulty = _campaign_difficulty_level_normal;
+		blank_description.category = is_valid ? _saved_film_category_none : _saved_film_category_invalid;
+		blank_description.controller_index = k_no_controller;
+
+		return network_squad_session_set_film(&blank_description);
+	}
+
+	if (!network_squad_session_set_film(description))
+	{
+		return false;
+	}
+
+	network_session_interface_notify_set_local_specific_film(description);
+	return true;
 }
 
 //.text:00A83870 ; bool __cdecl user_interface_squad_set_game_setup_changing(bool game_setup_changing)
@@ -322,9 +371,9 @@ bool __cdecl user_interface_squad_set_game_variant(const c_game_variant* game_va
 //.text:00A838F0 ; bool __cdecl user_interface_squad_set_game_variant_internal(const c_game_variant* game_variant, bool needs_verification)
 //.text:00A83AA0 ; bool __cdecl user_interface_squad_set_maximum_player_count(int32 maximum_player_count)
 
-bool __cdecl user_interface_squad_set_map_variant(const c_map_variant* map_variant)
+bool __cdecl user_interface_squad_set_multiplayer_map(const c_map_variant* map_variant)
 {
-	return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
+	return INVOKE(0x00A83AB0, user_interface_squad_set_multiplayer_map, map_variant);
 }
 
 bool __cdecl user_interface_squad_set_multiplayer_map_internal(const c_map_variant* map_variant, bool needs_verification)
@@ -332,7 +381,11 @@ bool __cdecl user_interface_squad_set_multiplayer_map_internal(const c_map_varia
 	return INVOKE(0x00A83AF0, user_interface_squad_set_multiplayer_map_internal, map_variant, needs_verification);
 }
 
-//.text:00A83C90 ; bool __cdecl user_interface_squad_set_saved_film_game_options(int32 playback_length_in_ticks, int playback_start_ticks, game_options* options)
+bool __cdecl user_interface_squad_set_saved_film_game_options(int32 length_in_ticks, int32 start_tick, const game_options* options)
+{
+	return INVOKE(0x00A83C90, user_interface_squad_set_saved_film_game_options, length_in_ticks, start_tick, options);
+}
+
 //.text:00A83CC0 ; bool __cdecl user_interface_squad_set_simulation_protocol(e_network_game_simulation_protocol simulation_protocol)
 //.text:00A83CD0 ; char __cdecl user_interface_squad_set_start_mode(e_network_game_start_mode start_mode)
 //.text:00A83CE0 ; bool __cdecl user_interface_squad_set_ui_game_mode(e_gui_game_mode ui_game_mode)

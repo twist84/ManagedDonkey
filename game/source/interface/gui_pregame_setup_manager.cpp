@@ -44,7 +44,7 @@ void c_gui_pregame_setup_manager::restore_from_last(e_gui_game_mode lobby)
 
 //.text:00AA7270 ; public: void c_gui_pregame_setup_manager::restore_game_setup(e_gui_game_mode, s_gui_game_setup_storage*)
 //.text:00AA72A0 ; private: void c_gui_pregame_setup_manager::restore_game_setup_internal(e_gui_game_mode, s_gui_game_setup_storage*)
-//.text:00AA7B00 ; public: static void __cdecl c_gui_pregame_setup_manager::save_game_setup(const s_gui_game_setup_storage*, c_gui_single_game_setup_storage*)
+//.text:00AA7B00 ; public: static void __cdecl c_gui_pregame_setup_manager::save_game_setup(const s_gui_game_setup_storage*, s_gui_single_game_setup_storage*)
 //.text:00AA7D90 ; 
 
 void c_gui_pregame_setup_manager::set_selected_item(e_controller_index controller_index, const c_gui_selected_item* selected_item, bool selected_from_recent_list, int32 source_screen_index_to_dispose)

@@ -182,33 +182,62 @@ public:
 	s_campaign_settings* get_campaign()
 	{
 		return &campaign_settings;
-	};
+	}
+
+	s_campaign_settings const* get_campaign() const
+	{
+		return &campaign_settings;
+	}
 
 	s_survival_settings* get_survival()
 	{
 		return &survival_settings;
-	};
+	}
+
+	s_survival_settings const* get_survival() const
+	{
+		return &survival_settings;
+	}
 
 	s_matchmaking_settings* get_matchmaking()
 	{
 		return &matchmaking_settings;
-	};
+	}
+
+	s_matchmaking_settings const* get_matchmaking() const
+	{
+		return &matchmaking_settings;
+	}
 
 	s_multiplayer_settings* get_multiplayer()
 	{
 		return &multiplayer_settings;
-	};
+	}
+
+	s_multiplayer_settings const* get_multiplayer() const
+	{
+		return &multiplayer_settings;
+	}
 
 	s_mapeditor_settings* get_mapeditor()
 	{
 		return &map_editor_settings;
-	};
+	}
+
+	s_mapeditor_settings const* get_mapeditor() const
+	{
+		return &map_editor_settings;
+	}
 
 	s_theater_settings* get_theater()
 	{
 		return &theater_settings;
-	};
+	}
 
+	s_theater_settings const* get_theater() const
+	{
+		return &theater_settings;
+	}
 
 protected:
 	s_campaign_settings campaign_settings;
@@ -219,6 +248,26 @@ protected:
 	s_theater_settings theater_settings;
 };
 static_assert(sizeof(s_gui_game_setup_storage) == 0x41B78);
+
+#pragma pack(push, 4)
+
+struct s_gui_single_game_setup_storage
+{
+	e_gui_game_mode game_mode;
+
+	union
+	{
+		s_gui_game_setup_storage::s_campaign_settings campaign;
+		s_gui_game_setup_storage::s_survival_settings survival;
+		s_gui_game_setup_storage::s_matchmaking_settings matchmaking;
+		s_gui_game_setup_storage::s_multiplayer_settings multiplayer;
+		s_gui_game_setup_storage::s_mapeditor_settings mapeditor;
+		s_gui_game_setup_storage::s_theater_settings theater;
+	};
+};
+static_assert(sizeof(s_gui_single_game_setup_storage) == 0x24E84);
+
+#pragma pack(pop)
 
 struct s_global_preferences_data
 {
@@ -449,6 +498,7 @@ extern void __cdecl global_preferences_set_vsync(bool vsync);
 extern void __cdecl global_preferences_set_xbox_live_private_privacy_setting(e_gui_network_session_advertisement_mode xbox_live_private_privacy_setting);
 extern bool __cdecl global_preferences_get_hide_watermark();
 extern void __cdecl global_preferences_update();
+extern void __cdecl global_preferences_update_last_game_setup(s_gui_single_game_setup_storage* last_game_setup);
 extern void __cdecl global_preferences_write();
 
 enum e_global_preference

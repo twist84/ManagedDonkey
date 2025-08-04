@@ -1,10 +1,12 @@
 #include "networking/logic/network_session_interface.hpp"
 
+#include "memory/module.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/network_time.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_interface_globals);
@@ -385,8 +387,13 @@ bool __cdecl network_squad_session_get_membership(int32* update_number, int32* l
 	return INVOKE(0x00439020, network_squad_session_get_membership, update_number, local_peer_index, host_peer_index, leader_peer_index, peer_count, peer_valid_flags, peers, player_count, player_valid_flags, players);
 }
 
-//.text:00439080 ; 
-//.text:004390D0 ; e_network_session_class __cdecl network_squad_session_get_session_class()
+//.text:00439080 ; int32 __cdecl network_squad_session_get_percent_loaded()
+
+e_network_session_class __cdecl network_squad_session_get_session_class()
+{
+	return INVOKE(0x004390D0, network_squad_session_get_session_class);
+}
+
 //.text:00439110 ; const wchar_t* __cdecl network_squad_session_get_session_name()
 //.text:00439160 ; e_network_game_privacy __cdecl network_squad_session_get_privacy_mode()
 
@@ -420,9 +427,9 @@ bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_
 	return INVOKE(0x004396F0, network_squad_session_set_coop_game_options, campaign_id, map_id, scenario_path);
 }
 
-bool __cdecl network_squad_session_set_film(const s_saved_film_description* film)
+bool __cdecl network_squad_session_set_film(const s_saved_film_description* description)
 {
-	return INVOKE(0x00439800, network_squad_session_set_film, film);
+	return INVOKE(0x00439800, network_squad_session_set_film, description);
 }
 
 bool __cdecl network_squad_session_set_game_variant(const c_game_variant* game_variant)

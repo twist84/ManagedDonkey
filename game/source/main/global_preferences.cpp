@@ -1402,7 +1402,10 @@ void __cdecl global_preferences_update()
 	//	global_preferences_get()->__unknown84010 = 0;
 }
 
-//.text:0050EBA0 ; void __cdecl c_gui_pregame_setup_manager::restore_game_setup(c_gui_single_game_setup_storage* storage)
+void __cdecl global_preferences_update_last_game_setup(s_gui_single_game_setup_storage* last_game_setup)
+{
+	INVOKE(0x0050EBA0, global_preferences_update_last_game_setup, last_game_setup);
+}
 
 void __cdecl global_preferences_write()
 {

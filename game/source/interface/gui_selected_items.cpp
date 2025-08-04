@@ -28,7 +28,7 @@ bool c_gui_selected_item::get_enabled() const
 	return INVOKE_CLASS_MEMBER(0x00680B30, c_gui_selected_item, get_enabled);
 }
 
-bool c_gui_selected_item::get_file_path(char* path, int32 maximum_characters) const
+bool c_gui_selected_item::get_file_path(wchar_t* path, int32 maximum_characters) const
 {
 	return INVOKE_CLASS_MEMBER(0x00680BA0, c_gui_selected_item, get_file_path, path, maximum_characters);
 }
