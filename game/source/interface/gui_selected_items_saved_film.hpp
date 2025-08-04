@@ -78,6 +78,9 @@ class c_gui_saved_film_category_datasource :
 	public c_gui_ordered_data
 {
 public:
+	bool __thiscall initialize_(int32 name);
+
+public:
 	struct s_film_category
 	{
 		wchar_t name[48];
@@ -86,6 +89,9 @@ public:
 		c_gui_selected_item::e_special_item_type special_item_type;
 	};
 	static_assert(sizeof(s_film_category) == 0x268);
+
+private: 
+	void add_category(int32 title, int32 description, e_saved_film_category category, c_gui_selected_item::e_special_item_type special_item_type);
 
 public:
 //private:

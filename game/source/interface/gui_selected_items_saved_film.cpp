@@ -2,6 +2,7 @@
 
 #include "cseries/async.hpp"
 #include "game/game_options.hpp"
+#include "interface/user_interface.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "saved_games/saved_game_files.hpp"
@@ -9,12 +10,72 @@
 #include <cstdlib>
 
 HOOK_DECLARE_CLASS_MEMBER(0x00ADCB00, c_gui_saved_film_selected_item, get_film_details_);
+HOOK_DECLARE_CLASS_MEMBER(0x00ADD210, c_gui_saved_film_category_datasource, initialize_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADD3E0, c_gui_saved_film_subitem_datasource, update_autosave_enumeration_);
 HOOK_DECLARE_CLASS_MEMBER(0x00ADD560, c_gui_saved_film_subitem_datasource, update_content_enumeration_);
 
 bool __thiscall c_gui_saved_film_selected_item::get_film_details_(game_options* options, int32* out_length_in_ticks, int32* out_start_tick)
 {
 	return c_gui_saved_film_selected_item::get_film_details(options, out_length_in_ticks, out_start_tick);
+}
+
+bool __thiscall c_gui_saved_film_category_datasource::initialize_(int32 name)
+{
+	if (!c_gui_data::initialize(name))
+	{
+		return false;
+	}
+
+	c_gui_saved_film_category_datasource::add_category(
+		STRING_ID(gui, recent_films),
+		STRING_ID(gui, recent_films_description),
+		_saved_film_category_recent_films,
+		c_gui_selected_item::_special_item_type_recent);
+
+	c_gui_saved_film_category_datasource::add_category(
+		STRING_ID(gui, file_share_owner),
+		STRING_ID(gui, file_share_owner_description),
+		_saved_film_category_none,
+		c_gui_selected_item::_special_item_type_my_file_share);
+
+	if (!get_alpha_is_internal_beta())
+	{
+		c_gui_saved_film_category_datasource::add_category(
+			STRING_ID(gui, film_clip),
+			STRING_ID(gui, film_clip_description),
+			_saved_film_category_film_clips,
+			c_gui_selected_item::_special_item_type_category);
+
+		c_gui_saved_film_category_datasource::add_category(
+			STRING_ID(gui, campaign_film),
+			STRING_ID(gui, campaign_film_description),
+			_saved_film_category_campaign,
+			c_gui_selected_item::_special_item_type_category);
+	}
+
+	c_gui_saved_film_category_datasource::add_category(
+		STRING_ID(gui, multiplayer_film),
+		STRING_ID(gui, multiplayer_film_description),
+		_saved_film_category_multiplayer,
+		c_gui_selected_item::_special_item_type_category);
+
+	if (!get_alpha_is_internal_beta())
+	{
+		c_gui_saved_film_category_datasource::add_category(
+			STRING_ID(gui, editor_film),
+			STRING_ID(gui, editor_film_description),
+			_saved_film_category_editor,
+			c_gui_selected_item::_special_item_type_category);
+
+		//// ODST
+		//c_gui_saved_film_category_datasource::add_category(
+		//	STRING_ID(gui, survival_film),
+		//	STRING_ID(gui, survival_film_description),
+		//	_saved_film_category_survival,
+		//	c_gui_selected_item::_special_item_type_category);
+	}
+
+	return true;
 }
 
 void __thiscall c_gui_saved_film_subitem_datasource::update_autosave_enumeration_()
@@ -58,7 +119,12 @@ c_gui_saved_film_selected_item& c_gui_saved_film_selected_item::operator=(const 
 //.text:00ADC710 ; 
 //.text:00ADC730 ; public: virtual void* c_gui_saved_film_category_datasource::`vector deleting destructor'(unsigned int)
 //.text:00ADC760 ; public: virtual void* c_gui_saved_film_subitem_datasource::`vector deleting destructor'(unsigned int)
-//.text:00ADC7D0 ; private: void c_gui_saved_film_category_datasource::add_category(int32, int32, e_saved_film_category, c_gui_selected_item::e_special_item_type)
+
+void c_gui_saved_film_category_datasource::add_category(int32 title, int32 description, e_saved_film_category category, c_gui_selected_item::e_special_item_type special_item_type)
+{
+	INVOKE_CLASS_MEMBER(0x00ADC7D0, c_gui_saved_film_category_datasource, add_category, title, description, category, special_item_type);
+}
+
 //.text:00ADC8D0 ; public: virtual void c_gui_saved_film_subitem_datasource::dispose()
 
 bool c_gui_saved_film_subitem_datasource::film_matches_category(s_saved_game_item_metadata* metadata)
