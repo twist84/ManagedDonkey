@@ -79,11 +79,23 @@ bool c_gui_game_variant_selected_item::get_game_variant(c_game_variant* game_var
 
 	s_blffile_game_variant variant_on_disk{};
 
-	switch (c_gui_game_variant_selected_item::get_location())
+	e_gui_selected_item_location location = c_gui_game_variant_selected_item::get_location();
+	switch (location)
 	{
+	case _gui_stored_item_location_built_in:
+	{
+		return game_engine_tag_defined_variant_get_built_in_variant(m_metadata.game_engine_index, m_variant_index, game_variant);
+	}
+	break;
 	case _gui_stored_item_location_saved_game_file:
 	case _gui_stored_item_location_autosave_queue:
 	{
+		if (location == _gui_stored_item_location_saved_game_file &&
+			game_engine_index_to_saved_game_file_type(m_metadata.game_engine_index) == k_saved_game_file_type_none)
+		{
+			break;
+		}
+
 		c_synchronized_long success = 0;
 		c_synchronized_long done = 0;
 		if (autosave_queue_read_file(&m_file_reference, &variant_on_disk, sizeof(s_blffile_game_variant), &success, &done) == NONE)
