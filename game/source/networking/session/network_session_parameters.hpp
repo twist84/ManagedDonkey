@@ -112,7 +112,7 @@ public:
 	bool handle_update(const s_network_message_parameters_update* update);
 	bool parameters_transmitted_to_peers(uns64 parameter_mask) const;
 
-	//s_network_session_parameters_internal m_parameters_internal;
+	//s_network_session_parameters_internal m_parameters;
 	c_network_session* m_session;
 	c_network_observer* m_observer;
 	c_network_session_parameter_base* m_parameter_interfaces[49 /* k_network_session_parameter_type_count */];
