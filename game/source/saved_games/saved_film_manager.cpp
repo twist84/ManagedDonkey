@@ -1296,6 +1296,10 @@ bool saved_film_manager_read_update(s_saved_film_update* update_out)
 
 void saved_film_manager_render_debug()
 {
+	if (game_in_progress() && game_is_playback() && g_saved_films_show_timestamp)
+	{
+		// $TODO: implement
+	}
 }
 
 void saved_film_manager_replay_film()

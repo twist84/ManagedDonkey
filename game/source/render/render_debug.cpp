@@ -40,6 +40,7 @@
 #include "render/views/render_view.hpp"
 #include "saved_games/saved_film.hpp"
 #include "saved_games/saved_film_history.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/sound_manager.hpp"
 #include "structures/structure_detail_objects.hpp"
@@ -456,7 +457,7 @@ void __cdecl render_debug_clients(int32 user_index)
 		debug_render_observer();
 		render_debug_scenario_comments();
 		render_report_render_debug(user_index, true);
-		saved_film_render_debug();
+		saved_film_manager_render_debug();
 		saved_film_history_render_debug();
 		render_debug_visibility_render();
 		//debug_aim_assist_targets();

@@ -264,6 +264,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//		csmemset(update, 0, sizeof(struct simulation_update));
 	//		csmemset(metadata, 0, sizeof(struct s_simulation_update_metadata));
 	//
+	//		saved_film_manager_update_before_simulation_update();
 	//		simulation_globals.world->build_update(should_build, update, metadata);
 	//
 	//		if ((!simulation_globals.world->is_authority() || simulation_globals.world->is_playback()) &&
@@ -335,6 +336,7 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//				saved_film_history_notify_out_of_sync();
 	//			}
 	//		}
+	//		saved_film_manager_update_after_simulation_update(update, metadata);
 	//	}
 	//}
 }

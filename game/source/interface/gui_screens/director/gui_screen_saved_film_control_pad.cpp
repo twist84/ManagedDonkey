@@ -153,8 +153,6 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 		{
 			int32 element_handle = child_button->get_element_handle();
 
-			static_assert(0x10010 == STRING_ID(gui, gui_item));
-
 			if (element_handle != NONE)
 			{
 				int32 button_name = NONE;

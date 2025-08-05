@@ -1513,9 +1513,7 @@ void __cdecl game_tick()
 		{
 			real_math_reset_precision();
 
-			//saved_film_history_before_update_built();
 			simulation_build_update(true, &update, &metadata);
-			//saved_film_history_after_update_built(&update, metadata);
 			simulation_record_update(&update);
 
 			game_state_preserve();
