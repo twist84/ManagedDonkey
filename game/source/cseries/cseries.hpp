@@ -893,7 +893,7 @@ public:
 
 	bool valid() const
 	{
-		return (m_flags & MASK(k_maximum_count)) == 0;
+		return (m_flags & ~MASK(k_maximum_count)) == 0;
 	}
 
 	bool is_empty() const
