@@ -187,6 +187,7 @@ extern bool saved_film_manager_has_pending_global_state_change();
 extern void saved_film_manager_initialize_for_new_map();
 extern void saved_film_manager_initialize();
 extern bool saved_film_manager_is_reading();
+extern bool saved_film_manager_is_writing();
 extern void saved_film_manager_load_pending_gamestate();
 extern bool saved_film_manager_load_pending_gamestate_to_compressor();
 extern void saved_film_manager_memory_dispose();

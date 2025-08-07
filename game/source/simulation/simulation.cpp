@@ -23,7 +23,25 @@
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
 HOOK_DECLARE(0x004411E0, simulation_describe_status);
+HOOK_DECLARE(0x00441230, simulation_dispose);
+HOOK_DECLARE(0x00441270, simulation_dispose_from_old_map);
+HOOK_DECLARE(0x00441320, simulation_film_record_update);
+HOOK_DECLARE(0x00441330, simulation_film_retrieve_updates);
+HOOK_DECLARE(0x004413B0, simulation_film_start_recording);
+HOOK_DECLARE(0x00441410, simulation_film_stop_recording);
+HOOK_DECLARE(0x004419C0, simulation_initialize);
+HOOK_DECLARE(0x00441A40, simulation_initialize_for_new_map);
+HOOK_DECLARE(0x00441CD0, simulation_must_close_saved_film);
+HOOK_DECLARE(0x00441D30, simulation_notify_initial_core_load);
+HOOK_DECLARE(0x00441D50, simulation_notify_players_created);
+HOOK_DECLARE(0x00441DD0, simulation_notify_revert);
+HOOK_DECLARE(0x00441DF0, simulation_notify_saved_film_ended);
+HOOK_DECLARE(0x00441E10, simulation_notify_saved_film_revert);
 HOOK_DECLARE(0x00441F90, simulation_record_update);
+HOOK_DECLARE(0x00442080, simulation_saved_film_revert);
+HOOK_DECLARE(0x004421B0, simulation_update);
+HOOK_DECLARE(0x004426F0, simulation_update_pregame);
+
 
 c_wait_for_render_thread::c_wait_for_render_thread(const char* file, int32 line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
@@ -374,34 +392,34 @@ void __cdecl simulation_dispose()
 {
 	//INVOKE(0x00441230, simulation_dispose);
 
-	//simulation_gamestate_entities_dispose();
-	//
-	//if (!simulation_globals.initialized)
-	//{
-	//	return;
-	//}
-	//
-	//simulation_globals.world = NULL;
-	//simulation_globals.watcher = NULL;
-	//simulation_globals.type_collection = NULL;
-	//simulation_globals.initialized = false;
+	simulation_gamestate_entities_dispose();
+	
+	if (!simulation_globals.initialized)
+	{
+		return;
+	}
+	
+	simulation_globals.world = NULL;
+	simulation_globals.watcher = NULL;
+	simulation_globals.type_collection = NULL;
+	simulation_globals.initialized = false;
 }
 
 void __cdecl simulation_dispose_from_old_map()
 {
-	INVOKE(0x00441270, simulation_dispose_from_old_map);
+	//INVOKE(0x00441270, simulation_dispose_from_old_map);
 
-	//if (main_game_reset_in_progress())
-	//{
-	//	return;
-	//}
-	//
-	//simulation_globals.watcher->destroy_watcher();
-	//simulation_globals.world->destroy_world();
-	//game_results_dispose_from_old_map();
-	//simulation_gamestate_entities_dispose_from_old_map();
-	//simulation_globals.recording_film = false;
-	//simulation_globals.simulation_reset_in_progress = false;
+	if (main_game_reset_in_progress())
+	{
+		return;
+	}
+	
+	simulation_globals.watcher->destroy_watcher();
+	simulation_globals.world->destroy_world();
+	game_results_dispose_from_old_map();
+	simulation_gamestate_entities_dispose_from_old_map();
+	simulation_film_stop_recording();
+	simulation_globals.simulation_reset_in_progress = false;
 }
 
 void __cdecl simulation_end(e_simulation_abort_reason abort_reason)
@@ -775,9 +793,9 @@ void __cdecl simulation_invalidate()
 
 void __cdecl simulation_must_close_saved_film()
 {
-	INVOKE(0x00441CD0, simulation_must_close_saved_film);
+	//INVOKE(0x00441CD0, simulation_must_close_saved_film);
 
-	//simulation_globals.must_close_saved_film = true;
+	simulation_globals.must_close_saved_film = true;
 }
 
 void __cdecl simulation_notify_channel_closure(void* simulation_context)
@@ -791,15 +809,15 @@ void __cdecl simulation_notify_channel_closure(void* simulation_context)
 
 void __cdecl simulation_notify_core_save()
 {
-	INVOKE(0x00441CF0, simulation_notify_core_save);
+	//INVOKE(0x00441CF0, simulation_notify_core_save);
 
-	//if (!game_in_progress())
-	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.world);
-	//simulation_globals.world->notify_gamestate_flush_outside_game_tick();
+	if (!game_in_progress())
+	{
+		return;
+	}
+	
+	ASSERT(simulation_globals.world);
+	simulation_globals.world->notify_gamestate_flush_outside_game_tick();
 }
 
 void __cdecl simulation_notify_going_active()
@@ -816,39 +834,39 @@ void __cdecl simulation_notify_going_active()
 
 void __cdecl simulation_notify_initial_core_load(int32 update_number)
 {
-	INVOKE(0x00441D30, simulation_notify_initial_core_load, update_number);
+	//INVOKE(0x00441D30, simulation_notify_initial_core_load, update_number);
 
-	//if (!game_in_progress())
-	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.world);
-	//simulation_globals.world->notify_initial_gamestate_load(update_number);
+	if (!game_in_progress())
+	{
+		return;
+	}
+	
+	ASSERT(simulation_globals.world);
+	simulation_globals.world->notify_initial_gamestate_load(update_number);
 }
 
 void __cdecl simulation_notify_players_created()
 {
-	INVOKE(0x00441D50, simulation_notify_players_created);
+	//INVOKE(0x00441D50, simulation_notify_players_created);
 
-	//if (!simulation_globals.initialized)
-	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.watcher);
-	//
-	//if (simulation_globals.gamestate_load_in_progress)
-	//{
-	//	return;
-	//}
-	//
-	//if (simulation_globals.world->is_playback())
-	//{
-	//	return;
-	//}
-	//
-	//simulation_globals.watcher->handle_player_creation();
+	if (!simulation_globals.initialized)
+	{
+		return;
+	}
+	
+	ASSERT(simulation_globals.watcher);
+	
+	if (simulation_globals.gamestate_load_in_progress)
+	{
+		return;
+	}
+	
+	if (simulation_globals.world->is_playback())
+	{
+		return;
+	}
+	
+	simulation_globals.watcher->handle_player_creation();
 }
 
 void __cdecl simulation_notify_reset_complete()
@@ -865,43 +883,43 @@ void __cdecl simulation_notify_reset_initiate()
 
 void __cdecl simulation_notify_revert()
 {
-	INVOKE(0x00441DD0, simulation_notify_revert);
+	//INVOKE(0x00441DD0, simulation_notify_revert);
 
-	//if (!game_in_progress())
-	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.watcher);
-	//simulation_globals.watcher->notify_game_revert();
+	if (!game_in_progress())
+	{
+		return;
+	}
+	
+	ASSERT(simulation_globals.watcher);
+	simulation_globals.watcher->notify_game_revert();
 }
 
 void __cdecl simulation_notify_saved_film_ended()
 {
-	INVOKE(0x00441DF0, simulation_notify_saved_film_ended);
+	//INVOKE(0x00441DF0, simulation_notify_saved_film_ended);
 
-	//if (!game_in_progress())
-	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.world);
-	//
-	//simulation_globals.world->notify_playback_control(_network_synchronous_playback_control_end_playback, NONE, NONE);
+	if (!game_in_progress())
+	{
+		return;
+	}
+	
+	ASSERT(simulation_globals.world);
+	
+	simulation_globals.world->notify_playback_control(_network_synchronous_playback_control_end_playback, NONE, NONE);
 }
 
 void __cdecl simulation_notify_saved_film_revert(int32 history_record_index, int32 next_update_number)
 {
-	INVOKE(0x00441E10, simulation_notify_saved_film_revert, history_record_index, next_update_number);
+	//INVOKE(0x00441E10, simulation_notify_saved_film_revert, history_record_index, next_update_number);
 
-	//if (!game_in_progress())
-	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.world);
-	//
-	//simulation_globals.world->notify_playback_control(_network_synchronous_playback_control_revert, history_record_index, next_update_number);
+	if (!game_in_progress())
+	{
+		return;
+	}
+	
+	ASSERT(simulation_globals.world);
+	
+	simulation_globals.world->notify_playback_control(_network_synchronous_playback_control_revert, history_record_index, next_update_number);
 }
 
 bool __cdecl simulation_performed_main_save_and_exit_campaign_immediately_this_map()
@@ -1007,6 +1025,7 @@ void __cdecl simulation_record_update(const struct simulation_update* update)
 {
 	//INVOKE(0x00441F90, simulation_record_update, update);
 
+	ASSERT(update);
 	ASSERT(simulation_globals.initialized);
 	ASSERT(simulation_globals.world);
 	ASSERT(game_in_progress());
@@ -1047,13 +1066,13 @@ bool __cdecl simulation_reset_in_progress()
 
 void __cdecl simulation_saved_film_revert(int32 history_record_index, int32 next_update_number)
 {
-	INVOKE(0x00442080, simulation_saved_film_revert, history_record_index, next_update_number);
+	//INVOKE(0x00442080, simulation_saved_film_revert, history_record_index, next_update_number);
 
-	//ASSERT(game_in_progress());
-	//ASSERT(game_is_playback());
-	//ASSERT(!game_is_authoritative_playback());
-	//saved_film_manager_request_revert_by_index(history_record_index);
-	//simulation_globals.simulation_deferred = true;
+	ASSERT(game_in_progress());
+	ASSERT(game_is_playback());
+	ASSERT(!game_is_authoritative_playback());
+	saved_film_manager_request_revert_by_index(history_record_index);
+	simulation_globals.simulation_deferred = true;
 }
 
 void __cdecl simulation_set_performed_main_save_and_exit_campaign_immediately_this_map(bool save_and_quit_performed)
@@ -1293,28 +1312,27 @@ bool __cdecl simulation_update_player_netdebug_data(int32 player_index, s_simula
 
 void __cdecl simulation_update_pregame()
 {
-	INVOKE(0x004426F0, simulation_update_pregame);
+	//INVOKE(0x004426F0, simulation_update_pregame);
 
-	//if (!simulation_globals.initialized
-	//	|| !game_in_progress()
-	//	|| !simulation_globals.watcher->need_to_generate_updates())
-	//{
-	//	return;
-	//}
-	//
-	//struct simulation_update update{};
-	//s_simulation_update_metadata metadata{};
-	//simulation_build_update(false, &update, &metadata);
-	//ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
-	////saved_film_history_after_update_built(&update, &metadata);
-	//simulation_record_update(&update);
-	//random_seed_allow_use();
-	//damage_acceleration_queue_begin();
-	//simulation_apply_before_game(&update);
-	//damage_acceleration_queue_end();
-	//random_seed_disallow_use();
-	//simulation_update_aftermath(&update, &metadata);
-	//simulation_destroy_update(&update);
+	if (!simulation_globals.initialized
+		|| !game_in_progress()
+		|| !simulation_globals.watcher->need_to_generate_updates())
+	{
+		return;
+	}
+	
+	struct simulation_update update{};
+	s_simulation_update_metadata metadata{};
+	simulation_build_update(false, &update, &metadata);
+	ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
+	simulation_record_update(&update);
+	random_seed_allow_use();
+	damage_acceleration_queue_begin();
+	simulation_apply_before_game(&update);
+	damage_acceleration_queue_end();
+	random_seed_disallow_use();
+	simulation_update_aftermath(&update, &metadata);
+	simulation_destroy_update(&update);
 }
 
 bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, const uns8* buffer)

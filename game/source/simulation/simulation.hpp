@@ -144,6 +144,7 @@ extern void __cdecl simulation_destroy_update(struct simulation_update* update);
 extern void __cdecl simulation_dispose();
 extern void __cdecl simulation_dispose_from_old_map();
 extern void __cdecl simulation_end(e_simulation_abort_reason abort_reason);
+extern bool __cdecl simulation_film_record_update(const struct simulation_update* update);
 extern void __cdecl simulation_fatal_error();
 extern bool __cdecl simulation_film_retrieve_updates(int32 maximum_updates_to_read, int32* updates_read_out);
 extern bool __cdecl simulation_film_start_recording();

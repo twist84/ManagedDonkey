@@ -826,7 +826,14 @@ bool saved_film_manager_is_reading()
 {
 	ASSERT(saved_film_manager_globals.initialized);
 
-	return saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read;
+	return saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read;
+}
+
+bool saved_film_manager_is_writing()
+{
+	ASSERT(saved_film_manager_globals.initialized);
+
+	return saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_write;
 }
 
 void saved_film_manager_load_pending_gamestate()
@@ -917,7 +924,7 @@ void saved_film_manager_notify_gamestate_decompression_before_load_procs()
 
 void saved_film_manager_notify_gamestate_load(e_saved_film_game_state_load_source game_state_load_source)
 {
-	if (saved_film_manager_globals.saved_film.m_film_state != _saved_film_open_for_write)
+	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_write)
 	{
 		return;
 	}
@@ -1035,7 +1042,7 @@ bool saved_film_manager_open_film_for_reading(e_controller_index controller_inde
 
 bool saved_film_manager_open_film_for_writing(const char* film_name, const game_options* options)
 {
-	e_saved_film_state film_state = saved_film_manager_globals.saved_film.m_film_state;
+	e_saved_film_state film_state = saved_film_manager_globals.saved_film.get_film_state();
 	if (film_state != k_saved_film_state_none)
 	{
 		event(_event_error, "networking:saved_film:manager: can't open film for writing, current state is %d",

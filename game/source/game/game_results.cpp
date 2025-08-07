@@ -13,6 +13,35 @@ REFERENCE_DECLARE(0x023DAEA8, c_game_results, g_current_game_results);
 HOOK_DECLARE(0x00570560, game_results_statistics_decode);
 HOOK_DECLARE(0x00570600, game_results_statistics_encode);
 
+//.text:0056CBF0 ; public: c_game_results::c_game_results()
+//.text:0056CC00 ; public: s_game_results::s_game_results()
+//.text:0056CC60 ; 
+//.text:0056CC70 ; public: int32 c_game_results::add_machine(const s_machine_identifier*)
+//.text:0056CDC0 ; 
+//.text:0056CE10 ; 
+//.text:0056CE60 ; 
+//.text:0056CEF0 ; public: void c_game_results::fixup_player_machine_references()
+//.text:0056CFA0 ; 
+//.text:0056CFF0 ; void __cdecl game_results_apply_incremental_update(s_game_results_incremental*, const s_game_results_incremental_update*)
+//.text:0056D480 ; void __cdecl game_results_award_achievement(int32, e_achievement)
+//.text:0056D4F0 ; 
+//.text:0056D560 ; 
+//.text:0056D5C0 ; bool __cdecl game_results_calculate_incremental_update(const s_game_results_incremental*, s_game_results_incremental_update*)
+//.text:0056DC80 ; void __cdecl game_results_clear()
+//.text:0056DCC0 ; int32 __cdecl game_results_count_damage_statistic(int32, e_game_results_damage_statistic, e_game_results_damage_breakdown_type)
+//.text:0056DD30 ; void __cdecl game_results_damage_statistic_increment(int32, e_game_results_damage_statistic, e_damage_reporting_type, int32)
+//.text:0056DDC0 ; void __cdecl game_results_decode_player_data(c_bitstream*, s_game_results_player_data_update*)
+
+void __cdecl game_results_dispose()
+{
+	INVOKE(0x0056DE30, game_results_dispose);
+}
+
+void __cdecl game_results_dispose_from_old_map()
+{
+	INVOKE(0x0056DE60, game_results_dispose_from_old_map);
+}
+
 void __cdecl game_results_initialize_for_new_map()
 {
 	INVOKE(0x0056F340, game_results_initialize_for_new_map);
