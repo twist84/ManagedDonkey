@@ -15,6 +15,7 @@ public:
 	}
 
 	void notify_revert();
+	static bool __cdecl player_is_film_recorder(int32 player_index);
 
 //protected:
 	bool m_speed_controlled_by_trigger;

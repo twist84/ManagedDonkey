@@ -12,6 +12,18 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00727B70, c_saved_film_director, update_);
 
+bool __cdecl player_is_film_recorder_for_unit_is_film_recorder(int32 player_index)
+{
+	static bool x_first_person_film_playback_enabled = true;
+	if (x_first_person_film_playback_enabled)
+	{
+		return x_first_person_film_playback_enabled;
+	}
+
+	return c_saved_film_director::player_is_film_recorder(player_index);
+}
+HOOK_DECLARE_CALL(0x00727B51, player_is_film_recorder_for_unit_is_film_recorder);
+
 void __thiscall c_saved_film_director::update_(real32 dt)
 {
 	e_controller_index controller_index = controller_index_from_user_index(this->m_user_index);
@@ -219,7 +231,11 @@ void c_saved_film_director::notify_revert()
 	INVOKE_CLASS_MEMBER(0x00727960, c_saved_film_director, notify_revert);
 }
 
-//.text:00727990 ; public: static bool __cdecl c_saved_film_director::player_is_film_recorder(int32)
+bool __cdecl c_saved_film_director::player_is_film_recorder(int32 player_index)
+{
+	return INVOKE(0x00727990, c_saved_film_director::player_is_film_recorder, player_index);
+}
+
 //.text:00727A20 ; 
 //.text:00727A30 ; 
 //.text:00727A40 ; 
