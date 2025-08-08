@@ -10,6 +10,7 @@
 #include "camera/saved_film_director.hpp"
 #include "game/game.hpp"
 #include "game/players.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/first_person_weapons.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
@@ -24,6 +25,8 @@
 HOOK_DECLARE(0x00591F80, director_render);
 HOOK_DECLARE(0x005926C0, director_update);
 
+HOOK_DECLARE_CLASS_MEMBER(0x00592D80, c_director, player_switch_gui_create_or_update_);
+
 bool g_director_use_dt = true;
 bool survival_mode_allow_flying_camera = true;
 
@@ -37,6 +40,11 @@ const char* k_director_mode_names[k_number_of_director_modes]
 	"unused",
 	"editor"
 };
+
+void __thiscall c_director::player_switch_gui_create_or_update_()
+{
+	c_director::player_switch_gui_create_or_update();
+}
 
 s_director_globals* director_globals_get()
 {
@@ -500,17 +508,90 @@ bool c_director::in_free_camera_mode() const
 	return get_camera()->get_target() == NONE;
 }
 
-//.text:00592A60 ; bool __cdecl c_director::inhibits_facing() const
-//.text:00592A70 ; bool __cdecl c_director::inhibits_input() const
-//.text:00592A80 ; int32 __cdecl c_director::player_get_next_player_with_a_unit(int32, int32, int32, int32, bool, bool, bool, int32*)
-//.text:00592C10 ; static void __cdecl c_director::player_set_desired_respawn_player(int32, int32)
-//.text:00592C80 ; void __cdecl c_director::player_switch_gui_button_pressed()
-//.text:00592CC0 ; static bool __cdecl c_director::player_switch_gui_create(int32)
-//.text:00592D80 ; void __cdecl c_director::player_switch_gui_create_or_update()
-//.text:00592D90 ; bool __cdecl c_director::player_switch_gui_destroy()
-//.text:00592DD0 ; bool __cdecl c_director::player_switch_gui_set_visible(int32)
-//.text:00592E30 ; void __cdecl c_director::player_switch_gui_update()
-//.text:00592F90 ; bool __cdecl c_director::player_switch_update()
+//.text:00592A60 ; bool c_director::inhibits_facing() const
+//.text:00592A70 ; bool c_director::inhibits_input() const
+
+int32 c_director::player_get_next_player_with_a_unit(int32 avoid_player_index, int32 starting_player_index, int32 always_player_index, int32 search_direction, bool match_team, bool match_alive_unit, bool allow_wrapping, int32* out_unit_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00592A80, c_director, player_get_next_player_with_a_unit, avoid_player_index, starting_player_index, always_player_index, search_direction, match_team, match_alive_unit, allow_wrapping, out_unit_index);
+}
+
+void __cdecl c_director::player_set_desired_respawn_player(int32 player_index, int32 desired_respawn_player_index)
+{
+	INVOKE(0x00592C10, c_director::player_set_desired_respawn_player, player_index, desired_respawn_player_index);
+}
+
+void c_director::player_switch_gui_button_pressed()
+{
+	INVOKE_CLASS_MEMBER(0x00592C80, c_director, player_switch_gui_button_pressed);
+}
+
+bool __cdecl c_director::player_switch_gui_create(int32 user_index)
+{
+	return INVOKE(0x00592CC0, c_director::player_switch_gui_create, user_index);
+}
+
+class c_observer_camera_list_screen* __cdecl try_and_get_camera_list_screen_for_window(e_window_index window_index)
+{
+	return INVOKE(0x00ABBAF0, try_and_get_camera_list_screen_for_window, window_index);
+}
+
+void c_director::player_switch_gui_create_or_update()
+{
+	//INVOKE_CLASS_MEMBER(0x00592D80, c_director, player_switch_gui_create_or_update);
+
+	if (game_is_multiplayer() || !game_is_lost())
+	{
+		e_controller_index controller_index = controller_index_from_user_index(m_user_index);
+		if (controller_index != k_no_controller)
+		{
+			e_window_index game_render_window = controller_get_game_render_window(controller_index);
+			if (try_and_get_camera_list_screen_for_window(game_render_window))
+			{
+				if (m_player_switch_gui_activated)
+				{
+					c_director::player_switch_gui_update();
+				}
+				else
+				{
+					m_player_switch_gui_activated = c_director::player_switch_gui_set_visible(m_user_index);
+				}
+			}
+			else
+			{
+				c_director::player_switch_gui_create(m_user_index);
+				m_player_switch_gui_activated = false;
+			}
+		}
+	}
+	else
+	{
+		c_director::player_switch_gui_destroy();
+	}
+}
+
+bool c_director::player_switch_gui_destroy()
+{
+	return INVOKE_CLASS_MEMBER(0x00592D90, c_director, player_switch_gui_destroy);
+}
+
+bool __cdecl c_director::player_switch_gui_set_visible(int32 user_index)
+{
+	return INVOKE(0x00592DD0, c_director::player_switch_gui_set_visible, user_index);
+}
+
+void c_director::player_switch_gui_update()
+{
+	INVOKE_CLASS_MEMBER(0x00592E30, c_director, player_switch_gui_update);
+}
+
+bool c_director::player_switch_update()
+{
+	return INVOKE_CLASS_MEMBER(0x00592F90, c_director, player_switch_update);
+}
+
+//.text:00593150 ; 
+//.text:00593190 ; 
 //.text:005931D0 ; 
 
 bool c_director::set_camera_mode(e_camera_mode camera_mode, real32 transition_time)

@@ -13,6 +13,9 @@
 class c_director
 {
 public:
+	void __thiscall player_switch_gui_create_or_update_();
+
+public:
 	virtual e_director_mode get_type() const;
 	virtual void update(real32 dt);
 	virtual bool should_draw_hud();
@@ -31,6 +34,17 @@ public:
 	const s_observer_command* get_last_observer_command() const;
 	e_director_perspective get_perspective() const;
 	int32 get_watched_player() const;
+
+	int32 player_get_next_player_with_a_unit(int32 avoid_player_index, int32 starting_player_index, int32 always_player_index, int32 search_direction, bool match_team, bool match_alive_unit, bool allow_wrapping, int32* out_unit_index);
+	static void __cdecl player_set_desired_respawn_player(int32 player_index, int32 desired_respawn_player_index);
+	void player_switch_gui_button_pressed();
+	static bool __cdecl player_switch_gui_create(int32 user_index);
+	void player_switch_gui_create_or_update();
+	bool player_switch_gui_destroy();
+	static bool __cdecl player_switch_gui_set_visible(int32 user_index);
+	void player_switch_gui_update();
+	bool player_switch_update();
+
 	bool set_camera_mode(e_camera_mode camera_mode, real32 transition_time);
 	bool set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update);
 	void set_watched_player(int32 player_index);
