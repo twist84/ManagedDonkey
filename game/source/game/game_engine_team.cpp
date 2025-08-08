@@ -1,6 +1,10 @@
 #include "game/game_engine_team.hpp"
 
 #include "cseries/cseries.hpp"
+#include "game/game.hpp"
+#include "memory/module.hpp"
+
+HOOK_DECLARE(0x005568E0, game_engine_has_player_switching_enabled);
 
 //.text:00556200 ; void __cdecl game_engine_build_initial_teams(void)
 //.text:00556360 ; void __cdecl game_engine_build_teams(void)
@@ -30,7 +34,23 @@ bool __cdecl game_engine_is_team_ever_active(int32 team)
 //.text:00556750 ; enum e_game_team __cdecl game_engine_next_inactive_team(enum e_game_team)
 //.text:00556770 ; enum e_game_team __cdecl game_engine_next_team_internal(enum e_game_team, bool)
 //.text:005567D0 ; void __cdecl game_engine_recompute_active_teams(void)
-//.text:005568E0 ; 
+
+bool __cdecl game_engine_has_player_switching_enabled()
+{
+	if (game_is_playback())
+	{
+		return true;
+	}
+
+	const c_game_variant* game_variant = current_game_variant();
+	if (!game_variant)
+	{
+		return false;
+	}
+
+	return game_variant->get_active_variant()->get_miscellaneous_options()->get_director_allow_player_switching();
+}
+
 //.text:00556900 ; bool __cdecl game_engine_team_designator_is_enemy(enum e_multiplayer_team_designator, enum e_multiplayer_team_designator)
 //.text:00556920 ; bool __cdecl game_engine_is_team_designator_valid(enum e_multiplayer_team_designator)
 //.text:00556950 ; enum e_game_team __cdecl game_engine_team_designator_to_team_index(enum e_multiplayer_team_designator)
