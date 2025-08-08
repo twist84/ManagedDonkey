@@ -171,6 +171,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\cache\cache_file_bulk_reader.cpp" />
     <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
     <ClCompile Include="source\cache\cache_file_io_failure.cpp" />
+    <ClCompile Include="source\camera\observer_director.cpp" />
     <ClCompile Include="source\camera\saved_film_director.cpp" />
     <ClCompile Include="source\creatures\creatures.cpp" />
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />

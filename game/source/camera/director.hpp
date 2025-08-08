@@ -48,6 +48,7 @@ public:
 	bool set_camera_mode(e_camera_mode camera_mode, real32 transition_time);
 	bool set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update);
 	void set_watched_player(int32 player_index);
+	void update_perspective();
 
 //protected:
 	byte m_camera_storage[0x4C];
@@ -62,8 +63,8 @@ static_assert(sizeof(c_director) == 0x14C);
 
 struct s_director_info
 {
-	e_director_mode director_mode;
-	e_director_perspective director_perspective;
+	e_director_mode mode;
+	e_director_perspective perspective;
 	e_camera_mode camera_mode;
 };
 static_assert(sizeof(s_director_info) == 0xC);
@@ -124,9 +125,9 @@ extern void __cdecl director_update(real32 dt);
 extern const char* director_mode_get_name(e_director_mode director_mode);
 extern e_director_mode director_mode_from_string(const char* str);
 extern s_director_info* director_get_info(int32 user_index);
-extern void director_set_perspective(int32 user_index, e_director_perspective director_perspective);
+extern void director_set_perspective(int32 user_index, e_director_perspective perspective);
 extern void director_toggle(int32 user_index, e_director_mode director_mode);
-extern void director_toggle_perspective(int32 user_index, e_director_perspective director_perspective);
+extern void director_toggle_perspective(int32 user_index, e_director_perspective perspective);
 extern void director_toggle_camera(int32 user_index, e_camera_mode camera_mode);
 extern void director_set_flying_camera_direct(int32 user_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up);
 extern void director_save_camera_named(const char* name);

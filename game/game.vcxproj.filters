@@ -2019,6 +2019,9 @@
     <ClCompile Include="source\interface\gui_screens\director\gui_screen_saved_film_control_pad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\camera\observer_director.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

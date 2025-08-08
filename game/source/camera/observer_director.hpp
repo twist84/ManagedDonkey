@@ -2,9 +2,21 @@
 
 #include "camera/director.hpp"
 
+enum
+{
+	_observer_director_show_hud_state_both_on = 0,
+	_observer_director_show_hud_state_saved_film_off,
+	_observer_director_show_hud_state_both_off,
+
+	k_observer_director_show_hud_state_count,
+};
+
 class c_observer_director :
 	public c_director
 {
+public:
+	bool __thiscall should_draw_hud_saved_film_();
+
 public:
 	virtual void select_fallback_target();
 

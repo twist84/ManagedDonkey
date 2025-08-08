@@ -100,7 +100,9 @@ c_director* __cdecl director_get(int32 user_index)
 	//return INVOKE(0x00591990, director_get, user_index);
 
 	if (!director_globals_get())
+	{
 		return NULL;
+	}
 
 	return (c_director*)&director_globals_get()->directors[user_index];
 }
@@ -130,7 +132,9 @@ e_director_perspective __cdecl director_get_perspective(int32 user_index)
 
 	c_director* director = director_get(user_index);
 	if (!director)
+	{
 		return _director_perspective_neutral;
+	}
 
 	return director->get_perspective();
 }
@@ -240,46 +244,48 @@ void __cdecl director_render()
 	// if (game_is_playback())
 	// skipping for now since we haven't implemented saved film support *yet*
 
-	if (player_control_get_machinima_camera_debug())
+	if (!player_control_get_machinima_camera_debug())
 	{
-		int32 active_output_user = player_mapping_first_active_output_user();
-		const s_observer_result* camera = observer_try_and_get_camera(active_output_user);
-		if (camera)
-		{
-			c_rasterizer_draw_string draw_string;
-			c_font_cache_mt_safe font_cache;
+		return;
+	}
 
-			real_euler_angles2d facing{};
-			euler_angles2d_from_vector3d(&facing, &camera->forward);
-			if (facing.yaw < 0.0f)
-				facing.yaw += TWO_PI;
+	int32 active_output_user = player_mapping_first_active_output_user();
+	const s_observer_result* camera = observer_try_and_get_camera(active_output_user);
+	if (camera)
+	{
+		c_rasterizer_draw_string draw_string;
+		c_font_cache_mt_safe font_cache;
 
-			const char* control_mode = "normal";
-			if (player_control_get_machinima_camera_use_old_controls())
-				control_mode = "pan-cam";
+		real_euler_angles2d facing{};
+		euler_angles2d_from_vector3d(&facing, &camera->forward);
+		if (facing.yaw < 0.0f)
+			facing.yaw += TWO_PI;
 
-			c_static_string<256> rasterizer_string;
-			rasterizer_string.print("%.3f %.3f %.3f / %.2f %.2f / %.3f [%s]",
-				camera->position.x,
-				camera->position.y,
-				camera->position.z,
-				RAD * facing.yaw,
-				RAD * facing.pitch,
-				g_director_camera_speed_scale,
-				control_mode
-			);
+		const char* control_mode = "normal";
+		if (player_control_get_machinima_camera_use_old_controls())
+			control_mode = "pan-cam";
 
-			rectangle2d bounds{};
-			interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
-			bounds.y0 += 80;
+		c_static_string<256> rasterizer_string;
+		rasterizer_string.print("%.3f %.3f %.3f / %.2f %.2f / %.3f [%s]",
+			camera->position.x,
+			camera->position.y,
+			camera->position.z,
+			RAD * facing.yaw,
+			RAD * facing.pitch,
+			g_director_camera_speed_scale,
+			control_mode
+		);
 
-			draw_string.set_font(_large_body_text_font);
-			draw_string.set_style(_text_style_plain);
-			draw_string.set_justification(_text_justification_left);
-			draw_string.set_bounds(&bounds);
-			draw_string.set_color(global_real_argb_white);
-			draw_string.draw(&font_cache, rasterizer_string.get_string());
-		}
+		rectangle2d bounds{};
+		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		bounds.y0 += 80;
+
+		draw_string.set_font(_large_body_text_font);
+		draw_string.set_style(_text_style_plain);
+		draw_string.set_justification(_text_justification_left);
+		draw_string.set_bounds(&bounds);
+		draw_string.set_color(global_real_argb_white);
+		draw_string.draw(&font_cache, rasterizer_string.get_string());
 	}
 }
 
@@ -297,20 +303,22 @@ void __cdecl director_script_camera(bool scripted)
 {
 	//INVOKE(0x00592320, director_script_camera, scripted);
 
-	if (*director_camera_scripted != scripted)
+	if (*director_camera_scripted == scripted)
 	{
-		*director_camera_scripted = scripted;
+		return;
+	}
 
-		for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
+	*director_camera_scripted = scripted;
+
+	for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
+	{
+		if (scripted)
 		{
-			if (scripted)
-			{
-				director_set_camera_mode(user_index, _camera_mode_scripted);
-			}
-			else
-			{
-				director_set_mode(user_index, choose_appropriate_director(user_index));
-			}
+			director_set_camera_mode(user_index, _camera_mode_scripted);
+		}
+		else
+		{
+			director_set_mode(user_index, choose_appropriate_director(user_index));
 		}
 	}
 }
@@ -344,23 +352,33 @@ void __cdecl director_set_mode(int32 user_index, e_director_mode director_mode)
 	switch (director_mode)
 	{
 	case _director_mode_game:
-		static_cast<c_game_director*>(director_get(user_index))->constructor(user_index);
-		break;
+	{
+		((c_game_director*)director_get(user_index))->constructor(user_index);
+	}
+	break;
 	case _director_mode_saved_film:
-		static_cast<c_saved_film_director*>(director_get(user_index))->constructor(user_index);
-		break;
+	{
+		((c_saved_film_director*)director_get(user_index))->constructor(user_index);
+	}
+	break;
 	case _director_mode_observer:
-		static_cast<c_observer_director*>(director_get(user_index))->constructor(user_index);
-		break;
+	{
+		((c_observer_director*)director_get(user_index))->constructor(user_index);
+	}
+	break;
 	case _director_mode_debug:
-		static_cast<c_debug_director*>(director_get(user_index))->constructor(user_index);
-		break;
+	{
+		((c_debug_director*)director_get(user_index))->constructor(user_index);
+	}
+	break;
 	case _director_mode_editor:
-		static_cast<c_editor_director*>(director_get(user_index))->constructor(user_index);
-		break;
+	{
+		((c_editor_director*)director_get(user_index))->constructor(user_index);
+	}
+	break;
 	}
 
-	director_get_info(user_index)->director_mode = director_mode;
+	director_get_info(user_index)->mode = director_mode;
 }
 
 void __cdecl director_setup_flying_camera_at_scenario_point(int32 user_index, int32 camera_point_index)
@@ -373,7 +391,9 @@ void __cdecl director_update(real32 dt)
 	//INVOKE(0x005926C0, director_update, dt);
 
 	if (!g_director_use_dt)
+	{
 		dt = 0.016666668f;
+	}
 
 	real32 timestep = fminf(0.06666667f, dt);
 
@@ -433,7 +453,9 @@ const c_camera* c_director::get_camera() const
 	//return DECLFUNC(0x00592840, c_camera*, __thiscall, const c_director*)(this);
 
 	if (!m_camera_storage[0])
+	{
 		return NULL;
+	}
 
 	return (c_camera*)&m_camera_storage;
 }
@@ -453,17 +475,19 @@ e_director_perspective c_director::get_perspective() const
 	{
 		return _director_perspective_neutral;
 	}
-	e_director_perspective director_perspective = get_camera()->get_perspective();
-	if (!director_perspective)
+
+	e_director_perspective perspective = get_camera()->get_perspective();
+	if (!perspective)
 	{
-		director_perspective = e_director_perspective(m_change_camera_pause > 0.0f);
+		perspective = e_director_perspective(m_change_camera_pause > 0.0f);
 	}
+
 	if (game_is_ui_shell())
 	{
 		return _director_perspective_neutral;
 	}
 
-	return director_perspective;
+	return perspective;
 }
 
 //.text:005928B0 ; e_director_perspective __cdecl c_null_camera::get_perspective() const
@@ -598,7 +622,7 @@ bool c_director::set_camera_mode(e_camera_mode camera_mode, real32 transition_ti
 {
 	//return INVOKE_CLASS_MEMBER(0x005931F0, c_director, set_camera_mode, camera_mode, transition_time);
 
-	return set_camera_mode_internal(camera_mode, transition_time, false);
+	return c_director::set_camera_mode_internal(camera_mode, transition_time, false);
 }
 
 bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real32 transition_time, bool force_update)
@@ -606,7 +630,9 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real32 tran
 	//return INVOKE_CLASS_MEMBER(0x00593210, c_director, set_camera_mode_internal, camera_mode, transition_time, force_update);
 
 	if (!can_use_camera_mode(camera_mode))
+	{
 		return false;
+	}
 
 	e_camera_mode current_camera_mode = get_camera()->get_type();
 
@@ -616,39 +642,55 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real32 tran
 		switch (camera_mode)
 		{
 		case _camera_mode_following:
-			static_cast<c_following_camera*>(get_camera())->constructor(dead_or_alive_unit_from_user(m_user_index));
-			break;
+		{
+			((c_following_camera*)get_camera())->constructor(dead_or_alive_unit_from_user(m_user_index));
+		}
+		break;
 		case _camera_mode_orbiting:
-			static_cast<c_orbiting_camera*>(get_camera())->constructor(dead_or_alive_unit_from_user(m_user_index));
-			break;
+		{
+			((c_orbiting_camera*)get_camera())->constructor(dead_or_alive_unit_from_user(m_user_index));
+		}
+		break;
 		case _camera_mode_flying:
-			static_cast<c_flying_camera*>(get_camera())->constructor(m_user_index);
-			break;
+		{
+			((c_flying_camera*)get_camera())->constructor(m_user_index);
+		}
+		break;
 		case _camera_mode_first_person:
-			static_cast<c_first_person_camera*>(get_camera())->constructor(dead_or_alive_unit_from_user(m_user_index));
-			break;
+		{
+			((c_first_person_camera*)get_camera())->constructor(dead_or_alive_unit_from_user(m_user_index));
+		}
+		break;
 		case _camera_mode_dead:
-			static_cast<c_dead_camera*>(get_camera())->constructor(m_user_index);
-			break;
+		{
+			((c_dead_camera*)get_camera())->constructor(m_user_index);
+		}
+		break;
 		case _camera_mode_static:
-			static_cast<c_static_camera*>(get_camera())->constructor(m_user_index);
-			break;
+		{
+			((c_static_camera*)get_camera())->constructor(m_user_index);
+		}
+		break;
 		case _camera_mode_scripted:
-			static_cast<c_scripted_camera*>(get_camera())->constructor();
-			break;
+		{
+			((c_scripted_camera*)get_camera())->constructor();
+		}
+		break;
 		case _camera_mode_authored:
-			static_cast<c_authored_camera*>(get_camera())->constructor(m_user_index);
-			break;
+		{
+			((c_authored_camera*)get_camera())->constructor(m_user_index);
+		}
+		break;
 		}
 		m_change_camera_pause = transition_time;
 	}
 
-	e_director_perspective director_perspective = get_perspective();
+	e_director_perspective perspective = get_perspective();
 	s_director_globals* director_globals = director_globals_get();
-	if (director_globals->director_info[m_user_index].director_perspective != director_perspective ||
+	if (director_globals->director_info[m_user_index].perspective != perspective ||
 		director_globals->director_info[m_user_index].camera_mode != camera_mode)
 	{
-		director_globals->director_info[m_user_index].director_perspective = director_perspective;
+		director_globals->director_info[m_user_index].perspective = perspective;
 		director_globals->director_info[m_user_index].camera_mode = camera_mode;
 		first_person_weapon_perspective_changed(m_user_index);
 	}
@@ -669,7 +711,14 @@ void c_director::set_watched_player(int32 player_index)
 //.text:00593530 ; bool c_director::should_draw_hud_saved_film() const
 //.text:00593540 ; void c_director::update(real32)
 //.text:00593770 ; void c_null_camera::update(int32, real32, s_observer_command*)
-//.text:00593780 ; void c_director::update_perspective()
+
+void c_director::update_perspective()
+{
+	INVOKE_CLASS_MEMBER(0x00593780, c_director, update_perspective);
+
+	//director_globals->director_info[m_user_index].perspective = c_director::get_perspective();
+}
+
 //.text:005937F0 ; void update_vtables()
 
 //.text:007215C0 ; c_game_director::c_game_director(int32)
@@ -706,7 +755,9 @@ bool __cdecl camera_input_inhibited(e_controller_index controller_index)
 const char* director_mode_get_name(e_director_mode director_mode)
 {
 	if (director_mode < _director_mode_game || director_mode >= k_number_of_director_modes)
+	{
 		return "<invalid 'director_mode'>";
+	}
 
 	return k_director_mode_names[director_mode];
 }
@@ -717,7 +768,9 @@ e_director_mode director_mode_from_string(const char* str)
 	for (int32 i = _camera_mode_following; i < k_number_of_director_modes; i++)
 	{
 		if (csstricmp(str, k_director_mode_names[i]) != 0)
+		{
 			continue;
+		}
 
 		director_mode = e_director_mode(i);
 	}
@@ -728,17 +781,19 @@ e_director_mode director_mode_from_string(const char* str)
 s_director_info* director_get_info(int32 user_index)
 {
 	if (!director_globals_get())
+	{
 		return NULL;
+	}
 
 	return &director_globals_get()->director_info[user_index];
 }
 
-void director_set_perspective(int32 user_index, e_director_perspective director_perspective)
+void director_set_perspective(int32 user_index, e_director_perspective perspective)
 {
 	s_director_globals* director_globals = director_globals_get();
-	if (director_globals->director_info[user_index].director_perspective != director_perspective)
+	if (director_globals->director_info[user_index].perspective != perspective)
 	{
-		director_globals->director_info[user_index].director_perspective = director_perspective;
+		director_globals->director_info[user_index].perspective = perspective;
 		first_person_weapon_perspective_changed(user_index);
 	}
 }
@@ -747,20 +802,24 @@ void director_toggle(int32 user_index, e_director_mode director_mode)
 {
 	static e_director_mode previous_mode = {};
 
-	if (director_get_info(user_index)->director_mode == director_mode)
+	if (director_get_info(user_index)->mode == director_mode)
+	{
 		director_mode = previous_mode;
+	}
 
 	director_set_mode(user_index, director_mode);
 }
 
-void director_toggle_perspective(int32 user_index, e_director_perspective director_perspective)
+void director_toggle_perspective(int32 user_index, e_director_perspective perspective)
 {
 	static e_director_perspective previous_mode = {};
 
-	if (director_get_info(user_index)->director_perspective == director_perspective)
-		director_perspective = previous_mode;
+	if (director_get_info(user_index)->perspective == perspective)
+	{
+		perspective = previous_mode;
+	}
 
-	director_set_perspective(user_index, director_perspective);
+	director_set_perspective(user_index, perspective);
 }
 
 void director_toggle_camera(int32 user_index, e_camera_mode camera_mode)
@@ -768,7 +827,9 @@ void director_toggle_camera(int32 user_index, e_camera_mode camera_mode)
 	static e_camera_mode previous_mode = {};
 
 	if (director_get_info(user_index)->camera_mode == camera_mode)
+	{
 		camera_mode = previous_mode;
+	}
 
 	director_get(user_index)->set_camera_mode(camera_mode, 0.0f);
 }
@@ -776,7 +837,9 @@ void director_toggle_camera(int32 user_index, e_camera_mode camera_mode)
 void __cdecl director_set_flying_camera_direct(int32 user_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up)
 {
 	if (user_index == NONE)
+	{
 		return;
+	}
 
 	ASSERT(VALID_INDEX(user_index, k_number_of_users));
 
@@ -793,7 +856,9 @@ void __cdecl director_set_flying_camera_direct(int32 user_index, const real_poin
 	real_vector3d product3d;
 	cross_product3d(up, &up_from_forward, &product3d);
 	if (dot_product3d(&product3d, forward) > 0.0f)
+	{
 		roll = -roll;
+	}
 
 	flying_camera->set_roll(roll);
 }
@@ -801,10 +866,14 @@ void __cdecl director_set_flying_camera_direct(int32 user_index, const real_poin
 const char* scenario_get_name()
 {
 	if (global_scenario_index == NONE)
+	{
 		return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
+	}
 
 	if (const char* name = tag_get_name(global_scenario_index))
+	{
 		return tag_name_strip_path(name);
+	}
 
 	return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
 }
@@ -812,10 +881,14 @@ const char* scenario_get_name()
 void director_save_camera_named(const char* name)
 {
 	if (!global_scenario_try_and_get())
+	{
 		return;
+	}
 
 	if (!players_globals)
+	{
 		return;
+	}
 
 	c_static_string<256> filename;
 	const char* root = "";
@@ -831,7 +904,9 @@ void director_save_camera_named(const char* name)
 		{
 			camera = observer_try_and_get_camera(user_index);
 			if (camera)
+			{
 				break;
+			}
 		}
 
 		if (camera)
@@ -856,7 +931,9 @@ void director_load_camera_named(const char* name)
 	}
 
 	if (!players_globals)
+	{
 		return;
+	}
 
 	c_static_string<256> filename;
 	const char* root = "";
@@ -939,34 +1016,40 @@ void director_debug_camera(bool render)
 
 void survival_mode_update_flying_camera(int32 user_index)
 {
-	if (survival_mode_allow_flying_camera)
+	if (!survival_mode_allow_flying_camera)
 	{
-		int32 player_index = player_mapping_get_player_by_output_user(user_index);
-		if (player_index != NONE && game_is_survival())
+		return;
+	}
+
+	int32 player_index = player_mapping_get_player_by_output_user(user_index);
+	if (player_index == NONE || !game_is_survival())
+	{
+		return;
+	}
+
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+
+	c_director* director = director_get(user_index);
+	e_director_mode director_mode = director->get_type();
+
+	if (player->dead_timer <= 0)
+	{
+		if (director_mode == _director_mode_observer)
 		{
-			player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+			director_set_mode(user_index, _director_mode_game);
 
-			c_director* director = director_get(user_index);
-			e_director_mode director_mode = director->get_type();
-
-			if (player->dead_timer <= 0)
+			if (player_mapping_get_input_controller(player_index) != NONE)
 			{
-				if (director_mode == _director_mode_observer)
-				{
-					director_set_mode(user_index, _director_mode_game);
-
-					if (player_mapping_get_input_controller(player_index) != NONE)
-					{
-						e_controller_index controller_index = player_mapping_get_input_controller(player_index);
-						input_abstraction_latch_all_buttons(controller_index);
-					}
-				}
+				e_controller_index controller_index = player_mapping_get_input_controller(player_index);
+				input_abstraction_latch_all_buttons(controller_index);
 			}
-			else if (director_mode == _director_mode_game)
-			{
-				if (player->dead_timer > game_seconds_to_ticks_real(g_camera_globals.survival_switch_time))
-					director_set_mode(user_index, _director_mode_observer);
-			}
+		}
+	}
+	else if (director_mode == _director_mode_game)
+	{
+		if (player->dead_timer > game_seconds_to_ticks_real(g_camera_globals.survival_switch_time))
+		{
+			director_set_mode(user_index, _director_mode_observer);
 		}
 	}
 }
@@ -976,23 +1059,25 @@ void control_toggling_of_debug_directors(int32 user_index)
 	c_director* director = director_get(user_index);
 	e_director_mode director_mode = director->get_type();
 
-	if (director_mode != _director_mode_editor && input_key_frames_down(_key_backspace, _input_type_game) == 1)
+	if (director_mode == _director_mode_editor || input_key_frames_down(_key_backspace, _input_type_game) != 1)
 	{
-		if (director_mode == _director_mode_debug)
-		{
-			if (static_cast<c_debug_director*>(director)->finished_cycle())
-			{
-				console_printf("exiting debug director");
-				director_set_mode(user_index, choose_appropriate_director(user_index));
-			}
+		return;
+	}
 
-		}
-		else
+	if (director_mode == _director_mode_debug)
+	{
+		if (static_cast<c_debug_director*>(director)->finished_cycle())
 		{
-			input_suppress();
-			console_printf("entering debug director");
-			director_set_mode(user_index, _director_mode_debug);
+			console_printf("exiting debug director");
+			director_set_mode(user_index, choose_appropriate_director(user_index));
 		}
+
+	}
+	else
+	{
+		input_suppress();
+		console_printf("entering debug director");
+		director_set_mode(user_index, _director_mode_debug);
 	}
 }
 
