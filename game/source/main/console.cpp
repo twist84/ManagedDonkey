@@ -647,13 +647,13 @@ s_console_global const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
 
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_global_fov, g_camera_globals.field_of_view),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.yaw_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_pitch_scale, g_camera_globals.pitch_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_forward_scale, g_camera_globals.forward_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_side_scale, g_camera_globals.side_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_up_scale, g_camera_globals.up_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_maximum_boost_speed, g_camera_globals.maximum_boost_speed),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_global_fov, g_camera_globals.camera_field_of_view_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.camera_yaw_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_pitch_scale, g_camera_globals.camera_pitch_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_forward_scale, g_camera_globals.camera_forward_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_side_scale, g_camera_globals.camera_side_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_up_scale, g_camera_globals.camera_up_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_maximum_boost_speed, g_camera_globals.flying_camera_time_to_maximum_boost),
 	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_movement_delay, g_camera_globals.flying_cam_movement_delay),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(net_skip_countdown),
