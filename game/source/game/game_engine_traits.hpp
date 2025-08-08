@@ -89,6 +89,9 @@ public:
 	bool get_round_reset_map() const;
 	void set_round_reset_map(bool round_reset_map);
 
+	bool get_director_allow_player_switching() const;
+	void set_director_allow_player_switching(bool director_allow_player_switching);
+
 	uns8 get_round_time_limit_minutes() const;
 	void set_round_time_limit_minutes(int32 round_time_limit_minutes);
 

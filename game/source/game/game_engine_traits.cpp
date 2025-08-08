@@ -90,6 +90,16 @@ void c_game_engine_miscellaneous_options::set_round_reset_map(bool round_reset_m
 	return m_flags.set(_game_engine_miscellaneous_option_round_reset_map, round_reset_map);
 }
 
+bool c_game_engine_miscellaneous_options::get_director_allow_player_switching() const
+{
+	return m_flags.test(_game_engine_miscellaneous_option_director_allow_player_switching);
+}
+
+void c_game_engine_miscellaneous_options::set_director_allow_player_switching(bool director_allow_player_switching)
+{
+	return m_flags.set(_game_engine_miscellaneous_option_director_allow_player_switching, director_allow_player_switching);
+}
+
 uns8 c_game_engine_miscellaneous_options::get_round_time_limit_minutes() const
 {
 	return m_round_time_limit_minutes;
