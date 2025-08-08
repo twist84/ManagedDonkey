@@ -6,6 +6,9 @@ class c_saved_film_director :
 	public c_observer_director
 {
 public:
+	void __thiscall update_(real32 dt);
+
+public:
 	void constructor(int32 user_index)
 	{
 		INVOKE_CLASS_MEMBER(0x007276C0, c_saved_film_director, constructor, user_index);
@@ -15,7 +18,7 @@ public:
 
 //protected:
 	bool m_speed_controlled_by_trigger;
-	bool __unknown159;
+	bool m_show_control_pad_button_pressed;
 
 	byte pad[0x2];
 	byte unused[0x4];
