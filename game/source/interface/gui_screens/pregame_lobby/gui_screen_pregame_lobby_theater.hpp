@@ -6,6 +6,9 @@ class c_gui_screen_pregame_lobby_theater :
 	public c_gui_screen_pregame_lobby
 {
 public:
+	void __thiscall update_(uns32 current_milliseconds);
+
+public:
 	virtual ~c_gui_screen_pregame_lobby_theater();
 	virtual void initialize() override;
 	virtual void update(uns32 current_milliseconds) override;

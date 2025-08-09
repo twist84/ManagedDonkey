@@ -20,6 +20,7 @@
 #include "multithreading/synchronized_value.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "saved_games/autosave_queue.hpp"
+#include "saved_games/saved_film_history.hpp"
 #include "simulation/simulation.hpp"
 
 namespace
@@ -138,7 +139,7 @@ void saved_film_manager_build_file_path_from_name(const char* film_name, e_saved
 
 bool saved_film_manager_can_revert(e_saved_film_revert_type desired_revert_type)
 {
-	return false;// saved_film_history_ready_for_revert_or_reset() && saved_film_history_can_revert_by_type(desired_revert_type);
+	return saved_film_history_ready_for_revert_or_reset() && saved_film_history_can_revert_by_type(desired_revert_type);
 }
 
 bool saved_film_manager_can_set_playback_control()
@@ -363,7 +364,7 @@ void saved_film_manager_dispose_from_old_map()
 	}
 
 	saved_film_manager_close();
-	//saved_film_history_dispose_from_saved_film_playback();
+	saved_film_history_dispose_from_saved_film_playback();
 	//saved_film_snippet_dispose_from_saved_film_playback();
 	saved_film_manager_globals.screensaver_enabled = true;
 }
@@ -536,25 +537,8 @@ void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state
 {
 	csmemset(hud_state, 0, sizeof(s_saved_film_hud_interface_state));
 
-	//saved_film_history_get_hud_interface_state(hud_state);
+	saved_film_history_get_hud_interface_state(hud_state);
 	//saved_film_snippet_get_hud_interface_state(hud_state);
-
-	// stop-gap `saved_film_history_get_hud_interface_state` implementation
-	if (saved_film_manager_is_reading())
-	{
-		s_saved_film_hud_interface_state* state = hud_state;
-
-		int32 length_in_ticks = saved_film_manager_globals.saved_film.get_length_in_ticks();
-		int32 current_tick = saved_film_manager_globals.saved_film.get_current_tick();
-
-		state->duration_in_seconds = game_ticks_to_seconds((real32)length_in_ticks);
-		state->marker_position_in_seconds = game_ticks_to_seconds((real32)current_tick);
-
-		real32 theta = length_in_ticks <= 0 ? 0.0f : state->marker_position_in_seconds / state->duration_in_seconds;
-
-		state->current_position_theta = theta;
-		state->buffered_theta = theta;
-	}
 }
 
 // $TODO: check my work
@@ -796,7 +780,7 @@ void saved_film_manager_initialize_for_new_map()
 	}
 
 	saved_film_manager_globals.snippet_start_tick = game_options_get()->playback_start_tick;
-	//saved_film_history_initialize_for_saved_film_playback();
+	saved_film_history_initialize_for_saved_film_playback();
 	//saved_film_snippet_initialize_for_saved_film_playback();
 	saved_film_manager_globals.screensaver_enabled = false;
 }
@@ -818,7 +802,7 @@ void saved_film_manager_initialize()
 	saved_film_manager_create_film_directory();
 	saved_film_manager_globals.initialized = true;
 	//c_saved_film_scratch_memory::get()->initialize();
-	//saved_film_history_initialize();
+	saved_film_history_initialize();
 	//saved_film_snippet_initialize();
 }
 
@@ -851,7 +835,7 @@ bool saved_film_manager_load_pending_gamestate_to_compressor()
 void saved_film_manager_memory_dispose()
 {
 	//saved_film_snippet_memory_dispose();
-	//saved_film_history_memory_dispose();
+	saved_film_history_memory_dispose();
 	//c_saved_film_scratch_memory::get()->memory_dispose();
 }
 
@@ -863,7 +847,7 @@ void saved_film_manager_memory_initialize(e_map_memory_configuration memory_conf
 	}
 
 	//c_saved_film_scratch_memory::get()->memory_initialize();
-	//saved_film_history_memory_initialize();
+	saved_film_history_memory_initialize();
 	//saved_film_snippet_memory_initialize();
 }
 
@@ -919,7 +903,7 @@ void saved_film_manager_notify_gamestate_decompression_before_load_procs()
 	}
 
 	//determinism_debug_manager_reset_for_core_load();
-	//saved_film_history_notify_initial_gamestate_loaded();
+	saved_film_history_notify_initial_gamestate_loaded();
 }
 
 void saved_film_manager_notify_gamestate_load(e_saved_film_game_state_load_source game_state_load_source)
@@ -1106,7 +1090,7 @@ void saved_film_manager_perform_revert(bool* set_director_state_out)
 		{
 			event(_event_message, "networking:saved_film:manager: reverting by type %d",
 				saved_film_manager_globals.desired_revert_type);
-			//saved_film_history_revert_by_type(saved_film_manager_globals.desired_revert_type);
+			saved_film_history_revert_by_type(saved_film_manager_globals.desired_revert_type);
 		}
 		else if (saved_film_manager_globals.desired_revert_index != NONE)
 		{
@@ -1118,10 +1102,10 @@ void saved_film_manager_perform_revert(bool* set_director_state_out)
 				saved_film_manager_globals.authored_cam_set_for_user.clear();
 			}
 
-			//if (!saved_film_history_revert_by_index(saved_film_manager_globals.desired_revert_index))
-			//{
-			//	saved_film_manager_abort_playback(_saved_film_playback_history_failed_to_revert_by_index);
-			//}
+			if (!saved_film_history_revert_by_index(saved_film_manager_globals.desired_revert_index))
+			{
+				saved_film_manager_abort_playback(_saved_film_playback_history_failed_to_revert_by_index);
+			}
 		}
 	}
 	else
@@ -1129,7 +1113,7 @@ void saved_film_manager_perform_revert(bool* set_director_state_out)
 		event(_event_message, "networking:saved_film:manager: reverting by film tick %d",
 			saved_film_manager_globals.seek_film_tick);
 
-		//saved_film_history_revert_by_film_tick(saved_film_manager_globals.seek_film_tick);
+		saved_film_history_revert_by_film_tick(saved_film_manager_globals.seek_film_tick);
 		//if (saved_film_manager_snippets_available())
 		//{
 		//	saved_film_snippets_notify_reverted_for_seek(set_director_state_out);
@@ -1323,11 +1307,11 @@ void saved_film_manager_replay_film()
 		return;
 	}
 
-	//if (!saved_film_history_ready_for_revert_or_reset())
-	//{
-	//	event(_event_warning, "networking:saved_film:manager: history not ready for revert or reset, can't replay film");
-	//	return;
-	//}
+	if (!saved_film_history_ready_for_revert_or_reset())
+	{
+		event(_event_warning, "networking:saved_film:manager: history not ready for revert or reset, can't replay film");
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: replaying film by reverting to index 0");
 	saved_film_manager_globals.desired_revert_index = 0;
@@ -1373,12 +1357,12 @@ void saved_film_manager_request_revert(e_saved_film_revert_type desired_revert_t
 		return;
 	}
 
-	//if (!saved_film_history_can_revert_by_type(desired_revert_type))
-	//{
-	//	event(_event_warning, "networking:saved_film:manager: revert type %d unavailable",
-	//		desired_revert_type);
-	//	return;
-	//}
+	if (!saved_film_history_can_revert_by_type(desired_revert_type))
+	{
+		event(_event_warning, "networking:saved_film:manager: revert type %d unavailable",
+			desired_revert_type);
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: requesting revert by type (%d)",
 		desired_revert_type);
@@ -1643,7 +1627,7 @@ void saved_film_manager_toggle_automatic_debug_saving(bool enable)
 
 void saved_film_manager_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
 {
-	//saved_film_history_update_after_simulation_update(update, metadata);
+	saved_film_history_update_after_simulation_update(update, metadata);
 
 	if (!game_in_progress() || !game_is_playback())
 	{
@@ -1678,7 +1662,7 @@ void saved_film_manager_update_after_simulation_update(const struct simulation_u
 
 void saved_film_manager_update_before_simulation_update()
 {
-	//saved_film_history_update_before_simulation_update(saved_film_manager_get_snippet_state() != _saved_film_snippet_state_none);
+	saved_film_history_update_before_simulation_update(saved_film_manager_get_snippet_state() != _saved_film_snippet_state_none);
 }
 
 void saved_film_manager_update_seeking(int32 current_film_tick)

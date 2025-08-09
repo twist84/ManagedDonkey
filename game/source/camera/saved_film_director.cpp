@@ -26,7 +26,7 @@ HOOK_DECLARE_CALL(0x00727B51, player_is_film_recorder_for_unit_is_film_recorder)
 
 void __thiscall c_saved_film_director::update_(real32 dt)
 {
-	e_controller_index controller_index = controller_index_from_user_index(this->m_user_index);
+	e_controller_index controller_index = controller_index_from_user_index(m_user_index);
 	if (controller_index != k_no_controller && !camera_input_inhibited(controller_index))
 	{
 		s_game_input_state* input_state = NULL;

@@ -47,9 +47,8 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 
 	if (VALID_CONTROLLER(controller_index))
 	{
-		c_content_catalogue* content_catalogue = content_catalogue_get_interface(controller_index);
-		file_reference_create_from_path(&m_file_reference, filename, false);
-		return false;
+		//c_content_catalogue* content_catalogue = content_catalogue_get_interface(controller_index);
+		//file_reference_create_from_path(&m_file_reference, filename, false);
 		//int32 content_item_index = content_catalogue->content_item_try_and_get_from_file_reference(&m_file_reference);
 		//if (content_item_index != NONE)
 		//{
@@ -65,6 +64,8 @@ bool c_saved_film::open_for_read(const char* filename, e_controller_index contro
 		//	}
 		//	m_content_controller_index = controller_index;
 		//}
+
+		m_content_controller_index = controller_index;
 	}
 
 	c_static_wchar_string<260> file;

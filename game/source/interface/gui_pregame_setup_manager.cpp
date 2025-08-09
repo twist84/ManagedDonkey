@@ -20,8 +20,6 @@ void __thiscall c_gui_pregame_setup_manager::set_selected_item_(e_controller_ind
 		return;
 	}
 
-	return;
-
 	ASSERT(selected_item);
 
 	const s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();

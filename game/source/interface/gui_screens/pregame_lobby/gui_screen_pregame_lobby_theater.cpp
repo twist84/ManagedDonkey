@@ -8,7 +8,15 @@
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
+#include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
+
+HOOK_DECLARE_CLASS_MEMBER(0x00B02B70, c_gui_screen_pregame_lobby_theater, update_);
+
+void c_gui_screen_pregame_lobby_theater::update_(uns32 current_milliseconds)
+{
+	c_gui_screen_pregame_lobby_theater::update(current_milliseconds);
+}
 
 c_gui_screen_pregame_lobby_theater::c_gui_screen_pregame_lobby_theater(int32 name) :
 	c_gui_screen_pregame_lobby(name),
