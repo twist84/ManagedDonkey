@@ -81,18 +81,18 @@
     <PreBuildEvent>
       <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
 
-copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config\version.cpp"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
 IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
 
-PUSHD $(LocalDebuggerWorkingDirectory)
-COPY /Y $(TargetDir)* .\
+PUSHD "$(LocalDebuggerWorkingDirectory)"
+COPY /Y "$(TargetDir)*" .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 
-COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
+COPY /Y "$(TargetPath)" "$(SolutionDir)bin\game.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,17 +122,17 @@ COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
       <Command>
 IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
 
-PUSHD $(LocalDebuggerWorkingDirectory)
-COPY /Y $(TargetDir)* .\
+PUSHD "$(LocalDebuggerWorkingDirectory)"
+COPY /Y "$(TargetDir)*" .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 
-COPY /Y $(TargetPath) $(SolutionDir)bin\game.dll</Command>
+COPY /Y "$(TargetPath)" "$(SolutionDir)bin\game.dll"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
 
-copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config\version.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
