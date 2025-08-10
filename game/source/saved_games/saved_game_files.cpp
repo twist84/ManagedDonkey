@@ -124,7 +124,11 @@ int32 __cdecl saved_game_files_save_last_film_to_debugging_hard_drive(e_controll
 	return INVOKE(0x00526BB0, saved_game_files_save_last_film_to_debugging_hard_drive, controller_index, copy_buffer, copy_buffer_size, success, done);
 }
 
-//.text:00526BC0 ; void __cdecl saved_game_files_uniquify_name(e_controller_index, e_saved_game_file_type, wchar_t*, int32)
+void __cdecl saved_game_files_uniquify_name(e_controller_index controller_index, e_saved_game_file_type saved_game_file_type, wchar_t* name, int32 maximum_characters)
+{
+	INVOKE(0x00526BC0, saved_game_files_uniquify_name, controller_index, saved_game_file_type, name, maximum_characters);
+}
+
 //.text:00526D70 ; void __cdecl saved_game_files_unregister_text_parsers()
 
 void __cdecl saved_game_files_update()
