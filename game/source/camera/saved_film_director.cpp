@@ -65,7 +65,9 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 		{
 			bool play_or_eject = false;
 
-			if (!input_state->get_button(_button_action_x).is_down() && m_show_control_pad_button_pressed)
+			bool x_is_down = input_state->get_button(_button_action_x).is_down();
+			x_is_down |= input_key_frames_down(_key_x, _input_type_game) != 0;
+			if (!x_is_down && m_show_control_pad_button_pressed)
 			{
 				if (game_is_authoritative_playback())
 				{
@@ -77,7 +79,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 				}
 			}
 
-			m_show_control_pad_button_pressed = input_state->get_button(_button_action_x).is_down();
+			m_show_control_pad_button_pressed = x_is_down;
 
 			if (game_is_authoritative_playback()
 				&& !saved_film_manager_get_ticks_remaining()
