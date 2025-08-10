@@ -5,6 +5,7 @@
 #include "saved_games/saved_film.hpp"
 #include "simulation/simulation.hpp"
 
+enum e_saved_film_snippet_state;
 struct game_options;
 struct s_simulation_update_metadata;
 
@@ -52,28 +53,6 @@ enum e_saved_film_revert_type
 	_saved_film_revert_forwards = 2,
 };
 
-enum e_saved_film_snippet_state
-{
-	_saved_film_snippet_state_none = 0,
-	_saved_film_snippet_state_recording_waiting_for_seek,
-	_saved_film_snippet_state_recording_waiting_for_start,
-	_saved_film_snippet_state_recording,
-	_saved_film_snippet_state_recorded_and_ready,
-	_saved_film_snippet_state_previewing_waiting_for_seek,
-	_saved_film_snippet_state_previewing,
-	_saved_film_snippet_state_commiting_invoking_title_keyboard,
-	_saved_film_snippet_state_commiting_waiting_title_keyboard,
-	_saved_film_snippet_state_commiting_invoking_description_keyboard,
-	_saved_film_snippet_state_commiting_waiting_description_keyboard,
-	_saved_film_snippet_state_commiting_initiate_creation,
-	_saved_film_snippet_state_commiting_wait_for_creation,
-	_saved_film_snippet_state_commiting_initiate_metadata_update,
-	_saved_film_snippet_state_commiting_wait_for_metadata_update,
-	_saved_film_snippet_state_resetting,
-
-	k_number_of_saved_film_snippet_states
-};
-
 struct s_saved_film_manager_user_director_state
 {
 	s_observer_result observer_result;
@@ -82,11 +61,13 @@ struct s_saved_film_manager_user_director_state
 	int32 camera_target_player_absolute_index;
 	bool valid;
 };
+static_assert(sizeof(s_saved_film_manager_user_director_state) == 0x80);
 
 struct s_saved_film_manager_director_state
 {
 	c_static_array<s_saved_film_manager_user_director_state, 4> user_director_states;
 };
+static_assert(sizeof(s_saved_film_manager_director_state) == sizeof(s_saved_film_manager_user_director_state) * 4);
 
 struct s_saved_film_hud_interface_state
 {
@@ -99,6 +80,7 @@ struct s_saved_film_hud_interface_state
 	bool recording;
 	c_static_array<real32, 10> chapter_mark_theta;
 };
+static_assert(sizeof(s_saved_film_hud_interface_state) == 0x44);
 
 class c_saved_film;
 struct s_saved_film_manager_globals

@@ -10,6 +10,7 @@
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_film_manager.hpp"
+#include "saved_games/saved_film_snippet.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AE4B10, c_saved_film_control_pad, handle_list_item_chosen_);

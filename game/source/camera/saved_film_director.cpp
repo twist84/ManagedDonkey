@@ -7,6 +7,7 @@
 #include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_film_manager.hpp"
+#include "saved_games/saved_film_snippet.hpp"
 
 #include <math.h>
 

@@ -4481,6 +4481,9 @@
     <ClInclude Include="source\interface\gui_screens\director\gui_screen_saved_film_control_pad.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\saved_games\saved_film_snippet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\saved_games\saved_film_scratch_memory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

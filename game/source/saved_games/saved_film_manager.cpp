@@ -22,6 +22,7 @@
 #include "saved_games/autosave_queue.hpp"
 #include "saved_games/saved_film_history.hpp"
 #include "saved_games/saved_film_scratch_memory.hpp"
+#include "saved_games/saved_film_snippet.hpp"
 #include "simulation/simulation.hpp"
 
 namespace

@@ -1486,6 +1486,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\saved_games\saved_film_history.hpp" />
     <ClInclude Include="source\saved_games\saved_film_manager.hpp" />
     <ClInclude Include="source\saved_games\saved_film_scratch_memory.hpp" />
+    <ClInclude Include="source\saved_games\saved_film_snippet.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />
