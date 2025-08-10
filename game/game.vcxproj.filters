@@ -2022,6 +2022,9 @@
     <ClCompile Include="source\camera\observer_director.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\saved_film_scratch_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4476,6 +4479,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\director\gui_screen_saved_film_control_pad.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\saved_games\saved_film_scratch_memory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

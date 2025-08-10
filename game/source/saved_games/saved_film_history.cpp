@@ -5,6 +5,7 @@
 #include "saved_games/game_state_procs.hpp"
 #include "saved_games/saved_film.hpp"
 #include "saved_games/saved_film_manager.hpp"
+#include "saved_games/saved_film_scratch_memory.hpp"
 #include "text/draw_string.hpp"
 
 s_saved_film_history_globals saved_film_history_globals{};
@@ -297,7 +298,7 @@ s_saved_film_history_globals::s_saved_film_history_globals() :
 
 void saved_film_history_buffer_release()
 {
-	//c_saved_film_scratch_memory::get()->release(_system_film_history);
+	c_saved_film_scratch_memory::get()->release(c_saved_film_scratch_memory::_system_film_history);
 }
 
 bool saved_film_history_can_revert_by_type(e_saved_film_revert_type revert_type)

@@ -376,6 +376,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\saved_games\content\content_item_metadata.cpp" />
     <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
     <ClCompile Include="source\saved_games\saved_film_manager.cpp" />
+    <ClCompile Include="source\saved_games\saved_film_scratch_memory.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\scenario\scenario_pvs.cpp" />
@@ -1484,6 +1485,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\saved_games\saved_film.hpp" />
     <ClInclude Include="source\saved_games\saved_film_history.hpp" />
     <ClInclude Include="source\saved_games\saved_film_manager.hpp" />
+    <ClInclude Include="source\saved_games\saved_film_scratch_memory.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />

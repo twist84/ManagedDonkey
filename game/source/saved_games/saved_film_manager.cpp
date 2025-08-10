@@ -21,6 +21,7 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "saved_games/autosave_queue.hpp"
 #include "saved_games/saved_film_history.hpp"
+#include "saved_games/saved_film_scratch_memory.hpp"
 #include "simulation/simulation.hpp"
 
 namespace
@@ -376,7 +377,7 @@ void saved_film_manager_dispose()
 	saved_film_manager_globals.saved_film.dispose(&g_physical_memory_allocation);
 	saved_film_manager_globals.saved_film_name.clear();
 	saved_film_manager_globals.initialized = false;
-	//c_saved_film_scratch_memory::get()->dispose();
+	c_saved_film_scratch_memory::get()->dispose();
 }
 
 void saved_film_manager_end_film_internal()
@@ -801,7 +802,7 @@ void saved_film_manager_initialize()
 	saved_film_manager_clear_playback_state();
 	saved_film_manager_create_film_directory();
 	saved_film_manager_globals.initialized = true;
-	//c_saved_film_scratch_memory::get()->initialize();
+	c_saved_film_scratch_memory::get()->initialize();
 	saved_film_history_initialize();
 	//saved_film_snippet_initialize();
 }
@@ -836,7 +837,7 @@ void saved_film_manager_memory_dispose()
 {
 	//saved_film_snippet_memory_dispose();
 	saved_film_history_memory_dispose();
-	//c_saved_film_scratch_memory::get()->memory_dispose();
+	c_saved_film_scratch_memory::get()->memory_dispose();
 }
 
 void saved_film_manager_memory_initialize(e_map_memory_configuration memory_configuration)
@@ -846,7 +847,7 @@ void saved_film_manager_memory_initialize(e_map_memory_configuration memory_conf
 		return;
 	}
 
-	//c_saved_film_scratch_memory::get()->memory_initialize();
+	c_saved_film_scratch_memory::get()->memory_initialize();
 	saved_film_history_memory_initialize();
 	//saved_film_snippet_memory_initialize();
 }
