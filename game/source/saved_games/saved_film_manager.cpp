@@ -84,12 +84,11 @@ void saved_film_manager_abort_playback(e_saved_film_playback_abort_reason abort_
 
 bool saved_film_manager_authored_camera_locked_for_snippet()
 {
-	return false;
-	//return game_in_progress()
-	//	&& game_playback_get() == _game_playback_film
-	//	&& saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read
-	//	&& !saved_film_manager_globals.film_ended
-	//	&& saved_film_snippet_recording_or_previewing();
+	return game_in_progress()
+		&& game_playback_get() == _game_playback_film
+		&& saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read
+		&& !saved_film_manager_globals.film_ended
+		&& saved_film_snippet_recording_or_previewing();
 }
 
 bool saved_film_manager_automatic_debug_saving_enabled()
@@ -228,11 +227,11 @@ void saved_film_manager_commit_snippet_autoname(e_controller_index controller_in
 		return;
 	}
 
-	//if (!saved_film_snippet_commit_by_autoname(controller_index))
-	//{
-	//	saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_commit);
-	//	return;
-	//}
+	if (!saved_film_snippet_commit_by_autoname(controller_index))
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_commit);
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: committing snippet by autoname");
 }
@@ -255,11 +254,11 @@ void saved_film_manager_commit_snippet_keyboard(e_controller_index controller_in
 		return;
 	}
 
-	//if (!saved_film_snippet_commit_by_keyboard(controller_index))
-	//{
-	//	saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_commit);
-	//	return;
-	//}
+	if (!saved_film_snippet_commit_by_keyboard(controller_index))
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_commit);
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: committing snippet by keyboard");
 }
@@ -331,19 +330,19 @@ void saved_film_manager_delete_current_snippet()
 		return;
 	}
 
-	//e_saved_film_snippet_state current_state = saved_film_snippet_get_current_state();
-	//if (current_state != _saved_film_snippet_state_recorded_and_ready)
-	//{
-	//	event(_event_warning, "networking:saved_film:manager: can't delete snippet [current in state %d]",
-	//		current_state);
-	//	return;
-	//}
-	//
-	//if (!saved_film_snippet_delete())
-	//{
-	//	saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_delete);
-	//	return;
-	//}
+	e_saved_film_snippet_state current_state = saved_film_snippet_get_current_state();
+	if (current_state != _saved_film_snippet_state_recorded_and_ready)
+	{
+		event(_event_warning, "networking:saved_film:manager: can't delete snippet [current in state %d]",
+			current_state);
+		return;
+	}
+	
+	if (!saved_film_snippet_delete())
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_delete);
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: deleted snippet");
 }
@@ -367,7 +366,7 @@ void saved_film_manager_dispose_from_old_map()
 
 	saved_film_manager_close();
 	saved_film_history_dispose_from_saved_film_playback();
-	//saved_film_snippet_dispose_from_saved_film_playback();
+	saved_film_snippet_dispose_from_saved_film_playback();
 	saved_film_manager_globals.screensaver_enabled = true;
 }
 
@@ -540,7 +539,7 @@ void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state
 	csmemset(hud_state, 0, sizeof(s_saved_film_hud_interface_state));
 
 	saved_film_history_get_hud_interface_state(hud_state);
-	//saved_film_snippet_get_hud_interface_state(hud_state);
+	saved_film_snippet_get_hud_interface_state(hud_state);
 }
 
 // $TODO: check my work
@@ -656,30 +655,28 @@ int32 saved_film_manager_get_snippet_start_tick()
 		return snippet_start_tick;
 	}
 
-	//if (saved_film_snippet_get_current_state() == _saved_film_snippet_state_none)
-	//{
-	//	return snippet_start_tick;
-	//}
+	if (saved_film_snippet_get_current_state() == _saved_film_snippet_state_none)
+	{
+		return snippet_start_tick;
+	}
 
 	int32 current_snippet_start_tick = NONE;
-	//if (!saved_film_snippet_get_current_start_tick(&current_snippet_start_tick))
-	//{
-	//	return snippet_start_tick;
-	//}
+	if (!saved_film_snippet_get_current_start_tick(&current_snippet_start_tick))
+	{
+		return snippet_start_tick;
+	}
 
 	return current_snippet_start_tick;
 }
 
 e_saved_film_snippet_state saved_film_manager_get_snippet_state()
 {
-	return _saved_film_snippet_state_none;
-
 	if (!saved_film_manager_snippets_available())
 	{
 		return _saved_film_snippet_state_none;
 	}
 
-	//return saved_film_snippet_get_current_state();
+	return saved_film_snippet_get_current_state();
 }
 
 int32 saved_film_manager_get_ticks_remaining()
@@ -783,7 +780,7 @@ void saved_film_manager_initialize_for_new_map()
 
 	saved_film_manager_globals.snippet_start_tick = game_options_get()->playback_start_tick;
 	saved_film_history_initialize_for_saved_film_playback();
-	//saved_film_snippet_initialize_for_saved_film_playback();
+	saved_film_snippet_initialize_for_saved_film_playback();
 	saved_film_manager_globals.screensaver_enabled = false;
 }
 
@@ -805,7 +802,7 @@ void saved_film_manager_initialize()
 	saved_film_manager_globals.initialized = true;
 	c_saved_film_scratch_memory::get()->initialize();
 	saved_film_history_initialize();
-	//saved_film_snippet_initialize();
+	saved_film_snippet_initialize();
 }
 
 bool saved_film_manager_is_reading()
@@ -836,7 +833,7 @@ bool saved_film_manager_load_pending_gamestate_to_compressor()
 
 void saved_film_manager_memory_dispose()
 {
-	//saved_film_snippet_memory_dispose();
+	saved_film_snippet_memory_dispose();
 	saved_film_history_memory_dispose();
 	c_saved_film_scratch_memory::get()->memory_dispose();
 }
@@ -850,7 +847,7 @@ void saved_film_manager_memory_initialize(e_map_memory_configuration memory_conf
 
 	c_saved_film_scratch_memory::get()->memory_initialize();
 	saved_film_history_memory_initialize();
-	//saved_film_snippet_memory_initialize();
+	saved_film_snippet_memory_initialize();
 }
 
 void saved_film_manager_notify_gamestate_decompression_after_load_procs()
@@ -961,10 +958,10 @@ void saved_film_manager_notify_reverted_gamestate_loaded(int32 history_record_in
 		history_record_index,
 		update_number);
 
-	//if (saved_film_manager_globals.seek_film_tick != NONE && saved_film_snippet_get_current_state())
-	//{
-	//	saved_film_snippet_finished_revert_for_seek(update_number, gamestate, gamestate_size);
-	//}
+	if (saved_film_manager_globals.seek_film_tick != NONE && saved_film_snippet_get_current_state())
+	{
+		saved_film_snippet_finished_revert_for_seek(update_number, gamestate, gamestate_size);
+	}
 
 	simulation_notify_saved_film_revert(history_record_index, update_number);
 }
@@ -1116,10 +1113,10 @@ void saved_film_manager_perform_revert(bool* set_director_state_out)
 			saved_film_manager_globals.seek_film_tick);
 
 		saved_film_history_revert_by_film_tick(saved_film_manager_globals.seek_film_tick);
-		//if (saved_film_manager_snippets_available())
-		//{
-		//	saved_film_snippets_notify_reverted_for_seek(set_director_state_out);
-		//}
+		if (saved_film_manager_snippets_available())
+		{
+			saved_film_snippets_notify_reverted_for_seek(set_director_state_out);
+		}
 		saved_film_manager_update_seeking(current_tick_estimate);
 	}
 
@@ -1229,11 +1226,11 @@ void saved_film_manager_preview_snippet_start()
 		return;
 	}
 
-	//if (!saved_film_snippet_preview_start())
-	//{
-	//	saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_start_preview);
-	//	return;
-	//}
+	if (!saved_film_snippet_preview_start())
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_start_preview);
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: starting snippet preview");
 	saved_film_manager_playback_lock_set(0.0f, true);
@@ -1263,11 +1260,11 @@ void saved_film_manager_preview_snippet_stop()
 		return;
 	}
 
-	//if (!saved_film_snippet_preview_stop())
-	//{
-	//	saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_stop_preview);
-	//	return;
-	//}
+	if (!saved_film_snippet_preview_stop())
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_stop_preview);
+		return;
+	}
 
 	event(_event_message, "networking:saved_film:manager: stopping snippet preview");
 	saved_film_manager_playback_lock_set(0.0f, true);

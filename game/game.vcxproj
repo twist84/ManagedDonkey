@@ -377,6 +377,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
     <ClCompile Include="source\saved_games\saved_film_manager.cpp" />
     <ClCompile Include="source\saved_games\saved_film_scratch_memory.cpp" />
+    <ClCompile Include="source\saved_games\saved_film_snippet.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\scenario\scenario_pvs.cpp" />
