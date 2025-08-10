@@ -12,25 +12,286 @@ s_saved_film_history_globals saved_film_history_globals{};
 const char* const k_saved_film_history_file_path = "sf_history.blob";
 const real32 k_saved_film_history_double_tap_seconds = 0.5f;
 
-//c_saved_film_history_record_manager::c_saved_film_history_record_manager()
-//int32 c_saved_film_history_record_manager::chapter_count()
-//void c_saved_film_history_record_manager::clear_window_records()
-//void c_saved_film_history_record_manager::commit_working_record()
-//int32 c_saved_film_history_record_manager::evict_oldest_local_record()
-//int32 c_saved_film_history_record_manager::find_record_by_film_tick(int32 film_tick)
-//int32 c_saved_film_history_record_manager::get_closest_record_greater_than_tick(int32 film_tick)
-//int32 c_saved_film_history_record_manager::get_closest_record_less_than_tick(int32 film_tick, bool chapters_only)
-//s_saved_film_history_archive_record* c_saved_film_history_record_manager::get_current_working_record()
-//int32 c_saved_film_history_record_manager::get_current_working_record_index()
-//s_saved_film_history_archive_record* c_saved_film_history_record_manager::get_new_working_record(bool chapter)
-//s_saved_film_history_archive_record* c_saved_film_history_record_manager::get_record(int32 record_index)
-//void c_saved_film_history_record_manager::initialize()
-//void c_saved_film_history_record_manager::initialize_record(int32 record_index)
-//int32 c_saved_film_history_record_manager::local_count()
-//bool c_saved_film_history_record_manager::valid(int32 record_index)
-//void c_saved_film_history_record_manager::validate()
+c_saved_film_history_record_manager::c_saved_film_history_record_manager()
+{
+	c_saved_film_history_record_manager::initialize();
+}
 
-//s_saved_film_history_globals::s_saved_film_history_globals()
+int32 c_saved_film_history_record_manager::chapter_count()
+{
+	int32 chapter_count = 0;
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && record->chapter)
+		{
+			chapter_count++;
+		}
+	}
+	return chapter_count;
+}
+
+void c_saved_film_history_record_manager::clear_window_records()
+{
+	event(_event_message, "clearing window records");
+
+	c_saved_film_history_record_manager::validate();
+
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = c_saved_film_history_record_manager::get_record(record_index);
+		if (record->valid && record->in_window)
+		{
+			if (record->chapter)
+			{
+				record->in_window = false;
+			}
+			else
+			{
+				c_saved_film_history_record_manager::initialize_record(record_index);
+			}
+		}
+	}
+}
+
+void c_saved_film_history_record_manager::commit_working_record()
+{
+	int32 current_working_record_index = c_saved_film_history_record_manager::get_current_working_record_index();
+	ASSERT(current_working_record_index != NONE);
+	c_saved_film_history_record_manager::validate();
+	m_archive_records[current_working_record_index].working = false;
+	m_archive_records[current_working_record_index].valid = true;
+}
+
+int32 c_saved_film_history_record_manager::evict_oldest_local_record()
+{
+	int32 oldest_local_record_index = NONE;
+	int32 oldest_local_film_tick = 0;
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && !record->chapter)
+		{
+			if (oldest_local_record_index == NONE ||
+				record->film_tick < oldest_local_film_tick)
+			{
+				oldest_local_record_index = record_index;
+				oldest_local_film_tick = record->film_tick;
+			}
+		}
+	}
+	ASSERT(oldest_local_record_index != NONE);
+	s_saved_film_history_archive_record* oldest_local_record = &m_archive_records[oldest_local_record_index];
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && record->film_tick < oldest_local_record->film_tick)
+		{
+			record->in_window = false;
+		}
+	}
+	return oldest_local_record_index;
+}
+
+int32 c_saved_film_history_record_manager::find_record_by_film_tick(int32 film_tick)
+{
+	int32 found_record_index = NONE;
+	c_saved_film_history_record_manager::validate();
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && record->film_tick == film_tick)
+		{
+			ASSERT(found_record_index == NONE);
+			found_record_index = record_index;
+		}
+	}
+	return found_record_index;
+}
+
+int32 c_saved_film_history_record_manager::get_closest_record_greater_than_tick(int32 film_tick)
+{
+	int32 closest_record_greater_than_index = NONE;
+	int32 closest_record_greater_than_tick = 0;
+	c_saved_film_history_record_manager::validate();
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && record->film_tick > film_tick)
+		{
+			if (closest_record_greater_than_index == NONE ||
+				record->film_tick - film_tick < closest_record_greater_than_tick - film_tick)
+			{
+				closest_record_greater_than_index = record_index;
+				closest_record_greater_than_tick = record->film_tick;
+			}
+		}
+	}
+	return closest_record_greater_than_index;
+}
+
+int32 c_saved_film_history_record_manager::get_closest_record_less_than_tick(int32 film_tick, bool chapters_only)
+{
+	int32 closest_record_less_than_index = NONE;
+	int32 closest_record_less_than_tick = 0;
+	c_saved_film_history_record_manager::validate();
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && record->film_tick <= film_tick)
+		{
+			if (closest_record_less_than_index == NONE ||
+				film_tick - record->film_tick < film_tick - closest_record_less_than_tick &&
+				(!chapters_only || record->chapter))
+			{
+				closest_record_less_than_index = record_index;
+				closest_record_less_than_tick = record->film_tick;
+			}
+		}
+	}
+	return closest_record_less_than_index;
+}
+
+s_saved_film_history_archive_record* c_saved_film_history_record_manager::get_current_working_record()
+{
+	int32 current_working_record_index = c_saved_film_history_record_manager::get_current_working_record_index();
+	s_saved_film_history_archive_record* current_record = &m_archive_records[current_working_record_index];
+	c_saved_film_history_record_manager::validate();
+	return current_record;
+}
+
+int32 c_saved_film_history_record_manager::get_current_working_record_index()
+{
+	int32 current_working_record_index = NONE;
+	c_saved_film_history_record_manager::validate();
+	for (int32 current_record_index = 0; current_record_index < m_archive_records.get_count(); current_record_index++)
+	{
+		s_saved_film_history_archive_record* current_record = &m_archive_records[current_record_index];
+		if (current_record->working)
+		{
+			ASSERT(current_working_record_index == NONE);
+			ASSERT(!current_record->valid);
+			current_working_record_index = current_record_index;
+		}
+	}
+	return current_working_record_index;
+}
+
+s_saved_film_history_archive_record* c_saved_film_history_record_manager::get_new_working_record(bool chapter)
+{
+	int32 new_working_record_index = NONE;
+	ASSERT(get_current_working_record_index() == NONE);
+	if (chapter)
+	{
+		ASSERT(chapter_count() <= (k_saved_film_history_chapter_archive_count - 1));
+	}
+	c_saved_film_history_record_manager::validate();
+	if (chapter || c_saved_film_history_record_manager::local_count() != k_saved_film_history_local_archive_count)
+	{
+		for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+		{
+			s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+			if (!record->valid)
+			{
+				new_working_record_index = record_index;
+				break;
+			}
+		}
+	}
+	if (new_working_record_index == NONE)
+	{
+		ASSERT(!chapter);
+		new_working_record_index = c_saved_film_history_record_manager::evict_oldest_local_record();
+	}
+	ASSERT(new_working_record_index != NONE);
+	c_saved_film_history_record_manager::initialize_record(new_working_record_index);
+	s_saved_film_history_archive_record* new_working_record = &m_archive_records[new_working_record_index];
+	new_working_record->history_file_position = 0x7F0000 * new_working_record_index;
+	new_working_record->chapter = chapter;
+	new_working_record->in_window = true;
+	new_working_record->working = true;
+	c_saved_film_history_record_manager::validate();
+	return new_working_record;
+}
+
+s_saved_film_history_archive_record* c_saved_film_history_record_manager::get_record(int32 record_index)
+{
+	s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+	ASSERT(record->valid);
+	c_saved_film_history_record_manager::validate();
+	return record;
+}
+
+void c_saved_film_history_record_manager::initialize()
+{
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		c_saved_film_history_record_manager::initialize_record(record_index);
+	}
+}
+
+void c_saved_film_history_record_manager::initialize_record(int32 record_index)
+{
+	s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+	csmemset(record, 0, sizeof(s_saved_film_history_archive_record));
+	record->film_file_position = NONE;
+	record->history_file_position = NONE;
+	record->update_number = NONE;
+}
+
+int32 c_saved_film_history_record_manager::local_count()
+{
+	int32 local_count = 0;
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid && !record->chapter)
+		{
+			local_count++;
+		}
+	}
+	return local_count;
+}
+
+bool c_saved_film_history_record_manager::valid(int32 record_index)
+{
+	return m_archive_records[record_index].valid;
+}
+
+void c_saved_film_history_record_manager::validate()
+{
+	int32 chapter_count = 0;
+	int32 local_count = 0;
+	int32 working_count = 0;
+	for (int32 record_index = 0; record_index < m_archive_records.get_count(); record_index++)
+	{
+		s_saved_film_history_archive_record* record = &m_archive_records[record_index];
+		if (record->valid)
+		{
+			if (record->chapter)
+			{
+				chapter_count++;
+			}
+			else
+			{
+				local_count++;
+			}
+			if (record->working)
+			{
+				working_count = 1;
+			}
+		}
+	}
+	ASSERT(chapter_count <= k_saved_film_history_chapter_archive_count);
+	ASSERT(local_count <= k_saved_film_history_local_archive_count);
+	ASSERT(working_count == 0 || working_count == 1);
+}
+
+s_saved_film_history_globals::s_saved_film_history_globals() :
+	record_manager()
+{
+}
+
 //c_async_stored_buffer_set<1>* saved_film_history_buffer_acquire()
 //c_async_stored_buffer_set<1>* saved_film_history_buffer_get_without_acquire()
 
@@ -101,7 +362,7 @@ void saved_film_history_initialize_for_saved_film_playback()
 
 void saved_film_history_initialize_internal()
 {
-	//saved_film_history_globals.record_manager.initialize();
+	saved_film_history_globals.record_manager.initialize();
 	saved_film_history_globals.estimated_length_in_ticks = 0;
 	saved_film_history_globals.last_revert_time = system_milliseconds();
 	saved_film_history_globals.reverted_last_tick = false;
@@ -218,8 +479,7 @@ bool saved_film_history_revert_by_index(int32 revert_index)
 	ASSERT(game_is_playback());
 	ASSERT(game_in_progress());
 
-	//if (!saved_film_history_globals.record_manager.valid())
-	if (!saved_film_history_globals.record_manager.m_archive_records[revert_index].valid)
+	if (!saved_film_history_globals.record_manager.valid(revert_index))
 	{
 		event(_event_warning, "saved_film:history: revert index %d record is not valid",
 			revert_index);
@@ -283,34 +543,34 @@ void saved_film_history_update()
 
 void saved_film_history_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata * metadata)
 {
-	//ASSERT(update);
-	//ASSERT(metadata);
-	//
-	//if (!game_in_progress() || !game_is_multiplayer() || !game_is_playback())
-	//{
-	//	return;
-	//}
-	//
-	//int32 current_working_record_index = c_saved_film_history_record_manager::get_current_working_record_index(&saved_film_history_globals.record_manager);
-	//if (current_working_record_index != NONE)
-	//{
-	//	s_saved_film_history_archive_record* current_working_record = saved_film_history_globals.record_manager.get_current_working_record();
-	//	ASSERT(metadata->flags.test(_simulation_update_from_saved_film_bit));
-	//
-	//	current_working_record->film_file_position = metadata->saved_film_position;
-	//	current_working_record->film_tick = metadata->saved_film_tick;
-	//	current_working_record->update_number = update->update_number;
-	//
-	//	saved_film_history_globals.record_manager.commit_working_record();
-	//
-	//	event(_event_message, "networking:saved_film:history: building game state history %d post-update [film position %d tick %d update %d]",
-	//		current_working_record_index,
-	//		current_working_record->film_file_position,
-	//		current_working_record->film_tick,
-	//		current_working_record->update_number);
-	//}
-	//
-	//saved_film_history_globals.reverted_last_tick = false;
+	ASSERT(update);
+	ASSERT(metadata);
+	
+	if (!game_in_progress() || !game_is_multiplayer() || !game_is_playback())
+	{
+		return;
+	}
+	
+	int32 current_working_record_index = saved_film_history_globals.record_manager.get_current_working_record_index();
+	if (current_working_record_index != NONE)
+	{
+		s_saved_film_history_archive_record* current_working_record = saved_film_history_globals.record_manager.get_current_working_record();
+		ASSERT(metadata->flags.test(_simulation_update_from_saved_film_bit));
+	
+		current_working_record->film_file_position = metadata->saved_film_position;
+		current_working_record->film_tick = metadata->saved_film_tick;
+		current_working_record->update_number = update->update_number;
+	
+		saved_film_history_globals.record_manager.commit_working_record();
+	
+		event(_event_message, "networking:saved_film:history: building game state history %d post-update [film position %d tick %d update %d]",
+			current_working_record_index,
+			current_working_record->film_file_position,
+			current_working_record->film_tick,
+			current_working_record->update_number);
+	}
+	
+	saved_film_history_globals.reverted_last_tick = false;
 }
 
 void saved_film_history_update_before_simulation_update(bool disable_adding_history_records)

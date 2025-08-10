@@ -12,6 +12,8 @@ enum
 	k_saved_film_history_local_archive_count = 6,
 };
 
+#define SAVED_FILM_HISTORY_ARCHIVE_COUNT (k_saved_film_history_chapter_archive_count + k_saved_film_history_local_archive_count)
+
 struct s_saved_film_history_archive_record
 {
 	int32 film_file_position;
@@ -28,14 +30,36 @@ struct s_saved_film_history_archive_record
 };
 static_assert(sizeof(s_saved_film_history_archive_record) == 0x20);
 
-struct c_saved_film_history_record_manager
+class c_saved_film_history_record_manager
 {
-	c_static_array<s_saved_film_history_archive_record, 16> m_archive_records;
+public:
+	c_saved_film_history_record_manager();
+	int32 chapter_count();
+	void clear_window_records();
+	void commit_working_record();
+	int32 evict_oldest_local_record();
+	int32 find_record_by_film_tick(int32 film_tick);
+	int32 get_closest_record_greater_than_tick(int32 film_tick);
+	int32 get_closest_record_less_than_tick(int32 film_tick, bool chapters_only);
+	s_saved_film_history_archive_record* get_current_working_record();
+	int32 get_current_working_record_index();
+	s_saved_film_history_archive_record* get_new_working_record(bool chapter);
+	s_saved_film_history_archive_record* get_record(int32 record_index);
+	void initialize();
+	void initialize_record(int32 record_index);
+	int32 local_count();
+	bool valid(int32 record_index);
+	void validate();
+
+private:
+	c_static_array<s_saved_film_history_archive_record, SAVED_FILM_HISTORY_ARCHIVE_COUNT> m_archive_records;
 };
-static_assert(sizeof(c_saved_film_history_record_manager) == sizeof(s_saved_film_history_archive_record) * 16);
+static_assert(sizeof(c_saved_film_history_record_manager) == sizeof(s_saved_film_history_archive_record) * SAVED_FILM_HISTORY_ARCHIVE_COUNT);
 
 struct s_saved_film_history_globals
 {
+	s_saved_film_history_globals();
+
 	c_async_stored_buffer_set<1>* history_buffer;
 	c_saved_film_history_record_manager record_manager;
 	int32 estimated_length_in_ticks;
