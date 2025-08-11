@@ -264,6 +264,14 @@ COMMAND_CALLBACK_DECLARE(controller_set_voice_output_setting);
 
 COMMAND_CALLBACK_DECLARE(saved_film_play);
 COMMAND_CALLBACK_DECLARE(saved_film_play_last);
+COMMAND_CALLBACK_DECLARE(saved_film_disable_version_checking);
+COMMAND_CALLBACK_DECLARE(saved_film_toggle_debug_saving);
+COMMAND_CALLBACK_DECLARE(saved_films_delete_on_level_load);
+COMMAND_CALLBACK_DECLARE(saved_films_show_timestamp);
+COMMAND_CALLBACK_DECLARE(saved_film_manager_should_record_film_default);
+COMMAND_CALLBACK_DECLARE(saved_film_set_playback_game_speed);
+COMMAND_CALLBACK_DECLARE(saved_film_set_pending_playback_game_speed);
+COMMAND_CALLBACK_DECLARE(saved_film_seek_to_film_tick);
 
 //-----------------------------------------------------------------------------
 
@@ -387,12 +395,12 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(mp_players_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(deterministic_end_game, 0, "", "end game deterministically, by inserting a simulation queue event\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_active_player_count_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<int16>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_respawn_override_timers, 1, "<int16>", "<mp_team> causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_ai_allegiance, 2, "<int16> <int16>", "<team> <mp_team> causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_allegiance, 2, "<int16> <int16>", "<mp_team> <mp_team> create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_object_belongs_to_team, 2, "<long> <int16>", "<object> <mp_team> causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_weapon_belongs_to_team, 2, "<long> <int16>", "<object> <mp_team> causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<short>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_respawn_override_timers, 1, "<short>", "<mp_team> causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_ai_allegiance, 2, "<short> <short>", "<team> <mp_team> causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_allegiance, 2, "<short> <short>", "<mp_team> <mp_team> create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_object_belongs_to_team, 2, "<long> <short>", "<object> <mp_team> causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_weapon_belongs_to_team, 2, "<long> <short>", "<object> <mp_team> causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(mp_debug_goal_object_boundary_geometry, 1, "<boolean>", "toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No"),
 
@@ -472,6 +480,14 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(saved_film_play, 2, "<controller> <string>", "plays a saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(saved_film_play_last, 0, "", "play back last recorded saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_film_disable_version_checking, 1, "<boolean>", "disable saved film version checking\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_film_toggle_debug_saving, 1, "<boolean>", "toggle saving of last film to the debug output directory automatically after each game level\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_films_delete_on_level_load, 1, "<boolean>", "toggle deletion last saved film after loading a new game level\r\nNETWORK SAFE: Unkown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_films_show_timestamp, 1, "<boolean>", "toggle showing timestamp for saved film playback\r\nNETWORK SAFE: Unkown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_film_manager_should_record_film_default, 1, "<boolean>", "Toggle recording of replay in single player game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(saved_film_set_playback_game_speed, 1, "<real>", "set the saved film playback speed"),
+	COMMAND_CALLBACK_REGISTER(saved_film_set_pending_playback_game_speed, 1, "<real>", "set the pending saved film playback speed"),
+	COMMAND_CALLBACK_REGISTER(saved_film_seek_to_film_tick, 1, "<long>", "seeks to a film tick"),
 
 };
 
