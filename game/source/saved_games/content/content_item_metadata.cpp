@@ -86,7 +86,12 @@ void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 //.text:005246C0 ; public: c_game_engine_base_variant* c_game_variant::get_active_variant_writeable()
 //.text:005246E0 ; public: static e_metadata_file_type s_saved_game_item_metadata::get_file_type_from_saved_game_type(e_saved_game_file_type)
 //.text:00524740 ; public: e_game_content_type s_saved_game_item_metadata::get_game_content_type() const
-//.text:00524750 ; public: e_gui_game_mode s_saved_game_item_metadata::get_gui_game_mode() const
+
+e_gui_game_mode s_saved_game_item_metadata::get_gui_game_mode() const
+{
+	return INVOKE_CLASS_MEMBER(0x00524750, s_saved_game_item_metadata, get_gui_game_mode);
+}
+
 //.text:005247A0 ; public: bool s_saved_game_item_metadata::get_map_image_filename(c_static_string<256>*) const
 
 e_metadata_file_type s_saved_game_item_metadata::get_metadata_file_type() const
