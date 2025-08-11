@@ -61,6 +61,7 @@ extern void __cdecl cinematic_initialize();
 extern void __cdecl cinematic_initialize_for_new_map();
 extern void __cdecl cinematic_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set);
 extern void __cdecl cinematic_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
+extern bool __cdecl cinematic_is_letterbox();
 extern void __cdecl cinematic_prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
 extern void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* active_tags_registry);
 extern void __cdecl cinematic_render(bool a1, bool a2);

@@ -72,7 +72,11 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(uns32 activating_structu
 	INVOKE(0x0067D410, cinematic_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:0067D420 ; bool __cdecl cinematic_is_letterbox()
+bool __cdecl cinematic_is_letterbox()
+{
+	return INVOKE(0x0067D420, cinematic_is_letterbox);
+}
+
 //.text:0067D480 ; void __cdecl cinematic_move_attached_objects(int32, int32, int32, int32)
 //.text:0067D550 ; void __cdecl cinematic_new_globals_initialize()
 //.text:0067D620 ; int32 __cdecl cinematic_object_create(const char*, int32, int32, uns32)

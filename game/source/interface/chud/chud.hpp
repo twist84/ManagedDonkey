@@ -86,6 +86,7 @@ extern void __cdecl chud_game_tick();
 extern bool __cdecl chud_generate_damage_flash_texture(int32 user_index);
 extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();
+extern bool __cdecl chud_should_draw_screen_saved_film(int32 user_index);
 extern void __cdecl chud_submit_navpoint(int32, s_chud_navpoint* navpoint);
 extern void __cdecl chud_update(real32 world_seconds_elapsed);
 

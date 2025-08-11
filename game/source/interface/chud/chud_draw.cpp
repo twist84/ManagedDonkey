@@ -122,7 +122,12 @@ void __cdecl chud_debug_render()
 }
 
 //.text:00AC80E0 ; void __cdecl chud_draw_alpha_watermark(int32 user_index, uns64 magic_bit_pattern)
-//.text:00AC80F0 ; void __cdecl chud_draw_begin(int32 user_index, real32 global_hud_alpha, bool setup_cortana_effect, bool drawing_saved_film)
+
+bool __cdecl chud_draw_begin(int32 user_index, real32 global_hud_alpha, bool setup_cortana_effect, bool drawing_saved_film)
+{
+	return INVOKE(0x00AC80F0, chud_draw_begin, user_index, global_hud_alpha, setup_cortana_effect, drawing_saved_film);
+}
+
 //.text:00AC8C10 ; 
 
 void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence)
@@ -138,7 +143,12 @@ void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, b
 }
 
 //.text:00AC8E50 ; void __cdecl chud_draw_debug(int32 user_index)
-//.text:00AC8E60 ; void __cdecl chud_draw_end(int32 user_index, bool resolve_cortana_effect)
+
+void __cdecl chud_draw_end(int32 user_index, bool resolve_cortana_effect)
+{
+	INVOKE(0x00AC8E60, chud_draw_end, user_index, resolve_cortana_effect);
+}
+
 //.text:00AC8E80 ; void __cdecl chud_draw_initialize()
 //.text:00AC8E90 ; 
 

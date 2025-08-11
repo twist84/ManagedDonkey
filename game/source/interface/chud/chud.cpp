@@ -1,6 +1,10 @@
 #include "interface/chud/chud.hpp"
 
+#include "camera/director.hpp"
+#include "cutscene/cinematics.hpp"
 #include "game/cheats.hpp"
+#include "interface/chud/chud_draw.hpp"
+#include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "items/weapons.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
@@ -84,7 +88,23 @@ void __cdecl chud_draw_screen_saved_film(int32 user_index)
 {
 	//INVOKE(0x00A89100, chud_draw_screen_saved_film, user_index);
 
+	if (!chud_should_draw_screen_saved_film(user_index) && chud_enabled && chud_globals && VALID_INDEX(user_index, k_number_of_users))
+	{
+		return;
+	}
 	HOOK_INVOKE(, chud_draw_screen_saved_film, user_index);
+
+	//if (chud_should_draw_screen_saved_film(user_index) &&
+	//	chud_enabled && chud_globals &&
+	//	VALID_INDEX(user_index, 4))
+	//{
+	//	if (chud_draw_begin(user_index, 1.0f, false, true))
+	//	{
+	//		// $TODO: implement me
+	//	}
+	//	chud_draw_end(user_index, false);
+	//}
+	////cortana_effect_render_ui();
 }
 
 void __cdecl chud_draw_turbulence(int32 user_index)
@@ -167,7 +187,39 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A6D0 ; 
 //.text:00A8A730 ; 
 //.text:00A8A7A0 ; 
-//.text:00A8A7F0 ; 
+
+bool __cdecl chud_should_draw_screen_saved_film(int32 user_index)
+{
+	//return INVOKE(0x00A8A7F0, chud_should_draw_screen_saved_film, user_index);
+
+	if (user_index == NONE)
+	{
+		return false;
+	}
+
+	if (!director_get(user_index)->should_draw_hud_saved_film())
+	{
+		return false;
+	}
+
+	if (c_gui_screen_scoreboard::is_scoreboard_displayed(controller_index_from_user_index(user_index)))
+	{
+		return false;
+	}
+
+	if (c_gui_screen_scoreboard::is_scoreboard_displayed(k_any_controller))
+	{
+		return false;
+	}
+
+	if (cinematic_in_progress() && cinematic_is_letterbox())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 //.text:00A8A830 ; 
 //.text:00A8A860 ; 
 //.text:00A8A900 ; void __cdecl chud_start_directional_damage(int32, const real_vector3d*, real32, int16, real32, real32, real32, real_argb_color*)
