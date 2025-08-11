@@ -285,6 +285,11 @@ int32 c_async_buffer_set::get_position()
 	//return NONE;
 }
 
+e_async_buffer_state c_async_buffer_set::get_state()
+{
+	return m_state;
+}
+
 bool c_async_buffer_set::handle_state(e_async_buffer_state new_state)
 {
 	return INVOKE_CLASS_MEMBER(0x005AE760, c_async_buffer_set, handle_state, new_state);

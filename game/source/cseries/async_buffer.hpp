@@ -84,6 +84,7 @@ public:
 	int32 fill_bytes(void* destination, int32 bytes_to_fill);
 	bool flush();
 	int32 get_position();
+	e_async_buffer_state get_state();
 	bool handle_state(e_async_buffer_state new_state);
 	void initialize();
 	void initialize_buffer(int32 buffer_index);
