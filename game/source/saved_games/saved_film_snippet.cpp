@@ -6,6 +6,9 @@
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/c_gui_screen_widget.hpp"
+#include "interface/user_interface_window_manager.hpp"
+#include "main/levels.hpp"
 
 static REFERENCE_DECLARE(0x019428EC, c_physical_memory_allocation, g_physical_memory_allocation); // only use in this translation unit
 
@@ -51,6 +54,29 @@ s_saved_film_snippet_globals::s_saved_film_snippet_globals() :
 void saved_film_snippet_build_auto_description(e_controller_index controller_index, c_static_wchar_string<128>* snippet_description_out)
 {
 	// $TODO: implement me
+
+	//const s_saved_game_item_metadata* metadata = saved_film_manager_get_current_metadata();
+	//const game_options* options = saved_film_manager_get_current_game_options();
+	//
+	//ASSERT(metadata);
+	//ASSERT(options);
+	//
+	//wchar_t map_name_buffer[128]{};
+	//wchar_t auto_description[128]{};
+	//if (!saved_game_files_get_default_film_save_description(
+	//	controller_index,
+	//	metadata->get_gui_game_mode(),
+	//	levels_get_active_session_map_name(map_name_buffer, NUMBEROF(map_name_buffer)),
+	//	options->multiplayer_variant.get_active_variant()->get_metadata()->display_name,
+	//	metadata->campaign_difficulty,
+	//	auto_description, NUMBEROF(auto_description)))
+	//{
+	//	event(_event_warning, "networking:saved_film:snippet: failed to build auto description, using current film description");
+	//	snippet_description_out->set_char(metadata->description);
+	//	return;
+	//}
+	//
+	//snippet_description_out->set(auto_description);
 }
 
 void saved_film_snippet_build_auto_name(e_controller_index controller_index, c_static_wchar_string<16>* snippet_name_out)
@@ -69,7 +95,7 @@ bool saved_film_snippet_close_camera_file()
 	// $TODO: implement me
 	return false;
 
-	//if (saved_film_snippet_globals.camera_file.m_state == _async_buffer_state_writing && 
+	//if (saved_film_snippet_globals.camera_file.get_state() == _async_buffer_state_writing &&
 	//	!saved_film_snippet_pad_camera_file_for_write_completion())
 	//{
 	//	event(_event_warning, "networking:saved_film:snippet: failed to finalize camera file before close");
@@ -88,18 +114,81 @@ bool saved_film_snippet_commit_by_autoname(e_controller_index controller_index)
 {
 	// $TODO: implement me
 	return false;
+
+	//ASSERT(saved_film_snippet_globals.recording_start_tick != NONE);
+	//ASSERT(saved_film_snippet_globals.recording_stop_tick != NONE);
+	//ASSERT(saved_film_snippet_globals.recording_start_tick <= saved_film_snippet_globals.recording_stop_tick);
+	//ASSERT(saved_film_snippet_globals.current_state == _saved_film_snippet_state_recorded_and_ready);
+	//ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	//
+	//if (!saved_film_snippet_close_camera_file())
+	//{
+	//	event(_event_warning, "networking:saved_film:snippet: failed to close camera file for commit");
+	//	return false;
+	//}
+	//
+	//saved_film_snippet_globals.controller_index = controller_index;
+	//saved_film_snippet_build_auto_name(saved_film_snippet_globals.controller_index, &saved_film_snippet_globals.snippet_name);
+	//saved_film_snippet_build_auto_description(saved_film_snippet_globals.controller_index, &saved_film_snippet_globals.snippet_description);
+	//saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_initiate_creation;
+	//return true;
 }
 
 bool saved_film_snippet_commit_by_keyboard(e_controller_index controller_index)
 {
 	// $TODO: implement me
 	return false;
+
+	//ASSERT(saved_film_snippet_globals.recording_start_tick != NONE);
+	//ASSERT(saved_film_snippet_globals.recording_stop_tick != NONE);
+	//ASSERT(saved_film_snippet_globals.recording_start_tick <= saved_film_snippet_globals.recording_stop_tick);
+	//ASSERT(saved_film_snippet_globals.current_state == _saved_film_snippet_state_recorded_and_ready);
+	//ASSERT(saved_film_snippet_globals.virtual_keyboard_task == NULL);
+	//
+	//if (!saved_film_snippet_close_camera_file())
+	//{
+	//	event(_event_warning, "networking:saved_film:snippet: failed to close camera file for commit by keyboard");
+	//	return false;
+	//}
+	//
+	//if (saved_film_snippet_globals.virtual_keyboard_task = c_virtual_keyboard_task::get_instance(__FILE__, __LINE__,
+	//	controller_index,
+	//	NULL, NULL, NULL, 256, 0, false))
+	//{
+	//	event(_event_error, "networking:saved_film:snippet: failed to get virtual keyboard task interface");
+	//	return false;
+	//}
+	//
+	//saved_film_snippet_globals.controller_index = controller_index;
+	//saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_invoking_title_keyboard;
+	//return true;
 }
 
 bool saved_film_snippet_delete()
 {
 	// $TODO: implement me
 	return false;
+
+	//ASSERT(saved_film_snippet_globals.recording_start_tick != NONE);
+	//ASSERT(saved_film_snippet_globals.recording_stop_tick != NONE);
+	//ASSERT(saved_film_snippet_globals.recording_start_tick <= saved_film_snippet_globals.recording_stop_tick);
+	//ASSERT(saved_film_snippet_globals.current_state == _saved_film_snippet_state_recorded_and_ready);
+	//
+	//if (!saved_film_manager_rewind_and_seek_to_film_tick(saved_film_snippet_globals.recording_start_tick, true))
+	//{
+	//	event(_event_warning, "networking:saved_film:snippet: failed to request seek to tick %d for delete",
+	//		saved_film_snippet_globals.recording_start_tick);
+	//	return false;
+	//}
+	//
+	//if (!saved_film_snippet_close_camera_file())
+	//{
+	//	event(_event_warning, "networking:saved_film:snippet: failed to close camera file for delete");
+	//	return false;
+	//}
+	//
+	//saved_film_snippet_globals.current_state = _saved_film_snippet_state_resetting;
+	//return true;
 }
 
 void saved_film_snippet_dispose_from_saved_film_playback()
@@ -119,6 +208,25 @@ bool saved_film_snippet_finished_revert_for_seek(int32 update_number, void* game
 {
 	// $TODO: implement me
 	return false;
+
+	//if (saved_film_snippet_globals.current_state != _saved_film_snippet_state_recording_waiting_for_seek)
+	//{
+	//	return false;
+	//}
+	//
+	//ASSERT(saved_film_snippet_globals.recording_start_tick >= 0);
+	//ASSERT(saved_film_snippet_globals.recording_stop_tick == NONE);
+	//ASSERT(saved_film_snippet_globals.camera_file.get_position() == 0);
+	//
+	//game_state_security_write_signature(false, NULL);
+	//if (!saved_film_snippet_globals.destination_film.write_gamestate_from_buffer(update_number, gamestate, gamestate_size))
+	//{
+	//	event(_event_warning, "networking:saved_film:snippets: failed to write gamestate for preview");
+	//	return false;
+	//}
+	//
+	//saved_film_snippet_globals.current_state = _saved_film_snippet_state_recording_waiting_for_start;
+	//return true;
 }
 
 void saved_film_snippet_get_camera_for_simulation_update(s_simulation_camera_update* camera_update_out)
@@ -130,6 +238,16 @@ bool saved_film_snippet_get_current_start_tick(int32* start_tick_out)
 {
 	// $TODO: implement me
 	return false;
+
+	//if (!IN_RANGE_INCLUSIVE(saved_film_snippet_globals.current_state, _saved_film_snippet_state_recording_waiting_for_seek, _saved_film_snippet_state_previewing) &&
+	//	saved_film_snippet_globals.current_state != _saved_film_snippet_state_resetting)
+	//{
+	//	return false;
+	//}
+	//
+	//ASSERT(saved_film_snippet_globals.recording_start_tick != NONE);
+	//*start_tick_out = saved_film_snippet_globals.recording_start_tick;
+	//return true;
 }
 
 e_saved_film_snippet_state saved_film_snippet_get_current_state()
@@ -139,7 +257,22 @@ e_saved_film_snippet_state saved_film_snippet_get_current_state()
 
 void saved_film_snippet_get_hud_interface_state(s_saved_film_hud_interface_state* state)
 {
-	// $TODO: implement me
+	//if (!IN_RANGE_INCLUSIVE(saved_film_snippet_globals.current_state, _saved_film_snippet_state_recording, _saved_film_snippet_state_resetting))
+	//{
+	//	return;
+	//}
+	//
+	//real32 recording_start_seconds = game_ticks_to_seconds((real32)saved_film_snippet_globals.recording_start_tick);
+	//real32 duration_in_seconds = state->duration_in_seconds;
+	//state->recording = true;
+	//if (duration_in_seconds >= k_real_epsilon)
+	//{
+	//	state->recording_start_theta = recording_start_seconds / duration_in_seconds;
+	//}
+	//else
+	//{
+	//	state->recording_start_theta = 0;
+	//}
 }
 
 void saved_film_snippet_initialize()
@@ -152,9 +285,37 @@ void saved_film_snippet_initialize_for_saved_film_playback()
 	saved_film_snippet_initialize_state();
 }
 
+void dispose_progress_spinner_if_active()
+{
+	if (!saved_film_snippet_globals.progress_spinner_active)
+	{
+		return;
+	}
+
+	c_gui_screen_widget* in_progress_mini_screen = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini));
+	if (in_progress_mini_screen)
+	{
+		in_progress_mini_screen->transition_out(_transition_out_normal);
+	}
+	saved_film_snippet_globals.progress_spinner_active = false;
+}
+
 void saved_film_snippet_initialize_state()
 {
 	// $TODO: implement me
+
+	//csmemset(&saved_film_snippet_globals.start_recording_director_state, 0, sizeof(s_saved_film_manager_director_state));
+	//saved_film_snippet_globals.recording_start_tick = NONE;
+	//saved_film_snippet_globals.recording_stop_tick = NONE;
+	//saved_film_snippet_globals.controller_index = k_no_controller;
+	//saved_film_snippet_globals.snippet_save_task_id = NONE;
+	//saved_film_snippet_globals.snippet_content_item_index = NONE;
+	//saved_film_snippet_globals.snippet_save_done.set(0);
+	//saved_film_snippet_globals.snippet_save_success.set(0);
+	//saved_film_snippet_globals.current_state = _saved_film_snippet_state_none;
+	//saved_film_snippet_globals.snippet_name.clear();
+	//dispose_progress_spinner_if_active();
+	//saved_film_snippet_dispose_virtual_keyboard_task();
 }
 
 void saved_film_snippet_memory_dispose()
@@ -343,16 +504,137 @@ bool saved_film_snippet_update()
 {
 	// $TODO: implement me
 	return false;
+
+	//ASSERT(game_in_progress());
+	//ASSERT(game_is_playback());
+	//
+	//switch (saved_film_snippet_globals.current_state)
+	//{
+	//case _saved_film_snippet_state_recording:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_invoking_title_keyboard:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_waiting_title_keyboard:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_invoking_description_keyboard:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_waiting_description_keyboard:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_initiate_creation:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_wait_for_creation:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_initiate_metadata_update:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_commiting_wait_for_metadata_update:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//}
 }
 
 bool saved_film_snippet_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	// $TODO: implement me
 	return false;
+
+	//ASSERT(game_in_progress());
+	//ASSERT(game_is_playback());
+	//
+	//switch (saved_film_snippet_globals.current_state)
+	//{
+	//case _saved_film_snippet_state_none:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_recording_waiting_for_seek:
+	//case _saved_film_snippet_state_previewing_waiting_for_seek:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_recording_waiting_for_start:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_recording:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_recorded_and_ready:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_previewing:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//case _saved_film_snippet_state_resetting:
+	//{
+	//	// $TODO: implement me
+	//}
+	//break;
+	//default:
+	//{
+	//	VASSERT("this function should be unreachable");
+	//}
+	//break;
+	//}
+	//
+	//return false;
 }
 
 void saved_film_snippets_notify_reverted_for_seek(bool* set_director_state_out)
 {
-	// $TODO: implement me
+	//if (saved_film_snippet_globals.current_state == _saved_film_snippet_state_previewing_waiting_for_seek)
+	//{
+	//	ASSERT(saved_film_snippet_globals.recording_start_tick >= 0);
+	//	ASSERT(saved_film_snippet_globals.recording_stop_tick >= 0);
+	//	ASSERT(saved_film_snippet_globals.recording_start_tick <= saved_film_snippet_globals.recording_stop_tick);
+	//	ASSERT(saved_film_snippet_globals.camera_file.get_position() == 0);
+	//	saved_film_snippet_globals.current_state = _saved_film_snippet_state_previewing;
+	//}
+	//else if (saved_film_snippet_globals.current_state == _saved_film_snippet_state_resetting)
+	//{
+	//	ASSERT(saved_film_snippet_globals.recording_start_tick != NONE);
+	//	ASSERT(saved_film_snippet_globals.recording_stop_tick != NONE);
+	//	ASSERT(saved_film_snippet_globals.recording_start_tick <= saved_film_snippet_globals.recording_stop_tick);
+	//	if (saved_film_manager_get_current_tick_estimate() == saved_film_snippet_globals.recording_start_tick)
+	//	{
+	//		saved_film_manager_set_director_state(&saved_film_snippet_globals.start_recording_director_state);
+	//		saved_film_snippet_initialize_state();
+	//		*set_director_state_out = true;
+	//	}
+	//}
 }
 
