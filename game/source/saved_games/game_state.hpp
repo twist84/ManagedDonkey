@@ -220,7 +220,7 @@ extern void __cdecl game_state_security_invalidate_signature();
 extern bool __cdecl game_state_security_verify_signature_insecure(void* header_address);
 extern bool __cdecl game_state_security_verify_signature_internal(void* header_address, bool insecure);
 extern bool __cdecl game_state_security_verify_signature_secure(void* header_address);
-extern void __cdecl game_state_security_write_signature(bool a1, void* a2);
+extern void __cdecl game_state_security_write_signature(bool insecure, void* optional_base_address);
 extern void __cdecl game_state_set_header_address(void* header_address);
 extern void __cdecl game_state_set_revert_time();
 extern void __cdecl game_state_set_test_options(const char* test_type);

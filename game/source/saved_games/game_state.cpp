@@ -625,9 +625,9 @@ bool __cdecl game_state_security_verify_signature_secure(void* header_address)
 	return INVOKE(0x00510850, game_state_security_verify_signature_secure, header_address);
 }
 
-void __cdecl game_state_security_write_signature(bool a1, void* a2)
+void __cdecl game_state_security_write_signature(bool insecure, void* optional_base_address)
 {
-	INVOKE(0x00510870, game_state_security_write_signature, a1, a2);
+	INVOKE(0x00510870, game_state_security_write_signature, insecure, optional_base_address);
 }
 
 //.text:00510940 ; c_game_state_compressor::game_state_set_compressed_size
