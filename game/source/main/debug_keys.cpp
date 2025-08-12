@@ -1081,24 +1081,22 @@ void __cdecl debug_key_print_screen(bool key_is_down)
 		c_static_string<128> screenshot_path;
 		c_static_string<128> screenshot_filepath;
 
-		int32 index = 0;
-		while (true)
+		for (int32 screenshot_index = 0; screenshot_index < 100; screenshot_index++)
 		{
 			screenshot_path.clear();
 			screenshot_filepath.clear();
 
 			const char* root = "screenshots\\";
-			screenshot_path.print("%sscreenshot_%d", root, index);
+			screenshot_path.print("%sscreenshot_%d", root, screenshot_index);
 			screenshot_filepath.print("%s.jpg", screenshot_path.get_string());
 
 			s_file_reference screenshot_file;
 			file_reference_create_from_path(&screenshot_file, screenshot_filepath.get_string(), false);
 			file_create_parent_directories_if_not_present(&screenshot_file);
 			if (!file_exists(&screenshot_file))
+			{
 				break;
-
-			if (++index >= 100)
-				return;
+			}
 		}
 
 		REFERENCE_DECLARE(0x0244DEE8, bool, screenshot_taken);
