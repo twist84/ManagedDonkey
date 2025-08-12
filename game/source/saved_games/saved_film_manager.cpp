@@ -1658,6 +1658,28 @@ void saved_film_manager_start_recording_snippet()
 
 void saved_film_manager_stop_recording_snippet()
 {
+	if (!saved_film_manager_snippets_available())
+	{
+		event(_event_warning, "networking:saved_film:manager: snippts not available (can't stop recording)");
+		return;
+	}
+
+	e_saved_film_snippet_state snippet_state = saved_film_snippet_get_current_state();
+	if (snippet_state != _saved_film_snippet_state_recording)
+	{
+		event(_event_warning, "networking:saved_film:manager: can't stop recording snippet [current in state %d]",
+			snippet_state);
+		return;
+	}
+
+	if (!saved_film_snippet_stop_recording())
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_stop_recording);
+		return;
+	}
+
+	event(_event_message, "networking:saved_film:manager: stopping snppet recording");
+	saved_film_manager_playback_lock_set(0.0f, true);
 }
 
 bool saved_film_manager_timestamp_enabled_internal()
@@ -1699,10 +1721,10 @@ void saved_film_manager_update_after_simulation_update(const struct simulation_u
 		return;
 	}
 
-	//if (!saved_film_snippet_update_after_simulation_update(update, metadata))
-	//{
-	//	saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_update_after_simulation);
-	//}
+	if (!saved_film_snippet_update_after_simulation_update(update, metadata))
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_update_after_simulation);
+	}
 }
 
 void saved_film_manager_update_before_simulation_update()
