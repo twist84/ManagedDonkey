@@ -24,7 +24,16 @@ struct s_model_widget_block;
 struct s_runtime_core_widget_definition;
 struct s_runtime_text_widget_definition;
 struct s_runtime_bitmap_widget_definition;
+struct s_text_widget_block;
 struct s_widget_animation_definition;
+
+struct s_gui_skin_definition
+{
+	int32 unused_flags;
+	c_typed_tag_block<s_text_widget_block> text_blocks;
+	c_typed_tag_block<s_bitmap_widget_block> bitmap_blocks;
+};
+static_assert(sizeof(s_gui_skin_definition) == 0x1C);
 
 struct s_core_widget_definition
 {

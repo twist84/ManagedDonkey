@@ -28,9 +28,9 @@ enum e_text_widget_definition_flags
 struct s_text_widget_definition :
 	s_core_widget_definition
 {
-	c_string_id value_override_list;
-	c_string_id value_identifier;
-	c_string_id text_color_preset;
+	string_id value_override_list;
+	string_id value_identifier;
+	string_id text_color_preset;
 	int16 font;
 	int16 pad0;
 };
@@ -47,8 +47,8 @@ static_assert(sizeof(s_text_widget_block) == 0x4C);
 struct s_runtime_text_widget_definition :
 	s_runtime_core_widget_definition
 {
-	c_string_id value_override_list;
-	c_string_id value_identifier;
+	string_id value_override_list;
+	string_id value_identifier;
 	real_argb_color text_color;
 	e_font_id font;
 };

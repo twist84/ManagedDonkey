@@ -64,8 +64,8 @@ struct s_runtime_bitmap_widget_definition :
 	int32 render_blend_mode;
 	int16 initial_sprite_sequence;
 	int16 initial_sprite_frame;
-	c_string_id value_override_list;
-	c_string_id value_identifier;
+	string_id value_override_list;
+	string_id value_identifier;
 };
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 

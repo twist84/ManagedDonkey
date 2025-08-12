@@ -84,7 +84,7 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 					break;
 				}
 
-				saved_film_manager_start_recording_snippet();
+				//saved_film_manager_start_recording_snippet();
 			}
 			return true;
 			case STRING_ID(gui, play_film):
@@ -101,11 +101,11 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 			break;
 			case STRING_ID(gui, stop_recording):
 			{
-				if (saved_film_manager_get_snippet_state() == _saved_film_snippet_state_recording)
-				{
-					saved_film_manager_stop_recording_snippet();
-				}
-				return true;
+				//if (saved_film_manager_get_snippet_state() == _saved_film_snippet_state_recording)
+				//{
+				//	saved_film_manager_stop_recording_snippet();
+				//}
+				//return true;
 			}
 			break;
 			case STRING_ID(gui, replay_film):

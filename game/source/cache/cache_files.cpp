@@ -14,6 +14,7 @@
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/c_gui_text_widget.hpp"
 #include "interface/chud/chud_globals_definitions.hpp"
 #include "items/equipment_definitions.hpp"
 #include "items/item_definitions.hpp"
@@ -2408,7 +2409,7 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 	break;
 	case _instance_modification_stage_post_tag_fixup:
 	{
-		if (csstrcmp("ui\\halox\\main_menu\\strings", tag_name) == 0)
+		//if (csstrcmp("ui\\halox\\main_menu\\strings", tag_name) == 0)
 		{
 			for (int32 block_index = 0; block_index < multilingual_unicode_string_list->string_references.count; block_index++)
 			{
@@ -2459,7 +2460,8 @@ void apply_gui_datasource_definition_tag_instance_modification(cache_file_tag_in
 	break;
 	case _instance_modification_stage_post_tag_fixup:
 	{
-		if (csstrcmp("ui\\halox\\director\\saved_film_control_buttons", tag_name) == 0)
+		//if (csstrcmp("ui\\halox\\director\\saved_film_control_buttons", tag_name) == 0)
+		//if (csstrcmp("ui\\halox\\director\\screenshot_option_list", tag_name) == 0)
 		{
 			for (int32 block_index = 0; block_index < datasource_definition->elements.count; block_index++)
 			{
@@ -2473,6 +2475,55 @@ void apply_gui_datasource_definition_tag_instance_modification(cache_file_tag_in
 					{
 						string_id_nugget.name = STRING_ID(gui, gui_item);
 					}
+				}
+			}
+		}
+	}
+	break;
+	case _instance_modification_stage_post_scenario_tags_load:
+	{
+	}
+	break;
+	}
+}
+
+// $TODO: create some sort of tag modification manager
+void apply_gui_skin_definition_tag_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != NULL);
+
+	if (instance->tag_group != GUI_SKIN_DEFINITION_TAG)
+	{
+		return;
+	}
+
+	s_gui_skin_definition* gui_skin_definition = instance->cast_to<s_gui_skin_definition>();
+	const char* tag_name = instance->get_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_post_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_post_tag_fixup:
+	{
+		//if (csstrcmp("ui\\halox\\director\\screenshot_options_list", tag_name) == 0)
+		{
+			for (int32 block_index = 0; block_index < gui_skin_definition->text_blocks.count; block_index++)
+			{
+				s_text_widget_block& text_block = gui_skin_definition->text_blocks[block_index];
+
+				// somewhere in the dev cycle this was changed/broken, let's change it back
+				if (text_block.override_definition.widget_identifier == STRING_ID(global, item))
+				{
+					text_block.override_definition.widget_identifier = STRING_ID(gui, gui_item);
+				}
+
+				if (text_block.override_definition.value_identifier == STRING_ID(global, item))
+				{
+					text_block.override_definition.value_identifier = STRING_ID(gui, gui_item);
 				}
 			}
 		}
@@ -2546,6 +2597,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	APPLY_INSTANCE_MODIFICATION(projectile_definition);
 	APPLY_INSTANCE_MODIFICATION(multilingual_unicode_string_list);
 	APPLY_INSTANCE_MODIFICATION(gui_datasource_definition_tag);
+	APPLY_INSTANCE_MODIFICATION(gui_skin_definition_tag);
 	APPLY_INSTANCE_MODIFICATION(camera_fx_settings);
 
 #undef APPLY_INSTANCE_MODIFICATION
