@@ -1608,6 +1608,52 @@ bool saved_film_manager_snippets_available()
 
 void saved_film_manager_start_recording_snippet()
 {
+	if (!saved_film_manager_snippets_available())
+	{
+		event(_event_warning, "networking:saved_film:manager: snippts not available (can't start recording)");
+		return;
+	}
+
+	e_saved_film_snippet_state snippet_state = saved_film_snippet_get_current_state();
+	if (snippet_state)
+	{
+		event(_event_warning, "networking:saved_film:manager: can't start recording snippet [current in state %d]",
+			snippet_state);
+		return;
+	}
+
+	if (saved_film_manager_get_snippet_start_tick() != NONE)
+	{
+		event(_event_warning, "networking:saved_film:manager: can't start recording snippet [can't record snippet of snippet]");
+		return;
+	}
+
+	if (player_mapping_output_user_active_count() != 1)
+	{
+		event(_event_warning, "networking:saved_film:manager: can't start recording snippet [active user count != 1]");
+		return;
+	}
+
+	if (controller_get_first_non_guest_signed_in_controller() == k_no_controller)
+	{
+		event(_event_warning, "networking:saved_film:manager: can't start recording snippet [can't get non-guest signed in controller]");
+		return;
+	}
+
+	if (saved_film_history_ready_for_revert_or_reset())
+	{
+		event(_event_warning, "networking:saved_film:manager: can't start recording snippet [saved film history not ready]");
+		return;
+	}
+
+	if (!saved_film_snippet_start_recording())
+	{
+		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_start_recording);
+		return;
+	}
+
+	event(_event_message, "networking:saved_film:manager: starting to record snippet");
+	saved_film_manager_playback_lock_set(1.0f, true);
 }
 
 void saved_film_manager_stop_recording_snippet()
