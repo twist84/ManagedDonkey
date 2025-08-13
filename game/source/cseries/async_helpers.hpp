@@ -69,6 +69,14 @@ void __cdecl async_create_file_task_initialize(
 	volatile s_file_handle* file,
 	s_create_file_task* out_create_file_task);
 
+extern int32 __cdecl async_delete_file(
+	const char* file_name,
+	bool is_directory,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* success,
+	c_synchronized_long* done);
+
 extern int32 __cdecl async_flush_file(
 	s_file_handle file_handle,
 	e_async_category category,

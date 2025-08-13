@@ -165,7 +165,34 @@ void __cdecl async_create_file_task_initialize(
 		out_create_file_task);
 }
 
-//.text:005AD370 ; int32 __cdecl async_delete_file(const wchar_t*, bool, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+int32 __cdecl async_delete_file(
+	const char* file_name,
+	bool is_directory,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* success,
+	c_synchronized_long* done)
+{
+	//return INVOKE(0x005AD370, async_delete_file,
+	//	file_name,
+	//	is_directory,
+	//	category,
+	//	priority,
+	//	success,
+	//	done);
+
+	if (success)
+	{
+		success->set(0);
+	}
+
+	s_delete_file_task task{};
+	csstrnzcpy(task.file_name, file_name, sizeof(task.file_name));
+	task.is_directory = is_directory;
+	task.success = success;
+	return async_task_add(priority, &task.dummy_for_size, category, delete_file_callback, done);
+}
+
 //.text:005AD3F0 ; int32 __cdecl async_enumerate_files(uns32, const char*, int32, s_file_reference*, int32*, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
 
 int32 __cdecl async_flush_file(
