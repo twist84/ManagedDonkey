@@ -34,38 +34,6 @@ void __thiscall c_gui_screen_pregame_selection::handle_x_button_press_on_autosav
 	c_gui_screen_pregame_selection::handle_x_button_press_on_autosave_queue_file(controller_index, selected_item);
 }
 
-bool selected_item_get_file_path(const c_gui_selected_item* selected_item, wchar_t* path, int32 maximum_characters)
-{
-	if (selected_item->get_file_path(path, maximum_characters))
-	{
-		return true;
-	}
-
-	switch (selected_item->m_selection_type)
-	{
-	case _gui_selection_type_map:
-	{
-		c_gui_map_selected_item* map_selected_item = (c_gui_map_selected_item*)selected_item;
-		file_reference_get_fullpath_wide(&map_selected_item->m_file_reference, path, maximum_characters);
-	}
-	break;
-	case _gui_selection_type_game_variant:
-	{
-		c_gui_game_variant_selected_item* game_variant_selected_item = (c_gui_game_variant_selected_item*)selected_item;
-		file_reference_get_fullpath_wide(&game_variant_selected_item->m_file_reference, path, maximum_characters);
-	}
-	break;
-	case _gui_selection_type_film:
-	{
-		c_gui_saved_film_selected_item* film_selected_item = (c_gui_saved_film_selected_item*)selected_item;
-		file_reference_get_fullpath_wide(&film_selected_item->m_file_reference, path, maximum_characters);
-	}
-	break;
-	}
-
-	return path[0] != 0;
-}
-
 //.text:00B030B0 ; public: c_gui_screen_pregame_selection::c_gui_screen_pregame_selection(int32)
 //.text:00B03200 ; public: virtual c_gui_screen_pregame_selection::~c_gui_screen_pregame_selection()
 //.text:00B03210 ; 
@@ -107,7 +75,7 @@ void c_gui_screen_pregame_selection::begin_deletion_of_selected_item(e_controlle
 	//}
 
 	wchar_t filename_buffer[256]{};
-	if (!selected_item_get_file_path(selected_item, filename_buffer, NUMBEROF(filename_buffer)))
+	if (!gui_selected_item_get_file_path(selected_item, filename_buffer, NUMBEROF(filename_buffer)))
 	{
 		event(_event_warning, "ui: failed to get path to saved game file for deletion");
 		return;

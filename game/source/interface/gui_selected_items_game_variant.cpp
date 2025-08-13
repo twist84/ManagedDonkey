@@ -69,7 +69,15 @@ int __cdecl game_variant_selected_item_sort_proc(const void* a, const void* b)
 //.text:00ADB480 ; 
 //.text:00ADB490 ; protected: virtual int32 c_gui_game_variant_category_datasource::get_current_item_count_internal()
 //.text:00ADB4A0 ; protected: virtual int32 c_gui_game_variant_subitem_selectable_item_datasource::get_current_item_count_internal()
-//.text:00ADB4B0 ; public: virtual bool c_gui_game_variant_selected_item::get_file_path(wchar_t*, int32) const
+
+bool c_gui_game_variant_selected_item::get_file_path(wchar_t* path, int32 maximum_characters) const
+{
+	//INVOKE_CLASS_MEMBER(0x00ADB4B0, c_gui_game_variant_selected_item, get_file_path, path, maximum_characters);
+
+	file_reference_get_fullpath_wide(&m_file_reference, path, maximum_characters);
+	return true;
+}
+
 //.text:00ADB4F0 ; private: int32 c_gui_game_variant_category_datasource::get_game_engine_sort_order(c_gui_data*, int32)
 //.text:00ADB580 ; 
 

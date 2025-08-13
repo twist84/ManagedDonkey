@@ -174,7 +174,14 @@ bool c_gui_saved_film_subitem_datasource::film_matches_category(s_saved_game_ite
 //.text:00ADCAB0 ; 
 //.text:00ADCAC0 ; protected: virtual int32 c_gui_saved_film_category_datasource::get_current_item_count_internal()
 //.text:00ADCAD0 ; protected: virtual int32 c_gui_saved_film_subitem_datasource::get_current_item_count_internal()
-//.text:00ADCAE0 ; public: virtual bool c_gui_saved_film_selected_item::get_file_path(wchar_t*, int32) const
+
+bool c_gui_saved_film_selected_item::get_file_path(wchar_t* path, int32 maximum_characters) const
+{
+	//return INVOKE_CLASS_MEMBER(0x00ADCAE0, c_gui_saved_film_selected_item, get_file_path, path, maximum_characters);
+
+	file_reference_get_fullpath_wide(&m_file_reference, path, maximum_characters);
+	return true;
+}
 
 bool c_gui_saved_film_selected_item::get_film_details(game_options* options, int32* out_length_in_ticks, int32* out_start_tick) const
 {

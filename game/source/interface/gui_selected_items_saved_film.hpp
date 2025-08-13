@@ -15,6 +15,9 @@ public:
 	bool __thiscall get_film_details_(game_options* options, int32* out_length_in_ticks, int32* out_start_tick);
 
 public:
+	virtual bool get_file_path(wchar_t* path, int32 maximum_characters) const;
+
+public:
 	c_gui_saved_film_selected_item(const s_saved_game_item_metadata* metadata, e_saved_film_category category, e_gui_selected_item_location location, e_controller_index controller_index, const s_file_reference* file_reference, int32 sort_order, bool corrupt, bool is_new);
 
 	c_gui_saved_film_selected_item& operator=(const c_gui_saved_film_selected_item& __that);

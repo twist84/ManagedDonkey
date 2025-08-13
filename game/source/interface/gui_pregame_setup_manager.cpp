@@ -47,8 +47,7 @@ void __thiscall c_gui_pregame_setup_manager::set_selected_item_(e_controller_ind
 		game_setup_storage.theater.film_description.length_seconds = film_selected_item->m_metadata.length_seconds;
 
 		zero_array(game_setup_storage.theater.film_description.film_path);
-		//film_selected_item->get_file_path(game_setup_storage.theater.film_description.film_path, 256);
-		file_reference_get_fullpath_wide(&film_selected_item->m_file_reference, game_setup_storage.theater.film_description.film_path, 256);
+		gui_selected_item_get_file_path(film_selected_item, game_setup_storage.theater.film_description.film_path, 256);
 
 		zero_array(game_setup_storage.theater.film_description.film_name);
 		ustrnzcpy(game_setup_storage.theater.film_description.film_name, film_selected_item->get_title(), 128);

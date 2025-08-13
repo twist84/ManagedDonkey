@@ -64,7 +64,14 @@ c_gui_map_selected_item& c_gui_map_selected_item::operator=(const c_gui_map_sele
 //.text:00AD9780 ; 
 //.text:00AD9790 ; protected: virtual int32 c_gui_map_category_datasource::get_current_item_count_internal()
 //.text:00AD97A0 ; protected: virtual int32 c_gui_map_subitem_selectable_item_datasource::get_current_item_count_internal()
-//.text:00AD97B0 ; public: virtual bool c_gui_map_selected_item::get_file_path(wchar_t*, int32) const
+
+bool c_gui_map_selected_item::get_file_path(wchar_t* path, int32 maximum_characters) const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AD97B0, c_gui_map_selected_item, get_file_path, path, maximum_characters);
+
+	file_reference_get_fullpath_wide(&m_file_reference, path, maximum_characters);
+	return true;
+}
 //.text:00AD97F0 ; public: virtual const c_gui_selected_item* c_gui_map_subitem_selectable_item_datasource::get_gui_selected_item(int32) const
 //.text:00AD9820 ; public: virtual bool c_gui_map_category_datasource::get_integer_value(int32, int32, int32*)
 //.text:00AD98D0 ; public: virtual bool c_gui_map_subitem_selectable_item_datasource::get_integer_value(int32, int32, int32*)

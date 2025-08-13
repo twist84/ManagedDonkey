@@ -236,7 +236,7 @@ void c_gui_screen_pregame_lobby_campaign::initialize()
 
 void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index controller_index)
 {
-	INVOKE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign,load_progress_ui, controller_index);
+	INVOKE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign, load_progress_ui, controller_index);
 
 	//ASSERT(m_progress_dialog_start_time_milliseconds == 0);
 	//// $TODO: Add `c_load_in_progress_screen_message`

@@ -8,6 +8,11 @@ struct s_ui_saved_game_item_metadata
 {
 	void set(const s_saved_game_item_metadata* metadata);
 
+	bool operator==(const s_ui_saved_game_item_metadata& __that) const
+	{
+		return csmemcmp(this, &__that, sizeof(s_ui_saved_game_item_metadata)) == 0;
+	}
+
 	uns64 unique_id;
 	wchar_t display_name[16];
 	wchar_t description[128];
@@ -97,4 +102,5 @@ static_assert(0x16 == OFFSETOF(c_gui_selected_item, m_is_new));
 static_assert(0x18 == OFFSETOF(c_gui_selected_item, m_metadata));
 #endif // __INTELLENSE__
 
+extern bool gui_selected_item_get_file_path(c_gui_selected_item const* selected_item, wchar_t* path, int32 maximum_characters);
 

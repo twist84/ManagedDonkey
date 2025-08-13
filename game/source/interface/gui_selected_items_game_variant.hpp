@@ -14,6 +14,9 @@ public:
 	bool __thiscall get_game_variant_(c_game_variant* game_variant);
 
 public:
+	virtual bool get_file_path(wchar_t* path, int32 maximum_characters) const;
+
+public:
 	c_gui_game_variant_selected_item(const s_ui_saved_game_item_metadata* metadata, e_gui_selected_item_location location, e_controller_index controller_index, const s_file_reference* file_reference, int32 variant_index, int32 sort_order, bool corrupt, bool is_new);
 
 	c_gui_game_variant_selected_item& operator=(const c_gui_game_variant_selected_item& __that);
