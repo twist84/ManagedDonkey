@@ -628,7 +628,7 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 	int32 resource_fixup_size = sizeof(s_cache_file_tag_resource_data*) * total_resource_fixup_count;
 	int32 resource_gestalt_size = resource_fixup_size + sizeof(s_cache_file_resource_gestalt);
 
-	s_cache_file_resource_gestalt* resource_gestalt = (s_cache_file_resource_gestalt*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, resource_gestalt_size, 0);
+	s_cache_file_resource_gestalt* resource_gestalt = (s_cache_file_resource_gestalt*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, resource_gestalt_size, 0);
 	csmemset(resource_gestalt, 0, resource_gestalt_size);
 
 	cache_file_tags_fixup_all_resources(resource_offsets, resource_gestalt);
@@ -729,7 +729,7 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
 
 	//int32 reports_buffer_size = cache_file_round_up_read_size(header->reports.size);
-	//void* reports_buffer = _physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, reports_buffer_size, 0);
+	//void* reports_buffer = _physical_memory_malloc(_memory_stage_level_initialize, NULL, reports_buffer_size, 0);
 	//
 	//cache_file_blocking_read(_cache_file_debug_section, header->reports.offset, reports_buffer_size, reports_buffer);
 	//
@@ -797,7 +797,7 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resou
 		return;
 	}
 
-	uns32* file_offsets = (uns32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, sizeof(uns32) * file_count, 0);
+	uns32* file_offsets = (uns32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, sizeof(uns32) * file_count, 0);
 
 	int32 offset_index_offset = 0;
 	for (int32 i = 0; i < NUMBEROF(section_handles); i++)
@@ -1151,7 +1151,7 @@ bool __cdecl cache_file_tags_load_allocate()
 	{
 		tag_offsets_size = sizeof(int32) * g_cache_file_globals.header.tag_count;
 		g_cache_file_globals.tag_total_count = g_cache_file_globals.header.tag_count;
-		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
+		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
 
 		result = cache_file_blocking_read(_cache_file_tag_section, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
 	}
@@ -1172,8 +1172,8 @@ bool __cdecl cache_file_tags_load_allocate()
 
 		tag_offsets_size = sizeof(int32) * tags_header.file_count;
 		g_cache_file_globals.tag_total_count = tags_header.file_count;
-		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
-		int32* tag_offsets = (int32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+		int32* tag_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 
 		if (!cache_file_tags_section_read(tags_header.file_offsets, tag_offsets_size, tag_offsets))
 		{
@@ -1189,8 +1189,8 @@ bool __cdecl cache_file_tags_load_allocate()
 		physical_memory_free(tag_offsets);
 	}
 
-	g_cache_file_globals.tag_index_absolute_mapping = (int32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
-	g_cache_file_globals.absolute_index_tag_mapping = (int32*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+	g_cache_file_globals.tag_index_absolute_mapping = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+	g_cache_file_globals.absolute_index_tag_mapping = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 	csmemset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
 	csmemset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
 
@@ -1342,14 +1342,14 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 		cache_file_tags_load_allocate();
 
 		uns32 total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
-		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, total_instance_size, 0);
+		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc(_memory_stage_level_initialize, NULL, total_instance_size, 0);
 		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
 
 		g_cache_file_globals.tag_loaded_count = 0;
 
 		//g_cache_file_globals.tag_cache_size = g_cache_file_globals.header.total_tags_size;
 		g_cache_file_globals.tag_cache_size = k_tag_cache_size;
-		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
+		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
 		csmemset(g_cache_file_globals.tag_cache_base_address, 0, g_cache_file_globals.tag_cache_size);
 
 		g_cache_file_globals.tag_loaded_size = 0;
@@ -1575,7 +1575,7 @@ void __cdecl tag_files_open()
 	cache_files_initialize();
 
 	ASSERT(g_cache_file_debug_globals == NULL);
-	g_cache_file_debug_globals = (s_cache_file_debug_globals*)_physical_memory_malloc_fixed(_memory_stage_game_initialize, "cache file debug globals", sizeof(s_cache_file_debug_globals), 1);
+	g_cache_file_debug_globals = (s_cache_file_debug_globals*)_physical_memory_malloc(_memory_stage_game_initialize, "cache file debug globals", sizeof(s_cache_file_debug_globals), 1);
 
 	string_id_initialize();
 

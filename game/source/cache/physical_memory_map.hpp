@@ -82,7 +82,7 @@ extern uns32 g_physical_memory_data_size_increase_mb;
 extern uns32 g_physical_memory_cache_size_increase_mb;
 extern const char* const k_physical_memory_stage_names[];
 
-extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, const char* name, int32 size, uns32 flags);
+extern void* __cdecl _physical_memory_malloc(memory_stage stage, const char* name, int32 size, uns32 flags);
 extern uns32 align_up(uns32 value, int32 alignment_bits);
 extern void __cdecl physical_memory_adjust_resize_region(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b);
 extern bool __cdecl physical_memory_can_allocate_fixed_allocations();

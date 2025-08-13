@@ -130,7 +130,7 @@ void* __cdecl runtime_state_allocate_buffer(int32 size)
 	//return INVOKE(0x0065C940, runtime_state_allocate_buffer, size);
 
 	//_physical_memory_malloc(_memory_stage_game_initialize, "runtime state (not game state)", 3, __FILE__, __LINE__);
-	return _physical_memory_malloc_fixed(_memory_stage_game_initialize, "runtime state (not game state)", size, 3);
+	return _physical_memory_malloc(_memory_stage_game_initialize, "runtime state (not game state)", size, 3);
 }
 
 void __cdecl runtime_state_free_buffer(void* buffer)

@@ -159,7 +159,7 @@ void c_online_file_manager::memory_initialize(e_map_memory_configuration memory_
 
 	ASSERT(m_compression_scratch_buffer == NULL);
 
-	char* compression_scratch_buffer = (char*)_physical_memory_malloc_fixed(_memory_stage_map_configuration, "online_files", k_data_compression_scratch_size, 0);
+	char* compression_scratch_buffer = (char*)_physical_memory_malloc(_memory_stage_map_configuration, "online_files", k_data_compression_scratch_size, 0);
 
 	m_compression_scratch_buffer_size = k_data_compression_scratch_size;
 	m_compression_scratch_buffer = compression_scratch_buffer;
