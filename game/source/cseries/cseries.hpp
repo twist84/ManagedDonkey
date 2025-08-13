@@ -1715,6 +1715,8 @@ inline typename std::enable_if<sizeof(T) <= sizeof(F), T>::type __coerce(F f)
 extern void __cdecl cseries_dispose();
 extern void __cdecl cseries_initialize();
 
+extern uns64 get_current_time_in_seconds(uns64 seconds);
+
 extern const real_argb_color* const global_real_argb_white;
 extern const real_argb_color* const global_real_argb_grey;
 extern const real_argb_color* const global_real_argb_black;

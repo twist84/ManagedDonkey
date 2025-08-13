@@ -11,6 +11,7 @@
 #include "multithreading/threads.hpp"
 #include "tag_files/string_ids.hpp"
 
+#include <ctime>
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -429,6 +430,11 @@ void __cdecl cseries_initialize()
 	//initialize_synchronization_objects();
 	//debug_memory_manager_initialize();
 	//std::set_new_handler((void (__cdecl *)())exit_with_code_one);
+}
+
+uns64 get_current_time_in_seconds(uns64 seconds)
+{
+	return (uns64)_time64(0) - seconds;
 }
 
 c_string_builder::c_string_builder() :

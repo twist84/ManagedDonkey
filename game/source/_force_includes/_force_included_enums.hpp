@@ -1,5 +1,15 @@
 #pragma once
 
+// `get_current_time_in_seconds`
+enum
+{
+	_one_minute_in_seconds = 60,
+	_one_hour_in_seconds = _one_minute_in_seconds * 60,
+	_one_day_in_seconds = _one_hour_in_seconds * 24,
+	_one_week_in_seconds = _one_day_in_seconds * 7,
+	_one_year_in_seconds = _one_week_in_seconds * 52,
+};
+
 enum : tag
 {
 	_tag_none = 0xFFFFFFFF,
