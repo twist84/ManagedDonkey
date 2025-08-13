@@ -8,6 +8,7 @@
 #include "main/global_preferences.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
+#include "shell/shell.hpp"
 
 REFERENCE_DECLARE_ARRAY(0x0165B348, e_async_priority, k_action_to_async_priority, 7);
 REFERENCE_DECLARE_ARRAY(0x0165B364, int32, k_action_to_copy_buffer_size, 7);
@@ -30,6 +31,10 @@ HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
 bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index)
 {
 	return INVOKE(0x00501E80, cached_map_file_is_shared, map_file_index);
+
+	//bool render = !sub_42E5D0() || map_file_index != 1 && map_file_index != 2 && map_file_index != 4;
+	//bool sound = !sub_42E5E0() || map_file_index != 3;
+	//return render && sound;
 }
 
 void __cdecl cache_file_block_until_not_busy()
@@ -49,7 +54,9 @@ void __cdecl cache_file_block_until_not_busy()
 	//{
 	//	e_async_category category = categories[category_index];
 	//	while (async_category_in_queue(category))
+	//	{
 	//		switch_to_thread();
+	//	}
 	//}
 }
 
@@ -576,19 +583,25 @@ bool __cdecl cache_file_open(const char* scenario_path, void* header)
 	{
 		e_map_file_index map_file_index = cached_map_files_find_map(scenario_path);
 		if (map_file_index != k_no_cached_map_file_index)
+		{
 			cached_map_file_close(map_file_index);
+		}
 	}
 
 	e_map_file_index map_file_index = cached_map_files_find_map(scenario_path);
 	if (levels_path_is_dlc(scenario_path))
+	{
 		levels_open_dlc(scenario_path, true);
+	}
 
 	if (cache_files_read_from_map_directory())
 	{
 		if (map_file_index == k_no_cached_map_file_index)
 		{
-			if (!cached_map_file_load(map_file_index = e_map_file_index(7), scenario_path))
+			if (!cached_map_file_load(map_file_index = (e_map_file_index)7, scenario_path))
+			{
 				return false;
+			}
 		}
 	}
 	else if (map_file_index == k_no_cached_map_file_index)
@@ -607,7 +620,9 @@ int32 __cdecl cache_file_read_ex(int32 section, int32 offset, int32 size, void* 
 
 	int32 section_base_offset = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].header.section_offsets[section];
 	if (section_base_offset == NONE)
-		return -1;
+	{
+		return NONE;
+	}
 
 	s_file_handle section_handle = cache_file_table_of_contents.map_files[cache_file_table_of_contents.open_map_file_index].file_handle;
 	return async_read_position(section_handle, buffer, size, section_base_offset + offset, category, priority, bytes_read, completion_flag_reference);
@@ -618,7 +633,9 @@ int32 __cdecl cache_file_round_up_read_size(int32 size)
 	//return INVOKE(0x005AA8D0, cache_file_round_up_read_size, size);
 
 	if ((size & MASK(4)) == 0)
+	{
 		return size;
+	}
 
 	return (size | MASK(4)) + 1;
 }
@@ -1023,18 +1040,12 @@ const char* __cdecl shared_file_type_get_string(e_cache_file_shared_file_type sh
 
 	switch (shared_file_type)
 	{
-	case _cache_file_shared_file_type_ui:
-		return "ui";
-	case _cache_file_shared_file_type_resources:
-		return "resources.dat";
-	case _cache_file_shared_file_type_textures:
-		return "textures.dat";
-	case _cache_file_shared_file_type_textures_b:
-		return "textures_b.dat";
-	case _cache_file_shared_file_type_audio:
-		return "audio.dat";
-	case _cache_file_shared_file_type_video:
-		return "video.dat";
+	case _cache_file_shared_file_type_ui:         return "ui";
+	case _cache_file_shared_file_type_resources:  return "resources.dat";
+	case _cache_file_shared_file_type_textures:   return "textures.dat";
+	case _cache_file_shared_file_type_textures_b: return "textures_b.dat";
+	case _cache_file_shared_file_type_audio:      return "audio.dat";
+	case _cache_file_shared_file_type_video:      return "video.dat";
 	}
 
 	return "<unknown>";

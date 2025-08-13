@@ -592,6 +592,8 @@ const char* __cdecl simulation_get_abort_reason_string()
 e_simulation_abort_reason __cdecl simulation_get_aborted_reason()
 {
 	return INVOKE(0x004415B0, simulation_get_aborted_reason);
+
+	//return simulation_globals.simulation_aborted_reason;
 }
 
 void __cdecl simulation_get_game_description(c_static_string<260>* game_description)
@@ -612,11 +614,15 @@ bool __cdecl simulation_get_machine_bandwidth_events(const s_machine_identifier*
 bool __cdecl simulation_get_machine_connectivity(const s_machine_identifier* machine)
 {
 	return INVOKE(0x00441700, simulation_get_machine_connectivity, machine);
+
+	//return simulation_globals.watcher->get_machine_connectivity(machine);
 }
 
 bool __cdecl simulation_get_machine_is_host(const s_machine_identifier* machine)
 {
 	return INVOKE(0x00441720, simulation_get_machine_is_host, machine);
+
+	//return simulation_globals.watcher->get_machine_is_host(machine);
 }
 
 uns32 __cdecl simulation_get_network_time_since_abort()

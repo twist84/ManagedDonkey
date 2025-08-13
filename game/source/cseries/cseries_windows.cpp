@@ -111,14 +111,20 @@ template<int32 k_maximum_count>
 bool shell_get_command_line_parameter(char* command_line, const char* parameter_name, c_static_string<k_maximum_count>* value, const char* default_value)
 {
 	if (!command_line)
+	{
 		return false;
+	}
 
 	if (value)
+	{
 		*value = default_value;
+	}
 
 	char* parameter_offset = strstr(command_line, parameter_name);
 	if (!parameter_offset)
+	{
 		return false;
+	}
 
 	do
 	{
@@ -126,10 +132,14 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 		c_static_string<k_maximum_count> parameter = parameter_offset;
 		int32 separator = parameter.index_of(" ");
 		if (separator != NONE)
+		{
 			parameter.set_bounded(parameter_offset, separator);
+		}
 
 		if (value)
+		{
 			*value = parameter;
+		}
 	}
 	while (parameter_offset = strstr(parameter_offset, parameter_name));
 
@@ -142,11 +152,15 @@ void system_set_maps_directory()
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-maps", &map_directory, map_directory.get_string()))
 	{
 		if (!map_directory.ends_with("\\") && !map_directory.ends_with("/"))
+		{
 			map_directory.append("\\");
+		}
 
 		s_file_reference maps_file{};
 		if (!file_exists(file_reference_create_from_path(&maps_file, map_directory.get_string(), true)))
+		{
 			return;
+		}
 	}
 
 	g_cache_file_globals.map_directory = g_cache_path_directory.print(map_directory.get_string());
@@ -167,7 +181,9 @@ void system_set_maps_directory()
 
 	s_file_reference video_file{};
 	if (!file_exists(file_reference_create_from_path(&video_file, k_cache_video_file, true)))
+	{
 		k_cache_video_file = g_cache_video_file.print("%s%s", g_cache_file_globals.map_directory, "resources_b.dat");
+	}
 
 	g_cache_file_globals.resource_files[0] = k_cache_resources_file;
 	g_cache_file_globals.resource_files[1] = k_cache_textures_file;

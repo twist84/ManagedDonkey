@@ -157,6 +157,21 @@ bool __cdecl shell_initialize(bool windowed)
 	return shell_initialized;
 }
 
+bool __cdecl sub_42E5C0()
+{
+	return INVOKE(0x0042E5C0, sub_42E5C0);
+}
+
+bool __cdecl sub_42E5D0() // disable rendering
+{
+	return INVOKE(0x0042E5D0, sub_42E5D0);
+}
+
+bool __cdecl sub_42E5E0() // disable audio
+{
+	return INVOKE(0x0042E5E0, sub_42E5E0);
+}
+
 bool __cdecl game_is_bot_client()
 {
 	return INVOKE(0x0042E5F0, game_is_bot_client);

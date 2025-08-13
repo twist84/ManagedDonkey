@@ -1522,12 +1522,6 @@ void __cdecl network_map_variant_file_juju(const char* file_path, bool use_varia
 
 		s_variant_quota& quota = map_variant->m_quotas[object.variant_quota_index];
 
-		int32 object_definition_index = quota.object_definition_index;
-		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
-		{
-			continue;
-		}
-
 		//removed_variant_objects++;
 		//object = s_variant_object_datum();
 		//ASSERT(object.variant_quota_index == NONE);
@@ -1535,11 +1529,6 @@ void __cdecl network_map_variant_file_juju(const char* file_path, bool use_varia
 
 	for (s_variant_quota& quota : map_variant->m_quotas)
 	{
-		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
-		{
-			continue;
-		}
-
 		removed_placeable_object_quotas++;
 		//quota = s_variant_quota();
 		//ASSERT(quota.object_definition_index == NONE);
@@ -1670,10 +1659,6 @@ void __cdecl network_packed_map_variant_file_juju(const char* file_path, bool us
 
 		s_variant_quota& quota = map_variant->m_quotas[object.variant_quota_index];
 
-		int32 object_definition_index = quota.object_definition_index;
-		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
-			continue;
-
 		removed_variant_objects++;
 		object = s_variant_object_datum();
 		ASSERT(object.variant_quota_index);
@@ -1681,9 +1666,6 @@ void __cdecl network_packed_map_variant_file_juju(const char* file_path, bool us
 
 	for (s_variant_quota& quota : map_variant->m_quotas)
 	{
-		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
-			continue;
-
 		removed_placeable_object_quotas++;
 		quota = s_variant_quota();
 		ASSERT(quota.object_definition_index == NONE);

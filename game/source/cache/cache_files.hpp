@@ -291,7 +291,6 @@ extern const char*& k_cache_file_extension;
 extern const char* k_cache_path_format;
 
 extern uns8 const g_cache_file_creator_key[64];
-extern int32 g_tag_total_count_pre_external_files;
 
 extern s_tag_reference g_last_tag_accessed;
 extern s_cache_file_globals& g_cache_file_globals;
@@ -369,7 +368,6 @@ extern void* __cdecl tag_get(tag group_tag, int32 tag_index);
 extern void* __cdecl tag_get(tag group_tag, const char* tag_name);
 extern uns32 __cdecl tag_get_group_tag(int32 tag_index);
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, int32 tag_index);
-extern void cache_file_tags_load_single_tag_file_test(const char* file_name);
 
 enum e_instance_modification_stage
 {

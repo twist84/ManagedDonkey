@@ -34,172 +34,6 @@ void __thiscall c_cache_file_tag_resource_runtime_manager_allocation::construct(
 	INVOKE_CLASS_MEMBER(0x0055FF10, c_cache_file_tag_resource_runtime_manager_allocation, construct);
 }
 
-#define ISEXPERIMENTAL
-
-#if defined(ISEXPERIMENTAL)
-
-class c_runtime_resource_cache_file_decompressor :
-	public c_cache_file_decompressor
-{
-public:
-	c_runtime_resource_cache_file_decompressor() :
-		m_holding_buffer()
-	{
-	}
-
-	~c_runtime_resource_cache_file_decompressor()
-	{
-	}
-
-	virtual bool begin(c_basic_buffer<void> a1) override
-	{
-		m_holding_buffer = a1;
-
-		return true;
-	}
-
-	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
-	{
-		for (int32 i = 0; i < g_resource_file_headers.count(); i++)
-		{
-			const s_resource_file_header* file_header = g_resource_file_headers[i];
-
-			// check buffer size is the same as compressed file size we set as the tag index
-			if (static_cast<uns32>(file_header->tag_index) != in_buffer.m_size)
-				continue;
-
-			if (static_cast<uns32>(file_header->resource_index) != m_holding_buffer.m_size - 1)
-				continue;
-
-			if (file_header->group_tag == BITMAP_TAG)
-			{
-				const DirectX::DDS_FILE_HEADER* dds_file = reinterpret_cast<const DirectX::DDS_FILE_HEADER*>(file_header + 1);
-				if (!dds_file)
-					continue;
-
-				m_holding_buffer.m_size = dds_file->header.pitchOrLinearSize;
-				csmemcpy(m_holding_buffer.m_buffer, dds_file + 1, m_holding_buffer.m_size);
-			}
-		}
-
-		return true;
-	}
-
-	virtual bool finish(c_basic_buffer<void>* a1) override
-	{
-		*a1 = m_holding_buffer;
-
-		return true;
-	}
-
-	c_basic_buffer<void> m_holding_buffer;
-};
-
-class c_runtime_resource_cache_file_decompressor_service :
-	public c_single_instance_cache_file_decompressor_service<c_runtime_resource_cache_file_decompressor>
-{
-public:
-	virtual void initialize_decompressor(c_typed_opaque_data<c_runtime_resource_cache_file_decompressor>* decompressor_storage)
-	{
-		c_runtime_resource_cache_file_decompressor* decompressor = decompressor_storage->get();
-		if (decompressor)
-		{
-			csmemcpy(decompressor, new c_runtime_resource_cache_file_decompressor(), sizeof(c_runtime_resource_cache_file_decompressor));
-			*reinterpret_cast<c_runtime_resource_cache_file_decompressor**>(decompressor_storage + 1) = decompressor;
-		}
-		else
-		{
-			*reinterpret_cast<c_runtime_resource_cache_file_decompressor**>(decompressor_storage + 1) = 0;
-		}
-	}
-};
-static_assert(sizeof(c_runtime_resource_cache_file_decompressor_service) == 0x18);
-
-class c_runtime_tag_resource_cache_file_decompressor :
-	public c_cache_file_decompressor
-{
-public:
-	c_runtime_tag_resource_cache_file_decompressor() :
-		m_holding_buffer()
-	{
-	}
-
-	~c_runtime_tag_resource_cache_file_decompressor()
-	{
-	}
-
-	virtual bool begin(c_basic_buffer<void> a1) override
-	{
-		m_holding_buffer = a1;
-
-		return true;
-	}
-
-	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
-	{
-		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[in_buffer.m_size]];
-		csmemcpy(m_holding_buffer.m_buffer, instance->base + instance->total_size + 256, m_holding_buffer.m_size);
-
-		return true;
-	}
-
-	virtual bool finish(c_basic_buffer<void>* a1) override
-	{
-		*a1 = m_holding_buffer;
-
-		return true;
-	}
-
-	c_basic_buffer<void> m_holding_buffer;
-};
-
-class c_runtime_tag_resource_cache_file_decompressor_service :
-	public c_single_instance_cache_file_decompressor_service<c_runtime_tag_resource_cache_file_decompressor>
-{
-public:
-	virtual void initialize_decompressor(c_typed_opaque_data<c_runtime_tag_resource_cache_file_decompressor>* decompressor_storage)
-	{
-		c_runtime_tag_resource_cache_file_decompressor* decompressor = decompressor_storage->get();
-		if (decompressor)
-		{
-			csmemcpy(decompressor, new c_runtime_tag_resource_cache_file_decompressor(), sizeof(c_runtime_tag_resource_cache_file_decompressor));
-			*reinterpret_cast<c_runtime_tag_resource_cache_file_decompressor**>(decompressor_storage + 1) = decompressor;
-		}
-		else
-		{
-			*reinterpret_cast<c_runtime_tag_resource_cache_file_decompressor**>(decompressor_storage + 1) = 0;
-		}
-	}
-};
-static_assert(sizeof(c_runtime_tag_resource_cache_file_decompressor_service) == 0x18);
-
-static c_runtime_resource_cache_file_decompressor_service g_runtime_resource_cache_file_decompressor_service = {};
-static c_runtime_tag_resource_cache_file_decompressor_service g_runtime_tag_resource_cache_file_decompressor_service = {};
-
-void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_tag_resource_codec_service* _this, void* unused, c_allocation_base* allocator, c_cache_file_runtime_decompressor_registry* decompressor_registry, c_cache_file_resource_uber_location_table* uber_location_table)
-{
-	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
-
-	{
-		int32 new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
-		ASSERT(new_element_index == _cache_file_compression_codec_runtime_resource);
-
-		_this->m_actual_runtime_decompressors[new_element_index] = &g_runtime_resource_cache_file_decompressor_service;
-		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_runtime_resource] == &g_runtime_resource_cache_file_decompressor_service);
-	}
-
-	{
-		int32 new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
-		ASSERT(new_element_index == _cache_file_compression_codec_runtime_tag_resource);
-
-		_this->m_actual_runtime_decompressors[new_element_index] = &g_runtime_tag_resource_cache_file_decompressor_service;
-		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_runtime_tag_resource] == &g_runtime_tag_resource_cache_file_decompressor_service);
-	}
-}
-HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
-
-#endif // ISEXPERIMENTAL
-
 void __cdecl cache_file_tag_resources_dispose()
 {
 	INVOKE(0x0055F650, cache_file_tag_resources_dispose);
@@ -311,12 +145,14 @@ void c_cache_file_tag_resource_runtime_manager::load_pending_resources_blocking(
 	INVOKE_CLASS_MEMBER(0x005626C0, c_cache_file_tag_resource_runtime_manager, load_pending_resources_blocking, io_result);
 
 	//if (m_resource_gestalt)
-	//	m_in_level_memory_manager.m_tag_resource_cache.load_pending_data_only_blocking(io_result);
+	//{
+	//	m_threaded_tag_resource_cache.load_pending_data_only_blocking(io_result);
+	//}
 	//
 	//if (m_dirty_prefetch_map_state)
 	//{
-	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.gobble_up_memory();
-	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.restart_prefetching();
+	//	m_threaded_tag_resource_cache.gobble_up_memory();
+	//	m_threaded_tag_resource_cache.restart_prefetching();
 	//	m_dirty_prefetch_map_state = false;
 	//}
 }
@@ -326,13 +162,15 @@ void c_cache_file_tag_resource_runtime_manager::load_required_resources_blocking
 	INVOKE_CLASS_MEMBER(0x00562710, c_cache_file_tag_resource_runtime_manager, load_required_resources_blocking, io_result);
 
 	//if (m_resource_gestalt)
-	//	m_in_level_memory_manager.m_tag_resource_cache.load_required_data_only_blocking(io_result);
+	//{
+	//	m_threaded_tag_resource_cache.load_required_data_only_blocking(io_result);
+	//}
 	//
 	//m_loaded_any_resources = true;
 	//if (m_dirty_prefetch_map_state)
 	//{
-	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.gobble_up_memory();
-	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.restart_prefetching();
+	//	m_threaded_tag_resource_cache.gobble_up_memory();
+	//	m_threaded_tag_resource_cache.restart_prefetching();
 	//	m_dirty_prefetch_map_state = false;
 	//}
 }
@@ -342,7 +180,9 @@ void c_cache_file_tag_resource_runtime_manager::lock_for_game()
 	INVOKE_CLASS_MEMBER(0x005627A0, c_cache_file_tag_resource_runtime_manager, lock_for_game);
 
 	//if (m_resource_gestalt)
-	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_thread_access.lock_for_current_thread();
+	//{
+	//	m_threaded_tag_resource_cache.lock_for_current_thread();
+	//}
 }
 
 void c_cache_file_tag_resource_runtime_manager::lock_for_render()
@@ -350,7 +190,9 @@ void c_cache_file_tag_resource_runtime_manager::lock_for_render()
 	INVOKE_CLASS_MEMBER(0x005627C0, c_cache_file_tag_resource_runtime_manager, lock_for_render);
 
 	//if (m_resource_gestalt)
-	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_thread_access.lock_for_current_thread();
+	//{
+	//	m_threaded_tag_resource_cache.lock_for_current_thread();
+	//}
 }
 
 bool c_cache_file_tag_resource_runtime_manager::locked_for_current_thread_UGLY()
@@ -407,12 +249,13 @@ int32 __cdecl tag_resources_lock_game()
 {
 	//return INVOKE(0x00563F80, tag_resources_lock_game);
 
-	if (!g_resource_runtime_manager.get()->locked_for_game_UGLY())
+	if (g_resource_runtime_manager.get()->locked_for_game_UGLY())
 	{
-		g_resource_runtime_manager.get()->lock_for_game();
-		return 1;
+		return 0;
 	}
-	return 0;
+
+	g_resource_runtime_manager.get()->lock_for_game();
+	return 1;
 }
 
 void __cdecl tag_resources_lock_render()
@@ -500,19 +343,24 @@ void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* al
 	//m_prefetch_map_states2A788[0].__unknown104 = 0;
 }
 
-// does this actually take in `game_mode` or is IDA being IDA again
 void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_game_mode game_mode)
 {
+	//INVOKE_CLASS_MEMBER(0x00561C00, c_cache_file_tag_resource_runtime_manager, initialize_files, game_mode);
+
 	data_make_valid(m_shared_file_handles);
 	m_shared_file_datum_indices[6] = 6;
 	for (int32& header_file_location_handle : m_shared_file_datum_indices)
+	{
 		header_file_location_handle = NONE;
+	}
 
 	int32 header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, _map_file_index_shared_ui);
 	s_cache_file_tag_resource_runtime_shared_file* runtime_shared_file = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, header_file_location_handle);
 
 	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file->indirect_file))
+	{
 		cache_file_get_master_resource_section_offset(&runtime_shared_file->resource_section_offset);
+	}
 
 	cache_file_get_master_async_file_handle(&runtime_shared_file->async_file_handle);
 	cache_file_get_master_overlapped_file_handle(&runtime_shared_file->overlapped_handle);
@@ -530,7 +378,9 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 			if (cached_map_file_is_shared(map_file_index - 1))
 			{
 				if (cache_file_get_indirect_file_handle_from_index(map_file_index, &next_header_file_location->indirect_file))
+				{
 					next_header_file_location->resource_section_offset = 0;
+				}
 
 				cache_file_get_async_file_handle_from_index(map_file_index, &next_header_file_location->async_file_handle);
 				cache_file_get_overlapped_file_handle_from_index(map_file_index, &next_header_file_location->overlapped_handle);

@@ -13,7 +13,7 @@ HOOK_DECLARE(0x0051DB10, physical_memory_resize_region_lock);
 #define EXPERIMENTAL_USE_SYSTEM_ALLOCATION_FOR_FIXED_MEMORY
 
 uns32 g_physical_memory_data_size_increase_mb = 0;
-uns32 g_physical_memory_cache_size_increase_mb = 512 + 64;
+uns32 g_physical_memory_cache_size_increase_mb = 512 + (64 * 2);
 
 uns32 g_physical_memory_data_size_increase_kb = 1024 * 1024 * g_physical_memory_data_size_increase_mb;
 uns32 g_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + g_physical_memory_data_size_increase_kb);

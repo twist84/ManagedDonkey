@@ -37,6 +37,7 @@
 #include "render/render.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 #include "text/draw_string.hpp"
 #include "visibility/visibility_collection.hpp"
@@ -151,11 +152,6 @@ int32 c_player_render_camera_iterator::get_output_user_index() const
 const s_observer_result* c_player_render_camera_iterator::get_observer_result() const
 {
 	return m_current_observer_result;
-}
-
-bool __cdecl sub_42E5D0()
-{
-	return INVOKE(0x0042E5D0, sub_42E5D0);
 }
 
 void __cdecl main_render()

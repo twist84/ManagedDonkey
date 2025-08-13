@@ -330,10 +330,14 @@ char* __cdecl shell_get_command_line()
 bool shell_get_command_line_parameter(char* command_line, const char* parameter_name, int32* value, int32 default_value)
 {
 	if (!command_line)
+	{
 		return false;
+	}
 
 	if (value)
+	{
 		*value = default_value;
+	}
 
 	if (char* parameter_offset = strstr(command_line, parameter_name))
 	{
@@ -341,10 +345,14 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 		c_static_string<32> parameter = parameter_offset;
 		int32 separator = parameter.index_of(" ");
 		if (separator != NONE)
+		{
 			parameter.set_bounded(parameter_offset, separator);
+		}
 
 		if (value)
+		{
 			*value = atol(parameter.get_string());
+		}
 
 		return true;
 	}

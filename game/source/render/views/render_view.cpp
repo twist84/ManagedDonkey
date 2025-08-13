@@ -24,6 +24,7 @@
 #include "render/render_debug.hpp"
 #include "render/render_objects.hpp"
 #include "render/views/hud_camera_view.hpp"
+#include "shell/shell.hpp"
 
 #include <math.h>
 
@@ -279,7 +280,9 @@ void __cdecl render_debug_frame_render()
 	//INVOKE(0x00A29220, render_debug_frame_render);
 
 	if (sub_42E5D0())
+	{
 		return;
+	}
 
 	{
 		c_rasterizer_profile_scope _frame_debug(_rasterizer_profile_element_debug, L"frame_debug");

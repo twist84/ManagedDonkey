@@ -913,7 +913,9 @@ bool __cdecl game_is_server()
 	int8 game_simulation = game_options_get()->game_simulation;
 	if (game_simulation == _game_simulation_synchronous_server ||
 		game_simulation == _game_simulation_distributed_server)
+	{
 		return true;
+	}
 
 	return false;
 }
