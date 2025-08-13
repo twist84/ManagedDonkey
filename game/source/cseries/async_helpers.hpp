@@ -77,6 +77,18 @@ extern int32 __cdecl async_delete_file(
 	c_synchronized_long* success,
 	c_synchronized_long* done);
 
+extern int32 __cdecl async_enumerate_files(
+	uns32 find_files_flags,
+	const char* directory,
+	int32 maximum_count,
+	s_find_file_data* in_find_file_data,
+	s_file_reference* out_references,
+	int32* out_reference_count,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* success,
+	c_synchronized_long* done);
+
 extern int32 __cdecl async_flush_file(
 	s_file_handle file_handle,
 	e_async_category category,

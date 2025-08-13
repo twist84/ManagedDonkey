@@ -193,7 +193,54 @@ int32 __cdecl async_delete_file(
 	return async_task_add(priority, &task.dummy_for_size, category, delete_file_callback, done);
 }
 
-//.text:005AD3F0 ; int32 __cdecl async_enumerate_files(uns32, const char*, int32, s_file_reference*, int32*, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+int32 __cdecl async_enumerate_files(
+	uns32 find_files_flags,
+	const char* directory,
+	int32 maximum_count,
+	s_find_file_data* in_find_file_data,
+	s_file_reference* out_references,
+	int32* out_reference_count,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* success,
+	c_synchronized_long* done)
+{
+	//return INVOKE(0x005AD3F0, async_enumerate_files, 
+	//	find_files_flags,
+	//	directory,
+	//	maximum_count,
+	//	in_find_file_data,
+	//	out_references,
+	//	out_reference_count,
+	//	category,
+	//	priority,
+	//	success,
+	//	done);
+
+	ASSERT(directory != NULL);
+	ASSERT(maximum_count > 0);
+	ASSERT(in_find_file_data != NULL);
+	ASSERT(out_references != NULL);
+	ASSERT(out_reference_count != NULL);
+	ASSERT(success != NULL);
+	ASSERT(done != NULL);
+
+	//*out_reference_count = 0;
+	//success->set(0);
+	//done->set(0);
+
+	s_enumerate_files_task task{};
+	csmemset(&task, 0, sizeof(s_enumerate_files_task));
+	csstrnzcpy(task.directory, directory, sizeof(task.directory));
+	task.find_files_flags = find_files_flags;
+	task.maximum_count = maximum_count;
+	task.find_file_data = in_find_file_data;
+	task.out_references = out_references;
+	task.out_reference_count = out_reference_count;
+	task.success = success;
+
+	return async_task_add(priority, &task.dummy_for_size, category, enumerate_files_callback, done);
+}
 
 int32 __cdecl async_flush_file(
 	s_file_handle file,
