@@ -13,8 +13,9 @@ class c_gui_screen_pregame_selection :
 	public c_gui_screen_widget
 {
 public:
-	bool handle_controller_input_message_(const c_controller_input_message* message);
-	void handle_x_button_press_on_autosave_queue_file_(e_controller_index controller_index, const c_gui_selected_item* selected_item);
+	void __thiscall begin_deletion_of_selected_item_(e_controller_index controller_index);
+	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
+	void __thiscall handle_x_button_press_on_autosave_queue_file_(e_controller_index controller_index, const c_gui_selected_item* selected_item);
 
 public:
 	c_gui_screen_pregame_selection(int32 name) :
@@ -24,7 +25,9 @@ public:
 	}
 
 private:
+	void begin_deletion_of_selected_item(e_controller_index controller_index);
 	void handle_x_button_press_on_autosave_queue_file(e_controller_index controller_index, const c_gui_selected_item* selected_item);
+	void load_progress_ui(e_controller_index controller_index, int32 title, int32 message);
 
 public:
 
