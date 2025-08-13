@@ -116,13 +116,13 @@ c_allocation_base* __cdecl user_interface_memory_allocation()
 
 void __cdecl user_interface_memory_dispose()
 {
-	INVOKE(0x00AB4FF0, user_interface_memory_dispose);
+	//INVOKE(0x00AB4FF0, user_interface_memory_dispose);
 
-	//if (g_ui_memory_pool)
-	//{
-	//	memory_pool_dispose(g_ui_memory_pool);
-	//	g_ui_memory_pool = NULL;
-	//}
+	if (g_ui_memory_pool)
+	{
+		memory_pool_dispose(g_ui_memory_pool);
+		g_ui_memory_pool = NULL;
+	}
 }
 
 void __cdecl user_interface_memory_dump(const char* prefix)
