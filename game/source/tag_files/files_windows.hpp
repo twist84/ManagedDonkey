@@ -3,6 +3,15 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
+enum
+{
+	_find_files_recursive_bit = 0,
+	_find_files_enumerate_directories_bit,
+	_find_files_enumerate_files_with_directories_bit,
+
+	NUMBER_OF_FIND_FILES_FLAGS,
+};
+
 enum e_file_open_flags
 {
 	_file_open_flag_desired_access_read = 0,

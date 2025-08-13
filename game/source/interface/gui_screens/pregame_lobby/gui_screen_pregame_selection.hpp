@@ -14,6 +14,8 @@ class c_gui_screen_pregame_selection :
 {
 public:
 	void __thiscall begin_deletion_of_selected_item_(e_controller_index controller_index);
+	void __thiscall begin_saved_game_file_save_changes_(e_controller_index controller_index, const wchar_t* new_title, const wchar_t* new_description);
+	void __thiscall begin_selected_item_text_edit_(e_controller_index controller_index, bool edit_title, bool edit_description);
 	bool __thiscall handle_controller_input_message_(const c_controller_input_message* message);
 	void __thiscall handle_x_button_press_on_autosave_queue_file_(e_controller_index controller_index, const c_gui_selected_item* selected_item);
 
@@ -25,7 +27,14 @@ public:
 	}
 
 private:
+	bool asynchronous_operation_in_progress() const;
+
+public:
 	void begin_deletion_of_selected_item(e_controller_index controller_index);
+	void begin_saved_game_file_save_changes(e_controller_index controller_index, const wchar_t* new_title, const wchar_t* new_description);
+	void begin_selected_item_text_edit(e_controller_index controller_index, bool edit_title, bool edit_description);
+
+private:
 	void handle_x_button_press_on_autosave_queue_file(e_controller_index controller_index, const c_gui_selected_item* selected_item);
 	void load_progress_ui(e_controller_index controller_index, int32 title, int32 message);
 

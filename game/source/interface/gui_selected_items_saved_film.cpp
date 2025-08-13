@@ -1,6 +1,7 @@
 #include "interface/gui_selected_items_saved_film.hpp"
 
 #include "cseries/async.hpp"
+#include "cseries/async_helpers.hpp"
 #include "game/game_options.hpp"
 #include "interface/user_interface.hpp"
 #include "memory/module.hpp"
@@ -303,19 +304,46 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 		return;
 	}
 
-	s_file_reference saved_films_directory{};
-	file_reference_create_from_path_wide(&saved_films_directory, L"saved_films", true);
+	static s_find_file_data find_file_data{};
+	static s_file_reference saved_films_files[512]{};
+	static int32 saved_films_file_count = 0;
+	static c_synchronized_long success;
+	static c_synchronized_long done;
+	static int32 task_id = NONE;
 
-	s_find_file_data find_file_data{};
-	find_files_start_with_search_spec(&find_file_data, 0, &saved_films_directory, "*.film");
+	task_id = async_enumerate_files(
+		0,
+		"saved_films",
+		512,
+		&find_file_data,
+		saved_films_files,
+		&saved_films_file_count,
+		_async_category_saved_games,
+		_async_priority_very_important_non_blocking,
+		&success,
+		&done);
+
+	m_enumeration_complete = success.peek();
+	if (!m_enumeration_complete)
+	{
+		return;
+	}
 
 	s_saved_game_item_enumeration_data item{};
-	while (find_files_next(&find_file_data, &item.file, NULL))
+	for (int32 saved_films_file_index = 0; saved_films_file_index < saved_films_file_count; saved_films_file_index++)
 	{
 		if (m_saved_film_count >= k_maximum_saved_films_shown)
 		{
 			break;
 		}
+
+		s_file_reference* saved_films_file = &saved_films_files[saved_films_file_index];
+		if (file_is_directory(saved_films_file))
+		{
+			continue;
+		}
+
+		item.file = *saved_films_file;
 
 		if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
 		{
@@ -332,6 +360,17 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 			continue;
 		}
 
+		bool exists = false;
+		for (int32 saved_film_index = 0; !exists && saved_film_index < m_saved_film_count; saved_film_index++)
+		{
+			exists = item.metadata.unique_id == m_saved_films[saved_film_index].m_metadata.unique_id;
+		}
+
+		if (exists)
+		{
+			continue;
+		}
+
 		m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
 			&item.metadata,
 			m_category,
@@ -340,13 +379,14 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 			&item.file,
 			0,
 			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-			true);
+			item.metadata.date > get_current_time_in_seconds(_one_week_in_seconds));
 	}
-	find_files_end(&find_file_data);
 
 	//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
 	qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
 
-	m_enumeration_complete = true;
+	csmemset(&find_file_data, 0, sizeof(s_find_file_data));
+	csmemset(saved_films_files, 0, sizeof(s_file_reference) * 512);
+	saved_films_file_count = 0;
 }
 

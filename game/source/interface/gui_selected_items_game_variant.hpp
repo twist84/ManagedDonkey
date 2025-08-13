@@ -56,7 +56,6 @@ public:
 protected:
 	void update_autosave_enumeration();
 	void update_content_enumeration();
-	static bool update_content_enumeration_proc(void* userdata, s_file_reference* found_file);
 
 public:
 //private:

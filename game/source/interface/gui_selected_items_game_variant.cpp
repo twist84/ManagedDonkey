@@ -1,6 +1,7 @@
 #include "interface/gui_selected_items_game_variant.hpp"
 
 #include "cseries/async.hpp"
+#include "cseries/async_helpers.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "saved_games/saved_game_files.hpp"
@@ -162,74 +163,109 @@ void c_gui_game_variant_subitem_selectable_item_datasource::update_content_enume
 		return;
 	}
 
-	s_file_reference game_variants_directory{};
-	file_reference_create_from_path_wide(&game_variants_directory, L"game_variants", true);
-	find_files_recursive(this, &game_variants_directory, 0, c_gui_game_variant_subitem_selectable_item_datasource::update_content_enumeration_proc);
+	static s_find_file_data find_file_data{};
+	static s_file_reference saved_films_files[512]{};
+	static int32 saved_films_file_count = 0;
+	static c_synchronized_long success;
+	static c_synchronized_long done;
+	static int32 task_id = NONE;
+
+	task_id = async_enumerate_files(
+		FLAG(_find_files_recursive_bit),
+		"game_variants",
+		512,
+		&find_file_data,
+		saved_films_files,
+		&saved_films_file_count,
+		_async_category_saved_games,
+		_async_priority_very_important_non_blocking,
+		&success,
+		&done);
+
+	m_enumeration_complete = success.peek();
+	if (!m_enumeration_complete)
+	{
+		return;
+}
+	for (int32 saved_films_file_index = 0; saved_films_file_index < saved_films_file_count; saved_films_file_index++)
+	{
+		if (m_game_variant_count >= k_maximum_game_variants_shown)
+		{
+			continue;
+		}
+
+		s_file_reference* saved_films_file = &saved_films_files[saved_films_file_index];
+		if (file_is_directory(saved_films_file))
+		{
+			continue;
+		}
+
+		wchar_t found_file_extension[256]{};
+		file_reference_get_name_wide(saved_films_file, FLAG(_name_extension_bit), found_file_extension, NUMBEROF(found_file_extension));
+
+		e_saved_game_file_type game_file_type = game_engine_index_to_saved_game_file_type(m_game_engine_type);
+		const wchar_t* filename_extension = saved_game_filename_extension_by_game_file_type(game_file_type, true);
+		if (ustricmp(found_file_extension, filename_extension) != 0)
+		{
+			continue;
+		}
+
+		s_saved_game_item_enumeration_data item{};
+		{
+			s_blffile_saved_game_file variant_on_disk{};
+			c_synchronized_long success = 0;
+			c_synchronized_long done = 0;
+			if (autosave_queue_read_file(saved_films_file, &variant_on_disk, sizeof(s_blffile_saved_game_file), &success, &done) == NONE)
+			{
+				continue;
+			}
+
+			internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+
+			if (success.peek() != 1)
+			{
+				continue;
+			}
+
+			item.file = *saved_films_file;
+			item.metadata = variant_on_disk.content_header.metadata;
+		}
+
+		if (!IN_RANGE_INCLUSIVE(item.metadata.file_type, _saved_game_file_type_first_game_variant, _saved_game_file_type_last_game_variant) || m_game_engine_type != item.metadata.game_engine_index)
+		{
+			continue;
+		}
+
+		bool exists = false;
+		for (int32 game_variant_index = 0; !exists && game_variant_index < m_game_variant_count; game_variant_index++)
+		{
+			exists = item.metadata.unique_id == m_game_variants[game_variant_index].m_metadata.unique_id;
+		}
+
+		if (exists)
+		{
+			continue;
+		}
+
+		s_ui_saved_game_item_metadata metadata{};
+		metadata.set(&item.metadata);
+
+		m_game_variants[m_game_variant_count++] = c_gui_game_variant_selected_item(
+			&metadata,
+			_gui_stored_item_location_saved_game_file,
+			m_controller_index,
+			&item.file,
+			0,
+			c_gui_selected_item::_special_item_type_none,
+			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+			false);
+	}
 
 	//m_game_variants.sort(m_game_variant_count, game_variant_selected_item_sort_proc);
 	qsort(&m_game_variants, m_game_variant_count, sizeof(c_gui_game_variant_selected_item), game_variant_selected_item_sort_proc);
 
-	m_enumeration_complete = true;
+	csmemset(&find_file_data, 0, sizeof(s_find_file_data));
+	csmemset(saved_films_files, 0, sizeof(s_file_reference) * 512);
+	saved_films_file_count = 0;
 }
-
-bool c_gui_game_variant_subitem_selectable_item_datasource::update_content_enumeration_proc(void* userdata, s_file_reference* found_file)
-{
-	c_gui_game_variant_subitem_selectable_item_datasource* _this = (c_gui_game_variant_subitem_selectable_item_datasource*)userdata;
-
-	if (_this->m_game_variant_count >= k_maximum_game_variants_shown)
-	{
-		return false;
-	}
-
-	wchar_t found_file_extension[256]{};
-	file_reference_get_name_wide(found_file, FLAG(_name_extension_bit), found_file_extension, NUMBEROF(found_file_extension));
-
-	e_saved_game_file_type game_file_type = game_engine_index_to_saved_game_file_type(_this->m_game_engine_type);
-	const wchar_t* filename_extension = saved_game_filename_extension_by_game_file_type(game_file_type, true);
-	if (ustricmp(found_file_extension, filename_extension) != 0)
-	{
-		return false;
-	}
-
-	s_saved_game_item_enumeration_data item{};
-	{
-		s_blffile_saved_game_file variant_on_disk{};
-		c_synchronized_long success = 0;
-		c_synchronized_long done = 0;
-		if (autosave_queue_read_file(found_file, &variant_on_disk, sizeof(s_blffile_saved_game_file), &success, &done) == NONE)
-		{
-			return false;
-		}
-
-		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
-
-		if (success.peek() != 1)
-		{
-			return false;
-		}
-
-		item.file = *found_file;
-		item.metadata = variant_on_disk.content_header.metadata;
-	}
-
-	if (!IN_RANGE_INCLUSIVE(item.metadata.file_type, _saved_game_file_type_first_game_variant, _saved_game_file_type_last_game_variant) || _this->m_game_engine_type != item.metadata.game_engine_index)
-	{
-		return false;
-	}
-
-	s_ui_saved_game_item_metadata metadata{};
-	metadata.set(&item.metadata);
-
-	_this->m_game_variants[_this->m_game_variant_count++] = c_gui_game_variant_selected_item(
-		&metadata,
-		_gui_stored_item_location_saved_game_file,
-		_this->m_controller_index,
-		&item.file,
-		0,
-		c_gui_selected_item::_special_item_type_none,
-		item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-		false);
-
-	return true;
-};
 
