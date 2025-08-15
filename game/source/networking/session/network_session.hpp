@@ -50,6 +50,9 @@ class c_network_session :
 	public c_network_channel_owner
 {
 public:
+	bool peer_request_player_desired_properties_update_(int32 player_update_number, e_controller_index controller_index, const s_player_configuration_from_client* player_data_from_client, uns32 player_voice);
+
+public:
 	int32 current_local_state() const;
 	bool disconnected() const;
 	bool established() const;

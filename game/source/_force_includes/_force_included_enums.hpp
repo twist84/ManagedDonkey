@@ -45,6 +45,7 @@ enum
 
 	k_maximum_campaign_players,
 
+	k_network_maximum_sessions = 3,
 
 	k_maximum_multiplayer_players = 16,
 
@@ -977,6 +978,17 @@ enum e_network_session_class
 	k_network_session_class_count,
 	k_network_session_class_bits = 2,
 	k_network_session_class_none = NONE,
+};
+
+enum e_network_observer_owner
+{
+	_network_observer_owner_first_session = 0,
+	// 
+	_network_observer_owner_last_session = 2,
+	_network_observer_owner_simulation,
+	k_network_observer_owner_count,
+
+	_network_observer_owner_none = NONE,
 };
 
 enum e_network_session_mode
