@@ -154,7 +154,19 @@ void c_network_observer::quality_statistics_get_ratings(int32* out_connectivity_
 //.text:00447F90 ; void c_network_observer::record_congestion_bandwidth(int32, bool)
 //.text:00447FE0 ; void c_network_observer::record_throughput_bandwidth(int32, int32, int32, int32)
 //.text:004481C0 ; void c_network_observer::recreate_channels()
-//.text:00448250 ; void c_network_observer::register_owner(e_network_observer_owner, c_network_channel_owner*)
+
+void c_network_observer::register_owner(e_network_observer_owner owner_type, c_network_channel_owner* owner)
+{
+    INVOKE_CLASS_MEMBER(0x00448250, c_network_observer, register_owner, owner_type, owner);
+
+    //ASSERT(owner);
+    //ASSERT(owner_type >= 0 && owner_type < k_network_observer_owner_count);
+    //ASSERT(m_owners[owner_type].owner == NULL);
+    //
+    //m_owners[owner_type].owner = owner;
+    //m_owners[owner_type].managed_session_index = NONE;
+}
+
 //.text:00448270 ; void c_network_observer::release_observer(int32)
 //.text:00448370 ; void c_network_observer::reset_bandwidth()
 //.text:004484E0 ; void c_network_observer::reset_congestion_bandwidth()

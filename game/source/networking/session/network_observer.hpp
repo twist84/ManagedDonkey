@@ -9,11 +9,12 @@
 
 int32 const k_network_maximum_observers = 34;
 
-class c_network_session;
+class c_network_channel_owner;
 class c_network_link;
 class c_network_message_gateway;
 class c_network_message_handler;
 class c_network_message_type_collection;
+class c_network_session;
 struct s_observer_configuration;
 struct s_network_message_connect_request;
 
@@ -159,6 +160,7 @@ public:
 	void observer_channel_send_message(int32 owner_type, int32 observer_channel_index, bool out_of_band, e_network_message_type message_type, int32 message_size, const void* message_payload);
 	void observer_prioritize_upload_bandwidth(bool prioritize);
 	void quality_statistics_get_ratings(int32* out_connectivity_badness_rating, int32* out_host_badness_rating, int32* out_client_badness_rating);
+	void register_owner(e_network_observer_owner owner_type, c_network_channel_owner* owner);
 	void set_online_network_environment(bool online_network_environment);
 
 	c_network_link* m_link;
