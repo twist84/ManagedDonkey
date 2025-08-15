@@ -129,62 +129,25 @@ class c_network_session;
 class c_network_session_membership
 {
 public:
-	bool has_membership() const
-	{
-		return (m_shared_network_membership.update_number + 1) == 0;
-	}
-
-	int32 local_peer_index() const
-	{
-		return m_local_peer_index;
-	}
-
-	int32 host_peer_index() const
-	{
-		return m_shared_network_membership.host_peer_index;
-	}
-
-	const s_network_session_peer* get_host_peer() const
-	{
-		ASSERT(is_peer_valid(host_peer_index()));
-
-		return &m_shared_network_membership.peers[host_peer_index()];
-	}
-
-	s_network_session_peer* get_host_peer()
-	{
-		ASSERT(is_peer_valid(host_peer_index()));
-
-		return &m_shared_network_membership.peers[host_peer_index()];
-	}
-
-	bool is_player_valid(int32 player_index) const
-	{
-		return m_shared_network_membership.player_valid_mask.test(player_index);
-	}
-
-	void increment_update()
-	{
-		m_shared_network_membership.update_number++;
-		m_local_membership_update_number++;
-	}
-
-	s_network_session_player* get_player(int32 player_index)
-	{
-		ASSERT(is_player_valid(player_index));
-
-		return &m_shared_network_membership.players[player_index];
-	}
-
 	int32 get_first_peer() const;
 	int32 get_first_player() const;
+	const s_network_session_peer* get_host_peer() const;
+	s_network_session_peer* get_host_peer();
 	int32 get_next_peer(int32 peer_index) const;
 	int32 get_next_player(int32 peer_index) const;
 	s_network_session_peer* get_peer(int32 peer_index);
+	e_network_session_peer_state get_peer_connection_state(int32 peer_index) const;
+	s_network_session_player* get_player(int32 player_index);
 	int32 get_player_index_from_peer(int32 peer_index);
 	bool is_peer_valid(int32 peer_index) const;
 	int32 get_observer_channel_index(int32 peer_index) const;
 	int32 get_peer_from_observer_channel(int32 observer_channel_index) const;
+	bool has_membership() const;
+	int32 host_peer_index() const;
+	void increment_update();
+	bool is_leader() const;
+	bool is_player_valid(int32 player_index) const;
+	int32 local_peer_index() const;
 	bool peer_property_flag_test(e_peer_property_flag_test_type test_type, e_network_session_peer_properties_status_flags flag) const;
 	bool peer_property_flag_test_any_peer(e_network_session_peer_properties_status_flags flag) const;
 	void set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, const void* player_data_from_client, int32 player_voice_settings);

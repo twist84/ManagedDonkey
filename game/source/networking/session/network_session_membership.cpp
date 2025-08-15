@@ -51,12 +51,30 @@ int32 c_network_session_membership::get_next_player(int32 peer_index) const
 //.text:0044E790 ; public: int32 c_network_session_membership::update_number() const
 //.text:0044E7A0 ; public: int32 c_network_session_membership::get_observer_channel_index(int32) const
 
+const s_network_session_peer* c_network_session_membership::get_host_peer() const
+{
+	ASSERT(is_peer_valid(host_peer_index()));
+
+	return &m_shared_network_membership.peers[host_peer_index()];
+}
+
+s_network_session_peer* c_network_session_membership::get_host_peer()
+{
+	ASSERT(is_peer_valid(host_peer_index()));
+
+	return &m_shared_network_membership.peers[host_peer_index()];
+}
+
 s_network_session_peer* c_network_session_membership::get_peer(int32 peer_index)
 {
 	return INVOKE_CLASS_MEMBER(0x0044E7C0, c_network_session_membership, get_peer, peer_index);
 }
 
-//.text:0044E7E0 ; public: e_network_session_peer_state c_network_session_membership::get_peer_connection_state(int32) const
+e_network_session_peer_state c_network_session_membership::get_peer_connection_state(int32 peer_index) const
+{
+	return INVOKE_CLASS_MEMBER(0x0044E7E0, c_network_session_membership, get_peer_connection_state, peer_index);
+}
+
 //.text:0044E800 ; public: int32 c_network_session_membership::get_peer_from_incoming_address(const transport_address*) const
 //.text:0044E860 ; public: int32 c_network_session_membership::get_peer_from_observer_channel(int32) const
 //.text:0044E910 ; public: int32 c_network_session_membership::get_peer_from_secure_address(const s_transport_secure_address*) const
@@ -64,6 +82,14 @@ s_network_session_peer* c_network_session_membership::get_peer(int32 peer_index)
 //.text:0044EAE0 ; public: int32 c_network_session_membership::get_peer_index_of_player_in_queue(const s_player_identifier*) const
 //.text:0044EB10 ; public: uns32 c_network_session_membership::get_peer_valid_mask() const
 //.text:0044EB20 ; public: const s_network_session_player* c_network_session_membership::get_player(int32) const
+
+s_network_session_player* c_network_session_membership::get_player(int32 player_index)
+{
+	ASSERT(is_player_valid(player_index));
+
+	return &m_shared_network_membership.players[player_index];
+}
+
 //.text:0044EB40 ; public: const s_player_add_queue_entry* c_network_session_membership::get_player_add_queue_entry(int32) const
 //.text:0044EB90 ; public: int32 c_network_session_membership::get_player_from_identifier(const s_player_identifier*) const
 //.text:0044EC60 ; public: int32 c_network_session_membership::get_player_from_xuid(uns64) const
@@ -77,9 +103,35 @@ s_network_session_peer* c_network_session_membership::get_peer(int32 peer_index)
 //.text:0044EE90 ; public: const s_network_session_shared_membership* c_network_session_membership::get_transmitted_membership(int32) const
 //.text:0044EEB0 ; private: c_network_session* c_network_session_membership::get_session()
 //.text:0044EEC0 ; public: bool c_network_session_membership::handle_membership_update(const s_network_message_membership_update*)
+
+bool c_network_session_membership::has_membership() const
+{
+	return (m_shared_network_membership.update_number + 1) == 0;
+}
+
 //.text:0044F930 ; public: bool c_network_session_membership::host_exists_at_incoming_address(const transport_address*) const
+
+int32 c_network_session_membership::host_peer_index() const
+{
+	return m_shared_network_membership.host_peer_index;
+}
+
 //.text:0044F9B0 ; public: void c_network_session_membership::idle()
-//.text:0044FA50 ; private: void c_network_session_membership::increment_update()
+
+void c_network_session_membership::increment_update()
+{
+	//INVOKE_CLASS_MEMBER(0x0044FA50, c_network_session_membership, increment_update);
+
+	m_shared_network_membership.update_number++;
+	m_local_membership_update_number++;
+}
+
+bool c_network_session_membership::is_leader() const
+{
+	return m_shared_network_membership.update_number != NONE
+		&& m_local_peer_index == m_shared_network_membership.leader_peer_index;
+}
+
 //.text:0044FA60 ; 
 //.text:0044FA80 ; public: bool c_network_session_membership::is_peer_a_bad_client(int32) const
 //.text:0044FAF0 ; public: bool c_network_session_membership::is_peer_established(int32) const
@@ -91,13 +143,20 @@ bool c_network_session_membership::is_peer_valid(int32 peer_index) const
 	return m_shared_network_membership.peer_valid_mask.test(peer_index);
 }
 
+bool c_network_session_membership::is_player_valid(int32 player_index) const
+{
+	return m_shared_network_membership.player_valid_mask.test(player_index);
+}
+
 //.text:0044FB40 ; public: bool c_network_session_membership::is_player_established(int32) const
 //.text:0044FB70 ; public: bool c_network_session_membership::is_player_in_player_add_queue(const s_player_identifier*) const
 //.text:0044FB90 ; public: void c_network_session_membership::lock_slots()
 
 int32 c_network_session_membership::get_player_index_from_peer(int32 peer_index)
 {
-	return DECLFUNC(0x0052E280, int32, __cdecl, uns32*, int32)(m_shared_network_membership.peers[peer_index].player_mask, 16);
+	//return DECLFUNC(0x0052E280, int32, __cdecl, uns32*, int32)(m_shared_network_membership.peers[peer_index].player_mask, 16);
+
+	return bit_vector_lowest_bit_set(m_shared_network_membership.peers[peer_index].player_mask, 16);
 }
 
 int32 c_network_session_membership::get_observer_channel_index(int32 peer_index) const
@@ -119,6 +178,11 @@ int32 c_network_session_membership::get_peer_from_observer_channel(int32 observe
 		}
 	}
 	return peer_index;
+}
+
+int32 c_network_session_membership::local_peer_index() const
+{
+	return m_local_peer_index;
 }
 
 void c_network_session_membership::set_player_properties(int32 player_index, int32 player_update_number, e_controller_index controller_index, const void* player_data_from_client, int32 player_voice_settings)
