@@ -126,16 +126,24 @@ const char* const g_token_names[k_token_count]
 
 int32 debug_menu_memory_available()
 {
-	return 4 * (262144 - g_debug_menu_stack.count());
+	return 4 * (k_debug_menu_stack_size - g_debug_menu_stack.count());
 }
 
-void debug_menu_look_ahead_read_token(FILE* menu_file, int32 c, char* token_buffer, int32 token_buffer_count)
+void debug_menu_look_ahead_read_token(FILE* file, int32 file_char, char* token_buffer, int32 token_buffer_count)
 {
-	int32 menu_file_size = ftell(menu_file);
-	*token_buffer = char(c);
-	token_buffer[1] = 0;
-	fread(token_buffer + 1, sizeof(char), token_buffer_count - 1, menu_file);
-	fseek(menu_file, menu_file_size, 0);
+	int32 file_size = ftell(file);
+	*token_buffer = char(file_char);
+	int32 characters_read = fread(token_buffer + 1, sizeof(char), token_buffer_count - 1, file);
+	fseek(file, file_size, 0);
+
+	ASSERT(IN_RANGE_INCLUSIVE(characters_read, 0, token_buffer_count - 1));
+
+	int32 token_buffer_end = characters_read + 1;
+	if (characters_read + 1 > token_buffer_count - 1)
+	{
+		token_buffer_end = token_buffer_count - 1;
+	}
+	token_buffer[token_buffer_end] = 0;
 }
 
 bool string_in_string_case_insensitive(const char* source, const char* find)
@@ -402,9 +410,9 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	return child;
 }
 
-void debug_menu_display_error(const char* error_text, bool error)
+void debug_menu_display_error(const char* error_text, bool fatal)
 {
-	event(error == false ? _event_warning : _event_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR", error_text);
+	event(fatal ? _event_critical : _event_warning, "%s: %s", fatal ? "DEBUG_MENU_ERROR" : "DEBUG_MENU_WARNING", error_text);
 }
 
 const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debug_menu* menu, int32* line_count, char* error_buffer, int32 error_buffer_length)
@@ -709,7 +717,7 @@ void debug_menu_parse(c_debug_menu* root_menu, const char* file_name)
 	ASSERT(file_name != NULL);
 	ASSERT(root_menu != NULL);
 
-	FILE* file;
+	FILE* file = NULL;
 	if (fopen_s(&file, file_name, "rt") == 0 && file)
 	{
 		char error_buffer[1024]{};

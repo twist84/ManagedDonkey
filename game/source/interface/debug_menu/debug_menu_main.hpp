@@ -2,6 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
+enum
+{
+	k_debug_menu_stack_size = 262144
+};
+
 #define DEBUG_MENU_NUM_GLOBAL_CAPTIONS 8
 
 union real_argb_color;
@@ -18,7 +23,7 @@ extern const real_argb_color* const debug_real_argb_tv_green;
 
 extern bool debug_menu_enabled;
 extern bool g_debug_menu_rebuild_request;
-extern c_static_stack<int32, 262144> g_debug_menu_stack;
+extern c_static_stack<int32, k_debug_menu_stack_size> g_debug_menu_stack;
 
 extern void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, const real_argb_color* color);
 extern bool debug_menu_get_active();

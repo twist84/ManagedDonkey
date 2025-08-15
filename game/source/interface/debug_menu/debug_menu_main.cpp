@@ -76,7 +76,7 @@ s_debug_menu_globals g_debug_menu_globals = {};
 
 bool g_debug_menu_rebuild_request = false;
 
-c_static_stack<int32, 262144> g_debug_menu_stack;
+c_static_stack<int32, k_debug_menu_stack_size> g_debug_menu_stack;
 
 void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, const real_argb_color* color)
 {
