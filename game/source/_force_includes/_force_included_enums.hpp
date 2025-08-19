@@ -4947,7 +4947,7 @@ enum e_online_session_player_flags
 
 enum e_online_nat_type
 {
-	_online_nat_type_none = 0,
+	_online_nat_type_unknown = 0,
 	_online_nat_type_open,
 	_online_nat_type_moderate,
 	_online_nat_type_strict,

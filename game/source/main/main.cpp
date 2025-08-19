@@ -710,7 +710,9 @@ void __cdecl main_halt_and_catch_fire()
 		online_process_debug_output_queue();
 
 		if (upload_debug_started && !upload_debug_completed)
+		{
 			upload_debug_completed = upload_debug_complete(&upload_debug_success);
+		}
 
 		sleep(0);
 	}
@@ -722,7 +724,9 @@ void __cdecl main_halt_and_catch_fire()
 	}
 
 	//while (!return_to_application)
+	//{
 	//	__debugbreak();
+	//}
 
 	x_recursion_lock = false;
 	

@@ -32,7 +32,7 @@ struct s_network_session_peer_properties
 	int32 estimated_downstream_bandwidth_bps;
 	int32 estimated_upstream_bandwidth_bps;
 	bool estimated_upstream_is_reliable;
-	c_enum<e_online_nat_type, int32, _online_nat_type_none, k_online_nat_type_count> nat_type;
+	c_enum<e_online_nat_type, int32, _online_nat_type_unknown, k_online_nat_type_count> nat_type;
 	int32 connectivity_badness_rating;
 	int32 host_badness_rating;
 	int32 client_badness_rating;

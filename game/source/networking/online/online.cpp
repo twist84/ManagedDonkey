@@ -10,9 +10,6 @@
 
 #include <winsock.h>
 
-#include <winstring.h>
-#pragma comment(lib, "runtimeobject.lib")
-
 //REFERENCE_DECLARE(0x019AB728, s_online_user_globals_old, g_online_user);
 REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
 
@@ -52,9 +49,9 @@ struct s_online_user_globals
 	uns64 player_identifier;
 	uns64 local_xuid;
 	uns64 online_xuid;
-	HSTRING online_xuid_string;
-	HSTRING gamertag;
-	HSTRING display_name;
+	wchar_t* online_xuid_string;
+	wchar_t* gamertag;
+	wchar_t* display_name;
 };
 static_assert(sizeof(s_online_user_globals) == 0x38);
 
@@ -101,20 +98,19 @@ void __cdecl online_dispose()
 	{
 		s_online_user_globals& user = online_globals.users[controller_index];
 
-		HRESULT hr = S_OK;
 		if (user.online_xuid_string)
 		{
-			ASSERT(SUCCEEDED(hr = WindowsDeleteString(user.online_xuid_string)));
+			free(user.online_xuid_string);
 			user.online_xuid_string = NULL;
 		}
 		if (user.gamertag)
 		{
-			ASSERT(SUCCEEDED(hr = WindowsDeleteString(user.gamertag)));
+			free(user.gamertag);
 			user.gamertag = NULL;
 		}
 		if (user.display_name)
 		{
-			ASSERT(SUCCEEDED(hr = WindowsDeleteString(user.display_name)));
+			free(user.display_name);
 			user.display_name = NULL;
 		}
 	}
@@ -139,18 +135,18 @@ e_online_nat_type __cdecl online_get_maximum_compatible_nat_type(e_online_nat_ty
 
 	switch (nat_type)
 	{
-	case _online_nat_type_none:     return _online_nat_type_none;
+	case _online_nat_type_unknown:  return _online_nat_type_unknown;
 	case _online_nat_type_open:     return _online_nat_type_open;
 	case _online_nat_type_moderate: return _online_nat_type_moderate;
 	case _online_nat_type_strict:   return _online_nat_type_strict;
 	}
 
-	return _online_nat_type_none;
+	return _online_nat_type_unknown;
 }
 
 e_online_nat_type __cdecl online_get_nat_type()
 {
-	int32 result = _online_nat_type_none;
+	int32 result = _online_nat_type_unknown;
 	//XONLINE_NAT_TYPE xnat_type XOnlineGetNatType()
 
 	if (!online_is_connected_to_live() /* || xnat_type == XONLINE_NAT_OPEN*/)
@@ -175,7 +171,7 @@ e_online_nat_type __cdecl online_get_nat_type()
 		if (g_nat_type_override < _online_nat_type_open || g_nat_type_override >= k_online_nat_type_count)
 		{
 			event(_event_error, "online: invalid NAT override %d, resetting", g_nat_type_override);
-			g_nat_type_override = _online_nat_type_none;
+			g_nat_type_override = _online_nat_type_unknown;
 		}
 		else
 		{
@@ -224,13 +220,17 @@ void __cdecl online_initialize()
 		wchar_t computer_name[MAX_COMPUTERNAME_LENGTH + 1];
 		uns32 computer_name_length = MAX_COMPUTERNAME_LENGTH + 1;
 		if (!GetComputerNameExW(ComputerNamePhysicalDnsHostname, computer_name, &computer_name_length))
+		{
 			ustrnzcpy(computer_name, L"User", MAX_COMPUTERNAME_LENGTH);
+		}
 
 		computer_name_length = ustrnlen(computer_name, MAX_COMPUTERNAME_LENGTH);
 		if (controller_index > 0)
 		{
 			if (computer_name_length >= MAX_COMPUTERNAME_LENGTH - 3)
+			{
 				computer_name[computer_name_length - 3] = 0;
+			}
 
 			usnzappend(computer_name, MAX_COMPUTERNAME_LENGTH + 1, L"(%li)", controller_index);
 			computer_name_length = ustrnlen(computer_name, MAX_COMPUTERNAME_LENGTH);
@@ -244,7 +244,9 @@ void __cdecl online_initialize()
 
 		transport_secure_random(sizeof(user.player_identifier), (byte*)&user.player_identifier);
 		if (!user.player_identifier)
+		{
 			user.player_identifier = 3LL;
+		}
 
 		user.is_signed_in = controller_index < 1;
 		user.is_silver_or_gold_xbox_live = user.is_signed_in;
@@ -255,14 +257,9 @@ void __cdecl online_initialize()
 		user.guest_number = NONE;
 		user.local_xuid = user_id;
 		user.online_xuid = xuid_make_online(user_id);
-		user.online_xuid_string = NULL;
-		user.gamertag = NULL;
-		user.display_name = NULL;
-
-		HRESULT hr = S_OK;
-		ASSERT(SUCCEEDED(hr = WindowsCreateString(computer_name, computer_name_length + 1, &user.online_xuid_string)));
-		ASSERT(SUCCEEDED(hr = WindowsCreateString(computer_name, computer_name_length + 1, &user.gamertag)));
-		ASSERT(SUCCEEDED(hr = WindowsCreateString(computer_name, computer_name_length + 1, &user.display_name)));
+		user.online_xuid_string = _wcsdup(computer_name);
+		user.gamertag = _wcsdup(computer_name);
+		user.display_name = _wcsdup(computer_name);
 
 		//user_interface_controller_set_user_index(controller_index, (int32)controller_index);
 	}
@@ -275,7 +272,7 @@ bool __cdecl online_is_connected_to_live()
 
 const wchar_t* __cdecl online_local_user_get_name(e_controller_index controller_index)
 {
-	const wchar_t* result = WindowsGetStringRawBuffer(online_globals.users[controller_index].display_name, NULL);
+	const wchar_t* result = online_globals.users[controller_index].display_name;
 	return result;
 }
 
@@ -346,26 +343,25 @@ void __cdecl online_user_set_name(int32 user_index, const wchar_t* name)
 {
 	s_online_user_globals& user = online_globals.users[user_index];
 
-	HRESULT hr = S_OK;
 	if (user.online_xuid_string)
 	{
-		ASSERT(SUCCEEDED(hr = WindowsDeleteString(user.online_xuid_string)));
+		free(user.online_xuid_string);
 		user.online_xuid_string = NULL;
 	}
 	if (user.gamertag)
 	{
-		ASSERT(SUCCEEDED(hr = WindowsDeleteString(user.gamertag)));
+		free(user.gamertag);
 		user.gamertag = NULL;
 	}
 	if (user.display_name)
 	{
-		ASSERT(SUCCEEDED(hr = WindowsDeleteString(user.display_name)));
+		free(user.display_name);
 		user.display_name = NULL;
 	}
 
-	ASSERT(SUCCEEDED(hr = WindowsCreateString(name, ustrnlen(name, MAX_COMPUTERNAME_LENGTH) + 1, &user.online_xuid_string)));
-	ASSERT(SUCCEEDED(hr = WindowsCreateString(name, ustrnlen(name, MAX_COMPUTERNAME_LENGTH) + 1, &user.gamertag)));
-	ASSERT(SUCCEEDED(hr = WindowsCreateString(name, ustrnlen(name, MAX_COMPUTERNAME_LENGTH) + 1, &user.display_name)));
+	user.online_xuid_string = _wcsdup(name);
+	user.gamertag = _wcsdup(name);
+	user.display_name = _wcsdup(name);
 }
 
 void __cdecl online_update()
