@@ -38,7 +38,7 @@ extern void __cdecl sub_42EA80();
 extern LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo);
 extern int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 extern const char* __cdecl sub_5013A0();
-extern bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern bool __cdecl input_process_key(UINT uMsg, WPARAM wParam, LPARAM lParam);
 extern void __cdecl sub_511F20();
 extern void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam);
 extern void __cdecl WndProc_HandleActivate(UINT uMsg, WPARAM wParam);

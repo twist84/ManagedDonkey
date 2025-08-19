@@ -330,15 +330,13 @@ enum e_button_action
 	k_button_action_count_keyboard
 };
 
-struct key_state
+struct s_input_key_state
 {
-	uns16 msec_down;
-	uns8 frames_down;
-
-	// Set in `sub_511C50`, `sub_511C50` is only referenced by itself
-	bool __unknown3;
+	uns16 msec;
+	uns8 frames;
+	bool latched;
 };
-static_assert(sizeof(key_state) == 0x4);
+static_assert(sizeof(s_input_key_state) == 0x4);
 
 struct key_stroke
 {
@@ -430,7 +428,7 @@ struct s_input_globals
 	bool focus_mouse; // unused padding
 	uns32 update_time;
 
-	c_static_array<key_state, k_key_code_count> keys;
+	c_static_array<s_input_key_state, k_key_code_count> keys;
 
 	int16 buffered_key_read_index;
 	int16 buffered_key_read_count;
@@ -494,10 +492,10 @@ extern void __cdecl sub_5113E0(int vKey, e_mouse_button mouse_button);
 extern void __cdecl sub_511410();
 extern void __cdecl sub_5114A0();
 extern void __cdecl sub_511550();
-extern void __cdecl sub_5115A0();
+extern void __cdecl input_activate();
 extern void __cdecl input_clear_all_rumblers();
 extern void __cdecl sub_511620();
-extern void __cdecl sub_5116A0();
+extern void __cdecl input_deactivate();
 extern void __cdecl input_dispose();
 extern void __cdecl sub_511710();
 extern void __cdecl sub_511760(int error, const char* format, ...);
@@ -527,12 +525,12 @@ extern bool __cdecl sub_512650();
 extern void __cdecl input_update();
 extern void __cdecl sub_5129B0();
 extern void __cdecl input_update_device_connections();
-extern void __cdecl input_update_keyboard(int32 duration_ms);
-extern void __cdecl input_update_mouse(int32 duration_ms);
-extern void __cdecl input_update_gamepads(int32 duration_ms);
+extern void __cdecl input_update_keyboard(int32 elapsed_msec);
+extern void __cdecl input_update_mouse(int32 elapsed_msec);
+extern void __cdecl input_update_gamepads(int32 elapsed_msec);
 extern void __cdecl input_update_gamepads_rumble();
-extern void __cdecl update_button(uns8* frames_down, uns16* msec_down, bool key_down, int32 duration_ms);
-extern void __cdecl update_key(key_state* key, bool key_down, int32 duration_ms);
+extern void __cdecl update_button(uns8* frames, uns16* msec, bool down, int32 elapsed_msec);
+extern void __cdecl update_key(s_input_key_state* key, bool down, int32 elapsed_msec);
 
 extern void input_handle_key_combos();
 extern void input_get_raw_data_string(char* buffer, int16 size);

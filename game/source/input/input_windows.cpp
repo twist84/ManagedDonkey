@@ -80,17 +80,21 @@ void __cdecl sub_511550()
 	INVOKE(0x00511550, sub_511550);
 
 	//if (!input_globals.raw_input_mouse_state_update)
+	//{
 	//	sub_511AF0();
+	//}
 }
 
-void __cdecl sub_5115A0()
+void __cdecl input_activate()
 {
-	INVOKE(0x005115A0, sub_5115A0);
+	INVOKE(0x005115A0, input_activate);
 
 	//input_globals.update_time = system_milliseconds();
 	//input_globals.mouse_acquired = true;
 	//if (input_globals.raw_input_mouse_state_update)
+	//{
 	//	sub_5114A0();
+	//}
 }
 
 void __cdecl input_clear_all_rumblers()
@@ -114,12 +118,14 @@ void __cdecl sub_511620()
 	//ClipCursor(&client_rect);
 }
 
-void __cdecl sub_5116A0()
+void __cdecl input_deactivate()
 {
-	INVOKE(0x005116A0, sub_5116A0);
+	INVOKE(0x005116A0, input_deactivate);
 
 	//if (input_globals.raw_input_mouse_state_update)
+	//{
 	//	sub_5125A0();
+	//}
 	//input_globals.mouse_acquired = false;
 }
 
@@ -236,10 +242,14 @@ const gamepad_state* __cdecl input_get_gamepad_state(int16 gamepad_index)
 	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
 
 	//if (!input_has_gamepad(gamepad_index))
-	//	return nullptr;
+	//{
+	//	return NULL;
+	//}
 	//
 	//if (input_globals.input_suppressed)
+	//{
 	//	return &input_globals.suppressed_gamepad_state;
+	//}
 	//
 	//return &input_globals.gamepad_states[gamepad_index];
 }
@@ -248,10 +258,12 @@ bool __cdecl input_get_key(s_key_state* key, e_input_type input_type)
 {
 	return INVOKE(0x005118C0, input_get_key, key, input_type);
 
-	//bool result = input_peek_key(key, input_type);
-	//if (result)
-	//	input_globals.buffered_key_read_index++;
-	//return result;
+	//if (!input_peek_key(key, input_type))
+	//{
+	//	return false;
+	//}
+	//input_globals.buffered_key_read_index++;
+	//return true;
 }
 
 // Because of the way the game handles input this function won't actually run when the game is tabbed in
@@ -261,10 +273,12 @@ bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type)
 {
 	return INVOKE(0x00511990, input_get_mouse, mouse, input_type);
 
-	//bool result = input_peek_mouse(mouse, input_type);
-	//if (result)
-	//	input_globals.buffered_mouse_button_read_index++;
-	//return result;
+	//if (!input_peek_mouse(mouse, input_type))
+	//{
+	//	return false;
+	//}
+	//input_globals.buffered_mouse_button_read_index++;
+	//return true;
 }
 
 mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
@@ -272,10 +286,14 @@ mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
 	return INVOKE(0x005119F0, input_get_mouse_state, input_type);
 
 	//if (!input_globals.raw_input_mouse_state_update)
-	//	return nullptr;
+	//{
+	//	return NULL;
+	//}
 	//
 	//if (input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed)
+	//{
 	//	return &input_globals.suppressed_raw_mouse_state;
+	//}
 	//
 	//return &input_globals.raw_mouse_state;
 }
@@ -294,10 +312,14 @@ void __cdecl input_initialize()
 	INVOKE(0x00511A90, input_initialize);
 
 	//if (shell_application_type() == _shell_application_game)
+	//{
 	//	sub_511550();
+	//}
 	//
 	//if (shell_application_type() == _shell_application_game || shell_tool_type() == _shell_tool_interactive)
-	//	sub_5115A0();
+	//{
+	//	input_activate();
+	//}
 	//
 	//input_xinput_initialize();
 	//input_globals.initialized = true;
@@ -345,14 +367,14 @@ uns8 __cdecl input_key_frames_down(e_input_key_code key_code, e_input_type input
 	//case _key_windows:
 	//	return 0;
 	//case _key_shift:
-	//	return MAX(input_globals.keys[_key_left_shift].frames_down, input_globals.keys[_key_right_shift].frames_down);
+	//	return MAX(input_globals.keys[_key_left_shift].frames, input_globals.keys[_key_right_shift].frames);
 	//case _key_control:
-	//	return MAX(input_globals.keys[_key_left_control].frames_down, input_globals.keys[_key_right_control].frames_down);
+	//	return MAX(input_globals.keys[_key_left_control].frames, input_globals.keys[_key_right_control].frames);
 	//case _key_alt:
-	//	return MAX(input_globals.keys[_key_left_alt].frames_down, input_globals.keys[_key_right_alt].frames_down);
+	//	return MAX(input_globals.keys[_key_left_alt].frames, input_globals.keys[_key_right_alt].frames);
 	//}
 	//
-	//return input_globals.keys[key_code].frames_down;
+	//return input_globals.keys[key_code].frames;
 }
 
 uns16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_type)
@@ -369,14 +391,14 @@ uns16 __cdecl input_key_msec_down(e_input_key_code key_code, e_input_type input_
 	//case _key_windows:
 	//	return 0;
 	//case _key_shift:
-	//	return MAX(input_globals.keys[_key_left_shift].msec_down, input_globals.keys[_key_right_shift].msec_down);
+	//	return MAX(input_globals.keys[_key_left_shift].msec, input_globals.keys[_key_right_shift].msec);
 	//case _key_control:
-	//	return MAX(input_globals.keys[_key_left_control].msec_down, input_globals.keys[_key_right_control].msec_down);
+	//	return MAX(input_globals.keys[_key_left_control].msec, input_globals.keys[_key_right_control].msec);
 	//case _key_alt:
-	//	return MAX(input_globals.keys[_key_left_alt].msec_down, input_globals.keys[_key_right_alt].msec_down);
+	//	return MAX(input_globals.keys[_key_left_alt].msec, input_globals.keys[_key_right_alt].msec);
 	//}
 	//
-	//return input_globals.keys[key_code].msec_down;
+	//return input_globals.keys[key_code].msec;
 }
 
 uns8 __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type)
@@ -522,15 +544,15 @@ void __cdecl input_update()
 	if (input_globals.initialized && (input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
 	{
 		uns32 time = system_milliseconds();
-		int32 duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
+		int32 elapsed_msec = CLAMP(time - input_globals.update_time, 0, 100);
 
 		input_globals.input_suppressed = false;
 		input_globals.update_time = time;
 	
 		input_update_device_connections();
-		input_update_keyboard(duration_ms);
-		input_update_mouse(duration_ms);
-		input_update_gamepads(duration_ms);
+		input_update_keyboard(elapsed_msec);
+		input_update_mouse(elapsed_msec);
+		input_update_gamepads(elapsed_msec);
 		input_update_gamepads_rumble();
 
 		input_handle_key_combos();
@@ -554,7 +576,7 @@ void __cdecl input_update_device_connections()
 {
 }
 
-void __cdecl input_update_keyboard(int32 duration_ms)
+void __cdecl input_update_keyboard(int32 elapsed_msec)
 {
 	bool window_has_focus = game_in_editor() || g_windows_params.game_window_handle == GetForegroundWindow();
 
@@ -563,18 +585,20 @@ void __cdecl input_update_keyboard(int32 duration_ms)
 
 	for (int32 key_index = 0; key_index < k_key_code_count; key_index++)
 	{
-		key_state& key = input_globals.keys[key_index];
+		s_input_key_state& key = input_globals.keys[key_index];
 		uns8 virtual_key = key_to_virtual_table[key_index];
 
 		bool key_down = false;
 		if (window_has_focus)
 		{
 			key_down = (GetKeyState(virtual_key) & 0x8000) != 0;
-			if (key.msec_down == 1 && !key.frames_down && !key_down)
+			if (key.msec == 1 && !key.frames && !key_down)
+			{
 				key_down = true;
+			}
 		}
 
-		update_key(&key, key_down, duration_ms);
+		update_key(&key, key_down, elapsed_msec);
 	}
 
 	// Halo 3 handles `input_globals.buffered_keys` here
@@ -582,10 +606,12 @@ void __cdecl input_update_keyboard(int32 duration_ms)
 	// $TODO: dedicated server debug console
 }
 
-void __cdecl input_update_mouse(int32 duration_ms)
+void __cdecl input_update_mouse(int32 elapsed_msec)
 {
 	if (!input_globals.raw_input_mouse_state_update)
+	{
 		return;
+	}
 
 	input_globals.buffered_mouse_button_read_index = 0;
 	input_globals.buffered_mouse_button_read_count = 0;
@@ -600,9 +626,13 @@ void __cdecl input_update_mouse(int32 duration_ms)
 	else
 	{
 		if ((input_globals.update_time - input_globals.raw_mouse_wheel_update_time) > 700 /* wheel spam timeout */)
+		{
 			input_globals.raw_mouse_wheel_update_time = 0;
+		}
 		else
+		{
 			input_globals.raw_mouse_state.wheel_ticks = 0;
+		}
 
 		int32 wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
 		if (wheel_ticks && !input_globals.raw_mouse_wheel_update_time)
@@ -625,12 +655,12 @@ void __cdecl input_update_mouse(int32 duration_ms)
 			uns8& frames_down = input_globals.raw_mouse_state.frames_down[i];
 			uns16& msec_down = input_globals.raw_mouse_state.msec_down[i];
 			bool key_down = input_globals.raw_mouse_state.raw_flags.test(e_mouse_button(i));
-			update_button(&frames_down, &msec_down, key_down, duration_ms);
+			update_button(&frames_down, &msec_down, key_down, elapsed_msec);
 		}
 	}
 }
 
-void __cdecl input_update_gamepads(int32 duration_ms)
+void __cdecl input_update_gamepads(int32 elapsed_msec)
 {
 	if (input_abstraction_get_controls_method() == 1)
 	{
@@ -639,7 +669,7 @@ void __cdecl input_update_gamepads(int32 duration_ms)
 			gamepad_state& state = input_globals.gamepad_states[gamepad_index];
 			debug_gamepad_data& debug_gamepad = g_debug_gamepad_data[gamepad_index];
 
-			if (input_xinput_update_gamepad(gamepad_index, duration_ms, &state, &debug_gamepad))
+			if (input_xinput_update_gamepad(gamepad_index, elapsed_msec, &state, &debug_gamepad))
 			{
 				input_globals.gamepad_valid_mask.set(gamepad_index, true);
 			}
@@ -676,22 +706,22 @@ void __cdecl input_update_gamepads_rumble()
 	}
 }
 
-void __cdecl update_button(uns8* frames_down, uns16* msec_down, bool key_down, int32 duration_ms)
+void __cdecl update_button(uns8* frames, uns16* msec, bool down, int32 elapsed_msec)
 {
-	INVOKE(0x00512B00, update_button, frames_down, msec_down, key_down, duration_ms);
+	INVOKE(0x00512B00, update_button, frames, msec, down, elapsed_msec);
 
-	//*frames_down = key_down ? MIN(*frames_down + 1, UNSIGNED_CHAR_MAX) : 0;
-	//*msec_down = key_down ? MIN(*msec_down + (uns16)duration_ms, UNSIGNED_SHORT_MAX) : 0;
+	//*frames = down ? MIN(*frames + 1, UNSIGNED_CHAR_MAX) : 0;
+	//*msec = down ? MIN(*msec + (uns16)elapsed_msec, UNSIGNED_SHORT_MAX) : 0;
 }
 
-void __cdecl update_key(key_state* key, bool key_down, int32 duration_ms)
+void __cdecl update_key(s_input_key_state* key, bool down, int32 elapsed_msec)
 {
-	INVOKE(0x00512B50, update_key, key, key_down, duration_ms);
+	INVOKE(0x00512B50, update_key, key, down, elapsed_msec);
 
-	//if (!key->__unknown3 || !key_down)
+	//if (key->latched || !down)
 	//{
-	//	key->__unknown3 = false;
-	//	update_button(&key->frames_down, &key->msec_down, key_down, duration_ms);
+	//	key->latched = false;
+	//	update_button(&key->frames, &key->msec, down, elapsed_msec);
 	//}
 }
 

@@ -302,7 +302,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	if (IN_RANGE_INCLUSIVE(uMsg, WM_KEYFIRST, WM_KEYLAST))
 	{
-		WndProc_HandleKeys(uMsg, wParam, lParam);
+		input_process_key(uMsg, wParam, lParam);
 		return 0;
 	}
 
@@ -559,12 +559,14 @@ const char* __cdecl sub_5013A0()
 	//return name.get_string();
 }
 
-bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
+bool __cdecl input_process_key(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	//return INVOKE(0x00511F40, WndProc_HandleKeys, uMsg, wParam, lParam);
+	//return INVOKE(0x00511F40, input_process_key, uMsg, wParam, lParam);
 
 	if (!input_globals.mouse_acquired)
+	{
 		return false;
+	}
 
 	s_key_state key
 	{
@@ -603,7 +605,9 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	if (key_code == _key_not_a_key)
+	{
 		return false;
+	}
 
 	SET_BIT(key.modifier_flags, _key_modifier_flag_shift_key_bit, GetKeyState(VK_SHIFT) & 0x8000);
 	SET_BIT(key.modifier_flags, _key_modifier_flag_control_key_bit, GetKeyState(VK_CONTROL) & 0x8000);
@@ -619,10 +623,10 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		for (int32 key_index = _key_escape; key_index < k_key_code_count; key_index++)
 		{
-			if (key_table[key_index] == wParam && !input_globals.keys[key_index].__unknown3 && !input_globals.keys[key_index].msec_down)
+			if (key_table[key_index] == wParam && !input_globals.keys[key_index].latched && !input_globals.keys[key_index].msec)
 			{
-				input_globals.keys[key_index].frames_down = 0;
-				input_globals.keys[key_index].msec_down = 1;
+				input_globals.keys[key_index].frames = 0;
+				input_globals.keys[key_index].msec = 1;
 			}
 		}
 	}
