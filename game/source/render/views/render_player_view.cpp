@@ -125,16 +125,17 @@ void __cdecl vision_mode_render(int32 player_index, const c_player_view* player_
 void __thiscall c_player_view::render_()
 {
 	//HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_);
-	
-	c_player_view::render_1st_pass();
-	c_player_view::render_2nd_pass();
-	c_player_view::render_3rd_pass();
-	c_player_view::render_4th_pass();
-}
 
-void __thiscall c_player_view::render_1st_pass()
-{
 	render_camera* rasterizer_camera = get_rasterizer_camera_modifiable();
+
+	s_screen_effect_settings screen_effect_settings{};
+	s_screen_effect_shader_sample_result screen_effect_shader_sample_result{};
+	screen_effect_sample(
+		&m_rasterizer_camera.position,
+		&m_rasterizer_camera.forward,
+		&screen_effect_settings,
+		&screen_effect_shader_sample_result,
+		m_camera_user_data.user_index);
 
 	c_rasterizer::set_current_splitscreen_res(m_camera_user_data.m_splitscreen_res_index);
 
@@ -150,7 +151,9 @@ void __thiscall c_player_view::render_1st_pass()
 		{
 			real32 horizontal_field_of_view = observer_get_camera(m_camera_user_data.user_index)->horizontal_field_of_view;
 			if (horizontal_field_of_view < k_real_epsilon)
+			{
 				horizontal_field_of_view = k_real_epsilon;
+			}
 			g_particle_hack_near_fade_scale = 1.0f / horizontal_field_of_view;
 		}
 
@@ -166,15 +169,6 @@ void __thiscall c_player_view::render_1st_pass()
 			c_rasterizer_profile_scope _chud_turbulence(_rasterizer_profile_element_interface_hud, L"chud turbulence");
 			chud_draw_turbulence(m_camera_user_data.user_index);
 		}
-
-		s_screen_effect_settings screen_effect_settings{};
-		s_screen_effect_shader_sample_result screen_effect_shader_sample_result{};
-		screen_effect_sample(
-			&rasterizer_camera->position,
-			&rasterizer_camera->forward,
-			&screen_effect_settings,
-			&screen_effect_shader_sample_result,
-			m_camera_user_data.user_index);
 
 		c_player_view::setup_camera_fx_parameters(screen_effect_settings.exposure_boost);
 		c_player_view::setup_cinematic_clip_planes();
@@ -197,6 +191,7 @@ void __thiscall c_player_view::render_1st_pass()
 		bool rendering_albedo = c_player_view::render_albedo();
 
 		if (screenshot_allow_postprocess())
+		{
 			c_screen_postprocess::sub_A62710(
 				&m_rasterizer_projection,
 				&m_rasterizer_camera,
@@ -205,6 +200,7 @@ void __thiscall c_player_view::render_1st_pass()
 				c_rasterizer::_surface_color_half_fp16_0,
 				c_rasterizer::_surface_depth_fp32,
 				c_rasterizer::_surface_color_half_fp16_1);
+		}
 
 		if (rendering_albedo)
 		{
@@ -218,7 +214,9 @@ void __thiscall c_player_view::render_1st_pass()
 			}
 
 			if (render_debug_toggle_default_static_lighting)
+			{
 				c_player_view::render_static_lighting();
+			}
 
 			if (render_debug_toggle_default_dynamic_lighting)
 			{
@@ -257,12 +255,16 @@ void __thiscall c_player_view::render_1st_pass()
 					true);
 
 				if (!render_debug_depth_render)
+				{
 					c_player_view::render_first_person(false);
+				}
 
 				if (render_debug_toggle_default_sfx)
 				{
 					if (c_rasterizer::get_is_tiling_enabled())
+					{
 						c_tron_effect::resolve_and_process_z_camera(m_camera_user_data.player_window_index, &rasterizer_camera->window_pixel_bounds, false);
+					}
 
 					c_screen_postprocess::render_ssao_old(
 						&m_rasterizer_projection,
@@ -270,7 +272,7 @@ void __thiscall c_player_view::render_1st_pass()
 						c_rasterizer::_surface_accum_LDR,
 						c_rasterizer::_surface_accum_HDR,
 						c_rasterizer::_surface_color_half_fp16_0);
-					
+
 					if (screenshot_allow_postprocess())
 						c_screen_postprocess::postprocess_ssr(
 							&m_rasterizer_projection,
@@ -298,17 +300,23 @@ void __thiscall c_player_view::render_1st_pass()
 						false);
 
 					if (water_updated || render_underwater_fog_enabled)
+					{
 						c_player_view::render_water();
+					}
 
 					if (g_rasterizer_game_states->patchy_fog)
+					{
 						c_player_view::queue_patchy_fog();
+					}
 
 					c_player_view::render_transparents();
 
 					c_player_view::distortion_generate();
 					bool distortion_history = c_render_globals::get_distortion_visible();
 					if (distortion_history || water_updated || render_underwater_fog_enabled)
+					{
 						distortion_history = true;
+					}
 					c_render_globals::set_distortion_history(distortion_history);
 
 					{
@@ -359,68 +367,34 @@ void __thiscall c_player_view::render_1st_pass()
 
 			if (screenshot_allow_postprocess())
 			{
-				c_rasterizer_profile_scope _postprocess_copy(_rasterizer_profile_element_total, L"postprocess copy");
-				c_screen_postprocess::copy(
-					c_rasterizer_globals::_shader_copy_scaled,
-					c_rasterizer::_surface_accum_LDR,
-					c_rasterizer::_surface_albedo,
-					c_rasterizer::_sampler_filter_mode_point,
-					c_rasterizer::_sampler_address_clamp,
-					1.0f,
-					1.0f,
-					1.0f,
-					1.0f,
-					NULL);
+				c_screen_postprocess::postprocess_player_view(
+					m_window_game_state->m_camera_fx_values,
+					&m_rasterizer_projection,
+					&m_rasterizer_camera,
+					screen_effect_settings,
+					m_camera_user_data.m_splitscreen_res_index,
+					&m_observer_depth_of_field,
+					0);
+
+				if (render_debug_toggle_default_lightmaps_texaccum == 3)
+				{
+					c_screen_postprocess::setup_rasterizer_for_postprocess(false);
+					c_screen_postprocess::copy(
+						c_rasterizer_globals::_shader_copy_scaled,
+						c_rasterizer::_surface_accum_LDR,
+						c_rasterizer::_surface_disable,
+						c_rasterizer::_sampler_filter_mode_point,
+						c_rasterizer::_sampler_address_clamp,
+						1.0f,
+						1.0f,
+						1.0f,
+						1.0f,
+						NULL);
+				}
 			}
 		}
 	}
-}
 
-void __thiscall c_player_view::render_2nd_pass()
-{
-	if (bool rendering_albedo = c_player_view::render_albedo())
-	{
-		if (screenshot_allow_postprocess())
-		{
-			s_screen_effect_settings screen_effect_settings{};
-			s_screen_effect_shader_sample_result screen_effect_shader_sample_result{};
-			screen_effect_sample(
-				&m_rasterizer_camera.position,
-				&m_rasterizer_camera.forward,
-				&screen_effect_settings,
-				&screen_effect_shader_sample_result,
-				m_camera_user_data.user_index);
-
-			c_screen_postprocess::postprocess_player_view(
-				m_window_game_state->m_camera_fx_values,
-				&m_rasterizer_projection,
-				&m_rasterizer_camera,
-				screen_effect_settings,
-				m_camera_user_data.m_splitscreen_res_index,
-				&m_observer_depth_of_field,
-				0);
-
-			if (render_debug_toggle_default_lightmaps_texaccum == 3)
-			{
-				c_screen_postprocess::setup_rasterizer_for_postprocess(false);
-				c_screen_postprocess::copy(
-					c_rasterizer_globals::_shader_copy_scaled,
-					c_rasterizer::_surface_accum_LDR,
-					c_rasterizer::_surface_disable,
-					c_rasterizer::_sampler_filter_mode_point,
-					c_rasterizer::_sampler_address_clamp,
-					1.0f,
-					1.0f,
-					1.0f,
-					1.0f,
-					NULL);
-			}
-		}
-	}
-}
-
-void __thiscall c_player_view::render_3rd_pass()
-{
 	if (screenshot_allow_ui_render())
 	{
 		c_rasterizer_profile_scope _interface_and_hud(_rasterizer_profile_element_interface_hud, L"interface_and_hud");
@@ -516,14 +490,13 @@ void __thiscall c_player_view::render_3rd_pass()
 			player_effect_render(m_camera_user_data.user_index);
 		}
 	}
-}
 
-void __thiscall c_player_view::render_4th_pass()
-{
 	game_engine_render_debug(m_camera_user_data.user_index);
 
 	if (!screenshot_sub_610260())
+	{
 		render_debug_window_render(m_camera_user_data.user_index);
+	}
 
 	c_rasterizer::end();
 }

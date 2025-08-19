@@ -298,7 +298,9 @@ void __cdecl main_render_game()
 		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 
 		if (!cinematic_in_progress())
+		{
 			observer_adopt_global_update_list();
+		}
 
 		main_render_update_loading_screen();
 
@@ -352,62 +354,13 @@ void __cdecl main_render_game()
 				c_static_wchar_string<32> pix_name;
 				bool is_widescreen = c_rasterizer::get_is_widescreen();
 
-				if (window_count == 1)
-				{
-					int32 view_index = 0;
-					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", view_index));
-					c_player_view* player_view = c_player_view::get_current(view_index);
+				int32 view_index = 0;
+				c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", view_index));
+				c_player_view* player_view = c_player_view::get_current(view_index);
 
-					c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-					player_view->m_stall_cpu_to_wait_for_gpu = view_index == window_count - 1;
-					main_render_view(player_view, view_index);
-				}
-				else
-				{
-					for (int32 view_index = 0; view_index < window_count; view_index++)
-					{
-						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_1st_pass", view_index));
-						c_player_view* player_view = c_player_view::get_current(view_index);
-
-						c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-						player_view->m_stall_cpu_to_wait_for_gpu = view_index == window_count - 1;
-
-						PLAYER_VIEW_RENDER_BEGIN;
-						PLAYER_VIEW_RENDER_PREPARE;
-						player_view->render_1st_pass();
-						PLAYER_VIEW_RENDER_END;
-					}
-
-					for (int32 view_index = 0; view_index < window_count; view_index++)
-					{
-						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_2nd_pass", view_index));
-						c_player_view* player_view = c_player_view::get_current(view_index);
-
-						PLAYER_VIEW_RENDER_BEGIN;
-						player_view->render_2nd_pass();
-						PLAYER_VIEW_RENDER_END;
-					}
-
-					for (int32 view_index = 0; view_index < window_count; view_index++)
-					{
-						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_3rd_pass", view_index));
-						c_player_view* player_view = c_player_view::get_current(view_index);
-
-						PLAYER_VIEW_RENDER_BEGIN;
-						player_view->render_3rd_pass();
-						PLAYER_VIEW_RENDER_END;
-					}
-
-					for (int32 view_index = 0; view_index < window_count; view_index++)
-					{
-						c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d: render_4th_pass", view_index));
-						c_player_view* player_view = c_player_view::get_current(view_index);
-
-						PLAYER_VIEW_RENDER_BEGIN;
-						player_view->render_4th_pass();
-						PLAYER_VIEW_RENDER_END;
-					}
-				}
+				c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
+				player_view->m_stall_cpu_to_wait_for_gpu = view_index == window_count - 1;
+				main_render_view(player_view, view_index);
 
 				c_ui_view ui_view{};
 				ui_view.setup_camera(NULL, c_rasterizer::get_display_surface());
@@ -433,6 +386,7 @@ void __cdecl main_render_game()
 						c_rasterizer_profile_scope _bink_playback_render(_rasterizer_profile_element_total, L"bink_playback_render");
 						bink_playback_render();
 					}
+
 					{
 						c_rasterizer_profile_scope _interface_draw_fullscreen_overlays(_rasterizer_profile_element_total, L"interface_draw_fullscreen_overlays");
 						interface_draw_fullscreen_overlays();
@@ -469,8 +423,10 @@ void __cdecl main_render_game()
 
 				// $TODO: implement these?
 				// `screenshot_post_render` is a nullsub, so skip `screenshot_render` logic
-				//if (screenshot_render(c_player_view::get_current(), get_render_player_window_game_state(0)->camera_fx_values, iterator.m_window_count))
+				//if (screenshot_render(c_player_view::get_current(), get_render_player_window_game_state(0)->m_camera_fx_values, iterator.get_window_count()))
+				//{
 				//	screenshot_post_render();
+				//}
 
 				c_render_globals::set_depth_fade_active(false);
 				c_render_globals::set_distortion_active(false);
@@ -479,7 +435,9 @@ void __cdecl main_render_game()
 			{
 				c_rasterizer_profile_scope _loading_screen(_rasterizer_profile_element_total, L"loading_screen");
 				if (c_rasterizer_loading_screen::active())
+				{
 					c_rasterizer_loading_screen::render();
+				}
 			}
 		}
 	}
