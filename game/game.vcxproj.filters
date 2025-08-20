@@ -2028,6 +2028,9 @@
     <ClCompile Include="source\saved_games\saved_film_snippet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\headers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4488,6 +4491,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\saved_games\saved_film_scratch_memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\headers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -126,7 +126,9 @@ void display_assert(const char* statement, const char* file, int32 line, bool fa
 		//call_fatal_error_callbacks();
 
 		if (k_tracked_build)
+		{
 			RaiseException('stk', 0, 0, NULL);
+		}
 
 		main_halt_and_catch_fire();
 	}

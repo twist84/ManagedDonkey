@@ -82,7 +82,10 @@ static_assert(sizeof(c_network_http_request_queue) == 0xF8D8);
 extern c_network_http_request_queue(&g_network_http_request_queue)[k_network_http_request_queue_type_count];
 extern c_static_string<256>& g_storage_url_subdirectory;
 
+extern void __cdecl make_url(const c_static_string<256>* url, c_static_string<256>* out_url);
 extern void __cdecl network_http_request_queue_dispose();
 extern void __cdecl network_http_request_queue_initialize();
 extern void __cdecl network_http_request_queue_update();
+extern void network_storage_set_storage_subdirectory(const char* url);
+extern void network_storage_set_storage_user(const char* user);
 

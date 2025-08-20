@@ -1,6 +1,15 @@
 #include "networking/logic/storage/network_http_request_queue.hpp"
 
+#include "config/version.hpp"
+#include "cseries/headers.hpp"
 #include "memory/module.hpp"
+
+#define STORAGE_URL_PREFIX "donkey/"
+
+HOOK_DECLARE(0x004A3630, network_http_request_queue_initialize);
+HOOK_DECLARE(0x004A3690, network_http_request_queue_update);
+HOOK_DECLARE(0x004A36A0, network_storage_set_storage_subdirectory);
+HOOK_DECLARE(0x004A36C0, network_storage_set_storage_user);
 
 REFERENCE_DECLARE_ARRAY(0x0224A4C8, c_network_http_request_queue, g_network_http_request_queue, k_network_http_request_queue_type_count);
 REFERENCE_DECLARE(0x02269678, c_static_string<256>, g_storage_url_subdirectory);
@@ -82,41 +91,46 @@ e_network_http_request_result c_network_http_request_queue::is_fill_buffer_compl
 
 void __cdecl make_url(const c_static_string<256>* url, c_static_string<256>* out_url)
 {
-	//INVOKE(0x004A34B0, make_url, url, out_url);
- 
-	ASSERT(out_url);
-
-	c_static_string<256> url_string = *url;
-	c_static_string<256> title_storage = "/storage/title/";
-
-	if (url_string.starts_with(title_storage.get_string()))
-	{
-		c_static_string<256> temp_string;
-		url_string.substring(title_storage.length(), url_string.length() - title_storage.length(), temp_string);
-		url_string.print("%s%s/%s", title_storage.get_string(), g_storage_url_subdirectory.get_string(), temp_string.get_string());
-	}
-
-	out_url->set(url_string.get_string());
+	INVOKE(0x004A34B0, make_url, url, out_url);
 }
-HOOK_DECLARE(0x004A34B0, make_url);
 
 void __cdecl network_http_request_queue_dispose()
 {
-	INVOKE(0x004A3620, network_http_request_queue_dispose);
+	//INVOKE(0x004A3620, network_http_request_queue_dispose);
 }
 
 void __cdecl network_http_request_queue_initialize()
 {
-	INVOKE(0x004A3630, network_http_request_queue_initialize);
+	//INVOKE(0x004A3630, network_http_request_queue_initialize);
+
+	if (k_tracked_build)
+	{
+		int32 build_number = version_get_build_number();
+		g_storage_url_subdirectory.print(STORAGE_URL_PREFIX"tracked%c%05u", '/', build_number);
+	}
+	else
+	{
+		network_storage_set_storage_user(g_username);
+	}
 }
 
 void __cdecl network_http_request_queue_update()
 {
-	INVOKE(0x004A3690, network_http_request_queue_update);
+	//INVOKE(0x004A3690, network_http_request_queue_update);
 }
 
-//.text:004A36A0 ; void network_storage_set_storage_subdirectory(const char* storage_subdirectory)
-//.text:004A36C0 ; void network_storage_set_storage_user(const char* storage_user)
+void network_storage_set_storage_subdirectory(const char* url)
+{
+	//INVOKE(0x004A36A0, network_storage_set_storage_subdirectory, url);
+
+	g_storage_url_subdirectory.set(url);
+}
+
+void network_storage_set_storage_user(const char* user)
+{
+	//INVOKE(0x004A36C0, network_storage_set_storage_user, user);
+	g_storage_url_subdirectory.print(STORAGE_URL_PREFIX"untracked%c%s%c%s", '/', user, '/', "main");
+}
 
 e_network_http_request_result c_network_http_request_queue::read_bytes(int32 request_cookie, char* buffer, int32 buffer_length, int32* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason)
 {
