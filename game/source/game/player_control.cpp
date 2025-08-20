@@ -332,7 +332,9 @@ void __cdecl player_control_update_machinima()
 	//INVOKE(0x005D4A60, player_control_update_machinima);
 
 	if (!player_control_get_machinima_camera_enabled())
+	{
 		return;
+	}
 
 	for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 	{
@@ -340,23 +342,28 @@ void __cdecl player_control_update_machinima()
 		s_game_input_state* input_state = NULL;
 
 		if (VALID_CONTROLLER(controller_index))
-			input_abstraction_get_input_state(controller_index, &input_state);
-
-		if (input_state)
 		{
-			if (input_state->get_button(_button_action_crouch).down_frames() && input_state->get_button(_button_action_zoom).down_frames())
-			{
-				if (input_state->get_button(_button_action_unknown37).down_frames() == 1) // dpad left
-				{
-					player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
-					user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
-				}
+			input_abstraction_get_input_state(controller_index, &input_state);
+		}
 
-				if (input_state->get_button(_button_action_unknown38).down_frames() == 1) // dpad right
-				{
-					player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
-					user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
-				}
+		if (!input_state)
+		{
+			continue;
+		}
+
+		if (input_state->get_button(_button_action_crouch).down_frames()
+			&& input_state->get_button(_button_action_zoom).down_frames())
+		{
+			if (input_state->get_button(_button_action_machinima_camera_control_toggle).down_frames() == 1)
+			{
+				player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
+				user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
+			}
+
+			if (input_state->get_button(_button_action_machinima_camera_debug_toggle).down_frames() == 1)
+			{
+				player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
+				user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
 			}
 		}
 	}

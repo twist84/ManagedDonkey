@@ -36,21 +36,28 @@ static_assert(sizeof(s_gamepad_input_preferences) == 0x208);
 class c_abstract_button
 {
 public:
+	enum
+	{
+		_abstract_button_latch_bit = 0,
+		k_abstract_button_flag_count,
+	};
+
+public:
 	c_abstract_button();
-	
-	void update(uns16 down_msec, uns16 down_frames, uns8 down_amount);
-	void set_accessor(e_button_action accessor);
-	void unlock();
-	bool locked();
-	void lock();
-	real32 down_amount();
+
 	bool access_valid() const;
-	uns16 down_msec();
-	bool latched() const;
+	real32 down_amount();
 	uns8 down_frames() const;
-	void set_latch_bit(bool set_bit);
-	void latch();
+	uns16 down_msec();
 	bool is_down();
+	void latch();
+	bool latched() const;
+	void lock();
+	bool locked();
+	void set_accessor(e_button_action accessor);
+	void set_latch_bit(bool set_bit);
+	void update(uns16 down_msec, uns16 down_frames, uns8 down_amount);
+	void unlock();
 
 protected:
 	uns16 m_down_msec;
@@ -99,8 +106,7 @@ struct s_game_input_state
 	real32 aircraft_pitch1;
 	real32 vehicle_pitch1;
 
-	// apply_mouse_acceleration?
-	bool __unknown324;
+	bool aim_instantaneously;
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
 

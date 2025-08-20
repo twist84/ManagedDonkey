@@ -159,10 +159,10 @@ void __cdecl sub_60C040(int32 keyboard_preset, s_gamepad_input_preferences* pref
 	//	preferences->keyboard_preferences.mouse_buttons_alternative[i] = k_mouse_button_none;
 	//}
 	//
-	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown35] = _key_not_a_key;
-	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown36] = _key_not_a_key;
-	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown37] = _key_not_a_key;
-	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown38] = _key_not_a_key;
+	//preferences->keyboard_preferences.keys_primary[         _button_machinima_lower_weapon_toggle] = _key_not_a_key;
+	//preferences->keyboard_preferences.keys_primary[        _button_machinima_camera_enable_toggle] = _key_not_a_key;
+	//preferences->keyboard_preferences.keys_primary[_button_action_machinima_camera_control_toggle] = _key_not_a_key;
+	//preferences->keyboard_preferences.keys_primary[  _button_action_machinima_camera_debug_toggle] = _key_not_a_key;
 	//preferences->keyboard_preferences.keys_primary[                              _button_action_a] = _key_space;
 	//preferences->keyboard_preferences.keys_primary[                              _button_action_b] = _key_q;
 	//preferences->keyboard_preferences.keys_primary[                          _button_action_start] = _key_escape;
@@ -461,7 +461,9 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 
 		e_mouse_button mouse_button = preferences->keyboard_preferences.mouse_buttons_primary[mouse_button_index];
 		if (i >= k_button_action_count)
+		{
 			mouse_button = preferences->keyboard_preferences.mouse_buttons_alternative[mouse_button_index];
+		}
 
 		c_abstract_button& abstract_button = input_state->get_button(mouse_button_index);
 
@@ -473,12 +475,18 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 			real32 down_amount = abstract_button.down_amount();
 
 			if (down_msec <= msec_down)
+			{
 				down_msec = msec_down;
+			}
 
 			if (abstract_button.down_frames() > frames_down)
+			{
 				abstract_button.update(down_msec, abstract_button.down_frames(), -static_cast<uns8>(down_amount != 0));
+			}
 			else
+			{
 				abstract_button.update(down_msec, frames_down, 255);
+			}
 		}
 		else
 		{
@@ -507,7 +515,7 @@ void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_s
 {
 	//INVOKE(0x0060D620, sub_60D620, preferences, input_state);
 
-	input_state->__unknown324 = true;
+	input_state->aim_instantaneously = true;
 	input_state->aircraft_pitch = input_state->aircraft_pitch1;
 
 	uns8 forward_frames = input_state->abstract_buttons[_button_action_move_forward].down_frames();
@@ -569,29 +577,54 @@ c_abstract_button::c_abstract_button() :
 {
 }
 
-void c_abstract_button::update(uns16 down_msec, uns16 down_frames, uns8 down_amount)
+bool c_abstract_button::access_valid() const
 {
-	m_down_msec = down_msec;
-	m_down_frames = static_cast<uns8>(down_frames);
-	m_down_amount = static_cast<real32>(down_amount / 255);
-
-	if (!m_down_frames && latched())
-		set_latch_bit(false);
+	return m_locked == 0xFF || m_locked == m_accessor;
 }
 
-void c_abstract_button::set_accessor(e_button_action accessor)
+real32 c_abstract_button::down_amount()
 {
-	m_accessor = static_cast<uns8>(accessor);
+	if (c_abstract_button::latched() || !c_abstract_button::access_valid())
+	{
+		return 0.0f;
+	}
+
+	return m_down_amount;
 }
 
-void c_abstract_button::unlock()
+uns8 c_abstract_button::down_frames() const
 {
-	m_locked = -1;
+	if (c_abstract_button::latched() || !c_abstract_button::access_valid())
+	{
+		return 0.0f;
+	}
+
+	return m_down_frames;
 }
 
-bool c_abstract_button::locked()
+uns16 c_abstract_button::down_msec()
 {
-	return (m_locked + 1) == 0;
+	if (c_abstract_button::latched() || !c_abstract_button::access_valid())
+	{
+		return 0.0f;
+	}
+
+	return m_down_msec;
+}
+
+bool c_abstract_button::is_down()
+{
+	return c_abstract_button::down_frames() != 0;
+}
+
+void c_abstract_button::latch()
+{
+	c_abstract_button::set_latch_bit(true);
+}
+
+bool c_abstract_button::latched() const
+{
+	return TEST_BIT(m_flags, _abstract_button_latch_bit);
 }
 
 void c_abstract_button::lock()
@@ -600,53 +633,36 @@ void c_abstract_button::lock()
 	m_locked = m_accessor;
 }
 
-real32 c_abstract_button::down_amount()
+bool c_abstract_button::locked()
 {
-	if (!latched() && access_valid())
-		return m_down_amount;
-
-	return 0.0f;
+	return (m_locked + 1) == 0;
 }
 
-bool c_abstract_button::access_valid() const
+void c_abstract_button::set_accessor(e_button_action accessor)
 {
-	return m_locked == 0xFF || m_locked == m_accessor;
-}
-
-uns16 c_abstract_button::down_msec()
-{
-	if (!latched() && access_valid())
-		return m_down_msec;
-
-	return 0;
-}
-
-bool c_abstract_button::latched() const
-{
-	return TEST_BIT(m_flags, 0);
-}
-
-uns8 c_abstract_button::down_frames() const
-{
-	if (!latched() && access_valid())
-		return m_down_frames;
-
-	return 0;
+	m_accessor = (uns8)(accessor);
 }
 
 void c_abstract_button::set_latch_bit(bool set_bit)
 {
-	SET_BIT(m_flags, 0, set_bit);
+	SET_BIT(m_flags, _abstract_button_latch_bit, set_bit);
 }
 
-void c_abstract_button::latch()
+void c_abstract_button::update(uns16 down_msec, uns16 down_frames, uns8 down_amount)
 {
-	set_latch_bit(true);
+	m_down_msec = down_msec;
+	m_down_frames = (uns8)(down_frames);
+	m_down_amount = (real32)(down_amount / 255);
+
+	if (!m_down_frames && c_abstract_button::latched())
+	{
+		c_abstract_button::set_latch_bit(false);
+	}
 }
 
-bool c_abstract_button::is_down()
+void c_abstract_button::unlock()
 {
-	return down_frames() != 0;
+	m_locked = -1;
 }
 
 c_abstract_button& s_game_input_state::get_button(e_button_action button_index)
@@ -664,36 +680,40 @@ void input_abstraction_get_raw_data_string(char* buffer, int16 size)
 	ASSERT(buffer);
 	ASSERT(size > 0);
 
-	if (buffer && size > 0)
+	if (!buffer || size <= 0)
 	{
-		csnzappendf(buffer, size, "|n|n|n|ninput_abstraction|n");
-		for (int16 i = 0; i < k_number_of_controllers; i++)
+		return;
+	}
+
+	csnzappendf(buffer, size, "|n|n|n|ninput_abstraction|n");
+	for (int16 i = 0; i < k_number_of_controllers; i++)
+	{
+		s_game_input_state& input_state = input_abstraction_globals.input_states[i];
+
+		if (!input_state.aim_instantaneously)
 		{
-			s_game_input_state& input_state = input_abstraction_globals.input_states[i];
-
-			if (!input_state.__unknown324)
-				continue;
-
-			csnzappendf(buffer, size, "%hd,   sticks: (left: %hd, %hd), (right: %hd, %hd)]|n",
-				i,
-				input_state.abstract_sticks[0].x, input_state.abstract_sticks[0].y,
-				input_state.abstract_sticks[1].x, input_state.abstract_sticks[1].y);
-
-			csnzappendf(buffer, size, "%hd, movement: (forward: %f, strafe: %f, vehicle forward: %f)|n",
-				i,
-				input_state.forward_movement,
-				input_state.strafe,
-				input_state.vehicle_forward_movement);
-
-			csnzappendf(buffer, size, "%hd,      yaw: (%f, vehicle: %f)|n",
-				i,
-				input_state.yaw, input_state.vehicle_yaw);
-
-			csnzappendf(buffer, size, "%hd,    pitch: (%f, vehicle: %f, %f, aircraft: %f, %f)|n",
-				i, input_state.pitch,
-				input_state.vehicle_pitch, input_state.vehicle_pitch1,
-				input_state.aircraft_pitch, input_state.aircraft_pitch1);
+			continue;
 		}
+
+		csnzappendf(buffer, size, "%hd,   sticks: (left: %hd, %hd), (right: %hd, %hd)]|n",
+			i,
+			input_state.abstract_sticks[0].x, input_state.abstract_sticks[0].y,
+			input_state.abstract_sticks[1].x, input_state.abstract_sticks[1].y);
+
+		csnzappendf(buffer, size, "%hd, movement: (forward: %f, strafe: %f, vehicle forward: %f)|n",
+			i,
+			input_state.forward_movement,
+			input_state.strafe,
+			input_state.vehicle_forward_movement);
+
+		csnzappendf(buffer, size, "%hd,      yaw: (%f, vehicle: %f)|n",
+			i,
+			input_state.yaw, input_state.vehicle_yaw);
+
+		csnzappendf(buffer, size, "%hd,    pitch: (%f, vehicle: %f, %f, aircraft: %f, %f)|n",
+			i, input_state.pitch,
+			input_state.vehicle_pitch, input_state.vehicle_pitch1,
+			input_state.aircraft_pitch, input_state.aircraft_pitch1);
 	}
 }
 
