@@ -247,6 +247,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_choose_category.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_choose_item.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_item_selected.cpp" />
+    <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings\start_menu_settings.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_colors\start_menu_settings_appearance_colors.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\start_menu_pane_screen_widget.cpp" />
@@ -976,6 +977,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_choose_category.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_choose_item.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq_service_record_file_share\gui_start_menu_hq_service_record_file_share_item_selected.hpp" />
+    <ClInclude Include="source\interface\gui_screens\start_menu\panes\settings\start_menu_settings.hpp" />
     <ClInclude Include="source\interface\gui_selected_items_saved_screenshot.hpp" />
     <ClInclude Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.hpp" />
     <ClInclude Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_difficulty.hpp" />
