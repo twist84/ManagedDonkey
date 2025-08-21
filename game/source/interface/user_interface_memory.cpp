@@ -112,6 +112,8 @@ void* __cdecl user_interface_malloc_tracked(unsigned int size, const char* file,
 c_allocation_base* __cdecl user_interface_memory_allocation()
 {
 	return INVOKE(0x00AB4FE0, user_interface_memory_allocation);
+
+	//return &g_user_interface_allocation;
 }
 
 void __cdecl user_interface_memory_dispose()
@@ -144,12 +146,10 @@ void __cdecl user_interface_memory_initialize(e_map_memory_configuration memory_
 	
 	g_ui_memory_pool = memory_pool_new("ui memory pool", size, k_memory_pool_no_callback, &g_physical_memory_allocation);
 	g_ui_memory_pool_size = memory_pool_allocation_size(size);
-	
-	if (g_ui_memory_pool)
-	{
-		memory_pool_toggle_reference_tracking(g_ui_memory_pool, false);
-		memory_pool_toggle_allocation_from_anywhere_in_pool(g_ui_memory_pool, true);
-	}
+
+	ASSERT(g_ui_memory_pool);
+	memory_pool_toggle_reference_tracking(g_ui_memory_pool, false);
+	memory_pool_toggle_allocation_from_anywhere_in_pool(g_ui_memory_pool, true);
 
 	if (!g_ui_memory_status_line_initialized)
 	{
@@ -180,7 +180,7 @@ void __cdecl user_interface_out_of_memory(unsigned int size, const char* file, i
 		user_interface_memory_dump("ui");
 		g_ui_memory_pool_dumped = true;
 	}
-
+	
 	event(_event_critical, "ui: ui failed to allocate %d bytes at %s#%d", size, file ? file : "NULL", line);
 }
 
@@ -212,8 +212,6 @@ void* __cdecl user_interface_realloc_tracked(void* ptr, unsigned int size, const
 		{
 			g_ui_memory_pool_blocks++;
 			g_ui_memory_pool_bytes_used += memory_pool_get_block_size(g_ui_memory_pool, (const void**)&ptr);
-
-			// was there supposed to be an event here?
 		}
 		else
 		{

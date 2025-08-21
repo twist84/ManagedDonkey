@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_events.hpp"
 #include "cutscene/cinematics.hpp"
+#include "game/game.hpp"
 #include "game/players.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_list_widget.hpp"
@@ -211,7 +212,37 @@ void c_start_menu_screen_widget::back_out_current_pane()
 //.text:00AE0420 ; 
 //.text:00AE0430 ; 
 //.text:00AE0440 ; public: virtual void c_start_menu_screen_widget_sidebar_items_datasource::get_column_names(int32* const, int32*)
-//.text:00AE0470 ; public: static int32 __cdecl c_start_menu_screen_widget::get_current_game_pane_name()
+
+int32 __cdecl c_start_menu_screen_widget::get_current_game_pane_name()
+{
+	//return INVOKE(0x00AE0470, c_start_menu_screen_widget::get_current_game_pane_name);
+
+	if (game_in_progress())
+	{
+		if (game_is_playback())
+		{
+			return STRING_ID(gui, start_menu_game_saved_film);
+		}
+
+		if (game_is_campaign())
+		{
+			return STRING_ID(gui, start_menu_game_campaign);
+		}
+
+		if (game_engine_is_sandbox())
+		{
+			return STRING_ID(gui, start_menu_game_editor);
+		}
+
+		if (game_is_multiplayer())
+		{
+			return STRING_ID(gui, start_menu_game_multiplayer);
+		}
+	}
+
+	return _string_id_invalid;
+}
+
 //.text:00AE04C0 ; protected: virtual int32 c_start_menu_screen_widget_sidebar_items_datasource::get_current_item_count_internal()
 
 c_gui_screen_widget* c_start_menu_screen_widget::get_current_pane()

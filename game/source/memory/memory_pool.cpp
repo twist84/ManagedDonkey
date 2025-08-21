@@ -8,7 +8,7 @@ int32 __cdecl memory_pool_allocation_size(int32 size)
 {
 	return INVOKE(0x00969B50, memory_pool_allocation_size, size);
 
-	//return size + sizeof(s_memory_pool) + sizeof(s_memory_pool_block_header);
+	//return size + sizeof(s_memory_pool) + sizeof(s_memory_pool_block);
 }
 
 //.text:00969B60 ; unsigned int __cdecl memory_pool_overhead_size(const s_memory_pool*)

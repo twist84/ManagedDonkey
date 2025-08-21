@@ -36,6 +36,11 @@ public:
 
 private:
 	void back_out_current_pane();
+
+public:
+	static int32 __cdecl get_current_game_pane_name();
+
+private:
 	c_gui_screen_widget* get_current_pane();
 
 public:
