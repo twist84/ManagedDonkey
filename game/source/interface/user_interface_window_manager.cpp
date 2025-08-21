@@ -30,6 +30,7 @@
 #include "interface/gui_screens/start_menu/panes/game_editor/start_menu_game_editor.hpp"
 #include "interface/gui_screens/start_menu/panes/game_multiplayer/start_menu_game_multiplayer.hpp"
 #include "interface/gui_screens/start_menu/panes/game_saved_film/start_menu_game_saved_film.hpp"
+#include "interface/gui_screens/start_menu/panes/settings/start_menu_settings.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "main/console.hpp"
@@ -114,8 +115,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 	//	return new c_gui_start_menu_hq_transfers(screen_name);
 	//case STRING_ID(gui, start_menu_hq_transfers_item_selected):
 	//	return new c_gui_start_menu_hq_transfers_item_selected(screen_name);
-	//case STRING_ID(gui, start_menu_settings):
-	//	return new c_start_menu_settings(screen_name);
+	case STRING_ID(gui, start_menu_settings):
+		return new c_start_menu_settings(screen_name);
 	//case STRING_ID(gui, start_menu_settings_controls):
 	//	return new c_start_menu_settings_controls(screen_name);
 	//case STRING_ID(gui, start_menu_settings_controls_button):
