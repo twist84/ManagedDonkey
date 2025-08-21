@@ -715,7 +715,7 @@ bool c_gui_screen_widget::handle_mouse_click(const c_controller_input_message* m
 		e_controller_component controller_component{};
 		if (c_gui_screen_widget::button_key_to_controller_component((c_gui_text_widget*)widget, &controller_component))
 		{
-			c_controller_input_message* input_message = new c_controller_input_message(
+			c_controller_input_message* input_message = UI_MALLOC(c_controller_input_message,
 				message->get_screen_name(),
 				message->get_controller(),
 				message->get_window(),
@@ -755,7 +755,7 @@ bool c_gui_screen_widget::handle_mouse_click(const c_controller_input_message* m
 
 			if (event_type != _event_type_none)
 			{
-				c_controller_input_message* input_message = new c_controller_input_message(
+				c_controller_input_message* input_message = UI_MALLOC(c_controller_input_message,
 					message->get_screen_name(),
 					message->get_controller(),
 					message->get_window(),
@@ -860,7 +860,7 @@ void c_gui_screen_widget::initialize_datasource()
 			name = m_name;
 		}
 
-		c_gui_tag_datasource* datasource = new c_gui_tag_datasource(datasource_definition_block->datasource_tag_reference.index);
+		c_gui_tag_datasource* datasource = UI_MALLOC(c_gui_tag_datasource, datasource_definition_block->datasource_tag_reference.index);
 		if (datasource && datasource->initialize(name))
 		{
 			c_gui_screen_widget::add_datasource(datasource);

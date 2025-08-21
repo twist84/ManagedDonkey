@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+#include <new> // required for placement new
+#define UI_MALLOC(CLASS, ...) new (user_interface_malloc(sizeof(CLASS))) CLASS(__VA_ARGS__)
+
 class c_ui_memory_scope_lock
 {
 public:

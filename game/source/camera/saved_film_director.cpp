@@ -2,6 +2,7 @@
 
 #include "game/game.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "interface/user_interface_window_manager.hpp"
@@ -91,7 +92,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 
 			if (!saved_film_manager_film_is_ended(NULL) && screen_visible)
 			{
-				c_load_screen_message* screen_message = new c_load_screen_message(
+				c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 					STRING_ID(gui, saved_film_control_pad),
 					k_any_controller,
 					k_number_of_player_windows,

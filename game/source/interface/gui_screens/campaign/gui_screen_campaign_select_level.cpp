@@ -8,6 +8,7 @@
 #include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_selected_items_level.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "main/levels.hpp"
@@ -59,7 +60,7 @@ c_gui_bitmap_widget* c_gui_screen_campaign_select_level::create_bitmap_widget(co
 
 	if (definition->widget_identifier == STRING_ID(gui, level_image))
 	{
-		return new c_gui_custom_bitmap_widget();
+		return UI_MALLOC(c_gui_custom_bitmap_widget);
 	}
 
 	return c_gui_widget::create_bitmap_widget(definition);
@@ -132,7 +133,7 @@ bool c_gui_screen_campaign_select_level::handle_list_item_chosen(const c_control
 			return true;
 		}
 
-		c_load_dialog_screen_message* screen_message = new c_load_dialog_screen_message(
+		c_load_dialog_screen_message* screen_message = UI_MALLOC(c_load_dialog_screen_message,
 			message->get_controller(),
 			c_gui_screen_widget::get_render_window(),
 			m_name,
@@ -164,13 +165,13 @@ void c_gui_screen_campaign_select_level::initialize_datasource()
 
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_level_subitem_selectable_item_datasource* level = new c_gui_level_subitem_selectable_item_datasource();
+	c_gui_level_subitem_selectable_item_datasource* level = UI_MALLOC(c_gui_level_subitem_selectable_item_datasource);
 	if (level && level->initialize(c_gui_widget::get_single_responding_controller(), STRING_ID(global, level), m_campaign_id))
 	{
 		c_gui_screen_widget::add_datasource(level);
 	}
 
-	c_gui_insertion_point_data* insertion_point = new c_gui_insertion_point_data(
+	c_gui_insertion_point_data* insertion_point = UI_MALLOC(c_gui_insertion_point_data,
 		c_gui_screen_widget::get_multilingual_unicode_string_list_index());
 	if (insertion_point && insertion_point->initialize(STRING_ID(gui, insertion_point)))
 	{
@@ -224,7 +225,7 @@ void c_gui_screen_campaign_select_level::level_chosen_immediate(e_controller_ind
 			return;
 		}
 
-		c_load_campaign_select_difficulty_screen_message* difficulty_screen_message = new c_load_campaign_select_difficulty_screen_message(
+		c_load_campaign_select_difficulty_screen_message* difficulty_screen_message = UI_MALLOC(c_load_campaign_select_difficulty_screen_message,
 			STRING_ID(gui, campaign_select_difficulty),
 			controller_index,
 			c_gui_screen_widget::get_render_window(),

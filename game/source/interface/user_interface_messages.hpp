@@ -18,7 +18,6 @@ public:
 
 public:
 	c_message(e_ui_message_type type, int32 screen_name, e_controller_index controller, e_window_index window);
-	void* operator new(unsigned int size);
 
 	e_ui_message_type get_type() const;
 	int32 get_screen_name() const;
@@ -83,7 +82,7 @@ class c_load_screen_message :
 	public c_message
 {
 public:
-	virtual ~c_load_screen_message() = default
+	virtual ~c_load_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
 
 public:
@@ -123,7 +122,7 @@ class c_screen_custom_message :
 	public c_message
 {
 public:
-	virtual ~c_screen_custom_message() = default
+	virtual ~c_screen_custom_message() = default;
 
 public:
 	c_screen_custom_message(int32 sub_type, int32 screen_name, e_controller_index controller, e_window_index window);

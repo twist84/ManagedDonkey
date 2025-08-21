@@ -399,8 +399,8 @@ void c_gui_screen_game_options::initialize()
 
 	//c_gui_screen_widget::initialize();
 	//
-	//c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<current-value", this, parse_current_selected_value));
-	//c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<current-name", this, parse_current_selected_name));
+	//c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<current-value", this, parse_current_selected_value));
+	//c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<current-name", this, parse_current_selected_name));
 }
 
 void c_gui_screen_game_options::initialize_datasource()

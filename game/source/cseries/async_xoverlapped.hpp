@@ -43,8 +43,6 @@ public:
 	void task_recycled_during_completion(bool recycled_during_completion);
 	bool task_was_recycled_during_completion() const;
 
-	void* operator new(unsigned int size);
-
 protected:
 	c_flags<e_overlapped_task_flags, int16, k_number_of_overlapped_task_flags> m_task_flags;
 	c_enum<e_overlapped_task_state, int16, _overlapped_task_state_none, k_overlapped_task_state_count> m_task_state;

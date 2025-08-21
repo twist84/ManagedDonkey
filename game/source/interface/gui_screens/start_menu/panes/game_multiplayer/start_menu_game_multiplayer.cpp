@@ -6,6 +6,7 @@
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 
@@ -40,7 +41,7 @@ c_gui_bitmap_widget* c_start_menu_game_multiplayer::create_bitmap_widget(const s
 
 	if (definition->widget_identifier == STRING_ID(gui, map_image))
 	{
-		return new c_gui_custom_bitmap_widget();
+		return UI_MALLOC(c_gui_custom_bitmap_widget);
 	}
 
 	return c_gui_widget::create_bitmap_widget(definition);

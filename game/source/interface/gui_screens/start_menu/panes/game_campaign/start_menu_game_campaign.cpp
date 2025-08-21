@@ -7,6 +7,7 @@
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "interface/gui_screens/start_menu/panes/game_multiplayer/start_menu_game_multiplayer.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
@@ -41,7 +42,7 @@ c_gui_bitmap_widget* c_start_menu_game_campaign::create_bitmap_widget(const s_ru
 
 	if (definition->widget_identifier == STRING_ID(gui, map_image))
 	{
-		return new c_gui_custom_bitmap_widget();
+		return UI_MALLOC(c_gui_custom_bitmap_widget);
 	}
 
 	return c_gui_widget::create_bitmap_widget(definition);
@@ -143,9 +144,9 @@ void c_start_menu_game_campaign::initialize()
 
 	c_gui_screen_widget::initialize();
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<primary-objectives", this, parse_xml_primary_mission_objectives));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<secondary-objectives", this, parse_xml_secondary_mission_objectives));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<primary-objectives", this, parse_xml_primary_mission_objectives));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<secondary-objectives", this, parse_xml_secondary_mission_objectives));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
 }
 
 void c_start_menu_game_campaign::initialize_datasource()

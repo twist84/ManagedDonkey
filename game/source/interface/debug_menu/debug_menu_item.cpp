@@ -8,11 +8,6 @@
 
 #include <string.h>
 
-void* c_debug_menu_item::operator new(unsigned int size)
-{
-	return debug_menu_malloc(size);
-}
-
 c_debug_menu_item::c_debug_menu_item(c_debug_menu* menu, const char* name, c_debug_menu* child, bool active) :
 	m_name(),
 	m_menu_ref(menu),

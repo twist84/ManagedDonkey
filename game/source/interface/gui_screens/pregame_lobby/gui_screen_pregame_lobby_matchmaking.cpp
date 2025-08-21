@@ -6,6 +6,7 @@
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_matchmaking.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
@@ -70,7 +71,7 @@ c_gui_bitmap_widget* c_gui_screen_pregame_lobby_matchmaking::create_bitmap_widge
 
 	if (definition->widget_identifier == STRING_ID(gui, nightmap))
 	{
-		c_gui_custom_bitmap_widget* nightmap_bitmap_widget = new c_gui_custom_bitmap_widget();
+		c_gui_custom_bitmap_widget* nightmap_bitmap_widget = UI_MALLOC(c_gui_custom_bitmap_widget);
 		if (!nightmap_bitmap_widget)
 		{
 			return NULL;
@@ -121,7 +122,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_controller_input_message(con
 			return true;
 		}
 
-		if (c_load_screen_message* screen_message = new c_load_screen_message(
+		if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 			STRING_ID(gui, pregame_advanced_options_matchmaking),
 			message->get_controller(),
 			c_gui_screen_widget::get_render_window(),
@@ -166,7 +167,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_con
 			{
 			case STRING_ID(gui, advanced_options):
 			{
-				if (c_load_screen_message* screen_message = new c_load_screen_message(
+				if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 					STRING_ID(gui, pregame_advanced_options_matchmaking),
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
@@ -182,7 +183,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_con
 			{
 				if (!is_lobby_in_live_mode())
 				{
-					if (c_load_dialog_screen_message* dialog_screen_message = new c_load_dialog_screen_message(
+					if (c_load_dialog_screen_message* dialog_screen_message = UI_MALLOC(c_load_dialog_screen_message,
 						message->get_controller(),
 						c_gui_screen_widget::get_render_window(),
 						m_name,
@@ -196,7 +197,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_con
 				{
 					if (user_interface_matchmaking_hopper_catalog_load_status() == _network_files_load_complete)
 					{
-						if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = new c_load_pregame_selection_screen_message(
+						if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
 							message->get_controller(),
 							c_gui_screen_widget::get_render_window(),
 							m_name,
@@ -226,9 +227,9 @@ void c_gui_screen_pregame_lobby_matchmaking::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 3;
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper", this, parse_xml_lobby_matchmaking_hopper));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper-population", this, parse_xml_lobby_matchmaking_hopper_population));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-matchmaking-total-population", this, parse_xml_lobby_matchmaking_total_population));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-matchmaking-hopper", this, parse_xml_lobby_matchmaking_hopper));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-matchmaking-hopper-population", this, parse_xml_lobby_matchmaking_hopper_population));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-matchmaking-total-population", this, parse_xml_lobby_matchmaking_total_population));
 }
 
 bool c_gui_screen_pregame_lobby_matchmaking::is_lobby_in_live_mode()

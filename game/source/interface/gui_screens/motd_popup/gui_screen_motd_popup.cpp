@@ -5,6 +5,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
@@ -140,7 +141,7 @@ c_gui_bitmap_widget* c_motd_popup_screen_widget::create_bitmap_widget(const s_ru
 
 	if (definition->widget_identifier == STRING_ID(gui, flavor_image))
 	{
-		return new c_gui_custom_bitmap_widget();
+		return UI_MALLOC(c_gui_custom_bitmap_widget);
 	}
 
 	return c_gui_widget::create_bitmap_widget(definition);

@@ -26,11 +26,6 @@ HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
 HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
 HOOK_DECLARE(0x00A934B0, user_interface_xbox_guide_is_active);
 
-void* c_message::operator new(unsigned int size)
-{
-	return user_interface_malloc_tracked(size, __FILE__, __LINE__);
-}
-
 template<>
 void ui_track_delete<c_message>(const c_message* object)
 {

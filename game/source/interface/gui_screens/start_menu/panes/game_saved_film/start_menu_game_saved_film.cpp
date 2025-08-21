@@ -4,6 +4,7 @@
 #include "game/game_time.hpp"
 #include "interface/gui_screens/start_menu/panes/game_multiplayer/start_menu_game_multiplayer.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
@@ -109,7 +110,7 @@ void c_start_menu_game_saved_film::initialize()
 
 	c_gui_screen_widget::initialize();
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
 }
 
 void c_start_menu_game_saved_film::initialize_datasource()

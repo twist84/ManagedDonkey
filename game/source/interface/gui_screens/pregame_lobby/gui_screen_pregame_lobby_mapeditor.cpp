@@ -3,6 +3,7 @@
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
@@ -76,7 +77,7 @@ bool c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen(const c_contr
 		int32 target_name = _string_id_invalid;
 		if (datasource->get_string_id_value(list_item_widget->get_element_handle(), STRING_ID(gui, target), &target_name))
 		{
-			if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = new c_load_pregame_selection_screen_message(
+			if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
 				message->get_controller(),
 				c_gui_screen_widget::get_render_window(),
 				m_name,
@@ -102,7 +103,7 @@ void c_gui_screen_pregame_lobby_mapeditor::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 3;
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-mapeditor-map", this, parse_xml_lobby_mapeditor_map));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-mapeditor-map", this, parse_xml_lobby_mapeditor_map));
 }
 
 bool __cdecl parse_xml_lobby_mapeditor_map(void* this_ptr, wchar_t* buffer, int32 buffer_length)

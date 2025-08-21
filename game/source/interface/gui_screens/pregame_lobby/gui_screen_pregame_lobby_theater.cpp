@@ -5,6 +5,7 @@
 #include "interface/gui_pregame_setup_manager.hpp"
 #include "interface/gui_selected_items_map.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
@@ -71,7 +72,7 @@ bool c_gui_screen_pregame_lobby_theater::handle_list_item_chosen(const c_control
 		{
 			if (target_name == STRING_ID(gui, film))
 			{
-				c_load_pregame_selection_screen_message* screen_message = new c_load_pregame_selection_screen_message(
+				c_load_pregame_selection_screen_message* screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
 					m_name,
@@ -99,10 +100,10 @@ void c_gui_screen_pregame_lobby_theater::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 3;
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-theater-film", this, parse_xml_lobby_theater_film));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-theater-game", this, parse_xml_lobby_theater_game));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-theater-map", this, parse_xml_lobby_theater_map));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-theater-film-length", this, parse_xml_lobby_theater_film_length));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-theater-film", this, parse_xml_lobby_theater_film));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-theater-game", this, parse_xml_lobby_theater_game));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-theater-map", this, parse_xml_lobby_theater_map));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-theater-film-length", this, parse_xml_lobby_theater_film_length));
 }
 
 void c_gui_screen_pregame_lobby_theater::initialize_datasource()
@@ -111,7 +112,7 @@ void c_gui_screen_pregame_lobby_theater::initialize_datasource()
 
 	//c_gui_screen_pregame_lobby::initialize_datasource();
 	//
-	//c_gui_saved_film_subitem_datasource* recent_films = new c_gui_saved_film_subitem_datasource(
+	//c_gui_saved_film_subitem_datasource* recent_films = UI_MALLOC(c_gui_saved_film_subitem_datasource,
 	//	c_gui_widget::get_arbitrary_responding_controller(),
 	//	_saved_film_category_recent_films);
 	//if (!recent_films)

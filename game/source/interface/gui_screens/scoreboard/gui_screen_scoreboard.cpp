@@ -323,7 +323,7 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 			}
 		}
 	
-		if (c_scoreboard_load_screen_message* message = new c_scoreboard_load_screen_message(!half_screen + STRING_ID(gui, scoreboard),
+		if (c_scoreboard_load_screen_message* message = UI_MALLOC(c_scoreboard_load_screen_message, !half_screen + STRING_ID(gui, scoreboard),
 			controller_index,
 			user_interface_get_window_for_controller(controller_index),
 			STRING_ID(gui, top_most),

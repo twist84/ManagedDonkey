@@ -10,6 +10,7 @@
 #include "game/game.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "main/levels.hpp"
@@ -1832,7 +1833,7 @@ void saved_film_manager_update_ui_screens()
 	//		return;
 	//	}
 	//
-	//	if (c_load_in_progress_screen_message* screen_message = new c_load_in_progress_screen_message(
+	//	if (c_load_in_progress_screen_message* screen_message = UI_MALLOC(c_load_in_progress_screen_message,
 	//		screen_message,
 	//		STRING_ID(gui, in_progress_mini_me),
 	//		k_any_controller,

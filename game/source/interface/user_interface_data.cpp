@@ -1,12 +1,6 @@
 #include "interface/user_interface_data.hpp"
 
-#include "interface/user_interface_memory.hpp"
 #include "memory/data.hpp"
-
-void* c_gui_data::operator new(unsigned int size)
-{
-	return user_interface_malloc_tracked(size, __FILE__, __LINE__);
-}
 
 c_gui_data::c_gui_data() :
 	m_name(0)

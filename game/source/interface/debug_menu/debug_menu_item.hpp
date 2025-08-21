@@ -35,8 +35,6 @@ public:
 	int16 get_index();
 	bool get_is_selection();
 
-	void* operator new(unsigned int size);
-
 protected:
 	char* m_name;
 	c_debug_menu* m_menu_ref;

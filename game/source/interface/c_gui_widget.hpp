@@ -296,8 +296,6 @@ public:
 	bool verify_animation_period(e_animation_state animation_state, int32 period);
 	static const char* __cdecl widget_name_to_string(int32 name);
 
-	void* operator new(unsigned int size);
-
 //protected:
 	int32 __unknown4;
 	e_gui_widget_type m_type;

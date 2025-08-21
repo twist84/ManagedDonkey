@@ -45,8 +45,6 @@ public:
 	int32 get_name();
 	void set_name(int32 name);
 
-	void* operator new(unsigned int size);
-
 protected:
 	int32 m_name;
 };

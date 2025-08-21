@@ -31,11 +31,6 @@ public:
 		c_debug_menu_scroll(NULL, 26, version_get_full_string()) // version_get_build_and_changelist_string() in Halo 4
 	{
 	}
-
-	void* operator new(unsigned int size)
-	{
-		return debug_menu_malloc(size);
-	}
 };
 
 struct s_debug_menu_globals
@@ -114,7 +109,7 @@ void debug_menu_initialize_for_new_map()
 	g_debug_menu_globals.m_main_menu = NULL;
 	g_debug_menu_globals.m_active_menu = NULL;
 
-	g_debug_menu_globals.m_main_menu = new c_main_menu();
+	g_debug_menu_globals.m_main_menu = DEBUG_MENU_MALLOC(c_main_menu);
 
 	csmemset(&g_debug_menu_globals.m_last_gamepad, 0, sizeof(g_debug_menu_globals.m_last_gamepad));
 	csmemset(&g_debug_menu_globals.m_current_gamepad, 0, sizeof(g_debug_menu_globals.m_current_gamepad));

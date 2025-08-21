@@ -6,6 +6,7 @@
 #include "interface/gui_selected_items.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_text_parser.hpp"
@@ -147,7 +148,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(const 
 		if (user_interface_squad_local_peer_is_leader() /*&& !get_is_blue_disk()*/)
 		{
 			// $TODO: implement all of `c_gui_screen_campaign_settings`
-			if (c_load_screen_message* screen_message = new c_load_screen_message(
+			if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 				STRING_ID(gui, campaign_settings),
 				message->get_controller(),
 				c_gui_screen_widget::get_render_window(),
@@ -177,7 +178,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 				e_map_id map_id = _map_id_first;
 				int16 campaign_insertion_point = 0;
 				user_interface_session_get_map(&campaign_id, &map_id);
-				if (c_load_campaign_select_level_screen_message* screen_message = new c_load_campaign_select_level_screen_message(
+				if (c_load_campaign_select_level_screen_message* screen_message = UI_MALLOC(c_load_campaign_select_level_screen_message,
 					STRING_ID(gui, campaign_select_level),
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
@@ -194,7 +195,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_list_item_chosen(const c_contro
 			}
 			if (target_name == STRING_ID(global, difficulty))
 			{
-				if (c_load_campaign_select_difficulty_screen_message* screen_message = new c_load_campaign_select_difficulty_screen_message(
+				if (c_load_campaign_select_difficulty_screen_message* screen_message = UI_MALLOC(c_load_campaign_select_difficulty_screen_message,
 					STRING_ID(gui, campaign_select_difficulty),
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
@@ -229,9 +230,9 @@ void c_gui_screen_pregame_lobby_campaign::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 4;
 	
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-campaign-level", this, parse_xml_lobby_campaign_level));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-campaign-difficulty", this, parse_xml_lobby_campaign_difficulty));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-campaign-insertion", this, parse_xml_lobby_campaign_insertion));
 }
 
 void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index controller_index)
@@ -240,7 +241,7 @@ void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index co
 
 	//ASSERT(m_progress_dialog_start_time_milliseconds == 0);
 	//// $TODO: Add `c_load_in_progress_screen_message`
-	//if (c_load_in_progress_screen_message* in_progress_screen_message = new c_load_in_progress_screen_message(
+	//if (c_load_in_progress_screen_message* in_progress_screen_message = UI_MALLOC(c_load_in_progress_screen_message,
 	//	controller_index,
 	//	c_gui_screen_widget::get_render_window(),
 	//	STRING_ID(gui, pregame_selection_enumeration_in_progress_title),

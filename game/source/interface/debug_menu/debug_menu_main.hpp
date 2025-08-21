@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+#include <new> // required for placement new
+#define DEBUG_MENU_MALLOC(CLASS, ...) new (debug_menu_malloc(sizeof(CLASS))) CLASS(__VA_ARGS__)
+
 enum
 {
 	k_debug_menu_stack_size = 262144

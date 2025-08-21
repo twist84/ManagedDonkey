@@ -292,7 +292,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		{
 		case _hs_type_boolean:
 		{
-			item = new c_debug_menu_item_type_bool(menu, name, false, g_parser_state.m_variable);
+			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_bool, menu, name, false, g_parser_state.m_variable);
 		}
 		break;
 		case _hs_type_real:
@@ -301,7 +301,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 			real32 max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
 			real32 min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
 
-			item = new c_debug_menu_item_type_real(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
 		break;
 		case _hs_type_short_integer:
@@ -310,7 +310,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 			int16 max_value = g_parser_state.m_has_max ? (int16)g_parser_state.m_max : SHRT_MAX - 1;
 			int16 min_value = g_parser_state.m_has_min ? (int16)g_parser_state.m_min : SHRT_MIN + 1;
 
-			item = new c_debug_menu_item_type_short(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
 		break;
 		case _hs_type_long_integer:
@@ -319,7 +319,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 			int32 max_value = g_parser_state.m_has_max ? (int32)g_parser_state.m_max : LONG_MAX - 1;
 			int32 min_value = g_parser_state.m_has_min ? (int32)g_parser_state.m_min : LONG_MIN + 1;
 
-			item = new c_debug_menu_item_type_long(menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 		}
 		break;
 		}
@@ -329,7 +329,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 	{
 		char undefined_name[1024]{};
 		csnzprintf(undefined_name, sizeof(undefined_name), "UNDEFINED: %s", g_parser_state.m_variable);
-		item = new c_debug_menu_item(menu, undefined_name, NULL, false);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item, menu, undefined_name, NULL, false);
 	}
 	ASSERT(item != NULL);
 
@@ -348,7 +348,7 @@ const char* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer
 
 	const char* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
 	const char* command = g_parser_state.m_variable;
-	menu->add_item(new c_debug_menu_item_hs_command(menu, name, command));
+	menu->add_item(DEBUG_MENU_MALLOC(c_debug_menu_item_hs_command, menu, name, command));
 
 	return NULL;
 }
@@ -391,12 +391,12 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	{
 	case _property_owner_menu:
 	{
-		child = new c_debug_menu_scroll(menu, 26, name);
+		child = DEBUG_MENU_MALLOC(c_debug_menu_scroll, menu, 26, name);
 	}
 	break;
 	case _property_owner_zone_set_menu:
 	{
-		child = new c_debug_menu_zone_sets(menu, 26, name);
+		child = DEBUG_MENU_MALLOC(c_debug_menu_zone_sets, menu, 26, name);
 	}
 	break;
 	default:
@@ -405,7 +405,7 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	}
 
 	child->set_caption(caption);
-	menu->add_item(new c_debug_menu_item_numbered(menu, name, child));
+	menu->add_item(DEBUG_MENU_MALLOC(c_debug_menu_item_numbered, menu, name, child));
 
 	return child;
 }

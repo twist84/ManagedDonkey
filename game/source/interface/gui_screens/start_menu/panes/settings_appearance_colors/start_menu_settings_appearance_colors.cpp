@@ -5,6 +5,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_text_parser.hpp"
 #include "memory/module.hpp"
@@ -275,12 +276,12 @@ void __thiscall c_start_menu_settings_appearance_colors::initialize_()
 
 	INVOKE_CLASS_MEMBER(0x00AB14D0, c_gui_screen_widget, initialize);
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor1", this, parse_xml_armor1));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor2", this, parse_xml_armor2));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-armor3", this, parse_xml_armor3));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem1", this, parse_xml_emblem1));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem2", this, parse_xml_emblem2));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<color-emblem3", this, parse_xml_emblem3));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<color-armor1", this, parse_xml_armor1));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<color-armor2", this, parse_xml_armor2));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<color-armor3", this, parse_xml_armor3));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<color-emblem1", this, parse_xml_emblem1));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<color-emblem2", this, parse_xml_emblem2));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<color-emblem3", this, parse_xml_emblem3));
 }
 
 void c_start_menu_settings_appearance_colors::set_color_focused_list_item(int32 name, e_player_color_index player_color_index)

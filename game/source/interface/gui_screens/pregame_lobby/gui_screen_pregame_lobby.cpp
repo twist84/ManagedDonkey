@@ -436,7 +436,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 		{
 			if (target_name == STRING_ID(gui, network_mode))
 			{
-				if (c_load_pregame_selection_screen_message* screen_message = new c_load_pregame_selection_screen_message(
+				if (c_load_pregame_selection_screen_message* screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
 					m_name,
@@ -452,7 +452,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 		{
 			if (target_name == STRING_ID(gui, switch_lobby))
 			{
-				if (c_load_screen_message* screen_message = new c_load_screen_message(
+				if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 					STRING_ID(gui, pregame_switch_lobby),
 					k_any_controller,
 					c_gui_screen_widget::get_render_window(),
@@ -523,20 +523,20 @@ void c_gui_screen_pregame_lobby::initialize()
 
 	c_gui_screen_widget::initialize();
 
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_xml_lobby_title));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_xml_lobby_header));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-network", this, parse_xml_lobby_network));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-party-leader", this, parse_xml_lobby_party_leader));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-start-button-name", this, parse_xml_lobby_start_button_name));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-current-players", this, parse_xml_lobby_current_players));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-max-players", this, parse_xml_lobby_max_players));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-countdown-remaining", this, parse_xml_lobby_countdown_remaining));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-delaying-player", this, parse_xml_lobby_delaying_player));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-max-players", this, parse_xml_lobby_film_max_players));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_xml_lobby_film_party_leader_requirement));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_xml_lobby_coop_max_players));
-	c_gui_screen_widget::add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_xml_lobby_percent_loaded));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-title", this, parse_xml_lobby_title));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-header", this, parse_xml_lobby_header));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-network", this, parse_xml_lobby_network));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-party-leader", this, parse_xml_lobby_party_leader));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-start-button-name", this, parse_xml_lobby_start_button_name));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-current-players", this, parse_xml_lobby_current_players));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-max-players", this, parse_xml_lobby_max_players));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-countdown-remaining", this, parse_xml_lobby_countdown_remaining));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-delaying-player", this, parse_xml_lobby_delaying_player));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-film-max-players", this, parse_xml_lobby_film_max_players));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-film-party-leader-requirement", this, parse_xml_lobby_film_party_leader_requirement));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-coop-max-players", this, parse_xml_lobby_coop_max_players));
+	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-percent-loaded", this, parse_xml_lobby_percent_loaded));
 }
 
 void c_gui_screen_pregame_lobby::initialize_datasource()
@@ -545,7 +545,7 @@ void c_gui_screen_pregame_lobby::initialize_datasource()
 
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_active_roster_data* active_roster = new c_gui_active_roster_data(c_gui_widget::get_driving_controller());
+	c_gui_active_roster_data* active_roster = UI_MALLOC(c_gui_active_roster_data, c_gui_widget::get_driving_controller());
 	if (active_roster && active_roster->initialize(STRING_ID(gui, roster)))
 	{
 		c_gui_screen_widget::add_datasource(active_roster);
@@ -663,7 +663,7 @@ void c_gui_screen_pregame_lobby::post_initialize()
 		return;
 	}
 
-	c_load_screen_message* screen_message = new c_load_screen_message(STRING_ID(gui, carnage_report), k_any_controller, k_number_of_player_windows, m_name);
+	c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message, STRING_ID(gui, carnage_report), k_any_controller, k_number_of_player_windows, m_name);
 	if (screen_message)
 	{
 		user_interface_messaging_post(screen_message);

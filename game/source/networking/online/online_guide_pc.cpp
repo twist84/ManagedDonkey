@@ -196,7 +196,7 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 {
 	if (!m_instance)
 	{
-		m_instance = new c_virtual_keyboard_task(
+		m_instance = OVERLAPPED_MALLOC(c_virtual_keyboard_task,
 			file,
 			line,
 			controller_index,

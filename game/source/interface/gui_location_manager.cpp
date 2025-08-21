@@ -5,6 +5,7 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_lobby.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
@@ -116,7 +117,7 @@ void c_gui_location_manager::change_location(int32 new_location_name)
 	exempt_screens[6] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_split));
 	window_manager_get()->close_all_screens(exempt_screens + (except_these_count == 7), except_these_count);
 
-	c_load_screen_message* screen_message = new c_load_screen_message(new_location_name, k_any_controller, k_number_of_player_windows, STRING_ID(gui, bottom_most));
+	c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message, new_location_name, k_any_controller, k_number_of_player_windows, STRING_ID(gui, bottom_most));
 	if (!screen_message)
 	{
 		return;
