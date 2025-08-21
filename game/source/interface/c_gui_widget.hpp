@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/ecc.hpp"
 #include "interface/gui_animation.hpp"
 #include "tag_files/tag_groups.hpp"
 #include "text/unicode.hpp"

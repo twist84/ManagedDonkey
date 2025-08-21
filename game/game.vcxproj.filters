@@ -2034,6 +2034,9 @@
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings\start_menu_settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\ecc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4500,6 +4503,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\settings\start_menu_settings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\ecc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

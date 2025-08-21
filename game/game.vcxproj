@@ -175,6 +175,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\camera\saved_film_director.cpp" />
     <ClCompile Include="source\creatures\creatures.cpp" />
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />
+    <ClCompile Include="source\cseries\ecc.cpp" />
     <ClCompile Include="source\cseries\headers.cpp" />
     <ClCompile Include="source\devices\device_arg_device.cpp" />
     <ClCompile Include="source\devices\device_controls.cpp" />
@@ -865,6 +866,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\cseries\async_helpers.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\cseries\cseries_system_memory.hpp" />
+    <ClInclude Include="source\cseries\ecc.hpp" />
     <ClInclude Include="source\cseries\headers.hpp" />
     <ClInclude Include="source\cseries\progress.hpp" />
     <ClInclude Include="source\cseries\runtime_state.hpp" />
