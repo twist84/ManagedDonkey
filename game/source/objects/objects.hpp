@@ -15,7 +15,7 @@
 #include "objects/object_scripting.hpp"
 #include "render/render_objects_static_lighting.hpp"
 
-#define OBJECT_GET(TYPE, INDEX) ((TYPE*)object_get_and_verify_type(INDEX, _object_mask_any))
+#define OBJECT_GET(TYPE, INDEX) ((TYPE*)object_get_and_verify_type(INDEX, _object_mask_all))
 
 #define UNIT_GET(INDEX) ((struct unit_datum*)object_get_and_verify_type(INDEX, _object_mask_unit))
 #define BIPED_GET(INDEX) ((struct biped_datum*)object_get_and_verify_type(INDEX, _object_mask_biped))
@@ -42,7 +42,7 @@
 enum e_object_mask
 {
 	_object_mask_none = 0,
-	_object_mask_any = NONE,
+	_object_mask_all = NONE,
 	
 	_object_mask_unit = 
 		FLAG(_object_type_biped) | 

@@ -111,7 +111,7 @@ object_header_datum* __cdecl object_header_get_mutable(int32 object_index)
 
 object_datum* __cdecl object_get(int32 object_index)
 {
-	object_datum* result = (object_datum*)object_get_and_verify_type(object_index, _object_mask_any);
+	object_datum* result = (object_datum*)object_get_and_verify_type(object_index, _object_mask_all);
 	return result;
 }
 
