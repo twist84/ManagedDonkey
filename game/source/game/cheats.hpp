@@ -28,7 +28,7 @@ struct s_game_input_state;
 struct s_tag_reference;
 
 extern void __cdecl cheat_active_camouflage(bool enable);
-extern void __cdecl cheat_active_camouflage_by_player(int32 player_index, bool enable);
+extern void __cdecl cheat_active_camouflage_by_user(int32 player_index, bool enable);
 extern void __cdecl cheat_all_chars();
 extern void __cdecl cheat_all_powerups();
 extern void __cdecl cheat_all_vehicles();
@@ -41,7 +41,7 @@ extern void __cdecl cheat_drop_tag_name(const char* tag_name);
 extern void __cdecl cheat_drop_tag_name_with_permutation_hs(const char* tag_name, const char* permutation_info);
 extern void __cdecl cheat_drop_tag_name_with_variant_and_permutations(const char* tag_name, const char* variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count);
 extern void __cdecl cheat_drop_tag_name_with_variant_hs(const char* tag_name, const char* variant_name);
-extern void __cdecl cheat_drop_tag_safe_hs(int32 tag_index);
+extern void __cdecl cheat_drop_tag_safe(int32 tag_index);
 extern void __cdecl cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, int32* out_droppable_tag_type_count);
 extern int32 __cdecl cheat_get_region_and_permutation_array_from_string(const char* permutation_info, s_model_customization_region_permutation* permutations, int32 maximum_permutations);
 extern int32 __cdecl cheat_get_tag_definition(tag group_tag, const char* tag_name);

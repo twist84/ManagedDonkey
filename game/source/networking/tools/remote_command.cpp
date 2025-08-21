@@ -1784,7 +1784,7 @@ callback_result_t cheat_active_camouflage_by_player_callback(const void* userdat
 	if (value != NONE)
 	{
 		int32 player_index = player_mapping_get_player_by_input_user(user_index);
-		cheat_active_camouflage_by_player(player_index, static_cast<bool>(value - 1));
+		cheat_active_camouflage_by_user(player_index, static_cast<bool>(value - 1));
 	}
 
 	return result;

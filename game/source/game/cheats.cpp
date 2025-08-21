@@ -36,30 +36,26 @@ char cheat_strings[k_controller_button_count][200] = {};
 
 void __cdecl cheat_active_camouflage(bool enable)
 {
-	int32 user_index = player_mapping_first_active_input_user();
-	int32 player_index = player_mapping_get_player_by_input_user(user_index);
-	cheat_active_camouflage_by_player(player_index, enable);
+	int32 user_index = player_mapping_first_active_output_user();
+	cheat_active_camouflage_by_user(user_index, enable);
 }
 
-void __cdecl cheat_active_camouflage_by_player(int32 player_index, bool enable)
+void __cdecl cheat_active_camouflage_by_user(int32 user_index, bool enable)
 {
-	int32 user_index = player_mapping_get_input_user(player_index);
 	if (VALID_INDEX(user_index, k_number_of_users))
 	{
-		player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+		int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
+		unit_datum* unit = UNIT_GET(unit_index);
 
-		if (player->unit_index != NONE)
+		if (enable)
 		{
-			if (enable && !unit_active_camouflage_is_active(player->unit_index))
-			{
-				unit_active_camouflage_strength(player->unit_index, 1.0f);
-				unit_active_camouflage_enable(player->unit_index, 4.0f, -1);
-			}
-			else
-			{
-				unit_active_camouflage_strength(player->unit_index, 1.0f);
-				unit_active_camouflage_disable(player->unit_index, 4.0f);
-			}
+			unit_active_camouflage_set_maximum(unit_index, 1.0f);
+			unit_active_camouflage_enable(unit_index, 4.0f, -1);
+		}
+		else
+		{
+			unit_active_camouflage_set_maximum(unit_index, 1.0f);
+			unit_active_camouflage_disable(unit_index, 4.0f);
 		}
 	}
 }
@@ -74,11 +70,15 @@ void __cdecl cheat_all_chars()
 	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
+		{
 			break;
+		}
 
 		const char* tag_name = tag_get_name(tag_index);
 		if (tag_name && strstr(tag_name, "character"))
+		{
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
+		}
 	}
 
 	cheat_objects(references, reference_count);
@@ -101,11 +101,15 @@ void __cdecl cheat_all_powerups()
 		for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 		{
 			if (!VALID_INDEX(reference_count, NUMBEROF(references)))
+			{
 				break;
+			}
 
 			struct equipment_definition* equipment_definition = TAG_GET(iterator.key_group_tag, struct equipment_definition, tag_index);
 			if (equipment_definition->equipment.spawner.count)
+			{
 				tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
+			}
 		}
 
 		cheat_objects(references, reference_count);
@@ -122,11 +126,15 @@ void __cdecl cheat_all_vehicles()
 	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
+		{
 			break;
+		}
 
 		struct vehicle_definition* vehicle_definition = TAG_GET(iterator.key_group_tag, struct vehicle_definition, tag_index);
 		if (vehicle_definition->unit.powered_seats.count > 0)
+		{
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
+		}
 	}
 
 	cheat_objects(references, reference_count);
@@ -142,7 +150,9 @@ void __cdecl cheat_all_weapons()
 	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
+		{
 			break;
+		}
 
 		tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
 	}
@@ -187,12 +197,16 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 	tag_group_name = tag_group_get_name(drop_group_tag);
 
 	if (game_is_predicted())
+	{
 		return false;
+	}
 
 	if (object_definition_index == NONE)
 	{
 		if (base_group_tag == OBJECT_TAG)
+		{
 			event(_event_warning, "cheats: couldn't load object '%s.%s' to drop it", drop_tag_path, tag_group_name);
+		}
 
 		return false;
 	}
@@ -204,7 +218,9 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 	real32 bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
+	{
 		placement_data.model_variant_index = variant_name;
+	}
 
 	placement_data.position = *position;
 	placement_data.position.x += bounding_radius * forward->i;
@@ -230,7 +246,9 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 	object_force_inside_bsp(object_index, position, NONE);
 
 	if (shader_definition_index != NONE)
+	{
 		object_override_set_shader(object_index, shader_definition_index);
+	}
 
 	if (object_definition->object.type == _object_type_biped && BIPED_GET(object_index)->unit.current_weapon_set.weapon_indices[0] == NONE)
 	{
@@ -241,13 +259,17 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 			object_placement_data weapon_placement_data{};
 			object_placement_data_new(&weapon_placement_data, weapon_definition_index, NONE, NULL);
 			int32 weapon_object_index = object_new(&weapon_placement_data);
-			if (weapon_object_index != NONE)
+			if (weapon_object_index == NONE)
 			{
-				if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
-					break;
-	
-				object_delete(weapon_object_index);
+				continue;
 			}
+
+			if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
+			{
+				break;
+			}
+
+			object_delete(weapon_object_index);
 		}
 	}
 
@@ -266,7 +288,9 @@ int32 __cdecl cheat_drop_tag(tag group_tag, const char* tag_name, const char* va
 	int32 tag_index = cheat_get_tag_definition(group_tag, tag_name);
 
 	if (variant_name)
+	{
 		variant_id = string_id_retrieve(variant_name);
+	}
 
 	if (tag_index == NONE)
 	{
@@ -283,11 +307,15 @@ int32 __cdecl cheat_drop_tag(tag group_tag, const char* tag_name, const char* va
 void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
 	if (tag_index == NONE)
+	{
 		return;
+	}
 
 	int32 user_index = player_mapping_first_active_output_user();
-	if (user_index == k_number_of_users)
+	if (user_index == NONE)
+	{
 		return;
+	}
 
 	const s_observer_result* result = observer_try_and_get_camera(user_index);
 
@@ -390,7 +418,7 @@ void __cdecl cheat_drop_tag_name_with_variant_hs(const char* tag_name, const cha
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, NULL, 0);
 }
 
-void __cdecl cheat_drop_tag_safe_hs(int32 tag_index)
+void __cdecl cheat_drop_tag_safe(int32 tag_index)
 {
 	main_cheat_drop_tag(tag_index, NONE, NULL, 0);
 }
@@ -454,33 +482,45 @@ void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 {
 	int32 player_index = cheat_player_index();
 	if (player_index == NONE)
+	{
 		return;
+	}
 
 	real32 radius = 0.0f;
 	for (int16 reference_index = 0; reference_index < reference_count; reference_index++)
 	{
 		s_tag_reference& reference = references[reference_index];
 		if (reference.index == NONE)
+		{
 			continue;
+		}
 
 		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, reference.index);
 		if (!object_definition)
+		{
 			continue;
+		}
 
 		real32 bounding_radius = object_definition->object.bounding_radius + 1.5f;
 		if (radius <= bounding_radius)
+		{
 			radius = bounding_radius;
+		}
 	}
 
 	player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 	if (!player)
+	{
 		return;
+	}
 
 	for (int16 reference_index = 0; reference_index < reference_count; reference_index++)
 	{
 		s_tag_reference& reference = references[reference_index];
 		if (reference.index == NONE)
+		{
 			continue;
+		}
 
 		real_point3d origin{};
 		real_vector3d forward{};
@@ -504,7 +544,9 @@ void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 		int32 object_index = object_new(&data);
 
 		if (object_index != NONE)
+		{
 			simulation_action_object_create(object_index);
+		}
 	}
 }
 
@@ -533,11 +575,15 @@ void __cdecl cheat_spawn_warthog()
 	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
+		{
 			break;
+		}
 
 		const char* tag_name = tag_get_name(tag_index);
 		if (tag_name && strstr(tag_name, "warthog"))
+		{
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
+		}
 	}
 
 	cheat_objects(references, reference_count);
@@ -600,7 +646,9 @@ void __cdecl cheats_load()
 		{
 			char* line_match = strpbrk(line, "\r\n\t;");
 			if (line_match == line)
+			{
 				continue;
+			}
 
 			if (controller_button == _controller_button_back || controller_button == _controller_button_start)
 			{
@@ -622,10 +670,14 @@ bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_s
 {
 	e_button_action banned_action = static_cast<e_button_action>(game_is_ui_shell() + _button_action_back);
 	if (!cheat.controller_enabled || controller_index == k_no_controller || game_is_networked())
+	{
 		return false;
+	}
 
 	if (!input_state->get_button(banned_action).down_frames())
+	{
 		return false;
+	}
 
 	for (int32 controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
 	{
@@ -640,7 +692,9 @@ bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_s
 			hs_compile_and_evaluate(_event_message, "cheats", cheat_string, true);
 
 			if (csstrcmp(cheat_string, "(set cheat_controller (not cheat_controller))") == 0)
+			{
 				cheat.controller_enabled = !cheat.controller_enabled;
+			}
 		}
 	}
 
