@@ -100,10 +100,6 @@ c_controller_input_message::c_controller_input_message(int32 screen_name, e_cont
 {
 }
 
-c_controller_input_message::~c_controller_input_message()
-{
-}
-
 //gui_screen_start_menu.obj
 e_event_type c_controller_input_message::get_event_type() const
 {
@@ -126,10 +122,6 @@ c_xenon_message::c_xenon_message(e_controller_index controller, e_xenon_message_
 	c_message(_message_type_xenon, _string_id_invalid, controller, k_no_window),
 	m_xenon_message_type(xenon_message_type),
 	m_event_value(event_value)
-{
-}
-
-c_xenon_message::~c_xenon_message()
 {
 }
 
@@ -164,10 +156,6 @@ c_load_screen_message::c_load_screen_message(int32 screen_name, e_controller_ind
 	{
 		event(_event_error, "ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
 	}
-}
-
-c_load_screen_message::~c_load_screen_message()
-{
 }
 
 void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
@@ -261,10 +249,6 @@ c_screen_custom_message::c_screen_custom_message(int32 sub_type, int32 screen_na
 {
 }
 
-c_screen_custom_message::~c_screen_custom_message()
-{
-}
-
 //gui_screen_start_menu.obj
 int32 c_screen_custom_message::get_sub_type() const
 {
@@ -276,10 +260,6 @@ c_dialog_result_message::c_dialog_result_message(int32 screen_name, e_controller
 	m_dialog_result(dialog_result),
 	m_dialog_name(dialog_name),
 	m_dispose_on_success_screen_index()
-{
-}
-
-c_dialog_result_message::~c_dialog_result_message()
 {
 }
 
@@ -317,10 +297,6 @@ c_load_dialog_screen_message::c_load_dialog_screen_message(e_controller_index co
 {
 }
 
-c_load_dialog_screen_message::~c_load_dialog_screen_message()
-{
-}
-
 int32 c_load_dialog_screen_message::get_dialog_screen_name(int32 dialog_name)
 {
 	// $TODO: iterate through `user_interface_shared_globals->dialog_descriptions`,
@@ -350,17 +326,9 @@ c_load_game_browser_screen_message::c_load_game_browser_screen_message(int32 scr
 {
 }
 
-c_load_game_browser_screen_message::~c_load_game_browser_screen_message()
-{
-}
-
 c_load_pregame_selection_screen_message::c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, e_gui_selected_item_type selection_type) :
 	c_load_screen_message(STRING_ID(gui, pregame_selection), controller, window, layered_position),
 	m_selection_type(selection_type)
-{
-}
-
-c_load_pregame_selection_screen_message::~c_load_pregame_selection_screen_message()
 {
 }
 
@@ -379,10 +347,6 @@ c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficu
 {
 }
 
-c_load_campaign_select_difficulty_screen_message::~c_load_campaign_select_difficulty_screen_message()
-{
-}
-
 void c_load_campaign_select_difficulty_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
 {
 	((c_gui_screen_campaign_select_difficulty*)screen_widget)->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_difficulty);
@@ -394,10 +358,6 @@ c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen
 	m_campaign_id(campaign_id),
 	m_map_id(map_id),
 	m_campaign_insertion_point(campaign_insertion_point)
-{
-}
-
-c_load_campaign_select_level_screen_message::~c_load_campaign_select_level_screen_message()
 {
 }
 

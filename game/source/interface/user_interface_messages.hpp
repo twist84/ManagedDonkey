@@ -12,11 +12,12 @@ void ui_track_delete(const t_class* object);
 class c_message
 {
 public:
-	c_message(e_ui_message_type type, int32 screen_name, e_controller_index controller, e_window_index window);
 	virtual ~c_message();
 	virtual void initialize();
 	virtual void update();
 
+public:
+	c_message(e_ui_message_type type, int32 screen_name, e_controller_index controller, e_window_index window);
 	void* operator new(unsigned int size);
 
 	e_ui_message_type get_type() const;
@@ -39,8 +40,10 @@ class c_controller_input_message :
 	public c_message
 {
 public:
+	virtual ~c_controller_input_message() = default;
+
+public:
 	c_controller_input_message(int32 screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, int32 event_value);
-	virtual ~c_controller_input_message();
 
 	e_event_type get_event_type() const;
 	e_controller_component get_component() const;
@@ -61,8 +64,10 @@ class c_xenon_message :
 	enum e_xenon_message_type;
 
 public:
+	virtual ~c_xenon_message() = default;
+
+public:
 	c_xenon_message(e_controller_index controller, e_xenon_message_type xenon_message_type, int32 event_value);
-	virtual ~c_xenon_message();
 
 	e_xenon_message_type get_xenon_message_type() const;
 	int32 get_event_value() const;
@@ -78,10 +83,11 @@ class c_load_screen_message :
 	public c_message
 {
 public:
-	c_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position);
-	virtual ~c_load_screen_message();
-
+	virtual ~c_load_screen_message() = default
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const;
+
+public:
+	c_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position);
 
 	void set_focus_on_load_by_name(int32 list_name, int32 column_name, int32 column_value);
 	void set_transition_type(e_screen_transition_type transition_type);
@@ -117,8 +123,10 @@ class c_screen_custom_message :
 	public c_message
 {
 public:
+	virtual ~c_screen_custom_message() = default
+
+public:
 	c_screen_custom_message(int32 sub_type, int32 screen_name, e_controller_index controller, e_window_index window);
-	virtual ~c_screen_custom_message();
 
 	int32 get_sub_type() const;
 
@@ -132,8 +140,10 @@ class c_dialog_result_message :
 	public c_message
 {
 public:
+	virtual ~c_dialog_result_message() = default;
+
+public:
 	c_dialog_result_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 dialog_name, e_gui_dialog_choice dialog_result);
-	virtual ~c_dialog_result_message();
 
 	int32 get_dialog_name() const;
 	e_gui_dialog_choice get_dialog_result() const;
@@ -151,8 +161,10 @@ class c_load_terminal_screen_message :
 	public c_load_screen_message
 {
 public:
+	virtual ~c_load_terminal_screen_message() = default;
+
+public:
 	c_load_terminal_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, int32 initial_state);
-	virtual ~c_load_terminal_screen_message();
 
 protected:
 	int32 m_initial_state; // apply_initial_state
@@ -163,8 +175,10 @@ class c_load_alert_screen_message :
 	public c_load_screen_message
 {
 public:
+	virtual ~c_load_alert_screen_message() = default;
+
+public:
 	c_load_alert_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, c_gui_queued_error* error);
-	virtual ~c_load_alert_screen_message();
 
 protected:
 	c_gui_queued_error m_error; // apply_initial_state
@@ -175,8 +189,10 @@ class c_load_dialog_screen_message :
 	public c_load_screen_message
 {
 public:
+	virtual ~c_load_dialog_screen_message() = default;
+
+public:
 	c_load_dialog_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, int32 dialog_name, int32 dialog_invoker);
-	virtual ~c_load_dialog_screen_message();
 
 	int32 get_dialog_screen_name(int32 dialog_name);
 	void set_dispose_on_success_screen_index(int32 dispose_on_success_screen_index);
@@ -194,8 +210,10 @@ class c_load_game_browser_screen_message :
 	public c_load_screen_message
 {
 public:
+	virtual ~c_load_game_browser_screen_message() = default;
+
+public:
 	c_load_game_browser_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, int32 search_flags, e_browser_type type);
-	virtual ~c_load_game_browser_screen_message();
 
 protected:
 	uns32 m_squad_search_flags;
@@ -207,9 +225,11 @@ class c_load_pregame_selection_screen_message :
 	public c_load_screen_message
 {
 public:
-	c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, e_gui_selected_item_type selection_type);
-	virtual ~c_load_pregame_selection_screen_message();
+	virtual ~c_load_pregame_selection_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_load_pregame_selection_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, e_gui_selected_item_type selection_type);
 
 protected:
 	e_gui_selected_item_type m_selection_type;
@@ -220,9 +240,11 @@ class c_load_campaign_select_difficulty_screen_message :
 	public c_load_screen_message
 {
 public:
-	c_load_campaign_select_difficulty_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty);
-	virtual ~c_load_campaign_select_difficulty_screen_message();
+	virtual ~c_load_campaign_select_difficulty_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_load_campaign_select_difficulty_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty);
 
 protected:
 	e_gui_campaign_difficulty_setup_mode m_campaign_setup_mode;
@@ -236,9 +258,11 @@ class c_load_campaign_select_level_screen_message :
 	public c_load_screen_message
 {
 public:
-	c_load_campaign_select_level_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, int16 campaign_insertion_point);
-	virtual ~c_load_campaign_select_level_screen_message();
+	virtual ~c_load_campaign_select_level_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_load_campaign_select_level_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_level_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, int16 campaign_insertion_point);
 
 protected:
 	e_gui_campaign_level_setup_mode m_campaign_setup_mode;
