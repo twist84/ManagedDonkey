@@ -398,8 +398,8 @@ extern void __cdecl global_preferences_gameplay_settings_create_default(s_global
 extern void __cdecl global_preferences_control_settings_create_default(s_global_preferences_data::s_control_settings* control_settings);
 extern void __cdecl global_preferences_sound_settings_create_default(s_global_preferences_data::s_sound_settings* sound_settings);
 extern e_quality_setting __cdecl global_preferences_get_details_quality();
-extern int32 __cdecl global_preferences_get_brightness();
-extern int32 __cdecl global_preferences_get_contrast();
+extern int32 __cdecl global_preferences_get_display_brightness();
+extern int32 __cdecl global_preferences_get_display_contrast();
 extern bool __cdecl global_preferences_get_display_hints();
 extern e_quality_setting __cdecl global_preferences_get_effects_quality();
 extern int32 __cdecl global_preferences_get_eviction_count();
@@ -453,8 +453,8 @@ extern void __cdecl global_preferences_set_camera_fov(real32 camera_fov);
 extern void __cdecl global_preferences_set_controls_method(int32 controls_method);
 extern void __cdecl global_preferences_set_keyboard_preferences(s_keyboard_input_preferences* keyboard_preferences);
 extern void __cdecl global_preferences_set_details_quality(e_quality_setting details_quality);
-extern void __cdecl global_preferences_set_brightness(int32 brightness);
-extern void __cdecl global_preferences_set_contrast(int32 contrast);
+extern void __cdecl global_preferences_set_display_brightness(int32 brightness);
+extern void __cdecl global_preferences_set_display_contrast(int32 contrast);
 extern void __cdecl global_preferences_set_display_hints(bool display_hints);
 extern void __cdecl global_preferences_set_effects_quality(e_quality_setting effects_quality);
 extern void __cdecl global_preferences_set_eviction_count(int32 eviction_count);
@@ -510,8 +510,8 @@ enum e_global_preference
 	_global_preference_camera_fov,
 	_global_preference_controls_method,
 	_global_preference_details_quality,
-	_global_preference_brightness,
-	_global_preference_contrast,
+	_global_preference_display_brightness,
+	_global_preference_display_contrast,
 	_global_preference_display_hints,
 	_global_preference_effects_quality,
 	//_global_preference_eviction_count,

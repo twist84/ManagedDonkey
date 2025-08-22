@@ -175,9 +175,9 @@ e_quality_setting __cdecl global_preferences_get_details_quality()
 	return global_preferences_get()->current.data.video_settings.details_quality;
 }
 
-int32 __cdecl global_preferences_get_brightness()
+int32 __cdecl global_preferences_get_display_brightness()
 {
-	//return INVOKE(0x0050B050, global_preferences_get_brightness);
+	//return INVOKE(0x0050B050, global_preferences_get_display_brightness);
 
 	if (!global_preferences_available())
 		return 50;
@@ -186,7 +186,7 @@ int32 __cdecl global_preferences_get_brightness()
 	return global_preferences_get()->current.data.brightness;
 }
 
-int32 __cdecl global_preferences_get_contrast()
+int32 __cdecl global_preferences_get_display_contrast()
 {
 	if (!global_preferences_available())
 		return 50;
@@ -724,8 +724,8 @@ void __cdecl global_preferences_initialize()
 		global_preferences_set_vsync(false);
 		global_preferences_set_motion_blur(true);
 		global_preferences_set_antialiasing(true);
-		global_preferences_set_brightness(50);
-		global_preferences_set_contrast(50);
+		global_preferences_set_display_brightness(50);
+		global_preferences_set_display_contrast(50);
 		global_preferences_dirty(false);
 	}
 }
@@ -861,9 +861,9 @@ void __cdecl global_preferences_set_details_quality(e_quality_setting details_qu
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_brightness(int32 brightness)
+void __cdecl global_preferences_set_display_brightness(int32 brightness)
 {
-	//INVOKE(0x0050D220, global_preferences_set_brightness, brightness);
+	//INVOKE(0x0050D220, global_preferences_set_display_brightness, brightness);
 
 	if (!global_preferences_available())
 		return;
@@ -873,9 +873,9 @@ void __cdecl global_preferences_set_brightness(int32 brightness)
 	global_preferences_dirty(true);
 }
 
-void __cdecl global_preferences_set_contrast(int32 contrast)
+void __cdecl global_preferences_set_display_contrast(int32 contrast)
 {
-	//INVOKE(0x0050D2B0, global_preferences_set_contrast, contrast);
+	//INVOKE(0x0050D2B0, global_preferences_set_display_contrast, contrast);
 
 	if (!global_preferences_available())
 		return;
@@ -1515,8 +1515,8 @@ const s_global_preference* k_global_preferences[k_global_preference_count]
 	DECLARE_GLOBAL_PREFERENCE(camera_fov, "<real>", 1, _global_preference_type_real),
 	DECLARE_GLOBAL_PREFERENCE(controls_method, "<long>", 1, _global_preference_type_long),
 	DECLARE_GLOBAL_PREFERENCE(details_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
-	DECLARE_GLOBAL_PREFERENCE(brightness, "<long>", 1, _global_preference_type_long),
-	DECLARE_GLOBAL_PREFERENCE(contrast, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(display_brightness, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(display_contrast, "<long>", 1, _global_preference_type_long),
 	DECLARE_GLOBAL_PREFERENCE(display_hints, "<bool>", 1, _global_preference_type_bool),
 	DECLARE_GLOBAL_PREFERENCE(effects_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
 	//DECLARE_GLOBAL_PREFERENCE(eviction_count, "<long>", 1, _global_preference_type_long),
