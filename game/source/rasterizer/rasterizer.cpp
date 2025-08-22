@@ -65,6 +65,9 @@ REFERENCE_DECLARE(0x050DD9A0, rectangle2d, c_rasterizer::g_last_scissor_rect);
 REFERENCE_DECLARE(0x050DD9BC, uns32, c_rasterizer::g_max_vs_gprs);
 REFERENCE_DECLARE(0x050DD9C0, uns32, c_rasterizer::g_max_ps_gprs);
 REFERENCE_DECLARE(0x050DD9C4, int32, c_rasterizer::g_adapter);
+REFERENCE_DECLARE(0x050DEDE0, int32, c_rasterizer::dip_cur);
+REFERENCE_DECLARE(0x050DEDE4, int32, c_rasterizer::dip_last);
+REFERENCE_DECLARE(0x050DEDE8, int32, c_rasterizer::dip_max);
 
 void(__cdecl* rasterizer_get_display_pixel_bounds)(rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
 

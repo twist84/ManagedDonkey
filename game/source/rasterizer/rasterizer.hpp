@@ -461,6 +461,10 @@ public:
 	static uns32& g_max_ps_gprs;
 	static int32& g_adapter;
 
+	static int32& dip_cur;
+	static int32& dip_last;
+	static int32& dip_max;
+
 	static void __cdecl clear(uns32 clear_channels, uns32 clear_color, real32 clear_z, uns8 clear_stencil);
 	static void __cdecl sub_A21440();
 	static void __cdecl end();
