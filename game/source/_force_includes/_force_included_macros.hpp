@@ -34,6 +34,7 @@
 #define CLAMP(x, low, high) ((x) < (low) ? (low) : (x) > (high) ? (high) : (x))
 #define CLAMP_LOWER(x, low, high) ((x) >= (high) - (low) ? (x) - (high) : (low))
 #define CLAMP_UPPER(x, low, high) ((x) <= (high) - (low) ? (x) + (low) : (high))
+#define SCALE_VALUE(x, a_min, a_max, b_min, b_max) ((b_min) + ((x) - (a_min)) * ((b_max) - (b_min)) / ((a_max) - (a_min)))
 
 #define SIZEOF_BITS(value) 8 * sizeof(value)
 

@@ -596,7 +596,7 @@ uns8 c_abstract_button::down_frames() const
 {
 	if (c_abstract_button::latched() || !c_abstract_button::access_valid())
 	{
-		return 0.0f;
+		return 0;
 	}
 
 	return m_down_frames;
@@ -606,7 +606,7 @@ uns16 c_abstract_button::down_msec()
 {
 	if (c_abstract_button::latched() || !c_abstract_button::access_valid())
 	{
-		return 0.0f;
+		return 0;
 	}
 
 	return m_down_msec;
