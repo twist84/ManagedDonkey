@@ -5,22 +5,6 @@
 
 #include <winerror.h>
 
-c_online_marketplace_consume_asset_task::~c_online_marketplace_consume_asset_task()
-{
-}
-
-c_online_marketplace_enumerate_assets_task::~c_online_marketplace_enumerate_assets_task()
-{
-}
-
-c_online_marketplace_enumerate_offers_task::~c_online_marketplace_enumerate_offers_task()
-{
-}
-
-c_online_marketplace_purchase_task::~c_online_marketplace_purchase_task()
-{
-}
-
 void c_online_marketplace_enumerate_assets_task::complete()
 {
 	INVOKE_CLASS_MEMBER(0x014E2DE0, c_online_marketplace_enumerate_assets_task, complete);

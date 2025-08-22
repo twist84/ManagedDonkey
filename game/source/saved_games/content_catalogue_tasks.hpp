@@ -34,7 +34,7 @@ class c_content_enumeration_overlapped_task :
 	public c_overlapped_task
 {
 public:
-	virtual ~c_content_enumeration_overlapped_task();
+	virtual ~c_content_enumeration_overlapped_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;
@@ -61,7 +61,7 @@ class c_content_item_overlapped_task :
 	public c_overlapped_task
 {
 public:
-	virtual ~c_content_item_overlapped_task();
+	virtual ~c_content_item_overlapped_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;

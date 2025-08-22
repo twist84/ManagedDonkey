@@ -15,7 +15,7 @@ public:
 	void __thiscall update_population_();
 
 public:
-	virtual ~c_gui_screen_pregame_lobby_matchmaking();
+	virtual ~c_gui_screen_pregame_lobby_matchmaking() = default;
 	virtual void initialize() override;
 	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition) override;
 	virtual void update(uns32 current_milliseconds) override;

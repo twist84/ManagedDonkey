@@ -126,12 +126,7 @@ s_window_manager_screen_render_data::s_window_manager_screen_render_data() :
 
 //.text:00AB0660 ; 
 //.text:00AB0670 ; public: virtual void* c_gui_screen_codeless_widget::`scalar deleting destructor'(unsigned int)
-
 //.text:00AB06A0 ; public: virtual void* c_gui_screen_widget::`scalar deleting destructor'(unsigned int)
-c_gui_screen_widget::~c_gui_screen_widget()
-{
-	//DECLFUNC(0x00AB06A0, void, __thiscall, c_gui_screen_widget*)(this);
-}
 
 void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
 {

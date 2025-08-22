@@ -9,7 +9,7 @@ class c_xml_tag_parser
 {
 public:
 	virtual bool parse_tag(const t_character_type* a1, int32* a2, t_character_type* a3, int32 a4, int32* a5) = 0;
-	virtual ~c_xml_tag_parser() {}
+	virtual ~c_xml_tag_parser() = default;
 
 	c_xml_tag_parser(const t_character_type* xml_tag) :
 		m_xml_tag(xml_tag)

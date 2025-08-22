@@ -27,9 +27,6 @@ c_storage_device_selector_overlapped_task::c_storage_device_selector_overlapped_
 }
 
 //.text:0074D400 ; public: virtual void* __cdecl c_storage_device_selector_overlapped_task::`scalar deleting destructor'(unsigned int)
-c_storage_device_selector_overlapped_task::~c_storage_device_selector_overlapped_task()
-{
-}
 
 void c_storage_device_selector_overlapped_task::failure(uns32 calling_result, uns32 overlapped_error, uns32 overlapped_extended_error)
 {

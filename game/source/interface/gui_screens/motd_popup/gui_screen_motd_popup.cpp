@@ -79,19 +79,10 @@ c_motd_popup_screen_widget::c_motd_popup_screen_widget(int32 name) :
 //.text:00B133F0 ; public: s_group_widget_block::s_group_widget_block()
 //.text:00B13450 ; public: s_group_widget_definition::s_group_widget_definition()
 //.text:00B134D0 ; public: s_screen_widget_definition::s_screen_widget_definition()
-
 //.text:00B135D0 ; public: virtual c_motd_popup_screen_message::~c_motd_popup_screen_message()
 //.text:00B135E0 ; public: virtual c_motd_popup_screen_widget::~c_motd_popup_screen_widget()
 //.text:00B13630 ; public: virtual void* c_motd_popup_screen_message::`vector deleting destructor'(unsigned int)
 //.text:00B13660 ; public: virtual void* c_motd_popup_screen_widget::`scalar deleting destructor'(unsigned int)
-
-c_motd_popup_screen_message::~c_motd_popup_screen_message()
-{
-}
-
-c_motd_popup_screen_widget::~c_motd_popup_screen_widget()
-{
-}
 
 void c_motd_popup_screen_widget::acknowledge_message()
 {

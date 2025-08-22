@@ -22,9 +22,6 @@ c_start_menu_game_saved_film::c_start_menu_game_saved_film(int32 name) :
 
 //.text:00AEBB70 ; public: virtual c_start_menu_game_saved_film::~c_start_menu_game_saved_film()
 //.text:00AEBB80 ; public: virtual void* c_start_menu_game_saved_film::`vector deleting destructor'(unsigned int)
-c_start_menu_game_saved_film::~c_start_menu_game_saved_film()
-{
-}
 
 bool c_start_menu_game_saved_film::allow_pane_tab_change()
 {

@@ -19,7 +19,7 @@ public:
 	void __thiscall update_widget_visiblility_();
 
 public:
-	virtual ~c_gui_screen_pregame_lobby();
+	virtual ~c_gui_screen_pregame_lobby() = default;
 	virtual void initialize() override;
 	virtual void post_initialize() override;
 	virtual void dispose() override;

@@ -61,10 +61,6 @@ s_runtime_list_widget_definition::s_runtime_list_widget_definition()
 //.text:00B14A70 ; 
 
 //.text:00B14A80 ; public: virtual void* c_gui_list_widget::`scalar deleting destructor'(unsigned int)
-c_gui_list_widget::~c_gui_list_widget()
-{
-	//DECLFUNC(0x00B14A80, void, __thiscall, c_gui_list_widget*)(this);
-}
 
 void c_gui_list_widget::add_definition_fields(const s_list_widget_definition* definition, bool was_templated)
 {

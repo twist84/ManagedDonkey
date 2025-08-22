@@ -86,11 +86,7 @@ c_gui_screen_pregame_lobby_campaign::c_gui_screen_pregame_lobby_campaign(int32 n
 //.text:00AFF890 ; 
 //.text:00AFF8E0 ; 
 //.text:00AFF8F0 ; 
-
 //.text:00AFF900 ; public: virtual void* c_gui_screen_pregame_lobby_campaign::`scalar deleting destructor'(unsigned int)
-c_gui_screen_pregame_lobby_campaign::~c_gui_screen_pregame_lobby_campaign()
-{
-}
 
 e_gui_game_mode c_gui_screen_pregame_lobby_campaign::get_gui_game_mode()
 {

@@ -4,10 +4,6 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "text/draw_string.hpp"
 
-c_debug_menu_item_type::~c_debug_menu_item_type()
-{
-}
-
 void c_debug_menu_item_type::render(c_font_cache_base* font_cache, const point2d& position)
 {
 	point2d value_point{};
@@ -70,10 +66,6 @@ bool c_debug_menu_item_type::get_readonly()
 	return m_readonly;
 }
 
-c_debug_menu_item_type_bool::~c_debug_menu_item_type_bool()
-{
-}
-
 void c_debug_menu_item_type_bool::notify_left()
 {
 	c_debug_menu_item::notify_left();
@@ -98,10 +90,6 @@ void c_debug_menu_item_type_bool::to_string(char* buffer, int32 buffer_size)
 c_debug_menu_item_type_bool::c_debug_menu_item_type_bool(c_debug_menu* menu, const char* name, bool readonly, const char* hs_global_name) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(hs_global_name)
-{
-}
-
-c_debug_menu_item_type_real::~c_debug_menu_item_type_real()
 {
 }
 
@@ -135,10 +123,6 @@ c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, con
 {
 }
 
-c_debug_menu_item_type_short::~c_debug_menu_item_type_short()
-{
-}
-
 void c_debug_menu_item_type_short::notify_left()
 {
 	c_debug_menu_item::notify_left();
@@ -166,10 +150,6 @@ c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, c
 	m_min(min),
 	m_max(min),
 	m_inc(inc)
-{
-}
-
-c_debug_menu_item_type_long::~c_debug_menu_item_type_long()
 {
 }
 

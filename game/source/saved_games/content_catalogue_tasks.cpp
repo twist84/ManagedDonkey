@@ -28,14 +28,6 @@ c_content_item_overlapped_task::c_content_item_overlapped_task(const char* file,
 //.text:0074C690 ; public: virtual void* c_content_enumeration_overlapped_task::`vector deleting destructor'(unsigned int)
 //.text:0074C6C0 ; public: virtual void* c_content_item_overlapped_task::`vector deleting destructor'(unsigned int)
 
-c_content_enumeration_overlapped_task::~c_content_enumeration_overlapped_task()
-{
-}
-
-c_content_item_overlapped_task::~c_content_item_overlapped_task()
-{
-}
-
 void c_content_enumeration_overlapped_task::complete()
 {
 	INVOKE_CLASS_MEMBER(0x0074C6F0, c_content_enumeration_overlapped_task, complete);

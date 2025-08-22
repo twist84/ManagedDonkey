@@ -11,7 +11,7 @@ public:
 	void __thiscall update_render_state_(uns32 current_milliseconds);
 
 public:
-	virtual ~c_gui_roster_list_widget();
+	virtual ~c_gui_roster_list_widget() = default;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual void update_render_state(uns32 current_milliseconds) override;
 	

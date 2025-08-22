@@ -6,7 +6,7 @@ class c_start_menu_game_saved_film :
 	public c_start_menu_pane_screen_widget
 {
 public:
-	virtual ~c_start_menu_game_saved_film();
+	virtual ~c_start_menu_game_saved_film() = default;
 	virtual void initialize() override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual void initialize_datasource() override;

@@ -25,19 +25,9 @@ c_gui_secondary_skulls_data::c_gui_secondary_skulls_data() :
 //.text:00AFE560 ; 
 //.text:00AFE570 ; 
 //.text:00AFE580 ; 
-
 //.text:00AFE590 ; public: virtual void* c_gui_primary_skulls_data::`vector deleting destructor'(unsigned int)
-c_gui_primary_skulls_data::~c_gui_primary_skulls_data()
-{
-}
-
-
 //.text:00AFE5C0 ; public: virtual void* c_gui_screen_campaign_select_skulls::`scalar deleting destructor'(unsigned int)
-
 //.text:00AFE5F0 ; public: virtual void* c_gui_secondary_skulls_data::`scalar deleting destructor'(unsigned int)
-c_gui_secondary_skulls_data::~c_gui_secondary_skulls_data()
-{
-}
 
 void c_gui_primary_skulls_data::get_column_names(int32* const column_names, int32* column_count)
 {

@@ -41,11 +41,6 @@ c_gui_text_widget::s_text_source_data::s_text_source_data() :
 }
 
 //.text:00B18870 ; public: virtual void * __cdecl c_gui_text_widget::`vector deleting destructor'(unsigned int)
-c_gui_text_widget::~c_gui_text_widget()
-{
-	DECLFUNC(0x00B18870, void, __thiscall, c_gui_text_widget*)(this);
-}
-
 //.text:00B188A0 ; public: static void __cdecl c_gui_text_widget::add_definition_fields(const s_text_widget_definition*, s_runtime_text_widget_definition*, real_rectangle2d*, bool)
 //.text:00B189C0 ; public: static void __cdecl c_gui_text_widget::assemble_definition(const s_text_widget_block*, s_runtime_text_widget_definition*, real_rectangle2d*)
 

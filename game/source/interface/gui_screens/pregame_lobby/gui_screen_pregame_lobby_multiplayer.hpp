@@ -10,7 +10,7 @@ public:
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 
 public:
-	virtual ~c_gui_screen_pregame_lobby_multiplayer();
+	virtual ~c_gui_screen_pregame_lobby_multiplayer() = default;
 	virtual void initialize() override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;

@@ -69,7 +69,7 @@ public:
 	void __thiscall close_active_submenu_(c_gui_list_widget* submenu_widget);
 
 public:
-	virtual ~c_gui_list_widget();
+	virtual ~c_gui_list_widget() = default;
 	virtual void post_initialize() override;
 	virtual int32 get_datasource_index() override;
 	virtual s_runtime_core_widget_definition* get_core_definition() override;

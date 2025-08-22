@@ -25,12 +25,7 @@ c_gui_screen_pregame_lobby_multiplayer::c_gui_screen_pregame_lobby_multiplayer(i
 }
 
 //.text:00B01150 ; public: virtual c_gui_screen_pregame_lobby_multiplayer::~c_gui_screen_pregame_lobby_multiplayer()
-
 //.text:00B011A0 ; public: virtual void* c_gui_screen_pregame_lobby_multiplayer::`scalar deleting destructor'(unsigned int)
-c_gui_screen_pregame_lobby_multiplayer::~c_gui_screen_pregame_lobby_multiplayer()
-{
-	//DECLFUNC(0x00B011A0, void, __thiscall, c_gui_screen_pregame_lobby_multiplayer*)(this);
-}
 
 e_gui_game_mode c_gui_screen_pregame_lobby_multiplayer::get_gui_game_mode()
 {

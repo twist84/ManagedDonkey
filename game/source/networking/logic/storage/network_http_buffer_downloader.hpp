@@ -34,7 +34,7 @@ public:
 	};
 
 public:
-	virtual ~c_http_buffer_downloader() {};
+	virtual ~c_http_buffer_downloader() = default;
 
 	e_download_status __thiscall get_download_status();
 	e_download_status __thiscall get_data(const char** out_data, int32* out_data_length);

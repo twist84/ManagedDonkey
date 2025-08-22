@@ -19,10 +19,6 @@ s_runtime_list_item_widget_definition::s_runtime_list_item_widget_definition()
 }
 
 //.text:00B183B0 ; public: virtual void* __cdecl c_gui_list_item_widget::`vector deleting destructor'(unsigned int)
-c_gui_list_item_widget::~c_gui_list_item_widget()
-{
-	//DECLFUNC(0x00B183B0, void, __thiscall, c_gui_list_item_widget*)(this);
-}
 
 bool c_gui_list_item_widget::can_receive_focus()
 {

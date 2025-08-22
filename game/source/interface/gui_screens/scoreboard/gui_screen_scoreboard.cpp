@@ -69,18 +69,6 @@ c_gui_scoreboard_data::s_player_row::s_player_row()
 //.text:00AB2BD0 ; public: virtual void* c_gui_screen_scoreboard::`scalar deleting destructor'(unsigned int)
 //.text:00AB2C00 ; public: virtual void* c_scoreboard_load_screen_message::`vector deleting destructor'(unsigned int)
 
-c_gui_scoreboard_data::~c_gui_scoreboard_data()
-{
-}
-
-c_gui_screen_scoreboard::~c_gui_screen_scoreboard()
-{
-}
-
-c_scoreboard_load_screen_message::~c_scoreboard_load_screen_message()
-{
-}
-
 bool c_gui_scoreboard_data::add_player_internal(
 	e_player_row_type player_row_type,
 	int32 game_player_index,

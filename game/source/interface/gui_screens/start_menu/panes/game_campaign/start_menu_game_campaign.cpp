@@ -25,9 +25,6 @@ c_start_menu_game_campaign::c_start_menu_game_campaign(int32 name) :
 //.text:00AE8700 ; public: virtual c_start_menu_game_campaign::~c_start_menu_game_campaign()
 //.text:00AE8710 ; 
 //.text:00AE8720 ; public: virtual void* c_start_menu_game_campaign::`scalar deleting destructor'(unsigned int)
-c_start_menu_game_campaign::~c_start_menu_game_campaign()
-{
-}
 
 bool c_start_menu_game_campaign::allow_pane_tab_change()
 {

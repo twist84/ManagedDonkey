@@ -46,12 +46,6 @@ c_gui_bitmap_widget::c_gui_bitmap_widget() :
 }
 
 //.text:00B166B0 ; public: virtual void* c_gui_bitmap_widget::`vector deleting destructor'(unsigned int)
-c_gui_bitmap_widget::~c_gui_bitmap_widget()
-{
-	//DECLFUNC(0x00B166B0, void, __thiscall, c_gui_bitmap_widget*)(this);
-
-	//c_gui_widget::~c_gui_widget();
-}
 
 void __cdecl c_gui_bitmap_widget::add_definition_fields(const s_bitmap_widget_definition* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated)
 {

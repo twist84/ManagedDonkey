@@ -79,7 +79,7 @@ protected:
 	virtual e_animation_state get_ambient_state() override;
 
 public:
-	virtual ~c_gui_bitmap_widget();
+	virtual ~c_gui_bitmap_widget() = default;
 	virtual s_runtime_core_widget_definition* get_core_definition() override;
 	virtual real_rectangle2d* get_current_bounds(real_rectangle2d* unanimated_bounds) override;
 	virtual bool can_receive_focus() override;

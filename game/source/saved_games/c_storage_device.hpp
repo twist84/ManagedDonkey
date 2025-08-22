@@ -10,7 +10,7 @@ public:
 	uns32 __thiscall start_(void* xenon_task_handle);
 
 public:
-	virtual ~c_storage_device_selector_overlapped_task();
+	virtual ~c_storage_device_selector_overlapped_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;

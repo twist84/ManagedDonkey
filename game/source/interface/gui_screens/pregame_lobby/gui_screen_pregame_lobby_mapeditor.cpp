@@ -16,10 +16,6 @@ c_gui_screen_pregame_lobby_mapeditor::c_gui_screen_pregame_lobby_mapeditor(int32
 
 //.text:00B02180 ; public: virtual c_gui_screen_pregame_lobby_mapeditor::~c_gui_screen_pregame_lobby_mapeditor(void)
 //.text:00B021D0 ; public: virtual void * c_gui_screen_pregame_lobby_mapeditor::`vector deleting destructor'(unsigned int)
-c_gui_screen_pregame_lobby_mapeditor::~c_gui_screen_pregame_lobby_mapeditor()
-{
-	//DECLFUNC(0x00B021D0, void, __thiscall, c_gui_screen_pregame_lobby_mapeditor*)(this);
-}
 
 e_gui_game_mode c_gui_screen_pregame_lobby_mapeditor::get_gui_game_mode()
 {

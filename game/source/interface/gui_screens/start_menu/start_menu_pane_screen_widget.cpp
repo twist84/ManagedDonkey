@@ -19,11 +19,7 @@ c_start_menu_pane_screen_widget::c_start_menu_pane_screen_widget(int32 name) :
 
 //.text:00B1F2F0 ; public: virtual c_start_menu_custom_message::~c_start_menu_custom_message()
 //.text:00B1F300 ; public: virtual void* c_start_menu_custom_message::`scalar deleting destructor'(unsigned int)
-
 //.text:00B1F330 ; public: virtual void* c_start_menu_pane_screen_widget::`vector deleting destructor'(unsigned int)
-c_start_menu_pane_screen_widget::~c_start_menu_pane_screen_widget()
-{
-}
 
 void c_start_menu_pane_screen_widget::close_current_subpane()
 {

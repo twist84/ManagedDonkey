@@ -56,11 +56,6 @@ c_gui_custom_bitmap_widget::c_gui_custom_bitmap_widget() :
 //.text:00AC36B0 ; 
 
 //.text:00AC36C0 ; public: virtual void* c_gui_custom_bitmap_widget::`scalar deleting destructor'(unsigned int)
-c_gui_custom_bitmap_widget::~c_gui_custom_bitmap_widget()
-{
-	//DECLFUNC(0x00AC36C0, void, __thiscall, c_gui_custom_bitmap_widget*)(this);
-}
-
 //.text:00AC36F0 ; public: bool c_gui_custom_bitmap_widget::acquire_from_custom_bitmap(const c_gui_custom_bitmap_widget*)
 //.text:00AC3730 ; public: bool c_gui_custom_bitmap_widget::allocate(bool)
 

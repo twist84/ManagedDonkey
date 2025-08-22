@@ -43,16 +43,16 @@ c_gui_tag_datasource::c_gui_tag_datasource() :
 	//DECLFUNC(0x00AD45A0, void, __thiscall, c_gui_tag_datasource*)(this);
 }
 
-//.text:00AD46A0 ; public: virtual void* c_gui_data::`scalar deleting destructor'(unsigned int)
+//.text:00AD45D0 ; public: virtual __cdecl c_gui_data::~c_gui_data(void)
 c_gui_data::~c_gui_data()
 {
-	//DECLFUNC(0x00AD46A0, void, __thiscall, c_gui_data*)(this);
+	//DECLFUNC(0x00AD45D0, void, __thiscall, c_gui_data*)(this);
 }
 
-//.text:00AD46D0 ; public: virtual void* c_gui_data_array::`vector deleting destructor'(unsigned int)
+//.text:00AD45E0 ; public: virtual __cdecl c_gui_data_array::~c_gui_data_array(void)
 c_gui_data_array::~c_gui_data_array()
 {
-	//DECLFUNC(0x00AD46D0, void, __thiscall, c_gui_data_array*)(this);
+	//DECLFUNC(0x00AD45E0, void, __thiscall, c_gui_data_array*)(this);
 
 	if (m_list_data)
 	{
@@ -61,23 +61,12 @@ c_gui_data_array::~c_gui_data_array()
 	}
 }
 
+//.text:00AD46A0 ; public: virtual void* c_gui_data::`scalar deleting destructor'(unsigned int)
+//.text:00AD46D0 ; public: virtual void* c_gui_data_array::`vector deleting destructor'(unsigned int)
+
 //.text:00AD4740 ; public: virtual void* c_gui_data_array_test::`vector deleting destructor'(unsigned int)
-c_gui_data_array_test::~c_gui_data_array_test()
-{
-	//DECLFUNC(0x00AD4740, void, __thiscall, c_gui_data_array_test*)(this);
-}
-
 //.text:00AD47B0 ; public: virtual void* c_gui_ordered_data::`vector deleting destructor'(unsigned int)
-c_gui_ordered_data::~c_gui_ordered_data()
-{
-	//DECLFUNC(0x00AD47B0, void, __thiscall, c_gui_ordered_data*)(this);
-}
-
 //.text:00AD47E0 ; public: virtual void* c_gui_tag_datasource::`vector deleting destructor'(unsigned int)
-c_gui_tag_datasource::~c_gui_tag_datasource()
-{
-	//DECLFUNC(0x00AD47E0, void, __thiscall, c_gui_tag_datasource*)(this);
-}
 
 int32 c_gui_data::add_element()
 {

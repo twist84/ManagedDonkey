@@ -169,7 +169,7 @@ public:
 	};
 
 public:
-	virtual ~c_gui_screen_widget();
+	virtual ~c_gui_screen_widget() = default;
 	virtual void initialize() override;
 	virtual void post_initialize() override;
 	virtual void dispose() override;

@@ -6,7 +6,7 @@ class c_debug_menu_zone_sets :
 	public c_debug_menu_scroll
 {
 public:
-	virtual ~c_debug_menu_zone_sets();
+	virtual ~c_debug_menu_zone_sets() = default;
 	virtual void notify_selected(int16 selected_value) override;
 	virtual void open() override;
 

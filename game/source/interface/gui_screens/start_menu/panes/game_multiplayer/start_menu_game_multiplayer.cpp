@@ -22,9 +22,6 @@ c_start_menu_game_multiplayer::c_start_menu_game_multiplayer(int32 name) :
 
 //.text:00AE90B0 ; public: virtual c_start_menu_game_multiplayer::~c_start_menu_game_multiplayer()
 //.text:00AE90C0 ; public: virtual void* c_start_menu_game_multiplayer::`scalar deleting destructor'(unsigned int)
-c_start_menu_game_multiplayer::~c_start_menu_game_multiplayer()
-{
-}
 
 bool c_start_menu_game_multiplayer::allow_pane_tab_change()
 {

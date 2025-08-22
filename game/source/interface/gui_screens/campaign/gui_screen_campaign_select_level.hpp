@@ -8,7 +8,7 @@ class c_gui_insertion_point_data :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_gui_insertion_point_data();
+	virtual ~c_gui_insertion_point_data() = default;
 	virtual bool initialize(int32 name) override;
 	virtual void update() override;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
@@ -39,7 +39,7 @@ public:
 	bool __thiscall handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
 
 public:
-	~c_gui_screen_campaign_select_level();
+	virtual ~c_gui_screen_campaign_select_level() = default;
 	virtual void initialize() override;
 	virtual void post_initialize() override;
 	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition) override;

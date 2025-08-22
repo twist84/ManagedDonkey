@@ -40,9 +40,11 @@ class c_motd_popup_screen_message :
 	public c_load_screen_message
 {
 public:
-	c_motd_popup_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, const s_message_of_the_day_popup* message, int32 message_index);
-	virtual ~c_motd_popup_screen_message();
+	virtual ~c_motd_popup_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_motd_popup_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, const s_message_of_the_day_popup* message, int32 message_index);
 
 public:
 	s_message_of_the_day_popup m_message;
@@ -74,7 +76,7 @@ public:
 	};
 
 public:
-	virtual ~c_motd_popup_screen_widget();
+	virtual ~c_motd_popup_screen_widget() = default;
 	virtual void post_initialize() override;
 	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition) override;
 	virtual void update(uns32 current_milliseconds) override;

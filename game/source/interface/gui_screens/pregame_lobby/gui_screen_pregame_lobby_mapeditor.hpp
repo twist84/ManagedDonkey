@@ -6,7 +6,7 @@ class c_gui_screen_pregame_lobby_mapeditor :
 	public c_gui_screen_pregame_lobby
 {
 public:
-	virtual ~c_gui_screen_pregame_lobby_mapeditor();
+	virtual ~c_gui_screen_pregame_lobby_mapeditor() = default;
 	virtual void initialize() override;
 	virtual void post_initialize() override;
 	virtual void update(uns32 current_milliseconds) override;

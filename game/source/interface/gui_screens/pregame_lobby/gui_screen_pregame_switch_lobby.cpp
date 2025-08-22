@@ -11,9 +11,6 @@ c_gui_screen_pregame_switch_lobby::c_gui_screen_pregame_switch_lobby(int32 name)
 
 //.text:00B02E10 ; public: virtual c_gui_screen_pregame_switch_lobby::~c_gui_screen_pregame_switch_lobby()
 //.text:00B02E20 ; public: virtual void* c_gui_screen_pregame_switch_lobby::`vector deleting destructor'(unsigned int)
-c_gui_screen_pregame_switch_lobby::~c_gui_screen_pregame_switch_lobby()
-{
-}
 
 bool c_gui_screen_pregame_switch_lobby::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {

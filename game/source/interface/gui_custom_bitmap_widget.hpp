@@ -31,7 +31,7 @@ public:
 	void __thiscall set_map_image_(e_custom_map_image_type image_type, e_map_id map_id, bool use_compressed_format);
 
 public:
-	virtual ~c_gui_custom_bitmap_widget();
+	virtual ~c_gui_custom_bitmap_widget() = default;
 	virtual void dispose() override;
 	virtual bool should_render(bool* add_to_render_list) override;
 	virtual void update(uns32 current_milliseconds) override;

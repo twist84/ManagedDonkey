@@ -17,11 +17,7 @@ c_start_menu_settings::c_start_menu_settings(int32 name) :
 	//DECLFUNC(0x00AF7340, void, __thiscall, c_start_menu_settings*, int32)(this, name);
 }
 
-c_start_menu_settings::~c_start_menu_settings()
-{
-	//DECLFUNC(0x00AF7360, void, __thiscall, c_start_menu_settings*)(this);
-}
-
+//.text:00AF7360 ; public: c_start_menu_settings::~c_start_menu_settings()
 //.text:00AF7370 ; public: virtual void* c_start_menu_settings::`vector deleting destructor'(unsigned int)
 
 bool c_start_menu_settings::allow_pane_tab_change()

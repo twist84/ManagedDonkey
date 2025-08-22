@@ -6,7 +6,7 @@ class c_debug_menu_scroll :
 	public c_debug_menu
 {
 public:
-	virtual ~c_debug_menu_scroll();
+	virtual ~c_debug_menu_scroll() = default;
 	virtual void update() override;
 	virtual void render(c_font_cache_base* font_cache, const point2d& point) override;
 	virtual void open() override;

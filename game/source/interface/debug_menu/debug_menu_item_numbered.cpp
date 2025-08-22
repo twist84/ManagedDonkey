@@ -4,10 +4,6 @@
 #include "interface/interface_constants.hpp"
 #include "text/draw_string.hpp"
 
-c_debug_menu_item_numbered::~c_debug_menu_item_numbered()
-{
-}
-
 void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, const point2d& position)
 {
 	render_number(font_cache, position);

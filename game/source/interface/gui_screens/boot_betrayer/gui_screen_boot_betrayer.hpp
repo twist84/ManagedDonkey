@@ -32,9 +32,11 @@ class c_load_boot_betrayer_screen_message :
 	public c_load_screen_message
 {
 public:
-	c_load_boot_betrayer_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, const s_player_identifier* current_player_id, const s_player_identifier* target_player_id);
-	virtual ~c_load_boot_betrayer_screen_message();
+	virtual ~c_load_boot_betrayer_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_load_boot_betrayer_screen_message(e_controller_index controller, e_window_index window, int32 layered_position, const s_player_identifier* current_player_id, const s_player_identifier* target_player_id);
 
 protected:
 	s_player_identifier m_current_player_id;

@@ -71,23 +71,9 @@ c_gui_roster_data::s_player_row::s_player_row()
 //.text:00B24870 ; public: c_gui_roster_data::s_player_row & c_static_array<c_gui_roster_data::s_player_row, 16>::operator[](int32)
 
 //.text:00B24890 ; public: virtual void* c_gui_active_roster_data::`vector deleting destructor'(unsigned int)
-c_gui_active_roster_data::~c_gui_active_roster_data()
-{
-	//DECLFUNC(0x00B24890, void, __thiscall, c_gui_active_roster_data*)(this);
-}
-
+//.text:00B24890 ; public: virtual void* c_gui_active_roster_data::`vector deleting destructor'(unsigned int)
 //.text:00B248C0 ; public: virtual void* c_gui_roster_data::`vector deleting destructor'(unsigned int)
-c_gui_roster_data::~c_gui_roster_data()
-{
-	//DECLFUNC(0x00B248C0, void, __thiscall, c_gui_roster_data*)(this);
-}
-
 //.text:00B248F0 ; public: virtual void* __cdecl c_gui_static_roster_data::`vector deleting destructor'(unsigned int)
-c_gui_static_roster_data::~c_gui_static_roster_data()
-{
-	//DECLFUNC(0x00B248F0, void, __thiscall, c_gui_static_roster_data*)(this);
-}
-
 //.text:00B24920 ; public: bool __cdecl c_gui_static_roster_data::add_player(int32, const s_player_configuration*, e_controller_index)
 //.text:00B24940 ; protected: bool c_gui_roster_data::add_player_internal(c_gui_roster_data::e_player_row_type, int32, const s_player_configuration*, e_controller_index, c_gui_roster_data::e_voice_talking_state, bool, bool)
 //.text:00B24A20 ; protected: c_gui_roster_data::s_player_row* c_gui_roster_data::add_player_simple(c_gui_roster_data::e_player_row_type, const s_player_identifier*, const s_player_configuration*, e_controller_index)

@@ -28,10 +28,6 @@ c_gui_screen_pregame_lobby_theater::c_gui_screen_pregame_lobby_theater(int32 nam
 
 //.text:00B025A0 ; public: virtual c_gui_screen_pregame_lobby_theater::~c_gui_screen_pregame_lobby_theater()
 //.text:00B025F0 ; public: virtual void* c_gui_screen_pregame_lobby_theater::`vector deleting destructor'(unsigned int)
-c_gui_screen_pregame_lobby_theater::~c_gui_screen_pregame_lobby_theater()
-{
-	//DECLFUNC(0x00B025F0, void, __thiscall, c_gui_screen_pregame_lobby_theater*)(this);
-}
 
 e_gui_game_mode c_gui_screen_pregame_lobby_theater::get_gui_game_mode()
 {

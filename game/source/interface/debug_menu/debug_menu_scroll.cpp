@@ -5,10 +5,6 @@
 #include "interface/interface_constants.hpp"
 #include "text/draw_string.hpp"
 
-c_debug_menu_scroll::~c_debug_menu_scroll()
-{
-}
-
 void c_debug_menu_scroll::update()
 {
 	c_debug_menu::update();

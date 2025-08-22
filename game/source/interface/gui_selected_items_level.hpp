@@ -27,7 +27,7 @@ class c_gui_level_category_datasource :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_gui_level_category_datasource();
+	virtual ~c_gui_level_category_datasource() = default;
 	virtual bool initialize(int32 name) override;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
@@ -57,7 +57,7 @@ public:
 	static_assert(sizeof(s_level) == 0x200);
 
 public:
-	virtual ~c_gui_level_subitem_selectable_item_datasource();
+	virtual ~c_gui_level_subitem_selectable_item_datasource() = default;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
 	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;

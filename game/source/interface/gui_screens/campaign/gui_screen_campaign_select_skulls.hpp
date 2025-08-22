@@ -15,7 +15,7 @@ class c_gui_primary_skulls_data :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_gui_primary_skulls_data();
+	virtual ~c_gui_primary_skulls_data() = default;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 
 protected:
@@ -40,7 +40,7 @@ class c_gui_secondary_skulls_data :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_gui_secondary_skulls_data();
+	virtual ~c_gui_secondary_skulls_data() = default;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 
 protected:

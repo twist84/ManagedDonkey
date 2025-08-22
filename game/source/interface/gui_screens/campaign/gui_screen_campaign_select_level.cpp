@@ -50,9 +50,6 @@ c_gui_screen_campaign_select_level::c_gui_screen_campaign_select_level(int32 nam
 
 //.text:00AFCAE0 ; public: virtual c_gui_screen_campaign_select_level::~c_gui_screen_campaign_select_level()
 //.text:00AFCBA0 ; public: virtual void* c_gui_screen_campaign_select_level::`vector deleting destructor'(unsigned int)
-c_gui_screen_campaign_select_level::~c_gui_screen_campaign_select_level()
-{
-}
 
 c_gui_bitmap_widget* c_gui_screen_campaign_select_level::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {
@@ -326,10 +323,6 @@ c_gui_insertion_point_data::c_gui_insertion_point_data(int32 string_list_index) 
 	m_insertion_point_count(0),
 	m_insertion_point_unlocked(1),
 	m_string_list_index(string_list_index)
-{
-}
-
-c_gui_insertion_point_data::~c_gui_insertion_point_data()
 {
 }
 

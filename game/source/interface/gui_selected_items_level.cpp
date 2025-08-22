@@ -54,18 +54,8 @@ c_gui_level_subitem_selectable_item_datasource::s_level::s_level()
 //.text:00B207A0 ; 
 //.text:00B207B0 ; 
 //.text:00B207C0 ; 
-
 //.text:00B207E0 ; public: virtual void* c_gui_level_category_datasource::`vector deleting destructor'(unsigned int)
-c_gui_level_category_datasource::~c_gui_level_category_datasource()
-{
-
-}
-
 //.text:00B20810 ; public: virtual void* c_gui_level_subitem_selectable_item_datasource::`scalar deleting destructor'(unsigned int)
-c_gui_level_subitem_selectable_item_datasource::~c_gui_level_subitem_selectable_item_datasource()
-{
-
-}
 
 void c_gui_level_category_datasource::get_column_names(int32* const column_names, int32* column_count)
 {

@@ -82,7 +82,7 @@ public:
 	static_assert(sizeof(s_text_source_data) == 0xC);
 
 public:
-	virtual ~c_gui_text_widget();
+	virtual ~c_gui_text_widget() = default;
 	virtual s_runtime_core_widget_definition* get_core_definition() override;
 	virtual real_argb_color* get_cumulative_color_tint(real_argb_color* tint) override;
 	virtual bool within_focus_chain() override;
@@ -151,9 +151,7 @@ class c_gui_sized_text_widget :
 	public c_gui_text_widget
 {
 public:
-	//virtual ~c_gui_sized_text_widget()
-	//{
-	//}
+	//virtual ~c_gui_sized_text_widget() = default
 	//
 	//virtual c_user_interface_text* get_text_internal() override
 	//{

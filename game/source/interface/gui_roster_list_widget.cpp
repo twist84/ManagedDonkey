@@ -42,12 +42,7 @@ c_gui_roster_list_widget::c_gui_roster_list_widget(bool game_roster_is_local_par
 }
 
 //.text:00B25AC0 ; 
-
 //.text:00B25AD0 ; public: virtual void* c_gui_roster_list_widget::`vector deleting destructor'(unsigned int)
-c_gui_roster_list_widget::~c_gui_roster_list_widget()
-{
-	DECLFUNC(0x00B25AD0, void, __thiscall, c_gui_roster_list_widget*)(this);
-}
 
 void c_gui_roster_list_widget::end_team_change(int32 session_player_index, int32 lying_end_time)
 {

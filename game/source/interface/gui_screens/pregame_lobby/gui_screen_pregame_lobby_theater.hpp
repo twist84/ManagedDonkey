@@ -9,7 +9,7 @@ public:
 	void __thiscall update_(uns32 current_milliseconds);
 
 public:
-	virtual ~c_gui_screen_pregame_lobby_theater();
+	virtual ~c_gui_screen_pregame_lobby_theater() = default;
 	virtual void initialize() override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;

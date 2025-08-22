@@ -6,7 +6,7 @@ class c_online_marketplace_consume_asset_task :
 	public c_overlapped_task
 {
 public:
-	virtual ~c_online_marketplace_consume_asset_task();
+	virtual ~c_online_marketplace_consume_asset_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 
@@ -27,7 +27,7 @@ public:
 	};
 
 public:
-	virtual ~c_online_marketplace_enumerate_assets_task();
+	virtual ~c_online_marketplace_enumerate_assets_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;
@@ -66,7 +66,7 @@ public:
 	static_assert(sizeof(s_enumerated_offer) == 0x8);
 
 public:
-	virtual ~c_online_marketplace_enumerate_offers_task();
+	virtual ~c_online_marketplace_enumerate_offers_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;
@@ -101,7 +101,7 @@ public:
 	};
 
 public:
-	virtual ~c_online_marketplace_purchase_task();
+	virtual ~c_online_marketplace_purchase_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;

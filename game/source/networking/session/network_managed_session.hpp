@@ -43,7 +43,7 @@ public:
 	void __thiscall success_(uns32 return_result);
 
 public:
-	virtual ~c_managed_session_overlapped_task();
+	virtual ~c_managed_session_overlapped_task() = default;
 	virtual const char* get_context_string() const override;
 	virtual uns32 start(void* overlapped) override;
 	virtual void success(uns32 return_result) override;

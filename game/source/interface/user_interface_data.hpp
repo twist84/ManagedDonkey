@@ -91,7 +91,7 @@ public:
 	};
 
 public:
-	virtual ~c_gui_data_array_test();
+	virtual ~c_gui_data_array_test() = default;
 	virtual bool initialize(int32 name) override;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
@@ -124,7 +124,7 @@ public:
 	static_assert(sizeof(s_disabled_element) == 0x8);
 
 public:
-	virtual ~c_gui_ordered_data();
+	virtual ~c_gui_ordered_data() = default;
 	virtual int32 get_current_item_count() override;
 	virtual int32 get_first_element_handle() override;
 	virtual int32 get_next_element_handle(int32 element_handle) override;
@@ -151,7 +151,7 @@ class c_gui_tag_datasource :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_gui_tag_datasource();
+	virtual ~c_gui_tag_datasource() = default;
 	virtual bool initialize(int32 name) override;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_element(int32 element_handle, void* element, int32 element_size) override;

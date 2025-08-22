@@ -111,31 +111,14 @@ c_load_game_options_screen_message::c_load_game_options_screen_message(int32 scr
 }
 
 //.text:00B0B270 ; 
-
 //.text:00B0B280 ; public: virtual c_game_options_category_datasource::~c_game_options_category_datasource()
 //.text:00B0B290 ; public: virtual c_game_options_parameter_datasource::~c_game_options_parameter_datasource()
 //.text:00B0B2A0 ; public: virtual c_gui_screen_game_options::~c_gui_screen_game_options()
 //.text:00B0B300 ; public: virtual c_load_game_options_screen_message::~c_load_game_options_screen_message()
-
 //.text:00B0B310 ; public: virtual void* c_game_options_category_datasource::`vector deleting destructor'(unsigned int)
-c_game_options_category_datasource::~c_game_options_category_datasource()
-{
-}
-
 //.text:00B0B340 ; public: virtual void* c_game_options_parameter_datasource::`vector deleting destructor'(unsigned int)
-c_game_options_parameter_datasource::~c_game_options_parameter_datasource()
-{
-}
-
 //.text:00B0B370 ; public: virtual void* c_gui_screen_game_options::`vector deleting destructor'(unsigned int)
-c_gui_screen_game_options::~c_gui_screen_game_options()
-{
-}
-
 //.text:00B0B3E0 ; public: virtual void* c_load_game_options_screen_message::`vector deleting destructor'(unsigned int)
-c_load_game_options_screen_message::~c_load_game_options_screen_message()
-{
-}
 
 bool c_gui_screen_game_options::allow_user_to_transition()
 {

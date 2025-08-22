@@ -6,7 +6,7 @@ class c_gui_screen_pregame_switch_lobby :
 	public c_gui_screen_widget
 {
 public:
-	virtual ~c_gui_screen_pregame_switch_lobby();
+	virtual ~c_gui_screen_pregame_switch_lobby() = default;
 	virtual void post_initialize() override;
 	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
 

@@ -34,10 +34,6 @@ c_gui_screen_campaign_settings::c_gui_screen_campaign_settings(int32 name) :
 {
 }
 
-c_gui_screen_campaign_settings::~c_gui_screen_campaign_settings()
-{
-}
-
 bool c_gui_screen_campaign_settings::handle_controller_input_message(const c_controller_input_message* message)
 {
 	c_gui_list_widget* primary_skulls_list_widget = c_gui_widget::get_child_list_widget(STRING_ID(gui, primary_skulls));

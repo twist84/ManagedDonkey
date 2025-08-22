@@ -6,7 +6,7 @@ class c_start_menu_game_campaign :
 	public c_start_menu_pane_screen_widget
 {
 public:
-	virtual ~c_start_menu_game_campaign();
+	virtual ~c_start_menu_game_campaign() = default;
 	virtual void initialize() override;
 	virtual void post_initialize() override;
 	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition) override;

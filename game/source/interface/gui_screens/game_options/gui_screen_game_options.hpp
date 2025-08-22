@@ -24,7 +24,7 @@ class c_game_options_category_datasource :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_game_options_category_datasource();
+	virtual ~c_game_options_category_datasource() = default;
 	virtual void get_column_names(int32* const column_names, int32* column_count);
 	virtual bool get_element(int32 element_handle, void* element, int32 element_size);
 	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value);
@@ -49,7 +49,7 @@ class c_game_options_parameter_datasource :
 	public c_gui_ordered_data
 {
 public:
-	virtual ~c_game_options_parameter_datasource();
+	virtual ~c_game_options_parameter_datasource() = default;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
 	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
@@ -102,7 +102,7 @@ public:
 	};
 
 public:
-	virtual ~c_gui_screen_game_options();
+	virtual ~c_gui_screen_game_options() = default;
 	virtual void initialize() override;
 	virtual void post_initialize() override;
 	virtual void update(uns32 current_milliseconds) override;
@@ -160,7 +160,7 @@ class c_load_game_options_screen_message :
 	public c_load_screen_message
 {
 public:
-	virtual ~c_load_game_options_screen_message();
+	virtual ~c_load_game_options_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
 
 public:

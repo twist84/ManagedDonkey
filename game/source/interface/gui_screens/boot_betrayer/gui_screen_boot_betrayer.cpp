@@ -12,12 +12,7 @@ c_load_boot_betrayer_screen_message::c_load_boot_betrayer_screen_message(e_contr
 }
 
 //.text:00AB54B0 ; public: virtual c_gui_screen_boot_betrayer::~c_gui_screen_boot_betrayer()
-
-//00AB54C0
-c_load_boot_betrayer_screen_message::~c_load_boot_betrayer_screen_message()
-{
-}
-
+//.text:00AB54C0 ; 
 //.text:00AB54D0 ; public: virtual void* c_gui_screen_boot_betrayer::`vector deleting destructor'(unsigned int)
 //.text:00AB5500 ; public: virtual void* c_load_boot_betrayer_screen_message::`vector deleting destructor'(unsigned int)
 

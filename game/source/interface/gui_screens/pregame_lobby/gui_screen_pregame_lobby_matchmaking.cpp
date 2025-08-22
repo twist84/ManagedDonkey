@@ -59,11 +59,7 @@ c_gui_screen_pregame_lobby_matchmaking::c_gui_screen_pregame_lobby_matchmaking(i
 //.text:00B01690 ; public: virtual c_gui_screen_pregame_lobby_matchmaking::~c_gui_screen_pregame_lobby_matchmaking()
 //.text:00B01700 ; public: virtual void* c_http_stored_buffer_downloader<102400>::`vector deleting destructor'(unsigned int)
 //.text:00B01730 ; public: virtual void* c_http_stored_buffer_downloader<2465>::`vector deleting destructor'(unsigned int)
-
 //.text:00B01760 ; public: virtual void* c_gui_screen_pregame_lobby_matchmaking::`vector deleting destructor'(unsigned int)
-c_gui_screen_pregame_lobby_matchmaking::~c_gui_screen_pregame_lobby_matchmaking()
-{
-}
 
 c_gui_bitmap_widget* c_gui_screen_pregame_lobby_matchmaking::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {

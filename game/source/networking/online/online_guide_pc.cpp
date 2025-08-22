@@ -142,14 +142,7 @@ c_virtual_keyboard_task::c_virtual_keyboard_task(
 }
 
 //.text:004E17A0 ; public: virtual void* c_string_verify_task::`vector deleting destructor'(unsigned int)
-c_string_verify_task::~c_string_verify_task()
-{
-}
-
 //.text:004E17D0 ; public: virtual void * __cdecl c_virtual_keyboard_task::`vector deleting destructor'(unsigned int)
-c_virtual_keyboard_task::~c_virtual_keyboard_task()
-{
-}
 
 void overlapped_track_delete(c_overlapped_task* task)
 {

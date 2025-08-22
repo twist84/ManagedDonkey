@@ -99,10 +99,6 @@ c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(int32 name) :
 }
 
 //.text:00B21230 ; public: virtual void* c_gui_screen_pregame_lobby::`vector deleting destructor'(unsigned int)
-c_gui_screen_pregame_lobby::~c_gui_screen_pregame_lobby()
-{
-	//DECLFUNC(0x00B21230, void, __thiscall, c_gui_screen_pregame_lobby*)(this);
-}
 
 bool c_gui_screen_pregame_lobby::advanced_options_enabled()
 {

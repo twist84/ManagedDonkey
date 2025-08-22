@@ -14,7 +14,7 @@ public:
 	};
 
 public:
-	virtual ~c_gui_screen_campaign_settings();
+	virtual ~c_gui_screen_campaign_settings() = default;
 	virtual void initialize() override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;

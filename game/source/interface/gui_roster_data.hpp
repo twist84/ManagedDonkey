@@ -80,7 +80,7 @@ public:
 	bool __thiscall get_text_value_(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* value);
 
 public:
-	virtual ~c_gui_roster_data();
+	virtual ~c_gui_roster_data() = default;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
 	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
@@ -133,7 +133,7 @@ public:
 	void __thiscall update_();
 
 public:
-	virtual ~c_gui_active_roster_data();
+	virtual ~c_gui_active_roster_data() = default;
 	virtual void update() override;
 
 public:
@@ -145,7 +145,7 @@ class c_gui_static_roster_data :
 	public c_gui_roster_data
 {
 public:
-	virtual~c_gui_static_roster_data();
+	virtual ~c_gui_static_roster_data() = default;
 
 public:
 	c_gui_static_roster_data();

@@ -23,7 +23,7 @@ public:
 	void __thiscall update_render_state_(uns32 current_milliseconds);
 
 public:
-	virtual ~c_gui_screen_scoreboard();
+	virtual ~c_gui_screen_scoreboard() = default;
 	virtual void post_initialize() override;
 	virtual void update(uns32 current_milliseconds) override;
 	virtual void update_render_state(uns32 current_milliseconds) override;
@@ -68,7 +68,7 @@ class c_scoreboard_load_screen_message :
 	public c_load_screen_message
 {
 public:
-	virtual ~c_scoreboard_load_screen_message();
+	virtual ~c_scoreboard_load_screen_message() = default;
 	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
 
 public:
@@ -131,7 +131,7 @@ public:
 	using scoreboard_sort_proc_t = int __cdecl(const void*, const void*);
 
 public:
-	virtual ~c_gui_scoreboard_data();
+	virtual ~c_gui_scoreboard_data() = default;
 	virtual void update() override;
 	virtual void get_column_names(int32* const column_names, int32* column_count) override;
 	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;

@@ -22,7 +22,7 @@ class c_gui_list_item_widget :
 	public c_gui_widget
 {
 public:
-	virtual ~c_gui_list_item_widget();
+	virtual ~c_gui_list_item_widget() = default;
 	virtual int32 get_element_handle() override;
 	virtual s_runtime_core_widget_definition* get_core_definition() override;
 	virtual bool should_render(bool* add_to_render_list) override;

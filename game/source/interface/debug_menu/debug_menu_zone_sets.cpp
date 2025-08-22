@@ -7,10 +7,6 @@
 #include "main/main.hpp"
 #include "scenario/scenario.hpp"
 
-c_debug_menu_zone_sets::~c_debug_menu_zone_sets()
-{
-}
-
 void c_debug_menu_zone_sets::notify_selected(int16 selected_value)
 {
 	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count))
