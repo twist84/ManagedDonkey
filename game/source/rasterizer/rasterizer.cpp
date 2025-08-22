@@ -642,7 +642,10 @@ void __cdecl c_rasterizer::begin_high_quality_blend()
 
 void __cdecl c_rasterizer::clear(uns32 clear_channels, uns32 clear_color, real32 clear_z, uns8 clear_stencil)
 {
-	INVOKE(0x00A213F0, c_rasterizer::clear, clear_channels, clear_color, clear_z, clear_stencil);
+	//INVOKE(0x00A213F0, c_rasterizer::clear, clear_channels, clear_color, clear_z, clear_stencil);
+
+	real32 Z = c_rasterizer::m_use_floating_point_z_buffer ? 1.0f - clear_z : clear_z;
+	c_rasterizer::g_device->Clear(0, NULL, clear_channels, clear_color, Z, clear_stencil);
 }
 
 void __cdecl c_rasterizer::sub_A21440()
