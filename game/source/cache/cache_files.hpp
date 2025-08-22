@@ -9,8 +9,9 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
-#define TAG_GET(GROUP, TYPE, INDEX) ((TYPE*)tag_get(GROUP, INDEX))
-#define TAG_BLOCK_GET_ELEMENT(BLOCK, INDEX, TYPE) ((TYPE*)tag_block_get_element_with_size(BLOCK, INDEX, sizeof(TYPE)))
+#define TAG_GET(GROUP, TYPE, INDEX) ((TYPE*)tag_get((GROUP), (INDEX)))
+#define TAG_GET_SAFE(GROUP, TYPE, INDEX) ((INDEX) != NONE ? ((TYPE*)tag_get((GROUP), (INDEX))) : NULL)
+#define TAG_BLOCK_GET_ELEMENT(BLOCK, INDEX, TYPE) ((TYPE*)tag_block_get_element_with_size((BLOCK), (INDEX), sizeof(TYPE)))
 
 struct s_cache_file_section_file_bounds
 {
