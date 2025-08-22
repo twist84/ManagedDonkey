@@ -1,5 +1,6 @@
 #include "rasterizer/rasterizer.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "gpu_particle/beam_gpu.hpp"
@@ -653,11 +654,139 @@ void __cdecl c_rasterizer::sub_A21440()
 	INVOKE(0x00A21440, c_rasterizer::sub_A21440);
 }
 
+// handle_take_screenshot
+static void __cdecl sub_60F3E0()
+{
+	INVOKE(0x0060F3E0, sub_60F3E0);
+}
+
 bool __cdecl c_rasterizer::end_frame()
 {
 	//rasterizer_profile_frame_end();
 
-	return INVOKE(0x00A21510, c_rasterizer::end_frame);
+	//return INVOKE(0x00A21510, c_rasterizer::end_frame);
+
+	if (!c_rasterizer::g_device)
+	{
+		return true;
+	}
+
+	e_surface surface = c_rasterizer::get_display_surface();
+	c_rasterizer::set_render_target(0, _surface_display, 0xFFFFFFFF);
+	c_rasterizer::clear(1, 0, 1.0f, 0);
+
+	int32 left = c_rasterizer::render_globals.resolution_offset_x;
+	int32 top = c_rasterizer::render_globals.resolution_offset_y;
+	int32 right = (int32)((real32)left + (c_rasterizer::render_globals.resolution_width
+		* c_rasterizer::render_globals.resolution_scale_x));
+	int32 bottom = (int32)((real32)top + (c_rasterizer::render_globals.resolution_height
+		* c_rasterizer::render_globals.resolution_scale_y));
+
+	const RECT destination_rect
+	{
+		.left = left,
+		.top = top,
+		.right = right,
+		.bottom = bottom,
+	};
+
+	if (global_game_globals
+		&& TAG_GET_SAFE(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, global_game_globals->rasterizer_globals_ref.index))
+	{
+		c_screen_postprocess::setup_rasterizer_for_postprocess(false);
+
+		const rectangle2d viewport
+		{
+			.y0 = (int16)destination_rect.top,
+			.x0 = (int16)destination_rect.left,
+			.y1 = (int16)destination_rect.bottom,
+			.x1 = (int16)destination_rect.right,
+		};
+		c_rasterizer::set_viewport(viewport, 0.0f, 1.0f);
+
+		if (c_rasterizer::set_explicit_shaders(
+			c_rasterizer_globals::_shader_pixel_copy,
+			_vertex_type_screen,
+			_transfer_vertex_none,
+			_entry_point_default))
+		{
+			c_rasterizer::set_surface_as_texture(0, surface);
+			c_rasterizer::set_sampler_address_mode(0, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
+			c_rasterizer::set_sampler_filter_mode(0, _sampler_filter_mode_bilinear);
+
+			int32 brightness = global_preferences_get_display_brightness();
+			if (VALID_INDEX(brightness, 5))
+			{
+				constexpr int32 display_brightness_to_brightness[2][5]
+				{
+					{ 20, 35, 50, 65, 80 },
+					{ 30, 40, 50, 60, 70 },
+				};
+				static int32 x_brightness_mapping_index = 1;
+
+				brightness = display_brightness_to_brightness[x_brightness_mapping_index][brightness];
+			}
+
+			int32 contrast = global_preferences_get_display_contrast();
+
+			real32 v6 = 1.0f;
+			real32 v7 = contrast / 50.0f;
+			if (contrast < 50)
+			{
+				v6 = (((real32)contrast / 50.0f) + 0.5f) / 1.5f;
+				v7 = ((real32)contrast / 71.428574f) + 0.3f;
+			}
+
+			real32 v8 = ((real32)brightness - 50);
+			real32 v9 = v8 / 150.0f;
+			if (brightness <= 50)
+			{
+				v9 = v6 * (v8 / 500.0f);
+			}
+
+			real_vector4d contrast_and_brightness[1];
+			set_real_vector4d(contrast_and_brightness, v7, v9, 0.0f, 0.0f);
+			c_rasterizer::set_pixel_shader_constant(2, NUMBEROF(contrast_and_brightness), contrast_and_brightness);
+
+			int32 surface_height = c_rasterizer::get_surface_height(surface);
+			int32 surface_width = c_rasterizer::get_surface_width(surface);
+			c_rasterizer::draw_fullscreen_quad(surface_width, surface_height);
+
+			c_rasterizer::set_sampler_texture(0, 0xFFFFFFFF);
+		}
+	}
+	else
+	{
+		c_render_surface* specialized_surface = c_render_surfaces_interface::get_render_surface(surface);
+		c_render_surface* display_specialized_surface = c_render_surfaces_interface::get_render_surface(_surface_display);
+		c_rasterizer::g_device->StretchRect(
+			specialized_surface->m_d3d_surface,
+			NULL,
+			display_specialized_surface->m_d3d_surface,
+			&destination_rect,
+			D3DTEXF_LINEAR);
+	}
+
+	if (SUCCEEDED(c_rasterizer::g_device->EndScene()))
+	{
+		HRESULT hs = S_OK;
+		if (c_rasterizer::render_globals.is_d3d9ex)
+		{
+			hs = c_rasterizer::g_device->PresentEx(NULL, NULL, g_windows_params.window_handle, NULL, 0);
+		}
+		else
+		{
+			hs = c_rasterizer::g_device->Present(NULL, NULL, g_windows_params.window_handle, NULL);
+		}
+
+		if (FAILED(hs))
+		{
+			c_rasterizer::g_d3d_device_is_lost = hs == D3DERR_DEVICELOST;
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void __cdecl c_rasterizer::end_high_quality_blend()
