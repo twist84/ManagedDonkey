@@ -665,9 +665,9 @@ static void __cdecl sub_60F3E0()
 
 bool __cdecl c_rasterizer::end_frame()
 {
-	//rasterizer_profile_frame_end();
-
 	//return INVOKE(0x00A21510, c_rasterizer::end_frame);
+
+	//rasterizer_profile_frame_end();
 
 	if (!c_rasterizer::g_device)
 	{
@@ -718,18 +718,6 @@ bool __cdecl c_rasterizer::end_frame()
 			c_rasterizer::set_sampler_filter_mode(0, _sampler_filter_mode_bilinear);
 
 			int32 brightness = global_preferences_get_display_brightness();
-			if (VALID_INDEX(brightness, 5))
-			{
-				constexpr int32 display_brightness_to_brightness[2][5]
-				{
-					{ 20, 35, 50, 65, 80 },
-					{ 30, 40, 50, 60, 70 },
-				};
-				static int32 x_brightness_mapping_index = 1;
-
-				brightness = display_brightness_to_brightness[x_brightness_mapping_index][brightness];
-			}
-
 			int32 contrast = global_preferences_get_display_contrast();
 
 			real32 v6 = 1.0f;

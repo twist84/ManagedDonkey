@@ -10,6 +10,7 @@
 REFERENCE_DECLARE(0x022C0128, s_global_preferences_internals_type, g_global_preferences_internal);
 
 HOOK_DECLARE(0x0050AA30, global_preferences_get_camera_fov);
+HOOK_DECLARE(0x0050D220, global_preferences_set_display_brightness);
 
 c_global_preferences_scope_lock::c_global_preferences_scope_lock() :
 	m_took_lock(0)
@@ -867,6 +868,12 @@ void __cdecl global_preferences_set_display_brightness(int32 brightness)
 
 	if (!global_preferences_available())
 		return;
+
+	if (VALID_INDEX(brightness, 5))
+	{
+		static bool x = true;
+		brightness = x ? SCALE_VALUE(brightness, 0, 4, 20, 80) : SCALE_VALUE(brightness, 0, 4, 30, 70);
+	}
 
 	c_global_preferences_scope_lock scope_lock;
 	global_preferences_get()->current.data.brightness = brightness;
