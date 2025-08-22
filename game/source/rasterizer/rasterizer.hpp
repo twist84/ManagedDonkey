@@ -248,13 +248,13 @@ public:
 		_sampler_filter_mode_trilinear = 0,
 		_sampler_filter_mode_point,
 		_sampler_filter_mode_bilinear,
-		_sampler_filter_mode_unused3,
-		_sampler_filter_mode_anisotropic_2x,
-		_sampler_filter_mode_unused5,
-		_sampler_filter_mode_anisotropic_4x,
-		_sampler_filter_mode_lightprobe_texture_array,
-		_sampler_filter_mode_texture_array_quadlinear,
-		_sampler_filter_mode_texture_array_quadanisotropic_2x,
+		_sampler_filter_anisotropic_1,
+		_sampler_filter_anisotropic_2,
+		_sampler_filter_anisotropic_3,
+		_sampler_filter_anisotropic_4,
+		_sampler_filter_lightprobe_texture_array,
+		_sampler_filter_texture_array_quadlinear,
+		_sampler_filter_texture_array_quadanisotropic_2,
 
 		k_sampler_filter_modes
 	};
