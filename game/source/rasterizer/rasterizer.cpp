@@ -772,6 +772,10 @@ bool __cdecl c_rasterizer::end_frame()
 
 	if (SUCCEEDED(c_rasterizer::g_device->EndScene()))
 	{
+		c_rasterizer::dip_max = MAX(c_rasterizer::dip_cur, c_rasterizer::dip_max);
+		c_rasterizer::dip_last = c_rasterizer::dip_cur;
+		c_rasterizer::dip_cur = 0;
+
 		HRESULT hs = S_OK;
 		if (c_rasterizer::render_globals.is_d3d9ex)
 		{
