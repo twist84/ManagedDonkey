@@ -292,7 +292,7 @@ public:
 
 	static void __cdecl begin(rectangle2d viewport, rectangle2d scissor_rect);
 	static bool __cdecl cleanup_before_device_reset();
-	static void __cdecl cleanup_d3d_states(bool wait_for_gpu_idle_);
+	static void __cdecl cleanup_d3d_states(bool block_until_idle);
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
@@ -320,7 +320,7 @@ public:
 	//static void __cdecl clearf(uns32, const real_vector4d*, real32, uns32);
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
-	static bool __cdecl sub_A218C0();
+	static bool __cdecl get_is_tiling_bracket_active();
 	static bool __cdecl get_is_tiling_enabled();
 	static e_platform __cdecl get_runtime_platform();
 	static bool __cdecl initialize_device(bool window_exists, bool windowed);
