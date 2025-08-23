@@ -274,6 +274,7 @@ void __thiscall c_player_view::render_()
 						c_rasterizer::_surface_color_half_fp16_0);
 
 					if (screenshot_allow_postprocess())
+					{
 						c_screen_postprocess::postprocess_ssr(
 							&m_rasterizer_projection,
 							&m_rasterizer_camera,
@@ -289,6 +290,7 @@ void __thiscall c_player_view::render_()
 							c_rasterizer::_surface_color_half_fp16_1,
 							c_rasterizer::_surface_normal_half,
 							c_rasterizer::_surface_post_half_LDR);
+					}
 
 					c_rasterizer::setup_targets_static_lighting(
 						m_render_exposure,

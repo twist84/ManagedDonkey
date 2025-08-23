@@ -271,7 +271,7 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 	real32 render_width = real32(render_bounds.x1 - render_bounds.x0);
 	real32 render_height = real32(render_bounds.y1 - render_bounds.y0);
 
-	c_rasterizer_globals::e_explicit_shader explicit_shader_index = (c_rasterizer_globals::e_explicit_shader)render_data->explicit_shader_index;
+	int32 explicit_shader_index = NONE;// render_data->explicit_shader_index;
 
 	real32 left_x = 0.0f;
 	real32 left_y = 0.0f;
@@ -445,8 +445,8 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 	
 		uns32 samplers_flag = 0;
 	
-		parameters.map_wrapped[0] = render_data->texture_uv_offset.x != 0.0f || render_data->texture_uv_offset.y != 0.0f;
 		parameters.map_texture_scale[0] = { 1.0f, 1.0f };
+		parameters.map_wrapped[0] = render_data->texture_uv_offset.x != 0.0f || render_data->texture_uv_offset.y != 0.0f;
 		parameters.map_scale[0] = { 1.0f, 1.0f };
 	
 		if (hardware_format_primary.valid())
@@ -458,12 +458,12 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 		if (hardware_format_secondary.valid())
 		{
 			parameters.hardware_formats[1] = hardware_format_secondary;
+			parameters.map_wrapped[1] = parameters.map_wrapped[0];
 			parameters.map_texture_scale[1] = parameters.map_texture_scale[0];
-			parameters.map_scale[1] = parameters.map_scale[0];
 			samplers_flag |= FLAG(1);
 		}
 	
-		parameters.framebuffer_blend_function = PIN((int16)render_data->frame_buffer_blend_function, 0, 12);
+		parameters.framebuffer_blend_function = int_pin((int16)render_data->frame_buffer_blend_function, 0, 12);
 		parameters.explicit_override_index = explicit_shader_index;
 	
 		rasterizer_psuedo_dynamic_screen_quad_draw(&parameters, vertices);
