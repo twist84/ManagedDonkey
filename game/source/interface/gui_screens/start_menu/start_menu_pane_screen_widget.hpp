@@ -24,6 +24,7 @@ public:
 
 protected:
 	void set_automatic_button_key(int32 value);
+	bool set_focused_datasource_element_from_value(c_gui_list_widget* list_widget, int32 value_name, int32 value_to_set, bool play_animations_on_focus_change);
 
 public:
 //protected:

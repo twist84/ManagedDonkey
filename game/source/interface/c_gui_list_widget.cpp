@@ -331,7 +331,11 @@ void c_gui_list_widget::post_initialize()
 //.text:00B16140 ; public: bool c_gui_list_widget::scrolls_horizontally() const
 //.text:00B16150 ; public: bool c_gui_list_widget::scrolls_vertically()
 //.text:00B16160 ; private: void c_gui_list_widget::set_datasource_name(int32)
-//.text:00B16170 ; public: bool c_gui_list_widget::set_focused_datasource_element_from_value(int32, int32, bool)
+
+bool c_gui_list_widget::set_focused_datasource_element_from_value(int32 value_name, int32 value, bool play_animations_on_focus_change)
+{
+	return INVOKE_CLASS_MEMBER(0x00B16170, c_gui_list_widget, set_focused_datasource_element_from_value, value_name, value, play_animations_on_focus_change);
+}
 
 bool c_gui_list_widget::set_focused_element_handle(int32 element_handle, bool play_animations_on_focus_change)
 {

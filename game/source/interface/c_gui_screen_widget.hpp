@@ -243,6 +243,7 @@ private:
 	bool handle_mouse_click(const c_controller_input_message* message, c_gui_widget* widget);
 
 public:
+	void load_display_group_by_name(e_display_group_type group_type, int32 group_name);
 	void play_sound(e_user_interface_sound_effect sound_effect);
 
 protected:

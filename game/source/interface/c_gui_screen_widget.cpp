@@ -890,7 +890,12 @@ bool c_gui_screen_widget::__funcs53()
 }
 
 //.text:00AB17D0 ; private: c_gui_group_widget* c_gui_screen_widget::load_display_group(const s_runtime_screen_widget_definition*, c_gui_screen_widget::e_display_group_type, int32)
-//.text:00AB1830 ; public: void c_gui_screen_widget::load_display_group_by_name(c_gui_screen_widget::e_display_group_type, int32)
+
+void c_gui_screen_widget::load_display_group_by_name(e_display_group_type group_type, int32 group_name)
+{
+	INVOKE_CLASS_MEMBER(0x00AB1830, c_gui_screen_widget, load_display_group_by_name, group_type, group_name);
+}
+
 //.text:00AB1860 ; 
 //.text:00AB1890 ; 
 

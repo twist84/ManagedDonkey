@@ -1,5 +1,6 @@
 #include "interface/gui_screens/start_menu/start_menu_pane_screen_widget.hpp"
 
+#include "interface/c_gui_list_widget.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_window_manager.hpp"
@@ -138,7 +139,15 @@ bool c_start_menu_pane_screen_widget::__funcs53()
 }
 
 //.text:00B1F8B0 ; public: void c_start_menu_pane_screen_widget::replace_current_subpane(int32)
-//.text:00B1F950 ; protected: bool c_start_menu_pane_screen_widget::set_focused_datasource_element_from_value(c_gui_list_widget*, int32, int32, bool)
+
+//protected:
+bool c_start_menu_pane_screen_widget::set_focused_datasource_element_from_value(c_gui_list_widget* list_widget, int32 value_name, int32 value_to_set, bool play_animations_on_focus_change)
+{
+	//return INVOKE_CLASS_MEMBER(0x00B1F950, c_start_menu_pane_screen_widget, set_focused_datasource_element_from_value, list_widget, value_name, value_to_set, play_animations_on_focus_change);
+
+	ASSERT(list_widget != NULL);
+	return list_widget->set_focused_datasource_element_from_value(value_name, value_to_set, play_animations_on_focus_change);
+}
 
 void c_start_menu_pane_screen_widget::update(uns32 current_milliseconds)
 {

@@ -105,6 +105,7 @@ private:
 
 public:
 	void mark_as_submenu_that_needs_disposal(bool dispose);
+	bool set_focused_datasource_element_from_value(int32 value_name, int32 value, bool play_animations_on_focus_change);
 	bool set_focused_element_handle(int32 element_handle, bool play_animations_on_focus_change);
 	bool set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change);
 	void set_scroll_position(int32 scroll_position);
