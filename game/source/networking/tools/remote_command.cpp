@@ -452,20 +452,17 @@ void command_handler(char* buffer, int32 buffer_length)
 int32 token_try_parse_bool(const token_t& token)
 {
 	const char* value = token->get_string();
-	if (IN_RANGE_INCLUSIVE(*value, '0', '1'))
+	switch (string_hash(value))
 	{
-		return !!atol(value) + 1;
-	}
-	else if (token->is_equal("true"))
-	{
-		return 2;
-	}
-	else if (token->is_equal("false"))
-	{
+	case "0"_hash:
+	case "false"_hash:
+		return 0;
+	case "1"_hash:
+	case "true"_hash:
 		return 1;
 	}
 
-	return 0;
+	return 2;
 }
 
 //-----------------------------------------------------------------------------
@@ -1306,9 +1303,9 @@ callback_result_t online_set_is_connected_to_live_callback(const void* userdata,
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		online_set_is_connected_to_live(static_cast<bool>(value - 1));
+		online_set_is_connected_to_live((bool)value);
 	}
 
 	return result;
@@ -1425,9 +1422,9 @@ callback_result_t mp_debug_goal_object_boundary_geometry_callback(const void* us
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		debug_multiplayer_object_boundary_geometry(static_cast<bool>(value - 1));
+		debug_multiplayer_object_boundary_geometry((bool)value);
 	}
 
 	return result;
@@ -1767,9 +1764,9 @@ callback_result_t cheat_active_camouflage_callback(const void* userdata, int32 t
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		cheat_active_camouflage(static_cast<bool>(value - 1));
+		cheat_active_camouflage((bool)value);
 	}
 
 	return result;
@@ -1781,10 +1778,10 @@ callback_result_t cheat_active_camouflage_by_player_callback(const void* userdat
 
 	int32 user_index = (int32)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
 		int32 player_index = player_mapping_get_player_by_input_user(user_index);
-		cheat_active_camouflage_by_user(player_index, static_cast<bool>(value - 1));
+		cheat_active_camouflage_by_user(player_index, (bool)value);
 	}
 
 	return result;
@@ -1836,9 +1833,9 @@ callback_result_t ai_enable_callback(const void* userdata, int32 token_count, to
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		ai_globals_set_ai_active(static_cast<bool>(value - 1));
+		ai_globals_set_ai_active((bool)value);
 	}
 
 	return result;
@@ -1849,9 +1846,9 @@ callback_result_t director_debug_camera_callback(const void* userdata, int32 tok
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		director_debug_camera(static_cast<bool>(value - 1));
+		director_debug_camera((bool)value);
 	}
 
 	return result;
@@ -1862,9 +1859,9 @@ callback_result_t camera_control_callback(const void* userdata, int32 token_coun
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		director_script_camera(static_cast<bool>(value - 1));
+		director_script_camera((bool)value);
 	}
 
 	return result;
@@ -2085,9 +2082,9 @@ callback_result_t ui_debug_text_font_callback(const void* userdata, int32 token_
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		user_interface_text_debug_display_font_index(static_cast<bool>(value - 1));
+		user_interface_text_debug_display_font_index((bool)value);
 	}
 
 	return result;
@@ -2098,9 +2095,9 @@ callback_result_t xoverlapped_debug_render_callback(const void* userdata, int32 
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 value = token_try_parse_bool(tokens[1]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		overlapped_task_toggle_debug_rendering(static_cast<bool>(value - 1));
+		overlapped_task_toggle_debug_rendering((bool)value);
 	}
 
 	return result;
@@ -2121,9 +2118,9 @@ callback_result_t overlapped_task_inject_error_callback(const void* userdata, in
 
 	const char* context = tokens[1]->get_string();
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		overlapped_task_inject_error(context, static_cast<bool>(value - 1));
+		overlapped_task_inject_error(context, (bool)value);
 	}
 
 	return result;
@@ -2135,9 +2132,9 @@ callback_result_t overlapped_task_pause_callback(const void* userdata, int32 tok
 
 	const char* context = tokens[1]->get_string();
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		overlapped_task_pause(context, static_cast<bool>(value - 1));
+		overlapped_task_pause(context, (bool)value);
 	}
 
 	return result;
@@ -2180,9 +2177,9 @@ callback_result_t controller_set_auto_center_look_callback(const void* userdata,
 
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		debug_set_controller_auto_center_look(controller_index, static_cast<bool>(value - 1));
+		debug_set_controller_auto_center_look(controller_index, (bool)value);
 	}
 
 	return result;
@@ -2194,9 +2191,9 @@ callback_result_t controller_set_crouch_lock_callback(const void* userdata, int3
 
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		debug_set_controller_crouch_lock(controller_index, static_cast<bool>(value - 1));
+		debug_set_controller_crouch_lock(controller_index, (bool)value);
 	}
 
 	return result;
@@ -2208,9 +2205,9 @@ callback_result_t controller_set_flight_stick_aircraft_controls_callback(const v
 
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		debug_set_controller_flight_stick_aircraft_controls(controller_index, static_cast<bool>(value - 1));
+		debug_set_controller_flight_stick_aircraft_controls(controller_index, (bool)value);
 	}
 
 	return result;
@@ -2222,9 +2219,9 @@ callback_result_t controller_set_look_inverted_callback(const void* userdata, in
 
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		debug_set_controller_look_inverted(controller_index, static_cast<bool>(value - 1));
+		debug_set_controller_look_inverted(controller_index, (bool)value);
 	}
 
 	return result;
@@ -2236,9 +2233,9 @@ callback_result_t controller_set_vibration_enabled_callback(const void* userdata
 
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int32 value = token_try_parse_bool(tokens[2]);
-	if (value != NONE)
+	if (value <= 1)
 	{
-		debug_set_controller_vibration_enabled(controller_index, static_cast<bool>(value - 1));
+		debug_set_controller_vibration_enabled(controller_index, (bool)value);
 	}
 
 	return result;
@@ -2352,13 +2349,13 @@ callback_result_t controller_set_single_player_level_completed_callback(const vo
 	int32 level_index = (int32)atol(tokens[2]->get_string());
 
 	int32 coop = token_try_parse_bool(tokens[3]);
-	if (coop != NONE)
+	if (coop <= 1)
 	{
 		int16 difficulty = (int16)atol(tokens[4]->get_string());
 		int32 completed = token_try_parse_bool(tokens[5]);
-		if (completed != NONE)
+		if (completed <= 1)
 		{
-			debug_set_single_player_level_completed(controller_index, level_index, static_cast<bool>(coop - 1), difficulty, static_cast<bool>(completed - 1));
+			debug_set_single_player_level_completed(controller_index, level_index, (bool)coop, difficulty, (bool)completed);
 		}
 	}
 
@@ -2372,9 +2369,9 @@ callback_result_t controller_set_single_player_level_unlocked_callback(const voi
 	int16 controller_index = (int16)atol(tokens[1]->get_string());
 	int16 level_index = (int16)atol(tokens[2]->get_string());
 	int32 completed = token_try_parse_bool(tokens[3]);
-	if (completed != NONE)
+	if (completed <= 1)
 	{
-		debug_set_single_player_level_unlocked(controller_index, level_index, static_cast<bool>(completed - 1));
+		debug_set_single_player_level_unlocked(controller_index, level_index, (bool)completed);
 	}
 
 	return result;
@@ -2431,9 +2428,9 @@ callback_result_t gui_debug_bitmap_animation_callback(const void* userdata, int3
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_bitmap_animation_state(name, static_cast<bool>(activate - 1));
+		gui_debug_bitmap_animation_state(name, (bool)activate);
 	}
 
 	return result;
@@ -2446,9 +2443,9 @@ callback_result_t gui_debug_bitmap_bounds_callback(const void* userdata, int32 t
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_bitmap_bounds(name, static_cast<bool>(activate - 1));
+		gui_debug_bitmap_bounds(name, (bool)activate);
 	}
 
 	return result;
@@ -2461,9 +2458,9 @@ callback_result_t gui_debug_bitmap_name_callback(const void* userdata, int32 tok
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_bitmap_display_name(name, static_cast<bool>(activate - 1));
+		gui_debug_bitmap_display_name(name, (bool)activate);
 	}
 
 	return result;
@@ -2477,9 +2474,9 @@ callback_result_t gui_debug_bitmap_rotation_callback(const void* userdata, int32
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_bitmap_rotation(name, static_cast<bool>(activate - 1));
+		gui_debug_bitmap_rotation(name, (bool)activate);
 	}
 
 	return result;
@@ -2493,9 +2490,9 @@ callback_result_t gui_debug_group_animation_callback(const void* userdata, int32
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_group_animation_state(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_group_animation_state(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2509,9 +2506,9 @@ callback_result_t gui_debug_group_bounds_callback(const void* userdata, int32 to
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_group_bounds(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_group_bounds(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2525,9 +2522,9 @@ callback_result_t gui_debug_group_name_callback(const void* userdata, int32 toke
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_group_display_name(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_group_display_name(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2541,9 +2538,9 @@ callback_result_t gui_debug_group_rotation_callback(const void* userdata, int32 
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_group_rotation(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_group_rotation(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2557,9 +2554,9 @@ callback_result_t gui_debug_list_animation_callback(const void* userdata, int32 
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_animation_state(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_animation_state(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2573,9 +2570,9 @@ callback_result_t gui_debug_list_bounds_callback(const void* userdata, int32 tok
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_bounds(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_bounds(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2589,9 +2586,9 @@ callback_result_t gui_debug_list_name_callback(const void* userdata, int32 token
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_display_name(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_display_name(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2605,9 +2602,9 @@ callback_result_t gui_debug_list_item_animation_callback(const void* userdata, i
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_item_animation_state(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_item_animation_state(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2621,9 +2618,9 @@ callback_result_t gui_debug_list_item_bounds_callback(const void* userdata, int3
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_item_bounds(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_item_bounds(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2637,9 +2634,9 @@ callback_result_t gui_debug_list_item_name_callback(const void* userdata, int32 
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_item_display_name(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_item_display_name(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2653,9 +2650,9 @@ callback_result_t gui_debug_list_item_rotation_callback(const void* userdata, in
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_item_rotation(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_item_rotation(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2669,9 +2666,9 @@ callback_result_t gui_debug_list_rotation_callback(const void* userdata, int32 t
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_list_rotation(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_list_rotation(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2685,9 +2682,9 @@ callback_result_t gui_debug_screen_animation_callback(const void* userdata, int3
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_screen_animation_state(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_screen_animation_state(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2701,9 +2698,9 @@ callback_result_t gui_debug_screen_bounds_callback(const void* userdata, int32 t
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_screen_bounds(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_screen_bounds(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2717,9 +2714,9 @@ callback_result_t gui_debug_screen_name_callback(const void* userdata, int32 tok
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_screen_display_name(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_screen_display_name(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2733,9 +2730,9 @@ callback_result_t gui_debug_screen_rotation_callback(const void* userdata, int32
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
 	int32 include_children = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE && include_children != NONE)
+	if (name != _string_id_invalid && activate <= 1 && include_children <= 1)
 	{
-		gui_debug_screen_rotation(name, static_cast<bool>(activate - 1), static_cast<bool>(include_children - 1));
+		gui_debug_screen_rotation(name, (bool)activate, (bool)include_children);
 	}
 
 	return result;
@@ -2748,9 +2745,9 @@ callback_result_t gui_debug_text_animation_callback(const void* userdata, int32 
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_text_animation_state(name, static_cast<bool>(activate - 1));
+		gui_debug_text_animation_state(name, (bool)activate);
 	}
 
 	return result;
@@ -2763,9 +2760,9 @@ callback_result_t gui_debug_text_bounds_callback(const void* userdata, int32 tok
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_text_bounds(name, static_cast<bool>(activate - 1));
+		gui_debug_text_bounds(name, (bool)activate);
 	}
 
 	return result;
@@ -2778,9 +2775,9 @@ callback_result_t gui_debug_text_name_callback(const void* userdata, int32 token
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_text_display_name(name, static_cast<bool>(activate - 1));
+		gui_debug_text_display_name(name, (bool)activate);
 	}
 
 	return result;
@@ -2793,9 +2790,9 @@ callback_result_t gui_debug_text_rotation_callback(const void* userdata, int32 t
 	const char* name_string = tokens[1]->get_string();
 	int32 name = string_id_retrieve(name_string);
 	int32 activate = token_try_parse_bool(tokens[2]);
-	if (name != _string_id_invalid && activate != NONE)
+	if (name != _string_id_invalid && activate <= 1)
 	{
-		gui_debug_text_rotation(name, static_cast<bool>(activate - 1));
+		gui_debug_text_rotation(name, (bool)activate);
 	}
 
 	return result;
@@ -2844,9 +2841,9 @@ callback_result_t saved_film_disable_version_checking_callback(const void* userd
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 disable = token_try_parse_bool(tokens[1]);
-	if (disable != NONE)
+	if (disable <= 1)
 	{
-		saved_film_manager_disable_version_checking(static_cast<bool>(disable - 1));
+		saved_film_manager_disable_version_checking((bool)disable);
 	}
 
 	return result;
@@ -2857,9 +2854,9 @@ callback_result_t saved_film_toggle_debug_saving_callback(const void* userdata, 
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 enable = token_try_parse_bool(tokens[1]);
-	if (enable != NONE)
+	if (enable <= 1)
 	{
-		saved_film_manager_toggle_automatic_debug_saving(static_cast<bool>(enable - 1));
+		saved_film_manager_toggle_automatic_debug_saving((bool)enable);
 	}
 
 	return result;
@@ -2870,9 +2867,9 @@ callback_result_t saved_films_delete_on_level_load_callback(const void* userdata
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 delete_on_level_load = token_try_parse_bool(tokens[1]);
-	if (delete_on_level_load != NONE)
+	if (delete_on_level_load <= 1)
 	{
-		saved_film_manager_delete_on_level_load(static_cast<bool>(delete_on_level_load - 1));
+		saved_film_manager_delete_on_level_load((bool)delete_on_level_load);
 	}
 
 	return result;
@@ -2883,9 +2880,9 @@ callback_result_t saved_films_show_timestamp_callback(const void* userdata, int3
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 show_timestamp = token_try_parse_bool(tokens[1]);
-	if (show_timestamp != NONE)
+	if (show_timestamp <= 1)
 	{
-		saved_film_manager_show_timestamp(static_cast<bool>(show_timestamp - 1));
+		saved_film_manager_show_timestamp((bool)show_timestamp);
 	}
 
 	return result;
@@ -2896,9 +2893,9 @@ callback_result_t saved_film_manager_should_record_film_default_callback(const v
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	int32 b = token_try_parse_bool(tokens[1]);
-	if (b != NONE)
+	if (b <= 1)
 	{
-		saved_film_manager_should_record_film_default_set(static_cast<bool>(b - 1));
+		saved_film_manager_should_record_film_default_set((bool)b);
 	}
 
 	return result;

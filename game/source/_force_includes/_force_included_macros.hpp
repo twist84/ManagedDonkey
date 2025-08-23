@@ -76,3 +76,24 @@ const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 
 #define MAXIMUM_PLAYER_WINDOWS 4
 
+constexpr uns64 string_hash(const char* str)
+{
+	const char* tmp = str;
+	while (*tmp) tmp++;
+	int32 len = tmp - str;
+
+	uns64 hash = 0;
+	for (int32 i = 0; i < len; i++) hash = (hash * 131) + str[i];
+	return hash;
+}
+
+constexpr uns64 operator"" _hash(const char* str, size_t len)
+{
+	return string_hash(str);
+}
+
+constexpr size_t operator"" _len(const char* str, size_t len)
+{
+	return len;
+}
+
