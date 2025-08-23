@@ -352,8 +352,18 @@ void c_gui_list_widget::set_scroll_position(int32 scroll_position)
 	INVOKE_CLASS_MEMBER(0x00B16440, c_gui_list_widget, set_scroll_position, scroll_position);
 }
 
-//.text:00B16490 ; public: c_gui_list_item_widget* c_gui_list_widget::try_and_get_child_list_item_widget_by_element_handle(int32)
-//.text:00B164F0 ; public: c_gui_list_item_widget* c_gui_list_widget::try_and_get_focused_child_list_item_widget()
+c_gui_list_item_widget* c_gui_list_widget::try_and_get_child_list_item_widget_by_element_handle(int32 element_handle)
+{
+	return INVOKE_CLASS_MEMBER(0x00B16490, c_gui_list_widget, try_and_get_child_list_item_widget_by_element_handle, element_handle);
+}
+
+c_gui_list_item_widget* c_gui_list_widget::try_and_get_focused_child_list_item_widget()
+{
+	//return INVOKE_CLASS_MEMBER(0x00B164F0, c_gui_list_widget, try_and_get_focused_child_list_item_widget);
+
+	int32 focused_element_handle = c_gui_list_widget::get_focused_element_handle();
+	return c_gui_list_widget::try_and_get_child_list_item_widget_by_element_handle(focused_element_handle);
+}
 
 void c_gui_list_widget::update(uns32 current_milliseconds)
 {

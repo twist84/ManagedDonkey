@@ -109,6 +109,8 @@ public:
 	bool set_focused_element_handle(int32 element_handle, bool play_animations_on_focus_change);
 	bool set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change);
 	void set_scroll_position(int32 scroll_position);
+	c_gui_list_item_widget* try_and_get_child_list_item_widget_by_element_handle(int32 element_handle);
+	c_gui_list_item_widget* try_and_get_focused_child_list_item_widget();
 	void set_selectable_item_cap_count(int32 value);
 
 private: 

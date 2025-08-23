@@ -104,25 +104,25 @@ bool emblem_set_render_constants_from_user_interface(const s_emblem_info* emblem
 
 	g_user_interface_emblem_info = *emblem_info;
 
-	//real_rgb_color emblem_color_background_rgb = player_profile_get_rgb_color(emblem_info->background_color_index);
-	//real_rgb_color emblem_color_icon1_rgb = player_profile_get_rgb_color(emblem_info->primary_color_index);
-	//real_rgb_color emblem_color_icon2_rgb = player_profile_get_rgb_color(emblem_info->secondary_color_index);
-	//
-	//bool emblem_alternate_foreground_channel_enabled = emblem_info->emblem_info_flags.test(_emblem_info_flag_alternate_foreground_channel_off);
-	//bool emblem_flip_foreground = emblem_info->emblem_info_flags.test(_emblem_info_flag_flip_foreground);
-	//bool emblem_flag_flip_background = emblem_info->emblem_info_flags.test(_emblem_info_flag_flip_background);
-	//
-	//real_vector4d emblem_color_background_argb{};
-	//real_vector4d emblem_color_icon1_argb{};
-	//real_vector4d emblem_color_icon2_argb{};
-	//
-	//real_rgb_color_to_real_vector4d(&emblem_color_background_rgb, emblem_alternate_foreground_channel_enabled ? 0.0f : 1.0f, &emblem_color_background_argb);
-	//real_rgb_color_to_real_vector4d(&emblem_color_icon1_rgb, emblem_flip_foreground ? 0.0f : 1.0f, &emblem_color_icon1_argb);
-	//real_rgb_color_to_real_vector4d(&emblem_color_icon2_rgb, emblem_flag_flip_background ? 0.0f : 1.0f, &emblem_color_icon2_argb);
-	//
-	//c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_background_argb, 1, &emblem_color_background_argb);
-	//c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_icon1_argb, 1, &emblem_color_icon1_argb);
-	//c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_icon2_argb, 1, &emblem_color_icon2_argb);
+	real_rgb_color emblem_color_background_rgb = player_profile_get_rgb_color(emblem_info->background_color_index);
+	real_rgb_color emblem_color_icon1_rgb = player_profile_get_rgb_color(emblem_info->primary_color_index);
+	real_rgb_color emblem_color_icon2_rgb = player_profile_get_rgb_color(emblem_info->secondary_color_index);
+	
+	bool emblem_alternate_foreground_channel_enabled = emblem_info->emblem_info_flags.test(_emblem_info_flag_alternate_foreground_channel_off);
+	bool emblem_flip_foreground = emblem_info->emblem_info_flags.test(_emblem_info_flag_flip_foreground);
+	bool emblem_flag_flip_background = emblem_info->emblem_info_flags.test(_emblem_info_flag_flip_background);
+	
+	real_vector4d emblem_color_background_argb{};
+	real_vector4d emblem_color_icon1_argb{};
+	real_vector4d emblem_color_icon2_argb{};
+	
+	real_rgb_color_to_real_vector4d(&emblem_color_background_rgb, emblem_alternate_foreground_channel_enabled ? 0.0f : 1.0f, &emblem_color_background_argb);
+	real_rgb_color_to_real_vector4d(&emblem_color_icon1_rgb, emblem_flip_foreground ? 0.0f : 1.0f, &emblem_color_icon1_argb);
+	real_rgb_color_to_real_vector4d(&emblem_color_icon2_rgb, emblem_flag_flip_background ? 0.0f : 1.0f, &emblem_color_icon2_argb);
+	
+	c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_background_argb, 1, &emblem_color_background_argb);
+	c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_icon1_argb, 1, &emblem_color_icon1_argb);
+	c_rasterizer::set_pixel_shader_constant(k_ps_emblem_color_icon2_argb, 1, &emblem_color_icon2_argb);
 
 	return true;
 }

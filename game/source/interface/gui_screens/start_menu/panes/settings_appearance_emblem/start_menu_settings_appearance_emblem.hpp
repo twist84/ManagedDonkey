@@ -19,3 +19,7 @@ public:
 static_assert(sizeof(c_start_menu_settings_appearance_emblem) == 0x2168);
 static_assert(sizeof(c_start_menu_settings_appearance_emblem) == sizeof(c_start_menu_pane_screen_widget));
 
+extern void player_emblem_toggle_alternate_emblem_foreground(e_controller_index controller_index);
+extern void player_emblem_toggle_flip_emblem_foreground(e_controller_index controller_index);
+extern void player_emblem_toggle_flip_emblem_background(e_controller_index controller_index);
+

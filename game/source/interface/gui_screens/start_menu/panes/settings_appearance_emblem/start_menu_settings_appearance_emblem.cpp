@@ -6,6 +6,7 @@
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_utilities.hpp"
 
 c_start_menu_settings_appearance_emblem::c_start_menu_settings_appearance_emblem(int32 name) :
@@ -15,7 +16,66 @@ c_start_menu_settings_appearance_emblem::c_start_menu_settings_appearance_emblem
 
 bool c_start_menu_settings_appearance_emblem::handle_controller_input_message(const c_controller_input_message* message)
 {
-	// $TODO: implement me
+	e_event_type event_type = message->get_event_type();
+	e_controller_component component = message->get_component();
+	e_controller_index controller_index = message->get_controller();
+
+	switch (event_type)
+	{
+	case _event_type_button_press:
+	{
+		switch (component)
+		{
+		case _controller_component_button_b:
+		{
+			c_start_menu_pane_screen_widget::close_current_subpane();
+			return true;
+		}
+		break;
+		case _controller_component_button_x:
+		{
+			player_emblem_toggle_alternate_emblem_foreground(controller_index);
+			return true;
+		}
+		break;
+		case _controller_component_button_left_thumb:
+		case _controller_component_button_right_thumb:
+			return true;
+		}
+	}
+	break;
+	case _event_type_tab_left:
+	case _event_type_tab_right:
+	{
+		c_gui_widget* focused_widget = c_gui_screen_widget::get_focused_widget();
+		if (!focused_widget)
+		{
+			break;
+		}
+
+		c_gui_list_widget* parent_list = focused_widget->get_parent_list();
+		if (!parent_list)
+		{
+			break;
+		}
+
+		c_gui_list_widget* list = event_type == _event_type_tab_left ? parent_list->get_previous_list_widget() : parent_list->get_next_list_widget();
+		if (!list)
+		{
+			break;
+		}
+
+		c_gui_list_item_widget* child_list_item = list->try_and_get_focused_child_list_item_widget();
+		if (!child_list_item)
+		{
+			break;
+		}
+
+		c_gui_screen_widget::transfer_focus(child_list_item);
+		return true;
+	}
+	}
+
 
 	return c_start_menu_pane_screen_widget::handle_controller_input_message(message);
 }
@@ -136,5 +196,47 @@ void c_start_menu_settings_appearance_emblem::update_render_state(uns32 current_
 			tint_widget_to_change_color(child_widget, NONE, false);
 		}
 	}
+}
+
+void player_emblem_toggle_alternate_emblem_foreground(e_controller_index controller_index)
+{
+	c_controller_interface* controller = controller_get(controller_index);
+	if (TEST_BIT(controller->m_player_profile.m_flags, 8))
+	{
+		event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
+		return;
+	}
+
+	s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
+	emblem_info.emblem_info_flags.set(_emblem_info_flag_alternate_foreground_channel_off, !emblem_info.emblem_info_flags.test(_emblem_info_flag_alternate_foreground_channel_off));
+	controller->m_player_profile.set_emblem_info(&emblem_info, true);
+}
+
+void player_emblem_toggle_flip_emblem_foreground(e_controller_index controller_index)
+{
+	c_controller_interface* controller = controller_get(controller_index);
+	if (TEST_BIT(controller->m_player_profile.m_flags, 8))
+	{
+		event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
+		return;
+	}
+
+	s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
+	emblem_info.emblem_info_flags.set(_emblem_info_flag_flip_foreground, !emblem_info.emblem_info_flags.test(_emblem_info_flag_flip_foreground));
+	controller->m_player_profile.set_emblem_info(&emblem_info, true);
+}
+
+void player_emblem_toggle_flip_emblem_background(e_controller_index controller_index)
+{
+	c_controller_interface* controller = controller_get(controller_index);
+	if (TEST_BIT(controller->m_player_profile.m_flags, 8))
+	{
+		event(_event_message, "player_profile: settings change request ignored because player profile is busy with i/o");
+		return;
+	}
+
+	s_emblem_info emblem_info = controller->m_player_profile.get_emblem_info();
+	emblem_info.emblem_info_flags.set(_emblem_info_flag_flip_background, !emblem_info.emblem_info_flags.test(_emblem_info_flag_flip_background));
+	controller->m_player_profile.set_emblem_info(&emblem_info, true);
 }
 
