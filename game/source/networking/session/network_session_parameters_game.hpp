@@ -29,7 +29,7 @@ struct s_network_session_privacy_mode
 };
 static_assert(sizeof(s_network_session_privacy_mode) == 0x10);
 
-// $TODO: map this
+// $TODO map this
 struct s_network_session_parameter_initial_participants
 {
 	byte __data[0x16530];

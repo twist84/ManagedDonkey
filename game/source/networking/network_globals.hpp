@@ -11,7 +11,7 @@ struct s_network_globals
 	bool entered;
 	uns32 thread_id;
 
-	// $TODO: add back all the missing globals
+	// $TODO add back all the missing globals
 };
 
 extern class c_network_session_parameter_type_collection*& g_network_parameter_types;

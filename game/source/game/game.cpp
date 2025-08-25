@@ -1167,10 +1167,10 @@ bool __cdecl game_options_verify(const game_options* options, char* error_string
 	//}
 	//
 	//int32 player_count = 0;
-	//// $TODO: `options->machines` checks
-	//// $TODO: `options->players` checks
+	//// $TODO `options->machines` checks
+	//// $TODO `options->players` checks
 	//
-	//// $TODO: confirm `options->game_mode` checks
+	//// $TODO confirm `options->game_mode` checks
 	//switch (options->game_mode)
 	//{
 	//case _game_mode_campaign:

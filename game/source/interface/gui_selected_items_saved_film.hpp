@@ -52,7 +52,7 @@ public:
 	};
 
 public:
-	// $TODO: virtual functions
+	// $TODO virtual functions
 
 protected:
 	bool film_matches_category(s_saved_game_item_metadata* metadata);

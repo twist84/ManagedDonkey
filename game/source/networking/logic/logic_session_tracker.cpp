@@ -94,7 +94,7 @@ bool c_session_tracker::add_session(const char* session_name, const s_transport_
 
 	// Matchmaking hack: We don't have a valid QoS payload from transport_qos_get_result,
 	// but we can just set these to tru to skip the requirement for now.
-	// $TODO: MM, Reimplement QoS payloads via API.
+	// $TODO MM, Reimplement QoS payloads via API.
 	tracked_session->qos_received[_transport_qos_type_probe_only] = true;
 	tracked_session->qos_received[_transport_qos_type_default] = true;
 

@@ -319,7 +319,7 @@ void saved_film_history_flush_game_state()
 
 void saved_film_history_get_hud_interface_state(s_saved_film_hud_interface_state* state)
 {
-	// $TODO: implement me properly
+	// $IMPLEMENT
 
 	// stop-gap `saved_film_history_get_hud_interface_state` implementation
 	if (saved_film_manager_is_reading())
@@ -339,13 +339,13 @@ void saved_film_history_get_hud_interface_state(s_saved_film_hud_interface_state
 
 int32 saved_film_history_get_target_record_index_by_revert_type(e_saved_film_revert_type revert_type)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return NONE;
 }
 
 int32 saved_film_history_get_target_record_index_by_tick(int32 tick_index)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return NONE;
 }
 
@@ -371,22 +371,22 @@ void saved_film_history_initialize_internal()
 
 void saved_film_history_memory_dispose()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void saved_film_history_memory_initialize()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void saved_film_history_notify_initial_gamestate_loaded()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool saved_film_history_ready_for_revert_or_reset()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return false;
 }
@@ -513,7 +513,7 @@ bool saved_film_history_revert_by_type(e_saved_film_revert_type revert_type)
 
 bool saved_film_history_revert_internal(int32 target_record_index)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return false;
 }
 
@@ -524,13 +524,13 @@ bool saved_film_history_should_flush_gamestate(int32 update_number)
 
 bool saved_film_history_time_for_chapter_archive(int32 film_tick)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return false;
 }
 
 void saved_film_history_update()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	if (!saved_film_history_globals.history_buffer || saved_film_history_globals.history_buffer->is_async_io_in_progress())
 	{
 		return;
@@ -576,6 +576,6 @@ void saved_film_history_update_after_simulation_update(const struct simulation_u
 
 void saved_film_history_update_before_simulation_update(bool disable_adding_history_records)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 

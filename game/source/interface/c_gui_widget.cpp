@@ -1140,7 +1140,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		}
 		else if (render_data->type == _gui_model)
 		{
-			// $TODO: reimplement `c_gui_model_widget`
+			// $IMPLEMENT `c_gui_model_widget`
 			//c_gui_model_widget::render((const s_gui_model_widget_render_data*)render_data, window_bounds);
 		}
 	}
@@ -1162,7 +1162,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 
 	if (render_data->render_debug_animation_state)
 	{
-		// $TODO: implement `c_gui_text_widget::update` for `#string#` text render
+		// $TODO `c_gui_text_widget::update` for `#string#` text render
 
 		c_static_string<1024> text;
 		text.set("");

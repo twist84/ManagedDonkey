@@ -157,7 +157,7 @@ bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint,
 	//HOOK_INVOKE(result =, transport_endpoint_async_is_connected, endpoint, is_connected);
 	//return result;
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_address* address)
@@ -277,7 +277,7 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 	HOOK_INVOKE(result =, transport_endpoint_create_socket, endpoint, address);
 	return result;
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void __cdecl transport_endpoint_delete(transport_endpoint* endpoint)
@@ -405,7 +405,7 @@ bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_lengt
 	HOOK_INVOKE(result =, transport_endpoint_get_transport_address, socket_address_length, socket_address, address);
 	return result;
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint)
@@ -500,7 +500,7 @@ int16 __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* b
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 	ASSERT(endpoint->type != _transport_type_unix);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
@@ -552,7 +552,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 
 	ASSERT(endpoint != NULL);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, int32 value)
@@ -565,7 +565,7 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 
 	ASSERT(endpoint != NULL);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_type type)
@@ -649,7 +649,7 @@ int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const vo
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 	ASSERT(endpoint->type != _transport_type_unix);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
@@ -685,6 +685,6 @@ bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transp
 
 	ASSERT(address != NULL);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 

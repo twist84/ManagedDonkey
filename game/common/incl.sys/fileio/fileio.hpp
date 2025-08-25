@@ -11,7 +11,7 @@ static_assert(sizeof(osTIMER) == 0x8);
 
 enum FIO_OPEN
 {
-	// $TODO: confirm these values
+	// $TODO confirm these values
 
 	FIO_OPEN_R = 1 << 0,
 	FIO_OPEN_W = 1 << 1,

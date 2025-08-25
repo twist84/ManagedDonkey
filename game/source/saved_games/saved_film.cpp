@@ -39,7 +39,7 @@ void c_saved_film::dispose(c_allocation_base* allocator)
 	m_async_double_buffer.release_storage(allocator);
 }
 
-// $TODO: check my work
+// $REVIEW
 bool c_saved_film::open_for_read(const char* filename, e_controller_index controller_index, bool disable_version_check)
 {
 	ASSERT(m_film_state == k_saved_film_state_none);
@@ -403,7 +403,7 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	return true;
 }
 
-// $TODO: check my work
+// $REVIEW
 bool c_saved_film::write_simulation_update(const struct simulation_update* update)
 {
 	ASSERT(update);
@@ -468,7 +468,7 @@ bool c_saved_film::write_simulation_update(const struct simulation_update* updat
 	return true;
 }
 
-// $TODO: check my work
+// $REVIEW
 bool c_saved_film::write_gamestate()
 {
 	ASSERT(m_film_state == _saved_film_open_for_write);
@@ -505,7 +505,7 @@ bool c_saved_film::write_gamestate()
 	//return true;
 }
 
-// $TODO: check my work
+// $REVIEW
 bool c_saved_film::write_gamestate_from_buffer(int32 update_number, const void* gamestate, int32 gamestate_size)
 {
 	ASSERT(m_film_state == _saved_film_open_for_write);
@@ -685,7 +685,7 @@ bool c_saved_film::close()
 	return result;
 }
 
-// $TODO: check my work
+// $REVIEW
 bool c_saved_film::header_valid(const s_blf_saved_film* header, bool disable_version_check) const
 {
 	ASSERT(header);

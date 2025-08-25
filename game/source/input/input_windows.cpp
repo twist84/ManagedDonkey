@@ -603,7 +603,7 @@ void __cdecl input_update_keyboard(int32 elapsed_msec)
 
 	// Halo 3 handles `input_globals.buffered_keys` here
 
-	// $TODO: dedicated server debug console
+	// $TODO dedicated server debug console
 }
 
 void __cdecl input_update_mouse(int32 elapsed_msec)

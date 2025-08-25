@@ -303,7 +303,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = true,
 	//	.allow_in_editor = true,
 	//	.toggle_variable = true,
-	//	.variable = NULL // $TODO: `bool render_debug_show_4x3_bounds`
+	//	.variable = NULL // $TODO `bool render_debug_show_4x3_bounds`
 	//},
 	{
 		.name = "exit game",
@@ -383,7 +383,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = NULL // $TODO: `bool debug_render_model_vertex_counts`
+	//	.variable = NULL // $TODO `bool debug_render_model_vertex_counts`
 	//},
 	//{
 	//	.name = "render model names",
@@ -393,7 +393,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = false,
-	//	.variable = NULL // $TODO: `bool debug_render_model_names`
+	//	.variable = NULL // $TODO `bool debug_render_model_names`
 	//},
 	{
 		.name = "save camera",
@@ -836,7 +836,7 @@ void __cdecl debug_keys_update()
 			debug_key_update(key_index, key++, modifier_down, 0);
 	}
 
-	// $TODO: add implementation for `g_debug_button_list`
+	// $IMPLEMENT `g_debug_button_list`
 
 	//for (s_debug_button& button : g_debug_button_list)
 	//{

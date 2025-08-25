@@ -68,7 +68,7 @@ void __thiscall c_gui_pregame_setup_manager::set_selected_item_(e_controller_ind
 
 			if (game_setup_storage.theater.game_options.campaign_id != _campaign_id_none)
 			{
-				// $TODO: implement this
+				// $IMPLEMENT
 
 				return;
 

@@ -151,7 +151,7 @@ real32 rasterizer_profile_get_element_elapsed_milliseconds(e_rasterizer_profile_
 	real32 element_elapsed_milliseconds = c_stop_watch::cycles_to_seconds(element_profile->cycles) * 1000.0f;
 	if (profile_element_index == _rasterizer_profile_element_total)
 	{
-		// $TODO: d3d device get counter
+		// $TODO d3d device get counter
 	}
 
 	return element_elapsed_milliseconds;

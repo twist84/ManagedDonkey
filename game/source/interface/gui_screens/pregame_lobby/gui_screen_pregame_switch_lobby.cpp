@@ -16,7 +16,7 @@ bool c_gui_screen_pregame_switch_lobby::handle_list_item_chosen(const c_controll
 {
 	return INVOKE_CLASS_MEMBER(0x00B02E50, c_gui_screen_pregame_switch_lobby, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
-	// $TODO: implemenent me
+	// $IMPLEMENT
 }
 
 void c_gui_screen_pregame_switch_lobby::post_initialize()

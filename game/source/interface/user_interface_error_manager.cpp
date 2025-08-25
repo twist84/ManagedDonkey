@@ -354,7 +354,7 @@ void c_gui_error_manager::update(uns32 current_milliseconds)
 	//{
 	//	const c_gui_queued_error* error = alerts[window_index].error;
 	//
-	//	// $TODO: implement this loop
+	//	// $IMPLEMENT
 	//}
 	//
 	//m_last_error_display_mode = display_mode;

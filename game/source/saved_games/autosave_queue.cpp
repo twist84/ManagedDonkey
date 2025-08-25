@@ -124,12 +124,12 @@ int32 __cdecl autosave_queue_read_file(const s_file_reference* file, void* buffe
 
 void __cdecl autosave_queue_save_current_game_variant_to_queue()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void __cdecl autosave_queue_save_current_map_to_queue()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void __cdecl delete_incomplete_files()
@@ -160,7 +160,7 @@ bool c_autosave_queue_enumerator::is_busy()
 
 bool __cdecl free_up_autosave_space(e_autosave_queue_type autosave_queue_type)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return false;
 }

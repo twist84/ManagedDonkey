@@ -12,7 +12,7 @@
 
 REFERENCE_DECLARE(0x018639A0, s_logic_qos_reply_manager_globals, g_logic_qos_reply_manager_globals);
 
-// $TODO: remove this when we have full control over `logic_qos_reply_manager_globals`
+// $TODO remove this when we have full control over `logic_qos_reply_manager_globals`
 void __cdecl dynamic_initializer_for_logic_qos_reply_manager_globals()
 {
 	static s_logic_qos_reply_manager_globals temp;

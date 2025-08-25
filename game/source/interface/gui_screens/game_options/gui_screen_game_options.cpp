@@ -308,7 +308,7 @@ bool c_gui_screen_game_options::handle_controller_input_message(const c_controll
 {
 	return INVOKE_CLASS_MEMBER(0x00B0C0B0, c_gui_screen_game_options, handle_controller_input_message, message);
 
-	// $TODO: finish implementation
+	// $IMPLEMENT
 
 	//if (message->get_event_type() == _event_type_button_press)
 	//{
@@ -342,7 +342,7 @@ bool c_gui_screen_game_options::handle_controller_input_message(const c_controll
 	//			break;
 	//		}
 	//
-	//		// $TODO: implement me
+	//		// $IMPLEMENT
 	//	}
 	//	break;
 	//	case _controller_component_button_back:

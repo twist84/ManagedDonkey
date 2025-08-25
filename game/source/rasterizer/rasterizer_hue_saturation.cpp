@@ -56,5 +56,5 @@ void c_hue_saturation_control::reset()
 	m_filter_blue = 1.0f;
 }
 
-//.text:00A411A0 ; c_hue_saturation_control::set_hue_saturaton_and_color_filters, $TODO: fix __usercall calling convention
+//.text:00A411A0 ; c_hue_saturation_control::set_hue_saturaton_and_color_filters, $TODO fix __usercall calling convention
 

@@ -268,7 +268,7 @@ const real_plane3d* c_collision_surface_reference::get_plane(bool* is_negated) c
 
 int32 c_collision_surface_reference::get_plane_index() const
 {
-	// $TODO: this assert
+	// $TODO this assert
 	//ASSERT((m_surface_index != NONE) == m_bsp.valid())
 
 	if (is_small())
@@ -279,7 +279,7 @@ int32 c_collision_surface_reference::get_plane_index() const
 
 bool c_collision_surface_reference::is_plane_negated() const
 {
-	// $TODO: this assert
+	// $TODO this assert
 	//ASSERT((m_surface_index != NONE) == m_bsp.valid())
 
 	if (is_small())

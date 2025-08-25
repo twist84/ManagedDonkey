@@ -345,7 +345,7 @@ struct player_datum :
 	bool sprinting;
 	bool crouching;
 	bool shooting_left;
-	bool shooting_right; // $TODO: confirmed this by checking it in ED??
+	bool shooting_right; // $TODO confirmed this by checking it in ED??
 	uns8 __unknown5B;
 	uns16 magnification_level; // zoom
 

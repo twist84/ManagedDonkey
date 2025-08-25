@@ -172,7 +172,7 @@ int32 XShowKeyboardUI(
 	return 0;
 }
 
-// $TODO: add an icon for notifications, more customization?
+// $TODO add an icon for notifications, more customization?
 void display_notification(const wchar_t* tip, const wchar_t* info, const wchar_t* info_title)
 {
 	ASSERT(tip != NULL);

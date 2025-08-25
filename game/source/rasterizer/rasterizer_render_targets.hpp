@@ -25,7 +25,7 @@ public:
 	uns8 unknown54[36];
 };
 
-// $TODO: move this
+// $TODO move this
 struct s_surface_group_description
 {
 	uns32 flags;
@@ -49,7 +49,7 @@ struct s_surface_group_description
 	uns32 index_unknown_of_size_54;
 };
 
-// $TODO: move this
+// $TODO move this
 class c_render_surface_group
 {
 public:
@@ -58,7 +58,7 @@ public:
 	c_render_surface* m_surfaces;
 };
 
-// $TODO: move this
+// $TODO move this
 class c_render_surfaces_interface
 {
 public:

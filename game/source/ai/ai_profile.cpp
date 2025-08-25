@@ -221,7 +221,7 @@ void ai_profile_render_spray()
 		if (actor_datum_available_to_current_thread())
 		{
 			real_point3d from_point{};
-			// $TODO: find out why 0.05f doesn't display correctly, possibly something wrong with the near plane
+			// $TODO find out why 0.05f doesn't display correctly, possibly something wrong with the near plane
 			point_from_line3d(&camera->position, &camera->forward, 1.0f /*0.05f*/, &from_point);
 
 			actor_iterator iterator{};

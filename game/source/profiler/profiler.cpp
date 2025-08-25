@@ -140,72 +140,72 @@ void profile_render(const rectangle2d* screen_pixel_bounds, const rectangle2d* s
 		if (profile_summary_effects_enabled)
 		{
 			csnzappendf(buffer, sizeof(buffer), "Active/Allocated:  %3d/%3d effects with %3d/%3d events at %3d locations with %3d lightprobes|n",
-				0,  // $TODO: effects_information.active_effect_count
-				0,  // $TODO: effects_information.effect_count
-				0,  // $TODO: effects_information.active_event_count
-				0,  // $TODO: effects_information.event_count
-				0,  // $TODO: effects_information.location_count
-				0); // $TODO: effects_information.lightprobe_count
+				0,  // $TODO effects_information.active_effect_count
+				0,  // $TODO effects_information.effect_count
+				0,  // $TODO effects_information.active_event_count
+				0,  // $TODO effects_information.event_count
+				0,  // $TODO effects_information.location_count
+				0); // $TODO effects_information.lightprobe_count
 		
 			csnzappendf(buffer, sizeof(buffer), "Normal/High/Essential:  %3d/%3d/%3d effects at %3d/%3d/%3d events|n",
-				0,  // $TODO: effects_information_by_priority[0].effect_count
-				0,  // $TODO: effects_information_by_priority[1].effect_count
-				0,  // $TODO: effects_information_by_priority[2].effect_count
-				0,  // $TODO: effects_information_by_priority[0].event_count
-				0,  // $TODO: effects_information_by_priority[1].event_count
-				0); // $TODO: effects_information_by_priority[2].event_count
+				0,  // $TODO effects_information_by_priority[0].effect_count
+				0,  // $TODO effects_information_by_priority[1].effect_count
+				0,  // $TODO effects_information_by_priority[2].effect_count
+				0,  // $TODO effects_information_by_priority[0].event_count
+				0,  // $TODO effects_information_by_priority[1].event_count
+				0); // $TODO effects_information_by_priority[2].event_count
 		
 			csnzappendf(buffer, sizeof(buffer), "Active/Submitted/Allocated:  %3d/%3d/%3d particle systems at %3d/%3d/%3d locations with %3d/%3d/%3d emitters|n",
-				0,  // $TODO: g_particle_information.m_active_system_count
-				0,  // $TODO: g_particle_information.m_submitted_system_count
-				0,  // $TODO: g_particle_information.m_allocated_system_count
-				0,  // $TODO: g_particle_information.m_active_location_count
-				0,  // $TODO: g_particle_information.m_submitted_location_count
-				0,  // $TODO: g_particle_information.m_allocated_location_count
-				0,  // $TODO: g_particle_information.m_active_emitter_count
-				0,  // $TODO: g_particle_information.m_submitted_emitter_count
-				0); // $TODO: g_particle_information.m_allocated_emitter_count
+				0,  // $TODO g_particle_information.m_active_system_count
+				0,  // $TODO g_particle_information.m_submitted_system_count
+				0,  // $TODO g_particle_information.m_allocated_system_count
+				0,  // $TODO g_particle_information.m_active_location_count
+				0,  // $TODO g_particle_information.m_submitted_location_count
+				0,  // $TODO g_particle_information.m_allocated_location_count
+				0,  // $TODO g_particle_information.m_active_emitter_count
+				0,  // $TODO g_particle_information.m_submitted_emitter_count
+				0); // $TODO g_particle_information.m_allocated_emitter_count
 		
 			csnzappendf(buffer, sizeof(buffer), "Normal/High/Essential:  %3d/%3d/%3d particle systems at %3d/%3d/%3d locations with %3d/%3d/%3d emitters|n",
-				0,  // $TODO: particle_information_by_priority[0].m_system_count
-				0,  // $TODO: particle_information_by_priority[1].m_system_count
-				0,  // $TODO: particle_information_by_priority[2].m_system_count
-				0,  // $TODO: particle_information_by_priority[0].m_location_count
-				0,  // $TODO: particle_information_by_priority[1].m_location_count
-				0,  // $TODO: particle_information_by_priority[2].m_location_count
-				0,  // $TODO: particle_information_by_priority[0].m_emitter_count
-				0,  // $TODO: particle_information_by_priority[1].m_emitter_count
-				0); // $TODO: particle_information_by_priority[2].m_emitter_count
+				0,  // $TODO particle_information_by_priority[0].m_system_count
+				0,  // $TODO particle_information_by_priority[1].m_system_count
+				0,  // $TODO particle_information_by_priority[2].m_system_count
+				0,  // $TODO particle_information_by_priority[0].m_location_count
+				0,  // $TODO particle_information_by_priority[1].m_location_count
+				0,  // $TODO particle_information_by_priority[2].m_location_count
+				0,  // $TODO particle_information_by_priority[0].m_emitter_count
+				0,  // $TODO particle_information_by_priority[1].m_emitter_count
+				0); // $TODO particle_information_by_priority[2].m_emitter_count
 		
 			csnzappendf(buffer, sizeof(buffer), "%4d gpu particles including %3d/%3d cpu particles with %3d physics and %3d/%3d collision|n",
-				0,  // $TODO: g_particle_information.m_gpu_particle_count
-				0,  // $TODO: g_particle_information.m_active_cpu_particle_count
-				0,  // $TODO: g_particle_information.m_allocated_cpu_particle_count
-				0,  // $TODO: g_particle_information.m_physics_particle_count
-				0,  // $TODO: g_particle_information.m_colliding_particle_count
-				0); // $TODO: g_particle_information.m_collision_particle_count
+				0,  // $TODO g_particle_information.m_gpu_particle_count
+				0,  // $TODO g_particle_information.m_active_cpu_particle_count
+				0,  // $TODO g_particle_information.m_allocated_cpu_particle_count
+				0,  // $TODO g_particle_information.m_physics_particle_count
+				0,  // $TODO g_particle_information.m_colliding_particle_count
+				0); // $TODO g_particle_information.m_collision_particle_count
 		
 			csnzappendf(buffer, sizeof(buffer), "Active/Submitted/Allocated:  %3d/%3d/%3d beams, %3d/%3d/%3d contrails, %3d/%3d/%3d light_volumes|n",
-				0,  // $TODO: g_beam_information.m_active_count
-				0,  // $TODO: g_beam_information.m_submitted_count
-				0,  // $TODO: g_beam_information.m_allocated_count
-				0,  // $TODO: g_contrail_information.m_active_count
-				0,  // $TODO: g_contrail_information.m_submitted_count
-				0,  // $TODO: g_contrail_information.m_allocated_count
-				0,  // $TODO: g_light_volume_information.m_active_count
-				0,  // $TODO: g_light_volume_information.m_submitted_count
-				0); // $TODO: g_light_volume_information.m_allocated_count
+				0,  // $TODO g_beam_information.m_active_count
+				0,  // $TODO g_beam_information.m_submitted_count
+				0,  // $TODO g_beam_information.m_allocated_count
+				0,  // $TODO g_contrail_information.m_active_count
+				0,  // $TODO g_contrail_information.m_submitted_count
+				0,  // $TODO g_contrail_information.m_allocated_count
+				0,  // $TODO g_light_volume_information.m_active_count
+				0,  // $TODO g_light_volume_information.m_submitted_count
+				0); // $TODO g_light_volume_information.m_allocated_count
 		
 			csnzappendf(buffer, sizeof(buffer), "Normal/High/Essential:  %3d/%3d/%3d beams, %3d/%3d/%3d contrails, %3d/%3d/%3d light_volumes|n",
-				0,  // $TODO: beam_information_by_priority[0].m_count
-				0,  // $TODO: beam_information_by_priority[1].m_count
-				0,  // $TODO: beam_information_by_priority[2].m_count
-				0,  // $TODO: contrail_information_by_priority[0].m_count
-				0,  // $TODO: contrail_information_by_priority[1].m_count
-				0,  // $TODO: contrail_information_by_priority[2].m_count
-				0,  // $TODO: light_volume_information_by_priority[0].m_count
-				0,  // $TODO: light_volume_information_by_priority[1].m_count
-				0); // $TODO: light_volume_information_by_priority[2].m_count
+				0,  // $TODO beam_information_by_priority[0].m_count
+				0,  // $TODO beam_information_by_priority[1].m_count
+				0,  // $TODO beam_information_by_priority[2].m_count
+				0,  // $TODO contrail_information_by_priority[0].m_count
+				0,  // $TODO contrail_information_by_priority[1].m_count
+				0,  // $TODO contrail_information_by_priority[2].m_count
+				0,  // $TODO light_volume_information_by_priority[0].m_count
+				0,  // $TODO light_volume_information_by_priority[1].m_count
+				0); // $TODO light_volume_information_by_priority[2].m_count
 		
 			//c_decal_system::profile_dump(buffer, sizeof(buffer));
 		}

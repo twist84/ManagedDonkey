@@ -24,7 +24,7 @@ static_assert(sizeof(s_netdebug_upload_task) == 0x224);
 
 struct s_netdebug_globals
 {
-	// $TODO: replace with raw string
+	// $TODO replace with raw string
 	c_static_string<64> title;
 	c_static_string<64> build;
 	c_static_string<160> system;

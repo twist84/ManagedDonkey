@@ -25,7 +25,7 @@ void __thiscall c_gui_active_roster_data::update_()
 {
 	HOOK_INVOKE_CLASS_MEMBER(, c_gui_active_roster_data, update_);
 
-	// $TODO: reimplement `c_gui_active_roster_data::update`
+	// $IMPLEMENT `c_gui_active_roster_data::update`
 	//c_gui_active_roster_data::update();
 }
 
@@ -198,7 +198,7 @@ bool c_gui_roster_data::get_integer_value(int32 element_handle, int32 value_name
 		{
 			*value = (element_handle % 4) + 1;
 
-			// $TODO: pull this from an api?
+			// $TODO pull this from an api?
 			if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
 			{
 				*value = 42;
@@ -213,7 +213,7 @@ bool c_gui_roster_data::get_integer_value(int32 element_handle, int32 value_name
 		{
 			*value = (element_handle % 4) + 1;
 
-			// $TODO: pull this from an api?
+			// $TODO pull this from an api?
 			if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
 			{
 				*value = 50;

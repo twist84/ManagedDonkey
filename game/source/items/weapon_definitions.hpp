@@ -439,7 +439,7 @@ struct s_weapon_barrel
 	real32 minimum_error; // degrees
 	angle_bounds error_angle; // degrees
 
-	// $TODO: map the rest of this struct
+	// $TODO map the rest of this struct
 	byte __data88[0x1AC - 0x88];
 };
 static_assert(sizeof(s_weapon_barrel) == 0x1AC);

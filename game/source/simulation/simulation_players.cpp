@@ -335,7 +335,7 @@ bool __cdecl simulation_player_update_apply_configuration(const simulation_playe
 
 	//ASSERT(player_update);
 	//ASSERT(player_update->update_type == _simulation_player_update_type_configuration);
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl simulation_player_update_apply_left_game(const simulation_player_update* player_update)
@@ -344,7 +344,7 @@ bool __cdecl simulation_player_update_apply_left_game(const simulation_player_up
 
 	//ASSERT(player_update);
 	//ASSERT(player_update->update_type == _simulation_player_update_type_left_game);
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl simulation_player_update_apply_remove(const simulation_player_update* player_update)
@@ -353,7 +353,7 @@ bool __cdecl simulation_player_update_apply_remove(const simulation_player_updat
 
 	//ASSERT(player_update);
 	//ASSERT(player_update->update_type == _simulation_player_update_type_remove);
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool __cdecl simulation_player_update_apply_swap(const simulation_player_update* player_update)
@@ -362,7 +362,7 @@ bool __cdecl simulation_player_update_apply_swap(const simulation_player_update*
 
 	//ASSERT(player_update);
 	//ASSERT(player_update->update_type == _simulation_player_update_type_swap);
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 //void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, int32 player_index, const s_player_identifier* player_identifier, const s_machine_identifier* machine_identifier, int32 machine_user_index, e_controller_index machine_controller_index, const s_player_configuration* player_data, bool joined_in_progress)

@@ -122,7 +122,7 @@ e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(cons
 
 bool __cdecl sub_566CC0()
 {
-	// $TODO: find name
+	// $TODO find name
 	// used in `c_tag_resource_cache_controller::mark_necessary_resources`
 
 	return INVOKE(0x00566CC0, sub_566CC0);

@@ -133,7 +133,7 @@ namespace snd
 	//{
 	//	HALO_SOUND_SYSTEM::GetInstance()->Update();
 	//
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 
 }

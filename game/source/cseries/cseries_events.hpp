@@ -147,12 +147,12 @@ extern void __cdecl network_debug_print(const char* format, ...);
 
 //#define USE_CONSOLE_FOR_EVENTS
 
-// $TODO: decide if we want to wrap this macro in a debug check
+// $TODO decide if we want to wrap this macro in a debug check
 //#if defined(_DEBUG)
 
 #ifdef USE_CONSOLE_FOR_EVENTS
 #define event(severity, ...) do { c_console::write_line(__VA_ARGS__); } while (false)
-#define event_no_console(severity, ...) do { /* $TODO: implement me */ } while (false)
+#define event_no_console(severity, ...) do { /* $IMPLEMENT */ } while (false)
 #else
 #define event(severity, ...) \
 do { \
@@ -164,7 +164,7 @@ do { \
 			event_interlocked_compare_exchange(&x_event_category_index, local_event.generate(__VA_ARGS__), NONE); \
 	} \
 } while (false)
-#define event_no_console(severity, ...) do { /* $TODO: implement me */ } while (false)
+#define event_no_console(severity, ...) do { /* $IMPLEMENT */ } while (false)
 #endif
 
 //#else

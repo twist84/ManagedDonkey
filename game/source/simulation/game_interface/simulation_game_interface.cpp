@@ -12,7 +12,7 @@
 
 //HOOK_DECLARE_CALL(0x004419FF, simulation_game_register_types);
 
-// $TODO: place these the correct locations
+// $TODO place these the correct locations
 //REFERENCE_DECLARE(0x0189AEF8, c_simulation_entity_definition, g_simulation_projectile_entity_definition);
 //REFERENCE_DECLARE(0x0189B110, c_simulation_entity_definition, g_simulation_game_engine_player_entity_definition);
 //REFERENCE_DECLARE(0x0189B2CC, c_simulation_entity_definition, g_simulation_unit_entity_definition);

@@ -137,7 +137,7 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_pre_game::update_f
 	return INVOKE_CLASS_MEMBER(0x00490680, c_life_cycle_state_handler_pre_game, update_for_state_transition);
 }
 
-// $TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
+// $TODO rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
 __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown_for_net_skip_countdown()
 {
 	// original instructions
@@ -174,7 +174,7 @@ __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown_f
 }
 HOOK_DECLARE(0x0048F66A, life_cycle_state_handler_pre_game_host_update_countdown_for_net_skip_countdown);
 
-// $TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
+// $TODO rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
 __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown_for_saved_films()
 {
 	// prevent countdown from stopping
@@ -192,7 +192,7 @@ __declspec(naked) void life_cycle_state_handler_pre_game_host_update_countdown_f
 }
 HOOK_DECLARE(0x0048F704, life_cycle_state_handler_pre_game_host_update_countdown_for_saved_films);
 
-// $TODO: rewrite `c_life_cycle_state_handler_pre_game::update` 
+// $TODO rewrite `c_life_cycle_state_handler_pre_game::update` 
 __declspec(naked) void life_cycle_state_handler_pre_game_update()
 {
 	ASM_ADDR(0x00490604, addr_490604);

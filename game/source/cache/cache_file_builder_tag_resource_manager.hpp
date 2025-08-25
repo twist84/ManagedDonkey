@@ -73,7 +73,7 @@ struct s_render_texture_descriptor
 };
 static_assert(sizeof(s_render_texture_descriptor) == 0x38);
 
-// $TODO: add other control data structures
+// $TODO add other control data structures
 union control_data_t
 {
 	s_render_texture_descriptor render_texture;

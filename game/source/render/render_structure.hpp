@@ -16,7 +16,7 @@ public:
 };
 static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 
-// $TODO: use `s_*_bsp_types` for collision bsp logic
+// $TODO use `s_*_bsp_types` for collision bsp logic
 //struct s_small_bsp_types
 //{
 //	using k_collision_bsp_type = struct collision_bsp;

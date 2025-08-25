@@ -297,7 +297,7 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 {
 	//INVOKE_CLASS_MEMBER(0x00ADD560, c_gui_saved_film_subitem_datasource, update_content_enumeration);
 
-	// $TODO: properly implement content items and un/reimplement this function at that time
+	// $TODO properly implement content items and un/reimplement this function at that time
 
 	if (m_enumeration_complete)
 	{

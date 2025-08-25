@@ -49,7 +49,7 @@ public:
 	};
 
 public:
-	// $TODO: virtual functions
+	// $TODO virtual functions
 
 protected:
 	void update_autosave_enumeration();

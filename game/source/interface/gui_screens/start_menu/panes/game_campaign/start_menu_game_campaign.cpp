@@ -132,7 +132,7 @@ bool c_start_menu_game_campaign::handle_list_item_chosen(const c_controller_inpu
 {
 	return INVOKE_CLASS_MEMBER(0x00AE8930, c_start_menu_game_campaign, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 void c_start_menu_game_campaign::initialize()

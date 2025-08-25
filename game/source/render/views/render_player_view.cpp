@@ -107,16 +107,16 @@ void __thiscall c_player_view::queue_patchy_fog()
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);
 }
 
-// $TODO: move this
+// $TODO move this
 REFERENCE_DECLARE_ARRAY(0x0510D8D0, c_render_surface_group, c_render_surfaces_interface::m_render_surface_groups, 60);
 
-// $TODO: move this
+// $TODO move this
 void __cdecl sub_14E56A0(int32 player_index, c_player_view* player_view)
 {
 	INVOKE(0x014E56A0, sub_14E56A0, player_index, player_view);
 }
 
-// $TODO: move this
+// $TODO move this
 void __cdecl vision_mode_render(int32 player_index, const c_player_view* player_view, real32 a3, real32 a4, real32 a5, int32 a6, int32 a7)
 {
 	INVOKE(0x014E3EE0, vision_mode_render, player_index, player_view, a3, a4, a5, a6, a7);

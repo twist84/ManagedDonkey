@@ -28,7 +28,7 @@ void __thiscall s_emblem_info::decode(c_bitstream* packet)
 	background_color_index.set_raw_value((int8)packet->read_integer("emblem-background-color", 6));
 }
 
-// $TODO: This function only exists because member_to_static does not support const members.
+// $TODO This function only exists because member_to_static does not support const members.
 void __thiscall s_emblem_info::encode(c_bitstream* packet)
 {
 	packet->write_integer("foreground-emblem", foreground_emblem_index, 6);

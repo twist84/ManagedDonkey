@@ -127,7 +127,7 @@ void __cdecl hf2p_game_update()
 
 			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, uns32)(&loadout, mainmenu_unit_index);
 
-			// $TODO: when we have full control over player profile and player customization maybe update and use this
+			// $TODO when we have full control over player profile and player customization maybe update and use this
 			//c_player_profile_interface* player_profile = controller_get(_controller0)->get_player_profile_interface();
 			//e_player_color_index primary_change_color = player_profile->get_primary_change_color();
 			//e_player_color_index secondary_change_color = player_profile->get_secondary_change_color();
@@ -257,10 +257,10 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 	s_player_configuration player_data{};
 	uns32 player_voice_settings = 0;
 
-	// $TODO: pull this from tags
+	// $TODO pull this from tags
 	//loadout.grenade_index = _grenade_type_firebomb;
 
-	// $TODO: pull this from a config file
+	// $TODO pull this from a config file
 #if defined(_DEBUG)
 	loadout.bungienet_user.set(_bungienet_user_bungie, true);
 #else

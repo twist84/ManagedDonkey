@@ -360,8 +360,8 @@ void __cdecl game_state_initialize_for_new_map()
 {
 	//INVOKE(0x0050FDC0, game_state_initialize_for_new_map);
 
-	// $TODO: figure out what flags are used?
-	// $TODO: `game_state_proc_flags` is never referenced so do we actually care?
+	// $TODO figure out what flags are used?
+	// $TODO `game_state_proc_flags` is never referenced so do we actually care?
 	game_state_reset_mapping(k_no_game_state_proc_flags);
 
 	if (g_game_state_allocation_file_reference_valid)

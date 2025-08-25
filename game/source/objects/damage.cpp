@@ -189,7 +189,7 @@ void render_debug_object_damage()
 {
 	if (debug_damage_radius)
 	{
-		// $TODO: implement
+		// $IMPLEMENT
 	}
 
 	if (debug_damage)

@@ -517,7 +517,7 @@ void collision_debug_render()
 
 	if (collision_debug_spray)
 	{
-		// $TODO: implement me
+		// $IMPLEMENT
 
 		//real_matrix4x3 camera{};
 		//c_player_view::get_player_render_camera_orientation(&camera);
@@ -526,12 +526,12 @@ void collision_debug_render()
 		//{
 		//	if (!collision_debug_repeat)
 		//	{
-		//		// $TODO: implement me
+		//		// $IMPLEMENT
 		//	}
 		//}
 		//else
 		//{
-		//	// $TODO: implement me
+		//	// $IMPLEMENT
 		//
 		//	real_point3d point{};
 		//	
@@ -620,17 +620,17 @@ void collision_debug_render()
 
 	if (collision_debug_lightmaps)
 	{
-		// $TODO: implement me
+		// $IMPLEMENT
 	}
 
 	if (collision_debug_geometry_sampling)
 	{
-		// $TODO: implement me
+		// $IMPLEMENT
 	}
 
 	if (collision_debug_phantom_bsp)
 	{
-		// $TODO: implement me
+		// $IMPLEMENT
 	}
 
 	if (global_collision_log_enable)

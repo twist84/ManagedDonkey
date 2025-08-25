@@ -114,7 +114,7 @@ void __cdecl actor_stimulus_surprise(int32 actor_index, int16 surprise_level, in
 //.text:01457CF0 ; 
 //.text:01457D00 ; void __cdecl stimulus_clear(actor_datum*, behavior_stimulus*)
 
-// $TODO: `actor_debug_info`, `actor_debug_array`, `actor_debug_drawstack`
+// $TODO `actor_debug_info`, `actor_debug_array`, `actor_debug_drawstack`
 
 void __cdecl stimuli_debug()
 {

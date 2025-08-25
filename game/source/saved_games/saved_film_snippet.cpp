@@ -214,7 +214,7 @@ bool saved_film_snippet_finished_revert_for_seek(int32 update_number, void* game
 
 void saved_film_snippet_get_camera_for_simulation_update(s_simulation_camera_update* camera_update_out)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool saved_film_snippet_get_current_start_tick(int32* start_tick_out)
@@ -322,7 +322,7 @@ void saved_film_snippet_memory_initialize()
 
 bool saved_film_snippet_pad_camera_file_for_write_completion()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return false;
 }
 
@@ -467,7 +467,7 @@ bool saved_film_snippet_stop_recording()
 
 bool saved_film_snippet_update()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return false;
 
 	//ASSERT(game_in_progress());
@@ -477,47 +477,47 @@ bool saved_film_snippet_update()
 	//{
 	//case _saved_film_snippet_state_recording:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_invoking_title_keyboard:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_waiting_title_keyboard:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_invoking_description_keyboard:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_waiting_description_keyboard:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_initiate_creation:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_wait_for_creation:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_initiate_metadata_update:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_commiting_wait_for_metadata_update:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//}
@@ -525,7 +525,7 @@ bool saved_film_snippet_update()
 
 bool saved_film_snippet_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 	return false;
 
 	//ASSERT(game_in_progress());
@@ -535,38 +535,38 @@ bool saved_film_snippet_update_after_simulation_update(const struct simulation_u
 	//{
 	//case _saved_film_snippet_state_none:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_recording_waiting_for_seek:
 	//case _saved_film_snippet_state_previewing_waiting_for_seek:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_recording_waiting_for_start:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_recording:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_recorded_and_ready:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_previewing:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//case _saved_film_snippet_state_resetting:
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//break;
 	//default:

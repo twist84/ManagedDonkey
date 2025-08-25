@@ -323,7 +323,7 @@ void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_
 	//	ai_refresh_reference_frames();
 	//	objectives_initialize_for_new_structure_bsp(activating_structure_bsp_mask);
 	//
-	//	// $TODO: stucture bsp pathfinding data validation loop
+	//	// $TODO stucture bsp pathfinding data validation loop
 	//
 	//	flocks_initialize_for_new_structure_bsp(activating_structure_bsp_mask);
 	//	cs_initialize_for_new_structure_bsp((int32)activating_structure_bsp_mask);
@@ -398,7 +398,7 @@ void __cdecl ai_update()
 
 void __cdecl ai_verify_tags()
 {
-	// $TODO: implement me?
+	// $IMPLEMENT
 }
 
 //.text:014353A0 ; t_restricted_allocation_manager<3,0,0,&void __tls_set_g_ai_globals_allocator(void*)>::allocate

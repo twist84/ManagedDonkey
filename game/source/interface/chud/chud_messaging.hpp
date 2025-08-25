@@ -25,7 +25,7 @@ public:
 		k_chud_state_placement_count
 	};
 
-	// $TODO: map this whole ass struct
+	// $TODO map this whole ass struct
 };
 
 extern void __cdecl chud_messaging_post(int32 user_index, const wchar_t* message_text, e_chud_message_context chud_message_context);

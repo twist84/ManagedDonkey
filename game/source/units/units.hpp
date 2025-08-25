@@ -60,7 +60,7 @@ struct unit_attacker
 };
 static_assert(sizeof(unit_attacker) == 0x10);
 
-// $TODO: are there more than 32 flags?
+// $TODO are there more than 32 flags?
 enum e_unit_control_flags
 {
 	// _button_action_crouch

@@ -364,7 +364,7 @@ c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB0DB0, c_gui_screen_widget, get_data, name, datasource_index);
 
-	// $TODO: cleanup this function
+	// $TODO cleanup this function
 
 	if (datasource_index)
 	{
@@ -1111,7 +1111,7 @@ void c_gui_screen_widget::transfer_focus_to_list(c_gui_list_widget* list_widget,
 {
 	INVOKE_CLASS_MEMBER(0x00AB2640, c_gui_screen_widget, transfer_focus_to_list, list_widget, element_handle, play_received_animation, play_lost_animation);
 
-	// $TODO: finish this implementation
+	// $IMPLEMENT
 
 	//c_gui_data* data = list_widget->get_data();
 	//if (!data)

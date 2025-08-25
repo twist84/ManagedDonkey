@@ -9,14 +9,14 @@ public:
 	{
 		_frame_bit0 = 0,
 
-		// $TODO: find all bits
+		// $TODO find all bits
 	};
 	
 	enum e_window_bit
 	{
 		_window_bit0 = 0,
 
-		// $TODO: find all bits
+		// $TODO find all bits
 	};
 
 	static void __cdecl prepare_for_frame();

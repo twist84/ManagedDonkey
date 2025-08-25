@@ -36,7 +36,7 @@ struct s_cache_file_insertion_point_resource_usage
 	c_static_flags<1024> shared_required_locations;
 	c_static_flags<320> local_required_locations;
 
-	// $TODO: idk what this could be, something from ODST?
+	// $TODO idk what this could be, something from ODST?
 	byte __dataAC[0x8];
 };
 static_assert(sizeof(s_cache_file_insertion_point_resource_usage) == 0xB4);
@@ -407,7 +407,7 @@ public:
 	bool m_cache_streaming_data;
 	bool m_cache_pages_for_next_map;
 
-	// $TODO: map this
+	// $TODO map this
 	byte __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);

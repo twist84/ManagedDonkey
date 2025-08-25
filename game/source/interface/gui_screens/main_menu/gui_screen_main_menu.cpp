@@ -70,8 +70,8 @@ void c_main_menu_screen_widget::set_list_elements()
 {
 	//INVOKE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elements);
 
-	static bool x_enable_leave_game_element = true; // $TODO: make the menu taller?
-	static bool x_disable_theater_element = true;   // $TODO: enable when saved films actually work?
+	static bool x_enable_leave_game_element = true; // $TODO make the menu taller?
+	static bool x_disable_theater_element = true;   // $TODO enable when saved films actually work?
 
 	if (c_gui_data* data = get_data(STRING_ID(gui, main_menu), NULL))
 	{

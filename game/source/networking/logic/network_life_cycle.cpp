@@ -12,7 +12,7 @@
 //REFERENCE_DECLARE_ARRAY(0x01860878, const char*, k_life_cycle_state_descriptions, k_life_cycle_state_count);
 REFERENCE_DECLARE(0x019AB7F0, s_network_life_cycle_globals, life_cycle_globals);
 
-// $TODO: remove this when we have full control over `life_cycle_globals`
+// $TODO remove this when we have full control over `life_cycle_globals`
 void __cdecl dynamic_initializer_for_life_cycle_globals()
 {
 	static s_network_life_cycle_globals temp;

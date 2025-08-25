@@ -45,7 +45,7 @@ void __cdecl control_toggle(int32 control_index)
 	//control_datum* control = CONTROL_GET(control_index);
 	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index)
 	//int32 position_group_index = control->device.position_group_index;
-	//// $TODO: implement me
+	//// $IMPLEMENT
 }
 
 void __cdecl control_touched(int32 control_index, int32 unit_index)

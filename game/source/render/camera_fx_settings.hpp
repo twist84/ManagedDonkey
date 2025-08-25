@@ -158,7 +158,7 @@ public:
 };
 static_assert(sizeof(c_camera_fx_settings) == 0x170);
 
-// $TODO: figure out the difference
+// $TODO figure out the difference
 class c_exposure
 {
 public:

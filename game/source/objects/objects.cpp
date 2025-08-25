@@ -366,7 +366,7 @@ int32 c_object_identifier::find_object_index() const
 {
 	return INVOKE_CLASS_MEMBER(0x00B28740, c_object_identifier, find_object_index);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 s_scenario_object* c_object_identifier::find_scenario_object(int32* tag_block_index) const
@@ -380,7 +380,7 @@ s_scenario_object* c_object_identifier::find_scenario_object_from_scenario(struc
 {
 	return INVOKE_CLASS_MEMBER(0x00B28820, c_object_identifier, find_scenario_object_from_scenario, scenario, tag_block_index);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 //.text:00B288F0 ; 
@@ -448,7 +448,7 @@ bool c_object_identifier::is_equal(const c_object_identifier* other) const
 {
 	return INVOKE_CLASS_MEMBER(0x00B292E0, c_object_identifier, is_equal, other);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 //.text:00B29330 ; 
@@ -1104,7 +1104,7 @@ int32 __cdecl object_new(object_placement_data* data)
 	//
 	//SET_BIT(object->object.simulation_flags, 1, data->multiplayer_cinematic_object);
 	//
-	//// $TODO: implement the rest
+	//// $IMPLEMENT
 	//
 	//return object_index;
 }

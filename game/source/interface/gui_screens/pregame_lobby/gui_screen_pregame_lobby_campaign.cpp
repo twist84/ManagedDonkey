@@ -143,7 +143,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(const 
 
 		if (user_interface_squad_local_peer_is_leader() /*&& !get_is_blue_disk()*/)
 		{
-			// $TODO: implement all of `c_gui_screen_campaign_settings`
+			// $IMPLEMENT
 			if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 				STRING_ID(gui, campaign_settings),
 				message->get_controller(),
@@ -236,7 +236,7 @@ void c_gui_screen_pregame_lobby_campaign::load_progress_ui(e_controller_index co
 	INVOKE_CLASS_MEMBER(0x00AFFF60, c_gui_screen_pregame_lobby_campaign, load_progress_ui, controller_index);
 
 	//ASSERT(m_progress_dialog_start_time_milliseconds == 0);
-	//// $TODO: Add `c_load_in_progress_screen_message`
+	//// $TODO Add `c_load_in_progress_screen_message`
 	//if (c_load_in_progress_screen_message* in_progress_screen_message = UI_MALLOC(c_load_in_progress_screen_message,
 	//	controller_index,
 	//	c_gui_screen_widget::get_render_window(),
@@ -259,7 +259,7 @@ void c_gui_screen_pregame_lobby_campaign::update(uns32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00B00230, c_gui_screen_pregame_lobby_campaign, update, current_milliseconds);
 
-	// $TODO: implement me, more than just what delta did
+	// $IMPLEMENT
 
 	//c_gui_screen_pregame_lobby::update(current_milliseconds);
 	//

@@ -30,5 +30,5 @@ protected:
 	int32 m_object_index;
 	byte m_character_physics_mode_datum_buffer[0x78];
 };
-static_assert(sizeof(c_character_physics_component) == 0x80); // $TODO: find the exact size
+static_assert(sizeof(c_character_physics_component) == 0x80); // $TODO find the exact size
 

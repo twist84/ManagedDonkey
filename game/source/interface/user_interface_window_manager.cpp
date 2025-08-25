@@ -282,7 +282,7 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 	//	return UI_MALLOC(c_start_menu_confirm_resolution, screen_name);
 	//}
 
-	// $TODO: remove this when each of the above classes exist and have a constructor 
+	// $TODO remove this when each of the above classes exist and have a constructor 
 	c_gui_screen_widget* result = NULL;
 	HOOK_INVOKE_CLASS_MEMBER(result =, c_window_manager, allocate_named_screen, screen_name);
 	if (result == NULL)

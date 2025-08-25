@@ -31,76 +31,76 @@ int32 __cdecl render_visible_objects_iterate(void(*function)(int32))
 void visibility_profile_display(char* buffer, int32 buffer_size)
 {
 	csnzappendf(buffer, buffer_size, "|nObjects:                  (bip/veh/weap/other)     skies: %d|n",
-		0); // $TODO: c_render_information::sky_count
+		0); // $TODO c_render_information::sky_count
 
 	csnzappendf(buffer, buffer_size, "     total %3d     visible: %2d/%2d/%2d/%2d|n",
-		0,  // $TODO: c_render_information::total_object_count[0]
-		0,  // $TODO: c_render_information::object_types[0][0]
-		0,  // $TODO: c_render_information::object_types[1][0]
-		0,  // $TODO: c_render_information::object_types[2][0]
-		0); // $TODO: c_render_information::object_types[3][0]
+		0,  // $TODO c_render_information::total_object_count[0]
+		0,  // $TODO c_render_information::object_types[0][0]
+		0,  // $TODO c_render_information::object_types[1][0]
+		0,  // $TODO c_render_information::object_types[2][0]
+		0); // $TODO c_render_information::object_types[3][0]
 
 	csnzappendf(buffer, buffer_size, "     total %3d     shadow:  %2d/%2d/%2d/%2d|n",
-		0,  // $TODO: c_render_information::total_object_count[2]
-		0,  // $TODO: c_render_information::object_types[0][2]
-		0,  // $TODO: c_render_information::object_types[1][2]
-		0,  // $TODO: c_render_information::object_types[2][2]
-		0); // $TODO: c_render_information::object_types[3][2]
+		0,  // $TODO c_render_information::total_object_count[2]
+		0,  // $TODO c_render_information::object_types[0][2]
+		0,  // $TODO c_render_information::object_types[1][2]
+		0,  // $TODO c_render_information::object_types[2][2]
+		0); // $TODO c_render_information::object_types[3][2]
 
 	csnzappendf(buffer, buffer_size, "     total %3d     light:   %2d/%2d/%2d/%2d|n",
-		0,  // $TODO: c_render_information::total_object_count[1]
-		0,  // $TODO: c_render_information::object_types[0][1]
-		0,  // $TODO: c_render_information::object_types[1][1]
-		0,  // $TODO: c_render_information::object_types[2][1]
-		0); // $TODO: c_render_information::object_types[3][1]
+		0,  // $TODO c_render_information::total_object_count[1]
+		0,  // $TODO c_render_information::object_types[0][1]
+		0,  // $TODO c_render_information::object_types[1][1]
+		0,  // $TODO c_render_information::object_types[2][1]
+		0); // $TODO c_render_information::object_types[3][1]
 
 	csnzappendf(buffer, buffer_size, "               indices total: %4dk     alb: %4dk, sl: %4dk, li: %4dk sha: %4dk tran: %4dk|n",
-		0,  /* $TODO:
+		0,  /* $TODO
 		(c_render_information::indices_counters[3][1]
 		+c_render_information::indices_counters[3][2]
 		+c_render_information::indices_counters[3][3]
 		+c_render_information::indices_counters[3][0]
 		+c_render_information::indices_counters[3][4]) / 1024 */
-		0,  // $TODO: c_render_information::indices_counters[3][0] / 1024
-		0,  // $TODO: c_render_information::indices_counters[3][1] / 1024
-		0,  // $TODO: c_render_information::indices_counters[3][2] / 1024
-		0,  // $TODO: c_render_information::indices_counters[3][3] / 1024
-		0); // $TODO: c_render_information::indices_counters[3][4] / 1024
+		0,  // $TODO c_render_information::indices_counters[3][0] / 1024
+		0,  // $TODO c_render_information::indices_counters[3][1] / 1024
+		0,  // $TODO c_render_information::indices_counters[3][2] / 1024
+		0,  // $TODO c_render_information::indices_counters[3][3] / 1024
+		0); // $TODO c_render_information::indices_counters[3][4] / 1024
 
 	csnzappendf(buffer, buffer_size, "Clusters:     Visible: %3d Shadow: %3d Dyn Light: %3d Indices total: %4dk     alb: %4dk, sl: %4dk, li: %4dk sha: %4dk tran: %4dk|n",
-		0,  // $TODO: c_render_information::cluster_count[0],
-		0,  // $TODO: c_render_information::cluster_count[2],
-		0,  // $TODO: c_render_information::cluster_count[1],
-		0,  /* $TODO:
+		0,  // $TODO c_render_information::cluster_count[0],
+		0,  // $TODO c_render_information::cluster_count[2],
+		0,  // $TODO c_render_information::cluster_count[1],
+		0,  /* $TODO
 		(c_render_information::indices_counters[0][1]
 		+c_render_information::indices_counters[0][2]
 		+c_render_information::indices_counters[0][3]
 		+c_render_information::indices_counters[0][0]
 		+c_render_information::indices_counters[0][4]) / 1024 */
-		0,  // $TODO: c_render_information::indices_counters[0][0] / 1024
-		0,  // $TODO: c_render_information::indices_counters[0][1] / 1024
-		0,  // $TODO: c_render_information::indices_counters[0][2] / 1024
-		0,  // $TODO: c_render_information::indices_counters[0][3] / 1024
-		0); // $TODO: c_render_information::indices_counters[0][4] / 1024
+		0,  // $TODO c_render_information::indices_counters[0][0] / 1024
+		0,  // $TODO c_render_information::indices_counters[0][1] / 1024
+		0,  // $TODO c_render_information::indices_counters[0][2] / 1024
+		0,  // $TODO c_render_information::indices_counters[0][3] / 1024
+		0); // $TODO c_render_information::indices_counters[0][4] / 1024
 
 	csnzappendf(buffer, buffer_size, "Instances:    Visible: %3d Shadow: %3d Dyn Light: %3d Indices total: %4dk     alb: %4dk, sl: %4dk, li: %4dk sha: %4dk tran: %4dk|n",
-		0,  // $TODO: c_render_information::instance_count[0]
-		0,  // $TODO: c_render_information::instance_count[2]
-		0,  // $TODO: c_render_information::instance_count[1]
-		0,  /* $TODO: (c_render_information::indices_counters[1][1]
+		0,  // $TODO c_render_information::instance_count[0]
+		0,  // $TODO c_render_information::instance_count[2]
+		0,  // $TODO c_render_information::instance_count[1]
+		0,  /* $TODO (c_render_information::indices_counters[1][1]
 		+c_render_information::indices_counters[1][2]
 		+c_render_information::indices_counters[1][3]
 		+c_render_information::indices_counters[1][0]
 		+c_render_information::indices_counters[1][4]) / 1024 */
-		0,  // $TODO: c_render_information::indices_counters[1][0] / 1024
-		0,  // $TODO: c_render_information::indices_counters[1][1] / 1024
-		0,  // $TODO: c_render_information::indices_counters[1][2] / 1024
-		0,  // $TODO: c_render_information::indices_counters[1][3] / 1024
-		0); // $TODO: c_render_information::indices_counters[1][4] / 1024
+		0,  // $TODO c_render_information::indices_counters[1][0] / 1024
+		0,  // $TODO c_render_information::indices_counters[1][1] / 1024
+		0,  // $TODO c_render_information::indices_counters[1][2] / 1024
+		0,  // $TODO c_render_information::indices_counters[1][3] / 1024
+		0); // $TODO c_render_information::indices_counters[1][4] / 1024
 
 	csnzappendf(buffer, buffer_size, "CPU Lights: %3d   GPU Lights %3d  Lightmap Shadows: %3d|n",
-		0,  // $TODO: c_render_information::cpu_dynamic_light_count
-		0,  // $TODO: c_render_information::gpu_dynamic_light_count
-		0); // $TODO: c_render_information::dynamic_shadow_count
+		0,  // $TODO c_render_information::cpu_dynamic_light_count
+		0,  // $TODO c_render_information::gpu_dynamic_light_count
+		0); // $TODO c_render_information::dynamic_shadow_count
 }
 

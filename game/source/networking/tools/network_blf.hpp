@@ -522,7 +522,7 @@ function_end:
 
 	if (!file_added)
 	{
-		// $TODO: file_reference_get_name
+		// $TODO file_reference_get_name
 		//c_console::write_line("blf: failed to add file '%s'", file->path);
 	}
 }

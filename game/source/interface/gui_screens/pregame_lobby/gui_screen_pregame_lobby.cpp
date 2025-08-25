@@ -31,7 +31,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B224D0, c_gui_screen_pregame_lobby, initialize_dat
 HOOK_DECLARE_CLASS_MEMBER(0x00B22AF0, c_gui_screen_pregame_lobby, post_initialize_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B23440, c_gui_screen_pregame_lobby, update_widget_visiblility_);
 
-// $TODO: remove this once things are properly implemented for `advanced_options`
+// $TODO remove this once things are properly implemented for `advanced_options`
 bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(const c_controller_input_message* message)
 {
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)

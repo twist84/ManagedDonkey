@@ -145,7 +145,7 @@ void render_debug_camera()
 
 void render_debug_bsp()
 {
-	// $TODO: implement
+	// $IMPLEMENT
 }
 
 void render_debug_structure_decals()

@@ -164,7 +164,7 @@ bool __cdecl c_managed_session_overlapped_task::process_modify_immediately(s_onl
 {
 	//return INVOKE(0x00442C70, c_managed_session_overlapped_task::process_modify_immediately, desired_session, actual_session);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return true;
 }

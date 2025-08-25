@@ -3,7 +3,7 @@
 #include "ai/actors.hpp"
 #include "cseries/cseries.hpp"
 
-// $TODO: confirm the following enum
+// $TODO confirm the following enum
 
 enum e_ai_atom
 {

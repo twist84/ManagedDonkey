@@ -118,7 +118,7 @@ static_assert(sizeof(s_area_screen_effect_definition) == 0xC);
 
 struct s_screen_effect_shader_sample_result
 {
-	// $TODO: find the actual name of this
+	// $TODO find the actual name of this
 	struct s_screen_effect_shader_sample
 	{
 		int32 definition_index;

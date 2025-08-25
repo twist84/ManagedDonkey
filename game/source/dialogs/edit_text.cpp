@@ -71,7 +71,7 @@ void __cdecl edit_text_handle_key(edit_text* edit, const s_key_state* key)
 {
 	ASSERT(valid_edit_text(edit));
 
-	// $TODO: implement
+	// $IMPLEMENT
 
 	edit_text_fix_selection(edit);
 

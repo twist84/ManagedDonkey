@@ -230,6 +230,6 @@ void __cdecl render_debug_structure()
 
 void __cdecl render_debug_structure_draw()
 {
-	// $TODO: implement this?
+	// $IMPLEMENT
 }
 

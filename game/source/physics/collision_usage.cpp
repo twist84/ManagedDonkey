@@ -44,13 +44,13 @@ void collision_log_render()
 {
 	if (collision_log_render_enable)
 	{
-		// $TODO: implement
+		// $IMPLEMENT
 	}
 }
 
 void collision_log_usage(int16 collision_function)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 }
 
 const char* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES]

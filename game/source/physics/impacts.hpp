@@ -21,7 +21,7 @@ struct impact_array_datum :
 };
 static_assert(sizeof(impact_array_datum) == 0x88);
 
-// $TODO: find a home
+// $TODO find a home
 struct s_physics_model_constraint_reference
 {
 	int16 constraint_type;

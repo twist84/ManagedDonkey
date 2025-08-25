@@ -236,7 +236,7 @@ void __cdecl c_motd_popup_screen_widget::set_widget_bounds(rectangle2d* bounds, 
 
 void c_motd_popup_screen_widget::setup_screen_in_code()
 {
-	// $TODO: confirm this implementation is correct
+	// $REVIEW confirm this implementation is correct
 
 	m_fake_definition.flags = 0x8;
 	m_fake_definition.widget_identifier = STRING_ID(gui, message);

@@ -279,7 +279,7 @@ void c_gui_custom_bitmap_storage_manager::initialize_for_new_map()
 	//INVOKE_CLASS_MEMBER(0x00AE5410, c_gui_custom_bitmap_storage_manager, initialize_for_new_map);
 
 	// $MESSAGE: we don't use allocated buffers so do nothing
-	// $TODO: if we decide to use allocated buffers fixup physical memory sizes
+	// $TODO if we decide to use allocated buffers fixup physical memory sizes
 
 	//if (game_is_ui_shell())
 	//{

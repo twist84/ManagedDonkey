@@ -401,9 +401,9 @@ void ai_debug_string(const char* string, int16 tab_stop_count, const int16* tab_
 
 void render_command_scripts_helper(actor_datum* actor, int32 command_script_index)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
-	// $TODO: `hs_thread_get`, `cs_atom_string`
+	// $TODO `hs_thread_get`, `cs_atom_string`
 
 	//command_script_datum* command_script = DATUM_GET(command_script_data, command_script_datum, command_script_index);
 	//

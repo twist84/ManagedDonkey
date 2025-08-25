@@ -4,7 +4,7 @@
 
 #include <windows.h>
 
-// $TODO: move all `t_restricted_allocation_manager` reference declarations to the correct files
+// $TODO move all `t_restricted_allocation_manager` reference declarations to the correct files
 
 REFERENCE_DECLARE(0x01861570, t_restricted_allocation_manager<k_game_state_update_region>, g_simulation_gamestate_entity_data_allocator);
 REFERENCE_DECLARE(0x0189D094, t_restricted_allocation_manager<k_game_state_shared_region>, g_main_gamestate_timing_data_allocator);
@@ -203,7 +203,7 @@ s_thread_local_storage* get_tls()
 	return reinterpret_cast<s_thread_local_storage*>(tls_ptr[tls_index]);
 }
 
-// $TODO: move each TLS definition to its actual location
+// $TODO move each TLS definition to its actual location
 #define DEFINE_TLS_VALUE_REFERENCE(NAME) thread_local decltype(s_thread_local_storage::NAME)& NAME = get_tls()->NAME
 
 DEFINE_TLS_VALUE_REFERENCE(simulation_gamestate_entity_data);

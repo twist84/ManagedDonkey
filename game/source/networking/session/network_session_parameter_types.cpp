@@ -16,7 +16,7 @@ void __cdecl network_session_parameter_types_register(c_network_session_paramete
 {
 	INVOKE(0x004DB5F0, network_session_parameter_types_register, session_parameter_types);
 
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	//session_parameter_types->register_session_parameter_type(
 	//	_network_session_parameter_type_session_size,
@@ -38,7 +38,7 @@ void __cdecl network_session_parameter_types_register(c_network_session_paramete
 	//	session_mode_decode_function,
 	//	sizeof(s_network_session_parameter_session_mode));
 
-	// $TODO: add the other parameter types
+	// $TODO add the other parameter types
 
 }
 

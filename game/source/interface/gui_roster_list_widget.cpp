@@ -135,7 +135,7 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 			c_gui_bitmap_widget* rank_tray_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray));
 			c_gui_bitmap_widget* rank_tray_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray_hilite));
 
-			// $TODO: figure out why this is necessary
+			// $TODO figure out why this is necessary
 			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
 
 			int32 element_handle = list_item_widget->get_element_handle();
@@ -179,7 +179,7 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				&& rank_tray_bitmap_widget
 				&& rank_tray_hilite_bitmap_widget
 
-				// $TODO: figure out why this is necessary
+				// $TODO figure out why this is necessary
 				&& service_tag_text_widget
 
 				&& data->get_text_value(element_handle, STRING_ID(gui, player_found), &player_found)
@@ -259,7 +259,7 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				player_emblem_bitmap_widget->set_visible(row_is_player);
 				player_emblem_hilite_bitmap_widget->set_visible(row_is_player);
 
-				// $TODO: figure out why these are necessary
+				// $TODO figure out why these are necessary
 				service_tag_text_widget->set_visible(row_is_player);
 				service_tag_text_widget->set_text(service_tag.get_string());
 				//DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, const wchar_t*)(list_item_widget, row_is_player, service_tag.get_string());

@@ -31,12 +31,12 @@ void c_havok_component::render_debug(
 
 	if (TEST_BIT(m_flags, 2) && water_physics)
 	{
-		// $TODO: implement this
+		// $IMPLEMENT
 	}
 
 	if (TEST_BIT(m_flags, 2) && expensive_physics)
 	{
-		// $TODO: implement this
+		// $IMPLEMENT
 	}
 
 	if (TEST_BIT(m_flags, 2) && m_havok_rigid_bodies.m_size > 0)
@@ -79,22 +79,22 @@ void c_havok_component::render_debug(
 
 		if (contact_points && TEST_BIT(m_flags, 0))
 		{
-			// $TODO: implement this
+			// $IMPLEMENT
 		}
 
 		if (render_mass)
 		{
-			// $TODO: implement this
+			// $IMPLEMENT
 		}
 
 		if (constraints)
 		{
-			// $TODO: implement this
+			// $IMPLEMENT
 		}
 
 		if (g_havok_constants.havok_render_collision_damage)
 		{
-			// $TODO: implement this
+			// $IMPLEMENT
 		}
 	}
 }

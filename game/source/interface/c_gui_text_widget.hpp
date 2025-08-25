@@ -117,7 +117,7 @@ class c_sized_user_interface_text :
 public:
 	//virtual void set_string(const wchar_t* new_string, bool parse_xml, int32 screen_index)
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 	//
 	//virtual const wchar_t* get_string()
@@ -127,7 +127,7 @@ public:
 	//
 	//virtual void update(int32 user_index)
 	//{
-	//	// $TODO: implement me
+	//	// $IMPLEMENT
 	//}
 
 public:

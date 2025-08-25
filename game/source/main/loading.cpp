@@ -125,14 +125,14 @@ void __cdecl loading_basic_progress_update_phase_sizes()
 {
 	INVOKE(0x0052EF70, loading_basic_progress_update_phase_sizes);
 
-	// $TODO: implement
+	// $IMPLEMENT
 }
 
 void __cdecl loading_basic_progress_update_size(uns32 update_size)
 {
 	INVOKE(0x0052F010, loading_basic_progress_update_size, update_size);
 
-	// $TODO: implement
+	// $IMPLEMENT
 }
 
 bool __cdecl main_blocking_load_in_progress(real32* out_progress)

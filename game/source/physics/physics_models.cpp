@@ -291,7 +291,7 @@ void matrix4x3_from_hkTransform(real_matrix4x3* matrix, const hkTransform* trans
 
 void __cdecl render_debug_physics_model(const s_physics_model_instance* instance, const real_argb_color* color)
 {
-	// $TODO: rewrite this implementation
+	// $TODO rewrite this implementation
 	 
 	ASSERT(instance && instance->model && instance->physics_model);
 

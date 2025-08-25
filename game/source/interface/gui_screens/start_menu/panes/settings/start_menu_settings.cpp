@@ -8,7 +8,7 @@
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_messages.hpp"
 
-// $TODO: find out why `top_menu_cap` string id isn't assigned to a widget
+// $TODO find out why `top_menu_cap` string id isn't assigned to a widget
 //#define TOP_MENU_CAP
 
 c_start_menu_settings::c_start_menu_settings(int32 name) :

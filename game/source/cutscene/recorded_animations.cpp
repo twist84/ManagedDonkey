@@ -49,7 +49,7 @@ void render_debug_recording()
 {
 	if (debug_recording)
 	{
-		// $TODO: implement
+		// $IMPLEMENT
 	}
 }
 

@@ -241,7 +241,7 @@ void c_life_cycle_state_handler_matchmaking_arbitration::update()
 		m_flags.set(_matchmaking_arbitration_set_initial_participants_bit, true);
 	}
 
-	// $TODO: confirm this function gets called without the hook
+	// $TODO confirm this function gets called without the hook
 	//INVOKE_CLASS_MEMBER(0x00494EF0, c_life_cycle_state_handler_matchmaking_arbitration, update);
 	HOOK_INVOKE_CLASS_MEMBER(, c_life_cycle_state_handler_matchmaking_arbitration, update);
 }

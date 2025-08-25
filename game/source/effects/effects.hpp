@@ -104,7 +104,7 @@ struct s_effect_message
 
 	union
 	{
-		// $TODO: add the following union members
+		// $TODO add the following union members
 
 		//s_create_particle_system m_create_particle_system;
 		//s_add_particle_system_location m_add_particle_system_location;

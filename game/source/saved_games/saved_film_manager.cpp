@@ -543,7 +543,7 @@ void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state
 	saved_film_snippet_get_hud_interface_state(hud_state);
 }
 
-// $TODO: check my work
+// $REVIEW
 bool saved_film_manager_get_last_recorded_film(char* filepath, int32 maximum_characters, s_saved_game_item_metadata* out_optional_metadata)
 {
 	s_file_reference directory{};
@@ -822,12 +822,12 @@ bool saved_film_manager_is_writing()
 
 void saved_film_manager_load_pending_gamestate()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool saved_film_manager_load_pending_gamestate_to_compressor()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return false;
 }
@@ -1003,7 +1003,7 @@ bool saved_film_manager_open_film_for_reading(e_controller_index controller_inde
 		saved_film_manager_build_file_path_from_name(film_name, _file_path_for_reading, &saved_film_file_path);
 	}
 
-	// $TODO: clean this up
+	// $TODO clean this up
 	c_debug_output_path debug_output_path{};
 	bool valid = saved_film_manager_globals.saved_film.open_for_read(saved_film_file_path.get_string(), controller_index, saved_film_manager_globals.disable_version_checking);
 	if (valid || !csstrstr(film_name, "\\")
@@ -1289,7 +1289,7 @@ void saved_film_manager_render_debug()
 {
 	if (game_in_progress() && game_is_playback() && g_saved_films_show_timestamp)
 	{
-		// $TODO: implement
+		// $IMPLEMENT
 	}
 }
 
@@ -1455,7 +1455,7 @@ bool saved_film_manager_seeking(int32* seek_time_available_out)
 	return true;
 }
 
-// $TODO: check my work
+// $REVIEW
 void saved_film_manager_set_director_state(const s_saved_film_manager_director_state* director_state)
 {
 	LOCAL_TAG_RESOURCE_SCOPE_LOCK;
@@ -1860,7 +1860,7 @@ void saved_film_manager_update()
 
 	if (game_is_playback())
 	{
-		// $TODO: implement this
+		// $IMPLEMENT
 
 	}
 

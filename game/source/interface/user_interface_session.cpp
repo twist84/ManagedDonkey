@@ -177,7 +177,7 @@ bool __cdecl user_interface_squad_delegate_leadership(int32 player_index)
 
 	// skip doing any sort leadership delegating, it will just make no one the leader
 	// thus making it impossible to do anything with the current lobby
-	// $TODO: fix any underlying issues causing the above behaviour
+	// $TODO fix any underlying issues causing the above behaviour
 	return false;
 }
 
@@ -338,7 +338,7 @@ bool __cdecl user_interface_squad_set_film_internal(const s_saved_film_descripti
 
 	if (needs_verification && online_is_connected_to_live())
 	{
-		// $TODO: ...
+		// $IMPLEMENT
 	}
 
 	if (!is_valid)

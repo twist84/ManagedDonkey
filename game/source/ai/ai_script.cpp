@@ -216,7 +216,7 @@ bool ai_index_from_string(struct scenario* scenario, const char* ai_string, int3
 {
 	ASSERT(ai_string && ai_index_reference);
 
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 }

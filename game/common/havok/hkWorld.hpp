@@ -349,7 +349,7 @@ static_assert(0x48 == __builtin_offsetof(hkSimulationIsland, m_timeOfDeactivatio
 static_assert(0x4C == __builtin_offsetof(hkSimulationIsland, m_entities));
 static_assert(0x5C == __builtin_offsetof(hkSimulationIsland, m_agentTrack));
 
-// $TODO: find these a better home
+// $TODO find these a better home
 
 struct hkShape;
 struct hkCdBody

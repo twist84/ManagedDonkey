@@ -92,7 +92,7 @@ e_network_session_matchmaking_composition_build_result __cdecl network_session_m
 {
 	//return INVOKE(0x004D2A00, network_session_matchmaking_composition_build_local_properties, session_membership, composition_out);
 	
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	composition_out->session_properties.language = session_membership->m_shared_network_membership.peers[session_membership->m_local_peer_index].properties.language;
 	composition_out->session_properties.nat_type = session_membership->m_shared_network_membership.peers[session_membership->m_local_peer_index].properties.nat_type;

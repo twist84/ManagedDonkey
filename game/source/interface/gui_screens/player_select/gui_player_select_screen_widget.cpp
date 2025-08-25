@@ -11,13 +11,13 @@
 HOOK_DECLARE_CLASS_MEMBER(0x00B08A10, c_gui_player_select_screen_widget, initialize_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B0A130, c_gui_player_select_screen_widget, try_and_get_render_data_emblem_info_);
 
-// $TODO: reimplement `c_gui_player_select_screen_widget::update`
-// $TODO: reimplement `c_gui_player_select_screen_widget::update_render_state`
-// $TODO: reimplement `c_gui_player_select_screen_widget::handle_controller_input_message`
-// $TODO: reimplement `c_gui_player_select_screen_widget::initialize_datasource`
-// $TODO: reimplement `c_gui_player_select_screen_widget::handle_list_item_chosen`
-// $TODO: reimplement `c_gui_player_select_screen_widget::handle_dialog_result`
-// $TODO: reimplement `c_gui_player_select_screen_widget::__vftable54`
+// $IMPLEMENT `c_gui_player_select_screen_widget::update`
+// $IMPLEMENT `c_gui_player_select_screen_widget::update_render_state`
+// $IMPLEMENT `c_gui_player_select_screen_widget::handle_controller_input_message`
+// $IMPLEMENT `c_gui_player_select_screen_widget::initialize_datasource`
+// $IMPLEMENT `c_gui_player_select_screen_widget::handle_list_item_chosen`
+// $IMPLEMENT `c_gui_player_select_screen_widget::handle_dialog_result`
+// $IMPLEMENT `c_gui_player_select_screen_widget::__vftable54`
 
 bool __cdecl parse_target_player_name(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {

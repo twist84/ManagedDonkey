@@ -18,8 +18,8 @@ void __cdecl simulation_queue_game_global_event_insert(e_simulation_queue_game_g
 //.text:00472BC0 ; void __cdecl simulation_queue_player_event_insert(e_simulation_queue_player_event_type, int32, const s_simulation_queue_player_event_data*)
 //.text:00472DA0 ; void __cdecl simulation_queue_player_event_apply_set_activation(int32, bool)
 //.text:00472E20 ; void __cdecl simulation_queue_player_event_set_respawn_target(int32, int32)
-//.text:00472E90 ; void __cdecl simulation_queue_player_unknown12_apply(const s_simulation_queue_element*) // $TODO: find a better name for this
-//.text:00472F20 ; void __cdecl simulation_queue_player_unknown12_insert(const void*) // $TODO: find a better name for this
+//.text:00472E90 ; void __cdecl simulation_queue_player_unknown12_apply(const s_simulation_queue_element*) // $TODO find a better name for this
+//.text:00472F20 ; void __cdecl simulation_queue_player_unknown12_insert(const void*) // $TODO find a better name for this
 //.text:00473020 ; void __cdecl simulation_queue_player_update_apply(const s_simulation_queue_element*)
 //.text:00473120 ; void __cdecl simulation_queue_player_update_insert(const simulation_player_update*)
 //.text:00473230 ; void __cdecl simulation_queue_sandbox_event_apply(const s_simulation_queue_element*)

@@ -972,7 +972,7 @@ struct s_thread_local_storage
 };
 static_assert(sizeof(s_thread_local_storage) == 0x584);
 
-// $TODO: move all `t_restricted_allocation_manager` declarations to the correct files
+// $TODO move all `t_restricted_allocation_manager` declarations to the correct files
 
 extern t_restricted_allocation_manager<k_game_state_update_region>& g_simulation_gamestate_entity_data_allocator;
 extern t_restricted_allocation_manager<k_game_state_shared_region>& g_main_gamestate_timing_data_allocator;
@@ -1153,7 +1153,7 @@ extern t_restricted_allocation_manager<k_game_state_update_region>& g_flocks_dat
 extern t_restricted_allocation_manager<k_game_state_update_region>& g_formation_data_allocator;
 extern t_restricted_allocation_manager<k_game_state_render_region>& g_vision_mode_state_allocator;
 
-// $TODO: move each TLS declaration to its actual location
+// $TODO move each TLS declaration to its actual location
 #define DECLARE_TLS_VALUE_REFERENCE(NAME) extern thread_local decltype(s_thread_local_storage::NAME)& NAME
 
 DECLARE_TLS_VALUE_REFERENCE(simulation_gamestate_entity_data);

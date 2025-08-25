@@ -6,7 +6,7 @@
 
 void __cdecl _data_packet_verify(data_packet_definition* packet_definition, int16* byte_count_reference, struct data_packet_field* first_field, int16* field_count_reference)
 {
-	// $TODO: implement me!
+	// $IMPLEMENT
 }
 
 void __cdecl data_packet_verify(data_packet_definition* packet_definition)
@@ -36,7 +36,7 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 
 void __cdecl _data_packet_encode(data_packet_definition* packet_definition, data_encoding_state* encode_state, int16 version, void* original_buffer, int16* byte_count_reference, data_packet_field* first_field, int16* field_count_reference)
 {
-	// $TODO: implement me!
+	// $IMPLEMENT
 }
 
 unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definition, int16 version, void* data, void* buffer, int16* buffer_size, int16 maximum_buffer_size)

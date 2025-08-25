@@ -68,6 +68,6 @@ void __cdecl network_remote_reporting_initialize()
 
 void bandwidth_profiler_render()
 {
-	// $TODO: implement
+	// $IMPLEMENT
 }
 

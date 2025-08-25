@@ -100,7 +100,7 @@ void __cdecl chud_draw_screen_saved_film(int32 user_index)
 	//{
 	//	if (chud_draw_begin(user_index, 1.0f, false, true))
 	//	{
-	//		// $TODO: implement me
+	//		// $IMPLEMENT
 	//	}
 	//	chud_draw_end(user_index, false);
 	//}

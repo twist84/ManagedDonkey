@@ -142,7 +142,7 @@ bool hs_parse_if(int16 function_index, int32 expression_index)
 
 bool hs_parse_cond(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 }
@@ -207,63 +207,63 @@ bool hs_parse_set(int16 function_index, int32 expression_index)
 
 bool hs_parse_logical(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_arithmetic(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_equality(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_inequality(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_sleep(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_sleep_for_ticks(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_sleep_forever(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_sleep_until(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
 
 bool hs_parse_wake(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };
@@ -293,7 +293,7 @@ bool hs_parse_inspect(int16 function_index, int32 expression_index)
 
 bool hs_parse_object_cast_up(int16 function_index, int32 expression_index)
 {
-	// $TODO: implement
+	// $IMPLEMENT
 
 	return false;
 };

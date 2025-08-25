@@ -595,7 +595,7 @@ void c_network_session::leave_session()
 // custom function for `c_network_session::peer_request_player_desired_properties_update`
 void update_player_data(s_player_configuration_for_player_properties* player_data)
 {
-	// $TODO: save `c_player_profile_interface` from a config file
+	// $TODO save `c_player_profile_interface` from a config file
 	c_player_profile_interface& player_profile = controller_get(_controller0)->m_player_profile;
 	s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
 	s_s3d_player_weapon_configuration_loadout& weapon_loadout = get_weapon_loadout();

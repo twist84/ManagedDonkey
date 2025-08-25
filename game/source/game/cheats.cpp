@@ -665,7 +665,7 @@ void __cdecl cheats_load()
 	}
 }
 
-// $TODO: find used locations and add hooks
+// $TODO find used locations and add hooks
 bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_state* input_state)
 {
 	e_button_action banned_action = static_cast<e_button_action>(game_is_ui_shell() + _button_action_back);
@@ -688,7 +688,7 @@ bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_s
 		{
 			console_printf(cheat_string);
 
-			// $TODO: add and implement `hs_compile_and_evaluate`
+			// $TODO add and implement `hs_compile_and_evaluate`
 			hs_compile_and_evaluate(_event_message, "cheats", cheat_string, true);
 
 			if (csstrcmp(cheat_string, "(set cheat_controller (not cheat_controller))") == 0)

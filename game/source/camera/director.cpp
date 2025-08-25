@@ -220,7 +220,7 @@ void __cdecl director_initialize_for_new_map()
 	//*director_camera_scripted = false;
 	//for (int32 i = 0; i < k_number_of_users; i++)
 	//{
-	//	// $TODO: set director
+	//	// $TODO set director
 	//}
 	//director_reset();
 }
@@ -968,7 +968,7 @@ void director_load_camera_named(const char* name)
 
 	fclose(file);
 
-	// $TODO: actually validate `position`, `forward`, `up` and `field_of_view`
+	// $TODO actually validate `position`, `forward`, `up` and `field_of_view`
 	if (false)
 	{
 		c_console::write_line("saved camera '%s' isn't valid", filename.get_string());

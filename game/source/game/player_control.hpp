@@ -111,7 +111,7 @@ enum e_player_control_action_test_bit
 	// are there more than 32?
 	_player_control_action_test_unkown32_bit,
 
-	// $TODO: find any more, for now count is 64
+	// $TODO find any more, for now count is 64
 	k_number_of_player_control_action_test_bits = 64
 };
 

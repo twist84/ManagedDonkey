@@ -71,7 +71,7 @@ public:
 };
 static_assert(sizeof(c_tag_index_hash_table) == 0x28004);
 
-// $TODO: find an actual home
+// $TODO find an actual home
 template<typename t_salt_type>
 class c_negative_salt_generator
 {

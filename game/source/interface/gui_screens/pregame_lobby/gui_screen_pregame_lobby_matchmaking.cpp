@@ -262,7 +262,7 @@ void c_gui_screen_pregame_lobby_matchmaking::update(uns32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00B01E40, c_gui_screen_pregame_lobby_matchmaking, update, current_milliseconds);
 
-	// $TODO: finish implementation
+	// $IMPLEMENT
 
 	//c_gui_screen_pregame_lobby::update(current_milliseconds);
 	//

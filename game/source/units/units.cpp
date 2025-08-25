@@ -107,7 +107,7 @@ bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, 
 }
 
 //.text:00B39820 ; bool __cdecl unit_adjust_first_person_camera(int32 unit_index, real_vector3d* aiming_vector)
-//.text:00B399C0 ; void __cdecl unit_adjust_projectile_ray(int32 unit_index, real_point3d* origin, real_vector3d* forward, real_vector3d* inherited_velocity, const real_point3d* first_person_weapon_offset, const real_point3d* initial_good_position /* $TODO: what is this actually named */, bool offset_origin, bool offset_aim, bool verify_origin, e_aiming_vector aiming_vector)
+//.text:00B399C0 ; void __cdecl unit_adjust_projectile_ray(int32 unit_index, real_point3d* origin, real_vector3d* forward, real_vector3d* inherited_velocity, const real_point3d* first_person_weapon_offset, const real_point3d* initial_good_position /* $TODO what is this actually named */, bool offset_origin, bool offset_aim, bool verify_origin, e_aiming_vector aiming_vector)
 //.text:00B39E40 ; 
 //.text:00B39EC0 ; void __cdecl unit_apply_predicted_weapon_state(int32 unit_index, int32 inventory_index)
 //.text:00B39F60 ; void __cdecl unit_build_unit_interface_state(int32 unit_index, unit_interface_state* state)
@@ -488,7 +488,7 @@ void __cdecl unit_render_debug(int32 unit_index)
 
 void __cdecl unit_render_debug_indicator(int32 unit_index, const real_argb_color* color)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 //.text:00B470A0 ; void __cdecl unit_reset_seat_acceleration_data(int32 unit_index)

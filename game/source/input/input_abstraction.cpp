@@ -96,7 +96,7 @@ void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferenc
 	//for (int32 gamepad_button_index = 0; gamepad_button_index < 16; gamepad_button_index++)
 	//	preferences->gamepad_buttons[gamepad_button_index] = gamepad_button_index;
 	//
-	//// $TODO: 
+	//// $TODO 
 	//preferences->gamepad_buttons[] = ;
 	//
 	//preferences->joystick_preset = 0;

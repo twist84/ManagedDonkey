@@ -97,7 +97,7 @@ public:
 
 	enum e_entry_point
 	{
-		// $TODO: map me
+		// $TODO map me
 	};
 
 public:

@@ -3,7 +3,7 @@
 #define STRINGIFY_DETAIL(x) #x
 #define STRINGIFY(x) STRINGIFY_DETAIL(x)
 
-// $TODO: global find and replace the following? `\/\/ \$TODO: ([^\r\n]+)` `$TODO("$1")`
+// $TODO global find and replace the following? `\/\/ \$TODO ([^\r\n]+)` `$TODO("$1")`
 #define $TODO(msg) __pragma(message(__FILE__ "(" STRINGIFY(__LINE__) "): TODO: " msg)) \
 
 #define try_bool(X) if (!X) return false

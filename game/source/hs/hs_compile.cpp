@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// $TODO: completely reorganize this file
+// $TODO completely reorganize this file
 
 enum
 {
@@ -40,7 +40,7 @@ const char eol_characters[] = { '\n', '\r' };
 
 void skip_whitespace(char** c)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 
 bool hs_parse_object_and_object_name_internal(int32 expression_index, e_hs_type byteswap_type)
@@ -1615,7 +1615,7 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 
 char* hs_compile_add_source(int32 source_size, const char* source_data)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return NULL;
 
@@ -1657,7 +1657,7 @@ struct hs_tokenizer
 
 int32 hs_tokenize(hs_tokenizer* state)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	ASSERT(!hs_compile_globals.error_message);
 	ASSERT(g_hs_syntax_data);
@@ -1697,7 +1697,7 @@ int32 hs_tokenize(hs_tokenizer* state)
 
 void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32* next_node_index = &expression->long_value;
@@ -1826,7 +1826,7 @@ void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_size, const char* source_file_data, const char** error_message_pointer, int32* error_offset)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	//hs_tokenizer _tokenizer{};
 	//_tokenizer.source_file_data = source_file_data;
@@ -1863,7 +1863,7 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_
 
 bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return false;
 }
@@ -2080,7 +2080,7 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 
 void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<char const> const in_source_string)
 {
-	// $TODO: implement `hs_validify_expression` properly
+	// $IMPLEMENT `hs_validify_expression` properly
 
 	//ASSERT(out_dest_string.count() > 0);
 	//
@@ -2097,20 +2097,20 @@ void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<
 
 void hs_validify_expression(const char* expression, char* out_valid_expression_buffer, int32 out_expression_length)
 {
-	// $TODO: actually validate the expression
+	// $TODO actually validate the expression
 	csstrnzcpy(out_valid_expression_buffer, expression, out_expression_length);
 }
 
 bool hs_runtime_safe_to_gc()
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 
 	return false;
 }
 
 bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive)
 {
-	// $TODO: enable once all sub functions are implemented
+	// $TODO enable once all sub functions are implemented
 	return false;
 
 	bool result = false;
@@ -2170,6 +2170,6 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 
 void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source)
 {
-	// $TODO: implement me
+	// $IMPLEMENT
 }
 

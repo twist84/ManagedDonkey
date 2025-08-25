@@ -28,7 +28,7 @@
 //.text:00B92E90 ; real64 __cdecl device_get_position(int32)
 //.text:00B92EE0 ; real64 __cdecl device_get_power(int32)
 //.text:00B92F30 ; void __cdecl device_group_change_only_once_more_set(int32, bool)
-//.text:00B92FE0 ; bool __cdecl device_group_delete(int32, int32) // $TODO: confirm this
+//.text:00B92FE0 ; bool __cdecl device_group_delete(int32, int32) // $TODO confirm this
 
 int32 __cdecl device_group_get_from_scenario_index(int16 device_index)
 {

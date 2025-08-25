@@ -245,7 +245,7 @@ void __cdecl user_interface_controller_update_network_properties(e_controller_in
 		s_player_identifier network_user_identifier;
 		if (user_interface_controller_get_player_configuration(controller_index, &network_user_identifier, &player_data))
 		{
-			// $TODO: `network_user_identifier` is set from the 
+			// $TODO `network_user_identifier` is set from the 
 			//s_player_identifier controller_user_identifier;
 			//ASSERT(csmemcmp(&controller_user_identifier, &network_user_identifier, sizeof(s_player_identifier)) == 0);
 

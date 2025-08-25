@@ -14,7 +14,7 @@ struct s_caption_entry
 };
 static_assert(sizeof(s_caption_entry) == 0xC);
 
-struct s_caption_globals // $TODO: find the actual name of this
+struct s_caption_globals // $TODO find the actual name of this
 {
 	uns32 flags;
 	int32 font;
