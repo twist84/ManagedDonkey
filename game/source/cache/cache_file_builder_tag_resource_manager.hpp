@@ -152,7 +152,7 @@ struct s_cache_file_resource_gestalt
 {
 	c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
 	uns32 resources_size;
-	uns32 resources_available;
+	uns32 shared_files_available;
 
 	c_typed_tag_block<s_cache_file_zone_manifest> designer_zone_manifests;
 	c_typed_tag_block<s_cache_file_zone_manifest> global_zone_manifests;

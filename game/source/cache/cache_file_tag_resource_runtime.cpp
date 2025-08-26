@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "cache/cache_files_windows.hpp"
 #include "cseries/runtime_state.hpp"
+#include "game/game_globals.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario_zone_resources.hpp"
@@ -23,6 +24,30 @@ HOOK_DECLARE(0x00564010, tag_resources_pump_io);
 HOOK_DECLARE(0x005640B0, tag_resources_unlock_game);
 
 c_static_sized_dynamic_array<const s_resource_file_header*, 1024> g_resource_file_headers;
+
+// DO NOT ENABLE
+//#define USE_SHARED_CACHE_FILES
+// $TODO `c_cache_file_tag_resource_runtime_manager::get_shared_file_block`
+
+#if defined(USE_SHARED_CACHE_FILES)
+enum e_cache_file_resource_shared_file_bit
+{
+	_cache_file_resource_shared_file_use_header_io_offset_bit = 0,
+	_cache_file_resource_shared_file_optional_bit,
+	_cache_file_resource_shared_file_use_header_locations_bit,
+
+	k_number_of_cache_file_resource_shared_file_bits,
+};
+
+struct s_cache_file_resource_shared_file
+{
+	c_static_string<256> file_name;
+	int16 global_location_index_offset;
+	c_flags_no_init<e_cache_file_resource_shared_file_bit, uns16, k_number_of_cache_file_resource_shared_file_bits> flags;
+	uns32 io_offset;
+};
+static_assert(sizeof(s_cache_file_resource_shared_file) == 0x108);
+#endif
 
 void c_cache_file_tag_resource_runtime_manager::commit_zone_state()
 {
@@ -348,32 +373,71 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 	//INVOKE_CLASS_MEMBER(0x00561C00, c_cache_file_tag_resource_runtime_manager, initialize_files, game_mode);
 
 	data_make_valid(m_shared_file_handles);
-	m_shared_file_datum_indices[6] = 6;
-	for (int32& header_file_location_handle : m_shared_file_datum_indices)
+
+#if defined(USE_SHARED_CACHE_FILES)
+	const c_typed_tag_block<s_cache_file_resource_shared_file>* shared_file_block = c_cache_file_tag_resource_runtime_manager::get_shared_file_block();
+	ASSERT(shared_file_block);
+	m_shared_file_datum_indices.resize(shared_file_block->count);
+#else
+	m_shared_file_datum_indices.resize(6);
+#endif
+	for (int32& shared_file_datum_index : m_shared_file_datum_indices)
 	{
-		header_file_location_handle = NONE;
+		shared_file_datum_index = NONE;
 	}
+#if defined(USE_SHARED_CACHE_FILES)
+	m_shared_file_datum_indices[m_shared_file_datum_indices.new_element_index()] = shared_file_block->count;
+#else
+	m_shared_file_datum_indices[m_shared_file_datum_indices.new_element_index()] = 6;
+#endif
 
-	int32 header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, _map_file_index_shared_ui);
-	s_cache_file_tag_resource_runtime_shared_file* runtime_shared_file = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, header_file_location_handle);
+	int32* master_shared_file_index_reference = &m_shared_file_datum_indices[_map_file_index_shared_ui];
+	ASSERT(*master_shared_file_index_reference == NONE);
 
+	int32 master_shared_file_index = datum_new_at_absolute_index(m_shared_file_handles, _map_file_index_shared_ui);
+	s_cache_file_tag_resource_runtime_shared_file* runtime_shared_file = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, master_shared_file_index);
+
+	// $TODO assert "could not get the master file indirect handle from the cache file!"
 	if (cache_file_get_master_indirect_file_handle(&runtime_shared_file->indirect_file))
 	{
+		// $TODO assert "could not get the master resource section offset from the cache file!"
 		cache_file_get_master_resource_section_offset(&runtime_shared_file->resource_section_offset);
 	}
 
+	// $TODO assert "could not get the master file async handle from the cache file!"
 	cache_file_get_master_async_file_handle(&runtime_shared_file->async_file_handle);
+
+	// $TODO assert "could not get the master file overlapped handle from the cache file!"
 	cache_file_get_master_overlapped_file_handle(&runtime_shared_file->overlapped_handle);
 
 	runtime_shared_file->shared_resource_usage = cache_file_try_to_get_master_shared_resource_usage();
-	m_shared_file_datum_indices[_map_file_index_shared_ui] = header_file_location_handle;
+	*master_shared_file_index_reference = master_shared_file_index;
 
-	if (m_resource_gestalt->resources_available)
+#if defined(USE_SHARED_CACHE_FILES)
+	s_game_globals* game_globals = scenario_get_game_globals();
+	e_language language = game_globals->language;
+	for (int32 shared_file_index = 0; shared_file_index < shared_file_block->count; shared_file_index++)
+	{
+		s_cache_file_resource_shared_file* resource_shared_file = TAG_BLOCK_GET_ELEMENT(shared_file_block, shared_file_index, s_cache_file_resource_shared_file);
+		if (resource_shared_file->flags.test(_cache_file_resource_shared_file_optional_bit))
+		{
+			bool open_success = c_cache_file_tag_resource_runtime_manager::try_to_open_shared_file(shared_file_index);
+			ASSERT(open_success);
+			if (c_cache_file_tag_resource_runtime_manager::is_shared_sound_file(shared_file_index))
+			{
+				language = cache_file_get_valid_shared_sound_map_language();
+			}
+		}
+	}
+	game_globals->language = language;
+#else
+	// psuedo shared cache file open
+	if (m_cache_file_resource_gestalt->shared_files_available)
 	{
 		for (e_map_file_index map_file_index = _map_file_index_shared_resources; map_file_index < k_cached_map_file_shared_count; map_file_index++)
 		{
-			int32 next_header_file_location_handle = datum_new_at_absolute_index(m_shared_file_handles, map_file_index);
-			s_cache_file_tag_resource_runtime_shared_file* next_header_file_location = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, next_header_file_location_handle);
+			int32 next_shared_file_index = datum_new_at_absolute_index(m_shared_file_handles, map_file_index);
+			s_cache_file_tag_resource_runtime_shared_file* next_header_file_location = DATUM_GET(m_shared_file_handles, s_cache_file_tag_resource_runtime_shared_file, next_shared_file_index);
 
 			if (cached_map_file_is_shared(map_file_index - 1))
 			{
@@ -386,9 +450,10 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 				cache_file_get_overlapped_file_handle_from_index(map_file_index, &next_header_file_location->overlapped_handle);
 			}
 
-			m_shared_file_datum_indices[map_file_index] = next_header_file_location_handle;
+			m_shared_file_datum_indices[map_file_index] = next_shared_file_index;
 		}
 	}
+#endif
 }
 
 void c_cache_file_tag_resource_runtime_manager::initialize_for_new_map(

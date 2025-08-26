@@ -2,7 +2,6 @@
 
 #include "cache/cache_file_codec_work.hpp"
 #include "cache/cache_file_runtime_codecs.hpp"
-#include "cache/cache_file_tag_resource_datum_handler.hpp"
 #include "cache/cache_file_tag_resource_location_table.hpp"
 #include "cache/cache_file_tag_resource_vtable_list.hpp"
 #include "cache/optional_cache.hpp"
@@ -347,7 +346,7 @@ public:
 		public c_tag_resource_cache_file_datum_handler
 	{
 	private:
-		s_cache_file_resource_gestalt* m_resource_gestalt;
+		s_cache_file_resource_gestalt* m_cache_file_resource_gestalt;
 		c_wrapped_array<s_cache_file_resource_runtime_data_new> m_resource_runtime_data;
 		bool m_cache_streaming_data;
 		c_cache_file_resource_uber_location_table* m_file_location_table;
@@ -362,7 +361,7 @@ public:
 	};
 	static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
 
-	s_cache_file_resource_gestalt* m_resource_gestalt;
+	s_cache_file_resource_gestalt* m_cache_file_resource_gestalt;
 	s_cache_file_resource_runtime_active_zone_state m_active_zone_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
 	bool m_loaded_any_resources;
@@ -393,8 +392,7 @@ public:
 	c_thread_safeish_tag_resource_cache m_threaded_tag_resource_cache;
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocation;
 	c_basic_buffer<void> m_cache_file_resource_allocation_region;
-	c_static_array<int32, 7> m_shared_file_datum_indices;
-	int32 m_last_shared_file_datum_index;
+	c_static_sized_dynamic_array<int32, 7> m_shared_file_datum_indices;
 	c_wrapped_data_array<s_cache_file_tag_resource_runtime_shared_file> m_shared_file_handles;
 	c_cache_file_resource_uber_location_table m_uber_location_table;
 	e_game_mode m_last_game_mode;
@@ -411,7 +409,7 @@ public:
 	byte __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
-static_assert(0x00024 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_gestalt));
+static_assert(0x00024 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_gestalt));
 static_assert(0x00028 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_active_zone_state));
 static_assert(0x0004C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetching_state));
 static_assert(0x00260 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_loaded_any_resources));
@@ -437,7 +435,6 @@ static_assert(0x2A340 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_t
 static_assert(0x2A740 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_allocation));
 static_assert(0x2A754 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_cache_file_resource_allocation_region));
 static_assert(0x2A75C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_datum_indices));
-static_assert(0x2A778 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_shared_file_datum_index));
 static_assert(0x2A77C == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_shared_file_handles));
 static_assert(0x2A780 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_uber_location_table));
 static_assert(0x2A784 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_last_game_mode));

@@ -526,7 +526,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 
 	int32 resource_count = 0;
 	uns32 resources_size = 0;
-	uns32 resources_available = 0;
+	uns32 shared_files_available = 0;
 
 	for (int32 i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{
@@ -567,7 +567,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 
 			if (!TEST_MASK(flags, k_cache_file_tag_resource_location_mask))
 			{
-				resources_available = 0;
+				shared_files_available = 0;
 				resource->resource_handle = resource_count++;
 				resources_size += resource_data->file_location.size;
 				continue;
@@ -577,7 +577,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 			{
 				resource_data->file_location.file_offset = 0;
 
-				resources_available = 1;
+				shared_files_available = 1;
 				resource->resource_handle = resource_count++;
 				resources_size += resource_data->file_location.size;
 				continue;
@@ -603,7 +603,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 				break;
 			}
 
-			resources_available = 1;
+			shared_files_available = 1;
 			resource->resource_handle = resource_count++;
 			resources_size += resource_data->file_location.size;
 		}
@@ -611,7 +611,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 
 	tag_block_set_element_count(&resource_gestalt->resources, resource_count);
 	resource_gestalt->resources_size = resources_size;
-	resource_gestalt->resources_available = resources_available;
+	resource_gestalt->shared_files_available = shared_files_available;
 }
 
 s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
