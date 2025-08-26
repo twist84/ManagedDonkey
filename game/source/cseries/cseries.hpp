@@ -564,6 +564,12 @@ public:
 		return new_index;
 	}
 
+	void resize(int32 new_size)
+	{
+		ASSERT(new_size >= 0 && new_size <= m_storage.get_count());
+		m_allocated_count = new_size;
+	}
+
 	t_type& operator[](int32 index)
 	{
 		ASSERT(valid_index(index));
