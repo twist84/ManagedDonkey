@@ -914,7 +914,6 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\cache\cache_file_codec_work.hpp" />
     <ClInclude Include="source\cache\cache_file_lz_codec.hpp" />
     <ClInclude Include="source\cache\cache_file_runtime_codecs.hpp" />
-    <ClInclude Include="source\cache\cache_file_tag_resource_datum_handler.hpp" />
     <ClInclude Include="source\cache\cache_file_tag_resource_location_table.hpp" />
     <ClInclude Include="source\cache\cache_file_tag_resource_vtable_list.hpp" />
     <ClInclude Include="source\cache\cache_file_uncompressed_codec.hpp" />

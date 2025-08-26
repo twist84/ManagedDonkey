@@ -26,13 +26,18 @@ enum e_cache_file_tag_resource_location_flags
 	| FLAG(_cache_file_tag_resource_location_flags_video)
 };
 
+struct s_cache_file_resource_checksum
+{
+	uns32 crc_value;
+};
+
 struct s_cache_file_resource_file_location
 {
 	// runtime
 	int16 resource_handle_salt;
 
 	c_flags<e_cache_file_tag_resource_location_flags, uns8, k_cache_file_tag_resource_location_flags> flags;
-	c_enum<e_cache_file_compression_codec, int8, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
+	int8 codec_index; // e_cache_file_compression_codec
 
 	union
 	{
@@ -45,7 +50,7 @@ struct s_cache_file_resource_file_location
 
 	uns32 file_size;
 	uns32 size;
-	uns32 checksum;
+	s_cache_file_resource_checksum checksum;
 	s_cache_file_resource_streaming_sublocation_table streaming_sublocation_table;
 };
 static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);

@@ -3263,9 +3263,6 @@
     <ClInclude Include="source\cache\cache_file_tag_resource_location_table.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\cache\cache_file_tag_resource_datum_handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\tag_files\tag_resource_cache_predictor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

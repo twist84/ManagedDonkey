@@ -13,10 +13,16 @@ struct s_tag_resource_control_datum :
 };
 static_assert(sizeof(s_tag_resource_control_datum) == 0xC);
 
+class c_tag_resource_cache_controller;
+class c_tag_resource_cache_control_datum_info
+{
+public:
+	c_tag_resource_cache_controller* m_cache_controller;
+};
+
 class c_tag_resource_page_table_control_interface;
 class c_tag_resource_runtime_listener;
-class c_cache_file_combined_tag_resource_datum_handler;
-class c_tag_resource_control_datum;
+class c_tag_resource_cache_file_datum_handler;
 class c_tag_resource_cache_controller
 {
 public:
@@ -32,10 +38,10 @@ public:
 	c_wrapped_flags m_demanded_deferred_resources;
 	c_tag_resource_page_table_control_interface* m_resource_page_table;
 	c_tag_resource_runtime_listener* m_resource_listener;
-	c_cache_file_combined_tag_resource_datum_handler* m_resource_datum_handler;
-	c_tag_resource_control_datum* m_control_datum_info;
+	c_tag_resource_cache_file_datum_handler* m_resource_datum_handler;
+	c_tag_resource_cache_control_datum_info m_control_datum_info;
 	uns32 m_usage_frame_index;
-	int32 m_update_since_demand_frame_counter;
+	uns32 m_update_since_demand_frame_counter;
 
 	//bool m_any_deferred_demands_pending;
 	//bool m_optional_caching_enabled;
