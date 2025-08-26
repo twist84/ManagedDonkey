@@ -381,10 +381,12 @@ void __thiscall c_cache_file_tag_resource_runtime_manager::initialize_files(e_ga
 #else
 	m_shared_file_datum_indices.resize(6);
 #endif
+
 	for (int32& shared_file_datum_index : m_shared_file_datum_indices)
 	{
 		shared_file_datum_index = NONE;
 	}
+
 #if defined(USE_SHARED_CACHE_FILES)
 	m_shared_file_datum_indices[m_shared_file_datum_indices.new_element_index()] = shared_file_block->count;
 #else
