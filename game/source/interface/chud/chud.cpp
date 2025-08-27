@@ -18,31 +18,38 @@ HOOK_DECLARE(0x00A88DA0, chud_draw_screen);
 HOOK_DECLARE(0x00A89100, chud_draw_screen_saved_film);
 HOOK_DECLARE(0x00A89250, chud_draw_turbulence);
 
-HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, s_some_chud_struct, sub_A8AED0);
+HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, c_chud_update_user_data, compute_weapon_update_);
 
 // bottomless clip hud symbol
-void __thiscall s_some_chud_struct::sub_A8AED0(int32 weapon_index, int32 a2, int32 a3)
+void __thiscall c_chud_update_user_data::compute_weapon_update_(int32 weapon_index, int32 chud_definition_type, s_aim_assist_targeting_result* aim_assist_targeting)
 {
-	HOOK_INVOKE_CLASS_MEMBER(, s_some_chud_struct, sub_A8AED0, weapon_index, a2, a3);
+	this;
+
+	HOOK_INVOKE_CLASS_MEMBER(, c_chud_update_user_data, compute_weapon_update_, weapon_index, chud_definition_type, aim_assist_targeting);
 
 	if (!cheat.bottomless_clip)
+	{
 		return;
+	}
 
 	weapon_datum* weapon = WEAPON_GET(weapon_index);
 	if (!weapon || weapon->item.inventory_unit_index == NONE)
+	{
 		return;
+	}
 
 	unit_datum* unit = UNIT_GET(weapon->item.inventory_unit_index);
 	if (!unit || unit->unit.player_index == NONE)
+	{
 		return;
+	}
 
-	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x34), real32, __unknown34);
-	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x48), real32, __unknown48);
-	REFERENCE_DECLARE(offset_pointer(this, 0x5C * a2 + 0x50), real32, __unknown50);
-
-	__unknown34 = k_real_max;
-	__unknown48 = k_real_max;
-	__unknown50 = k_real_max;
+	s_chud_definition_info::s_chud_definition_weapon_state& weapon_state = m_incoming_definition_infos[chud_definition_type].weapon_state;
+	weapon_state.battery = k_real_max;
+	weapon_state.primary_clip_remaining = k_real_max;
+	weapon_state.primary_clip_max = k_real_max;
+	weapon_state.primary_total_remaining = k_real_max;
+	weapon_state.primary_total_max = k_real_max;
 }
 
 //.text:00A88640 ; 

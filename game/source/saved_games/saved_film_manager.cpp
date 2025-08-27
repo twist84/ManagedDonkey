@@ -10,6 +10,7 @@
 #include "game/game.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/chud/chud.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_window_manager.hpp"

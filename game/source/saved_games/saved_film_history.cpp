@@ -1,6 +1,7 @@
 #include "saved_games/saved_film_history.hpp"
 
 #include "game/game.hpp"
+#include "interface/chud/chud.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "saved_games/game_state_procs.hpp"
 #include "saved_games/saved_film.hpp"

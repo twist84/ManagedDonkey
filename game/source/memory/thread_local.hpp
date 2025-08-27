@@ -660,7 +660,7 @@ struct s_thread_local_storage
 
 	// name: "chud"
 	// type: "persistent user data"
-	// size: 0xFA40
+	// size: 0xFA40, sizeof(c_chud_persistent_user_data) * 4
 	// c_chud_manager::x_persistent_user_data
 	c_chud_persistent_user_data* g_chud_manager_persistent_user_data;
 

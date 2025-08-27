@@ -7,6 +7,7 @@
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_screen_widget.hpp"
+#include "interface/chud/chud.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "main/levels.hpp"
 

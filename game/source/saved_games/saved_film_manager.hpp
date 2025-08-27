@@ -7,6 +7,7 @@
 
 enum e_saved_film_snippet_state;
 struct game_options;
+struct s_saved_film_hud_interface_state;
 struct s_simulation_update_metadata;
 
 enum e_saved_film_file_path_creation_purpose
@@ -68,19 +69,6 @@ struct s_saved_film_manager_director_state
 	c_static_array<s_saved_film_manager_user_director_state, 4> user_director_states;
 };
 static_assert(sizeof(s_saved_film_manager_director_state) == sizeof(s_saved_film_manager_user_director_state) * 4);
-
-struct s_saved_film_hud_interface_state
-{
-	real32 duration_in_seconds;
-	real32 marker_position_in_seconds;
-	int32 number_of_chapters_available;
-	real32 buffered_theta;
-	real32 current_position_theta;
-	real32 recording_start_theta;
-	bool recording;
-	c_static_array<real32, 10> chapter_mark_theta;
-};
-static_assert(sizeof(s_saved_film_hud_interface_state) == 0x44);
 
 class c_saved_film;
 struct s_saved_film_manager_globals
