@@ -84,9 +84,10 @@ static_assert(sizeof(c_chud_equipment_effect_manager) == 0x148);
 class c_chud_scripting
 {
 public:
-
 	bool __unknown0;
 	bool __unknown1[3]; // linked to `__unknown3C`
+
+	byte __data4[0x1];
 
 	struct
 	{
@@ -103,9 +104,9 @@ public:
 		bool show_stamina;
 		bool show_energy_meters;
 		bool show_consumables;
-	} __unknown4[4];
+	}  __unknown4[4];
 
-	byte __data38[4]; // padding?
+	byte __data39[3]; // padding?
 
 	struct
 	{
@@ -113,9 +114,10 @@ public:
 		byte __data4[0xCC];
 	} __unknown3C[3]; // linked to `__unknown1`
 
-	int16 __unknown2AC;
-	int32 m_survival_bonus_time;
-	int32 __unknown2B4;
+	bool m_survival_bonus_timer_shown;
+	bool m_survival_bonus_timer_started;
+	int32 m_survival_bonus_timer;
+	int32 m_survival_bonus_round_target_score;
 };
 static_assert(sizeof(c_chud_scripting) == 0x2B8);
 
@@ -349,7 +351,7 @@ struct s_chud_shared_persistent_user_data
 
 	byte __dataE7C[0x19C];
 
-	bool has_hologram_target_point;
+	bool hologram_target_available;
 	real_point3d hologram_target_point;
 
 	byte __data1028[0x2C];
@@ -669,7 +671,7 @@ public:
 		bool __unknown53;
 		bool __unknown54;
 
-		bool has_hologram_target_point;
+		bool hologram_target_available;
 		real_point3d hologram_target_point;
 
 		bool __unknown64;
@@ -734,6 +736,6 @@ extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();
 extern s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32 user_index);
 extern bool __cdecl chud_should_draw_screen_saved_film(int32 user_index);
-extern void __cdecl chud_submit_navpoint(int32, s_chud_navpoint* navpoint);
+extern void __cdecl chud_submit_navpoint(int32, const s_chud_navpoint* navpoint);
 extern void __cdecl chud_update(real32 world_seconds_elapsed);
 

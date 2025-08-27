@@ -91,7 +91,7 @@ void __thiscall c_chud_update_user_data::compute_weapon_update_(int32 weapon_ind
 //.text:00A88AF0 ; void __cdecl chud_add_noisemaker_zone(int32 datum_index, const real_point3d* position, real32 blip_radius, real32 flash_radius, int32 blip_count)
 //.text:00A88B30 ; void __cdecl chud_apply_distortion(int32 user_index, int32 target_width, int32 target_height)
 //.text:00A88BE0 ; int32 __cdecl chud_compute_unit_backpack_weapon_index(int32 unit_index)
-//.text:00A88D00 ; // special_hud_version related
+//.text:00A88D00 ; // chud_c `special_hud_version` related
 //.text:00A88D50 ; void __cdecl chud_cortana_set_range_multiplier(real32 multiplier)
 //.text:00A88D60 ; void __cdecl chud_cortana_suck_set(int32 object_index, int32 marker_id, bool enabled)
 
@@ -177,13 +177,13 @@ bool __cdecl chud_generate_damage_flash_texture(int32 user_index)
 	return INVOKE(0x00A89440, chud_generate_damage_flash_texture, user_index);
 }
 
-//.text:00A895C0 ; int32 __cdecl chud_find_active_skin_index(int32)
-//.text:00A89630 ; 
+//.text:00A895C0 ; int32 __cdecl chud_find_active_skin_index(int32 user_index)
+//.text:00A89630 ; e_chud_skin_type __cdecl chud_get_active_skin_type(int32 user_index)
 //.text:00A89670 ; s_player_navpoint_data* __cdecl chud_get_campaign_navpoint_data(int32)
-//.text:00A896A0 ; 
-//.text:00A896C0 ; 
+//.text:00A896A0 ; int32 __cdecl chud_get_grunt_birthday_effect()
+//.text:00A896C0 ; void __cdecl chud_get_widget_collection_and_definition(int32 chud_definition_index, int32 collection_index, int32 widget_index, s_chud_widget_collection** widget_collection, s_chud_widget_base** widget_definition, bool* is_text_widget)
 //.text:00A89720 ; void __cdecl chud_handle_tag_changes()
-//.text:00A89770 ; 
+//.text:00A89770 ; bool __cdecl chud_in_first_person(int32 user_index)
 
 void __cdecl chud_initialize()
 {
@@ -195,16 +195,16 @@ void __cdecl chud_initialize_for_new_map()
 	INVOKE(0x00A897A0, chud_initialize_for_new_map);
 }
 
-//.text:00A89820 ; 
-//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(int32)
-//.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(int32)
-//.text:00A898B0 ; 
+//.text:00A89820 ; bool __cdecl chud_motion_sensor_enemies_nearby(int32 user_index)
+//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(int32 user_index)
+//.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(int32 object_index)
+//.text:00A898B0 ; bool __cdecl chud_motion_sensor_slow_moving_boardable_enemy_vehicles_nearby(int32 user_index)
 //.text:00A898F0 ; 
 //.text:00A89940 ; 
-//.text:00A89980 ; void __cdecl chud_picked_up_ammunition(int32, int32, int16)
-//.text:00A899D0 ; 
-//.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(e_game_team, int32)
-//.text:00A89A70 ; 
+//.text:00A89980 ; void __cdecl chud_picked_up_ammunition(int32 user_index, int32 weapon_definition_index, int16 count)
+//.text:00A899D0 ; void __cdecl chud_picked_up_grenade(int32 user_index, int32 grenade_definition_index)
+//.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(int32)
+//.text:00A89A70 ; void __cdecl chud_play_sound(int32 user_index, int32 type_flags, const s_tag_block* sounds, int32* sound_handles, uint16* sound_flags)
 //.text:00A89BB0 ; 
 //.text:00A89BD0 ; 
 //.text:00A89C00 ; void __cdecl chud_scripting_bonus_round_set_timer(real32)
@@ -217,34 +217,34 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A89E70 ; 
 //.text:00A89ED0 ; void __cdecl chud_scripting_set_fade(real32, real32)
 //.text:00A89F50 ; 
-//.text:00A89F80 ; 
-//.text:00A89FC0 ; 
-//.text:00A8A000 ; 
-//.text:00A8A040 ; 
-//.text:00A8A080 ; 
-//.text:00A8A0C0 ; 
-//.text:00A8A100 ; 
-//.text:00A8A150 ; 
-//.text:00A8A190 ; 
-//.text:00A8A1D0 ; 
-//.text:00A8A210 ; 
-//.text:00A8A250 ; 
+//.text:00A89F80 ; void __cdecl chud_scripting_show_compass(bool show)
+//.text:00A89FC0 ; void __cdecl chud_scripting_show_consumables(bool show)
+//.text:00A8A000 ; void __cdecl chud_scripting_show_crosshair(bool show)
+//.text:00A8A040 ; void __cdecl chud_scripting_show_energy_meters(bool show)
+//.text:00A8A080 ; void __cdecl chud_scripting_show_fire_grenades(bool show)
+//.text:00A8A0C0 ; void __cdecl chud_scripting_show_grenades(bool show)
+//.text:00A8A100 ; void __cdecl chud_scripting_show_messages(bool show)
+//.text:00A8A150 ; void __cdecl chud_scripting_show_motion_sensor(bool show)
+//.text:00A8A190 ; void __cdecl chud_scripting_show_shield(bool show)
+//.text:00A8A1D0 ; void __cdecl chud_scripting_show_spike_grenades(bool show)
+//.text:00A8A210 ; void __cdecl chud_scripting_show_stamina(bool show)
+//.text:00A8A250 ; void __cdecl chud_scripting_show_weapon_stats(bool show)
 //.text:00A8A290 ; 
-//.text:00A8A310 ; void __cdecl chud_set_campaign_objective(const wchar_t*, real32)
+//.text:00A8A310 ; void __cdecl chud_set_campaign_objective(const wchar_t* text, real32 up_time_seconds)
 //.text:00A8A3C0 ; 
 //.text:00A8A410 ; 
-//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(int32, const wchar_t*)
-//.text:00A8A500 ; 
+//.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(int32 user_index, const wchar_t* text)
+//.text:00A8A500 ; void __cdecl chud_set_player_special_hud_version(int32 user_index);
 
 s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32 user_index)
 {
 	return INVOKE(0x00A8A570, chud_shared_persistent_user_data_get, user_index);
 }
 
-//.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(int32)
-//.text:00A8A6D0 ; 
-//.text:00A8A730 ; 
-//.text:00A8A7A0 ; 
+//.text:00A8A5A0 ; bool __cdecl chud_should_draw_motion_sensor(int32 user_index)
+//.text:00A8A6D0 ; bool __cdecl chud_should_draw_navpoints(int32 user_index)
+//.text:00A8A730 ; bool __cdecl chud_should_draw_minimap(int32 user_index)
+//.text:00A8A7A0 ; bool __cdecl chud_should_draw_screen_normal(int32 user_index)
 
 bool __cdecl chud_should_draw_screen_saved_film(int32 user_index)
 {
@@ -282,14 +282,13 @@ bool __cdecl chud_should_draw_screen_saved_film(int32 user_index)
 //.text:00A8A860 ; 
 //.text:00A8A900 ; void __cdecl chud_start_directional_damage(int32, const real_vector3d*, real32, int16, real32, real32, real32, real_argb_color*)
 
-//void __cdecl chud_submit_navpoint(int32 user_index, const c_chud_navpoint* navpoint)
-void __cdecl chud_submit_navpoint(int32 user_index, s_chud_navpoint* navpoint)
+void __cdecl chud_submit_navpoint(int32 user_index, const s_chud_navpoint* navpoint)
 {
 	INVOKE(0x00A8A9F0, chud_submit_navpoint, user_index, navpoint);
 }
 
-//.text:00A8AA30 ; 
-//.text:00A8AA90 ; 
+//.text:00A8AA30 ; void __cdecl chud_tick_shield(int32 player_index, real32 amount)
+//.text:00A8AA90 ; void __cdecl chud_trigger_forced_initialization()
 
 void __cdecl chud_update(real32 world_seconds_elapsed)
 {
@@ -307,25 +306,24 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8AED0 ; protected: void c_chud_update_user_data::compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting)
 //.text:00A8B260 ; 
 //.text:00A8B290 ; 
-//.text:00A8B2B0 ; 
-//.text:00A8B2B0 ; 
-//.text:00A8B2E0 ; 
-//.text:00A8B310 ; 
-//.text:00A8B340 ; 
-//.text:00A8B370 ; 
-//.text:00A8B3A0 ; 
+//.text:00A8B2B0 ; tls
+//.text:00A8B2E0 ; tls
+//.text:00A8B310 ; tls
+//.text:00A8B340 ; tls
+//.text:00A8B370 ; tls
+//.text:00A8B3A0 ; tls
 //.text:00A8B3D0 ; public: static void __cdecl c_chud_manager::dispose()
 //.text:00A8B3E0 ; public: static void __cdecl c_chud_manager::dispose_from_old_map()
 //.text:00A8B490 ; 
 //.text:00A8B4A0 ; public: real32 c_chud_update_user_data::evaluate_external_input(int32 external_input_type, int32 weapon_index, int32 widget_anchor_type, real32 previous_value) // real64
-//.text:00A8C1E0 ; 
+//.text:00A8C1E0 ; protected: c_chud_update_user_data::s_chud_definition_info::s_chud_definition_weapon_state* c_chud_update_user_data::find_weapon_state(int32 weapon_index)
 //.text:00A8C220 ; 
-//.text:00A8C230 ; 
-//.text:00A8C260 ; 
-//.text:00A8C290 ; 
-//.text:00A8C2C0 ; 
-//.text:00A8C2F0 ; 
-//.text:00A8C320 ; 
+//.text:00A8C230 ; tls
+//.text:00A8C260 ; tls
+//.text:00A8C290 ; tls
+//.text:00A8C2C0 ; tls
+//.text:00A8C2F0 ; tls
+//.text:00A8C320 ; tls
 //.text:00A8C350 ; public: void c_chud_equipment_effect_manager::game_tick()
 //.text:00A8C3A0 ; public: static void __cdecl c_chud_manager::game_tick()
 //.text:00A8C500 ; public: static c_chud_equipment_effect_manager* __cdecl c_chud_equipment_effect_manager::get()
@@ -333,8 +331,8 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8C550 ; public: static c_chud_messaging_manager* __cdecl c_chud_messaging_manager::get(int32 user_index)
 //.text:00A8C580 ; public: static c_chud_navpoint_manager* __cdecl c_chud_navpoint_manager::get(int32 user_index)
 //.text:00A8C5B0 ; 
-//.text:00A8C5D0 ; 
-//.text:00A8C600 ; 
+//.text:00A8C5D0 ; public: int32 c_chud_persistent_user_data::get_active_chud_definition_index(int32 chud_definition_index, int32 weapon_index) const
+//.text:00A8C600 ; // c_chud_update_user_data:: `consumable_cooldown_meter` related
 //.text:00A8C610 ; public: int32 c_chud_impulse_manager::get_ammo_pickup_count(int32)
 //.text:00A8C660 ; 
 //.text:00A8C670 ; 
@@ -343,16 +341,16 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8C6B0 ; 
 //.text:00A8C6C0 ; 
 //.text:00A8C6D0 ; public: bool c_chud_update_user_data::get_fresh_unit()
-//.text:00A8C6E0 ; 
+//.text:00A8C6E0 ; public: game_engine_interface_state* c_chud_update_user_data::get_game_engine_interface_state()
 //.text:00A8C6F0 ; public: int32 c_chud_impulse_manager::get_grenade_pickup_count(int32 grenade_index) const
-//.text:00A8C700 ; 
-//.text:00A8C710 ; 
+//.text:00A8C700 ; public: bool c_chud_update_user_data::get_hologram_target_available() const
+//.text:00A8C710 ; public: void c_chud_update_user_data::get_hologram_target_point(real_point3d* hologram_target_point)
 //.text:00A8C730 ; 
 //.text:00A8C750 ; 
 //.text:00A8C760 ; 
 //.text:00A8C770 ; public: s_campaign_metagame_interface_state* c_chud_update_user_data::get_metagame_interface_state()
 //.text:00A8C780 ; public: int32 c_chud_update_user_data::get_next_definition_info_index(int32 index) const
-//.text:00A8C7B0 ; 
+//.text:00A8C7B0 ; private: int32 c_chud_directional_damage::get_oldest_index()
 //.text:00A8C800 ; public: s_saved_film_hud_interface_state* c_chud_update_user_data::get_saved_film_interface_state()
 //.text:00A8C810 ; public: uns32 c_chud_update_user_data::get_sound_flags()
 //.text:00A8CE20 ; 
@@ -364,9 +362,9 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8CEB0 ; 
 //.text:00A8CEC0 ; 
 //.text:00A8CED0 ; 
-//.text:00A8CEE0 ; 
+//.text:00A8CEE0 ; public: static int32 __cdecl c_chud_persistent_user_data::get_widget_anchor_type(const s_chud_widget_base* widget_base, const s_chud_widget_collection* widget_collection)
 //.text:00A8CF20 ; 
-//.text:00A8CF30 ; 
+//.text:00A8CF30 ; private: int32 c_chud_equipment_effect_manager::get_zone_index(int32 datum_index) const
 //.text:00A8CF70 ; 
 //.text:00A8CFA0 ; 
 //.text:00A8CFB0 ; 
@@ -389,14 +387,14 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8DA50 ; public: void c_chud_impulse_manager::picked_up_grenade(int32 grenade_definition_index)
 //.text:00A8DAB0 ; 
 //.text:00A8DAC0 ; 
-//.text:00A8DAD0 ; 
-//.text:00A8DB10 ; 
-//.text:00A8DB50 ; 
-//.text:00A8DB90 ; 
-//.text:00A8DBD0 ; 
-//.text:00A8DC10 ; 
-//.text:00A8DC50 ; 
-//.text:00A8DC70 ; 
+//.text:00A8DAD0 ; tls
+//.text:00A8DB10 ; tls
+//.text:00A8DB50 ; tls
+//.text:00A8DB90 ; tls
+//.text:00A8DBD0 ; tls
+//.text:00A8DC10 ; tls
+//.text:00A8DC50 ; public: void c_chud_cinematic_fade::reset()
+//.text:00A8DC70 ; public: void c_chud_cortana_effect::reset()
 //.text:00A8DCD0 ; public: void c_chud_directional_damage::reset()
 //.text:00A8DD20 ; public: void c_chud_impulse_manager::reset()
 //.text:00A8DD60 ; public: void c_chud_persistent_user_data::reset()
@@ -453,5 +451,5 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A912C0 ; public: bool c_chud_update_user_data::widget_definition_should_be_flashing(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)
 //.text:00A91390 ; public: bool c_chud_update_user_data::widget_definition_should_be_hidden(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)
 //.text:00A91440 ; public: static bool __cdecl c_chud_update_user_data::widget_definition_should_be_impulse(int32 user_index, const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index, int32* impulse_value)
-//.text:00A916D0 ; 
+//.text:00A916D0 ; public: static bool __cdecl c_chud_update_user_data::widget_definition_type_is_impulse(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)
 
