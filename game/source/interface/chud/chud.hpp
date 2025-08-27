@@ -10,15 +10,54 @@
 
 struct s_aim_assist_targeting_result;
 
-struct chud_widget_datum :
+struct s_chud_runtime_widget_datum :
 	s_datum_header
 {
-	byte __data[0x16];
-};
-static_assert(sizeof(chud_widget_datum) == 0x18);
+	enum
+	{
+		k_max_allowed = 128,
+		k_max_possible = 256,
+	};
 
-struct c_chud_equipment_effect_manager
+	enum
+	{
+		_widget_hidden_bit = 0,
+
+		k_widget_flag_count,
+	};
+
+	int8 runtime_hud_num;
+	int8 collection_index;
+	int8 widget_index;
+	uns8 flags;
+	int16 widget_state;
+	int16 state_timer_msec;
+	int32 next_drawn_widget_index;
+	real32 input_values[2];
+};
+static_assert(sizeof(s_chud_runtime_widget_datum) == 0x18);
+
+struct s_chud_definition;
+struct s_chud_widget_collection;
+struct s_chud_widget_base;
+struct s_chud_draw_widget_data
 {
+	int32 user_index;
+	s_chud_runtime_widget_datum* widget;
+	s_chud_definition* widget_definition;
+	s_chud_widget_collection* widget_collection;
+	s_chud_widget_base* widget_base;
+};
+static_assert(sizeof(s_chud_draw_widget_data) == 0x14);
+
+class c_chud_equipment_effect_manager
+{
+public:
+	enum
+	{
+		k_max_noisemaker_zone_count = 8,
+	};
+
 	struct s_noisemaker_zone
 	{
 		bool valid;
@@ -33,7 +72,10 @@ struct c_chud_equipment_effect_manager
 	};
 	static_assert(sizeof(s_noisemaker_zone) == 0x28);
 
-	s_noisemaker_zone m_noisemaker_zones[8];
+public:
+
+//private:
+	s_noisemaker_zone m_noisemaker_zones[k_max_noisemaker_zone_count];
 	int32 m_last_update_tick_index;
 	int32 __unknown144;
 };
@@ -690,6 +732,7 @@ extern void __cdecl chud_game_tick();
 extern bool __cdecl chud_generate_damage_flash_texture(int32 user_index);
 extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();
+extern s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32 user_index);
 extern bool __cdecl chud_should_draw_screen_saved_film(int32 user_index);
 extern void __cdecl chud_submit_navpoint(int32, s_chud_navpoint* navpoint);
 extern void __cdecl chud_update(real32 world_seconds_elapsed);

@@ -7,6 +7,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "items/weapons.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/views/render_view.hpp"
@@ -52,31 +53,62 @@ void __thiscall c_chud_update_user_data::compute_weapon_update_(int32 weapon_ind
 	weapon_state.primary_total_max = k_real_max;
 }
 
-//.text:00A88640 ; 
-//.text:00A88660 ; 
-//.text:00A88690 ; 
-//.text:00A888D0 ; 
-//.text:00A88970 ; 
-//.text:00A889B0 ; 
-//.text:00A889F0 ; 
-//.text:00A88A30 ; 
-//.text:00A88A70 ; 
-//.text:00A88AB0 ; 
-//.text:00A88AF0 ; 
-//.text:00A88B30 ; void __cdecl chud_apply_distortion(int32, int32, int32)
-//.text:00A88BE0 ; int32 __cdecl chud_compute_unit_backpack_weapon_index(int32)
-//.text:00A88D00 ; 
-//.text:00A88D50 ; 
-//.text:00A88D60 ; 
+//.text:00A85100 ; tls
+//.text:00A85120 ; tls
+//.text:00A85140 ; tls
+//.text:00A85160 ; tls
+//.text:00A85180 ; tls
+//.text:00A851A0 ; tls
+//.text:00A851C0 ; public: c_chud_cortana_effect::c_chud_cortana_effect()
+//.text:00A85240 ; public: c_chud_update_user_data::c_chud_update_user_data(int32 user_index, int32 previous_unit_index, bool force_initialization)
+//.text:00A87ED0 ; c_chud_update_user_data::s_unit_state::s_unit_state
+//.text:00A87EF0 ; tls
+//.text:00A87F00 ; tls
+//.text:00A87F10 ; tls
+//.text:00A87F20 ; tls
+//.text:00A87F30 ; tls
+//.text:00A87F40 ; tls
+//.text:00A87F50 ; 
+//.text:00A87F60 ; 
+//.text:00A87F80 ; 
+//.text:00A87FA0 ; 
+//.text:00A88540 ; tls
+//.text:00A88560 ; tls
+//.text:00A88580 ; tls
+//.text:00A885B0 ; tls
+//.text:00A885E0 ; tls
+//.text:00A88610 ; tls
+//.text:00A88640 ; public: void c_chud_persistent_user_data::active_chud_definition_notify_widget_created(int32 active_definition_num)
+//.text:00A88660 ; public: void c_chud_persistent_user_data::active_chud_definition_notify_widget_deleted(int32 active_definition_num)
+//.text:00A88690 ; public: int32 c_chud_persistent_user_data::add_active_chud_definition_index(int32 chud_definition_index, int32 weapon_index, bool* full_delete_happened)
+//.text:00A888D0 ; public: void c_chud_equipment_effect_manager::add_noisemaker_zone(int32 datum_index, const real_point3d* position, real32 blip_radius, real32 flash_radius, int32 blip_count)
+//.text:00A88970 ; tls
+//.text:00A889B0 ; tls
+//.text:00A889F0 ; tls
+//.text:00A88A30 ; tls
+//.text:00A88A70 ; tls
+//.text:00A88AB0 ; tls
+//.text:00A88AF0 ; void __cdecl chud_add_noisemaker_zone(int32 datum_index, const real_point3d* position, real32 blip_radius, real32 flash_radius, int32 blip_count)
+//.text:00A88B30 ; void __cdecl chud_apply_distortion(int32 user_index, int32 target_width, int32 target_height)
+//.text:00A88BE0 ; int32 __cdecl chud_compute_unit_backpack_weapon_index(int32 unit_index)
+//.text:00A88D00 ; // special_hud_version related
+//.text:00A88D50 ; void __cdecl chud_cortana_set_range_multiplier(real32 multiplier)
+//.text:00A88D60 ; void __cdecl chud_cortana_suck_set(int32 object_index, int32 marker_id, bool enabled)
 
 void __cdecl chud_dispose()
 {
 	INVOKE(0x00A88D70, chud_dispose);
+
+	//cortana_effect_dispose();
 }
 
 void __cdecl chud_dispose_from_old_map()
 {
 	INVOKE(0x00A88D80, chud_dispose_from_old_map);
+
+	//c_chud_manager::dispose_from_old_map();
+	//cortana_effect_dispose_from_old_map();
+	//chud_globals = NULL;
 }
 
 void __cdecl chud_draw_screen(int32 user_index)
@@ -103,11 +135,19 @@ void __cdecl chud_draw_screen_saved_film(int32 user_index)
 
 	//if (chud_should_draw_screen_saved_film(user_index) &&
 	//	chud_enabled && chud_globals &&
-	//	VALID_INDEX(user_index, 4))
+	//	VALID_INDEX(user_index, k_number_of_users))
 	//{
 	//	if (chud_draw_begin(user_index, 1.0f, false, true))
 	//	{
-	//		// $IMPLEMENT
+	//		s_chud_runtime_widget_datum* widget = NULL;
+	//		for (int32 widget_index = chud_shared_persistent_user_data_get(user_index)->first_drawn_saved_film_widget_index;
+	//			widget_index != NONE;
+	//			widget_index = widget->next_drawn_widget_index)
+	//		{
+	//			widget = DATUM_GET(*g_chud_manager_user_widget_data, s_chud_runtime_widget_datum, widget_index);
+	//			int32 chud_definition_index = g_chud_manager_persistent_user_data->m_persistent_definitions[widget->runtime_hud_num].chud_definition_index;
+	//			chud_draw_widget(user_index, widget, chud_definition_index, 0);
+	//		}
 	//	}
 	//	chud_draw_end(user_index, false);
 	//}
@@ -124,6 +164,12 @@ void __cdecl chud_draw_turbulence(int32 user_index)
 void __cdecl chud_game_tick()
 {
 	INVOKE(0x00A89420, chud_game_tick);
+
+	//if (chud_enabled && chud_globals)
+	//{
+	//	c_chud_manager::game_tick();
+	//}
+	//cortana_effect_update();
 }
 
 bool __cdecl chud_generate_damage_flash_texture(int32 user_index)
@@ -189,7 +235,12 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A8A410 ; 
 //.text:00A8A4A0 ; void __cdecl chud_set_player_training_text(int32, const wchar_t*)
 //.text:00A8A500 ; 
-//.text:00A8A570 ; s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32)
+
+s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32 user_index)
+{
+	return INVOKE(0x00A8A570, chud_shared_persistent_user_data_get, user_index);
+}
+
 //.text:00A8A5A0 ; bool __cdecl game_engine_hud_should_render_motion_sensor(int32)
 //.text:00A8A6D0 ; 
 //.text:00A8A730 ; 
@@ -248,12 +299,159 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 	//	c_chud_manager::update(world_seconds_elapsed);
 }
 
-//.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(int32, int32)
-//.text:00A8AB70 ; 
-//.text:00A8ABD0 ; 
-//.text:00A8AD70 ; 
-//.text:00A8AED0 ; 
+//.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(int32 user_index, int32 grenade_slot_index)
+//.text:00A8AB70 ; void __cdecl chud_user_tried_banned_vehicle_entrance(int32 user_index)
+//.text:00A8ABC0 ; 
+//.text:00A8ABD0 ; public: long c_chud_update_user_data::compute_actual_widget_state(int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, int32 desired_widget_state, int32 current_widget_state, int32 current_widget_timer)
+//.text:00A8AD70 ; public: long c_chud_update_user_data::compute_desired_widget_state(int32 user_index, int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, bool* hidden)
+//.text:00A8AED0 ; protected: void c_chud_update_user_data::compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting)
 //.text:00A8B260 ; 
 //.text:00A8B290 ; 
 //.text:00A8B2B0 ; 
+//.text:00A8B2B0 ; 
+//.text:00A8B2E0 ; 
+//.text:00A8B310 ; 
+//.text:00A8B340 ; 
+//.text:00A8B370 ; 
+//.text:00A8B3A0 ; 
+//.text:00A8B3D0 ; public: static void __cdecl c_chud_manager::dispose()
+//.text:00A8B3E0 ; public: static void __cdecl c_chud_manager::dispose_from_old_map()
+//.text:00A8B490 ; 
+//.text:00A8B4A0 ; public: real32 c_chud_update_user_data::evaluate_external_input(int32 external_input_type, int32 weapon_index, int32 widget_anchor_type, real32 previous_value) // real64
+//.text:00A8C1E0 ; 
+//.text:00A8C220 ; 
+//.text:00A8C230 ; 
+//.text:00A8C260 ; 
+//.text:00A8C290 ; 
+//.text:00A8C2C0 ; 
+//.text:00A8C2F0 ; 
+//.text:00A8C320 ; 
+//.text:00A8C350 ; public: void c_chud_equipment_effect_manager::game_tick()
+//.text:00A8C3A0 ; public: static void __cdecl c_chud_manager::game_tick()
+//.text:00A8C500 ; public: static c_chud_equipment_effect_manager* __cdecl c_chud_equipment_effect_manager::get()
+//.text:00A8C520 ; public: static c_chud_impulse_manager* __cdecl c_chud_impulse_manager::get(int32 user_index)
+//.text:00A8C550 ; public: static c_chud_messaging_manager* __cdecl c_chud_messaging_manager::get(int32 user_index)
+//.text:00A8C580 ; public: static c_chud_navpoint_manager* __cdecl c_chud_navpoint_manager::get(int32 user_index)
+//.text:00A8C5B0 ; 
+//.text:00A8C5D0 ; 
+//.text:00A8C600 ; 
+//.text:00A8C610 ; public: int32 c_chud_impulse_manager::get_ammo_pickup_count(int32)
+//.text:00A8C660 ; 
+//.text:00A8C670 ; 
+//.text:00A8C680 ; public: c_chud_update_user_data::s_chud_definition_info* c_chud_update_user_data::get_definition_info(int32 index)
+//.text:00A8C6A0 ; 
+//.text:00A8C6B0 ; 
+//.text:00A8C6C0 ; 
+//.text:00A8C6D0 ; public: bool c_chud_update_user_data::get_fresh_unit()
+//.text:00A8C6E0 ; 
+//.text:00A8C6F0 ; public: int32 c_chud_impulse_manager::get_grenade_pickup_count(int32 grenade_index) const
+//.text:00A8C700 ; 
+//.text:00A8C710 ; 
+//.text:00A8C730 ; 
+//.text:00A8C750 ; 
+//.text:00A8C760 ; 
+//.text:00A8C770 ; public: s_campaign_metagame_interface_state* c_chud_update_user_data::get_metagame_interface_state()
+//.text:00A8C780 ; public: int32 c_chud_update_user_data::get_next_definition_info_index(int32 index) const
+//.text:00A8C7B0 ; 
+//.text:00A8C800 ; public: s_saved_film_hud_interface_state* c_chud_update_user_data::get_saved_film_interface_state()
+//.text:00A8C810 ; public: uns32 c_chud_update_user_data::get_sound_flags()
+//.text:00A8CE20 ; 
+//.text:00A8CE60 ; 
+//.text:00A8CE70 ; 
+//.text:00A8CE80 ; 
+//.text:00A8CE90 ; 
+//.text:00A8CEA0 ; 
+//.text:00A8CEB0 ; 
+//.text:00A8CEC0 ; 
+//.text:00A8CED0 ; 
+//.text:00A8CEE0 ; 
+//.text:00A8CF20 ; 
+//.text:00A8CF30 ; 
+//.text:00A8CF70 ; 
+//.text:00A8CFA0 ; 
+//.text:00A8CFB0 ; 
+//.text:00A8CFE0 ; public: void c_chud_equipment_effect_manager::initialize()
+//.text:00A8D040 ; public: static void __cdecl c_chud_manager::initialize()
+//.text:00A8D1E0 ; public: void c_chud_persistent_global_data::initialize()
+//.text:00A8D240 ; public: static void __cdecl c_chud_manager::initialize_for_new_map()
+//.text:00A8D330 ; public: void c_chud_persistent_user_data::initialize(int32 user_index)
+//.text:00A8D3D0 ; public: void c_chud_scripting::initialize_for_new_map()
+//.text:00A8D440 ; public: void c_chud_persistent_user_data::initialize_sounds(int32 user_index)
+//.text:00A8D470 ; public: bool c_chud_update_user_data::is_dual_wielding() const
+//.text:00A8D480 ; 
+//.text:00A8D490 ; public: bool c_chud_update_user_data::is_zoomed_and_targeting() const
+//.text:00A8D4B0 ; public: bool c_chud_update_user_data::lock_target_available(real_point3d* lock_target)
+//.text:00A8D530 ; int32 __cdecl map_quality_value_to_shader_value(e_network_rough_quality quality)
+//.text:00A8D570 ; public: void c_chud_equipment_effect_manager::noisemaker_zone_calculate_blip(int32 zone_index, int32 blip_index, real_point3d* blip_position)
+//.text:00A8D7A0 ; public: int32 c_chud_equipment_effect_manager::noisemaker_zone_get_blip_count(int32 zone_index)
+//.text:00A8D7C0 ; public: void c_chud_equipment_effect_manager::noisemaker_zone_make_fake_directional_damage(int32 user_index, int32 zone_index, c_chud_directional_damage* directional_damage)
+//.text:00A8DA00 ; public: void c_chud_impulse_manager::picked_up_ammunition(int32 weapon_definition_index, int16 count)
+//.text:00A8DA50 ; public: void c_chud_impulse_manager::picked_up_grenade(int32 grenade_definition_index)
+//.text:00A8DAB0 ; 
+//.text:00A8DAC0 ; 
+//.text:00A8DAD0 ; 
+//.text:00A8DB10 ; 
+//.text:00A8DB50 ; 
+//.text:00A8DB90 ; 
+//.text:00A8DBD0 ; 
+//.text:00A8DC10 ; 
+//.text:00A8DC50 ; 
+//.text:00A8DC70 ; 
+//.text:00A8DCD0 ; public: void c_chud_directional_damage::reset()
+//.text:00A8DD20 ; public: void c_chud_impulse_manager::reset()
+//.text:00A8DD60 ; public: void c_chud_persistent_user_data::reset()
+//.text:00A8DF40 ; 
+//.text:00A8DF90 ; public: void c_chud_persistent_user_data::reset_sounds(int32 user_index)
+//.text:00A8DFF0 ; 
+//.text:00A8E000 ; 
+//.text:00A8E050 ; 
+//.text:00A8E090 ; 
+//.text:00A8E0D0 ; 
+//.text:00A8E0F0 ; public: int32 c_chud_equipment_effect_manager::sensor_get_noisemaker_zone(const real_point3d* sensor_origin, bool use_flash_radius)
+//.text:00A8E1A0 ; 
+//.text:00A8E1C0 ; 
+//.text:00A8E200 ; 
+//.text:00A8E270 ; 
+//.text:00A8E280 ; 
+//.text:00A8E2A0 ; 
+//.text:00A8E2B0 ; 
+//.text:00A8E2C0 ; 
+//.text:00A8E2E0 ; 
+//.text:00A8E300 ; 
+//.text:00A8E320 ; 
+//.text:00A8E340 ; 
+//.text:00A8E360 ; 
+//.text:00A8E380 ; 
+//.text:00A8E3A0 ; 
+//.text:00A8E3C0 ; 
+//.text:00A8E3E0 ; 
+//.text:00A8E400 ; 
+//.text:00A8E420 ; 
+//.text:00A8E440 ; 
+//.text:00A8E460 ; 
+//.text:00A8E6B0 ; private: bool c_chud_directional_damage::something_to_draw(int32 user_index)
+//.text:00A8E700 ; get `fov_multiplier`
+//.text:00A8E740 ; public: void c_chud_directional_damage::start(const real_vector3d* direction, real32 duration, int16 fade_function, real32 size, real32 inner_scale, real32 outer_scale, real_argb_color* color)
+//.text:00A8E810 ; protected: void c_chud_update_user_data::study_autoaim(int32 unit_index)
+//.text:00A8EA70 ; 
+//.text:00A8EA90 ; 
+//.text:00A8EAB0 ; 
+//.text:00A8EB20 ; public: void c_chud_cortana_effect::update(int32 user_index)
+//.text:00A8ED40 ; public: void c_chud_directional_damage::update(int32 user_index, real32 dt)
+//.text:00A8F080 ; public: void c_chud_equipment_effect_manager::update()
+//.text:00A8F0F0 ; public: void c_chud_damage_tracker::update(int32 user_index)
+//.text:00A8F390 ; public: static void __cdecl c_chud_manager::update(real32 dt)
+//.text:00A8F400 ; 
+//.text:00A8F4A0 ; public: void c_chud_persistent_global_data::update()
+//.text:00A8F520 ; public: void c_chud_persistent_user_data::update(int32 user_index, real32 dt)
+//.text:00A901E0 ; public: void c_chud_persistent_user_data::update_from_update_data(int32 user_index, c_chud_update_user_data* user_data)
+//.text:00A90D70 ; public: void c_chud_persistent_user_data::update_sounds(int32 user_index, c_chud_update_user_data* user_data)
+//.text:00A90DE0 ; public: void c_chud_persistent_user_data::update_widget_external_inputs(int32 user_index, s_chud_runtime_widget_datum* widget, c_chud_update_user_data* update_user_data)
+//.text:00A90EF0 ; 
+//.text:00A90F00 ; 
+//.text:00A90F10 ; public: bool c_chud_update_user_data::widget_definition_should_be_active(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)
+//.text:00A912C0 ; public: bool c_chud_update_user_data::widget_definition_should_be_flashing(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)
+//.text:00A91390 ; public: bool c_chud_update_user_data::widget_definition_should_be_hidden(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)
+//.text:00A91440 ; public: static bool __cdecl c_chud_update_user_data::widget_definition_should_be_impulse(int32 user_index, const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index, int32* impulse_value)
+//.text:00A916D0 ; 
 

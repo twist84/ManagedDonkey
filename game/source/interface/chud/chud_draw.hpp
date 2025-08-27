@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_chud_curvature_info;
+struct s_chud_runtime_widget_datum;
+
 class c_chud_point_tracker
 {
 	bool m_active;
@@ -14,7 +17,6 @@ class c_chud_point_tracker
 };
 static_assert(sizeof(c_chud_point_tracker) == 0x2C);
 
-struct s_chud_curvature_info;
 struct s_chud_draw_globals
 {
 	real_rectangle2d displayed_global_bounds;
@@ -64,4 +66,5 @@ extern bool __cdecl chud_draw_begin(int32 user_index, real32 global_hud_alpha, b
 extern void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence);
 extern void __cdecl chud_draw_end(int32 user_index, bool resolve_cortana_effect);
 extern void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence);
+extern void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence);
 

@@ -139,7 +139,9 @@ void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, b
 	HOOK_INVOKE(, chud_draw_bitmap_widget, user_index, draw_widget_data, is_draw_turbulence);
 
 	if (chud_compute_render_data_result)
+	{
 		rasterizer_profile_end_event();
+	}
 }
 
 //.text:00AC8E50 ; void __cdecl chud_draw_debug(int32 user_index)
@@ -161,11 +163,18 @@ void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, boo
 	HOOK_INVOKE(, chud_draw_text_widget, user_index, draw_widget_data, is_draw_turbulence);
 
 	if (chud_compute_render_data_result)
+	{
 		rasterizer_profile_end_event();
+	}
 }
 
 //.text:00AC9560 ; void __cdecl chud_draw_training_text(int32 user_index)
-//.text:00AC9570 ; void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence)
+
+void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence)
+{
+	INVOKE(0x00AC9570, chud_draw_widget, user_index, widget, chud_definition_index, is_draw_turbulence);
+}
+
 //.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry* geometry, s_anchor_basis* anchor_basis, bool mirror_x, bool mirror_y)
 //.text:00AC9AA0 ; void __cdecl chud_expand_pixel32(uns32 value, real_vector4d* result)
 //.text:00AC9B50 ; void __cdecl chud_geometry_build_transform(const s_widget_geometry* geometry, real_matrix4x3* widget_transform)

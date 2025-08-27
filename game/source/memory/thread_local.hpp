@@ -674,7 +674,7 @@ struct s_thread_local_storage
 	// count: 128
 	//  size: 0x18
 	// c_chud_manager::x_user_widget_data
-	c_smart_data_array<chud_widget_datum> g_chud_manager_user_widget_data[4];
+	c_smart_data_array<s_chud_runtime_widget_datum> g_chud_manager_user_widget_data[4];
 
 	// name: "fp orientations"
 	// size: 0x12C00
