@@ -2,6 +2,18 @@
 
 #include "cseries/cseries.hpp"
 
+class c_chud_point_tracker
+{
+	bool m_active;
+	real_point3d m_position;
+	real_point2d m_position_screenspace;
+	real_point2d m_position_virtual;
+	real32 m_offscreen_amount;
+	bool m_behind_camera;
+	real32 m_behind_camera_yaw_sign;
+};
+static_assert(sizeof(c_chud_point_tracker) == 0x2C);
+
 struct s_chud_curvature_info;
 struct s_chud_draw_globals
 {
@@ -42,7 +54,6 @@ extern bool& chud_debug_messages;
 extern s_chud_draw_globals& g_chud_draw_globals;
 extern bool& chud_debug_grid;
 extern bool& chud_debug_crosshair;
-
 
 extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence);
 extern void __cdecl chud_debug_draw(int32 user_index);

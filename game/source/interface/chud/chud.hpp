@@ -2,13 +2,122 @@
 
 #include "cseries/cseries.hpp"
 #include "game/aim_target.hpp"
+#include "interface/chud/chud_draw.hpp"
 #include "interface/chud/chud_globals_definitions.hpp"
 #include "interface/chud/chud_messaging.hpp"
+#include "interface/chud/chud_motion_sensor.hpp"
+#include "interface/chud/chud_navpoints.hpp"
 
 struct s_aim_assist_targeting_result;
 
+struct chud_widget_datum :
+	s_datum_header
+{
+	byte __data[0x16];
+};
+static_assert(sizeof(chud_widget_datum) == 0x18);
+
+struct c_chud_equipment_effect_manager
+{
+	struct s_noisemaker_zone
+	{
+		bool valid;
+		bool updated_this_tick;
+		int32 end_time;
+		int32 start_time;
+		int32 datum_index;
+		real_point3d position;
+		real32 blip_radius;
+		real32 flash_radius;
+		int32 blip_count;
+	};
+	static_assert(sizeof(s_noisemaker_zone) == 0x28);
+
+	s_noisemaker_zone m_noisemaker_zones[8];
+	int32 m_last_update_tick_index;
+	int32 __unknown144;
+};
+static_assert(sizeof(c_chud_equipment_effect_manager) == 0x148);
+
+class c_chud_scripting
+{
+public:
+
+	bool __unknown0;
+	bool __unknown1[3]; // linked to `__unknown3C`
+
+	struct
+	{
+		bool show_all;
+		bool show_weapon_stats;
+		bool show_crosshair;
+		bool show_shield;
+		bool show_grenades;
+		bool show_messages;
+		bool show_motion_sensor;
+		bool show_spike_greandes;
+		bool show_fire_grenades;
+		bool show_compass;
+		bool show_stamina;
+		bool show_energy_meters;
+		bool show_consumables;
+	} __unknown4[4];
+
+	byte __data38[4]; // padding?
+
+	struct
+	{
+		real32 __unknown0;
+		byte __data4[0xCC];
+	} __unknown3C[3]; // linked to `__unknown1`
+
+	int16 __unknown2AC;
+	int32 m_survival_bonus_time;
+	int32 __unknown2B4;
+};
+static_assert(sizeof(c_chud_scripting) == 0x2B8);
+
+struct s_player_navpoint_data
+{
+	bool last_living_location_valid;
+	real_point3d last_living_location;
+	uns16 total_time_to_respawn_in_ticks;
+	uns16 current_time_to_respawn_in_ticks;
+
+	//int32 dead_unit_index;
+	byte __data14[0x4];
+
+	int8 current_navpoint_action;
+	int8 current_navpoint_action_timer;
+	int8 next_navpoint_action;
+};
+static_assert(sizeof(s_player_navpoint_data) == 0x1C);
+
+class c_chud_persistent_global_data
+{
+public:
+	enum
+	{
+		k_max_campaign_players = 4,
+	};
+
+//private:
+	c_chud_equipment_effect_manager m_equipment_effect_manager;
+	c_chud_scripting m_chud_scripting_globals;
+	s_player_navpoint_data m_campaign_player_navpoint_data[k_max_campaign_players];
+};
+static_assert(sizeof(c_chud_persistent_global_data) == 0x470);
+
 struct game_engine_interface_state
 {
+	enum
+	{
+		_time_left_string_size = 20,
+		_variant_name_string_size = 32,
+		_arming_meter_string_size = 64,
+		_talking_player_string_size = 32,
+	};
+
 	enum e_variant_custom_flags
 	{
 		_variant_custom_a_available_bit = 0,
@@ -19,10 +128,10 @@ struct game_engine_interface_state
 	};
 
 	int32 game_engine_type;
-	wchar_t variant_name_string[32];
+	wchar_t variant_name_string[_variant_name_string_size];
 	bool in_sudden_death;
 	bool timed_game;
-	wchar_t time_left_string[20];
+	wchar_t time_left_string[_time_left_string_size];
 	bool round_starting;
 	bool friendly_score_available;
 	bool friendly_has_posession_marker;
@@ -36,15 +145,15 @@ struct game_engine_interface_state
 	bool friendly_over_enemy;
 	int32 score_max;
 	bool talking_player_available;
-	wchar_t talking_player_name_string[32];
+	wchar_t talking_player_name_string[_talking_player_string_size];
 	bool arming_meter_available;
 	real32 arming_meter_fraction;
 	uns32 arming_meter_color;
-	wchar_t arming_meter_string[64];
+	wchar_t arming_meter_string[_arming_meter_string_size];
 	int32 territory_count;
 	uns32 territory_colors[8];
 	real32 territory_thetas[8];
-	int32 variant_custom_flags;
+	c_flags_no_init<e_variant_custom_flags, int32, k_number_of_variant_custom_flags> variant_custom_flags;
 
 	struct
 	{
@@ -56,54 +165,14 @@ struct game_engine_interface_state
 };
 static_assert(sizeof(game_engine_interface_state) == 0x1B8);
 
-struct chud_widget_datum :
-	s_datum_header
-{
-	byte __data[0x16];
-};
-static_assert(sizeof(chud_widget_datum) == 0x18);
-
-struct chud_player_hud_elements
-{
-	bool __unknown0;
-	bool __unknown1;
-	bool show_crosshair;
-	bool show_shield;
-	bool show_grenades;
-	bool show_messages;
-	bool show_motion_sensor;
-	bool show_spike_grenades;
-	bool show_fire_grenades;
-	bool show_compass;
-	bool show_stamina;
-	bool show_energy_meters;
-	bool show_consumables;
-};
-static_assert(sizeof(chud_player_hud_elements) == 0xD);
-
-class c_chud_persistent_global_data
-{
-public:
-	byte __data[0x14D];
-	chud_player_hud_elements player_hud;
-	byte __unknown181[0x316];
-};
-static_assert(sizeof(c_chud_persistent_global_data) == 0x470);
-
-class c_chud_point_tracker
-{
-	bool m_active;
-	real_point3d m_position;
-	real_point2d m_position_screenspace;
-	real_point2d m_position_virtual;
-	real32 m_offscreen_amount;
-	bool m_behind_camera;
-	real32 m_behind_camera_yaw_sign;
-};
-static_assert(sizeof(c_chud_point_tracker) == 0x2C);
-
 class c_chud_directional_damage
 {
+public:
+	enum
+	{
+		k_directional_damage_instance_count = 4,
+	};
+
 	struct s_instance
 	{
 		c_chud_point_tracker point_tracker;
@@ -121,13 +190,17 @@ class c_chud_directional_damage
 		real32 arrow_alpha;
 	};
 	static_assert(sizeof(s_instance) == 0x70);
-
-	s_instance m_instances[4];
+	
+//private:
+	s_instance m_instances[k_directional_damage_instance_count];
 };
 static_assert(sizeof(c_chud_directional_damage) == 0x1C0);
 
 class c_chud_cinematic_fade
 {
+public:
+	
+//private:
 	real32 m_fade_current;
 	real32 m_fade_desired;
 	real32 m_fade_velocity;
@@ -136,55 +209,23 @@ static_assert(sizeof(c_chud_cinematic_fade) == 0xC);
 
 class c_chud_damage_tracker
 {
+public:
+	
+//private:
 	real32 m_projectile_angles[4];
 	int32 m_projectile_count;
 };
 static_assert(sizeof(c_chud_damage_tracker) == 0x14);
 
-class c_chud_motion_sensor
-{
-	struct s_motion_sensor_tracked_entity
-	{
-		int32 tracked_object_index;
-		real32 squared_distance;
-		int32 ping_timer;
-	};
-	static_assert(sizeof(s_motion_sensor_tracked_entity) == 0xC);
-
-	struct s_motion_sensor_blip
-	{
-		real_point2d position;
-		real32 unused;
-		uns8 blip_type;
-		uns8 blip_size;
-		uns8 blip_shape;
-		byte pad[1];
-	};
-	static_assert(sizeof(s_motion_sensor_blip) == 0x10);
-
-	struct s_motion_sensor_history
-	{
-		int32 blip_count;
-		s_motion_sensor_blip blips[16];
-	};
-	static_assert(sizeof(s_motion_sensor_history) == 0x104);
-
-	s_motion_sensor_tracked_entity m_tracked_entities[20];
-	s_motion_sensor_history m_histories[10];
-	s_motion_sensor_blip m_custom_blips[20];
-	real32 m_custom_blip_alphas[20];
-	uns32 m_multiplayertracking_flags;
-	int32 m_custom_blip_count;
-	int32 m_user_index;
-	int32 m_recent_history_index;
-	real32 m_tracking_distance;
-	real32 m_radar_distance;
-	real32 m_oo_radar_distance;
-};
-static_assert(sizeof(c_chud_motion_sensor) == 0xCC4);
-
 class c_chud_cortana_effect
 {
+public:
+	enum
+	{
+		k_max_bases = 4,
+		k_updates_before_new_basis = 6,
+	};
+
 	struct s_basis
 	{
 		real_point2d origin;
@@ -192,6 +233,7 @@ class c_chud_cortana_effect
 	};
 	static_assert(sizeof(s_basis) == 0x10);
 
+//private:
 	int32 m_suck_object_index;
 	int32 m_suck_marker_id;
 	bool m_suck_enabled;
@@ -216,27 +258,40 @@ static_assert(sizeof(c_chud_cortana_effect) == 0x128);
 
 struct s_chud_shared_persistent_user_data
 {
+	enum
+	{
+		k_player_training_text_length = 256,
+		k_variant_name_length = 32,
+		k_time_left_length = 20,
+		k_talking_player_name_length = 32,
+		k_arming_meter_name_length = 32,
+		k_campaign_objective_name_length = 256,
+	};
+
 	struct s_metagame
 	{
 		int32 player_count;
 		real_argb_color player_colors[4];
+
+		// missing in Halo Online
+		//s_emblem_info player_emblem_info[4];
 	};
 	static_assert(sizeof(s_metagame) == 0x44);
 
 	bool player_training_available;
-	wchar_t player_training_text[256];
+	wchar_t player_training_text[k_player_training_text_length];
 	int32 campaign_objective_timer;
-	wchar_t campaign_objective_text[256];
+	wchar_t campaign_objective_text[k_campaign_objective_name_length];
 
 	byte __data204[0x800];
 	int32 special_hud_version;
 
 	real32 backpack_and_equipment_vertical_offset;
 	real32 backpack_horizontal_offset;
-	wchar_t scoreboard_time_left[20];
-	wchar_t scoreboard_arming_meter_name[32];
-	wchar_t scoreboard_talking_player_name[32];
-	wchar_t scoreboard_variant_name[32];
+	wchar_t scoreboard_time_left[k_time_left_length];
+	wchar_t scoreboard_arming_meter_name[k_talking_player_name_length];
+	wchar_t scoreboard_talking_player_name[k_arming_meter_name_length];
+	wchar_t scoreboard_variant_name[k_variant_name_length];
 	int32 scoreboard_scores_max_width;
 	uns32 scoreboard_friendly_color;
 	uns32 scoreboard_enemy_color;
@@ -250,7 +305,12 @@ struct s_chud_shared_persistent_user_data
 	c_chud_point_tracker lockable_target_tracker;
 	c_chud_cortana_effect cortana_effect;
 
-	byte __dataE7C[0x1D8];
+	byte __dataE7C[0x19C];
+
+	bool has_hologram_target_point;
+	real_point3d hologram_target_point;
+
+	byte __data1028[0x2C];
 
 	int32 first_drawn_normal_widget_index;
 	int32 first_drawn_saved_film_widget_index;
@@ -261,53 +321,15 @@ struct s_chud_shared_persistent_user_data
 };
 static_assert(sizeof(s_chud_shared_persistent_user_data) == 0x10E8);
 
-struct s_chud_navpoint
-{
-	int32 navpoint_identifier;
-	int32 arrow_type;
-	int32 icon_type;
-	int32 color_type;
-	int32 flags;
-	real32 alpha;
-	wchar_t navpoint_text[6];
-	real_point3d position_worldspace;
-};
-static_assert(sizeof(s_chud_navpoint) == 0x30);
-
-class __declspec(align(4)) c_chud_navpoint_manager
-{
-public:
-	struct s_managed_navpoint
-	{
-		s_chud_navpoint navpoint;
-		bool valid;
-		int32 last_valid_tick;
-		real32 scale;
-		c_chud_point_tracker point_tracker;
-		int32 flash_type;
-		int32 flash_timer;
-		real32 fade_alpha;
-	};
-	static_assert(sizeof(s_managed_navpoint) == 0x74);
-
-	s_managed_navpoint m_managed_navpoints[20];
-	int32 m_named_player_index;
-	wchar_t m_named_player_name[17];
-	real32 m_name_theta;
-	real32 m_named_player_name_width;
-	int32 m_named_player_managed_navpoint_index;
-	real32 m_distanced_theta;
-	wchar_t m_distanced_text[10];
-	real32 m_distanced_text_width;
-	real32 m_distanced_managed_navpoint_index;
-	int16 m_scripted_navpoints[8];
-	real32 m_scripted_navpoint_vertical_offsets[8];
-	int32 m_scripted_navpoint_count;
-};
-static_assert(sizeof(c_chud_navpoint_manager) == 0x998);
-
 class c_chud_impulse_manager
 {
+public:
+	enum
+	{
+		k_max_weapon_ammo_pickups = 3,
+		k_max_grenade_pickups = 4,
+	};
+
 	struct s_ammo_pickup
 	{
 		int32 definition_index;
@@ -315,16 +337,27 @@ class c_chud_impulse_manager
 	};
 	static_assert(sizeof(s_ammo_pickup) == 0x8);
 
-	s_ammo_pickup m_ammo_pickups[3];
+//private:
+	s_ammo_pickup m_ammo_pickups[k_max_weapon_ammo_pickups];
 	int32 m_ammo_pickup_count;
-	int32 m_grenade_pickups[4];
-	byte __data2C[0xC];
+	int32 m_grenade_pickups[k_max_grenade_pickups];
+
+	int32 __unknown2C;
+	bool __unknown30[4];
+	real32 __unknown34;
 };
 static_assert(sizeof(c_chud_impulse_manager) == 0x38);
 
 class c_chud_persistent_user_data
 {
 public:
+	enum
+	{
+		k_max_persistent_chud_definitions = 8,
+		k_max_widgets_per_chud_definition = 64,
+		k_game_engine_string_length = 32,
+	};
+
 	struct s_persistent_chud_definition_data
 	{
 		int32 chud_definition_index;
@@ -335,11 +368,14 @@ public:
 
 	struct s_shield_data
 	{
+		bool damaged_explosion_timer;
+		uns8 last_damaged_explosion_timer;
+
 		real32 last_shield_vitality;
 		int32 fade_time;
 		int32 last_shield_hit_time;
 	};
-	static_assert(sizeof(s_shield_data) == 0xC);
+	static_assert(sizeof(s_shield_data) == 0x10);
 
 	struct s_body_data
 	{
@@ -372,7 +408,7 @@ public:
 	static_assert(sizeof(s_consumable_data) == 0x8);
 
 public:
-	s_persistent_chud_definition_data m_persistent_definitions[8];
+	s_persistent_chud_definition_data m_persistent_definitions[k_max_persistent_chud_definitions];
 	int32 m_updates_since_spawn;
 	int32 m_user_index;
 	int32 m_active_unit_index;
@@ -440,10 +476,15 @@ static_assert(sizeof(s_chud_misc_state_flags) == 0xC);
 
 struct s_campaign_metagame_interface_state
 {
+	enum
+	{
+		k_max_metagame_players = 4,
+	};
+
 	int32 active_player_count;
-	int32 active_player_subtotals[4];
-	bool active_player_talking[4];
-	int16 change_color[4];
+	int32 active_player_subtotals[k_max_metagame_players];
+	bool active_player_talking[k_max_metagame_players];
+	int16 change_color[k_max_metagame_players];
 	real32 game_timer;
 	real32 score_multiplier;
 	real32 time_multiplier;
@@ -451,7 +492,9 @@ struct s_campaign_metagame_interface_state
 	bool multikill_available;
 	int32 negative_transient_score;
 	bool netagive_transient_score_available;
+
 	bool __unknown39;
+
 	int32 survival_bonus_score;
 };
 static_assert(sizeof(s_campaign_metagame_interface_state) == 0x40);
@@ -484,13 +527,24 @@ public:
 	void __thiscall compute_weapon_update_(int32 weapon_index, int32 chud_definition_type, s_aim_assist_targeting_result* aim_assist_targeting);
 
 public:
+	enum // $TODO find anymore?
+	{
+		_autoaim_friendly_bit = 0,
+		_autoaim_invincible_bit,
+		_autoaim_vulnerable_bit,
+		_autoaim_plasma_bit,
+		_autoaim_headshot_bit,
+
+		k_autoaim_flag_count,
+	};
+
 	enum e_chud_definition_weapon_type
 	{
 		_chud_definition_type_weapon_primary = 0,
 		_chud_definition_type_weapon_secondary,
 		_chud_definition_type_weapon_backpack,
 		_chud_definition_type_weapon_support,
-		_chud_definition_type_4,
+		_chud_definition_type_unknown4,
 		_chud_definition_type_weapon_parent,
 		_chud_definition_type_unit,
 		_chud_definition_type_unit_parent,
@@ -501,6 +555,7 @@ public:
 		_chud_definition_type_saved_film,
 		_chud_definition_type_multiplayer_intro,
 		_chud_definition_type_tank_mode,
+
 		k_chud_definition_type_count,
 	};
 
@@ -517,7 +572,9 @@ public:
 			real32 battery;
 			real32 barrel_spin;
 			real32 overheating;
+
 			real32 __unknown24;
+
 			real32 charge;
 			real32 primary_clip_remaining;
 			real32 primary_clip_max;
@@ -597,13 +654,13 @@ public:
 	};
 	static_assert(sizeof(s_unit_state) == 0x10C);
 
-public:
+//private:
 	int32 m_user_index;
 	int32 m_player_index;
 	int32 m_unit_index;
 	int32 m_unit_definition_index;
 	bool m_initializing;
-	s_chud_definition_info m_incoming_definition_infos[15];
+	s_chud_definition_info m_incoming_definition_infos[k_chud_definition_type_count];
 	s_chud_global_state_flags m_global_flags;
 
 	byte __data58C[0xC];
@@ -622,7 +679,6 @@ public:
 static_assert(sizeof(c_chud_update_user_data) == 0x910);
 
 extern s_chud_globals_definition*& chud_globals;
-
 
 extern void __cdecl chud_dispose();
 extern void __cdecl chud_dispose_from_old_map();

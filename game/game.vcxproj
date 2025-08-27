@@ -213,6 +213,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\hs\hs_library_internal_compile.cpp" />
     <ClCompile Include="source\interface\attract_mode.cpp" />
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
+    <ClCompile Include="source\interface\chud\chud_motion_sensor.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
     <ClCompile Include="source\interface\c_gui_list_item_widget.cpp" />
     <ClCompile Include="source\interface\c_gui_model_widget.cpp" />
@@ -893,6 +894,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\interface\attract_mode.hpp" />
     <ClInclude Include="source\interface\chud\chud_draw.hpp" />
     <ClInclude Include="source\interface\chud\chud_globals_definitions.hpp" />
+    <ClInclude Include="source\interface\chud\chud_motion_sensor.hpp" />
     <ClInclude Include="source\interface\chud\cortana_effect.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_item_type.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />

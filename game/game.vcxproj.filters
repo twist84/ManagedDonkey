@@ -2040,6 +2040,9 @@
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_emblem\start_menu_settings_appearance_emblem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\chud\chud_motion_sensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4509,6 +4512,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\settings_appearance_emblem\start_menu_settings_appearance_emblem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\chud\chud_motion_sensor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

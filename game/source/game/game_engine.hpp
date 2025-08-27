@@ -9,6 +9,7 @@
 #include "game/game_engine_util.hpp"
 #include "game/game_engine_variant.hpp"
 #include "game/game_statborg.hpp"
+#include "interface/chud/chud.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "text/unicode.hpp"
 
@@ -71,22 +72,6 @@ enum e_game_engine_performance_flags
 	k_game_engine_performance_flags_count
 };
 using c_game_engine_performance_flags = c_flags<e_game_engine_performance_flags, uns16, k_game_engine_performance_flags_count>;
-
-struct s_player_navpoint_data
-{
-	bool last_living_location_valid;
-	real_point3d last_living_location;
-	uns16 total_time_to_respawn_in_ticks;
-	uns16 current_time_to_respawn_in_ticks;
-	
-	//int32 dead_unit_index;
-	byte __data14[0x4];
-
-	int8 current_navpoint_action;
-	int8 current_navpoint_action_timer;
-	int8 next_navpoint_action;
-};
-static_assert(sizeof(s_player_navpoint_data) == 0x1C);
 
 struct s_simulation_player_netdebug_data
 {
