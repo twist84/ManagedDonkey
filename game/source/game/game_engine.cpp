@@ -37,7 +37,7 @@ c_game_statborg campaign_statborg{};
 //.text:0054D990 ; bool __cdecl game_engine_allow_weapon_pickup(int32, int32)
 //.text:0054D9C0 ; bool __cdecl game_engine_are_players_tied()
 //.text:0054DA50 ; bool __cdecl game_engine_are_teams_tied()
-//.text:0054DAA0 ; bool __cdecl game_engine_state_is_round_over_or_waiting_for_next_round() // named by us
+//.text:0054DAA0 ; bool __cdecl game_engine_between_rounds()
 //.text:0054DAE0 ; real32 __cdecl game_engine_bomb_get_arming_theta(int32)
 //.text:0054DB00 ; void __cdecl game_engine_boot_player(int32)
 //.text:0054DB70 ; void __cdecl game_engine_build_allowable_team_designators()
