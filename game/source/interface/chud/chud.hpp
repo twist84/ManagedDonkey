@@ -84,14 +84,14 @@ static_assert(sizeof(c_chud_equipment_effect_manager) == 0x148);
 class c_chud_scripting
 {
 public:
-	bool __unknown0;
-	bool __unknown1[3]; // linked to `__unknown3C`
+	bool m_show_all;
 
-	byte __data4[0x1];
+	bool __unknown1[3]; // linked to `__unknown3C`
+	bool __unknown4;
 
 	struct
 	{
-		bool show_all;
+		bool show_inner_helmet;
 		bool show_weapon_stats;
 		bool show_crosshair;
 		bool show_shield;
@@ -104,14 +104,31 @@ public:
 		bool show_stamina;
 		bool show_energy_meters;
 		bool show_consumables;
-	}  __unknown4[4];
+
+	} m_users[4];
 
 	byte __data39[3]; // padding?
 
 	struct
 	{
-		real32 __unknown0;
-		byte __data4[0xCC];
+		struct
+		{
+			real32 inner_helmet_alpha;
+			real32 weapon_stats_alpha;
+			real32 crosshair_alpha;
+			real32 shield_alpha;
+			real32 grenades_alpha;
+			real32 messages_alpha;
+			real32 motion_sensor_alpha;
+			real32 spike_greandes_alpha;
+			real32 fire_grenades_alpha;
+			real32 compass_alpha;
+			real32 stamina_alpha;
+			real32 energy_meters_alpha;
+			real32 consumables_alpha;
+
+		} users[4];
+
 	} __unknown3C[3]; // linked to `__unknown1`
 
 	bool m_survival_bonus_timer_shown;
@@ -310,6 +327,7 @@ struct s_chud_shared_persistent_user_data
 		k_talking_player_name_length = 32,
 		k_arming_meter_name_length = 32,
 		k_campaign_objective_name_length = 256,
+		k_consumable_name_length = 256,
 	};
 
 	struct s_metagame
@@ -326,10 +344,8 @@ struct s_chud_shared_persistent_user_data
 	wchar_t player_training_text[k_player_training_text_length];
 	int32 campaign_objective_timer;
 	wchar_t campaign_objective_text[k_campaign_objective_name_length];
-
-	byte __data204[0x800];
+	wchar_t consumable_names[4][k_consumable_name_length];
 	int32 special_hud_version;
-
 	real32 backpack_and_equipment_vertical_offset;
 	real32 backpack_horizontal_offset;
 	wchar_t scoreboard_time_left[k_time_left_length];

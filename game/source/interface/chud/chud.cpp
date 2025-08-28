@@ -24,8 +24,6 @@ HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, c_chud_update_user_data, compute_weapon_up
 // bottomless clip hud symbol
 void __thiscall c_chud_update_user_data::compute_weapon_update_(int32 weapon_index, int32 chud_definition_type, s_aim_assist_targeting_result* aim_assist_targeting)
 {
-	this;
-
 	HOOK_INVOKE_CLASS_MEMBER(, c_chud_update_user_data, compute_weapon_update_, weapon_index, chud_definition_type, aim_assist_targeting);
 
 	if (!cheat.bottomless_clip)
