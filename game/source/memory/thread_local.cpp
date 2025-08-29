@@ -1,5 +1,6 @@
 #include "memory/thread_local.hpp"
 
+#include "interface/chud/chud.hpp"
 #include "memory/module.hpp"
 
 #include <windows.h>
@@ -327,9 +328,15 @@ DEFINE_TLS_VALUE_REFERENCE(g_light_volume_gpu_gamestate_storage);
 DEFINE_TLS_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
 DEFINE_TLS_VALUE_REFERENCE(g_render_object_globals_internal);
 DEFINE_TLS_VALUE_REFERENCE(shield_render_cache_message);
-DEFINE_TLS_VALUE_REFERENCE(g_chud_manager_persistent_user_data);
-DEFINE_TLS_VALUE_REFERENCE(g_chud_manager_persistent_global_data);
-DEFINE_TLS_VALUE_REFERENCE(g_chud_manager_user_widget_data);
+
+//DEFINE_TLS_VALUE_REFERENCE(g_chud_manager_persistent_user_data);
+//DEFINE_TLS_VALUE_REFERENCE(g_chud_manager_persistent_global_data);
+//DEFINE_TLS_VALUE_REFERENCE(g_chud_manager_user_widget_data);
+
+thread_local decltype(s_thread_local_storage::g_chud_manager_persistent_user_data)& c_chud_manager::x_persistent_user_data = get_tls()->g_chud_manager_persistent_user_data;
+thread_local decltype(s_thread_local_storage::g_chud_manager_persistent_global_data)& c_chud_manager::x_persistent_global_data = get_tls()->g_chud_manager_persistent_global_data;
+thread_local decltype(s_thread_local_storage::g_chud_manager_user_widget_data)& c_chud_manager::x_user_widget_data = get_tls()->g_chud_manager_user_widget_data;
+
 DEFINE_TLS_VALUE_REFERENCE(first_person_weapon_orientations);
 DEFINE_TLS_VALUE_REFERENCE(first_person_weapons);
 DEFINE_TLS_VALUE_REFERENCE(g_cortana_globals);

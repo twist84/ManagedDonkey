@@ -18,6 +18,7 @@ REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
 HOOK_DECLARE(0x00A88DA0, chud_draw_screen);
 HOOK_DECLARE(0x00A89100, chud_draw_screen_saved_film);
 HOOK_DECLARE(0x00A89250, chud_draw_turbulence);
+HOOK_DECLARE(0x00A8AAE0, chud_update);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A8AED0, c_chud_update_user_data, compute_weapon_update_);
 
@@ -142,8 +143,8 @@ void __cdecl chud_draw_screen_saved_film(int32 user_index)
 	//			widget_index != NONE;
 	//			widget_index = widget->next_drawn_widget_index)
 	//		{
-	//			widget = DATUM_GET(*g_chud_manager_user_widget_data, s_chud_runtime_widget_datum, widget_index);
-	//			int32 chud_definition_index = g_chud_manager_persistent_user_data->m_persistent_definitions[widget->runtime_hud_num].chud_definition_index;
+	//			widget = DATUM_GET(*c_chud_manager::x_user_widget_data, s_chud_runtime_widget_datum, widget_index);
+	//			int32 chud_definition_index = c_chud_manager::x_persistent_user_data->m_persistent_definitions[widget->runtime_hud_num].chud_definition_index;
 	//			chud_draw_widget(user_index, widget, chud_definition_index, 0);
 	//		}
 	//	}
@@ -214,7 +215,7 @@ void __cdecl chud_initialize_for_new_map()
 //.text:00A89E20 ; 
 //.text:00A89E70 ; 
 //.text:00A89ED0 ; void __cdecl chud_scripting_set_fade(real32, real32)
-//.text:00A89F50 ; 
+//.text:00A89F50 ; void __cdecl chud_scripting_show(bool show)
 //.text:00A89F80 ; void __cdecl chud_scripting_show_compass(bool show)
 //.text:00A89FC0 ; void __cdecl chud_scripting_show_consumables(bool show)
 //.text:00A8A000 ; void __cdecl chud_scripting_show_crosshair(bool show)
@@ -283,6 +284,11 @@ bool __cdecl chud_should_draw_screen_saved_film(int32 user_index)
 void __cdecl chud_submit_navpoint(int32 user_index, const s_chud_navpoint* navpoint)
 {
 	INVOKE(0x00A8A9F0, chud_submit_navpoint, user_index, navpoint);
+
+	//if (VALID_INDEX(user_index, 4))
+	//{
+	//	c_chud_navpoint_manager::get(user_index)->submit_navpoint(navpoint);
+	//}
 }
 
 //.text:00A8AA30 ; void __cdecl chud_tick_shield(int32 player_index, real32 amount)
@@ -290,10 +296,12 @@ void __cdecl chud_submit_navpoint(int32 user_index, const s_chud_navpoint* navpo
 
 void __cdecl chud_update(real32 world_seconds_elapsed)
 {
-	INVOKE(0x00A8AAE0, chud_update, world_seconds_elapsed);
+	//INVOKE(0x00A8AAE0, chud_update, world_seconds_elapsed);
 
-	//if (chud_enabled && chud_globals)
-	//	c_chud_manager::update(world_seconds_elapsed);
+	if (chud_enabled && chud_globals)
+	{
+		c_chud_manager::update(world_seconds_elapsed);
+	}
 }
 
 //.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(int32 user_index, int32 grenade_slot_index)
@@ -301,8 +309,13 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8ABC0 ; 
 //.text:00A8ABD0 ; public: long c_chud_update_user_data::compute_actual_widget_state(int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, int32 desired_widget_state, int32 current_widget_state, int32 current_widget_timer)
 //.text:00A8AD70 ; public: long c_chud_update_user_data::compute_desired_widget_state(int32 user_index, int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, bool* hidden)
-//.text:00A8AED0 ; protected: void c_chud_update_user_data::compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting)
-//.text:00A8B260 ; 
+
+void c_chud_update_user_data::compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting)
+{
+	INVOKE_CLASS_MEMBER(0x00A8AED0, c_chud_update_user_data, compute_weapon_update, weapon_index, chud_definition_type, aim_assist_targeting);
+}
+
+//.text:00A8B260 ; public: bool c_chud_update_user_data::contains_chud_definition_index(int32 chud_definition_index) const
 //.text:00A8B290 ; 
 //.text:00A8B2B0 ; tls
 //.text:00A8B2E0 ; tls
@@ -310,8 +323,17 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8B340 ; tls
 //.text:00A8B370 ; tls
 //.text:00A8B3A0 ; tls
-//.text:00A8B3D0 ; public: static void __cdecl c_chud_manager::dispose()
-//.text:00A8B3E0 ; public: static void __cdecl c_chud_manager::dispose_from_old_map()
+
+void __cdecl c_chud_manager::dispose()
+{
+	INVOKE(0x00A8B3D0, c_chud_manager::dispose);
+}
+
+void __cdecl c_chud_manager::dispose_from_old_map()
+{
+	INVOKE(0x00A8B3E0, c_chud_manager::dispose_from_old_map);
+}
+
 //.text:00A8B490 ; 
 //.text:00A8B4A0 ; public: real32 c_chud_update_user_data::evaluate_external_input(int32 external_input_type, int32 weapon_index, int32 widget_anchor_type, real32 previous_value) // real64
 //.text:00A8C1E0 ; protected: c_chud_update_user_data::s_chud_definition_info::s_chud_definition_weapon_state* c_chud_update_user_data::find_weapon_state(int32 weapon_index)
@@ -323,18 +345,48 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8C2F0 ; tls
 //.text:00A8C320 ; tls
 //.text:00A8C350 ; public: void c_chud_equipment_effect_manager::game_tick()
-//.text:00A8C3A0 ; public: static void __cdecl c_chud_manager::game_tick()
-//.text:00A8C500 ; public: static c_chud_equipment_effect_manager* __cdecl c_chud_equipment_effect_manager::get()
-//.text:00A8C520 ; public: static c_chud_impulse_manager* __cdecl c_chud_impulse_manager::get(int32 user_index)
-//.text:00A8C550 ; public: static c_chud_messaging_manager* __cdecl c_chud_messaging_manager::get(int32 user_index)
-//.text:00A8C580 ; public: static c_chud_navpoint_manager* __cdecl c_chud_navpoint_manager::get(int32 user_index)
+
+void __cdecl c_chud_manager::game_tick()
+{
+	INVOKE(0x00A8C3A0, c_chud_manager::game_tick);
+}
+
+c_chud_equipment_effect_manager* __cdecl c_chud_equipment_effect_manager::get()
+{
+	return INVOKE(0x00A8C500, c_chud_equipment_effect_manager::get);
+}
+
+c_chud_impulse_manager* __cdecl c_chud_impulse_manager::get(int32 user_index)
+{
+	return INVOKE(0x00A8C520, c_chud_impulse_manager::get, user_index);
+}
+
+c_chud_messaging_manager* __cdecl c_chud_messaging_manager::get(int32 user_index)
+{
+	return INVOKE(0x00A8C550, c_chud_messaging_manager::get, user_index);
+}
+
+c_chud_navpoint_manager* __cdecl c_chud_navpoint_manager::get(int32 user_index)
+{
+	return INVOKE(0x00A8C580, c_chud_navpoint_manager::get, user_index);
+
+	//return &c_chud_manager::x_persistent_user_data[user_index].m_navpoint_manager;
+}
+
 //.text:00A8C5B0 ; 
 //.text:00A8C5D0 ; public: int32 c_chud_persistent_user_data::get_active_chud_definition_index(int32 chud_definition_index, int32 weapon_index) const
 //.text:00A8C600 ; // c_chud_update_user_data:: `consumable_cooldown_meter` related
 //.text:00A8C610 ; public: int32 c_chud_impulse_manager::get_ammo_pickup_count(int32)
 //.text:00A8C660 ; 
 //.text:00A8C670 ; 
-//.text:00A8C680 ; public: c_chud_update_user_data::s_chud_definition_info* c_chud_update_user_data::get_definition_info(int32 index)
+
+c_chud_update_user_data::s_chud_definition_info* c_chud_update_user_data::get_definition_info(int32 index)
+{
+	return INVOKE_CLASS_MEMBER(0x00A8C680, c_chud_update_user_data, get_definition_info, index);
+
+	//return &m_incoming_definition_infos[index];
+}
+
 //.text:00A8C6A0 ; 
 //.text:00A8C6B0 ; 
 //.text:00A8C6C0 ; 
@@ -351,25 +403,61 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8C7B0 ; private: int32 c_chud_directional_damage::get_oldest_index()
 //.text:00A8C800 ; public: s_saved_film_hud_interface_state* c_chud_update_user_data::get_saved_film_interface_state()
 //.text:00A8C810 ; public: uns32 c_chud_update_user_data::get_sound_flags()
-//.text:00A8CE20 ; 
-//.text:00A8CE60 ; 
-//.text:00A8CE70 ; 
-//.text:00A8CE80 ; 
-//.text:00A8CE90 ; 
-//.text:00A8CEA0 ; 
-//.text:00A8CEB0 ; 
+//.text:00A8CE20 ; public: void c_chud_update_user_data::get_targeting_position(real_point3d* targeting_position) const
+//.text:00A8CE60 ; public: real32 c_chud_update_user_data::get_unit_body_value() const // real64
+//.text:00A8CE70 ; public: int32 c_chud_update_user_data::get_unit_index() const
+//.text:00A8CE80 ; c_chud_update_user_data::get_unit_shield_enabled?
+//.text:00A8CE90 ; public: real32 c_chud_update_user_data::get_unit_shield_value() const // real64
+//.text:00A8CEA0 ; c_chud_update_user_data::get_unit_?
+//.text:00A8CEB0 ; public: int32 c_chud_update_user_data::get_unit_zoom_level() const
 //.text:00A8CEC0 ; 
 //.text:00A8CED0 ; 
 //.text:00A8CEE0 ; public: static int32 __cdecl c_chud_persistent_user_data::get_widget_anchor_type(const s_chud_widget_base* widget_base, const s_chud_widget_collection* widget_collection)
-//.text:00A8CF20 ; 
+//.text:00A8CF20 ; c_chud_persistent_user_data::get_?
 //.text:00A8CF30 ; private: int32 c_chud_equipment_effect_manager::get_zone_index(int32 datum_index) const
-//.text:00A8CF70 ; 
-//.text:00A8CFA0 ; 
-//.text:00A8CFB0 ; 
+//.text:00A8CF70 ; public: bool c_chud_update_user_data::grenades_available() const
+
+void __cdecl c_chud_manager::handle_tag_changes()
+{
+	//INVOKE(0x00A8CF90, c_chud_manager::handle_tag_changes);
+}
+
+bool c_chud_update_user_data::has_equipment() const
+{
+	return INVOKE_CLASS_MEMBER(0x00A8CFA0, c_chud_update_user_data, has_equipment);
+
+	//return m_unit_state.equipment_index != NONE;
+}
+
+bool c_chud_update_user_data::has_primary_and_backpack_weapons()
+{
+	return INVOKE_CLASS_MEMBER(0x00A8CFB0, c_chud_update_user_data, has_primary_and_backpack_weapons);
+
+	//return get_definition_info(_chud_definition_type_weapon_primary)->chud_definition_index != NONE
+	//	&& get_definition_info(_chud_definition_type_weapon_backpack)->chud_definition_index != NONE;
+}
+
+bool c_chud_update_user_data::has_valid_unit() const
+{
+	return INVOKE_CLASS_MEMBER(0x00A8CFD0, c_chud_update_user_data, has_valid_unit);
+
+	//return m_unit_index != NONE;
+}
+
 //.text:00A8CFE0 ; public: void c_chud_equipment_effect_manager::initialize()
-//.text:00A8D040 ; public: static void __cdecl c_chud_manager::initialize()
+
+void __cdecl c_chud_manager::initialize()
+{
+	INVOKE(0x00A8D040, c_chud_manager::initialize);
+}
+
 //.text:00A8D1E0 ; public: void c_chud_persistent_global_data::initialize()
-//.text:00A8D240 ; public: static void __cdecl c_chud_manager::initialize_for_new_map()
+
+void __cdecl c_chud_manager::initialize_for_new_map()
+{
+	INVOKE(0x00A8D240, c_chud_manager::initialize_for_new_map);
+}
+
 //.text:00A8D330 ; public: void c_chud_persistent_user_data::initialize(int32 user_index)
 //.text:00A8D3D0 ; public: void c_chud_scripting::initialize_for_new_map()
 //.text:00A8D440 ; public: void c_chud_persistent_user_data::initialize_sounds(int32 user_index)
@@ -432,17 +520,84 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8EA70 ; 
 //.text:00A8EA90 ; 
 //.text:00A8EAB0 ; 
-//.text:00A8EB20 ; public: void c_chud_cortana_effect::update(int32 user_index)
-//.text:00A8ED40 ; public: void c_chud_directional_damage::update(int32 user_index, real32 dt)
-//.text:00A8F080 ; public: void c_chud_equipment_effect_manager::update()
-//.text:00A8F0F0 ; public: void c_chud_damage_tracker::update(int32 user_index)
-//.text:00A8F390 ; public: static void __cdecl c_chud_manager::update(real32 dt)
+
+void c_chud_cortana_effect::update(int32 user_index)
+{
+	INVOKE_CLASS_MEMBER(0x00A8EB20, c_chud_cortana_effect, update, user_index);
+}
+
+void c_chud_directional_damage::update(int32 user_index, real32 dt)
+{
+	INVOKE_CLASS_MEMBER(0x00A8ED40, c_chud_directional_damage, update, user_index, dt);
+}
+
+void c_chud_equipment_effect_manager::update()
+{
+	//INVOKE_CLASS_MEMBER(0x00A8F080, c_chud_equipment_effect_manager, update);
+
+	for (int32 noisemaker_zone_index = 0; noisemaker_zone_index < NUMBEROF(m_noisemaker_zones); noisemaker_zone_index++)
+	{
+		if (!m_noisemaker_zones[noisemaker_zone_index].updated_this_tick)
+		{
+			m_noisemaker_zones[noisemaker_zone_index].valid = false;
+		}
+	}
+}
+
+void c_chud_damage_tracker::update(int32 user_index)
+{
+	INVOKE_CLASS_MEMBER(0x00A8F0F0, c_chud_damage_tracker, update, user_index);
+}
+
+void __cdecl c_chud_manager::update(real32 dt)
+{
+	//INVOKE(0x00A8F390, c_chud_manager::update, dt);
+
+	c_chud_manager::x_persistent_global_data->update();
+	for (int32 user_index = player_mapping_first_active_output_user(); user_index != NONE; user_index = player_mapping_next_active_output_user(user_index))
+	{
+		c_chud_manager::x_persistent_user_data[user_index].update(user_index, dt);
+	}
+}
+
 //.text:00A8F400 ; 
-//.text:00A8F4A0 ; public: void c_chud_persistent_global_data::update()
-//.text:00A8F520 ; public: void c_chud_persistent_user_data::update(int32 user_index, real32 dt)
-//.text:00A901E0 ; public: void c_chud_persistent_user_data::update_from_update_data(int32 user_index, c_chud_update_user_data* user_data)
-//.text:00A90D70 ; public: void c_chud_persistent_user_data::update_sounds(int32 user_index, c_chud_update_user_data* user_data)
-//.text:00A90DE0 ; public: void c_chud_persistent_user_data::update_widget_external_inputs(int32 user_index, s_chud_runtime_widget_datum* widget, c_chud_update_user_data* update_user_data)
+
+void c_chud_persistent_global_data::update()
+{
+	//INVOKE_CLASS_MEMBER(0x00A8F4A0, c_chud_persistent_global_data, update);
+
+	m_equipment_effect_manager.update();
+	if (game_is_campaign() && game_is_cooperative())
+	{
+		c_player_in_game_iterator iter{};
+		iter.begin();
+		for (int32 absolute_iter_index = 0; iter.next(); absolute_iter_index++)
+		{
+			player_navpoint_data_update(chud_get_campaign_navpoint_data(absolute_iter_index));
+		}
+	}
+}
+
+void c_chud_persistent_user_data::update(int32 user_index, real32 dt)
+{
+	INVOKE_CLASS_MEMBER(0x00A8F520, c_chud_persistent_user_data, update, user_index, dt);
+}
+
+void c_chud_persistent_user_data::update_from_update_data(int32 user_index, c_chud_update_user_data* user_data)
+{
+	INVOKE_CLASS_MEMBER(0x00A901E0, c_chud_persistent_user_data, update_from_update_data, user_index, user_data);
+}
+
+void c_chud_persistent_user_data::update_sounds(int32 user_index, c_chud_update_user_data* user_data)
+{
+	INVOKE_CLASS_MEMBER(0x00A90D70, c_chud_persistent_user_data, update_sounds, user_index, user_data);
+}
+
+void c_chud_persistent_user_data::update_widget_external_inputs(int32 user_index, s_chud_runtime_widget_datum* widget, c_chud_update_user_data* update_user_data)
+{
+	INVOKE_CLASS_MEMBER(0x00A90DE0, c_chud_persistent_user_data, update_widget_external_inputs, user_index, widget, update_user_data);
+}
+
 //.text:00A90EF0 ; 
 //.text:00A90F00 ; 
 //.text:00A90F10 ; public: bool c_chud_update_user_data::widget_definition_should_be_active(const s_chud_widget_base* widget_definition, const s_chud_widget_collection* widget_collection, int32 weapon_index)

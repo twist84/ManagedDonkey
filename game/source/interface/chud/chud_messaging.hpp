@@ -81,6 +81,10 @@ public:
 	};
 	static_assert(sizeof(s_state_message) == 0xDC);
 
+public:
+	static c_chud_messaging_manager* __cdecl get(int32 user_index);
+
+//private:
 	c_chud_messaging_manager::s_medal m_medals[4];
 
 	byte __dataA0[0x70];

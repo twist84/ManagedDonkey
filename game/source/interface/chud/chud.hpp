@@ -7,6 +7,7 @@
 #include "interface/chud/chud_messaging.hpp"
 #include "interface/chud/chud_motion_sensor.hpp"
 #include "interface/chud/chud_navpoints.hpp"
+#include "memory/data.hpp"
 
 struct s_aim_assist_targeting_result;
 
@@ -73,6 +74,8 @@ public:
 	static_assert(sizeof(s_noisemaker_zone) == 0x28);
 
 public:
+	static c_chud_equipment_effect_manager* __cdecl get();
+	void update();
 
 //private:
 	s_noisemaker_zone m_noisemaker_zones[k_max_noisemaker_zone_count];
@@ -86,8 +89,7 @@ class c_chud_scripting
 public:
 	bool m_show_all;
 
-	bool __unknown1[3]; // linked to `__unknown3C`
-	bool __unknown4;
+	bool __unknown1[4]; // linked to `__unknown3C`?
 
 	struct
 	{
@@ -113,23 +115,23 @@ public:
 	{
 		struct
 		{
-			real32 inner_helmet_alpha;
-			real32 weapon_stats_alpha;
-			real32 crosshair_alpha;
-			real32 shield_alpha;
-			real32 grenades_alpha;
-			real32 messages_alpha;
-			real32 motion_sensor_alpha;
-			real32 spike_greandes_alpha;
-			real32 fire_grenades_alpha;
-			real32 compass_alpha;
-			real32 stamina_alpha;
-			real32 energy_meters_alpha;
-			real32 consumables_alpha;
+			real32 show_inner_helmet_alpha;
+			real32 show_weapon_stats_alpha;
+			real32 show_crosshair_alpha;
+			real32 show_shield_alpha;
+			real32 show_grenades_alpha;
+			real32 show_messages_alpha;
+			real32 show_motion_sensor_alpha;
+			real32 show_spike_greandes_alpha;
+			real32 show_fire_grenades_alpha;
+			real32 show_compass_alpha;
+			real32 show_stamina_alpha;
+			real32 show_energy_meters_alpha;
+			real32 show_consumables_alpha;
 
 		} users[4];
 
-	} __unknown3C[3]; // linked to `__unknown1`
+	} __unknown3C[3]; // linked to `__unknown1`?
 
 	bool m_survival_bonus_timer_shown;
 	bool m_survival_bonus_timer_started;
@@ -138,22 +140,6 @@ public:
 };
 static_assert(sizeof(c_chud_scripting) == 0x2B8);
 
-struct s_player_navpoint_data
-{
-	bool last_living_location_valid;
-	real_point3d last_living_location;
-	uns16 total_time_to_respawn_in_ticks;
-	uns16 current_time_to_respawn_in_ticks;
-
-	//int32 dead_unit_index;
-	byte __data14[0x4];
-
-	int8 current_navpoint_action;
-	int8 current_navpoint_action_timer;
-	int8 next_navpoint_action;
-};
-static_assert(sizeof(s_player_navpoint_data) == 0x1C);
-
 class c_chud_persistent_global_data
 {
 public:
@@ -161,6 +147,8 @@ public:
 	{
 		k_max_campaign_players = 4,
 	};
+
+	void update();
 
 //private:
 	c_chud_equipment_effect_manager m_equipment_effect_manager;
@@ -252,6 +240,9 @@ public:
 	};
 	static_assert(sizeof(s_instance) == 0x70);
 	
+public:
+	void update(int32 user_index, real32 dt);
+	
 //private:
 	s_instance m_instances[k_directional_damage_instance_count];
 };
@@ -271,6 +262,7 @@ static_assert(sizeof(c_chud_cinematic_fade) == 0xC);
 class c_chud_damage_tracker
 {
 public:
+	void update(int32 user_index);
 	
 //private:
 	real32 m_projectile_angles[4];
@@ -293,6 +285,9 @@ public:
 		real_vector2d vec0;
 	};
 	static_assert(sizeof(s_basis) == 0x10);
+
+public:
+	void update(int32 user_index);
 
 //private:
 	int32 m_suck_object_index;
@@ -397,6 +392,9 @@ public:
 	};
 	static_assert(sizeof(s_ammo_pickup) == 0x8);
 
+public:
+	static c_chud_impulse_manager* __cdecl get(int32 user_index);
+
 //private:
 	s_ammo_pickup m_ammo_pickups[k_max_weapon_ammo_pickups];
 	int32 m_ammo_pickup_count;
@@ -408,6 +406,7 @@ public:
 };
 static_assert(sizeof(c_chud_impulse_manager) == 0x38);
 
+class c_chud_update_user_data;
 class c_chud_persistent_user_data
 {
 public:
@@ -468,6 +467,12 @@ public:
 	static_assert(sizeof(s_consumable_data) == 0x8);
 
 public:
+	void update(int32 user_index, real32 dt);
+	void update_from_update_data(int32 user_index, c_chud_update_user_data* user_data);
+	void update_sounds(int32 user_index, c_chud_update_user_data* user_data);
+	void update_widget_external_inputs(int32 user_index, s_chud_runtime_widget_datum* widget, c_chud_update_user_data* update_user_data);
+
+//private:
 	s_persistent_chud_definition_data m_persistent_definitions[k_max_persistent_chud_definitions];
 	int32 m_updates_since_spawn;
 	int32 m_user_index;
@@ -604,7 +609,7 @@ public:
 		_chud_definition_type_weapon_secondary,
 		_chud_definition_type_weapon_backpack,
 		_chud_definition_type_weapon_support,
-		_chud_definition_type_unknown4,
+		_chud_definition_type_weapon_unknown4,
 		_chud_definition_type_weapon_parent,
 		_chud_definition_type_unit,
 		_chud_definition_type_unit_parent,
@@ -619,7 +624,6 @@ public:
 		k_chud_definition_type_count,
 	};
 
-
 	struct s_chud_definition_info
 	{
 		struct s_chud_definition_weapon_state
@@ -632,10 +636,10 @@ public:
 			real32 battery;
 			real32 barrel_spin;
 			real32 overheating;
-
-			real32 __unknown24;
-
 			real32 charge;
+
+			real32 __unknown28;
+
 			real32 primary_clip_remaining;
 			real32 primary_clip_max;
 			real32 primary_total_remaining;
@@ -690,9 +694,9 @@ public:
 		bool hologram_target_available;
 		real_point3d hologram_target_point;
 
-		bool __unknown64;
 		int32 tank_mode_user_index;
 
+		int32 equipment_index;
 		c_aim_target_object aim_target;
 		bool has_multiplayer_object;
 
@@ -706,14 +710,30 @@ public:
 		bool __unknown8C;
 		real32 __unknown90;
 		real32 __unknown94;
-		real32 __unknown98[4][2];
+
+		struct
+		{
+			real32 __unknown0;
+			real32 __unknown4;
+		} consumable_something[4];
 
 		real32 consumable_cost[4];
-		real32 energy_meter[16];
+		real32 energy_meter[5];
+		real32 __unknownDC[11];
 		real32 stamina_current;
 	};
 	static_assert(sizeof(s_unit_state) == 0x10C);
 
+protected:
+	void compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting);
+
+public:
+	s_chud_definition_info* get_definition_info(int32 index);
+	bool has_equipment() const;
+	bool has_primary_and_backpack_weapons();
+	bool has_valid_unit() const;
+
+public:
 //private:
 	int32 m_user_index;
 	int32 m_player_index;
@@ -737,6 +757,24 @@ public:
 	s_network_game_quality m_network_quality;
 };
 static_assert(sizeof(c_chud_update_user_data) == 0x910);
+
+class c_chud_manager
+{
+public:
+	static void __cdecl initialize();
+	static void __cdecl dispose();
+	static void __cdecl initialize_for_new_map();
+	static void __cdecl dispose_from_old_map();
+	static void __cdecl handle_tag_changes();
+	static void __cdecl update(real32 dt);
+	static void __cdecl game_tick();
+
+public:
+	thread_local static c_smart_data_array<s_chud_runtime_widget_datum>(&x_user_widget_data)[4];
+	thread_local static c_chud_persistent_user_data*& x_persistent_user_data;
+	thread_local static c_chud_persistent_global_data*& x_persistent_global_data;
+};
+static_assert(sizeof(c_chud_manager) == 0x1);
 
 extern s_chud_globals_definition*& chud_globals;
 
