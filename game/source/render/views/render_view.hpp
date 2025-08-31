@@ -261,7 +261,7 @@ protected:
 	void animate_water();
 
 public:
-	void __thiscall render_distortions();
+	void __thiscall apply_distortions();
 	void create_frame_textures(int32 player_index);
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
 	void __thiscall queue_patchy_fog();

@@ -39,7 +39,7 @@ REFERENCE_DECLARE(0x019147C4, real32, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, int32, render_debug_depth_render);
 REFERENCE_DECLARE(0x01694EC8, const c_screen_postprocess::s_settings* const, c_screen_postprocess::x_settings);
 
-HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, render_distortions);
+HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, apply_distortions);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39960, c_player_view, render_);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A0E0, c_player_view, render_albedo);
@@ -67,13 +67,13 @@ void c_player_view::animate_water()
 	c_water_renderer::ripple_slope();
 }
 
-void __thiscall c_player_view::render_distortions()
+void __thiscall c_player_view::apply_distortions()
 {
-	//INVOKE_CLASS_MEMBER(0x00A38040, c_player_view, render_distortions);
+	//INVOKE_CLASS_MEMBER(0x00A38040, c_player_view, apply_distortions);
 
 	c_rasterizer_profile_scope _distortion_apply(_rasterizer_profile_element_distortions, L"distortion_apply");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_distortions);
+	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, apply_distortions);
 }
 
 void c_player_view::create_frame_textures(int32 player_index)
@@ -326,7 +326,7 @@ void __thiscall c_player_view::render_()
 						game_engine_render(m_camera_user_data.user_index);
 					}
 
-					c_player_view::render_distortions();
+					c_player_view::apply_distortions();
 
 					if (!render_debug_depth_render)
 					{
