@@ -1757,16 +1757,25 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 
 void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, bool depth_test)
 {
-	INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, pixel_bounds, depth_test);
+	//INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, pixel_bounds, depth_test);
 
-	//c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
-	//c_rasterizer::set_render_target(0, _surface_distortion, 0xFFFFFFFF);
-	//c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
-	//c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
-	//c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
-	//c_rasterizer::clear(1, 0x808000, 0.0f, 0);
-	//c_rasterizer::set_viewport(*pixel_bounds, 0.0f, 1.0f);
-	//c_rasterizer::set_scissor_rect(pixel_bounds);
+	if (depth_test)
+	{
+		c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+	}
+	else
+	{
+		c_rasterizer::set_depth_stencil_surface(_surface_none);
+	}
+
+	c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+	c_rasterizer::set_render_target(0, _surface_distortion, 0xFFFFFFFF);
+	c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
+	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+	c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
+	c_rasterizer::clear(1, 0x808000, 0.0f, 0);
+	c_rasterizer::set_viewport(*pixel_bounds, 0.0f, 1.0f);
+	c_rasterizer::set_scissor_rect(pixel_bounds);
 }
 
 void __cdecl c_rasterizer::setup_targets_simple()
