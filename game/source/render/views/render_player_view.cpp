@@ -54,7 +54,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B470, c_player_view, render_water);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B500, c_player_view, render_weather_occlusion);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3B7F0, c_player_view, setup_camera);
-HOOK_DECLARE_CLASS_MEMBER(0x00A3BDF0, c_player_view, distortion_generate);
+HOOK_DECLARE_CLASS_MEMBER(0x00A3BDF0, c_player_view, submit_distortions);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3BF20, c_player_view, submit_occlusion_tests);
 
 void c_player_view::animate_water()
@@ -313,7 +313,7 @@ void __thiscall c_player_view::render_()
 
 					c_player_view::render_transparents();
 
-					c_player_view::distortion_generate();
+					c_player_view::submit_distortions();
 					bool distortion_history = c_render_globals::get_distortion_visible();
 					if (distortion_history || water_updated || render_underwater_fog_enabled)
 					{
@@ -1081,13 +1081,13 @@ void __thiscall c_player_view::submit_attachments()
 	INVOKE_CLASS_MEMBER(0x00A3BDB0, c_player_view, submit_attachments);
 }
 
-void __thiscall c_player_view::distortion_generate()
+void __thiscall c_player_view::submit_distortions()
 {
-	//INVOKE_CLASS_MEMBER(0x00A3BDF0, c_player_view, distortion_generate);
+	//INVOKE_CLASS_MEMBER(0x00A3BDF0, c_player_view, submit_distortions);
 
 	c_rasterizer_profile_scope _distortion_generate(_rasterizer_profile_element_distortions, L"distortion_generate");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, distortion_generate);
+	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, submit_distortions);
 }
 
 void __thiscall c_player_view::submit_occlusion_tests(bool occlusion, bool conditional)

@@ -283,7 +283,7 @@ public:
 	void __thiscall setup_camera_fx_parameters(real32 exposure_boost);
 	void __thiscall setup_cinematic_clip_planes();
 	void __thiscall submit_attachments();
-	void __thiscall distortion_generate();
+	void __thiscall submit_distortions();
 	void __thiscall submit_occlusion_tests(bool occlusion, bool conditional);
 
 	static void frame_advance();
