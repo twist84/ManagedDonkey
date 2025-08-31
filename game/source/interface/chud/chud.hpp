@@ -521,6 +521,16 @@ struct s_chud_global_state_flags
 };
 static_assert(sizeof(s_chud_global_state_flags) == 0x14);
 
+struct s_chud_survival_flags
+{
+	uns16 skull_flags;
+	uns16 round_flags;
+	uns16 wave_flags;
+	uns16 lives_flags;
+	uns16 difficulty_flags;
+};
+static_assert(sizeof(s_chud_survival_flags) == 0xA);
+
 struct s_chud_unit_state_flags
 {
 	uns16 impulse_state;
@@ -743,7 +753,8 @@ public:
 	s_chud_definition_info m_incoming_definition_infos[k_chud_definition_type_count];
 	s_chud_global_state_flags m_global_flags;
 
-	byte __data58C[0xC];
+	s_chud_survival_flags m_survival_flags;
+	byte __data596[0x2]; // is this part of `m_survival_flags`?
 
 	s_chud_unit_state_flags m_unit_flags;
 	int32 m_flash_flags;
