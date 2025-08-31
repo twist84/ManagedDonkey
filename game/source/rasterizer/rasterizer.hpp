@@ -172,7 +172,7 @@ public:
 		_surface_display,
 		_surface_shadow_1,
 		_surface_depth_stencil,
-		_surface_depth_stencil_multisample,
+		_surface_depth_stencil_read_only,
 		_surface_screenshot_composite_16f,
 		_surface_accum_LDR,
 		_surface_accum_HDR,
@@ -199,7 +199,7 @@ public:
 		_surface_screenshot_display,
 		_surface_screenshot_composite_16i,
 		_surface_aux_bloom,
-		_surface_aux_chud,
+		_surface_aux_chud_overlay,
 		_surface_aux_star,
 		_surface_aux_small,
 		_surface_aux_tiny,
@@ -215,8 +215,8 @@ public:
 		_surface_aux_small2,
 		_surface_aux_tiny2,
 		_surface_aux_mini2,
-		_surface_aux_depth_of_field2,
-		_surface_aux_depth_of_field,
+		_surface_aux_depth_of_field_high_rez,
+		_surface_aux_depth_of_field_high_rez2,
 		_surface_distortion,
 		_surface_depth_camera_depth,
 		_surface_depth_camera,
@@ -224,11 +224,18 @@ public:
 		_surface_aux_water_interaction_slope,
 		_surface_chud_turbulence,
 		_surface_cortana_effect_mua_haha,
-		_surface_surface_depth_camera_texture,
-		_surface_surface_weather_occlusion,
-		_surface_surface_depth_visr,
+		_surface_depth_camera_texture,
+		_surface_weather_occlusion,
+		_surface_depth_visr,
 
-		k_number_of_surfaces
+		//_surface_dynamic_albedo,
+		//_surface_dynamic_accumulation,
+		//_surface_dynamic_normal,
+		//_surface_dynamic_depth_stencil,
+		//_surface_dynamic_depth_stencil_read_only,
+
+		k_number_of_surfaces,
+		k_surface_aux_exposure_count = 8,
 	};
 
 	enum e_sampler_address_mode
