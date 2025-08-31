@@ -54,11 +54,29 @@ void __cdecl c_structure_renderer::initialize_for_new_structure_bsp(uns32 activa
 	INVOKE(0x00A2EF70, initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:00A2EF80 ; 
-//.text:00A2EFC0 ; public: static bool __cdecl c_structure_renderer::lightmaps_available(int32)
-//.text:00A2EFE0 ; public: static bool __cdecl c_structure_renderer::lightmaps_available_on_all_active_bsps()
-//.text:00A2EFF0 ; public: static void __cdecl c_structure_renderer::pop_marker()
-//.text:00A2F020 ; public: static void __cdecl c_structure_renderer::push_marker()
+//.text:00A2EF80 ; bool __cdecl instance_list_sort_proc(int16 one, int16 two, const void* data)
+
+bool __cdecl c_structure_renderer::lightmaps_available(int32 structure_bsp_index)
+{
+	return INVOKE(0x00A2EFC0, c_structure_renderer::lightmaps_available, structure_bsp_index);
+}
+
+bool __cdecl c_structure_renderer::lightmaps_available_on_all_active_bsps()
+{
+	return INVOKE(0x00A2EFE0, c_structure_renderer::lightmaps_available_on_all_active_bsps);
+
+	//return g_render_structure_globals.lightmaps_available_on_all_active_bsps;
+}
+
+void __cdecl c_structure_renderer::pop_marker()
+{
+	return INVOKE(0x00A2EFF0, c_structure_renderer::pop_marker);
+}
+
+void __cdecl c_structure_renderer::push_marker()
+{
+	return INVOKE(0x00A2F020, c_structure_renderer::push_marker);
+}
 
 void __cdecl c_structure_renderer::render_albedo()
 {

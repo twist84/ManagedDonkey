@@ -271,27 +271,29 @@ struct s_render_instance_part
 };
 static_assert(sizeof(s_render_instance_part) == 0x10);
 
+enum
+{
+	k_maximum_rendered_cluster_parts = 2048,
+	k_maximum_rendered_instance_parts = 3072,
+	k_maximum_rendered_instance_lists = 1024,
+	k_maximum_render_structure_markers = 6,
+};
+
 struct s_scenario_lightmap_bsp_data;
 struct s_render_geometry;
 struct render_structure_globals
 {
-	struct
-	{
-		uns32 flags;
-		c_static_array<int32, 16> lightmap_bsp_type;
-		const s_scenario_lightmap_bsp_data* lightmap_bsp_data[16];
-		const s_render_geometry* render_geometry[16];
-	} cached;
-
-	s_render_cluster_part render_cluster_parts[2048];
+	bool lightmaps_available_on_all_active_bsps;
+	int32 lightmap_bsp_type[16];
+	const s_scenario_lightmap_bsp_data* lightmap_bsp_data[16];
+	const s_render_geometry* render_geometry[16];
+	s_render_cluster_part render_cluster_parts[k_maximum_rendered_cluster_parts];
 	int32 render_cluster_part_count;
-
-	s_render_instance_part render_instance_meshes[3072];
+	s_render_instance_part render_instance_parts[k_maximum_rendered_instance_parts];
 	int32 render_instance_part_count;
-
 	int32 marker_index;
-	int32 render_cluster_part_starting_index[6];
-	int32 render_instance_part_starting_index[6];
+	int32 render_cluster_part_starting_index[k_maximum_render_structure_markers];
+	int32 render_instance_part_starting_index[k_maximum_render_structure_markers];
 	int32 last_structure_bsp_index;
 	int32 last_instance_definition_index;
 	int32 last_structure_instance_index;
@@ -307,6 +309,10 @@ public:
 	static void __cdecl initialize();
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
+	static bool __cdecl lightmaps_available(int32 structure_bsp_index);
+	static bool __cdecl lightmaps_available_on_all_active_bsps();
+	static void __cdecl pop_marker();
+	static void __cdecl push_marker();
 	static void __cdecl render_albedo();
 	static void __cdecl render_decorators();
 };

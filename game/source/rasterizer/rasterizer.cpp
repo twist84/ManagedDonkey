@@ -104,6 +104,7 @@ HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 //HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
 
 HOOK_DECLARE_CLASS(0x00A24D30, c_rasterizer, setup_targets_albedo);
+HOOK_DECLARE_CLASS(0x00A250D0, c_rasterizer, setup_targets_distortion);
 
 HOOK_DECLARE_CLASS(0x00A1F7E0, c_rasterizer, begin);
 HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
@@ -266,6 +267,11 @@ real32 __cdecl c_rasterizer::get_aspect_ratio()
 	//return INVOKE(0x00A1FA30, c_rasterizer::get_aspect_ratio);
 
 	return (real32)render_globals.resolution_width / (real32)render_globals.resolution_height;
+}
+
+c_rasterizer::e_surface __cdecl c_rasterizer::get_depth_stencil_surface()
+{
+	return c_rasterizer::g_depth_stencil_surface;
 }
 
 void __cdecl c_rasterizer::get_display_pixel_bounds(rectangle2d* display_pixel_bounds)
@@ -865,6 +871,38 @@ decltype(Direct3DCreate9)* __cdecl GetDirect3DCreate9()
 decltype(Direct3DCreate9Ex)* __cdecl GetDirect3DCreate9Ex()
 {
 	return INVOKE(0x00A21950, GetDirect3DCreate9Ex);
+}
+
+c_rasterizer::e_surface __cdecl c_rasterizer::get_read_only_depth_stencil_surface(c_rasterizer::e_surface depth_stencil)
+{
+	c_rasterizer::e_surface result = depth_stencil;
+
+	switch (depth_stencil)
+	{
+	case _surface_depth_stencil:
+	{
+		return _surface_depth_stencil_read_only;
+	}
+	break;
+	//case _surface_dynamic_depth_stencil:
+	//{
+	//	result = _surface_dynamic_depth_stencil_read_only;
+	//}
+	//break;
+	case _surface_depth_stencil_read_only:
+		//case _surface_dynamic_depth_stencil_read_only:
+	{
+		result = _surface_none;
+	}
+	break;
+	default:
+	{
+		ASSERT("invalid depth stencil surface");
+	}
+	break;
+	}
+
+	return result;
 }
 
 c_rasterizer::e_platform __cdecl c_rasterizer::get_runtime_platform()

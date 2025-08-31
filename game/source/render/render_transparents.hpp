@@ -37,21 +37,37 @@ static_assert(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);
 class c_transparency_renderer
 {
 public:
+	enum
+	{
+		k_max_number_of_transparency_markers = 6,
+		k_max_number_of_rendered_transparents = 768,
+	};
+	using c_markers = s_transparency_marker[k_max_number_of_transparency_markers][3];
+	using c_transparent_sorted_order = c_sorter<s_transparent_types, k_max_number_of_rendered_transparents>;
+	using c_transparents = c_static_array<s_transparent_types, k_max_number_of_rendered_transparents>;
+
+public:
 	static void __cdecl render(bool depth_test);
 	static void __cdecl set_active_camo_bounds(const rectangle2d* window_pixel_bounds, const rectangle2d* render_pixel_bounds);
 	static void __cdecl sort();
 
 //private:
-	//static int32& m_current_marker_index;
-	//static c_sorter<s_transparent_types, 768>& transparent_sorted_order;
-	//static bool& m_using_active_camo;
-	//static bool& m_needs_active_camo_ldr_resolve;
-	//static s_transparency_marker(&m_markers)[6][3];
-	//static int32& m_total_transparent_count;
-	//static rectangle2d& m_active_camo_resolve_bounds;
-	//static real_vector4d& m_active_camo_distort_bounds;
-	//static c_static_array<s_transparent_types, 768>& transparents;
+	static int32& m_current_marker_index;
+	static c_transparent_sorted_order& transparent_sorted_order;
+	static bool& m_using_active_camo;
+	static bool& m_needs_active_camo_ldr_resolve;
+	static c_markers& m_markers;
+	static int32& m_total_transparent_count;
+	static rectangle2d& m_active_camo_resolve_bounds;
+	static real_vector4d& m_active_camo_distort_bounds;
+	static c_transparents& transparents;
 };
 
 extern int16& render_debug_transparent_sort_method;
+
+extern bool render_debug_transparents;
+extern bool render_debug_slow_transparents;
+extern bool render_debug_transparent_cull;
+extern bool render_debug_transparent_cull_flip;
+extern bool render_transparents_enabled;
 

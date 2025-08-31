@@ -304,6 +304,7 @@ public:
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
 	static real32 __cdecl get_aspect_ratio();
+	static e_surface __cdecl get_depth_stencil_surface();
 	static void __cdecl get_display_pixel_bounds(rectangle2d* display_pixel_bounds);
 	static void __cdecl get_display_title_safe_pixel_bounds(rectangle2d* resolution);
 	static void __cdecl get_fullscreen_render_pixel_bounds(rectangle2d* resolution);
@@ -329,6 +330,7 @@ public:
 	static void __cdecl end_high_quality_blend();
 	static bool __cdecl get_is_tiling_bracket_active();
 	static bool __cdecl get_is_tiling_enabled();
+	static e_surface __cdecl get_read_only_depth_stencil_surface(e_surface depth_stencil);
 	static e_platform __cdecl get_runtime_platform();
 	static bool __cdecl initialize_device(bool window_exists, bool windowed);
 	static void __cdecl rasterizer_device_acquire_thread();

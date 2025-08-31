@@ -39,3 +39,8 @@ D3DPRESENT_PARAMETERS* __cdecl get_new_presentation_parameters()
 	return INVOKE(0x00A1FC60, get_new_presentation_parameters);
 }
 
+bool __cdecl rasterizer_force_default_lighting()
+{
+	return INVOKE(0x00A20150, rasterizer_force_default_lighting);
+}
+

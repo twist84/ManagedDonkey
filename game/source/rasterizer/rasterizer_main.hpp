@@ -36,4 +36,5 @@ extern _D3DCAPS9* __cdecl get_global_device_caps();
 extern _D3DDISPLAYMODE* __cdecl get_global_display_mode();
 extern _D3DPRESENT_PARAMETERS_* __cdecl get_presentation_parameters();
 extern _D3DPRESENT_PARAMETERS_* __cdecl get_new_presentation_parameters();
+extern bool __cdecl rasterizer_force_default_lighting();
 

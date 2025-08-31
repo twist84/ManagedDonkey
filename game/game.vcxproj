@@ -362,6 +362,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\rasterizer\rasterizer_synchronization.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
+    <ClCompile Include="source\render\lighting_interface.cpp" />
     <ClCompile Include="source\render\render_debug_commands.cpp" />
     <ClCompile Include="source\render\render_flags.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
@@ -1286,6 +1287,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\rasterizer\rasterizer_stipple.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_vertex_definitions.hpp" />
+    <ClInclude Include="source\render\lighting_interface.hpp" />
     <ClInclude Include="source\render\render_debug_commands.hpp" />
     <ClInclude Include="source\render\render_flags.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
