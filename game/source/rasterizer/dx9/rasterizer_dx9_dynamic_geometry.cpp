@@ -181,8 +181,8 @@ void __cdecl draw_tesselated_quad()
 	rasterizer_vertex_screen triangle_fan[4]{};
 
 	triangle_fan[0].position.x = -1.0f;
-	triangle_fan[0].position.y = 0.0f;
-	triangle_fan[0].texcoord.i = 1.0f;
+	triangle_fan[0].position.y = 1.0f;
+	triangle_fan[0].texcoord.i = 0.0f;
 	triangle_fan[0].texcoord.j = 0.0f;
 	triangle_fan[0].color = 0xFFFFFFFF;
 
@@ -204,10 +204,10 @@ void __cdecl draw_tesselated_quad()
 	triangle_fan[3].texcoord.j = 1.0f;
 	triangle_fan[3].color = 0xFFFFFFFF;
 
-	c_rasterizer::set_cull_mode(c_rasterizer::e_cull_mode::_cull_mode_off);
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
 	c_rasterizer::set_indices(NULL);
 	c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, triangle_fan, sizeof(rasterizer_vertex_screen));
-	c_rasterizer::set_cull_mode(c_rasterizer::e_cull_mode::_cull_mode_cw);
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 }
 
 void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, int height, const real_rectangle2d* bounds)
