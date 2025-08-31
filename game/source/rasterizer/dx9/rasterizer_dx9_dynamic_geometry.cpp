@@ -40,6 +40,15 @@ HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
 HOOK_DECLARE(0x00A46E50, rasterizer_quad_screenspace_explicit);
 HOOK_DECLARE(0x00A46FB0, rasterizer_set_explicit_debug_shader);
 
+int32 k_rects_x = 10;
+int32 k_rects_y = 10;
+bool k_horiz_striping = true;
+
+void __cdecl build_single_quad(rasterizer_vertex_screen* dest_vertices, int32_t verts_per_prim, real32 x1, real32 x2, real32 y1, real32 y2)
+{
+	INVOKE(0x00A454E0, build_single_quad, dest_vertices, verts_per_prim, x1, x2, y1, y2);
+}
+
 void __cdecl c_rasterizer::draw_debug_line2d(const real_point3d& point1, const real_point3d& point2, uns32 color0, uns32 color1)
 {
 	INVOKE(0x00A456A0, draw_debug_line2d, point1, point2, color0, color1);
@@ -178,36 +187,94 @@ void __cdecl draw_tesselated_quad()
 {
 	//INVOKE(0x00A45FE0, draw_tesselated_quad);
 
-	rasterizer_vertex_screen triangle_fan[4]{};
+	//rasterizer_vertex_screen vertices[4]{};
+	//
+	//vertices[0].position.x = -1.0f;
+	//vertices[0].position.y = 1.0f;
+	//vertices[0].texcoord.i = 0.0f;
+	//vertices[0].texcoord.j = 0.0f;
+	//vertices[0].color = 0xFFFFFFFF;
+	//
+	//vertices[1].position.x = 1.0f;
+	//vertices[1].position.y = 1.0f;
+	//vertices[1].texcoord.i = 1.0f;
+	//vertices[1].texcoord.j = 0.0f;
+	//vertices[1].color = 0xFFFFFFFF;
+	//
+	//vertices[2].position.x = -1.0f;
+	//vertices[2].position.y = -1.0f;
+	//vertices[2].texcoord.i = 0.0f;
+	//vertices[2].texcoord.j = 1.0f;
+	//vertices[2].color = 0xFFFFFFFF;
+	//
+	//vertices[3].position.x = 1.0f;
+	//vertices[3].position.y = -1.0f;
+	//vertices[3].texcoord.i = 1.0f;
+	//vertices[3].texcoord.j = 1.0f;
+	//vertices[3].color = 0xFFFFFFFF;
+	//
+	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
+	//c_rasterizer::set_indices(NULL);
+	//c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
+	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 
-	triangle_fan[0].position.x = -1.0f;
-	triangle_fan[0].position.y = 1.0f;
-	triangle_fan[0].texcoord.i = 0.0f;
-	triangle_fan[0].texcoord.j = 0.0f;
-	triangle_fan[0].color = 0xFFFFFFFF;
+	rasterizer_vertex_screen vertices[1500];
+	if (4 * k_rects_x * k_rects_y <= NUMBEROF(vertices))
+	{
+		rasterizer_vertex_screen* current_vertex = vertices;
 
-	triangle_fan[1].position.x = 1.0f;
-	triangle_fan[1].position.y = 1.0f;
-	triangle_fan[1].texcoord.i = 1.0f;
-	triangle_fan[1].texcoord.j = 0.0f;
-	triangle_fan[1].color = 0xFFFFFFFF;
+		if (k_horiz_striping)
+		{
+			if (k_rects_y > 0)
+			{
+				const real32 inv_rects_y = 1.0f / (real32)(k_rects_y);
+				const real32 inv_rects_x = (k_rects_x > 0) ? 1.0f / (real32)(k_rects_x) : 0.0f;
 
-	triangle_fan[2].position.x = -1.0f;
-	triangle_fan[2].position.y = -1.0f;
-	triangle_fan[2].texcoord.i = 0.0f;
-	triangle_fan[2].texcoord.j = 1.0f;
-	triangle_fan[2].color = 0xFFFFFFFF;
+				for (int32 y = 0; y < k_rects_y; y++)
+				{
+					const real32 y1 = (real32)(y) * inv_rects_y;
+					const real32 y2 = (real32)(y + 1) * inv_rects_y;
 
-	triangle_fan[3].position.x = 1.0f;
-	triangle_fan[3].position.y = -1.0f;
-	triangle_fan[3].texcoord.i = 1.0f;
-	triangle_fan[3].texcoord.j = 1.0f;
-	triangle_fan[3].color = 0xFFFFFFFF;
+					for (int32 x = 0; x < k_rects_x; x++)
+					{
+						const real32 x1 = inv_rects_x * (real32)(x);
+						const real32 x2 = inv_rects_x * (real32)(x + 1);
 
-	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
-	c_rasterizer::set_indices(NULL);
-	c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, triangle_fan, sizeof(rasterizer_vertex_screen));
-	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
+						build_single_quad(current_vertex, 4, x1, x2, y1, y2);
+						current_vertex += 4;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (k_rects_x > 0)
+			{
+				const real32 inv_rects_x = 1.0f / (real32)(k_rects_x);
+				const real32 inv_rects_y = (k_rects_y > 0) ? 1.0f / (real32)(k_rects_y) : 0.0f;
+
+				for (int32 x = 0; x < k_rects_x; x++)
+				{
+					const real32 x1 = inv_rects_x * (real32)(x);
+					const real32 x2 = inv_rects_x * (real32)(x + 1);
+
+					for (int32 y = 0; y < k_rects_y; y++)
+					{
+						const real32 y1 = inv_rects_y * (real32)(y);
+						const real32 y2 = inv_rects_y * (real32)(y + 1);
+
+						build_single_quad(current_vertex, 4, x1, x2, y1, y2);
+						current_vertex += 4;
+					}
+				}
+			}
+		}
+
+		c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_ccw);
+		c_rasterizer::set_indices(NULL);
+		c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 4 * k_rects_x * k_rects_y - 2, vertices, sizeof(rasterizer_vertex_screen));
+		c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
+	}
 }
 
 void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, int height, const real_rectangle2d* bounds)
