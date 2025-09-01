@@ -26,6 +26,8 @@
 #include "render/views/split_screen_config.hpp"
 #include "render_methods/render_method_submit.hpp"
 
+//#define DEPTH_TEST_ENABLE
+
 enum
 {
 	k_vs_decal_sprite = 228,
@@ -88,13 +90,16 @@ void __thiscall c_player_view::generate_distortions()
 {
 	//INVOKE_CLASS_MEMBER(0x00A39560, c_player_view, generate_distortions);
 
-	//bool depth_test = true;
-	//c_player_render_camera_iterator player_camera_iterator{};
-	//if (c_rasterizer::get_is_tiling_enabled() || player_camera_iterator.get_window_count() != 1)
-	//{
-	//	depth_test = false;
-	//}
+#if !defined(DEPTH_TEST_ENABLE)
 	bool depth_test = false;
+#else
+	bool depth_test = true;
+	c_player_render_camera_iterator player_camera_iterator{};
+	if (c_rasterizer::get_is_tiling_enabled() || player_camera_iterator.get_window_count() != 1)
+	{
+		depth_test = false;
+	}
+#endif
 	c_transparency_renderer::render(depth_test);
 
 	c_rasterizer_profile_scope _chud_distortion(_rasterizer_profile_element_distortions, L"chud distortion");
@@ -1163,13 +1168,16 @@ void __thiscall c_player_view::submit_distortions()
 
 			render_method_submit_single_extern(_render_method_extern_texture_global_target_z, false);
 
-			//bool depth_test = true;
-			//c_player_render_camera_iterator player_camera_iterator{};
-			//if (c_rasterizer::get_is_tiling_enabled() || player_camera_iterator.get_window_count() != 1)
-			//{
-			//	depth_test = false;
-			//}
+#if !defined(DEPTH_TEST_ENABLE)
 			bool depth_test = false;
+#else
+			bool depth_test = true;
+			c_player_render_camera_iterator player_camera_iterator{};
+			if (c_rasterizer::get_is_tiling_enabled() || player_camera_iterator.get_window_count() != 1)
+			{
+				depth_test = false;
+			}
+#endif
 			c_rasterizer::setup_targets_distortion(&_distortion_pixel_bounds, depth_test);
 
 			rasterizer_occlusion_submit(
