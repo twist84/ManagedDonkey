@@ -278,63 +278,63 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 
 void __cdecl render_window_reset(int32 user_index)
 {
-	//INVOKE(0x00A2A2E0, render_window_reset, user_index);
+	//INVOKE(0x00A2A2E0, c_render_globals::render_window_reset, user_index);
 
 	c_rasterizer::window_reset();
 }
 
 void __cdecl c_render_globals::set_depth_fade_active(bool depth_fade_active)
 {
-	//INVOKE(0x00A2A2F0, set_depth_fade_active, depth_fade_active);
+	//INVOKE(0x00A2A2F0, c_render_globals::set_depth_fade_active, depth_fade_active);
 
 	m_depth_fade_active = depth_fade_active;
 }
 
 void __cdecl c_render_globals::set_distortion_active(bool distortion_active)
 {
-	//INVOKE(0x00A2A300, set_distortion_active, distortion_active);
+	//INVOKE(0x00A2A300, c_render_globals::set_distortion_active, distortion_active);
 
 	m_distortion_active = distortion_active;
 }
 
 void __cdecl c_render_globals::set_distortion_history(bool distortion_history)
 {
-	//INVOKE(0x00A2A310, set_distortion_history, distortion_history);
+	//INVOKE(0x00A2A310, c_render_globals::set_distortion_history, distortion_history);
 
 	m_distortion_history = distortion_history;
 }
 
 void __cdecl c_render_globals::set_distortion_visible(bool distortion_visible)
 {
-	//INVOKE(0x00A2A320, set_distortion_visible, distortion_visible);
+	//INVOKE(0x00A2A320, c_render_globals::set_distortion_visible, distortion_visible);
 
 	m_distortion_visible = distortion_visible;
 }
 
 void __cdecl c_render_globals::set_frame_index(int32 frame_index)
 {
-	//INVOKE(0x00A2A330, set_frame_index, frame_index);
+	//INVOKE(0x00A2A330, c_render_globals::set_frame_index, frame_index);
 
 	m_frame_index = frame_index;
 }
 
 void __cdecl c_render_globals::set_frame_time(real32 frame_time)
 {
-	//INVOKE(0x00A2A340, set_frame_time, frame_time);
+	//INVOKE(0x00A2A340, c_render_globals::set_frame_time, frame_time);
 
 	m_frame_time = frame_time;
 }
 
 void __cdecl c_render_globals::set_weather_occlusion_available(bool weather_occlusion_available)
 {
-	//INVOKE(0x00A3B7E0, set_weather_occlusion_available, weather_occlusion_available);
+	//INVOKE(0x00A3B7E0, c_render_globals::set_weather_occlusion_available, weather_occlusion_available);
 
 	m_weather_occlusion_available = weather_occlusion_available;
 }
 
 bool __cdecl c_render_globals::get_weather_occlusion_available()
 {
-	//return INVOKE(0x00A4BFD0, get_weather_occlusion_available);
+	//return INVOKE(0x00A4BFD0, c_render_globals::get_weather_occlusion_available);
 
 	return m_weather_occlusion_available;
 }

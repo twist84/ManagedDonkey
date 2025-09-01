@@ -593,12 +593,10 @@ void __thiscall c_player_view::render_effects(e_effect_pass effect_pass)
 
 	c_rasterizer_profile_scope _render_effects(_rasterizer_profile_element_effects, L"render_effects");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_effects, effect_pass);
-
-	//if (!game_is_ui_shell() || user_interface_should_render_fancy())
-	//{
-	//	effects_render(m_camera_user_data.user_index, effect_pass);
-	//}
+	if (!game_is_ui_shell() || user_interface_should_render_fancy())
+	{
+		effects_render(m_camera_user_data.user_index, effect_pass);
+	}
 }
 
 void __thiscall c_player_view::render_first_person(bool render_only_transparents)
