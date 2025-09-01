@@ -70,6 +70,7 @@ static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
 
 class c_rasterizer_vertex_shader
 {
+public:
 	static const c_rasterizer_vertex_shader* get(int32 definition_index);
 	static c_rasterizer_vertex_shader* get_modifiable(int32 definition_index);
 

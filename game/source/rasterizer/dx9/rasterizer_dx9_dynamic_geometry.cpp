@@ -4,10 +4,14 @@
 #include "cache/cache_files.hpp"
 #include "game/game_globals.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/main_screenshot.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
+#include "render/render.hpp"
 #include "scenario/scenario.hpp"
+
+#include <directxmath.h>
 
 REFERENCE_DECLARE(0x01914BBC, real32, g_screenspace_scale_x);
 REFERENCE_DECLARE(0x01914BC0, real32, g_screenspace_scale_y);
@@ -27,6 +31,7 @@ HOOK_DECLARE_CLASS(0x00A45920, c_rasterizer, draw_debug_line_list_explicit);
 //HOOK_DECLARE_CLASS(0x00A45970, c_rasterizer, draw_debug_linestrip2d);
 HOOK_DECLARE_CLASS(0x00A45B40, c_rasterizer, draw_debug_polygon2d);
 HOOK_DECLARE_CLASS(0x00A45B90, c_rasterizer, draw_debug_polygon);
+HOOK_DECLARE_CLASS(0x00A45BF0, c_rasterizer, draw_full_window_displacement);
 HOOK_DECLARE_CLASS(0x00A45EE0, c_rasterizer, draw_fullscreen_quad);
 HOOK_DECLARE(0x00A45FE0, draw_tesselated_quad);
 HOOK_DECLARE_CLASS(0x00A460A0, c_rasterizer, draw_fullscreen_quad_with_texture_xform);
@@ -141,6 +146,122 @@ void __cdecl c_rasterizer::draw_debug_polygon(const rasterizer_vertex_debug* ver
 			draw_primitive_up(primitive_type, primitive_count, vertices, sizeof(rasterizer_vertex_debug));
 			set_cull_mode(_cull_mode_cw);
 		}
+	}
+}
+
+//.text:00A45BE0 ; 
+
+enum
+{
+	k_ps_displacement_screen_constants = 203,
+	k_ps_displacement_window_bounds = 204,
+	k_ps_displacement_current_view_projection = 160,
+	k_ps_displacement_previous_view_projection = 164,
+	k_ps_displacement_screen_to_world = 168,
+	k_ps_displacement_num_taps = 2,
+	//k_ps_displacement_num_taps_pad = ?,
+	k_ps_displacement_misc_values = 172,
+	k_ps_displacement_blur_max_and_scale = 173,
+	k_ps_displacement_crosshair_center = 174,
+	k_ps_displacement_zbuffer_xform = 175,
+	k_ps_displacement_do_distortion = 2,
+};
+
+void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* window_pixel_bounds, const DirectX::XMMATRIX& view_projection, const DirectX::XMMATRIX& previous_view_projection, const DirectX::XMMATRIX& projection, const DirectX::XMMATRIX& screen_to_world, bool use_motion_blur)
+{
+	//INVOKE(0x00A45BF0, c_rasterizer::draw_full_window_displacement, window_pixel_bounds, view_projection, previous_view_projection, projection, screen_to_world, use_motion_blur);
+
+	if (c_rasterizer::surface_valid(_surface_distortion) || use_motion_blur)
+	{
+		if (c_rasterizer::surface_valid(_surface_distortion))
+		{
+			c_rasterizer::set_surface_as_texture(0, _surface_distortion);
+		}
+		else
+		{
+			ASSERT(use_motion_blur);
+			ASSERT(!c_render_globals::get_distortion_visible());
+			c_rasterizer::set_possibly_stale_surface_as_texture(0, _surface_distortion);
+		}
+
+		c_rasterizer::set_sampler_address_mode(0, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
+		c_rasterizer::set_sampler_filter_mode(0, _sampler_filter_bilinear);
+		c_rasterizer::set_surface_as_texture(1, _surface_post_LDR);
+		c_rasterizer::set_sampler_address_mode(1, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
+		c_rasterizer::set_sampler_filter_mode(1, _sampler_filter_bilinear);
+
+		if (use_motion_blur)
+		{
+			c_rasterizer::set_surface_as_texture(3, _surface_depth_stencil);
+			c_rasterizer::set_sampler_address_mode(3, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
+			c_rasterizer::set_sampler_filter_mode(3, _sampler_filter_point);
+			set_motion_blur_parameters();
+		}
+
+		c_rasterizer::set_alpha_blend_mode(_alpha_blend_opaque);
+		c_rasterizer::set_z_buffer_mode(_z_buffer_mode_off);
+		c_rasterizer::setup_targets_static_lighting_alpha_blend(true, false);
+
+		c_rasterizer_globals* rasterizer_globals = TAG_GET_SAFE(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, global_game_globals->rasterizer_globals_ref.index);
+
+		const s_tag_reference* vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(use_motion_blur ? c_rasterizer_globals::_shader_displacement_motion_blur : c_rasterizer_globals::_shader_displacement);
+		const s_tag_reference* pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(use_motion_blur ? c_rasterizer_globals::_shader_displacement_motion_blur : c_rasterizer_globals::_shader_displacement);
+
+		const c_rasterizer_vertex_shader* vertex_shader = c_rasterizer_vertex_shader::get(vertex_shader_ref->index);
+		c_rasterizer::set_vertex_shader(vertex_shader, _vertex_type_screen, _transfer_vertex_none, _entry_point_default);
+
+		const c_rasterizer_pixel_shader* pixel_shader = c_rasterizer_pixel_shader::get(pixel_shader_ref->index);
+		c_rasterizer::set_pixel_shader(pixel_shader, _entry_point_default);
+
+		int32 width = window_pixel_bounds->x1 - window_pixel_bounds->x0;
+		int32 height = window_pixel_bounds->y1 - window_pixel_bounds->y0;
+
+		rectangle2d viewport_bounds{};
+		set_rectangle2d(&viewport_bounds,
+			0,
+			0,
+			(int16)width,
+			(int16)height);
+		c_rasterizer::set_viewport(viewport_bounds, 0.0f, 1.0f);
+
+		real_vector4d screen_constants{};
+		set_real_vector4d(&screen_constants,
+			1.0f / (real32)width,
+			1.0f / (real32)height,
+			0.0f,
+			0.0f);
+		screenshot_get_scales(&screen_constants.k, &screen_constants.l);
+		c_rasterizer::set_pixel_shader_constant(k_ps_displacement_screen_constants, 1, &screen_constants);
+
+		real_vector4d window_bounds{};
+		set_real_vector4d(&window_bounds,
+			0.0f,
+			0.0f,
+			1.0f,
+			1.0f);
+		c_rasterizer::set_pixel_shader_constant(k_ps_displacement_window_bounds, 1, &window_bounds);
+
+		real_vector4d zbuffer_xform{};
+		set_real_vector4d(&zbuffer_xform,
+			projection.r[3].m128_f32[2],
+			-projection.r[2].m128_f32[2],
+			0.0f,
+			0.0f);
+		c_rasterizer::set_pixel_shader_constant(k_ps_displacement_zbuffer_xform, 1, &zbuffer_xform);
+
+		if (use_motion_blur)
+		{
+			c_rasterizer::set_pixel_shader_constant(k_ps_displacement_current_view_projection, 4, (const real_vector4d*)&view_projection);
+			c_rasterizer::set_pixel_shader_constant(k_ps_displacement_previous_view_projection, 4, (const real_vector4d*)&previous_view_projection);
+			c_rasterizer::set_pixel_shader_constant(k_ps_displacement_screen_to_world, 4, (const real_vector4d*)&screen_to_world);
+		}
+
+		draw_tesselated_quad();
+
+		c_rasterizer::set_z_buffer_mode(_z_buffer_mode_read);
+		c_rasterizer::set_cull_mode(_cull_mode_cw);
+		c_rasterizer::restore_last_viewport();
+		c_rasterizer::restore_last_scissor_rect();
 	}
 }
 
@@ -560,5 +681,10 @@ bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explic
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 	
 	return true;
+}
+
+void __cdecl set_motion_blur_parameters()
+{
+	INVOKE(0x00A47060, set_motion_blur_parameters);
 }
 

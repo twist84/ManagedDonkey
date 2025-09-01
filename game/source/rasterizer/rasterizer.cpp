@@ -1916,6 +1916,11 @@ void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface depth_stencil)
 	INVOKE(0x00A48CB0, c_rasterizer::set_depth_stencil_surface, depth_stencil);
 }
 
+void __cdecl c_rasterizer::set_possibly_stale_surface_as_texture(int32 sampler_index, c_rasterizer::e_surface surface)
+{
+	INVOKE(0x00A48D40, c_rasterizer::set_possibly_stale_surface_as_texture, sampler_index, surface);
+}
+
 void __cdecl c_rasterizer::set_render_target(int32 surface_index, e_surface surface, int32 force_is_srgb)
 {
 	INVOKE(0x00A48E40, c_rasterizer::set_render_target, surface_index, surface, force_is_srgb);

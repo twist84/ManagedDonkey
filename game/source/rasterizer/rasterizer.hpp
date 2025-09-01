@@ -15,6 +15,11 @@ __interface IDirect3DVertexBuffer9;
 __interface IDirect3DIndexBuffer9;
 __interface IDirect3DVertexDeclaration9;
 
+namespace DirectX
+{
+	struct XMMATRIX;
+}
+
 class c_rasterizer_index_buffer
 {
 public:
@@ -391,6 +396,7 @@ public:
 
 	static void __cdecl resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 x, int16 y);
 	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
+	static void __cdecl set_possibly_stale_surface_as_texture(int32 sampler_index, e_surface surface);
 	static void __cdecl set_render_target(int32 surface_index, e_surface surface, int32 force_is_srgb);
 	static void __cdecl set_surface_as_texture(int32 sampler_index, e_surface surface);
 	static void __cdecl set_using_albedo_sampler(bool value);
@@ -405,6 +411,7 @@ public:
 	static void __cdecl draw_debug_linestrip2d(const point2d* points, int32 point_count, uns32 color);
 	static void __cdecl draw_debug_polygon2d(const rasterizer_vertex_debug* polygon2d, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_debug_polygon(const rasterizer_vertex_debug* vertices, int32 primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
+	static void __cdecl draw_full_window_displacement(const rectangle2d* window_pixel_bounds, const DirectX::XMMATRIX& view_projection, const DirectX::XMMATRIX& previous_view_projection, const DirectX::XMMATRIX& projection, const DirectX::XMMATRIX& screen_to_world, bool use_motion_blur);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
 	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, const real_rectangle2d* bounds);
 	static void __cdecl draw_screen_quad_with_texture_transform(int target_width, int target_height, const real_rectangle2d* dest_texcoords, const real_rectangle2d* source_texcoords);
@@ -858,6 +865,7 @@ extern void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(const rasterizer_
 extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, const s_tag_reference* reference, int16 bitmap_index, bool point_sampled);
 extern void __cdecl rasterizer_quad_screenspace_explicit(point2d const(&points)[4], uns32 color, c_rasterizer_texture_ref texture_ref, bool point_sampled, c_rasterizer::e_alpha_blend_mode blend_mode);
 extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader shader_type);
+extern void __cdecl set_motion_blur_parameters();
 
 extern bool rasterizer_dump_display_to_bmp(const char* file_name);
 

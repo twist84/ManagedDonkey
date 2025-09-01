@@ -42,7 +42,11 @@ bool __cdecl screenshot_sub_610260()
 
 //.text:00610280 ; bool __cdecl screenshot_full_anisotropic()
 //.text:006102A0 ; int32 __cdecl screenshot_get_anisotropic_level()
-//.text:006102C0 ; void __cdecl screenshot_get_scales(real32*, real32*)
+
+void __cdecl screenshot_get_scales(real32* scale_x, real32* scale_y)
+{
+	INVOKE(0x006102C0, screenshot_get_scales, scale_x, scale_y);
+}
 
 bool __cdecl screenshot_in_progress()
 {

@@ -47,6 +47,7 @@ extern bool __cdecl screenshot_allow_postprocess();
 extern bool __cdecl screenshot_allow_ui_render();
 extern bool __cdecl screenshot_sub_610230();
 extern bool __cdecl screenshot_sub_610260();
+extern void __cdecl screenshot_get_scales(real32* scale_x, real32* scale_y);
 extern bool __cdecl screenshot_in_progress();
 extern bool __cdecl screenshot_post_render();
 extern bool __cdecl screenshot_sub_6105E0();
