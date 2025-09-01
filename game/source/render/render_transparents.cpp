@@ -28,8 +28,16 @@ bool render_debug_transparent_cull_flip = false;
 //int16 render_debug_transparent_sort_method = 0;
 bool render_transparents_enabled = true;
 
-//.text:00A73580 ; public: static void __cdecl c_transparency_renderer::pop_marker()
-//.text:00A735D0 ; public: static void __cdecl c_transparency_renderer::push_marker()
+void __cdecl c_transparency_renderer::pop_marker()
+{
+	INVOKE(0x00A73580, c_transparency_renderer::pop_marker);
+}
+
+void __cdecl c_transparency_renderer::push_marker()
+{
+	INVOKE(0x00A735D0, c_transparency_renderer::push_marker);
+}
+
 //.text:00A73620 ; 
 
 void __cdecl c_transparency_renderer::render(bool depth_test)

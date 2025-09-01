@@ -47,6 +47,8 @@ public:
 	using c_transparents = c_static_array<s_transparent_types, k_max_number_of_rendered_transparents>;
 
 public:
+	static void __cdecl pop_marker();
+	static void __cdecl push_marker();
 	static void __cdecl render(bool depth_test);
 	static void __cdecl set_active_camo_bounds(const rectangle2d* window_pixel_bounds, const rectangle2d* render_pixel_bounds);
 	static void __cdecl sort();

@@ -6,6 +6,7 @@
 #include "interface/interface_constants.hpp"
 #include "interface/overhead_map.hpp"
 #include "interface/user_interface.hpp"
+#include "main/main_render.hpp"
 #include "main/main_screenshot.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -38,6 +39,7 @@ REFERENCE_DECLARE(0x019147C0, real32, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real32, render_debug_depth_render_scale_b);
 REFERENCE_DECLARE(0x050FB3FC, int32, render_debug_depth_render);
 REFERENCE_DECLARE(0x01694EC8, const c_screen_postprocess::s_settings* const, c_screen_postprocess::x_settings);
+REFERENCE_DECLARE(0x019147CC, int32, g_distortion_conditional_rendering_index);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, apply_distortions);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
@@ -1105,7 +1107,67 @@ void __thiscall c_player_view::submit_distortions()
 
 	c_rasterizer_profile_scope _distortion_generate(_rasterizer_profile_element_distortions, L"distortion_generate");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, submit_distortions);
+	if (chud_contain_turbulence)
+	{
+		c_render_globals::set_distortion_active(true);
+		c_render_globals::set_distortion_visible(true);
+	}
+
+	if (c_render_globals::get_distortion_active() && c_screen_postprocess::x_settings->m_postprocess)
+	{
+		c_transparency_renderer::push_marker();
+
+		{
+			c_rasterizer_profile_scope _submit(_rasterizer_profile_element_distortions, L"submit");
+			c_player_view::render_effects(_effect_pass_distortion);
+		}
+
+		if (c_render_globals::get_distortion_visible())
+		{
+			c_rasterizer_profile_scope _generate(_rasterizer_profile_element_distortions, L"generate");
+
+			rectangle2d _distortion_pixel_bounds = m_rasterizer_camera.window_pixel_bounds;
+			//_distortion_pixel_bounds.y0 /= 2;
+			//_distortion_pixel_bounds.x0 /= 2;
+			//_distortion_pixel_bounds.y1 /= 2;
+			//_distortion_pixel_bounds.x1 /= 2;
+
+			render_method_submit_single_extern(_render_method_extern_texture_global_target_z, false);
+
+			//bool depth_test = true;
+			//c_player_render_camera_iterator player_camera_iterator{};
+			//if (c_rasterizer::get_is_tiling_enabled() || player_camera_iterator.get_window_count() != 1)
+			//{
+			//	depth_test = false;
+			//}
+			bool depth_test = false;
+			c_rasterizer::setup_targets_distortion(&_distortion_pixel_bounds, depth_test);
+
+			rasterizer_occlusion_submit(
+				k_occlusion_query_type_distortion,
+				6,
+				0,
+				m_camera_user_data.player_window_index,
+				c_player_view::generate_distortions_callback);
+
+			int32 pixels_visible_unused = 0;
+			rasterizer_occlusions_get_result(
+				k_occlusion_query_type_distortion,
+				0,
+				m_camera_user_data.player_window_index,
+				&pixels_visible_unused,
+				&g_distortion_conditional_rendering_index);
+
+			c_rasterizer::resolve_surface(
+				c_rasterizer::_surface_distortion,
+				0,
+				&_distortion_pixel_bounds,
+				_distortion_pixel_bounds.x0,
+				_distortion_pixel_bounds.y0);
+		}
+
+		c_transparency_renderer::pop_marker();
+	}
 }
 
 void __thiscall c_player_view::submit_occlusion_tests(bool occlusion, bool conditional)
