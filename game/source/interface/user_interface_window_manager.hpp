@@ -60,6 +60,7 @@ public:
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, const c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_screen_below(e_window_index window_index, const c_gui_screen_widget* screen_widget);
 	c_gui_screen_widget* get_screen_by_name(e_window_index window_index, int32 screen_name);
+	c_gui_screen_widget* get_screen_by_screen_index(int32 screen_index);
 	c_gui_screen_widget* get_topmost_screen(e_window_index window_index);
 	void handle_global_controller_event(s_event_record* event_record);
 	c_gui_screen_widget* load_screen(e_controller_index controller_index, bool load_as_error, const c_load_screen_message* screen_message, int32 window_index);

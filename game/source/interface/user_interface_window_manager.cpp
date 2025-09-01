@@ -505,8 +505,30 @@ c_gui_screen_widget* c_window_manager::get_screen_by_name(e_window_index window_
 	return INVOKE_CLASS_MEMBER(0x00AAB550, c_window_manager, get_screen_by_name, window_index, screen_name);
 }
 
-//.text:00AAB5B0 ; public: c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(int32)
-//.text:00AAB620 ; public: int32 c_gui_screen_widget::get_screen_index() const
+c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(int32 screen_index)
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB5B0, c_window_manager, get_screen_by_screen_index, screen_index);
+
+	//FONT_CACHE_SCOPE_LOCK;
+	//
+	//if (!m_active_screens)
+	//{
+	//	return NULL;
+	//}
+	//
+	//s_screen_handle_datum* screen_handle = DATUM_TRY_AND_GET(m_active_screens, s_screen_handle_datum, screen_index);
+	//if (!screen_handle)
+	//{
+	//	return NULL;
+	//}
+	//
+	//return screen_handle->screen;
+}
+
+int32 c_gui_screen_widget::get_screen_index() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AAB620, c_gui_screen_widget, get_screen_index);
+}
 
 c_gui_screen_widget* c_window_manager::get_topmost_screen(e_window_index window_index)
 {

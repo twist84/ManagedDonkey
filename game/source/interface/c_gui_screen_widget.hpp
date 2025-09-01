@@ -234,6 +234,7 @@ public:
 	const char* get_multilingual_unicode_string_list_tag_name();
 	s_window_manager_screen_render_data* get_render_state();
 	e_window_index get_render_window();
+	int32 get_screen_index() const;
 
 private:
 	bool handle_controller_alt_stick_attempt(const c_controller_input_message* message);

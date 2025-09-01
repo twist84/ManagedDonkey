@@ -297,12 +297,40 @@ bool __cdecl user_interface_squad_local_peer_is_leader()
 	return INVOKE(0x00A83520, user_interface_squad_local_peer_is_leader);
 }
 
-//.text:00A835F0 ; bool __cdecl user_interface_squad_set_active_skulls_primary(uns32 active_skulls_primary)
-//.text:00A83600 ; bool __cdecl user_interface_squad_set_active_skulls_secondary(uns32 active_skulls_secondary)
-//.text:00A83610 ; bool __cdecl user_interface_squad_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
-//.text:00A83620 ; bool __cdecl user_interface_squad_set_campaign_insertion_point(int16 campaign_insertion_point)
-//.text:00A83630 ; bool __cdecl user_interface_squad_set_map(e_campaign_id campaign_id, e_map_id map_id)
-//.text:00A83680 ; bool __cdecl user_interface_squad_set_campaign_metagame_scoring(e_campaign_metagame_scoring campaign_metagame_scoring)
+bool __cdecl user_interface_squad_set_campaign_active_primary_skulls(uns32 active_skulls_primary)
+{
+	return INVOKE(0x00A835F0, user_interface_squad_set_campaign_active_primary_skulls, active_skulls_primary);
+}
+
+bool __cdecl user_interface_squad_set_campaign_active_secondary_skulls(uns32 active_skulls_secondary)
+{
+	return INVOKE(0x00A83600, user_interface_squad_set_campaign_active_secondary_skulls, active_skulls_secondary);
+}
+
+bool __cdecl user_interface_squad_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
+{
+	return INVOKE(0x00A83610, user_interface_squad_set_campaign_difficulty, campaign_difficulty);
+}
+
+bool __cdecl user_interface_squad_set_campaign_insertion_point(int16 campaign_insertion_point)
+{
+	return INVOKE(0x00A83620, user_interface_squad_set_campaign_insertion_point, campaign_insertion_point);
+}
+
+bool __cdecl user_interface_squad_set_campaign_level(e_campaign_id campaign_id, e_map_id map_id)
+{
+	return INVOKE(0x00A83630, user_interface_squad_set_campaign_level, campaign_id, map_id);
+}
+
+bool __cdecl user_interface_squad_set_campaign_metagame_scoring(e_campaign_metagame_scoring campaign_metagame_scoring)
+{
+	return INVOKE(0x00A83680, user_interface_squad_set_campaign_metagame_scoring, campaign_metagame_scoring);
+}
+
+bool __cdecl user_interface_squad_set_campaign_progress(e_campaign_id campaign_id, e_map_id map_id, int16 campaign_inserion_point, s_campaign_armaments* player_armaments, s_campaign_game_progression* game_progression, s_hub_progression* hub_progression)
+{
+	return INVOKE(0x00A83690, user_interface_squad_set_campaign_progress, campaign_id, map_id, campaign_inserion_point, player_armaments, game_progression, hub_progression);
+}
 
 bool __cdecl user_interface_squad_set_film(const s_saved_film_description* description)
 {
