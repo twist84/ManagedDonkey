@@ -22,8 +22,8 @@
 #include "render/render_tron_effect.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render/views/render_view.hpp"
-#include "render_methods/render_method_submit.hpp"
 #include "render/views/split_screen_config.hpp"
+#include "render_methods/render_method_submit.hpp"
 
 enum
 {
@@ -542,7 +542,9 @@ void __cdecl c_player_view::render_albedo_decals(bool render_object_decals, bool
 	//}
 	//
 	//if (render_structure_decals)
+	//{
 	//	c_decal_system::render_all(_pass_post_albedo);
+	//}
 }
 
 //.text:00A3A3C0 ; protected: void __cdecl c_player_view::render_dynamic_lights(IDirect3DSurface9* ldr_surface, IDirect3DSurface9* hdr_surface, IDirect3DSurface9* depth_surface)
@@ -556,7 +558,9 @@ void __thiscall c_player_view::render_effects(e_effect_pass effect_pass)
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_effects, effect_pass);
 
 	//if (!game_is_ui_shell() || user_interface_should_render_fancy())
+	//{
 	//	effects_render(m_camera_user_data.user_index, effect_pass);
+	//}
 }
 
 void __thiscall c_player_view::render_first_person(bool render_only_transparents)
@@ -717,7 +721,9 @@ int32 __cdecl render_texture_camera_get_sub_A3AC30()
 	return INVOKE(0x00A3AC30, render_texture_camera_get_sub_A3AC30);
 
 	//if (!object_try_and_get_and_verify_type(g_render_texture_camera_globals->__unknown40_object_index, NONE))
+	//{
 	//	g_render_texture_camera_globals->__unknown40_object_index = NONE;
+	//}
 	//
 	//return g_render_texture_camera_globals->__unknown40_object_index;
 }
@@ -727,11 +733,15 @@ int32 __cdecl render_texture_camera_get_target_object_index()
 	return INVOKE(0x00A3AC70, render_texture_camera_get_target_object_index);
 
 	//if (g_render_texture_camera_globals->target_type == _texture_camera_type_position)
+	//{
 	//	return NONE;
+	//}
 	//
 	//int32 object_index = g_render_texture_camera_globals->target.object_index;
 	//if (!object_try_and_get_and_verify_type(object_index, NONE))
+	//{
 	//	return NONE;
+	//}
 	//
 	//return object_index;
 }
@@ -860,7 +870,9 @@ void __cdecl render_texture_camera_set_object_marker(int32 object_index, int32 m
 	//	g_render_texture_camera_globals->active = false;
 	//
 	//	if (object_index != NONE)
+	//	{
 	//		event(_event_error, "### WARNING texture camera can't attach to object! detaching ...");
+	//	}
 	//}
 }
 
@@ -900,7 +912,9 @@ void __cdecl render_texture_camera_set_sub_A3B240(int32 object_index)
 	INVOKE(0x00A3B240, render_texture_camera_set_sub_A3B240, object_index);
 
 	//if (object_try_and_get_and_verify_type(object_index, NONE))
+	//{
 	//	g_render_texture_camera_globals->__unknown40_object_index = object_index;
+	//}
 }
 
 void __cdecl render_texture_camera_set_resolution(int32 width, int32 height)
@@ -941,10 +955,10 @@ void __thiscall c_player_view::render_transparents()
 {
 	//INVOKE_CLASS_MEMBER(0x00A3B380, c_player_view, render_transparents);
 
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_z, false);
-	render_method_submit_extern_texture_static(_render_method_extern_scene_ldr_texture, false);
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_texaccum, true);
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_normal, true);
+	render_method_submit_single_extern(_render_method_extern_texture_global_target_z, false);
+	render_method_submit_single_extern(_render_method_extern_scene_ldr_texture, false);
+	render_method_submit_single_extern(_render_method_extern_texture_global_target_texaccum, true);
+	render_method_submit_single_extern(_render_method_extern_texture_global_target_normal, true);
 	m_lights_view.submit_simple_light_draw_list_to_shader();
 
 	{
@@ -987,8 +1001,8 @@ void __thiscall c_player_view::render_water()
 	c_rasterizer::resolve_surface(c_rasterizer::_surface_accum_LDR, 0, NULL, 0, 0);
 	c_rasterizer::stretch_rect(c_rasterizer::_surface_accum_LDR, c_rasterizer::_surface_post_LDR);
 
-	render_method_submit_extern_texture_static(_render_method_extern_scene_ldr_texture, false);
-	render_method_submit_extern_texture_static(_render_method_extern_texture_global_target_z, false);
+	render_method_submit_single_extern(_render_method_extern_scene_ldr_texture, false);
+	render_method_submit_single_extern(_render_method_extern_texture_global_target_z, false);
 
 	c_water_renderer::render_underwater_fog();
 	c_water_renderer::render_tessellation(screenshot_in_progress());
@@ -1040,9 +1054,13 @@ void c_player_view::setup_camera(int32 player_window_index, int32 player_window_
 	render_camera_build(rasterizer_camera, observer);
 
 	if (observer)
+	{
 		m_observer_depth_of_field = observer->depth_of_field;
+	}
 	else
+	{
 		m_observer_depth_of_field.flags = 0;
+	}
 
 	real_rectangle2d frustum_bounds{};
 	render_camera_build_viewport_frustum_bounds(rasterizer_camera, &frustum_bounds);
@@ -1101,10 +1119,14 @@ void __thiscall c_player_view::submit_occlusion_tests(bool occlusion, bool condi
 		c_rasterizer::setup_occlusion_state();
 
 		if (occlusion)
+		{
 			lens_flares_submit_occlusions(m_camera_user_data.user_index, _lens_flare_occlusion_type_occlusion);
+		}
 
 		if (conditional)
+		{
 			lens_flares_submit_occlusions(m_camera_user_data.user_index, _lens_flare_occlusion_type_conditional);
+		}
 	}
 }
 

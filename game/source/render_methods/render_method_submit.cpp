@@ -15,9 +15,9 @@ void __cdecl render_method_submit_invalidate_cache()
 	INVOKE(0x00A3D090, render_method_submit_invalidate_cache);
 };
 
-void __cdecl render_method_submit_extern_texture_static(e_render_method_extern render_method_extern, bool fakeout)
+void __cdecl render_method_submit_single_extern(e_render_method_extern render_method_extern, bool fakeout)
 {
-	INVOKE(0x00A3D200, render_method_submit_extern_texture_static, render_method_extern, fakeout);
+	INVOKE(0x00A3D200, render_method_submit_single_extern, render_method_extern, fakeout);
 }
 
 void __cdecl render_state_cache_dispose()
