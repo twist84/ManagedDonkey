@@ -26,7 +26,7 @@
 #include "render/views/split_screen_config.hpp"
 #include "render_methods/render_method_submit.hpp"
 
-//#define DEPTH_TEST_ENABLE
+#define DEPTH_TEST_ENABLE
 
 enum
 {
@@ -138,7 +138,9 @@ void __thiscall c_player_view::queue_patchy_fog()
 	//INVOKE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
 
 	if (game_is_splitscreen_deterministic())
+	{
 		return;
+	}
 
 	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);
 }
