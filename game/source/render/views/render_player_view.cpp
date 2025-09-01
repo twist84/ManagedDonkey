@@ -416,7 +416,7 @@ void __thiscall c_player_view::render_()
 						c_rasterizer_globals::_shader_copy_scaled,
 						c_rasterizer::_surface_accum_LDR,
 						c_rasterizer::_surface_disable,
-						c_rasterizer::_sampler_filter_mode_point,
+						c_rasterizer::_sampler_filter_point,
 						c_rasterizer::_sampler_address_clamp,
 						1.0f,
 						1.0f,

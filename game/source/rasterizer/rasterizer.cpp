@@ -248,7 +248,7 @@ bool __cdecl c_rasterizer::end_albedo(const rectangle2d* bounds)
 			c_rasterizer_globals::_shader_copy_scaled,
 			surface,
 			c_rasterizer::_surface_disable,
-			c_rasterizer::_sampler_filter_mode_point,
+			c_rasterizer::_sampler_filter_point,
 			c_rasterizer::_sampler_address_clamp,
 			1.0f,
 			1.0f,
@@ -775,7 +775,7 @@ bool __cdecl c_rasterizer::end_frame()
 		{
 			c_rasterizer::set_surface_as_texture(0, surface);
 			c_rasterizer::set_sampler_address_mode(0, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
-			c_rasterizer::set_sampler_filter_mode(0, _sampler_filter_mode_bilinear);
+			c_rasterizer::set_sampler_filter_mode(0, _sampler_filter_bilinear);
 
 			int32 brightness = global_preferences_get_display_brightness();
 			int32 contrast = global_preferences_get_display_contrast();

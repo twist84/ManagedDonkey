@@ -252,9 +252,9 @@ public:
 
 	enum e_sampler_filter_mode
 	{
-		_sampler_filter_mode_trilinear = 0,
-		_sampler_filter_mode_point,
-		_sampler_filter_mode_bilinear,
+		_sampler_filter_trilinear = 0,
+		_sampler_filter_point,
+		_sampler_filter_bilinear,
 		_sampler_filter_anisotropic_1,
 		_sampler_filter_anisotropic_2,
 		_sampler_filter_anisotropic_3,
