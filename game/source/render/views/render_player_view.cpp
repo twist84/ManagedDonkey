@@ -42,6 +42,7 @@ REFERENCE_DECLARE(0x01694EC8, const c_screen_postprocess::s_settings* const, c_s
 REFERENCE_DECLARE(0x019147CC, int32, g_distortion_conditional_rendering_index);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A38040, c_player_view, apply_distortions);
+HOOK_DECLARE_CLASS_MEMBER(0x00A39560, c_player_view, generate_distortions);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
 HOOK_DECLARE_CLASS_MEMBER(0x00A39960, c_player_view, render_);
 HOOK_DECLARE_CLASS_MEMBER(0x00A3A0E0, c_player_view, render_albedo);
@@ -81,6 +82,34 @@ void __thiscall c_player_view::apply_distortions()
 void c_player_view::create_frame_textures(int32 player_index)
 {
 	INVOKE_CLASS_MEMBER(0x00A38D70, c_player_view, create_frame_textures, player_index);
+}
+
+void __thiscall c_player_view::generate_distortions()
+{
+	//INVOKE_CLASS_MEMBER(0x00A39560, c_player_view, generate_distortions);
+
+	//bool depth_test = true;
+	//c_player_render_camera_iterator player_camera_iterator{};
+	//if (c_rasterizer::get_is_tiling_enabled() || player_camera_iterator.get_window_count() != 1)
+	//{
+	//	depth_test = false;
+	//}
+	bool depth_test = false;
+	c_transparency_renderer::render(depth_test);
+
+	c_rasterizer_profile_scope _chud_distortion(_rasterizer_profile_element_distortions, L"chud distortion");
+
+	int32 user_index = m_camera_user_data.user_index;
+	int32 surface_height = c_rasterizer::get_surface_height(c_rasterizer::_surface_distortion);
+	int32 surface_width = c_rasterizer::get_surface_width(c_rasterizer::_surface_distortion);
+	chud_apply_distortion(user_index, surface_width, surface_height);
+}
+
+void __cdecl c_player_view::generate_distortions_callback(int32 __formal)
+{
+	//INVOKE(0x00A395D0, c_player_view::generate_distortions_callback, __formal);
+
+	c_player_view::x_current_player_view->generate_distortions();
 }
 
 void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3* camera)

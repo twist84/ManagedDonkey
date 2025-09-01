@@ -263,6 +263,12 @@ protected:
 public:
 	void __thiscall apply_distortions();
 	void create_frame_textures(int32 player_index);
+
+//protected:
+	void __thiscall generate_distortions();
+	static void __cdecl generate_distortions_callback(int32 __formal);
+
+public:
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
 	void __thiscall queue_patchy_fog();
 	void __thiscall render_();
