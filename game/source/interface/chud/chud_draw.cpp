@@ -14,6 +14,7 @@ REFERENCE_DECLARE(0x052604C1, bool, chud_debug_messages);
 REFERENCE_DECLARE(0x05269FC8, s_chud_draw_globals, g_chud_draw_globals);
 REFERENCE_DECLARE(0x0526A085, bool, chud_debug_crosshair);
 REFERENCE_DECLARE(0x0526A087, bool, chud_debug_grid);
+REFERENCE_DECLARE(0x0526A088, bool, chud_contain_turbulence);
 
 HOOK_DECLARE(0x00AC7B80, chud_compute_render_data);
 HOOK_DECLARE(0x00AC7F80, chud_debug_draw_reticle_labeled);

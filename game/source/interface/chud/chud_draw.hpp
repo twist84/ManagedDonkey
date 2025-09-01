@@ -55,6 +55,7 @@ extern bool& chud_enabled;
 extern bool& chud_debug_messages;
 extern s_chud_draw_globals& g_chud_draw_globals;
 extern bool& chud_debug_grid;
+extern bool& chud_contain_turbulence;
 extern bool& chud_debug_crosshair;
 
 extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence);

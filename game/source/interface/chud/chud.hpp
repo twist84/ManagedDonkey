@@ -789,6 +789,7 @@ static_assert(sizeof(c_chud_manager) == 0x1);
 
 extern s_chud_globals_definition*& chud_globals;
 
+extern void __cdecl chud_apply_distortion(int32 user_index, int32 target_width, int32 target_height);
 extern void __cdecl chud_dispose();
 extern void __cdecl chud_dispose_from_old_map();
 extern void __cdecl chud_draw_screen(int32 user_index);
