@@ -44,6 +44,7 @@
 #include "render/render_cameras.hpp"
 #include "render/render_debug_commands.hpp"
 #include "render/render_lights.hpp"
+#include "render/render_objects_static_lighting.hpp"
 #include "render/render_transparents.hpp"
 #include "render/render_water.hpp"
 #include "render/screen_postprocess.hpp"
@@ -677,6 +678,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_controller, cheat.controller_enabled),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_chevy, cheat.chevy),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_show_air_probes),
 	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_toggle_default_lightmaps_texaccum),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_static_lighting),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_dynamic_lighting),

@@ -2,6 +2,8 @@
 
 REFERENCE_DECLARE(0x050FB668, s_render_object_first_person_globals, render_object_globals);
 
+bool render_debug_show_air_probes = false;
+
 //.text:00A42000 ; 
 //.text:00A42020 ; 
 //.text:00A42030 ; void __cdecl __tls_set_g_cached_object_render_states_allocator(void*)

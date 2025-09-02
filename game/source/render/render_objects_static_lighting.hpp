@@ -84,6 +84,7 @@ struct s_render_object_first_person_globals
 };
 static_assert(sizeof(s_render_object_first_person_globals) == 0xB720);
 
+extern bool render_debug_show_air_probes;
 extern s_render_object_first_person_globals& render_object_globals;
 
 extern const render_lighting* object_get_cached_render_lighting(int32 object_index);

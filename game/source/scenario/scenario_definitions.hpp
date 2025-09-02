@@ -505,6 +505,15 @@ struct s_scenario_budget_reference
 };
 static_assert(sizeof(s_scenario_budget_reference) == sizeof(s_tag_reference));
 
+struct s_scenario_airprobe_info
+{
+	real_point3d position;
+	int32 name;
+	uns16 manual_bsp_flags;
+	uns16 pad;
+};
+static_assert(sizeof(s_scenario_airprobe_info) == 0x14);
+
 struct s_scenario_lighting_zone_set
 {
 	c_string_id name;
