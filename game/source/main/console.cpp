@@ -960,6 +960,16 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_animation_fp_sprint_disable),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_first_person_skeleton),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_bounds, c_lightmap_shadows_view::g_debug_shadow_bounds),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_bounds_solid, c_lightmap_shadows_view::g_debug_shadow_bounds_solid),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_opaque, c_lightmap_shadows_view::g_debug_shadow_opaque),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_screenspace, c_lightmap_shadows_view::g_debug_shadow_screenspace),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_histencil, c_lightmap_shadows_view::g_debug_shadow_histencil),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_hires, c_lightmap_shadows_view::g_debug_shadow_force_hi_res),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_objectspace_stencil_clip, c_lightmap_shadows_view::g_debug_objectspace_stencil_clip),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_force_fancy, c_lightmap_shadows_view::g_debug_force_fancy_shadows),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_force_old, c_lightmap_shadows_view::g_debug_force_old_shadows),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_postprocess, c_screen_postprocess::x_editable_settings.m_postprocess),
 	CONSOLE_GLOBAL_DECLARE_LONG2(render_accum, c_screen_postprocess::x_editable_settings.m_accum),
 	CONSOLE_GLOBAL_DECLARE_LONG2(render_bloom_source, c_screen_postprocess::x_editable_settings.m_bloom_source),

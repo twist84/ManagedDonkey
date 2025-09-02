@@ -188,6 +188,16 @@ class c_lightmap_shadows_view :
 {
 public:
 	s_oriented_bounding_box m_projection_bounds;
+
+	static bool& g_debug_shadow_screenspace;
+	static bool& g_debug_shadow_bounds;
+	static bool& g_debug_shadow_bounds_solid;
+	static bool& g_debug_shadow_opaque;
+	static bool& g_debug_shadow_histencil;
+	static bool& g_debug_shadow_force_hi_res;
+	static bool& g_debug_objectspace_stencil_clip;
+	static bool& g_debug_force_fancy_shadows;
+	static bool& g_debug_force_old_shadows;
 };
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 

@@ -367,6 +367,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\render\render_flags.cpp" />
     <ClCompile Include="source\render\render_game_state.cpp" />
     <ClCompile Include="source\render\render_lens_flares.cpp" />
+    <ClCompile Include="source\render\render_lightmap_shadows.cpp" />
     <ClCompile Include="source\render\render_mesh.cpp" />
     <ClCompile Include="source\render\render_objects.cpp" />
     <ClCompile Include="source\render\render_patchy_fog.cpp" />
@@ -1292,6 +1293,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\render\render_debug_commands.hpp" />
     <ClInclude Include="source\render\render_flags.hpp" />
     <ClInclude Include="source\render\render_lens_flares.hpp" />
+    <ClInclude Include="source\render\render_lightmap_shadows.hpp" />
     <ClInclude Include="source\render\render_mesh.hpp" />
     <ClInclude Include="source\render\render_sky.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
