@@ -9,6 +9,7 @@
 #include "visibility/visibility_collection.hpp"
 
 __interface IDirect3DSurface9;
+struct light_geometry;
 struct s_observer_result;
 
 // 0165DB98
@@ -186,6 +187,20 @@ static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
 class c_lightmap_shadows_view :
 	public c_world_view
 {
+public:
+	enum e_shadow_mode
+	{
+		_shadow_mode_point = 0,
+		_shadow_mode_box2x2,
+		_shadow_mode_bilinear3x3,
+		_shadow_mode_bilinear4x4,
+		_shadow_mode_old,
+		k_shadow_mode_count,
+	};
+
+public:
+	static bool __cdecl object_shadow_visible(int32 object_index, s_oriented_bounding_box* obb, light_geometry* geometry);
+
 public:
 	s_oriented_bounding_box m_projection_bounds;
 
