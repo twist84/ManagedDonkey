@@ -377,6 +377,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
     <ClCompile Include="source\render\views\hud_camera_view.cpp" />
+    <ClCompile Include="source\render_methods\render_method_definitions.cpp" />
     <ClCompile Include="source\replication\replication_encoding.cpp" />
     <ClCompile Include="source\saved_games\autosave_queue.cpp" />
     <ClCompile Include="source\saved_games\content\content_item_metadata.cpp" />
@@ -1297,6 +1298,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\render\render_tron_effect.hpp" />
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
+    <ClInclude Include="source\render_methods\render_method_definitions.hpp" />
     <ClInclude Include="source\saved_games\autosave_queue.hpp" />
     <ClInclude Include="source\saved_games\content\content_item_metadata.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />

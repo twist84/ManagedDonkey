@@ -4569,7 +4569,7 @@ enum e_entry_point
 	_entry_point_z_only,
 	_entry_point_sfx_distort,
 
-	k_entry_point_count
+	k_number_of_entry_points
 };
 
 enum e_rasterizer_constant_table_type
