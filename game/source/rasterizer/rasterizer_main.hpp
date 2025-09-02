@@ -5,17 +5,12 @@
 
 struct s_rasterizer_game_states
 {
-	bool motion_blur;
-	bool atmosphere_fog;
-	bool patchy_fog;
-	bool weather;
+	bool motion_blur_enabled;
+	bool atmosphere_fog_enabled;
+	bool patchy_fog_enabled;
+	bool weather_enabled;
 	bool cinematic_motion_blur;
-
-	byte __unknown5[0x27];
-
-	bool autoexposure;
-
-	byte __unknown44[0x1DB];
+	int32 weather_effect_indices[128];
 };
 static_assert(sizeof(s_rasterizer_game_states) == 0x208);
 

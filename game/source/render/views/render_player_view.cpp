@@ -2,6 +2,7 @@
 
 #include "effects/screen_shader.hpp"
 #include "game/game_engine_display.hpp"
+#include "geometry/geometry_sampling.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/overhead_map.hpp"
@@ -19,6 +20,7 @@
 #include "render/render_debug_commands.hpp"
 #include "render/render_flags.hpp"
 #include "render/render_lens_flares.hpp"
+#include "render/render_objects_static_lighting.hpp"
 #include "render/render_transparents.hpp"
 #include "render/render_tron_effect.hpp"
 #include "render/screen_postprocess.hpp"
@@ -344,7 +346,7 @@ void __thiscall c_player_view::render_()
 						c_player_view::render_water();
 					}
 
-					if (g_rasterizer_game_states->patchy_fog)
+					if (g_rasterizer_game_states->patchy_fog_enabled)
 					{
 						c_player_view::queue_patchy_fog();
 					}
@@ -532,6 +534,11 @@ void __thiscall c_player_view::render_()
 	}
 
 	game_engine_render_debug(m_camera_user_data.user_index);
+
+	if (render_debug_show_air_probes)
+	{
+		c_geometry_sampler::show_all_air_probes();
+	}
 
 	if (!screenshot_sub_610260())
 	{

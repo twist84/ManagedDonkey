@@ -28,6 +28,14 @@ struct s_game_cluster_bit_vectors;
 class c_atmosphere_fog_interface
 {
 public:
+	enum
+	{
+		_invalid_atmosphere_set = -1,
+		_default_atmosphere_index = -2,
+		_atmosphere_disabled = -3,
+	};
+
+public:
 	static void __cdecl dispose_from_old_map();
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);

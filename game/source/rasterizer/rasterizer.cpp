@@ -469,10 +469,10 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 		if (c_rasterizer::initialized)
 		{
 			g_rasterizer_game_states = (s_rasterizer_game_states*)g_rasterizer_game_states_allocator.allocate(sizeof(s_rasterizer_game_states), "rasterizer game states");
-			g_rasterizer_game_states->motion_blur = true;
-			g_rasterizer_game_states->atmosphere_fog = true;
-			g_rasterizer_game_states->patchy_fog = true;
-			g_rasterizer_game_states->weather = true;
+			g_rasterizer_game_states->motion_blur_enabled = true;
+			g_rasterizer_game_states->atmosphere_fog_enabled = true;
+			g_rasterizer_game_states->patchy_fog_enabled = true;
+			g_rasterizer_game_states->weather_enabled = true;
 			g_rasterizer_game_states->cinematic_motion_blur = false;
 
 			g_hue_saturation_control_in_gamestate = (c_hue_saturation_control*)g_hue_saturation_control_allocator.allocate(sizeof(c_hue_saturation_control), "hue saturation control");

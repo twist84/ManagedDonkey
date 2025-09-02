@@ -19,6 +19,14 @@ void __cdecl c_atmosphere_fog_interface::dispose_from_old_structure_bsp(uns32 de
 	INVOKE(0x00530190, c_atmosphere_fog_interface::dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
+//.text:00671D30 ; 
+//.text:00671D50 ; 
+//.text:00671D60 ; 
+//.text:00671D70 ; 
+//.text:00671D90 ; private: static void __cdecl c_atmosphere_fog_interface::accumulate_atmosphere_settings(const c_atmosphere_setting*, s_weighted_atmosphere_parameters*, real32)
+//.text:00672020 ; 
+//.text:00672060 ; 
+
 void __cdecl c_atmosphere_fog_interface::change_pvs(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local)
 {
 	INVOKE(0x00672230, c_atmosphere_fog_interface::change_pvs, old_cluster_activation, new_cluster_activation, local);
@@ -28,6 +36,25 @@ void __cdecl c_atmosphere_fog_interface::compute_cluster_weights(s_cluster_refer
 {
 	INVOKE(0x006724B0, c_atmosphere_fog_interface::compute_cluster_weights, cluster_reference, point);
 }
+
+//.text:00672870 ; public: static void __cdecl c_atmosphere_fog_interface::compute_scattering(const s_weighted_atmosphere_parameters*, const real_point3d&, const real_point3d&, real32, real_linear_rgb_color*, real_linear_rgb_color*)
+//.text:00672DD0 ; 
+//.text:00672E40 ; 
+//.text:00672EF0 ; 
+//.text:00672FC0 ; 
+//.text:00673070 ; 
+//.text:006730D0 ; 
+//.text:006731A0 ; 
+//.text:00673210 ; 
+//.text:00673240 ; public: static void __cdecl c_atmosphere_fog_interface::disable_atmosphere()
+//.text:006732A0 ; 
+//.text:006732D0 ; 
+//.text:006733A0 ; private: static c_atmosphere_setting* __cdecl c_atmosphere_fog_interface::get_atmosphere_setting(s_cluster_reference, const char**)
+//.text:00673480 ; public: static const c_sky_atm_parameters* __cdecl c_atmosphere_fog_interface::get_global_atmosphere_parameters()
+//.text:006734C5 ; 
+//.text:006734D0 ; 
+//.text:00673600 ; private: static void __cdecl c_atmosphere_fog_interface::get_sun_parameters(const c_atmosphere_setting*, real_linear_rgb_color*, real_vector3d*)
+//.text:00673780 ; 
 
 void __cdecl c_atmosphere_fog_interface::initialize()
 {
@@ -44,10 +71,18 @@ void __cdecl c_atmosphere_fog_interface::initialize_for_new_structure_bsp(uns32 
 	INVOKE(0x006738F0, c_atmosphere_fog_interface::initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
+//.text:00673960 ; 
+
 void __cdecl c_atmosphere_fog_interface::populate_atmosphere_parameters(s_cluster_reference cluster_reference, s_weighted_atmosphere_parameters* parameters)
 {
 	INVOKE(0x006739A0, c_atmosphere_fog_interface::populate_atmosphere_parameters, cluster_reference, parameters);
 }
+
+//.text:00673A30 ; 
+//.text:00674060 ; 
+//.text:00674080 ; 
+//.text:006740C0 ; public: static void __cdecl c_atmosphere_fog_interface::set_atmosphere_constants_by_index(int32)
+//.text:00674170 ; public: static void __cdecl c_atmosphere_fog_interface::set_constant(const s_weighted_atmosphere_parameters*, bool, bool)
 
 void __cdecl c_atmosphere_fog_interface::invalidate_atmosphere_constants()
 {
