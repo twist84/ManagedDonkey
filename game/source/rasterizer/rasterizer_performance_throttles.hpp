@@ -2,14 +2,17 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_performance_throttle_flags
-{
-
-};
-
 struct s_performance_throttles
 {
-	// e_performance_throttle_flags
+	enum e_flags
+	{
+		_bloom_ignore_LDR_bit = 0,
+		_object_disable_prt_bit,
+		_disable_first_person_shadow_bit,
+
+		k_number_of_flags,
+	};
+
 	uns32 flags;
 
 	real32 water_lod;
@@ -18,27 +21,27 @@ struct s_performance_throttles
 	real32 decorator_fade_distance_scale;
 
 	// effect lod limit
-	real32 effect_lod_distance_scale;
+	real32 effects_lod_distance_scale;
 
 	real32 instance_fade_modifier;
 	real32 object_fade_modifier;
-	real32 object_lod_threshold_modifier;
+	real32 object_lod_modifier;
 	real32 decal_fade_distance_scale;
 
 	// will quickly fade cpu lights when we try to render more than this many
-	int32 max_cpu_dynamic_lights;
+	int32 cpu_dynamic_light_max_count;
 
 	// scales the size used for distance-fade (set smaller to make it fade earlier)
-	real32 cpu_light_fade_distance_scale;
+	real32 cpu_dynamic_light_scale;
 
 	// will quickly fade gpu lights when we try to render more than this many
-	int32 max_gpu_dynamic_lights;
+	int32 gpu_dynamic_light_max_count;
 
 	// scales the size used for distance-fade (set smaller to make it fade earlier)
-	real32 gpu_light_fade_distance_scale;
+	real32 gpu_dynamic_light_scale;
 
 	// 0 = off
-	int32 max_shadow_casting_objects;
+	int32 shadow_generate_count;
 
 	real32 shadow_quality_lod;
 

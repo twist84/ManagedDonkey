@@ -38,7 +38,7 @@ real32 __cdecl c_performance_throttles::get_performance_throttle(const char* nam
 			return throttle.decorator_fade_distance_scale;
 
 		if (csstricmp(name, "effect") == 0)
-			return throttle.effect_lod_distance_scale;
+			return throttle.effects_lod_distance_scale;
 
 		if (csstricmp(name, "instance") == 0)
 			return throttle.instance_fade_modifier;
@@ -68,19 +68,19 @@ real32 __cdecl c_performance_throttles::get_performance_throttle(const char* nam
 			return m_object_modifiers[_object_type_crate];
 
 		if (csstricmp(name, "object_lod") == 0)
-			return throttle.object_lod_threshold_modifier;
+			return throttle.object_lod_modifier;
 
 		if (csstricmp(name, "decals") == 0)
 			return throttle.decal_fade_distance_scale;
 
 		if (csstricmp(name, "cpu_light_count") == 0)
-			return (real32)throttle.max_cpu_dynamic_lights;
+			return (real32)throttle.cpu_dynamic_light_max_count;
 
 		if (csstricmp(name, "gpu_light_count") == 0)
-			return (real32)throttle.max_gpu_dynamic_lights;
+			return (real32)throttle.gpu_dynamic_light_max_count;
 
 		if (csstricmp(name, "shadow_count") == 0)
-			return (real32)throttle.max_shadow_casting_objects;
+			return (real32)throttle.shadow_generate_count;
 
 		if (csstricmp(name, "shadow_quality") == 0)
 			return throttle.shadow_quality_lod;
@@ -120,7 +120,7 @@ void __cdecl c_performance_throttles::set_performance_throttle(const char* name,
 
 		if (csstricmp(name, "effect") == 0)
 		{
-			throttle.effect_lod_distance_scale = value;
+			throttle.effects_lod_distance_scale = value;
 			return;
 		}
 
@@ -180,7 +180,7 @@ void __cdecl c_performance_throttles::set_performance_throttle(const char* name,
 
 		if (csstricmp(name, "object_lod") == 0)
 		{
-			throttle.object_lod_threshold_modifier = value;
+			throttle.object_lod_modifier = value;
 			return;
 		}
 
@@ -192,19 +192,19 @@ void __cdecl c_performance_throttles::set_performance_throttle(const char* name,
 
 		if (csstricmp(name, "cpu_light_count") == 0)
 		{
-			throttle.max_cpu_dynamic_lights = (int32)value;
+			throttle.cpu_dynamic_light_max_count = (int32)value;
 			return;
 		}
 
 		if (csstricmp(name, "gpu_light_count") == 0)
 		{
-			throttle.max_gpu_dynamic_lights = (int32)value;
+			throttle.gpu_dynamic_light_max_count = (int32)value;
 			return;
 		}
 
 		if (csstricmp(name, "shadow_count") == 0)
 		{
-			throttle.max_shadow_casting_objects = (int32)value;
+			throttle.shadow_generate_count = (int32)value;
 			return;
 		}
 
