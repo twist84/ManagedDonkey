@@ -372,7 +372,7 @@ void __cdecl render_debug_begin(bool render_game_tick_cache, bool only_render_st
 	
 	g_render_debug_globals->active = true;
 
-	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_unknown7);
+	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_debug_geometry);
 	c_rasterizer::set_sampler_filter_mode(0, (c_rasterizer::e_sampler_filter_mode)0);
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 	c_rasterizer::set_color_write_enable(0, 7);

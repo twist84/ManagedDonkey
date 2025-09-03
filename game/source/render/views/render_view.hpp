@@ -195,14 +195,17 @@ public:
 		_shadow_mode_bilinear3x3,
 		_shadow_mode_bilinear4x4,
 		_shadow_mode_old,
+
 		k_shadow_mode_count,
 	};
 
 public:
 	void compute_visibility(int32 object_index, int32 forced_shadow_receiver_object_index);
+	static int32 __cdecl get_shadow_apply_shader(e_shadow_mode shadow_mode);
 	static bool __cdecl object_shadow_visible(int32 object_index, s_oriented_bounding_box* obb, light_geometry* geometry);
 	void render(int32 ignore_object_index);
 	void render_ambient(real32 shadow_alpha, real32 shadow_resolution, int32 object_index, int32 model_index);
+	static void __cdecl set_shadow_generate_mode(e_shadow_mode shadow_mode);
 	void submit_visibility_and_render(real32 shadow_alpha, real32 shadow_resolution);
 
 public:

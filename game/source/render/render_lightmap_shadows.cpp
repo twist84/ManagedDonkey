@@ -6,10 +6,12 @@
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 #include "rasterizer/rasterizer_performance_throttles.hpp"
+#include "rasterizer/rasterizer_states.hpp"
 #include "render/render_debug.hpp"
 #include "render/views/render_view.hpp"
 #include "visibility/visibility_collection_objects.hpp"
 
+REFERENCE_DECLARE_ARRAY(0x016952E0, c_rasterizer_globals::e_explicit_shader, shadow_mode_shader, c_lightmap_shadows_view::k_shadow_mode_count);
 REFERENCE_DECLARE(0x01918160, bool, c_lightmap_shadows_view::g_debug_shadow_screenspace) = true;
 REFERENCE_DECLARE(0x01918164, real32, shadow_fade_distance_scale) = 1.0f;
 REFERENCE_DECLARE(0x01918168, real32, shadow_drastic_distance_scale) = 1.1f;
@@ -17,7 +19,7 @@ REFERENCE_DECLARE(0x0191816C, real32, shadow_reduce_distance_scale) = 1.01f;
 REFERENCE_DECLARE(0x01918170, real32, shadow_decrease_distance_blend) = 0.99f;
 REFERENCE_DECLARE(0x05115B3E, bool, c_lightmap_shadows_view::g_debug_shadow_bounds) = false;
 REFERENCE_DECLARE(0x05115B3F, bool, c_lightmap_shadows_view::g_debug_shadow_bounds_solid) = false;
-REFERENCE_DECLARE(0x05115B40, bool, c_lightmap_shadows_view::g_debug_shadow_opaque) = false;            // unused
+REFERENCE_DECLARE(0x05115B40, bool, c_lightmap_shadows_view::g_debug_shadow_opaque) = false;
 REFERENCE_DECLARE(0x05115B41, bool, c_lightmap_shadows_view::g_debug_shadow_histencil) = false;
 REFERENCE_DECLARE(0x05115B42, bool, c_lightmap_shadows_view::g_debug_shadow_force_hi_res) = false;
 REFERENCE_DECLARE(0x05115B43, bool, c_lightmap_shadows_view::g_debug_objectspace_stencil_clip) = false;
@@ -25,6 +27,15 @@ REFERENCE_DECLARE(0x05115B44, bool, c_lightmap_shadows_view::g_debug_force_fancy
 REFERENCE_DECLARE(0x05115B45, bool, c_lightmap_shadows_view::g_debug_force_old_shadows) = false;        // unused
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A68C70, c_lightmap_shadows_view, render);
+
+//c_rasterizer_globals::e_explicit_shader shadow_mode_shader[c_lightmap_shadows_view::k_shadow_mode_count]
+//{
+//	c_rasterizer_globals::_shader_shadow_apply_point,
+//	c_rasterizer_globals::_shader_shadow_apply_faster,
+//	c_rasterizer_globals::_shader_shadow_apply_bilinear,
+//	c_rasterizer_globals::_shader_shadow_apply_fancy,
+//	c_rasterizer_globals::_shader_shadow_apply,
+//};
 
 // $TODO remove this once all performance throttles are added back
 #define USE_GLOBAL_PREFERENCES
@@ -60,6 +71,26 @@ bool __cdecl lightmap_shadows_view_object_shadow_visible_hook_for_compute_visibi
 }
 HOOK_DECLARE_CALL(0x00A68316, lightmap_shadows_view_object_shadow_visible_hook_for_compute_visibility);
 
+bool __cdecl rasterizer_set_explicit_shaders_hook_for_submit_visibility_and_render0(int32 explicit_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
+{
+	bool result = c_rasterizer::set_explicit_shaders(explicit_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	if (result)
+	{
+		if (c_lightmap_shadows_view::g_debug_force_old_shadows)
+		{
+			g_shadow_generate_depth_bias = 0.0f;
+			g_shadow_generate_slope_depth_bias = 0.0f;
+		}
+		else
+		{
+			g_shadow_generate_depth_bias = 0.003f;
+			g_shadow_generate_slope_depth_bias = 1.414f;
+		}
+	}
+	return result;
+}
+HOOK_DECLARE_CALL(0x00A6B8AC, rasterizer_set_explicit_shaders_hook_for_submit_visibility_and_render0);
+
 void c_lightmap_shadows_view::compute_visibility(int32 object_index, int32 forced_shadow_receiver_object_index)
 {
 	INVOKE_CLASS_MEMBER(0x00A682D0, c_lightmap_shadows_view, compute_visibility, object_index, forced_shadow_receiver_object_index);
@@ -70,7 +101,25 @@ int32 __cdecl c_visible_items::get_camera_root_objects_count()
 	return INVOKE(0x00A68470, c_visible_items::get_camera_root_objects_count);
 }
 
-//.text:00A68490 ; public: static int32 __cdecl c_lightmap_shadows_view::get_shadow_apply_shader(c_lightmap_shadows_view::e_shadow_mode)
+int32 __cdecl c_lightmap_shadows_view::get_shadow_apply_shader(e_shadow_mode shadow_mode)
+{
+	//return INVOKE(0x00A68490, c_lightmap_shadows_view::get_shadow_apply_shader, shadow_mode);
+
+	ASSERT(VALID_INDEX(shadow_mode, k_shadow_mode_count));
+
+	if (c_lightmap_shadows_view::g_debug_force_fancy_shadows)
+	{
+		shadow_mode = _shadow_mode_bilinear4x4;
+	}
+
+	if (c_lightmap_shadows_view::g_debug_force_old_shadows)
+	{
+		shadow_mode = _shadow_mode_old;
+	}
+
+	return shadow_mode_shader[shadow_mode];
+}
+
 //.text:00A684A0 ; void __cdecl hs_disable_cinematic_lightmap_shadow()
 //.text:00A684B0 ; void __cdecl hs_enable_cinematic_lightmap_shadow()
 //.text:00A684C0 ; bool __cdecl obb_visible(s_oriented_bounding_box* obb)
@@ -189,7 +238,23 @@ void c_lightmap_shadows_view::render_ambient(real32 shadow_alpha, real32 shadow_
 //.text:00A6B180 ; void __cdecl render_lightmap_shadow_calculate_radius(int32, const real_point3d*, const real_vector3d*, real32*, real32*, bool, bool)
 //.text:00A6B310 ; void c_lightmap_shadows_view::render_setup_internal() const 
 //.text:00A6B340 ; void c_lightmap_shadows_view::render_submit_visibility()
-//.text:00A6B360 ; 
+
+void __cdecl c_lightmap_shadows_view::set_shadow_generate_mode(e_shadow_mode shadow_mode)
+{
+	//INVOKE(0x00A6B360, c_lightmap_shadows_view::set_shadow_generate_mode, shadow_mode);
+
+	if (c_lightmap_shadows_view::g_debug_force_old_shadows)
+	{
+		g_shadow_generate_depth_bias = 0.0f;
+		g_shadow_generate_slope_depth_bias = 0.0f;
+	}
+	else
+	{
+		g_shadow_generate_depth_bias = 0.003f;
+		g_shadow_generate_slope_depth_bias = 1.414f;
+	}
+}
+
 //.text:00A6B370 ; void c_lightmap_shadows_view::setup_camera()
 
 void c_lightmap_shadows_view::submit_visibility_and_render(real32 shadow_alpha, real32 shadow_resolution)

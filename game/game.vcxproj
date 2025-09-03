@@ -358,6 +358,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\rasterizer\rasterizer_occlusion_queries.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_profile.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_states.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_stipple.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_synchronization.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
@@ -1286,6 +1287,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\rasterizer\rasterizer_occlusion_queries.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_profile.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_states.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_stipple.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_synchronization.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_vertex_definitions.hpp" />

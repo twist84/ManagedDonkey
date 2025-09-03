@@ -280,7 +280,7 @@ public:
 		_z_buffer_mode_shadow_generate_dynamic_lights,
 		_z_buffer_mode_shadow_apply,
 		_z_buffer_mode_decals,
-		_z_buffer_mode_unknown7,
+		_z_buffer_mode_debug_geometry,
 		_z_buffer_mode_unknown8,
 
 		k_number_of_z_buffer_modes
