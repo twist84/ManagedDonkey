@@ -276,10 +276,10 @@ struct s_cache_file_globals
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3500);
 
-extern const char* const& k_multiplayer_shared_scenario_tag;
-extern const char* const& k_single_player_shared_scenario_tag;
-extern const char* const& k_main_menu_scenario_tag;
-extern const char* const& k_introduction_scenario_tag;
+extern const char*& k_multiplayer_shared_scenario_tag;
+extern const char*& k_single_player_shared_scenario_tag;
+extern const char*& k_main_menu_scenario_tag;
+extern const char*& k_introduction_scenario_tag;
 extern const char*& k_cache_strings_file;
 extern const char*& k_cache_tags_file;
 extern const char*& k_cache_tag_list_file;

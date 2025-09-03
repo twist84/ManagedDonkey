@@ -4,7 +4,7 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/session/network_session_parameters_matchmaking.hpp"
 
-REFERENCE_DECLARE(0x0191D298, int32, g_network_matchmaking_fake_progress_stage);
+REFERENCE_DECLARE(0x0191D298, int32, g_network_matchmaking_fake_progress_stage) = NONE;
 REFERENCE_DECLARE(0x052604C8, s_life_cycle_matchmaking_progress, g_test_progress);
 
 HOOK_DECLARE(0x00A98920, user_interface_matchmaking_get_matchmaking_progress);

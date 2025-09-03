@@ -112,7 +112,7 @@ char const k_version_full_string[] = VERSION_FULL_STRING;
 char const k_version_tracked_string[] = VERSION_TRACKED_STRING;
 char const k_version_untracked_string[] = VERSION_UNTRACKED_STRING;
 
-REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);
+REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build) = true;
 
 HOOK_DECLARE(0x0042E480, version_get_target_variant);
 HOOK_DECLARE(0x0042E490, version_get_full_string);

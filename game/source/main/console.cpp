@@ -620,7 +620,7 @@ bool __cdecl debugging_system_has_focus()
 #define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
 #define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
 
-REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting);
+REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting) = true;
 
 s_console_global const k_console_globals[] =
 {

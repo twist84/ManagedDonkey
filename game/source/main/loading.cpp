@@ -15,7 +15,7 @@
 #include "networking/logic/network_session_interface.hpp"
 #include "scenario/scenario.hpp"
 
-REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen);
+REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen) = false;
 REFERENCE_DECLARE(0x02390D04, loading_globals_definition, loading_globals);
 REFERENCE_DECLARE(0x0471AA58, int32, loaded_resource_bytes);
 REFERENCE_DECLARE(0x0471AA5C, int32, total_resource_bytes);

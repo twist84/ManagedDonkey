@@ -29,9 +29,9 @@
 real32 g_ui_time_scale = 1.0f;
 real32 g_ui_time_step = 0.0f;
 
-REFERENCE_DECLARE(0x0191CC20, int32, g_user_interface_alpha_locked_down_state); // e_alpha_configuration_ui_level
-REFERENCE_DECLARE(0x0191CC24, bool, g_eula_accepted);
-REFERENCE_DECLARE(0x052559E0, bool, g_user_interface_is_alpha);
+REFERENCE_DECLARE(0x0191CC20, int32, g_user_interface_alpha_locked_down_state) = NONE; // e_alpha_configuration_ui_level
+REFERENCE_DECLARE(0x0191CC24, bool, g_eula_accepted) = true;
+REFERENCE_DECLARE(0x052559E0, bool, g_user_interface_is_alpha) = false;
 REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals);
 
 HOOK_DECLARE(0x00A849B0, user_interface_render);

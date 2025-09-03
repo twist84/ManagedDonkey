@@ -13,7 +13,7 @@
 #include "render/views/render_view.hpp"
 #include "units/units.hpp"
 
-REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
+REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals) = NULL;
 
 HOOK_DECLARE(0x00A88DA0, chud_draw_screen);
 HOOK_DECLARE(0x00A89100, chud_draw_screen_saved_film);

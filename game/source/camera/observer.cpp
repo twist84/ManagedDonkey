@@ -10,8 +10,8 @@
 #include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
 
-REFERENCE_DECLARE(0x018BB17C, real32, g_observer_wave_height);
-REFERENCE_DECLARE(0x018BB180, real32, g_camera_speed);
+REFERENCE_DECLARE(0x018BB17C, real32, g_observer_wave_height) = 0.03f;
+REFERENCE_DECLARE(0x018BB180, real32, g_camera_speed) = 1.0f;
 
 HOOK_DECLARE(0x00612710, observer_game_tick);
 HOOK_DECLARE(0x00613A60, observer_update);

@@ -9,7 +9,7 @@
 
 //#include <windows.h>
 
-REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
+REFERENCE_DECLARE(0x022B47FC, bool, display_framerate) = false;
 
 HOOK_DECLARE(0x00507FF0, main_time_is_throttled);
 HOOK_DECLARE(0x00508160, main_time_throttle);

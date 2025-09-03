@@ -3,14 +3,11 @@
 #include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 
-REFERENCE_DECLARE(0x0191D4FC, bool, g_all_level_unlocked);
+REFERENCE_DECLARE(0x0191D4FC, bool, g_all_level_unlocked) = true;
 
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA0320, c_player_profile_interface, dirty_or);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA36B0, c_player_profile_interface, set_primary_change_color);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AA3860, c_player_profile_interface, set_secondary_change_color);
-
-//const t_value_type<bool> all_level_unlocked = { .value = false };
-//DATA_PATCH_DECLARE(0x0191D4FC, all_level_unlocked, all_level_unlocked.bytes);
 
 //.text:00A9FEF0 ; 
 //.text:00A9FF00 ; 

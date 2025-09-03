@@ -42,19 +42,19 @@
 #include <search.h>
 #include <string.h>
 
-REFERENCE_DECLARE(0x0189CFDC, const char* const, k_multiplayer_shared_scenario_tag);
-REFERENCE_DECLARE(0x0189CFE0, const char* const, k_single_player_shared_scenario_tag);
-REFERENCE_DECLARE(0x0189CFE4, const char* const, k_main_menu_scenario_tag);
-REFERENCE_DECLARE(0x0189CFE8, const char* const, k_introduction_scenario_tag);
-REFERENCE_DECLARE(0x0189CFEC, const char*, k_cache_strings_file);
-REFERENCE_DECLARE(0x0189CFF0, const char*, k_cache_tags_file);
-REFERENCE_DECLARE(0x0189CFF4, const char*, k_cache_tag_list_file);
-REFERENCE_DECLARE(0x0189CFF8, const char*, k_cache_resources_file);
-REFERENCE_DECLARE(0x0189CFFC, const char*, k_cache_textures_file);
-REFERENCE_DECLARE(0x0189D000, const char*, k_cache_textures_b_file);
-REFERENCE_DECLARE(0x0189D004, const char*, k_cache_audio_file);
-REFERENCE_DECLARE(0x0189D008, const char*, k_cache_video_file);
-REFERENCE_DECLARE(0x0189D00C, const char*, k_cache_file_extension);
+REFERENCE_DECLARE(0x0189CFDC, const char*, k_multiplayer_shared_scenario_tag) = "levels\\shared\\shared\\shared";
+REFERENCE_DECLARE(0x0189CFE0, const char*, k_single_player_shared_scenario_tag) = "levels\\shared\\shared\\campaign";
+REFERENCE_DECLARE(0x0189CFE4, const char*, k_main_menu_scenario_tag) = "levels\\ui\\mainmenu\\mainmenu";
+REFERENCE_DECLARE(0x0189CFE8, const char*, k_introduction_scenario_tag) = "levels\\solo\\005_intro\\005_intro";// "levels\\atlas\\c100\\c100";
+REFERENCE_DECLARE(0x0189CFEC, const char*, k_cache_strings_file) = "maps\\string_ids.dat";
+REFERENCE_DECLARE(0x0189CFF0, const char*, k_cache_tags_file) = "maps\\tags.dat";
+REFERENCE_DECLARE(0x0189CFF4, const char*, k_cache_tag_list_file) = "maps\\tag_list.csv";
+REFERENCE_DECLARE(0x0189CFF8, const char*, k_cache_resources_file) = "maps\\resources.dat";
+REFERENCE_DECLARE(0x0189CFFC, const char*, k_cache_textures_file) = "maps\\textures.dat";
+REFERENCE_DECLARE(0x0189D000, const char*, k_cache_textures_b_file) = "maps\\textures_b.dat";
+REFERENCE_DECLARE(0x0189D004, const char*, k_cache_audio_file) = "maps\\audio.dat";
+REFERENCE_DECLARE(0x0189D008, const char*, k_cache_video_file) = "maps\\video.dat";
+REFERENCE_DECLARE(0x0189D00C, const char*, k_cache_file_extension) = ".map";
 
 void* (__cdecl* tag_get_hook)(tag group_tag, int32 tag_index) = tag_get;
 

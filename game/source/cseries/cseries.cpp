@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions);
+REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions) = true;
 
 //REFERENCE_DECLARE(0x0189CD54, const real_argb_color* const, global_real_argb_white);
 //REFERENCE_DECLARE(0x0189CD58, const real_argb_color* const, global_real_argb_grey);
@@ -54,16 +54,9 @@ REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions);
 //REFERENCE_DECLARE(0x0189CDD4, const real_rgb_color* const, global_real_rgb_salmon);
 //REFERENCE_DECLARE(0x0189CDD8, const real_rgb_color* const, global_real_rgb_violet);
 
-REFERENCE_DECLARE(0x0189CDDC, c_system_allocation*, g_system_allocation);
-REFERENCE_DECLARE(0x0189CDE0, c_normal_allocation*, g_normal_allocation);
-REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);
-
-//bool set_catch_exceptions = []() -> bool
-//{
-//	g_catch_exceptions = false;
-//
-//	return true;
-//}();
+REFERENCE_DECLARE(0x0189CDDC, c_system_allocation*, g_system_allocation);// = new c_system_allocation();
+REFERENCE_DECLARE(0x0189CDE0, c_normal_allocation*, g_normal_allocation);// = new c_normal_allocation();
+REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);// = new c_no_allocation();
 
 static c_interlocked_long g_entry_gate;
 

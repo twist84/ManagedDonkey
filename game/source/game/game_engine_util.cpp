@@ -9,35 +9,35 @@
 
 REFERENCE_DECLARE_ARRAY(0x0471A920, c_game_engine*, game_engines, k_game_engine_type_count);
 
-REFERENCE_DECLARE(0x0190B890, c_game_engine*, ctf_engine);
-REFERENCE_DECLARE(0x0190B8D0, c_ctf_engine, internal_ctf_engine);
+REFERENCE_DECLARE(0x0190B890, c_game_engine*, ctf_engine);// = &internal_ctf_engine;
+REFERENCE_DECLARE(0x0190B8D0, c_ctf_engine, internal_ctf_engine);// = c_ctf_engine();
 
-REFERENCE_DECLARE(0x0190E1E8, c_game_engine*, slayer_engine);
-REFERENCE_DECLARE(0x0190E218, c_slayer_engine, internal_slayer_engine);
+REFERENCE_DECLARE(0x0190E1E8, c_game_engine*, slayer_engine);// = &internal_slayer_engine;
+REFERENCE_DECLARE(0x0190E218, c_slayer_engine, internal_slayer_engine);// = c_slayer_engine();
 
-REFERENCE_DECLARE(0x0190E23C, c_game_engine*, oddball_engine);
-REFERENCE_DECLARE(0x0190E26C, c_oddball_engine, internal_oddball_engine);
+REFERENCE_DECLARE(0x0190E23C, c_game_engine*, oddball_engine);// = &internal_oddball_engine;
+REFERENCE_DECLARE(0x0190E26C, c_oddball_engine, internal_oddball_engine);// = c_oddball_engine();
 
-REFERENCE_DECLARE(0x0190E290, c_game_engine*, king_engine);
-REFERENCE_DECLARE(0x0190E2C0, c_king_engine, internal_king_engine);
+REFERENCE_DECLARE(0x0190E290, c_game_engine*, king_engine);// = &internal_king_engine;
+REFERENCE_DECLARE(0x0190E2C0, c_king_engine, internal_king_engine);// = c_king_engine();
 
-REFERENCE_DECLARE(0x018A1564, c_game_engine*, sandbox_engine);
-REFERENCE_DECLARE(0x018A15BC, c_sandbox_engine, internal_sandbox_engine);
+REFERENCE_DECLARE(0x018A1564, c_game_engine*, sandbox_engine);// = &internal_sandbox_engine;
+REFERENCE_DECLARE(0x018A15BC, c_sandbox_engine, internal_sandbox_engine);// = c_sandbox_engine();
 
-REFERENCE_DECLARE(0x0190E3E8, c_game_engine*, vip_engine);
-REFERENCE_DECLARE(0x0190E418, c_vip_engine, internal_vip_engine);
+REFERENCE_DECLARE(0x0190E3E8, c_game_engine*, vip_engine);// = &internal_vip_engine;
+REFERENCE_DECLARE(0x0190E418, c_vip_engine, internal_vip_engine);// = c_vip_engine();
 
-REFERENCE_DECLARE(0x0190E2E0, c_game_engine*, juggernaut_engine);
-REFERENCE_DECLARE(0x0190E310, c_juggernaut_engine, internal_juggernaut_engine);
+REFERENCE_DECLARE(0x0190E2E0, c_game_engine*, juggernaut_engine);// = &internal_juggernaut_engine;
+REFERENCE_DECLARE(0x0190E310, c_juggernaut_engine, internal_juggernaut_engine);// = c_juggernaut_engine();
 
-REFERENCE_DECLARE(0x0190E338, c_game_engine*, territories_engine);
-REFERENCE_DECLARE(0x0190E368, c_territories_engine, internal_territories_engine);
+REFERENCE_DECLARE(0x0190E338, c_game_engine*, territories_engine);// = &internal_territories_engine;
+REFERENCE_DECLARE(0x0190E368, c_territories_engine, internal_territories_engine);// = c_territories_engine();
 
-REFERENCE_DECLARE(0x018EB5A8, c_game_engine*, assault_engine);
-REFERENCE_DECLARE(0x018EB5E8, c_assault_engine, internal_assault_engine);
+REFERENCE_DECLARE(0x018EB5A8, c_game_engine*, assault_engine);// = &internal_assault_engine;
+REFERENCE_DECLARE(0x018EB5E8, c_assault_engine, internal_assault_engine);// = c_assault_engine();
 
-REFERENCE_DECLARE(0x0190E390, c_game_engine*, infection_engine);
-REFERENCE_DECLARE(0x0190E3C0, c_infection_engine, internal_infection_engine);
+REFERENCE_DECLARE(0x0190E390, c_game_engine*, infection_engine);// = &internal_infection_engine;
+REFERENCE_DECLARE(0x0190E3C0, c_infection_engine, internal_infection_engine);// = c_infection_engine();
 
 const c_game_engine* __cdecl current_game_engine()
 {

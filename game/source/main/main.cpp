@@ -60,9 +60,9 @@
 
 #include <math.h>
 
-REFERENCE_DECLARE(0x0189D044, bool, g_force_upload_even_if_untracked);
-REFERENCE_DECLARE(0x022AE4F0, bool, g_render_thread_user_setting);
-REFERENCE_DECLARE(0x022AE4F2, bool, disable_main_loop_throttle);
+REFERENCE_DECLARE(0x0189D044, bool, g_force_upload_even_if_untracked) = true;
+REFERENCE_DECLARE(0x022AE4F0, bool, g_render_thread_user_setting) = false;
+REFERENCE_DECLARE(0x022AE4F2, bool, disable_main_loop_throttle) = false;
 REFERENCE_DECLARE_ARRAY(0x022AE4F8, s_main_status_value, g_status_values, 32);
 REFERENCE_DECLARE(0x022B456C, c_interlocked_long, g_render_thread_waiting);
 REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);

@@ -6,9 +6,9 @@
 #include "memory/module.hpp"
 #include "sound/sound_manager.hpp"
 
-REFERENCE_DECLARE(0x0191D300, bool, g_should_music_be_playing);
-REFERENCE_DECLARE(0x0191D330, e_movie_type, last_attract_movie);
-REFERENCE_DECLARE(0x05260708, uns32, g_attract_mode_countdown_timer);
+REFERENCE_DECLARE(0x0191D300, bool, g_should_music_be_playing) = true;
+REFERENCE_DECLARE(0x0191D330, e_movie_type, last_attract_movie) = k_no_movie;
+REFERENCE_DECLARE(0x05260708, uns32, g_attract_mode_countdown_timer) = 0;
 
 HOOK_DECLARE(0x00A99120, attract_mode_get_built_in_movie_path);
 HOOK_DECLARE(0x00A99220, attract_mode_get_countdown_time_milliseconds);
