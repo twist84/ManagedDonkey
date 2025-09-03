@@ -23,8 +23,8 @@ REFERENCE_DECLARE(0x05115B40, bool, c_lightmap_shadows_view::g_debug_shadow_opaq
 REFERENCE_DECLARE(0x05115B41, bool, c_lightmap_shadows_view::g_debug_shadow_histencil) = false;
 REFERENCE_DECLARE(0x05115B42, bool, c_lightmap_shadows_view::g_debug_shadow_force_hi_res) = false;
 REFERENCE_DECLARE(0x05115B43, bool, c_lightmap_shadows_view::g_debug_objectspace_stencil_clip) = false;
-REFERENCE_DECLARE(0x05115B44, bool, c_lightmap_shadows_view::g_debug_force_fancy_shadows) = false;      // unused
-REFERENCE_DECLARE(0x05115B45, bool, c_lightmap_shadows_view::g_debug_force_old_shadows) = false;        // unused
+REFERENCE_DECLARE(0x05115B44, bool, c_lightmap_shadows_view::g_debug_force_fancy_shadows) = false;
+REFERENCE_DECLARE(0x05115B45, bool, c_lightmap_shadows_view::g_debug_force_old_shadows) = false;
 
 HOOK_DECLARE_CLASS_MEMBER(0x00A68C70, c_lightmap_shadows_view, render);
 
@@ -90,6 +90,21 @@ bool __cdecl rasterizer_set_explicit_shaders_hook_for_submit_visibility_and_rend
 	return result;
 }
 HOOK_DECLARE_CALL(0x00A6B8AC, rasterizer_set_explicit_shaders_hook_for_submit_visibility_and_render0);
+
+bool __cdecl rasterizer_set_explicit_shaders_hook_for_submit_visibility_and_render1(int32 explicit_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
+{
+	if (c_lightmap_shadows_view::g_debug_force_fancy_shadows)
+	{
+		explicit_shader = shadow_mode_shader[c_lightmap_shadows_view::_shadow_mode_bilinear4x4];
+	}
+	if (c_lightmap_shadows_view::g_debug_force_old_shadows)
+	{
+		explicit_shader = shadow_mode_shader[c_lightmap_shadows_view::_shadow_mode_old];
+	}
+
+	return c_rasterizer::set_explicit_shaders(explicit_shader, base_vertex_type, transfer_vertex_type, entry_point);
+}
+HOOK_DECLARE_CALL(0x00A6BACB, rasterizer_set_explicit_shaders_hook_for_submit_visibility_and_render1);
 
 void c_lightmap_shadows_view::compute_visibility(int32 object_index, int32 forced_shadow_receiver_object_index)
 {
