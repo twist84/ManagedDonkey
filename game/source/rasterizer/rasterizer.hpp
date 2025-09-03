@@ -58,7 +58,7 @@ struct s_rasterizer_render_globals
 	int32 resolution_offset_y;
 	real32 resolution_scale_x;
 	real32 resolution_scale_y;
-	int32 occlusion_view_resolution;
+	int32 k_shadow_resolution;
 	int32 window_width24;
 	int32 window_height28;
 	int32 width2C;

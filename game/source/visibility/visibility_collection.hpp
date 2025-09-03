@@ -201,13 +201,16 @@ public:
 	static void __cdecl clear();
 	static void __cdecl clear_all();
 
-	static uns16 __cdecl get_root_objects_starting_index();
-	static uns16 __cdecl get_objects_starting_index();
+	static int32 __cdecl get_camera_root_objects_count();
+	static uns16 __cdecl get_cluster_starting_index();
 	static uns16 __cdecl get_instance_list_starting_index();
 	static uns16 __cdecl get_instances_starting_index();
-	static uns16 __cdecl get_cluster_starting_index();
 	static uns16 __cdecl get_light_starting_index();
+	static uns16 __cdecl get_objects_starting_index();
+	static uns16 __cdecl get_root_objects_starting_index();
 	static uns16 __cdecl get_sky_starting_index();
+	static void __cdecl pop_marker();
+	static void __cdecl push_marker();
 
 //private:
 	static int32& m_marker_count;
