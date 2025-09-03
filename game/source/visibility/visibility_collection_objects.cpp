@@ -6,6 +6,8 @@
 
 HOOK_DECLARE_CLASS(0x009732A0, c_visibility_collection, expand_sky_object);
 
+bool render_objects_enabled = true;
+
 int32 __cdecl c_visibility_collection::add_root_object(int32 object_index, const real_point3d* object_center, real32 object_radius, int32 player_window_index, bool lit, bool shadow_casting, bool fully_contained, int32 region_cluster_memory, s_lod_transparency lod_transparency, bool calculate_lod, bool ignore_first_person_objects, int32 ignore_first_person_user_index, uns16* a13)
 {
 	return INVOKE(0x00972E50, c_visibility_collection::add_root_object, object_index, object_center, object_radius, player_window_index, lit, shadow_casting, fully_contained, region_cluster_memory, lod_transparency, calculate_lod, ignore_first_person_objects, ignore_first_person_user_index, a13);

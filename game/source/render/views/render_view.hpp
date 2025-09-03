@@ -199,7 +199,11 @@ public:
 	};
 
 public:
+	void compute_visibility(int32 object_index, int32 forced_shadow_receiver_object_index);
 	static bool __cdecl object_shadow_visible(int32 object_index, s_oriented_bounding_box* obb, light_geometry* geometry);
+	void render(int32 ignore_object_index);
+	void render_ambient(real32 shadow_alpha, real32 shadow_resolution, int32 object_index, int32 model_index);
+	void submit_visibility_and_render(real32 shadow_alpha, real32 shadow_resolution);
 
 public:
 	s_oriented_bounding_box m_projection_bounds;
