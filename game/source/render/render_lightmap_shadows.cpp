@@ -19,7 +19,7 @@ REFERENCE_DECLARE(0x05115B3E, bool, c_lightmap_shadows_view::g_debug_shadow_boun
 REFERENCE_DECLARE(0x05115B3F, bool, c_lightmap_shadows_view::g_debug_shadow_bounds_solid);
 REFERENCE_DECLARE(0x05115B40, bool, c_lightmap_shadows_view::g_debug_shadow_opaque);            // unused
 REFERENCE_DECLARE(0x05115B41, bool, c_lightmap_shadows_view::g_debug_shadow_histencil);
-REFERENCE_DECLARE(0x05115B42, bool, c_lightmap_shadows_view::g_debug_shadow_force_hi_res);      // unused
+REFERENCE_DECLARE(0x05115B42, bool, c_lightmap_shadows_view::g_debug_shadow_force_hi_res);
 REFERENCE_DECLARE(0x05115B43, bool, c_lightmap_shadows_view::g_debug_objectspace_stencil_clip);
 REFERENCE_DECLARE(0x05115B44, bool, c_lightmap_shadows_view::g_debug_force_fancy_shadows);      // unused
 REFERENCE_DECLARE(0x05115B45, bool, c_lightmap_shadows_view::g_debug_force_old_shadows);        // unused
@@ -122,7 +122,11 @@ void c_lightmap_shadows_view::render(int32 ignore_object_index)
 
 			real32 shadow_alpha = (real32)global_items.root_objects[root_object_index].lod_transparency.shadow_alpha / 255.0f;
 			real32 shadow_resolution = 0.0f;
-			if (c_player_view::x_current_player_view)
+			if (c_lightmap_shadows_view::g_debug_shadow_force_hi_res)
+			{
+				shadow_resolution = 1.0f;
+			}
+			else if (c_player_view::x_current_player_view)
 			{
 				const render_projection* render_projection = c_player_view::x_current_player_view->get_render_projection();
 				real32 sphere_diameter_in_pixels = render_projection_sphere_diameter_in_pixels(
