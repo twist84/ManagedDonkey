@@ -159,7 +159,9 @@ bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec
 	//return result;
 
 	if (!input_xinput_available())
+	{
 		return false;
+	}
 
 	XINPUT_STATE state{};
 	if (!XInputGetState_proxy(gamepad_index, &state))
@@ -190,7 +192,9 @@ bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec
 
 		// In Halo Online `out_debug_gamepad_data` is NULL, we "fix" that here
 		if (!out_debug_gamepad_data)
+		{
 			out_debug_gamepad_data = &g_debug_gamepad_data[gamepad_index];
+		}
 
 		ASSERT(out_debug_gamepad_data);
 		out_debug_gamepad_data->sticks[0].x = state.Gamepad.sThumbLX;

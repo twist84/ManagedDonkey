@@ -200,10 +200,10 @@ void c_controller_interface::sign_in_controller(const s_player_identifier* playe
 {
 	//INVOKE_CLASS_MEMBER(0x00A7DB00, c_controller_interface, sign_in_controller, player_identifier, is_temporary);
 
-	int16 user_index = get_or_create_user_index();
+	int16 user_index = c_controller_interface::get_or_create_user_index();
 	network_session_interface_add_local_user(user_index, player_identifier);
 	m_state_flags.set(_temporary_bit, is_temporary);
-	e_controller_index controller_index = get_controller_index();
+	e_controller_index controller_index = c_controller_interface::get_controller_index();
 	user_interface_controller_update_network_properties(controller_index);
 	m_hash_bits = 0LL;
 
@@ -221,11 +221,11 @@ void c_controller_interface::sign_out_controller(bool sign_out_for_sign_in_chang
 {
 	//INVOKE_CLASS_MEMBER(0x00A7DC00, c_controller_interface, sign_out_controller, sign_out_for_sign_in_change);
 
-	e_controller_index controller_index = get_controller_index();
+	e_controller_index controller_index = c_controller_interface::get_controller_index();
 	managed_user_clear(controller_index);
-	remove_controller_from_network_session();
+	c_controller_interface::remove_controller_from_network_session();
 	m_player_profile.signed_out();
-	update_for_sign_in_change();
+	c_controller_interface::update_for_sign_in_change();
 	user_interface_controller_reset(controller_index);
 	m_hash_bits = 0LL;
 	m_achievements.clear();
@@ -240,12 +240,12 @@ void c_controller_interface::update_controller_properties()
 {
 	//HOOK_INVOKE_CLASS_MEMBER(, c_controller_interface, update_controller_properties);
 
-	e_controller_index controller_index = get_controller_index();
+	e_controller_index controller_index = c_controller_interface::get_controller_index();
 	bool is_signed_in = online_local_user_is_signed_in(controller_index);
 	bool has_gamepad = input_has_gamepad(controller_index);
-	bool attached = is_attached();
-	bool is_user_signed_in = false;
+	bool attached = c_controller_interface::is_attached();
 
+	bool is_user_signed_in = false;
 	if (VALID_INDEX(m_user_index, 4))
 	{
 		is_user_signed_in = network_session_interface_get_is_user_signed_in(m_user_index);
@@ -297,10 +297,12 @@ void c_controller_interface::update_controller_properties()
 
 		if (!is_user_signed_in || old_player_identifier != new_player_identifier)
 		{
-			update_for_sign_in_change();
+			c_controller_interface::update_for_sign_in_change();
 
 			if (is_user_signed_in)
-				sign_out_controller(true);
+			{
+				c_controller_interface::sign_out_controller(true);
+			}
 
 			managed_user_clear(controller_index);
 
@@ -311,7 +313,7 @@ void c_controller_interface::update_controller_properties()
 				gamer_achievements_begin_retrieval(controller_index);
 			}
 
-			sign_in_controller((s_player_identifier*)&new_player_identifier, m_state_flags.test(_temporary_bit));
+			c_controller_interface::sign_in_controller((s_player_identifier*)&new_player_identifier, m_state_flags.test(_temporary_bit));
 		}
 
 		if (!m_state_flags.test(_temporary_bit))
@@ -340,7 +342,7 @@ void c_controller_interface::update_controller_properties()
 		}
 		else if (int32(network_time_get() - m_time_controller_signed_out) > 1000)
 		{
-			sign_out_controller(false);
+			c_controller_interface::sign_out_controller(false);
 			m_state_flags.clear();
 			csmemset(m_display_name, 0, sizeof(m_display_name));
 			m_time_controller_signed_out = 0;
@@ -351,11 +353,20 @@ void c_controller_interface::update_controller_properties()
 
 	if (has_gamepad != attached)
 	{
-		if (has_gamepad && (m_user_index < 4 && network_session_interface_local_user_exists(m_user_index) && !m_state_flags.test(_temporary_bit)) || m_state_flags.test(_temporary_bit))
+		if (has_gamepad)
 		{
-			user_interface_controller_attached(controller_index);
+			if (m_user_index < 4
+				&& network_session_interface_local_user_exists(m_user_index)
+				&& !m_state_flags.test(_temporary_bit)
+				|| m_state_flags.test(_temporary_bit))
+			{
+				user_interface_controller_attached(controller_index);
+			}
 		}
-		else if (!has_gamepad && (m_user_index < 4 && network_session_interface_local_user_exists(m_user_index) && !m_state_flags.test(_temporary_bit)) || m_state_flags.test(_temporary_bit))
+		else if (m_user_index < 4
+			&& network_session_interface_local_user_exists(m_user_index)
+			&& !m_state_flags.test(_temporary_bit)
+			|| m_state_flags.test(_temporary_bit))
 		{
 			user_interface_controller_detached(controller_index);
 		}

@@ -116,6 +116,7 @@ void __cdecl user_interface_controller_detached(e_controller_index controller_in
 	{
 		g_user_interface_controller_globals.controller_removed_dialog_required[controller_index] = true;
 		//if (!network_globals.disable_detatched_controller_check)
+		if (false)
 		{
 			user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, controller_detached), controller_index, true);
 		}

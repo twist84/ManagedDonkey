@@ -239,19 +239,19 @@ void __cdecl input_flush()
 
 const gamepad_state* __cdecl input_get_gamepad_state(int16 gamepad_index)
 {
-	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
+	//return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
 
-	//if (!input_has_gamepad(gamepad_index))
-	//{
-	//	return NULL;
-	//}
-	//
-	//if (input_globals.input_suppressed)
-	//{
-	//	return &input_globals.suppressed_gamepad_state;
-	//}
-	//
-	//return &input_globals.gamepad_states[gamepad_index];
+	if (!input_has_gamepad(gamepad_index))
+	{
+		return NULL;
+	}
+	
+	if (input_globals.input_suppressed)
+	{
+		return &input_globals.suppressed_gamepad_state;
+	}
+	
+	return &input_globals.gamepad_states[gamepad_index];
 }
 
 bool __cdecl input_get_key(s_key_state* key, e_input_type input_type)
@@ -302,9 +302,9 @@ bool __cdecl input_has_gamepad(int16 gamepad_index)
 {
 	ASSERT(gamepad_index >= 0 && gamepad_index < k_number_of_controllers);
 
-	return INVOKE(0x00511A40, input_has_gamepad, gamepad_index);
+	//return INVOKE(0x00511A40, input_has_gamepad, gamepad_index);
 
-	//return enable_pc_joystick && (!game_in_editor() || !input_globals.raw_input_mouse_state_update) && input_globals.gamepad_valid_mask.test(gamepad_index);
+	return /*enable_pc_joystick &&*/ (!game_in_editor() || !input_globals.raw_input_mouse_state_update) && input_globals.gamepad_valid_mask.test(gamepad_index);
 }
 
 void __cdecl input_initialize()
@@ -690,7 +690,9 @@ void __cdecl input_update_gamepads_rumble()
 	if (game_in_progress())
 	{
 		if (game_time_get_paused())
+		{
 			suppressed = true;
+		}
 	}
 	else
 	{

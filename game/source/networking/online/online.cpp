@@ -192,7 +192,9 @@ bool __cdecl online_has_all_online_enabled_users()
 	for (e_controller_index controller_index = _controller0; controller_index < k_number_of_controllers; controller_index++)
 	{
 		if (online_local_user_is_signed_in(controller_index) && !online_local_user_is_online_enabled(controller_index))
+		{
 			return false;
+		}
 	}
 	return true;
 }
@@ -286,7 +288,9 @@ uns64 __cdecl online_local_user_get_xuid(e_controller_index controller_index)
 {
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	if (online_globals.users[controller_index].online_xuid)
+	{
 		return online_globals.users[controller_index].online_xuid;
+	}
 	return online_globals.users[controller_index].local_xuid;
 }
 

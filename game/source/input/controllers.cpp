@@ -13,7 +13,9 @@ e_controller_index next_controller(e_controller_index controller_index)
 
 	e_controller_index result = k_no_controller;
 	if (controller_index >= _controller0 && controller_index < k_number_of_controllers - 1)
+	{
 		result = controller_index + 1;
+	}
 
 	return result;
 }
