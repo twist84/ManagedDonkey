@@ -27,18 +27,18 @@ IDirect3DVertexDeclaration9* c_vertex_declaration_table::get_d3d_vertex_declarat
 
     switch (entry_point)
     {
-    case _entry_point_static_per_pixel:
+    case _entry_point_static_lighting_per_pixel:
     case _entry_point_lightmap_debug_mode:
     {
         return get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_lightmap_uv, _transfer_vertex_none);
     }
-    case _entry_point_static_per_vertex:
+    case _entry_point_static_lighting_per_vertex:
     {
         return get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_per_vertex_lightprobe, _transfer_vertex_none);
     }
-    case _entry_point_static_prt_ambient:
-    case _entry_point_static_prt_linear:
-    case _entry_point_static_prt_quadratic:
+    case _entry_point_static_lighting_prt_ambient:
+    case _entry_point_static_lighting_prt_linear:
+    case _entry_point_static_lighting_prt_quadratic:
     case _entry_point_active_camo:
     {
         return get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_none, transfer_vertex_type);

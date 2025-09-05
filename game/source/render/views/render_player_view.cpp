@@ -200,7 +200,7 @@ void __thiscall c_player_view::render_()
 		c_player_view::submit_attachments();
 
 		bool water_updated = c_water_renderer::update_water_part_list();
-		if (water_updated && render_water_interaction_enabled && c_water_renderer::is_active_ripple_exist())
+		if (water_updated && render_water_interaction_on && c_water_renderer::is_active_ripple_exist())
 		{
 			c_player_view::animate_water();
 		}
@@ -341,7 +341,7 @@ void __thiscall c_player_view::render_()
 						false,
 						false);
 
-					if (water_updated || render_underwater_fog_enabled)
+					if (water_updated || g_is_underwater)
 					{
 						c_player_view::render_water();
 					}
@@ -355,7 +355,7 @@ void __thiscall c_player_view::render_()
 
 					c_player_view::submit_distortions();
 					bool distortion_history = c_render_globals::get_distortion_visible();
-					if (distortion_history || water_updated || render_underwater_fog_enabled)
+					if (distortion_history || water_updated || g_is_underwater)
 					{
 						distortion_history = true;
 					}

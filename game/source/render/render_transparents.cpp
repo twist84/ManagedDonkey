@@ -51,7 +51,7 @@ void __cdecl c_transparency_renderer::render(bool depth_test)
 			c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_read);
 		}
 
-		c_rasterizer::set_color_write_enable(0, 7);
+		c_rasterizer::set_color_write_enable(0, c_rasterizer::_color_write_enable_color);
 
 		c_rasterizer::e_cull_mode cull_mode = c_rasterizer::_cull_mode_off;
 		if (render_debug_transparent_cull)

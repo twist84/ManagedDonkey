@@ -206,6 +206,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\game\materials.cpp" />
     <ClCompile Include="source\game\player_training.cpp" />
     <ClCompile Include="source\game\survival_mode.cpp" />
+    <ClCompile Include="source\geometry\geometry_definitions_new.cpp" />
     <ClCompile Include="source\gpu_particle\beam_gpu.cpp" />
     <ClCompile Include="source\gpu_particle\contrail_gpu.cpp" />
     <ClCompile Include="source\gpu_particle\light_volume_gpu.cpp" />
@@ -891,6 +892,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\game\game_achievements.hpp" />
     <ClInclude Include="source\game\game_engine_notifications.hpp" />
     <ClInclude Include="source\game\game_grief.hpp" />
+    <ClInclude Include="source\geometry\geometry_definitions_new.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />

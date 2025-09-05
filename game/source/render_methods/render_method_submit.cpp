@@ -1,5 +1,7 @@
 #include "render_methods/render_method_submit.hpp"
 
+REFERENCE_DECLARE(0x050FB608, bool, g_accum_LDR_hack);
+
 void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern)
 {
 	INVOKE(0x00A3CA30, render_method_clear_extern, render_method_extern);

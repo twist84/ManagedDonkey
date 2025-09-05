@@ -4,6 +4,8 @@
 
 #define RENDER_ENABLED(true_false) if (sub_42E5D0() == true_false)
 
+class c_player_view;
+
 class c_player_render_camera_iterator
 {
 public:
@@ -39,14 +41,14 @@ struct s_render_fullscreen_text_context
 };
 static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
 
+extern real_vector4d& g_player_window_constants;
+
 extern bool debug_force_all_player_views_to_default_player;
 extern bool debug_render_horizontal_splitscreen;
 extern int32 g_watermark_enabled;
 
 extern real32 pregame_frame_scales[k_main_pregame_frame_count];
 extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_pregame_frame_count];
-
-class c_player_view;
 
 extern void __cdecl main_render();
 extern void __cdecl main_render_assert_no_pending_messages();

@@ -1886,9 +1886,9 @@ void __cdecl c_rasterizer::draw_indexed_primitive(const c_rasterizer_index_buffe
 	INVOKE(0x00A28270, c_rasterizer::draw_indexed_primitive, indices, base_vertex_index, num_vertices, min_index, triangle_count);
 }
 
-void __cdecl c_rasterizer::draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count)
+void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count)
 {
-	INVOKE(0x00A282F0, c_rasterizer::draw_primitive, primitive_type, start_vertex, primitive_count);
+	INVOKE(0x00A282F0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
 }
 
 void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, const void* stream_data, uns32 stride)
@@ -1896,9 +1896,9 @@ void __cdecl c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::e_primit
 	INVOKE(0x00A28330, c_rasterizer::draw_primitive_up, primitive_type, primitive_count, stream_data, stride);
 }
 
-void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count)
+void __cdecl c_rasterizer::draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count)
 {
-	INVOKE(0x00A283B0, c_rasterizer::draw_vertices, primitive_type, start_vertex, primitive_count);
+	INVOKE(0x00A283B0, c_rasterizer::draw_primitive, primitive_type, start_vertex, primitive_count);
 }
 
 void __cdecl c_rasterizer::set_current_splitscreen_res(e_splitscreen_res res)

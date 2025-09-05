@@ -857,13 +857,17 @@ uns32 event_update_spam_prevention(uns32 response_flags, e_event_level event_lev
 bool console_update_spam_prevention(e_event_level event_level)
 {
 	if (!event_globals.enable_spam_suppression || event_level == _event_critical)
+	{
 		return false;
+	}
 
 	int32 current_time = (int32)system_milliseconds();
 	int32 last_check_time = event_globals.console_suppression_old_line_check_time;
 	
 	if (!event_globals.console_suppression_count)
+	{
 		last_check_time = current_time;
+	}
 
 	int32 new_suppression_count = event_globals.console_suppression_count + 1;
 	event_globals.console_suppression_old_line_check_time = last_check_time;

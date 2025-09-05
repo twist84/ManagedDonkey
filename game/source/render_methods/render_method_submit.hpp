@@ -59,6 +59,7 @@ enum e_render_method_extern
 	k_render_method_extern_count
 };
 
+extern bool& g_accum_LDR_hack;
 extern const char* k_render_method_extern_names[k_render_method_extern_count];
 
 extern void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern);

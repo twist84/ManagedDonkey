@@ -110,17 +110,20 @@ public:
 	enum e_primitive_type
 	{
 		_primitive_type_point_list = 0,
+
 		_primitive_type_line_list,
 		_primitive_type_list_strip,
+
 		_primitive_type_triangle_list,
 		_primitive_type_triangle_fan,
 		_primitive_type_triangle_strip,
-		_primitive_type_force_dword,
 
-		k_primitive_type_count
+		_primitive_type_quad_list,
+
+		k_number_of_primitive_types
 	};
 
-	//D3DPRIMITIVETYPE g_primitive_types[k_primitive_type_count]
+	//D3DPRIMITIVETYPE g_primitive_types[k_number_of_primitive_types]
 	//{
 	//	D3DPT_POINTLIST,
 	//	D3DPT_LINELIST,
@@ -375,6 +378,17 @@ public:
 		k_number_of_z_buffer_modes
 	};
 
+	enum
+	{
+		_color_write_enable_none = 0,
+		_color_write_enable_red = FLAG(0),
+		_color_write_enable_green = FLAG(1),
+		_color_write_enable_blue = FLAG(2),
+		_color_write_enable_alpha = FLAG(3),
+		_color_write_enable_color = _color_write_enable_red | _color_write_enable_green | _color_write_enable_blue,
+		_color_write_enable_all = _color_write_enable_color | _color_write_enable_alpha,
+	};
+
 	enum e_platform
 	{
 		_platform_xenon = 0,
@@ -469,9 +483,9 @@ public:
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend);
 
 	static void __cdecl draw_indexed_primitive(const c_rasterizer_index_buffer* indices, int32 base_vertex_index, int32 num_vertices, int32 min_index, int32 triangle_count);
+	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count);
 	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count);
 	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, uns32 primitive_count, const void* stream_data, uns32 stride);
-	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, int32 start_vertex, int32 primitive_count);
 
 	static void __cdecl set_current_splitscreen_res(e_splitscreen_res res);
 

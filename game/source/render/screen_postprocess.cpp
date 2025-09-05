@@ -442,6 +442,6 @@ void __cdecl c_screen_postprocess::setup_rasterizer_for_postprocess(bool clear_t
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
 	c_rasterizer::set_scissor_rect(NULL);
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_off);
-	c_rasterizer::set_color_write_enable(0, 15);
+	c_rasterizer::set_color_write_enable(0, c_rasterizer::_color_write_enable_all);
 }
 

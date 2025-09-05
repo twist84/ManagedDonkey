@@ -42,6 +42,8 @@
 #include "text/draw_string.hpp"
 #include "visibility/visibility_collection.hpp"
 
+REFERENCE_DECLARE(0x02446520, real_vector4d, g_player_window_constants);
+
 HOOK_DECLARE(0x006042C0, main_render);
 HOOK_DECLARE(0x00604440, main_render_game);
 HOOK_DECLARE(0x00604860, main_render_pregame);

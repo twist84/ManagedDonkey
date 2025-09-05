@@ -24,8 +24,8 @@ void __cdecl c_object_renderer::render_albedo(uns32 mesh_part_flags)
 
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_write);
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
-	c_rasterizer::set_color_write_enable(0, 15);
-	c_rasterizer::set_color_write_enable(1, 15);
+	c_rasterizer::set_color_write_enable(0, c_rasterizer::_color_write_enable_all);
+	c_rasterizer::set_color_write_enable(1, c_rasterizer::_color_write_enable_all);
 
 	begin_render_mesh_part_only();
 	c_object_renderer::render_object_contexts(_entry_point_albedo, mesh_part_flags);

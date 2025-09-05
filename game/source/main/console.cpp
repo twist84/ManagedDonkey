@@ -700,8 +700,8 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_player_only),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water, render_water_enabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_tessellated, render_water_tessellation_enabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_interaction, render_water_interaction_enabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_tessellated, render_water_tessllation_on),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_interaction, render_water_interaction_on),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_wireframe, render_water_wireframe_enabled),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_damage),

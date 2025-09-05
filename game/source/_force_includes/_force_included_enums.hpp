@@ -4513,9 +4513,9 @@ enum e_lighting_vertex_types
 {
 	// default
 	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_none, _transfer_vertex_none)
-	// _entry_point_static_prt_ambient
-	// _entry_point_static_prt_linear
-	// _entry_point_static_prt_quadratic
+	// _entry_point_static_lighting_prt_ambient
+	// _entry_point_static_lighting_prt_linear
+	// _entry_point_static_lighting_prt_quadratic
 	// _entry_point_active_camo
 	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_none, transfer_vertex_type)
 	_lighting_vertex_none = 0,
@@ -4524,12 +4524,12 @@ enum e_lighting_vertex_types
 	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_vert_color, _transfer_vertex_none)
 	_lighting_vertex_vert_color,
 
-	// _entry_point_static_per_pixel
+	// _entry_point_static_lighting_per_pixel
 	// _entry_point_lightmap_debug_mode
 	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_lightmap_uv, _transfer_vertex_none)
 	_lighting_vertex_lightmap_uv,
 
-	// _entry_point_static_per_vertex
+	// _entry_point_static_lighting_per_vertex
 	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_per_vertex_lightprobe, _transfer_vertex_none)
 	_lighting_vertex_per_vertex_lightprobe,
 
@@ -4550,13 +4550,13 @@ enum e_entry_point
 {
 	_entry_point_default = 0,
 	_entry_point_albedo,
-	_entry_point_static_default,
-	_entry_point_static_per_pixel,
-	_entry_point_static_per_vertex,
-	_entry_point_static_sh,
-	_entry_point_static_prt_ambient,
-	_entry_point_static_prt_linear,
-	_entry_point_static_prt_quadratic,
+	_entry_point_static_lighting_default,
+	_entry_point_static_lighting_per_pixel,
+	_entry_point_static_lighting_per_vertex,
+	_entry_point_static_lighting_sh,
+	_entry_point_static_lighting_prt_ambient,
+	_entry_point_static_lighting_prt_linear,
+	_entry_point_static_lighting_prt_quadratic,
 	_entry_point_dynamic_light,
 	_entry_point_shadow_generate,
 	_entry_point_shadow_apply,
@@ -4565,7 +4565,7 @@ enum e_entry_point
 	_entry_point_vertex_color_lighting,
 	_entry_point_water_tessellation,
 	_entry_point_water_shading,
-	_entry_point_dynamic_light_cinematic,
+	_entry_point_dynamic_lighting_cinematic,
 	_entry_point_z_only,
 	_entry_point_sfx_distort,
 

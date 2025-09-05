@@ -15,6 +15,8 @@ REFERENCE_DECLARE(0x01910690, real32, global_z_far);
 REFERENCE_DECLARE(0x050DDA00, s_rasterizer_globals, rasterizer_globals);
 REFERENCE_DECLARE(0x050DDA80, s_rasterizer_timing_globals, g_rasterizer_timing_globals);
 
+//HOOK_DECLARE(0x00A25AA0, rasterizer_get_z_planes);
+
 //.text:00A259A0 ; real32 __cdecl rasterizer_get_average_frame_delta()
 //.text:00A25A30 ; int32 __cdecl rasterizer_get_d3d_presentation_interval()
 //.text:00A25A40 ; real32 __cdecl rasterizer_get_most_recent_delta()
@@ -26,6 +28,10 @@ REFERENCE_DECLARE(0x050DDA80, s_rasterizer_timing_globals, g_rasterizer_timing_g
 void __cdecl rasterizer_get_z_planes(real32* z_near, real32* z_far)
 {
 	INVOKE(0x00A25AA0, rasterizer_get_z_planes, z_near, z_far);
+
+	//ASSERT(z_near && z_far);
+	//*z_near = global_z_near;
+	//*z_far = global_z_far;
 }
 
 void __cdecl rasterizer_globals_initialize()
