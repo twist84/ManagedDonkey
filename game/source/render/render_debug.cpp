@@ -1544,13 +1544,13 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 
 		g_render_debug_globals->drawing_cached_geometry = true;
 
-		int32 alpha_blend_modes[2] = { 0, 3 };
+		c_rasterizer::e_alpha_blend_mode alpha_blend_modes[2] = { c_rasterizer::_alpha_blend_opaque, c_rasterizer::_alpha_blend_alpha_blend };
 		for (int16 cache_index = cache_start_index; cache_index < g_render_debug_globals->cache_count; cache_index++)
 		{
 			cache_entry* entry = &g_render_debug_globals->cache[cache_index];
 			if (VALID_INDEX(entry->layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(g_render_debug_globals->group_ids)` ?
 			{
-				c_rasterizer::set_alpha_blend_mode(static_cast<c_rasterizer::e_alpha_blend_mode>(alpha_blend_modes[entry->layer]));
+				c_rasterizer::set_alpha_blend_mode(alpha_blend_modes[entry->layer]);
 			}
 			else
 			{

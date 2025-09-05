@@ -37,11 +37,11 @@ class c_rasterizer_compiled_shader
 public:
 	// ..:xenon compiled shader
 	// ..:dx9 compiled shader
-	s_tag_data compiled_shader[2]; // c_rasterizer::e_platform::k_platform_count
+	s_tag_data compiled_shader[2]; // c_rasterizer::e_platform::k_number_of_platforms
 
 	// Xenon constant table
 	// DX9 constant table
-	c_rasterizer_constant_table_definition rasterizer_constant_table[2]; // c_rasterizer::e_platform::k_platform_count
+	c_rasterizer_constant_table_definition rasterizer_constant_table[2]; // c_rasterizer::e_platform::k_number_of_platforms
 
 	// ..:gprs
 	int32 gprs;

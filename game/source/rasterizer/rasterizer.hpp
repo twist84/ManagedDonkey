@@ -20,6 +20,90 @@ namespace DirectX
 	struct XMMATRIX;
 }
 
+enum
+{
+	//k_viewproj_xform = ?,
+	//k_view_xform = ?,
+	//k_screen_xform = ?,
+	//k_clip_plane = ?,
+	//k_vs_always_true = ?,
+	//k_viewport_scale = ?,
+	//k_viewport_scale_pad = ?,
+	//k_viewport_offset = ?,
+	//k_viewport_offset_pad = ?,
+	//k_viewproj_xform_x = ?,
+	//k_viewproj_xform_y = ?,
+	//k_viewproj_xform_z = ?,
+	//k_viewproj_xform_w = ?,
+	//k_camera_forward = ?,
+	//k_camera_left = ?,
+	//k_camera_up = ?,
+	//k_camera_position = ?,
+	//k_screen_xform_x = ?,
+	//k_screen_xform_y = ?,
+	//k_vs_exposure = ?,
+	//k_vs_alt_exposure = ?,
+	//k_vs_atmosphere_constant_0 = ?,
+	//k_vs_atmosphere_constant_1 = ?,
+	//k_vs_atmosphere_constant_2 = ?,
+	//k_vs_atmosphere_constant_3 = ?,
+	//k_vs_atmosphere_constant_4 = ?,
+	//k_vs_atmosphere_constant_5 = ?,
+	//k_vs_atmosphere_constant_extra = ?,
+	//k_vs_lighting_constant_0 = ?,
+	//k_vs_lighting_constant_1 = ?,
+	//k_vs_lighting_constant_2 = ?,
+	//k_vs_lighting_constant_3 = ?,
+	//k_vs_lighting_constant_4 = ?,
+	//k_vs_lighting_constant_5 = ?,
+	//k_vs_lighting_constant_6 = ?,
+	//k_vs_lighting_constant_7 = ?,
+	//k_vs_lighting_constant_8 = ?,
+	//k_vs_lighting_constant_9 = ?,
+	//k_vs_dynamic_light_clip_planes = ?,
+	//k_vs_shadow_projection = ?,
+	//k_register_camera_position_ps = ?,
+	//k_ps_exposure = ?,
+	//k_ps_alt_exposure = ?,
+	//k_ps_lighting_constant_0 = ?,
+	//k_ps_lighting_constant_1 = ?,
+	//k_ps_lighting_constant_2 = ?,
+	//k_ps_lighting_constant_3 = ?,
+	//k_ps_lighting_constant_4 = ?,
+	//k_ps_lighting_constant_5 = ?,
+	//k_ps_lighting_constant_6 = ?,
+	//k_ps_lighting_constant_7 = ?,
+	//k_ps_lighting_constant_8 = ?,
+	//k_ps_lighting_constant_9 = ?,
+	//k_ps_dynamic_light_gel_xform = ?,
+	//k_ps_texture_size = ?,
+	//k_ps_texture_size_pad = ?,
+	//k_ps_dynamic_environment_blend = ?,
+	//k_ps_render_debug_mode = ?,
+	//k_shader_pc_specular_enabled = ?,
+	//k_shader_pc_specular_enabled_pad = ?,
+	//k_shader_pc_albedo_lighting = ?,
+	//k_shader_pc_albedo_lighting_pad = ?,
+	k_ps_ldr_gamma2 = 14,
+	//k_ps_hdr_gamma2 = ?,
+	k_ps_actually_calc_albedo = 12,
+	//k_ps_lightmap_compress_constant_using_dxt = ?,
+	//k_ps_lightmap_compress_constant_0 = ?,
+	//k_ps_lightmap_compress_constant_1 = ?,
+	//k_ps_lightmap_compress_constant_2 = ?,
+	//k_register_simple_light_count = ?,
+	//k_register_simple_light_count_pad = ?,
+	//k_register_simple_light_start = ?,
+	//k_vs_sampler_atmosphere_neta_table = ?,
+	//k_vs_sampler_weather_occlusion = ?,
+	//k_sampler_lightprobe_texture_array = ?,
+	//k_sampler_dominant_light_intensity_map = ?,
+	//k_sampler_scene_ldr_texture = ?,
+	//k_sampler_albedo_texture = ?,
+	//k_sampler_normal_texture = ?,
+	//k_sampler_depth_buffer = ?,
+};
+
 class c_rasterizer_index_buffer
 {
 public:
@@ -73,6 +157,11 @@ static_assert(sizeof(s_rasterizer_render_globals) == 0x44);
 class c_rasterizer
 {
 public:
+	enum
+	{
+		k_number_of_color_surfaces = 4,
+	};
+
 	enum e_splitscreen_res
 	{
 		_res_default = 0,
@@ -115,7 +204,7 @@ public:
 		_stencil_mode_glass_decals_read,
 		_stencil_mode_object_rendering,
 
-		_stencil_mode_unknown17,
+		_stencil_mode_unknown17, // _stencil_mode_tron_read_pc
 		_stencil_mode_unknown18,
 		_stencil_mode_unknown19,
 		_stencil_mode_unknown20,
@@ -137,17 +226,17 @@ public:
 
 	enum e_cull_mode
 	{
-		_cull_mode_off = 0x1,
-		_cull_mode_cw = 0x2,
-		_cull_mode_ccw = 0x3,
+		_cull_mode_off = 1,
+		_cull_mode_cw = 2,
+		_cull_mode_ccw = 3,
 		_cull_mode_force_dword = 0x7FFFFFFF,
 	};
 
 	enum e_fill_mode
 	{
-		_fill_mode_point = 0x1,
-		_fill_mode_wireframe = 0x2,
-		_fill_mode_solid = 0x3,
+		_fill_mode_point = 1,
+		_fill_mode_wireframe = 2,
+		_fill_mode_solid = 3,
 		_fill_mode_force_dword = 0x7FFFFFFF,
 	};
 
@@ -291,7 +380,7 @@ public:
 		_platform_xenon = 0,
 		_platform_dx9,
 
-		k_platform_count
+		k_number_of_platforms
 	};
 
 	struct s_stream_source
@@ -387,6 +476,7 @@ public:
 	static void __cdecl set_current_splitscreen_res(e_splitscreen_res res);
 
 	static e_surface __cdecl get_render_target(int32 surface_index);
+	static real32 __cdecl get_render_target_alpha_multiplier(int32 surface_index);
 
 	static e_surface get_display_surface();
 
@@ -394,7 +484,7 @@ public:
 	static c_rasterizer_texture_ref __cdecl get_surface_texture(c_rasterizer::e_surface surface);
 	static int32 __cdecl get_surface_width(e_surface surface);
 
-	static void __cdecl resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 x, int16 y);
+	static void __cdecl resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 dest_left, int16 dest_top);
 	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
 	static void __cdecl set_possibly_stale_surface_as_texture(int32 sampler_index, e_surface surface);
 	static void __cdecl set_render_target(int32 surface_index, e_surface surface, int32 force_is_srgb);
@@ -438,6 +528,7 @@ public:
 	static uns32& g_render_thread;
 
 	static s_rasterizer_render_globals& render_globals;
+	static bool& g_using_albedo_sampler;
 
 	static uns32& g_render_thread_begin_scene;
 
@@ -465,7 +556,7 @@ public:
 	static s_stream_source(&x_last_stream_source)[16];
 
 	static e_surface& g_depth_stencil_surface;
-	static e_surface(&g_color_surfaces)[4];
+	static e_surface(&g_color_surfaces)[k_number_of_color_surfaces];
 
 	static bool& g_tiling_force_4x_msaa;
 	static e_splitscreen_res& g_current_splitscreen_res;

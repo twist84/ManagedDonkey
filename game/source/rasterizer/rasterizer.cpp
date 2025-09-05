@@ -35,6 +35,7 @@ REFERENCE_DECLARE(0x050DD9D1, bool, c_rasterizer::g_d3d_device_reset);
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
 REFERENCE_DECLARE(0x019104FC, uns32, c_rasterizer::g_render_thread);
 REFERENCE_DECLARE(0x019106C0, s_rasterizer_render_globals, c_rasterizer::render_globals);
+REFERENCE_DECLARE(0x01916114, bool, c_rasterizer::g_using_albedo_sampler);
 REFERENCE_DECLARE(0x0194FEA8, uns32, c_rasterizer::g_render_thread_begin_scene);
 REFERENCE_DECLARE(0x050DADD8, IDirect3D9Ex*, c_rasterizer::g_direct3d);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
@@ -57,7 +58,7 @@ REFERENCE_DECLARE(0x050DAE28, IDirect3DVertexDeclaration9*, c_rasterizer::g_curr
 REFERENCE_DECLARE(0x050DAE2C, IDirect3DIndexBuffer9*, c_rasterizer::g_current_index_buffer);
 REFERENCE_DECLARE_ARRAY(0x050DAE30, c_rasterizer::s_stream_source, c_rasterizer::x_last_stream_source, 16);
 REFERENCE_DECLARE(0x050DB1EC, c_rasterizer::e_surface, c_rasterizer::g_depth_stencil_surface);
-REFERENCE_DECLARE_ARRAY(0x050DB1F0, c_rasterizer::e_surface, c_rasterizer::g_color_surfaces, 4);
+REFERENCE_DECLARE_ARRAY(0x050DB1F0, c_rasterizer::e_surface, c_rasterizer::g_color_surfaces, c_rasterizer::k_number_of_color_surfaces);
 REFERENCE_DECLARE(0x050DCA2C, bool, c_rasterizer::g_tiling_force_4x_msaa);
 REFERENCE_DECLARE(0x050DCA30, c_rasterizer::e_splitscreen_res, c_rasterizer::g_current_splitscreen_res);
 REFERENCE_DECLARE(0x050DD998, rectangle2d, c_rasterizer::g_last_viewport);
@@ -1328,14 +1329,14 @@ enum c_rasterizer::e_cull_mode __cdecl c_rasterizer::get_cull_mode()
 	return g_current_cull_mode;
 }
 
-void __cdecl c_rasterizer::set_alpha_blend_mode(e_alpha_blend_mode alpha_blend_mode)
+void __cdecl c_rasterizer::set_alpha_blend_mode(e_alpha_blend_mode mode)
 {
-	INVOKE(0x00A22D10, c_rasterizer::set_alpha_blend_mode, alpha_blend_mode);
+	//INVOKE(0x00A22D10, c_rasterizer::set_alpha_blend_mode, mode);
 
-	if (alpha_blend_mode != g_current_alpha_blend_mode)
+	if (mode != g_current_alpha_blend_mode)
 	{
-		g_current_alpha_blend_mode = alpha_blend_mode;
-		set_alpha_blend_mode_custom_device_no_cache(c_rasterizer::g_device, alpha_blend_mode);
+		g_current_alpha_blend_mode = mode;
+		c_rasterizer::set_alpha_blend_mode_custom_device_no_cache(c_rasterizer::g_device, mode);
 	}
 }
 
@@ -1366,14 +1367,20 @@ bool __cdecl c_rasterizer::set_compiled_pixel_shader(const c_rasterizer_compiled
 	return INVOKE(0x00A23220, c_rasterizer::set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
 
 	//if (!c_rasterizer::g_device)
+	//{
 	//	return true;
+	//}
 	//
 	//if (!compiled_pixel_shader)
+	//{
 	//	return false;
+	//}
 	//
 	//IDirect3DPixelShader9* d3d_shader = compiled_pixel_shader->get_d3d_shader();
 	//if (d3d_shader == g_current_pixel_shader)
+	//{
 	//	return true;
+	//}
 	//
 	//g_current_pixel_shader = d3d_shader;
 	//return SUCCEEDED(c_rasterizer::g_device->SetPixelShader(d3d_shader));
@@ -1384,16 +1391,22 @@ bool __cdecl c_rasterizer::set_compiled_vertex_shader(const c_rasterizer_compile
 	return INVOKE(0x00A23260, c_rasterizer::set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
 	//if (!c_rasterizer::g_device)
+	//{
 	//	return true;
+	//}
 	//
 	//if (!compiled_vertex_shader)
+	//{
 	//	return true;
+	//}
 	//
 	//IDirect3DVertexShader9* d3d_shader = compiled_vertex_shader->get_d3d_shader();
 	//bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
 	//
 	//if (d3d_shader == g_current_vertex_shader)
+	//{
 	//	return d3d_shader != NULL && vertex_declaration_set;
+	//}
 	//
 	//g_current_vertex_shader = d3d_shader;
 	//return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
@@ -1438,7 +1451,9 @@ bool __cdecl c_rasterizer::set_pixel_shader(const c_rasterizer_pixel_shader* pix
 	return INVOKE(0x00A23460, c_rasterizer::set_pixel_shader, pixel_shader, entry_point);
 
 	//if (!c_rasterizer::g_device)
+	//{
 	//	return true;
+	//}
 	//
 	//render_method_submit_invalidate_cache();
 	//
@@ -1446,7 +1461,9 @@ bool __cdecl c_rasterizer::set_pixel_shader(const c_rasterizer_pixel_shader* pix
 	//{
 	//	IDirect3DPixelShader9* d3d_shader = pixel_shader->get_d3d_shader(entry_point, 0);
 	//	if (d3d_shader == g_current_pixel_shader)
+	//	{
 	//		return d3d_shader != NULL;
+	//	}
 	//
 	//	g_current_pixel_shader = d3d_shader;
 	//	return SUCCEEDED(c_rasterizer::g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
@@ -1575,7 +1592,9 @@ bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* v
 	return INVOKE(0x00A24650, c_rasterizer::set_vertex_declaration, vertex_declaration);
 
 	//if (vertex_declaration == g_current_vertex_declaration)
+	//{
 	//	return true;
+	//}
 	//
 	//g_current_vertex_declaration = vertex_declaration;
 	//return SUCCEEDED(c_rasterizer::g_device->SetVertexDeclaration(vertex_declaration));
@@ -1586,7 +1605,9 @@ bool __cdecl c_rasterizer::set_vertex_shader(const c_rasterizer_vertex_shader* v
 	return INVOKE(0x00A246E0, c_rasterizer::set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
 	//if (!c_rasterizer::g_device)
+	//{
 	//	return true;
+	//}
 	//
 	//render_method_submit_invalidate_cache();
 	//
@@ -1596,7 +1617,9 @@ bool __cdecl c_rasterizer::set_vertex_shader(const c_rasterizer_vertex_shader* v
 	//	bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
 	//
 	//	if (d3d_shader == g_current_vertex_shader)
+	//	{
 	//		return d3d_shader != NULL && vertex_declaration_set;
+	//	}
 	//
 	//	g_current_vertex_shader = d3d_shader;
 	//	return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
@@ -1615,15 +1638,17 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 	INVOKE(0x00A247E0, c_rasterizer::set_z_buffer_mode, mode);
 
 	//if (mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
+	//{
 	//	return;
+	//}
 	//
 	//g_current_z_buffer_mode = mode;
 	//g_current_z_buffer_floating_point = m_use_floating_point_z_buffer;
 	//
 	//DWORD zfunc_value = m_use_floating_point_z_buffer ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
 	//
-	//real32 slope_z_bias = flt_50DD9F0;
-	//real32 z_bias = flt_50DD9F0;
+	//real32 slope_z_bias = 0.0f;
+	//real32 z_bias = 0.0f;
 	//real32 z_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
 	//
 	//switch (mode)
@@ -1653,8 +1678,8 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
 	//
-	//	slope_z_bias = flt_1910530;
-	//	z_bias = flt_1910534;
+	//	slope_z_bias = g_shadow_generate_slope_depth_bias;
+	//	z_bias = g_shadow_generate_depth_bias;
 	//}
 	//break;
 	//case _z_buffer_mode_shadow_generate_dynamic_lights:
@@ -1663,8 +1688,8 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
 	//
-	//	slope_z_bias = g_shadow_generate_slope_depth_bias;
-	//	z_bias = g_shadow_generate_depth_bias;
+	//	slope_z_bias = g_shadow_generate_dynamic_lights_slope_depth_bias;
+	//	z_bias = g_shadow_generate_dynamic_lights_depth_bias;
 	//}
 	//break;
 	//case _z_buffer_mode_shadow_apply:
@@ -1673,8 +1698,8 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
 	//
-	//	slope_z_bias = g_shadow_generate_dynamic_lights_slope_depth_bias;
-	//	z_bias = g_shadow_generate_dynamic_lights_depth_bias;
+	//	slope_z_bias = g_shadow_apply_slope_depth_bias;
+	//	z_bias = g_shadow_apply_depth_bias;
 	//}
 	//break;
 	//case _z_buffer_mode_decals:
@@ -1683,8 +1708,8 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	//	c_rasterizer::g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
 	//
-	//	slope_z_bias = flt_165E2g_shadow_apply_slope_depth_bias0C;
-	//	z_bias = g_shadow_apply_depth_bias;
+	//	slope_z_bias = -0.5;
+	//	z_bias = -0.000005f;
 	//}
 	//break;
 	//case _z_buffer_mode_debug_geometry:
@@ -1712,19 +1737,19 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode mode)
 
 void __cdecl c_rasterizer::setup_occlusion_state()
 {
-	INVOKE(0x00A24B30, c_rasterizer::setup_occlusion_state);
+	//INVOKE(0x00A24B30, c_rasterizer::setup_occlusion_state);
 
-	//if (c_rasterizer::g_device)
-	//{
-	//	c_rasterizer::set_z_buffer_mode(_z_buffer_mode_read);
-	//	c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
-	//	c_rasterizer::set_render_target(0, _surface_albedo, 0xFFFFFFFF);
-	//	c_rasterizer::set_render_target(1, _surface_normal, 0xFFFFFFFF);
-	//	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
-	//	c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
-	//	c_rasterizer::restore_last_viewport();
-	//	c_rasterizer::restore_last_scissor_rect();
-	//}
+	if (c_rasterizer::g_device)
+	{
+		c_rasterizer::set_z_buffer_mode(_z_buffer_mode_read);
+		c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+		c_rasterizer::set_render_target(0, _surface_albedo, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(1, _surface_normal, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
+		c_rasterizer::restore_last_viewport();
+		c_rasterizer::restore_last_scissor_rect();
+	}
 }
 
 void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real32 view_exposure, real32 illum_scale, real32 HDR_target_stops, bool alpha_blend)
@@ -1744,7 +1769,9 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	HOOK_INVOKE_CLASS(, c_rasterizer, setup_targets_albedo, decltype(&c_rasterizer::setup_targets_albedo), clear_stencil, is_clear);
 
 	//if (!c_rasterizer::g_device)
+	//{
 	//	return;
+	//}
 	//
 	//c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
 	//c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, 0xFFFFFFFF);
@@ -1763,7 +1790,9 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//c_rasterizer::set_render_target(1, c_rasterizer::_surface_normal, 0);
 	//
 	//if (!is_clear)
+	//{
 	//	c_rasterizer::set_render_target(2, c_rasterizer::_surface_depth_fp32, 0);
+	//}
 	//
 	//c_rasterizer::restore_last_viewport();
 	//c_rasterizer::restore_last_scissor_rect();
@@ -1772,7 +1801,9 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//{
 	//	uns32 clear_channels = D3DCLEAR_ZBUFFER;
 	//	if (!clear_stencil)
+	//	{
 	//		clear_channels = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER;
+	//	}
 	//
 	//	c_rasterizer::clear(clear_channels, 0x005577CCu, 1.0f, 0);
 	//	c_rasterizer::set_render_target(2, c_rasterizer::_surface_depth_fp32, 0);
@@ -1806,16 +1837,16 @@ void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, b
 
 void __cdecl c_rasterizer::setup_targets_simple()
 {
-	INVOKE(0x00A25280, c_rasterizer::setup_targets_simple);
+	//INVOKE(0x00A25280, c_rasterizer::setup_targets_simple);
 
-	//if (c_rasterizer::g_device)
-	//{
-	//	c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
-	//	c_rasterizer::set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
-	//	c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
-	//	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
-	//	c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
-	//}
+	if (c_rasterizer::g_device)
+	{
+		c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
+		c_rasterizer::set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
+	}
 }
 
 void __cdecl c_rasterizer::setup_targets_static_lighting(real32 view_exposure, real32 illum_scale, bool render_to_HDR_target, real32 HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7)
@@ -1825,7 +1856,29 @@ void __cdecl c_rasterizer::setup_targets_static_lighting(real32 view_exposure, r
 
 void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend)
 {
-	INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, render_to_HDR_target, alpha_blend);
+	//INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, render_to_HDR_target, alpha_blend);
+
+	c_rasterizer::set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
+
+	BOOL gamma2_flags[2]
+	{
+		FALSE,
+		FALSE
+	};
+
+	if (render_to_HDR_target)
+	{
+		c_rasterizer::set_render_target(1, _surface_accum_HDR, 0xFFFFFFFF);
+	}
+	else
+	{
+		c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
+	}
+
+	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
+	c_rasterizer::set_pixel_shader_constant_bool(k_ps_ldr_gamma2, NUMBEROF(gamma2_flags), gamma2_flags);
+	c_rasterizer::restore_last_viewport();
+	c_rasterizer::restore_last_scissor_rect();
 }
 
 void __cdecl c_rasterizer::draw_indexed_primitive(const c_rasterizer_index_buffer* indices, int32 base_vertex_index, int32 num_vertices, int32 min_index, int32 triangle_count)
@@ -1862,10 +1915,19 @@ void __cdecl c_rasterizer::set_current_splitscreen_res(e_splitscreen_res res)
 
 c_rasterizer::e_surface __cdecl c_rasterizer::get_render_target(int32 surface_index)
 {
-	return INVOKE(0x00A48720, c_rasterizer::get_render_target, surface_index);
+	//return INVOKE(0x00A48720, c_rasterizer::get_render_target, surface_index);
+
+	ASSERT(VALID_INDEX(surface_index, c_rasterizer::k_number_of_color_surfaces));
+
+	return c_rasterizer::g_color_surfaces[surface_index];
 }
 
-//.text:00A48730 ; public: static real32 __cdecl c_rasterizer::get_render_target_alpha_multiplier(int32 surface_index)
+real32 __cdecl c_rasterizer::get_render_target_alpha_multiplier(int32 surface_index)
+{
+	//return INVOKE(0x00A48730, c_rasterizer::get_render_target_alpha_multiplier, surface_index);
+
+	return 1.0f;
+}
 
 c_rasterizer::e_surface c_rasterizer::get_display_surface()
 {
@@ -1876,10 +1938,12 @@ c_rasterizer::e_surface c_rasterizer::get_display_surface()
 
 int32 __cdecl c_rasterizer::get_surface_height(e_surface surface)
 {
-	return INVOKE(0x00A487A0, c_rasterizer::get_surface_height, surface);
+	//return INVOKE(0x00A487A0, c_rasterizer::get_surface_height, surface);
+
+	return c_render_surfaces_interface::get_render_surface(surface)->m_surface_height;
 }
 
-c_rasterizer_texture_ref __cdecl c_rasterizer::get_surface_texture(c_rasterizer::e_surface surface)
+c_rasterizer_texture_ref __cdecl c_rasterizer::get_surface_texture(e_surface surface)
 {
 	//return INVOKE(0x00A487E0, c_rasterizer::get_surface_texture, surface);
 
@@ -1890,13 +1954,15 @@ c_rasterizer_texture_ref __cdecl c_rasterizer::get_surface_texture(c_rasterizer:
 
 int32 __cdecl c_rasterizer::get_surface_width(e_surface surface)
 {
-	return INVOKE(0x00A48810, c_rasterizer::get_surface_width, surface);
+	//return INVOKE(0x00A48810, c_rasterizer::get_surface_width, surface);
+
+	return c_render_surfaces_interface::get_render_surface(surface)->m_surface_width;
 }
 
 // nullsub
-void __cdecl c_rasterizer::resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 x, int16 y)
+void __cdecl c_rasterizer::resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 dest_left, int16 dest_top)
 {
-	//INVOKE(0x00A48C50, c_rasterizer::resolve_surface, surface, source_render_target, source_rectangle, x, y);
+	//INVOKE(0x00A48C50, c_rasterizer::resolve_surface, surface, source_render_target, source_rectangle, dest_left, dest_top);
 }
 
 void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface depth_stencil)
@@ -1921,7 +1987,14 @@ void __cdecl c_rasterizer::set_surface_as_texture(int32 sampler_index, e_surface
 
 void __cdecl c_rasterizer::set_using_albedo_sampler(bool value)
 {
-	INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, value);
+	//INVOKE(0x00A48FE0, c_rasterizer::set_using_albedo_sampler, value);
+
+	c_rasterizer::g_using_albedo_sampler = value;
+	BOOL actually_calc_albedo[1]
+	{
+		!value
+	};
+	c_rasterizer::set_pixel_shader_constant_bool(k_ps_actually_calc_albedo, NUMBEROF(actually_calc_albedo), actually_calc_albedo);
 }
 
 void __cdecl c_rasterizer::set_viewport(const rectangle2d& viewport_bounds, real32 minz, real32 maxz)
