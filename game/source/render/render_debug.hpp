@@ -56,8 +56,8 @@ extern void __cdecl rasterizer_debug_line(const real_point3d* p0, const real_poi
 extern void __cdecl rasterizer_debug_line2d(const real_point2d* p0, const real_point2d* p1, const real_argb_color* color0, const real_argb_color* color1);
 extern void __cdecl rasterizer_debug_triangle(const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_argb_color* color);
 
-extern void __cdecl render_debug_begin(bool a1, bool a2, bool a3);
-extern void __cdecl render_debug_end(bool a1, bool a2, bool a3);
+extern void __cdecl render_debug_begin(bool render_game_tick_cache, bool only_render_strings, bool clear_cache);
+extern void __cdecl render_debug_end(bool render_game_tick_cache, bool only_render_strings, bool clear_cache);
 extern void __cdecl render_debug_structure_draw();
 extern void __cdecl render_debug_visibility_render();
 extern void __cdecl render_debug_clients(int32 user_index);

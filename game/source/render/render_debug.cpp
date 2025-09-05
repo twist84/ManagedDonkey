@@ -223,7 +223,7 @@ s_render_debug_globals* __cdecl get_render_debug_globals()
 
 bool __cdecl render_debug_allowed_in_current_thread()
 {
-	return restricted_region_locked_for_current_thread(2 /* render thread */) && c_rasterizer::rasterizer_thread_owns_device();
+	return restricted_region_locked_for_current_thread(k_thread_render) && c_rasterizer::rasterizer_thread_owns_device();
 }
 
 bool __cdecl render_debug_active()
