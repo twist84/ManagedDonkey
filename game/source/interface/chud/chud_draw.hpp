@@ -3,7 +3,21 @@
 #include "cseries/cseries.hpp"
 
 struct s_chud_curvature_info;
+struct s_chud_draw_widget_data;
 struct s_chud_runtime_widget_datum;
+
+struct s_chud_render_data
+{
+	int32 vertex_shader_tag_index;
+	int32 pixel_shader_tag_index;
+	int16 alpha_blend_mode;
+	real_vector4d chud_color_outputs[6];
+	real_vector4d chud_scalar_output_abcd;
+	real_vector4d chud_scalar_output_ef;
+	real_vector4d texture_transform;
+	rectangle2d rectangle;
+};
+static_assert(sizeof(s_chud_render_data) == 0xA4);
 
 class c_chud_point_tracker
 {
@@ -58,7 +72,7 @@ extern bool& chud_debug_grid;
 extern bool& chud_contain_turbulence;
 extern bool& chud_debug_crosshair;
 
-extern bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence);
+extern bool __cdecl chud_compute_render_data(s_chud_draw_widget_data* draw_widget_data, s_chud_render_data* out_render_data, bool is_draw_turbulence);
 extern void __cdecl chud_debug_draw(int32 user_index);
 extern void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, const real_argb_color* color);
 extern void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, const char* label, real32 a4, const real_argb_color* color);

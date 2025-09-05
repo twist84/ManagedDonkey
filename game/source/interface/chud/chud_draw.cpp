@@ -1,6 +1,7 @@
 #include "interface/chud/chud_draw.hpp"
 
 #include "camera/observer.hpp"
+#include "interface/chud/chud.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/render_debug.hpp"
@@ -39,8 +40,7 @@ HOOK_DECLARE(0x00AC9490, chud_draw_text_widget);
 
 bool chud_compute_render_data_result = false;
 
-//bool __cdecl chud_compute_render_data(s_chud_draw_widget_data* draw_widget_data, s_chud_render_data* out_render_data, bool is_draw_turbulence)
-bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_data, bool is_draw_turbulence)
+bool __cdecl chud_compute_render_data(s_chud_draw_widget_data* draw_widget_data, s_chud_render_data* out_render_data, bool is_draw_turbulence)
 {
 	//INVOKE(0x00AC7B80, chud_compute_render_data, draw_widget_data, out_render_data, is_draw_turbulence);
 
@@ -51,9 +51,8 @@ bool __cdecl chud_compute_render_data(void* draw_widget_data, void* out_render_d
 	if (chud_compute_render_data_result)
 	{
 		static c_static_wchar_string<128> pix_name;
-		REFERENCE_DECLARE(offset_pointer(draw_widget_data, 0x10), void*, draw_widget_data10);
-		REFERENCE_DECLARE(draw_widget_data10, c_string_id, name_id);
-		rasterizer_profile_begin_event(_rasterizer_profile_element_interface_hud, pix_name.print(L"%hs", name_id.get_string()));
+		rasterizer_profile_begin_event(_rasterizer_profile_element_interface_hud,
+			pix_name.print(L"%hs", string_id_get_string_const(draw_widget_data->widget_base->artist_name)));
 	}
 
 	return chud_compute_render_data_result;
