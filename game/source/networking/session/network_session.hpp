@@ -6,9 +6,9 @@
 
 enum e_network_session_disconnection_policy
 {
-	_network_session_disconnection_waiting_for_establishment = 0,
-	_network_session_disconnection_allowed,
-	_network_session_disconnection_reestablish_as_host,
+	_network_session_disconnection_allow_waiting_for_establishment = 0,
+	_network_session_disconnection_allow,
+	_network_session_disconnection_reestablishes_as_host,
 
 	k_network_session_disconnection_policy_count
 };
@@ -62,8 +62,10 @@ public:
 	bool peer_joining() const;
 	bool channel_is_authoritative(c_network_channel* channel);
 	void destroy_session();
+	void disconnect();
 	void force_disconnect();
 	bool force_disconnect_peer(const s_transport_secure_address* peer_secure_address);
+	const char* get_disconnection_policy_string() const;
 	int32 get_peer_observer_channel(int32 peer_index) const;
 	const c_network_session_membership* get_session_membership() const;
 	c_network_session_membership* get_session_membership_for_update();
@@ -99,8 +101,14 @@ public:
 	e_network_session_type session_type() const;
 	s_network_session_player* get_player(int32 player_index);
 	void leave_session();
+	bool membership_is_locked() const;
 	bool peer_request_player_desired_properties_update(int32 player_update_number, e_controller_index controller_index, const s_player_configuration_from_client* player_data_from_client, uns32 player_voice);
 	e_network_session_class session_class() const;
+
+private:
+	void set_disconnection_policy(e_network_session_disconnection_policy disconnection_policy);
+
+public:
 	bool waiting_for_host_connection(const transport_address* address) const;
 	void leave_session_and_disconnect();
 	bool handle_boot_machine(c_network_channel* channel, const s_network_message_boot_machine* message);
@@ -231,4 +239,6 @@ public:
 	} m_local_user_player_add;
 };
 static_assert(sizeof(c_network_session) == 0x25BC40);
+
+extern const char* g_session_disconnection_policy_strings[k_network_session_disconnection_policy_count];
 

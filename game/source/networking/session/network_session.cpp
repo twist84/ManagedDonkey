@@ -7,6 +7,7 @@
 #include "networking/delivery/network_channel.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_session_membership.hpp"
+#include "networking/network_time.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/session/network_observer.hpp"
 #include "networking/session/network_session_manager.hpp"
@@ -29,19 +30,19 @@ bool c_network_session::disconnected() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00434830, c_network_session, disconnected);
 
-	return current_local_state() == _network_session_state_none;
+	return c_network_session::current_local_state() == _network_session_state_none;
 }
 
 bool c_network_session::established() const
 {
-	return current_local_state() >= _network_session_state_peer_established;
+	return c_network_session::current_local_state() >= _network_session_state_peer_established;
 }
 
 bool c_network_session::is_host() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00434D90, c_network_session, is_host);
 
-	int32 current_state = current_local_state();
+	int32 current_state = c_network_session::current_local_state();
 	if (current_state == _network_session_state_host_established
 		|| current_state == _network_session_state_host_disband
 		/*|| current_state == _network_session_state_host_handoff
@@ -85,15 +86,72 @@ bool c_network_session_membership::peer_property_flag_test_any_peer(e_network_se
 	return INVOKE_CLASS_MEMBER(0x0044FDA0, c_network_session_membership, peer_property_flag_test_any_peer, flag);
 }
 
+//.text:0045A0A0 ; private: void c_network_session::abort_pending_join(uns64)
+//.text:0045A190 ; 
+//.text:0045A230 ; public: void c_network_session::acknowledge_join_request(const transport_address*, e_network_join_refuse_reason)
+//.text:0045A2B0 ; private: void c_network_session::add_pending_join_to_session(uns64)
+//.text:0045A390 ; 
+//.text:0045A3D0 ; public: bool c_network_session_membership::all_peers_established() const
+//.text:0045A410 ; public: bool c_network_session::all_players_are_present() const
+//.text:0045A430 ; public: virtual bool c_network_session::attempt_channel_reconnection(int32, bool) const
+//.text:0045A4C0 ; private: void c_network_session::boot_peer(int32, e_network_session_boot_reason)
+//.text:0045A5B0 ; public: e_network_join_refuse_reason c_network_session::can_accept_any_join_request() const
+//.text:0045A650 ; public: e_network_join_refuse_reason c_network_session::can_accept_join_request(const s_network_session_join_request*) const
+//.text:0045A7D0 ; public: e_network_join_refuse_reason c_network_session::can_accept_player_join_request(const s_player_identifier*, int32, int32, bool, bool) const
+//.text:0045A9C0 ; public: virtual e_network_channel_owner_state c_network_session::channel_get_state(int32) const
+
 bool c_network_session::channel_is_authoritative(c_network_channel* channel)
 {
 	return INVOKE_CLASS_MEMBER(0x0045A9E0, c_network_session, channel_is_authoritative, channel);
 }
 
+//.text:0045AA40 ; private: void c_network_session::check_to_send_membership_update()
+//.text:0045AD50 ; private: void c_network_session::check_to_send_peer_join_abort()
+//.text:0045AE10 ; private: void c_network_session::check_to_send_peer_join_request()
+//.text:0045B000 ; private: void c_network_session::check_to_send_peer_leave_request()
+//.text:0045B0F0 ; private: void c_network_session::check_to_send_time_synchronization()
+//.text:0045B240 ; 
+//.text:0045B250 ; public: bool c_network_session::compare_session_id(const s_transport_secure_identifier*) const
+//.text:0045B270 ; public: bool c_network_session::connect_peer_to_remote_session(c_session_creation_flags, e_network_session_class, e_transport_platform, const s_transport_secure_identifier*, const s_transport_secure_key*, const s_transport_secure_address*, uns64, const s_online_context*, int32)
+//.text:0045B310 ; public: bool c_network_session::create_host_session(c_session_creation_flags, e_network_session_class, e_transport_platform, const c_network_session_membership*, const s_online_context*, int32)
+//.text:0045B6D0 ; private: bool c_network_session::create_session_for_remote_join(c_session_creation_flags, e_network_session_class, e_transport_platform, const s_transport_secure_identifier*, const s_transport_secure_key*, const s_transport_secure_address*, bool, uns64, s_network_session_join_request*, const s_online_context*, int32)
+//.text:0045B910 ; public: virtual bool c_network_session::desire_channel_heartbeat(int32) const
+
 void c_network_session::destroy_session()
 {
 	INVOKE_CLASS_MEMBER(0x0045B960, c_network_session, destroy_session);
+
+	//if (m_session_manager)
+	//{
+	//	m_session_manager->deregister_session(this);
+	//}
+	//
+	//if (m_local_state == _network_session_state_none)
+	//{
+	//	m_disconnection_policy = _network_session_disconnection_allow;
+	//	c_network_session::disconnect();
+	//	ASSERT(m_local_state == _network_session_state_none);
+	//}
+	//
+	//m_local_state = k_network_session_state_none;
+	//m_session_class = k_network_session_class_none;
+	//m_session_type = _network_session_type_none;
+	//m_message_gateway = NULL;
+	//m_observer = NULL;
 }
+
+//.text:0045B9D0 ; public: void c_network_session::disband_and_reestablish_as_host(e_disband_and_reestablish_policy)
+//.text:0045BAB0 ; private: void c_network_session::disband_peer(int32)
+
+void c_network_session::disconnect()
+{
+	INVOKE_CLASS_MEMBER(0x0045BBB0, c_network_session, disconnect);
+}
+
+//.text:0045BC60 ; private: void c_network_session::finalize_single_player_add(e_network_join_refuse_reason)
+//.text:0045BDF0 ; public: int32 c_network_session::find_peer_by_machine_identifier(const s_machine_identifier*) const
+//.text:0045BE00 ; 
+//.text:0045BE10 ; 
 
 void c_network_session::force_disconnect()
 {
@@ -105,17 +163,51 @@ bool c_network_session::force_disconnect_peer(const s_transport_secure_address* 
 	return INVOKE_CLASS_MEMBER(0x0045BE80, c_network_session, force_disconnect_peer, peer_secure_address);
 }
 
+//.text:0045BF30 ; 
+//.text:0045BF40 ; 
+//.text:0045BF50 ; 
+
+const char* c_network_session::get_disconnection_policy_string() const
+{
+	ASSERT(VALID_INDEX(m_disconnection_policy, k_network_session_disconnection_policy_count));
+
+	return g_session_disconnection_policy_strings[m_disconnection_policy];
+}
+
+//.text:0045BF60 ; public: int32 c_network_session_membership::get_host_observer_channel_index() const
+//.text:0045BF70 ; public: const s_network_session_peer* c_network_session_membership::get_host_peer() const
+//.text:0045BF80 ; public: const char* c_network_session::get_id_string() const
+//.text:0045BF90 ; public: uns64 c_network_session_membership::get_join_nonce(int32) const
+//.text:0045BFB0 ; public: const s_network_session_peer* c_network_session_membership::get_leader_peer() const
+//.text:0045BFD0 ; public: int32 c_network_session::get_local_session_membership_update_number() const
+//.text:0045BFE0 ; public: int32 c_network_session::get_maximum_player_count() const
+//.text:0045C060 ; public: int32 c_network_session_membership::get_membership_update_number(int32) const
+//.text:0045C080 ; 
+//.text:0045C090 ; private: s_network_session_peer* c_network_session::get_peer(int32)
+//.text:0045C0B0 ; private: const s_network_session_peer* c_network_session::get_peer(int32) const
+//.text:0045C0D0 ; public: const char* c_network_session::get_peer_description(int23) const
+//.text:0045C0E0 ; public: bool c_network_session_membership::get_peer_needs_reestablishment(int32) const
+
 int32 c_network_session::get_peer_observer_channel(int32 peer_index) const
 {
 	//return INVOKE_CLASS_MEMBER(0x0045C100, c_network_session, get_peer_observer_channel, peer_index);
 
 	ASSERT(established());
 
-	if (peer_index != NONE && m_session_membership.is_peer_valid(peer_index))
-		return m_session_membership.get_observer_channel_index(peer_index);
+	if (peer_index == NONE || !m_session_membership.is_peer_valid(peer_index))
+	{
+		return NONE;
+	}
 
-	return NONE;
+	return m_session_membership.get_observer_channel_index(peer_index);
 }
+
+//.text:0045C140 ; private: s_network_session_player* c_network_session::get_player(int32)
+//.text:0045C160 ; private: const s_network_session_player* c_network_session::get_player(int32) const
+//.text:0045C180 ; public: int32 c_network_session::get_player_space_available() const
+//.text:0045C190 ; public: const s_network_session_privacy_mode* c_generic_network_session_parameter<s_network_session_privacy_mode>::get_request() const
+//.text:0045C1B0 ; public: bool c_network_session::get_secure_key(s_transport_secure_identifier*, s_transport_secure_key*, e_transport_platform*) const
+//.text:0045C230 ; public: bool c_network_session::get_session_id(s_transport_secure_identifier*) const
 
 const c_network_session_membership* c_network_session::get_session_membership() const
 {
@@ -146,8 +238,10 @@ const c_network_session_membership* c_network_session::get_session_membership_un
 {
 	//return INVOKE_CLASS_MEMBER(0x0045C270, c_network_session, get_session_membership_unsafe);
 
-	if (disconnected() || !m_session_membership.has_membership())
-		return nullptr;
+	if (c_network_session::disconnected() || !m_session_membership.has_membership())
+	{
+		return NULL;
+	}
 
 	ASSERT(m_session_membership.is_peer_valid(m_session_membership.local_peer_index()));
 	ASSERT(m_session_membership.is_peer_valid(m_session_membership.host_peer_index()));
@@ -227,7 +321,7 @@ const char* c_network_session::get_state_string() const
 		//"election"
 	};
 
-	int32 current_state = current_local_state();
+	int32 current_state = c_network_session::current_local_state();
 	ASSERT(current_state >= 0 && current_state < k_network_session_state_count);
 
 	return state_names[current_state];
@@ -274,9 +368,11 @@ bool c_network_session::handle_leave_internal(int32 peer_index)
 	//
 	//int32 observer_channel_index = m_session_membership.get_observer_channel_index(peer_index);
 	//if (m_session_class == _network_session_class_xbox_live)
+	//{
 	//	m_observer->quality_statistics_notify_peer_left_gracefully(observer_owner(), observer_channel_index);
+	//}
 	//
-	//if (membership_is_locked() || !m_session_membership.is_peer_valid(peer_index))
+	//if (c_network_session::membership_is_locked() || !m_session_membership.is_peer_valid(peer_index))
 	//{
 	//	// Missing in Halo Online
 	//	//if (m_local_state == _network_session_state_host_handoff)
@@ -300,7 +396,7 @@ bool c_network_session::handle_leave_internal(int32 peer_index)
 	//	event(_event_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
 	//		managed_session_get_id_string(m_managed_session_index),
 	//		get_peer_description(peer_index),
-	//		get_state_string());
+	//		c_network_session::get_state_string());
 	//}
 	//else
 	//{
@@ -327,15 +423,17 @@ bool c_network_session::handle_leave_internal(int32 peer_index)
 bool c_network_session::has_managed_session_connection() const
 {
 	return INVOKE_CLASS_MEMBER(0x0045C3E0, c_network_session, has_managed_session_connection);
+
+	//return managed_session_get_status(m_managed_session_index).test(_managed_session_creation_succeeded_bit);
 }
 
 bool c_network_session::host_assume_leadership()
 {
 	return INVOKE_CLASS_MEMBER(0x0045C410, c_network_session, host_assume_leadership);
 
-	//if (established())
+	//if (c_network_session::established())
 	//{
-	//	if (is_host())
+	//	if (c_network_session::is_host())
 	//	{
 	//		if (m_session_membership.leader_peer_index() != m_session_membership.local_peer_index())
 	//		{
@@ -366,7 +464,7 @@ bool c_network_session::host_boot_machine(int32 peer_index, e_network_session_bo
 {
 	return INVOKE_CLASS_MEMBER(0x0045C4B0, c_network_session, host_boot_machine, peer_index, boot_reason);
 
-	//if (is_host())
+	//if (c_network_session::is_host())
 	//{
 	//	event(_event_message, "networking:session:membership: [%s] booting machine [#%d] locally [reason %d]",
 	//		managed_session_get_id_string(m_managed_session_index),
@@ -378,11 +476,11 @@ bool c_network_session::host_boot_machine(int32 peer_index, e_network_session_bo
 	//		event(_event_message, "networking:session:membership: we are the host and are being booted, leaving...");
 	//
 	//		user_interface_networking_notify_booted_from_session(session_type(), boot_reason);
-	//		disband_and_reestablish_as_host(session_type() == _network_session_type_group);
+	//		c_network_session::initiate_leave_protocol(false);
 	//	}
 	//	else
 	//	{
-	//		boot_peer(peer_index, boot_reason);
+	//		c_network_session::boot_peer(peer_index, boot_reason);
 	//	}
 	//
 	//	return true;
@@ -395,24 +493,26 @@ void c_network_session::host_connection_refused(const transport_address* address
 {
 	INVOKE_CLASS_MEMBER(0x0045C530, c_network_session, host_connection_refused, address, refuse_reason);
 
-	//if (waiting_for_host_connection(address))
+	//if (!c_network_session::waiting_for_host_connection(address))
 	//{
-	//	if (refuse_reason == _network_join_refuse_reason_holding_in_queue && this->m_local_state == _network_session_state_peer_joining)
-	//	{
-	//		event(_event_message, "networking:session:join: [%s] received join-queue ping from host, waiting",
-	//			managed_session_get_id_string(m_managed_session_index));
+	//	return;
+	//}
 	//
-	//		peer_joining.__unknown34C = network_time_get();
-	//	}
-	//	else
-	//	{
-	//		event(_event_message, "networking:session:join: [%s] host connection refused, aborting join",
-	//			managed_session_get_id_string(m_managed_session_index));
+	//if (refuse_reason == _network_join_refuse_reason_holding_in_queue && m_local_state == _network_session_state_peer_joining)
+	//{
+	//	event(_event_message, "networking:session:join: [%s] received join-queue ping from host, waiting",
+	//		managed_session_get_id_string(m_managed_session_index));
 	//
-	//		m_join_refuse_reason = refuse_reason;
-	//		ASSERT(current_local_state() == _network_session_state_peer_joining);
-	//		disconnect();
-	//	}
+	//	m_local_state_data.peer_joining.join_ping_from_host_timestamp = network_time_get();
+	//}
+	//else
+	//{
+	//	event(_event_message, "networking:session:join: [%s] host connection refused, aborting join",
+	//		managed_session_get_id_string(m_managed_session_index));
+	//
+	//	m_join_refuse_reason = refuse_reason;
+	//	ASSERT(current_local_state() == _network_session_state_peer_joining);
+	//	c_network_session::disconnect();
 	//}
 }
 
@@ -420,7 +520,7 @@ bool c_network_session::host_established() const
 {
 	return INVOKE_CLASS_MEMBER(0x0045C5C0, c_network_session, host_established);
 
-	//return current_local_state() == _network_session_state_host_established;
+	//return c_network_session::current_local_state() == _network_session_state_host_established;
 }
 
 bool c_network_session::host_set_player_current_properties(int32 player_index, const s_player_configuration* player_data)
@@ -430,25 +530,25 @@ bool c_network_session::host_set_player_current_properties(int32 player_index, c
 	//ASSERT(player_index >= 0 && player_index < k_network_maximum_players_per_session);
 	//ASSERT(player_data);
 	//
-	//if (established() && is_host() && !membership_is_locked() )
+	//if (!c_network_session::established() || !c_network_session::is_host() || c_network_session::membership_is_locked())
 	//{
-	//	if (m_session_membership.is_player_valid(player_index))
-	//	{
-	//		event(_event_status, "networking:session:membership: [%s] local host updating current player properties for player [#%d]",
-	//			managed_session_get_id_string(m_managed_session_index),
-	//			player_index);
-	//
-	//		return true;
-	//	}
-	//	else
-	//	{
-	//		event(_event_status, "networking:session:membership: [%s] local host updating player properties for invalid player [#%d]",
-	//			managed_session_get_id_string(m_managed_session_index),
-	//			player_index);
-	//	}
+	//	return false;
 	//}
 	//
-	//return false;
+	//if (!m_session_membership.is_player_valid(player_index))
+	//{
+	//	event(_event_status, "networking:session:membership: [%s] local host updating player properties for invalid player [#%d]",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		player_index);
+	//
+	//	return false;
+	//}
+	//
+	//event(_event_status, "networking:session:membership: [%s] local host updating current player properties for player [#%d]",
+	//	managed_session_get_id_string(m_managed_session_index),
+	//	player_index);
+	//
+	//return true;
 }
 
 void c_network_session::idle()
@@ -565,6 +665,7 @@ e_network_session_mode c_network_session::session_mode() const
 e_network_session_type c_network_session::session_type() const
 {
 	ASSERT(m_session_type >= 0 && m_session_type < k_network_session_type_count);
+
 	return m_session_type;
 }
 
@@ -582,7 +683,11 @@ void c_network_session::leave_session()
 	c_network_session::initiate_leave_protocol(false);
 }
 
-//.text:0045D780 ; bool c_network_session::membership_is_locked() const
+bool c_network_session::membership_is_locked() const
+{
+	return INVOKE_CLASS_MEMBER(0x0045D780, c_network_session, membership_is_locked);
+}
+
 //.text:0045D790 ; bool c_network_session::membership_is_stable() const
 //.text:0045D8C0 ; virtual void c_network_session::notify_channel_connection(int32, uns32, bool)
 //.text:0045D9E0 ; virtual void c_network_session::notify_channel_died(int32)
@@ -692,7 +797,18 @@ e_network_session_class c_network_session::session_class() const
 //.text:0045EBD0 ; bool c_network_session::session_is_full(int32, int32) const
 //.text:0045EC20 ; e_network_session_mode c_network_session::session_mode() const
 //.text:0045ED30 ; void c_network_session::set_default_session_parameters()
-//.text:0045EDC0 ; void c_network_session::set_disconnection_policy(e_network_session_disconnection_policy)
+
+void c_network_session::set_disconnection_policy(e_network_session_disconnection_policy disconnection_policy)
+{
+	//INVOKE_CLASS_MEMBER(0x0045EDC0, c_network_session, set_disconnection_policy, disconnection_policy);
+
+	ASSERT(disconnection_policy != _network_session_disconnection_allow_waiting_for_establishment);
+	m_disconnection_policy = disconnection_policy;
+	event(_event_message, "networking:session: [%s] disconnection policy now %s",
+		managed_session_get_id_string(m_managed_session_index),
+		c_network_session::get_disconnection_policy_string());
+}
+
 //.text:0045EDF0 ; void c_network_session_membership::set_host_peer_index(int32)
 //.text:0045EE40 ; bool c_network_session::set_privacy_details(e_network_session_privacy, e_network_session_closed_status, int32, int32)
 //.text:0045EFD0 ; uns32 c_network_session::time_get() const
@@ -709,7 +825,10 @@ bool c_network_session::waiting_for_host_connection(const transport_address* add
 
 void c_network_session::leave_session_and_disconnect()
 {
-	INVOKE_CLASS_MEMBER(0x0047DC40, c_network_session, leave_session_and_disconnect);
+	//INVOKE_CLASS_MEMBER(0x0047DC40, c_network_session, leave_session_and_disconnect);
+
+	c_network_session::set_disconnection_policy(_network_session_disconnection_allow);
+	c_network_session::initiate_leave_protocol(false);
 }
 
 bool c_network_session::handle_boot_machine(c_network_channel* channel, const s_network_message_boot_machine* message)
@@ -821,55 +940,53 @@ bool c_network_session::handle_player_properties(c_network_channel* channel, con
 {
 	//return INVOKE_CLASS_MEMBER(0x004DAEC0, c_network_session, handle_player_properties, channel, message);
 
-	if (c_network_session::established() && c_network_session::is_host())
-	{
-		int32 observer_channel_index = m_observer->observer_channel_find_by_network_channel(m_session_index, channel);
-		int32 peer_index = m_session_membership.get_peer_from_observer_channel(observer_channel_index);
-		if (peer_index == NONE || peer_index == m_session_membership.local_peer_index())
-		{
-			event(_event_message, "networking:session:membership: [%s] player-properties received from invalid peer [#%d]",
-				managed_session_get_id_string(m_managed_session_index),
-				peer_index);
-		}
-		//else if (message->user_index < 0 || message->user_index >= 4)
-		//{
-		//	event(_event_error, "networking:session:membership: [%s] player-properties received for invalid user_index [#%d]",
-		//		managed_session_get_id_string(m_managed_session_index),
-		//		message->user_index);
-		//}
-		else
-		{
-			int32 player_index = m_session_membership.get_player_index_from_peer(peer_index);
-			if (player_index == NONE)
-			{
-				event(_event_warning, "networking:session:membership: [%s] player-properties received but no player associated with peer [#%d]",
-					managed_session_get_id_string(m_managed_session_index),
-					peer_index);
-			}
-			else
-			{
-				m_session_membership.set_player_properties(player_index,
-					message->player_update_number,
-					message->controller_index,
-					&message->player_data,
-					message->player_voice_settings);
-
-				event(_event_status, "networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
-					managed_session_get_id_string(m_managed_session_index),
-					peer_index,
-					peer_index);
-			}
-
-			return true;
-		}
-	}
-	else
+	if (!c_network_session::established() || !c_network_session::is_host())
 	{
 		event(_event_warning, "networking:session:membership: [%s] player-properties received but not host, can't update players",
 			managed_session_get_id_string(m_managed_session_index));
+		return false;
 	}
 
-	return false;
+	int32 observer_channel_index = m_observer->observer_channel_find_by_network_channel(m_session_index, channel);
+	int32 peer_index = m_session_membership.get_peer_from_observer_channel(observer_channel_index);
+	if (peer_index == NONE || peer_index == m_session_membership.local_peer_index())
+	{
+		event(_event_message, "networking:session:membership: [%s] player-properties received from invalid peer [#%d]",
+			managed_session_get_id_string(m_managed_session_index),
+			peer_index);
+		return false;
+	}
+
+	//if (!VALID_INDEX(message->user_index, 4))
+	//{
+	//	event(_event_error, "networking:session:membership: [%s] player-properties received for invalid user_index [#%d]",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		message->user_index);
+	//	return false;
+	//}
+
+	int32 player_index = m_session_membership.get_player_index_from_peer(peer_index);
+	if (player_index == NONE)
+	{
+		event(_event_warning, "networking:session:membership: [%s] player-properties received but no player associated with peer [#%d]",
+			managed_session_get_id_string(m_managed_session_index),
+			peer_index);
+	}
+	else
+	{
+		m_session_membership.set_player_properties(player_index,
+			message->player_update_number,
+			message->controller_index,
+			&message->player_data,
+			message->player_voice_settings);
+
+		event(_event_status, "networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
+			managed_session_get_id_string(m_managed_session_index),
+			peer_index,
+			peer_index);
+	}
+
+	return true;
 }
 
 bool c_network_session::handle_player_refuse(c_network_channel* channel, const s_network_message_player_refuse* message)
@@ -896,4 +1013,11 @@ bool c_network_session::handle_time_synchronize(const transport_address* address
 {
 	return INVOKE_CLASS_MEMBER(0x004DB340, c_network_session, handle_time_synchronize, address, message);
 }
+
+const char* g_session_disconnection_policy_strings[k_network_session_disconnection_policy_count]
+{
+	"waiting-for-establishment",
+	"allowed",
+	"reestablish-as-host",
+};
 
