@@ -213,6 +213,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\gpu_particle\particle_block.cpp" />
     <ClCompile Include="source\hs\hs_library_internal_compile.cpp" />
     <ClCompile Include="source\interface\attract_mode.cpp" />
+    <ClCompile Include="source\interface\chud\chud_definitions.cpp" />
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
     <ClCompile Include="source\interface\chud\chud_motion_sensor.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
@@ -898,6 +899,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />
     <ClInclude Include="source\input\input_xinput.hpp" />
     <ClInclude Include="source\interface\attract_mode.hpp" />
+    <ClInclude Include="source\interface\chud\chud_definitions.hpp" />
     <ClInclude Include="source\interface\chud\chud_draw.hpp" />
     <ClInclude Include="source\interface\chud\chud_globals_definitions.hpp" />
     <ClInclude Include="source\interface\chud\chud_motion_sensor.hpp" />

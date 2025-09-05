@@ -78,8 +78,9 @@ extern void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, cons
 extern void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, const char* label, real32 a4, const real_argb_color* color);
 extern void __cdecl chud_debug_render();
 extern bool __cdecl chud_draw_begin(int32 user_index, real32 global_hud_alpha, bool setup_cortana_effect, bool drawing_saved_film);
-extern void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence);
+extern void __cdecl chud_draw_bitmap_widget(int32 user_index, s_chud_draw_widget_data* draw_widget_data, bool is_draw_turbulence);
 extern void __cdecl chud_draw_end(int32 user_index, bool resolve_cortana_effect);
-extern void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence);
+extern void __cdecl chud_draw_text_widget(int32 user_index, s_chud_draw_widget_data* draw_widget_data, bool is_draw_turbulence);
 extern void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence);
+extern bool __cdecl game_playback_should_display_crosshair(int32 user_index);
 

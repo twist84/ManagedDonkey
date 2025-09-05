@@ -2058,6 +2058,9 @@
     <ClCompile Include="source\geometry\geometry_definitions_new.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\chud\chud_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4545,6 +4548,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\geometry\geometry_definitions_new.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\chud\chud_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

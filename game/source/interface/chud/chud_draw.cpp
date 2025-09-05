@@ -1,7 +1,10 @@
 #include "interface/chud/chud_draw.hpp"
 
+#include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
+#include "game/game.hpp"
 #include "interface/chud/chud.hpp"
+#include "interface/chud/chud_definitions.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/render_debug.hpp"
@@ -19,8 +22,9 @@ REFERENCE_DECLARE(0x0526A088, bool, chud_contain_turbulence) = false;
 
 HOOK_DECLARE(0x00AC7B80, chud_compute_render_data);
 HOOK_DECLARE(0x00AC7F80, chud_debug_draw_reticle_labeled);
-HOOK_DECLARE(0x00AC8CE0, chud_draw_bitmap_widget);
-HOOK_DECLARE(0x00AC9490, chud_draw_text_widget);
+//HOOK_DECLARE(0x00AC8CE0, chud_draw_bitmap_widget);
+//HOOK_DECLARE(0x00AC9490, chud_draw_text_widget);
+HOOK_DECLARE(0x00AC9570, chud_draw_widget);
 
 //.text:00AC59F0 ; bool __cdecl chud_apply_render_data(s_chud_render_data* render_data, bool fancy)
 //.text:00AC5B40 ; void __cdecl chud_apply_widget_animation(s_chud_draw_widget_data* draw_widget_data, s_anchor_basis* anchor_basis, s_widget_geometry* widget_geometry, s_chud_render_data* render_data)
@@ -50,9 +54,10 @@ bool __cdecl chud_compute_render_data(s_chud_draw_widget_data* draw_widget_data,
 
 	if (chud_compute_render_data_result)
 	{
+		c_string_id artist_name = draw_widget_data->widget_base->artist_name;
+
 		static c_static_wchar_string<128> pix_name;
-		rasterizer_profile_begin_event(_rasterizer_profile_element_interface_hud,
-			pix_name.print(L"%hs", string_id_get_string_const(draw_widget_data->widget_base->artist_name)));
+		rasterizer_profile_begin_event(_rasterizer_profile_element_interface_hud, pix_name.print(L"%hs", artist_name.get_string()));
 	}
 
 	return chud_compute_render_data_result;
@@ -130,13 +135,11 @@ bool __cdecl chud_draw_begin(int32 user_index, real32 global_hud_alpha, bool set
 
 //.text:00AC8C10 ; 
 
-void __cdecl chud_draw_bitmap_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence)
+void __cdecl chud_draw_bitmap_widget(int32 user_index, s_chud_draw_widget_data* draw_widget_data, bool is_draw_turbulence)
 {
-	//INVOKE(0x00AC8CE0, chud_draw_bitmap_widget, user_index, draw_widget_data, is_draw_turbulence);
-
 	chud_compute_render_data_result = false;
 
-	HOOK_INVOKE(, chud_draw_bitmap_widget, user_index, draw_widget_data, is_draw_turbulence);
+	INVOKE(0x00AC8CE0, chud_draw_bitmap_widget, user_index, draw_widget_data, is_draw_turbulence);
 
 	if (chud_compute_render_data_result)
 	{
@@ -154,25 +157,80 @@ void __cdecl chud_draw_end(int32 user_index, bool resolve_cortana_effect)
 //.text:00AC8E80 ; void __cdecl chud_draw_initialize()
 //.text:00AC8E90 ; 
 
-void __cdecl chud_draw_text_widget(int32 user_index, void* draw_widget_data, bool is_draw_turbulence)
+void __cdecl chud_draw_text_widget(int32 user_index, s_chud_draw_widget_data* draw_widget_data, bool is_draw_turbulence)
 {
-	//INVOKE(0x00AC9490, chud_draw_text_widget, user_index, draw_widget_data, is_draw_turbulence);
-
 	chud_compute_render_data_result = false;
 
-	HOOK_INVOKE(, chud_draw_text_widget, user_index, draw_widget_data, is_draw_turbulence);
+	INVOKE(0x00AC9490, chud_draw_text_widget, user_index, draw_widget_data, is_draw_turbulence);
 
 	if (chud_compute_render_data_result)
 	{
 		rasterizer_profile_end_event();
 	}
+
+	//s_chud_widget_base* widget_base = draw_widget_data->widget_base;
+	//if (widget_base->placement_data.count)
+	//{
+	//	s_chud_widget_placement_data* placement_data = TAG_BLOCK_GET_ELEMENT(&widget_base->placement_data, 0, s_chud_widget_placement_data);
+	//	if (!TEST_BIT(draw_widget_data->widget->flags, 0))
+	//	{
+	//		s_widget_geometry result_geometry{};
+	//		result_geometry.texture_reference = c_rasterizer_texture_ref();
+	//
+	//		s_chud_render_data render_data{};
+	//		if (chud_compute_render_data(draw_widget_data, &render_data, is_draw_turbulence))
+	//		{
+	//			s_anchor_basis basis{};
+	//			chud_compute_anchor_basis(user_index, draw_widget_data, placement_data->anchor_type, &basis);
+	//			if (chud_text_widget_compute_geometry(draw_widget_data, &result_geometry, &render_data))
+	//			{
+	//				chud_apply_widget_animation(draw_widget_data, &basis, &result_geometry, &render_data);
+	//				if (chud_apply_render_data(&render_data, false))
+	//				{
+	//					chud_draw_widget_geometry(&result_geometry, &basis, false, false);
+	//				}
+	//			}
+	//
+	//			rasterizer_profile_end_event();
+	//		}
+	//	}
+	//}
 }
 
 //.text:00AC9560 ; void __cdecl chud_draw_training_text(int32 user_index)
 
 void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* widget, int32 chud_definition_index, int32 is_draw_turbulence)
 {
-	INVOKE(0x00AC9570, chud_draw_widget, user_index, widget, chud_definition_index, is_draw_turbulence);
+	//INVOKE(0x00AC9570, chud_draw_widget, user_index, widget, chud_definition_index, is_draw_turbulence);
+
+	s_chud_definition* widget_definition = TAG_GET(CHUD_DEFINITION_TAG, s_chud_definition, chud_definition_index);
+	s_chud_widget_collection* widget_collection = TAG_BLOCK_GET_ELEMENT(&widget_definition->widget_collections, widget->collection_index, s_chud_widget_collection);
+
+	bool is_text_widget = false;
+	s_chud_widget_base* widget_base = widget_collection->get_widget_by_index(widget->widget_index, &is_text_widget);
+
+	if (!game_is_playback()
+		|| widget_collection->scripting_class != _chud_scripting_class_crosshair
+		|| game_playback_should_display_crosshair(user_index))
+	{
+		s_chud_draw_widget_data draw_widget_data
+		{
+			.user_index = user_index,
+			.widget = widget,
+			.widget_definition = widget_definition,
+			.widget_collection = widget_collection,
+			.widget_base = widget_base,
+		};
+
+		if (is_text_widget)
+		{
+			chud_draw_text_widget(user_index, &draw_widget_data, is_draw_turbulence);
+		}
+		else
+		{
+			chud_draw_bitmap_widget(user_index, &draw_widget_data, is_draw_turbulence);
+		}
+	}
 }
 
 //.text:00AC9620 ; void __cdecl chud_draw_widget_geometry(s_widget_geometry* geometry, s_anchor_basis* anchor_basis, bool mirror_x, bool mirror_y)
@@ -190,4 +248,10 @@ void __cdecl chud_draw_widget(int32 user_index, s_chud_runtime_widget_datum* wid
 //.text:00ACAD00 ; void __cdecl chud_widget_build_quads_from_bounds(real_rectangle2d* actual_geometry_bounds, real_rectangle2d* extended_geometry_bounds, real_rectangle2d* texture_bounds, s_widget_geometry* result_geometry, real32 scale_x, real32 scale_y)
 //.text:00ACAFA0 ; void __cdecl chud_widget_geometry_add_character(s_widget_geometry* geometry, const real_rectangle2d* src_rectangle, const real_rectangle2d* dest_rectangle, real32 character_scale)
 //.text:00ACB0E0 ; 
+
+// $TODO find me a home
+bool __cdecl game_playback_should_display_crosshair(int32 user_index)
+{
+	return INVOKE(0x00AD0F50, game_playback_should_display_crosshair, user_index);
+}
 

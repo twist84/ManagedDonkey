@@ -11,6 +11,8 @@
 
 struct s_aim_assist_targeting_result;
 struct s_chud_definition;
+struct s_chud_widget_base;
+struct s_chud_widget_collection;
 
 struct s_chud_runtime_widget_datum :
 	s_datum_header
@@ -38,29 +40,6 @@ struct s_chud_runtime_widget_datum :
 	real32 input_values[2];
 };
 static_assert(sizeof(s_chud_runtime_widget_datum) == 0x18);
-
-struct s_chud_widget_base
-{
-	string_id artist_name;
-	int16 scripting_class;
-	uns8 base_flags;
-	uns8 sort_layer;
-	s_tag_block state_data;
-	s_tag_block placement_data;
-	s_tag_block animation_data;
-	s_tag_block render_data;
-};
-static_assert(sizeof(s_chud_widget_base) == 0x38);
-
-struct s_chud_widget_collection :
-	s_chud_widget_base
-{
-	s_tag_reference parallax;
-	s_tag_block bitmap_widgets;
-	s_tag_block text_widgets;
-};
-static_assert(sizeof(s_chud_widget_collection) == 0x60);
-static_assert(sizeof(s_chud_widget_collection) == sizeof(s_chud_widget_base) + 0x28);
 
 struct s_chud_draw_widget_data
 {
