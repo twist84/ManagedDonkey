@@ -39,10 +39,10 @@
 #include "memory/module.hpp"
 #include "text/font_cache.hpp"
 
-//#define ISWIP
+//#define USER_INTERFACE_WINDOW_MANAGER_WIP
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
-#if defined(ISWIP)
+#if defined(USER_INTERFACE_WINDOW_MANAGER_WIP)
 HOOK_DECLARE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen);
 HOOK_DECLARE_CLASS(0x00AABFD0, c_window_manager, named_screen_defined_in_code);
 #endif
@@ -66,7 +66,7 @@ c_gui_screen_widget* c_window_manager::allocate_codeless_screen(int32 screen_nam
 
 c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 {
-#if !defined(ISWIP)
+#if !defined(USER_INTERFACE_WINDOW_MANAGER_WIP)
 	return INVOKE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen, screen_name);
 #else
 	//c_gui_screen_widget* result = NULL;
@@ -564,7 +564,7 @@ int32 __cdecl c_window_manager::locate_screen_definition_tag_by_name(int32 name)
 
 bool __cdecl c_window_manager::named_screen_defined_in_code(int32 screen_name)
 {
-#if !defined(ISWIP)
+#if !defined(USER_INTERFACE_WINDOW_MANAGER_WIP)
 	return INVOKE(0x00AABFD0, c_window_manager::named_screen_defined_in_code, screen_name);
 #else
 	switch (screen_name) // H3 OG
