@@ -241,7 +241,7 @@ void debug_menu_store_string_property(parse_stack_t* parse_stack)
 
 	ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length));
 
-	g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
+	g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index] = 0;
 	switch (g_parser_state.m_current_property_type.get())
 	{
 	case _property_color:
@@ -718,7 +718,7 @@ void debug_menu_parse(c_debug_menu* root_menu, const char* file_name)
 	ASSERT(root_menu != NULL);
 
 	FILE* file = NULL;
-	if (fopen_s(&file, file_name, "rt") == 0 && file)
+	if (fopen_s(&file, file_name, "rb") == 0 && file)
 	{
 		char error_buffer[1024]{};
 
