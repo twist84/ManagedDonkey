@@ -213,12 +213,16 @@ void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yi
 			//}
 
 			if (idle)
+			{
 				sound_idle();
+			}
 
 			main_loop_pregame();
 
 			if (spinner)
+			{
 				main_loading_enable_spinner(false);
+			}
 
 			if (spinner)
 			{
@@ -228,7 +232,7 @@ void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yi
 				c_static_string<64> loading_text;
 				loading_text.print("loading %s", spinner_states[spinner_state_index]);
 
-				c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+				RENDER_THREAD_LOCK;
 				main_render_pregame(_main_pregame_frame_loading_debug, loading_text.get_string());
 				c_rasterizer::end_frame();
 			}

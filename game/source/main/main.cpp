@@ -616,7 +616,7 @@ void __cdecl main_halt_and_catch_fire()
 
 	while (!is_debugger_present())
 	{
-		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+		RENDER_THREAD_LOCK;
 
 		uns32 this_loop_time = system_milliseconds();
 		uns32 time_delta = this_loop_time - lock_time;
@@ -633,7 +633,9 @@ void __cdecl main_halt_and_catch_fire()
 
 		char upload_debug_output[1024]{};
 		if (upload_debug_started && upload_debug_get_output(upload_debug_output, 1024))
+		{
 			text.append(upload_debug_output);
+		}
 
 		//if (create_fake_minidump)
 		//{
@@ -1461,7 +1463,7 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		return;
 	}
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 	if (c_rasterizer::begin_frame())
 	{
 		c_rasterizer::setup_targets_simple();
@@ -1500,7 +1502,7 @@ void __cdecl main_loop_process_global_state_changes()
 
 	if (game_in_editor())
 	{
-		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+		RENDER_THREAD_LOCK;
 
 		main_game_launch_default_editor();
 		main_game_change_update();
@@ -1597,7 +1599,7 @@ void __cdecl main_loop_process_global_state_changes()
 
 		if (main_events_pending())
 		{
-			c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+			RENDER_THREAD_LOCK;
 
 			exceptions_update();
 
@@ -1719,7 +1721,7 @@ void __cdecl main_loop_status_message(const wchar_t* status_message)
 {
 	//INVOKE(0x00506900, main_loop_status_message, status_message);
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 	c_rasterizer::begin_frame();
 	c_rasterizer::setup_targets_simple();
 	main_render_status_message(status_message);

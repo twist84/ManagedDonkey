@@ -205,7 +205,7 @@ bool __cdecl main_game_change_immediate(const game_options* options)
 	//return INVOKE(0x00566EF0, main_game_change_immediate, options);
 
 	bool result = false;
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 
 	main_render_purge_pending_messages();
 	main_render_assert_no_pending_messages();
@@ -779,7 +779,7 @@ void __cdecl main_game_load_panic()
 {
 	//INVOKE(0x00567AD0, main_game_load_panic);
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 
 	main_render_purge_pending_messages();
 	main_game_unload_and_prepare_for_next_game(NULL);
@@ -922,7 +922,7 @@ void __cdecl main_game_reset_map(bool reset_map_random)
 	//INVOKE(0x00567CA0, main_game_reset_map, reset_map_random);
 
 	//profiler_pause_reporting();
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 
 	main_game_globals.reset_in_progress = true;
 
@@ -997,7 +997,7 @@ bool __cdecl main_game_start(const game_options* options)
 		zone_set_index = global_scenario->zone_sets.count - 1;
 	}
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 
 	game_initialize_for_new_map(options);
 	scenario_activate_initial_designer_zones(zone_set_index);
@@ -1034,7 +1034,7 @@ void __cdecl main_game_unload_and_prepare_for_next_game(const game_options* opti
 {
 	//INVOKE(0x00567F40, main_game_unload_and_prepare_for_next_game, options);
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 	
 	if (game_in_progress())
 	{

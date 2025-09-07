@@ -274,14 +274,18 @@ void __cdecl game_create_players()
 	//}
 
 	if (!game_is_splitscreen_deterministic())
+	{
 		return;
+	}
 
 	c_player_in_game_iterator player_iterator;
 	player_iterator.begin();
 	while (player_iterator.next())
 	{
 		if (!player_is_local(player_iterator.get_index()))
+		{
 			continue;
+		}
 
 		int16 absolute_index = player_iterator.get_absolute_index();
 		player_datum* player = player_iterator.get_datum();
@@ -295,18 +299,26 @@ void __cdecl game_create_players()
 			const wchar_t* name = online_local_user_get_name(controller_index);
 
 			if (player->configuration.host.name.is_empty())
+			{
 				player->configuration.host.name = name;
+			}
 
 			if (player->configuration.client.desired_name.is_empty())
+			{
 				player->configuration.client.desired_name = name;
+			}
 		}
 		else
 		{
 			if (player->configuration.host.name.is_empty())
+			{
 				player->configuration.host.name.print(L"player_%d", absolute_index);
+			}
 
 			if (player->configuration.client.desired_name.is_empty())
+			{
 				player->configuration.client.desired_name.print(L"player_%d", absolute_index);
+			}
 		}
 	}
 }
@@ -367,7 +379,7 @@ void __cdecl game_dispose_from_old_map()
 	game_globals->active_game_progression_level = _string_id_invalid;
 	game_globals->prepare_for_game_progression = false;
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 	game_globals->game_in_progress = false;
 
 	fmod_dispose_from_old_map();
@@ -375,7 +387,9 @@ void __cdecl game_dispose_from_old_map()
 	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_map_proc)
+		{
 			g_game_systems[system_index].dispose_from_old_map_proc();
+		}
 	}
 
 	random_seed_debug_log_end();
@@ -398,7 +412,9 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_se
 	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc)
+		{
 			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(old_non_bsp_zone_set);
+		}
 	}
 
 	objects_purge_deleted_objects();
@@ -431,7 +447,9 @@ void __cdecl game_dispose_from_old_structure_bsp(uns32 deactivating_structure_bs
 	for (int32 system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_structure_bsp_proc)
+		{
 			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(deactivating_structure_bsp_mask);
+		}
 	}
 
 	objects_purge_deleted_objects();
@@ -462,7 +480,9 @@ void __cdecl game_finished_update()
 	//INVOKE(0x00531040, game_finished_update);
 
 	if (game_globals->game_finished && game_globals->game_finished_timer > 0)
+	{
 		game_globals->game_finished_timer--;
+	}
 }
 
 void __cdecl game_frame(real32 game_seconds_elapsed)
@@ -565,7 +585,9 @@ void __cdecl game_globals_initialize_for_new_map(const game_options* options)
 	{
 		game_globals->options.multiplayer_variant.copy_from_and_validate(&options->multiplayer_variant);
 		if (!game_engine_variant_validate(&game_globals->options.multiplayer_variant))
+		{
 			event(_event_warning, "variant validation failed, about to start playing a default variant");
+		}
 	}
 
 	random_seed_allow_use();
@@ -573,7 +595,9 @@ void __cdecl game_globals_initialize_for_new_map(const game_options* options)
 	random_seed_disallow_use();
 
 	if (game_globals->options.dump_random_seeds)
+	{
 		random_seed_debug_log_begin(&game_globals->options);
+	}
 
 	game_globals->game_lost = false;
 	game_globals->game_revert = false;
@@ -611,7 +635,9 @@ bool __cdecl game_in_progress()
 	//return INVOKE(0x005314B0, game_in_progress);
 
 	if (game_globals && game_globals->game_in_progress)
+	{
 		return !game_globals->initializing && game_globals->map_active;
+	}
 
 	return false;
 }
@@ -692,7 +718,7 @@ void __cdecl game_initialize_for_new_map(const game_options* options)
 	csmemset(&game_globals->cluster_activation, 0, sizeof(game_globals->cluster_activation));
 	g_cluster_activation_reason.clear();
 
-	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	RENDER_THREAD_LOCK;
 	real_math_reset_precision();
 	random_seed_allow_use();
 
@@ -703,7 +729,9 @@ void __cdecl game_initialize_for_new_map(const game_options* options)
 	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_map_proc)
+		{
 			g_game_systems[system_index].initialize_for_new_map_proc();
+		}
 	}
 
 	game_globals->initializing = false;
@@ -734,7 +762,9 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_
 	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
+		{
 			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(new_non_bsp_zone_set);
+		}
 	}
 
 	random_seed_disallow_use();

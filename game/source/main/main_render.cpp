@@ -180,7 +180,7 @@ void __cdecl main_render()
 		bool should_draw = !sub_42E5D0() || !debug_no_drawing;
 
 		{
-			c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+			RENDER_THREAD_LOCK;
 			rasterizer_lag_timing_mark_render_start();
 			main_render_process_messages();
 
@@ -310,7 +310,7 @@ void __cdecl main_render_game()
 
 	PROFILER(main_render_game)
 	{
-		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+		RENDER_THREAD_LOCK;
 
 		if (!cinematic_in_progress())
 		{
@@ -743,7 +743,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, const 
 
 	if (!sub_42E5D0())
 	{
-		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+		RENDER_THREAD_LOCK;
 
 		c_view::abort_current_view_stack();
 
