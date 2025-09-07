@@ -59,11 +59,11 @@ int32 g_watermark_enabled = 0;
 c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	m_window_count(),
 	m_window_arrangement(),
-	m_next(0),
-	m_output_user_index(NONE),
+	m_next_window_index(0),
+	m_current_user_index(NONE),
 	m_current_observer_result(nullptr)
 {
-	if (cinematic_in_progress()/* || player_is_reading_terminal()*/)
+	if (cinematic_in_progress() || player_is_reading_terminal())
 	{
 		m_window_count = 1;
 	}
@@ -73,11 +73,15 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 
 		int32 player_count = 1;
 		if (output_user_active_count > 1)
+		{
 			player_count = output_user_active_count;
+		}
 
 		int32 window_count = MAXIMUM_PLAYER_WINDOWS;
 		if (player_count < window_count)
+		{
 			window_count = player_count;
+		}
 
 		m_window_count = window_count;
 	}
@@ -86,59 +90,35 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 
 	if (m_window_count <= 1)
 	{
-		m_window_arrangement = 0;
+		m_window_arrangement = _render_player_window_arrangement_single;
 	}
 	else
 	{
 		bool is_widescreen = c_rasterizer::get_is_widescreen();
 		if (debug_render_horizontal_splitscreen)
+		{
 			is_widescreen = true;
+		}
 
 		if (is_widescreen)
-			m_window_arrangement = 2;
-		else
-			m_window_arrangement = 1;
-	}
-}
-
-bool c_player_render_camera_iterator::next()
-{
-	bool result = m_next < m_window_count;
-	if (result)
-	{
-		m_next++;
-
-		if (debug_force_all_player_views_to_default_player)
 		{
-			m_output_user_index = player_mapping_first_active_output_user();
+			m_window_arrangement = _render_player_window_arrangement_multiple_horizontal;
 		}
 		else
 		{
-			do
-			{
-				m_output_user_index = next_output_user(m_output_user_index);
-			} while (m_output_user_index != NONE && !player_mapping_output_user_is_active(m_output_user_index));
-
-			if (m_output_user_index >= k_number_of_users)
-			{
-				m_output_user_index = NONE;
-				result = false;
-			}
-		}
-
-		if (m_output_user_index != NONE)
-		{
-			m_current_observer_result = observer_get_camera(m_output_user_index);
-			ASSERT(m_current_observer_result != NULL);
+			m_window_arrangement = _render_player_window_arrangement_multiple_vertical;
 		}
 	}
-
-	return result;
 }
 
-int32 c_player_render_camera_iterator::get_window_count() const
+const s_observer_result* c_player_render_camera_iterator::get_observer_result() const
 {
-	return m_window_count;
+	return m_current_observer_result;
+}
+
+int32 c_player_render_camera_iterator::get_user_index() const
+{
+	return m_current_user_index;
 }
 
 int32 c_player_render_camera_iterator::get_window_arrangement() const
@@ -146,14 +126,47 @@ int32 c_player_render_camera_iterator::get_window_arrangement() const
 	return m_window_arrangement;
 }
 
-int32 c_player_render_camera_iterator::get_output_user_index() const
+int32 c_player_render_camera_iterator::get_window_count() const
 {
-	return m_output_user_index;
+	return m_window_count;
 }
 
-const s_observer_result* c_player_render_camera_iterator::get_observer_result() const
+bool c_player_render_camera_iterator::next()
 {
-	return m_current_observer_result;
+	bool success = m_next_window_index < m_window_count;
+	if (success)
+	{
+		m_next_window_index++;
+
+		if (debug_force_all_player_views_to_default_player)
+		{
+			m_current_user_index = player_mapping_first_active_output_user();
+		}
+		else
+		{
+			while (m_current_user_index < MAXIMUM_PLAYER_WINDOWS)
+			{
+				if (player_mapping_output_user_is_active(m_current_user_index))
+				{
+					break;
+				}
+			}
+
+			if (m_current_user_index >= k_number_of_users)
+			{
+				m_current_user_index = NONE;
+				success = false;
+			}
+		}
+
+		if (m_current_user_index != NONE)
+		{
+			m_current_observer_result = observer_get_camera(m_current_user_index);
+			ASSERT(m_current_observer_result != NULL);
+		}
+	}
+
+	return success;
 }
 
 void __cdecl main_render()
@@ -328,7 +341,7 @@ void __cdecl main_render_game()
 			const s_observer_result* observer_result = NULL;
 			if (iterator.next())
 			{
-				user_index = iterator.get_output_user_index();
+				user_index = iterator.get_user_index();
 				observer_result = iterator.get_observer_result();
 			}
 

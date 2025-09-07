@@ -6,21 +6,30 @@
 
 class c_player_view;
 
+enum
+{
+	_render_player_window_arrangement_single = 0,
+	_render_player_window_arrangement_multiple_vertical,
+	_render_player_window_arrangement_multiple_horizontal,
+
+	k_render_player_window_arrangement_count,
+};
+
 class c_player_render_camera_iterator
 {
 public:
 	c_player_render_camera_iterator();
-	bool next();
-	int32 get_window_count() const;
-	int32 get_window_arrangement() const;
-	int32 get_output_user_index() const;
 	const s_observer_result* get_observer_result() const;
+	int32 get_user_index() const;
+	int32 get_window_arrangement() const;
+	int32 get_window_count() const;
+	bool next();
 
 protected:
 	int32 m_window_count;
 	int32 m_window_arrangement;
-	int32 m_next;
-	int32 m_output_user_index;
+	int32 m_next_window_index;
+	int32 m_current_user_index;
 	const s_observer_result* m_current_observer_result;
 };
 static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
