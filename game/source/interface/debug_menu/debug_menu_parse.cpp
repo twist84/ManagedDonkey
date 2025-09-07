@@ -211,17 +211,23 @@ void debug_menu_store_number_property(parse_stack_t* parse_stack)
 	switch (g_parser_state.m_current_property_type.get())
 	{
 	case _property_min:
+	{
 		g_parser_state.m_has_min = true;
-		g_parser_state.m_min = real32(atof(g_parser_state.m_number_buffer));
-		break;
+		g_parser_state.m_min = (real32)atof(g_parser_state.m_number_buffer);
+	}
+	break;
 	case _property_max:
+	{
 		g_parser_state.m_has_max = true;
-		g_parser_state.m_max = real32(atof(g_parser_state.m_number_buffer));
-		break;
+		g_parser_state.m_max = (real32)atof(g_parser_state.m_number_buffer);
+	}
+	break;
 	case _property_inc:
+	{
 		g_parser_state.m_has_inc = true;
-		g_parser_state.m_inc = real32(atof(g_parser_state.m_number_buffer));
-		break;
+		g_parser_state.m_inc = (real32)atof(g_parser_state.m_number_buffer);
+	}
+	break;
 	}
 	g_parser_state.m_current_property_type = _property_none;
 }
@@ -245,21 +251,29 @@ void debug_menu_store_string_property(parse_stack_t* parse_stack)
 	switch (g_parser_state.m_current_property_type.get())
 	{
 	case _property_color:
+	{
 		g_parser_state.m_has_color = true;
 		csstrnzcpy(g_parser_state.m_color, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
-		break;
+	}
+	break;
 	case _property_caption:
+	{
 		g_parser_state.m_has_caption = true;
 		csstrnzcpy(g_parser_state.m_caption, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
-		break;
+	}
+	break;
 	case _property_name:
+	{
 		g_parser_state.m_has_name = true;
 		csstrnzcpy(g_parser_state.m_name, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
-		break;
+	}
+	break;
 	case _property_variable:
+	{
 		g_parser_state.m_has_variable = true;
 		csstrnzcpy(g_parser_state.m_variable, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
-		break;
+	}
+	break;
 	}
 	g_parser_state.m_current_property_type = _property_none;
 }
@@ -361,18 +375,27 @@ const char* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 
 		return error_buffer;
 	}
 
+	const char* result = NULL;
 	switch (g_parser_state.m_item_type.get())
 	{
 	case _item_type_hs_variable_global:
-		return debug_menu_build_item_hs_variable_global(menu, error_buffer, error_buffer_size);
+	{
+		result = debug_menu_build_item_hs_variable_global(menu, error_buffer, error_buffer_size);
+	}
+	break;
 	case _item_type_command:
-		return debug_menu_build_item_command(menu, error_buffer, error_buffer_size);
+	{
+		result = debug_menu_build_item_command(menu, error_buffer, error_buffer_size);
+	}
+	break;
 	default:
+	{
 		VASSERT("unreachable");
-		break;
+	}
+	break;
 	}
 
-	return NULL;
+	return result;
 }
 
 c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_menu* menu)
@@ -384,7 +407,9 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	for (int32 i = 0; i < s_parser_state::k_string_length; i++)
 	{
 		if (g_parser_state.m_name[i] == '\t')
+		{
 			g_parser_state.m_name[i] = ',';
+		}
 	}
 
 	switch (property_owner)
@@ -400,8 +425,10 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	}
 	break;
 	default:
+	{
 		VASSERT("unreachable");
-		break;
+	}
+	break;
 	}
 
 	child->set_caption(caption);
@@ -448,7 +475,9 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 			{
 				debug_menu_store_number_property(&parse_stack);
 				if (file_char)
+				{
 					file_char = fgetc(menu_file);
+				}
 			}
 		}
 		else
@@ -653,7 +682,9 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 			{
 				int32 token_name_length = strlen(g_token_names[i]);
 				if (token_name_length > maximum_token_name_length)
+				{
 					maximum_token_name_length = token_name_length;
+				}
 			}
 			ASSERT(maximum_token_name_length + 1 < NUMBEROF(token_buffer));
 
@@ -703,7 +734,9 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 			{
 				ASSERT(advance_distance != 0);
 				while (advance_distance-- > 0)
+				{
 					file_char = fgetc(menu_file);
+				}
 			}
 			else ASSERT(advance_process_type < k_advance_type_count, unreachable);
 		}
