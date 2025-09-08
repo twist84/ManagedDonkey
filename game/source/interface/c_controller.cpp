@@ -680,18 +680,18 @@ void debug_set_subtitle_setting(int16 controller_index, int16 setting)
 
 void debug_set_tertiary_change_color(int16 controller_index, int16 color)
 {
-	//ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	//
-	//c_controller_interface* controller = controller_get((e_controller_index)controller_index);
-	//if (!controller->in_use())
-	//{
-	//	event(_event_warning, "ui: invalid controller (#%ld)",
-	//		controller_index);
-	//	return;
-	//}
-	//
-	//c_player_profile_interface* player_profile = controller->get_player_profile_interface();
-	//player_profile->set_tertiary_change_color((e_player_color_index)color, true);
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	
+	c_controller_interface* controller = controller_get((e_controller_index)controller_index);
+	if (!controller->in_use())
+	{
+		event(_event_warning, "ui: invalid controller (#%ld)",
+			controller_index);
+		return;
+	}
+	
+	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+	player_profile->set_tertiary_change_color((e_player_color_index)color, true);
 }
 
 void debug_set_voice_mask(int16 controller_index, int16 mask)

@@ -1142,6 +1142,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		{
 			// $IMPLEMENT `c_gui_model_widget`
 			//c_gui_model_widget::render((const s_gui_model_widget_render_data*)render_data, window_bounds);
+			return;
 		}
 	}
 
@@ -1157,7 +1158,9 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		};
 		draw_string.set_bounds(&text_bounds);
 		draw_string.set_color(render_data->debug_color);
-		draw_string.draw(NULL, string_id_get_string_const(render_data->name));
+
+		char const* text = string_id_get_string_const(render_data->name);
+		draw_string.draw(NULL, text);
 	}
 
 	if (render_data->render_debug_animation_state)

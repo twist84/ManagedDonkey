@@ -97,8 +97,13 @@ bool c_player_profile_interface::get_female_voice_enabled() const
 //.text:00AA08C0 ; public: bool c_player_profile_interface::get_last_variant_played(e_game_engine_type*, int32*) const
 //.text:00AA08F0 ; public: e_look_sensitivity c_player_profile_interface::get_look_sensitivity() const
 //.text:00AA0900 ; public: bool c_player_profile_interface::get_map_completed_at_difficulty_level(e_campaign_game_mode, int32, e_campaign_difficulty_level) const
-//.text:00AA0960 ; public: char c_player_profile_interface::get_model_customization_selection(e_player_model_choice, int32) const
-//.text:00AA0A00 ; public: char c_player_profile_interface::get_model_customization_selection(e_player_model_choice, int32) const
+
+int8 c_player_profile_interface::get_model_customization_selection(e_player_model_choice player_model_choice, int32 area_index) const
+{
+	return INVOKE_CLASS_MEMBER(0x00AA0960, c_player_profile_interface, get_model_customization_selection, player_model_choice, area_index);
+}
+
+//.text:00AA0A00 ; public: int8 c_player_profile_interface::get_model_customization_selection_raw_for_storage_writes(e_player_model_choice, int32) const
 //.text:00AA0A30 ; public: void c_player_profile_interface::get_player_appearance(s_player_appearance*)
 
 s_emblem_info c_player_profile_interface::get_emblem_info() const
@@ -366,7 +371,16 @@ void c_player_profile_interface::set_model_customization_selection(e_player_mode
 
 void c_player_profile_interface::set_player_appearance(const s_player_appearance* player_appearance, bool set_by_user)
 {
-	INVOKE_CLASS_MEMBER(0x00AA3560, c_player_profile_interface, set_player_appearance, player_appearance, set_by_user);
+	//INVOKE_CLASS_MEMBER(0x00AA3560, c_player_profile_interface, set_player_appearance, player_appearance, set_by_user);
+
+	ASSERT(player_appearance != NULL);
+
+	c_player_profile_interface::set_female_voice_enabled(player_appearance->flags.test(_female_voice_bit), set_by_user);
+	c_player_profile_interface::set_primary_change_color((e_player_color_index)player_appearance->change_color_index[0], set_by_user);
+	c_player_profile_interface::set_secondary_change_color((e_player_color_index)player_appearance->change_color_index[1], set_by_user);
+	c_player_profile_interface::set_tertiary_change_color((e_player_color_index)player_appearance->change_color_index[2], set_by_user);
+	c_player_profile_interface::set_player_model_choice((e_player_model_choice)player_appearance->player_model_choice, set_by_user);
+	c_player_profile_interface::set_emblem_info(&player_appearance->emblem_info, set_by_user);
 }
 
 //.text:00AA35C0 ; public: void c_player_profile_interface::set_emblem_info(int32, const s_emblem_info*)
@@ -453,7 +467,12 @@ void c_player_profile_interface::set_subtitle_setting(e_subtitle_setting setting
 }
 
 //.text:00AA3C30 ; 
-//.text:00AA3D40 ; public: void c_player_profile_interface::set_tertiary_change_color(e_player_color_index, bool)
+
+void c_player_profile_interface::set_tertiary_change_color(e_player_color_index color, bool set_by_user)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3D40, c_player_profile_interface, set_tertiary_change_color, color, set_by_user);
+}
+
 //.text:00AA3DD0 ; public: void c_player_profile_interface::set_training_data(const s_player_training_profile_data*, bool)
 //.text:00AA3EA0 ; 
 

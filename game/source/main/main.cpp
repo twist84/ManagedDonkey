@@ -899,8 +899,8 @@ void __cdecl sub_641A60(real32 shell_seconds_elapsed)
 {
 	//INVOKE(0x00641A60, sub_641A60, shell_seconds_elapsed);
 
-	static bool x_switch_menu_on_player_model_chosen = false;
-	static bool x_switch_menu_on_player_gender_chosen = true;
+	static bool x_switch_menu_on_player_model_chosen = true;
+	static bool x_switch_menu_on_player_gender_chosen = false;
 	if ((x_switch_menu_on_player_model_chosen || x_switch_menu_on_player_gender_chosen) && game_is_ui_shell())
 	{
 		c_controller_interface* controller = controller_get(_controller0);

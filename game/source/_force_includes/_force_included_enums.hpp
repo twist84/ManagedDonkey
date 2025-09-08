@@ -690,7 +690,6 @@ enum e_player_model_choice
 
 	k_number_of_player_model_choices
 };
-//using c_player_model_choice = c_enum<e_player_model_choice, char, _player_model_choice_first, k_number_of_player_model_choices>;
 
 enum e_controller_index
 {

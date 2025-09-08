@@ -32,6 +32,7 @@
 #include "interface/gui_screens/start_menu/panes/game_saved_film/start_menu_game_saved_film.hpp"
 #include "interface/gui_screens/start_menu/panes/settings/start_menu_settings.hpp"
 #include "interface/gui_screens/start_menu/panes/settings_appearance_emblem/start_menu_settings_appearance_emblem.hpp"
+#include "interface/gui_screens/start_menu/panes/settings_appearance_model/start_menu_settings_appearance_model.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_utilities.hpp"
@@ -127,8 +128,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 	//	return UI_MALLOC(c_start_menu_settings_controls_thumbstick, screen_name);
 	//case STRING_ID(gui, start_menu_settings_appearance):
 	//	return UI_MALLOC(c_start_menu_settings_appearance, screen_name);
-	//case STRING_ID(gui, start_menu_settings_appearance_model):
-	//	return UI_MALLOC(c_start_menu_settings_appearance_model, screen_name);
+	case STRING_ID(gui, start_menu_settings_appearance_model):
+		return UI_MALLOC(c_start_menu_settings_appearance_model, screen_name);
 	case STRING_ID(gui, start_menu_settings_appearance_emblem):
 		return UI_MALLOC(c_start_menu_settings_appearance_emblem, screen_name);
 	//case STRING_ID(gui, start_menu_settings_appearance_colors):

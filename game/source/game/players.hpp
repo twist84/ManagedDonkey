@@ -49,17 +49,24 @@ enum e_bungienet_user
 	k_bungienet_user_count,
 };
 
+enum e_player_appearance_flags
+{
+	_female_voice_bit = 0,
+	k_number_of_player_appearance_flags
+};
+typedef c_flags_no_init<e_player_appearance_flags, uns8, _female_voice_bit> c_player_appearance_flags;
+typedef c_enum<e_player_model_choice, char, _player_model_choice_first, k_number_of_player_model_choices> c_player_model_choice;
+typedef c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> c_player_color_index;
+
 struct s_player_appearance
 {
-	uns8 flags;
-	uns8 player_model_choice;
-
-	byte __pad2[0x2];
-
+	c_player_appearance_flags flags;
+	c_player_color_index change_color_index[3];
+	c_player_model_choice player_model_choice;
 	s_emblem_info emblem_info;
-	byte emblem_pad[0x648];
+	uns8 model_permutations[2][4];
+	byte emblem_pad[0x63E];
 	c_static_wchar_string<5> service_tag;
-
 	byte __pad65E[0x2];
 };
 static_assert(sizeof(s_player_appearance) == 0x660);

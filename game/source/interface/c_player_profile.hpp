@@ -85,6 +85,7 @@ public:
 
 	e_campaign_difficulty_level get_campaign_difficulty() const;
 	bool get_female_voice_enabled() const;
+	int8 get_model_customization_selection(e_player_model_choice player_model_choice, int32 area_index) const;
 	s_emblem_info get_emblem_info() const;
 	e_player_model_choice get_player_model_choice() const;
 
@@ -136,6 +137,7 @@ public:
 	void set_service_tag_validated(const wchar_t* value, bool set_by_user);
 	void set_service_tag_was_randomly_generated(bool value, bool set_by_user);
 	void set_subtitle_setting(e_subtitle_setting setting, bool set_by_user);
+	void set_tertiary_change_color(e_player_color_index color, bool set_by_user);
 	void set_voice_mask(e_voice_mask mask, bool set_by_user);
 	void set_voice_matchmaking_setting(e_voice_matchmaking_setting setting, bool set_by_user);
 	void set_voice_mute_setting(e_voice_mute_setting setting, bool set_by_user);
