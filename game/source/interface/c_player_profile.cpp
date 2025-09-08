@@ -46,7 +46,7 @@ void __thiscall c_player_profile_interface::dirty_or(bool dirty)
 }
 
 //.text:00AA0380 ; private: static void c_player_profile_interface::generate_random_service_tag(wchar_t* const)
-//.text:00AA03E0 ; 
+//.text:00AA03E0 ; public: bool c_player_profile_interface::get_async_io_busy() const
 //.text:00AA03F0 ; public: e_button_presets c_player_profile_interface::get_button_preset() const
 //.text:00AA0400 ; public: e_camera_attached_horizontal c_player_profile_interface::get_camera_attached_horizontal() const
 //.text:00AA0410 ; public: e_camera_flying_movement c_player_profile_interface::get_camera_flying_movement() const
@@ -64,7 +64,7 @@ e_campaign_difficulty_level c_player_profile_interface::get_campaign_difficulty(
 }
 
 //.text:00AA04A0 ; 
-//.text:00AA0500 ; 
+//.text:00AA0500 ; calculate_campaign_completion
 //.text:00AA06F0 ; public: int32 c_player_profile_interface::get_campaign_terminal_read_level1_bitvector() const
 //.text:00AA0700 ; public: int32 c_player_profile_interface::get_campaign_terminal_read_level2_bitvector() const
 //.text:00AA0710 ; public: bool c_player_profile_interface::get_controller_auto_center_look() const
@@ -75,8 +75,13 @@ e_campaign_difficulty_level c_player_profile_interface::get_campaign_difficulty(
 //.text:00AA0760 ; 
 //.text:00AA0780 ; public: const wchar_t* c_player_profile_interface::get_desired_service_tag() const
 //.text:00AA0790 ; public: e_display_brightness c_player_profile_interface::get_display_brightness() const
-//.text:00AA07A0 ; public: bool c_player_profile_interface::et_display_hints_enabled() const
-//.text:00AA07B0 ; public: bool c_player_profile_interface::get_female_voice_enabled() const
+//.text:00AA07A0 ; public: bool c_player_profile_interface::get_display_hints_enabled() const
+
+bool c_player_profile_interface::get_female_voice_enabled() const
+{
+	return INVOKE_CLASS_MEMBER(0x00AA07B0, c_player_profile_interface, get_female_voice_enabled);
+}
+
 //.text:00AA07C0 ; public: bool c_player_profile_interface::get_film_auto_save(e_film_gauto_save_type) const
 //.text:00AA07E0 ; 
 //.text:00AA0800 ; public: bool c_player_profile_interface::get_guide_voice_muted() const
@@ -137,13 +142,13 @@ e_player_color_index c_player_profile_interface::get_secondary_change_color() co
 //.text:00AA0B40 ; public: const wchar_t* c_player_profile_interface::get_service_tag_validated() const
 //.text:00AA0B50 ; public: bool c_player_profile_interface::get_service_tag_was_randomly_generated() const
 //.text:00AA0B60 ; 
-//.text:00AA0B70 ; 
-//.text:00AA0B80 ; 
+//.text:00AA0B70 ; public: e_experience_milestone c_player_profile_interface::get_spartan_program_best_milestone() const
+//.text:00AA0B80 ; public: void c_player_profile_interface::get_spartan_program_best_rank(int32, uns16*, int32*) const
 //.text:00AA0B90 ; 
 //.text:00AA0BA0 ; 
 //.text:00AA0BB0 ; public: e_subtitle_setting c_player_profile_interface::get_subtitle_setting() const
 //.text:00AA0BC0 ; 
-//.text:00AA0C40 ; 
+//.text:00AA0C40 ; public: e_player_color_index c_player_profile_interface::get_tertiary_change_color() const
 //.text:00AA0C50 ; private: int32 c_player_profile_interface::get_total_achievement_points() const
 //.text:00AA0C90 ; private: int32 c_player_profile_interface::get_total_skull_count() const
 //.text:00AA0CE0 ; public: void c_player_profile_interface::get_training_data(s_player_training_profile_data*) const
@@ -279,7 +284,10 @@ void c_player_profile_interface::set_display_brightness(e_display_brightness set
 	INVOKE_CLASS_MEMBER(0x00AA2EE0, c_player_profile_interface, set_display_brightness, setting, set_by_user);
 }
 
-//.text:00AA2F00 ; public: void c_player_profile_interface::set_display_hints_enabled(bool)
+void c_player_profile_interface::set_display_hints_enabled(bool setting)
+{
+	INVOKE_CLASS_MEMBER(0x00AA2F00, c_player_profile_interface, set_display_hints_enabled, setting);
+}
 
 void c_player_profile_interface::set_female_voice_enabled(bool female, bool set_by_user)
 {
@@ -291,7 +299,10 @@ void c_player_profile_interface::set_film_auto_save(e_film_auto_save_type type, 
 	INVOKE_CLASS_MEMBER(0x00AA3010, c_player_profile_interface, set_film_auto_save, type, value, set_by_user);
 }
 
-//.text:00AA3060 ; 
+void c_player_profile_interface::set_guide_voice_muted(bool setting)
+{
+	INVOKE_CLASS_MEMBER(0x00AA3060, c_player_profile_interface, set_guide_voice_muted, setting);
+}
 
 void c_player_profile_interface::set_guide_voice_through_speakers(e_guide_voice_through_speakers setting)
 {

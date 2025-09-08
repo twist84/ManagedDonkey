@@ -897,34 +897,50 @@ void __cdecl sub_5077E0()
 
 void __cdecl sub_641A60(real32 shell_seconds_elapsed)
 {
-	INVOKE(0x00641A60, sub_641A60, shell_seconds_elapsed);
+	//INVOKE(0x00641A60, sub_641A60, shell_seconds_elapsed);
 
 	static bool x_switch_menu_on_player_model_chosen = false;
-	if (x_switch_menu_on_player_model_chosen && game_is_ui_shell())
+	static bool x_switch_menu_on_player_gender_chosen = true;
+	if ((x_switch_menu_on_player_model_chosen || x_switch_menu_on_player_gender_chosen) && game_is_ui_shell())
 	{
-		c_controller_interface* controller_interface = controller_get(_controller0);
-		c_player_profile_interface* player_profile_interface = controller_interface->get_player_profile_interface();
+		c_controller_interface* controller = controller_get(_controller0);
+		c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 
 		static e_player_model_choice x_player_model_choice = _player_model_choice_spartan;
-		if (x_player_model_choice != player_profile_interface->get_player_model_choice())
+		static bool x_female_voice_enabled = false;
+
+		if (x_switch_menu_on_player_model_chosen && x_player_model_choice != player_profile->get_player_model_choice())
 		{
-			x_player_model_choice = player_profile_interface->get_player_model_choice();
+			switch (x_player_model_choice = player_profile->get_player_model_choice())
 			{
-				switch (x_player_model_choice)
-				{
-				case _player_model_choice_spartan:
-				{
-					user_interface_start_hs_script_by_name("humanhangar");
-				}
-				break;
-				case _player_model_choice_elite:
-				{
-					user_interface_start_hs_script_by_name("elitehangar");
-				}
-				break;
-				}
+			case _player_model_choice_spartan:
+			{
+				user_interface_start_hs_script_by_name("humanhangar");
 			}
-		};
+			break;
+			case _player_model_choice_elite:
+			{
+				user_interface_start_hs_script_by_name("elitehangar");
+			}
+			break;
+			}
+		}
+		else if (x_switch_menu_on_player_gender_chosen && x_female_voice_enabled != player_profile->get_female_voice_enabled())
+		{
+			switch (x_female_voice_enabled = player_profile->get_female_voice_enabled())
+			{
+			case false:
+			{
+				user_interface_start_hs_script_by_name("humanhangar");
+			}
+			break;
+			case true:
+			{
+				user_interface_start_hs_script_by_name("elitehangar");
+			}
+			break;
+			}
+		}
 	}
 }
 

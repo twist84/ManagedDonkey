@@ -84,6 +84,7 @@ public:
 	void dirty_or(bool dirty);
 
 	e_campaign_difficulty_level get_campaign_difficulty() const;
+	bool get_female_voice_enabled() const;
 	s_emblem_info get_emblem_info() const;
 	e_player_model_choice get_player_model_choice() const;
 
@@ -110,8 +111,10 @@ public:
 	void set_controller_look_inverted(bool invert, bool set_by_user);
 	void set_desired_service_tag(const wchar_t* value, bool set_by_user);
 	void set_display_brightness(e_display_brightness setting, bool set_by_user);
+	void set_display_hints_enabled(bool setting);
 	void set_female_voice_enabled(bool female, bool set_by_user);
 	void set_film_auto_save(e_film_auto_save_type type, bool value, bool set_by_user);
+	void set_guide_voice_muted(bool setting);
 	void set_guide_voice_through_speakers(e_guide_voice_through_speakers setting);
 	void set_joystick_preset(e_joystick_presets preset, bool set_by_user);
 	void set_last_campaign_map_played_absolute_index(int16 absolute_map_index, bool set_by_user);
