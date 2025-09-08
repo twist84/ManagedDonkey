@@ -150,6 +150,7 @@ bool c_player_render_camera_iterator::next()
 				{
 					break;
 				}
+				m_current_user_index++;
 			}
 
 			if (m_current_user_index >= k_number_of_users)

@@ -8,7 +8,7 @@
 #include "simulation/simulation_view.hpp"
 #include "units/units.hpp"
 
-#define RENDER_THREAD_LOCK c_wait_for_render_thread STRCONCAT(__render_thread_lock, __LINE__)(__FILE__, __LINE__);
+#define RENDER_THREAD_LOCK c_wait_for_render_thread STRCONCAT(__render_thread_lock, __LINE__)(__FILE__, __LINE__)
 class c_wait_for_render_thread
 {
 public:
