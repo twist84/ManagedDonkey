@@ -230,7 +230,7 @@ void c_start_menu_settings_appearance_model::update_model_widget(bool force_upda
 
 	// $TODO
 	//model_widget->reset_player_appearance();
-	//s_player_appearance player_appearance = model_widget->get_player_appearance();
+	//s_player_appearance player_appearance = *model_widget->get_player_appearance();
 
 	int32 chosen_permutation = NONE;
 	int32 chosen_permutation_name = NONE;
@@ -293,13 +293,13 @@ void c_start_menu_settings_appearance_model::update_render_state(uns32 current_m
 	e_player_color_index primary_change_color = player_profile->get_primary_change_color();
 
 	c_gui_widget::update_render_state(current_milliseconds);
-	for (c_gui_bitmap_widget* base_color_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, base_color));
-		base_color_bitmap != NULL;
-		base_color_bitmap = base_color_bitmap->get_next_bitmap_widget())
+	for (c_gui_bitmap_widget* child_button_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, base_color));
+		child_button_bitmap != NULL;
+		child_button_bitmap = child_button_bitmap->get_next_bitmap_widget())
 	{
-		if (base_color_bitmap->get_name() == STRING_ID(gui, base_color))
+		if (child_button_bitmap->get_name() == STRING_ID(gui, base_color))
 		{
-			tint_widget_to_change_color(base_color_bitmap, primary_change_color, false);
+			tint_widget_to_change_color(child_button_bitmap, primary_change_color, false);
 		}
 	}
 }

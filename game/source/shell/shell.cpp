@@ -1101,7 +1101,7 @@ const char* const global_joystick_preset_names[k_joystick_presets_count]
 };
 
 // 0189DD38
-const char* const global_player_model_choice_names[k_number_of_player_model_choices]
+const char* const global_player_model_choice_names[k_player_model_choice_count]
 {
 	"spartan",
 	"elite"

@@ -46,7 +46,7 @@ extern const char* const global_multiplayer_team_names[k_multiplayer_team_count]
 extern const char* const global_controller_index_names[k_number_of_controllers];
 extern const char* const global_button_preset_names[k_button_presets_count];
 extern const char* const global_joystick_preset_names[k_joystick_presets_count];
-extern const char* const global_player_model_choice_names[k_number_of_player_model_choices];
+extern const char* const global_player_model_choice_names[k_player_model_choice_count];
 extern const char* const global_voice_output_setting_names[k_number_of_voice_output_settings];
 extern const char* const global_voice_mask_names[k_number_of_voice_masks];
 extern const char* const global_subtitle_setting_names[k_number_of_subtitle_settings];

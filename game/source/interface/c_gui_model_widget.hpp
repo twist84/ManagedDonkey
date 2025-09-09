@@ -52,6 +52,13 @@ struct s_model_widget_definition :
 };
 static_assert(sizeof(s_model_widget_definition) == sizeof(s_core_widget_definition) + 0x58);
 
+struct s_model_widget_block
+{
+	s_tag_reference widget_template_reference;
+	s_model_widget_definition override_definition;
+};
+static_assert(sizeof(s_model_widget_block) == 0x94);
+
 struct s_runtime_model_widget_camera_settings
 {
 	// Camera Settings
@@ -129,43 +136,58 @@ class c_gui_model_widget :
 	public c_gui_widget
 {
 public:
+	/*
+	virtual ~c_gui_model_widget() = default;
+	virtual void post_initialize() override;
+	//virtual void dispose() override;
+	virtual s_runtime_core_widget_definition* get_core_definition() override;
+	//virtual bool can_receive_focus() override;
+	//virtual void update(uns32 current_milliseconds) override;
+	virtual void assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation) override;
+	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
+	virtual void initialize(const s_model_widget_block* template_and_override_block);
+
+public:
+	c_gui_model_widget();
+
+public:
+	void add_definition_fields(const s_model_widget_definition* definition, bool was_templated);
+	const s_player_appearance* get_player_appearance() const;
+	bool handle_camera_input(real32 a1, real32 a2, real32 a3, real32 a4, real32 yaw_delta, real32 zoom_delta);
 	static void __cdecl render(const s_gui_model_widget_render_data* render_data, const rectangle2d* window_bounds);
+	void reset_player_appearance();
+	void set_player_appearance(const s_player_appearance* appearance);
+	void set_player_appearance(const s_player_appearance* appearance, e_game_team team_index);
+	*/
 
 //protected:
+	// H3
 	s_runtime_model_widget_definition m_definition;
-
 	s_player_appearance m_player_appearance;
+	e_game_team m_team_index;
 
-	uns32 __unknown1C04;
+	// ODST/HO
 	real_point3d __point1C08;
 	real_point3d __point1C14;
 	real_point3d __point1C20;
-
 	bool __unknown1C2C;
 	byte __pad1C2D[0x3];
-
-	byte __data1C30[0xC];
-
-	//name = get_model()->name;
-	//if (name == STRING_ID(global, masterchief) || name == STRING_ID(global, dervish) || m_texture_camera_unit_available)
-	//	__rotation1C44 *= get_model()->rotation_speed;
-	//else
-	//	__rotation1C3C *= get_model()->rotation_speed;
+	real_point3d __point1C30;
 	real_euler_angles2d __rotation1C3C;
-	real_euler_angles2d __rotation1C44;
+	real32 __unknown1C44;
 
-	// m_zoom = get_model()->initial_zoom
-	real32 m_zoom;
+	// H3
+	real32 m_yaw_degrees;
+	real32 m_zoom_factor;
 
+	// ODST/HO
 	int32 m_object_index;
 	int32 m_render_window;
-
 	c_string_id m_texture_camera_slice_name;
 	real32 m_texture_camera_near_clip_distance;
 	uns32 __time1C60;
 	bool m_texture_camera_unit_available;
 	uns32 m_texture_camera_unit_index;
-
 	byte __data1C6C[0x4];
 };
 static_assert(sizeof(c_gui_model_widget) == 0x1C70);

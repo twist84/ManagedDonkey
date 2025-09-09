@@ -86,6 +86,7 @@ public:
 	e_campaign_difficulty_level get_campaign_difficulty() const;
 	bool get_female_voice_enabled() const;
 	int8 get_model_customization_selection(e_player_model_choice player_model_choice, int32 area_index) const;
+	void get_player_appearance(s_player_appearance* player_appearance);
 	s_emblem_info get_emblem_info() const;
 	e_player_model_choice get_player_model_choice() const;
 
@@ -258,8 +259,8 @@ public:
 		e_player_color_index quinary_color;
 		e_player_model_choice player_model_choice;
 		s_emblem_info emblem;
-		byte emblem_pad[0x648];
-		char model_area_selections[2][5];
+		int8 model_area_selections[k_player_model_choice_count][10];
+		byte emblem_pad[0x63E];
 		wchar_t last_known_good_service_tag[5];
 		wchar_t desired_service_tag[5];
 		bool service_tag_was_randomly_generated;

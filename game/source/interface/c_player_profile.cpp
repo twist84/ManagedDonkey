@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_session_interface.hpp"
 
 REFERENCE_DECLARE(0x0191D4FC, bool, g_all_level_unlocked) = true;
 
@@ -104,7 +105,33 @@ int8 c_player_profile_interface::get_model_customization_selection(e_player_mode
 }
 
 //.text:00AA0A00 ; public: int8 c_player_profile_interface::get_model_customization_selection_raw_for_storage_writes(e_player_model_choice, int32) const
-//.text:00AA0A30 ; public: void c_player_profile_interface::get_player_appearance(s_player_appearance*)
+
+void c_player_profile_interface::get_player_appearance(s_player_appearance* player_appearance)
+{
+	//INVOKE_CLASS_MEMBER(0x00AA0A30, c_player_profile_interface, get_player_appearance, player_appearance);
+
+	ASSERT(player_appearance != NULL);
+
+	player_appearance->flags.clear();
+	player_appearance->flags.set(_female_voice_bit, TEST_BIT(m_flags, _voice_female_bit));
+	player_appearance->change_color_index[0] = m_appearance.primary_color;
+	player_appearance->change_color_index[1] = m_appearance.secondary_color;
+	player_appearance->change_color_index[2] = m_appearance.tertiary_color;
+	player_appearance->player_model_choice = m_appearance.player_model_choice;
+	player_appearance->emblem_info = m_appearance.emblem;
+
+	for (int32 model_permutation_index = 0; model_permutation_index < NUMBEROF(player_appearance->model_permutations); model_permutation_index++)
+	{
+		player_appearance->model_permutations[model_permutation_index] = (uns8)c_player_profile_interface::get_model_customization_selection(m_appearance.player_model_choice, model_permutation_index);
+	}
+
+	const wchar_t* service_tag = m_appearance.desired_service_tag;
+	if (network_squad_session_get_session_class() == _network_session_class_xbox_live)
+	{
+		service_tag = m_appearance.last_known_good_service_tag;
+	}
+	player_appearance->service_tag.set(service_tag);
+}
 
 s_emblem_info c_player_profile_interface::get_emblem_info() const
 {

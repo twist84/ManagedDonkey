@@ -187,13 +187,13 @@ void c_start_menu_settings_appearance_emblem::update_render_state(uns32 current_
 	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 	e_player_color_index primary_change_color = player_profile->get_primary_change_color();
 
-	for (c_gui_bitmap_widget* child_widget = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, base_color));
-		child_widget != NULL;
-		child_widget = child_widget->get_next_bitmap_widget())
+	for (c_gui_bitmap_widget* child_button_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, base_color));
+		child_button_bitmap != NULL;
+		child_button_bitmap = child_button_bitmap->get_next_bitmap_widget())
 	{
-		if (child_widget->get_name() == STRING_ID(gui, base_color))
+		if (child_button_bitmap->get_name() == STRING_ID(gui, base_color))
 		{
-			tint_widget_to_change_color(child_widget, NONE, false);
+			tint_widget_to_change_color(child_button_bitmap, NONE, false);
 		}
 	}
 }

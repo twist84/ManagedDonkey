@@ -278,7 +278,7 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 
 c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& get_armor_regions(e_player_model_choice player_model_choice, bool* cache_file_has_halo3_armors)
 {
-	static c_static_array<c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>, k_number_of_player_model_choices> armor_regions;
+	static c_static_array<c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>, k_player_model_choice_count> armor_regions;
 
 	if (g_cache_file_globals.tags_loaded)
 	{

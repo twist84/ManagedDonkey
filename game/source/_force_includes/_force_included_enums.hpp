@@ -688,7 +688,7 @@ enum e_player_model_choice
 	_player_model_choice_spartan = _player_model_choice_first,
 	_player_model_choice_elite,
 
-	k_number_of_player_model_choices
+	k_player_model_choice_count
 };
 
 enum e_controller_index

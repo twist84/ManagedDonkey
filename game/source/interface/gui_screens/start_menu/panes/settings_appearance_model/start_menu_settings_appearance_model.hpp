@@ -25,7 +25,7 @@ private:
 	void update_model_widget(bool force_update);
 
 public:
-	c_string_id m_model_customizations[k_number_of_player_model_choices];
+	c_string_id m_model_customizations[k_player_model_choice_count];
 };
 static_assert(sizeof(c_start_menu_settings_appearance_model) == 0x2170);
 static_assert(sizeof(c_start_menu_settings_appearance_model) == sizeof(c_start_menu_pane_screen_widget) + 0x8);
