@@ -312,73 +312,96 @@ void __cdecl main_crash(const char* type)
 {
 	stack_walk(0);
 
-	ASSERT(csstricmp(type, "assert"), "asserting on command");
-
-	if (!csstricmp(type, "now"))
+	switch (string_hash(type))
+	{
+	case "assert"_hash:
+	{
+		VASSERT("asserting on command");
+	}
+	break;
+	case "now"_hash:
 	{
 		NULL_BELONGS_TO_CHUCKY;
 	}
-	else if (!csstricmp(type, "fast"))
+	break;
+	case "fast"_hash:
 	{
 		main_crash_just_upload_dammit();
 		g_fake_minidump_creation = true;
 		NULL_BELONGS_TO_CHUCKY;
 	}
-	else if (!csstricmp(type, "gpu") || !csstricmp(type, "halt"))
+	break;
+	case "gpu"_hash:
+	case "halt"_hash:
 	{
 		main_halt_and_catch_fire();
 	}
-	else if (!csstricmp(type, "async"))
+	break;
+	case "async"_hash:
 	{
 		async_queue_simple_callback(main_crash_async, NULL, 0, _async_priority_blocking_generic, &ill_never_be_done);
 	}
-	else if (!csstricmp(type, "screen"))
+	break;
+	case "screen"_hash:
 	{
 		rasterizer_dump_display_to_bmp("crash_report\\crash_screen.bmp");
 	}
-	else if (!csstricmp(type, "crash_profiler_thread"))
+	break;
+	case "crash_profiler_thread"_hash:
 	{
 		signal_thread_to_crash(k_thread_profiler);
 	}
-	else if (!csstricmp(type, "assert_profiler_thread"))
+	break;
+	case "assert_profiler_thread"_hash:
 	{
 		signal_thread_to_assert(k_thread_profiler);
 	}
-	else if (!csstricmp(type, "crash_async_io_thread"))
+	break;
+	case "crash_async_io_thread"_hash:
 	{
 		signal_thread_to_crash(k_thread_async_io);
 	}
-	else if (!csstricmp(type, "assert_async_io_thread"))
+	break;
+	case "assert_async_io_thread"_hash:
 	{
 		signal_thread_to_assert(k_thread_async_io);
 	}
-	else if (!csstricmp(type, "crash_render_thread"))
+	break;
+	case "crash_render_thread"_hash:
 	{
 		signal_thread_to_crash(k_thread_render);
 	}
-	else if (!csstricmp(type, "assert_render_thread"))
+	break;
+	case "assert_render_thread"_hash:
 	{
 		signal_thread_to_assert(k_thread_render);
 	}
-	else if (!csstricmp(type, "crash_netdebug_thread"))
+	break;
+	case "crash_netdebug_thread"_hash:
 	{
 		signal_thread_to_crash(k_thread_netdebug);
 	}
-	else if (!csstricmp(type, "assert_netdebug_thread"))
+	break;
+	case "assert_netdebug_thread"_hash:
 	{
 		signal_thread_to_assert(k_thread_netdebug);
 	}
-	else if (!csstricmp(type, "crash_event_logs_thread"))
+	break;
+	case "crash_event_logs_thread"_hash:
 	{
 		signal_thread_to_crash(k_thread_event_logs);
 	}
-	else if (!csstricmp(type, "assert_event_logs_thread"))
+	break;
+	case "assert_event_logs_thread"_hash:
 	{
 		signal_thread_to_assert(k_thread_event_logs);
 	}
-	else if (!csstricmp(type, "quit"))
+	break;
+	case "quit"_hash:
 	{
 		main_exit_game();
+	}
+	break;
 	}
 }
 
@@ -899,17 +922,13 @@ void __cdecl sub_641A60(real32 shell_seconds_elapsed)
 {
 	//INVOKE(0x00641A60, sub_641A60, shell_seconds_elapsed);
 
-	static bool x_switch_menu_on_player_model_chosen = true;
-	static bool x_switch_menu_on_player_gender_chosen = false;
-	if ((x_switch_menu_on_player_model_chosen || x_switch_menu_on_player_gender_chosen) && game_is_ui_shell())
+	if (game_is_ui_shell())
 	{
 		c_controller_interface* controller = controller_get(_controller0);
 		c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 
 		static e_player_model_choice x_player_model_choice = _player_model_choice_spartan;
-		static bool x_female_voice_enabled = false;
-
-		if (x_switch_menu_on_player_model_chosen && x_player_model_choice != player_profile->get_player_model_choice())
+		if (x_player_model_choice != player_profile->get_player_model_choice())
 		{
 			switch (x_player_model_choice = player_profile->get_player_model_choice())
 			{
@@ -919,22 +938,6 @@ void __cdecl sub_641A60(real32 shell_seconds_elapsed)
 			}
 			break;
 			case _player_model_choice_elite:
-			{
-				user_interface_start_hs_script_by_name("elitehangar");
-			}
-			break;
-			}
-		}
-		else if (x_switch_menu_on_player_gender_chosen && x_female_voice_enabled != player_profile->get_female_voice_enabled())
-		{
-			switch (x_female_voice_enabled = player_profile->get_female_voice_enabled())
-			{
-			case false:
-			{
-				user_interface_start_hs_script_by_name("humanhangar");
-			}
-			break;
-			case true:
 			{
 				user_interface_start_hs_script_by_name("elitehangar");
 			}
