@@ -289,55 +289,71 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 			const char* armor_region = customized_spartan_character.armor_region.get_string();
 
 			bool ignore_requirements = false;
-			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
-			if (csstricmp(armor_region, "helmet") == 0)
+			c_static_array<c_static_string<64>, 100>* armor_type = NULL;
+			switch (string_hash(armor_region))
+			{
+			case "helmet"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_helmet];
 			}
-			else if (csstricmp(armor_region, "chest") == 0)
+			break;
+			case "chest"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_chest];
 			}
-			else if (csstricmp(armor_region, "shoulders") == 0)
+			break;
+			case "shoulders"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_shoulders];
 			}
-			else if (csstricmp(armor_region, "arms") == 0)
+			break;
+			case "arms"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_arms];
 			}
-			else if (csstricmp(armor_region, "legs") == 0)
+			break;
+			case "legs"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_legs];
 			}
-			else if (csstricmp(armor_region, "acc") == 0)
+			break;
+			case "acc"_hash:
 			{
-				ignore_requirements = true;
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_acc];
 			}
-			else if (csstricmp(armor_region, "pelvis") == 0)
+			break;
+			case "pelvis"_hash:
 			{
 				ignore_requirements = true;
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_pelvis];
 			}
-			else if (csstricmp(armor_region, "rightshoulder") == 0)
+			break;
+			case "rightshoulder"_hash:
 			{
+				ignore_requirements = true;
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_shoulders];
 
 				if (cache_file_has_halo3_armors)
+				{
 					*cache_file_has_halo3_armors = true;
+				}
 			}
-			else if (csstricmp(armor_region, "leftshoulder") == 0)
+			break;
+			case "leftshoulder"_hash:
 			{
+				ignore_requirements = true;
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_arms];
 
 				if (cache_file_has_halo3_armors)
+				{
 					*cache_file_has_halo3_armors = true;
+				}
 			}
-			else
-			{
+			break;
+			default:
 				continue;
 			}
+			
 
 			for (int32 i = 0; i < customized_spartan_character.customized_selection.count; i++)
 			{
@@ -353,41 +369,51 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 		{
 			const char* armor_region = customized_elite_character.armor_region.get_string();
 
-			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
-			if (csstricmp(armor_region, "helmet") == 0)
+			c_static_array<c_static_string<64>, 100>* armor_type = NULL;
+
+			switch (string_hash(armor_region))
+			{
+			case "helmet"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_helmet];
 			}
-			else if (csstricmp(armor_region, "chest") == 0)
+			break;
+			case "chest"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_chest];
 			}
-			else if (csstricmp(armor_region, "shoulders") == 0)
+			break;
+			case "shoulders"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_shoulders];
 			}
-			else if (csstricmp(armor_region, "arms") == 0)
+			break;
+			case "arms"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_arms];
 			}
-			else if (csstricmp(armor_region, "legs") == 0)
+			break;
+			case "legs"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_legs];
 			}
-			else if (csstricmp(armor_region, "acc") == 0)
+			break;
+			case "acc"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_acc];
 			}
-			else if (csstricmp(armor_region, "pelvis") == 0)
+			break;
+			case "pelvis"_hash:
 			{
 				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_pelvis];
 			}
-			else if (csstricmp(armor_region, "upper_body") == 0) // there's an upper body armor type??
+			break;
+			case "upper_body"_hash: // there's an upper body armor type??
 			{
 				continue;
 			}
-			else
-			{
+			break;
+			default:
 				continue;
 			}
 
