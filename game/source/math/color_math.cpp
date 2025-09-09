@@ -2,6 +2,15 @@
 
 #include <math.h>
 
+real_rgb_color interpolate_real_rgb_color(const real_rgb_color* a, const real_rgb_color* b, real32 t)
+{
+	real_rgb_color result;
+	result.red = interpolate_linear(a->red, b->red, t);
+	result.green = interpolate_linear(a->green, b->green, t);
+	result.blue = interpolate_linear(a->blue, b->blue, t);
+	return result;
+}
+
 real_argb_color* __cdecl pixel32_to_real_argb_color(argb_color color, real_argb_color* real_color)
 {
 	return INVOKE(0x005211C0, pixel32_to_real_argb_color, color, real_color);

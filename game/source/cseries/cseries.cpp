@@ -410,10 +410,11 @@ int32 pointer_difference(const void* pointer_a, const void* pointer_b)
 
 void __cdecl cseries_dispose()
 {
-	INVOKE(0x004EBC40, cseries_dispose);
+	//INVOKE(0x004EBC40, cseries_dispose);
 
-	//destroy_thread_management();
-	//destroy_synchronization_objects();
+	events_dispose();
+	destroy_thread_management();
+	destroy_synchronization_objects();
 }
 
 void __cdecl cseries_initialize()

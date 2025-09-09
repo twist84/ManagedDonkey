@@ -47,12 +47,16 @@ c_critical_section_scope::c_critical_section_scope(int32 critical_section_id, in
 	{
 		m_critical_section_entered = internal_critical_section_try_and_enter(m_critical_section_id);
 		if (m_critical_section_entered)
+		{
 			break;
+		}
 
 		switch_to_thread();
 
 		if (system_milliseconds() >= end_time)
+		{
 			return;
+		}
 	}
 
 	*out_lock_acquired = true;
@@ -61,7 +65,14 @@ c_critical_section_scope::c_critical_section_scope(int32 critical_section_id, in
 c_critical_section_scope::~c_critical_section_scope()
 {
 	if (m_critical_section_entered)
+	{
 		internal_critical_section_leave(m_critical_section_id);
+	}
+}
+
+void __cdecl destroy_synchronization_objects()
+{
+	INVOKE(0x0052C1E0, destroy_synchronization_objects);
 }
 
 bool __cdecl event_has_automatic_reset(int32 event_id)

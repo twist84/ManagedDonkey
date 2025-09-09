@@ -3700,6 +3700,7 @@ enum e_object_type
 enum
 {
 	k_error_message_buffer_maximum_size = 2048,
+	k_spamming_event_display_timeout = 3000,
 };
 
 enum e_event_level
@@ -3721,7 +3722,7 @@ enum e_category_properties_flags
 	_category_properties_display_level_bit = 0,
 	_category_properties_force_display_level_bit,
 	_category_properties_log_level_bit,
-	_category_properties_remote_log_level_bit,
+	_category_properties_remote_log_level_bit, // datamine
 	_category_properties_debugger_break_level_bit,
 	_category_properties_halt_level_bit,
 	_category_properties_event_listener_bit,

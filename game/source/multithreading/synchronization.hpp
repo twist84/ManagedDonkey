@@ -98,6 +98,7 @@ protected:
 
 extern s_synchronization_globals& g_synch_globals;
 
+extern void __cdecl destroy_synchronization_objects();
 extern bool __cdecl event_has_automatic_reset(int32 event_id);
 extern const char* __cdecl get_sync_primitive_name(int32 type, int32 index);
 extern void __cdecl initialize_synchronization_objects();

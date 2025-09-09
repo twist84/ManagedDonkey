@@ -76,7 +76,7 @@ struct s_event_globals
 	int32 console_suppression_count;
 	int32 console_suppression_old_line_check_time;
 	int16 message_buffer_size;
-	char message_buffer[2048];
+	char message_buffer[k_error_message_buffer_maximum_size];
 	int32 external_primary_event_log_index;
 	int32 internal_primary_event_log_index;
 	int32 internal_primary_full_event_log_index;
@@ -85,6 +85,7 @@ struct s_event_globals
 	int32 event_index;
 	c_static_array<c_event_listener*, 8> event_listeners;
 	c_static_array<s_spamming_event, 64> spamming_event_list;
+	uns32 last_console_response_event_time;
 	bool enable_events;
 	bool enable_spam_suppression;
 	bool dump_to_stderr;
@@ -94,7 +95,7 @@ struct s_event_globals
 	bool suppress_console_display_and_show_spinner;
 	int32 permitted_thread_bits;
 };
-static_assert(sizeof(s_event_globals) == 0x82B6C);
+static_assert(sizeof(s_event_globals) == 0x82B70);
 
 class c_event
 {
@@ -139,6 +140,7 @@ struct s_file_reference;
 extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, const char* filename, bool use_sub_directory);
 extern void events_clear();
 extern void events_debug_render();
+extern void events_dispose();
 extern const char* events_get();
 extern void events_initialize();
 extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
@@ -160,8 +162,11 @@ do { \
 	c_event local_event(severity, x_event_category_index, 0); \
 	if (local_event.query()) \
 	{ \
+		int32 event_category_index = local_event.generate(__VA_ARGS__); \
 		if (x_event_category_index == NONE) \
-			event_interlocked_compare_exchange(&x_event_category_index, local_event.generate(__VA_ARGS__), NONE); \
+		{ \
+			event_interlocked_compare_exchange(&x_event_category_index, event_category_index, NONE); \
+		} \
 	} \
 } while (false)
 #define event_no_console(severity, ...) do { /* $IMPLEMENT */ } while (false)
