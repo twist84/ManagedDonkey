@@ -6,7 +6,7 @@
 
 #include <combaseapi.h>
 
-REFERENCE_DECLARE_ARRAY(0x023901B8, s_xnet_entry, xnet_mapping, 51);
+REFERENCE_DECLARE_ARRAY(0x023901B8, s_transport_address_mapping, g_transport_address_mapping, 51);
 
 // based on https://github.com/yokimklein/AnvilDedicatedServer/blob/master/hf2p_server/source/networking/transport/transport_shim.cpp
 
@@ -27,24 +27,32 @@ int32 __cdecl XNetFindEntry(const transport_address* address, const s_transport_
 {
 	//return INVOKE(0x0052D6E0, XNetFindEntry, address, secure_address, ignore_invalid);
 
-	int32 result = -1;
-	for (int32 entry_index = 0; entry_index < NUMBEROF(xnet_mapping); entry_index++)
+	int32 result = NONE;
+	for (int32 entry_index = 0; entry_index < NUMBEROF(g_transport_address_mapping); entry_index++)
 	{
-		s_xnet_entry& entry = xnet_mapping[entry_index];
+		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
 
-		if (ignore_invalid && !entry.initialized)
-			continue;
-
-		if (address && transport_address_equivalent(&entry.address, address))
-			return entry_index;
-
-		if (secure_address && transport_secure_address_compare(&entry.secure_address, secure_address))
-			return entry_index;
-
-		if (!ignore_invalid && !entry.initialized)
+		if (ignore_invalid && !address_mapping.initialized)
 		{
-			if (result == -1)
+			continue;
+		}
+
+		if (address && transport_address_equivalent(&address_mapping.address, address))
+		{
+			return entry_index;
+		}
+
+		if (secure_address && transport_secure_address_compare(&address_mapping.secure_address, secure_address))
+		{
+			return entry_index;
+		}
+
+		if (!ignore_invalid && !address_mapping.initialized)
+		{
+			if (result == NONE)
+			{
 				result = entry_index;
+			}
 		}
 	}
 
@@ -61,11 +69,11 @@ void __cdecl XNetAddEntry(const transport_address* address, const s_transport_se
 	if (entry_index == -1)
 		return;
 
-	s_xnet_entry& entry = xnet_mapping[entry_index];
-	entry.initialized = true;
-	entry.address = *address;
-	entry.secure_address = *secure_address;
-	entry.secure_identifier = *secure_identifier;
+	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+	address_mapping.initialized = true;
+	address_mapping.address = *address;
+	address_mapping.secure_address = *secure_address;
+	address_mapping.secure_identifier = *secure_identifier;
 }
 
 // called from `transport_secure_address_decode`
@@ -77,8 +85,8 @@ bool __cdecl XNetXnAddrToInAddr(const s_transport_secure_address* secure_address
 	if (entry_index == -1)
 		return false;
 
-	s_xnet_entry& entry = xnet_mapping[entry_index];
-	*out_address = entry.address;
+	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+	*out_address = address_mapping.address;
 
 	return true;
 }
@@ -92,8 +100,8 @@ bool __cdecl _XNetInAddrToXnAddr(const transport_address* address, s_transport_s
 	if (entry_index == -1)
 		return false;
 
-	s_xnet_entry& entry = xnet_mapping[entry_index];
-	*out_secure_address = entry.secure_address;
+	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+	*out_secure_address = address_mapping.secure_address;
 
 	return true;
 }
@@ -107,9 +115,9 @@ bool __cdecl XNetInAddrToXnAddr(const transport_address* address, s_transport_se
 	if (entry_index == -1)
 		return false;
 
-	s_xnet_entry& entry = xnet_mapping[entry_index];
-	*out_secure_address = entry.secure_address;
-	*out_secure_identifier = entry.secure_identifier;
+	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+	*out_secure_address = address_mapping.secure_address;
+	*out_secure_identifier = address_mapping.secure_identifier;
 
 	return true;
 }
@@ -124,8 +132,8 @@ void __cdecl XNetRemoveEntry(const transport_address* address)
 	if (entry_index == -1)
 		return;
 
-	s_xnet_entry& entry = xnet_mapping[entry_index];
-	entry.initialized = false;
+	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+	address_mapping.initialized = false;
 }
 
 struct s_external_ip

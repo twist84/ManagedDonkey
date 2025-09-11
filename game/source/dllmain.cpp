@@ -212,7 +212,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:023901A8 ; int32 g_mp_player_update_interval
 //.data:023901AC ; int32 g_datamine_debug_menu_interval
 //.data:023901B0 ; bool g_datamine_spam_enabled
-//.data:023901B8 ; s_xnet_entry stru_23901B8[51]
+//.data:023901B8 ; s_transport_address_mapping g_transport_address_mapping[51]
 //.data:02390CE8 ; LARGE_INTEGER
 //.data:02390CF0 ; 
 //.data:02390CF8 ; 
