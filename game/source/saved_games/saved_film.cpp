@@ -663,7 +663,7 @@ bool c_saved_film::close()
 	if (open_for_write && result)
 	{
 		char filename_buffer[256]{};
-		file_reference_get_name(&m_file_reference, FLAG(2)/*FLAG(_name_filename_bit)*/, filename_buffer, sizeof(filename_buffer));
+		file_reference_get_name(&m_file_reference, FLAG(_name_file_bit), filename_buffer, sizeof(filename_buffer));
 
 		c_static_string<256> destination_filename{};
 		destination_filename.set(filename_buffer);

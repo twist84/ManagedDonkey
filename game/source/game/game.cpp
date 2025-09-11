@@ -148,7 +148,9 @@ void __cdecl assert_game_options_verify(const game_options* options)
 
 	char error_string[512]{};
 	if (!game_options_verify(options, error_string, sizeof(error_string)))
+	{
 		VASSERT(c_string_builder("game_options_verify failed: %s", error_string).get_string());
+	}
 }
 
 //.text:00530580 ; game_globals_get_primary_skulls
@@ -192,15 +194,15 @@ bool game_clusters_test(const s_game_cluster_bit_vectors* vector, struct s_clust
 
 void __cdecl game_create_ai(e_game_create_mode mode)
 {
-	INVOKE(0x00530A70, game_create_ai, mode);
+	//INVOKE(0x00530A70, game_create_ai, mode);
 
-	//int32 lock = game_create_lock_resources(mode);
-	//random_seed_allow_use();
-	//
-	//ai_place(game_mode_get(), true);
-	//
-	//random_seed_disallow_use();
-	//game_create_unlock_resources(mode, lock);
+	int32 lock = game_create_lock_resources(mode);
+	random_seed_allow_use();
+	
+	ai_place(game_mode_get());
+	
+	random_seed_disallow_use();
+	game_create_unlock_resources(mode, lock);
 }
 
 int32 __cdecl game_create_lock_resources(e_game_create_mode mode)
@@ -257,59 +259,59 @@ void __cdecl game_create_players()
 	//	players_set_local_machine(options->machines.local_machine_exists ? &options->machines.local_machine : NULL);
 	//	for (int32 i = 0; i < 16; i++)
 	//	{
-	//		if (options->players[i].player_valid)
+	//		if (options->players[i].valid)
+	//		{
 	//			player_new(i, &options->players[i], false);
+	//		}
 	//	}
 	//
 	//	players_finish_creation();
 	//	simulation_notify_players_created();
 	//}
 
-	if (!game_is_splitscreen_deterministic())
+	if (game_is_splitscreen_deterministic())
 	{
-		return;
-	}
-
-	c_player_in_game_iterator player_iterator;
-	player_iterator.begin();
-	while (player_iterator.next())
-	{
-		if (!player_is_local(player_iterator.get_index()))
+		c_player_in_game_iterator player_iterator;
+		player_iterator.begin();
+		while (player_iterator.next())
 		{
-			continue;
-		}
-
-		int16 absolute_index = player_iterator.get_absolute_index();
-		player_datum* player = player_iterator.get_datum();
-
-		e_controller_index controller_index = (e_controller_index)absolute_index;
-		if (VALID_CONTROLLER(controller_index))
-		{
-			uns64 player_identifier = online_local_user_get_player_identifier(controller_index);
-			player->player_identifier = player_identifier;
-
-			const wchar_t* name = online_local_user_get_name(controller_index);
-
-			if (player->configuration.host.name.is_empty())
+			if (!player_is_local(player_iterator.get_index()))
 			{
-				player->configuration.host.name = name;
+				continue;
 			}
 
-			if (player->configuration.client.desired_name.is_empty())
-			{
-				player->configuration.client.desired_name = name;
-			}
-		}
-		else
-		{
-			if (player->configuration.host.name.is_empty())
-			{
-				player->configuration.host.name.print(L"player_%d", absolute_index);
-			}
+			int16 absolute_index = player_iterator.get_absolute_index();
+			player_datum* player = player_iterator.get_datum();
 
-			if (player->configuration.client.desired_name.is_empty())
+			e_controller_index controller_index = (e_controller_index)absolute_index;
+			if (VALID_CONTROLLER(controller_index))
 			{
-				player->configuration.client.desired_name.print(L"player_%d", absolute_index);
+				uns64 player_identifier = online_local_user_get_player_identifier(controller_index);
+				player->player_identifier = player_identifier;
+
+				const wchar_t* name = online_local_user_get_name(controller_index);
+
+				if (player->configuration.host.name.is_empty())
+				{
+					player->configuration.host.name = name;
+				}
+
+				if (player->configuration.client.desired_name.is_empty())
+				{
+					player->configuration.client.desired_name = name;
+				}
+			}
+			else
+			{
+				if (player->configuration.host.name.is_empty())
+				{
+					player->configuration.host.name.print(L"player_%d", absolute_index);
+				}
+
+				if (player->configuration.client.desired_name.is_empty())
+				{
+					player->configuration.client.desired_name.print(L"player_%d", absolute_index);
+				}
 			}
 		}
 	}
@@ -337,7 +339,9 @@ e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy()
 	//return INVOKE(0x00530CA0, game_difficulty_level_get);
 
 	if (game_difficulty_level_get() == _campaign_difficulty_level_easy)
+	{
 		return _campaign_difficulty_level_normal;
+	}
 
 	return game_difficulty_level_get();
 }
@@ -626,31 +630,32 @@ bool __cdecl game_in_progress()
 {
 	//return INVOKE(0x005314B0, game_in_progress);
 
-	if (game_globals && game_globals->game_in_progress)
+	if (!game_globals || !game_globals->game_in_progress)
 	{
-		return !game_globals->initializing && game_globals->map_active;
+		return false;
 	}
 
-	return false;
+	return !game_globals->initializing && game_globals->map_active;
 }
 
 bool __cdecl game_in_startup_phase()
 {
 	//return INVOKE(0x005314F0, game_in_startup_phase);
 
-	if (game_globals)
+	if (!game_globals)
 	{
-		if (game_globals->game_in_progress)
-		{
-			ASSERT(!game_globals->initializing);
-			ASSERT(game_globals->map_active);
-
-			return false;
-		}
-
-		return game_globals->initializing || game_globals->map_active;
+		return false;
 	}
-	return false;
+
+	if (game_globals->game_in_progress)
+	{
+		ASSERT(!game_globals->initializing);
+		ASSERT(game_globals->map_active);
+
+		return false;
+	}
+
+	return game_globals->initializing || game_globals->map_active;
 }
 
 void __cdecl game_initialize()
@@ -782,7 +787,9 @@ void __cdecl game_initialize_for_new_structure_bsp(uns32 activating_structure_bs
 	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
+		{
 			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(activating_structure_bsp_mask);
+		}
 	}
 
 	random_seed_disallow_use();
@@ -839,11 +846,7 @@ bool __cdecl game_is_distributed()
 	//return INVOKE(0x00531AF0, game_is_distributed);
 
 	int8 game_simulation = game_options_get()->game_simulation;
-	if (game_simulation >= _game_simulation_distributed_client &&
-		game_simulation <= _game_simulation_distributed_server)
-		return true;
-
-	return false;
+	return IN_RANGE_INCLUSIVE(game_simulation, _game_simulation_distributed_client, _game_simulation_distributed_server);
 }
 
 bool __cdecl game_is_finished()
@@ -868,7 +871,7 @@ bool __cdecl game_is_finished_immediate()
 
 bool __cdecl game_is_lost()
 {
-	return INVOKE(0x00531BE0, game_is_lost);
+	//return INVOKE(0x00531BE0, game_is_lost);
 
 	ASSERT(game_globals && game_globals->map_active);
 
@@ -895,11 +898,7 @@ bool __cdecl game_is_networked()
 	//return INVOKE(0x00531C20, game_is_networked);
 
 	int8 game_simulation = game_options_get()->game_simulation;
-	if (game_simulation >= _game_simulation_synchronous_client &&
-		game_simulation <= _game_simulation_distributed_server)
-		return true;
-
-	return false;
+	return IN_RANGE_INCLUSIVE(game_simulation, _game_simulation_synchronous_client, _game_simulation_distributed_server);
 }
 
 bool __cdecl game_is_or_was_cooperative()
@@ -933,8 +932,7 @@ bool __cdecl game_is_server()
 	//return INVOKE(0x00531DA0, game_is_server);
 
 	int8 game_simulation = game_options_get()->game_simulation;
-	if (game_simulation == _game_simulation_synchronous_server ||
-		game_simulation == _game_simulation_distributed_server)
+	if (game_simulation == _game_simulation_synchronous_server || game_simulation == _game_simulation_distributed_server)
 	{
 		return true;
 	}
@@ -953,7 +951,9 @@ bool __cdecl game_is_splitscreen_deterministic()
 	//while (player_iterator.next())
 	//{
 	//	if (player_is_local(player_iterator.get_index()))
+	//	{
 	//		player_count++;
+	//	}
 	//}
 	//
 	//return player_count > 1;
@@ -964,7 +964,9 @@ bool __cdecl game_is_survival()
 	//return INVOKE(0x00531E20, game_is_survival);
 
 	if (game_globals && (game_globals->initializing || game_globals->map_active))
+	{
 		return game_globals->options.game_mode == _game_mode_campaign && game_globals->options.survival_enabled;
+	}
 
 	return g_debug_survival_mode;
 }
@@ -973,8 +975,7 @@ bool __cdecl game_is_synchronous_networking()
 {
 	//return INVOKE(0x00531E60, game_is_synchronous_networking);
 
-	return IN_RANGE_INCLUSIVE(game_options_get()->game_simulation,
-		_game_simulation_synchronous_client, _game_simulation_synchronous_server);
+	return IN_RANGE_INCLUSIVE(game_options_get()->game_simulation, _game_simulation_synchronous_client, _game_simulation_synchronous_server);
 }
 
 bool __cdecl game_is_ui_shell()
@@ -990,7 +991,9 @@ void __cdecl game_launch_initial_script()
 
 	//char script_name[128]{};
 	//if (game_launch_get_initial_script_name(script_name))
+	//{
 	//	hs_wake_by_name(script_name);
+	//}
 }
 
 //.text:00531EE0 ; game_level_advance
@@ -1021,7 +1024,9 @@ void __cdecl game_lost(bool lost)
 		}
 	}
 	else if (game_globals->game_lost)
+	{
 		game_globals->game_lost = false;
+	}
 }
 
 e_game_mode __cdecl game_mode_get()
@@ -1318,7 +1323,9 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_
 	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
+		{
 			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(old_non_bsp_zone_set, new_non_bsp_zone_set, currently_active_tags_registry);
+		}
 	}
 
 	objects_purge_deleted_objects();
@@ -1349,7 +1356,9 @@ void __cdecl game_prepare_to_switch_structure_bsp(uns32 old_structure_bsp_mask, 
 	for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_new_zone_set_proc)
+		{
 			g_game_systems[system_index].prepare_for_new_zone_set_proc(old_structure_bsp_mask, new_structure_bsp_mask);
+		}
 	}
 
 	objects_purge_deleted_objects();
@@ -1367,7 +1376,9 @@ void __cdecl game_pvs_clear_scripted_camera_pvs()
 	//INVOKE(0x00532BB0, game_pvs_clear_scripted_camera_pvs);
 
 	if (game_globals)
+	{
 		game_globals->pvs_use_scripted_camera = false;
+	}
 }
 
 void __cdecl game_pvs_enable_scripted_camera_pvs()
@@ -1375,7 +1386,9 @@ void __cdecl game_pvs_enable_scripted_camera_pvs()
 	//INVOKE(0x00532BD0, game_pvs_enable_scripted_camera_pvs);
 
 	if (game_globals)
+	{
 		game_globals->pvs_use_scripted_camera = true;
+	}
 }
 
 void __cdecl game_pvs_scripted_clear()
@@ -1383,7 +1396,9 @@ void __cdecl game_pvs_scripted_clear()
 	//INVOKE(0x00532BF0, game_pvs_scripted_clear);
 
 	if (game_globals)
+	{
 		game_globals->pvs_activation_type = 0;
+	}
 }
 
 s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
@@ -1398,7 +1413,9 @@ void __cdecl game_pvs_scripted_set_object(int32 object_index)
 	//INVOKE(0x00532D40, game_pvs_scripted_set_object, object_index);
 
 	if (!game_globals)
+	{
 		return;
+	}
 
 	if (object_index == NONE)
 	{
@@ -1418,7 +1435,9 @@ void __cdecl game_skull_enable_secondary(e_campaign_skulls_secondary secondary_s
 	//INVOKE(0x00532EE0, game_skull_enable_secondary, secondary_skull, enable);
 
 	if (game_globals)
+	{
 		SET_BIT(game_globals->active_secondary_skulls, secondary_skull, enable);
+	}
 }
 
 //.text:00532F20 ; game_set_active_primary_skulls
@@ -1427,7 +1446,9 @@ void __cdecl game_skull_enable_secondary(e_campaign_skulls_secondary secondary_s
 bool __cdecl game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
 {
 	if (game_globals)
+	{
 		return game_globals->active_primary_skulls == primary_skull;
+	}
 
 	return false;
 }
@@ -1435,7 +1456,9 @@ bool __cdecl game_skull_is_active_primary(e_campaign_skulls_primary primary_skul
 bool __cdecl game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
 {
 	if (game_globals)
+	{
 		return game_globals->active_secondary_skulls == secondary_skull;
+	}
 
 	return false;
 }
@@ -1443,7 +1466,9 @@ bool __cdecl game_skull_is_active_secondary(e_campaign_skulls_secondary secondar
 void __cdecl game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool enable)
 {
 	if (game_globals)
+	{
 		SET_BIT(game_globals->active_primary_skulls, primary_skull, enable);
+	}
 }
 
 void __cdecl game_set_active_skulls(uns32* active_primary_skulls, uns32* active_secondary_skulls)
@@ -1451,10 +1476,14 @@ void __cdecl game_set_active_skulls(uns32* active_primary_skulls, uns32* active_
 	if (game_globals)
 	{
 		if (active_primary_skulls)
+		{
 			*active_primary_skulls = game_globals->active_primary_skulls;
+		}
 
 		if (active_secondary_skulls)
+		{
 			*active_secondary_skulls = game_globals->active_secondary_skulls;
+		}
 	}
 }
 
@@ -1637,7 +1666,9 @@ void __cdecl game_tick()
 		simulation_update_aftermath(&update, &metadata);
 
 		if (update.flags.test(_simulation_update_simulation_in_progress_bit))
+		{
 			game_time_advance();
+		}
 
 		simulation_destroy_update(&update);
 		main_status(__FUNCTION__, NULL);
@@ -1685,7 +1716,9 @@ void __cdecl game_update(int32 tick_count, real32* game_seconds_elapsed)
 		}
 
 		if (actual_ticks < tick_count)
+		{
 			game_time_discard(tick_count, actual_ticks, game_seconds_elapsed);
+		}
 	}
 }
 
@@ -1792,7 +1825,9 @@ void __cdecl game_update_pvs()
 			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].activation_proc)
+				{
 					g_game_systems[system_index].activation_proc(&cluster_activation, &game_globals->cluster_activation);
+				}
 			}
 		}
 	}
@@ -1879,7 +1914,9 @@ bool __cdecl game_launch_get_initial_script_name(const char* script_name)
 
 	// fix for hanger background not being loaded
 	if (game_is_ui_shell())
+	{
 		user_interface_start_hs_script_by_name("humanhangar");
+	}
 
 	return false;
 }
@@ -1897,7 +1934,9 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	launch_settings.player_count = 1;
 
 	if (!game_launch_get_settings(&launch_settings))
+	{
 		return false;
+	}
 
 	game_options_new(options);
 	options->scenario_path.set(launch_settings.scenario_path);

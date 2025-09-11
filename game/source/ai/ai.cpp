@@ -331,7 +331,19 @@ void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_
 }
 
 //.text:01434150 ; void __cdecl ai_initialize_for_saved_game(int32)
-//.text:01434180 ; void __cdecl ai_place(int32)
+
+void __cdecl ai_place(int32 game_mode)
+{
+	INVOKE(0x01434180, ai_place, game_mode);
+
+	//if (!game_is_predicted() && (game_mode == _game_mode_campaign || game_mode == _game_mode_multiplayer))
+	//{
+	//	squads_create_for_new_map();
+	//	clumps_create_for_new_map();
+	//	flocks_create_for_new_map();
+	//}
+}
+
 //.text:014341B0 ; int32 __cdecl ai_release_inactive_squads(int32, uns8*, int32, bool*, char*, int32)
 //.text:01434230 ; int32 __cdecl ai_release_inactive_swarms(int32, uns8*, int32, bool*, char*, int32)
 //.text:014342E0 ; void __cdecl ai_reset()
