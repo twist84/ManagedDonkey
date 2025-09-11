@@ -85,6 +85,19 @@ uns32 s_scenario_zone_change::pre_switch_designer_zone_mask() const
 	return original_designer_zone_mask & new_designer_zone_mask;
 }
 
+const s_cluster_reference* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index)
+{
+	cluster_reference->bsp_index = (int8)bsp_index;
+	cluster_reference->cluster_index = (int8)cluster_index;
+
+	return cluster_reference;
+}
+
+bool cluster_reference_valid(const s_cluster_reference* cluster_reference)
+{
+	return cluster_reference->bsp_index != NONE;
+}
+
 uns32 __cdecl global_cinematic_zone_active_mask_get()
 {
 	return INVOKE(0x004E9570, global_cinematic_zone_active_mask_get);
@@ -148,7 +161,9 @@ structure_bsp* __cdecl global_structure_bsp_get(int32 structure_bsp_index)
 
 bool __cdecl global_structure_bsp_is_active(int32 structure_bsp_index)
 {
-	return INVOKE(0x004E9700, global_structure_bsp_is_active, structure_bsp_index);
+	//return INVOKE(0x004E9700, global_structure_bsp_is_active, structure_bsp_index);
+
+	return structure_bsp_index <= 15 && TEST_BIT(g_active_structure_bsp_mask, structure_bsp_index);
 }
 
 int32 __cdecl global_structure_bsp_next_active_index_get(int32 structure_bsp_index)
@@ -205,15 +220,23 @@ bool __cdecl scenario_activate_initial_zone_set(int32 zone_set_index)
 //.text:004E9A90 ; int32 __cdecl scenario_budget_resource_get_model_animation_graph_reference(int32)
 //.text:004E9AB0 ; int32 __cdecl scenario_budget_resource_get_sound_reference(int32)
 //.text:004E9AD0 ; 
-//.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(int32, int32)
-//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(int32, const real_point3d*)
+//.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(int32 structure_bsp_index, int32 leaf_index)
+//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(int32 structure_bsp_index, const real_point3d* point)
 
 s_cluster_reference __cdecl scenario_cluster_reference_from_point(const real_point3d* point)
 {
 	return INVOKE(0x004E9BD0, scenario_cluster_reference_from_point, point);
 }
 
-//.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(const s_cluster_reference*)
+bool __cdecl scenario_cluster_reference_valid(const s_cluster_reference* cluster_reference)
+{
+	//return INVOKE(0x004E9C30, scenario_cluster_reference_valid, cluster_reference);
+
+	bool valid = cluster_reference_valid(cluster_reference);
+	ASSERT(!valid || global_structure_bsp_is_active(cluster_reference->bsp_index));
+	ASSERT(!valid || VALID_INDEX(cluster_reference->cluster_index, global_structure_bsp_get(cluster_reference->bsp_index)->clusters.count));
+	return valid;
+}
 
 bool __cdecl scenario_connect_game_to_new_bsps(uns32 game_structure_bsp_mask, uns32 new_structure_bsp_mask)
 {

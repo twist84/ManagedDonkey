@@ -135,14 +135,6 @@ int32 k_activation_color_override_index = 0;
 real32 const k_game_loss_time = 6.0f;
 real32 const k_game_finished_time = 7.0f;
 
-const s_cluster_reference* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index)
-{
-	cluster_reference->bsp_index = static_cast<int8>(bsp_index);
-	cluster_reference->cluster_index = static_cast<int8>(cluster_index);
-
-	return cluster_reference;
-}
-
 bool __cdecl game_is_multithreaded()
 {
 	return INVOKE(0x0042E2C0, game_is_multithreaded);

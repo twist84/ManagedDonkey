@@ -71,6 +71,9 @@ extern uns32& g_active_designer_zone_mask;
 extern uns32& g_active_cinematic_zone_mask;
 extern uns32& g_touched_cinematic_zone_mask;
 
+extern const s_cluster_reference* cluster_reference_set(s_cluster_reference* cluster_reference, int32 bsp_index, int32 cluster_index);
+extern bool cluster_reference_valid(const s_cluster_reference* cluster_reference);
+
 extern uns32 __cdecl global_cinematic_zone_active_mask_get();
 extern uns32 __cdecl global_designer_zone_active_mask_get();
 extern struct scenario* __cdecl global_scenario_get();
@@ -85,6 +88,7 @@ extern s_structure_design* global_structure_design_get(int32 structure_bsp_index
 extern bool __cdecl scenario_activate_initial_designer_zones(int32 zone_set_index);
 extern bool __cdecl scenario_activate_initial_zone_set(int32 zone_set_index);
 extern s_cluster_reference __cdecl scenario_cluster_reference_from_point(const real_point3d* point);
+extern bool __cdecl scenario_cluster_reference_valid(const s_cluster_reference* cluster_reference);
 extern bool __cdecl scenario_connect_game_to_new_bsps(uns32 game_structure_bsp_mask, uns32 new_structure_bsp_mask);
 extern bool __cdecl scenario_connect_zone_set_resources(
 	int32 new_zone_set_index,
