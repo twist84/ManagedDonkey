@@ -769,6 +769,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\sound\sound_scenery.cpp" />
     <ClCompile Include="source\spartan_program\spartan_program_handler.cpp" />
     <ClCompile Include="source\structures\structures.cpp" />
+    <ClCompile Include="source\structures\structure_bsp_definitions.cpp" />
     <ClCompile Include="source\structures\structure_detail_objects.cpp" />
     <ClCompile Include="source\structures\structure_seams.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
