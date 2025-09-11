@@ -13,7 +13,20 @@
 #include "render/render_visibility_collection.hpp"
 #include "saved_games/game_state.hpp"
 
+enum
+{
+	_cluster_activation_reason_none = 0,
+	_cluster_activation_reason_player_pvs,
+	_cluster_activation_reason_ai,
+	_cluster_activation_reason_scripted_object,
+	_cluster_activation_reason_scripted_camera,
+	_cluster_activation_reason_player_pvs_inactive,
+
+	k_cluster_activation_reason_count,
+};
+
 #define MAXIMUM_CLUSTERS_PER_STRUCTURE 255
+typedef c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> t_cluster_activation_reason;
 
 struct s_game_non_bsp_zone_set;
 class c_scenario_resource_registry;
@@ -86,7 +99,7 @@ extern int32 const g_game_system_count;
 extern bool g_debug_survival_mode;
 extern const char* const k_game_simulation_names[k_game_simulation_count];
 extern const char* const k_game_playback_names[k_game_playback_count];
-extern c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
+extern t_cluster_activation_reason g_cluster_activation_reason;
 extern const real_argb_color* const k_activation_colors[6];
 extern int32 k_activation_color_override_index;
 
@@ -96,11 +109,12 @@ extern void __cdecl assert_game_options_verify(const game_options* options);
 //.text:00530580 ; game_globals_get_primary_skulls;
 //.text:005305D0 ; game_globals_get_secondary_skulls;
 //extern void __cdecl game_react_to_level_completion();
-extern void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, uns32 structure_bsp_mask);
-extern void __cdecl game_clusters_and(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2, s_game_cluster_bit_vectors* a3);
-extern void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2);
-extern void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2, s_game_cluster_bit_vectors* a3);
-extern void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3);
+extern void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* pvs, uns32 structure_mask);
+extern void __cdecl game_clusters_and(const s_game_cluster_bit_vectors* clusters0, const s_game_cluster_bit_vectors* clusters1, s_game_cluster_bit_vectors* clusters_destination);
+extern void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* clusters, bool value);
+extern void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* clusters0, const s_game_cluster_bit_vectors* clusters1, s_game_cluster_bit_vectors* clusters_destination);
+extern void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* pvs, bool local_only, t_cluster_activation_reason* activation_reason);
+extern bool __cdecl game_clusters_test(const s_game_cluster_bit_vectors* game_cluster_bit_vectors, struct s_cluster_reference structure_reference);
 //extern bool __cdecl game_coop_allow_respawn();
 //extern int32 __cdecl game_coop_player_count();
 extern void __cdecl game_create_ai(e_game_create_mode mode);

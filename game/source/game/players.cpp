@@ -12,6 +12,8 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
+#include "scenario/scenario_pvs.hpp"
+#include "structures/structure_bsp_definitions.hpp"
 #include "text/draw_string.hpp"
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
@@ -774,7 +776,89 @@ bool __cdecl players_any_are_near_death(int32* out_unit_index)
 //.text:00540F30 ; void __cdecl players_build_persistent_player_options(game_options*)
 //.text:00541060 ; int32 __cdecl players_build_weapon_from_campaign_armaments_data(const s_campaign_armaments_weapon*, int32, bool*)
 //.text:00541250 ; void __cdecl players_calculate_safe_position(int32, real_point3d*, real_vector3d*)
-//.text:00541310 ; void __cdecl players_compute_combined_pvs(s_game_cluster_bit_vectors*, bool)
+
+void __cdecl players_compute_combined_pvs(s_game_cluster_bit_vectors* combined_pvs, bool local_only, t_cluster_activation_reason* activation_reason)
+{
+	//INVOKE(0x00541310, players_compute_combined_pvs, combined_pvs, local_only, activation_reason);
+
+	int32 cluster_reference_count = 0;
+	s_cluster_reference cluster_references[16]{};
+
+	c_data_iterator<player_datum> player_iterator;
+	player_iterator.begin(player_data);
+	while (player_iterator.next())
+	{
+		if (local_only)
+		{
+			for (int32 player_index = player_mapping_get_first_output_user(player_iterator.get_index());
+				player_index != NONE;
+				player_index = player_mapping_get_next_output_user(player_iterator.get_index(), player_index))
+			{
+				const s_observer_result* camera = observer_get_camera(player_index);
+				cluster_references[cluster_reference_count++] = camera->location.cluster_reference;
+			}
+		}
+		else
+		{
+			player_datum* player = player_iterator.get_datum();
+			cluster_references[cluster_reference_count++] = player->cluster_reference;
+		}
+	}
+
+	csmemset(combined_pvs, 0, sizeof(s_game_cluster_bit_vectors));
+
+	for (int32 cluster_reference_index = 0; cluster_reference_index < cluster_reference_count; cluster_reference_index++)
+	{
+		s_cluster_reference& cluster_reference = cluster_references[cluster_reference_index];
+		ASSERT(!cluster_reference_valid(&cluster_reference) || scenario_cluster_reference_valid(&cluster_reference));
+
+		if (!cluster_reference_valid(&cluster_reference))
+		{
+			continue;
+		}
+
+		s_game_cluster_bit_vectors player_active_pvs{};
+		structure_bsp_compute_cluster_active_pvs(cluster_reference, &player_active_pvs);
+
+		if (cluster_reference_valid(&cluster_reference))
+		{
+			s_scenario_pvs_row player_row{};
+			scenario_zone_set_pvs_get_row(global_scenario_index, &player_row, scenario_zone_set_index_get(), cluster_reference, false);
+
+			for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
+				structure_bsp_index != NONE;
+				structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+			{
+				if (activation_reason)
+				{
+					struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
+					for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
+					{
+						s_cluster_reference test_cluster_reference{};
+						cluster_reference_set(&test_cluster_reference, structure_bsp_index, cluster_index);
+
+						if (!game_clusters_test(combined_pvs, test_cluster_reference)
+							&& scenario_zone_set_pvs_row_test(global_scenario_index, &player_row, test_cluster_reference))
+						{
+							if (game_clusters_test(&player_active_pvs, test_cluster_reference))
+							{
+								activation_reason->element(structure_bsp_index).element(cluster_index) = _cluster_activation_reason_player_pvs;
+							}
+							else
+							{
+								activation_reason->element(structure_bsp_index).element(cluster_index) = _cluster_activation_reason_player_pvs_inactive;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		game_clusters_or(combined_pvs, &player_active_pvs, combined_pvs);
+	}
+}
+HOOK_DECLARE(0x00541310, players_compute_combined_pvs);
+
 //.text:00541400 ; void __cdecl players_coop_desire_respawn(int32)
 //.text:00541480 ; void __cdecl players_coop_update_respawn(int32)
 //.text:00541920 ; void __cdecl players_death_status_calculate(bool*, bool*)

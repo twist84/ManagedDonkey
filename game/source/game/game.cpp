@@ -119,16 +119,16 @@ HOOK_DECLARE(0x006961B0, game_launch_get_initial_script_name);
 
 bool g_debug_survival_mode = false;
 
-c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
+t_cluster_activation_reason g_cluster_activation_reason;
 
-const real_argb_color* const k_activation_colors[6]
+const real_argb_color* const k_activation_colors[k_cluster_activation_reason_count]
 {
-	nullptr,
-	global_real_argb_orange,
-	global_real_argb_green,
-	global_real_argb_pink,
-	global_real_argb_purple,
-	global_real_argb_yellow
+	NULL,                    // none
+	global_real_argb_orange, // player_pvs
+	global_real_argb_green,  // ai
+	global_real_argb_pink,   // scripted_object
+	global_real_argb_purple, // scripted_camera
+	global_real_argb_yellow  // player_pvs_inactive
 };
 int32 k_activation_color_override_index = 0;
 
@@ -159,34 +159,36 @@ void __cdecl assert_game_options_verify(const game_options* options)
 //.text:00530790 ; 
 //.text:005307A0 ; 
 
-void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, uns32 structure_bsp_mask)
+void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* pvs, uns32 structure_mask)
 {
-	INVOKE(0x005307B0, game_clear_structure_pvs, structure_pvs, structure_bsp_mask);
+	INVOKE(0x005307B0, game_clear_structure_pvs, pvs, structure_mask);
 }
 
-void __cdecl game_clusters_and(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2, s_game_cluster_bit_vectors* a3)
+void __cdecl game_clusters_and(const s_game_cluster_bit_vectors* clusters0, const s_game_cluster_bit_vectors* clusters1, s_game_cluster_bit_vectors* clusters_destination)
 {
-	INVOKE(0x005307F0, game_clusters_and, a1, a2, a3);
+	INVOKE(0x005307F0, game_clusters_and, clusters0, clusters1, clusters_destination);
 }
 
-void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2)
+void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* clusters, bool value)
 {
-	INVOKE(0x00530840, game_clusters_fill, a1, a2);
+	INVOKE(0x00530840, game_clusters_fill, clusters, value);
 }
 
-void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* a1, const s_game_cluster_bit_vectors* a2, s_game_cluster_bit_vectors* a3)
+void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* clusters0, const s_game_cluster_bit_vectors* clusters1, s_game_cluster_bit_vectors* clusters_destination)
 {
-	INVOKE(0x00530860, game_clusters_or, a1, a2, a3);
+	INVOKE(0x00530860, game_clusters_or, clusters0, clusters1, clusters_destination);
 }
 
-void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3)
+void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* pvs, bool local_only, t_cluster_activation_reason* activation_reason)
 {
-	INVOKE(0x005308B0, game_compute_pvs, a1, a2, a3);
+	INVOKE(0x005308B0, game_compute_pvs, pvs, local_only, activation_reason);
+
+	// $IMPLEMENT `_cluster_activation_reason_scripted_camera` for `g_cluster_activation_reason`
 }
 
-bool game_clusters_test(const s_game_cluster_bit_vectors* vector, struct s_cluster_reference structure_reference)
+bool __cdecl game_clusters_test(const s_game_cluster_bit_vectors* game_cluster_bit_vectors, struct s_cluster_reference structure_reference)
 {
-	return vector->flags.element(structure_reference.bsp_index).test(structure_reference.cluster_index);
+	return game_cluster_bit_vectors->bit_vectors.element(structure_reference.bsp_index).test(structure_reference.cluster_index);
 }
 
 //.text:00530A20 ; bool __cdecl game_coop_allow_respawn()
@@ -1733,8 +1735,8 @@ void __cdecl game_update_pvs()
 		s_game_cluster_bit_vectors cluster_pvs = game_globals->cluster_pvs;
 		s_game_cluster_bit_vectors cluster_pvs_local = game_globals->cluster_pvs_local;
 		s_game_cluster_bit_vectors cluster_activation = game_globals->cluster_activation;
-		g_cluster_activation_reason.clear();
 
+		g_cluster_activation_reason.clear();
 		game_compute_pvs(&game_globals->cluster_pvs, false, &g_cluster_activation_reason);
 		game_compute_pvs(&game_globals->cluster_pvs_local, true, NULL);
 
@@ -1742,31 +1744,32 @@ void __cdecl game_update_pvs()
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
-			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
+			struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
+			ASSERT(VALID_COUNT(structure_bsp->clusters.count, MAXIMUM_CLUSTERS_PER_STRUCTURE));
 
 			uns32 active_clusters[8]{};
-			if (ai_get_active_clusters(structure_bsp_index, active_clusters, bsp->clusters.count))
+			if (ai_get_active_clusters(structure_bsp_index, active_clusters, structure_bsp->clusters.count))
 			{
-				for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
+				for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
 				{
-					if (!game_globals->cluster_pvs.flags[structure_bsp_index].test(cluster_index) && BIT_VECTOR_TEST_FLAG(active_clusters, cluster_index))
+					if (!game_globals->cluster_pvs.bit_vectors[structure_bsp_index].test(cluster_index) && BIT_VECTOR_TEST_FLAG(active_clusters, cluster_index))
 					{
-						g_cluster_activation_reason[structure_bsp_index][cluster_index] = 2;
+						g_cluster_activation_reason[structure_bsp_index][cluster_index] = _cluster_activation_reason_ai;
 					}
 				}
 
 				bit_vector_or(
-					bsp->clusters.count,
-					game_globals->cluster_pvs.flags[structure_bsp_index].get_bits_direct(),
+					structure_bsp->clusters.count,
+					game_globals->cluster_pvs.bit_vectors[structure_bsp_index].get_bits_direct(),
 					active_clusters,
-					game_globals->cluster_activation.flags[structure_bsp_index].get_writeable_bits_direct());
+					game_globals->cluster_activation.bit_vectors[structure_bsp_index].get_writeable_bits_direct());
 			}
 			else
 			{
 				csmemcpy(
-					game_globals->cluster_activation.flags.element(structure_bsp_index).get_writeable_bits_direct(),
-					game_globals->cluster_pvs.flags.element(structure_bsp_index).get_bits_direct(),
-					sizeof(game_globals->cluster_pvs.flags.get_element_size())
+					game_globals->cluster_activation.bit_vectors[structure_bsp_index].get_writeable_bits_direct(),
+					game_globals->cluster_pvs.bit_vectors[structure_bsp_index].get_bits_direct(),
+					sizeof(game_globals->cluster_pvs.bit_vectors.get_element_size())
 				);
 			}
 		}
@@ -1774,11 +1777,11 @@ void __cdecl game_update_pvs()
 		s_cluster_reference scripted_cluster = game_pvs_scripted_get_cluster_reference();
 		if (scripted_cluster.bsp_index != NONE)
 		{
-			s_scenario_pvs_row pvs_row{};
-			scenario_zone_set_pvs_get_row(global_scenario_index_get(), &pvs_row, scenario_zone_set_index_get(), scripted_cluster, false);
+			s_scenario_pvs_row object_row{};
+			scenario_zone_set_pvs_get_row(global_scenario_index_get(), &object_row, scenario_zone_set_index_get(), scripted_cluster, false);
 
-			s_game_cluster_bit_vectors clusters_from_pvs_row{};
-			scenario_zone_set_pvs_write_row(&clusters_from_pvs_row, &pvs_row);
+			s_game_cluster_bit_vectors object_row_pvs{};
+			scenario_zone_set_pvs_write_row(&object_row_pvs, &object_row);
 
 			for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 				structure_bsp_index != NONE;
@@ -1792,14 +1795,14 @@ void __cdecl game_update_pvs()
 				{
 					s_cluster_reference cluster_reference{};
 					cluster_reference_set(&cluster_reference, structure_bsp_index, cluster_index);
-					if (!game_clusters_test(&game_globals->cluster_pvs, cluster_reference) && game_clusters_test(&clusters_from_pvs_row, cluster_reference))
+					if (!game_clusters_test(&game_globals->cluster_pvs, cluster_reference) && game_clusters_test(&object_row_pvs, cluster_reference))
 					{
-						g_cluster_activation_reason[structure_bsp_index][cluster_index] = 3;
+						g_cluster_activation_reason[structure_bsp_index][cluster_index] = _cluster_activation_reason_scripted_object;
 					}
 				}
 			}
 
-			game_clusters_or(&game_globals->cluster_pvs, &clusters_from_pvs_row, &game_globals->cluster_pvs);
+			game_clusters_or(&game_globals->cluster_pvs, &object_row_pvs, &game_globals->cluster_pvs);
 		}
 
 		if (csmemcmp(&cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
@@ -1807,7 +1810,9 @@ void __cdecl game_update_pvs()
 			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
+				{
 					g_game_systems[system_index].change_pvs_proc(&cluster_pvs, &game_globals->cluster_pvs, false);
+				}
 			}
 		}
 
@@ -1816,7 +1821,9 @@ void __cdecl game_update_pvs()
 			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
+				{
 					g_game_systems[system_index].change_pvs_proc(&cluster_pvs_local, &game_globals->cluster_pvs_local, true);
+				}
 			}
 		}
 
@@ -1998,15 +2005,19 @@ void __cdecl game_pvs_debug_render()
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
 			for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
 			{
-				const real_argb_color* activation_color = nullptr;
+				const real_argb_color* activation_color = NULL;
 				if (debug_pvs_activation)
 				{
 					ASSERT(g_cluster_activation_reason[structure_bsp_index][cluster_index] >= 0 && g_cluster_activation_reason[structure_bsp_index][cluster_index] < NUMBEROF(k_activation_colors));
 					if (k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]])
+					{
 						activation_color = k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]];
+					}
 
 					if (!activation_color && VALID_INDEX(k_activation_color_override_index, NUMBEROF(k_activation_colors)))
+					{
 						activation_color = k_activation_colors[k_activation_color_override_index];
+					}
 				}
 
 				if (activation_color)
@@ -2014,40 +2025,40 @@ void __cdecl game_pvs_debug_render()
 					real_rectangle3d* bounds = &bsp->clusters[cluster_index].bounds;
 					render_debug_box_outline(true, bounds, activation_color);
 
-					real_point3d point0{};
-					real_point3d point1{};
+					real_point3d p0{};
+					real_point3d p1{};
 
-					point0.x = bounds->x0;
-					point0.y = bounds->y0;
-					point0.z = bounds->z0;
-					point1.x = bounds->x1;
-					point1.y = bounds->y1;
-					point1.z = bounds->z1;
-					render_debug_line(true, &point0, &point1, activation_color);
+					p0.x = bounds->x0;
+					p0.y = bounds->y0;
+					p0.z = bounds->z0;
+					p1.x = bounds->x1;
+					p1.y = bounds->y1;
+					p1.z = bounds->z1;
+					render_debug_line(true, &p0, &p1, activation_color);
 
-					point0.x = bounds->x1;
-					point0.y = bounds->y0;
-					point0.z = bounds->z0;
-					point1.x = bounds->x0;
-					point1.y = bounds->y1;
-					point1.z = bounds->z1;
-					render_debug_line(true, &point0, &point1, activation_color);
+					p0.x = bounds->x1;
+					p0.y = bounds->y0;
+					p0.z = bounds->z0;
+					p1.x = bounds->x0;
+					p1.y = bounds->y1;
+					p1.z = bounds->z1;
+					render_debug_line(true, &p0, &p1, activation_color);
 
-					point0.x = bounds->x0;
-					point0.y = bounds->y1;
-					point0.z = bounds->z0;
-					point1.x = bounds->x1;
-					point1.y = bounds->y0;
-					point1.z = bounds->z1;
-					render_debug_line(true, &point0, &point1, activation_color);
+					p0.x = bounds->x0;
+					p0.y = bounds->y1;
+					p0.z = bounds->z0;
+					p1.x = bounds->x1;
+					p1.y = bounds->y0;
+					p1.z = bounds->z1;
+					render_debug_line(true, &p0, &p1, activation_color);
 
-					point0.x = bounds->x1;
-					point0.y = bounds->y1;
-					point0.z = bounds->z0;
-					point1.x = bounds->x0;
-					point1.y = bounds->y0;
-					point1.z = bounds->z1;
-					render_debug_line(true, &point0, &point1, activation_color);
+					p0.x = bounds->x1;
+					p0.y = bounds->y1;
+					p0.z = bounds->z0;
+					p1.x = bounds->x0;
+					p1.y = bounds->y0;
+					p1.z = bounds->z1;
+					render_debug_line(true, &p0, &p1, activation_color);
 				}
 			}
 		}
