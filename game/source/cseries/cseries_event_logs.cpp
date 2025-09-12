@@ -1,5 +1,6 @@
 #include "cseries/cseries_event_logs.hpp"
 
+#include "config/version.hpp"
 #include "cseries/cseries_events.hpp"
 #include "multithreading/synchronization.hpp"
 #include "multithreading/threads.hpp"
@@ -222,9 +223,103 @@ void flush_event_log_cache()
 	// $IMPLEMENT
 }
 
+s_file_reference* acquire_report_file_reference(int32 event_log_index)
+{
+	s_event_log* event_log = event_log_get(event_log_index);
+	if (!event_log->stream_open)
+	{
+		create_report_file_reference(&event_log->stream, event_log->name, !event_log->event_log_flags.test(_event_log_place_in_root_bit));
+		if (!file_exists(&event_log->stream))
+		{
+			file_create_parent_directories_if_not_present(&event_log->stream);
+		}
+
+		bool trim = !event_log->opened_at_least_once && !event_log->event_log_flags.test(_event_log_disable_file_trimming);
+		if (!event_log->event_log_flags.test(_event_log_append_to_file_bit) && trim || !file_exists(&event_log->stream))
+		{
+			file_create(&event_log->stream);
+		}
+
+		if (trim)
+		{
+			file_trim(&event_log->stream, 0x40000);
+		}
+
+		constexpr uns32 open_flags
+			= FLAG(_file_open_flag_desired_access_write)
+			| FLAG(_file_open_flag_set_file_end_and_close)
+			| FLAG(_file_open_flag_share_mode_read);
+
+		uns32 error_code = 0;
+		if (file_open(&event_log->stream, open_flags, &error_code))
+		{
+			event_log->stream_open = true;
+			event_log->opened_at_least_once = true;
+		}
+	}
+
+	return &event_log->stream;
+}
+
+void release_report_file_reference(int32 event_log_index, bool close_reference)
+{
+	s_event_log* event_log = event_log_get(event_log_index);
+	if (close_reference && event_log->stream_open)
+	{
+		file_close(&event_log->stream);
+		event_log->stream_open = false;
+	}
+}
+
+void write_raw_to_error_file(c_file_output_buffer* file_buffer, int32 event_log_index, const char* string, bool flush)
+{
+	if (!events_force_no_log)
+	{
+		ASSERT(string != NULL);
+
+		uns32 string_length = (uns32)strlen_debug(string);
+		if (file_buffer)
+		{
+			file_buffer->write(string_length, string);
+		}
+		else if (s_file_reference* reference = acquire_report_file_reference(event_log_index))
+		{
+			file_write(reference, string_length, string);
+			release_report_file_reference(event_log_index, flush);
+		}
+	}
+}
+
 void write_event_log_cache_entry(bool use_report_buffers, int32 event_log_index, const char* string, bool flush)
 {
-	// $IMPLEMENT
+	c_file_output_buffer* output_buffer = NULL;
+
+	internal_critical_section_enter(k_crit_section_event_logs);
+
+	s_event_log* event_log = event_log_get(event_log_index);
+	if (!event_log->event_log_flags.test(_event_log_only_for_custom_subfolder) || !event_logs_using_subfolder())
+	{
+		if (use_report_buffers)
+		{
+			output_buffer = &event_log->output_buffer;
+		}
+
+		if (!event_log->first_line_displayed)
+		{
+			event_log->first_line_displayed = true;
+			write_raw_to_error_file(output_buffer, event_log_index, "\r\n\r\n", flush);
+			write_raw_to_error_file(output_buffer, event_log_index, "============================================================================================\r\n", flush);
+		}
+
+		write_raw_to_error_file(output_buffer, event_log_index, version_get_full_string() /*shell_get_version()*/, flush);
+		write_raw_to_error_file(output_buffer, event_log_index, "\r\n", flush);
+		write_raw_to_error_file(output_buffer, event_log_index, "============================================================================================\r\n", flush);
+		write_raw_to_error_file(output_buffer, event_log_index, "\r\n\r\n", flush);
+
+		write_raw_to_error_file(output_buffer, event_log_index, string, flush);
+	}
+
+	internal_critical_section_leave(k_crit_section_event_logs);
 }
 
 void write_to_event_log(const int32* event_log_indices, int32 event_log_count, const char* string)
@@ -240,6 +335,88 @@ void write_to_event_log(const int32* event_log_indices, int32 event_log_count, c
 
 void write_to_event_log_cache(const long* event_log_indices, long event_log_count, const char* string)
 {
-	// $IMPLEMENT
+	ASSERT(string);
+	ASSERT(event_log_indices);
+	ASSERT(event_log_count > 0);
+
+	internal_critical_section_enter(k_crit_section_event_logs);
+
+	int32 string_size = (int32)strlen_debug(string) + 1;
+
+	suppress_file_errors(true);
+
+	if (!event_log_globals.cache_event_log_output)
+	{
+		ASSERT(g_event_log_cache.entry_stack.empty());
+
+		for (int32 event_log_num = 0; event_log_num < event_log_count; event_log_num++)
+		{
+			if (event_log_indices[event_log_num] != NONE)
+			{
+				write_event_log_cache_entry(false, event_log_indices[event_log_num], string, false);
+			}
+		}
+	}
+	else
+	{
+		if ((g_event_log_cache.entry_string_cache_size + string_size) > sizeof(g_event_log_cache.entry_string_cache))
+		{
+			flush_event_log_cache();
+		}
+
+		ASSERT(!g_event_log_cache.entry_stack.full());
+
+		g_event_log_cache.entry_stack.push();
+
+		s_event_log_cache_entry* entry = g_event_log_cache.entry_stack.get_top();
+		if (!entry)
+		{
+			for (int32 event_log_num = 0; event_log_num < event_log_count; event_log_num++)
+			{
+				if (event_log_indices[event_log_num] != NONE)
+				{
+					write_event_log_cache_entry(false, event_log_indices[event_log_num], string, false);
+				}
+			}
+		}
+		else
+		{
+			for (int32 event_log_num = 0; event_log_num < event_log_count; event_log_num++)
+			{
+				int32 event_log_index = event_log_indices[event_log_num];
+				entry->event_log_indices.set(event_log_index, true);
+				g_event_log_cache.cached_categories.set(event_log_index, true);
+			}
+
+			// copy string into entry_string_cache
+			if ((g_event_log_cache.entry_string_cache_size + string_size) <= sizeof(g_event_log_cache.entry_string_cache))
+			{
+				size_t offset = g_event_log_cache.entry_string_cache_size;
+				csstrnzcpy(&g_event_log_cache.entry_string_cache[offset], string, string_size);
+				entry->error_string = &g_event_log_cache.entry_string_cache[offset];
+				g_event_log_cache.entry_string_cache_size += string_size;
+
+				if (g_event_log_cache.entry_stack.full() || g_event_log_cache.entry_string_cache_size >= 30720)
+				{
+					internal_event_set(k_event_cseries_event_log);
+				}
+			}
+			else
+			{
+				entry->error_string = NULL;
+
+				for (int32 event_log_num = 0; event_log_num < event_log_count; event_log_num++)
+				{
+					if (event_log_indices[event_log_num] != NONE)
+					{
+						write_event_log_cache_entry(false, event_log_indices[event_log_num], string, false);
+					}
+				}
+			}
+		}
+	}
+
+	suppress_file_errors(false);
+	internal_critical_section_leave(k_crit_section_event_logs);
 }
 
