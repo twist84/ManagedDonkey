@@ -9,6 +9,76 @@
 s_event_log_globals event_log_globals;
 s_event_log_cache g_event_log_cache;
 
+c_file_output_buffer::c_file_output_buffer() :
+	m_file(NULL),
+	m_buffer(),
+	m_buffer_length(0)
+{
+}
+
+c_file_output_buffer::~c_file_output_buffer()
+{
+	flush();
+}
+
+void c_file_output_buffer::flush()
+{
+	if (m_buffer_length > 0)
+	{
+		ASSERT(m_file);
+
+		file_write(m_file, (uns32)m_buffer_length, m_buffer);
+		m_buffer_length = 0;
+	}
+}
+
+void c_file_output_buffer::initialize_from_reference(s_file_reference* reference)
+{
+	ASSERT(reference);
+
+	flush();
+
+	m_file = reference;
+	m_buffer_length = 0;
+}
+
+void c_file_output_buffer::release_reference()
+{
+	if (m_file)
+	{
+		if (m_buffer_length > 0)
+		{
+			file_write(m_file, (uns32)m_buffer_length, m_buffer);
+			m_buffer_length = 0;
+		}
+
+		m_file = NULL;
+		m_buffer_length = 0;
+	}
+}
+
+void c_file_output_buffer::write(int32 buffer_size, const void* buffer)
+{
+	if (m_file)
+	{
+		if ((buffer_size + m_buffer_length) > 0x4000)
+		{
+			flush();
+		}
+
+		if ((m_buffer_length + buffer_size) > 0x4000)
+		{
+			ASSERT(m_buffer_length == 0);
+			file_write(m_file, buffer_size, buffer);
+		}
+		else
+		{
+			csmemcpy(&m_buffer[m_buffer_length], buffer, buffer_size);
+			m_buffer_length += buffer_size;
+		}
+	}
+}
+
 s_event_log* event_log_get(int32 event_log_index)
 {
 	ASSERT(event_log_index != NONE);

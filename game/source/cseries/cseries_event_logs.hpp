@@ -2,6 +2,23 @@
 
 #include "tag_files/files.hpp"
 
+class c_file_output_buffer
+{
+public:
+	c_file_output_buffer();
+	~c_file_output_buffer();
+	void flush();
+	void initialize_from_reference(s_file_reference* reference);
+	void release_reference();
+	void write(int32 buffer_size, const void* buffer);
+
+private:
+	s_file_reference* m_file;
+	char m_buffer[16384];
+	int32 m_buffer_length;
+};
+static_assert(sizeof(c_file_output_buffer) == 0x4008);
+
 enum e_event_log_flags
 {
 	_event_log_append_to_file_bit = 0,
@@ -12,14 +29,6 @@ enum e_event_log_flags
 	k_event_log_flag_count,
 };
 typedef c_flags<e_event_log_flags, uns16, k_event_log_flag_count> c_event_log_flags;
-
-struct c_file_output_buffer
-{
-	s_file_reference* m_file;
-	char m_buffer[16384];
-	int32 m_buffer_length;
-};
-static_assert(sizeof(c_file_output_buffer) == 0x4008);
 
 struct s_event_log
 {
