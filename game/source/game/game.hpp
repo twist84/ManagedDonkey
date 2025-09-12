@@ -99,8 +99,6 @@ extern bool debug_pvs_editor_mode;
 extern const char* const k_game_simulation_names[k_game_simulation_count];
 extern const char* const k_game_playback_names[k_game_playback_count];
 extern t_cluster_activation_reason g_cluster_activation_reason;
-extern const real_argb_color* const k_activation_colors[6];
-extern int32 k_activation_color_override_index;
 
 extern bool __cdecl game_is_multithreaded();
 //extern void __cdecl __tls_set_g_game_globals_allocator(void*);
@@ -208,6 +206,7 @@ extern void __cdecl game_prepare_to_switch_structure_bsp(uns32 old_structure_bsp
 //extern void __cdecl skull_primary_enable;
 //extern game_get_game_progression;
 extern void __cdecl game_pvs_clear_scripted_camera_pvs();
+extern void __cdecl game_pvs_debug_render();
 extern void __cdecl game_pvs_enable_scripted_camera_pvs();
 extern void __cdecl game_pvs_scripted_clear();
 extern s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference();
@@ -250,5 +249,4 @@ extern bool __cdecl game_options_get_launch_settings(game_options* options, bool
 extern void game_bsp_debug_status(const char* status, uns32 structure_bsp_mask);
 extern void game_designer_zone_set_debug_status(const char* status, uns32 designer_zone_mask);
 extern void game_cinematic_zone_set_debug_status(const char* status, uns32 cinematic_zone_mask);
-extern void __cdecl game_pvs_debug_render();
 

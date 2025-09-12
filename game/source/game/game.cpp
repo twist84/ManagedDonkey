@@ -122,17 +122,6 @@ bool g_debug_survival_mode = false;
 bool debug_pvs_editor_mode = false;
 t_cluster_activation_reason g_cluster_activation_reason;
 
-const real_argb_color* const k_activation_colors[k_cluster_activation_reason_count]
-{
-	NULL,                    // none
-	global_real_argb_orange, // player_pvs
-	global_real_argb_green,  // ai
-	global_real_argb_pink,   // scripted_object
-	global_real_argb_purple, // scripted_camera
-	global_real_argb_yellow  // player_pvs_inactive
-};
-int32 k_activation_color_override_index = 0;
-
 real32 const k_game_loss_time = 6.0f;
 real32 const k_game_finished_time = 7.0f;
 
@@ -1452,6 +1441,83 @@ void __cdecl game_pvs_clear_scripted_camera_pvs()
 	}
 }
 
+void __cdecl game_pvs_debug_render()
+{
+	if (game_in_progress() && game_get_active_structure_bsp_mask())
+	{
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
+			structure_bsp_index != NONE;
+			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+		{
+			const struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
+			for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
+			{
+				const real_argb_color* cluster_color = NULL;
+				if (debug_pvs_activation)
+				{
+					const real_argb_color* const* k_activation_colors[k_cluster_activation_reason_count]
+					{
+						NULL,                     // none
+						&global_real_argb_orange, // player_pvs
+						&global_real_argb_green,  // ai
+						&global_real_argb_pink,   // scripted_object
+						&global_real_argb_purple, // scripted_camera
+						&global_real_argb_yellow  // player_pvs_inactive
+					};
+
+					ASSERT(VALID_INDEX(g_cluster_activation_reason[structure_bsp_index][cluster_index], NUMBEROF(k_activation_colors)));
+					if (k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]])
+					{
+						cluster_color = *k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]];
+					}
+				}
+
+				if (cluster_color)
+				{
+					const structure_cluster* cluster = TAG_BLOCK_GET_ELEMENT(&structure_bsp->clusters, cluster_index, const structure_cluster);
+
+					render_debug_box_outline(true, &cluster->bounds, cluster_color);
+
+					real_point3d p0{};
+					real_point3d p1{};
+
+					p0.x = cluster->bounds.x0;
+					p0.y = cluster->bounds.y0;
+					p0.z = cluster->bounds.z0;
+					p1.x = cluster->bounds.x1;
+					p1.y = cluster->bounds.y1;
+					p1.z = cluster->bounds.z1;
+					render_debug_line(true, &p0, &p1, cluster_color);
+
+					p0.x = cluster->bounds.x1;
+					p0.y = cluster->bounds.y0;
+					p0.z = cluster->bounds.z0;
+					p1.x = cluster->bounds.x0;
+					p1.y = cluster->bounds.y1;
+					p1.z = cluster->bounds.z1;
+					render_debug_line(true, &p0, &p1, cluster_color);
+
+					p0.x = cluster->bounds.x0;
+					p0.y = cluster->bounds.y1;
+					p0.z = cluster->bounds.z0;
+					p1.x = cluster->bounds.x1;
+					p1.y = cluster->bounds.y0;
+					p1.z = cluster->bounds.z1;
+					render_debug_line(true, &p0, &p1, cluster_color);
+
+					p0.x = cluster->bounds.x1;
+					p0.y = cluster->bounds.y1;
+					p0.z = cluster->bounds.z0;
+					p1.x = cluster->bounds.x0;
+					p1.y = cluster->bounds.y0;
+					p1.z = cluster->bounds.z1;
+					render_debug_line(true, &p0, &p1, cluster_color);
+				}
+			}
+		}
+	}
+}
+
 void __cdecl game_pvs_enable_scripted_camera_pvs()
 {
 	//INVOKE(0x00532BD0, game_pvs_enable_scripted_camera_pvs);
@@ -2056,77 +2122,6 @@ void game_cinematic_zone_set_debug_status(const char* status, uns32 cinematic_zo
 	char cinematic_zone_string[1024]{};
 	scenario_get_cinematic_zone_string_from_mask(cinematic_zone_mask, cinematic_zone_string, sizeof(cinematic_zone_string));
 	main_status("cinematic_zone", "%s 0x%x (%s)", status, cinematic_zone_mask, cinematic_zone_string);
-}
-
-void __cdecl game_pvs_debug_render()
-{
-	if (game_in_progress() && game_get_active_structure_bsp_mask())
-	{
-		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
-			structure_bsp_index != NONE;
-			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
-		{
-			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
-			for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
-			{
-				const real_argb_color* activation_color = NULL;
-				if (debug_pvs_activation)
-				{
-					ASSERT(g_cluster_activation_reason[structure_bsp_index][cluster_index] >= 0 && g_cluster_activation_reason[structure_bsp_index][cluster_index] < NUMBEROF(k_activation_colors));
-					if (k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]])
-					{
-						activation_color = k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]];
-					}
-
-					if (!activation_color && VALID_INDEX(k_activation_color_override_index, NUMBEROF(k_activation_colors)))
-					{
-						activation_color = k_activation_colors[k_activation_color_override_index];
-					}
-				}
-
-				if (activation_color)
-				{
-					real_rectangle3d* bounds = &bsp->clusters[cluster_index].bounds;
-					render_debug_box_outline(true, bounds, activation_color);
-
-					real_point3d p0{};
-					real_point3d p1{};
-
-					p0.x = bounds->x0;
-					p0.y = bounds->y0;
-					p0.z = bounds->z0;
-					p1.x = bounds->x1;
-					p1.y = bounds->y1;
-					p1.z = bounds->z1;
-					render_debug_line(true, &p0, &p1, activation_color);
-
-					p0.x = bounds->x1;
-					p0.y = bounds->y0;
-					p0.z = bounds->z0;
-					p1.x = bounds->x0;
-					p1.y = bounds->y1;
-					p1.z = bounds->z1;
-					render_debug_line(true, &p0, &p1, activation_color);
-
-					p0.x = bounds->x0;
-					p0.y = bounds->y1;
-					p0.z = bounds->z0;
-					p1.x = bounds->x1;
-					p1.y = bounds->y0;
-					p1.z = bounds->z1;
-					render_debug_line(true, &p0, &p1, activation_color);
-
-					p0.x = bounds->x1;
-					p0.y = bounds->y1;
-					p0.z = bounds->z0;
-					p1.x = bounds->x0;
-					p1.y = bounds->y0;
-					p1.z = bounds->z1;
-					render_debug_line(true, &p0, &p1, activation_color);
-				}
-			}
-		}
-	}
 }
 
 const char* const k_game_simulation_names[k_game_simulation_count]
