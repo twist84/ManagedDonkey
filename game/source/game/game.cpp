@@ -1528,6 +1528,79 @@ void __cdecl game_pvs_enable_scripted_camera_pvs()
 	}
 }
 
+void __cdecl game_pvs_reset()
+{
+	s_game_cluster_bit_vectors null_cluster_pvs{};
+	s_game_cluster_bit_vectors null_cluster_activation{};
+
+	if (csmemcmp(&game_globals->cluster_pvs, &null_cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
+	{
+		for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
+		{
+			if (g_game_systems[system_index].change_pvs_proc)
+			{
+				g_game_systems[system_index].change_pvs_proc(&game_globals->cluster_pvs, &null_cluster_pvs, false);
+			}
+		}
+	}
+
+	if (csmemcmp(&game_globals->cluster_pvs_local, &null_cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
+	{
+		for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
+		{
+			if (g_game_systems[system_index].change_pvs_proc)
+			{
+				g_game_systems[system_index].change_pvs_proc(&game_globals->cluster_pvs_local, &null_cluster_pvs, false);
+			}
+		}
+	}
+
+	if (csmemcmp(&game_globals->cluster_activation, &null_cluster_activation, sizeof(s_game_cluster_bit_vectors)))
+	{
+		for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
+		{
+			if (g_game_systems[system_index].activation_proc)
+			{
+				g_game_systems[system_index].activation_proc(&game_globals->cluster_activation, &null_cluster_activation);
+			}
+		}
+	}
+
+	if (csmemcmp(&null_cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
+	{
+		for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
+		{
+			if (g_game_systems[system_index].change_pvs_proc)
+			{
+				g_game_systems[system_index].change_pvs_proc(&null_cluster_pvs, &game_globals->cluster_pvs, false);
+			}
+		}
+	}
+
+	if (csmemcmp(&null_cluster_pvs, &game_globals->cluster_pvs_local, sizeof(s_game_cluster_bit_vectors)))
+	{
+		for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
+		{
+			if (g_game_systems[system_index].change_pvs_proc)
+			{
+				g_game_systems[system_index].change_pvs_proc(&null_cluster_pvs, &game_globals->cluster_pvs_local, false);
+			}
+		}
+	}
+
+	if (csmemcmp(&null_cluster_activation, &game_globals->cluster_activation, sizeof(s_game_cluster_bit_vectors)))
+	{
+		for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
+		{
+			if (g_game_systems[system_index].activation_proc)
+			{
+				g_game_systems[system_index].activation_proc(&null_cluster_activation, &game_globals->cluster_activation);
+			}
+		}
+	}
+
+}
+
 void __cdecl game_pvs_scripted_clear()
 {
 	//INVOKE(0x00532BF0, game_pvs_scripted_clear);

@@ -40,8 +40,8 @@ struct s_game_system
 	void(__cdecl* prepare_for_new_zone_set_proc)(uns32 old_structure_bsp_mask, uns32 new_structure_bsp_mask);
 	void(__cdecl* initialize_for_new_structure_bsp_proc)(uns32 new_structure_bsp_mask);
 	void(__cdecl* dispose_from_old_structure_bsp_proc)(uns32 old_structure_bsp_mask);
-	void(__cdecl* change_pvs_proc)(const s_game_cluster_bit_vectors*, const s_game_cluster_bit_vectors*, bool);
-	void(__cdecl* activation_proc)(const s_game_cluster_bit_vectors*, const s_game_cluster_bit_vectors*);
+	void(__cdecl* change_pvs_proc)(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation, bool local);
+	void(__cdecl* activation_proc)(const s_game_cluster_bit_vectors* old_cluster_activation, const s_game_cluster_bit_vectors* new_cluster_activation);
 	void(__cdecl* prepare_for_non_bsp_zone_set_switch_proc)(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(const s_game_non_bsp_zone_set* new_non_bsp_zone_set);
 	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(const s_game_non_bsp_zone_set* old_non_bsp_zone_set);
@@ -208,6 +208,7 @@ extern void __cdecl game_prepare_to_switch_structure_bsp(uns32 old_structure_bsp
 extern void __cdecl game_pvs_clear_scripted_camera_pvs();
 extern void __cdecl game_pvs_debug_render();
 extern void __cdecl game_pvs_enable_scripted_camera_pvs();
+extern void __cdecl game_pvs_reset();
 extern void __cdecl game_pvs_scripted_clear();
 extern s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference();
 //extern void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index);
