@@ -11,11 +11,13 @@
 #include "multithreading/threads.hpp"
 #include "tag_files/string_ids.hpp"
 
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include <ctime>
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <windows.h>
 
 REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions) = true;
 

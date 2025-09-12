@@ -3,6 +3,15 @@
 #include "cseries/cseries.hpp"
 #include "memory/read_write_lock.hpp"
 
+enum e_event_context_query_destination_type
+{
+	_event_context_query_destination_console = 0,
+	_event_context_query_destination_log,
+	_event_context_query_destination_remote_log,
+
+	k_event_context_query_destination_console_type_count
+};
+
 struct s_spamming_event
 {
 	uns32 last_spam_time;
@@ -112,6 +121,22 @@ protected:
 };
 static_assert(sizeof(c_event) == 0xC);
 
+class c_event_context_string_builder
+{
+public:
+	c_event_context_string_builder(const char* description, ...);
+	const char* get_string() const;
+
+	char m_string[128];
+};
+
+class c_event_context
+{
+public:
+	c_event_context(const char* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder);
+	~c_event_context();
+};
+
 struct s_event_context
 {
 	char type[64];
@@ -127,6 +152,7 @@ inline thread_local s_event_context g_event_context_stack[32]{};
 
 extern s_event_globals event_globals;
 extern bool g_events_initialized;
+extern bool events_force_no_log;
 extern c_read_write_lock g_event_read_write_lock;
 
 extern const char* const k_event_level_names[k_event_level_count + 1];
@@ -143,8 +169,8 @@ extern void events_debug_render();
 extern void events_dispose();
 extern const char* events_get();
 extern void events_initialize();
+extern void event_initialize_primary_logs();
 extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
-extern void event_logs_flush();
 extern void __cdecl network_debug_print(const char* format, ...);
 
 //#define USE_CONSOLE_FOR_EVENTS

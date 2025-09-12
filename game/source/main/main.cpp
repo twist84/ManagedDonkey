@@ -2413,110 +2413,14 @@ c_tag_resources_game_lock::~c_tag_resources_game_lock()
 	tag_resources_unlock_game(m_resource_key);
 }
 
-enum e_event_context_query_destination_type
-{
-	_event_context_query_destination_console = 0,
-	_event_context_query_destination_log,
-	_event_context_query_destination_remote_log,
-
-	k_event_context_query_destination_console_type_count
-};
-
-bool event_context_get(e_event_context_query_destination_type type, char* buffer, int32 buffer_size)
-{
-	//csstrnzcpy(buffer, "", buffer_size);
-	//switch (type)
-	//{
-	//case _event_context_query_destination_console:
-	//{
-	//}
-	//break;
-	//case _event_context_query_destination_log:
-	//{
-	//}
-	//break;
-	//case _event_context_query_destination_remote_log:
-	//{
-	//}
-	//break;
-	//}
-
-	return false;
-}
-
-void event_context_pop()
-{
-	//if (g_event_context_stack_failure_depth > 0)
-	//{
-	//	g_event_context_stack_failure_depth--;
-	//}
-	//else
-	//{
-	//	ASSERT(g_event_context_stack_depth > 0);
-	//	if (g_event_context_stack_depth > 0)
-	//		g_event_context_stack_depth--;
-	//}
-}
-
-void event_context_push(const char* type, bool display_to_console, const char* description)
-{
-	//ASSERT(type);
-	//ASSERT(description);
-	//if (VALID_INDEX(g_event_context_stack_depth, 32))
-	//{
-	//	s_event_context* event_context = &g_event_context_stack[g_event_context_stack_depth];
-	//	event_context->display_to_console = display_to_console;
-	//	csstrnzcpy(event_context->type, type, sizeof(event_context->type));
-	//	csstrnzcpy(event_context->description, description, sizeof(event_context->description));
-	//}
-	//else
-	//{
-	//	VASSERT("exceeded the maximum event context depth!");
-	//}
-}
-
-class c_event_context_string_builder
-{
-public:
-	//c_event_context_string_builder(const char* description, ...) :
-	//	m_string()
-	//{
-	//	va_list arglist;
-	//	va_start(arglist, description);
-	//	cvsnzprintf(m_string, sizeof(m_string), description, arglist);
-	//	va_end(arglist);
-	//}
-	//
-	//const char* get_string() const
-	//{
-	//	return m_string;
-	//}
-	//
-	//char m_string[128];
-};
-
-class c_event_context
-{
-public:
-	//c_event_context(const char* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder)
-	//{
-	//	event_context_push(type, display_to_console, event_context_string_builder->get_string());
-	//}
-	//
-	//~c_event_context()
-	//{
-	//	event_context_pop();
-	//}
-};
-
 bool debug_trace_main_events = false;
 
 void __cdecl main_trace_event_internal(const char* function_name)
 {
-	//if (debug_trace_main_events)
-	//{
-	//	c_event_context local_event_context("", false, new c_event_context_string_builder("%s", function_name));
-	//	stack_walk(1);
-	//}
+	if (debug_trace_main_events)
+	{
+		c_event_context local_event_context("", false, new c_event_context_string_builder("%s", function_name));
+		stack_walk(1);
+	}
 }
 

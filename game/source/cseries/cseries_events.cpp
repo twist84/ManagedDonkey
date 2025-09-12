@@ -1,6 +1,8 @@
 #include "cseries/cseries_events.hpp"
 
 #include "config/version.hpp"
+#include "cseries/cseries_event_logs.hpp"
+#include "game/game.hpp"
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
@@ -9,6 +11,7 @@
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer_main.hpp"
+#include "render/render.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/files.hpp"
 #include "text/draw_string.hpp"
@@ -64,7 +67,9 @@ s_file_reference* __cdecl create_report_file_reference(s_file_reference* referen
 	ASSERT(result != NULL);
 
 	if (result)
+	{
 		file_create_parent_directories_if_not_present(result);
+	}
 
 	return result;
 }
@@ -381,6 +386,121 @@ struct s_event_spamming_list_add_result
 	int32 hit_count;
 };
 
+bool event_context_get(e_event_context_query_destination_type type, char* buffer, int32 buffer_size)
+{
+	csstrnzcpy(buffer, "", buffer_size);
+
+	switch (type)
+	{
+	case _event_context_query_destination_console:
+	{
+		for (int32 depth = 0; depth < g_event_context_stack_depth; depth++)
+		{
+			s_event_context& event_context = g_event_context_stack[depth];
+			if (event_context.display_to_console)
+			{
+				csstrnzcat(buffer, event_context.description, buffer_size);
+				if (depth < g_event_context_stack_depth - 1)
+				{
+					csstrnzcat(buffer, ":", buffer_size);
+				}
+			}
+		}
+		return true;
+	}
+	break;
+	case _event_context_query_destination_log:
+	{
+		if (g_event_context_stack_depth - 1 < 0)
+		{
+			break;
+		}
+
+		for (int32 depth = g_event_context_stack_depth - 1; depth >= 0; depth--)
+		{
+			s_event_context& event_context = g_event_context_stack[depth];
+			if (depth == g_event_context_stack_depth - 1)
+			{
+				csstrnzcat(buffer, "[", buffer_size);
+			}
+			csstrnzcat(buffer, "(", buffer_size);
+			csstrnzcat(buffer, event_context.type, buffer_size);
+			csstrnzcat(buffer, ")", buffer_size);
+			csstrnzcat(buffer, event_context.description, buffer_size);
+			csstrnzcat(buffer, depth ? ":" : "]", buffer_size);
+		}
+		return true;
+	}
+	break;
+	case _event_context_query_destination_remote_log:
+	{
+		return false;
+	}
+	break;
+	}
+
+	return false;
+}
+
+void event_context_pop()
+{
+	if (g_event_context_stack_failure_depth > 0)
+	{
+		g_event_context_stack_failure_depth--;
+	}
+	else
+	{
+		ASSERT(g_event_context_stack_depth > 0);
+		if (g_event_context_stack_depth > 0)
+		{
+			g_event_context_stack_depth--;
+		}
+	}
+}
+
+void event_context_push(const char* type, bool display_to_console, const char* description)
+{
+	ASSERT(type);
+	ASSERT(description);
+	if (VALID_INDEX(g_event_context_stack_depth, 32))
+	{
+		s_event_context* event_context = &g_event_context_stack[g_event_context_stack_depth];
+		event_context->display_to_console = display_to_console;
+		csstrnzcpy(event_context->type, type, sizeof(event_context->type));
+		csstrnzcpy(event_context->description, description, sizeof(event_context->description));
+		g_event_context_stack_depth++;
+	}
+	else
+	{
+		VASSERT("exceeded the maximum event context depth!");
+		g_event_context_stack_failure_depth++;
+	}
+}
+
+c_event_context_string_builder::c_event_context_string_builder(const char* description, ...) :
+	m_string()
+{
+	va_list arglist;
+	va_start(arglist, description);
+	cvsnzprintf(m_string, sizeof(m_string), description, arglist);
+	va_end(arglist);
+}
+
+const char* c_event_context_string_builder::get_string() const
+{
+	return m_string;
+}
+
+c_event_context::c_event_context(const char* type, bool display_to_console, c_event_context_string_builder* event_context_string_builder)
+{
+	event_context_push(type, display_to_console, event_context_string_builder->get_string());
+}
+
+c_event_context::~c_event_context()
+{
+	event_context_pop();
+}
+
 void events_clear()
 {
 	event_logs_flush();
@@ -455,7 +575,7 @@ void events_debug_render()
 
 void events_dispose()
 {
-	//event_logs_dispose();
+	event_logs_dispose();
 	event_globals.category_count = 0;
 	g_events_initializing_cookie = false;
 	g_events_initialized = false;
@@ -704,7 +824,9 @@ void event_initialize_categories()
 		if (log_event->log_name)
 		{
 			csstrnzcpy(next_category->log_name, log_event->log_name, sizeof(next_category->log_name));
-			next_category->event_log_index = NONE;// event_log_new(event_->log_name, FLAG(3), true);
+			c_event_log_flags event_log_flags;
+			event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
+			next_category->event_log_index = event_log_new(log_event->log_name, event_log_flags);
 		}
 		next_category->current_log_level = log_event->initial_log_level;
 		next_category->current_remote_log_level = log_event->initial_remote_log_level;
@@ -748,12 +870,11 @@ bool events_initialize_if_possible()
 		event_globals.last_console_response_event_time = 0;
 		event_globals.suppress_console_display_and_show_spinner = (k_tracked_build && shell_application_type() != _shell_application_tool);
 
-		// clear function
 		event_globals.message_buffer_size = 0;
 		event_globals.message_buffer[0] = 0;
 
-		// event_logs_initialize();
-		// function
+		event_logs_initialize();
+		event_initialize_primary_logs();
 
 		event_globals.category_count = 0;
 
@@ -777,17 +898,42 @@ void __cdecl events_initialize()
 	event(_event_message, "lifecycle: events initalize");
 }
 
+void event_initialize_primary_logs()
+{
+	{
+		c_event_log_flags event_log_flags = FLAG(_event_log_place_in_root_bit);
+		event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
+		event_globals.external_primary_event_log_index = event_log_new(k_primary_event_log_filename, event_log_flags);
+	}
+
+	{
+		c_event_log_flags event_log_flags = FLAG(_event_log_append_to_file_bit);
+		event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
+		event_globals.internal_primary_event_log_index = event_log_new(k_primary_event_log_filename, event_log_flags);
+	}
+
+	{
+		c_event_log_flags event_log_flags = FLAG(_event_log_append_to_file_bit);
+		event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
+		event_globals.internal_primary_full_event_log_index = event_log_new(k_primary_full_event_log_filename, event_log_flags);
+	}
+
+	{
+		c_event_log_flags event_log_flags = FLAG(_event_log_only_for_custom_subfolder);
+		event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
+		event_globals.subfolder_internal_primary_event_log_index = event_log_new(k_primary_event_log_filename, event_log_flags);
+	}
+
+	{
+		c_event_log_flags event_log_flags = FLAG(_event_log_only_for_custom_subfolder);
+		event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
+		event_globals.subfolder_internal_primary_full_event_log_index = event_log_new(k_primary_full_event_log_filename, event_log_flags);
+	}
+}
+
 int32 __cdecl event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand)
 {
 	return (int32)_InterlockedCompareExchange(destination, exchange, comperand);
-}
-
-void event_logs_flush()
-{
-	//if (!thread_has_crashed(k_thread_network_block_detection))
-	//{
-	//	flush_event_log_cache();
-	//}
 }
 
 c_event::c_event(e_event_level event_level, int32 event_category_index, uns32 event_response_suppress_flags) :
@@ -1143,8 +1289,93 @@ void event_generated_handle_console(e_event_level event_level, int32 category_in
 	write_to_console(event_level, category_index, final_text);
 }
 
+void format_event_for_log(char* buffer, long buffer_size, e_event_level event_level, const char* custom_event_category_buffer, const char* context_text, const char* event_text)
+{
+	ASSERT(VALID_INDEX(event_level, NUMBEROF(k_event_level_severity_strings)));
+
+	const char* event_level_severity = k_event_level_severity_strings[event_level];
+
+	char game_time_and_frame_index_buffer[256]{};
+	if (game_in_progress())
+	{
+		csnzprintf(game_time_and_frame_index_buffer, NUMBEROF(game_time_and_frame_index_buffer),
+			"g%06d f%07d",
+			game_time_get(),
+			c_render_globals::get_frame_index());
+	}
+	else
+	{
+		csnzprintf(game_time_and_frame_index_buffer, NUMBEROF(game_time_and_frame_index_buffer),
+			"        f%07d",
+			c_render_globals::get_frame_index());
+	}
+
+	char time_date_buffer[256]{};
+	system_get_date_and_time(time_date_buffer, NUMBEROF(time_date_buffer), false);
+
+	csnzprintf(buffer, buffer_size, "%s %07d %s %s %s %s %s\r\n",
+		time_date_buffer,
+		event_globals.event_index,
+		game_time_and_frame_index_buffer,
+		custom_event_category_buffer ? custom_event_category_buffer : "",
+		event_level_severity,
+		event_text,
+		context_text);
+}
+
 void event_generated_handle_log(e_event_level event_level, int32 category_index, const char* event_text)
 {
+	char buffer[2048]{};
+	event_context_get(_event_context_query_destination_log, buffer, sizeof(buffer));
+
+	g_event_read_write_lock.read_lock();
+
+	s_event_category* event_category = event_category_get(category_index);
+
+	decltype(event_category->log_format_func) log_format_func = event_category->log_format_func;
+	int32 event_log_index = event_category->event_log_index;
+
+	g_event_read_write_lock.read_unlock();
+
+	char string[2048]{};
+	int32 event_log_indices[6]{};
+	int32 v6 = 0;
+	if (event_log_index != NONE)
+	{
+		if (log_format_func)
+		{
+			char event_category_buffer[512]{};
+			log_format_func(event_category_buffer, sizeof(event_category_buffer));
+			format_event_for_log(string, sizeof(string), event_level, event_category_buffer, buffer, event_text);
+			write_to_event_log(&event_log_index, 1, string);
+		}
+	}
+	else
+	{
+		event_log_indices[0] = event_log_index;
+		v6 = 1;
+	}
+
+	if (event_level >= event_globals.current_log_level)
+	{
+		int32 v9 = v6;
+		int32 v10 = v6 + 1;
+		event_log_indices[v9] = event_globals.external_primary_event_log_index;
+		event_log_indices[v10++] = event_globals.internal_primary_event_log_index;
+		int32 v11 = v10++;
+		event_log_indices[v11] = event_globals.subfolder_internal_primary_event_log_index;
+		event_log_indices[v10] = event_globals.subfolder_internal_primary_full_event_log_index;
+		v6 = v10 + 1;
+	}
+
+	int32 v12 = v6;
+	int32 event_log_count = v6 + 1;
+	event_log_indices[v12] = event_globals.internal_primary_full_event_log_index;
+
+	ASSERT(event_log_count <= NUMBEROF(event_log_indices));
+
+	format_event_for_log(string, sizeof(string), event_level, NULL, buffer, event_text);
+	write_to_event_log(event_log_indices, event_log_count, string);
 }
 
 void event_generated_handle_datamine(e_event_level event_level, const char* format, va_list argument_list)
@@ -1158,17 +1389,19 @@ void event_generated_handle_debugger_break(const char* event_text)
 	//{
 	//	char debugstring[2048];
 	//	csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
+	//	VASSERT_EXCEPTION(debugstring, false);
 	//}
 }
 
 void event_generated_handle_halt(const char* event_text)
 {
-	static bool x_disable_halt = false;
-	if (x_disable_halt)
-	{
-		char debugstring[2048];
-		csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
-	}
+	//static bool x_disable_halt = false;
+	//if (x_disable_halt)
+	//{
+	//	char debugstring[2048];
+	//	csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
+	//	VASSERT_EXCEPTION(debugstring, true);
+	//}
 }
 
 void event_generated_handle_listeners(e_event_level event_level, const char* event_text)
@@ -1260,20 +1493,20 @@ void event_generate_handle_recursive(e_event_level event_level, int32 category_i
 		csstrnzcat(buffer, "(!logged)", sizeof(buffer));
 	}
 
-	//c_debug_output_path debug_output_path{};
-	//FILE* output_file = NULL;
-	//fopen_s(&output_file, debug_output_path.get_path("debug_lost.txt"), "a");
-	//if (output_file)
-	//{
-	//	char event_context_buffer[2048]{};
-	//	event_context_get(_event_context_query_destination_log, event_context_buffer, sizeof(event_context_buffer));
-	//
-	//	char file_buffer[2048]{};
-	//	format_event_for_log(file_buffer, sizeof(file_buffer), event_level, NULL, event_context_buffer, buffer);
-	//	fprintf(output_file, "%s", file_buffer);
-	//	fclose(output_file);
-	//}
-	//else
+	c_debug_output_path debug_output_path{};
+	FILE* output_file = NULL;
+	fopen_s(&output_file, debug_output_path.get_path("debug_lost.txt"), "a");
+	if (output_file)
+	{
+		char event_context_buffer[2048]{};
+		event_context_get(_event_context_query_destination_log, event_context_buffer, sizeof(event_context_buffer));
+	
+		char file_buffer[2048]{};
+		format_event_for_log(file_buffer, sizeof(file_buffer), event_level, NULL, event_context_buffer, buffer);
+		fprintf(output_file, "%s", file_buffer);
+		fclose(output_file);
+	}
+	else
 	{
 		csstrnzcat(buffer, "(!logged)", sizeof(buffer));
 	}

@@ -1,6 +1,7 @@
 #include "cseries/cseries_windows_debug_pc.hpp"
 
 #include "config/version.hpp"
+#include "cseries/cseries_event_logs.hpp"
 #include "editor/editor_stubs.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
@@ -12,7 +13,9 @@
 #include "tag_files/files_windows.hpp"
 #include "tag_files/tag_groups.hpp"
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
 #include <dbghelp.h>
 #include <float.h>
 #include <Psapi.h>
@@ -209,7 +212,9 @@ int32 __cdecl exceptions_update()
 	//INVOKE(0x0051C020, exceptions_update);
 
 	if (!has_cached_exception())
+	{
 		return 0;
+	}
 
 	main_loop_pregame_disable(true);
 
