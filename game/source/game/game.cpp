@@ -1801,53 +1801,51 @@ void __cdecl game_update_pvs()
 
 	PROFILER(game_update_pvs)
 	{
-		s_game_cluster_bit_vectors cluster_pvs = game_globals->cluster_pvs;
-		s_game_cluster_bit_vectors cluster_pvs_local = game_globals->cluster_pvs_local;
-		s_game_cluster_bit_vectors cluster_activation = game_globals->cluster_activation;
+		s_game_cluster_bit_vectors previous_cluster_activation = game_globals->cluster_activation;
+		s_game_cluster_bit_vectors previous_cluster_pvs = game_globals->cluster_pvs;
+		s_game_cluster_bit_vectors previous_cluster_pvs_local = game_globals->cluster_pvs_local;
 
-		g_cluster_activation_reason.clear();
-		game_compute_pvs(&game_globals->cluster_pvs, false, &g_cluster_activation_reason);
+		t_cluster_activation_reason* cluster_activation_reason = &g_cluster_activation_reason;
+		cluster_activation_reason->clear();
+
+		game_compute_pvs(&game_globals->cluster_pvs, false, cluster_activation_reason);
 		game_compute_pvs(&game_globals->cluster_pvs_local, true, NULL);
 
 		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
-			struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
+			const struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
 			ASSERT(VALID_COUNT(structure_bsp->clusters.count, MAXIMUM_CLUSTERS_PER_STRUCTURE));
 
-			uns32 active_clusters[8]{};
-			if (ai_get_active_clusters(structure_bsp_index, active_clusters, structure_bsp->clusters.count))
+			uns32 ai_active_clusters[8]{};
+			if (ai_get_active_clusters(structure_bsp_index, ai_active_clusters, structure_bsp->clusters.count))
 			{
 				for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
 				{
-					if (!game_globals->cluster_pvs.bit_vectors[structure_bsp_index].test(cluster_index) && BIT_VECTOR_TEST_FLAG(active_clusters, cluster_index))
+					if (!game_globals->cluster_pvs.bit_vectors[structure_bsp_index].test(cluster_index) && BIT_VECTOR_TEST_FLAG(ai_active_clusters, cluster_index))
 					{
-						g_cluster_activation_reason[structure_bsp_index][cluster_index] = _cluster_activation_reason_ai;
+						cluster_activation_reason->element(structure_bsp_index).element(cluster_index) = _cluster_activation_reason_ai;
 					}
 				}
 
 				bit_vector_or(
 					structure_bsp->clusters.count,
-					game_globals->cluster_pvs.bit_vectors[structure_bsp_index].get_bits_direct(),
-					active_clusters,
-					game_globals->cluster_activation.bit_vectors[structure_bsp_index].get_writeable_bits_direct());
+					game_globals->cluster_pvs.bit_vectors.element(structure_bsp_index).get_bits_direct(),
+					ai_active_clusters,
+					game_globals->cluster_activation.bit_vectors.element(structure_bsp_index).get_writeable_bits_direct());
 			}
 			else
 			{
-				csmemcpy(
-					game_globals->cluster_activation.bit_vectors[structure_bsp_index].get_writeable_bits_direct(),
-					game_globals->cluster_pvs.bit_vectors[structure_bsp_index].get_bits_direct(),
-					sizeof(game_globals->cluster_pvs.bit_vectors.get_element_size())
-				);
+				game_globals->cluster_activation.bit_vectors.element(structure_bsp_index) = game_globals->cluster_pvs.bit_vectors.element(structure_bsp_index);
 			}
 		}
 
-		s_cluster_reference scripted_cluster = game_pvs_scripted_get_cluster_reference();
-		if (scripted_cluster.bsp_index != NONE)
+		s_cluster_reference scripted_cluster_reference = game_pvs_scripted_get_cluster_reference();
+		if (scripted_cluster_reference.bsp_index != NONE)
 		{
 			s_scenario_pvs_row object_row{};
-			scenario_zone_set_pvs_get_row(global_scenario_index_get(), &object_row, scenario_zone_set_index_get(), scripted_cluster, false);
+			scenario_zone_set_pvs_get_row(global_scenario_index_get(), &object_row, scenario_zone_set_index_get(), scripted_cluster_reference, false);
 
 			s_game_cluster_bit_vectors object_row_pvs{};
 			scenario_zone_set_pvs_write_row(&object_row_pvs, &object_row);
@@ -1856,17 +1854,14 @@ void __cdecl game_update_pvs()
 				structure_bsp_index != NONE;
 				structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 			{
-				structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
-
-				ASSERT(VALID_COUNT(bsp->clusters.count, MAXIMUM_CLUSTERS_PER_STRUCTURE));
-
-				for (int32 cluster_index = 0; cluster_index < bsp->clusters.count; cluster_index++)
+				const struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
+				for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
 				{
-					s_cluster_reference cluster_reference{};
-					cluster_reference_set(&cluster_reference, structure_bsp_index, cluster_index);
-					if (!game_clusters_test(&game_globals->cluster_pvs, cluster_reference) && game_clusters_test(&object_row_pvs, cluster_reference))
+					s_cluster_reference test_cluster_reference{};
+					cluster_reference_set(&test_cluster_reference, structure_bsp_index, cluster_index);
+					if (!game_clusters_test(&game_globals->cluster_pvs, test_cluster_reference) && game_clusters_test(&object_row_pvs, test_cluster_reference))
 					{
-						g_cluster_activation_reason[structure_bsp_index][cluster_index] = _cluster_activation_reason_scripted_object;
+						cluster_activation_reason->element(structure_bsp_index).element(cluster_index) = _cluster_activation_reason_scripted_object;
 					}
 				}
 			}
@@ -1874,35 +1869,35 @@ void __cdecl game_update_pvs()
 			game_clusters_or(&game_globals->cluster_pvs, &object_row_pvs, &game_globals->cluster_pvs);
 		}
 
-		if (csmemcmp(&cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
+		if (csmemcmp(&previous_cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
 		{
 			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
 				{
-					g_game_systems[system_index].change_pvs_proc(&cluster_pvs, &game_globals->cluster_pvs, false);
+					g_game_systems[system_index].change_pvs_proc(&previous_cluster_pvs, &game_globals->cluster_pvs, false);
 				}
 			}
 		}
 
-		if (csmemcmp(&cluster_pvs_local, &game_globals->cluster_pvs_local, sizeof(s_game_cluster_bit_vectors)))
+		if (csmemcmp(&previous_cluster_pvs_local, &game_globals->cluster_pvs_local, sizeof(s_game_cluster_bit_vectors)))
 		{
 			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
 				{
-					g_game_systems[system_index].change_pvs_proc(&cluster_pvs_local, &game_globals->cluster_pvs_local, true);
+					g_game_systems[system_index].change_pvs_proc(&previous_cluster_pvs_local, &game_globals->cluster_pvs_local, true);
 				}
 			}
 		}
 
-		if (csmemcmp(&cluster_activation, &game_globals->cluster_activation, sizeof(s_game_cluster_bit_vectors)))
+		if (csmemcmp(&previous_cluster_activation, &game_globals->cluster_activation, sizeof(s_game_cluster_bit_vectors)))
 		{
 			for (int32 system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].activation_proc)
 				{
-					g_game_systems[system_index].activation_proc(&cluster_activation, &game_globals->cluster_activation);
+					g_game_systems[system_index].activation_proc(&previous_cluster_activation, &game_globals->cluster_activation);
 				}
 			}
 		}
