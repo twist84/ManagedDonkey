@@ -59,17 +59,34 @@ const char* const k_primary_full_event_log_filename = "debug_full.txt";
 
 s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory)
 {
-	c_static_string<256> reports_file_path;
-	reports_file_path.print("%s", place_in_report_directory ? k_reports_directory_name : k_reports_directory_root_name);
-	reports_file_path.append(name);
-
-	s_file_reference* result = file_reference_create_from_path(reference, reports_file_path.get_string(), false);
-	ASSERT(result != NULL);
-
-	if (result)
+	c_static_string<256> path;
+	if (place_in_report_directory || event_logs_using_subfolder())
 	{
-		file_create_parent_directories_if_not_present(result);
+		path.print("%s", c_debug_output_path().get_path("error_snapshot\\"));
 	}
+	else
+	{
+		path.print("%s", c_debug_output_path().get_root());
+	}
+
+	const char* subfolder = NULL;
+	if (event_logs_get_active_subfolder(&subfolder))
+	{
+		path.append(subfolder);
+		path.append("\\");
+	}
+	else
+	{
+		// $TODO figure this out
+		
+		//path.length();
+	}
+
+	path.append(name);
+
+	s_file_reference* result = file_reference_create_from_path(reference, path.get_string(), false);
+	ASSERT(result != NULL);
+	file_create_parent_directories_if_not_present(result);
 
 	return result;
 }
