@@ -1583,6 +1583,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\spartan_program\spartan_program_handler.hpp" />
     <ClInclude Include="source\structures\cluster_partitions.hpp" />
     <ClInclude Include="source\structures\structures.hpp" />
+    <ClInclude Include="source\structures\structure_bsp_constants.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
     <ClInclude Include="source\structures\structure_detail_objects.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />

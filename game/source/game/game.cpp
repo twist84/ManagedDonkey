@@ -119,6 +119,7 @@ HOOK_DECLARE(0x006961B0, game_launch_get_initial_script_name);
 
 bool g_debug_survival_mode = false;
 
+bool debug_pvs_editor_mode = false;
 t_cluster_activation_reason g_cluster_activation_reason;
 
 const real_argb_color* const k_activation_colors[k_cluster_activation_reason_count]
@@ -181,9 +182,77 @@ void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* clusters0, const
 
 void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* pvs, bool local_only, t_cluster_activation_reason* activation_reason)
 {
-	INVOKE(0x005308B0, game_compute_pvs, pvs, local_only, activation_reason);
+	//INVOKE(0x005308B0, game_compute_pvs, pvs, local_only, activation_reason);
 
-	// $IMPLEMENT `_cluster_activation_reason_scripted_camera` for `g_cluster_activation_reason`
+	csmemset(pvs, 0, sizeof(s_game_cluster_bit_vectors));
+
+	if (game_in_editor() || game_is_ui_shell() || debug_pvs_editor_mode)
+	{
+		int32 user_index = player_mapping_first_active_output_user();
+		if (user_index != NONE)
+		{
+			s_cluster_reference cluster_reference = observer_get_camera(user_index)->location.cluster_reference;
+			if (cluster_reference_valid(&cluster_reference))
+			{
+				s_scenario_pvs_row cluster_row{};
+				scenario_zone_set_pvs_get_row(global_scenario_index_get(), &cluster_row, scenario_zone_set_index_get(), cluster_reference, false);
+				scenario_zone_set_pvs_write_row(pvs, &cluster_row);
+			}
+		}
+	}
+	else
+	{
+		players_compute_combined_pvs(pvs, local_only, activation_reason);
+	}
+
+	if (game_globals->pvs_use_scripted_camera)
+	{
+		s_cluster_reference scripted_camera_cluster_reference = director_get_deterministic_scripted_camera_cluster_reference();
+		if (cluster_reference_valid(&scripted_camera_cluster_reference))
+		{
+			struct structure_bsp* structure_bsp = global_structure_bsp_get(scripted_camera_cluster_reference.bsp_index);
+			s_scenario_pvs_row scripted_camera_row{};
+			s_game_cluster_bit_vectors scripted_camera_pvs{};
+
+			scenario_zone_set_pvs_get_row(global_scenario_index_get(), &scripted_camera_row, scenario_zone_set_index_get(), scripted_camera_cluster_reference, false);
+			scenario_zone_set_pvs_write_row(&scripted_camera_pvs, &scripted_camera_row);
+
+			if (activation_reason)
+			{
+				for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
+					structure_bsp_index != NONE;
+					structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+				{
+					for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
+					{
+						s_cluster_reference test_cluster_reference{};
+						cluster_reference_set(&test_cluster_reference, structure_bsp_index, cluster_index);
+						if (!game_clusters_test(pvs, test_cluster_reference) && game_clusters_test(&scripted_camera_pvs, test_cluster_reference))
+						{
+							activation_reason->element(structure_bsp_index).element(cluster_index) = _cluster_activation_reason_scripted_camera;
+						}
+					}
+				}
+			}
+
+			game_clusters_or(pvs, &scripted_camera_pvs, pvs);
+		}
+	}
+
+	{
+		uns32 active_structure_bsp_mask = g_active_structure_bsp_mask;
+		struct scenario* scenario = global_scenario_get();
+		s_scenario_zone_set* zone_set = TAG_BLOCK_GET_ELEMENT(&scenario->zone_sets, scenario_zone_set_index_get(), s_scenario_zone_set);
+		s_scenario_zone_set_pvs* zone_set_pvs = TAG_BLOCK_GET_ELEMENT(&scenario->zone_set_pvs, zone_set->pvs_index, s_scenario_zone_set_pvs);
+
+		for (int32 structure_bsp_index = 0; structure_bsp_index < 16; structure_bsp_index++)
+		{
+			if (TEST_BIT(zone_set_pvs->structure_bsp_mask, structure_bsp_index) && !TEST_BIT(active_structure_bsp_mask, structure_bsp_index))
+			{
+				pvs->bit_vectors.clear();
+			}
+		}
+	}
 }
 
 bool __cdecl game_clusters_test(const s_game_cluster_bit_vectors* game_cluster_bit_vectors, struct s_cluster_reference structure_reference)

@@ -20,6 +20,7 @@ HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x00539B20, player_find_action_context);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
+HOOK_DECLARE(0x00541310, players_compute_combined_pvs);
 
 bool debug_player_network_aiming = false;
 bool debug_objects_biped_melee_in_range = false;
@@ -857,7 +858,6 @@ void __cdecl players_compute_combined_pvs(s_game_cluster_bit_vectors* combined_p
 		game_clusters_or(combined_pvs, &player_active_pvs, combined_pvs);
 	}
 }
-HOOK_DECLARE(0x00541310, players_compute_combined_pvs);
 
 //.text:00541400 ; void __cdecl players_coop_desire_respawn(int32)
 //.text:00541480 ; void __cdecl players_coop_update_respawn(int32)

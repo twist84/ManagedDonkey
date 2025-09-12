@@ -688,12 +688,19 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_r),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_g),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_b),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_default_lighting),
-
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_trigger_volumes),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_render_all),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_activation),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(pvs_building_disabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_editor_mode),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_default_lighting),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_portals),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_audio_clusters),
+	CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_visible_clusters),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_portals_structure_bsp_index),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_portals_cluster_index),
 
 	//CONSOLE_GLOBAL_DECLARE_LONG(debug_object_index),
 	//CONSOLE_GLOBAL_DECLARE_LONG(debug_objects_type_mask),

@@ -478,7 +478,7 @@ enum e_scenario_zone_set_flags
 struct s_scenario_zone_set
 {
 	c_string_id name;
-	int32 pvs_index;                       // long_block_index
+	int32 pvs_index;                // long_block_index
 	c_flags<e_scenario_zone_set_flags, uns32, k_scenario_zone_set_flags> flags;
 	uns32 bsp_zone_flags;           // long_block_flags
 
@@ -487,10 +487,20 @@ struct s_scenario_zone_set
 
 	uns32 forbidden_designer_zones; // long_block_flags
 	uns32 cinematic_zones;          // long_block_flags
-	int32 hint_previous_zone_set;          // long_block_index
-	int32 audibility_index;                // long_block_index
+	int32 hint_previous_zone_set;   // long_block_index
+	int32 audibility_index;         // long_block_index
 };
 static_assert(sizeof(s_scenario_zone_set) == 0x24);
+
+struct s_scenario_zone_set_pvs
+{
+	uns32 structure_bsp_mask;
+	int32 version;
+	s_tag_block structure_bsp_import_info_checksum_block;
+	s_tag_block structure_bsp_pvs;
+	s_tag_block structure_portal_device_mapping_block;
+};
+static_assert(sizeof(s_scenario_zone_set_pvs) == 0x2C);
 
 struct s_scenario_cinematic_lighting_palette_entry
 {

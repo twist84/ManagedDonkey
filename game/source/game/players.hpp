@@ -6,7 +6,30 @@
 #include "memory/data.hpp"
 #include "objects/damage_reporting.hpp"
 #include "objects/emblems.hpp"
+#include "structures/structures.hpp"
 #include "text/unicode.hpp"
+
+struct s_game_cluster_bit_vectors;
+struct transport_address;
+
+enum e_bungienet_user
+{
+	_bungienet_user_seventh_column = 0,
+	_bungienet_user_bungie_pro,
+	_bungienet_user_bungie,
+	_bungienet_user_default,
+
+	k_bungienet_user_count,
+};
+
+enum e_player_appearance_flags
+{
+	_female_voice_bit = 0,
+	k_number_of_player_appearance_flags
+};
+typedef c_flags_no_init<e_player_appearance_flags, uns8, k_number_of_player_appearance_flags> c_player_appearance_flags;
+typedef c_enum<e_player_model_choice, char, _player_model_choice_first, k_player_model_choice_count> c_player_model_choice;
+typedef c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> c_player_color_index;
 
 struct s_machine_identifier
 {
@@ -14,7 +37,6 @@ struct s_machine_identifier
 };
 static_assert(sizeof(s_machine_identifier) == 0x10);
 
-struct transport_address;
 struct s_player_identifier
 {
 	s_player_identifier();
@@ -38,25 +60,6 @@ struct s_player_identifier
 	//uns16 flags;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
-
-enum e_bungienet_user
-{
-	_bungienet_user_seventh_column = 0,
-	_bungienet_user_bungie_pro,
-	_bungienet_user_bungie,
-	_bungienet_user_default,
-
-	k_bungienet_user_count,
-};
-
-enum e_player_appearance_flags
-{
-	_female_voice_bit = 0,
-	k_number_of_player_appearance_flags
-};
-typedef c_flags_no_init<e_player_appearance_flags, uns8, k_number_of_player_appearance_flags> c_player_appearance_flags;
-typedef c_enum<e_player_model_choice, char, _player_model_choice_first, k_player_model_choice_count> c_player_model_choice;
-typedef c_enum<e_player_color_index, char, _player_color_none, k_player_color_index_count> c_player_color_index;
 
 struct s_player_appearance
 {
@@ -756,6 +759,7 @@ extern bool __cdecl players_all_are_dead();
 extern bool __cdecl players_any_are_dead();
 extern bool __cdecl players_any_are_in_the_air(int32* out_unit_index);
 extern bool __cdecl players_any_are_near_death(int32* out_unit_index);
+extern void __cdecl players_compute_combined_pvs(s_game_cluster_bit_vectors* combined_pvs, bool local_only, t_cluster_activation_reason* activation_reason);
 extern void __cdecl players_detach_from_map();
 extern void __cdecl players_dispose();
 extern void __cdecl players_dispose_from_old_map();

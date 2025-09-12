@@ -1,6 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "structures/structure_bsp_constants.hpp"
+
+typedef c_static_array<c_static_array<int16, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> t_cluster_activation_reason;
 
 extern void __cdecl structures_dispose();
 extern void __cdecl structures_dispose_from_old_map();

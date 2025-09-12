@@ -12,6 +12,7 @@
 #include "game/survival_mode.hpp"
 #include "render/render_visibility_collection.hpp"
 #include "saved_games/game_state.hpp"
+#include "structures/structures.hpp"
 
 enum
 {
@@ -24,9 +25,6 @@ enum
 
 	k_cluster_activation_reason_count,
 };
-
-#define MAXIMUM_CLUSTERS_PER_STRUCTURE 255
-typedef c_static_array<c_static_array<int32, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> t_cluster_activation_reason;
 
 struct s_game_non_bsp_zone_set;
 class c_scenario_resource_registry;
@@ -97,6 +95,7 @@ extern s_game_system const g_game_systems[];
 extern int32 const g_game_system_count;
 
 extern bool g_debug_survival_mode;
+extern bool debug_pvs_editor_mode;
 extern const char* const k_game_simulation_names[k_game_simulation_count];
 extern const char* const k_game_playback_names[k_game_playback_count];
 extern t_cluster_activation_reason g_cluster_activation_reason;
