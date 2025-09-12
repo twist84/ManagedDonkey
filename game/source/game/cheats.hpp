@@ -22,7 +22,7 @@ struct cheat_globals
 static_assert(sizeof(cheat_globals) == 0xC);
 
 extern cheat_globals cheat;
-extern char cheat_strings[k_controller_button_count][200];
+extern char cheat_strings[NUMBER_OF_GAMEPAD_BUTTONS][200];
 
 struct s_game_input_state;
 struct s_tag_reference;
@@ -54,5 +54,5 @@ extern void __cdecl cheats_dispose_from_old_map();
 extern void __cdecl cheats_initialize();
 extern void __cdecl cheats_initialize_for_new_map();
 extern void __cdecl cheats_load();
-extern bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_state* input_state);
+extern bool __cdecl cheats_process_gamepad(int32 user_index, const s_game_input_state* input_state);
 

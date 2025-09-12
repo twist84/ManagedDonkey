@@ -351,16 +351,16 @@ void __cdecl player_control_update_machinima()
 			continue;
 		}
 
-		if (input_state->get_button(_button_action_crouch).down_frames()
-			&& input_state->get_button(_button_action_zoom).down_frames())
+		if (input_state->get_button(_button_crouch).down_frames()
+			&& input_state->get_button(_button_scope_zoom).down_frames())
 		{
-			if (input_state->get_button(_button_action_machinima_camera_control_toggle).down_frames() == 1)
+			if (input_state->get_button(_button_machinima_camera_control_toggle).down_frames() == 1)
 			{
 				player_control_globals->machinima_camera_old_controls = !player_control_globals->machinima_camera_old_controls;
 				user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
 			}
 
-			if (input_state->get_button(_button_action_machinima_camera_debug_toggle).down_frames() == 1)
+			if (input_state->get_button(_button_machinima_camera_debug_toggle).down_frames() == 1)
 			{
 				player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
 				user_interface_play_sound(_ui_global_sound_effect_button_x, NONE);
@@ -439,7 +439,7 @@ void __cdecl player_control_get_controller_input_for_jetpack(int32 input_user_in
 		return;
 
 	bool v0 = false;
-	if (input_states[controller_index]->get_button(_button_action_jump).down_frames() && mover_get_motor_program(unit_index) == 1)
+	if (input_states[controller_index]->get_button(_button_jump).down_frames() && mover_get_motor_program(unit_index) == 1)
 	{
 		bool v1 = TEST_BIT(biped->unit.unit_control_flags, _unit_control_jump_bit);
 		real32 jump_control_ticks = (real32)biped->biped.jump_control_ticks;

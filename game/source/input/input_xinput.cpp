@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 
 #include <windows.h>
+#include <math.h>
 #include <XInput.h>
 
 #if defined(_DEBUG)
@@ -39,26 +40,40 @@ HOOK_DECLARE(0x0065EF60, input_xinput_update_gamepad);
 HOOK_DECLARE(0x0065F220, input_xinput_update_rumble_state);
 HOOK_DECLARE(0x0065F280, input_xinput_update_thumbstick);
 HOOK_DECLARE(0x0065F380, input_xinput_update_button);
-HOOK_DECLARE(0x0065F3D0, input_xinput_update_trigger);
+HOOK_DECLARE(0x0065F3D0, update_threshold);
 
-uns16 xinput_buttons[]
+enum
 {
-	XINPUT_GAMEPAD_DPAD_UP,
-	XINPUT_GAMEPAD_DPAD_DOWN,
-	XINPUT_GAMEPAD_DPAD_LEFT,
-	XINPUT_GAMEPAD_DPAD_RIGHT,
-	XINPUT_GAMEPAD_START,
-	XINPUT_GAMEPAD_BACK,
-	XINPUT_GAMEPAD_LEFT_THUMB,
-	XINPUT_GAMEPAD_RIGHT_THUMB,
-	XINPUT_GAMEPAD_A,
-	XINPUT_GAMEPAD_B,
-	XINPUT_GAMEPAD_X,
-	XINPUT_GAMEPAD_Y,
-	XINPUT_GAMEPAD_LEFT_SHOULDER,
-	XINPUT_GAMEPAD_RIGHT_SHOULDER
+	NUMBER_OF_VIRTUAL_CODES = 256,
+	NUMBER_OF_ASCII_CODES = 128,
+	MAXIMUM_BUFFERED_KEYSTROKES = 64,
+	k_key_was_down_bit = 30,
+	k_trigger_dead_zone = 6,
+	// k_thumbstick_dead_zone = 7864,
 };
-int32 const k_xinput_button_count = NUMBEROF(xinput_buttons);
+
+constexpr real32 k_thumbstick_dead_zone = 0.24f;
+
+static constexpr WORD button_to_xinput_button_mask[] =
+{
+	0,                             // _gamepad_analog_button_left_trigger
+	0,                             // _gamepad_analog_button_right_trigger
+	XINPUT_GAMEPAD_DPAD_UP,        // _gamepad_binary_button_dpad_up
+	XINPUT_GAMEPAD_DPAD_DOWN,      // _gamepad_binary_button_dpad_down
+	XINPUT_GAMEPAD_DPAD_LEFT,      // _gamepad_binary_button_dpad_left
+	XINPUT_GAMEPAD_DPAD_RIGHT,     // _gamepad_binary_button_dpad_right
+	XINPUT_GAMEPAD_START,          // _gamepad_binary_button_start
+	XINPUT_GAMEPAD_BACK,           // _gamepad_binary_button_back
+	XINPUT_GAMEPAD_LEFT_THUMB,     // _gamepad_binary_button_left_thumb
+	XINPUT_GAMEPAD_RIGHT_THUMB,    // _gamepad_binary_button_right_thumb
+	XINPUT_GAMEPAD_A,              // _gamepad_binary_button_a
+	XINPUT_GAMEPAD_B,              // _gamepad_binary_button_b
+	XINPUT_GAMEPAD_X,              // _gamepad_binary_button_x
+	XINPUT_GAMEPAD_Y,              // _gamepad_binary_button_y
+	XINPUT_GAMEPAD_LEFT_SHOULDER,  // _gamepad_binary_button_left_bumper
+	XINPUT_GAMEPAD_RIGHT_SHOULDER, // _gamepad_binary_button_right_bumper
+};
+static_assert(NUMBEROF(button_to_xinput_button_mask) == NUMBER_OF_GAMEPAD_BUTTONS);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
@@ -145,6 +160,52 @@ uns32 __cdecl input_xinput_set_state(uns32 user_index, _XINPUT_VIBRATION* vibrat
 	return XInputSetState_proxy(user_index, vibration);
 }
 
+void update_trigger(uns8 input, uns8* output)
+{
+	uns8 value = input;
+	if (value < k_trigger_dead_zone)
+	{
+		value = 0;
+	}
+
+	*output = value;
+}
+
+void update_thumbstick(int16 input_x, int16 input_y, point2d* output)
+{
+	real32 scale_x = fabsf((real32)(input_x > 0 ? INT16_MAX : INT16_MIN));
+	real32 scale_y = fabsf((real32)(input_y > 0 ? INT16_MAX : INT16_MIN));
+
+	real_vector2d thumbstick;
+	set_real_vector2d(
+		&thumbstick,
+		(real32)input_x / scale_x,
+		(real32)input_y / scale_y);
+
+	real_vector2d thumbstick_l_direction = thumbstick;
+	real32 magnitude = normalize2d(&thumbstick_l_direction);
+	if (magnitude > 1.0f)
+	{
+		thumbstick = thumbstick_l_direction;
+	}
+	else if (magnitude < k_thumbstick_dead_zone)
+	{
+		set_real_vector2d(
+			&thumbstick,
+			0.0f,
+			0.0f);
+	}
+	else
+	{
+		thumbstick = thumbstick_l_direction;
+		real32 adjusted_magnitude = (magnitude - k_thumbstick_dead_zone) / (1.0f - k_thumbstick_dead_zone);
+		scale_vector2d(&thumbstick, adjusted_magnitude, &thumbstick);
+	}
+
+	output->x = (int16)(thumbstick.i * scale_x);
+	output->y = (int16)(thumbstick.j * scale_y);
+}
+
 bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec, gamepad_state* in_out_gamepad_state, debug_gamepad_data* out_debug_gamepad_data)
 {
 	//bool result = INVOKE(0x0065EF60, input_xinput_update_gamepad, gamepad_index, elapsed_msec, in_out_gamepad_state, out_debug_gamepad_data);
@@ -163,48 +224,38 @@ bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec
 		return false;
 	}
 
-	XINPUT_STATE state{};
-	if (!XInputGetState_proxy(gamepad_index, &state))
+	XINPUT_STATE xinput_state{};
+	if (XInputGetState_proxy(gamepad_index, &xinput_state) == ERROR_SUCCESS)
 	{
-		for (int16 trigger_index = 0; trigger_index < 2; trigger_index++)
+		for (long button_index = FIRST_GAMEPAD_BINARY_BUTTON; button_index < NUMBER_OF_GAMEPAD_BUTTONS; button_index++)
 		{
-			uns8& analog_buttons = in_out_gamepad_state->analog_buttons[trigger_index];
-			uns8& analog_button_thresholds = in_out_gamepad_state->analog_button_thresholds[trigger_index];
-			uns8& button_frames = in_out_gamepad_state->button_frames[trigger_index];
-			uns16& button_msec = in_out_gamepad_state->button_msec[trigger_index];
-
-			analog_buttons = trigger_index ? state.Gamepad.bRightTrigger : state.Gamepad.bLeftTrigger;
-			bool trigger_down = analog_buttons > analog_button_thresholds;
-
-			input_xinput_update_button(&button_frames, &button_msec, trigger_down, elapsed_msec);
-			input_xinput_update_trigger(&analog_buttons, trigger_down, (uns8)elapsed_msec);
+			bool binary_down = TEST_MASK(xinput_state.Gamepad.wButtons, button_to_xinput_button_mask[button_index]);
+			update_button(
+				&in_out_gamepad_state->button_frames[button_index],
+				&in_out_gamepad_state->button_msec[button_index],
+				binary_down,
+				elapsed_msec);
 		}
 
-		for (int32 button_index = 0; button_index < k_xinput_button_count; button_index++)
+		update_thumbstick(xinput_state.Gamepad.sThumbLX, xinput_state.Gamepad.sThumbLY, &in_out_gamepad_state->sticks[_gamepad_stick_left]);
+		update_thumbstick(xinput_state.Gamepad.sThumbRX, xinput_state.Gamepad.sThumbRY, &in_out_gamepad_state->sticks[_gamepad_stick_right]);
+
+		update_trigger(xinput_state.Gamepad.bLeftTrigger, &in_out_gamepad_state->analog_buttons[_gamepad_analog_button_left_trigger]);
+		update_trigger(xinput_state.Gamepad.bRightTrigger, &in_out_gamepad_state->analog_buttons[_gamepad_analog_button_right_trigger]);
+
+		for (long button_index = 0; button_index < NUMBER_OF_GAMEPAD_ANALOG_BUTTONS; button_index++)
 		{
-			uns8& button_frames = in_out_gamepad_state->button_frames[_controller_button_dpad_up + button_index];
-			uns16& button_msec = in_out_gamepad_state->button_msec[_controller_button_dpad_up + button_index];
-
-			bool button_down = TEST_MASK(state.Gamepad.wButtons, xinput_buttons[button_index]);
-
-			input_xinput_update_button(&button_frames, &button_msec, button_down, elapsed_msec);
+			bool binary_down = in_out_gamepad_state->analog_buttons[button_index] > in_out_gamepad_state->analog_button_thresholds[button_index];
+			update_button(
+				&in_out_gamepad_state->button_frames[button_index],
+				&in_out_gamepad_state->button_msec[button_index],
+				binary_down,
+				elapsed_msec);
+			update_threshold(
+				&in_out_gamepad_state->analog_button_thresholds[button_index],
+				binary_down,
+				in_out_gamepad_state->analog_buttons[button_index]);
 		}
-
-		// In Halo Online `out_debug_gamepad_data` is NULL, we "fix" that here
-		if (!out_debug_gamepad_data)
-		{
-			out_debug_gamepad_data = &g_debug_gamepad_data[gamepad_index];
-		}
-
-		ASSERT(out_debug_gamepad_data);
-		out_debug_gamepad_data->sticks[0].x = state.Gamepad.sThumbLX;
-		out_debug_gamepad_data->sticks[0].y = state.Gamepad.sThumbLY;
-		out_debug_gamepad_data->sticks[1].x = state.Gamepad.sThumbRX;
-		out_debug_gamepad_data->sticks[1].y = state.Gamepad.sThumbRY;
-
-		input_xinput_update_thumbstick(true, &in_out_gamepad_state->thumb_left, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
-		input_xinput_update_thumbstick(false, &in_out_gamepad_state->thumb_right, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
-
 		return true;
 	}
 
@@ -244,9 +295,9 @@ void __cdecl input_xinput_update_button(uns8* button_frames, uns16* button_msec,
 	*button_msec = button_down ? MIN(*button_msec + (uns16)duration_ms, UNSIGNED_SHORT_MAX) : 0;
 }
 
-void __cdecl input_xinput_update_trigger(uns8* analog_buttons, bool trigger_down, uns8 duration_ms)
+void __cdecl update_threshold(uns8* analog_buttons, bool trigger_down, uns8 duration_ms)
 {
-	//INVOKE(0x0065F3D0, input_xinput_update_trigger, analog_buttons, trigger_down, elapsed_msec);
+	//INVOKE(0x0065F3D0, update_threshold, analog_buttons, trigger_down, elapsed_msec);
 
 	if (trigger_down)
 	{

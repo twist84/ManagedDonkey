@@ -237,7 +237,7 @@ void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 			{
 				s_game_input_state* input_state = NULL;
 				input_abstraction_get_input_state(controller_index, &input_state);
-				bool back_pressed = input_state && input_state->get_button(_button_action_back).down_frames() != 0;
+				bool back_pressed = input_state && input_state->get_button(_button_back).down_frames() != 0;
 
 				if (!current_game_engine() || game_engine_in_round())
 				{

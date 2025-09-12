@@ -41,24 +41,24 @@ void c_debug_menu::update()
 	input_abstraction_get_input_state(_controller0, &input_state);
 	if (get_enabled())
 	{
-		if (input_key_frames_down(_key_up_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_up])
+		if (input_key_frames_down(_key_up_arrow, _input_type_ui) == 1 || state.button_frames[_gamepad_binary_button_dpad_up])
 		{
-			input_state->get_button(_button_action_dpad_up).latch();
+			input_state->get_button(_button_dpad_up).latch();
 			notify_up();
 		}
-		else if (input_key_frames_down(_key_down_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_down])
+		else if (input_key_frames_down(_key_down_arrow, _input_type_ui) == 1 || state.button_frames[_gamepad_binary_button_dpad_down])
 		{
-			input_state->get_button(_button_action_dpad_down).latch();
+			input_state->get_button(_button_dpad_down).latch();
 			notify_down();
 		}
-		else if (input_key_frames_down(_key_left_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_left])
+		else if (input_key_frames_down(_key_left_arrow, _input_type_ui) == 1 || state.button_frames[_gamepad_binary_button_dpad_left])
 		{
-			input_state->get_button(_button_action_dpad_left).latch();
+			input_state->get_button(_button_dpad_left).latch();
 			try_left();
 		}
-		else if (input_key_frames_down(_key_right_arrow, _input_type_ui) == 1 || state.button_frames[_controller_button_dpad_right])
+		else if (input_key_frames_down(_key_right_arrow, _input_type_ui) == 1 || state.button_frames[_gamepad_binary_button_dpad_right])
 		{
-			input_state->get_button(_button_action_dpad_right).latch();
+			input_state->get_button(_button_dpad_right).latch();
 			try_right();
 		}
 		else
@@ -73,18 +73,18 @@ void c_debug_menu::update()
 	if (get_enabled()
 		&& get_num_items() > 0
 		&& get_item(get_selection())->get_active()
-		&& (state.button_frames[_controller_button_a] == 1
+		&& (state.button_frames[_gamepad_binary_button_a] == 1
 			|| input_key_frames_down(_keypad_enter, _input_type_ui) == 1
 			|| input_key_frames_down(_key_return, _input_type_ui) == 1))
 	{
-		input_state->get_button(_button_action_a).latch();
+		input_state->get_button(_button_a).latch();
 		get_item(get_selection())->notify_selected();
 		notify_selected(get_selection());
 	}
-	else if (!state.button_frames[_controller_button_b] &&
-		last_state.button_frames[_controller_button_b] || input_key_frames_down(_key_end, _input_type_ui) == 1)
+	else if (!state.button_frames[_gamepad_binary_button_b] &&
+		last_state.button_frames[_gamepad_binary_button_b] || input_key_frames_down(_key_end, _input_type_ui) == 1)
 	{
-		input_state->get_button(_button_action_b).latch();
+		input_state->get_button(_button_b).latch();
 		close(false);
 	}
 	else

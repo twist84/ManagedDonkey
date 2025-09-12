@@ -3,10 +3,19 @@
 #include "cseries/cseries.hpp"
 #include "input/input_windows.hpp"
 
+enum
+{
+	_debug_key_no_modifier = 0,
+	_debug_key_shift,
+	_debug_key_ctrl,
+	_debug_key_shift_ctrl,
+
+	k_debug_key_modifier_count,
+};
+
 struct debug_key
 {
 	const char* name;
-	//c_enum<e_input_key_code, int16, _key_escape, NUMBER_OF_KEYS> key_code;
 	int16 key_code;
 	int16 modifier;
 	void(__cdecl* function)(bool);
@@ -20,7 +29,6 @@ static_assert(sizeof(debug_key) == 0x14);
 struct s_debug_button
 {
 	const char* name;
-	//c_enum<e_controller_button, int16, _controller_button_left_trigger, k_controller_button_count> gamepad_abstract_button;
 	int16 gamepad_abstract_button;
 	void(__cdecl* function)(bool);
 	bool allow_out_of_game;

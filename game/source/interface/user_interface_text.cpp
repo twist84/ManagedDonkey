@@ -8,12 +8,10 @@
 #include <string.h>
 
 REFERENCE_DECLARE_ARRAY(0x01942C48, s_parse_text_entry, g_parse_text_table, 131);
+REFERENCE_DECLARE(0x052697B1, bool, use_keyboard_hints) = true; // Press <E> to pick up
 REFERENCE_DECLARE(0x052697B8, s_last_known_session_state, g_last_known_session_state);
 
 HOOK_DECLARE(0x00ABC070, parse_build_number_string);
-
-const t_value_type<bool> use_keyboard_hints = { .value = true }; // Press <E> to pick up
-DATA_PATCH_DECLARE(0x052697B1, use_keyboard_hints, use_keyboard_hints.bytes);
 
 bool g_render_text_as_font_index = false;
 

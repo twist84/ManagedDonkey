@@ -230,104 +230,114 @@ enum e_mouse_type
 	k_mouse_type_count
 };
 
-enum e_controller_button
+enum e_gamepad_stick
 {
-	_controller_button_left_trigger = 0,
-	_controller_button_right_trigger,
-	_controller_button_dpad_up,
-	_controller_button_dpad_down,
-	_controller_button_dpad_left,
-	_controller_button_dpad_right,
-	_controller_button_start,
-	_controller_button_back,
-	_controller_button_left_stick,
-	_controller_button_right_stick,
-	_controller_button_a,
-	_controller_button_b,
-	_controller_button_x,
-	_controller_button_y,
-	_controller_button_right_bumper,
-	_controller_button_left_bumper,
+	_gamepad_stick_left = 0,
+	_gamepad_stick_right,
 
-	k_controller_button_count,
-	k_controller_button_none = NONE
+	NUMBER_OF_GAMEPAD_STICKS,
 };
 
-enum e_button_action
+enum e_gamepad_button
 {
-	// e_controller_button
-	_button_action_left_trigger = 0,
-	_button_action_right_trigger,
-	_button_action_dpad_up,
-	_button_action_dpad_down,
-	_button_action_dpad_left,
-	_button_action_dpad_right,
-	_button_action_start,
-	_button_action_back,
-	_button_action_left_stick,
-	_button_action_right_stick,
-	_button_action_a,
-	_button_action_b,
-	_button_action_x,
-	_button_action_y,
-	_button_action_right_bumper,
-	_button_action_left_bumper,
+	FIRST_GAMEPAD_ANALOG_BUTTON = 0x0,
+	_gamepad_analog_button_left_trigger = FIRST_GAMEPAD_ANALOG_BUTTON,
+	_gamepad_analog_button_right_trigger,
+	NUMBER_OF_GAMEPAD_ANALOG_BUTTONS,
 
-	_button_action_jump,
-	_button_action_switch_grenades,
-	_button_action_switch_weapons,
-	_button_action_unknown19,
-	_button_action_reload_right,
-	_button_action_use,
-	_button_action_reload_left,
-	_button_action_pick_up_left,
-	_button_action_melee,
-	_button_action_throw_grenade,
-	_button_action_fire_right,
-	_button_action_fire_left,
+	FIRST_GAMEPAD_BINARY_BUTTON = NUMBER_OF_GAMEPAD_ANALOG_BUTTONS,
+	_gamepad_binary_button_dpad_up = FIRST_GAMEPAD_BINARY_BUTTON,
+	_gamepad_binary_button_dpad_down,
+	_gamepad_binary_button_dpad_left,
+	_gamepad_binary_button_dpad_right,
+	_gamepad_binary_button_start,
+	_gamepad_binary_button_back,
+	_gamepad_binary_button_left_thumb,
+	_gamepad_binary_button_right_thumb,
+	_gamepad_binary_button_a,
+	_gamepad_binary_button_b,
+	_gamepad_binary_button_x,
+	_gamepad_binary_button_y,
+	_gamepad_binary_button_left_bumper,
+	_gamepad_binary_button_right_bumper,
+	NUMBER_OF_GAMEPAD_BUTTONS,
 
-	// fires a weapon with a trigger bound to the melee key
-	_button_action_melee_fire,
+	NUMBER_OF_GAMEPAD_BINARY_BUTTONS = NUMBER_OF_GAMEPAD_BUTTONS - FIRST_GAMEPAD_BINARY_BUTTON,
+	_gamepad_button_unused = 0xFF
+};
 
-	_button_action_crouch,
-	_button_action_zoom,
-	_button_action_unknown31,
-	_button_action_lean_left,
-	_button_action_lean_right, // sprint
-	_button_action_flashlight,
-	_button_machinima_lower_weapon_toggle, // dpad up
-	_button_machinima_camera_enable_toggle, // dpad down
-	_button_action_machinima_camera_control_toggle, // dpad left
-	_button_action_machinima_camera_debug_toggle, // dpad right
-	_button_action_general_chat,
-	_button_action_team_chat,
-	_button_action_voice_chat,
-	_button_action_unknown42,
-	_button_action_unknown43,
-	_button_action_use_consumable_1,
-	_button_action_use_consumable_2,
-	_button_action_use_consumable_3,
-	_button_action_use_consumable_4,
-	_button_action_vehicle_boost,
-	_button_action_vehicle_dive,
-	_button_action_vehicle_raise,
-	_button_action_vehicle_accelerate,
-	_button_action_vehicle_reverse,
-	_button_action_vehicle_fire,
-	_button_action_vehicle_alt_fire,
-	_button_action_vehicle_use,
-	_button_action_next_player,
-	_button_action_prev_player,
-	_button_action_unknown58,
+enum
+{
+	// e_gamepad_button
+	_button_left_trigger = 0,
+	_button_right_trigger,
+	_button_dpad_up,
+	_button_dpad_down,
+	_button_dpad_left,
+	_button_dpad_right,
+	_button_start,
+	_button_back,
+	_button_left_stick,
+	_button_right_stick,
+	_button_a,
+	_button_b,
+	_button_x,
+	_button_y,
+	_button_right_bumper,
+	_button_left_bumper,
 
-	k_button_action_count,
+	_button_jump,
+	_button_switch_grenade,
+	_button_switch_weapon,
+	_button_unknown19,
+	_button_reload_right,
+	_button_use,
+	_button_reload_left,
+	_button_pick_up_left,
+	_button_melee_attack,
+	_button_throw_grenade,
+	_button_fire_primary,
+	_button_fire_secondary,
+	_button_fire_tertiary,
+	_button_crouch,
+	_button_scope_zoom,
+	_button_unknown31,
+	_button_lean_left,
+	_button_lean_right,
+	_button_flashlight,
+	_button_machinima_lower_weapon_toggle,
+	_button_machinima_camera_enable_toggle,
+	_button_machinima_camera_control_toggle,
+	_button_machinima_camera_debug_toggle,
+	_button_general_chat,
+	_button_team_chat,
+	_button_voice_chat,
+	_button_unknown42,
+	_button_unknown43,
+	_button_use_consumable_1,
+	_button_use_consumable_2,
+	_button_use_consumable_3,
+	_button_use_consumable_4,
+	_button_vehicle_boost,
+	_button_vehicle_dive,
+	_button_vehicle_raise,
+	_button_vehicle_accelerate,
+	_button_vehicle_reverse,
+	_button_vehicle_fire,
+	_button_vehicle_alt_fire,
+	_button_vehicle_use,
+	_button_next_player,
+	_button_prev_player,
+	_button_unknown58,
 
-	_button_action_move_forward = k_button_action_count,
-	_button_action_move_back,
-	_button_action_move_left,
-	_button_action_move_right,
+	NUMBER_OF_CONTROL_BUTTONS,
 
-	k_button_action_count_keyboard
+	_button_move_forward = NUMBER_OF_CONTROL_BUTTONS,
+	_button_move_backward,
+	_button_move_left,
+	_button_move_right,
+
+	NUMBER_OF_KEYBOARD_CONTROL_BUTTONS
 };
 
 struct s_input_key_state
@@ -400,13 +410,11 @@ static_assert(sizeof(mouse_state) == 0x2C);
 // based on `XINPUT_STATE`
 struct gamepad_state
 {
-	uns8 analog_buttons[2];
-	uns8 analog_button_thresholds[2];
-	uns8 button_frames[k_controller_button_count];
-	uns16 button_msec[k_controller_button_count];
-
-	point2d thumb_left;
-	point2d thumb_right;
+	uns8 analog_buttons[NUMBER_OF_GAMEPAD_ANALOG_BUTTONS];
+	uns8 analog_button_thresholds[NUMBER_OF_GAMEPAD_ANALOG_BUTTONS];
+	uns8 button_frames[NUMBER_OF_GAMEPAD_BUTTONS];
+	uns16 button_msec[NUMBER_OF_GAMEPAD_BUTTONS];
+	point2d sticks[2];
 };
 static_assert(sizeof(gamepad_state) == 0x3C);
 

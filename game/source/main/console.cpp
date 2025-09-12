@@ -951,7 +951,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_pc_albedo_lighting, c_render_globals::m_render_pc_albedo_lighting),
 
-	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_rate),
 
 	CONSOLE_GLOBAL_DECLARE_LONG2(watermark_enabled, g_watermark_enabled),
 

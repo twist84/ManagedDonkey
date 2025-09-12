@@ -31,6 +31,7 @@ void __cdecl user_interface_matchmaking_get_matchmaking_progress(s_life_cycle_ma
 	}
 	else
 	{
+		user_interface_matchmaking_test_get_fake_progress();
 		csmemcpy(progress_out, &g_test_progress, sizeof(s_life_cycle_matchmaking_progress));
 	}
 }
@@ -58,6 +59,12 @@ bool __cdecl user_interface_matchmaking_squad_set_search_preference(e_matchmakin
 	//return network_squad_session_set_matchmaking_search_preference(value);
 }
 
-//.text:00A98A20 ; void __cdecl user_interface_matchmaking_test_get_fake_progress()
+void __cdecl user_interface_matchmaking_test_get_fake_progress()
+{
+	//INVOKE(0x00A98A20, user_interface_matchmaking_test_get_fake_progress);
+
+	// $IMPLEMENT
+}
+
 //.text:00A98A30 ; void __cdecl user_interface_matchmaking_update_hopper_statistics_for_screen(c_http_blf_simple_downloader<s_dynamic_matchmaking_hopper_statistics>*, uns16*, s_matchmaking_single_hopper_statistics*)
 

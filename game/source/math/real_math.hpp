@@ -480,6 +480,7 @@ extern real32 __cdecl magnitude2d(const real_vector2d* v);
 extern real32 __cdecl magnitude3d(const real_vector3d* v);
 extern real_vector3d* __cdecl negate_vector3d(const real_vector3d* a, real_vector3d* result);
 extern real_rectangle2d* __cdecl offset_real_rectangle2d(real_rectangle2d* rectangle, real32 dx, real32 dy);
+extern real32 __cdecl normalize2d(real_vector2d* v);
 extern real32 __cdecl normalize3d(real_vector3d* v);
 extern real_vector3d* __cdecl perpendicular3d(const real_vector3d* a, real_vector3d* result);
 extern real32 __cdecl plane3d_distance_to_point(const real_plane3d* plane, const real_point3d* point);
@@ -488,6 +489,7 @@ extern real_point2d* __cdecl point_from_line2d(const real_point2d* p, const real
 extern bool __cdecl point_in_sphere(const real_point3d* point, const real_point3d* center, real32 radius);
 extern bool __cdecl point_intersects_rectangle2d(const real_point2d* p, const real_rectangle2d* bounds);
 extern real_vector2d* __cdecl rotate_vector2d(const real_vector2d* v, real32 sine, real32 cosine, real_vector2d* result);
+extern real_vector2d* __cdecl scale_vector2d(const real_vector2d* a, real32 c, real_vector2d* result);
 extern real_vector3d* __cdecl scale_vector3d(const real_vector3d* a, real32 c, real_vector3d* result);
 extern real_point2d* __cdecl set_real_point2d(real_point2d* p, real32 x, real32 y);
 extern real_point3d* __cdecl set_real_point3d(real_point3d* p, real32 x, real32 y, real32 z);

@@ -215,7 +215,7 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 
 	if (user_interface_mouse_globals.left_button_frames_down == 1)
 	{
-		event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
+		event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_a);
 	}
 
 	c_gui_data* data = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
@@ -322,7 +322,7 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 			if (user_interface_mouse_globals.left_button_frames_down == 1 && child_widget == current_focused_widget && !v19)
 			{
 				user_interface_mouse_globals.last_focused_widget = child_widget;
-				event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_a);
+				event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_a);
 			}
 		}
 		else if (user_interface_mouse_globals.last_focused_widget == child_widget)
@@ -375,7 +375,7 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 {
 	if (user_interface_mouse_globals.right_button_frames_down == 1)
 	{
-		event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_action_b);
+		event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_b);
 		return true;
 	}
 

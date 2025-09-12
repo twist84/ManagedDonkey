@@ -31,40 +31,40 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, u
 	event.controller = controller_index;
 	switch (button)
 	{
-	case _button_action_left_trigger:
+	case _button_left_trigger:
 		event.component = _controller_component_button_left_trigger;
 		break;
-	case _button_action_right_trigger:
+	case _button_right_trigger:
 		event.component = _controller_component_button_right_trigger;
 		break;
-	case _button_action_start:
+	case _button_start:
 		event.component = _controller_component_button_start;
 		break;
-	case _button_action_back:
+	case _button_back:
 		event.component = _controller_component_button_back;
 		break;
-	case _button_action_left_stick:
+	case _button_left_stick:
 		event.component = _controller_component_button_left_thumb;
 		break;
-	case _button_action_right_stick:
+	case _button_right_stick:
 		event.component = _controller_component_button_right_thumb;
 		break;
-	case _button_action_a:
+	case _button_a:
 		event.component = _controller_component_button_a;
 		break;
-	case _button_action_b:
+	case _button_b:
 		event.component = _controller_component_button_b;
 		break;
-	case _button_action_x:
+	case _button_x:
 		event.component = _controller_component_button_x;
 		break;
-	case _button_action_y:
+	case _button_y:
 		event.component = _controller_component_button_y;
 		break;
-	case _button_action_right_bumper:
+	case _button_right_bumper:
 		event.component = _controller_component_button_right_shoulder;
 		break;
-	case _button_action_left_bumper:
+	case _button_left_bumper:
 		event.component = _controller_component_button_left_shoulder;
 		break;
 	}

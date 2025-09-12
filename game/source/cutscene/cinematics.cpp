@@ -240,15 +240,15 @@ void cinematic_debug_camera_control_update()
 	//if (!g_cinematic_debugging_enable)
 	//	debug_game_speed = 1.0f;
 	//
-	//if (input_state->get_button(_button_action_left_trigger).down_amount())
-	//	debug_game_speed = 1.0f + (-1.0f * input_state->get_button(_button_action_left_trigger).down_amount());
+	//if (input_state->get_button(_button_left_trigger).down_amount())
+	//	debug_game_speed = 1.0f + (-1.0f * input_state->get_button(_button_left_trigger).down_amount());
 	//
-	//if (input_state->get_button(_button_action_right_trigger).down_amount())
-	//	debug_game_speed = 4.0f * input_state->get_button(_button_action_right_trigger).down_amount();
+	//if (input_state->get_button(_button_right_trigger).down_amount())
+	//	debug_game_speed = 4.0f * input_state->get_button(_button_right_trigger).down_amount();
 	//
-	//if (input_state->get_button(_button_action_y).down_amount())
+	//if (input_state->get_button(_button_y).down_amount())
 	//{
-	//	input_state->get_button(_button_action_y).latch();
+	//	input_state->get_button(_button_y).latch();
 	//
 	//	bool cinematic_render_enable = !g_cinematic_render_enable;
 	//	*console_status_render = cinematic_render_enable;
@@ -256,9 +256,9 @@ void cinematic_debug_camera_control_update()
 	//	g_cinematic_render_enable = cinematic_render_enable;
 	//}
 	//
-	//if (input_state->get_button(_button_action_b).down_frames())
+	//if (input_state->get_button(_button_b).down_frames())
 	//{
-	//	input_state->get_button(_button_action_b).latch();
+	//	input_state->get_button(_button_b).latch();
 	//
 	//	if (fabsf((debug_game_speed - 0.0f)) >= _real_epsilon)
 	//	{
@@ -272,16 +272,16 @@ void cinematic_debug_camera_control_update()
 	//	}
 	//}
 	//
-	//if (input_state->get_button(_button_action_dpad_down).down_amount())
+	//if (input_state->get_button(_button_dpad_down).down_amount())
 	//{
-	//	input_state->get_button(_button_action_dpad_down).latch();
+	//	input_state->get_button(_button_dpad_down).latch();
 	//	debug_game_speed = 1.0f;
 	//	g_cinematic_debugging_enable = true;
 	//}
 	//
 	//if (debug_director_should_camera_mode_change(input_state))
 	//{
-	//	input_state->get_button(_button_action_x).latch();
+	//	input_state->get_button(_button_x).latch();
 	//	if (director_in_scripted_camera())
 	//	{
 	//		int32 user_index = player_mapping_first_active_output_user();

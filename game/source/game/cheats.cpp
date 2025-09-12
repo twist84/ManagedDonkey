@@ -32,7 +32,7 @@
 //HOOK_DECLARE(0x005301F0, cheats_dispose_from_old_map);
 
 cheat_globals cheat = {};
-char cheat_strings[k_controller_button_count][200] = {};
+char cheat_strings[NUMBER_OF_GAMEPAD_BUTTONS][200] = {};
 
 void __cdecl cheat_active_camouflage(bool enable)
 {
@@ -642,7 +642,7 @@ void __cdecl cheats_load()
 	if (fopen_s(&cheats_file, "cheats.txt", "r") == 0 && cheats_file)
 	{
 		char line[200]{};
-		for (int32 controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count && fgets(line, NUMBEROF(line), cheats_file); controller_button++)
+		for (int32 gamepad_button_index = 0; gamepad_button_index < NUMBER_OF_GAMEPAD_BUTTONS && fgets(line, NUMBEROF(line), cheats_file); gamepad_button_index++)
 		{
 			char* line_match = strpbrk(line, "\r\n\t;");
 			if (line_match == line)
@@ -650,14 +650,14 @@ void __cdecl cheats_load()
 				continue;
 			}
 
-			if (controller_button == _controller_button_back || controller_button == _controller_button_start)
+			if (gamepad_button_index == _gamepad_binary_button_start || gamepad_button_index == _gamepad_binary_button_back)
 			{
 				console_printf("Cannot execute cheats attached to the back or start button");
 			}
 			else
 			{
 				*line_match = 0;
-				csstrnzcpy(cheat_strings[controller_button], line, sizeof(cheat_strings[controller_button]));
+				csstrnzcpy(cheat_strings[gamepad_button_index], line, sizeof(cheat_strings[gamepad_button_index]));
 			}
 		}
 
@@ -666,10 +666,10 @@ void __cdecl cheats_load()
 }
 
 // $TODO find used locations and add hooks
-bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_state* input_state)
+bool __cdecl cheats_process_gamepad(int32 user_index, const s_game_input_state* input_state)
 {
-	e_button_action banned_action = static_cast<e_button_action>(game_is_ui_shell() + _button_action_back);
-	if (!cheat.controller_enabled || controller_index == k_no_controller || game_is_networked())
+	int32 banned_action = game_is_ui_shell() + _button_back;
+	if (!cheat.controller_enabled || user_index == NONE || game_is_networked())
 	{
 		return false;
 	}
@@ -679,16 +679,15 @@ bool __cdecl cheats_process_gamepad(int32 controller_index, const s_game_input_s
 		return false;
 	}
 
-	for (int32 controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
+	for (int32 gamepad_button_index = 0; gamepad_button_index < NUMBER_OF_GAMEPAD_BUTTONS; gamepad_button_index++)
 	{
-		e_button_action controller_action = static_cast<e_button_action>(controller_button);
-		const char* cheat_string = cheat_strings[controller_button];
+		const char* cheat_string = cheat_strings[gamepad_button_index];
 
-		if (controller_action != banned_action && *cheat_string && input_state->get_button(controller_action).down_frames() == 1)
+		if (gamepad_button_index != banned_action && *cheat_string && input_state->get_button(gamepad_button_index).down_frames() == 1)
 		{
 			console_printf(cheat_string);
 
-			// $TODO add and implement `hs_compile_and_evaluate`
+			// $IMPLEMENT
 			hs_compile_and_evaluate(_event_message, "cheats", cheat_string, true);
 
 			if (csstrcmp(cheat_string, "(set cheat_controller (not cheat_controller))") == 0)

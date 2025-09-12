@@ -45,7 +45,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 
 		if (game_is_authoritative_playback())
 		{
-			real32 down_amount = input_state->get_button(_button_action_right_trigger).down_amount();
+			real32 down_amount = input_state->get_button(_button_right_trigger).down_amount();
 			if (!player_control_get_machinima_camera_use_old_controls() && down_amount > 0.0f)
 			{
 				m_speed_controlled_by_trigger = true;
@@ -67,7 +67,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 		{
 			bool play_or_eject = false;
 
-			bool x_is_down = input_state->get_button(_button_action_x).is_down();
+			bool x_is_down = input_state->get_button(_button_x).is_down();
 			x_is_down |= input_key_frames_down(_key_x, _input_type_game) != 0;
 			if (!x_is_down && m_show_control_pad_button_pressed)
 			{
@@ -150,7 +150,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 
 		if (!screen_visible)
 		{
-			if (input_state->get_button(_button_action_a).down_frames() == 1)
+			if (input_state->get_button(_button_a).down_frames() == 1)
 			{
 				if (game_is_authoritative_playback())
 				{
@@ -172,7 +172,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 
 			if (!player_control_get_machinima_camera_enabled())
 			{
-				if (input_state->get_button(_button_action_dpad_left).down_frames() == 1)
+				if (input_state->get_button(_button_dpad_left).down_frames() == 1)
 				{
 					if (game_is_authoritative_playback() && saved_film_manager_can_revert(_saved_film_revert_backwards))
 					{
@@ -184,7 +184,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 					}
 				}
 
-				if (input_state->get_button(_button_action_dpad_right).down_frames() == 1)
+				if (input_state->get_button(_button_dpad_right).down_frames() == 1)
 				{
 					if (game_is_authoritative_playback() && saved_film_manager_can_revert(_saved_film_revert_forwards))
 					{

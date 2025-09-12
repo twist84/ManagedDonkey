@@ -665,7 +665,7 @@ s_debug_button g_debug_button_list[]
 {
 	{
 		.name = "drop flag at camera",
-		.gamepad_abstract_button = _controller_button_y,
+		.gamepad_abstract_button = _gamepad_binary_button_y,
 		.function = debug_button_drop_flag_at_camera,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,
@@ -674,7 +674,7 @@ s_debug_button g_debug_button_list[]
 	},
 	{
 		.name = "drop flag as bullet",
-		.gamepad_abstract_button = _controller_button_x,
+		.gamepad_abstract_button = _gamepad_binary_button_x,
 		.function = debug_button_drop_flag_as_projectile,
 		.allow_out_of_game = false,
 		.allow_in_editor = false,

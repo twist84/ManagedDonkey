@@ -690,13 +690,32 @@ real_vector3d* __cdecl negate_vector3d(const real_vector3d* a, real_vector3d* re
 	return result;
 }
 
+real32 __cdecl normalize2d(real_vector2d* v)
+{
+	real32 magnitude = magnitude2d(v);
+	if (fabsf(magnitude - 0.0f) < k_real_epsilon)
+	{
+		magnitude = 0.0f;
+	}
+	else
+	{
+		scale_vector2d(v, 1.0f / magnitude, v);
+	}
+
+	return magnitude;
+}
+
 real32 __cdecl normalize3d(real_vector3d* v)
 {
 	real32 magnitude = magnitude3d(v);
 	if (fabsf(magnitude - 0.0f) < k_real_epsilon)
+	{
 		magnitude = 0.0f;
+	}
 	else
+	{
 		scale_vector3d(v, 1.0f / magnitude, v);
+	}
 
 	return magnitude;
 }
@@ -777,6 +796,14 @@ real_vector2d* __cdecl rotate_vector2d(const real_vector2d* v, real32 sine, real
 {
 	result->i = (cosine * v->i) - (sine * v->j);
 	result->j = (sine * v->i) + (cosine * v->j);
+
+	return result;
+}
+
+real_vector2d* __cdecl scale_vector2d(const real_vector2d* a, real32 c, real_vector2d* result)
+{
+	result->i = c * a->i;
+	result->j = c * a->j;
 
 	return result;
 }
