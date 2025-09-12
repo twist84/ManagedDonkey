@@ -40,7 +40,93 @@ const char eol_characters[] = { '\n', '\r' };
 
 void skip_whitespace(char** c)
 {
-	// $IMPLEMENT
+	// $REVIEW is this actually correct?
+
+	int32 state = _skip_whitespace_state_no_comment;
+
+	while (true)
+	{
+		switch (state)
+		{
+		case _skip_whitespace_state_no_comment:
+		{
+			char* p = *c;
+			char ch = *p;
+
+			if (ch == ';')
+			{
+				if (p[1] == '*')
+				{
+					state = _skip_whitespace_state_block_comment;
+					*c += 2;
+				}
+				else
+				{
+					state = _skip_whitespace_state_comment;
+					*c += 1;
+				}
+			}
+			else if (ch == ' ' || ch == '\t')
+			{
+				*c += 1;
+			}
+			else if (ch == '\n' || ch == '\r')
+			{
+				*c += 1;
+			}
+			else
+			{
+				return;
+			}
+		}
+		break;
+		case _skip_whitespace_state_comment:
+		{
+			char* p = *c;
+			char ch = *p;
+
+			if (!ch)
+			{
+				return;
+			}
+
+			if (ch == '\n' || ch == '\r')
+			{
+				state = _skip_whitespace_state_no_comment;
+			}
+
+			*c += 1;
+		}
+		break;
+		case _skip_whitespace_state_block_comment:
+		{
+			char* p = *c;
+			char ch = *p;
+
+			if (!ch)
+			{
+				return;
+			}
+
+			if (ch == '*' && p[1] == ';')
+			{
+				state = _skip_whitespace_state_no_comment;
+				*c += 2;
+			}
+			else
+			{
+				*c += 1;
+			}
+		}
+		break;
+		default:
+		{
+			VASSERT("unreachable");
+			return;
+		}
+		break;
+		}
+	}
 }
 
 bool hs_parse_object_and_object_name_internal(int32 expression_index, e_hs_type byteswap_type)
@@ -144,7 +230,9 @@ bool hs_parse_real(int32 expression_index)
 	ASSERT(expression->constant_type == expression->type);
 
 	if (*source_offset == '-')
-		++source_offset;
+	{
+		source_offset++;
+	}
 
 	bool result = true;
 	bool error_occurred = false;
@@ -165,7 +253,7 @@ bool hs_parse_real(int32 expression_index)
 		source_offset++;
 	}
 
-	expression->real_value = static_cast<real32>(atof(&hs_compile_globals.compiled_source[expression->source_offset]));
+	expression->real_value = (real32)atof(&hs_compile_globals.compiled_source[expression->source_offset]);
 	return result;
 }
 
@@ -178,7 +266,9 @@ bool hs_parse_integer(int32 expression_index)
 	ASSERT(expression->constant_type == expression->type);
 
 	if (*source_offset == '-')
-		++source_offset;
+	{
+		source_offset++;
+	}
 
 	bool result = true;
 	bool error_occurred = false;
@@ -207,9 +297,11 @@ bool hs_parse_integer(int32 expression_index)
 		result = false;
 	}
 
-	expression->short_value = static_cast<int16>(source_value);
+	expression->short_value = (int16)source_value;
 	if (expression->type == _hs_type_long_integer)
-		expression->long_value = static_cast<int32>(source_value);
+	{
+		expression->long_value = (int32)source_value;
+	}
 
 	return result;
 }
@@ -325,7 +417,9 @@ bool hs_parse_unit_seat_mapping(int32 expression_index)
 
 			s_hs_unit_seat_mapping* found_seat = std::search(seats_blocks_begin, seats_blocks_end, seats_stack_begin, seats_stack_end, hs_unit_seat_mappings_match);
 			if (found_seat != seats_blocks_end)
+			{
 				unit_seat_start_index = found_seat - seats_blocks_begin;
+			}
 		}
 
 		if (unit_seat_start_index != NONE)
@@ -417,7 +511,9 @@ bool hs_parse_ai(int32 expression_index)
 		{
 			expression->long_value = ai_index_from_string_result;
 			if (valid)
+			{
 				expression->constant_type = _hs_type_ai;
+			}
 		}
 	}
 
@@ -538,7 +634,9 @@ bool hs_parse_zone_set(int32 expression_index)
 
 	int32 zone_set_index = NONE;
 	if (global_scenario_try_and_get())
+	{
 		zone_set_index = scenario_get_zone_set_index_by_name(global_scenario_get(), source_offset, tag_name_strip_path(source_offset) == source_offset);
+	}
 
 	if (zone_set_index == NONE)
 	{
@@ -547,7 +645,7 @@ bool hs_parse_zone_set(int32 expression_index)
 		return false;
 	}
 
-	expression->short_value = static_cast<int16>(zone_set_index);
+	expression->short_value = (int16)zone_set_index;
 	return true;
 }
 
@@ -567,7 +665,9 @@ bool hs_parse_designer_zone(int32 expression_index)
 
 	int32 designer_zone_index = NONE;
 	if (global_scenario_try_and_get())
+	{
 		designer_zone_index = scenario_get_designer_zone_index_by_name(global_scenario_get(), source_offset);
+	}
 
 	if (designer_zone_index == NONE)
 	{
@@ -576,7 +676,7 @@ bool hs_parse_designer_zone(int32 expression_index)
 		return false;
 	}
 
-	expression->short_value = static_cast<int16>(designer_zone_index);
+	expression->short_value = (int16)designer_zone_index;
 	return true;
 }
 
@@ -740,7 +840,6 @@ bool hs_parse_tag_reference(int32 expression_index)
 
 	if (expression->long_value == NONE && !hs_compile_globals.permanent)
 	{
-		bool v11 = false;
 		if (char* extension_offset = strrchr(source_offset, '.'))
 		{
 			char* extension = extension_offset + 1;
@@ -754,7 +853,9 @@ bool hs_parse_tag_reference(int32 expression_index)
 		}
 
 		if (expression->long_value == NONE)
+		{
 			expression->long_value = tag_loaded(group_tag, source_offset);
+		}
 	}
 
 	return true;
@@ -1038,7 +1139,7 @@ bool hs_parse_variable(int32 expression_index)
 
 	bool valid = false;
 	int16 type = NONE;
-	bool v9 = false;
+	bool is_parameter = false;
 	if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
 	{
 		expression->short_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
@@ -1047,7 +1148,7 @@ bool hs_parse_variable(int32 expression_index)
 			hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
 			type = script.parameters[expression->short_value].return_type.get();
 
-			v9 = true;
+			is_parameter = true;
 			valid = true;
 		}
 	}
@@ -1066,7 +1167,9 @@ bool hs_parse_variable(int32 expression_index)
 	}
 
 	if (!valid)
+	{
 		return false;
+	}
 
 	ASSERT(type != NONE);
 	if (expression->type.get() && !hs_can_cast(type, expression->type))
@@ -1085,20 +1188,28 @@ bool hs_parse_variable(int32 expression_index)
 	else
 	{
 		if (!expression->type)
+		{
 			expression->type = type;
+		}
 
 		expression->flags.set(_hs_syntax_node_variable_bit, true);
 
-		if (v9)
+		if (is_parameter)
+		{
 			expression->flags.set(_hs_syntax_node_parameter_bit, true);
+		}
 		else
+		{
 			hs_compile_add_reference(expression->long_value, _hs_reference_type_global, expression_index);
+		}
 
 		return true;
 	}
 
 	if (!hs_compile_globals.variables_predetermined)
+	{
 		return false;
+	}
 
 	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_parameter_bit))
 	{
@@ -1133,13 +1244,19 @@ bool hs_parse_primitive(int32 expression_index)
 
 	bool error_occurred = false;
 	if (!hs_compile_globals.variables_predetermined || expression->flags.test(_hs_syntax_node_variable_bit))
+	{
 		error_occurred = hs_parse_variable(expression_index);
+	}
 
 	if (error_occurred || !expression->type.get() || hs_compile_globals.error_message || (!hs_compile_globals.variables_predetermined || !expression->flags.test(_hs_syntax_node_variable_bit)))
+	{
 		return false;
+	}
 
 	if (hs_type_primitive_parser_t* primitive_parser = hs_type_primitive_parsers[expression->type.get()])
+	{
 		return primitive_parser(expression_index);
+	}
 
 	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 		"expressions of type %s are currently unsupported.", hs_type_names[expression->type.get()]);
@@ -1205,7 +1322,9 @@ bool hs_parse_nonprimitive(int32 expression_index)
 			}
 
 			if (!expression->type.get())
+			{
 				expression->type = script.return_type;
+			}
 
 			int16 script_argument_count = hs_count_children(expression_index) - 1;
 			if (script_argument_count != script.parameters.count)
@@ -1230,7 +1349,9 @@ bool hs_parse_nonprimitive(int32 expression_index)
 			}
 
 			if (parse_result)
+			{
 				hs_compile_add_reference(expression->constant_type.get(), _hs_reference_type_script, expression_index);
+			}
 		}
 		else
 		{
@@ -1263,7 +1384,9 @@ bool hs_parse_nonprimitive(int32 expression_index)
 				if (!TEST_BIT(function->flags, 10) || hs_compile_globals.current_script_index == NONE)
 				{
 					if (!expression->type.get() && function->return_type.get() != _hs_passthrough)
+					{
 						expression->type = function->return_type;
+					}
 
 					ASSERT(function->parse);
 					parse_result = function->parse(expression->function_index, expression_index);
@@ -1304,11 +1427,15 @@ bool hs_parse(int32 expression_index, int16 expected_type)
 	ASSERT(hs_type_valid(expected_type) || expected_type == _hs_special_form || expected_type == _hs_unparsed);
 
 	if (expression->type)
+	{
 		return true;
+	}
 
 	expression->type = expected_type;
 	if (!hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+	{
 		return hs_parse_nonprimitive(expression_index);
+	}
 
 	expression->constant_type = expected_type;
 	return hs_parse_primitive(expression_index);
@@ -1345,7 +1472,9 @@ bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 	}
 
 	if (!has_remaining_arguments || (parameter_index == definition->formal_parameter_count && next_node_index == NONE))
+	{
 		return true;
+	}
 
 	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 		"the \"%s\" call requires exactly %d arguments.", definition->name, definition->formal_parameter_count);
@@ -1359,7 +1488,9 @@ bool hs_compile_get_tag_by_name(const char* group_name, tag* group_tag_out)
 {
 	tag group_tag = group_name_to_group_tag(group_name);
 	if (group_tag == NONE)
+	{
 		return false;
+	}
 
 	*group_tag_out = group_tag;
 	return true;
@@ -1421,7 +1552,10 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 		}
 		break;
 		default:
+		{
 			VASSERT("unreachable");
+		}
+		break;
 		}
 	}
 }
@@ -1450,17 +1584,23 @@ void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is
 			if (expression->constant_type == NONE)
 			{
 				if (is_function)
+				{
 					*is_function = hs_find_function_by_name(source_offset, parameter_count) != NONE;
+				}
 
 				if (is_script)
+				{
 					*is_script = hs_find_script_by_name(source_offset, parameter_count) != NONE;
+				}
 			}
 			else
 			{
 				expression->flags.set(_hs_syntax_node_script_bit, true);
 
 				if (is_script)
+				{
 					*is_script = true;
+				}
 			}
 		}
 		else if (is_function)
@@ -1482,10 +1622,12 @@ bool hs_parse_tag_block_element_string_id(int32 expression_index, int32 offset, 
 	bool valid = false;
 	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
-		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<byte*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
+		byte* block_data = (byte*)tag_block_get_element_with_size(block, block_index, element_size);
+
+		string_id block_element_string_id = *(string_id*)(block_data + offset);
 		if (block_element_string_id == string_id_retrieve(source_offset))
 		{
-			expression->short_value = static_cast<int16>(block_index);
+			expression->short_value = (int16)block_index;
 			valid = true;
 			break;
 		}
@@ -1527,10 +1669,10 @@ bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int32 scen
 	bool valid = false;
 	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
-		const char* block_element = static_cast<const char*>(tag_block_get_element_with_size(block, block_index, element_size));
+		const char* block_element = (const char*)tag_block_get_element_with_size(block, block_index, element_size);
 		if (ascii_stricmp(block_element + offset, source_offset) == 0)
 		{
-			expression->short_value = static_cast<int16>(block_index);
+			expression->short_value = (int16)block_index;
 			valid = true;
 			break;
 		}
@@ -1594,10 +1736,14 @@ void hs_compile_initialize(bool permanent)
 			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_global_references);
 	
 		for (int32 i = 0; i < k_maximum_number_of_script_references; i++)
+		{
 			hs_compile_globals.script_references = NULL;
+		}
 
 		for (int32 i = 0; i < k_maximum_number_of_global_references; i++)
+		{
 			hs_compile_globals.global_references = NULL;
+		}
 	}
 }
 
@@ -1642,7 +1788,9 @@ int32 hs_source_pointer_get_line_number(const char* source_pointer, const char* 
 	for (; source < source_pointer; source++)
 	{
 		if (*source == '\n')
+		{
 			line_number++;
+		}
 	}
 
 	return line_number;
@@ -1657,8 +1805,6 @@ struct hs_tokenizer
 
 int32 hs_tokenize(hs_tokenizer* state)
 {
-	// $IMPLEMENT
-
 	ASSERT(!hs_compile_globals.error_message);
 	ASSERT(g_hs_syntax_data);
 	
@@ -1680,9 +1826,13 @@ int32 hs_tokenize(hs_tokenizer* state)
 	expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
 	
 	if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+	{
 		hs_tokenize_primitive(state, expression_index);
+	}
 	else
+	{
 		hs_tokenize_nonprimitive(state, expression_index);
+	}
 	
 	int32 source_offset = expression->source_offset;
 	if (source_offset != NONE && state->source_file_data)
@@ -1697,61 +1847,61 @@ int32 hs_tokenize(hs_tokenizer* state)
 
 void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index)
 {
-	// $IMPLEMENT
-
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32* next_node_index = &expression->long_value;
-	
+
 	expression->source_offset = state->cursor++ - hs_compile_globals.compiled_source;
+
 	if (!hs_compile_globals.error_message)
 	{
 		while (true)
 		{
 			char* cursor = state->cursor;
+
 			skip_whitespace(&state->cursor);
 			if (state->cursor != cursor)
+			{
 				*cursor = 0;
-	
-			char char_ = *state->cursor;
-			if (!char_)
+			}
+
+			char ch = *state->cursor;
+			if (!ch)
+			{
+				hs_compile_globals.error_message = "this left parenthesis is unmatched.";
+				hs_compile_globals.error_offset = expression->source_offset;
 				break;
-	
-			if (char_ == ')')
+			}
+
+			if (ch == ')')
 			{
 				*state->cursor++ = 0;
-				goto LABEL_20;
+				break;
 			}
-	
+
 			*next_node_index = hs_tokenize(state);
 			if (*next_node_index != NONE)
+			{
 				*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
-	
+			}
+
 			if (hs_compile_globals.error_message)
-				goto LABEL_20;
+			{
+				break;
+			}
 		}
-	
-		hs_compile_globals.error_message = "this left parenthesis is unmatched.";
-		hs_compile_globals.error_offset = expression->source_offset;
 	}
-	
-	LABEL_20:;
+
 	if (next_node_index == &expression->long_value && !hs_compile_globals.error_message)
 	{
 		hs_compile_globals.error_message = "this expression is empty.";
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
 }
-
 void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 {
-	hs_syntax_node* expression = NULL;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char* cursor = state->cursor;
 	char current = *cursor;
-
-	if (hs_syntax_get(expression_index))
-	{
-		expression = hs_syntax_get(expression_index);
-	}
 
 	if (current == '"' || current == '{')
 	{
@@ -1763,62 +1913,74 @@ void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 		char terminator = (current == '"') ? '"' : '}';
 		char* c = state->cursor;
 
-		for (; *c; ++c)
+		while (*c && *c != terminator)
 		{
-			if (*c == terminator)
-				break;
+			++c;
 		}
 
 		state->cursor = c;
 
 		if (!*c)
 		{
-			hs_compile_globals.error_message = (current == '"')
-				? "this quoted constant is unterminated."
-				: "this superstring constant is unterminated. (did you forget a '}' ?)";
+			if (current == '"')
+			{
+				hs_compile_globals.error_message = "this quoted constant is unterminated.";
+			}
+			else
+			{
+				hs_compile_globals.error_message = "this superstring constant is unterminated. (did you forget a '}' ?)";
+			}
+
 			hs_compile_globals.error_offset = node->source_offset - 1;
 			return;
 		}
 
 		*state->cursor = 0;
-		++state->cursor;
+		state->cursor++;
 		return;
 	}
 
 	if (expression)
-		expression->source_offset = int32(cursor - hs_compile_globals.compiled_source);
+	{
+		expression->source_offset = (int32)(cursor - hs_compile_globals.compiled_source);
+	}
 
 	for (char* c = state->cursor; *c; ++c)
 	{
 		char ch = *c;
 
 		if (ch == ')' || ch == ';')
+		{
 			break;
+		}
 
-		int found = 0;
-		for (int i = 0; i < 2; ++i)
+		bool is_ws = false;
+
+		for (int32 i = 0; i < NUMBEROF(whitespace_characters); ++i)
 		{
 			if (ch == whitespace_characters[i])
 			{
-				found = 1;
+				is_ws = true;
 				break;
 			}
 		}
 
-		if (found)
-			break;
-
-		for (int i = 0; i < 2; ++i)
+		if (!is_ws)
 		{
-			if (ch == eol_characters[i])
+			for (int32 i = 0; i < NUMBEROF(eol_characters); ++i)
 			{
-				found = 1;
-				break;
+				if (ch == eol_characters[i])
+				{
+					is_ws = true;
+					break;
+				}
 			}
 		}
 
-		if (found)
+		if (is_ws)
+		{
 			break;
+		}
 
 		state->cursor = c + 1;
 	}
@@ -1828,30 +1990,30 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_
 {
 	// $IMPLEMENT
 
-	//hs_tokenizer _tokenizer{};
-	//_tokenizer.source_file_data = source_file_data;
-	//_tokenizer.source_file_size = source_file_size;
-	//if (_tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
+	//hs_tokenizer tokenizer{};
+	//tokenizer.source_file_data = source_file_data;
+	//tokenizer.source_file_size = source_file_size;
+	//if (tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
 	//{
 	//	hs_compile_globals.error_message = NULL;
 	//	*error_message_pointer = NULL;
 	//	hs_compile_globals.error_offset = NONE;
 	//
-	//	skip_whitespace(&_tokenizer.cursor);
-	//	while (*_tokenizer.cursor)
+	//	skip_whitespace(&tokenizer.cursor);
+	//	while (*tokenizer.cursor)
 	//	{
-	//		int32 expression_index = hs_tokenize(&_tokenizer);
-	//		skip_whitespace(&_tokenizer.cursor);
+	//		int32 expression_index = hs_tokenize(&tokenizer);
+	//		skip_whitespace(&tokenizer.cursor);
 	//		if (hs_compile_globals.error_message || !hs_parse_special_form(expression_index))
 	//		{
-	//			if (!hs_compile_globals.error_message)
+	//			if (hs_compile_globals.error_message)
 	//			{
 	//				VASSERT("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
 	//			}
 	//
 	//			*error_message_pointer = hs_compile_globals.error_message;
 	//			*error_offset = hs_compile_globals.error_offset;
-	//			return;
+	//			break;
 	//		}
 	//	}
 	//}
@@ -1884,7 +2046,9 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	//hs_compile_state_initialize(global_scenario_get(), &state);
 	//
 	//if (g_error_output_buffer && verbose)
+	//{
 	//	csstrnzcpy(g_error_output_buffer, "", g_error_buffer_length);
+	//}
 	//
 	//for (hs_source_file& source_file : global_scenario_get()->source_files)
 	//{
@@ -1895,7 +2059,9 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	//{
 	//	success = hs_compile_second_pass(&state, verbose);
 	//	if (!success)
+	//	{
 	//		hs_compile_strip_failed_special_forms(&state);
+	//	}
 	//}
 	//
 	//hs_runtime_require_gc();
@@ -1903,13 +2069,19 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	//if (verbose)
 	//{
 	//	if (success)
+	//	{
 	//		console_printf("scripts successfully compiled.");
+	//	}
 	//	else
+	//	{
 	//		console_printf("script compile errors");
+	//	}
 	//}
 	//
 	//if (!success)
+	//{
 	//	success = !fail_on_error;
+	//}
 	//
 	//hs_compile_dispose();
 	//progress_done();
@@ -1957,7 +2129,9 @@ void hs_compile_dispose()
 
 	//int32 count = 61440;
 	//if (g_hs_syntax_data->maximum_count + 512 < 61440)
+	//{
 	//	count = g_hs_syntax_data->maximum_count + 512;
+	//}
 	//resize_scenario_syntax_data(count);
 }
 
@@ -1986,7 +2160,8 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 	//else
 	//{
 	//	int32 size = global_scenario->hs_string_constants.size;
-	//	if (size < 4096) {
+	//	if (size < 4096)
+	//	{
 	//		event(_event_error, "hs: not enough space to allocate a temporary hs compiled-source buffer! You got yourself into a REALLY weird state! (show Damian)");
 	//		return compiled_expression_index;
 	//	}
@@ -2064,7 +2239,7 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 			*error_message_pointer = hs_compile_globals.error_message;
 			if (hs_compile_globals.error_offset != NONE)
 			{
-				int error_offset = hs_compile_globals.error_offset - compiled_source_offset;
+				int32 error_offset = hs_compile_globals.error_offset - compiled_source_offset;
 				hs_compile_globals.error_offset = error_offset;
 				ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
 				*error_source_pointer = &source_data[error_offset];
@@ -2127,7 +2302,9 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 		const char* error_source = NULL;
 	
 		if (g_hs_syntax_data && g_hs_syntax_data->valid && hs_runtime_safe_to_gc())
+		{
 			hs_node_gc();
+		}
 	
 		hs_compile_initialize(false);
 	
@@ -2143,7 +2320,9 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 		if (expression_index == NONE)
 		{
 			if (error_message)
+			{
 				hs_compile_source_error(NULL, error_message, error_source, expression_buffer);
+			}
 		}
 		else
 		{
@@ -2152,7 +2331,9 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 		}
 	
 		if (g_hs_syntax_data->data == temporary_syntax_data)
+		{
 			data_disconnect(g_hs_syntax_data);
+		}
 	
 		hs_compile_dispose();
 	}
