@@ -253,7 +253,7 @@ e_async_completion __cdecl font_load_callback(s_font_loading_task* in_task)
 					if (font.header_offset < (int32)sizeof(s_font_package_file_header) &&
 						font.header_offset + (int32)sizeof(s_font_header) > g_font_globals.package_file.header.header_data_offset + g_font_globals.package_file.header.header_data_size)
 					{
-						event(_event_error, "package file font #%d header offset %d (size %d) not valid in [%d, %d+%d]",
+						event(_event_error, "fonts: package file font #%d header offset %d (size %d) not valid in [%d, %d+%d]",
 							font_index,
 							font.header_offset,
 							font.header_size,
@@ -278,7 +278,7 @@ e_async_completion __cdecl font_load_callback(s_font_loading_task* in_task)
 						}
 						else
 						{
-							event(_event_error, "package file font #%d header failed to validate",
+							event(_event_error, "fonts: package file font #%d header failed to validate",
 								font_index);
 
 							load_package_file_failed = true;
@@ -292,7 +292,7 @@ e_async_completion __cdecl font_load_callback(s_font_loading_task* in_task)
 				if (!load_package_file_failed)
 				{
 					g_font_globals.font_package_header = &g_font_globals.package_file.header;
-					event(_event_message, "loaded package file '%s' (%d fonts)",
+					event(_event_message, "fonts: loaded package file '%s' (%d fonts)",
 						loading_state->debug_filename,
 						g_font_globals.package_file.header.font_count);
 
@@ -301,7 +301,7 @@ e_async_completion __cdecl font_load_callback(s_font_loading_task* in_task)
 			}
 			else
 			{
-				event(_event_error, "package header failed to validate");
+				event(_event_error, "fonts: package header failed to validate");
 			}
 
 			loaded_font_file = true;

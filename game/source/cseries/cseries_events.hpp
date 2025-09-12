@@ -137,7 +137,7 @@ extern const char* const k_primary_full_event_log_filename;
 extern bool g_events_debug_render_enable;
 
 struct s_file_reference;
-extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, const char* filename, bool use_sub_directory);
+extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory);
 extern void events_clear();
 extern void events_debug_render();
 extern void events_dispose();

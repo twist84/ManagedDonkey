@@ -54,13 +54,13 @@ bool g_events_debug_render_enable = true;
 const char* const k_primary_event_log_filename = "debug.txt";
 const char* const k_primary_full_event_log_filename = "debug_full.txt";
 
-s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, const char* filename, bool use_sub_directory)
+s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory)
 {
 	c_static_string<256> reports_file_path;
-	reports_file_path.print("%s", use_sub_directory ? k_reports_directory_name : k_reports_directory_root_name);
-	reports_file_path.append(filename);
+	reports_file_path.print("%s", place_in_report_directory ? k_reports_directory_name : k_reports_directory_root_name);
+	reports_file_path.append(name);
 
-	s_file_reference* result = file_reference_create_from_path(info, reports_file_path.get_string(), false);
+	s_file_reference* result = file_reference_create_from_path(reference, reports_file_path.get_string(), false);
 	ASSERT(result != NULL);
 
 	if (result)
@@ -69,7 +69,7 @@ s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, c
 	return result;
 }
 
-void __cdecl build_networking_buffer_for_log(char*, int32)
+void __cdecl build_networking_buffer_for_log(char* buffer, int32 buffer_size)
 {
 
 }
@@ -683,6 +683,7 @@ void event_initialize_categories()
 	category->current_remote_log_level = k_event_level_none;
 	category->current_debugger_break_level = k_event_level_none;
 	category->current_halt_level = k_event_level_none;
+	category->current_force_display_level = k_event_level_none;
 	category->depth = 0;
 	category->parent_index = NONE;
 	category->first_child_index = NONE;
