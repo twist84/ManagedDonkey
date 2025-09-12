@@ -74,286 +74,304 @@ void __cdecl build_networking_buffer_for_log(char*, int32)
 
 }
 
-const s_event_category_default_configuration g_log_events[]
+const s_event_category_default_configuration k_event_category_default_configurations[]
 {
 	{
-		"lifecycle:",
-		k_event_level_none,
-		{ 1.0f, 1.0f, 1.0f },
-		_event_message,
-		NULL,
-		NULL,
-		_event_message
+		.name                     = "lifecycle:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = NULL,
+		.log_format_func          = NULL,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"crash:",
-		_event_message,
-		{ 1.0f, 0.1f, 0.1f },
-		_event_message,
-		NULL,
-		NULL,
-		_event_message
+		.name                     = "crash:",
+		.initial_display_level    = _event_message,
+		.initial_display_color    = { 1.0f, 0.1f, 0.1f },
+		.initial_log_level        = _event_message,
+		.log_name                 = NULL,
+		.log_format_func          = NULL,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"animation:",
-		k_event_level_none,
-		{ 1.0f, 1.0f, 0.0f },
-		k_event_level_none,
-		"animation_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "animation:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 1.0f, 0.0f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "animation_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"ai:",
-		k_event_level_none,
-		{ 1.0f, 0.63f, 0.48f },
-		k_event_level_none,
-		"ai_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "ai:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.63f, 0.48f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "ai_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"shaders:",
-		k_event_level_none,
-		{ 0.0f, 0.0f, 1.0f },
-		k_event_level_none,
-		"shaders_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "shaders:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.0f, 0.0f, 1.0f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "shaders_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"geometry:",
-		k_event_level_none,
-		{ 0.0f, 0.0f, 0.8f },
-		k_event_level_none,
-		"geometry_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "geometry:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.0f, 0.0f, 0.8f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "geometry_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"environment:",
-		k_event_level_none,
-		{ 0.0f, 0.0f, 0.6f },
-		k_event_level_none,
-		"environment_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "environment:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.0f, 0.0f, 0.6f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "environment_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"objects:",
-		k_event_level_none,
-		{ 0.4f, 0.1f, 0.4f },
-		k_event_level_none,
-		"objects_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "objects:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.4f, 0.1f, 0.4f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "objects_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"networking:",
-		k_event_level_none,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		"networking_debug.txt",
-		build_networking_buffer_for_log,
-		_event_message
+		.name                     = "networking:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "networking_debug.txt",
+		.log_format_func          = build_networking_buffer_for_log,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"networking:leaderboards:",
-		k_event_level_none,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		"leaderboard_debug.txt",
-		NULL,
-		_event_message
+		.name                     = "networking:leaderboards:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "leaderboard_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"networking:spawning:",
-		k_event_level_none,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		"networking_debug.txt",
-		build_networking_buffer_for_log,
-		k_event_level_none
+		.name                     = "networking:spawning:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "networking_debug.txt",
+		.log_format_func          = build_networking_buffer_for_log,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"networking:camera:",
-		k_event_level_none,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		"networking_debug.txt",
-		build_networking_buffer_for_log,
-		k_event_level_none
+		.name                     = "networking:camera:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "networking_debug.txt",
+		.log_format_func          = build_networking_buffer_for_log,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"datamine:",
-		_event_warning,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		"networking_debug.txt",
-		build_networking_buffer_for_log,
-		_event_message
+		.name                     = "datamine:",
+		.initial_display_level    = _event_warning,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "networking_debug.txt",
+		.log_format_func          = build_networking_buffer_for_log,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"tags:",
-		_event_error,
-		{ 1.0f, 0.0f, 1.0f },
-		_event_warning,
-		"tag_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "tags:",
+		.initial_display_level    = _event_error,
+		.initial_display_color    = { 1.0f, 0.0f, 1.0f },
+		.initial_log_level        = _event_warning,
+		.log_name                 = "tag_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"ui:",
-		k_event_level_none,
-		{ 1.0f, 0.5f, 0.0f },
-		k_event_level_none,
-		"ui_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "ui:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.5f, 0.0f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "ui_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"ui:window_manager:",
-		k_event_level_none,
-		{ 1.0f, 0.5f, 0.0f },
-		_event_message,
-		"ui_debug.txt",
-		NULL,
-		_event_message
+		.name                     = "ui:window_manager:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.5f, 0.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "ui_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"ui:memory_peak:",
-		k_event_level_none,
-		{ 1.0f, 0.5f, 0.0f },
-		_event_message,
-		"ui_debug.txt",
-		NULL,
-		_event_message
+		.name                     = "ui:memory_peak:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.5f, 0.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "ui_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = _event_message
 	},
 	{
-		"sound:",
-		k_event_level_none,
-		{ 0.7f, 0.7f, 0.7f },
-		_event_warning,
-		"sound_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "sound:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.7f, 0.7f, 0.7f },
+		.initial_log_level        = _event_warning,
+		.log_name                 = "sound_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"multiplayer:",
-		k_event_level_none,
-		{ 0.8f, 0.1f, 0.6f },
-		k_event_level_none,
-		"multiplayer_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "multiplayer:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.8f, 0.1f, 0.6f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "multiplayer_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"effects:",
-		k_event_level_none,
-		{ 0.0f, 0.0f, 0.8f },
-		k_event_level_none,
-		"effects_debug.txt",
-		NULL,
-		_event_error
+		.name                     = "effects:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.0f, 0.0f, 0.8f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "effects_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = _event_error
 	},
 	{
-		"animation_audio_content:",
-		k_event_level_none,
-		{ 0.7f, 0.7f, 0.5f },
-		k_event_level_none,
-		"animation_audio_content_debug_4tx_",
-		NULL,
-		k_event_level_none
+		.name                     = "animation_audio_content:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.7f, 0.7f, 0.5f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "animation_audio_content_debug_4tx_",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"environment_materials:",
-		k_event_level_none,
-		{ 0.0f, 0.0f, 0.6f },
-		k_event_level_none,
-		"environment_materials_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "environment_materials:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.0f, 0.0f, 0.6f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "environment_materials_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"object_materials:",
-		k_event_level_none,
-		{ 0.4f, 0.1f, 0.4f },
-		k_event_level_none,
-		"object_materials_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "object_materials:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.4f, 0.1f, 0.4f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "object_materials_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"design:",
-		k_event_level_none,
-		{ 1.0f, 0.63f, 0.48f },
-		k_event_level_none,
-		"design_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "design:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.63f, 0.48f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "design_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"localization:",
-		k_event_level_none,
-		{ 0.0f, 0.0f, 0.0f },
-		k_event_level_none,
-		"localization_debug.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "localization:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 0.0f, 0.0f, 0.0f },
+		.initial_log_level        = k_event_level_none,
+		.log_name                 = "localization_debug.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"hs:",
-		_event_warning,
-		{ 0.5f, 0.8f, 0.3f },
-		_event_message,
-		"hs_log.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "hs:",
+		.initial_display_level    = _event_warning,
+		.initial_display_color    = { 0.5f, 0.8f, 0.3f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "hs_log.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"tags:xsync:",
-		k_event_level_none,
-		{ 1.0f, 1.0f, 0.0f },
-		_event_message,
-		NULL,
-		NULL,
-		k_event_level_none
+		.name                     = "tags:xsync:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 1.0f, 0.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = NULL,
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"tags:cache_builder:",
-		k_event_level_none,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		NULL,
-		NULL,
-		k_event_level_none
+		.name                     = "tags:cache_builder:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = NULL,
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"system:",
-		_event_warning,
-		{ 1.0f, 1.0f, 1.0f },
-		_event_message,
-		"system_log.txt",
-		NULL,
-		k_event_level_none
+		.name                     = "system:",
+		.initial_display_level    = _event_warning,
+		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "system_log.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"cache:",
-		k_event_level_none,
-		{ 1.0f, 0.4f, 0.7f },
-		_event_message,
-		NULL,
-		NULL,
-		k_event_level_none
+		.name                     = "cache:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = NULL,
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 	{
-		"debugger:",
-		k_event_level_none,
-		{ 1.0f, 1.0f, 1.0f },
-		_event_message,
-		NULL,
-		NULL,
-		k_event_level_none
+		.name                     = "bitmaps:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "bitmaps_log.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
+	},
+	{
+		.name                     = "debugger:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = NULL,
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
+	},
+	{
+		.name                     = "bink:",
+		.initial_display_level    = k_event_level_none,
+		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
+		.initial_log_level        = _event_message,
+		.log_name                 = "bink_log.txt",
+		.log_format_func          = NULL,
+		.initial_remote_log_level = k_event_level_none
 	},
 };
 
@@ -675,9 +693,9 @@ void event_initialize_categories()
 	category->event_listeners = 0;
 	event_globals.category_count++;
 
-	for (int32 i = 0; i < NUMBEROF(g_log_events); i++)
+	for (int32 i = 0; i < NUMBEROF(k_event_category_default_configurations); i++)
 	{
-		const s_event_category_default_configuration* log_event = &g_log_events[i];
+		const s_event_category_default_configuration* log_event = &k_event_category_default_configurations[i];
 		int32 category_index = event_category_from_name(log_event->name, true);
 		s_event_category* next_category = event_category_get(category_index);
 		next_category->current_display_level = log_event->initial_display_level;
