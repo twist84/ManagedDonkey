@@ -1505,12 +1505,19 @@ int32 c_event::generate(const char* format, ...)
 {
 	va_list va;
 	va_start(va, format);
+	generate_va(format, va);
+	va_end(va);
 
+	return m_event_category_index;
+}
+
+int32 c_event::generate_va(const char* format, char* argument_list)
+{
 	if (g_recursion_lock)
 	{
 		if (events_initialize_if_possible() && event_globals.enable_events)
 		{
-			event_generate_handle_recursive(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, va);
+			event_generate_handle_recursive(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, argument_list);
 		}
 	}
 	else
@@ -1525,14 +1532,12 @@ int32 c_event::generate(const char* format, ...)
 				m_event_category_index = event_category_from_name(format, true);
 			}
 
-			event_generate(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, va);
+			event_generate(m_event_level, m_event_category_index, m_event_response_suppress_flags, format, argument_list);
 		}
 
 		main_loop_pregame_disable(false);
 		g_recursion_lock = false;
 	}
-
-	va_end(va);
 
 	return m_event_category_index;
 }
@@ -1548,16 +1553,6 @@ void reset_event_message_buffer()
 void __cdecl network_debug_print(const char* format, ...)
 {
 	int32 format_address = (int32)format;
-
-	// no print switch
-	switch (format_address)
-	{
-	case 0x01614860: // "MP/NET/OBSERVER,CTRL: c_network_observer::stream_balance_all_stream_bandwidth: bandwidth balancing with a total bandwidth cap of %d bps between %d streams (%d simulation, %d load-bearing, %d loaded) grow=%08X, start=%08X"
-	case 0x01610560: // "MP/NET/SESSION,PARAMS: c_generic_network_session_parameter<enum e_network_rough_quality>::set: [%s] parameter type %d [%s] being set"
-	case 0x01611EE8: // "MP/NET/LINK,RCV: c_network_link::decode_packet: Received a game-data-only packet that was too big (%d > %d bytes)."
-	case 0x01612028: // "MP/NET/LINK,RCV: c_network_link::read_data_immediate: Read %d-byte packet from invalid address '%s'."
-		return;
-	}
 
 	// format replacement switch
 	// occurrences of `%LX` need to be replaced with `%llX`
@@ -1606,6 +1601,34 @@ void __cdecl network_debug_print(const char* format, ...)
 	case 0x01647B28: // "MP/NET/STUB_LOG_PATH,STUB_LOG_FILTER: network_banhammer_update_controllers: user file for controller %d / %L / %S contains auto download for user %LX slot %d server id %LX"
 		format = "MP/NET/STUB_LOG_PATH,STUB_LOG_FILTER: network_banhammer_update_controllers: user file for controller %d / %L / %S contains auto download for user %llX slot %d server id %llX";
 		break;
+	}
+
+	// event logging
+	{
+		static c_string_builder sb;
+		sb.set(format);
+
+		// strip and replace prefix with `networking: `
+		int32 index = sb.index_of(": ");
+		if (index != NONE)
+		{
+			sb.print("networking: %s", sb.get_offset(index) + 2);
+		}
+
+		va_list list;
+		va_start(list, format);
+		event_va(_event_verbose, sb.get_string(), list);
+		va_end(list);
+	}
+
+	// no print switch
+	switch (format_address)
+	{
+	case 0x01614860: // "MP/NET/OBSERVER,CTRL: c_network_observer::stream_balance_all_stream_bandwidth: bandwidth balancing with a total bandwidth cap of %d bps between %d streams (%d simulation, %d load-bearing, %d loaded) grow=%08X, start=%08X"
+	case 0x01610560: // "MP/NET/SESSION,PARAMS: c_generic_network_session_parameter<enum e_network_rough_quality>::set: [%s] parameter type %d [%s] being set"
+	case 0x01611EE8: // "MP/NET/LINK,RCV: c_network_link::decode_packet: Received a game-data-only packet that was too big (%d > %d bytes)."
+	case 0x01612028: // "MP/NET/LINK,RCV: c_network_link::read_data_immediate: Read %d-byte packet from invalid address '%s'."
+		return;
 	}
 
 	// format replacement switch

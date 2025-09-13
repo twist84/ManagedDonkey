@@ -113,6 +113,7 @@ public:
 
 	bool query();
 	int32 generate(const char* format, ...);
+	int32 generate_va(const char* format, char* argument_list);
 
 protected:
 	e_event_level m_event_level;
@@ -193,6 +194,19 @@ do { \
 	if (local_event.query()) \
 	{ \
 		int32 event_category_index = local_event.generate(__VA_ARGS__); \
+		if (x_event_category_index == NONE) \
+		{ \
+			event_interlocked_compare_exchange(&x_event_category_index, event_category_index, NONE); \
+		} \
+	} \
+} while (false)
+#define event_va(severity, ...) \
+do { \
+	static int32 volatile x_event_category_index = NONE; \
+	c_event local_event(severity, x_event_category_index, 0); \
+	if (local_event.query()) \
+	{ \
+		int32 event_category_index = local_event.generate_va(__VA_ARGS__); \
 		if (x_event_category_index == NONE) \
 		{ \
 			event_interlocked_compare_exchange(&x_event_category_index, event_category_index, NONE); \
