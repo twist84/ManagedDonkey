@@ -740,7 +740,7 @@ public:
 };
 static_assert(sizeof(c_wrapped_flags) == 0x8);
 
-template<typename t_type, typename t_storage_type, int32 k_count>
+template<typename t_type, typename t_storage_type, t_storage_type k_count>
 class c_flags_no_init
 {
 public:
@@ -785,15 +785,14 @@ public:
 
 	bool valid() const
 	{
-		return (m_flags & ~MASK(k_maximum_count)) == 0;
+		static_assert((uns16)~MASK(11) == 0xF800);
+		return !TEST_MASK(m_flags, ~MASK(k_count));
 	}
 
 	bool is_empty() const
 	{
-#pragma warning(push)
-#pragma warning(disable : 4293)
-		return (m_flags & (MASK(SIZEOF_BITS(t_storage_type)) >> (SIZEOF_BITS(t_storage_type) - k_maximum_count))) == 0;
-#pragma warning(pop)
+		static_assert(MASK(11) == 0x7FF);
+		return !TEST_MASK(m_flags, MASK(k_count));
 	}
 
 	t_type count() const
@@ -825,14 +824,14 @@ public:
 	{
 		m_flags |= rsa.m_flags;
 		ASSERT(valid());
-		return this;
+		return *this;
 	}
 
 	c_flags_no_init<t_type, t_storage_type, k_count>& operator&=(const c_flags_no_init<t_type, t_storage_type, k_count>& rsa)
 	{
 		m_flags &= rsa.m_flags;
 		ASSERT(valid());
-		return this;
+		return *this;
 	}
 
 	c_flags_no_init<t_type, t_storage_type, k_count> operator~() const
@@ -875,7 +874,7 @@ protected:
 	t_storage_type m_flags;
 };
 
-template<typename t_type, typename t_storage_type, int32 k_count>
+template<typename t_type, typename t_storage_type, t_storage_type k_count>
 class c_flags :
 	public c_flags_no_init<t_type, t_storage_type, k_count>
 {
