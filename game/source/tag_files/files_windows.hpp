@@ -131,7 +131,7 @@ extern void __cdecl suppress_file_errors(bool suppress);
 extern bool __cdecl file_errors_suppressed();
 extern bool __cdecl file_close(s_file_reference* reference);
 extern int __cdecl file_compare_last_modification_dates(const s_file_last_modification_date* date1, const s_file_last_modification_date* date2);
-extern bool __cdecl file_copy_to(s_file_reference* reference, s_file_reference* other, bool fail_if_not_exists);
+extern bool __cdecl file_copy_to(const s_file_reference* reference, s_file_reference* other, bool fail_if_not_exists);
 extern bool __cdecl file_copy_to_recursive(s_file_reference* reference, s_file_reference* other);
 extern bool __cdecl file_create(s_file_reference* reference);
 extern void __cdecl file_date_format_for_output(s_file_last_modification_date* date, char* buffer, int32 buffer_size);

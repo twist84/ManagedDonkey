@@ -100,7 +100,7 @@ int __cdecl file_compare_last_modification_dates(const s_file_last_modification_
 	return result;
 }
 
-bool __cdecl file_copy_to(s_file_reference* reference, s_file_reference* other, bool fail_if_not_exists)
+bool __cdecl file_copy_to(const s_file_reference* reference, s_file_reference* other, bool fail_if_not_exists)
 {
 	bool result = false;
 	HOOK_INVOKE(result =, file_copy_to, reference, other, fail_if_not_exists);
