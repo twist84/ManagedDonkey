@@ -306,31 +306,22 @@ int32 __cdecl cache_file_get_global_tag_index(tag group_tag)
 	//return INVOKE(0x005017E0, cache_file_get_global_tag_index, group_tag);
 
 	s_cache_file_global_tags_definition* global_tags = TAG_GET(CACHE_FILE_GLOBAL_TAGS_TAG, s_cache_file_global_tags_definition, 0L);
-	if (!global_tags)
-	{
-		return NONE;
-	}
 
-	if (global_tags->references.count <= 0)
+	int32 global_tag_index = NONE;
+	if (global_tags && global_tags->references.count > 0)
 	{
-		return NONE;
-	}
-
-	for (int32 tag_reference_index = 0; tag_reference_index < global_tags->references.count; tag_reference_index++)
-	{
-		s_tag_reference* tag_reference = TAG_BLOCK_GET_ELEMENT(&global_tags->references, tag_reference_index, s_tag_reference);
-		if (!tag_reference)
+		for (int32 tag_reference_index = 0; tag_reference_index < global_tags->references.count; tag_reference_index++)
 		{
-			continue;
-		}
-
-		if (group_tag == tag_reference->group_tag)
-		{
-			return tag_reference->index;
+			s_tag_reference* tag_reference = TAG_BLOCK_GET_ELEMENT(&global_tags->references, tag_reference_index, s_tag_reference);
+			if (tag_reference && group_tag == tag_reference->group_tag)
+			{
+				global_tag_index = tag_reference->index;
+				break;
+			}
 		}
 	}
-	
-	return NONE;
+
+	return global_tag_index;
 }
 
 //.text:00501850 ; 
