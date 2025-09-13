@@ -47,30 +47,33 @@ const int32 SHORT_BITS = SIZEOF_BITS(int16);
 const int32 LONG_BITS = SIZEOF_BITS(int32);
 const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 
-#define FLAG(bit) (1 << (bit))
-#define FLAG_64(bit) (1ULL << (bit))
-#define RANGE(bit) (1 << ((bit) - 1))
-#define MASK(bit) ((1 << (bit)) - 1)
-#define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
+#define FLAG(bit) ((unsigned)1 << (unsigned)(bit))
+#define FLAG_64(bit) (1ULL << (unsigned)(bit))
+#define RANGE(bit) (FLAG((bit) - 1))
+#define MASK(bit) ((RANGE((bit))) | ((bit) <= 1 ? 0 : ((RANGE((bit)) - 1))))
+#define TEST_BIT(flags, bit) (((flags) & FLAG((bit))) != 0)
 #define TEST_RANGE(flags, start_bit, end_bit) (((flags) & (((1 << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
 #define TEST_FLAG(flags, bit) (flags.test((bit)))
 #define TEST_MASK(flags, mask) (((flags) & (mask)) != 0)
-#define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
-#define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
-#define SET_BIT(flags, bit, enable) { if ((enable)) { (flags) |= FLAG((bit)); } else { (flags) &= ~FLAG((bit)); } }
-#define SET_MASK(flags, mask, enable) { if ((enable)) { (flags) |= (mask); } else { (flags) &= ~(mask); } }
+#define ALIGN(value, bit) (((value) & ~(FLAG((bit)) - 1)) + FLAG((bit)))
+#define ALIGN_UP(value, bit) ((((value) & (FLAG((bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
+#define SET_BIT(flags, bit, enable) ((flags) = (enable) ? (flags) | FLAG((bit)) : (flags) & ~FLAG((bit)))
+#define SET_MASK(flags, mask, enable) ((flags) = (enable) ? (flags) | (mask) : (flags) | ~(mask))
 #define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
 
-#define INVALID_ASYNC_TASK_ID -1
+#define INVALID_ASYNC_TASK_ID (-1)
 
 //#define CHAR_MAX char(0x7F)
-#define UNSIGNED_CHAR_MAX uns8(0xFF)
+#define UNSIGNED_CHAR_MAX ((uns8)-1)
+static_assert(UNSIGNED_CHAR_MAX == 0xFF);
 
 //#define SHORT_MAX int16(0x7FFF)
-#define UNSIGNED_SHORT_MAX uns16(0xFFFF)
+#define UNSIGNED_SHORT_MAX ((uns16)-1)
+static_assert(UNSIGNED_SHORT_MAX == 0xFFFF);
 
 //#define LONG_MAX int32(0x7FFFFFFF)
-#define UNSIGNED_LONG_MAX uns32(0xFFFFFFFF)
+#define UNSIGNED_LONG_MAX ((uns32)-1)
+static_assert(UNSIGNED_LONG_MAX == 0xFFFFFFFF);
 
 #define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller0 && (CONTROLLER) < k_number_of_controllers)
 
