@@ -145,6 +145,13 @@ struct s_event_context
 };
 static_assert(sizeof(s_event_context) == 0xC1);
 
+extern bool g_events_debug_render_enable;
+extern const char* const k_error_snapshot_directory;
+extern const char* const k_reports_directory_root_name;
+extern const char* const k_reports_directory_name;
+extern const char* const k_primary_event_log_filename;
+extern const char* const k_primary_full_event_log_filename;
+
 inline thread_local bool g_recursion_lock = false;
 inline thread_local int32 g_event_context_stack_depth = 0;
 inline thread_local int32 g_event_context_stack_failure_depth = 0;
@@ -157,10 +164,6 @@ extern c_read_write_lock g_event_read_write_lock;
 
 extern const char* const k_event_level_names[k_event_level_count + 1];
 extern const char* const k_event_level_severity_strings[k_event_level_count];
-extern const char* const k_primary_event_log_filename;
-extern const char* const k_primary_full_event_log_filename;
-
-extern bool g_events_debug_render_enable;
 
 struct s_file_reference;
 extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory);
@@ -171,6 +174,7 @@ extern const char* events_get();
 extern void events_initialize();
 extern void event_initialize_primary_logs();
 extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
+extern void reset_event_message_buffer();
 extern void __cdecl network_debug_print(const char* format, ...);
 
 //#define USE_CONSOLE_FOR_EVENTS

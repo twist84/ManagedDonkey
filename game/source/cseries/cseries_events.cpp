@@ -23,8 +23,12 @@
 
 HOOK_DECLARE(0x000D858D0, network_debug_print);
 
-const char* const k_reports_directory_name = "reports\\";
+bool g_events_debug_render_enable = true;
+const char* const k_error_snapshot_directory = "error_snapshot\\";
 const char* const k_reports_directory_root_name = "\\";
+const char* const k_reports_directory_name = "reports\\";
+const char* const k_primary_event_log_filename = "debug.txt";
+const char* const k_primary_full_event_log_filename = "debug_full.txt";
 
 s_event_globals event_globals{};
 bool g_events_initialized = false;
@@ -53,41 +57,30 @@ const char* const k_event_level_severity_strings[k_event_level_count]
 	"-FATAL-"
 };
 
-bool g_events_debug_render_enable = true;
-const char* const k_primary_event_log_filename = "debug.txt";
-const char* const k_primary_full_event_log_filename = "debug_full.txt";
-
 s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory)
 {
 	c_static_string<256> path;
 	if (place_in_report_directory || event_logs_using_subfolder())
 	{
-		path.print("%s", c_debug_output_path().get_path("error_snapshot\\"));
+		path.print("%s", c_debug_output_path().get_path(k_error_snapshot_directory));
 	}
 	else
 	{
 		path.print("%s", c_debug_output_path().get_root());
 	}
-
-	const char* subfolder = NULL;
-	if (event_logs_get_active_subfolder(&subfolder))
+	if (event_logs_using_subfolder())
 	{
-		path.append(subfolder);
+		path.append(event_log_globals.subfolder);
 		path.append("\\");
 	}
-	else
-	{
-		// $TODO figure this out
-		
-		//path.length();
-	}
-
 	path.append(name);
 
 	s_file_reference* result = file_reference_create_from_path(reference, path.get_string(), false);
 	ASSERT(result != NULL);
-	file_create_parent_directories_if_not_present(result);
-
+	if (result)
+	{
+		file_create_parent_directories_if_not_present(result);
+	}
 	return result;
 }
 
@@ -407,6 +400,7 @@ bool event_context_get(e_event_context_query_destination_type type, char* buffer
 {
 	csstrnzcpy(buffer, "", buffer_size);
 
+	bool result = false;
 	switch (type)
 	{
 	case _event_context_query_destination_console:
@@ -423,7 +417,7 @@ bool event_context_get(e_event_context_query_destination_type type, char* buffer
 				}
 			}
 		}
-		return true;
+		result = true;
 	}
 	break;
 	case _event_context_query_destination_log:
@@ -446,17 +440,12 @@ bool event_context_get(e_event_context_query_destination_type type, char* buffer
 			csstrnzcat(buffer, event_context.description, buffer_size);
 			csstrnzcat(buffer, depth ? ":" : "]", buffer_size);
 		}
-		return true;
-	}
-	break;
-	case _event_context_query_destination_remote_log:
-	{
-		return false;
+		result = true;
 	}
 	break;
 	}
 
-	return false;
+	return result;
 }
 
 void event_context_pop()
@@ -521,8 +510,7 @@ c_event_context::~c_event_context()
 void events_clear()
 {
 	event_logs_flush();
-	event_globals.message_buffer_size = 0;
-	event_globals.message_buffer[0] = 0;
+	reset_event_message_buffer();
 }
 
 void events_debug_render()
@@ -860,7 +848,6 @@ bool events_initialize_if_possible()
 	{
 		g_event_read_write_lock.setup(k_crit_section_event_rw_lock, 1);
 		g_events_initializing_cookie = true;
-
 		event_globals.enable_events = true;
 		event_globals.disable_event_suppression = false;
 		event_globals.enable_spam_suppression = shell_application_type() != _shell_application_tool;
@@ -870,33 +857,22 @@ bool events_initialize_if_possible()
 		event_globals.current_remote_log_level = _event_warning;
 		event_globals.current_minimum_level = k_event_level_none;
 		event_globals.current_minimum_category_level = k_event_level_none;
-
 		event_globals.event_index = 0;
 		event_globals.event_listeners.set_all(NULL);
-
 		event_globals.console_suppression_old_time = 0;
 		event_globals.console_suppression_count = 0;
 		event_globals.console_suppression_old_line_check_time = 0;
-
 		csmemset(event_globals.spamming_event_list.get_elements(), 0, event_globals.spamming_event_list.get_total_element_size());
-
 		event_globals.permitted_thread_bits = ~(FLAG(k_thread_network_block_detection) | FLAG(k_thread_update));
 		event_globals.disable_event_log_trimming = false;
 		event_globals.disable_event_logging = false;
-
 		event_globals.last_console_response_event_time = 0;
 		event_globals.suppress_console_display_and_show_spinner = (k_tracked_build && shell_application_type() != _shell_application_tool);
-
-		event_globals.message_buffer_size = 0;
-		event_globals.message_buffer[0] = 0;
-
+		reset_event_message_buffer();
 		event_logs_initialize();
 		event_initialize_primary_logs();
-
 		event_globals.category_count = 0;
-
 		event_initialize_categories();
-
 		g_events_initialized = true;
 	}
 
@@ -974,57 +950,58 @@ uns32 event_query(e_event_level event_level, int32 category_index, uns32 event_r
 	uns32 flags = 0;
 	if (event_globals.current_display_level != k_event_level_none)
 	{
-		flags = event_level >= event_globals.current_display_level;
+		SET_BIT(flags, _category_properties_display_level_bit, event_level >= event_globals.current_display_level);
 	}
 
 	if (event_globals.current_log_level != k_event_level_none)
 	{
-		SET_BIT(flags, _category_properties_log_level_bit, event_level >= event_globals.current_log_level);
+		SET_BIT(flags, _category_properties_log_level_bit, event_globals.current_log_level >= event_level);
 	}
 
 	if (event_globals.current_remote_log_level != k_event_level_none)
 	{
-		SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= event_globals.current_remote_log_level);
+		SET_BIT(flags, _category_properties_remote_log_level_bit, event_globals.current_remote_log_level >= event_level);
 	}
 
 	if (category_index != NONE)
 	{
 		s_event_category* category = event_category_get(category_index);
+
 		if (category->current_display_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_display_level_bit, event_level >= category->current_display_level);
+			SET_BIT(flags, _category_properties_display_level_bit, category->current_display_level >= event_level);
 		}
 
 		if (category->current_remote_log_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= category->current_remote_log_level);
+			SET_BIT(flags, _category_properties_remote_log_level_bit, category->current_remote_log_level >= event_level);
 		}
 
 		if (category->current_debugger_break_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_debugger_break_level_bit, event_level >= category->current_debugger_break_level);
+			SET_BIT(flags, _category_properties_debugger_break_level_bit, category->current_debugger_break_level >= event_level);
 		}
 
 		if (category->current_halt_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_halt_level_bit, event_level >= category->current_halt_level);
+			SET_BIT(flags, _category_properties_halt_level_bit, category->current_halt_level >= event_level);
 		}
 
 		if (category->current_force_display_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_force_display_level_bit, event_level >= category->current_force_display_level);
+			SET_BIT(flags, _category_properties_force_display_level_bit, category->current_force_display_level >= event_level);
 		}
 
 	}
 
 	if (!event_globals.disable_event_suppression && TEST_BIT(event_response_suppress_flags, 0))
 	{
-		flags &= ~FLAG(_category_properties_display_level_bit);
+		SET_BIT(flags, _category_properties_display_level_bit, false);
 	}
 
 	if (event_globals.disable_event_logging)
 	{
-		flags &= ~FLAG(_category_properties_log_level_bit);
+		SET_BIT(flags, _category_properties_log_level_bit, false);
 	}
 
 	g_event_read_write_lock.read_unlock();
@@ -1042,9 +1019,10 @@ void add_event_to_spamming_list(const char* event_text, s_event_spamming_list_ad
 
 	g_event_read_write_lock.write_lock();
 
-	for (int32 i = 0; i < event_globals.spamming_event_list.get_count(); i++)
+	int32 spamming_event_count = event_globals.spamming_event_list.get_count();
+	for (int32 spamming_event_index = 0; spamming_event_index < spamming_event_count; spamming_event_index++)
 	{
-		s_spamming_event* spamming_event = &event_globals.spamming_event_list[i];
+		s_spamming_event* spamming_event = &event_globals.spamming_event_list[spamming_event_index];
 		if (spamming_event->valid)
 		{
 			if (csmemcmp(spamming_event->spam_text, event_text, sizeof(spamming_event->spam_text)) == 0)
@@ -1056,7 +1034,7 @@ void add_event_to_spamming_list(const char* event_text, s_event_spamming_list_ad
 		}
 		else if (event_index == NONE)
 		{
-			event_index = i;
+			event_index = spamming_event_index;
 		}
 	}
 
@@ -1089,7 +1067,6 @@ uns32 event_update_spam_prevention(uns32 response_flags, e_event_level event_lev
 		{
 			category->possible_spam_event_count = 0;
 		}
-
 		category->possible_spam_event_count++;
 		category->last_event_time = current_time;
 
@@ -1171,11 +1148,12 @@ void write_to_console(e_event_level event_level, int32 category_index, const cha
 {
 	enum
 	{
-		copy_size = NUMBEROF("[...too many errors to print...]\r\n")-1,
+		copy_size = NUMBEROF("[...too many errors to print...]\r\n") - 1,
 	};
 
 	bool should_update = console_update_spam_prevention(event_level);
-	//display_debug_string(string);
+
+	display_debug_string(string);
 	c_console::write_line(string);
 
 	if (!should_update)
@@ -1264,12 +1242,14 @@ void write_to_console(e_event_level event_level, int32 category_index, const cha
 
 void event_generated_handle_console(e_event_level event_level, int32 category_index, const char* event_text, bool force)
 {
-	if (event_globals.suppress_console_display_and_show_spinner && !force)
+	if (event_globals.suppress_console_display_and_show_spinner)
 	{
-		return;
+		if (!force)
+		{
+			return;
+		}
 	}
-
-	if (force)
+	else if (!force)
 	{
 		event_level = _event_critical;
 	}
@@ -1349,14 +1329,15 @@ void event_generated_handle_log(e_event_level event_level, int32 category_index,
 
 	s_event_category* event_category = event_category_get(category_index);
 
-	decltype(event_category->log_format_func) log_format_func = event_category->log_format_func;
+	void(__cdecl* log_format_func)(char*, int32) = event_category->log_format_func;
 	int32 event_log_index = event_category->event_log_index;
 
 	g_event_read_write_lock.read_unlock();
 
-	char string[2048]{};
+	int32 event_log_count = 0;
 	int32 event_log_indices[6]{};
-	int32 v6 = 0;
+
+	char string[2048]{};
 	if (event_log_index != NONE)
 	{
 		if (log_format_func)
@@ -1366,28 +1347,21 @@ void event_generated_handle_log(e_event_level event_level, int32 category_index,
 			format_event_for_log(string, sizeof(string), event_level, event_category_buffer, buffer, event_text);
 			write_to_event_log(&event_log_index, 1, string);
 		}
-	}
-	else
-	{
-		event_log_indices[0] = event_log_index;
-		v6 = 1;
+		else
+		{
+			event_log_indices[event_log_count++] = event_log_index;
+		}
 	}
 
 	if (event_level >= event_globals.current_log_level)
 	{
-		int32 v9 = v6;
-		int32 v10 = v6 + 1;
-		event_log_indices[v9] = event_globals.external_primary_event_log_index;
-		event_log_indices[v10++] = event_globals.internal_primary_event_log_index;
-		int32 v11 = v10++;
-		event_log_indices[v11] = event_globals.subfolder_internal_primary_event_log_index;
-		event_log_indices[v10] = event_globals.subfolder_internal_primary_full_event_log_index;
-		v6 = v10 + 1;
+		event_log_indices[event_log_count++] = event_globals.external_primary_event_log_index;
+		event_log_indices[event_log_count++] = event_globals.internal_primary_event_log_index;
+		event_log_indices[event_log_count++] = event_globals.subfolder_internal_primary_event_log_index;
+		event_log_indices[event_log_count++] = event_globals.subfolder_internal_primary_full_event_log_index;
 	}
 
-	int32 v12 = v6;
-	int32 event_log_count = v6 + 1;
-	event_log_indices[v12] = event_globals.internal_primary_full_event_log_index;
+	event_log_indices[event_log_count++] = event_globals.internal_primary_full_event_log_index;
 
 	ASSERT(event_log_count <= NUMBEROF(event_log_indices));
 
@@ -1493,41 +1467,38 @@ void event_generate(e_event_level event_level, int32 category_index, uns32 event
 
 void event_generate_handle_recursive(e_event_level event_level, int32 category_index, uns32 event_response_suppress_flags, const char* format, char* argument_list)
 {
-	uns32 flags = event_query(event_level, category_index, event_response_suppress_flags);
-	if (!flags)
+	if (uns32 flags = event_query(event_level, category_index, event_response_suppress_flags))
 	{
-		return;
-	}
+		char buffer[2048]{};
+		cvsnzprintf(buffer, sizeof(buffer), format, argument_list);
+		if (TEST_BIT(flags, _category_properties_remote_log_level_bit))
+		{
+			csstrnzcat(buffer, "(!datamined)", sizeof(buffer));
+		}
+		if (TEST_BIT(flags, _category_properties_log_level_bit))
+		{
+			csstrnzcat(buffer, "(!logged)", sizeof(buffer));
+		}
 
-	char buffer[2048]{};
-	cvsnzprintf(buffer, sizeof(buffer), format, argument_list);
-	if (TEST_BIT(flags, _category_properties_remote_log_level_bit))
-	{
-		csstrnzcat(buffer, "(!datamined)", sizeof(buffer));
-	}
-	if (TEST_BIT(flags, _category_properties_log_level_bit))
-	{
-		csstrnzcat(buffer, "(!logged)", sizeof(buffer));
-	}
+		c_debug_output_path debug_output_path{};
+		FILE* output_file = NULL;
+		fopen_s(&output_file, debug_output_path.get_path("debug_lost.txt"), "a");
+		if (output_file)
+		{
+			char event_context_buffer[2048]{};
+			char file_buffer[2048]{};
 
-	c_debug_output_path debug_output_path{};
-	FILE* output_file = NULL;
-	fopen_s(&output_file, debug_output_path.get_path("debug_lost.txt"), "a");
-	if (output_file)
-	{
-		char event_context_buffer[2048]{};
-		event_context_get(_event_context_query_destination_log, event_context_buffer, sizeof(event_context_buffer));
-	
-		char file_buffer[2048]{};
-		format_event_for_log(file_buffer, sizeof(file_buffer), event_level, NULL, event_context_buffer, buffer);
-		fprintf(output_file, "%s", file_buffer);
-		fclose(output_file);
+			event_context_get(_event_context_query_destination_log, event_context_buffer, sizeof(event_context_buffer));
+			format_event_for_log(file_buffer, sizeof(file_buffer), event_level, NULL, event_context_buffer, buffer);
+			fprintf(output_file, "%s", file_buffer);
+			fclose(output_file);
+		}
+		else
+		{
+			csstrnzcat(buffer, "(!logged)", sizeof(buffer));
+		}
+		display_debug_string(buffer);
 	}
-	else
-	{
-		csstrnzcat(buffer, "(!logged)", sizeof(buffer));
-	}
-	display_debug_string(buffer);
 }
 
 int32 c_event::generate(const char* format, ...)
@@ -1564,6 +1535,12 @@ int32 c_event::generate(const char* format, ...)
 	va_end(va);
 
 	return m_event_category_index;
+}
+
+void reset_event_message_buffer()
+{
+	event_globals.message_buffer_size = 0;
+	event_globals.message_buffer[0] = 0;
 }
 
 // used inplace of `c_event::generate`
