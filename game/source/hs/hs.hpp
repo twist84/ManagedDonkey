@@ -107,7 +107,7 @@ extern hs_syntax_node* __cdecl hs_syntax_get(int32 datum_index);
 extern void __cdecl hs_dispose();
 extern void __cdecl hs_dispose_from_old_map();
 extern int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments);
-extern int16 __cdecl hs_global_get_type(int16 global_index);
+extern int16 __cdecl hs_global_get_type(int16 global_designator);
 extern void __cdecl hs_initialize();
 extern void __cdecl hs_initialize_for_new_map();
 extern void __cdecl hs_node_gc();

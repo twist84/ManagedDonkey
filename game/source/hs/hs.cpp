@@ -4,6 +4,7 @@
 #include "ai/behavior.hpp"
 #include "ai/cl_engine.hpp"
 #include "algorithms/qsort.hpp"
+#include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
@@ -145,20 +146,26 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 	return NONE;
 }
 
-int16 __cdecl hs_global_get_type(int16 global_index)
+int16 __cdecl hs_global_get_type(int16 global_designator)
 {
-	//return INVOKE(0x006792E0, hs_global_get_type, global_index);
+	//return INVOKE(0x006792E0, hs_global_get_type, global_designator);
 
-	if ((global_index & 0x8000) != 0)
+	int16 global_index = global_designator & MASK(15);
+	if (TEST_BIT(global_designator, 15))
 	{
 		if (VALID_INDEX(global_index, k_hs_external_global_count))
-			return hs_global_external_get(global_index & 0x7FFF)->type;
+		{
+			return hs_global_external_get(global_index)->type;
+		}
 
 		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
-			return hs_global_external_get_debug(global_index & 0x7FFF)->type;
+		{
+			return hs_global_external_get_debug(global_index)->type;
+		}
 	}
 
-	return global_scenario_get()->globals[global_index].type;
+	hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->globals, global_index, hs_global_internal);
+	return global->type;
 }
 
 //.text:00679320 ; 
