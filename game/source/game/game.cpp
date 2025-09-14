@@ -238,7 +238,7 @@ void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* pvs, bool local_only, 
 		{
 			if (TEST_BIT(zone_set_pvs->structure_bsp_mask, structure_bsp_index) && !TEST_BIT(active_structure_bsp_mask, structure_bsp_index))
 			{
-				pvs->bit_vectors.clear();
+				pvs->bit_vectors[structure_bsp_index].clear();
 			}
 		}
 	}
