@@ -1,5 +1,6 @@
 #include "hs/hs_runtime.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
@@ -19,12 +20,21 @@ REFERENCE_DECLARE(0x023FF440, bool, debug_scripting);
 REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
 REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
 REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);
+REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
+
+bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
 
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
+HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
-
-const t_value_type<bool> g_cinematic_debug_mode = { .value = true };
-DATA_PATCH_DECLARE(0x024B0A3E, g_cinematic_debug_mode, g_cinematic_debug_mode.bytes);
+HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
+HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
+HOOK_DECLARE(0x005987D0, hs_stack_allocate);
+HOOK_DECLARE(0x005988C0, hs_stack_destination);
+HOOK_DECLARE(0x005988E0, hs_stack_parameters);
+HOOK_DECLARE(0x00598900, hs_stack_pop);
+HOOK_DECLARE(0x00598940, hs_stack_push);
+HOOK_DECLARE(0x00598E70, hs_thread_new);
 
 // this is potentially at address `0x023FF444`,
 // there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
@@ -34,6 +44,11 @@ bool breakpoints_enabled = true;
 
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
+
+bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
+{
+	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
+}
 
 //.text:00593A00 ; void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size)
 //.text:00593A30 ; void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer_size)
@@ -132,15 +147,84 @@ bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type)
 	//return false;
 }
 
-//.text:005943A0 ; int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type, int32 value)
+int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type, int32 value)
+{
+	return INVOKE(0x005943A0, hs_cast, thread_index, actual_type, desired_type, value);
+}
+
 //.text:00594450 ; int32 __cdecl hs_data_to_void(int32 _data)
-//.text:00594460 ; int32* __cdecl hs_destination(hs_thread*, hs_destination_pointer destination_pointer)
+
+int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destination_pointer)
+{
+	return INVOKE(0x00594460, hs_destination, thread, destination_pointer);
+}
+
 //.text:005944F0 ; int32 __cdecl hs_enum_to_real(int32 _enum)
 
-//bool hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
-bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, int32 destination_pointer, int32* out_cast)
+bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
 {
-	return INVOKE(0x00594510, hs_evaluate, thread_index, expression_index, destination_pointer, out_cast);
+	//return INVOKE(0x00594510, hs_evaluate1, thread_index, expression_index, destination_pointer, out_cast);
+
+	bool result = true;
+	hs_thread* thread = hs_thread_get(thread_index);
+	const hs_syntax_node* expression = hs_syntax_get(expression_index);
+	int32 expression_result = NONE;
+
+	if (!expression->flags.test(_hs_syntax_node_primitive_bit))
+	{
+		hs_thread_stack(thread)->child_result = destination_pointer;
+		result = hs_stack_push(thread_index);
+		thread->flags |= FLAG(_hs_thread_in_function_call_bit);
+		hs_thread_stack(thread)->expression_index = expression_index;
+	}
+	else
+	{
+		if (!expression->flags.test(_hs_syntax_node_variable_bit))
+		{
+			expression_result = hs_cast(thread_index, expression->constant_type, expression->type, expression->data);
+		}
+		else if (!expression->flags.test(_hs_syntax_node_parameter_bit))
+		{
+			expression_result = hs_cast(
+				thread_index,
+				hs_global_get_type(expression->short_value),
+				expression->type,
+				hs_global_evaluate(expression->short_value));
+		}
+		else
+		{
+			bool found = false;
+			hs_stack_frame* current_frame = hs_thread_stack(thread);
+			while (current_frame)
+			{
+				if (current_frame->script_index != NONE)
+				{
+					hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, current_frame->script_index, hs_script);
+					hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, expression->long_value, hs_script_parameter);
+					int32* parameters = hs_stack_parameters(thread, current_frame, expression->long_value + 1);
+					expression_result = hs_cast(thread_index, parameter->return_type, expression->type, parameters[expression->long_value]);
+
+					found = true;
+					break;
+				}
+				current_frame = hs_stack(thread, current_frame->parent);
+			}
+			ASSERT(found);
+		}
+
+		int32* destination = (int32*)hs_destination(thread, destination_pointer);
+		if (destination)
+		{
+			*destination = expression_result;
+		}
+	}
+
+	if (out_cast)
+	{
+		*out_cast = expression_result;
+	}
+
+	return result;
 }
 
 //.text:00594680 ; void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bool a3)
@@ -165,7 +249,12 @@ int32 __cdecl hs_find_thread_by_name(const char* script_name)
 }
 
 //.text:00596130 ; int32 __cdecl hs_find_thread_by_script(int16 script_index)
-//.text:005961D0 ; int32 __cdecl hs_global_evaluate(int16 global_index)
+
+int32 __cdecl hs_global_evaluate(int16 global_designator)
+{
+	return INVOKE(0x005961D0, hs_global_evaluate, global_designator);
+}
+
 //.text:00596230 ; void __cdecl hs_global_reconcile_read(int16 global_index)
 //.text:00596C10 ; void __cdecl hs_global_reconcile_write(int16 global_index)
 //.text:00596F50 ; void __cdecl hs_handle_deleted_object(int32 object_index)
@@ -178,35 +267,38 @@ int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_ind
 {
 	//return INVOKE(0x005972F0, hs_macro_function_evaluate, function_index, thread_index, initialize);
 
-	const hs_function_definition* function = hs_function_get(function_index);
-	const char* function_name = hs_function_table_names[function_index];
+	const hs_function_definition* function_definition = hs_function_get(function_index);
 	
-	int32* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, initialize);
-	if (parameters)
+	int32* results = hs_arguments_evaluate(thread_index, function_definition->formal_parameter_count, function_definition->formal_parameters, initialize);
+
+	if (results)
 	{
-		hs_thread* thread = hs_thread_get(thread_index);
+		const hs_thread* thread = hs_thread_get(thread_index);
 		if (hs_verbose || TEST_BIT(thread->flags, _hs_thread_verbose_bit))
 		{
-			char buffer[10240];
-			csnzprintf(buffer, sizeof(buffer), "%s: %s ", hs_thread_format(thread_index), function_name);
-			if (parameters)
+			char buffer[10240]{};
+			csnzprintf(buffer, sizeof(buffer), "%s: %s ",
+				hs_thread_format(thread_index),
+				hs_function_table_names[function_index]);
+
+			for (int32 param_index = 0; param_index < function_definition->formal_parameter_count; param_index++)
 			{
-				for (int32 parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
-				{
-					char valuebuffer[100]{};
-					inspect_internal(function->formal_parameters[parameter_index], parameters[parameter_index], valuebuffer, sizeof(valuebuffer));
-					csnzappendf(buffer, sizeof(buffer), "%s ", valuebuffer);
-				}
+				char valuebuffer[100]{};
+				inspect_internal(function_definition->formal_parameters[param_index], results[param_index], valuebuffer, sizeof(valuebuffer));
+				csnzappendf(buffer, sizeof(buffer), "%s ", valuebuffer);
 			}
 	
-			int32 expression_index = hs_thread_stack(thread)->expression_index;
-			if (expression_index != NONE)
-				csnzappendf(buffer, sizeof(buffer), "   (line #%i)", hs_syntax_get(expression_index)->line_number);
+			if (hs_thread_stack(thread)->expression_index != NONE)
+			{
+				hs_syntax_node* expression = hs_syntax_get(hs_thread_stack(thread)->expression_index);
+				csnzappendf(buffer, sizeof(buffer), "   (line #%i)", expression->line_number);
+			}
 	
 			event(_event_warning, "hs: %s", buffer);
 		}
 	}
-	return parameters;
+
+	return results;
 }
 
 //.text:00597320 ; int32 __cdecl hs_object_index_from_name_index(int32, int16)
@@ -253,10 +345,54 @@ int32 __cdecl hs_runtime_index_from_global_designator(int32 designator)
 	return INVOKE(0x005978A0, hs_runtime_index_from_global_designator, designator);
 }
 
-//.text:005978D0 ; void __cdecl hs_runtime_initialize()
-//.text:00597A80 ; void __cdecl hs_runtime_initialize_for_new_map()
-//.text:00597C70 ; void __cdecl hs_runtime_initialize_threads()
-//.text:00597CF0 ; bool __cdecl hs_runtime_initialized()
+void __cdecl hs_runtime_initialize()
+{
+	INVOKE(0x005978D0, hs_runtime_initialize);
+}
+
+void __cdecl hs_runtime_initialize_for_new_map()
+{
+	INVOKE(0x00597A80, hs_runtime_initialize_for_new_map);
+}
+
+void __cdecl hs_runtime_initialize_threads()
+{
+	//INVOKE(0x00597C70, hs_runtime_initialize_threads);
+
+	if (global_scenario_index_get() != NONE)
+	{
+		const struct scenario* scenario = global_scenario_get();
+		for (int32 script_index = 0; script_index < scenario->scripts.count; script_index++)
+		{
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->scripts, script_index, hs_script);
+
+			bool create_thread_for_script = game_is_predicted() ?
+				script->script_type == _hs_script_type_startup :
+				script->script_type == _hs_script_type_startup || script->script_type == _hs_script_type_dormant || script->script_type == _hs_script_type_continuous;
+
+			if (create_thread_for_script)
+			{
+				int32 new_thread_index = hs_thread_new(_hs_thread_type_script, script_index, true);
+				if (new_thread_index == NONE)
+				{
+					VASSERT("ran out of script threads.");
+				}
+
+				if (hs_verbose)
+				{
+					event(_event_warning, "hs: CREATED %s",
+						hs_thread_format(new_thread_index));
+				}
+			}
+		}
+	}
+}
+
+bool __cdecl hs_runtime_initialized()
+{
+	return INVOKE(0x00597CF0, hs_runtime_initialized);
+}
+
 //.text:00597D10 ; int32 __cdecl hs_runtime_internal_evaluate(int32)
 
 bool __cdecl hs_runtime_nondeterministic_threads_running()
@@ -264,7 +400,22 @@ bool __cdecl hs_runtime_nondeterministic_threads_running()
 	return INVOKE(0x00597DD0, hs_runtime_nondeterministic_threads_running);
 }
 
-//.text:00597DE0 ; void __cdecl hs_runtime_push_script(int16)
+void __cdecl hs_runtime_push_script(int16 script_index)
+{
+	//INVOKE(0x00597DE0, hs_runtime_push_script, script_index);
+
+	int32 thread_index = hs_runtime_globals->executing_thread_index;
+	if (thread_index != NONE)
+	{
+		hs_thread* thread = hs_thread_get(thread_index);
+		hs_stack_frame* frame = hs_thread_stack(thread);
+		int32 expression_index = frame->expression_index;
+		hs_script_evaluate(script_index, thread_index, frame->child_result.destination_type != _hs_destination_stack);
+		hs_stack_push(thread_index);
+		hs_thread_stack(thread)->expression_index = expression_index;
+	}
+}
+
 //.text:00597E60 ; void __cdecl hs_runtime_require_gc()
 //.text:00597E80 ; void __cdecl hs_runtime_require_object_list_gc()
 //.text:00597EA0 ; void __cdecl hs_runtime_reset()
@@ -275,20 +426,30 @@ int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type scrip
 {
 	//return INVOKE(0x00598050, hs_runtime_script_begin, script_index, script_type, thread_type);
 
-	struct scenario* scenario = global_scenario_get();
-	if (!scenario)
-		return NONE;
+	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
 
-	if (script_index < 0 || script_index >= scenario->scripts.count)
-		return NONE;
+	int32 thread_index = NONE;
 
-	hs_script& script = scenario->scripts[script_index];
-	if (script.script_type != script_type)
-		return NONE;
-
-	int32 thread_index = hs_thread_new(thread_type, script_index, true);
-	if (thread_index != NONE)
-		hs_evaluate(thread_index, script.root_expression_index, 3, NULL);
+	if (script->script_type == script_type)
+	{
+		thread_index = hs_thread_new(thread_type, script_index, true);
+		if (thread_index != NONE)
+		{
+			hs_destination_pointer destination{};
+			if (hs_verbose)
+			{
+				event(_event_warning, "hs: SCRIPT STARTED %s",
+					hs_thread_format(thread_index));
+			}
+			destination.destination_type = _hs_destination_thread_result;
+			hs_evaluate(thread_index, script->root_expression_index, destination, NULL);
+		}
+	}
+	else
+	{
+		event(_event_warning, "Error: script is not of type #%ld",
+			script_type);
+	}
 
 	return thread_index;
 }
@@ -298,7 +459,11 @@ void __cdecl hs_runtime_update()
 	INVOKE(0x005980C0, hs_runtime_update);
 }
 
-//.text:005981D0 ; void __cdecl hs_script_evaluate(int16 function_index, int32 thread_index, bool initialize)
+void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x005981D0, hs_script_evaluate, script_index, thread_index, initialize);
+}
+
 //.text:00598570 ; bool __cdecl hs_script_finished(const char* script_name)
 //.text:005985C0 ; bool __cdecl hs_script_started(const char* script_name)
 //.text:00598610 ; void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enable)
@@ -308,16 +473,191 @@ void __cdecl hs_runtime_update()
 //.text:00598740 ; int32 __cdecl hs_short_to_boolean(int32 s)
 //.text:00598760 ; int32 __cdecl hs_short_to_long(int32 s)
 //.text:00598770 ; int32 __cdecl hs_short_to_real(int32 s)
-//.text:00598790 ; hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer)
-//.text:005987B0 ; const hs_stack_frame* __cdecl hs_stack(const hs_thread* thread, hs_stack_pointer stack_pointer)
-//.text:005987D0 ; void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference)
-//.text:005988C0 ; int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer)
-//.text:005988E0 ; int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count)
-//.text:00598900 ; void __cdecl hs_stack_pop(int32 thread_index)
-//.text:00598940 ; bool __cdecl hs_stack_push(int32 thread_index)
+
+hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer)
+{
+	//return INVOKE(0x00598790, hs_stack, thread, stack_pointer);
+	//return DECLFUNC(0x00598790, hs_stack_frame*, __cdecl, hs_thread*, hs_stack_pointer)(thread, stack_pointer);
+
+	ASSERT(stack_pointer.stack_offset >= 0 && stack_pointer.stack_offset + sizeof(struct hs_stack_frame) <= sizeof(thread->stack_data));
+
+	hs_stack_frame* result = (hs_stack_frame*)&thread->stack_data[stack_pointer.stack_offset];
+	return result;
+}
+
+const hs_stack_frame* __cdecl hs_stack(const hs_thread* thread, hs_stack_pointer stack_pointer)
+{
+	//return INVOKE(0x005987B0, hs_stack, thread, stack_pointer);
+	//return DECLFUNC(0x005987B0, const hs_stack_frame*, __cdecl, const hs_thread*, hs_stack_pointer)(thread, stack_pointer);
+
+	ASSERT(stack_pointer.stack_offset >= 0 && stack_pointer.stack_offset + sizeof(struct hs_stack_frame) <= sizeof(thread->stack_data));
+
+	const hs_stack_frame* result = (const hs_stack_frame*)&thread->stack_data[stack_pointer.stack_offset];
+	return result;
+}
+
+void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference)
+{
+	//return INVOKE(0x005987D0, hs_stack_allocate, thread_index, size, alignment_bits, out_reference);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	hs_stack_frame* frame = hs_thread_stack(thread);
+	int32 unaligned_offset = thread->stack.stack_offset + sizeof(hs_stack_frame) + frame->size;
+	void* unaligned_result = align_pointer(&thread->stack_data[unaligned_offset], alignment_bits);
+	int32 alignment_pad = pointer_distance(&thread->stack_data[unaligned_offset], unaligned_result);
+	void* result = NULL;
+
+	ASSERT(alignment_bits <= 4);
+	//if (!valid_thread(thread_index))
+	//{
+	//	VASSERT(c_string_builder("a problem occurred while executing the script %s: %s (%s)",
+	//		"corrupted stack.",
+	//		"valid_thread(thread_index)").get_string());
+	//}
+	//if (!size)
+	//{
+	//	VASSERT(c_string_builder("a problem occurred while executing the script %s: %s (%s)",
+	//		hs_thread_format(thread_index),
+	//		"attempt to allocate zero space from the stack.",
+	//		"size").get_string());
+	//}
+	ASSERT(alignment_pad >= 0);
+
+	int32 allocation_offset = alignment_pad + unaligned_offset;
+	if (allocation_offset + size > sizeof(thread->stack_data))
+	{
+		*(int16*)allocation_offset = -1;
+		thread->flags |= FLAG(_hs_thread_terminate_bit);
+		thread->stack.stack_offset = 0;
+
+		event(_event_critical, "thread %s STACK OVERFLOW. Terminating thread.",
+			hs_thread_format(thread_index));
+	}
+	else
+	{
+		ASSERT(allocation_offset >= 0);
+		result = &thread->stack_data[allocation_offset];
+		frame->size += (int16)(alignment_pad + size);
+
+		ASSERT(thread->stack.stack_offset + (int32)sizeof(struct hs_stack_frame) + frame->size == allocation_offset + size);
+
+		if (alignment_pad > 0)
+		{
+			csmemset(&thread->stack_data[unaligned_offset], 0, alignment_pad);
+		}
+
+		if (!(allocation_offset % sizeof(int32)) && size < sizeof(int32))
+		{
+			csmemset(&((byte*)result)[size], 0, sizeof(int32) - size);
+		}
+	}
+
+	if (out_reference)
+	{
+		out_reference->stack_offset = (int16)allocation_offset;
+	}
+
+	return result;
+}
+
+int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer)
+{
+	//return INVOKE(0x005988C0, hs_stack_destination, thread, stack_pointer);
+
+	int32* results = (int32*)&thread->stack_data[stack_pointer.stack_offset];
+	return results;
+}
+
+int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count)
+{
+	//return INVOKE(0x005988E0, hs_stack_parameters, thread, stack_frame, parameter_count);
+
+	ASSERT(stack_frame->parameters.stack_offset >= 0 && stack_frame->parameters.stack_offset + parameter_count * sizeof(int32) <= sizeof(thread->stack_data));
+	int32* results = (int32*)&thread->stack_data[stack_frame->parameters.stack_offset];
+	return results;
+}
+
+void __cdecl hs_stack_pop(int32 thread_index)
+{
+	//INVOKE(0x00598900, hs_stack_pop, thread_index);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	ASSERT(hs_stack(thread, hs_thread_stack(thread)->parent) != NULL);
+	thread->stack = hs_thread_stack(thread)->parent;
+}
+
+bool __cdecl hs_stack_push(int32 thread_index)
+{
+	//return INVOKE(0x00598940, hs_stack_push, thread_index);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+
+	hs_stack_pointer new_frame_pointer = thread->stack;
+	new_frame_pointer.stack_offset += sizeof(hs_stack_frame) + hs_thread_stack(thread)->size;
+
+	bool result = false;
+	if (new_frame_pointer.stack_offset + sizeof(hs_stack_frame) > sizeof(thread->stack_data))
+	{
+		thread->flags |= FLAG(_hs_thread_terminate_bit);
+		thread->stack.stack_offset = 0;
+
+		event(_event_critical, "thread %s STACK OVERFLOW. Terminating thread.",
+			hs_thread_format(thread_index));
+	}
+	else
+	{
+		hs_stack_frame* new_frame = hs_stack(thread, new_frame_pointer);
+		csmemset(new_frame, 0, sizeof(hs_stack_frame));
+
+		new_frame->parent = thread->stack;
+		thread->stack = new_frame_pointer;
+
+		new_frame->parameters.stack_offset = NONE;
+		new_frame->script_index = NONE;
+		new_frame->expression_index = NONE;
+
+		result = true;
+	}
+	return result;
+}
+
 //.text:005989E0 ; int32 __cdecl hs_string_to_boolean(int32 n)
 //.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(int32 index)
 //.text:00598A30 ; int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n)
+
+int32 hs_thread_allocate(bool deterministic)
+{
+	//int32 thread_index = NONE;
+	//
+	//if (deterministic)
+	//{
+	//	thread_index = datum_new(hs_thread_deterministic_data);
+	//}
+	//else
+	//{
+	//	thread_index = datum_new(hs_thread_non_deterministic_data);
+	//}
+	//
+	//if (thread_index != NONE)
+	//{
+	//	ASSERT(!TEST_MASK(thread_index, k_hs_nondeterministic_thread_index_mask));
+	//	if (!deterministic)
+	//	{
+	//		thread_index |= k_hs_nondeterministic_thread_index_mask;
+	//	}
+	//}
+	//else
+	//{
+	//	event(_event_error, "hs: failed to allocate %s datum",
+	//		deterministic ? "deterministic" : "non-deterministic");
+	//}
+	//
+	//return thread_index;
+
+	int32 thread_index = datum_new(hs_thread_deterministic_data);
+	return thread_index;
+}
+
 //.text:00598A60 ; void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 
 const char* __cdecl hs_thread_format(int32 thread_index)
@@ -345,21 +685,59 @@ void __cdecl hs_thread_main(int32 thread_index)
 	INVOKE(0x00598BC0, hs_thread_main, thread_index);
 }
 
-int32 __cdecl hs_thread_new(e_hs_thread_type thread_type, int32 script_index, bool deterministic)
+int32 __cdecl hs_thread_new(e_hs_thread_type type, int32 script_index, bool deterministic)
 {
-	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);
+	//return INVOKE(0x00598E70, hs_thread_new, type, script_index, deterministic);
+
+	int32 thread_index = hs_thread_allocate(deterministic);
+
+	ASSERT(type >= 0 && type < NUMBER_OF_HS_THREAD_TYPES);
+	ASSERT(type != _hs_thread_type_script || script_index != NONE);
+
+	if (deterministic && thread_index == NONE)
+	{
+		event(_event_critical, "design:hs: hs_thread_new: Unable to create a new deterministic thread. This is the apocalypse.");
+	}
+	else if (thread_index != NONE)
+	{
+		hs_thread* thread = hs_thread_get(thread_index);
+		thread->stack.stack_offset = 0;
+
+		hs_stack_frame* stack = hs_thread_stack(thread);
+		csmemset(stack, 0, sizeof(hs_stack_frame));
+		stack->parent.stack_offset = NONE;
+		stack->parameters.stack_offset = NONE;
+		stack->script_index = NONE;
+		stack->expression_index = NONE;
+
+		thread->type = type;
+		thread->script_index = (int16)script_index;
+		thread->cleanup_script_index = NONE;
+		thread->flags = 0;
+		thread->ai_flags = 0;
+		thread->tracking_index = thread_index;
+		thread->ai_index = 0;
+		thread->ai_data = 0;
+		thread->sleep_until = (script_index != NONE && TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script)->script_type == _hs_script_type_dormant) ? HS_SLEEP_INDEFINITE : 0;
+
+	}
+	return thread_index;
 }
 
 hs_stack_frame* __cdecl hs_thread_stack(hs_thread* thread)
 {
 	//return INVOKE(0x00598F30, hs_thread_stack, thread);
-	return DECLFUNC(0x00598F30, hs_stack_frame*, __cdecl, hs_thread*)(thread);
+	//return DECLFUNC(0x00598F30, hs_stack_frame*, __cdecl, hs_thread*)(thread);
+
+	return hs_stack(thread, thread->stack);
 }
 
 const hs_stack_frame* __cdecl hs_thread_stack(const hs_thread* thread)
 {
 	//return INVOKE(0x00598F50, hs_thread_stack, thread);
-	return DECLFUNC(0x00598F50, const hs_stack_frame*, __cdecl, const hs_thread*)(thread);
+	//return DECLFUNC(0x00598F50, const hs_stack_frame*, __cdecl, const hs_thread*)(thread);
+
+	return hs_stack(thread, thread->stack);
 }
 
 //.text:00598F70 ; void __cdecl hs_thread_try_to_delete(int32, bool)

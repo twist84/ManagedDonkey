@@ -88,6 +88,8 @@ struct hs_syntax_node :
 
 	union
 	{
+		uns32 data;
+
 		bool bool_value;
 		real32 real_value;
 		int16 short_value;

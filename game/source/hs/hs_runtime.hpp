@@ -4,48 +4,6 @@
 #include "hs/hs.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 
-enum e_hs_thread_type
-{
-	_hs_thread_type_script = 0,
-	_hs_thread_type_global_initialize,
-	_hs_thread_type_runtime_evaluate,
-	_hs_thread_type_command_script,
-	_hs_thread_type_performance_script,
-
-	//... are there anymore?
-
-	k_number_of_hs_thread_types
-};
-
-struct hs_stack_pointer
-{
-	int16 stack_offset;
-};
-static_assert(sizeof(hs_stack_pointer) == 0x2);
-
-struct hs_destination_pointer
-{
-	int16 destination_type;
-
-	union
-	{
-		hs_stack_pointer stack_pointer;
-		int16 runtime_global_index;
-	};
-};
-static_assert(sizeof(hs_destination_pointer) == 0x4);
-
-struct hs_stack_frame
-{
-	int32 expression_index;
-	int32 script_index;
-	hs_destination_pointer child_result;
-	hs_stack_pointer parameters;
-	hs_stack_pointer parent;
-	int16 size;
-};
-static_assert(sizeof(hs_stack_frame) == 0x14);
-
 enum : int32
 {
 	//MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS = 0x140,
@@ -78,6 +36,64 @@ enum
 	NUMBER_OF_HS_THREAD_FLAGS
 };
 
+enum
+{
+	_hs_destination_none = 0,
+	_hs_destination_stack,
+	_hs_destination_runtime_global,
+	_hs_destination_thread_result,
+
+	k_hs_destination_count,
+};
+
+enum e_hs_thread_type
+{
+	_hs_thread_type_script = 0,
+	_hs_thread_type_global_initialize,
+	_hs_thread_type_runtime_evaluate,
+	_hs_thread_type_runtime_internal_evaluate,
+	_hs_thread_type_command_script,
+
+	NUMBER_OF_HS_THREAD_TYPES,
+};
+
+enum e_hs_thread_tracking_type
+{
+	_hs_thread_tracking_deterministic = 0,
+	_hs_thread_tracking_non_deterministic,
+
+	k_hs_thread_tracking_type_count,
+};
+
+struct hs_stack_pointer
+{
+	int16 stack_offset;
+};
+static_assert(sizeof(hs_stack_pointer) == 0x2);
+
+struct hs_destination_pointer
+{
+	int16 destination_type;
+
+	union
+	{
+		hs_stack_pointer stack_pointer;
+		int16 runtime_global_index;
+	};
+};
+static_assert(sizeof(hs_destination_pointer) == 0x4);
+
+struct hs_stack_frame
+{
+	int32 expression_index;
+	int32 script_index;
+	hs_destination_pointer child_result;
+	hs_stack_pointer parameters;
+	hs_stack_pointer parent;
+	int16 size;
+};
+static_assert(sizeof(hs_stack_frame) == 0x14);
+
 struct hs_thread :
 	s_datum_header
 {
@@ -93,7 +109,7 @@ struct hs_thread :
 	uns8 ai_flags;
 	int8 ai_data;
 	int32 ai_index;
-	uns8 stack_data[HS_THREAD_STACK_SIZE];
+	byte stack_data[HS_THREAD_STACK_SIZE];
 };
 static_assert(sizeof(hs_thread) == 0x524);
 
@@ -125,9 +141,8 @@ static_assert(sizeof(hs_distributed_global_data) == 0x2C);
 struct hs_thread_tracking_data :
 	s_datum_header
 {
-	uns16 __unknown2;
-	uns32 __unknown4;
-	uns32 __unknown8;
+	e_hs_thread_tracking_type type;
+	int32 index;
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
@@ -160,22 +175,39 @@ extern hs_debug_data_definition hs_debug_data;
 extern int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 parameter_count, const int16* formal_parameters, bool a4);
 extern void __cdecl hs_breakpoint(const char* s);
 extern bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type);
-extern bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, int32 destination_pointer, int32* out_cast);
+extern int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type, int32 value);
+extern int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destination_pointer);
+extern bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
 extern int32 __cdecl hs_find_thread_by_name(const char* script_name);
+extern int32 __cdecl hs_global_evaluate(int16 global_designator);
 extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
 extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
 extern bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic);
 extern const char* __cdecl hs_runtime_get_executing_thread_name();
 extern int32 __cdecl hs_runtime_index_from_global_designator(int32 designator);
+extern void __cdecl hs_runtime_initialize();
+extern void __cdecl hs_runtime_initialize_for_new_map();
+extern void __cdecl hs_runtime_initialize_threads();
+extern bool __cdecl hs_runtime_initialized();
 extern bool __cdecl hs_runtime_nondeterministic_threads_running();
+extern void __cdecl hs_runtime_push_script(int16 script_index);
 extern int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
 extern void __cdecl hs_runtime_update();
+extern void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool initialize);
+extern hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer);
+extern const hs_stack_frame* __cdecl hs_stack(const hs_thread* thread, hs_stack_pointer stack_pointer);
+extern void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference);
+extern int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer stack_pointer);
+extern int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count);
+extern void __cdecl hs_stack_pop(int32 thread_index);
+extern bool __cdecl hs_stack_push(int32 thread_index);
+extern int32 hs_thread_allocate(bool deterministic);
 extern const char* __cdecl hs_thread_format(int32 thread_index);
 extern bool __cdecl hs_thread_is_deterministic(int32 thread_index);
 extern void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic);
 extern int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator);
 extern void __cdecl hs_thread_main(int32 thread_index);
-extern int32 __cdecl hs_thread_new(e_hs_thread_type thread_type, int32 script_index, bool deterministic);
+extern int32 __cdecl hs_thread_new(e_hs_thread_type type, int32 script_index, bool deterministic);
 extern hs_stack_frame* __cdecl hs_thread_stack(hs_thread* thread);
 extern const hs_stack_frame* __cdecl hs_thread_stack(const hs_thread* thread);
 extern bool __cdecl hs_wake_by_name(const char* script_name);
