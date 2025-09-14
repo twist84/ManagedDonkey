@@ -111,11 +111,15 @@ hs_syntax_node* __cdecl hs_syntax_get(int32 expression_index)
 {
 	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
 
+	hs_syntax_node* result = NULL;
+
 	int16 index = DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index);
 	if (g_hs_syntax_data && g_hs_syntax_data->data && index < g_hs_syntax_data->maximum_count)
-		return (hs_syntax_node*)g_hs_syntax_data->data + index;
+	{
+		result = (hs_syntax_node*)g_hs_syntax_data->data + index;
+	}
 
-	return NULL;
+	return result;
 }
 
 void __cdecl hs_dispose()
@@ -134,12 +138,15 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 
 	if (global_scenario_index_get() != NONE)
 	{
-		c_typed_tag_block<hs_script>& scripts = global_scenario_get()->scripts;
-		for (int32 script_index = 0; script_index < scripts.count; script_index++)
+		const struct scenario* scenario = global_scenario_get();
+
+		for (int32 script_index = 0; script_index < scenario->scripts.count; script_index++)
 		{
-			hs_script& script = scripts[script_index];
-			if (ascii_stricmp(name, script.name) == 0 && num_arguments == NONE || num_arguments == script.parameters.count)
-				return static_cast<int16>(script_index);
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->scripts, script_index, hs_script);
+			if (ascii_stricmp(name, script->name) == 0 && num_arguments == NONE || num_arguments == script->parameters.count)
+			{
+				return (int16)script_index;
+			}
 		}
 	}
 
@@ -204,11 +211,11 @@ int16 hs_find_function_by_name(const char* name, int16 parameter_count)
 {
 	for (int16 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
-		const hs_function_definition* const function = hs_function_table[function_index];
+		const hs_function_definition* const function_definition = hs_function_table[function_index];
 		if (csstrcmp(hs_function_table_names[function_index], name) == 0
-			&& (TEST_BIT(function->flags, 9)
+			&& (TEST_BIT(function_definition->flags, _hs_function_flag_internal)
 				|| parameter_count == NONE
-				|| function->formal_parameter_count == parameter_count))
+				|| function_definition->formal_parameter_count == parameter_count))
 		{
 			return function_index;
 		}
@@ -216,11 +223,11 @@ int16 hs_find_function_by_name(const char* name, int16 parameter_count)
 
 	for (int16 function_index = 0; function_index < hs_function_table_debug_count; function_index++)
 	{
-		const hs_function_definition_debug* const function = hs_function_table_debug[function_index];
-		if (csstrcmp(function->name, name) == 0
-			&& (TEST_BIT(function->flags, 9)
+		const hs_function_definition_debug* const function_definition = hs_function_table_debug[function_index];
+		if (csstrcmp(function_definition->name, name) == 0
+			&& (TEST_BIT(function_definition->flags, _hs_function_flag_internal)
 				|| parameter_count == NONE
-				|| function->formal_parameter_count == parameter_count))
+				|| function_definition->formal_parameter_count == parameter_count))
 		{
 			return function_index;
 		}
@@ -231,15 +238,20 @@ int16 hs_find_function_by_name(const char* name, int16 parameter_count)
 
 int16 __cdecl hs_script_find_parameter_by_name(int32 script_index, const char* name)
 {
-	hs_script& script = global_scenario_get()->scripts[script_index];
-	for (int16 parameter_index = 0; parameter_index < static_cast<int16>(script.parameters.count); parameter_index++)
+	int16 result = NONE;
+
+	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
+	for (int16 parameter_index = 0; parameter_index < (int16)script->parameters.count; parameter_index++)
 	{
-		hs_script_parameter& parameter = script.parameters[parameter_index];
-		if (ascii_stricmp(name, parameter.name) == 0)
-			return parameter_index;
+		hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
+		if (ascii_stricmp(name, parameter->name) == 0)
+		{
+			result = parameter_index;
+			break;
+		}
 	}
 
-	return NONE;
+	return result;
 }
 
 hs_global_external* hs_global_external_get(int16 global_index)
@@ -261,39 +273,50 @@ int16 hs_find_global_by_name(const char* name)
 	for (int16 global_index = 0; global_index < k_hs_external_global_count; global_index++)
 	{
 		if (csstrcmp(name, hs_external_globals_names[global_index]) == 0)
-			return global_index & 0x7FFF | 0x8000;
+		{
+			return global_index & MASK(15) | FLAG(15);
+		}
 	}
 
 	for (int16 global_index = 0; global_index < k_hs_external_global_debug_count; global_index++)
 	{
 		hs_global_external_debug* global_external = hs_global_external_get_debug(global_index);
 		if (csstrcmp(name, global_external->name) == 0)
-			return global_index & 0x7FFF | 0x8000;
+		{
+			return global_index & MASK(15) | FLAG(15);
+		}
 	}
 
 	if (global_scenario_index_get() != NONE)
 	{
 		c_typed_tag_block<hs_global_internal>& globals = global_scenario_get()->globals;
-		for (int16 global_index = 0; global_index < static_cast<int16>(globals.count); global_index++)
+		for (int16 global_index = 0; global_index < (int16)globals.count; global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
 			if (ascii_stricmp(name, global_internal.name) == 0)
-				return global_index & 0x7FFF;
+			{
+				return global_index & MASK(15);
+			}
 		}
 	}
 
 	return NONE;
 }
 
-const char* hs_global_get_name(int16 global_index)
+const char* hs_global_get_name(int16 global_designator)
 {
-	if ((global_index & 0x8000) != 0)
+	int16 global_index = global_designator & MASK(15);
+	if (TEST_BIT(global_designator, 15))
 	{
 		if (VALID_INDEX(global_index, k_hs_external_global_count))
+		{
 			return hs_external_globals_names[global_index];
+		}
 
 		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
-			return hs_global_external_get_debug(global_index & 0x7FFF)->name;
+		{
+			return hs_global_external_get_debug(global_index)->name;
+		}
 	}
 
 	return global_scenario_get()->globals[global_index].name;
@@ -317,7 +340,9 @@ void hs_tokens_enumerate_add_string(const char* string)
 void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count)
 {
 	while (starting_index < count)
+	{
 		hs_tokens_enumerate_add_string(string_list[starting_index++]);
+	}
 }
 
 void hs_enumerate_block_data(const s_tag_block* block, int16 offset, int32 size)
@@ -331,12 +356,11 @@ void hs_enumerate_block_data(const s_tag_block* block, int16 offset, int32 size)
 
 void hs_enumerate_scenario_data(int16 scenario_offset, int16 block_offset, int32 block_size)
 {
-	if (global_scenario_index_get() == NONE)
-		return;
-
-	const byte* scenario_data = reinterpret_cast<const byte*>(global_scenario_get());
-	const s_tag_block* block = reinterpret_cast<const s_tag_block*>(scenario_data + scenario_offset);
-	hs_enumerate_block_data(block, block_offset, block_size);
+	if (global_scenario_index_get() != NONE)
+	{
+		const s_tag_block* block = (const s_tag_block*)offset_pointer(global_scenario_get(), scenario_offset);
+		hs_enumerate_block_data(block, block_offset, block_size);
+	}
 }
 
 void hs_enumerate_block_data_string_id(const s_tag_block* block, int16 offset, int32 size)
@@ -351,12 +375,11 @@ void hs_enumerate_block_data_string_id(const s_tag_block* block, int16 offset, i
 
 void hs_enumerate_scenario_data_string_id(int16 scenario_offset, int16 block_offset, int32 block_size)
 {
-	if (global_scenario_index_get() == NONE)
-		return;
-
-	const byte* scenario_data = reinterpret_cast<const byte*>(global_scenario_get());
-	const s_tag_block* block = reinterpret_cast<const s_tag_block*>(scenario_data + scenario_offset);
-	hs_enumerate_block_data_string_id(block, block_offset, block_size);
+	if (global_scenario_index_get() != NONE)
+	{
+		const s_tag_block* block = (const s_tag_block*)offset_pointer(global_scenario_get(), scenario_offset);
+		hs_enumerate_block_data_string_id(block, block_offset, block_size);
+	}
 }
 
 int32 const k_maximum_hs_token_enumerator_count = 32;
@@ -400,7 +423,9 @@ int16 hs_tokens_enumerate(const char* token, int32 type_mask, const char** match
 		ASSERT(hs_token_enumerators[type_index]);
 
 		if (TEST_BIT(type_mask, type_index))
+		{
 			hs_token_enumerators[type_index]();
+		}
 	}
 
 	qsort_4byte(matching_items, enumeration_count, sort_by_found_index, enumeration_token);
@@ -411,17 +436,19 @@ int16 hs_tokens_enumerate(const char* token, int32 type_mask, const char** match
 
 bool __cdecl sort_by_found_index(int32 look_inside1, int32 look_inside2, const void* look_for)
 {
-	const char* look_inside1_ = reinterpret_cast<const char*>(look_inside1);
-	const char* look_inside2_ = reinterpret_cast<const char*>(look_inside2);
-	const char* look_for_ = static_cast<const char*>(look_for);
+	const char* string1 = reinterpret_cast<const char*>(look_inside1);
+	const char* string2 = reinterpret_cast<const char*>(look_inside2);
+	const char* substring = static_cast<const char*>(look_for);
 
-	int v7 = ascii_stristr(look_inside1_, look_for_);
-	int v4 = ascii_stristr(look_inside2_, look_for_);
+	int string1_index = ascii_stristr(string1, substring);
+	int string2_index = ascii_stristr(string2, substring);
 
-	if (v7 == v4)
-		return ascii_stricmp(look_inside1_, look_inside2_);
+	if (string1_index == string2_index)
+	{
+		return ascii_stricmp(string1, string2);
+	}
 
-	return v7 > v4;
+	return string1_index > string2_index;
 }
 
 void __cdecl hs_enumerate_special_form_names(void)
@@ -474,21 +501,31 @@ void __cdecl hs_enumerate_ai_names(void)
 		struct scenario* scenario = global_scenario_get();
 
 		for (s_squad_definition& squad : scenario->squads)
+		{
 			hs_tokens_enumerate_add_string(squad.name.get_string());
+		}
 
 		for (squad_group_definition& squad_group : scenario->squad_groups)
+		{
 			hs_tokens_enumerate_add_string(squad_group.name.get_string());
+		}
 
 		for (zone_definition& zone : scenario->zones)
+		{
 			hs_tokens_enumerate_add_string(zone.name.get_string());
+		}
 
 		for (orders_definition& order : scenario->orders)
+		{
 			hs_tokens_enumerate_add_string(order.name);
+		}
 	
 		if (scenario->scripting_data.count)
 		{
-			for (int32 point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count; point_set_index++)
-				hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name);
+			for (int32 cs_index = 0; cs_index < cs_scenario_get_script_data(scenario)->point_sets.count; cs_index++)
+			{
+				hs_tokens_enumerate_add_string(cs_get_point_set(cs_index)->name);
+			}
 		}
 	}
 }

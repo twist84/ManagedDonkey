@@ -5173,11 +5173,11 @@ const char* const hs_function_table_names[hs_function_table_count]
 
 hs_function_definition_debug* hs_function_table_debug[hs_function_table_count]
 {
-	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin, FLAG(1), hs_parse_begin, hs_function_table[_hs_function_begin]->evaluate /* hs_evaluate_begin */, "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
-	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin_random, FLAG(1), hs_parse_begin, hs_function_table[_hs_function_begin_random]->evaluate /* hs_evaluate_begin_random */, "evaluates the sequence of expressions in random order and returns the last value evaluated.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
-	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, if, FLAG(1), hs_parse_if, hs_function_table[_hs_function_if]->evaluate /* hs_evaluate_if */, "returns one of two values based on the value of a condition.\r\nNETWORK SAFE: Yes", "<boolean> <then> [<else>]", 0, _hs_unparsed),
-	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, cond, FLAG(1), hs_parse_cond, NULL, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
-	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, set, FLAG(1), hs_parse_set, hs_function_table[_hs_function_set]->evaluate /* hs_evaluate_set */, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin, FLAG(_hs_function_flag_internal), hs_parse_begin, hs_function_table[_hs_function_begin]->evaluate /* hs_evaluate_begin */, "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin_random, FLAG(_hs_function_flag_internal), hs_parse_begin, hs_function_table[_hs_function_begin_random]->evaluate /* hs_evaluate_begin_random */, "evaluates the sequence of expressions in random order and returns the last value evaluated.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, if, FLAG(_hs_function_flag_internal), hs_parse_if, hs_function_table[_hs_function_if]->evaluate /* hs_evaluate_if */, "returns one of two values based on the value of a condition.\r\nNETWORK SAFE: Yes", "<boolean> <then> [<else>]", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, cond, FLAG(_hs_function_flag_internal), hs_parse_cond, NULL, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, set, FLAG(_hs_function_flag_internal), hs_parse_set, hs_function_table[_hs_function_set]->evaluate /* hs_evaluate_set */, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
 };
 
 DECLARE_LAMBDA2(set_hs_function_table_debug_count, int32)
@@ -5197,21 +5197,31 @@ DECLARE_LAMBDA2(set_hs_function_table_debug_count, int32)
 		{
 		case _hs_function_begin:
 		case _hs_function_begin_random:
+		{
 			definition_debug->parse = hs_parse_begin;
-			break;
+		}
+		break;
 		case _hs_function_if:
+		{
 			definition_debug->parse = hs_parse_if;
-			break;
+		}
+		break;
 		case _hs_function_cond:
+		{
 			definition_debug->parse = hs_parse_cond;
-			break;
+		}
+		break;
 		case _hs_function_set:
+		{
 			definition_debug->parse = hs_parse_set;
-			break;
+		}
+		break;
 		case _hs_function_and:
 		case _hs_function_or:
+		{
 			definition_debug->parse = hs_parse_logical;
-			break;
+		}
+		break;
 		case _hs_function_plus:
 		case _hs_function_minus:
 		case _hs_function_times:
@@ -5219,42 +5229,64 @@ DECLARE_LAMBDA2(set_hs_function_table_debug_count, int32)
 		case _hs_function_modulo:
 		case _hs_function_min:
 		case _hs_function_max:
+		{
 			definition_debug->parse = hs_parse_arithmetic;
-			break;
+		}
+		break;
 		case _hs_function_equal:
 		case _hs_function_not_equal:
+		{
 			definition_debug->parse = hs_parse_equality;
-			break;
+		}
+		break;
 		case _hs_function_gt:
 		case _hs_function_lt:
 		case _hs_function_gte:
 		case _hs_function_lte:
+		{
 			definition_debug->parse = hs_parse_inequality;
-			break;
+		}
+		break;
 		case _hs_function_sleep:
+		{
 			definition_debug->parse = hs_parse_sleep;
-			break;
+		}
+		break;
 		case _hs_function_sleep_for_ticks:
+		{
 			definition_debug->parse = hs_parse_sleep_for_ticks;
-			break;
+		}
+		break;
 		case _hs_function_sleep_forever:
+		{
 			definition_debug->parse = hs_parse_sleep_forever;
-			break;
+		}
+		break;
 		case _hs_function_sleep_until:
+		{
 			definition_debug->parse = hs_parse_sleep_until;
-			break;
+		}
+		break;
 		case _hs_function_wake:
+		{
 			definition_debug->parse = hs_parse_wake;
-			break;
+		}
+		break;
 		case _hs_function_inspect:
+		{
 			definition_debug->parse = hs_parse_inspect;
-			break;
+		}
+		break;
 		case _hs_function_object_to_unit:
+		{
 			definition_debug->parse = hs_parse_object_cast_up;
-			break;
+		}
+		break;
 		default:
+		{
 			definition_debug->parse = hs_macro_function_parse;
-			break;
+		}
+		break;
 		}
 
 		definition_debug->evaluate = definition->evaluate;

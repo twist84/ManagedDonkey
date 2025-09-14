@@ -4,6 +4,15 @@
 #include "hs/hs.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 
+enum
+{
+	_hs_function_flag_command_script_atom = 0,
+	_hs_function_flag_internal,
+	_hs_function_flag_debug,
+
+	NUMBER_OF_HS_FUNCTION_FLAGS,
+};
+
 using hs_function_parser_t = bool __cdecl(int16 function_index, int32 expression_index);
 using hs_function_evaluate_t = void __cdecl(int16 function_index, int32 thread_index, bool a3);
 

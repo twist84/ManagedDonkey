@@ -117,7 +117,7 @@ extern int16 hs_script_find_parameter_by_name(int32 script_index, const char* na
 extern hs_global_external* hs_global_external_get(int16 global_index);
 extern hs_global_external_debug* hs_global_external_get_debug(int16 global_index);
 extern int16 hs_find_global_by_name(const char* name);
-extern const char* hs_global_get_name(int16 global_index);
+extern const char* hs_global_get_name(int16 global_designator);
 
 extern void hs_tokens_enumerate_add_string(const char* string);
 extern void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count);

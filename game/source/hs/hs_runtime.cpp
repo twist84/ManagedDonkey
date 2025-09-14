@@ -163,7 +163,7 @@ int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destinat
 
 bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
 {
-	//return INVOKE(0x00594510, hs_evaluate1, thread_index, expression_index, destination_pointer, out_cast);
+	//return INVOKE(0x00594510, hs_evaluate_runtime, thread_index, expression_index, destination_pointer, out_cast);
 
 	bool result = true;
 	hs_thread* thread = hs_thread_get(thread_index);
@@ -779,12 +779,16 @@ void hs_find_dormant_script(const char* dormant_script_name, int32* script_index
 
 	int32 thread_index = hs_find_thread_by_name(dormant_script_name);
 	if (thread_index == NONE)
+	{
 		return;
+	}
 
 	hs_thread* thread = hs_thread_get(thread_index);
 
 	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_type_dormant)
+	{
 		*script_index_out = thread->script_index;
+	}
 }
 
 const char* expression_get_function_name(int32 thread_index, int32 expression_index)
@@ -795,23 +799,33 @@ const char* expression_get_function_name(int32 thread_index, int32 expression_in
 	while (true)
 	{
 		if (expression->flags.test(_hs_syntax_node_script_bit))
+		{
 			break;
+		}
 
 		if (expression->script_index || expression_index != hs_thread_stack(thread)->expression_index)
+		{
 			return hs_function_table_names[expression->function_index];
+		}
 
 		if (hs_thread_stack(thread)->size <= 0)
+		{
 			return "(invalid expression reference)";
+		}
 
 		expression_index = expression->next_node_index;
 		if (expression_index == NONE)
+		{
 			return "(end of script)";
+		}
 
 		expression = hs_syntax_get(expression_index);
 	}
 
 	if (VALID_INDEX(expression->script_index, global_scenario->scripts.count))
+	{
 		return global_scenario->scripts[expression->script_index].name;
+	}
 
 	return "unknown script";
 }
@@ -823,25 +837,35 @@ void thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffe
 	ASSERT(buffer);
 	ASSERT(buffer_size > 0);
 
-	if ((((thread->sleep_until + 0x80000000) & 0x80000000) != 0 || thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM) && !TEST_BIT(thread->flags, 3))
+	if ((TEST_BIT(thread->sleep_until + FLAG(31), 31) || thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM) && !TEST_BIT(thread->flags, _hs_thread_hide_display_bit))
 	{
 		csnzappendf(buffer, buffer_size, "\r\n%s\t", hs_thread_format(thread_index));
 
 		if (hs_thread_stack(thread)->expression_index == NONE)
+		{
 			csnzappendf(buffer, buffer_size, "-\t");
+		}
 		else
+		{
 			csnzappendf(buffer, buffer_size, "%i\t", hs_syntax_get(hs_thread_stack(thread)->expression_index)->line_number);
+		}
 
 		if (thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM)
+		{
 			csnzappendf(buffer, buffer_size, "ATOM\t");
+		}
 		else
+		{
 			csnzappendf(buffer, buffer_size, "%d\t", thread->sleep_until ? thread->sleep_until - game_time_get() : 0);
+		}
 
 		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
 		{
 			const char* function_name = expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index);
 			if (function_name)
+			{
 				csstrnzcat(buffer, function_name, buffer_size);
+			}
 		}
 	}
 }
@@ -865,8 +889,12 @@ void render_debug_scripting()
 
 		s_hs_thread_iterator iterator{};
 		hs_thread_iterator_new(&iterator, true, true);
-		for (int32 thread_index = hs_thread_iterator_next(&iterator); thread_index != NONE; thread_index = hs_thread_iterator_next(&iterator))
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
 			thread_render_debug_scripting(thread_index, buffer, sizeof(buffer));
+		}
 	
 		draw_string.draw(&font_cache, buffer);
 	}
@@ -876,10 +904,7 @@ void render_debug_scripting()
 
 void render_debug_scripting_globals()
 {
-	if (!debug_globals)
-		return;
-
-	if (hs_global_data)
+	if (debug_globals && hs_global_data)
 	{
 		char buffer[10240]{};
 
@@ -911,75 +936,77 @@ void render_debug_scripting_globals()
 
 void render_debug_trigger_volumes()
 {
-	if (!debug_trigger_volumes)
-		return;
-
-	int32 trigger_volume_index = 0;
-	for (scenario_trigger_volume& trigger_volume : global_scenario_get()->trigger_volumes)
+	if (debug_trigger_volumes)
 	{
-		real_matrix4x3 matrix{};
-		if (trigger_volume_get_matrix(&trigger_volume, &matrix))
+		const struct scenario* scenario = global_scenario_get();
+
+		
+		for (int32 trigger_index = 0; trigger_index < scenario->trigger_volumes.count; trigger_index++)
 		{
-			real_vector3d extents = *(real_vector3d*)&trigger_volume.extents;
-			real_vector3d world_extent{};
-			matrix4x3_transform_vector(&matrix, &extents, &world_extent);
+			const scenario_trigger_volume* volume = TAG_BLOCK_GET_ELEMENT(&scenario->trigger_volumes, trigger_index, const scenario_trigger_volume);
 
-			for (int32 i = 0; i < 6; i++)
+			real_matrix4x3 matrix{};
+			if (trigger_volume_get_matrix(volume, &matrix))
 			{
-				real_point3d sides[4]{};
-				real_vector3d v23{};
-				real_vector3d v24{};
+				real_vector3d local_extent = volume->extents;
+				real_vector3d world_extent{};
+				matrix4x3_transform_vector(&matrix, &local_extent, &world_extent);
 
-				int16 v21 = int16(i / 2);
-				if (i % 2)
+				for (int32 face = 0; face < 6; face++)
 				{
-					point_from_line3d(&matrix.position, &world_extent, 1.0f, sides);
-					v23.n[(v21 + 1) % 3] = -extents.n[(v21 + 1) % 3];
-					v24.n[(v21 + 2) % 3] = -extents.n[(v21 + 2) % 3];
+					int16 side = int16(face / 2);
+					real_point3d corner[4]{};
+					real_vector3d sides[2]{};
+
+					if (face % 2)
+					{
+						point_from_line3d(&matrix.position, &world_extent, 1.0f, &corner[0]);
+						sides[0].n[(side + 1) % 3] = -local_extent.n[(side + 1) % 3];
+						sides[1].n[(side + 2) % 3] = -local_extent.n[(side + 2) % 3];
+					}
+					else
+					{
+						corner[0] = matrix.position;
+						sides[0].n[(side + 1) % 3] = local_extent.n[(side + 1) % 3];
+						sides[1].n[(side + 2) % 3] = local_extent.n[(side + 2) % 3];
+					}
+
+					matrix4x3_transform_vector(&matrix, &sides[0], &sides[0]);
+					matrix4x3_transform_vector(&matrix, &sides[1], &sides[1]);
+					point_from_line3d(&corner[0], &sides[0],  1.0f, &corner[1]);
+					point_from_line3d(&corner[1], &sides[1],  1.0f, &corner[2]);
+					point_from_line3d(&corner[2], &sides[0], -1.0f, &corner[3]);
+
+					if (hs_debug_data.activated_trigger_volumes.test(trigger_index))
+					{
+						render_debug_polygon_edges(corner, NUMBEROF(corner), global_real_argb_blue);
+					}
+					else
+					{
+						real_argb_color color = *global_real_argb_blue;
+						color.alpha = 0.15f;
+						render_debug_polygon_edges(corner, NUMBEROF(corner), global_real_argb_red);
+						render_debug_polygon(corner, NUMBEROF(corner), &color);
+					}
 				}
-				else
+
+				real_point3d center{};
+				point_from_line3d(&matrix.position, &world_extent, 0.5f, &center);
+
+				real_vector3d ray{};
+				const render_camera* camera = c_player_view::get_current()->get_rasterizer_camera();
+				vector_from_points3d(&camera->position, &center, &ray);
+				scale_vector3d(&ray, 0.95f, &ray);
+
+				collision_result result;
+				if (!collision_test_vector(_collision_test_for_line_of_sight_obstruction_flags, &camera->position, &ray, NONE, NONE, &result))
 				{
-					sides[0] = matrix.position;
-					v23.n[(v21 + 1) % 3] = extents.n[(v21 + 1) % 3];
-					v24.n[(v21 + 2) % 3] = extents.n[(v21 + 2) % 3];
+					const char* volume_name = volume->name.get_string();
+					render_debug_string_at_point(&center,
+						volume_name,
+						hs_debug_data.activated_trigger_volumes.test(trigger_index) ? global_real_argb_yellow : global_real_argb_white);
 				}
-
-				matrix4x3_transform_vector(&matrix, &v23, &v23);
-				matrix4x3_transform_vector(&matrix, &v24, &v24);
-				point_from_line3d(sides, &v23, 1.0f, &sides[1]);
-				point_from_line3d(&sides[1], &v24, 1.0f, &sides[2]);
-				point_from_line3d(&sides[2], &v23, -1.0f, &sides[3]);
-
-				if (hs_debug_data.activated_trigger_volumes.test(trigger_volume_index))
-				{
-					render_debug_polygon_edges(sides, NUMBEROF(sides), global_real_argb_blue);
-				}
-				else
-				{
-					real_argb_color polygon_color = *global_real_argb_blue;
-					polygon_color.alpha = 0.15f;
-					render_debug_polygon_edges(sides, NUMBEROF(sides), global_real_argb_red);
-					render_debug_polygon(sides, NUMBEROF(sides), &polygon_color);
-				}
-			}
-
-			real_point3d name_point{};
-			point_from_line3d(&matrix.position, &world_extent, 0.5f, &name_point);
-
-			const render_camera* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
-			
-			real_vector3d name_vector{};
-			vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
-			scale_vector3d(&name_vector, 0.95f, &name_vector);
-			
-			collision_result result;
-			if (!collision_test_vector(_collision_test_for_line_of_sight_obstruction_flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &result))
-			{
-				const real_argb_color* color = hs_debug_data.activated_trigger_volumes.test(trigger_volume_index) ? global_real_argb_yellow : global_real_argb_white;
-				render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), color);
 			}
 		}
-
-		trigger_volume_index++;
 	}
 }
