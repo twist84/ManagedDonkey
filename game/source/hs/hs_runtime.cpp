@@ -19,7 +19,7 @@
 REFERENCE_DECLARE(0x023FF440, bool, debug_scripting);
 REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
 REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
-REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);
+REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);// = true;
 REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
@@ -170,7 +170,7 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	const hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 expression_result = NONE;
 
-	if (!expression->flags.test(_hs_syntax_node_primitive_bit))
+	if (!TEST_BIT(expression->flags, _hs_syntax_node_primitive_bit))
 	{
 		hs_thread_stack(thread)->child_result = destination_pointer;
 		result = hs_stack_push(thread_index);
@@ -179,11 +179,11 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	}
 	else
 	{
-		if (!expression->flags.test(_hs_syntax_node_variable_bit))
+		if (!TEST_BIT(expression->flags, _hs_syntax_node_variable_bit))
 		{
 			expression_result = hs_cast(thread_index, expression->constant_type, expression->type, expression->data);
 		}
-		else if (!expression->flags.test(_hs_syntax_node_parameter_bit))
+		else if (!TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit))
 		{
 			expression_result = hs_cast(
 				thread_index,
@@ -367,8 +367,8 @@ void __cdecl hs_runtime_initialize_threads()
 			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->scripts, script_index, hs_script);
 
 			bool create_thread_for_script = game_is_predicted() ?
-				script->script_type == _hs_script_type_startup :
-				script->script_type == _hs_script_type_startup || script->script_type == _hs_script_type_dormant || script->script_type == _hs_script_type_continuous;
+				script->script_type == _hs_script_startup :
+				script->script_type == _hs_script_startup || script->script_type == _hs_script_dormant || script->script_type == _hs_script_continuous;
 
 			if (create_thread_for_script)
 			{
@@ -718,7 +718,7 @@ int32 __cdecl hs_thread_new(e_hs_thread_type type, int32 script_index, bool dete
 		thread->tracking_index = thread_index;
 		thread->ai_index = 0;
 		thread->ai_data = 0;
-		thread->sleep_until = (script_index != NONE && TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script)->script_type == _hs_script_type_dormant) ? HS_SLEEP_INDEFINITE : 0;
+		thread->sleep_until = (script_index != NONE && TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script)->script_type == _hs_script_dormant) ? HS_SLEEP_INDEFINITE : 0;
 
 	}
 	return thread_index;
@@ -785,7 +785,7 @@ void hs_find_dormant_script(const char* dormant_script_name, int32* script_index
 
 	hs_thread* thread = hs_thread_get(thread_index);
 
-	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_type_dormant)
+	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_dormant)
 	{
 		*script_index_out = thread->script_index;
 	}
@@ -798,7 +798,7 @@ const char* expression_get_function_name(int32 thread_index, int32 expression_in
 
 	while (true)
 	{
-		if (expression->flags.test(_hs_syntax_node_script_bit))
+		if (TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
 		{
 			break;
 		}

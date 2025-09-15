@@ -38,93 +38,74 @@ enum
 const char whitespace_characters[] = { ' ', '\t' };
 const char eol_characters[] = { '\n', '\r' };
 
+bool character_in_list(char c, int16 list_count, const char* list)
+{
+	for (int16 list_index = 0; list_index < list_count; list_index++)
+	{
+		if (c == list[list_index])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void skip_whitespace(char** c)
 {
-	// $REVIEW is this actually correct?
-
 	int32 state = _skip_whitespace_state_no_comment;
-
-	while (true)
+	while (state != _skip_whitespace_state_done)
 	{
-		switch (state)
+		if (state)
 		{
-		case _skip_whitespace_state_no_comment:
-		{
-			char* p = *c;
-			char ch = *p;
-
-			if (ch == ';')
+			if (state == _skip_whitespace_state_comment)
 			{
-				if (p[1] == '*')
+				if (**c)
 				{
-					state = _skip_whitespace_state_block_comment;
-					*c += 2;
+					if (character_in_list(**c, NUMBEROF(eol_characters), eol_characters))
+					{
+						state = _skip_whitespace_state_no_comment;
+						++*c;
+					}
+					else
+					{
+						state = _skip_whitespace_state_done;
+					}
+				}
+			}
+			else if (state < _skip_whitespace_state_done)
+			{
+				if (**c)
+				{
+					if (**c == '*' && (*c)[1] == ';')
+					{
+						state = _skip_whitespace_state_no_comment;
+						++*c;
+					}
+					++ * c;
 				}
 				else
 				{
-					state = _skip_whitespace_state_comment;
-					*c += 1;
+					state = _skip_whitespace_state_done;
 				}
 			}
-			else if (ch == ' ' || ch == '\t')
-			{
-				*c += 1;
-			}
-			else if (ch == '\n' || ch == '\r')
-			{
-				*c += 1;
-			}
-			else
-			{
-				return;
-			}
+			else VASSERT("unreachable");
 		}
-		break;
-		case _skip_whitespace_state_comment:
+		else if (**c == ';')
 		{
-			char* p = *c;
-			char ch = *p;
-
-			if (!ch)
+			state = _skip_whitespace_state_comment;
+			if (*++ * c == '*')
 			{
-				return;
+				state = _skip_whitespace_state_done;
+				++*c;
 			}
-
-			if (ch == '\n' || ch == '\r')
-			{
-				state = _skip_whitespace_state_no_comment;
-			}
-
-			*c += 1;
 		}
-		break;
-		case _skip_whitespace_state_block_comment:
+		else if (character_in_list(**c, NUMBEROF(whitespace_characters), whitespace_characters) || character_in_list(**c, NUMBEROF(eol_characters), eol_characters))
 		{
-			char* p = *c;
-			char ch = *p;
-
-			if (!ch)
-			{
-				return;
-			}
-
-			if (ch == '*' && p[1] == ';')
-			{
-				state = _skip_whitespace_state_no_comment;
-				*c += 2;
-			}
-			else
-			{
-				*c += 1;
-			}
+			++*c;
 		}
-		break;
-		default:
+		else
 		{
-			VASSERT("unreachable");
-			return;
-		}
-		break;
+			state = _skip_whitespace_state_done;
 		}
 	}
 }
@@ -168,10 +149,10 @@ bool hs_parse_object_and_object_name_internal(int32 expression_index, e_hs_type 
 		return false;
 	}
 
-	if (!TEST_BIT(hs_object_type_masks[expression->type.get() - _hs_type_object_name], object_name.object_type))
+	if (!TEST_BIT(hs_object_type_masks[expression->type - _hs_type_object_name], object_name.object_type))
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"this is not an object of type %s.", hs_type_names[expression->type.get()]);
+			"this is not an object of type %s.", hs_type_names[expression->type]);
 
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
@@ -548,7 +529,7 @@ bool hs_parse_ai_command_script(int32 expression_index)
 		return false;
 	}
 
-	if (global_scenario_get()->scripts[script_index].script_type != _hs_script_type_command_script)
+	if (global_scenario_get()->scripts[script_index].script_type != _hs_script_command_script)
 	{
 		hs_compile_globals.error_message = "script is not a command-script";
 		hs_compile_globals.error_offset = expression->source_offset;
@@ -760,7 +741,7 @@ bool hs_parse_object_list(int32 expression_index)
 
 	expression->constant_type = _hs_type_object_name;
 	expression->type = _hs_type_object_name;
-	bool result = hs_parse_object_and_object_name_internal(expression_index, expression->constant_type);
+	bool result = hs_parse_object_and_object_name_internal(expression_index, (e_hs_type)expression->constant_type);
 	expression->type = _hs_type_object_list;
 
 	return result;
@@ -823,7 +804,7 @@ bool hs_parse_tag_reference(int32 expression_index)
 
 	ASSERT(HS_TYPE_IS_TAG_REFERENCE(expression->type));
 
-	tag group_tag = hs_tag_reference_type_group_tags[expression->type.get() - _hs_type_sound];
+	tag group_tag = hs_tag_reference_type_group_tags[expression->type - _hs_type_sound];
 
 	for (hs_tag_reference& tag_reference : global_scenario_get()->references)
 	{
@@ -911,15 +892,15 @@ bool hs_parse_enum(int32 expression_index)
 		csnzprintf(
 			hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"corrupt enum expression (type %d constant-type %d)",
-			expression->type.get(),
-			expression->constant_type.get());
+			expression->type,
+			expression->constant_type);
 
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
 		return false;
 	}
 
-	const hs_enum_definition* enum_definition = &hs_enum_table[expression->type.get() - _hs_type_game_difficulty];
+	const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - _hs_type_game_difficulty];
 	ASSERT(enum_definition->count);
 
 	int16 i = 0;
@@ -928,7 +909,7 @@ bool hs_parse_enum(int32 expression_index)
 	if (i == enum_definition->count)
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"%s must be ", hs_type_names[expression->type.get()]);
+			"%s must be ", hs_type_names[expression->type]);
 
 		for (i = 0; i < enum_definition->count - 1; i++)
 		{
@@ -965,10 +946,10 @@ bool hs_parse_object(int32 expression_index)
 		return true;
 	}
 
-	expression->type += k_hs_script_type_count;
+	expression->type += NUMBER_OF_HS_SCRIPT_TYPES;
 	expression->constant_type = expression->type;
-	bool result = hs_parse_object_and_object_name_internal(expression_index, expression->constant_type);
-	expression->type -= k_hs_script_type_count;
+	bool result = hs_parse_object_and_object_name_internal(expression_index, (e_hs_type)expression->constant_type);
+	expression->type -= NUMBER_OF_HS_SCRIPT_TYPES;
 
 	if (!result && hs_parse_ai(expression_index))
 	{
@@ -1154,9 +1135,9 @@ bool hs_parse_variable(int32 expression_index)
 	}
 
 	if (!valid && (!hs_compile_globals.variables_predetermined
-		|| expression->type.get() == NONE
+		|| expression->type == NONE
 		|| expression->short_value == NONE
-		|| !expression->flags.test(_hs_syntax_node_parameter_bit)))
+		|| !TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit)))
 	{
 		expression->short_value = hs_find_global_by_name(source_offset);
 		if (expression->short_value != NONE)
@@ -1172,11 +1153,11 @@ bool hs_parse_variable(int32 expression_index)
 	}
 
 	ASSERT(type != NONE);
-	if (expression->type.get() && !hs_can_cast(type, expression->type))
+	if (expression->type && !hs_can_cast(type, expression->type))
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"i expected a value of type %s, but the variable %s has type %s",
-			hs_type_names[expression->type.get()],
+			hs_type_names[expression->type],
 			hs_global_get_name(expression->short_value),
 			hs_type_names[type]);
 
@@ -1192,11 +1173,11 @@ bool hs_parse_variable(int32 expression_index)
 			expression->type = type;
 		}
 
-		expression->flags.set(_hs_syntax_node_variable_bit, true);
+		SET_BIT(expression->flags, _hs_syntax_node_variable_bit, true);
 
 		if (is_parameter)
 		{
-			expression->flags.set(_hs_syntax_node_parameter_bit, true);
+			SET_BIT(expression->flags, _hs_syntax_node_parameter_bit, true);
 		}
 		else
 		{
@@ -1211,7 +1192,7 @@ bool hs_parse_variable(int32 expression_index)
 		return false;
 	}
 
-	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_parameter_bit))
+	if (expression->type == NONE || expression->long_value == NONE || !TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit))
 	{
 		hs_compile_globals.error_message = "this is not a valid variable name.";
 		hs_compile_globals.error_offset = expression->source_offset;
@@ -1243,23 +1224,23 @@ bool hs_parse_primitive(int32 expression_index)
 	}
 
 	bool error_occurred = false;
-	if (!hs_compile_globals.variables_predetermined || expression->flags.test(_hs_syntax_node_variable_bit))
+	if (!hs_compile_globals.variables_predetermined || TEST_BIT(expression->flags, _hs_syntax_node_variable_bit))
 	{
 		error_occurred = hs_parse_variable(expression_index);
 	}
 
-	if (error_occurred || !expression->type.get() || hs_compile_globals.error_message || (!hs_compile_globals.variables_predetermined || !expression->flags.test(_hs_syntax_node_variable_bit)))
+	if (error_occurred || !expression->type || hs_compile_globals.error_message || (!hs_compile_globals.variables_predetermined || !TEST_BIT(expression->flags, _hs_syntax_node_variable_bit)))
 	{
 		return false;
 	}
 
-	if (hs_type_primitive_parser_t* primitive_parser = hs_type_primitive_parsers[expression->type.get()])
+	if (hs_type_primitive_parser_t* primitive_parser = hs_type_primitive_parsers[expression->type])
 	{
 		return primitive_parser(expression_index);
 	}
 
 	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-		"expressions of type %s are currently unsupported.", hs_type_names[expression->type.get()]);
+		"expressions of type %s are currently unsupported.", hs_type_names[expression->type]);
 
 	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 	hs_compile_globals.error_offset = expression->source_offset;
@@ -1278,7 +1259,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 	hs_compile_globals.indent++;
 
 	hs_syntax_node* special_form_expression = hs_syntax_get(expression->long_value);
-	if (special_form_expression->flags.test(_hs_syntax_node_primitive_bit))
+	if (TEST_BIT(special_form_expression->flags, _hs_syntax_node_primitive_bit))
 	{
 		ASSERT(expression->type != _hs_special_form);
 
@@ -1299,29 +1280,29 @@ bool hs_parse_nonprimitive(int32 expression_index)
 				hs_compile_globals.error_offset = special_form_expression->source_offset;
 			}
 		}
-		else if (expression->flags.test(_hs_syntax_node_script_bit))
+		else if (TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
 		{
 			hs_script& script = global_scenario_get()->scripts[expression->script_index];
-			if (script.script_type != _hs_script_type_static)
+			if (script.script_type != _hs_script_static)
 			{
 				hs_compile_globals.error_message = "this is not a static script.";
 				hs_compile_globals.error_offset = expression->source_offset;
 				return false;
 			}
 
-			if (expression->type && !hs_can_cast(script.return_type.get(), expression->type.get()))
+			if (expression->type && !hs_can_cast(script.return_type, expression->type))
 			{
 				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 					"i expected a %s, but this script returns a %s.",
-					hs_type_names[expression->type.get()],
-					hs_type_names[script.return_type.get()]);
+					hs_type_names[expression->type],
+					hs_type_names[script.return_type]);
 
 				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 				hs_compile_globals.error_offset = expression->source_offset;
 				return false;
 			}
 
-			if (!expression->type.get())
+			if (!expression->type)
 			{
 				expression->type = script.return_type;
 			}
@@ -1350,40 +1331,40 @@ bool hs_parse_nonprimitive(int32 expression_index)
 
 			if (parse_result)
 			{
-				hs_compile_add_reference(expression->constant_type.get(), _hs_reference_type_script, expression_index);
+				hs_compile_add_reference(expression->constant_type, _hs_reference_type_script, expression_index);
 			}
 		}
 		else
 		{
-			const hs_function_definition_debug* function = hs_function_get_debug(expression->constant_type.get());
-			if (expression->type.get() && !hs_can_cast(function->return_type.get(), expression->type.get()))
+			const hs_function_definition_debug* function = hs_function_get_debug(expression->constant_type);
+			if (expression->type && !hs_can_cast(function->return_type, expression->type))
 			{
 				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 					"i expected a %s, but this function returns a %s.",
-					hs_type_names[expression->type.get()],
-					hs_type_names[function->return_type.get()]);
+					hs_type_names[expression->type],
+					hs_type_names[function->return_type]);
 
 				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 				hs_compile_globals.error_offset = expression->source_offset;
 			}
 			else if (hs_compile_globals.disallow_blocks
-				&& (expression->constant_type.get() == _hs_type_ai || expression->constant_type.get() == _hs_type_ai_command_script))
+				&& (expression->constant_type == _hs_type_ai || expression->constant_type == _hs_type_ai_command_script))
 			{
 				hs_compile_globals.error_message = "it is illegal to block in this context.";
 				hs_compile_globals.error_offset = expression->source_offset;
 			}
-			else if (hs_compile_globals.disallow_sets && expression->constant_type.get() == _hs_type_void)
+			else if (hs_compile_globals.disallow_sets && expression->constant_type == _hs_type_void)
 			{
 				hs_compile_globals.error_message = "it is illegal to set the value of variables in this context.";
 				hs_compile_globals.error_offset = expression->source_offset;
 			}
 			else if (!TEST_BIT(function->flags, 8)
 				|| hs_compile_globals.current_script_index == NONE
-				|| global_scenario_get()->scripts[hs_compile_globals.current_script_index].script_type.get() == _hs_script_type_command_script)
+				|| global_scenario_get()->scripts[hs_compile_globals.current_script_index].script_type == _hs_script_command_script)
 			{
 				if (!TEST_BIT(function->flags, 10) || hs_compile_globals.current_script_index == NONE)
 				{
-					if (!expression->type.get() && function->return_type.get() != _hs_passthrough)
+					if (!expression->type && function->return_type != _hs_passthrough)
 					{
 						expression->type = function->return_type;
 					}
@@ -1408,7 +1389,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"i expected %s, but i got an expression.",
-			expression->type.get() == _hs_special_form ? "\"script\" or \"global\"" : "a function name");
+			expression->type == _hs_special_form ? "\"script\" or \"global\"" : "a function name");
 
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
@@ -1432,7 +1413,7 @@ bool hs_parse(int32 expression_index, int16 expected_type)
 	}
 
 	expression->type = expected_type;
-	if (!hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+	if (!TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
 	{
 		return hs_parse_nonprimitive(expression_index);
 	}
@@ -1447,7 +1428,7 @@ bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
-	ASSERT(hs_type_valid(definition->return_type.get()));
+	ASSERT(hs_type_valid(definition->return_type));
 
 	bool has_remaining_arguments = true;
 	int16 parameter_index;
@@ -1460,7 +1441,7 @@ bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 			continue;
 		}
 
-		if (next_expression->type == _hs_type_string_id && hs_syntax_get(next_node_index)->flags.test(_hs_syntax_node_primitive_bit))
+		if (next_expression->type == _hs_type_string_id && TEST_BIT(hs_syntax_get(next_node_index)->flags, _hs_syntax_node_primitive_bit))
 		{
 			csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 				"this is not a valid string for '%s'", definition->name);
@@ -1565,37 +1546,37 @@ void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 predicate_index = expression->long_value;
 	hs_syntax_node* predicate = hs_syntax_get(predicate_index);
-	REFERENCE_DECLARE(hs_compile_globals.compiled_source + predicate->source_offset, char*, source_offset);
+	char* source_offset = &hs_compile_globals.compiled_source[predicate->source_offset];
 
-	if (predicate->type.get() == _hs_function_name)
+	if (predicate->type == _hs_function_name)
 	{
 		ASSERT(predicate->function_index != NONE);
 		expression->constant_type = predicate->constant_type;
 	}
 	else
 	{
-		int16 parameter_count = hs_count_children(expression_index) - 1;
-		expression->constant_type = hs_find_function_by_name(source_offset, parameter_count);
+		int16 num_arguments = hs_count_children(expression_index) - 1;
+		expression->constant_type = hs_find_function_by_name(source_offset, num_arguments);
 		predicate->type = _hs_function_name;
 
-		if (expression->constant_type.get() == NONE)
+		if (expression->constant_type == NONE)
 		{
-			expression->constant_type = hs_find_script_by_name(source_offset, parameter_count);
+			expression->constant_type = hs_find_script_by_name(source_offset, num_arguments);
 			if (expression->constant_type == NONE)
 			{
 				if (is_function)
 				{
-					*is_function = hs_find_function_by_name(source_offset, parameter_count) != NONE;
+					*is_function = hs_find_function_by_name(source_offset, num_arguments) != NONE;
 				}
 
 				if (is_script)
 				{
-					*is_script = hs_find_script_by_name(source_offset, parameter_count) != NONE;
+					*is_script = hs_find_script_by_name(source_offset, num_arguments) != NONE;
 				}
 			}
 			else
 			{
-				expression->flags.set(_hs_syntax_node_script_bit, true);
+				SET_BIT(expression->flags, _hs_syntax_node_script_bit, true);
 
 				if (is_script)
 				{
@@ -1636,7 +1617,7 @@ bool hs_parse_tag_block_element_string_id(int32 expression_index, int32 offset, 
 	if (!valid)
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"this is not a valid %s name", hs_type_names[expression->type.get()]);
+			"this is not a valid %s name", hs_type_names[expression->type]);
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
 
@@ -1681,7 +1662,7 @@ bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int32 scen
 	if (!valid)
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"this is not a valid %s name", hs_type_names[expression->type.get()]);
+			"this is not a valid %s name", hs_type_names[expression->type]);
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
 
@@ -1818,14 +1799,16 @@ int32 hs_tokenize(hs_tokenizer* state)
 	
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	expression->type = 0;
-	expression->flags.clear();
+	expression->flags = 0;
 	expression->script_index = NONE;
 	expression->source_offset = NONE;
 	expression->line_number = NONE;
 	expression->next_node_index = NONE;
-	expression->flags.set(_hs_syntax_node_primitive_bit, *state->cursor != '(');
+
+	bool is_primitive = *state->cursor != '(';
+	SET_BIT(expression->flags, _hs_syntax_node_primitive_bit, is_primitive);
 	
-	if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+	if (TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
 	{
 		hs_tokenize_primitive(state, expression_index);
 	}
@@ -1848,141 +1831,94 @@ int32 hs_tokenize(hs_tokenizer* state)
 void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	int32* next_node_index = &expression->long_value;
+	int32* tail = &expression->long_value;
 
-	expression->source_offset = state->cursor++ - hs_compile_globals.compiled_source;
+	expression->source_offset = state->cursor - hs_compile_globals.compiled_source;
+	state->cursor++;
 
-	if (!hs_compile_globals.error_message)
+	while (!hs_compile_globals.error_message)
 	{
-		while (true)
+		char* last_expression_end = state->cursor;
+
+		skip_whitespace(&state->cursor);
+		if (state->cursor != last_expression_end)
 		{
-			char* cursor = state->cursor;
+			*last_expression_end = 0;
+		}
 
-			skip_whitespace(&state->cursor);
-			if (state->cursor != cursor)
-			{
-				*cursor = 0;
-			}
-
-			char ch = *state->cursor;
-			if (!ch)
-			{
-				hs_compile_globals.error_message = "this left parenthesis is unmatched.";
-				hs_compile_globals.error_offset = expression->source_offset;
-				break;
-			}
-
-			if (ch == ')')
+		if (*state->cursor)
+		{
+			if (*state->cursor == ')')
 			{
 				*state->cursor++ = 0;
 				break;
 			}
 
-			*next_node_index = hs_tokenize(state);
-			if (*next_node_index != NONE)
+			*tail = hs_tokenize(state);
+			if (*tail != NONE)
 			{
-				*next_node_index = hs_syntax_get(*next_node_index)->next_node_index;
+				tail = &hs_syntax_get(*tail)->next_node_index;
 			}
-
-			if (hs_compile_globals.error_message)
-			{
-				break;
-			}
+		}
+		else
+		{
+			hs_compile_globals.error_message = "this left parenthesis is unmatched.";
+			hs_compile_globals.error_offset = expression->source_offset;
 		}
 	}
 
-	if (next_node_index == &expression->long_value && !hs_compile_globals.error_message)
+	if (tail == (int32*)&expression->long_value && !hs_compile_globals.error_message)
 	{
 		hs_compile_globals.error_message = "this expression is empty.";
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
 }
+
 void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* cursor = state->cursor;
-	char current = *cursor;
 
-	if (current == '"' || current == '{')
+	if (*state->cursor == '"')
 	{
-		hs_syntax_node* node = hs_syntax_get(expression_index);
-
-		state->cursor = cursor + 1;
-		node->source_offset = int32(cursor + 1 - hs_compile_globals.compiled_source);
-
-		char terminator = (current == '"') ? '"' : '}';
-		char* c = state->cursor;
-
-		while (*c && *c != terminator)
+		hs_token_primitive_until_delimiter(state, expression_index, '"',
+			"this quoted constant is unterminated.");
+	}
+	else if (*state->cursor == '{')
+	{
+		hs_token_primitive_until_delimiter(state, expression_index, '}',
+			"this superstring constant is unterminated. (did you forget a '}' ?)");
+	}
+	else
+	{
+		expression->source_offset = state->cursor - hs_compile_globals.compiled_source;
+		while (*state->cursor
+			&& *state->cursor != ')'
+			&& *state->cursor != ';'
+			&& !character_in_list(*state->cursor, 2, " \t")
+			&& !character_in_list(*state->cursor, 2, "\n\r"))
 		{
-			++c;
+			state->cursor++;
 		}
+	}
+}
 
-		state->cursor = c;
-
-		if (!*c)
-		{
-			if (current == '"')
-			{
-				hs_compile_globals.error_message = "this quoted constant is unterminated.";
-			}
-			else
-			{
-				hs_compile_globals.error_message = "this superstring constant is unterminated. (did you forget a '}' ?)";
-			}
-
-			hs_compile_globals.error_offset = node->source_offset - 1;
-			return;
-		}
-
-		*state->cursor = 0;
+void hs_token_primitive_until_delimiter(hs_tokenizer* state, int32 expression_index, int end_delimiter, const char* error_message)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	expression->source_offset = ++state->cursor - hs_compile_globals.compiled_source;
+	while (*state->cursor && *state->cursor != end_delimiter)
+	{
 		state->cursor++;
-		return;
 	}
 
-	if (expression)
+	if (*state->cursor)
 	{
-		expression->source_offset = (int32)(cursor - hs_compile_globals.compiled_source);
+		*state->cursor++ = 0;
 	}
-
-	for (char* c = state->cursor; *c; ++c)
+	else
 	{
-		char ch = *c;
-
-		if (ch == ')' || ch == ';')
-		{
-			break;
-		}
-
-		bool is_ws = false;
-
-		for (int32 i = 0; i < NUMBEROF(whitespace_characters); ++i)
-		{
-			if (ch == whitespace_characters[i])
-			{
-				is_ws = true;
-				break;
-			}
-		}
-
-		if (!is_ws)
-		{
-			for (int32 i = 0; i < NUMBEROF(eol_characters); ++i)
-			{
-				if (ch == eol_characters[i])
-				{
-					is_ws = true;
-					break;
-				}
-			}
-		}
-
-		if (is_ws)
-		{
-			break;
-		}
-
-		state->cursor = c + 1;
+		hs_compile_globals.error_message = error_message;
+		hs_compile_globals.error_offset = expression->source_offset - 1;
 	}
 }
 
@@ -2226,13 +2162,13 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 		hs_syntax_node* data_node = hs_syntax_get(data_node_index);
 		compiled_expression->long_value = data_node_index;
 		compiled_expression->next_node_index = NONE;
-		compiled_expression->flags.clear();
+		compiled_expression->flags = 0;
 		compiled_expression->source_offset = hs_syntax_get(tokenized_expression_index)->source_offset;
 		data_node->next_node_index = tokenized_expression_index;
 		data_node->source_offset = NONE;
 		data_node->function_index = _hs_function_inspect;
 		data_node->type = _hs_function_name;
-		data_node->flags.set(_hs_syntax_node_primitive_bit, true);
+		SET_BIT(data_node->flags, _hs_syntax_node_primitive_bit, true);
 
 		if (!hs_parse(compiled_expression_index, _hs_type_void))
 		{
@@ -2257,23 +2193,145 @@ void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<
 {
 	// $IMPLEMENT `hs_validify_expression` properly
 
-	//ASSERT(out_dest_string.count() > 0);
-	//
-	//int32 copy_length = out_dest_string.m_count - 1;
-	//if (copy_length > in_source_string.m_count)
-	//{
-	//	copy_length = in_source_string.m_count;
-	//}
-	//
-	//_memccpy(out_dest_string.m_elements, in_source_string.m_elements, 0, copy_length);
-	//
-	//out_dest_string.m_elements[copy_length] = 0;
+	ASSERT(out_dest_string.count() > 0);
+	
+	int32 copy_length = out_dest_string.m_count - 1;
+	if (copy_length > in_source_string.m_count)
+	{
+		copy_length = in_source_string.m_count;
+	}
+	
+	_memccpy(out_dest_string.m_elements, in_source_string.m_elements, 0, copy_length);
+	
+	out_dest_string.m_elements[copy_length] = 0;
+}
+
+enum e_hs_fakery
+{
+	_hs_fakery_none = 0,
+	_hs_fakery_parenthesize,
+	_hs_fakery_set,
+	_hs_fakery_begin,
+
+	NUMBER_OF_HS_FAKERY_TYPES,
+};
+
+bool char_is_delimiter(char character, const char* delimiter_string)
+{
+	bool found;
+	for (found = false; !found && *delimiter_string; found = character == *delimiter_string++);
+	return found;
 }
 
 void hs_validify_expression(const char* expression, char* out_valid_expression_buffer, int32 out_expression_length)
 {
-	// $TODO actually validate the expression
-	csstrnzcpy(out_valid_expression_buffer, expression, out_expression_length);
+	c_wrapped_array<char> out_valid_expression(out_valid_expression_buffer, out_expression_length);
+
+	const char* expression_end = find_string_end(expression, ";");
+	const char* expression_begin = find_string_end_not_in_delimiter(expression, " \t\r\n");
+	if (expression_begin > expression_end)
+	{
+		expression_begin = expression;
+	}
+
+	while (char_is_delimiter(*(expression_end - 1), " \t\r\n"))
+	{
+		expression_end--;
+	}
+
+	if (expression_begin >= expression_end)
+	{
+		csstrnzcpy(out_valid_expression.begin(), "", out_valid_expression.count());
+	}
+	else
+	{
+		e_hs_fakery fakery = _hs_fakery_none;
+		char fakery_buffer[4096]{};
+		string_copy_bounded(fakery_buffer, make_wrapped_array(expression_begin, expression_end));
+
+		if (fakery_buffer[0] != '(')
+		{
+			char* space = strchr(fakery_buffer, ' ');
+			if (space)
+			{
+				*space = 0;
+			}
+
+			if (hs_find_global_by_name(fakery_buffer) == NONE)
+			{
+				fakery = _hs_fakery_parenthesize;
+			}
+			else if (space)
+			{
+				fakery = _hs_fakery_set;
+			}
+
+			if (space)
+			{
+				*space = ' ';
+			}
+		}
+		else
+		{
+			int32 expression_depth = 0;
+			int32 expression_count = 0;
+			for (char const* expression_character = expression_begin; expression_character < expression_end; ++expression_character)
+			{
+				if (*expression_character == '(')
+				{
+					++expression_count;
+				}
+				else if (*expression_character == ')')
+				{
+					if (!expression_count)
+					{
+						break;
+					}
+
+					if (!--expression_count)
+					{
+						++expression_depth;
+					}
+				}
+			}
+
+			if (expression_depth > 1)
+			{
+				fakery = _hs_fakery_begin;
+			}
+		}
+
+		switch (fakery)
+		{
+		case _hs_fakery_none:
+		{
+			csstrnzcpy(out_valid_expression.begin(), fakery_buffer, out_valid_expression.count());
+		}
+		break;
+		case _hs_fakery_parenthesize:
+		{
+			csnzprintf(out_valid_expression.begin(), out_valid_expression.count(), "(%s)", fakery_buffer);
+		}
+		break;
+		case _hs_fakery_set:
+		{
+			csnzprintf(out_valid_expression.begin(), out_valid_expression.count(), "(set %s)", fakery_buffer);
+		}
+		break;
+		case _hs_fakery_begin:
+		{
+			csnzprintf(out_valid_expression.begin(), out_valid_expression.count(), "(begin %s)", fakery_buffer);
+		}
+		break;
+		default:
+		{
+			VASSERT("halt()");
+		}
+		break;
+		}
+
+		ascii_strnlwr(out_valid_expression.begin(), out_valid_expression.count());
+	}
 }
 
 bool hs_runtime_safe_to_gc()

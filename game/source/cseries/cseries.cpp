@@ -292,8 +292,16 @@ char* csnzappendf(char* buffer, uns32 size, const char* format, ...)
 	return buffer;
 }
 
-//.text:00670E70 ; const char* __cdecl find_string_end(const char*, const char*)
-//.text:00670E90 ; const char* __cdecl find_string_end_not_in_delimiter(const char*, const char*)
+const char* __cdecl find_string_end(const char* string, const char* delimiters)
+{
+	return INVOKE(0x00670E70, find_string_end, string, delimiters);
+}
+
+const char* __cdecl find_string_end_not_in_delimiter(const char* string, const char* delimiters)
+{
+	return INVOKE(0x00670E90, find_string_end_not_in_delimiter, string, delimiters);
+}
+
 //.text:00670EB0 ; 
 //.text:00670EC0 ; 
 //.text:00670ED0 ; 

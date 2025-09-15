@@ -68,7 +68,7 @@ bool hs_parse_begin(int16 function_index, int32 expression_index)
 		}
 		else
 		{
-			int16 type = next_next_node_index == NONE ? expression->type.get() : _hs_type_void;
+			int16 type = next_next_node_index == NONE ? expression->type : _hs_type_void;
 			parse_success = hs_parse(next_node_index, type);
 			if (next_next_node_index == NONE && !expression->type && parse_success)
 				expression->type = hs_syntax_get(next_node_index)->type;
@@ -149,6 +149,11 @@ bool hs_parse_cond(int16 function_index, int32 expression_index)
 
 bool hs_parse_set(int16 function_index, int32 expression_index)
 {
+	if (!hs_compile_globals.initialized)
+	{
+		return false;
+	}
+
 	bool parse_success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
@@ -176,7 +181,8 @@ bool hs_parse_set(int16 function_index, int32 expression_index)
 	}
 
 	hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
-	int16 global_index = hs_find_global_by_name(&hs_compile_globals.compiled_source[next_expression->source_offset]);
+	char* source_offset = &hs_compile_globals.compiled_source[next_expression->source_offset];
+	int16 global_index = hs_find_global_by_name(source_offset);
 	if (global_index == NONE)
 	{
 		hs_compile_globals.error_message = "this is not a valid global variable.";
@@ -189,8 +195,8 @@ bool hs_parse_set(int16 function_index, int32 expression_index)
 	{
 		hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"you cannot pass the result of this set (type %s) to a function that expects type %s.",
-			hs_type_names[next_expression->type.get()],
-			hs_type_names[expression->type.get()]);
+			hs_type_names[next_expression->type],
+			hs_type_names[expression->type]);
 		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 		return false;
 	}

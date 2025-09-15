@@ -7,6 +7,7 @@
 #include "effects/contrails.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/cheats.hpp"
+#include "hs/hs_compile.hpp"
 #include "hs/hs_runtime.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/c_controller.hpp"
@@ -521,10 +522,14 @@ void __cdecl console_warning(const char* format, ...)
 bool __cdecl console_process_command(const char* command, bool interactive)
 {
 	if (strlen(command) >= 255)
+	{
 		return false;
+	}
 
 	if (!command[0] || command[0] == ';')
+	{
 		return false;
+	}
 
 	main_status("console_command", "%s", command);
 
@@ -534,7 +539,9 @@ bool __cdecl console_process_command(const char* command, bool interactive)
 
 	int16 v5 = NUMBEROF(console_globals.previous_commands);
 	if (console_globals.previous_command_count + 1 <= NUMBEROF(console_globals.previous_commands))
+	{
 		v5 = console_globals.previous_command_count + 1;
+	}
 	console_globals.previous_command_count = v5;
 
 	console_globals.selected_previous_command_index = NONE;

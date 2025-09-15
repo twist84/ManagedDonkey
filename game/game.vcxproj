@@ -213,6 +213,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\gpu_particle\light_volume_gpu.cpp" />
     <ClCompile Include="source\gpu_particle\particle_block.cpp" />
     <ClCompile Include="source\hs\hs_library_internal_compile.cpp" />
+    <ClCompile Include="source\hs\object_lists.cpp" />
     <ClCompile Include="source\interface\attract_mode.cpp" />
     <ClCompile Include="source\interface\chud\chud_definitions.cpp" />
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />

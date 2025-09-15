@@ -239,6 +239,8 @@ extern char* __cdecl csstrtok(char* s, const char* delimiters, int32 delimiter_m
 extern int32 cvsnzprintf(char* buffer, uns32 size, const char* format, va_list list);
 extern char* csnzprintf(char* buffer, uns32 size, const char* format, ...);
 extern char* csnzappendf(char* buffer, uns32 size, const char* format, ...);
+extern const char* __cdecl find_string_end(const char* string, const char* delimiters);
+extern const char* __cdecl find_string_end_not_in_delimiter(const char* string, const char* delimiters);
 extern bool string_is_not_empty(const char* s);
 extern void string_terminate_at_first_delimiter(char* s, const char* delimiter);
 
@@ -275,6 +277,16 @@ public:
 	c_wrapped_array()
 	{
 		set_elements(nullptr, 0);
+	}
+
+	c_wrapped_array(t_type* elements, int32 k_element_count)
+	{
+		set_elements(elements, k_element_count);
+	}
+
+	c_wrapped_array(t_type* begin, t_type* end)
+	{
+		set_elements(begin, (int32)end - (int32)begin);
 	}
 
 	template<int32 k_element_count>
@@ -320,6 +332,12 @@ public:
 	int32 m_count;
 	t_type* m_elements;
 };
+
+template<typename t_type>
+c_wrapped_array<t_type> make_wrapped_array(t_type* begin, t_type* end)
+{
+	return c_wrapped_array<t_type>(begin, end);
+}
 
 template<typename t_type>
 class c_basic_buffer

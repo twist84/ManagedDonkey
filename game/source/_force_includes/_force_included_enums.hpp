@@ -3856,14 +3856,14 @@ static_assert(k_hs_type_object_count == k_hs_type_object_name_count);
 
 enum e_hs_script_type
 {
-	_hs_script_type_startup = 0,
-	_hs_script_type_dormant,
-	_hs_script_type_continuous,
-	_hs_script_type_static,
-	_hs_script_type_command_script,
-	_hs_script_type_stub,
+	_hs_script_startup = 0,
+	_hs_script_dormant,
+	_hs_script_continuous,
+	_hs_script_static,
+	_hs_script_command_script,
+	_hs_script_stub,
 
-	k_hs_script_type_count
+	NUMBER_OF_HS_SCRIPT_TYPES
 };
 
 enum e_core_widget_definition_flags

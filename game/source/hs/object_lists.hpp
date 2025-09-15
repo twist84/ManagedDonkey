@@ -20,3 +20,5 @@ struct object_list_datum :
 };
 static_assert(sizeof(object_list_datum) == 0xC);
 
+void __cdecl object_list_gc();
+

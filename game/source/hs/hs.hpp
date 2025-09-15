@@ -97,7 +97,7 @@ extern int16 const hs_type_sizes[k_hs_type_count];
 extern int16 const hs_object_type_masks[k_hs_type_object_count];
 extern int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];
 extern const char* const hs_type_names[k_hs_type_count];
-extern const char* const hs_script_type_names[k_hs_script_type_count];
+extern const char* const hs_script_type_names[NUMBER_OF_HS_SCRIPT_TYPES];
 extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
 extern s_data_array*& g_hs_syntax_data;
 

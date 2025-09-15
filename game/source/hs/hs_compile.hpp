@@ -100,6 +100,7 @@ extern bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int
 extern int32 hs_tokenize(hs_tokenizer* state);
 extern void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index);
 extern void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index);
+extern void hs_token_primitive_until_delimiter(hs_tokenizer* state, int32 expression_index, int end_delimiter, const char* error_message);
 extern bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive);
 extern void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source);
 

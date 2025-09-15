@@ -18,23 +18,19 @@ using hs_function_evaluate_t = void __cdecl(int16 function_index, int32 thread_i
 
 struct hs_function_definition
 {
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> return_type;
+	int16 return_type; // e_hs_type
 	uns16 flags;
 	hs_function_evaluate_t* evaluate;
 	const char* parameters;
 
 	int16 formal_parameter_count;
-	union
-	{
-		__pragma(warning(disable : 4200)) c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> formal_parameters_[];
-		__pragma(warning(disable : 4200)) int16 formal_parameters[];
-	};
+	__pragma(warning(disable : 4200)) int16 formal_parameters[];
 };
 static_assert(sizeof(hs_function_definition) == 0x10);
 
 struct hs_function_definition_debug
 {
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> return_type;
+	int16 return_type; // e_hs_type
 	const char* name;
 	uns16 flags;
 
@@ -45,11 +41,7 @@ struct hs_function_definition_debug
 	const char* parameters;
 
 	int16 formal_parameter_count;
-	union
-	{
-		//__pragma(warning(disable : 4200)) c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> formal_parameters_[];
-		__pragma(warning(disable : 4200)) int16 formal_parameters[];
-	};
+	__pragma(warning(disable : 4200)) int16 formal_parameters[];
 };
 static_assert(sizeof(hs_function_definition_debug) >= 0x20);
 

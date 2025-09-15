@@ -87,7 +87,7 @@ void __cdecl hs_evaluate(int16 script_index)
 	{
 		event(_event_warning, "hs: tried to pass a script to 'evaluate' which has arguments");
 	}
-	else if (script->script_type != _hs_script_type_static)
+	else if (script->script_type != _hs_script_static)
 	{
 		event(_event_warning, "hs: tried to pass a script to 'evaluate' which isn't static");
 	}

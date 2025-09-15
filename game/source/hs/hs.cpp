@@ -92,7 +92,7 @@
 //REFERENCE_DECLARE_ARRAY(0x0166D808, hs_enum_definition const, hs_enum_table, k_hs_type_enum_count);
 //REFERENCE_DECLARE(0x018BEC94, const char* const, _hs_type_string_default);
 //REFERENCE_DECLARE_ARRAY(0x018BEC98, const char* const, hs_type_names, k_hs_type_count);
-//REFERENCE_DECLARE_ARRAY(0x018BEDE8, const char* const, hs_script_type_names, k_hs_script_type_count);
+//REFERENCE_DECLARE_ARRAY(0x018BEDE8, const char* const, hs_script_type_names, NUMBER_OF_HS_SCRIPT_TYPES);
 REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 
 const hs_function_definition* hs_function_get(int16 function_index)
@@ -459,7 +459,7 @@ void __cdecl hs_enumerate_special_form_names(void)
 
 void __cdecl hs_enumerate_script_type_names(void)
 {
-	hs_enumerate_from_string_list(hs_script_type_names, _hs_script_type_startup, k_hs_script_type_count);
+	hs_enumerate_from_string_list(hs_script_type_names, _hs_script_startup, NUMBER_OF_HS_SCRIPT_TYPES);
 }
 
 void __cdecl hs_enumerate_type_names(void)
@@ -542,7 +542,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 
 		for (hs_script& script : scenario->scripts)
 		{
-			if (script.script_type == _hs_script_type_command_script)
+			if (script.script_type == _hs_script_command_script)
 				hs_tokens_enumerate_add_string(script.name);
 		}
 	}
@@ -1069,7 +1069,7 @@ const char* const hs_type_names[k_hs_type_count]
 };
 
 // 018BEDE8
-const char* const hs_script_type_names[k_hs_script_type_count]
+const char* const hs_script_type_names[NUMBER_OF_HS_SCRIPT_TYPES]
 {
 	"startup",
 	"dormant",

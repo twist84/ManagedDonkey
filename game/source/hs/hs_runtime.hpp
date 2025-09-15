@@ -38,6 +38,17 @@ enum
 
 enum
 {
+	_hs_thread_ai_abort_on_damage_bit = 0,
+	_hs_thread_ai_abort_on_alert_bit,
+	_hs_thread_ai_abort_on_combat_status_bit,
+	_hs_thread_ai_abort_on_vehicle_exit_bit,
+	_hs_thread_ai_cleanup_bit,
+
+	k_hs_thread_ai_flags_count,
+};
+
+enum
+{
 	_hs_destination_none = 0,
 	_hs_destination_stack,
 	_hs_destination_runtime_global,

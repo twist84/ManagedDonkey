@@ -36,8 +36,8 @@ static_assert(sizeof(hs_global_internal) == 0x28);
 struct hs_script
 {
 	char name[32];
-	c_enum<e_hs_script_type, int16, _hs_script_type_startup, k_hs_script_type_count> script_type;
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> return_type;
+	int16 script_type; // e_hs_script_type
+	int16 return_type; // e_hs_type
 	int32 root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
 };
@@ -76,12 +76,12 @@ struct hs_syntax_node :
 	{
 		int16 script_index;
 		int16 function_index;
-		c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> constant_type;
+		int16 constant_type; // e_hs_type
 	};
 
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
+	int16 type; // e_hs_type
 
-	c_flags<e_hs_syntax_node_flags, uns16, NUMBER_OF_HS_SYNTAX_NODE_FLAGS> flags;
+	uns16 flags; // e_hs_syntax_node_flags
 
 	int32 next_node_index;
 	int32 source_offset;
