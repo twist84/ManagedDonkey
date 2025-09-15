@@ -193,6 +193,8 @@ extern int32 __cdecl hs_find_thread_by_name(const char* script_name);
 extern int32 __cdecl hs_global_evaluate(int16 global_designator);
 extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
 extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
+extern void __cdecl hs_runtime_dispose();
+extern void __cdecl hs_runtime_dispose_from_old_map();
 extern bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic);
 extern const char* __cdecl hs_runtime_get_executing_thread_name();
 extern int32 __cdecl hs_runtime_index_from_global_designator(int32 designator);
@@ -212,7 +214,9 @@ extern int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer s
 extern int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count);
 extern void __cdecl hs_stack_pop(int32 thread_index);
 extern bool __cdecl hs_stack_push(int32 thread_index);
+extern bool __cdecl hs_syntax_node_exists(int32 index);
 extern int32 hs_thread_allocate(bool deterministic);
+extern void __cdecl hs_thread_delete(int32 thread_index, bool validate);
 extern const char* __cdecl hs_thread_format(int32 thread_index);
 extern bool __cdecl hs_thread_is_deterministic(int32 thread_index);
 extern void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic);

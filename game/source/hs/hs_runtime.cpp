@@ -35,6 +35,7 @@ HOOK_DECLARE(0x005988C0, hs_stack_destination);
 HOOK_DECLARE(0x005988E0, hs_stack_parameters);
 HOOK_DECLARE(0x00598900, hs_stack_pop);
 HOOK_DECLARE(0x00598940, hs_stack_push);
+HOOK_DECLARE(0x00598BC0, hs_thread_main);
 HOOK_DECLARE(0x00598E70, hs_thread_new);
 
 // this is potentially at address `0x023FF444`,
@@ -328,8 +329,16 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 //.text:005975D0 ; int32 __cdecl hs_runtime_command_script_begin(int16)
 //.text:00597640 ; void __cdecl hs_runtime_delete_internal_global_datums()
 //.text:005976C0 ; void __cdecl hs_runtime_dirty()
-//.text:00597730 ; void __cdecl hs_runtime_dispose()
-//.text:00597750 ; void __cdecl hs_runtime_dispose_from_old_map()
+
+void __cdecl hs_runtime_dispose()
+{
+	INVOKE(0x00597730, hs_runtime_dispose);
+}
+
+void __cdecl hs_runtime_dispose_from_old_map()
+{
+	INVOKE(0x00597750, hs_runtime_dispose_from_old_map);
+}
 
 bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic)
 {
@@ -671,6 +680,12 @@ bool __cdecl hs_stack_push(int32 thread_index)
 
 //.text:005989E0 ; int32 __cdecl hs_string_to_boolean(int32 n)
 //.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(int32 index)
+
+bool __cdecl hs_syntax_node_exists(int32 index)
+{
+	return datum_try_and_get(g_hs_syntax_data, index) != NULL;
+}
+
 //.text:00598A30 ; int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n)
 
 int32 hs_thread_allocate(bool deterministic)
@@ -706,7 +721,10 @@ int32 hs_thread_allocate(bool deterministic)
 	return thread_index;
 }
 
-//.text:00598A60 ; void __cdecl hs_thread_delete(int32 thread_index, bool validate)
+void __cdecl hs_thread_delete(int32 thread_index, bool validate)
+{
+	INVOKE(0x00598A60, hs_thread_delete, thread_index, validate);
+}
 
 const char* __cdecl hs_thread_format(int32 thread_index)
 {
@@ -730,7 +748,148 @@ int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
 
 void __cdecl hs_thread_main(int32 thread_index)
 {
-	INVOKE(0x00598BC0, hs_thread_main, thread_index);
+	//INVOKE(0x00598BC0, hs_thread_main, thread_index);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	hs_script* script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->scripts, thread->script_index, hs_script);
+
+	thread->sleep_until = 0;
+
+	if (!thread->stack.stack_offset)
+	{
+		ASSERT(script);
+
+		hs_thread_stack(thread)->size = 0;
+
+		hs_stack_pointer start_reference{};
+		if (hs_stack_allocate(thread_index, 4, 2, &start_reference))
+		{
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = start_reference;
+			hs_evaluate(thread_index, script->root_expression_index, destination, NULL);
+		}
+	}
+
+	while (thread->stack.stack_offset
+		&& thread->sleep_until >= 0
+		&& (!game_in_progress() || thread->sleep_until <= game_time_get())
+		&& !TEST_BIT(thread->flags, _hs_thread_terminate_bit)
+		&& hs_runtime_globals->initialized)
+	{
+		if (thread->type == _hs_thread_type_runtime_evaluate)
+		{
+			if (!hs_syntax_node_exists(hs_thread_stack(thread)->expression_index))
+			{
+				event(_event_warning, "terminating console script unexpectedly");
+			}
+
+			thread->flags |= FLAG(_hs_thread_terminate_bit);
+			break;
+		}
+
+		hs_syntax_node* expression = hs_syntax_get(hs_thread_stack(thread)->expression_index);
+
+		bool call = TEST_BIT(thread->flags, _hs_thread_in_function_call_bit);
+		hs_thread_stack(thread)->size = 0;
+		thread->flags &= ~FLAG(_hs_thread_in_function_call_bit);
+
+		if (TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
+		{
+			hs_script_evaluate(expression->script_index, thread_index, call);
+		}
+		else
+		{
+			const hs_function_definition* function = hs_function_get(expression->script_index);
+			ASSERT(function->evaluate);
+			function->evaluate(expression->script_index, thread_index, call);
+		}
+	}
+
+	if (hs_runtime_globals->require_object_list_gc && !hs_runtime_globals->globals_initializing)
+	{
+		object_list_gc();
+		hs_runtime_globals->require_object_list_gc = false;
+	}
+
+	if (!thread->stack.stack_offset || TEST_BIT(thread->flags, _hs_thread_terminate_bit))
+	{
+		bool finished = true;
+
+		if (TEST_BIT(thread->ai_flags, _hs_thread_ai_cleanup_bit))
+		{
+			int16 script_index = thread->script_index;
+			thread->script_index = thread->cleanup_script_index;
+			thread->cleanup_script_index = script_index;
+		}
+		else if (thread->cleanup_script_index != NONE)
+		{
+			hs_script* cleanup_script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, thread->cleanup_script_index, hs_script);
+			if (cleanup_script && cleanup_script->script_type != _hs_script_static || cleanup_script->parameters.count > 0)
+			{
+				event(_event_error, "design:hs: invalid cleanup script (must be a static script that takes no parameters): %s",
+					cleanup_script->name);
+			}
+			else
+			{
+				int16 script_index = thread->script_index;
+				thread->script_index = thread->cleanup_script_index;
+				thread->cleanup_script_index = script_index;
+				thread->stack.stack_offset = 0;
+				thread->flags &= MASK(_hs_thread_terminate_bit) | ~MASK(_hs_thread_abort_bit);
+				thread->ai_flags |= FLAG(_hs_thread_ai_cleanup_bit);
+
+				finished = false;
+			}
+		}
+
+		if (finished)
+		{
+			switch (thread->type)
+			{
+			case _hs_thread_type_script:
+			{
+				ASSERT(script);
+
+				if (script->script_type == _hs_script_startup || script->script_type == _hs_script_dormant)
+				{
+					thread->sleep_until = HS_SLEEP_FINISHED;
+
+					if (hs_verbose || TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+					{
+						event(_event_warning, "hs: FINISHED %s", hs_thread_format(thread_index));
+						if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+						{
+							event(_event_warning, "hs: FINISHED %s", hs_thread_format(thread_index));
+						}
+					}
+				}
+			}
+			break;
+			case _hs_thread_type_runtime_evaluate:
+			{
+				hs_thread_delete(thread_index, true);
+			}
+			break;
+			case _hs_thread_type_command_script:
+			{
+				if (hs_verbose || TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+				{
+					event(_event_warning, "hs: COMMAND-SCRIPT FINISHED %s", hs_thread_format(thread_index));
+					if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+					{
+						event(_event_warning, "hs: COMMAND-SCRIPT FINISHED %s", hs_thread_format(thread_index));
+					}
+				}
+
+				hs_thread_delete(thread_index, true);
+			}
+			break;
+			}
+		}
+	}
+
+	hs_runtime_globals->executing_thread_index = NONE;
 }
 
 int32 __cdecl hs_thread_new(e_hs_thread_type type, int32 script_index, bool deterministic)
