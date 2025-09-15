@@ -27,6 +27,7 @@ bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
+HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005987D0, hs_stack_allocate);
@@ -332,7 +333,54 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 
 bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic)
 {
-	return INVOKE(0x005977A0, hs_runtime_evaluate, expression_index, display_expression_result, deterministic);
+	//return INVOKE(0x005977A0, hs_runtime_evaluate, expression_index, display_expression_result, deterministic);
+
+	int32 result = NONE;
+	if (expression_index != NONE)
+	{
+		bool temporary_initialization = false;
+		if (!hs_runtime_globals->initialized)
+		{
+			hs_runtime_initialize_for_new_map();
+			temporary_initialization = true;
+		}
+
+		if (hs_runtime_globals->initialized)
+		{
+			int32 thread_index = hs_thread_new(_hs_thread_type_runtime_evaluate, NONE, deterministic);
+			if (thread_index != NONE)
+			{
+				hs_thread* thread = hs_thread_get(thread_index);
+				SET_BIT(thread->flags, _hs_thread_display_expression_bit, display_expression_result);
+
+				hs_destination_pointer destination{};
+				destination.destination_type = _hs_destination_thread_result;
+				hs_evaluate(thread_index, expression_index, destination, NULL);
+				if (TEST_BIT(thread->flags, _hs_thread_in_function_call_bit))
+				{
+					hs_thread_main(thread_index);
+				}
+				else
+				{
+					result = thread->result;
+				}
+			}
+			else
+			{
+				event(_event_critical, "design:hs: could not allocate thread to execute a command!");
+			}
+		}
+		else
+		{
+			event(_event_warning, "design:hs: unable to initialize scripting system to execute that command.");
+		}
+
+		if (temporary_initialization)
+		{
+			hs_runtime_dispose_from_old_map();
+		}
+	}
+	return result;
 }
 
 const char* __cdecl hs_runtime_get_executing_thread_name()
