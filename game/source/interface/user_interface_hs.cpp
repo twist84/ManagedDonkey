@@ -10,7 +10,7 @@ int32 start_script(const hs_script* script, int32 index)
 	ASSERT(script);
 	ASSERT(index != NONE);
 
-	int32 thread_index = hs_runtime_script_begin(static_cast<int16>(index & 0xFFFF), script->script_type, _hs_thread_type_script);
+	int32 thread_index = hs_runtime_script_begin((int16)(index & 0xFFFF), (e_hs_script_type)script->script_type, _hs_thread_type_script);
 	if (thread_index == NONE)
 	{
 		event(_event_error, "ui:hs: failed to start script %s", script->name);
