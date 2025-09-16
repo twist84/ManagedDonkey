@@ -127,8 +127,8 @@ static_assert(sizeof(hs_thread) == 0x524);
 struct s_hs_runtime_globals
 {
 	bool initialized;
-	bool require_gc;
-	bool require_object_list_gc;
+	bool syntax_data_needs_gc;
+	bool object_lists_need_gc;
 	bool globals_initializing;
 	int32 executing_thread_index;
 };
@@ -193,6 +193,7 @@ extern int32 __cdecl hs_find_thread_by_name(const char* script_name);
 extern int32 __cdecl hs_global_evaluate(int16 global_designator);
 extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
 extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
+extern void __cdecl hs_return(int32 thread_index, int32 value);
 extern void __cdecl hs_runtime_dispose();
 extern void __cdecl hs_runtime_dispose_from_old_map();
 extern bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic);
@@ -202,6 +203,7 @@ extern void __cdecl hs_runtime_initialize();
 extern void __cdecl hs_runtime_initialize_for_new_map();
 extern void __cdecl hs_runtime_initialize_threads();
 extern bool __cdecl hs_runtime_initialized();
+extern int32 __cdecl hs_runtime_internal_evaluate(int32 expression_index);
 extern bool __cdecl hs_runtime_nondeterministic_threads_running();
 extern void __cdecl hs_runtime_push_script(int16 script_index);
 extern int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);

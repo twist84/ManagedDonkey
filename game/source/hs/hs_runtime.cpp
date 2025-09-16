@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
+#include "hs/hs_globals_external.hpp"
 #include "hs/hs_library_external.hpp"
 #include "interface/interface.hpp"
 #include "main/main.hpp"
@@ -29,6 +30,7 @@ HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
+HOOK_DECLARE(0x00597D10, hs_runtime_internal_evaluate);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005987D0, hs_stack_allocate);
 HOOK_DECLARE(0x005988C0, hs_stack_destination);
@@ -324,7 +326,12 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 //.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 _real)
 //.text:00597400 ; void __cdecl hs_reset_scripts()
 //.text:005974D0 ; void __cdecl hs_restore_from_saved_game(int32)
-//.text:005974E0 ; void __cdecl hs_return(int32, int32)
+
+void __cdecl hs_return(int32 thread_index, int32 value)
+{
+	INVOKE(0x005974E0, hs_return, thread_index, value);
+}
+
 //.text:005975C0 ; bool __cdecl hs_running_game_scripts()
 //.text:005975D0 ; int32 __cdecl hs_runtime_command_script_begin(int16)
 //.text:00597640 ; void __cdecl hs_runtime_delete_internal_global_datums()
@@ -450,7 +457,34 @@ bool __cdecl hs_runtime_initialized()
 	return INVOKE(0x00597CF0, hs_runtime_initialized);
 }
 
-//.text:00597D10 ; int32 __cdecl hs_runtime_internal_evaluate(int32)
+int32 __cdecl hs_runtime_internal_evaluate(int32 expression_index)
+{
+	//return INVOKE(0x00597D10, hs_runtime_internal_evaluate, expression_index);
+
+	int32 result = NONE;
+	if (!hs_runtime_globals->initialized && expression_index != NONE)
+	{
+		int32 thread_index = hs_thread_new(_hs_thread_type_runtime_internal_evaluate, NONE, true);
+		if (thread_index != NONE)
+		{
+			hs_thread* thread = hs_thread_get(thread_index);
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_thread_result;
+			hs_evaluate(thread_index, expression_index, destination, NULL);
+			if (TEST_BIT(thread->flags, _hs_thread_in_function_call_bit))
+			{
+				hs_thread_main(thread_index);
+			}
+			result = thread->result;
+			hs_thread_delete(thread_index, true);
+		}
+		else
+		{
+			event(_event_critical, "design:hs: hs_runtime_internal_evaluate: there are not enough threads to execute that command!!!");
+		}
+	}
+	return result;
+}
 
 bool __cdecl hs_runtime_nondeterministic_threads_running()
 {
@@ -679,7 +713,13 @@ bool __cdecl hs_stack_push(int32 thread_index)
 }
 
 //.text:005989E0 ; int32 __cdecl hs_string_to_boolean(int32 n)
-//.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(int32 index)
+
+hs_syntax_node* __cdecl hs_syntax_get(int32 index)
+{
+	//return INVOKE(0x00598A10, hs_syntax_get, index);
+
+	return (struct hs_syntax_node*)datum_get(g_hs_syntax_data, index);
+}
 
 bool __cdecl hs_syntax_node_exists(int32 index)
 {
@@ -806,10 +846,10 @@ void __cdecl hs_thread_main(int32 thread_index)
 		}
 	}
 
-	if (hs_runtime_globals->require_object_list_gc && !hs_runtime_globals->globals_initializing)
+	if (hs_runtime_globals->object_lists_need_gc && !hs_runtime_globals->globals_initializing)
 	{
 		object_list_gc();
-		hs_runtime_globals->require_object_list_gc = false;
+		hs_runtime_globals->object_lists_need_gc = false;
 	}
 
 	if (!thread->stack.stack_offset || TEST_BIT(thread->flags, _hs_thread_terminate_bit))
@@ -825,7 +865,9 @@ void __cdecl hs_thread_main(int32 thread_index)
 		else if (thread->cleanup_script_index != NONE)
 		{
 			hs_script* cleanup_script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, thread->cleanup_script_index, hs_script);
-			if (cleanup_script && cleanup_script->script_type != _hs_script_static || cleanup_script->parameters.count > 0)
+			ASSERT(cleanup_script);
+
+			if (cleanup_script->script_type != _hs_script_static || cleanup_script->parameters.count > 0)
 			{
 				event(_event_error, "design:hs: invalid cleanup script (must be a static script that takes no parameters): %s",
 					cleanup_script->name);
