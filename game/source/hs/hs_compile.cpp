@@ -25,6 +25,46 @@
 
 // $TODO completely reorganize this file
 
+struct c_hs_compile_error_listener
+{
+public:
+	virtual ~c_hs_compile_error_listener() = 0;
+	virtual void handle_error(char const*, int32, const char*, const char*, c_wrapped_array<const char>*, const char*) = 0;
+};
+
+static struct
+{
+	static const int32 k_maximum_hs_compile_error_listeners = 1;
+	c_hs_compile_error_listener* compile_error_listeners[k_maximum_hs_compile_error_listeners];
+} hs_static_globals{};
+
+bool hs_compile_register_error_listener(c_hs_compile_error_listener* listener)
+{
+	bool successfully_added = 0;
+	for (int32 compile_error_listener_index = 0; compile_error_listener_index < hs_static_globals.k_maximum_hs_compile_error_listeners; compile_error_listener_index++)
+	{
+		if (hs_static_globals.compile_error_listeners[compile_error_listener_index] == NULL)
+		{
+			hs_static_globals.compile_error_listeners[compile_error_listener_index] = listener;
+
+			successfully_added = true;
+			break;
+		}
+	}
+	return successfully_added;
+}
+
+void hs_compile_unregister_error_listener(c_hs_compile_error_listener* listener)
+{
+	for (int32 compile_error_listener_index = 0; compile_error_listener_index < hs_static_globals.k_maximum_hs_compile_error_listeners; compile_error_listener_index++)
+	{
+		if (hs_static_globals.compile_error_listeners[compile_error_listener_index] == listener)
+		{
+			hs_static_globals.compile_error_listeners[compile_error_listener_index] = NULL;
+		}
+	}
+}
+
 enum
 {
 	_skip_whitespace_state_no_comment = 0,
@@ -2399,6 +2439,63 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 
 void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source)
 {
-	// $IMPLEMENT
+	char const* newline = NULL;
+	if (error_source)
+	{
+		newline = strchr(error_source, '\n');
+		if (!newline)
+		{
+			newline = &error_source[strlen_debug(error_source)];
+		}
+	}
+
+	c_wrapped_array<char const> bounded_expression(error_source, newline);
+	if (file_name && newline)
+	{
+		int16 line_number = 1;
+		while (newline > source)
+		{
+			if (*newline == '\n')
+			{
+				line_number++;
+			}
+			newline--;
+		}
+
+		event(_event_critical, "design: [%s line %d] %s: %.*s",
+			file_name, line_number,
+			error_message,
+			bounded_expression.count(), bounded_expression.begin());
+
+		if (g_error_output_buffer)
+		{
+			csnzappendf(g_error_output_buffer, g_error_buffer_length, "design: [%s line %d] %s: %.*s",
+				file_name, line_number,
+				error_message,
+				bounded_expression.count(), bounded_expression.begin());
+		}
+
+		for (int32 compile_error_listener_index = 0; compile_error_listener_index < hs_static_globals.k_maximum_hs_compile_error_listeners; compile_error_listener_index++)
+		{
+			if (hs_static_globals.compile_error_listeners[compile_error_listener_index])
+			{
+				hs_static_globals.compile_error_listeners[compile_error_listener_index]->handle_error(
+					file_name, line_number, error_message, error_source, &bounded_expression, source);
+			}
+		}
+	}
+	else
+	{
+		event(_event_critical, "design: %s: %.*s",
+			error_message,
+			bounded_expression.count(), bounded_expression.begin());
+
+		if (g_error_output_buffer)
+		{
+			csnzappendf(g_error_output_buffer, g_error_buffer_length, "%s: %.*s\n",
+				error_message,
+				bounded_expression.count(), bounded_expression.begin());
+		}
+	}
 }
 
