@@ -5252,11 +5252,11 @@ DECLARE_LAMBDA2(set_hs_function_table_debug_count, int32)
 			definition_debug->parse = hs_parse_sleep;
 		}
 		break;
-		case _hs_function_sleep_for_ticks:
-		{
-			definition_debug->parse = hs_parse_sleep_for_ticks;
-		}
-		break;
+		//case _hs_function_sleep_for_ticks:
+		//{
+		//	definition_debug->parse = hs_parse_sleep_for_ticks;
+		//}
+		//break;
 		case _hs_function_sleep_forever:
 		{
 			definition_debug->parse = hs_parse_sleep_forever;

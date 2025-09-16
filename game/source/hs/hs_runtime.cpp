@@ -51,6 +51,8 @@ bool breakpoints_enabled = true;
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
 
+REFERENCE_DECLARE(0x018F1824, hs_global_external, run_game_scripts_definition) = { .type = _hs_type_boolean, .value = &g_run_game_scripts };
+
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
 {
 	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
@@ -887,8 +889,12 @@ void __cdecl hs_thread_main(int32 thread_index)
 		}
 		else
 		{
-			const hs_function_definition* function = hs_function_get(expression->script_index);
+			const hs_function_definition_debug* function = hs_function_get_debug(expression->script_index);
 			ASSERT(function->evaluate);
+			if ("print"_hash == string_hash(function->name))
+			{
+				printf("");
+			}
 			function->evaluate(expression->script_index, thread_index, call);
 		}
 	}
