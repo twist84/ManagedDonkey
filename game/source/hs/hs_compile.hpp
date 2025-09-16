@@ -14,7 +14,7 @@ struct s_hs_reference
 };
 static_assert(sizeof(s_hs_reference) == 0x14);
 
-static inline struct
+typedef struct
 {
 	bool initialized;
 
@@ -42,8 +42,9 @@ static inline struct
 	s_hs_reference** script_references;
 	s_hs_reference** global_references;
 	int16 allocated_references;
-} hs_compile_globals;
-static_assert(sizeof(hs_compile_globals) == 0x444);
+} s_hs_compile_globals;
+static_assert(sizeof(s_hs_compile_globals) == 0x444);
+extern s_hs_compile_globals hs_compile_globals;
 
 using hs_type_primitive_parser_t = bool __cdecl(int32 expression_index);
 extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
