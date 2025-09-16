@@ -103,7 +103,6 @@ extern s_data_array*& g_hs_syntax_data;
 
 extern const hs_function_definition* hs_function_get(int16 function_index);
 extern const hs_function_definition_debug* hs_function_get_debug(int16 function_index);
-extern hs_syntax_node* __cdecl hs_syntax_get(int32 datum_index);
 extern void __cdecl hs_dispose();
 extern void __cdecl hs_dispose_from_old_map();
 extern int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments);

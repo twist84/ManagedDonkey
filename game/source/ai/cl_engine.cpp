@@ -27,7 +27,12 @@
 //.text:01443340 ; bool __cdecl cs_atom_executing(int32, int32, int16)
 //.text:01443400 ; int32 __cdecl cs_attach_command_script(int32, int16)
 //.text:01443420 ; int32 __cdecl cs_attach_command_script(int32, int16, int32)
-//.text:01443510 ; bool __cdecl cs_blocked(int32)
+
+bool __cdecl cs_blocked(int32 thread_index)
+{
+	return INVOKE(0x01443510, cs_blocked, thread_index);
+}
+
 //.text:01443680 ; bool __cdecl cs_cast(int32, int32, bool, int16, int32*, int16)
 //.text:014439F0 ; bool __cdecl cs_cast_internal(int32, bool, int16, const mission_dialogue_line**, int16, int16, s_role_set*, int16*, int16, int32, int32*, int16*)
 //.text:01443BF0 ; void __cdecl cs_command_clear(cs_command*)
@@ -98,7 +103,12 @@ cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario)
 }
 
 //.text:01444A60 ; void __cdecl cs_set_cleanup_script(int32, int16)
-//.text:01444AD0 ; void __cdecl cs_setup_global_script_context(int32)
+
+void __cdecl cs_setup_global_script_context(int32 thread_index)
+{
+	INVOKE(0x01444AD0, cs_setup_global_script_context, thread_index);
+}
+
 //.text:01444B70 ; int32 __cdecl cs_stack_command_script(int32, int16)
 //.text:01444C00 ; int32 __cdecl cs_stack_command_script(int32, int16, int32)
 //.text:01444C90 ; 

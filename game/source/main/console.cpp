@@ -546,7 +546,7 @@ bool __cdecl console_process_command(const char* command, bool interactive)
 
 	console_globals.selected_previous_command_index = NONE;
 
-	bool result = false;//hs_compile_and_evaluate(_event_message, "console_command", command, interactive);
+	bool result = hs_compile_and_evaluate(_event_message, "console_command", command, interactive);
 
 	tokens_t tokens{};
 	int32 token_count = 0;

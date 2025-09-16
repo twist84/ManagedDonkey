@@ -5,7 +5,7 @@
 
 struct hs_global_external
 {
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
+	int16 type; // e_hs_type
 	void* value;
 };
 static_assert(sizeof(hs_global_external) == 0x8);
@@ -13,7 +13,7 @@ static_assert(sizeof(hs_global_external) == 0x8);
 struct hs_global_external_debug
 {
 	const char* name;
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
+	int16 type; // e_hs_type
 	void* value;
 };
 static_assert(sizeof(hs_global_external_debug) == 0xC);

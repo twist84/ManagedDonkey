@@ -1018,12 +1018,12 @@ bool hs_parse_budget_reference(int32 expression_index)
 
 hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
 {
-	nullptr,                              // unparsed
-	nullptr,                              // special_form
-	nullptr,                              // function_name
-	nullptr,                              // passthrough
+	NULL,                                 // unparsed
+	NULL,                                 // special_form
+	NULL,                                 // function_name
+	NULL,                                 // passthrough
 
-	nullptr,                              // void
+	NULL,                                 // void
 	hs_parse_boolean,                     // boolean
 	hs_parse_real,                        // real32
 	hs_parse_integer,                     // short_integer
@@ -1206,137 +1206,144 @@ bool hs_parse_variable(int32 expression_index)
 bool hs_parse_primitive(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-
+	bool success = false;
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_special_form || expression->type == _hs_unparsed);
 
 	if (expression->type == _hs_special_form)
 	{
 		hs_compile_globals.error_message = "i expected a script or variable definition.";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	if (expression->type == _hs_type_void)
+	else if (expression->type == _hs_type_void)
 	{
 		hs_compile_globals.error_message = "the value of this expression (in a <void> slot) can never be used.";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	bool error_occurred = false;
-	if (!hs_compile_globals.variables_predetermined || TEST_BIT(expression->flags, _hs_syntax_node_variable_bit))
+	else
 	{
-		error_occurred = hs_parse_variable(expression_index);
+		if (!hs_compile_globals.variables_predetermined || TEST_BIT(expression->flags, _hs_syntax_node_variable_bit))
+		{
+			success = hs_parse_variable(expression_index);
+		}
+
+		if (!success
+			&& expression->type
+			&& !hs_compile_globals.error_message
+			&& (!hs_compile_globals.variables_predetermined || !TEST_BIT(expression->flags, _hs_syntax_node_variable_bit)))
+		{
+			if (hs_type_primitive_parsers[expression->type])
+			{
+				success = hs_type_primitive_parsers[expression->type](expression_index);
+			}
+			else
+			{
+				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+					"expressions of type %s are currently unsupported.",
+					hs_type_names[expression->type]);
+
+				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+				hs_compile_globals.error_offset = expression->source_offset;
+				success = false;
+			}
+		}
 	}
 
-	if (error_occurred || !expression->type || hs_compile_globals.error_message || (!hs_compile_globals.variables_predetermined || !TEST_BIT(expression->flags, _hs_syntax_node_variable_bit)))
-	{
-		return false;
-	}
-
-	if (hs_type_primitive_parser_t* primitive_parser = hs_type_primitive_parsers[expression->type])
-	{
-		return primitive_parser(expression_index);
-	}
-
-	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-		"expressions of type %s are currently unsupported.", hs_type_names[expression->type]);
-
-	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-	hs_compile_globals.error_offset = expression->source_offset;
-
-	return false;
+	return success;
 }
 
 bool hs_parse_nonprimitive(int32 expression_index)
 {
-	bool parse_result = false;
+	bool success = false;
 
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	int32 predicate_index = hs_syntax_get(expression_index)->long_value;
+	hs_syntax_node* predicate = hs_syntax_get(predicate_index);
 
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_special_form || expression->type == _hs_unparsed);
 
 	hs_compile_globals.indent++;
 
-	hs_syntax_node* special_form_expression = hs_syntax_get(expression->long_value);
-	if (TEST_BIT(special_form_expression->flags, _hs_syntax_node_primitive_bit))
+	if (!TEST_BIT(predicate->flags, _hs_syntax_node_primitive_bit))
 	{
+		bool function_exists = false;
+		bool script_exists = false;
 		ASSERT(expression->type != _hs_special_form);
 
-		bool is_function = false;
-		bool is_script = false;
-		hs_parse_call_predicate(expression_index, &is_function, &is_script);
-
+		hs_parse_call_predicate(expression_index, &function_exists, &script_exists);
 		if (expression->constant_type == NONE)
 		{
-			if (is_function)
+			if (function_exists)
 			{
 				hs_compile_globals.error_message = "wrong number of arguments for function";
-				hs_compile_globals.error_offset = special_form_expression->source_offset;
+			}
+			else if (script_exists)
+			{
+				hs_compile_globals.error_message = "wrong number of arguments for script";
 			}
 			else
 			{
-				hs_compile_globals.error_message = is_script ? "wrong number of arguments for script" : "this is not a valid function or script name.";
-				hs_compile_globals.error_offset = special_form_expression->source_offset;
+				hs_compile_globals.error_message = "this is not a valid function or script name.";
 			}
+
+			hs_compile_globals.error_offset = predicate->source_offset;
 		}
-		else if (TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
+		else if (TEST_BIT(predicate->flags, _hs_syntax_node_script_bit))
 		{
-			hs_script& script = global_scenario_get()->scripts[expression->script_index];
-			if (script.script_type != _hs_script_static)
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, expression->script_index, hs_script);
+			if (script->script_type == _hs_script_static)
+			{
+				if (expression->type && !hs_can_cast(script->return_type, expression->type))
+				{
+					csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+						"i expected a %s, but this script returns a %s.",
+						hs_type_names[expression->type],
+						hs_type_names[script->return_type]);
+					hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+					hs_compile_globals.error_offset = expression->source_offset;
+				}
+				else
+				{
+					if (!expression->type)
+					{
+						expression->type = script->return_type;
+					}
+
+					int16 num_arguments = hs_count_children(expression_index) - 1;
+					if (num_arguments == script->parameters.count)
+					{
+						int16 parameter_index = 0;
+						int32 parameter_node_index = hs_syntax_get(predicate_index)->next_node_index;
+						success = true;
+						while (parameter_node_index != NONE && success)
+						{
+							ASSERT(parameter_index >= 0 && parameter_index < script->parameters.count);
+							hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
+							success = hs_parse(parameter_node_index, parameter->return_type);
+							parameter_node_index = hs_syntax_get(parameter_node_index)->next_node_index;
+						}
+
+						if (success)
+						{
+							hs_compile_add_reference(expression->constant_type, _hs_reference_type_script, expression_index);
+						}
+					}
+					else
+					{
+						hs_compile_globals.error_message = "wrong number of script arguments";
+						hs_compile_globals.error_offset = expression->source_offset;
+						success = false;
+					}
+				}
+			}
+			else
 			{
 				hs_compile_globals.error_message = "this is not a static script.";
 				hs_compile_globals.error_offset = expression->source_offset;
-				return false;
-			}
-
-			if (expression->type && !hs_can_cast(script.return_type, expression->type))
-			{
-				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-					"i expected a %s, but this script returns a %s.",
-					hs_type_names[expression->type],
-					hs_type_names[script.return_type]);
-
-				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-				hs_compile_globals.error_offset = expression->source_offset;
-				return false;
-			}
-
-			if (!expression->type)
-			{
-				expression->type = script.return_type;
-			}
-
-			int16 script_argument_count = hs_count_children(expression_index) - 1;
-			if (script_argument_count != script.parameters.count)
-			{
-				hs_compile_globals.error_message = "wrong number of script arguments";
-				hs_compile_globals.error_offset = expression->source_offset;
-				return false;
-			}
-
-			int16 parameter_index = 0;
-			int32 next_node_index = special_form_expression->next_node_index;
-			parse_result = true;
-			while (next_node_index != NONE && parse_result)
-			{
-				ASSERT(parameter_index >= 0 && parameter_index < script.parameters.count);
-
-				hs_script_parameter& parameter = script.parameters[parameter_index];
-				parse_result = hs_parse(next_node_index, parameter.return_type.get());
-				next_node_index = hs_syntax_get(next_node_index)->next_node_index;
-
-				parameter_index++;
-			}
-
-			if (parse_result)
-			{
-				hs_compile_add_reference(expression->constant_type, _hs_reference_type_script, expression_index);
 			}
 		}
 		else
 		{
-			const hs_function_definition_debug* function = hs_function_get_debug(expression->constant_type);
+			const hs_function_definition_debug* function = hs_function_get_debug(expression->function_index);
 			if (expression->type && !hs_can_cast(function->return_type, expression->type))
 			{
 				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
@@ -1358,11 +1365,11 @@ bool hs_parse_nonprimitive(int32 expression_index)
 				hs_compile_globals.error_message = "it is illegal to set the value of variables in this context.";
 				hs_compile_globals.error_offset = expression->source_offset;
 			}
-			else if (!TEST_BIT(function->flags, 8)
+			else if (!TEST_BIT(function->flags, _hs_function_flag_command_script_atom)
 				|| hs_compile_globals.current_script_index == NONE
-				|| global_scenario_get()->scripts[hs_compile_globals.current_script_index].script_type == _hs_script_command_script)
+				|| TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, hs_compile_globals.current_script_index, hs_script)->script_type == _hs_script_command_script)
 			{
-				if (!TEST_BIT(function->flags, 10) || hs_compile_globals.current_script_index == NONE)
+				if (!TEST_BIT(function->flags, _hs_function_flag_debug) || hs_compile_globals.current_script_index == NONE)
 				{
 					if (!expression->type && function->return_type != _hs_passthrough)
 					{
@@ -1370,7 +1377,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 					}
 
 					ASSERT(function->parse);
-					parse_result = function->parse(expression->function_index, expression_index);
+					success = function->parse(expression->constant_type, expression_index);
 				}
 				else
 				{
@@ -1387,39 +1394,44 @@ bool hs_parse_nonprimitive(int32 expression_index)
 	}
 	else
 	{
-		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"i expected %s, but i got an expression.",
-			expression->type == _hs_special_form ? "\"script\" or \"global\"" : "a function name");
+		if (expression->type == _hs_special_form)
+		{
+			csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+				"i expected %s, but i got an expression.",
+				expression->type == _hs_special_form ? "\"script\" or \"global\"" : "a function name");
 
-		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-		hs_compile_globals.error_offset = expression->source_offset;
+			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
 	}
 
 	hs_compile_globals.indent--;
 
-	return parse_result;
+	return success;
 }
 
 bool hs_parse(int32 expression_index, int16 expected_type)
 {
-	hs_syntax_node* expression = hs_syntax_get(expression_index);
-
 	ASSERT(!hs_compile_globals.error_message);
 	ASSERT(hs_type_valid(expected_type) || expected_type == _hs_special_form || expected_type == _hs_unparsed);
 
-	if (expression->type)
-	{
-		return true;
-	}
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
-	expression->type = expected_type;
-	if (!TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
+	bool success = true;
+	if (expression->type == _hs_unparsed)
 	{
-		return hs_parse_nonprimitive(expression_index);
+		expression->type = expected_type;
+		if (TEST_BIT(expression->flags, _hs_syntax_node_primitive_bit))
+		{
+			expression->constant_type = expected_type;
+			success = hs_parse_primitive(expression_index);
+		}
+		else
+		{
+			success = hs_parse_nonprimitive(expression_index);
+		}
 	}
-
-	expression->constant_type = expected_type;
-	return hs_parse_primitive(expression_index);
+	return success;
 }
 
 bool hs_macro_function_parse(int16 function_index, int32 expression_index)
@@ -1551,18 +1563,18 @@ void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is
 	if (predicate->type == _hs_function_name)
 	{
 		ASSERT(predicate->function_index != NONE);
-		expression->constant_type = predicate->constant_type;
+		expression->function_index = predicate->function_index;
 	}
 	else
 	{
 		int16 num_arguments = hs_count_children(expression_index) - 1;
-		expression->constant_type = hs_find_function_by_name(source_offset, num_arguments);
+		expression->function_index = hs_find_function_by_name(source_offset, num_arguments);
 		predicate->type = _hs_function_name;
 
-		if (expression->constant_type == NONE)
+		if (expression->function_index == NONE)
 		{
-			expression->constant_type = hs_find_script_by_name(source_offset, num_arguments);
-			if (expression->constant_type == NONE)
+			expression->script_index = hs_find_script_by_name(source_offset, num_arguments);
+			if (expression->script_index == NONE)
 			{
 				if (is_function)
 				{
@@ -1576,7 +1588,7 @@ void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is
 			}
 			else
 			{
-				SET_BIT(expression->flags, _hs_syntax_node_script_bit, true);
+				expression->flags |= FLAG(_hs_syntax_node_script_bit);
 
 				if (is_script)
 				{
@@ -1789,43 +1801,45 @@ int32 hs_tokenize(hs_tokenizer* state)
 	ASSERT(!hs_compile_globals.error_message);
 	ASSERT(g_hs_syntax_data);
 	
-	int32 expression_index = datum_new(g_hs_syntax_data);
-	if (expression_index == NONE)
+	int32 syntax_index = datum_new(g_hs_syntax_data);
+	if (syntax_index != NONE)
+	{
+		hs_syntax_node* node = hs_syntax_get(syntax_index);
+		node->type = 0;
+		node->flags = 0;
+		node->script_index = NONE;
+		node->source_offset = NONE;
+		node->line_number = NONE;
+		node->next_node_index = NONE;
+
+		SET_BIT(node->flags, _hs_syntax_node_primitive_bit, *state->cursor != '(');
+
+		if (TEST_BIT(node->flags, _hs_syntax_node_primitive_bit))
+		{
+			hs_tokenize_primitive(state, syntax_index);
+		}
+		else
+		{
+			hs_tokenize_nonprimitive(state, syntax_index);
+		}
+
+		if (node->source_offset != NONE && state->source_file_data)
+		{
+			int32 offset = state->source_file_size + node->source_offset - hs_compile_globals.compiled_source_size;
+			ASSERT(offset >= 0 && offset < state->source_file_size);
+
+			char const* source_pointer = &state->source_file_data[offset];
+			node->line_number = (int16)hs_source_pointer_get_line_number(source_pointer, state->source_file_data);
+		}
+	}
+	else
 	{
 		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
 		hs_compile_globals.error_offset = state->cursor - hs_compile_globals.compiled_source;
 		return NONE;
 	}
 	
-	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	expression->type = 0;
-	expression->flags = 0;
-	expression->script_index = NONE;
-	expression->source_offset = NONE;
-	expression->line_number = NONE;
-	expression->next_node_index = NONE;
-
-	bool is_primitive = *state->cursor != '(';
-	SET_BIT(expression->flags, _hs_syntax_node_primitive_bit, is_primitive);
-	
-	if (TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
-	{
-		hs_tokenize_primitive(state, expression_index);
-	}
-	else
-	{
-		hs_tokenize_nonprimitive(state, expression_index);
-	}
-	
-	int32 source_offset = expression->source_offset;
-	if (source_offset != NONE && state->source_file_data)
-	{
-		int32 offset = state->source_file_size + source_offset - hs_compile_globals.compiled_source_size;
-		ASSERT(offset >= 0 && offset < state->source_file_size);
-		expression->line_number = (int16)hs_source_pointer_get_line_number(&state->source_file_data[offset], state->source_file_data);
-	}
-	
-	return expression_index;
+	return syntax_index;
 }
 
 void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index)
@@ -1894,8 +1908,8 @@ void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index)
 		while (*state->cursor
 			&& *state->cursor != ')'
 			&& *state->cursor != ';'
-			&& !character_in_list(*state->cursor, 2, " \t")
-			&& !character_in_list(*state->cursor, 2, "\n\r"))
+			&& !character_in_list(*state->cursor, NUMBEROF(whitespace_characters), whitespace_characters)
+			&& !character_in_list(*state->cursor, NUMBEROF(eol_characters), eol_characters))
 		{
 			state->cursor++;
 		}
@@ -2073,120 +2087,99 @@ void hs_compile_dispose()
 
 int32 hs_compile_expression(int32 source_size, const char* source_data, const char** error_message_pointer, const char** error_source_pointer)
 {
-	int32 compiled_expression_index = NONE;
+	int32 result_expression_index = NONE;
+	hs_tokenizer tokenizer{};
 
-	*error_message_pointer = NULL;
-	*error_source_pointer = NULL;
-
-	if (source_size >= 4096)
+	if (source_size < 4096)
 	{
-		return compiled_expression_index;
-	}
+		int32 old_size = 0;
 
-	char* compiled_source = NULL;
-	int32 compiled_source_offset = 0;
-	//if (global_scenario_index == NONE)
-	{
-		compiled_source = (char*)system_malloc(source_size + 1);
-		hs_compile_globals.malloced = 1;
-		hs_compile_globals.compiled_source = compiled_source;
-
-		ASSERT(hs_compile_globals.compiled_source);
-	}
-	//else
-	//{
-	//	int32 size = global_scenario->hs_string_constants.size;
-	//	if (size < 4096)
-	//	{
-	//		event(_event_error, "hs: not enough space to allocate a temporary hs compiled-source buffer! You got yourself into a REALLY weird state! (show Damian)");
-	//		return compiled_expression_index;
-	//	}
-	//
-	//	compiled_source_offset = size - 4096;
-	//	if (global_scenario->hs_string_constants.address)
-	//	{
-	//		compiled_source = global_scenario->hs_string_constants.address;
-	//	}
-	//	else
-	//	{
-	//		compiled_source = NULL;
-	//	}
-	//	hs_compile_globals.compiled_source = compiled_source;
-	//}
-
-	if (compiled_source)
-	{
-		ASSERT(g_hs_syntax_data);
-
-		csmemcpy(&compiled_source[compiled_source_offset], source_data, source_size);
-		hs_compile_globals.compiled_source_size = compiled_source_offset + source_size;
-		hs_compile_globals.compiled_source[compiled_source_offset + source_size] = 0;
-		hs_compile_globals.error_message = NULL;
-
-		hs_tokenizer tokenizer{};
-		tokenizer.cursor = &compiled_source[compiled_source_offset];
-		tokenizer.source_file_data = NULL;
-		tokenizer.source_file_size = 0;
-		hs_compile_globals.error_offset = NONE;
-
-		skip_whitespace(&tokenizer.cursor);
-		if (*tokenizer.cursor == '\0')
+		bool valid_buffer = true;
+		if (global_scenario_index_get() == NONE)
 		{
-			//hs_runtime_require_gc();
-			return compiled_expression_index;
+			old_size = 0;
+			hs_compile_globals.compiled_source = (char*)system_malloc(source_size + 1);
+			hs_compile_globals.malloced = true;
+			ASSERT(hs_compile_globals.compiled_source);
+		}
+		else if (global_scenario_get()->script_string_data.size < 4096)
+		{
+			valid_buffer = false;
+		}
+		else
+		{
+			old_size = global_scenario_get()->script_string_data.size - 4096;
+			hs_compile_globals.compiled_source = (char*)global_scenario_get()->script_string_data.address;
 		}
 
-		int32 tokenized_expression_index = hs_tokenize(&tokenizer);
-		if (hs_compile_globals.error_message)
+		if (valid_buffer)
 		{
-			*error_message_pointer = hs_compile_globals.error_message;
-			if (hs_compile_globals.error_offset != NONE)
+			ASSERT(g_hs_syntax_data);
+			csmemcpy(&hs_compile_globals.compiled_source[old_size], source_data, source_size);
+			hs_compile_globals.compiled_source_size = old_size + source_size;
+			hs_compile_globals.compiled_source[old_size + source_size] = 0;
+
+			*error_message_pointer = NULL;
+			*error_source_pointer = NULL;
+
+			hs_compile_globals.error_message = 0;
+			hs_compile_globals.error_offset = -1;
+
+			tokenizer.cursor = &hs_compile_globals.compiled_source[old_size];
+			tokenizer.source_file_data = 0;
+			tokenizer.source_file_size = 0;
+
+			skip_whitespace(&tokenizer.cursor);
+			if (*tokenizer.cursor)
 			{
-				int32 error_offset = hs_compile_globals.error_offset - compiled_source_offset;
-				hs_compile_globals.error_offset = error_offset;
-				ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
-				*error_source_pointer = &source_data[error_offset];
+				int32 root_expression_index = hs_tokenize(&tokenizer);
+				if (!hs_compile_globals.error_message)
+				{
+					int32 implicit_inspect_index = datum_new(g_hs_syntax_data);
+					int32 implicit_inspect_name_index = datum_new(g_hs_syntax_data);
+					if (implicit_inspect_index != NONE && implicit_inspect_name_index != NONE)
+					{
+						hs_syntax_node* implicit_inspect = hs_syntax_get(implicit_inspect_index);
+						hs_syntax_node* implicit_inspect_name = hs_syntax_get(implicit_inspect_name_index);
+						implicit_inspect->long_value = implicit_inspect_name_index;
+						implicit_inspect->next_node_index = NONE;
+						implicit_inspect->source_offset = hs_syntax_get(root_expression_index)->source_offset;
+						implicit_inspect->flags = 0;
+						implicit_inspect_name->next_node_index = root_expression_index;
+						implicit_inspect_name->source_offset = -1;
+						implicit_inspect_name->function_index = _hs_function_inspect;
+						implicit_inspect_name->flags = FLAG(_hs_syntax_node_primitive_bit);
+						implicit_inspect_name->type = _hs_function_name;
+						if (hs_parse(implicit_inspect_index, _hs_type_void))
+						{
+							result_expression_index = implicit_inspect_index;
+						}
+					}
+				}
+
+				if (result_expression_index == NONE)
+				{
+					*error_message_pointer = hs_compile_globals.error_message;
+					if (hs_compile_globals.error_offset != -1)
+					{
+						hs_compile_globals.error_offset -= old_size;
+						ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
+						*error_source_pointer = &source_data[hs_compile_globals.error_offset];
+					}
+				}
 			}
-			return compiled_expression_index;
-		}
-
-		compiled_expression_index = datum_new(g_hs_syntax_data);
-		int32 data_node_index = datum_new(g_hs_syntax_data);
-		if (compiled_expression_index == NONE || data_node_index == NONE)
-		{
-			*error_message_pointer = hs_compile_globals.error_message;
-			return compiled_expression_index;
-		}
-
-		hs_syntax_node* compiled_expression = hs_syntax_get(compiled_expression_index);
-		hs_syntax_node* data_node = hs_syntax_get(data_node_index);
-		compiled_expression->long_value = data_node_index;
-		compiled_expression->next_node_index = NONE;
-		compiled_expression->flags = 0;
-		compiled_expression->source_offset = hs_syntax_get(tokenized_expression_index)->source_offset;
-		data_node->next_node_index = tokenized_expression_index;
-		data_node->source_offset = NONE;
-		data_node->function_index = _hs_function_inspect;
-		data_node->type = _hs_function_name;
-		SET_BIT(data_node->flags, _hs_syntax_node_primitive_bit, true);
-
-		if (!hs_parse(compiled_expression_index, _hs_type_void))
-		{
-			*error_message_pointer = hs_compile_globals.error_message;
-			if (hs_compile_globals.error_offset != NONE)
+			else
 			{
-				int32 error_offset = hs_compile_globals.error_offset - compiled_source_offset;
-				hs_compile_globals.error_offset = error_offset;
-				ASSERT(hs_compile_globals.error_offset >= 0 && hs_compile_globals.error_offset < source_size);
-				*error_source_pointer = &source_data[error_offset];
+				//hs_runtime_require_gc();
 			}
-			return compiled_expression_index;
 		}
-
-		//hs_runtime_require_gc();
+		else
+		{
+			event(_event_error, "hs: not enough space to allocate a temporary hs compiled-source buffer! You got yourself into a REALLY weird state!(show Damian)");
+		}
 	}
 
-	return compiled_expression_index;
+	return result_expression_index;
 }
 
 void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<char const> const in_source_string)
@@ -2343,9 +2336,6 @@ bool hs_runtime_safe_to_gc()
 
 bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive)
 {
-	// $TODO enable once all sub functions are implemented
-	return false;
-
 	bool result = false;
 
 	event(event_level, "hs:evaluate: %s: %s", source, expression);

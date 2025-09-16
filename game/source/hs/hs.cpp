@@ -107,21 +107,6 @@ const hs_function_definition_debug* hs_function_get_debug(int16 function_index)
 	return hs_function_table_debug[function_index];
 }
 
-hs_syntax_node* __cdecl hs_syntax_get(int32 expression_index)
-{
-	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
-
-	hs_syntax_node* result = NULL;
-
-	int16 index = DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index);
-	if (g_hs_syntax_data && g_hs_syntax_data->data && index < g_hs_syntax_data->maximum_count)
-	{
-		result = (hs_syntax_node*)g_hs_syntax_data->data + index;
-	}
-
-	return result;
-}
-
 void __cdecl hs_dispose()
 {
 	INVOKE(0x006791C0, hs_dispose);
@@ -204,6 +189,7 @@ void __cdecl hs_update()
 {
 	//INVOKE(0x006796E0, hs_update);
 
+	//hs_looper_game_tick();
 	hs_runtime_update();
 }
 
