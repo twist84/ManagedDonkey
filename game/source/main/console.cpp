@@ -654,6 +654,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(run_game_scripts, g_run_game_scripts),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_global_fov, g_camera_globals.camera_field_of_view_scale),
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.camera_yaw_scale),

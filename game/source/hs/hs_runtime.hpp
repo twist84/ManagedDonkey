@@ -178,6 +178,7 @@ extern bool& debug_globals_all;
 extern bool& hs_verbose;
 extern bool debug_global_variables[512];
 
+extern bool g_run_game_scripts;
 extern bool breakpoints_enabled;
 
 extern bool debug_trigger_volumes;
@@ -216,6 +217,7 @@ extern int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer s
 extern int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count);
 extern void __cdecl hs_stack_pop(int32 thread_index);
 extern bool __cdecl hs_stack_push(int32 thread_index);
+extern hs_syntax_node* __cdecl hs_syntax_get(int32 index);
 extern bool __cdecl hs_syntax_node_exists(int32 index);
 extern int32 hs_thread_allocate(bool deterministic);
 extern void __cdecl hs_thread_delete(int32 thread_index, bool validate);

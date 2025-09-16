@@ -32,6 +32,7 @@ HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
 HOOK_DECLARE(0x00597D10, hs_runtime_internal_evaluate);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
+HOOK_DECLARE(0x005980C0, hs_runtime_update);
 HOOK_DECLARE(0x005987D0, hs_stack_allocate);
 HOOK_DECLARE(0x005988C0, hs_stack_destination);
 HOOK_DECLARE(0x005988E0, hs_stack_parameters);
@@ -44,6 +45,7 @@ HOOK_DECLARE(0x00598E70, hs_thread_new);
 // there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
 bool debug_global_variables[512]{};
 
+bool g_run_game_scripts = true;
 bool breakpoints_enabled = true;
 
 bool debug_trigger_volumes = false;
@@ -547,7 +549,52 @@ int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type scrip
 
 void __cdecl hs_runtime_update()
 {
-	INVOKE(0x005980C0, hs_runtime_update);
+	//INVOKE(0x005980C0, hs_runtime_update);
+
+	if (hs_runtime_globals->initialized)
+	{
+		int32 time = game_time_get();
+		bool internal_threads = false;
+
+		s_hs_thread_iterator iterator{};
+		hs_thread_iterator_new(&iterator, true, true);
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
+			hs_thread* thread = hs_thread_get(thread_index);
+			bool allow = true;
+
+			if (thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM && !cs_blocked(thread_index))
+			{
+				thread->sleep_until = 0;
+			}
+			if (thread->type == _hs_thread_type_runtime_evaluate)
+			{
+				internal_threads = true;
+			}
+			else if (thread->type <= _hs_thread_type_runtime_evaluate || thread->type > _hs_thread_type_command_script)
+			{
+				allow = g_run_game_scripts;
+			}
+			else
+			{
+				cs_setup_global_script_context(thread_index);
+			}
+
+			if (allow && thread->sleep_until >= 0 && thread->sleep_until <= time)
+			{
+				hs_thread_main(thread_index);
+			}
+		}
+
+		object_list_gc();
+		if (hs_runtime_globals->syntax_data_needs_gc && !internal_threads && !(game_time_get() % 16))
+		{
+			hs_node_gc();
+			hs_runtime_globals->syntax_data_needs_gc = false;
+		}
+	}
 }
 
 void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool initialize)
