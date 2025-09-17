@@ -54,7 +54,7 @@ bool __cdecl attract_mode_get_built_in_movie_path(e_movie_type movie, c_static_s
 		attract_mode_get_movie_path("loading_loop", out_fullpath);
 		return true;
 	default:
-		VASSERT("unreachable");
+		UNREACHABLE();
 		break;
 	}
 	return false;

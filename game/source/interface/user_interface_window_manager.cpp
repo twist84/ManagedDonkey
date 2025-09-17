@@ -360,7 +360,7 @@ void c_window_manager::debug_widget_state_for_widget(c_gui_widget* widget, e_wid
 	//break;
 	//default:
 	//{
-	//	VASSERT("unreachable");
+	//	UNREACHABLE();
 	//}
 	//break;
 	//}
@@ -1044,7 +1044,7 @@ void __cdecl window_manager_add_widgets_to_render_list_recursive(const rectangle
 		break;
 		default:
 		{
-			VASSERT("unhandled text widget buffer size!");
+			VASSERT(0, "unhandled text widget buffer size!");
 		}
 		break;
 		}

@@ -390,7 +390,7 @@ const char* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -426,7 +426,7 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}

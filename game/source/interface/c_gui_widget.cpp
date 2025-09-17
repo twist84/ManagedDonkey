@@ -1310,7 +1310,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 			//	break;
 			default:
 			{
-				VASSERT("unreachable");
+				UNREACHABLE();
 			}
 			break;
 			}

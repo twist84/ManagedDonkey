@@ -319,34 +319,29 @@ void* __cdecl datum_get(s_data_array* data, int32 index)
 	ASSERT(data);
 	ASSERT(data->valid);
 
-	if (index == NONE)
-		VASSERT(c_string_builder("tried to access %s index NONE",
-			data->name.get_string()).get_string());
+	VASSERT(index != NONE, c_string_builder("tried to access %s index NONE",
+		data->name.get_string()).get_string());
 
-	if (!identifier)
-		VASSERT(c_string_builder("tried to access %s using datum_get() with an absolute index #%d",
-			data->name.get_string(),
-			index).get_string());
+	VASSERT(identifier, c_string_builder("tried to access %s using datum_get() with an absolute index #%d",
+		data->name.get_string(),
+		index).get_string());
 
-	if (absolute_index < 0 || absolute_index >= data->count)
-		VASSERT(c_string_builder("%s index #%d (0x%x) is out of range (%d)",
-			data->name.get_string(),
-			absolute_index,
-			index,
-			data->count).get_string());
+	VASSERT(VALID_INDEX(absolute_index, data->count), c_string_builder("%s index #%d (0x%x) is out of range (%d)",
+		data->name.get_string(),
+		absolute_index,
+		index,
+		data->count).get_string());
 
-	if (!header->identifier)
-		VASSERT(c_string_builder("%s index #%d (0x%x) is unused",
-			data->name.get_string(),
-			absolute_index,
-			index).get_string());
+	VASSERT(header->identifier, c_string_builder("%s index #%d (0x%x) is unused",
+		data->name.get_string(),
+		absolute_index,
+		index).get_string());
 
-	if (header->identifier != identifier)
-		VASSERT(c_string_builder("%s index #%d (0x%x) is changed, should be 0x%x",
-			data->name.get_string(),
-			absolute_index,
-			index,
-			BUILD_DATUM_INDEX(header->identifier, absolute_index)).get_string());
+	VASSERT(header->identifier == identifier, c_string_builder("%s index #%d (0x%x) is changed, should be 0x%x",
+		data->name.get_string(),
+		absolute_index,
+		index,
+		BUILD_DATUM_INDEX(header->identifier, absolute_index)).get_string());
 
 	ASSERT(data->alignment_bits == 0 || header == align_pointer(header, data->alignment_bits));
 	return header;
@@ -372,16 +367,14 @@ void* __cdecl datum_try_and_get(const s_data_array* data, int32 index)
 
 	if (index != NONE || absolute_index != int16(0xFFFF))
 	{
-		if (!identifier)
-			VASSERT(c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
-				data->name.get_string(),
-				absolute_index).get_string());
+		VASSERT(identifier, c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
+			data->name.get_string(),
+			absolute_index).get_string());
 
-		if (absolute_index < 0 || absolute_index >= (int16)data->maximum_count)
-			VASSERT(c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
-				data->name.get_string(),
-				index,
-				data->maximum_count).get_string());
+		VASSERT(VALID_INDEX(absolute_index, (int16)data->maximum_count), c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
+			data->name.get_string(),
+			index,
+			data->maximum_count).get_string());
 
 		if (absolute_index < data->count)
 		{
@@ -407,23 +400,19 @@ void* __cdecl datum_get_absolute(s_data_array* data, int32 index)
 
 	ASSERT(data->valid);
 
-	if (index == NONE)
-		VASSERT(c_string_builder("tried to access %s index NONE",
-			data->name.get_string()).get_string());
+	VASSERT(index != NONE, c_string_builder("tried to access %s index NONE",
+		data->name.get_string()).get_string());
 
-	if (TEST_MASK(index, 0xFFFF0000))
-		VASSERT(c_string_builder("tried to access %s using datum_get_absolute() with a non absolute index #%d",
-			data->name.get_string(),
-			index).get_string());
+	VASSERT(!TEST_MASK(index, 0xFFFF0000), c_string_builder("tried to access %s using datum_get_absolute() with a non absolute index #%d",
+		data->name.get_string(),
+		index).get_string());
 
-	if (index < 0 || index >= data->count)
-		VASSERT(c_string_builder("%s absolute index #%d is out of range (%d)",
-			data->name.get_string(),
-			index,
-			data->count).get_string());
+	VASSERT(VALID_INDEX(index, data->count), c_string_builder("%s absolute index #%d is out of range (%d)",
+		data->name.get_string(),
+		index,
+		data->count).get_string());
 
-	if (!header->identifier)
-		VASSERT(c_string_builder("%s absolute index #%d is unused",
+	VASSERT(header->identifier, c_string_builder("%s absolute index #%d is unused",
 			data->name.get_string(),
 			index).get_string());
 

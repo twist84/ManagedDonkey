@@ -108,7 +108,7 @@ void c_vehicle_type_component::adjust_gravity(int32 vehicle_index, real_vector3d
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -187,7 +187,7 @@ bool c_vehicle_type_component::compute_function_value(int32 vehicle_index, int32
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -253,7 +253,7 @@ void c_vehicle_type_component::create_effects(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -317,7 +317,7 @@ void c_vehicle_type_component::deplete_function_variables(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -383,7 +383,7 @@ bool c_vehicle_type_component::effected_by_vehicle_ceiling(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -671,7 +671,7 @@ bool c_vehicle_type_component::is_stopped(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -739,7 +739,7 @@ bool c_vehicle_type_component::kills_riders_at_terminal_velocity(int32 vehicle_i
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -807,7 +807,7 @@ bool c_vehicle_type_component::physics_disabled(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -873,7 +873,7 @@ void c_vehicle_type_component::process_animation_channels(int32 vehicle_index, v
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -940,7 +940,7 @@ void c_vehicle_type_component::reset(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -1018,7 +1018,7 @@ bool c_vehicle_type_component::should_override_deactivation(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -1095,7 +1095,7 @@ void c_vehicle_type_component::update_control(int32 vehicle_index)
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -1159,7 +1159,7 @@ void c_vehicle_type_component::update_physics(int32 vehicle_index, s_havok_vehic
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}
@@ -1227,7 +1227,7 @@ bool c_vehicle_type_component::vector_is_upsides_down(int32 vehicle_index, const
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}

@@ -137,10 +137,8 @@ void __cdecl assert_game_options_verify(const game_options* options)
 	//INVOKE(0x00530440, assert_game_options_verify, options);
 
 	char error_string[512]{};
-	if (!game_options_verify(options, error_string, sizeof(error_string)))
-	{
-		VASSERT(c_string_builder("game_options_verify failed: %s", error_string).get_string());
-	}
+	VASSERT(game_options_verify(options, error_string, sizeof(error_string)),
+		c_string_builder("game_options_verify failed: %s", error_string).get_string());
 }
 
 //.text:00530580 ; game_globals_get_primary_skulls

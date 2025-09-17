@@ -61,7 +61,7 @@ void __cdecl c_gui_location_manager::begin_enter_location(e_gui_location old_loc
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}

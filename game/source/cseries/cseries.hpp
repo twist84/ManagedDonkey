@@ -190,12 +190,12 @@ do { \
 	} \
 } while (false)
 
-#define VASSERT(STATEMENT) VASSERT_EXCEPTION(STATEMENT, true)
-#define VASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
+#define VASSERT(STATEMENT, MESSAGE, ...) VASSERT_EXCEPTION(STATEMENT, MESSAGE, true)
+#define VASSERT_EXCEPTION(STATEMENT, MESSAGE, IS_EXCEPTION, ...) \
 do { \
-	if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
+	if (!(STATEMENT) && !handle_assert_as_exception(MESSAGE, __FILE__, __LINE__, IS_EXCEPTION)) \
 	{ \
-	    display_assert(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION); \
+	    display_assert(MESSAGE, __FILE__, __LINE__, IS_EXCEPTION); \
 	    if (!is_debugger_present() && g_catch_exceptions) \
 	        system_abort(); \
 	    else \
@@ -203,13 +203,19 @@ do { \
 	} \
 } while (false)
 
+#define UNREACHABLE(...) VASSERT(0, "unreachable")
+#define HALT(...) VASSERT(0, "halt()")
+
 #else
 
 #define ASSERT(STATEMENT, ...) do { } while (false)
 #define ASSERT_EXCEPTION(STATEMENT, ...) do { } while (false)
 
-#define VASSERT(STATEMENT, ...) do { } while (false)
-#define VASSERT_EXCEPTION(STATEMENT, ...) do { } while (false)
+#define VASSERT(STATEMENT, MESSAGE, ...) do { } while (false)
+#define VASSERT_EXCEPTION(STATEMENT, MESSAGE, ...) do { } while (false)
+
+#define UNREACHABLE(...) do { } while (false)
+#define HALT(...) do { } while (false)
 
 #endif // _DEBUG
 

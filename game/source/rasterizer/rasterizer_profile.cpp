@@ -177,19 +177,30 @@ const char* rasterizer_profile_get_stall_name(int32 profile_element_index)
 
 const char* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index)
 {
+	const char* result = NULL;
 	switch (g_rasterizer_profile_globals.get_mode())
 	{
 	case _rasterizer_profile_mode_1:
+	{
 		if (profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_element_count)
-			return k_rasterizer_profile_element_names[profile_element_index];
-		break;
+		{
+			result = k_rasterizer_profile_element_names[profile_element_index];
+		}
+	}
+	break;
 	case _rasterizer_profile_mode_5:
+	{
 		if (profile_element_index >= 0 && profile_element_index < k_rasterizer_profile_element_count)
-			return k_rasterizer_profile_stall_names[profile_element_index];
-		break;
+		{
+			result = k_rasterizer_profile_stall_names[profile_element_index];
+		}
+	}
+	break;
 	default:
-		ASSERT_EXCEPTION(!"unsupported mode", true);
-		break;
+	{
+		VASSERT(0, "unsupported mode");
+	}
+	break;
 	}
 
 	return NULL;

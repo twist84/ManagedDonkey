@@ -107,7 +107,7 @@ void __thiscall c_gui_pregame_setup_manager::set_selected_item_(e_controller_ind
 	break;
 	default:
 	{
-		VASSERT("unreachable");
+		UNREACHABLE();
 	}
 	break;
 	}

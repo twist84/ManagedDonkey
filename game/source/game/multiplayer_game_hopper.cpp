@@ -584,7 +584,7 @@ bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(uns1
 		}
 		else
 		{
-			VASSERT("unreachable");
+			UNREACHABLE();
 		}
 	}
 
@@ -840,7 +840,7 @@ void __cdecl multiplayer_game_hopper_update()
 			break;
 			default:
 			{
-				VASSERT("unreachable");
+				UNREACHABLE();
 			}
 			break;
 			}

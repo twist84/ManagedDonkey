@@ -136,8 +136,7 @@ bool __cdecl input_xinput_initialize()
 
 	return true;
 #else
-	if (XInput_module != NULL)
-		VASSERT("please don't try to initialize xinput multiple times!");
+	VASSERT(XInput_module == NULL, "please don't try to initialize xinput multiple times!");
 
 	if (XInput_module = LoadLibrary(XINPUT_DLL))
 	{

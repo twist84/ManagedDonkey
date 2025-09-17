@@ -95,7 +95,7 @@ bool c_http_client::do_work(
 	{
 		if (m_current_state)
 		{
-			VASSERT("c_http_client::do_work: not in a valid state");
+			VASSERT(0, "c_http_client::do_work: not in a valid state");
 		}
 		else
 		{
@@ -132,7 +132,7 @@ bool c_http_client::do_work(
 	// ASSERT
 	if (*upload_complete && !result)
 	{
-		VASSERT("upload_complete should only be set on success.");
+		VASSERT(0, "upload_complete should only be set on success.");
 	}
 
 	return result;

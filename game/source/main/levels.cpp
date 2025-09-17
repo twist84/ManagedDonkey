@@ -368,7 +368,7 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 				}
 				break;
 				default:
-					VASSERT("unreachable");
+					UNREACHABLE();
 					break;
 				}
 

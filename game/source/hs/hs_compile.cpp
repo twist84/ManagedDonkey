@@ -130,7 +130,7 @@ void skip_whitespace(char** c)
 					state = _skip_whitespace_state_done;
 				}
 			}
-			else VASSERT("unreachable");
+			else UNREACHABLE();
 		}
 		else if (**c == ';')
 		{
@@ -1589,7 +1589,7 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 		break;
 		default:
 		{
-			VASSERT("unreachable");
+			UNREACHABLE();
 		}
 		break;
 		}
@@ -1999,11 +1999,7 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_
 	//		skip_whitespace(&tokenizer.cursor);
 	//		if (hs_compile_globals.error_message || !hs_parse_special_form(expression_index))
 	//		{
-	//			if (hs_compile_globals.error_message)
-	//			{
-	//				VASSERT("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
-	//			}
-	//
+	//			VASSERT(!hs_compile_globals.error_message, "tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
 	//			*error_message_pointer = hs_compile_globals.error_message;
 	//			*error_offset = hs_compile_globals.error_offset;
 	//			break;
@@ -2361,7 +2357,7 @@ void hs_validify_expression(const char* expression, char* out_valid_expression_b
 		break;
 		default:
 		{
-			VASSERT("halt()");
+			HALT();
 		}
 		break;
 		}

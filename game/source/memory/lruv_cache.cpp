@@ -395,7 +395,7 @@ bool __cdecl lruv_cache_should_use_hole(s_lruv_cache* cache, int32 desired_page_
 	//	should_use_this_hole_blend(cache, desired_page_count, hole_a, hole_b);
 	//	break;
 	//default:
-	//	VASSERT("unreachable");
+	//	UNREACHABLE();
 	//	break;
 	//}
 }

@@ -29,8 +29,7 @@ bool __cdecl current_thread_should_exit()
 	return INVOKE(0x0051C360, current_thread_should_exit);
 
 	//int32 thread_index = get_current_thread_index();
-	//if (!VALID_INDEX(thread_index, k_registered_thread_count))
-	//	VASSERT("invalid thread index");
+	//VASSERT(VALID_INDEX(thread_index, k_registered_thread_count), "invalid thread index");
 	//return g_thread_globals.thread_should_exit[thread_index].peek() == TRUE;
 }
 
@@ -97,8 +96,7 @@ const char* __cdecl get_registered_thread_name(int32 thread_index)
 {
 	//return INVOKE(0x0051C440, get_registered_thread_name, thread_index);
 
-	//if (thread_index < k_thread_unknown || thread_index >= k_registered_thread_count)
-	//	ASSERT_EXCEPTION("invalid thread index", true);
+	VASSERT(VALID_INDEX(thread_index, k_registered_thread_count), "invalid thread index");
 	
 	return k_registered_thread_definitions[thread_index].name;
 }

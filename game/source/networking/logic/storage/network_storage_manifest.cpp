@@ -34,12 +34,10 @@ c_network_storage_manifest::e_entry_state __thiscall c_network_storage_manifest:
 	if (m_manifest && !VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
 	{
 		bswap_uns32_inplace(m_manifest->file_count);
-		if (!VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)))
-		{
-			VASSERT(c_string_builder("c_network_storage_manifest::get_entry_state: invalid manifest (expected file count %d != %d)",
+		VASSERT(VALID_COUNT(m_manifest->file_count, NUMBEROF(s_online_file_manifest::files)),
+			c_string_builder("c_network_storage_manifest::get_entry_state: invalid manifest (expected file count %d != %d)",
 				m_manifest->file_count,
 				NUMBEROF(s_online_file_manifest::files)).get_string());
-		}
 	}
 
 	this;

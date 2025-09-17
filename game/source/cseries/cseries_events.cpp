@@ -478,7 +478,7 @@ void event_context_push(const char* type, bool display_to_console, const char* d
 	}
 	else
 	{
-		VASSERT("exceeded the maximum event context depth!");
+		VASSERT(0, "exceeded the maximum event context depth!");
 		g_event_context_stack_failure_depth++;
 	}
 }
@@ -635,7 +635,10 @@ int32 event_parse_categories(const char* event_name, int32 max_categories, int32
 			}
 			else
 			{
-				VASSERT(c_string_builder("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, category_name_max_length).get_string());
+				VASSERT(0, c_string_builder("network event category substring #%d '%s' exceeded %d characters",
+					category_index,
+					category_name,
+					category_name_max_length).get_string());
 
 				failed = true;
 			}
@@ -653,7 +656,10 @@ int32 event_parse_categories(const char* event_name, int32 max_categories, int32
 				}
 				else
 				{
-					event(_event_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, max_categories);
+					event(_event_error, "network event category #%d '%s' exceeded %d category substrings",
+						category_index,
+						category_substring,
+						max_categories);
 
 					failed = true;
 				}
@@ -665,10 +671,7 @@ int32 event_parse_categories(const char* event_name, int32 max_categories, int32
 		}
 	} while (!succeeded && !failed);
 
-	if (failed)
-	{
-		VASSERT(c_string_builder("failed to parse network event '%s'", event_name).get_string());
-	}
+	VASSERT(!failed, c_string_builder("failed to parse network event '%s'", event_name).get_string());
 
 	if (category_index > category_count)
 	{
@@ -1374,24 +1377,18 @@ void event_generated_handle_datamine(e_event_level event_level, const char* form
 
 void event_generated_handle_debugger_break(const char* event_text)
 {
-	//static bool x_disable_debugger = false;
-	//if (x_disable_debugger)
-	//{
-	//	char debugstring[2048];
-	//	csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
-	//	VASSERT_EXCEPTION(debugstring, false);
-	//}
+	static bool x_disable_debugger = false;
+
+	//char debugstring[2048]{};
+	//VASSERT(x_disable_debugger, csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text));
 }
 
 void event_generated_handle_halt(const char* event_text)
 {
-	//static bool x_disable_halt = false;
-	//if (x_disable_halt)
-	//{
-	//	char debugstring[2048];
-	//	csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text);
-	//	VASSERT_EXCEPTION(debugstring, true);
-	//}
+	static bool x_disable_halt = false;
+
+	//char debugstring[2048]{};
+	//VASSERT(x_disable_halt, csnzprintf(debugstring, sizeof(debugstring), "critical event encountered: %s", event_text));
 }
 
 void event_generated_handle_listeners(e_event_level event_level, const char* event_text)

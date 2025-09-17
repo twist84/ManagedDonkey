@@ -116,7 +116,7 @@ void c_gui_data::delete_element(int32 element_handle)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD48A0, c_gui_data, delete_element, element_handle);
 
-	VASSERT("not implemented");
+	VASSERT(0, "not implemented");
 }
 
 void c_gui_data_array::delete_element(int32 element_handle)
@@ -128,7 +128,7 @@ void c_gui_data::disable_all_elements(int32 string_id_column_name)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD48D0, c_gui_data, disable_all_elements, string_id_column_name);
 
-	VASSERT("datasource doesn't support enabling and disabling");
+	VASSERT(0, "datasource doesn't support enabling and disabling");
 }
 
 void c_gui_ordered_data::disable_all_elements(int32 string_id_column_name)
@@ -145,7 +145,7 @@ void c_gui_data::enable_element(int32 string_id_column_name, int32 string_id_val
 {
 	//INVOKE_CLASS_MEMBER(0x00AD4960, c_gui_data, enable_element, string_id_column_name, string_id_value);
 
-	VASSERT("datasource doesn't support enabling and disabling");
+	VASSERT(0, "datasource doesn't support enabling and disabling");
 }
 
 void c_gui_ordered_data::enable_element(int32 string_id_column_name, int32 string_id_value)
@@ -379,7 +379,7 @@ void c_gui_data::set_disabled_element(int32 string_id_column_name, int32 string_
 {
 	//INVOKE_CLASS_MEMBER(0x00AD5430, c_gui_data, set_disabled_element, string_id_column_name, string_id_value);
 
-	VASSERT("datasource doesn't support enabling and disabling");
+	VASSERT(0, "datasource doesn't support enabling and disabling");
 }
 
 void c_gui_ordered_data::set_disabled_element(int32 string_id_column_name, int32 string_id_value)

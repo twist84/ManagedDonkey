@@ -113,7 +113,7 @@ bool __cdecl game_state_read_from_storage(int32 storage_index, int32 game_state_
 	//}
 	//else
 	//{
-	//	VASSERT("unreachable");
+	//	UNREACHABLE();
 	//	result = false;
 	//}
 
@@ -187,7 +187,7 @@ void __cdecl game_state_write_to_storage(int32 storage_index)
 	//}
 	//else
 	//{
-	//	VASSERT("unreachable");
+	//	UNREACHABLE();
 	//}
 }
 

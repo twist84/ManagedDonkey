@@ -10,7 +10,7 @@ HOOK_DECLARE(0x0075C4D0, halo_verify_reference_count);
 
 void __cdecl halo_external_breakpoint()
 {
-    VASSERT("havok breakpoint :-)");
+    VASSERT(0, "havok breakpoint :-)");
 }
 
 bool __cdecl halo_managed_memory_address(const hkReferencedObject* object)

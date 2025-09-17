@@ -318,7 +318,7 @@ void __cdecl main_crash(const char* type)
 	{
 	case "assert"_hash:
 	{
-		VASSERT("asserting on command");
+		VASSERT(0, "asserting on command");
 	}
 	break;
 	case "now"_hash:

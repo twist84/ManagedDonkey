@@ -87,7 +87,7 @@ int16 c_debug_menu_item::get_index()
 		}
 	}
 
-	VASSERT("unreachable");
+	UNREACHABLE();
 	return 0;
 }
 

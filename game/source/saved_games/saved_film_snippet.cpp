@@ -572,7 +572,7 @@ bool saved_film_snippet_update_after_simulation_update(const struct simulation_u
 	//break;
 	//default:
 	//{
-	//	VASSERT("this function should be unreachable");
+	//	VASSERT(0, "this function should be unreachable");
 	//}
 	//break;
 	//}

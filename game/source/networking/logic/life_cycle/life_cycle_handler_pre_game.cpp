@@ -126,7 +126,7 @@ void c_life_cycle_state_handler_pre_game::update()
 	//break;
 	//default:
 	//{
-	//	VASSERT("unreachable");
+	//	UNREACHABLE();
 	//}
 	//break;
 	//}

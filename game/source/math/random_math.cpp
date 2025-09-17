@@ -161,8 +161,10 @@ void random_seed_disallow_use()
 {
 	ASSERT(get_current_thread_index() == k_thread_main);
 
-	if (game_in_editor() && random_seed_allow_use_count > 0)
-		ASSERT_EXCEPTION("unmatched call to random_seed_disallow() somewhere", true);
+	if (!game_in_editor())
+	{
+		VASSERT(random_seed_allow_use_count <= 0, "unmatched call to random_seed_disallow() somewhere");
+	}
 
 	random_seed_allow_use_count--;
 }

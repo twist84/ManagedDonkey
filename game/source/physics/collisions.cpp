@@ -56,14 +56,14 @@ bool __cdecl collision_test_line(s_collision_test_flags flags, const real_point3
 //.text:006D6890 ; bool __cdecl collision_test_pill(s_collision_test_flags, const real_point3d*, const real_vector3d*, real32, int32, int32, collision_result*)
 
 // `collision_test_point_0` is only for `INVOKE` not actual use
-bool __cdecl collision_test_point_0(s_collision_test_flags flags, const real_point3d* point, int32 first_ignore_object_index, int32 second_ignore_object_index) { VASSERT("unreachable"); return false; }
+bool __cdecl collision_test_point_0(s_collision_test_flags flags, const real_point3d* point, int32 first_ignore_object_index, int32 second_ignore_object_index) { UNREACHABLE(); return false; }
 bool __cdecl collision_test_point(s_collision_test_flags flags, const real_point3d* point, int32 first_ignore_object_index, int32 second_ignore_object_index)
 {
 	return INVOKE(0x006D6AA0, collision_test_point_0, flags, point, first_ignore_object_index, second_ignore_object_index);
 }
 
 // `collision_test_point_1` is only for `INVOKE` not actual use
-bool __cdecl collision_test_point_1(s_collision_test_flags flags, const real_point3d* point, int32 first_ignore_object_index, int32 second_ignore_object_index, e_collision_result_type* collision_result_type) { VASSERT("unreachable"); return false; }
+bool __cdecl collision_test_point_1(s_collision_test_flags flags, const real_point3d* point, int32 first_ignore_object_index, int32 second_ignore_object_index, e_collision_result_type* collision_result_type) { UNREACHABLE(); return false; }
 bool __cdecl collision_test_point(s_collision_test_flags flags, const real_point3d* point, int32 first_ignore_object_index, int32 second_ignore_object_index, e_collision_result_type* collision_result_type)
 {
 	return INVOKE(0x006D6AC0, collision_test_point_1, flags, point, first_ignore_object_index, second_ignore_object_index, collision_result_type);
@@ -72,14 +72,14 @@ bool __cdecl collision_test_point(s_collision_test_flags flags, const real_point
 //.text:006D6D90 ; bool __cdecl collision_test_rectangle3d(const real_rectangle3d*, const real_point3d*, const real_vector3d*, real32, real32*, real32*)
 
 // `collision_test_sphere_0` is only for `INVOKE` not actual use
-bool __cdecl collision_test_sphere_0(int32 structure_bsp_index, s_collision_test_flags flags, const real_point3d* center, real32 radius, int32 first_ignore_object_index, int32 second_ignore_object_index) { VASSERT("unreachable"); return false; }
+bool __cdecl collision_test_sphere_0(int32 structure_bsp_index, s_collision_test_flags flags, const real_point3d* center, real32 radius, int32 first_ignore_object_index, int32 second_ignore_object_index) { UNREACHABLE(); return false; }
 bool __cdecl collision_test_sphere(int32 structure_bsp_index, s_collision_test_flags flags, const real_point3d* center, real32 radius, int32 first_ignore_object_index, int32 second_ignore_object_index)
 {
 	return INVOKE(0x006D6FC0, collision_test_sphere_0, structure_bsp_index, flags, center, radius, first_ignore_object_index, second_ignore_object_index);
 }
 
 // `collision_test_sphere_1` is only for `INVOKE` not actual use
-bool __cdecl collision_test_sphere_1(s_collision_test_flags flags, const real_point3d* center, real32 radius, int32 first_ignore_object_index, int32 second_ignore_object_index) { VASSERT("unreachable"); return false; }
+bool __cdecl collision_test_sphere_1(s_collision_test_flags flags, const real_point3d* center, real32 radius, int32 first_ignore_object_index, int32 second_ignore_object_index) { UNREACHABLE(); return false; }
 bool __cdecl collision_test_sphere(s_collision_test_flags flags, const real_point3d* center, real32 radius, int32 first_ignore_object_index, int32 second_ignore_object_index)
 {
 	return INVOKE(0x006D7060, collision_test_sphere_1, flags, center, radius, first_ignore_object_index, second_ignore_object_index);
@@ -88,14 +88,14 @@ bool __cdecl collision_test_sphere(s_collision_test_flags flags, const real_poin
 //.text:006D7130 ; 
 
 // `collision_test_vector_0` is only for `INVOKE` not actual use
-bool __cdecl collision_test_vector_0(s_collision_test_flags flags, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision) { VASSERT("unreachable"); return false; }
+bool __cdecl collision_test_vector_0(s_collision_test_flags flags, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision) { UNREACHABLE(); return false; }
 bool __cdecl collision_test_vector(s_collision_test_flags flags, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, collision_result* collision)
 {
 	return INVOKE(0x006D7160, collision_test_vector_0, flags, point, vector, first_ignore_object_index, second_ignore_object_index, collision);
 }
 
 // `collision_test_vector_1` is only for `INVOKE` not actual use
-bool __cdecl collision_test_vector_1(s_collision_test_flags flags, bool a2, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, int32 third_ignore_object_index, collision_result* collision) { VASSERT("unreachable"); return false; }
+bool __cdecl collision_test_vector_1(s_collision_test_flags flags, bool a2, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, int32 third_ignore_object_index, collision_result* collision) { UNREACHABLE(); return false; }
 bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, const real_point3d* point, const real_vector3d* vector, int32 first_ignore_object_index, int32 second_ignore_object_index, int32 third_ignore_object_index, collision_result* collision)
 {
 	return INVOKE(0x006D7190, collision_test_vector_1, flags, a2, point, vector, first_ignore_object_index, second_ignore_object_index, third_ignore_object_index, collision);

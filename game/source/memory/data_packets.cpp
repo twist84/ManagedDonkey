@@ -22,13 +22,10 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 		int16 field_count = 0;
 		_data_packet_verify(packet_definition, &packet_size, packet_definition->fields, &field_count);
 
-		if (packet_size != packet_definition->size)
-		{
-			VASSERT(c_string_builder("packet '%s' fields added up to #%d bytes but should have been #%d bytes.",
-				packet_definition->name,
-				packet_size,
-				packet_definition->size).get_string());
-		}
+		VASSERT(packet_size == packet_definition->size, c_string_builder("packet '%s' fields added up to #%d bytes but should have been #%d bytes.",
+			packet_definition->name,
+			packet_size,
+			packet_definition->size).get_string());
 	
 		packet_definition->initialized_flag = 1;
 	}

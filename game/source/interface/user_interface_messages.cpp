@@ -483,13 +483,11 @@ void c_message_globals::queue(c_message* message)
 
 	for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 	{
-		if (!node->m_message || node->m_message != message)
+		if (node->m_message && node->m_message == message)
 		{
-			continue;
+			VASSERT(0, "ui: attempting to queue a message that has already been queued");
+			break;
 		}
-
-		VASSERT("ui: attempting to queue a message that has already been queued");
-		break;
 	}
 
 	m_prev_read->m_message = message;
