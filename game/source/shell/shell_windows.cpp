@@ -1,7 +1,9 @@
 #include "shell/shell_windows.hpp"
 
 #include "cache/physical_memory_map.hpp"
+#include "hs/hs_runtime.hpp"
 #include "input/input_windows.hpp"
+#include "main/console.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
@@ -140,7 +142,7 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			if (scenarios_menu_handle = CreateMenu())
 			{
-				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
+				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
 				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
 				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_DISABLED | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_03, TEXT("Place Squad\tCtrl+P"));
@@ -199,34 +201,55 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		switch (LOWORD(wParam))
 		{
 		case ID_FILE_OPTION_06:
+		{
 			PostQuitMessage(0);
-			break;
+		}
+		break;
 		case ID_EDIT_OPTION_07:
+		{
 			c_console::clear();
-			break;
+		}
+		break;
 		case ID_VIEW_OPTION_02:
+		{
 			ShowWindow(status_bar_handle, IsWindowVisible(status_bar_handle) ? SW_HIDE : SW_SHOW);
-			break;
+		}
+		break;
 		case ID_VIEW_OPTION_03:
+		{
 			ShowWindow(g_windows_params.game_window_handle, IsWindowVisible(g_windows_params.game_window_handle) ? SW_HIDE : SW_SHOW);
-			break;
+		}
+		break;
 		case ID_VIEW_OPTION_07:
+		{
 			c_console::toggle_window_visibility();
-			break;
+		}
+		break;
+		case ID_SCENARIOS_OPTION_01:
+		{
+			g_toggle_game_scripts = true;
+		}
+		break;
 		case ID_SCENARIOS_OPTION_02:
+		{
 			main_reset_map();
-			break;
+		}
+		break;
 		case ID_ABOUT_OPTION_1:
+		{
 			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
-			break;
+		}
+		break;
 		}
 
 		switch (LOWORD(wParam))
 		{
 		case ID_EDIT_OPTION_02:
 		case ID_EDIT_OPTION_06:
+		{
 			UPDATE_MENU_OPTION_CHECKBOX(edit_menu_handle);
-			break;
+		}
+		break;
 		case ID_VIEW_OPTION_01:
 		case ID_VIEW_OPTION_02:
 		case ID_VIEW_OPTION_03:
@@ -235,8 +258,10 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		case ID_VIEW_OPTION_06:
 		case ID_VIEW_OPTION_07:
 		case ID_VIEW_OPTION_09:
+		{
 			UPDATE_MENU_OPTION_CHECKBOX(view_menu_handle);
-			break;
+		}
+		break;
 		}
 	}
 	break;

@@ -84,6 +84,8 @@ HOOK_DECLARE(0x00506A10, main_prepare_for_switch_zone_set);
 HOOK_DECLARE(0x00507210, main_switch_zone_set);
 HOOK_DECLARE(0x00507450, process_published_game_state);
 
+bool g_toggle_game_scripts = false;
+
 #define NULL_BELONGS_TO_CHUCKY *(const char**)NULL = "chucky was here!  NULL belongs to me!!!!!"
 
 static c_synchronized_long ill_never_be_done{};
@@ -1031,6 +1033,19 @@ void __cdecl main_loop_body()
 						if (main_globals.drop_cheat_tag)
 						{
 							main_cheat_drop_tag_private();
+						}
+
+						if (g_toggle_game_scripts)
+						{
+							if (g_run_game_scripts = !g_run_game_scripts)
+							{
+								console_printf("game scripts enabled");
+							}
+							else
+							{
+								console_printf("game scripts disabled");
+							}
+							g_toggle_game_scripts = false;
 						}
 
 						real32 seconds_elapsed = 0.0f;

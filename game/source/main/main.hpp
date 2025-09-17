@@ -110,6 +110,8 @@ extern _main_globals& main_globals;
 extern bool g_fake_minidump_creation;
 extern bool g_suppress_keyboard_for_minidump;
 
+extern bool g_toggle_game_scripts;
+
 extern bool debug_console_pauses_game;
 extern bool debug_no_drawing;
 
