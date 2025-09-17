@@ -634,58 +634,44 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 
 //.text:005021B0 ; 
 
-const bool override_cache_file_header_security_validate_hash = true;
-const bool override_cache_file_header_security_rsa_compute_and_verify_signature = true;
-
 bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header)
 {
-	//bool result = false;
-	//HOOK_INVOKE(result =, cache_files_verify_header_rsa_signature, header);
-	//return result;
+	//return cache_files_verify_header_rsa_signature(header);
 
-	if (header->header_signature != k_cache_file_header_signature || header->footer_signature != k_cache_file_footer_signature)
+	ASSERT(header);
+
+	bool success = false;
+	if (header->header_signature == k_cache_file_header_signature && header->footer_signature == k_cache_file_footer_signature)
 	{
-		display_debug_string("cache_files:header is invalid, header/footer signatures are bad");
-		return false;
-	}
+		s_cache_file_header clean_header = *header;
+		cache_file_builder_security_clean_header(&clean_header);
 
-	s_cache_file_header clean_header{};
-	memmove(&clean_header, header, sizeof(s_cache_file_header));
-	cache_file_builder_security_clean_header(&clean_header);
-
-	static char hash_string[4096]{};
-	s_network_http_request_hash hash{};
-	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, NULL))
-	{
-		if (!override_cache_file_header_security_validate_hash)
+		if (security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, NULL))
 		{
-			display_debug_string("cache_files:header failed hash verification - possible cheating?");
-			return false;
+			s_network_http_request_hash hash_of_hashes;
+			security_calculate_hash(header->content_hashes, sizeof(s_network_http_request_hash), true, &hash_of_hashes);
+
+			s_rsa_signature rsa_signature = header->rsa_signature;
+			if (security_rsa_compute_and_verify_signature(&hash_of_hashes, &rsa_signature))
+			{
+				success = true;
+			}
+			else
+			{
+				event(_event_warning, "cache_files:header failed RSA signature verification - possible cheating?");
+			}
+
+			static char hash_buffer[4096]{};
+			security_print_hash(&hash_of_hashes, hash_buffer, sizeof(hash_buffer));
+			event(_event_warning, "cache_files:header: failed hash verification - copying new validated values, %s", hash_buffer);
+			csmemcpy(header->content_hashes, &hash_of_hashes, sizeof(s_network_http_request_hash));
 		}
-
-		type_as_byte_string(&hash, hash_string);
-		display_debug_string("cache_files:header: failed hash verification - copying new validated values, %s", hash_string);
-
-		csmemcpy(header->content_hashes, &hash, sizeof(s_network_http_request_hash));
-	}
-
-	//type_as_byte_string(&hash, hash_string);
-
-	security_calculate_hash(header->content_hashes, sizeof(s_network_http_request_hash), true, &hash);
-
-	s_rsa_signature rsa_signature{};
-	csmemcpy(&rsa_signature, &header->rsa_signature, sizeof(s_rsa_signature));
-
-	bool result = security_rsa_compute_and_verify_signature(&hash, &rsa_signature);
-	if (!result)
-	{
-		if (!override_cache_file_header_security_rsa_compute_and_verify_signature)
+		else
 		{
-			display_debug_string("cache_files:header failed RSA signature verification - possible cheating?");
-			return false;
+			event(_event_warning, "cache_files:header failed hash verification - possible cheating?");
 		}
 	}
-	return true;
+	return success;
 }
 
 uns32 __cdecl compute_realtime_checksum(char* buffer, int len)
