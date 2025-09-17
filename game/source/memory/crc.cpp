@@ -1,8 +1,8 @@
 #include "memory/crc.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
-
 
 HOOK_DECLARE_CALL(0x0050286A, crc_checksum_buffer_adler32); // 0x0052CCC0
 //HOOK_DECLARE(0x0052CD20, crc_checksum_buffer);
@@ -18,15 +18,19 @@ uns32 __cdecl crc_checksum_buffer_adler32(uns32 adler, uns8* buffer, uns32 buffe
 
 	if (checksum != instance->checksum)
 	{
-		if (!g_require_secure_tag_instances)
+		if (g_require_secure_tag_instances)
+		{
 			return instance->checksum;
+		}
+		else
+		{
+			char group_string[8]{};
+			tag_to_string(instance->tag_group.group_tag, group_string);
+			int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count];
+			event(_event_warning, "tags: tag instance checksum mismatch calcutaled/expected %08X/%08X, ['%s', 0x%04X]", checksum, instance->checksum, group_string, tag_index);
 
-		char group_string[8]{};
-		tag_to_string(instance->tag_group.group_tag, group_string);
-		int32 tag_index = g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count];
-		display_debug_string("%d, tags: tag instance checksum mismatch calcutaled/expected %08X/%08X, ['%s', 0x%04X]", tag_index, checksum, instance->checksum, group_string, tag_index);
-
-		instance->checksum = checksum;
+			instance->checksum = checksum;
+		}
 	}
 
 	return checksum;

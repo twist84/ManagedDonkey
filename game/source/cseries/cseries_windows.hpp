@@ -8,7 +8,9 @@ struct s_system_memory_information
 };
 static_assert(sizeof(s_system_memory_information) == 0x10);
 
-extern void __cdecl display_debug_string(const char* format, ...);
+extern void display_debug_string(const char* string);
+extern void set_debug_output(void(__stdcall* output)(const char*));
+
 extern uns32 __cdecl system_get_current_thread_id();
 extern void __cdecl system_get_date_and_time(char* buffer, int16 buffer_size, bool short_date_and_time);
 extern void __cdecl system_memory_information_get(s_system_memory_information* information);

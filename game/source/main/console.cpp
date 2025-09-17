@@ -351,45 +351,36 @@ void __cdecl console_open(bool debug_menu)
 
 void __cdecl console_printf(const char* format, ...)
 {
-	va_list list;
-	va_start(list, format);
-
+	va_list arglist;
+	va_start(arglist, format);
 	if (is_main_thread())
 	{
-		c_static_string<255> message{};
-		message.print_va(format, list);
-		const char* message_string = message.get_string();
-
-		terminal_printf(nullptr, message_string);
-		c_console::write_line(message_string);
-
+		char buffer[255];
+		cvsnzprintf(buffer, sizeof(buffer), format, arglist);
+		terminal_printf(NULL, buffer);
 		if (console_dump_to_debug_display)
-			display_debug_string(message_string);
+		{
+			display_debug_string(buffer);
+		}
 	}
-
-	va_end(list);
+	va_end(arglist);
 }
 
 void __cdecl console_printf_color(const real_argb_color* color, const char* format, ...)
 {
-	va_list list;
-	va_start(list, format);
-
-	c_console::write_line(format, list);
+	va_list arglist;
+	va_start(arglist, format);
 	if (is_main_thread())
 	{
-		c_static_string<255> message{};
-		message.print_va(format, list);
-		const char* message_string = message.get_string();
-
-		terminal_printf(color, message_string);
-		c_console::write_line(message_string);
-
+		char buffer[255];
+		cvsnzprintf(buffer, sizeof(buffer), format, arglist);
+		terminal_printf(color, buffer);
 		if (console_dump_to_debug_display)
-			display_debug_string(message_string);
+		{
+			display_debug_string(buffer);
+		}
 	}
-
-	va_end(list);
+	va_end(arglist);
 }
 
 void __cdecl console_update(real32 shell_seconds_elapsed)
@@ -499,24 +490,16 @@ void __cdecl console_update(real32 shell_seconds_elapsed)
 
 void __cdecl console_warning(const char* format, ...)
 {
-	va_list list;
-	va_start(list, format);
+	va_list arglist;
+	va_start(arglist, format);
 
-	c_console::write_line(format, list);
 	if (is_main_thread())
 	{
-		c_static_string<255> message{};
-		message.print_va(format, list);
-		const char* message_string = message.get_string();
-
-		terminal_printf(global_real_argb_red, message_string);
-		c_console::write_line(message_string);
-
-		if (console_dump_to_debug_display)
-			display_debug_string(message_string);
+		char buffer[255]{};
+		cvsnzprintf(buffer, sizeof(buffer), format, arglist);
+		terminal_printf(global_real_argb_red, "%s", buffer);
 	}
-
-	va_end(list);
+	va_end(arglist);
 }
 
 bool __cdecl console_process_command(const char* command, bool interactive)
@@ -586,7 +569,7 @@ bool __cdecl console_process_command(const char* command, bool interactive)
 		if (token_count == 2 && load_preference(tokens[0]->get_string(), tokens[1]->get_string()))
 			return true;
 
-		callback_result_t callback_result = set_callback(nullptr, token_count, tokens);
+		callback_result_t callback_result = set_callback(NULL, token_count, tokens);
 		if (callback_result.is_equal("success"))
 			return true;
 
@@ -1105,7 +1088,7 @@ callback_result_t set_callback(const void* userdata, int32 token_count, tokens_t
 		return result;
 	}
 
-	const char* value_string = nullptr;
+	const char* value_string = NULL;
 	if (token_count >= 2)
 	{
 		value_string = tokens[1]->get_string();

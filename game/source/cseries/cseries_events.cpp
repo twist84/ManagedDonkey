@@ -1151,17 +1151,16 @@ void write_to_console(e_event_level event_level, int32 category_index, const cha
 		copy_size = NUMBEROF("[...too many errors to print...]\r\n") - 1,
 	};
 
-	bool should_update = console_update_spam_prevention(event_level);
+	bool suppress_console = console_update_spam_prevention(event_level);
 
 	display_debug_string(string);
-	c_console::write_line(string);
 
-	if (!should_update)
+	if (!suppress_console)
 	{
-		char buffer[1040]{};
-		csstrnzcpy(buffer, string, 1027);
+		char buffer[1027]{};
+		csstrnzcpy(buffer, string, sizeof(buffer));
 
-		if (event_globals.dump_to_stderr)
+		if (true && event_globals.dump_to_stderr)
 		{
 			fprintf(stderr, "%s\r\n", buffer);
 		}
@@ -1184,7 +1183,7 @@ void write_to_console(e_event_level event_level, int32 category_index, const cha
 			terminal_printf(&color, "%s", buffer);
 		}
 
-		csstrnzcat(buffer, "\r\n", 1027);
+		csstrnzcat(buffer, "\r\n", sizeof(buffer));
 		g_event_read_write_lock.write_lock();
 
 		int16 new_size = (int16)csstrnlen(buffer, sizeof(buffer)-1);

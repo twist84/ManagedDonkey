@@ -9,6 +9,8 @@
 #include <windows.h>
 #include <time.h>
 
+decltype(&OutputDebugStringA) debug_output = OutputDebugStringA;
+
 c_static_string<256> g_cache_path_directory;
 c_static_string<256> g_cache_path_format;
 c_static_string<256> g_cache_strings_file;
@@ -22,21 +24,18 @@ c_static_string<256> g_cache_video_file;
 c_static_string<256> g_hard_drive_font_directory;
 c_static_string<256> g_dvd_font_directory;
 
-void __cdecl display_debug_string(const char* format, ...)
+void display_debug_string(const char* string)
 {
-	va_list list;
-	va_start(list, format);
-
-	if (IsDebuggerPresent())
+	if (debug_output)
 	{
-		c_static_string<4096> output = {};
-		output.append_print_va(format, list);
-		output.append("\n");
-
-		OutputDebugStringA(output.get_string());
+		debug_output(string);
+		debug_output("\r\n");
 	}
+}
 
-	va_end(list);
+void set_debug_output(void(__stdcall* output)(const char*))
+{
+	debug_output = output;
 }
 
 uns32 __cdecl system_get_current_thread_id()
