@@ -64,7 +64,12 @@ cs_point_set* __cdecl cs_get_point_set(int32 index)
 
 //.text:01443F10 ; void __cdecl cs_global_script_context_clear()
 //.text:01443F30 ; void __cdecl cs_handle_deleted_object(int32, int32)
-//.text:01444060 ; void __cdecl cs_handle_thread_delete(int32)
+
+void __cdecl cs_handle_thread_delete(int32 deleted_thread_index)
+{
+	INVOKE(0x01444060, cs_handle_thread_delete, deleted_thread_index);
+}
+
 //.text:014440D0 ; int16 __cdecl cs_helper(int32, int16, int16(__cdecl*)(int32, int32, cs_command*, s_atom_control*, int32), int32)
 //.text:01444280 ; int32 __cdecl cs_index_from_thread(int32, int32, bool)
 

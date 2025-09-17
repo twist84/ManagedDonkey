@@ -12,6 +12,7 @@
 #include "hs/hs_scenario_definitions.hpp"
 #include "memory/data.hpp"
 #include "objects/objects.hpp"
+#include "profiler/profiler.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"
 
@@ -190,7 +191,13 @@ void __cdecl hs_update()
 	//INVOKE(0x006796E0, hs_update);
 
 	//hs_looper_game_tick();
-	hs_runtime_update();
+	PROFILER(script)
+	{
+		PROFILER(hs_update)
+		{
+			hs_runtime_update();
+		}
+	}
 }
 
 int16 hs_find_function_by_name(const char* name, int16 parameter_count)

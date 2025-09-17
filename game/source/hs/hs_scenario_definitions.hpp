@@ -14,21 +14,16 @@ static_assert(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
 struct hs_script_parameter
 {
 	char name[32];
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> return_type;
-
-	// pad
-	byte JBG[0x2];
+	int16 type; // e_hs_type
+	int16 pad0;
 };
 static_assert(sizeof(hs_script_parameter) == 0x24);
 
 struct hs_global_internal
 {
 	char name[32];
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
-
-	// pad
-	byte EB[0x2];
-
+	int16 type; // e_hs_type
+	uns16 pad;
 	int32 initialization_expression_index;
 };
 static_assert(sizeof(hs_global_internal) == 0x28);

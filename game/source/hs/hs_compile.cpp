@@ -1169,7 +1169,7 @@ bool hs_parse_variable(int32 expression_index)
 		if (expression->short_value != NONE)
 		{
 			hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
-			type = script.parameters[expression->short_value].return_type.get();
+			type = script.parameters[expression->short_value].type;
 
 			is_parameter = true;
 			valid = true;
@@ -1360,7 +1360,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 						{
 							ASSERT(parameter_index >= 0 && parameter_index < script->parameters.count);
 							hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
-							success = hs_parse(parameter_node_index, parameter->return_type);
+							success = hs_parse(parameter_node_index, parameter->type);
 							parameter_node_index = hs_syntax_get(parameter_node_index)->next_node_index;
 						}
 

@@ -191,12 +191,12 @@ struct s_thread_local_storage
 	//  name: "hs dist. globals"
 	// count: 512
 	//  size: 0x2C
-	c_smart_data_array<hs_distributed_global_data> hs_distributed_global_data;
+	c_smart_data_array<s_hs_distributed_global_data> hs_distributed_global_data;
 
 	//  name: "tracking hs thread"
 	// count: 320
 	//  size: 0xC
-	c_smart_data_array<hs_thread_tracking_data> hs_thread_tracking_data;
+	c_smart_data_array<s_hs_thread_tracking_data> hs_thread_tracking_data;
 
 	//  name: "non-det hs thread"
 	// count: 4
@@ -876,7 +876,7 @@ struct s_thread_local_storage
 	//  name: "vocalization records"
 	// count: 15
 	//  size: 0x5C
-	c_smart_data_array<vocalization_records> vocalization_record_data;
+	c_smart_data_array<s_vocalization_record> vocalization_record_data;
 
 	// name: "vocalization timers"
 	// size: 0xFB8

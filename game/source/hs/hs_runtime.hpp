@@ -4,13 +4,18 @@
 #include "hs/hs.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 
+//#define USE_HS_THREAD_TRACKING
+
 enum : int32
 {
-	//MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS = 0x140,
-	//MAXIMUM_NUMBER_OF_NON_DETERMINISTIC_HS_THREADS = 0x4,
-
-	//MAXIMUM_NUMBER_OF_HS_THREADS = 0x144,
-	//MAXIMUM_NUMBER_OF_HS_GLOBALS = 0xC00,
+	MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS = 320,
+	MAXIMUM_NUMBER_OF_NON_DETERMINISTIC_HS_THREADS = 4,
+	MAXIMUM_NUMBER_OF_HS_THREADS = MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS
+#ifdef USE_HS_THREAD_TRACKING
+	+ MAXIMUM_NUMBER_OF_NON_DETERMINISTIC_HS_THREADS
+#endif
+	,
+	MAXIMUM_NUMBER_OF_HS_GLOBALS = 3072,
 
 	HS_THREAD_STACK_SIZE = 0x500
 };
@@ -129,7 +134,7 @@ struct s_hs_runtime_globals
 	bool initialized;
 	bool syntax_data_needs_gc;
 	bool object_lists_need_gc;
-	bool globals_initializing;
+	bool globals_initialization;
 	int32 executing_thread_index;
 };
 static_assert(sizeof(s_hs_runtime_globals) == 0x8);
@@ -142,20 +147,20 @@ struct hs_global_runtime :
 };
 static_assert(sizeof(hs_global_runtime) == 0x8);
 
-struct hs_distributed_global_data :
+struct s_hs_distributed_global_data :
 	s_datum_header
 {
 	byte __data[0x2A];
 };
-static_assert(sizeof(hs_distributed_global_data) == 0x2C);
+static_assert(sizeof(s_hs_distributed_global_data) == 0x2C);
 
-struct hs_thread_tracking_data :
+struct s_hs_thread_tracking_data :
 	s_datum_header
 {
 	e_hs_thread_tracking_type type;
 	int32 index;
 };
-static_assert(sizeof(hs_thread_tracking_data) == 0xC);
+static_assert(sizeof(s_hs_thread_tracking_data) == 0xC);
 
 struct s_hs_thread_iterator
 {
@@ -192,9 +197,16 @@ extern int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer d
 extern bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
 extern int32 __cdecl hs_find_thread_by_name(const char* script_name);
 extern int32 __cdecl hs_global_evaluate(int16 global_designator);
+extern void __cdecl hs_global_reconcile_read(int16 global_designator);
+extern void __cdecl hs_global_reconcile_write(int16 global_designator);
 extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
 extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
+extern void __cdecl hs_restore_from_saved_game(int32 game_state_restore_flags);
 extern void __cdecl hs_return(int32 thread_index, int32 value);
+extern bool __cdecl hs_running_game_scripts();
+extern int32 __cdecl hs_runtime_command_script_begin(int16 script_index);
+extern void __cdecl hs_runtime_delete_internal_global_datums();
+extern void __cdecl hs_runtime_dirty();
 extern void __cdecl hs_runtime_dispose();
 extern void __cdecl hs_runtime_dispose_from_old_map();
 extern bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic);
@@ -207,9 +219,16 @@ extern bool __cdecl hs_runtime_initialized();
 extern int32 __cdecl hs_runtime_internal_evaluate(int32 expression_index);
 extern bool __cdecl hs_runtime_nondeterministic_threads_running();
 extern void __cdecl hs_runtime_push_script(int16 script_index);
+extern void __cdecl hs_runtime_require_gc();
+extern void __cdecl hs_runtime_require_object_list_gc();
+extern void __cdecl hs_runtime_reset();
 extern int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
 extern void __cdecl hs_runtime_update();
 extern void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool initialize);
+extern bool __cdecl hs_script_finished(const char* script_name);
+extern bool __cdecl hs_script_started(const char* script_name);
+extern void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enable);
+extern int32 __cdecl hs_scripting_get_executing_thread_index();
 extern hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer);
 extern const hs_stack_frame* __cdecl hs_stack(const hs_thread* thread, hs_stack_pointer stack_pointer);
 extern void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference);
@@ -229,6 +248,8 @@ extern void __cdecl hs_thread_main(int32 thread_index);
 extern int32 __cdecl hs_thread_new(e_hs_thread_type type, int32 script_index, bool deterministic);
 extern hs_stack_frame* __cdecl hs_thread_stack(hs_thread* thread);
 extern const hs_stack_frame* __cdecl hs_thread_stack(const hs_thread* thread);
+extern void __cdecl hs_thread_try_to_delete(int32 thread_index, bool validate);
+extern void __cdecl hs_typecasting_table_initialize();
 extern bool __cdecl hs_wake_by_name(const char* script_name);
 extern void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size);
 

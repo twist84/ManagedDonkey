@@ -45,6 +45,15 @@ struct ai_information_data
 };
 static_assert(sizeof(ai_information_data) == 0x18);
 
+struct ai_information_packet
+{
+	int16 dialogue_index;
+	int16 pad0;
+	int32 listener_object_index;
+	ai_information_data information_data;
+};
+static_assert(sizeof(ai_information_packet) == 0x20);
+
 struct ai_sound_data
 {
 	int16 type;

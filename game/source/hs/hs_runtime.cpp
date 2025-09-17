@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
+#include "editor/editor_stubs.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
@@ -28,18 +29,44 @@ bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
+HOOK_DECLARE(0x005974D0, hs_restore_from_saved_game);
+//HOOK_DECLARE(0x005974E0, hs_return);
+HOOK_DECLARE(0x005975C0, hs_running_game_scripts);
+HOOK_DECLARE(0x005975D0, hs_runtime_command_script_begin);
+//HOOK_DECLARE(0x00597640, hs_runtime_delete_internal_global_datums);
+//HOOK_DECLARE(0x005976C0, hs_runtime_dirty);
+//HOOK_DECLARE(0x00597730, hs_runtime_dispose);
+//HOOK_DECLARE(0x00597750, hs_runtime_dispose_from_old_map);
 HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
+//HOOK_DECLARE(0x005978A0, hs_runtime_index_from_global_designator);
+//HOOK_DECLARE(0x005978D0, hs_runtime_initialize);
+//HOOK_DECLARE(0x00597A80, hs_runtime_initialize_for_new_map);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
+HOOK_DECLARE(0x00597CF0, hs_runtime_initialized);
 HOOK_DECLARE(0x00597D10, hs_runtime_internal_evaluate);
+HOOK_DECLARE(0x00597DE0, hs_runtime_push_script);
+HOOK_DECLARE(0x00597E60, hs_runtime_require_gc);
+HOOK_DECLARE(0x00597E80, hs_runtime_require_object_list_gc);
+//HOOK_DECLARE(0x00597EA0, hs_runtime_reset);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005980C0, hs_runtime_update);
+HOOK_DECLARE(0x00598570, hs_script_finished);
+HOOK_DECLARE(0x005985C0, hs_script_started);
+HOOK_DECLARE(0x00598610, hs_scripting_debug_thread);
+HOOK_DECLARE(0x00598620, hs_scripting_get_executing_thread_index);
 HOOK_DECLARE(0x005987D0, hs_stack_allocate);
 HOOK_DECLARE(0x005988C0, hs_stack_destination);
 HOOK_DECLARE(0x005988E0, hs_stack_parameters);
 HOOK_DECLARE(0x00598900, hs_stack_pop);
 HOOK_DECLARE(0x00598940, hs_stack_push);
+HOOK_DECLARE(0x00598A10, hs_syntax_get);
+HOOK_DECLARE(0x00598A90, hs_thread_format);
+HOOK_DECLARE(0x00598B10, hs_thread_is_deterministic);
+//HOOK_DECLARE(0x00598B20, hs_thread_iterator_new);
+//HOOK_DECLARE(0x00598B70, hs_thread_iterator_next);
 HOOK_DECLARE(0x00598BC0, hs_thread_main);
 HOOK_DECLARE(0x00598E70, hs_thread_new);
+HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
 
 // this is potentially at address `0x023FF444`,
 // there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
@@ -210,7 +237,7 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 					hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, current_frame->script_index, hs_script);
 					hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, expression->long_value, hs_script_parameter);
 					int32* parameters = hs_stack_parameters(thread, current_frame, expression->long_value + 1);
-					expression_result = hs_cast(thread_index, parameter->return_type, expression->type, parameters[expression->long_value]);
+					expression_result = hs_cast(thread_index, parameter->type, expression->type, parameters[expression->long_value]);
 
 					found = true;
 					break;
@@ -263,8 +290,16 @@ int32 __cdecl hs_global_evaluate(int16 global_designator)
 	return INVOKE(0x005961D0, hs_global_evaluate, global_designator);
 }
 
-//.text:00596230 ; void __cdecl hs_global_reconcile_read(int16 global_index)
-//.text:00596C10 ; void __cdecl hs_global_reconcile_write(int16 global_index)
+void __cdecl hs_global_reconcile_read(int16 global_designator)
+{
+	INVOKE(0x00596230, hs_global_reconcile_read, global_designator);
+}
+
+void __cdecl hs_global_reconcile_write(int16 global_designator)
+{
+	INVOKE(0x00596C10, hs_global_reconcile_write, global_designator);
+}
+
 //.text:00596F50 ; void __cdecl hs_handle_deleted_object(int32 object_index)
 //.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 _long)
 //.text:005972A0 ; int32 __cdecl hs_long_to_real(int32 _long)
@@ -329,26 +364,88 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 //.text:005973D0 ; int32 __cdecl hs_real_to_long(int32 _real)
 //.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 _real)
 //.text:00597400 ; void __cdecl hs_reset_scripts()
-//.text:005974D0 ; void __cdecl hs_restore_from_saved_game(int32)
+
+void __cdecl hs_restore_from_saved_game(int32 game_state_restore_flags)
+{
+	//INVOKE(0x005974D0, hs_restore_from_saved_game, game_state_restore_flags);
+
+	//hs_looper_restore_from_saved_game();
+}
 
 void __cdecl hs_return(int32 thread_index, int32 value)
 {
 	INVOKE(0x005974E0, hs_return, thread_index, value);
 }
 
-//.text:005975C0 ; bool __cdecl hs_running_game_scripts()
-//.text:005975D0 ; int32 __cdecl hs_runtime_command_script_begin(int16)
-//.text:00597640 ; void __cdecl hs_runtime_delete_internal_global_datums()
-//.text:005976C0 ; void __cdecl hs_runtime_dirty()
+bool __cdecl hs_running_game_scripts()
+{
+	//return INVOKE(0x005975C0, hs_running_game_scripts);
+
+	return g_run_game_scripts;
+}
+
+int32 __cdecl hs_runtime_command_script_begin(int16 script_index)
+{
+	//return INVOKE(0x005975D0, hs_runtime_command_script_begin, script_index);
+
+	return hs_runtime_script_begin(script_index, _hs_script_command_script, _hs_thread_type_command_script);
+}
+
+void __cdecl hs_runtime_delete_internal_global_datums()
+{
+	INVOKE(0x00597640, hs_runtime_delete_internal_global_datums);
+	return;
+
+	c_data_iterator<hs_global_runtime> hs_global_runtime_iterator;
+	hs_global_runtime_iterator.begin(hs_global_data);
+	while (hs_global_runtime_iterator.next())
+	{
+		if (hs_global_runtime_iterator.get_index() >= k_hs_external_global_count)
+		{
+			datum_delete(hs_global_data, hs_global_runtime_iterator.get_index());
+		}
+	}
+}
+
+void __cdecl hs_runtime_dirty()
+{
+	INVOKE(0x005976C0, hs_runtime_dirty);
+
+	//ai_reset();
+	//hs_runtime_dispose_from_old_map();
+	//hs_compile_initialize(true);
+	//hs_compile_dispose();
+	//hs_runtime_initialize_for_new_map();
+	//ai_handle_script_verification(true);
+	//ui_handle_script_verification();
+}
 
 void __cdecl hs_runtime_dispose()
 {
 	INVOKE(0x00597730, hs_runtime_dispose);
+	return;
+
+	data_make_invalid(hs_global_data);
 }
 
 void __cdecl hs_runtime_dispose_from_old_map()
 {
 	INVOKE(0x00597750, hs_runtime_dispose_from_old_map);
+	return;
+
+	data_make_invalid(hs_thread_tracking_data);
+	data_make_invalid(hs_thread_deterministic_data);
+	data_make_invalid(hs_thread_non_deterministic_data);
+
+	hs_runtime_delete_internal_global_datums();
+
+	if (hs_distributed_global_data->actual_count)
+	{
+		event(_event_warning, "networking:hs_runtime: hs distributed globals not cleaned up properly");
+	}
+	data_delete_all(hs_distributed_global_data);
+
+	hs_runtime_globals->initialized = false;
 }
 
 bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression_result, bool deterministic)
@@ -411,16 +508,132 @@ const char* __cdecl hs_runtime_get_executing_thread_name()
 int32 __cdecl hs_runtime_index_from_global_designator(int32 designator)
 {
 	return INVOKE(0x005978A0, hs_runtime_index_from_global_designator, designator);
+
+	int32 index = designator & MASK(15);
+	if (TEST_BIT(designator, 15))
+	{
+		index += k_hs_external_global_count;
+	}
+	return index;
 }
 
 void __cdecl hs_runtime_initialize()
 {
 	INVOKE(0x005978D0, hs_runtime_initialize);
+	return;
+
+	hs_thread_deterministic_data = data_new("det hs thread", MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS, sizeof(hs_thread), 0, &g_hs_thread_deterministic_data_allocator);
+	hs_thread_tracking_data = data_new("tracking hs thread", MAXIMUM_NUMBER_OF_HS_THREADS, sizeof(s_hs_thread_tracking_data), 0, &g_hs_thread_tracking_data_allocator);
+	hs_thread_non_deterministic_data = data_new("non-det hs thread", MAXIMUM_NUMBER_OF_NON_DETERMINISTIC_HS_THREADS, sizeof(hs_thread), 0, &g_hs_thread_non_deterministic_data_allocator);
+	
+	hs_global_data = data_new("hs globals", MAXIMUM_NUMBER_OF_HS_GLOBALS, sizeof(hs_global_runtime), 0, &g_hs_global_data_allocator);
+	hs_distributed_global_data = data_new("hs dist. globals", 512, sizeof(s_hs_distributed_global_data), 0, &g_hs_distributed_global_data_allocator);
+	
+	hs_runtime_globals = (s_hs_runtime_globals*)g_hs_runtime_globals_allocator.allocate(sizeof(s_hs_runtime_globals), "hs runtime globals");
+	
+	if (hs_thread_tracking_data
+		&& hs_thread_deterministic_data
+		&& hs_thread_non_deterministic_data
+		&& hs_global_data
+		&& hs_distributed_global_data)
+	{
+		VASSERT(2 * k_hs_external_global_count <= MAXIMUM_NUMBER_OF_HS_GLOBALS, "raise MAXIMUM_NUMBER_OF_HS_GLOBALS.");
+
+		data_make_valid(hs_global_data);
+		data_make_valid(hs_distributed_global_data);
+		for (int32 external_global_index = 0; external_global_index < k_hs_external_global_count; external_global_index++)
+		{
+			int32 index = datum_new_at_absolute_index(hs_global_data, external_global_index);
+			if (index == NONE)
+			{
+				VASSERT(0, "couldn't add external global.");
+			}
+			else
+			{
+				hs_global_runtime* global_runtime = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime,
+					hs_runtime_index_from_global_designator(external_global_index));
+				global_runtime->distributed_global_runtime_index = NONE;
+			}
+		}
+	}
+	else
+	{
+		VASSERT(0, "couldn't allocate scripting globals.");
+	}
+
+	hs_typecasting_table_initialize();
+	g_run_game_scripts = !game_in_editor();
 }
 
 void __cdecl hs_runtime_initialize_for_new_map()
 {
 	INVOKE(0x00597A80, hs_runtime_initialize_for_new_map);
+	return;
+
+	//hs_looper_reinitialize();
+
+	data_make_valid(hs_thread_tracking_data);
+	data_make_valid(hs_thread_deterministic_data);
+	data_make_valid(hs_thread_non_deterministic_data);
+
+	hs_runtime_globals->initialized = true;
+	hs_runtime_globals->object_lists_need_gc = false;
+	hs_runtime_globals->syntax_data_needs_gc = false;
+	hs_runtime_globals->globals_initialization = false;
+	hs_runtime_globals->executing_thread_index = NONE;
+
+	if (global_scenario_index_get() != NONE)
+	{
+		int32 internal_thread_index = hs_thread_new(_hs_thread_type_global_initialize, NONE, true);
+		hs_thread* internal_thread = hs_thread_get(internal_thread_index);
+		hs_runtime_globals->globals_initialization = true;
+
+		const struct scenario* scenario = global_scenario_get();
+		for (int32 global_index = 0; global_index < scenario->globals.count; global_index++)
+		{
+			const hs_global_internal* internal_global = TAG_BLOCK_GET_ELEMENT(&scenario->globals, global_index, const hs_global_internal);
+			int32 global_datum_index = hs_runtime_index_from_global_designator(global_index);
+			datum_new_at_absolute_index(hs_global_data, global_datum_index);
+			hs_global_runtime* runtime_global = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime, global_datum_index);
+
+			internal_thread->script_index = NONE;
+			hs_thread_stack(internal_thread)->size = 0;
+
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_runtime_global;
+			destination.runtime_global_index = (int16)global_index;
+			hs_evaluate(internal_thread_index, internal_global->initialization_expression_index, destination, NULL);
+
+			if (TEST_BIT(internal_thread->flags, _hs_thread_in_function_call_bit))
+			{
+				hs_thread_main(internal_thread_index);
+				if (internal_global->type == _hs_type_object_list)
+				{
+					object_list_add_reference(hs_global_evaluate((int16)global_index));
+				}
+
+				//if (internal_thread->sleep_until != 0)
+				//{
+				//	VASSERT(c_string_builder("a problem occurred while executing the script %s: %s (%s)",
+				//		hs_thread_format(internal_thread_index),
+				//		"a global initialization attempted to sleep.",
+				//		"internal_thread->sleep_until==0").get_string());
+				//}
+			}
+
+			hs_global_reconcile_write((int16)(global_index & MASK(15)));
+		}
+
+		hs_runtime_globals->globals_initialization = false;
+		hs_thread_delete(internal_thread_index, true);
+
+		if (hs_verbose)
+		{
+			event(_event_warning, "hs: --------------------------HS RESET--------------------------");
+		}
+
+		hs_runtime_initialize_threads();
+	}
 }
 
 void __cdecl hs_runtime_initialize_threads()
@@ -441,10 +654,7 @@ void __cdecl hs_runtime_initialize_threads()
 			if (create_thread_for_script)
 			{
 				int32 new_thread_index = hs_thread_new(_hs_thread_type_script, script_index, true);
-				if (new_thread_index == NONE)
-				{
-					VASSERT("ran out of script threads.");
-				}
+				VASSERT(new_thread_index != NONE, "ran out of script threads.");
 
 				if (hs_verbose)
 				{
@@ -458,7 +668,9 @@ void __cdecl hs_runtime_initialize_threads()
 
 bool __cdecl hs_runtime_initialized()
 {
-	return INVOKE(0x00597CF0, hs_runtime_initialized);
+	//return INVOKE(0x00597CF0, hs_runtime_initialized);
+
+	return hs_runtime_globals->initialized;
 }
 
 int32 __cdecl hs_runtime_internal_evaluate(int32 expression_index)
@@ -511,10 +723,30 @@ void __cdecl hs_runtime_push_script(int16 script_index)
 	}
 }
 
-//.text:00597E60 ; void __cdecl hs_runtime_require_gc()
-//.text:00597E80 ; void __cdecl hs_runtime_require_object_list_gc()
-//.text:00597EA0 ; void __cdecl hs_runtime_reset()
-//.text:00597F00 ; void __cdecl hs_runtime_reset_time(int32)
+void __cdecl hs_runtime_require_gc()
+{
+	//INVOKE(0x00597E60, hs_runtime_require_gc);
+
+	hs_runtime_globals->syntax_data_needs_gc = true;
+}
+
+void __cdecl hs_runtime_require_object_list_gc()
+{
+	//INVOKE(0x00597E80, hs_runtime_require_object_list_gc);
+
+	hs_runtime_globals->object_lists_need_gc = true;
+}
+
+void __cdecl hs_runtime_reset()
+{
+	INVOKE(0x00597EA0, hs_runtime_reset);
+	return;
+
+	hs_runtime_dispose_from_old_map();
+	hs_runtime_initialize_for_new_map();
+}
+
+//.text:00597F00 ; void __cdecl hs_runtime_reset_time(int32 previous_time)
 //.text:00597FC0 ; bool __cdecl hs_runtime_safe_to_gc()
 
 int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
@@ -604,10 +836,65 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 	INVOKE(0x005981D0, hs_script_evaluate, script_index, thread_index, initialize);
 }
 
-//.text:00598570 ; bool __cdecl hs_script_finished(const char* script_name)
-//.text:005985C0 ; bool __cdecl hs_script_started(const char* script_name)
-//.text:00598610 ; void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enable)
-//.text:00598620 ; int32 __cdecl hs_scripting_get_executing_thread_index()
+bool __cdecl hs_script_finished(const char* script_name)
+{
+	//return INVOKE(0x00598570, hs_script_finished, script_name);
+
+	bool result = false;
+	int32 thread_index = hs_find_thread_by_name(script_name);
+	if (thread_index != NONE)
+	{
+		const hs_thread* thread = hs_thread_get(thread_index);
+		result = thread->sleep_until == HS_SLEEP_FINISHED;
+	}
+	else
+	{
+		event(_event_warning, "design:hs: Could not find thread %s", script_name);
+	}
+	return result;
+}
+
+bool __cdecl hs_script_started(const char* script_name)
+{
+	//return INVOKE(0x005985C0, hs_script_started, script_name);
+
+	bool result = false;
+	int32 thread_index = hs_find_thread_by_name(script_name);
+	if (thread_index != NONE)
+	{
+		const hs_thread* thread = hs_thread_get(thread_index);
+		result = thread->sleep_until != HS_SLEEP_INDEFINITE || TEST_BIT(thread->flags, _hs_thread_woken_bit);
+	}
+	else
+	{
+		event(_event_warning, "design:hs: Could not find thread %s", script_name);
+	}
+	return result;
+}
+
+void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enable)
+{
+	//INVOKE(0x00598610, hs_scripting_debug_thread, thread_name, enable);
+
+	int32 thread_index = hs_find_thread_by_name(thread_name);
+	if (thread_index != NONE)
+	{
+		hs_thread* thread = hs_thread_get(thread_index);
+		SET_BIT(thread->flags, _hs_thread_verbose_bit, enable);
+	}
+	else
+	{
+		event(_event_warning, "HS ERROR: Unable to find thread %s", thread_name);
+	}
+}
+
+int32 __cdecl hs_scripting_get_executing_thread_index()
+{
+	//return INVOKE(0x00598620, hs_scripting_get_executing_thread_index);
+
+	return hs_runtime_globals->executing_thread_index;
+}
+
 //.text:00598640 ; void __cdecl hs_scripting_kill_all_threads()
 //.text:005986F0 ; void __cdecl hs_scripting_kill_running_thread(int32 thread_index)
 //.text:00598740 ; int32 __cdecl hs_short_to_boolean(int32 s)
@@ -779,60 +1066,193 @@ bool __cdecl hs_syntax_node_exists(int32 index)
 
 int32 hs_thread_allocate(bool deterministic)
 {
-	//int32 thread_index = NONE;
-	//
-	//if (deterministic)
-	//{
-	//	thread_index = datum_new(hs_thread_deterministic_data);
-	//}
-	//else
-	//{
-	//	thread_index = datum_new(hs_thread_non_deterministic_data);
-	//}
-	//
-	//if (thread_index != NONE)
-	//{
-	//	ASSERT(!TEST_MASK(thread_index, k_hs_nondeterministic_thread_index_mask));
-	//	if (!deterministic)
-	//	{
-	//		thread_index |= k_hs_nondeterministic_thread_index_mask;
-	//	}
-	//}
-	//else
-	//{
-	//	event(_event_error, "hs: failed to allocate %s datum",
-	//		deterministic ? "deterministic" : "non-deterministic");
-	//}
-	//
-	//return thread_index;
-
+#ifndef USE_HS_THREAD_TRACKING
 	int32 thread_index = datum_new(hs_thread_deterministic_data);
+#else
+	int32 thread_index = datum_new(hs_thread_tracking_data);
+
+	if (thread_index != NONE)
+	{
+		s_hs_thread_tracking_data* tracking_data = DATUM_GET(hs_thread_tracking_data, s_hs_thread_tracking_data, thread_index);
+
+		if (deterministic)
+		{
+			tracking_data->index = datum_new(hs_thread_deterministic_data);
+		}
+		else
+		{
+			tracking_data->index = datum_new(hs_thread_non_deterministic_data);
+		}
+
+		if (tracking_data->index == NONE)
+		{
+			event(_event_error, "hs: failed to allocate %s datum",
+				deterministic ? "deterministic" : "non-deterministic");
+
+			datum_delete(hs_thread_tracking_data, thread_index);
+			thread_index = NONE;
+		}
+	}
+#endif
 	return thread_index;
 }
 
 void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 {
 	INVOKE(0x00598A60, hs_thread_delete, thread_index, validate);
+
+#if 0
+	if (validate)
+	{
+		ASSERT(hs_thread_get(thread_index)->type != _hs_thread_type_script);
+	}
+	
+	cs_handle_thread_delete(thread_index);
+	//hs_looper_handle_thread_delete(thread_index);
+	cinematic_handle_thread_delete(thread_index);
+
+#ifndef USE_HS_THREAD_TRACKING
+	datum_delete(hs_thread_deterministic_data, thread_index);
+#else
+	s_hs_thread_tracking_data* tracking_data = DATUM_GET(hs_thread_tracking_data, s_hs_thread_tracking_data, thread_index);
+	switch (tracking_data->type)
+	{
+	case _hs_thread_tracking_deterministic:
+	{
+		datum_delete(hs_thread_deterministic_data, tracking_data->index);
+	}
+	break;
+	case _hs_thread_tracking_non_deterministic:
+	{
+		datum_delete(hs_thread_non_deterministic_data, tracking_data->index);
+	}
+	break;
+	default:
+	{
+		UNREACHABLE();
+	}
+	break;
+	}
+	datum_delete(hs_thread_tracking_data, thread_index);
+#endif
+#endif
 }
 
 const char* __cdecl hs_thread_format(int32 thread_index)
 {
-	return INVOKE(0x00598A90, hs_thread_format, thread_index);
+	//return INVOKE(0x00598A90, hs_thread_format, thread_index);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+
+	const char* result = NULL;
+	switch (thread->type)
+	{
+	case _hs_thread_type_script:
+	{
+		int32 script_index = thread->script_index;
+		if (script_index != NONE)
+		{
+			result = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script)->name;
+		}
+	}
+	break;
+	case _hs_thread_type_global_initialize:
+	{
+		result = "[global initialize]";
+	}
+	break;
+	case _hs_thread_type_runtime_evaluate:
+	{
+		result = "[console command]";
+	}
+	break;
+	case _hs_thread_type_runtime_internal_evaluate:
+	case _hs_thread_type_command_script:
+	{
+		result = "[unknown thread type]";
+	}
+	break;
+	default:
+	{
+		result = "[unknown thread type]";
+	}
+	break;
+	}
+	return result;
 }
 
 bool __cdecl hs_thread_is_deterministic(int32 thread_index)
 {
-	return INVOKE(0x00598B10, hs_thread_is_deterministic, thread_index);
+	//return INVOKE(0x00598B10, hs_thread_is_deterministic, thread_index);
+
+#ifndef USE_HS_THREAD_TRACKING
+	bool deterministic = true;
+#else
+	s_hs_thread_tracking_data* tracking_data = DATUM_GET(hs_thread_tracking_data, s_hs_thread_tracking_data, thread_index);
+	bool deterministic = tracking_data->type == _hs_thread_tracking_deterministic;
+#endif
+	return deterministic;
 }
 
 void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic)
 {
 	INVOKE(0x00598B20, hs_thread_iterator_new, iterator, deterministic, non_deterministic);
+	return;
+
+	if (hs_runtime_globals->initialized)
+	{
+		iterator->iterate_deterministic = deterministic;
+		iterator->iterate_non_deterministic = non_deterministic;
+		iterator->raw_thread_index = NONE;
+		iterator->non_deterministic = false;
+
+		if (iterator->iterate_deterministic)
+		{
+			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, NONE);
+		}
+
+#ifdef USE_HS_THREAD_TRACKING
+		if (iterator->raw_thread_index == NONE && iterator->iterate_non_deterministic)
+		{
+			iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, NONE);
+			iterator->non_deterministic = true;
+		}
+#endif
+	}
 }
 
 int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
 {
 	return INVOKE(0x00598B70, hs_thread_iterator_next, iterator);
+
+	int32 result = NONE;
+	if (hs_runtime_globals->initialized)
+	{
+		if (iterator->raw_thread_index != NONE)
+		{
+			result = iterator->raw_thread_index;
+
+#ifndef USE_HS_THREAD_TRACKING
+			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
+#else
+			if (iterator->non_deterministic)
+			{
+				iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, iterator->raw_thread_index);
+			}
+			else
+			{
+				iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
+
+				if (iterator->raw_thread_index == NONE && iterator->iterate_non_deterministic)
+				{
+					iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, NONE);
+					iterator->non_deterministic = true;
+				}
+			}
+#endif
+		}
+	}
+	return result;
 }
 
 void __cdecl hs_thread_main(int32 thread_index)
@@ -899,7 +1319,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 		}
 	}
 
-	if (hs_runtime_globals->object_lists_need_gc && !hs_runtime_globals->globals_initializing)
+	if (hs_runtime_globals->object_lists_need_gc && !hs_runtime_globals->globals_initialization)
 	{
 		object_list_gc();
 		hs_runtime_globals->object_lists_need_gc = false;
@@ -1042,8 +1462,21 @@ const hs_stack_frame* __cdecl hs_thread_stack(const hs_thread* thread)
 	return hs_stack(thread, thread->stack);
 }
 
-//.text:00598F70 ; void __cdecl hs_thread_try_to_delete(int32, bool)
-//.text:00598FC0 ; void __cdecl hs_typecasting_table_initialize()
+void __cdecl hs_thread_try_to_delete(int32 thread_index, bool validate)
+{
+	//INVOKE(0x00598F70, hs_thread_try_to_delete, thread_index, validate);
+
+	if (datum_try_and_get(hs_thread_tracking_data, thread_index))
+	{
+		hs_thread_delete(thread_index, validate);
+	}
+}
+
+void __cdecl hs_typecasting_table_initialize()
+{
+	INVOKE(0x00598FC0, hs_typecasting_table_initialize);
+}
+
 //.text:00599170 ; void __cdecl hs_wake(int32, int32)
 
 bool __cdecl hs_wake_by_name(const char* script_name)
