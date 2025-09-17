@@ -19,7 +19,23 @@
 #include "sound/sound_manager.hpp"
 #include "text/font_loading.hpp"
 
+//#include <crtdbg.h>
+
 REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
+
+//int __cdecl microsoft_crt_report_hook(int report_type, char* message, int* return_value)
+//{
+//	if (report_type == _CRT_ASSERT)
+//	{
+//		VASSERT(message);
+//	}
+//	else
+//	{
+//		event((e_event_level)(report_type != _CRT_WARN + _event_warning), "system:crt: %s", message);
+//	}
+//
+//	return 1;
+//}
 
 bool __cdecl shell_application_is_paused()
 {
@@ -126,6 +142,8 @@ bool __cdecl shell_initialize(bool windowed)
 
 	bool shell_initialized = false;
 	set_purecall_handler(shell_halt_on_pure_virtual_call);
+	//_CrtSetReportHook2(_CRT_RPTHOOK_INSTALL, microsoft_crt_report_hook);
+
 	cseries_initialize();
 
 	PROFILER(shell_initialize)
