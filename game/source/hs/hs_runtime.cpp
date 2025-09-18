@@ -26,6 +26,7 @@ REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
 
+HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
@@ -155,9 +156,68 @@ bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_
 //.text:00594120 ; 
 //.text:00594130 ; 
 
-int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 parameter_count, const int16* formal_parameters, bool a4)
+inline static bool script_error(long thread_index, const char* message, const char* condition)
 {
-	return INVOKE(0x00594140, hs_arguments_evaluate, thread_index, parameter_count, formal_parameters, a4);
+	event(_event_warning, "script %s needs to be recompiled. (%s: %s)",
+		hs_thread_format(thread_index),
+		message ? message : "no reason given.",
+		condition);
+
+	return false;
+}
+
+inline static void script_error2(long thread_index, const char* message, bool result, const char* condition)
+{
+	VASSERT(condition, "a problem occurred while executing the script %s: %s (%s)",
+		hs_thread_format(thread_index),
+		message ? message : "no reason given.",
+		condition);
+}
+
+#define SCRIPT_COMPILE_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error((THREAD_INDEX), (MESSAGE), #CONDITION))
+#define ASSERT_SCRIPT_EXECTION(THREAD_INDEX, CONDITION, MESSAGE) (script_error2((THREAD_INDEX), (MESSAGE), (CONDITION), #CONDITION))
+
+int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_count, const int16* formal_parameters, bool initialize)
+{
+	//return INVOKE(0x00594140, hs_arguments_evaluate, thread_index, formal_parameter_count, formal_parameters, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+
+	hs_stack_pointer evaluation_results_reference{};
+	int32* evaluation_results = (int32*)hs_stack_allocate(thread_index, sizeof(int32) * formal_parameter_count, 2, &evaluation_results_reference);
+	int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	int32* expression_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	if (evaluation_results && argument_index && expression_index)
+	{
+		if (initialize)
+		{
+			*argument_index = 0;
+			*expression_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+		}
+
+		if (*argument_index >= formal_parameter_count)
+		{
+			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index == NONE, "corrupted syntax tree.");
+		}
+		else
+		{
+			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index != NONE, "corrupted syntax tree.");
+
+			if (SCRIPT_COMPILE_ERROR(thread_index, hs_syntax_get(*expression_index)->type == formal_parameters[*argument_index], "unexpected actual parameters."))
+			{
+				hs_destination_pointer destination{};
+				destination.destination_type = 1;
+				destination.stack_pointer = evaluation_results_reference;
+				destination.stack_pointer.stack_offset += sizeof(int32) * *argument_index;
+				hs_evaluate(thread_index, *expression_index, destination, NULL);
+				*expression_index = hs_syntax_get(*expression_index)->next_node_index;
+				(*argument_index)++;
+				evaluation_results = 0;
+			}
+		}
+	}
+
+	return evaluation_results;
 }
 
 void __cdecl hs_breakpoint(const char* s)

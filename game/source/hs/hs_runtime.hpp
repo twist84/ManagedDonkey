@@ -189,7 +189,7 @@ extern bool breakpoints_enabled;
 extern bool debug_trigger_volumes;
 extern hs_debug_data_definition hs_debug_data;
 
-extern int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 parameter_count, const int16* formal_parameters, bool a4);
+extern int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_count, const int16* formal_parameters, bool initialize);
 extern void __cdecl hs_breakpoint(const char* s);
 extern bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type);
 extern int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type, int32 value);
