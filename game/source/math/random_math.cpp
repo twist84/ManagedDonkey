@@ -163,7 +163,7 @@ void random_seed_disallow_use()
 
 	if (!game_in_editor())
 	{
-		VASSERT(random_seed_allow_use_count <= 0, "unmatched call to random_seed_disallow() somewhere");
+		VASSERT(random_seed_allow_use_count > 0, "unmatched call to random_seed_disallow() somewhere");
 	}
 
 	random_seed_allow_use_count--;
