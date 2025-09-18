@@ -99,13 +99,17 @@ REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 const hs_function_definition* hs_function_get(int16 function_index)
 {
 	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
-	return hs_function_table[function_index];
+
+	const hs_function_definition* function = hs_function_table[function_index];
+	return function;
 }
 
 const hs_function_definition_debug* hs_function_get_debug(int16 function_index)
 {
 	ASSERT(function_index >= 0 && function_index < hs_function_table_debug_count);
-	return hs_function_table_debug[function_index];
+
+	const hs_function_definition_debug* function = hs_function_table_debug[function_index];
+	return function;
 }
 
 void __cdecl hs_dispose()
