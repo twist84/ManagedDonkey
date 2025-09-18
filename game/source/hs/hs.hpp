@@ -15,8 +15,8 @@ struct hs_enum_definition
 static_assert(sizeof(hs_enum_definition) == 0x8);
 
 struct hs_syntax_node;
+struct hs_function_definition_release;
 struct hs_function_definition;
-struct hs_function_definition_debug;
 struct hs_global_external;
 struct hs_global_external_debug;
 struct s_tag_block;
@@ -102,7 +102,6 @@ extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
 extern s_data_array*& g_hs_syntax_data;
 
 extern const hs_function_definition* hs_function_get(int16 function_index);
-extern const hs_function_definition_debug* hs_function_get_debug(int16 function_index);
 extern void __cdecl hs_dispose();
 extern void __cdecl hs_dispose_from_old_map();
 extern int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments);

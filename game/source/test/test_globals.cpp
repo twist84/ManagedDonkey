@@ -158,9 +158,9 @@ void __cdecl test_main_loop_body_begin()
 		game_engines;
 		game_state_globals;
 		hs_external_globals;
+		hs_function_table_release;
 		hs_function_table;
-		hs_function_table_debug;
-		hs_function_table_debug_count;
+		hs_function_table_count;
 		input_globals;
 		loading_globals;
 		main_globals;

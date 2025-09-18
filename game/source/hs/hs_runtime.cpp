@@ -502,7 +502,7 @@ void __cdecl hs_return(int32 thread_index, int32 value)
 	int16 return_type = _hs_unparsed;
 	if (!TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
 	{
-		return_type = hs_function_get_debug(expression->function_index)->return_type;
+		return_type = hs_function_get(expression->function_index)->return_type;
 	}
 	else if (expression->script_index != NONE)
 	{
@@ -1435,13 +1435,13 @@ void __cdecl hs_thread_main(int32 thread_index)
 		}
 		else
 		{
-			const hs_function_definition_debug* function = hs_function_get_debug(expression->script_index);
+			const hs_function_definition* function = hs_function_get(expression->function_index);
 			ASSERT(function->evaluate);
 			if ("print"_hash == string_hash(function->name))
 			{
 				printf("");
 			}
-			function->evaluate(expression->script_index, thread_index, call);
+			function->evaluate(expression->function_index, thread_index, call);
 		}
 	}
 

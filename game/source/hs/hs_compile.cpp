@@ -1385,7 +1385,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 		}
 		else
 		{
-			const hs_function_definition_debug* function = hs_function_get_debug(expression->function_index);
+			const hs_function_definition* function = hs_function_get(expression->function_index);
 			if (expression->type && !hs_can_cast(function->return_type, expression->type))
 			{
 				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
@@ -1479,7 +1479,7 @@ bool hs_parse(int32 expression_index, int16 expected_type)
 
 bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 {
-	const hs_function_definition_debug* definition = hs_function_get_debug(function_index);
+	const hs_function_definition* definition = hs_function_get(function_index);
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 

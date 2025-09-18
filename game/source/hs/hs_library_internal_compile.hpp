@@ -28,7 +28,6 @@ enum
 	_hs_function_gte,
 	_hs_function_lte,
 	_hs_function_sleep,
-	//_hs_function_sleep_for_ticks,
 	_hs_function_sleep_forever,
 	_hs_function_sleep_until,
 	_hs_function_wake,
@@ -52,7 +51,6 @@ extern bool hs_parse_arithmetic(int16 function_index, int32 expression_index);
 extern bool hs_parse_equality(int16 function_index, int32 expression_index);
 extern bool hs_parse_inequality(int16 function_index, int32 expression_index);
 extern bool hs_parse_sleep(int16 function_index, int32 expression_index);
-extern bool hs_parse_sleep_for_ticks(int16 function_index, int32 expression_index);
 extern bool hs_parse_sleep_forever(int16 function_index, int32 expression_index);
 extern bool hs_parse_sleep_until(int16 function_index, int32 expression_index);
 extern bool hs_parse_wake(int16 function_index, int32 expression_index);

@@ -61,7 +61,7 @@ bool hs_parse_begin(int16 function_index, int32 expression_index)
 		{
 			hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 				"a statement block must contain at least one argument.",
-				hs_function_get_debug(function_index)->name);
+				hs_function_get(function_index)->name);
 			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 			return false;
 		}
@@ -218,7 +218,7 @@ bool hs_parse_inequality(int16 function_index, int32 expression_index)
 	bool success = false;
 
 	long parameter_indices[2]{};
-	if (hs_get_parameter_indices(hs_function_get_debug(function_index)->name, NUMBEROF(parameter_indices), parameter_indices, expression_index))
+	if (hs_get_parameter_indices(hs_function_get(function_index)->name, NUMBEROF(parameter_indices), parameter_indices, expression_index))
 	{
 		if (hs_parse(parameter_indices[0], _hs_unparsed)
 			&& (hs_syntax_get(parameter_indices[0])->type >= _hs_type_game_difficulty
@@ -275,13 +275,6 @@ bool hs_parse_sleep(int16 function_index, int32 expression_index)
 	return false;
 };
 
-bool hs_parse_sleep_for_ticks(int16 function_index, int32 expression_index)
-{
-	// $IMPLEMENT
-
-	return false;
-};
-
 bool hs_parse_sleep_forever(int16 function_index, int32 expression_index)
 {
 	// $IMPLEMENT
@@ -308,7 +301,7 @@ bool hs_parse_inspect(int16 function_index, int32 expression_index)
 	ASSERT(function_index == _hs_function_inspect);
 
 	int32 argument_index;
-	if (!hs_get_parameter_indices(hs_function_table_debug[function_index]->name, 1, &argument_index, expression_index))
+	if (!hs_get_parameter_indices(hs_function_table[function_index]->name, 1, &argument_index, expression_index))
 	{
 		return false;
 	}

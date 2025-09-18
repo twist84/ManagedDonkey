@@ -98,17 +98,9 @@ REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 
 const hs_function_definition* hs_function_get(int16 function_index)
 {
-	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
+	ASSERT(function_index >= 0 && function_index < hs_function_table_release_count);
 
 	const hs_function_definition* function = hs_function_table[function_index];
-	return function;
-}
-
-const hs_function_definition_debug* hs_function_get_debug(int16 function_index)
-{
-	ASSERT(function_index >= 0 && function_index < hs_function_table_debug_count);
-
-	const hs_function_definition_debug* function = hs_function_table_debug[function_index];
 	return function;
 }
 
@@ -209,18 +201,6 @@ int16 hs_find_function_by_name(const char* name, int16 parameter_count)
 	for (int16 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
 		const hs_function_definition* const function_definition = hs_function_table[function_index];
-		if (csstrcmp(hs_function_table_names[function_index], name) == 0
-			&& (TEST_BIT(function_definition->flags, _hs_function_flag_internal)
-				|| parameter_count == NONE
-				|| function_definition->formal_parameter_count == parameter_count))
-		{
-			return function_index;
-		}
-	}
-
-	for (int16 function_index = 0; function_index < hs_function_table_debug_count; function_index++)
-	{
-		const hs_function_definition_debug* const function_definition = hs_function_table_debug[function_index];
 		if (csstrcmp(function_definition->name, name) == 0
 			&& (TEST_BIT(function_definition->flags, _hs_function_flag_internal)
 				|| parameter_count == NONE
@@ -467,10 +447,10 @@ void __cdecl hs_enumerate_type_names(void)
 void __cdecl hs_enumerate_function_names(void)
 {
 	// original names
-	hs_enumerate_from_string_list(hs_function_table_names, 0, hs_function_table_count);
+	hs_enumerate_from_string_list(hs_function_table_names, 0, hs_function_table_release_count);
 
 	// our names, eventually it'll only be this
-	//for (int16 function_index = 0; function_index < int16(hs_function_table_debug_count); function_index++)
+	//for (int16 function_index = 0; function_index < int16(hs_function_table_count); function_index++)
 	//	hs_tokens_enumerate_add_string(hs_function_get_debug(function_index)->name);
 }
 
