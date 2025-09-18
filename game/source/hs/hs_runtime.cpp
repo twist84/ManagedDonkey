@@ -30,16 +30,16 @@ HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 HOOK_DECLARE(0x005974D0, hs_restore_from_saved_game);
-//HOOK_DECLARE(0x005974E0, hs_return);
+HOOK_DECLARE(0x005974E0, hs_return);
 HOOK_DECLARE(0x005975C0, hs_running_game_scripts);
 HOOK_DECLARE(0x005975D0, hs_runtime_command_script_begin);
-//HOOK_DECLARE(0x00597640, hs_runtime_delete_internal_global_datums);
+HOOK_DECLARE(0x00597640, hs_runtime_delete_internal_global_datums);
 //HOOK_DECLARE(0x005976C0, hs_runtime_dirty);
-//HOOK_DECLARE(0x00597730, hs_runtime_dispose);
-//HOOK_DECLARE(0x00597750, hs_runtime_dispose_from_old_map);
+HOOK_DECLARE(0x00597730, hs_runtime_dispose);
+HOOK_DECLARE(0x00597750, hs_runtime_dispose_from_old_map);
 HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
 //HOOK_DECLARE(0x005978A0, hs_runtime_index_from_global_designator);
-//HOOK_DECLARE(0x005978D0, hs_runtime_initialize);
+HOOK_DECLARE(0x005978D0, hs_runtime_initialize);
 //HOOK_DECLARE(0x00597A80, hs_runtime_initialize_for_new_map);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
 HOOK_DECLARE(0x00597CF0, hs_runtime_initialized);
@@ -47,7 +47,7 @@ HOOK_DECLARE(0x00597D10, hs_runtime_internal_evaluate);
 HOOK_DECLARE(0x00597DE0, hs_runtime_push_script);
 HOOK_DECLARE(0x00597E60, hs_runtime_require_gc);
 HOOK_DECLARE(0x00597E80, hs_runtime_require_object_list_gc);
-//HOOK_DECLARE(0x00597EA0, hs_runtime_reset);
+HOOK_DECLARE(0x00597EA0, hs_runtime_reset);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005980C0, hs_runtime_update);
 HOOK_DECLARE(0x00598570, hs_script_finished);
@@ -374,7 +374,34 @@ void __cdecl hs_restore_from_saved_game(int32 game_state_restore_flags)
 
 void __cdecl hs_return(int32 thread_index, int32 value)
 {
-	INVOKE(0x005974E0, hs_return, thread_index, value);
+	//INVOKE(0x005974E0, hs_return, thread_index, value);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	hs_stack_frame* current_frame = hs_thread_stack(thread);
+	const hs_syntax_node* expression = hs_syntax_get(current_frame->expression_index);
+
+	int16 return_type = _hs_unparsed;
+	if (!TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
+	{
+		return_type = hs_function_get_debug(expression->function_index)->return_type;
+	}
+	else if (expression->script_index != NONE)
+	{
+		return_type = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, expression->script_index, hs_script)->return_type;
+	}
+	else
+	{
+		return_type = _hs_type_void;
+	}
+
+	hs_stack_frame* parent_frame = hs_stack(thread, current_frame->parent);
+	int32* destination = hs_destination(thread, parent_frame->child_result);
+	if (destination)
+	{
+		*destination = hs_cast(thread_index, return_type, expression->type, value);
+	}
+
+	hs_stack_pop(thread_index);
 }
 
 bool __cdecl hs_running_game_scripts()
@@ -393,14 +420,13 @@ int32 __cdecl hs_runtime_command_script_begin(int16 script_index)
 
 void __cdecl hs_runtime_delete_internal_global_datums()
 {
-	INVOKE(0x00597640, hs_runtime_delete_internal_global_datums);
-	return;
+	//INVOKE(0x00597640, hs_runtime_delete_internal_global_datums);
 
 	c_data_iterator<hs_global_runtime> hs_global_runtime_iterator;
 	hs_global_runtime_iterator.begin(hs_global_data);
 	while (hs_global_runtime_iterator.next())
 	{
-		if (hs_global_runtime_iterator.get_index() >= k_hs_external_global_count)
+		if ((int16)hs_global_runtime_iterator.get_index() >= k_hs_external_global_count)
 		{
 			datum_delete(hs_global_data, hs_global_runtime_iterator.get_index());
 		}
@@ -422,16 +448,14 @@ void __cdecl hs_runtime_dirty()
 
 void __cdecl hs_runtime_dispose()
 {
-	INVOKE(0x00597730, hs_runtime_dispose);
-	return;
+	//INVOKE(0x00597730, hs_runtime_dispose);
 
 	data_make_invalid(hs_global_data);
 }
 
 void __cdecl hs_runtime_dispose_from_old_map()
 {
-	INVOKE(0x00597750, hs_runtime_dispose_from_old_map);
-	return;
+	//INVOKE(0x00597750, hs_runtime_dispose_from_old_map);
 
 	data_make_invalid(hs_thread_tracking_data);
 	data_make_invalid(hs_thread_deterministic_data);
@@ -519,13 +543,11 @@ int32 __cdecl hs_runtime_index_from_global_designator(int32 designator)
 
 void __cdecl hs_runtime_initialize()
 {
-	INVOKE(0x005978D0, hs_runtime_initialize);
-	return;
+	//INVOKE(0x005978D0, hs_runtime_initialize);
 
 	hs_thread_deterministic_data = data_new("det hs thread", MAXIMUM_NUMBER_OF_DETERMINISTIC_HS_THREADS, sizeof(hs_thread), 0, &g_hs_thread_deterministic_data_allocator);
 	hs_thread_tracking_data = data_new("tracking hs thread", MAXIMUM_NUMBER_OF_HS_THREADS, sizeof(s_hs_thread_tracking_data), 0, &g_hs_thread_tracking_data_allocator);
 	hs_thread_non_deterministic_data = data_new("non-det hs thread", MAXIMUM_NUMBER_OF_NON_DETERMINISTIC_HS_THREADS, sizeof(hs_thread), 0, &g_hs_thread_non_deterministic_data_allocator);
-	
 	hs_global_data = data_new("hs globals", MAXIMUM_NUMBER_OF_HS_GLOBALS, sizeof(hs_global_runtime), 0, &g_hs_global_data_allocator);
 	hs_distributed_global_data = data_new("hs dist. globals", 512, sizeof(s_hs_distributed_global_data), 0, &g_hs_distributed_global_data_allocator);
 	
@@ -551,7 +573,9 @@ void __cdecl hs_runtime_initialize()
 			else
 			{
 				hs_global_runtime* global_runtime = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime,
-					hs_runtime_index_from_global_designator(external_global_index));
+					//hs_runtime_index_from_global_designator(external_global_index)
+					external_global_index & 0x7FFF
+				);
 				global_runtime->distributed_global_runtime_index = NONE;
 			}
 		}
@@ -739,8 +763,7 @@ void __cdecl hs_runtime_require_object_list_gc()
 
 void __cdecl hs_runtime_reset()
 {
-	INVOKE(0x00597EA0, hs_runtime_reset);
-	return;
+	//INVOKE(0x00597EA0, hs_runtime_reset);
 
 	hs_runtime_dispose_from_old_map();
 	hs_runtime_initialize_for_new_map();
