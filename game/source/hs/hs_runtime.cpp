@@ -28,6 +28,7 @@ bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_
 
 HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
+HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 HOOK_DECLARE(0x005974D0, hs_restore_from_saved_game);
@@ -273,7 +274,39 @@ int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type,
 
 int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destination_pointer)
 {
-	return INVOKE(0x00594460, hs_destination, thread, destination_pointer);
+	//return INVOKE(0x00594460, hs_destination, thread, destination_pointer);
+
+	int32* destination = NULL;
+	switch (destination_pointer.destination_type)
+	{
+	case _hs_destination_none:
+	{
+		destination = NULL;
+	}
+	break;
+	case _hs_destination_stack:
+	{
+		destination = hs_stack_destination(thread, destination_pointer.stack_pointer);
+	}
+	break;
+	case _hs_destination_runtime_global:
+	{
+		destination = &DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime,
+			hs_runtime_index_from_global_designator(destination_pointer.runtime_global_index))->value;
+	}
+	break;
+	case _hs_destination_thread_result:
+	{
+		destination = &thread->result;
+	}
+	break;
+	default:
+	{
+		UNREACHABLE();
+	}
+	break;
+	}
+	return destination;
 }
 
 //.text:005944F0 ; int32 __cdecl hs_enum_to_real(int32 _enum)
@@ -286,6 +319,8 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	hs_thread* thread = hs_thread_get(thread_index);
 	const hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 expression_result = NONE;
+
+	ASSERT_SCRIPT_EXECTION(valid_thread(thread_index), valid_thread(thread_index), "corrupted stack.");
 
 	if (!TEST_BIT(expression->flags, _hs_syntax_node_primitive_bit))
 	{
@@ -461,6 +496,8 @@ void __cdecl hs_return(int32 thread_index, int32 value)
 	hs_thread* thread = hs_thread_get(thread_index);
 	hs_stack_frame* current_frame = hs_thread_stack(thread);
 	const hs_syntax_node* expression = hs_syntax_get(current_frame->expression_index);
+
+	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
 
 	int16 return_type = _hs_unparsed;
 	if (!TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
@@ -718,13 +755,7 @@ void __cdecl hs_runtime_initialize_for_new_map()
 					object_list_add_reference(hs_global_evaluate((int16)global_index));
 				}
 
-				//if (internal_thread->sleep_until != 0)
-				//{
-				//	VASSERT(c_string_builder("a problem occurred while executing the script %s: %s (%s)",
-				//		hs_thread_format(internal_thread_index),
-				//		"a global initialization attempted to sleep.",
-				//		"internal_thread->sleep_until==0").get_string());
-				//}
+				ASSERT_SCRIPT_EXECTION(internal_thread_index, internal_thread->sleep_until == 0, "a global initialization attempted to sleep.");
 			}
 
 			hs_global_reconcile_write((int16)(global_index & MASK(15)));
@@ -1040,19 +1071,8 @@ void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_
 	void* result = NULL;
 
 	ASSERT(alignment_bits <= 4);
-	//if (!valid_thread(thread_index))
-	//{
-	//	VASSERT(c_string_builder("a problem occurred while executing the script %s: %s (%s)",
-	//		"corrupted stack.",
-	//		"valid_thread(thread_index)").get_string());
-	//}
-	//if (!size)
-	//{
-	//	VASSERT(c_string_builder("a problem occurred while executing the script %s: %s (%s)",
-	//		hs_thread_format(thread_index),
-	//		"attempt to allocate zero space from the stack.",
-	//		"size").get_string());
-	//}
+	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
+	ASSERT_SCRIPT_EXECTION(thread_index, size, "attempt to allocate zero space from the stack.");
 	ASSERT(alignment_pad >= 0);
 
 	int32 allocation_offset = alignment_pad + unaligned_offset;
@@ -1367,6 +1387,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 	hs_thread* thread = hs_thread_get(thread_index);
 	hs_script* script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->scripts, thread->script_index, hs_script);
 
+	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
 	thread->sleep_until = 0;
 
 	if (!thread->stack.stack_offset)
