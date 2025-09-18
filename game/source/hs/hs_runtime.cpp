@@ -80,6 +80,28 @@ hs_debug_data_definition hs_debug_data{};
 
 REFERENCE_DECLARE(0x018F1824, hs_global_external, run_game_scripts_definition) = { .type = _hs_type_boolean, .value = &g_run_game_scripts };
 
+bool valid_thread(int32 thread_index)
+{
+	bool valid = false;
+
+
+	s_data_array* data_array = hs_thread_is_deterministic(thread_index) ? hs_thread_deterministic_data : hs_thread_non_deterministic_data;
+	void* data_array_data = data_array->data;
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	if ((void*)thread >= data_array_data && (void*)thread < offset_pointer(data_array_data, data_array->size * data_array->count))
+	{
+		if (thread->stack.stack_offset >= 0 && thread->stack.stack_offset + (int16)sizeof(hs_stack_frame) <= HS_THREAD_STACK_SIZE)
+		{
+			if (thread->stack.stack_offset + hs_thread_stack(thread)->size + (int16)sizeof(hs_stack_frame) <= HS_THREAD_STACK_SIZE)
+			{
+				valid = true;
+			}
+		}
+	}
+	return valid;
+}
+
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
 {
 	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
