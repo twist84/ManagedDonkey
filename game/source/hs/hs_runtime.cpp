@@ -4,10 +4,12 @@
 #include "cseries/cseries.hpp"
 #include "editor/editor_stubs.hpp"
 #include "hs/hs.hpp"
+#include "hs/hs_compile.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
 #include "hs/hs_library_external.hpp"
 #include "interface/interface.hpp"
+#include "interface/user_interface.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -36,7 +38,7 @@ HOOK_DECLARE(0x005974E0, hs_return);
 HOOK_DECLARE(0x005975C0, hs_running_game_scripts);
 HOOK_DECLARE(0x005975D0, hs_runtime_command_script_begin);
 HOOK_DECLARE(0x00597640, hs_runtime_delete_internal_global_datums);
-//HOOK_DECLARE(0x005976C0, hs_runtime_dirty);
+HOOK_DECLARE(0x005976C0, hs_runtime_dirty);
 HOOK_DECLARE(0x00597730, hs_runtime_dispose);
 HOOK_DECLARE(0x00597750, hs_runtime_dispose_from_old_map);
 HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
@@ -50,6 +52,7 @@ HOOK_DECLARE(0x00597DE0, hs_runtime_push_script);
 HOOK_DECLARE(0x00597E60, hs_runtime_require_gc);
 HOOK_DECLARE(0x00597E80, hs_runtime_require_object_list_gc);
 HOOK_DECLARE(0x00597EA0, hs_runtime_reset);
+HOOK_DECLARE(0x00597FC0, hs_runtime_safe_to_gc);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005980C0, hs_runtime_update);
 HOOK_DECLARE(0x00598570, hs_script_finished);
@@ -538,7 +541,41 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 
 //.text:005973D0 ; int32 __cdecl hs_real_to_long(int32 _real)
 //.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 _real)
-//.text:00597400 ; void __cdecl hs_reset_scripts()
+
+void __cdecl hs_rebuild_and_compile(char* error_buffer, long buffer_length, bool verbose)
+{
+	hs_runtime_dirty();
+	g_error_output_buffer = error_buffer;
+	g_error_buffer_length = buffer_length;
+	hs_dispose_from_old_map();
+	hs_initialize_for_new_map(true, verbose);
+	g_error_output_buffer = 0;
+	g_error_buffer_length = 0;
+}
+
+void __cdecl hs_reset_scripts()
+{
+	//INVOKE(0x00597400, hs_reset_scripts);
+
+	if (game_is_authoritative())
+	{
+		s_hs_thread_iterator iterator{};
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
+			const hs_thread* thread = hs_thread_get(thread_index);
+			if (thread->type != _hs_thread_type_runtime_evaluate)
+			{
+				hs_thread_delete(thread_index, false);
+			}
+		}
+
+		hs_runtime_initialize_threads();
+		ai_handle_script_verification(true);
+		ui_handle_script_verification();
+	}
+}
 
 void __cdecl hs_restore_from_saved_game(int32 game_state_restore_flags)
 {
@@ -612,15 +649,15 @@ void __cdecl hs_runtime_delete_internal_global_datums()
 
 void __cdecl hs_runtime_dirty()
 {
-	INVOKE(0x005976C0, hs_runtime_dirty);
+	//INVOKE(0x005976C0, hs_runtime_dirty);
 
-	//ai_reset();
-	//hs_runtime_dispose_from_old_map();
-	//hs_compile_initialize(true);
-	//hs_compile_dispose();
-	//hs_runtime_initialize_for_new_map();
-	//ai_handle_script_verification(true);
-	//ui_handle_script_verification();
+	ai_reset();
+	hs_runtime_dispose_from_old_map();
+	hs_compile_initialize(true);
+	hs_compile_dispose();
+	hs_runtime_initialize_for_new_map();
+	ai_handle_script_verification(true);
+	ui_handle_script_verification();
 }
 
 void __cdecl hs_runtime_dispose()
@@ -939,8 +976,50 @@ void __cdecl hs_runtime_reset()
 	hs_runtime_initialize_for_new_map();
 }
 
-//.text:00597F00 ; void __cdecl hs_runtime_reset_time(int32 previous_time)
-//.text:00597FC0 ; bool __cdecl hs_runtime_safe_to_gc()
+void __cdecl hs_runtime_reset_time(int32 previous_time)
+{
+	INVOKE(0x00597F00, hs_runtime_reset_time, previous_time);
+
+	//if (hs_runtime_globals->initialized)
+	//{
+	//	int32 time_offset = game_time_get() - previous_time;
+	//
+	//	s_hs_thread_iterator iterator{};
+	//	hs_thread_iterator_new(&iterator, true, true);
+	//
+	//	for (int32 thread_index = hs_thread_iterator_next(&iterator);
+	//		thread_index != NONE;
+	//		thread_index = hs_thread_iterator_next(&iterator))
+	//	{
+	//		thread_update_sleep_time_for_reset(thread_index, time_offset);
+	//	}
+	//}
+}
+
+bool __cdecl hs_runtime_safe_to_gc()
+{
+	//return INVOKE(0x00597FC0, hs_runtime_safe_to_gc);
+
+	bool safe_to_gc = true;
+	if (hs_runtime_globals->initialized)
+	{
+		s_hs_thread_iterator iterator{};
+		hs_thread_iterator_new(&iterator, true, true);
+
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
+			const hs_thread* thread = hs_thread_get(thread_index);
+			if (thread->type == _hs_thread_type_runtime_evaluate)
+			{
+				safe_to_gc = false;
+				break;
+			}
+		}
+	}
+	return safe_to_gc;
+}
 
 int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
 {
