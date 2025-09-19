@@ -40,9 +40,9 @@ HOOK_DECLARE(0x00597640, hs_runtime_delete_internal_global_datums);
 HOOK_DECLARE(0x00597730, hs_runtime_dispose);
 HOOK_DECLARE(0x00597750, hs_runtime_dispose_from_old_map);
 HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
-//HOOK_DECLARE(0x005978A0, hs_runtime_index_from_global_designator);
+HOOK_DECLARE(0x005978A0, hs_runtime_index_from_global_designator);
 HOOK_DECLARE(0x005978D0, hs_runtime_initialize);
-//HOOK_DECLARE(0x00597A80, hs_runtime_initialize_for_new_map);
+HOOK_DECLARE(0x00597A80, hs_runtime_initialize_for_new_map);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
 HOOK_DECLARE(0x00597CF0, hs_runtime_initialized);
 HOOK_DECLARE(0x00597D10, hs_runtime_internal_evaluate);
@@ -64,8 +64,8 @@ HOOK_DECLARE(0x00598940, hs_stack_push);
 HOOK_DECLARE(0x00598A10, hs_syntax_get);
 HOOK_DECLARE(0x00598A90, hs_thread_format);
 HOOK_DECLARE(0x00598B10, hs_thread_is_deterministic);
-//HOOK_DECLARE(0x00598B20, hs_thread_iterator_new);
-//HOOK_DECLARE(0x00598B70, hs_thread_iterator_next);
+HOOK_DECLARE(0x00598B20, hs_thread_iterator_new);
+HOOK_DECLARE(0x00598B70, hs_thread_iterator_next);
 HOOK_DECLARE(0x00598BC0, hs_thread_main);
 HOOK_DECLARE(0x00598E70, hs_thread_new);
 HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
@@ -85,7 +85,6 @@ REFERENCE_DECLARE(0x018F1824, hs_global_external, run_game_scripts_definition) =
 bool valid_thread(int32 thread_index)
 {
 	bool valid = false;
-
 
 	s_data_array* data_array = hs_thread_is_deterministic(thread_index) ? hs_thread_deterministic_data : hs_thread_non_deterministic_data;
 	void* data_array_data = data_array->data;
@@ -709,10 +708,10 @@ const char* __cdecl hs_runtime_get_executing_thread_name()
 
 int32 __cdecl hs_runtime_index_from_global_designator(int32 designator)
 {
-	return INVOKE(0x005978A0, hs_runtime_index_from_global_designator, designator);
+	//return INVOKE(0x005978A0, hs_runtime_index_from_global_designator, designator);
 
 	int32 index = designator & MASK(15);
-	if (TEST_BIT(designator, 15))
+	if (!TEST_BIT(designator, 15))
 	{
 		index += k_hs_external_global_count;
 	}
@@ -769,8 +768,7 @@ void __cdecl hs_runtime_initialize()
 
 void __cdecl hs_runtime_initialize_for_new_map()
 {
-	INVOKE(0x00597A80, hs_runtime_initialize_for_new_map);
-	return;
+	//INVOKE(0x00597A80, hs_runtime_initialize_for_new_map);
 
 	//hs_looper_reinitialize();
 
@@ -1380,8 +1378,7 @@ bool __cdecl hs_thread_is_deterministic(int32 thread_index)
 
 void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic)
 {
-	INVOKE(0x00598B20, hs_thread_iterator_new, iterator, deterministic, non_deterministic);
-	return;
+	//INVOKE(0x00598B20, hs_thread_iterator_new, iterator, deterministic, non_deterministic);
 
 	if (hs_runtime_globals->initialized)
 	{
@@ -1407,7 +1404,7 @@ void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool determi
 
 int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
 {
-	return INVOKE(0x00598B70, hs_thread_iterator_next, iterator);
+	//return INVOKE(0x00598B70, hs_thread_iterator_next, iterator);
 
 	int32 result = NONE;
 	if (hs_runtime_globals->initialized)
