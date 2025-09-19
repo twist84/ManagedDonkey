@@ -379,21 +379,80 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	return result;
 }
 
-//.text:00594680 ; void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bool a3)
-//.text:00594960 ; void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool a3)
-//.text:00594AB0 ; void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool a3)
-//.text:00594D20 ; void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool a3)
-//.text:00594FB0 ; void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool a3)
-//.text:005950B0 ; void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool a3)
-//.text:005952A0 ; void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bool a3)
-//.text:00595450 ; void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool a3)
-//.text:00595550 ; void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool a3)
-//.text:005956F0 ; void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index, bool a3)
-//.text:005957F0 ; void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool a3)
-//.text:00595A00 ; void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool a3)
-//.text:00595C10 ; void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool a3)
-//.text:00595CC0 ; void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool a3)
-//.text:00595FF0 ; void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool a3)
+void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00594680, hs_evaluate_arithmetic, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00594960, hs_evaluate_begin, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00594AB0, hs_evaluate_begin_random, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00594D20, hs_evaluate_debug_string, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00594FB0, hs_evaluate_equality, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x005950B0, hs_evaluate_if, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x005952A0, hs_evaluate_inequality, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00595450, hs_evaluate_inspect, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00595550, hs_evaluate_logical, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x005956F0, hs_evaluate_object_cast_up, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x005957F0, hs_evaluate_set, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00595A00, hs_evaluate_sleep, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00595C10, hs_evaluate_sleep_forever, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00595CC0, hs_evaluate_sleep_until, function_index, thread_index, initialize);
+}
+
+void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00595FF0, hs_evaluate_wake, function_index, thread_index, initialize);
+}
 
 int32 __cdecl hs_find_thread_by_name(const char* script_name)
 {
@@ -439,7 +498,7 @@ int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_ind
 			char buffer[10240]{};
 			csnzprintf(buffer, sizeof(buffer), "%s: %s ",
 				hs_thread_format(thread_index),
-				hs_function_table_names[function_index]);
+				hs_function_get(function_index)->name);
 
 			for (int32 param_index = 0; param_index < function_definition->formal_parameter_count; param_index++)
 			{
@@ -1666,7 +1725,7 @@ const char* expression_get_function_name(int32 thread_index, int32 expression_in
 
 		if (expression->script_index || expression_index != hs_thread_stack(thread)->expression_index)
 		{
-			return hs_function_table_names[expression->function_index];
+			return hs_function_get(expression->function_index)->name;
 		}
 
 		if (hs_thread_stack(thread)->size <= 0)

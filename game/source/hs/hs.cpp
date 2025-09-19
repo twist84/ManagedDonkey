@@ -98,7 +98,7 @@ REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 
 const hs_function_definition* hs_function_get(int16 function_index)
 {
-	ASSERT(function_index >= 0 && function_index < hs_function_table_release_count);
+	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
 
 	const hs_function_definition* function = hs_function_table[function_index];
 	return function;
@@ -446,12 +446,10 @@ void __cdecl hs_enumerate_type_names(void)
 
 void __cdecl hs_enumerate_function_names(void)
 {
-	// original names
-	hs_enumerate_from_string_list(hs_function_table_names, 0, hs_function_table_release_count);
-
-	// our names, eventually it'll only be this
-	//for (int16 function_index = 0; function_index < int16(hs_function_table_count); function_index++)
-	//	hs_tokens_enumerate_add_string(hs_function_get_debug(function_index)->name);
+	for (int16 function_index = 0; function_index < int16(hs_function_table_count); function_index++)
+	{
+		hs_tokens_enumerate_add_string(hs_function_get(function_index)->name);
+	}
 }
 
 void __cdecl hs_enumerate_script_names(void)
