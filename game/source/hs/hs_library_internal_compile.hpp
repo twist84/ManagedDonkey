@@ -34,12 +34,12 @@ enum
 	_hs_function_inspect,
 	_hs_function_object_to_unit,
 
-	_hs_function_debug_string__ai_debug_communication_suppress = 26,
-	_hs_function_debug_string__ai_debug_communication_ignore = 27,
-	_hs_function_debug_string__ai_debug_communication_focus = 28,
+	_hs_function_debug_string__ai_debug_communication_suppress = 27,
+	_hs_function_debug_string__ai_debug_communication_ignore = 28,
+	_hs_function_debug_string__ai_debug_communication_focus = 29,
 
-	_hs_function_debug_string__first = 26,
-	_hs_function_debug_string__last = 28,
+	_hs_function_debug_string__first = _hs_function_debug_string__ai_debug_communication_suppress,
+	_hs_function_debug_string__last = _hs_function_debug_string__ai_debug_communication_focus,
 };
 
 extern bool hs_parse_begin(int16 function_index, int32 expression_index);
