@@ -200,7 +200,7 @@ int16 hs_find_function_by_name(const char* name, int16 parameter_count)
 {
 	for (int16 function_index = 0; function_index < hs_function_table_count; function_index++)
 	{
-		const hs_function_definition* const function_definition = hs_function_table[function_index];
+		const hs_function_definition* function_definition = hs_function_get(function_index);
 		if (csstrcmp(function_definition->name, name) == 0
 			&& (TEST_BIT(function_definition->flags, _hs_function_flag_internal)
 				|| parameter_count == NONE

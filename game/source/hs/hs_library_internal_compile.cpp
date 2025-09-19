@@ -301,7 +301,7 @@ bool hs_parse_inspect(int16 function_index, int32 expression_index)
 	ASSERT(function_index == _hs_function_inspect);
 
 	int32 argument_index;
-	if (!hs_get_parameter_indices(hs_function_table[function_index]->name, 1, &argument_index, expression_index))
+	if (!hs_get_parameter_indices(hs_function_get(function_index)->name, 1, &argument_index, expression_index))
 	{
 		return false;
 	}
