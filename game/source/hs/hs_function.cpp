@@ -1,9 +1,88 @@
 #include "hs/hs_function.hpp"
 
+#include "ai/ai_script.hpp"
 #include "hs/hs_compile.hpp"
+#include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
 
+#include <utility>
+
+template<typename t_parameter_type>
+t_parameter_type convert_parameter(int32 value)
+{
+	if constexpr (std::is_pointer_v<t_parameter_type>)
+	{
+		return reinterpret_cast<t_parameter_type>(static_cast<uintptr_t>(value));
+	}
+	else
+	{
+		return static_cast<t_parameter_type>(value);
+	}
+}
+
+template<typename t_result_type, typename... t_parameters, size_t... index>
+constexpr void call_with_parameters(e_hs_type return_type, t_result_type(*func)(t_parameters...), int32& result, int32* actual_parameters, std::index_sequence<index...>)
+{
+	if constexpr (std::is_void_v<t_result_type>)
+	{
+		ASSERT(return_type == _hs_type_void);
+		func(convert_parameter<t_parameters>(actual_parameters[index])...);
+	}
+	else
+	{
+		ASSERT(return_type != _hs_type_void);
+		*reinterpret_cast<t_result_type*>(&result) = func(convert_parameter<t_parameters>(actual_parameters[index])...);
+	}
+}
+
+template<typename t_result_type>
+constexpr void call_without_parameters(e_hs_type return_type, t_result_type(*func)(), int32& result)
+{
+	if constexpr (std::is_void_v<t_result_type>)
+	{
+		ASSERT(return_type == _hs_type_void);
+		func();
+	}
+	else
+	{
+		ASSERT(return_type != _hs_type_void);
+		*reinterpret_cast<t_result_type*>(&result) = func();
+	}
+}
+
+template<typename t_result_type, typename... t_parameters, size_t t_num_parameter = sizeof...(t_parameters)>
+constexpr void __cdecl t_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, e_hs_type return_type, t_result_type(*func)(t_parameters...))
+{
+	int32 result = 0;
+	if constexpr (t_num_parameter > 0)
+	{
+		int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize);
+		if (actual_parameters)
+		{
+			call_with_parameters(return_type, func, result, actual_parameters, std::make_index_sequence<t_num_parameter>{});
+			hs_return(thread_index, result);
+		}
+	}
+	else
+	{
+		call_without_parameters(return_type, func, result);
+		hs_return(thread_index, result);
+	}
+}
+
+#define MACRO_FUNCTION_EVALUATE_NAME(NAME, FUNCTION, NUM_PARAMS) NAME##_##FUNCTION##_##NUM_PARAMS##_evaluate
+#define MACRO_FUNCTION_EVALUATE(NAME, FUNCTION, NUM_PARAMS, RETURN_TYPE) \
+void MACRO_FUNCTION_EVALUATE_NAME(NAME, FUNCTION, NUM_PARAMS)(int16 function_index, int32 thread_index, bool initialize) \
+{ \
+	t_macro_function_evaluate(function_index, thread_index, initialize, RETURN_TYPE, FUNCTION); \
+}
+
 #define MAKE_HS_FUNCTION_DOCUMENTATION(BODY, NETWORK_SAFETY) STRCONCAT(BODY, STRCONCAT("\r\nNETWORK SAFE: ", NETWORK_SAFETY))
+
+void __cdecl MACRO_FUNCTION_EVALUATE_NAME(evaluate, hs_evaluate, 1)(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00748490, MACRO_FUNCTION_EVALUATE_NAME(evaluate, hs_evaluate, 1), function_index, thread_index, initialize);
+}
 
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) begin_definition
 {
@@ -271,7 +350,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) evaluate_definit
 	.name = "evaluate",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00748490, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(evaluate, hs_evaluate, 1), // (hs_evaluate_function_definition)0x00748490,
 	.documentation = "Evaluate the given script",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
@@ -287,7 +366,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) not_1_definition
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748840, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the opposite of the expression.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -302,7 +381,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) pin_3_definition
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F9B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the first value pinned between the second two", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -312,14 +391,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) pin_3_definition
 		_hs_type_real
 	},
 };
+MACRO_FUNCTION_EVALUATE(print, hs_print, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) print_1_definition
 {
 	.return_type = _hs_type_void,
 	.name = "print",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x0072FE80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(print, hs_print, 1), // (hs_evaluate_function_definition)0x0072FE80,
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("prints a string to the console.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -327,14 +407,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) print_1_definiti
 		_hs_type_string
 	},
 };
+MACRO_FUNCTION_EVALUATE(log_print, hs_log_print, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) log_print_1_definition
 {
 	.return_type = _hs_type_void,
 	.name = "log_print",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007302D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(log_print, hs_log_print, 1), // (hs_evaluate_function_definition)0x007302D0,
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("prints a string to the hs log file.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -349,7 +430,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_scripting_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007305D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("shows or hides the display of any thread containing the given substring.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -365,7 +446,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_script_thr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Verbose threads spew to log about script and function calls.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -381,7 +462,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_scripting_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730B80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Turn on/off hs script debugging.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -396,7 +477,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_scripting_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Turn on/off hs global debugging.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -435,6 +516,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_scripting_
 		_hs_type_boolean
 	},
 };
+MACRO_FUNCTION_EVALUATE(breakpoint, hs_breakpoint, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) breakpoint_1_definition
 {
 	.return_type = _hs_type_void,
@@ -442,7 +524,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) breakpoint_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731950, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5737,13 +5819,14 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_migrate_2_def
 		_hs_type_ai
 	},
 };
+MACRO_FUNCTION_EVALUATE(ai_allegiance, ai_scripting_allegiance, 2, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_2_definition
 {
 	.return_type = _hs_type_void,
 	.name = "ai_allegiance",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00738660, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(ai_allegiance, ai_scripting_allegiance, 2), // (hs_evaluate_function_definition)0x00738660,
 	.documentation = "$TODO write this",
 	.parameters = NULL,
 	.formal_parameter_count = 2,

@@ -12,8 +12,8 @@ void __cdecl hs_evaluate_library_external(int16 script_index);
 
 HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
 HOOK_DECLARE(0x0096D870, hs_evaluate_library_external);
-HOOK_DECLARE(0x0096D8B0, hs_log_print);
-HOOK_DECLARE(0x0096EF60, hs_print);
+//HOOK_DECLARE(0x0096D8B0, hs_log_print);
+//HOOK_DECLARE(0x0096EF60, hs_print);
 HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
 HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
 

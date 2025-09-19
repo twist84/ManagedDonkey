@@ -27,7 +27,7 @@ REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
 
 HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
-HOOK_DECLARE(0x005942E0, hs_breakpoint);
+//HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
