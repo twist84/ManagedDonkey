@@ -306,7 +306,24 @@ const char* __cdecl find_string_end_not_in_delimiter(const char* string, const c
 //.text:00670EC0 ; 
 //.text:00670ED0 ; 
 //.text:00670EE0 ; 
-//.text:00670EF0 ; 
+
+void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<char const> const in_source_string)
+{
+	//INVOKE(0x00670EF0, string_copy_bounded, out_dest_string, in_source_string);
+
+	ASSERT(out_dest_string.count() > 0);
+
+	int32 copy_length = out_dest_string.m_count - 1;
+	if (copy_length > in_source_string.m_count)
+	{
+		copy_length = in_source_string.m_count;
+	}
+
+	_memccpy(out_dest_string.m_elements, in_source_string.m_elements, 0, copy_length);
+
+	out_dest_string.m_elements[copy_length] = 0;
+}
+
 //.text:00670F20 ; void __cdecl string_copy_until_delimiter(c_wrapped_array<char>, const char*, const char*)
 
 bool string_is_not_empty(const char* s)

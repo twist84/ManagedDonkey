@@ -346,7 +346,12 @@ void __cdecl ai_place(int32 game_mode)
 
 //.text:014341B0 ; int32 __cdecl ai_release_inactive_squads(int32, uns8*, int32, bool*, char*, int32)
 //.text:01434230 ; int32 __cdecl ai_release_inactive_swarms(int32, uns8*, int32, bool*, char*, int32)
-//.text:014342E0 ; void __cdecl ai_reset()
+
+void __cdecl ai_reset()
+{
+	INVOKE(0x014342E0, ai_reset);
+}
+
 //.text:014343B0 ; void* __cdecl ai_scratch_allocate(unsigned int)
 //.text:01434450 ; void __cdecl ai_scratch_free(void*)
 //.text:014344B0 ; bool __cdecl ai_test_ballistic_line_of_fire(int32, const real_point3d*, real32, const real_vector3d*, real32, int32, bool)

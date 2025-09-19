@@ -219,6 +219,9 @@ do { \
 
 #endif // _DEBUG
 
+template<typename t_type>
+class c_wrapped_array;
+
 extern bool& g_catch_exceptions;
 
 extern void display_assert(const char* statement, const char* file, int32 line, bool fatal);
@@ -247,6 +250,7 @@ extern char* csnzprintf(char* buffer, uns32 size, const char* format, ...);
 extern char* csnzappendf(char* buffer, uns32 size, const char* format, ...);
 extern const char* __cdecl find_string_end(const char* string, const char* delimiters);
 extern const char* __cdecl find_string_end_not_in_delimiter(const char* string, const char* delimiters);
+extern void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<char const> const in_source_string);
 extern bool string_is_not_empty(const char* s);
 extern void string_terminate_at_first_delimiter(char* s, const char* delimiter);
 

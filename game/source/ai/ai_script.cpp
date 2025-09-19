@@ -21,7 +21,12 @@ bool ai_print_scripting = false;
 //.text:0143CA10 ; int16 __cdecl ai_enter_squad_vehicles(int32)
 //.text:0143CB60 ; int16 __cdecl ai_fighting_count(int32)
 //.text:0143CC30 ; 
-//.text:0143CC40 ; bool __cdecl ai_handle_script_verification(bool)
+
+bool __cdecl ai_handle_script_verification(bool suppress_errors)
+{
+	return INVOKE(0x0143CC40, ai_handle_script_verification, suppress_errors);
+}
+
 //.text:0143CD00 ; int32 __cdecl ai_index_actor_get_actor_index(int32)
 //.text:0143CD60 ; void __cdecl ai_index_actor_iterator_new(int32, ai_index_actor_iterator*)
 //.text:0143CE10 ; actor_datum* __cdecl ai_index_actor_iterator_next(ai_index_actor_iterator*)

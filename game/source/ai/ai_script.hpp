@@ -4,6 +4,7 @@
 
 extern bool ai_print_scripting;
 
+extern bool __cdecl ai_handle_script_verification(bool suppress_errors);
 extern void __cdecl ai_script_dispose();
 extern void __cdecl ai_script_dispose_from_old_map();
 extern void __cdecl ai_script_initialize();

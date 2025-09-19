@@ -81,7 +81,11 @@ bool __cdecl get_is_alpha_version()
 //.text:00A841F0 ; 
 //.text:00A84200 ; c_gui_data* __cdecl interface_get_global_datasource(int32)
 //.text:00A84240 ; void __cdecl set_debug_frame_element_bounds(bool)
-//.text:00A84260 ; void __cdecl ui_handle_script_verification()
+
+void __cdecl ui_handle_script_verification()
+{
+	INVOKE(0x00A84260, ui_handle_script_verification);
+}
 
 void __cdecl user_interface_dispose()
 {

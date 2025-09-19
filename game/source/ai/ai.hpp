@@ -134,6 +134,7 @@ extern void __cdecl ai_initialize();
 extern void __cdecl ai_initialize_for_new_map();
 extern void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 extern void __cdecl ai_place(int32 game_mode);
+extern void __cdecl ai_reset();
 extern bool __cdecl ai_test_line_of_fire(int32 actor_index, int32 ignore_unit_index, const real_point3d* origin, const real_vector3d* vector, int32* prop_index_reference);
 extern int16 __cdecl ai_test_line_of_sight(const real_point3d* p0, s_cluster_reference p0_cluster_ref, const real_point3d* p1, s_cluster_reference p1_cluster_ref, int16 mode, bool test_line_of_fire, int32 ignore_object_index, int32 ignore_object_index2, bool ignore_vehicles, bool allow_early_out, int32* blocking_object_index_ref, bool* two_sided_obstruction_ref);
 extern void __cdecl ai_update();

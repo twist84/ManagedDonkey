@@ -226,6 +226,7 @@ extern bool __cdecl get_alpha_is_internal_beta();
 extern bool __cdecl get_alpha_is_locked_down();
 extern int32 __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_is_alpha_version();
+extern void __cdecl ui_handle_script_verification();
 extern void __cdecl user_interface_dispose();
 extern void __cdecl user_interface_dispose_from_old_map();
 extern void __cdecl user_interface_dispose_global_datasources();

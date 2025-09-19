@@ -10,6 +10,7 @@
 #include "hs/hs_globals_external.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
+#include "hs/object_lists.hpp"
 #include "memory/data.hpp"
 #include "objects/objects.hpp"
 #include "profiler/profiler.hpp"
@@ -95,23 +96,67 @@
 //REFERENCE_DECLARE_ARRAY(0x018BEC98, const char* const, hs_type_names, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x018BEDE8, const char* const, hs_script_type_names, NUMBER_OF_HS_SCRIPT_TYPES);
 REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
+REFERENCE_DECLARE(0x024B06DA, bool, g_recompile_scripts);
 
-const hs_function_definition* hs_function_get(int16 function_index)
+int16 enumeration_count = 0;
+int16 enumeration_results_count = 0;
+const char** enumeration_results = NULL;
+const char* enumeration_token = NULL;
+
+int32 const k_maximum_hs_token_enumerator_count = 32;
+
+using hs_enumerator_t = void __cdecl(void);
+hs_enumerator_t* hs_token_enumerators[]
 {
-	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
+	hs_enumerate_special_form_names,
+	hs_enumerate_script_type_names,
+	hs_enumerate_type_names,
+	hs_enumerate_function_names,
+	hs_enumerate_script_names,
+	hs_enumerate_variable_names,
+	hs_enumerate_ai_names,
+	hs_enumerate_ai_command_list_names,
+	hs_enumerate_ai_command_script_names,
+	hs_enumerate_ai_behavior_names,
+	hs_enumerate_starting_profile_names,
+	hs_enumerate_conversation_names,
+	hs_enumerate_object_names,
+	hs_enumerate_trigger_volume_names,
+	hs_enumerate_cutscene_flag_names,
+	hs_enumerate_cutscene_camera_point_names,
+	hs_enumerate_cutscene_title_names,
+	hs_enumerate_cutscene_recording_names,
+	hs_enumerate_enum_skull_names
+};
+int32 const k_hs_token_enumerator_count = NUMBEROF(hs_token_enumerators);
 
-	const hs_function_definition* function = hs_function_table[function_index];
-	return function;
+bool char_is_delimiter(char character, const char* delimiter_string)
+{
+	bool found;
+	for (found = false; !found && *delimiter_string; found = character == *delimiter_string++);
+	return found;
 }
 
 void __cdecl hs_dispose()
 {
-	INVOKE(0x006791C0, hs_dispose);
+	//INVOKE(0x006791C0, hs_dispose);
+
+	data_dispose(g_hs_syntax_data);
+	hs_runtime_dispose();
+	object_lists_dispose();
 }
 
 void __cdecl hs_dispose_from_old_map()
 {
-	INVOKE(0x006791E0, hs_dispose_from_old_map);
+	//INVOKE(0x006791E0, hs_dispose_from_old_map);
+
+	hs_node_gc();
+	if (!TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit))
+	{
+		data_disconnect(g_hs_syntax_data);
+	}
+	hs_runtime_dispose_from_old_map();
+	object_lists_dispose_from_old_map();
 }
 
 int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
@@ -133,6 +178,14 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 	}
 
 	return NONE;
+}
+
+const hs_function_definition* __cdecl hs_function_get(int16 function_index)
+{
+	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
+
+	const hs_function_definition* function = hs_function_table[function_index];
+	return function;
 }
 
 int16 __cdecl hs_global_get_type(int16 global_designator)
@@ -161,26 +214,108 @@ int16 __cdecl hs_global_get_type(int16 global_designator)
 
 void __cdecl hs_initialize()
 {
-	INVOKE(0x00679330, hs_initialize);
+	//INVOKE(0x00679330, hs_initialize);
+
+	VASSERT(hs_object_type_masks[_object_type_projectile], "you can't add an hs object type without defining its mask");
+	VASSERT(hs_type_names[_hs_type_cinematic_lightprobe], "you can't add an hs type without defining its name.");
+
+	g_hs_syntax_data = data_new_disconnected("script node", 61440, 0x18, 0, g_normal_allocation);
+	object_lists_initialize();
+	hs_runtime_initialize();
+	hs_initialize_for_new_map(false, true);
 }
 
 void __cdecl hs_initialize_for_new_map()
 {
-	INVOKE(0x00679400, hs_initialize_for_new_map);
+	//INVOKE(0x00679400, hs_initialize_for_new_map);
+
+	hs_initialize_for_new_map(false, true);
 }
 
-//.text:006794A0 ; 
+void __cdecl hs_initialize_for_new_map(bool force_recompile, bool verbose)
+{
+	//INVOKE(0x006794A0, hs_initialize_for_new_map, force_recompile, verbose);
+
+	ASSERT(TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit));
+
+	const struct scenario* scenario = global_scenario_try_and_get();
+	if (scenario)
+	{
+		hs_scenario_postprocess(force_recompile, false, verbose);
+	}
+	object_lists_initialize_for_new_map();
+	hs_runtime_initialize_for_new_map();
+}
 
 void __cdecl hs_node_gc()
 {
-	INVOKE(0x006794D0, hs_node_gc);
+	//INVOKE(0x006794D0, hs_node_gc);
+
+	if (hs_runtime_initialized())
+	{
+		s_hs_thread_iterator iterator{};
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
+			const hs_thread* thread = hs_thread_get(thread_index);
+			if (thread->type == _hs_thread_type_runtime_evaluate)
+			{
+				hs_thread_delete(thread_index, true);
+			}
+		}
+	}
+
+	if (!TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit))
+	{
+		for (int32 node_index = data_next_index(g_hs_syntax_data, NONE);
+			node_index != NONE;
+			node_index = data_next_index(g_hs_syntax_data, node_index))
+		{
+			if (!TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_permanent_bit))
+			{
+				datum_delete(g_hs_syntax_data, node_index);
+			}
+		}
+	}
+
+	if (hs_runtime_initialized())
+	{
+		s_hs_thread_iterator iterator{};
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
+			const hs_thread* thread = hs_thread_get(thread_index);
+			if (hs_thread_stack(thread)->expression_index != NONE)
+			{
+				ASSERT(hs_syntax_get(hs_thread_stack(thread)->expression_index) != NULL);
+			}
+		}
+	}
 }
 
-//.text:006795B0 ; 
-//.text:006795C0 ; void __cdecl hs_reset_time(int32)
-//.text:006795D0 ; bool __cdecl hs_scenario_postprocess(bool, bool, bool)
-//.text:00679670 ; int32 __cdecl hs_seconds_to_ticks(real32)
-//.text:006796C0 ; real64 __cdecl hs_ticks_to_seconds(int32)
+void __cdecl hs_recompile()
+{
+	//INVOKE(0x006795B0, hs_recompile);
+
+	g_recompile_scripts = true;
+}
+
+void __cdecl hs_reset_time(int32 previous_time)
+{
+	//INVOKE(0x006795C0, hs_reset_time, previous_time);
+
+	hs_runtime_reset_time(previous_time);
+}
+
+bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, bool verbose)
+{
+	return INVOKE(0x006795D0, hs_scenario_postprocess, force_recompile, fail_on_error, verbose);
+}
+
+//.text:00679670 ; int32 __cdecl hs_seconds_to_ticks(real32 seconds) // return ((seconds * 30.0f) + (real_sgn((seconds * 30.0f)) * 0.5f))
+//.text:006796C0 ; real64 __cdecl hs_ticks_to_seconds(int32 hs_ticks) // return ((real32)hs_ticks / 30.0f)
 
 void __cdecl hs_update()
 {
@@ -299,11 +434,6 @@ const char* hs_global_get_name(int16 global_designator)
 	return global_scenario_get()->globals[global_index].name;
 }
 
-int16 enumeration_count = 0;
-int16 enumeration_results_count = 0;
-const char** enumeration_results = NULL;
-const char* enumeration_token = NULL;
-
 void hs_tokens_enumerate_add_string(const char* string)
 {
 	ASSERT(enumeration_results);
@@ -358,33 +488,6 @@ void hs_enumerate_scenario_data_string_id(int16 scenario_offset, int16 block_off
 		hs_enumerate_block_data_string_id(block, block_offset, block_size);
 	}
 }
-
-int32 const k_maximum_hs_token_enumerator_count = 32;
-
-using hs_enumerator_t = void __cdecl(void);
-hs_enumerator_t* hs_token_enumerators[]
-{
-	hs_enumerate_special_form_names,
-	hs_enumerate_script_type_names,
-	hs_enumerate_type_names,
-	hs_enumerate_function_names,
-	hs_enumerate_script_names,
-	hs_enumerate_variable_names,
-	hs_enumerate_ai_names,
-	hs_enumerate_ai_command_list_names,
-	hs_enumerate_ai_command_script_names,
-	hs_enumerate_ai_behavior_names,
-	hs_enumerate_starting_profile_names,
-	hs_enumerate_conversation_names,
-	hs_enumerate_object_names,
-	hs_enumerate_trigger_volume_names,
-	hs_enumerate_cutscene_flag_names,
-	hs_enumerate_cutscene_camera_point_names,
-	hs_enumerate_cutscene_title_names,
-	hs_enumerate_cutscene_recording_names,
-	hs_enumerate_enum_skull_names
-};
-int32 const k_hs_token_enumerator_count = NUMBEROF(hs_token_enumerators);
 
 int16 hs_tokens_enumerate(const char* token, int32 type_mask, const char** matching_items, int16 matching_item_count)
 {
