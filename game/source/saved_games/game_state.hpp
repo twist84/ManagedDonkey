@@ -58,10 +58,10 @@ class c_restricted_memory_callbacks
 public:
 	c_restricted_memory_callbacks();
 
-	virtual unsigned int filter_size_request(unsigned int size);
-	virtual int32 filter_base_offset(int32 a1);
-	virtual void handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size);
-	virtual void handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size);
+	virtual unsigned int filter_size_request(unsigned int in_size);
+	virtual int32 filter_base_offset(int32 base_offset);
+	virtual void handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size);
+	virtual void handle_release(const c_restricted_memory* manager, int32 member_index, void* primary_address, unsigned int size);
 };
 
 class c_gamestate_deterministic_allocation_callbacks :
@@ -70,10 +70,10 @@ class c_gamestate_deterministic_allocation_callbacks :
 public:
 	c_gamestate_deterministic_allocation_callbacks();
 
-	virtual unsigned int filter_size_request(unsigned int size) override;
-	virtual void handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size) override;
-	virtual void handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size) override;
-	virtual int32 filter_base_offset(int32 a1, int32 a2);
+	virtual unsigned int filter_size_request(unsigned int in_size) override;
+	virtual void handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size) override;
+	virtual void handle_release(const c_restricted_memory* manager, int32 member_index, void* primary_address, unsigned int size) override;
+	virtual int32 filter_base_offset(int32 base_offset, int32 total_allocation_space);
 };
 
 class c_gamestate_nondeterministic_allocation_callbacks :
@@ -82,10 +82,10 @@ class c_gamestate_nondeterministic_allocation_callbacks :
 public:
 	c_gamestate_nondeterministic_allocation_callbacks();
 
-	virtual unsigned int filter_size_request(unsigned int size) override;
-	virtual int32 filter_base_offset(int32 a1) override;
-	virtual void handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size) override;
-	virtual void handle_release(const c_restricted_memory* memory, int32 member_index, void* base_address, unsigned int allocation_size) override;
+	virtual unsigned int filter_size_request(unsigned int in_size) override;
+	virtual int32 filter_base_offset(int32 base_offset) override;
+	virtual void handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size) override;
+	virtual void handle_release(const c_restricted_memory* manager, int32 member_index, void* primary_address, unsigned int size) override;
 };
 
 class c_gamestate_allocation_record_allocation_callbacks :
@@ -94,7 +94,7 @@ class c_gamestate_allocation_record_allocation_callbacks :
 public:
 	c_gamestate_allocation_record_allocation_callbacks();
 
-	virtual void handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size) override;
+	virtual void handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size) override;
 };
 
 class c_game_state_compressor

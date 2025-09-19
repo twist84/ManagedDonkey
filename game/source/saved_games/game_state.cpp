@@ -90,39 +90,39 @@ bool __cdecl create_file_from_buffer(const char* file_name, const char* file_con
 //.text:0050F1A0 ; c_game_state_compressor::dispose
 
 //.text:0050F220 ; c_gamestate_deterministic_allocation_callbacks::filter_base_offset
-int32 c_gamestate_deterministic_allocation_callbacks::filter_base_offset(int32 a1, int32 a2)
+int32 c_gamestate_deterministic_allocation_callbacks::filter_base_offset(int32 base_offset, int32 total_allocation_space)
 {
-	return a1;
+	return base_offset;
 }
 
 //.text:0050F230 ; c_gamestate_nondeterministic_allocation_callbacks::filter_base_offset
-int32 c_gamestate_nondeterministic_allocation_callbacks::filter_base_offset(int32 a1)
+int32 c_gamestate_nondeterministic_allocation_callbacks::filter_base_offset(int32 base_offset)
 {
-	return a1;
+	return base_offset;
 }
 
 //.text:0050F240 ; c_restricted_memory_callbacks::filter_base_offset
-int32 c_restricted_memory_callbacks::filter_base_offset(int32 a1)
+int32 c_restricted_memory_callbacks::filter_base_offset(int32 base_offset)
 {
-	return a1;
+	return base_offset;
 }
 
 //.text:0050F250 ; c_gamestate_deterministic_allocation_callbacks::filter_size_request
-unsigned int c_gamestate_deterministic_allocation_callbacks::filter_size_request(unsigned int size)
+unsigned int c_gamestate_deterministic_allocation_callbacks::filter_size_request(unsigned int in_size)
 {
-	return (size + 3) & ~3;
+	return (in_size + 3) & ~3;
 }
 
 //.text:0050F260 ; c_gamestate_nondeterministic_allocation_callbacks::filter_size_request
-unsigned int c_gamestate_nondeterministic_allocation_callbacks::filter_size_request(unsigned int size)
+unsigned int c_gamestate_nondeterministic_allocation_callbacks::filter_size_request(unsigned int in_size)
 {
-	return (size + 3) & ~3;
+	return (in_size + 3) & ~3;
 }
 
 //.text:0050F270 ; c_restricted_memory_callbacks::filter_size_request
-unsigned int c_restricted_memory_callbacks::filter_size_request(unsigned int size)
+unsigned int c_restricted_memory_callbacks::filter_size_request(unsigned int in_size)
 {
-	return size;
+	return in_size;
 }
 
 void __cdecl game_state_allocation_record(int32 region_index, const char* name, const char* type, int32 allocation_size)
@@ -360,8 +360,6 @@ void __cdecl game_state_initialize_for_new_map()
 {
 	//INVOKE(0x0050FDC0, game_state_initialize_for_new_map);
 
-	// $TODO figure out what flags are used?
-	// $TODO `game_state_proc_flags` is never referenced so do we actually care?
 	game_state_reset_mapping(k_no_game_state_proc_flags);
 
 	if (g_game_state_allocation_file_reference_valid)
@@ -809,29 +807,30 @@ void __cdecl game_state_write_to_persistent_storage_blocking(const game_state_he
 //.text:00511040 ; c_game_state_compressor_callback::get_memory_configuration
 
 //.text:00511070 ; c_gamestate_deterministic_allocation_callbacks::handle_allocation
-void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size)
 {
 	ASSERT(!game_state_globals.allocations_locked);
-	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
-	game_state_globals.allocation_size_checksum = crc_checksum_buffer(game_state_globals.allocation_size_checksum, (byte*)&allocation_size, 4);
+	game_state_allocation_record(manager->m_region_index, name, type_name, size);
+	game_state_globals.allocation_size_checksum = crc_checksum_buffer(game_state_globals.allocation_size_checksum, (byte*)&size, 4);
+	//determinism_debug_manager_register_game_state_allocation(name, primary_address, size);
 }
 
 //.text:00511090 ; c_gamestate_nondeterministic_allocation_callbacks::handle_allocation
-void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size)
 {
 	ASSERT(!game_state_globals.allocations_locked);
-	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
-	game_state_globals.allocation_size_checksum = crc_checksum_buffer(game_state_globals.allocation_size_checksum, (byte*)&allocation_size, 4);
+	game_state_allocation_record(manager->m_region_index, name, type_name, size);
+	game_state_globals.allocation_size_checksum = crc_checksum_buffer(game_state_globals.allocation_size_checksum, (byte*)&size, 4);
 }
 
-void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size)
 {
 	ASSERT(!game_state_globals.allocations_locked);
-	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
+	game_state_allocation_record(manager->m_region_index, name, type_name, size);
 }
 
 //.text:005110B0 ; c_restricted_memory_callbacks::handle_allocation
-void c_restricted_memory_callbacks::handle_allocation(const c_restricted_memory* memory, const char* name, const char* type, int32 member_index, void* base_address, unsigned int allocation_size)
+void c_restricted_memory_callbacks::handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size)
 {
 }
 
