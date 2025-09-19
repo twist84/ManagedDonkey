@@ -62,7 +62,7 @@ s_file_reference* __cdecl create_report_file_reference(s_file_reference* referen
 	c_static_string<256> path;
 	if (place_in_report_directory || event_logs_using_subfolder())
 	{
-		path.print("%s", c_debug_output_path().get_path(k_error_snapshot_directory));
+		path.print("%s", c_debug_output_path().get_path(k_reports_directory_name));
 	}
 	else
 	{
@@ -836,12 +836,9 @@ void event_initialize_categories()
 			event_log_flags.set(_event_log_disable_file_trimming, event_globals.disable_event_log_trimming);
 			next_category->event_log_index = event_log_new(log_event->log_name, event_log_flags);
 		}
-		next_category->current_log_level = log_event->initial_log_level;
-		next_category->current_remote_log_level = log_event->initial_remote_log_level;
-		next_category->current_debugger_break_level = k_event_level_none;
-		next_category->current_halt_level = k_event_level_none;
-		next_category->current_force_display_level = k_event_level_none;
-		next_category->log_format_func = log_event->log_format_func;
+
+		event_recalculate_minimum_category_level();
+		event_recalculate_minimum_level();
 	}
 }
 
@@ -927,9 +924,48 @@ void event_initialize_primary_logs()
 	}
 }
 
-int32 __cdecl event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand)
+int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand)
 {
 	return (int32)_InterlockedCompareExchange(destination, exchange, comperand);
+}
+
+void event_recalculate_minimum_category_level()
+{
+	event_globals.current_minimum_category_level = _event_critical;
+
+	for (int32 category_index = 0; category_index < event_globals.category_count; category_index++)
+	{
+		const s_event_category* category = event_category_get(category_index);
+		if (category->current_display_level != k_event_level_none && event_globals.current_minimum_category_level > category->current_display_level)
+		{
+			event_globals.current_minimum_category_level = category->current_display_level;
+		}
+
+		if (category->current_log_level != k_event_level_none && event_globals.current_minimum_category_level > category->current_log_level)
+		{
+			event_globals.current_minimum_category_level = category->current_log_level;
+		}
+	}
+}
+
+void event_recalculate_minimum_level()
+{
+	event_globals.current_minimum_level = event_globals.current_minimum_category_level;
+
+	if (event_globals.current_display_level != k_event_level_none && event_globals.current_minimum_level > event_globals.current_display_level)
+	{
+		event_globals.current_minimum_level = event_globals.current_display_level;
+	}
+
+	if (event_globals.current_log_level != k_event_level_none && event_globals.current_minimum_level > event_globals.current_log_level)
+	{
+		event_globals.current_minimum_level = event_globals.current_log_level;
+	}
+
+	if (event_globals.current_remote_log_level != k_event_level_none && event_globals.current_minimum_level > event_globals.current_remote_log_level)
+	{
+		event_globals.current_minimum_level = event_globals.current_remote_log_level;
+	}
 }
 
 c_event::c_event(e_event_level event_level, int32 event_category_index, uns32 event_response_suppress_flags) :
@@ -1053,6 +1089,11 @@ void add_event_to_spamming_list(const char* event_text, s_event_spamming_list_ad
 	}
 
 	g_event_read_write_lock.write_unlock();
+}
+
+void event_update()
+{
+	event_recalculate_minimum_level();
 }
 
 uns32 event_update_spam_prevention(uns32 response_flags, e_event_level event_level, int32 category_index, const char* event_text)

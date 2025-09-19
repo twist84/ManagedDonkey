@@ -175,6 +175,8 @@ extern const char* events_get();
 extern void events_initialize();
 extern void event_initialize_primary_logs();
 extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
+extern void event_recalculate_minimum_category_level();
+extern void event_recalculate_minimum_level();
 extern void reset_event_message_buffer();
 extern void __cdecl network_debug_print(const char* format, ...);
 
