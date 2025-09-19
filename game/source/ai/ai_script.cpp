@@ -69,10 +69,15 @@ void __cdecl ai_script_initialize_for_new_map()
 //.text:0143DFD0 ; bool __cdecl ai_script_process_fragment(s_file_reference*, char*, char*)
 //.text:0143E030 ; void __cdecl ai_scripting_abort_activity(int32)
 //.text:0143E070 ; int32 __cdecl ai_scripting_ai_index_from_spawn_formation(int32, int32)
-//.text:0143E0F0 ; void __cdecl ai_scripting_allegiance(e_game_team, e_game_team)
-//.text:0143E1C0 ; void __cdecl ai_scripting_allegiance_break(e_game_team, e_game_team)
-//.text:0143E1F0 ; bool __cdecl ai_scripting_allegiance_broken(e_game_team, e_game_team)
-//.text:0143E230 ; void __cdecl ai_scripting_allegiance_remove(e_game_team, e_game_team)
+
+void __cdecl ai_scripting_allegiance(int16 team1_index, int16 team2_index)
+{
+	INVOKE(0x0143E0F0, ai_scripting_allegiance, team1_index, team2_index);
+}
+
+//.text:0143E1C0 ; void __cdecl ai_scripting_allegiance_break(int16, int16)
+//.text:0143E1F0 ; bool __cdecl ai_scripting_allegiance_broken(int16, int16)
+//.text:0143E230 ; void __cdecl ai_scripting_allegiance_remove(int16, int16)
 //.text:0143E260 ; void __cdecl ai_scripting_allow_dormant(int32, bool)
 //.text:0143E270 ; void __cdecl ai_scripting_berserk(int32, bool)
 //.text:0143E2C0 ; int32 __cdecl ai_scripting_body_count(int32)
