@@ -492,7 +492,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_scripting_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Turn on/off debugging of a specific global variable; enclose the variable name with single quote characters ('my_variable')", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -508,7 +508,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_scripting_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007316D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Turn on/off debugging of all global variables", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -539,7 +539,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) kill_active_scri
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Terminates all currently running threads.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -550,7 +550,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) get_executing_ru
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Retrieves the current executing thread index", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -561,7 +561,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) kill_thread_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007322A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Kill the specified thread", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -576,7 +576,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) script_started_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732630, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Returns true if the continuous, dormant or startup script was started.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -591,7 +591,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) script_finished_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732A20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Returns true if the continuous, dormant or startup script was finished.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -606,7 +606,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) players_0_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732E60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns a list of the players (DO NOT USE TO COUNT PLAYERS IN COOP GAME, USE game_coop_player_count)", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -617,7 +617,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_get_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007331C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Get a player by absolute index", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -632,7 +632,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) kill_volume_enab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables a kill volume", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -647,7 +647,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) kill_volume_disa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007339B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("disables a kill volume", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -662,7 +662,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) volume_teleport_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733C60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("moves all players outside a specified trigger volume to a specified flag.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -678,7 +678,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) volume_test_obje
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if the specified object is within the specified volume.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -694,7 +694,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) volume_test_obje
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007344F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if any of the specified objects are within the specified volume. trigger volume must have been postprocessed", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -710,7 +710,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) volume_test_obje
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if any of the specified objects are within the specified volume. trigger volume must have been postprocessed", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -726,7 +726,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) volume_test_play
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734F90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if any players are within the specified volume. trigger volume must have been postprocessed", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -741,7 +741,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) volume_test_play
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735430, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if all players are within the specified volume. trigger volume must have been postprocessed", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -756,7 +756,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) volume_return_ob
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007357C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns list of objects in volume or (max 128)", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -771,7 +771,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) volume_return_ob
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns list of objects in volume or (max 128).", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -787,7 +787,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) zone_set_trigger
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736100, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables/disables the trigger volume(s) with the given name that cause zone set switches", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -803,7 +803,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) list_get_2_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736480, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns an item in an object list.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -819,7 +819,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) list_count_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the number of objects in a list", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -834,7 +834,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) list_count_not_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the number of objects in a list that aren't dead", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -849,7 +849,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007371A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("starts the specified effect at the specified flag.", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -865,7 +865,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_rando
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737580, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("starts the specified effect at one of the points in the given a point set.", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -881,7 +881,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_at_ai
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737A30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("starts the specified effect at the specified ai point.", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -897,7 +897,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) effect_new_on_ob
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737D50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("starts the specified effect on the specified object at the specified marker.", "No (partial support exists, no general solution)"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -914,7 +914,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_on_gr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007382C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("starts the specified effect on the ground underneath the objects root.", "Dunno"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -930,7 +930,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_new_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007386E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("causes the specified damage at the specified flag.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -946,7 +946,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_object_ef
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738AC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("causes the specified damage at the specified object.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -962,7 +962,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_objects_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738E60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("causes the specified damage at the specified object list.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -978,7 +978,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) damage_object_3_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("causes the specified damage at the specified object.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -995,7 +995,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) damage_objects_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007396E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("causes the specified damage at the specified object list.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -1012,7 +1012,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) damage_players_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739AF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("damages all players with the given damage effect", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1027,7 +1027,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) soft_ceiling_ena
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739F20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turn on or off a soft ceiling", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1043,7 +1043,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates an object from the scenario.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1058,7 +1058,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_cl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates an object, potentially resulting in multiple objects if it already exists.", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1073,7 +1073,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_an
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A9B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates an object, destroying it first if it already exists.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1088,7 +1088,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_if
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ADC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates an object if it doesn',27h,'t already exists.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1103,7 +1103,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_co
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B0E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates all objects from the scenario whose names contain the given substring.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1118,7 +1118,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_cl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B3D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates clones for all objects from the scenario whose names contain the given substring.", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1133,7 +1133,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_an
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B7C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates anew all objects from the scenario whose names contain the given substring.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1148,7 +1148,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_fo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BB30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates all the objects in the given folder", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1163,7 +1163,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_fo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BF40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates all the objects in the given folder", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1178,7 +1178,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_destroy_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C2A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("destroys an object.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1193,7 +1193,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_destroy_c
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C570, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("destroys all objects from the scenario whose names contain the given substring.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1208,7 +1208,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) object_destroy_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CA20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("destroys all non player objects.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1219,7 +1219,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_destroy_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CC10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("destroys all objects matching the type mask", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1234,7 +1234,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_delete_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CF60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("deletes all objects of type <definition>", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1249,7 +1249,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_destroy_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D2F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("destroys all objects in the given folder.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1264,7 +1264,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_hide_2_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D620, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("hides or shows the object passed in", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1280,7 +1280,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shado
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DA40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("set/reset shadow castingness of object", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1296,7 +1296,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_buckling_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DE90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the amoount [0-1] that a scarab is buckling", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1311,7 +1311,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_function_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E3C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets a global object function (0-3) to value", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1327,7 +1327,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) object_set_funct
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E6A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets funciton variable for sin-o-matic use", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -1345,7 +1345,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_clear_fun
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EA70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("clears one funciton variables for sin-o-matic use", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1361,7 +1361,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_clear_all
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EE90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("clears all funciton variables for sin-o-matic use", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1376,7 +1376,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_dynamic_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("disabled dynamic simulation for this object (makes it fixed)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1392,7 +1392,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_phant
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets phantom power to be latched at 1.0f or 0.0f", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1408,7 +1408,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_wake_phys
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FA90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("wakes physics of an object.  For example it would make an usupported crate fall", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1423,7 +1423,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_range
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FD60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("FALSE prevents object from using ranged attack", "Yes (actors only)"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1439,7 +1439,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_melee
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007401C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("FALSE prevents object from using melee attack", "Yes (actors only)"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1455,7 +1455,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) objects_dump_mem
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007405D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("debugs object memory usage", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1466,7 +1466,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_get_healt
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740820, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the health [0,1] of the object, returns -1 if the object does not exist", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1481,7 +1481,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_get_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740C00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the shield [0,1] of the object, returns -1 if the object does not exist", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1496,7 +1496,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the shield response effect (not current shield amount) to a given value over the given number of seconds (cinematic use only, remember to call (object_set_shield_effect 0 0) after use!)", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -1513,7 +1513,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_physi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("prevents an object from running physics or colliding with any other objects", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1529,7 +1529,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_get_paren
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007418B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the parent of the given object", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1544,7 +1544,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) objects_attach_4
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("attaches the second object to the first both strings can be empty", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -1562,7 +1562,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_at_marker
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007421F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns the object attached to the marker of the given parent object", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1578,7 +1578,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) objects_detach_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742670, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("detaches from the given parent object the given child object", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1594,7 +1594,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_set_scale
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742A30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the scale for a given object and interpolates over the given number of frames to achieve that scale", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -1611,7 +1611,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_veloc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742E50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Sets the (object-relative) forward velocity of the given object", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1627,7 +1627,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_inert
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("0==default of 1.0, otherwise it is scale on this objects inertia tensor", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1643,7 +1643,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_colli
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("0==default of 1.0, otherwise it is scale on how this objects takes collisoin damage, >1 == more protection, <1 == less", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1659,7 +1659,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) object_set_veloc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743BA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Sets the (object-relative) velocity of the given object", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -1677,7 +1677,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_set_delet
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743F70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("when this object deactivates it will be deleted", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1692,7 +1692,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_model_tar
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns TRUE if the specified model target is destroyed", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1708,7 +1708,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_model_tar
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744890, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns TRUE if the specified model target is destroyed", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1724,7 +1724,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_damage_da
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744C80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("applies damage to a damage section, causing all manner of effects/constraint breakage to occur", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -1741,7 +1741,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cannot_di
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007451F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1757,7 +1757,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_vitality_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1772,7 +1772,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) garbage_collect_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745AC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1783,7 +1783,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) garbage_collect_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1794,7 +1794,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) garbage_collect_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1805,7 +1805,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_cannot_ta
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1820,7 +1820,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_can_take_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1835,7 +1835,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007467B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1851,7 +1851,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746B70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1867,7 +1867,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746EE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1883,7 +1883,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747290, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1898,7 +1898,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1913,7 +1913,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747950, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1928,7 +1928,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_type_pred
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747E10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1943,7 +1943,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_type_pred
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748050, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1958,7 +1958,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_type_pred
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1973,7 +1973,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_teleport_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1989,7 +1989,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_teleport_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F8C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2005,7 +2005,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_facin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FCA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2021,7 +2021,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2037,7 +2037,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730550, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2053,7 +2053,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007309D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2069,7 +2069,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730D70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2084,7 +2084,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_set_permu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2101,7 +2101,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_varia
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007315C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2117,7 +2117,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_set_regio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2134,7 +2134,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) objects_can_see_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731D20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2151,7 +2151,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) objects_can_see_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2168,7 +2168,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) objects_distance
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732750, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2184,7 +2184,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) objects_distance
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732BF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2200,7 +2200,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_info_0_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007330F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2211,7 +2211,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) position_predict
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2228,7 +2228,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) shader_predict_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2243,7 +2243,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bitmap_predict_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733AB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2258,7 +2258,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) script_recompile
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733E70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2269,7 +2269,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) script_doc_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2280,7 +2280,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) help_1_definitio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007342D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2295,7 +2295,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_engine_obje
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007344D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2306,7 +2306,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) random_range_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007348C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2322,7 +2322,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) real_random_rang
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734DD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2338,7 +2338,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) physics_constant
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2349,7 +2349,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) physics_set_grav
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735620, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2364,7 +2364,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) physics_set_velo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735890, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2381,7 +2381,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) physics_disable_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735E70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2396,7 +2396,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_debug_star
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2407,7 +2407,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) havok_dump_world
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2423,7 +2423,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_dump_world
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2434,7 +2434,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_profile_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2445,7 +2445,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_profile_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736A80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2456,7 +2456,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) havok_profile_ra
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736D60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2472,7 +2472,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_reset_allo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736F90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2483,7 +2483,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) breakable_surfac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737170, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2498,7 +2498,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) breakable_surfac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737540, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2509,7 +2509,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) recording_play_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007377C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2525,7 +2525,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) recording_play_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737BE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2541,7 +2541,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) recording_play_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2557,7 +2557,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) recording_kill_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007385F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2572,7 +2572,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) recording_time_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2587,7 +2587,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_lights_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738DC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2602,7 +2602,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) print_light_stat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2613,7 +2613,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_lights_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739550, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -2631,7 +2631,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2648,7 +2648,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739DF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2665,7 +2665,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2682,7 +2682,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2698,7 +2698,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AA40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2714,7 +2714,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AF10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2731,7 +2731,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_o
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2742,7 +2742,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_o
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B430, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2753,7 +2753,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2768,7 +2768,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BA40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2784,7 +2784,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BF10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2799,7 +2799,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_u
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2814,7 +2814,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2829,7 +2829,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C9E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2844,7 +2844,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CCE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2859,7 +2859,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_on_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2874,7 +2874,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_off_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2889,7 +2889,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) hud_camera_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -2907,7 +2907,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) hud_camera_set_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DC10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -2925,7 +2925,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) hud_camera_attac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2942,7 +2942,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) hud_camera_targe
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2959,7 +2959,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) hud_camera_struc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E9D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2975,7 +2975,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) hud_camera_high
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EDA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -2995,7 +2995,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_clear
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3010,7 +3010,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) hud_camera_spin_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3026,7 +3026,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_from_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FA60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3041,7 +3041,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) hud_camera_wind
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FD00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -3060,7 +3060,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_tex
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3075,7 +3075,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_structure_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007405B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3091,7 +3091,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3106,7 +3106,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740A30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3121,7 +3121,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740BE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3136,7 +3136,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740E00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3151,7 +3151,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007411C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3166,7 +3166,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3181,7 +3181,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007415F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3196,7 +3196,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3214,7 +3214,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741A90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3232,7 +3232,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741BF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3250,7 +3250,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741E30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3265,7 +3265,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3276,7 +3276,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742390, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3287,7 +3287,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007425F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3298,7 +3298,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742880, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3309,7 +3309,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_que
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742AF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3324,7 +3324,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) render_debug_que
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3340,7 +3340,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_que
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3351,7 +3351,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_que
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743170, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3362,7 +3362,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_tex
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3377,7 +3377,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_postproce
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3388,7 +3388,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -3405,7 +3405,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743E50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -3422,7 +3422,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3440,7 +3440,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3458,7 +3458,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744B10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3476,7 +3476,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) scenery_animati
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007450B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -3495,7 +3495,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007454F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3510,7 +3510,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) scenery_get_anim
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745A30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3525,7 +3525,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_can_blink_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745D40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3541,7 +3541,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unit_set_active_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007461B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -3558,7 +3558,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_open_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3573,7 +3573,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_close_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3588,7 +3588,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_kill_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746C80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3603,7 +3603,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_kill_silent
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746F90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3618,7 +3618,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_is_emitting
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007472F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3633,7 +3633,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_custom_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007477A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3648,7 +3648,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_stop_custom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747BF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3663,7 +3663,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) custom_animation
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747F70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3681,7 +3681,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) custom_animation
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007484E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3699,7 +3699,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) custom_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F6B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -3718,7 +3718,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) custom_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FD60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -3737,7 +3737,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) custom_animation
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3755,7 +3755,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) unit_custom_ani
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -3774,7 +3774,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) unit_custom_ani
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -3794,7 +3794,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_is_playing_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731620, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3809,7 +3809,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_set_custo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007319A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3824,7 +3824,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_set_custo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3839,7 +3839,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) preferred_animat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007320A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3855,7 +3855,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) preferred_animat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007325C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3866,7 +3866,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_set_activel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007327E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3882,7 +3882,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_team_in
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732AD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3897,7 +3897,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_aim_without
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732FA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3913,7 +3913,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_set_enterab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3929,7 +3929,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unit_set_seat_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007337B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -3946,7 +3946,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_enterab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733AE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3961,7 +3961,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_only_takes_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734060, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3977,7 +3977,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unit_enter_vehic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -3994,7 +3994,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_falling_dam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734880, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4010,7 +4010,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_in_vehicle_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734C90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4026,7 +4026,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_get_turre
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4041,7 +4041,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_get_turre
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007355E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4057,7 +4057,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_board_vehic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735AE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4073,7 +4073,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) unit_set_emotion
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -4091,7 +4091,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) unit_set_emotion
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736390, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -4109,7 +4109,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_enable_eye_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4125,7 +4125,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_set_integra
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736B60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4141,7 +4141,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_set_voice_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737040, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4157,7 +4157,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_enable_visi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007373A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4173,7 +4173,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_in_vehicle_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4188,7 +4188,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vehicle_test_sea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737B90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4205,7 +4205,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vehicle_test_sea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4222,7 +4222,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vehicle_test_sea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007386A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4238,7 +4238,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_set_prefer_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738B40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4254,7 +4254,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_exit_vehicl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4269,7 +4269,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_exit_vehicl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007392B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4285,7 +4285,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unit_set_maximum
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739690, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4302,7 +4302,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) units_set_maximu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739AA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4319,7 +4319,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unit_set_current
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739F80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4336,7 +4336,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) units_set_curren
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4353,7 +4353,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vehicle_load_mag
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A7D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4370,7 +4370,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vehicle_unload_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AD80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4386,7 +4386,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_set_animati
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B1D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4402,7 +4402,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) magic_melee_atta
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -4413,7 +4413,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_riders_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B8A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4428,7 +4428,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_driver_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BC00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4443,7 +4443,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_gunner_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C090, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4458,7 +4458,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_health_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C4B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4473,7 +4473,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_shield_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C9A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4488,7 +4488,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_total_g
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CD30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4503,7 +4503,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_has_weapon_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D1B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4519,7 +4519,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_has_weapon_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4535,7 +4535,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_has_any_equ
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DB90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4550,7 +4550,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_has_equipme
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DF60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4566,7 +4566,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_lower_weapo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E4A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4582,7 +4582,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_raise_weapo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E8A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4598,7 +4598,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_drop_suppor
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ED00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4613,7 +4613,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_spew_action
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EFD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4628,7 +4628,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_force_reloa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4643,7 +4643,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) animation_stats_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -4654,7 +4654,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_animation_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F990, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4669,7 +4669,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_doesnt_drop
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FC00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4684,7 +4684,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_impervious_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FF60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4700,7 +4700,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_suspended_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007402C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4716,7 +4716,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) unit_add_equipme
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -4734,7 +4734,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) weapon_hold_trig
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4751,7 +4751,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) weapon_enable_wa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007410E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4766,7 +4766,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_set_never
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007412F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4782,7 +4782,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_set_power
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4798,7 +4798,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) device_get_power
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741AF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4813,7 +4813,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_set_posit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4829,7 +4829,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) device_get_posit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4844,7 +4844,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_set_posit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742840, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4860,7 +4860,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) device_group_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742D20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -4875,7 +4875,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) device_group_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -4892,7 +4892,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_group_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007435D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4908,7 +4908,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_one_sided
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007439A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4924,7 +4924,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_ignore_pl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743ED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4940,7 +4940,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_operates_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4956,7 +4956,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_closes_au
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4972,7 +4972,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_group_cha
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -4988,7 +4988,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) device_set_posit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -5005,7 +5005,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) device_set_overl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745390, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5021,7 +5021,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) device_animate_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -5041,7 +5041,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) device_animate_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745CE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -5060,7 +5060,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_poweru
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5071,7 +5071,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_weapon
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007464B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5082,7 +5082,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_vehicl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5093,7 +5093,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_teleport_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746960, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5104,7 +5104,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cheat_active_cam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746C00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5119,7 +5119,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cheat_active_cam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746E00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5135,7 +5135,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheats_load_0_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007470E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5146,7 +5146,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) drop_safe_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747230, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5161,7 +5161,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) drop_1_definitio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007474E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5176,7 +5176,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) drop_variant_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5192,7 +5192,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_enable_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5207,7 +5207,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_enabled_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5218,7 +5218,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_grenades_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747FC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5233,7 +5233,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_dialogue_enab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5248,7 +5248,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_player_dialog
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748750, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5263,7 +5263,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_infection_sup
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5278,7 +5278,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_fast_and_dumb
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FBC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5293,7 +5293,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_dialogue_log_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FEB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5304,7 +5304,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_dialogue_log_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007301E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5319,7 +5319,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_get_object_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5334,7 +5334,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_get_unit_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007308D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5349,7 +5349,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_get_squad_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730D00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5364,7 +5364,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_get_turret_ai
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731080, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5380,7 +5380,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) ai_random_smart_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -5398,7 +5398,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_nearest_point
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731B80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5414,7 +5414,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_get_point_cou
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5429,7 +5429,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_point_set_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5445,7 +5445,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_place_1_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007328A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5460,7 +5460,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_place_2_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732C50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5476,7 +5476,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_place_in_vehi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733020, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5492,7 +5492,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_cannot_die_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007333A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5508,7 +5508,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vitality_pinn
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007337F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5523,7 +5523,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_index_from_sp
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733B60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5539,7 +5539,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_resurrect_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007341A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5554,7 +5554,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_kill_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5569,7 +5569,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_kill_silent_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5584,7 +5584,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_erase_1_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5599,7 +5599,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_erase_all_0_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734FD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5610,7 +5610,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_disposable_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007351C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5626,7 +5626,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_select_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007355B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5641,7 +5641,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_deselect_0_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735870, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -5652,7 +5652,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_deaf_2_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5668,7 +5668,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_blind_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735FD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5684,7 +5684,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_weapon_up
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736420, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5700,7 +5700,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_flood_dispers
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736750, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5716,7 +5716,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_magically_see
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5732,7 +5732,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_magically_see
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5748,7 +5748,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_active_ca
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737340, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5764,7 +5764,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_suppress_comb
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007376A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5780,7 +5780,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_engineer_expl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737A90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5795,7 +5795,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_grunt_kamikaz
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737FC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -5810,7 +5810,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_migrate_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5827,7 +5827,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(ai_allegiance, ai_scripting_allegiance, 2), // (hs_evaluate_function_definition)0x00738660,
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5843,7 +5843,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738A80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5859,7 +5859,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_br
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738E20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5875,7 +5875,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_braindead_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739210, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5891,7 +5891,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_braindead_by_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5907,7 +5907,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_disregard_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739A00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5923,7 +5923,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_prefer_target
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739E70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5939,7 +5939,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_prefer_target
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A1E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5955,7 +5955,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_prefer_target
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A6C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -5972,7 +5972,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_targeting
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AA00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -5988,7 +5988,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_set_targeting
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6005,7 +6005,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_teleport_to_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B230, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6020,7 +6020,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_teleport_to_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B670, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6035,7 +6035,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_teleport_2_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6051,7 +6051,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_bring_forward
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BDA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6067,7 +6067,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_migrate_form_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6084,7 +6084,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_morph_2_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C5C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6100,7 +6100,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) biped_morph_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CB70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6115,7 +6115,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_renew_1_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CFD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6130,7 +6130,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_force_active_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6146,7 +6146,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_force_active_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6162,7 +6162,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_playfight_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DB50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6178,7 +6178,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_reconnect_0_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -6189,7 +6189,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_berserk_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E2F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6205,7 +6205,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_team_2_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6221,7 +6221,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allow_dormant
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E990, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6237,7 +6237,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_is_attacking_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ED60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6252,7 +6252,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_fighting_coun
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6267,7 +6267,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_living_count_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F5D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6282,7 +6282,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_living_fracti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FA00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6297,7 +6297,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_in_vehicle_co
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FE50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6312,7 +6312,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_body_count_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6327,7 +6327,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_strength_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007406E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6342,7 +6342,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_swarm_count_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740AE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6357,7 +6357,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_nonswarm_coun
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740F40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6372,7 +6372,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_actors_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6387,7 +6387,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_br
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007417C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6403,7 +6403,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_spawn_count_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741BB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6418,7 +6418,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_get_ai_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742090, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6433,7 +6433,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) ai_rotate_scenar
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -6451,7 +6451,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_translate_sce
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742A90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6468,7 +6468,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) scenario_duplica
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742F30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6484,7 +6484,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) scenario_duplica
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6501,7 +6501,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenario_rotate_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -6519,7 +6519,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenario_reflect
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -6537,7 +6537,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) scenario_transla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007441B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6554,7 +6554,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) scenario_rotate
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007446E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -6574,7 +6574,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) scenario_reflec
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744B70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -6594,7 +6594,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) scenario_transl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -6613,7 +6613,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_set_task_3_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6630,7 +6630,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_objective
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745BE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6646,7 +6646,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_task_status_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007460D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6661,7 +6661,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_set_task_cond
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6677,7 +6677,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_leadership_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746920, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6692,7 +6692,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_leadership_al
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746DC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6707,7 +6707,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_task_count_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007471B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6722,7 +6722,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_reset_objecti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747620, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6737,7 +6737,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_squad_patrol_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007478C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6753,7 +6753,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) generate_pathfin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747DE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -6764,7 +6764,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_render_paths_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747FF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -6775,7 +6775,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_activity_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6791,7 +6791,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_activity_abor
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6806,7 +6806,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vehicle_get_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6821,7 +6821,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vehicle_get_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FBF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6836,7 +6836,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vehicle_get_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FFB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6851,7 +6851,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vehicle_get_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007304E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6866,7 +6866,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_vehicle_get_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730940, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6882,7 +6882,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_vehicle_reser
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730E30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -6899,7 +6899,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_vehicle_reser
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -6915,7 +6915,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_player_get_ve
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6930,7 +6930,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vehicle_count
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6945,7 +6945,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_carrying_play
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732040, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6960,7 +6960,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_in_vehicl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732480, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6975,7 +6975,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_player_needs_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732860, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -6990,7 +6990,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_player_any_ne
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7001,7 +7001,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_vehicle_enter
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732FE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -7018,7 +7018,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_vehicle_enter
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7034,7 +7034,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_vehicle_enter
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -7051,7 +7051,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_vehicle_enter
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7067,7 +7067,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_enter_squad_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007340D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7082,7 +7082,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_vehicle_exit_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7098,7 +7098,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_vehicle_exit_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7113,7 +7113,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_overturn
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734C50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7128,7 +7128,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_flip_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7143,7 +7143,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_combat_status
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007354B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7158,7 +7158,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) flock_start_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735830, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7173,7 +7173,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) flock_stop_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735D70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7188,7 +7188,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) flock_create_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7203,7 +7203,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) flock_delete_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736640, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7218,7 +7218,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) flock_definition
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736A00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7234,7 +7234,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) flock_unperch_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736F20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7249,7 +7249,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) drop_ai_2_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007371E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7265,7 +7265,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_verify_tags_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7276,7 +7276,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_wall_lean_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7291,7 +7291,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_play_line_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737AE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7307,7 +7307,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_play_line_at_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007380A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7323,7 +7323,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_play_line_on_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7339,7 +7339,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_play_line_on_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007389E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -7356,7 +7356,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_play_line_on_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738F00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -7373,7 +7373,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) ai_play_line_on_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -7391,7 +7391,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007399B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7406,7 +7406,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739D70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7422,7 +7422,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A0A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7438,7 +7438,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A590, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7454,7 +7454,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A8F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7470,7 +7470,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AD50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7481,7 +7481,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) campaign_surviva
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B090, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7492,7 +7492,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) campaign_is_fini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B2D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7503,7 +7503,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) campaign_is_fini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7514,7 +7514,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) campaign_is_fini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B940, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7525,7 +7525,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) campaign_is_fini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BC50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -7536,7 +7536,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_run_command_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BFD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7552,7 +7552,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_queue_command
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7568,7 +7568,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_stack_command
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7584,7 +7584,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_reserve_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CBD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7600,7 +7600,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_reserve_3_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CF90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -7617,7 +7617,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_cast_4_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D3C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -7635,7 +7635,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_cast_5_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D8E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -7654,7 +7654,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) vs_cast_6_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DF10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -7674,7 +7674,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 14) vs_cast_7_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 7,
 	.formal_parameters =
@@ -7695,7 +7695,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 16) vs_cast_8_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ECA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 8,
 	.formal_parameters =
@@ -7717,7 +7717,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 18) vs_cast_9_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 9,
 	.formal_parameters =
@@ -7740,7 +7740,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 20) vs_cast_10_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FAC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 10,
 	.formal_parameters =
@@ -7764,7 +7764,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_role_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7779,7 +7779,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_abort_on_aler
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007406A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7794,7 +7794,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_abort_on_dama
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740A50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7809,7 +7809,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_abort_on_comb
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7824,7 +7824,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_abort_on_vehi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7839,7 +7839,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_aler
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741420, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7854,7 +7854,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_dama
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7869,7 +7869,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_comb
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7884,7 +7884,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_vehi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741E70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7899,7 +7899,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_aler
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007422A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7914,7 +7914,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_abort_on_aler
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7930,7 +7930,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_dama
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007430C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7945,7 +7945,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_abort_on_dama
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7961,7 +7961,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_comb
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744070, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -7976,7 +7976,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_abort_on_comb
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007447C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -7992,7 +7992,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_abort_on_vehi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8007,7 +8007,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_abort_on_vehi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745540, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8023,7 +8023,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_set_cleanup_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745DC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8038,7 +8038,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_release_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8053,7 +8053,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) vs_release_all_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -8064,7 +8064,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_command_scrip
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007466D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8080,7 +8080,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_command_scrip
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746BB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8096,7 +8096,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_number_queued
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007470A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8111,7 +8111,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cs_moving_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747390, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -8122,7 +8122,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_moving_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007479D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8137,7 +8137,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_running_atom_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8152,7 +8152,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_running_atom_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748710, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8167,7 +8167,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_running_atom_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8182,7 +8182,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_running_atom_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FC60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8197,7 +8197,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_fly_to_1_defi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730150, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8212,7 +8212,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_fly_to_3_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007307F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8229,7 +8229,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_fly_to_2_defi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8245,7 +8245,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_fly_to_4_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007319D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8263,7 +8263,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_fly_to_and_fa
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007324C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8279,7 +8279,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_fly_to_and_fa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732B10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8297,7 +8297,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_fly_to_and_fa
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733690, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8314,7 +8314,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_fly_to_and_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733D80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -8333,7 +8333,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_fly_by_1_defi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007349A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8348,7 +8348,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_fly_by_3_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735030, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8365,7 +8365,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_fly_by_2_defi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735BD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8381,7 +8381,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_fly_by_4_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736210, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8399,7 +8399,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_go_to_1_defin
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736D80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8414,7 +8414,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_go_to_3_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007373E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8431,7 +8431,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_go_to_2_defin
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737F20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8447,7 +8447,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_go_to_4_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738500, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8465,7 +8465,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_go_by_2_defin
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739150, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8481,7 +8481,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_go_by_4_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8499,7 +8499,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_go_by_3_defin
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A3D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8516,7 +8516,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_go_by_5_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AAC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -8535,7 +8535,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_go_to_and_fac
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B5D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8551,7 +8551,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_go_to_and_fac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BCA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8569,7 +8569,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_go_to_and_pos
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C710, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8585,7 +8585,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_go_to_and_pos
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CE80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8603,7 +8603,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_go_to_nearest
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D9B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8618,7 +8618,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_go_to_nearest
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E060, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8635,7 +8635,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_move_in_direc
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EAD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8652,7 +8652,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_move_in_dire
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -8671,7 +8671,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_move_towards_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FDC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8686,7 +8686,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_move_towards_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8703,7 +8703,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_move_towards_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740EA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8719,7 +8719,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_move_towards_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8737,7 +8737,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_move_towards_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007420E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8753,7 +8753,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_move_towards_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742750, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8771,7 +8771,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_swarm_to_2_de
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007433D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8787,7 +8787,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_swarm_to_4_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743AB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8805,7 +8805,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_swarm_from_2_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007445E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8821,7 +8821,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_swarm_from_4_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8839,7 +8839,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_pause_1_defin
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745860, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8854,7 +8854,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_pause_3_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745F30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8871,7 +8871,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_grenade_2_def
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746880, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8887,7 +8887,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_grenade_4_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746FC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8905,7 +8905,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_equipment_1_d
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747A60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -8920,7 +8920,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_equipment_3_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -8937,7 +8937,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_jump_2_defini
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8953,7 +8953,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_jump_4_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -8971,7 +8971,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_jump_to_point
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730C00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -8987,7 +8987,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_jump_to_point
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9005,7 +9005,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_vocalize_1_de
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9020,7 +9020,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_vocalize_3_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007323A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9037,7 +9037,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_play_sound_1_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732EF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9052,7 +9052,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_play_sound_3_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9069,7 +9069,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_play_sound_2_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733FC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9085,7 +9085,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_play_sound_4_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734670, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9103,7 +9103,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_play_sound_3_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9120,7 +9120,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_play_sound_5
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007359E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -9139,7 +9139,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_action_2_defi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9155,7 +9155,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_action_4_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736C80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9173,7 +9173,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_action_at_obj
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007376E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9189,7 +9189,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_action_at_obj
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9207,7 +9207,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_action_at_pla
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738950, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9222,7 +9222,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_action_at_pla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739040, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9239,7 +9239,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_custom_animat
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739B40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9256,7 +9256,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_custom_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A2E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -9275,7 +9275,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cs_custom_animat
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AE30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9293,7 +9293,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) vs_custom_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B4E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -9313,7 +9313,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_custom_animat
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C1B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9330,7 +9330,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_custom_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C8B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -9349,7 +9349,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cs_custom_animat
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D4B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9367,7 +9367,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) vs_custom_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DC70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -9387,7 +9387,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_custom_animat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9404,7 +9404,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_custom_animat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EF40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9422,7 +9422,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cs_custom_animat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F8E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9440,7 +9440,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_custom_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740070, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -9459,7 +9459,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_play_line_1_d
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9474,7 +9474,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_play_line_3_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9491,7 +9491,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_die_1_definit
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741A00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9506,7 +9506,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_die_3_definit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741FB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9523,7 +9523,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_deploy_turret
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742B60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9538,7 +9538,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_deploy_turret
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743190, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9555,7 +9555,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cs_approach_4_de
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9573,7 +9573,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) vs_approach_6_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007444B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -9593,7 +9593,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cs_approach_play
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9610,7 +9610,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vs_approach_pla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -9629,7 +9629,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_go_to_vehicle
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9644,7 +9644,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_go_to_vehicle
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746A40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9661,7 +9661,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_go_to_vehicle
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9677,7 +9677,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) vs_go_to_vehicle
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747B10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -9695,7 +9695,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_set_style_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9710,7 +9710,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_set_style_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FA90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9726,7 +9726,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_force_combat_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730340, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9741,7 +9741,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_force_combat_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730A10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9757,7 +9757,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_enable_target
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731100, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9772,7 +9772,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_enable_target
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007317F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9788,7 +9788,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_enable_lookin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731F80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9803,7 +9803,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_enable_lookin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007326C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9819,7 +9819,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_enable_moving
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732DD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9834,7 +9834,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_enable_moving
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9850,7 +9850,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_enable_dialog
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733B90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9865,7 +9865,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_enable_dialog
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9881,7 +9881,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_suppress_acti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734B90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9896,7 +9896,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_suppress_acti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9912,7 +9912,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_suppress_dial
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735950, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9927,7 +9927,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_suppress_dial
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736070, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9943,7 +9943,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_look_2_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736870, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -9959,7 +9959,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_look_3_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736FB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -9976,7 +9976,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_look_player_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -9991,7 +9991,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_look_player_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10007,7 +10007,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_look_object_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10023,7 +10023,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_look_object_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738D30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10040,7 +10040,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_aim_2_definit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007395C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10056,7 +10056,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_aim_3_definit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739CE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10073,7 +10073,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_aim_player_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A5F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10088,7 +10088,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_aim_player_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AC10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10104,7 +10104,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_aim_object_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B340, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10120,7 +10120,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_aim_object_3_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BAA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10137,7 +10137,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_face_2_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C2F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10153,7 +10153,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_face_3_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CAC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10170,7 +10170,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_face_player_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10185,7 +10185,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_face_player_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10201,7 +10201,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_face_object_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10217,7 +10217,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_face_object_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10234,7 +10234,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_shoot_1_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F0D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10249,7 +10249,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_shoot_2_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10265,7 +10265,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_shoot_2_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10281,7 +10281,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_shoot_3_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10298,7 +10298,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_shoot_point_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740D10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10314,7 +10314,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_shoot_point_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007414D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10331,7 +10331,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_shoot_seconda
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741D60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10346,7 +10346,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_shoot_seconda
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10362,7 +10362,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_lower_weapon_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742BF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10377,7 +10377,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_lower_weapon_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10393,7 +10393,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_vehicle_speed
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743A20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10408,7 +10408,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_vehicle_speed
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744120, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10424,7 +10424,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_vehicle_speed
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744990, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10439,7 +10439,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_vehicle_speed
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745020, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10455,7 +10455,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_vehicle_boost
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007457D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10470,7 +10470,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_vehicle_boost
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745EA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10486,7 +10486,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_turn_sharpnes
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10502,7 +10502,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_turn_sharpnes
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746D30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10519,7 +10519,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_enable_pathfi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747570, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10534,7 +10534,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_enable_pathfi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747CC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10550,7 +10550,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_set_pathfindi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007483A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10565,7 +10565,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_set_pathfindi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10581,7 +10581,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_ignore_obstac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FEF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10596,7 +10596,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_ignore_obstac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10612,7 +10612,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cs_approach_stop
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730EE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -10623,7 +10623,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_approach_stop
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007314A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10638,7 +10638,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_movement_mode
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731BB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10653,7 +10653,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_movement_mode
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007321C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10669,7 +10669,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_crouch_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732990, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10684,7 +10684,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_crouch_2_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733060, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10700,7 +10700,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_crouch_2_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007338E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10716,7 +10716,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_crouch_3_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733F30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10733,7 +10733,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_walk_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007347C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10748,7 +10748,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_walk_2_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734E90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10764,7 +10764,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_posture_set_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007356A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10780,7 +10780,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_posture_set_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735DE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10797,7 +10797,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cs_posture_exit_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007365D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -10808,7 +10808,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_posture_exit_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736AA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10823,7 +10823,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cs_stow_0_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -10834,7 +10834,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_stow_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10849,7 +10849,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cs_draw_0_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -10860,7 +10860,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_draw_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738480, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10875,7 +10875,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cs_teleport_2_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10891,7 +10891,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_teleport_3_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10908,7 +10908,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cs_stop_custom_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -10919,7 +10919,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vs_stop_custom_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10934,7 +10934,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_stop_sound_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10949,7 +10949,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vs_stop_sound_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -10965,7 +10965,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_player_melee_
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -10980,7 +10980,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_player_melee_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BE30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -10997,7 +10997,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_melee_directi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C820, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11012,7 +11012,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_melee_directi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D050, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -11029,7 +11029,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cs_smash_directi
 	.flags = FLAG(_hs_function_flag_command_script_atom),
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DAC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11044,7 +11044,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) vs_smash_directi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -11061,7 +11061,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) camera_control_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EC20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11076,7 +11076,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EEC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -11092,7 +11092,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) camera_set_relat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F3D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -11109,7 +11109,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F7F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -11125,7 +11125,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) camera_set_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FBC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -11143,7 +11143,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) camera_set_anima
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740030, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -11160,7 +11160,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) camera_set_anim
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007403F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -11179,7 +11179,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) camera_set_anim
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007409A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -11199,7 +11199,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 14) camera_set_anim
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740E20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 7,
 	.formal_parameters =
@@ -11220,7 +11220,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) camera_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007413E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -11239,7 +11239,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) camera_predict_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007419B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11254,7 +11254,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) camera_set_first
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741D30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11269,7 +11269,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) camera_set_cinem
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741F90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11280,7 +11280,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) camera_set_cinem
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -11297,7 +11297,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) camera_place_rel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742710, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11312,7 +11312,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) camera_place_wor
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007429F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11323,7 +11323,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) camera_time_0_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11334,7 +11334,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_field
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742ED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -11350,7 +11350,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) cinematic_camer
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743360, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -11370,7 +11370,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_camera
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007438C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11385,7 +11385,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_print_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743CC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11400,7 +11400,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_pan_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744030, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -11416,7 +11416,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 14) camera_pan_7_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007443C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 7,
 	.formal_parameters =
@@ -11437,7 +11437,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_camera_sav
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744AD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11448,7 +11448,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_camera_loa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744C60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11459,7 +11459,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_camera_sav
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744EF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11474,7 +11474,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_camera_loa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11489,7 +11489,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) director_debug_c
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745420, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11504,7 +11504,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_difficulty_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11515,7 +11515,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_difficulty_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745A90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11526,7 +11526,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_insertion_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745C90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11537,7 +11537,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_insertion_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746040, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11552,7 +11552,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) pvs_set_object_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11567,7 +11567,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) pvs_set_camera_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11582,7 +11582,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) pvs_clear_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746830, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11593,7 +11593,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) pvs_reset_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11604,7 +11604,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) players_unzoom_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746D10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11615,7 +11615,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_enable_in
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746F60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11630,7 +11630,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_disable_m
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007472C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11645,7 +11645,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_disable_w
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007476D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11660,7 +11660,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_disable_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11675,7 +11675,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_disable_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747E90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11690,7 +11690,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_flashligh
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007480C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11701,7 +11701,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_active_ca
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748430, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11712,7 +11712,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_camera_co
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -11727,7 +11727,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F8A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11738,7 +11738,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FB90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11749,7 +11749,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FE50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11760,7 +11760,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11771,7 +11771,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11782,7 +11782,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007307C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11793,7 +11793,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730BD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11804,7 +11804,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11815,7 +11815,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007311F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11826,7 +11826,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731590, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11837,7 +11837,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007317C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11848,7 +11848,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11859,7 +11859,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11870,7 +11870,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007320E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11881,7 +11881,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11892,7 +11892,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007327B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11903,7 +11903,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732A80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11914,7 +11914,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732DA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11925,7 +11925,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11936,7 +11936,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11947,7 +11947,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11958,7 +11958,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733A20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11969,7 +11969,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733D50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11980,7 +11980,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007340A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -11991,7 +11991,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007343B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12002,7 +12002,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12013,7 +12013,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734A30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12028,7 +12028,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734E60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12043,7 +12043,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12058,7 +12058,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12073,7 +12073,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735B90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12088,7 +12088,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735F90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12103,7 +12103,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007363E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12118,7 +12118,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007367D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12133,7 +12133,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736BE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12148,7 +12148,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007370A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12163,7 +12163,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007374E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12178,7 +12178,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007379B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12193,7 +12193,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12208,7 +12208,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12223,7 +12223,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738620, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12238,7 +12238,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738B00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12253,7 +12253,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738EC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12268,7 +12268,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12283,7 +12283,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007397D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12298,7 +12298,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739BE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12313,7 +12313,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A040, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12328,7 +12328,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A4E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12343,7 +12343,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A8B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12358,7 +12358,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ADF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12373,7 +12373,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_action_test
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B190, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12388,7 +12388,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player0_looking_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B4B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12399,7 +12399,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player0_looking_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12410,7 +12410,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player0_set_pitc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BBC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12426,7 +12426,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player1_set_pitc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C050, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12442,7 +12442,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player2_set_pitc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C3E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12458,7 +12458,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player3_set_pitc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C6D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12474,7 +12474,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CC60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12485,7 +12485,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_action_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CE50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12496,7 +12496,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_teleport_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12512,7 +12512,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_reset_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12523,7 +12523,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_reset_random
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D6E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12534,7 +12534,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) switch_bsp_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D820, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12549,7 +12549,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) switch_zone_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DDB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12564,7 +12564,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) current_zone_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E040, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12575,7 +12575,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) current_zone_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12586,7 +12586,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) switch_map_and_z
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E6F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12602,7 +12602,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) crash_1_definiti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12617,7 +12617,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) version_0_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EAB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12628,7 +12628,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) status_0_definit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EE50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12639,7 +12639,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) record_movie_4_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F0B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -12657,7 +12657,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) record_movie_di
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -12676,7 +12676,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F590, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12691,7 +12691,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) screenshot_debug
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12702,7 +12702,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) screenshot_big_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F9E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12718,7 +12718,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) screenshot_big_j
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FC30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -12734,7 +12734,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) screenshot_size_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FDA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -12751,7 +12751,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_simpl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12766,7 +12766,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_cubem
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007402A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12781,7 +12781,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_webma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740590, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12796,7 +12796,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) screenshot_unkno
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007407E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12807,7 +12807,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) screenshot_captu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740A10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12818,7 +12818,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740BB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12833,7 +12833,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) screenshot_unkn
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740FA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -12852,7 +12852,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) main_menu_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007413C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12863,7 +12863,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) main_halt_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12874,7 +12874,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) map_name_1_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741960, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12889,7 +12889,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_multiplayer
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741B30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -12900,7 +12900,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_set_variant
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741DF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12915,7 +12915,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_splitscreen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741F40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12930,7 +12930,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_difficulty_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12945,7 +12945,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_active_prim
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742540, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12960,7 +12960,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_active_seco
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007426F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12975,7 +12975,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_coop_player
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007429D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -12990,7 +12990,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_initial_zon
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13005,7 +13005,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_tick_rate_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742E30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13020,7 +13020,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_start_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743050, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13035,7 +13035,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_start_when_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743340, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13046,7 +13046,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_start_when_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007435B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13061,7 +13061,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) game_rate_3_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -13078,7 +13078,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_cache_fl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743CA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13089,7 +13089,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) geometry_cache_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13100,7 +13100,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sound_cache_flus
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744100, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13111,7 +13111,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) animation_cache_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007443A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13122,7 +13122,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) font_cache_flush
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007446C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13133,7 +13133,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) language_set_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744910, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13148,7 +13148,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_cache_0_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744AF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13159,7 +13159,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_memory_0_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744E20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13170,7 +13170,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_memory_by_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13181,7 +13181,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_memory_for
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13196,7 +13196,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_tags_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13207,7 +13207,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) tags_verify_all_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13218,7 +13218,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profiler_enable_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13233,7 +13233,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profiler_set_thr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745BC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13248,7 +13248,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profiler_set_sor
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745E20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13263,7 +13263,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profiler_set_ran
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007460B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13278,7 +13278,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profiler_set_att
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007462C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13293,7 +13293,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) trace_next_frame
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007464F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13308,7 +13308,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) trace_next_frame
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13324,7 +13324,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) trace_tick_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007469A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13339,7 +13339,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) collision_log_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746C60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13354,7 +13354,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) damage_control_g
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746EA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13369,7 +13369,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_control_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747120, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13385,7 +13385,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_lines_0_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747270, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13396,7 +13396,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_dialogue_brea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747550, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13411,7 +13411,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) fade_in_4_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -13429,7 +13429,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) fade_out_4_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747C60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -13447,7 +13447,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_start_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748030, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13458,7 +13458,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_stop_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007482E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13469,7 +13469,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_skip_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748580, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13480,7 +13480,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_skip_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007487E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13491,7 +13491,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_show_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13506,7 +13506,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_show_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FB40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13521,7 +13521,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_ti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FE20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13536,7 +13536,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cinematic_set_ti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730290, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13552,7 +13552,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_suppre
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730630, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13567,7 +13567,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cinematic_subtit
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730AE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13583,7 +13583,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730E00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13598,7 +13598,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cinematic_set_sh
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007310C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13614,7 +13614,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_get_sh
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13625,7 +13625,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_ea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13640,7 +13640,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_get_ea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731B30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13651,7 +13651,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_ac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13666,7 +13666,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_object
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13681,7 +13681,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cinematic_object
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732580, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13697,7 +13697,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_object
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007328D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13712,7 +13712,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_destro
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13723,7 +13723,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_clips_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732EC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13738,7 +13738,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_clips_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13749,7 +13749,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_lights
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13764,7 +13764,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_lights
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007338C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13775,7 +13775,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_lights
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733A90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13786,7 +13786,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_light_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733CE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -13804,7 +13804,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_light_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13819,7 +13819,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_lighti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007344B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13830,7 +13830,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) cinematic_light
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -13849,7 +13849,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 16) cinematic_light
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 8,
 	.formal_parameters =
@@ -13871,7 +13871,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_object
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007353E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13886,7 +13886,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_reset_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007357A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -13897,7 +13897,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) camera_set_brief
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735920, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13912,7 +13912,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -13927,7 +13927,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007361E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -13943,7 +13943,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736710, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -13961,7 +13961,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736BA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -13979,7 +13979,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -13997,7 +13997,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737620, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14015,7 +14015,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737C30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -14032,7 +14032,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007381D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -14049,7 +14049,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14067,7 +14067,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738BE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -14084,7 +14084,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738FE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -14101,7 +14101,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739510, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14119,7 +14119,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -14136,7 +14136,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) cinematic_scrip
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739DB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -14155,7 +14155,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A2A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14173,7 +14173,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) cinematic_scrip
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A770, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -14192,7 +14192,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ACC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14210,7 +14210,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) cinematic_scrip
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -14229,7 +14229,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) cinematic_scrip
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B6C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -14248,7 +14248,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BB60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14266,7 +14266,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14284,7 +14284,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -14302,7 +14302,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) attract_mode_sta
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CA40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14313,7 +14313,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) attract_mode_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CC40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14328,7 +14328,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_level_advan
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CE00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14343,7 +14343,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_won_0_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D190, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14354,7 +14354,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_lost_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14369,7 +14369,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_revert_0_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D7A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14380,7 +14380,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_is_cooperat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14391,7 +14391,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_is_playtest
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DDE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14402,7 +14402,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_can_use_fla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14417,7 +14417,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_and_qu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E480, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14428,7 +14428,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_unsafe
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14439,7 +14439,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_insertion_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14454,7 +14454,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_insertion_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EC70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14469,7 +14469,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_games_enum
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EF20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14484,7 +14484,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_games_dele
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F1E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14499,7 +14499,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_games_save
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F510, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14514,7 +14514,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) saved_games_auto
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F6E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -14525,7 +14525,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) content_catalogu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -14542,7 +14542,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) achievement_gran
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FB80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -14558,7 +14558,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) achievement_gran
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FFA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14573,7 +14573,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) achievements_ena
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14588,7 +14588,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) achievements_ski
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740570, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14603,7 +14603,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_i
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007407C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14618,7 +14618,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007409F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14633,7 +14633,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740B90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14648,7 +14648,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_m
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740DE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14663,7 +14663,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_w
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007411A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14678,7 +14678,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007412D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14693,7 +14693,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007415D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14708,7 +14708,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007417A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14723,7 +14723,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007419E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14738,7 +14738,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741B90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14753,7 +14753,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_n
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741E10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14768,7 +14768,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_n
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007420C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14783,7 +14783,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14798,7 +14798,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_spawning_u
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007425D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14813,7 +14813,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_initial_sp
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14828,7 +14828,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_respawn_po
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14843,7 +14843,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_export_vari
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742D90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14858,7 +14858,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14873,7 +14873,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743150, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14888,7 +14888,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743500, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14903,7 +14903,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743640, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14918,7 +14918,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007438A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14933,7 +14933,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14948,7 +14948,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14963,7 +14963,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14978,7 +14978,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744310, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -14993,7 +14993,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15008,7 +15008,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744870, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15023,7 +15023,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) core_load_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744A50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15034,7 +15034,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_load_name_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744C10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15049,7 +15049,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) core_save_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744FE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15060,7 +15060,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_save_name_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007452D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15075,7 +15075,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) core_load_game_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15086,7 +15086,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_load_game_n
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007457B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15101,7 +15101,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_regular_upl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745BA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15116,7 +15116,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_set_upload_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745CC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15131,7 +15131,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) force_debugger_n
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746020, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15146,7 +15146,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) force_debugger_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007461F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15161,7 +15161,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_safe_to_sav
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15172,7 +15172,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_safe_to_spe
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007466A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15183,7 +15183,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_all_quiet_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007469F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15194,7 +15194,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15205,7 +15205,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_cancel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746F20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15216,7 +15216,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_no_tim
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747190, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15227,7 +15227,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_immedi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15238,7 +15238,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_saving_0_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15249,7 +15249,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_reverted_0_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747890, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15260,7 +15260,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sound_ui_screen_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747D70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15271,7 +15271,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sound_ui_screen_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747F30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15282,7 +15282,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 16) sound_set_tag_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007480A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 8,
 	.formal_parameters =
@@ -15304,7 +15304,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_impulse_pr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15319,7 +15319,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) sound_impulse_tr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007486D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -15337,7 +15337,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F860, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15354,7 +15354,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) sound_impulse_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FD00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -15373,7 +15373,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -15391,7 +15391,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) sound_impulse_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -15410,7 +15410,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_impulse_la
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15425,7 +15425,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731050, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15440,7 +15440,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15457,7 +15457,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_impulse_ma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007318E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15472,7 +15472,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15489,7 +15489,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_looping_pr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731EE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15504,7 +15504,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_looping_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15521,7 +15521,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_looping_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732690, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15536,7 +15536,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) sound_looping_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732960, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15551,7 +15551,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_looping_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732D20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15567,7 +15567,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_looping_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15583,7 +15583,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sound_loop_spam_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733500, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15594,7 +15594,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_class_show
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15610,7 +15610,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_class_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733A00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15626,7 +15626,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_sounds_ena
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733B40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15642,7 +15642,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_class_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15659,7 +15659,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_class_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734290, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15676,7 +15676,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_class_enab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734630, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15692,7 +15692,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_sound_envi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734B70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15708,7 +15708,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_set_global
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734D90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15724,7 +15724,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) sound_set_global
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15740,7 +15740,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) vehicle_auto_tu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735550, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -15759,7 +15759,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) vehicle_hover_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15775,7 +15775,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_count_bi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735F60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15790,7 +15790,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) biped_ragdoll_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736360, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15805,7 +15805,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) water_float_rese
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007366E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15820,7 +15820,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_show_trainin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007369D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15835,7 +15835,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_set_training
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736E10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15850,7 +15850,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_enable_train
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737100, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15865,7 +15865,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_training_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007374C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15876,7 +15876,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_training_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15887,7 +15887,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_training_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737A10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15898,7 +15898,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_training_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737B70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15909,7 +15909,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_training_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737D90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -15920,7 +15920,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_training_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -15935,7 +15935,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) hud_activate_tea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15952,7 +15952,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) hud_deactivate_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738860, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -15968,7 +15968,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) chud_cortana_suc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738B80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -15985,7 +15985,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_texture_cam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738F80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16000,7 +16000,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_cortana_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739310, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16015,7 +16015,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) play_cortana_eff
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16030,7 +16030,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739A40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16045,7 +16045,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_weapon
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16060,7 +16060,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_crossh
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A0E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16075,7 +16075,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_shield
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16090,7 +16090,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_grenad
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A880, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16105,7 +16105,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_messag
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ABE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16120,7 +16120,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_motion
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AFD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16135,7 +16135,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_spike_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B2A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16150,7 +16150,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_fire_g
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16165,7 +16165,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_compas
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B9F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16180,7 +16180,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_stamin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BDE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16195,7 +16195,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_energy
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16210,7 +16210,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_show_consum
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16225,7 +16225,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) chud_cinematic_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C7B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16241,7 +16241,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonus_round
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CC90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16256,7 +16256,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonus_round
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D020, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16271,7 +16271,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonus_round
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16286,7 +16286,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cls_0_definition
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D6C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16297,7 +16297,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) error_overflow_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16312,7 +16312,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) error_geometry_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DBF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16327,7 +16327,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) error_geometry_h
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DE70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16342,7 +16342,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) error_geometry_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DFF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16353,7 +16353,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) error_geometry_h
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E420, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16364,7 +16364,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) error_geometry_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E500, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16375,7 +16375,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) player_effect_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16392,7 +16392,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) player_effect_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EBD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16409,7 +16409,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player_effect_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F060, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16425,7 +16425,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player_effect_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F4A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16441,7 +16441,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_effect_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16456,7 +16456,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) player_effect_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FB20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -16474,7 +16474,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) player_effect_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FFD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -16492,7 +16492,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) player_effect_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16509,7 +16509,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) player_effect_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007408C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16526,7 +16526,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player_effect_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740C90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16542,7 +16542,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) time_code_show_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007411E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16557,7 +16557,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) time_code_start_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16572,7 +16572,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) time_code_reset_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16583,7 +16583,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) script_screen_ef
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741830, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16599,7 +16599,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741AB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16614,7 +16614,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741C50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16629,7 +16629,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cinematic_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741E50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16645,7 +16645,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007421D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16656,7 +16656,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_ne
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007423E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16671,7 +16671,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_fa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16686,7 +16686,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_atmospher
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007428A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16701,7 +16701,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) atmosphere_fog_o
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742C80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16718,7 +16718,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) motion_blur_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742FD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16733,7 +16733,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_weather_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007434D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16748,7 +16748,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_patchy_fo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16763,7 +16763,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_set_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743C00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16780,7 +16780,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743E90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16795,7 +16795,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_reset_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743FF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16806,7 +16806,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 16) cinematic_set_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007442F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 8,
 	.formal_parameters =
@@ -16828,7 +16828,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_reset_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16839,7 +16839,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_layer_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -16856,7 +16856,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) player_has_skill
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744A20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16867,7 +16867,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_has_mad_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744CC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16882,7 +16882,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) controller_inver
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16893,7 +16893,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_look_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16908,7 +16908,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_set_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007454C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16923,7 +16923,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) controller_get_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745A00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -16934,7 +16934,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_unloc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -16949,7 +16949,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746090, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16965,7 +16965,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007462A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16981,7 +16981,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007464D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -16997,7 +16997,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746770, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17013,7 +17013,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_c
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17029,7 +17029,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17045,7 +17045,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_j
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17061,7 +17061,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747100, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17077,7 +17077,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_unloc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17092,7 +17092,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_lock_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17107,7 +17107,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_unloc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17122,7 +17122,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_lock_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17137,7 +17137,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_unloc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17152,7 +17152,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_lock_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747EF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17167,7 +17167,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) controller_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -17186,7 +17186,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007482C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17202,7 +17202,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) controller_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -17221,7 +17221,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007487C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17237,7 +17237,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F630, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17253,7 +17253,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FA10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17269,7 +17269,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) controller_set_c
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FC20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17286,7 +17286,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) controller_set_c
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FE00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -17304,7 +17304,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) controller_set_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007300F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -17322,7 +17322,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) controller_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007303F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -17341,7 +17341,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_clear
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007305B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17356,7 +17356,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_u
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007307A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17372,7 +17372,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) controller_displ
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730B60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17387,7 +17387,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) font_cache_bitma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730D50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17402,7 +17402,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ui_debug_load_ma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730FD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -17413,7 +17413,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ui_debug_text_bo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007311D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17428,7 +17428,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ui_debug_text_fo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731480, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17443,7 +17443,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ui_debug_show_ti
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17458,7 +17458,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ui_debug_element
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007318C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17473,7 +17473,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ui_memory_dump_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731B10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17488,7 +17488,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ui_time_scale_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731D90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17503,7 +17503,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) xoverlapped_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17518,7 +17518,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_load_screen_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732310, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17533,7 +17533,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_reset_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -17544,7 +17544,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_start_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732820, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -17555,7 +17555,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_stop_0_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732A60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -17566,7 +17566,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_error_post_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732C90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17583,7 +17583,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_error_post_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732EA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17600,7 +17600,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_error_resolv
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17616,7 +17616,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_error_clear_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733310, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17632,7 +17632,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_dialog_show_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733650, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17647,7 +17647,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_spartan_mile
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007338A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17662,7 +17662,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_spartan_rank
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -17677,7 +17677,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_print_active
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733CC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -17688,7 +17688,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_print_active
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -17699,7 +17699,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17716,7 +17716,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007343E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17733,7 +17733,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007345E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17750,7 +17750,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734950, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17767,7 +17767,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_group_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17784,7 +17784,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_group_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734D70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17801,7 +17801,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_group_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17818,7 +17818,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_group_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735310, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17835,7 +17835,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_n
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17852,7 +17852,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17869,7 +17869,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17886,7 +17886,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17903,7 +17903,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_i
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735EF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17920,7 +17920,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_i
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736050, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17937,7 +17937,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_i
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736340, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17954,7 +17954,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_debug_list_i
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736510, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -17971,7 +17971,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_text_n
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007367B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -17987,7 +17987,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_text_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007369B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18003,7 +18003,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_text_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736C60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18019,7 +18019,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_text_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736F00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18035,7 +18035,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_bitmap
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007370E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18051,7 +18051,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_bitmap
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18067,7 +18067,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_bitmap
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18083,7 +18083,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gui_debug_bitmap
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007378F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18099,7 +18099,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_debug_music_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18114,7 +18114,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cc_enable_1_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18129,7 +18129,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cc_test_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007380F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18144,7 +18144,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) objectives_clear
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18155,7 +18155,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_show_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738450, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18170,7 +18170,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_finis
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007388C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18185,7 +18185,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_show_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18200,7 +18200,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_finis
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738FB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18215,7 +18215,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_unava
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007393D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18230,7 +18230,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_secon
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739750, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18245,7 +18245,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_secon
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739A70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18260,7 +18260,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objectives_secon
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739EF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18275,7 +18275,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) input_suppress_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18290,7 +18290,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) input_disable_cl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A5D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18305,7 +18305,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) update_remote_ca
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A7B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18316,7 +18316,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_build_networ
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A9E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18327,7 +18327,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_build_game_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ACA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18342,7 +18342,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_verify_game_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AF90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18357,7 +18357,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_load_and_use
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18372,7 +18372,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_use_hopper_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18387,7 +18387,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_quality_dump
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B490, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18398,7 +18398,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_quality_clea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B8D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18409,7 +18409,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_quality_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BA20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18425,7 +18425,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_quality_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BC80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18441,7 +18441,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_quality_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BF90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18457,7 +18457,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_quality_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C190, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18473,7 +18473,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_quality_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C3C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18489,7 +18489,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_quality_set_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C5A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18505,7 +18505,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_join_friend_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18520,7 +18520,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_join_squad_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CB50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18535,7 +18535,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_join_session
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CD10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18550,7 +18550,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_join_squad_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18565,7 +18565,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_enable_join_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18580,7 +18580,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_set_maximum_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18595,7 +18595,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_set_campaign
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D6A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18610,7 +18610,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_status_filte
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D7E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18625,7 +18625,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_sim_reset_0_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DBD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18636,7 +18636,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_sim_spike_no
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DE50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18647,7 +18647,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_sim_dropspik
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DFD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18658,7 +18658,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_ping_0_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18669,7 +18669,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_channel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E4E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18680,7 +18680,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_delegat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E710, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18695,7 +18695,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_delegat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EA50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18710,7 +18710,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_map_nam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EC50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18725,7 +18725,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_campaig
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EE70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18740,7 +18740,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_reset_o
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18751,7 +18751,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_fatal_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F3B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -18762,7 +18762,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_set_machine_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F5B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18777,7 +18777,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) events_enabled_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F830, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18792,7 +18792,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) events_disable_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FA40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18812,7 +18812,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_dis
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(event_global_display_category, event_set_display_level_global, 1), // (hs_evaluate_function_definition)0x0073FCB0,
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18862,7 +18862,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) event_display_ca
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740360, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18878,7 +18878,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) event_force_disp
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007405F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18894,7 +18894,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) event_log_catego
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740860, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18910,7 +18910,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) event_remote_log
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740A90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18926,7 +18926,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) event_debugger_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18942,7 +18942,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) event_halt_categ
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -18958,7 +18958,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_list_categ
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18973,7 +18973,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) events_suppress_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007413A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -18988,7 +18988,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) play_bink_movie_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741630, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19003,7 +19003,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) play_bink_movie_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19018,7 +19018,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) play_credits_ski
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741D10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19029,7 +19029,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) bink_time_0_defi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741F20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19040,7 +19040,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) set_global_doppl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19055,7 +19055,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) set_global_mixbi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19071,7 +19071,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_sound_envi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742A10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19087,7 +19087,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) data_mine_set_mi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742D60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19102,7 +19102,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) data_mine_insert
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742FA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19117,7 +19117,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) data_mine_upload
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19128,7 +19128,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) data_mine_enable
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19143,7 +19143,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) data_mine_flush_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19154,7 +19154,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) data_mine_debug_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19169,7 +19169,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) data_mine_open_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743FD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19180,7 +19180,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) data_mine_set_di
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007442B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19195,7 +19195,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown4F4_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744420, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19210,7 +19210,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) test_memory_all
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007447A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -19229,7 +19229,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) test_memory_all
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -19249,7 +19249,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) display_video_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744B50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19260,7 +19260,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_xcr_monkey_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744E90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19275,7 +19275,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) test_show_guide_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007450F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19286,7 +19286,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) test_show_users_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745350, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19297,7 +19297,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) test_show_are_us
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007454A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19313,7 +19313,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) test_invite_frie
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19329,7 +19329,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) test_get_squad_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19340,7 +19340,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_auto_get_sc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745C70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19355,7 +19355,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) test_auto_get_sc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19371,7 +19371,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) test_auto_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19387,7 +19387,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) test_auto_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -19404,7 +19404,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) test_auto_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746590, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -19422,7 +19422,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) test_auto_scree
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -19441,7 +19441,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) test_auto_scree
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746A20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -19460,7 +19460,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) test_auto_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -19478,7 +19478,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) test_auto_screen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746EC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -19495,7 +19495,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) test_download_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19511,7 +19511,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_game_result
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19526,7 +19526,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_game_result
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19541,7 +19541,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_roster_save
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007477E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19556,7 +19556,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_roster_load
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007479B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19571,7 +19571,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) test_fragment_ut
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747D90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -19588,7 +19588,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_metagame_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19603,7 +19603,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) test_metagame_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007480F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19618,7 +19618,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) clear_webcache_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19629,7 +19629,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) force_manifest_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007485E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19640,7 +19640,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) online_files_ret
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F5A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19651,7 +19651,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) online_files_upl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F7C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19667,7 +19667,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) online_files_thr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FA70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19682,7 +19682,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) online_marketpla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FC40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19693,7 +19693,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) webstats_disable
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19708,7 +19708,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) webstats_test_su
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19723,7 +19723,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) webstats_test_su
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007304C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19734,7 +19734,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) webstats_test_su
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19745,7 +19745,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) webstats_throttl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730920, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19760,7 +19760,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) netdebug_prefer_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730BB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19775,7 +19775,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) flag_new_2_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730DE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19791,7 +19791,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) flag_new_at_look
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730FF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19807,7 +19807,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) flags_clear_0_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19818,7 +19818,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bug_now_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731570, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19833,7 +19833,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bug_now_lite_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19848,7 +19848,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bug_now_auto_1_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731980, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19863,7 +19863,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_list_chil
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19879,7 +19879,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) voice_set_outgoi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732080, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -19895,7 +19895,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) voice_set_voice_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007322D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19910,7 +19910,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) voice_set_mute_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -19927,7 +19927,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19942,7 +19942,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732940, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19957,7 +19957,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732C30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -19972,7 +19972,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19983,7 +19983,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) dump_loaded_tags
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -19994,7 +19994,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) interpolator_sta
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007332C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20011,7 +20011,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) interpolator_sta
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733850, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20028,7 +20028,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_sto
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733D20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20043,7 +20043,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_res
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734210, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20058,7 +20058,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_is_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734540, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20073,7 +20073,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_is_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734AC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20088,7 +20088,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) interpolator_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734F50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20104,7 +20104,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20120,7 +20120,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007357F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20136,7 +20136,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735D30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20152,7 +20152,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007361A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20167,7 +20167,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007366A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20182,7 +20182,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736A40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20197,7 +20197,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) interpolator_get
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736EC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20212,7 +20212,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) interpolator_eva
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007372F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20229,7 +20229,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) interpolator_eva
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007378A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20246,7 +20246,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) interpolator_eva
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737CA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20263,7 +20263,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) interpolator_eva
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20280,7 +20280,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) interpolator_sto
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007388A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20291,7 +20291,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) interpolator_res
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738A60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20302,7 +20302,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) interpolator_fli
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20313,7 +20313,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) set_pc_runtime_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738EA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20328,7 +20328,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) animation_cache_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007391F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20339,7 +20339,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_clone_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739390, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -20356,7 +20356,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_move_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739810, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -20374,7 +20374,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) vehicle_enable_g
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20389,7 +20389,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) set_global_soun
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739FD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -20409,7 +20409,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) reset_dsp_image_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A6A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20420,7 +20420,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_save_cinema
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A840, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20431,7 +20431,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_outro_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AAA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20442,7 +20442,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_enable
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AD20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20457,7 +20457,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B0C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20472,7 +20472,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20487,7 +20487,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B450, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20502,7 +20502,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B7A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20517,7 +20517,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B9B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20532,7 +20532,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BBA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20547,7 +20547,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BE10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20562,7 +20562,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C0C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20577,7 +20577,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C2D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20592,7 +20592,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C510, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20607,7 +20607,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C6B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20622,7 +20622,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) rasterizer_bloom
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CAA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20637,7 +20637,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cache_block_for_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CCC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20648,7 +20648,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sound_suppress_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CE30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20659,7 +20659,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_autoexpos
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20674,7 +20674,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) render_exposure
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D550, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -20693,7 +20693,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) render_exposure_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20709,7 +20709,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_exposure_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DE10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20724,7 +20724,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) render_exposure_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20740,7 +20740,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_autoexpos
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E5E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20755,7 +20755,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_exposure_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20770,7 +20770,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_depth_of_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ED30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20785,7 +20785,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_depth_of_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F000, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -20803,7 +20803,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_dof_focus
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F550, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20818,7 +20818,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) render_dof_blur_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F890, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20834,7 +20834,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_vid
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FC90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20845,7 +20845,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_lightm
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FE90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20856,7 +20856,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_lightm
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20867,7 +20867,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) predict_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20883,7 +20883,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_players_by_te
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740760, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20898,7 +20898,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_active_player
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20913,7 +20913,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) deterministic_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740F80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20924,7 +20924,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_game_won_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007412A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20939,7 +20939,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_respawn_overr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007415A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -20954,7 +20954,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) mp_ai_allegiance
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007418E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20970,7 +20970,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) mp_allegiance_2_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741C10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -20986,7 +20986,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) mp_round_started
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741F60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -20997,7 +20997,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) give_medal_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007423B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21012,7 +21012,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) mp_scripts_reset
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007426D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21023,7 +21023,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_ai_place_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007429A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21038,7 +21038,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) mp_ai_place_2_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742DD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21054,7 +21054,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_ai_kill_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743090, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21069,7 +21069,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_ai_kill_silen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743580, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21084,7 +21084,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_object_create
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743870, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21099,7 +21099,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_object_create
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21114,7 +21114,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_object_create
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743FA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21129,7 +21129,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_object_destro
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21144,7 +21144,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_file_set_bac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21159,7 +21159,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) mp_object_belong
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21175,7 +21175,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) mp_weapon_belong
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744DE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21191,7 +21191,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_debug_goal_ob
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745230, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21206,7 +21206,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) mp_dump_candy_mo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21217,7 +21217,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) set_camera_third
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007455D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21233,7 +21233,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) get_camera_third
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745AE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21248,7 +21248,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) determinism_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745E60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21263,7 +21263,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) determinism_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21278,7 +21278,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) determinism_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007462E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21293,7 +21293,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) determinism_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746510, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21308,7 +21308,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) determinism_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007467F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21324,7 +21324,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown584_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007469C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21339,7 +21339,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) saved_film_play_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746CF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21355,7 +21355,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) saved_film_play_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746F40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21366,7 +21366,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_disab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007471F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21381,7 +21381,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_toggl
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747370, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21396,7 +21396,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_films_dele
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007476B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21411,7 +21411,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_films_show
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747870, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21426,7 +21426,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_manag
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747AF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21441,7 +21441,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) mover_set_progra
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21457,7 +21457,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) determinism_log_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21473,7 +21473,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) floating_point_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007484C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21488,7 +21488,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) determinism_debu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007486B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21503,7 +21503,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) event_logs_snaps
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F5E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21514,7 +21514,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_reload_force
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F840, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21529,7 +21529,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_unload_force
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FB70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21544,7 +21544,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_load_force_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FDB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21559,7 +21559,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) predict_bink_mov
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FF80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21574,7 +21574,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) predict_bink_mov
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21589,7 +21589,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) profiler_dump_hi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730710, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21600,7 +21600,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_mode_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730AA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21616,7 +21616,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_flyin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730DA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21632,7 +21632,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) camera_set_targe
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731190, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21648,7 +21648,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_coop_player
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21659,7 +21659,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_force_mod
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007318A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21674,7 +21674,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) profiler_output_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731AF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21685,7 +21685,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) string_id_name_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731D70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21700,7 +21700,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) find_1_definitio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731F30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21715,7 +21715,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) add_recycling_vo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732140, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -21732,7 +21732,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_resources_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732670, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21747,7 +21747,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) object_recycling
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732840, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21758,7 +21758,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) dump_cinematics_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732AB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21769,7 +21769,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) global_preferenc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732D00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21780,7 +21780,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) network_storage_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732F80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21795,7 +21795,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) network_storage_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733230, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21810,7 +21810,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) status_line_dump
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007333E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21821,7 +21821,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_tick_get_0_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733670, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21832,7 +21832,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) loop_it_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007339E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21847,7 +21847,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) loop_clear_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21858,7 +21858,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) status_lines_ena
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733E90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21873,7 +21873,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) status_lines_dis
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734180, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21888,7 +21888,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) on_target_platfo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007342F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21899,7 +21899,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profile_activate
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007345C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21914,7 +21914,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profile_deactiva
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734930, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21929,7 +21929,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_game_set_pla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734B30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -21945,7 +21945,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_get_game_id_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734D50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21956,7 +21956,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_matchma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734FF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21967,7 +21967,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_matchma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007352F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -21978,7 +21978,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_matchma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735510, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -21993,7 +21993,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735750, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22008,7 +22008,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22023,7 +22023,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) noguchis_mystery
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735ED0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22038,7 +22038,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) designer_zone_sy
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736030, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22049,7 +22049,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) dump_designer_zo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22064,7 +22064,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) designer_zone_ac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007364E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22079,7 +22079,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) designer_zone_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22094,7 +22094,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_alway
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22110,7 +22110,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_seek_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737080, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22125,7 +22125,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_is_active_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737240, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22140,7 +22140,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_resources_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007375E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22155,7 +22155,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) dump_active_reso
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007379F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22166,7 +22166,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_persi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737B30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22182,7 +22182,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) display_zone_siz
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737FF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22197,7 +22197,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) report_zone_size
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22208,7 +22208,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_disconn
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007383E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22219,7 +22219,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_disconn
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007387E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22230,7 +22230,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_clear_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007388F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22245,7 +22245,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_test_clear_g
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738BC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22260,7 +22260,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_test_life_cy
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738E00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22276,7 +22276,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_test_life_cy
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739020, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22287,7 +22287,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) overlapped_displ
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007392F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22298,7 +22298,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) overlapped_task_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007395A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22314,7 +22314,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007397B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22329,7 +22329,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007399E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22344,7 +22344,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_leaderboard_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22359,7 +22359,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) test_sapien_cras
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739F60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22370,7 +22370,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) output_window_ad
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A080, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22385,7 +22385,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) output_window_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A470, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22400,7 +22400,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) output_window_li
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A680, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22411,7 +22411,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) decorators_split
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A820, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22427,7 +22427,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bandwidth_profil
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AA80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22442,7 +22442,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bandwidth_profil
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AD00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22457,7 +22457,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) overlapped_task_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AFB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22473,7 +22473,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) net_banhammer_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B170, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -22490,7 +22490,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) net_banhammer_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -22508,7 +22508,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_banhammer_du
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B6A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22519,7 +22519,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) net_banhammer_du
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B8F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22530,7 +22530,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) net_leaderboard
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BA80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -22550,7 +22550,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) net_leaderboard
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BD80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -22569,7 +22569,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_build_map_va
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BFB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22584,7 +22584,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) net_verify_map_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22599,7 +22599,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) async_set_work_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C420, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22614,7 +22614,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) sound_looping_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C610, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -22632,7 +22632,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_resources_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CBB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22647,7 +22647,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) set_performance_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CD70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -22664,7 +22664,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) global_preferenc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D1F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22679,7 +22679,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) get_performance_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D5E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22695,7 +22695,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown5E4_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DAA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22710,7 +22710,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_zone_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DD80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22725,7 +22725,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_zone_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DFA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22740,7 +22740,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_zone_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22755,7 +22755,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_zone_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E660, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22770,7 +22770,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) tiling_current_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E8E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22781,7 +22781,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_limit_lipsy
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EB90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22797,7 +22797,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) dump_active_zone
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EF00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -22808,7 +22808,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) calculate_tag_pr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F1C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22823,7 +22823,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_resources_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F4F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22838,7 +22838,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) unit_start_first
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F690, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -22856,7 +22856,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_is_playing_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FC50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22871,7 +22871,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_stop_first_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740130, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22886,7 +22886,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) prepare_to_switc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007403C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22901,7 +22901,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_zone_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22916,7 +22916,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_play_random
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740AB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22931,7 +22931,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_control_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740DA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22946,7 +22946,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_control_f
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741260, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -22961,7 +22961,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_control_fad
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22977,7 +22977,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unit_control_fad
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741920, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -22993,7 +22993,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) player_control_l
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741CD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23010,7 +23010,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) player_control_u
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007421A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23025,7 +23025,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player_control_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007424F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23041,7 +23041,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) run_like_dvd_0_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007428F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23052,7 +23052,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) profiler_auto_co
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742B40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23067,7 +23067,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) run_no_hdd_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742E10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23078,7 +23078,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_tag_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742F70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23093,7 +23093,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) voice_set_force_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743560, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -23111,7 +23111,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) voice_set_force_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007436C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23127,7 +23127,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_custo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743940, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23143,7 +23143,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenery_animatio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743E10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -23161,7 +23161,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) film_manager_set
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744280, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23176,7 +23176,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cortana_tag_refe
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007445B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23191,7 +23191,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_banhammer_fo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744AB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23207,7 +23207,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) font_set_emergen
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744C40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23218,7 +23218,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) biped_force_grou
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23234,7 +23234,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_ch
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23249,7 +23249,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) chud_show_cinema
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745640, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23265,7 +23265,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) terminal_is_bein
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745B70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23276,7 +23276,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) terminal_was_acc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745D80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23291,7 +23291,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) terminal_was_com
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746210, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23306,7 +23306,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_get_primary
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007465B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23321,7 +23321,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) dump_cortana_scr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23332,7 +23332,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) budget_resource_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746E50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23347,7 +23347,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_award_level
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747210, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23358,7 +23358,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) budget_resource_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747410, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23373,7 +23373,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_safe_to_res
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747840, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23388,7 +23388,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cortana_effect_k
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747D50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23399,7 +23399,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) test_create_cont
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23410,7 +23410,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) test_create_cont
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748080, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23421,7 +23421,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23432,7 +23432,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_migrate_infan
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007485A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23448,7 +23448,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F600, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23463,7 +23463,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_dont_do_avoid
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FA30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23479,7 +23479,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FDD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23494,7 +23494,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_erase_inactiv
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730250, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23510,7 +23510,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) ai_survival_clea
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007305F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23527,7 +23527,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) stop_bink_movie_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730B40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23538,7 +23538,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) play_credits_uns
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730D30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23549,7 +23549,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) budget_resource_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730FA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23564,7 +23564,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) controller_set_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731460, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23581,7 +23581,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) physical_memory_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731700, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23592,7 +23592,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) tag_resources_va
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731880, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23607,7 +23607,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cinematic_set_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731AC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23622,7 +23622,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731E40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23639,7 +23639,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) dummy_function_0
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007322F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23650,7 +23650,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gp_integer_get_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007325E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23665,7 +23665,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gp_integer_set_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732900, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23681,7 +23681,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gp_boolean_get_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732D60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23696,7 +23696,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) gp_boolean_set_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007331F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23712,7 +23712,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gp_dump_1_defini
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733630, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23727,7 +23727,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gp_dump_debug_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733830, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23742,7 +23742,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gp_startup_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733A50, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23757,7 +23757,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gp_reset_0_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733CA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23768,7 +23768,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gp_commit_option
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733EF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23779,7 +23779,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007341D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -23797,7 +23797,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734580, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -23815,7 +23815,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_level_prepa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734B00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23830,7 +23830,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) prepare_game_lev
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734F20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23845,7 +23845,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) game_start_with_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007352D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23862,7 +23862,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) levels_add_campa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007354F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -23878,7 +23878,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) levels_add_campa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735730, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23893,7 +23893,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007358E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23910,7 +23910,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -23928,7 +23928,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_impulse_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23945,7 +23945,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_looping_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736010, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -23962,7 +23962,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_sound_chan
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736300, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23973,7 +23973,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_sound_chan
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007364C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -23988,7 +23988,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_sound_chan
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736790, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -23999,7 +23999,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) cinematic_script
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736970, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -24017,7 +24017,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) is_skull_primary
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736E80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24033,7 +24033,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) is_skull_seconda
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24049,7 +24049,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007375C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24065,7 +24065,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) controller_set_v
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737990, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24081,7 +24081,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_enter_lobby_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737AC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24096,7 +24096,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737D30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24107,7 +24107,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_li
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738080, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24118,7 +24118,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_li
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007383B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24133,7 +24133,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007387B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24144,7 +24144,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738A30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24159,7 +24159,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_ro
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738D00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24170,7 +24170,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_ro
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739120, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24185,7 +24185,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_wa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007394E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24196,7 +24196,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_wa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24211,7 +24211,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24222,7 +24222,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739EB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24237,7 +24237,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_bo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A110, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24248,7 +24248,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_bo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A520, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24263,7 +24263,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_sound_chan
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A860, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24278,7 +24278,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ABB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24293,7 +24293,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_se
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AF60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24308,7 +24308,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_model_mar
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B210, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24323,7 +24323,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) survival_mode_ev
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B400, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24338,7 +24338,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_be
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B7F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24349,7 +24349,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_be
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B9D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24360,7 +24360,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_be
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BC30, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24371,7 +24371,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) survival_mode_aw
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BF70, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24382,7 +24382,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) campaign_metagam
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C0E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24397,7 +24397,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) collision_debug_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C4F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24408,7 +24408,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_coop_campa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C690, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24423,7 +24423,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player_set_look_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CA60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24439,7 +24439,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) device_arg_has_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CDB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -24456,7 +24456,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_hide_all_scr
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D360, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24471,7 +24471,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_lightmap_i
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D5C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24482,7 +24482,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) achievements_dis
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D7C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24493,7 +24493,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) achievement_gran
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DA80, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24509,7 +24509,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) achievements_gra
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DD60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24524,7 +24524,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) achievements_awa
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DEF0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24539,7 +24539,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) chud_fade_for_fi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E330, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24555,7 +24555,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) achievement_post
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E5A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -24572,7 +24572,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_visio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EA10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24588,7 +24588,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) chud_show_navpoi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EE00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -24606,7 +24606,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) run_like_package
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F200, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24617,7 +24617,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) clear_map_slot_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24632,7 +24632,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) clear_map_type_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F720, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24647,7 +24647,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_confirm_mes
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F9B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24662,7 +24662,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_confirm_can
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FCD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24677,7 +24677,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_confirm_y_b
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740100, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24692,7 +24692,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) player_get_kills
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740380, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -24709,7 +24709,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unit_flashlight_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740880, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24724,7 +24724,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) clear_command_bu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740C60, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24739,7 +24739,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) sound_looping_re
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -24756,7 +24756,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonus_round
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007414A0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24771,7 +24771,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown673_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741890, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24782,7 +24782,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unknown674_3_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741AD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -24799,7 +24799,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) unknown675_4_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -24817,7 +24817,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown676_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741F00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24828,7 +24828,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown677_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742220, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24843,7 +24843,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown678_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007424D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24854,7 +24854,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown679_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007426B0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24865,7 +24865,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown67A_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007428D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24880,7 +24880,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown67B_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742B10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -24895,7 +24895,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown67C_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742E90, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24906,7 +24906,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) saber_ui_get_pla
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743070, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24917,7 +24917,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) saber_ui_get_mus
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743540, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24928,7 +24928,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unknown67F_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007436E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24944,7 +24944,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unit_set_armor_3
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007439E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -24961,7 +24961,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) player_set_armor
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00743F10, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -24977,7 +24977,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) change_network_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007442D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -24988,7 +24988,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ssao_enable_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744440, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25003,7 +25003,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ssao_radius_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007448D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25018,7 +25018,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ssao_intensity_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744BD0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25033,7 +25033,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ssao_sampleZThre
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00744FA0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25048,7 +25048,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) fxaa_enable_1_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007453D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25063,7 +25063,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) color_grading_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007456D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25078,7 +25078,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) lightshafts_enab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745B40, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25093,7 +25093,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unknown68A_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745E00, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -25109,7 +25109,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflections_enab
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746060, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25124,7 +25124,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflection_blur_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746320, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25139,7 +25139,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflection_multi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746740, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25154,7 +25154,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflection_multi
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25169,7 +25169,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflection_fxaa_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746E20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25184,7 +25184,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflection_debug
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747160, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25199,7 +25199,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) reflection_color
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747500, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25214,7 +25214,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) end_match_wait_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747800, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25229,7 +25229,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown693_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747C20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -25240,7 +25240,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) background_bitma
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747EC0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25255,7 +25255,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) local_player_ear
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007481F0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25270,7 +25270,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) global_screen_ef
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748530, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25285,7 +25285,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) unknown697_3_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F5C0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -25302,7 +25302,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown698_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F7E0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -25313,7 +25313,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) saber_mouse_inve
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FB20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -25324,7 +25324,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) saber_mouse_inve
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FCE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -25335,7 +25335,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 14) unknown69B_7_de
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FFE0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 7,
 	.formal_parameters =
@@ -25356,7 +25356,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) unknown69C_2_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007303D0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -25372,7 +25372,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown69D_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730590, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -25383,7 +25383,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) unknown69E_4_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730780, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -25401,7 +25401,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) unknown69F_1_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730B20, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -25416,7 +25416,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown6A0_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730CB0, // $TODO write the function chuckle nuts
-	.documentation = "$TODO write this",
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
