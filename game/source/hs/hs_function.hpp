@@ -147,7 +147,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_ne
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_random_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_at_ai_point_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) effect_new_on_object_marker_3_definition;
-extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_on_object_2_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_on_ground_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_new_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_object_effect_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) damage_objects_effect_2_definition;
@@ -1847,7 +1847,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&effect_new_random_2_definition,
 	(hs_function_definition*)&effect_new_at_ai_point_2_definition,
 	(hs_function_definition*)&effect_new_on_object_marker_3_definition,
-	(hs_function_definition*)&effect_new_on_object_2_definition,
+	(hs_function_definition*)&effect_new_on_ground_2_definition,
 	(hs_function_definition*)&damage_new_2_definition,
 	(hs_function_definition*)&damage_object_effect_2_definition,
 	(hs_function_definition*)&damage_objects_effect_2_definition,

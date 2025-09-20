@@ -907,10 +907,10 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) effect_new_on_ob
 		_hs_type_string_id
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_on_object_2_definition
+DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) effect_new_on_ground_2_definition
 {
 	.return_type = _hs_type_void,
-	.name = "effect_new_on_object",
+	.name = "effect_new_on_ground",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007382C0, // $TODO write the function chuckle nuts
