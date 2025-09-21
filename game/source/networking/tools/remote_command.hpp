@@ -102,7 +102,7 @@ COMMAND_CALLBACK_DECLARE(exit_game);
 COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(map_reset);
 COMMAND_CALLBACK_DECLARE(map_reset_random);
-COMMAND_CALLBACK_DECLARE(map_name);
+//COMMAND_CALLBACK_DECLARE(map_name);
 COMMAND_CALLBACK_DECLARE(game_multiplayer);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
 COMMAND_CALLBACK_DECLARE(game_difficulty);
@@ -203,7 +203,7 @@ COMMAND_CALLBACK_DECLARE(load_preferences_from_file);
 COMMAND_CALLBACK_DECLARE(load_customization_from_file);
 COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
 COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
-COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
+//COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
 COMMAND_CALLBACK_DECLARE(cheat_all_chars);
 COMMAND_CALLBACK_DECLARE(cheat_teleport_to_camera);
 COMMAND_CALLBACK_DECLARE(cheat_active_camouflage);
@@ -288,7 +288,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(map_reset, 0, "", "starts the map from the beginning.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(map_reset_random, 0, "", "starts the map from the beginning with a new random seed.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
-	COMMAND_CALLBACK_REGISTER(map_name, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
+	//COMMAND_CALLBACK_REGISTER(map_name, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_multiplayer, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_difficulty, 1, "<game_difficulty>", "debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only"),
@@ -409,7 +409,7 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(cheat_all_powerups, 0, "", "drops all powerups near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "", "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
+	//COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_chars, 0, "", "drops all characters near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_teleport_to_camera, 0, "", "teleports player to camera location\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage, 1, "<boolean>", "gives the player active camouflage\r\nNETWORK SAFE: Yes"),

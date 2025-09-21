@@ -1,9 +1,11 @@
 #include "hs/hs_function.hpp"
 
 #include "ai/ai_script.hpp"
+#include "game/cheats.hpp"
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
+#include "main/main_game_launch.hpp"
 
 #include <utility>
 
@@ -5083,13 +5085,14 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_poweru
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
+MACRO_FUNCTION_EVALUATE(cheat_all_weapons, cheat_all_weapons, 0, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_weapons_0_definition
 {
 	.return_type = _hs_type_void,
 	.name = "cheat_all_weapons",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007464B0, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(cheat_all_weapons, cheat_all_weapons, 0), // (hs_evaluate_function_definition)0x007464B0,
 	.documentation = "drops all weapons near player\r\nNETWORK SAFE: Yes",
 	.parameters = NULL,
 	.formal_parameter_count = 0,
@@ -12886,13 +12889,14 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) main_halt_0_defi
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
+MACRO_FUNCTION_EVALUATE(map_name, main_game_launch_legacy, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) map_name_1_definition
 {
 	.return_type = _hs_type_void,
 	.name = "map_name",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00741960, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(map_name, main_game_launch_legacy, 1), //(hs_evaluate_function_definition)0x00741960,
 	.documentation = "the same as game_start: launches a game for debugging purposes\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
