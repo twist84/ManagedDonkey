@@ -169,16 +169,11 @@ inline static bool script_error(long thread_index, const char* message, const ch
 	return false;
 }
 
-inline static void script_error2(long thread_index, const char* message, bool result, const char* condition)
-{
-	VASSERT(condition, "a problem occurred while executing the script %s: %s (%s)",
-		hs_thread_format(thread_index),
-		message ? message : "no reason given.",
-		condition);
-}
-
 #define SCRIPT_COMPILE_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error((THREAD_INDEX), (MESSAGE), #CONDITION))
-#define ASSERT_SCRIPT_EXECTION(THREAD_INDEX, CONDITION, MESSAGE) (script_error2((THREAD_INDEX), (MESSAGE), (CONDITION), #CONDITION))
+#define ASSERT_SCRIPT_EXECTION(THREAD_INDEX, CONDITION, MESSAGE) VASSERT((CONDITION), c_string_builder().print("a problem occurred while executing the script %s: %s (%s)", \
+	hs_thread_format((THREAD_INDEX)), \
+	(MESSAGE) ? (MESSAGE) : "no reason given.", \
+	#CONDITION))
 
 int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_count, const int16* formal_parameters, bool initialize)
 {
@@ -322,7 +317,7 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	const hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 expression_result = NONE;
 
-	ASSERT_SCRIPT_EXECTION(valid_thread(thread_index), valid_thread(thread_index), "corrupted stack.");
+	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
 
 	if (!TEST_BIT(expression->flags, _hs_syntax_node_primitive_bit))
 	{
