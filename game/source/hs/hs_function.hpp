@@ -105,6 +105,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) lt_defini
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gte_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) lte_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_for_ticks_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_forever_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_until_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) wake_definition;
@@ -916,7 +917,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) record_m
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) screenshot_debug_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) screenshot_big_2_definition;
-extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) screenshot_big_jittered_2_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) screenshot_big_raw_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) screenshot_size_3_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_simple_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) screenshot_cubemap_1_definition;
@@ -947,7 +948,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sound_cac
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) animation_cache_flush_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) font_cache_flush_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) language_set_1_definition;
-extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_cache_0_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_cache_test_malloc_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_memory_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) debug_memory_by_file_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_memory_for_file_1_definition;
@@ -1160,7 +1161,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonu
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonus_round_start_timer_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) chud_bonus_round_set_timer_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cls_0_definition;
-extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) error_overflow_suppression_1_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) events_spam_suppression_enable_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) error_geometry_show_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) error_geometry_hide_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) error_geometry_show_all_0_definition;
@@ -1624,7 +1625,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) voice_set
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) voice_set_force_hud_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_custom_animation_speed_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) scenery_animation_start_at_frame_loop_4_definition;
-extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) film_manager_set_reproduction_mode_1_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) saved_film_set_repro_mode_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cortana_tag_reference_get_scene_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_banhammer_force_download_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) font_set_emergency_0_definition;
@@ -1807,6 +1808,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&lte_definition,
 	(hs_function_definition*)&sleep_definition,
 	(hs_function_definition*)&sleep_forever_definition,
+	//(hs_function_definition*)&sleep_for_ticks_definition,
 	(hs_function_definition*)&sleep_until_definition,
 	(hs_function_definition*)&wake_definition,
 	(hs_function_definition*)&inspect_definition,
@@ -2617,7 +2619,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&screenshot_1_definition,
 	(hs_function_definition*)&screenshot_debug_0_definition,
 	(hs_function_definition*)&screenshot_big_2_definition,
-	(hs_function_definition*)&screenshot_big_jittered_2_definition,
+	(hs_function_definition*)&screenshot_big_raw_2_definition,
 	(hs_function_definition*)&screenshot_size_3_definition,
 	(hs_function_definition*)&screenshot_simple_1_definition,
 	(hs_function_definition*)&screenshot_cubemap_1_definition,
@@ -2648,7 +2650,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&animation_cache_flush_0_definition,
 	(hs_function_definition*)&font_cache_flush_0_definition,
 	(hs_function_definition*)&language_set_1_definition,
-	(hs_function_definition*)&texture_cache_0_definition,
+	(hs_function_definition*)&texture_cache_test_malloc_0_definition,
 	(hs_function_definition*)&debug_memory_0_definition,
 	(hs_function_definition*)&debug_memory_by_file_0_definition,
 	(hs_function_definition*)&debug_memory_for_file_1_definition,
@@ -2861,7 +2863,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&chud_bonus_round_start_timer_1_definition,
 	(hs_function_definition*)&chud_bonus_round_set_timer_1_definition,
 	(hs_function_definition*)&cls_0_definition,
-	(hs_function_definition*)&error_overflow_suppression_1_definition,
+	(hs_function_definition*)&events_spam_suppression_enable_1_definition,
 	(hs_function_definition*)&error_geometry_show_1_definition,
 	(hs_function_definition*)&error_geometry_hide_1_definition,
 	(hs_function_definition*)&error_geometry_show_all_0_definition,
@@ -3325,7 +3327,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&voice_set_force_hud_2_definition,
 	(hs_function_definition*)&object_set_custom_animation_speed_2_definition,
 	(hs_function_definition*)&scenery_animation_start_at_frame_loop_4_definition,
-	(hs_function_definition*)&film_manager_set_reproduction_mode_1_definition,
+	(hs_function_definition*)&saved_film_set_repro_mode_1_definition,
 	(hs_function_definition*)&cortana_tag_reference_get_scene_1_definition,
 	(hs_function_definition*)&net_banhammer_force_download_2_definition,
 	(hs_function_definition*)&font_set_emergency_0_definition,
