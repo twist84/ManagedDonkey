@@ -115,52 +115,55 @@ return_type_t hs_check_block_index_type_and_return(return_type_t return_value)
 	return return_value;
 }
 
-void hs_compile_add_reference(int32 referred_index, e_reference_type reference_type, int32 expression_index)
+void hs_compile_add_reference(int32 referred_index, e_reference_type reference_type, int32 node_index)
 {
 	if (reference_type || !TEST_BIT(referred_index, 15))
 	{
-		VASSERT((hs_compile_globals.current_script_index != NONE) == (hs_compile_globals.current_global_index != NONE), "(hs_compile_globals.current_script_index != NONE) ^ (hs_compile_globals.current_global_index != NONE)");
-
-		e_reference_type current_reference_type = _hs_reference_type_global;
-		int32 current_index = hs_compile_globals.current_global_index;
-		if (hs_compile_globals.current_script_index != NONE)
+		if (hs_compile_globals.current_script_index != NONE || hs_compile_globals.current_global_index != NONE)
 		{
-			current_reference_type = _hs_reference_type_script;
-			current_index = hs_compile_globals.current_script_index;
-		}
+			ASSERT((hs_compile_globals.current_script_index != NONE) ^ (hs_compile_globals.current_global_index != NONE));
 
-		s_hs_reference* reference = &hs_compile_globals.references[hs_compile_globals.allocated_references++];
-		reference->type = current_reference_type;
-		reference->index = current_index;
-		reference->node_index = expression_index;
-		reference->next = NULL;
+			e_reference_type referer_type = _hs_reference_type_global;
+			int32 referer_index = hs_compile_globals.current_global_index;
+			if (hs_compile_globals.current_script_index != NONE)
+			{
+				referer_type = _hs_reference_type_script;
+				referer_index = hs_compile_globals.current_script_index;
+			}
 
-		switch (reference_type)
-		{
-		case _hs_reference_type_global:
-		{
-			ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_globals_per_scenario));
+			s_hs_reference* reference = &hs_compile_globals.references[hs_compile_globals.allocated_references++];
+			reference->type = referer_type;
+			reference->index = referer_index;
+			reference->node_index = node_index;
+			reference->next = NULL;
 
-			reference->next = hs_compile_globals.global_references[referred_index];
-			hs_compile_globals.global_references[referred_index] = reference;
-			reference->strong = true;
-		}
-		break;
-		case _hs_reference_type_script:
-		{
-			ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_scripts_per_scenario));
+			switch (reference_type)
+			{
+			case _hs_reference_type_global:
+			{
+				ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_globals_per_scenario));
 
-			reference->next = hs_compile_globals.script_references[referred_index];
-			hs_compile_globals.script_references[referred_index] = reference;
+				reference->next = hs_compile_globals.global_references[referred_index];
+				hs_compile_globals.global_references[referred_index] = reference;
+				reference->strong = true;
+			}
+			break;
+			case _hs_reference_type_script:
+			{
+				ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_scripts_per_scenario));
 
-			reference->strong = global_scenario_get()->scripts[referred_index].return_type != _hs_type_void;
-		}
-		break;
-		default:
-		{
-			UNREACHABLE();
-		}
-		break;
+				reference->next = hs_compile_globals.script_references[referred_index];
+				hs_compile_globals.script_references[referred_index] = reference;
+				hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, referred_index, hs_script);
+				reference->strong = script->return_type != _hs_type_void;
+			}
+			break;
+			default:
+			{
+				UNREACHABLE();
+			}
+			break;
+			}
 		}
 	}
 }
@@ -187,15 +190,20 @@ char* hs_compile_add_source(int32 source_size, const char* source_data)
 
 bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive)
 {
-	bool result = false;
+	bool success = false;
 
 	event(event_level, "hs:evaluate: %s: %s", source, expression);
 
 	//random_seed_allow_use();
 
-	char expression_buffer[4096]{};
-	hs_validify_expression(expression, expression_buffer, sizeof(expression_buffer));
-	if (string_is_not_empty(expression_buffer))
+	if (csstrcmp("hs_verbose", expression) == 0)
+	{
+		printf("");
+	}
+
+	char expressionbuf[4096]{};
+	hs_validify_expression(expression, expressionbuf, sizeof(expressionbuf));
+	if (string_is_not_empty(expressionbuf))
 	{
 		const char* error_message = NULL;
 		const char* error_source = NULL;
@@ -208,24 +216,23 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 		hs_compile_initialize(false);
 
 		hs_syntax_node temporary_syntax_data[128]{};
-		if (TEST_BIT(g_hs_syntax_data->flags, _hs_syntax_node_script_bit))
+		if (TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit))
 		{
 			csmemset(temporary_syntax_data, 0, sizeof(temporary_syntax_data));
 			data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
 		}
 
-		int32 source_size = csstrnlen(expression_buffer, sizeof(expression_buffer));
-		int32 expression_index = hs_compile_expression(source_size, expression_buffer, &error_message, &error_source);
+		int32 expression_index = hs_compile_expression(csstrnlen(expressionbuf, sizeof(expressionbuf)), expressionbuf, &error_message, &error_source);
 		if (expression_index == NONE)
 		{
 			if (error_message)
 			{
-				hs_compile_source_error(NULL, error_message, error_source, expression_buffer);
+				hs_compile_source_error(NULL, error_message, error_source, expressionbuf);
 			}
 		}
 		else
 		{
-			result = true;
+			success = true;
 			hs_runtime_evaluate(expression_index, interactive, false);
 		}
 
@@ -245,7 +252,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 
 	//random_seed_disallow_use();
 
-	return result;
+	return success;
 }
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_size, const char* source_file_data, const char** error_message_pointer, int32* error_offset)
@@ -414,7 +421,7 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 			}
 			else
 			{
-				//hs_runtime_require_gc();
+				hs_runtime_require_gc();
 			}
 		}
 		else
@@ -658,45 +665,44 @@ int16 hs_count_children(int32 expression_index)
 
 bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 {
+	bool success = true;
+
 	const hs_function_definition* definition = hs_function_get(function_index);
-	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
+	int32 parameters_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
 
 	ASSERT(hs_type_valid(definition->return_type));
 
-	bool has_remaining_arguments = true;
 	int16 parameter_index;
-	for (parameter_index = 0; has_remaining_arguments && parameter_index < definition->formal_parameter_count && next_node_index != NONE; parameter_index++)
+	for (parameter_index = 0; success && parameter_index < definition->formal_parameter_count && parameters_index != NONE; parameter_index++)
 	{
-		hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
-		if (hs_parse(next_node_index, definition->formal_parameters[parameter_index]))
+		hs_syntax_node* parameter = hs_syntax_get(parameters_index);
+		if (hs_parse(parameters_index, definition->formal_parameters[parameter_index]))
 		{
-			next_node_index = next_expression->next_node_index;
-			continue;
+			parameters_index = parameter->next_node_index;
 		}
-
-		if (next_expression->type == _hs_type_string_id && TEST_BIT(hs_syntax_get(next_node_index)->flags, _hs_syntax_node_primitive_bit))
+		else
 		{
-			csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-				"this is not a valid string for '%s'", definition->name);
-			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-			hs_compile_globals.error_offset = next_expression->source_offset;
-		}
+			if (parameter->type == _hs_type_string_id && TEST_BIT(hs_syntax_get(parameters_index)->flags, _hs_syntax_node_primitive_bit))
+			{
+				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+					"this is not a valid string for '%s'", definition->name);
+				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+				hs_compile_globals.error_offset = parameter->source_offset;
+			}
 
-		has_remaining_arguments = false;
+			success = false;
+		}
 	}
 
-	if (!has_remaining_arguments || (parameter_index == definition->formal_parameter_count && next_node_index == NONE))
+	if (success && (parameter_index != definition->formal_parameter_count || parameters_index != NONE))
 	{
-		return true;
+		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+			"the \"%s\" call requires exactly %d arguments.", definition->name, definition->formal_parameter_count);
+		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 	}
 
-	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-		"the \"%s\" call requires exactly %d arguments.", definition->name, definition->formal_parameter_count);
-	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-	hs_compile_globals.error_offset = expression->source_offset;
-
-	return false;
+	return success;
 }
 
 bool hs_parse(int32 expression_index, int16 expected_type)
@@ -1252,6 +1258,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 							hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
 							success = hs_parse(parameter_node_index, parameter->type);
 							parameter_node_index = hs_syntax_get(parameter_node_index)->next_node_index;
+							parameter_index++;
 						}
 
 						if (success)
