@@ -5838,13 +5838,14 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_migrate_2_def
 		_hs_type_ai
 	},
 };
+MACRO_FUNCTION_EVALUATE(ai_allegiance, ai_scripting_allegiance, 2, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_2_definition
 {
 	.return_type = _hs_type_void,
 	.name = "ai_allegiance",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x6D3A2E1F, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(ai_allegiance, ai_scripting_allegiance, 2), // (hs_evaluate_function_definition)0x00738660,
 	.documentation = "creates an allegiance between two teams.\r\nNETWORK SAFE: Yes",
 	.parameters = NULL,
 	.formal_parameter_count = 2,
@@ -18818,13 +18819,18 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) events_disable_s
 		_hs_type_boolean
 	},
 };
+void event_set_display_level_global(int32 display_level)
+{
+	printf("");
+}
+MACRO_FUNCTION_EVALUATE(event_global_display_category, event_set_display_level_global, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_display_category_1_definition
 {
 	.return_type = _hs_type_void,
 	.name = "event_global_display_category",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x6D3A9CBA, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(event_global_display_category, event_set_display_level_global, 1), // (hs_evaluate_function_definition)0x0073FCB0,
 	.documentation = "sets the global event display level\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
@@ -18833,13 +18839,18 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_dis
 		_hs_type_event
 	},
 };
+void event_set_log_level_global(int32 log_level)
+{
+	printf("");
+}
+MACRO_FUNCTION_EVALUATE(event_global_log_category, event_set_log_level_global, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_log_category_1_definition
 {
 	.return_type = _hs_type_void,
 	.name = "event_global_log_category",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x6D3A6DDF, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(event_global_log_category, event_set_log_level_global, 1), // (hs_evaluate_function_definition)0x0073FEB0,
 	.documentation = "sets the global evetn log level\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
