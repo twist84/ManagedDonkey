@@ -511,7 +511,7 @@ int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_ind
 	if (results)
 	{
 		const hs_thread* thread = hs_thread_get(thread_index);
-		if (hs_verbose || TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+		if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
 		{
 			char buffer[10240]{};
 			csnzprintf(buffer, sizeof(buffer), "%s: %s ",
