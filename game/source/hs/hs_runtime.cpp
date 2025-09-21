@@ -1483,10 +1483,9 @@ int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
 	int32 result = NONE;
 	if (hs_runtime_globals->initialized)
 	{
+		result = iterator->raw_thread_index;
 		if (iterator->raw_thread_index != NONE)
 		{
-			result = iterator->raw_thread_index;
-
 #ifndef USE_HS_THREAD_TRACKING
 			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
 #else
