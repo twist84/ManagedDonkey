@@ -1630,7 +1630,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 		hs_thread_stack(thread)->size = 0;
 
 		hs_stack_pointer start_reference{};
-		if (hs_stack_allocate(thread_index, 4, 2, &start_reference))
+		if (hs_stack_allocate(thread_index, sizeof(hs_destination_pointer), 2, &start_reference))
 		{
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_stack;
@@ -1638,6 +1638,8 @@ void __cdecl hs_thread_main(int32 thread_index)
 			hs_evaluate(thread_index, script->root_expression_index, destination, NULL);
 		}
 	}
+
+	int32 runtime_evaluate_loop_iteration = 0;
 
 	while (thread->stack.stack_offset
 		&& thread->sleep_until >= 0
@@ -1650,10 +1652,19 @@ void __cdecl hs_thread_main(int32 thread_index)
 			if (!hs_syntax_node_exists(hs_thread_stack(thread)->expression_index))
 			{
 				event(_event_warning, "terminating console script unexpectedly");
+				thread->flags |= FLAG(_hs_thread_terminate_bit);
+				break;
 			}
 
-			thread->flags |= FLAG(_hs_thread_terminate_bit);
-			break;
+			// $TODO actually fix the issue
+			// maybe we missed a function part of a function that's supposed to set the thread's termination bit
+			// 
+			// if we've itarated enough to inspect and run one other function that's good enough for now
+			if (runtime_evaluate_loop_iteration > 1)
+			{
+				thread->flags |= FLAG(_hs_thread_terminate_bit);
+			}
+			runtime_evaluate_loop_iteration++;
 		}
 
 		hs_syntax_node* expression = hs_syntax_get(hs_thread_stack(thread)->expression_index);
@@ -1670,10 +1681,6 @@ void __cdecl hs_thread_main(int32 thread_index)
 		{
 			const hs_function_definition* function = hs_function_get(expression->function_index);
 			ASSERT(function->evaluate);
-			if ("print"_hash == string_hash(function->name))
-			{
-				printf("");
-			}
 			function->evaluate(expression->function_index, thread_index, call);
 		}
 	}
