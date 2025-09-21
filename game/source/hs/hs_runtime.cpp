@@ -8,6 +8,7 @@
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
 #include "hs/hs_library_external.hpp"
+#include "hs/hs_library_internal_compile.hpp"
 #include "interface/interface.hpp"
 #include "interface/user_interface.hpp"
 #include "main/main.hpp"
@@ -72,6 +73,8 @@ HOOK_DECLARE(0x00598B70, hs_thread_iterator_next);
 HOOK_DECLARE(0x00598BC0, hs_thread_main);
 HOOK_DECLARE(0x00598E70, hs_thread_new);
 HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
+HOOK_DECLARE(0x00599170, hs_wake);
+HOOK_DECLARE(0x00599250, hs_wake_by_name);
 
 // this is potentially at address `0x023FF444`,
 // there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
@@ -1732,11 +1735,97 @@ void __cdecl hs_typecasting_table_initialize()
 	INVOKE(0x00598FC0, hs_typecasting_table_initialize);
 }
 
-//.text:00599170 ; void __cdecl hs_wake(int32, int32)
+void __cdecl hs_wake(int32 thread_index, int32 waking_thread_index)
+{
+	//INVOKE(0x00599170, hs_wake, thread_index, waking_thread_index);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	if (thread->sleep_until != HS_SLEEP_FINISHED && thread->sleep_until != HS_SLEEP_COMMAND_SCRIPT_ATOM)
+	{
+		thread->sleep_until = 0;
+		if (TEST_BIT(thread->flags, _hs_thread_latent_sleep_bit))
+		{
+			thread->sleep_until = thread->latent_sleep_until;
+			thread->flags &= ~FLAG(_hs_thread_latent_sleep_bit);
+		}
+		else
+		{
+			hs_stack_frame* stack = hs_thread_stack(thread);
+			if (stack->expression_index == NONE
+				|| hs_syntax_get(stack->expression_index)->function_index != _hs_function_sleep_until)
+			{
+				if (stack->parent.stack_offset != NONE)
+				{
+					hs_stack_frame* parent_stack = hs_stack(thread, stack->parent);
+					if (parent_stack->expression_index != NONE && hs_syntax_get(parent_stack->expression_index)->function_index == _hs_function_sleep_until)
+					{
+						hs_stack_pop(thread_index);
+						hs_stack_pop(thread_index);
+						thread->flags &= ~FLAG(_hs_thread_latent_sleep_bit);
+					}
+				}
+			}
+			else
+			{
+				hs_stack_pop(thread_index);
+			}
+		}
+		thread->flags |= FLAG(_hs_thread_woken_bit);
+
+		if (hs_verbose || TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+		{
+			int16 line_number = NONE;
+			if (waking_thread_index == NONE)
+			{
+				event(_event_warning, "hs: WAKE %s (line #%i)",
+					hs_thread_format(thread_index),
+					line_number);
+
+				if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+				{
+					event(_event_warning, "hs: WAKE %s (line #%i)",
+						hs_thread_format(thread_index),
+						line_number);
+				}
+			}
+			else
+			{
+				hs_thread* waking_thread = hs_thread_get(waking_thread_index);
+				if (hs_thread_stack(waking_thread)->expression_index != NONE)
+				{
+					hs_syntax_node* expression = hs_syntax_get(hs_thread_stack(waking_thread)->expression_index);
+					line_number = expression->line_number;
+				}
+
+				event(_event_warning, "hs: WAKE %s (by %s   line #%i)",
+					hs_thread_format(thread_index),
+					hs_thread_format(waking_thread_index),
+					line_number);
+
+				if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+				{
+					event(_event_warning, "hs: WAKE %s (by %s   line #%i)",
+						hs_thread_format(thread_index),
+						hs_thread_format(waking_thread_index),
+						line_number);
+				}
+			}
+		}
+	}
+}
 
 bool __cdecl hs_wake_by_name(const char* script_name)
 {
-	return INVOKE(0x00599250, hs_wake_by_name, script_name);
+	//return INVOKE(0x00599250, hs_wake_by_name, script_name);
+
+	bool success = false;
+	int32 thread_index = hs_find_thread_by_name(script_name);
+	if (thread_index != NONE)
+	{
+		hs_wake(thread_index, NONE);
+		success = true;
+	}
+	return success;
 }
 
 void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size)

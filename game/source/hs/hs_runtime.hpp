@@ -269,6 +269,7 @@ extern hs_stack_frame* __cdecl hs_thread_stack(hs_thread* thread);
 extern const hs_stack_frame* __cdecl hs_thread_stack(const hs_thread* thread);
 extern void __cdecl hs_thread_try_to_delete(int32 thread_index, bool validate);
 extern void __cdecl hs_typecasting_table_initialize();
+extern void __cdecl hs_wake(int32 thread_index, int32 waking_thread_index);
 extern bool __cdecl hs_wake_by_name(const char* script_name);
 extern void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size);
 
