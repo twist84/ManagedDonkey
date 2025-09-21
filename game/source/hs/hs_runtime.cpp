@@ -451,7 +451,22 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 
 void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00595FF0, hs_evaluate_wake, function_index, thread_index, initialize);
+	//INVOKE(0x00595FF0, hs_evaluate_wake, function_index, thread_index, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+	int32 script_name_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+	hs_syntax_node* script_name_node = hs_syntax_get(script_name_index);
+
+	ASSERT(function_index == _hs_function_wake);
+	ASSERT(TEST_BIT(script_name_node->flags, _hs_syntax_node_primitive_bit));
+	ASSERT(script_name_node->type == _hs_type_script);
+
+	int32 wake_thread_index = hs_find_thread_by_script(script_name_node->short_value);
+	if (wake_thread_index != NONE)
+	{
+		hs_wake(wake_thread_index, thread_index);
+	}
+	hs_return(thread_index, 0);
 }
 
 int32 __cdecl hs_find_thread_by_name(const char* script_name)
@@ -459,7 +474,10 @@ int32 __cdecl hs_find_thread_by_name(const char* script_name)
 	return INVOKE(0x00596070, hs_find_thread_by_name, script_name);
 }
 
-//.text:00596130 ; int32 __cdecl hs_find_thread_by_script(int16 script_index)
+int32 __cdecl hs_find_thread_by_script(int16 script_index)
+{
+	return INVOKE(0x00596130, hs_find_thread_by_script, script_index);
+}
 
 int32 __cdecl hs_global_evaluate(int16 global_designator)
 {

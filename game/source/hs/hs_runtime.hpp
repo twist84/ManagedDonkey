@@ -211,6 +211,7 @@ extern void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread
 extern void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool initialize);
 extern void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool initialize);
 extern int32 __cdecl hs_find_thread_by_name(const char* script_name);
+extern int32 __cdecl hs_find_thread_by_script(int16 script_index);
 extern int32 __cdecl hs_global_evaluate(int16 global_designator);
 extern void __cdecl hs_global_reconcile_read(int16 global_designator);
 extern void __cdecl hs_global_reconcile_write(int16 global_designator);
