@@ -21,10 +21,13 @@
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
+REFERENCE_DECLARE_ARRAY(0x018A1090, hs_type_inspector, hs_type_inspectors, k_hs_type_count);
 REFERENCE_DECLARE(0x023FF440, bool, debug_scripting);
 REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
 REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
 REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);// = true;
+REFERENCE_DECLARE_ARRAY(0x023FF444, bool, debug_global_variables, 512);
+REFERENCE_DECLARE_2D_ARRAY(0x023FF648, typecasting_procedure, g_typecasting_procedures, k_hs_type_count, k_hs_type_count);
 REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
@@ -75,10 +78,6 @@ HOOK_DECLARE(0x00598E70, hs_thread_new);
 HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
 HOOK_DECLARE(0x00599170, hs_wake);
 HOOK_DECLARE(0x00599250, hs_wake_by_name);
-
-// this is potentially at address `0x023FF444`,
-// there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
-bool debug_global_variables[512]{};
 
 bool g_run_game_scripts = true;
 bool breakpoints_enabled = true;
@@ -1902,7 +1901,16 @@ bool __cdecl hs_wake_by_name(const char* script_name)
 
 void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size)
 {
-	INVOKE(0x00599280, inspect_internal, type, value, buffer, buffer_size);
+	//INVOKE(0x00599280, inspect_internal, type, value, buffer, buffer_size);
+
+	if (hs_type_inspectors[type])
+	{
+		hs_type_inspectors[type](type, type, buffer, buffer_size);
+	}
+	else
+	{
+		csstrnzcpy(buffer, "[value unavailable]", buffer_size);
+	}
 }
 
 //.text:005992C0 ; 

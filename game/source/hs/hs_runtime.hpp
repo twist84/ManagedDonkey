@@ -177,11 +177,16 @@ struct hs_debug_data_definition
 };
 static_assert(sizeof(hs_debug_data_definition) == sizeof(c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO>));
 
+typedef void(*hs_type_inspector)(int16, int32, char*, int32);
+typedef int32(*typecasting_procedure)(int32);
+
+extern hs_type_inspector(&hs_type_inspectors)[k_hs_type_count];
 extern bool& debug_scripting;
 extern bool& debug_globals;
 extern bool& debug_globals_all;
 extern bool& hs_verbose;
-extern bool debug_global_variables[512];
+extern bool(&debug_global_variables)[512];
+extern typecasting_procedure(&g_typecasting_procedures)[k_hs_type_count][k_hs_type_count];
 
 extern bool g_run_game_scripts;
 extern bool breakpoints_enabled;
