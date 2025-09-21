@@ -11,6 +11,7 @@
 #include "hs/hs_library_internal_compile.hpp"
 #include "interface/interface.hpp"
 #include "interface/user_interface.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -415,7 +416,36 @@ void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bo
 
 void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00595450, hs_evaluate_inspect, function_index, thread_index, initialize);
+	//INVOKE(0x00595450, hs_evaluate_inspect, function_index, thread_index, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+
+	hs_stack_pointer expression_reference{};
+	int32* expression = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &expression_reference);
+	if (expression)
+	{
+		ASSERT(function_index == _hs_function_inspect);
+		if (initialize)
+		{
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = expression_reference;
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+		}
+		else
+		{
+			const hs_syntax_node* expression_node = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index);
+			if (TEST_BIT(thread->flags, _hs_thread_display_expression_bit))
+			{
+				char printbuffer[1024]{};
+				if (hs_type_inspectors[expression_node->type])
+				{
+					hs_type_inspectors[expression_node->type](expression_node->type, expression_node->long_value, printbuffer, sizeof(printbuffer));
+				}
+				console_printf(printbuffer);
+			}
+		}
+	}
 }
 
 void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool initialize)
