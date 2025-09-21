@@ -254,6 +254,7 @@ void __cdecl hs_node_gc()
 	if (hs_runtime_initialized())
 	{
 		s_hs_thread_iterator iterator{};
+		hs_thread_iterator_new(&iterator, true, true);
 		for (int32 thread_index = hs_thread_iterator_next(&iterator);
 			thread_index != NONE;
 			thread_index = hs_thread_iterator_next(&iterator))
@@ -282,6 +283,7 @@ void __cdecl hs_node_gc()
 	if (hs_runtime_initialized())
 	{
 		s_hs_thread_iterator iterator{};
+		hs_thread_iterator_new(&iterator, true, true);
 		for (int32 thread_index = hs_thread_iterator_next(&iterator);
 			thread_index != NONE;
 			thread_index = hs_thread_iterator_next(&iterator))
