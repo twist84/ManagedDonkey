@@ -1088,7 +1088,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_create_if
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073ADC0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates an object if it doesn',27h,'t already exists.", "Yes"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("creates an object if it doesn't already exists.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1741,7 +1741,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cannot_di
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007451F0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("Set whether the object can die from damage or not (as opposed to by scripting)", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1757,7 +1757,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_vitality_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745460, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns TRUE if the object',27h,'s vitality is currently pinned at some minimum value because it cannot die.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1772,7 +1772,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) garbage_collect_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745AC0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("causes all garbage objects except those visible to a player to be collected immediately", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1783,7 +1783,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) garbage_collect_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745C20, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("forces all garbage objects to be collected immediately, even those visible to a player (dangerous!)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1794,7 +1794,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) garbage_collect_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00745E40, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("runs multiplayer garbage collection", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -1805,7 +1805,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_cannot_ta
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746110, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("prevents an object from taking damage", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1820,7 +1820,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_can_take_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746410, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("allows an object to take damage again", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1835,7 +1835,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007467B0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("makes an object use the highest lod for the remainder of the levels' cutscenes.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1851,7 +1851,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746B70, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("makes an object not collide with other cinematic collision objects.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1867,7 +1867,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_cinematic
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00746EE0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("makes an object bypass visibility and always render during cinematics.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1883,7 +1883,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747290, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("loads textures/geometry/sounds necessary to present objects that are about to come on-screen", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1898,7 +1898,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747680, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("loads textures/geometry/sounds necessary to present objects that are about to come on-screen", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1913,7 +1913,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) objects_predict_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747950, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("loads textures/geometry/sounds necessary to present objects that are about to come on-screen", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1928,7 +1928,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_type_pred
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00747E10, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("loads textures necessary to draw an object that's about to come on-screen.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1943,7 +1943,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_type_pred
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748050, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("loads textures necessary to draw an object that's about to come on-screen.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1958,7 +1958,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_type_pred
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748460, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("loads textures necessary to draw an object that's about to come on-screen.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -1973,7 +1973,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_teleport_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00748800, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("moves the specified object to the specified flag.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -1989,7 +1989,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_teleport_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072F8C0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("moves the specified object to the specified ai point.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2005,7 +2005,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_facin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0072FCA0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turns the specified object in the direction of the specified flag.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2021,7 +2021,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730110, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the shield vitality of the specified object (between 0 and 1).  This does the wrong thing.  Don't use it.", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2037,7 +2037,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730550, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the shield vitality of the specified object (between 0 and 1).", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2053,7 +2053,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007309D0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("set how long the shield will be stunned for, 0 is unstunned", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2069,7 +2069,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) object_set_shiel
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00730D70, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("make this objects shield be stunned permanently", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2084,7 +2084,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_set_permu
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731010, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the desired region (use \"\" for all regions) to the permutation with the given name, e.g. (object_set_permutation flood \"right arm\" ~damaged)", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2101,7 +2101,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) object_set_varia
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007315C0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the specified object to the specified model variant", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2117,7 +2117,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) object_set_regio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731910, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the desired region (use \"\" for all regions) to the model state with the given name, e.g. (object_set_region_state marine head destroyed)", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2134,7 +2134,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) objects_can_see_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00731D20, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if any of the specified units are looking within the specified number of degrees of the object.", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2151,7 +2151,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) objects_can_see_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732250, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns true if any of the specified units are looking within the", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2168,7 +2168,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) objects_distance
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732750, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns minimum distance from any of the specified objects to the specified destination object. (returns -1 if there are no objects to check)", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2184,7 +2184,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) objects_distance
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00732BF0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns minimum distance from any of the specified objects to the specified flag. (returns -1 if there are no objects, or no flag, to check)", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2200,7 +2200,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_info_0_defin
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007330F0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = "prints the map, zone set, active bsps, and current bsp",
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2211,7 +2211,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) position_predict
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733270, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("in: x, y, z position. loads textures/geometry/sounds necessary to present locations that are about to come on-screen.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2228,7 +2228,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) shader_predict_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733760, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("in: shader name. loads textures necessary for a shader.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2243,7 +2243,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) bitmap_predict_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733AB0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("in: bitmap name. loads all the bitmaps in that bitmap group", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2258,7 +2258,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) script_recompile
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00733E70, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("recompiles scripts.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2269,7 +2269,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) script_doc_0_def
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734110, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("saves a file called hs_doc.txt with parameters for all script commands.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2280,7 +2280,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) help_1_definitio
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007342D0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("prints a description of the named function.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2295,7 +2295,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_engine_obje
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007344D0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns a list of the special game engine objects", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2306,7 +2306,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) random_range_2_d
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007348C0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns a random value in the range [lower bound, upper bound)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2322,7 +2322,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) real_random_rang
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00734DD0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("returns a random value in the range [lower bound, upper bound)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2338,7 +2338,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) physics_constant
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735410, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("resets all physics constants to earthly values", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2349,7 +2349,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) physics_set_grav
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735620, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("set global gravity acceleration relative to halo standard gravity", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2364,7 +2364,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) physics_set_velo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735890, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets a local frame of motion for updating physics of things that wish to respect it", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2381,7 +2381,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) physics_disable_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00735E70, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turn off ground adhesion forces so you can play tricks with gravity", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2396,7 +2396,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_debug_star
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736140, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("start up the havok visual debugger", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2407,7 +2407,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) havok_dump_world
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736460, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("dump the state of the havok world, with our without a movie", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2423,7 +2423,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_dump_world
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736680, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("end the capture of a havok dump movie", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2434,7 +2434,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_profile_st
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736850, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("start profiling havok", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2445,7 +2445,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_profile_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736A80, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("stop profiling havok, and save the results", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2456,7 +2456,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) havok_profile_ra
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736D60, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("captures timers and a movie of a specific tick range", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2472,7 +2472,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) havok_reset_allo
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00736F90, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("strips down and builds back up all allocated havok memory", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2483,7 +2483,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) breakable_surfac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737170, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables or disables breakability of all breakable surfaces on level", "Yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2498,7 +2498,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) breakable_surfac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737540, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("restores all breakable surfaces", "No"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2509,7 +2509,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) recording_play_2
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007377C0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("make the specified unit run the specified cutscene recording.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2525,7 +2525,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) recording_play_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00737BE0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("make the specified unit run the specified cutscene recording, deletes the unit when the animation finishes.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2541,7 +2541,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) recording_play_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738180, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("make the specified vehicle run the specified cutscene recording, hovers the vehicle when the animation finishes.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2557,7 +2557,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) recording_kill_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007385F0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("kill the specified unit's cutscene recording.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2572,7 +2572,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) recording_time_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738910, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("return the time remaining in the specified unit's cutscene recording.", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2587,7 +2587,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_lights_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00738DC0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables/disables dynamic lights", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2602,7 +2602,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) print_light_stat
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739250, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("outputs text light state", "yes"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2613,7 +2613,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_lights_en
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739550, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enable/disable the specified unit to receive cinematic shadows where the shadow is focused about a radius around a marker name", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -2631,7 +2631,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739970, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = "sets the render texture camera to a given object marker",
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2648,7 +2648,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00739DF0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the render texture camera position", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2665,7 +2665,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A220, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the render texture camera target", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2682,7 +2682,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_a
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073A730, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("attaches the render texture camera to a given object marker", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2698,7 +2698,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AA40, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("targets the render texture camera to view a given object marker", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2714,7 +2714,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073AF10, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = "adds a worldspace offset to the current texture camera position",
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2731,7 +2731,18 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_o
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B260, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turns on the render texture camera", "Unknown, assumed unsafe"),
+	.parameters = NULL,
+	.formal_parameter_count = 0,
+};
+DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_bink_0_definition
+{
+	.return_type = _hs_type_void,
+	.name = "texture_camera_bink",
+	.flags = 0,
+	.parse = hs_macro_function_parse,
+	.evaluate = (hs_evaluate_function_definition)NULL, // $TODO write the function chuckle nuts
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turns on the render texture camera and renders a bink to it", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2742,7 +2753,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_o
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B430, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turns off the render texture camera", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -2753,7 +2764,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073B760, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the texture camera aspet ratio", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2768,7 +2779,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BA40, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the texture camera render resolution", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2784,7 +2795,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_r
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073BF10, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = "switches the texture camera render mode",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2814,7 +2825,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C530, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = "sets the field of view on the texture camera, in degrees",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2829,7 +2840,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_s
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073C9E0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = "zooms the field of view to frame the target, with target zoom factor to zoom closer",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2844,7 +2855,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_e
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073CCE0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("toggle rendering of dynamic lights in the texture camera", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2859,7 +2870,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_on_1_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D130, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turns on the hud camera", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2874,7 +2885,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_off_1
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D410, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("turns off the hud camera", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -2889,7 +2900,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) hud_camera_set_p
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073D740, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the render texture camera position", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -2907,7 +2918,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) hud_camera_set_t
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073DC10, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the render texture camera target", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -2925,7 +2936,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) hud_camera_attac
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E140, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("attaches the render texture camera to a given object marker", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2942,7 +2953,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) hud_camera_targe
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E560, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("targets the render texture camera to view a given object marker", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 3,
 	.formal_parameters =
@@ -2959,7 +2970,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) hud_camera_struc
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073E9D0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("toggle rendering of structure in the hud camera", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -2975,7 +2986,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 12) hud_camera_high
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073EDA0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("highlights an object in the given color", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 6,
 	.formal_parameters =
@@ -2995,7 +3006,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_clear
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F380, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("clears all objects", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3010,7 +3021,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) hud_camera_spin_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073F610, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("makes the hud camera spin around the given object", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3026,7 +3037,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) hud_camera_from_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FA60, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("aligns the hud camera to the player camera", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3041,7 +3052,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) hud_camera_wind
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x0073FD00, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the render window of the hud camera (0...1)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 5,
 	.formal_parameters =
@@ -3060,7 +3071,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_tex
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740300, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("toggles displaying the texture camera in the corner of the screen", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3075,7 +3086,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_structure_
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007405B0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("specify a structure and cluster to debug", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =
@@ -3091,7 +3102,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740800, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables cluster fog debugging", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3106,7 +3117,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740A30, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables fog plane debugging", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3121,7 +3132,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740BE0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables fog plane debugging", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3136,7 +3147,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00740E00, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enabled fog zone debugging", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3151,7 +3162,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007411C0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables fog zone debugging", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3166,7 +3177,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741330, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables fog plane debugging (all)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3181,7 +3192,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007415F0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables cluster error debugging (all)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3196,7 +3207,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741810, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the opacity (0 is default)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3214,7 +3225,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741A90, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the opacity (0 is default)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3232,7 +3243,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 8) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741BF0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the opacity (0 is default)", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 4,
 	.formal_parameters =
@@ -3250,7 +3261,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00741E30, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("controls non-occluded fog plane debugging", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3265,7 +3276,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742180, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("sets the lightmap preference to per-vertex, ignores per-pixel if available", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3276,7 +3287,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742390, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("resets the lightmap preference setting and updates the internal lightmap bsp data if necessary", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3287,7 +3298,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x007425F0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("enables visualization of match samples if available", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3298,7 +3309,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) render_debug_str
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742880, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("disables visualization of match samples", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
@@ -3309,7 +3320,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) render_debug_que
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742AF0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("substring of object definition name to spew out it's debug usage", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 1,
 	.formal_parameters =
@@ -3324,7 +3335,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) render_debug_que
 	.flags = 0,
 	.parse = hs_macro_function_parse,
 	.evaluate = (hs_evaluate_function_definition)0x00742DB0, // $TODO write the function chuckle nuts
-	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("$TODO", "idk"),
+	.documentation = MAKE_HS_FUNCTION_DOCUMENTATION("BSP index and whether to spit out all bitmaps used", "Unknown, assumed unsafe"),
 	.parameters = NULL,
 	.formal_parameter_count = 2,
 	.formal_parameters =

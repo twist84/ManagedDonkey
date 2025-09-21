@@ -268,6 +268,7 @@ extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_c
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_target_object_2_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) texture_camera_position_world_offset_3_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_on_0_definition;
+extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_bink_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_camera_off_0_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) texture_camera_set_aspect_ratio_1_definition;
 extern DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) texture_camera_set_resolution_2_definition;
@@ -1968,6 +1969,7 @@ inline static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&texture_camera_target_object_2_definition,
 	(hs_function_definition*)&texture_camera_position_world_offset_3_definition,
 	(hs_function_definition*)&texture_camera_on_0_definition,
+	//(hs_function_definition*)&texture_camera_bink_0_definition,
 	(hs_function_definition*)&texture_camera_off_0_definition,
 	(hs_function_definition*)&texture_camera_set_aspect_ratio_1_definition,
 	(hs_function_definition*)&texture_camera_set_resolution_2_definition,
