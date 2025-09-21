@@ -300,23 +300,22 @@ bool hs_parse_inspect(int16 function_index, int32 expression_index)
 {
 	ASSERT(function_index == _hs_function_inspect);
 
+	bool success = false;
 	int32 argument_index;
-	if (!hs_get_parameter_indices(hs_function_get(function_index)->name, 1, &argument_index, expression_index))
+	if (hs_get_parameter_indices(hs_function_get(function_index)->name, 1, &argument_index, expression_index))
 	{
-		return false;
-	}
-
-	if (!hs_parse(argument_index, _hs_unparsed))
-	{
-		if (!hs_compile_globals.error_message)
+		if (hs_parse(argument_index, _hs_unparsed))
+		{
+			success = true;
+		}
+		else if (!hs_compile_globals.error_message)
 		{
 			hs_compile_globals.error_message = "this is not a global variable reference, function call, or script call.";
 			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 		}
-		return false;
 	}
 
-	return true;
+	return success;
 };
 
 bool hs_parse_object_cast_up(int16 function_index, int32 expression_index)
