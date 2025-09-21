@@ -431,7 +431,61 @@ void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index
 
 void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x005957F0, hs_evaluate_set, function_index, thread_index, initialize);
+	//INVOKE(0x005957F0, hs_evaluate_set, function_index, thread_index, initialize);
+
+	int32* evaluate_result = NULL; // what's supposed to use this?
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+	int32 variable_reference_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+	const hs_syntax_node* variable_reference = hs_syntax_get(variable_reference_index);
+	if (hs_stack_allocate(thread_index, sizeof(int32), 2, NULL))
+	{
+		int16 type = hs_global_get_type(variable_reference->short_value);
+		if (initialize)
+		{
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_runtime_global;
+			destination.stack_pointer.stack_offset = variable_reference->short_value;
+			if (type == _hs_type_object_list)
+			{
+				object_list_add_reference(hs_global_evaluate(variable_reference->short_value));
+			}
+			hs_evaluate(thread_index, variable_reference->next_node_index, destination, NULL);
+		}
+		else
+		{
+			hs_global_reconcile_write(variable_reference->short_value);
+			if (type == _hs_type_object_list)
+			{
+				object_list_add_reference(hs_global_evaluate(variable_reference->short_value));
+			}
+
+			bool verbose_thread = TEST_BIT(thread->flags, _hs_thread_verbose_bit);
+			if (hs_verbose || verbose_thread)
+			{
+				char valuebuffer[1024]{};
+				inspect_internal(
+					type,
+					DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime, hs_runtime_index_from_global_designator(variable_reference->short_value))->value,
+					valuebuffer, sizeof(valuebuffer));
+				event(_event_warning, "hs: %s <-- %s (thread %s  line #%i)",
+					hs_global_get_name(variable_reference->short_value),
+					valuebuffer,
+					hs_thread_format(thread_index),
+					variable_reference->line_number);
+				if (verbose_thread)
+				{
+					event(_event_warning, "hs: %s <-- %s (thread %s  line #%i)",
+						hs_global_get_name(variable_reference->short_value),
+						valuebuffer,
+						hs_thread_format(thread_index),
+						variable_reference->line_number);
+				}
+			}
+
+			hs_return(thread_index, hs_global_evaluate(variable_reference->short_value));
+		}
+	}
 }
 
 void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool initialize)
