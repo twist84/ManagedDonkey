@@ -699,7 +699,7 @@ void ai_debug_render_vehicle_reservations()
 	vehicle_iter.begin(_object_mask_vehicle, 0);
 	while (vehicle_iter.next())
 	{
-		unit_seat_source sources[64]{};
+		unit_seat_source sources[k_maximum_hs_unit_seats]{};
 		int16 source_count = unit_get_all_seats(vehicle_iter.get_index(), sources, NUMBEROF(sources), false);
 		for (int16 source_index = 0; source_index < source_count; source_index++)
 		{

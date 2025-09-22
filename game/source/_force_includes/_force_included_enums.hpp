@@ -3739,8 +3739,6 @@ enum e_reference_type
 enum
 {
 	k_maximum_number_of_references = 10240,
-	k_maximum_number_of_script_references = 1024,
-	k_maximum_number_of_global_references = 280,
 };
 
 enum e_hs_type

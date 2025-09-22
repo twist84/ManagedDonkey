@@ -20,6 +20,7 @@ extern bool __cdecl editor_input_inhibited();
 extern void __cdecl editor_orphan_object(e_object_type object_type, int32 scenario_datum_index);
 extern void __cdecl editor_prepare_for_tag_reload(bool reloading_scenario);
 extern void __cdecl editor_register_new_object(e_object_type object_type, int32 scenario_datum_index, int32 new_object_index);
+extern void __cdecl editor_reset_script_referenced_blocks();
 extern void __cdecl editor_save_progress();
 extern bool __cdecl editor_should_render_object(int32 object_index);
 extern bool __cdecl editor_should_render_transparent_geometry();

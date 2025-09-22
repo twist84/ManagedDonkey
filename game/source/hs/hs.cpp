@@ -167,9 +167,9 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 	{
 		const struct scenario* scenario = global_scenario_get();
 
-		for (int32 script_index = 0; script_index < scenario->scripts.count; script_index++)
+		for (int32 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 		{
-			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->scripts, script_index, hs_script);
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, script_index, hs_script);
 			if (ascii_stricmp(name, script->name) == 0 && num_arguments == NONE || num_arguments == script->parameters.count)
 			{
 				return (int16)script_index;
@@ -206,7 +206,7 @@ int16 __cdecl hs_global_get_type(int16 global_designator)
 		}
 	}
 
-	hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->globals, global_index, hs_global_internal);
+	hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_globals, global_index, hs_global_internal);
 	return global->type;
 }
 
@@ -219,7 +219,7 @@ void __cdecl hs_initialize()
 	VASSERT(hs_object_type_masks[_object_type_projectile], "you can't add an hs object type without defining its mask");
 	VASSERT(hs_type_names[_hs_type_cinematic_lightprobe], "you can't add an hs type without defining its name.");
 
-	g_hs_syntax_data = data_new_disconnected("script node", 61440, 0x18, 0, g_normal_allocation);
+	g_hs_syntax_data = data_new_disconnected("script node", k_maximum_hs_syntax_nodes_per_scenario, 0x18, 0, g_normal_allocation);
 	object_lists_initialize();
 	hs_runtime_initialize();
 	hs_initialize_for_new_map(false, true);
@@ -354,7 +354,7 @@ int16 __cdecl hs_script_find_parameter_by_name(int32 script_index, const char* n
 {
 	int16 result = NONE;
 
-	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
+	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script);
 	for (int16 parameter_index = 0; parameter_index < (int16)script->parameters.count; parameter_index++)
 	{
 		hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
@@ -403,7 +403,7 @@ int16 hs_find_global_by_name(const char* name)
 
 	if (global_scenario_index_get() != NONE)
 	{
-		c_typed_tag_block<hs_global_internal>& globals = global_scenario_get()->globals;
+		c_typed_tag_block<hs_global_internal>& globals = global_scenario_get()->hs_globals;
 		for (int16 global_index = 0; global_index < (int16)globals.count; global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
@@ -433,7 +433,12 @@ const char* hs_global_get_name(int16 global_designator)
 		}
 	}
 
-	return global_scenario_get()->globals[global_index].name;
+	return global_scenario_get()->hs_globals[global_index].name;
+}
+
+void resize_scenario_syntax_data(int32 count)
+{
+
 }
 
 void hs_tokens_enumerate_add_string(const char* string)
@@ -559,7 +564,7 @@ void __cdecl hs_enumerate_function_names(void)
 
 void __cdecl hs_enumerate_script_names(void)
 {
-	hs_enumerate_scenario_data(OFFSETOF(struct scenario, scripts), OFFSETOF(hs_script, name), sizeof(hs_script));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, hs_scripts), OFFSETOF(hs_script, name), sizeof(hs_script));
 }
 
 void __cdecl hs_enumerate_variable_names(void)
@@ -571,7 +576,7 @@ void __cdecl hs_enumerate_variable_names(void)
 	//for (int16 global_index = 0; global_index < int16(k_hs_external_global_debug_count); global_index++)
 	//	hs_tokens_enumerate_add_string(hs_global_external_get_debug(global_index)->name);
 
-	hs_enumerate_scenario_data(OFFSETOF(struct scenario, globals), 0, sizeof(hs_global_internal));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, hs_globals), 0, sizeof(hs_global_internal));
 }
 
 void __cdecl hs_enumerate_ai_names(void)
@@ -600,7 +605,7 @@ void __cdecl hs_enumerate_ai_names(void)
 			hs_tokens_enumerate_add_string(order.name);
 		}
 	
-		if (scenario->scripting_data.count)
+		if (scenario->cs_script_data.count)
 		{
 			for (int32 cs_index = 0; cs_index < cs_scenario_get_script_data(scenario)->point_sets.count; cs_index++)
 			{
@@ -620,7 +625,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 	{
 		struct scenario* scenario = global_scenario_get();
 
-		for (hs_script& script : scenario->scripts)
+		for (hs_script& script : scenario->hs_scripts)
 		{
 			if (script.script_type == _hs_script_command_script)
 				hs_tokens_enumerate_add_string(script.name);

@@ -5,11 +5,11 @@
 int16 cs_point_set_index_by_name(const char* name)
 {
 	struct scenario* scenario = global_scenario_get();
-	if (scenario->scripting_data.count > 0)
+	if (scenario->cs_script_data.count > 0)
 	{
-		for (int16 point_set_index = 0; point_set_index < scenario->scripting_data[0].point_sets.count; point_set_index++)
+		for (int16 point_set_index = 0; point_set_index < scenario->cs_script_data[0].point_sets.count; point_set_index++)
 		{
-			cs_point_set& point_set = scenario->scripting_data[0].point_sets[point_set_index];
+			cs_point_set& point_set = scenario->cs_script_data[0].point_sets[point_set_index];
 			if (csstrcmp(point_set.name, name) == 0)
 				return point_set_index;
 		}

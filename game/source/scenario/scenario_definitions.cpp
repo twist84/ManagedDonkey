@@ -57,7 +57,7 @@ void scenario::update_reference_names()
 	UPDATE_BLOCK_REFERENCE_NAMES(vehicle_spawn_influencers);
 	UPDATE_BLOCK_REFERENCE_NAMES(projectile_spawn_influencers);
 	UPDATE_BLOCK_REFERENCE_NAMES(equipment_spawn_influencers);
-	UPDATE_BLOCK_REFERENCE_NAMES(references);
+	UPDATE_BLOCK_REFERENCE_NAMES(hs_references);
 	UPDATE_BLOCK_REFERENCE_NAMES(crate_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(creature_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(background_bitmap_references);

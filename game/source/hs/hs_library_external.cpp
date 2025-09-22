@@ -82,7 +82,7 @@ void __cdecl hs_evaluate(int16 script_index)
 {
 	//INVOKE(0x0096D870, hs_evaluate_library_external, script_index);
 
-	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
+	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script);
 	if (script->parameters.count > 0)
 	{
 		event(_event_warning, "hs: tried to pass a script to 'evaluate' which has arguments");

@@ -4,7 +4,7 @@
 #include "hs/hs_scenario_definitions.hpp"
 #include "units/unit_definition.hpp"
 
-bool hs_get_unit_seats_from_substring(int32 unit_definition_index, const char* seat_substring, c_static_flags<64>* out_unit_seats)
+bool hs_get_unit_seats_from_substring(int32 unit_definition_index, const char* seat_substring, c_static_flags<k_maximum_hs_unit_seats>* out_unit_seats)
 {
 	ASSERT(seat_substring);
 	ASSERT(out_unit_seats);
@@ -38,10 +38,6 @@ int32 hs_encode_unit_seat_mapping(int32 unit_seat_start_index, int32 unit_seat_m
 	ASSERT(IN_RANGE_INCLUSIVE(unit_seat_mapping_count, 0, k_maximum_hs_unit_seat_mappings));
 	ASSERT(unit_seat_start_index + unit_seat_mapping_count <= k_maximum_hs_unit_seat_mappings);
 
-	// Xenon
-	//return unit_seat_start_index | (unit_seat_mapping_count << 16);
-
-	// PC
 	return (unit_seat_mapping_count << 16) | unit_seat_start_index;
 }
 

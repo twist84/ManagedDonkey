@@ -8,12 +8,15 @@
 #include "ai/styles.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
+#include "cseries/progress.hpp"
 #include "devices/devices.hpp"
+#include "editor/editor_stubs.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_library_internal_compile.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_unit_seats.hpp"
+#include "main/console.hpp"
 #include "scenario/scenario.hpp"
 
 #include <algorithm>
@@ -154,7 +157,7 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 
 				reference->next = hs_compile_globals.script_references[referred_index];
 				hs_compile_globals.script_references[referred_index] = reference;
-				hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, referred_index, hs_script);
+				hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, referred_index, hs_script);
 				reference->strong = script->return_type != _hs_type_void;
 			}
 			break;
@@ -321,14 +324,14 @@ void hs_compile_dispose()
 
 	hs_compile_globals.initialized = false;
 
-	//if (g_hs_syntax_data->maximum_count + 512 < 61440)
-	//{
-	//	resize_scenario_syntax_data(g_hs_syntax_data->maximum_count + 512);
-	//}
-	//else
-	//{
-	//	resize_scenario_syntax_data(61440);
-	//}
+	if (g_hs_syntax_data->maximum_count + k_maximum_hs_syntax_nodes_free_space < k_maximum_hs_syntax_nodes_per_scenario)
+	{
+		resize_scenario_syntax_data(g_hs_syntax_data->maximum_count + k_maximum_hs_syntax_nodes_free_space);
+	}
+	else
+	{
+		resize_scenario_syntax_data(k_maximum_hs_syntax_nodes_per_scenario);
+	}
 }
 
 int32 hs_compile_expression(int32 source_size, const char* source_data, const char** error_message_pointer, const char** error_source_pointer)
@@ -348,14 +351,14 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 			hs_compile_globals.malloced = true;
 			ASSERT(hs_compile_globals.compiled_source);
 		}
-		else if (global_scenario_get()->script_string_data.size < 4096)
+		else if (global_scenario_get()->hs_string_constants.size < 4096)
 		{
 			valid_buffer = false;
 		}
 		else
 		{
-			old_size = global_scenario_get()->script_string_data.size - 4096;
-			hs_compile_globals.compiled_source = (char*)global_scenario_get()->script_string_data.address;
+			old_size = global_scenario_get()->hs_string_constants.size - 4096;
+			hs_compile_globals.compiled_source = (char*)global_scenario_get()->hs_string_constants.address;
 		}
 
 		if (valid_buffer)
@@ -387,15 +390,18 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 					{
 						hs_syntax_node* implicit_inspect = hs_syntax_get(implicit_inspect_index);
 						hs_syntax_node* implicit_inspect_name = hs_syntax_get(implicit_inspect_name_index);
+
 						implicit_inspect->long_value = implicit_inspect_name_index;
 						implicit_inspect->next_node_index = NONE;
 						implicit_inspect->source_offset = hs_syntax_get(root_expression_index)->source_offset;
 						implicit_inspect->flags = 0;
+
 						implicit_inspect_name->next_node_index = root_expression_index;
 						implicit_inspect_name->source_offset = -1;
 						implicit_inspect_name->function_index = _hs_function_inspect;
 						implicit_inspect_name->type = _hs_function_name;
 						implicit_inspect_name->flags = FLAG(_hs_syntax_node_primitive_bit);
+
 						if (hs_parse(implicit_inspect_index, _hs_type_void))
 						{
 							result_expression_index = implicit_inspect_index;
@@ -460,24 +466,22 @@ void hs_compile_initialize(bool permanent)
 
 	if (permanent)
 	{
-		// not using constant number variables or enum values is bad mkay
-
-		//editor_reset_script_referenced_blocks();
-		//resize_scenario_syntax_data(61440);
+		editor_reset_script_referenced_blocks();
+		resize_scenario_syntax_data(k_maximum_hs_syntax_nodes_per_scenario);
 
 		hs_compile_globals.references =
 			(s_hs_reference*)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_references);
 		hs_compile_globals.script_references =
-			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_script_references);
+			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_hs_scripts_per_scenario);
 		hs_compile_globals.global_references =
-			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_global_references);
+			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_hs_globals_per_scenario);
 
-		for (int32 script_index = 0; script_index < k_maximum_number_of_script_references; script_index++)
+		for (int32 script_index = 0; script_index < k_maximum_hs_scripts_per_scenario; script_index++)
 		{
 			hs_compile_globals.script_references = NULL;
 		}
 
-		for (int32 global_index = 0; global_index < k_maximum_number_of_global_references; global_index++)
+		for (int32 global_index = 0; global_index < k_maximum_hs_globals_per_scenario; global_index++)
 		{
 			hs_compile_globals.global_references = NULL;
 		}
@@ -526,9 +530,9 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	//	csstrnzcpy(g_error_output_buffer, "", g_error_buffer_length);
 	//}
 	//
-	//for (hs_source_file& source_file : global_scenario_get()->source_files)
+	//for (hs_source_file& source_file : global_scenario_get()->hs_source_files)
 	//{
-	//
+	//	// $IMPLEMENT
 	//}
 	//
 	//if (success || !fail_on_error)
@@ -536,7 +540,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	//	success = hs_compile_second_pass(&state, verbose);
 	//	if (!success)
 	//	{
-	//		hs_compile_strip_failed_special_forms(&state);
+	//		hs_compile_strip_failed_special_forms(&state, verbose);
 	//	}
 	//}
 	//
@@ -631,6 +635,39 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 {
 	csmemset(state->failed_globals, 0, sizeof(state->failed_globals));
 	csmemset(state->failed_scripts, 0, sizeof(state->failed_scripts));
+}
+
+void fail_special_form_recursive(int32* strip_globals, int32* strip_scripts, int32 index, e_reference_type type)
+{
+	// $IMPLEMENT
+}
+
+void hs_compile_strip_failed_special_forms(const s_hs_compile_state* compile_state, bool verbose)
+{
+	return;
+
+	scenario* scenario = global_scenario_get();
+
+	int32 strip_globals[9]{};
+	int32 strip_scripts[32]{};
+
+	for (int16 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
+	{
+		if (BIT_VECTOR_TEST_FLAG(compile_state->failed_globals, global_index) && !BIT_VECTOR_TEST_FLAG(strip_globals, global_index))
+		{
+			fail_special_form_recursive(strip_globals, strip_scripts, global_index, _hs_reference_type_global);
+		}
+	}
+
+	for (int16 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
+	{
+		ASSERT(VALID_INDEX(script_index, k_maximum_hs_scripts_per_scenario));
+
+		if (BIT_VECTOR_TEST_FLAG(compile_state->failed_scripts, script_index) && !BIT_VECTOR_TEST_FLAG(strip_scripts, script_index))
+		{
+			fail_special_form_recursive(strip_globals, strip_scripts, script_index, _hs_reference_type_script);
+		}
+	}
 }
 
 void hs_compile_unregister_error_listener(c_hs_compile_error_listener* listener)
@@ -802,7 +839,7 @@ bool hs_parse_ai_command_script(int32 expression_index)
 	int16 script_index = hs_find_script_by_name(source, 0);
 	if (script_index != NONE)
 	{
-		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script);
 		if (script->script_type == _hs_script_command_script)
 		{
 			expression->short_value = script_index;
@@ -1259,7 +1296,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 		}
 		else if (TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
 		{
-			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, expression->script_index, hs_script);
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, expression->script_index, hs_script);
 			if (script->script_type == _hs_script_static)
 			{
 				if (expression->type && !hs_can_cast(script->return_type, expression->type))
@@ -1339,7 +1376,7 @@ bool hs_parse_nonprimitive(int32 expression_index)
 			}
 			else if (!TEST_BIT(function->flags, _hs_function_flag_command_script_atom)
 				|| hs_compile_globals.current_script_index == NONE
-				|| TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, hs_compile_globals.current_script_index, hs_script)->script_type == _hs_script_command_script)
+				|| TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, hs_compile_globals.current_script_index, hs_script)->script_type == _hs_script_command_script)
 			{
 				if (!TEST_BIT(function->flags, _hs_function_flag_debug) || hs_compile_globals.current_script_index == NONE)
 				{
@@ -1847,9 +1884,9 @@ bool hs_parse_tag_reference(int32 expression_index)
 		const struct scenario* scenario = global_scenario_get();
 		const char* tag_name = &hs_compile_globals.compiled_source[expression->source_offset];
 
-		for (int16 reference_index = 0; reference_index < scenario->references.count; reference_index++)
+		for (int16 reference_index = 0; reference_index < scenario->hs_references.count; reference_index++)
 		{
-			hs_tag_reference* reference = TAG_BLOCK_GET_ELEMENT(&scenario->references, reference_index, hs_tag_reference);
+			hs_tag_reference* reference = TAG_BLOCK_GET_ELEMENT(&scenario->hs_references, reference_index, hs_tag_reference);
 
 			if (reference->reference.index != NONE)
 			{
@@ -2033,7 +2070,7 @@ bool hs_parse_variable(int32 expression_index)
 		expression->short_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
 		if (expression->short_value != NONE)
 		{
-			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, hs_compile_globals.current_script_index, hs_script);
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, hs_compile_globals.current_script_index, hs_script);
 			hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, expression->short_value, hs_script_parameter);
 
 			type = parameter->type;
@@ -2189,7 +2226,12 @@ int32 hs_tokenize(hs_tokenizer* state)
 	ASSERT(g_hs_syntax_data);
 	
 	int32 syntax_index = datum_new(g_hs_syntax_data);
-	if (syntax_index != NONE)
+	if (syntax_index == NONE)
+	{
+		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+		hs_compile_globals.error_offset = state->cursor - hs_compile_globals.compiled_source;
+	}
+	else
 	{
 		hs_syntax_node* node = hs_syntax_get(syntax_index);
 		node->type = 0;
@@ -2218,12 +2260,6 @@ int32 hs_tokenize(hs_tokenizer* state)
 			char const* source_pointer = &state->source_file_data[offset];
 			node->line_number = (int16)hs_source_pointer_get_line_number(source_pointer, state->source_file_data);
 		}
-	}
-	else
-	{
-		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
-		hs_compile_globals.error_offset = state->cursor - hs_compile_globals.compiled_source;
-		return NONE;
 	}
 	
 	return syntax_index;
@@ -2268,7 +2304,7 @@ void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index)
 		}
 	}
 
-	if (tail == (int32*)&expression->long_value && !hs_compile_globals.error_message)
+	if (tail == &expression->long_value && !hs_compile_globals.error_message)
 	{
 		hs_compile_globals.error_message = "this expression is empty.";
 		hs_compile_globals.error_offset = expression->source_offset;

@@ -198,8 +198,10 @@ extern int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_par
 extern void __cdecl hs_breakpoint(const char* s);
 extern bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type);
 extern int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type, int32 value);
+extern int32 __cdecl hs_data_to_void(int32 n);
 extern int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destination_pointer);
-extern bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
+extern int32 __cdecl hs_enum_to_real(int32 e);
+extern bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* local_destination);
 extern void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bool initialize);
 extern void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool initialize);
 extern void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool initialize);

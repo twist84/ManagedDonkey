@@ -1032,10 +1032,10 @@ if (scenario->trigger_volumes.count)\
 }
 
 #define SCENARIO_PRINT_SCRIPTS()\
-if (scenario->scripts.count)\
+if (scenario->hs_scripts.count)\
 {\
-	c_console::write_line("    scripts: %d", scenario->scripts.count);\
-	for (auto script : scenario->scripts)\
+	c_console::write_line("    scripts: %d", scenario->hs_scripts.count);\
+	for (auto script : scenario->hs_scripts)\
 	{\
 		const char* script_name = script.name;\
 		if (script_name && *script_name)\
@@ -1056,10 +1056,10 @@ if (scenario->scripts.count)\
 }
 
 #define SCENARIO_PRINT_GLOBALS()\
-if (scenario->globals.count)\
+if (scenario->hs_globals.count)\
 {\
-	c_console::write_line("    globals: %d", scenario->globals.count);\
-	for (auto global : scenario->globals)\
+	c_console::write_line("    globals: %d", scenario->hs_globals.count);\
+	for (auto global : scenario->hs_globals)\
 	{\
 		const char* name = global.name;\
 		if (name && *name)\

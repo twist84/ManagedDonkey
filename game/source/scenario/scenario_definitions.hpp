@@ -265,12 +265,12 @@ struct scenario
 	c_typed_tag_block<user_hint_data> ai_user_hint_data;
 	c_typed_tag_block<ai_recording_reference_definition> ai_recording_references;
 
-	c_typed_tag_data<hs_string_data_definition> script_string_data;
-	c_typed_tag_block<hs_script> scripts;
-	c_typed_tag_block<hs_global_internal> globals;
-	c_typed_tag_block<hs_tag_reference> references;
-	c_typed_tag_block<hs_source_file> source_files;
-	c_typed_tag_block<cs_script_data> scripting_data;
+	c_typed_tag_data<hs_string_data_definition> hs_string_constants;
+	c_typed_tag_block<hs_script> hs_scripts;
+	c_typed_tag_block<hs_global_internal> hs_globals;
+	c_typed_tag_block<hs_tag_reference> hs_references;
+	c_typed_tag_block<hs_source_file> hs_source_files;
+	c_typed_tag_block<cs_script_data> cs_script_data;
 
 	c_typed_tag_block<scenario_cutscene_flag> cutscene_flags;
 	c_typed_tag_block<scenario_cutscene_camera_point> cutscene_camera_points;

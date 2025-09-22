@@ -116,6 +116,11 @@ void __cdecl editor_register_new_object(e_object_type object_type, int32 scenari
 //.text:0042E0A0 ; 
 //.text:0042E0B0 ; 
 
+void __cdecl editor_reset_script_referenced_blocks()
+{
+
+}
+
 //.text:0042E0C0 ; 
 void __cdecl editor_save_progress()
 {

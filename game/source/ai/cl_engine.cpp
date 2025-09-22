@@ -59,7 +59,7 @@ cs_point_set* __cdecl cs_get_point_set(int32 index)
 {
 	//return INVOKE(0x01443EE0, cs_get_point_set, index);
 
-	return &global_scenario_get()->scripting_data[0].point_sets[index];
+	return &global_scenario_get()->cs_script_data[0].point_sets[index];
 }
 
 //.text:01443F10 ; void __cdecl cs_global_script_context_clear()
@@ -104,7 +104,7 @@ cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario)
 {
 	//return INVOKE(0x01444A50, cs_scenario_get_script_data, scenario);
 
-	return &scenario->scripting_data[0];
+	return &scenario->cs_script_data[0];
 }
 
 //.text:01444A60 ; void __cdecl cs_set_cleanup_script(int32, int16)

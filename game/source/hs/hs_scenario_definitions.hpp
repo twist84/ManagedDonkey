@@ -3,6 +3,22 @@
 #include "hs/hs.hpp"
 #include "tag_files/tag_groups.hpp"
 
+enum
+{
+	k_maximum_hs_scripts_per_scenario = 1024,
+	k_maximum_hs_parameters_per_script = 5,
+	k_maximum_hs_globals_per_scenario = 280,
+	k_maximum_hs_references_per_scenario = 512,
+	k_maximum_hs_syntax_nodes_per_scenario = 61440,
+	k_maximum_hs_syntax_nodes_free_space = 512,
+	//k_maximum_hs_string_data_per_scenario = 819200,
+	//k_maximum_hs_source_files_per_scenario = 16,
+	//k_maximum_hs_source_data_per_file = 1048576,
+	k_maximum_hs_unit_seats = 64,
+	k_maximum_hs_unit_seat_mappings = 65536,
+	//k_custom_hs_string_field = 'hsbl',
+};
+
 struct hs_tag_reference
 {
 	c_typed_tag_reference<0xFFFFFFFF> reference;
@@ -109,7 +125,7 @@ static_assert(sizeof(hs_source_file) == sizeof(s_tag_block));
 struct s_hs_unit_seat_mapping
 {
 	int32 unit_definition_tag_index;
-	c_static_flags<64> unit_seats;
+	c_static_flags<k_maximum_hs_unit_seats> unit_seats;
 };
 static_assert(sizeof(s_hs_unit_seat_mapping) == 0xC);
 

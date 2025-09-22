@@ -114,11 +114,45 @@ bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_
 	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
 }
 
-//.text:00593A00 ; void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size)
-//.text:00593A30 ; void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer_size)
-//.text:00593A60 ; void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
-//.text:00593A80 ; void __cdecl hs_inspect_long_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
-//.text:00593AA0 ; void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buffer_size)
+void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size)
+{
+	//INVOKE(0x00593A00, hs_inspect_boolean, type, value, buffer, buffer_size);
+
+	ASSERT(type == _hs_type_boolean);
+	csstrnzcpy(buffer, value ? "true" : "false", buffer_size);
+}
+
+void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer_size)
+{
+	//INVOKE(0x00593A30, hs_inspect_real, type, value, buffer, buffer_size);
+
+	ASSERT(type == _hs_type_real);
+	csnzprintf(buffer, buffer_size, "%f", (real32)value);
+}
+
+void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
+{
+	//INVOKE(0x00593A60, hs_inspect_short_integer, type, value, buffer, buffer_size);
+
+	ASSERT(type == _hs_type_short_integer);
+	csnzprintf(buffer, buffer_size, "%d", (int16)value);
+}
+
+void __cdecl hs_inspect_long_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
+{
+	//INVOKE(0x00593A80, hs_inspect_long_integer, type, value, buffer, buffer_size);
+
+	ASSERT(type == _hs_type_long_integer);
+	csnzprintf(buffer, buffer_size, "%ld", value);
+}
+
+void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buffer_size)
+{
+	//INVOKE(0x00593AA0, hs_inspect_string, type, value, buffer, buffer_size);
+
+	ASSERT(type == _hs_type_string);
+	csstrnzcpy(buffer, (const char*)value, buffer_size);
+}
 //.text:00593AC0 ; void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size)
 //.text:00593AF0 ; 
 //.text:00593B10 ; 
@@ -270,7 +304,10 @@ int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type,
 	return INVOKE(0x005943A0, hs_cast, thread_index, actual_type, desired_type, value);
 }
 
-//.text:00594450 ; int32 __cdecl hs_data_to_void(int32 _data)
+int32 __cdecl hs_data_to_void(int32 n)
+{
+	return INVOKE(0x00594450, hs_data_to_void, n);
+}
 
 int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destination_pointer)
 {
@@ -309,11 +346,14 @@ int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destinat
 	return destination;
 }
 
-//.text:005944F0 ; int32 __cdecl hs_enum_to_real(int32 _enum)
-
-bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
+int32 __cdecl hs_enum_to_real(int32 e)
 {
-	//return INVOKE(0x00594510, hs_evaluate_runtime, thread_index, expression_index, destination_pointer, out_cast);
+	return INVOKE(0x005944F0, hs_enum_to_real, e);
+}
+
+bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* local_destination)
+{
+	//return INVOKE(0x00594510, hs_evaluate_runtime, thread_index, expression_index, destination_pointer, local_destination);
 
 	bool result = true;
 	hs_thread* thread = hs_thread_get(thread_index);
@@ -333,7 +373,7 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	{
 		if (!TEST_BIT(expression->flags, _hs_syntax_node_variable_bit))
 		{
-			expression_result = hs_cast(thread_index, expression->constant_type, expression->type, expression->data);
+			expression_result = hs_cast(thread_index, expression->constant_type, expression->type, expression->long_value);
 		}
 		else if (!TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit))
 		{
@@ -351,7 +391,7 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 			{
 				if (current_frame->script_index != NONE)
 				{
-					hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, current_frame->script_index, hs_script);
+					hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, current_frame->script_index, hs_script);
 					hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, expression->long_value, hs_script_parameter);
 					int32* parameters = hs_stack_parameters(thread, current_frame, expression->long_value + 1);
 					expression_result = hs_cast(thread_index, parameter->type, expression->type, parameters[expression->long_value]);
@@ -364,16 +404,16 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 			ASSERT(found);
 		}
 
-		int32* destination = (int32*)hs_destination(thread, destination_pointer);
+		int32* destination = hs_destination(thread, destination_pointer);
 		if (destination)
 		{
 			*destination = expression_result;
 		}
 	}
 
-	if (out_cast)
+	if (local_destination)
 	{
-		*out_cast = expression_result;
+		*local_destination = expression_result;
 	}
 
 	return result;
@@ -700,7 +740,7 @@ void __cdecl hs_return(int32 thread_index, int32 value)
 	}
 	else if (expression->script_index != NONE)
 	{
-		return_type = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, expression->script_index, hs_script)->return_type;
+		return_type = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, expression->script_index, hs_script)->return_type;
 	}
 	else
 	{
@@ -925,9 +965,9 @@ void __cdecl hs_runtime_initialize_for_new_map()
 		hs_runtime_globals->globals_initialization = true;
 
 		const struct scenario* scenario = global_scenario_get();
-		for (int32 global_index = 0; global_index < scenario->globals.count; global_index++)
+		for (int32 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
 		{
-			const hs_global_internal* internal_global = TAG_BLOCK_GET_ELEMENT(&scenario->globals, global_index, const hs_global_internal);
+			const hs_global_internal* internal_global = TAG_BLOCK_GET_ELEMENT(&scenario->hs_globals, global_index, const hs_global_internal);
 			int32 global_datum_index = hs_runtime_index_from_global_designator(global_index);
 			datum_new_at_absolute_index(hs_global_data, global_datum_index);
 			hs_global_runtime* runtime_global = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime, global_datum_index);
@@ -973,9 +1013,9 @@ void __cdecl hs_runtime_initialize_threads()
 	if (global_scenario_index_get() != NONE)
 	{
 		const struct scenario* scenario = global_scenario_get();
-		for (int32 script_index = 0; script_index < scenario->scripts.count; script_index++)
+		for (int32 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 		{
-			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->scripts, script_index, hs_script);
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, script_index, hs_script);
 
 			bool create_thread_for_script = game_is_predicted() ?
 				script->script_type == _hs_script_startup :
@@ -1124,7 +1164,7 @@ int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type scrip
 {
 	//return INVOKE(0x00598050, hs_runtime_script_begin, script_index, script_type, thread_type);
 
-	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
+	hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script);
 
 	int32 thread_index = NONE;
 
@@ -1512,7 +1552,7 @@ const char* __cdecl hs_thread_format(int32 thread_index)
 		int32 script_index = thread->script_index;
 		if (script_index != NONE)
 		{
-			result = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script)->name;
+			result = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script)->name;
 		}
 	}
 	break;
@@ -1618,7 +1658,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 	//INVOKE(0x00598BC0, hs_thread_main, thread_index);
 
 	hs_thread* thread = hs_thread_get(thread_index);
-	hs_script* script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->scripts, thread->script_index, hs_script);
+	hs_script* script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->hs_scripts, thread->script_index, hs_script);
 
 	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
 	thread->sleep_until = 0;
@@ -1703,7 +1743,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 		}
 		else if (thread->cleanup_script_index != NONE)
 		{
-			hs_script* cleanup_script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, thread->cleanup_script_index, hs_script);
+			hs_script* cleanup_script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, thread->cleanup_script_index, hs_script);
 			ASSERT(cleanup_script);
 
 			if (cleanup_script->script_type != _hs_script_static || cleanup_script->parameters.count > 0)
@@ -1806,8 +1846,11 @@ int32 __cdecl hs_thread_new(e_hs_thread_type type, int32 script_index, bool dete
 		thread->tracking_index = thread_index;
 		thread->ai_index = 0;
 		thread->ai_data = 0;
-		thread->sleep_until = (script_index != NONE && TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script)->script_type == _hs_script_dormant) ? HS_SLEEP_INDEFINITE : 0;
-
+		thread->sleep_until = 0;
+		if (script_index != NONE && TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script)->script_type == _hs_script_dormant)
+		{
+			thread->sleep_until = HS_SLEEP_INDEFINITE;
+		}
 	}
 	return thread_index;
 }
@@ -1981,7 +2024,7 @@ void hs_find_dormant_script(const char* dormant_script_name, int32* script_index
 
 	hs_thread* thread = hs_thread_get(thread_index);
 
-	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_dormant)
+	if (global_scenario_get()->hs_scripts[thread->script_index].script_type == _hs_script_dormant)
 	{
 		*script_index_out = thread->script_index;
 	}
@@ -2018,9 +2061,9 @@ const char* expression_get_function_name(int32 thread_index, int32 expression_in
 		expression = hs_syntax_get(expression_index);
 	}
 
-	if (VALID_INDEX(expression->script_index, global_scenario->scripts.count))
+	if (VALID_INDEX(expression->script_index, global_scenario->hs_scripts.count))
 	{
-		return global_scenario->scripts[expression->script_index].name;
+		return global_scenario->hs_scripts[expression->script_index].name;
 	}
 
 	return "unknown script";
@@ -2112,9 +2155,9 @@ void render_debug_scripting_globals()
 		draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 
 		csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");
-		for (int32 global_index = 0; global_index < scenario->globals.count; global_index++)
+		for (int32 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
 		{
-			hs_global_internal& global = scenario->globals[global_index];
+			hs_global_internal& global = scenario->hs_globals[global_index];
 			csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name);
 
 			int32 runtime_index = hs_runtime_index_from_global_designator(global_index);

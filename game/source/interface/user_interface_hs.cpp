@@ -31,11 +31,11 @@ int32 user_interface_start_hs_script_by_name(const char* name)
 
 	int32 script_index;
 	const hs_script* script = nullptr;
-	for (script_index = 0; script_index < scenario->scripts.count; script_index++)
+	for (script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 	{
-		if (ascii_stricmp(name, scenario->scripts[script_index].name) == 0)
+		if (ascii_stricmp(name, scenario->hs_scripts[script_index].name) == 0)
 		{
-			script = &scenario->scripts[script_index];
+			script = &scenario->hs_scripts[script_index];
 			break;
 		}
 	}
