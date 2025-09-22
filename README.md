@@ -3,6 +3,7 @@
 [![wakatime](https://wakatime.com/badge/github/twist84/ManagedDonkey.svg)](https://wakatime.com/badge/github/twist84/ManagedDonkey)
 [![Build status](https://ci.appveyor.com/api/projects/status/ha46jv9ytnxwlfr4/branch/main?svg=true)](https://ci.appveyor.com/project/theTwist84/ManagedDonkey/branch/main)
 [![Build status](https://github.com/twist84/ManagedDonkey/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/twist84/ManagedDonkey/actions/workflows/build.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/twist84/ManagedDonkey)
 
 ## What is this?
 
