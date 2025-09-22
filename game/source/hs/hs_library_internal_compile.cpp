@@ -1,5 +1,7 @@
 #include "hs/hs_library_internal_compile.hpp"
 
+#include "hs/hs_scenario_definitions.hpp"
+
 bool hs_get_parameter_indices(const char* function_name, int16 count, int32* result_indices, int32 expression_index)
 {
 	bool success = true;

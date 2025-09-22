@@ -695,16 +695,6 @@ callback_result_t game_tick_rate_callback(const void* userdata, int32 token_coun
 	return result;
 }
 
-callback_result_t language_set_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* display_name = tokens[1]->get_string();
-	set_current_language_from_display_name_slow(display_name);
-
-	return result;
-}
-
 callback_result_t game_won_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -719,15 +709,6 @@ callback_result_t game_revert_callback(const void* userdata, int32 token_count, 
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	main_revert_map_scripting();
-
-	return result;
-}
-
-callback_result_t main_menu_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_menu_launch_force();
 
 	return result;
 }
