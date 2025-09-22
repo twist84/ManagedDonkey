@@ -2092,7 +2092,7 @@ bool hs_parse_variable(int32 expression_index)
 			success = true;
 		}
 	}
-	else if (!hs_compile_globals.variables_predetermined)
+	else if (hs_compile_globals.variables_predetermined)
 	{
 		if (expression->type == NONE || expression->long_value == NONE || !TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit))
 		{
