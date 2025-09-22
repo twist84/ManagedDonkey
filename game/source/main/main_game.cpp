@@ -1113,12 +1113,12 @@ void __cdecl main_menu_launch()
 
 void __cdecl main_menu_launch_force()
 {
-	INVOKE(0x00568190, main_menu_launch_force);
+	//INVOKE(0x00568190, main_menu_launch_force);
 
-	//game_options options{};
-	//main_menu_build_game_options(&options);
-	//game_options_validate(&options);
-	//main_game_change(&options);
+	game_options options{};
+	main_menu_build_game_options(&options);
+	game_options_validate(&options);
+	main_game_change(&options);
 }
 
 bool __cdecl map_memory_configuration_is_campaign(e_map_memory_configuration configuration)
