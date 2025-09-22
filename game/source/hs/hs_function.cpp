@@ -5,6 +5,7 @@
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
+#include "main/main.hpp"
 #include "main/main_game_launch.hpp"
 
 #include <utility>
@@ -12527,24 +12528,26 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_teleport_p
 		_hs_type_long_integer
 	},
 };
+MACRO_FUNCTION_EVALUATE(map_reset, main_reset_map, 0, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_reset_0_definition
 {
 	.return_type = _hs_type_void,
 	.name = "map_reset",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x0073D490, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(map_reset, main_reset_map, 0), // (hs_evaluate_function_definition)0x0073D490,
 	.documentation = "starts the map from the beginning.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
+MACRO_FUNCTION_EVALUATE(map_reset_random, main_reset_map_random, 0, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_reset_random_0_definition
 {
 	.return_type = _hs_type_void,
 	.name = "map_reset_random",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x0073D6E0, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(map_reset_random, main_reset_map_random, 0), // (hs_evaluate_function_definition)0x0073D6E0,
 	.documentation = "starts the map from the beginning with a new random seed.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	.parameters = NULL,
 	.formal_parameter_count = 0,
@@ -13036,13 +13039,14 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_tick_rate_1
 		_hs_type_long_integer
 	},
 };
+MACRO_FUNCTION_EVALUATE(game_start, main_game_launch, 1, _hs_type_void);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_start_1_definition
 {
 	.return_type = _hs_type_void,
 	.name = "game_start",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00743050, // $TODO write the function chuckle nuts
+	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(game_start, main_game_launch, 1), // (hs_evaluate_function_definition)0x00743050,
 	.documentation = "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for init.txt only",
 	.parameters = NULL,
 	.formal_parameter_count = 1,

@@ -614,34 +614,6 @@ callback_result_t script_start_callback(const void* userdata, int32 token_count,
 	return result;
 }
 
-callback_result_t map_reset_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_reset_map();
-
-	return result;
-}
-
-callback_result_t map_reset_random_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_reset_map_random();
-
-	return result;
-}
-
-callback_result_t map_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* name = tokens[1]->get_string();
-	main_game_launch_legacy(name);
-
-	return result;
-}
-
 callback_result_t game_multiplayer_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -719,16 +691,6 @@ callback_result_t game_tick_rate_callback(const void* userdata, int32 token_coun
 
 	int32 initial_zone_set_index = (int32)atol(tokens[1]->get_string());
 	main_game_launch_set_tick_rate(initial_zone_set_index);
-
-	return result;
-}
-
-callback_result_t game_start_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* map_name = tokens[1]->get_string();
-	main_game_launch(map_name);
 
 	return result;
 }
@@ -1727,15 +1689,6 @@ callback_result_t cheat_all_vehicles_callback(const void* userdata, int32 token_
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	cheat_all_vehicles();
-
-	return result;
-}
-
-callback_result_t cheat_all_weapons_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_all_weapons();
 
 	return result;
 }
