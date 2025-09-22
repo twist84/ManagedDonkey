@@ -196,11 +196,6 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 
 	//random_seed_allow_use();
 
-	if (csstrcmp("hs_verbose", expression) == 0)
-	{
-		printf("");
-	}
-
 	char expressionbuf[4096]{};
 	hs_validify_expression(expression, expressionbuf, sizeof(expressionbuf));
 	if (string_is_not_empty(expressionbuf))
@@ -435,14 +430,14 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 
 bool hs_compile_get_tag_by_name(const char* group_name, tag* group_tag_out)
 {
-	tag group_tag = group_name_to_group_tag(group_name);
-	if (group_tag == NONE)
+	bool success = false;
+	tag group_tag_from_name = group_name_to_group_tag(group_name);
+	if (group_tag_from_name != NONE)
 	{
-		return false;
+		*group_tag_out = group_tag_from_name;
+		success = true;
 	}
-
-	*group_tag_out = group_tag;
-	return true;
+	return success;
 }
 
 void hs_compile_initialize(bool permanent)
@@ -477,12 +472,12 @@ void hs_compile_initialize(bool permanent)
 		hs_compile_globals.global_references =
 			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_global_references);
 
-		for (int32 i = 0; i < k_maximum_number_of_script_references; i++)
+		for (int32 script_index = 0; script_index < k_maximum_number_of_script_references; script_index++)
 		{
 			hs_compile_globals.script_references = NULL;
 		}
 
-		for (int32 i = 0; i < k_maximum_number_of_global_references; i++)
+		for (int32 global_index = 0; global_index < k_maximum_number_of_global_references; global_index++)
 		{
 			hs_compile_globals.global_references = NULL;
 		}
@@ -651,16 +646,16 @@ void hs_compile_unregister_error_listener(c_hs_compile_error_listener* listener)
 
 int16 hs_count_children(int32 expression_index)
 {
-	int16 child_count = 0;
+	int16 result = 0;
 
-	for (int32 next_node_index = hs_syntax_get(expression_index)->long_value;
-		next_node_index != NONE;
-		next_node_index = hs_syntax_get(next_node_index)->next_node_index)
+	for (int32 child_index = hs_syntax_get(expression_index)->long_value;
+		child_index != NONE;
+		child_index = hs_syntax_get(child_index)->next_node_index)
 	{
-		child_count++;
+		result++;
 	}
 
-	return child_count;
+	return result;
 }
 
 bool hs_macro_function_parse(int16 function_index, int32 expression_index)
@@ -710,9 +705,9 @@ bool hs_parse(int32 expression_index, int16 expected_type)
 	ASSERT(!hs_compile_globals.error_message);
 	ASSERT(hs_type_valid(expected_type) || expected_type == _hs_special_form || expected_type == _hs_unparsed);
 
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
-	bool success = true;
 	if (expression->type == _hs_unparsed)
 	{
 		expression->type = expected_type;
@@ -731,10 +726,10 @@ bool hs_parse(int32 expression_index, int16 expected_type)
 
 bool hs_parse_ai(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	bool valid = false;
 	if (!HS_TYPE_IS_OBJECT(expression->type))
 	{
 		ASSERT(hs_syntax_get(expression_index)->type == _hs_type_ai);
@@ -742,164 +737,181 @@ bool hs_parse_ai(int32 expression_index)
 	}
 	else
 	{
-		valid = true;
+		success = true;
 	}
 
-	bool ai_index_from_string_result = false;
+	bool object_type = false;
 	if (global_scenario_index_get() != NONE)
 	{
-		int32 ai_index_reference = NONE;
-		if (ai_index_from_string_result = ai_index_from_string(global_scenario_get(), source_offset, &ai_index_reference))
+		int32 ai_index = NONE;
+		if (object_type = ai_index_from_string(global_scenario_get(), source, &ai_index))
 		{
-			expression->long_value = ai_index_from_string_result;
-			if (valid)
+			expression->long_value = ai_index;
+			if (success)
 			{
 				expression->constant_type = _hs_type_ai;
 			}
 		}
 	}
 
-	if (!ai_index_from_string_result && !valid)
+	if (!object_type && !success)
 	{
 		hs_compile_globals.error_message = "this is not a valid ai squad or squad group";
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
 
-	return ai_index_from_string_result;
+	return object_type;
 }
 
 bool hs_parse_ai_behavior(int32 expression_index)
 {
+	bool result = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	int16 behavior_index = behavior_index_by_name(source_offset);
-	if (behavior_index == NONE)
+	int16 bindex = behavior_index_by_name(source);
+	if (bindex != NONE)
+	{
+		expression->short_value = bindex;
+		result = true;
+	}
+	else
 	{
 		hs_compile_globals.error_message = "not a valid behavior";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	expression->short_value = behavior_index;
-	return true;
+	return result;
 }
 
 bool hs_parse_ai_command_list(int32 expression_index)
 {
+	bool result = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
 	ASSERT(expression->type == _hs_type_ai_line);
 
-	return false;
+	return result;
 }
 
 bool hs_parse_ai_command_script(int32 expression_index)
 {
+	bool result = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	int16 script_index = hs_find_script_by_name(source_offset, 0);
-	if (script_index == NONE)
+	int16 script_index = hs_find_script_by_name(source, 0);
+	if (script_index != NONE)
+	{
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, script_index, hs_script);
+		if (script->script_type == _hs_script_command_script)
+		{
+			expression->short_value = script_index;
+			hs_compile_add_reference(script_index, _hs_reference_type_script, expression_index);
+			result = true;
+		}
+		else
+		{
+			hs_compile_globals.error_message = "script is not a command-script";
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
+	}
+	else
 	{
 		hs_compile_globals.error_message = "this is not a valid command list script";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	if (global_scenario_get()->scripts[script_index].script_type != _hs_script_command_script)
-	{
-		hs_compile_globals.error_message = "script is not a command-script";
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	expression->short_value = script_index;
-	hs_compile_add_reference(script_index, _hs_reference_type_script, expression_index);
-	return true;
+	return result;
 }
 
 bool hs_parse_ai_line(int32 expression_index)
 {
+	bool result = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_ai_line);
 	ASSERT(expression->constant_type == expression->type);
 
-	expression->string_id_value = string_id_retrieve(source_offset);
-	return true;
+	string_id parsed_string_id = string_id_retrieve(source);
+	expression->string_id_value = parsed_string_id;
+	return result;
 }
 
 bool hs_parse_ai_orders(int32 expression_index)
 {
+	bool result = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	int16 orders_index = orders_get_by_name(source_offset);
-	if (orders_index == NONE)
+	int16 orders_index = orders_get_by_name(source);
+	if (orders_index != NONE)
+	{
+		expression->short_value = orders_index;
+		result = true;
+	}
+	else
 	{
 		hs_compile_globals.error_message = "not a valid order";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	expression->short_value = orders_index;
-	return true;
+	return result;
 }
 
 bool hs_parse_boolean(int32 expression_index)
 {
+	bool result = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_boolean);
 	ASSERT(expression->constant_type == expression->type);
 
-	if (csstrcmp(source_offset, "true") == 0 || csstrcmp(source_offset, "on") == 0 || csstrcmp(source_offset, "1") == 0)
+	bool success = true;
+	if (csstrcmp(source, "true") == 0 || csstrcmp(source, "on") == 0 || csstrcmp(source, "1") == 0)
 	{
-		expression->bool_value = true;
-		return true;
+		success = true;
 	}
-	if (csstrcmp(source_offset, "false") == 0 || csstrcmp(source_offset, "off") == 0 || csstrcmp(source_offset, "0") == 0)
+	else if (csstrcmp(source, "false") == 0 || csstrcmp(source, "off") == 0 || csstrcmp(source, "0") == 0)
 	{
-		expression->bool_value = false;
-		return true;
+		success = false;
 	}
+	else
+	{
+		success = false;
 
-	hs_compile_globals.error_message = "i expected \"true\" or \"false\".";
-	hs_compile_globals.error_offset = expression->source_offset;
+		hs_compile_globals.error_message = "i expected \"true\" or \"false\".";
+		hs_compile_globals.error_offset = expression->source_offset;
+		result = false;
+	}
+	expression->bool_value = success;
 
-	expression->bool_value = false;
-	return false;
+	return result;
 }
 
 bool hs_parse_budget_reference(int32 expression_index)
 {
+	bool result = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
+	expression->long_value = NONE;
 	if (global_scenario_index_get() == NONE)
 	{
 		ASSERT(HS_TYPE_IS_BUDGET_REFERENCE(expression->type));
 
 		struct scenario* scenario = global_scenario_get();
-		if (scenario->budget_references.count <= 0)
-			return true;
-
 		for (int32 budget_reference_index = 0; budget_reference_index < scenario->budget_references.count; budget_reference_index++)
 		{
 			s_scenario_budget_reference& budget_reference = scenario->budget_references[budget_reference_index];
-			if (budget_reference.reference.index != NONE && csstrcmp(budget_reference.reference.get_name(), source_offset) == 0)
+			if (budget_reference.reference.index != NONE && csstrcmp(budget_reference.reference.get_name(), source) == 0)
 			{
 				expression->long_value = budget_reference.reference.index;
-				return true;
+				break;
 			}
 		}
 	}
 
-	expression->long_value = NONE;
-	return true;
+	return result;
 }
 
 void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is_script)
@@ -957,110 +969,152 @@ void hs_parse_call_predicate(int32 expression_index, bool* is_function, bool* is
 bool hs_parse_cinematic_lightprobe(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cinematic_lightprobe);
 	ASSERT(expression->constant_type == expression->type);
 
-	string_id name = string_id_retrieve(source_offset);
-
-	int32 cinematic_lighting_palette_entry = scenario_cinematic_lighting_palette_entry_get_by_name(global_scenario_get(), name);
-	if (cinematic_lighting_palette_entry != NONE)
+	bool success = false;
+	string_id cinematic_lightprobe_name_id = string_id_retrieve(source);
+	int32 cinematic_light_probe_index = scenario_cinematic_lighting_palette_entry_get_by_name(global_scenario_get(), cinematic_lightprobe_name_id);
+	if (cinematic_light_probe_index != NONE)
 	{
-		expression->long_value = cinematic_lighting_palette_entry;
-		return true;
+		expression->long_value = cinematic_light_probe_index;
+		success = true;
 	}
-
-	hs_compile_globals.error_message = "this is not a lightprobe name.";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	else
+	{
+		hs_compile_globals.error_message = "this is not a lightprobe name.";
+		hs_compile_globals.error_offset = expression->source_offset;
+	}
+	return success;
 }
 
 bool hs_parse_conversation(int32 expression_index)
 {
-	return false;
+	bool success = false;
+	return success;
 }
 
 bool hs_parse_cutscene_camera_point(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
 
-	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_cutscene_camera_point, name), global_scenario_index_get(), &global_scenario_get()->cutscene_camera_points, sizeof(scenario_cutscene_camera_point)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, (const char*)OFFSETOF(scenario_cutscene_camera_point, name), global_scenario_index_get(), &global_scenario_get()->cutscene_camera_points, sizeof(scenario_cutscene_camera_point)));
 }
 
 bool hs_parse_cutscene_flag(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_flag);
 
-	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_cutscene_flag, name), global_scenario_index_get(), &global_scenario_get()->cutscene_flags, sizeof(scenario_cutscene_flag)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, (const int32*)OFFSETOF(scenario_cutscene_flag, name), global_scenario_index_get(), &global_scenario_get()->cutscene_flags, sizeof(scenario_cutscene_flag)));
 }
 
 bool hs_parse_cutscene_recording(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_recording);
 
-	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, (const char*)OFFSETOF(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
 }
 
 bool hs_parse_cutscene_title(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
 
-	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, (const int32*)OFFSETOF(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
 }
 
 bool hs_parse_designer_zone(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_designer_zone);
 
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	if (global_scenario_index_get() == NONE)
+	if (global_scenario_index_get() != NONE)
+	{
+		const char* designer_zone_name = &hs_compile_globals.compiled_source[expression->source_offset];
+		int32 designer_zone_index = NONE;
+		if (global_scenario_try_and_get())
+		{
+			designer_zone_index = scenario_get_designer_zone_index_by_name(global_scenario_get(), designer_zone_name);
+		}
+
+		if (designer_zone_index != NONE)
+		{
+			expression->short_value = (int16)designer_zone_index;
+			success = true;
+		}
+		else
+		{
+			hs_compile_globals.error_message = "this is not a valid zone set name.";
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
+	}
+	else
 	{
 		hs_compile_globals.error_message = "no scenario loaded";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
 
-	int32 designer_zone_index = NONE;
-	if (global_scenario_try_and_get())
-	{
-		designer_zone_index = scenario_get_designer_zone_index_by_name(global_scenario_get(), source_offset);
-	}
-
-	if (designer_zone_index == NONE)
-	{
-		hs_compile_globals.error_message = "this is not a valid zone set name.";
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	expression->short_value = (int16)designer_zone_index;
-	return true;
+	return success;
 }
 
 bool hs_parse_device_group(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_device_group);
 
-	if (hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group))))
+	bool success = hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, (const char*)OFFSETOF(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group)));
+	if (success)
 	{
 		hs_syntax_node* expression = hs_syntax_get(expression_index);
 		expression->long_value = device_group_get_from_scenario_index(expression->short_value);
-
-		return true;
 	}
 
-	return false;
+	return success;
 }
 
 bool hs_parse_enum(int32 expression_index)
 {
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	if (!HS_TYPE_IS_ENUM(expression->type))
+	if (HS_TYPE_IS_ENUM(expression->type))
+	{
+		int16 enum_index = 0;
+		const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - _hs_type_game_difficulty];
+		ASSERT(enum_definition->count);
+
+		for (; enum_index < enum_definition->count && csstricmp(source, enum_definition->names[enum_index]); enum_index++);
+
+		if (enum_index == enum_definition->count)
+		{
+			csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+				"%s must be ", hs_type_names[expression->type]);
+
+			for (enum_index = 0; enum_index < enum_definition->count - 1; enum_index++)
+			{
+				csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
+				csstrnzcat(hs_compile_globals.error_buffer, enum_definition->names[enum_index], k_hs_compile_error_buffer_size);
+				csstrnzcat(hs_compile_globals.error_buffer, "\", ", k_hs_compile_error_buffer_size);
+			}
+
+			if (enum_definition->count > 1)
+				csstrnzcat(hs_compile_globals.error_buffer, "or ", k_hs_compile_error_buffer_size);
+
+			csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
+			csstrnzcat(hs_compile_globals.error_buffer, enum_definition->names[enum_index], k_hs_compile_error_buffer_size);
+			csstrnzcat(hs_compile_globals.error_buffer, "\".", k_hs_compile_error_buffer_size);
+
+			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+			hs_compile_globals.error_offset = expression->source_offset;
+			success = false;
+		}
+
+		expression->short_value = enum_index;
+	}
+	else
 	{
 		csnzprintf(
 			hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
@@ -1070,96 +1124,71 @@ bool hs_parse_enum(int32 expression_index)
 
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
+		success = false;
 	}
 
-	const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - _hs_type_game_difficulty];
-	ASSERT(enum_definition->count);
-
-	int16 i = 0;
-	for (; i < enum_definition->count && csstricmp(source_offset, enum_definition->names[i]); i++);
-
-	if (i == enum_definition->count)
-	{
-		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"%s must be ", hs_type_names[expression->type]);
-
-		for (i = 0; i < enum_definition->count - 1; i++)
-		{
-			csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
-			csstrnzcat(hs_compile_globals.error_buffer, enum_definition->names[i], k_hs_compile_error_buffer_size);
-			csstrnzcat(hs_compile_globals.error_buffer, "\", ", k_hs_compile_error_buffer_size);
-		}
-
-		if (enum_definition->count > 1)
-			csstrnzcat(hs_compile_globals.error_buffer, "or ", k_hs_compile_error_buffer_size);
-
-		csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
-		csstrnzcat(hs_compile_globals.error_buffer, enum_definition->names[i], k_hs_compile_error_buffer_size);
-		csstrnzcat(hs_compile_globals.error_buffer, "\".", k_hs_compile_error_buffer_size);
-
-		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	expression->short_value = i;
-	return true;
+	return success;
 }
 
 bool hs_parse_folder(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	if (global_scenario_index_get() == NONE)
+	if (global_scenario_index_get() != NONE)
+	{
+		ASSERT(expression->type == _hs_type_folder);
+
+		const char* folder_name = &hs_compile_globals.compiled_source[expression->source_offset];
+		struct scenario* scenario = global_scenario_get();
+		if (scenario->editor_folders.count > 0)
+		{
+			for (int32 index = 0; index < scenario->editor_folders.count; index++)
+			{
+				s_scenario_editor_folder* folder = TAG_BLOCK_GET_ELEMENT(&scenario->editor_folders, index, s_scenario_editor_folder);
+				if (folder->name.is_equal(folder_name))
+				{
+					expression->long_value = index;
+					success = true;
+					break;
+				}
+			}
+		}
+		else
+		{
+			hs_compile_globals.error_message = "folder not found";
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
+	}
+	else
 	{
 		hs_compile_globals.error_message = "cannot parse editor folder, no scenario loaded";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
 
-	ASSERT(expression->type == _hs_type_folder);
-
-	struct scenario* scenario = global_scenario_get();
-	if (scenario->editor_folders.count > 0)
-	{
-		for (int32 editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count; editor_folder_index++)
-		{
-			s_scenario_editor_folder& editor_folder = scenario->editor_folders[editor_folder_index];
-			if (editor_folder.name.is_equal(source_offset))
-			{
-				expression->long_value = editor_folder_index;
-				return true;
-			}
-		}
-	}
-
-	hs_compile_globals.error_message = "folder not found";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	return success;
 }
 
 bool hs_parse_integer(int32 expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_short_integer || expression->type == _hs_type_long_integer);
 	ASSERT(expression->constant_type == expression->type);
 
-	if (*source_offset == '-')
+	if (*source == '-')
 	{
-		source_offset++;
+		source++;
 	}
 
 	bool result = true;
 	bool error_occurred = false;
-	while (*source_offset)
+	while (*source)
 	{
-		if (!isdigit(*source_offset))
+		if (!isdigit(*source))
 		{
-			if (error_occurred || *source_offset != '.')
+			if (error_occurred || *source != '.')
 			{
 				hs_compile_globals.error_message = "this is not a valid integer.";
 				hs_compile_globals.error_offset = expression->source_offset;
@@ -1169,7 +1198,7 @@ bool hs_parse_integer(int32 expression_index)
 			}
 			error_occurred = true;
 		}
-		source_offset++;
+		source++;
 	}
 
 	int32 source_value = atoi(&hs_compile_globals.compiled_source[expression->source_offset]);
@@ -1180,10 +1209,13 @@ bool hs_parse_integer(int32 expression_index)
 		result = false;
 	}
 
-	expression->short_value = (int16)source_value;
 	if (expression->type == _hs_type_long_integer)
 	{
 		expression->long_value = (int32)source_value;
+	}
+	else
+	{
+		expression->short_value = (int16)source_value;
 	}
 
 	return result;
@@ -1352,109 +1384,112 @@ bool hs_parse_nonprimitive(int32 expression_index)
 
 bool hs_parse_object(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
 	ASSERT(HS_TYPE_IS_OBJECT(expression->type));
 
-	if (csstrcmp(&hs_compile_globals.compiled_source[expression->source_offset], "none") == 0)
+	if (csstrcmp(&hs_compile_globals.compiled_source[expression->source_offset], "none") != 0)
+	{
+		expression->type += NUMBER_OF_HS_SCRIPT_TYPES;
+		expression->constant_type = expression->type;
+		success = hs_parse_object_and_object_name_internal(expression_index, (e_hs_type)expression->constant_type);
+		expression->type -= NUMBER_OF_HS_SCRIPT_TYPES;
+
+		if (!success && hs_parse_ai(expression_index))
+		{
+			hs_compile_globals.error_message = NULL;
+			hs_compile_globals.error_offset = NONE;
+			success = true;
+		}
+	}
+	else
 	{
 		expression->long_value = NONE;
-		return true;
 	}
 
-	expression->type += NUMBER_OF_HS_SCRIPT_TYPES;
-	expression->constant_type = expression->type;
-	bool result = hs_parse_object_and_object_name_internal(expression_index, (e_hs_type)expression->constant_type);
-	expression->type -= NUMBER_OF_HS_SCRIPT_TYPES;
-
-	if (!result && hs_parse_ai(expression_index))
-	{
-		hs_compile_globals.error_message = NULL;
-		hs_compile_globals.error_offset = NONE;
-		result = true;
-	}
-
-	return result;
+	return success;
 }
 
 bool hs_parse_object_and_object_name_internal(int32 expression_index, e_hs_type byteswap_type)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	if (global_scenario_index_get() == NONE)
 	{
 		hs_compile_globals.error_message = "no scenario loaded";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	ASSERT(HS_TYPE_IS_OBJECT(byteswap_type) || HS_TYPE_IS_OBJECT_NAME(byteswap_type));
-	ASSERT(HS_TYPE_IS_OBJECT_NAME(expression->type));
-
-	int16 object_name_index = scenario_object_name_index_from_string(global_scenario_get(), source_offset);
-	if (object_name_index == NONE)
+	else
 	{
-		hs_compile_globals.error_message = "this is not a valid object name.";
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
+		ASSERT(HS_TYPE_IS_OBJECT(byteswap_type) || HS_TYPE_IS_OBJECT_NAME(byteswap_type));
+		ASSERT(HS_TYPE_IS_OBJECT_NAME(expression->type));
+
+		int16 name_index = scenario_object_name_index_from_string(global_scenario_get(), source);
+		if (name_index == NONE)
+		{
+			hs_compile_globals.error_message = "this is not a valid object name.";
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
+		else
+		{
+			scenario_object_name* object_name = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->object_names, name_index, scenario_object_name);
+			if (object_name->object_type != NONE)
+			{
+				hs_compile_globals.error_message = "no object exists with this name.";
+				hs_compile_globals.error_offset = expression->source_offset;
+			}
+			else if (object_name->scenario_datum_index == NONE)
+			{
+				hs_compile_globals.error_message = "this object no longer exists in the scenario.";
+				hs_compile_globals.error_offset = expression->source_offset;
+			}
+			else if (TEST_BIT(hs_object_type_masks[expression->type - _hs_type_object_name], object_name->object_type))
+			{
+				if (HS_TYPE_IS_OBJECT(byteswap_type))
+				{
+					expression->long_value = name_index;
+					success = true;
+				}
+				else if (HS_TYPE_IS_OBJECT_NAME(byteswap_type))
+				{
+					expression->short_value = name_index;
+					success = true;
+				}
+				else
+				{
+					hs_compile_globals.error_message = "invalid byteswap type,";
+					hs_compile_globals.error_offset = expression->source_offset;
+				}
+			}
+			else
+			{
+				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+					"this is not an object of type %s.", hs_type_names[expression->type]);
+
+				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+				hs_compile_globals.error_offset = expression->source_offset;
+			}
+		}
 	}
-
-	scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
-
-	if (object_name.object_type == NONE)
-	{
-		hs_compile_globals.error_message = "no object exists with this name.";
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	if (object_name.scenario_datum_index == NONE)
-	{
-		hs_compile_globals.error_message = "this object no longer exists in the scenario.";
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	if (!TEST_BIT(hs_object_type_masks[expression->type - _hs_type_object_name], object_name.object_type))
-	{
-		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"this is not an object of type %s.", hs_type_names[expression->type]);
-
-		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	if (HS_TYPE_IS_OBJECT(byteswap_type))
-	{
-		expression->long_value = object_name_index;
-		return true;
-	}
-
-	if (HS_TYPE_IS_OBJECT_NAME(byteswap_type))
-	{
-		expression->short_value = object_name_index;
-		return true;
-	}
-
-	hs_compile_globals.error_message = "invalid byteswap type,";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	return success;
 }
 
 bool hs_parse_object_list(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
 	ASSERT(expression->type == _hs_type_object_list);
 
 	expression->constant_type = _hs_type_object_name;
 	expression->type = _hs_type_object_name;
-	bool result = hs_parse_object_and_object_name_internal(expression_index, (e_hs_type)expression->constant_type);
+	success = hs_parse_object_and_object_name_internal(expression_index, (e_hs_type)expression->constant_type);
 	expression->type = _hs_type_object_list;
 
-	return result;
+	return success;
 }
 
 bool hs_parse_object_name(int32 expression_index)
@@ -1464,60 +1499,59 @@ bool hs_parse_object_name(int32 expression_index)
 
 bool hs_parse_point_ref(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
-	bool valid = false;
 	if (global_scenario_index_get() != NONE)
 	{
 		ASSERT(hs_syntax_get(expression_index)->type == _hs_type_point_ref);
 		ASSERT(expression->constant_type == expression->type);
 
-		if (char* v7 = strrchr(source_offset, '/'))
+		const char* point_ref = &hs_compile_globals.compiled_source[expression->source_offset];
+		const char* separator = strrchr(point_ref, '/');
+		if (!separator)
 		{
-			char name[k_tag_string_length]{};
-			if (v7 - source_offset < k_tag_string_length)
+			int16 set_index = cs_point_set_index_by_name(point_ref);
+			if (set_index != NONE)
 			{
-				uns32 name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
-				csstrnzcpy(name, source_offset, name_size);
-				int16 point_set_index = cs_point_set_index_by_name(name);
-				int16 point_index = NONE;
-				if (point_set_index != NONE)
-				{
-					point_index = cs_point_index_by_name(cs_get_point_set(point_set_index), v7 + 1);
-					if (point_index >= 0)
-					{
-						expression->long_value = (point_set_index << 16) | point_index;
-						valid = true;
-					}
-
-				}
+				expression->long_value = (set_index << 16) | UNSIGNED_SHORT_MAX;
+				success = true;
 			}
 		}
 		else
 		{
-			int16 point_set_index = cs_point_set_index_by_name(source_offset);
-			if (point_set_index != NONE)
+			char namebuf[32]{};
+			if (separator - point_ref < sizeof(namebuf))
 			{
-				expression->long_value = (point_set_index << 16) | UNSIGNED_SHORT_MAX;
-				valid = true;
+				csstrnzcpy(namebuf, point_ref, (separator - point_ref + 1) >= sizeof(namebuf) ? sizeof(namebuf) : separator - point_ref + 1);
+				int16 set_index = cs_point_set_index_by_name(namebuf);
+				int16 point_index = NONE;
+				if (set_index != NONE)
+				{
+					point_index = cs_point_index_by_name(cs_get_point_set(set_index), separator + 1);
+					if (point_index >= 0)
+					{
+						expression->long_value = (set_index << 16) | point_index;
+						success = true;
+					}
+				}
 			}
 		}
 	}
 
-	if (!valid)
+	if (!success)
 	{
 		hs_compile_globals.error_message = "this is not a valid point reference";
 		hs_compile_globals.error_offset = expression->source_offset;
 	}
 
-	return valid;
+	return success;
 }
 
 bool hs_parse_primitive(int32 expression_index)
 {
-	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	bool success = false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_special_form || expression->type == _hs_unparsed);
 
 	if (expression->type == _hs_special_form)
@@ -1564,299 +1598,321 @@ bool hs_parse_primitive(int32 expression_index)
 
 bool hs_parse_real(int32 expression_index)
 {
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* c = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_real);
 	ASSERT(expression->constant_type == expression->type);
 
-	if (*source_offset == '-')
+	if (*c == '-')
 	{
-		source_offset++;
+		c++;
 	}
 
-	bool result = true;
-	bool error_occurred = false;
-	while (*source_offset)
+	bool decimal = false;
+	while (*c)
 	{
-		if (!isdigit(*source_offset))
+		if (!isdigit(*c))
 		{
-			if (error_occurred || *source_offset != '.')
+			if (decimal || *c != '.')
 			{
 				hs_compile_globals.error_message = "this is not a valid real number.";
 				hs_compile_globals.error_offset = expression->source_offset;
+				success = false;
 
-				result = false;
 				break;
 			}
-			error_occurred = true;
+			decimal = true;
 		}
-		source_offset++;
+		c++;
 	}
 
 	expression->real_value = (real32)atof(&hs_compile_globals.compiled_source[expression->source_offset]);
-	return result;
+	return success;
 }
 
 bool hs_parse_script(int32 expression_index)
 {
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_script);
 	ASSERT(expression->constant_type == expression->type);
 
-	int16 script_index = hs_find_script_by_name(source_offset, NONE);
-	if (script_index == NONE)
+	int16 script_index = hs_find_script_by_name(source, NONE);
+	if (script_index != NONE)
+	{
+		expression->short_value = script_index;
+		hs_compile_add_reference(script_index, _hs_reference_type_script, expression_index);
+	}
+	else
 	{
 		hs_compile_globals.error_message = "this is not a valid script name.";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
+		success = false;
 	}
 
-	expression->short_value = script_index;
-	hs_compile_add_reference(script_index, _hs_reference_type_script, expression_index);
-	return true;
+	return success;
 }
 
 bool hs_parse_sound_tag_reference(int32 expression_index)
 {
-	if (!hs_parse_tag_reference(expression_index))
+	bool parse_success = hs_parse_tag_reference(expression_index);
+	if (!parse_success)
 	{
 		hs_syntax_get(expression_index)->long_value = NONE;
 		hs_compile_globals.error_message = 0;
 	}
-
-	return true;
+	return parse_success;
 }
 
 bool hs_parse_starting_profile(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_starting_profile);
 
-	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element(expression_index, (const char*)OFFSETOF(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
 }
 
 bool hs_parse_string(int32 expression_index)
 {
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_string);
 	ASSERT(expression->constant_type == expression->type);
 
-	expression->string_value = source_offset;
-	return true;
+	expression->string_value = source;
+	return success;
 }
 
 bool hs_parse_string_id(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_string_id);
 	ASSERT(expression->constant_type == expression->type);
 
-	string_id retrieved_string_id = string_id_retrieve(source_offset);
-	if (retrieved_string_id == NONE)
+	string_id parsed_string_id = string_id_retrieve(source);
+	if (parsed_string_id != NONE)
+	{
+		expression->string_id_value = parsed_string_id;
+		success = true;
+	}
+	else
 	{
 		hs_compile_globals.error_message = "this is not a valid string parameter.";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	expression->string_id_value = retrieved_string_id;
-	return true;
+	return success;
 }
 
 bool hs_parse_style(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_style);
 	ASSERT(expression->constant_type == expression->type);
 
-	int32 style = style_get_by_name(source_offset);
-	if (style == NONE)
+	const char* style_name = &hs_compile_globals.compiled_source[expression->source_offset];
+	int32 style_index = style_get_by_name(style_name);
+	if (style_index != NONE)
+	{
+		expression->long_value = style_index;
+		success = true;
+	}
+	else
 	{
 		hs_compile_globals.error_message = "invalid style";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
 
-	expression->long_value = style;
-	return true;
+	return success;
 }
 
-bool hs_parse_tag_block_element(int32 expression_index, int32 offset, int32 scenario_index, s_tag_block* block, int32 element_size)
+bool hs_parse_tag_block_element(int32 expression_index, const char* name_offset, int32 scenario_index, s_tag_block* block, int32 element_size)
 {
+	int32 offset = (int32)name_offset;
+
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(element_size <= SHRT_MAX);
 	ASSERT(offset + (k_tag_string_length - 1) < element_size);
 
-	bool valid = false;
 	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
-		const char* block_element = (const char*)tag_block_get_element_with_size(block, block_index, element_size);
-		if (ascii_stricmp(block_element + offset, source_offset) == 0)
+		char* element = (char*)tag_block_get_element_with_size(block, block_index, element_size);
+		if (ascii_stricmp(element + offset, source) == 0)
 		{
 			expression->short_value = (int16)block_index;
-			valid = true;
+			success = true;
 			break;
 		}
 	}
 
-	if (!valid)
+	if (success)
+	{
+		if (hs_compile_globals.permanent)
+		{
+			if (scenario_index == global_scenario_index_get())
+			{
+				//editor_register_script_referenced_block(block);
+			}
+			else
+			{
+				//tag_group_dependencies_register_dependency(global_scenario_index_get(), scenario_index);
+			}
+		}
+	}
+	else
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"this is not a valid %s name", hs_type_names[expression->type]);
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
-
-		return false;
 	}
 
-	if (hs_compile_globals.permanent)
-	{
-		if (scenario_index == global_scenario_index_get())
-		{
-			//editor_register_script_referenced_block(block);
-		}
-		else
-		{
-			//tag_group_dependencies_register_dependency(global_scenario_index_get(), scenario_index);
-		}
-	}
-
-	return true;
+	return success;
 }
 
-bool hs_parse_tag_block_element_string_id(int32 expression_index, int32 offset, int32 scenario_index, s_tag_block* block, int32 element_size)
+bool hs_parse_tag_block_element_string_id(int32 expression_index, const int32* string_id_offset, int32 scenario_index, s_tag_block* block, int32 element_size)
 {
+	bool success = false;
+	int32 offset = (int32)string_id_offset;
+
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	const char* source = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT((offset + (int32)sizeof(string_id)) <= element_size);
 
-	bool valid = false;
 	for (int32 block_index = 0; block_index < block->count; block_index++)
 	{
-		byte* block_data = (byte*)tag_block_get_element_with_size(block, block_index, element_size);
+		char* element = (char*)tag_block_get_element_with_size(block, block_index, element_size);
 
-		string_id block_element_string_id = *(string_id*)(block_data + offset);
-		if (block_element_string_id == string_id_retrieve(source_offset))
+		string_id name_id = *(string_id*)(element + offset);
+		if (name_id == string_id_retrieve(source))
 		{
 			expression->short_value = (int16)block_index;
-			valid = true;
+			success = true;
 			break;
 		}
 	}
 
-	if (!valid)
+	if (success)
+	{
+		if (hs_compile_globals.permanent)
+		{
+			if (scenario_index == global_scenario_index_get())
+			{
+				//editor_register_script_referenced_block(block);
+			}
+			else
+			{
+				//tag_group_dependencies_register_dependency(global_scenario_index_get(), scenario_index);
+			}
+		}
+	}
+	else
 	{
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"this is not a valid %s name", hs_type_names[expression->type]);
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = expression->source_offset;
-
-		return false;
 	}
 
-	if (hs_compile_globals.permanent)
-	{
-		if (scenario_index == global_scenario_index_get())
-		{
-			//editor_register_script_referenced_block(block);
-		}
-		else
-		{
-			//tag_group_dependencies_register_dependency(global_scenario_index_get(), scenario_index);
-		}
-	}
-
-	return true;
+	return success;
 }
 
 bool hs_parse_tag_reference(int32 expression_index)
 {
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	if (global_scenario_index_get() == NONE)
 	{
 		expression->long_value = NONE;
-		return true;
 	}
-
-	ASSERT(HS_TYPE_IS_TAG_REFERENCE(expression->type));
-
-	tag group_tag = hs_tag_reference_type_group_tags[expression->type - _hs_type_sound];
-
-	for (hs_tag_reference& tag_reference : global_scenario_get()->references)
+	else
 	{
-		if (tag_reference.reference.index != NONE)
+		ASSERT(HS_TYPE_IS_TAG_REFERENCE(expression->type));
+
+		tag group_tag = hs_tag_reference_type_group_tags[expression->type - _hs_type_sound];
+		const struct scenario* scenario = global_scenario_get();
+		const char* tag_name = &hs_compile_globals.compiled_source[expression->source_offset];
+
+		for (int16 reference_index = 0; reference_index < scenario->references.count; reference_index++)
 		{
-			const char* tag_name = tag_get_name(tag_reference.reference.index);
-			if (csstrcmp(tag_name, source_offset) == 0 && tag_reference.reference.group_tag == group_tag)
+			hs_tag_reference* reference = TAG_BLOCK_GET_ELEMENT(&scenario->references, reference_index, hs_tag_reference);
+
+			if (reference->reference.index != NONE)
 			{
-				expression->long_value = tag_reference.reference.index;
-				break;
+				if (csstrcmp(tag_get_name(reference->reference.index), tag_name) == 0 && reference->reference.group_tag == group_tag)
+				{
+					expression->long_value = reference->reference.index;
+					break;
+				}
+			}
+		}
+
+		if (expression->long_value == NONE && !hs_compile_globals.permanent)
+		{
+			bool explicit_group_success = false;
+			const char* separator = strrchr(tag_name, '.');
+			if (separator)
+			{
+				const char* tag_file_type_name = separator + 1;
+				int32 tag_name_length = separator - tag_name;
+				if (hs_compile_get_tag_by_name(tag_file_type_name, &group_tag))
+				{
+					c_static_string<256> actual_tag_name;
+					actual_tag_name.set_bounded(separator, tag_name_length);
+					expression->long_value = tag_loaded(group_tag, actual_tag_name.get_string());
+					explicit_group_success = expression->long_value == NONE;
+				}
+			}
+
+			if (!explicit_group_success)
+			{
+				expression->long_value = tag_loaded(group_tag, separator);
 			}
 		}
 	}
 
-	if (expression->long_value == NONE && !hs_compile_globals.permanent)
-	{
-		if (char* extension_offset = strrchr(source_offset, '.'))
-		{
-			char* extension = extension_offset + 1;
-			int32 tag_name_length = extension_offset - source_offset;
-			if (hs_compile_get_tag_by_name(extension, &group_tag))
-			{
-				c_static_string<256> tag_name;
-				tag_name.set_bounded(source_offset, tag_name_length);
-				expression->long_value = tag_loaded(group_tag, tag_name.get_string());
-			}
-		}
-
-		if (expression->long_value == NONE)
-		{
-			expression->long_value = tag_loaded(group_tag, source_offset);
-		}
-	}
-
-	return true;
+	return success;
 }
 
 bool hs_parse_tag_reference_not_resolving(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	if (global_scenario_index_get() == NONE)
 	{
 		expression->long_value = NONE;
-
 		hs_compile_globals.error_message = "no scenario loaded";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	if (expression->long_value == NONE && !hs_compile_globals.permanent)
+	else if (expression->long_value == NONE && !hs_compile_globals.permanent)
 	{
+		const char* tag_name = &hs_compile_globals.compiled_source[expression->source_offset];
 		tag group_tag = NONE;
-		if (char* extension_offset = strrchr(source_offset, '.'))
+		const char* separator = strrchr(tag_name, '.');
+		if (separator)
 		{
-			char* extension = extension_offset + 1;
-			int32 tag_name_length = extension_offset - source_offset;
+			const char* extension = separator + 1;
+			int32 tag_file_type_name = separator - tag_name;
 			if (hs_compile_get_tag_by_name(extension, &group_tag))
 			{
-				c_static_string<256> tag_name;
-				tag_name.set_bounded(source_offset, tag_name_length);
-				expression->long_value = tag_loaded(group_tag, tag_name.get_string());
+				c_static_string<256> actual_tag_name;
+				actual_tag_name.set_bounded(tag_name, tag_file_type_name);
+				expression->long_value = tag_loaded(group_tag, actual_tag_name.get_string());
 			}
 		}
 	}
@@ -1865,121 +1921,128 @@ bool hs_parse_tag_reference_not_resolving(int32 expression_index)
 	{
 		hs_compile_globals.error_message = "not a loaded tag";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
+	}
+	else
+	{
+		success = true;
 	}
 
-	return true;
+	return success;
 }
 
 bool hs_parse_trigger_volume(int32 expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_trigger_volume);
 
-	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
+	return hs_check_block_index_type_and_return<int16>(hs_parse_tag_block_element_string_id(expression_index, (const int32*)OFFSETOF(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
 }
 
 bool hs_parse_unit_seat_mapping(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_unit_seat_mapping);
 	ASSERT(expression->constant_type == expression->type);
 
-	if (*source_offset)
+	const char* seat_substring = &hs_compile_globals.compiled_source[expression->source_offset];
+	if (*seat_substring)
 	{
-		bool valid = true;
-		c_static_stack<s_hs_unit_seat_mapping, 256> seats_stack;
-		tag_iterator iterator{};
-		tag_iterator_new(&iterator, UNIT_TAG);
-		for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+		c_static_stack<s_hs_unit_seat_mapping, 256> unit_seat_mapping_stack;
+		tag_iterator unit_iterator{};
+		bool valid_mappings = true;
+
+		tag_iterator_new(&unit_iterator, UNIT_TAG);
+		for (int32 unit_definition_index = tag_iterator_next(&unit_iterator);
+			unit_definition_index != NONE;
+			unit_definition_index = tag_iterator_next(&unit_iterator))
 		{
-			s_hs_unit_seat_mapping unit_seat_mapping{};
-			unit_seat_mapping.unit_definition_tag_index = tag_index;
-			if (hs_get_unit_seats_from_substring(tag_index, source_offset, &unit_seat_mapping.unit_seats))
+			s_hs_unit_seat_mapping potential_mapping{};
+			potential_mapping.unit_definition_tag_index = unit_definition_index;
+			if (hs_get_unit_seats_from_substring(unit_definition_index, seat_substring, &potential_mapping.unit_seats))
 			{
-				if (seats_stack.full())
+				if (unit_seat_mapping_stack.full())
 				{
 					hs_compile_globals.error_message = "too many units match this seat substring";
 					hs_compile_globals.error_offset = expression->source_offset;
-					valid = false;
+					valid_mappings = false;
 					break;
 				}
-				seats_stack.push_back(unit_seat_mapping);
+				unit_seat_mapping_stack.push_back(potential_mapping);
 			}
 		}
 
-		if (!valid || global_scenario_index_get() == NONE)
+		if (!valid_mappings || global_scenario_index_get() == NONE)
 		{
 			hs_compile_globals.error_message = "no scenario loaded";
 			hs_compile_globals.error_offset = expression->source_offset;
-			return false;
 		}
-
-		if (seats_stack.count() <= 0)
+		else if (unit_seat_mapping_stack.count() <= 0)
 		{
 			hs_compile_globals.error_message = "no units match this seat substring";
 			hs_compile_globals.error_offset = expression->source_offset;
-			return false;
 		}
-
-		struct scenario* scenario = global_scenario_get();
-		int32 unit_seat_start_index = NONE;
-		int32 unit_seat_mapping_count = seats_stack.count();
-
-		if (scenario->hs_unit_seats.count > 0)
+		else
 		{
-			s_hs_unit_seat_mapping* seats_blocks_begin = scenario->hs_unit_seats.begin();
-			s_hs_unit_seat_mapping* seats_blocks_end = scenario->hs_unit_seats.end();
-			s_hs_unit_seat_mapping* seats_stack_begin = seats_stack.get_elements();
-			s_hs_unit_seat_mapping* seats_stack_end = seats_stack_begin + seats_stack.count();
+			struct scenario* scenario = global_scenario_get();
+			int32 seat_mapping_start_index = NONE;
+			int32 seat_mapping_count = unit_seat_mapping_stack.count();
 
-			s_hs_unit_seat_mapping* found_seat = std::search(seats_blocks_begin, seats_blocks_end, seats_stack_begin, seats_stack_end, hs_unit_seat_mappings_match);
-			if (found_seat != seats_blocks_end)
+			if (scenario->hs_unit_seats.count > 0)
 			{
-				unit_seat_start_index = found_seat - seats_blocks_begin;
-			}
-		}
+				const s_hs_unit_seat_mapping* new_seat_mapping_end = scenario->hs_unit_seats.begin();
+				const s_hs_unit_seat_mapping* new_seat_mapping_start = scenario->hs_unit_seats.end();
+				const s_hs_unit_seat_mapping* current_seat_mapping_start = unit_seat_mapping_stack.get_elements();
+				const s_hs_unit_seat_mapping* current_seat_mapping_end = current_seat_mapping_start + unit_seat_mapping_stack.count();
 
-		if (unit_seat_start_index != NONE)
-		{
-			expression->long_value = hs_encode_unit_seat_mapping(unit_seat_start_index, unit_seat_mapping_count);
-			return true;
+				const s_hs_unit_seat_mapping* seat_match_start = std::search(new_seat_mapping_end, new_seat_mapping_start, current_seat_mapping_start, current_seat_mapping_end, hs_unit_seat_mappings_match);
+				if (seat_match_start != new_seat_mapping_start)
+				{
+					seat_mapping_start_index = seat_match_start - new_seat_mapping_end;
+				}
+			}
+
+			if (seat_mapping_start_index != NONE)
+			{
+				expression->long_value = hs_encode_unit_seat_mapping(seat_mapping_start_index, seat_mapping_count);
+				success = true;
+			}
 		}
 	}
 	else
 	{
 		expression->long_value = NONE;
-		return true;
+		success = true;
 	}
 
-	return false;
+	return success;
 }
 
 bool hs_parse_variable(int32 expression_index)
 {
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char* source_offset = hs_compile_globals.compiled_source + expression->source_offset;
 
 	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
 
-	bool valid = false;
-	int16 type = NONE;
 	bool is_parameter = false;
+	int16 type = NONE;
 	if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
 	{
 		expression->short_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
 		if (expression->short_value != NONE)
 		{
-			hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
-			type = script.parameters[expression->short_value].type;
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->scripts, hs_compile_globals.current_script_index, hs_script);
+			hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, expression->short_value, hs_script_parameter);
 
+			type = parameter->type;
 			is_parameter = true;
-			valid = true;
+			success = true;
 		}
 	}
 
-	if (!valid && (!hs_compile_globals.variables_predetermined
+	if (!success && (!hs_compile_globals.variables_predetermined
 		|| expression->type == NONE
 		|| expression->short_value == NONE
 		|| !TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit)))
@@ -1988,95 +2051,99 @@ bool hs_parse_variable(int32 expression_index)
 		if (expression->short_value != NONE)
 		{
 			type = hs_global_get_type(expression->short_value);
-			valid = true;
+			success = true;
 		}
 	}
 
-	if (!valid)
+	if (success)
 	{
-		return false;
-	}
-
-	ASSERT(type != NONE);
-	if (expression->type && !hs_can_cast(type, expression->type))
-	{
-		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"i expected a value of type %s, but the variable %s has type %s",
-			hs_type_names[expression->type],
-			hs_global_get_name(expression->short_value),
-			hs_type_names[type]);
-
-		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-		hs_compile_globals.error_offset = expression->source_offset;
-
-		return false;
-	}
-	else
-	{
-		if (expression->type == _hs_unparsed)
+		ASSERT(type != NONE);
+		if (expression->type && !hs_can_cast(type, expression->type))
 		{
-			expression->type = type;
-		}
+			csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+				"i expected a value of type %s, but the variable %s has type %s",
+				hs_type_names[expression->type],
+				hs_global_get_name(expression->short_value),
+				hs_type_names[type]);
 
-		SET_BIT(expression->flags, _hs_syntax_node_variable_bit, true);
+			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+			hs_compile_globals.error_offset = expression->source_offset;
 
-		if (is_parameter)
-		{
-			SET_BIT(expression->flags, _hs_syntax_node_parameter_bit, true);
+			success = false;
 		}
 		else
 		{
-			hs_compile_add_reference(expression->long_value, _hs_reference_type_global, expression_index);
+			if (expression->type == _hs_unparsed)
+			{
+				expression->type = type;
+			}
+
+			expression->flags |= FLAG(_hs_syntax_node_variable_bit);
+
+			if (is_parameter)
+			{
+				expression->flags |= FLAG(_hs_syntax_node_parameter_bit);
+			}
+			else
+			{
+				hs_compile_add_reference(expression->long_value, _hs_reference_type_global, expression_index);
+			}
+
+			success = true;
 		}
-
-		return true;
 	}
-
-	if (!hs_compile_globals.variables_predetermined)
+	else if (!hs_compile_globals.variables_predetermined)
 	{
-		return false;
+		if (expression->type == NONE || expression->long_value == NONE || !TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit))
+		{
+			hs_compile_globals.error_message = "this is not a valid variable name.";
+			hs_compile_globals.error_offset = expression->source_offset;
+
+			success = false;
+		}
+		else
+		{
+			success = true;
+		}
 	}
 
-	if (expression->type == NONE || expression->long_value == NONE || !TEST_BIT(expression->flags, _hs_syntax_node_parameter_bit))
-	{
-		hs_compile_globals.error_message = "this is not a valid variable name.";
-		hs_compile_globals.error_offset = expression->source_offset;
-
-		return false;
-	}
-
-	return true;
+	return success;
 }
 
 bool hs_parse_zone_set(int32 expression_index)
 {
-	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_zone_set);
-
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_zone_set);
 
 	if (global_scenario_index_get() == NONE)
 	{
 		hs_compile_globals.error_message = "no scenario loaded";
 		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
 	}
-
-	int32 zone_set_index = NONE;
-	if (global_scenario_try_and_get())
+	else
 	{
-		zone_set_index = scenario_get_zone_set_index_by_name(global_scenario_get(), source_offset, tag_name_strip_path(source_offset) == source_offset);
+		const char* designer_zone_name = &hs_compile_globals.compiled_source[expression->source_offset];
+		int32 designer_zone_index = NONE;
+		if (global_scenario_try_and_get())
+		{
+			designer_zone_index = scenario_get_zone_set_index_by_name(global_scenario_get(), designer_zone_name, tag_name_strip_path(designer_zone_name) == designer_zone_name);
+		}
+
+		if (designer_zone_index == NONE)
+		{
+			hs_compile_globals.error_message = "this is not a valid zone set name.";
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
+		else
+		{
+			expression->short_value = (int16)designer_zone_index;
+			success = true;
+		}
 	}
 
-	if (zone_set_index == NONE)
-	{
-		hs_compile_globals.error_message = "this is not a valid zone set name.";
-		hs_compile_globals.error_offset = expression->source_offset;
-		return false;
-	}
-
-	expression->short_value = (int16)zone_set_index;
-	return true;
+	return success;
 }
 
 int32 hs_source_pointer_get_line_number(const char* source_pointer, const char* source)

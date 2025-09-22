@@ -248,7 +248,7 @@ extern const char* behavior_names[NUMBER_OF_BEHAVIORS];
 
 struct actor_datum;
 
-extern int16 __cdecl behavior_index_by_name(char* name);
+extern int16 __cdecl behavior_index_by_name(const char* name);
 extern void __cdecl behaviors_initialize();
 extern uns8* __cdecl actor_behavior_state_get(const actor_datum* actor, int16 layer_index);
 

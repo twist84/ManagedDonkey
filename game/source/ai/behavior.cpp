@@ -296,7 +296,7 @@ uns8* __cdecl actor_behavior_state_get(const actor_datum* actor, int16 layer_ind
 //.text:014745A0 ; int16 __cdecl behavior_idle_get_desire(int32, const s_behavior_input*, const s_behavior_arguments*)
 //.text:014745B0 ; int16 __cdecl behavior_idle_next(int32, c_behavior_state*, c_behavior_state*)
 
-int16 __cdecl behavior_index_by_name(char* name)
+int16 __cdecl behavior_index_by_name(const char* name)
 {
 	return INVOKE(0x014745C0, behavior_index_by_name, name);
 }
