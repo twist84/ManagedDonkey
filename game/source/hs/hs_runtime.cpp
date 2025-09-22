@@ -70,6 +70,7 @@ HOOK_DECLARE(0x005988E0, hs_stack_parameters);
 HOOK_DECLARE(0x00598900, hs_stack_pop);
 HOOK_DECLARE(0x00598940, hs_stack_push);
 HOOK_DECLARE(0x00598A10, hs_syntax_get);
+HOOK_DECLARE(0x00598A60, hs_thread_delete);
 HOOK_DECLARE(0x00598A90, hs_thread_format);
 HOOK_DECLARE(0x00598B10, hs_thread_is_deterministic);
 HOOK_DECLARE(0x00598B20, hs_thread_iterator_new);
@@ -1477,10 +1478,12 @@ int32 hs_thread_allocate(bool deterministic)
 
 		if (deterministic)
 		{
+			tracking_data->type = _hs_thread_tracking_deterministic;
 			tracking_data->index = datum_new(hs_thread_deterministic_data);
 		}
 		else
 		{
+			tracking_data->type = _hs_thread_tracking_non_deterministic;
 			tracking_data->index = datum_new(hs_thread_non_deterministic_data);
 		}
 
@@ -1499,9 +1502,8 @@ int32 hs_thread_allocate(bool deterministic)
 
 void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 {
-	INVOKE(0x00598A60, hs_thread_delete, thread_index, validate);
+	//INVOKE(0x00598A60, hs_thread_delete, thread_index, validate);
 
-#if 0
 	if (validate)
 	{
 		ASSERT(hs_thread_get(thread_index)->type != _hs_thread_type_script);
@@ -1509,7 +1511,7 @@ void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 	
 	cs_handle_thread_delete(thread_index);
 	//hs_looper_handle_thread_delete(thread_index);
-	cinematic_handle_thread_delete(thread_index);
+	//cinematic_handle_thread_delete(thread_index);
 
 #ifndef USE_HS_THREAD_TRACKING
 	datum_delete(hs_thread_deterministic_data, thread_index);
@@ -1534,7 +1536,6 @@ void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 	break;
 	}
 	datum_delete(hs_thread_tracking_data, thread_index);
-#endif
 #endif
 }
 
@@ -2005,8 +2006,33 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 
 hs_thread* hs_thread_get(int32 thread_index)
 {
-	hs_thread* result = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, thread_index);
-	return result;
+	hs_thread* thread = NULL;
+
+#ifndef USE_HS_THREAD_TRACKING
+	thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, thread_index);
+#else
+	s_hs_thread_tracking_data* tracking_data = DATUM_GET(hs_thread_tracking_data, s_hs_thread_tracking_data, thread_index);
+	switch (tracking_data->type)
+	{
+	case _hs_thread_tracking_deterministic:
+	{
+		thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, tracking_data->index);
+	}
+	break;
+	case _hs_thread_tracking_non_deterministic:
+	{
+		thread = DATUM_TRY_AND_GET(hs_thread_non_deterministic_data, hs_thread, tracking_data->index);
+	}
+	break;
+	default:
+	{
+		UNREACHABLE();
+	}
+	break;
+	}
+#endif
+
+	return thread;
 }
 
 void hs_find_dormant_script(const char* dormant_script_name, int32* script_index_out)
