@@ -522,193 +522,12 @@ callback_result_t help_callback(const void* userdata, int32 token_count, tokens_
 	return result;
 }
 
-callback_result_t script_doc_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	s_file_reference help_file{};
-	if (!file_reference_create_from_path(&help_file, "hs_doc.txt", false)) // should this actually be named `hs_doc.txt` if it isn't actually for the halo scriping system?
-	{
-		return result;
-	}
-
-	if (file_exists(&help_file))
-	{
-		file_delete(&help_file);
-	}
-
-	file_create(&help_file);
-
-	uns32 error = 0;
-	if (file_open(&help_file, FLAG(_file_open_flag_desired_access_write), &error))
-	{
-		file_printf(&help_file, "; %s\n\n", "AVAILABLE FUNCTIONS:");
-		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
-		{
-			const s_command& command = k_registered_commands[i];
-
-			callback_result_t out("(");
-			out.append_print("%s", command.name);
-			if (command.parameter_types && *command.parameter_types != 0)
-			{
-				out.append_print(" %s", command.parameter_types);
-			}
-			out.append_print_line(")");
-			out.append_line();
-
-			out.append_print_line("%s", command.extra_info && *command.extra_info != 0 ? command.extra_info : "");
-			out.append_line();
-			out.append_line();
-
-			file_printf(&help_file, out.get_string());
-		}
-
-		file_printf(&help_file, "; %s\n\n", "AVAILABLE EXTERNAL GLOBALS:");
-		for (int32 global_index = 0; global_index < k_console_global_count; global_index++)
-		{
-			const s_console_global* global = &k_console_globals[global_index];
-
-			callback_result_t out;
-			out.append_print("(<%s> %s)", hs_type_names[global->type.get()], global->name);
-			file_printf(&help_file, "%s\n\n", out.get_string());
-		}
-	}
-	file_close(&help_file);
-
-	return result;
-}
-
-callback_result_t breakpoint_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* message = tokens[1]->get_string();
-	c_console::write_line(message);
-
-	if (!is_debugger_present())
-	{
-		return __FUNCTION__ ": failed, no debugger present";
-	}
-
-	__asm { int 3 };
-
-	return result;
-}
-
-callback_result_t exit_game_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_exit_game();
-
-	return result;
-}
-
 callback_result_t script_start_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	const char* name = tokens[1]->get_string();
 	user_interface_start_hs_script_by_name(name);
-
-	return result;
-}
-
-callback_result_t game_multiplayer_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* multiplayer_engine = tokens[1]->get_string();
-	main_game_launch_set_multiplayer_engine(multiplayer_engine);
-
-	return result;
-}
-
-callback_result_t game_splitscreen_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 multiplayer_splitscreen_count = (int32)atol(tokens[1]->get_string());
-	main_game_launch_set_multiplayer_splitscreen_count(multiplayer_splitscreen_count);
-
-	return result;
-}
-
-callback_result_t game_difficulty_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* difficulty_name = tokens[1]->get_string();
-	e_campaign_difficulty_level difficulty = campaign_difficulty_level_from_string(difficulty_name);
-	main_game_launch_set_difficulty(difficulty);
-
-	return result;
-}
-
-callback_result_t game_active_primary_skulls_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 active_primary_skulls = (int32)atol(tokens[1]->get_string());
-	main_game_launch_set_active_primary_skulls(active_primary_skulls);
-
-	return result;
-}
-
-callback_result_t game_active_secondary_skulls_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 active_secondary_skulls = (int32)atol(tokens[1]->get_string());
-	main_game_launch_set_active_secondary_skulls(active_secondary_skulls);
-
-	return result;
-}
-
-callback_result_t game_coop_players_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 coop_player_count = (int32)atol(tokens[1]->get_string());
-	main_game_launch_set_coop_player_count(coop_player_count);
-
-	return result;
-}
-
-callback_result_t game_initial_bsp_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 initial_zone_set_index = (int32)atol(tokens[1]->get_string());
-	main_game_launch_set_initial_zone_set_index(initial_zone_set_index);
-
-	return result;
-}
-
-callback_result_t game_tick_rate_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 initial_zone_set_index = (int32)atol(tokens[1]->get_string());
-	main_game_launch_set_tick_rate(initial_zone_set_index);
-
-	return result;
-}
-
-callback_result_t game_won_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	game_won();
-
-	return result;
-}
-
-callback_result_t game_revert_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_revert_map_scripting();
 
 	return result;
 }
@@ -874,15 +693,6 @@ callback_result_t game_reverted_callback(const void* userdata, int32 token_count
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	console_printf("game_state_reverted: %s", game_state_reverted() ? "true" : "false");
-
-	return result;
-}
-
-callback_result_t gui_reset_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	window_manager_reset_screens();
 
 	return result;
 }
@@ -1848,15 +1658,6 @@ callback_result_t status_callback(const void* userdata, int32 token_count, token
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	main_status_print();
-
-	return result;
-}
-
-callback_result_t font_set_emergency_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	font_initialize_emergency();
 
 	return result;
 }

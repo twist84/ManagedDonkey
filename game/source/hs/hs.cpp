@@ -180,14 +180,6 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 	return NONE;
 }
 
-const hs_function_definition* __cdecl hs_function_get(int16 function_index)
-{
-	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
-
-	const hs_function_definition* function = hs_function_table[function_index];
-	return function;
-}
-
 int16 __cdecl hs_global_get_type(int16 global_designator)
 {
 	//return INVOKE(0x006792E0, hs_global_get_type, global_designator);
@@ -439,6 +431,59 @@ const char* hs_global_get_name(int16 global_designator)
 void resize_scenario_syntax_data(int32 count)
 {
 
+}
+
+void hs_doc()
+{
+	FILE* file = NULL;
+	fopen_s(&file, "hs_doc.txt", "w");
+	if (file)
+	{
+		char printbuffer[2048]{};
+		for (int32 function_index = 0; function_index < hs_function_table_count; function_index++)
+		{
+			hs_get_function_parameters_string((int16)function_index, printbuffer, sizeof(printbuffer));
+			fprintf(file, "%s\r\n", printbuffer);
+			hs_get_function_documentation_string((int16)function_index, printbuffer, sizeof(printbuffer));
+			fprintf(file, "%s\r\n\r\n", printbuffer);
+		}
+		fclose(file);
+	}
+}
+
+const hs_function_definition* hs_function_get(int16 function_index)
+{
+	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
+
+	const hs_function_definition* function = hs_function_table[function_index];
+	return function;
+}
+
+void hs_get_function_documentation_string(short function_index, char* buffer, int32 buffer_size)
+{
+	const hs_function_definition* function = hs_function_get(function_index);
+	csstrnzcpy(buffer, function->documentation, buffer_size);
+}
+
+void hs_get_function_parameters_string(int16 function_index, char* buffer, int32 buffer_size)
+{
+	const hs_function_definition* function = hs_function_get(function_index);
+	csnzprintf(buffer, buffer_size, "(<%s> ", hs_type_names[function->return_type]);
+	csnzappendf(buffer, buffer_size, "%s", function->name);
+	if (function->parameters)
+	{
+		csnzappendf(buffer, buffer_size, " %s", function->parameters);
+	}
+	else
+	{
+		for (int16 parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
+		{
+			csstrnzcat(buffer, " <", buffer_size);
+			csstrnzcat(buffer, hs_type_names[function->formal_parameters[parameter_index]], buffer_size);
+			csstrnzcat(buffer, ">", buffer_size);
+		}
+	}
+	csstrnzcat(buffer, ")", buffer_size);
 }
 
 void hs_tokens_enumerate_add_string(const char* string)

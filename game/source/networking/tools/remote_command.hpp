@@ -95,21 +95,8 @@ struct s_command
 //-----------------------------------------------------------------------------
 
 COMMAND_CALLBACK_DECLARE(help);
-COMMAND_CALLBACK_DECLARE(script_doc);
-COMMAND_CALLBACK_DECLARE(breakpoint);
 COMMAND_CALLBACK_DECLARE(set);
-COMMAND_CALLBACK_DECLARE(exit_game);
 COMMAND_CALLBACK_DECLARE(script_start);
-COMMAND_CALLBACK_DECLARE(game_multiplayer);
-COMMAND_CALLBACK_DECLARE(game_splitscreen);
-COMMAND_CALLBACK_DECLARE(game_difficulty);
-COMMAND_CALLBACK_DECLARE(game_active_primary_skulls);
-COMMAND_CALLBACK_DECLARE(game_active_secondary_skulls);
-COMMAND_CALLBACK_DECLARE(game_coop_players);
-COMMAND_CALLBACK_DECLARE(game_initial_bsp);
-COMMAND_CALLBACK_DECLARE(game_tick_rate);
-COMMAND_CALLBACK_DECLARE(game_won);
-COMMAND_CALLBACK_DECLARE(game_revert);
 COMMAND_CALLBACK_DECLARE(core_load);
 COMMAND_CALLBACK_DECLARE(core_load_name);
 COMMAND_CALLBACK_DECLARE(core_save);
@@ -128,7 +115,6 @@ COMMAND_CALLBACK_DECLARE(game_save_immediate);
 COMMAND_CALLBACK_DECLARE(game_save_cinematic_skip);
 COMMAND_CALLBACK_DECLARE(game_saving);
 COMMAND_CALLBACK_DECLARE(game_reverted);
-COMMAND_CALLBACK_DECLARE(gui_reset);
 COMMAND_CALLBACK_DECLARE(gui_print_active_screens);
 COMMAND_CALLBACK_DECLARE(gui_print_active_screen_strings);
 COMMAND_CALLBACK_DECLARE(gui_debug_screen_name);
@@ -213,7 +199,6 @@ COMMAND_CALLBACK_DECLARE(debug_camera_save);
 COMMAND_CALLBACK_DECLARE(debug_camera_load);
 COMMAND_CALLBACK_DECLARE(crash);
 COMMAND_CALLBACK_DECLARE(status);
-COMMAND_CALLBACK_DECLARE(font_set_emergency);
 COMMAND_CALLBACK_DECLARE(player_force_mode);
 COMMAND_CALLBACK_DECLARE(test_download_storage_file);
 COMMAND_CALLBACK_DECLARE(lsp_info_get);
@@ -271,23 +256,9 @@ COMMAND_CALLBACK_DECLARE(saved_film_seek_to_film_tick);
 s_command const k_registered_commands[] =
 {
 	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints this output.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(script_doc, 0, "", "saves a file called hs_doc.txt with parameters for all script commands.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(breakpoint, 1, "<string>", "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(set, 0, "", "set the value of a global variable.\r\nNETWORK SAFE: Yes (depending on result)"),
-	COMMAND_CALLBACK_REGISTER(exit_game, 0, "", "exits the game.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),
-
-	COMMAND_CALLBACK_REGISTER(game_multiplayer, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_difficulty, 1, "<game_difficulty>", "debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_active_primary_skulls, 1, "<long>", "debug map launching: sets the active primary skulls of the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_active_secondary_skulls, 1, "<long>", "debug map launching: sets the active secondary skulls of the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_initial_bsp, 1, "<long>", "debug map launching: sets the initial bsp for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_tick_rate, 1, "<long>", "debug map launching: sets the tick rate for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_won, 0, "", "causes the player to successfully finish the current level and move to the next\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(game_revert, 0, "", "causes the player to revert to their previous saved game (for testing and cinematic skipping only please!)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(core_load, 0, "", "loads debug game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(core_load_name, 1, "<string>", "loads debug game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -308,8 +279,6 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_save_cinematic_skip, 0, "", "don't use this, except in one place.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_saving, 0, "", "checks to see if the game is trying to save the map.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_reverted, 0, "", "don't use this for anything, you black-hearted bastards.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-
-	COMMAND_CALLBACK_REGISTER(gui_reset, 0, "", "cleans out the halox ui screens and errors\r\nNETWORK SAFE: No"),
 
 	COMMAND_CALLBACK_REGISTER(gui_print_active_screens, 0, "", "display list of active halox ui screens\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(gui_print_active_screen_strings, 0, "display strings tag file name for current topmost screen", "\r\nNETWORK SAFE: No"),
@@ -415,7 +384,6 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(debug_camera_load, 0, "", "loads the saved camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(crash, 1, "<string>", "crashes (for debugging).\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(status, 0, "", "prints the value of all global status variables.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(font_set_emergency, 0, "", "sets the font system into emergency mode\r\nNETWORK SAFE: yes"),
 	COMMAND_CALLBACK_REGISTER(player_force_mode, 1, "<string_id>", "force your will upon the player\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(test_download_storage_file, 2, "<string> <string>", "<url> <filename> downloads a file from LSP to the client\r\nNETWORK SAFE: Unknown, assumed unsafe"),

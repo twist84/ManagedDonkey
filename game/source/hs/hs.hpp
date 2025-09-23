@@ -106,7 +106,6 @@ extern bool __cdecl char_is_delimiter(char character, const char* delimiter_stri
 extern void __cdecl hs_dispose();
 extern void __cdecl hs_dispose_from_old_map();
 extern int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments);
-extern const hs_function_definition* __cdecl hs_function_get(int16 function_index);
 extern int16 __cdecl hs_global_get_type(int16 global_designator);
 extern void __cdecl hs_initialize();
 extern void __cdecl hs_initialize_for_new_map();
@@ -122,7 +121,11 @@ extern hs_global_external* hs_global_external_get(int16 global_index);
 extern hs_global_external_debug* hs_global_external_get_debug(int16 global_index);
 extern int16 hs_find_global_by_name(const char* name);
 extern const char* hs_global_get_name(int16 global_designator);
-extern void resize_scenario_syntax_data(long count);
+extern void resize_scenario_syntax_data(int32 count);
+extern void hs_doc();
+extern const hs_function_definition* hs_function_get(int16 function_index);
+extern void hs_get_function_documentation_string(short function_index, char* buffer, int32 buffer_size);
+extern void hs_get_function_parameters_string(int16 function_index, char* buffer, int32 buffer_size);
 
 extern void hs_tokens_enumerate_add_string(const char* string);
 extern void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count);

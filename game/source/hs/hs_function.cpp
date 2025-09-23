@@ -3,14 +3,18 @@
 #include "ai/ai_script.hpp"
 #include "cseries/cseries.hpp"
 #include "game/cheats.hpp"
+#include "game/game.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
 #include "hs/hs_scenario_definitions.hpp"
+#include "interface/gui_location_manager.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
+#include "text/font_loading.hpp"
 
 #include <utility>
 
@@ -21,7 +25,7 @@ enum
 
 #pragma region HS_FUNCTION_DEFINITIONS
 
-#define DEFINE_HS_FUNCTION_DEFINITION_STRUCT(STRUCT_NAME, EXTRA_BYTES_SIZE) $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE
+#define DEFINE_HS_FUNCTION_DEFINITION_STRUCT(STRUCT_NAME, EXTRA_BYTES_SIZE) static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE
 #define DECLARE_HS_FUNCTION_DEFINITION_STRUCT(STRUCT_NAME, EXTRA_BYTES_SIZE) \
 struct $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE \
 { \
@@ -68,7 +72,7 @@ DECLARE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 29);
 #undef DECLARE_HS_FUNCTION_DEFINITION_STRUCT
 
 template<typename t_parameter_type>
-t_parameter_type convert_parameter(int32 value)
+constexpr t_parameter_type convert_parameter(int32 value)
 {
 	if constexpr (std::is_pointer_v<t_parameter_type>)
 	{
@@ -81,65 +85,69 @@ t_parameter_type convert_parameter(int32 value)
 }
 
 template<typename t_result_type, typename... t_parameters, size_t... index>
-constexpr void call_with_parameters(e_hs_type return_type, t_result_type(*func)(t_parameters...), int32& result, int32* actual_parameters, std::index_sequence<index...>)
+constexpr void call_with_parameters(t_result_type(*func)(t_parameters...), int32& result, int32* actual_parameters, std::index_sequence<index...>)
 {
 	if constexpr (std::is_void_v<t_result_type>)
 	{
-		ASSERT(return_type == _hs_type_void);
 		func(convert_parameter<t_parameters>(actual_parameters[index])...);
 	}
 	else
 	{
-		ASSERT(return_type != _hs_type_void);
 		*reinterpret_cast<t_result_type*>(&result) = func(convert_parameter<t_parameters>(actual_parameters[index])...);
 	}
 }
 
 template<typename t_result_type>
-constexpr void call_without_parameters(e_hs_type return_type, t_result_type(*func)(), int32& result)
+constexpr void call_without_parameters(t_result_type(*func)(), int32& result)
 {
 	if constexpr (std::is_void_v<t_result_type>)
 	{
-		ASSERT(return_type == _hs_type_void);
 		func();
 	}
 	else
 	{
-		ASSERT(return_type != _hs_type_void);
 		*reinterpret_cast<t_result_type*>(&result) = func();
 	}
 }
 
-template<typename t_result_type, typename... t_parameters, size_t t_num_parameter = sizeof...(t_parameters)>
-constexpr void t_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, e_hs_type return_type, t_result_type(*func)(t_parameters...))
+template<size_t t_formal_parameter_count, typename t_result_type, typename... t_parameters, size_t t_function_parameter_count = sizeof...(t_parameters)>
+requires(t_formal_parameter_count == t_function_parameter_count)
+constexpr void t_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_result_type(*func)(t_parameters...))
 {
 	int32 result = 0;
-	if constexpr (t_num_parameter > 0)
+	if constexpr (t_function_parameter_count > 0)
 	{
 		int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize);
 		if (actual_parameters)
 		{
-			call_with_parameters(return_type, func, result, actual_parameters, std::make_index_sequence<t_num_parameter>{});
+			call_with_parameters(func, result, actual_parameters, std::make_index_sequence<t_function_parameter_count>{});
 			hs_return(thread_index, result);
 		}
 	}
 	else
 	{
-		call_without_parameters(return_type, func, result);
+		call_without_parameters(func, result);
 		hs_return(thread_index, result);
 	}
 }
 
-#define MACRO_FUNCTION_EVALUATE_NAME(NAME, FUNCTION, NUM_PARAMS, ...) NAME##_##FUNCTION##_##NUM_PARAMS##_evaluate
-#define MACRO_FUNCTION_EVALUATE(NAME, FUNCTION, NUM_PARAMS, RETURN_TYPE) \
-void MACRO_FUNCTION_EVALUATE_NAME(NAME, FUNCTION, NUM_PARAMS)(int16 function_index, int32 thread_index, bool initialize) \
+#define MACRO_FUNCTION_EVALUATE(STRUCT_NAME, EXTRA_BYTES_SIZE, RETURN_TYPE, NAME, FLAGS, FUNCTION, DOCUMENTATION, PARAMETERS, FORMAL_PARAMETER_COUNT, ...) \
+static_assert(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
+void NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate(int16 function_index, int32 thread_index, bool initialize) \
 { \
-	t_macro_function_evaluate(function_index, thread_index, initialize, RETURN_TYPE, FUNCTION); \
-}
-
-void __cdecl MACRO_FUNCTION_EVALUATE_NAME(evaluate, hs_evaluate, 1)(int16 function_index, int32 thread_index, bool initialize)
-{
-	INVOKE(0x00748490, MACRO_FUNCTION_EVALUATE_NAME(evaluate, hs_evaluate, 1), function_index, thread_index, initialize);
+	t_macro_function_evaluate<FORMAL_PARAMETER_COUNT>(function_index, thread_index, initialize, FUNCTION); \
+} \
+static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE NAME##_##FORMAL_PARAMETER_COUNT##_definition = \
+{ \
+    .return_type = (RETURN_TYPE), \
+    .name = #NAME, \
+    .flags = (FLAGS), \
+    .parse = hs_macro_function_parse, \
+    .evaluate = NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate, \
+    .documentation = (DOCUMENTATION), \
+    .parameters = (PARAMETERS), \
+    .formal_parameter_count = (FORMAL_PARAMETER_COUNT), \
+    .formal_parameters = __VA_ARGS__, \
 }
 
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) begin_definition
@@ -412,13 +420,17 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) object_to_unit_d
 	.documentation = "converts an object to a unit.\r\nNETWORK SAFE: No",
 	.parameters = "<object>",
 };
+void __cdecl evaluate_hs_evaluate_1_evaluate(int16 function_index, int32 thread_index, bool initialize)
+{
+	INVOKE(0x00748490, evaluate_hs_evaluate_1_evaluate, function_index, thread_index, initialize);
+}
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) evaluate_definition
 {
 	.return_type = _hs_type_void,
 	.name = "evaluate",
 	.flags = 0,
 	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(evaluate, hs_evaluate, 1, _hs_type_void), // (hs_evaluate_function_definition)0x00748490,
+	.evaluate = evaluate_hs_evaluate_1_evaluate, // (hs_evaluate_function_definition)0x00748490,
 	.documentation = "Evaluate the given script",
 	.parameters = NULL,
 	.formal_parameter_count = 1,
@@ -459,38 +471,24 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) pin_3_definition
 		_hs_type_real
 	},
 };
-MACRO_FUNCTION_EVALUATE(print, hs_print, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) print_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "print",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(print, hs_print, 1, _hs_type_void), // (hs_evaluate_function_definition)0x0072FE80,
-	.documentation = "prints a string to the console.\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
-MACRO_FUNCTION_EVALUATE(log_print, hs_log_print, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) log_print_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "log_print",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(log_print, hs_log_print, 1, _hs_type_void), // (hs_evaluate_function_definition)0x007302D0,
-	.documentation = "prints a string to the hs log file.\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	print,
+	0,
+	hs_print, // (hs_evaluate_function_definition)0x0072FE80
+	"prints a string to the console.\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, { _hs_type_string }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	log_print,
+	0,
+	hs_log_print, // (hs_evaluate_function_definition)0x007302D0
+	"prints a string to the hs log file.\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_scripting_show_thread_2_definition
 {
 	.return_type = _hs_type_void,
@@ -584,22 +582,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) debug_scripting_
 		_hs_type_boolean
 	},
 };
-MACRO_FUNCTION_EVALUATE(breakpoint, hs_breakpoint, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) breakpoint_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "breakpoint",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00731950, // $TODO write the function chuckle nuts
-	.documentation = "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	breakpoint,
+	0,
+	hs_breakpoint, // (hs_evaluate_function_definition)0x00731950
+	"If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) kill_active_scripts_0_definition
 {
 	.return_type = _hs_type_void,
@@ -2330,17 +2321,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) script_recompile
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) script_doc_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "script_doc",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00734110, // $TODO write the function chuckle nuts
-	.documentation = "saves a file called hs_doc.txt with parameters for all script commands.\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	script_doc,
+	0,
+	hs_doc, // (hs_evaluate_function_definition)0x00734110
+	"saves a file called hs_doc.txt with parameters for all script commands.\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) help_1_definition
 {
 	.return_type = _hs_type_void,
@@ -5143,18 +5132,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_poweru
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
-MACRO_FUNCTION_EVALUATE(cheat_all_weapons, cheat_all_weapons, 0, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_weapons_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheat_all_weapons",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(cheat_all_weapons, cheat_all_weapons, 0, _hs_type_void), // (hs_evaluate_function_definition)0x007464B0,
-	.documentation = "drops all weapons near player\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	cheat_all_weapons,
+	0,
+	cheat_all_weapons, // (hs_evaluate_function_definition)0x007464B0
+	"drops all weapons near player\r\nNETWORK SAFE: Yes",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_vehicles_0_definition
 {
 	.return_type = _hs_type_void,
@@ -5899,23 +5885,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_migrate_2_def
 		_hs_type_ai
 	},
 };
-MACRO_FUNCTION_EVALUATE(ai_allegiance, ai_scripting_allegiance, 2, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_2_definition
-{
-	.return_type = _hs_type_void,
-	.name = "ai_allegiance",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(ai_allegiance, ai_scripting_allegiance, 2, _hs_type_void), // (hs_evaluate_function_definition)0x00738660,
-	.documentation = "creates an allegiance between two teams.\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 2,
-	.formal_parameters =
-	{
-		_hs_type_team,
-		_hs_type_team
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	ai_allegiance,
+	0,
+	ai_scripting_allegiance, // (hs_evaluate_function_definition)0x00738660
+	"creates an allegiance between two teams.\r\nNETWORK SAFE: Yes",
+	NULL,
+	2, { _hs_type_team, _hs_type_team }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) ai_allegiance_remove_2_definition
 {
 	.return_type = _hs_type_void,
@@ -12585,30 +12563,24 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) debug_teleport_p
 		_hs_type_long_integer
 	},
 };
-MACRO_FUNCTION_EVALUATE(map_reset, main_reset_map, 0, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_reset_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "map_reset",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(map_reset, main_reset_map, 0, _hs_type_void), // (hs_evaluate_function_definition)0x0073D490,
-	.documentation = "starts the map from the beginning.\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-MACRO_FUNCTION_EVALUATE(map_reset_random, main_reset_map_random, 0, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) map_reset_random_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "map_reset_random",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(map_reset_random, main_reset_map_random, 0, _hs_type_void), // (hs_evaluate_function_definition)0x0073D6E0,
-	.documentation = "starts the map from the beginning with a new random seed.\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	map_reset,
+	0,
+	main_reset_map, // (hs_evaluate_function_definition)0x0073D490
+	"starts the map from the beginning.\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	map_reset_random,
+	0,
+	main_reset_map_random, // (hs_evaluate_function_definition)0x0073D6E0
+	"starts the map from the beginning with a new random seed.\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) switch_bsp_1_definition
 {
 	.return_type = _hs_type_void,
@@ -12927,56 +12899,42 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) screenshot_unkn
 		_hs_type_real
 	},
 };
-MACRO_FUNCTION_EVALUATE(main_menu, main_menu_launch_force, 0, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) main_menu_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "main_menu",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(main_menu, main_menu_launch_force, 0, _hs_type_void), // (hs_evaluate_function_definition)0x007413C0,
-	.documentation = "goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) main_halt_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "main_halt",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00741740, // $TODO write the function chuckle nuts
-	.documentation = "goes to a halted pregame state\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-MACRO_FUNCTION_EVALUATE(map_name, main_game_launch_legacy, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) map_name_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "map_name",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(map_name, main_game_launch_legacy, 1, _hs_type_void), // (hs_evaluate_function_definition)0x00741960,
-	.documentation = "the same as game_start: launches a game for debugging purposes\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_multiplayer_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_multiplayer",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00741B30, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	main_menu,
+	0,
+	main_menu_launch_force, // (hs_evaluate_function_definition)0x007413C0
+	"goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	main_halt,
+	0,
+	main_halt_and_display_errors, // (hs_evaluate_function_definition)0x00741740
+	"goes to a halted pregame state\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	map_name,
+	0,
+	main_game_launch_legacy, // (hs_evaluate_function_definition)0x00741960
+	"the same as game_start: launches a game for debugging purposes\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_string }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_multiplayer,
+	0,
+	main_game_launch_set_multiplayer_engine, // (hs_evaluate_function_definition)0x00741B30
+	"debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_set_variant_1_definition
 {
 	.return_type = _hs_type_void,
@@ -12992,127 +12950,78 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_set_variant
 		_hs_type_string
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_splitscreen_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_splitscreen",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00741F40, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_long_integer
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_difficulty_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_difficulty",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00742280, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_game_difficulty
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_active_primary_skulls_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_active_primary_skulls",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00742540, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the active primary skulls of the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_long_integer
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_active_secondary_skulls_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_active_secondary_skulls",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007426F0, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the active primary skulls of the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_long_integer
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_coop_players_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_coop_players",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007429D0, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_long_integer
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_initial_zone_set_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_initial_zone_set",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00742CD0, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the initial bsp for the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_long_integer
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_tick_rate_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_tick_rate",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00742E30, // $TODO write the function chuckle nuts
-	.documentation = "debug map launching: sets the tick rate for the next map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_long_integer
-	},
-};
-MACRO_FUNCTION_EVALUATE(game_start, main_game_launch, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_start_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_start",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(game_start, main_game_launch, 1, _hs_type_void), // (hs_evaluate_function_definition)0x00743050,
-	.documentation = "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for init.txt only",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_splitscreen,
+	0,
+	main_game_launch_set_multiplayer_splitscreen_count, // (hs_evaluate_function_definition)0x00741F40
+	"debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_long_integer }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_difficulty,
+	0,
+	main_game_launch_set_difficulty, // (hs_evaluate_function_definition)0x00742280,
+	"debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_game_difficulty }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_active_primary_skulls,
+	0,
+	main_game_launch_set_active_primary_skulls, // (hs_evaluate_function_definition)0x00742540,
+	"debug map launching: sets the active primary skulls of the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_long_integer }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_active_secondary_skulls,
+	0,
+	main_game_launch_set_active_secondary_skulls, // (hs_evaluate_function_definition)0x007426F0,
+	"debug map launching: sets the active primary skulls of the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_long_integer }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_coop_players,
+	0,
+	main_game_launch_set_coop_player_count, // (hs_evaluate_function_definition)0x007429D0,
+	"debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_long_integer }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_initial_zone_set,
+	0,
+	main_game_launch_set_initial_zone_set_index, // (hs_evaluate_function_definition)0x00742CD0,
+	"debug map launching: sets the initial bsp for the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_long_integer }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_tick_rate,
+	0,
+	main_game_launch_set_tick_rate, // (hs_evaluate_function_definition)0x00742E30,
+	"debug map launching: sets the tick rate for the next map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_long_integer }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	game_start,
+	0,
+	main_game_launch, // (hs_evaluate_function_definition)0x00743050
+	"debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for init.txt only",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_start_when_ready_0_definition
 {
 	.return_type = _hs_type_void,
@@ -13211,22 +13120,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) font_cache_flush
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
-MACRO_FUNCTION_EVALUATE(language_set, set_current_language_from_display_name_slow, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) language_set_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "language_set",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(language_set, set_current_language_from_display_name_slow, 1, _hs_type_void), // (hs_evaluate_function_definition)0x00744910,
-	.documentation = "change the language for localization\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	language_set,
+	0,
+	set_current_language_from_display_name_slow, // (hs_evaluate_function_definition)0x00744910
+	"change the language for localization\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) texture_cache_test_malloc_0_definition
 {
 	.return_type = _hs_type_void,
@@ -14422,17 +14324,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_level_advan
 		_hs_type_string_id
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_won_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_won",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x0073D190, // $TODO write the function chuckle nuts
-	.documentation = "causes the player to successfully finish the current level and move to the next\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	game_won,
+	0,
+	game_won, // (hs_evaluate_function_definition)0x0073D190
+	"causes the player to successfully finish the current level and move to the next\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_lost_1_definition
 {
 	.return_type = _hs_type_void,
@@ -14448,17 +14348,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_lost_1_defi
 		_hs_type_boolean
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_revert_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "game_revert",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x0073D7A0, // $TODO write the function chuckle nuts
-	.documentation = "causes the player to revert to his previous saved game (for testing and cinematic skipping only please!)\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	game_revert,
+	0,
+	main_revert_map_scripting, // (hs_evaluate_function_definition)0x0073D7A0
+	"causes the player to revert to his previous saved game (for testing and cinematic skipping only please!)\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_is_cooperative_0_definition
 {
 	.return_type = _hs_type_boolean,
@@ -17612,39 +17510,33 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) gui_load_screen_
 		_hs_type_string_id
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_reset_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "gui_reset",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00732610, // $TODO write the function chuckle nuts
-	.documentation = "cleans out the halox ui screens and errors\r\nNETWORK SAFEL No",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_start_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "gui_start",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00732820, // $TODO write the function chuckle nuts
-	.documentation = "tells the window location manager to resume\r\nNETWORK SAFEL No",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) gui_stop_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "gui_stop",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00732A60, // $TODO write the function chuckle nuts
-	.documentation = "tells the window location manager to stop bringing up screens on its own\r\nNETWORK SAFEL No",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	gui_reset,
+	0,
+	window_manager_reset_screens, // (hs_evaluate_function_definition)0x00732610
+	"cleans out the halox ui screens and errors\r\nNETWORK SAFEL No",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	gui_start,
+	0,
+	location_manager_start, // (hs_evaluate_function_definition)0x00732820
+	"tells the window location manager to resume\r\nNETWORK SAFEL No",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	gui_stop,
+	0,
+	location_manager_stop, // (hs_evaluate_function_definition)0x00732A60
+	"tells the window location manager to stop bringing up screens on its own\r\nNETWORK SAFEL No",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 6) gui_error_post_3_definition
 {
 	.return_type = _hs_type_void,
@@ -18890,42 +18782,28 @@ void event_set_display_level_global(int32 display_level)
 {
 	printf("");
 }
-MACRO_FUNCTION_EVALUATE(event_global_display_category, event_set_display_level_global, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_display_category_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "event_global_display_category",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(event_global_display_category, event_set_display_level_global, 1, _hs_type_void), // (hs_evaluate_function_definition)0x0073FCB0,
-	.documentation = "sets the global event display level\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_event
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	event_global_display_category,
+	0,
+	event_set_display_level_global, // (hs_evaluate_function_definition)0x0073FCB0
+	"sets the global event display level\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_event }
+);
 void event_set_log_level_global(int32 log_level)
 {
 	printf("");
 }
-MACRO_FUNCTION_EVALUATE(event_global_log_category, event_set_log_level_global, 1, _hs_type_void);
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_log_category_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "event_global_log_category",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = MACRO_FUNCTION_EVALUATE_NAME(event_global_log_category, event_set_log_level_global, 1, _hs_type_void), // (hs_evaluate_function_definition)0x0073FEB0,
-	.documentation = "sets the global evetn log level\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_event
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	event_global_log_category,
+	0,
+	event_set_log_level_global, // (hs_evaluate_function_definition)0x0073FEB0
+	"sets the global evetn log level\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_event }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) event_global_remote_log_category_1_definition
 {
 	.return_type = _hs_type_void,
@@ -23286,17 +23164,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) net_banhammer_fo
 		_hs_type_boolean
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) font_set_emergency_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "font_set_emergency",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00744C40, // $TODO write the function chuckle nuts
-	.documentation = "sets the font system into emergency mode\r\nNETWORK SAFE: yes",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	font_set_emergency,
+	0,
+	font_initialize_emergency, // (hs_evaluate_function_definition)0x00744C40
+	"sets the font system into emergency mode\r\nNETWORK SAFE: yes",
+	NULL,
+	0, { }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) biped_force_ground_fitting_on_2_definition
 {
 	.return_type = _hs_type_void,
@@ -25506,6 +25382,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) unknown6A0_0_def
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0, // babies first hs function
+	_hs_type_void,
+	exit_game,
+	0,
+	main_exit_game,
+	"exits the game.",
+	NULL,
+	0, { }
+);
 
 #pragma endregion // HS_FUNCTION_DEFINITIONS
 
@@ -26356,7 +26241,7 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&main_menu_0_definition,
 	(hs_function_definition*)&main_halt_0_definition,
 	(hs_function_definition*)&map_name_1_definition,
-	(hs_function_definition*)&game_multiplayer_0_definition,
+	(hs_function_definition*)&game_multiplayer_1_definition,
 	(hs_function_definition*)&game_set_variant_1_definition,
 	(hs_function_definition*)&game_splitscreen_1_definition,
 	(hs_function_definition*)&game_difficulty_1_definition,
@@ -27210,6 +27095,7 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&unknown69E_4_definition,
 	(hs_function_definition*)&unknown69F_1_definition,
 	(hs_function_definition*)&unknown6A0_0_definition,
+	(hs_function_definition*)&exit_game_0_definition,
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
 static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);
