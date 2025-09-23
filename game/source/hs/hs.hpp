@@ -124,8 +124,9 @@ extern const char* hs_global_get_name(int16 global_designator);
 extern void resize_scenario_syntax_data(int32 count);
 extern void hs_doc();
 extern const hs_function_definition* hs_function_get(int16 function_index);
-extern void hs_get_function_documentation_string(short function_index, char* buffer, int32 buffer_size);
+extern void hs_get_function_documentation_string(int16 function_index, char* buffer, int32 buffer_size);
 extern void hs_get_function_parameters_string(int16 function_index, char* buffer, int32 buffer_size);
+extern void hs_help(const char* function_name);
 
 extern void hs_tokens_enumerate_add_string(const char* string);
 extern void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count);

@@ -1,9 +1,11 @@
 #include "hs/hs_function.hpp"
 
+#include "ai/ai.hpp"
 #include "ai/ai_script.hpp"
 #include "cseries/cseries.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
+#include "game/game_engine_scripting.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_external.hpp"
@@ -2330,21 +2332,15 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	NULL,
 	0, { }
 );
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) help_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "help",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007342D0, // $TODO write the function chuckle nuts
-	.documentation = "prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	help,
+	0,
+	hs_help, // (hs_evaluate_function_definition)0x007342D0
+	"prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) game_engine_objects_0_definition
 {
 	.return_type = _hs_type_object_list,
@@ -5121,17 +5117,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 10) device_animate_
 		_hs_type_real
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_powerups_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheat_all_powerups",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00746280, // $TODO write the function chuckle nuts
-	.documentation = "drops all powerups near player\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	cheat_all_powerups,
+	0,
+	cheat_all_powerups, // (hs_evaluate_function_definition)0x00746280
+	"drops all powerups near player\r\nNETWORK SAFE: Yes",
+	NULL,
+	0, { }
+);
 MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	cheat_all_weapons,
@@ -5141,131 +5135,87 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	NULL,
 	0, { }
 );
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_all_vehicles_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheat_all_vehicles",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00746720, // $TODO write the function chuckle nuts
-	.documentation = "drops all vehicles on player\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheat_teleport_to_camera_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheat_teleport_to_camera",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00746960, // $TODO write the function chuckle nuts
-	.documentation = "teleports player to camera location\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) cheat_active_camouflage_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheat_active_camouflage",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00746C00, // $TODO write the function chuckle nuts
-	.documentation = "gives the player active camouflage\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_boolean
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) cheat_active_camouflage_by_player_2_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheat_active_camouflage_by_player",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00746E00, // $TODO write the function chuckle nuts
-	.documentation = "gives a specific player active camouflage\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 2,
-	.formal_parameters =
-	{
-		_hs_type_short_integer,
-		_hs_type_boolean
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) cheats_load_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "cheats_load",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007470E0, // $TODO write the function chuckle nuts
-	.documentation = "reloads the cheats.txt file\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) drop_safe_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "drop_safe",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00747230, // $TODO write the function chuckle nuts
-	.documentation = "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_any_tag
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) drop_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "drop",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007474E0, // $TODO write the function chuckle nuts
-	.documentation = "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 4) drop_variant_2_definition
-{
-	.return_type = _hs_type_void,
-	.name = "drop_variant",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00747700, // $TODO write the function chuckle nuts
-	.documentation = "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle using the specified variant name\r\nNETWORK SAFE: Yes, for objects",
-	.parameters = NULL,
-	.formal_parameter_count = 2,
-	.formal_parameters =
-	{
-		_hs_type_string,
-		_hs_type_string
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) ai_enable_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "ai_enable",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00747900, // $TODO write the function chuckle nuts
-	.documentation = "turns all AI on or off.\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_boolean
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	cheat_all_vehicles,
+	0,
+	cheat_all_vehicles, // (hs_evaluate_function_definition)0x00746720
+	"drops all vehicles on player\r\nNETWORK SAFE: Yes",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	cheat_teleport_to_camera,
+	0,
+	cheat_teleport_to_camera, // (hs_evaluate_function_definition)0x00746960
+	"teleports player to camera location\r\nNETWORK SAFE: Yes",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	cheat_active_camouflage,
+	0,
+	cheat_active_camouflage, // (hs_evaluate_function_definition)0x00746C00
+	"gives the player active camouflage\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, { _hs_type_boolean }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	cheat_active_camouflage_by_player,
+	0,
+	cheat_active_camouflage_by_user, // (hs_evaluate_function_definition)0x00746E00
+	"gives a specific player active camouflage\r\nNETWORK SAFE: Yes",
+	NULL,
+	2, { _hs_type_short_integer, _hs_type_boolean }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	cheats_load,
+	0,
+	cheats_load, // (hs_evaluate_function_definition)0x007470E0
+	"reloads the cheats.txt file\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	drop_safe,
+	0,
+	cheat_drop_tag_safe, // (hs_evaluate_function_definition)0x00747230
+	"drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects",
+	NULL,
+	1, { _hs_type_any_tag }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	drop,
+	0,
+	cheat_drop_tag_name, // (hs_evaluate_function_definition)0x007474E0
+	"drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects",
+	NULL,
+	1, { _hs_type_string }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	drop_variant,
+	0,
+	cheat_drop_tag_name_with_variant_hs, // (hs_evaluate_function_definition)0x00747700
+	"drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle using the specified variant name\r\nNETWORK SAFE: Yes, for objects",
+	NULL,
+	2, { _hs_type_string, _hs_type_string }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	ai_enable,
+	0,
+	ai_globals_set_ai_active, // (hs_evaluate_function_definition)0x00747900
+	"turns all AI on or off.\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, { _hs_type_boolean }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) ai_enabled_0_definition
 {
 	.return_type = _hs_type_boolean,
@@ -15000,84 +14950,60 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) game_engine_even
 		_hs_type_long_integer
 	},
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) core_load_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "core_load",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00744A50, // $TODO write the function chuckle nuts
-	.documentation = "loads debug game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_load_name_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "core_load_name",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00744C10, // $TODO write the function chuckle nuts
-	.documentation = "loads debug game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) core_save_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "core_save",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00744FE0, // $TODO write the function chuckle nuts
-	.documentation = "saves debug game state to core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_save_name_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "core_save_name",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007452D0, // $TODO write the function chuckle nuts
-	.documentation = "saves debug game state to core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) core_load_game_0_definition
-{
-	.return_type = _hs_type_void,
-	.name = "core_load_game",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x00745520, // $TODO write the function chuckle nuts
-	.documentation = "loads level and game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 0,
-};
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_load_game_name_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "core_load_game_name",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007457B0, // $TODO write the function chuckle nuts
-	.documentation = "loads level and game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_string
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	core_load,
+	0,
+	main_load_core, // (hs_evaluate_function_definition)0x00744A50
+	"loads debug game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	core_load_name,
+	0,
+	main_load_core_name, // (hs_evaluate_function_definition)0x00744C10
+	"loads debug game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_string }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	core_save,
+	0,
+	main_save_core, // (hs_evaluate_function_definition)0x00744FE0
+	"saves debug game state to core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	core_save_name,
+	0,
+	main_save_core_name, // (hs_evaluate_function_definition)0x007452D0
+	"saves debug game state to core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_string }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	core_load_game,
+	0,
+	main_game_load_from_core, // (hs_evaluate_function_definition)0x00745520
+	"loads level and game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0, { }
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	core_load_game_name,
+	0,
+	main_game_load_from_core_name, // (hs_evaluate_function_definition)0x007457B0
+	"loads level and game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, { _hs_type_string }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) core_regular_upload_to_debug_server_1_definition
 {
 	.return_type = _hs_type_void,
@@ -20881,21 +20807,15 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) deterministic_en
 	.parameters = NULL,
 	.formal_parameter_count = 0,
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_game_won_1_definition
-{
-	.return_type = _hs_type_void,
-	.name = "mp_game_won",
-	.flags = 0,
-	.parse = hs_macro_function_parse,
-	.evaluate = (hs_evaluate_function_definition)0x007412A0, // $TODO write the function chuckle nuts
-	.documentation = "given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes",
-	.parameters = NULL,
-	.formal_parameter_count = 1,
-	.formal_parameters =
-	{
-		_hs_type_mp_team
-	},
-};
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mp_game_won,
+	0,
+	game_engine_game_won, // (hs_evaluate_function_definition)0x007412A0,
+	"given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, { _hs_type_mp_team }
+);
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 2) mp_respawn_override_timers_1_definition
 {
 	.return_type = _hs_type_void,

@@ -11,6 +11,7 @@
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "hs/object_lists.hpp"
+#include "main/console.hpp"
 #include "memory/data.hpp"
 #include "objects/objects.hpp"
 #include "profiler/profiler.hpp"
@@ -459,7 +460,7 @@ const hs_function_definition* hs_function_get(int16 function_index)
 	return function;
 }
 
-void hs_get_function_documentation_string(short function_index, char* buffer, int32 buffer_size)
+void hs_get_function_documentation_string(int16 function_index, char* buffer, int32 buffer_size)
 {
 	const hs_function_definition* function = hs_function_get(function_index);
 	csstrnzcpy(buffer, function->documentation, buffer_size);
@@ -486,6 +487,21 @@ void hs_get_function_parameters_string(int16 function_index, char* buffer, int32
 	csstrnzcat(buffer, ")", buffer_size);
 }
 
+void hs_help(const char* function_name)
+{
+	for (int32 function_index = 0; function_index < hs_function_table_count; function_index++)
+	{
+		if (ascii_stricmp(hs_function_table[function_index]->name, function_name) == 0)
+		{
+			char printbuffer[2048]{};
+			hs_get_function_parameters_string((int16)function_index, printbuffer, sizeof(printbuffer));
+			console_printf(printbuffer);
+			hs_get_function_documentation_string((int16)function_index, printbuffer, sizeof(printbuffer));
+			console_printf(printbuffer);
+			break;
+		}
+	}
+}
 void hs_tokens_enumerate_add_string(const char* string)
 {
 	ASSERT(enumeration_results);

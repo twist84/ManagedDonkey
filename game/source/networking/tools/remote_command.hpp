@@ -94,15 +94,8 @@ struct s_command
 
 //-----------------------------------------------------------------------------
 
-COMMAND_CALLBACK_DECLARE(help);
 COMMAND_CALLBACK_DECLARE(set);
 COMMAND_CALLBACK_DECLARE(script_start);
-COMMAND_CALLBACK_DECLARE(core_load);
-COMMAND_CALLBACK_DECLARE(core_load_name);
-COMMAND_CALLBACK_DECLARE(core_save);
-COMMAND_CALLBACK_DECLARE(core_save_name);
-COMMAND_CALLBACK_DECLARE(core_load_game);
-COMMAND_CALLBACK_DECLARE(core_load_game_name);
 COMMAND_CALLBACK_DECLARE(game_save_and_quit);
 COMMAND_CALLBACK_DECLARE(game_save_unsafe);
 COMMAND_CALLBACK_DECLARE(game_safe_to_save);
@@ -172,7 +165,6 @@ COMMAND_CALLBACK_DECLARE(online_user_set_name);
 COMMAND_CALLBACK_DECLARE(mp_players_by_team);
 COMMAND_CALLBACK_DECLARE(deterministic_end_game);
 COMMAND_CALLBACK_DECLARE(mp_active_player_count_by_team);
-COMMAND_CALLBACK_DECLARE(mp_game_won);
 COMMAND_CALLBACK_DECLARE(mp_respawn_override_timers);
 COMMAND_CALLBACK_DECLARE(mp_ai_allegiance);
 COMMAND_CALLBACK_DECLARE(mp_allegiance);
@@ -181,17 +173,9 @@ COMMAND_CALLBACK_DECLARE(mp_weapon_belongs_to_team);
 COMMAND_CALLBACK_DECLARE(mp_debug_goal_object_boundary_geometry);
 COMMAND_CALLBACK_DECLARE(load_preferences_from_file);
 COMMAND_CALLBACK_DECLARE(load_customization_from_file);
-COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
-COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
 COMMAND_CALLBACK_DECLARE(cheat_all_chars);
-COMMAND_CALLBACK_DECLARE(cheat_teleport_to_camera);
-COMMAND_CALLBACK_DECLARE(cheat_active_camouflage);
-COMMAND_CALLBACK_DECLARE(cheat_active_camouflage_by_player);
 COMMAND_CALLBACK_DECLARE(debug_menu_rebuild);
-COMMAND_CALLBACK_DECLARE(drop);
-COMMAND_CALLBACK_DECLARE(drop_variant);
 COMMAND_CALLBACK_DECLARE(drop_permutation);
-COMMAND_CALLBACK_DECLARE(ai_enable);
 COMMAND_CALLBACK_DECLARE(director_debug_camera);
 COMMAND_CALLBACK_DECLARE(camera_control);
 COMMAND_CALLBACK_DECLARE(camera_set_mode);
@@ -255,17 +239,9 @@ COMMAND_CALLBACK_DECLARE(saved_film_seek_to_film_tick);
 
 s_command const k_registered_commands[] =
 {
-	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints this output.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(set, 0, "", "set the value of a global variable.\r\nNETWORK SAFE: Yes (depending on result)"),
 
 	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),
-
-	COMMAND_CALLBACK_REGISTER(core_load, 0, "", "loads debug game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(core_load_name, 1, "<string>", "loads debug game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(core_save, 0, "", "saves debug game state to core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(core_save_name, 1, "<string>", "saves debug game state to core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(core_load_game, 0, "", "loads level and game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(core_load_game_name, 1, "<string>", "loads level and game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(game_save_and_quit, 0, "", "save & quit to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_save_unsafe, 0, "", "saves right now, even if the game is in an immediate-loss state (NEVER USE THIS! EVER!)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -350,7 +326,6 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(mp_players_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(deterministic_end_game, 0, "", "end game deterministically, by inserting a simulation queue event\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_active_player_count_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<short>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_respawn_override_timers, 1, "<short>", "<mp_team> causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_ai_allegiance, 2, "<short> <short>", "<team> <mp_team> causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(mp_allegiance, 2, "<short> <short>", "<mp_team> <mp_team> create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes"),
@@ -362,20 +337,9 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(load_preferences_from_file, 1, "<string>", "<preferences filename> loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(load_customization_from_file, 1, "<string>", "<customization filename> loads customization from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
-	COMMAND_CALLBACK_REGISTER(cheat_all_powerups, 0, "", "drops all powerups near player\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "", "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_all_chars, 0, "", "drops all characters near player\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_teleport_to_camera, 0, "", "teleports player to camera location\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage, 1, "<boolean>", "gives the player active camouflage\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage_by_player, 2, "<long> <boolean>", "gives a specific player active camouflage\r\nNETWORK SAFE: Yes"),
-
 	COMMAND_CALLBACK_REGISTER(debug_menu_rebuild, 0, "", "Reparses the debug menu from the text file."),
 
-	COMMAND_CALLBACK_REGISTER(drop, 1, "<string>", "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects"),
-	COMMAND_CALLBACK_REGISTER(drop_variant, 2, "<string> <string>", "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle using the specified variant name\r\n"),
 	COMMAND_CALLBACK_REGISTER(drop_permutation, 2, "<string> <string>", "drops the named tag e.g. objects\\characters\\brute\\brute.biped using the specified permutation. permutations are specified as a comma-delimited string of region=permutation pairs (e.g. region1=permutation1,region2=permutation2).\r\n"),
-
-	COMMAND_CALLBACK_REGISTER(ai_enable, 1, "<boolean>", "turns all AI on or off.\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(director_debug_camera, 1, "<boolean>", "enable/disable camera debugging\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(camera_control, 1, "<boolean>", "toggles script control of the camera.\r\nNETWORK SAFE: Unknown, assumed unsafe"),

@@ -1701,7 +1701,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 			// maybe we missed a function part of a function that's supposed to set the thread's termination bit
 			// 
 			// if we've itarated enough to inspect and run one other function that's good enough for now
-			if (runtime_evaluate_loop_iteration > 1)
+			if (runtime_evaluate_loop_iteration > (hs_thread_stack(thread)->parameters.stack_offset == NONE ? 1 : 2))
 			{
 				thread->flags |= FLAG(_hs_thread_terminate_bit);
 			}

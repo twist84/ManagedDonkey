@@ -501,90 +501,12 @@ bool load_preference(const char* name, const char* value)
 	return false;
 }
 
-callback_result_t help_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	ASSERT(token_count >= 1);
-
-	static callback_result_t result;
-	if (result.is_empty())
-	{
-		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
-		{
-			const s_command& command = k_registered_commands[i];
-
-			result.append_print("%s ", command.name);
-			result.append_line(command.parameter_types && *command.parameter_types != 0 ? command.parameter_types : "");
-			result.append_line(command.extra_info && *command.extra_info != 0 ? command.extra_info : "");
-			result.append_line();
-		}
-	}
-
-	return result;
-}
-
 callback_result_t script_start_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	const char* name = tokens[1]->get_string();
 	user_interface_start_hs_script_by_name(name);
-
-	return result;
-}
-
-callback_result_t core_load_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_load_core();
-
-	return result;
-}
-
-callback_result_t core_load_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* core_name = tokens[1]->get_string();
-	main_load_core_name(core_name);
-
-	return result;
-}
-
-callback_result_t core_save_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_save_core();
-
-	return result;
-}
-
-callback_result_t core_save_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* core_name = tokens[1]->get_string();
-	main_save_core_name(core_name);
-
-	return result;
-}
-
-callback_result_t core_load_game_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	main_game_load_from_core();
-
-	return result;
-}
-
-callback_result_t core_load_game_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* core_name = tokens[1]->get_string();
-	main_game_load_from_core_name(core_name);
 
 	return result;
 }
@@ -1106,16 +1028,6 @@ callback_result_t mp_active_player_count_by_team_callback(const void* userdata, 
 	return result;
 }
 
-callback_result_t mp_game_won_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int16 team = static_cast<int16>(atol(tokens[1]->get_string()));
-	game_engine_game_won(team);
-
-	return result;
-}
-
 callback_result_t mp_respawn_override_timers_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -1466,67 +1378,11 @@ callback_result_t load_customization_from_file_callback(const void* userdata, in
 	return result;
 }
 
-callback_result_t cheat_all_powerups_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_all_powerups();
-
-	return result;
-}
-
-callback_result_t cheat_all_vehicles_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_all_vehicles();
-
-	return result;
-}
-
 callback_result_t cheat_all_chars_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	cheat_all_chars();
-
-	return result;
-}
-
-callback_result_t cheat_teleport_to_camera_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_teleport_to_camera();
-
-	return result;
-}
-
-
-callback_result_t cheat_active_camouflage_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 value = token_try_parse_bool(tokens[1]);
-	if (value <= 1)
-	{
-		cheat_active_camouflage((bool)value);
-	}
-
-	return result;
-}
-
-callback_result_t cheat_active_camouflage_by_player_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 user_index = (int32)atol(tokens[1]->get_string());
-	int32 value = token_try_parse_bool(tokens[2]);
-	if (value <= 1)
-	{
-		int32 player_index = player_mapping_get_player_by_input_user(user_index);
-		cheat_active_camouflage_by_user(player_index, (bool)value);
-	}
 
 	return result;
 }
@@ -1540,27 +1396,6 @@ callback_result_t debug_menu_rebuild_callback(const void* userdata, int32 token_
 	return result;
 }
 
-callback_result_t drop_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* tag_name = tokens[1]->get_string();
-	cheat_drop_tag_name(tag_name);
-
-	return result;
-}
-
-callback_result_t drop_variant_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const char* tag_name = tokens[1]->get_string();
-	const char* variant_name = tokens[2]->get_string();
-	cheat_drop_tag_name_with_variant_hs(tag_name, variant_name);
-
-	return result;
-}
-
 callback_result_t drop_permutation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -1568,19 +1403,6 @@ callback_result_t drop_permutation_callback(const void* userdata, int32 token_co
 	const char* tag_name = tokens[1]->get_string();
 	const char* permutation = tokens[2]->get_string();
 	cheat_drop_tag_name_with_permutation_hs(tag_name, permutation);
-
-	return result;
-}
-
-callback_result_t ai_enable_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 value = token_try_parse_bool(tokens[1]);
-	if (value <= 1)
-	{
-		ai_globals_set_ai_active((bool)value);
-	}
 
 	return result;
 }
