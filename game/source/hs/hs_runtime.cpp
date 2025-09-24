@@ -207,11 +207,18 @@ inline static bool script_error(long thread_index, const char* message, const ch
 	return false;
 }
 
+inline static bool script_error2(long thread_index, const char* message, const char* condition)
+{
+	event(_event_warning, "a problem occurred while executing the script %s: %s (%s)",
+		hs_thread_format(thread_index),
+		message ? message : "no reason given.",
+		condition);
+
+	return false;
+}
+
 #define SCRIPT_COMPILE_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error((THREAD_INDEX), (MESSAGE), #CONDITION))
-#define ASSERT_SCRIPT_EXECTION(THREAD_INDEX, CONDITION, MESSAGE) VASSERT((CONDITION), c_string_builder().print("a problem occurred while executing the script %s: %s (%s)", \
-	hs_thread_format((THREAD_INDEX)), \
-	(MESSAGE) ? (MESSAGE) : "no reason given.", \
-	#CONDITION))
+#define SCRIPT_EXECUTION_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error2((THREAD_INDEX), (MESSAGE), #CONDITION))
 
 int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_count, const int16* formal_parameters, bool initialize)
 {
@@ -233,7 +240,7 @@ int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_
 
 		if (*argument_index < formal_parameter_count)
 		{
-			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index != NONE, "corrupted syntax tree.");
+			SCRIPT_EXECUTION_ERROR(thread_index, *expression_index != NONE, "corrupted syntax tree.");
 
 			if (SCRIPT_COMPILE_ERROR(thread_index, hs_syntax_get(*expression_index)->type == formal_parameters[*argument_index], "unexpected actual parameters."))
 			{
@@ -249,7 +256,7 @@ int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_
 		}
 		else
 		{
-			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index == NONE, "corrupted syntax tree.");
+			SCRIPT_EXECUTION_ERROR(thread_index, *expression_index == NONE, "corrupted syntax tree.");
 		}
 	}
 
@@ -361,7 +368,7 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 	const hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 expression_result = NONE;
 
-	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
+	SCRIPT_EXECUTION_ERROR(thread_index, valid_thread(thread_index), "corrupted stack.");
 
 	if (!TEST_BIT(expression->flags, _hs_syntax_node_primitive_bit))
 	{
@@ -732,7 +739,7 @@ void __cdecl hs_return(int32 thread_index, int32 value)
 	hs_stack_frame* current_frame = hs_thread_stack(thread);
 	const hs_syntax_node* expression = hs_syntax_get(current_frame->expression_index);
 
-	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
+	SCRIPT_EXECUTION_ERROR(thread_index, valid_thread(thread_index), "corrupted stack.");
 
 	int16 return_type = _hs_unparsed;
 	if (!TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
@@ -989,7 +996,7 @@ void __cdecl hs_runtime_initialize_for_new_map()
 					object_list_add_reference(hs_global_evaluate((int16)global_index));
 				}
 
-				ASSERT_SCRIPT_EXECTION(internal_thread_index, internal_thread->sleep_until == 0, "a global initialization attempted to sleep.");
+				SCRIPT_EXECUTION_ERROR(internal_thread_index, internal_thread->sleep_until == 0, "a global initialization attempted to sleep.");
 			}
 
 			hs_global_reconcile_write((int16)(global_index & MASK(15)));
@@ -1347,8 +1354,8 @@ void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_
 	void* result = NULL;
 
 	ASSERT(alignment_bits <= 4);
-	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
-	ASSERT_SCRIPT_EXECTION(thread_index, size, "attempt to allocate zero space from the stack.");
+	SCRIPT_EXECUTION_ERROR(thread_index, valid_thread(thread_index), "corrupted stack.");
+	SCRIPT_EXECUTION_ERROR(thread_index, size, "attempt to allocate zero space from the stack.");
 	ASSERT(alignment_pad >= 0);
 
 	int32 allocation_offset = alignment_pad + unaligned_offset;
@@ -1661,7 +1668,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 	hs_thread* thread = hs_thread_get(thread_index);
 	hs_script* script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->hs_scripts, thread->script_index, hs_script);
 
-	ASSERT_SCRIPT_EXECTION(thread_index, valid_thread(thread_index), "corrupted stack.");
+	SCRIPT_EXECUTION_ERROR(thread_index, valid_thread(thread_index), "corrupted stack.");
 	thread->sleep_until = 0;
 
 	if (!thread->stack.stack_offset)
