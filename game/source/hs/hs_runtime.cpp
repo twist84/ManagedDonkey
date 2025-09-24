@@ -231,18 +231,14 @@ int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_
 			*expression_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
 		}
 
-		if (*argument_index >= formal_parameter_count)
-		{
-			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index == NONE, "corrupted syntax tree.");
-		}
-		else
+		if (*argument_index < formal_parameter_count)
 		{
 			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index != NONE, "corrupted syntax tree.");
 
 			if (SCRIPT_COMPILE_ERROR(thread_index, hs_syntax_get(*expression_index)->type == formal_parameters[*argument_index], "unexpected actual parameters."))
 			{
 				hs_destination_pointer destination{};
-				destination.destination_type = 1;
+				destination.destination_type = _hs_destination_stack;
 				destination.stack_pointer = evaluation_results_reference;
 				destination.stack_pointer.stack_offset += sizeof(int32) * *argument_index;
 				hs_evaluate(thread_index, *expression_index, destination, NULL);
@@ -250,6 +246,10 @@ int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_
 				(*argument_index)++;
 				evaluation_results = 0;
 			}
+		}
+		else
+		{
+			ASSERT_SCRIPT_EXECTION(thread_index, *expression_index == NONE, "corrupted syntax tree.");
 		}
 	}
 
