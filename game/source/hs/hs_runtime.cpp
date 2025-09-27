@@ -2065,41 +2065,41 @@ void hs_find_dormant_script(const char* dormant_script_name, int32* script_index
 
 const char* expression_get_function_name(int32 thread_index, int32 expression_index)
 {
-	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	hs_thread* thread = hs_thread_get(thread_index);
 
-	while (true)
-	{
-		if (TEST_BIT(expression->flags, _hs_syntax_node_script_bit))
-		{
-			break;
-		}
+	const char* result = "unknown script";
 
-		if (expression->script_index || expression_index != hs_thread_stack(thread)->expression_index)
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	for (; !TEST_BIT(expression->flags, _hs_syntax_node_script_bit); expression = hs_syntax_get(expression_index))
+	{
+		if (expression->function_index || expression_index != hs_thread_stack(thread)->expression_index)
 		{
-			return hs_function_get(expression->function_index)->name;
+			result = hs_function_get(expression->function_index)->name;
+			break;
 		}
 
 		if (hs_thread_stack(thread)->size <= 0)
 		{
-			return "(invalid expression reference)";
+			result = "(invalid expression reference)";
+			break;
 		}
 
 		expression_index = expression->next_node_index;
 		if (expression_index == NONE)
 		{
-			return "(end of script)";
+			result = "(end of script)";
+			break;
 		}
-
-		expression = hs_syntax_get(expression_index);
 	}
 
 	if (VALID_INDEX(expression->script_index, global_scenario->hs_scripts.count))
 	{
-		return global_scenario->hs_scripts[expression->script_index].name;
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario->hs_scripts, expression->script_index, hs_script);
+
+		result = script->name;
 	}
 
-	return "unknown script";
+	return result;
 }
 
 void thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffer_size)
@@ -2128,7 +2128,7 @@ void thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffe
 		}
 		else
 		{
-			csnzappendf(buffer, buffer_size, "%d\t", thread->sleep_until ? thread->sleep_until - game_time_get() : 0);
+			csnzappendf(buffer, buffer_size, "%d\t", thread->sleep_until ? (thread->sleep_until - game_time_get()) : 0);
 		}
 
 		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
