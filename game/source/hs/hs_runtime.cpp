@@ -839,16 +839,24 @@ bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression
 	//return INVOKE(0x005977A0, hs_runtime_evaluate, expression_index, display_expression_result, deterministic);
 
 	int32 result = NONE;
-	if (expression_index != NONE)
+
+	bool temporary_initialization = false;
+	if (!hs_runtime_globals->initialized)
 	{
-		bool temporary_initialization = false;
-		if (!hs_runtime_globals->initialized)
+		hs_runtime_initialize_for_new_map();
+		if (hs_runtime_globals->initialized)
 		{
-			hs_runtime_initialize_for_new_map();
 			temporary_initialization = true;
 		}
+		else
+		{
+			event(_event_warning, "design:hs: unable to initialize scripting system to execute that command.");
+		}
+	}
 
-		if (hs_runtime_globals->initialized)
+	if (hs_runtime_globals->initialized)
+	{
+		if (expression_index != NONE)
 		{
 			int32 thread_index = hs_thread_new(_hs_thread_type_runtime_evaluate, NONE, deterministic);
 			if (thread_index != NONE)
