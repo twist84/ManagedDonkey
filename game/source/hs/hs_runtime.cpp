@@ -1920,7 +1920,7 @@ void __cdecl hs_wake(int32 thread_index, int32 waking_thread_index)
 					{
 						hs_stack_pop(thread_index);
 						hs_stack_pop(thread_index);
-						thread->flags &= ~FLAG(_hs_thread_latent_sleep_bit);
+						thread->flags &= ~FLAG(_hs_thread_in_function_call_bit);
 					}
 				}
 			}
