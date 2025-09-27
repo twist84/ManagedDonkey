@@ -280,6 +280,7 @@ extern void __cdecl hs_typecasting_table_initialize();
 extern void __cdecl hs_wake(int32 thread_index, int32 waking_thread_index);
 extern bool __cdecl hs_wake_by_name(const char* script_name);
 extern void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size);
+extern void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset);
 
 extern hs_thread* hs_thread_get(int32 thread_index);
 extern void hs_find_dormant_script(const char* dormant_script_name, int32* script_index_out);

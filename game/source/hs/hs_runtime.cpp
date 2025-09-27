@@ -53,6 +53,7 @@ HOOK_DECLARE(0x00597A80, hs_runtime_initialize_for_new_map);
 HOOK_DECLARE(0x00597C70, hs_runtime_initialize_threads);
 HOOK_DECLARE(0x00597CF0, hs_runtime_initialized);
 HOOK_DECLARE(0x00597D10, hs_runtime_internal_evaluate);
+HOOK_DECLARE(0x00597DD0, hs_runtime_nondeterministic_threads_running);
 HOOK_DECLARE(0x00597DE0, hs_runtime_push_script);
 HOOK_DECLARE(0x00597E60, hs_runtime_require_gc);
 HOOK_DECLARE(0x00597E80, hs_runtime_require_object_list_gc);
@@ -1091,7 +1092,17 @@ int32 __cdecl hs_runtime_internal_evaluate(int32 expression_index)
 
 bool __cdecl hs_runtime_nondeterministic_threads_running()
 {
-	return INVOKE(0x00597DD0, hs_runtime_nondeterministic_threads_running);
+	//return INVOKE(0x00597DD0, hs_runtime_nondeterministic_threads_running);
+
+	bool result = false;
+
+#ifdef USE_HS_THREAD_TRACKING
+	s_hs_thread_iterator iterator{};
+	hs_thread_iterator_new(&iterator, false, true);
+	result = (hs_thread_iterator_next(&iterator) != NONE);
+#endif
+
+	return result;
 }
 
 void __cdecl hs_runtime_push_script(int16 script_index)
