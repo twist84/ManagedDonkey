@@ -1247,13 +1247,13 @@ void __cdecl hs_runtime_update()
 			{
 				internal_threads = true;
 			}
-			else if (thread->type <= _hs_thread_type_runtime_evaluate || thread->type > _hs_thread_type_command_script)
+			else if (thread->type == _hs_thread_type_command_script)
 			{
-				allow = g_run_game_scripts;
+				cs_setup_global_script_context(thread_index);
 			}
 			else
 			{
-				cs_setup_global_script_context(thread_index);
+				allow = g_run_game_scripts;
 			}
 
 			if (allow && IN_RANGE_INCLUSIVE(thread->sleep_until, 0, time))
@@ -1261,7 +1261,7 @@ void __cdecl hs_runtime_update()
 				hs_thread_main(thread_index);
 			}
 
-			//cs_global_script_context_clear();
+			cs_global_script_context_clear();
 		}
 
 		object_list_gc();

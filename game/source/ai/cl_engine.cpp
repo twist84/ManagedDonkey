@@ -62,7 +62,11 @@ cs_point_set* __cdecl cs_get_point_set(int32 index)
 	return &global_scenario_get()->cs_script_data[0].point_sets[index];
 }
 
-//.text:01443F10 ; void __cdecl cs_global_script_context_clear()
+void __cdecl cs_global_script_context_clear()
+{
+	INVOKE(0x01443F10, cs_global_script_context_clear);
+}
+
 //.text:01443F30 ; void __cdecl cs_handle_deleted_object(int32, int32)
 
 void __cdecl cs_handle_thread_delete(int32 deleted_thread_index)

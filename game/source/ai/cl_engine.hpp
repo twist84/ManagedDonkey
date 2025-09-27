@@ -196,6 +196,7 @@ extern bool __cdecl cs_blocked(int32 thread_index);
 extern void __cdecl cs_dispose();
 extern void __cdecl cs_dispose_from_old_map();
 extern cs_point_set* __cdecl cs_get_point_set(int32 index);
+extern void __cdecl cs_global_script_context_clear();
 extern void __cdecl cs_handle_thread_delete(int32 deleted_thread_index);
 extern void __cdecl cs_initialize();
 extern void __cdecl cs_initialize_for_new_map();
