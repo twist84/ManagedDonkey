@@ -254,7 +254,7 @@ void __cdecl console_complete()
 		else if (suggestion_current_index == matching_item_count)
 		{
 			suggestion_current_index = 0;
-			console_token_buffer.copy_to(token, k_terminal_gets_state_input_text_size);
+			console_token_buffer.copy_to(token, 256);
 			console_globals.input_state.edit.insertion_point_index = uns16(console_token_buffer.length() + 1);
 		}
 		else
@@ -305,7 +305,7 @@ void __cdecl console_initialize()
 
 		console_globals.status_render = true;
 		console_globals.input_state.color = { 1.0f, 1.0f, 0.3f, 1.0f };
-		console_globals.input_state.prompt.set("donkey( ");
+		csstrnzcpy(console_globals.input_state.prompt, "donkey( ", NUMBEROF(console_globals.input_state.prompt));
 		console_globals.input_state.result[0] = 0;
 		console_globals.previous_command_count = 0;
 		console_globals.newest_previous_command_index = NONE;

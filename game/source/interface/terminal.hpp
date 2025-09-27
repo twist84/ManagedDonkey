@@ -8,31 +8,26 @@
 struct output_line_datum :
 	s_datum_header
 {
-	int32 line_index;
-	int32 line_count;
+	int32 newer_line_index;
+	int32 older_line_index;
 	bool tabstop;
-	c_static_string<255> buffer;
+	char buffer[255];
 	real_argb_color color;
 	real32 timer;
 };
 static_assert(sizeof(output_line_datum) == 0x120);
 
-int32 const k_terminal_gets_state_input_text_size = 256;
-
-//#pragma pack(push, 4)
 struct terminal_gets_state
 {
 	int16 key_count;
-	//c_static_array<key_stroke, 32> keys;
-	c_static_array<s_key_state, 32> keys;
+	s_key_state keys[32];// key_stroke keys[32];
 	real_argb_color color;
-	c_static_string<k_tag_string_length> prompt;
-	char result[k_terminal_gets_state_input_text_size];
+	char prompt[32];
+	char result[256];
 	int32 horizontal_scroll_amount;
 	edit_text edit;
 };
 //static_assert(sizeof(terminal_gets_state) == 0x11FC);
-//#pragma pack(pop)
 
 struct s_terminal_globals
 {
@@ -51,22 +46,20 @@ static_assert(sizeof(s_terminal_globals) == 0x1C);
 extern s_terminal_globals terminal_globals;
 extern bool g_terminal_render_enable;
 
-extern real32 const k_output_total_seconds;
-extern int16 const k_tab_stops[];
-
-extern void __cdecl terminal_printf(const real_argb_color* color, const char* format, ...);
-extern void __cdecl terminal_initialize();
-extern void __cdecl terminal_dispose();
-extern void __cdecl terminal_clear();
-extern bool __cdecl terminal_update_input(real32 shell_seconds_elapsed);
-extern void __cdecl terminal_update_output(real32 shell_seconds_elapsed);
-extern bool __cdecl terminal_update(real32 shell_seconds_elapsed);
-extern void __cdecl terminal_remove_line(int32 line_index);
-extern int32 __cdecl terminal_new_line(const char* buffer, const real_argb_color* color, bool tabstop);
-extern void __cdecl terminal_output_to_console(bool console_output);
-extern void __cdecl terminal_suppress_output(bool suppress_output);
-extern bool __cdecl terminal_gets_active();
-extern bool __cdecl terminal_gets_begin(terminal_gets_state* state);
-extern void __cdecl terminal_gets_end(terminal_gets_state* state);
-extern void __cdecl terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds);
+extern void terminal_clear();
+extern void terminal_dispose();
+extern void terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds);
+extern bool terminal_gets_active();
+extern bool terminal_gets_begin(terminal_gets_state* state);
+extern void terminal_gets_end(terminal_gets_state* state);
+extern void terminal_handle_key(s_key_state* key);
+extern void terminal_initialize();
+extern int32 terminal_new_line(const char* buffer, const real_argb_color* color, bool tabstop);
+extern void terminal_output_to_console(bool console_output);
+extern void terminal_printf(const real_argb_color* color, const char* format, ...);
+extern void terminal_remove_line(int32 line_index);
+extern void terminal_suppress_output(bool suppress_output);
+extern bool terminal_update(real32 shell_seconds_elapsed);
+extern bool terminal_update_input(real32 shell_seconds_elapsed);
+extern void terminal_update_output(real32 shell_seconds_elapsed);
 
