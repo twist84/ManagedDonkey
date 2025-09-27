@@ -57,6 +57,7 @@ HOOK_DECLARE(0x00597DE0, hs_runtime_push_script);
 HOOK_DECLARE(0x00597E60, hs_runtime_require_gc);
 HOOK_DECLARE(0x00597E80, hs_runtime_require_object_list_gc);
 HOOK_DECLARE(0x00597EA0, hs_runtime_reset);
+HOOK_DECLARE(0x00597F00, hs_runtime_reset_time);
 HOOK_DECLARE(0x00597FC0, hs_runtime_safe_to_gc);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005980C0, hs_runtime_update);
@@ -1125,22 +1126,22 @@ void __cdecl hs_runtime_reset()
 
 void __cdecl hs_runtime_reset_time(int32 previous_time)
 {
-	INVOKE(0x00597F00, hs_runtime_reset_time, previous_time);
+	//INVOKE(0x00597F00, hs_runtime_reset_time, previous_time);
 
-	//if (hs_runtime_globals->initialized)
-	//{
-	//	int32 time_offset = game_time_get() - previous_time;
-	//
-	//	s_hs_thread_iterator iterator{};
-	//	hs_thread_iterator_new(&iterator, true, true);
-	//
-	//	for (int32 thread_index = hs_thread_iterator_next(&iterator);
-	//		thread_index != NONE;
-	//		thread_index = hs_thread_iterator_next(&iterator))
-	//	{
-	//		thread_update_sleep_time_for_reset(thread_index, time_offset);
-	//	}
-	//}
+	if (hs_runtime_globals->initialized)
+	{
+		int32 time_offset = game_time_get() - previous_time;
+	
+		s_hs_thread_iterator iterator{};
+		hs_thread_iterator_new(&iterator, true, true);
+	
+		for (int32 thread_index = hs_thread_iterator_next(&iterator);
+			thread_index != NONE;
+			thread_index = hs_thread_iterator_next(&iterator))
+		{
+			thread_update_sleep_time_for_reset(thread_index, time_offset);
+		}
+	}
 }
 
 bool __cdecl hs_runtime_safe_to_gc()
@@ -1222,6 +1223,7 @@ void __cdecl hs_runtime_update()
 			{
 				thread->sleep_until = 0;
 			}
+
 			if (thread->type == _hs_thread_type_runtime_evaluate)
 			{
 				internal_threads = true;
@@ -1235,13 +1237,16 @@ void __cdecl hs_runtime_update()
 				cs_setup_global_script_context(thread_index);
 			}
 
-			if (allow && thread->sleep_until >= 0 && thread->sleep_until <= time)
+			if (allow && IN_RANGE_INCLUSIVE(thread->sleep_until, 0, time))
 			{
 				hs_thread_main(thread_index);
 			}
+
+			//cs_global_script_context_clear();
 		}
 
 		object_list_gc();
+
 		if (hs_runtime_globals->syntax_data_needs_gc && !internal_threads && !(game_time_get() % 16))
 		{
 			hs_node_gc();
@@ -2009,7 +2014,11 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 //.text:005993E0 ; 
 //.text:00599420 ; 
 //.text:00599460 ; 
-//.text:00599470 ; void __cdecl thread_update_sleep_time_for_reset(int32, int32)
+
+void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset)
+{
+	INVOKE(0x00599470, thread_update_sleep_time_for_reset, thread_index, time_offset);
+}
 
 hs_thread* hs_thread_get(int32 thread_index)
 {
