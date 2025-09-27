@@ -1630,26 +1630,55 @@ void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool determi
 {
 	//INVOKE(0x00598B20, hs_thread_iterator_new, iterator, deterministic, non_deterministic);
 
+#ifndef USE_HS_THREAD_TRACKING
 	if (hs_runtime_globals->initialized)
 	{
 		iterator->iterate_deterministic = deterministic;
 		iterator->iterate_non_deterministic = non_deterministic;
 		iterator->raw_thread_index = NONE;
 		iterator->non_deterministic = false;
-
 		if (iterator->iterate_deterministic)
 		{
 			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, NONE);
 		}
+	}
+#else
+	if (hs_runtime_globals->initialized)
+	{
+		iterator->iterate_deterministic = deterministic;
+		iterator->iterate_non_deterministic = non_deterministic;
+		iterator->raw_thread_index = NONE;
+		iterator->non_deterministic = !iterator->iterate_deterministic && iterator->iterate_non_deterministic;
 
-#ifdef USE_HS_THREAD_TRACKING
-		if (iterator->raw_thread_index == NONE && iterator->iterate_non_deterministic)
+		if (iterator->non_deterministic)
 		{
 			iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, NONE);
-			iterator->non_deterministic = true;
 		}
-#endif
+		else if (iterator->iterate_deterministic)
+		{
+			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, NONE);
+			if (iterator->raw_thread_index == NONE && iterator->iterate_non_deterministic)
+			{
+				iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, NONE);
+				iterator->non_deterministic = true;
+			}
+		}
 	}
+#endif
+}
+
+int32 hs_thread_get_tracking_index_by_non_deterministic_thread_index(int32 non_deterministic_thread_index)
+{
+	hs_thread* thread = DATUM_GET(hs_thread_non_deterministic_data, hs_thread, non_deterministic_thread_index);
+	ASSERT(thread->tracking_index != NONE);
+	return thread->tracking_index;
+}
+
+int32 hs_thread_get_tracking_index_by_deterministic_thread_index(int32 non_deterministic_thread_index)
+{
+	hs_thread* thread = DATUM_GET(hs_thread_deterministic_data, hs_thread, non_deterministic_thread_index);
+	ASSERT(thread->tracking_index != NONE);
+	return thread->tracking_index;
 }
 
 int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
@@ -1657,31 +1686,33 @@ int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
 	//return INVOKE(0x00598B70, hs_thread_iterator_next, iterator);
 
 	int32 result = NONE;
-	if (hs_runtime_globals->initialized)
+#ifndef USE_HS_THREAD_TRACKING
+	if (hs_runtime_globals->initialized && iterator->raw_thread_index != NONE)
 	{
 		result = iterator->raw_thread_index;
-		if (iterator->raw_thread_index != NONE)
-		{
-#ifndef USE_HS_THREAD_TRACKING
-			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
+		iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
+	}
 #else
-			if (iterator->non_deterministic)
-			{
-				iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, iterator->raw_thread_index);
-			}
-			else
-			{
-				iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
+	if (hs_runtime_globals->initialized && iterator->raw_thread_index != NONE)
+	{
+		if (iterator->non_deterministic)
+		{
+			result = hs_thread_get_tracking_index_by_non_deterministic_thread_index(iterator->raw_thread_index);
+			iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, iterator->raw_thread_index);
+		}
+		else
+		{
+			result = hs_thread_get_tracking_index_by_deterministic_thread_index(iterator->raw_thread_index);
+			iterator->raw_thread_index = data_next_index(hs_thread_deterministic_data, iterator->raw_thread_index);
 
-				if (iterator->raw_thread_index == NONE && iterator->iterate_non_deterministic)
-				{
-					iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, NONE);
-					iterator->non_deterministic = true;
-				}
+			if (iterator->raw_thread_index == NONE && iterator->iterate_non_deterministic)
+			{
+				iterator->raw_thread_index = data_next_index(hs_thread_non_deterministic_data, NONE);
+				iterator->non_deterministic = true;
 			}
-#endif
 		}
 	}
+#endif
 	return result;
 }
 
