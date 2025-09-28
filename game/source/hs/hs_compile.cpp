@@ -118,6 +118,24 @@ return_type_t hs_check_block_index_type_and_return(return_type_t return_value)
 	return return_value;
 }
 
+bool hs_add_global(int32 expression_index)
+{
+	bool success = false;
+
+	// $IMPLEMENT
+
+	return success;
+}
+
+bool hs_add_script(int32 expression_index)
+{
+	bool success = false;
+
+	// $IMPLEMENT
+
+	return success;
+}
+
 void hs_compile_add_reference(int32 referred_index, e_reference_type reference_type, int32 node_index)
 {
 	if (reference_type || !TEST_BIT(referred_index, 15))
@@ -1793,6 +1811,44 @@ bool hs_parse_sound_tag_reference(int32 expression_index)
 		hs_compile_globals.error_message = 0;
 	}
 	return parse_success;
+}
+
+bool hs_parse_special_form(int32 expression_index)
+{
+	bool success = false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	if (!expression->type)
+	{
+		expression->type = _hs_special_form;
+		if (TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
+		{
+			hs_compile_globals.error_message = "i expected a script or variable definition.";
+			hs_compile_globals.error_offset = expression->source_offset;
+		}
+		else
+		{
+			int32 predicate_index = hs_syntax_get(expression_index)->long_value;
+			const hs_syntax_node* predicate = hs_syntax_get(predicate_index);
+
+			hs_compile_globals.indent++;
+			if (strcmp(&hs_compile_globals.compiled_source[predicate->source_offset], "global") == 0)
+			{
+				success = hs_add_global(expression_index);
+			}
+			else if (strcmp(&hs_compile_globals.compiled_source[predicate->source_offset], "script") == 0)
+			{
+				success = hs_add_script(expression_index);
+			}
+			else
+			{
+				hs_compile_globals.error_message = "i expected \"script\" or \"global\".";
+				hs_compile_globals.error_offset = predicate->source_offset;
+			}
+
+			hs_compile_globals.indent--;
+		}
+	}
+	return success;
 }
 
 bool hs_parse_starting_profile(int32 expression_index)

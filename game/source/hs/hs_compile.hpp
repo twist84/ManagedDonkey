@@ -92,6 +92,8 @@ extern s_hs_static_globals hs_static_globals;
 using hs_type_primitive_parser_t = bool __cdecl(int32 expression_index);
 extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
 
+extern bool hs_add_global(int32 expression_index);
+extern bool hs_add_script(int32 expression_index);
 extern void hs_compile_add_reference(int32 referred_index, e_reference_type reference_type, int32 node_index);
 extern char* hs_compile_add_source(int32 source_size, const char* source_data);
 extern bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive);
@@ -140,6 +142,7 @@ extern bool hs_parse_primitive(int32 expression_index);
 extern bool hs_parse_real(int32 expression_index);
 extern bool hs_parse_script(int32 expression_index);
 extern bool hs_parse_sound_tag_reference(int32 expression_index);
+extern bool hs_parse_special_form(int32 expression_index);
 extern bool hs_parse_starting_profile(int32 expression_index);
 extern bool hs_parse_string(int32 expression_index);
 extern bool hs_parse_string_id(int32 expression_index);
