@@ -45,6 +45,7 @@ HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 //HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
+HOOK_DECLARE(0x00594960, hs_evaluate_begin);
 //HOOK_DECLARE(0x00596070, hs_find_thread_by_name);
 //HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
 HOOK_DECLARE(0x005961D0, hs_global_evaluate);
@@ -446,7 +447,34 @@ void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bo
 
 void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00594960, hs_evaluate_begin, function_index, thread_index, initialize);
+	//INVOKE(0x00594960, hs_evaluate_begin, function_index, thread_index, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	hs_stack_pointer result_reference{};
+	int32* parameters_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
+	if (parameters_index && parameters_result)
+	{
+		ASSERT(function_index == _hs_function_begin);
+		if (initialize)
+		{
+			*parameters_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+			*parameters_result = 0;
+		}
+
+		if (*parameters_index != NONE)
+		{
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = result_reference;
+			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
+		}
+		else
+		{
+			hs_return(thread_index, *parameters_result);
+		}
+	}
 }
 
 void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool initialize)
