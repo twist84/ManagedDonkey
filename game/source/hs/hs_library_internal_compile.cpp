@@ -207,7 +207,6 @@ int32 hs_parse_cond_recursive(int32 root_expression_index, int32 expression_inde
 bool hs_parse_cond(int16 function_index, int32 expression_index)
 {
 	bool success = false;
-#if 0
 	int32 reformatted_expression_index = hs_parse_cond_recursive(expression_index, hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index);
 	if (reformatted_expression_index != NONE)
 	{
@@ -216,17 +215,10 @@ bool hs_parse_cond(int16 function_index, int32 expression_index)
 		int16 identifier = cond_node->identifier;
 		int16 type = cond_node->type;
 		reformatted_node->next_node_index = cond_node->next_node_index;
-
-		// TODO finish this
-
-		// ...
-
-		// TODO ^
-
+		*cond_node = *reformatted_node;
 		cond_node->identifier = identifier;
 		success = hs_parse(expression_index, type);
 	}
-#endif
 	return success;
 }
 
