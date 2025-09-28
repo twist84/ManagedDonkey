@@ -214,7 +214,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 		hs_compile_initialize(false);
 
 		hs_syntax_node temporary_syntax_data[128]{};
-		if (TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit))
+		if (g_hs_syntax_data && TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit))
 		{
 			csmemset(temporary_syntax_data, 0, sizeof(temporary_syntax_data));
 			data_connect(g_hs_syntax_data, NUMBEROF(temporary_syntax_data), temporary_syntax_data);
@@ -234,7 +234,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 			hs_runtime_evaluate(expression_index, interactive, false);
 		}
 
-		if (g_hs_syntax_data->data == temporary_syntax_data)
+		if (g_hs_syntax_data && g_hs_syntax_data->data == temporary_syntax_data)
 		{
 			data_disconnect(g_hs_syntax_data);
 		}
@@ -506,67 +506,103 @@ bool hs_compile_register_error_listener(c_hs_compile_error_listener* listener)
 
 bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 {
-	// $IMPLEMENT
+#if 1
+	bool success = false;
+#else
+	bool success = true;
 
-	return false;
+	// $IMPLEMENT
+#endif
+
+	return success;
 }
 
 bool hs_compile_source(bool fail_on_error, bool verbose)
 {
-	// $IMPLEMENT
+#if 1
+	bool success = false;
+#else
+	bool success = true;
+	s_hs_compile_state compile_state;
 
-	return false;
+	progress_new("compiling scripts");
+	hs_compile_initialize(true);
+	hs_compile_state_initialize(global_scenario_get(), &compile_state);
+	
+	if (g_error_output_buffer && verbose)
+	{
+		csstrnzcpy(g_error_output_buffer, "", g_error_buffer_length);
+	}
 
-	//int32 total_source_size = 0;
-	//bool success = true;
-	//s_hs_compile_state state;
-	//
-	//progress_new("compiling scripts");
-	//hs_compile_initialize(true);
-	//hs_compile_state_initialize(global_scenario_get(), &state);
-	//
-	//if (g_error_output_buffer && verbose)
-	//{
-	//	csstrnzcpy(g_error_output_buffer, "", g_error_buffer_length);
-	//}
-	//
-	//for (hs_source_file& source_file : global_scenario_get()->hs_source_files)
-	//{
-	//	// $IMPLEMENT
-	//}
-	//
-	//if (success || !fail_on_error)
-	//{
-	//	success = hs_compile_second_pass(&state, verbose);
-	//	if (!success)
-	//	{
-	//		hs_compile_strip_failed_special_forms(&state, verbose);
-	//	}
-	//}
-	//
-	//hs_runtime_require_gc();
-	//
-	//if (verbose)
-	//{
-	//	if (success)
-	//	{
-	//		console_printf("scripts successfully compiled.");
-	//	}
-	//	else
-	//	{
-	//		console_printf("script compile errors");
-	//	}
-	//}
-	//
-	//if (!success)
-	//{
-	//	success = !fail_on_error;
-	//}
-	//
-	//hs_compile_dispose();
-	//progress_done();
-	//
-	//return success;
+	int32 total_source_size = 0;
+	struct scenario* scenario = global_scenario_get();
+	for (int16 source_index = 0; source_index < (int16)scenario->hs_source_files.count; source_index++)
+	{
+		hs_source_file* source_file = TAG_BLOCK_GET_ELEMENT(&scenario->hs_source_files, source_index, hs_source_file);
+
+#if 0
+		char* source_text = TAG_DATA_GET_POINTER(char*, &source_file->source, 0, source_file->source.size);
+		if (source_text)
+		{
+			ascii_strnlwr(source_text, source_file->source.size);
+
+			char const* error_message = NULL;
+			int32 error_offset = NONE;
+			hs_compile_first_pass(&compile_state, source_file->source.size, source_text, &error_message, &error_offset);
+			total_source_size += source_file->source.size;
+			if (error_message)
+			{
+				success = false;
+				int32 error_offset_within_file = 0;
+				if (verbose)
+				{
+					ASSERT(error_offset != NONE);
+					hs_source_file* error_source_file = source_offset_get_source_file(error_offset, &error_offset_within_file);
+					if (error_source_file)
+					{
+						char* error_source = TAG_DATA_GET_POINTER(char*, &error_source_file->source, 0, error_source_file->source.size);
+						const char* error_text = &error_source[error_offset_within_file];
+						hs_compile_source_error(error_source_file->name, error_message, error_text, error_source);
+					}
+				}
+			}
+		}
+#endif
+	}
+	
+	if (success || !fail_on_error)
+	{
+		success = hs_compile_second_pass(&compile_state, verbose);
+		if (!success)
+		{
+			hs_compile_strip_failed_special_forms(&compile_state, verbose);
+		}
+	}
+	
+	hs_runtime_require_gc();
+	
+	if (verbose)
+	{
+		if (success)
+		{
+			console_printf("scripts successfully compiled.");
+		}
+		else
+		{
+			console_printf("script compile errors");
+		}
+	}
+	
+	if (!success)
+	{
+		success = !fail_on_error;
+	}
+	
+	hs_compile_dispose();
+	progress_done();
+#endif
+	
+	return success;
 }
 
 void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source)
@@ -639,14 +675,68 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 
 void fail_special_form_recursive(int32* strip_globals, int32* strip_scripts, int32 index, e_reference_type type)
 {
-	// $IMPLEMENT
+#if 0
+	s_hs_reference* reference = NULL;
+	struct scenario* scenario = global_scenario_get();
+	switch (type)
+	{
+	case _hs_reference_type_global:
+	{
+		if (BIT_VECTOR_TEST_FLAG(strip_globals, index))
+		{
+			BIT_VECTOR_OR_FLAG(strip_globals, index);
+			reference = hs_compile_globals.global_references[index];
+			hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&scenario->hs_globals, index, hs_global_internal);
+			fail_syntax_node_recursive(global->initialization_expression_index);
+		}
+	}
+	break;
+	case _hs_reference_type_script:
+	{
+		if (BIT_VECTOR_TEST_FLAG(strip_scripts, index))
+		{
+			BIT_VECTOR_OR_FLAG(strip_scripts, index);
+			reference = hs_compile_globals.hs_compile_globals.script_references[index];
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, index, hs_script);
+			fail_syntax_node_recursive(script->root_expression_index);
+		}
+	}
+	break;
+	}
+
+	for (; reference; reference = reference->next)
+	{
+		if (reference->strong)
+		{
+			fail_special_form_recursive(strip_globals, strip_scripts, reference->index, reference->type);
+		}
+		else
+		{
+			hs_syntax_node* node = hs_syntax_get(reference->node_index);
+			ASSERT(!TEST_BIT(node->flags, _hs_syntax_node_variable_bit));
+			if (TEST_BIT(node->flags, _hs_syntax_node_script_bit))
+			{
+				ASSERT(scenario_get_hs_script(global_scenario_get(), node->script_index)->return_type == _hs_type_void);
+				node->constant_type = NONE;
+			}
+			else if (node->type == _hs_type_script)
+			{
+				node->short_value = NONE;
+			}
+			else if (node->type == _hs_type_ai_command_script)
+			{
+				node->long_value = NONE;
+			}
+		}
+	}
+#endif
 }
 
 void hs_compile_strip_failed_special_forms(const s_hs_compile_state* compile_state, bool verbose)
 {
 	return;
 
-	scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 
 	int32 strip_globals[9]{};
 	int32 strip_scripts[32]{};

@@ -118,7 +118,10 @@ static_assert(sizeof(hs_syntax_node) == 0x18);
 
 struct hs_source_file
 {
+	//char name[32];
+	//s_tag_data source;
 	c_typed_tag_block<hs_tag_reference> external_references;
+	//uns32 flags;
 };
 static_assert(sizeof(hs_source_file) == sizeof(s_tag_block));
 
