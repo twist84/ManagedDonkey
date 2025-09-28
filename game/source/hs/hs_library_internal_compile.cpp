@@ -1,5 +1,6 @@
 #include "hs/hs_library_internal_compile.hpp"
 
+#include "cache/cache_files.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 
 bool hs_get_parameter_indices(const char* function_name, int16 count, int32* result_indices, int32 expression_index)
@@ -119,11 +120,114 @@ bool hs_parse_if(int16 function_index, int32 expression_index)
 	return parse_success;
 }
 
+int32 hs_parse_cond_recursive(int32 root_expression_index, int32 expression_index)
+{
+#if 1
+	int32 result_index = NONE;
+#else
+	int32 result_index = datum_new(g_hs_syntax_data);
+	if (result_index == NONE)
+	{
+		hs_syntax_node* result_node = hs_syntax_get(result_index);
+		result_node->source_offset = hs_syntax_get(root_expression_index)->source_offset;
+		result_node->flags = 0;
+		result_node->next_node_index = NONE;
+		if (expression_index == NONE)
+		{
+			result_node->flags |= FLAG(_hs_syntax_node_primitive_bit);
+			result_node->constant_type = hs_syntax_get(root_expression_index)->type;
+			result_node->type = result_node->constant_type;
+			result_node->long_value = 0;
+		}
+		else if (TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
+		{
+			hs_compile_globals.error_message = "this argument to cond should be a condition/result pair";
+			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+			result_index = NONE;
+		}
+		else
+		{
+			int32 link_index = hs_syntax_get(expression_index)->long_value;
+			hs_syntax_node* link_node = hs_syntax_get(link_index);
+			if (link_node->next_node_index == NONE)
+			{
+				hs_compile_globals.error_message = "this argument to cond needs a result.";
+				hs_compile_globals.error_offset = hs_syntax_get(link_index)->source_offset;
+				result_index = NONE;
+			}
+			else
+			{
+				int32 implicit_begin_index = datum_new(g_hs_syntax_data);
+				int32 implicit_begin_name_index = datum_new(g_hs_syntax_data);
+				if (implicit_begin_index == NONE || implicit_begin_name_index == NONE)
+				{
+					hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+					hs_compile_globals.error_offset = hs_syntax_get(root_expression_index)->source_offset;
+					result_index = NONE;
+				}
+				else
+				{
+					hs_syntax_node* implicit_begin_node = hs_syntax_get(implicit_begin_index);
+					hs_syntax_node* implicit_begin_name_node = hs_syntax_get(implicit_begin_name_index);
+					hs_syntax_node* condition_result_pair_node = hs_syntax_get(expression_index);
+					implicit_begin_node->next_node_index = hs_parse_cond_recursive(root_expression_index, hs_syntax_get(expression_index)->next_node_index);
+					if (implicit_begin_node->next_node_index == NONE)
+					{
+						result_index = NONE;
+					}
+					else
+					{
+						//result_node->constant_type = 2;
+						//result_node->long_value = expression_index;
+						//condition_result_pair_node->long_value = 0;
+						//condition_result_pair_node->constant_type = 2;
+						//condition_result_pair_node->flags = FLAG(_hs_syntax_node_primitive_bit);
+						//condition_result_pair_node->next_node_index = link_index;
+						//condition_result_pair_node->source_offset = NONE;
+						//condition_result_pair_node->type = 2;
+						//implicit_begin_node->long_value = implicit_begin_name_index;
+						//implicit_begin_node->flags = 0;
+						//implicit_begin_node->source_offset = result_node->source_offset;
+						//implicit_begin_name_node->data = 0;
+						//implicit_begin_name_node->constant_type = 2;
+						//implicit_begin_name_node->flags = FLAG(_hs_syntax_node_primitive_bit);
+						//implicit_begin_name_node->next_node_index = hs_syntax_get(link_index)->next_node_index;
+						//implicit_begin_name_node->source_offset = NONE;
+						//implicit_begin_name_node->type = 2;
+						//link_node->next_node_index = implicit_begin_index;
+					}
+				}
+			}
+		}
+	}
+#endif
+	return result_index;
+}
+
 bool hs_parse_cond(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	bool success = false;
+#if 0
+	int32 reformatted_expression_index = hs_parse_cond_recursive(expression_index, hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index);
+	if (reformatted_expression_index != NONE)
+	{
+		hs_syntax_node* cond_node = hs_syntax_get(expression_index);
+		hs_syntax_node* reformatted_node = hs_syntax_get(reformatted_expression_index);
+		int16 identifier = cond_node->identifier;
+		int16 type = cond_node->type;
+		reformatted_node->next_node_index = cond_node->next_node_index;
 
-	return false;
+		// TODO finish this
+
+		// ...
+
+		// TODO ^
+
+		cond_node->identifier = identifier;
+		success = hs_parse(expression_index, type);
+	}
+#endif
+	return success;
 }
 
 bool hs_parse_set(int16 function_index, int32 expression_index)
@@ -195,31 +299,95 @@ bool hs_parse_set(int16 function_index, int32 expression_index)
 
 bool hs_parse_logical(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	ASSERT(function_index == _hs_function_and || function_index == _hs_function_or);
 
-	return false;
+	bool success = false;
+
+	int32 parameters_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	int32 actual_parameter_count = 0;
+	for (; success && parameters_index != NONE; actual_parameter_count++)
+	{
+		success = hs_parse(parameters_index, _hs_type_boolean);
+		parameters_index = hs_syntax_get(parameters_index)->next_node_index;
+	}
+
+	if (success && actual_parameter_count < 2)
+	{
+		hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, NUMBEROF(hs_compile_globals.error_buffer),
+			"the %s call requires at least 2 arguments.",
+			hs_function_get(function_index)->name);
+
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+		success = false;
+	}
+
+	return success;
 };
 
 bool hs_parse_arithmetic(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	ASSERT(function_index >= _hs_function_plus && function_index <= _hs_function_max);
 
-	return false;
+	bool success = false;
+
+	int32 parameters_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	int32 actual_parameter_count = 0;
+	for (; success && parameters_index != NONE; actual_parameter_count++)
+	{
+		success = hs_parse(parameters_index, _hs_type_real);
+		parameters_index = hs_syntax_get(parameters_index)->next_node_index;
+	}
+
+	if (success && actual_parameter_count < 2 || function_index == _hs_function_divide && actual_parameter_count > 2)
+	{
+		hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, NUMBEROF(hs_compile_globals.error_buffer),
+			"the %s call requires %s2 arguments.",
+			hs_function_get(function_index)->name,
+			(function_index == _hs_function_divide) ? "" : "at least ");
+
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+		success = false;
+	}
+
+	return success;
 };
 
 bool hs_parse_equality(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	ASSERT(function_index == _hs_function_equal || function_index == _hs_function_not_equal);
 
-	return false;
+	bool success = false;
+	int32 parameter_indices[2];
+	if (hs_get_parameter_indices(hs_function_get(function_index)->name, NUMBEROF(parameter_indices), parameter_indices, expression_index))
+	{
+		if (hs_parse(parameter_indices[0], _hs_unparsed))
+		{
+			if (hs_parse(parameter_indices[1], hs_syntax_get(parameter_indices[0])->type))
+			{
+				success = true;
+			}
+		}
+		else if (!hs_compile_globals.error_message && hs_parse(parameter_indices[1], _hs_unparsed))
+		{
+			if (hs_parse(parameter_indices[0], hs_syntax_get(parameter_indices[1])->type))
+			{
+				success = true;
+			}
+		}
+		else if (!hs_compile_globals.error_message && hs_parse(parameter_indices[0], _hs_type_real) && hs_parse(parameter_indices[1], _hs_type_real))
+		{
+			success = true;
+		} 
+	}
+	return success;
 };
 
 bool hs_parse_inequality(int16 function_index, int32 expression_index)
 {
 	ASSERT(function_index >= _hs_function_gt && function_index <= _hs_function_lte);
-	bool success = false;
 
-	long parameter_indices[2]{};
+	bool success = false;
+	long parameter_indices[2];
 	if (hs_get_parameter_indices(hs_function_get(function_index)->name, NUMBEROF(parameter_indices), parameter_indices, expression_index))
 	{
 		if (hs_parse(parameter_indices[0], _hs_unparsed)
@@ -272,30 +440,89 @@ bool hs_parse_inequality(int16 function_index, int32 expression_index)
 
 bool hs_parse_sleep(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	ASSERT(function_index == _hs_function_sleep);
 
-	return false;
+	bool success = false;
+	int32 time_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	if (time_index == NONE)
+	{
+		hs_compile_globals.error_message = "the sleep call requires a time and, optionally, a script name.";
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+	}
+	else if (hs_parse(time_index, _hs_type_short_integer))
+	{
+		int32 script_name_index = hs_syntax_get(time_index)->next_node_index;
+		if (script_name_index == NONE || hs_parse(script_name_index, _hs_type_script))
+		{
+			success = true;
+		}
+	}
+	return success;
 };
 
 bool hs_parse_sleep_forever(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
-
-	return false;
+	bool success = false;
+	int32 script_name_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	if (script_name_index == NONE || hs_parse(script_name_index, _hs_type_script))
+	{
+		success = true;
+	}
+	return success;
 };
 
 bool hs_parse_sleep_until(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	ASSERT(function_index == _hs_function_sleep_until);
 
-	return false;
+	bool success = false;
+	int32 condition_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	if (condition_index == NONE)
+	{
+		hs_compile_globals.error_message = "the sleep_until call requires a condition and, optionally, a period.";
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+	}
+	else
+	{
+		int32 period_index = hs_syntax_get(condition_index)->next_node_index;
+		success = hs_parse(condition_index, _hs_type_boolean);
+		if (success && period_index != NONE)
+		{
+			int32 expiration_index = hs_syntax_get(period_index)->next_node_index;
+			success = hs_parse(period_index, _hs_type_short_integer);
+			if (success && expiration_index != NONE)
+			{
+				success = hs_parse(expiration_index, _hs_type_long_integer);
+			}
+		}
+	}
+	return success;
 };
 
 bool hs_parse_wake(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	ASSERT(function_index == _hs_function_wake);
 
-	return false;
+	bool success = false;
+	int32 script_name_index;
+	if (hs_get_parameter_indices(hs_function_get(function_index)->name, 1, &script_name_index, expression_index))
+	{
+		hs_syntax_node* script_name_node = hs_syntax_get(script_name_index);
+		if (hs_parse(script_name_index, _hs_type_script))
+		{
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_name_index, hs_script);
+			if (script->script_type == _hs_script_static || script->script_type == _hs_script_command_script)
+			{
+				hs_compile_globals.error_message = "static or command-script scripts cannot be awakened.";
+				hs_compile_globals.error_offset = script_name_node->source_offset;
+			}
+			else
+			{
+				success = true;
+			}
+		}
+	}
+	return success;
 };
 
 bool hs_parse_inspect(int16 function_index, int32 expression_index)
@@ -316,14 +543,18 @@ bool hs_parse_inspect(int16 function_index, int32 expression_index)
 			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 		}
 	}
-
 	return success;
 };
 
 bool hs_parse_object_cast_up(int16 function_index, int32 expression_index)
 {
-	// $IMPLEMENT
+	bool success = false;
+	int32 object_reference_index;
+	if (hs_get_parameter_indices(hs_function_get(function_index)->name, 1, &object_reference_index, expression_index))
+	{
+		success = hs_parse(object_reference_index, _hs_type_object);
+	}
 
-	return false;
+	return success;
 };
 
