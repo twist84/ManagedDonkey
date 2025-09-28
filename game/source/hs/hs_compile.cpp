@@ -1120,7 +1120,7 @@ bool hs_parse_enum(int32 expression_index)
 	if (HS_TYPE_IS_ENUM(expression->type))
 	{
 		int16 enum_index = 0;
-		const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - _hs_type_game_difficulty];
+		const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - _hs_type_enum_game_difficulty];
 		ASSERT(enum_definition->count);
 
 		for (; enum_index < enum_definition->count && csstricmp(source, enum_definition->names[enum_index]); enum_index++);

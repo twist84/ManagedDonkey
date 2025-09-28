@@ -223,8 +223,8 @@ bool hs_parse_inequality(int16 function_index, int32 expression_index)
 	if (hs_get_parameter_indices(hs_function_get(function_index)->name, NUMBEROF(parameter_indices), parameter_indices, expression_index))
 	{
 		if (hs_parse(parameter_indices[0], _hs_unparsed)
-			&& (hs_syntax_get(parameter_indices[0])->type >= _hs_type_game_difficulty
-				&& hs_syntax_get(parameter_indices[0])->type <= _hs_type_character_physics
+			&& (hs_syntax_get(parameter_indices[0])->type >= _hs_type_enum_game_difficulty
+				&& hs_syntax_get(parameter_indices[0])->type <= _hs_type_enum_character_physics_override
 				|| hs_syntax_get(parameter_indices[0])->type >= _hs_type_real
 				&& hs_syntax_get(parameter_indices[0])->type <= _hs_type_long_integer))
 		{
@@ -235,8 +235,8 @@ bool hs_parse_inequality(int16 function_index, int32 expression_index)
 		}
 		else if (hs_compile_globals.error_message
 			|| !hs_parse(parameter_indices[1], 0)
-			|| (hs_syntax_get(parameter_indices[1])->type < _hs_type_game_difficulty
-				|| hs_syntax_get(parameter_indices[1])->type > _hs_type_character_physics)
+			|| (hs_syntax_get(parameter_indices[1])->type < _hs_type_enum_game_difficulty
+				|| hs_syntax_get(parameter_indices[1])->type > _hs_type_enum_character_physics_override)
 			&& (hs_syntax_get(parameter_indices[1])->type < _hs_type_real
 				|| hs_syntax_get(parameter_indices[1])->type > _hs_type_long_integer))
 		{

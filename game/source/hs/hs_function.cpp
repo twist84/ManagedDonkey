@@ -401,16 +401,6 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_definition
 	.documentation = "pauses execution of this script (or, optionally, another script) for the specified number of ticks @ 30Hz.\r\nNETWORK SAFE: Yes",
 	.parameters = "<short> [<script>]",
 };
-DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_for_ticks_definition
-{
-	.return_type = _hs_type_void,
-	.name = "sleep_for_ticks",
-	.flags = FLAG(_hs_function_flag_internal),
-	.parse = (hs_parse_function_definition)NULL, // $TODO write the function chuckle nuts
-	.evaluate = (hs_evaluate_function_definition)NULL, // $TODO write the function chuckle nuts
-	.documentation = "pauses execution of this script (or, optionally, another script) for the specified number of ticks.\r\nNETWORK SAFE: Yes",
-	.parameters = "<short> [<script>]",
-};
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_forever_definition
 {
 	.return_type = _hs_type_void,
@@ -421,6 +411,16 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_forever_de
 	.documentation = "pauses execution of this script (or, optionally, another script) forever.\r\nNETWORK SAFE: Yes",
 	.parameters = "[<script>]",
 };
+//DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_for_ticks_definition
+//{
+//	.return_type = _hs_type_void,
+//	.name = "sleep_for_ticks",
+//	.flags = FLAG(_hs_function_flag_internal),
+//	.parse = (hs_parse_function_definition)NULL, // $TODO write the function chuckle nuts
+//	.evaluate = (hs_evaluate_function_definition)NULL, // $TODO write the function chuckle nuts
+//	.documentation = "pauses execution of this script (or, optionally, another script) for the specified number of ticks.\r\nNETWORK SAFE: Yes",
+//	.parameters = "<short> [<script>]",
+//};
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_until_definition
 {
 	.return_type = _hs_type_boolean,
@@ -1504,7 +1504,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x00731910, // $TODO write the function chuckle nuts
 	"sets the desired region (use \"\" for all regions) to the model state with the given name, e.g. (object_set_region_state marine head destroyed)\r\nNETWORK SAFE: No",
 	NULL,
-	3, _hs_type_object, _hs_type_string_id, _hs_type_model_state
+	3, _hs_type_object, _hs_type_string_id, _hs_type_enum_model_state
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	_hs_type_boolean,
@@ -3691,7 +3691,7 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	ai_scripting_allegiance, // 0x00738660
 	"creates an allegiance between two teams.\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_team, _hs_type_team
+	2, _hs_type_enum_team, _hs_type_enum_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -3700,7 +3700,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00738A80, // $TODO write the function chuckle nuts
 	"destroys an allegiance between two teams.\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_team, _hs_type_team
+	2, _hs_type_enum_team, _hs_type_enum_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -3709,7 +3709,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00738E20, // $TODO write the function chuckle nuts
 	"fake a betrayal incident between two teams\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_team, _hs_type_team
+	2, _hs_type_enum_team, _hs_type_enum_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -3754,7 +3754,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0073A1E0, // $TODO write the function chuckle nuts
 	"the given ai will prefer the indicated team.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_ai, _hs_type_team
+	2, _hs_type_ai, _hs_type_enum_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	_hs_type_void,
@@ -3907,7 +3907,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0073E520, // $TODO write the function chuckle nuts
 	"makes an encounter change to a new team\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_ai, _hs_type_team
+	2, _hs_type_ai, _hs_type_enum_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -4015,7 +4015,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007417C0, // $TODO write the function chuckle nuts
 	"returns whether two teams have an allegiance that is currently broken by traitorous behavior\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_team, _hs_type_team
+	2, _hs_type_enum_team, _hs_type_enum_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_short_integer,
@@ -4564,7 +4564,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x007389E0, // $TODO write the function chuckle nuts
 	"Play the given mission dialogue line on the given object (uses first available variant) if anyone on the local box is on the specified team\r\nNETWORK SAFE: Yes",
 	NULL,
-	3, _hs_type_object, _hs_type_ai_line, _hs_type_mp_team
+	3, _hs_type_object, _hs_type_ai_line, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	_hs_type_short_integer,
@@ -4609,7 +4609,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0073A0A0, // $TODO write the function chuckle nuts
 	"award a primary skull to a player\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_object, _hs_type_primary_skull
+	2, _hs_type_object, _hs_type_enum_primary_skull
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -4618,7 +4618,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0073A590, // $TODO write the function chuckle nuts
 	"award a secondary skull to a player\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_object, _hs_type_secondary_skull
+	2, _hs_type_object, _hs_type_enum_secondary_skull
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -6889,7 +6889,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	1, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
-	_hs_type_game_difficulty,
+	_hs_type_enum_game_difficulty,
 	game_difficulty_get,
 	0,
 	0x00745610, // $TODO write the function chuckle nuts
@@ -6898,7 +6898,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	0,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
-	_hs_type_game_difficulty,
+	_hs_type_enum_game_difficulty,
 	game_difficulty_get_real,
 	0,
 	0x00745A90, // $TODO write the function chuckle nuts
@@ -7858,7 +7858,7 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	main_game_launch_set_difficulty, // 0x00742280,
 	"debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only",
 	NULL,
-	1, _hs_type_game_difficulty
+	1, _hs_type_enum_game_difficulty
 );
 MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
@@ -8803,7 +8803,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x0073EF20, // $TODO write the function chuckle nuts
 	"test enumeration of saved game files on a controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -8812,7 +8812,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x0073F1E0, // $TODO write the function chuckle nuts
 	"delete the campaign saved game file for a controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -8821,7 +8821,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x0073F510, // $TODO write the function chuckle nuts
 	"test saving of last recorded film for a controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	_hs_type_void,
@@ -8839,7 +8839,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x0073F970, // $TODO write the function chuckle nuts
 	"display the status of content catalogue for a controller, optionally showing only open content items\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	3, _hs_type_controller, _hs_type_boolean, _hs_type_boolean
+	3, _hs_type_enum_controller, _hs_type_boolean, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -9694,7 +9694,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00738110, // $TODO write the function chuckle nuts
 	"Resets all player training data\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	_hs_type_void,
@@ -9703,7 +9703,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x00738370, // $TODO write the function chuckle nuts
 	"activates a nav point type <string> attached to a team anchored to a flag with a vertical offset <real>. If the player is not local to the machine, this will fail\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	3, _hs_type_team, _hs_type_cutscene_flag, _hs_type_real
+	3, _hs_type_enum_team, _hs_type_cutscene_flag, _hs_type_real
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -9712,7 +9712,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00738860, // $TODO write the function chuckle nuts
 	"deactivates a nav point type attached to a team anchored to a flag\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_team, _hs_type_cutscene_flag
+	2, _hs_type_enum_team, _hs_type_cutscene_flag
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	_hs_type_void,
@@ -10315,7 +10315,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00746090, // $TODO write the function chuckle nuts
 	"set look inversion for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10324,7 +10324,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007462A0, // $TODO write the function chuckle nuts
 	"set vibration for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10333,7 +10333,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007464D0, // $TODO write the function chuckle nuts
 	"set airrcraft flight stick controls for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10342,7 +10342,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00746770, // $TODO write the function chuckle nuts
 	"set auto center look for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10351,7 +10351,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00746980, // $TODO write the function chuckle nuts
 	"set crouch lock for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10360,7 +10360,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00746C40, // $TODO write the function chuckle nuts
 	"set button preset for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_button_preset
+	2, _hs_type_enum_controller, _hs_type_enum_button_preset
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10369,7 +10369,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00746E80, // $TODO write the function chuckle nuts
 	"set joystick preset for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_joystick_preset
+	2, _hs_type_enum_controller, _hs_type_enum_joystick_preset
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10378,7 +10378,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00747100, // $TODO write the function chuckle nuts
 	"set look sensitivity for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_short_integer
+	2, _hs_type_enum_controller, _hs_type_short_integer
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10387,7 +10387,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00747250, // $TODO write the function chuckle nuts
 	"<controller> unlock all single player levels for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10396,7 +10396,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00747530, // $TODO write the function chuckle nuts
 	"<controller> lock all single player levels for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10405,7 +10405,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00747720, // $TODO write the function chuckle nuts
 	"<controller> unlock all campaign skulls for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10414,7 +10414,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00747930, // $TODO write the function chuckle nuts
 	"<controller> lock all campaign skulls for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10423,7 +10423,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00747C40, // $TODO write the function chuckle nuts
 	"<controller> unlock all model permutations for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10432,7 +10432,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00747EF0, // $TODO write the function chuckle nuts
 	"<controller> lock all model permutations for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	_hs_type_void,
@@ -10441,7 +10441,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	0x00748010, // $TODO write the function chuckle nuts
 	"<controller> <level index> <co-op> <difficulty> <completed> set the single player levels completed state for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	5, _hs_type_controller, _hs_type_long_integer, _hs_type_boolean, _hs_type_game_difficulty, _hs_type_boolean
+	5, _hs_type_enum_controller, _hs_type_long_integer, _hs_type_boolean, _hs_type_enum_game_difficulty, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10450,7 +10450,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007482C0, // $TODO write the function chuckle nuts
 	"set player character type for specified controller",
 	NULL,
-	2, _hs_type_controller, _hs_type_player_character_type
+	2, _hs_type_enum_controller, _hs_type_enum_player_character_type
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	_hs_type_void,
@@ -10459,7 +10459,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	0x00748560, // $TODO write the function chuckle nuts
 	"set emblem for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	5, _hs_type_controller, _hs_type_short_integer, _hs_type_short_integer, _hs_type_short_integer, _hs_type_short_integer
+	5, _hs_type_enum_controller, _hs_type_short_integer, _hs_type_short_integer, _hs_type_short_integer, _hs_type_short_integer
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10468,7 +10468,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007487C0, // $TODO write the function chuckle nuts
 	"set voice output setting for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_voice_output_setting
+	2, _hs_type_enum_controller, _hs_type_enum_voice_output_setting
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10477,7 +10477,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0072F630, // $TODO write the function chuckle nuts
 	"set voice mask for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_voice_mask
+	2, _hs_type_enum_controller, _hs_type_enum_voice_mask
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10486,7 +10486,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0072FA10, // $TODO write the function chuckle nuts
 	"set subtitle setting for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	2, _hs_type_controller, _hs_type_subtitle_setting
+	2, _hs_type_enum_controller, _hs_type_enum_subtitle_setting
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	_hs_type_void,
@@ -10495,7 +10495,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x0072FC20, // $TODO write the function chuckle nuts
 	"<controller> <map_id> <score> set high score for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	3, _hs_type_controller, _hs_type_long_integer, _hs_type_real
+	3, _hs_type_enum_controller, _hs_type_long_integer, _hs_type_real
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 8,
 	_hs_type_void,
@@ -10504,7 +10504,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 8,
 	0x0072FE00, // $TODO write the function chuckle nuts
 	"<controller> <map_id> <score> <player_count> set high score for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	4, _hs_type_controller, _hs_type_long_integer, _hs_type_real, _hs_type_long_integer
+	4, _hs_type_enum_controller, _hs_type_long_integer, _hs_type_real, _hs_type_long_integer
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 8,
 	_hs_type_void,
@@ -10513,7 +10513,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 8,
 	0x007300F0, // $TODO write the function chuckle nuts
 	"<controller> <map_id> <insertion point> <score> set high score for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	4, _hs_type_controller, _hs_type_long_integer, _hs_type_short_integer, _hs_type_real
+	4, _hs_type_enum_controller, _hs_type_long_integer, _hs_type_short_integer, _hs_type_real
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	_hs_type_void,
@@ -10522,7 +10522,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	0x007303F0, // $TODO write the function chuckle nuts
 	"<controller> <map_id> <insertion point> <score> <player_count> set high score for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	5, _hs_type_controller, _hs_type_long_integer, _hs_type_short_integer, _hs_type_real, _hs_type_long_integer
+	5, _hs_type_enum_controller, _hs_type_long_integer, _hs_type_short_integer, _hs_type_real, _hs_type_long_integer
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10531,7 +10531,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x007305B0, // $TODO write the function chuckle nuts
 	"clear high scores for specified controller\r\nNETWORK SAFE: No",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -10540,7 +10540,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007307A0, // $TODO write the function chuckle nuts
 	"Toggle controller as unsigned-in user\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -10549,7 +10549,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00730B60, // $TODO write the function chuckle nuts
 	"display storage device selection ui for the specified controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -11426,7 +11426,7 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	event_set_display_level_global, // 0x0073FCB0
 	"sets the global event display level\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_event
+	1, _hs_type_enum_event
 );
 void event_set_log_level_global(int32 log_level)
 {
@@ -11439,7 +11439,7 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	event_set_log_level_global, // 0x0073FEB0
 	"sets the global evetn log level\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_event
+	1, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -11448,7 +11448,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x007401A0, // $TODO write the function chuckle nuts
 	"sets the global remote evetn log level\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	1, _hs_type_event
+	1, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -11457,7 +11457,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00740360, // $TODO write the function chuckle nuts
 	"sets the display level for a named category of network events\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_string, _hs_type_event
+	2, _hs_type_string, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -11466,7 +11466,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007405F0, // $TODO write the function chuckle nuts
 	"sets the forced display level for a named category of network events\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_string, _hs_type_event
+	2, _hs_type_string, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -11475,7 +11475,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00740860, // $TODO write the function chuckle nuts
 	"sets the log level for a named category of network events\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_string, _hs_type_event
+	2, _hs_type_string, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -11484,7 +11484,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00740A90, // $TODO write the function chuckle nuts
 	"sets the remote log level for a named category of network events\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_string, _hs_type_event
+	2, _hs_type_string, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -11493,7 +11493,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00740C40, // $TODO write the function chuckle nuts
 	"sets the debugger break level for a named category of network events\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_string, _hs_type_event
+	2, _hs_type_string, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -11502,7 +11502,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00740E80, // $TODO write the function chuckle nuts
 	"sets the halt (assert/crash) level for a named category of network events\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_string, _hs_type_event
+	2, _hs_type_string, _hs_type_enum_event
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -12690,7 +12690,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00740760, // $TODO write the function chuckle nuts
 	"given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes",
 	NULL,
-	1, _hs_type_mp_team
+	1, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_long_integer,
@@ -12699,7 +12699,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x00740B20, // $TODO write the function chuckle nuts
 	"given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes",
 	NULL,
-	1, _hs_type_mp_team
+	1, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	_hs_type_void,
@@ -12717,7 +12717,7 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	game_engine_game_won, // 0x007412A0,
 	"given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes",
 	NULL,
-	1, _hs_type_mp_team
+	1, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -12726,7 +12726,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x007415A0, // $TODO write the function chuckle nuts
 	"causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes",
 	NULL,
-	1, _hs_type_mp_team
+	1, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -12735,7 +12735,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007418E0, // $TODO write the function chuckle nuts
 	"causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_team, _hs_type_mp_team
+	2, _hs_type_enum_team, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -12744,7 +12744,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00741C10, // $TODO write the function chuckle nuts
 	"create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_mp_team, _hs_type_mp_team
+	2, _hs_type_enum_mp_team, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	_hs_type_boolean,
@@ -12861,7 +12861,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00744930, // $TODO write the function chuckle nuts
 	"causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_object, _hs_type_mp_team
+	2, _hs_type_object, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -12870,7 +12870,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00744DE0, // $TODO write the function chuckle nuts
 	"causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes",
 	NULL,
-	2, _hs_type_object, _hs_type_mp_team
+	2, _hs_type_object, _hs_type_enum_mp_team
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -12969,7 +12969,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00746CF0, // $TODO write the function chuckle nuts
 	"plays a saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_controller, _hs_type_string
+	2, _hs_type_enum_controller, _hs_type_string
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	_hs_type_void,
@@ -13698,7 +13698,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x0073B170, // $TODO write the function chuckle nuts
 	"sets cheat flags\r\nNETWORK SAFE: yes",
 	NULL,
-	3, _hs_type_controller, _hs_type_string, _hs_type_boolean
+	3, _hs_type_enum_controller, _hs_type_string, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 8,
 	_hs_type_void,
@@ -13707,7 +13707,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 8,
 	0x0073B320, // $TODO write the function chuckle nuts
 	"sets ban flags\r\nNETWORK SAFE: yes",
 	NULL,
-	4, _hs_type_controller, _hs_type_string, _hs_type_long_integer, _hs_type_boolean
+	4, _hs_type_enum_controller, _hs_type_string, _hs_type_long_integer, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	_hs_type_void,
@@ -14364,7 +14364,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	0x00731460, // $TODO write the function chuckle nuts
 	"<controller> <level index> <bool locked> set single player level locked state for specified controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	3, _hs_type_controller, _hs_type_short_integer, _hs_type_boolean
+	3, _hs_type_enum_controller, _hs_type_short_integer, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	_hs_type_void,
@@ -14634,7 +14634,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00736E80, // $TODO write the function chuckle nuts
 	"",
 	NULL,
-	2, _hs_type_primary_skull, _hs_type_boolean
+	2, _hs_type_enum_primary_skull, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -14643,7 +14643,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00737200, // $TODO write the function chuckle nuts
 	"",
 	NULL,
-	2, _hs_type_secondary_skull, _hs_type_boolean
+	2, _hs_type_enum_secondary_skull, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -14652,7 +14652,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x007375C0, // $TODO write the function chuckle nuts
 	"<controller> <message index> set the highest popup message that the player has accepted\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_controller, _hs_type_long_integer
+	2, _hs_type_enum_controller, _hs_type_long_integer
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
@@ -14661,7 +14661,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x00737990, // $TODO write the function chuckle nuts
 	"<controller> <vidmaster_seen> set whether the player has accepted the vidmaster popup\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
-	2, _hs_type_controller, _hs_type_boolean
+	2, _hs_type_enum_controller, _hs_type_boolean
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -14949,7 +14949,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	0x0073DA80, // $TODO write the function chuckle nuts
 	"unlocks an achievement by debug name for the indicated controller\r\nNETWORK SAFE: NO",
 	NULL,
-	2, _hs_type_controller, _hs_type_string
+	2, _hs_type_enum_controller, _hs_type_string
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -14958,7 +14958,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x0073DD60, // $TODO write the function chuckle nuts
 	"grants all achievements to the indicated controller\r\nNETWORK SAFE: NO",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
@@ -14967,7 +14967,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	0x0073DEF0, // $TODO write the function chuckle nuts
 	"grants all vidmaster achievements to the indicated controller\r\nNETWORK SAFE: NO",
 	NULL,
-	1, _hs_type_controller
+	1, _hs_type_enum_controller
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	_hs_type_void,
