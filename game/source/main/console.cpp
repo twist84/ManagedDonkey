@@ -59,6 +59,7 @@
 #include "units/bipeds.hpp"
 #include "visibility/visibility_collection.hpp"
 #include "xbox/xbox.hpp"
+#include "rasterizer/rasterizer_synchronization.hpp"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -530,6 +531,7 @@ bool __cdecl console_process_command(const char* command, bool interactive)
 	console_globals.selected_previous_command_index = NONE;
 
 	bool result = hs_compile_and_evaluate(_event_message, "console_command", command, interactive);
+	return result;
 
 	tokens_t tokens{};
 	int32 token_count = 0;
@@ -610,8 +612,6 @@ bool __cdecl debugging_system_has_focus()
 #define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
 #define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
 
-REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting) = true;
-
 s_console_global const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
@@ -637,7 +637,6 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(run_game_scripts, g_run_game_scripts),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_global_fov, g_camera_globals.camera_field_of_view_scale),
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.camera_yaw_scale),

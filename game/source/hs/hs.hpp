@@ -17,8 +17,8 @@ static_assert(sizeof(hs_enum_definition) == 0x8);
 struct hs_syntax_node;
 struct hs_function_definition_release;
 struct hs_function_definition;
+struct hs_global_external_release;
 struct hs_global_external;
-struct hs_global_external_debug;
 struct s_tag_block;
 struct s_data_array;
 
@@ -96,6 +96,7 @@ extern tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_
 extern int16 const hs_type_sizes[k_hs_type_count];
 extern int16 const hs_object_type_masks[k_hs_type_object_count];
 extern int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];
+extern const char* const _hs_type_string_default;
 extern const char* const hs_type_names[k_hs_type_count];
 extern const char* const hs_script_type_names[NUMBER_OF_HS_SCRIPT_TYPES];
 extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
@@ -118,7 +119,6 @@ extern void __cdecl hs_update();
 extern int16 hs_find_function_by_name(const char* name, int16 parameter_count);
 extern int16 hs_script_find_parameter_by_name(int32 script_index, const char* name);
 extern hs_global_external* hs_global_external_get(int16 global_index);
-extern hs_global_external_debug* hs_global_external_get_debug(int16 global_index);
 extern int16 hs_find_global_by_name(const char* name);
 extern const char* hs_global_get_name(int16 global_designator);
 extern void resize_scenario_syntax_data(int32 count);

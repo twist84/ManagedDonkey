@@ -13,6 +13,7 @@
 #include "hs/object_lists.hpp"
 #include "main/console.hpp"
 #include "memory/data.hpp"
+#include "memory/module.hpp"
 #include "objects/objects.hpp"
 #include "profiler/profiler.hpp"
 #include "scenario/scenario.hpp"
@@ -98,6 +99,8 @@
 //REFERENCE_DECLARE_ARRAY(0x018BEDE8, const char* const, hs_script_type_names, NUMBER_OF_HS_SCRIPT_TYPES);
 REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 REFERENCE_DECLARE(0x024B06DA, bool, g_recompile_scripts);
+
+HOOK_DECLARE(0x006792E0, hs_global_get_type);
 
 int16 enumeration_count = 0;
 int16 enumeration_results_count = 0;
@@ -188,15 +191,7 @@ int16 __cdecl hs_global_get_type(int16 global_designator)
 	int16 global_index = global_designator & MASK(15);
 	if (TEST_BIT(global_designator, 15))
 	{
-		if (VALID_INDEX(global_index, k_hs_external_global_count))
-		{
-			return hs_global_external_get(global_index)->type;
-		}
-
-		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
-		{
-			return hs_global_external_get_debug(global_index)->type;
-		}
+		return hs_global_external_get(global_index)->type;
 	}
 
 	hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_globals, global_index, hs_global_internal);
@@ -368,26 +363,11 @@ hs_global_external* hs_global_external_get(int16 global_index)
 	return hs_external_globals[global_index];
 }
 
-hs_global_external_debug* hs_global_external_get_debug(int16 global_index)
-{
-	ASSERT(global_index >= 0 && global_index < k_hs_external_global_debug_count);
-
-	return hs_external_globals_debug[global_index];
-}
-
 int16 hs_find_global_by_name(const char* name)
 {
 	for (int16 global_index = 0; global_index < k_hs_external_global_count; global_index++)
 	{
-		if (csstrcmp(name, hs_external_globals_names[global_index]) == 0)
-		{
-			return global_index & MASK(15) | FLAG(15);
-		}
-	}
-
-	for (int16 global_index = 0; global_index < k_hs_external_global_debug_count; global_index++)
-	{
-		hs_global_external_debug* global_external = hs_global_external_get_debug(global_index);
+		hs_global_external* global_external = hs_global_external_get(global_index);
 		if (csstrcmp(name, global_external->name) == 0)
 		{
 			return global_index & MASK(15) | FLAG(15);
@@ -412,21 +392,18 @@ int16 hs_find_global_by_name(const char* name)
 
 const char* hs_global_get_name(int16 global_designator)
 {
+	const char* result = NULL;
+
 	int16 global_index = global_designator & MASK(15);
-	if (TEST_BIT(global_designator, 15))
+	if (TEST_BIT(global_designator, 15) && VALID_INDEX(global_index, k_hs_external_global_count))
 	{
-		if (VALID_INDEX(global_index, k_hs_external_global_count))
-		{
-			return hs_external_globals_names[global_index];
-		}
-
-		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
-		{
-			return hs_global_external_get_debug(global_index)->name;
-		}
+		result = hs_global_external_get(global_index)->name;
 	}
-
-	return global_scenario_get()->hs_globals[global_index].name;
+	else
+	{
+		result = global_scenario_get()->hs_globals[global_index].name;
+	}
+	return result;
 }
 
 void resize_scenario_syntax_data(int32 count)
@@ -617,7 +594,7 @@ void __cdecl hs_enumerate_type_names(void)
 
 void __cdecl hs_enumerate_function_names(void)
 {
-	for (int16 function_index = 0; function_index < int16(hs_function_table_count); function_index++)
+	for (int16 function_index = 0; function_index < k_hs_external_global_count; function_index++)
 	{
 		hs_tokens_enumerate_add_string(hs_function_get(function_index)->name);
 	}
@@ -630,13 +607,10 @@ void __cdecl hs_enumerate_script_names(void)
 
 void __cdecl hs_enumerate_variable_names(void)
 {
-	// original names
-	hs_enumerate_from_string_list(hs_external_globals_names, 0, k_hs_external_global_count);
-
-	// our names, eventually it'll only be this
-	//for (int16 global_index = 0; global_index < int16(k_hs_external_global_debug_count); global_index++)
-	//	hs_tokens_enumerate_add_string(hs_global_external_get_debug(global_index)->name);
-
+	for (int16 global_index = 0; global_index < k_hs_external_global_count; global_index++)
+	{
+		hs_tokens_enumerate_add_string(hs_global_external_get(global_index)->name);
+	}
 	hs_enumerate_scenario_data(OFFSETOF(struct scenario, hs_globals), 0, sizeof(hs_global_internal));
 }
 

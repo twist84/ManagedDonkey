@@ -158,6 +158,7 @@ void __cdecl test_main_loop_body_begin()
 		game_engines;
 		game_state_globals;
 		hs_external_globals;
+		k_hs_external_global_count;
 		hs_function_table;
 		hs_function_table_count;
 		input_globals;

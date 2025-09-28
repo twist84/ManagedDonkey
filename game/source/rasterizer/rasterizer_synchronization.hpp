@@ -13,3 +13,5 @@ private:
 	static bool& m_fence_is_valid;
 };
 
+extern bool& g_enable_better_cpu_gpu_sync_hs_setting;
+

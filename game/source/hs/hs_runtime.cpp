@@ -31,12 +31,25 @@ REFERENCE_DECLARE_ARRAY(0x023FF444, bool, debug_global_variables, 512);
 REFERENCE_DECLARE_2D_ARRAY(0x023FF648, typecasting_procedure, g_typecasting_procedures, k_hs_type_count, k_hs_type_count);
 REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 
-bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast);
+bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
+{
+	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
+}
 
+HOOK_DECLARE(0x00593A00, hs_inspect_boolean);
+HOOK_DECLARE(0x00593A30, hs_inspect_real);
+HOOK_DECLARE(0x00593A60, hs_inspect_short_integer);
+HOOK_DECLARE(0x00593A80, hs_inspect_long_integer);
+HOOK_DECLARE(0x00593AA0, hs_inspect_string);
 HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 //HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
+//HOOK_DECLARE(0x00596070, hs_find_thread_by_name);
+//HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
+HOOK_DECLARE(0x005961D0, hs_global_evaluate);
+HOOK_DECLARE(0x00596230, hs_global_reconcile_read);
+HOOK_DECLARE(0x00596C10, hs_global_reconcile_write);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 HOOK_DECLARE(0x005974D0, hs_restore_from_saved_game);
 HOOK_DECLARE(0x005974E0, hs_return);
@@ -89,8 +102,6 @@ bool breakpoints_enabled = true;
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
 
-REFERENCE_DECLARE(0x018F1824, hs_global_external, run_game_scripts_definition) = { .type = _hs_type_boolean, .value = &g_run_game_scripts };
-
 bool valid_thread(int32 thread_index)
 {
 	bool valid = false;
@@ -112,17 +123,13 @@ bool valid_thread(int32 thread_index)
 	return valid;
 }
 
-bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
-{
-	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
-}
-
 void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size)
 {
 	//INVOKE(0x00593A00, hs_inspect_boolean, type, value, buffer, buffer_size);
 
 	ASSERT(type == _hs_type_boolean);
-	csstrnzcpy(buffer, value ? "true" : "false", buffer_size);
+	bool value_ = *(bool*)&value;
+	csstrnzcpy(buffer, value_ ? "true" : "false", buffer_size);
 }
 
 void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer_size)
@@ -130,7 +137,8 @@ void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer
 	//INVOKE(0x00593A30, hs_inspect_real, type, value, buffer, buffer_size);
 
 	ASSERT(type == _hs_type_real);
-	csnzprintf(buffer, buffer_size, "%f", (real32)value);
+	real32 value_ = *(real32*)&value;
+	csnzprintf(buffer, buffer_size, "%f", value_);
 }
 
 void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
@@ -138,7 +146,8 @@ void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int
 	//INVOKE(0x00593A60, hs_inspect_short_integer, type, value, buffer, buffer_size);
 
 	ASSERT(type == _hs_type_short_integer);
-	csnzprintf(buffer, buffer_size, "%d", (int16)value);
+	int16 value_ = *(int16*)&value;
+	csnzprintf(buffer, buffer_size, "%d", value_);
 }
 
 void __cdecl hs_inspect_long_integer(int16 type, int32 value, char* buffer, int32 buffer_size)
@@ -154,7 +163,8 @@ void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buff
 	//INVOKE(0x00593AA0, hs_inspect_string, type, value, buffer, buffer_size);
 
 	ASSERT(type == _hs_type_string);
-	csstrnzcpy(buffer, (const char*)value, buffer_size);
+	const char* value_ = *(const char**)&value;
+	csstrnzcpy(buffer, value_, buffer_size);
 }
 //.text:00593AC0 ; void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size)
 //.text:00593AF0 ; 
@@ -615,17 +625,279 @@ int32 __cdecl hs_find_thread_by_script(int16 script_index)
 
 int32 __cdecl hs_global_evaluate(int16 global_designator)
 {
-	return INVOKE(0x005961D0, hs_global_evaluate, global_designator);
+	//return INVOKE(0x005961D0, hs_global_evaluate, global_designator);
+
+	hs_global_reconcile_read(global_designator);
+	return DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime,
+		hs_runtime_index_from_global_designator(global_designator))->value;
 }
 
 void __cdecl hs_global_reconcile_read(int16 global_designator)
 {
-	INVOKE(0x00596230, hs_global_reconcile_read, global_designator);
+	//INVOKE(0x00596230, hs_global_reconcile_read, global_designator);
+
+	if (TEST_BIT(global_designator, 15))
+	{
+		hs_global_external* external_global = hs_global_external_get(global_designator & MASK(15));
+		hs_global_runtime* runtime_global = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime,
+			hs_runtime_index_from_global_designator(global_designator));
+		switch (hs_global_get_type(global_designator))
+		{
+		#define HANDLE_READ_CASE(TYPE_NAME, TYPE, DEFAULT) \
+		case TYPE_NAME: \
+		{ \
+			if (external_global->pointer) \
+			{ \
+				*(TYPE*)&runtime_global->value = *(TYPE*)external_global->pointer; \
+			} \
+			else \
+			{ \
+				*(TYPE*)&runtime_global->value = DEFAULT; \
+			} \
+		} \
+		break
+		//_hs_unparsed
+		//_hs_special_form
+		//_hs_function_name
+		//_hs_passthrough
+		//_hs_type_void
+		HANDLE_READ_CASE(_hs_type_boolean, bool, _hs_type_boolean_default);
+		HANDLE_READ_CASE(_hs_type_real, real32, _hs_type_real_default);
+		HANDLE_READ_CASE(_hs_type_short_integer, int16, _hs_type_short_integer_default);
+		HANDLE_READ_CASE(_hs_type_long_integer, int32, _hs_type_long_integer_default);
+		HANDLE_READ_CASE(_hs_type_string, const char*, _hs_type_string_default);
+		HANDLE_READ_CASE(_hs_type_script, int16, _hs_type_script_default);
+		HANDLE_READ_CASE(_hs_type_string_id, int32, _hs_type_string_id_default);
+		HANDLE_READ_CASE(_hs_type_unit_seat_mapping, int32, _hs_type_unit_seat_mapping_default);
+		HANDLE_READ_CASE(_hs_type_trigger_volume, int16, _hs_type_trigger_volume_default);
+		HANDLE_READ_CASE(_hs_type_cutscene_flag, int16, _hs_type_cutscene_flag_default);
+		HANDLE_READ_CASE(_hs_type_cutscene_camera_point, int16, _hs_type_cutscene_camera_point_default);
+		HANDLE_READ_CASE(_hs_type_cutscene_title, int16, _hs_type_cutscene_title_default);
+		HANDLE_READ_CASE(_hs_type_cutscene_recording, int16, _hs_type_cutscene_recording_default);
+		HANDLE_READ_CASE(_hs_type_device_group, int32, _hs_type_device_group_default);
+		HANDLE_READ_CASE(_hs_type_ai, int32, _hs_type_ai_default);
+		HANDLE_READ_CASE(_hs_type_ai_command_list, int16, _hs_type_ai_command_list_default);
+		HANDLE_READ_CASE(_hs_type_ai_command_script, int16, _hs_type_ai_command_script_default);
+		HANDLE_READ_CASE(_hs_type_ai_behavior, int16, _hs_type_ai_behavior_default);
+		HANDLE_READ_CASE(_hs_type_ai_orders, int16, _hs_type_ai_orders_default);
+		HANDLE_READ_CASE(_hs_type_ai_line, int32, _hs_type_ai_line_default);
+		HANDLE_READ_CASE(_hs_type_starting_profile, int16, _hs_type_starting_profile_default);
+		HANDLE_READ_CASE(_hs_type_conversation, int16, _hs_type_conversation_default);
+		HANDLE_READ_CASE(_hs_type_zone_set, int16, _hs_type_zone_set_default);
+		//_hs_type_designer_zone
+		HANDLE_READ_CASE(_hs_type_point_ref, int32, _hs_type_point_ref_default);
+		HANDLE_READ_CASE(_hs_type_style, int32, _hs_type_style_default);
+		HANDLE_READ_CASE(_hs_type_object_list, int32, _hs_type_object_list_default);
+		HANDLE_READ_CASE(_hs_type_folder, int32, _hs_type_folder_default);
+		HANDLE_READ_CASE(_hs_type_sound, int32, _hs_type_sound_default);
+		HANDLE_READ_CASE(_hs_type_effect, int32, _hs_type_effect_default);
+		HANDLE_READ_CASE(_hs_type_damage, int32, _hs_type_damage_default);
+		HANDLE_READ_CASE(_hs_type_looping_sound, int32, _hs_type_looping_sound_default);
+		HANDLE_READ_CASE(_hs_type_animation_graph, int32, _hs_type_animation_graph_default);
+		HANDLE_READ_CASE(_hs_type_damage_effect, int32, _hs_type_damage_effect_default);
+		HANDLE_READ_CASE(_hs_type_object_definition, int32, _hs_type_object_definition_default);
+		HANDLE_READ_CASE(_hs_type_bitmap, int32, _hs_type_bitmap_default);
+		HANDLE_READ_CASE(_hs_type_shader, int32, _hs_type_shader_default);
+		HANDLE_READ_CASE(_hs_type_render_model_definition, int32, _hs_type_render_model_definition_default);
+		HANDLE_READ_CASE(_hs_type_structure_bsp_definition, int32, _hs_type_structure_bsp_definition_default);
+		HANDLE_READ_CASE(_hs_type_structure_lightmap_definition, int32, _hs_type_structure_lightmap_definition_default);
+		HANDLE_READ_CASE(_hs_type_cinematic_definition, int32, _hs_type_cinematic_definition_default);
+		HANDLE_READ_CASE(_hs_type_cinematic_scene_definition, int32, _hs_type_cinematic_scene_definition_default);
+		HANDLE_READ_CASE(_hs_type_bink_definition, int32, _hs_type_bink_definition_default);
+		HANDLE_READ_CASE(_hs_type_any_tag, int32, _hs_type_any_tag_default);
+		//_hs_type_any_tag_not_resolving
+		HANDLE_READ_CASE(_hs_type_enum_game_difficulty, int16, _hs_type_enum_game_difficulty_default);
+		HANDLE_READ_CASE(_hs_type_enum_team, int16, _hs_type_enum_team_default);
+		HANDLE_READ_CASE(_hs_type_enum_mp_team, int16, _hs_type_enum_mp_team_default);
+		HANDLE_READ_CASE(_hs_type_enum_controller, int16, _hs_type_enum_controller_default);
+		HANDLE_READ_CASE(_hs_type_enum_button_preset, int16, _hs_type_enum_button_preset_default);
+		HANDLE_READ_CASE(_hs_type_enum_joystick_preset, int16, _hs_type_enum_joystick_preset_default);
+		HANDLE_READ_CASE(_hs_type_enum_player_character_type, int16, _hs_type_enum_player_character_type_default);
+		HANDLE_READ_CASE(_hs_type_enum_voice_output_setting, int16, _hs_type_enum_voice_output_setting_default);
+		//_hs_type_enum_voice_mask
+		HANDLE_READ_CASE(_hs_type_enum_subtitle_setting, int16, _hs_type_enum_subtitle_setting_default);
+		HANDLE_READ_CASE(_hs_type_enum_actor_type, int16, _hs_type_enum_actor_type_default);
+		HANDLE_READ_CASE(_hs_type_enum_model_state, int16, _hs_type_enum_model_state_default);
+		HANDLE_READ_CASE(_hs_type_enum_event, int16, _hs_type_enum_event_default);
+		HANDLE_READ_CASE(_hs_type_enum_character_physics_override, int16, _hs_type_enum_character_physics_override_default);
+		HANDLE_READ_CASE(_hs_type_enum_primary_skull, int16, _hs_type_enum_primary_skull_default);
+		HANDLE_READ_CASE(_hs_type_enum_secondary_skull, int16, _hs_type_enum_secondary_skull_default);
+		HANDLE_READ_CASE(_hs_type_object, int32, _hs_type_object_default);
+		HANDLE_READ_CASE(_hs_type_unit, int32, _hs_type_unit_default);
+		HANDLE_READ_CASE(_hs_type_vehicle, int32, _hs_type_vehicle_default);
+		HANDLE_READ_CASE(_hs_type_weapon, int32, _hs_type_weapon_default);
+		HANDLE_READ_CASE(_hs_type_device, int32, _hs_type_device_default);
+		HANDLE_READ_CASE(_hs_type_scenery, int32, _hs_type_scenery_default);
+		HANDLE_READ_CASE(_hs_type_effect_scenery, int32, _hs_type_effect_scenery_default);
+		HANDLE_READ_CASE(_hs_type_object_name, int16, _hs_type_object_name_default);
+		//_hs_type_unit_name,
+		//_hs_type_vehicle_name,
+		//_hs_type_weapon_name,
+		//_hs_type_device_name,
+		//_hs_type_scenery_name,
+		//_hs_type_effect_scenery_name,
+		HANDLE_READ_CASE(_hs_type_cinematic_lightprobe, int32, _hs_type_cinematic_lightprobe_default);
+		HANDLE_READ_CASE(_hs_type_budget_reference_animation_graph, int32, _hs_type_budget_reference_animation_graph_default);
+		HANDLE_READ_CASE(_hs_type_budget_reference_looping_sound, int32, _hs_type_budget_reference_looping_sound_default);
+		HANDLE_READ_CASE(_hs_type_budget_reference_sound, int32, _hs_type_budget_reference_sound_default);
+		default:
+		{
+			HALT();
+		}
+		break;
+		#undef HANDLE_READ_CASE
+		}
+	}
 }
 
 void __cdecl hs_global_reconcile_write(int16 global_designator)
 {
-	INVOKE(0x00596C10, hs_global_reconcile_write, global_designator);
+	//INVOKE(0x00596C10, hs_global_reconcile_write, global_designator);
+
+	int16 global_type = hs_global_get_type(global_designator);
+	hs_global_runtime* runtime_global = DATUM_GET_ABSOLUTE(hs_global_data, hs_global_runtime,
+		hs_runtime_index_from_global_designator(global_designator));
+
+	if (TEST_BIT(global_designator, 15))
+	{
+		hs_global_external* external_global = hs_global_external_get(global_designator & MASK(15));
+		switch (global_type)
+		{
+		#define HANDLE_WRITE_CASE(TYPE_NAME, TYPE) \
+		case TYPE_NAME: \
+		{ \
+			if (external_global->pointer) \
+			{ \
+				*(TYPE*)external_global->pointer = *(TYPE*)&runtime_global->value; \
+			} \
+		} \
+		break
+		#define HANDLE_WRITE_CASE2(TYPE_NAME, TYPE, DEFAULT) \
+		case TYPE_NAME: \
+		{ \
+			if (external_global->pointer) \
+			{ \
+				*(TYPE*)&runtime_global->value = *(TYPE*)external_global->pointer; \
+			} \
+			else \
+			{ \
+				*(TYPE*)&runtime_global->value = DEFAULT; \
+			} \
+		} \
+		break
+		//_hs_unparsed
+		//_hs_special_form
+		//_hs_function_name
+		//_hs_passthrough
+		//_hs_type_void
+		HANDLE_WRITE_CASE(_hs_type_boolean, bool);
+		HANDLE_WRITE_CASE(_hs_type_real, real32);
+		HANDLE_WRITE_CASE(_hs_type_short_integer, int16);
+		HANDLE_WRITE_CASE(_hs_type_long_integer, int32);
+		HANDLE_WRITE_CASE(_hs_type_string, const char*);
+		HANDLE_WRITE_CASE(_hs_type_script, int16);
+		HANDLE_WRITE_CASE(_hs_type_string_id, int32);
+		HANDLE_WRITE_CASE(_hs_type_unit_seat_mapping, int32);
+		HANDLE_WRITE_CASE(_hs_type_trigger_volume, int16);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_flag, int16);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_camera_point, int16);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_title, int16);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_recording, int16);
+		HANDLE_WRITE_CASE(_hs_type_device_group, int32);
+		HANDLE_WRITE_CASE(_hs_type_ai, int32);
+		HANDLE_WRITE_CASE(_hs_type_ai_command_list, int16);
+		HANDLE_WRITE_CASE(_hs_type_ai_command_script, int16);
+		HANDLE_WRITE_CASE(_hs_type_ai_behavior, int16);
+		HANDLE_WRITE_CASE(_hs_type_ai_orders, int16);
+		HANDLE_WRITE_CASE(_hs_type_ai_line, int32);
+		HANDLE_WRITE_CASE(_hs_type_starting_profile, int16);
+		HANDLE_WRITE_CASE(_hs_type_conversation, int16);
+		HANDLE_WRITE_CASE(_hs_type_zone_set, int16);
+		//_hs_type_designer_zone
+		HANDLE_WRITE_CASE(_hs_type_point_ref, int32);
+		HANDLE_WRITE_CASE(_hs_type_style, int32);
+		HANDLE_WRITE_CASE(_hs_type_object_list, int32);
+		HANDLE_WRITE_CASE(_hs_type_folder, int32);
+		HANDLE_WRITE_CASE(_hs_type_sound, int32);
+		HANDLE_WRITE_CASE(_hs_type_effect, int32);
+		HANDLE_WRITE_CASE(_hs_type_damage, int32);
+		HANDLE_WRITE_CASE(_hs_type_looping_sound, int32);
+		HANDLE_WRITE_CASE(_hs_type_animation_graph, int32);
+		HANDLE_WRITE_CASE(_hs_type_damage_effect, int32);
+		HANDLE_WRITE_CASE(_hs_type_object_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_bitmap, int32);
+		HANDLE_WRITE_CASE(_hs_type_shader, int32);
+		HANDLE_WRITE_CASE(_hs_type_render_model_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_structure_bsp_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_structure_lightmap_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_cinematic_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_cinematic_scene_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_bink_definition, int32);
+		HANDLE_WRITE_CASE(_hs_type_any_tag, int32);
+		//_hs_type_any_tag_not_resolving
+		HANDLE_WRITE_CASE(_hs_type_enum_game_difficulty, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_team, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_mp_team, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_controller, int16);
+		HANDLE_WRITE_CASE2(_hs_type_enum_button_preset, int16, _hs_type_enum_button_preset_default);
+		HANDLE_WRITE_CASE2(_hs_type_enum_joystick_preset, int16, _hs_type_enum_joystick_preset_default);
+		HANDLE_WRITE_CASE2(_hs_type_enum_player_character_type, int16, _hs_type_enum_player_character_type_default);
+		HANDLE_WRITE_CASE2(_hs_type_enum_voice_output_setting, int16, _hs_type_enum_voice_output_setting_default);
+		//_hs_type_enum_voice_mask
+		HANDLE_WRITE_CASE2(_hs_type_enum_subtitle_setting, int16, _hs_type_enum_subtitle_setting_default);
+		HANDLE_WRITE_CASE(_hs_type_enum_actor_type, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_model_state, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_event, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_character_physics_override, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_primary_skull, int16);
+		HANDLE_WRITE_CASE(_hs_type_enum_secondary_skull, int16);
+		HANDLE_WRITE_CASE(_hs_type_object, int32);
+		HANDLE_WRITE_CASE(_hs_type_unit, int32);
+		HANDLE_WRITE_CASE(_hs_type_vehicle, int32);
+		HANDLE_WRITE_CASE(_hs_type_weapon, int32);
+		HANDLE_WRITE_CASE(_hs_type_device, int32);
+		HANDLE_WRITE_CASE(_hs_type_scenery, int32);
+		HANDLE_WRITE_CASE(_hs_type_effect_scenery, int32);
+		HANDLE_WRITE_CASE(_hs_type_object_name, int16);
+		//_hs_type_unit_name,
+		//_hs_type_vehicle_name,
+		//_hs_type_weapon_name,
+		//_hs_type_device_name,
+		//_hs_type_scenery_name,
+		//_hs_type_effect_scenery_name,
+		HANDLE_WRITE_CASE(_hs_type_cinematic_lightprobe, int32);
+		HANDLE_WRITE_CASE(_hs_type_budget_reference_animation_graph, int32);
+		HANDLE_WRITE_CASE(_hs_type_budget_reference_looping_sound, int32);
+		HANDLE_WRITE_CASE(_hs_type_budget_reference_sound, int32);
+		default:
+		{
+			HALT();
+		}
+		break;
+		#undef HANDLE_WRITE_CASE2
+		#undef HANDLE_WRITE_CASE
+		}
+	}
+
+	if (!HS_TYPE_IS_OBJECT(global_type))
+	{
+		if (global_type == _hs_type_object_list)
+		{
+			int32 object_list_reference_index = NONE;
+			for (int32 object_index = object_list_get_first(runtime_global->value, &object_list_reference_index);
+				object_index != NONE;
+				object_index = object_list_get_next(runtime_global->value, &object_list_reference_index))
+			{
+				object_datum* object = OBJECT_GET(object_datum, runtime_global->value);
+				object->object.flags.set(_object_ever_referenced_by_hs_bit, true);
+			}
+		}
+	}
+	else if (runtime_global->value != NONE)
+	{
+		object_datum* object = OBJECT_GET(object_datum, runtime_global->value);
+		object->object.flags.set(_object_ever_referenced_by_hs_bit, true);
+	}
 }
 
 //.text:00596F50 ; void __cdecl hs_handle_deleted_object(int32 object_index)
