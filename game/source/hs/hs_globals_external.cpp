@@ -6587,27 +6587,27 @@ EXTERNAL_GLOBAL_DECLARE2(
 	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
-	load_time_multiplier,
+	hdr_bloom_intensity,
 	_hs_type_real,
 	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
-	unknown51F,
+	use_memory_mirror_events,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
-	unknown520,
+	sleep_for_vblank,
 	_hs_type_boolean,
 	0x0526A086, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
-	unknown521,
+	decorator_res_scaled,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
-	unknown522,
+	page_cache_enable_status_lines,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
@@ -7926,11 +7926,11 @@ static hs_global_external* const hs_external_globals[]
 	&unknown51B_definition,
 	&unknown51C_definition,
 	&unknown51D_definition,
-	&load_time_multiplier_definition,
-	&unknown51F_definition,
-	&unknown520_definition,
-	&unknown521_definition,
-	&unknown522_definition,
+	&hdr_bloom_intensity_definition,
+	&use_memory_mirror_events_definition,
+	&sleep_for_vblank_definition,
+	&decorator_res_scaled_definition,
+	&page_cache_enable_status_lines_definition,
 };
 const int16 k_hs_external_global_count = NUMBEROF(hs_external_globals);
 static_assert(k_hs_external_global_count >= k_maximum_number_of_ms23_hs_globals);
