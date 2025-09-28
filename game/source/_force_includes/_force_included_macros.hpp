@@ -6,8 +6,6 @@
 // $TODO global find and replace the following? `\/\/ \$TODO ([^\r\n]+)` `$TODO("$1")`
 #define $TODO(msg) __pragma(message(__FILE__ "(" STRINGIFY(__LINE__) "): TODO: " msg)) \
 
-#define try_bool(X) if (!X) return false
-
 #define _STRCONCAT(x, y) x ## y
 #define STRCONCAT(x, y) _STRCONCAT(x, y)
 
@@ -28,13 +26,13 @@
 #define BIT_VECTOR_AND_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] &= ~(1 << (BIT & (LONG_BITS - 1))))
 
 #define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
-#define MIN(x, low) ((x) < (low) ? (x) : (low))
-#define MAX(x, high) ((x) > (high) ? (x) : (high))
-#define PIN(x, low, high) MIN(MAX((x), (low)), (high))
-#define CLAMP(x, low, high) ((x) < (low) ? (low) : (x) > (high) ? (high) : (x))
-#define CLAMP_LOWER(x, low, high) ((x) >= (high) - (low) ? (x) - (high) : (low))
-#define CLAMP_UPPER(x, low, high) ((x) <= (high) - (low) ? (x) + (low) : (high))
-#define SCALE_VALUE(x, a_min, a_max, b_min, b_max) ((b_min) + ((x) - (a_min)) * ((b_max) - (b_min)) / ((a_max) - (a_min)))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define PIN(a, b, c) MIN(MAX((a), (b)), (c))
+#define CLAMP(a, b, c) (((a) < (b)) ? (b) : ((a) > (c)) ? (c) : (a))
+#define CLAMP_LOWER(a, b, c) (((a) >= ((c) - (b))) ? ((a) - (c)) : (b))
+#define CLAMP_UPPER(a, b, c) (((a) <= ((c) - (b))) ? ((a) + (b)) : (c))
+#define SCALE_VALUE(a, a_min, a_max, b_min, b_max) ((b_min) + ((a) - (a_min)) * ((b_max) - (b_min)) / ((a_max) - (a_min)))
 
 #define SIZEOF_BITS(value) 8 * sizeof(value)
 
