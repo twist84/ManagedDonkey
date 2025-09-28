@@ -126,81 +126,102 @@ int32 hs_parse_cond_recursive(int32 root_expression_index, int32 expression_inde
 	int32 result_index = NONE;
 #else
 	int32 result_index = datum_new(g_hs_syntax_data);
+
 	if (result_index == NONE)
 	{
+		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+		hs_compile_globals.error_offset = hs_syntax_get(root_expression_index)->source_offset;
+	}
+	else
+	{
 		hs_syntax_node* result_node = hs_syntax_get(result_index);
-		result_node->source_offset = hs_syntax_get(root_expression_index)->source_offset;
 		result_node->flags = 0;
 		result_node->next_node_index = NONE;
+		result_node->source_offset = hs_syntax_get(root_expression_index)->source_offset;
+
 		if (expression_index == NONE)
 		{
-			result_node->flags |= FLAG(_hs_syntax_node_primitive_bit);
 			result_node->constant_type = hs_syntax_get(root_expression_index)->type;
 			result_node->type = result_node->constant_type;
+			result_node->flags |= FLAG(_hs_syntax_node_primitive_bit);
 			result_node->long_value = 0;
-		}
-		else if (TEST_BIT(hs_syntax_get(expression_index)->flags, _hs_syntax_node_primitive_bit))
-		{
-			hs_compile_globals.error_message = "this argument to cond should be a condition/result pair";
-			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
-			result_index = NONE;
 		}
 		else
 		{
-			int32 link_index = hs_syntax_get(expression_index)->long_value;
-			hs_syntax_node* link_node = hs_syntax_get(link_index);
-			if (link_node->next_node_index == NONE)
+			int32 condition_result_pair_index = expression_index;
+
+			if (TEST_BIT(hs_syntax_get(condition_result_pair_index)->flags, _hs_syntax_node_primitive_bit))
 			{
-				hs_compile_globals.error_message = "this argument to cond needs a result.";
-				hs_compile_globals.error_offset = hs_syntax_get(link_index)->source_offset;
+				hs_compile_globals.error_message = "this argument to cond should be a condition/result pair";
+				hs_compile_globals.error_offset = hs_syntax_get(condition_result_pair_index)->source_offset;
 				result_index = NONE;
 			}
 			else
 			{
-				int32 implicit_begin_index = datum_new(g_hs_syntax_data);
-				int32 implicit_begin_name_index = datum_new(g_hs_syntax_data);
-				if (implicit_begin_index == NONE || implicit_begin_name_index == NONE)
+				int32 link_index = hs_syntax_get(condition_result_pair_index)->long_value;
+				hs_syntax_node* link_node = hs_syntax_get(link_index);
+
+				if (link_node->next_node_index == NONE)
 				{
-					hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
-					hs_compile_globals.error_offset = hs_syntax_get(root_expression_index)->source_offset;
+					hs_compile_globals.error_message = "this argument to cond needs a result.";
+					hs_compile_globals.error_offset = hs_syntax_get(link_index)->source_offset;
 					result_index = NONE;
 				}
 				else
 				{
-					hs_syntax_node* implicit_begin_node = hs_syntax_get(implicit_begin_index);
-					hs_syntax_node* implicit_begin_name_node = hs_syntax_get(implicit_begin_name_index);
-					hs_syntax_node* condition_result_pair_node = hs_syntax_get(expression_index);
-					implicit_begin_node->next_node_index = hs_parse_cond_recursive(root_expression_index, hs_syntax_get(expression_index)->next_node_index);
-					if (implicit_begin_node->next_node_index == NONE)
+					int32 implicit_begin_index = datum_new(g_hs_syntax_data);
+					int32 implicit_begin_name_index = datum_new(g_hs_syntax_data);
+
+					if (implicit_begin_index == NONE || implicit_begin_name_index == NONE)
 					{
+						hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+						hs_compile_globals.error_offset = hs_syntax_get(root_expression_index)->source_offset;
 						result_index = NONE;
 					}
 					else
 					{
-						//result_node->constant_type = 2;
-						//result_node->long_value = expression_index;
-						//condition_result_pair_node->long_value = 0;
-						//condition_result_pair_node->constant_type = 2;
-						//condition_result_pair_node->flags = FLAG(_hs_syntax_node_primitive_bit);
-						//condition_result_pair_node->next_node_index = link_index;
-						//condition_result_pair_node->source_offset = NONE;
-						//condition_result_pair_node->type = 2;
-						//implicit_begin_node->long_value = implicit_begin_name_index;
-						//implicit_begin_node->flags = 0;
-						//implicit_begin_node->source_offset = result_node->source_offset;
-						//implicit_begin_name_node->data = 0;
-						//implicit_begin_name_node->constant_type = 2;
-						//implicit_begin_name_node->flags = FLAG(_hs_syntax_node_primitive_bit);
-						//implicit_begin_name_node->next_node_index = hs_syntax_get(link_index)->next_node_index;
-						//implicit_begin_name_node->source_offset = NONE;
-						//implicit_begin_name_node->type = 2;
-						//link_node->next_node_index = implicit_begin_index;
+						hs_syntax_node* implicit_begin_node = hs_syntax_get(implicit_begin_index);
+						hs_syntax_node* implicit_begin_name_node = hs_syntax_get(implicit_begin_name_index);
+						hs_syntax_node* condition_result_pair_node = hs_syntax_get(condition_result_pair_index);
+
+						implicit_begin_node->next_node_index = hs_parse_cond_recursive(root_expression_index, hs_syntax_get(condition_result_pair_index)->next_node_index);
+
+						if (implicit_begin_node->next_node_index == NONE)
+						{
+							result_index = NONE;
+						}
+						else
+						{
+							//result_node->constant_type = _hs_function_name;
+							//result_node->long_value = condition_result_pair_index;
+							//
+							//condition_result_pair_node->constant_type = _hs_function_name;
+							//condition_result_pair_node->type = _hs_function_name;
+							//condition_result_pair_node->flags = FLAG(_hs_syntax_node_primitive_bit);
+							//condition_result_pair_node->next_node_index = link_index;
+							//condition_result_pair_node->source_offset = NONE;
+							//condition_result_pair_node->long_value = 0;
+							//
+							//implicit_begin_node->flags = 0;
+							//implicit_begin_node->source_offset = result_node->source_offset;
+							//implicit_begin_node->long_value = implicit_begin_name_index;
+							//
+							//implicit_begin_name_node->constant_type = _hs_unparsed;
+							//implicit_begin_name_node->type = _hs_function_name;
+							//implicit_begin_name_node->flags = FLAG(_hs_syntax_node_primitive_bit);
+							//implicit_begin_name_node->next_node_index = hs_syntax_get(link_index)->next_node_index;
+							//implicit_begin_name_node->source_offset = NONE;
+							//implicit_begin_name_node->long_value = 0;
+							//
+							//link_node->next_node_index = implicit_begin_index;
+						}
 					}
 				}
 			}
 		}
 	}
 #endif
+
 	return result_index;
 }
 
