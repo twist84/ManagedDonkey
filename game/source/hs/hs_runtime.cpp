@@ -490,10 +490,11 @@ void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool 
 				char printbuffer[1024]{};
 				if (hs_type_inspectors[expression_node->type])
 				{
-					hs_type_inspectors[expression_node->type](expression_node->type, expression_node->long_value, printbuffer, sizeof(printbuffer));
+					hs_type_inspectors[expression_node->type](expression_node->type, *expression, printbuffer, sizeof(printbuffer));
+					console_printf(printbuffer);
 				}
-				console_printf(printbuffer);
 			}
+			hs_return(thread_index, 0);
 		}
 	}
 }
@@ -1758,16 +1759,6 @@ void __cdecl hs_thread_main(int32 thread_index)
 				thread->flags |= FLAG(_hs_thread_terminate_bit);
 				break;
 			}
-
-			// $TODO actually fix the issue
-			// maybe we missed a function part of a function that's supposed to set the thread's termination bit
-			// 
-			// if we've itarated enough to inspect and run one other function that's good enough for now
-			if (runtime_evaluate_loop_iteration > (hs_thread_stack(thread)->parameters.stack_offset == NONE ? 1 : 2))
-			{
-				thread->flags |= FLAG(_hs_thread_terminate_bit);
-			}
-			runtime_evaluate_loop_iteration++;
 		}
 
 		hs_syntax_node* expression = hs_syntax_get(hs_thread_stack(thread)->expression_index);
@@ -2048,7 +2039,7 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 
 	if (hs_type_inspectors[type])
 	{
-		hs_type_inspectors[type](type, type, buffer, buffer_size);
+		hs_type_inspectors[type](type, value, buffer, buffer_size);
 	}
 	else
 	{
