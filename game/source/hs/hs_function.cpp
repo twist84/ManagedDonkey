@@ -247,7 +247,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) and_definition
 	.name = "and",
 	.flags = FLAG(_hs_function_flag_internal),
 	.parse = hs_parse_logical,
-	.evaluate = hs_evaluate_arithmetic,
+	.evaluate = hs_evaluate_logical,
 	.documentation = "returns true if all specified expressions are true.\r\nNETWORK SAFE: Yes",
 	.parameters = "<boolean(s)>",
 };
@@ -308,7 +308,7 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) modulo_definitio
 	.flags = FLAG(_hs_function_flag_internal),
 	.parse = hs_parse_arithmetic,
 	.evaluate = hs_evaluate_arithmetic,
-	.documentation = "returns the remainder of two expressions\r\nNETWORK SAFE: Yes",
+	.documentation = "returns the remainder of the division of two numbers\r\nNETWORK SAFE: Yes",
 	.parameters = "<number> <number>",
 };
 DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) min_definition

@@ -22,6 +22,8 @@
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
+#include <math.h>
+
 REFERENCE_DECLARE_ARRAY(0x018A1090, hs_type_inspector, hs_type_inspectors, k_hs_type_count);
 REFERENCE_DECLARE(0x023FF440, bool, debug_scripting);
 REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
@@ -45,6 +47,7 @@ HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 //HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
+HOOK_DECLARE(0x00594680, hs_evaluate_arithmetic);
 HOOK_DECLARE(0x00594960, hs_evaluate_begin);
 //HOOK_DECLARE(0x00596070, hs_find_thread_by_name);
 //HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
@@ -442,7 +445,99 @@ bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destinat
 
 void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00594680, hs_evaluate_arithmetic, function_index, thread_index, initialize);
+	//INVOKE(0x00594680, hs_evaluate_arithmetic, function_index, thread_index, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+	int16* parameter_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	hs_stack_pointer result_reference{};
+	int32* parameter_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
+	real32* result = (real32*)hs_stack_allocate(thread_index, sizeof(real32), 2, NULL);
+	if (parameter_index && parameters_index && parameter_result && result)
+	{
+		if (initialize)
+		{
+			*parameter_index = 0;
+			*parameters_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+		}
+		else
+		{
+			real32 parameter_result_real = *(real32*)parameter_result;
+			if (*parameter_index)
+			{
+				switch (function_index)
+				{
+				case _hs_function_plus:
+				{
+					*result = *result + parameter_result_real;
+				}
+				break;
+				case _hs_function_minus:
+				{
+					*result = *result - parameter_result_real;
+				}
+				break;
+				case _hs_function_times:
+				{
+					*result = *result * parameter_result_real;
+				}
+				break;
+				case _hs_function_divide:
+				{
+					ASSERT(!(fabs((parameter_result_real)-(0.0f)) < (k_real_epsilon)));
+					if (fabs(parameter_result_real - 0.0f) < k_real_epsilon)
+					{
+						*result = 0.0f;
+					}
+					else
+					{
+						*result = *result / parameter_result_real;
+					}
+				}
+				break;
+				case _hs_function_modulo:
+				{
+					*result = fmodf(*result, parameter_result_real);
+				}
+				break;
+				case _hs_function_min:
+				{
+					*result = MIN(parameter_result_real, *result);
+				}
+				break;
+				case _hs_function_max:
+				{
+					*result = MAX(*result, parameter_result_real);
+				}
+				break;
+				default:
+				{
+					HALT();
+				}
+				break;
+				}
+			}
+			else
+			{
+				*result = parameter_result_real;
+			}
+			++*parameter_index;
+		}
+
+		if (*parameters_index != NONE)
+		{
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = result_reference;
+			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
+		}
+		else
+		{
+			int32 result_long = 0;
+			hs_return(thread_index, result_long);
+		}
+	}
 }
 
 void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool initialize)
