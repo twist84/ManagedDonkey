@@ -133,9 +133,14 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
+EXTERNAL_GLOBAL_DECLARE2(
+	unknownA,
+	_hs_type_string_id,
+	NULL, // $TODO write the global chuckle nuts
+);
 EXTERNAL_GLOBAL_DECLARE(
 	console_status_string_render,
-	_hs_type_string_id,
+	_hs_type_boolean,
 	&console_globals.status_render,
 );
 EXTERNAL_GLOBAL_DECLARE(
@@ -160,11 +165,6 @@ EXTERNAL_GLOBAL_DECLARE2(
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	framerate_stabilization,
-	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
-);
-EXTERNAL_GLOBAL_DECLARE2(
-	unknown10,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
@@ -6784,13 +6784,13 @@ static hs_global_external* const hs_external_globals[]
 	&display_throttle_rates_definition,
 	&display_lag_times_definition,
 	&display_frame_deltas_definition,
+	&unknownA_definition,
 	&console_status_string_render_definition,
 	&console_pauses_game_definition,
 	&framerate_infinite_definition,
 	&framerate_debug_definition,
 	&framerate_use_system_time_definition,
 	&framerate_stabilization_definition,
-	&unknown10_definition,
 	&unknown11_definition,
 	&unknown12_definition,
 	&debug_controller_latency_definition,
