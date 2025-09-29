@@ -123,6 +123,7 @@ struct hs_source_file
 	c_typed_tag_block<hs_tag_reference> external_references;
 	//uns32 flags;
 };
+//static_assert(sizeof(hs_source_file) == 0x44);
 static_assert(sizeof(hs_source_file) == sizeof(s_tag_block));
 
 struct s_hs_unit_seat_mapping

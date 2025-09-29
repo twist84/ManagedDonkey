@@ -118,6 +118,31 @@ return_type_t hs_check_block_index_type_and_return(return_type_t return_value)
 	return return_value;
 }
 
+hs_source_file* source_offset_get_source_file(int32 offset, int32* offset_within_file)
+{
+	hs_source_file* result = NULL;
+
+	const struct scenario* scenario = global_scenario_get();
+	int32 total_source_size = 0;
+	{
+		for (int16 source_index = 0; source_index < scenario->hs_source_files.count; source_index++)
+		{
+			hs_source_file* source_file = TAG_BLOCK_GET_ELEMENT(&scenario->hs_source_files, source_index, hs_source_file);
+#if 0
+			total_source_size += source_file->source.size;
+			if (offset < total_source_size)
+			{
+				result = source_file;
+				ASSERT((*offset_within_file >= 0) && (*offset_within_file < source_file->source.size));
+				break;
+			}
+#endif
+		}
+	}
+
+	return result;
+}
+
 bool hs_add_global(int32 expression_index)
 {
 	bool success = false;
@@ -273,35 +298,33 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 
 void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_size, const char* source_file_data, const char** error_message_pointer, int32* error_offset)
 {
-	// $IMPLEMENT
-
-	//hs_tokenizer tokenizer{};
-	//tokenizer.source_file_data = source_file_data;
-	//tokenizer.source_file_size = source_file_size;
-	//if (tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
-	//{
-	//	hs_compile_globals.error_message = NULL;
-	//	*error_message_pointer = NULL;
-	//	hs_compile_globals.error_offset = NONE;
-	//
-	//	skip_whitespace(&tokenizer.cursor);
-	//	while (*tokenizer.cursor)
-	//	{
-	//		int32 expression_index = hs_tokenize(&tokenizer);
-	//		skip_whitespace(&tokenizer.cursor);
-	//		if (hs_compile_globals.error_message || !hs_parse_special_form(expression_index))
-	//		{
-	//			VASSERT(!hs_compile_globals.error_message, "tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
-	//			*error_message_pointer = hs_compile_globals.error_message;
-	//			*error_offset = hs_compile_globals.error_offset;
-	//			break;
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	*error_message_pointer = "couldn't allocate memory for compiled source.";
-	//}
+	hs_tokenizer tokenizer{};
+	tokenizer.source_file_data = source_file_data;
+	tokenizer.source_file_size = source_file_size;
+	if (tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
+	{
+		hs_compile_globals.error_message = NULL;
+		*error_message_pointer = NULL;
+		hs_compile_globals.error_offset = NONE;
+	
+		skip_whitespace(&tokenizer.cursor);
+		while (*tokenizer.cursor)
+		{
+			int32 expression_index = hs_tokenize(&tokenizer);
+			skip_whitespace(&tokenizer.cursor);
+			if (hs_compile_globals.error_message || !hs_parse_special_form(expression_index))
+			{
+				VASSERT(!hs_compile_globals.error_message, "tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+				*error_message_pointer = hs_compile_globals.error_message;
+				*error_offset = hs_compile_globals.error_offset;
+				break;
+			}
+		}
+	}
+	else
+	{
+		*error_message_pointer = "couldn't allocate memory for compiled source.";
+	}
 }
 
 void hs_compile_dispose()
@@ -524,13 +547,82 @@ bool hs_compile_register_error_listener(c_hs_compile_error_listener* listener)
 
 bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 {
-#if 1
-	bool success = false;
-#else
 	bool success = true;
 
-	// $IMPLEMENT
+	const struct scenario* scenario = global_scenario_get();
+	for (int16 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
+	{
+		hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&scenario->hs_globals, global_index, hs_global_internal);
+
+		ASSERT(global->initialization_expression_index != NONE);
+		ASSERT(hs_syntax_get(global->initialization_expression_index)->type == _hs_unparsed);
+
+		hs_compile_globals.current_global_index = global_index;
+		hs_compile_globals.error_message = 0;
+		hs_compile_globals.error_offset = 0;
+
+		if (!hs_parse(global->initialization_expression_index, global->type))
+		{
+			BIT_VECTOR_OR_FLAG(compile_state->failed_globals, global_index);
+			if (verbose)
+			{
+				VASSERT(hs_compile_globals.error_message, "tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+
+				int32 error_offset_within_file = 0;
+				hs_source_file const* error_source_file = source_offset_get_source_file(hs_compile_globals.error_offset, &error_offset_within_file);;
+				if (error_source_file)
+				{
+#if 0
+					char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char*);
+					const char* error_text = &error_source[error_offset_within_file];
+					hs_compile_source_error(error_source_file->name, hs_compile_globals.error_message, error_text, error_source);
 #endif
+				}
+			}
+
+			success = false;
+		}
+
+		hs_compile_globals.current_global_index = NONE;
+	}
+
+	for (int16 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
+	{
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, script_index, hs_script);
+
+		ASSERT(script->root_expression_index != NONE);
+		ASSERT(hs_syntax_get(script->root_expression_index)->type == _hs_unparsed);
+
+		hs_compile_globals.current_script_index = script_index;
+		hs_compile_globals.error_message = 0;
+		hs_compile_globals.error_offset = 0;
+
+		if (!hs_parse(script->root_expression_index, script->return_type))
+		{
+			ASSERT(VALID_INDEX(script_index, k_maximum_hs_scripts_per_scenario));
+			BIT_VECTOR_OR_FLAG(compile_state->failed_scripts, script_index);
+
+			if (verbose)
+			{
+				VASSERT(hs_compile_globals.error_message, "tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+
+				int32 error_offset_within_file = 0;
+				hs_source_file const* error_source_file = source_offset_get_source_file(hs_compile_globals.error_offset, &error_offset_within_file);
+				if (error_source_file)
+				{
+#if 0
+					char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char*);
+					const char* error_text = &error_source[error_offset_within_file];
+					hs_compile_source_error(error_source_file->name, hs_compile_globals.error_message, error_text, error_source);
+#endif
+				}
+			}
+
+			success = false;
+		}
+
+		hs_compile_globals.current_script_index = NONE;
+	}
 
 	return success;
 }
@@ -541,10 +633,11 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	bool success = false;
 #else
 	bool success = true;
-	s_hs_compile_state compile_state;
 
 	progress_new("compiling scripts");
 	hs_compile_initialize(true);
+
+	s_hs_compile_state compile_state{};
 	hs_compile_state_initialize(global_scenario_get(), &compile_state);
 	
 	if (g_error_output_buffer && verbose)
@@ -559,7 +652,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 		hs_source_file* source_file = TAG_BLOCK_GET_ELEMENT(&scenario->hs_source_files, source_index, hs_source_file);
 
 #if 0
-		char* source_text = TAG_DATA_GET_POINTER(char*, &source_file->source, 0, source_file->source.size);
+		char* source_text = TAG_DATA_GET_POINTER(&source_file->source, 0, source_file->source.size, char*);
 		if (source_text)
 		{
 			ascii_strnlwr(source_text, source_file->source.size);
@@ -578,7 +671,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 					hs_source_file* error_source_file = source_offset_get_source_file(error_offset, &error_offset_within_file);
 					if (error_source_file)
 					{
-						char* error_source = TAG_DATA_GET_POINTER(char*, &error_source_file->source, 0, error_source_file->source.size);
+						char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char*);
 						const char* error_text = &error_source[error_offset_within_file];
 						hs_compile_source_error(error_source_file->name, error_message, error_text, error_source);
 					}
