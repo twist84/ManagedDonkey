@@ -744,7 +744,21 @@ int32 __cdecl hs_find_thread_by_name(const char* script_name)
 
 int32 __cdecl hs_find_thread_by_script(int16 script_index)
 {
-	return INVOKE(0x00596130, hs_find_thread_by_script, script_index);
+	//return INVOKE(0x00596130, hs_find_thread_by_script, script_index);
+
+	s_hs_thread_iterator iterator{};
+	hs_thread_iterator_new(&iterator, true, true);
+	for (int32 thread_index = hs_thread_iterator_next(&iterator);
+		thread_index != NONE;
+		thread_index = hs_thread_iterator_next(&iterator))
+	{
+		const hs_thread* thread = hs_thread_get(thread_index);
+		if (thread->script_index == script_index)
+		{
+			return thread_index;
+		}
+	}
+	return NONE;
 }
 
 int32 __cdecl hs_global_evaluate(int16 global_designator)
