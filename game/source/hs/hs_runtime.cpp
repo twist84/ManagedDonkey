@@ -49,8 +49,8 @@ HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x00594680, hs_evaluate_arithmetic);
 HOOK_DECLARE(0x00594960, hs_evaluate_begin);
-//HOOK_DECLARE(0x00596070, hs_find_thread_by_name);
-//HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
+HOOK_DECLARE(0x00596070, hs_find_thread_by_name);
+HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
 HOOK_DECLARE(0x005961D0, hs_global_evaluate);
 HOOK_DECLARE(0x00596230, hs_global_reconcile_read);
 HOOK_DECLARE(0x00596C10, hs_global_reconcile_write);
@@ -99,6 +99,7 @@ HOOK_DECLARE(0x00598E70, hs_thread_new);
 HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
 HOOK_DECLARE(0x00599170, hs_wake);
 HOOK_DECLARE(0x00599250, hs_wake_by_name);
+HOOK_DECLARE(0x00599280, inspect_internal);
 HOOK_DECLARE(0x00599470, thread_update_sleep_time_for_reset);
 
 bool g_run_game_scripts = true;
@@ -106,6 +107,29 @@ bool breakpoints_enabled = true;
 
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
+
+inline static bool script_error(long thread_index, const char* message, const char* condition)
+{
+	event(_event_warning, "script %s needs to be recompiled. (%s: %s)",
+		hs_thread_format(thread_index),
+		message ? message : "no reason given.",
+		condition);
+
+	return false;
+}
+
+inline static bool script_error2(long thread_index, const char* message, const char* condition)
+{
+	event(_event_warning, "a problem occurred while executing the script %s: %s (%s)",
+		hs_thread_format(thread_index),
+		message ? message : "no reason given.",
+		condition);
+
+	return false;
+}
+
+#define SCRIPT_COMPILE_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error((THREAD_INDEX), (MESSAGE), #CONDITION))
+#define SCRIPT_EXECUTION_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error2((THREAD_INDEX), (MESSAGE), #CONDITION))
 
 bool valid_thread(int32 thread_index)
 {
@@ -172,70 +196,47 @@ void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buff
 	csstrnzcpy(buffer, value_, buffer_size);
 }
 //.text:00593AC0 ; void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size)
-//.text:00593AF0 ; 
-//.text:00593B10 ; 
-//.text:00593B30 ; 
-//.text:00593B50 ; 
-//.text:00593B70 ; 
-//.text:00593B90 ; 
-//.text:00593BB0 ; 
-//.text:00593BC0 ; 
-//.text:00593BD0 ; 
-//.text:00593BE0 ; 
-//.text:00593BF0 ; 
-//.text:00593C00 ; 
-//.text:00593C10 ; 
+//.text:00593AF0 ; tls
+//.text:00593B10 ; tls
+//.text:00593B30 ; tls
+//.text:00593B50 ; tls
+//.text:00593B70 ; tls
+//.text:00593B90 ; tls
+//.text:00593BB0 ; tls
+//.text:00593BC0 ; tls
+//.text:00593BD0 ; tls
+//.text:00593BE0 ; tls
+//.text:00593BF0 ; tls
+//.text:00593C00 ; tls
+//.text:00593C10 ; tls
 //.text:00593C20 ; void __cdecl __tls_set_g_hs_distributed_global_data_allocator(void*)
 //.text:00593C50 ; void __cdecl __tls_set_g_hs_global_data_allocator(void*)
 //.text:00593C80 ; void __cdecl __tls_set_g_hs_runtime_globals_allocator(void*)
 //.text:00593CA0 ; void __cdecl __tls_set_g_hs_thread_deterministic_data_allocator(void*)
 //.text:00593CD0 ; void __cdecl __tls_set_g_hs_thread_non_deterministic_data_allocator(void*)
 //.text:00593D00 ; void __cdecl __tls_set_g_hs_thread_tracking_data_allocator(void*)
-//.text:00593D30 ; 
-//.text:00593D70 ; 
-//.text:00593DB0 ; 
-//.text:00593DF0 ; 
-//.text:00593E30 ; 
-//.text:00593E70 ; 
-//.text:00593EB0 ; 
-//.text:00593ED0 ; 
-//.text:00593F00 ; 
-//.text:00593F30 ; 
-//.text:00593F60 ; 
-//.text:00593F90 ; 
-//.text:00593FC0 ; 
-//.text:00593FF0 ; 
-//.text:00594020 ; 
-//.text:00594050 ; 
-//.text:00594080 ; 
-//.text:005940B0 ; 
-//.text:005940E0 ; 
-//.text:00594110 ; 
-//.text:00594120 ; 
-//.text:00594130 ; 
-
-inline static bool script_error(long thread_index, const char* message, const char* condition)
-{
-	event(_event_warning, "script %s needs to be recompiled. (%s: %s)",
-		hs_thread_format(thread_index),
-		message ? message : "no reason given.",
-		condition);
-
-	return false;
-}
-
-inline static bool script_error2(long thread_index, const char* message, const char* condition)
-{
-	event(_event_warning, "a problem occurred while executing the script %s: %s (%s)",
-		hs_thread_format(thread_index),
-		message ? message : "no reason given.",
-		condition);
-
-	return false;
-}
-
-#define SCRIPT_COMPILE_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error((THREAD_INDEX), (MESSAGE), #CONDITION))
-#define SCRIPT_EXECUTION_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error2((THREAD_INDEX), (MESSAGE), #CONDITION))
+//.text:00593D30 ; tls
+//.text:00593D70 ; tls
+//.text:00593DB0 ; tls
+//.text:00593DF0 ; tls
+//.text:00593E30 ; tls
+//.text:00593E70 ; tls
+//.text:00593EB0 ; public: void c_data_iterator<hs_global_runtime>::begin(s_data_array* data)
+//.text:00593ED0 ; tls
+//.text:00593F00 ; tls
+//.text:00593F30 ; tls
+//.text:00593F60 ; tls
+//.text:00593F90 ; tls
+//.text:00593FC0 ; tls
+//.text:00593FF0 ; tls
+//.text:00594020 ; tls
+//.text:00594050 ; tls
+//.text:00594080 ; tls
+//.text:005940B0 ; tls
+//.text:005940E0 ; tls
+//.text:00594110 ; public: int16 c_data_iterator<hs_global_runtime>::get_absolute_index() const
+//.text:00594120 ; public: hs_global_runtime* c_data_iterator<hs_global_runtime>::get_datum() const
+//.text:00594130 ; public: int32 c_data_iterator<hs_global_runtime>::get_index() const
 
 int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_count, const int16* formal_parameters, bool initialize)
 {
