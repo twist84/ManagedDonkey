@@ -1024,10 +1024,14 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 	}
 }
 
-//.text:00596F50 ; void __cdecl hs_handle_deleted_object(int32 object_index)
-//.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 _long)
-//.text:005972A0 ; int32 __cdecl hs_long_to_real(int32 _long)
-//.text:005972C0 ; int32 __cdecl hs_boolean_to_long(int32 _boolean)
+void __cdecl hs_handle_deleted_object(int32 object_index)
+{
+	INVOKE(0x00596F50, hs_handle_deleted_object, object_index);
+}
+
+//.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 n)
+//.text:005972A0 ; int32 __cdecl hs_long_to_real(int32 l)
+//.text:005972C0 ; int32 __cdecl hs_long_to_short(int32 l)
 //.text:005972E0 ; 
 
 int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize)
@@ -1068,7 +1072,7 @@ int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_ind
 	return results;
 }
 
-//.text:00597320 ; int32 __cdecl hs_object_index_from_name_index(int32, int16)
+//.text:00597320 ; int32 __cdecl hs_object_index_from_name_index(int32 thread_index, int16 name_index)
 //.text:00597330 ; int32 __cdecl hs_object_name_to_object_list(int32 name_index)
 //.text:00597370 ; int32 __cdecl hs_object_to_object_list(int32 object_index)
 
@@ -1085,8 +1089,8 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 	//return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
-//.text:005973D0 ; int32 __cdecl hs_real_to_long(int32 _real)
-//.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 _real)
+//.text:005973D0 ; int32 __cdecl hs_real_to_long(int32 r)
+//.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 r)
 
 void __cdecl hs_rebuild_and_compile(char* error_buffer, long buffer_length, bool verbose)
 {

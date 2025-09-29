@@ -227,6 +227,7 @@ extern int32 __cdecl hs_find_thread_by_script(int16 script_index);
 extern int32 __cdecl hs_global_evaluate(int16 global_designator);
 extern void __cdecl hs_global_reconcile_read(int16 global_designator);
 extern void __cdecl hs_global_reconcile_write(int16 global_designator);
+extern void __cdecl hs_handle_deleted_object(int32 object_index);
 extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
 extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
 extern void __cdecl hs_rebuild_and_compile(char* error_buffer, int32 buffer_length, bool verbose);
