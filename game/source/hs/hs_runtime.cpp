@@ -99,6 +99,7 @@ HOOK_DECLARE(0x00598E70, hs_thread_new);
 HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
 HOOK_DECLARE(0x00599170, hs_wake);
 HOOK_DECLARE(0x00599250, hs_wake_by_name);
+HOOK_DECLARE(0x00599470, thread_update_sleep_time_for_reset);
 
 bool g_run_game_scripts = true;
 bool breakpoints_enabled = true;
@@ -2453,7 +2454,18 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 
 void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset)
 {
-	INVOKE(0x00599470, thread_update_sleep_time_for_reset, thread_index, time_offset);
+	//INVOKE(0x00599470, thread_update_sleep_time_for_reset, thread_index, time_offset);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	if (thread->sleep_until >= 0)
+	{
+		thread->sleep_until = MIN(0, thread->sleep_until + time_offset);
+	}
+
+	if (TEST_BIT(thread->flags, _hs_thread_latent_sleep_bit) && thread->latent_sleep_until >= 0)
+	{
+		thread->sleep_until = MIN(0, thread->latent_sleep_until + time_offset);
+	}
 }
 
 hs_thread* hs_thread_get(int32 thread_index)
