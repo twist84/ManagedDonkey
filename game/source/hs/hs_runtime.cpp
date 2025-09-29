@@ -1891,7 +1891,16 @@ bool __cdecl hs_syntax_node_exists(int32 index)
 	return datum_try_and_get(g_hs_syntax_data, index) != NULL;
 }
 
-//.text:00598A30 ; int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n)
+int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n)
+{
+	//INVOKE(0x00598A30, hs_syntax_nth, expression_index, n);
+
+	while (n-- > 0)
+	{
+		expression_index = hs_syntax_get(expression_index)->next_node_index;
+	}
+	return expression_index;
+}
 
 int32 hs_thread_allocate(bool deterministic)
 {

@@ -270,6 +270,7 @@ extern void __cdecl hs_stack_pop(int32 thread_index);
 extern bool __cdecl hs_stack_push(int32 thread_index);
 extern hs_syntax_node* __cdecl hs_syntax_get(int32 index);
 extern bool __cdecl hs_syntax_node_exists(int32 index);
+extern int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n);
 extern int32 hs_thread_allocate(bool deterministic);
 extern void __cdecl hs_thread_delete(int32 thread_index, bool validate);
 extern const char* __cdecl hs_thread_format(int32 thread_index);
