@@ -8,7 +8,12 @@
 //.text:005FA4E0 ; bool __cdecl scenario_trigger_volume_get_matrix(int32, real_matrix4x3*)
 //.text:005FA500 ; int32 __cdecl scenario_trigger_volume_return_objects(int32)
 //.text:005FA520 ; int32 __cdecl scenario_trigger_volume_return_objects_by_type(int32, int32)
-//.text:005FA680 ; bool __cdecl scenario_trigger_volume_test_object(int32, int32)
+
+bool __cdecl scenario_trigger_volume_test_object(int32 trigger_volume_index, int32 object_index)
+{
+	return INVOKE(0x005FA680, scenario_trigger_volume_test_object, trigger_volume_index, object_index);
+}
+
 //.text:005FA6E0 ; bool __cdecl scenario_trigger_volume_test_players(int32)
 //.text:005FA780 ; bool __cdecl scenario_trigger_volume_test_players_all(int32)
 //.text:005FA820 ; bool __cdecl scenario_trigger_volume_test_point(int32, const real_point3d*)

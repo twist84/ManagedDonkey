@@ -5,6 +5,7 @@
 #include "game/game_time.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_runtime.hpp"
+#include "hs/object_lists.hpp"
 #include "interface/terminal.hpp"
 #include "memory/module.hpp"
 
@@ -107,13 +108,34 @@ void __cdecl hs_print(const char* s)
 	terminal_printf(global_real_argb_green, s);
 }
 
-bool __cdecl hs_trigger_volume_test_objects(int16 trigger_volume_index, int32 object_index, bool a3)
+bool __cdecl hs_trigger_volume_test_objects(int16 trigger_volume_index, int32 object_list_index, bool and_)
 {
-	bool result = INVOKE(0x0096F080, hs_trigger_volume_test_objects, trigger_volume_index, object_index, a3);
+	//return INVOKE(0x0096F080, hs_trigger_volume_test_objects, trigger_volume_index, object_list_index, and_);
 
-	hs_debug_data.activated_trigger_volumes.set(trigger_volume_index, result);
+	bool test = and_;
+	int32 reference_index;
+	for (int32 object_index = object_list_get_first(object_list_index, &reference_index);
+		object_index != NONE;
+		object_index = object_list_get_next(object_list_index, &reference_index))
+	{
+		if (scenario_trigger_volume_test_object(trigger_volume_index, object_index))
+		{
+			if (!and_)
+			{
+				test = true;
+				break;
+			}
+		}
+		else if (and_)
+		{
+			test = false;
+			break;
+		}
+	}
 
-	return result;
+	hs_debug_data.activated_trigger_volumes.set(trigger_volume_index, test);
+
+	return test;
 }
 
 bool __cdecl hs_trigger_volume_test_objects_all(int16 trigger_volume_index, int32 object_index)
