@@ -66,8 +66,8 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0199FE88 ; c_online_lsp_manager g_online_lsp_manager
 //.data:019A0320 ; 
 //.data:019A0321 ; 
-//.data:019A0322 ; 
-//.data:019A0323 ; bool g_network_interface_fake_latency_and_framerate_metrics_on_chud
+//.data:019A0322 ; bool g_network_interface_show_network_quality
+//.data:019A0323 ; bool g_network_interface_fake_network_quality
 //.data:019A0328 ; s_network_session_interface_globals session_interface_globals
 //.data:019A6230 ; 
 //.data:019A6238 ; 

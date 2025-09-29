@@ -15,9 +15,7 @@ struct hs_enum_definition
 static_assert(sizeof(hs_enum_definition) == 0x8);
 
 struct hs_syntax_node;
-struct hs_function_definition_release;
 struct hs_function_definition;
-struct hs_global_external_release;
 struct hs_global_external;
 struct s_tag_block;
 struct s_data_array;

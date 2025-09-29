@@ -36,7 +36,7 @@ bool debug_objects_indices = false;
 bool debug_objects_programmer = false;
 bool debug_objects_garbage = false;
 bool debug_objects_names = false;
-bool debug_objects_full_names = false;
+bool debug_objects_names_full = false;
 bool debug_objects_active_nodes = false;
 bool debug_objects_animation_times = false;
 bool debug_objects_functions = false;
@@ -2123,7 +2123,7 @@ void object_render_debug_internal(int32 object_index)
 	if (debug_objects_names)
 	{
 		c_static_string<256> name;
-		object_get_debug_name(object_index, debug_objects_full_names, &name);
+		object_get_debug_name(object_index, debug_objects_names_full, &name);
 		string.append_print("%s", name.get_string());
 	}
 

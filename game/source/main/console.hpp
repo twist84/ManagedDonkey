@@ -66,9 +66,6 @@ static_assert(sizeof(s_string_cache) == 0x1014);
 
 extern s_console_globals console_globals;
 
-extern s_console_global const k_console_globals[];
-extern int32 const k_console_global_count;
-
 extern bool console_dump_to_debug_display;
 
 extern s_status_line* g_status_line_head;

@@ -94,7 +94,6 @@ struct s_command
 
 //-----------------------------------------------------------------------------
 
-COMMAND_CALLBACK_DECLARE(set);
 COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(game_save_and_quit);
 COMMAND_CALLBACK_DECLARE(game_save_unsafe);
@@ -239,8 +238,6 @@ COMMAND_CALLBACK_DECLARE(saved_film_seek_to_film_tick);
 
 s_command const k_registered_commands[] =
 {
-	COMMAND_CALLBACK_REGISTER(set, 0, "", "set the value of a global variable.\r\nNETWORK SAFE: Yes (depending on result)"),
-
 	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),
 
 	COMMAND_CALLBACK_REGISTER(game_save_and_quit, 0, "", "save & quit to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),

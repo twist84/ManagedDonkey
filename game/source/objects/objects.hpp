@@ -541,7 +541,7 @@ extern bool debug_objects_indices;
 extern bool debug_objects_programmer;
 extern bool debug_objects_garbage;
 extern bool debug_objects_names;
-extern bool debug_objects_full_names;
+extern bool debug_objects_names_full;
 extern bool debug_objects_active_nodes;
 extern bool debug_objects_animation_times;
 extern bool debug_objects_functions;

@@ -1,65 +1,25 @@
 #include "main/console.hpp"
 
-#include "ai/ai_debug.hpp"
-#include "camera/camera_globals.hpp"
 #include "cseries/cseries_events.hpp"
-#include "cubemaps/cubemap_debug.hpp"
-#include "effects/contrails.hpp"
-#include "game/campaign_metagame.hpp"
-#include "game/cheats.hpp"
+#include "game/game_time.hpp"
 #include "hs/hs_compile.hpp"
-#include "hs/hs_runtime.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/c_controller.hpp"
-#include "interface/c_gui_widget.hpp"
-#include "interface/chud/chud_draw.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
-#include "interface/first_person_weapons.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/terminal.hpp"
-#include "interface/user_interface.hpp"
-#include "interface/user_interface_hs.hpp"
-#include "items/weapons.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
-#include "main/main_game.hpp"
 #include "main/main_render.hpp"
-#include "main/main_time.hpp"
 #include "memory/module.hpp"
-#include "memory/thread_local.hpp"
-#include "motor/sync_action.hpp"
 #include "multithreading/threads.hpp"
-#include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
-#include "networking/messages/network_message_gateway.hpp"
 #include "networking/tools/remote_command.hpp"
-#include "objects/damage.hpp"
-#include "objects/object_types.hpp"
-#include "physics/collision_debug.hpp"
-#include "physics/havok.hpp"
-#include "physics/water_physics.hpp"
 #include "profiler/profiler.hpp"
-#include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
-#include "rasterizer/rasterizer.hpp"
-#include "render/old_render_debug.hpp"
-#include "render/render.hpp"
 #include "render/render_cameras.hpp"
-#include "render/render_debug_commands.hpp"
-#include "render/render_lights.hpp"
-#include "render/render_objects_static_lighting.hpp"
-#include "render/render_transparents.hpp"
-#include "render/render_water.hpp"
-#include "render/screen_postprocess.hpp"
-#include "render/views/render_player_view.hpp"
-#include "render/views/render_view.hpp"
-#include "scenario/scenario_soft_ceilings.hpp"
 #include "shell/shell.hpp"
-#include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "text/draw_string.hpp"
-#include "units/bipeds.hpp"
-#include "visibility/visibility_collection.hpp"
 #include "xbox/xbox.hpp"
-#include "rasterizer/rasterizer_synchronization.hpp"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -70,8 +30,6 @@ HOOK_DECLARE(0x00605E10, console_execute_initial_commands);
 s_console_globals console_globals;
 
 bool console_dump_to_debug_display = false;
-
-bool* console_status_render = &console_globals.status_render;
 
 c_static_string<256> console_token_buffer;
 int32 suggestion_current_index;
@@ -520,609 +478,63 @@ bool __cdecl console_process_command(const char* command, bool interactive)
 	int16 command_index = (console_globals.newest_previous_command_index + 1) % NUMBEROF(console_globals.previous_commands);
 	console_globals.newest_previous_command_index = command_index;
 	console_globals.previous_commands[command_index].set(command);
-
-	int16 v5 = NUMBEROF(console_globals.previous_commands);
-	if (console_globals.previous_command_count + 1 <= NUMBEROF(console_globals.previous_commands))
+	if (++console_globals.previous_command_count > NUMBEROF(console_globals.previous_commands))
 	{
-		v5 = console_globals.previous_command_count + 1;
+		console_globals.previous_command_count = NUMBEROF(console_globals.previous_commands);
 	}
-	console_globals.previous_command_count = v5;
-
 	console_globals.selected_previous_command_index = NONE;
 
 	bool result = hs_compile_and_evaluate(_event_message, "console_command", command, interactive);
-	return result;
 
-	tokens_t tokens{};
-	int32 token_count = 0;
-	command_tokenize(command, tokens, &token_count);
-	if (token_count > 0)
+#if 0
+	if (!result)
 	{
-		const char* command_name = tokens[0]->get_string();
-
-		bool command_found = false;
-		for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
-		{
-			if (tokens[0]->is_equal(k_registered_commands[i].name))
-			{
-				command_found = true;
-
-				callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
-
-				c_console::write(callback_result.get_string());
-
-				int32 succeeded = callback_result.index_of(": succeeded");
-				result = succeeded != NONE || tokens[0]->is_equal("help");
-
-				if (result)
-					console_printf("command '%s' succeeded", command_name);
-				else
-					console_warning("command '%s' failed: %s", command_name, callback_result.get_string());
-
-				return result;
-			}
-		}
-
-#if defined(ALLOW_CONSOLE_SCRIPT_HS_SCRIPT_BY_NAME)
-		if (user_interface_start_hs_script_by_name(command_name) != NONE)
-			return true;
-#endif
+		tokens_t tokens{};
+		int32 token_count = 0;
+		command_tokenize(command, tokens, &token_count);
 
 		if (token_count == 2 && load_preference(tokens[0]->get_string(), tokens[1]->get_string()))
+		{
 			return true;
+		}
 
-		callback_result_t callback_result = set_callback(NULL, token_count, tokens);
-		if (callback_result.is_equal("success"))
-			return true;
+		if (token_count > 0)
+		{
+			const char* command_name = tokens[0]->get_string();
 
-		if (callback_result.is_equal("failure"))
-			return false;
+			bool command_found = false;
+			for (int32 i = 0; i < NUMBEROF(k_registered_commands); i++)
+			{
+				if (tokens[0]->is_equal(k_registered_commands[i].name))
+				{
+					command_found = true;
 
-		if (!command_found || callback_result.is_equal("not found"))
-			console_warning("command '%s' not found", command_name);
+					callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
+
+					c_console::write(callback_result.get_string());
+
+					int32 succeeded = callback_result.index_of(": succeeded");
+					result = succeeded != NONE || tokens[0]->is_equal("help");
+
+					if (result)
+						console_printf("command '%s' succeeded", command_name);
+					else
+						console_warning("command '%s' failed: %s", command_name, callback_result.get_string());
+
+					return result;
+				}
+			}
+		}
 	}
+#endif
 
 	main_status("console_command", NULL);
-
 	return result;
 }
 
 bool __cdecl debugging_system_has_focus()
 {
 	return console_is_active() || debug_menu_get_active();
-}
-
-#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_name })
-#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_name })
-#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_name })
-
-#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = &_variable_name })
-#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_variable_name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_variable_name })
-#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_variable_name })
-
-#define CONSOLE_GLOBAL_DECLARE_BOOL3(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _name })
-#define CONSOLE_GLOBAL_DECLARE_REAL3(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT3(_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _name })
-#define CONSOLE_GLOBAL_DECLARE_LONG3(_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _name })
-
-#define CONSOLE_GLOBAL_DECLARE_BOOL4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _variable_name })
-#define CONSOLE_GLOBAL_DECLARE_REAL4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _variable_name })
-#define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
-#define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
-
-s_console_global const k_console_globals[] =
-{
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_force_all_player_views_to_default_player),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_freeze),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_horizontal_splitscreen),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_load_panic_to_main_menu),
-	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(display_pulse_rates),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(display_throttle_rates),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(display_lag_times),
-	CONSOLE_GLOBAL_DECLARE_BOOL(display_frame_deltas),
-	CONSOLE_GLOBAL_DECLARE_BOOL4(console_status_string_render, console_status_render),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(console_pauses_game, debug_console_pauses_game),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_infinite),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_debug),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_use_system_time),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_stabilization),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_controller_latency),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_physical_memory),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(terminal_render, g_terminal_render_enable),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(events_debug_spam_render),
-	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
-
-	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
-
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_global_fov, g_camera_globals.camera_field_of_view_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.camera_yaw_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_pitch_scale, g_camera_globals.camera_pitch_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_forward_scale, g_camera_globals.camera_forward_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_side_scale, g_camera_globals.camera_side_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_up_scale, g_camera_globals.camera_up_scale),
-	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_maximum_boost_speed, g_camera_globals.flying_camera_time_to_maximum_boost),
-	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_movement_delay, g_camera_globals.flying_cam_movement_delay),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(net_skip_countdown),
-	CONSOLE_GLOBAL_DECLARE_BOOL(net_experimental),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(net_show_latency_and_framerate_metrics_on_chud, g_network_interface_show_latency_and_framerate_metrics_on_chud),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(net_fake_latency_and_framerate_metrics_on_chud, g_network_interface_fake_latency_and_framerate_metrics_on_chud),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_enable_force_phonebooth_assassinate),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_deathless_player, cheat.deathless_player),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_valhalla, cheat.valhalla),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_jetpack, cheat.jetpack),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_ammo, cheat.infinite_ammo),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_bottomless_clip, cheat.bottomless_clip),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_bump_possession, cheat.bump_possession),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_super_jump, cheat.super_jump),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_reflexive_damage_effects, cheat.reflexive_damage_effects),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_medusa, cheat.medusa),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_omnipotent, cheat.omnipotent),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_controller, cheat.controller_enabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_chevy, cheat.chevy),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_show_air_probes),
-	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_toggle_default_lightmaps_texaccum),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_static_lighting),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_dynamic_lighting),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_sfx),
-
-	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_depth_render),
-	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_r),
-	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_g),
-	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_b),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_trigger_volumes),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_render_all),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_activation),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(pvs_building_disabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_editor_mode),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_default_lighting),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_portals),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_audio_clusters),
-	CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_visible_clusters),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_portals_structure_bsp_index),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(visibility_debug_portals_cluster_index),
-
-	//CONSOLE_GLOBAL_DECLARE_LONG(debug_object_index),
-	//CONSOLE_GLOBAL_DECLARE_LONG(debug_objects_type_mask),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_player_only),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water, render_water_enabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_tessellated, render_water_tessllation_on),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_interaction, render_water_interaction_on),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_wireframe, render_water_wireframe_enabled),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_damage),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_damage_verbose),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_water_proxy),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_spray),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_features),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_phantom_bsp),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_lightmaps),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_geometry_sampling),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flags),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_structure),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_water),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_instanced_geometry),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_bipeds),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_giants),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_effect_scenery),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_vehicles),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_weapons),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_equipment),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_terminals),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_projectiles),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_scenery),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_machines),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_controls),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_sound_scenery),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_crates),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_objects_creatures),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_child_objects),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_nonpathfindable_objects),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_cinematic_objects),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_dead_bipeds),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_passthrough_bipeds),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_front_facing_surfaces),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_back_facing_surfaces),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_two_sided_surfaces),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_invisible_surfaces),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_ignore_breakable_surfaces),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_allow_early_out),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_flag_try_to_keep_location_valid),
-	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_repeat),
-	CONSOLE_GLOBAL_DECLARE_REAL2(collision_debug_point_x, collision_debug_point.x),
-	CONSOLE_GLOBAL_DECLARE_REAL2(collision_debug_point_y, collision_debug_point.y),
-	CONSOLE_GLOBAL_DECLARE_REAL2(collision_debug_point_z, collision_debug_point.z),
-	CONSOLE_GLOBAL_DECLARE_REAL2(collision_debug_vector_i, collision_debug_vector.i),
-	CONSOLE_GLOBAL_DECLARE_REAL2(collision_debug_vector_j, collision_debug_vector.j),
-	CONSOLE_GLOBAL_DECLARE_REAL2(collision_debug_vector_k, collision_debug_vector.k),
-	CONSOLE_GLOBAL_DECLARE_REAL(collision_debug_length),
-	CONSOLE_GLOBAL_DECLARE_REAL(collision_debug_width),
-	CONSOLE_GLOBAL_DECLARE_REAL(collision_debug_height),
-	CONSOLE_GLOBAL_DECLARE_LONG(collision_debug_ignore_object_index),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_camera),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_tangent_space),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_player),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_player_control_autoaim_always_active),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_markers),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_surface_references),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_ceilings),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_kill),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_slip_surfaces),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_cluster_skies),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_invisible),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_automatic),
-	//CONSOLE_GLOBAL_DECLARE_LONG(debug_plane_index),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_unique_colors),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_complexity),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_seam_edges),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_bounding_spheres),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_names),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_vertex_counts),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_collision_geometry),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_zone_set_critical_portals),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_water),
-	CONSOLE_GLOBAL_DECLARE_BOOL(water_physics_debug),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_abstraction),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_mouse_state),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_profile_disable, ai_profile.disable_ai),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_profile_random, ai_profile.move_randomly),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show, ai_profile.show),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_stats, ai_profile.show_stats),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_actors, ai_profile.show_actors),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_swarms, ai_profile.show_swarms),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_paths, ai_profile.show_paths),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_line_of_sight, ai_profile.show_line_of_sight),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_prop_types, ai_profile.show_prop_types),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_show_sound_distance, ai_profile.show_sound_distance),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render, g_ai_render),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_player_weights, g_ai_render_dialogue_player_weights),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_behavior_stack_all, g_ai_render_behavior_stack_all),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_character_names, g_ai_render_character_names),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_stimuli, g_ai_render_stimuli),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_sectors, g_ai_render_sectors),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_object_properties, g_ai_render_object_properties),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_intersection_links, g_ai_render_intersection_links),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_threshold_links, g_ai_render_threshold_links),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_suppress_combat, g_ai_render_suppress_combat),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_vehicle_reservations, g_ai_render_vehicle_reservations),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_objectives, g_ai_render_objectives),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_strength, g_ai_render_strength),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_tracking_data, g_ai_debug_tracking_data),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_perception_data, g_ai_debug_perception_data),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_combat_status, g_ai_debug_combat_status),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_tracked_props_all, g_ai_render_tracked_props_all),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_targets_all, g_ai_render_targets_all),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_command_scripts, g_ai_render_command_scripts),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_variants, g_ai_render_dialogue_variants),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dynamic_firing_positions, g_ai_render_dynamic_firing_positions),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_vehicle_interest, g_ai_render_vehicle_interest),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_player_battle_vector, g_ai_render_player_battle_vector),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_player_needs_vehicle, g_ai_render_player_needs_vehicle),
-
-	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_minimum),
-	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_maximum),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_early_movers),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_sound_spheres),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_indices),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_programmer),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_garbage),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_names),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_full_names),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_active_nodes),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_animation_times),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_functions),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_position_velocity),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_origin),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_root_node),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_bounding_spheres),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_attached_bounding_spheres),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_dynamic_render_bounding_spheres),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_model_targets),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_collision_models),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_profile_times),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_water_physics),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_physics_models),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_expensive_physics),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_contact_points),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_constraints),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_vehicle_physics),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_mass),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_pathfinding),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_node_bounds),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_animation),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_physics_control_node),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_biped_autoaim_pills),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_ground_plane),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_movement_mode),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_biped_throttle),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_pathfinding_surface),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_pendulum),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_vectors),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_seats),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_mouth_apeture),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_firing),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_acceleration),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_camera),
-
-	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_class_totals),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_timing),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_duckers),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_listeners),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_manager_channels),
-
-	CONSOLE_GLOBAL_DECLARE_REAL2(havok_collision_tolerance, g_havok_constants.havok_collision_tolerance),
-	CONSOLE_GLOBAL_DECLARE_LONG2(havok_debug_mode, g_havok_constants.havok_debug_mode),
-	CONSOLE_GLOBAL_DECLARE_LONG2(havok_thread_count, g_havok_constants.havok_thread_count),
-	CONSOLE_GLOBAL_DECLARE_LONG2(havok_environment_type, g_havok_constants.havok_environment_type),
-	CONSOLE_GLOBAL_DECLARE_REAL2(havok_shape_radius, g_havok_constants.havok_shape_radius),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_jumping_beans, g_havok_constants.havok_jumping_beans),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_disable_deactivation, g_havok_constants.havok_disable_deactivation),
-	CONSOLE_GLOBAL_DECLARE_REAL2(havok_deactivation_reference_distance, g_havok_constants.havok_deactivation_reference_distance),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_weld_environment, g_havok_constants.havok_weld_environment),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_batch_add_entities_disabled, g_havok_constants.havok_batch_add_entities_disabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_shape_cache, g_havok_constants.havok_shape_cache),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_shape_cache_debug, g_havok_constants.havok_shape_cache_debug),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_enable_back_stepping, g_havok_constants.havok_enable_back_stepping),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_enable_sweep_shapes, g_havok_constants.havok_enable_sweep_shapes),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_display_stats, g_havok_constants.havok_display_stats),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_initialize_profiling, g_havok_constants.havok_initialize_profiling),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(impacts_debug, g_havok_constants.havok_render_impacts),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(proxies_debug, g_havok_constants.havok_render_proxies),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(collision_damage_debug, g_havok_constants.havok_render_collision_damage),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_play_impact_effects, g_havok_constants.havok_play_impact_effects),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_play_biped_impact_effects, g_havok_constants.havok_play_biped_impact_effects),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(physics_debug, g_havok_constants.havok_render_shape_properties),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_cleanup_inactive_agents, g_havok_constants.havok_cleanup_inactive_agents),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_memory_always_system, g_havok_memory_always_system),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(contrail_render_enable),
-	CONSOLE_GLOBAL_DECLARE_BOOL(soft_ceilings_disable),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(cubemap_debug, c_cubemap_debug::g_render),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_camera_projection),
-
-	CONSOLE_GLOBAL_DECLARE_REAL2(render_screenspace_center, g_screenspace_pixel_center),
-	CONSOLE_GLOBAL_DECLARE_REAL2(ui_time_scale, g_ui_time_scale),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_thread_enable, g_render_thread_user_setting),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(game_paused, debug_pause_game),
-	CONSOLE_GLOBAL_DECLARE_REAL2(game_speed, debug_game_speed),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(chud_enabled),
-	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_grid),
-	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_messages),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(chud_cortana_debug),
-	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_crosshair),
-	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_metagame),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_lock, debug_game_time_lock),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_statistics, debug_game_time_statistics),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_game_save),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(recover_saved_games_hack),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(game_state_verify_on_write),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(game_state_verify_on_read),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(static_fp_fov, debug_static_first_person),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(centered_crosshair, controller_centered_crosshair),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(enable_better_cpu_gpu_sync, g_enable_better_cpu_gpu_sync_hs_setting),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(reduce_widescreen_fov_during_cinematics, g_reduce_widescreen_fov_during_cinematics),
-	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_aspect_ratio_scale),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
-	CONSOLE_GLOBAL_DECLARE_SHORT(render_debug_transparent_sort_method),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_pix_events),
-	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_pc_albedo_lighting, c_render_globals::m_render_pc_albedo_lighting),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_rate),
-
-	CONSOLE_GLOBAL_DECLARE_LONG2(watermark_enabled, g_watermark_enabled),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_skulls),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_triggers),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_barrels),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_magazines),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_primary),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_weapons_secondary),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_animation_fp_sprint_disable),
-	CONSOLE_GLOBAL_DECLARE_BOOL(debug_first_person_skeleton),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_bounds, c_lightmap_shadows_view::g_debug_shadow_bounds),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_bounds_solid, c_lightmap_shadows_view::g_debug_shadow_bounds_solid),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_opaque, c_lightmap_shadows_view::g_debug_shadow_opaque),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_screenspace, c_lightmap_shadows_view::g_debug_shadow_screenspace),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_histencil, c_lightmap_shadows_view::g_debug_shadow_histencil),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_hires, c_lightmap_shadows_view::g_debug_shadow_force_hi_res),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_objectspace_stencil_clip, c_lightmap_shadows_view::g_debug_objectspace_stencil_clip),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_force_fancy, c_lightmap_shadows_view::g_debug_force_fancy_shadows),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_shadow_force_old, c_lightmap_shadows_view::g_debug_force_old_shadows),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_postprocess, c_screen_postprocess::x_editable_settings.m_postprocess),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_accum, c_screen_postprocess::x_editable_settings.m_accum),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_bloom_source, c_screen_postprocess::x_editable_settings.m_bloom_source),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_persist, c_screen_postprocess::x_editable_settings.m_persist),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_bloom, c_screen_postprocess::x_editable_settings.m_bloom),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_bling, c_screen_postprocess::x_editable_settings.m_bling),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_downsample, c_screen_postprocess::x_editable_settings.m_downsample),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_show_alpha, c_screen_postprocess::x_editable_settings.m_display_alpha),
-	CONSOLE_GLOBAL_DECLARE_REAL2(render_postprocess_exposure, c_screen_postprocess::x_editable_settings.m_postprocess_exposure),
-	CONSOLE_GLOBAL_DECLARE_LONG2(render_accum_filter, c_screen_postprocess::x_editable_settings.m_accum_filter),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_tone_curve, c_screen_postprocess::x_editable_settings.m_tone_curve),
-	CONSOLE_GLOBAL_DECLARE_REAL2(render_tone_curve_white, c_screen_postprocess::x_editable_settings.m_tone_curve_white_point),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(render_exposure_lock, c_screen_postprocess::x_editable_settings.m_auto_exposure_lock),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL2(gui_custom_bitmaps_enabled, g_gui_custom_bitmaps_enabled),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_text_bounds_global),
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_bitmap_bounds_global),
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_model_bounds_global),
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_list_item_bounds_global),
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_list_bounds_global),
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_group_bounds_global),
-	CONSOLE_GLOBAL_DECLARE_BOOL(gui_debug_screen_bounds_global),
-
-};
-int32 const k_console_global_count = NUMBEROF(k_console_globals);
-
-bool string_to_boolean(const char* string, bool* value)
-{
-	if (!string)
-		return true;
-
-	if (!value)
-		return false;
-
-	bool const input = *value;
-	if (IN_RANGE_INCLUSIVE(*string, '0', '1'))
-	{
-		*value = !!atol(string);
-	}
-	else if (csstricmp(string, "true") == 0)
-	{
-		*value = true;
-	}
-	else if (csstricmp(string, "false") == 0)
-	{
-		*value = false;
-	}
-	return input != *value;
-}
-
-bool string_to_real(const char* string, real32* value)
-{
-	if (!string)
-		return true;
-
-	if (!value)
-		return false;
-
-	real32 const input = *value;
-	*value = static_cast<real32>(atof(string));
-	return input != *value;
-}
-
-bool string_to_short_integer(const char* string, int16* value)
-{
-	if (!string)
-		return true;
-
-	if (!value)
-		return false;
-
-	int16 const input = *value;
-	*value = static_cast<int16>(atol(string));
-	return input != *value;
-}
-
-bool string_to_long_integer(const char* string, int32* value)
-{
-	if (!string)
-		return true;
-
-	if (!value)
-		return false;
-
-	int32 const input = *value;
-	*value = atol(string);
-	return input != *value;
-}
-
-callback_result_t set_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	ASSERT(token_count >= 1);
-
-	static callback_result_t result = "not found";
-
-	int32 console_global_index = NONE;
-	for (int32 i = 0; i < k_console_global_count; i++)
-	{
-		if (!tokens[0]->is_equal(k_console_globals[i].name))
-		{
-			continue;
-		}
-
-		console_global_index = i;
-		break;
-	}
-
-	if (!VALID_INDEX(console_global_index, k_console_global_count))
-	{
-		return result;
-	}
-
-	const s_console_global* console_global = &k_console_globals[console_global_index];
-
-	if (!console_global->pointer)
-	{
-		return result;
-	}
-
-	const char* value_string = NULL;
-	if (token_count >= 2)
-	{
-		value_string = tokens[1]->get_string();
-	}
-
-	e_hs_type type = console_global->type;
-	switch (type)
-	{
-	case _hs_type_boolean:
-	{
-		result = string_to_boolean(value_string, static_cast<bool*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, *static_cast<bool*>(console_global->pointer) ? "true" : "false");
-	}
-	break;
-	case _hs_type_real:
-	{
-		result = string_to_real(value_string, static_cast<real32*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%.6f", *static_cast<real32*>(console_global->pointer));
-	}
-	break;
-	case _hs_type_short_integer:
-	{
-		result = string_to_short_integer(value_string, static_cast<int16*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%hd", *static_cast<int16*>(console_global->pointer));
-	}
-	break;
-	case _hs_type_long_integer:
-	{
-		result = string_to_long_integer(value_string, static_cast<int32*>(console_global->pointer)) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%d", *static_cast<int32*>(console_global->pointer));
-	}
-	break;
-	}
-
-	return result;
 }
 
 void status_line_add_single(s_status_line* inStatusLine)

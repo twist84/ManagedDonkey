@@ -9,7 +9,6 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/debug_menu/debug_menu_scroll.hpp"
 #include "interface/debug_menu/debug_menu_zone_sets.hpp"
-#include "main/console.hpp"
 
 #include <climits>
 #include <ctype.h>
@@ -288,55 +287,52 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 
 	const char* name = g_parser_state.m_has_name ? g_parser_state.m_name : g_parser_state.m_variable;
 
-	int32 console_global_index = NONE;
-	for (int32 i = 0; i < k_console_global_count; i++)
+	e_hs_type type = _hs_unparsed;
+	for (int16 global_index = 0; global_index < k_hs_external_global_count; global_index++)
 	{
-		if (!csstricmp(g_parser_state.m_variable, k_console_globals[i].name) && k_console_globals[i].pointer)
+		if (csstricmp(g_parser_state.m_variable, hs_external_globals[global_index]->name) == 0 && hs_external_globals[global_index]->pointer)
 		{
-			console_global_index = i;
+			type = (e_hs_type)hs_external_globals[global_index]->type;
 			break;
 		}
 	}
 
 	c_debug_menu_item* item = NULL;
-	if (console_global_index != NONE && k_console_globals[console_global_index].pointer)
+
+	switch (type)
 	{
-		e_hs_type type = k_console_globals[console_global_index].type;
-		switch (type)
-		{
-		case _hs_type_boolean:
-		{
-			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_bool, menu, name, false, g_parser_state.m_variable);
-		}
-		break;
-		case _hs_type_real:
-		{
-			real32 inc_value = g_parser_state.m_has_inc ? g_parser_state.m_inc : 0.1f;
-			real32 max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
-			real32 min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
+	case _hs_type_boolean:
+	{
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_bool, menu, name, false, g_parser_state.m_variable);
+	}
+	break;
+	case _hs_type_real:
+	{
+		real32 inc_value = g_parser_state.m_has_inc ? g_parser_state.m_inc : 0.1f;
+		real32 max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
+		real32 min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
 
-			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
-		}
-		break;
-		case _hs_type_short_integer:
-		{
-			int16 inc_value = g_parser_state.m_has_inc ? (int16)g_parser_state.m_inc : 1;
-			int16 max_value = g_parser_state.m_has_max ? (int16)g_parser_state.m_max : SHRT_MAX - 1;
-			int16 min_value = g_parser_state.m_has_min ? (int16)g_parser_state.m_min : SHRT_MIN + 1;
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+	}
+	break;
+	case _hs_type_short_integer:
+	{
+		int16 inc_value = g_parser_state.m_has_inc ? (int16)g_parser_state.m_inc : 1;
+		int16 max_value = g_parser_state.m_has_max ? (int16)g_parser_state.m_max : SHRT_MAX - 1;
+		int16 min_value = g_parser_state.m_has_min ? (int16)g_parser_state.m_min : SHRT_MIN + 1;
 
-			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
-		}
-		break;
-		case _hs_type_long_integer:
-		{
-			int32 inc_value = g_parser_state.m_has_inc ? (int32)g_parser_state.m_inc : 1;
-			int32 max_value = g_parser_state.m_has_max ? (int32)g_parser_state.m_max : LONG_MAX - 1;
-			int32 min_value = g_parser_state.m_has_min ? (int32)g_parser_state.m_min : LONG_MIN + 1;
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+	}
+	break;
+	case _hs_type_long_integer:
+	{
+		int32 inc_value = g_parser_state.m_has_inc ? (int32)g_parser_state.m_inc : 1;
+		int32 max_value = g_parser_state.m_has_max ? (int32)g_parser_state.m_max : LONG_MAX - 1;
+		int32 min_value = g_parser_state.m_has_min ? (int32)g_parser_state.m_min : LONG_MIN + 1;
 
-			item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
-		}
-		break;
-		}
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+	}
+	break;
 	}
 
 	if (!item)
