@@ -1735,8 +1735,36 @@ int32 __cdecl hs_scripting_get_executing_thread_index()
 	return hs_runtime_globals->executing_thread_index;
 }
 
-//.text:00598640 ; void __cdecl hs_scripting_kill_all_threads()
-//.text:005986F0 ; void __cdecl hs_scripting_kill_running_thread(int32 thread_index)
+void __cdecl hs_scripting_kill_all_threads()
+{
+	//INVOKE(0x00598640, hs_scripting_kill_all_threads);
+
+	s_hs_thread_iterator iterator{};
+	hs_thread_iterator_new(&iterator, true, true);
+	for (int32 thread_index = hs_thread_iterator_next(&iterator);
+		thread_index != NONE;
+		thread_index = hs_thread_iterator_next(&iterator))
+	{
+		if (thread_index != hs_runtime_globals->executing_thread_index)
+		{
+			hs_scripting_kill_running_thread(thread_index);
+		}
+	}
+}
+
+void __cdecl hs_scripting_kill_running_thread(int32 thread_index)
+{
+	//INVOKE(0x005986F0, hs_scripting_kill_running_thread, thread_index);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	bool terminate = thread->type < NUMBER_OF_HS_THREAD_TYPES && thread->sleep_until != HS_SLEEP_FINISHED && thread->sleep_until != HS_SLEEP_INDEFINITE;
+	if (terminate)
+	{
+		thread->flags |= FLAG(_hs_thread_terminate_bit);
+		thread->sleep_until = 0;
+	}
+}
+
 //.text:00598740 ; int32 __cdecl hs_short_to_boolean(int32 s)
 //.text:00598760 ; int32 __cdecl hs_short_to_long(int32 s)
 //.text:00598770 ; int32 __cdecl hs_short_to_real(int32 s)

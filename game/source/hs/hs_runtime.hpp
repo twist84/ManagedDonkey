@@ -261,6 +261,8 @@ extern bool __cdecl hs_script_finished(const char* script_name);
 extern bool __cdecl hs_script_started(const char* script_name);
 extern void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enable);
 extern int32 __cdecl hs_scripting_get_executing_thread_index();
+extern void __cdecl hs_scripting_kill_all_threads();
+extern void __cdecl hs_scripting_kill_running_thread(int32 thread_index);
 extern hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer);
 extern const hs_stack_frame* __cdecl hs_stack(const hs_thread* thread, hs_stack_pointer stack_pointer);
 extern void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference);
