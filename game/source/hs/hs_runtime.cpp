@@ -1977,9 +1977,15 @@ const char* __cdecl hs_thread_format(int32 thread_index)
 	switch (thread->type)
 	{
 	case _hs_thread_type_script:
+	case _hs_thread_type_runtime_internal_evaluate:
+	case _hs_thread_type_command_script:
 	{
 		int32 script_index = thread->script_index;
-		if (script_index != NONE)
+		if (script_index == NONE)
+		{
+			result = "[unknown thread type]";
+		}
+		else
 		{
 			result = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script)->name;
 		}
@@ -1993,12 +1999,6 @@ const char* __cdecl hs_thread_format(int32 thread_index)
 	case _hs_thread_type_runtime_evaluate:
 	{
 		result = "[console command]";
-	}
-	break;
-	case _hs_thread_type_runtime_internal_evaluate:
-	case _hs_thread_type_command_script:
-	{
-		result = "[unknown thread type]";
 	}
 	break;
 	default:
@@ -2443,13 +2443,13 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 	}
 }
 
-//.text:005992C0 ; 
-//.text:005992E0 ; 
-//.text:00599320 ; 
-//.text:00599360 ; 
-//.text:005993A0 ; 
-//.text:005993E0 ; 
-//.text:00599420 ; 
+//.text:005992C0 ; private: virtual bool c_data_iterator<hs_global_runtime>::next()
+//.text:005992E0 ; tls
+//.text:00599320 ; tls
+//.text:00599360 ; tls
+//.text:005993A0 ; tls
+//.text:005993E0 ; tls
+//.text:00599420 ; tls
 //.text:00599460 ; 
 
 void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset)
