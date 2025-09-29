@@ -737,9 +737,27 @@ void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool ini
 	hs_return(thread_index, 0);
 }
 
-int32 __cdecl hs_find_thread_by_name(const char* script_name)
+int32 __cdecl hs_find_thread_by_name(const char* name)
 {
-	return INVOKE(0x00596070, hs_find_thread_by_name, script_name);
+	//return INVOKE(0x00596070, hs_find_thread_by_name, name);
+
+	s_hs_thread_iterator iterator{};
+	hs_thread_iterator_new(&iterator, true, true);
+	for (int32 thread_index = hs_thread_iterator_next(&iterator);
+		thread_index != NONE;
+		thread_index = hs_thread_iterator_next(&iterator))
+	{
+		const hs_thread* thread = hs_thread_get(thread_index);
+		if (thread->script_index != NONE)
+		{
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, thread->script_index, hs_script);
+			if (ascii_stricmp(script->name, name) == 0)
+			{
+				return thread_index;
+			}
+		}
+	}
+	return NONE;
 }
 
 int32 __cdecl hs_find_thread_by_script(int16 script_index)
