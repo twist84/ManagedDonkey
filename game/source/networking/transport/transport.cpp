@@ -143,7 +143,8 @@ void __cdecl transport_startup()
 		int wsa_startup_result = WSAStartup(2u, &wsa_data);
 		if (wsa_startup_result)
 		{
-			event(_event_error, "networking:transport: WSAStartup() failed; error= %s", online_error_get_string(wsa_startup_result));
+			event(_event_error, "networking:transport: WSAStartup() failed; error= %s",
+				online_error_get_string(wsa_startup_result).get_string());
 		}
 		else
 		{

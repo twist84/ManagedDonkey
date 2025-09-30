@@ -119,7 +119,7 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(const
 	if (FAILED(load_surface_from_file_result))
 	{
  		event(_event_error, "ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code %s",
-			online_error_get_string(load_surface_from_file_result));
+			online_error_get_string(load_surface_from_file_result).get_string());
 	}
 	else
 	{

@@ -325,7 +325,7 @@ uns32 __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 	//	result = XShowFriendRequestUI(controller_index, user_xuid);
 	//
 	//if (FAILED(result))
-	//	event(_event_warning, "networking:online:guide: XShowFriendRequestUI call failed with result %s", online_error_get_string(error_string, result));
+	//	event(_event_warning, "networking:online:guide: XShowFriendRequestUI call failed with result %s", online_error_get_string(error_string, result).get_string());
 	//
 	//return result;
 
@@ -368,7 +368,7 @@ uns32 __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 	//	result = XShowGamerCardUI(controller_index, user_xuid);
 	//
 	//if (FAILED(result))
-	//	event(_event_warning, "networking:online:guide: XShowGamerCardUI call failed with result %s", online_error_get_string(error_string, result));
+	//	event(_event_warning, "networking:online:guide: XShowGamerCardUI call failed with result %s", online_error_get_string(error_string, result).get_string());
 	//
 	//return result;
 
@@ -410,7 +410,7 @@ uns32 __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 	//	result = XShowPlayerReviewUI(controller_index, target_user_xuid);
 	//
 	//if (FAILED(result))
-	//	event(_event_warning, "networking:online:guide: XShowPlayerReviewUI call failed with result %s", online_error_get_string(error_string, result));
+	//	event(_event_warning, "networking:online:guide: XShowPlayerReviewUI call failed with result %s", online_error_get_string(error_string, result).get_string());
 	//
 	//return result;
 
