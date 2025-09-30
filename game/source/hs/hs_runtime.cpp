@@ -1074,32 +1074,28 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 				int16 global_index = hs_global_iterator.get_absolute_index();
 				bool global_is_external = global_index < k_hs_external_global_count;
 				int16 global_designator = global_is_external ? 0x8000 : 0;
-				int16 global_runtime_index = hs_runtime_index_from_global_designator(global_designator);
+				int16 global_runtime_index = (int16)hs_runtime_index_from_global_designator(global_designator);
 				int16 global_type = hs_global_get_type(global_runtime_index);
-				if (!HS_TYPE_IS_OBJECT(global_type))
-				{
-					if (global_type == _hs_type_object_list)
-					{
-						int32 object_list_index = hs_global_evaluate(global_runtime_index);
-						if (object_list_index != NONE)
-						{
-							if (object_list_remove(object_list_index, object_index) && !object_list_count(object_list_index))
-							{
-								object_list_remove_reference(object_list_index);
-								hs_global_iterator.get_datum()->value = NONE;
-								hs_global_reconcile_write(global_runtime_index);
-								need_object_list_gc = true;
-							}
-						}
-					}
-				}
-				else
+				if (HS_TYPE_IS_OBJECT(global_type))
 				{
 					int32 global_object_index = hs_global_evaluate(global_runtime_index);
 					if (global_object_index == object_index)
 					{
 						hs_global_iterator.get_datum()->value = NONE;
 						hs_global_reconcile_write(global_runtime_index);
+					}
+				}
+				else if (global_type == _hs_type_object_list)
+				{
+					int32 object_list_index = hs_global_evaluate(global_runtime_index);
+					if (object_list_index != NONE
+						&& object_list_remove(object_list_index, object_index)
+						&& !object_list_count(object_list_index))
+					{
+						object_list_remove_reference(object_list_index);
+						hs_global_iterator.get_datum()->value = NONE;
+						hs_global_reconcile_write(global_runtime_index);
+						need_object_list_gc = true;
 					}
 				}
 			}
@@ -1128,25 +1124,24 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 							for (int16 parameter_index = 0; parameter_index < script->parameters.count; parameter_index++)
 							{
 								hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
-								if (!HS_TYPE_IS_OBJECT(parameter->type))
+								if (HS_TYPE_IS_OBJECT(parameter->type))
 								{
-									if (parameter->type == _hs_type_object_list)
+									if (stack_parameters[parameter_index] == object_index)
 									{
-										int32 object_list_index = stack_parameters[parameter_index];
-										if (object_list_index != NONE)
-										{
-											if (object_list_remove(object_list_index, object_index) && !object_list_count(object_list_index))
-											{
-												object_list_remove_reference(object_list_index);
-												stack_parameters[parameter_index] = NONE;
-												need_object_list_gc = true;
-											}
-										}
+										stack_parameters[parameter_index] = NONE;
 									}
 								}
-								else if (stack_parameters[parameter_index] == object_index)
+								else if (parameter->type == _hs_type_object_list)
 								{
-									stack_parameters[parameter_index] = NONE;
+									int32 object_list_index = stack_parameters[parameter_index];
+									if (object_list_index != NONE
+										&& object_list_remove(object_list_index, object_index)
+										&& !object_list_count(object_list_index))
+									{
+										object_list_remove_reference(object_list_index);
+										stack_parameters[parameter_index] = NONE;
+										need_object_list_gc = true;
+									}
 								}
 							}
 						}
