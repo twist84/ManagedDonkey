@@ -16,6 +16,7 @@
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
+#include "saved_games/saved_film_manager.hpp"
 #include "text/font_loading.hpp"
 
 #include <utility>
@@ -12962,65 +12963,65 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	saved_film_play,
 	0,
-	0x00746CF0, // $TODO write the function chuckle nuts
+	saved_film_manager_play_hs, // 0x00746CF0,
 	"plays a saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	saved_film_play_last,
 	0,
-	0x00746F40, // $TODO write the function chuckle nuts
+	saved_film_manager_play_last_hs, // 0x00746F40,
 	"play back last recorded saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_film_disable_version_checking,
 	0,
-	0x007471F0, // $TODO write the function chuckle nuts
+	saved_film_manager_disable_version_checking, // 0x007471F0,
 	"disable saved film version checking\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_film_toggle_debug_saving,
 	0,
-	0x00747370, // $TODO write the function chuckle nuts
+	saved_film_manager_toggle_automatic_debug_saving, // 0x00747370,
 	"toggle saving of last film to the debug output directory automatically after each game level\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_films_delete_on_level_load,
 	0,
-	0x007476B0, // $TODO write the function chuckle nuts
+	saved_film_manager_delete_on_level_load, // 0x007476B0,
 	"toggle deletion last saved film after loading a new game level\r\nNETWORK SAFE: Unkown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_films_show_timestamp,
 	0,
-	0x00747870, // $TODO write the function chuckle nuts
+	saved_film_manager_show_timestamp, // 0x00747870,
 	"toggle showing timestamp for saved film playback\r\nNETWORK SAFE: Unkown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_film_manager_should_record_film_default,
 	0,
-	0x00747AF0, // $TODO write the function chuckle nuts
+	saved_film_manager_should_record_film_default_set, // 0x00747AF0
 	"Toggle recording of replay in single player game\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
@@ -13385,20 +13386,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_long_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_film_set_playback_game_speed,
 	0,
-	0x00735750, // $TODO write the function chuckle nuts
+	saved_film_manager_set_playback_game_speed, // 0x00735750,
 	"set the saved film playback speed",
 	NULL,
 	1, _hs_type_real
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_film_set_pending_playback_game_speed,
 	0,
-	0x00735B20, // $TODO write the function chuckle nuts
+	saved_film_manager_set_pending_playback_game_speed, // 0x00735B20,
 	"set the pending saved film playback speed",
 	NULL,
 	1, _hs_type_real
@@ -13457,11 +13458,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_object, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	saved_film_seek_to_film_tick,
 	0,
-	0x00737080, // $TODO write the function chuckle nuts
+	saved_film_manager_seek_to_film_tick_hs, // 0x00737080,
 	"seeks to a film tick",
 	NULL,
 	1, _hs_type_long_integer

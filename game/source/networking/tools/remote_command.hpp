@@ -223,17 +223,6 @@ COMMAND_CALLBACK_DECLARE(controller_set_tertiary_change_color);
 COMMAND_CALLBACK_DECLARE(controller_set_voice_mask);
 COMMAND_CALLBACK_DECLARE(controller_set_voice_output_setting);
 
-COMMAND_CALLBACK_DECLARE(saved_film_play);
-COMMAND_CALLBACK_DECLARE(saved_film_play_last);
-COMMAND_CALLBACK_DECLARE(saved_film_disable_version_checking);
-COMMAND_CALLBACK_DECLARE(saved_film_toggle_debug_saving);
-COMMAND_CALLBACK_DECLARE(saved_films_delete_on_level_load);
-COMMAND_CALLBACK_DECLARE(saved_films_show_timestamp);
-COMMAND_CALLBACK_DECLARE(saved_film_manager_should_record_film_default);
-COMMAND_CALLBACK_DECLARE(saved_film_set_playback_game_speed);
-COMMAND_CALLBACK_DECLARE(saved_film_set_pending_playback_game_speed);
-COMMAND_CALLBACK_DECLARE(saved_film_seek_to_film_tick);
-
 //-----------------------------------------------------------------------------
 
 s_command const k_registered_commands[] =
@@ -391,18 +380,6 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(controller_set_tertiary_change_color, 2, "<controller> <player_color>", "set tertiary color for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_voice_mask, 2, "<controller> <voice_mask>", "set voice mask for specified controller\r\nNETWORK SAFE: No"),
 	COMMAND_CALLBACK_REGISTER(controller_set_voice_output_setting, 2, "<controller> <voice_output_setting>", "set voice output setting for specified controller\r\nNETWORK SAFE: No"),
-
-	COMMAND_CALLBACK_REGISTER(saved_film_play, 2, "<controller> <string>", "plays a saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_film_play_last, 0, "", "play back last recorded saved film for given controller\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_film_disable_version_checking, 1, "<boolean>", "disable saved film version checking\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_film_toggle_debug_saving, 1, "<boolean>", "toggle saving of last film to the debug output directory automatically after each game level\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_films_delete_on_level_load, 1, "<boolean>", "toggle deletion last saved film after loading a new game level\r\nNETWORK SAFE: Unkown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_films_show_timestamp, 1, "<boolean>", "toggle showing timestamp for saved film playback\r\nNETWORK SAFE: Unkown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_film_manager_should_record_film_default, 1, "<boolean>", "Toggle recording of replay in single player game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(saved_film_set_playback_game_speed, 1, "<real>", "set the saved film playback speed"),
-	COMMAND_CALLBACK_REGISTER(saved_film_set_pending_playback_game_speed, 1, "<real>", "set the pending saved film playback speed"),
-	COMMAND_CALLBACK_REGISTER(saved_film_seek_to_film_tick, 1, "<long>", "seeks to a film tick"),
-
 };
 
 extern void command_tokenize(const char* input, tokens_t& tokens, int32* token_count);
