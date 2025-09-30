@@ -303,22 +303,20 @@ void __cdecl director_script_camera(bool scripted)
 {
 	//INVOKE(0x00592320, director_script_camera, scripted);
 
-	if (*director_camera_scripted == scripted)
+	if (*director_camera_scripted != scripted)
 	{
-		return;
-	}
+		*director_camera_scripted = scripted;
 
-	*director_camera_scripted = scripted;
-
-	for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
-	{
-		if (scripted)
+		for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 		{
-			director_set_camera_mode(user_index, _camera_mode_scripted);
-		}
-		else
-		{
-			director_set_mode(user_index, choose_appropriate_director(user_index));
+			if (scripted)
+			{
+				director_set_camera_mode(user_index, _camera_mode_scripted);
+			}
+			else
+			{
+				director_set_mode(user_index, choose_appropriate_director(user_index));
+			}
 		}
 	}
 }

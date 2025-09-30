@@ -6649,11 +6649,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	NULL,
 	3, _hs_type_ai, _hs_type_boolean, _hs_type_long_integer
 );
-MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
 	camera_control,
 	0,
-	director_script_camera, // 0x0073EC20,
+	/*director_script_camera, //*/ 0x0073EC20,
 	"toggles script control of the camera.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
