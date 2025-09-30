@@ -1060,6 +1060,107 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 void __cdecl hs_handle_deleted_object(int32 object_index)
 {
 	INVOKE(0x00596F50, hs_handle_deleted_object, object_index);
+
+#if 0 // uncertain of this implementation
+	const object_datum* object = OBJECT_GET(const object_datum, object_index);
+	if (object->object.flags.test(_object_ever_referenced_by_hs_bit))
+	{
+		bool need_object_list_gc = false;
+		{
+			c_data_iterator<hs_global_runtime> hs_global_iterator;
+			hs_global_iterator.begin(hs_global_data);
+			while (hs_global_iterator.next())
+			{
+				int16 global_index = hs_global_iterator.get_absolute_index();
+				bool global_is_external = global_index < k_hs_external_global_count;
+				int16 global_designator = global_is_external ? 0x8000 : 0;
+				int16 global_runtime_index = hs_runtime_index_from_global_designator(global_designator);
+				int16 global_type = hs_global_get_type(global_runtime_index);
+				if (!HS_TYPE_IS_OBJECT(global_type))
+				{
+					if (global_type == _hs_type_object_list)
+					{
+						int32 object_list_index = hs_global_evaluate(global_runtime_index);
+						if (object_list_index != NONE)
+						{
+							if (object_list_remove(object_list_index, object_index) && !object_list_count(object_list_index))
+							{
+								object_list_remove_reference(object_list_index);
+								hs_global_iterator.get_datum()->value = NONE;
+								hs_global_reconcile_write(global_runtime_index);
+								need_object_list_gc = true;
+							}
+						}
+					}
+				}
+				else
+				{
+					int32 global_object_index = hs_global_evaluate(global_runtime_index);
+					if (global_object_index == object_index)
+					{
+						hs_global_iterator.get_datum()->value = NONE;
+						hs_global_reconcile_write(global_runtime_index);
+					}
+				}
+			}
+		}
+
+		{
+			const struct scenario* scenario = global_scenario_get();
+
+			s_hs_thread_iterator iterator;
+			hs_thread_iterator_new(&iterator, true, true);
+			for (int32 thread_index = hs_thread_iterator_next(&iterator);
+				thread_index != NONE;
+				thread_index = hs_thread_iterator_next(&iterator))
+			{
+				hs_thread* thread = hs_thread_get(thread_index);
+				hs_stack_pointer current_frame_pointer = thread->stack;
+				while (current_frame_pointer.stack_offset != NONE)
+				{
+					hs_stack_frame* current_frame = hs_stack(thread, current_frame_pointer);
+					if (VALID_INDEX(current_frame->script_index, scenario->hs_scripts.count))
+					{
+						hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, current_frame->script_index, hs_script);
+						if (script->parameters.count > 0)
+						{
+							int32* stack_parameters = hs_stack_parameters(thread, current_frame, script->parameters.count);
+							for (int16 parameter_index = 0; parameter_index < script->parameters.count; parameter_index++)
+							{
+								hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
+								if (!HS_TYPE_IS_OBJECT(parameter->type))
+								{
+									if (parameter->type == _hs_type_object_list)
+									{
+										int32 object_list_index = stack_parameters[parameter_index];
+										if (object_list_index != NONE)
+										{
+											if (object_list_remove(object_list_index, object_index) && !object_list_count(object_list_index))
+											{
+												object_list_remove_reference(object_list_index);
+												stack_parameters[parameter_index] = NONE;
+												need_object_list_gc = true;
+											}
+										}
+									}
+								}
+								else if (stack_parameters[parameter_index] == object_index)
+								{
+									stack_parameters[parameter_index] = NONE;
+								}
+							}
+						}
+					}
+					current_frame_pointer.stack_offset = current_frame->parent.stack_offset;
+				}
+			}
+		}
+
+		// This was probably what used `need_object_list_gc`
+		// but doesn't in all the builds I've seen
+		object_list_gc();
+	}
+#endif
 }
 
 //.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 n)
