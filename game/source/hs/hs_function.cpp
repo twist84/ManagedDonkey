@@ -2,21 +2,33 @@
 
 #include "ai/ai.hpp"
 #include "ai/ai_script.hpp"
+#include "camera/director.hpp"
+#include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_scripting.hpp"
+#include "game/game_save.hpp"
+#include "game/multiplayer_game_hopper.hpp"
+#include "hf2p/hf2p.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
 #include "hs/hs_scenario_definitions.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/gui_location_manager.hpp"
+#include "interface/user_interface_text.hpp"
 #include "interface/user_interface_window_manager.hpp"
+#include "interface/user_interface_window_manager_debug.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
+#include "networking/network_configuration.hpp"
+#include "networking/network_globals.hpp"
 #include "saved_games/saved_film_manager.hpp"
+#include "sound/game_sound.hpp"
+#include "test/test_functions.hpp"
 #include "text/font_loading.hpp"
 
 #include <utility>
@@ -6637,11 +6649,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	NULL,
 	3, _hs_type_ai, _hs_type_boolean, _hs_type_long_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	camera_control,
 	0,
-	0x0073EC20, // $TODO write the function chuckle nuts
+	director_script_camera, // 0x0073EC20,
 	"toggles script control of the camera.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
@@ -6844,20 +6856,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 14,
 	NULL,
 	7, _hs_type_cutscene_camera_point, _hs_type_cutscene_camera_point, _hs_type_short_integer, _hs_type_short_integer, _hs_type_real, _hs_type_short_integer, _hs_type_real
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	debug_camera_save,
 	0,
-	0x00744AD0, // $TODO write the function chuckle nuts
+	director_save_camera, // 0x00744AD0,
 	"saves the camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	debug_camera_load,
 	0,
-	0x00744C60, // $TODO write the function chuckle nuts
+	director_load_camera, // 0x00744C60,
 	"loads the saved camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -6880,11 +6892,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	director_debug_camera,
 	0,
-	0x00745420, // $TODO write the function chuckle nuts
+	director_debug_camera, // 0x00745420,
 	"enable/disable camera debugging\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
@@ -7645,11 +7657,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_string, _hs_type_long_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	crash,
 	0,
-	0x0073E970, // $TODO write the function chuckle nuts
+	main_crash, // 0x0073E970,
 	"crashes (for debugging).\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_string
@@ -7663,11 +7675,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	status,
 	0,
-	0x0073EE50, // $TODO write the function chuckle nuts
+	main_status_print, // 0x0073EE50,
 	"prints the value of all global status variables.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -8761,20 +8773,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save_and_quit,
 	0,
-	0x0073E480, // $TODO write the function chuckle nuts
+	main_save_and_exit_campaign, // 0x0073E480,
 	"save & quit to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save_unsafe,
 	0,
-	0x0073E680, // $TODO write the function chuckle nuts
+	main_save_map, // 0x0073E680,
 	"saves right now, even if the game is in an immediate-loss state (NEVER USE THIS! EVER!)\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -9022,11 +9034,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	game_export_variant_settings,
 	0,
-	0x00742D90, // $TODO write the function chuckle nuts
+	game_engine_dump_variant_settings, // 0x00742D90,
 	"export the current game engine variant settings to the specified text file\r\nNETWORK SAFE: No",
 	NULL,
 	1, _hs_type_string
@@ -9247,38 +9259,38 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save,
 	0,
-	0x00746CD0, // $TODO write the function chuckle nuts
+	game_save_safe, // 0x00746CD0,
 	"checks to see if it is safe to save game, then saves (gives up after 8 seconds)\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save_cancel,
 	0,
-	0x00746F20, // $TODO write the function chuckle nuts
+	game_save_cancel, // 0x00746F20,
 	"cancels any pending game_save, timeout or not\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save_no_timeout,
 	0,
-	0x00747190, // $TODO write the function chuckle nuts
+	game_save_no_timeout, // 0x00747190,
 	"checks to see if it is safe to save game, then saves (this version never gives up)\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save_immediate,
 	0,
-	0x00747350, // $TODO write the function chuckle nuts
+	game_save_immediate, // 0x00747350,
 	"disregards player's current situation and saves (BE VERY CAREFUL!)\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -9481,11 +9493,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_looping_sound, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	sound_loop_spam,
 	0,
-	0x00733500, // $TODO write the function chuckle nuts
+	scripting_looping_sound_spam, // 0x00733500,
 	"start all loaded looping sounds\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -10309,74 +10321,74 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_short_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_look_inverted,
 	0,
-	0x00746090, // $TODO write the function chuckle nuts
+	debug_set_controller_look_inverted, // 0x00746090,
 	"set look inversion for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_vibration_enabled,
 	0,
-	0x007462A0, // $TODO write the function chuckle nuts
+	debug_set_controller_vibration_enabled, // 0x007462A0,
 	"set vibration for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_flight_stick_aircraft_controls,
 	0,
-	0x007464D0, // $TODO write the function chuckle nuts
+	debug_set_controller_flight_stick_aircraft_controls, // 0x007464D0,
 	"set airrcraft flight stick controls for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_auto_center_look,
 	0,
-	0x00746770, // $TODO write the function chuckle nuts
+	debug_set_controller_auto_center_look, // 0x00746770,
 	"set auto center look for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_crouch_lock,
 	0,
-	0x00746980, // $TODO write the function chuckle nuts
+	debug_set_controller_crouch_lock, // 0x00746980,
 	"set crouch lock for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_button_preset,
 	0,
-	0x00746C40, // $TODO write the function chuckle nuts
+	debug_set_button_preset, // 0x00746C40,
 	"set button preset for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_enum_button_preset
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_joystick_preset,
 	0,
-	0x00746E80, // $TODO write the function chuckle nuts
+	debug_set_joystick_preset, // 0x00746E80,
 	"set joystick preset for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_enum_joystick_preset
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_look_sensitivity,
 	0,
-	0x00747100, // $TODO write the function chuckle nuts
+	debug_set_look_sensitivity, // 0x00747100,
 	"set look sensitivity for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_short_integer
@@ -10435,20 +10447,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_enum_controller
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 10,
 	_hs_type_void,
 	controller_set_single_player_level_completed,
 	0,
-	0x00748010, // $TODO write the function chuckle nuts
+	debug_set_single_player_level_completed, // 0x00748010,
 	"<controller> <level index> <co-op> <difficulty> <completed> set the single player levels completed state for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	5, _hs_type_enum_controller, _hs_type_long_integer, _hs_type_boolean, _hs_type_enum_game_difficulty, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_player_character_type,
 	0,
-	0x007482C0, // $TODO write the function chuckle nuts
+	debug_set_player_character_type, // 0x007482C0,
 	"set player character type for specified controller",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_enum_player_character_type
@@ -10462,29 +10474,29 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	NULL,
 	5, _hs_type_enum_controller, _hs_type_short_integer, _hs_type_short_integer, _hs_type_short_integer, _hs_type_short_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_voice_output_setting,
 	0,
-	0x007487C0, // $TODO write the function chuckle nuts
+	debug_set_voice_output_setting, // 0x007487C0,
 	"set voice output setting for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_enum_voice_output_setting
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_voice_mask,
 	0,
-	0x0072F630, // $TODO write the function chuckle nuts
+	debug_set_voice_mask, // 0x0072F630,
 	"set voice mask for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_enum_voice_mask
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_subtitle_setting,
 	0,
-	0x0072FA10, // $TODO write the function chuckle nuts
+	debug_set_subtitle_setting, // 0x0072FA10,
 	"set subtitle setting for specified controller\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_enum_subtitle_setting
@@ -10579,11 +10591,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	ui_debug_text_font,
 	0,
-	0x00731480, // $TODO write the function chuckle nuts
+	user_interface_text_debug_display_font_index, // 0x00731480,
 	"toggle display of ui text font\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
@@ -10624,11 +10636,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_real
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	xoverlapped_debug_render,
 	0,
-	0x00731F50, // $TODO write the function chuckle nuts
+	overlapped_task_toggle_debug_rendering, // 0x00731F50,
 	"toggle display a list of active xoverlapped tasks\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_boolean
@@ -10732,236 +10744,236 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_short_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	gui_print_active_screens,
 	0,
-	0x00733CC0, // $TODO write the function chuckle nuts
+	gui_print_active_screens, // 0x00733CC0,
 	"display list of active halox ui screens\r\nNETWORK SAFEL No",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	gui_print_active_screen_strings,
 	0,
-	0x00733F10, // $TODO write the function chuckle nuts
+	gui_print_active_screen_strings_tag_name, // 0x00733F10,
 	"display strings tag file name for current topmost screen\r\nNETWORK SAFE: No",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_screen_name,
 	0,
-	0x00734240, // $TODO write the function chuckle nuts
+	gui_debug_screen_display_name, // 0x00734240,
 	"Toggle display of given screen's name, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_screen_animation,
 	0,
-	0x007343E0, // $TODO write the function chuckle nuts
+	gui_debug_screen_animation_state, // 0x007343E0,
 	"Toggle display of given screen animations, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_screen_bounds,
 	0,
-	0x007345E0, // $TODO write the function chuckle nuts
+	gui_debug_screen_bounds, // 0x007345E0,
 	"Toggle display of given screen's bounds, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_screen_rotation,
 	0,
-	0x00734950, // $TODO write the function chuckle nuts
+	gui_debug_screen_rotation, // 0x00734950,
 	"Toggle display of given screen's rotation, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_group_name,
 	0,
-	0x00734B50, // $TODO write the function chuckle nuts
+	gui_debug_group_display_name, // 0x00734B50,
 	"Toggle display of given group's name, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_group_animation,
 	0,
-	0x00734D70, // $TODO write the function chuckle nuts
+	gui_debug_group_animation_state, // 0x00734D70,
 	"Toggle display of given group's animations, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_group_bounds,
 	0,
-	0x00735010, // $TODO write the function chuckle nuts
+	gui_debug_group_bounds, // 0x00735010,
 	"Toggle display of given group's bounds, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_group_rotation,
 	0,
-	0x00735310, // $TODO write the function chuckle nuts
+	gui_debug_group_rotation, // 0x00735310,
 	"Toggle display of given group's rotation, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_name,
 	0,
-	0x00735530, // $TODO write the function chuckle nuts
+	gui_debug_list_display_name, // 0x00735530,
 	"Toggle display of given list's name, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_animation,
 	0,
-	0x00735780, // $TODO write the function chuckle nuts
+	gui_debug_list_animation_state, // 0x00735780,
 	"Toggle display of given list's animations, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_bounds,
 	0,
-	0x00735900, // $TODO write the function chuckle nuts
+	gui_debug_list_bounds, // 0x00735900,
 	"Toggle display of given list's bounds, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_rotation,
 	0,
-	0x00735CD0, // $TODO write the function chuckle nuts
+	gui_debug_list_rotation, // 0x00735CD0,
 	"Toggle display of given list's rotation, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_item_name,
 	0,
-	0x00735EF0, // $TODO write the function chuckle nuts
+	gui_debug_list_item_display_name, // 0x00735EF0,
 	"Toggle display of given list item's name, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_item_animation,
 	0,
-	0x00736050, // $TODO write the function chuckle nuts
+	gui_debug_list_item_animation_state, // 0x00736050,
 	"Toggle display of given list item's animation, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_item_bounds,
 	0,
-	0x00736340, // $TODO write the function chuckle nuts
+	gui_debug_list_item_bounds, // 0x00736340,
 	"Toggle display of given list item's bounds, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	gui_debug_list_item_rotation,
 	0,
-	0x00736510, // $TODO write the function chuckle nuts
+	gui_debug_list_item_rotation, // 0x00736510,
 	"Toggle display of given list item's rotation, optionally recursive\r\nNETWORK SAFE: No",
 	NULL,
 	3, _hs_type_string_id, _hs_type_boolean, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_text_name,
 	0,
-	0x007367B0, // $TODO write the function chuckle nuts
+	gui_debug_text_display_name, // 0x007367B0,
 	"Toggle display of given text widget's name\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_text_animation,
 	0,
-	0x007369B0, // $TODO write the function chuckle nuts
+	gui_debug_text_animation_state, // 0x007369B0,
 	"Toggle display of given text widget's animation state\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_text_bounds,
 	0,
-	0x00736C60, // $TODO write the function chuckle nuts
+	gui_debug_text_bounds, // 0x00736C60,
 	"Toggle display of given text widget's bounds\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_text_rotation,
 	0,
-	0x00736F00, // $TODO write the function chuckle nuts
+	gui_debug_text_rotation, // 0x00736F00,
 	"Toggle display of given text widget's rotation\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_bitmap_name,
 	0,
-	0x007370E0, // $TODO write the function chuckle nuts
+	gui_debug_bitmap_display_name, // 0x007370E0,
 	"Toggle display of given bitmap widget's name\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_bitmap_animation,
 	0,
-	0x00737380, // $TODO write the function chuckle nuts
+	gui_debug_bitmap_animation_state, // 0x00737380,
 	"Toggle display of given bitmap widget's animation state\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_bitmap_bounds,
 	0,
-	0x00737560, // $TODO write the function chuckle nuts
+	gui_debug_bitmap_bounds, // 0x00737560,
 	"Toggle display of given bitmap widget's bounds\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	gui_debug_bitmap_rotation,
 	0,
-	0x007378F0, // $TODO write the function chuckle nuts
+	gui_debug_bitmap_rotation, // 0x007378F0,
 	"Toggle display of given bitmap widget's rotation\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_string_id, _hs_type_boolean
@@ -11101,38 +11113,38 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	net_build_network_config,
 	0,
-	0x0073A9E0, // $TODO write the function chuckle nuts
+	network_build_network_configuration, // 0x0073A9E0,
 	"writes a new network configuration file\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	net_build_game_variant,
 	0,
-	0x0073ACA0, // $TODO write the function chuckle nuts
+	network_build_game_variant, // 0x0073ACA0,
 	"writes the current game variant to a file\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	net_verify_game_variant,
 	0,
-	0x0073AF90, // $TODO write the function chuckle nuts
+	network_verify_packed_game_variant_file, // 0x0073AF90,
 	"verifies the contents of a packed game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	net_load_and_use_game_variant,
 	0,
-	0x0073B110, // $TODO write the function chuckle nuts
+	network_load_and_use_packed_game_variant_file, // 0x0073B110,
 	"loads the contents of a packed game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_string
@@ -11317,11 +11329,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	net_test_ping,
 	0,
-	0x0073E400, // $TODO write the function chuckle nuts
+	network_test_ping, // 0x0073E400,
 	"network test: sends a ping\r\nNETWORK SAFE: Yes",
 	NULL,
 	0,
@@ -11353,11 +11365,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	net_test_map_name,
 	0,
-	0x0073EC50, // $TODO write the function chuckle nuts
+	network_test_set_map_name, // 0x0073EC50,
 	"network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_string
@@ -11371,11 +11383,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_short_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	net_test_reset_objects,
 	0,
-	0x0073F160, // $TODO write the function chuckle nuts
+	network_test_reset_objects, // 0x0073F160,
 	"network test: resets all objects on the map\r\nNETWORK SAFE: Yes",
 	NULL,
 	0,
@@ -11829,11 +11841,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
 	NULL,
 	3, _hs_type_long_integer, _hs_type_long_integer, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	test_download_storage_file,
 	0,
-	0x00747140, // $TODO write the function chuckle nuts
+	test_download_storage_file, // 0x00747140,
 	"<url> <filename> downloads a file from LSP to the client\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	2, _hs_type_string, _hs_type_string
@@ -12396,11 +12408,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	game_save_cinematic_skip,
 	0,
-	0x0073A840, // $TODO write the function chuckle nuts
+	game_save_cinematic_skip, // 0x0073A840,
 	"don't use this, except in one place.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -12684,29 +12696,29 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_animation_graph, _hs_type_string_id
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_object_list,
 	mp_players_by_team,
 	0,
-	0x00740760, // $TODO write the function chuckle nuts
+	game_engine_players_by_team, // 0x00740760,
 	"given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_long_integer,
 	mp_active_player_count_by_team,
 	0,
-	0x00740B20, // $TODO write the function chuckle nuts
+	game_engine_active_player_count_by_team, // 0x00740B20,
 	"given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	deterministic_end_game,
 	0,
-	0x00740F80, // $TODO write the function chuckle nuts
+	game_engine_finish_game, // 0x00740F80,
 	"end game deterministically, by inserting a simulation queue event\r\nNETWORK SAFE: Yes",
 	NULL,
 	0,
@@ -12720,29 +12732,29 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	mp_respawn_override_timers,
 	0,
-	0x007415A0, // $TODO write the function chuckle nuts
+	game_engine_respawn_override_timers, // 0x007415A0,
 	"causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	mp_ai_allegiance,
 	0,
-	0x007418E0, // $TODO write the function chuckle nuts
+	game_engine_ai_scripting_allegiance, // 0x007418E0,
 	"causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes",
 	NULL,
 	2, _hs_type_enum_team, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	mp_allegiance,
 	0,
-	0x00741C10, // $TODO write the function chuckle nuts
+	game_engine_mp_team_allegiance, // 0x00741C10,
 	"create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes",
 	NULL,
 	2, _hs_type_enum_mp_team, _hs_type_enum_mp_team
@@ -12855,29 +12867,29 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	mp_object_belongs_to_team,
 	0,
-	0x00744930, // $TODO write the function chuckle nuts
+	game_engine_give_object_ownership_to_team, // 0x00744930,
 	"causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes",
 	NULL,
 	2, _hs_type_object, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	mp_weapon_belongs_to_team,
 	0,
-	0x00744DE0, // $TODO write the function chuckle nuts
+	game_engine_give_weapon_ownership_to_team, // 0x00744DE0,
 	"causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes",
 	NULL,
 	2, _hs_type_object, _hs_type_enum_mp_team
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	mp_debug_goal_object_boundary_geometry,
 	0,
-	0x00745230, // $TODO write the function chuckle nuts
+	debug_multiplayer_object_boundary_geometry, // 0x00745230,
 	"toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No",
 	NULL,
 	1, _hs_type_boolean
@@ -13125,11 +13137,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	camera_set_mode,
 	0,
-	0x00730AA0, // $TODO write the function chuckle nuts
+	director_set_camera_mode, // 0x00730AA0,
 	"<user_index> <mode_index> sets user's camera perspective\r\nNETWORK SAFE: No",
 	NULL,
 	2, _hs_type_long_integer, _hs_type_long_integer
@@ -13161,11 +13173,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	player_force_mode,
 	0,
-	0x007318A0, // $TODO write the function chuckle nuts
+	player_override_desired_mode, // 0x007318A0,
 	"force your will upon the player\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_string_id
@@ -13575,20 +13587,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	overlapped_display_task_descriptions,
 	0,
-	0x007392F0, // $TODO write the function chuckle nuts
+	overlapped_task_display_task_descriptions, // 0x007392F0,
 	"displays all tasks\r\nNETWORK SAFE: lol",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	overlapped_task_inject_error,
 	0,
-	0x007395A0, // $TODO write the function chuckle nuts
+	overlapped_task_inject_error, // 0x007395A0,
 	"inject error for tasks\r\nNETWORK SAFE: lol",
 	NULL,
 	2, _hs_type_string, _hs_type_boolean
@@ -13683,11 +13695,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	overlapped_task_pause,
 	0,
-	0x0073AFB0, // $TODO write the function chuckle nuts
+	overlapped_task_pause, // 0x0073AFB0,
 	"pause tasks\r\nNETWORK SAFE: lol",
 	NULL,
 	2, _hs_type_string, _hs_type_boolean
@@ -13746,20 +13758,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 10,
 	NULL,
 	5, _hs_type_long_integer, _hs_type_long_integer, _hs_type_long_integer, _hs_type_long_integer, _hs_type_long_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	net_build_map_variant,
 	0,
-	0x0073BFB0, // $TODO write the function chuckle nuts
+	network_build_map_variant, // 0x0073BFB0,
 	"writes the current map variant to a file\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	net_verify_map_variant,
 	0,
-	0x0073C250, // $TODO write the function chuckle nuts
+	network_verify_packed_map_variant_file, // 0x0073C250,
 	"verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_string
@@ -14358,11 +14370,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_budget_reference_sound
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 6,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 6,
 	_hs_type_void,
 	controller_set_single_player_level_unlocked,
 	0,
-	0x00731460, // $TODO write the function chuckle nuts
+	debug_set_single_player_level_unlocked, // 0x00731460,
 	"<controller> <level index> <bool locked> set single player level locked state for specified controller\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	3, _hs_type_enum_controller, _hs_type_short_integer, _hs_type_boolean
@@ -14646,11 +14658,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_enum_secondary_skull, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	controller_set_popup_message_index,
 	0,
-	0x007375C0, // $TODO write the function chuckle nuts
+	debug_set_popup_message_index, // 0x007375C0,
 	"<controller> <message index> set the highest popup message that the player has accepted\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	2, _hs_type_enum_controller, _hs_type_long_integer
@@ -15519,7 +15531,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE(hs_function_definition, 0, // babies first hs function
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	exit_game,
 	0,
@@ -15527,6 +15539,24 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 0, // babies first hs function
 	"exits the game.",
 	NULL,
 	0,
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	load_preferences_from_file,
+	0,
+	load_preferences_from_file_hs,
+	"Loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, _hs_type_string
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	load_customization_from_file,
+	0,
+	load_customization_from_file_hs,
+	"Loads customization from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	1, _hs_type_string
 );
 
 #pragma endregion // HS_FUNCTION_DEFINITIONS
@@ -17233,6 +17263,8 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&unknown69F_1_definition,
 	(hs_function_definition*)&unknown6A0_0_definition,
 	(hs_function_definition*)&exit_game_0_definition,
+	(hs_function_definition*)&load_preferences_from_file_1_definition,
+	(hs_function_definition*)&load_customization_from_file_1_definition,
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
 static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);
