@@ -22,6 +22,7 @@
 #include "main/main_game.hpp"
 #include "main/main_render.hpp"
 #include "main/main_time.hpp"
+#include "memory/module.hpp"
 #include "motor/sync_action.hpp"
 #include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
 #include "networking/messages/network_message_gateway.hpp"
@@ -49,6 +50,10 @@
 #include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
 #include "visibility/visibility_collection.hpp"
+
+// $TODO we don't fully own all the places `k_hs_external_global_count` is used yet
+const t_value_type<int16> k_hs_external_global_count_data = { .value = k_hs_external_global_count };
+DATA_PATCH_DECLARE(0x0167B188, k_hs_external_global_count, k_hs_external_global_count_data.bytes);
 
 enum : int16
 {
@@ -6866,7 +6871,6 @@ static hs_global_external* const hs_external_globals[]
 	&chud_debug_crosshair_definition,
 	&chud_debug_metagame_definition,
 	&debug_unit_all_animations_definition,
-	&debug_enable_force_phonebooth_assassinate_definition,
 	&debug_unit_animations_definition,
 	&debug_unit_illumination_definition,
 	&debug_unit_active_camo_frequency_modulator_definition,
@@ -6905,11 +6909,6 @@ static hs_global_external* const hs_external_globals[]
 	&sound_global_room_gain_definition,
 	&sound_direct_path_gain_definition,
 	&enable_pc_sound_definition,
-	&debug_sound_definition,
-	&debug_sound_manager_channels_definition,
-	&debug_sound_timing_definition,
-	&debug_duckers_definition,
-	&debug_sound_listeners_definition,
 	&unknown82_definition,
 	&unknown83_definition,
 	&unknown84_definition,
@@ -7004,7 +7003,6 @@ static hs_global_external* const hs_external_globals[]
 	&render_debug_force_cinematic_lights_definition,
 	&render_debug_pix_events_definition,
 	&render_atmosphere_cluster_blend_data_definition,
-	&render_debug_display_command_buffer_data_definition,
 	&render_debug_screen_shaders_definition,
 	&render_debug_screen_effects_definition,
 	&render_screen_effects_definition,
@@ -7343,15 +7341,12 @@ static hs_global_external* const hs_external_globals[]
 	&debug_plane_index_definition,
 	&debug_surface_index_definition,
 	&debug_input_definition,
-	&debug_input_abstraction_definition,
-	&debug_input_mouse_state_definition,
 	&debug_leaf0_index_definition,
 	&debug_leaf1_index_definition,
 	&debug_leaf_connection_index_definition,
 	&debug_cluster_index_definition,
 	&debug_first_person_weapons_definition,
 	&debug_first_person_models_definition,
-	&debug_first_person_skeleton_definition,
 	&breakable_surfaces_definition,
 	&debug_lights_definition,
 	&debug_light_passes_definition,
@@ -7916,7 +7911,6 @@ static hs_global_external* const hs_external_globals[]
 	&animation_throttle_dampening_scale_definition,
 	&animation_blend_change_scale_definition,
 	&biped_fitting_enable_definition,
-	&debug_animation_fp_sprint_disable_definition,
 	&biped_fitting_root_offset_enable_definition,
 	&biped_pivot_enable_definition,
 	&biped_pivot_allow_player_definition,
@@ -8106,6 +8100,17 @@ static hs_global_external* const hs_external_globals[]
 	&debug_weapons_magazines_definition,
 	&debug_weapons_primary_definition,
 	&debug_weapons_secondary_definition,
+	&debug_enable_force_phonebooth_assassinate_definition,
+	&debug_sound_definition,
+	&debug_sound_manager_channels_definition,
+	&debug_sound_timing_definition,
+	&debug_duckers_definition,
+	&debug_sound_listeners_definition,
+	&render_debug_display_command_buffer_data_definition,
+	&debug_input_abstraction_definition,
+	&debug_input_mouse_state_definition,
+	&debug_first_person_skeleton_definition,
+	&debug_animation_fp_sprint_disable_definition,
 	&static_fp_fov_definition,
 	&centered_crosshair_definition,
 	&mean_look_sensitivity_definition,
