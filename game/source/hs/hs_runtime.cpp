@@ -596,7 +596,77 @@ void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initi
 
 void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x005952A0, hs_evaluate_inequality, function_index, thread_index, initialize);
+	//INVOKE(0x005952A0, hs_evaluate_inequality, function_index, thread_index, initialize);
+
+	ASSERT(function_index >= _hs_function_gt && function_index <= _hs_function_lte);
+
+	int16 parameter_types[2];
+	parameter_types[0] = parameter_types[1] = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(hs_thread_get(thread_index))->expression_index)->long_value)->next_node_index)->type;
+	int32* parameter_results = hs_arguments_evaluate(thread_index, NUMBEROF(parameter_types), parameter_types, initialize);
+	if (parameter_results)
+	{
+		real32 arg0 = 0.0f;
+		real32 arg1 = 0.0f;
+
+		if (parameter_types[0] == _hs_type_real)
+		{
+			ASSERT(hs_type_sizes[parameter_types[0]] == sizeof(real32));
+
+			arg0 = *(real32*)&parameter_results[0];
+			arg1 = *(real32*)&parameter_results[1];
+		}
+		else if (parameter_types[0] == _hs_type_long_integer)
+		{
+			ASSERT(hs_type_sizes[parameter_types[0]] == sizeof(int32));
+
+			arg0 = (real32)parameter_results[0];
+			arg1 = (real32)parameter_results[1];
+		}
+		else
+		{
+			ASSERT(parameter_types[0] == _hs_type_short_integer || HS_TYPE_IS_ENUM(parameter_types[0]));
+			ASSERT(hs_type_sizes[parameter_types[0]] == sizeof(int16));
+
+			arg0 = (real32)*(int16*)&parameter_results[0];
+			arg1 = (real32)*(int16*)&parameter_results[1];
+		}
+
+		bool result = false;
+		int32 result_long = 0;
+
+		switch (function_index)
+		{
+		case _hs_function_gt:
+		{
+			result = arg0 > arg1;
+		}
+		break;
+		case _hs_function_lt:
+		{
+			result = arg1 > arg0;
+		}
+		break;
+		case _hs_function_gte:
+		{
+			result = arg0 >= arg1;
+		}
+		break;
+		case _hs_function_lte:
+		{
+			result = arg1 >= arg0;
+		}
+		break;
+		default:
+		{
+			result_long = 0;
+			HALT();
+		}
+		break;
+		}
+
+		*reinterpret_cast<bool*>(&result_long) = result;
+		hs_return(thread_index, result_long);
+	}
 }
 
 void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool initialize)
