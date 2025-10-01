@@ -1,16 +1,16 @@
 #pragma once
 
-#define HS_TYPE_IS_TAG_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_effect && (_hs_type) <= _hs_type_bink_definition)
-#define HS_TYPE_IS_ENUM(_hs_type) ((_hs_type) >= _hs_type_enum_game_difficulty && (_hs_type) <= _hs_type_enum_secondary_skull)
-#define HS_TYPE_IS_OBJECT(_hs_type) ((_hs_type) >= _hs_type_object && (_hs_type) <= _hs_type_effect_scenery)
-#define HS_TYPE_IS_OBJECT_NAME(_hs_type) ((_hs_type) >= _hs_type_object_name && (_hs_type) <= _hs_type_effect_scenery_name)
-#define HS_TYPE_IS_BUDGET_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_budget_reference_animation_graph && (_hs_type) <= _hs_type_budget_reference_sound)
-#define hs_type_valid(_hs_type) ((_hs_type) >= _hs_type_void && (_hs_type) < k_hs_type_count)
+#define HS_TYPE_IS_TAG_REFERENCE(HS_TYPE) (IN_RANGE_INCLUSIVE((HS_TYPE), _hs_type_effect, _hs_type_bink_definition))
+#define HS_TYPE_IS_ENUM(HS_TYPE) (IN_RANGE_INCLUSIVE((HS_TYPE), FIRST_HS_ENUM_TYPE, LAST_HS_ENUM_TYPE))
+#define HS_TYPE_IS_OBJECT(HS_TYPE) (IN_RANGE_INCLUSIVE((HS_TYPE), FIRST_HS_OBJECT_TYPE, LAST_HS_OBJECT_TYPE))
+#define HS_TYPE_IS_OBJECT_NAME(HS_TYPE) (IN_RANGE_INCLUSIVE((HS_TYPE), FIRST_HS_OBJECT_NAME_TYPE, LAST_HS_OBJECT_NAME_TYPE))
+#define HS_TYPE_IS_BUDGET_REFERENCE(HS_TYPE) (IN_RANGE_INCLUSIVE((HS_TYPE), FIRST_HS_BUDGET_REFERENCE_TYPE, LAST_HS_BUDGET_REFERENCE_TYPE))
+#define hs_type_valid(HS_TYPE) (VALID_INDEX((HS_TYPE), NUMBER_OF_HS_NODE_TYPES))
 
 struct hs_enum_definition
 {
 	int16 count;
-	const char* const* names;
+	const char** identifiers;
 };
 static_assert(sizeof(hs_enum_definition) == 0x8);
 
@@ -20,84 +20,84 @@ struct hs_global_external;
 struct s_tag_block;
 struct s_data_array;
 
-extern bool const _hs_type_boolean_default;
-extern real32 const _hs_type_real_default;
-extern int16 const _hs_type_short_integer_default;
-extern int32 const _hs_type_long_integer_default;
-extern int16 const _hs_type_script_default;
-extern int32 const _hs_type_string_id_default;
-extern int32 const _hs_type_unit_seat_mapping_default;
-extern int16 const _hs_type_trigger_volume_default;
-extern int16 const _hs_type_cutscene_flag_default;
-extern int16 const _hs_type_cutscene_camera_point_default;
-extern int16 const _hs_type_cutscene_title_default;
-extern int16 const _hs_type_cutscene_recording_default;
-extern int32 const _hs_type_device_group_default;
-extern int32 const _hs_type_ai_default;
-extern int16 const _hs_type_ai_command_list_default;
-extern int16 const _hs_type_ai_command_script_default;
-extern int16 const _hs_type_ai_behavior_default;
-extern int16 const _hs_type_ai_orders_default;
-extern int32 const _hs_type_ai_line_default;
-extern int16 const _hs_type_starting_profile_default;
-extern int16 const _hs_type_conversation_default;
-extern int16 const _hs_type_zone_set_default;
-extern int16 const _hs_type_designer_zone_default;
-extern int32 const _hs_type_point_ref_default;
-extern int32 const _hs_type_style_default;
-extern int32 const _hs_type_object_list_default;
-extern int32 const _hs_type_folder_default;
-extern int32 const _hs_type_sound_default;
-extern int32 const _hs_type_looping_sound_default;
-extern int32 const _hs_type_effect_default;
-extern int32 const _hs_type_damage_default;
-extern int32 const _hs_type_animation_graph_default;
-extern int32 const _hs_type_damage_effect_default;
-extern int32 const _hs_type_object_definition_default;
-extern int32 const _hs_type_bitmap_default;
-extern int32 const _hs_type_shader_default;
-extern int32 const _hs_type_render_model_definition_default;
-extern int32 const _hs_type_structure_bsp_definition_default;
-extern int32 const _hs_type_structure_lightmap_definition_default;
-extern int32 const _hs_type_cinematic_definition_default;
-extern int32 const _hs_type_cinematic_scene_definition_default;
-extern int32 const _hs_type_bink_definition_default;
-extern int32 const _hs_type_any_tag_default;
-extern int16 const _hs_type_enum_game_difficulty_default;
-extern int16 const _hs_type_enum_team_default;
-extern int16 const _hs_type_enum_mp_team_default;
-extern int16 const _hs_type_enum_controller_default;
-extern int16 const _hs_type_enum_button_preset_default;
-extern int16 const _hs_type_enum_joystick_preset_default;
-extern int16 const _hs_type_enum_player_character_type_default;
-extern int16 const _hs_type_enum_voice_output_setting_default;
-extern int16 const _hs_type_enum_subtitle_setting_default;
-extern int16 const _hs_type_enum_actor_type_default;
-extern int16 const _hs_type_enum_model_state_default;
-extern int16 const _hs_type_enum_event_default;
-extern int16 const _hs_type_enum_character_physics_override_default;
-extern int16 const _hs_type_enum_primary_skull_default;
-extern int16 const _hs_type_enum_secondary_skull_default;
-extern int16 const _hs_type_object_name_default;
-extern int32 const _hs_type_object_default;
-extern int32 const _hs_type_unit_default;
-extern int32 const _hs_type_vehicle_default;
-extern int32 const _hs_type_weapon_default;
-extern int32 const _hs_type_device_default;
-extern int32 const _hs_type_scenery_default;
-extern int32 const _hs_type_effect_scenery_default;
-extern int32 const _hs_type_cinematic_lightprobe_default;
-extern int32 const _hs_type_budget_reference_animation_graph_default;
-extern int32 const _hs_type_budget_reference_looping_sound_default;
-extern int32 const _hs_type_budget_reference_sound_default;
-extern tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count];
-extern int16 const hs_type_sizes[k_hs_type_count];
-extern int16 const hs_object_type_masks[k_hs_type_object_count];
-extern int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];
+extern const bool _hs_type_boolean_default;
+extern const real32 _hs_type_real_default;
+extern const int16 _hs_type_short_integer_default;
+extern const int32 _hs_type_long_integer_default;
+extern const int16 _hs_type_script_default;
+extern const int32 _hs_type_string_id_default;
+extern const int32 _hs_type_unit_seat_mapping_default;
+extern const int16 _hs_type_trigger_volume_default;
+extern const int16 _hs_type_cutscene_flag_default;
+extern const int16 _hs_type_cutscene_camera_point_default;
+extern const int16 _hs_type_cutscene_title_default;
+extern const int16 _hs_type_cutscene_recording_default;
+extern const int32 _hs_type_device_group_default;
+extern const int32 _hs_type_ai_default;
+extern const int16 _hs_type_ai_command_list_default;
+extern const int16 _hs_type_ai_command_script_default;
+extern const int16 _hs_type_ai_behavior_default;
+extern const int16 _hs_type_ai_orders_default;
+extern const int32 _hs_type_ai_line_default;
+extern const int16 _hs_type_starting_profile_default;
+extern const int16 _hs_type_conversation_default;
+extern const int16 _hs_type_zone_set_default;
+extern const int16 _hs_type_designer_zone_default;
+extern const int32 _hs_type_point_ref_default;
+extern const int32 _hs_type_style_default;
+extern const int32 _hs_type_object_list_default;
+extern const int32 _hs_type_folder_default;
+extern const int32 _hs_type_sound_default;
+extern const int32 _hs_type_looping_sound_default;
+extern const int32 _hs_type_effect_default;
+extern const int32 _hs_type_damage_default;
+extern const int32 _hs_type_animation_graph_default;
+extern const int32 _hs_type_damage_effect_default;
+extern const int32 _hs_type_object_definition_default;
+extern const int32 _hs_type_bitmap_default;
+extern const int32 _hs_type_shader_default;
+extern const int32 _hs_type_render_model_definition_default;
+extern const int32 _hs_type_structure_bsp_definition_default;
+extern const int32 _hs_type_structure_lightmap_definition_default;
+extern const int32 _hs_type_cinematic_definition_default;
+extern const int32 _hs_type_cinematic_scene_definition_default;
+extern const int32 _hs_type_bink_definition_default;
+extern const int32 _hs_type_any_tag_default;
+extern const int16 _hs_type_enum_game_difficulty_default;
+extern const int16 _hs_type_enum_team_default;
+extern const int16 _hs_type_enum_mp_team_default;
+extern const int16 _hs_type_enum_controller_default;
+extern const int16 _hs_type_enum_button_preset_default;
+extern const int16 _hs_type_enum_joystick_preset_default;
+extern const int16 _hs_type_enum_player_character_type_default;
+extern const int16 _hs_type_enum_voice_output_setting_default;
+extern const int16 _hs_type_enum_subtitle_setting_default;
+extern const int16 _hs_type_enum_actor_type_default;
+extern const int16 _hs_type_enum_model_state_default;
+extern const int16 _hs_type_enum_event_default;
+extern const int16 _hs_type_enum_character_physics_override_default;
+extern const int16 _hs_type_enum_primary_skull_default;
+extern const int16 _hs_type_enum_secondary_skull_default;
+extern const int16 _hs_type_object_name_default;
+extern const int32 _hs_type_object_default;
+extern const int32 _hs_type_unit_default;
+extern const int32 _hs_type_vehicle_default;
+extern const int32 _hs_type_weapon_default;
+extern const int32 _hs_type_device_default;
+extern const int32 _hs_type_scenery_default;
+extern const int32 _hs_type_effect_scenery_default;
+extern const int32 _hs_type_cinematic_lightprobe_default;
+extern const int32 _hs_type_budget_reference_animation_graph_default;
+extern const int32 _hs_type_budget_reference_looping_sound_default;
+extern const int32 _hs_type_budget_reference_sound_default;
+extern const tag hs_budget_reference_type_group_tags[NUMBER_OF_HS_BUDGET_REFERENCE_TYPES];
+extern const int16 hs_type_sizes[NUMBER_OF_HS_NODE_TYPES];
+extern const int16 hs_object_type_masks[NUMBER_OF_HS_OBJECT_TYPES];
+extern const int32 hs_tag_reference_type_group_tags[NUMBER_OF_HS_TAG_REFERENCE_TYPES];
+extern const hs_enum_definition hs_enum_table[NUMBER_OF_HS_ENUM_TYPES];
 extern const char* const _hs_type_string_default;
-extern const char* const hs_type_names[k_hs_type_count];
+extern const char* const hs_type_names[NUMBER_OF_HS_NODE_TYPES];
 extern const char* const hs_script_type_names[NUMBER_OF_HS_SCRIPT_TYPES];
-extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
 extern s_data_array*& g_hs_syntax_data;
 extern bool& g_recompile_scripts;
 

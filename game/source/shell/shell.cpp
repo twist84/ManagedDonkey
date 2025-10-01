@@ -344,7 +344,7 @@ const char* game_variant_parameter_get_name(int32 parameter)
 	return k_game_variant_parameter_names[parameter];
 }
 
-const char* const k_network_session_mode_names[k_network_session_mode_count]
+const char* k_network_session_mode_names[k_network_session_mode_count]
 {
 	"none",
 	"idle",
@@ -361,7 +361,7 @@ const char* const k_network_session_mode_names[k_network_session_mode_count]
 	"matchmaking-choosing-game"
 };
 
-const char* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
+const char* k_ui_game_mode_names[k_gui_game_setup_mode_count]
 {
 	"campaign",
 	"matchmaking",
@@ -371,7 +371,7 @@ const char* const k_ui_game_mode_names[k_gui_game_setup_mode_count]
 	"survival"
 };
 
-const char* const k_gui_network_session_advertisement_mode_names[k_network_session_advertisement_mode_count]
+const char* k_gui_network_session_advertisement_mode_names[k_network_session_advertisement_mode_count]
 {
 	"open_to_public",
 	"open_to_friends",
@@ -380,7 +380,7 @@ const char* const k_gui_network_session_advertisement_mode_names[k_network_sessi
 	"offline"
 };
 
-const char* const k_game_variant_parameter_names[k_number_of_editable_game_variant_parameters]
+const char* k_game_variant_parameter_names[k_number_of_editable_game_variant_parameters]
 {
 	"game_misc_teams",
 	"game_misc_unknown1",
@@ -1047,7 +1047,7 @@ const char* const k_game_variant_parameter_names[k_number_of_editable_game_varia
 };
 
 // 0189DF28
-const char* const global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count]
+const char* global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count]
 {
 	"easy",
 	"normal",
@@ -1056,7 +1056,7 @@ const char* const global_campaign_difficulty_level_names[k_campaign_difficulty_l
 };
 
 // 018BE868
-const char* const global_campaign_team_names[k_campaign_team_count]
+const char* global_campaign_team_names[k_campaign_team_count]
 {
 	"default",
 	"player",
@@ -1077,7 +1077,7 @@ const char* const global_campaign_team_names[k_campaign_team_count]
 };
 
 // 0189EECC
-const char* const global_multiplayer_team_names[k_multiplayer_team_count]
+const char* global_multiplayer_team_names[k_multiplayer_team_count]
 {
 	"mp_team_red",
 	"mp_team_blue",
@@ -1090,7 +1090,7 @@ const char* const global_multiplayer_team_names[k_multiplayer_team_count]
 };
 
 // 0191CB00
-const char* const global_controller_index_names[k_number_of_controllers]
+const char* global_controller_index_names[k_number_of_controllers]
 {
 	"controller1",
 	"controller2",
@@ -1099,7 +1099,7 @@ const char* const global_controller_index_names[k_number_of_controllers]
 };
 
 // 0191CB10
-const char* const global_button_preset_names[k_button_presets_count]
+const char* global_button_preset_names[k_button_presets_count]
 {
 	"standard",
 	"south_paw",
@@ -1110,7 +1110,7 @@ const char* const global_button_preset_names[k_button_presets_count]
 };
 
 // 0191CB28
-const char* const global_joystick_preset_names[k_joystick_presets_count]
+const char* global_joystick_preset_names[k_joystick_presets_count]
 {
 	"standard",
 	"south_paw",
@@ -1119,28 +1119,28 @@ const char* const global_joystick_preset_names[k_joystick_presets_count]
 };
 
 // 0189DD38
-const char* const global_player_model_choice_names[k_player_model_choice_count]
+const char* global_player_model_choice_names[k_player_model_choice_count]
 {
 	"spartan",
 	"elite"
 };
 
 // 0191CB38
-const char* const global_voice_output_setting_names[k_number_of_voice_output_settings]
+const char* global_voice_output_setting_names[k_number_of_voice_output_settings]
 {
 	"default",
 	"headset"
 };
 
 // 0191CB40
-const char* const global_voice_mask_names[k_number_of_voice_masks]
+const char* global_voice_mask_names[k_number_of_voice_masks]
 {
 	"none",
 	"anonymous"
 };
 
 // 0191CB48
-const char* const global_subtitle_setting_names[k_number_of_subtitle_settings]
+const char* global_subtitle_setting_names[k_number_of_subtitle_settings]
 {
 	"automatic",
 	"enabled",
@@ -1148,7 +1148,7 @@ const char* const global_subtitle_setting_names[k_number_of_subtitle_settings]
 };
 
 // 01992AF8
-const char* const global_actor_type_names[k_number_of_actor_types]
+const char* global_actor_type_names[k_number_of_actor_types]
 {
 	"elite",
 	"jackal",
@@ -1178,7 +1178,7 @@ const char* const global_actor_type_names[k_number_of_actor_types]
 };
 
 // 018ECC80
-const char* const global_model_state_names[k_number_of_model_states]
+const char* global_model_state_names[k_number_of_model_states]
 {
 	"standard",
 	"minor damage",
@@ -1188,7 +1188,7 @@ const char* const global_model_state_names[k_number_of_model_states]
 };
 
 // 018ECCEC
-const char* const global_character_physics_override_names[k_total_character_physics_overrides]
+const char* global_character_physics_override_names[k_total_character_physics_overrides]
 {
 	"NONE",
 	"player",
@@ -1196,7 +1196,7 @@ const char* const global_character_physics_override_names[k_total_character_phys
 };
 
 // 018BAE24
-const char* const global_primary_skull_names[k_campaign_skull_primary_count]
+const char* global_primary_skull_names[k_campaign_skull_primary_count]
 {
 	"skull_iron",
 	"skull_black_eye",
@@ -1210,7 +1210,7 @@ const char* const global_primary_skull_names[k_campaign_skull_primary_count]
 };
 
 // 018BAE48
-const char* const global_secondary_skull_names[k_campaign_skull_secondary_count]
+const char* global_secondary_skull_names[k_campaign_skull_secondary_count]
 {
 	"skull_assassin",
 	"skull_blind",

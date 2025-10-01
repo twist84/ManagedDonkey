@@ -90,7 +90,7 @@ extern int32 g_error_buffer_length;
 extern s_hs_static_globals hs_static_globals;
 
 using hs_type_primitive_parser_t = bool __cdecl(int32 expression_index);
-extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
+extern hs_type_primitive_parser_t* hs_type_primitive_parsers[NUMBER_OF_HS_NODE_TYPES];
 
 extern bool hs_add_global(int32 expression_index);
 extern bool hs_add_script(int32 expression_index);

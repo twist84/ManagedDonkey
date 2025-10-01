@@ -36,7 +36,7 @@ bool g_events_initializing_cookie = false;
 bool events_force_no_log = false;
 c_read_write_lock g_event_read_write_lock;
 
-const char* const k_event_level_names[k_event_level_count + 1]
+const char* k_event_level_names[k_event_level_count + 1]
 {
 	"verbose",
 	"status",
@@ -47,7 +47,7 @@ const char* const k_event_level_names[k_event_level_count + 1]
 	"none"
 };
 
-const char* const k_event_level_severity_strings[k_event_level_count]
+const char* k_event_level_severity_strings[k_event_level_count]
 {
 	"verbose",
 	"status ",

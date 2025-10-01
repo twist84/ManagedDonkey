@@ -89,13 +89,13 @@
 //REFERENCE_DECLARE(0x0166D6F8, int32 const, _hs_type_budget_reference_animation_graph_default);
 //REFERENCE_DECLARE(0x0166D6FC, int32 const, _hs_type_budget_reference_looping_sound_default);
 //REFERENCE_DECLARE(0x0166D700, int32 const, _hs_type_budget_reference_sound_default);
-//REFERENCE_DECLARE_ARRAY(0x0166D704, tag const, hs_budget_reference_type_group_tags, k_hs_type_budget_reference_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D710, int16 const, hs_type_sizes, k_hs_type_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D7B8, int16 const, hs_object_type_masks, k_hs_type_object_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D7C8, int32 const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
-//REFERENCE_DECLARE_ARRAY(0x0166D808, hs_enum_definition const, hs_enum_table, k_hs_type_enum_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D704, tag const, hs_budget_reference_type_group_tags, NUMBER_OF_HS_BUDGET_REFERENCE_TYPES);
+//REFERENCE_DECLARE_ARRAY(0x0166D710, int16 const, hs_type_sizes, NUMBER_OF_HS_NODE_TYPES);
+//REFERENCE_DECLARE_ARRAY(0x0166D7B8, int16 const, hs_object_type_masks, NUMBER_OF_HS_OBJECT_TYPES);
+//REFERENCE_DECLARE_ARRAY(0x0166D7C8, int32 const, hs_tag_reference_type_group_tags, NUMBER_OF_HS_TAG_REFERENCE_TYPES);
+//REFERENCE_DECLARE_ARRAY(0x0166D808, hs_enum_definition const, hs_enum_table, NUMBER_OF_HS_ENUM_TYPES);
 //REFERENCE_DECLARE(0x018BEC94, const char* const, _hs_type_string_default);
-//REFERENCE_DECLARE_ARRAY(0x018BEC98, const char* const, hs_type_names, k_hs_type_count);
+//REFERENCE_DECLARE_ARRAY(0x018BEC98, const char* const, hs_type_names, NUMBER_OF_HS_NODE_TYPES);
 //REFERENCE_DECLARE_ARRAY(0x018BEDE8, const char* const, hs_script_type_names, NUMBER_OF_HS_SCRIPT_TYPES);
 REFERENCE_DECLARE(0x024B06D4, s_data_array*, g_hs_syntax_data);
 REFERENCE_DECLARE(0x024B06DA, bool, g_recompile_scripts);
@@ -589,7 +589,7 @@ void __cdecl hs_enumerate_script_type_names(void)
 
 void __cdecl hs_enumerate_type_names(void)
 {
-	hs_enumerate_from_string_list(hs_type_names, _hs_type_void, k_hs_type_count);
+	hs_enumerate_from_string_list(hs_type_names, _hs_type_void, NUMBER_OF_HS_NODE_TYPES);
 }
 
 void __cdecl hs_enumerate_function_names(void)
@@ -720,217 +720,217 @@ void __cdecl hs_enumerate_enum_skull_names(void)
 }
 
 // 0166D5E8
-bool const _hs_type_boolean_default = false;
+const bool _hs_type_boolean_default = false;
 
 // 0166D5EC
-real32 const _hs_type_real_default = 0.0f;
+const real32 _hs_type_real_default = 0.0f;
 
 // 0166D5F0
-int16 const _hs_type_short_integer_default = 0;
+const int16 _hs_type_short_integer_default = 0;
 
 // 0166D5F4
-int32 const _hs_type_long_integer_default = 0;
+const int32 _hs_type_long_integer_default = 0;
 
 // 0166D5F8
-int16 const _hs_type_script_default = NONE;
+const int16 _hs_type_script_default = NONE;
 
 // 0166D5FC
-int32 const _hs_type_string_id_default = k_string_id_empty_string;
+const int32 _hs_type_string_id_default = k_string_id_empty_string;
 
 // 0166D600
-int32 const _hs_type_unit_seat_mapping_default = NONE;
+const int32 _hs_type_unit_seat_mapping_default = NONE;
 
 // 0166D604
-int16 const _hs_type_trigger_volume_default = NONE;
+const int16 _hs_type_trigger_volume_default = NONE;
 
 // 0166D608
-int16 const _hs_type_cutscene_flag_default = NONE;
+const int16 _hs_type_cutscene_flag_default = NONE;
 
 // 0166D60C
-int16 const _hs_type_cutscene_camera_point_default = NONE;
+const int16 _hs_type_cutscene_camera_point_default = NONE;
 
 // 0166D610
-int16 const _hs_type_cutscene_title_default = NONE;
+const int16 _hs_type_cutscene_title_default = NONE;
 
 // 0166D614
-int16 const _hs_type_cutscene_recording_default = NONE;
+const int16 _hs_type_cutscene_recording_default = NONE;
 
 // 0166D618
-int32 const _hs_type_device_group_default = NONE;
+const int32 _hs_type_device_group_default = NONE;
 
 // 0166D61C
-int32 const _hs_type_ai_default = 0;
+const int32 _hs_type_ai_default = 0;
 
 // 0166D620
-int16 const _hs_type_ai_command_list_default = NONE;
+const int16 _hs_type_ai_command_list_default = NONE;
 
 // 0166D624
-int16 const _hs_type_ai_command_script_default = NONE;
+const int16 _hs_type_ai_command_script_default = NONE;
 
 // 0166D628
-int16 const _hs_type_ai_behavior_default = NONE;
+const int16 _hs_type_ai_behavior_default = NONE;
 
 // 0166D62C
-int16 const _hs_type_ai_orders_default = NONE;
+const int16 _hs_type_ai_orders_default = NONE;
 
 // 0166D630
-int32 const _hs_type_ai_line_default = NONE;
+const int32 _hs_type_ai_line_default = NONE;
 
 // 0166D634
-int16 const _hs_type_starting_profile_default = NONE;
+const int16 _hs_type_starting_profile_default = NONE;
 
 // 0166D638
-int16 const _hs_type_conversation_default = NONE;
+const int16 _hs_type_conversation_default = NONE;
 
 // 0166D63C
-int16 const _hs_type_zone_set_default = NONE;
+const int16 _hs_type_zone_set_default = NONE;
 
 // 0166D640
-int16 const _hs_type_designer_zone_default = NONE;
+const int16 _hs_type_designer_zone_default = NONE;
 
 // 0166D644
-int32 const _hs_type_point_ref_default = NONE;
+const int32 _hs_type_point_ref_default = NONE;
 
 // 0166D648
-int32 const _hs_type_style_default = NONE;
+const int32 _hs_type_style_default = NONE;
 
 // 0166D64C
-int32 const _hs_type_object_list_default = NONE;
+const int32 _hs_type_object_list_default = NONE;
 
 // 0166D650
-int32 const _hs_type_folder_default = NONE;
+const int32 _hs_type_folder_default = NONE;
 
 // 0166D654
-int32 const _hs_type_sound_default = NONE;
+const int32 _hs_type_sound_default = NONE;
 
 // 0166D658
-int32 const _hs_type_looping_sound_default = NONE;
+const int32 _hs_type_looping_sound_default = NONE;
 
 // 0166D65C
-int32 const _hs_type_effect_default = NONE;
+const int32 _hs_type_effect_default = NONE;
 
 // 0166D660
-int32 const _hs_type_damage_default = NONE;
+const int32 _hs_type_damage_default = NONE;
 
 // 0166D664
-int32 const _hs_type_animation_graph_default = NONE;
+const int32 _hs_type_animation_graph_default = NONE;
 
 // 0166D668
-int32 const _hs_type_damage_effect_default = NONE;
+const int32 _hs_type_damage_effect_default = NONE;
 
 // 0166D66C
-int32 const _hs_type_object_definition_default = NONE;
+const int32 _hs_type_object_definition_default = NONE;
 
 // 0166D670
-int32 const _hs_type_bitmap_default = NONE;
+const int32 _hs_type_bitmap_default = NONE;
 
 // 0166D674
-int32 const _hs_type_shader_default = NONE;
+const int32 _hs_type_shader_default = NONE;
 
 // 0166D678
-int32 const _hs_type_render_model_definition_default = NONE;
+const int32 _hs_type_render_model_definition_default = NONE;
 
 // 0166D67C
-int32 const _hs_type_structure_bsp_definition_default = NONE;
+const int32 _hs_type_structure_bsp_definition_default = NONE;
 
 // 0166D680
-int32 const _hs_type_structure_lightmap_definition_default = NONE;
+const int32 _hs_type_structure_lightmap_definition_default = NONE;
 
 // 0166D684
-int32 const _hs_type_cinematic_definition_default = NONE;
+const int32 _hs_type_cinematic_definition_default = NONE;
 
 // 0166D688
-int32 const _hs_type_cinematic_scene_definition_default = NONE;
+const int32 _hs_type_cinematic_scene_definition_default = NONE;
 
 // 0166D68C
-int32 const _hs_type_bink_definition_default = NONE;
+const int32 _hs_type_bink_definition_default = NONE;
 
 // 0166D690
-int32 const _hs_type_any_tag_default = NONE;
+const int32 _hs_type_any_tag_default = NONE;
 
 // 0166D694
-int16 const _hs_type_enum_game_difficulty_default = NONE;
+const int16 _hs_type_enum_game_difficulty_default = NONE;
 
 // 0166D698
-int16 const _hs_type_enum_team_default = NONE;
+const int16 _hs_type_enum_team_default = NONE;
 
 // 0166D69C
-int16 const _hs_type_enum_mp_team_default = _multiplayer_team_red;
+const int16 _hs_type_enum_mp_team_default = _multiplayer_team_red;
 
 // 0166D6A0
-int16 const _hs_type_enum_controller_default = _controller0;
+const int16 _hs_type_enum_controller_default = _controller0;
 
 // 0166D6A4
-int16 const _hs_type_enum_button_preset_default = _button_preset_standard;
+const int16 _hs_type_enum_button_preset_default = _button_preset_standard;
 
 // 0166D6A8
-int16 const _hs_type_enum_joystick_preset_default = _joystick_preset_standard;
+const int16 _hs_type_enum_joystick_preset_default = _joystick_preset_standard;
 
 // 0166D6AC
-int16 const _hs_type_enum_player_character_type_default = _player_model_choice_spartan;
+const int16 _hs_type_enum_player_character_type_default = _player_model_choice_spartan;
 
 // 0166D6B0
-int16 const _hs_type_enum_voice_output_setting_default = _voice_output_setting_default;
+const int16 _hs_type_enum_voice_output_setting_default = _voice_output_setting_default;
 
 // 0166D6B4
-int16 const _hs_type_enum_subtitle_setting_default = _subtitle_setting_automatic;
+const int16 _hs_type_enum_subtitle_setting_default = _subtitle_setting_automatic;
 
 // 0166D6B8
-int16 const _hs_type_enum_actor_type_default = NONE;
+const int16 _hs_type_enum_actor_type_default = NONE;
 
 // 0166D6BC
-int16 const _hs_type_enum_model_state_default = NONE;
+const int16 _hs_type_enum_model_state_default = NONE;
 
 // 0166D6C0
-int16 const _hs_type_enum_event_default = NONE;
+const int16 _hs_type_enum_event_default = NONE;
 
 // 0166D6C8
-int16 const _hs_type_enum_character_physics_override_default = _character_physics_default;
+const int16 _hs_type_enum_character_physics_override_default = _character_physics_default;
 
 // 0166D6CC
-int16 const _hs_type_enum_primary_skull_default = NONE;
+const int16 _hs_type_enum_primary_skull_default = NONE;
 
 // 0166D6D0
-int16 const _hs_type_enum_secondary_skull_default = NONE;
+const int16 _hs_type_enum_secondary_skull_default = NONE;
 
 // 0166D6D4
-int16 const _hs_type_object_name_default = NONE;
+const int16 _hs_type_object_name_default = NONE;
 
 // 0166D6D8
-int32 const _hs_type_object_default = NONE;
+const int32 _hs_type_object_default = NONE;
 
 // 0166D6DC
-int32 const _hs_type_unit_default = NONE;
+const int32 _hs_type_unit_default = NONE;
 
 // 0166D6E0
-int32 const _hs_type_vehicle_default = NONE;
+const int32 _hs_type_vehicle_default = NONE;
 
 // 0166D6E4
-int32 const _hs_type_weapon_default = NONE;
+const int32 _hs_type_weapon_default = NONE;
 
 // 0166D6E8
-int32 const _hs_type_device_default = NONE;
+const int32 _hs_type_device_default = NONE;
 
 // 0166D6EC
-int32 const _hs_type_scenery_default = NONE;
+const int32 _hs_type_scenery_default = NONE;
 
 // 0166D6F0
-int32 const _hs_type_effect_scenery_default = NONE;
+const int32 _hs_type_effect_scenery_default = NONE;
 
 // 0166D6F4
-int32 const _hs_type_cinematic_lightprobe_default = NONE;
+const int32 _hs_type_cinematic_lightprobe_default = NONE;
 
 // 0166D6F8
-int32 const _hs_type_budget_reference_animation_graph_default = NONE;
+const int32 _hs_type_budget_reference_animation_graph_default = NONE;
 
 // 0166D6FC
-int32 const _hs_type_budget_reference_looping_sound_default = NONE;
+const int32 _hs_type_budget_reference_looping_sound_default = NONE;
 
 // 0166D700
-int32 const _hs_type_budget_reference_sound_default = NONE;
+const int32 _hs_type_budget_reference_sound_default = NONE;
 
 // 0166D704
-tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count]
+const tag hs_budget_reference_type_group_tags[NUMBER_OF_HS_BUDGET_REFERENCE_TYPES]
 {
 	MODEL_ANIMATION_GRAPH_TAG,
 	SOUND_LOOPING_TAG,
@@ -938,7 +938,7 @@ tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count]
 };
 
 // 0166D710
-int16 const hs_type_sizes[k_hs_type_count]
+const int16 hs_type_sizes[NUMBER_OF_HS_NODE_TYPES]
 {
 	0, // unparsed
 	0, // special_form
@@ -947,9 +947,9 @@ int16 const hs_type_sizes[k_hs_type_count]
 
 	0, // void
 	1, // boolean
-	4, // real32
-	2, // int16
-	4, // int32
+	4, // real
+	2, // short
+	4, // long
 	4, // string
 	2, // script
 	4, // string_id
@@ -1034,7 +1034,7 @@ int16 const hs_type_sizes[k_hs_type_count]
 };
 
 // 0166D7B8
-int16 const hs_object_type_masks[k_hs_type_object_count]
+const int16 hs_object_type_masks[NUMBER_OF_HS_OBJECT_TYPES]
 {
 	_object_mask_all,           // all
 	_object_mask_unit,          // unit
@@ -1046,7 +1046,7 @@ int16 const hs_object_type_masks[k_hs_type_object_count]
 };
 
 // 0166D7C8
-int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count]
+const int32 hs_tag_reference_type_group_tags[NUMBER_OF_HS_TAG_REFERENCE_TYPES]
 {
 	SOUND_TAG,                            // sound
 	EFFECT_TAG,                           // effect
@@ -1067,33 +1067,33 @@ int32 const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count]
 };
 
 // 0166D808
-hs_enum_definition const hs_enum_table[k_hs_type_enum_count]
+const hs_enum_definition hs_enum_table[NUMBER_OF_HS_ENUM_TYPES]
 {
-#define MAKE_ENUM_TABLE_ENTRY(name){ NUMBEROF((name)), (name) }
-	MAKE_ENUM_TABLE_ENTRY(global_campaign_difficulty_level_names),
-	MAKE_ENUM_TABLE_ENTRY(global_campaign_team_names),
-	MAKE_ENUM_TABLE_ENTRY(global_multiplayer_team_names),
-	MAKE_ENUM_TABLE_ENTRY(global_controller_index_names),
-	MAKE_ENUM_TABLE_ENTRY(global_button_preset_names),
-	MAKE_ENUM_TABLE_ENTRY(global_joystick_preset_names),
-	MAKE_ENUM_TABLE_ENTRY(global_player_model_choice_names),
-	MAKE_ENUM_TABLE_ENTRY(global_voice_output_setting_names),
-	MAKE_ENUM_TABLE_ENTRY(global_voice_mask_names),
-	MAKE_ENUM_TABLE_ENTRY(global_subtitle_setting_names),
-	MAKE_ENUM_TABLE_ENTRY(global_actor_type_names),
-	MAKE_ENUM_TABLE_ENTRY(global_model_state_names),
-	MAKE_ENUM_TABLE_ENTRY(k_event_level_names),
-	MAKE_ENUM_TABLE_ENTRY(global_character_physics_override_names),
-	MAKE_ENUM_TABLE_ENTRY(global_primary_skull_names),
-	MAKE_ENUM_TABLE_ENTRY(global_secondary_skull_names)
-#undef MAKE_ENUM_TABLE_ENTRY
+#define MAKE_ENUM_DEFINITION(IDENTIFIERS){ NUMBEROF((IDENTIFIERS)), (IDENTIFIERS) }
+	MAKE_ENUM_DEFINITION(global_campaign_difficulty_level_names),
+	MAKE_ENUM_DEFINITION(global_campaign_team_names),
+	MAKE_ENUM_DEFINITION(global_multiplayer_team_names),
+	MAKE_ENUM_DEFINITION(global_controller_index_names),
+	MAKE_ENUM_DEFINITION(global_button_preset_names),
+	MAKE_ENUM_DEFINITION(global_joystick_preset_names),
+	MAKE_ENUM_DEFINITION(global_player_model_choice_names),
+	MAKE_ENUM_DEFINITION(global_voice_output_setting_names),
+	MAKE_ENUM_DEFINITION(global_voice_mask_names),
+	MAKE_ENUM_DEFINITION(global_subtitle_setting_names),
+	MAKE_ENUM_DEFINITION(global_actor_type_names),
+	MAKE_ENUM_DEFINITION(global_model_state_names),
+	MAKE_ENUM_DEFINITION(k_event_level_names),
+	MAKE_ENUM_DEFINITION(global_character_physics_override_names),
+	MAKE_ENUM_DEFINITION(global_primary_skull_names),
+	MAKE_ENUM_DEFINITION(global_secondary_skull_names)
+#undef MAKE_ENUM_DEFINITION
 };
 
 // 018BEC94
 const char* const _hs_type_string_default = "";
 
 // 018BEC98
-const char* const hs_type_names[k_hs_type_count]
+const char* const hs_type_names[NUMBER_OF_HS_NODE_TYPES]
 {
 	"unparsed",
 	"special form",

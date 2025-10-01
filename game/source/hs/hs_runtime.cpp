@@ -24,13 +24,13 @@
 
 #include <math.h>
 
-REFERENCE_DECLARE_ARRAY(0x018A1090, hs_type_inspector, hs_type_inspectors, k_hs_type_count);
+REFERENCE_DECLARE_ARRAY(0x018A1090, hs_type_inspector, hs_type_inspectors, NUMBER_OF_HS_NODE_TYPES);
 REFERENCE_DECLARE(0x023FF440, bool, debug_scripting);
 REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
 REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
 REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);// = true;
 REFERENCE_DECLARE_ARRAY(0x023FF444, bool, debug_global_variables, 512);
-REFERENCE_DECLARE_2D_ARRAY(0x023FF648, typecasting_procedure, g_typecasting_procedures, k_hs_type_count, k_hs_type_count);
+REFERENCE_DECLARE_2D_ARRAY(0x023FF648, typecasting_procedure, g_typecasting_procedures, NUMBER_OF_HS_NODE_TYPES, NUMBER_OF_HS_NODE_TYPES);
 REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
@@ -43,6 +43,7 @@ HOOK_DECLARE(0x00593A30, hs_inspect_real);
 HOOK_DECLARE(0x00593A60, hs_inspect_short_integer);
 HOOK_DECLARE(0x00593A80, hs_inspect_long_integer);
 HOOK_DECLARE(0x00593AA0, hs_inspect_string);
+HOOK_DECLARE(0x00593AC0, hs_inspect_enum);
 HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 //HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594460, hs_destination);
@@ -196,7 +197,19 @@ void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buff
 	const char* value_ = *(const char**)&value;
 	csstrnzcpy(buffer, value_, buffer_size);
 }
-//.text:00593AC0 ; void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size)
+
+void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size)
+{
+	//INVOKE(0x00593AC0, hs_inspect_enum, type, value, buffer, buffer_size);
+
+	int16 enum_value = (int16)value;
+	const hs_enum_definition* enum_definition = &hs_enum_table[type - FIRST_HS_ENUM_TYPE];
+
+	ASSERT(HS_TYPE_IS_ENUM(type));
+	ASSERT(VALID_INDEX(enum_value, enum_definition->count));
+	csstrnzcpy(buffer, enum_definition->identifiers[value], buffer_size);
+}
+
 //.text:00593AF0 ; tls
 //.text:00593B10 ; tls
 //.text:00593B30 ; tls

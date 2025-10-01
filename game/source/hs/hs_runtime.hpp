@@ -180,13 +180,13 @@ static_assert(sizeof(hs_debug_data_definition) == sizeof(c_static_flags<MAXIMUM_
 typedef void(*hs_type_inspector)(int16, int32, char*, int32);
 typedef int32(*typecasting_procedure)(int32);
 
-extern hs_type_inspector(&hs_type_inspectors)[k_hs_type_count];
+extern hs_type_inspector(&hs_type_inspectors)[NUMBER_OF_HS_NODE_TYPES];
 extern bool& debug_scripting;
 extern bool& debug_globals;
 extern bool& debug_globals_all;
 extern bool& hs_verbose;
 extern bool(&debug_global_variables)[512];
-extern typecasting_procedure(&g_typecasting_procedures)[k_hs_type_count][k_hs_type_count];
+extern typecasting_procedure(&g_typecasting_procedures)[NUMBER_OF_HS_NODE_TYPES][NUMBER_OF_HS_NODE_TYPES];
 
 extern bool g_run_game_scripts;
 extern bool breakpoints_enabled;
@@ -199,6 +199,7 @@ extern void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32
 extern void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int32 buffer_size);
 extern void __cdecl hs_inspect_long_integer(int16 type, int32 value, char* buffer, int32 buffer_size);
 extern void __cdecl hs_inspect_string(int16 type, int32 value, char* buffer, int32 buffer_size);
+extern void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer_size);
 extern int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_count, const int16* formal_parameters, bool initialize);
 extern void __cdecl hs_breakpoint(const char* s);
 extern bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type);

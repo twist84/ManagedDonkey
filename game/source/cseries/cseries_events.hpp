@@ -163,8 +163,8 @@ extern bool g_events_initialized;
 extern bool events_force_no_log;
 extern c_read_write_lock g_event_read_write_lock;
 
-extern const char* const k_event_level_names[k_event_level_count + 1];
-extern const char* const k_event_level_severity_strings[k_event_level_count];
+extern const char* k_event_level_names[k_event_level_count + 1];
+extern const char* k_event_level_severity_strings[k_event_level_count];
 
 struct s_file_reference;
 extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory);

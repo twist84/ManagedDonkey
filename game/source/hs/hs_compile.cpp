@@ -1321,10 +1321,10 @@ bool hs_parse_enum(int32 expression_index)
 	if (HS_TYPE_IS_ENUM(expression->type))
 	{
 		int16 enum_index = 0;
-		const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - _hs_type_enum_game_difficulty];
+		const hs_enum_definition* enum_definition = &hs_enum_table[expression->type - FIRST_HS_ENUM_TYPE];
 		ASSERT(enum_definition->count);
 
-		for (; enum_index < enum_definition->count && csstricmp(source, enum_definition->names[enum_index]); enum_index++);
+		for (; enum_index < enum_definition->count && csstricmp(source, enum_definition->identifiers[enum_index]); enum_index++);
 
 		if (enum_index == enum_definition->count)
 		{
@@ -1334,7 +1334,7 @@ bool hs_parse_enum(int32 expression_index)
 			for (enum_index = 0; enum_index < enum_definition->count - 1; enum_index++)
 			{
 				csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
-				csstrnzcat(hs_compile_globals.error_buffer, enum_definition->names[enum_index], k_hs_compile_error_buffer_size);
+				csstrnzcat(hs_compile_globals.error_buffer, enum_definition->identifiers[enum_index], k_hs_compile_error_buffer_size);
 				csstrnzcat(hs_compile_globals.error_buffer, "\", ", k_hs_compile_error_buffer_size);
 			}
 
@@ -1342,7 +1342,7 @@ bool hs_parse_enum(int32 expression_index)
 				csstrnzcat(hs_compile_globals.error_buffer, "or ", k_hs_compile_error_buffer_size);
 
 			csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
-			csstrnzcat(hs_compile_globals.error_buffer, enum_definition->names[enum_index], k_hs_compile_error_buffer_size);
+			csstrnzcat(hs_compile_globals.error_buffer, enum_definition->identifiers[enum_index], k_hs_compile_error_buffer_size);
 			csstrnzcat(hs_compile_globals.error_buffer, "\".", k_hs_compile_error_buffer_size);
 
 			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
@@ -2689,7 +2689,7 @@ void hs_validify_expression(const char* expression, char* out_valid_expression_b
 	}
 }
 
-hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
+hs_type_primitive_parser_t* hs_type_primitive_parsers[NUMBER_OF_HS_NODE_TYPES]
 {
 	NULL,                                 // unparsed
 	NULL,                                 // special_form

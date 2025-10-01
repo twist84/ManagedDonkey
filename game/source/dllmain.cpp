@@ -248,7 +248,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:023FF441 ; bool debug_globals
 //.data:023FF442 ; bool debug_globals_all
 //.data:023FF444 ; bool debug_global_variables[512]
-//.data:023FF648 ; typecasting_procedure g_typecasting_procedures[k_hs_type_count][k_hs_type_count]
+//.data:023FF648 ; typecasting_procedure g_typecasting_procedures[NUMBER_OF_HS_NODE_TYPES][NUMBER_OF_HS_NODE_TYPES]
 //.data:0240648C ; c_game_engine_sandbox_variant* sandbox_variant
 //.data:02406494 ; c_restricted_memory g_restricted_regions[5]
 //.data:0240A33C ; 

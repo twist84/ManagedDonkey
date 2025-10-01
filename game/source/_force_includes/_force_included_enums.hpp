@@ -3805,6 +3805,7 @@ enum e_hs_type
 	_hs_type_enum_controller,
 	_hs_type_enum_button_preset,
 	_hs_type_enum_joystick_preset,
+	//_hs_type_enum_player_color,
 	_hs_type_enum_player_character_type,
 	_hs_type_enum_voice_output_setting,
 	_hs_type_enum_voice_mask,
@@ -3841,16 +3842,29 @@ enum e_hs_type
 	_hs_type_budget_reference_looping_sound,
 	_hs_type_budget_reference_sound,
 
-	k_hs_type_count,
+	NUMBER_OF_HS_NODE_TYPES,
 
-	k_hs_tag_reference_type_count = _hs_type_any_tag - _hs_type_sound + 1,
-	k_hs_type_enum_count = _hs_type_enum_secondary_skull - _hs_type_enum_game_difficulty + 1,
-	k_hs_type_object_count = _hs_type_effect_scenery - _hs_type_object + 1,
-	k_hs_type_object_name_count = _hs_type_effect_scenery_name - _hs_type_object_name + 1,
-	k_hs_type_budget_reference_count = _hs_type_budget_reference_sound - _hs_type_budget_reference_animation_graph + 1
+	FIRST_HS_TYPE = _hs_type_void,
+
+	FIRST_HS_TAG_REFERENCE_TYPE = _hs_type_sound,
+	LAST_HS_TAG_REFERENCE_TYPE = _hs_type_any_tag,
+	NUMBER_OF_HS_TAG_REFERENCE_TYPES = LAST_HS_TAG_REFERENCE_TYPE - FIRST_HS_TAG_REFERENCE_TYPE + 1,
+
+	FIRST_HS_ENUM_TYPE = _hs_type_enum_game_difficulty,
+	LAST_HS_ENUM_TYPE = _hs_type_enum_secondary_skull,
+	NUMBER_OF_HS_ENUM_TYPES = LAST_HS_ENUM_TYPE - FIRST_HS_ENUM_TYPE + 1,
+
+	FIRST_HS_OBJECT_TYPE = _hs_type_object,
+	LAST_HS_OBJECT_TYPE = _hs_type_effect_scenery,
+	NUMBER_OF_HS_OBJECT_TYPES = LAST_HS_OBJECT_TYPE - FIRST_HS_OBJECT_TYPE + 1,
+
+	FIRST_HS_OBJECT_NAME_TYPE = _hs_type_object_name,
+	LAST_HS_OBJECT_NAME_TYPE = _hs_type_effect_scenery_name,
+
+	FIRST_HS_BUDGET_REFERENCE_TYPE = _hs_type_budget_reference_animation_graph,
+	LAST_HS_BUDGET_REFERENCE_TYPE = _hs_type_budget_reference_sound,
+	NUMBER_OF_HS_BUDGET_REFERENCE_TYPES = LAST_HS_BUDGET_REFERENCE_TYPE - FIRST_HS_BUDGET_REFERENCE_TYPE + 1,
 };
-static_assert(k_hs_type_object_count == k_hs_type_object_name_count);
-#define NUMBER_OF_HS_OBJECT_TYPES k_hs_type_object_count
 
 enum e_hs_script_type
 {
