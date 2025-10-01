@@ -81,7 +81,7 @@ HOOK_DECLARE(0x00597F00, hs_runtime_reset_time);
 HOOK_DECLARE(0x00597FC0, hs_runtime_safe_to_gc);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005980C0, hs_runtime_update);
-//HOOK_DECLARE(0x005981D0, hs_script_evaluate);
+HOOK_DECLARE(0x005981D0, hs_script_evaluate);
 HOOK_DECLARE(0x00598570, hs_script_finished);
 HOOK_DECLARE(0x005985C0, hs_script_started);
 HOOK_DECLARE(0x00598610, hs_scripting_debug_thread);
@@ -1894,9 +1894,8 @@ void __cdecl hs_runtime_update()
 
 void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x005981D0, hs_script_evaluate, script_index, thread_index, initialize);
+	//INVOKE(0x005981D0, hs_script_evaluate, script_index, thread_index, initialize);
 
-#if 0 // $REVIEW there's bug somewhere in here causing an issue in `hs_arguments_evaluate` to do with `hs_stack`
 	if (script_index == NONE)
 	{
 		hs_return(thread_index, 0);
@@ -1938,6 +1937,7 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 					hs_destination_pointer destination;
 					destination.destination_type = _hs_destination_stack;
 					destination.stack_pointer = parameter_reference;
+					destination.stack_pointer.stack_offset += sizeof(int32) * *argument_index;
 
 					hs_evaluate(thread_index, *expression_index, destination, NULL);
 					*expression_index = hs_syntax_get(*expression_index)->next_node_index;
@@ -1999,6 +1999,9 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 								}
 							}
 						}
+
+						hs_thread_stack(thread)->parameters = parameter_reference;
+						hs_thread_stack(thread)->script_index = script_index;
 					}
 				}
 				else
@@ -2022,7 +2025,6 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 			}
 		}
 	}
-#endif
 }
 
 bool __cdecl hs_script_finished(const char* script_name)
