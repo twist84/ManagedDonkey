@@ -72,6 +72,7 @@ HOOK_DECLARE(0x005976C0, hs_runtime_dirty);
 HOOK_DECLARE(0x00597730, hs_runtime_dispose);
 HOOK_DECLARE(0x00597750, hs_runtime_dispose_from_old_map);
 HOOK_DECLARE(0x005977A0, hs_runtime_evaluate);
+HOOK_DECLARE(0x00597870, hs_runtime_get_executing_thread_name);
 HOOK_DECLARE(0x005978A0, hs_runtime_index_from_global_designator);
 HOOK_DECLARE(0x005978D0, hs_runtime_initialize);
 HOOK_DECLARE(0x00597A80, hs_runtime_initialize_for_new_map);
@@ -1558,7 +1559,18 @@ bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression
 
 const char* __cdecl hs_runtime_get_executing_thread_name()
 {
-	return INVOKE(0x00597870, hs_runtime_get_executing_thread_name);
+	//return INVOKE(0x00597870, hs_runtime_get_executing_thread_name);
+
+	const char* thread_name = NULL;
+	if (hs_runtime_globals->executing_thread_index != NONE)
+	{
+		thread_name = hs_thread_format(hs_runtime_globals->executing_thread_index);
+		if (!thread_name)
+		{
+			thread_name = "[unknown]";
+		}
+	}
+	return thread_name;
 }
 
 int32 __cdecl hs_runtime_index_from_global_designator(int32 designator)
