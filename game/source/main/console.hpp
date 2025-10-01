@@ -19,15 +19,6 @@ struct s_console_globals
 };
 //static_assert(sizeof(s_console_globals) == 0x1204);
 
-struct s_console_global
-{
-	const char* name;
-
-	c_enum<e_hs_type, int16, _hs_unparsed, k_hs_type_count> type;
-	void* pointer;
-};
-static_assert(sizeof(s_console_global) == 0xC);
-
 struct s_status_line
 {
 	s_status_line();

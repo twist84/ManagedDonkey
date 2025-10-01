@@ -22,7 +22,6 @@
 #include "main/main_game.hpp"
 #include "main/main_render.hpp"
 #include "main/main_time.hpp"
-#include "memory/module.hpp"
 #include "motor/sync_action.hpp"
 #include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
 #include "networking/messages/network_message_gateway.hpp"
@@ -51,24 +50,10 @@
 #include "units/bipeds.hpp"
 #include "visibility/visibility_collection.hpp"
 
-// $TODO we don't fully own all the places `k_hs_external_global_count` is used yet
-const t_value_type<int16> k_hs_external_global_count_data = { .value = k_hs_external_global_count };
-DATA_PATCH_DECLARE(0x0167B188, k_hs_external_global_count, k_hs_external_global_count_data.bytes);
-
 enum : int16
 {
 	k_maximum_number_of_ms23_hs_globals = 1315
 };
-
-//struct hs_global_external_release
-//{
-//	int16 type; // e_hs_type
-//	void* value;
-//};
-//static_assert(sizeof(hs_global_external_release) == 0x8);
-//
-//REFERENCE_DECLARE(0x0167B188, const int16, k_maximum_number_of_ms23_hs_globals);
-//REFERENCE_DECLARE_ARRAY(0x018EF450, hs_global_external_release*, hs_external_globals_release, k_maximum_number_of_ms23_hs_globals);
 
 #define EXTERNAL_GLOBAL_DECLARE(NAME, TYPE, VALUE, ...) \
 static hs_global_external NAME##_definition \
