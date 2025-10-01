@@ -89,7 +89,7 @@ class c_smart_data_array
 public:
 	s_data_array*& get_restricted_data_array_address()
 	{
-		return this;
+		return m_data_array;
 	}
 
 	operator s_data_array* () const
