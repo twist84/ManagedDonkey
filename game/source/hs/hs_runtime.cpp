@@ -54,6 +54,7 @@ HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
 HOOK_DECLARE(0x005961D0, hs_global_evaluate);
 HOOK_DECLARE(0x00596230, hs_global_reconcile_read);
 HOOK_DECLARE(0x00596C10, hs_global_reconcile_write);
+HOOK_DECLARE(0x00596F50, hs_handle_deleted_object);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 HOOK_DECLARE(0x005974D0, hs_restore_from_saved_game);
 HOOK_DECLARE(0x005974E0, hs_return);
@@ -1129,9 +1130,10 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 
 void __cdecl hs_handle_deleted_object(int32 object_index)
 {
-	INVOKE(0x00596F50, hs_handle_deleted_object, object_index);
+	//INVOKE(0x00596F50, hs_handle_deleted_object, object_index);
 
-#if 0 // uncertain of this implementation
+	// $REVIEW if this function is within your callstack let me know
+
 	const object_datum* object = OBJECT_GET(const object_datum, object_index);
 	if (object->object.flags.test(_object_ever_referenced_by_hs_bit))
 	{
@@ -1142,29 +1144,32 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 			while (hs_global_iterator.next())
 			{
 				int16 global_index = hs_global_iterator.get_absolute_index();
+
+				// $REVIEW is this correct
+				int16 global_runtime_index = global_index >= k_hs_external_global_count ? global_index - k_hs_external_global_count : global_index;
 				bool global_is_external = global_index < k_hs_external_global_count;
-				int16 global_designator = global_is_external ? 0x8000 : 0;
-				int16 global_runtime_index = (int16)hs_runtime_index_from_global_designator(global_designator);
-				int16 global_type = hs_global_get_type(global_runtime_index);
+				int16 global_designator = global_runtime_index & MASK(15) | (global_is_external ? FLAG(15) : 0);
+
+				int16 global_type = hs_global_get_type(global_designator);
 				if (HS_TYPE_IS_OBJECT(global_type))
 				{
-					int32 global_object_index = hs_global_evaluate(global_runtime_index);
+					int32 global_object_index = hs_global_evaluate(global_designator);
 					if (global_object_index == object_index)
 					{
 						hs_global_iterator.get_datum()->value = NONE;
-						hs_global_reconcile_write(global_runtime_index);
+						hs_global_reconcile_write(global_designator);
 					}
 				}
 				else if (global_type == _hs_type_object_list)
 				{
-					int32 object_list_index = hs_global_evaluate(global_runtime_index);
+					int32 object_list_index = hs_global_evaluate(global_designator);
 					if (object_list_index != NONE
 						&& object_list_remove(object_list_index, object_index)
 						&& !object_list_count(object_list_index))
 					{
 						object_list_remove_reference(object_list_index);
 						hs_global_iterator.get_datum()->value = NONE;
-						hs_global_reconcile_write(global_runtime_index);
+						hs_global_reconcile_write(global_designator);
 						need_object_list_gc = true;
 					}
 				}
@@ -1216,7 +1221,7 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 							}
 						}
 					}
-					current_frame_pointer.stack_offset = current_frame->parent.stack_offset;
+					current_frame_pointer = current_frame->parent;
 				}
 			}
 		}
@@ -1225,7 +1230,6 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 		// but doesn't in all the builds I've seen
 		object_list_gc();
 	}
-#endif
 }
 
 //.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 n)
