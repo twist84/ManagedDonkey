@@ -81,6 +81,7 @@ HOOK_DECLARE(0x00597F00, hs_runtime_reset_time);
 HOOK_DECLARE(0x00597FC0, hs_runtime_safe_to_gc);
 HOOK_DECLARE(0x00598050, hs_runtime_script_begin);
 HOOK_DECLARE(0x005980C0, hs_runtime_update);
+//HOOK_DECLARE(0x005981D0, hs_script_evaluate);
 HOOK_DECLARE(0x00598570, hs_script_finished);
 HOOK_DECLARE(0x005985C0, hs_script_started);
 HOOK_DECLARE(0x00598610, hs_scripting_debug_thread);
@@ -1894,6 +1895,134 @@ void __cdecl hs_runtime_update()
 void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x005981D0, hs_script_evaluate, script_index, thread_index, initialize);
+
+#if 0 // $REVIEW there's bug somewhere in here causing an issue in `hs_arguments_evaluate` to do with `hs_stack`
+	if (script_index == NONE)
+	{
+		hs_return(thread_index, 0);
+	}
+	else
+	{
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script);
+		hs_thread* thread = hs_thread_get(thread_index);
+
+		int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+		int32* expression_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+		hs_stack_pointer result_reference{};
+		int32* result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
+		if (argument_index && expression_index && result)
+		{
+			hs_stack_pointer parameter_reference = { .stack_offset = NONE };
+			int32* parameter_results = NULL;
+			if (script->parameters.count > 0
+				&& (parameter_results = (int32*)hs_stack_allocate(thread_index, sizeof(int32) * script->parameters.count, 2, &parameter_reference)) == NULL)
+			{
+				event(_event_error, "hs: stack overflow allocating #%d parameters (thread 0x%08X '%s' stack size/max %d/%d)",
+					script->parameters.count,
+					thread_index,
+					hs_thread_format(thread_index),
+					hs_thread_stack(thread)->size + thread->stack.stack_offset + sizeof(hs_stack_frame));
+			}
+			else
+			{
+				if (initialize)
+				{
+					*argument_index = 0;
+					*expression_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+				}
+
+				if (*argument_index < script->parameters.count)
+				{
+					SCRIPT_EXECUTION_ERROR(thread_index, *expression_index != NONE, "corrupted stack.");
+
+					hs_destination_pointer destination;
+					destination.destination_type = _hs_destination_stack;
+					destination.stack_pointer = parameter_reference;
+
+					hs_evaluate(thread_index, *expression_index, destination, NULL);
+					*expression_index = hs_syntax_get(*expression_index)->next_node_index;
+				}
+				else if (*argument_index == script->parameters.count)
+				{
+					int32 call_expression_index = script->root_expression_index;
+					hs_destination_pointer destination;
+					destination.destination_type = _hs_destination_stack;
+					destination.stack_pointer = result_reference;
+					if (hs_evaluate(thread_index, call_expression_index, destination, NULL))
+					{
+						if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
+						{
+							char buffer[10240]{};
+
+							csnzprintf(buffer, NUMBEROF(buffer), "%s: %s ",
+								hs_thread_format(thread_index),
+								script->name);
+
+							if (parameter_results)
+							{
+								for (int16 param_index = 0; param_index < script->parameters.count; param_index++)
+								{
+									hs_script_parameter* param = TAG_BLOCK_GET_ELEMENT(&script->parameters, param_index, hs_script_parameter);
+									char valuebuffer[100]{};
+									inspect_internal(param->type, parameter_results[param_index], valuebuffer, NUMBEROF(valuebuffer));
+									csnzappendf(buffer, NUMBEROF(buffer), "%s ", valuebuffer);
+								}
+							}
+
+							if (hs_thread_stack(thread)->expression_index != NONE)
+							{
+								const hs_syntax_node* expression = hs_syntax_get(hs_thread_stack(thread)->expression_index);
+								csnzappendf(buffer, NUMBEROF(buffer), "   (line #%i)", expression->line_number);
+							}
+
+							event(_event_warning, "hs: %s", buffer);
+						}
+
+						for (int16 parameter_index = 0; parameter_index < script->parameters.count; parameter_index++)
+						{
+							hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
+							if (HS_TYPE_IS_OBJECT(parameter->type))
+							{
+								int32 object_index = parameter_results[parameter_index];
+								if (object_index != NONE)
+								{
+									object_datum* object = OBJECT_GET(object_datum, object_index);
+									object->object.flags.set(_object_ever_referenced_by_hs_bit, true);
+								}
+							}
+							else if (parameter->type == _hs_type_object_list)
+							{
+								int32 object_list_index = parameter_results[parameter_index];
+								if (object_list_index != NONE)
+								{
+									object_list_add_reference(object_list_index);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					for (int16 parameter_index = 0; parameter_index < script->parameters.count; parameter_index++)
+					{
+						hs_script_parameter* parameter = TAG_BLOCK_GET_ELEMENT(&script->parameters, parameter_index, hs_script_parameter);
+						if (parameter->type == _hs_type_object_list)
+						{
+							int32 object_list_index = parameter_results[parameter_index];
+							if (object_list_index != NONE)
+							{
+								object_list_remove_reference(object_list_index);
+							}
+						}
+					}
+					hs_return(thread_index, *result);
+				}
+
+				++*argument_index;
+			}
+		}
+	}
+#endif
 }
 
 bool __cdecl hs_script_finished(const char* script_name)
