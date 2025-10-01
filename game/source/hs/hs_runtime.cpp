@@ -44,6 +44,12 @@ HOOK_DECLARE(0x00593A60, hs_inspect_short_integer);
 HOOK_DECLARE(0x00593A80, hs_inspect_long_integer);
 HOOK_DECLARE(0x00593AA0, hs_inspect_string);
 HOOK_DECLARE(0x00593AC0, hs_inspect_enum);
+HOOK_DECLARE(0x00593C20, __tls_set_g_hs_distributed_global_data_allocator);
+HOOK_DECLARE(0x00593C50, __tls_set_g_hs_global_data_allocator);
+HOOK_DECLARE(0x00593C80, __tls_set_g_hs_runtime_globals_allocator);
+HOOK_DECLARE(0x00593CA0, __tls_set_g_hs_thread_deterministic_data_allocator);
+HOOK_DECLARE(0x00593CD0, __tls_set_g_hs_thread_non_deterministic_data_allocator);
+HOOK_DECLARE(0x00593D00, __tls_set_g_hs_thread_tracking_data_allocator);
 HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 //HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x00594460, hs_destination);
@@ -224,12 +230,49 @@ void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer
 //.text:00593BF0 ; tls
 //.text:00593C00 ; tls
 //.text:00593C10 ; tls
-//.text:00593C20 ; void __cdecl __tls_set_g_hs_distributed_global_data_allocator(void*)
-//.text:00593C50 ; void __cdecl __tls_set_g_hs_global_data_allocator(void*)
-//.text:00593C80 ; void __cdecl __tls_set_g_hs_runtime_globals_allocator(void*)
-//.text:00593CA0 ; void __cdecl __tls_set_g_hs_thread_deterministic_data_allocator(void*)
-//.text:00593CD0 ; void __cdecl __tls_set_g_hs_thread_non_deterministic_data_allocator(void*)
-//.text:00593D00 ; void __cdecl __tls_set_g_hs_thread_tracking_data_allocator(void*)
+
+void __cdecl __tls_set_g_hs_distributed_global_data_allocator(void* new_address)
+{
+	//INVOKE(0x00593C20, __tls_set_g_hs_distributed_global_data_allocator, new_address);
+
+	data_set_new_base_address(&hs_distributed_global_data.get_restricted_data_array_address(), (s_data_array*)new_address);
+}
+
+void __cdecl __tls_set_g_hs_global_data_allocator(void* new_address)
+{
+	//INVOKE(0x00593C50, __tls_set_g_hs_global_data_allocator, new_address);
+
+	data_set_new_base_address(&hs_global_data.get_restricted_data_array_address(), (s_data_array*)new_address);
+}
+
+void __cdecl __tls_set_g_hs_runtime_globals_allocator(void* new_address)
+{
+	//INVOKE(0x00593C80, __tls_set_g_hs_runtime_globals_allocator, new_address);
+
+	hs_runtime_globals = (s_hs_runtime_globals*)new_address;
+}
+
+void __cdecl __tls_set_g_hs_thread_deterministic_data_allocator(void* new_address)
+{
+	//INVOKE(0x00593CA0, __tls_set_g_hs_thread_deterministic_data_allocator, new_address);
+
+	data_set_new_base_address(&hs_thread_deterministic_data.get_restricted_data_array_address(), (s_data_array*)new_address);
+}
+
+void __cdecl __tls_set_g_hs_thread_non_deterministic_data_allocator(void* new_address)
+{
+	//INVOKE(0x00593CD0, __tls_set_g_hs_thread_non_deterministic_data_allocator, new_address);
+
+	data_set_new_base_address(&hs_thread_non_deterministic_data.get_restricted_data_array_address(), (s_data_array*)new_address);
+}
+
+void __cdecl __tls_set_g_hs_thread_tracking_data_allocator(void* new_address)
+{
+	//INVOKE(0x00593D00, __tls_set_g_hs_thread_tracking_data_allocator, new_address);
+
+	data_set_new_base_address(&hs_thread_tracking_data.get_restricted_data_array_address(), (s_data_array*)new_address);
+}
+
 //.text:00593D30 ; tls
 //.text:00593D70 ; tls
 //.text:00593DB0 ; tls
