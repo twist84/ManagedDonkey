@@ -331,7 +331,29 @@ bool string_is_not_empty(const char* s)
 	return s && *s;
 }
 
-//.text:00670F70 ; int32 __cdecl string_list_find(const char*, int32, const char* const* const)
+int16 __cdecl string_list_find(const char* string, int16 list_count, const char* const* string_list)
+{
+	return INVOKE(0x00670F70, string_list_find, string, list_count, string_list);
+
+	//int16 list_index = 0;
+	//if (list_count > 0)
+	//{
+	//	while (ascii_stricmp(string, string_list[list_index]))
+	//	{
+	//		if (++list_index >= list_count)
+	//		{
+	//			list_index = NONE;
+	//			break;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	list_index = NONE;
+	//}
+	//return list_index;
+}
+
 //.text:00670FB0 ; int32 __cdecl string_list_find_explicit(const c_wrapped_array<char const>&, const c_wrapped_array<const char*>&)
 //.text:00671010 ; void __cdecl string_replace_character(char *, char, char)
 

@@ -252,6 +252,7 @@ extern const char* __cdecl find_string_end(const char* string, const char* delim
 extern const char* __cdecl find_string_end_not_in_delimiter(const char* string, const char* delimiters);
 extern void string_copy_bounded(c_wrapped_array<char> out_dest_string, c_wrapped_array<char const> const in_source_string);
 extern bool string_is_not_empty(const char* s);
+extern int16 __cdecl string_list_find(const char* string, int16 list_count, const char* const* string_list);
 extern void string_terminate_at_first_delimiter(char* s, const char* delimiter);
 
 extern int32 ascii_tolower(int32 C);
