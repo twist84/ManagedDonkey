@@ -1299,7 +1299,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	object_vitality_pinned,
 	0,
 	0x00745460, // $TODO write the function chuckle nuts
-	"returns TRUE if the object',27h,'s vitality is currently pinned at some minimum value because it cannot die.\r\nNETWORK SAFE: Yes",
+	"returns TRUE if the object's vitality is currently pinned at some minimum value because it cannot die.\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_object
 );
@@ -14681,7 +14681,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	gui_enter_lobby,
 	0,
 	0x00737AC0, // $TODO write the function chuckle nuts
-	"<lobby index> index 0-4\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	"<lobby index> index 0-5\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_long_integer
 );
