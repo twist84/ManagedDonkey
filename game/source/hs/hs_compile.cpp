@@ -147,7 +147,81 @@ bool hs_add_global(int32 expression_index)
 {
 	bool success = false;
 
-	// $IMPLEMENT
+#if 0 
+	int32 type_index = NONE;
+	int32 name_index = NONE;
+	int32 initialization_index = NONE;
+
+	if ((type_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index) != NONE
+		&& (name_index = hs_syntax_get(type_index)->next_node_index) != NONE
+		&& (initialization_index = hs_syntax_get(name_index)->next_node_index) != NONE
+		&& hs_syntax_get(initialization_index)->next_node_index != NONE)
+	{
+		const hs_syntax_node* type_node = hs_syntax_get(type_index);
+		int16 type = string_list_find(&hs_compile_globals.compiled_source[type_node->source_offset], NUMBER_OF_HS_NODE_TYPES, hs_type_names);
+		if (hs_type_valid(type))
+		{
+			const hs_syntax_node* name_node = hs_syntax_get(name_index);
+			const char* global_name = &hs_compile_globals.compiled_source[name_node->source_offset];
+			if (strlen(global_name) && strlen(global_name) < NUMBEROF(hs_global_internal::name))
+			{
+				if (hs_find_global_by_name(global_name) == NONE)
+				{
+					if (hs_find_script_by_name(global_name, NONE) == NONE)
+					{
+#if defined(TAGS_EXECUTABLE)
+						hs_compile_globals.disallow_blocks = true;
+						hs_compile_globals.disallow_sets = true;
+
+						int16 new_global_index = tag_block_add_element(&global_scenario_get()->hs_globals);
+						if (new_global_index != NONE)
+						{
+							hs_global_internal* new_global = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_globals, new_global_index, hs_global_internal);
+							csstrnzcpy(new_global->name, global_name, NUMBEROF(new_global->name));
+							new_global->initialization_expression_index = initialization_index;
+
+							success = true;
+						}
+						else
+						{
+							hs_compile_globals.error_message = "i couldn't allocate space for this global.";
+							hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+						}
+#endif
+
+						hs_compile_globals.disallow_blocks = false;
+						hs_compile_globals.disallow_sets = false;
+					}
+					else
+					{
+						hs_compile_globals.error_message = "there is already a scipt by this name.";
+						hs_compile_globals.error_offset = hs_syntax_get(name_index)->source_offset;
+					}
+				}
+				else
+				{
+					hs_compile_globals.error_message = "there is already a variable by this name.";
+					hs_compile_globals.error_offset = hs_syntax_get(name_index)->source_offset;
+				}
+			}
+			else
+			{
+				hs_compile_globals.error_message = "i expected a global variable name less than 32 characters.";
+				hs_compile_globals.error_offset = hs_syntax_get(name_index)->source_offset;
+			}
+		}
+		else
+		{
+			hs_compile_globals.error_message = "this is not a valid type.";
+			hs_compile_globals.error_offset = hs_syntax_get(type_index)->source_offset;
+		}
+	}
+	else
+	{
+		hs_compile_globals.error_message = "i expected (global<type> <name> <initial value>)";
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+	}
+#endif
 
 	return success;
 }
@@ -218,20 +292,21 @@ char* hs_compile_add_source(int32 source_size, const char* source_data)
 {
 	// $IMPLEMENT
 
-	return NULL;
-
-	//int32 initial_size = source_size;
-	//char* result = (char*)system_realloc(hs_compile_globals.compiled_source, source_size + hs_compile_globals.compiled_source_size + 1);
-	//if (result)
-	//{
-	//	char* new_source = &result[hs_compile_globals.compiled_source_size];
-	//	hs_compile_globals.compiled_source = result;
-	//	csmemcpy(new_source, source_data, initial_size);
-	//	hs_compile_globals.compiled_source_size += initial_size;
-	//	hs_compile_globals.compiled_source[hs_compile_globals.compiled_source_size] = 0;
-	//	return new_source;
-	//}
-	//return result;
+#if 1
+	char* compiled_new_source = NULL;
+#else
+	char* compiled_new_source = NULL;
+	char* compiled_source = (char*)system_realloc(hs_compile_globals.compiled_source, source_size + hs_compile_globals.compiled_source_size + 1);
+	if (compiled_source)
+	{
+		hs_compile_globals.compiled_source = compiled_source;
+		compiled_new_source = &compiled_source[hs_compile_globals.compiled_source_size];
+		csmemcpy(compiled_new_source, source_data, source_size);
+		hs_compile_globals.compiled_source_size += source_size;
+		hs_compile_globals.compiled_source[hs_compile_globals.compiled_source_size] = 0;
+	}
+#endif
+	return compiled_new_source;
 }
 
 bool hs_compile_and_evaluate(e_event_level event_level, const char* source, const char* expression, bool interactive)
