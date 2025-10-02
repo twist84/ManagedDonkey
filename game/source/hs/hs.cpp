@@ -8,6 +8,7 @@
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
+#include "hs/hs_looper.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "hs/object_lists.hpp"
@@ -301,7 +302,13 @@ void __cdecl hs_reset_time(int32 previous_time)
 
 bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, bool verbose)
 {
-	return INVOKE(0x006795D0, hs_scenario_postprocess, force_recompile, fail_on_error, verbose);
+	bool result = INVOKE(0x006795D0, hs_scenario_postprocess, force_recompile, fail_on_error, verbose);
+
+	// $IMPLEMENT
+
+	hs_looper_reboot();
+
+	return result;
 }
 
 //.text:00679670 ; int32 __cdecl hs_seconds_to_ticks(real32 seconds) // return ((seconds * 30.0f) + (real_sgn((seconds * 30.0f)) * 0.5f))
@@ -311,7 +318,7 @@ void __cdecl hs_update()
 {
 	//INVOKE(0x006796E0, hs_update);
 
-	//hs_looper_game_tick();
+	hs_looper_game_tick();
 	PROFILER(script)
 	{
 		PROFILER(hs_update)

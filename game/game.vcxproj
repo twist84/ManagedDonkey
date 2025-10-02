@@ -213,6 +213,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\gpu_particle\light_volume_gpu.cpp" />
     <ClCompile Include="source\gpu_particle\particle_block.cpp" />
     <ClCompile Include="source\hs\hs_library_internal_compile.cpp" />
+    <ClCompile Include="source\hs\hs_looper.cpp" />
     <ClCompile Include="source\hs\object_lists.cpp" />
     <ClCompile Include="source\interface\attract_mode.cpp" />
     <ClCompile Include="source\interface\chud\chud_definitions.cpp" />
@@ -900,6 +901,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\geometry\geometry_definitions_new.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
+    <ClInclude Include="source\hs\hs_looper.hpp" />
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />
     <ClInclude Include="source\input\input_xinput.hpp" />
     <ClInclude Include="source\interface\attract_mode.hpp" />

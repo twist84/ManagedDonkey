@@ -15,6 +15,7 @@
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
+#include "hs/hs_looper.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/gui_location_manager.hpp"
@@ -13290,20 +13291,20 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	loop_it,
 	0,
-	0x007339E0, // $TODO write the function chuckle nuts
+	hs_looper_setup, // 0x007339E0,
 	"runs the expression at most once per tick\r\nNETWORK SAFE: just assume it isn't",
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	loop_clear,
 	0,
-	0x00733B20, // $TODO write the function chuckle nuts
+	hs_looper_clear, // 0x00733B20,
 	"runs the expression at most once per tick\r\nNETWORK SAFE: just assume it isn't",
 	NULL,
 	0,

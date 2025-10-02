@@ -9,6 +9,7 @@
 #include "hs/hs_globals_external.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
+#include "hs/hs_looper.hpp"
 #include "interface/interface.hpp"
 #include "interface/user_interface.hpp"
 #include "main/console.hpp"
@@ -1413,7 +1414,7 @@ void __cdecl hs_restore_from_saved_game(int32 game_state_restore_flags)
 {
 	//INVOKE(0x005974D0, hs_restore_from_saved_game, game_state_restore_flags);
 
-	//hs_looper_restore_from_saved_game();
+	hs_looper_restore_from_saved_game();
 }
 
 void __cdecl hs_return(int32 thread_index, int32 value)
@@ -1658,7 +1659,7 @@ void __cdecl hs_runtime_initialize_for_new_map()
 {
 	//INVOKE(0x00597A80, hs_runtime_initialize_for_new_map);
 
-	//hs_looper_reinitialize();
+	hs_looper_reinitialize();
 
 	data_make_valid(hs_thread_tracking_data);
 	data_make_valid(hs_thread_deterministic_data);
@@ -2402,7 +2403,7 @@ void __cdecl hs_thread_delete(int32 thread_index, bool validate)
 	}
 	
 	cs_handle_thread_delete(thread_index);
-	//hs_looper_handle_thread_delete(thread_index);
+	hs_looper_handle_thread_delete(thread_index);
 	//cinematic_handle_thread_delete(thread_index);
 
 #ifndef USE_HS_THREAD_TRACKING
@@ -2602,8 +2603,6 @@ void __cdecl hs_thread_main(int32 thread_index)
 			hs_evaluate(thread_index, script->root_expression_index, destination, NULL);
 		}
 	}
-
-	int32 runtime_evaluate_loop_iteration = 0;
 
 	while (thread->stack.stack_offset
 		&& thread->sleep_until >= 0
