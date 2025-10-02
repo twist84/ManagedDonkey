@@ -30,3 +30,5 @@ extern void __cdecl object_scripting_dispose_from_old_map();
 extern void __cdecl object_scripting_initialize();
 extern void __cdecl object_scripting_initialize_for_new_map();
 
+extern void object_scripting_copy_player_appearance(int32 object_index, int32 player_num);
+

@@ -15532,6 +15532,15 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	object_copy_player_appearance,
+	0,
+	object_scripting_copy_player_appearance,
+	"copy appearance into object from player n (starts counting from 0)",
+	NULL,
+	2, _hs_type_object, _hs_type_long_integer
+);
 MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	exit_game,
@@ -17263,6 +17272,7 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&unknown69E_4_definition,
 	(hs_function_definition*)&unknown69F_1_definition,
 	(hs_function_definition*)&unknown6A0_0_definition,
+	(hs_function_definition*)&object_copy_player_appearance_2_definition,
 	(hs_function_definition*)&exit_game_0_definition,
 	(hs_function_definition*)&load_preferences_from_file_1_definition,
 	(hs_function_definition*)&load_customization_from_file_1_definition,

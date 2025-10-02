@@ -342,7 +342,11 @@ bool __cdecl player_consider_weapon_interaction(int32 player_index, int32 weapon
 	return INVOKE(0x00538D00, player_consider_weapon_interaction, player_index, weapon_index, result);
 }
 
-//.text:00538ED0 ; void __cdecl player_copy_object_appearance(int32, int32)
+void __cdecl player_copy_object_appearance(int32 player_index, int32 object_index)
+{
+	INVOKE(0x00538ED0, player_copy_object_appearance, player_index, object_index);
+}
+
 //.text:00538FD0 ; void __cdecl sub_538FD0(int32, int32)
 
 void __cdecl player_delete(int32 player_index)

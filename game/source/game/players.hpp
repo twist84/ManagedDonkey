@@ -730,6 +730,7 @@ extern bool __cdecl player_consider_equipment_interaction(int32 player_index, in
 extern bool __cdecl player_consider_unit_interaction(int32 player_index, int32 unit_index, s_player_action_context* result);
 extern bool __cdecl player_consider_vehicle_interaction(int32 player_index, int32 vehicle_index, s_player_action_context* result);
 extern bool __cdecl player_consider_weapon_interaction(int32 player_index, int32 weapon_index, s_player_action_context* result);
+extern void __cdecl player_copy_object_appearance(int32 player_index, int32 object_index);
 extern void __cdecl player_delete(int32 player_index);
 extern bool __cdecl player_evaluate_interaction(int32 player_index, const s_player_interaction* interaction, s_player_interaction* current_interaction);
 extern void __cdecl player_find_action_context(int32 player_index, s_player_action_context* out_action_context);

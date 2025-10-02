@@ -1,5 +1,8 @@
 #include "objects/object_scripting.hpp"
 
+#include "cseries/cseries_events.hpp"
+#include "memory/thread_local.hpp"
+
 //.text:00B95750 ; 
 //.text:00B95770 ; 
 //.text:00B95780 ; void __cdecl __tls_set_g_object_scripting_state_allocator(void*)
@@ -53,4 +56,35 @@ void __cdecl object_scripting_initialize_for_new_map()
 //.text:00B96570 ; void __cdecl objects_scripting_detach(int32, int32)
 //.text:00B965C0 ; void __cdecl objects_scripting_set_scale(int32, real32, int16)
 //.text:00B96670 ; 
+
+void object_scripting_copy_player_appearance(int32 object_index, int32 player_num)
+{
+	if (object_index != NONE)
+	{
+		int32 index = NONE;
+
+		int32 player_count = 0;
+		c_data_iterator<player_datum> player_iterator;
+		player_iterator.begin(player_data);
+		while (player_iterator.next())
+		{
+			if (player_count == player_num)
+			{
+				index = player_iterator.get_index();
+			}
+			player_count++;
+		}
+
+		if (index != NONE)
+		{
+			player_copy_object_appearance(index, object_index);
+		}
+		else
+		{
+			event(_event_warning, "couldn't copy appearance for player #%d (only found %d players)",
+				player_num,
+				player_count);
+		}
+	}
+}
 
