@@ -230,7 +230,69 @@ bool hs_add_script(int32 expression_index)
 {
 	bool success = false;
 
-	// $IMPLEMENT
+#if 0 // $IMPLEMENT
+	int32 type_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	if (type_index != NONE)
+	{
+		const hs_syntax_node* type_node = hs_syntax_get(type_index);
+		int16 type = string_list_find(&hs_compile_globals.compiled_source[type_node->source_offset], NUMBER_OF_HS_SCRIPT_TYPES, hs_script_type_names);
+		if (type != NONE)
+		{
+			int16 return_type;
+			int32 name_index;
+			int32 root_expression_index;
+			{
+				int32 return_type_index;
+				{
+					const hs_syntax_node* return_type_node;
+				}
+			}
+			{
+				int32 parameter_set_index;
+				const hs_syntax_node* name_node;
+				const char* script_name;
+				{
+					int32 actual_name_index;
+					{
+						const hs_syntax_node* actual_name_node;
+					}
+				}
+				{
+					scenario* scenario;
+					int32 script_index;
+					int16 num_parameters;
+					{
+						int32 temp_parameter_set_index;
+					}
+					{
+						int32 global_index;
+					}
+					{
+						hs_script* script;
+						{
+							int32 implicit_begin_name_index;
+							int32 implicit_begin_index;
+							{
+								hs_syntax_node* implicit_begin;
+								hs_syntax_node* implicit_begin_name;
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			hs_compile_globals.error_message = "script type must be \"startup\", \"dormant\", \"continuous\", or \"static\".";
+			hs_compile_globals.error_offset = hs_syntax_get(type_index)->source_offset;
+		}
+	}
+	else
+	{
+		hs_compile_globals.error_message = "i expected (script <type> <name> <expression(s)>)";
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+	}
+#endif
 
 	return success;
 }
