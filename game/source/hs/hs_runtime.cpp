@@ -701,6 +701,36 @@ void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, 
 void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x00594FB0, hs_evaluate_equality, function_index, thread_index, initialize);
+
+#if 0
+	ASSERT(function_index == _hs_function_equal || function_index == _hs_function_not_equal);
+
+	int16 parameter_types[2];
+	parameter_types[0] = parameter_types[1] = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(hs_thread_get(thread_index))->expression_index)->long_value)->next_node_index)->type;
+	int32* parameter_results = hs_arguments_evaluate(thread_index, NUMBEROF(parameter_types), parameter_types, initialize);
+	if (parameter_results)
+	{
+		int32 result_long = 0;
+		bool result = false;
+
+		switch (function_index)
+		{
+		case _hs_function_equal:
+		{
+			result = csmemcmp(parameter_results, parameter_results + 1, hs_type_sizes[parameter_types[0]]) == 0;
+		}
+		break;
+		case _hs_function_not_equal:
+		{
+			result = csmemcmp(parameter_results, parameter_results + 1, hs_type_sizes[parameter_types[0]]) != 0;
+		}
+		break;
+		}
+
+		*reinterpret_cast<bool*>(&result_long) = result;
+		hs_return(thread_index, result_long);
+	}
+#endif
 }
 
 void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initialize)
