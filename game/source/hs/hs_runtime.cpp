@@ -663,6 +663,39 @@ void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, 
 void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x00594D20, hs_evaluate_debug_string, function_index, thread_index, initialize);
+
+#if 0
+	hs_thread const* thread = hs_thread_get(thread_index);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	hs_stack_pointer parameters_result_reference{};
+	int32* parameters_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &parameters_result_reference);
+	int32* string_count = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	char const** string_storage = (char**)hs_stack_allocate(thread_index, 128, 2, NULL);
+	if (parameters_index && parameters_result && string_count && string_storage)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(function_index, _hs_function_debug_string__first, _hs_function_debug_string__last));
+		if (initialize)
+		{
+			*parameters_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+			*parameters_result = 0;
+			*string_count = 0;
+			csmemset(string_storage, 0, 128);
+		}
+		if (*parameters_index != NONE && *string_count < 32)
+		{
+			hs_destination_pointer destination{};
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = parameters_result_reference;
+			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
+			string_storage[(*string_count)++] = (char*)*parameters_result;
+		}
+		else
+		{
+			hs_return(thread_index, NONE);
+		}
+	}
+#endif
 }
 
 void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool initialize)
