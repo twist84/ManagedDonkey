@@ -3,6 +3,13 @@
 #include "cseries/cseries.hpp"
 #include "memory/read_write_lock.hpp"
 
+enum e_event_respose_suppress_flag
+{
+	_event_response_suppress_console_bit = 0,
+
+	k_event_response_suppress_flag_count
+};
+
 enum e_event_context_query_destination_type
 {
 	_event_context_query_destination_console = 0,

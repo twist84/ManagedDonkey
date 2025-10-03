@@ -546,34 +546,34 @@ void events_debug_render()
 			char const* spinner_text = spinner_chars[spinner_index];
 			draw_string.draw(NULL, spinner_text);
 		}
-
-		return;
 	}
-
-	bool first_draw = true;
-	for (s_spamming_event& spamming_event : event_globals.spamming_event_list)
+	else
 	{
-		if (spamming_event.valid)
+		bool first_draw = true;
+		for (s_spamming_event& spamming_event : event_globals.spamming_event_list)
 		{
-			uns32 time_since_last_spam = current_time - spamming_event.last_spam_time;
-			if (time_since_last_spam > k_spamming_event_display_timeout)
+			if (spamming_event.valid)
 			{
-				csmemset(&spamming_event, 0, sizeof(s_spamming_event));
+				uns32 time_since_last_spam = current_time - spamming_event.last_spam_time;
+				if (time_since_last_spam > k_spamming_event_display_timeout)
+				{
+					csmemset(&spamming_event, 0, sizeof(s_spamming_event));
+				}
 			}
-		}
 
-		if (spamming_event.hit_count >= 2)
-		{
-			if (first_draw)
+			if (spamming_event.hit_count >= 2)
 			{
-				draw_string.draw(NULL, spamming_event.spam_text);
-				first_draw = false;
+				if (first_draw)
+				{
+					draw_string.draw(NULL, spamming_event.spam_text);
+					first_draw = false;
+				}
+				else
+				{
+					draw_string.draw_more(NULL, spamming_event.spam_text);
+				}
+				draw_string.draw_more(NULL, "\r\n");
 			}
-			else
-			{
-				draw_string.draw_more(NULL, spamming_event.spam_text);
-			}
-			draw_string.draw_more(NULL, "\r\n");
 		}
 	}
 }
@@ -867,7 +867,7 @@ bool events_initialize_if_possible()
 		event_globals.disable_event_log_trimming = false;
 		event_globals.disable_event_logging = false;
 		event_globals.last_console_response_event_time = 0;
-		event_globals.suppress_console_display_and_show_spinner = (k_tracked_build && shell_application_type() != _shell_application_tool);
+		event_globals.suppress_console_display_and_show_spinner = false; // (k_tracked_build && shell_application_type() != _shell_application_tool);
 		reset_event_message_buffer();
 		event_logs_initialize();
 		event_initialize_primary_logs();
@@ -989,7 +989,7 @@ uns32 event_query(e_event_level event_level, int32 category_index, uns32 event_r
 	uns32 flags = 0;
 	if (event_globals.current_display_level != k_event_level_none)
 	{
-		SET_BIT(flags, _category_properties_display_level_bit, event_level >= event_globals.current_display_level);
+		flags = event_level >= event_globals.current_display_level;
 	}
 
 	if (event_globals.current_log_level != k_event_level_none)
@@ -1008,32 +1008,31 @@ uns32 event_query(e_event_level event_level, int32 category_index, uns32 event_r
 
 		if (category->current_display_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_display_level_bit, category->current_display_level >= event_level);
+			SET_BIT(flags, _category_properties_display_level_bit, event_level >= category->current_display_level);
 		}
 
 		if (category->current_remote_log_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_remote_log_level_bit, category->current_remote_log_level >= event_level);
+			SET_BIT(flags, _category_properties_remote_log_level_bit, event_level >= category->current_remote_log_level);
 		}
 
 		if (category->current_debugger_break_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_debugger_break_level_bit, category->current_debugger_break_level >= event_level);
+			SET_BIT(flags, _category_properties_debugger_break_level_bit, event_level >= category->current_debugger_break_level);
 		}
 
 		if (category->current_halt_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_halt_level_bit, category->current_halt_level >= event_level);
+			SET_BIT(flags, _category_properties_halt_level_bit, event_level >= category->current_halt_level);
 		}
 
 		if (category->current_force_display_level != k_event_level_none)
 		{
-			SET_BIT(flags, _category_properties_force_display_level_bit, category->current_force_display_level >= event_level);
+			SET_BIT(flags, _category_properties_force_display_level_bit, event_level >= category->current_force_display_level);
 		}
-
 	}
 
-	if (!event_globals.disable_event_suppression && TEST_BIT(event_response_suppress_flags, 0))
+	if (!event_globals.disable_event_suppression && TEST_BIT(event_response_suppress_flags, _event_response_suppress_console_bit))
 	{
 		SET_BIT(flags, _category_properties_display_level_bit, false);
 	}
@@ -1292,7 +1291,7 @@ void event_generated_handle_console(e_event_level event_level, int32 category_in
 			return;
 		}
 	}
-	else if (!force)
+	else if (force)
 	{
 		event_level = _event_critical;
 	}
