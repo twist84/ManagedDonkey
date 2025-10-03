@@ -208,7 +208,7 @@ void __cdecl hs_initialize()
 	VASSERT(hs_object_type_masks[_object_type_projectile], "you can't add an hs object type without defining its mask");
 	VASSERT(hs_type_names[_hs_type_cinematic_lightprobe], "you can't add an hs type without defining its name.");
 
-	g_hs_syntax_data = data_new_disconnected("script node", k_maximum_hs_syntax_nodes_per_scenario, 0x18, 0, g_normal_allocation);
+	g_hs_syntax_data = data_new_disconnected("script node", k_maximum_hs_syntax_nodes_per_scenario, sizeof(hs_syntax_node), 0, g_normal_allocation);
 	object_lists_initialize();
 	hs_runtime_initialize();
 	hs_initialize_for_new_map(false, true);
