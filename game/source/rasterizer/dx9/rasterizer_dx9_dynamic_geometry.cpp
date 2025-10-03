@@ -216,7 +216,7 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 		int32 width = rectangle2d_width(window_pixel_bounds);
 		int32 height = rectangle2d_height(window_pixel_bounds);
 
-		rectangle2d viewport_bounds{};
+		rectangle2d viewport_bounds;
 		set_rectangle2d(&viewport_bounds,
 			0,
 			0,
@@ -224,7 +224,7 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 			(int16)height);
 		c_rasterizer::set_viewport(viewport_bounds, 0.0f, 1.0f);
 
-		real_vector4d screen_constants{};
+		real_vector4d screen_constants;
 		set_real_vector4d(&screen_constants,
 			1.0f / (real32)width,
 			1.0f / (real32)height,
@@ -241,10 +241,10 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 			1.0f);
 		c_rasterizer::set_pixel_shader_constant(k_ps_displacement_window_bounds, 1, &window_bounds);
 
-		real_vector4d zbuffer_xform{};
+		real_vector4d zbuffer_xform;
 		set_real_vector4d(&zbuffer_xform,
-			projection.r[3].m128_f32[2],
-			-projection.r[2].m128_f32[2],
+			DirectX::XMVectorGetZ(projection.r[3]),
+			-DirectX::XMVectorGetZ(projection.r[2]),
 			0.0f,
 			0.0f);
 		c_rasterizer::set_pixel_shader_constant(k_ps_displacement_zbuffer_xform, 1, &zbuffer_xform);
