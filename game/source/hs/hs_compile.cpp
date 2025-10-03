@@ -169,7 +169,7 @@ bool hs_add_global(int32 expression_index)
 				{
 					if (hs_find_script_by_name(global_name, NONE) == NONE)
 					{
-#if defined(TAGS_EXECUTABLE)
+#if defined(NETWORK_EXECUTABLE_TYPE_TAGS)
 						hs_compile_globals.disallow_blocks = true;
 						hs_compile_globals.disallow_sets = true;
 
@@ -238,45 +238,89 @@ bool hs_add_script(int32 expression_index)
 		int16 type = string_list_find(&hs_compile_globals.compiled_source[type_node->source_offset], NUMBER_OF_HS_SCRIPT_TYPES, hs_script_type_names);
 		if (type != NONE)
 		{
-			int16 return_type;
-			int32 name_index;
-			int32 root_expression_index;
+			int16 return_type = 0;
+			int32 name_index = 0;
+			int32 root_expression_index = NONE;
+			if (type == _hs_script_static)
 			{
-				int32 return_type_index;
+				int32 return_type_index = hs_syntax_get(type_index)->next_node_index;
+				if (return_type_index != NONE)
 				{
-					const hs_syntax_node* return_type_node;
+					const hs_syntax_node* return_type_node = hs_syntax_get(return_type_index);
+					return_type = string_list_find(&hs_compile_globals.compiled_source[return_type_node->source_offset], NUMBER_OF_HS_NODE_TYPES, hs_type_names);
+					root_expression_index = hs_syntax_get(return_type_index)->next_node_index;
+					if (hs_type_valid(return_type))
+					{
+						success = true;
+					}
+					else
+					{
+						hs_compile_globals.error_message = "this is not a valid return type.";
+						hs_compile_globals.error_offset = hs_syntax_get(return_type_index)->source_offset;
+					}
+				}
+				else
+				{
+					hs_compile_globals.error_message = "i expected (script local <type> <name> <expression(s)>).";
+					hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 				}
 			}
+			else if (type == _hs_script_stub)
 			{
-				int32 parameter_set_index;
-				const hs_syntax_node* name_node;
-				const char* script_name;
+				success = true;
+			}
+			else
+			{
+				return_type = _hs_type_void;
+				root_expression_index = hs_syntax_get(type_index)->next_node_index;
+				success = true;
+			}
+
+			if (success)
+			{
+				if (root_expression_index != NONE && hs_syntax_get(root_expression_index)->next_node_index != NONE)
 				{
+					int32 parameter_set_index;
+					const hs_syntax_node* name_node;
+					const char* script_name;
+
 					int32 actual_name_index;
 					{
-						const hs_syntax_node* actual_name_node;
-					}
-				}
-				{
-					scenario* scenario;
-					int32 script_index;
-					int16 num_parameters;
-					{
-						int32 temp_parameter_set_index;
+						const hs_syntax_node* actual_name_node = hs_syntax_get(actual_name_index);
 					}
 					{
-						int32 global_index;
-					}
-					{
-						hs_script* script;
+						struct scenario* scenario;
+						int32 script_index;
+						int16 num_parameters;
 						{
-							int32 implicit_begin_name_index;
-							int32 implicit_begin_index;
+							int32 temp_parameter_set_index;
+						}
+						{
+							int32 global_index;
+						}
+						{
+							hs_script* script;
 							{
-								hs_syntax_node* implicit_begin;
-								hs_syntax_node* implicit_begin_name;
+								int32 implicit_begin_name_index;
+								int32 implicit_begin_index;
+								{
+									hs_syntax_node* implicit_begin;
+									hs_syntax_node* implicit_begin_name;
+								}
 							}
 						}
+					}
+				}
+				else
+				{
+					if (type == _hs_script_static)
+					{
+						hs_compile_globals.error_message = "i expected (script static <type> <name> <expression(s)>)";
+					}
+					else
+					{
+						hs_compile_globals.error_message = "i expected (script <type> <name> <expression(s)>)";
+						hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
 					}
 				}
 			}
