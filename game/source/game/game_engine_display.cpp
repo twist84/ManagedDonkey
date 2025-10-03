@@ -135,7 +135,7 @@ void __cdecl game_engine_render_fade_to_black(int32 user_index)
 	fade_color.alpha = user_fade_to_black_amount;
 
 	rectangle2d quad_bounds{};
-	set_rectangle2d(&quad_bounds, 0, 0, display_pixel_bounds.x1 - display_pixel_bounds.x0, display_pixel_bounds.y1 - display_pixel_bounds.y0);
+	set_rectangle2d(&quad_bounds, 0, 0, rectangle2d_width(&display_pixel_bounds), rectangle2d_height(&display_pixel_bounds));
 	draw_quad(&quad_bounds, real_argb_color_to_pixel32(&fade_color));
 }
 

@@ -268,8 +268,8 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 	rectangle2d out_display_bounds{};
 	interface_get_current_display_settings(&render_bounds, NULL, &out_display_bounds, NULL);
 	
-	real32 render_width = real32(render_bounds.x1 - render_bounds.x0);
-	real32 render_height = real32(render_bounds.y1 - render_bounds.y0);
+	real32 render_width = (real32)rectangle2d_width(&render_bounds);
+	real32 render_height = (real32)rectangle2d_height(&render_bounds);
 
 	int32 explicit_shader_index = NONE;// render_data->explicit_shader_index;
 
@@ -318,8 +318,8 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 		{
 			c_rasterizer::e_surface surface = c_rasterizer::_surface_display;
 
-			//real32 display_width = real32(out_display_bounds.x1 - out_display_bounds.x0);
-			//real32 display_height = real32(out_display_bounds.y1 - out_display_bounds.y0);
+			//real32 display_width = (real32)rectangle2d_width(&out_display_bounds);
+			//real32 display_height = (real32)rectangle2d_height(&out_display_bounds);
 			//
 			//left_x = render_data->projected_bounds.vertex[0].x / display_width;
 			//left_y = render_data->projected_bounds.vertex[2].y / display_height;

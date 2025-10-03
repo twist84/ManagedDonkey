@@ -213,8 +213,8 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 		const c_rasterizer_pixel_shader* pixel_shader = c_rasterizer_pixel_shader::get(pixel_shader_ref->index);
 		c_rasterizer::set_pixel_shader(pixel_shader, _entry_point_default);
 
-		int32 width = window_pixel_bounds->x1 - window_pixel_bounds->x0;
-		int32 height = window_pixel_bounds->y1 - window_pixel_bounds->y0;
+		int32 width = rectangle2d_width(window_pixel_bounds);
+		int32 height = rectangle2d_height(window_pixel_bounds);
 
 		rectangle2d viewport_bounds{};
 		set_rectangle2d(&viewport_bounds,

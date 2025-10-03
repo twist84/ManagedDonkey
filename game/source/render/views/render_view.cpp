@@ -220,8 +220,8 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 	m_fov_scale = 0.6908f / fmaxf(rasterizer_camera_modifiable->field_of_view_scale, _real_epsilon);
 	rasterizer_camera_modifiable->vertical_field_of_view *= m_fov_scale;
 
-	int32 width = rasterizer_camera_modifiable->window_pixel_bounds.x1 - rasterizer_camera_modifiable->window_pixel_bounds.x0;
-	int32 height = rasterizer_camera_modifiable->window_pixel_bounds.y1 - rasterizer_camera_modifiable->window_pixel_bounds.y0;
+	int32 width = rectangle2d_width(&rasterizer_camera_modifiable->window_pixel_bounds);
+	int32 height = rectangle2d_height(&rasterizer_camera_modifiable->window_pixel_bounds);
 	real32 aspect_ratio = (real32)width / (real32)height;
 
 	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(cortana_effect_get_fov_scale(), _real_epsilon);

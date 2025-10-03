@@ -64,8 +64,8 @@ bool c_simple_font_screen_display::open_session(real32 scale)
 		c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&display_bounds);
 		m_base_x = display_bounds.x0;
 		m_base_y = display_bounds.y0;
-		m_total_width = display_bounds.x1 - display_bounds.x0;
-		m_total_height = display_bounds.y1 - display_bounds.y0;
+		m_total_width = rectangle2d_width(&display_bounds);
+		m_total_height = rectangle2d_height(&display_bounds);
 		m_char_width = simple_font::get_width();
 		m_char_height = simple_font::get_height();
 		m_max_column = m_total_width / m_char_width;

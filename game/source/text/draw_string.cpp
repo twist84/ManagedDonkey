@@ -88,7 +88,7 @@ void c_draw_string::set_bounds(const rectangle2d* bounds)
 	real32 y1 = 0.0f;
 	if (bounds)
 	{
-		if ((bounds->x1 - bounds->x0) >= 0 && (bounds->y1 - bounds->y0) >= 0)
+		if (rectangle2d_width(bounds) >= 0 && rectangle2d_height(bounds) >= 0)
 		{
 			x0 = (real32)bounds->x0;
 			x1 = (real32)bounds->x1;

@@ -1816,8 +1816,8 @@ c_render_debug_line_drawer::c_render_debug_line_drawer()
 	rectangle2d screen_bounds{};
 	c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_bounds);
 
-	m_oo_screen_width = 1.0f / (screen_bounds.x1 - screen_bounds.x0);
-	m_oo_screen_height = 1.0f / (screen_bounds.y1 - screen_bounds.y0);
+	m_oo_screen_width = 1.0f / rectangle2d_width(&screen_bounds);
+	m_oo_screen_height = 1.0f / rectangle2d_height(&screen_bounds);
 	m_internal_queue_vertex_count = 0;
 	m_line_type = _line_type_none;
 	c_render_debug_line_drawer::set_color(global_real_argb_white);

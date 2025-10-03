@@ -943,8 +943,8 @@ gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*
 	interface_get_current_display_settings(NULL, NULL, &render_window_bounds, NULL);
 
 	real_vector2d scale{};
-	scale.i = (render_window_bounds.x1 - render_window_bounds.x0) / 1152.0f;
-	scale.j = (render_window_bounds.y1 - render_window_bounds.y0) / 640.0f;
+	scale.i = rectangle2d_width(&render_window_bounds) / 1152.0f;
+	scale.j = rectangle2d_height(&render_window_bounds) / 640.0f;
 	unprojected_bounds->scale_direct(&scale);
 
 	return unprojected_bounds;

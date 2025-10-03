@@ -43,22 +43,24 @@ bool __cdecl render_camera_build_clipped_frustum_bounds(const render_camera* cam
 	//bool result = true;
 	//if (!debug_no_frustum_clip && clip->x0 < clip->x1 && clip->y0 < clip->y1)
 	//{
-	//	real32 v8 = real32(camera->render_pixel_bounds.y1 - camera->render_pixel_bounds.y0) / real32(camera->render_pixel_bounds.x1 - camera->render_pixel_bounds.x0);
+	//	real32 aspect_ratio = (real32)rectangle2d_height(&camera->render_pixel_bounds) / (real32)rectangle2d_width(&camera->render_pixel_bounds);
 	//	real32 v9 = 1.0f / tanf(real32(camera->vertical_field_of_view / 2));
-	//	frustum_bounds->x0 = clip->x0 * (v9 * v8);
-	//	frustum_bounds->x1 = clip->x1 * (v9 * v8);
-	//	frustum_bounds->y0 = clip->y0 * v9;
-	//	frustum_bounds->y1 = clip->y1 * v9;
+	//	set_real_rectangle2d(frustum_bounds,
+	//		clip->x0 * (v9 * aspect_ratio),
+	//		clip->x1 * (v9 * aspect_ratio),
+	//		clip->y0 * v9,
+	//		clip->y1 * v9);
 	//
 	//	result = frustum_bounds->x0 >= frustum_bounds->x1 || frustum_bounds->y0 >= frustum_bounds->y1;
 	//}
 	//
 	//if (result)
 	//{
-	//	frustum_bounds->y0 = -1.0;
-	//	frustum_bounds->x0 = -1.0;
-	//	frustum_bounds->y1 =  1.0;
-	//	frustum_bounds->x1 =  1.0;
+	//	set_real_rectangle2d(frustum_bounds,
+	//		-1.0f,
+	//		-1.0f,
+	//		1.0f,
+	//		1.0f);
 	//}
 	//
 	//return !result;
@@ -117,10 +119,10 @@ void __cdecl render_camera_build_projection(const render_camera* camera, const r
 	projection->world_to_screen_size.j = real32(parameters.viewport_size.j * parameters.projection_coefficients.j) / 2;
 	projection->projection_bounds = parameters.projection_bounds;
 
-	real32 v2 = real32(camera->display_pixel_bounds.x1 - camera->display_pixel_bounds.x0);
-	real32 v3 = real32(camera->display_pixel_bounds.y1 - camera->display_pixel_bounds.y0);
-	projection->world_to_screen_size.i *= (v2 > _real_epsilon ? real32(c_rasterizer::render_globals.resolution_width) / v2 : 1.0f);
-	projection->world_to_screen_size.j *= (v3 > _real_epsilon ? real32(c_rasterizer::render_globals.resolution_height) / v3 : 1.0f);
+	real32 width = (real32)rectangle2d_width(&camera->display_pixel_bounds);
+	real32 height = (real32)rectangle2d_height(&camera->display_pixel_bounds);
+	projection->world_to_screen_size.i *= (width > _real_epsilon ? real32(c_rasterizer::render_globals.resolution_width) / width : 1.0f);
+	projection->world_to_screen_size.j *= (height > _real_epsilon ? real32(c_rasterizer::render_globals.resolution_height) / height : 1.0f);
 	
 	real_plane3d transformed_plane{};
 	if (v1 == 0.0f)
@@ -176,8 +178,8 @@ void __cdecl render_camera_build_view_parameters(const render_camera* camera, co
 	ASSERT(camera->render_pixel_bounds.x0 < camera->render_pixel_bounds.x1);
 	ASSERT(camera->render_pixel_bounds.y0 < camera->render_pixel_bounds.y1);
 
-	parameters->viewport_size.i = real32((real32)camera->window_pixel_bounds.x1 - (real32)camera->window_pixel_bounds.x0) * real32((real32)camera->display_pixel_bounds.x1 / (real32)camera->render_pixel_bounds.x1);
-	parameters->viewport_size.j = real32((real32)camera->window_pixel_bounds.y1 - (real32)camera->window_pixel_bounds.y0) * real32((real32)camera->display_pixel_bounds.y1 / (real32)camera->render_pixel_bounds.y1);
+	parameters->viewport_size.i = (real32)((real32)rectangle2d_width(&camera->window_pixel_bounds) * real32((real32)camera->display_pixel_bounds.x1 / (real32)camera->render_pixel_bounds.x1));
+	parameters->viewport_size.j = (real32)((real32)rectangle2d_height(&camera->window_pixel_bounds) * real32((real32)camera->display_pixel_bounds.y1 / (real32)camera->render_pixel_bounds.y1));
 
 	if (frustum_bounds)
 	{
@@ -207,7 +209,7 @@ void __cdecl render_camera_build_view_parameters(const render_camera* camera, co
 		rectangle2d display_pixel_bounds{};
 		c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
 
-		real32 pixel_bounds_aspect_ratio = real32((display_pixel_bounds.x1 - display_pixel_bounds.x0) / real32(display_pixel_bounds.y1 - display_pixel_bounds.y0));
+		real32 pixel_bounds_aspect_ratio = (real32)rectangle2d_width(&display_pixel_bounds) / (real32)rectangle2d_height(&display_pixel_bounds);
 		if (fabsf((pixel_bounds_aspect_ratio - c_rasterizer::get_aspect_ratio())))
 			aspect_ratio_ = aspect_ratio_ * real32(c_rasterizer::get_aspect_ratio() / pixel_bounds_aspect_ratio);
 	}
@@ -394,8 +396,8 @@ void render_debug_camera_projection()
 	const render_projection* rasterizer_projection = c_player_view::get_current()->get_rasterizer_projection();
 
 	real32 verical_fov_half_tan = tanf(rasterizer_camera->vertical_field_of_view / 2);
-	int16 width = rasterizer_camera->render_title_safe_pixel_bounds.x1 - rasterizer_camera->render_title_safe_pixel_bounds.x0;
-	int16 height = rasterizer_camera->render_title_safe_pixel_bounds.y1 - rasterizer_camera->render_title_safe_pixel_bounds.y0;
+	int16 width = rectangle2d_width(&rasterizer_camera->render_title_safe_pixel_bounds);
+	int16 height = rectangle2d_height(&rasterizer_camera->render_title_safe_pixel_bounds);
 
 	real_point3d points[3][3]{};
 	for (int32 i = 0; i < 3; i++)

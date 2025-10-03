@@ -196,8 +196,8 @@ void render_debug_object_damage()
 	{
 		rectangle2d bounds{};
 		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
-		bounds.x0 += int16(real32(bounds.x1 - bounds.x0) * 0.7f);
-		bounds.y0 += int16(real32(bounds.y1 - bounds.y0) * 0.1f);
+		bounds.x0 += int16((real32)rectangle2d_width(&bounds) * 0.7f);
+		bounds.y0 += int16((real32)rectangle2d_height(&bounds) * 0.1f);
 
 		char string[2048]{};
 		if (global_debug_damage_object_index == NONE)

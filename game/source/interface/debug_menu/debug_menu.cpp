@@ -409,7 +409,7 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, const po
 			debug_menu_draw_rect(x0, y0, x1, y1, alpha, debug_real_argb_grey);
 		}
 
-		if (bounds.x1 - bounds.x0 > 0 && bounds.y1 - bounds.y0 > 0)
+		if (rectangle2d_width(&bounds) > 0 && rectangle2d_height(&bounds) > 0)
 		{
 			draw_string.set_bounds(&bounds);
 			draw_string.draw(font_cache, debug_menu_get_caption(caption_index));
