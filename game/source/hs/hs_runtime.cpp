@@ -736,6 +736,57 @@ void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool
 void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x005950B0, hs_evaluate_if, function_index, thread_index, initialize);
+
+#if 0
+	const hs_thread* thread = hs_thread_get(thread_index);
+	hs_stack_pointer condition_result_reference{};
+	int32* condition_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &condition_result_reference);
+	int32* evaluate_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	hs_stack_pointer evaluate_result_reference{};
+	int32* evaluate_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &evaluate_result_reference);
+	if (condition_result && evaluate_index && evaluate_result)
+	{
+		ASSERT(function_index == _hs_function_if);
+
+		if (initialize)
+		{
+			hs_destination_pointer destination;
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = condition_result_reference;
+			*condition_result = 0;
+			*evaluate_index = NONE;
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+		}
+		else if (*evaluate_index == NONE)
+		{
+			hs_destination_pointer destination;
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = evaluate_result_reference;
+
+			if (*(bool*)condition_result)
+			{
+				*evaluate_index = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index)->next_node_index;
+				hs_evaluate(thread_index, *evaluate_index, destination, NULL);
+			}
+			else
+			{
+				*evaluate_index = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index)->next_node_index)->next_node_index;
+				if (*evaluate_index == NONE)
+				{
+					hs_return(thread_index, 0);
+				}
+				else
+				{
+					hs_evaluate(thread_index, *evaluate_index, destination, NULL);
+				}
+			}
+		}
+		else
+		{
+			hs_return(thread_index, *evaluate_result);
+		}
+	}
+#endif
 }
 
 void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bool initialize)
