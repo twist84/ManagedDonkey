@@ -69,34 +69,104 @@ DECLARE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 22); // 11
 DECLARE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 24); // 12
 #undef DECLARE_HS_FUNCTION_DEFINITION_STRUCT
 
+#define GENERATE_MACRO_FUNCTION_EVALUATE(N) \
+static_assert(IN_RANGE_INCLUSIVE(N, 1, MAX_HS_FUNCTION_PARAMETERS)); \
+template<typename t_return_type, ARGS_TPL_##N> \
+constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(ARGS_FUNC_##N)) \
+{ \
+    int32 result = 0; \
+    if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize)) \
+    { \
+        if constexpr (std::is_void_v<t_return_type>) \
+        { \
+            func(ARGS_CALL_##N); \
+        } \
+        else \
+        { \
+            *reinterpret_cast<t_return_type*>(&result) = func(ARGS_CALL_##N); \
+        } \
+        hs_return(thread_index, result); \
+    } \
+}
+
 template<typename t_return_type>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)());
-template<typename t_return_type, typename t_arg0>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0));
-template<typename t_return_type, typename t_arg0, typename t_arg1>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9, typename t_arg10>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9, t_arg10));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9, typename t_arg10, typename t_arg11>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9, t_arg10, t_arg11));
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9, typename t_arg10, typename t_arg11, typename t_arg12>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9, t_arg10, t_arg11, t_arg12));
+constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)())
+{
+	int32 result = 0;
+
+	if constexpr (std::is_void_v<t_return_type>)
+	{
+		func();
+	}
+	else
+	{
+		*reinterpret_cast<t_return_type*>(&result) = func();
+	}
+
+	hs_return(thread_index, result);
+}
+
+#define ARG_CAST(N) *reinterpret_cast<t_arg##N*>(&actual_parameters[N])
+
+#define ARGS_TPL_1   typename t_arg0
+#define ARGS_FUNC_1  t_arg0
+#define ARGS_CALL_1  ARG_CAST(0)
+GENERATE_MACRO_FUNCTION_EVALUATE(1)
+
+#define ARGS_TPL_2   ARGS_TPL_1,  typename t_arg1
+#define ARGS_FUNC_2  ARGS_FUNC_1, t_arg1
+#define ARGS_CALL_2  ARGS_CALL_1, ARG_CAST(1)
+GENERATE_MACRO_FUNCTION_EVALUATE(2)
+
+#define ARGS_TPL_3   ARGS_TPL_2,  typename t_arg2
+#define ARGS_FUNC_3  ARGS_FUNC_2, t_arg2
+#define ARGS_CALL_3  ARGS_CALL_2, ARG_CAST(2)
+GENERATE_MACRO_FUNCTION_EVALUATE(3)
+
+#define ARGS_TPL_4   ARGS_TPL_3,  typename t_arg3
+#define ARGS_FUNC_4  ARGS_FUNC_3, t_arg3
+#define ARGS_CALL_4  ARGS_CALL_3, ARG_CAST(3)
+GENERATE_MACRO_FUNCTION_EVALUATE(4)
+
+#define ARGS_TPL_5   ARGS_TPL_4,  typename t_arg4
+#define ARGS_FUNC_5  ARGS_FUNC_4, t_arg4
+#define ARGS_CALL_5  ARGS_CALL_4, ARG_CAST(4)
+GENERATE_MACRO_FUNCTION_EVALUATE(5)
+
+#define ARGS_TPL_6   ARGS_TPL_5,  typename t_arg5
+#define ARGS_FUNC_6  ARGS_FUNC_5, t_arg5
+#define ARGS_CALL_6  ARGS_CALL_5, ARG_CAST(5)
+GENERATE_MACRO_FUNCTION_EVALUATE(6)
+
+#define ARGS_TPL_7   ARGS_TPL_6,  typename t_arg6
+#define ARGS_FUNC_7  ARGS_FUNC_6, t_arg6
+#define ARGS_CALL_7  ARGS_CALL_6, ARG_CAST(6)
+GENERATE_MACRO_FUNCTION_EVALUATE(7)
+
+#define ARGS_TPL_8   ARGS_TPL_7,  typename t_arg7
+#define ARGS_FUNC_8  ARGS_FUNC_7, t_arg7
+#define ARGS_CALL_8  ARGS_CALL_7, ARG_CAST(7)
+GENERATE_MACRO_FUNCTION_EVALUATE(8)
+
+#define ARGS_TPL_9   ARGS_TPL_8,  typename t_arg8
+#define ARGS_FUNC_9  ARGS_FUNC_8, t_arg8
+#define ARGS_CALL_9  ARGS_CALL_8, ARG_CAST(8)
+GENERATE_MACRO_FUNCTION_EVALUATE(9)
+
+#define ARGS_TPL_10  ARGS_TPL_9,  typename t_arg9
+#define ARGS_FUNC_10 ARGS_FUNC_9, t_arg9
+#define ARGS_CALL_10 ARGS_CALL_9, ARG_CAST(9)
+GENERATE_MACRO_FUNCTION_EVALUATE(10)
+
+#define ARGS_TPL_11  ARGS_TPL_10,  typename t_arg10
+#define ARGS_FUNC_11 ARGS_FUNC_10, t_arg10
+#define ARGS_CALL_11 ARGS_CALL_10, ARG_CAST(10)
+GENERATE_MACRO_FUNCTION_EVALUATE(11)
+
+#define ARGS_TPL_12  ARGS_TPL_11,  typename t_arg11
+#define ARGS_FUNC_12 ARGS_FUNC_11, t_arg11
+#define ARGS_CALL_12 ARGS_CALL_11, ARG_CAST(11)
+GENERATE_MACRO_FUNCTION_EVALUATE(12)
 
 template<typename... t_formal_parameters>
 constexpr size_t count_formal_parameters(t_formal_parameters...)
@@ -17233,384 +17303,4 @@ static const hs_function_definition* const hs_function_table[]
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
 static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);
-
-template<typename t_return_type>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)())
-{
-	int32 result = 0;
-
-	if constexpr (std::is_void_v<t_return_type>)
-	{
-		func();
-	}
-	else
-	{
-		*reinterpret_cast<t_return_type*>(&result) = func();
-	}
-
-	hs_return(thread_index, result);
-}
-
-template<typename t_return_type, typename t_arg0>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-		t_arg7 arg7 = *reinterpret_cast<t_arg7*>(&actual_parameters[7]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-		t_arg7 arg7 = *reinterpret_cast<t_arg7*>(&actual_parameters[7]);
-		t_arg8 arg8 = *reinterpret_cast<t_arg8*>(&actual_parameters[8]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-		t_arg7 arg7 = *reinterpret_cast<t_arg7*>(&actual_parameters[7]);
-		t_arg8 arg8 = *reinterpret_cast<t_arg8*>(&actual_parameters[8]);
-		t_arg9 arg9 = *reinterpret_cast<t_arg9*>(&actual_parameters[9]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9, typename t_arg10>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9, t_arg10))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-		t_arg7 arg7 = *reinterpret_cast<t_arg7*>(&actual_parameters[7]);
-		t_arg8 arg8 = *reinterpret_cast<t_arg8*>(&actual_parameters[8]);
-		t_arg9 arg9 = *reinterpret_cast<t_arg9*>(&actual_parameters[9]);
-		t_arg10 arg10 = *reinterpret_cast<t_arg10*>(&actual_parameters[10]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9, typename t_arg10, typename t_arg11>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9, t_arg10, t_arg11))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-		t_arg7 arg7 = *reinterpret_cast<t_arg7*>(&actual_parameters[7]);
-		t_arg8 arg8 = *reinterpret_cast<t_arg8*>(&actual_parameters[8]);
-		t_arg9 arg9 = *reinterpret_cast<t_arg9*>(&actual_parameters[9]);
-		t_arg10 arg10 = *reinterpret_cast<t_arg10*>(&actual_parameters[10]);
-		t_arg11 arg11 = *reinterpret_cast<t_arg11*>(&actual_parameters[11]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
-
-template<typename t_return_type, typename t_arg0, typename t_arg1, typename t_arg2, typename t_arg3, typename t_arg4, typename t_arg5, typename t_arg6, typename t_arg7, typename t_arg8, typename t_arg9, typename t_arg10, typename t_arg11, typename t_arg12>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(t_arg0, t_arg1, t_arg2, t_arg3, t_arg4, t_arg5, t_arg6, t_arg7, t_arg8, t_arg9, t_arg10, t_arg11, t_arg12))
-{
-	int32 result = 0;
-
-	if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize))
-	{
-		t_arg0 arg0 = *reinterpret_cast<t_arg0*>(&actual_parameters[0]);
-		t_arg1 arg1 = *reinterpret_cast<t_arg1*>(&actual_parameters[1]);
-		t_arg2 arg2 = *reinterpret_cast<t_arg2*>(&actual_parameters[2]);
-		t_arg3 arg3 = *reinterpret_cast<t_arg3*>(&actual_parameters[3]);
-		t_arg4 arg4 = *reinterpret_cast<t_arg4*>(&actual_parameters[4]);
-		t_arg5 arg5 = *reinterpret_cast<t_arg5*>(&actual_parameters[5]);
-		t_arg6 arg6 = *reinterpret_cast<t_arg6*>(&actual_parameters[6]);
-		t_arg7 arg7 = *reinterpret_cast<t_arg7*>(&actual_parameters[7]);
-		t_arg8 arg8 = *reinterpret_cast<t_arg8*>(&actual_parameters[8]);
-		t_arg9 arg9 = *reinterpret_cast<t_arg9*>(&actual_parameters[9]);
-		t_arg10 arg10 = *reinterpret_cast<t_arg10*>(&actual_parameters[10]);
-		t_arg11 arg11 = *reinterpret_cast<t_arg11*>(&actual_parameters[11]);
-		t_arg12 arg12 = *reinterpret_cast<t_arg12*>(&actual_parameters[12]);
-
-		if constexpr (std::is_void_v<t_return_type>)
-		{
-			func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-		}
-		else
-		{
-			*reinterpret_cast<t_return_type*>(&result) = func(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-		}
-
-		hs_return(thread_index, result);
-	}
-}
 
