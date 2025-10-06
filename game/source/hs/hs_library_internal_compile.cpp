@@ -80,6 +80,25 @@ bool hs_parse_begin(int16 function_index, int32 expression_index)
 	return parse_success;
 }
 
+bool hs_parse_debug_string(int16 function_index, int32 expression_index)
+{
+	bool success = true;
+
+	int32 parameters_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
+	ASSERT(IN_RANGE_INCLUSIVE(function_index, _hs_function_debug_string__first, _hs_function_debug_string__last));
+
+	for (int16 actual_parameter_count = 0; success; actual_parameter_count++)
+	{
+		if (parameters_index != NONE)
+		{
+			success = hs_parse(parameters_index, _hs_type_string);
+			parameters_index = hs_syntax_get(parameters_index)->next_node_index;
+		}
+	}
+
+	return success;
+}
+
 bool hs_parse_if(int16 function_index, int32 expression_index)
 {
 	bool parse_success = false;

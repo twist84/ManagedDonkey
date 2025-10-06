@@ -43,6 +43,7 @@ enum
 };
 
 extern bool hs_parse_begin(int16 function_index, int32 expression_index);
+extern bool hs_parse_debug_string(int16 function_index, int32 expression_index);
 extern bool hs_parse_if(int16 function_index, int32 expression_index);
 extern bool hs_parse_cond(int16 function_index, int32 expression_index);
 extern bool hs_parse_set(int16 function_index, int32 expression_index);

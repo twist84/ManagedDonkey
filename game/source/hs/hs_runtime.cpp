@@ -58,7 +58,7 @@ HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x00594680, hs_evaluate_arithmetic);
 HOOK_DECLARE(0x00594960, hs_evaluate_begin);
 //HOOK_DECLARE(0x00594AB0, hs_evaluate_begin_random);
-//HOOK_DECLARE(0x00594D20, hs_evaluate_debug_string);
+HOOK_DECLARE(0x00594D20, hs_evaluate_debug_string);
 HOOK_DECLARE(0x00594FB0, hs_evaluate_equality);
 HOOK_DECLARE(0x005950B0, hs_evaluate_if);
 HOOK_DECLARE(0x005952A0, hs_evaluate_inequality);
@@ -662,15 +662,14 @@ void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, 
 
 void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00594D20, hs_evaluate_debug_string, function_index, thread_index, initialize);
+	//INVOKE(0x00594D20, hs_evaluate_debug_string, function_index, thread_index, initialize);
 
-#if 0
 	hs_thread const* thread = hs_thread_get(thread_index);
 	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
 	hs_stack_pointer parameters_result_reference{};
 	int32* parameters_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &parameters_result_reference);
 	int32* string_count = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
-	char const** string_storage = (char**)hs_stack_allocate(thread_index, 128, 2, NULL);
+	char** string_storage = (char**)hs_stack_allocate(thread_index, 128, 2, NULL);
 	if (parameters_index && parameters_result && string_count && string_storage)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(function_index, _hs_function_debug_string__first, _hs_function_debug_string__last));
@@ -695,7 +694,6 @@ void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, 
 			hs_return(thread_index, NONE);
 		}
 	}
-#endif
 }
 
 void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool initialize)
