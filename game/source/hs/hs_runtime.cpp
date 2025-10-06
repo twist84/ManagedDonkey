@@ -63,8 +63,8 @@ HOOK_DECLARE(0x00594FB0, hs_evaluate_equality);
 HOOK_DECLARE(0x005950B0, hs_evaluate_if);
 HOOK_DECLARE(0x005952A0, hs_evaluate_inequality);
 HOOK_DECLARE(0x00595450, hs_evaluate_inspect);
-//HOOK_DECLARE(0x00595550, hs_evaluate_logical);
-//HOOK_DECLARE(0x005956F0, hs_evaluate_object_cast_up);
+HOOK_DECLARE(0x00595550, hs_evaluate_logical);
+HOOK_DECLARE(0x005956F0, hs_evaluate_object_cast_up);
 HOOK_DECLARE(0x005957F0, hs_evaluate_set);
 //HOOK_DECLARE(0x00595A00, hs_evaluate_sleep);
 //HOOK_DECLARE(0x00595C10, hs_evaluate_sleep_forever);
@@ -897,12 +897,92 @@ void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool 
 
 void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00595550, hs_evaluate_logical, function_index, thread_index, initialize);
+	//INVOKE(0x00595550, hs_evaluate_logical, function_index, thread_index, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	hs_stack_pointer result_reference{};
+	int32* parameter_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
+	bool* result = (bool*)hs_stack_allocate(thread_index, sizeof(bool), 0, NULL);
+	if (parameters_index && parameter_result && result)
+	{
+		ASSERT(function_index == _hs_function_and || function_index == _hs_function_or);
+
+		bool and_ = function_index == _hs_function_and;
+		if (initialize)
+		{
+			*parameters_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+			*result = and_;
+		}
+		else
+		{
+			bool parameter_result_boolean = *parameter_result;
+			if (and_)
+			{
+				*result = *result && parameter_result_boolean;
+			}
+			else
+			{
+				*result = *result || parameter_result_boolean;
+			}
+		}
+
+		if (*parameters_index != NONE && *result == and_)
+		{
+			hs_destination_pointer destination;
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = result_reference;
+			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
+		}
+		else
+		{
+			int32 result_long = 0;
+			*reinterpret_cast<bool*>(&result_long) = *result;
+			hs_return(thread_index, result_long);
+		}
+	}
 }
 
 void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x005956F0, hs_evaluate_object_cast_up, function_index, thread_index, initialize);
+	//INVOKE(0x005956F0, hs_evaluate_object_cast_up, function_index, thread_index, initialize);
+
+	const hs_thread* thread = hs_thread_get(thread_index);
+	hs_stack_pointer result_reference{};
+	int32* result_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
+	{
+		ASSERT(function_index >= _hs_function_object_to_unit && function_index <= _hs_function_object_to_unit);
+
+		if (initialize)
+		{
+			hs_destination_pointer destination;
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = result_reference;
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+		}
+		else if (*result_index != NONE)
+		{
+			const object_datum* object = OBJECT_GET(const object_datum, *result_index);
+			int16 desired_type = function_index - (_hs_function_object_to_unit - 1);
+			if (TEST_BIT(hs_object_type_masks[desired_type], object->object.object_identifier.get_type()))
+			{
+				hs_return(thread_index, *result_index);
+			}
+			else
+			{
+				event(_event_warning, "attempt to convert object %s to type %s",
+					tag_get_name(object->definition_index),
+					hs_type_names[FIRST_HS_OBJECT_TYPE + desired_type]);
+
+				hs_return(thread_index, NONE);
+			}
+		}
+		else
+		{
+			hs_return(thread_index, NONE);
+		}
+	}
 }
 
 void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool initialize)
