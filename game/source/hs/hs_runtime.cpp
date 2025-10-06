@@ -59,8 +59,8 @@ HOOK_DECLARE(0x00594680, hs_evaluate_arithmetic);
 HOOK_DECLARE(0x00594960, hs_evaluate_begin);
 //HOOK_DECLARE(0x00594AB0, hs_evaluate_begin_random);
 //HOOK_DECLARE(0x00594D20, hs_evaluate_debug_string);
-//HOOK_DECLARE(0x00594FB0, hs_evaluate_equality);
-//HOOK_DECLARE(0x005950B0, hs_evaluate_if);
+HOOK_DECLARE(0x00594FB0, hs_evaluate_equality);
+HOOK_DECLARE(0x005950B0, hs_evaluate_if);
 HOOK_DECLARE(0x005952A0, hs_evaluate_inequality);
 HOOK_DECLARE(0x00595450, hs_evaluate_inspect);
 //HOOK_DECLARE(0x00595550, hs_evaluate_logical);
@@ -700,9 +700,8 @@ void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, 
 
 void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00594FB0, hs_evaluate_equality, function_index, thread_index, initialize);
+	//INVOKE(0x00594FB0, hs_evaluate_equality, function_index, thread_index, initialize);
 
-#if 0
 	ASSERT(function_index == _hs_function_equal || function_index == _hs_function_not_equal);
 
 	int16 parameter_types[2];
@@ -730,14 +729,12 @@ void __cdecl hs_evaluate_equality(int16 function_index, int32 thread_index, bool
 		*reinterpret_cast<bool*>(&result_long) = result;
 		hs_return(thread_index, result_long);
 	}
-#endif
 }
 
 void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x005950B0, hs_evaluate_if, function_index, thread_index, initialize);
+	//INVOKE(0x005950B0, hs_evaluate_if, function_index, thread_index, initialize);
 
-#if 0
 	const hs_thread* thread = hs_thread_get(thread_index);
 	hs_stack_pointer condition_result_reference{};
 	int32* condition_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &condition_result_reference);
@@ -786,7 +783,6 @@ void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initi
 			hs_return(thread_index, *evaluate_result);
 		}
 	}
-#endif
 }
 
 void __cdecl hs_evaluate_inequality(int16 function_index, int32 thread_index, bool initialize)
