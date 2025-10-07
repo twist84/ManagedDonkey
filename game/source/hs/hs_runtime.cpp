@@ -94,10 +94,10 @@ HOOK_DECLARE(0x00596F50, hs_handle_deleted_object);
 //HOOK_DECLARE(0x005972A0, hs_long_to_real);
 //HOOK_DECLARE(0x005972C0, hs_long_to_short);
 HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
-//HOOK_DECLARE(0x00597320, hs_object_index_from_name_index);
-//HOOK_DECLARE(0x00597330, hs_object_name_to_object_list);
-//HOOK_DECLARE(0x00597370, hs_object_to_object_list);
-//HOOK_DECLARE(0x005973A0, hs_object_type_can_cast);
+HOOK_DECLARE(0x00597320, hs_object_index_from_name_index);
+HOOK_DECLARE(0x00597330, hs_object_name_to_object_list);
+HOOK_DECLARE(0x00597370, hs_object_to_object_list);
+HOOK_DECLARE(0x005973A0, hs_object_type_can_cast);
 //HOOK_DECLARE(0x005973D0, hs_real_to_long);
 //HOOK_DECLARE(0x005973E0, hs_real_to_short);
 HOOK_DECLARE(0x00597400, hs_reset_scripts);
@@ -154,7 +154,7 @@ HOOK_DECLARE(0x00598B70, hs_thread_iterator_next);
 HOOK_DECLARE(0x00598BC0, hs_thread_main);
 HOOK_DECLARE(0x00598E70, hs_thread_new);
 HOOK_DECLARE(0x00598F70, hs_thread_try_to_delete);
-//HOOK_DECLARE(0x00598FC0, hs_typecasting_table_initialize);
+HOOK_DECLARE(0x00598FC0, hs_typecasting_table_initialize);
 HOOK_DECLARE(0x00599170, hs_wake);
 HOOK_DECLARE(0x00599250, hs_wake_by_name);
 HOOK_DECLARE(0x00599280, inspect_internal);
@@ -1637,30 +1637,62 @@ int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_ind
 
 int32 __cdecl hs_object_index_from_name_index(int32 thread_index, int16 name_index)
 {
-	return INVOKE(0x00597320, hs_object_index_from_name_index, thread_index, name_index);
+	//return INVOKE(0x00597320, hs_object_index_from_name_index, thread_index, name_index);
+
+	int32 result = object_index_from_name_index(name_index);
+	if (result == NONE)
+	{
+		event(_event_warning, "hs: thread %s attempted to access unplaced object %s",
+			hs_thread_format(thread_index),
+			TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->object_names, name_index, scenario_object_name)->name);
+	}
+	return result;
 }
 
 int32 __cdecl hs_object_name_to_object_list(int32 object_name_index)
 {
-	return INVOKE(0x00597330, hs_object_name_to_object_list, object_name_index);
+	//return INVOKE(0x00597330, hs_object_name_to_object_list, object_name_index);
+
+	int32 object_index = hs_object_index_from_name_index(hs_runtime_globals->executing_thread_index, (int16)object_name_index);
+	int32 object_list_index = NONE; // should this just be `hs_object_to_object_list`
+	if (object_index != NONE)
+	{
+		object_list_index = object_list_new();
+		if (object_list_index != NONE)
+		{
+			object_list_add(object_list_index, object_index);
+		}
+	}
+	return object_list_index;
 }
 
 int32 __cdecl hs_object_to_object_list(int32 object_index)
 {
-	return INVOKE(0x00597370, hs_object_to_object_list, object_index);
+	//return INVOKE(0x00597370, hs_object_to_object_list, object_index);
+
+	int32 object_list_index = NONE;
+	if (object_index != NONE)
+	{
+		object_list_index = object_list_new();
+		if (object_list_index != NONE)
+		{
+			object_list_add(object_list_index, object_index);
+		}
+	}
+	return object_list_index;
 }
 
 bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 {
-	return INVOKE(0x005973A0, hs_object_type_can_cast, actual_type, desired_type);
+	//return INVOKE(0x005973A0, hs_object_type_can_cast, actual_type, desired_type);
 
-	//ASSERT(actual_type >= 0 && actual_type < NUMBER_OF_HS_OBJECT_TYPES);
-	//ASSERT(desired_type >= 0 && desired_type < NUMBER_OF_HS_OBJECT_TYPES);
-	//
-	//int16 actual_type_mask = hs_object_type_masks[actual_type];
-	//int16 desired_type_mask = hs_object_type_masks[desired_type];
-	//
-	//return actual_type_mask == (actual_type_mask & desired_type_mask);
+	ASSERT(actual_type >= 0 && actual_type < NUMBER_OF_HS_OBJECT_TYPES);
+	ASSERT(desired_type >= 0 && desired_type < NUMBER_OF_HS_OBJECT_TYPES);
+	
+	int16 actual_type_mask = hs_object_type_masks[actual_type];
+	int16 desired_type_mask = hs_object_type_masks[desired_type];
+	
+	return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
 int32 __cdecl hs_real_to_long(int32 r)
@@ -2665,7 +2697,7 @@ int32 __cdecl hs_string_to_boolean(int32 n)
 {
 	return INVOKE(0x005989E0, hs_string_to_boolean, n);
 
-	//return n + strlen((const char*)n) + 1 == n + 1;
+	//return hs_long_to_boolean(strlen_debug((const char*)n));
 }
 
 hs_syntax_node* __cdecl hs_syntax_get(int32 index)
@@ -3160,7 +3192,45 @@ void __cdecl hs_thread_try_to_delete(int32 thread_index, bool validate)
 
 void __cdecl hs_typecasting_table_initialize()
 {
-	INVOKE(0x00598FC0, hs_typecasting_table_initialize);
+	//INVOKE(0x00598FC0, hs_typecasting_table_initialize);
+
+	int32 actual_type = NONE;
+
+	for (actual_type = (FIRST_HS_TYPE + 1); actual_type < NUMBER_OF_HS_NODE_TYPES; actual_type++)
+	{
+		g_typecasting_procedures[_hs_type_void][actual_type] = hs_data_to_void;
+	}
+
+	g_typecasting_procedures[_hs_type_boolean][_hs_type_real] = hs_long_to_boolean;
+	g_typecasting_procedures[_hs_type_boolean][_hs_type_short_integer] = hs_short_to_boolean;
+	g_typecasting_procedures[_hs_type_boolean][_hs_type_long_integer] = hs_long_to_boolean;
+	g_typecasting_procedures[_hs_type_boolean][_hs_type_string] = hs_string_to_boolean;
+
+	g_typecasting_procedures[_hs_type_real][_hs_type_short_integer] = hs_short_to_real;
+	g_typecasting_procedures[_hs_type_real][_hs_type_long_integer] = hs_long_to_real;
+
+	for (actual_type = FIRST_HS_ENUM_TYPE; actual_type <= LAST_HS_ENUM_TYPE; actual_type++)
+	{
+		g_typecasting_procedures[_hs_type_real][actual_type] = hs_enum_to_real;
+	}
+
+	g_typecasting_procedures[_hs_type_short_integer][_hs_type_real] = hs_real_to_short;
+	g_typecasting_procedures[_hs_type_short_integer][_hs_type_long_integer] = hs_long_to_short;
+
+	g_typecasting_procedures[_hs_type_long_integer][_hs_type_real] = hs_real_to_long;
+	g_typecasting_procedures[_hs_type_long_integer][_hs_type_short_integer] = hs_short_to_long;
+
+	for (actual_type = FIRST_HS_OBJECT_TYPE; actual_type <= LAST_HS_OBJECT_TYPE; actual_type++)
+	{
+		g_typecasting_procedures[_hs_type_object_list][actual_type] = hs_object_to_object_list;
+	}
+
+	for (actual_type = FIRST_HS_OBJECT_NAME_TYPE; actual_type <= LAST_HS_OBJECT_NAME_TYPE; actual_type++)
+	{
+		g_typecasting_procedures[_hs_type_object_list][actual_type] = hs_object_name_to_object_list;
+	}
+
+	g_typecasting_procedures[_hs_type_object_list][_hs_type_ai] = object_list_from_ai_reference;
 }
 
 void __cdecl hs_wake(int32 thread_index, int32 waking_thread_index)
