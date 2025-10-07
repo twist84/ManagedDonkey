@@ -1620,11 +1620,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_bitmap
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	script_recompile,
 	0,
-	0x00733E70, // $TODO write the function chuckle nuts
+	hs_recompile, // 0x00733E70,
 	"recompiles scripts.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
