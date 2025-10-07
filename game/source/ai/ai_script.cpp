@@ -25,11 +25,33 @@ bool ai_print_scripting = false;
 bool __cdecl ai_handle_script_verification(bool suppress_errors)
 {
 	return INVOKE(0x0143CC40, ai_handle_script_verification, suppress_errors);
+
+	// $IMPLEMENT
+
+	//bool success;
+	//const scenario* scenario;
+	//{
+	//	short squad_index;
+	//	{
+	//		command_script_datum* script;
+	//		c_data_iterator<command_script_datum> cs_iterator;
+	//	}
+	//}
 }
 
 //.text:0143CD00 ; int32 __cdecl ai_index_actor_get_actor_index(int32)
 //.text:0143CD60 ; void __cdecl ai_index_actor_iterator_new(int32, ai_index_actor_iterator*)
 //.text:0143CE10 ; actor_datum* __cdecl ai_index_actor_iterator_next(ai_index_actor_iterator*)
+
+bool __cdecl ai_index_from_string(struct scenario* scenario, const char* ai_string, int32* ai_index_reference)
+{
+	ASSERT(ai_string && ai_index_reference);
+
+	// $IMPLEMENT
+
+	return false;
+}
+
 //.text:0143CEE0 ; int32 __cdecl ai_index_get_actor(int32)
 //.text:0143CFD0 ; int32 __cdecl ai_index_get_vehicle(int32, int16)
 //.text:0143D130 ; bool __cdecl ai_index_player_nearby(int32, real32)
@@ -106,7 +128,9 @@ void __cdecl ai_scripting_erase_all()
 	//INVOKE(0x0143EBC0, ai_scripting_erase_all);
 
 	if (ai_print_scripting)
+	{
 		event(_event_warning, "ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
+	}
 
 	ai_erase(NONE, false);
 }
@@ -201,19 +225,36 @@ void __cdecl ai_scripting_erase_all()
 //.text:014419B0 ; bool __cdecl ai_vehicle_overturned(int32)
 //.text:014419D0 ; bool __cdecl ai_vehicle_reserve(int32, bool)
 //.text:01441A90 ; bool __cdecl ai_vehicle_reserve_seat(int32, int32, bool)
-//.text:01441B70 ; 
+//.text:01441B70 ; public: void c_data_iterator<command_script_datum>::begin(s_data_array*)
 //.text:01441B90 ; public: void __cdecl c_static_flags_no_init<20>::clear()
 //.text:01441BA0 ; bool __cdecl cs_command_script_queued(int32, int32)
 //.text:01441C50 ; bool __cdecl cs_command_script_running(int32, int32)
 //.text:01441CE0 ; int16 __cdecl cs_number_queued(int32)
 //.text:01441D60 ; bool __cdecl flock_start(int32)
 //.text:01441DB0 ; bool __cdecl flock_stop(int32)
-//.text:01441E00 ; 
-//.text:01441E10 ; 
-//.text:01441E20 ; 
+//.text:01441E00 ; public: command_script_datum* c_data_iterator<command_script_datum>::get_datum() const
+//.text:01441E10 ; public: int32 c_data_iterator<command_script_datum>::get_index() const
+//.text:01441E20 ; public: bool c_data_iterator<command_script_datum>::next()
 //.text:01441E40 ; int32 __cdecl object_get_ai(int32)
 //.text:01441EA0 ; int32 __cdecl object_index_from_ai(int32, e_hs_type)
-//.text:01441F90 ; int32 __cdecl object_list_from_ai_reference(int32)
+
+int32 __cdecl object_list_from_ai_reference(int32 ai_index)
+{
+	return INVOKE(0x01441F90, object_list_from_ai_reference, ai_index);
+
+	// $IMPLEMENT
+
+	//int32 object_list_index;
+	//{
+	//	ai_index_actor_iterator iterator;
+	//	const actor_datum* actor;
+	//	{
+	//		swarm_creature_iterator creature_iterator;
+	//		const creature_datum* creature;
+	//	}
+	//}
+}
+
 //.text:01442040 ; bool __cdecl play_line_compare(int32, int32, const void*)
 //.text:014420D0 ; int16 __cdecl play_line_compile_actor_list(int32, int32*, int16, int16)
 //.text:01442150 ; bool __cdecl point_compare(int32, int32, void*)
@@ -221,13 +262,4 @@ void __cdecl ai_scripting_erase_all()
 //.text:01442280 ; public: void __cdecl c_static_flags_no_init<20>::set(int32, bool)
 //.text:014422B0 ; bool __cdecl squad_member_of_ai_index(int32, int32)
 //.text:01442370 ; public: bool __cdecl c_static_flags_no_init<20>::test(int32) const
-
-bool ai_index_from_string(struct scenario* scenario, const char* ai_string, int32* ai_index_reference)
-{
-	ASSERT(ai_string && ai_index_reference);
-
-	// $IMPLEMENT
-
-	return false;
-}
 
