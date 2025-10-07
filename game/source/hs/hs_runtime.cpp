@@ -1182,6 +1182,33 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x00595C10, hs_evaluate_sleep_forever, function_index, thread_index, initialize);
+
+#if 0
+	const hs_thread* thread = hs_thread_get(thread_index);
+	int32 script_node_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+	int32 sleep_thread_index = thread_index;
+
+	ASSERT(function_index == _hs_function_sleep_forever);
+
+	if (script_node_index != NONE)
+	{
+		hs_destination_pointer destination{};
+		destination.destination_type = _hs_destination_none;
+		int32 script_index = 0;
+		int16 short_script_index = 0;
+		hs_evaluate(thread_index, script_node_index, destination, &script_index);
+		short_script_index = (int16)script_index;
+		sleep_thread_index = hs_find_thread_by_script(short_script_index);
+	}
+
+	if (sleep_thread_index != NONE)
+	{
+		hs_thread* sleep_thread = hs_thread_get(sleep_thread_index);
+		sleep_thread->sleep_until = HS_SLEEP_INDEFINITE;
+	}
+
+	hs_return(thread_index, 0);
+#endif
 }
 
 void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool initialize)
