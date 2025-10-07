@@ -39,6 +39,16 @@ bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_
 	return hs_evaluate(thread_index, expression_index, destination_pointer, out_cast);
 }
 
+hs_stack_frame* __cdecl hs_stack_0(hs_thread* thread, hs_stack_pointer stack_pointer)
+{
+	return hs_stack(thread, stack_pointer);
+}
+
+const hs_stack_frame* __cdecl hs_stack_1(const hs_thread* thread, hs_stack_pointer stack_pointer)
+{
+	return hs_stack(thread, stack_pointer);
+}
+
 HOOK_DECLARE(0x00593A00, hs_inspect_boolean);
 HOOK_DECLARE(0x00593A30, hs_inspect_real);
 HOOK_DECLARE(0x00593A60, hs_inspect_short_integer);
@@ -53,7 +63,11 @@ HOOK_DECLARE(0x00593CD0, __tls_set_g_hs_thread_non_deterministic_data_allocator)
 HOOK_DECLARE(0x00593D00, __tls_set_g_hs_thread_tracking_data_allocator);
 HOOK_DECLARE(0x00594140, hs_arguments_evaluate);
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
+//HOOK_DECLARE(0x005942F0, hs_can_cast);
+//HOOK_DECLARE(0x005943A0, hs_cast);
+//HOOK_DECLARE(0x00594450, hs_data_to_void);
 HOOK_DECLARE(0x00594460, hs_destination);
+//HOOK_DECLARE(0x005944F0, hs_enum_to_real);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x00594680, hs_evaluate_arithmetic);
 HOOK_DECLARE(0x00594960, hs_evaluate_begin);
@@ -76,10 +90,13 @@ HOOK_DECLARE(0x005961D0, hs_global_evaluate);
 HOOK_DECLARE(0x00596230, hs_global_reconcile_read);
 HOOK_DECLARE(0x00596C10, hs_global_reconcile_write);
 HOOK_DECLARE(0x00596F50, hs_handle_deleted_object);
-HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 //HOOK_DECLARE(0x00597280, hs_long_to_boolean);
 //HOOK_DECLARE(0x005972A0, hs_long_to_real);
 //HOOK_DECLARE(0x005972C0, hs_long_to_short);
+HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
+//HOOK_DECLARE(0x00597320, hs_object_index_from_name_index);
+//HOOK_DECLARE(0x00597330, hs_object_name_to_object_list);
+//HOOK_DECLARE(0x00597370, hs_object_to_object_list);
 //HOOK_DECLARE(0x005973A0, hs_object_type_can_cast);
 //HOOK_DECLARE(0x005973D0, hs_real_to_long);
 //HOOK_DECLARE(0x005973E0, hs_real_to_short);
@@ -114,12 +131,21 @@ HOOK_DECLARE(0x00598570, hs_script_finished);
 HOOK_DECLARE(0x005985C0, hs_script_started);
 HOOK_DECLARE(0x00598610, hs_scripting_debug_thread);
 HOOK_DECLARE(0x00598620, hs_scripting_get_executing_thread_index);
+HOOK_DECLARE(0x00598640, hs_scripting_kill_all_threads);
+HOOK_DECLARE(0x005986F0, hs_scripting_kill_running_thread);
+//HOOK_DECLARE(0x00598740, hs_short_to_boolean);
+//HOOK_DECLARE(0x00598760, hs_short_to_long);
+//HOOK_DECLARE(0x00598770, hs_short_to_real);
+HOOK_DECLARE(0x00598790, hs_stack_0);
+HOOK_DECLARE(0x005987B0, hs_stack_1);
 HOOK_DECLARE(0x005987D0, hs_stack_allocate);
 HOOK_DECLARE(0x005988C0, hs_stack_destination);
 HOOK_DECLARE(0x005988E0, hs_stack_parameters);
 HOOK_DECLARE(0x00598900, hs_stack_pop);
 HOOK_DECLARE(0x00598940, hs_stack_push);
+//HOOK_DECLARE(0x005989E0, hs_string_to_boolean);
 HOOK_DECLARE(0x00598A10, hs_syntax_get);
+HOOK_DECLARE(0x00598A30, hs_syntax_nth);
 HOOK_DECLARE(0x00598A60, hs_thread_delete);
 HOOK_DECLARE(0x00598A90, hs_thread_format);
 HOOK_DECLARE(0x00598B10, hs_thread_is_deterministic);
@@ -163,25 +189,43 @@ inline static bool script_error2(long thread_index, const char* message, const c
 #define SCRIPT_COMPILE_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error((THREAD_INDEX), (MESSAGE), #CONDITION))
 #define SCRIPT_EXECUTION_ERROR(THREAD_INDEX, CONDITION, MESSAGE) ((CONDITION) || script_error2((THREAD_INDEX), (MESSAGE), #CONDITION))
 
-bool valid_thread(int32 thread_index)
+const char* __cdecl expression_get_function_name(int32 thread_index, int32 expression_index)
 {
-	bool valid = false;
-
-	s_data_array* data_array = hs_thread_is_deterministic(thread_index) ? hs_thread_deterministic_data : hs_thread_non_deterministic_data;
-	void* data_array_data = data_array->data;
-
 	hs_thread* thread = hs_thread_get(thread_index);
-	if ((void*)thread >= data_array_data && (void*)thread < offset_pointer(data_array_data, data_array->size * data_array->count))
+
+	const char* result = "unknown script";
+
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	for (; !TEST_BIT(expression->flags, _hs_syntax_node_script_bit); expression = hs_syntax_get(expression_index))
 	{
-		if (thread->stack.stack_offset >= 0 && thread->stack.stack_offset + (int16)sizeof(hs_stack_frame) <= HS_THREAD_STACK_SIZE)
+		if (expression->function_index || expression_index != hs_thread_stack(thread)->expression_index)
 		{
-			if (thread->stack.stack_offset + hs_thread_stack(thread)->size + (int16)sizeof(hs_stack_frame) <= HS_THREAD_STACK_SIZE)
-			{
-				valid = true;
-			}
+			result = hs_function_get(expression->function_index)->name;
+			break;
+		}
+
+		if (hs_thread_stack(thread)->size <= 0)
+		{
+			result = "(invalid expression reference)";
+			break;
+		}
+
+		expression_index = expression->next_node_index;
+		if (expression_index == NONE)
+		{
+			result = "(end of script)";
+			break;
 		}
 	}
-	return valid;
+
+	if (VALID_INDEX(expression->script_index, global_scenario->hs_scripts.count))
+	{
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario->hs_scripts, expression->script_index, hs_script);
+
+		result = script->name;
+	}
+
+	return result;
 }
 
 void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size)
@@ -414,6 +458,8 @@ int32 __cdecl hs_cast(int32 thread_index, int16 actual_type, int16 desired_type,
 int32 __cdecl hs_data_to_void(int32 n)
 {
 	return INVOKE(0x00594450, hs_data_to_void, n);
+
+	//return 0;
 }
 
 int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destination_pointer)
@@ -456,6 +502,10 @@ int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destinat
 int32 __cdecl hs_enum_to_real(int32 e)
 {
 	return INVOKE(0x005944F0, hs_enum_to_real, e);
+
+	//int32 result;
+	//*(real32*)&result = (real32)((int16)e + 1);
+	//return result;
 }
 
 bool __cdecl hs_evaluate(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* local_destination)
@@ -1077,6 +1127,25 @@ void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool ini
 	hs_return(thread_index, 0);
 }
 
+void __cdecl hs_find_dormant_script(const char* dormant_script_name, int32* script_index_out)
+{
+	ASSERT(dormant_script_name);
+	ASSERT(script_index_out);
+
+	*script_index_out = NONE;
+
+	int32 thread_index = hs_find_thread_by_name(dormant_script_name);
+	if (thread_index != NONE)
+	{
+		hs_thread* thread = hs_thread_get(thread_index);
+		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, thread->script_index, hs_script);
+		if (script && script->script_type == _hs_script_dormant)
+		{
+			*script_index_out = thread->script_index;
+		}
+	}
+}
+
 int32 __cdecl hs_find_thread_by_name(const char* name)
 {
 	//return INVOKE(0x00596070, hs_find_thread_by_name, name);
@@ -1396,11 +1465,10 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 	}
 }
 
+// $REVIEW if you crash and `hs_handle_deleted_object` is within the callstack let me know
 void __cdecl hs_handle_deleted_object(int32 object_index)
 {
 	//INVOKE(0x00596F50, hs_handle_deleted_object, object_index);
-
-	// $REVIEW if this function is within your callstack let me know
 
 	const object_datum* object = OBJECT_GET(const object_datum, object_index);
 	if (object->object.flags.test(_object_ever_referenced_by_hs_bit))
@@ -1500,9 +1568,33 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 	}
 }
 
-//.text:00597280 ; int32 __cdecl hs_long_to_boolean(int32 n)
-//.text:005972A0 ; int32 __cdecl hs_long_to_real(int32 l)
-//.text:005972C0 ; int32 __cdecl hs_long_to_short(int32 l)
+int32 __cdecl hs_long_to_boolean(int32 n)
+{
+	return INVOKE(0x00597280, hs_long_to_boolean, n);
+
+	//int32 result;
+	//*(bool*)&result = (bool)n;
+	//return result;
+}
+
+int32 __cdecl hs_long_to_real(int32 l)
+{
+	return INVOKE(0x005972A0, hs_long_to_real, l);
+
+	//int32 result;
+	//*(real32*)&result = (real32)l;
+	//return result;
+}
+
+int32 __cdecl hs_long_to_short(int32 l)
+{
+	return INVOKE(0x005972C0, hs_long_to_short, l);
+
+	//int32 result;
+	//*(int16*)&result = (int16)l;
+	//return result;
+}
+
 //.text:005972E0 ; 
 
 int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize)
@@ -1543,9 +1635,20 @@ int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_ind
 	return results;
 }
 
-//.text:00597320 ; int32 __cdecl hs_object_index_from_name_index(int32 thread_index, int16 name_index)
-//.text:00597330 ; int32 __cdecl hs_object_name_to_object_list(int32 name_index)
-//.text:00597370 ; int32 __cdecl hs_object_to_object_list(int32 object_index)
+int32 __cdecl hs_object_index_from_name_index(int32 thread_index, int16 name_index)
+{
+	return INVOKE(0x00597320, hs_object_index_from_name_index, thread_index, name_index);
+}
+
+int32 __cdecl hs_object_name_to_object_list(int32 object_name_index)
+{
+	return INVOKE(0x00597330, hs_object_name_to_object_list, object_name_index);
+}
+
+int32 __cdecl hs_object_to_object_list(int32 object_index)
+{
+	return INVOKE(0x00597370, hs_object_to_object_list, object_index);
+}
 
 bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 {
@@ -1560,8 +1663,23 @@ bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type)
 	//return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
-//.text:005973D0 ; int32 __cdecl hs_real_to_long(int32 r)
-//.text:005973E0 ; int32 __cdecl hs_real_to_short(int32 r)
+int32 __cdecl hs_real_to_long(int32 r)
+{
+	return INVOKE(0x005973D0, hs_real_to_long, r);
+
+	//int32 result;
+	//result = (int32)(*(real32*)&r);
+	//return result;
+}
+
+int32 __cdecl hs_real_to_short(int32 r)
+{
+	return INVOKE(0x005973E0, hs_real_to_short, r);
+
+	//int32 result;
+	//result = (int32)(int16)(*(real32*)&r);
+	//return result;
+}
 
 void __cdecl hs_rebuild_and_compile(char* error_buffer, long buffer_length, bool verbose)
 {
@@ -2381,9 +2499,31 @@ void __cdecl hs_scripting_kill_running_thread(int32 thread_index)
 	}
 }
 
-//.text:00598740 ; int32 __cdecl hs_short_to_boolean(int32 s)
-//.text:00598760 ; int32 __cdecl hs_short_to_long(int32 s)
-//.text:00598770 ; int32 __cdecl hs_short_to_real(int32 s)
+int32 __cdecl hs_short_to_boolean(int32 s)
+{
+	return INVOKE(0x00598740, hs_short_to_boolean, s);
+
+	//int32 result = s == 0;
+	//return result;
+}
+
+int32 __cdecl hs_short_to_long(int32 s)
+{
+	return INVOKE(0x00598760, hs_short_to_long, s);
+
+	//int32 result;
+	//*(int16*)&result = (int16)s;
+	//return result;
+}
+
+int32 __cdecl hs_short_to_real(int32 s)
+{
+	return INVOKE(0x00598770, hs_short_to_real, s);
+
+	//int32 result;
+	//*(real32*)&result = (real32)(int16)s;
+	//return result;
+}
 
 hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer)
 {
@@ -2521,7 +2661,12 @@ bool __cdecl hs_stack_push(int32 thread_index)
 	return result;
 }
 
-//.text:005989E0 ; int32 __cdecl hs_string_to_boolean(int32 n)
+int32 __cdecl hs_string_to_boolean(int32 n)
+{
+	return INVOKE(0x005989E0, hs_string_to_boolean, n);
+
+	//return n + strlen((const char*)n) + 1 == n + 1;
+}
 
 hs_syntax_node* __cdecl hs_syntax_get(int32 index)
 {
@@ -2663,6 +2808,51 @@ const char* __cdecl hs_thread_format(int32 thread_index)
 	return result;
 }
 
+hs_thread* hs_thread_get(int32 thread_index)
+{
+	hs_thread* thread = NULL;
+
+#ifndef USE_HS_THREAD_TRACKING
+	thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, thread_index);
+#else
+	s_hs_thread_tracking_data* tracking_data = DATUM_GET(hs_thread_tracking_data, s_hs_thread_tracking_data, thread_index);
+	switch (tracking_data->type)
+	{
+	case _hs_thread_tracking_deterministic:
+	{
+		thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, tracking_data->index);
+	}
+	break;
+	case _hs_thread_tracking_non_deterministic:
+	{
+		thread = DATUM_TRY_AND_GET(hs_thread_non_deterministic_data, hs_thread, tracking_data->index);
+	}
+	break;
+	default:
+	{
+		UNREACHABLE();
+	}
+	break;
+	}
+#endif
+
+	return thread;
+}
+
+int32 hs_thread_get_tracking_index_by_non_deterministic_thread_index(int32 non_deterministic_thread_index)
+{
+	hs_thread* thread = DATUM_GET(hs_thread_non_deterministic_data, hs_thread, non_deterministic_thread_index);
+	ASSERT(thread->tracking_index != NONE);
+	return thread->tracking_index;
+}
+
+int32 hs_thread_get_tracking_index_by_deterministic_thread_index(int32 non_deterministic_thread_index)
+{
+	hs_thread* thread = DATUM_GET(hs_thread_deterministic_data, hs_thread, non_deterministic_thread_index);
+	ASSERT(thread->tracking_index != NONE);
+	return thread->tracking_index;
+}
+
 bool __cdecl hs_thread_is_deterministic(int32 thread_index)
 {
 	//return INVOKE(0x00598B10, hs_thread_is_deterministic, thread_index);
@@ -2715,20 +2905,6 @@ void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool determi
 		}
 	}
 #endif
-}
-
-int32 hs_thread_get_tracking_index_by_non_deterministic_thread_index(int32 non_deterministic_thread_index)
-{
-	hs_thread* thread = DATUM_GET(hs_thread_non_deterministic_data, hs_thread, non_deterministic_thread_index);
-	ASSERT(thread->tracking_index != NONE);
-	return thread->tracking_index;
-}
-
-int32 hs_thread_get_tracking_index_by_deterministic_thread_index(int32 non_deterministic_thread_index)
-{
-	hs_thread* thread = DATUM_GET(hs_thread_deterministic_data, hs_thread, non_deterministic_thread_index);
-	ASSERT(thread->tracking_index != NONE);
-	return thread->tracking_index;
 }
 
 int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator)
@@ -3103,154 +3279,7 @@ void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffe
 //.text:00599420 ; tls
 //.text:00599460 ; 
 
-void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset)
-{
-	//INVOKE(0x00599470, thread_update_sleep_time_for_reset, thread_index, time_offset);
-
-	hs_thread* thread = hs_thread_get(thread_index);
-	if (thread->sleep_until >= 0)
-	{
-		thread->sleep_until = MIN(0, thread->sleep_until + time_offset);
-	}
-
-	if (TEST_BIT(thread->flags, _hs_thread_latent_sleep_bit) && thread->latent_sleep_until >= 0)
-	{
-		thread->sleep_until = MIN(0, thread->latent_sleep_until + time_offset);
-	}
-}
-
-hs_thread* hs_thread_get(int32 thread_index)
-{
-	hs_thread* thread = NULL;
-
-#ifndef USE_HS_THREAD_TRACKING
-	thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, thread_index);
-#else
-	s_hs_thread_tracking_data* tracking_data = DATUM_GET(hs_thread_tracking_data, s_hs_thread_tracking_data, thread_index);
-	switch (tracking_data->type)
-	{
-	case _hs_thread_tracking_deterministic:
-	{
-		thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, tracking_data->index);
-	}
-	break;
-	case _hs_thread_tracking_non_deterministic:
-	{
-		thread = DATUM_TRY_AND_GET(hs_thread_non_deterministic_data, hs_thread, tracking_data->index);
-	}
-	break;
-	default:
-	{
-		UNREACHABLE();
-	}
-	break;
-	}
-#endif
-
-	return thread;
-}
-
-void hs_find_dormant_script(const char* dormant_script_name, int32* script_index_out)
-{
-	ASSERT(dormant_script_name);
-	ASSERT(script_index_out);
-
-	*script_index_out = NONE;
-
-	int32 thread_index = hs_find_thread_by_name(dormant_script_name);
-	if (thread_index == NONE)
-	{
-		return;
-	}
-
-	hs_thread* thread = hs_thread_get(thread_index);
-
-	if (global_scenario_get()->hs_scripts[thread->script_index].script_type == _hs_script_dormant)
-	{
-		*script_index_out = thread->script_index;
-	}
-}
-
-const char* expression_get_function_name(int32 thread_index, int32 expression_index)
-{
-	hs_thread* thread = hs_thread_get(thread_index);
-
-	const char* result = "unknown script";
-
-	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	for (; !TEST_BIT(expression->flags, _hs_syntax_node_script_bit); expression = hs_syntax_get(expression_index))
-	{
-		if (expression->function_index || expression_index != hs_thread_stack(thread)->expression_index)
-		{
-			result = hs_function_get(expression->function_index)->name;
-			break;
-		}
-
-		if (hs_thread_stack(thread)->size <= 0)
-		{
-			result = "(invalid expression reference)";
-			break;
-		}
-
-		expression_index = expression->next_node_index;
-		if (expression_index == NONE)
-		{
-			result = "(end of script)";
-			break;
-		}
-	}
-
-	if (VALID_INDEX(expression->script_index, global_scenario->hs_scripts.count))
-	{
-		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario->hs_scripts, expression->script_index, hs_script);
-
-		result = script->name;
-	}
-
-	return result;
-}
-
-void thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffer_size)
-{
-	hs_thread* thread = hs_thread_get(thread_index);
-	
-	ASSERT(buffer);
-	ASSERT(buffer_size > 0);
-
-	if ((TEST_BIT(thread->sleep_until + FLAG(31), 31) || thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM) && !TEST_BIT(thread->flags, _hs_thread_hide_display_bit))
-	{
-		csnzappendf(buffer, buffer_size, "\r\n%s\t", hs_thread_format(thread_index));
-
-		if (hs_thread_stack(thread)->expression_index == NONE)
-		{
-			csnzappendf(buffer, buffer_size, "-\t");
-		}
-		else
-		{
-			csnzappendf(buffer, buffer_size, "%i\t", hs_syntax_get(hs_thread_stack(thread)->expression_index)->line_number);
-		}
-
-		if (thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM)
-		{
-			csnzappendf(buffer, buffer_size, "ATOM\t");
-		}
-		else
-		{
-			csnzappendf(buffer, buffer_size, "%d\t", thread->sleep_until ? (thread->sleep_until - game_time_get()) : 0);
-		}
-
-		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
-		{
-			const char* function_name = expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index);
-			if (function_name)
-			{
-				csstrnzcat(buffer, function_name, buffer_size);
-			}
-		}
-	}
-}
-
-void render_debug_scripting()
+void __cdecl render_debug_scripting()
 {
 	//debug_scripting = true;
 	//main_set_single_thread_request_flag(_single_thread_for_hs_debug, debug_scripting || debug_globals);
@@ -3282,7 +3311,7 @@ void render_debug_scripting()
 	render_debug_scripting_globals();
 }
 
-void render_debug_scripting_globals()
+void __cdecl render_debug_scripting_globals()
 {
 	if (debug_globals && hs_global_data)
 	{
@@ -3314,12 +3343,11 @@ void render_debug_scripting_globals()
 	}
 }
 
-void render_debug_trigger_volumes()
+void __cdecl render_debug_trigger_volumes()
 {
 	if (debug_trigger_volumes)
 	{
 		const struct scenario* scenario = global_scenario_get();
-
 		
 		for (int32 trigger_index = 0; trigger_index < scenario->trigger_volumes.count; trigger_index++)
 		{
@@ -3390,3 +3418,81 @@ void render_debug_trigger_volumes()
 		}
 	}
 }
+
+void __cdecl thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffer_size)
+{
+	hs_thread* thread = hs_thread_get(thread_index);
+
+	ASSERT(buffer);
+	ASSERT(buffer_size > 0);
+
+	if ((TEST_BIT(thread->sleep_until + FLAG(31), 31) || thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM) && !TEST_BIT(thread->flags, _hs_thread_hide_display_bit))
+	{
+		csnzappendf(buffer, buffer_size, "\r\n%s\t", hs_thread_format(thread_index));
+
+		if (hs_thread_stack(thread)->expression_index == NONE)
+		{
+			csnzappendf(buffer, buffer_size, "-\t");
+		}
+		else
+		{
+			csnzappendf(buffer, buffer_size, "%i\t", hs_syntax_get(hs_thread_stack(thread)->expression_index)->line_number);
+		}
+
+		if (thread->sleep_until == HS_SLEEP_COMMAND_SCRIPT_ATOM)
+		{
+			csnzappendf(buffer, buffer_size, "ATOM\t");
+		}
+		else
+		{
+			csnzappendf(buffer, buffer_size, "%d\t", thread->sleep_until ? (thread->sleep_until - game_time_get()) : 0);
+		}
+
+		if (thread->stack.stack_offset && thread->sleep_until != HS_SLEEP_INDEFINITE && hs_thread_stack(thread)->expression_index != NONE)
+		{
+			const char* function_name = expression_get_function_name(thread_index, hs_thread_stack(thread)->expression_index);
+			if (function_name)
+			{
+				csstrnzcat(buffer, function_name, buffer_size);
+			}
+		}
+	}
+}
+
+void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset)
+{
+	//INVOKE(0x00599470, thread_update_sleep_time_for_reset, thread_index, time_offset);
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	if (thread->sleep_until >= 0)
+	{
+		thread->sleep_until = MIN(0, thread->sleep_until + time_offset);
+	}
+
+	if (TEST_BIT(thread->flags, _hs_thread_latent_sleep_bit) && thread->latent_sleep_until >= 0)
+	{
+		thread->sleep_until = MIN(0, thread->latent_sleep_until + time_offset);
+	}
+}
+
+bool __cdecl valid_thread(int32 thread_index)
+{
+	bool valid = false;
+
+	s_data_array* data_array = hs_thread_is_deterministic(thread_index) ? hs_thread_deterministic_data : hs_thread_non_deterministic_data;
+	void* data_array_data = data_array->data;
+
+	hs_thread* thread = hs_thread_get(thread_index);
+	if ((void*)thread >= data_array_data && (void*)thread < offset_pointer(data_array_data, data_array->size * data_array->count))
+	{
+		if (thread->stack.stack_offset >= 0 && thread->stack.stack_offset + (int16)sizeof(hs_stack_frame) <= HS_THREAD_STACK_SIZE)
+		{
+			if (thread->stack.stack_offset + hs_thread_stack(thread)->size + (int16)sizeof(hs_stack_frame) <= HS_THREAD_STACK_SIZE)
+			{
+				valid = true;
+			}
+		}
+	}
+	return valid;
+}
+

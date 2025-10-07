@@ -194,6 +194,7 @@ extern bool breakpoints_enabled;
 extern bool debug_trigger_volumes;
 extern hs_debug_data_definition hs_debug_data;
 
+extern const char* __cdecl expression_get_function_name(int32 thread_index, int32 expression_index);
 extern void __cdecl hs_inspect_boolean(int16 type, int32 value, char* buffer, int32 buffer_size);
 extern void __cdecl hs_inspect_real(int16 type, int32 value, char* buffer, int32 buffer_size);
 extern void __cdecl hs_inspect_short_integer(int16 type, int32 value, char* buffer, int32 buffer_size);
@@ -229,14 +230,23 @@ extern void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, 
 extern void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool initialize);
 extern void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool initialize);
 extern void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool initialize);
+extern void __cdecl hs_find_dormant_script(const char* dormant_script_name, int32* script_index_out);
 extern int32 __cdecl hs_find_thread_by_name(const char* name);
 extern int32 __cdecl hs_find_thread_by_script(int16 script_index);
 extern int32 __cdecl hs_global_evaluate(int16 global_designator);
 extern void __cdecl hs_global_reconcile_read(int16 global_designator);
 extern void __cdecl hs_global_reconcile_write(int16 global_designator);
 extern void __cdecl hs_handle_deleted_object(int32 object_index);
+extern int32 __cdecl hs_long_to_boolean(int32 n);
+extern int32 __cdecl hs_long_to_real(int32 l);
+extern int32 __cdecl hs_long_to_short(int32 l);
 extern int32* __cdecl hs_macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize);
+extern int32 __cdecl hs_object_index_from_name_index(int32 thread_index, int16 name_index);
+extern int32 __cdecl hs_object_name_to_object_list(int32 object_name_index);
+extern int32 __cdecl hs_object_to_object_list(int32 object_index);
 extern bool __cdecl hs_object_type_can_cast(int16 actual_type, int16 desired_type);
+extern int32 __cdecl hs_real_to_long(int32 r);
+extern int32 __cdecl hs_real_to_short(int32 r);
 extern void __cdecl hs_rebuild_and_compile(char* error_buffer, int32 buffer_length, bool verbose);
 extern void __cdecl hs_reset_scripts();
 extern void __cdecl hs_restore_from_saved_game(int32 game_state_restore_flags);
@@ -271,6 +281,9 @@ extern void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enab
 extern int32 __cdecl hs_scripting_get_executing_thread_index();
 extern void __cdecl hs_scripting_kill_all_threads();
 extern void __cdecl hs_scripting_kill_running_thread(int32 thread_index);
+extern int32 __cdecl hs_short_to_boolean(int32 s);
+extern int32 __cdecl hs_short_to_long(int32 s);
+extern int32 __cdecl hs_short_to_real(int32 s);
 extern hs_stack_frame* __cdecl hs_stack(hs_thread* thread, hs_stack_pointer stack_pointer);
 extern const hs_stack_frame* __cdecl hs_stack(const hs_thread* thread, hs_stack_pointer stack_pointer);
 extern void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_bits, hs_stack_pointer* out_reference);
@@ -278,12 +291,16 @@ extern int32* __cdecl hs_stack_destination(hs_thread* thread, hs_stack_pointer s
 extern int32* __cdecl hs_stack_parameters(hs_thread* thread, hs_stack_frame* stack_frame, int32 parameter_count);
 extern void __cdecl hs_stack_pop(int32 thread_index);
 extern bool __cdecl hs_stack_push(int32 thread_index);
+extern int32 __cdecl hs_string_to_boolean(int32 n);
 extern hs_syntax_node* __cdecl hs_syntax_get(int32 index);
 extern bool __cdecl hs_syntax_node_exists(int32 index);
 extern int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n);
 extern int32 hs_thread_allocate(bool deterministic);
 extern void __cdecl hs_thread_delete(int32 thread_index, bool validate);
 extern const char* __cdecl hs_thread_format(int32 thread_index);
+extern hs_thread* __cdecl hs_thread_get(int32 thread_index);
+extern int32 __cdecl hs_thread_get_tracking_index_by_non_deterministic_thread_index(int32 non_deterministic_thread_index);
+extern int32 __cdecl hs_thread_get_tracking_index_by_deterministic_thread_index(int32 non_deterministic_thread_index);
 extern bool __cdecl hs_thread_is_deterministic(int32 thread_index);
 extern void __cdecl hs_thread_iterator_new(s_hs_thread_iterator* iterator, bool deterministic, bool non_deterministic);
 extern int32 __cdecl hs_thread_iterator_next(s_hs_thread_iterator* iterator);
@@ -296,12 +313,10 @@ extern void __cdecl hs_typecasting_table_initialize();
 extern void __cdecl hs_wake(int32 thread_index, int32 waking_thread_index);
 extern bool __cdecl hs_wake_by_name(const char* script_name);
 extern void __cdecl inspect_internal(int16 type, int32 value, char* buffer, int16 buffer_size);
+extern void __cdecl render_debug_scripting();
+extern void __cdecl render_debug_scripting_globals();
+extern void __cdecl render_debug_trigger_volumes();
+extern void __cdecl thread_render_debug_scripting(int32 thread_index, char* buffer, int32 buffer_size);
 extern void __cdecl thread_update_sleep_time_for_reset(int32 thread_index, int32 time_offset);
-
-extern hs_thread* hs_thread_get(int32 thread_index);
-extern void hs_find_dormant_script(const char* dormant_script_name, int32* script_index_out);
-
-extern void render_debug_scripting();
-extern void render_debug_scripting_globals();
-extern void render_debug_trigger_volumes();
+extern bool __cdecl valid_thread(int32 thread_index);
 
