@@ -1214,6 +1214,101 @@ void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index,
 void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x00595CC0, hs_evaluate_sleep_until, function_index, thread_index, initialize);
+
+#if 0
+	hs_thread* thread = hs_thread_get(thread_index);
+	hs_stack_pointer condition_reference{};
+	int32* condition = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &condition_reference);
+	hs_stack_pointer period_reference{};
+	int32* period = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &period_reference);
+	hs_stack_pointer expiration_reference{};
+	int32* expiration = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &expiration_reference);
+	int32* start_time = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int16* optional_argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	if (condition && period && expiration && start_time && optional_argument_index)
+	{
+		int32 optional_argument_expression_index = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index)->next_node_index;
+
+		ASSERT(function_index == _hs_function_sleep_until);
+
+		if (initialize)
+		{
+			*(bool*)condition = false;
+			*start_time = game_time_get();
+			*optional_argument_index = 0;
+			*(int16*)period = 30;
+			*expiration = NONE;
+
+			if (optional_argument_expression_index != NONE)
+			{
+				hs_destination_pointer destination;
+				destination.destination_type = _hs_destination_stack;
+				destination.stack_pointer = period_reference;
+				hs_evaluate(thread_index, optional_argument_expression_index, destination, NULL);
+			}
+		}
+		else if (*optional_argument_index == 0)
+		{
+			*optional_argument_index = 1;
+			if (hs_syntax_get(optional_argument_expression_index)->next_node_index != NONE)
+			{
+				hs_destination_pointer destination;
+				destination.destination_type = _hs_destination_stack;
+				destination.stack_pointer = expiration_reference;
+				hs_evaluate(thread_index, hs_syntax_get(optional_argument_expression_index)->next_node_index, destination, NULL);
+			}
+		}
+		else
+		{
+			int32 expiration_game_ticks = NONE;
+			if (*expiration != NONE)
+			{
+				int32 expiration_hs_ticks = *expiration;
+				{
+					real32 expirationSeconds = hs_ticks_to_seconds(expiration_hs_ticks);
+					expiration_game_ticks = game_seconds_to_ticks_round(expirationSeconds);
+				}
+			}
+			if (*(bool*)condition)
+			{
+				int32 result_long = 1;
+				hs_return(thread_index, result_long);
+			}
+			else if (expiration_game_ticks != NONE && game_time_get() >= *start_time + expiration_game_ticks)
+			{
+				int32 result_long = 0;
+				hs_return(thread_index, result_long);
+			}
+			else
+			{
+				{
+					hs_destination_pointer destination;
+					destination.destination_type = _hs_destination_stack;
+					destination.stack_pointer = condition_reference;
+					hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+				}
+				{
+					int32 period_hs_ticks = *period;
+					int32 period_game_ticks = 0;
+					{
+						real32 periodSecs = hs_ticks_to_seconds(period_hs_ticks);
+						period_game_ticks = game_seconds_to_ticks_round(periodSecs);
+					}
+					if (period_game_ticks < 1)
+					{
+						period_game_ticks = 1;
+					}
+
+					thread->sleep_until = game_time_get() + period_game_ticks;
+					if (expiration_game_ticks != NONE)
+					{
+						thread->sleep_until = MAX(thread->sleep_until, *start_time + expiration_game_ticks);
+					}
+				}
+			}
+		}
+	}
+#endif
 }
 
 void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool initialize)
