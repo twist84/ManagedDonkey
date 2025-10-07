@@ -1095,6 +1095,88 @@ void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool init
 void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool initialize)
 {
 	INVOKE(0x00595A00, hs_evaluate_sleep, function_index, thread_index, initialize);
+
+#if 0
+	const hs_thread* thread = hs_thread_get(thread_index);
+	hs_stack_pointer time_reference{};
+	int32* time = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &time_reference);
+	hs_stack_pointer script_reference{};
+	int32* script_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &script_reference);
+	int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	if (time && script_index && argument_index)
+	{
+		ASSERT(function_index == _hs_function_sleep);
+
+		int32 sleep_thread_index = thread_index;
+
+		if (initialize)
+		{
+			hs_destination_pointer destination;
+			destination.destination_type = _hs_destination_stack;
+			destination.stack_pointer = time_reference;
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+			*argument_index = 0;
+		}
+		else if (*argument_index == 0)
+		{
+			int32 script_node_index = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index)->next_node_index;
+			++*argument_index;
+
+			if (script_node_index != NONE)
+			{
+				hs_destination_pointer destination;
+				destination.destination_type = _hs_destination_stack;
+				destination.stack_pointer = script_reference;
+				hs_evaluate(thread_index, script_node_index, destination, NULL);
+			}
+		}
+		else if (*argument_index)
+		{
+			int16 short_script_index = *(int16*)script_index;
+			if (short_script_index == NONE)
+			{
+				short_script_index = hs_thread_get(thread_index)->script_index;
+			}
+			else
+			{
+				sleep_thread_index = hs_find_thread_by_script(short_script_index);
+			}
+
+			if (sleep_thread_index != NONE)
+			{
+				int32 sleep_game_ticks = 0;
+				int32 sleep_hs_ticks = *(int16*)time;
+				if (sleep_hs_ticks < 0)
+				{
+					event(_event_warning, "script %s tried to sleep %d, maybe use sleep_forever?",
+						short_script_index == NONE ? "<unknown>" : TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, short_script_index, hs_script)->name,
+						sleep_hs_ticks);
+				}
+				else
+				{
+					real32 sleep_seconds = hs_ticks_to_seconds(sleep_hs_ticks);
+					sleep_game_ticks = game_seconds_to_ticks_round(sleep_seconds);
+				}
+
+				if (sleep_game_ticks > 0)
+				{
+					hs_thread* sleep_thread = hs_thread_get(sleep_thread_index);
+					int32 sleep_until = game_time_get() + sleep_game_ticks;
+					if (sleep_thread->sleep_until != NONE)
+					{
+						if (sleep_thread_index != thread_index && !TEST_BIT(sleep_thread->flags, _hs_thread_latent_sleep_bit))
+						{
+							sleep_thread->flags |= FLAG(_hs_thread_latent_sleep_bit);
+							sleep_thread->latent_sleep_until = sleep_thread->sleep_until;
+						}
+						hs_thread_get(sleep_thread_index)->sleep_until = sleep_until;
+					}
+				}
+			}
+			hs_return(thread_index, 0);
+		}
+	}
+#endif
 }
 
 void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool initialize)
