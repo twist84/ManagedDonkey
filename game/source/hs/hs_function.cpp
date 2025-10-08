@@ -28,6 +28,7 @@
 #include "main/main_game_launch.hpp"
 #include "networking/network_configuration.hpp"
 #include "networking/network_globals.hpp"
+#include "render/old_render_debug.hpp"
 #include "saved_games/saved_film_manager.hpp"
 #include "sound/game_sound.hpp"
 #include "test/test_functions.hpp"
@@ -2125,11 +2126,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_boolean
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	debug_structure_cluster,
 	0,
-	0x007405B0, // $TODO write the function chuckle nuts
+	debug_structure_cluster, // 0x007405B0,
 	"specify a structure and cluster to debug\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	2, _hs_type_long_integer, _hs_type_long_integer

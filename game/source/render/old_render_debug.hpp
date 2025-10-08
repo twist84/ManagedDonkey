@@ -11,7 +11,10 @@ extern bool debug_structure_cluster_skies;
 extern bool debug_structure_invisible;
 extern bool debug_structure;
 extern bool debug_structure_automatic;
+extern int32 debug_structure_cluster_structure_bsp_index;
+extern int32 debug_structure_cluster_cluster_index;
 extern int32 debug_plane_index;
+extern int32 debug_surface_index;
 extern bool debug_structure_unique_colors;
 extern bool debug_structure_complexity;
 extern bool debug_structure_seam_edges;
@@ -31,12 +34,14 @@ extern bool debug_camera;
 extern bool debug_tangent_space;
 extern bool debug_permanent_decals;
 
-extern void render_debug_input();
-extern void render_debug_player();
-extern void render_debug_camera();
+extern void debug_structure_cluster(int32 structure_bsp_index, int32 cluster_index);
 extern void render_debug_bsp();
+extern void render_debug_camera();
+extern void render_debug_input();
+extern bool render_debug_lost_camera();
+extern void render_debug_player();
 extern void render_debug_structure_decals();
-extern bool __cdecl render_debug_lost_camera();
+
 extern real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real32 red, real32 green, real32 blue);
 extern real_argb_color* __cdecl set_real_argb_color(real_argb_color* color, real32 alpha, real32 red, real32 green, real32 blue);
 

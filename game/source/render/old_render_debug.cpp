@@ -22,7 +22,10 @@ bool debug_structure_cluster_skies = false;
 bool debug_structure_invisible = false;
 bool debug_structure = false;
 bool debug_structure_automatic = true;
+int32 debug_structure_cluster_structure_bsp_index = NONE;
+int32 debug_structure_cluster_cluster_index = NONE;
 int32 debug_plane_index = NONE;
+int32 debug_surface_index = NONE;
 bool debug_structure_unique_colors = false;
 bool debug_structure_complexity = false;
 bool debug_structure_seam_edges = false;
@@ -42,46 +45,15 @@ bool debug_camera = false;
 bool debug_tangent_space = false;
 bool debug_permanent_decals = false;
 
-void render_debug_input()
+void debug_structure_cluster(int32 structure_bsp_index, int32 cluster_index)
 {
-	char raw_data_string[512]{};
-	if (debug_input)
-	{
-		input_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
-		render_debug_string(raw_data_string);
-	}
-
-	if (debug_input_abstraction)
-	{
-		input_abstraction_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
-		render_debug_string(raw_data_string);
-	}
-
-	if (debug_input_mouse_state)
-	{
-		input_mouse_state_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
-		render_debug_string(raw_data_string);
-	}
+	debug_structure_cluster_structure_bsp_index = structure_bsp_index;
+	debug_structure_cluster_cluster_index = cluster_index;
 }
 
-void render_debug_player()
+void render_debug_bsp()
 {
-	// This function is implemented, however the function doesn't actually do much
-
-	if (!debug_player)
-		return;
-
-	int32 user_index = c_player_view::get_current()->get_player_view_user_index();
-	if (user_index != NONE)
-	{
-		int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
-		if (biped_datum* biped = BIPED_GET(unit_index))
-		{
-			if (biped->object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
-			    unit_index = biped->object.parent_object_index;
-		}
-		object_try_and_get_and_verify_type(unit_index, _object_mask_vehicle);
-	}
+	// $IMPLEMENT
 }
 
 void render_debug_camera()
@@ -143,72 +115,109 @@ void render_debug_camera()
 	}
 }
 
-void render_debug_bsp()
+void render_debug_input()
 {
-	// $IMPLEMENT
+	char raw_data_string[512]{};
+	if (debug_input)
+	{
+		input_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
+		render_debug_string(raw_data_string);
+	}
+
+	if (debug_input_abstraction)
+	{
+		input_abstraction_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
+		render_debug_string(raw_data_string);
+	}
+
+	if (debug_input_mouse_state)
+	{
+		input_mouse_state_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
+		render_debug_string(raw_data_string);
+	}
 }
 
-void render_debug_structure_decals()
+bool render_debug_lost_camera()
 {
-	if (!debug_permanent_decals)
-		return;
+	return c_player_view::get_current()->m_using_stored_cluster;
+}
 
-	for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
-		structure_bsp_index != NONE;
-		structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+void render_debug_player()
+{
+	// This function is implemented, however the function doesn't actually do much
+
+	if (debug_player)
 	{
-		int32 runtime_decal_index = 0;
-		for (structure_runtime_decal& runtime_decal : global_structure_bsp_get(structure_bsp_index)->runtime_decals)
+		int32 user_index = c_player_view::get_current()->get_player_view_user_index();
+		if (user_index != NONE)
 		{
-			struct scenario* scenario = global_scenario_get();
-
-			ASSERT(VALID_INDEX(runtime_decal.decal_palette_index, scenario->decal_palette.count));
-			scenario_decal_palette_entry& decal_palette = scenario->decal_palette[runtime_decal.decal_palette_index];
-
-			s_cluster_reference scenario_cluster = scenario_cluster_reference_from_point(&runtime_decal.position);
-			const structure_bsp* bsp = scenario_structure_bsp_get(scenario, scenario_cluster.bsp_index);
-
-			ASSERT(VALID_INDEX(scenario_cluster.cluster_index, bsp->clusters.count));
-			structure_cluster& cluster = bsp->clusters[scenario_cluster.cluster_index];
-
-			real_matrix3x3 matrix{};
-			matrix3x3_rotation_from_quaternion(&matrix, &runtime_decal.rotation);
-
-			real_vector3d vector{};
-			scale_vector3d(&vector, -1.0f, &matrix.up);
-
-			real_point3d* point = &runtime_decal.position;
-			const real_argb_color* color = global_real_argb_red;
-
-			collision_result collision;
-			if (collision_test_vector(_collision_test_environment_flags, &runtime_decal.position, &vector, NONE, NONE, &collision))
+			int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
+			if (biped_datum* biped = BIPED_GET(unit_index))
 			{
-				if (cluster.runtime_first_decal_index != 0xFFFF && runtime_decal_index - cluster.runtime_first_decal_index < cluster.runtime_decal_count)
-				{
-					point = &collision.point;
-					color = global_real_argb_yellow;
-				}
-				else
-				{
-					point = &collision.point;
-					color = global_real_argb_orange;
-				}
+				if (biped->object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
+					unit_index = biped->object.parent_object_index;
 			}
-
-			render_debug_sphere(true, point, 0.1f, color);
-
-			const char* tag_name = tag_get_name(decal_palette.reference.index);
-			const char* name = tag_name_strip_path(tag_name);
-			render_debug_string_at_point(&runtime_decal.position, name, global_real_argb_green);
-
-			runtime_decal_index++;
+			object_try_and_get_and_verify_type(unit_index, _object_mask_vehicle);
 		}
 	}
 }
 
-bool __cdecl render_debug_lost_camera()
+void render_debug_structure_decals()
 {
-	return c_player_view::get_current()->m_using_stored_cluster;
+	if (debug_permanent_decals)
+	{
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
+			structure_bsp_index != NONE;
+			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+		{
+			int32 runtime_decal_index = 0;
+			for (structure_runtime_decal& runtime_decal : global_structure_bsp_get(structure_bsp_index)->runtime_decals)
+			{
+				struct scenario* scenario = global_scenario_get();
+
+				ASSERT(VALID_INDEX(runtime_decal.decal_palette_index, scenario->decal_palette.count));
+				scenario_decal_palette_entry& decal_palette = scenario->decal_palette[runtime_decal.decal_palette_index];
+
+				s_cluster_reference scenario_cluster = scenario_cluster_reference_from_point(&runtime_decal.position);
+				const structure_bsp* bsp = scenario_structure_bsp_get(scenario, scenario_cluster.bsp_index);
+
+				ASSERT(VALID_INDEX(scenario_cluster.cluster_index, bsp->clusters.count));
+				structure_cluster& cluster = bsp->clusters[scenario_cluster.cluster_index];
+
+				real_matrix3x3 matrix{};
+				matrix3x3_rotation_from_quaternion(&matrix, &runtime_decal.rotation);
+
+				real_vector3d vector{};
+				scale_vector3d(&vector, -1.0f, &matrix.up);
+
+				real_point3d* point = &runtime_decal.position;
+				const real_argb_color* color = global_real_argb_red;
+
+				collision_result collision;
+				if (collision_test_vector(_collision_test_environment_flags, &runtime_decal.position, &vector, NONE, NONE, &collision))
+				{
+					if (cluster.runtime_first_decal_index != 0xFFFF && runtime_decal_index - cluster.runtime_first_decal_index < cluster.runtime_decal_count)
+					{
+						point = &collision.point;
+						color = global_real_argb_yellow;
+					}
+					else
+					{
+						point = &collision.point;
+						color = global_real_argb_orange;
+					}
+				}
+
+				render_debug_sphere(true, point, 0.1f, color);
+
+				const char* tag_name = tag_get_name(decal_palette.reference.index);
+				const char* name = tag_name_strip_path(tag_name);
+				render_debug_string_at_point(&runtime_decal.position, name, global_real_argb_green);
+
+				runtime_decal_index++;
+			}
+		}
+	}
 }
 
 real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real32 red, real32 green, real32 blue)
