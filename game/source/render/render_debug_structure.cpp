@@ -92,7 +92,18 @@ void __cdecl render_debug_structure()
 
 	if (debug_structure_surface_references)
 	{
-
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
+			structure_bsp_index != NONE;
+			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+		{
+			const structure_bsp* structure = global_structure_bsp_get(structure_bsp_index);
+			for (int32 leaf_index = 0; leaf_index < structure->leaves.count; leaf_index++)
+			{
+				const structure_leaf* leaf = TAG_BLOCK_GET_ELEMENT(&structure->leaves, leaf_index, const structure_leaf);
+				const structure_cluster* cluster = TAG_BLOCK_GET_ELEMENT(&structure->clusters, leaf->cluster_index, const structure_cluster);
+				//structure_bsp_cluster_data_available(cluster); // return true
+			}
+		}
 	}
 
 	scenario_soft_ceilings_render_debug(
@@ -103,12 +114,62 @@ void __cdecl render_debug_structure()
 
 	if (debug_structure_cluster_skies)
 	{
-
+		//s_scenario_zone_set* zone_set;
+		//const s_game_cluster_bit_vectors* clusters;
+		//{
+		//	int32 structure_bsp_index;
+		//	{
+		//		const structure_bsp* structure;
+		//		s_scenario_zone_set_pvs* zone_set_pvs;
+		//		const int32 zone_set_pvs_index;
+		//		int32* cluster_multiple_skies_visible_bit_vector;
+		//		s_scenario_zone_set_structure_bsp_pvs* structure_bsp_pvs;
+		//		{
+		//			int32 cluster_index;
+		//			{
+		//				s_cluster_reference cluster_reference;
+		//				{
+		//					const real32 k_world_bounds;
+		//					structure_cluster* cluster;
+		//					c_static_string<128> string;
+		//					bool multiple_skies_visible;
+		//					int32 sky_index;
+		//					const real_argb_color* color;
+		//					real_point3d center;
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 	}
 
 	if (debug_structure_invisible)
 	{
-
+		//c_render_debug_line_drawer debug_open_edge_drawer;
+		//c_render_debug_line_drawer debug_edge_drawer;
+		//{
+		//	int32 structure_bsp_index;
+		//	{
+		//		const structure_bsp* structure;
+		//		const collision_bsp* bsp;
+		//		{
+		//			int32 edge_index;
+		//			{
+		//				const collision_edge* edge;
+		//				const collision_vertex* v0;
+		//				const collision_vertex* v1;
+		//				int16 plane_designators[2]{};
+		//				bool connected_to_invisible = false;
+		//				{
+		//					int32 side_index;
+		//					{
+		//						const collision_surface* surface;
+		//					}
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 	}
 
 	water_physics_render_debug(&render_camera->position, &render_camera->forward);
