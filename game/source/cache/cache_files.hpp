@@ -146,22 +146,15 @@ union cache_file_tag_instance
 		__pragma(warning(disable : 4200)) uns32 dependencies[];
 	};
 
-	const char* get_name()
-	{
-		REFERENCE_DECLARE(base + total_size, c_static_string<k_tag_long_string_length>, tag_name);
-		return tag_name.get_string();
-	}
-
-	void* get()
-	{
-		return base + offset;
-	}
-
 	template<typename t_type>
 	t_type* cast_to()
 	{
-		return static_cast<t_type*>(get());
+		return static_cast<t_type*>(cache_file_tag_instance::get());
 	}
+
+	void* get();
+	int32 get_tag_index();
+	const char* get_tag_name();
 };
 static_assert(sizeof(cache_file_tag_instance) == 0x24);
 

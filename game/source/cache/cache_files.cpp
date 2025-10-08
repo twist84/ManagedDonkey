@@ -147,6 +147,24 @@ protected:
 
 bool s_cache_file_tag_group_bsearch::m_sorted = s_cache_file_tag_group_bsearch::sort();
 
+void* cache_file_tag_instance::get()
+{
+	return base + offset;
+}
+
+int32 cache_file_tag_instance::get_tag_index()
+{
+	int32 tag_index = *reinterpret_cast<int32*>(offset_pointer(base, total_size));
+	return tag_index;
+}
+
+const char* cache_file_tag_instance::get_tag_name()
+{
+	int32 tag_index = cache_file_tag_instance::get_tag_index();
+	const char* tag_name = tag_get_name_safe(tag_index);
+	return tag_name;
+}
+
 const char* tag_group_get_name(tag group_tag)
 {
 	const s_cache_file_tag_group* group = NULL;
@@ -851,25 +869,22 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 
-	int32& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
-	int32 tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
-
 	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != NONE)
 	{
 		return true;
 	}
 
-	if (!cache_file_tags_section_read(tag_cache_offset, cache_file_round_up_read_size(sizeof(cache_file_tag_instance)), instance))
+	if (!cache_file_tags_section_read(g_cache_file_globals.tag_cache_offsets[tag_index], cache_file_round_up_read_size(sizeof(cache_file_tag_instance)), instance))
 	{
 		return false;
 	}
 
 	g_cache_file_globals.tag_loaded_size += instance->total_size;
-	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
-	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
-	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
+	g_cache_file_globals.tag_instances[g_cache_file_globals.tag_loaded_count] = instance;
+	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = g_cache_file_globals.tag_loaded_count;
+	g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count] = tag_index;
 
-	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, instance->base))
+	if (!cache_file_tags_section_read(g_cache_file_globals.tag_cache_offsets[tag_index], instance->total_size, instance->base))
 	{
 		return false;
 	}
@@ -882,7 +897,10 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 	// not needed
 	//sub_503470(&g_cache_file_globals.reports, tag_instance, tag_index);
 
-	tag_loaded_count++;
+	g_cache_file_globals.tag_loaded_size += sizeof(int32);
+	*reinterpret_cast<int32*>(offset_pointer(instance, instance->total_size)) = tag_index;
+
+	g_cache_file_globals.tag_loaded_count++;
 
 	tag_instance_modification_apply(instance, _instance_modification_stage_post_tag_load);
 
@@ -1355,7 +1373,9 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 
 			// if no global snenario reference was found in cache file global tags we fallback to the cache file header
 			if (cache_file_get_global_tag_index(SCENARIO_TAG) == NONE)
+			{
 				success = cache_file_tags_load_recursive(g_cache_file_globals.header.scenario_index);
+			}
 		}
 
 		cache_file_close_tags_section();
@@ -1566,6 +1586,11 @@ void* __cdecl tag_get(tag group_tag, int32 tag_index)
 {
 	g_last_tag_accessed = { .group_tag = group_tag, .index = tag_index };
 
+	if (tag_index == NONE)
+	{
+		return NULL;
+	}
+
 	int32 tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
 	if (tag_absolute_index == NONE)
 	{
@@ -1641,69 +1666,6 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 
 //.text:00503510 ; void* __cdecl tag_try_and_get_unsafe(uns32, int32)
 
-bool cache_file_tags_single_tag_file_load(s_file_reference* file, int32* out_tag_index, cache_file_tag_instance** out_instance)
-{
-	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
-	int32& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
-
-	if (out_instance)
-	{
-		*out_instance = instance;
-	}
-
-	if (!file_read_from_position(file, 0, sizeof(cache_file_tag_instance), false, instance))
-	{
-		return false;
-	}
-
-	uns32 file_size = 0;
-	file_get_size(file, &file_size);
-
-	g_cache_file_globals.tag_loaded_size += file_size;
-	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
-	g_cache_file_globals.tag_index_absolute_mapping[g_cache_file_globals.tag_total_count] = tag_loaded_count;
-	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = g_cache_file_globals.tag_total_count;
-
-	if (*out_tag_index)
-	{
-		*out_tag_index = g_cache_file_globals.tag_total_count++;
-	}
-
-	if (!file_read_from_position(file, 0, file_size, false, instance))
-	{
-		return false;
-	}
-
-	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
-	{
-		return false;
-	}
-
-	tag_loaded_count++;
-	g_cache_file_globals.tag_total_count++;
-
-	if (instance->dependency_count <= 0)
-	{
-		return true;
-	}
-
-	int16 dependency_index = 0;
-	while (cache_file_tags_load_recursive(instance->dependencies[dependency_index]))
-	{
-		if (++dependency_index >= instance->dependency_count)
-		{
-			return true;
-		}
-	}
-
-	if (out_instance)
-	{
-		*out_instance = NULL;
-	}
-
-	return false;
-}
-
 // $TODO create some sort of tag modification manager
 void apply_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
@@ -1715,7 +1677,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 	}
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -1755,7 +1717,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	//bool is_base_cache = g_cache_file_globals.tag_cache_offsets[0] == 0x20;
 
 	s_multiplayer_globals_definition* multiplayer_globals = instance->cast_to<s_multiplayer_globals_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	// Add back missing weapon selections
@@ -1903,7 +1865,7 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	}
 
 	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -1936,7 +1898,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	}
 
 	struct scenario* scenario = instance->cast_to<struct scenario>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -1969,7 +1931,7 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 	}
 
 	s_chud_globals_definition* chud_globals_definition = instance->cast_to<s_chud_globals_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2006,7 +1968,7 @@ void apply_vision_mode_definition_instance_modification(cache_file_tag_instance*
 	}
 
 	s_vision_mode_definition* vision_mode_definition = instance->cast_to<s_vision_mode_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2039,7 +2001,7 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 	}
 
 	struct object_definition* object_definition = instance->cast_to<struct object_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2072,7 +2034,7 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 	}
 
 	struct unit_definition* unit_definition = instance->cast_to<struct unit_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2105,7 +2067,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 	}
 
 	struct biped_definition* biped_definition = instance->cast_to<struct biped_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2146,7 +2108,7 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 	}
 
 	struct vehicle_definition* vehicle_definition = instance->cast_to<struct vehicle_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2179,7 +2141,7 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 	}
 
 	struct item_definition* item_definition = instance->cast_to<struct item_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2212,7 +2174,7 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 	}
 
 	struct equipment_definition* equipment_definition = instance->cast_to<struct equipment_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2245,7 +2207,7 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 	}
 
 	struct weapon_definition* weapon_definition = instance->cast_to<struct weapon_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2278,7 +2240,7 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 	}
 
 	struct projectile_definition* projectile_definition = instance->cast_to<struct projectile_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2311,7 +2273,7 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 	}
 
 	s_multilingual_unicode_string_list_group_header* multilingual_unicode_string_list = instance->cast_to<s_multilingual_unicode_string_list_group_header>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2362,7 +2324,7 @@ void apply_gui_datasource_definition_tag_instance_modification(cache_file_tag_in
 	}
 
 	s_datasource_definition* datasource_definition = instance->cast_to<s_datasource_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2411,7 +2373,7 @@ void apply_gui_skin_definition_tag_instance_modification(cache_file_tag_instance
 	}
 
 	s_gui_skin_definition* gui_skin_definition = instance->cast_to<s_gui_skin_definition>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
@@ -2460,7 +2422,7 @@ void apply_camera_fx_settings_instance_modification(cache_file_tag_instance* ins
 	}
 
 	c_camera_fx_settings* camera_fx_settings = instance->cast_to<c_camera_fx_settings>();
-	const char* tag_name = instance->get_name();
+	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
