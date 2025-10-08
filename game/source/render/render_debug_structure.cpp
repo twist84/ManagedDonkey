@@ -255,58 +255,59 @@ void __cdecl render_debug_structure()
 
 	if (debug_structure_slip_surfaces)
 	{
-		c_render_debug_line_drawer debug_line_drawer_green{};
-		c_render_debug_line_drawer debug_line_drawer_red{};
+		c_render_debug_line_drawer debug_line_drawer{};
+		c_render_debug_line_drawer invalid_debug_line_drawer{};
 
-		debug_line_drawer_green.set_color(global_real_argb_green);
-		debug_line_drawer_red.set_color(global_real_argb_red);
+		debug_line_drawer.set_color(global_real_argb_green);
+		invalid_debug_line_drawer.set_color(global_real_argb_red);
 
 		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
-			c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-			for (int32 edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
+			const structure_bsp* structure = global_structure_bsp_get(structure_bsp_index);
+			c_collision_bsp_reference bsp(structure);
+			for (int32 edge_index = 0; edge_index < bsp.get_edge_count(); edge_index++)
 			{
-				c_collision_edge_reference edge_reference(bsp_reference, edge_index);
-				c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
-				c_collision_vertex_reference end_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1));
+				c_collision_edge_reference edge(bsp, edge_index);
+				c_collision_vertex_reference v0(bsp, edge.get_vertex_index(0));
+				c_collision_vertex_reference v1(bsp, edge.get_vertex_index(1));
 
-				bool surface_reference_has_slip_bit_enabled = false;
-				bool slip_surface_does_not_exceed_maximum_k = true;
+				bool slip_surface = false;
+				bool in_range_slip_surface = true;
 
-				for (int32 i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
+				for (int32 side_index = 0; side_index < NUMBEROF(collision_edge::surface_indices); side_index++)
 				{
-					if (edge_reference.get_surface_index(i) != NONE)
+					if (edge.get_surface_index(side_index) != NONE)
 					{
-						c_collision_surface_reference surface_reference(bsp_reference, edge_reference.get_surface_index(i));
-						if (TEST_BIT(surface_reference.get_flags(), _collision_surface_slip_bit))
+						c_collision_surface_reference surface(bsp, edge.get_surface_index(side_index));
+						if (TEST_BIT(surface.get_flags(), _collision_surface_slip_bit))
 						{
-							surface_reference_has_slip_bit_enabled = true;
+							slip_surface = true;
 
 							real_plane3d plane{};
-							surface_reference.get_plane(&plane);
+							surface.get_plane(&plane);
 							if (plane.n.k > global_slip_surface_maximum_k_get() - k_test_real_epsilon)
 							{
-								slip_surface_does_not_exceed_maximum_k = false;
+								in_range_slip_surface = false;
 							}
 						}
 					}
 
 				}
 
-				if (surface_reference_has_slip_bit_enabled)
+				if (slip_surface)
 				{
-					real_point3d* end_vertex_position = end_vertex_reference.get_position();
-					real_point3d* start_vertex_position = start_vertex_reference.get_position();
+					real_point3d* p0 = v0.get_position();
+					real_point3d* p1 = v1.get_position();
 
-					if (slip_surface_does_not_exceed_maximum_k)
+					if (in_range_slip_surface)
 					{
-						debug_line_drawer_green.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
+						debug_line_drawer.add_line_3d_unclipped(p0, p1);
 					}
 					else
 					{
-						debug_line_drawer_red.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
+						invalid_debug_line_drawer.add_line_3d_unclipped(p0, p1);
 					}
 				}
 			}
