@@ -661,10 +661,13 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 				event(_event_warning, "cache_files:header failed RSA signature verification - possible cheating?");
 			}
 
-			static char hash_buffer[4096]{};
-			security_print_hash(&hash_of_hashes, hash_buffer, sizeof(hash_buffer));
-			event(_event_warning, "cache_files:header: failed hash verification - copying new validated values, %s", hash_buffer);
-			csmemcpy(header->content_hashes, &hash_of_hashes, sizeof(s_network_http_request_hash));
+			if (!success)
+			{
+				static char hash_buffer[4096]{};
+				security_print_hash(&hash_of_hashes, hash_buffer, sizeof(hash_buffer));
+				event(_event_warning, "cache_files:header: failed hash verification - copying new validated values, %s", hash_buffer);
+				csmemcpy(header->content_hashes, &hash_of_hashes, sizeof(s_network_http_request_hash));
+			}
 		}
 		else
 		{
@@ -1395,7 +1398,9 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 		//		{
 		//			int32 v8 = v7;
 		//			if (v7 > 0x100000)
+		//			{
 		//				v8 = 0x100000;
+		//			}
 		//
 		//			security_incremental_hash_update(hash_working_memory, 0x400, security_state, v8);
 		//			main_loop_pregame();
