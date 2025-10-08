@@ -991,6 +991,10 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 {
 	ASSERT(instance);
 
+	int32 tag_index = instance->get_tag_index();
+	const char* tag_name = instance->get_tag_name();
+	const char* group_tag_name = instance->tag_group.name.get_string();
+
 	cache_address* data_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count);
 	for (int16 data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
 	{
@@ -999,19 +1003,38 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 		// 0.4.11.2 tags messed up `ui\halox\pregame_lobby\switch_lobby\lobbies.gui_datasource_definition` data fixups
 		if (!data_fixup.value)
 		{
+			event(_event_warning, "tags: bad data_fixups[%d].value == 0 for tag [0x%08X, '%s.%s']",
+				data_fixup_index,
+				tag_index,
+				tag_name,
+				group_tag_name);
 			continue;
 		}
 
 		// 0.4.11.2 tags messed up `levels\multi\s3d_avalanche\s3d_avalanche.scenario` data fixups
 		if (!data_fixup.persistent)
 		{
-			continue;
+			if (instance->tag_group.is_group(CACHE_FILE_GLOBAL_TAGS_TAG))
+			{
+				continue;
+			}
+
+			event(_event_warning, "tags: data_fixups[%d].persistent == false for tag [0x%08X, '%s.%s']",
+				data_fixup_index,
+				tag_index,
+				tag_name,
+				group_tag_name);
+			data_fixup.persistent = true;
 		}
 
 		ASSERT(data_fixup.persistent == true);
 		data_fixup.persistent = false;
-		data_fixup.value += (uns32)instance;
-		//ASSERT(data_fixup.value == data_fixup.offset);
+
+		if (!IN_RANGE_INCLUSIVE(data_fixup.value, (uns32)instance, (uns32)instance + instance->total_size))
+		{
+			data_fixup.value += (uns32)instance;
+			ASSERT(data_fixup.value == data_fixup.offset);
+		}
 	}
 
 	tag_instance_modification_apply(instance, _instance_modification_stage_post_tag_fixup);
