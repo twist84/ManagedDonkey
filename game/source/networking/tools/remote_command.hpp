@@ -114,7 +114,6 @@ COMMAND_CALLBACK_DECLARE(net_test_game_variant_parameter);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
 COMMAND_CALLBACK_DECLARE(online_user_set_name);
 COMMAND_CALLBACK_DECLARE(cheat_all_chars);
-COMMAND_CALLBACK_DECLARE(debug_menu_rebuild);
 COMMAND_CALLBACK_DECLARE(drop_permutation);
 COMMAND_CALLBACK_DECLARE(lsp_info_get);
 COMMAND_CALLBACK_DECLARE(lsp_info_set);
@@ -162,8 +161,6 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<boolean>", "sets connected to live\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(online_user_set_name, 2, "<long> <string>", "sets the name of a specific user\r\nNETWORK SAFE: Yes"),
-
-	COMMAND_CALLBACK_REGISTER(debug_menu_rebuild, 0, "", "Reparses the debug menu from the text file."),
 
 	COMMAND_CALLBACK_REGISTER(drop_permutation, 2, "<string> <string>", "drops the named tag e.g. objects\\characters\\brute\\brute.biped using the specified permutation. permutations are specified as a comma-delimited string of region=permutation pairs (e.g. region1=permutation1,region2=permutation2).\r\n"),
 

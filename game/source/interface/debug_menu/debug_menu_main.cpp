@@ -131,6 +131,11 @@ void debug_menu_dispose_from_old_map()
 		g_user_interface_controller_globals.suppressed = false;
 }
 
+void debug_menu_rebuild()
+{
+	g_debug_menu_rebuild_request = true;
+}
+
 void debug_menu_update_current_gamepad_state()
 {
 	csmemset(&g_debug_menu_globals.m_current_gamepad, 0, sizeof(g_debug_menu_globals.m_current_gamepad));

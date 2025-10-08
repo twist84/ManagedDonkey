@@ -764,15 +764,6 @@ callback_result_t cheat_all_chars_callback(const void* userdata, int32 token_cou
 	return result;
 }
 
-callback_result_t debug_menu_rebuild_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	g_debug_menu_rebuild_request = true;
-
-	return result;
-}
-
 callback_result_t drop_permutation_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

@@ -18,6 +18,7 @@
 #include "hs/hs_looper.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_location_manager.hpp"
 #include "interface/user_interface_text.hpp"
 #include "interface/user_interface_window_manager.hpp"
@@ -15560,6 +15561,15 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	debug_menu_rebuild,
+	0,
+	debug_menu_rebuild,
+	"Reparses the debug menu from the text file.",
+	NULL,
+	0,
+);
 MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	object_copy_player_appearance,
@@ -17300,6 +17310,7 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&unknown69E_4_definition,
 	(hs_function_definition*)&unknown69F_1_definition,
 	(hs_function_definition*)&unknown6A0_0_definition,
+	(hs_function_definition*)&debug_menu_rebuild_0_definition,
 	(hs_function_definition*)&object_copy_player_appearance_2_definition,
 	(hs_function_definition*)&exit_game_0_definition,
 	(hs_function_definition*)&load_preferences_from_file_1_definition,

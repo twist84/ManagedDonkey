@@ -34,6 +34,7 @@ extern void debug_menu_initialize();
 extern void debug_menu_dispose();
 extern void debug_menu_initialize_for_new_map();
 extern void debug_menu_dispose_from_old_map();
+extern void debug_menu_rebuild();
 extern void debug_menu_update();
 extern void debug_menu_open();
 extern void debug_menu_close();
