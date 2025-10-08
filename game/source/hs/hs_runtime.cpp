@@ -1154,7 +1154,7 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 				}
 				else
 				{
-					real32 sleep_seconds = hs_ticks_to_seconds(sleep_hs_ticks);
+					real32 sleep_seconds = hs_ticks_to_seconds((int16)sleep_hs_ticks);
 					sleep_game_ticks = game_seconds_to_ticks_round(sleep_seconds);
 				}
 
@@ -1250,7 +1250,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 		else if (*optional_argument_index == 0)
 		{
 			*optional_argument_index = 1;
-			if (hs_syntax_get(optional_argument_expression_index)->next_node_index != NONE)
+			if (optional_argument_expression_index != NONE && hs_syntax_get(optional_argument_expression_index)->next_node_index != NONE)
 			{
 				hs_destination_pointer destination;
 				destination.destination_type = _hs_destination_stack;
@@ -1265,7 +1265,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 			{
 				int32 expiration_hs_ticks = *expiration;
 				{
-					real32 expirationSeconds = hs_ticks_to_seconds(expiration_hs_ticks);
+					real32 expirationSeconds = hs_ticks_to_seconds((int16)expiration_hs_ticks);
 					expiration_game_ticks = game_seconds_to_ticks_round(expirationSeconds);
 				}
 			}
@@ -1291,7 +1291,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 					int32 period_hs_ticks = *period;
 					int32 period_game_ticks = 0;
 					{
-						real32 periodSecs = hs_ticks_to_seconds(period_hs_ticks);
+						real32 periodSecs = hs_ticks_to_seconds((int16)period_hs_ticks);
 						period_game_ticks = game_seconds_to_ticks_round(periodSecs);
 					}
 					if (period_game_ticks < 1)
