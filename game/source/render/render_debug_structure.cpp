@@ -13,18 +13,24 @@
 
 #include <math.h>
 
+real32 k_log_complex_geometry_edge_length_cutoff = log10f(0.2f);
+real32 k_log_complex_geometry_edge_length_max = log10f(0.2f);
+real32 k_log_complex_geometry_edge_length_min = log10f(0.05f);
+
 void __cdecl render_debug_structure()
 {
-	const render_camera* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
+	const render_camera* render_camera = c_player_view::get_current()->get_rasterizer_camera();
+	//const bool lost_camera;
+	//s_cluster_reference camera_cluster_reference;
 
 	if (debug_structure_markers)
 	{
-		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
-			structure_bsp_index != NONE;
-			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+		for (int32 debug_structure_bsp_index = global_structure_bsp_first_active_index_get();
+			debug_structure_bsp_index != NONE;
+			debug_structure_bsp_index = global_structure_bsp_next_active_index_get(debug_structure_bsp_index))
 		{
-			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
-			for (structure_marker& marker : bsp->markers)
+			structure_bsp* structure = global_structure_bsp_get(debug_structure_bsp_index);
+			for (structure_marker& marker : structure->markers)
 			{
 				real_matrix4x3 matrix{};
 				matrix4x3_from_point_and_quaternion(&matrix, &marker.position, &marker.rotation);
@@ -40,7 +46,7 @@ void __cdecl render_debug_structure()
 	}
 
 	scenario_soft_ceilings_render_debug(
-		&rasterizer_camera->position,
+		&render_camera->position,
 		debug_structure_soft_ceilings,
 		debug_structure_soft_kill,
 		debug_structure_slip_surfaces);
@@ -55,7 +61,7 @@ void __cdecl render_debug_structure()
 
 	}
 
-	water_physics_render_debug(&rasterizer_camera->position, &rasterizer_camera->forward);
+	water_physics_render_debug(&render_camera->position, &render_camera->forward);
 
 	if (debug_structure || debug_structure_automatic && render_debug_lost_camera())
 	{
@@ -78,7 +84,8 @@ void __cdecl render_debug_structure()
 			if (debug_plane_index != NONE && debug_structure)
 			{
 				c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-				for (int32 edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
+				int32 edge_count = bsp_reference.get_edge_count();
+				for (int32 edge_index = 0; edge_index < edge_count; edge_index++)
 				{
 					c_collision_edge_reference edge_reference(bsp_reference, edge_index);
 					c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
@@ -101,7 +108,8 @@ void __cdecl render_debug_structure()
 			else
 			{
 				c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-				for (int32 edge_index = 0; edge_index < bsp_reference.get_edge_count(); edge_index++)
+				int32 edge_count = bsp_reference.get_edge_count();
+				for (int32 edge_index = 0; edge_index < edge_count; edge_index++)
 				{
 					c_collision_edge_reference edge_reference(bsp_reference, edge_index);
 					c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
@@ -109,20 +117,14 @@ void __cdecl render_debug_structure()
 
 					if (debug_structure_complexity)
 					{
-						real32 cmpval0 = log10f(0.2f);
-						real32 cmpval1 = log10f(0.05f);
-						real32 cmpval2 = log10f(0.2f);
-
-						real32 vertex_distance = distance_squared3d(start_vertex_reference.get_position(), end_vertex_reference.get_position());
-						real32 v136 = 0.5f * log10f(vertex_distance);
-						if (v136 < cmpval0)
+						real32 log_edge_length = 0.5f * log10f(distance_squared3d(start_vertex_reference.get_position(), end_vertex_reference.get_position()));
+						if (log_edge_length < k_log_complex_geometry_edge_length_cutoff)
 						{
-							real32 v137 = fminf(fmaxf(v136, cmpval1), cmpval2);
-							real32 green_value = (v137 - cmpval1) / (cmpval2 - cmpval1);
-							real32 red_value = 1.0f - green_value;
+							real32 green_fraction = (fminf(fmaxf(log_edge_length, k_log_complex_geometry_edge_length_min), k_log_complex_geometry_edge_length_max) - k_log_complex_geometry_edge_length_min) / (k_log_complex_geometry_edge_length_max - k_log_complex_geometry_edge_length_min);
+							real32 red_fraction = 1.0f - green_fraction;
 
 							real_argb_color color{};
-							set_real_argb_color(&color, 1.0f, red_value, green_value, 0.0f);
+							set_real_argb_color(&color, 1.0f, red_fraction, green_fraction, 0.0f);
 							debug_line_drawer.set_color(&color);
 						}
 					}
@@ -135,7 +137,9 @@ void __cdecl render_debug_structure()
 		}
 
 		if (world_bounds.x1 > world_bounds.x0)
+		{
 			render_debug_box_outline(true, &world_bounds, global_real_argb_red);
+		}
 	}
 
 	if (debug_structure_slip_surfaces)
@@ -172,7 +176,9 @@ void __cdecl render_debug_structure()
 							real_plane3d plane{};
 							surface_reference.get_plane(&plane);
 							if (plane.n.k > global_slip_surface_maximum_k_get() - k_test_real_epsilon)
+							{
 								slip_surface_does_not_exceed_maximum_k = false;
+							}
 						}
 					}
 
@@ -184,9 +190,13 @@ void __cdecl render_debug_structure()
 					real_point3d* start_vertex_position = start_vertex_reference.get_position();
 
 					if (slip_surface_does_not_exceed_maximum_k)
+					{
 						debug_line_drawer_green.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
+					}
 					else
+					{
 						debug_line_drawer_red.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
+					}
 				}
 			}
 
