@@ -275,7 +275,7 @@ void collision_debug_render()
 				{
 					structure_bsp* structure = global_structure_bsp_get(collision.structure_bsp_index);
 					structure_instanced_geometry_instance& instance = structure->instanced_geometry_instances[collision.instanced_geometry_instance_index];
-					matrix = &instance.matrix;
+					matrix = &instance.world_transform;
 		
 					c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
 					int32 material_index = surface_reference.get_material_index();

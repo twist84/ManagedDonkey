@@ -275,16 +275,16 @@ enum e_instanced_geometry_lightmapping_policy
 
 struct structure_instanced_geometry_instance
 {
-	real_matrix4x3 matrix;
-	int16 instance_definition;
+	real_matrix4x3 world_transform;
+	int16 definition_block_index;
 	c_flags<e_instanced_geometry_flags, uns16, k_instanced_geometry_flags> flags;
 	int16 lightmap_texcoord_block_index;
-	byte BJOLSRJV[0x2];
+	uns16 pad;
 	int16 runtime_subcluster_render_first_bitvector_index;
 	int16 runtime_magic_render_number;
 	real_point3d world_bounding_sphere_center;
 	real32 world_bounding_sphere_radius;
-	uns32 checksum;
+	int32 transform_checksum;
 	c_string_id name;
 	c_enum<e_instanced_geometry_pathfinding_policy, int16, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
 	c_enum<e_instanced_geometry_lightmapping_policy, int16, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;
@@ -292,8 +292,8 @@ struct structure_instanced_geometry_instance
 	s_tag_block bsp_physics;
 	int16 fade_pixels_start;
 	int16 fade_pixels_end;
-	int16 cubemap0_bitmap_index;
-	int16 cubemap1_bitmap_index;
+	int16 cubemap_0_bitmap_index;
+	int16 cubemap_1_bitmap_index;
 };
 static_assert(sizeof(structure_instanced_geometry_instance) == 0x74);
 
