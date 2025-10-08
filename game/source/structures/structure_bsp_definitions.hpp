@@ -27,6 +27,12 @@ struct leaf_map
 };
 static_assert(sizeof(leaf_map) == 0x1C);
 
+struct structure_leaf
+{
+	uns8 cluster_index;
+};
+static_assert(sizeof(structure_leaf) == sizeof(uns8));
+
 struct structure_seam_identifier;
 struct structure_edge_to_seam_edge_mapping;
 struct structure_collision_material;
@@ -50,7 +56,7 @@ struct structure_bsp
 	c_typed_tag_block<structure_seam_identifier> seam_identifiers;
 	c_typed_tag_block<structure_edge_to_seam_edge_mapping> edge_to_seam_edge;
 	c_typed_tag_block<structure_collision_material> collision_materials;
-	c_typed_tag_block<int8 /* int8 cluster; */> leaves;
+	c_typed_tag_block<structure_leaf> leaves;
 	real_rectangle3d world_bounds;
 	c_typed_tag_block<structure_surface> structure_surfaces;
 	c_typed_tag_block<structure_surface> large_structure_surfaces;
@@ -203,7 +209,7 @@ struct structure_cluster
 	int16 runtime_decal_count; // `runtime decal cound` is misspelled is the tag definition, thanks Bungie
 	c_flags<e_structure_cluster_flags, uns16, k_structure_cluster_flags> flags;
 	s_tag_block predicted_resources;
-	s_tag_block portals;
+	s_tag_block portal_indices;
 	s_collision_instanced_geometry_definition collision_instanced_geometry;
 	int16 mesh_index;
 	byte FERAIDF[0x2];
@@ -224,7 +230,7 @@ static_assert(sizeof(structure_conveyor_surface) == 0x18);
 
 struct structure_marker
 {
-	c_static_string<k_tag_string_length> name;
+	char name[k_tag_string_length];
 	real_quaternion rotation;
 	real_point3d position;
 };
