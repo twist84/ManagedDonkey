@@ -144,5 +144,6 @@ extern int32 __cdecl scenario_zone_set_index_get_if_fully_activated();
 extern bool __cdecl scenario_zone_set_is_fully_active(int32 zone_set_index);
 extern int32 __cdecl scenario_zone_set_name_get();
 extern const structure_bsp* __cdecl scenario_structure_bsp_get(const struct scenario* scenario, int32 structure_bsp_index);
+extern int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(const struct scenario* scenario, int32 zone_set_index, int32 structure_bsp_index, int32 cluster_index);
 
 

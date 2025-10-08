@@ -923,7 +923,12 @@ const structure_bsp* __cdecl scenario_structure_bsp_get(const struct scenario* s
 
 //.text:007662B0 ; int32 __cdecl scenario_structure_bsp_tag_index_get(const struct scenario*, int32)
 //.text:007662D0 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(const struct scenario*, int32, int32, int32)
-//.text:00766380 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(const struct scenario*, int32, int32, int32)
+
+int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(const struct scenario* scenario, int32 zone_set_index, int32 structure_bsp_index, int32 cluster_index)
+{
+	return INVOKE(0x00766380, scenario_zone_set_structure_bsp_cluster_visible_sky_index_get, scenario, zone_set_index, structure_bsp_index, cluster_index);
+}
+
 //.text:00766430 ; 
 //.text:00766470 ; 
 

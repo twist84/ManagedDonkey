@@ -19,9 +19,57 @@ real32 k_log_complex_geometry_edge_length_min = log10f(0.05f);
 
 void __cdecl render_debug_structure()
 {
+	const bool lost_camera = render_debug_lost_camera();
 	const render_camera* render_camera = c_player_view::get_current()->get_rasterizer_camera();
-	//const bool lost_camera;
-	//s_cluster_reference camera_cluster_reference;
+	s_cluster_reference camera_cluster_reference{};
+	c_player_view::get_current()->get_starting_cluster(&camera_cluster_reference);
+
+	int32 debug_structure_bsp_index = global_structure_bsp_first_active_index_get();
+	if (global_structure_bsp_is_active(camera_cluster_reference.bsp_index))
+	{
+		debug_structure_bsp_index = camera_cluster_reference.bsp_index;
+	}
+
+	if (global_structure_bsp_is_active(debug_structure_cluster_structure_bsp_index))
+	{
+		const structure_bsp* structure = global_structure_bsp_get(debug_structure_cluster_structure_bsp_index);
+		if (VALID_INDEX(debug_structure_cluster_cluster_index, structure->clusters.count))
+		{
+			const structure_cluster* cluster = TAG_BLOCK_GET_ELEMENT(&structure->clusters, debug_structure_cluster_cluster_index, const structure_cluster);
+			int32 sky_index = scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(
+				global_scenario_get(),
+				scenario_zone_set_index_get(),
+				debug_structure_cluster_structure_bsp_index,
+				debug_structure_cluster_cluster_index);
+			
+			c_static_string<128> string;
+			string.print("bsp %d,%d sky %d",
+				debug_structure_cluster_structure_bsp_index,
+				debug_structure_cluster_structure_bsp_index,
+				sky_index);
+
+			real_point3d center{};
+			rectangle3d_center(&cluster->bounds, &center);
+
+			const real_argb_color* color = global_real_argb_red;
+			render_debug_box_outline(true, &cluster->bounds, color);
+
+			render_debug_string_at_point(&center, string.get_string(), color);
+
+			for (int32 portal_index_index = 0; portal_index_index < cluster->portal_indices.count; portal_index_index++)
+			{
+				int32 portal_index = *TAG_BLOCK_GET_ELEMENT(&cluster->portal_indices, portal_index_index, int16);
+				cluster_portal* portal = TAG_BLOCK_GET_ELEMENT(&structure->cluster_portals, portal_index, cluster_portal);
+				for (int32 vertex_index = 0; vertex_index < portal->vertices.count; vertex_index++)
+				{
+					const real_point3d* vertex = TAG_BLOCK_GET_ELEMENT(&portal->vertices, vertex_index, const real_point3d);
+					int32 alt_vertex_index = (vertex_index + 1) % portal->vertices.count;
+					const real_point3d* alt_vertex = TAG_BLOCK_GET_ELEMENT(&portal->vertices, alt_vertex_index, const real_point3d);
+					render_debug_line(true, vertex, alt_vertex, global_real_argb_white);
+				}
+			}
+		}
+	}
 
 	if (debug_structure_markers)
 	{
