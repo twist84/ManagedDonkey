@@ -73,17 +73,19 @@ void __cdecl render_debug_structure()
 
 	if (debug_structure_markers)
 	{
-		for (int32 debug_structure_bsp_index = global_structure_bsp_first_active_index_get();
-			debug_structure_bsp_index != NONE;
-			debug_structure_bsp_index = global_structure_bsp_next_active_index_get(debug_structure_bsp_index))
+		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
+			structure_bsp_index != NONE;
+			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
-			structure_bsp* structure = global_structure_bsp_get(debug_structure_bsp_index);
-			for (structure_marker& marker : structure->markers)
+			structure_bsp* structure = global_structure_bsp_get(structure_bsp_index);
+			for (int32 marker_index = 0; marker_index < structure->markers.count; marker_index++)
 			{
+				structure_marker* marker = TAG_BLOCK_GET_ELEMENT(&structure->markers, marker_index, structure_marker);
+
 				real_matrix4x3 matrix{};
-				matrix4x3_from_point_and_quaternion(&matrix, &marker.position, &marker.rotation);
+				matrix4x3_from_point_and_quaternion(&matrix, &marker->position, &marker->rotation);
 				render_debug_matrix(true, &matrix, 0.05f);
-				render_debug_string_at_point(&matrix.position, marker.name.get_string(), global_real_argb_white);
+				render_debug_string_at_point(&matrix.position, marker->name, global_real_argb_white);
 			}
 		}
 	}
