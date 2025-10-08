@@ -322,25 +322,92 @@ void __cdecl render_debug_structure()
 
 	if (debug_structure_seam_edges)
 	{
-
+		// $IMPLEMENT
 	}
 
 	if (debug_instanced_geometry)
 	{
-		if (debug_instanced_geometry_bounding_spheres)
+		ASSERT(c_visible_items::get_instances_starting_index() == 0);
+		uns16 visibility_instance_count = (uns16)c_visible_items::m_items.instances.get_count();
+		for (int32 visibility_instance_index = 0; visibility_instance_index < visibility_instance_count; visibility_instance_index++)
 		{
-		}
+			const int32 structure_bsp_index = c_visible_items::m_items.instances[visibility_instance_index].structure_bsp_index;
+			int32 bsp_instanced_geometry_index = c_visible_items::m_items.instances[visibility_instance_index].structure_bsp_instance_index;
 
-		if (debug_instanced_geometry_names)
-		{
-		}
+			const structure_bsp* structure = global_structure_bsp_get(structure_bsp_index);
 
-		if (debug_instanced_geometry_vertex_counts)
-		{
-		}
+			const structure_instanced_geometry_instance* instanced_geometry_instance = TAG_BLOCK_GET_ELEMENT(
+				&structure->instanced_geometry_instances,
+				bsp_instanced_geometry_index,
+				const structure_instanced_geometry_instance);
 
-		if (debug_instanced_geometry_collision_geometry)
-		{
+			const structure_instanced_geometry_definition* instanced_geometry_definition = TAG_BLOCK_GET_ELEMENT(
+				&structure->resource_interface.get_resources()->instanced_geometries_definitions,
+				instanced_geometry_instance->definition_block_index,
+				const structure_instanced_geometry_definition);
+
+			if (debug_instanced_geometry_bounding_spheres)
+			{
+				render_debug_sphere(true, &instanced_geometry_instance->world_bounding_sphere_center, instanced_geometry_instance->world_bounding_sphere_radius, global_real_argb_blue);
+			}
+
+			if (debug_instanced_geometry_names)
+			{
+				c_static_string<128> name_string;
+				name_string.print("%s (#%d def #%d cube %d)",
+					instanced_geometry_instance->name.get_string(),
+					bsp_instanced_geometry_index,
+					instanced_geometry_instance->definition_block_index,
+					instanced_geometry_instance->cubemap_0_bitmap_index);
+				render_debug_string_at_point(&instanced_geometry_instance->world_bounding_sphere_center, name_string.get_string(), global_real_argb_blue);
+			}
+
+			// Bungie why add this if you aren't going to populate `vertex_count_string` with a value?
+			// disable for now
+			if (false && debug_instanced_geometry_vertex_counts)
+			{
+				c_static_string<16> vertex_count_string;
+				real_point3d vertex_count_position = instanced_geometry_instance->world_bounding_sphere_center;
+				vertex_count_position.z += instanced_geometry_instance->world_bounding_sphere_radius;
+				render_debug_string_at_point(&vertex_count_position, vertex_count_string.get_string(), global_real_argb_blue);
+			}
+
+			if (debug_instanced_geometry_collision_geometry)
+			{
+				c_render_debug_line_drawer edge_drawer;
+				edge_drawer.set_color(global_real_argb_blue);
+
+				for (int32 edge_index = 0; edge_index < instanced_geometry_definition->collision_info.edges.count; edge_index++)
+				{
+					collision_edge* edge = TAG_BLOCK_GET_ELEMENT(&instanced_geometry_definition->collision_info.edges, edge_index, collision_edge);
+					collision_vertex* v0 = TAG_BLOCK_GET_ELEMENT(&instanced_geometry_definition->collision_info.vertices, edge->vertex_indices[0], collision_vertex);
+					collision_vertex* v1 = TAG_BLOCK_GET_ELEMENT(&instanced_geometry_definition->collision_info.vertices, edge->vertex_indices[1], collision_vertex);
+
+					real_point3d p0{};
+					real_point3d p1{};
+					matrix4x3_transform_point(&instanced_geometry_instance->world_transform, &v0->point, &p0);
+					matrix4x3_transform_point(&instanced_geometry_instance->world_transform, &v1->point, &p1);
+
+					if (debug_structure_complexity)
+					{
+						real32 log_edge_length = 0.5f * log10f(distance_squared3d(&p0, &p1));
+						if (log_edge_length < k_log_complex_geometry_edge_length_cutoff)
+						{
+							real32 blue_fraction = (fminf(fmaxf(log_edge_length, k_log_complex_geometry_edge_length_min), k_log_complex_geometry_edge_length_max) - k_log_complex_geometry_edge_length_min) / (k_log_complex_geometry_edge_length_max - k_log_complex_geometry_edge_length_min);
+							real32 red_fraction = 1.0f - blue_fraction;
+
+							real_argb_color color{};
+							set_real_argb_color(&color, 1.0f, red_fraction, 0.0f, blue_fraction);
+							edge_drawer.set_color(&color);
+							edge_drawer.add_line_3d_unclipped(&p0, &p1);
+						}
+					}
+					else
+					{
+						edge_drawer.add_line_3d_unclipped(&p0, &p1);
+					}
+				}
+			}
 		}
 	}
 
