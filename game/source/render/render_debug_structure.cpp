@@ -174,7 +174,7 @@ void __cdecl render_debug_structure()
 
 	water_physics_render_debug(&render_camera->position, &render_camera->forward);
 
-	if (debug_structure || debug_structure_automatic && render_debug_lost_camera())
+	if (debug_structure || debug_structure_automatic && lost_camera)
 	{
 		real_rectangle3d world_bounds = *global_null_rectangle3d;
 
@@ -187,29 +187,31 @@ void __cdecl render_debug_structure()
 		{
 			if (debug_structure_unique_colors)
 			{
-				real_argb_color color{};
-				render_debug_unique_color(structure_bsp_index, &color);
-				debug_line_drawer.set_color(&color);
+				real_argb_color bsp_color{};
+				render_debug_unique_color(structure_bsp_index, &bsp_color);
+				debug_line_drawer.set_color(&bsp_color);
 			}
+
+			const structure_bsp* structure = global_structure_bsp_get(structure_bsp_index);
+			c_collision_bsp_reference bsp(structure);
+			int32 edge_count = bsp.get_edge_count();
 
 			if (debug_plane_index != NONE && debug_structure)
 			{
-				c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-				int32 edge_count = bsp_reference.get_edge_count();
 				for (int32 edge_index = 0; edge_index < edge_count; edge_index++)
 				{
-					c_collision_edge_reference edge_reference(bsp_reference, edge_index);
-					c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
-					c_collision_vertex_reference end_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1));
+					c_collision_edge_reference edge(bsp, edge_index);
+					c_collision_vertex_reference v0(bsp, edge.get_vertex_index(0));
+					c_collision_vertex_reference v1(bsp, edge.get_vertex_index(1));
 
 					for (int32 i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
 					{
-						if (edge_reference.get_surface_index(i) != NONE)
+						if (edge.get_surface_index(i) != NONE)
 						{
-							c_collision_surface_reference surface_reference(bsp_reference, edge_reference.get_surface_index(i));
+							c_collision_surface_reference surface_reference(bsp, edge.get_surface_index(i));
 							if (surface_reference.get_plane_index() == debug_plane_index)
 							{
-								debug_line_drawer.add_line_3d_unclipped(start_vertex_reference.get_position(), end_vertex_reference.get_position());
+								debug_line_drawer.add_line_3d_unclipped(v0.get_position(), v1.get_position());
 								break;
 							}
 						}
@@ -218,17 +220,15 @@ void __cdecl render_debug_structure()
 			}
 			else
 			{
-				c_collision_bsp_reference bsp_reference(global_structure_bsp_get(structure_bsp_index));
-				int32 edge_count = bsp_reference.get_edge_count();
 				for (int32 edge_index = 0; edge_index < edge_count; edge_index++)
 				{
-					c_collision_edge_reference edge_reference(bsp_reference, edge_index);
-					c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
-					c_collision_vertex_reference end_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1));
+					c_collision_edge_reference edge(bsp, edge_index);
+					c_collision_vertex_reference v0(bsp, edge.get_vertex_index(0));
+					c_collision_vertex_reference v1(bsp, edge.get_vertex_index(1));
 
 					if (debug_structure_complexity)
 					{
-						real32 log_edge_length = 0.5f * log10f(distance_squared3d(start_vertex_reference.get_position(), end_vertex_reference.get_position()));
+						real32 log_edge_length = 0.5f * log10f(distance_squared3d(v0.get_position(), v1.get_position()));
 						if (log_edge_length < k_log_complex_geometry_edge_length_cutoff)
 						{
 							real32 green_fraction = (fminf(fmaxf(log_edge_length, k_log_complex_geometry_edge_length_min), k_log_complex_geometry_edge_length_max) - k_log_complex_geometry_edge_length_min) / (k_log_complex_geometry_edge_length_max - k_log_complex_geometry_edge_length_min);
@@ -240,7 +240,7 @@ void __cdecl render_debug_structure()
 						}
 					}
 
-					debug_line_drawer.add_line_3d_unclipped(start_vertex_reference.get_position(), end_vertex_reference.get_position());
+					debug_line_drawer.add_line_3d_unclipped(v0.get_position(), v1.get_position());
 				}
 			}
 
