@@ -83,8 +83,6 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 			real_point3d origin{};
 			object_get_origin(vehicle_index, &origin);
 			render_debug_string_at_point(&origin, "invalid vehicle!!! read your debug.txt", global_real_argb_red);
-
-			// donkey note: there is debug.txt yet ;)
 		}
 
 		const s_vehicle_engine_definition* engine_definition = NULL;
@@ -92,14 +90,20 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 		switch (vehicle_get_type(vehicle_index))
 		{
 		case _vehicle_type_human_tank:
+		{
 			engine_definition = &vehicle_get_human_tank_definition(vehicle->definition_index)->engine;
-			break;
+		}
+		break;
 		case _vehicle_type_human_jeep:
+		{
 			engine_definition = &vehicle_get_human_tank_definition(vehicle->definition_index)->engine;
-			break;
+		}
+		break;
 		case _vehicle_type_chopper:
+		{
 			engine_definition = &vehicle_get_chopper_definition(vehicle->definition_index)->engine;
-			break;
+		}
+		break;
 		}
 		ASSERT((engine == NULL) == (engine_definition == NULL));
 

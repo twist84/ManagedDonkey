@@ -118,13 +118,12 @@ bool c_vehicle_type_component::auto_control(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A290, c_vehicle_type_component, auto_control, vehicle_index);
 
-	c_vehicle_auto_turret* auto_turret = get_auto_turret(vehicle_index);
-	if (!auto_turret)
+	bool result = false;
+	if (c_vehicle_auto_turret* auto_turret = get_auto_turret(vehicle_index))
 	{
-		return false;
+		result = auto_turret->control(vehicle_index);
 	}
-
-	return auto_turret->control(vehicle_index);
+	return result;
 }
 
 bool c_vehicle_type_component::compute_function_value(int32 vehicle_index, int32 function, real32* magnitude, bool* force_active)
@@ -432,13 +431,13 @@ bool c_vehicle_type_component::get_auto_turret_damage_owner(int32 vehicle_index,
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A6E0, c_vehicle_type_component, get_auto_turret_damage_owner, vehicle_index, damage_owner);
 
-	c_vehicle_auto_turret* auto_turret = get_auto_turret(vehicle_index);
-	if (!auto_turret)
+	bool result = false;
+	if (c_vehicle_auto_turret* auto_turret = get_auto_turret(vehicle_index))
 	{
-		return false;
+		result = auto_turret->get_damage_owner(vehicle_index, damage_owner);
 	}
 
-	return auto_turret->get_damage_owner(vehicle_index, damage_owner);
+	return result;
 }
 
 const s_vehicle_engine* c_vehicle_type_component::get_engine(int32 vehicle_index)
@@ -553,12 +552,10 @@ void c_vehicle_type_component::handle_deleted_object(int32 vehicle_index, int32 
 {
 	//INVOKE_CLASS_MEMBER(0x00B8A820, c_vehicle_type_component, handle_deleted_object, vehicle_index, object_index);
 
-	if (vehicle_get_type(vehicle_index) != _vehicle_type_turret)
+	if (vehicle_get_type(vehicle_index) == _vehicle_type_turret)
 	{
-		return;
+		get_type_turret()->handle_deleted_object(vehicle_index, object_index);
 	}
-
-	get_type_turret()->handle_deleted_object(vehicle_index, object_index);
 }
 
 void c_vehicle_type_component::handled_changed_vehicle_type(int32 vehicle_index)
@@ -566,49 +563,47 @@ void c_vehicle_type_component::handled_changed_vehicle_type(int32 vehicle_index)
 	//INVOKE_CLASS_MEMBER(0x00B8A850, c_vehicle_type_component, handled_changed_vehicle_type, vehicle_index);
 
 	vehicle_datum* vehicle = VEHICLE_GET(vehicle_index);
-	if (vehicle_definition_get_default_type(vehicle->definition_index) == m_initialization_type)
+	if (vehicle_definition_get_default_type(vehicle->definition_index) != m_initialization_type)
 	{
-		return;
+		c_vehicle_type_component::reset(vehicle_index);
 	}
-
-	c_vehicle_type_component::reset(vehicle_index);
 }
 
 bool c_vehicle_type_component::init_auto_turret(int32 vehicle_index, int32 trigger_volume, real32 min_range, real32 alt_range, real32 alt_time, int32 object_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A8A0, c_vehicle_type_component, init_auto_turret, vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 
-	c_vehicle_auto_turret* auto_turret = c_vehicle_type_component::get_auto_turret(vehicle_index);
-	if (!auto_turret)
+	bool result = false;
+	if (c_vehicle_auto_turret* auto_turret = c_vehicle_type_component::get_auto_turret(vehicle_index))
 	{
-		return false;
+		result = auto_turret->init(vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
 	}
 
-	return auto_turret->init(vehicle_index, trigger_volume, min_range, alt_range, alt_time, object_index);
+	return result;
 }
 
 bool c_vehicle_type_component::is_e_braking(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A910, c_vehicle_type_component, is_e_braking, vehicle_index);
 
-	if (vehicle_get_type(vehicle_index) != _vehicle_type_human_jeep)
+	bool result = false;
+	if (vehicle_get_type(vehicle_index) == _vehicle_type_human_jeep)
 	{
-		return false;
+		result = get_type_human_jeep()->is_e_braking(vehicle_index);
 	}
-
-	return get_type_human_jeep()->is_e_braking(vehicle_index);
+	return result;
 }
 
 bool c_vehicle_type_component::is_running_trick(int32 vehicle_index)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A940, c_vehicle_type_component, is_running_trick, vehicle_index);
 
-	if (vehicle_get_type(vehicle_index) != _vehicle_type_alien_fighter)
+	bool result = false;
+	if (vehicle_get_type(vehicle_index) == _vehicle_type_alien_fighter)
 	{
-		return false;
+		result = get_type_alien_fighter()->is_running_trick(vehicle_index);
 	}
-
-	return get_type_alien_fighter()->is_running_trick(vehicle_index);
+	return result;
 }
 
 bool c_vehicle_type_component::is_stopped(int32 vehicle_index)
@@ -950,12 +945,10 @@ void c_vehicle_type_component::set_auto_turret_damage_owner(int32 vehicle_index,
 {
 	//INVOKE_CLASS_MEMBER(0x00B8AE20, c_vehicle_type_component, set_auto_turret_damage_owner, vehicle_index, damage_owner_index);
 
-	c_vehicle_auto_turret* auto_turret = get_auto_turret(vehicle_index);
-	if (!auto_turret)
+	if (c_vehicle_auto_turret* auto_turret = get_auto_turret(vehicle_index))
 	{
-		return;
+		auto_turret->set_damage_owner(damage_owner_index);
 	}
-	auto_turret->set_damage_owner(damage_owner_index);
 }
 
 bool c_vehicle_type_component::should_override_deactivation(int32 vehicle_index)
@@ -1030,11 +1023,10 @@ void c_vehicle_type_component::start_trick(int32 vehicle_index, e_vehicle_trick_
 {
 	//INVOKE_CLASS_MEMBER(0x00B8AF30, c_vehicle_type_component, start_trick, vehicle_index, trick_type);
 
-	if (vehicle_get_type(vehicle_index) != _vehicle_type_alien_fighter)
+	if (vehicle_get_type(vehicle_index) == _vehicle_type_alien_fighter)
 	{
-		return;
+		get_type_alien_fighter()->start_trick(vehicle_index, trick_type);
 	}
-	get_type_alien_fighter()->start_trick(vehicle_index, trick_type);
 }
 
 void c_vehicle_type_component::update_control(int32 vehicle_index)

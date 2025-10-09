@@ -43,16 +43,9 @@ void __cdecl screen_effect_update(real32 update_interval)
 void apply_global_screen_effect()
 {
 	struct scenario* scenario = global_scenario_get();
-	if (!scenario)
+	if (scenario && scenario->global_screen_effect.index != NONE)
 	{
-		return;
+		screen_effect_new(scenario->global_screen_effect.index, NONE, NONE, global_origin3d, global_zero_rectangle2d);
 	}
-
-	if (scenario->global_screen_effect.index == NONE)
-	{
-		return;
-	}
-
-	screen_effect_new(scenario->global_screen_effect.index, NONE, NONE, global_origin3d, global_zero_rectangle2d);
 }
 

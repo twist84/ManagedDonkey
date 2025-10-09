@@ -461,13 +461,19 @@ void __cdecl unit_render_debug(int32 unit_index)
 			real32 absolute_k = fabsf(unit->unit.seat_acceleration.k);
 			real32 acceleration_scale = fmaxf(absolute_i, absolute_j);
 			if (acceleration_scale <= absolute_k)
+			{
 				acceleration_scale = absolute_k;
+			}
 
 			const real_argb_color* acceleration_color = global_real_argb_blue;
 			if (acceleration_data.action_limit != 0.0f && acceleration_scale >= acceleration_data.action_limit)
+			{
 				acceleration_color = global_real_argb_yellow;
+			}
 			if (acceleration_data.attachment_limit != 0.0f && acceleration_scale >= acceleration_data.attachment_limit)
+			{
 				acceleration_color = global_real_argb_red;
+			}
 
 			acceleration_string.print("accel= i:%.02f  j:%.02f  k:%.02f \r\nscale= %.02f\r\n",
 				unit->unit.seat_acceleration.i,
@@ -569,7 +575,9 @@ bool __cdecl unit_update(int32 unit_index)
 		updated |= unit_update_weapons(unit_index);
 
 		for (int32 slot_index = 0; slot_index < 4; slot_index++)
+		{
 			unit_update_equipment(unit_index, slot_index);
+		}
 
 		updated |= unit_update_aiming(unit_index);
 		updated |= unit_update_seats(unit_index);
@@ -700,13 +708,17 @@ bool __cdecl sub_B4BD70(int32 unit_index)
 
 	//unit_datum* unit = UNIT_GET(unit_index);
 	//if (unit->unit.__unknown3A8_object_index != NONE && !unit->unit.emp_timer)
+	//{
 	//	unit->unit.__unknown3A8_object_index = NONE;
+	//}
 	//
 	//for (int32 parent_object_index = unit->object.parent_object_index; parent_object_index != NONE; parent_object_index = unit->object.parent_object_index)
 	//{
 	//	vehicle_datum* vehicle = VEHICLE_GET(parent_object_index);
 	//	if (vehicle->unit.driver_object_index == unit_index && vehicle->unit.emp_timer > 0)
+	//	{
 	//		unit->unit.__unknown3A8_object_index = parent_object_index;
+	//	}
 	//}
 	//
 	//return unit->unit.__unknown3A8_object_index != NONE;
@@ -777,15 +789,19 @@ bool __cdecl units_debug_can_select_unit(int32 unit_index)
 	//return INVOKE(0x00B4D3D0, units_debug_can_select_unit, unit_index);
 
 	const object_header_datum* header = object_header_get(unit_index);
-	void* object = nullptr;
+	void* object = NULL;
 	if (header && TEST_BIT(_object_mask_unit, header->object_type.get()))
+	{
 		object = header->datum;
+	}
 
-	if (!object)
-		return false;
-
-	unit_datum* unit = UNIT_GET(unit_index);
-	return unit->unit.player_index == NONE && !TEST_BIT(unit->object.damage_flags, 2) && !unit->object.flags.test(_object_created_with_parent_bit);
+	bool result = false;
+	if (object)
+	{
+		unit_datum* unit = UNIT_GET(unit_index);
+		result = unit->unit.player_index == NONE && !TEST_BIT(unit->object.damage_flags, 2) && !unit->object.flags.test(_object_created_with_parent_bit);
+	}
+	return result;
 }
 
 int32 __cdecl units_debug_get_closest_unit(int32 unit_index)

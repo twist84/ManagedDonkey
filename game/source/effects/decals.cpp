@@ -103,10 +103,10 @@ void __cdecl c_decal_system::submit_all()
 
 void __cdecl sub_6948C0(int32 a1)
 {
-	if (disable_sub_6948C0)
-		return;
-
-	HOOK_INVOKE(, sub_6948C0, a1);
+	if (!disable_sub_6948C0)
+	{
+		HOOK_INVOKE(, sub_6948C0, a1);
+	}
 }
 
 

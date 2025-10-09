@@ -44,57 +44,57 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const re
 		if (object_index == NONE)
 		{
 			biped->biped.bump_ticks++;
-			return;
 		}
-
-		biped->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
-	}
-
-	if (object_index == NONE)
-		return;
-
-	biped_datum* bump_object = (biped_datum*)object_get(object_index);
-	if (!bump_object)
-		return;
-
-	if (TEST_BIT(_object_mask_biped, object_get_type(object_index)))
-	{
-		biped_datum* bumped_biped = BIPED_GET(object_index);
-		if (bumped_biped->biped.physics.get_mode() == c_character_physics_component::_mode_melee)
+		else
 		{
-			//biped->biped.flags.set(15, true);
-			SET_BIT(biped->biped.flags, 15, true);
+			biped->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
 		}
 	}
-
-	if (biped->biped.bump_ticks >= 0)
+	else if (object_index != NONE)
 	{
-		ai_handle_bump(biped_index, object_index, old_velocity);
-
-		if (biped->unit.player_index != NONE || recorded_animation_controlling_unit(biped_index))
+		biped_datum* bump_object = (biped_datum*)object_get(object_index);
+		if (bump_object)
 		{
-			if (biped->biped.bump_object_index == object_index)
+			if (TEST_BIT(_object_mask_biped, object_get_type(object_index)))
 			{
-				if (game_ticks_to_seconds(++biped->biped.bump_ticks) > 0.1f)
+				biped_datum* bumped_biped = BIPED_GET(object_index);
+				if (bumped_biped->biped.physics.get_mode() == c_character_physics_component::_mode_melee)
 				{
-					if (TEST_BIT(_object_mask_unit, bump_object->object.object_identifier.get_type()))
-					{
-						if (cheat.bump_possession && bump_object->unit.player_index == NONE)
-						{
-							player_set_unit_index(biped->unit.player_index, object_index);
-
-							if (bump_object->object.object_identifier.get_type() == _object_type_biped)
-								bump_object->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
-						}
-					}
-
-					biped->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
+					//biped->biped.flags.set(15, true);
+					SET_BIT(biped->biped.flags, 15, true);
 				}
 			}
-			else
+
+			if (biped->biped.bump_ticks >= 0)
 			{
-				biped->biped.bump_object_index = object_index;
-				biped->biped.bump_ticks = 0;
+				ai_handle_bump(biped_index, object_index, old_velocity);
+
+				if (biped->unit.player_index != NONE || recorded_animation_controlling_unit(biped_index))
+				{
+					if (biped->biped.bump_object_index == object_index)
+					{
+						if (game_ticks_to_seconds(++biped->biped.bump_ticks) > 0.1f)
+						{
+							if (TEST_BIT(_object_mask_unit, bump_object->object.object_identifier.get_type()))
+							{
+								if (cheat.bump_possession && bump_object->unit.player_index == NONE)
+								{
+									player_set_unit_index(biped->unit.player_index, object_index);
+
+									if (bump_object->object.object_identifier.get_type() == _object_type_biped)
+										bump_object->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
+								}
+							}
+
+							biped->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
+						}
+					}
+					else
+					{
+						biped->biped.bump_object_index = object_index;
+						biped->biped.bump_ticks = 0;
+					}
+				}
 			}
 		}
 	}
@@ -260,26 +260,40 @@ void __cdecl biped_render_debug(int32 biped_index)
 		switch (biped->biped.physics.get_mode())
 		{
 		case c_character_physics_component::_mode_ground:
+		{
 			mode_string = "ground";
-			break;
+		}
+		break;
 		case c_character_physics_component::_mode_flying:
+		{
 			mode_string = "flying";
-			break;
+		}
+		break;
 		case c_character_physics_component::_mode_dead:
+		{
 			mode_string = "dead";
-			break;
+		}
+		break;
 		case c_character_physics_component::_mode_posture:
+		{
 			mode_string = "posture";
-			break;
+		}
+		break;
 		case c_character_physics_component::_mode_climbing:
+		{
 			mode_string = "climbing";
-			break;
+		}
+		break;
 		case c_character_physics_component::_mode_melee:
+		{
 			mode_string = "melee";
-			break;
+		}
+		break;
 		default:
+		{
 			UNREACHABLE();
-			break;
+		}
+		break;
 		}
 
 		render_debug_string_at_point(&base, mode_string, global_real_argb_blue);
@@ -335,15 +349,21 @@ bool __cdecl biped_update(int32 biped_index)
 
 		int32 parent_index = object_get_root_object(biped->object.parent_object_index);
 		if (parent_index == NONE)
+		{
 			result = biped_update_without_parent(biped_index) || biped_update_stun(biped_index);
+		}
 		else
+		{
 			result = biped_update_with_parent(biped_index, parent_index) || biped_update_stun(biped_index);
+		}
 
 		biped_update_camera(biped_index);
 	}
 
 	if (!v5)
+	{
 		biped_update_jetpack(biped_index);
+	}
 
 	biped_update_pendulum(biped_index);
 	biped_update_keyframed_rigid_bodies(biped_index);
@@ -361,56 +381,60 @@ void __cdecl biped_update_camera(int32 biped_index)
 
 void __cdecl biped_update_jetpack(int32 biped_index)
 {
-	if (!cheat.jetpack)
-		return;
-
-	biped_datum* biped = BIPED_GET(biped_index);
-	if (!biped || biped->unit.player_index == NONE)
-		return;
-
-	if (!biped_in_airborne_state(biped_index))
-		return;
-
-	if (!TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
-		return;
-
-	real_vector3d linear_velocity{};
-	if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_modifier_bit))
+	if (cheat.jetpack)
 	{
-		// freeze velocity and adjust for gravity
-		linear_velocity.i = 0.0f;
-		linear_velocity.j = 0.0f;
-		linear_velocity.k = global_gravity_get() * game_tick_length();
+		biped_datum* biped = BIPED_GET(biped_index);
+		if (biped && biped->unit.player_index != NONE)
+		{
+			if (biped_in_airborne_state(biped_index))
+			{
+				if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_jetpack_bit))
+				{
+					real_vector3d linear_velocity{};
+					if (TEST_BIT(biped->unit.unit_control_flags, _unit_control_crouch_modifier_bit))
+					{
+						// freeze velocity and adjust for gravity
+						linear_velocity.i = 0.0f;
+						linear_velocity.j = 0.0f;
+						linear_velocity.k = global_gravity_get() * game_tick_length();
+					}
+					else
+					{
+						object_get_velocities(biped_index, &linear_velocity, NULL);
+
+						real32 velocity_dot = dot_product3d(&biped->unit.aiming_vector, &linear_velocity);
+						if (velocity_dot < 0.0f)
+						{
+							velocity_dot = 0.0f;
+						}
+
+						real32 clamped_velocity_dot = fminf(1.0f, fmaxf(velocity_dot * 0.0625f, 0.0f));
+						if (clamped_velocity_dot >= 1.0f)
+						{
+							clamped_velocity_dot = 1.0f;
+						}
+
+						real32 negative_velocity_dot = -velocity_dot;
+						linear_velocity.i -= (0.2f * (linear_velocity.i + (negative_velocity_dot * biped->unit.aiming_vector.i)));
+						linear_velocity.j -= (0.2f * (linear_velocity.j + (negative_velocity_dot * biped->unit.aiming_vector.j)));
+						linear_velocity.k -= (0.2f * (linear_velocity.k + (negative_velocity_dot * biped->unit.aiming_vector.k)));
+
+						real32 v11 = game_tick_length() * (9.0f + ((9.0f * clamped_velocity_dot) - (18.0f * (clamped_velocity_dot * clamped_velocity_dot))));
+						linear_velocity.i += v11 * biped->unit.aiming_vector.i;
+						linear_velocity.j += v11 * biped->unit.aiming_vector.j;
+						linear_velocity.k += v11 * biped->unit.aiming_vector.k;
+
+						c_motor_request motor_request{};
+						motor_request.setup_force_airborne(_action_none);
+						motor_system_submit(biped_index, &motor_request);
+
+						linear_velocity.k += global_gravity_get() * game_tick_length();
+					}
+					object_set_velocities(biped_index, &linear_velocity, NULL);
+				}
+			}
+		}
 	}
-	else
-	{
-		object_get_velocities(biped_index, &linear_velocity, NULL);
-
-		real32 velocity_dot = dot_product3d(&biped->unit.aiming_vector, &linear_velocity);
-		if (velocity_dot < 0.0f)
-			velocity_dot = 0.0f;
-
-		real32 clamped_velocity_dot = fminf(1.0f, fmaxf(velocity_dot * 0.0625f, 0.0f));
-		if (clamped_velocity_dot >= 1.0f)
-			clamped_velocity_dot = 1.0f;
-
-		real32 negative_velocity_dot = -velocity_dot;
-		linear_velocity.i -= (0.2f * (linear_velocity.i + (negative_velocity_dot * biped->unit.aiming_vector.i)));
-		linear_velocity.j -= (0.2f * (linear_velocity.j + (negative_velocity_dot * biped->unit.aiming_vector.j)));
-		linear_velocity.k -= (0.2f * (linear_velocity.k + (negative_velocity_dot * biped->unit.aiming_vector.k)));
-
-		real32 v11 = game_tick_length() * (9.0f + ((9.0f * clamped_velocity_dot) - (18.0f * (clamped_velocity_dot * clamped_velocity_dot))));
-		linear_velocity.i += v11 * biped->unit.aiming_vector.i;
-		linear_velocity.j += v11 * biped->unit.aiming_vector.j;
-		linear_velocity.k += v11 * biped->unit.aiming_vector.k;
-
-		c_motor_request motor_request{};
-		motor_request.setup_force_airborne(_action_none);
-		motor_system_submit(biped_index, &motor_request);
-
-		linear_velocity.k += global_gravity_get() * game_tick_length();
-	}
-	object_set_velocities(biped_index, &linear_velocity, NULL);
 }
 
 void __cdecl biped_update_keyframed_rigid_bodies(int32 biped_index)

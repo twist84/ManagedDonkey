@@ -190,7 +190,9 @@ void __cdecl sub_5B9820(int32 effect_index, int32 user_index)
 
 	effect_datum* effect = DATUM_GET(effect_data, effect_datum, effect_index);
 	if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
+	{
 		effect_render(effect_index, user_index);
+	}
 }
 
 //.text:005B9870 ; void __cdecl effect_restart_all_events(int32)
@@ -290,31 +292,35 @@ void __cdecl effects_render(int32 user_index, e_effect_pass pass)
 {
 	//INVOKE(0x005BCF60, effects_render, output_user_index, pass);
 
-	if (effects_render_pass_check(pass))
-		return;
-
-	if (g_debug_effects_full)
-		debug_effects_full();
-
-	c_rasterizer::set_z_buffer_mode(c_rasterizer::e_z_buffer_mode(pass != _effect_pass_opaque));
-
-	if (pass == _effect_pass_transparents)
+	if (!effects_render_pass_check(pass))
 	{
-		for (int32 effect_index = data_next_index(effect_data, NONE);
-			effect_index != NONE;
-			effect_index = data_next_index(effect_data, effect_index))
+		if (g_debug_effects_full)
 		{
-			sub_5B9820(effect_index, user_index);
+			debug_effects_full();
+		}
+
+		c_rasterizer::set_z_buffer_mode(c_rasterizer::e_z_buffer_mode(pass != _effect_pass_opaque));
+
+		if (pass == _effect_pass_transparents)
+		{
+			for (int32 effect_index = data_next_index(effect_data, NONE);
+				effect_index != NONE;
+				effect_index = data_next_index(effect_data, effect_index))
+			{
+				sub_5B9820(effect_index, user_index);
+			}
+		}
+
+		c_contrail_system::submit_all(user_index, pass);
+		c_light_volume_system::submit_all(user_index, pass);
+		c_beam_system::submit_all(user_index, pass);
+		c_particle_system::submit_all(user_index, pass);
+
+		if (pass == _effect_pass_first_person)
+		{
+			effects_submit_cheap_first_person_attachments(user_index);
 		}
 	}
-
-	c_contrail_system::submit_all(user_index, pass);
-	c_light_volume_system::submit_all(user_index, pass);
-	c_beam_system::submit_all(user_index, pass);
-	c_particle_system::submit_all(user_index, pass);
-
-	if (pass == _effect_pass_first_person)
-		effects_submit_cheap_first_person_attachments(user_index);
 }
 
 //.text:005BD040 ; void __cdecl effects_reset()
