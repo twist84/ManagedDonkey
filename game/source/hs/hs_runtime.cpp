@@ -73,7 +73,7 @@ HOOK_DECLARE(0x00594460, hs_destination);
 HOOK_DECLARE(0x00594510, hs_evaluate_runtime);
 HOOK_DECLARE(0x00594680, hs_evaluate_arithmetic);
 HOOK_DECLARE(0x00594960, hs_evaluate_begin);
-//HOOK_DECLARE(0x00594AB0, hs_evaluate_begin_random);
+HOOK_DECLARE(0x00594AB0, hs_evaluate_begin_random);
 HOOK_DECLARE(0x00594D20, hs_evaluate_debug_string);
 HOOK_DECLARE(0x00594FB0, hs_evaluate_equality);
 HOOK_DECLARE(0x005950B0, hs_evaluate_if);
@@ -709,9 +709,8 @@ void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool in
 
 void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool initialize)
 {
-#if 1
-	INVOKE(0x00594AB0, hs_evaluate_begin_random, function_index, thread_index, initialize);
-#else
+	//INVOKE(0x00594AB0, hs_evaluate_begin_random, function_index, thread_index, initialize);
+
 	hs_thread const* thread = hs_thread_get(thread_index);
 	int16* argument_count = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
 	int32* argument_evaluation_flags = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
@@ -763,7 +762,6 @@ void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, 
 			hs_return(thread_index, *result);
 		}
 	}
-#endif
 }
 
 void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool initialize)
