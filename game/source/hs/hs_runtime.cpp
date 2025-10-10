@@ -14,8 +14,10 @@
 #include "interface/user_interface.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
+#include "math/random_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "networking/network_utilities.hpp"
 #include "physics/collisions.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
@@ -707,7 +709,61 @@ void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool in
 
 void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, bool initialize)
 {
+#if 1
 	INVOKE(0x00594AB0, hs_evaluate_begin_random, function_index, thread_index, initialize);
+#else
+	hs_thread const* thread = hs_thread_get(thread_index);
+	int16* argument_count = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	int32* argument_evaluation_flags = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	hs_stack_pointer result_reference{};
+	int32* result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
+	if (argument_count && argument_evaluation_flags && result)
+	{
+		ASSERT(function_index == _hs_function_begin_random);
+
+		if (initialize)
+		{
+			int32 expression_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
+
+			*argument_count = 0;
+			while (expression_index != NONE)
+			{
+				expression_index = hs_syntax_get(expression_index)->next_node_index;
+				++*argument_count;
+			}
+			ASSERT(*argument_count < LONG_BITS);
+
+			memset(argument_evaluation_flags, 0, BIT_VECTOR_SIZE_IN_BYTES(*argument_count));
+		}
+
+		int16 random_argument_index = _random_range(
+			/* seed */ get_random_seed_address(),
+			/* purpose */ "hs-begin-random",
+			/* source_file, source_line */ __FILE__, __LINE__,
+			/* lower_bound, upper_bound */ 0, *argument_count);
+
+		int16 argument_index = 0;
+		while (argument_index < *argument_count)
+		{
+			int16 actual_argument_index = (argument_index + random_argument_index) % *argument_count;
+			if (!BIT_VECTOR_TEST_FLAG(argument_evaluation_flags, actual_argument_index))
+			{
+				hs_destination_pointer destination;
+				destination.destination_type = _hs_destination_stack;
+				destination.stack_pointer = result_reference;
+				hs_evaluate(thread_index, hs_syntax_nth(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, actual_argument_index), destination, NULL);
+				BIT_VECTOR_OR_FLAG(argument_evaluation_flags, actual_argument_index);
+				break;
+			}
+			argument_index++;
+		}
+
+		if (argument_index == *argument_count)
+		{
+			hs_return(thread_index, *result);
+		}
+	}
+#endif
 }
 
 void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, bool initialize)
