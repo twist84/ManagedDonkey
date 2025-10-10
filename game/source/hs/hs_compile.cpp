@@ -691,12 +691,21 @@ void hs_compile_initialize(bool permanent)
 		editor_reset_script_referenced_blocks();
 		resize_scenario_syntax_data(k_maximum_hs_syntax_nodes_per_scenario);
 
+		//scenario* scenario = global_scenario_get();
+		//tag_block_delete_all_elements(&scenario->hs_scripts);
+		//tag_block_delete_all_elements(&scenario->hs_globals);
+		//tag_block_delete_all_elements(&scenario->hs_references);
+		//tag_block_delete_all_elements(&scenario->hs_unit_seats);
+		//tag_data_resize(&scenario->hs_string_constants, 0);
+		//data_delete_all(g_hs_syntax_data);
+		//hs_runtime_delete_internal_global_datums();
+
 		hs_compile_globals.references =
 			(s_hs_reference*)system_malloc(sizeof(s_hs_reference*) * k_maximum_number_of_references);
 		hs_compile_globals.script_references =
-			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_hs_scripts_per_scenario);
+			(s_hs_reference**)system_malloc(sizeof(s_hs_reference**) * k_maximum_hs_scripts_per_scenario);
 		hs_compile_globals.global_references =
-			(s_hs_reference**)system_malloc(sizeof(s_hs_reference*) * k_maximum_hs_globals_per_scenario);
+			(s_hs_reference**)system_malloc(sizeof(s_hs_reference**) * k_maximum_hs_globals_per_scenario);
 
 		for (int32 script_index = 0; script_index < k_maximum_hs_scripts_per_scenario; script_index++)
 		{
