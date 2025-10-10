@@ -80,9 +80,9 @@ HOOK_DECLARE(0x00595450, hs_evaluate_inspect);
 HOOK_DECLARE(0x00595550, hs_evaluate_logical);
 HOOK_DECLARE(0x005956F0, hs_evaluate_object_cast_up);
 HOOK_DECLARE(0x005957F0, hs_evaluate_set);
-//HOOK_DECLARE(0x00595A00, hs_evaluate_sleep);
-//HOOK_DECLARE(0x00595C10, hs_evaluate_sleep_forever);
-//HOOK_DECLARE(0x00595CC0, hs_evaluate_sleep_until);
+HOOK_DECLARE(0x00595A00, hs_evaluate_sleep);
+HOOK_DECLARE(0x00595C10, hs_evaluate_sleep_forever);
+HOOK_DECLARE(0x00595CC0, hs_evaluate_sleep_until);
 HOOK_DECLARE(0x00595FF0, hs_evaluate_wake);
 HOOK_DECLARE(0x00596070, hs_find_thread_by_name);
 HOOK_DECLARE(0x00596130, hs_find_thread_by_script);
@@ -1094,9 +1094,8 @@ void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool init
 
 void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00595A00, hs_evaluate_sleep, function_index, thread_index, initialize);
+	//INVOKE(0x00595A00, hs_evaluate_sleep, function_index, thread_index, initialize);
 
-#if 0
 	const hs_thread* thread = hs_thread_get(thread_index);
 	hs_stack_pointer time_reference{};
 	int32* time = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &time_reference);
@@ -1129,6 +1128,10 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 				destination.stack_pointer = script_reference;
 				hs_evaluate(thread_index, script_node_index, destination, NULL);
 			}
+			else
+			{
+				*script_index = NONE;
+			}
 		}
 		else if (*argument_index)
 		{
@@ -1154,7 +1157,7 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 				}
 				else
 				{
-					real32 sleep_seconds = hs_ticks_to_seconds((int16)sleep_hs_ticks);
+					real32 sleep_seconds = (real32)hs_ticks_to_seconds((int16)sleep_hs_ticks);
 					sleep_game_ticks = game_seconds_to_ticks_round(sleep_seconds);
 				}
 
@@ -1176,14 +1179,12 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 			hs_return(thread_index, 0);
 		}
 	}
-#endif
 }
 
 void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00595C10, hs_evaluate_sleep_forever, function_index, thread_index, initialize);
+	//INVOKE(0x00595C10, hs_evaluate_sleep_forever, function_index, thread_index, initialize);
 
-#if 0
 	const hs_thread* thread = hs_thread_get(thread_index);
 	int32 script_node_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
 	int32 sleep_thread_index = thread_index;
@@ -1208,14 +1209,12 @@ void __cdecl hs_evaluate_sleep_forever(int16 function_index, int32 thread_index,
 	}
 
 	hs_return(thread_index, 0);
-#endif
 }
 
 void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, bool initialize)
 {
-	INVOKE(0x00595CC0, hs_evaluate_sleep_until, function_index, thread_index, initialize);
+	//INVOKE(0x00595CC0, hs_evaluate_sleep_until, function_index, thread_index, initialize);
 
-#if 0
 	hs_thread* thread = hs_thread_get(thread_index);
 	hs_stack_pointer condition_reference{};
 	int32* condition = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &condition_reference);
@@ -1265,10 +1264,11 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 			{
 				int32 expiration_hs_ticks = *expiration;
 				{
-					real32 expirationSeconds = hs_ticks_to_seconds((int16)expiration_hs_ticks);
+					real32 expirationSeconds = (real32)hs_ticks_to_seconds((int16)expiration_hs_ticks);
 					expiration_game_ticks = game_seconds_to_ticks_round(expirationSeconds);
 				}
 			}
+
 			if (*(bool*)condition)
 			{
 				int32 result_long = 1;
@@ -1291,7 +1291,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 					int32 period_hs_ticks = *period;
 					int32 period_game_ticks = 0;
 					{
-						real32 periodSecs = hs_ticks_to_seconds((int16)period_hs_ticks);
+						real32 periodSecs = (real32)hs_ticks_to_seconds((int16)period_hs_ticks);
 						period_game_ticks = game_seconds_to_ticks_round(periodSecs);
 					}
 					if (period_game_ticks < 1)
@@ -1308,7 +1308,6 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 			}
 		}
 	}
-#endif
 }
 
 void __cdecl hs_evaluate_wake(int16 function_index, int32 thread_index, bool initialize)
