@@ -158,6 +158,8 @@ void c_debug_menu_item::set_data(int32 data)
 
 void c_debug_menu_item::set_name(const char* name)
 {
+	ASSERT(name);
+
 	int32 name_size = strlen(name) + 1;
 
 	ASSERT(name != NULL && m_name == NULL);

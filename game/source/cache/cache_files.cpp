@@ -869,6 +869,11 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 
+	if (tag_index == NONE)
+	{
+		return false;
+	}
+
 	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != NONE)
 	{
 		return true;
@@ -1029,6 +1034,7 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 
 		ASSERT(data_fixup.persistent == true);
 		data_fixup.persistent = false;
+		ASSERT(data_fixup.persistent == false);
 
 		if (!IN_RANGE_INCLUSIVE(data_fixup.value, (uns32)instance, (uns32)instance + instance->total_size))
 		{

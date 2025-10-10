@@ -881,7 +881,7 @@ void __cdecl scenario_zone_set_debug_status(const char* status, int32 zone_set_i
 		struct scenario* scenario = global_scenario_try_and_get();
 		if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
 		{
-			status_string.print(scenario->zone_sets[zone_set_index].name.get_string());
+			status_string.print("%s", scenario->zone_sets[zone_set_index].name.get_string());
 		}
 		else
 		{
