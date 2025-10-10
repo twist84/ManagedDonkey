@@ -686,14 +686,7 @@ bool __cdecl cheats_process_gamepad(int32 user_index, const s_game_input_state* 
 		if (gamepad_button_index != banned_action && *cheat_string && input_state->get_button(gamepad_button_index).down_frames() == 1)
 		{
 			console_printf(cheat_string);
-
-			// $IMPLEMENT
 			hs_compile_and_evaluate(_event_message, "cheats", cheat_string, true);
-
-			if (csstrcmp(cheat_string, "(set cheat_controller (not cheat_controller))") == 0)
-			{
-				cheat.controller_enabled = !cheat.controller_enabled;
-			}
 		}
 	}
 
