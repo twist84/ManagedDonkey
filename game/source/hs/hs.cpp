@@ -312,7 +312,10 @@ bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, b
 }
 
 //.text:00679670 ; int32 __cdecl hs_seconds_to_ticks(real32 seconds) // return ((seconds * 30.0f) + (real_sgn((seconds * 30.0f)) * 0.5f))
-//.text:006796C0 ; real64 __cdecl hs_ticks_to_seconds(int32 hs_ticks) // return ((real32)hs_ticks / 30.0f)
+real64 __cdecl hs_ticks_to_seconds(int32 hs_ticks) // return ((real32)hs_ticks / 30.0f)
+{
+	return INVOKE(0x006796C0, hs_ticks_to_seconds, hs_ticks);
+}
 
 void __cdecl hs_update()
 {

@@ -113,6 +113,7 @@ extern void __cdecl hs_node_gc();
 extern void __cdecl hs_recompile();
 extern void __cdecl hs_reset_time(int32 previous_time);
 extern bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, bool verbose);
+extern real64 __cdecl hs_ticks_to_seconds(int32 hs_ticks);
 extern void __cdecl hs_update();
 extern int16 hs_find_function_by_name(const char* name, int16 parameter_count);
 extern int16 hs_script_find_parameter_by_name(int32 script_index, const char* name);
