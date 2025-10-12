@@ -508,6 +508,7 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_
 	}
 }
 
+//.text:0072F500 ; 
 void hs_compile_dispose()
 {
 	ASSERT(hs_compile_globals.initialized);
@@ -668,6 +669,8 @@ bool hs_compile_get_tag_by_name(const char* group_name, tag* group_tag_out)
 	return success;
 }
 
+
+//.text:0072F510 ; 
 void hs_compile_initialize(bool permanent)
 {
 	ASSERT(!hs_compile_globals.initialized);
@@ -717,6 +720,210 @@ void hs_compile_initialize(bool permanent)
 			hs_compile_globals.global_references = NULL;
 		}
 	}
+}
+
+//.text:0072F520 ; 
+bool hs_compile_postprocess_and_verify(char const** error_message_pointer, char const** error_source_pointer, bool verbose)
+{
+	bool success = true;
+
+#if defined(NETWORK_EXECUTABLE_TYPE_TAGS)
+
+	hs_compile_globals.compiled_source = (char*)global_scenario_get()->hs_string_constants.address;
+	hs_compile_globals.compiled_source_size = global_scenario_get()->hs_string_constants.size - 4096;
+	hs_compile_globals.error_message = 0;
+	hs_compile_globals.error_offset = NONE;
+	hs_compile_globals.variables_predetermined = true;
+	hs_compile_globals.current_script_index = NONE;
+	hs_compile_globals.current_global_index = NONE;
+
+	*error_message_pointer = NULL;
+	*error_source_pointer = NULL;
+
+	for (int32 node_index = data_next_index(g_hs_syntax_data, NONE);
+		success&& node_index != NONE;
+		node_index = data_next_index(g_hs_syntax_data, node_index))
+	{
+		hs_syntax_node* node = hs_syntax_get(node_index);
+		hs_syntax_node temp_node = *node;
+
+		if (!TEST_BIT(node->flags, _hs_syntax_node_stripped_bit))
+		{
+			if (hs_type_valid(node->type))
+			{
+				int16 return_type = 0;
+
+				if (TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_primitive_bit))
+				{
+					if (node->type >= _hs_type_string || TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_variable_bit))
+					{
+						success = hs_verify_source_offset(node->source_offset);
+						if (success)
+						{
+							success = hs_parse_primitive(node_index);
+							if (!success && !TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_variable_bit))
+							{
+								if (node->type == _hs_type_script || node->type == _hs_type_ai_command_script)
+								{
+									success = node->short_value == NONE;
+								}
+
+								if (success)
+								{
+									hs_compile_globals.error_message = NULL;
+									hs_compile_globals.error_offset = NONE;
+								}
+							}
+						}
+					}
+
+					if (success && TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_variable_bit))
+					{
+						if (TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_parameter_bit))
+						{
+							return_type = node->type;
+						}
+						else
+						{
+							return_type = hs_global_get_type(node->data);
+						}
+					}
+					else
+					{
+						return_type = node->constant_type;
+					}
+				}
+				else
+				{
+					const char* name = NULL;
+					if (TEST_BIT(node->flags, _hs_syntax_node_script_bit))
+					{
+						hs_script* script = NULL;
+						if (VALID_INDEX(node->script_index, global_scenario_get()->hs_scripts.count)
+							&& (script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->hs_scripts, node->script_index, hs_script), script->script_type == _hs_script_static))
+						{
+							return_type = script->return_type;
+							name = script->name;
+						}
+						else if (node->script_index == NONE)
+						{
+							return_type = _hs_type_void;
+							name = "INVALID CALL";
+						}
+						else
+						{
+							hs_compile_globals.error_message = "bad script index (you need to recompile.)";
+							hs_compile_globals.error_offset = node->source_offset;
+							success = false;
+						}
+					}
+					else
+					{
+						int32 expression_index = hs_syntax_get(node_index)->long_value;
+						if (expression_index == NONE)
+						{
+							hs_compile_globals.error_message = "corrupt syntax tree (you need to recompile scripts.)";
+							hs_compile_globals.error_offset = node->source_offset;
+							success = false;
+						}
+						else
+						{
+							hs_syntax_node* expression = hs_syntax_get(expression_index);
+							if (expression->type == _hs_function_name)
+							{
+								if (hs_verify_source_offset(expression->source_offset))
+								{
+									int16 function_index = hs_find_function_by_name(&hs_compile_globals.compiled_source[expression->source_offset],
+										hs_count_children(node_index) - 1);
+									if (function_index == NONE)
+									{
+										hs_compile_globals.error_message = "missing function (you need to recompile scripts.)";
+										hs_compile_globals.error_offset = node->source_offset;
+										success = false;
+									}
+									else if (node->function_index == function_index)
+									{
+										name = hs_function_get(node->constant_type)->name;
+										return_type = hs_function_get(node->constant_type)->return_type;
+									}
+									else
+									{
+										hs_compile_globals.error_message = "function mismatch: missing function (you need to recompile scripts.)";
+										hs_compile_globals.error_offset = node->source_offset;
+										success = false;
+									}
+								}
+								else
+								{
+									success = false;
+								}
+							}
+							else
+							{
+								hs_compile_globals.error_message = "corrupt syntax tree (you need to recompile scripts.)";
+								hs_compile_globals.error_offset = node->source_offset;
+								success = false;
+							}
+						}
+					}
+				}
+
+				if (success)
+				{
+					if ((hs_type_valid(return_type) || return_type == _hs_passthrough)
+						&& hs_can_cast(return_type, node->type))
+					{
+						success = true;
+					}
+					else
+					{
+						hs_compile_globals.error_message = "type is inconsistent with usage (you need to recompile scripts.)";
+						hs_compile_globals.error_offset = node->source_offset;
+						success = false;
+					}
+				}
+			}
+
+			bool string_mismatch = true;
+			if (TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_primitive_bit))
+			{
+				if (hs_syntax_get(node_index)->type == _hs_type_string && !TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_variable_bit))
+				{
+					string_mismatch = false;
+				}
+			}
+
+			bool mismatch = string_mismatch || temp_node.type != node->type)
+				&& (temp_node.data != node->data
+					|| temp_node.type != node->type
+					|| temp_node.flags != node->flags
+					|| temp_node.line_number != node->line_number
+					|| temp_node.next_node_index != node->next_node_index
+					|| temp_node.source_offset != node->source_offset);
+
+			VASSERT(!mismatch, "node data mismatch during hs_compile_postprocess_and_verify()! (byte swapping problem?)");
+		}
+	}
+
+	if (!success)
+	{
+		*error_message_pointer = hs_compile_globals.error_message;
+		if (hs_compile_globals.error_offset != NONE)
+		{
+			*error_source_pointer = &hs_compile_globals.compiled_source[hs_compile_globals.error_offset];
+		}
+
+		hs_compile_globals.compiled_source = NULL;
+		hs_compile_globals.error_message = NULL;
+		hs_compile_globals.error_offset = NONE;
+		hs_compile_globals.variables_predetermined = false;
+	}
+
+#else
+	hs_compile_postprocess_fast();
+#endif
+
+	return success;
 }
 
 //.text:0072F530 ; 
