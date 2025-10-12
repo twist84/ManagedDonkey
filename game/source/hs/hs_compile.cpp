@@ -949,7 +949,12 @@ void hs_compile_source_error(const char* file_name, const char* error_message, c
 			if (hs_static_globals.compile_error_listeners[compile_error_listener_index])
 			{
 				hs_static_globals.compile_error_listeners[compile_error_listener_index]->handle_error(
-					file_name, line_number, error_message, error_source, &bounded_expression, source);
+					file_name,
+					line_number,
+					error_message,
+					error_source,
+					&bounded_expression,
+					source);
 			}
 		}
 	}
@@ -957,13 +962,15 @@ void hs_compile_source_error(const char* file_name, const char* error_message, c
 	{
 		event(_event_critical, "design: %s: %.*s",
 			error_message,
-			bounded_expression.count(), bounded_expression.begin());
+			bounded_expression.count(),
+			bounded_expression.begin());
 
 		if (g_error_output_buffer)
 		{
 			csnzappendf(g_error_output_buffer, g_error_buffer_length, "%s: %.*s\n",
 				error_message,
-				bounded_expression.count(), bounded_expression.begin());
+				bounded_expression.count(),
+				bounded_expression.begin());
 		}
 	}
 }
