@@ -2879,6 +2879,18 @@ void hs_validify_expression(const char* expression, char* out_valid_expression_b
 	}
 }
 
+bool hs_verify_source_offset(int32 source_offset)
+{
+	bool success = true;
+	if (source_offset < 0 || source_offset >= hs_compile_globals.compiled_source_size)
+	{
+		hs_compile_globals.error_message = "bad source offset (you need to recompile.)";
+		hs_compile_globals.error_offset = NONE;
+		success = false;
+	}
+	return success;
+}
+
 hs_type_primitive_parser_t* hs_type_primitive_parsers[NUMBER_OF_HS_NODE_TYPES]
 {
 	NULL,                                 // unparsed

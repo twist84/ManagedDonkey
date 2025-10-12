@@ -161,4 +161,5 @@ extern int32 hs_tokenize(hs_tokenizer* state);
 extern void hs_tokenize_nonprimitive(hs_tokenizer* state, int32 expression_index);
 extern void hs_tokenize_primitive(hs_tokenizer* state, int32 expression_index);
 extern void hs_validify_expression(const char* expression, char* out_valid_expression_buffer, int32 out_expression_length);
+extern bool hs_verify_source_offset(int32 source_offset);
 
