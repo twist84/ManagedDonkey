@@ -1,5 +1,6 @@
 #include "interface/user_interface.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "cutscene/cinematics.hpp"
 #include "data_mining/data_mine_management.hpp"
@@ -84,7 +85,20 @@ bool __cdecl get_is_alpha_version()
 
 void __cdecl ui_handle_script_verification()
 {
-	INVOKE(0x00A84260, ui_handle_script_verification);
+	//INVOKE(0x00A84260, ui_handle_script_verification);
+
+	tag_iterator iterator{};
+	tag_iterator_new(&iterator, GUI_SCREEN_WIDGET_DEFINITION_TAG);
+	for (int32 tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	{
+		int16 script_index = NONE;
+		s_screen_widget_definition* definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, tag_index);
+		if (definition->script_name[0])
+		{
+			script_index = hs_find_script_by_name(definition->script_name, 0);
+		}
+		definition->script_index = script_index;
+	}
 }
 
 void __cdecl user_interface_dispose()
