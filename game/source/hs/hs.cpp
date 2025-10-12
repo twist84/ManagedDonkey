@@ -1,17 +1,20 @@
 #include "hs/hs.hpp"
 
 #include "ai/ai_orders.hpp"
+#include "ai/ai_script.hpp"
 #include "ai/behavior.hpp"
 #include "ai/cl_engine.hpp"
 #include "algorithms/qsort.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
+#include "hs/hs_compile.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
 #include "hs/hs_looper.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "hs/object_lists.hpp"
+#include "interface/user_interface.hpp"
 #include "main/console.hpp"
 #include "memory/data.hpp"
 #include "memory/module.hpp"
@@ -302,13 +305,92 @@ void __cdecl hs_reset_time(int32 previous_time)
 
 bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, bool verbose)
 {
-	bool result = INVOKE(0x006795D0, hs_scenario_postprocess, force_recompile, fail_on_error, verbose);
+	//return INVOKE(0x006795D0, hs_scenario_postprocess, force_recompile, fail_on_error, verbose);
 
-	// $IMPLEMENT
+	const void* old_syntax_data = g_hs_syntax_data;
+	struct scenario* scenario = global_scenario_get();
+	bool ai_failure = false;
+	const char* error_message = NULL;
+	const char* error_source = NULL;
+	bool success = true;
+
+	if (scenario->hs_syntax_datums.count == 0)
+	{
+		resize_scenario_syntax_data(512);
+	}
+	if (TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit))
+	{
+		data_connect(g_hs_syntax_data, scenario->hs_syntax_datums.count, scenario->hs_syntax_datums.address);
+	}
+
+	//cinematics_generate_script();
+	//cortana_generate_script(scenario);
+	bool scenarios_merged = !scenario->hs_scripts.count && scenario->hs_source_files.count > 0;
+	ui_handle_script_verification();
+
+	if (scenarios_merged
+		|| force_recompile
+		|| !hs_compile_postprocess_and_verify(&error_message, &error_source, false)
+		|| (ai_failure = !ai_handle_script_verification(true)))
+	{
+		if (verbose && !scenarios_merged && !force_recompile && !ai_failure)
+		{
+			if (error_message)
+			{
+				if (error_source)
+				{
+					event(_event_warning, "design: %s: %s",
+						error_source,
+						error_message);
+				}
+				else
+				{
+					event(_event_warning, "design: %s",
+						error_message);
+				}
+			}
+			else
+			{
+				event(_event_warning, "design: an unspecified error occurred loading scripts");
+			}
+		}
+
+		success = false;
+
+#if defined(NETWORK_EXECUTABLE_TYPE_TAGS)
+		success = hs_compile_source(fail_on_error, verbose)
+			&& hs_compile_postprocess_and_verify(&error_message, &error_source, verbose);
+
+		ui_handle_script_verification();
+		if (ai_handle_script_verification(!verbose || !success) && success && fail_on_error)
+		{
+			success = false;
+		}
+
+		if (success)
+		{
+			if (verbose)
+			{
+				event(_event_warning, "design: purging scripts due to an error");
+			}
+
+			data_delete_all(g_hs_syntax_data);
+			//VASSERT(tag_block_resize(&scenario->hs_globals, 0)
+			//	&& tag_block_resize(&scenario->hs_scripts, 0)
+			//	&& tag_data_resize(&scenario->hs_string_constants.size, 4096), "couldn't reset scripts.");
+		}
+	}
+	else if (scenario->hs_string_constants.size < 4096)
+	{
+		success = tag_data_resize(&scenario->hs_string_constants, scenario->hs_string_constants.size + 4096);
+#endif
+	}
+
+	VASSERT(g_hs_syntax_data == old_syntax_data, "Tell naimad about this.");
 
 	hs_looper_reboot();
 
-	return result;
+	return success;
 }
 
 //.text:00679670 ; int32 __cdecl hs_seconds_to_ticks(real32 seconds) // return ((seconds * 30.0f) + (real_sgn((seconds * 30.0f)) * 0.5f))
