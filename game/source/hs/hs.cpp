@@ -175,7 +175,7 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 		for (int32 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 		{
 			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, script_index, hs_script);
-			if (ascii_stricmp(name, script->name) == 0 && num_arguments == NONE || num_arguments == script->parameters.count)
+			if (ascii_stricmp(name, script->name) == 0 && (num_arguments == NONE || num_arguments == script->parameters.count))
 			{
 				return (int16)script_index;
 			}
@@ -322,6 +322,7 @@ void __cdecl hs_update()
 	//INVOKE(0x006796E0, hs_update);
 
 	hs_looper_game_tick();
+
 	PROFILER(script)
 	{
 		PROFILER(hs_update)
