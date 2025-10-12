@@ -719,6 +719,23 @@ void hs_compile_initialize(bool permanent)
 	}
 }
 
+//.text:0072F530 ; 
+void hs_compile_postprocess_fast()
+{
+	for (int32 node_index = data_next_index(g_hs_syntax_data, NONE);
+		node_index != NONE;
+		node_index = data_next_index(g_hs_syntax_data, node_index))
+	{
+		hs_syntax_node* node = hs_syntax_get(node_index);
+		if (TEST_BIT(node->flags, _hs_syntax_node_primitive_bit)
+			&& node->type == _hs_type_string
+			&& !TEST_BIT(node->flags, _hs_syntax_node_variable_bit))
+		{
+			node->string_value = (const char*)offset_pointer(global_scenario_get()->hs_string_constants.address, node->source_offset);
+		}
+	}
+}
+
 bool hs_compile_register_error_listener(c_hs_compile_error_listener* listener)
 {
 	bool successfully_added = 0;
