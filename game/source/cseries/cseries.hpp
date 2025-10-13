@@ -1291,7 +1291,12 @@ public:
 		csmemset(m_string, 0, sizeof(m_string));
 	}
 
-	char* copy_to(char* string, uns32 string_length)const
+	bool contains(const char* string)
+	{
+		return csstrstr(m_string, string) != 0;
+	}
+
+	char* copy_to(char* string, uns32 string_length) const
 	{
 		if (string_length > k_maximum_count)
 			string_length = k_maximum_count;
