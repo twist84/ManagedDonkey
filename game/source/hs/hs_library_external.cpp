@@ -1,12 +1,15 @@
 #include "hs/hs_library_external.hpp"
 
 #include "cache/cache_files.hpp"
+#include "camera/observer.hpp"
 #include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/object_lists.hpp"
 #include "interface/terminal.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 
 void __cdecl hs_evaluate_library_external(int16 script_index);
@@ -14,6 +17,7 @@ void __cdecl hs_evaluate_library_external(int16 script_index);
 HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
 HOOK_DECLARE(0x0096D870, hs_evaluate_library_external);
 //HOOK_DECLARE(0x0096D8B0, hs_log_print);
+HOOK_DECLARE(0x0096D8C0, hs_map_info);
 //HOOK_DECLARE(0x0096EF60, hs_print);
 HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
 HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
@@ -107,7 +111,87 @@ void __cdecl hs_log_print(const char* s)
 	event(_event_warning, "hs: %s", s);
 }
 
-//.text:0096D8C0 ; void __cdecl hs_map_info()
+void __cdecl hs_map_info()
+{
+	//INVOKE(0x0096D8C0, hs_map_info);
+
+	const scenario* scenario = global_scenario_get();
+	if (scenario)
+	{
+		console_printf("map: '%s'",
+			tag_get_name(global_scenario_index_get()));
+
+		const int32 zone_set_index = scenario_zone_set_index_get();
+		if (zone_set_index != NONE)
+		{
+			console_printf("zone set: '%s' (#%d)",
+				TAG_BLOCK_GET_ELEMENT_SAFE(&scenario->zone_sets, zone_set_index, s_scenario_zone_set)->name.get_string(),
+				zone_set_index);
+		}
+		else
+		{
+			console_printf("no zone set active");
+		}
+
+		const uns32 structure_bsp_mask = global_structure_bsp_active_mask_get();
+		if (structure_bsp_mask)
+		{
+			char structure_names[1024]{};
+			scenario_get_structure_bsp_string_from_mask(g_active_structure_bsp_mask, structure_names, NUMBEROF(structure_names));
+			console_printf("active bsps: '%s' (0x%x)",
+				structure_names,
+				structure_bsp_mask);
+		}
+		else
+		{
+			console_printf("no bsps active");
+		}
+
+		const uns32 designer_zone_mask = game_get_active_designer_zone_mask();
+		if (designer_zone_mask)
+		{
+			char designer_zones_names[1024]{};
+			scenario_get_designer_zone_string_from_mask(designer_zone_mask, designer_zones_names, NUMBEROF(designer_zones_names));
+			console_printf("active designer zones: '%s' (0x%x)",
+				designer_zones_names,
+				designer_zone_mask);
+		}
+		else
+		{
+			console_printf("no designer zones active");
+		}
+
+		const uns32 cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+		if (cinematic_zone_mask)
+		{
+			char cinematic_zones_names[1024]{};
+			scenario_get_cinematic_zone_string_from_mask(cinematic_zone_mask, cinematic_zones_names, NUMBEROF(cinematic_zones_names));
+			console_printf("active cinematic zones: '%s' (0x%x)",
+				cinematic_zones_names,
+				cinematic_zone_mask);
+		}
+		else
+		{
+			console_printf("no cinematic zones active");
+		}
+
+		const s_observer_result* observer = observer_try_and_get_camera(0);
+		if (observer && cluster_reference_valid(&observer->location.cluster_reference))
+		{
+			console_printf("current bsp: '%s' (#%d)",
+				scenario_get_structure_bsp_name(observer->location.cluster_reference.bsp_index),
+				observer->location.cluster_reference.bsp_index);
+		}
+		else
+		{
+			console_printf("no current bsp");
+		}
+	}
+	else
+	{
+		console_printf("no map loaded");
+	}
+}
 
 bool __cdecl hs_not(bool value)
 {

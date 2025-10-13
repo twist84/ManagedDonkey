@@ -7,6 +7,7 @@ union real_vector3d;
 extern void __cdecl hs_debug_variable(const char* s, bool debug);
 extern void __cdecl hs_evaluate(int16 script_index);
 extern void __cdecl hs_log_print(const char* s);
+extern void __cdecl hs_map_info();
 extern bool __cdecl hs_not(bool value);
 extern void __cdecl hs_object_create(int16 object_name_index);
 extern void __cdecl hs_object_create_anew(int16 object_name_index);
