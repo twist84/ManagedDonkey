@@ -1,5 +1,7 @@
 #include "units/unit_scripting.hpp"
 
+#include "cseries/cseries.hpp"
+
 //.text:00B45B00 ; void __cdecl unit_scripting_kill(int32)
 //.text:00B45BB0 ; void __cdecl unit_scripting_kill_silent(int32)
 //.text:00BB1C00 ; 
@@ -33,7 +35,12 @@
 //.text:00BB2950 ; void __cdecl unit_scripting_impervious(int32, bool)
 //.text:00BB29C0 ; bool __cdecl unit_scripting_in_vehicle(int32)
 //.text:00BB2A60 ; bool __cdecl unit_scripting_is_emitting(int32)
-//.text:00BB2AB0 ; void __cdecl unit_scripting_limit_lipsync_to_mouth_only(int32, bool)
+
+void __cdecl unit_scripting_limit_lipsync_to_mouth_only(int32 unit_index, bool limit)
+{
+	INVOKE(0x00BB2AB0, unit_scripting_limit_lipsync_to_mouth_only, unit_index, limit);
+}
+
 //.text:00BB2B00 ; void __cdecl unit_scripting_lower_weapon(int32, int16)
 //.text:00BB2B30 ; void __cdecl unit_scripting_magic_melee_attack()
 //.text:00BB2B80 ; int32 __cdecl unit_scripting_object_get_turret(int32, int16)
@@ -55,7 +62,12 @@
 //.text:00BB3220 ; void __cdecl unit_scripting_set_voice(int32, int32)
 //.text:00BB3260 ; void __cdecl unit_scripting_spew_action(int32)
 //.text:00BB3280 ; bool __cdecl unit_scripting_start_user_animation_list(int32, int32, int32, bool)
-//.text:00BB3340 ; void __cdecl unit_scripting_stop_custom_animation(int32)
+
+void __cdecl unit_scripting_stop_custom_animation(int32 unit_index)
+{
+	INVOKE(0x00BB3340, unit_scripting_stop_custom_animation, unit_index);
+}
+
 //.text:00BB3360 ; void __cdecl unit_scripting_suspended(int32, bool)
 //.text:00BB33D0 ; int32 __cdecl unit_scripting_unit_driver(int32)
 //.text:00BB3400 ; int32 __cdecl unit_scripting_unit_gunner(int32)
