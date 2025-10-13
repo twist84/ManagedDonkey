@@ -280,16 +280,30 @@ bool hs_add_script(int32 expression_index)
 			{
 				if (root_expression_index != NONE && hs_syntax_get(root_expression_index)->next_node_index != NONE)
 				{
-					int32 parameter_set_index;
-					const hs_syntax_node* name_node;
-					const char* script_name;
+					int32 parameter_set_index = NONE;
+					const hs_syntax_node* name_node = hs_syntax_get(name_index);
+					if (TEST_BIT(hs_syntax_get(name_index)->flags, _hs_syntax_node_primitive_bit))
+					{
+						if (hs_syntax_get(name_index)->long_value != NONE)
+						{
+							name_node = hs_syntax_get(hs_syntax_get(name_index)->long_value);
+							parameter_set_index = hs_syntax_get(hs_syntax_get(name_index)->long_value)->next_node_index;
+						}
+						else
+						{
+							hs_compile_globals.error_message = "invalid script name";
+							hs_compile_globals.error_offset = hs_syntax_get(name_index)->source_offset;
+						}
+					}
+
+					const char* script_name = &hs_compile_globals.compiled_source[name_node->source_offset];
 
 					int32 actual_name_index;
 					{
 						const hs_syntax_node* actual_name_node = hs_syntax_get(actual_name_index);
 					}
 					{
-						struct scenario* scenario;
+						struct scenario* scenario = global_scenario_get();
 						int32 script_index;
 						int16 num_parameters;
 						{
@@ -301,11 +315,36 @@ bool hs_add_script(int32 expression_index)
 						{
 							hs_script* script;
 							{
-								int32 implicit_begin_name_index;
-								int32 implicit_begin_index;
+								int32 implicit_begin_index = NONE;
+								int32 implicit_begin_name_index = NONE;
+								if (implicit_begin_index != NONE && implicit_begin_name_index != NONE)
 								{
-									hs_syntax_node* implicit_begin;
-									hs_syntax_node* implicit_begin_name;
+									hs_syntax_node* implicit_begin = hs_syntax_get(implicit_begin_index);
+									hs_syntax_node* implicit_begin_name = hs_syntax_get(implicit_begin_name_index);
+
+									implicit_begin->long_value = implicit_begin_name_index;
+									implicit_begin->next_node_index = NONE;
+									implicit_begin->source_offset = hs_syntax_get(root_expression_index)->source_offset;
+									implicit_begin->flags = 0;
+
+									implicit_begin_name->next_node_index = root_expression_index;
+									implicit_begin_name->source_offset = NONE;
+									implicit_begin_name->function_index = _hs_function_begin;
+									implicit_begin_name->type = _hs_function_name;
+									implicit_begin_name->flags = FLAG(_hs_syntax_node_primitive_bit);
+
+									csstrnzcpy(script->name, script_name, NUMBEROF(script->name));
+									script->return_type = return_type;
+									script->root_expression_index = implicit_begin_index;
+									script->script_type = type;
+
+									success = true;
+								}
+								else
+								{
+									hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
+									hs_compile_globals.error_offset = hs_syntax_get(name_index)->source_offset;
+									tag_block_delete_element(&scenario->hs_scripts, script_index);
 								}
 							}
 						}
