@@ -1,5 +1,16 @@
 #include "cutscene/cinematic_scripting.hpp"
 
+bool __cdecl cinematic_index_is_valid(int32 cinematic_index)
+{
+	return INVOKE(0x009EBD20, cinematic_index_is_valid, cinematic_index);
+
+	// Halo Online
+	//return cinematic_index == NONE || cinematic_index > 1000 || global_cinematic_zone_is_active(cinematic_index);
+
+	// Halo 3
+	//return cinematic_index > 1000 || global_cinematic_zone_is_active(cinematic_index);
+}
+
 //.text:009EBD40 ; void __cdecl cinematic_scripting_clean_up(int32 cinematic_index)
 //.text:009EBD50 ; void __cdecl cinematic_scripting_create_and_animate_cinematic_object(int32 cinematic_index, int32 scene_index, int32 scene_object_index, int32 animation_string, bool custom_script_result)
 //.text:009EBD60 ; void __cdecl cinematic_scripting_create_and_animate_cinematic_object_no_animation(int32 cinematic_index, int32 scene_index, int32 scene_object_index, bool custom_script_result)
@@ -23,4 +34,24 @@
 //.text:009EC820 ; void __cdecl cinematic_scripting_start_screen_effect(int32, int32, int32, int32)
 //.text:009EC880 ; void __cdecl cinematic_scripting_stop_music(int32 cinematic_index, int32 scene_index, int32 shot_index, int32 music_index)
 //.text:009EC8E0 ; void __cdecl cinematic_scripting_stop_screen_effect(int32, int32, int32, int32)
+
+s_cinematic_definition* __cdecl get_cinematic(int32 cinematic_index)
+{
+	return INVOKE(0x009EC940, get_cinematic, cinematic_index);
+}
+
+s_cinematic_scene* __cdecl get_scene(s_cinematic_definition* cinematic, int32 scene_index)
+{
+	return INVOKE(0x009EC980, get_scene, cinematic, scene_index);
+}
+
+s_cinematic_scene* __cdecl get_scene_from_cinematic_or_cortana_effect(int32 cinematic_index, int32 scene_index)
+{
+	return INVOKE(0x009EC9C0, get_scene_from_cinematic_or_cortana_effect, cinematic_index, scene_index);
+}
+
+s_scene_object* __cdecl get_scene_object(s_cinematic_scene* scene, int32 object_index)
+{
+	return INVOKE(0x009ECA80, get_scene_object, scene, object_index);
+}
 

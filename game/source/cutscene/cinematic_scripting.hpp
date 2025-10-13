@@ -51,3 +51,9 @@ static_assert(sizeof(s_scene_object) == 0x74);
 
 struct s_cinematic_definition; // $TODO
 
+extern bool __cdecl cinematic_index_is_valid(int32 cinematic_index);
+extern s_cinematic_definition* __cdecl get_cinematic(int32 cinematic_index);
+extern s_cinematic_scene* __cdecl get_scene(s_cinematic_definition* cinematic, int32 scene_index);
+extern s_cinematic_scene* __cdecl get_scene_from_cinematic_or_cortana_effect(int32 cinematic_index, int32 scene_index);
+extern s_scene_object* __cdecl get_scene_object(s_cinematic_scene* scene, int32 object_index);
+
