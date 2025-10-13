@@ -34,7 +34,6 @@ REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
 REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);// = true;
 REFERENCE_DECLARE_ARRAY(0x023FF444, bool, debug_global_variables, 512);
 REFERENCE_DECLARE_2D_ARRAY(0x023FF648, typecasting_procedure, g_typecasting_procedures, NUMBER_OF_HS_NODE_TYPES, NUMBER_OF_HS_NODE_TYPES);
-REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
 
 bool __cdecl hs_evaluate_runtime(int32 thread_index, int32 expression_index, hs_destination_pointer destination_pointer, int32* out_cast)
 {
