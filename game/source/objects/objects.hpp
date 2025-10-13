@@ -675,6 +675,7 @@ extern int32 __cdecl object_name_list_lookup(int16 name_index);
 extern void __cdecl object_name_list_new(int32 name, int16 name_index);
 extern bool __cdecl object_needs_rigid_body_update(int32 object_index);
 extern int32 __cdecl object_new(object_placement_data* data);
+extern int32 __cdecl object_new_by_name(int16 name_index, bool displace_previous_object, bool multiplayer_cinematic_object);
 extern bool __cdecl object_node_orientations_frozen(int32 object_index);
 extern void __cdecl object_notify_in_local_physics_object(int32 object_index, int32 local_physics_object_index);
 extern int32 __cdecl object_override_create(int32 object_index);
@@ -723,7 +724,10 @@ extern void __cdecl object_set_model_state_property(int32 object_index, int32 a2
 extern void __cdecl object_set_model_state_property_per_region(int32 object_index, int32 a2, int32 a3, int16 a4, bool a5);
 extern void __cdecl object_set_object_index_for_name_index(int16 name_index, int32 object_index);
 extern bool __cdecl object_set_position_internal(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected);
+extern void __cdecl object_set_region_permutation_direct(int32 object_index, int32 region_name, int32 permutation_name);
 extern void __cdecl object_set_requires_motion(int32 object_index);
+extern void __cdecl object_set_shadowless(int32 object_index, bool shadowless);
+extern void __cdecl object_set_variant_direct(int32 object_index, int32 variant_name);
 extern void __cdecl object_set_velocities(int32 object_index, const real_vector3d* linear_velocity, const real_vector3d* angular_velocity);
 extern void __cdecl object_set_position(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location);
 extern void __cdecl object_set_position_direct(int32 object_index, const real_point3d* desired_position, const real_vector3d* desired_forward, const real_vector3d* desired_up, const s_location* location, bool in_editor);

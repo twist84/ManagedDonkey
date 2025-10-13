@@ -60,9 +60,19 @@ void __cdecl object_placement_initialize_for_new_structure_bsp(uns32 activating_
 //.text:00B5A020 ; bool __cdecl object_placement_inside_structure_bsp(e_object_type, const s_scenario_object*)
 //.text:00B5A040 ; bool __cdecl object_placement_inside_structure_bsp_mask(uns32, e_object_type, const s_scenario_object*)
 //.text:00B5A100 ; bool __cdecl object_placement_is_unloaded(int32)
-//.text:00B5A110 ; void __cdecl object_placement_mark_name_on_create(int16)
+
+void __cdecl object_placement_mark_name_on_create(int16 object_name_index)
+{
+	INVOKE(0x00B5A110, object_placement_mark_name_on_create, object_name_index);
+}
+
 //.text:00B5A190 ; void __cdecl object_placement_mark_name_on_delete(int16)
-//.text:00B5A200 ; void __cdecl object_placement_mark_object_on_delete(int32)
+
+void __cdecl object_placement_mark_object_on_delete(int32 object_index)
+{
+	INVOKE(0x00B5A200, object_placement_mark_object_on_delete, object_index);
+}
+
 //.text:00B5A270 ; 
 //.text:00B5A2C0 ; 
 
@@ -77,7 +87,12 @@ void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(const s_game_n
 }
 
 //.text:00B5A4E0 ; void __cdecl object_placement_reload(int32)
-//.text:00B5A4F0 ; void __cdecl object_placement_reset_from_teleport(int32)
+
+void __cdecl object_placement_reset_from_teleport(int32 object_index)
+{
+	INVOKE(0x00B5A4F0, object_placement_reset_from_teleport, object_index);
+}
+
 //.text:00B5A550 ; void __cdecl object_placement_restore(int32)
 //.text:00B5A560 ; void __cdecl object_placement_set_in_limbo(int32, bool)
 //.text:00B5A5A0 ; void __cdecl object_placement_synchronize_for_designer_zone_debugger(bool)

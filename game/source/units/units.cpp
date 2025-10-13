@@ -126,7 +126,12 @@ bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index)
 }
 
 //.text:00B3AC10 ; bool __cdecl unit_can_pickup_weapon(int32 unit_index, int32 weapon_index, e_weapon_addition_method mode, unit_weapon_pickup_result* result)
-//.text:00B3B190 ; bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* point, real32 theta)
+
+bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* point, real32 theta)
+{
+	return INVOKE(0x00B3B190, unit_can_see_point, unit_index, point, theta);
+}
+
 //.text:00B3B360 ; bool __cdecl unit_can_use_seat_entry_marker(int32 unit_index, int32 parent_unit_index, int16 seat_index, const real_point3d* entry_marker_position, const real_vector3d* entry_marker_forward)
 //.text:00B3B5B0 ; bool __cdecl unit_can_use_weapon(int32 unit_index, int32 weapon_index)
 //.text:00B3B5D0 ; bool __cdecl unit_can_use_weapon_in_seat(int32 unit_index, int32 desired_seat, int32 weapon_index)

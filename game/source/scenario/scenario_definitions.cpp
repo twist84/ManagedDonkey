@@ -44,7 +44,7 @@ void scenario::update_reference_names()
 	UPDATE_BLOCK_REFERENCE_NAMES(sound_scenery_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(giant_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(effect_scenery_palette);
-	UPDATE_BLOCK_REFERENCE_NAMES(light_volume_palette);
+	UPDATE_BLOCK_REFERENCE_NAMES(lights_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(map_variant_vehicle_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(map_variant_weapon_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(map_variant_equipment_palette);

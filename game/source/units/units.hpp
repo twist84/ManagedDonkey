@@ -150,7 +150,7 @@ struct _unit_datum
 	int32 game_time_at_last_unit_effect;
 	uns32 unit_control_flags;
 	int32 desired_mode;
-	real_vector3d facing_vector;
+	real_vector3d desired_facing_vector;
 	real_vector3d desired_aiming_vector;
 	real_vector3d aiming_vector;
 	real_vector3d aiming_velocity;
@@ -381,6 +381,7 @@ extern void __cdecl unit_add_starting_profile_equipment(int32 unit_index, int16 
 extern bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, int32 mode);
 extern bool __cdecl unit_can_access_object(int32 unit_index, int32 object_index);
 extern bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index);
+extern bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* point, real32 theta);
 extern void __cdecl unit_control(int32 unit_index, const unit_control_data* control_data);
 extern void __cdecl unit_debug_ninja_rope(int32 unit_index);
 extern bool __cdecl unit_get_acceleration_origin_and_data(int32 unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data);

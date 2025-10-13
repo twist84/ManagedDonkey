@@ -203,4 +203,5 @@ extern void __cdecl cs_initialize_for_new_map();
 extern void __cdecl cs_initialize_for_new_structure_bsp(int32 activating_structure_bsp_mask);
 extern cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario);
 extern void __cdecl cs_setup_global_script_context(int32 thread_index);
+extern bool __cdecl point_ref_get_position_and_orientation(int32 point_ref, real_point3d* position, real_vector3d* forward, real_vector3d* up);
 

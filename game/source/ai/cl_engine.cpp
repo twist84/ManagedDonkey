@@ -122,7 +122,12 @@ void __cdecl cs_setup_global_script_context(int32 thread_index)
 //.text:01444C00 ; int32 __cdecl cs_stack_command_script(int32, int16, int32)
 //.text:01444C90 ; 
 //.text:01444CC0 ; 
-//.text:01444CF0 ; bool __cdecl point_ref_get_position_and_orientation(int32, real_point3d*, real_vector3d*, real_vector3d*)
+
+bool __cdecl point_ref_get_position_and_orientation(int32 point_ref, real_point3d* position, real_vector3d* forward, real_vector3d* up)
+{
+	return INVOKE(0x01444CF0, point_ref_get_position_and_orientation, point_ref, position, forward, up);
+}
+
 //.text:01444D80 ; 
 //.text:01444DC0 ; bool __cdecl valid_point_ref(int32)
 //.text:01444E30 ; bool __cdecl valid_point_set(int32)

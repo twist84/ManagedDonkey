@@ -1109,7 +1109,11 @@ int32 __cdecl object_new(object_placement_data* data)
 	//return object_index;
 }
 
-//.text:00B30E60 ; int32 __cdecl object_new_by_name(int16, bool, bool)
+int32 __cdecl object_new_by_name(int16 name_index, bool displace_previous_object, bool multiplayer_cinematic_object)
+{
+	return INVOKE(0x00B30E60, object_new_by_name, name_index, displace_previous_object, multiplayer_cinematic_object);
+}
+
 //.text:00B30FD0 ; int32 __cdecl object_new_from_scenario(e_object_type, int32, s_scenario_object*, s_tag_block*, bool)
 //.text:00B31000 ; int32 __cdecl object_new_from_scenario_bypass_simulation_object_placement_test(e_object_type, int32, s_scenario_object*, s_tag_block*, int32, bool)
 //.text:00B31030 ; 
@@ -1625,7 +1629,11 @@ bool __cdecl object_set_position_internal(int32 object_index, const real_point3d
 	//return result;
 }
 
-//.text:00B33830 ; void __cdecl object_set_region_permutation_direct(int32, int32, int32, bool)
+void __cdecl object_set_region_permutation_direct(int32 object_index, int32 region_name, int32 permutation_name)
+{
+	INVOKE(0x00B33830, object_set_region_permutation_direct, object_index, region_name, permutation_name);
+}
+
 //.text:00B33960 ; void __cdecl object_set_region_state(int32, int32, const uns8*)
 //.text:00B339E0 ; 
 
@@ -1638,11 +1646,20 @@ void __cdecl object_set_requires_motion(int32 object_index)
 //.text:00B33C90 ; void __cdecl object_set_scale_fast(int32, real32, real32)
 //.text:00B33D50 ; void __cdecl object_set_scale_internal(int32, real32, real32, bool)
 //.text:00B33E20 ; void __cdecl object_set_scenario_permutation(int32, s_scenario_object_permutation*)
-//.text:00B33E30 ; void __cdecl object_set_shadowless(int32, bool)
+
+void __cdecl object_set_shadowless(int32 object_index, bool shadowless)
+{
+	INVOKE(0x00B33E30, object_set_shadowless, object_index, shadowless);
+}
+
 //.text:00B33E90 ; void __cdecl object_set_shield_stun(int32, int32)
 //.text:00B33EE0 ; void __cdecl object_set_shield_vitality(int32, real32, bool, int16, bool)
 //.text:00B33F80 ; void __cdecl object_set_sync_action(int32, int32, int32)
-//.text:00B33FC0 ; void __cdecl object_set_variant_direct(int32, int32)
+
+void __cdecl object_set_variant_direct(int32 object_index, int32 variant_name)
+{
+	INVOKE(0x00B33FC0, object_set_variant_direct, object_index, variant_name);
+}
 
 void __cdecl object_set_velocities(int32 object_index, const real_vector3d* linear_velocity, const real_vector3d* angular_velocity)
 {

@@ -11,16 +11,80 @@
 #include "interface/terminal.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
+#include "motor/actions.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 
 void __cdecl hs_evaluate_library_external(int16 script_index);
 
 HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
 HOOK_DECLARE(0x0096D870, hs_evaluate_library_external);
-//HOOK_DECLARE(0x0096D8B0, hs_log_print);
+HOOK_DECLARE(0x0096D8B0, hs_log_print);
 HOOK_DECLARE(0x0096D8C0, hs_map_info);
-//HOOK_DECLARE(0x0096EF60, hs_print);
+HOOK_DECLARE(0x0096D8D0, hs_not);
+//HOOK_DECLARE(0x0096D8E0, hs_object_buckling_magnitude_get);
+HOOK_DECLARE(0x0096D940, hs_object_create);
+HOOK_DECLARE(0x0096D970, hs_object_create_anew);
+HOOK_DECLARE(0x0096D9D0, hs_object_create_anew_containing);
+HOOK_DECLARE(0x0096D9F0, hs_object_create_anew_multiplayer_cinematic);
+HOOK_DECLARE(0x0096DA50, hs_object_create_clone);
+HOOK_DECLARE(0x0096DA80, hs_object_create_clone_containing);
+HOOK_DECLARE(0x0096DAA0, hs_object_create_clone_multiplayer_cinematic);
+HOOK_DECLARE(0x0096DAD0, hs_object_create_containing);
+//HOOK_DECLARE(0x0096DAF0, hs_object_create_folder);
+HOOK_DECLARE(0x0096DC50, hs_object_create_folder_anew);
+//HOOK_DECLARE(0x0096DC70, hs_object_create_folder_internal);
+HOOK_DECLARE(0x0096DCE0, hs_object_create_if_necessary);
+HOOK_DECLARE(0x0096DD20, hs_object_create_multiplayer_cinematic);
+HOOK_DECLARE(0x0096DD50, hs_object_delete_internal);
+HOOK_DECLARE(0x0096DD70, hs_object_destroy);
+HOOK_DECLARE(0x0096DDB0, hs_object_destroy_all);
+HOOK_DECLARE(0x0096DDC0, hs_object_destroy_all_type_mask);
+HOOK_DECLARE(0x0096DEA0, hs_object_destroy_by_name);
+HOOK_DECLARE(0x0096DF00, hs_object_destroy_containing);
+//HOOK_DECLARE(0x0096DF20, hs_object_destroy_folder);
+//HOOK_DECLARE(0x0096E080, hs_object_destroy_folder_internal);
+HOOK_DECLARE(0x0096E1F0, hs_object_destroy_multiplayer_cinematic);
+HOOK_DECLARE(0x0096E230, hs_object_hide);
+HOOK_DECLARE(0x0096E250, hs_object_iterate_names_containing);
+//HOOK_DECLARE(0x0096E2B0, hs_object_list_get_element);
+HOOK_DECLARE(0x0096E2F0, hs_object_new_by_name_internal);
+//HOOK_DECLARE(0x0096E320, hs_object_orient);
+HOOK_DECLARE(0x0096E4D0, hs_object_set_facing);
+HOOK_DECLARE(0x0096E620, hs_object_set_permutation);
+//HOOK_DECLARE(0x0096E640, hs_object_set_region_state);
+HOOK_DECLARE(0x0096E6B0, hs_object_set_shadowless);
+//HOOK_DECLARE(0x0096E6E0, hs_object_set_shield);
+//HOOK_DECLARE(0x0096E740, hs_object_set_shield_normalized);
+//HOOK_DECLARE(0x0096E7A0, hs_object_set_shield_stun);
+//HOOK_DECLARE(0x0096E7D0, hs_object_set_shield_stun_infinite);
+HOOK_DECLARE(0x0096E7F0, hs_object_set_variant);
+HOOK_DECLARE(0x0096E810, hs_object_teleport);
+HOOK_DECLARE(0x0096E870, hs_object_teleport_ai);
+HOOK_DECLARE(0x0096E8B0, hs_objects_can_see_flag);
+HOOK_DECLARE(0x0096E970, hs_objects_can_see_object);
+HOOK_DECLARE(0x0096EA70, hs_objects_delete_by_definition);
+//HOOK_DECLARE(0x0096EAD0, hs_objects_distance_to_flag);
+//HOOK_DECLARE(0x0096EBE0, hs_objects_distance_to_object);
+HOOK_DECLARE(0x0096ECE0, hs_objects_predict);
+HOOK_DECLARE(0x0096ED30, hs_objects_predict_high);
+HOOK_DECLARE(0x0096ED70, hs_objects_predict_low);
+HOOK_DECLARE(0x0096EDB0, hs_objects_predict_old);
+//HOOK_DECLARE(0x0096EDF0, hs_pin);
+//HOOK_DECLARE(0x0096EE40, hs_player_get);
+//HOOK_DECLARE(0x0096EE90, hs_players);
+HOOK_DECLARE(0x0096EF50, hs_position_predict);
+HOOK_DECLARE(0x0096EF60, hs_print);
+HOOK_DECLARE(0x0096EF70, hs_shader_predict);
+HOOK_DECLARE(0x0096EF80, hs_tag_load_force_programmer_only);
+HOOK_DECLARE(0x0096EF90, hs_tag_unload_force_programmer_only);
+HOOK_DECLARE(0x0096EFA0, hs_teleport_players_not_in_trigger_volume);
+HOOK_DECLARE(0x0096F080, hs_trigger_volume_test_objects);
 HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
 HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
+HOOK_DECLARE(0x0096F1B0, hs_unit_can_see_flag);
+HOOK_DECLARE(0x0096F210, hs_unit_can_see_object);
+HOOK_DECLARE(0x0096F2A0, hs_user_interface_controller_get_last_level_played);
 
 void __cdecl hs_evaluate_library_external(int16 script_index)
 {
@@ -195,59 +259,126 @@ void __cdecl hs_map_info()
 
 bool __cdecl hs_not(bool value)
 {
-	return INVOKE(0x0096D8D0, hs_not, value);
+	//return INVOKE(0x0096D8D0, hs_not, value);
+
+	return !value;
 }
 
 //.text:0096D8E0 ; real32 __cdecl hs_object_buckling_magnitude_get(int32 object_index)
 
 void __cdecl hs_object_create(int16 object_name_index)
 {
-	INVOKE(0x0096D940, hs_object_create, object_name_index);
+	//INVOKE(0x0096D940, hs_object_create, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		hs_object_new_by_name_internal(object_name_index, false, false);
+	}
 }
 
 void __cdecl hs_object_create_anew(int16 object_name_index)
 {
-	INVOKE(0x0096D970, hs_object_create_anew, object_name_index);
+	//INVOKE(0x0096D970, hs_object_create_anew, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		int32 old_object_index = object_index_from_name_index(object_name_index);
+		if (old_object_index != NONE)
+		{
+			hs_object_destroy(old_object_index);
+		}
+		hs_object_new_by_name_internal(object_name_index, false, false);
+	}
 }
 
 void __cdecl hs_object_create_anew_containing(const char* name_string)
 {
-	INVOKE(0x0096D9D0, hs_object_create_anew_containing, name_string);
+	//INVOKE(0x0096D9D0, hs_object_create_anew_containing, name_string);
+
+	hs_object_iterate_names_containing(name_string, hs_object_create_anew);
 }
 
 void __cdecl hs_object_create_anew_multiplayer_cinematic(int16 object_name_index)
 {
-	INVOKE(0x0096D9F0, hs_object_create_anew_multiplayer_cinematic, object_name_index);
+	//INVOKE(0x0096D9F0, hs_object_create_anew_multiplayer_cinematic, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		int32 old_object_index = object_index_from_name_index(object_name_index);
+		if (old_object_index != NONE)
+		{
+			hs_object_destroy_multiplayer_cinematic(old_object_index);
+		}
+		hs_object_new_by_name_internal(object_name_index, false, false);
+	}
 }
 
 void __cdecl hs_object_create_clone(int16 object_name_index)
 {
-	INVOKE(0x0096DA50, hs_object_create_clone, object_name_index);
+	//INVOKE(0x0096DA50, hs_object_create_clone, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		hs_object_new_by_name_internal(object_name_index, true, false);
+	}
 }
 
 void __cdecl hs_object_create_clone_containing(const char* name_string)
 {
-	INVOKE(0x0096DA80, hs_object_create_clone_containing, name_string);
+	//INVOKE(0x0096DA80, hs_object_create_clone_containing, name_string);
+
+	hs_object_iterate_names_containing(name_string, hs_object_create_clone);
 }
 
 void __cdecl hs_object_create_clone_multiplayer_cinematic(int16 object_name_index)
 {
-	INVOKE(0x0096DAA0, hs_object_create_clone_multiplayer_cinematic, object_name_index);
+	//INVOKE(0x0096DAA0, hs_object_create_clone_multiplayer_cinematic, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		hs_object_new_by_name_internal(object_name_index, true, true);
+	}
 }
 
 void __cdecl hs_object_create_containing(const char* name_string)
 {
-	INVOKE(0x0096DAD0, hs_object_create_containing, name_string);
+	//INVOKE(0x0096DAD0, hs_object_create_containing, name_string);
+
+	hs_object_iterate_names_containing(name_string, hs_object_create);
 }
 
 void __cdecl hs_object_create_folder(int32 folder_index)
 {
 	INVOKE(0x0096DAF0, hs_object_create_folder, folder_index);
+
+	//if (folder_index != NONE)
+	//{
+	//	struct scenario* scenario = global_scenario_get();
+	//	hs_object_create_folder_internal(folder_index, &scenario->crates, &scenario->crate_palette, sizeof(s_scenario_crate));
+	//	hs_object_create_folder_internal(folder_index, &scenario->scenery, &scenario->scenery_palette, sizeof(s_scenario_scenery));
+	//	hs_object_create_folder_internal(folder_index, &scenario->bipeds, &scenario->biped_palette, sizeof(s_scenario_biped));
+	//	hs_object_create_folder_internal(folder_index, &scenario->vehicles, &scenario->vehicle_palette, sizeof(s_scenario_vehicle));
+	//	hs_object_create_folder_internal(folder_index, &scenario->equipment, &scenario->equipment_palette, sizeof(s_scenario_equipment));
+	//	hs_object_create_folder_internal(folder_index, &scenario->weapons, &scenario->weapon_palette, sizeof(s_scenario_weapon));
+	//	hs_object_create_folder_internal(folder_index, &scenario->machines, &scenario->machine_palette, sizeof(s_scenario_machine));
+	//	hs_object_create_folder_internal(folder_index, &scenario->terminals, &scenario->terminal_palette, sizeof(s_scenario_terminal));
+	//	hs_object_create_folder_internal(folder_index, &scenario->controls, &scenario->control_palette, sizeof(s_scenario_control));
+	//	hs_object_create_folder_internal(folder_index, &scenario->sound_scenery, &scenario->sound_scenery_palette, sizeof(s_scenario_sound_scenery));
+	//	hs_object_create_folder_internal(folder_index, &scenario->giants, &scenario->giant_palette, sizeof(s_scenario_giant));
+	//	hs_object_create_folder_internal(folder_index, &scenario->effect_scenery, &scenario->effect_scenery_palette, sizeof(s_scenario_effect_scenery));
+	//	hs_object_create_folder_internal(folder_index, &scenario->lights, &scenario->lights_palette, sizeof(s_scenario_light));
+	//}
 }
 
 void __cdecl hs_object_create_folder_anew(int32 folder_index)
 {
-	INVOKE(0x0096DC50, hs_object_create_folder_anew, folder_index);
+	//INVOKE(0x0096DC50, hs_object_create_folder_anew, folder_index);
+
+	if (folder_index != NONE)
+	{
+		hs_object_destroy_folder(folder_index);
+		hs_object_create_folder(folder_index);
+	}
 }
 
 void __cdecl hs_object_create_folder_internal(int32 folder_index, const s_tag_block* block, s_tag_block* palette, int32 size)
@@ -257,47 +388,136 @@ void __cdecl hs_object_create_folder_internal(int32 folder_index, const s_tag_bl
 
 void __cdecl hs_object_create_if_necessary(int16 object_name_index)
 {
-	INVOKE(0x0096DCE0, hs_object_create_if_necessary, object_name_index);
+	//INVOKE(0x0096DCE0, hs_object_create_if_necessary, object_name_index);
+
+	if (object_name_index != NONE && object_index_from_name_index(object_name_index) == NONE)
+	{
+		hs_object_new_by_name_internal(object_name_index, false, false);
+	}
 }
 
 void __cdecl hs_object_create_multiplayer_cinematic(int16 object_name_index)
 {
-	INVOKE(0x0096DD20, hs_object_create_multiplayer_cinematic, object_name_index);
+	//INVOKE(0x0096DD20, hs_object_create_multiplayer_cinematic, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		hs_object_new_by_name_internal(object_name_index, false, true);
+	}
 }
 
 void __cdecl hs_object_delete_internal(int32 object_index)
 {
-	INVOKE(0x0096DD50, hs_object_delete_internal, object_index);
+	//INVOKE(0x0096DD50, hs_object_delete_internal, object_index);
+
+	object_placement_mark_object_on_delete(object_index);
+	object_delete(object_index);
 }
 
 void __cdecl hs_object_destroy(int32 object_index)
 {
-	INVOKE(0x0096DD70, hs_object_destroy, object_index);
+	//INVOKE(0x0096DD70, hs_object_destroy, object_index);
+
+	if (object_index != NONE)
+	{
+		if (object_is_or_contains_player(object_index))
+		{
+			event(_event_error, "a script tried to delete the player (or the horse he rode in on, or his six-shooter)");
+		}
+		else
+		{
+			if (object_is_multiplayer_cinematic_object(object_index))
+			{
+				event(_event_error, "attempting to delete a cinematic object with a a non-cinematic hs command");
+			}
+			hs_object_delete_internal(object_index);
+		}
+	}
 }
 
 void __cdecl hs_object_destroy_all()
 {
-	INVOKE(0x0096DDB0, hs_object_destroy_all);
+	//INVOKE(0x0096DDB0, hs_object_destroy_all);
+
+	hs_object_destroy_all_type_mask(_object_mask_all);
 }
 
 void __cdecl hs_object_destroy_all_type_mask(int32 mask)
 {
-	INVOKE(0x0096DDC0, hs_object_destroy_all_type_mask, mask);
+	//INVOKE(0x0096DDC0, hs_object_destroy_all_type_mask, mask);
+
+	if (TEST_MASK(mask, _object_mask_vehicle))
+	{
+		c_data_iterator<player_datum> player_iterator;
+		player_iterator.begin(player_data);
+		while (player_iterator.next())
+		{
+			const player_datum* player = player_iterator.get_datum();
+			if (player->unit_index != NONE && object_get_ultimate_parent(player->unit_index) != player->unit_index)
+			{
+				action_submit(player->unit_index, _action_vehicle_exit_immediate);
+			}
+		}
+	}
+
+	c_object_iterator<object_datum> iterator;
+	iterator.begin(mask, _object_mask_none);
+	while (iterator.next())
+	{
+		const object_datum* object = iterator.get_datum();
+		if (object->object.parent_object_index == NONE && !object_is_or_contains_player(iterator.get_index()))
+		{
+			if (object_is_multiplayer_cinematic_object(iterator.get_index()))
+			{
+				event(_event_error, "a script is deleting a cinematic object (in destroy_all()) with a non-cinematic hs command");
+			}
+			hs_object_delete_internal(iterator.get_index());
+		}
+	}
 }
 
 void __cdecl hs_object_destroy_by_name(int16 object_name_index)
 {
-	INVOKE(0x0096DEA0, hs_object_destroy_by_name, object_name_index);
+	//INVOKE(0x0096DEA0, hs_object_destroy_by_name, object_name_index);
+
+	if (object_name_index != NONE)
+	{
+		int32 object_index = object_index_from_name_index(object_name_index);
+		if (object_index != NONE)
+		{
+			hs_object_destroy(object_index);
+		}
+	}
 }
 
 void __cdecl hs_object_destroy_containing(const char* name_string)
 {
-	INVOKE(0x0096DF00, hs_object_destroy_containing, name_string);
+	//INVOKE(0x0096DF00, hs_object_destroy_containing, name_string);
+
+	hs_object_iterate_names_containing(name_string, hs_object_destroy_by_name);
 }
 
 void __cdecl hs_object_destroy_folder(int32 folder_index)
 {
 	INVOKE(0x0096DF20, hs_object_destroy_folder, folder_index);
+
+	//if (folder_index != NONE)
+	//{
+	//	struct scenario* scenario = global_scenario_get();
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->crates, &scenario->crate_palette, sizeof(s_scenario_crate));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->scenery, &scenario->scenery_palette, sizeof(s_scenario_scenery));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->bipeds, &scenario->biped_palette, sizeof(s_scenario_biped));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->vehicles, &scenario->vehicle_palette, sizeof(s_scenario_vehicle));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->equipment, &scenario->equipment_palette, sizeof(s_scenario_equipment));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->weapons, &scenario->weapon_palette, sizeof(s_scenario_weapon));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->machines, &scenario->machine_palette, sizeof(s_scenario_machine));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->terminals, &scenario->terminal_palette, sizeof(s_scenario_terminal));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->controls, &scenario->control_palette, sizeof(s_scenario_control));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->sound_scenery, &scenario->sound_scenery_palette, sizeof(s_scenario_sound_scenery));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->giants, &scenario->giant_palette, sizeof(s_scenario_giant));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->effect_scenery, &scenario->effect_scenery_palette, sizeof(s_scenario_effect_scenery));
+	//	hs_object_destroy_folder_internal(folder_index, &scenario->lights, &scenario->lights_palette, sizeof(s_scenario_light));
+	//}
 }
 
 void __cdecl hs_object_destroy_folder_internal(int32 folder_index, const s_tag_block* block, s_tag_block* palette, int32 size)
@@ -307,42 +527,170 @@ void __cdecl hs_object_destroy_folder_internal(int32 folder_index, const s_tag_b
 
 void __cdecl hs_object_destroy_multiplayer_cinematic(int32 object_index)
 {
-	INVOKE(0x0096E1F0, hs_object_destroy_multiplayer_cinematic, object_index);
+	//INVOKE(0x0096E1F0, hs_object_destroy_multiplayer_cinematic, object_index);
+
+	if (object_index != NONE)
+	{
+		if (object_is_or_contains_player(object_index))
+		{
+			event(_event_error, "a cinematic script tried to delete the player (or the horse he rode in on, or his six-shooter)");
+		}
+		else
+		{
+			if (!object_is_multiplayer_cinematic_object(object_index))
+			{
+				event(_event_error, "a cinematic script deleting a non-cinematic object");
+			}
+			hs_object_delete_internal(object_index);
+		}
+	}
 }
 
 void __cdecl hs_object_hide(int32 object_index, bool hide)
 {
-	INVOKE(0x0096E230, hs_object_hide, object_index, hide);
+	//INVOKE(0x0096E230, hs_object_hide, object_index, hide);
+
+	if (object_index != NONE)
+	{
+		object_set_hidden(object_index, hide);
+	}
 }
 
 void __cdecl hs_object_iterate_names_containing(const char* name_string, void(__cdecl* iterator)(int16))
 {
-	INVOKE(0x0096E250, hs_object_iterate_names_containing, name_string, iterator);
+	//INVOKE(0x0096E250, hs_object_iterate_names_containing, name_string, iterator);
+
+	const struct scenario* scenario = global_scenario_get();
+	for (int16 object_name_index = 0; object_name_index < global_scenario->object_names.count; object_name_index++)
+	{
+		scenario_object_name* object_name = TAG_BLOCK_GET_ELEMENT(&global_scenario->object_names, object_name_index, scenario_object_name);
+		if (object_name->name.contains(name_string))
+		{
+			iterator(object_name_index);
+		}
+	}
 }
 
 int32 __cdecl hs_object_list_get_element(int32 object_list_index, int16 element_index)
 {
 	return INVOKE(0x0096E2B0, hs_object_list_get_element, object_list_index, element_index);
+
+#if 0 // $REVIEW
+	int32 reference_index;
+	int32 object_index = object_list_get_first(object_list_index, &reference_index);
+	while (element_index > 0)
+	{
+		if (object_index != NONE)
+		{
+			break;
+		}
+
+		object_index = object_list_get_next(object_list_index, &reference_index);
+		element_index--;
+	}
+	return object_index;
+#endif
 }
 
 void __cdecl hs_object_new_by_name_internal(int16 object_name_index, bool displace_previous_object, bool multiplayer_cinematic_object)
 {
-	INVOKE(0x0096E2F0, hs_object_new_by_name_internal, object_name_index, displace_previous_object, multiplayer_cinematic_object);
+	//INVOKE(0x0096E2F0, hs_object_new_by_name_internal, object_name_index, displace_previous_object, multiplayer_cinematic_object);
+
+	object_placement_mark_name_on_create(object_name_index);
+	object_new_by_name(object_name_index, displace_previous_object, multiplayer_cinematic_object);
 }
 
 void __cdecl hs_object_orient(int32 object_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up, bool set_position, bool set_facing)
 {
 	INVOKE(0x0096E320, hs_object_orient, object_index, position, forward, up, set_position, set_facing);
+
+#if 0 // $REVIEW
+	if (object_index != NONE)
+	{
+		const object_datum* object = OBJECT_GET(const object_datum, object_index);
+		if (set_position)
+		{
+			if (object->object.parent_object_index != NONE)
+			{
+				object_detach(object_index);
+			}
+			else if (TEST_FLAG(object->object.flags, _object_in_limbo_bit))
+			{
+				object_set_in_limbo(object_index, false);
+			}
+
+			ASSERT(object->object.parent_object_index == NONE);
+			ASSERT(!TEST_FLAG(object->object.flags, _object_in_limbo_bit));
+		}
+
+		object_reset(object_index);
+		object_placement_reset_from_teleport(object_index);
+
+		unit_datum* unit = UNIT_GET(object_index);
+		if (unit)
+		{
+			real_vector3d relative_forward{};
+			if (unit->object.parent_object_index == NONE)
+			{
+				relative_forward = *forward;
+			}
+			else
+			{
+				real_matrix4x3 inverted_matrix{};
+				matrix4x3_inverse(object_get_node_matrix(unit->object.parent_object_index, unit->object.parent_node_index), &inverted_matrix);
+				matrix4x3_transform_normal(&inverted_matrix, forward, &relative_forward);
+			}
+
+			if (set_facing)
+			{
+				unit->unit.desired_facing_vector = *forward;
+				unit->unit.desired_aiming_vector = *forward;
+				unit->unit.desired_looking_vector = *forward;
+				simulation_action_object_update(object_index, _simulation_unit_update_desired_aiming_vector);
+			}
+
+			int32 player_index = player_index_from_unit_index(object_index);
+			if (player_index != NONE)
+			{
+				if (set_position)
+				{
+					player_teleport(player_index, NONE, position);
+					set_position = false;
+				}
+
+				if (set_facing)
+				{
+					player_set_facing(player_index, &relative_forward);
+				}
+			}
+		}
+
+		object_set_position(object_index, set_position ? position : NULL, set_facing ? forward : NULL, set_facing ? up : NULL, NULL);
+	}
+#endif
 }
 
 void __cdecl hs_object_set_facing(int32 object_index, int16 flag_index)
 {
-	INVOKE(0x0096E4D0, hs_object_set_facing, object_index, flag_index);
+	//INVOKE(0x0096E4D0, hs_object_set_facing, object_index, flag_index);
+
+	scenario_cutscene_flag* flag = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag);
+
+	real_vector3d forward{};
+	real_vector3d up_vector{};
+	vector3d_from_euler_angles2d(&forward, &flag->facing);
+	generate_up_vector3d(&forward, &up_vector);
+	hs_object_orient(object_index, &flag->position, &forward, &up_vector, false, true);
 }
 
 void __cdecl hs_object_set_permutation(int32 object_index, int32 region_name_id, int32 permutation_name_id)
 {
-	INVOKE(0x0096E620, hs_object_set_permutation, object_index, region_name_id, permutation_name_id);
+	//INVOKE(0x0096E620, hs_object_set_permutation, object_index, region_name_id, permutation_name_id);
+
+	if (object_index != NONE)
+	{
+		object_set_region_permutation_direct(object_index, region_name_id, permutation_name_id);
+	}
 }
 
 void __cdecl hs_object_set_region_state(int32 object_index, int32 region_name_id, int32 model_state)
@@ -352,7 +700,12 @@ void __cdecl hs_object_set_region_state(int32 object_index, int32 region_name_id
 
 void __cdecl hs_object_set_shadowless(int32 object_index, bool shadowless)
 {
-	INVOKE(0x0096E6B0, hs_object_set_shadowless, object_index, shadowless);
+	//INVOKE(0x0096E6B0, hs_object_set_shadowless, object_index, shadowless);
+
+	if (object_index != NONE)
+	{
+		object_set_shadowless(object_get_ultimate_parent(object_index), shadowless);
+	}
 }
 
 void __cdecl hs_object_set_shield(int32 object_index, real32 shield)
@@ -377,32 +730,93 @@ void __cdecl hs_object_set_shield_stun_infinite(int32 object_index)
 
 void __cdecl hs_object_set_variant(int32 object_index, int32 variant_name)
 {
-	INVOKE(0x0096E7F0, hs_object_set_variant, object_index, variant_name);
+	//INVOKE(0x0096E7F0, hs_object_set_variant, object_index, variant_name);
+
+	if (object_index != NONE)
+	{
+		object_set_variant_direct(object_index, variant_name);
+	}
 }
 
 void __cdecl hs_object_teleport(int32 object_index, int32 flag_index)
 {
-	INVOKE(0x0096E810, hs_object_teleport, object_index, flag_index);
+	//INVOKE(0x0096E810, hs_object_teleport, object_index, flag_index);
+
+	scenario_cutscene_flag* flag = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag);
+	
+	real_vector3d forward{};
+	real_vector3d up_vector{};
+	vector3d_from_euler_angles2d(&forward, &flag->facing);
+	generate_up_vector3d(&forward, &up_vector);
+	hs_object_orient(object_index, &flag->position, &forward, &up_vector, true, true);
 }
 
 void __cdecl hs_object_teleport_ai(int32 object_index, int32 ai_point_ref)
 {
-	INVOKE(0x0096E870, hs_object_teleport_ai, object_index, ai_point_ref);
+	//INVOKE(0x0096E870, hs_object_teleport_ai, object_index, ai_point_ref);
+
+	real_point3d position{};
+	real_vector3d forward{};
+	real_vector3d up{};
+	if (point_ref_get_position_and_orientation(ai_point_ref, &position, &forward, &up))
+	{
+		hs_object_orient(object_index, &position, &forward, &up, true, true);
+	}
 }
 
 bool __cdecl hs_objects_can_see_flag(int32 object_list_index, int16 flag_index, real32 degrees)
 {
-	return INVOKE(0x0096E8B0, hs_objects_can_see_flag, object_list_index, flag_index, degrees);
+	//return INVOKE(0x0096E8B0, hs_objects_can_see_flag, object_list_index, flag_index, degrees);
+
+	bool visible = false;
+	int32 reference_index;
+	for (int32 unit_index = object_list_get_first(object_list_index, &reference_index);
+		unit_index != NONE;
+		unit_index = object_list_get_next(object_list_index, &reference_index))
+	{
+		if (hs_unit_can_see_flag(unit_index, flag_index, degrees))
+		{
+			visible = true;
+			break;
+		}
+	}
+	return visible;
 }
 
 bool __cdecl hs_objects_can_see_object(int32 object_list_index, int32 object_index, real32 degrees)
 {
-	return INVOKE(0x0096E970, hs_objects_can_see_object, object_list_index, object_index, degrees);
+	//return INVOKE(0x0096E970, hs_objects_can_see_object, object_list_index, object_index, degrees);
+
+	bool visible = false;
+	int32 reference_index;
+	for (int32 unit_index = object_list_get_first(object_list_index, &reference_index);
+		unit_index != NONE;
+		unit_index = object_list_get_next(object_list_index, &reference_index))
+	{
+		if (hs_unit_can_see_object(unit_index, object_index, degrees))
+		{
+			visible = true;
+			break;
+		}
+	}
+	return visible;
 }
 
 void __cdecl hs_objects_delete_by_definition(int32 definition_index)
 {
-	INVOKE(0x0096EA70, hs_objects_delete_by_definition, definition_index);
+	//INVOKE(0x0096EA70, hs_objects_delete_by_definition, definition_index);
+
+	c_object_iterator<object_datum> iterator;
+	iterator.begin(_object_mask_all, _object_mask_none);
+	while (iterator.next())
+	{
+		const object_datum* object = iterator.get_datum();
+		if (object->definition_index == definition_index)
+		{
+			hs_object_delete_internal(iterator.get_index());
+		}
+	}
+	objects_memory_compact();
 }
 
 //.text:0096EAD0 ; real32 __cdecl hs_objects_distance_to_flag(int32 object_list_index, int16 flag_index)
@@ -410,22 +824,43 @@ void __cdecl hs_objects_delete_by_definition(int32 definition_index)
 
 void __cdecl hs_objects_predict(int32 object_list_index, bool low_detail)
 {
-	INVOKE(0x0096ECE0, hs_objects_predict, object_list_index, low_detail);
+	//INVOKE(0x0096ECE0, hs_objects_predict, object_list_index, low_detail);
+
+	int32 reference_index;
+	for (int32 object_index = object_list_get_first(object_list_index, &reference_index);
+		object_index != NONE;
+		object_index = object_list_get_next(object_list_index, &reference_index))
+	{
+		if (low_detail)
+		{
+			object_predict_low(object_index);
+		}
+		else
+		{
+			object_predict_all(object_index);
+		}
+	}
 }
 
 void __cdecl hs_objects_predict_high(int32 object_list_index)
 {
-	INVOKE(0x0096ED30, hs_objects_predict_high, object_list_index);
+	//INVOKE(0x0096ED30, hs_objects_predict_high, object_list_index);
+
+	hs_objects_predict(object_list_index, false);
 }
 
 void __cdecl hs_objects_predict_low(int32 object_list_index)
 {
-	INVOKE(0x0096ED70, hs_objects_predict_low, object_list_index);
+	//INVOKE(0x0096ED70, hs_objects_predict_low, object_list_index);
+
+	hs_objects_predict(object_list_index, true);
 }
 
 void __cdecl hs_objects_predict_old(int32 object_list_index)
 {
-	INVOKE(0x0096EDB0, hs_objects_predict_old, object_list_index);
+	//INVOKE(0x0096EDB0, hs_objects_predict_old, object_list_index);
+
+	hs_objects_predict_high(object_list_index);
 }
 
 //.text:0096EDF0 ; real32 __cdecl hs_pin(real32 value, real32 min, real32 max)
@@ -438,7 +873,7 @@ int32 __cdecl hs_players()
 
 void __cdecl hs_position_predict(real32 x, real32 y, real32 z)
 {
-	INVOKE(0x0096EF50, hs_position_predict, x, y, z);
+	//INVOKE(0x0096EF50, hs_position_predict, x, y, z);
 }
 
 void __cdecl hs_print(const char* s)
@@ -450,22 +885,33 @@ void __cdecl hs_print(const char* s)
 
 void __cdecl hs_shader_predict(int32 shader_index)
 {
-	INVOKE(0x0096EF70, hs_shader_predict, shader_index);
+	//INVOKE(0x0096EF70, hs_shader_predict, shader_index);
 }
 
 void __cdecl hs_tag_load_force_programmer_only(const char* tag_path_plus_extension)
 {
-	INVOKE(0x0096EF80, hs_tag_load_force_programmer_only, tag_path_plus_extension);
+	//INVOKE(0x0096EF80, hs_tag_load_force_programmer_only, tag_path_plus_extension);
 }
 
 void __cdecl hs_tag_unload_force_programmer_only(const char* tag_path_plus_extension)
 {
-	INVOKE(0x0096EF90, hs_tag_unload_force_programmer_only, tag_path_plus_extension);
+	//INVOKE(0x0096EF90, hs_tag_unload_force_programmer_only, tag_path_plus_extension);
 }
 
 void __cdecl hs_teleport_players_not_in_trigger_volume(int16 trigger_volume_index, int16 flag_index)
 {
-	INVOKE(0x0096EFA0, hs_teleport_players_not_in_trigger_volume, trigger_volume_index, flag_index);
+	//INVOKE(0x0096EFA0, hs_teleport_players_not_in_trigger_volume, trigger_volume_index, flag_index);
+
+	for (int32 player_index = data_next_index(player_data, NONE);
+		player_index != NONE;
+		player_index = data_next_index(player_data, player_index))
+	{
+		const player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+		if (player->unit_index != NONE && !scenario_trigger_volume_test_object(trigger_volume_index, player->unit_index))
+		{
+			hs_object_teleport(player->unit_index, flag_index);
+		}
+	}
 }
 
 bool __cdecl hs_trigger_volume_test_objects(int16 trigger_volume_index, int32 object_list_index, bool and_)
@@ -500,26 +946,56 @@ bool __cdecl hs_trigger_volume_test_objects(int16 trigger_volume_index, int32 ob
 
 bool __cdecl hs_trigger_volume_test_objects_all(int16 trigger_volume_index, int32 object_index)
 {
+	//return INVOKE(0x0096F0F0, hs_trigger_volume_test_objects_all, trigger_volume_index, object_index);
+
 	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, true);
 }
 
 bool __cdecl hs_trigger_volume_test_objects_any(int16 trigger_volume_index, int32 object_index)
 {
+	//return INVOKE(0x0096F150, hs_trigger_volume_test_objects_any, trigger_volume_index, object_index);
+
 	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, false);
 }
 
 bool __cdecl hs_unit_can_see_flag(int32 unit_index, int16 flag_index, real32 degrees)
 {
-	return INVOKE(0x0096F1B0, hs_unit_can_see_flag, unit_index, flag_index, degrees);
+	//return INVOKE(0x0096F1B0, hs_unit_can_see_flag, unit_index, flag_index, degrees);
+
+	bool visible = false;
+	if (VALID_INDEX(flag_index, global_scenario_get()->cutscene_flags.count))
+	{
+		visible = unit_can_see_point(unit_index, &TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag)->position, degrees * DEG);
+	}
+	return visible;
 }
 
 bool __cdecl hs_unit_can_see_object(int32 unit_index, int32 object_index, real32 degrees)
 {
-	return INVOKE(0x0096F210, hs_unit_can_see_object, unit_index, object_index, degrees);
+	//return INVOKE(0x0096F210, hs_unit_can_see_object, unit_index, object_index, degrees);
+
+	bool visible = false;
+	if (object_index != NONE)
+	{
+		real_point3d target_point{};
+		if (UNIT_GET(object_index))
+		{
+			unit_get_head_position(object_index, &target_point);
+		}
+		else
+		{
+			target_point = OBJECT_GET(object_datum, object_index)->object.bounding_sphere_center;
+		}
+		visible = unit_can_see_point(unit_index, &target_point, degrees * DEG);
+	}
+	return visible;
 }
 
 int32 __cdecl hs_user_interface_controller_get_last_level_played(int16 controller)
 {
-	return INVOKE(0x0096F2A0, hs_user_interface_controller_get_last_level_played, controller);
+	//return INVOKE(0x0096F2A0, hs_user_interface_controller_get_last_level_played, controller);
+
+	event(_event_critical, "hs: user_interface_controller_get_last_level_played is not deterministic. if you need to use this, talk to Luke or Petar");
+	return NONE;
 }
 

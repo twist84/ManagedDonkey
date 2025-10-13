@@ -207,8 +207,8 @@ struct scenario
 	c_typed_tag_block<s_scenario_effect_scenery> effect_scenery;
 	c_typed_tag_block<scenario_object_palette_entry<EFFECT_SCENERY_TAG, INVALID_TAG>, 'sort'> effect_scenery_palette;
 
-	c_typed_tag_block<scenario_light_block> light_volumes;
-	c_typed_tag_block<scenario_object_palette_entry<LIGHT_TAG, INVALID_TAG>, 'sort'> light_volume_palette;
+	c_typed_tag_block<scenario_light_block> lights;
+	c_typed_tag_block<scenario_object_palette_entry<LIGHT_TAG, INVALID_TAG>, 'sort'> lights_palette;
 
 	c_typed_tag_block<scenario_object_palette_entry_with_string_id<VEHICLE_TAG, INVALID_TAG>, 'sort'> map_variant_vehicle_palette;
 	c_typed_tag_block<scenario_object_palette_entry_with_string_id<WEAPON_TAG, INVALID_TAG>, 'sort'> map_variant_weapon_palette;
