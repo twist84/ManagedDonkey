@@ -215,6 +215,7 @@ void __cdecl hs_object_destroy_folder(int32 folder_index)
 {
 	INVOKE(0x0096DF20, hs_object_destroy_folder, folder_index);
 }
+
 void __cdecl hs_object_destroy_folder_internal(int32 folder_index, const s_tag_block* block, s_tag_block* palette, int32 size)
 {
 	INVOKE(0x0096E080, hs_object_destroy_folder_internal, folder_index, block, palette, size);
@@ -270,11 +271,30 @@ void __cdecl hs_object_set_shadowless(int32 object_index, bool shadowless)
 	INVOKE(0x0096E6B0, hs_object_set_shadowless, object_index, shadowless);
 }
 
-//.text:0096E6E0 ; void __cdecl hs_object_set_shield(int32 object_index, real32 shield)
-//.text:0096E740 ; void __cdecl hs_object_set_shield_normalized(int32, real32)
-//.text:0096E7A0 ; void __cdecl hs_object_set_shield_stun(int32 object_index, real32 shield)
-//.text:0096E7D0 ; void __cdecl hs_object_set_shield_stun_infinite(int32 object_index)
-//.text:0096E7F0 ; void __cdecl hs_object_set_variant(int32, int32)
+void __cdecl hs_object_set_shield(int32 object_index, real32 shield)
+{
+	INVOKE(0x0096E6E0, hs_object_set_shield, object_index, shield);
+}
+
+void __cdecl hs_object_set_shield_normalized(int32 object_index, real32 shield)
+{
+	INVOKE(0x0096E740, hs_object_set_shield_normalized, object_index, shield);
+}
+
+void __cdecl hs_object_set_shield_stun(int32 object_index, real32 shield)
+{
+	INVOKE(0x0096E7A0, hs_object_set_shield_stun, object_index, shield);
+}
+
+void __cdecl hs_object_set_shield_stun_infinite(int32 object_index)
+{
+	INVOKE(0x0096E7D0, hs_object_set_shield_stun_infinite, object_index);
+}
+
+void __cdecl hs_object_set_variant(int32 object_index, int32 variant_name)
+{
+	INVOKE(0x0096E7F0, hs_object_set_variant, object_index, variant_name);
+}
 
 void __cdecl hs_object_teleport(int32 object_index, int32 flag_index)
 {
@@ -359,6 +379,11 @@ void __cdecl hs_tag_unload_force_programmer_only(const char* tag_path_plus_exten
 	INVOKE(0x0096EF90, hs_tag_unload_force_programmer_only, tag_path_plus_extension);
 }
 
+void __cdecl hs_teleport_players_not_in_trigger_volume(int16 trigger_volume_index, int16 flag_index)
+{
+	INVOKE(0x0096EFA0, hs_teleport_players_not_in_trigger_volume, trigger_volume_index, flag_index);
+}
+
 bool __cdecl hs_trigger_volume_test_objects(int16 trigger_volume_index, int32 object_list_index, bool and_)
 {
 	//return INVOKE(0x0096F080, hs_trigger_volume_test_objects, trigger_volume_index, object_list_index, and_);
@@ -397,5 +422,20 @@ bool __cdecl hs_trigger_volume_test_objects_all(int16 trigger_volume_index, int3
 bool __cdecl hs_trigger_volume_test_objects_any(int16 trigger_volume_index, int32 object_index)
 {
 	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, false);
+}
+
+bool __cdecl hs_unit_can_see_flag(int32 unit_index, int16 flag_index, real32 degrees)
+{
+	return INVOKE(0x0096F1B0, hs_unit_can_see_flag, unit_index, flag_index, degrees);
+}
+
+bool __cdecl hs_unit_can_see_object(int32 unit_index, int32 object_index, real32 degrees)
+{
+	return INVOKE(0x0096F210, hs_unit_can_see_object, unit_index, object_index, degrees);
+}
+
+int32 __cdecl hs_user_interface_controller_get_last_level_played(int16 controller)
+{
+	return INVOKE(0x0096F2A0, hs_user_interface_controller_get_last_level_played, controller);
 }
 

@@ -110,6 +110,7 @@ extern s_game_globals* __cdecl scenario_get_game_globals();
 extern int32 __cdecl scenario_get_designer_zone_index_by_name(const struct scenario* scenario, const char* name);
 extern const char* __cdecl scenario_get_designer_zone_string_from_mask(uns32 designer_zone_mask, char* designer_zone_string, uns32 designer_zone_string_size);
 extern void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state);
+extern const char* __cdecl scenario_get_structure_bsp_name(int32 structure_bsp_index);
 extern const char* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_bsp_mask, char* structure_bsp_string, uns32 structure_bsp_string_size);
 extern int32 __cdecl scenario_get_zone_set_index_by_name(const struct scenario* scenario, const char* name, bool strip_path);
 extern void __cdecl scenario_initialize();
