@@ -595,7 +595,7 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 			*error_source_pointer = NULL;
 
 			hs_compile_globals.error_message = 0;
-			hs_compile_globals.error_offset = -1;
+			hs_compile_globals.error_offset = NONE;
 
 			tokenizer.cursor = &hs_compile_globals.compiled_source[old_size];
 			tokenizer.source_file_data = 0;
@@ -987,7 +987,7 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 				if (error_source_file)
 				{
 #if 0
-					char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char*);
+					char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char);
 					const char* error_text = &error_source[error_offset_within_file];
 					hs_compile_source_error(error_source_file->name, hs_compile_globals.error_message, error_text, error_source);
 #endif
@@ -1025,7 +1025,7 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 				if (error_source_file)
 				{
 #if 0
-					char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char*);
+					char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char);
 					const char* error_text = &error_source[error_offset_within_file];
 					hs_compile_source_error(error_source_file->name, hs_compile_globals.error_message, error_text, error_source);
 #endif
@@ -1066,7 +1066,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 		hs_source_file* source_file = TAG_BLOCK_GET_ELEMENT(&scenario->hs_source_files, source_index, hs_source_file);
 
 #if 0
-		char* source_text = TAG_DATA_GET_POINTER(&source_file->source, 0, source_file->source.size, char*);
+		char* source_text = TAG_DATA_GET_POINTER(&source_file->source, 0, source_file->source.size, char);
 		if (source_text)
 		{
 			ascii_strnlwr(source_text, source_file->source.size);
@@ -1085,7 +1085,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 					hs_source_file* error_source_file = source_offset_get_source_file(error_offset, &error_offset_within_file);
 					if (error_source_file)
 					{
-						char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char*);
+						char* error_source = TAG_DATA_GET_POINTER(&error_source_file->source, 0, error_source_file->source.size, char);
 						const char* error_text = &error_source[error_offset_within_file];
 						hs_compile_source_error(error_source_file->name, error_message, error_text, error_source);
 					}
