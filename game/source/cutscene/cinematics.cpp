@@ -38,7 +38,14 @@ void __cdecl cinematic_game_pause_handler(bool paused)
 
 //.text:0067CF10 ; e_cinematic_channel_type __cdecl cinematic_get_channel_type()
 //.text:0067CF60 ; const s_cinematic_clip_global* __cdecl cinematic_get_clip_planes(int32*)
-//.text:0067CF90 ; bool __cdecl cinematic_get_debug_mode()
+
+bool __cdecl cinematic_get_debug_mode()
+{
+	//return INVOKE(0x0067CF90, cinematic_get_debug_mode);
+
+	return g_cinematic_debug_mode;
+}
+
 //.text:0067CFA0 ; void __cdecl cinematic_get_default_chapter_title_bounds(rectangle2d*)
 //.text:0067CFE0 ; int16 __cdecl cinematic_get_descriptor()
 //.text:0067D0A0 ; int32 __cdecl cinematic_get_early_exit()
@@ -86,7 +93,12 @@ bool __cdecl cinematic_is_letterbox()
 //.text:0067D820 ; void __cdecl cinematic_object_create_from_cinematic_scene(const char*)
 //.text:0067D950 ; void __cdecl cinematic_object_destroy(const char*)
 //.text:0067DA30 ; void __cdecl cinematic_object_destroy_internal(int32)
-//.text:0067DAB0 ; int32 __cdecl cinematic_object_get(const char*)
+
+int32 __cdecl cinematic_object_get(const char* object_name)
+{
+	return INVOKE(0x0067DAB0, cinematic_object_get, object_name);
+}
+
 //.text:0067DB30 ; bool __cdecl cinematic_object_get_name_from_object_index(int32, char*, int32)
 //.text:0067DBC0 ; int32 __cdecl cinematic_object_try_and_get_by_index(int32)
 //.text:0067DC40 ; void __cdecl cinematic_outro_start()

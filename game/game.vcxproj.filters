@@ -2073,6 +2073,9 @@
     <ClCompile Include="source\hs\hs_looper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cutscene\cinematic_scripting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4572,6 +4575,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hs\hs_looper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cutscene\cinematic_scripting.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
