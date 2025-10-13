@@ -147,7 +147,7 @@ bool hs_add_global(int32 expression_index)
 {
 	bool success = false;
 
-#if 0 
+#if 0
 	int32 type_index = NONE;
 	int32 name_index = NONE;
 	int32 initialization_index = NONE;
@@ -620,7 +620,7 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 						implicit_inspect->flags = 0;
 
 						implicit_inspect_name->next_node_index = root_expression_index;
-						implicit_inspect_name->source_offset = -1;
+						implicit_inspect_name->source_offset = NONE;
 						implicit_inspect_name->function_index = _hs_function_inspect;
 						implicit_inspect_name->type = _hs_function_name;
 						implicit_inspect_name->flags = FLAG(_hs_syntax_node_primitive_bit);
@@ -983,7 +983,7 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 				VASSERT(hs_compile_globals.error_message, "tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
 
 				int32 error_offset_within_file = 0;
-				hs_source_file const* error_source_file = source_offset_get_source_file(hs_compile_globals.error_offset, &error_offset_within_file);;
+				hs_source_file const* error_source_file = source_offset_get_source_file(hs_compile_globals.error_offset, &error_offset_within_file);
 				if (error_source_file)
 				{
 #if 0

@@ -341,7 +341,7 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 				GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG,
 				STRING_ID(gui, start_menu),
 				0, 0)->override_definition.animation_collection_reference,
-			empty_bitmap_reference);;
+			empty_bitmap_reference);
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[2],
 			empty_bitmap_widget_reference,
@@ -357,7 +357,7 @@ void c_motd_popup_screen_widget::setup_screen_in_code()
 				0, 2)->override_definition.animation_collection_reference,
 			c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(
 				STRING_ID(gui, start_menu),
-				0, 2));;
+				0, 2));
 
 		c_motd_popup_screen_widget::add_bitmap_widget(&m_fake_group0_bitmaps[3],
 			empty_bitmap_widget_reference,
