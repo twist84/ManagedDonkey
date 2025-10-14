@@ -1,5 +1,6 @@
 #include "hs/hs_library_external.hpp"
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "cseries/cseries_events.hpp"
@@ -14,6 +15,7 @@
 #include "main/console.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "models/model_definitions.hpp"
 #include "motor/actions.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "units/giants.hpp"
@@ -112,37 +114,154 @@ void __cdecl hs_evaluate_library_external(int16 script_index)
 
 void __cdecl hs_bitmap_predict(int32 bitmap_group_index)
 {
+#if 1
 	INVOKE(0x0096CEA0, hs_bitmap_predict, bitmap_group_index);
+#else
+	if (bitmap_group_index != NONE)
+	{
+		const bitmap_group* group = TAG_GET(BITMAP_TAG, const bitmap_group, bitmap_group_index);
+		for (int32 bitmap_index = 0; bitmap_index < group->bitmaps.count; bitmap_index++)
+		{
+			bitmap_data* bitmap = TAG_BLOCK_GET_ELEMENT(&group->bitmaps, bitmap_index, bitmap_data);
+			texture_cache_bitmap_precache(bitmap, 0.0f);
+		}
+	}
+#endif
 }
 
 void __cdecl hs_damage_new(int32 definition_index, int16 flag_index)
 {
+#if 1
 	INVOKE(0x0096CEC0, hs_damage_new, definition_index, flag_index);
+#else
+	if (!game_is_predicted() && definition_index != NONE && tag_get_group_tag(definition_index) == DAMAGE_EFFECT_TAG)
+	{
+		scenario_cutscene_flag* flag = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag);
+		s_damage_data damage;
+		damage_data_new(&damage, definition_index);
+		damage.epicenter = flag->position;
+		damage.origin = damage.epicenter;
+		scenario_location_from_point(&damage.location, &flag->position);
+		area_of_effect_cause_damage(&damage, NONE, 5);
+	}
+#endif
 }
 
 void __cdecl hs_damage_object(int32 object_index, int32 material_name, real32 damage_amount)
 {
+#if 1
 	INVOKE(0x0096CF50, hs_damage_object, object_index, material_name, damage_amount);
+#else
+	if (!game_is_predicted())
+	{
+		const s_game_globals_falling_damage* falling_damage = TAG_BLOCK_GET_ELEMENT(&scenario_get_game_globals()->falling_damage, 0, const s_game_globals_falling_damage);
+		if (falling_damage->hs_damage.index != NONE && object_index != NONE)
+		{
+			const object_datum* object = OBJECT_GET(const object_datum, object_index);
+			const struct object_definition* object_definition = TAG_GET(OBJECT_TAG, const struct object_definition, object->definition_index);
+			if (object_definition->object.model.index != NONE)
+			{
+				const s_model_definition* model_definition = TAG_GET(MODEL_TAG, const s_model_definition, object_definition->object.model.index);
+				int32 material_count = model_definition->materials.count;
+
+				int32 material_index;
+				for (material_index = 0; material_index < material_count; material_index++)
+				{
+					s_model_material* model_material = TAG_BLOCK_GET_ELEMENT(&model_definition->materials, material_index, s_model_material);
+					if (model_material->material_name.get_value() == material_name)
+					{
+						break;
+					}
+				}
+
+				if (material_index < material_count)
+				{
+					s_damage_data damage;
+					damage_data_new(&damage, falling_damage->hs_damage.index);
+
+					object_get_origin(object_index, &damage.origin);
+					damage.epicenter = damage.origin;
+					damage.multiplier = damage_amount;
+					scenario_location_from_point(&damage.location, &damage.origin);
+					object_cause_damage(&damage, object_index, NONE, NONE, (int16)material_index, 5);
+				}
+			}
+		}
+	}
+#endif
 }
 
 void __cdecl hs_damage_object_effect(int32 definition_index, int32 object_index)
 {
+#if 1
 	INVOKE(0x0096D070, hs_damage_object_effect, definition_index, object_index);
+#else
+	if (!game_is_predicted() && object_index != NONE && definition_index != NONE && tag_get_group_tag(definition_index) == DAMAGE_EFFECT_TAG)
+	{
+		s_damage_data damage;
+		damage_data_new(&damage, definition_index);
+		object_get_origin(object_index, &damage.origin);
+		damage.epicenter = damage.origin;
+		scenario_location_from_point(&damage.location, &damage.origin);
+		object_cause_damage_simple(&damage, NONE, 5);
+	}
+#endif
 }
 
 void __cdecl hs_damage_object_effect_list(int32 definition_index, int32 object_list_index)
 {
+#if 1
 	INVOKE(0x0096D100, hs_damage_object_effect_list, definition_index, object_list_index);
+#else
+	int32 reference_index;
+	for (int32 object_index = object_list_get_first(object_list_index, &reference_index);
+		object_index != NONE;
+		object_index = object_list_get_next(object_list_index, &reference_index))
+	{
+		hs_damage_object_effect(definition_index, object_index);
+	}
+#endif
 }
 
 void __cdecl hs_damage_object_list(int32 object_list_index, int32 material_name, real32 damage_amount)
 {
+#if 1
 	INVOKE(0x0096D1C0, hs_damage_object_list, object_list_index, material_name, damage_amount);
+#else
+	int32 reference_index;
+	for (int32 object_index = object_list_get_first(object_list_index, &reference_index);
+		object_index != NONE;
+		object_index = object_list_get_next(object_list_index, &reference_index))
+	{
+		hs_damage_object(object_index, material_name, damage_amount);
+	}
+#endif
 }
 
 void __cdecl hs_damage_players(int32 definition_index)
 {
+#if 1
 	INVOKE(0x0096D320, hs_damage_players, definition_index);
+#else
+	if (!game_is_predicted())
+	{
+		c_player_with_unit_iterator iterator;
+		iterator.begin();
+		while (iterator.next())
+		{
+			const player_datum* player = iterator.get_datum();
+			if (player->unit_index != NONE)
+			{
+				s_damage_data damage;
+				damage_data_new(&damage, definition_index);
+				object_get_origin(player->unit_index, &damage.origin);
+				damage.epicenter = damage.origin;
+				scenario_location_from_point(&damage.location, &damage.origin);
+				object_cause_damage_simple(&damage, NONE, 5);
+			}
+		}
+	}
+#endif
 }
 
 void __cdecl hs_debug_variable(const char* s, bool debug)
