@@ -21,6 +21,7 @@ extern void __cdecl hs_effect_new_random(int32 definition_index, int32 point_ref
 extern void __cdecl hs_enable_debug_globals(bool enable);
 extern void __cdecl hs_enable_debug_scripting(bool enable);
 extern void __cdecl hs_evaluate(int16 script_index);
+extern void __cdecl hs_find_matching_commands(const char* substring);
 extern void __cdecl hs_log_print(const char* s);
 extern void __cdecl hs_map_info();
 extern bool __cdecl hs_not(bool value);

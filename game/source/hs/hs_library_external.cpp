@@ -262,7 +262,27 @@ void __cdecl hs_evaluate(int16 script_index)
 	}
 }
 
-//.text:0096D8A0 ; 
+void __cdecl hs_find_matching_commands(const char* substring)
+{
+	//INVOKE(0x0096D8A0, hs_find_matching_commands, substring);
+
+	for (int32 hs_function_index = 0; hs_function_index < hs_function_table_count; hs_function_index++)
+	{
+		const hs_function_definition* hs_function = hs_function_get((int16)hs_function_index);
+		if (csstrstr(hs_function->name, substring) != 0)
+		{
+			console_printf("%s", hs_function->name);
+		}
+	}
+	for (int32 hs_global_index = 0; hs_global_index < k_hs_external_global_count; hs_global_index++)
+	{
+		const hs_global_external* hs_global = hs_global_external_get((int16)hs_global_index);
+		if (csstrstr(hs_global->name, substring) != 0)
+		{
+			console_printf("%s", hs_global->name);
+		}
+	}
+}
 
 void __cdecl hs_log_print(const char* s)
 {
