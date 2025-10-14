@@ -339,7 +339,30 @@ void __cdecl hs_effect_new_at_ai_point(int32 definition_index, int32 point_ref)
 
 void __cdecl hs_effect_new_from_object_marker(int32 definition_index, int32 object_index, int32 marker_id)
 {
+#if 1
 	INVOKE(0x0096D680, hs_effect_new_from_object_marker, definition_index, object_index, marker_id);
+#else
+	if (definition_index != NONE && object_index != NONE)
+	{
+		object_marker marker{};
+		if (object_get_markers_by_string_id(object_index, marker_id, &marker, 1))
+		{
+			s_damage_reporting_info damage_reporting_info{};
+			effect_new_attached_from_marker_name(definition_index, NULL, &damage_reporting_info, object_index, NONE, marker_id, 1.0f, 1.0f, NULL, NULL, 0, _effect_deterministic);
+		}
+		else
+		{
+			const object_datum* object = OBJECT_GET(const object_datum, object_index);
+			const s_tag_block* object_names = &global_scenario_get()->object_names;
+			scenario_object_name* object_name = TAG_BLOCK_GET_ELEMENT_SAFE(object_names, object->object.name_index, scenario_object_name);
+
+			event(_event_warning, "object %s(%s) does not have marker '%s'",
+				tag_name_strip_path(tag_get_name(object->definition_index)),
+				object_name ? object_name->name.get_string() : "",
+				string_id_get_string_const(marker_id));
+		}
+	}
+#endif
 }
 
 void __cdecl hs_effect_new_on_ground(int32 definition_index, int32 object_index)
