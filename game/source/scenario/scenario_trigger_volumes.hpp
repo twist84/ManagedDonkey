@@ -78,7 +78,11 @@ public:
 };
 static_assert(sizeof(c_trigger_volume_query) == 0x3C);
 
+extern int32 __cdecl scenario_trigger_volume_return_objects(int32 trigger_volume_index);
+extern int32 __cdecl scenario_trigger_volume_return_objects_by_type(int32 trigger_volume_index, int32 type_mask);
 extern bool __cdecl scenario_trigger_volume_test_object(int32 trigger_volume_index, int32 object_index);
+extern bool __cdecl scenario_trigger_volume_test_players(int32 trigger_volume_index);
+extern bool __cdecl scenario_trigger_volume_test_players_all(int32 trigger_volume_index);
 extern bool __cdecl trigger_volume_build_faces(const scenario_trigger_volume* volume, real_point3d(&face_vertices)[k_faces_per_cube_count][4]);
 extern bool __cdecl trigger_volume_get_center(const scenario_trigger_volume* volume, real_point3d* out_center_point);
 extern bool __cdecl trigger_volume_get_matrix(const scenario_trigger_volume* volume, real_matrix4x3* matrix);

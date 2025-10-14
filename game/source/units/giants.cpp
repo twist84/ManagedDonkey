@@ -1,15 +1,15 @@
 #include "units/giants.hpp"
 
-REFERENCE_DECLARE(0x0194AA18, int32, g_giant_hunt_player);                    // unreferenced
+REFERENCE_DECLARE(0x0194AA18, int32, g_giant_hunt_player);                     // unreferenced
 REFERENCE_DECLARE(0x0194AA1C, real32, g_giant_hunting_min_radius);             // unreferenced
 REFERENCE_DECLARE(0x0194AA20, real32, g_giant_hunting_max_radius);             // unreferenced
 REFERENCE_DECLARE(0x0194AA24, real32, g_giant_hunting_throttle_scale);         // unreferenced
-REFERENCE_DECLARE(0x0194AA28, int32, g_giant_weapon_wait_time);               // unreferenced
-REFERENCE_DECLARE(0x0194AA2C, int32, g_giant_weapon_trigger_time);            // unreferenced
-REFERENCE_DECLARE(0x0194AA30, bool, g_giant_foot_ik);                        // referenced
-REFERENCE_DECLARE(0x0194AA31, bool, g_giant_ankle_ik);                       // referenced
-REFERENCE_DECLARE(0x0194AA32, bool, g_giant_elevation_control);              // unreferenced
-REFERENCE_DECLARE(0x0194AA33, bool, g_giant_buckle_rotation);                // referenced
+REFERENCE_DECLARE(0x0194AA28, int32, g_giant_weapon_wait_time);                // unreferenced
+REFERENCE_DECLARE(0x0194AA2C, int32, g_giant_weapon_trigger_time);             // unreferenced
+REFERENCE_DECLARE(0x0194AA30, bool, g_giant_foot_ik);                          // referenced
+REFERENCE_DECLARE(0x0194AA31, bool, g_giant_ankle_ik);                         // referenced
+REFERENCE_DECLARE(0x0194AA32, bool, g_giant_elevation_control);                // unreferenced
+REFERENCE_DECLARE(0x0194AA33, bool, g_giant_buckle_rotation);                  // referenced
 REFERENCE_DECLARE(0x0194AA34, real32, g_giant_custom_animation_recovery_time); // referenced
 
 //.text:00BBB480 ; real64 __cdecl compute_score_of_buckle_angles(real32, real32, const real_matrix4x3*, real_matrix4x3*)
@@ -19,7 +19,12 @@ REFERENCE_DECLARE(0x0194AA34, real32, g_giant_custom_animation_recovery_time); /
 //.text:00BBB680 ; 
 //.text:00BBB6A0 ; void __cdecl giant_adjust_node_matrices(int32, int32, real_matrix4x3*)
 //.text:00BBBAE0 ; void __cdecl giant_animation_setup_mixing_board(c_animation_manager*)
-//.text:00BBBB20 ; real32 __cdecl giant_buckling_magnitude_get(int32)
+
+real32 __cdecl giant_buckling_magnitude_get(int32 giant_index)
+{
+	return INVOKE(0x00BBBB20, giant_buckling_magnitude_get, giant_index);
+}
+
 //.text:00BBBBD0 ; void __cdecl giant_clear_foot_target_flags(int32)
 //.text:00BBBC20 ; void __cdecl giant_clear_foot_tracking_data(int32)
 //.text:00BBBED0 ; bool __cdecl giant_compute_function_value(int32, int32, int32, real32*, bool*, bool*)

@@ -85,3 +85,5 @@ extern bool& g_giant_elevation_control;
 extern bool& g_giant_buckle_rotation;
 extern real32& g_giant_custom_animation_recovery_time;
 
+extern real32 __cdecl giant_buckling_magnitude_get(int32 giant_index);
+

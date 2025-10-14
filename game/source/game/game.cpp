@@ -248,7 +248,11 @@ bool __cdecl game_clusters_test(const s_game_cluster_bit_vectors* game_cluster_b
 }
 
 //.text:00530A20 ; bool __cdecl game_coop_allow_respawn()
-//.text:00530A40 ; int32 __cdecl game_coop_player_count()
+
+int32 __cdecl game_coop_player_count()
+{
+	return INVOKE(0x00530A40, game_coop_player_count);
+}
 
 void __cdecl game_create_ai(e_game_create_mode mode)
 {

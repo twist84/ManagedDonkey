@@ -6,16 +6,32 @@
 //.text:005FA380 ; public: void c_trigger_volume_query::get_local_bounds(real_rectangle3d*) const
 //.text:005FA450 ; 
 //.text:005FA4E0 ; bool __cdecl scenario_trigger_volume_get_matrix(int32, real_matrix4x3*)
-//.text:005FA500 ; int32 __cdecl scenario_trigger_volume_return_objects(int32)
-//.text:005FA520 ; int32 __cdecl scenario_trigger_volume_return_objects_by_type(int32, int32)
+
+int32 __cdecl scenario_trigger_volume_return_objects(int32 trigger_volume_index)
+{
+	return INVOKE(0x005FA500, scenario_trigger_volume_return_objects, trigger_volume_index);
+}
+
+int32 __cdecl scenario_trigger_volume_return_objects_by_type(int32 trigger_volume_index, int32 type_mask)
+{
+	return INVOKE(0x005FA520, scenario_trigger_volume_return_objects_by_type, trigger_volume_index, type_mask);
+}
 
 bool __cdecl scenario_trigger_volume_test_object(int32 trigger_volume_index, int32 object_index)
 {
 	return INVOKE(0x005FA680, scenario_trigger_volume_test_object, trigger_volume_index, object_index);
 }
 
-//.text:005FA6E0 ; bool __cdecl scenario_trigger_volume_test_players(int32)
-//.text:005FA780 ; bool __cdecl scenario_trigger_volume_test_players_all(int32)
+bool __cdecl scenario_trigger_volume_test_players(int32 trigger_volume_index)
+{
+	return INVOKE(0x005FA6E0, scenario_trigger_volume_test_players, trigger_volume_index);
+}
+
+bool __cdecl scenario_trigger_volume_test_players_all(int32 trigger_volume_index)
+{
+	return INVOKE(0x005FA780, scenario_trigger_volume_test_players_all, trigger_volume_index);
+}
+
 //.text:005FA820 ; bool __cdecl scenario_trigger_volume_test_point(int32, const real_point3d*)
 //.text:005FAB10 ; public: real_point3d* c_trigger_volume_query::transform_to_trigger_space(const real_point3d*, real_point3d*) const
 //.text:005FAB30 ; public: real_vector3d* c_trigger_volume_query::transform_to_trigger_space(const real_vector3d*, real_vector3d*) const

@@ -6,6 +6,8 @@
 #include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "hs/hs.hpp"
+#include "hs/hs_function.hpp"
+#include "hs/hs_globals_external.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/object_lists.hpp"
 #include "interface/terminal.hpp"
@@ -14,85 +16,139 @@
 #include "memory/thread_local.hpp"
 #include "motor/actions.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
+#include "units/giants.hpp"
 
 void __cdecl hs_evaluate_library_external(int16 script_index);
 
-HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
-HOOK_DECLARE(0x0096D870, hs_evaluate_library_external);
-HOOK_DECLARE(0x0096D8B0, hs_log_print);
-HOOK_DECLARE(0x0096D8C0, hs_map_info);
-HOOK_DECLARE(0x0096D8D0, hs_not);
+//HOOK_DECLARE(0x0096CEA0, hs_bitmap_predict);
+//HOOK_DECLARE(0x0096CEC0, hs_damage_new);
+//HOOK_DECLARE(0x0096CF50, hs_damage_object);
+//HOOK_DECLARE(0x0096D070, hs_damage_object_effect);
+//HOOK_DECLARE(0x0096D100, hs_damage_object_effect_list);
+//HOOK_DECLARE(0x0096D1C0, hs_damage_object_list);
+//HOOK_DECLARE(0x0096D320, hs_damage_players);
+//HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
+//HOOK_DECLARE(0x0096D3F0, hs_debug_variable_all);
+//HOOK_DECLARE(0x0096D400, hs_effect_new);
+//HOOK_DECLARE(0x0096D530, hs_effect_new_at_ai_point);
+//HOOK_DECLARE(0x0096D680, hs_effect_new_from_object_marker);
+//HOOK_DECLARE(0x0096D6F0, hs_effect_new_on_ground);
+//HOOK_DECLARE(0x0096D7D0, hs_effect_new_random);
+//HOOK_DECLARE(0x0096D850, hs_enable_debug_globals);
+//HOOK_DECLARE(0x0096D860, hs_enable_debug_scripting);
+//HOOK_DECLARE(0x0096D870, hs_evaluate_library_external);
+//HOOK_DECLARE(0x0096D8A0, hs_find_matching_commands);
+//HOOK_DECLARE(0x0096D8B0, hs_log_print);
+//HOOK_DECLARE(0x0096D8C0, hs_map_info);
+//HOOK_DECLARE(0x0096D8D0, hs_not);
 //HOOK_DECLARE(0x0096D8E0, hs_object_buckling_magnitude_get);
-HOOK_DECLARE(0x0096D940, hs_object_create);
-HOOK_DECLARE(0x0096D970, hs_object_create_anew);
-HOOK_DECLARE(0x0096D9D0, hs_object_create_anew_containing);
-HOOK_DECLARE(0x0096D9F0, hs_object_create_anew_multiplayer_cinematic);
-HOOK_DECLARE(0x0096DA50, hs_object_create_clone);
-HOOK_DECLARE(0x0096DA80, hs_object_create_clone_containing);
-HOOK_DECLARE(0x0096DAA0, hs_object_create_clone_multiplayer_cinematic);
-HOOK_DECLARE(0x0096DAD0, hs_object_create_containing);
+//HOOK_DECLARE(0x0096D940, hs_object_create);
+//HOOK_DECLARE(0x0096D970, hs_object_create_anew);
+//HOOK_DECLARE(0x0096D9D0, hs_object_create_anew_containing);
+//HOOK_DECLARE(0x0096D9F0, hs_object_create_anew_multiplayer_cinematic);
+//HOOK_DECLARE(0x0096DA50, hs_object_create_clone);
+//HOOK_DECLARE(0x0096DA80, hs_object_create_clone_containing);
+//HOOK_DECLARE(0x0096DAA0, hs_object_create_clone_multiplayer_cinematic);
+//HOOK_DECLARE(0x0096DAD0, hs_object_create_containing);
 //HOOK_DECLARE(0x0096DAF0, hs_object_create_folder);
-HOOK_DECLARE(0x0096DC50, hs_object_create_folder_anew);
+//HOOK_DECLARE(0x0096DC50, hs_object_create_folder_anew);
 //HOOK_DECLARE(0x0096DC70, hs_object_create_folder_internal);
-HOOK_DECLARE(0x0096DCE0, hs_object_create_if_necessary);
-HOOK_DECLARE(0x0096DD20, hs_object_create_multiplayer_cinematic);
-HOOK_DECLARE(0x0096DD50, hs_object_delete_internal);
-HOOK_DECLARE(0x0096DD70, hs_object_destroy);
-HOOK_DECLARE(0x0096DDB0, hs_object_destroy_all);
-HOOK_DECLARE(0x0096DDC0, hs_object_destroy_all_type_mask);
-HOOK_DECLARE(0x0096DEA0, hs_object_destroy_by_name);
-HOOK_DECLARE(0x0096DF00, hs_object_destroy_containing);
+//HOOK_DECLARE(0x0096DCE0, hs_object_create_if_necessary);
+//HOOK_DECLARE(0x0096DD20, hs_object_create_multiplayer_cinematic);
+//HOOK_DECLARE(0x0096DD50, hs_object_delete_internal);
+//HOOK_DECLARE(0x0096DD70, hs_object_destroy);
+//HOOK_DECLARE(0x0096DDB0, hs_object_destroy_all);
+//HOOK_DECLARE(0x0096DDC0, hs_object_destroy_all_type_mask);
+//HOOK_DECLARE(0x0096DEA0, hs_object_destroy_by_name);
+//HOOK_DECLARE(0x0096DF00, hs_object_destroy_containing);
 //HOOK_DECLARE(0x0096DF20, hs_object_destroy_folder);
 //HOOK_DECLARE(0x0096E080, hs_object_destroy_folder_internal);
-HOOK_DECLARE(0x0096E1F0, hs_object_destroy_multiplayer_cinematic);
-HOOK_DECLARE(0x0096E230, hs_object_hide);
-HOOK_DECLARE(0x0096E250, hs_object_iterate_names_containing);
+//HOOK_DECLARE(0x0096E1F0, hs_object_destroy_multiplayer_cinematic);
+//HOOK_DECLARE(0x0096E230, hs_object_hide);
+//HOOK_DECLARE(0x0096E250, hs_object_iterate_names_containing);
 //HOOK_DECLARE(0x0096E2B0, hs_object_list_get_element);
-HOOK_DECLARE(0x0096E2F0, hs_object_new_by_name_internal);
+//HOOK_DECLARE(0x0096E2F0, hs_object_new_by_name_internal);
 //HOOK_DECLARE(0x0096E320, hs_object_orient);
-HOOK_DECLARE(0x0096E4D0, hs_object_set_facing);
-HOOK_DECLARE(0x0096E620, hs_object_set_permutation);
+//HOOK_DECLARE(0x0096E4D0, hs_object_set_facing);
+//HOOK_DECLARE(0x0096E620, hs_object_set_permutation);
 //HOOK_DECLARE(0x0096E640, hs_object_set_region_state);
-HOOK_DECLARE(0x0096E6B0, hs_object_set_shadowless);
+//HOOK_DECLARE(0x0096E6B0, hs_object_set_shadowless);
 //HOOK_DECLARE(0x0096E6E0, hs_object_set_shield);
 //HOOK_DECLARE(0x0096E740, hs_object_set_shield_normalized);
 //HOOK_DECLARE(0x0096E7A0, hs_object_set_shield_stun);
 //HOOK_DECLARE(0x0096E7D0, hs_object_set_shield_stun_infinite);
-HOOK_DECLARE(0x0096E7F0, hs_object_set_variant);
-HOOK_DECLARE(0x0096E810, hs_object_teleport);
-HOOK_DECLARE(0x0096E870, hs_object_teleport_ai);
-HOOK_DECLARE(0x0096E8B0, hs_objects_can_see_flag);
-HOOK_DECLARE(0x0096E970, hs_objects_can_see_object);
-HOOK_DECLARE(0x0096EA70, hs_objects_delete_by_definition);
-HOOK_DECLARE(0x0096EAD0, hs_objects_distance_to_flag);
-HOOK_DECLARE(0x0096EBE0, hs_objects_distance_to_object);
-HOOK_DECLARE(0x0096ECE0, hs_objects_predict);
-HOOK_DECLARE(0x0096ED30, hs_objects_predict_high);
-HOOK_DECLARE(0x0096ED70, hs_objects_predict_low);
-HOOK_DECLARE(0x0096EDB0, hs_objects_predict_old);
+//HOOK_DECLARE(0x0096E7F0, hs_object_set_variant);
+//HOOK_DECLARE(0x0096E810, hs_object_teleport);
+//HOOK_DECLARE(0x0096E870, hs_object_teleport_ai);
+//HOOK_DECLARE(0x0096E8B0, hs_objects_can_see_flag);
+//HOOK_DECLARE(0x0096E970, hs_objects_can_see_object);
+//HOOK_DECLARE(0x0096EA70, hs_objects_delete_by_definition);
+//HOOK_DECLARE(0x0096EAD0, hs_objects_distance_to_flag);
+//HOOK_DECLARE(0x0096EBE0, hs_objects_distance_to_object);
+//HOOK_DECLARE(0x0096ECE0, hs_objects_predict);
+//HOOK_DECLARE(0x0096ED30, hs_objects_predict_high);
+//HOOK_DECLARE(0x0096ED70, hs_objects_predict_low);
+//HOOK_DECLARE(0x0096EDB0, hs_objects_predict_old);
 //HOOK_DECLARE(0x0096EDF0, hs_pin);
 //HOOK_DECLARE(0x0096EE40, hs_player_get);
 //HOOK_DECLARE(0x0096EE90, hs_players);
-HOOK_DECLARE(0x0096EF50, hs_position_predict);
-HOOK_DECLARE(0x0096EF60, hs_print);
-HOOK_DECLARE(0x0096EF70, hs_shader_predict);
-HOOK_DECLARE(0x0096EF80, hs_tag_load_force_programmer_only);
-HOOK_DECLARE(0x0096EF90, hs_tag_unload_force_programmer_only);
-HOOK_DECLARE(0x0096EFA0, hs_teleport_players_not_in_trigger_volume);
-HOOK_DECLARE(0x0096F080, hs_trigger_volume_test_objects);
-HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
-HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
-HOOK_DECLARE(0x0096F1B0, hs_unit_can_see_flag);
-HOOK_DECLARE(0x0096F210, hs_unit_can_see_object);
-HOOK_DECLARE(0x0096F2A0, hs_user_interface_controller_get_last_level_played);
+//HOOK_DECLARE(0x0096EF50, hs_position_predict);
+//HOOK_DECLARE(0x0096EF60, hs_print);
+//HOOK_DECLARE(0x0096EF70, hs_shader_predict);
+//HOOK_DECLARE(0x0096EF80, hs_tag_load_force_programmer_only);
+//HOOK_DECLARE(0x0096EF90, hs_tag_unload_force_programmer_only);
+//HOOK_DECLARE(0x0096EFA0, hs_teleport_players_not_in_trigger_volume);
+//HOOK_DECLARE(0x0096F080, hs_trigger_volume_test_objects);
+//HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
+//HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
+//HOOK_DECLARE(0x0096F1B0, hs_unit_can_see_flag);
+//HOOK_DECLARE(0x0096F210, hs_unit_can_see_object);
+//HOOK_DECLARE(0x0096F2A0, hs_user_interface_controller_get_last_level_played);
 
 void __cdecl hs_evaluate_library_external(int16 script_index)
 {
 	hs_evaluate(script_index);
 }
 
+void __cdecl hs_bitmap_predict(int32 bitmap_group_index)
+{
+	INVOKE(0x0096CEA0, hs_bitmap_predict, bitmap_group_index);
+}
+
+void __cdecl hs_damage_new(int32 definition_index, int16 flag_index)
+{
+	INVOKE(0x0096CEC0, hs_damage_new, definition_index, flag_index);
+}
+
+void __cdecl hs_damage_object(int32 object_index, int32 material_name, real32 damage_amount)
+{
+	INVOKE(0x0096CF50, hs_damage_object, object_index, material_name, damage_amount);
+}
+
+void __cdecl hs_damage_object_effect(int32 definition_index, int32 object_index)
+{
+	INVOKE(0x0096D070, hs_damage_object_effect, definition_index, object_index);
+}
+
+void __cdecl hs_damage_object_effect_list(int32 definition_index, int32 object_list_index)
+{
+	INVOKE(0x0096D100, hs_damage_object_effect_list, definition_index, object_list_index);
+}
+
+void __cdecl hs_damage_object_list(int32 object_list_index, int32 material_name, real32 damage_amount)
+{
+	INVOKE(0x0096D1C0, hs_damage_object_list, object_list_index, material_name, damage_amount);
+}
+
+void __cdecl hs_damage_players(int32 definition_index)
+{
+	INVOKE(0x0096D320, hs_damage_players, definition_index);
+}
+
 void __cdecl hs_debug_variable(const char* s, bool debug)
 {
+	//INVOKE(0x0096D3E0, hs_debug_variable, s, debug);
+
 	bool variable_not_enclosed = false;
 	if (*s == '\'')
 	{
@@ -145,6 +201,46 @@ void __cdecl hs_debug_variable(const char* s, bool debug)
 	{
 		event(_event_error, "ai: please enclose the variable to be watched in single quotes");
 	}
+}
+
+void __cdecl hs_debug_variable_all(bool enable)
+{
+	INVOKE(0x0096D3F0, hs_debug_variable_all, enable);
+}
+
+void __cdecl hs_effect_new(int32 definition_index, int16 flag_index)
+{
+	INVOKE(0x0096D400, hs_effect_new, definition_index, flag_index);
+}
+
+void __cdecl hs_effect_new_at_ai_point(int32 definition_index, int32 point_ref)
+{
+	INVOKE(0x0096D530, hs_effect_new_at_ai_point, definition_index, point_ref);
+}
+
+void __cdecl hs_effect_new_from_object_marker(int32 definition_index, int32 object_index, int32 marker_id)
+{
+	INVOKE(0x0096D680, hs_effect_new_from_object_marker, definition_index, object_index, marker_id);
+}
+
+void __cdecl hs_effect_new_on_ground(int32 definition_index, int32 object_index)
+{
+	INVOKE(0x0096D6F0, hs_effect_new_on_ground, definition_index, object_index);
+}
+
+void __cdecl hs_effect_new_random(int32 definition_index, int32 point_ref)
+{
+	INVOKE(0x0096D7D0, hs_effect_new_random, definition_index, point_ref);
+}
+
+void __cdecl hs_enable_debug_globals(bool enable)
+{
+	INVOKE(0x0096D850, hs_enable_debug_globals, enable);
+}
+
+void __cdecl hs_enable_debug_scripting(bool enable)
+{
+	INVOKE(0x0096D860, hs_enable_debug_scripting, enable);
 }
 
 void __cdecl hs_evaluate(int16 script_index)
@@ -264,7 +360,17 @@ bool __cdecl hs_not(bool value)
 	return !value;
 }
 
-//.text:0096D8E0 ; real32 __cdecl hs_object_buckling_magnitude_get(int32 object_index)
+real32 __cdecl hs_object_buckling_magnitude_get(int32 object_index)
+{
+	//return INVOKE(0x0096D8E0, hs_object_buckling_magnitude_get, object_index);
+
+	real32 magnitude = 0.0f;
+	if (object_index != NONE && TEST_BIT(_object_mask_giant, object_get_type(object_index)))
+	{
+		magnitude = giant_buckling_magnitude_get(object_index);
+	}
+	return magnitude;
+}
 
 void __cdecl hs_object_create(int16 object_name_index)
 {
@@ -921,7 +1027,12 @@ void __cdecl hs_objects_predict_old(int32 object_list_index)
 	hs_objects_predict_high(object_list_index);
 }
 
-//.text:0096EDF0 ; real32 __cdecl hs_pin(real32 value, real32 min, real32 max)
+real32 __cdecl hs_pin(real32 value, real32 min, real32 max)
+{
+	//return INVOKE(0x0096EDF0, hs_pin, value, min, max);
+
+	return PIN(value, min, max);
+}
 
 #if 0
 int32 player_get_player_index_from_contiguous_index(int32 contiguous_player_index)

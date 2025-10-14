@@ -585,6 +585,8 @@ extern int32 __cdecl find_first_predicted_object_recursive(int32 object_index);
 extern void __cdecl garbage_collect_now();
 extern void __cdecl garbage_collect_unsafe();
 extern bool __cdecl garbage_collection_can_run();
+extern void __cdecl hs_object_definition_predict_all(int32 definition_index);
+extern void __cdecl hs_object_definition_predict_low(int32 definition_index);
 extern int32 __cdecl object_accepted_local_physics_object_get(int32 object_index);
 extern void __cdecl object_activate(int32 object_index);
 extern void __cdecl object_adjust_garbage_timer(int32 object_index, int32 time);

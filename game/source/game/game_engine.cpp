@@ -83,7 +83,11 @@ void __cdecl game_engine_game_starting()
 	INVOKE(0x0054EA60, game_engine_game_starting);
 }
 
-//.text:0054EC60 ; void __cdecl game_engine_garbage_collect()
+void __cdecl game_engine_garbage_collect()
+{
+	INVOKE(0x0054EC60, game_engine_garbage_collect);
+}
+
 //.text:0054EFC0 ; void __cdecl game_engine_garbage_collect_for_round_switch()
 //.text:0054F220 ; const char* __cdecl game_engine_get_current_variant_name() // named by us
 //.text:0054F250 ; real32 __cdecl game_engine_get_change_colors(int32, uns32, e_game_team, real_rgb_color*, bool*), modified by saber
@@ -102,7 +106,11 @@ int32 __cdecl game_engine_get_finalized_team_place(e_game_team team_index)
 	return INVOKE(0x0054FDC0, game_engine_get_finalized_team_place, team_index);
 }
 
-//.text:0054FE70 ; int32 __cdecl game_engine_get_game_object_list()
+int32 __cdecl game_engine_get_game_object_list()
+{
+	return INVOKE(0x0054FE70, game_engine_get_game_object_list);
+}
+
 //.text:0054FEF0 ; bool __cdecl game_engine_get_hud_interface_state(int32, game_engine_interface_state*)
 //.text:00550410 ; void __cdecl game_engine_get_in_game_string(int32, c_static_wchar_string<256>*)
 

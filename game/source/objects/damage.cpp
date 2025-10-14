@@ -97,6 +97,33 @@ void __cdecl damage_update() // nullsub
 	//INVOKE(0x00B51F70, damage_update);
 }
 
+void __cdecl object_damage_damage_section(int32 object_index, int32 damage_section_string_id, real32 damage)
+{
+	INVOKE(0x00B55030, object_damage_damage_section, object_index, damage_section_string_id, damage);
+}
+
+bool __cdecl object_model_target_destroyed(int32 object_index, int32 model_target_name_id)
+{
+	return INVOKE(0x00B58150, object_model_target_destroyed, object_index, model_target_name_id);
+}
+
+int16 __cdecl object_model_targets_destroyed(int32 object_index, int32 model_target_name_id)
+{
+	return INVOKE(0x00B58170, object_model_targets_destroyed, object_index, model_target_name_id);
+}
+
+//.text:00B58250 ; 
+
+void __cdecl object_scripting_cannot_die(int32 object_index, bool cannot_die)
+{
+	INVOKE(0x00B582E0, object_scripting_cannot_die, object_index, cannot_die);
+}
+
+bool __cdecl object_scripting_vitality_pinned(int32 object_index)
+{
+	return INVOKE(0x00B58340, object_scripting_vitality_pinned, object_index);
+}
+
 void __cdecl object_cause_damage(s_damage_data* damage_data, int32 object_index, int16 node_index, int16 region_index, int16 material_index, int32 predictability)
 {
 	//INVOKE(0x00B532F0, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);

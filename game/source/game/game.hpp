@@ -113,7 +113,7 @@ extern void __cdecl game_clusters_or(const s_game_cluster_bit_vectors* clusters0
 extern void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* pvs, bool local_only, t_cluster_activation_reason* activation_reason);
 extern bool __cdecl game_clusters_test(const s_game_cluster_bit_vectors* game_cluster_bit_vectors, struct s_cluster_reference structure_reference);
 //extern bool __cdecl game_coop_allow_respawn();
-//extern int32 __cdecl game_coop_player_count();
+extern int32 __cdecl game_coop_player_count();
 extern void __cdecl game_create_ai(e_game_create_mode mode);
 extern int32 __cdecl game_create_lock_resources(e_game_create_mode mode);
 extern void __cdecl game_create_missing_objects(e_game_create_mode mode);

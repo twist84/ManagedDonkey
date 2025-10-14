@@ -9,6 +9,11 @@ bool soft_ceilings_disable = false;
 
 c_static_stack<s_soft_ceiling_debug_cache, 64> g_soft_ceiling_debug_cache;
 
+void __cdecl scenario_soft_ceiling_enable(string_id name, bool enable)
+{
+	INVOKE(0x00674640, scenario_soft_ceiling_enable, name, enable);
+}
+
 bool __cdecl scenario_soft_ceiling_is_active(string_id name)
 {
 	return INVOKE(0x006746C0, scenario_soft_ceiling_is_active, name);

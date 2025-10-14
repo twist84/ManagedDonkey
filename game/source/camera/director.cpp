@@ -504,8 +504,16 @@ int32 c_director::get_watched_player() const
 
 //.text:00592970 ; void __cdecl c_director::handle_deleted_object(int32)
 //.text:00592980 ; void __cdecl c_director::handle_deleted_player(int32)
-//.text:005929B0 ; void __cdecl hs_director_set_camera_mode(int32, int32)
-//.text:005929F0 ; void __cdecl hs_director_set_camera_target(int32, int32)
+
+void __cdecl hs_director_set_camera_mode(int32 user_index, int32 camera_mode)
+{
+	INVOKE(0x005929B0, hs_director_set_camera_mode, user_index, camera_mode);
+}
+
+void __cdecl hs_director_set_camera_target(int32 user_index, int32 object_index)
+{
+	INVOKE(0x005929F0, hs_director_set_camera_target, user_index, object_index);
+}
 
 bool c_director::in_free_camera_mode() const
 {

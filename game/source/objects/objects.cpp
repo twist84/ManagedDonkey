@@ -436,8 +436,17 @@ int32 c_object_identifier::get_unique_id_direct() const
 //.text:00B28ED0 ; void __cdecl handle_object_render_message(s_object_render_thread_message*, int32)
 //.text:00B28F50 ; 
 //.text:00B28F70 ; 
-//.text:00B28F90 ; void __cdecl hs_object_definition_predict_all(int32)
-//.text:00B28FA0 ; void __cdecl hs_object_definition_predict_low(int32)
+
+void __cdecl hs_object_definition_predict_all(int32 definition_index)
+{
+	INVOKE(0x00B28F90, hs_object_definition_predict_all, definition_index);
+}
+
+void __cdecl hs_object_definition_predict_low(int32 definition_index)
+{
+	INVOKE(0x00B28FA0, hs_object_definition_predict_low, definition_index);
+}
+
 //.text:00B28FB0 ; void __cdecl internal_object_compute_animated_node_orientations(int32, real32, const render_model_definition*, c_animation_manager*, const c_static_flags<256>*, int32, real_orientation*, bool)
 //.text:00B29080 ; int16 __cdecl internal_object_get_markers_by_string_id(int32, int32, object_marker*, int16, bool)
 //.text:00B29260 ; 

@@ -21,6 +21,8 @@ static_assert(sizeof(s_scenario_soft_ceilings_globals) == 0x10);
 
 extern bool soft_ceilings_disable;
 
+extern void __cdecl scenario_soft_ceiling_enable(string_id name, bool enable);
+extern bool __cdecl scenario_soft_ceiling_is_active(string_id name);
 extern void __cdecl scenario_soft_ceilings_dispose();
 extern void __cdecl scenario_soft_ceilings_dispose_from_old_map();
 extern void __cdecl scenario_soft_ceilings_initialize();

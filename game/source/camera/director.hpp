@@ -121,6 +121,8 @@ extern void __cdecl director_set_mode(int32 user_index, e_director_mode director
 extern void __cdecl director_setup_flying_camera_at_scenario_point(int32 user_index, int32 camera_point_index);
 extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
 extern void __cdecl director_update(real32 dt);
+extern void __cdecl hs_director_set_camera_mode(int32 user_index, int32 camera_mode);
+extern void __cdecl hs_director_set_camera_target(int32 user_index, int32 object_index);
 
 extern const char* director_mode_get_name(e_director_mode director_mode);
 extern e_director_mode director_mode_from_string(const char* str);
