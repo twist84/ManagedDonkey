@@ -30,27 +30,27 @@ bool hs_get_parameter_indices(const char* function_name, int16 count, int32* res
 
 bool hs_parse_begin(int16 function_index, int32 expression_index)
 {
-	bool parse_success = true;
+	bool success = true;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
 	ASSERT(function_index == _hs_function_begin || function_index == _hs_function_begin_random);
 
 	int16 argument_count = 0;
-	while (parse_success && next_node_index != NONE)
+	while (success && next_node_index != NONE)
 	{
 		int32 next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
 		if (function_index)
 		{
-			parse_success = hs_parse(next_node_index, expression->type);
-			if (!expression->type && parse_success)
+			success = hs_parse(next_node_index, expression->type);
+			if (!expression->type && success)
 				expression->type = hs_syntax_get(next_node_index)->type;
 		}
 		else
 		{
 			int16 type = next_next_node_index == NONE ? expression->type : _hs_type_void;
-			parse_success = hs_parse(next_node_index, type);
-			if (next_next_node_index == NONE && !expression->type && parse_success)
+			success = hs_parse(next_node_index, type);
+			if (next_next_node_index == NONE && !expression->type && success)
 				expression->type = hs_syntax_get(next_node_index)->type;
 		}
 		next_node_index = next_next_node_index;
@@ -58,7 +58,7 @@ bool hs_parse_begin(int16 function_index, int32 expression_index)
 		argument_count++;
 	}
 
-	if (parse_success)
+	if (success)
 	{
 		if (argument_count < 1)
 		{
@@ -77,7 +77,7 @@ bool hs_parse_begin(int16 function_index, int32 expression_index)
 		}
 	}
 
-	return parse_success;
+	return success;
 }
 
 bool hs_parse_debug_string(int16 function_index, int32 expression_index)
@@ -101,7 +101,7 @@ bool hs_parse_debug_string(int16 function_index, int32 expression_index)
 
 bool hs_parse_if(int16 function_index, int32 expression_index)
 {
-	bool parse_success = false;
+	bool success = false;
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	int32 next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
@@ -124,7 +124,7 @@ bool hs_parse_if(int16 function_index, int32 expression_index)
 			if (!expression->type)
 				expression->type = hs_syntax_get(next_next_expression)->type;
 
-			parse_success = next_next_next_node_index == -1 || hs_parse(next_next_next_node_index, expression->type);
+			success = next_next_next_node_index == -1 || hs_parse(next_next_next_node_index, expression->type);
 		}
 		else if (!hs_compile_globals.error_message
 			&& !expression->type
@@ -132,11 +132,11 @@ bool hs_parse_if(int16 function_index, int32 expression_index)
 			&& hs_parse(next_next_next_node_index, expression->type))
 		{
 			expression->type = hs_syntax_get(next_next_next_node_index)->type;
-			parse_success = hs_parse(next_next_expression, expression->type);
+			success = hs_parse(next_next_expression, expression->type);
 		}
 	}
 
-	return parse_success;
+	return success;
 }
 
 int32 hs_parse_cond_recursive(int32 root_expression_index, int32 expression_index)
@@ -333,7 +333,7 @@ bool hs_parse_logical(int16 function_index, int32 expression_index)
 {
 	ASSERT(function_index == _hs_function_and || function_index == _hs_function_or);
 
-	bool success = false;
+	bool success = true;
 
 	int32 parameters_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
 	int32 actual_parameter_count = 0;
@@ -360,7 +360,7 @@ bool hs_parse_arithmetic(int16 function_index, int32 expression_index)
 {
 	ASSERT(function_index >= _hs_function_plus && function_index <= _hs_function_max);
 
-	bool success = false;
+	bool success = true;
 
 	int32 parameters_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index;
 	int32 actual_parameter_count = 0;
