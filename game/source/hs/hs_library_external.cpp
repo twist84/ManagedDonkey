@@ -384,7 +384,9 @@ void __cdecl hs_enable_debug_globals(bool enable)
 
 void __cdecl hs_enable_debug_scripting(bool enable)
 {
-	INVOKE(0x0096D860, hs_enable_debug_scripting, enable);
+	//INVOKE(0x0096D860, hs_enable_debug_scripting, enable);
+
+	debug_scripting = enable;
 }
 
 void __cdecl hs_evaluate(int16 script_index)
