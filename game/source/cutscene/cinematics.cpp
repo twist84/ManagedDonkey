@@ -3,7 +3,7 @@
 #include "game/game.hpp"
 #include "input/input_windows.hpp"
 
-REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode) = true;
+REFERENCE_DECLARE(0x024B0A3E, bool, g_cinematic_debug_mode);// = true;
 
 //bool g_debug_cinematic_controls_enable = false;
 //bool g_cinematic_debugging_enable = false;
