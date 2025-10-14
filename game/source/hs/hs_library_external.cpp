@@ -64,8 +64,8 @@ HOOK_DECLARE(0x0096E870, hs_object_teleport_ai);
 HOOK_DECLARE(0x0096E8B0, hs_objects_can_see_flag);
 HOOK_DECLARE(0x0096E970, hs_objects_can_see_object);
 HOOK_DECLARE(0x0096EA70, hs_objects_delete_by_definition);
-//HOOK_DECLARE(0x0096EAD0, hs_objects_distance_to_flag);
-//HOOK_DECLARE(0x0096EBE0, hs_objects_distance_to_object);
+HOOK_DECLARE(0x0096EAD0, hs_objects_distance_to_flag);
+HOOK_DECLARE(0x0096EBE0, hs_objects_distance_to_object);
 HOOK_DECLARE(0x0096ECE0, hs_objects_predict);
 HOOK_DECLARE(0x0096ED30, hs_objects_predict_high);
 HOOK_DECLARE(0x0096ED70, hs_objects_predict_low);
@@ -819,8 +819,66 @@ void __cdecl hs_objects_delete_by_definition(int32 definition_index)
 	objects_memory_compact();
 }
 
-//.text:0096EAD0 ; real32 __cdecl hs_objects_distance_to_flag(int32 object_list_index, int16 flag_index)
-//.text:0096EBE0 ; real32 __cdecl hs_objects_distance_to_object(int32 object_list_index, int32 target_object_index)
+real32 __cdecl hs_objects_distance_to_flag(int32 object_list_index, int16 flag_index)
+{
+	//return INVOKE(0x0096EAD0, hs_objects_distance_to_flag, object_list_index, flag_index);
+
+	real32 minimum_distance = k_real_max;
+	if (VALID_INDEX(flag_index, global_scenario_get()->cutscene_flags.count))
+	{
+		const real_point3d* flag_position = &TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag)->position;
+
+		int32 reference_index;
+		for (int32 object_index = object_list_get_first(object_list_index, &reference_index);
+			object_index != NONE;
+			object_index = object_list_get_next(object_list_index, &reference_index))
+		{
+			real_point3d object_origin{};
+			object_get_origin(object_index, &object_origin);
+			real32 distance = distance3d(flag_position, &object_origin);
+			if (minimum_distance > distance)
+			{
+				minimum_distance = distance;
+			}
+		}
+	}
+	if (minimum_distance == k_real_max)
+	{
+		minimum_distance = -1.0;
+	}
+	return minimum_distance;
+}
+
+real32 __cdecl hs_objects_distance_to_object(int32 object_list_index, int32 target_object_index)
+{
+	//return INVOKE(0x0096EBE0, hs_objects_distance_to_object, object_list_index, target_object_index);
+
+	real32 minimum_distance = k_real_max;
+	if (target_object_index != NONE)
+	{
+		real_point3d target_object_origin{};
+		object_get_origin(target_object_index, &target_object_origin);
+
+		int32 reference_index;
+		for (int32 object_index = object_list_get_first(object_list_index, &reference_index);
+			object_index != NONE;
+			object_index = object_list_get_next(object_list_index, &reference_index))
+		{
+			real_point3d object_origin{};
+			object_get_origin(object_index, &object_origin);
+			real32 distance = distance3d(&target_object_origin, &object_origin);
+			if (minimum_distance > distance)
+			{
+				minimum_distance = distance;
+			}
+		}
+	}
+	if (minimum_distance == k_real_max)
+	{
+		minimum_distance = -1.0;
+	}
+	return minimum_distance;
+}
 
 void __cdecl hs_objects_predict(int32 object_list_index, bool low_detail)
 {
@@ -864,11 +922,77 @@ void __cdecl hs_objects_predict_old(int32 object_list_index)
 }
 
 //.text:0096EDF0 ; real32 __cdecl hs_pin(real32 value, real32 min, real32 max)
-//.text:0096EE40 ; int32 __cdecl hs_player_get(int32)
+
+#if 0
+int32 player_get_player_index_from_contiguous_index(int32 contiguous_player_index)
+{
+	int32 result = NONE;
+	{
+		ASSERT(VALID_INDEX(contiguous_player_index, k_maximum_campaign_or_survival_players));
+
+		c_data_iterator<player_datum> player_iterator;
+		player_iterator.begin(player_data);
+		for (int32 player_index = 0; player_iterator.next(); player_index++)
+		{
+			if (contiguous_player_index == player_index)
+			{
+				result = player_iterator.get_index();
+				break;
+			}
+		}
+	}
+	return result;
+}
+#endif
+
+int32 __cdecl hs_player_get(int32 contiguous_player_index)
+{
+	return INVOKE(0x0096EE40, hs_player_get, contiguous_player_index);
+
+#if 0
+	int32 unit_index = NONE;
+	{
+		int32 player_index = player_get_player_index_from_contiguous_index(contiguous_player_index);
+		if (player_index != NONE)
+		{
+			const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+			unit_index = player->unit_index;
+		}
+	}
+	return unit_index;
+#endif
+}
 
 int32 __cdecl hs_players()
 {
 	return INVOKE(0x0096EE90, hs_players);
+
+#if 0
+	int32 player_list_index = object_list_new();
+	if (player_list_index != NONE)
+	{
+		int32 unit_indices[k_maximum_players]{};
+
+		int16 player_count = 0;
+		for (int32 player_index = data_next_index(player_data, NONE);
+			player_index != NONE;
+			player_index = data_next_index(player_data, player_index))
+		{
+			const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+			if (player->unit_index != NONE)
+			{
+				ASSERT(player_count < k_maximum_players);
+				unit_indices[player_count++] = player->unit_index;
+			}
+		}
+
+		while (--player_count >= 0)
+		{
+			object_list_add(player_list_index, unit_indices[player_count]);
+		}
+	}
+	return player_list_index;
+#endif
 }
 
 void __cdecl hs_position_predict(real32 x, real32 y, real32 z)
@@ -965,7 +1089,10 @@ bool __cdecl hs_unit_can_see_flag(int32 unit_index, int16 flag_index, real32 deg
 	bool visible = false;
 	if (VALID_INDEX(flag_index, global_scenario_get()->cutscene_flags.count))
 	{
-		visible = unit_can_see_point(unit_index, &TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag)->position, degrees * DEG);
+		if (unit_can_see_point(unit_index, &TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag)->position, degrees * DEG))
+		{
+			visible = true;
+		}
 	}
 	return visible;
 }
@@ -986,7 +1113,11 @@ bool __cdecl hs_unit_can_see_object(int32 unit_index, int32 object_index, real32
 		{
 			target_point = OBJECT_GET(object_datum, object_index)->object.bounding_sphere_center;
 		}
-		visible = unit_can_see_point(unit_index, &target_point, degrees * DEG);
+
+		if (unit_can_see_point(unit_index, &target_point, degrees * DEG))
+		{
+			visible = true;
+		}
 	}
 	return visible;
 }

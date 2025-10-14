@@ -50,6 +50,8 @@ extern void __cdecl hs_object_teleport_ai(int32 object_index, int32 ai_point_ref
 extern bool __cdecl hs_objects_can_see_flag(int32 object_list_index, int16 flag_index, real32 degrees);
 extern bool __cdecl hs_objects_can_see_object(int32 object_list_index, int32 object_index, real32 degrees);
 extern void __cdecl hs_objects_delete_by_definition(int32 definition_index);
+extern real32 __cdecl hs_objects_distance_to_flag(int32 object_list_index, int16 flag_index);
+extern real32 __cdecl hs_objects_distance_to_object(int32 object_list_index, int32 target_object_index);
 extern void __cdecl hs_objects_predict(int32 object_list_index, bool low_detail);
 extern void __cdecl hs_objects_predict_high(int32 object_list_index);
 extern void __cdecl hs_objects_predict_low(int32 object_list_index);
