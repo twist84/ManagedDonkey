@@ -377,7 +377,9 @@ void __cdecl hs_effect_new_random(int32 definition_index, int32 point_ref)
 
 void __cdecl hs_enable_debug_globals(bool enable)
 {
-	INVOKE(0x0096D850, hs_enable_debug_globals, enable);
+	//INVOKE(0x0096D850, hs_enable_debug_globals, enable);
+
+	debug_globals = enable;
 }
 
 void __cdecl hs_enable_debug_scripting(bool enable)
