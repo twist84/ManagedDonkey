@@ -44,6 +44,7 @@ enum
 	_campaign_player3,
 
 	k_maximum_campaign_players,
+	k_maximum_campaign_or_survival_players = k_maximum_campaign_players,
 
 	k_network_maximum_sessions = 3,
 

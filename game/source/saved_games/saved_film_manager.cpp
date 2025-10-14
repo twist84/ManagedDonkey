@@ -408,7 +408,7 @@ bool saved_film_manager_film_is_ended(real32* out_seconds_ago)
 
 	if (out_seconds_ago)
 	{
-		*out_seconds_ago = (float)system_milliseconds() * 0.001f;
+		*out_seconds_ago = (real32)system_milliseconds() * 0.001f;
 	}
 
 	return true;
