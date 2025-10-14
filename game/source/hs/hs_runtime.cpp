@@ -669,6 +669,7 @@ void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bo
 		else
 		{
 			int32 result_long = 0;
+			*reinterpret_cast<real32*>(&result_long) = *result;
 			hs_return(thread_index, result_long);
 		}
 	}
