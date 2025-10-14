@@ -25,7 +25,7 @@ void* get_donkey_module()
 	return donkey_module;
 }
 
-const int32 k_maximum_individual_modification_count = 1024;
+const int32 k_maximum_individual_modification_count = 4096;
 
 int32 g_call_hook_count = 0;
 c_hook_call* call_hooks[k_maximum_individual_modification_count];
