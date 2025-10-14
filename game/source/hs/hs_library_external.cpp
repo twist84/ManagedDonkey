@@ -864,7 +864,7 @@ void __cdecl hs_object_set_variant(int32 object_index, int32 variant_name)
 	}
 }
 
-void __cdecl hs_object_teleport(int32 object_index, int32 flag_index)
+void __cdecl hs_object_teleport(int32 object_index, int16 flag_index)
 {
 	//INVOKE(0x0096E810, hs_object_teleport, object_index, flag_index);
 

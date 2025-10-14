@@ -62,7 +62,7 @@ extern void __cdecl hs_object_set_shield_normalized(int32 object_index, real32 s
 extern void __cdecl hs_object_set_shield_stun(int32 object_index, real32 shield);
 extern void __cdecl hs_object_set_shield_stun_infinite(int32 object_index);
 extern void __cdecl hs_object_set_variant(int32 object_index, int32 variant_name);
-extern void __cdecl hs_object_teleport(int32 object_index, int32 flag_index);
+extern void __cdecl hs_object_teleport(int32 object_index, int16 flag_index);
 extern void __cdecl hs_object_teleport_ai(int32 object_index, int32 ai_point_ref);
 extern bool __cdecl hs_objects_can_see_flag(int32 object_list_index, int16 flag_index, real32 degrees);
 extern bool __cdecl hs_objects_can_see_object(int32 object_list_index, int32 object_index, real32 degrees);
