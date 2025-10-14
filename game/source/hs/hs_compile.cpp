@@ -1366,24 +1366,27 @@ bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 	ASSERT(hs_type_valid(definition->return_type));
 
 	int16 parameter_index;
-	for (parameter_index = 0; success && parameter_index < definition->formal_parameter_count && parameters_index != NONE; parameter_index++)
+	for (parameter_index = 0; success && parameter_index < definition->formal_parameter_count; parameter_index++)
 	{
-		hs_syntax_node* parameter = hs_syntax_get(parameters_index);
-		if (hs_parse(parameters_index, definition->formal_parameters[parameter_index]))
+		if (parameters_index != NONE)
 		{
-			parameters_index = parameter->next_node_index;
-		}
-		else
-		{
-			if (parameter->type == _hs_type_string_id && TEST_BIT(hs_syntax_get(parameters_index)->flags, _hs_syntax_node_primitive_bit))
+			hs_syntax_node* parameter = hs_syntax_get(parameters_index);
+			if (hs_parse(parameters_index, definition->formal_parameters[parameter_index]))
 			{
-				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-					"this is not a valid string for '%s'", definition->name);
-				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-				hs_compile_globals.error_offset = parameter->source_offset;
+				parameters_index = parameter->next_node_index;
 			}
+			else
+			{
+				if (parameter->type == _hs_type_string_id && TEST_BIT(hs_syntax_get(parameters_index)->flags, _hs_syntax_node_primitive_bit))
+				{
+					csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+						"this is not a valid string for '%s'", definition->name);
+					hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+					hs_compile_globals.error_offset = parameter->source_offset;
+				}
 
-			success = false;
+				success = false;
+			}
 		}
 	}
 
@@ -1393,6 +1396,8 @@ bool hs_macro_function_parse(int16 function_index, int32 expression_index)
 			"the \"%s\" call requires exactly %d arguments.", definition->name, definition->formal_parameter_count);
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+
+		success = false;
 	}
 
 	return success;
