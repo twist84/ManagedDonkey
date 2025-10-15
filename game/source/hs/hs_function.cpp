@@ -13237,11 +13237,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_long_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	find,
 	0,
-	0x00731F30, // $TODO write the function chuckle nuts
+	hs_find_matching_commands, // 0x00731F30,
 	"prints any hs command matching the string passed in\r\nNETWORK SAFE: of course you idiot",
 	NULL,
 	1, _hs_type_string
