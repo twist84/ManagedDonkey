@@ -1904,7 +1904,7 @@ bool hs_parse_integer(int32 expression_index)
 		source++;
 	}
 
-	int32 source_value = atoi(&hs_compile_globals.compiled_source[expression->source_offset]);
+	int32 source_value = atol(&hs_compile_globals.compiled_source[expression->source_offset]);
 	if (result && !(expression->type == _hs_type_short_integer || IN_RANGE_INCLUSIVE(source_value, -32767, 32768)))
 	{
 		hs_compile_globals.error_message = "shorts must be in the range [-32767, 32768].";
