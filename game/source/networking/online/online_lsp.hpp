@@ -90,6 +90,6 @@ extern void __cdecl online_lsp_initialize();
 extern bool __cdecl online_lsp_service_available();
 extern void __cdecl online_lsp_update();
 
-extern void online_lsp_get_info(int32* ip_address, uns16* port);
-extern void online_lsp_set_info(const char* host, const char* port);
+extern void online_lsp_get_info();
+extern void online_lsp_set_info(const char* host, uns16 port);
 

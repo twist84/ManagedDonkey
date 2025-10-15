@@ -343,29 +343,35 @@ void __cdecl online_set_is_connected_to_live(bool is_connected_to_live)
 	g_online_is_connected_to_live = is_connected_to_live;
 }
 
-void __cdecl online_user_set_name(int32 user_index, const wchar_t* name)
+void __cdecl online_user_set_name(int32 user_index, const char* name)
 {
-	s_online_user_globals& user = online_globals.users[user_index];
+	if (VALID_INDEX(user_index, k_number_of_users))
+	{
+		c_static_wchar_string<16> name_wide;
+		name_wide.print(L"%hs", name);
 
-	if (user.online_xuid_string)
-	{
-		free(user.online_xuid_string);
-		user.online_xuid_string = NULL;
-	}
-	if (user.gamertag)
-	{
-		free(user.gamertag);
-		user.gamertag = NULL;
-	}
-	if (user.display_name)
-	{
-		free(user.display_name);
-		user.display_name = NULL;
-	}
+		s_online_user_globals& user = online_globals.users[user_index];
 
-	user.online_xuid_string = _wcsdup(name);
-	user.gamertag = _wcsdup(name);
-	user.display_name = _wcsdup(name);
+		if (user.online_xuid_string)
+		{
+			free(user.online_xuid_string);
+			user.online_xuid_string = NULL;
+		}
+		if (user.gamertag)
+		{
+			free(user.gamertag);
+			user.gamertag = NULL;
+		}
+		if (user.display_name)
+		{
+			free(user.display_name);
+			user.display_name = NULL;
+		}
+
+		user.online_xuid_string = _wcsdup(name_wide.get_string());
+		user.gamertag = _wcsdup(name_wide.get_string());
+		user.display_name = _wcsdup(name_wide.get_string());
+	}
 }
 
 void __cdecl online_update()

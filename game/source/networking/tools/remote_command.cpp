@@ -729,32 +729,6 @@ callback_result_t net_test_game_variant_parameter_callback(const void* userdata,
 	return result;
 }
 
-callback_result_t online_set_is_connected_to_live_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 value = token_try_parse_bool(tokens[1]);
-	if (value <= 1)
-	{
-		online_set_is_connected_to_live((bool)value);
-	}
-
-	return result;
-}
-
-callback_result_t online_user_set_name_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 user_index = (int32)atol(tokens[1]->get_string());
-	const char* name = tokens[2]->get_string();
-	c_static_wchar_string<16> name_wide;
-	name_wide.print(L"%hs", name);
-	online_user_set_name(user_index, name_wide.get_string());
-
-	return result;
-}
-
 callback_result_t cheat_all_chars_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -771,38 +745,6 @@ callback_result_t drop_permutation_callback(const void* userdata, int32 token_co
 	const char* tag_name = tokens[1]->get_string();
 	const char* permutation = tokens[2]->get_string();
 	cheat_drop_tag_name_with_permutation_hs(tag_name, permutation);
-
-	return result;
-}
-
-callback_result_t lsp_info_get_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	union
-	{
-		int32 ip_address = 0;
-		uns8 ina[4];
-	};
-
-	uns16 port = 0;
-	online_lsp_get_info(&ip_address, &port);
-	console_printf_color(global_real_argb_cyan, "%hd.%hd.%hd.%hd:%hd", ina[3], ina[2], ina[1], ina[0], port);
-
-	return result;
-}
-
-callback_result_t lsp_info_set_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	const token_t& str = tokens[1];
-	c_static_string<256> parts[2];
-
-	split_host_string_into_parts(str, parts);
-	const char* host = parts[0].get_string();
-	const char* port = parts[1].get_string();
-	online_lsp_set_info(host, port);
 
 	return result;
 }

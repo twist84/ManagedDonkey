@@ -1,6 +1,7 @@
 #include "networking/online/online_lsp.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "main/console.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
@@ -243,32 +244,25 @@ void __cdecl online_lsp_update()
 	INVOKE(0x0043C5B0, online_lsp_update);
 }
 
-void online_lsp_get_info(int32* ip_address, uns16* port)
+void online_lsp_get_info()
 {
-	if (ip_address)
+	union
 	{
-		*ip_address = ntohl(lsp_server_address.ipv4_address);
-	}
+		int32 ip_address = 0;
+		uns8 ina[4];
+	};
 
-	if (port)
-	{
-		*port = ntohs(lsp_server_address.port);
-	}
+	ip_address = ntohl(lsp_server_address.ipv4_address);
+	uns16 port = ntohs(lsp_server_address.port);
+	console_printf_color(global_real_argb_cyan, "%hd.%hd.%hd.%hd:%hd", ina[3], ina[2], ina[1], ina[0], port);
 }
 
-void online_lsp_set_info(const char* host, const char* port)
+void online_lsp_set_info(const char* host, uns16 port)
 {
 	transport_address address{};
 	transport_address_from_host(host, address);
 
-	if (host)
-	{
-		lsp_server_address.ipv4_address = htonl(address.ipv4_address);
-	}
-
-	if (port)
-	{
-		lsp_server_address.port = htons(uns16(atol(port)));
-	}
+	lsp_server_address.ipv4_address = htonl(address.ipv4_address);
+	lsp_server_address.port = htons(port);
 }
 

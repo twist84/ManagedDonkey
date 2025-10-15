@@ -30,6 +30,8 @@
 #include "main/main_game_launch.hpp"
 #include "networking/network_configuration.hpp"
 #include "networking/network_globals.hpp"
+#include "networking/online/online.hpp"
+#include "networking/online/online_lsp.hpp"
 #include "objects/damage.hpp"
 #include "physics/physics_constants.hpp"
 #include "render/old_render_debug.hpp"
@@ -15613,6 +15615,43 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_string
 );
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	lsp_info_get,
+	0,
+	online_lsp_get_info,
+	"gets the LSP server info\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0,
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	lsp_info_set,
+	0,
+	online_lsp_set_info,
+	"<ip> <port> sets the LSP server address and port\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	2, _hs_type_string, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	online_set_is_connected_to_live,
+	0,
+	online_set_is_connected_to_live,
+	"sets connected to live\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	online_user_set_name,
+	0,
+	online_user_set_name,
+	"sets the name of a specific user\r\nNETWORK SAFE: Yes",
+	NULL,
+	2, _hs_type_long_integer, _hs_type_string
+);
+
 
 #pragma endregion // HS_FUNCTION_DEFINITIONS
 
@@ -17322,6 +17361,10 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&exit_game_0_definition,
 	(hs_function_definition*)&load_preferences_from_file_1_definition,
 	(hs_function_definition*)&load_customization_from_file_1_definition,
+	(hs_function_definition*)&lsp_info_get_0_definition,
+	(hs_function_definition*)&lsp_info_set_2_definition,
+	(hs_function_definition*)&online_set_is_connected_to_live_1_definition,
+	(hs_function_definition*)&online_user_set_name_2_definition,
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
 static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);

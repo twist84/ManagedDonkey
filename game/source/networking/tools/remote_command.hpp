@@ -111,12 +111,8 @@ COMMAND_CALLBACK_DECLARE(net_test_session_mode);
 COMMAND_CALLBACK_DECLARE(net_test_ui_game_mode);
 COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
 COMMAND_CALLBACK_DECLARE(net_test_game_variant_parameter);
-COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
-COMMAND_CALLBACK_DECLARE(online_user_set_name);
 COMMAND_CALLBACK_DECLARE(cheat_all_chars);
 COMMAND_CALLBACK_DECLARE(drop_permutation);
-COMMAND_CALLBACK_DECLARE(lsp_info_get);
-COMMAND_CALLBACK_DECLARE(lsp_info_set);
 COMMAND_CALLBACK_DECLARE(player_ragdoll);
 COMMAND_CALLBACK_DECLARE(player_drop_weapon);
 COMMAND_CALLBACK_DECLARE(player_add_weapon);
@@ -159,13 +155,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_game_variant_parameter, 2, "<string> <long>", "network test: sets a parameter of the current game variant\r\nNETWORK SAFE: No, for mainmenu only"),
 
-	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<boolean>", "sets connected to live\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(online_user_set_name, 2, "<long> <string>", "sets the name of a specific user\r\nNETWORK SAFE: Yes"),
-
 	COMMAND_CALLBACK_REGISTER(drop_permutation, 2, "<string> <string>", "drops the named tag e.g. objects\\characters\\brute\\brute.biped using the specified permutation. permutations are specified as a comma-delimited string of region=permutation pairs (e.g. region1=permutation1,region2=permutation2).\r\n"),
-
-	COMMAND_CALLBACK_REGISTER(lsp_info_get, 0, "", "gets the LSP server info\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(lsp_info_set, 1, "<string>", "<ip:port> sets the LSP server address and port\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(player_ragdoll, 0, "", "ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(player_drop_weapon, 0, "", "drops the players held weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),

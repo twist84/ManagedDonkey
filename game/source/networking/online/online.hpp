@@ -21,5 +21,5 @@ extern bool __cdecl online_local_user_is_user_created_content_allowed(e_controll
 extern void __cdecl online_process_debug_output_queue();
 extern void __cdecl online_user_set_xuid(uns64 xuid);
 extern void __cdecl online_set_is_connected_to_live(bool is_connected_to_live);
-extern void __cdecl online_user_set_name(int32 user_index, const wchar_t* name);
+extern void __cdecl online_user_set_name(int32 user_index, const char* name);
 extern void __cdecl online_update();
