@@ -141,11 +141,7 @@ bool hs_parse_if(int16 function_index, int32 expression_index)
 
 int32 hs_parse_cond_recursive(int32 root_expression_index, int32 expression_index)
 {
-#if 1
-	int32 result_index = NONE;
-#else
 	int32 result_index = datum_new(g_hs_syntax_data);
-
 	if (result_index == NONE)
 	{
 		hs_compile_globals.error_message = "i couldn't allocate a syntax node.";
@@ -211,36 +207,34 @@ int32 hs_parse_cond_recursive(int32 root_expression_index, int32 expression_inde
 						}
 						else
 						{
-							//result_node->constant_type = _hs_function_name;
-							//result_node->long_value = condition_result_pair_index;
-							//
-							//condition_result_pair_node->constant_type = _hs_function_name;
-							//condition_result_pair_node->type = _hs_function_name;
-							//condition_result_pair_node->flags = FLAG(_hs_syntax_node_primitive_bit);
-							//condition_result_pair_node->next_node_index = link_index;
-							//condition_result_pair_node->source_offset = NONE;
-							//condition_result_pair_node->long_value = 0;
-							//
-							//implicit_begin_node->flags = 0;
-							//implicit_begin_node->source_offset = result_node->source_offset;
-							//implicit_begin_node->long_value = implicit_begin_name_index;
-							//
-							//implicit_begin_name_node->constant_type = _hs_unparsed;
-							//implicit_begin_name_node->type = _hs_function_name;
-							//implicit_begin_name_node->flags = FLAG(_hs_syntax_node_primitive_bit);
-							//implicit_begin_name_node->next_node_index = hs_syntax_get(link_index)->next_node_index;
-							//implicit_begin_name_node->source_offset = NONE;
-							//implicit_begin_name_node->long_value = 0;
-							//
-							//link_node->next_node_index = implicit_begin_index;
+							result_node->constant_type = _hs_function_name;
+							result_node->long_value = condition_result_pair_index;
+							
+							condition_result_pair_node->constant_type = _hs_function_name;
+							condition_result_pair_node->type = _hs_function_name;
+							condition_result_pair_node->flags = FLAG(_hs_syntax_node_primitive_bit);
+							condition_result_pair_node->next_node_index = link_index;
+							condition_result_pair_node->source_offset = NONE;
+							condition_result_pair_node->long_value = 0;
+							
+							implicit_begin_node->flags = 0;
+							implicit_begin_node->source_offset = result_node->source_offset;
+							implicit_begin_node->long_value = implicit_begin_name_index;
+							
+							implicit_begin_name_node->constant_type = _hs_unparsed;
+							implicit_begin_name_node->type = _hs_function_name;
+							implicit_begin_name_node->flags = FLAG(_hs_syntax_node_primitive_bit);
+							implicit_begin_name_node->next_node_index = hs_syntax_get(link_index)->next_node_index;
+							implicit_begin_name_node->source_offset = NONE;
+							implicit_begin_name_node->long_value = 0;
+							
+							link_node->next_node_index = implicit_begin_index;
 						}
 					}
 				}
 			}
 		}
 	}
-#endif
-
 	return result_index;
 }
 
