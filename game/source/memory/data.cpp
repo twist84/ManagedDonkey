@@ -311,7 +311,7 @@ int32 __cdecl datum_new_in_range(s_data_array* data, int32 minimum_index, int32 
 void* __cdecl datum_get(s_data_array* data, int32 index)
 {
 	int16 identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	int16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	uns16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
 	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
@@ -360,18 +360,18 @@ void* __cdecl datum_try_and_get(const s_data_array* data, int32 index)
 	ASSERT(data->valid);
 
 	int16 identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	int16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	uns16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
-	if (index == NONE || index == 0 || identifier == int16(0xFFFF) || absolute_index == int16(0xFFFF))
+	if (index == NONE || index == 0 || identifier == int16(0xFFFF) || absolute_index == uns16(0xFFFF))
 		return NULL;
 
-	if (index != NONE || absolute_index != int16(0xFFFF))
+	if (index != NONE || absolute_index != uns16(0xFFFF))
 	{
 		VASSERT(identifier, c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
 			data->name.get_string(),
 			absolute_index).get_string());
 
-		VASSERT(VALID_INDEX(absolute_index, (int16)data->maximum_count), c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
+		VASSERT(VALID_INDEX(absolute_index, (uns16)data->maximum_count), c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
 			data->name.get_string(),
 			index,
 			data->maximum_count).get_string());
