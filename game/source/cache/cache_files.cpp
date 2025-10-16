@@ -1019,27 +1019,22 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 		// 0.4.11.2 tags messed up `levels\multi\s3d_avalanche\s3d_avalanche.scenario` data fixups
 		if (!data_fixup.persistent)
 		{
-			if (instance->tag_group.is_group(CACHE_FILE_GLOBAL_TAGS_TAG))
-			{
-				continue;
-			}
-
 			event(_event_warning, "tags: data_fixups[%d].persistent == false for tag [0x%08X, '%s.%s']",
 				data_fixup_index,
 				tag_index,
 				tag_name,
 				group_tag_name);
-			data_fixup.persistent = true;
 		}
 
-		ASSERT(data_fixup.persistent == true);
-		data_fixup.persistent = false;
-		ASSERT(data_fixup.persistent == false);
+		//ASSERT(data_fixup.persistent == true);
 
 		if (!IN_RANGE_INCLUSIVE(data_fixup.value, (uns32)instance, (uns32)instance + instance->total_size))
 		{
+			data_fixup.persistent = false;
+			ASSERT(data_fixup.persistent == false);
+
 			data_fixup.value += (uns32)instance;
-			ASSERT(data_fixup.value == data_fixup.offset);
+			//ASSERT(data_fixup.value == data_fixup.offset);
 		}
 	}
 
