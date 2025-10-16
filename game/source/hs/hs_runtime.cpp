@@ -1897,7 +1897,7 @@ int32 __cdecl hs_object_index_from_name_index(int32 thread_index, int16 name_ind
 	//return INVOKE(0x00597320, hs_object_index_from_name_index, thread_index, name_index);
 
 	int32 result = object_index_from_name_index(name_index);
-	if (result == NONE)
+	if ((thread_index != NONE && name_index != NONE) && result == NONE)
 	{
 		event(_event_warning, "hs: thread %s attempted to access unplaced object %s",
 			hs_thread_format(thread_index),
@@ -2389,7 +2389,7 @@ bool __cdecl hs_runtime_nondeterministic_threads_running()
 #ifdef USE_HS_THREAD_TRACKING
 	s_hs_thread_iterator iterator{};
 	hs_thread_iterator_new(&iterator, false, true);
-	result = (hs_thread_iterator_next(&iterator) != NONE);
+	result = hs_thread_iterator_next(&iterator) != NONE;
 #endif
 
 	return result;
