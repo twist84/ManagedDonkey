@@ -133,7 +133,7 @@ hs_source_file* source_offset_get_source_file(int32 offset, int32* offset_within
 			if (offset < total_source_size)
 			{
 				result = source_file;
-				ASSERT((*offset_within_file >= 0) && (*offset_within_file < source_file->source.size));
+				ASSERT(VALID_INDEX(*offset_within_file, source_file->source.size));
 				break;
 			}
 #endif
@@ -824,7 +824,7 @@ bool hs_compile_postprocess_and_verify(char const** error_message_pointer, char 
 						}
 						else
 						{
-							return_type = hs_global_get_type(node->data);
+							return_type = hs_global_get_type(node->short_value);
 						}
 					}
 					else
@@ -923,16 +923,16 @@ bool hs_compile_postprocess_and_verify(char const** error_message_pointer, char 
 				}
 			}
 
-			bool string_mismatch = true;
+			bool string_mismatch = false;
 			if (TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_primitive_bit))
 			{
 				if (hs_syntax_get(node_index)->type == _hs_type_string && !TEST_BIT(hs_syntax_get(node_index)->flags, _hs_syntax_node_variable_bit))
 				{
-					string_mismatch = false;
+					string_mismatch = true;
 				}
 			}
 
-			bool mismatch = string_mismatch || temp_node.type != node->type)
+			bool mismatch = string_mismatch || temp_node.type != node->type
 				&& (temp_node.data != node->data
 					|| temp_node.type != node->type
 					|| temp_node.flags != node->flags
