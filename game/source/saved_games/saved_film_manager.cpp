@@ -72,25 +72,25 @@ c_string_builder cache_file_signature_summary(int32 signature_size, const byte* 
 
 void saved_film_manager_abort_playback(e_saved_film_playback_abort_reason abort_reason)
 {
-	if (saved_film_manager_globals.playback_aborted)
+	if (!saved_film_manager_globals.playback_aborted)
 	{
-		return;
+		ASSERT(game_is_playback());
+		event(_event_warning, "networking:saved_film:manager: playback aborted due to error '%s'",
+			k_playback_abort_reason_names[abort_reason]);
+		saved_film_manager_globals.playback_aborted = true;
+		saved_film_manager_globals.playback_abort_reason = abort_reason;
 	}
-
-	ASSERT(game_is_playback());
-	event(_event_warning, "networking:saved_film:manager: playback aborted due to error '%s'",
-		k_playback_abort_reason_names[abort_reason]);
-	saved_film_manager_globals.playback_aborted = true;
-	saved_film_manager_globals.playback_abort_reason = abort_reason;
 }
 
 bool saved_film_manager_authored_camera_locked_for_snippet()
 {
-	return game_in_progress()
+	bool locked = game_in_progress()
 		&& game_playback_get() == _game_playback_film
 		&& saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read
 		&& !saved_film_manager_globals.film_ended
 		&& saved_film_snippet_recording_or_previewing();
+
+	return locked;
 }
 
 bool saved_film_manager_automatic_debug_saving_enabled()
@@ -142,38 +142,20 @@ void saved_film_manager_build_file_path_from_name(const char* film_name, e_saved
 
 bool saved_film_manager_can_revert(e_saved_film_revert_type desired_revert_type)
 {
-	return saved_film_history_ready_for_revert_or_reset() && saved_film_history_can_revert_by_type(desired_revert_type);
+	bool can_revert = saved_film_history_ready_for_revert_or_reset() && saved_film_history_can_revert_by_type(desired_revert_type);
+	return can_revert;
 }
 
 bool saved_film_manager_can_set_playback_control()
 {
-	if (saved_film_manager_globals.playback_locked)
-	{
-		return false;
-	}
+	bool can_set_playback_control = !saved_film_manager_globals.playback_locked
+		&& game_is_authoritative_playback()
+		&& !saved_film_manager_globals.film_ended
+		&& saved_film_manager_get_snippet_state() == _saved_film_snippet_state_none
+		&& (saved_film_manager_globals.snippet_start_tick == NONE
+			|| g_universal_saved_film_tick.peek() >= saved_film_manager_globals.snippet_start_tick);
 
-	if (!game_is_authoritative_playback())
-	{
-		return false;
-	}
-
-	if (saved_film_manager_globals.film_ended)
-	{
-		return false;
-	}
-
-	if (saved_film_manager_get_snippet_state() != _saved_film_snippet_state_none)
-	{
-		return false;
-	}
-
-	if (saved_film_manager_globals.snippet_start_tick != NONE &&
-		g_universal_saved_film_tick.peek() < saved_film_manager_globals.snippet_start_tick)
-	{
-		return false;
-	}
-
-	return true;
+	return can_set_playback_control;
 }
 
 void saved_film_manager_clear_playback_state()
@@ -200,15 +182,16 @@ void saved_film_manager_close()
 	if (saved_film_manager_globals.film_close_in_progress)
 	{
 		event(_event_warning, "networking:saved_film:manager: film close in progress, not closing again");
-		return;
 	}
-
-	saved_film_manager_globals.film_close_in_progress = true;
-	saved_film_manager_globals.saved_film.close();
-	saved_film_manager_clear_playback_state();
-	saved_film_manager_globals.pending_gamestate_load = false;
-	saved_film_manager_globals.gamestate_file_position = NONE;
-	saved_film_manager_globals.film_close_in_progress = false;
+	else
+	{
+		saved_film_manager_globals.film_close_in_progress = true;
+		saved_film_manager_globals.saved_film.close();
+		saved_film_manager_clear_playback_state();
+		saved_film_manager_globals.pending_gamestate_load = false;
+		saved_film_manager_globals.gamestate_file_position = NONE;
+		saved_film_manager_globals.film_close_in_progress = false;
+	}
 }
 
 void saved_film_manager_commit_snippet_autoname(e_controller_index controller_index)
@@ -269,57 +252,54 @@ void saved_film_manager_copy_film_to_debug_path()
 {
 	ASSERT(saved_film_manager_globals.initialized);
 
-	if (!saved_film_manager_globals.automatic_debug_saving_enabled || global_scenario->type > _scenario_type_multiplayer)
+	if (saved_film_manager_globals.automatic_debug_saving_enabled)
 	{
-		return;
-	}
-
-	void* blf_saved_film = overlapped_malloc(sizeof(s_blf_saved_film));
-	if (!blf_saved_film)
-	{
-		event(_event_warning, "networking:saved_film:manager: failed to allocate copy buffer to save last saved film to the xbox dev kit drive!");
-		return;
-	}
-
-	c_synchronized_long save_film_success = 0;
-	c_synchronized_long save_film_complete = 0;
-	if (saved_game_files_save_last_film_to_debugging_hard_drive(
-		_controller0,
-		blf_saved_film,
-		sizeof(s_blf_saved_film),
-		&save_film_success,
-		&save_film_complete) == NONE)
-	{
-		event(_event_warning, "networking:saved_film:manager: failed to allocate async copy task to save last saved film to the xbox dev kit drive!");
-	}
-	else
-	{
-		internal_async_yield_until_done(&save_film_complete, false, false, __FILE__, __LINE__);
-		if (save_film_success.peek() != 1)
+		const scenario* current_scenario = global_scenario_get();
+		if (current_scenario->type <= _scenario_type_multiplayer)
 		{
-			event(_event_warning, "networking:saved_film:manager: failed to save last saved film to the xbox dev kit drive!");
+			void* copy_buffer = overlapped_malloc(sizeof(s_blf_saved_film));
+			if (copy_buffer)
+			{
+				c_synchronized_long save_film_success = 0;
+				c_synchronized_long save_film_complete = 0;
+				int32 save_film_task = saved_game_files_save_last_film_to_debugging_hard_drive(
+					_controller0,
+					copy_buffer,
+					sizeof(s_blf_saved_film),
+					&save_film_success,
+					&save_film_complete);
+
+				if (save_film_task == NONE)
+				{
+					event(_event_warning, "networking:saved_film:manager: failed to allocate async copy task to save last saved film to the xbox dev kit drive!");
+				}
+				else
+				{
+					internal_async_yield_until_done(&save_film_complete, false, false, __FILE__, __LINE__);
+					if (save_film_success.peek() != 1)
+					{
+						event(_event_warning, "networking:saved_film:manager: failed to save last saved film to the xbox dev kit drive!");
+					}
+				}
+
+				overlapped_free(copy_buffer);
+			}
+			else
+			{
+				event(_event_warning, "networking:saved_film:manager: failed to allocate copy buffer to save last saved film to the xbox dev kit drive!");
+			}
 		}
 	}
-
-	overlapped_free(blf_saved_film);
 }
 
 void saved_film_manager_create_film_directory()
 {
 	s_file_reference film_directory{};
-	const wchar_t* directory_path = autosave_queue_get_directory_path();
-
-	if (!file_reference_create_from_path_wide(&film_directory, directory_path, true))
+	if (file_reference_create_from_path_wide(&film_directory, autosave_queue_get_directory_path(), true)
+		&& !file_exists(&film_directory))
 	{
-		return;
+		file_create_parent_directories_if_not_present(&film_directory);
 	}
-
-	if (file_exists(&film_directory))
-	{
-		return;
-	}
-
-	file_create_parent_directories_if_not_present(&film_directory);
 }
 
 void saved_film_manager_delete_current_snippet()
@@ -329,24 +309,27 @@ void saved_film_manager_delete_current_snippet()
 	if (!saved_film_manager_snippets_available())
 	{
 		event(_event_warning, "networking:saved_film:manager: snippts not available (can't delete)");
-		return;
 	}
-
-	e_saved_film_snippet_state current_state = saved_film_snippet_get_current_state();
-	if (current_state != _saved_film_snippet_state_recorded_and_ready)
+	else
 	{
-		event(_event_warning, "networking:saved_film:manager: can't delete snippet [current in state %d]",
-			current_state);
-		return;
+		e_saved_film_snippet_state current_state = saved_film_snippet_get_current_state();
+		if (current_state == _saved_film_snippet_state_recorded_and_ready)
+		{
+			if (saved_film_snippet_delete())
+			{
+				event(_event_message, "networking:saved_film:manager: deleted snippet");
+			}
+			else
+			{
+				saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_delete);
+			}
+		}
+		else
+		{
+			event(_event_warning, "networking:saved_film:manager: can't delete snippet [current in state %d]",
+				current_state);
+		}
 	}
-	
-	if (!saved_film_snippet_delete())
-	{
-		saved_film_manager_abort_playback(_saved_film_playback_abort_snippet_failed_to_delete);
-		return;
-	}
-
-	event(_event_message, "networking:saved_film:manager: deleted snippet");
 }
 
 void saved_film_manager_delete_on_level_load(bool delete_on_level_load)
@@ -361,15 +344,13 @@ void saved_film_manager_disable_version_checking(bool disable)
 
 void saved_film_manager_dispose_from_old_map()
 {
-	if (game_is_ui_shell() || main_game_reset_in_progress())
+	if (!game_is_ui_shell() && !main_game_reset_in_progress())
 	{
-		return;
+		saved_film_manager_close();
+		saved_film_history_dispose_from_saved_film_playback();
+		saved_film_snippet_dispose_from_saved_film_playback();
+		saved_film_manager_globals.screensaver_enabled = true;
 	}
-
-	saved_film_manager_close();
-	saved_film_history_dispose_from_saved_film_playback();
-	saved_film_snippet_dispose_from_saved_film_playback();
-	saved_film_manager_globals.screensaver_enabled = true;
 }
 
 void saved_film_manager_dispose()
@@ -387,47 +368,49 @@ void saved_film_manager_end_film_internal()
 	if (saved_film_manager_globals.film_ended)
 	{
 		event(_event_warning, "networking:saved_film:manager: film ended already set, not ending the film again");
-		return;
 	}
-
-	saved_film_manager_globals.film_ended = true;
-	saved_film_manager_globals.film_ended_system_milliseconds = system_milliseconds();
-
-	if (game_is_authoritative_playback())
+	else
 	{
-		simulation_notify_saved_film_ended();
+		saved_film_manager_globals.film_ended = true;
+		saved_film_manager_globals.film_ended_system_milliseconds = system_milliseconds();
+		if (game_is_authoritative_playback())
+		{
+			simulation_notify_saved_film_ended();
+		}
 	}
 }
 
 bool saved_film_manager_film_is_ended(real32* out_seconds_ago)
 {
-	if (!game_in_progress() || !game_is_playback() || !saved_film_manager_globals.film_ended)
+	bool film_ended = false;
+	if (game_in_progress() && game_is_playback() && saved_film_manager_globals.film_ended)
 	{
-		return false;
-	}
+		if (out_seconds_ago)
+		{
+			*out_seconds_ago = (real32)system_milliseconds() * 0.001f;
+		}
 
-	if (out_seconds_ago)
-	{
-		*out_seconds_ago = (real32)system_milliseconds() * 0.001f;
+		film_ended = true;
 	}
-
-	return true;
+	return film_ended;
 }
 
 bool saved_film_manager_film_valid(e_controller_index controller, const char* film_name)
 {
 	ASSERT(saved_film_manager_globals.initialized);
 
-	if (saved_film_manager_globals.saved_film.get_film_state() != k_saved_film_state_none)
+	bool valid = false;
+	if (saved_film_manager_globals.saved_film.get_film_state() == k_saved_film_state_none)
+	{
+		bool valid = saved_film_manager_open_film_for_reading(controller, film_name);
+		saved_film_manager_close();
+	}
+	else
 	{
 		event(_event_warning, "networking:saved_film:manager: can't validate film, as we have one open already [state %d]",
 			saved_film_manager_globals.saved_film.get_film_state());
-		return false;
 	}
-
-	bool result = saved_film_manager_open_film_for_reading(controller, film_name);
-	saved_film_manager_close();
-	return result;
+	return valid;
 }
 
 bool saved_film_manager_get_current_film_name(c_static_string<64>* film_name_out)
@@ -440,28 +423,23 @@ bool saved_film_manager_get_current_film_name(c_static_string<64>* film_name_out
 
 const game_options* saved_film_manager_get_current_game_options()
 {
-	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_read)
+	const game_options* game_options_out = NULL;
+	if (saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read)
 	{
-		return NULL;
+		game_options_out = saved_film_manager_globals.saved_film.get_game_options();
 	}
-
-	return saved_film_manager_globals.saved_film.get_game_options();
+	return game_options_out;
 }
 
 const s_saved_game_item_metadata* saved_film_manager_get_current_metadata()
 {
-	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_read)
+	const s_saved_game_item_metadata* metadata_out = NULL;
+	if (saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read
+		&& saved_film_manager_globals.saved_film.get_film_content_header()->metadata.is_valid())
 	{
-		return NULL;
+		metadata_out = &saved_film_manager_globals.saved_film.get_film_content_header()->metadata;
 	}
-
-	const s_blf_chunk_content_header* content_header = saved_film_manager_globals.saved_film.get_film_content_header();
-	if (!content_header->metadata.is_valid())
-	{
-		return NULL;
-	}
-
-	return &content_header->metadata;
+	return metadata_out;
 }
 
 int32 saved_film_manager_get_current_tick_estimate()

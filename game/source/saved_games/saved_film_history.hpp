@@ -58,8 +58,6 @@ static_assert(sizeof(c_saved_film_history_record_manager) == sizeof(s_saved_film
 
 struct s_saved_film_history_globals
 {
-	s_saved_film_history_globals();
-
 	c_async_stored_buffer_set<1>* history_buffer;
 	c_saved_film_history_record_manager record_manager;
 	int32 estimated_length_in_ticks;
