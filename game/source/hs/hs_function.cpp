@@ -79,114 +79,38 @@ DECLARE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 22); // 11
 DECLARE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 24); // 12
 #undef DECLARE_HS_FUNCTION_DEFINITION_STRUCT
 
-#define GENERATE_MACRO_FUNCTION_EVALUATE(N) \
-static_assert(IN_RANGE_INCLUSIVE(N, 1, MAX_HS_FUNCTION_PARAMETERS)); \
-template<typename t_return_type, ARGS_TMPL_##N> \
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)(ARGS_FUNC_##N)) \
-{ \
-    int32 result = 0; \
-    if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize)) \
-    { \
-        if constexpr (std::is_void_v<t_return_type>) \
-        { \
-            func(ARGS_CALL_##N); \
-        } \
-        else \
-        { \
-            *reinterpret_cast<t_return_type*>(&result) = func(ARGS_CALL_##N); \
-        } \
-        hs_return(thread_index, result); \
-    } \
-}
-
-template<typename t_return_type>
-constexpr void macro_function_evaluate(int16 function_index, int32 thread_index, bool initialize, t_return_type(*func)())
-{
-	int32 result = 0;
-
-	if constexpr (std::is_void_v<t_return_type>)
-	{
-		func();
-	}
-	else
-	{
-		*reinterpret_cast<t_return_type*>(&result) = func();
-	}
-
-	hs_return(thread_index, result);
-}
-
-#define ARG_CAST(N) *reinterpret_cast<t_arg##N*>(&actual_parameters[N])
-
-#define ARGS_TMPL_0
-#define ARGS_FUNC_0
-#define ARGS_CALL_0
-
-#define ARGS_TMPL_1  ARGS_TMPL_0  typename t_arg0
-#define ARGS_FUNC_1  ARGS_FUNC_0  t_arg0
-#define ARGS_CALL_1  ARGS_CALL_0  ARG_CAST(0)
-GENERATE_MACRO_FUNCTION_EVALUATE(1)
-
-#define ARGS_TMPL_2  ARGS_TMPL_1, typename t_arg1
-#define ARGS_FUNC_2  ARGS_FUNC_1, t_arg1
-#define ARGS_CALL_2  ARGS_CALL_1, ARG_CAST(1)
-GENERATE_MACRO_FUNCTION_EVALUATE(2)
-
-#define ARGS_TMPL_3  ARGS_TMPL_2, typename t_arg2
-#define ARGS_FUNC_3  ARGS_FUNC_2, t_arg2
-#define ARGS_CALL_3  ARGS_CALL_2, ARG_CAST(2)
-GENERATE_MACRO_FUNCTION_EVALUATE(3)
-
-#define ARGS_TMPL_4  ARGS_TMPL_3, typename t_arg3
-#define ARGS_FUNC_4  ARGS_FUNC_3, t_arg3
-#define ARGS_CALL_4  ARGS_CALL_3, ARG_CAST(3)
-GENERATE_MACRO_FUNCTION_EVALUATE(4)
-
-#define ARGS_TMPL_5  ARGS_TMPL_4, typename t_arg4
-#define ARGS_FUNC_5  ARGS_FUNC_4, t_arg4
-#define ARGS_CALL_5  ARGS_CALL_4, ARG_CAST(4)
-GENERATE_MACRO_FUNCTION_EVALUATE(5)
-
-#define ARGS_TMPL_6  ARGS_TMPL_5, typename t_arg5
-#define ARGS_FUNC_6  ARGS_FUNC_5, t_arg5
-#define ARGS_CALL_6  ARGS_CALL_5, ARG_CAST(5)
-GENERATE_MACRO_FUNCTION_EVALUATE(6)
-
-#define ARGS_TMPL_7  ARGS_TMPL_6, typename t_arg6
-#define ARGS_FUNC_7  ARGS_FUNC_6, t_arg6
-#define ARGS_CALL_7  ARGS_CALL_6, ARG_CAST(6)
-GENERATE_MACRO_FUNCTION_EVALUATE(7)
-
-#define ARGS_TMPL_8  ARGS_TMPL_7, typename t_arg7
-#define ARGS_FUNC_8  ARGS_FUNC_7, t_arg7
-#define ARGS_CALL_8  ARGS_CALL_7, ARG_CAST(7)
-GENERATE_MACRO_FUNCTION_EVALUATE(8)
-
-#define ARGS_TMPL_9  ARGS_TMPL_8, typename t_arg8
-#define ARGS_FUNC_9  ARGS_FUNC_8, t_arg8
-#define ARGS_CALL_9  ARGS_CALL_8, ARG_CAST(8)
-GENERATE_MACRO_FUNCTION_EVALUATE(9)
-
-#define ARGS_TMPL_10 ARGS_TMPL_9, typename t_arg9
-#define ARGS_FUNC_10 ARGS_FUNC_9, t_arg9
-#define ARGS_CALL_10 ARGS_CALL_9, ARG_CAST(9)
-GENERATE_MACRO_FUNCTION_EVALUATE(10)
-
-#define ARGS_TMPL_11 ARGS_TMPL_10, typename t_arg10
-#define ARGS_FUNC_11 ARGS_FUNC_10, t_arg10
-#define ARGS_CALL_11 ARGS_CALL_10, ARG_CAST(10)
-GENERATE_MACRO_FUNCTION_EVALUATE(11)
-
-#define ARGS_TMPL_12 ARGS_TMPL_11, typename t_arg11
-#define ARGS_FUNC_12 ARGS_FUNC_11, t_arg11
-#define ARGS_CALL_12 ARGS_CALL_11, ARG_CAST(11)
-GENERATE_MACRO_FUNCTION_EVALUATE(12)
-
 template<typename... t_formal_parameters>
 constexpr size_t count_formal_parameters(t_formal_parameters...)
 {
 	return sizeof...(t_formal_parameters);
 }
+
+#define ARGS_FUNC_0
+#define ARGS_CALL_0
+#define ARGS_FUNC_1  ARGS_FUNC_0   int32
+#define ARGS_CALL_1  ARGS_CALL_0   actual_parameters[0]
+#define ARGS_FUNC_2  ARGS_FUNC_1,  int32
+#define ARGS_CALL_2  ARGS_CALL_1,  actual_parameters[1]
+#define ARGS_FUNC_3  ARGS_FUNC_2,  int32
+#define ARGS_CALL_3  ARGS_CALL_2,  actual_parameters[2]
+#define ARGS_FUNC_4  ARGS_FUNC_3,  int32
+#define ARGS_CALL_4  ARGS_CALL_3,  actual_parameters[3]
+#define ARGS_FUNC_5  ARGS_FUNC_4,  int32
+#define ARGS_CALL_5  ARGS_CALL_4,  actual_parameters[4]
+#define ARGS_FUNC_6  ARGS_FUNC_5,  int32
+#define ARGS_CALL_6  ARGS_CALL_5,  actual_parameters[5]
+#define ARGS_FUNC_7  ARGS_FUNC_6,  int32
+#define ARGS_CALL_7  ARGS_CALL_6,  actual_parameters[6]
+#define ARGS_FUNC_8  ARGS_FUNC_7,  int32
+#define ARGS_CALL_8  ARGS_CALL_7,  actual_parameters[7]
+#define ARGS_FUNC_9  ARGS_FUNC_8,  int32
+#define ARGS_CALL_9  ARGS_CALL_8,  actual_parameters[8]
+#define ARGS_FUNC_10 ARGS_FUNC_9,  int32
+#define ARGS_CALL_10 ARGS_CALL_9,  actual_parameters[9]
+#define ARGS_FUNC_11 ARGS_FUNC_10, int32
+#define ARGS_CALL_11 ARGS_CALL_10, actual_parameters[10]
+#define ARGS_FUNC_12 ARGS_FUNC_11, int32
+#define ARGS_CALL_12 ARGS_CALL_11, actual_parameters[11]
 
 #define MACRO_FUNCTION_EVALUATE(STRUCT_NAME, EXTRA_BYTES_SIZE, RETURN_TYPE, NAME, FLAGS, FUNCTION, DOCUMENTATION, PARAMETERS, FORMAL_PARAMETER_COUNT, ...) \
 static_assert(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
@@ -194,19 +118,58 @@ static_assert(FORMAL_PARAMETER_COUNT <= MAX_HS_FUNCTION_PARAMETERS); \
 static_assert(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
 void NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate(int16 function_index, int32 thread_index, bool initialize) \
 { \
-	macro_function_evaluate(function_index, thread_index, initialize, FUNCTION); \
+	int32 result = 0; \
+	MACRO_FUNCTION_EVALUATE_IMPL_##FORMAL_PARAMETER_COUNT(RETURN_TYPE, FUNCTION, result); \
 } \
 static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE NAME##_##FORMAL_PARAMETER_COUNT##_definition = \
 { \
-    .return_type = (RETURN_TYPE), \
-    .name = #NAME, \
-    .flags = (FLAGS), \
-    .parse = hs_macro_function_parse, \
-    .evaluate = NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate, \
-    .documentation = (DOCUMENTATION), \
-    .parameters = (PARAMETERS), \
-    .formal_parameter_count = (FORMAL_PARAMETER_COUNT), \
-    .formal_parameters = { __VA_ARGS__ }, \
+	.return_type = (RETURN_TYPE), \
+	.name = #NAME, \
+	.flags = (FLAGS), \
+	.parse = hs_macro_function_parse, \
+	.evaluate = NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate, \
+	.documentation = (DOCUMENTATION), \
+	.parameters = (PARAMETERS), \
+	.formal_parameter_count = (FORMAL_PARAMETER_COUNT), \
+	.formal_parameters = { __VA_ARGS__ }, \
+};
+
+#define MACRO_FUNCTION_EVALUATE_IMPL_0(RETURN_TYPE, FUNCTION, RESULT) \
+if constexpr (RETURN_TYPE == _hs_type_void) \
+{ \
+	reinterpret_cast<void(*)()>(FUNCTION)(); \
+} \
+else \
+{ \
+	RESULT = reinterpret_cast<int32(*)()>(FUNCTION)(); \
+} \
+hs_return(thread_index, RESULT);
+
+#define MACRO_FUNCTION_EVALUATE_IMPL_1(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 1)
+#define MACRO_FUNCTION_EVALUATE_IMPL_2(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 2)
+#define MACRO_FUNCTION_EVALUATE_IMPL_3(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 3)
+#define MACRO_FUNCTION_EVALUATE_IMPL_4(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 4)
+#define MACRO_FUNCTION_EVALUATE_IMPL_5(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 5)
+#define MACRO_FUNCTION_EVALUATE_IMPL_6(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 6)
+#define MACRO_FUNCTION_EVALUATE_IMPL_7(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 7)
+#define MACRO_FUNCTION_EVALUATE_IMPL_8(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 8)
+#define MACRO_FUNCTION_EVALUATE_IMPL_9(RETURN_TYPE, FUNCTION, RESULT)  MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 9)
+#define MACRO_FUNCTION_EVALUATE_IMPL_10(RETURN_TYPE, FUNCTION, RESULT) MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 10)
+#define MACRO_FUNCTION_EVALUATE_IMPL_11(RETURN_TYPE, FUNCTION, RESULT) MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 11)
+#define MACRO_FUNCTION_EVALUATE_IMPL_12(RETURN_TYPE, FUNCTION, RESULT) MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, 12)
+
+#define MACRO_FUNCTION_EVALUATE_BODY(RETURN_TYPE, FUNCTION, RESULT, COUNT) \
+if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize)) \
+{ \
+	if constexpr (RETURN_TYPE == _hs_type_void) \
+	{ \
+		reinterpret_cast<void(*)(ARGS_FUNC_##COUNT)>(FUNCTION)(ARGS_CALL_##COUNT); \
+	} \
+	else \
+	{ \
+		RESULT = reinterpret_cast<int32(*)(ARGS_FUNC_##COUNT)>(FUNCTION)(ARGS_CALL_##COUNT); \
+	} \
+	hs_return(thread_index, RESULT); \
 }
 
 #define MACRO_FUNCTION_EVALUATE2(STRUCT_NAME, EXTRA_BYTES_SIZE, RETURN_TYPE, NAME, FLAGS, FUNCTION_ADDRESS, DOCUMENTATION, PARAMETERS, FORMAL_PARAMETER_COUNT, ...) \
