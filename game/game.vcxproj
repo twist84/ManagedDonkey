@@ -71,6 +71,7 @@
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForcedIncludeFiles>_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
+      <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
