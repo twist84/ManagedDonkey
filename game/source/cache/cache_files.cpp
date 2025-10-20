@@ -309,9 +309,22 @@ bool __cdecl cache_file_blocking_read(int32 cache_file_section, int32 section_of
 	return size.peek() == buffer_size;
 }
 
-bool __cdecl cache_file_content_signatures_match(int32 signature0_size, const byte* signature0, int32 signature1_size, const byte* signature1, bool unused)
+bool __cdecl cache_file_content_signatures_match(int32 signature_a_size, const byte* signature_a, int32 signature_b_size, const byte* signature_b, bool use_full_language_dependent_signature)
 {
-	return INVOKE(0x00501740, cache_file_content_signatures_match, signature0_size, signature0, signature1_size, signature1, unused);
+	return INVOKE(0x00501740, cache_file_content_signatures_match, signature_a_size, signature_a, signature_b_size, signature_b, use_full_language_dependent_signature);
+
+	//bool signatures_match = false;
+	//if (signature_a_size == sizeof(c_cache_file_content_hashes_array) && signature_b_size == sizeof(c_cache_file_content_hashes_array))
+	//{
+	//	const c_cache_file_content_hashes_array* hashes_a = (const c_cache_file_content_hashes_array*)signature_a;
+	//	const c_cache_file_content_hashes_array* hashes_b = (const c_cache_file_content_hashes_array*)signature_b;
+	//
+	//	if (use_full_language_dependent_signature)
+	//	{
+	//		signatures_match = csmemcmp(hashes_a, hashes_b, sizeof(c_cache_file_content_hashes_array)) == 0;
+	//	}
+	//}
+	//return signatures_match;
 }
 
 bool __cdecl cache_file_get_content_signature(int32* out_signature_size, const byte** out_signature)

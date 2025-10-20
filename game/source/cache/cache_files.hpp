@@ -15,6 +15,8 @@
 #define TAG_BLOCK_GET_ELEMENT_SAFE(BLOCK, INDEX, TYPE) (VALID_INDEX((INDEX), (BLOCK)->count) ? ((TYPE*)tag_block_get_element_with_size((BLOCK), (INDEX), sizeof(TYPE))) : NULL)
 #define TAG_DATA_GET_POINTER(DATA, OFFSET, SIZE, TYPE) ((TYPE*)tag_data_get_pointer((DATA), (OFFSET), (SIZE)))
 
+typedef c_static_array<s_network_http_request_hash, 1> c_cache_file_content_hashes_array;
+
 struct s_cache_file_section_file_bounds
 {
 	int32 offset;
@@ -304,7 +306,7 @@ extern int32 tag_name_get_index(tag group_tag, const char* name);
 struct s_cache_file_security_globals;
 
 extern bool __cdecl cache_file_blocking_read(int32 cache_file_section, int32 section_offset, int32 buffer_size, void* buffer);
-extern bool __cdecl cache_file_content_signatures_match(int32 signature0_size, const byte* signature0, int32 signature1_size, const byte* signature1, bool unused);
+extern bool __cdecl cache_file_content_signatures_match(int32 signature_a_size, const byte* signature_a, int32 signature_b_size, const byte* signature_b, bool use_full_language_dependent_signature);
 extern bool __cdecl cache_file_get_content_signature(int32* out_signature_size, const byte** out_signature);
 extern int32 __cdecl cache_file_get_global_tag_index(tag group_tag);
 extern void __cdecl cache_file_get_path(const char* mapname, char* buffer, int32 buffer_size);
