@@ -3,7 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "cache/restricted_memory.hpp"
 #include "config/version.hpp"
-#include "content_catalogue.hpp"
+#include "saved_games/content_catalogue.hpp"
 #include "cseries/async.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
