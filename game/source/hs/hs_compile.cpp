@@ -406,7 +406,7 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 			{
 			case _hs_reference_type_global:
 			{
-				ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_globals_per_scenario));
+				ASSERT(VALID_INDEX(referred_index, k_maximum_hs_globals_per_scenario));
 
 				reference->next = hs_compile_globals.global_references[referred_index];
 				hs_compile_globals.global_references[referred_index] = reference;
@@ -415,7 +415,7 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 			break;
 			case _hs_reference_type_script:
 			{
-				ASSERT((referred_index >= 0) && (referred_index < k_maximum_hs_scripts_per_scenario));
+				ASSERT(VALID_INDEX(referred_index, k_maximum_hs_scripts_per_scenario));
 
 				reference->next = hs_compile_globals.script_references[referred_index];
 				hs_compile_globals.script_references[referred_index] = reference;
@@ -3150,6 +3150,7 @@ void hs_validify_expression(const char* expression, char* out_valid_expression_b
 		break;
 		}
 
+		// $REVIEW why does Bungie not handle uppercase for strings
 		ascii_strnlwr(out_valid_expression.begin(), out_valid_expression.count());
 	}
 }
