@@ -40,23 +40,20 @@ bool __cdecl trigger_volume_build_faces(const scenario_trigger_volume* volume, r
 {
 	//return INVOKE(0x005FAB50, trigger_volume_build_faces, volume, face_vertices);
 
+	bool trigger_volume_valid = false;
 	real_matrix4x3 transform{};
 	if (!trigger_volume_get_matrix(volume, &transform))
-		return false;
-
-	real_rectangle3d bounds{};
-	bounds.x0 = 0.0f;
-	bounds.x1 = volume->extents.i;
-	bounds.y0 = 0.0f;
-	bounds.y1 = volume->extents.j;
-	bounds.z0 = 0.0f;
-	bounds.z1 = volume->extents.k;
-
-	rectangle3d_build_faces(&bounds, k_faces_per_cube_count, face_vertices);
-	for (int32 face_index = 0; face_index < k_faces_per_cube_count; face_index++)
-		matrix4x3_transform_points(&transform, 4, face_vertices[face_index], face_vertices[face_index]);
-
-	return true;
+	{
+		real_rectangle3d bounds{};
+		set_real_rectangle3d(&bounds, 0.0f, volume->extents.i, 0.0f, volume->extents.j, 0.0f, volume->extents.k);
+		rectangle3d_build_faces(&bounds, k_faces_per_cube_count, face_vertices);
+		for (int32 face_index = 0; face_index < k_faces_per_cube_count; face_index++)
+		{
+			matrix4x3_transform_points(&transform, 4, face_vertices[face_index], face_vertices[face_index]);
+		}
+		trigger_volume_valid = true;
+	}
+	return trigger_volume_valid;
 }
 
 //.text:005FABF0 ; int32 __cdecl trigger_volume_face_index_to_axis(int32)
