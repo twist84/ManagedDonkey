@@ -579,7 +579,9 @@ void hs_tokens_enumerate_add_string(const char* string)
 	if (enumeration_count < enumeration_results_count
 		&& ascii_stristr(string, enumeration_token) != NONE
 		&& ascii_strnicmp(string, "!", 1))
+	{
 		enumeration_results[enumeration_count++] = string;
+	}
 }
 
 void hs_enumerate_from_string_list(const char* const* string_list, int16 starting_index, int16 count)
