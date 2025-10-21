@@ -282,7 +282,7 @@ void __cdecl hs_inspect_enum(int16 type, int32 value, char* buffer, int32 buffer
 
 	ASSERT(HS_TYPE_IS_ENUM(type));
 	ASSERT(VALID_INDEX(enum_value, enum_definition->count));
-	csstrnzcpy(buffer, enum_definition->identifiers[value], buffer_size);
+	csstrnzcpy(buffer, enum_definition->identifiers[enum_value], buffer_size);
 }
 
 //.text:00593AF0 ; tls
