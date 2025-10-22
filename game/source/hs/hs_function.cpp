@@ -94,29 +94,29 @@ constexpr size_t count_formal_parameters(t_formal_parameters...)
 #define EXPAND_CALLS_11(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) EXPAND_CALLS_10(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), *(A11##_*)&actual_parameters[10]
 #define EXPAND_CALLS_12(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) EXPAND_CALLS_11(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), *(A12##_*)&actual_parameters[11]
 
-#define MACRO_FUNCTION_EVALUATE__hs_type_void(RETURN_TYPE, FUNCTION, N, ...) \
+#define MACRO_FUNCTION_EVALUATE__hs_type_void(RETURN_TYPE, FUNCTION, FORMAL_PARAMETER_COUNT, ...) \
 int32 result = 0; \
-if constexpr (N == 0) \
+if constexpr (FORMAL_PARAMETER_COUNT == 0) \
 { \
     reinterpret_cast<void(__cdecl*)()>(FUNCTION)(); \
     hs_return(thread_index, result); \
 } \
 else if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize)) \
 { \
-    reinterpret_cast<void(__cdecl*)(FORCE_EXPAND(EXPAND_TYPES_##N, __VA_ARGS__))>(FUNCTION)(FORCE_EXPAND(EXPAND_CALLS_##N, __VA_ARGS__)); \
+    reinterpret_cast<void(__cdecl*)(FORCE_EXPAND(EXPAND_TYPES_##FORMAL_PARAMETER_COUNT, __VA_ARGS__))>(FUNCTION)(FORCE_EXPAND(EXPAND_CALLS_##FORMAL_PARAMETER_COUNT, __VA_ARGS__)); \
     hs_return(thread_index, result); \
 }
 
-#define MACRO_FUNCTION_EVALUATE_IMPL(RETURN_TYPE, FUNCTION, N, ...) \
+#define MACRO_FUNCTION_EVALUATE_IMPL(RETURN_TYPE, FUNCTION, FORMAL_PARAMETER_COUNT, ...) \
 int32 result = 0; \
-if constexpr (N == 0) \
+if constexpr (FORMAL_PARAMETER_COUNT == 0) \
 { \
     *(RETURN_TYPE##_*)&result = reinterpret_cast<RETURN_TYPE##_(__cdecl*)()>(FUNCTION)(); \
     hs_return(thread_index, result); \
 } \
 else if (int32* actual_parameters = hs_macro_function_evaluate(function_index, thread_index, initialize)) \
 { \
-    *(RETURN_TYPE##_*)&result = reinterpret_cast<RETURN_TYPE##_(__cdecl*)(FORCE_EXPAND(EXPAND_TYPES_##N, __VA_ARGS__))>(FUNCTION)(FORCE_EXPAND(EXPAND_CALLS_##N, __VA_ARGS__)); \
+    *(RETURN_TYPE##_*)&result = reinterpret_cast<RETURN_TYPE##_(__cdecl*)(FORCE_EXPAND(EXPAND_TYPES_##FORMAL_PARAMETER_COUNT, __VA_ARGS__))>(FUNCTION)(FORCE_EXPAND(EXPAND_CALLS_##FORMAL_PARAMETER_COUNT, __VA_ARGS__)); \
     hs_return(thread_index, result); \
 }
 
