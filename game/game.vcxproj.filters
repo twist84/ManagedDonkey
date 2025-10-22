@@ -4580,6 +4580,9 @@
     <ClInclude Include="source\cutscene\cinematic_scripting.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\hs\hs_glue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">

@@ -903,6 +903,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\game\game_grief.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions_new.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
+    <ClInclude Include="source\hs\hs_glue.hpp" />
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
     <ClInclude Include="source\hs\hs_looper.hpp" />
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />
