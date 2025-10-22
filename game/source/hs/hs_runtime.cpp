@@ -7,6 +7,7 @@
 #include "hs/hs_compile.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
+#include "hs/hs_glue.hpp"
 #include "hs/hs_library_external.hpp"
 #include "hs/hs_library_internal_compile.hpp"
 #include "hs/hs_looper.hpp"
@@ -1465,16 +1466,16 @@ void __cdecl hs_global_reconcile_read(int16 global_designator)
 			hs_runtime_index_from_global_designator(global_designator));
 		switch (hs_global_get_type(global_designator))
 		{
-		#define HANDLE_READ_CASE(TYPE_NAME, TYPE, DEFAULT) \
+		#define HANDLE_READ_CASE(TYPE_NAME) \
 		case TYPE_NAME: \
 		{ \
 			if (external_global->pointer) \
 			{ \
-				*(TYPE*)&runtime_global->value = *(TYPE*)external_global->pointer; \
+				*(TYPE_NAME##_*)&runtime_global->value = *(TYPE_NAME##_*)external_global->pointer; \
 			} \
 			else \
 			{ \
-				*(TYPE*)&runtime_global->value = DEFAULT; \
+				*(TYPE_NAME##_*)&runtime_global->value = TYPE_NAME##_default; \
 			} \
 		} \
 		break
@@ -1483,85 +1484,85 @@ void __cdecl hs_global_reconcile_read(int16 global_designator)
 		//_hs_function_name
 		//_hs_passthrough
 		//_hs_type_void
-		HANDLE_READ_CASE(_hs_type_boolean, bool, _hs_type_boolean_default);
-		HANDLE_READ_CASE(_hs_type_real, real32, _hs_type_real_default);
-		HANDLE_READ_CASE(_hs_type_short_integer, int16, _hs_type_short_integer_default);
-		HANDLE_READ_CASE(_hs_type_long_integer, int32, _hs_type_long_integer_default);
-		HANDLE_READ_CASE(_hs_type_string, const char*, _hs_type_string_default);
-		HANDLE_READ_CASE(_hs_type_script, int16, _hs_type_script_default);
-		HANDLE_READ_CASE(_hs_type_string_id, int32, _hs_type_string_id_default);
-		HANDLE_READ_CASE(_hs_type_unit_seat_mapping, int32, _hs_type_unit_seat_mapping_default);
-		HANDLE_READ_CASE(_hs_type_trigger_volume, int16, _hs_type_trigger_volume_default);
-		HANDLE_READ_CASE(_hs_type_cutscene_flag, int16, _hs_type_cutscene_flag_default);
-		HANDLE_READ_CASE(_hs_type_cutscene_camera_point, int16, _hs_type_cutscene_camera_point_default);
-		HANDLE_READ_CASE(_hs_type_cutscene_title, int16, _hs_type_cutscene_title_default);
-		HANDLE_READ_CASE(_hs_type_cutscene_recording, int16, _hs_type_cutscene_recording_default);
-		HANDLE_READ_CASE(_hs_type_device_group, int32, _hs_type_device_group_default);
-		HANDLE_READ_CASE(_hs_type_ai, int32, _hs_type_ai_default);
-		HANDLE_READ_CASE(_hs_type_ai_command_list, int16, _hs_type_ai_command_list_default);
-		HANDLE_READ_CASE(_hs_type_ai_command_script, int16, _hs_type_ai_command_script_default);
-		HANDLE_READ_CASE(_hs_type_ai_behavior, int16, _hs_type_ai_behavior_default);
-		HANDLE_READ_CASE(_hs_type_ai_orders, int16, _hs_type_ai_orders_default);
-		HANDLE_READ_CASE(_hs_type_ai_line, int32, _hs_type_ai_line_default);
-		HANDLE_READ_CASE(_hs_type_starting_profile, int16, _hs_type_starting_profile_default);
-		HANDLE_READ_CASE(_hs_type_conversation, int16, _hs_type_conversation_default);
-		HANDLE_READ_CASE(_hs_type_zone_set, int16, _hs_type_zone_set_default);
+		HANDLE_READ_CASE(_hs_type_boolean);
+		HANDLE_READ_CASE(_hs_type_real);
+		HANDLE_READ_CASE(_hs_type_short_integer);
+		HANDLE_READ_CASE(_hs_type_long_integer);
+		HANDLE_READ_CASE(_hs_type_string);
+		HANDLE_READ_CASE(_hs_type_script);
+		HANDLE_READ_CASE(_hs_type_string_id);
+		HANDLE_READ_CASE(_hs_type_unit_seat_mapping);
+		HANDLE_READ_CASE(_hs_type_trigger_volume);
+		HANDLE_READ_CASE(_hs_type_cutscene_flag);
+		HANDLE_READ_CASE(_hs_type_cutscene_camera_point);
+		HANDLE_READ_CASE(_hs_type_cutscene_title);
+		HANDLE_READ_CASE(_hs_type_cutscene_recording);
+		HANDLE_READ_CASE(_hs_type_device_group);
+		HANDLE_READ_CASE(_hs_type_ai);
+		HANDLE_READ_CASE(_hs_type_ai_command_list);
+		HANDLE_READ_CASE(_hs_type_ai_command_script);
+		HANDLE_READ_CASE(_hs_type_ai_behavior);
+		HANDLE_READ_CASE(_hs_type_ai_orders);
+		HANDLE_READ_CASE(_hs_type_ai_line);
+		HANDLE_READ_CASE(_hs_type_starting_profile);
+		HANDLE_READ_CASE(_hs_type_conversation);
+		HANDLE_READ_CASE(_hs_type_zone_set);
 		//_hs_type_designer_zone
-		HANDLE_READ_CASE(_hs_type_point_ref, int32, _hs_type_point_ref_default);
-		HANDLE_READ_CASE(_hs_type_style, int32, _hs_type_style_default);
-		HANDLE_READ_CASE(_hs_type_object_list, int32, _hs_type_object_list_default);
-		HANDLE_READ_CASE(_hs_type_folder, int32, _hs_type_folder_default);
-		HANDLE_READ_CASE(_hs_type_sound, int32, _hs_type_sound_default);
-		HANDLE_READ_CASE(_hs_type_effect, int32, _hs_type_effect_default);
-		HANDLE_READ_CASE(_hs_type_damage, int32, _hs_type_damage_default);
-		HANDLE_READ_CASE(_hs_type_looping_sound, int32, _hs_type_looping_sound_default);
-		HANDLE_READ_CASE(_hs_type_animation_graph, int32, _hs_type_animation_graph_default);
-		HANDLE_READ_CASE(_hs_type_damage_effect, int32, _hs_type_damage_effect_default);
-		HANDLE_READ_CASE(_hs_type_object_definition, int32, _hs_type_object_definition_default);
-		HANDLE_READ_CASE(_hs_type_bitmap, int32, _hs_type_bitmap_default);
-		HANDLE_READ_CASE(_hs_type_shader, int32, _hs_type_shader_default);
-		HANDLE_READ_CASE(_hs_type_render_model_definition, int32, _hs_type_render_model_definition_default);
-		HANDLE_READ_CASE(_hs_type_structure_bsp_definition, int32, _hs_type_structure_bsp_definition_default);
-		HANDLE_READ_CASE(_hs_type_structure_lightmap_definition, int32, _hs_type_structure_lightmap_definition_default);
-		HANDLE_READ_CASE(_hs_type_cinematic_definition, int32, _hs_type_cinematic_definition_default);
-		HANDLE_READ_CASE(_hs_type_cinematic_scene_definition, int32, _hs_type_cinematic_scene_definition_default);
-		HANDLE_READ_CASE(_hs_type_bink_definition, int32, _hs_type_bink_definition_default);
-		HANDLE_READ_CASE(_hs_type_any_tag, int32, _hs_type_any_tag_default);
+		HANDLE_READ_CASE(_hs_type_point_ref);
+		HANDLE_READ_CASE(_hs_type_style);
+		HANDLE_READ_CASE(_hs_type_object_list);
+		HANDLE_READ_CASE(_hs_type_folder);
+		HANDLE_READ_CASE(_hs_type_sound);
+		HANDLE_READ_CASE(_hs_type_effect);
+		HANDLE_READ_CASE(_hs_type_damage);
+		HANDLE_READ_CASE(_hs_type_looping_sound);
+		HANDLE_READ_CASE(_hs_type_animation_graph);
+		HANDLE_READ_CASE(_hs_type_damage_effect);
+		HANDLE_READ_CASE(_hs_type_object_definition);
+		HANDLE_READ_CASE(_hs_type_bitmap);
+		HANDLE_READ_CASE(_hs_type_shader);
+		HANDLE_READ_CASE(_hs_type_render_model_definition);
+		HANDLE_READ_CASE(_hs_type_structure_bsp_definition);
+		HANDLE_READ_CASE(_hs_type_structure_lightmap_definition);
+		HANDLE_READ_CASE(_hs_type_cinematic_definition);
+		HANDLE_READ_CASE(_hs_type_cinematic_scene_definition);
+		HANDLE_READ_CASE(_hs_type_bink_definition);
+		HANDLE_READ_CASE(_hs_type_any_tag);
 		//_hs_type_any_tag_not_resolving
-		HANDLE_READ_CASE(_hs_type_enum_game_difficulty, int16, _hs_type_enum_game_difficulty_default);
-		HANDLE_READ_CASE(_hs_type_enum_team, int16, _hs_type_enum_team_default);
-		HANDLE_READ_CASE(_hs_type_enum_mp_team, int16, _hs_type_enum_mp_team_default);
-		HANDLE_READ_CASE(_hs_type_enum_controller, int16, _hs_type_enum_controller_default);
-		HANDLE_READ_CASE(_hs_type_enum_button_preset, int16, _hs_type_enum_button_preset_default);
-		HANDLE_READ_CASE(_hs_type_enum_joystick_preset, int16, _hs_type_enum_joystick_preset_default);
-		HANDLE_READ_CASE(_hs_type_enum_player_character_type, int16, _hs_type_enum_player_character_type_default);
-		HANDLE_READ_CASE(_hs_type_enum_voice_output_setting, int16, _hs_type_enum_voice_output_setting_default);
+		HANDLE_READ_CASE(_hs_type_enum_game_difficulty);
+		HANDLE_READ_CASE(_hs_type_enum_team);
+		HANDLE_READ_CASE(_hs_type_enum_mp_team);
+		HANDLE_READ_CASE(_hs_type_enum_controller);
+		HANDLE_READ_CASE(_hs_type_enum_button_preset);
+		HANDLE_READ_CASE(_hs_type_enum_joystick_preset);
+		HANDLE_READ_CASE(_hs_type_enum_player_character_type);
+		HANDLE_READ_CASE(_hs_type_enum_voice_output_setting);
 		//_hs_type_enum_voice_mask
-		HANDLE_READ_CASE(_hs_type_enum_subtitle_setting, int16, _hs_type_enum_subtitle_setting_default);
-		HANDLE_READ_CASE(_hs_type_enum_actor_type, int16, _hs_type_enum_actor_type_default);
-		HANDLE_READ_CASE(_hs_type_enum_model_state, int16, _hs_type_enum_model_state_default);
-		HANDLE_READ_CASE(_hs_type_enum_event, int16, _hs_type_enum_event_default);
-		HANDLE_READ_CASE(_hs_type_enum_character_physics_override, int16, _hs_type_enum_character_physics_override_default);
-		HANDLE_READ_CASE(_hs_type_enum_primary_skull, int16, _hs_type_enum_primary_skull_default);
-		HANDLE_READ_CASE(_hs_type_enum_secondary_skull, int16, _hs_type_enum_secondary_skull_default);
-		HANDLE_READ_CASE(_hs_type_object, int32, _hs_type_object_default);
-		HANDLE_READ_CASE(_hs_type_unit, int32, _hs_type_unit_default);
-		HANDLE_READ_CASE(_hs_type_vehicle, int32, _hs_type_vehicle_default);
-		HANDLE_READ_CASE(_hs_type_weapon, int32, _hs_type_weapon_default);
-		HANDLE_READ_CASE(_hs_type_device, int32, _hs_type_device_default);
-		HANDLE_READ_CASE(_hs_type_scenery, int32, _hs_type_scenery_default);
-		HANDLE_READ_CASE(_hs_type_effect_scenery, int32, _hs_type_effect_scenery_default);
-		HANDLE_READ_CASE(_hs_type_object_name, int16, _hs_type_object_name_default);
+		HANDLE_READ_CASE(_hs_type_enum_subtitle_setting);
+		HANDLE_READ_CASE(_hs_type_enum_actor_type);
+		HANDLE_READ_CASE(_hs_type_enum_model_state);
+		HANDLE_READ_CASE(_hs_type_enum_event);
+		HANDLE_READ_CASE(_hs_type_enum_character_physics_override);
+		HANDLE_READ_CASE(_hs_type_enum_primary_skull);
+		HANDLE_READ_CASE(_hs_type_enum_secondary_skull);
+		HANDLE_READ_CASE(_hs_type_object);
+		HANDLE_READ_CASE(_hs_type_unit);
+		HANDLE_READ_CASE(_hs_type_vehicle);
+		HANDLE_READ_CASE(_hs_type_weapon);
+		HANDLE_READ_CASE(_hs_type_device);
+		HANDLE_READ_CASE(_hs_type_scenery);
+		HANDLE_READ_CASE(_hs_type_effect_scenery);
+		HANDLE_READ_CASE(_hs_type_object_name);
 		//_hs_type_unit_name,
 		//_hs_type_vehicle_name,
 		//_hs_type_weapon_name,
 		//_hs_type_device_name,
 		//_hs_type_scenery_name,
 		//_hs_type_effect_scenery_name,
-		HANDLE_READ_CASE(_hs_type_cinematic_lightprobe, int32, _hs_type_cinematic_lightprobe_default);
-		HANDLE_READ_CASE(_hs_type_budget_reference_animation_graph, int32, _hs_type_budget_reference_animation_graph_default);
-		HANDLE_READ_CASE(_hs_type_budget_reference_looping_sound, int32, _hs_type_budget_reference_looping_sound_default);
-		HANDLE_READ_CASE(_hs_type_budget_reference_sound, int32, _hs_type_budget_reference_sound_default);
+		HANDLE_READ_CASE(_hs_type_cinematic_lightprobe);
+		HANDLE_READ_CASE(_hs_type_budget_reference_animation_graph);
+		HANDLE_READ_CASE(_hs_type_budget_reference_looping_sound);
+		HANDLE_READ_CASE(_hs_type_budget_reference_sound);
 		default:
 		{
 			HALT();
