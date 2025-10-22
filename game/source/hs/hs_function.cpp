@@ -784,11 +784,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_trigger_volume, _hs_type_object_list
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_boolean,
 	volume_test_players,
 	0,
-	0x00734F90, // $TODO write the function chuckle nuts
+	scenario_trigger_volume_test_players, // 0x00734F90,
 	"returns true if any players are within the specified volume. trigger volume must have been postprocessed\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_trigger_volume
@@ -802,7 +802,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_trigger_volume
 );
-MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_object_list,
 	volume_return_objects,
 	0,
