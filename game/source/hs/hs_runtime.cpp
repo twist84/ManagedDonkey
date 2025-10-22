@@ -1586,25 +1586,25 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 		hs_global_external* external_global = hs_global_external_get(global_designator & MASK(15));
 		switch (global_type)
 		{
-		#define HANDLE_WRITE_CASE(TYPE_NAME, TYPE) \
+		#define HANDLE_WRITE_CASE(TYPE_NAME) \
 		case TYPE_NAME: \
 		{ \
 			if (external_global->pointer) \
 			{ \
-				*(TYPE*)external_global->pointer = *(TYPE*)&runtime_global->value; \
+				*(TYPE_NAME##_*)external_global->pointer = *(TYPE_NAME##_*)&runtime_global->value; \
 			} \
 		} \
 		break
-		#define HANDLE_WRITE_CASE2(TYPE_NAME, TYPE, DEFAULT) \
+		#define HANDLE_WRITE_CASE_WITH_DEFAULT(TYPE_NAME) \
 		case TYPE_NAME: \
 		{ \
 			if (external_global->pointer) \
 			{ \
-				*(TYPE*)&runtime_global->value = *(TYPE*)external_global->pointer; \
+				*(TYPE_NAME##_*)&runtime_global->value = *(TYPE_NAME##_*)external_global->pointer; \
 			} \
 			else \
 			{ \
-				*(TYPE*)&runtime_global->value = DEFAULT; \
+				*(TYPE_NAME##_*)&runtime_global->value = TYPE_NAME##_default; \
 			} \
 		} \
 		break
@@ -1613,85 +1613,85 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 		//_hs_function_name
 		//_hs_passthrough
 		//_hs_type_void
-		HANDLE_WRITE_CASE(_hs_type_boolean, bool);
-		HANDLE_WRITE_CASE(_hs_type_real, real32);
-		HANDLE_WRITE_CASE(_hs_type_short_integer, int16);
-		HANDLE_WRITE_CASE(_hs_type_long_integer, int32);
-		HANDLE_WRITE_CASE(_hs_type_string, const char*);
-		HANDLE_WRITE_CASE(_hs_type_script, int16);
-		HANDLE_WRITE_CASE(_hs_type_string_id, int32);
-		HANDLE_WRITE_CASE(_hs_type_unit_seat_mapping, int32);
-		HANDLE_WRITE_CASE(_hs_type_trigger_volume, int16);
-		HANDLE_WRITE_CASE(_hs_type_cutscene_flag, int16);
-		HANDLE_WRITE_CASE(_hs_type_cutscene_camera_point, int16);
-		HANDLE_WRITE_CASE(_hs_type_cutscene_title, int16);
-		HANDLE_WRITE_CASE(_hs_type_cutscene_recording, int16);
-		HANDLE_WRITE_CASE(_hs_type_device_group, int32);
-		HANDLE_WRITE_CASE(_hs_type_ai, int32);
-		HANDLE_WRITE_CASE(_hs_type_ai_command_list, int16);
-		HANDLE_WRITE_CASE(_hs_type_ai_command_script, int16);
-		HANDLE_WRITE_CASE(_hs_type_ai_behavior, int16);
-		HANDLE_WRITE_CASE(_hs_type_ai_orders, int16);
-		HANDLE_WRITE_CASE(_hs_type_ai_line, int32);
-		HANDLE_WRITE_CASE(_hs_type_starting_profile, int16);
-		HANDLE_WRITE_CASE(_hs_type_conversation, int16);
-		HANDLE_WRITE_CASE(_hs_type_zone_set, int16);
+		HANDLE_WRITE_CASE(_hs_type_boolean);
+		HANDLE_WRITE_CASE(_hs_type_real);
+		HANDLE_WRITE_CASE(_hs_type_short_integer);
+		HANDLE_WRITE_CASE(_hs_type_long_integer);
+		HANDLE_WRITE_CASE(_hs_type_string);
+		HANDLE_WRITE_CASE(_hs_type_script);
+		HANDLE_WRITE_CASE(_hs_type_string_id);
+		HANDLE_WRITE_CASE(_hs_type_unit_seat_mapping);
+		HANDLE_WRITE_CASE(_hs_type_trigger_volume);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_flag);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_camera_point);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_title);
+		HANDLE_WRITE_CASE(_hs_type_cutscene_recording);
+		HANDLE_WRITE_CASE(_hs_type_device_group);
+		HANDLE_WRITE_CASE(_hs_type_ai);
+		HANDLE_WRITE_CASE(_hs_type_ai_command_list);
+		HANDLE_WRITE_CASE(_hs_type_ai_command_script);
+		HANDLE_WRITE_CASE(_hs_type_ai_behavior);
+		HANDLE_WRITE_CASE(_hs_type_ai_orders);
+		HANDLE_WRITE_CASE(_hs_type_ai_line);
+		HANDLE_WRITE_CASE(_hs_type_starting_profile);
+		HANDLE_WRITE_CASE(_hs_type_conversation);
+		HANDLE_WRITE_CASE(_hs_type_zone_set);
 		//_hs_type_designer_zone
-		HANDLE_WRITE_CASE(_hs_type_point_ref, int32);
-		HANDLE_WRITE_CASE(_hs_type_style, int32);
-		HANDLE_WRITE_CASE(_hs_type_object_list, int32);
-		HANDLE_WRITE_CASE(_hs_type_folder, int32);
-		HANDLE_WRITE_CASE(_hs_type_sound, int32);
-		HANDLE_WRITE_CASE(_hs_type_effect, int32);
-		HANDLE_WRITE_CASE(_hs_type_damage, int32);
-		HANDLE_WRITE_CASE(_hs_type_looping_sound, int32);
-		HANDLE_WRITE_CASE(_hs_type_animation_graph, int32);
-		HANDLE_WRITE_CASE(_hs_type_damage_effect, int32);
-		HANDLE_WRITE_CASE(_hs_type_object_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_bitmap, int32);
-		HANDLE_WRITE_CASE(_hs_type_shader, int32);
-		HANDLE_WRITE_CASE(_hs_type_render_model_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_structure_bsp_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_structure_lightmap_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_cinematic_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_cinematic_scene_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_bink_definition, int32);
-		HANDLE_WRITE_CASE(_hs_type_any_tag, int32);
+		HANDLE_WRITE_CASE(_hs_type_point_ref);
+		HANDLE_WRITE_CASE(_hs_type_style);
+		HANDLE_WRITE_CASE(_hs_type_object_list);
+		HANDLE_WRITE_CASE(_hs_type_folder);
+		HANDLE_WRITE_CASE(_hs_type_sound);
+		HANDLE_WRITE_CASE(_hs_type_effect);
+		HANDLE_WRITE_CASE(_hs_type_damage);
+		HANDLE_WRITE_CASE(_hs_type_looping_sound);
+		HANDLE_WRITE_CASE(_hs_type_animation_graph);
+		HANDLE_WRITE_CASE(_hs_type_damage_effect);
+		HANDLE_WRITE_CASE(_hs_type_object_definition);
+		HANDLE_WRITE_CASE(_hs_type_bitmap);
+		HANDLE_WRITE_CASE(_hs_type_shader);
+		HANDLE_WRITE_CASE(_hs_type_render_model_definition);
+		HANDLE_WRITE_CASE(_hs_type_structure_bsp_definition);
+		HANDLE_WRITE_CASE(_hs_type_structure_lightmap_definition);
+		HANDLE_WRITE_CASE(_hs_type_cinematic_definition);
+		HANDLE_WRITE_CASE(_hs_type_cinematic_scene_definition);
+		HANDLE_WRITE_CASE(_hs_type_bink_definition);
+		HANDLE_WRITE_CASE(_hs_type_any_tag);
 		//_hs_type_any_tag_not_resolving
-		HANDLE_WRITE_CASE(_hs_type_enum_game_difficulty, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_team, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_mp_team, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_controller, int16);
-		HANDLE_WRITE_CASE2(_hs_type_enum_button_preset, int16, _hs_type_enum_button_preset_default);
-		HANDLE_WRITE_CASE2(_hs_type_enum_joystick_preset, int16, _hs_type_enum_joystick_preset_default);
-		HANDLE_WRITE_CASE2(_hs_type_enum_player_character_type, int16, _hs_type_enum_player_character_type_default);
-		HANDLE_WRITE_CASE2(_hs_type_enum_voice_output_setting, int16, _hs_type_enum_voice_output_setting_default);
+		HANDLE_WRITE_CASE(_hs_type_enum_game_difficulty);
+		HANDLE_WRITE_CASE(_hs_type_enum_team);
+		HANDLE_WRITE_CASE(_hs_type_enum_mp_team);
+		HANDLE_WRITE_CASE(_hs_type_enum_controller);
+		HANDLE_WRITE_CASE_WITH_DEFAULT(_hs_type_enum_button_preset);
+		HANDLE_WRITE_CASE_WITH_DEFAULT(_hs_type_enum_joystick_preset);
+		HANDLE_WRITE_CASE_WITH_DEFAULT(_hs_type_enum_player_character_type);
+		HANDLE_WRITE_CASE_WITH_DEFAULT(_hs_type_enum_voice_output_setting);
 		//_hs_type_enum_voice_mask
-		HANDLE_WRITE_CASE2(_hs_type_enum_subtitle_setting, int16, _hs_type_enum_subtitle_setting_default);
-		HANDLE_WRITE_CASE(_hs_type_enum_actor_type, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_model_state, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_event, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_character_physics_override, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_primary_skull, int16);
-		HANDLE_WRITE_CASE(_hs_type_enum_secondary_skull, int16);
-		HANDLE_WRITE_CASE(_hs_type_object, int32);
-		HANDLE_WRITE_CASE(_hs_type_unit, int32);
-		HANDLE_WRITE_CASE(_hs_type_vehicle, int32);
-		HANDLE_WRITE_CASE(_hs_type_weapon, int32);
-		HANDLE_WRITE_CASE(_hs_type_device, int32);
-		HANDLE_WRITE_CASE(_hs_type_scenery, int32);
-		HANDLE_WRITE_CASE(_hs_type_effect_scenery, int32);
-		HANDLE_WRITE_CASE(_hs_type_object_name, int16);
+		HANDLE_WRITE_CASE_WITH_DEFAULT(_hs_type_enum_subtitle_setting);
+		HANDLE_WRITE_CASE(_hs_type_enum_actor_type);
+		HANDLE_WRITE_CASE(_hs_type_enum_model_state);
+		HANDLE_WRITE_CASE(_hs_type_enum_event);
+		HANDLE_WRITE_CASE(_hs_type_enum_character_physics_override);
+		HANDLE_WRITE_CASE(_hs_type_enum_primary_skull);
+		HANDLE_WRITE_CASE(_hs_type_enum_secondary_skull);
+		HANDLE_WRITE_CASE(_hs_type_object);
+		HANDLE_WRITE_CASE(_hs_type_unit);
+		HANDLE_WRITE_CASE(_hs_type_vehicle);
+		HANDLE_WRITE_CASE(_hs_type_weapon);
+		HANDLE_WRITE_CASE(_hs_type_device);
+		HANDLE_WRITE_CASE(_hs_type_scenery);
+		HANDLE_WRITE_CASE(_hs_type_effect_scenery);
+		HANDLE_WRITE_CASE(_hs_type_object_name);
 		//_hs_type_unit_name,
 		//_hs_type_vehicle_name,
 		//_hs_type_weapon_name,
 		//_hs_type_device_name,
 		//_hs_type_scenery_name,
 		//_hs_type_effect_scenery_name,
-		HANDLE_WRITE_CASE(_hs_type_cinematic_lightprobe, int32);
-		HANDLE_WRITE_CASE(_hs_type_budget_reference_animation_graph, int32);
-		HANDLE_WRITE_CASE(_hs_type_budget_reference_looping_sound, int32);
-		HANDLE_WRITE_CASE(_hs_type_budget_reference_sound, int32);
+		HANDLE_WRITE_CASE(_hs_type_cinematic_lightprobe);
+		HANDLE_WRITE_CASE(_hs_type_budget_reference_animation_graph);
+		HANDLE_WRITE_CASE(_hs_type_budget_reference_looping_sound);
+		HANDLE_WRITE_CASE(_hs_type_budget_reference_sound);
 		default:
 		{
 			HALT();
