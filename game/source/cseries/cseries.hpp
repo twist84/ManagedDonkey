@@ -175,6 +175,8 @@ constexpr bool pointer_is_aligned(void* pointer, int32 alignment_bits)
 	return ((uns32)pointer & ((1 << alignment_bits) - 1)) == 0;
 }
 
+#define COMPILE_ASSERT(EXPR) static_assert(EXPR, #EXPR)
+
 #if defined(_DEBUG)
 
 #define ASSERT(STATEMENT, ...) do { if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__); } while (false)
