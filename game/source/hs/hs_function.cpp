@@ -202,6 +202,7 @@ else if (int32* actual_parameters = hs_macro_function_evaluate(function_index, t
 COMPILE_ASSERT(#FUNCTION[0] != '0'); \
 COMPILE_ASSERT(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
 COMPILE_ASSERT(VALID_COUNT(FORMAL_PARAMETER_COUNT, MAX_HS_FUNCTION_PARAMETERS)); \
+static_assert(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
 void NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate(int16 function_index, int32 thread_index, bool initialize) \
 { \
     MACRO_FUNCTION_EVALUATE_##RETURN_TYPE(RETURN_TYPE, FUNCTION, FORMAL_PARAMETER_COUNT, __VA_ARGS__) \
