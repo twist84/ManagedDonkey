@@ -211,7 +211,7 @@ extern void __cdecl game_pvs_enable_scripted_camera_pvs();
 extern void __cdecl game_pvs_reset();
 extern void __cdecl game_pvs_scripted_clear();
 extern s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference();
-//extern void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index);
+extern void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index);
 extern void __cdecl game_pvs_scripted_set_object(int32 object_index);
 //extern void __cdecl update_controller_game_progression();
 //.text: ; skull_secondary_enable;

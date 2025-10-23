@@ -7027,38 +7027,38 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_short_integer
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	pvs_set_object,
 	0,
-	0x00746250, // $TODO write the function chuckle nuts
+	game_pvs_scripted_set_object, // 0x00746250, // $TODO write the function chuckle nuts
 	"sets the specified object as the special place that activates everything it sees.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_object
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	pvs_set_camera,
 	0,
-	0x00746530, // $TODO write the function chuckle nuts
+	game_pvs_scripted_set_camera_point, // 0x00746530,
 	"sets the specified cutscene camera point as the special place that activates everything it sees.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_cutscene_camera_point
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	pvs_clear,
 	0,
-	0x00746830, // $TODO write the function chuckle nuts
+	game_pvs_scripted_clear, // 0x00746830,
 	"removes the special place that activates everything it sees.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	pvs_reset,
 	0,
-	0x00746B50, // $TODO write the function chuckle nuts
+	game_pvs_reset, // 0x00746B50,
 	"forces pvs to empty then back to full.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,

@@ -5527,3 +5527,12 @@ enum e_gui_dialog_choice
 	k_gui_dialog_choice_cancel = _gui_dialog_choice_second,
 };
 
+enum
+{
+	_pvs_activation_none = 0,
+	_pvs_activation_object,
+	_pvs_activation_cluster,
+
+	k_pvs_activation_count,
+};
+

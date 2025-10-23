@@ -1600,7 +1600,6 @@ void __cdecl game_pvs_reset()
 			}
 		}
 	}
-
 }
 
 void __cdecl game_pvs_scripted_clear()
@@ -1609,7 +1608,7 @@ void __cdecl game_pvs_scripted_clear()
 
 	if (game_globals)
 	{
-		game_globals->pvs_activation_type = 0;
+		game_globals->pvs_activation_type = _pvs_activation_none;
 	}
 }
 
@@ -1618,25 +1617,26 @@ s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
 	return INVOKE(0x00532C10, game_pvs_scripted_get_cluster_reference);
 }
 
-//.text:00532CB0 ; void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index)
+void __cdecl game_pvs_scripted_set_camera_point(int16 camera_point_index)
+{
+	INVOKE(0x00532CB0, game_pvs_scripted_set_camera_point, camera_point_index);
+}
 
 void __cdecl game_pvs_scripted_set_object(int32 object_index)
 {
 	//INVOKE(0x00532D40, game_pvs_scripted_set_object, object_index);
 
-	if (!game_globals)
+	if (game_globals)
 	{
-		return;
-	}
-
-	if (object_index == NONE)
-	{
-		game_globals->pvs_activation_type = 0;
-	}
-	else
-	{
-		game_globals->pvs_activation_type = 1;
-		game_globals->pvs_activation.object_index = object_index;
+		if (object_index == NONE)
+		{
+			game_globals->pvs_activation_type = _pvs_activation_none;
+		}
+		else
+		{
+			game_globals->pvs_activation_type = _pvs_activation_object;
+			game_globals->pvs_activation.object_index = object_index;
+		}
 	}
 }
 
