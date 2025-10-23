@@ -24,7 +24,6 @@ void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address)
 //.text:00589760 ; public: int32 __cdecl c_player_output_user_iterator::get_output_user_index()
 //.text:00589770 ; public: bool __cdecl c_player_output_user_iterator::next()
 
-//void __cdecl player_mapping_attach_output_user(int32 user_index, int32 player_index)
 void __cdecl player_mapping_attach_output_user(int32 user_index, int32 player_index)
 {
 	INVOKE(0x005897A0, player_mapping_attach_output_user, user_index, player_index);

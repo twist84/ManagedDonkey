@@ -7675,11 +7675,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	debug_teleport_player,
 	0,
-	0x0073D240, // $TODO write the function chuckle nuts
+	test_player_teleport, // 0x0073D240,
 	"for testing: teleports one player to another's location\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	2, _hs_type_long_integer, _hs_type_long_integer

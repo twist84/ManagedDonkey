@@ -11,6 +11,7 @@
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "motor/actions.hpp"
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_pvs.hpp"
 #include "structures/structure_bsp_definitions.hpp"
@@ -704,16 +705,39 @@ void __cdecl player_suppress_action(int32 player_index, int32 player_suppress_ac
 
 //.text:0053F300 ; void __cdecl player_suppress_control(int32, int32)
 //.text:0053F390 ; void __cdecl player_swap(int32, int32)
-//.text:0053F550 ; bool __cdecl player_teleport(int32, int32, const real_point3d*, bool)
 
-bool __cdecl player_teleport(int32 player_index, int32 object_index, const real_point3d* position)
+static bool __cdecl player_teleport(int32 player_index, int32 source_unit_index, bool always_use_raytest, const real_point3d* position)
 {
-	return INVOKE(0x0053F550, player_teleport, player_index, object_index, position);
+	//return INVOKE(0x0053F570, player_teleport, player_index, source_unit_index, always_use_raytest, position);
+
+	const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+	int32 unit_index = player->unit_index;
+	const unit_datum* unit = UNIT_GET(unit_index);
+	if (unit->object.parent_object_index != NONE)
+	{
+		action_submit(unit_index, _action_vehicle_exit_immediate);
+	}
+	real_point3d offset_position{};
+	point_from_line3d(position, global_up3d, g_havok_constants.havok_collision_tolerance, &offset_position);
+
+	bool success = player_teleport_internal(player_index, source_unit_index, &offset_position, always_use_raytest, false);
+	return success;
 }
 
-//.text:0053F630 ; bool __cdecl player_teleport_internal(int32, int32, const real_point3d*, bool, bool)
-//.text:0053FB80 ; void __cdecl player_teleport_internal_postprocess(int32, int32, bool)
-//.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(int32, int32, const real_point3d*, const real_vector3d*, bool)
+bool __cdecl player_teleport(int32 player_index, int32 source_unit_index, const real_point3d* position)
+{
+	//return INVOKE(0x0053F550, player_teleport, player_index, source_unit_index, position);
+
+	return player_teleport(player_index, source_unit_index, false, position);
+}
+
+bool __cdecl player_teleport_internal(int32 player_index, int32 source_unit_index, const real_point3d* position, bool always_use_raytest, bool play_teleport_effect)
+{
+	return INVOKE(0x0053F630, player_teleport_internal, player_index, source_unit_index, position, always_use_raytest, play_teleport_effect);
+}
+
+//.text:0053FB80 ; void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 source_unit_index, bool play_teleport_effect)
+//.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit_index, const real_point3d* position, const real_vector3d* facing, bool can_bring_vehicle)
 //.text:0053FED0 ; int16 __cdecl player_terminals_accessed_bitvector_get()
 //.text:0053FEF0 ; void __cdecl player_terminals_accessed_bitvector_set(int16)
 //.text:0053FF20 ; int16 __cdecl player_terminals_read_bitvector_get()
@@ -1266,16 +1290,33 @@ int32 get_elite_representation_index()
 
 	string_id name = scenario_is_solo() ? sp_name : mp_name;
 
+	int32 result = 3;
 	if (s_game_globals* game_globals = scenario_get_game_globals())
 	{
 		for (int32 i = 0; i < game_globals->player_representation.count; i++)
 		{
 			if (name == game_globals->player_representation[i].name.get_value())
-				return i;
+			{
+				result = i;
+				break;
+			}
 		}
 	}
 
-	return 3;
+	return result;
+}
+
+void test_player_teleport(int32 user_index, int32 source_user_index)
+{
+#if 0
+	int32 player_index = player_mapping_get_player_by_input_user(user_index);
+	int32 unit_index = player_mapping_get_unit_by_input_user(user_index);
+	int32 source_unit_index = player_mapping_get_unit_by_input_user(source_user_index);
+	if (player_index != NONE && unit_index != NONE && source_unit_index != NONE)
+	{
+		player_teleport_internal(player_index, source_unit_index, &UNIT_GET(source_unit_index)->object.bounding_sphere_center, true, false);
+	}
+#endif
 }
 
 void apply_player_representation_fixup()

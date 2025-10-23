@@ -751,7 +751,8 @@ extern void __cdecl player_set_facing(int32 player_index, const real_vector3d* f
 extern void __cdecl player_set_unit_index(int32 player_index, int32 unit_index);
 extern bool __cdecl player_spawn(int32 player_index, const real_point3d* position, const real32* facing);
 extern void __cdecl player_suppress_action(int32 player_index, int32 player_suppress_action_type);
-extern bool __cdecl player_teleport(int32 player_index, int32 object_index, const real_point3d* position);
+extern bool __cdecl player_teleport(int32 player_index, int32 source_unit_index, const real_point3d* position);
+extern bool __cdecl player_teleport_internal(int32 player_index, int32 source_unit_index, const real_point3d* position, bool always_use_raytest, bool play_teleport_effect);
 extern bool __cdecl player_try_to_drop_weapon(int32 player_index, bool primary_weapon);
 extern int32 __cdecl player_unit_get_representation_index(int32 unit_index);
 extern int32 __cdecl player_unit_get_control_index(int32 unit_index);
@@ -782,6 +783,7 @@ extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_load
 extern int32 multiplayer_universal_data_get_absolute_equipment_block_index(const char* name);
 extern int32 multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(const char* region_or_biped_name, const char* selection_name);
 extern int16 multiplayer_universal_data_get_absolute_weapons_selection_block_index(const char* selection_name);
+extern void test_player_teleport(int32 user_index, int32 source_user_index);
 
 extern void apply_player_representation_fixup();
 
