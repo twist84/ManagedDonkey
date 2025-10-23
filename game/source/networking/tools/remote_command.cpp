@@ -749,20 +749,6 @@ callback_result_t drop_permutation_callback(const void* userdata, int32 token_co
 	return result;
 }
 
-callback_result_t player_ragdoll_callback(const void* userdata, int32 token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	int32 user_index = player_mapping_first_active_output_user();
-	int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
-	if (unit_index != NONE)
-	{
-		biped_scripting_ragdoll(unit_index);
-	}
-
-	return result;
-}
-
 callback_result_t player_drop_weapon_callback(const void* userdata, int32 token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

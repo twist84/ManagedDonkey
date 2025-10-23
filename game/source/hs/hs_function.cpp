@@ -11,6 +11,7 @@
 #include "game/game_engine_scripting.hpp"
 #include "game/game_save.hpp"
 #include "game/multiplayer_game_hopper.hpp"
+#include "game/player_scipting.hpp";
 #include "hf2p/hf2p.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_compile.hpp"
@@ -15701,7 +15702,15 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	NULL,
 	2, _hs_type_long_integer, _hs_type_string
 );
-
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
+	_hs_type_void,
+	player_ragdoll,
+	0,
+	hs_player_ragdoll,
+	"ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe",
+	NULL,
+	0,
+);
 
 #pragma endregion // HS_FUNCTION_DEFINITIONS
 
@@ -17415,6 +17424,7 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&lsp_info_set_2_definition,
 	(hs_function_definition*)&online_set_is_connected_to_live_1_definition,
 	(hs_function_definition*)&online_user_set_name_2_definition,
+	(hs_function_definition*)&player_ragdoll_0_definition,
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
 static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);

@@ -113,7 +113,6 @@ COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
 COMMAND_CALLBACK_DECLARE(net_test_game_variant_parameter);
 COMMAND_CALLBACK_DECLARE(cheat_all_chars);
 COMMAND_CALLBACK_DECLARE(drop_permutation);
-COMMAND_CALLBACK_DECLARE(player_ragdoll);
 COMMAND_CALLBACK_DECLARE(player_drop_weapon);
 COMMAND_CALLBACK_DECLARE(player_add_weapon);
 COMMAND_CALLBACK_DECLARE(levels_add_fake_map_solo);
@@ -157,7 +156,6 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(drop_permutation, 2, "<string> <string>", "drops the named tag e.g. objects\\characters\\brute\\brute.biped using the specified permutation. permutations are specified as a comma-delimited string of region=permutation pairs (e.g. region1=permutation1,region2=permutation2).\r\n"),
 
-	COMMAND_CALLBACK_REGISTER(player_ragdoll, 0, "", "ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(player_drop_weapon, 0, "", "drops the players held weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(player_add_weapon, 2, "<string> <long>", "<weapon_definition_index> <weapon_addition_method> gives the player a weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 

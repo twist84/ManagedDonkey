@@ -2076,6 +2076,9 @@
     <ClCompile Include="source\cutscene\cinematic_scripting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\player_scipting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4581,6 +4584,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hs\hs_glue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\player_scipting.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
