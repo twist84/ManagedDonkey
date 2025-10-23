@@ -1159,7 +1159,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		draw_string.set_bounds(&text_bounds);
 		draw_string.set_color(render_data->debug_color);
 
-		char const* text = string_id_get_string_const(render_data->name);
+		const char* text = string_id_get_string_const(render_data->name);
 		draw_string.draw(NULL, text);
 	}
 

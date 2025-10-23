@@ -36,7 +36,7 @@ void __cdecl c_geometry_sampler::show_all_air_probes()
 				char probe_name[256]{};
 				csnzprintf(probe_name, sizeof(probe_name), "ap%d", airprobe_index);
 #else
-				char const* probe_name = string_id_get_string_const(airprobe->name);
+				const char* probe_name = string_id_get_string_const(airprobe->name);
 
 				// if `probe_name` is null fallback to index for the name
 				if (!probe_name)

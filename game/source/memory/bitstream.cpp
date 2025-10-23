@@ -695,9 +695,9 @@ void c_bitstream::read_identifier(const char* debug_string)
 	//return DECLFUNC(0x00558B90, void, __thiscall, c_bitstream*, const char*)(this, debug_string);
 }
 
-real32 c_bitstream::read_logarithmic_quantized_real(char const* debug_string, real32 min_value, real32 max_value, int32 size_in_bits)
+real32 c_bitstream::read_logarithmic_quantized_real(const char* debug_string, real32 min_value, real32 max_value, int32 size_in_bits)
 {
-	return (real32)DECLFUNC(0x00558BA0, double, __thiscall, c_bitstream*, char const*, real32, real32, int32)(this, debug_string, min_value, max_value, size_in_bits);
+	return (real32)DECLFUNC(0x00558BA0, double, __thiscall, c_bitstream*, const char*, real32, real32, int32)(this, debug_string, min_value, max_value, size_in_bits);
 }
 
 void c_bitstream::read_point3d(const char* debug_string, long_point3d* point, int32 axis_encoding_size_in_bits)
@@ -952,7 +952,7 @@ void c_bitstream::write_point3d(const char* debug_string, const long_point3d* po
 	//}
 }
 
-void c_bitstream::write_point3d_efficient(char const* debug_string, const long_point3d* point1, const long_point3d* point2)
+void c_bitstream::write_point3d_efficient(const char* debug_string, const long_point3d* point1, const long_point3d* point2)
 {
 	DECLFUNC(0x0055A240, void, __thiscall, c_bitstream*, const char*, const long_point3d*, const long_point3d*)(this, debug_string, point1, point2);
 }
@@ -1005,7 +1005,7 @@ void c_bitstream::write_string(const char* debug_string, const char* string, int
 	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream*, const char*, const char*, int32)(this, debug_string, string, max_string_size);
 }
 
-void c_bitstream::write_string_id(char const* debug_string, int32 size_in_bits)
+void c_bitstream::write_string_id(const char* debug_string, int32 size_in_bits)
 {
 	DECLFUNC(0x0055A600, void, __thiscall, c_bitstream*, const char*, int32)(this, debug_string, size_in_bits);
 }

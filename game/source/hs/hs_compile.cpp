@@ -1110,7 +1110,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 		{
 			ascii_strnlwr(source_text, source_file->source.size);
 
-			char const* error_message = NULL;
+			const char* error_message = NULL;
 			int32 error_offset = NONE;
 			hs_compile_first_pass(&compile_state, source_file->source.size, source_text, &error_message, &error_offset);
 			total_source_size += source_file->source.size;
@@ -1171,7 +1171,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 
 void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source)
 {
-	char const* newline = NULL;
+	const char* newline = NULL;
 	if (error_source)
 	{
 		newline = strchr(error_source, '\n');
@@ -2961,7 +2961,7 @@ int32 hs_tokenize(hs_tokenizer* state)
 			int32 offset = state->source_file_size + node->source_offset - hs_compile_globals.compiled_source_size;
 			ASSERT(offset >= 0 && offset < state->source_file_size);
 
-			char const* source_pointer = &state->source_file_data[offset];
+			const char* source_pointer = &state->source_file_data[offset];
 			node->line_number = (int16)hs_source_pointer_get_line_number(source_pointer, state->source_file_data);
 		}
 	}
@@ -3095,7 +3095,7 @@ void hs_validify_expression(const char* expression, char* out_valid_expression_b
 		{
 			int32 expression_depth = 0;
 			int32 expression_count = 0;
-			for (char const* expression_character = expression_begin; expression_character < expression_end; ++expression_character)
+			for (const char* expression_character = expression_begin; expression_character < expression_end; ++expression_character)
 			{
 				if (*expression_character == '(')
 				{

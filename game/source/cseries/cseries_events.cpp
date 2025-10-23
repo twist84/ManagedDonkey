@@ -543,7 +543,7 @@ void events_debug_render()
 		{
 			const char* spinner_chars[] = { "/", "-", "\\" };
 			long spinner_index = (8 * current_time / 1000) % 3;
-			char const* spinner_text = spinner_chars[spinner_index];
+			const char* spinner_text = spinner_chars[spinner_index];
 			draw_string.draw(NULL, spinner_text);
 		}
 	}

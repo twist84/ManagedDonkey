@@ -75,7 +75,7 @@ struct c_hs_compile_error_listener
 {
 public:
 	virtual ~c_hs_compile_error_listener() = 0;
-	virtual void handle_error(char const*, int32, const char*, const char*, c_wrapped_array<const char>*, const char*) = 0;
+	virtual void handle_error(const char*, int32, const char*, const char*, c_wrapped_array<const char>*, const char*) = 0;
 };
 
 struct s_hs_static_globals
@@ -102,7 +102,7 @@ extern void hs_compile_dispose();
 extern int32 hs_compile_expression(int32 source_size, const char* source_data, const char** error_message_pointer, const char** error_source_pointer);
 extern bool hs_compile_get_tag_by_name(const char* group_name, tag* group_tag_out);
 extern void hs_compile_initialize(bool permanent);
-extern bool hs_compile_postprocess_and_verify(char const** error_message_pointer, char const** error_source_pointer, bool verbose);
+extern bool hs_compile_postprocess_and_verify(const char** error_message_pointer, const char** error_source_pointer, bool verbose);
 extern void hs_compile_postprocess_fast();
 extern bool hs_compile_register_error_listener(c_hs_compile_error_listener* listener);
 extern bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose);

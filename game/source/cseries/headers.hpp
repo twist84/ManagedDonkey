@@ -1,4 +1,4 @@
 #pragma once
 
-extern char const* const& g_username;
+extern const char* const& g_username;
 
