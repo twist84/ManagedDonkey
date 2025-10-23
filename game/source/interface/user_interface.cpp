@@ -38,8 +38,15 @@ REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals
 HOOK_DECLARE(0x00A849B0, user_interface_render);
 HOOK_DECLARE(0x00A84EE0, user_interface_update);
 
-//.text:00A84020 ; void __cdecl debug_enable_text_bounds(bool)
-//.text:00A84030 ; void __cdecl debug_render_title_safe_bounds(bool)
+void __cdecl debug_enable_text_bounds(bool enable)
+{
+	INVOKE(0x00A84020, debug_enable_text_bounds, enable);
+}
+
+void __cdecl debug_render_title_safe_bounds(bool enable)
+{
+	INVOKE(0x00A84030, debug_render_title_safe_bounds, enable);
+}
 
 bool __cdecl get_alpha_custom_games_disabled()
 {
@@ -72,7 +79,10 @@ int32 __cdecl get_alpha_locked_down_state()
 	return INVOKE(0x00A84190, get_alpha_locked_down_state);
 }
 
-//.text:00A841D0 ; bool __cdecl get_debug_frame_element_bounds()
+bool __cdecl get_debug_frame_element_bounds()
+{
+	return INVOKE(0x00A841D0, get_debug_frame_element_bounds);
+}
 
 bool __cdecl get_is_alpha_version()
 {
@@ -81,7 +91,11 @@ bool __cdecl get_is_alpha_version()
 
 //.text:00A841F0 ; 
 //.text:00A84200 ; c_gui_data* __cdecl interface_get_global_datasource(int32)
-//.text:00A84240 ; void __cdecl set_debug_frame_element_bounds(bool)
+
+void __cdecl set_debug_frame_element_bounds(bool enable)
+{
+	INVOKE(0x00A84240, set_debug_frame_element_bounds, enable);
+}
 
 void __cdecl ui_handle_script_verification()
 {
@@ -200,6 +214,12 @@ uns32 __cdecl user_interface_milliseconds()
 }
 
 //.text:00A848F0 ; uns32 __cdecl user_interface_milliseconds_at_last_event()
+
+void __cdecl user_interface_music_manager_toggle_debug_render_music_state(bool rendering_active)
+{
+	g_user_interface_globals.m_music_manager.m_debug_render_music_state = rendering_active;
+}
+
 //.text:00A84900 ; bool __cdecl user_interface_non_dead_cam_active_for_game_player_controller(e_controller_index)
 
 void __cdecl user_interface_non_idle_event_occured()
@@ -362,6 +382,11 @@ bool __cdecl user_interface_should_show_console_scoreboard(int32* user_interface
 const s_user_interface_tag_globals* __cdecl user_interface_tag_globals_try_and_get()
 {
 	return INVOKE(0x00A84E80, user_interface_tag_globals_try_and_get);
+}
+
+void __cdecl user_interface_time_step(real32 time_step)
+{
+	g_ui_time_step = time_step;
 }
 
 void __cdecl user_interface_update(real32 shell_seconds_elapsed)

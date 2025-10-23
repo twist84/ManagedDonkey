@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/read_write_lock.hpp"
 
+typedef c_flags<e_category_properties_flags, uns16, k_category_properties_flags_count> c_category_properties_flags;
+
 enum e_event_respose_suppress_flag
 {
 	_event_response_suppress_console_bit = 0,
@@ -177,13 +179,26 @@ struct s_file_reference;
 extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* reference, const char* name, bool place_in_report_directory);
 extern void events_clear();
 extern void events_debug_render();
+extern void events_disable_suppression(bool enable);
 extern void events_dispose();
+extern void events_enabled(bool enable);
 extern const char* events_get();
 extern void events_initialize();
+extern void events_suppress_console_display(bool suppress);
+extern void event_dump_categories(const char* event_name);
 extern void event_initialize_primary_logs();
 extern int32 event_interlocked_compare_exchange(int32 volatile* destination, int32 exchange, int32 comperand);
 extern void event_recalculate_minimum_category_level();
 extern void event_recalculate_minimum_level();
+extern void event_set_display_level_global(int32 display_level);
+extern void event_set_log_level_global(int32 log_level);
+extern void event_set_remote_log_level_global(int32 remote_log_level);
+extern void event_set_debugger_break_level_by_name(const char* event_name, int32 debugger_break_level);
+extern void event_set_display_level_by_name(const char* event_name, int32 display_level);
+extern void event_set_force_display_level_by_name(const char* event_name, int32 force_display_level);
+extern void event_set_halt_level_by_name(const char* event_name, int32 halt_level);
+extern void event_set_log_level_by_name(const char* event_name, int32 log_level);
+extern void event_set_remote_log_level_by_name(const char* event_name, int32 remote_log_level);
 extern void reset_event_message_buffer();
 extern void __cdecl network_debug_print(const char* format, ...);
 

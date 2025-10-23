@@ -61,7 +61,9 @@ void __cdecl network_storage_manifest_expire_now()
 	//INVOKE(0x004A59F0, network_storage_manifest_expire_now);
 
 	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
+	{
 		manifest->m_next_refresh_time_milliseconds = 0;
+	}
 }
 
 e_network_file_load_status __cdecl network_storage_manifest_get_load_status()

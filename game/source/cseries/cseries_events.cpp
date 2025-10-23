@@ -578,12 +578,26 @@ void events_debug_render()
 	}
 }
 
+void events_disable_suppression(bool enable)
+{
+	event_globals.disable_event_suppression = enable;
+	console_printf("event suppression now %s",
+		enable ? "enabled" : "disabled");
+}
+
 void events_dispose()
 {
 	event_logs_dispose();
 	event_globals.category_count = 0;
 	g_events_initializing_cookie = false;
 	g_events_initialized = false;
+}
+
+void events_enabled(bool enable)
+{
+	event_globals.enable_events = enable;
+	console_printf("events now %s",
+		enable ? "enabled" : "disabled");
 }
 
 const char* __cdecl events_get()
@@ -889,6 +903,16 @@ void __cdecl events_initialize()
 		event_globals.disable_event_logging = true;
 	}
 	event(_event_message, "lifecycle: events initalize");
+}
+
+void events_suppress_console_display(bool suppress)
+{
+	event_globals.suppress_console_display_and_show_spinner = suppress;
+}
+
+void event_dump_categories(const char* event_name)
+{
+	// $IMPLEMENT
 }
 
 void event_initialize_primary_logs()
@@ -1576,6 +1600,193 @@ int32 c_event::generate_va(const char* format, char* argument_list)
 	}
 
 	return m_event_category_index;
+}
+
+void event_set_display_level_global(int32 display_level)
+{
+	if (!VALID_INDEX(display_level, k_event_level_count))
+	{
+		console_printf("invalid display_level (%d)", display_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)display_level;
+		if (display_level == k_event_level_count)
+		{
+			display_level = k_event_level_none;
+		}
+
+		event_globals.current_display_level = level;
+		console_printf("global display level set to %s",
+			k_event_level_names[display_level]);
+	}
+}
+
+void event_set_log_level_global(int32 log_level)
+{
+	if (!VALID_INDEX(log_level, k_event_level_count))
+	{
+		console_printf("invalid display_level (%d)",
+			log_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)log_level;
+		if (log_level == k_event_level_count)
+		{
+			log_level = k_event_level_none;
+		}
+
+		event_globals.current_log_level = level;
+		console_printf("global log level set to %s",
+			k_event_level_names[log_level]);
+	}
+}
+
+void event_set_remote_log_level_global(int32 remote_log_level)
+{
+	if (!VALID_INDEX(remote_log_level, k_event_level_count))
+	{
+		console_printf("invalid remote_log_level (%d)",
+			remote_log_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)remote_log_level;
+		if (remote_log_level == k_event_level_count)
+		{
+			remote_log_level = k_event_level_none;
+		}
+
+		event_globals.current_remote_log_level = level;
+		console_printf("global remote log level set to %s",
+			k_event_level_names[remote_log_level]);
+	}
+}
+
+static void event_set_category_level_by_name_internal(char const* category, c_category_properties_flags flags, e_event_level event_level, long event_listener_index, bool display_results_to_console)
+{
+	// $IMPLEMENT
+}
+
+void event_set_debugger_break_level_by_name(const char* event_name, int32 debugger_break_level)
+{
+	if (!VALID_INDEX(debugger_break_level, k_event_level_count))
+	{
+		console_printf("invalid debugger_break_level (%d)",
+			debugger_break_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)debugger_break_level;
+		if (debugger_break_level == k_event_level_count)
+		{
+			debugger_break_level = k_event_level_none;
+		}
+
+		c_category_properties_flags flags = FLAG(_category_properties_debugger_break_level_bit);
+		event_set_category_level_by_name_internal(event_name, flags, level, k_event_level_none, true);
+	}
+}
+
+void event_set_display_level_by_name(const char* event_name, int32 display_level)
+{
+	if (!VALID_INDEX(display_level, k_event_level_count))
+	{
+		console_printf("invalid display_level (%d)",
+			display_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)display_level;
+		if (display_level == k_event_level_count)
+		{
+			display_level = k_event_level_none;
+		}
+
+		c_category_properties_flags flags = FLAG(_category_properties_display_level_bit);
+		event_set_category_level_by_name_internal(event_name, flags, level, k_event_level_none, true);
+	}
+}
+
+void event_set_force_display_level_by_name(const char* event_name, int32 force_display_level)
+{
+	if (!VALID_INDEX(force_display_level, k_event_level_count))
+	{
+		console_printf("invalid force_display_level (%d)",
+			force_display_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)force_display_level;
+		if (force_display_level == k_event_level_count)
+		{
+			force_display_level = k_event_level_none;
+		}
+
+		c_category_properties_flags flags = FLAG(_category_properties_force_display_level_bit);
+		event_set_category_level_by_name_internal(event_name, flags, level, k_event_level_none, true);
+	}
+}
+
+void event_set_halt_level_by_name(const char* event_name, int32 halt_level)
+{
+	if (!VALID_INDEX(halt_level, k_event_level_count))
+	{
+		console_printf("invalid halt_level (%d)",
+			halt_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)halt_level;
+		if (halt_level == k_event_level_count)
+		{
+			halt_level = k_event_level_none;
+		}
+
+		c_category_properties_flags flags = FLAG(_category_properties_halt_level_bit);
+		event_set_category_level_by_name_internal(event_name, flags, level, k_event_level_none, true);
+	}
+}
+
+void event_set_log_level_by_name(const char* event_name, int32 log_level)
+{
+	if (!VALID_INDEX(log_level, k_event_level_count))
+	{
+		console_printf("invalid log_level (%d)",
+			log_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)log_level;
+		if (log_level == k_event_level_count)
+		{
+			log_level = k_event_level_none;
+		}
+
+		c_category_properties_flags flags = FLAG(_category_properties_log_level_bit);
+		event_set_category_level_by_name_internal(event_name, flags, level, k_event_level_none, true);
+	}
+}
+
+void event_set_remote_log_level_by_name(const char* event_name, int32 remote_log_level)
+{
+	if (!VALID_INDEX(remote_log_level, k_event_level_count))
+	{
+		console_printf("invalid remote_log_level (%d)",
+			remote_log_level);
+	}
+	else
+	{
+		e_event_level level = (e_event_level)remote_log_level;
+		if (remote_log_level == k_event_level_count)
+		{
+			remote_log_level = k_event_level_none;
+		}
+
+		c_category_properties_flags flags = FLAG(_category_properties_remote_log_level_bit);
+		event_set_category_level_by_name_internal(event_name, flags, level, k_event_level_none, true);
+	}
 }
 
 void reset_event_message_buffer()

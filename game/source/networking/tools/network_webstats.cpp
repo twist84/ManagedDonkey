@@ -4,7 +4,13 @@
 //.text:004E3F50 ; 
 //.text:004E3F60 ; void __cdecl do_uploading_work()
 //.text:004E3FF0 ; 
-//.text:004E4000 ; void __cdecl network_webstats_disable(bool)
+
+void __cdecl network_webstats_disable(bool disabled)
+{
+	INVOKE(0x004E4000, network_webstats_disable, disabled);
+
+	//g_webstats_globals.disabled = disabled;
+}
 
 void __cdecl network_webstats_dispose()
 {

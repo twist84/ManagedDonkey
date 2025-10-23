@@ -235,6 +235,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_level.cpp" />
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_select_skulls.cpp" />
     <ClCompile Include="source\interface\gui_screens\campaign\gui_screen_campaign_settings.cpp" />
+    <ClCompile Include="source\interface\gui_screens\dialog\gui_screen_dialog.cpp" />
     <ClCompile Include="source\interface\gui_screens\director\gui_screen_saved_film_control_pad.cpp" />
     <ClCompile Include="source\interface\gui_screens\error_dialogs\screen_error_dialog_ok.cpp" />
     <ClCompile Include="source\interface\gui_screens\game_options\gui_screen_game_options.cpp" />
@@ -988,6 +989,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\interface\debug_menu\debug_menu_scroll.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_zone_sets.hpp" />
     <ClInclude Include="source\interface\gui_pregame_setup_manager.hpp" />
+    <ClInclude Include="source\interface\gui_screens\dialog\gui_screen_dialog.hpp" />
     <ClInclude Include="source\interface\gui_screens\director\gui_screen_saved_film_control_pad.hpp" />
     <ClInclude Include="source\interface\gui_screens\error_dialogs\screen_error_dialog.hpp" />
     <ClInclude Include="source\interface\gui_screens\error_dialogs\screen_error_dialog_ok.hpp" />

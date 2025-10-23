@@ -43,7 +43,20 @@ void __cdecl controller_activate_as_unsigned_in_user(int16 controller_index, boo
 	INVOKE(0x00A7CCD0, controller_activate_as_unsigned_in_user, controller_index, activate);
 }
 
-//.text:00A7CD30 ; void __cdecl controller_display_storage_device_selection(int16)
+void __cdecl controller_display_storage_device_selection(int16 controller_index)
+{
+	//INVOKE(0x00A7CD30, controller_display_storage_device_selection, controller_index);
+
+	if (!VALID_CONTROLLER(controller_index))
+	{
+		event(_event_warning, "ui: invalid controller #%d passed to controller_display_storage_device_selection()",
+			controller_index);
+	}
+	else
+	{
+		content_catalogue_display_device_selection_guide_interface((e_controller_index)controller_index);
+	}
+}
 
 c_controller_interface* __cdecl controller_get(e_controller_index controller_index)
 {

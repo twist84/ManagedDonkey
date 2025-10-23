@@ -86,6 +86,7 @@ extern s_controller_globals& g_controller_globals;
 extern bool controller_centered_crosshair;
 
 extern void __cdecl controller_activate_as_unsigned_in_user(int16 controller_index, bool activate);
+extern void __cdecl controller_display_storage_device_selection(int16 controller_index);
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
 extern e_controller_index __cdecl controller_get_first_non_guest_signed_in_controller();
 extern e_controller_index __cdecl controller_get_first_signed_in_controller();

@@ -55,6 +55,9 @@ public:
 		_task_state_complete,
 	};
 
+public:
+	static c_player_marketplace* __cdecl get(e_controller_index controller_index);
+
 private:
 	static int32& x_active_count;
 	static c_online_marketplace_purchase_task& m_purchase_task;
@@ -125,4 +128,6 @@ static_assert(sizeof(c_player_marketplace) == 0x1460);
 
 //extern c_static_array<c_player_marketplace, 4>& g_player_marketplace;
 extern c_player_marketplace(&g_player_marketplace)[4];
+
+extern void online_marketplace_refresh();
 
