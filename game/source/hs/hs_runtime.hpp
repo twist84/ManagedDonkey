@@ -281,6 +281,7 @@ extern void __cdecl hs_scripting_debug_thread(const char* thread_name, bool enab
 extern int32 __cdecl hs_scripting_get_executing_thread_index();
 extern void __cdecl hs_scripting_kill_all_threads();
 extern void __cdecl hs_scripting_kill_running_thread(int32 thread_index);
+extern void __cdecl hs_scripting_show_thread(const char* substring, bool show);
 extern int32 __cdecl hs_short_to_boolean(int32 s);
 extern int32 __cdecl hs_short_to_long(int32 s);
 extern int32 __cdecl hs_short_to_real(int32 s);

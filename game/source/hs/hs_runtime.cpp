@@ -2789,6 +2789,23 @@ void __cdecl hs_scripting_kill_running_thread(int32 thread_index)
 	}
 }
 
+void __cdecl hs_scripting_show_thread(const char* substring, bool show)
+{
+	s_hs_thread_iterator iterator{};
+	hs_thread_iterator_new(&iterator, true, true);
+	for (int32 thread_index = hs_thread_iterator_next(&iterator);
+		thread_index != NONE;
+		thread_index = hs_thread_iterator_next(&iterator))
+	{
+		hs_thread* thread = hs_thread_get(thread_index);
+		const char* thread_name = hs_thread_format(thread_index);
+		if (!strlen_debug(thread_name) || strstr(thread_name, substring))
+		{
+			SET_BIT(thread->flags, _hs_thread_hide_display_bit, !show);
+		}
+	}
+}
+
 int32 __cdecl hs_short_to_boolean(int32 s)
 {
 	return INVOKE(0x00598740, hs_short_to_boolean, s);

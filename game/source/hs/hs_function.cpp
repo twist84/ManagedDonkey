@@ -519,8 +519,8 @@ DEFINE_HS_FUNCTION_DEFINITION_STRUCT(hs_function_definition, 0) sleep_forever_de
 //	.return_type = _hs_type_void,
 //	.name = "sleep_for_ticks",
 //	.flags = FLAG(_hs_function_flag_internal),
-//	.parse = (hs_parse_function_definition)NULL, // $TODO write the function chuckle nuts
-//	.evaluate = (hs_evaluate_function_definition)NULL, // $TODO write the function chuckle nuts
+//	.parse = hs_parse_sleep_for_ticks,
+//	.evaluate = hs_evaluasleep_for_ticks,
 //	.documentation = "pauses execution of this script (or, optionally, another script) for the specified number of ticks.\r\nNETWORK SAFE: Yes",
 //	.parameters = "<short> [<script>]",
 //};
@@ -609,11 +609,11 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_string
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
 	_hs_type_void,
 	debug_scripting_show_thread,
 	0,
-	0x007305D0, // $TODO write the function chuckle nuts
+	hs_scripting_show_thread, // 0x007305D0,
 	"shows or hides the display of any thread containing the given substring.\r\nNETWORK SAFE: Yes",
 	NULL,
 	2, _hs_type_string, _hs_type_boolean
