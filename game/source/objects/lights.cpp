@@ -1,5 +1,7 @@
 #include "objects/lights.hpp"
 
+#include "memory/thread_local.hpp"
+
 //.text:00B9A780 ; 
 //.text:00B9A7A0 ; 
 //.text:00B9A7C0 ; 
@@ -18,29 +20,29 @@
 //.text:00B9A930 ; void __cdecl __tls_set_g_light_first_data_allocator(void*)
 //.text:00B9A950 ; void __cdecl __tls_set_g_light_render_data_allocator(void*)
 //.text:00B9A970 ; void __cdecl __tls_set_g_lights_game_globals_allocator(void*)
-//.text:00B9A990 ; 
-//.text:00B9A9D0 ; 
-//.text:00B9AA10 ; 
-//.text:00B9AA50 ; 
-//.text:00B9AA90 ; 
-//.text:00B9AAD0 ; 
+//.text:00B9A990 ; tls
+//.text:00B9A9D0 ; tls
+//.text:00B9AA10 ; tls
+//.text:00B9AA50 ; tls
+//.text:00B9AA90 ; tls
+//.text:00B9AAD0 ; tls
 //.text:00B9AB10 ; 
 //.text:00B9AB30 ; 
 //.text:00B9AB40 ; int32 __cdecl cluster_get_first_light(int32*, s_cluster_reference)
 //.text:00B9AB70 ; int32 __cdecl cluster_get_next_light(int32*)
-//.text:00B9ABA0 ; 
-//.text:00B9ABD0 ; 
-//.text:00B9AC00 ; 
-//.text:00B9AC30 ; 
-//.text:00B9AC60 ; 
-//.text:00B9AC90 ; 
+//.text:00B9ABA0 ; tls
+//.text:00B9ABD0 ; tls
+//.text:00B9AC00 ; tls
+//.text:00B9AC30 ; tls
+//.text:00B9AC60 ; tls
+//.text:00B9AC90 ; tls
 //.text:00B9ACC0 ; void __cdecl force_orthogonal(const real_vector3d*, real_vector3d*)
-//.text:00B9AEA0 ; 
-//.text:00B9AED0 ; 
-//.text:00B9AF00 ; 
-//.text:00B9AF30 ; 
-//.text:00B9AF60 ; 
-//.text:00B9AF90 ; 
+//.text:00B9AEA0 ; tls
+//.text:00B9AED0 ; tls
+//.text:00B9AF00 ; tls
+//.text:00B9AF30 ; tls
+//.text:00B9AF60 ; tls
+//.text:00B9AF90 ; tls
 //.text:00B9AFC0 ; bool __cdecl game_can_use_flashlights()
 //.text:00B9AFE0 ; void __cdecl game_can_use_flashlights_set(bool)
 //.text:00B9B030 ; real64 __cdecl game_flashlight_magnitude()
@@ -88,7 +90,15 @@
 //.text:00B9E4E0 ; void __cdecl lights_dispose_from_old_map()
 //.text:00B9E510 ; void __cdecl lights_dispose_from_old_structure_bsp(uns32)
 //.text:00B9E5D0 ; void __cdecl lights_dispose_structure_bsp_marker_lights(int32)
-//.text:00B9E650 ; bool __cdecl lights_enable(bool)
+
+bool __cdecl lights_enable(bool enable)
+{
+	//return INVOKE(0x00B9E650, lights_enable, enable);
+
+	lights_game_globals->render_lights = enable;
+	return enable;
+}
+
 //.text:00B9E670 ; s_data_array* __cdecl lights_get_data_array()
 //.text:00B9E690 ; int32 __cdecl lights_get_static_light_count()
 //.text:00B9E740 ; void __cdecl lights_handle_deleted_object(int32)
@@ -112,12 +122,12 @@ void __cdecl lights_update()
 }
 
 //.text:00B9ED30 ; 
-//.text:00B9ED50 ; 
-//.text:00B9ED90 ; 
-//.text:00B9EDD0 ; 
-//.text:00B9EE10 ; 
-//.text:00B9EE50 ; 
-//.text:00B9EE90 ; 
+//.text:00B9ED50 ; tls
+//.text:00B9ED90 ; tls
+//.text:00B9EDD0 ; tls
+//.text:00B9EE10 ; tls
+//.text:00B9EE50 ; tls
+//.text:00B9EE90 ; tls
 //.text:00B9EED0 ; int32 __cdecl scenario_light_place(int32, bool)
 //.text:00B9EF30 ; 
 //.text:00B9EF60 ; 

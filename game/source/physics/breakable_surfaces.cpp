@@ -51,9 +51,13 @@ void __cdecl breakable_surfaces_dispose_from_old_structure_bsp(uns32 deactivatin
 	INVOKE(0x0056AE10, breakable_surfaces_dispose_from_old_structure_bsp, deactivating_structure_bsp_mask);
 }
 
-//.text:0056AF20 ; void __cdecl breakable_surfaces_enable(bool)
-//.text:0056AF40 ; 
-//.text:0056B370 ; 
+void __cdecl breakable_surfaces_enable(bool enable)
+{
+	INVOKE(0x0056AF20, breakable_surfaces_enable, enable);
+}
+
+//.text:0056AF40 ; breakable_surfaces_find_support_surfaces
+//.text:0056B370 ; breakable_surfaces_find_supported_surfaces
 //.text:0056B6C0 ; void __cdecl breakable_surfaces_handle_tag_reload()
 
 void __cdecl breakable_surfaces_initialize()
@@ -73,7 +77,10 @@ void __cdecl breakable_surfaces_initialize_for_new_structure_bsp(uns32 activatin
 	INVOKE(0x0056B800, breakable_surfaces_initialize_for_new_structure_bsp, activating_structure_bsp_mask);
 }
 
-//.text:0056B960 ; void __cdecl breakable_surfaces_reset()
+void __cdecl breakable_surfaces_reset()
+{
+	INVOKE(0x0056B960, breakable_surfaces_reset);
+}
 
 void __cdecl breakable_surfaces_update()
 {

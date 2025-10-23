@@ -132,6 +132,8 @@ extern bool __cdecl object_model_target_destroyed(int32 object_index, int32 mode
 extern int16 __cdecl object_model_targets_destroyed(int32 object_index, int32 model_target_name_id);
 extern void __cdecl object_scripting_cannot_die(int32 object_index, bool cannot_die);
 extern bool __cdecl object_scripting_vitality_pinned(int32 object_index);
+extern void __cdecl object_can_take_damage(int32 object_list_index);
+extern void __cdecl object_cannot_take_damage(int32 object_list_index);
 extern void __cdecl object_cause_damage(s_damage_data* damage_data, int32 object_index, int16 node_index, int16 region_index, int16 material_index, int32 predictability);
 extern void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object_index, int32 predictability);
 extern const s_model_damage_info* __cdecl object_get_damage_info(int32 object_index);

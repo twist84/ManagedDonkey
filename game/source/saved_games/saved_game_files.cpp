@@ -16,6 +16,19 @@ e_saved_game_file_type __cdecl game_engine_index_to_saved_game_file_type(e_game_
 	return INVOKE(0x005245F0, game_engine_index_to_saved_game_file_type, game_engine_type);
 }
 
+void __cdecl hs_saved_game_files_delete_saved_game_state_test(int16 controller_index)
+{
+	saved_game_files_delete_saved_game_state_blocking((e_controller_index)controller_index);
+}
+
+void __cdecl hs_saved_game_files_enumeration_test(int16 controller_index)
+{
+}
+
+void __cdecl hs_saved_game_files_save_last_film_test(int16 controller_index)
+{
+}
+
 e_game_content_type __cdecl saved_game_file_type_to_game_content_type(e_saved_game_file_type saved_game_file_type)
 {
 	return INVOKE(0x00525330, saved_game_file_type_to_game_content_type, saved_game_file_type);

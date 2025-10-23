@@ -30,6 +30,9 @@ static_assert(sizeof(s_saved_game_file_globals) == 0x68);
 extern s_saved_game_file_globals& g_saved_game_files_globals;
 
 extern e_saved_game_file_type __cdecl game_engine_index_to_saved_game_file_type(e_game_engine_type game_engine_type);
+extern void __cdecl hs_saved_game_files_delete_saved_game_state_test(int16 controller_index);
+extern void __cdecl hs_saved_game_files_enumeration_test(int16 controller_index);
+extern void __cdecl hs_saved_game_files_save_last_film_test(int16 controller_index);
 extern e_game_content_type __cdecl saved_game_file_type_to_game_content_type(e_saved_game_file_type saved_game_file_type);
 extern const wchar_t* __cdecl saved_game_filename_extension_by_game_file_type(e_saved_game_file_type game_file_type, bool exclude_dot_character);
 extern bool __cdecl saved_game_files_controller_has_saved_game_state_blocking(e_controller_index controller_index);

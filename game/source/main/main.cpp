@@ -29,6 +29,7 @@
 #include "main/console.hpp"
 #include "main/loading.hpp"
 #include "main/main_game.hpp"
+#include "main/main_game_launch.hpp"
 #include "main/main_predict.hpp"
 #include "main/main_render.hpp"
 #include "main/main_screenshot.hpp"
@@ -2099,11 +2100,12 @@ void __cdecl main_status_print()
 {
 	//INVOKE(0x005071C0, main_status_print);
 
-	for (int32 i = 0; i < NUMBEROF(g_status_values); i++)
+	for (int32 status_value_index = 0; status_value_index < NUMBEROF(g_status_values); status_value_index++)
 	{
-		if (csstrnlen(g_status_values[i].status_type, NUMBEROF(g_status_values[i].status_type)))
+		const s_main_status_value* status_value = &g_status_values[status_value_index];
+		if (csstrnlen(status_value->status_type, NUMBEROF(status_value->status_type)))
 		{
-			console_printf("%s: %s", g_status_values[i].status_type, g_status_values[i].status_data);
+			console_printf("%s: %s", status_value->status_type, status_value->status_data);
 		}
 	}
 }
@@ -2121,6 +2123,12 @@ void __cdecl main_switch_bsp(int32 zone_set_index)
 
 	//event(_event_error, "switch bsp is a deprecated function. Use switch zone set instead.");
 	//main_switch_zone_set(zone_set_index);
+}
+
+void __cdecl main_switch_scenario_and_zone_set(const char* map_name, int32 initial_zone_set)
+{
+	main_game_globals.launch_game_options.initial_zone_set_index = (int16)initial_zone_set;
+	main_game_launch(map_name);
 }
 
 void __cdecl main_switch_zone_set(int32 zone_set_index)

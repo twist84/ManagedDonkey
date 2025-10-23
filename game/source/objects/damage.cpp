@@ -124,6 +124,16 @@ bool __cdecl object_scripting_vitality_pinned(int32 object_index)
 	return INVOKE(0x00B58340, object_scripting_vitality_pinned, object_index);
 }
 
+void __cdecl object_can_take_damage(int32 object_list_index)
+{
+	INVOKE(0x00B532B0, object_can_take_damage, object_list_index);
+}
+
+void __cdecl object_cannot_take_damage(int32 object_list_index)
+{
+	INVOKE(0x00B532D0, object_cannot_take_damage, object_list_index);
+}
+
 void __cdecl object_cause_damage(s_damage_data* damage_data, int32 object_index, int16 node_index, int16 region_index, int16 material_index, int32 predictability)
 {
 	//INVOKE(0x00B532F0, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);

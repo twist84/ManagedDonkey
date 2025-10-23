@@ -48,6 +48,7 @@ static_assert(sizeof(c_render_debug_line_drawer) == 0x2024);
 
 extern void __cdecl render_debug_initialize();
 
+extern void __cdecl render_debug_text_using_simple_font(bool use_simple_font);
 extern void __cdecl render_debug_reset_cache_to_game_tick_entires();
 extern void __cdecl render_debug_notify_game_tick_begin();
 extern void __cdecl render_debug_notify_game_tick_end();
@@ -58,6 +59,13 @@ extern void __cdecl rasterizer_debug_triangle(const real_point3d* point0, const 
 
 extern void __cdecl render_debug_begin(bool render_game_tick_cache, bool only_render_strings, bool clear_cache);
 extern void __cdecl render_debug_end(bool render_game_tick_cache, bool only_render_strings, bool clear_cache);
+extern void __cdecl render_debug_structure_all_cluster_errors(int32 setting);
+extern void __cdecl render_debug_structure_all_fog_planes(int32 setting);
+extern void __cdecl render_debug_structure_cluster_fog(int32 setting);
+extern void __cdecl render_debug_structure_fog_plane(int32 setting);
+extern void __cdecl render_debug_structure_fog_plane_infinite_extent(int32 setting);
+extern void __cdecl render_debug_structure_fog_zone(int32 setting);
+extern void __cdecl render_debug_structure_fog_zone_floodfill(int32 setting);
 extern void __cdecl render_debug_structure_draw();
 extern void __cdecl render_debug_visibility_render();
 extern void __cdecl render_debug_clients(int32 user_index);

@@ -63,6 +63,7 @@ struct s_nondeterministic_light_data
 };
 static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
 
+extern bool __cdecl lights_enable(bool enable);
 extern void __cdecl lights_prepare_for_window(int32 player_window_index);
 extern void __cdecl lights_update();
 

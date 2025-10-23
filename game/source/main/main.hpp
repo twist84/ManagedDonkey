@@ -212,6 +212,7 @@ extern void __cdecl main_status_dump(s_file_reference* file);
 extern void __cdecl main_status_print();
 extern void __cdecl main_suppress_startup_sequence();
 extern void __cdecl main_switch_bsp(int32 zone_set_index);
+extern void __cdecl main_switch_scenario_and_zone_set(const char* map_name, int32 initial_zone_set);
 extern void __cdecl main_switch_zone_set(int32 zone_set_index);
 extern void __cdecl main_switch_zone_set_private();
 extern void __cdecl main_thread_combine_timing_data(void* address);

@@ -762,7 +762,7 @@ void hs_compile_initialize(bool permanent)
 }
 
 //.text:0072F520 ; 
-bool hs_compile_postprocess_and_verify(char const** error_message_pointer, char const** error_source_pointer, bool verbose)
+bool hs_compile_postprocess_and_verify(const char** error_message_pointer, const char** error_source_pointer, bool verbose)
 {
 	bool success = true;
 

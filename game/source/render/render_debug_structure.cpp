@@ -417,6 +417,48 @@ void __cdecl render_debug_structure()
 	}
 }
 
+void __cdecl render_debug_structure_all_cluster_errors(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_all_cluster_errors, setting);
+	//debug_structure_automatic = false;
+}
+
+void __cdecl render_debug_structure_all_fog_planes(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_all_fog_planes, setting);
+	//debug_structure_automatic = false;
+}
+
+void __cdecl render_debug_structure_cluster_fog(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_cluster_fog, setting);
+	//debug_structure_automatic = false;
+}
+
+void __cdecl render_debug_structure_fog_plane(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_fog_plane, setting);
+	//debug_structure_automatic = false;
+}
+
+void __cdecl render_debug_structure_fog_plane_infinite_extent(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_fog_plane_infinite_extent, setting);
+	//debug_structure_automatic = false;
+}
+
+void __cdecl render_debug_structure_fog_zone(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_fog_zone, setting);
+	//debug_structure_automatic = false;
+}
+
+void __cdecl render_debug_structure_fog_zone_floodfill(int32 setting)
+{
+	//render_debug_structure_internal(_render_debug_structure_mode_fog_zone_floodfill, setting);
+	//debug_structure_automatic = false;
+}
+
 void __cdecl render_debug_structure_draw()
 {
 	// $IMPLEMENT
