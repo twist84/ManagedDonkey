@@ -12,7 +12,7 @@
 #include "game/game_engine_scripting.hpp"
 #include "game/game_save.hpp"
 #include "game/multiplayer_game_hopper.hpp"
-#include "game/player_scipting.hpp";
+#include "game/player_scipting.hpp"
 #include "hf2p/hf2p.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_compile.hpp"
