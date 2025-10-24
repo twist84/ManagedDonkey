@@ -1,6 +1,8 @@
 #include "bink/bink_playback.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 
 //.text:00615D30 ; 
 //.text:00615D50 ; 
@@ -145,9 +147,34 @@ bool __cdecl bink_playback_should_be_playing_deterministic_bink()
 	return INVOKE(0x00616D50, bink_playback_should_be_playing_deterministic_bink);
 }
 
-void __cdecl bink_playback_start(const char* bink_full_path, int32 tag_index, uns32 flags)
+void __cdecl bink_playback_start(const char* full_pathname, int32 tag_index, uns32 flags)
 {
-	INVOKE(0x00616D60, bink_playback_start, bink_full_path, tag_index, flags);
+	INVOKE(0x00616D60, bink_playback_start, full_pathname, tag_index, flags);
+
+	//if (!TEST_BIT(flags, _bink_playback_requires_beaver_sized_appetite_bit)
+	//	|| bink_globals.use_large_bink_size)
+	//{
+	//	if (predict_bink_movie_fullpath(full_pathname, tag_index, flags))
+	//	{
+	//		bink_prediction_update();
+	//		bink_globals.bink_runtime.bink_playback_start = 1;
+	//		bink_playback_start_internal(flags);
+	//	}
+	//	else
+	//	{
+	//		event(_event_error, "bink: failed to predict bink movie '%s' tag_index 0x%08X ('%s')",
+	//			full_pathname,
+	//			tag_index,
+	//			tag_index == NONE ? "" : tag_get_name(tag_index));
+	//	}
+	//}
+	//else
+	//{
+	//	event(_event_error, "bink: can't play bink movie '%s' tag_index 0x%08X ('%s') - not enough memory",
+	//		full_pathname,
+	//		tag_index,
+	//		tag_index == NONE ? "" : tag_get_name(tag_index));
+	//}
 }
 
 //.text:00616DB0 ; void __cdecl bink_playback_start_explicit(const char*, int32, uns32, BINK*)
@@ -171,6 +198,8 @@ void __cdecl bink_playback_stop_due_to_input_device_change()
 bool __cdecl bink_playback_ui_rendering_inhibited()
 {
 	return INVOKE(0x00617380, bink_playback_ui_rendering_inhibited);
+
+	//return bink_globals.initialized && TEST_BIT(bink_globals.playback_flags, _bink_playback_dont_render_ui_bit);
 }
 
 void __cdecl bink_playback_update()

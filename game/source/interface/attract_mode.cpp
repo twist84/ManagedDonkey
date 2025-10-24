@@ -122,6 +122,12 @@ void __cdecl game_end_credits_start()
 	sound_stop_all(0);
 	c_static_string<256> movie_path;
 	attract_mode_get_movie_path("credits", &movie_path);
-	bink_playback_start(movie_path.get_string(), NONE, 0x3E);
+	constexpr uns32 flags
+		= FLAG(_bink_playback_button_click_stops_movie_bit)
+		| FLAG(_bink_playback_prevent_events_to_ui_bit)
+		| FLAG(_bink_playback_dont_render_ui_bit)
+		| FLAG(_bink_playback_full_screen_bit)
+		| FLAG(_bink_playback_return_to_main_menu_when_finished_bit);
+	bink_playback_start(movie_path.get_string(), NONE, flags);
 }
 
