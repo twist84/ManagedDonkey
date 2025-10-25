@@ -131,14 +131,14 @@ void __cdecl console_close()
 
 void __cdecl console_complete()
 {
-	bool something = false;
+	bool present_list = false;
 	if (console_token_buffer.is_empty())
 	{
 		console_token_buffer.set(console_get_token());
 		console_token_buffer.set_length(console_globals.input_state.edit.insertion_point_index);
 		suggestion_current_index = NONE;
 
-		something = true;
+		present_list = true;
 	}
 
 	char* token = console_get_token();
@@ -150,27 +150,27 @@ void __cdecl console_complete()
 		ASSERT(matching_items[0]);
 
 		int16 last_similar_character_index = SHRT_MAX;
-		bool use_rows = matching_item_count > 16;
+		bool columnize = matching_item_count > 16;
 
-		c_static_string<1024> matching_item_row;
-		matching_item_row.set("");
+		c_static_string<1024> print_buffer;
+		print_buffer.set("");
 
-		if (something)
+		if (present_list)
 		{
-			console_printf("");
-
-			int16 matching_item_index = 0;
+			int16 item_index = 0;
 			const char** matching_item = matching_items;
-			for (matching_item_index = 0; matching_item_index < matching_item_count; matching_item_index++, matching_item++)
+			for (item_index = 0; item_index < matching_item_count; item_index++, matching_item++)
 			{
 				int16 matching_item_length_minus_one = int16(strlen(*matching_item)) - 1;
 				if (last_similar_character_index > matching_item_length_minus_one)
+				{
 					last_similar_character_index = matching_item_length_minus_one;
+				}
 
 				int16 similar_character_index;
 				for (similar_character_index = 0; ; similar_character_index++)
 				{
-					if (tolower(matching_items[0][similar_character_index]) != tolower(matching_items[matching_item_index][similar_character_index])
+					if (tolower(matching_items[0][similar_character_index]) != tolower(matching_items[item_index][similar_character_index])
 						|| similar_character_index > last_similar_character_index)
 					{
 						break;
@@ -180,16 +180,18 @@ void __cdecl console_complete()
 				if (similar_character_index)
 				{
 					if (similar_character_index >= int16(console_token_buffer.length()))
+					{
 						last_similar_character_index = similar_character_index - 1;
+					}
 				}
 
-				if (use_rows)
+				if (columnize)
 				{
-					matching_item_row.append_print("%s|t", *matching_item);
-					if (matching_item_index % 6 == 5)
+					print_buffer.append_print("%s|t", *matching_item);
+					if (item_index % 6 == 5)
 					{
-						console_printf("%s", matching_item_row.get_string());
-						matching_item_row.clear();
+						console_printf("%s", print_buffer.get_string());
+						print_buffer.clear();
 					}
 				}
 				else
@@ -198,8 +200,10 @@ void __cdecl console_complete()
 				}
 			}
 
-			if (use_rows && (matching_item_index - 1) % 6 != 5)
-				console_printf("%s", matching_item_row.get_string());
+			if (columnize && (item_index - 1) % 6 != 5)
+			{
+				console_printf("%s", print_buffer.get_string());
+			}
 
 			ASSERT(int16(strlen(matching_items[0])) >= (last_similar_character_index + 1));
 
@@ -230,14 +234,13 @@ void __cdecl console_complete()
 
 void __cdecl console_dispose()
 {
-	static bool dispose_console = true;
-	if (dispose_console)
+	static bool x_once = true;
+	if (x_once)
 	{
 		console_close();
 		debug_keys_dispose();
 		terminal_dispose();
-
-		dispose_console = false;
+		x_once = false;
 	}
 }
 
@@ -257,8 +260,8 @@ void __cdecl console_execute_initial_commands()
 
 void __cdecl console_initialize()
 {
-	static bool initialize_console = true;
-	if (initialize_console)
+	static bool x_once = true;
+	if (x_once)
 	{
 		terminal_initialize();
 
@@ -272,13 +275,14 @@ void __cdecl console_initialize()
 
 		debug_keys_initialize();
 
-		for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
+		for (int32 index = 0; index < NUMBEROF(g_status_strings); index++)
 		{
-			status_lines_initialize(&g_status_strings[i].line, NULL, 1);
-			g_status_strings[i].line.flags.set(_status_line_left_justify_bit, true);
+			s_status_line* line = &g_status_strings[index].line;
+			status_lines_initialize(line, NULL, 1);
+			line->flags.set(_status_line_left_justify_bit, true);
 		}
 
-		initialize_console = false;
+		x_once = false;
 	}
 }
 
@@ -385,16 +389,22 @@ void __cdecl console_update(real32 shell_seconds_elapsed)
 				else if (key->key_type == _key_type_up && (key->ascii_code == _key_up_arrow || key->ascii_code == _key_down_arrow))
 				{
 					if (key->ascii_code == _key_up_arrow)
+					{
 						console_globals.selected_previous_command_index += 2;
+					}
 
 					int16 v4 = console_globals.selected_previous_command_index - 1;
 					console_globals.selected_previous_command_index = v4;
 
 					if (v4 <= 0)
+					{
 						console_globals.selected_previous_command_index = 0;
+					}
 
 					if (v4 <= 0)
+					{
 						v4 = 0;
+					}
 
 					if (v4 > console_globals.previous_command_count - 1)
 					{
@@ -441,9 +451,13 @@ void __cdecl console_update(real32 shell_seconds_elapsed)
 		}
 
 		if ((console_globals.open_timeout_seconds - shell_seconds_elapsed) >= 0.0f)
+		{
 			console_globals.open_timeout_seconds -= shell_seconds_elapsed;
+		}
 		else
+		{
 			console_globals.open_timeout_seconds = 0.0f;
+		}
 	}
 }
 
