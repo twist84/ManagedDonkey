@@ -2959,7 +2959,7 @@ int32 hs_tokenize(hs_tokenizer* state)
 
 		if (node->source_offset != NONE && state->source_file_data)
 		{
-			int32 offset = state->source_file_size + node->source_offset - hs_compile_globals.compiled_source_size;
+			int32 offset = node->source_offset - (state->source_file_size - hs_compile_globals.compiled_source_size);
 			ASSERT(offset >= 0 && offset < state->source_file_size);
 
 			const char* source_pointer = &state->source_file_data[offset];
