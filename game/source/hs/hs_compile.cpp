@@ -2893,12 +2893,13 @@ int32 hs_source_pointer_get_line_number(const char* source_pointer, const char* 
 
 	ASSERT(source_pointer);
 
-	for (; source < source_pointer; source++)
+	while (source < source_pointer)
 	{
 		if (*source == '\n')
 		{
 			line_number++;
 		}
+		source++;
 	}
 
 	return line_number;
