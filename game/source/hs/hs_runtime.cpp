@@ -168,7 +168,7 @@ bool breakpoints_enabled = true;
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
 
-inline static bool script_error(long thread_index, const char* message, const char* condition)
+inline static bool script_error(int32 thread_index, const char* message, const char* condition)
 {
 	event(_event_warning, "script %s needs to be recompiled. (%s: %s)",
 		hs_thread_format(thread_index),
@@ -178,7 +178,7 @@ inline static bool script_error(long thread_index, const char* message, const ch
 	return false;
 }
 
-inline static bool script_error2(long thread_index, const char* message, const char* condition)
+inline static bool script_error2(int32 thread_index, const char* message, const char* condition)
 {
 	event(_event_warning, "a problem occurred while executing the script %s: %s (%s)",
 		hs_thread_format(thread_index),
@@ -1971,7 +1971,7 @@ int32 __cdecl hs_real_to_short(int32 r)
 	//return result;
 }
 
-void __cdecl hs_rebuild_and_compile(char* error_buffer, long buffer_length, bool verbose)
+void __cdecl hs_rebuild_and_compile(char* error_buffer, int32 buffer_length, bool verbose)
 {
 	hs_runtime_dirty();
 	g_error_output_buffer = error_buffer;
