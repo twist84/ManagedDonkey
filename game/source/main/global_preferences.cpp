@@ -1597,16 +1597,326 @@ void global_preferences_set_fullscreen_hs(bool fullscreen)
 
 void global_preferences_set_master_volume_hs(int32 master_volume)
 {
-	sound_system_set_master_volume(master_volume, false);
+	sound_system_set_master_volume(master_volume, true);
 }
 
 void global_preferences_set_music_volume_hs(int32 music_volume)
 {
-	sound_system_set_music_volume(music_volume, false);
+	sound_system_set_music_volume(music_volume, true);
 }
 
 void global_preferences_set_sfx_volume_hs(int32 sfx_volume)
 {
-	sound_system_set_sfx_volume(sfx_volume, false);
+	sound_system_set_sfx_volume(sfx_volume, true);
 }
+
+const char* const k_global_preference_names[k_global_preference_count]
+{
+	"antialiasing",
+	//"aspect_ratio",
+	//"betrayal_count",
+	//"build_number",
+	"camera_fov",
+	"controls_method",
+	"details_quality",
+	"brightness",
+	"contrast",
+	"display_hints",
+	"effects_quality",
+	//"eviction_count",
+	"fullscreen",
+	"hide_watermark",
+	"hud_shake",
+	"keyboard_preset",
+	//"last_font_language",
+	//"last_fonts_modification_date",
+	//"last_game_setup",
+	//"last_language",
+	//"last_main_menu_item",
+	"lighting_quality",
+	"master_volume",
+	"motion_blur",
+	"mouse_acceleration",
+	"mouse_filter",
+	"mouse_inversion",
+	"mouse_sensitivity_horizontal",
+	"mouse_sensitivity_vehicle_horizontal",
+	"mouse_sensitivity_vehicle_vertical",
+	"mouse_sensitivity_vertical",
+	"music_volume",
+	"postprocessing_quality",
+	//"content_item_unique_name_number_seed",
+	"screen_resolution",
+	"sfx_volume",
+	"shadow_quality",
+	"subtitle_setting",
+	//"team_color",
+	"texture_filtering_quality",
+	"texture_resolution_quality",
+	"toggle_crouch",
+	//"adapter",
+	//"unknown41BDC",
+	//"voice_chat_control",
+	//"voice_chat_volume",
+	//"voice_volume",
+	"vsync",
+	//"xbox_live_private_privacy_setting"
+};
+
+#define DECLARE_GLOBAL_PREFERENCE(NAME, DESCRIPTION, PARAMETER_COUNT, ...) new s_global_preference({ (#NAME), (DESCRIPTION), (global_preferences_get_##NAME), (global_preferences_set_##NAME), (_global_preference_##NAME), (PARAMETER_COUNT), { __VA_ARGS__ } })
+
+const s_global_preference* k_global_preferences[k_global_preference_count]
+{
+	DECLARE_GLOBAL_PREFERENCE(antialiasing, "<bool>", 1, _global_preference_type_bool),
+	//DECLARE_GLOBAL_PREFERENCE(aspect_ratio, "<long>", 1, _global_preference_type_long),
+	//DECLARE_GLOBAL_PREFERENCE(betrayal_count, "<real>", 1, _global_preference_type_real),
+	//DECLARE_GLOBAL_PREFERENCE(build_number, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(camera_fov, "<real>", 1, _global_preference_type_real),
+	DECLARE_GLOBAL_PREFERENCE(controls_method, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(details_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	DECLARE_GLOBAL_PREFERENCE(display_brightness, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(display_contrast, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(display_hints, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(effects_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	//DECLARE_GLOBAL_PREFERENCE(eviction_count, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(fullscreen, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(hide_watermark, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(hud_shake, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(keyboard_preset, "<long>", 1, _global_preference_type_long),
+	//DECLARE_GLOBAL_PREFERENCE(last_font_language, "<language>", 1, _global_preference_type_language),
+	//DECLARE_GLOBAL_PREFERENCE(last_fonts_modification_date, "", 1),
+	//DECLARE_GLOBAL_PREFERENCE(last_game_setup, "", 1),
+	//DECLARE_GLOBAL_PREFERENCE(last_language, "<language>", 1, _global_preference_type_language),
+	//DECLARE_GLOBAL_PREFERENCE(last_main_menu_item, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(lighting_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	DECLARE_GLOBAL_PREFERENCE(master_volume, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(motion_blur, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(mouse_acceleration, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(mouse_filter, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(mouse_inversion, "<bool>", 1, _global_preference_type_bool),
+	DECLARE_GLOBAL_PREFERENCE(mouse_sensitivity_horizontal, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(mouse_sensitivity_vehicle_horizontal, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(mouse_sensitivity_vehicle_vertical, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(mouse_sensitivity_vertical, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(music_volume, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(postprocessing_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	//DECLARE_GLOBAL_PREFERENCE(content_item_unique_name_number_seed, "<long> <long>", 2, _global_preference_type_long, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(screen_resolution, "<long> <long>", 2, _global_preference_type_long, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(sfx_volume, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(shadow_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	DECLARE_GLOBAL_PREFERENCE(subtitle_setting, "<subtitle_setting>", 1, _global_preference_type_subtitle_setting),
+	//DECLARE_GLOBAL_PREFERENCE(team_color, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(texture_filtering_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	DECLARE_GLOBAL_PREFERENCE(texture_resolution_quality, "<quality_setting>", 1, _global_preference_type_quality_setting),
+	DECLARE_GLOBAL_PREFERENCE(toggle_crouch, "<bool>", 1, _global_preference_type_bool),
+	//DECLARE_GLOBAL_PREFERENCE(adapter, "<long>", 1, _global_preference_type_long),
+	//DECLARE_GLOBAL_PREFERENCE(unknown41BDC, "<long>", 1, _global_preference_type_long),
+	//DECLARE_GLOBAL_PREFERENCE(voice_chat_control, "<long>", 1, _global_preference_type_long),
+	//DECLARE_GLOBAL_PREFERENCE(voice_chat_volume, "<long>", 1, _global_preference_type_long),
+	//DECLARE_GLOBAL_PREFERENCE(voice_volume, "<long>", 1, _global_preference_type_long),
+	DECLARE_GLOBAL_PREFERENCE(vsync, "<bool>", 1, _global_preference_type_bool),
+	//DECLARE_GLOBAL_PREFERENCE(xbox_live_private_privacy_setting, "<advertisement_mode>", 1, _global_preference_type_advertisement_mode)
+};
+
+union value_converter_t
+{
+	bool type_bool;
+	real32 type_real;
+	int32 type_long;
+	e_quality_setting type_quality_setting;
+	e_language type_language;
+	e_subtitle_setting type_subtitle_setting;
+	e_gui_network_session_advertisement_mode type_advertisement_mode;
+};
+
+template<const int32 k_maximum_parameter_count>
+void value_handler(const s_global_preference& global_preference, value_converter_t(&values)[k_maximum_parameter_count], va_list parameters)
+{
+	ASSERT(VALID_COUNT(k_maximum_parameter_count, k_maximum_global_preference_parameters));
+
+	for (int32 parameter_index = 0; parameter_index < global_preference.parameter_count; parameter_index++)
+	{
+		ASSERT(VALID_INDEX(parameter_index, k_maximum_global_preference_parameters));
+
+		value_converter_t& value = values[parameter_index];
+
+		switch (global_preference.parameter_types[parameter_index])
+		{
+		case _global_preference_type_bool:
+			value.type_bool = va_arg(parameters, bool);
+			break;
+		case _global_preference_type_real:
+			value.type_real = static_cast<real32>(va_arg(parameters, real64));
+			break;
+		case _global_preference_type_long:
+			value.type_long = va_arg(parameters, int32);
+			break;
+		case _global_preference_type_quality_setting:
+			value.type_quality_setting = va_arg(parameters, e_quality_setting);
+			break;
+		case _global_preference_type_language:
+			value.type_language = va_arg(parameters, e_language);
+			break;
+		case _global_preference_type_subtitle_setting:
+			value.type_subtitle_setting = va_arg(parameters, e_subtitle_setting);
+			break;
+		case _global_preference_type_advertisement_mode:
+			value.type_advertisement_mode = va_arg(parameters, e_gui_network_session_advertisement_mode);
+			break;
+		}
+	}
+}
+
+union function_converter_t
+{
+	void* pointer;
+
+	void(__cdecl* type_bool)(bool);
+	void(__cdecl* type_real)(real32);
+	void(__cdecl* type_long)(int32);
+	void(__cdecl* type_quality_setting)(e_quality_setting);
+	void(__cdecl* type_language)(e_language);
+	void(__cdecl* type_subtitle_setting)(e_subtitle_setting);
+	void(__cdecl* type_advertisement_mode)(e_gui_network_session_advertisement_mode);
+
+	void(__cdecl* type_screen_resolution)(int32, int32);
+};
+
+template<const int32 k_maximum_parameter_count>
+void function_handler(const s_global_preference& global_preference, value_converter_t(&values)[k_maximum_parameter_count])
+{
+	function_converter_t function = { .pointer = global_preference.set };
+	ASSERT(function.pointer != nullptr);
+
+	if (global_preference.parameter_count == 1)
+	{
+		switch (global_preference.parameter_types[0])
+		{
+		case _global_preference_type_bool:
+		{
+			function.type_bool(values[0].type_bool);
+		}
+		break;
+		case _global_preference_type_real:
+		{
+			function.type_real(values[0].type_real);
+		}
+		break;
+		case _global_preference_type_long:
+		{
+			function.type_long(values[0].type_long);
+		}
+		break;
+		case _global_preference_type_quality_setting:
+		{
+			function.type_quality_setting(values[0].type_quality_setting);
+		}
+		break;
+		case _global_preference_type_language:
+		{
+			function.type_language(values[0].type_language);
+		}
+		break;
+		case _global_preference_type_subtitle_setting:
+		{
+			function.type_subtitle_setting(values[0].type_subtitle_setting);
+		}
+		break;
+		case _global_preference_type_advertisement_mode:
+		{
+			function.type_advertisement_mode(values[0].type_advertisement_mode);
+		}
+		break;
+		}
+
+		switch (global_preference.preference)
+		{
+		case _global_preference_fullscreen:
+		{
+			rasterizer_reset_device();
+		}
+		break;
+		case _global_preference_master_volume:
+		{
+			sound_system_set_master_volume(values[0].type_long, false);
+		}
+		break;
+		case _global_preference_music_volume:
+		{
+			sound_system_set_music_volume(values[0].type_long, false);
+		}
+		break;
+		case _global_preference_sfx_volume:
+		{
+			sound_system_set_sfx_volume(values[0].type_long, false);
+		}
+		break;
+		}
+	}
+	else if (global_preference.parameter_count == 2)
+	{
+		switch (global_preference.preference)
+		{
+			//case _global_preference_content_item_unique_name_number_seed:
+			//	break
+		case _global_preference_screen_resolution:
+		{
+			function.type_screen_resolution(values[0].type_long, values[1].type_long);
+			rasterizer_reset_device();
+		}
+		break;
+		}
+	}
+}
+
+bool global_preference_set_impl(const char* name, int16 parameter_count, ...)
+{
+	bool result = false;
+	e_global_preference preference = global_preference_from_string(name);
+	if (preference != e_global_preference(-1))
+	{
+		const s_global_preference* global_preference = k_global_preferences[preference];
+		ASSERT(VALID_COUNT(global_preference->parameter_count, k_maximum_global_preference_parameters));
+
+		if (parameter_count == global_preference->parameter_count)
+		{
+			va_list parameters;
+			va_start(parameters, parameter_count);
+
+			value_converter_t values[k_maximum_global_preference_parameters] = {};
+			value_handler(*global_preference, values, parameters);
+			function_handler(*global_preference, values);
+
+			va_end(parameters);
+
+			result = true;
+		}
+	}
+	return result;
+}
+
+const char* global_preference_get_name(e_global_preference preference)
+{
+	const char* result = NULL;
+	if (VALID_INDEX(preference, k_global_preference_count))
+	{
+		result = k_global_preference_names[preference];
+	}
+	return result;
+}
+
+e_global_preference global_preference_from_string(const char* str)
+{
+	e_global_preference preference = e_global_preference(-1);
+	for (int32 i = _global_preference_antialiasing; i < k_global_preference_count; i++)
+	{
+		if (csstricmp(str, k_global_preference_names[i]) == 0)
+		{
+			preference = e_global_preference(i);
+		}
+	}
+
+	return preference;
+}
+
 
