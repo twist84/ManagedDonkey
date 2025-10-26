@@ -2,8 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
-#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) inline static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .address = ADDR2 })
-#define HOOK_DECLARE_CALL(ADDR, NAME) inline static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .pointer = NAME })
+#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) inline static c_hook_call CONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .address = ADDR2 })
+#define HOOK_DECLARE_CALL(ADDR, NAME) inline static c_hook_call CONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .pointer = NAME })
 #define HOOK_DECLARE(ADDR, NAME) inline static c_hook NAME##_hook(#NAME, ADDR, { .pointer = NAME })
 #define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) inline static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = CLASS::NAME })
 #define HOOK_DECLARE_CLASS_MEMBER(ADDR, CLASS, NAME) inline static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = member_to_static_function(&CLASS##::##NAME) })
@@ -29,10 +29,10 @@
     CLASS##_##NAME##_hook.apply(false); \
 }
 
-#define DATA_PATCH_DECLARE(ADDR, NAME, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
-#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, SIZE, __VA_ARGS__)
+#define DATA_PATCH_DECLARE(ADDR, NAME, ...) static c_data_patch CONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) static c_data_patch CONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, SIZE, __VA_ARGS__)
 
-#define DATA_PATCH_ARRAY_DECLARE(ADDRS, NAME, ...) static c_data_patch_array STRCONCAT(NAME##_patch,__LINE__)(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+#define DATA_PATCH_ARRAY_DECLARE(ADDRS, NAME, ...) static c_data_patch_array CONCAT(NAME##_patch,__LINE__)(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
 #define DATA_PATCH_ARRAY_DECLARE2(ADDRS, NAME, ...) static c_data_patch_array NAME##_patch(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
 
 #define ASM_ADDR(ADDR, NAME) static void* NAME = (void*)ADDR
