@@ -155,7 +155,7 @@ bool hs_add_global(int32 expression_index)
 	if ((type_index = hs_syntax_get(hs_syntax_get(expression_index)->long_value)->next_node_index) != NONE
 		&& (name_index = hs_syntax_get(type_index)->next_node_index) != NONE
 		&& (initialization_index = hs_syntax_get(name_index)->next_node_index) != NONE
-		&& hs_syntax_get(initialization_index)->next_node_index != NONE)
+		&& hs_syntax_get(initialization_index)->next_node_index == NONE)
 	{
 		const hs_syntax_node* type_node = hs_syntax_get(type_index);
 		int16 type = string_list_find(&hs_compile_globals.compiled_source[type_node->source_offset], NUMBER_OF_HS_NODE_TYPES, hs_type_names);
