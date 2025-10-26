@@ -449,22 +449,6 @@ void command_handler(char* buffer, int32 buffer_length)
 	command_execute(token_count, tokens, NUMBEROF(k_registered_commands), k_registered_commands);
 }
 
-int32 token_try_parse_bool(const token_t& token)
-{
-	const char* value = token->get_string();
-	switch (string_hash(value))
-	{
-	case "0"_hash:
-	case "false"_hash:
-		return 0;
-	case "1"_hash:
-	case "true"_hash:
-		return 1;
-	}
-
-	return 2;
-}
-
 //-----------------------------------------------------------------------------
 
 callback_result_t script_start_callback(const void* userdata, int32 token_count, tokens_t const tokens)

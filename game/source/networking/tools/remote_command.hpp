@@ -174,8 +174,6 @@ s_command const k_registered_commands[] =
 };
 
 extern void command_tokenize(const char* input, tokens_t& tokens, int32* token_count);
-extern int32 token_try_parse_bool(const token_t& token);
-extern bool load_preference(const char* name, const char* value);
 
 extern s_remote_command_globals remote_command_globals;
 

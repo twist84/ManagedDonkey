@@ -34,6 +34,7 @@
 #include "interface/user_interface_text.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "interface/user_interface_window_manager_debug.hpp"
+#include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
@@ -13348,11 +13349,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
 	NULL,
 	0,
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 0,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	_hs_type_void,
 	global_preferences_clear,
 	0,
-	0x00732D00, // $TODO write the function chuckle nuts
+	global_preferences_clear, // 0x00732D00,
 	"clears all game preference information\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
@@ -14050,11 +14051,11 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	NULL,
 	1, _hs_type_unit
 );
-MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	prepare_to_switch_to_zone_set,
 	0,
-	0x007403C0, // $TODO write the function chuckle nuts
+	main_prepare_for_switch_zone_set, // 0x007403C0,
 	"prepare for switch to zone set\r\nNETWORK SAFE: Yes",
 	NULL,
 	1, _hs_type_zone_set
@@ -15723,6 +15724,285 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 0,
 	"ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	0,
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	antialiasing_set,
+	0,
+	global_preferences_set_antialiasing,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	camera_fov_set,
+	0,
+	global_preferences_set_camera_fov,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_real
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	controls_method_set,
+	0,
+	global_preferences_set_controls_method,
+	"0: keyboard, 1: controller\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	details_quality_set,
+	0,
+	global_preferences_set_details_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	display_brightness_set,
+	0,
+	global_preferences_set_display_brightness,
+	"0-4\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	display_contrast_set,
+	0,
+	global_preferences_set_display_contrast,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	display_hints_set,
+	0,
+	global_preferences_set_display_hints,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	effects_quality_set,
+	0,
+	global_preferences_set_effects_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	fullscreen_set,
+	0,
+	global_preferences_set_fullscreen_hs,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	hide_watermark_set,
+	0,
+	global_preferences_set_hide_watermark,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	hud_shake_set,
+	0,
+	global_preferences_set_hud_shake,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	lighting_quality_set,
+	0,
+	global_preferences_set_lighting_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	master_volume_set,
+	0,
+	global_preferences_set_master_volume_hs,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	motion_blur_set,
+	0,
+	global_preferences_set_motion_blur,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_acceleration_set,
+	0,
+	global_preferences_set_mouse_acceleration,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_filter_set,
+	0,
+	global_preferences_set_mouse_filter,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_inversion_set,
+	0,
+	global_preferences_set_mouse_inversion,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_sensitivity_horizontal_set,
+	0,
+	global_preferences_set_mouse_sensitivity_horizontal,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_sensitivity_vehicle_horizontal_set,
+	0,
+	global_preferences_set_mouse_sensitivity_vehicle_horizontal,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_sensitivity_vehicle_vertical_set,
+	0,
+	global_preferences_set_mouse_sensitivity_vehicle_vertical,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	mouse_sensitivity_vertical_set,
+	0,
+	global_preferences_set_mouse_sensitivity_vertical,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	music_volume_set,
+	0,
+	global_preferences_set_music_volume_hs,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	postprocessing_quality_set,
+	0,
+	global_preferences_set_postprocessing_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 4,
+	_hs_type_void,
+	screen_resolution_set,
+	0,
+	global_preferences_set_screen_resolution_hs,
+	"width height\r\nNETWORK SAFE: Yes",
+	NULL,
+	2, _hs_type_long_integer, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	sfx_volume_set,
+	0,
+	global_preferences_set_sfx_volume_hs,
+	"sfx volume\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	shadow_quality_set,
+	0,
+	global_preferences_set_shadow_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	subtitle_setting_set,
+	0,
+	global_preferences_set_subtitle_setting,
+	"0: automatic, 1: enabled, 2: disabled\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	texture_filtering_quality_set,
+	0,
+	global_preferences_set_texture_filtering_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	texture_resolution_quality_set,
+	0,
+	global_preferences_set_texture_resolution_quality,
+	"0: low, 1: medium, 2: high\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_long_integer
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	toggle_crouch_set,
+	0,
+	global_preferences_set_toggle_crouch,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
+);
+MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
+	_hs_type_void,
+	vsync_set,
+	0,
+	global_preferences_set_vsync,
+	"\r\nNETWORK SAFE: Yes",
+	NULL,
+	1, _hs_type_boolean
 );
 
 #pragma endregion // HS_FUNCTION_DEFINITIONS
@@ -17428,8 +17708,12 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&unknown69E_4_definition,
 	(hs_function_definition*)&unknown69F_1_definition,
 	(hs_function_definition*)&unknown6A0_0_definition,
+
+	// in new other titles
 	(hs_function_definition*)&debug_menu_rebuild_0_definition,
 	(hs_function_definition*)&object_copy_player_appearance_2_definition,
+
+	// donkey
 	(hs_function_definition*)&exit_game_0_definition,
 	(hs_function_definition*)&load_preferences_from_file_1_definition,
 	(hs_function_definition*)&load_customization_from_file_1_definition,
@@ -17438,6 +17722,39 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&online_set_is_connected_to_live_1_definition,
 	(hs_function_definition*)&online_user_set_name_2_definition,
 	(hs_function_definition*)&player_ragdoll_0_definition,
+
+	// global preferences
+	(hs_function_definition*)&antialiasing_set_1_definition,
+	(hs_function_definition*)&camera_fov_set_1_definition,
+	(hs_function_definition*)&controls_method_set_1_definition,
+	(hs_function_definition*)&details_quality_set_1_definition,
+	(hs_function_definition*)&display_brightness_set_1_definition,
+	(hs_function_definition*)&display_contrast_set_1_definition,
+	(hs_function_definition*)&display_hints_set_1_definition,
+	(hs_function_definition*)&effects_quality_set_1_definition,
+	(hs_function_definition*)&fullscreen_set_1_definition,
+	(hs_function_definition*)&hide_watermark_set_1_definition,
+	(hs_function_definition*)&hud_shake_set_1_definition,
+	(hs_function_definition*)&lighting_quality_set_1_definition,
+	(hs_function_definition*)&master_volume_set_1_definition,
+	(hs_function_definition*)&motion_blur_set_1_definition,
+	(hs_function_definition*)&mouse_acceleration_set_1_definition,
+	(hs_function_definition*)&mouse_filter_set_1_definition,
+	(hs_function_definition*)&mouse_inversion_set_1_definition,
+	(hs_function_definition*)&mouse_sensitivity_horizontal_set_1_definition,
+	(hs_function_definition*)&mouse_sensitivity_vehicle_horizontal_set_1_definition,
+	(hs_function_definition*)&mouse_sensitivity_vehicle_vertical_set_1_definition,
+	(hs_function_definition*)&mouse_sensitivity_vertical_set_1_definition,
+	(hs_function_definition*)&music_volume_set_1_definition,
+	(hs_function_definition*)&postprocessing_quality_set_1_definition,
+	(hs_function_definition*)&screen_resolution_set_2_definition,
+	(hs_function_definition*)&sfx_volume_set_1_definition,
+	(hs_function_definition*)&shadow_quality_set_1_definition,
+	(hs_function_definition*)&subtitle_setting_set_1_definition,
+	(hs_function_definition*)&texture_filtering_quality_set_1_definition,
+	(hs_function_definition*)&texture_resolution_quality_set_1_definition,
+	(hs_function_definition*)&toggle_crouch_set_1_definition,
+	(hs_function_definition*)&vsync_set_1_definition,
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
 static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);

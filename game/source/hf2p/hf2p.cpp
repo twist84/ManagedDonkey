@@ -434,40 +434,6 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 	return armor_regions[player_model_choice];
 }
 
-bool load_preference(const char* name, const char* value)
-{
-	// special case
-	if (csstricmp(name, "screen_resolution") == 0)
-	{
-		char width[8]{};
-		char height[8]{};
-		sscanf_s(value, "%[^x]x%s", width, sizeof(width), height, sizeof(height));
-
-		return global_preference_set(name, atol(width), atol(height));
-	}
-	else
-	{
-		if (csstricmp(value, "true") == 0)
-		{
-			return global_preference_set(name, true);
-		}
-
-		if (csstricmp(value, "false") == 0)
-		{
-			return global_preference_set(name, false);
-		}
-
-		if (csstrstr(value, "."))
-		{
-			return global_preference_set(name, real32(atof(value)));
-		}
-
-		return global_preference_set(name, atol(value));
-	}
-
-	return false;
-}
-
 void load_preferences_from_file_hs(const char* filename)
 {
 	FILE* file = NULL;
@@ -477,16 +443,8 @@ void load_preferences_from_file_hs(const char* filename)
 		while (fgets(buffer, NUMBEROF(buffer), file))
 		{
 			string_terminate_at_first_delimiter(buffer, "\r\n");
-			char name[128]{};
-			char value[32]{};
-
-			sscanf_s(buffer, "%[^:]: %s", name, sizeof(name), value, sizeof(value));
-			if (*name && *value)
-			{
-				load_preference(name, value);
-			}
+			console_process_command(buffer, false);
 		}
-
 		fclose(file);
 	}
 }

@@ -194,7 +194,7 @@ EXTERNAL_GLOBAL_DECLARE(
 	&console_dump_to_debug_display,
 );
 EXTERNAL_GLOBAL_DECLARE(
-	camera_fov,
+	camera_fov_scale,
 	_hs_type_real,
 	&g_camera_globals.camera_field_of_view_scale, // 0x018ECE00
 );
@@ -6788,7 +6788,7 @@ static hs_global_external* const hs_external_globals[]
 	&terminal_render_definition,
 	&events_debug_spam_render_definition,
 	&console_dump_to_debug_display_definition,
-	&camera_fov_definition,
+	&camera_fov_scale_definition,
 	&camera_yaw_scale_definition,
 	&camera_pitch_scale_definition,
 	&camera_forward_scale_definition,
