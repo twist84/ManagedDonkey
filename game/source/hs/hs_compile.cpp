@@ -27,6 +27,29 @@ char* g_error_output_buffer = NULL;
 int32 g_error_buffer_length = 0;
 static s_hs_static_globals hs_static_globals;
 
+static struct s_test_data
+{
+	c_static_sized_dynamic_array<hs_script, 1024> hs_scripts;
+	c_static_sized_dynamic_array<hs_global_internal, MAXIMUM_NUMBER_OF_HS_GLOBALS> hs_globals;
+	c_static_sized_dynamic_array<hs_source_file, 16> hs_source_files;
+} test_data;
+
+char _1st_source_file_buffer[]
+{
+R"(
+(global string 1st_source_file_test "a string for testing source file compilation")
+)"
+};
+const hs_source_file _1st_source_file =
+{
+	.name = "1st source file",
+	.source =
+	{
+		.size = NUMBEROF(_1st_source_file_buffer),
+		.address = _1st_source_file_buffer
+	}
+};
+
 enum
 {
 	_skip_whitespace_state_no_comment = 0,
@@ -177,6 +200,24 @@ bool hs_add_global(int32 expression_index)
 						if (new_global_index != NONE)
 						{
 							hs_global_internal* new_global = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_globals, new_global_index, hs_global_internal);
+							csstrnzcpy(new_global->name, global_name, NUMBEROF(new_global->name));
+							new_global->initialization_expression_index = initialization_index;
+
+							success = true;
+						}
+						else
+						{
+							hs_compile_globals.error_message = "i couldn't allocate space for this global.";
+							hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+						}
+#else
+						hs_compile_globals.disallow_blocks = true;
+						hs_compile_globals.disallow_sets = true;
+
+						int16 new_global_index = (int16)test_data.hs_globals.new_element_index();
+						if (new_global_index != NONE)
+						{
+							hs_global_internal* new_global = &test_data.hs_globals[new_global_index];
 							csstrnzcpy(new_global->name, global_name, NUMBEROF(new_global->name));
 							new_global->initialization_expression_index = initialization_index;
 
@@ -440,6 +481,7 @@ char* hs_compile_add_source(int32 source_size, const char* source_data)
 #if 1
 	char* compiled_new_source = NULL;
 #else
+#define system_realloc realloc
 	char* compiled_new_source = NULL;
 	char* compiled_source = (char*)system_realloc(hs_compile_globals.compiled_source, source_size + hs_compile_globals.compiled_source_size + 1);
 	if (compiled_source)
@@ -1003,9 +1045,15 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 	bool success = true;
 
 	const struct scenario* scenario = global_scenario_get();
+#if 1
 	for (int16 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
 	{
 		hs_global_internal* global = TAG_BLOCK_GET_ELEMENT(&scenario->hs_globals, global_index, hs_global_internal);
+#else
+	for (int16 global_index = 0; global_index < test_data.hs_globals.count(); global_index++)
+	{
+		hs_global_internal* global = &test_data.hs_globals[global_index];
+#endif
 
 		ASSERT(global->initialization_expression_index != NONE);
 		ASSERT(hs_syntax_get(global->initialization_expression_index)->type == _hs_unparsed);
@@ -1039,9 +1087,15 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 		hs_compile_globals.current_global_index = NONE;
 	}
 
+#if 1
 	for (int16 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 	{
 		hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, script_index, hs_script);
+#else
+	for (int16 script_index = 0; script_index < test_data.hs_scripts.count(); script_index++)
+	{
+		hs_script* script = &test_data.hs_scripts[script_index];
+#endif
 
 		ASSERT(script->root_expression_index != NONE);
 		ASSERT(hs_syntax_get(script->root_expression_index)->type == _hs_unparsed);
@@ -1099,13 +1153,23 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	}
 
 	int32 total_source_size = 0;
+
+#if 1
 	struct scenario* scenario = global_scenario_get();
 	for (int16 source_index = 0; source_index < (int16)scenario->hs_source_files.count; source_index++)
 	{
 		hs_source_file* source_file = TAG_BLOCK_GET_ELEMENT(&scenario->hs_source_files, source_index, hs_source_file);
+		char* source_text = TAG_DATA_GET_POINTER(&source_file->source, 0, source_file->source.size, char);
+#else
+	test_data.hs_source_files[test_data.hs_source_files.new_element_index()] = _1st_source_file;
+
+	for (int16 source_index = 0; source_index < (int16)test_data.hs_source_files.count(); source_index++)
+	{
+		hs_source_file* source_file = &test_data.hs_source_files[source_index];
+		char* source_text = (char*)source_file->source.address;
+#endif
 
 #if 0
-		char* source_text = TAG_DATA_GET_POINTER(&source_file->source, 0, source_file->source.size, char);
 		if (source_text)
 		{
 			ascii_strnlwr(source_text, source_file->source.size);
