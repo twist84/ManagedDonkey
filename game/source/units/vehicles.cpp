@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
+#include "units/vehicle_type_chopper.hpp"
 #include "units/vehicle_type_component.hpp"
 
 #include <math.h>
@@ -80,9 +81,9 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 	{
 		if (vehicle_definition->vehicle.physics.flags.test(_havok_vehicle_physics_definition_flags_invalid))
 		{
-			real_point3d origin{};
-			object_get_origin(vehicle_index, &origin);
-			render_debug_string_at_point(&origin, "invalid vehicle!!! read your debug.txt", global_real_argb_red);
+			real_point3d text_point{};
+			object_get_origin(vehicle_index, &text_point);
+			render_debug_string_at_point(&text_point, "invalid vehicle!!! read your debug.txt", global_real_argb_red);
 		}
 
 		const s_vehicle_engine_definition* engine_definition = NULL;
@@ -96,12 +97,20 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 		break;
 		case _vehicle_type_human_jeep:
 		{
-			engine_definition = &vehicle_get_human_tank_definition(vehicle->definition_index)->engine;
+			engine_definition = &vehicle_get_human_jeep_definition(vehicle->definition_index)->engine;
 		}
 		break;
 		case _vehicle_type_chopper:
 		{
 			engine_definition = &vehicle_get_chopper_definition(vehicle->definition_index)->engine;
+
+			real_point3d magic_origin{};
+			const real_vector3d* magic_turning_vector = c_vehicle_type_chopper::get_debug_magic_force_vector(vehicle_index, &magic_origin);
+			if (magic_turning_vector)
+			{
+				render_debug_point(true, &magic_origin, 0.05f, global_real_argb_blue);
+				render_debug_vector(true, &magic_origin, magic_turning_vector, 2.0f, global_real_argb_red);
+			}
 		}
 		break;
 		}
@@ -111,19 +120,32 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 		{
 			if (engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
 			{
-				real32 v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
-				int32 v1 = static_cast<int32>(fminf(fmaxf(v0, 0.0f), 20.0f));
-				int32 v2 = static_cast<int32>(fminf(fmaxf(v0 - 20.0f, 0.0f), 20.0f));
+				//const int32 ticks_over;
+				//const int32 ticks;
+				//const int32 max_ticks;
+				// ^ these are some of the following `int32` values
+
+				const real32 engine_speed = ((vehicle_engine_get_rpm_function_scale(engine) * engine->engine_angular_velocity) / engine_definition->engine_max_angular_velocity) * 20.0f;
+				int32 v1 = (int32)fminf(fmaxf(engine_speed, 0.0f), 20.0f);
+				int32 v2 = (int32)fminf(fmaxf(engine_speed - 20.0f, 0.0f), 20.0f);
 				int32 v3 = 20 - v1;
 				int32 v4 = 20 - v2;
 
-				char string[1024]{};
-				csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_definition->gears.count - 1, v3, v1, v4);
+				char text_buffer[1024]{};
+				csnzprintf(text_buffer, NUMBEROF(text_buffer), "gear %d/%d **%ld---%ld^^^%ld",
+					engine->gear,
+					engine_definition->gears.count - 1,
+					v3,
+					v1,
+					v4);
 
-				real_point3d origin{};
-				object_get_origin(vehicle_index, &origin);
-				origin.z += 1.0f;
-				render_debug_string_at_point(&origin, string, v2 ? global_real_argb_red : global_real_argb_aqua);
+				real_point3d text_point{};
+				object_get_origin(vehicle_index, &text_point);
+				static real32 heigh_offset = 1.0f;
+				text_point.z += heigh_offset;
+
+				const real_argb_color* color = v2 ? global_real_argb_red : global_real_argb_aqua;
+				render_debug_string_at_point(&text_point, text_buffer, color);
 			}
 		}
 	}
