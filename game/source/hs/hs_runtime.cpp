@@ -733,7 +733,7 @@ void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, 
 			}
 			ASSERT(*argument_count < LONG_BITS);
 
-			memset(argument_evaluation_flags, 0, BIT_VECTOR_SIZE_IN_BYTES(*argument_count));
+			csmemset(argument_evaluation_flags, 0, BIT_VECTOR_SIZE_IN_BYTES(*argument_count));
 		}
 
 		int16 random_argument_index = _random_range(
