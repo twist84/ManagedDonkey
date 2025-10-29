@@ -6,8 +6,8 @@
 // $TODO global find and replace the following? `\/\/ \$TODO ([^\r\n]+)` `$TODO("$1")`
 #define $TODO(msg) __pragma(message(__FILE__ "(" STRINGIFY(__LINE__) "): TODO: " msg)) \
 
-#define _CONCAT(x, y) x ## y
-#define CONCAT(x, y) _CONCAT(x, y)
+#define XCONCAT(x, y) x ## y
+#define CONCAT(x, y) XCONCAT(x, y)
 
 #define OFFSETOF(s,m) __builtin_offsetof(s,m)
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
