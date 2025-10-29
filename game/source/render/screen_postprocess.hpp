@@ -148,9 +148,9 @@ public:
 		c_rasterizer::e_surface surface_b);
 
 	static void __cdecl render_ssao(
-		c_camera_fx_settings* fx_settings,
-		render_projection* projection,
-		render_camera* camera);
+		const c_camera_fx_values* fx_values,
+		const render_projection* projection,
+		const render_camera* camera);
 
 	static void __cdecl postprocess_ssr(
 		const render_projection* projection,

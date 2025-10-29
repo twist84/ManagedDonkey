@@ -407,20 +407,17 @@ void __cdecl c_screen_postprocess::render_lightshafts(s_lightshafts* lightshafts
 	INVOKE(0x00A62720, c_screen_postprocess::render_lightshafts, lightshafts, projection, camera, surface_a, surface_b);
 }
 
-void __cdecl c_screen_postprocess::render_ssao(c_camera_fx_settings* fx_settings, render_projection* projection, render_camera* camera)
+void __cdecl c_screen_postprocess::render_ssao(const c_camera_fx_values* fx_values, const render_projection* projection, const render_camera* camera)
 {
-	if (game_is_splitscreen_deterministic())
-		return;
-
-	bool ssao_enable = TEST_BIT(fx_settings->m_ssao.m_flags, 1);
-	if (g_ssao_enable != NONE)
-		ssao_enable = g_ssao_enable == 1;
-
-	if (ssao_enable && global_preferences_get_postprocessing_quality())
+	if (!game_is_splitscreen_deterministic())
 	{
-		c_rasterizer_profile_scope _ssao(_rasterizer_profile_element_total, L"ssao");
+		bool use_ssao = g_ssao_enable != NONE ? g_ssao_enable == 1 : TEST_BIT(fx_values->ssao.m_flags, 1);
+		if (use_ssao && global_preferences_get_postprocessing_quality())
+		{
+			c_rasterizer_profile_scope _ssao(_rasterizer_profile_element_total, L"ssao");
 
-		INVOKE(0x00A62D70, render_ssao, fx_settings, projection, camera);
+			INVOKE(0x00A62D70, render_ssao, fx_values, projection, camera);
+		}
 	}
 }
 
