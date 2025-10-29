@@ -59,9 +59,9 @@ void __cdecl object_early_movers_initialize_for_new_map()
 
 //.text:00B98AD0 ; bool __cdecl object_get_early_mover_local_space_acceleration(int32, const real_point3d*, real_vector3d*, real_vector3d*, bool, bool)
 
-bool __cdecl object_get_early_mover_local_space_velocity(int32 object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool a4, bool a5)
+bool __cdecl object_get_early_mover_local_space_velocity(int32 moving_object_index, real_vector3d* linear_local_space_velocity, real_vector3d* angular_local_space_velocity, bool localized_phyiscs_early_movers_only, bool current)
 {
-	return INVOKE(0x00B98CF0, object_get_early_mover_local_space_velocity, object_index, linear_local_space_velocity, angular_local_space_velocity, a4, a5);
+	return INVOKE(0x00B98CF0, object_get_early_mover_local_space_velocity, moving_object_index, linear_local_space_velocity, angular_local_space_velocity, localized_phyiscs_early_movers_only, current);
 }
 
 //.text:00B98D30 ; bool __cdecl object_get_early_mover_local_space_velocity(int32, const real_point3d*, real_vector3d*, real_vector3d*, bool, bool)
@@ -83,8 +83,13 @@ void __cdecl object_get_early_movers(const int32** object_early_movers, int32* o
 }
 
 //.text:00B98EF0 ; void __cdecl object_in_early_mover_detach(int32)
-//.text:00B98FB0 ; void __cdecl object_in_early_mover_join(int32, int32)
-//.text:00B99090 ; void __cdecl object_in_early_mover_join(int32, int32, bool)
+
+void __cdecl object_in_early_mover_join(int32 object_index, int32 joining_object_index)
+{
+	INVOKE(0x00B98FB0, object_in_early_mover_join, object_index, joining_object_index);
+}
+
+//.text:00B99090 ; void __cdecl object_in_early_mover_join(int32 early_mover_object_index, int32 joining_object_index, bool accept)
 //.text:00B99100 ; void __cdecl object_in_early_mover_physics_move(int32, void (__cdecl *)(int32))
 //.text:00B993C0 ; void __cdecl object_in_early_mover_physics_update(int32)
 //.text:00B995B0 ; bool __cdecl object_in_early_mover_transform_get(int32, real_matrix4x3*)

@@ -29,7 +29,12 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(int32* out_vehicle_index)
 //.text:00B75770 ; bool __cdecl vehicle_auto_control(int32)
 //.text:00B757B0 ; bool __cdecl vehicle_build_update(int32, void*, int16*, int16)
 //.text:00B757C0 ; bool __cdecl vehicle_calculate_aabb_phantom_bounds(int32, real_rectangle3d*)
-//.text:00B75810 ; bool __cdecl vehicle_can_be_teleported(int32)
+
+bool __cdecl vehicle_can_be_teleported(int32 vehicle_index)
+{
+	return INVOKE(0x00B75810, vehicle_can_be_teleported, vehicle_index);
+}
+
 //.text:00B75860 ; bool __cdecl vehicle_causes_collision_damage(int32)
 //.text:00B758B0 ; bool __cdecl vehicle_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00B75A90 ; int32 __cdecl vehicle_count_bipeds_killed(int32)

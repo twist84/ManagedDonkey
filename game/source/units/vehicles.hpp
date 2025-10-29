@@ -62,6 +62,7 @@ struct vehicle_datum
 static_assert(sizeof(vehicle_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
 
 extern bool __cdecl vehicle_about_to_detonate_near_any_player(int32* out_vehicle_index);
+extern bool __cdecl vehicle_can_be_teleported(int32 vehicle_index);
 extern void __cdecl vehicle_get_seat_position(int32 vehicle_index, int16 seat_index, real_point3d* seat_position);
 extern e_vehicle_type __cdecl vehicle_get_type(int32 vehicle_index);
 extern bool __cdecl vehicle_moving_near_any_player(int32* out_vehicle_index);

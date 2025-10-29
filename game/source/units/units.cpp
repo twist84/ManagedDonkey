@@ -523,7 +523,12 @@ void __cdecl unit_render_debug_indicator(int32 unit_index, const real_argb_color
 //.text:00B48380 ; void __cdecl unit_seat_try_opening(int32 unit_index, int32 seat_index, bool immediate, bool start_only, bool testing_late)
 //.text:00B48440 ; 
 //.text:00B484D0 ; void __cdecl unit_set_actively_controlled(int32 unit_index, bool actively_controlled)
-//.text:00B48590 ; void __cdecl unit_set_aiming_vectors(int32 unit_index, const real_vector3d* aiming_vector, const real_vector3d* looking_vector)
+
+void __cdecl unit_set_aiming_vectors(int32 unit_index, const real_vector3d* aiming_vector, const real_vector3d* looking_vector)
+{
+	INVOKE(0x00B48590, unit_set_aiming_vectors, unit_index, aiming_vector, looking_vector);
+}
+
 //.text:00B48610 ; void __cdecl unit_set_controllable(int32 unit_index, bool controllable)
 //.text:00B48650 ; void __cdecl unit_set_desired_grenade_type(int32 unit_index, int16 grenade_type)
 //.text:00B48690 ; void __cdecl unit_set_desired_weapon_set(int32 unit_index, const s_unit_weapon_set* weapon_set)

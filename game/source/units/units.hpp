@@ -400,6 +400,7 @@ extern bool __cdecl unit_has_weapon_definition_index(int32 unit_index, int32 wea
 extern int32 __cdecl unit_inventory_get_weapon(int32 unit_index, int16 inventory_index);
 extern void __cdecl unit_render_debug(int32 unit_index);
 extern void __cdecl unit_render_debug_indicator(int32 unit_index, const real_argb_color* color);
+extern void __cdecl unit_set_aiming_vectors(int32 unit_index, const real_vector3d* aiming_vector, const real_vector3d* looking_vector);
 extern bool __cdecl unit_try_to_drop_weapon(int32 unit_index, bool drop_secondary);
 extern bool __cdecl unit_unsuspecting(int32 unit_index, const real_point3d* attacker_position, const real_vector3d* attacker_direction);
 extern void __cdecl unit_unzoom(int32 unit_index, bool unzoom_binoculars_only);

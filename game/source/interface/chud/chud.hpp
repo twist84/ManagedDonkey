@@ -800,6 +800,7 @@ extern void __cdecl chud_game_tick();
 extern bool __cdecl chud_generate_damage_flash_texture(int32 user_index);
 extern void __cdecl chud_initialize();
 extern void __cdecl chud_initialize_for_new_map();
+extern void __cdecl chud_motion_sensor_invalidate(int32 user_index);
 extern s_chud_shared_persistent_user_data* __cdecl chud_shared_persistent_user_data_get(int32 user_index);
 extern bool __cdecl chud_should_draw_screen_saved_film(int32 user_index);
 extern void __cdecl chud_submit_navpoint(int32, const s_chud_navpoint* navpoint);

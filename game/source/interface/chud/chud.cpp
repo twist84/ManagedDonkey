@@ -200,7 +200,12 @@ void __cdecl chud_initialize_for_new_map()
 }
 
 //.text:00A89820 ; bool __cdecl chud_motion_sensor_enemies_nearby(int32 user_index)
-//.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(int32 user_index)
+
+void __cdecl chud_motion_sensor_invalidate(int32 user_index)
+{
+	INVOKE(0x00A89860, chud_motion_sensor_invalidate, user_index);
+}
+
 //.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(int32 object_index)
 //.text:00A898B0 ; bool __cdecl chud_motion_sensor_slow_moving_boardable_enemy_vehicles_nearby(int32 user_index)
 //.text:00A898F0 ; 

@@ -14,13 +14,18 @@
 #include "motor/actions.hpp"
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_pvs.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "text/draw_string.hpp"
+#include "units/vehicles.hpp"
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x00539B20, player_find_action_context);
+HOOK_DECLARE(0x0053C8A0, player_set_facing);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
+//HOOK_DECLARE(0x0053FB80, player_teleport_internal_postprocess);
+//HOOK_DECLARE(0x0053FCC0, player_teleport_on_bsp_switch);
 HOOK_DECLARE(0x00541310, players_compute_combined_pvs);
 
 bool debug_player_network_aiming = false;
@@ -617,26 +622,28 @@ real_rgb_color __cdecl player_profile_get_rgb_color(int32 color_index)
 
 void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing)
 {
-	INVOKE(0x0053C8A0, player_set_facing, player_index, facing);
+	//INVOKE(0x0053C8A0, player_set_facing, player_index, facing);
 
-	//player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
-	//if (game_is_authoritative())
-	//{
-	//	if (player->unit_index != NONE)
-	//	{
-	//		unit_datum* unit = UNIT_GET(player->unit_index);
-	//		unit->unit.facing_vector = *facing;
-	//		unit->unit.desired_aiming_vector = *facing;
-	//		unit->unit.desired_looking_vector = *facing;
-	//
-	//		simulation_action_object_update(player->unit_index, _simulation_unit_update_desired_aiming_vector);
-	//	}
-	//
-	//}
-	//
-	//int32 input_user = player_mapping_get_input_user(player_index);
-	//if (input_user != NONE)
-	//	player_control_set_facing(input_user, facing);
+	const player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
+	if (game_is_authoritative())
+	{
+		if (player->unit_index != NONE)
+		{
+			unit_datum* unit = UNIT_GET(player->unit_index);
+			unit->unit.desired_facing_vector = *facing;
+			unit->unit.desired_aiming_vector = *facing;
+			unit->unit.desired_looking_vector = *facing;
+	
+			simulation_action_object_update(player->unit_index, _simulation_unit_update_desired_aiming_vector);
+		}
+	
+	}
+	
+	int32 input_user_index = player_mapping_get_input_user(player_index);
+	if (input_user_index != NONE)
+	{
+		player_control_set_facing(input_user_index, facing);
+	}
 }
 
 //.text:0053C980 ; 
@@ -736,8 +743,129 @@ bool __cdecl player_teleport_internal(int32 player_index, int32 source_unit_inde
 	return INVOKE(0x0053F630, player_teleport_internal, player_index, source_unit_index, position, always_use_raytest, play_teleport_effect);
 }
 
-//.text:0053FB80 ; void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 source_unit_index, bool play_teleport_effect)
-//.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit_index, const real_point3d* position, const real_vector3d* facing, bool can_bring_vehicle)
+void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 source_unit_index, bool play_teleport_effect)
+{
+#if 1
+	INVOKE(0x0053FB80, player_teleport_internal_postprocess, player_index, source_unit_index, play_teleport_effect);
+#else
+	player_datum *player = DATUM_GET(player_data, player_datum, player_index);
+	object_set_velocities(object_get_ultimate_parent(player->unit_index), global_zero_vector3d, global_zero_vector3d);
+	
+	{
+		c_player_output_user_iterator iterator;
+		iterator.begin_player(player_index);
+		while (iterator.next())
+		{
+			chud_motion_sensor_invalidate(iterator.get_user_index());
+		}
+	}
+	
+	if (source_unit_index != NONE)
+	{
+		real_vector3d forward = UNIT_GET(source_unit_index)->object.forward;
+		player_set_facing(player_index, &forward);
+
+		real_vector3d source_unit_local_linear_velocity{};
+		real_vector3d source_unit_local_angular_velocity{};
+		if (TEST_BIT(_object_mask_biped, object_get_type(source_unit_index))
+			&& TEST_BIT(_object_mask_biped, object_get_type(player->unit_index))
+			&& object_get_early_mover_local_space_velocity(source_unit_index,
+				&source_unit_local_linear_velocity,
+				&source_unit_local_angular_velocity,
+				false,
+				false))
+		{
+			object_in_early_mover_join(source_unit_index, player->unit_index);
+			object_set_velocities(player->unit_index, &source_unit_local_linear_velocity, NULL);
+		}
+	}
+	
+	if (play_teleport_effect)
+	{
+		player->flags |= FLAG(_player_play_coop_spawn_effect_bit);
+	}
+#endif
+}
+
+void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit_index, const real_point3d* position, const real_vector3d* facing, bool can_bring_vehicle)
+{
+#if 1
+	INVOKE(0x0053FCC0, player_teleport_on_bsp_switch, player_index, source_unit_index, position, facing, can_bring_vehicle);
+#else
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+	if (player->unit_index != NONE)
+	{
+		const unit_datum* unit = UNIT_GET(player->unit_index);
+		bool success = false;
+		if (unit->object.parent_object_index != NONE)
+		{
+			if (object_get_ultimate_parent(unit->object.parent_object_index) != object_get_ultimate_parent(source_unit_index))
+			{
+				const int32 ultimate_parent_index = object_get_ultimate_parent(player->unit_index);
+				if (can_bring_vehicle
+					&& TEST_BIT(_object_mask_vehicle, object_get_type(ultimate_parent_index))
+					&& vehicle_can_be_teleported(ultimate_parent_index))
+				{
+					object_set_position(ultimate_parent_index, NULL, facing, global_up3d, NULL);
+					success = player_teleport_internal(player_index, source_unit_index, position, false, true);
+				}
+
+				if (!success)
+				{
+					action_submit(player->unit_index, _action_vehicle_exit_immediate);
+				}
+			}
+		}
+
+		if (!success)
+		{
+			object_set_position(player->unit_index, NULL, facing, global_up3d, NULL);
+			unit_set_aiming_vectors(player->unit_index, facing, facing);
+			success = player_teleport_internal(player_index, source_unit_index, position, true, true);
+		}
+
+		if (!success)
+		{
+			if (player->unit_index != NONE)
+			{
+				int32 source_unit_ultimate_parent_index = object_get_ultimate_parent(source_unit_index);
+				int32 unit_ultimate_parent_index = object_get_ultimate_parent(player->unit_index);
+
+				s_location source_unit_location{};
+				object_get_location(source_unit_ultimate_parent_index, &source_unit_location);
+
+				real_point3d source_unit_center_of_mass{};
+				object_get_center_of_mass(source_unit_ultimate_parent_index, &source_unit_center_of_mass);
+
+				real_point3d unit_center_of_mass{};
+				object_get_center_of_mass(unit_ultimate_parent_index, &unit_center_of_mass);
+
+				real_point3d unit_origin{};
+				object_get_origin(unit_ultimate_parent_index, &unit_origin);
+
+				real_vector3d origin_offset{};
+				vector_from_points3d(&unit_center_of_mass, &unit_origin, &origin_offset);
+
+				real_point3d new_origin{};
+				point_from_line3d(&source_unit_center_of_mass, &origin_offset, 1.0f, &new_origin);
+
+				object_set_position(unit_ultimate_parent_index, &new_origin, NULL, NULL, &source_unit_location);
+				player_teleport_internal_postprocess(player_index, source_unit_index, true);
+
+				event(_event_warning, "failed to used standard teleporation techniques, teleporting directly to the center of mass of the source unit.");
+			}
+			else
+			{
+				player->respawn_in_progress = true;
+				player->respawn_forced = true;
+				player->single_player_respawn_timer = 0;
+
+				event(_event_warning, "critical teleporter malfunction!!!  player landed on a romulan bird of prey and is no more :-(");
+			}
+		}
+	}
+#endif
+}
 //.text:0053FED0 ; int16 __cdecl player_terminals_accessed_bitvector_get()
 //.text:0053FEF0 ; void __cdecl player_terminals_accessed_bitvector_set(int16)
 //.text:0053FF20 ; int16 __cdecl player_terminals_read_bitvector_get()

@@ -753,6 +753,8 @@ extern bool __cdecl player_spawn(int32 player_index, const real_point3d* positio
 extern void __cdecl player_suppress_action(int32 player_index, int32 player_suppress_action_type);
 extern bool __cdecl player_teleport(int32 player_index, int32 source_unit_index, const real_point3d* position);
 extern bool __cdecl player_teleport_internal(int32 player_index, int32 source_unit_index, const real_point3d* position, bool always_use_raytest, bool play_teleport_effect);
+extern void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 source_unit_index, bool play_teleport_effect);
+extern void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit_index, const real_point3d* position, const real_vector3d* facing, bool can_bring_vehicle);
 extern bool __cdecl player_try_to_drop_weapon(int32 player_index, bool primary_weapon);
 extern int32 __cdecl player_unit_get_representation_index(int32 unit_index);
 extern int32 __cdecl player_unit_get_control_index(int32 unit_index);
