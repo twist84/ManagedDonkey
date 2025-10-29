@@ -17,12 +17,44 @@ void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address)
 //.text:00589610 ; 
 //.text:00589620 ; void __cdecl __tls_set_g_player_mapping_globals_allocator(void*)
 //.text:00589640 ; 
-//.text:00589680 ; public: void __cdecl c_player_output_user_iterator::begin_player(int32)
-//.text:005896A0 ; public: void __cdecl c_player_output_user_iterator::begin_unit(int32)
+
+void c_player_output_user_iterator::begin_player(int32 player_index)
+{
+	//INVOKE_CLASS_MEMBER(0x00589680, c_player_output_user_iterator, begin_player, player_index);
+
+	m_player_index = player_index;
+	m_output_user_index = NONE;
+}
+
+void c_player_output_user_iterator::begin_unit(int32 unit_index)
+{
+	//INVOKE_CLASS_MEMBER(0x005896A0, c_player_output_user_iterator, begin_unit, unit_index);
+
+	const unit_datum* unit = UNIT_GET(unit_index);
+	m_player_index = unit->unit.player_index;
+	m_output_user_index = NONE;
+}
+
 //.text:00589700 ; 
 //.text:00589730 ; 
-//.text:00589760 ; public: int32 __cdecl c_player_output_user_iterator::get_output_user_index()
-//.text:00589770 ; public: bool __cdecl c_player_output_user_iterator::next()
+
+int32 c_player_output_user_iterator::get_user_index()
+{
+	//INVOKE_CLASS_MEMBER(0x00589760, c_player_output_user_iterator, get_user_index);
+
+	return m_output_user_index;
+}
+
+bool c_player_output_user_iterator::next()
+{
+	//INVOKE_CLASS_MEMBER(0x00589770, c_player_output_user_iterator, next);
+
+	if (m_player_index != NONE)
+	{
+		m_output_user_index = player_mapping_get_next_output_user(m_player_index, m_output_user_index);
+	}
+	return m_output_user_index != NONE;
+}
 
 void __cdecl player_mapping_attach_output_user(int32 user_index, int32 player_index)
 {

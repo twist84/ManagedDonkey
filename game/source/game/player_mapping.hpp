@@ -2,6 +2,19 @@
 
 #include "cseries/cseries.hpp"
 
+class c_player_output_user_iterator
+{
+public:
+	void begin_player(int32 player_index);
+	void begin_unit(int32 unit_index);
+	int32 get_user_index();
+	bool next();
+
+private:
+	int32 m_player_index;
+	int32 m_output_user_index;
+};
+
 struct s_player_mapping_globals
 {
 	int16 active_input_user_count;
