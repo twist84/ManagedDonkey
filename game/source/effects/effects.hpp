@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "effects/beams.hpp"
 #include "effects/contrails.hpp"
-#include "effects/decals.hpp"
 #include "effects/light_volumes.hpp"
 #include "effects/particle.hpp"
 #include "effects/particle_emitter.hpp"

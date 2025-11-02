@@ -1,5 +1,8 @@
 #include "render_methods/render_method_submit.hpp"
 
+#include "cseries/cseries.hpp"
+#include "render/render_objects_static_lighting.hpp"
+
 REFERENCE_DECLARE(0x050FB608, bool, g_accum_LDR_hack);
 
 void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern)
@@ -12,6 +15,11 @@ void __cdecl render_method_clear_externs()
 	INVOKE(0x00A3CA50, render_method_clear_externs);
 }
 
+void __cdecl render_method_submit_data(int32 structure_bsp_index, const s_shader_extern_info* shader_extern_info)
+{
+	INVOKE(0x00A3CC20, render_method_submit_data, structure_bsp_index, shader_extern_info);
+}
+
 void __cdecl render_method_submit_invalidate_cache()
 {
 	INVOKE(0x00A3D090, render_method_submit_invalidate_cache);
@@ -20,6 +28,11 @@ void __cdecl render_method_submit_invalidate_cache()
 void __cdecl render_method_submit_single_extern(e_render_method_extern render_method_extern, bool fakeout)
 {
 	INVOKE(0x00A3D200, render_method_submit_single_extern, render_method_extern, fakeout);
+}
+
+void __cdecl render_method_submit_valid(bool valid)
+{
+	INVOKE(0x00A3D260, render_method_submit_valid, valid);
 }
 
 void __cdecl render_state_cache_dispose()

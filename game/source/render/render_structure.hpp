@@ -317,5 +317,6 @@ public:
 	static void __cdecl render_decorators();
 };
 
+extern bool& g_render_decorators;
 extern render_structure_globals& g_render_structure_globals;
 

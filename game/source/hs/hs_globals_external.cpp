@@ -39,6 +39,7 @@
 #include "render/render_debug_commands.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_objects_static_lighting.hpp"
+#include "render/render_structure.hpp"
 #include "render/render_transparents.hpp"
 #include "render/render_water.hpp"
 #include "render/screen_postprocess.hpp"
@@ -1053,10 +1054,10 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	render_lightmap_shadows,
 	_hs_type_boolean,
-	0x0191342C, // $TODO write the global chuckle nuts
+	&render_lightmap_shadows_enabled, // 0x0191342C,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_lightmap_shadows_apply,
@@ -1173,10 +1174,10 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	render_decorators,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_render_decorators,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	light_decorators,

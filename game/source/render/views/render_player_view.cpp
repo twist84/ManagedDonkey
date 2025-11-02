@@ -40,6 +40,26 @@ enum
 	k_ps_decal_fade = 32,
 };
 
+enum
+{
+	k_vs_decorators_lights = 16,
+	k_vs_decorators_lights_count = 230,
+	//k_vs_decorators_instance_compression_offset = ?,
+	//k_vs_decorators_instance_compression_scale = ?,
+	//k_vs_decorators_instance_data = ?,
+	//k_vs_decorators_lod_constants = ?,
+	//k_vs_decorators_translucency = ?,
+	//k_vs_decorators_wave_flow = ?,
+	//k_vs_decorators_sun_direction = ?,
+	//k_vs_decorators_sun_direction_pad = ?,
+	//k_vs_decorators_sun_color = ?,
+	//k_vs_decorators_sun_color_pad = ?,
+	//k_vs_decorators_instance_position_and_scale = ?,
+	//k_vs_decorators_instance_quaternion = ?,
+	//k_ps_decorators_contrast = ?,
+	//k_ps_decorators_contrast_pad = ?,
+};
+
 REFERENCE_DECLARE(0x019147B8, real32, g_particle_hack_near_fade_scale);
 REFERENCE_DECLARE(0x019147BC, real32, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real32, render_debug_depth_render_scale_g);
@@ -574,7 +594,9 @@ bool __thiscall c_player_view::render_albedo()
 		m_illum_render_scale,
 		c_camera_fx_values::g_HDR_target_stops,
 		false);
-	m_lights_view.submit_simple_light_draw_list_to_vertex_shader(230, 16);
+	m_lights_view.submit_simple_light_draw_list_to_vertex_shader(
+		k_vs_decorators_lights_count,
+		k_vs_decorators_lights);
 
 	if (g_motion_blur_enabled)
 	{
@@ -630,33 +652,29 @@ void __cdecl c_player_view::render_albedo_decals(bool render_object_decals, bool
 {
 	//INVOKE(0x00A3A310, c_player_view::render_albedo_decals, render_object_decals, render_structure_decals);
 
-	c_rasterizer_profile_scope _decorators(_rasterizer_profile_element_total, L"decorators");
+	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_read);
+	c_rasterizer::begin_high_quality_blend();
 
-	HOOK_INVOKE_CLASS(, c_player_view, render_albedo_decals, decltype(&c_player_view::render_albedo_decals), render_object_decals, render_structure_decals);
+	if (render_object_decals)
+	{
+		int pixel_kill_enabled = 1;
+		c_rasterizer::set_vertex_shader_constant_bool(k_vs_decal_pixel_kill_enabled, 1, &pixel_kill_enabled);
 
-	//c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_read);
-	//c_rasterizer::begin_high_quality_blend();
-	//
-	//if (render_object_decals)
-	//{
-	//	int pixel_kill_enabled = 1;
-	//	c_rasterizer::set_vertex_shader_constant_bool(k_vs_decal_pixel_kill_enabled, 1, &pixel_kill_enabled);
-	//
-	//	real_vector4d fade{};
-	//	set_real_vector4d(&fade, 1.0f, 1.0f, 1.0f, 1.0f);
-	//	c_rasterizer::set_pixel_shader_constant(k_ps_decal_fade, 1, &fade);
-	//
-	//	real_vector4d sprite{};
-	//	set_real_vector4d(&sprite, 0.0f, 0.0f, 1.0f, 1.0f);
-	//	c_rasterizer::set_vertex_shader_constant(k_vs_decal_sprite, 1, &sprite);
-	//
-	//	c_object_renderer::render_albedo_decals();
-	//}
-	//
-	//if (render_structure_decals)
-	//{
-	//	c_decal_system::render_all(_pass_post_albedo);
-	//}
+		real_vector4d fade{};
+		set_real_vector4d(&fade, 1.0f, 1.0f, 1.0f, 1.0f);
+		c_rasterizer::set_pixel_shader_constant(k_ps_decal_fade, 1, &fade);
+
+		real_vector4d sprite{};
+		set_real_vector4d(&sprite, 0.0f, 0.0f, 1.0f, 1.0f);
+		c_rasterizer::set_vertex_shader_constant(k_vs_decal_sprite, 1, &sprite);
+
+		c_object_renderer::render_albedo_decals();
+	}
+
+	if (render_structure_decals)
+	{
+		c_decal_system::render_all(c_decal_definition::_pass_post_albedo);
+	}
 }
 
 //.text:00A3A3C0 ; protected: void __cdecl c_player_view::render_dynamic_lights(IDirect3DSurface9* ldr_surface, IDirect3DSurface9* hdr_surface, IDirect3DSurface9* depth_surface)
@@ -688,33 +706,31 @@ void __thiscall c_player_view::render_first_person_albedo()
 
 	c_rasterizer_profile_scope _first_person_albedo(_rasterizer_profile_element_total, L"first_person_albedo");
 
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, render_first_person_albedo);
-
-	//if (player_control_get_zoom_level(m_camera_user_data.user_index) == 0xFFFF)
-	//{
-	//	g_rendering_first_person = true;
-	//	c_visible_items::push_marker();
-	//	c_object_renderer::push_marker();
-	//
-	//	*m_first_person_view.get_render_camera_modifiable() = m_render_camera;
-	//	*m_first_person_view.get_rasterizer_camera_modifiable() = m_rasterizer_camera;
-	//	m_first_person_view.m_default_rasterizer_camera = &m_rasterizer_camera;
-	//
-	//	m_first_person_view.compute_visibility(m_camera_user_data.user_index);
-	//	m_first_person_view.render_submit_visibility(m_camera_user_data.user_index, false);
-	//
-	//	c_view::begin(&m_first_person_view);
-	//	m_first_person_view.override_projection(true);
-	//	m_first_person_view.render_albedo(m_camera_user_data.user_index);
-	//	c_view::end();
-	//
-	//	c_visible_items::pop_marker();
-	//	c_object_renderer::pop_marker();
-	//	g_rendering_first_person = false;
-	//}
+	if (player_control_get_zoom_level(m_camera_user_data.user_index) == (int16)0xFFFF)
+	{
+		g_rendering_first_person = true;
+		c_visible_items::push_marker();
+		c_object_renderer::push_marker();
+	
+		*m_first_person_view.get_render_camera_modifiable() = m_render_camera;
+		*m_first_person_view.get_rasterizer_camera_modifiable() = m_rasterizer_camera;
+		m_first_person_view.m_default_rasterizer_camera = &m_rasterizer_camera;
+	
+		m_first_person_view.compute_visibility(m_camera_user_data.user_index);
+		m_first_person_view.render_submit_visibility(m_camera_user_data.user_index, false);
+	
+		c_view::begin(&m_first_person_view);
+		m_first_person_view.override_projection(true);
+		m_first_person_view.render_albedo(m_camera_user_data.user_index);
+		c_view::end();
+	
+		c_visible_items::pop_marker();
+		c_object_renderer::pop_marker();
+		g_rendering_first_person = false;
+	}
 }
 
-//.text:00A3A6B0 ; 
+//.text:00A3A6B0 ; protected: static void __cdecl c_player_view::render_first_person_shadows()
 
 void __thiscall c_player_view::render_lens_flares()
 {

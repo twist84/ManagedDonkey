@@ -53,9 +53,13 @@ static_assert(sizeof(s_render_object_globals) == 0x3C040);
 class c_object_renderer
 {
 public:
+	static void __cdecl pop_marker();
+	static void __cdecl push_marker();
 	static void __cdecl render_albedo(uns32 flags);
+	static void __cdecl render_albedo_decals();
 	static void __cdecl render_object_contexts(e_entry_point entry_point, int32 mesh_part_mask);
 	static void __cdecl render_object_widgets(e_entry_point entry_point);
 	static void __cdecl submit_and_render_sky(int32 entry_point_type, int32 player_window_index);
+	static void __cdecl submit_visibility(uns32 submit_visibility_flags);
 };
 

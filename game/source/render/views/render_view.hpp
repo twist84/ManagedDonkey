@@ -245,8 +245,10 @@ class c_first_person_view :
 	public c_view
 {
 public:
+	void __thiscall compute_visibility(int32 user_index);
 	void __thiscall override_projection(bool squish_close_to_camera);
 	void __thiscall render_albedo(int32 user_index);
+	void __thiscall render_submit_visibility(int32 user_index, bool submit_transparents);
 
 //protected:
 
@@ -399,6 +401,7 @@ protected:
 };
 static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
 
+extern bool& render_lightmap_shadows_enabled;
 extern bool render_debug_pix_events;
 
 extern void __cdecl render_debug_frame_render();

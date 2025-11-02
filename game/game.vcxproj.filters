@@ -4595,6 +4595,9 @@
     <ClInclude Include="source\interface\gui_screens\dialog\gui_screen_dialog.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\render_methods\render_method_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">

@@ -4,10 +4,15 @@
 #include "game/game.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
+#include "render_methods/render_method_submit.hpp"
+
+REFERENCE_DECLARE(0x0166E170, const s_shader_extern_info, c_decal::x_shader_extern_info);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00694430, c_decal, render);
-HOOK_DECLARE_CLASS(0x00694790, c_decal, render_all);
+//HOOK_DECLARE_CLASS(0x00694790, c_decal, render_all);
+HOOK_DECLARE_CLASS(0x00694810, c_decal_system, render_all);
 HOOK_DECLARE(0x006948C0, sub_6948C0);
 
 bool disable_sub_6948C0 = true;
@@ -67,8 +72,7 @@ void __cdecl c_decal_system::prepare_for_non_bsp_zone_set_switch(const s_game_no
 	INVOKE(0x006941B0, prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 }
 
-//void __cdecl c_decal::render(c_decal_definition::e_pass) const
-void __thiscall c_decal::render(int32 pass)
+void __thiscall c_decal::render(c_decal_definition::e_pass pass)// const
 {
 	//INVOKE_CLASS_MEMBER(0x00694430, c_decal, render, pass);
 
@@ -83,14 +87,41 @@ void __thiscall c_decal::render(int32 pass)
 	HOOK_INVOKE_CLASS_MEMBER(, c_decal, render, pass);
 }
 
-//void __cdecl c_decal::render_all(enum c_decal_definition::e_pass)
-void __cdecl c_decal::render_all(int32 pass)
+void __cdecl c_decal::render_all(c_decal_definition::e_pass pass)
 {
-	//INVOKE(0x00694790, c_decal::render_all, pass);
+	INVOKE(0x00694790, c_decal::render_all, pass);
+}
+
+void __cdecl c_decal_system::render_all(c_decal_definition::e_pass pass)
+{
+	//INVOKE(0x00694810, c_decal_system::render_all, pass);
 
 	c_rasterizer_profile_scope _decals(_rasterizer_profile_element_effects, L"decals");
 
-	HOOK_INVOKE_CLASS(, c_decal, render_all, decltype(&c_decal::render_all), pass);
+	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_decals);
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
+	c_rasterizer::begin_high_quality_blend();
+	if (pass == c_decal_definition::_pass_post_albedo)
+	{
+		c_rasterizer::set_color_write_enable(0, c_rasterizer::_color_write_enable_color);
+	}
+	else
+	{
+		c_rasterizer::set_render_target(1, c_rasterizer::_surface_normal, 0xFFFFFFFF);
+	}
+	render_method_submit_data(global_structure_bsp_first_active_index_get(), &c_decal::x_shader_extern_info);
+	c_rasterizer::set_stencil_mode(c_rasterizer::_stencil_mode_decals);
+	c_decal::render_all(pass);
+	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
+	c_rasterizer::end_high_quality_blend();
+	c_rasterizer::set_separate_alpha_blend_mode(c_rasterizer::_separate_alpha_blend_off);
+	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_write);
+	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_additive);
+	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_opaque);
+	c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+	c_rasterizer::set_stencil_mode(c_rasterizer::_stencil_mode_off);
+	c_rasterizer::set_color_write_enable(0, c_rasterizer::_color_write_enable_color);
+	render_method_submit_valid(false);
 }
 
 //.text:00695030 ; public: void __cdecl c_decal::submit() const

@@ -12,8 +12,17 @@ HOOK_DECLARE_CLASS(0x00A78410, c_object_renderer, render_albedo);
 //.text:00A78140 ; public: static void __cdecl c_object_renderer::initialize()
 //.text:00A781A0 ; public: static void __cdecl c_render_flags::or_window_bit(c_render_flags::e_window_bit, uns32)
 //.text:00A781C0 ; void __cdecl override_shield_impact_parameters(int32, const s_shield_impact_parameters*)
-//.text:00A781F0 ; public: static void __cdecl c_object_renderer::pop_marker()
-//.text:00A78230 ; public: static void __cdecl c_object_renderer::push_marker()
+
+void __cdecl c_object_renderer::pop_marker()
+{
+	INVOKE(0x00A781F0, c_object_renderer::pop_marker);
+}
+
+void __cdecl c_object_renderer::push_marker()
+{
+	INVOKE(0x00A78230, c_object_renderer::push_marker);
+}
+
 //.text:00A78280 ; public: static void __cdecl c_object_renderer::render_active_camo_object_context(const void*, int32)
 
 void __cdecl c_object_renderer::render_albedo(uns32 mesh_part_flags)
@@ -37,7 +46,11 @@ void __cdecl c_object_renderer::render_albedo(uns32 mesh_part_flags)
 		widgets_render_unattached(_entry_point_albedo);
 }
 
-//.text:00A78470 ; public: static void __cdecl c_object_renderer::render_albedo_decals()
+void __cdecl c_object_renderer::render_albedo_decals()
+{
+	INVOKE(0x00A78470, c_object_renderer::render_albedo_decals);
+}
+
 //.text:00A78480 ; 
 //.text:00A784F0 ; public: static void __cdecl c_object_renderer::render_lights(e_entry_point)
 //.text:00A78530 ; public: static void __cdecl c_object_renderer::render_object_context(int32, e_entry_point, int32, bool)
@@ -82,5 +95,9 @@ void __cdecl c_object_renderer::submit_and_render_sky(int32 entry_point_type, in
 //.text:00A79DE0 ; public: static void __cdecl c_object_renderer::submit_object_mesh_parts(s_object_render_context*, s_visible_object_render_visibility*, int32, bool, bool, bool, bool)
 //.text:00A7A280 ; public: static void __cdecl c_object_renderer::submit_object_mesh_parts_for_active_camo(s_object_render_context*, s_visible_object_render_visibility*, bool, bool)
 //.text:00A7A4F0 ; 
-//.text:00A7A510 ; public: static void __cdecl c_object_renderer::submit_visibility(uns32)
+
+void __cdecl c_object_renderer::submit_visibility(uns32 submit_visibility_flags)
+{
+	INVOKE(0x00A7A510, c_object_renderer::submit_visibility, submit_visibility_flags);
+}
 

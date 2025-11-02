@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+struct s_shader_extern_info;
 
 enum e_render_method_extern
 {
@@ -64,8 +64,10 @@ extern const char* k_render_method_extern_names[k_render_method_extern_count];
 
 extern void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern);
 extern void __cdecl render_method_clear_externs();
+extern void __cdecl render_method_submit_data(int32 structure_bsp_index, const s_shader_extern_info* shader_extern_info);
 extern void __cdecl render_method_submit_invalidate_cache();
 extern void __cdecl render_method_submit_single_extern(e_render_method_extern render_method_extern, bool fakeout);
+extern void __cdecl render_method_submit_valid(bool valid);
 extern void __cdecl render_state_cache_dispose();
 extern void __cdecl render_state_cache_dispose_from_old_map();
 extern void __cdecl render_state_cache_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);

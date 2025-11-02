@@ -1321,6 +1321,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
     <ClInclude Include="source\render_methods\render_method_definitions.hpp" />
+    <ClInclude Include="source\render_methods\render_method_types.hpp" />
     <ClInclude Include="source\saved_games\autosave_queue.hpp" />
     <ClInclude Include="source\saved_games\content\content_item_metadata.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />

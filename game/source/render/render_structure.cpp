@@ -4,10 +4,11 @@
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 
+REFERENCE_DECLARE(0x0191367C, bool, g_render_decorators);
+REFERENCE_DECLARE(0x050E8938, render_structure_globals, g_render_structure_globals);
+
 HOOK_DECLARE_CLASS(0x00A2F050, c_structure_renderer, render_albedo);
 HOOK_DECLARE_CLASS(0x00A2F340, c_structure_renderer, render_decorators);
-
-REFERENCE_DECLARE(0x050E8938, render_structure_globals, g_render_structure_globals);
 
 s_structure_bsp_resources* c_structure_bsp_resource_interface::get_resources() const
 {

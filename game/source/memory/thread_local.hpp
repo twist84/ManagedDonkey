@@ -11,6 +11,7 @@
 #include "cutscene/cinematics.hpp"
 #include "cutscene/recorded_animations.hpp"
 #include "devices/devices.hpp"
+#include "effects/decals.hpp"
 #include "effects/effects.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game.hpp"

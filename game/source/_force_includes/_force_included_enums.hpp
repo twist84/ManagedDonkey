@@ -5536,3 +5536,13 @@ enum
 	k_pvs_activation_count,
 };
 
+enum e_submit_visibility_flags
+{
+	_submit_visibility_transparents = 0,
+	_submit_visibility_treat_active_camo_as_opaque,
+	_submit_visibility_ignore_lighting,
+	_submit_visibility_first_person,
+
+	k_number_of_submit_visibility_flags,
+};
+

@@ -1,8 +1,10 @@
 #include "render/views/render_view.hpp"
 
+#include "camera/director.hpp"
 #include "cseries/async_xoverlapped.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game_time.hpp"
+#include "game/player_mapping.hpp"
 #include "hs/hs_runtime.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/chud/cortana_effect.hpp"
@@ -23,6 +25,7 @@
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_objects.hpp"
+#include "render/render_visibility_collection.hpp"
 #include "render/views/hud_camera_view.hpp"
 #include "shell/shell.hpp"
 
@@ -30,17 +33,16 @@
 
 REFERENCE_DECLARE(0x01913430, int32, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
-
 REFERENCE_DECLARE(0x050DEDF0, c_player_view*, c_player_view::x_current_player_view);
 REFERENCE_DECLARE_ARRAY(0x050DEE10, c_player_view, c_player_view::x_global_player_views, 4);
-
 REFERENCE_DECLARE(0x019180B8, int32, c_lights_view::g_gel_bitmap_index);
 REFERENCE_DECLARE(0x019180BC, real32, c_lights_view::g_render_light_intensity);
 REFERENCE_DECLARE(0x019180C0, uns32, c_lights_view::g_debug_clip_planes);
-
+REFERENCE_DECLARE(0x0191342C, bool, render_lightmap_shadows_enabled);
 REFERENCE_DECLARE(0x01913434, real32, c_first_person_view::m_fov_scale);
 REFERENCE_DECLARE(0x01913470, real32, c_first_person_view::m_z_far_scale);
 
+HOOK_DECLARE_CLASS_MEMBER(0x00A28A00, c_first_person_view, compute_visibility);
 HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
 HOOK_DECLARE_CLASS_MEMBER(0x00A29050, c_fullscreen_view, render_);
 HOOK_DECLARE_CLASS_MEMBER(0x00A290A0, c_ui_view, render_);
@@ -64,6 +66,20 @@ void __cdecl c_view::begin(c_view* view)
 	{
 		g_view_stack[++g_view_stack_top] = view;
 		view->render_setup();
+	}
+}
+
+void __thiscall c_first_person_view::compute_visibility(int32 user_index)
+{
+	//INVOKE_CLASS_MEMBER(0x00A28A00, c_first_person_view, compute_visibility, user_index);
+
+	if (user_index != NONE && director_get_perspective(user_index) == _director_perspective_first_person)
+	{
+		int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
+		if (unit_index != NONE)
+		{
+			render_visibility_add_first_person_object_to_items(user_index, unit_index, true, true);
+		}
 	}
 }
 
@@ -98,7 +114,9 @@ void __cdecl c_view::end()
 	//INVOKE(0x00A28B10, c_view::end);
 
 	if (--g_view_stack_top >= 0)
+	{
 		g_view_stack[g_view_stack_top]->render_setup();
+	}
 }
 
 int32 __cdecl c_view::get_current_stack_level()
@@ -240,7 +258,9 @@ void __thiscall c_first_person_view::override_projection(bool squish_close_to_ca
 	render_setup_window(rasterizer_camera_modifiable, render_projection_modifiable);
 
 	if (debug_static_first_person)
+	{
 		rasterizer_camera_modifiable->vertical_field_of_view = static_vertical_field_of_view;
+	}
 }
 
 void __thiscall c_ui_view::render_()
@@ -279,11 +299,7 @@ void __cdecl render_debug_frame_render()
 {
 	//INVOKE(0x00A29220, render_debug_frame_render);
 
-	if (sub_42E5D0())
-	{
-		return;
-	}
-
+	if (!sub_42E5D0())
 	{
 		c_rasterizer_profile_scope _frame_debug(_rasterizer_profile_element_debug, L"frame_debug");
 
@@ -332,6 +348,13 @@ void __cdecl render_debug_window_render(int32 user_index)
 		render_debug_clients(user_index);
 		render_debug_end(true, false, false);
 	}
+}
+
+void __thiscall c_first_person_view::render_submit_visibility(int32 user_index, bool submit_transparents)
+{
+	//INVOKE_CLASS_MEMBER(0x00A29280, c_first_person_view, render_submit_visibility, user_index, submit_transparents);
+
+	c_object_renderer::submit_visibility(FLAG(_submit_visibility_first_person) | (submit_transparents ? FLAG(_submit_visibility_transparents) : 0));
 }
 
 void c_ui_view::setup_camera(const s_observer_result* result, c_rasterizer::e_surface surface)

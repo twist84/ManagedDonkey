@@ -3,6 +3,55 @@
 #include "cseries/cseries.hpp"
 #include "multithreading/message_queue.hpp"
 #include "rasterizer/rasterizer_vertex_definitions.hpp"
+#include "render/render_objects_static_lighting.hpp"
+#include "render_methods/render_method_types.hpp"
+
+class c_decal_definition
+{
+public:
+	enum
+	{
+		k_max_on_disk_flags = 0,
+
+
+		_specular_modulate_bit = 0,
+		_bump_modulate_bit,
+		_has_sprite_bit,
+		_debug_border_color_white_bit,
+
+		k_max_flags,
+	};
+
+	enum e_pass
+	{
+		_pass_post_albedo = 0,
+		_pass_post_static_lighting,
+
+		k_max_pass,
+	};
+
+	static real32 x_cull_angle_min;
+	static real32 x_clamp_angle_max;
+	static real32 x_clamp_angle_default;
+	static real32 x_cull_angle_default;
+
+//private:
+	int32 m_name;
+	uns32 m_flags;
+	c_render_method_shader_decal m_shader;
+	real32 m_radius_min;
+	real32 m_radius_max;
+	real32 m_decay_min;
+	real32 m_decay_max;
+	real32 m_lifespan_min;
+	real32 m_lifespan_max;
+	real32 m_clamp_angle;
+	real32 m_cull_angle;
+	e_pass m_pass;
+	real32 m_specular_multiplier;
+	real32 m_bitmap_aspect;
+};
+static_assert(sizeof(c_decal_definition) == 0x74);
 
 struct s_game_non_bsp_zone_set;
 struct s_game_cluster_bit_vectors;
@@ -22,6 +71,7 @@ public:
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);
 	static void __cdecl prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_zone_set* old_non_bsp_zone_set, const s_game_non_bsp_zone_set* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
+	static void __cdecl render_all(c_decal_definition::e_pass pass);
 	static void __cdecl submit_all();
 
 //private:
@@ -47,8 +97,8 @@ class c_decal :
 	public s_datum_header
 {
 public:
-	void __thiscall render(int32 pass);
-	static void __cdecl render_all(int32 pass);
+	void __thiscall render(c_decal_definition::e_pass pass);// const;
+	static void __cdecl render_all(c_decal_definition::e_pass pass);
 
 	int32 m_definition_block_index;
 	int32 m_parent_system_index;
@@ -66,6 +116,8 @@ public:
 	real_point2d m_sprite_corner;
 	real_vector2d m_sprite_size;
 	rasterizer_vertex_world m_floating_vertices[4];
+
+	static const s_shader_extern_info& x_shader_extern_info;
 };
 static_assert(sizeof(c_decal) == 0x130);
 
