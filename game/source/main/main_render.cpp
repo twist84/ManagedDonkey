@@ -333,9 +333,9 @@ void __cdecl main_render_game()
 		texture_cache_update_for_render();
 		geometry_cache_update_for_render();
 
-		for (int32 view_index = 0; view_index < iterator.get_window_count(); view_index++)
+		for (int32 window_index = 0; window_index < window_count; window_index++)
 		{
-			c_player_view* player_view = c_player_view::get_current(view_index);
+			c_player_view* player_view = c_player_view::get_current(window_index);
 
 			int32 user_index = NONE;
 			const s_observer_result* observer_result = NULL;
@@ -346,7 +346,7 @@ void __cdecl main_render_game()
 			}
 
 			player_view->setup_camera(
-				view_index,
+				window_index,
 				window_count,
 				window_arrangement,
 				user_index,
@@ -369,13 +369,15 @@ void __cdecl main_render_game()
 				c_static_wchar_string<32> pix_name;
 				bool is_widescreen = c_rasterizer::get_is_widescreen();
 
-				int32 view_index = 0;
-				c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", view_index));
-				c_player_view* player_view = c_player_view::get_current(view_index);
+				for (int32 window_index = 0; window_index < window_count; window_index++)
+				{
+					c_rasterizer_profile_scope _player_view(_rasterizer_profile_element_total, pix_name.print(L"player_view %d", window_index));
+					c_player_view* player_view = c_player_view::get_current(window_index);
 
-				c_water_renderer::set_player_window(view_index, window_count, is_widescreen);
-				player_view->m_stall_cpu_to_wait_for_gpu = view_index == window_count - 1;
-				main_render_view(player_view, view_index);
+					c_water_renderer::set_player_window(window_index, window_count, is_widescreen);
+					player_view->m_stall_cpu_to_wait_for_gpu = window_index == window_count - 1;
+					main_render_view(player_view, window_index);
+				}
 
 				c_ui_view ui_view{};
 				ui_view.setup_camera(NULL, c_rasterizer::get_display_surface());
@@ -387,9 +389,9 @@ void __cdecl main_render_game()
 					static bool restore = true;
 					if (restore && window_count > 1)
 					{
-						for (int32 view_index = window_count - 1; view_index >= 0; view_index--)
+						for (int32 window_index = window_count - 1; window_index >= 0; window_index--)
 						{
-							c_player_view* player_view = c_player_view::get_current(view_index);
+							c_player_view* player_view = c_player_view::get_current(window_index);
 							player_view->restore_to_display_surface();
 						}
 					}
