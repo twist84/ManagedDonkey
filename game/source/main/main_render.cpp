@@ -144,13 +144,12 @@ bool c_player_render_camera_iterator::next()
 		}
 		else
 		{
-			while (m_current_user_index < MAXIMUM_PLAYER_WINDOWS)
+			for (int32 user_index = ++m_current_user_index; user_index < MAXIMUM_PLAYER_WINDOWS; user_index++)
 			{
 				if (player_mapping_output_user_is_active(m_current_user_index))
 				{
 					break;
 				}
-				m_current_user_index++;
 			}
 
 			if (m_current_user_index >= k_number_of_users)
