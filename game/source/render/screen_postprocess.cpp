@@ -14,7 +14,13 @@ REFERENCE_DECLARE(0x01917D58, real32, g_ssao_intensity);
 REFERENCE_DECLARE(0x01917D5C, real32, g_ssao_sample_z_threshold);
 REFERENCE_DECLARE(0x01917D60, bool, g_use_fxaa);
 REFERENCE_DECLARE(0x01917D61, bool, g_lightshafts_enable);
-REFERENCE_DECLARE(0x01917D62, bool, g_high_quality_postprocessing_enabled);
+REFERENCE_DECLARE(0x01917D62, bool, g_ssr_enabled);
+REFERENCE_DECLARE(0x01917D63, bool, g_ssr_use_blur);
+REFERENCE_DECLARE(0x01917D64, bool, g_ssr_use_multisampling);
+REFERENCE_DECLARE(0x01917D68, int32, g_ssr_multisample_passes);
+REFERENCE_DECLARE(0x05115AFC, bool, g_ssr_debug_enabled);
+REFERENCE_DECLARE(0x05115AFD, bool, g_ssr_use_bilinear_filtering);
+REFERENCE_DECLARE(0x05115AFE, bool, g_ssr_use_fxaa);
 REFERENCE_DECLARE(0x05115B00, c_screen_postprocess::s_settings, c_screen_postprocess::x_editable_settings);
 
 decltype(c_screen_postprocess::render_ssao)* screen_postprocess_render_ssao = c_screen_postprocess::render_ssao;
@@ -370,6 +376,14 @@ void __cdecl c_screen_postprocess::postprocess_ssr(
 	c_rasterizer::e_surface surface_k,
 	c_rasterizer::e_surface surface_l)
 {
+	g_ssr_enabled;
+	g_ssr_use_blur;
+	g_ssr_use_multisampling;
+	g_ssr_multisample_passes;
+	g_ssr_debug_enabled;
+	g_ssr_use_bilinear_filtering;
+	g_ssr_use_fxaa;
+
 	INVOKE(0x00A61CD0, c_screen_postprocess::postprocess_ssr,
 		projection,
 		camera,
