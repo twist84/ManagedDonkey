@@ -13,6 +13,16 @@
 
 #include <directxmath.h>
 
+REFERENCE_DECLARE(0x01914B84, bool, g_motion_blur_enabled);
+REFERENCE_DECLARE(0x01914B88, int32, g_object_to_use_special_alpha_on);
+REFERENCE_DECLARE(0x01914B8C, int32, g_physics_object_to_use_special_alpha_on);
+REFERENCE_DECLARE(0x01914B90, real32, g_motion_blur_max_x);
+REFERENCE_DECLARE(0x01914B94, real32, g_motion_blur_max_y);
+REFERENCE_DECLARE(0x01914B98, real32, g_motion_blur_scale_x);
+REFERENCE_DECLARE(0x01914B9C, real32, g_motion_blur_scale_y);
+REFERENCE_DECLARE(0x01914BA0, real32, g_motion_blur_center_falloff);
+REFERENCE_DECLARE(0x01914BA4, real32, g_motion_blur_expected_dt);
+REFERENCE_DECLARE(0x01914BA8, int32, g_motion_blur_max_viewport_count);
 REFERENCE_DECLARE(0x01914BBC, real32, g_screenspace_scale_x);
 REFERENCE_DECLARE(0x01914BC0, real32, g_screenspace_scale_y);
 REFERENCE_DECLARE(0x01914BC4, real32, g_screenspace_pixel_center);

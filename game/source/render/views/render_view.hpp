@@ -139,6 +139,7 @@ public:
 	void build_simple_light_draw_list(int32 a1);
 	void clear_simple_light_draw_list(int32 a1);
 	void render(int32 user_index, int32 player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5);
+	void submit_simple_light_draw_list_to_vertex_shader(int32 light_count_integer_register, int32 light_data_float_register_start);
 
 	static int32& g_gel_bitmap_index;
 	static real32& g_render_light_intensity;

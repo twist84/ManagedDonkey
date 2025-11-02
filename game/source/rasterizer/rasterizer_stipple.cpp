@@ -94,3 +94,17 @@ void __cdecl rasterizer_stipple_set_fade_byte(int32 alpha, int32 write_heat_flag
 		+ ((alpha >> 3) & 0x1F));
 }
 
+//.text:00A7AC90 ; void __cdecl sub_A7AC90(void(*)(int32, int32), int32, int32)
+
+void __cdecl sub_A7ACE0()
+{
+	INVOKE(0x00A7ACE0, sub_A7ACE0);
+}
+
+//.text:00A7AD00 ; void __cdecl sub_A7AD00()
+
+void __cdecl sub_A7AD20()
+{
+	INVOKE(0x00A7AD20, sub_A7AD20);
+}
+

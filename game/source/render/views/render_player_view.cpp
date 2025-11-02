@@ -11,9 +11,11 @@
 #include "main/main_screenshot.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
 #include "rasterizer/rasterizer_occlusion_queries.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
 #include "rasterizer/rasterizer_render_targets.hpp"
+#include "rasterizer/rasterizer_states.hpp"
 #include "rasterizer/rasterizer_stipple.hpp"
 #include "rasterizer/rasterizer_synchronization.hpp"
 #include "render/render.hpp"
@@ -21,6 +23,7 @@
 #include "render/render_flags.hpp"
 #include "render/render_lens_flares.hpp"
 #include "render/render_objects_static_lighting.hpp"
+#include "render/render_structure.hpp"
 #include "render/render_transparents.hpp"
 #include "render/render_tron_effect.hpp"
 #include "render/screen_postprocess.hpp"
@@ -41,6 +44,8 @@ REFERENCE_DECLARE(0x019147B8, real32, g_particle_hack_near_fade_scale);
 REFERENCE_DECLARE(0x019147BC, real32, render_debug_depth_render_scale_r);
 REFERENCE_DECLARE(0x019147C0, real32, render_debug_depth_render_scale_g);
 REFERENCE_DECLARE(0x019147C4, real32, render_debug_depth_render_scale_b);
+REFERENCE_DECLARE(0x050FB3F8, bool, g_is_albedo_pass);
+REFERENCE_DECLARE(0x050FB3FB, bool, g_rendering_first_person);
 REFERENCE_DECLARE(0x050FB3FC, int32, render_debug_depth_render);
 REFERENCE_DECLARE(0x01694EC8, const c_screen_postprocess::s_settings* const, c_screen_postprocess::x_settings);
 REFERENCE_DECLARE(0x019147CC, int32, g_distortion_conditional_rendering_index);
@@ -230,17 +235,10 @@ void __thiscall c_player_view::render_()
 
 		bool rendering_albedo = c_player_view::render_albedo();
 
-		if (screenshot_allow_postprocess())
-		{
-			c_screen_postprocess::sub_A62710(
-				&m_rasterizer_projection,
-				&m_rasterizer_camera,
-				&m_last_frame_motion_blur_state.view_matrix,
-				m_last_frame_motion_blur_state.projection_matrix,
-				c_rasterizer::_surface_color_half_fp16_0,
-				c_rasterizer::_surface_depth_fp32,
-				c_rasterizer::_surface_color_half_fp16_1);
-		}
+		c_screen_postprocess::render_ssao(
+			&m_window_game_state->m_camera_fx_values,
+			&m_rasterizer_projection,
+			&m_rasterizer_camera);
 
 		if (rendering_albedo)
 		{
@@ -553,9 +551,78 @@ bool __thiscall c_player_view::render_albedo()
 	//return INVOKE_CLASS_MEMBER(0x00A3A0E0, c_player_view, render_albedo);
 
 	c_rasterizer_profile_scope _albedo(_rasterizer_profile_element_texaccum, L"albedo");
+	
+	c_rasterizer::end_high_quality_blend();
+	c_rasterizer::setup_targets_albedo(false, true);
 
-	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_player_view, render_albedo);
+	g_is_albedo_pass = true;
+
+	{
+		c_screen_postprocess::setup_rasterizer_for_postprocess(true);
+
+		// saber mainmenu background
+		c_rasterizer::sub_A21440();
+
+		c_rasterizer::setup_targets_albedo(false, false);
+		sub_A7AD20();
+		sub_A7ACE0();
+	}
+
+	c_rasterizer::set_gprs_allocation(c_rasterizer::_gpr_decorator_allocation);
+	c_rasterizer::setup_render_target_globals_with_exposure(
+		m_render_exposure,
+		m_illum_render_scale,
+		c_camera_fx_values::g_HDR_target_stops,
+		false);
+	m_lights_view.submit_simple_light_draw_list_to_vertex_shader(230, 16);
+
+	if (g_motion_blur_enabled)
+	{
+		c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_motion_blur_static);
+		g_use_motion_blur_alpha_blend_mode = true;
+	}
+
+	c_structure_renderer::render_decorators();
+
+	if (g_motion_blur_enabled)
+	{
+		g_use_motion_blur_alpha_blend_mode = false;
+		c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_opaque);
+	}
+
+	c_rasterizer::set_gprs_allocation(c_rasterizer::_gpr_default);
+
+	if (!c_render_flags::test_last_window_bit(c_render_flags::_tron_effect_bit))
+	{
+		c_player_view::render_first_person_albedo();
+	}
+
+	c_object_renderer::render_albedo(FLAG(_render_object_mesh_part_lit_bit));
+	c_structure_renderer::render_albedo();
+	c_object_renderer::submit_and_render_sky(0, m_camera_user_data.player_window_index);
+	
+	c_player_view::render_albedo_decals(true, true);
+
+	if (!c_rasterizer::get_is_tiling_bracket_active())
+	{
+		c_tron_effect::resolve_and_process_z_camera(
+			m_camera_user_data.player_window_index,
+			&m_rasterizer_camera.window_pixel_bounds,
+			false);
+	}
+
+	c_rasterizer::setup_targets_albedo(false, false);
+
+	if (c_render_flags::test_last_window_bit(c_render_flags::_tron_effect_bit))
+	{
+		c_player_view::render_first_person_albedo();
+	}
+
+	g_is_albedo_pass = false;
+
+	c_rasterizer::begin_high_quality_blend();
+
+	bool result = c_rasterizer::end_albedo(&m_rasterizer_camera.window_pixel_bounds);
 	return result;
 }
 

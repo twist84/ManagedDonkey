@@ -7,16 +7,17 @@ class c_render_flags
 public:
 	enum e_frame_bit
 	{
-		_frame_bit0 = 0,
+		_texture_camera_sourced_bit = 0,
+		_texture_camera_rendered_bit,
 
-		// $TODO find all bits
+		k_frame_bit_count
 	};
 	
 	enum e_window_bit
 	{
-		_window_bit0 = 0,
+		_tron_effect_bit = 0,
 
-		// $TODO find all bits
+		k_window_bit_count
 	};
 
 	static void __cdecl prepare_for_frame();
