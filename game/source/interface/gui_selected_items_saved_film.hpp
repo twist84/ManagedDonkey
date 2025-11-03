@@ -38,7 +38,7 @@ static_assert(0x194 == OFFSETOF(c_gui_saved_film_selected_item, m_file_reference
 static_assert(0x2A8 == OFFSETOF(c_gui_saved_film_selected_item, m_sort_order));
 static_assert(0x2B0 == OFFSETOF(c_gui_saved_film_selected_item, m_category));
 
-struct c_gui_saved_film_subitem_datasource :
+class c_gui_saved_film_subitem_datasource :
 	public c_gui_ordered_data
 {
 public:

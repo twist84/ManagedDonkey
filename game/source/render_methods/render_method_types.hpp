@@ -2,7 +2,7 @@
 
 #include "render_methods/render_method_definitions.hpp"
 
-struct c_render_method_shader_decal :
+class c_render_method_shader_decal :
 	public c_render_method
 {
 public:

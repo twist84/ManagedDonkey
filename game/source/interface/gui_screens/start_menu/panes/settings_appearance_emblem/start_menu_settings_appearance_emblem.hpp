@@ -2,7 +2,7 @@
 
 #include "interface/gui_screens/start_menu/start_menu_pane_screen_widget.hpp"
 
-struct c_start_menu_settings_appearance_emblem :
+class c_start_menu_settings_appearance_emblem :
 	public c_start_menu_pane_screen_widget
 {
 public:

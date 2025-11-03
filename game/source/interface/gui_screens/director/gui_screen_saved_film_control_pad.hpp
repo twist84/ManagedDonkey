@@ -2,7 +2,7 @@
 
 #include "interface/c_gui_screen_widget.hpp"
 
-struct c_saved_film_control_pad :
+class c_saved_film_control_pad :
 	public c_gui_screen_widget
 {
 public:

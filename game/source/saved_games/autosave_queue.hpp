@@ -33,7 +33,7 @@ struct s_saved_game_item_enumeration_data
 };
 static_assert(sizeof(s_saved_game_item_enumeration_data) == 0x218);
 
-struct c_autosave_queue_enumerator
+class c_autosave_queue_enumerator
 {
 public:
 	enum e_enumeration_state

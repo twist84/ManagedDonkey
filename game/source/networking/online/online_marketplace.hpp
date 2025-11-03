@@ -45,7 +45,7 @@ protected:
 static_assert(sizeof(c_online_marketplace_enumerate_assets_task) == 0xA0);
 static_assert(sizeof(c_online_marketplace_enumerate_assets_task) == sizeof(c_overlapped_task) + 0x90);
 
-struct c_online_marketplace_enumerate_offers_task :
+class c_online_marketplace_enumerate_offers_task :
 	public c_overlapped_task
 {
 public:

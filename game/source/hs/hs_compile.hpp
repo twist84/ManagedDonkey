@@ -71,7 +71,7 @@ typedef struct
 } s_hs_compile_globals;
 static_assert(sizeof(s_hs_compile_globals) == 0x444);
 
-struct c_hs_compile_error_listener
+class c_hs_compile_error_listener
 {
 public:
 	virtual ~c_hs_compile_error_listener() = 0;

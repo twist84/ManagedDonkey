@@ -36,7 +36,7 @@ static_assert(0x194 == OFFSETOF(c_gui_game_variant_selected_item, m_variant_inde
 static_assert(0x198 == OFFSETOF(c_gui_game_variant_selected_item, m_file_reference));
 static_assert(0x2A8 == OFFSETOF(c_gui_game_variant_selected_item, m_sort_order));
 
-struct c_gui_game_variant_subitem_selectable_item_datasource :
+class c_gui_game_variant_subitem_selectable_item_datasource :
 	public c_gui_ordered_data
 {
 public:

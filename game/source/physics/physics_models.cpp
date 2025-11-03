@@ -157,13 +157,13 @@ class c_convex_vertices_shape :
 public:
 };
 
-struct c_convex_translate_shape : 
+class c_convex_translate_shape : 
 	public hkConvexTranslateShape
 {
 public:
 };
 
-struct c_convex_transform_shape :
+class c_convex_transform_shape :
 	public hkConvexTransformShape
 {
 public:

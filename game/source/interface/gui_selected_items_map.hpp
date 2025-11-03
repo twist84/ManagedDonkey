@@ -34,7 +34,7 @@ static_assert(0x190 == OFFSETOF(c_gui_map_selected_item, m_controller_index));
 static_assert(0x194 == OFFSETOF(c_gui_map_selected_item, m_file_reference));
 static_assert(0x2A4 == OFFSETOF(c_gui_map_selected_item, m_sort_order));
 
-struct c_gui_map_subitem_selectable_item_datasource : 
+class c_gui_map_subitem_selectable_item_datasource : 
 	public c_gui_ordered_data
 {
 public:
