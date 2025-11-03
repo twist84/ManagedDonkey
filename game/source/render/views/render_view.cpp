@@ -168,10 +168,7 @@ render_projection* c_view::get_render_projection_modifiable()
 
 c_view* __cdecl c_view::top()
 {
-	if (g_view_stack_top < 0)
-		return 0;
-	else
-		return g_view_stack[g_view_stack_top];
+	return g_view_stack_top < 0 ? NULL : g_view_stack[g_view_stack_top];
 }
 
 void c_lights_view::render(int32 user_index, int32 player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
