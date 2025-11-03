@@ -377,6 +377,8 @@ void __cdecl main_render_game()
 					c_water_renderer::set_player_window(window_index, window_count, is_widescreen);
 					player_view->m_stall_cpu_to_wait_for_gpu = window_index == window_count - 1;
 					main_render_view(player_view, window_index);
+
+					player_view->restore_to_display_surface();
 				}
 
 				c_ui_view ui_view{};
@@ -385,16 +387,6 @@ void __cdecl main_render_game()
 					c_rasterizer_profile_scope _fullscreen_view_render(_rasterizer_profile_element_total, L"fullscreen_view_render");
 
 					c_ui_view::begin(&ui_view);
-
-					static bool restore = true;
-					if (restore && window_count > 1)
-					{
-						for (int32 window_index = window_count - 1; window_index >= 0; window_index--)
-						{
-							c_player_view* player_view = c_player_view::get_current(window_index);
-							player_view->restore_to_display_surface();
-						}
-					}
 
 					c_rasterizer::begin_high_quality_blend();
 

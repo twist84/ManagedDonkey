@@ -1140,11 +1140,56 @@ void __thiscall c_player_view::render_weather_occlusion()
 
 void c_player_view::restore_to_display_surface()
 {
-	c_rasterizer::e_splitscreen_res current_splitscreen_res = c_rasterizer::g_current_splitscreen_res;
-	if (current_splitscreen_res)
+	c_rasterizer::e_splitscreen_res splitscreen_res = c_rasterizer::g_current_splitscreen_res;
+	if (splitscreen_res)
 	{
-		INVOKE_CLASS_MEMBER(0x00A3B5E0, c_player_view, restore_to_display_surface);
-		c_rasterizer::set_current_splitscreen_res(current_splitscreen_res);
+		c_render_surface* source_surface = c_render_surfaces_interface::get_render_surface(c_rasterizer::get_display_surface());
+		c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
+		c_rasterizer::set_render_target(0, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(2, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_current_splitscreen_res(c_rasterizer::_res_default);
+		c_rasterizer::set_render_target(0, c_rasterizer::get_display_surface(), 0xFFFFFFFF);
+		//c_rasterizer::set_sampler_texture_direct(0, source_surface->m_d3d_texture);
+		c_rasterizer::set_sampler_address_mode(0, c_rasterizer::_sampler_address_clamp, c_rasterizer::_sampler_address_clamp, c_rasterizer::_sampler_address_clamp);
+		c_rasterizer::set_sampler_filter_mode(0, c_rasterizer::_sampler_filter_point);
+		c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_opaque);
+		if (c_rasterizer::set_explicit_shaders(
+			c_rasterizer_globals::_shader_copy,
+			_vertex_type_screen,
+			_transfer_vertex_none,
+			_entry_point_default))
+		{
+			real_vector4d scale{};
+			set_real_vector4d(&scale, 1.0f, 1.0f, 1.0f, 1.0f);
+			c_rasterizer::set_pixel_shader_constant(2, 1, &scale);
+
+			real_rectangle2d source_rect{};
+			set_real_rectangle2d(&source_rect, 0.0f, 1.0f, 0.0f, 1.0f);
+
+			real_rectangle2d destination_rect{};
+			set_real_rectangle2d(&destination_rect,
+				(real32)m_final_surface_window_rect.x0,
+				(real32)m_final_surface_window_rect.x1,
+				(real32)m_final_surface_window_rect.y0,
+				(real32)m_final_surface_window_rect.y1
+			);
+
+			c_rasterizer::draw_screen_quad_with_texture_transform(
+				c_rasterizer::get_surface_width(c_rasterizer::get_display_surface()),
+				c_rasterizer::get_surface_height(c_rasterizer::get_display_surface()),
+				&destination_rect,
+				&source_rect);
+		}
+		c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_none);
+		c_rasterizer::set_render_target(0, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(1, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(2, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_render_target(3, c_rasterizer::_surface_none, 0xFFFFFFFF);
+		c_rasterizer::set_current_splitscreen_res(splitscreen_res);
+		c_rasterizer::set_depth_stencil_surface(c_rasterizer::_surface_depth_stencil);
+		c_rasterizer::set_render_target(0, c_rasterizer::get_display_surface(), 0xFFFFFFFF);
 	}
 }
 
