@@ -220,9 +220,9 @@ void __cdecl copy_accumulation_target(
 }
 
 // nullsub
-void __cdecl c_screen_postprocess::render_ssao_old(const render_projection* projection, const render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
+void __cdecl c_screen_postprocess::sub_A60AF0(const render_projection* projection, const render_camera* camera, c_rasterizer::e_surface surface_a, c_rasterizer::e_surface surface_b, c_rasterizer::e_surface surface_c)
 {
-	//INVOKE(0x00A60AF0, c_screen_postprocess::render_ssao_old, projection, camera, surface_a, surface_b, surface_c);
+	//INVOKE(0x00A60AF0, c_screen_postprocess::sub_A60AF0, projection, camera, surface_a, surface_b, surface_c);
 }
 
 c_rasterizer::e_surface __cdecl c_screen_postprocess::downsample_generate(

@@ -164,12 +164,10 @@ void __thiscall c_player_view::queue_patchy_fog()
 {
 	//INVOKE_CLASS_MEMBER(0x00A39860, c_player_view, queue_patchy_fog);
 
-	if (game_is_splitscreen_deterministic())
+	if (!game_is_splitscreen_deterministic())
 	{
-		return;
+		HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);
 	}
-
-	HOOK_INVOKE_CLASS_MEMBER(, c_player_view, queue_patchy_fog);
 }
 
 // $TODO move this
@@ -323,13 +321,6 @@ void __thiscall c_player_view::render_()
 					{
 						c_tron_effect::resolve_and_process_z_camera(m_camera_user_data.player_window_index, &rasterizer_camera->window_pixel_bounds, false);
 					}
-
-					c_screen_postprocess::render_ssao_old(
-						&m_rasterizer_projection,
-						&m_rasterizer_camera,
-						c_rasterizer::_surface_accum_LDR,
-						c_rasterizer::_surface_accum_HDR,
-						c_rasterizer::_surface_color_half_fp16_0);
 
 					if (screenshot_allow_postprocess())
 					{

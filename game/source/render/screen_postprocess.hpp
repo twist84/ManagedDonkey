@@ -76,7 +76,7 @@ public:
 		real32 scale_a,
 		real_rectangle2d* dest_texture_rect);
 
-	static void __cdecl render_ssao_old(
+	static void __cdecl sub_A60AF0(
 		const render_projection* projection,
 		const render_camera* camera,
 		c_rasterizer::e_surface surface_a,
