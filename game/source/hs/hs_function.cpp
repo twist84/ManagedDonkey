@@ -15461,7 +15461,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 4,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflections_enable,
+	ssr_enable,
 	0,
 	0x00746060, // $TODO write the function chuckle nuts
 	"",
@@ -15470,7 +15470,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflection_blur_enable,
+	ssr_blur_enable,
 	0,
 	0x00746320, // $TODO write the function chuckle nuts
 	"",
@@ -15479,7 +15479,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflection_multisampling_enabled,
+	ssr_multisampling_enable,
 	0,
 	0x00746740, // $TODO write the function chuckle nuts
 	"",
@@ -15488,7 +15488,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflection_multisample_passes,
+	ssr_multisample_passes,
 	0,
 	0x00746B20, // $TODO write the function chuckle nuts
 	"",
@@ -15497,7 +15497,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflection_fxaa_enable,
+	ssr_fxaa_enable,
 	0,
 	0x00746E20, // $TODO write the function chuckle nuts
 	"",
@@ -15506,7 +15506,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflection_debug_enable,
+	ssr_debug_enable,
 	0,
 	0x00747160, // $TODO write the function chuckle nuts
 	"",
@@ -15515,7 +15515,7 @@ MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 );
 MACRO_FUNCTION_EVALUATE2(hs_function_definition, 2,
 	_hs_type_void,
-	reflection_color_bilinear_filter_enable,
+	ssr_color_bilinear_filter_enable,
 	0,
 	0x00747500, // $TODO write the function chuckle nuts
 	"",
