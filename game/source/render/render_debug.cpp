@@ -485,7 +485,9 @@ int32 __cdecl render_debug_add_cache_string(const char* string)
 		if (csstrcmp(string, &render_debug_globals->cache_string[i]) == 0)
 		{
 			if (i != NONE)
+			{
 				return i;
+			}
 		}
 	}
 
@@ -500,7 +502,9 @@ int32 __cdecl render_debug_add_cache_string(const char* string)
 		g_render_debug_globals->cache_string_length += v8 + 1;
 		int16 v9 = g_render_debug_globals->cache_string_length;
 		if (v9 > 4095)
+		{
 			v9 = 4095;
+		}
 		g_render_debug_globals->cache_string_length = v9;
 
 		return string_offset;
@@ -553,7 +557,7 @@ const real_argb_color* __cdecl render_debug_unique_color(int32 index, real_argb_
 
 //render_debug_spray
 
-void __cdecl render_debug_point2d(bool draw_immediately, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* point, real32 scale, const real_argb_color* color, real32 a8)
+void __cdecl render_debug_point2d(bool immediate, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* point, real32 size, const real_argb_color* color, real32 offset)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -563,47 +567,43 @@ void __cdecl render_debug_point2d(bool draw_immediately, const real_plane3d* pla
 	project_point2d(point, plane, projection_axis, projection_sign, &q);
 	ASSERT(VALID_INDEX(projection_axis, NUMBEROF(q.n)));
 
-	q.n[projection_axis] += projection_sign ? a8 : -a8;
+	q.n[projection_axis] += projection_sign ? offset : -offset;
 
-	render_debug_point(draw_immediately, &q, scale, color);
+	render_debug_point(immediate, &q, size, color);
 }
 
-void __cdecl render_debug_line2d(const real_point2d* point0, const real_point2d* point1, const real_argb_color* color)
+void __cdecl render_debug_line2d(const real_point2d* p0, const real_point2d* p1, const real_argb_color* color)
 {
-	ASSERT(point0);
-	ASSERT(point1);
-	ASSERT(color);
-
 	if (render_debug_draw_immediately(color))
 	{
-		rasterizer_debug_line2d(point0, point1, color, color);
+		rasterizer_debug_line2d(p0, p1, color, color);
 	}
 	else
 	{
-		render_debug_add_cache_entry(_render_debug_type_line2d, point0, point1, color, color);
+		render_debug_add_cache_entry(_render_debug_type_line2d, p0, p1, color, color);
 	}
 }
 
-void __cdecl render_debug_line2d(bool draw_immediately, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* p0, const real_point2d* p1, const real_argb_color* color, real32 a8)
+void __cdecl render_debug_line2d(bool immediate, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* p0, const real_point2d* p1, const real_argb_color* color, real32 offset)
 {
 	ASSERT(plane);
 	ASSERT(p0);
 	ASSERT(p1);
 	ASSERT(color);
 
-	real_point3d point0{};
-	real_point3d point1{};
+	real_point3d q0{};
+	real_point3d q1{};
 
-	project_point2d(p0, plane, projection_axis, projection_sign, &point0);
-	project_point2d(p1, plane, projection_axis, projection_sign, &point1);
+	project_point2d(p0, plane, projection_axis, projection_sign, &q0);
+	project_point2d(p1, plane, projection_axis, projection_sign, &q1);
 
-	point0.n[projection_axis] += projection_sign ? a8 : -a8;
-	point1.n[projection_axis] += projection_sign ? a8 : -a8;
+	q0.n[projection_axis] += projection_sign ? offset : -offset;
+	q1.n[projection_axis] += projection_sign ? offset : -offset;
 
-	render_debug_line(draw_immediately, &point0, &point1, color);
+	render_debug_line(immediate, &q0, &q1, color);
 }
 
-void __cdecl render_debug_vector2d(bool draw_immediately, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* point, const real_vector2d* vector, real32 scale, const real_argb_color* color, real32 a9)
+void __cdecl render_debug_vector2d(bool immediate, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* point, const real_vector2d* vector, real32 size, const real_argb_color* color, real32 offset)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -611,17 +611,17 @@ void __cdecl render_debug_vector2d(bool draw_immediately, const real_plane3d* pl
 	ASSERT(color);
 
 	real_point2d point1{};
-	point_from_line2d(point, vector, scale, &point1);
-	render_debug_line2d(draw_immediately, plane, projection_axis, projection_sign, point, &point1, color, a9);
+	point_from_line2d(point, vector, size, &point1);
+	render_debug_line2d(immediate, plane, projection_axis, projection_sign, point, &point1, color, offset);
 }
 
-void __cdecl render_debug_circle(bool draw_immediately, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* center, real32 radius, const real_argb_color* color, real32 a8)
+void __cdecl render_debug_circle(bool immediate, const real_plane3d* plane, int16 projection_axis, bool projection_sign, const real_point2d* center, real32 radius, const real_argb_color* color, real32 offset)
 {
 	ASSERT(plane);
 	ASSERT(center);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
 		render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
@@ -635,7 +635,7 @@ void __cdecl render_debug_circle(bool draw_immediately, const real_plane3d* plan
 
 			set_real_point2d(&point0, (center->x + circle_point0->x), (center->y + circle_point0->y));
 			set_real_point2d(&point1, (center->x + circle_point1->x), (center->y + circle_point1->y));
-			render_debug_line2d(draw_immediately, plane, projection_axis, projection_sign, &point0, &point1, color, a8);
+			render_debug_line2d(immediate, plane, projection_axis, projection_sign, &point0, &point1, color, offset);
 		}
 	}
 	else
@@ -644,63 +644,63 @@ void __cdecl render_debug_circle(bool draw_immediately, const real_plane3d* plan
 	}
 }
 
-void __cdecl render_debug_circle(bool draw_immediately, const real_point3d* center, const real_vector3d* normal, real32 radius, const real_argb_color* color)
+void __cdecl render_debug_circle(bool immediate, const real_point3d* center, const real_vector3d* normal, real32 radius, const real_argb_color* color)
 {
-	render_debug_polygon_regular(draw_immediately, center, CIRCLE_DIVISIONS, normal, radius, color);
+	render_debug_polygon_regular(immediate, center, CIRCLE_DIVISIONS, normal, radius, color);
 }
 
-void __cdecl render_debug_polygon_regular(bool draw_immediately, const real_point3d* center, int32 point_count, const real_vector3d* normal, real32 radius, const real_argb_color* color)
+void __cdecl render_debug_polygon_regular(bool immediate, const real_point3d* center, int32 point_count, const real_vector3d* normal, real32 radius, const real_argb_color* color)
 {
 	ASSERT(center != NULL);
 	ASSERT(normal != NULL);
 	ASSERT(point_count <= CIRCLE_DIVISIONS);
 
-	real_matrix4x3 matrix{};
-	matrix.forward = *normal;
-	generate_up_vector3d(&matrix.forward, &matrix.up);
-	cross_product3d(&matrix.up, &matrix.forward, &matrix.left);
-	matrix.position = *global_origin3d;
-	matrix.scale = 1.0f;
+	real_matrix4x3 transform{};
+	transform.forward = *normal;
+	generate_up_vector3d(&transform.forward, &transform.up);
+	cross_product3d(&transform.up, &transform.forward, &transform.left);
+	transform.position = *global_origin3d;
+	transform.scale = 1.0f;
 
 	// asserts
 
-	real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
-	render_debug_build_circle_points(radius, circle_points, point_count + 1);
+	real_point2d points[CIRCLE_DIVISIONS + 1]{};
+	render_debug_build_circle_points(radius, points, point_count + 1);
 
 	for (int32 i = 0; i < point_count; i++)
 	{
-		real_point3d point0{};
-		real_point3d point1{};
+		real_point3d p0{};
+		real_point3d p1{};
 
-		set_real_point3d(&point0, 0.0f, circle_points[i].x, circle_points[i].y);
-		set_real_point3d(&point1, 0.0f, circle_points[i + 1].x, circle_points[i + 1].y);
+		set_real_point3d(&p0, 0.0f, points[i].x, points[i].y);
+		set_real_point3d(&p1, 0.0f, points[i + 1].x, points[i + 1].y);
 
-		matrix4x3_transform_point(&matrix, &point0, &point0);
-		matrix4x3_transform_point(&matrix, &point1, &point1);
+		matrix4x3_transform_point(&transform, &p0, &p0);
+		matrix4x3_transform_point(&transform, &p1, &p1);
 
-		point0.x += center->x;
-		point0.y += center->y;
-		point0.z += center->z;
+		p0.x += center->x;
+		p0.y += center->y;
+		p0.z += center->z;
 
-		point1.x += center->x;
-		point1.y += center->y;
-		point1.z += center->z;
+		p1.x += center->x;
+		p1.y += center->y;
+		p1.z += center->z;
 
-		render_debug_line(draw_immediately, &point0, &point1, color);
+		render_debug_line(immediate, &p0, &p1, color);
 	}
-
 }
 
-void __cdecl render_debug_point(bool draw_immediately, const real_point3d* point, real32 scale, const real_argb_color* color)
+void __cdecl render_debug_point(bool immediate, const real_point3d* point, real32 scale, const real_argb_color* color)
 {
 	ASSERT(point);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		scale *= 0.5f;
+
 		real_point3d points[6]{};
-		set_real_point3d(points, point->x - scale, point->y, point->z);
+		set_real_point3d(&points[0], point->x - scale, point->y, point->z);
 		set_real_point3d(&points[1], point->x + scale, point->y, point->z);
 		set_real_point3d(&points[2], point->x, point->y - scale, point->z);
 		set_real_point3d(&points[3], point->x, point->y + scale, point->z);
@@ -708,7 +708,9 @@ void __cdecl render_debug_point(bool draw_immediately, const real_point3d* point
 		set_real_point3d(&points[5], point->x, point->y, point->z + scale);
 
 		for (int32 i = 0; i < 6; i += 2)
+		{
 			render_debug_line(true, &points[i], &points[i + 1], color);
+		}
 	}
 	else
 	{
@@ -716,13 +718,13 @@ void __cdecl render_debug_point(bool draw_immediately, const real_point3d* point
 	}
 }
 
-void __cdecl render_debug_line(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color)
+void __cdecl render_debug_line(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color)
 {
 	ASSERT(point0);
 	ASSERT(point1);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		rasterizer_debug_line(point0, point1, color, color);
 	}
@@ -732,14 +734,14 @@ void __cdecl render_debug_line(bool draw_immediately, const real_point3d* point0
 	}
 }
 
-void __cdecl render_debug_line_shaded(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color0, const real_argb_color* color1)
+void __cdecl render_debug_line_shaded(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color0, const real_argb_color* color1)
 {
 	ASSERT(point0);
 	ASSERT(point1);
 	ASSERT(color0);
 	ASSERT(color1);
 
-	if (/*draw_immediately || */(render_debug_draw_immediately(color0) && render_debug_draw_immediately(color1)))
+	if ((render_debug_draw_immediately(color0) && render_debug_draw_immediately(color1)))
 	{
 		rasterizer_debug_line(point0, point1, color0, color1);
 	}
@@ -766,7 +768,7 @@ void __cdecl render_debug_line2d_shaded(const real_point2d* point0, const real_p
 	}
 }
 
-void __cdecl render_debug_line_unclipped(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color)
+void __cdecl render_debug_line_unclipped(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color)
 {
 	ASSERT(point0);
 	ASSERT(point1);
@@ -784,7 +786,9 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, const real_point
 
 	real32 clip_distance = magnitude3d(&vector0);
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
+	{
 		clip_distance = magnitude3d(&vector1);
+	}
 
 	real32 z_far = c_player_view::get_current()->get_rasterizer_camera()->z_far;
 	if (clip_distance > (0.5f * z_far))
@@ -793,10 +797,10 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, const real_point
 		point_from_line3d(&camera.position, &vector0, distance, &p0);
 		point_from_line3d(&camera.position, &vector1, distance, &p1);
 	}
-	render_debug_line(draw_immediately, &p0, &p1, color);
+	render_debug_line(immediate, &p0, &p1, color);
 }
 
-void __cdecl render_debug_line_non_occluded(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color)
+void __cdecl render_debug_line_non_occluded(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color)
 {
 	ASSERT(point0);
 	ASSERT(point1);
@@ -814,7 +818,9 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, const real_po
 
 	real32 clip_distance = magnitude3d(&vector0);
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
+	{
 		clip_distance = magnitude3d(&vector1);
+	}
 
 	real32 z_near = c_player_view::get_current()->get_rasterizer_camera()->z_near;
 	if (clip_distance > (0.5f * z_near))
@@ -823,74 +829,74 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, const real_po
 		point_from_line3d(&camera.position, &vector0, distance, &p0);
 		point_from_line3d(&camera.position, &vector1, distance, &p1);
 	}
-	render_debug_line(draw_immediately, &p0, &p1, color);
+	render_debug_line(immediate, &p0, &p1, color);
 }
 
-void __cdecl render_debug_vector(bool draw_immediately, const real_point3d* point, const real_vector3d* vector, real32 scale, const real_argb_color* color)
+void __cdecl render_debug_vector(bool immediate, const real_point3d* point, const real_vector3d* vector, real32 size, const real_argb_color* color)
 {
 	ASSERT(point);
 	ASSERT(vector);
 	ASSERT(color);
 
 	real_point3d point1{};
-	point_from_line3d(point, vector, scale, &point1);
-	render_debug_line(draw_immediately, point, &point1, color);
+	point_from_line3d(point, vector, size, &point1);
+	render_debug_line(immediate, point, &point1, color);
 }
 
-void __cdecl render_debug_tick(bool draw_immediately, const real_point3d* point, const real_vector3d* vector, real32 scale, const real_argb_color* color)
+void __cdecl render_debug_tick(bool immediate, const real_point3d* point, const real_vector3d* tick_vector, real32 tick_size, const real_argb_color* color)
 {
-	real_point3d point0{};
-	real_point3d point1{};
-	point_from_line3d(point, vector, scale, &point0);
-	point_from_line3d(point, vector, scale, &point1);
-	render_debug_line(draw_immediately, &point0, &point1, color);
+	real_point3d q0{};
+	real_point3d q1{};
+	point_from_line3d(point, tick_vector, tick_size, &q0);
+	point_from_line3d(point, tick_vector, tick_size, &q1);
+	render_debug_line(immediate, &q0, &q1, color);
 }
 
-void __cdecl render_debug_line_offset(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_argb_color* color, real32 scale)
+void __cdecl render_debug_line_offset(bool immediate, const real_point3d* p0, const real_point3d* p1, const real_argb_color* color, real32 offset)
 {
-	real_point3d p0{};
-	real_point3d p1{};
-	point_from_line3d(point0, global_up3d, scale, &p0);
-	point_from_line3d(point1, global_up3d, scale, &p1);
-	render_debug_line(draw_immediately, &p0, &p1, color);
+	real_point3d q0{};
+	real_point3d q1{};
+	point_from_line3d(p0, global_up3d, offset, &q0);
+	point_from_line3d(p1, global_up3d, offset, &q1);
+	render_debug_line(immediate, &q0, &q1, color);
 }
 
-void __cdecl render_debug_vectors(bool draw_immediately, const real_point3d* point, const real_vector3d* forward, const real_vector3d* up, real32 radius)
-{
-	real_matrix4x3 matrix{};
-	matrix4x3_from_point_and_vectors(&matrix, point, forward, up);
-	render_debug_matrix(draw_immediately, &matrix, radius);
-}
-
-void __cdecl render_debug_quaternion(bool draw_immediately, const real_point3d* point, const real_quaternion* quaternion, real32 radius)
+void __cdecl render_debug_vectors(bool immediate, const real_point3d* position, const real_vector3d* forward, const real_vector3d* up, real32 size)
 {
 	real_matrix4x3 matrix{};
-	matrix4x3_from_point_and_quaternion(&matrix, point, quaternion);
-	render_debug_matrix(draw_immediately, &matrix, radius);
+	matrix4x3_from_point_and_vectors(&matrix, position, forward, up);
+	render_debug_matrix(immediate, &matrix, size);
 }
 
-void __cdecl render_debug_matrix(bool draw_immediately, const real_matrix4x3* matrix, real32 radius)
+void __cdecl render_debug_quaternion(bool immediate, const real_point3d* position, const real_quaternion* rotation, real32 size)
 {
-	render_debug_vector(draw_immediately, &matrix->position, &matrix->forward, radius * matrix->scale, global_real_argb_red);
-	render_debug_vector(draw_immediately, &matrix->position, &matrix->left, radius * matrix->scale, global_real_argb_green);
-	render_debug_vector(draw_immediately, &matrix->position, &matrix->up, radius * matrix->scale, global_real_argb_blue);
+	real_matrix4x3 matrix{};
+	matrix4x3_from_point_and_quaternion(&matrix, position, rotation);
+	render_debug_matrix(immediate, &matrix, size);
 }
 
-void __cdecl render_debug_matrix3x3(bool draw_immediately, const real_matrix3x3* matrix, const real_point3d* point, real32 radius)
+void __cdecl render_debug_matrix(bool immediate, const real_matrix4x3* matrix, real32 size)
 {
-	render_debug_vector(draw_immediately, point, &matrix->forward, radius, global_real_argb_red);
-	render_debug_vector(draw_immediately, point, &matrix->left, radius, global_real_argb_green);
-	render_debug_vector(draw_immediately, point, &matrix->up, radius, global_real_argb_blue);
+	render_debug_vector(immediate, &matrix->position, &matrix->forward, size * matrix->scale, global_real_argb_red);
+	render_debug_vector(immediate, &matrix->position, &matrix->left, size * matrix->scale, global_real_argb_green);
+	render_debug_vector(immediate, &matrix->position, &matrix->up, size * matrix->scale, global_real_argb_blue);
 }
 
-void __cdecl render_debug_triangle(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_argb_color* color)
+void __cdecl render_debug_matrix3x3(bool immediate, const real_matrix3x3* matrix, const real_point3d* position, real32 size)
+{
+	render_debug_vector(immediate, position, &matrix->forward, size, global_real_argb_red);
+	render_debug_vector(immediate, position, &matrix->left, size, global_real_argb_green);
+	render_debug_vector(immediate, position, &matrix->up, size, global_real_argb_blue);
+}
+
+void __cdecl render_debug_triangle(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_argb_color* color)
 {
 	ASSERT(point0);
 	ASSERT(point1);
 	ASSERT(point2);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		rasterizer_debug_triangle(point0, point1, point2, color);
 	}
@@ -900,19 +906,19 @@ void __cdecl render_debug_triangle(bool draw_immediately, const real_point3d* po
 	}
 }
 
-void __cdecl render_debug_triangle_outline(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_argb_color* color)
+void __cdecl render_debug_triangle_outline(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_argb_color* color)
 {
 	ASSERT(point0);
 	ASSERT(point1);
 	ASSERT(point2);
 	ASSERT(color);
 
-	render_debug_line(draw_immediately, point0, point1, color);
-	render_debug_line(draw_immediately, point1, point2, color);
-	render_debug_line(draw_immediately, point2, point0, color);
+	render_debug_line(immediate, point0, point1, color);
+	render_debug_line(immediate, point1, point2, color);
+	render_debug_line(immediate, point2, point0, color);
 }
 
-void __cdecl render_debug_quadrilateral(bool draw_immediately, const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_point3d* point3, const real_argb_color* color)
+void __cdecl render_debug_quadrilateral(bool immediate, const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_point3d* point3, const real_argb_color* color)
 {
 	ASSERT(point0);
 	ASSERT(point1);
@@ -920,40 +926,40 @@ void __cdecl render_debug_quadrilateral(bool draw_immediately, const real_point3
 	ASSERT(point3);
 	ASSERT(color);
 
-	render_debug_triangle(draw_immediately, point0, point1, point2, color);
-	render_debug_triangle(draw_immediately, point0, point2, point3, color);
+	render_debug_triangle(immediate, point0, point1, point2, color);
+	render_debug_triangle(immediate, point0, point2, point3, color);
 }
 
-void __cdecl render_debug_sphere(bool draw_immediately, const real_point3d* center, real32 radius, const real_argb_color* color)
+void __cdecl render_debug_sphere(bool immediate, const real_point3d* center, real32 radius, const real_argb_color* color)
 {
 	ASSERT(center);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		if (render_sphere_visible(center, radius))
 		{
-			real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
-			render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
+			real_point2d points[CIRCLE_DIVISIONS + 1]{};
+			render_debug_build_circle_points(radius, points, CIRCLE_DIVISIONS + 1);
 			for (int32 i = 0; i < CIRCLE_DIVISIONS; i++)
 			{
-				real_point2d* circle_point0 = &circle_points[i];
-				real_point2d* circle_point1 = &circle_points[i + 1];
+				real_point2d* point0 = &points[i];
+				real_point2d* point1 = &points[i + 1];
 
-				real_point3d point0{};
-				real_point3d point1{};
+				real_point3d q0{};
+				real_point3d q1{};
 
-				set_real_point3d(&point0, (center->x + circle_point0->x), (center->y + circle_point0->y), center->z);
-				set_real_point3d(&point1, (center->x + circle_point1->x), (center->y + circle_point1->y), center->z);
-				render_debug_line(draw_immediately, &point0, &point1, color);
+				set_real_point3d(&q0, (center->x + point0->x), (center->y + point0->y), center->z);
+				set_real_point3d(&q1, (center->x + point1->x), (center->y + point1->y), center->z);
+				render_debug_line(immediate, &q0, &q1, color);
 
-				set_real_point3d(&point0, (center->x + circle_point0->y), center->y, (center->z + circle_point0->x));
-				set_real_point3d(&point1, (center->x + circle_point1->y), center->y, (center->z + circle_point1->x));
-				render_debug_line(draw_immediately, &point0, &point1, color);
+				set_real_point3d(&q0, (center->x + point0->y), center->y, (center->z + point0->x));
+				set_real_point3d(&q1, (center->x + point1->y), center->y, (center->z + point1->x));
+				render_debug_line(immediate, &q0, &q1, color);
 
-				set_real_point3d(&point0, center->x, (center->y + circle_point0->x), (center->z + circle_point0->y));
-				set_real_point3d(&point1, center->x, (center->y + circle_point1->x), (center->z + circle_point1->y));
-				render_debug_line(draw_immediately, &point0, &point1, color);
+				set_real_point3d(&q0, center->x, (center->y + point0->x), (center->z + point0->y));
+				set_real_point3d(&q1, center->x, (center->y + point1->x), (center->z + point1->y));
+				render_debug_line(immediate, &q0, &q1, color);
 			}
 		}
 	}
@@ -963,102 +969,113 @@ void __cdecl render_debug_sphere(bool draw_immediately, const real_point3d* cent
 	}
 }
 
-void __cdecl render_debug_cylinder(bool draw_immediately, const real_point3d* base, const real_vector3d* height, real32 radius, const real_argb_color* color)
+void __cdecl render_debug_cylinder(bool immediate, const real_point3d* base, const real_vector3d* height, real32 width, const real_argb_color* color)
 {
 	ASSERT(base);
 	ASSERT(height);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
-		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
-		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
+		real_point3d bottom_points[CIRCLE_DIVISIONS + 1]{};
+		real_point3d top_points[CIRCLE_DIVISIONS + 1]{};
 
-		render_debug_build_pill_points(base, height, radius, points0, points1, NULL, NULL, NULL, NULL);
+		render_debug_build_pill_points(base, height, width, bottom_points, top_points, NULL, NULL, NULL, NULL);
 
-		for (int32 i = 0; i < CIRCLE_DIVISIONS; i++)
+		for (int32 segment_index = 0; segment_index < CIRCLE_DIVISIONS; segment_index++)
 		{
-			render_debug_line(draw_immediately, &points0[i], &points0[i + 1], color);
-			render_debug_line(draw_immediately, &points1[i], &points1[i + 1], color);
+			render_debug_line(immediate, &bottom_points[segment_index], &bottom_points[segment_index + 1], color);
+			render_debug_line(immediate, &top_points[segment_index], &top_points[segment_index + 1], color);
 		}
 
-		for (int32 i = 0; i < CIRCLE_DIVISIONS; i += 4)
+		for (int32 segment_index = 0; segment_index < CIRCLE_DIVISIONS; segment_index += 4)
 		{
-			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
+			render_debug_line(immediate, &bottom_points[segment_index], &top_points[segment_index], color);
 		}
 
-		for (int32 i = 0; i < 8; i += 4)
+		for (int32 segment_index = 0; segment_index < 8; segment_index += 4)
 		{
-			render_debug_line(draw_immediately, &points0[i], &points0[i + 8], color);
-			render_debug_line(draw_immediately, &points1[i], &points1[i + 8], color);
+			render_debug_line(immediate, &bottom_points[segment_index], &bottom_points[segment_index + 8], color);
+			render_debug_line(immediate, &top_points[segment_index], &top_points[segment_index + 8], color);
 		}
 	}
 	else
 	{
-		render_debug_add_cache_entry(_render_debug_type_cylinder, base, height, radius, color);
+		render_debug_add_cache_entry(_render_debug_type_cylinder, base, height, width, color);
 	}
 }
 
-void __cdecl render_debug_pill(bool draw_immediately, const real_point3d* base, const real_vector3d* height, real32 radius, const real_argb_color* color)
+void __cdecl render_debug_pill(bool immediate, const real_point3d* base, const real_vector3d* height, real32 width, const real_argb_color* color)
 {
 	ASSERT(base);
 	ASSERT(height);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
-		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
-		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
-		real_point3d points2[(CIRCLE_DIVISIONS / 2) + 1]{};
-		real_point3d points3[(CIRCLE_DIVISIONS / 2) + 1]{};
-		real_point3d points4[(CIRCLE_DIVISIONS / 2) + 1]{};
-		real_point3d points5[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d xy_top_points[CIRCLE_DIVISIONS + 1]{};
+		real_point3d xy_bottom_points[CIRCLE_DIVISIONS + 1]{};
+		real_point3d yz_top_points[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d yz_bottom_points[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d zx_top_points[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d zx_bottom_points[(CIRCLE_DIVISIONS / 2) + 1]{};
 
-		render_debug_build_pill_points(base, height, radius, points0, points1, points2, points3, points4, points5);
+		render_debug_build_pill_points(
+			base,
+			height,
+			width,
+			xy_top_points,
+			xy_bottom_points,
+			yz_top_points,
+			yz_bottom_points,
+			zx_top_points,
+			zx_bottom_points);
 
-		for (int32 i = 0; i < CIRCLE_DIVISIONS; ++i)
+		for (int32 segment_index = 0; segment_index < CIRCLE_DIVISIONS; segment_index++)
 		{
-			render_debug_line(draw_immediately, &points0[i], &points0[i + 1], color);
-			render_debug_line(draw_immediately, &points1[i], &points1[i + 1], color);
+			render_debug_line(immediate, &xy_top_points[segment_index], &xy_top_points[segment_index + 1], color);
+			render_debug_line(immediate, &xy_bottom_points[segment_index], &xy_bottom_points[segment_index + 1], color);
 		}
 
-		for (int32 i = 0; i < CIRCLE_DIVISIONS; i += 4)
-			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
-
-		for (int32 i = 0; i < CIRCLE_DIVISIONS / 2; i++)
+		for (int32 segment_index = 0; segment_index < CIRCLE_DIVISIONS; segment_index += 4)
 		{
-			render_debug_line(draw_immediately, &points2[i], &points2[i + 1], color);
-			render_debug_line(draw_immediately, &points3[i], &points3[i + 1], color);
-			render_debug_line(draw_immediately, &points4[i], &points4[i + 1], color);
-			render_debug_line(draw_immediately, &points5[i], &points5[i + 1], color);
+			render_debug_line(immediate, &xy_top_points[segment_index], &xy_bottom_points[segment_index], color);
+		}
+
+		for (int32 segment_index = 0; segment_index < CIRCLE_DIVISIONS / 2; segment_index++)
+		{
+			render_debug_line(immediate, &yz_top_points[segment_index], &yz_top_points[segment_index + 1], color);
+			render_debug_line(immediate, &yz_bottom_points[segment_index], &yz_bottom_points[segment_index + 1], color);
+			render_debug_line(immediate, &zx_top_points[segment_index], &zx_top_points[segment_index + 1], color);
+			render_debug_line(immediate, &zx_bottom_points[segment_index], &zx_bottom_points[segment_index + 1], color);
 		}
 	}
 	else
 	{
-		render_debug_add_cache_entry(_render_debug_type_pill, base, height, radius, color);
+		render_debug_add_cache_entry(_render_debug_type_pill, base, height, width, color);
 	}
 }
 
-void __cdecl render_debug_box2d_outline(bool draw_immediately, const real_rectangle2d* bounds, const real_argb_color* color)
+void __cdecl render_debug_box2d_outline(bool immediate, const real_rectangle2d* bounds, const real_argb_color* color)
 {
 	ASSERT(bounds);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
-		real_point3d points[4]{};
+		real_point3d box_points[4]{};
 
-		set_real_point3d(points, bounds->x0, bounds->y0, -1.0);
-		set_real_point3d(&points[1], bounds->x1, bounds->y0, -1.0);
-		set_real_point3d(&points[2], bounds->x1, bounds->y1, -1.0);
-		set_real_point3d(&points[3], bounds->x0, bounds->y1, -1.0);
+		set_real_point3d(&box_points[0], bounds->x0, bounds->y0, -1.0);
+		set_real_point3d(&box_points[1], bounds->x1, bounds->y0, -1.0);
+		set_real_point3d(&box_points[2], bounds->x1, bounds->y1, -1.0);
+		set_real_point3d(&box_points[3], bounds->x0, bounds->y1, -1.0);
 
 		const render_projection* projection = c_player_view::get_current()->get_rasterizer_projection();
-		matrix4x3_transform_point(&projection->view_to_world, points, points);
-		matrix4x3_transform_point(&projection->view_to_world, &points[1], &points[1]);
-		matrix4x3_transform_point(&projection->view_to_world, &points[2], &points[2]);
-		matrix4x3_transform_point(&projection->view_to_world, &points[3], &points[3]);
-		render_debug_polygon_edges(points, NUMBEROF(points), color);
+		matrix4x3_transform_point(&projection->view_to_world, &box_points[0], &box_points[0]);
+		matrix4x3_transform_point(&projection->view_to_world, &box_points[1], &box_points[1]);
+		matrix4x3_transform_point(&projection->view_to_world, &box_points[2], &box_points[2]);
+		matrix4x3_transform_point(&projection->view_to_world, &box_points[3], &box_points[3]);
+		render_debug_polygon_edges(box_points, NUMBEROF(box_points), color);
 	}
 	else
 	{
@@ -1066,19 +1083,25 @@ void __cdecl render_debug_box2d_outline(bool draw_immediately, const real_rectan
 	}
 }
 
-void __cdecl render_debug_box(bool draw_immediately, const real_rectangle3d* bounds, const real_argb_color* color)
+void __cdecl render_debug_box(bool immediate, const real_rectangle3d* bounds, const real_argb_color* color)
 {
 	ASSERT(bounds);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		real_point3d faces[k_faces_per_cube_count][4]{};
 		rectangle3d_build_faces(bounds, k_faces_per_cube_count, faces);
 
-		for (int32 i = 0; i < k_faces_per_cube_count; i++)
+		for (int32 face_index = 0; face_index < NUMBEROF(faces); face_index++)
 		{
-			render_debug_quadrilateral(1, &faces[i][0], &faces[i][1], &faces[i][2], &faces[i][3], color);
+			render_debug_quadrilateral(
+				true,
+				&faces[face_index][0],
+				&faces[face_index][1],
+				&faces[face_index][2],
+				&faces[face_index][3],
+				color);
 		}
 	}
 	else
@@ -1087,30 +1110,36 @@ void __cdecl render_debug_box(bool draw_immediately, const real_rectangle3d* bou
 	}
 }
 
-void __cdecl render_debug_box_oriented(bool draw_immediately, const real_rectangle3d* bounds, const real_matrix4x3* matrix, const real_argb_color* color)
+void __cdecl render_debug_box_oriented(bool immediate, const real_rectangle3d* bounds, const real_matrix4x3* matrix, const real_argb_color* color)
 {
 	real_point3d faces[k_faces_per_cube_count][4]{};
-	matrix4x3_transform_points(matrix, k_faces_per_cube_count * 4, (real_point3d*)faces, (real_point3d*)faces);
-	rectangle3d_build_faces(bounds, k_faces_per_cube_count, faces);
+	matrix4x3_transform_points(matrix, NUMBEROF(faces) * 4, (real_point3d*)faces, (real_point3d*)faces);
+	rectangle3d_build_faces(bounds, NUMBEROF(faces), faces);
 
-	for (int32 i = 0; i < k_faces_per_cube_count; i++)
+	for (int32 face_index = 0; face_index < NUMBEROF(faces); face_index++)
 	{
-		render_debug_quadrilateral(draw_immediately, &faces[i][0], &faces[i][1], &faces[i][2], &faces[i][3], color);
+		render_debug_quadrilateral(
+			true,
+			&faces[face_index][0],
+			&faces[face_index][1],
+			&faces[face_index][2],
+			&faces[face_index][3],
+			color);
 	}
 }
 
-void __cdecl render_debug_box_outline(bool draw_immediately, const real_rectangle3d* bounds, const real_argb_color* color)
+void __cdecl render_debug_box_outline(bool immediate, const real_rectangle3d* bounds, const real_argb_color* color)
 {
 	ASSERT(bounds);
 	ASSERT(color);
 
-	if (/*draw_immediately || */render_debug_draw_immediately(color))
+	if (render_debug_draw_immediately(color))
 	{
 		real_point3d edges[k_edges_per_cube_count][2]{};
-		rectangle3d_build_edges(bounds, k_edges_per_cube_count, edges);
-		for (int32 i = 0; i < k_edges_per_cube_count; i++)
+		rectangle3d_build_edges(bounds, NUMBEROF(edges), edges);
+		for (int32 edge_index = 0; edge_index < NUMBEROF(edges); edge_index++)
 		{
-			render_debug_line(true, &edges[i][0], &edges[i][1], color);
+			render_debug_line(true, &edges[edge_index][0], &edges[edge_index][1], color);
 		}
 	}
 	else
@@ -1119,19 +1148,19 @@ void __cdecl render_debug_box_outline(bool draw_immediately, const real_rectangl
 	}
 }
 
-void __cdecl render_debug_box_outline_oriented(bool draw_immediately, const real_rectangle3d* bounds, const real_matrix4x3* matrix, const real_argb_color* color)
+void __cdecl render_debug_box_outline_oriented(bool immediate, const real_rectangle3d* bounds, const real_matrix4x3* matrix, const real_argb_color* color)
 {
 	ASSERT(bounds);
 	ASSERT(matrix);
 	ASSERT(color);
 
 	real_point3d edges[k_edges_per_cube_count][2]{};
-	rectangle3d_build_edges(bounds, k_edges_per_cube_count, edges);
-	for (int32 i = 0; i < k_edges_per_cube_count; i++)
+	rectangle3d_build_edges(bounds, NUMBEROF(edges), edges);
+	for (int32 edge_index = 0; edge_index < NUMBEROF(edges); edge_index++)
 	{
-		matrix4x3_transform_point(matrix, &edges[i][0], &edges[i][0]);
-		matrix4x3_transform_point(matrix, &edges[i][1], &edges[i][1]);
-		render_debug_line(draw_immediately, &edges[i][0], &edges[i][1], color);
+		matrix4x3_transform_point(matrix, &edges[edge_index][0], &edges[edge_index][0]);
+		matrix4x3_transform_point(matrix, &edges[edge_index][1], &edges[edge_index][1]);
+		render_debug_line(immediate, &edges[edge_index][0], &edges[edge_index][1], color);
 	}
 }
 
@@ -1142,9 +1171,9 @@ void __cdecl render_debug_polygon(const real_point3d* points, int16 point_count,
 		ASSERT(points);
 		ASSERT(color);
 
-		for (int16 i = 1; i < point_count - 1; i++)
+		for (int16 point_index = 1; point_index < point_count - 1; point_index++)
 		{
-			render_debug_triangle(true, points, &points[i], &points[i + 1], color);
+			render_debug_triangle(true, points, &points[point_index], &points[point_index + 1], color);
 		}
 	}
 }
@@ -1159,9 +1188,9 @@ void __cdecl render_debug_polygon_edges(const real_point3d* points, int16 point_
 		if (point_count > 2)
 		{
 			render_debug_line(true, &points[point_count - 1], points, color);
-			for (int16 i = 1; i < point_count; i++)
+			for (int16 point_index = 1; point_index < point_count; point_index++)
 			{
-				render_debug_line(true, &points[i - 1], &points[i], color);
+				render_debug_line(true, &points[point_index - 1], &points[point_index], color);
 			}
 		}
 	}
@@ -1174,52 +1203,48 @@ void __cdecl render_debug_k_graph(const real_point3d* points, int16 point_count,
 
 	if (point_count > 2)
 	{
-		for (int16 i = 0; i < point_count; i++)
+		for (int16 point_index = 0; point_index < point_count; point_index++)
 		{
-			for (int16 j = i + 1; j < point_count; j++)
+			for (int16 other_point_index = point_index + 1; other_point_index < point_count; other_point_index++)
 			{
-				render_debug_line(1, &points[i], &points[j], color);
+				render_debug_line(true, &points[point_index], &points[other_point_index], color);
 			}
 		}
 	}
 }
 
-void __cdecl render_debug_cone_outline(bool draw_immediately, const real_point3d* point, const real_vector3d* direction, real32 radius, real32 cone_angle, const real_argb_color* color)
+void __cdecl render_debug_cone_outline(bool immediate, const real_point3d* origin, const real_vector3d* center, real32 length_along_edge, real32 cone_angle, const real_argb_color* color)
 {
-	real_vector3d normalized_cone_direction = *direction;
-	normalize3d(&normalized_cone_direction);
+	real_vector3d local_center = *center;
+	normalize3d(&local_center);
 
-	real32 cone_vertex_offset = sinf(cone_angle) * radius;
-	real32 cone_base_offset = cosf(cone_angle) * radius;
+	real32 circle_radius = sinf(cone_angle) * length_along_edge;
+	real32 length_along_center = cosf(cone_angle) * length_along_edge;
 
-	real_point3d vertex_on_cone{};
-	point_from_line3d(point, &normalized_cone_direction, cone_base_offset, &vertex_on_cone);
+	real_point3d circle_center{};
+	point_from_line3d(origin, &local_center, length_along_center, &circle_center);
 
-	real_vector3d perpendicular_to_cone_direction{};
-	perpendicular3d(&normalized_cone_direction, &perpendicular_to_cone_direction);
-	normalize3d(&perpendicular_to_cone_direction);
+	real_vector3d circle_left{};
+	perpendicular3d(&local_center, &circle_left);
+	normalize3d(&circle_left);
 
-	real_vector3d perpendicular_cross_product{};
-	cross_product3d(&perpendicular_to_cone_direction, &normalized_cone_direction, &perpendicular_cross_product);
-	normalize3d(&perpendicular_cross_product);
+	real_vector3d circle_up{};
+	cross_product3d(&circle_left, &local_center, &circle_up);
+	normalize3d(&circle_up);
 
-	real_point3d cone_outline_points[10]{};
-	for (int32 i = 0; i < NUMBEROF(cone_outline_points); i++)
+	real_point3d circle_corners[10]{};
+	for (int32 corner_index = 0; corner_index < NUMBEROF(circle_corners); corner_index++)
 	{
-		real32 angle = (TWO_PI * i) / NUMBEROF(cone_outline_points);
-
-		real_point3d* outline_point = &cone_outline_points[i];
-		point_from_line3d(&vertex_on_cone, &perpendicular_to_cone_direction, (cone_vertex_offset * sinf(angle)), outline_point);
-
-		real_point3d* cross_product_point = &cone_outline_points[i];
-		point_from_line3d(&cone_outline_points[i], &perpendicular_cross_product, (cone_vertex_offset * cosf(angle)), cross_product_point);
+		real32 angle = (TWO_PI * corner_index) / NUMBEROF(circle_corners);
+		point_from_line3d(&circle_center, &circle_left, (circle_radius * sinf(angle)), &circle_corners[corner_index]);
+		point_from_line3d(&circle_corners[corner_index], &circle_up, (circle_radius * cosf(angle)), &circle_corners[corner_index]);
 	}
 
-	for (int32 i = 0; i < NUMBEROF(cone_outline_points); i++)
+	for (int32 corner_index = 0; corner_index < NUMBEROF(circle_corners); corner_index++)
 	{
-		int32 next_point_index = (i + 1) % NUMBEROF(cone_outline_points);
-		render_debug_line(draw_immediately, &cone_outline_points[i], &cone_outline_points[next_point_index], color);
-		render_debug_line(draw_immediately, &cone_outline_points[i], point, color);
+		int32 next_corner_index = (corner_index + 1) % NUMBEROF(circle_corners);
+		render_debug_line(immediate, &circle_corners[corner_index], &circle_corners[next_corner_index], color);
+		render_debug_line(immediate, &circle_corners[corner_index], origin, color);
 	}
 }
 
@@ -1240,11 +1265,11 @@ void __cdecl render_debug_string_at_point(const real_point3d* point, const char*
 	render_debug_add_cache_entry(_render_debug_type_string_at_point, string, point, color);
 }
 
-void __cdecl render_debug_string_immediate(bool draw_immediately, const int16* tab_stops, int16 tab_stop_count, const char* string)
+void __cdecl render_debug_string_immediate(const int16* tab_stops, int16 tab_stop_count, const char* string)
 {
 	if (string && *string)
 	{
-		if (/*draw_immediately || */get_render_debug_globals()->use_simple_font_text_rendering)
+		if (get_render_debug_globals()->use_simple_font_text_rendering)
 		{
 			c_simple_font_draw_string draw_string;
 			draw_string.set_tab_stops(tab_stops, tab_stop_count);
@@ -1269,25 +1294,30 @@ void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, c
 	ASSERT(string);
 	ASSERT(color);
 
-	const render_camera* camera = c_player_view::get_current()->get_rasterizer_camera();
-	const render_projection* projection = c_player_view::get_current()->get_rasterizer_projection();
+	const c_player_view* camera_view = c_player_view::get_current();
 
 	real_vector2d inverse_aspect_ratio_scale{};
-	real_vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
-	inverse_aspect_ratio_scale.i = 1.0f / aspect_ratio_scaling.i;
-	inverse_aspect_ratio_scale.j = 1.0f / aspect_ratio_scaling.j;
+	set_real_vector2d(&inverse_aspect_ratio_scale,
+		1.0f / interface_get_aspect_ratio_scaling().i,
+		1.0f / interface_get_aspect_ratio_scaling().j);
 
-	rectangle2d window_display_bounds = camera->window_pixel_bounds;
-	interface_scale_rectangle2d_for_xenon_scaler(&window_display_bounds, &inverse_aspect_ratio_scale);
+	rectangle2d window_pixel_bounds = camera_view->get_rasterizer_camera()->window_pixel_bounds;
+	interface_scale_rectangle2d_for_xenon_scaler(&window_pixel_bounds, &inverse_aspect_ratio_scale);
 
 	real_point2d screen_point{};
-	if (render_camera_world_to_window(camera, projection, &window_display_bounds, point, &screen_point))
+	if (render_camera_world_to_window(
+		camera_view->get_rasterizer_camera(),
+		camera_view->get_rasterizer_projection(),
+		&window_pixel_bounds,
+		point,
+		&screen_point))
 	{
 		rectangle2d bounds{};
-		bounds.x0 = (int16)real32(screen_point.x - (real32)window_display_bounds.x0);
-		bounds.y0 = (int16)real32(screen_point.y - (real32)window_display_bounds.y0);
-		bounds.x1 = SHRT_MAX;
-		bounds.y1 = SHRT_MAX;
+		set_rectangle2d(&bounds,
+			(int16)real32(screen_point.x - (real32)window_pixel_bounds.x0),
+			(int16)real32(screen_point.y - (real32)window_pixel_bounds.y0),
+			SHRT_MAX,
+			SHRT_MAX);
 
 		if (g_render_debug_globals->use_simple_font_text_rendering)
 		{
@@ -1316,251 +1346,227 @@ bool __cdecl render_debug_draw_immediately(const real_argb_color* color)
 {
 	ASSERT(g_render_debug_globals);
 
-	if (!render_debug_allowed_in_current_thread())
+	bool draw_immediate = false;
+	if (render_debug_allowed_in_current_thread() && render_debug_active())
 	{
-		return false;
-	}
-
-	if (!render_debug_active())
-	{
-		return false;
-	}
-
-	if (color)
-	{
-		if (!render_debug_cache_currently_drawing())
+		draw_immediate = true;
+		if (color && !render_debug_cache_currently_drawing())
 		{
-			return color->alpha >= 1.0f;
+			draw_immediate = color->alpha >= 1.0f;
 		}
 	}
-
-	return true;
+	return draw_immediate;
 }
 
 void __cdecl render_debug_add_cache_entry(int16 type, ...)
 {
-	ASSERT(g_render_debug_globals);
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 
-	if (g_render_debug_globals->cache_count < NUMBEROF(g_render_debug_globals->cache))
+	if (render_debug_globals->cache_count > NUMBEROF(render_debug_globals->cache) - 1)
 	{
-		cache_entry* entry = &g_render_debug_globals->cache[g_render_debug_globals->cache_count++];
+		static bool warned = false;
+		if (!warned)
+		{
+			event(_event_warning, "render debug cache overflow.");
+			warned = true;
+		}
+	}
+	else
+	{
+		bool discard_entry = false;
+		cache_entry* entry = &render_debug_globals->cache[render_debug_globals->cache_count++];
+		real32 entry_alpha = 1.0f;
 
-		real32 alpha = 1.0f;
+		real_point3d centroid = *global_origin3d;
 
-		va_list list;
-		va_start(list, type);
-
+		va_list arglist;
+		va_start(arglist, type);
 		switch (type)
 		{
 		case _render_debug_type_circle:
 		{
-			entry->circle.plane = *va_arg(list, real_plane3d*);
-			entry->circle.projection_axis = (int16)va_arg(list, int);
-			entry->circle.projection_sign = (bool)va_arg(list, int);
-			entry->circle.center = *va_arg(list, real_point2d*);
-			entry->circle.radius = (real32)va_arg(list, real64);
-			entry->circle.color = *va_arg(list, real_argb_color*);
-			entry->circle.offset = (real32)va_arg(list, real64);
-			alpha = entry->circle.color.alpha;
+			entry->circle.plane = *va_arg(arglist, real_plane3d*);
+			entry->circle.projection_axis = (int16)va_arg(arglist, int);
+			entry->circle.projection_sign = (bool)va_arg(arglist, int);
+			entry->circle.center = *va_arg(arglist, real_point2d*);
+			entry->circle.radius = (real32)va_arg(arglist, real64);
+			entry->circle.color = *va_arg(arglist, real_argb_color*);
+			entry->circle.offset = (real32)va_arg(arglist, real64);
+			entry_alpha = entry->circle.color.alpha;
 
-			real_point3d centroid{};
 			project_point2d(&entry->circle.center, &entry->circle.plane, entry->circle.projection_axis, entry->circle.projection_sign, &centroid);
 			ASSERT(VALID_INDEX(entry->circle.projection_axis, NUMBEROF(centroid.n)));
 		}
 		break;
 		case _render_debug_type_point:
 		{
-			entry->point.point = *va_arg(list, real_point3d*);
-			entry->point.scale = (real32)va_arg(list, real64);
-			entry->point.color = *va_arg(list, real_argb_color*);
-			alpha = entry->point.color.alpha;
+			entry->point.point = *va_arg(arglist, real_point3d*);
+			entry->point.scale = (real32)va_arg(arglist, real64);
+			entry->point.color = *va_arg(arglist, real_argb_color*);
+			entry_alpha = entry->point.color.alpha;
 		}
 		break;
 		case _render_debug_type_line:
 		{
 			
-			entry->line.point0 = *va_arg(list, real_point3d*);
-			entry->line.point1 = *va_arg(list, real_point3d*);
-			entry->line.color0 = *va_arg(list, real_argb_color*);
-			entry->line.color1 = *va_arg(list, real_argb_color*);
-			alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
+			entry->line.point0 = *va_arg(arglist, real_point3d*);
+			entry->line.point1 = *va_arg(arglist, real_point3d*);
+			entry->line.color0 = *va_arg(arglist, real_argb_color*);
+			entry->line.color1 = *va_arg(arglist, real_argb_color*);
+			entry_alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
 		}
 		break;
 		case _render_debug_type_line2d:
 		{
-			entry->line2d.point0 = *va_arg(list, real_point2d*);
-			entry->line2d.point1 = *va_arg(list, real_point2d*);
-			entry->line2d.color0 = *va_arg(list, real_argb_color*);
-			entry->line2d.color1 = *va_arg(list, real_argb_color*);
-			alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
+			entry->line2d.point0 = *va_arg(arglist, real_point2d*);
+			entry->line2d.point1 = *va_arg(arglist, real_point2d*);
+			entry->line2d.color0 = *va_arg(arglist, real_argb_color*);
+			entry->line2d.color1 = *va_arg(arglist, real_argb_color*);
+			entry_alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
 		}
 		break;
 		case _render_debug_type_sphere:
 		{
-			entry->sphere.center = *va_arg(list, real_point3d*);
-			entry->sphere.radius = (real32)va_arg(list, real64);
-			entry->sphere.color = *va_arg(list, real_argb_color*);
-			alpha = entry->sphere.color.alpha;
+			entry->sphere.center = *va_arg(arglist, real_point3d*);
+			entry->sphere.radius = (real32)va_arg(arglist, real64);
+			entry->sphere.color = *va_arg(arglist, real_argb_color*);
+			entry_alpha = entry->sphere.color.alpha;
 		}
 		break;
 		case _render_debug_type_cylinder:
 		{
-			entry->cylinder.base = *va_arg(list, real_point3d*);
-			entry->cylinder.height = *va_arg(list, real_vector3d*);
-			entry->cylinder.width = (real32)va_arg(list, real64);
-			entry->cylinder.color = *va_arg(list, real_argb_color*);
-			alpha = entry->sphere.color.alpha;
+			entry->cylinder.base = *va_arg(arglist, real_point3d*);
+			entry->cylinder.height = *va_arg(arglist, real_vector3d*);
+			entry->cylinder.width = (real32)va_arg(arglist, real64);
+			entry->cylinder.color = *va_arg(arglist, real_argb_color*);
+			entry_alpha = entry->sphere.color.alpha;
 		}
 		break;
 		case _render_debug_type_pill:
 		{
-			entry->pill.base = *va_arg(list, real_point3d*);
-			entry->pill.height = *va_arg(list, real_vector3d*);
-			entry->pill.width = (real32)va_arg(list, real64);
-			entry->pill.color = *va_arg(list, real_argb_color*);
-			alpha = entry->pill.color.alpha;
+			entry->pill.base = *va_arg(arglist, real_point3d*);
+			entry->pill.height = *va_arg(arglist, real_vector3d*);
+			entry->pill.width = (real32)va_arg(arglist, real64);
+			entry->pill.color = *va_arg(arglist, real_argb_color*);
+			entry_alpha = entry->pill.color.alpha;
 		}
 		break;
 		case _render_debug_type_box:
 		case _render_debug_type_box_outline:
 		{
-			entry->box.bounds = *va_arg(list, real_rectangle3d*);
-			entry->box.color = *va_arg(list, real_argb_color*);
-			alpha = entry->box.color.alpha;
+			entry->box.bounds = *va_arg(arglist, real_rectangle3d*);
+			entry->box.color = *va_arg(arglist, real_argb_color*);
+			entry_alpha = entry->box.color.alpha;
 		}
 		break;
 		case _render_debug_type_triangle:
 		{
-			entry->triangle.point0 = *va_arg(list, real_point3d*);
-			entry->triangle.point1 = *va_arg(list, real_point3d*);
-			entry->triangle.point2 = *va_arg(list, real_point3d*);
-			entry->triangle.color = *va_arg(list, real_argb_color*);
-			alpha = entry->triangle.color.alpha;
+			entry->triangle.point0 = *va_arg(arglist, real_point3d*);
+			entry->triangle.point1 = *va_arg(arglist, real_point3d*);
+			entry->triangle.point2 = *va_arg(arglist, real_point3d*);
+			entry->triangle.color = *va_arg(arglist, real_argb_color*);
+			entry_alpha = entry->triangle.color.alpha;
 		}
 		break;
 		case _render_debug_type_string:
 		{
-			const char* string = va_arg(list, const char*);
-			int32 string_index = render_debug_add_cache_string(string);
-			if (string_index != NONE)
+			int32 string_index = render_debug_add_cache_string(va_arg(arglist, const char*));
+			if (string_index == NONE)
+			{
+				discard_entry = true;
+			}
+			else
 			{
 				entry->string.string_index = string_index;
 				entry->string.tab_stop_count = 0;
-
-				//LABEL_46
-				entry->type = type;
-				entry->layer = 0;
-				entry->sort_key = 0.0f;
-				if (g_render_debug_globals->group_level > 0)
-					entry->sort_key = g_render_debug_globals->group_key;
 			}
 		}
 		break;
 		case _render_debug_type_string_at_point:
 		{
-			const char* string = va_arg(list, const char*);
-			int32 string_index = render_debug_add_cache_string(string);
-			if (string_index != NONE)
+			int32 string_index = render_debug_add_cache_string(va_arg(arglist, const char*));
+			if (string_index == NONE)
+			{
+				discard_entry = true;
+			}
+			else
 			{
 				entry->string_at_point.string_index = string_index;
-				entry->string_at_point.point = *va_arg(list, real_point3d*);
-				entry->string_at_point.color = *va_arg(list, real_argb_color*);
-				alpha = entry->string_at_point.color.alpha;
+				entry->string_at_point.point = *va_arg(arglist, real_point3d*);
+				entry->string_at_point.color = *va_arg(arglist, real_argb_color*);
+				entry_alpha = entry->string_at_point.color.alpha;
 			}
 		}
 		break;
 		case _render_debug_type_box2d_outline:
 		{
-			entry->box2d_outline.bounds = *va_arg(list, real_rectangle2d*);
-			entry->box2d_outline.color = *va_arg(list, real_argb_color*);
-			alpha = entry->box2d_outline.color.alpha;
-
-			//LABEL_46
-			entry->type = type;
-			entry->layer = 0;
-			entry->sort_key = 0.0f;
-			if (g_render_debug_globals->group_level > 0)
-				entry->sort_key = g_render_debug_globals->group_key;
-			return;
+			entry->box2d_outline.bounds = *va_arg(arglist, real_rectangle2d*);
+			entry->box2d_outline.color = *va_arg(arglist, real_argb_color*);
 		}
 		break;
 		default:
-		{
-			entry->type = type;
-			entry->layer = 0;
-			entry->sort_key = 0.0f;
-			if (g_render_debug_globals->group_level > 0)
-				entry->sort_key = g_render_debug_globals->group_key;
-			return;
-		}
 		break;
 		}
 
 		entry->type = type;
 
-		if (alpha > 0.0f)
+		if (discard_entry || entry_alpha <= 0.0f)
 		{
-			entry->layer = alpha < 1.0f ? 1 : 0;
+			render_debug_globals->cache_count--;
 		}
 		else
 		{
-			g_render_debug_globals->cache_count--;
+			entry->layer = entry_alpha < 1.0f;
 		}
 
-		if (g_render_debug_globals->group_level <= 0)
+		if (render_debug_globals->group_level > 0)
 		{
 			entry->sort_key = 0.0f;
 		}
 		else
 		{
-			entry->sort_key = g_render_debug_globals->group_key;
+			entry->sort_key = render_debug_globals->group_key;
 		}
-	}
-
-	static bool render_debug_cache_overflow = false;
-	if (!render_debug_cache_overflow)
-	{
-		event(_event_warning, "render debug cache overflow.");
-		render_debug_cache_overflow = true;
 	}
 }
 
 void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_render_strings, bool clear_cache)
 {
-	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 
 	int16 cache_start_index = 0;
 	if (!render_game_tick_cache)
 	{
-		cache_start_index = g_render_debug_globals->game_tick_cache_count;
+		cache_start_index = render_debug_globals->game_tick_cache_count;
 	}
 
-	if (g_render_debug_globals->cache_count - cache_start_index > 0)
+	if (render_debug_globals->cache_count - cache_start_index > 0)
 	{
-		int16 cache_layer = 0;
-		int32 type = 0;
+		int16 current_layer = 0;
+		int32 current_type = 0;
 
-		ASSERT(!g_render_debug_globals->drawing_cached_geometry);
+		ASSERT(!render_debug_globals->drawing_cached_geometry);
 
-		g_render_debug_globals->drawing_cached_geometry = true;
+		render_debug_globals->drawing_cached_geometry = true;
 
-		c_rasterizer::e_alpha_blend_mode alpha_blend_modes[2] = { c_rasterizer::_alpha_blend_opaque, c_rasterizer::_alpha_blend_alpha_blend };
-		for (int16 cache_index = cache_start_index; cache_index < g_render_debug_globals->cache_count; cache_index++)
+		c_rasterizer::e_alpha_blend_mode layer_alpha_blend_modes[2] = { c_rasterizer::_alpha_blend_opaque, c_rasterizer::_alpha_blend_alpha_blend };
+		for (int16 cache_index = cache_start_index; cache_index < render_debug_globals->cache_count; cache_index++)
 		{
-			cache_entry* entry = &g_render_debug_globals->cache[cache_index];
-			if (VALID_INDEX(entry->layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(g_render_debug_globals->group_ids)` ?
+			cache_entry* entry = &render_debug_globals->cache[cache_index];
+			if (VALID_INDEX(entry->layer, NUMBEROF(layer_alpha_blend_modes)))
 			{
-				c_rasterizer::set_alpha_blend_mode(alpha_blend_modes[entry->layer]);
+				c_rasterizer::set_alpha_blend_mode(layer_alpha_blend_modes[entry->layer]);
 			}
 			else
 			{
-				event(_event_warning, "render:debug: unknown debug render cache layer %d!!!", cache_layer);
+				event(_event_warning, "render:debug: unknown debug render cache layer %d!!!",
+					current_layer);
 			}
 
-			if (type_list[entry->type] != type)
+			if (type_list[entry->type] != current_type)
 			{
 				ASSERT(VALID_INDEX(entry->type, NUMBEROF(type_list)));
-				type = type_list[entry->type];
+				current_type = type_list[entry->type];
 			}
 
 			if (!only_render_strings || entry->type == _render_debug_type_string)
@@ -1656,23 +1662,17 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 				break;
 				case _render_debug_type_string:
 				{
-					const char* string = g_render_debug_globals->cache_string + entry->string.string_index;
-					ASSERT(string != NULL);
-
-					render_debug_string_immediate(true,
+					render_debug_string_immediate(
 						entry->string.tab_stops,
 						entry->string.tab_stop_count,
-						string);
+						&render_debug_globals->cache_string[entry->string.string_index]);
 				}
 				break;
 				case _render_debug_type_string_at_point:
 				{
-					const char* string = g_render_debug_globals->cache_string + entry->string_at_point.string_index;
-					ASSERT(string != NULL);
-
 					render_debug_string_at_point_immediate(
 						&entry->string_at_point.point,
-						string,
+						&render_debug_globals->cache_string[entry->string_at_point.string_index],
 						&entry->string_at_point.color);
 				}
 				break;
@@ -1685,20 +1685,20 @@ void __cdecl render_debug_cache_draw(bool render_game_tick_cache, bool only_rend
 				break;
 				default:
 				{
-					// ASSERT(halt());
+					HALT();
 				}
 				break;
 				}
 			}
 		}
 
-		g_render_debug_globals->drawing_cached_geometry = false;
+		render_debug_globals->drawing_cached_geometry = false;
 	}
 
 	if (clear_cache)
 	{
-		g_render_debug_globals->cache_count = g_render_debug_globals->game_tick_cache_count;
-		g_render_debug_globals->cache_string_length = g_render_debug_globals->game_tick_cache_string_length;
+		render_debug_globals->cache_count = render_debug_globals->game_tick_cache_count;
+		render_debug_globals->cache_string_length = render_debug_globals->game_tick_cache_string_length;
 	}
 }
 
@@ -1713,27 +1713,27 @@ void __cdecl render_debug_polygon_fan(const real_point3d* points, int16 point_co
 		real_argb_color edge_color = *color;
 		edge_color.alpha = 1.0f;
 
-		for (int16 i = 1; i < point_count - 1; i++)
+		for (int16 point_index = 1; point_index < point_count - 1; point_index++)
 		{
-			render_debug_triangle(true, &points[0], &points[i], &points[i + 1], color);
-			render_debug_line(true, &points[0], &points[i], &edge_color);
-			render_debug_line(true, &points[i], &points[i + 1], &edge_color);
-			render_debug_line(true, &points[0], &points[i + 1], &edge_color);
+			render_debug_triangle(true, &points[0], &points[point_index], &points[point_index + 1], color);
+			render_debug_line(true, &points[0], &points[point_index], &edge_color);
+			render_debug_line(true, &points[point_index], &points[point_index + 1], &edge_color);
+			render_debug_line(true, &points[0], &points[point_index + 1], &edge_color);
 		}
 	}
 }
 
-real32 __cdecl build_height_matrix(const real_point3d* base, const real_vector3d* height, real_matrix4x3* out_matrix)
+real32 __cdecl build_height_matrix(const real_point3d* base, const real_vector3d* height, real_matrix4x3* matrix)
 {
-	out_matrix->scale = 1.0f;
-	out_matrix->up = *height;
-	perpendicular3d(&out_matrix->up, &out_matrix->left);
-	real32 result = normalize3d(&out_matrix->up);
-	normalize3d(&out_matrix->left);
-	cross_product3d(&out_matrix->left, &out_matrix->up, &out_matrix->forward);
-	out_matrix->position = *base;
+	matrix->scale = 1.0f;
+	matrix->up = *height;
+	perpendicular3d(&matrix->up, &matrix->left);
+	real32 height_magnitude = normalize3d(&matrix->up);
+	normalize3d(&matrix->left);
+	cross_product3d(&matrix->left, &matrix->up, &matrix->forward);
+	matrix->position = *base;
 
-	return result;
+	return height_magnitude;
 }
 
 void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* points, int32 total_point_count)
@@ -1741,55 +1741,58 @@ void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* point
 	ASSERT(total_point_count > 0);
 
 	real32 angle = (TWO_PI / (total_point_count - 1));
-	real32 sin_angle = sinf(angle);
-	real32 cos_angle = cosf(angle);
+	real32 sine_angle = sinf(angle);
+	real32 cosine_angle = cosf(angle);
 	set_real_point2d(points, radius, 0.0f);
-	for (int32 i = 0; i + 1 < total_point_count; i++)
+	for (int32 point_index = 0; point_index + 1 < total_point_count; point_index++)
 	{
-		rotate_vector2d((real_vector2d*)&points[i], sin_angle, cos_angle, (real_vector2d*)&points[i + 1]);
+		rotate_vector2d((real_vector2d*)&points[point_index],
+			sine_angle,
+			cosine_angle,
+			(real_vector2d*)&points[point_index + 1]);
 	}
 
 	points[total_point_count - 1] = *points;
 }
 
-void __cdecl render_debug_build_pill_points(const real_point3d* base, const real_vector3d* height, real32 radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5)
+void __cdecl render_debug_build_pill_points(const real_point3d* base, const real_vector3d* height, real32 width, real_point3d* xy_top_points, real_point3d* xy_bottom_points, real_point3d* yz_top_points, real_point3d* yz_bottom_points, real_point3d* zx_top_points, real_point3d* zx_bottom_points)
 {
-	real_matrix4x3 height_matrix{};
-	real32 normalized_up = build_height_matrix(base, height, &height_matrix);
+	real_matrix4x3 matrix{};
+	real32 height_magnitude = build_height_matrix(base, height, &matrix);
 
 	real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
-	render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
+	render_debug_build_circle_points(width, circle_points, NUMBEROF(circle_points));
 
-	if (points0 && points1)
+	if (xy_top_points && xy_bottom_points)
 	{
-		for (int32 i = 0; i < CIRCLE_DIVISIONS + 1; i++)
+		for (int32 point_index = 0; point_index < NUMBEROF(circle_points); point_index++)
 		{
-			real_point2d* circle_point = &circle_points[i];
+			real_point2d* p = &circle_points[point_index];
 
-			set_real_point3d(&points0[i], circle_point->x, circle_point->y, normalized_up);
-			set_real_point3d(&points1[i], circle_point->x, circle_point->y, 0.0f);
+			set_real_point3d(&xy_top_points[point_index], p->x, p->y, height_magnitude);
+			set_real_point3d(&xy_bottom_points[point_index], p->x, p->y, 0.0f);
 
-			matrix4x3_transform_point(&height_matrix, &points0[i], &points0[i]);
-			matrix4x3_transform_point(&height_matrix, &points1[i], &points1[i]);
+			matrix4x3_transform_point(&matrix, &xy_top_points[point_index], &xy_top_points[point_index]);
+			matrix4x3_transform_point(&matrix, &xy_bottom_points[point_index], &xy_bottom_points[point_index]);
 		}
 	}
 
-	if (points2 && points3 && points4 && points5)
+	if (yz_top_points && yz_bottom_points && zx_top_points && zx_bottom_points)
 	{
-		for (int32 i = 0; i < (CIRCLE_DIVISIONS / 2) + 1; i++)
+		for (int32 point_index = 0; point_index < (CIRCLE_DIVISIONS / 2) + 1; point_index++)
 		{
-			real_point2d* circle_point1 = &circle_points[i];
-			real_point2d* circle_point0 = &circle_points[i + 8];
+			real_point2d* top_p = &circle_points[point_index];
+			real_point2d* bottom_p = &circle_points[point_index + 8];
 
-			set_real_point3d(&points2[i], 0.0, circle_point1->x, circle_point1->y + normalized_up);
-			set_real_point3d(&points3[i], 0.0, circle_point0->x, circle_point0->y);
-			set_real_point3d(&points4[i], circle_point1->x, 0.0f, circle_point1->y + normalized_up);
-			set_real_point3d(&points5[i], circle_point0->x, 0.0f, circle_point0->y);
+			set_real_point3d(&yz_top_points[point_index], 0.0, top_p->x, top_p->y + height_magnitude);
+			set_real_point3d(&yz_bottom_points[point_index], 0.0, bottom_p->x, bottom_p->y);
+			set_real_point3d(&zx_top_points[point_index], top_p->x, 0.0f, top_p->y + height_magnitude);
+			set_real_point3d(&zx_bottom_points[point_index], bottom_p->x, 0.0f, bottom_p->y);
 
-			matrix4x3_transform_point(&height_matrix, &points2[i], &points2[i]);
-			matrix4x3_transform_point(&height_matrix, &points3[i], &points3[i]);
-			matrix4x3_transform_point(&height_matrix, &points4[i], &points4[i]);
-			matrix4x3_transform_point(&height_matrix, &points5[i], &points5[i]);
+			matrix4x3_transform_point(&matrix, &yz_top_points[point_index], &yz_top_points[point_index]);
+			matrix4x3_transform_point(&matrix, &yz_bottom_points[point_index], &yz_bottom_points[point_index]);
+			matrix4x3_transform_point(&matrix, &zx_top_points[point_index], &zx_top_points[point_index]);
+			matrix4x3_transform_point(&matrix, &zx_bottom_points[point_index], &zx_bottom_points[point_index]);
 		}
 	}
 }
@@ -1830,7 +1833,8 @@ c_render_debug_line_drawer::~c_render_debug_line_drawer()
 
 void c_render_debug_line_drawer::flush()
 {
-	if (render_debug_draw_immediately(&m_color_argb))
+	bool can_draw_immediately = render_debug_draw_immediately(&m_color_argb);
+	if (can_draw_immediately)
 	{
 		if (m_internal_queue_vertex_count > 0)
 		{
@@ -1857,10 +1861,10 @@ void c_render_debug_line_drawer::flush()
 	m_internal_queue_vertex_count = 0;
 }
 
-void c_render_debug_line_drawer::set_color(const real_argb_color* color_)
+void c_render_debug_line_drawer::set_color(const real_argb_color* color)
 {
-	color_degamma(&color_->rgb, reinterpret_cast<real_linear_rgb_color*>(&m_color_argb.rgb));
-	m_color_argb.alpha = color_->alpha;
+	color_degamma(&color->rgb, (real_linear_rgb_color*)&m_color_argb.rgb);
+	m_color_argb.alpha = color->alpha;
 	m_color = real_argb_color_to_pixel32(&m_color_argb);
 }
 
@@ -1872,18 +1876,20 @@ void c_render_debug_line_drawer::add_line_2d(const real_point2d* p0, const real_
 		m_line_type = _line_type_2d;
 	}
 
-	s_internal_vertex* vertex = m_internal_queue + m_internal_queue_vertex_count;
+	s_internal_vertex* dest = m_internal_queue + m_internal_queue_vertex_count;
 	m_internal_queue_vertex_count += 2;
 
-	vertex[0].position.x = ((p0->x * m_oo_screen_width) * 2.0f) - 1.0f;
-	vertex[0].position.y = -(((p0->y * m_oo_screen_height) * 2.0f) - 1.0f);
-	vertex[0].position.z = 0.0f;
-	vertex[0].color = m_color;
+	set_real_point3d(&dest[0].position, 
+		((p0->x * m_oo_screen_width) * 2.0f) - 1.0f,
+		- (((p0->y * m_oo_screen_height) * 2.0f) - 1.0f),
+		0.0f);
+	dest[0].color = m_color;
 
-	vertex[1].position.x = ((p1->x * m_oo_screen_width) * 2.0f) - 1.0f;
-	vertex[1].position.y = -(((p1->y * m_oo_screen_height) * 2.0f) - 1.0f);
-	vertex[1].position.z = 0.0f;
-	vertex[1].color = m_color;
+	set_real_point3d(&dest[1].position,
+		((p1->x * m_oo_screen_width) * 2.0f) - 1.0f,
+		-(((p1->y * m_oo_screen_height) * 2.0f) - 1.0f),
+		0.0f);
+	dest[1].color = m_color;
 }
 
 void c_render_debug_line_drawer::add_line_3d(const real_point3d* p0, const real_point3d* p1)
@@ -1894,14 +1900,14 @@ void c_render_debug_line_drawer::add_line_3d(const real_point3d* p0, const real_
 		m_line_type = _line_type_3d;
 	}
 
-	s_internal_vertex* vertex = m_internal_queue + m_internal_queue_vertex_count;
+	s_internal_vertex* dest = m_internal_queue + m_internal_queue_vertex_count;
 	m_internal_queue_vertex_count += 2;
 
-	vertex[0].position = *p0;
-	vertex[0].color = m_color;
+	dest[0].position = *p0;
+	dest[0].color = m_color;
 
-	vertex[1].position = *p1;
-	vertex[1].color = m_color;
+	dest[1].position = *p1;
+	dest[1].color = m_color;
 }
 
 void c_render_debug_line_drawer::add_line_3d_unclipped(const real_point3d* p0, const real_point3d* p1)
@@ -1912,28 +1918,26 @@ void c_render_debug_line_drawer::add_line_3d_unclipped(const real_point3d* p0, c
 	real_matrix4x3 camera{};
 	c_player_view::get_player_render_camera_orientation(&camera);
 
-	real_point3d point0 = *p0;
-	real_point3d point1 = *p1;
+	real_point3d points[2] = { *p0, *p1 };
 
-	real_vector3d vector0{};
-	real_vector3d vector1{};
-	vector_from_points3d(&camera.position, &point0, &vector0);
-	vector_from_points3d(&camera.position, &point1, &vector1);
+	real_vector3d camera_vectors[2];
+	vector_from_points3d(&camera.position, &points[0], &camera_vectors[0]);
+	vector_from_points3d(&camera.position, &points[1], &camera_vectors[1]);
 
-	real32 clip_distance = magnitude3d(&vector0);
-	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
+	real32 distance = magnitude3d(&camera_vectors[0]);
+	if (magnitude3d(&camera_vectors[0]) <= magnitude3d(&camera_vectors[1]))
 	{
-		clip_distance = magnitude3d(&vector1);
+		distance = magnitude3d(&camera_vectors[1]);
 	}
 
 	real32 z_far = c_player_view::get_current()->get_rasterizer_camera()->z_far;
-	if (clip_distance > (0.5f * z_far))
+	if (distance > (0.5f * z_far))
 	{
-		real32 distance = (0.5f * z_far) / clip_distance;
-		point_from_line3d(&camera.position, &vector0, distance, &point0);
-		point_from_line3d(&camera.position, &vector1, distance, &point1);
+		real32 scale = (0.5f * z_far) / distance;
+		point_from_line3d(&camera.position, &camera_vectors[0], scale, &points[0]);
+		point_from_line3d(&camera.position, &camera_vectors[1], scale, &points[1]);
 	}
 
-	c_render_debug_line_drawer::add_line_3d(&point0, &point1);
+	c_render_debug_line_drawer::add_line_3d(&points[0], &points[1]);
 }
 

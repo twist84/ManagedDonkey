@@ -115,9 +115,11 @@ void __cdecl closed_caption_update()
 	//uns32 milliseconds = user_interface_milliseconds();
 	//for (int32 caption_index = 0; caption_index < k_caption_count; caption_index++)
 	//{
-	//	s_caption_entry& caption = g_closed_caption_globals.captions[caption_index];
-	//	if (TEST_BIT(caption.flags, 0) && (milliseconds - caption.milliseconds) >= 5000)
-	//		caption = {};
+	//	s_caption_entry* caption = &g_closed_caption_globals.entries[caption_index];
+	//	if (TEST_BIT(caption->flags, 0) && (milliseconds - caption->entry_time_milliseconds) >= 5000)
+	//	{
+	//		*caption = {};
+	//	}
 	//}
 }
 
