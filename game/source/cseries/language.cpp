@@ -265,7 +265,7 @@ void __cdecl set_current_language(e_language language)
 		g_current_language = language;
 		font_reload();
 		window_manager_reset_screens();
-		main_game_notify_language_change(language);
+		main_game_reload_map(NONE);
 	}
 }
 
