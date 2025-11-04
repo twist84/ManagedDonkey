@@ -60,6 +60,7 @@ struct game_globals_storage
 };
 static_assert(sizeof(game_globals_storage) == 0x25208);
 
+extern e_language get_map_language();
 extern int32 get_map_minor_version();
 
 struct s_damage_globals_definition;
@@ -83,7 +84,7 @@ struct s_game_globals
 
 	int32 unused0[0x2B];
 
-	c_enum<e_language, int32, _language_invalid, k_language_count> language;
+	e_language language;
 	c_typed_tag_block<s_game_globals_havok_cleanup_resources> havok_cleanup_resources;
 	c_typed_tag_block<s_sound_globals_definition> sound_globals;
 

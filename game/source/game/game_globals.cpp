@@ -40,12 +40,24 @@ rgb_color const k_player_colors[]
 
 c_typed_tag_block<rgb_color> s_game_globals::profile_colors{};
 
+e_language get_map_language()
+{
+	e_language result = k_first_language;
+	if (global_scenario && VALID_INDEX(global_game_globals->language, k_language_count))
+	{
+		result = global_game_globals->language;
+	}
+	return result;
+}
+
 int32 get_map_minor_version()
 {
+	int32 result = NONE;
 	if (global_scenario)
-		return cache_files_get_header()->minor_version_number;
-	else
-		return NONE;
+	{
+		result = cache_files_get_header()->minor_version_number;
+	}
+	return result;
 }
 
 void s_game_globals::update_static_runtime_data()

@@ -125,10 +125,12 @@ const char* get_language_display_name(e_language language)
 {
 	//return INVOKE(0x0052FDC0, get_language_display_name, language);
 
+	const char* result = "";
 	if (IN_RANGE(language, _language_invalid, k_language_count))
-		return k_language_names[language];
-
-	return "";
+	{
+		result = k_language_names[language];
+	}
+	return result;
 }
 
 e_language get_language_from_display_name_slow(const char* display_name)
@@ -136,16 +138,18 @@ e_language get_language_from_display_name_slow(const char* display_name)
 	//return INVOKE(0x0052FE60, get_language_from_display_name_slow, display_name);
 
 	e_language language = k_language_default;
-
 	while (true)
 	{
 		if (csstricmp(display_name, get_language_display_name(language)) == 0)
+		{
 			break;
+		}
 
 		if (++language >= k_language_count)
+		{
 			return _language_invalid;
+		}
 	}
-
 	return language;
 }
 
@@ -153,10 +157,12 @@ const char* __cdecl get_language_iso_639_1_name(e_language language)
 {
 	//return INVOKE(0x0052FF30, get_language_display_name, language);
 
-	if (language > _language_invalid && language < k_language_count)
-		return k_language_iso_639_1_names[language];
-
-	return "";
+	const char* result = "";
+	if (IN_RANGE(language, _language_invalid, k_language_count))
+	{
+		result = k_language_iso_639_1_names[language];
+	}
+	return result;
 }
 
 const char* __cdecl get_language_suffix(e_language language, bool english_is_empty)
@@ -169,7 +175,9 @@ const char* __cdecl get_language_suffix(e_language language, bool english_is_emp
 	case _language_english:
 	{
 		if (!english_is_empty)
+		{
 			result = "en";
+		}
 	}
 	break;
 	case _language_japanese:
@@ -228,7 +236,6 @@ const char* __cdecl get_language_suffix(e_language language, bool english_is_emp
 	}
 	break;
 	}
-
 	return result;
 }
 
@@ -268,5 +275,7 @@ void __cdecl set_current_language_from_display_name_slow(const char* display_nam
 
 	e_language language = get_language_from_display_name_slow(display_name);
 	if (language != _language_invalid)
+	{
 		set_current_language(language);
+	}
 }
