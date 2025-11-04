@@ -6,6 +6,7 @@
 #include "cache/pc_texture_cache.hpp"
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
+#include "config/version.hpp"
 #include "cseries/async.hpp"
 #include "cseries/async_helpers.hpp"
 #include "cseries/async_xoverlapped.hpp"
@@ -1845,12 +1846,12 @@ void __cdecl main_prepare_to_switch_zone_set_private()
 
 void __cdecl main_print_version()
 {
-	INVOKE(0x00506AB0, main_print_version);
+	//INVOKE(0x00506AB0, main_print_version);
 
-	//console_printf(shell_get_version());
-	//console_printf("minor version %d cache file language %s",
-	//	get_map_minor_version(),
-	//	get_language_display_name(get_map_language()));
+	console_printf(version_get_full_string() /*shell_get_version()*/);
+	console_printf("minor version %d cache file language %s",
+		get_map_minor_version(),
+		get_language_display_name(get_map_language()));
 }
 
 void __cdecl main_reload_active_zone_set_private()
@@ -1901,14 +1902,15 @@ void __cdecl main_reset_zone_resources()
 {
 	INVOKE(0x00506B70, main_reset_zone_resources);
 
-	//if (!global_scenario_try_and_get())
+	//if (global_scenario_try_and_get())
+	//{
+	//	//main_trace_event_internal(__FUNCTION__);
+	//	main_globals.reset_zone_resources = true;
+	//}
+	//else
 	//{
 	//	console_warning("tried to switch to a zone-set without a scenario loaded");
-	//	return;
 	//}
-	//
-	////main_trace_event_internal(__FUNCTION__);
-	//main_globals.reset_zone_resources = true;
 }
 
 void __cdecl main_reset_zone_resources_private()
