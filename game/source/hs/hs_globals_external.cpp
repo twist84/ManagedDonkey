@@ -57,6 +57,7 @@ enum : int16
 };
 
 #define EXTERNAL_GLOBAL_DECLARE(NAME, TYPE, VALUE, ...) \
+static_assert(#VALUE[0] == '&'); \
 static hs_global_external NAME##_definition \
 { \
 	.name = #NAME, \
@@ -65,6 +66,7 @@ static hs_global_external NAME##_definition \
 }
 
 #define EXTERNAL_GLOBAL_DECLARE2(NAME, TYPE, VALUE_ADDRESS, ...) \
+static_assert((#VALUE_ADDRESS[0] == '0' && #VALUE_ADDRESS[1] == 'x') || (#VALUE_ADDRESS[0] == 'N' && #VALUE_ADDRESS[1] == 'U' && #VALUE_ADDRESS[2] == 'L' && #VALUE_ADDRESS[3] == 'L')); \
 static hs_global_external NAME##_definition = \
 { \
 	.name = #NAME, \
@@ -1074,10 +1076,10 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&render_water_tessllation_on,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	render_water_wireframe,
 	_hs_type_boolean,
-	render_water_wireframe_enabled,
+	&render_water_wireframe_enabled,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_water_interaction,
@@ -5784,10 +5786,10 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	debug_animation_fp_sprint_disable,
 	_hs_type_boolean,
-	debug_animation_fp_sprint_disable,
+	&debug_animation_fp_sprint_disable,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_fitting_root_offset_enable,
