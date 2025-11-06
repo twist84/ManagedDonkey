@@ -26,7 +26,7 @@ c_debug_menu_item_hs_command::c_debug_menu_item_hs_command(c_debug_menu* menu, c
 {
 	ASSERT(name != NULL && command != NULL && menu != NULL);
 
-	int32 command_length = strlen(command) + 1;
+	int32 command_length = strlen_debug(command) + 1;
 	ASSERT(command_length > 0);
 
 	m_command = static_cast<char*>(debug_menu_malloc(command_length));

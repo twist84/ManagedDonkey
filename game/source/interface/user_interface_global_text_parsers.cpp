@@ -17,7 +17,7 @@ bool parse_build_number(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 	static const char* build_name = version_get_build_name();
 	static const char* build_string = version_get_build_string();
 
-	if (strlen(build_name) > 1)
+	if (strlen_debug(build_name) > 1)
 		usnzprintf(buffer, buffer_length, L"build number: %hs (%hs)", build_string, build_name);
 	else
 		usnzprintf(buffer, buffer_length, L"build number: %hs", build_string);

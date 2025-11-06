@@ -61,7 +61,7 @@ HOOK_DECLARE(0x0052B4A0, find_files_next);
 
 bool string_is_absolute_path(const char* s)
 {
-	return s < strstr(s, ":\\");
+	return s < csstrstr(s, ":\\");
 }
 
 void __cdecl suppress_file_errors(bool suppress)

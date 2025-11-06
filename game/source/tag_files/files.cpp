@@ -21,7 +21,7 @@ bool __cdecl datastore_read(const char* file_name, const char* field_name, int32
 	ASSERT('\\0' != field_name[0]);
 
 	ASSERT(length <= DATASTORE_MAX_DATA_SIZE);
-	ASSERT(strlen(field_name) < DATASTORE_MAX_FIELD_NAME_SIZE);
+	ASSERT(strlen_debug(field_name) < DATASTORE_MAX_FIELD_NAME_SIZE);
 
 	return INVOKE(0x00527BC0, datastore_read, file_name, field_name, length, destination);
 }
@@ -35,7 +35,7 @@ bool __cdecl datastore_write(const char* file_name, const char* field_name, int3
 	ASSERT('\\0' != field_name[0]);
 
 	ASSERT(length <= DATASTORE_MAX_DATA_SIZE);
-	ASSERT(strlen(field_name) < DATASTORE_MAX_FIELD_NAME_SIZE);
+	ASSERT(strlen_debug(field_name) < DATASTORE_MAX_FIELD_NAME_SIZE);
 
 	return INVOKE(0x00527D20, datastore_write, file_name, field_name, length, source);
 }

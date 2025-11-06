@@ -174,7 +174,7 @@ void __cdecl parse_build_number_string(int32 user_index, e_utf32 character, c_st
 	const char* build_name = version_get_build_name();
 	const char* build_string = version_get_build_string();
 
-	if (strlen(build_name) > 1)
+	if (strlen_debug(build_name) > 1)
 	{
 		text->append_print(L"%hs (%hs)", build_name, build_string);
 	}

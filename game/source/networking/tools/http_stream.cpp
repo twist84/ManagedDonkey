@@ -43,7 +43,7 @@ bool c_http_post_source::set_source_as_file(s_file_reference* contents_file)
 void c_http_post_source::set_content_type(const char* content_type)
 {
 	ASSERT(content_type);
-	ASSERT(strlen(content_type) < k_content_type_length);
+	ASSERT(strlen_debug(content_type) < k_content_type_length);
 
 	m_content_type.set(content_type);
 }
@@ -51,7 +51,7 @@ void c_http_post_source::set_content_type(const char* content_type)
 void c_http_post_source::set_filename(const char* filename)
 {
 	ASSERT(filename);
-	ASSERT(strlen(filename) < FILENAME_MAX);
+	ASSERT(strlen_debug(filename) < FILENAME_MAX);
 
 	m_filename.set(filename);
 }
@@ -160,7 +160,7 @@ int32 c_http_stream::get_position()
 void c_http_stream::set_url(const char* url)
 {
 	ASSERT(url);
-	ASSERT(strlen(url) < k_url_size);
+	ASSERT(strlen_debug(url) < k_url_size);
 
 	m_url.set(url);
 }

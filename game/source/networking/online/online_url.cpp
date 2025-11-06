@@ -135,7 +135,7 @@ void __cdecl make_hopper_network_directory(char* hopper_directory, int32 length,
 	}
 	else
 	{
-		strncpy_s(hopper_directory, length, "default_hoppers", strlen("default_hoppers") + 1);
+		strncpy_s(hopper_directory, length, "default_hoppers", strlen_debug("default_hoppers") + 1);
 	}
 }
 

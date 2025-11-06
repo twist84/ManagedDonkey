@@ -137,8 +137,8 @@ const char* s_tag_reference::get_group_name()
 void tag_reference_set(s_tag_reference* reference, tag group_tag, const char* name)
 {
 	ASSERT(reference);
-	ASSERT(strlen(name) < k_tag_file_name_length);
-	ASSERT(strlen(name) <= LONG_MAX);
+	ASSERT(strlen_debug(name) < k_tag_file_name_length);
+	ASSERT(strlen_debug(name) <= LONG_MAX);
 
 	if (reference->index != NONE)
 	{

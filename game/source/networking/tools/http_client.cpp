@@ -236,7 +236,7 @@ bool c_http_client::parse_http_response(
 			{
 				if (contents.starts_with("Content-Length: ") || contents.starts_with("content-length: "))
 				{
-					*content_length = atoi(contents.get_string() + strlen("Content-Length: "));
+					*content_length = atoi(contents.get_string() + strlen_debug("Content-Length: "));
 				}
 			}
 		}

@@ -2367,7 +2367,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, 
 	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		const char* string = "stack:\r\n";
-		file_write(&crash_info_output_file, strlen(string), string);
+		file_write(&crash_info_output_file, strlen_debug(string), string);
 
 		if (context)
 		{
@@ -2380,7 +2380,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, 
 
 		if (crash_info)
 		{
-			file_write(&crash_info_output_file, strlen(crash_info), crash_info);
+			file_write(&crash_info_output_file, strlen_debug(crash_info), crash_info);
 		}
 
 		main_status("system_milliseconds", "time %d", system_milliseconds());

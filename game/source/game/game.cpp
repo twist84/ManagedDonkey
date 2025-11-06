@@ -2083,8 +2083,8 @@ bool __cdecl game_options_read_launch_settings_from_string(const char* buffer, s
 		&launch_settings.zone_set_index,
 		&launch_settings.launch_file_flags))
 	{
-		//launch_settings.insertion_point_name[0] &= (strncmp(launch_settings.insertion_point_name, "-", 128) == 0) - 1;
-		//launch_settings.zone_set_name[0] &= (strncmp(launch_settings.zone_set_name, "-", 128); == 0) - 1;
+		//launch_settings.insertion_point_name[0] &= (strncmp_debug(launch_settings.insertion_point_name, "-", 128) == 0) - 1;
+		//launch_settings.zone_set_name[0] &= (strncmp_debug(launch_settings.zone_set_name, "-", 128); == 0) - 1;
 		csmemcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
 		return true;
 	}

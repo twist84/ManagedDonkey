@@ -496,7 +496,7 @@ int32 __cdecl render_debug_add_cache_string(const char* string)
 	{
 		int32 string_offset = cache_string_length;
 		csstrnzcpy(&g_render_debug_globals->cache_string[cache_string_length], string, MAXIMUM_CACHE_STRING_LENGTH - cache_string_length);
-		int16 v8 = (int16)strlen(string);
+		int16 v8 = (int16)strlen_debug(string);
 		// length assert
 
 		g_render_debug_globals->cache_string_length += v8 + 1;

@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#define valid_edit_text(edit) ((edit) && (edit)->buffer && (edit)->maximum_length > 0 && int16(strlen((edit)->buffer)) <= (edit)->maximum_length)
+#define valid_edit_text(edit) ((edit) && (edit)->buffer && (edit)->maximum_length > 0 && int16(strlen_debug((edit)->buffer)) <= (edit)->maximum_length)
 
 void __cdecl edit_text_new(edit_text* edit)
 {
@@ -15,7 +15,7 @@ void __cdecl edit_text_new(edit_text* edit)
 
 void __cdecl edit_text_fix_selection(edit_text* edit)
 {
-	int16 text_len = int16(strlen(edit->buffer));
+	int16 text_len = int16(strlen_debug(edit->buffer));
 
 	if (edit->insertion_point_index <= 0)
 	{
@@ -58,7 +58,7 @@ void __cdecl edit_text_selection_reset(edit_text* edit)
 	ASSERT(valid_edit_text(edit));
 
 	edit_text_fix_selection(edit);
-	edit->insertion_point_index = static_cast<uns16>(strlen(edit->buffer));
+	edit->insertion_point_index = static_cast<uns16>(strlen_debug(edit->buffer));
 	edit->selection_start_index = NONE;
 }
 

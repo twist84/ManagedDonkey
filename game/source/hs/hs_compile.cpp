@@ -186,7 +186,7 @@ bool hs_add_global(int32 expression_index)
 		{
 			const hs_syntax_node* name_node = hs_syntax_get(name_index);
 			const char* global_name = &hs_compile_globals.compiled_source[name_node->source_offset];
-			if (strlen(global_name) && strlen(global_name) < NUMBEROF(hs_global_internal::name))
+			if (strlen_debug(global_name) && strlen_debug(global_name) < NUMBEROF(hs_global_internal::name))
 			{
 				if (hs_find_global_by_name(global_name) == NONE)
 				{

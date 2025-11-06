@@ -676,7 +676,7 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 			int32 maximum_token_name_length = 0;
 			for (int32 i = 0; i < NUMBEROF(g_token_names); i++)
 			{
-				int32 token_name_length = strlen(g_token_names[i]);
+				int32 token_name_length = strlen_debug(g_token_names[i]);
 				if (token_name_length > maximum_token_name_length)
 				{
 					maximum_token_name_length = token_name_length;
@@ -691,7 +691,7 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 				{
 					token = e_tokens(i);
 
-					advance_distance = strlen(g_token_names[i]);
+					advance_distance = strlen_debug(g_token_names[i]);
 					advance_process_type = _advance_type_process_distance;
 					break;
 				}

@@ -229,7 +229,7 @@ void c_life_cycle_state_manager::set_pause_state(const char* state_string, bool 
 	//{
 	//	c_life_cycle_state_handler* handler = m_handlers[handler_index];
 	//
-	//	if (strncmp_debug(handler->get_state_string(), state_string, strlen(state_string)) == 0)
+	//	if (strncmp_debug(handler->get_state_string(), state_string, strlen_debug(state_string)) == 0)
 	//	{
 	//		event(_event_warning, "networking:logic:life-cycle: set pause state for '%s' %s",
 	//			state_string,

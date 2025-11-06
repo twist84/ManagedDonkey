@@ -160,7 +160,7 @@ void c_debug_menu_item::set_name(const char* name)
 {
 	ASSERT(name);
 
-	int32 name_size = strlen(name) + 1;
+	int32 name_size = strlen_debug(name) + 1;
 
 	ASSERT(name != NULL && m_name == NULL);
 	m_name = static_cast<char*>(debug_menu_malloc(name_size));

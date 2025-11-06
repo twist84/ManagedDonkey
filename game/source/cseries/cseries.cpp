@@ -259,7 +259,7 @@ int32 cvsnzprintf(char* buffer, uns32 size, const char* format, va_list list)
 	int32 result = vsnprintf(buffer, size - 1, format, list);
 	buffer[size - 1] = 0;
 
-	size_t buf_size = strlen(buffer);
+	size_t buf_size = strlen_debug(buffer);
 	csmemset(buffer + buf_size, 0, size - buf_size);
 
 	return result;
@@ -279,7 +279,7 @@ char* csnzprintf(char* buffer, uns32 size, const char* format, ...)
 
 char* csnzappendf(char* buffer, uns32 size, const char* format, ...)
 {
-	uns32 current_length = strlen(buffer);
+	uns32 current_length = strlen_debug(buffer);
 	ASSERT(current_length >= 0 && current_length < size);
 
 	va_list list;

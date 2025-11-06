@@ -1045,7 +1045,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(int32 player_c
 		for (int32 pick_index = 0; pick_index < game_collection_out->picked_games.get_count(); pick_index++)
 		{
 			s_game_hopper_picked_game* game_map = &game_collection_out->picked_games[pick_index];
-			ASSERT(strlen(game_map->game_variant_name) > 0);
+			ASSERT(strlen_debug(game_map->game_variant_name) > 0);
 			ASSERT(game_map->map_id > 0);
 		}
 	}

@@ -368,7 +368,7 @@ bool __cdecl remote_camera_update(int32 user_index, const s_observer_result* cam
 void command_tokenize(const char* input, tokens_t& tokens, int32* token_count)
 {
 	bool in_quotes = false;
-	int32 num_chars = strlen(input);
+	int32 num_chars = strlen_debug(input);
 	char current_token[k_token_length] = { 0 };
 
 	for (int i = 0; i < num_chars; i++)
@@ -379,9 +379,9 @@ void command_tokenize(const char* input, tokens_t& tokens, int32* token_count)
 		{
 			if (in_quotes)
 			{
-				current_token[strlen(current_token)] = c;
+				current_token[strlen_debug(current_token)] = c;
 			}
-			else if (strlen(current_token) > 0)
+			else if (strlen_debug(current_token) > 0)
 			{
 				token_t& token = tokens[*token_count] = new _token_t();
 				token->set(current_token);
@@ -402,11 +402,11 @@ void command_tokenize(const char* input, tokens_t& tokens, int32* token_count)
 		}
 		else
 		{
-			current_token[strlen(current_token)] = c;
+			current_token[strlen_debug(current_token)] = c;
 		}
 	}
 
-	if (strlen(current_token) > 0)
+	if (strlen_debug(current_token) > 0)
 	{
 		token_t& token = tokens[*token_count] = new _token_t();
 		token->set(current_token);

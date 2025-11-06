@@ -617,7 +617,7 @@ real32 __cdecl sound_definition_get_minimum_distance(int32 sound_definition_inde
 
 const char* path_add_parent_directory(const char* original_path, const char* stripped_path)
 {
-	const char* path_end = &original_path[strlen(original_path)];
+	const char* path_end = &original_path[strlen_debug(original_path)];
 	ASSERT(IN_RANGE_INCLUSIVE(stripped_path, original_path, path_end));
 
 	const char* v5 = stripped_path - 1;

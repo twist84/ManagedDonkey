@@ -2799,7 +2799,7 @@ void __cdecl hs_scripting_show_thread(const char* substring, bool show)
 	{
 		hs_thread* thread = hs_thread_get(thread_index);
 		const char* thread_name = hs_thread_format(thread_index);
-		if (!strlen_debug(thread_name) || strstr(thread_name, substring))
+		if (!strlen_debug(thread_name) || csstrstr(thread_name, substring))
 		{
 			SET_BIT(thread->flags, _hs_thread_hide_display_bit, !show);
 		}

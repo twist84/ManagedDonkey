@@ -662,7 +662,7 @@ void __cdecl game_state_set_test_options(const char* test_type)
 		}
 
 		const char* description_b = k_game_state_test_option_description[test_option];
-		if (strncmp(test_type, description_a, description_b - description_a - 1) == 0)
+		if (strncmp_debug(test_type, description_a, description_b - description_a - 1) == 0)
 		{
 			game_state_globals.game_state_test_option = (_game_state_test_option)test_option;
 			console_printf("game state test option set to %s\n", description_a);

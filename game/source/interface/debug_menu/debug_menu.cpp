@@ -558,7 +558,7 @@ const char* c_debug_menu::get_name()
 
 void c_debug_menu::set_name(const char* name)
 {
-	int32 name_size = strlen(name) + 1;
+	int32 name_size = strlen_debug(name) + 1;
 
 	ASSERT(m_name == NULL);
 	m_name = static_cast<char*>(debug_menu_malloc(name_size));
@@ -567,7 +567,7 @@ void c_debug_menu::set_name(const char* name)
 
 void c_debug_menu::set_caption(const char* caption)
 {
-	int32 caption_size = strlen(caption) + 1;
+	int32 caption_size = strlen_debug(caption) + 1;
 
 	//ASSERT(m_caption == NULL);
 	m_caption = static_cast<char*>(debug_menu_malloc(caption_size));

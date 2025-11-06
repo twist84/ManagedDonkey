@@ -364,9 +364,9 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 		*value = default_value;
 	}
 
-	if (char* parameter_offset = strstr(command_line, parameter_name))
+	if (const char* parameter_offset = csstrstr(command_line, parameter_name))
 	{
-		parameter_offset += strlen(parameter_name) + 1;
+		parameter_offset += strlen_debug(parameter_name) + 1;
 		c_static_string<32> parameter = parameter_offset;
 		int32 separator = parameter.index_of(" ");
 		if (separator != NONE)

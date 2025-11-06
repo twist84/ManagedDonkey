@@ -119,7 +119,7 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 		*value = default_value;
 	}
 
-	char* parameter_offset = strstr(command_line, parameter_name);
+	const char* parameter_offset = csstrstr(command_line, parameter_name);
 	if (!parameter_offset)
 	{
 		return false;
@@ -127,7 +127,7 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 
 	do
 	{
-		parameter_offset += strlen(parameter_name) + 1;
+		parameter_offset += strlen_debug(parameter_name) + 1;
 		c_static_string<k_maximum_count> parameter = parameter_offset;
 		int32 separator = parameter.index_of(" ");
 		if (separator != NONE)
@@ -140,7 +140,7 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 			*value = parameter;
 		}
 	}
-	while (parameter_offset = strstr(parameter_offset, parameter_name));
+	while (parameter_offset = csstrstr(parameter_offset, parameter_name));
 
 	return true;
 }

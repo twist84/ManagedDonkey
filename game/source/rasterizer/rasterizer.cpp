@@ -592,7 +592,7 @@ bool __cdecl c_rasterizer::reset_device()
 			static bool x_first_run = true;
 			if (x_first_run)
 			{
-				if (strstr(shell_get_command_line(), "-centered") != 0)
+				if (csstrstr(shell_get_command_line(), "-centered") != 0)
 				{
 					window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
 					window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
@@ -924,10 +924,10 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	bool d3d9ex = v3;
 	//	if (const char* command_line = shell_get_command_line())
 	//	{
-	//		if (strstr(command_line, "-d3d9ex") != 0)
+	//		if (csstrstr(command_line, "-d3d9ex") != 0)
 	//			d3d9ex = true;
 	//
-	//		if (strstr(command_line, "-nod3d9ex") != 0)
+	//		if (csstrstr(command_line, "-nod3d9ex") != 0)
 	//			d3d9ex = false;
 	//	}
 	//
@@ -958,7 +958,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//			int32 adapter = global_preferences_get_adapter();
 	//			if (const char* command_line = shell_get_command_line())
 	//			{
-	//				if (const char* adapter_arg = strstr(command_line, "-adapter "))
+	//				if (const char* adapter_arg = csstrstr(command_line, "-adapter "))
 	//					adapter = atol(adapter_arg + 9);
 	//			}
 	//
@@ -975,7 +975,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	g_direct3d->GetDeviceCaps(g_adapter, windowed ? D3DDEVTYPE_NULLREF : D3DDEVTYPE_HAL, get_global_device_caps());
 	//
 	//	bool vsync = global_preferences_get_vsync();
-	//	if (shell_get_command_line() && strstr(shell_get_command_line(), "-no_vsync") != 0)
+	//	if (shell_get_command_line() && csstrstr(shell_get_command_line(), "-no_vsync") != 0)
 	//		vsync = false;
 	//
 	//	//windowed_check(windowed);
@@ -990,10 +990,10 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//
 	//		if (shell_get_command_line())
 	//		{
-	//			if (strstr(shell_get_command_line(), "-fullscreen") != 0)
+	//			if (csstrstr(shell_get_command_line(), "-fullscreen") != 0)
 	//				window = false;
 	//
-	//			if (strstr(shell_get_command_line(), "-window") != 0)
+	//			if (csstrstr(shell_get_command_line(), "-window") != 0)
 	//				window = true;
 	//		}
 	//
@@ -1016,8 +1016,8 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//
 	//	if (const char* command_line = shell_get_command_line())
 	//	{
-	//		const char* width_arg = strstr(command_line, "-width ");
-	//		const char* height_arg = strstr(command_line, "-height ");
+	//		const char* width_arg = csstrstr(command_line, "-width ");
+	//		const char* height_arg = csstrstr(command_line, "-height ");
 	//		if (width_arg && height_arg)
 	//		{
 	//			width = atol(width_arg + 7);
@@ -1240,7 +1240,7 @@ void __cdecl c_rasterizer::initialize_window()
 		else
 		{
 			global_preferences_get_screen_resolution(&width, &height);
-			if (strstr(shell_get_command_line(), "-centered") != 0)
+			if (csstrstr(shell_get_command_line(), "-centered") != 0)
 			{
 				window_x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
 				window_y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
@@ -2356,7 +2356,7 @@ bool rasterizer_dump_display_to_bmp(const char* file_name)
 	//				if (!strcmp(window_text, "Halo IDE"))
 	//					break;
 	//
-	//				if (!strncmp(window_text, "Guerilla", strlen("Guerilla")))
+	//				if (!strncmp_debug(window_text, "Guerilla", strlen_debug("Guerilla")))
 	//					break;
 	//			}
 	//		}

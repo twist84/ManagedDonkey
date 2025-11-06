@@ -303,7 +303,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, const char*
 	first_free_task_slot->task->set_task_state_internal(_overlapped_task_state_starting);
 
 	bool context_matches_description = false;
-	if (strlen(task->get_context_string()) >= k_maximum_task_slots)
+	if (strlen_debug(task->get_context_string()) >= k_maximum_task_slots)
 	{
 		event(_event_warning, "xoverlapped: task context string '%s' is too long to fit into error-code-injection table (maximum %ld characters)",
 			task->get_context_string(),

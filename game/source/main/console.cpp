@@ -161,7 +161,7 @@ void __cdecl console_complete()
 			const char** matching_item = matching_items;
 			for (item_index = 0; item_index < matching_item_count; item_index++, matching_item++)
 			{
-				int16 matching_item_length_minus_one = int16(strlen(*matching_item)) - 1;
+				int16 matching_item_length_minus_one = int16(strlen_debug(*matching_item)) - 1;
 				if (last_similar_character_index > matching_item_length_minus_one)
 				{
 					last_similar_character_index = matching_item_length_minus_one;
@@ -205,14 +205,14 @@ void __cdecl console_complete()
 				console_printf("%s", print_buffer.get_string());
 			}
 
-			ASSERT(int16(strlen(matching_items[0])) >= (last_similar_character_index + 1));
+			ASSERT(int16(strlen_debug(matching_items[0])) >= (last_similar_character_index + 1));
 
 			csmemcpy(token, matching_items[0], last_similar_character_index + 1);
 			token[last_similar_character_index + 1] = 0;
 
 			console_globals.input_state.edit.insertion_point_index = last_similar_character_index + int16(token - console_globals.input_state.result + 1);
 
-			suggestion_current_index = int16(strlen(matching_items[0])) == last_similar_character_index + 1;
+			suggestion_current_index = int16(strlen_debug(matching_items[0])) == last_similar_character_index + 1;
 		}
 		else if (suggestion_current_index == matching_item_count)
 		{
@@ -222,9 +222,9 @@ void __cdecl console_complete()
 		}
 		else
 		{
-			csmemcpy(token, matching_items[suggestion_current_index], strlen(matching_items[suggestion_current_index]));
+			csmemcpy(token, matching_items[suggestion_current_index], strlen_debug(matching_items[suggestion_current_index]));
 
-			int16 suggestion_length = int16(strlen(matching_items[suggestion_current_index++]));
+			int16 suggestion_length = int16(strlen_debug(matching_items[suggestion_current_index++]));
 			token[suggestion_length] = 0;
 
 			console_globals.input_state.edit.insertion_point_index = int16(token - console_globals.input_state.result) + suggestion_length;
@@ -477,7 +477,7 @@ void __cdecl console_warning(const char* format, ...)
 
 bool __cdecl console_process_command(const char* command, bool interactive)
 {
-	if (strlen(command) >= 255)
+	if (strlen_debug(command) >= 255)
 	{
 		return false;
 	}

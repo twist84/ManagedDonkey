@@ -452,7 +452,7 @@ bool __cdecl cache_file_header_verify(const s_cache_file_header* header, const c
 	//	error_occurred = true;
 	//}
 	//
-	//if (strlen(header->name) >= sizeof(header->name))
+	//if (strlen_debug(header->name) >= sizeof(header->name))
 	//{
 	//	error.print("had a corrupt name");
 	//	error_occurred = true;
@@ -2470,7 +2470,7 @@ void apply_camera_fx_settings_instance_modification(cache_file_tag_instance* ins
 	break;
 	case _instance_modification_stage_post_tag_fixup:
 	{
-		if (strstr(shell_get_command_line(), "-disable-auto-exposure") != 0)
+		if (csstrstr(shell_get_command_line(), "-disable-auto-exposure") != 0)
 		{
 			SET_BIT(camera_fx_settings->m_exposure.m_flags, c_camera_fx_settings::_parameter_auto_bit, false);
 		}

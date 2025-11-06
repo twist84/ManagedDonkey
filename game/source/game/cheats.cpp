@@ -75,7 +75,7 @@ void __cdecl cheat_all_chars()
 		}
 
 		const char* tag_name = tag_get_name(tag_index);
-		if (tag_name && strstr(tag_name, "character"))
+		if (tag_name && csstrstr(tag_name, "character"))
 		{
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
 		}
@@ -389,7 +389,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(const char* tag_n
 		{
 			cheat_drop_tag(group_tag, name.get_string(), variant_name, permutations, permutation_count);
 		}
-		else if (strlen(group_name))
+		else if (strlen_debug(group_name))
 		{
 			event(_event_warning, "cheats: unknown tag group '%s'", group_name);
 		}
@@ -571,7 +571,7 @@ void __cdecl cheat_spawn_warthog()
 		}
 
 		const char* tag_name = tag_get_name(tag_index);
-		if (tag_name && strstr(tag_name, "warthog"))
+		if (tag_name && csstrstr(tag_name, "warthog"))
 		{
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_name);
 		}

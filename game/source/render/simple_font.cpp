@@ -50,7 +50,7 @@ void c_simple_font_screen_display::draw(int32 column, int32 row, uns32 color, co
 		m_base_y + row * m_char_height,
 		color,
 		buffer,
-		strlen(buffer),
+		strlen_debug(buffer),
 		false);
 }
 
@@ -289,7 +289,7 @@ void __cdecl simple_font::vprintf(int32 x, int32 y, int32 flags, uns32 color, co
 
 	char debugString[256]{};
 	csnzprintf(debugString, sizeof(debugString), c, arglist);
-	simple_font::render_text(simple_font::g_activeFont, x, y, 1024, flags, color, debugString, strlen(debugString), false);
+	simple_font::render_text(simple_font::g_activeFont, x, y, 1024, flags, color, debugString, strlen_debug(debugString), false);
 }
 
 /*
