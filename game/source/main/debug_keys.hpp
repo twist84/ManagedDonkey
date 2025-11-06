@@ -8,9 +8,9 @@ enum
 	_debug_key_no_modifier = 0,
 	_debug_key_shift,
 	_debug_key_ctrl,
-	_debug_key_shift_ctrl,
-
-	k_debug_key_modifier_count,
+	_debug_key_alt_ignore_shift,
+	_debug_key_shift_ctrl_alt,
+	_debug_key_ctrl_alt,
 };
 
 struct debug_key
