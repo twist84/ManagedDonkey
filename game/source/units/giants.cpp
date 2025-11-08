@@ -28,7 +28,7 @@ real32 __cdecl giant_buckling_magnitude_get(int32 giant_index)
 //.text:00BBBBD0 ; void __cdecl giant_clear_foot_target_flags(int32)
 //.text:00BBBC20 ; void __cdecl giant_clear_foot_tracking_data(int32)
 //.text:00BBBED0 ; bool __cdecl giant_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
-//.text:00BBBF70 ; 
+//.text:00BBBF70 ; void __cdecl giant_delete(int32)
 //.text:00BBBF80 ; bool __cdecl giant_find_ground_point(int32, const real_point3d*, real_point3d*, real_vector3d*, real_point3d*)
 //.text:00BBC100 ; void __cdecl giant_find_pathfinding_location(int32, int16*, int32*, c_sector_ref*, real_point3d*, int32*, uns32*)
 //.text:00BBC350 ; const giant_buckle_parameters* __cdecl giant_get_current_buckle_parameters(int32)
