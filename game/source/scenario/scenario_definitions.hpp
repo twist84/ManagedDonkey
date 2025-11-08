@@ -262,7 +262,7 @@ struct scenario
 	c_typed_tag_block<ai_scene> mission_scenes;
 	c_typed_tag_block<character_palette_entry, 'sort'> character_palette;
 	c_typed_tag_block<pathfinding_data> ai_pathfinding_data;
-	c_typed_tag_block<user_hint_data> ai_user_hint_data;
+	c_typed_tag_block<user_hint_data> ai_user_hints;
 	c_typed_tag_block<ai_recording_reference_definition> ai_recording_references;
 
 	c_typed_tag_data<hs_string_data_definition> hs_string_constants;

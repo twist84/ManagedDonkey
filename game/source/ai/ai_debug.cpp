@@ -3,6 +3,7 @@
 #include "ai/actor_perception.hpp"
 #include "ai/actor_stimulus.hpp"
 #include "ai/actors.hpp"
+#include "ai/ai_hint_definitions.hpp"
 #include "ai/ai_reference_frame.hpp"
 #include "ai/ai_vehicles.hpp"
 #include "ai/behavior.hpp"
@@ -98,7 +99,7 @@ bool g_ai_render_mission_critical = false;
 
 void __cdecl ai_debug_render()
 {
-	bool flag = g_ai_render
+	bool ai_debug_requested = g_ai_render
 		&& (g_ai_render_firing_positions_all
 		|| g_ai_render_lineoffire
 		|| g_ai_render_lineofsight
@@ -153,188 +154,322 @@ void __cdecl ai_debug_render()
 		|| g_ai_render_vehicle_interest
 		|| g_ai_render_player_battle_vector);
 	
-	//main_set_single_thread_request_flag(_single_thread_for_actor_debug, g_dialogue_debug_enabled | flag);
-	if (!actor_datum_available_to_current_thread() || !ai_globals->ai_initialized_for_map)
-		return;
-	
-	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
-	global_ai_debug_string_position = bounds.y1 - 20;
-	//dword_143C86DD8 = (dword_143C86DD8 + 1) % 1000;
-	if (g_ai_debug_selected_actor_index != NONE)
+	//main_set_single_thread_request_flag(_single_thread_for_actor_debug, g_dialogue_debug_enabled | ai_debug_requested);
+	if (actor_datum_available_to_current_thread() && ai_globals->ai_initialized_for_map)
 	{
-		actor_datum* actor = DATUM_GET(actor_data, actor_datum, g_ai_debug_selected_actor_index);
-		g_ai_debug_selected_actor_unit_index = actor->meta.unit_index;
+		rectangle2d bounds{};
+		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		global_ai_debug_string_position = bounds.y1 - 20;
+		//dword_143C86DD8 = (dword_143C86DD8 + 1) % 1000;
+		if (g_ai_debug_selected_actor_index != NONE)
+		{
+			actor_datum* actor = DATUM_GET(actor_data, actor_datum, g_ai_debug_selected_actor_index);
+			g_ai_debug_selected_actor_unit_index = actor->meta.unit_index;
+		}
+
+#if 0
+		if (g_ai_debug)
+		{
+			ai_debug_select_this_actor();
+		}
+#endif
+
+		if (g_ai_render)
+		{
+#if 0
+			if (g_ai_render_firing_positions_all)
+			{
+				ai_debug_render_all_firing_positions();
+			}
+
+			if (g_ai_render_lineoffire)
+			{
+				ai_debug_render_lineoffire();
+			}
+
+			if (g_ai_render_lineofsight)
+			{
+				ai_debug_render_lineofsight();
+			}
+
+			if (g_ai_render_ballistic_lineoffire)
+			{
+				ai_debug_render_ballistic_lineoffire();
+			}
+
+			if (g_ai_debug_selected_actor_unit_index != NONE && (g_ai_debug_selected_actor_index == NONE || g_ai_render_all_actors))
+			{
+				ai_debug_render_squad_members(g_ai_debug_selected_actor_unit_index);
+			}
+
+			if (g_ai_debug_selected_actor_index != NONE && !ai_render_all_actors)
+			{
+				ai_debug_render_actor(g_ai_debug_selected_actor_index, 1u, 0);
+			}
+
+			if (g_ai_debug_path)
+			{
+				ai_debug_render_path();
+			}
+
+			if (g_ai_render_paths_failed)
+			{
+				ai_debug_render_paths_failed();
+			}
+
+			if (g_ai_render_all_actors)
+			{
+				ai_debug_render_all_actors(g_ai_render_inactive_actors);
+			}
+
+			if (g_ai_render_dialogue)
+			{
+				ai_debug_dialogue();
+			}
+
+			if (g_ai_render_dialogue_queue)
+			{
+				ai_dialogue_render_queue();
+			}
+#endif
+
+			if (g_ai_render_dialogue_player_weights)
+			{
+				ai_dialogue_render_player_weights();
+			}
+
+#if 0
+			if (g_ai_render_speech_enabled || g_ai_print_speech)
+			{
+				ai_debug_render_speech();
+			}
+
+			if (g_ai_render_spatial_effects)
+			{
+				ai_debug_render_spatial_effects();
+			}
+
+			if (g_ai_render_clumps_enabled || g_ai_render_clump_props_enabled || g_ai_render_clump_dialogue || g_ai_render_clump_props_all)
+			{
+				ai_debug_render_clumps();
+			}
+
+			if (g_ai_render_decisions)
+			{
+				ai_debug_render_decisions(false);
+			}
+
+			if (g_ai_render_decisions_all)
+			{
+				ai_debug_render_decisions(true);
+			}
+#endif
+
+			if (g_ai_render_behavior_stack_all)
+			{
+				ai_debug_render_behavior_stacks_all();
+			}
+
+			if (g_ai_render_character_names)
+			{
+				ai_debug_render_character_names();
+			}
+
+			if (g_ai_render_stimuli)
+			{
+				stimuli_debug();
+			}
+
+			if (g_ai_render_sectors)
+			{
+				ai_debug_render_sectors();
+			}
+
+#if 0
+			if (g_ai_render_sector_geometry_errors)
+			{
+				ai_render_sector_geometry_errors();
+			}
+
+			if (g_ai_render_link_specific != NONE)
+			{
+				ai_debug_render_link_specific();
+			}
+
+			if (g_ai_render_links)
+			{
+				ai_debug_render_links();
+			}
+#endif
+
+			if (g_ai_render_user_hints)
+			{
+				ai_render_user_hints();
+			}
+
+			if (g_ai_render_hints)
+			{
+				ai_render_hints();
+			}
+
+			if (g_ai_render_object_hints_all)
+			{
+				ai_render_object_hints(false);
+			}
+			else if (g_ai_render_object_hints)
+			{
+				ai_render_object_hints(true);
+			}
+
+			if (g_ai_render_object_properties)
+			{
+				ai_render_object_properties();
+			}
+
+#if 0
+			if (g_ai_render_sector_bsps)
+			{
+				sector_bsps_debug();
+			}
+			else if (g_ai_render_giant_sector_bsps)
+			{
+				giant_sector_bsps_debug();
+			}
+
+			if (g_ai_render_sector_link_errors)
+			{
+				ai_debug_render_sector_link_errors();
+			}
+#endif
+
+			if (g_ai_render_intersection_links)
+			{
+				ai_debug_render_intersection_links();
+			}
+
+#if 0
+			if (g_ai_render_non_walkable_sectors)
+			{
+				ai_debug_render_non_walkable_sectors();
+			}
+#endif
+
+			if (g_ai_render_threshold_links)
+			{
+				ai_debug_render_threshold_links();
+			}
+
+			if (g_ai_render_objectives || g_ai_render_strength)
+			{
+				ai_debug_render_squads();
+			}
+
+			if (g_ai_render_suppress_combat)
+			{
+				ai_debug_render_suppress_combat();
+			}
+
+#if 0
+			if (g_ai_render_ai_iterator != NONE)
+			{
+				ai_debug_render_ai_iterator();
+			}
+#endif
+
+			if (g_ai_render_vehicle_reservations)
+			{
+				ai_debug_render_vehicle_reservations();
+			}
+
+			if (g_ai_debug_tracking_data)
+			{
+				ai_debug_tracking_data();
+			}
+
+			if (g_ai_debug_perception_data)
+			{
+				ai_debug_perception_data();
+			}
+
+			if (g_ai_debug_combat_status)
+			{
+				debug_combat_status();
+			}
+
+			if (g_ai_render_tracked_props_all)
+			{
+				ai_debug_render_tracked_props_all();
+			}
+
+			if (g_ai_render_targets_all)
+			{
+				ai_debug_render_targets_all();
+			}
+
+#if 0
+			if (g_ai_render_joint_behaviors)
+			{
+				debug_render_joint_behaviors();
+			}
+
+			if (g_ai_render_flocks)
+			{
+				debug_render_flocks();
+			}
+#endif
+
+			if (g_ai_render_command_scripts)
+			{
+				render_command_scripts();
+			}
+
+			if (g_ai_render_dialogue_variants)
+			{
+				render_dialogue_variants();
+			}
+
+			if (g_ai_render_dynamic_firing_positions)
+			{
+				ai_debug_render_dynamic_firing_positions();
+			}
+
+#if 0
+			if (!ai_hide_actor_errors)
+			{
+				debug_render_actor_errors();
+			}
+#endif
+
+			if (g_ai_render_vehicle_interest)
+			{
+				debug_render_vehicle_interest();
+			}
+
+			if (g_ai_render_player_battle_vector)
+			{
+				debug_render_player_battle_vector();
+			}
+
+			if (g_ai_render_player_needs_vehicle)
+			{
+				debug_render_player_needs_vehicle();
+			}
+
+#if 0
+			if (g_ai_render_mission_critical)
+			{
+				debug_render_mission_critical_ai();
+			}
+#endif
+		}
+
+#if 0
+		if (g_dialogue_debug)
+		{
+			ai_dialogue_render_records();
+		}
+#endif
 	}
-	
-	//if (g_ai_debug)
-	//	ai_debug_select_this_actor();
-	
-	if (g_ai_render)
-	{
-		//if (g_ai_render_firing_positions_all)
-		//	ai_debug_render_all_firing_positions();
-
-		//if (g_ai_render_lineoffire)
-		//	ai_debug_render_lineoffire();
-
-		//if (g_ai_render_lineofsight)
-		//	ai_debug_render_lineofsight();
-
-		//if (g_ai_render_ballistic_lineoffire)
-		//	ai_debug_render_ballistic_lineoffire();
-
-		//if (g_ai_debug_selected_actor_unit_index != NONE && (g_ai_debug_selected_actor_index == NONE || g_ai_render_all_actors))
-		//	ai_debug_render_squad_members(g_ai_debug_selected_actor_unit_index);
-
-		//if (g_ai_debug_selected_actor_index != NONE && !ai_render_all_actors)
-		//	ai_debug_render_actor(g_ai_debug_selected_actor_index, 1u, 0i64);
-
-		//if (g_ai_debug_path)
-		//	ai_debug_render_path();
-
-		//if (g_ai_render_paths_failed)
-		//	ai_debug_render_paths_failed();
-
-		//if (g_ai_render_all_actors)
-		//	ai_debug_render_all_actors(g_ai_render_inactive_actors);
-
-		//if (g_ai_render_dialogue)
-		//	ai_debug_dialogue();
-
-		//if (g_ai_render_dialogue_queue)
-		//	ai_dialogue_render_queue();
-
-		if (g_ai_render_dialogue_player_weights)
-			ai_dialogue_render_player_weights();
-
-		//if (g_ai_render_speech_enabled || g_ai_print_speech)
-		//	ai_debug_render_speech();
-
-		//if (g_ai_render_spatial_effects)
-		//	ai_debug_render_spatial_effects();
-
-		//if (g_ai_render_clumps_enabled || g_ai_render_clump_props_enabled || g_ai_render_clump_dialogue || g_ai_render_clump_props_all)
-		//	ai_debug_render_clumps();
-
-		//if (g_ai_render_decisions)
-		//	ai_debug_render_decisions(0);
-
-		//if (g_ai_render_decisions_all)
-		//	ai_debug_render_decisions(1);
-
-		if (g_ai_render_behavior_stack_all)
-			ai_debug_render_behavior_stacks_all();
-
-		if (g_ai_render_character_names)
-			ai_debug_render_character_names();
-	
-		if (g_ai_render_stimuli)
-			stimuli_debug();
-	
-		if (g_ai_render_sectors)
-			ai_debug_render_sectors();
-
-		//if (g_ai_render_sector_geometry_errors)
-		//	ai_render_sector_geometry_errors();
-
-		//if (g_ai_render_link_specific != NONE)
-		//	ai_debug_render_link_specific();
-
-		//if (g_ai_render_links)
-		//	ai_debug_render_links();
-
-		//if (g_ai_render_user_hints)
-		//	ai_render_user_hints();
-
-		//if (g_ai_render_hints)
-		//	ai_render_hints();
-
-		//if (g_ai_render_object_hints_all)
-		//	ai_render_object_hints(0);
-		//else if (g_ai_render_object_hints)
-		//	ai_render_object_hints(1);
-
-		if (g_ai_render_object_properties)
-			ai_render_object_properties();
-
-		//if (g_ai_render_sector_bsps)
-		//	sector_bsps_debug();
-		//else if (g_ai_render_giant_sector_bsps)
-		//	giant_sector_bsps_debug();
-
-		//if (g_ai_render_sector_link_errors)
-		//	ai_debug_render_sector_link_errors();
-
-		if (g_ai_render_intersection_links)
-			ai_debug_render_intersection_links();
-
-		//if (g_ai_render_non_walkable_sectors)
-		//	ai_debug_render_non_walkable_sectors();
-
-		if (g_ai_render_threshold_links)
-			ai_debug_render_threshold_links();
-
-		if (g_ai_render_objectives || g_ai_render_strength)
-			ai_debug_render_squads();
-
-		if (g_ai_render_suppress_combat)
-			ai_debug_render_suppress_combat();
-
-		//if (g_ai_render_ai_iterator != NONE)
-		//	ai_debug_render_ai_iterator();
-
-		if (g_ai_render_vehicle_reservations)
-			ai_debug_render_vehicle_reservations();
-
-		if (g_ai_debug_tracking_data)
-			ai_debug_tracking_data();
-
-		if (g_ai_debug_perception_data)
-			ai_debug_perception_data();
-
-		if (g_ai_debug_combat_status)
-			debug_combat_status();
-
-		if (g_ai_render_tracked_props_all)
-			ai_debug_render_tracked_props_all();
-
-		if (g_ai_render_targets_all)
-			ai_debug_render_targets_all();
-
-		//if (g_ai_render_joint_behaviors)
-		//	debug_render_joint_behaviors();
-
-		//if (g_ai_render_flocks)
-		//	debug_render_flocks();
-
-		if (g_ai_render_command_scripts)
-			render_command_scripts();
-	
-		if (g_ai_render_dialogue_variants)
-			render_dialogue_variants();
-	
-		if (g_ai_render_dynamic_firing_positions)
-			ai_debug_render_dynamic_firing_positions();
-
-		//if (!ai_hide_actor_errors)
-		//	debug_render_actor_errors();
-
-		if (g_ai_render_vehicle_interest)
-			debug_render_vehicle_interest();
-
-		if (g_ai_render_player_battle_vector)
-			debug_render_player_battle_vector();
-
-		if (g_ai_render_player_needs_vehicle)
-			debug_render_player_needs_vehicle();
-
-		//if (g_ai_render_mission_critical)
-		//	debug_render_mission_critical_ai();
-	}
-	
-	//if (g_dialogue_debug)
-	//	ai_dialogue_render_records();
 }
 
 void ai_debug_drawstack_setup(const real_point3d* position)
