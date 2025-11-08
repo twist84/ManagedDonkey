@@ -96,9 +96,9 @@ void ai_render_object_hints(bool active_only)
 	//}
 }
 
-void ai_render_object_properties()
-{
-}
+//void ai_render_object_properties()
+//{
+//}
 
 void ai_render_user_hints()
 {
@@ -109,7 +109,7 @@ void ai_render_user_hints()
 		{
 			for (int16 line_segment_index = 0; line_segment_index < (int16)hints->line_segment_geometry.count; line_segment_index++)
 			{
-				user_hint_render_line_segment(TAG_BLOCK_GET_ELEMENT(&hints->line_segment_geometry, line_segment_index, const user_hint_line_segment), false);
+				user_hint_render_line_segment(TAG_BLOCK_GET_ELEMENT(&hints->line_segment_geometry, line_segment_index, const user_hint_line_segment), global_real_argb_yellow);
 			}
 			for (int16 parallelogram_index = 0; parallelogram_index < (int16)hints->parallelogram_geometry.count; parallelogram_index++)
 			{
@@ -147,7 +147,7 @@ void render_flight_hint(const user_flight_hint* flight_hint)
 {
 	if (flight_hint->points.count > 0)
 	{
-		for (int16 point_index; point_index < (int16)flight_hint->points.count; point_index++)
+		for (int16 point_index = 0; point_index < (int16)flight_hint->points.count; point_index++)
 		{
 			user_hint_flight_point* flight_point0 = TAG_BLOCK_GET_ELEMENT(&flight_hint->points, point_index, user_hint_flight_point);
 			if (point_index < (int16)flight_hint->points.count - 1)

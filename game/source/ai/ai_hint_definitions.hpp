@@ -120,7 +120,7 @@ struct s_user_hint_sector_point;
 
 extern void ai_render_hints();
 extern void ai_render_object_hints(bool active_only);
-extern void ai_render_object_properties();
+//extern void ai_render_object_properties();
 extern void ai_render_user_hints();
 extern void render_arrow(const real_point3d* point, const real_vector3d* vector, real32 length, const real_argb_color* color, bool bidirectional);
 extern void render_arrow(real_point3d* point0, const real_point3d* point1, const real_argb_color* color, bool bidirectional);
