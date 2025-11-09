@@ -10,11 +10,11 @@ const pathfinding_data* __cdecl pathfinding_data_get(int16 structure_bsp_index)
 
 void sector_link_render_debug(int32 link_index, const pathfinding_data* pf_data, const real_argb_color* color, bool a4)
 {
-	if (VALID_INDEX(link_index, pf_data->links.count))
+	if (VALID_INDEX(link_index, pf_data->sector_links.count))
 	{
-		sector_link& link = pf_data->links[link_index];
-		sector_vertex& vertex1 = pf_data->vertices[link.index];
-		sector_vertex& vertex2 = pf_data->vertices[link.index2];
+		sector_link& link = pf_data->sector_links[link_index];
+		sector_vertex& vertex1 = pf_data->sector_vertices[link.index];
+		sector_vertex& vertex2 = pf_data->sector_vertices[link.index2];
 		real_point3d center{};
 
 		add_vectors3d((real_vector3d*)&vertex1.point, (real_vector3d*)&vertex2.point, (real_vector3d*)&center);
@@ -24,33 +24,44 @@ void sector_link_render_debug(int32 link_index, const pathfinding_data* pf_data,
 		{
 			if (link.hint_index != NONE)
 			{
-				pathfinding_hint_data& hint = pf_data->pathfinding_hints[link.hint_index];
-				e_hint_type hint_type = hint.hint_type;
-				switch (hint_type)
+				pathfinding_hint_data& hint = pf_data->hints[link.hint_index];
+				switch (hint.type)
 				{
-				case _hint_type_intersection_link:
+				case _hint_type_intersection:
+				{
 					color = global_real_argb_red;
-					break;
-				case _hint_type_seam_link:
+				}
+				break;
+				case _hint_type_seam:
+				{
 					color = global_real_argb_green;
-					break;
-				case _hint_type_door_link:
+				}
+				break;
+				case _hint_type_door:
+				{
 					color = global_real_argb_blue;
-					break;
+				}
+				break;
 				}
 			}
 
-			if (!color && link.link_flags.test(_sector_link_section_link_bit))
+			if (!color && TEST_BIT(link.flags, _sector_link_section_link_bit))
+			{
 				color = global_real_argb_yellow;
+			}
 
 			if (!color)
+			{
 				color = global_real_argb_grey;
+			}
 		}
 
 		render_debug_line(true, &vertex1.point, &vertex2.point, color);
 
 		if (a4)
+		{
 			render_debug_sphere(true, &center, 0.01f, color);
+		}
 	}
 }
 

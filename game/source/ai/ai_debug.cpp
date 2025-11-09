@@ -651,30 +651,34 @@ void ai_debug_render_sectors()
 {
 	for (int16 structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
-		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
-			continue;
-
-		const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
-		if (!pf_data)
-			continue;
-
-		int32 sectors_range_min = 0;
-		int32 sectors_range_max = pf_data->sectors.count;
-
-		if (g_ai_render_sectors_range_min != NONE)
-			sectors_range_min = g_ai_render_sectors_range_min;
-
-		if (g_ai_render_sectors_range_max != NONE)
-			sectors_range_max = g_ai_render_sectors_range_max;
-
-		for (int32 link_index = 0; link_index < pf_data->links.count; link_index++)
+		if (TEST_BIT(global_structure_bsp_active_mask_get(), structure_bsp_index))
 		{
-			sector_link& link = pf_data->links[link_index];
-
-			if (link.sectors[0] >= sectors_range_min && link.sectors[0] <= sectors_range_max ||
-				link.sectors[1] >= sectors_range_min && link.sectors[1] <= sectors_range_max)
+			const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
+			if (pf_data)
 			{
-				sector_link_render_debug(link_index, pf_data, NULL, false);
+				int32 sectors_range_min = 0;
+				int32 sectors_range_max = pf_data->sectors.count;
+
+				if (g_ai_render_sectors_range_min != NONE)
+				{
+					sectors_range_min = g_ai_render_sectors_range_min;
+				}
+
+				if (g_ai_render_sectors_range_max != NONE)
+				{
+					sectors_range_max = g_ai_render_sectors_range_max;
+				}
+
+				for (int32 link_index = 0; link_index < pf_data->sector_links.count; link_index++)
+				{
+					sector_link& link = pf_data->sector_links[link_index];
+
+					if (link.sectors[0] >= sectors_range_min && link.sectors[0] <= sectors_range_max ||
+						link.sectors[1] >= sectors_range_min && link.sectors[1] <= sectors_range_max)
+					{
+						sector_link_render_debug(link_index, pf_data, NULL, false);
+					}
+				}
 			}
 		}
 	}
@@ -727,17 +731,19 @@ void ai_debug_render_intersection_links()
 {
 	for (int16 structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
-		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
-			continue;
-
-		const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
-		if (!pf_data)
-			continue;
-
-		for (int32 link_index = 0; link_index < pf_data->links.count; link_index++)
+		if (TEST_BIT(global_structure_bsp_active_mask_get(), structure_bsp_index))
 		{
-			if (pf_data->links[link_index].link_flags.test(_sector_link_section_link_bit))
-				sector_link_render_debug(link_index, pf_data, NULL, false);
+			const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
+			if (pf_data)
+			{
+				for (int32 link_index = 0; link_index < pf_data->sector_links.count; link_index++)
+				{
+					if (TEST_BIT(pf_data->sector_links[link_index].flags, _sector_link_section_link_bit))
+					{
+						sector_link_render_debug(link_index, pf_data, NULL, false);
+					}
+				}
+			}
 		}
 	}
 }
@@ -746,17 +752,19 @@ void ai_debug_render_threshold_links()
 {
 	for (int16 structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count; structure_bsp_index++)
 	{
-		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
-			continue;
-
-		const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
-		if (!pf_data)
-			continue;
-
-		for (int32 link_index = 0; link_index < pf_data->links.count; link_index++)
+		if (TEST_BIT(global_structure_bsp_active_mask_get(), structure_bsp_index))
 		{
-			if (pf_data->links[link_index].link_flags.test(_sector_link_threshold_bit))
-				sector_link_render_debug(link_index, pf_data, global_real_argb_orange, true);
+			const pathfinding_data* pf_data = pathfinding_data_get(structure_bsp_index);
+			if (pf_data)
+			{
+				for (int32 link_index = 0; link_index < pf_data->sector_links.count; link_index++)
+				{
+					if (TEST_BIT(pf_data->sector_links[link_index].flags, _sector_link_threshold_bit))
+					{
+						sector_link_render_debug(link_index, pf_data, global_real_argb_orange, true);
+					}
+				}
+			}
 		}
 	}
 }

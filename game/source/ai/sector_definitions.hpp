@@ -27,9 +27,9 @@ enum e_sector_flags
 
 struct sector
 {
-	c_flags<e_sector_flags, uns16, k_sector_flags> pathfinding_sector_flags;
-	int16 hint_index;
-	int32 first_link; // do not set manually
+	int16 flags; // e_sector_flags
+	int16 hint_data;
+	int32 first_link_index; // do not set manually
 };
 static_assert(sizeof(sector) == 0x8);
 
@@ -56,7 +56,7 @@ struct sector_link
 {
 	uns16 index;
 	uns16 index2;
-	c_flags<e_sector_link_flags, uns16, k_sector_link_flags> link_flags;
+	int16 flags; // e_sector_link_flags
 	int16 hint_index;
 	uns16 links[2]; // forward, reverse
 	uns16 sectors[2]; // left, right
@@ -71,41 +71,51 @@ static_assert(sizeof(sector_vertex) == sizeof(real_point3d));
 
 enum e_hint_type
 {
-	_hint_type_intersection_link = 0,
-	_hint_type_jump_link,
-	_hint_type_climb_link,
-	_hint_type_vault_link,
-	_hint_type_mount_link,
-	_hint_type_hoist_link,
-	_hint_type_wall_jump_link,
+	_hint_type_intersection = 0,
+	_hint_type_jump,
+	_hint_type_climb,
+	_hint_type_vault,
+	_hint_type_mount,
+	_hint_type_hoist,
+	_hint_type_wall_jump,
 	_hint_type_breakable_floor,
-	_hint_type_rail_link,
-	_hint_type_seam_link,
-	_hint_type_door_link,
+	_hint_type_rail,
+	_hint_type_seam,
+	_hint_type_door,
 
 	k_hint_type_count
 };
 
 struct pathfinding_hint_data
 {
-	c_enum<e_hint_type, int16, _hint_type_intersection_link, k_hint_type_count> hint_type;
-	int16 next_hint_index;
-	int32 hint_data[4];
+	int16 type; // e_hint_type
+	int16 next_hint;
+	union
+	{
+		//hint_intersection_data intersection;
+		//hint_jump_data jump;
+		//hint_hoist_data hoist;
+		//hint_breakable_data breakable;
+		//hint_rail_data rail;
+		//hint_seam_data seam;
+		//hint_door_data door;
+		int32 pad1[4];
+	};
 };
 static_assert(sizeof(pathfinding_hint_data) == 0x14);
 
 struct pathfinding_data
 {
 	c_typed_tag_block<sector> sectors;
-	c_typed_tag_block<sector_link> links;
+	c_typed_tag_block<sector_link> sector_links;
 	s_tag_block bsp2d_refs;
 	s_tag_block bsp2d_nodes;
-	c_typed_tag_block<sector_vertex> vertices;
+	c_typed_tag_block<sector_vertex> sector_vertices;
 	s_tag_block object_refs;
-	c_typed_tag_block<pathfinding_hint_data> pathfinding_hints;
+	c_typed_tag_block<pathfinding_hint_data> hints;
 	s_tag_block instanced_geometry_refs;
 	uns32 structure_checksum;
-	s_tag_block giant_pathfinding_data;
+	s_tag_block giant_pathfinding;
 	s_tag_block seams;
 	s_tag_block jump_seams;
 	s_tag_block doors;
