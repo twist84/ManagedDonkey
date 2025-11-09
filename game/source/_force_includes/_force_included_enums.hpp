@@ -5054,14 +5054,25 @@ enum e_main_pregame_frame
 
 enum e_map_load_status
 {
-	_map_load_status_loaded = 3,
+	_map_load_status_none = 0,
+	_map_load_status_loading,
+	_map_load_status_loaded_but_not_prefetched,
+	_map_load_status_loaded,
+	_map_load_status_failed_to_load,
+
+	k_map_load_status_count,
+
+	_map_load_status_not_allowed_to_skip_cinematic_start_max = _map_load_status_loading,
 };
 
 enum e_basic_loading_phase
 {
 	_basic_loading_phase_none = NONE,
+	_basic_loading_phase_map_copy,
+	_basic_loading_phase_tag_load,
+	_basic_loading_phase_resource_load,
 
-	k_basic_loading_phase_count = 3
+	k_basic_loading_phase_count
 };
 
 enum

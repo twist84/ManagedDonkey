@@ -1349,7 +1349,7 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 
 		s_cache_file_header header_copy{};
 		csmemcpy(&header_copy, &g_cache_file_globals.header, sizeof(s_cache_file_header));
-		loading_basic_progress_phase_begin(1, 1);
+		loading_basic_progress_phase_begin(_basic_loading_phase_tag_load, 1);
 
 		{
 			c_static_string<260> tags_filepath = {};

@@ -758,7 +758,9 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, const 
 		if (pregame_frame_type == _main_pregame_frame_normal)
 		{
 			if (!main_game_change_in_progress() && main_halted_with_errors())
+			{
 				context.string = events_get();
+			}
 		}
 		else if (IN_RANGE_INCLUSIVE(pregame_frame_type, _main_pregame_frame_cache_loading, _main_pregame_frame_crash_done))
 		{

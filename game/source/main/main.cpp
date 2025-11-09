@@ -1500,12 +1500,11 @@ void __cdecl main_loop_pregame_show_progress_screen()
 {
 	//INVOKE(0x00506460, main_loop_pregame_show_progress_screen);
 
-	static c_static_wchar_string<12288> status_message;
-	status_message.clear();
-	e_main_pregame_frame pregame_frame_type = main_loading_get_loading_status(&status_message);
+	c_static_wchar_string<12288> pregame_frame_text;
+	e_main_pregame_frame pregame_frame_type = main_loading_get_loading_status(&pregame_frame_text);
 	if (pregame_frame_type == _main_pregame_frame_none)
 	{
-		//editor_show_pregame_progress(main_pregame_frame, status_message.get_string());
+		//editor_show_pregame_progress(main_pregame_frame, pregame_frame_text.get_string());
 	}
 	else
 	{
@@ -1520,24 +1519,21 @@ void __cdecl main_loop_pregame_show_progress_screen()
 			}
 			else if (pregame_frame_type == _main_pregame_frame_cache_loading)
 			{
-				main_render_status_message(status_message.get_string());
+				main_render_status_message(pregame_frame_text.get_string());
 			}
 			else
 			{
-				static c_static_string<12288> status_message_ascii;
-				status_message_ascii.clear();
-				status_message_ascii.print("%ls", status_message.get_string());
-
-				main_render_pregame(pregame_frame_type, status_message_ascii.get_string());
-
-				if (pregame_frame_type == _main_pregame_frame_loading_debug)
-				{
-					c_rasterizer::end_frame();
-					return;
-				}
+				char char_string[12288]{};
+				int32 char_string_length = 0;
+				wchar_string_to_ascii_string(pregame_frame_text.get_string(), char_string, NUMBEROF(char_string), &char_string_length);
+				char_string[char_string_length] = 0;
+				main_render_pregame(pregame_frame_type, char_string);
 			}
 
-			main_time_throttle(0);
+			if (pregame_frame_type != _main_pregame_frame_loading_debug)
+			{
+				main_time_throttle(0);
+			}
 			c_rasterizer::end_frame();
 		}
 	}

@@ -17,22 +17,21 @@ static_assert(sizeof(s_main_loading_action) == 0x10C);
 
 struct loading_globals_definition
 {
-	const char* scenario_path;
+	const char* blocking_map_name;
 	int32 insertion_point;
 	bool tag_load_in_progress;
 	bool tag_sync_in_progress;
-	int32 tag_load_time;
+	int32 tag_load_start_milliseconds;
 	bool basic_progress_enabled;
 	bool has_progress_sizes;
-	int32 basic_progress_phase;
-	real32 progress_sizes0[k_basic_loading_phase_count];
-	real32 progress_sizes1[k_basic_loading_phase_count];
-	real32 progress;
+	e_basic_loading_phase basic_progress_phase;
+	real32 basic_progress_maximum_bytes[k_basic_loading_phase_count];
+	real32 basic_progress_current_bytes[k_basic_loading_phase_count];
+	real32 basic_progress_fraction;
 	bool spinner_enabled;
-	bool loading_in_progress;
+	bool progress_valid;
 
 	static c_static_string<256> loading_progress;
-	static c_static_string<256> copy_progress;
 };
 static_assert(sizeof(loading_globals_definition) == 0x38);
 
@@ -46,7 +45,7 @@ extern void __cdecl loading_basic_progress_disable();
 extern void __cdecl loading_basic_progress_enable(const char* scenario_path, int32 insertion_point);
 extern bool __cdecl loading_basic_progress_enabled();
 extern real32 __cdecl loading_basic_progress_get();
-extern void __cdecl loading_basic_progress_phase_begin(int32 phase, uns32 update_size);
+extern void __cdecl loading_basic_progress_phase_begin(e_basic_loading_phase phase, uns32 update_size);
 extern void __cdecl loading_basic_progress_phase_end();
 extern void __cdecl loading_basic_progress_update_fraction(real32 progress_fraction);
 extern void __cdecl loading_basic_progress_update_phase_sizes();

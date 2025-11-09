@@ -642,7 +642,7 @@ void __cdecl main_tag_load_begin(int32 game_mode, int32 a2, const char* map_or_z
 	//tag_load_missing_tags_reset();
 
 	loading_globals.tag_load_in_progress = true;
-	loading_globals.tag_load_time = system_milliseconds();
+	loading_globals.tag_load_start_milliseconds = system_milliseconds();
 }
 
 void __cdecl main_tag_load_end()
