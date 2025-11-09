@@ -401,11 +401,24 @@ void user_hint_render_line_segment(const user_hint_line_segment* line_segment, c
 
 void user_hint_render_parallelogram(const user_hint_parallelogram* parallelogram, bool bidirectional)
 {
-	//{
-	//	real_point3d wp0;
-	//	real_point3d wp1;
-	//	real_point3d wp2;
-	//	real_point3d wp3;
-	//}
+	real_point3d wp0{};
+	real_point3d wp1{};
+	real_point3d wp2{};
+	real_point3d wp3{};
+	ai_point_get_position(&parallelogram->point0, &wp0);
+	ai_point_get_position(&parallelogram->point1, &wp1);
+	ai_point_get_position(&parallelogram->point2, &wp2);
+	ai_point_get_position(&parallelogram->point3, &wp3);
+
+	render_debug_sphere(true, &wp0, 0.06f, TEST_BIT(parallelogram->points_invalid_flags, 0) ? global_real_argb_red : global_real_argb_blue);
+	render_debug_sphere(true, &wp1, 0.06f, TEST_BIT(parallelogram->points_invalid_flags, 1) ? global_real_argb_red : global_real_argb_blue);
+	render_debug_sphere(true, &wp2, 0.06f, TEST_BIT(parallelogram->points_invalid_flags, 2) ? global_real_argb_red : global_real_argb_blue);
+	render_debug_sphere(true, &wp3, 0.06f, TEST_BIT(parallelogram->points_invalid_flags, 3) ? global_real_argb_red : global_real_argb_blue);
+
+	render_debug_line(true, &wp0, &wp1, global_real_argb_blue);
+	render_debug_line(true, &wp2, &wp3, global_real_argb_blue);
+
+	render_arrow(&wp0, &wp2, global_real_argb_yellow, bidirectional || TEST_BIT(parallelogram->flags, 0));
+	render_arrow(&wp1, &wp3, global_real_argb_yellow, bidirectional || TEST_BIT(parallelogram->flags, 0));
 }
 
