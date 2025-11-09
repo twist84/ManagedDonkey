@@ -24,7 +24,6 @@
 //.text:0148B0B0 ; bool __cdecl ai_hint_get_jump_destination_normal(pathfinding_data*, hint_jump_data*, real_vector3d*)
 //.text:0148B1C0 ; bool __cdecl ai_hint_get_jump_destination_rail(int16, hint_jump_data*, const real_point3d*, real_point3d*, real_point3d*, c_sector_ref*, int16*)
 //.text:0148B350 ; bool __cdecl ai_hint_get_jump_maneuver_point(pathfinding_data*, pathfinding_hint_data*, const c_ai_point3d*, c_sector_ref, real32, c_ai_point3d*, c_sector_ref*, c_ai_point3d*, c_sector_ref*)
-//.text:0148B670 ; bool __cdecl ai_hint_get_maneuver_point(int32, real32, int32, const c_ai_point3d*, c_sector_ref, c_ai_point3d*, c_sector_ref*, c_ai_point3d*, c_sector_ref*)
 //.text:0148B610 ; real32 __cdecl ai_hint_get_jump_velocity(int16)
 //.text:0148B670 ; bool __cdecl ai_hint_get_maneuver_point(int32, real32, int32, const c_ai_point3d*, c_sector_ref, c_ai_point3d*, c_sector_ref*, c_ai_point3d*, c_sector_ref*)
 //.text:0148B9E0 ; real32 __cdecl ai_hint_get_max_jump_down_height(int16)
@@ -72,8 +71,8 @@ void ai_render_hints()
 	//					{
 	//						sector_link* link;
 	//						{
-	//							real_point3d* p1;
 	//							real_point3d* p0;
+	//							real_point3d* p1;
 	//							real32 length;
 	//							real_vector3d link_vector;
 	//							{
@@ -124,23 +123,29 @@ void ai_render_user_hints()
 
 void render_arrow(const real_point3d* point, const real_vector3d* vector, real32 length, const real_argb_color* color, bool bidirectional)
 {
-	//{
-	//	real_point3d center;
-	//	{
-	//		int16 c;
-	//		{
-	//			int16 c;
-	//		}
-	//	}
-	//}
+	real_point3d center{};
+	for (int16 c = 1; c < 3; c++)
+	{
+		point_from_line3d(point, vector, length - (((real32)c * length) / 20.0f), &center);
+		render_debug_sphere(true, &center, ((real32)c * length) / 40.0f, color);
+	}
+	if (bidirectional)
+	{
+		for (int16 c = 1; c < 3; c++)
+		{
+			point_from_line3d(point, vector, (((real32)c * length) / 20.0f), &center);
+			render_debug_sphere(true, &center, ((real32)c * length) / 40.0f, color);
+		}
+	}
+	render_debug_vector(true, point, vector, length, color);
 }
 
 void render_arrow(real_point3d* point0, const real_point3d* point1, const real_argb_color* color, bool bidirectional)
 {
-	//{
-	//	real_vector3d vector;
-	//	real32 length;
-	//}
+	real_vector3d vector{};
+	vector_from_points3d(point0, point1, &vector);
+	real32 length = normalize3d(&vector);
+	render_arrow(point0, &vector, length, color, bidirectional);
 }
 
 void render_flight_hint(const user_flight_hint* flight_hint)
