@@ -116,9 +116,9 @@ void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(const s_game_non_bsp_
 
 //.text:0067DDF0 ; void __cdecl cinematic_print(const char*)
 
-void __cdecl cinematic_render(bool a1, bool a2)
+void __cdecl cinematic_render(bool letterbox, bool titles)
 {
-	INVOKE(0x0067DE00, cinematic_render, a1, a2);
+	INVOKE(0x0067DE00, cinematic_render, letterbox, titles);
 }
 
 //.text:0067E4C0 ; bool __cdecl cinematic_reverts_when_skipped()
@@ -148,7 +148,12 @@ void __cdecl cinematic_start_user_skip_fade_out()
 }
 
 //.text:0067EA60 ; void __cdecl cinematic_stop()
-//.text:0067EAD0 ; bool __cdecl cinematic_suppressing_bsp_object_creation()
+
+bool __cdecl cinematic_suppressing_bsp_object_creation()
+{
+	return INVOKE(0x0067EAD0, cinematic_suppressing_bsp_object_creation);
+}
+
 //.text:0067EAF0 ; int32 __cdecl cinematic_tag_reference_get_animation(int32, int32, int32)
 //.text:0067EB70 ; int32 __cdecl cinematic_tag_reference_get_bink(int32)
 //.text:0067EBB0 ; int32 __cdecl cinematic_tag_reference_get_cinematic(int32)
