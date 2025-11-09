@@ -37,54 +37,86 @@
 //.text:0148BE80 ; bool __cdecl ai_hint_vault_range_valid(const real_point3d*, const real_point3d*, const special_movement*)
 //.text:0148BF30 ; bool __cdecl ai_link_hint_traversable(const struct pathfinding_data*, int32)
 
-bool user_hint_well_on_active_structure(user_hint_well* well)
+bool ai_point_on_structure(const c_ai_point3d* point, int16 structure_index, bool* ambiguous)
 {
-	return false;
-
-	//bool result = false;
-	//
-	//scenario const* scenario = global_scenario_get();
-	//int16 active_bsp_mask = global_designer_zone_active_mask_get();
-	//
-	//bool ambiguous;
-	//{
-	//	int16 structure_index;
-	//}
+	bool result = false;
+	if (point->m_bsp_index == structure_index)
+	{
+		result = true;
+	}
+	else if (point->m_bsp_index == NONE)
+	{
+		*ambiguous = true;
+		result = true;
+	}
+	return result;
 }
 
 void ai_render_hints()
 {
-	//{
-	//	const struct scenario* scenario;
-	//	int16 bsp_mask;
-	//	{
-	//		int16 structure_index;
-	//		{
-	//			pathfinding_data* pf_data;
-	//			{
-	//				int32 hint_index;
-	//				{
-	//					pathfinding_hint_data* hint;
-	//				}
-	//				{
-	//					int32 link_index;
-	//					{
-	//						sector_link* link;
-	//						{
-	//							real_point3d* p0;
-	//							real_point3d* p1;
-	//							real32 length;
-	//							real_vector3d link_vector;
-	//							{
-	//								real_point3d center;
-	//							}
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+	const scenario* scenario = global_scenario_get();
+	int16 bsp_mask = (int16)global_structure_bsp_active_mask_get();
+	for (int16 structure_index = 0; structure_index < (int16)scenario->structure_bsp_references.count; structure_index++)
+	{
+		if (TEST_BIT(bsp_mask, structure_index))
+		{
+			const pathfinding_data* pf_data = pathfinding_data_get(structure_index);
+			if (pf_data)
+			{
+				for (int32 hint_index = 0; hint_index < pf_data->hints.count; hint_index++)
+				{
+					pathfinding_hint_data* hint = TAG_BLOCK_GET_ELEMENT(&pf_data->hints, hint_index, pathfinding_hint_data);
+					switch (hint->type)
+					{
+					case _hint_type_jump:
+					{
+						render_jump_hint(structure_index, hint_index);
+					}
+					break;
+					case _hint_type_hoist:
+					{
+						render_hoist_hint(pf_data, hint_index);
+					}
+					break;
+					case _hint_type_wall_jump:
+					{
+						render_jump_hint(structure_index, hint_index);
+					}
+					break;
+					}
+				}
+
+				for (int32 link_index = 0; link_index < pf_data->sector_links.count; link_index++)
+				{
+					sector_link* link = TAG_BLOCK_GET_ELEMENT(&pf_data->sector_links, link_index, sector_link);
+					if (TEST_BIT(link->flags, _sector_link_leanable_bit))
+					{
+						real_point3d* p0 = TAG_BLOCK_GET_ELEMENT_SAFE(&pf_data->sector_vertices, link->index, real_point3d);
+						real_point3d* p1 = TAG_BLOCK_GET_ELEMENT_SAFE(&pf_data->sector_vertices, link->index2, real_point3d);
+						render_debug_line(true, p0, p1, global_real_argb_green);
+
+						real_vector3d link_vector{};
+						vector_from_points3d(p0, p1, &link_vector);
+						real32 length = normalize3d(&link_vector);
+						if (length > 0.0f)
+						{
+							real_point3d center{};
+							if (TEST_BIT(link->flags, _sector_link_start_corner_bit))
+							{
+								point_from_line3d(p0, &link_vector, 0.05f, &center);
+								render_debug_sphere(true, &center, 0.05f, global_real_argb_green);
+							}
+							if (TEST_BIT(link->flags, _sector_link_end_corner_bit))
+							{
+								point_from_line3d(p0, &link_vector, length - 0.05f, &center);
+								render_debug_sphere(true, &center, 0.05f, global_real_argb_green);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void ai_render_object_hints(bool active_only)
@@ -101,21 +133,18 @@ void ai_render_object_hints(bool active_only)
 
 void ai_render_user_hints()
 {
-	if (global_scenario_get()->ai_user_hints.count > 0)
+	const user_hint_data* hints = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (hints)
 	{
-		const user_hint_data* hints = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
-		if (hints)
+		for (int16 line_segment_index = 0; line_segment_index < (int16)hints->line_segment_geometry.count; line_segment_index++)
 		{
-			for (int16 line_segment_index = 0; line_segment_index < (int16)hints->line_segment_geometry.count; line_segment_index++)
-			{
-				user_hint_render_line_segment(TAG_BLOCK_GET_ELEMENT(&hints->line_segment_geometry, line_segment_index, const user_hint_line_segment), global_real_argb_yellow);
-			}
-			for (int16 parallelogram_index = 0; parallelogram_index < (int16)hints->parallelogram_geometry.count; parallelogram_index++)
-			{
-				user_hint_render_parallelogram(TAG_BLOCK_GET_ELEMENT(&hints->parallelogram_geometry, parallelogram_index, const user_hint_parallelogram), false);
-			}
-			render_flight_hints();
+			user_hint_render_line_segment(TAG_BLOCK_GET_ELEMENT(&hints->line_segment_geometry, line_segment_index, const user_hint_line_segment), global_real_argb_yellow);
 		}
+		for (int16 parallelogram_index = 0; parallelogram_index < (int16)hints->parallelogram_geometry.count; parallelogram_index++)
+		{
+			user_hint_render_parallelogram(TAG_BLOCK_GET_ELEMENT(&hints->parallelogram_geometry, parallelogram_index, const user_hint_parallelogram), false);
+		}
+		render_flight_hints();
 	}
 	render_well_hints(NULL, true);
 	render_sector_hints(NULL);
@@ -167,16 +196,13 @@ void render_flight_hint(const user_flight_hint* flight_hint)
 
 void render_flight_hints()
 {
-	if (global_scenario_get()->ai_user_hints.count > 0)
+	const user_hint_data* user = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user)
 	{
-		const user_hint_data* user = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
-		if (user)
+		for (int16 flight_hint_index = 0; flight_hint_index < (int16)user->flight_hints.count; flight_hint_index++)
 		{
-			for (int16 flight_hint_index = 0; flight_hint_index < (int16)user->flight_hints.count; flight_hint_index++)
-			{
-				user_flight_hint* flight_hint = TAG_BLOCK_GET_ELEMENT(&user->flight_hints, flight_hint_index, user_flight_hint);
-				render_flight_hint(flight_hint);
-			}
+			user_flight_hint* flight_hint = TAG_BLOCK_GET_ELEMENT(&user->flight_hints, flight_hint_index, user_flight_hint);
+			render_flight_hint(flight_hint);
 		}
 	}
 }
@@ -230,6 +256,31 @@ void render_hoist_hint(const pathfinding_data* pf_data, int32 hint_index)
 	//}
 }
 
+void render_jump_hint(int16 structure_index, int32 hint_index)
+{
+	//int16 destination_reference_frame;
+	//pathfinding_hint_data* hint;
+	//pathfinding_data const* pf_data;
+	//real_point3d destination_point0;
+	//real_point3d destination_point1;
+	//real_point3d center;
+	//{
+	//	c_ai_point3d ai_point0;
+	//	c_ai_point3d ai_point1;
+	//	c_ai_point3d ai_point2;
+	//	c_ai_point3d ai_point3;
+	//	{
+	//		real_point3d point0;
+	//		real_point3d point1;
+	//		real_point3d point2;
+	//		real_point3d point3;
+	//	}
+	//	{
+	//		int16 height_index;
+	//	}
+	//}
+}
+
 void render_sector_hint(const s_user_hint_sector* sector_hint, const real_argb_color* color)
 {
 	//{
@@ -257,70 +308,65 @@ void render_sector_hint(const s_user_hint_sector* sector_hint, const real_argb_c
 
 void render_sector_hints(const real_argb_color* color)
 {
-	//{
-	//	const user_hint_data* user;
-	//	{
-	//		const s_user_hint_flood* flood_hints;
-	//		{
-	//			int16 flood_sector_index;
-	//			{
-	//				s_user_hint_sector* hint;
-	//			}
-	//		}
-	//	}
-	//}
+	const user_hint_data* user = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user && user->flood_hints.count > 0)
+	{
+		const s_user_hint_flood* flood_hints = TAG_BLOCK_GET_ELEMENT(&user->flood_hints, 0, const s_user_hint_flood);
+		for (int16 flood_sector_index = 0; flood_sector_index < (int16)flood_hints->flood_sector_hints.count; flood_sector_index++)
+		{
+			s_user_hint_sector* hint = TAG_BLOCK_GET_ELEMENT(&flood_hints->flood_sector_hints, flood_sector_index, s_user_hint_sector);
+			if (user_hint_sector_on_active_structure(hint))
+			{
+				render_sector_hint(hint, color);
+			}
+		}
+	}
 }
 
 void render_well_hint(const user_hint_well* well, const real_argb_color* color, bool full)
 {
-	if (well->points.count > 1)
+	for (int16 point_index = 1; point_index < (int16)well->points.count; point_index++)
 	{
-		for (int16 point_index = 1; point_index < (int16)well->points.count; point_index++)
+		user_hint_well_point* point_data0 = TAG_BLOCK_GET_ELEMENT(&well->points, point_index - 1, user_hint_well_point);
+		user_hint_well_point* point_data1 = TAG_BLOCK_GET_ELEMENT(&well->points, point_index, user_hint_well_point);
+
+		real_point3d point0{};
+		real_point3d point1{};
+		ai_point_get_position(&point_data0->position, &point0);
+		ai_point_get_position(&point_data1->position, &point1);
+
+		if (!color)
 		{
-			user_hint_well_point* point_data0 = TAG_BLOCK_GET_ELEMENT(&well->points, point_index - 1, user_hint_well_point);
-			user_hint_well_point* point_data1 = TAG_BLOCK_GET_ELEMENT(&well->points, point_index, user_hint_well_point);
+			color = global_real_argb_blue;
+		}
 
-			real_point3d point0{};
-			real_point3d point1{};
-			ai_point_get_position(&point_data0->position, &point0);
-			ai_point_get_position(&point_data1->position, &point1);
+		if (point_data1->type == 1)
+		{
+			color = global_real_argb_red;
+		}
 
-			if (!color)
-			{
-				color = global_real_argb_blue;
-			}
-
-			if (point_data1->type == 1)
-			{
-				color = global_real_argb_red;
-			}
-
-			if (full)
-			{
-				render_arrow(&point0, &point1, color, TEST_BIT(well->flags, _user_hint_well_bidirectional_bit));
-			}
-			else
-			{
-				render_debug_line(true, &point0, &point1, color);
-			}
+		if (full)
+		{
+			render_arrow(&point0, &point1, color, TEST_BIT(well->flags, _user_hint_well_bidirectional_bit));
+		}
+		else
+		{
+			render_debug_line(true, &point0, &point1, color);
 		}
 	}
 }
 
 void render_well_hints(const real_argb_color* color, bool full)
 {
-	if (global_scenario_get()->ai_user_hints.count > 0)
+	const user_hint_data* user = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user)
 	{
-		const user_hint_data* user = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
-		if (user)
+		for (int16 well_index = 0; well_index < (int16)user->well_hints.count; well_index++)
 		{
-			for (int16 well_index = 0; well_index < (int16)user->well_hints.count; well_index++)
+			user_hint_well* well = TAG_BLOCK_GET_ELEMENT(&user->well_hints, well_index, user_hint_well);
+			if (user_hint_well_on_active_structure(well))
 			{
-				user_hint_well* well = TAG_BLOCK_GET_ELEMENT(&user->well_hints, well_index, user_hint_well);
-				if (user_hint_well_on_active_structure(well))
-				{
-					render_well_hint(well, color, full);
-				}
+				render_well_hint(well, color, full);
 			}
 		}
 	}
@@ -353,11 +399,12 @@ bool user_hint_render_jump(int16 jump_hint_index)
 {
 	return false;
 
+	//if (global_scenario_get()->ai_user_hints.count > 0)
 	//{
-	//	real_vector3d offset0;
-	//	real_vector3d offset1;
 	//	real_point3d vault_point0;
 	//	real_point3d vault_point1;
+	//	real_vector3d offset0;
+	//	real_vector3d offset1;
 	//	{
 	//		real_vector3d side;
 	//		const int16 k_num_ticks;
@@ -420,5 +467,96 @@ void user_hint_render_parallelogram(const user_hint_parallelogram* parallelogram
 
 	render_arrow(&wp0, &wp2, global_real_argb_yellow, bidirectional || TEST_BIT(parallelogram->flags, 0));
 	render_arrow(&wp1, &wp3, global_real_argb_yellow, bidirectional || TEST_BIT(parallelogram->flags, 0));
+}
+
+bool user_hint_sector_on_active_structure(s_user_hint_sector* sector_hint)
+{
+	bool result = false;
+	const scenario* scenario = global_scenario_get();
+	int16 active_bsp_mask = (int16)global_structure_bsp_active_mask_get();
+	bool ambiguous = false;
+	for (int16 structure_index = 0; structure_index < (int16)scenario->structure_bsp_references.count; structure_index++)
+	{
+		if (TEST_BIT(active_bsp_mask, structure_index))
+		{
+			result = user_hint_sector_on_structure(sector_hint, structure_index, false, &ambiguous);
+			if (result)
+			{
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+bool user_hint_sector_on_structure(const s_user_hint_sector* sector_hint, int16 structure_index, bool strict, bool* ambiguous)
+{
+	bool result = false;
+	*ambiguous = false;
+	if (sector_hint->points.count > 0)
+	{
+		result = true;
+		for (int32 point_index = 0; point_index < sector_hint->points.count; point_index++)
+		{
+			s_user_hint_sector_point* sector_point = TAG_BLOCK_GET_ELEMENT(&sector_hint->points, point_index, s_user_hint_sector_point);
+			if (ai_point_on_structure(&sector_point->position, structure_index, ambiguous))
+			{
+				if (!strict)
+				{
+					result = true;
+					break;
+				}
+			}
+			else if (strict)
+			{
+				result = false;
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+bool user_hint_well_on_active_structure(user_hint_well* well)
+{
+	bool result = false;
+	const scenario* scenario = global_scenario_get();
+	int16 active_bsp_mask = (int16)global_structure_bsp_active_mask_get();
+	bool ambiguous = false;
+	for (int16 structure_index = 0; structure_index < (int16)scenario->structure_bsp_references.count; structure_index++)
+	{
+		if (TEST_BIT(active_bsp_mask, structure_index))
+		{
+			result = user_hint_well_on_structure(well, structure_index, false, &ambiguous);
+			if (result)
+			{
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+bool user_hint_well_on_structure(const user_hint_well* well, int16 structure_index, bool strict, bool* ambiguous)
+{
+	bool result = true;
+	for (int32 point_index = 0; point_index < well->points.count; point_index++)
+	{
+		user_hint_well_point* point = TAG_BLOCK_GET_ELEMENT(&well->points, point_index, user_hint_well_point);
+		if (ai_point_on_structure(&point->position, structure_index, ambiguous))
+		{
+			if (!strict)
+			{
+				result = true;
+				break;
+			}
+		}
+		else if (strict)
+		{
+			result = false;
+			break;
+		}
+	}
+	return result;
 }
 

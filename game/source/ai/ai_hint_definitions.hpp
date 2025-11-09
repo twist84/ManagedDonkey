@@ -6,6 +6,22 @@
 
 struct pathfinding_data;
 
+enum
+{
+	_user_hint_well_bidirectional_bit = 0,
+
+	k_user_hint_well_flags_count,
+};
+
+enum
+{
+	_user_hint_well_point_jump = 0,
+	_user_hint_well_point_invalid,
+	_user_hint_well_point_hoist,
+
+	k_user_hint_well_point_type_count,
+};
+
 struct hint_hoist_data
 {
 	uns32 sector_index : 16;
@@ -72,28 +88,34 @@ struct user_hint_well_point
 };
 static_assert(sizeof(user_hint_well_point) == 0x1C);
 
-enum
-{
-	_user_hint_well_bidirectional_bit = 0,
-
-	k_user_hint_well_flags_count,
-};
-
-enum
-{
-	_user_hint_well_point_jump = 0,
-	_user_hint_well_point_invalid,
-	_user_hint_well_point_hoist,
-
-	k_user_hint_well_point_type_count,
-};
-
 struct user_hint_well
 {
 	int32 flags;
 	c_typed_tag_block<user_hint_well_point> points;
 };
 static_assert(sizeof(user_hint_well) == 0x10);
+
+struct s_user_hint_sector_point
+{
+	c_ai_point3d position;
+	real_euler_angles2d normal;
+};
+static_assert(sizeof(s_user_hint_sector_point) == 0x18);
+
+struct s_user_hint_sector
+{
+	c_typed_tag_block<s_user_hint_sector_point> points;
+};
+static_assert(sizeof(s_user_hint_sector) == 0xC);
+
+struct s_user_hint_flood
+{
+	c_typed_tag_block<s_user_hint_sector> flood_sector_hints;
+};
+static_assert(sizeof(s_user_hint_flood) == 0xC);
+
+struct s_user_hint_giant;
+struct s_user_hint_giant_rail;
 
 struct user_hint_data
 {
@@ -108,16 +130,11 @@ struct user_hint_data
 	s_tag_block volumes;
 
 	s_tag_block giant_hints;
-	s_tag_block flood_hints;
+	c_typed_tag_block<s_user_hint_flood> flood_hints;
 };
 static_assert(sizeof(user_hint_data) == 0x6C);
 
-struct s_user_hint_flood;
-struct s_user_hint_giant;
-struct s_user_hint_giant_rail;
-struct s_user_hint_sector;
-struct s_user_hint_sector_point;
-
+extern bool ai_point_on_structure(const c_ai_point3d* point, int16 structure_index, bool* ambiguous);
 extern void ai_render_hints();
 extern void ai_render_object_hints(bool active_only);
 //extern void ai_render_object_properties();
@@ -129,6 +146,7 @@ extern void render_flight_hints();
 extern void render_giant_sector_hints(const real_argb_color* color);
 extern void render_giant_rail_hints(const real_argb_color* color);
 extern void render_hoist_hint(const pathfinding_data* pf_data, int32 hint_index);
+extern void render_jump_hint(int16 structure_index, int32 hint_index);
 extern void render_sector_hint(const s_user_hint_sector* sector_hint, const real_argb_color* color);
 extern void render_sector_hints(const real_argb_color* color);
 extern void render_well_hint(const user_hint_well* well, const real_argb_color* color, bool full);
@@ -137,4 +155,8 @@ extern void user_hint_handle_parallelogram_point_move(user_hint_parallelogram* p
 extern bool user_hint_render_jump(int16 jump_hint_index);
 extern void user_hint_render_line_segment(const user_hint_line_segment* line_segment, const real_argb_color* color);
 extern void user_hint_render_parallelogram(const user_hint_parallelogram* parallelogram, bool bidirectional);
+extern bool user_hint_sector_on_active_structure(s_user_hint_sector* sector_hint);
+extern bool user_hint_sector_on_structure(const s_user_hint_sector* sector_hint, int16 structure_index, bool strict, bool* ambiguous);
+extern bool user_hint_well_on_active_structure(user_hint_well* well);
+extern bool user_hint_well_on_structure(const user_hint_well* well, int16 structure_index, bool strict, bool* ambiguous);
 
