@@ -54,19 +54,19 @@ void __cdecl loading_basic_progress_disable()
 	//loading_globals.scenario_path = NULL;
 }
 
-void __cdecl loading_basic_progress_enable(const char* scenario_path, int32 insertion_point)
+void __cdecl loading_basic_progress_enable(const char* map_name, int32 insertion_point)
 {
-	INVOKE(0x0052EE40, loading_basic_progress_enable, scenario_path, insertion_point);
+	INVOKE(0x0052EE40, loading_basic_progress_enable, map_name, insertion_point);
 
 	//ASSERT(!loading_globals.basic_progress_enabled);
-	//loading_globals.scenario_path = scenario_path;
+	//loading_globals.blocking_map_name = map_name;
 	//loading_globals.insertion_point = insertion_point;
 	//loading_globals.basic_progress_enabled = true;
 	//loading_globals.has_progress_sizes = 0;
 	//loading_globals.basic_progress_phase = _basic_loading_phase_none;
 	//csmemset(loading_globals.basic_progress_maximum_bytes, 0, sizeof(loading_globals.basic_progress_maximum_bytes));
 	//csmemset(loading_globals.basic_progress_current_bytes, 0, sizeof(loading_globals.basic_progress_current_bytes));
-	//loading_globals.progress = 0.0f;
+	//loading_globals.basic_progress_fraction = 0.0f;
 }
 
 bool __cdecl loading_basic_progress_enabled()
@@ -84,16 +84,16 @@ real32 __cdecl loading_basic_progress_get()
 	//return loading_globals.progress;
 }
 
-void __cdecl loading_basic_progress_phase_begin(e_basic_loading_phase phase, uns32 update_size)
+void __cdecl loading_basic_progress_phase_begin(e_basic_loading_phase phase, uns32 bytes_remaining)
 {
-	INVOKE(0x0052EEC0, loading_basic_progress_phase_begin, phase, update_size);
+	INVOKE(0x0052EEC0, loading_basic_progress_phase_begin, phase, bytes_remaining);
 
 	//if (loading_globals.basic_progress_enabled)
 	//{
 	//	ASSERT(loading_globals.basic_progress_phase == _basic_loading_phase_none);
 	//	ASSERT(VALID_INDEX(phase, k_basic_loading_phase_count));
 	//	loading_globals.basic_progress_phase = phase;
-	//	loading_basic_progress_update_size(update_size);
+	//	loading_basic_progress_update_size(bytes_remaining);
 	//}
 }
 
@@ -127,50 +127,50 @@ void __cdecl loading_basic_progress_update_phase_sizes()
 	// $IMPLEMENT
 }
 
-void __cdecl loading_basic_progress_update_size(uns32 update_size)
+void __cdecl loading_basic_progress_update_size(uns32 bytes_remaining)
 {
-	INVOKE(0x0052F010, loading_basic_progress_update_size, update_size);
+	INVOKE(0x0052F010, loading_basic_progress_update_size, bytes_remaining);
 
 	// $IMPLEMENT
 }
 
-bool __cdecl main_blocking_load_in_progress(real32* out_progress)
+bool __cdecl main_blocking_load_in_progress(real32* progress)
 {
-	return INVOKE(0x0052F130, main_blocking_load_in_progress, out_progress);
+	return INVOKE(0x0052F130, main_blocking_load_in_progress, progress);
 }
 
 //bool __cdecl main_load_map(const char*,enum e_map_load_type)
-bool __cdecl main_load_map(const char* scenario_path, int32 map_load_type)
+bool __cdecl main_load_map(const char* map_name, int32 map_load_type)
 {
-	//return INVOKE(0x0052F180, main_load_map, scenario_path, map_load_type);
+	//return INVOKE(0x0052F180, main_load_map, map_name, map_load_type);
 
-	return main_load_map_with_insertion_point(-1, scenario_path, map_load_type);
+	return main_load_map_with_insertion_point(-1, map_name, map_load_type);
 }
 
 // a2 is possibly insertion_point
-real32 __cdecl main_load_map_loading_progress(int32 scenario_type, int16 a2, const char* scenario_path)
+real32 __cdecl main_load_map_loading_progress(int32 scenario_type, int16 campaign_insertion_point_index, const char* map_name)
 {
-	return INVOKE(0x0052F1A0, main_load_map_loading_progress, scenario_type, a2, scenario_path);
+	return INVOKE(0x0052F1A0, main_load_map_loading_progress, scenario_type, campaign_insertion_point_index, map_name);
 }
 
-//e_map_load_status __cdecl main_load_map_status(const char* scenario_path)
-int32 __cdecl main_load_map_status(const char* scenario_path)
+//e_map_load_status __cdecl main_load_map_status(const char* map_name)
+int32 __cdecl main_load_map_status(const char* map_name)
 {
-	//return INVOKE(0x0052F250, main_load_map_status, scenario_path);
+	//return INVOKE(0x0052F250, main_load_map_status, map_name);
 
-	return main_load_map_status_with_insertion_point(NONE, scenario_path);
+	return main_load_map_status_with_insertion_point(NONE, map_name);
 }
 
-//e_map_load_status __cdecl main_load_map_status_with_insertion_point(int16 insertion_point, const char* scenario_path)
-int32 __cdecl main_load_map_status_with_insertion_point(int16 insertion_point, const char* scenario_path)
+//e_map_load_status __cdecl main_load_map_status_with_insertion_point(int16 campaign_insertion_point_index, const char* map_name)
+int32 __cdecl main_load_map_status_with_insertion_point(int16 campaign_insertion_point_index, const char* map_name)
 {
-	return INVOKE(0x0052F270, main_load_map_status_with_insertion_point, insertion_point, scenario_path);
+	return INVOKE(0x0052F270, main_load_map_status_with_insertion_point, campaign_insertion_point_index, map_name);
 }
 
 //bool __cdecl main_load_map_with_insertion_point(int16, const char*, enum e_map_load_type)
-bool __cdecl main_load_map_with_insertion_point(int16 insertion_point, const char* scenario_path, int32 map_load_type)
+bool __cdecl main_load_map_with_insertion_point(int16 campaign_insertion_point_index, const char* map_name, int32 map_load_type)
 {
-	return INVOKE(0x0052F2E0, main_load_map_with_insertion_point, insertion_point, scenario_path, map_load_type);
+	return INVOKE(0x0052F2E0, main_load_map_with_insertion_point, campaign_insertion_point_index, map_name, map_load_type);
 }
 
 bool __cdecl main_load_next_map_loading()
@@ -317,35 +317,35 @@ void __cdecl main_loading_idle()
 {
 	//INVOKE(0x0052FA00, main_loading_idle);
 
-	s_main_loading_action loading_action{};
-	if (main_loading_get_action(&loading_action) && !network_session_interface_wants_main_menu_to_load())
+	s_main_loading_action action{};
+	if (main_loading_get_action(&action) && !network_session_interface_wants_main_menu_to_load())
 	{
-		if (string_is_not_empty(loading_action.scenario_path))
+		if (string_is_not_empty(action.scenario_path))
 		{
-			if (loading_action.copy_stop)
+			if (action.copy_stop)
 			{
 				cache_files_copy_stop(cache_file_get_canonical_path(k_single_player_shared_scenario_tag).get_string());
 				cache_files_copy_stop(cache_file_get_canonical_path(k_introduction_scenario_tag).get_string());
 			}
-			else if (loading_action.copy_map_start_only)
+			else if (action.copy_map_start_only)
 			{
-				cache_files_copy_map_start_only(loading_action.scenario_path, loading_action.load_action);
+				cache_files_copy_map_start_only(action.scenario_path, action.load_action);
 			}
 			else
 			{
-				cache_files_copy_map(loading_action.scenario_path, loading_action.load_action);
+				cache_files_copy_map(action.scenario_path, action.load_action);
 			}
 
-			if (loading_action.map_has_progression)
+			if (action.map_has_progression)
 			{
-				cache_file_tag_resources_start_map_prefetch(static_cast<int16>(loading_action.campaign_id), loading_action.scenario_path);
+				cache_file_tag_resources_start_map_prefetch(static_cast<int16>(action.campaign_id), action.scenario_path);
 			}
-			else if (loading_action.stop_map_prefetch)
+			else if (action.stop_map_prefetch)
 			{
 				cache_file_tag_resources_stop_map_prefetch();
 			}
 		}
-		else if (!loading_action.map_has_progression && loading_action.stop_map_prefetch)
+		else if (!action.map_has_progression && action.stop_map_prefetch)
 		{
 			cache_file_tag_resources_stop_map_prefetch();
 		}
@@ -364,7 +364,7 @@ void __cdecl main_loading_initialize()
 	//	.progress_data = NULL
 	//};
 	//progress_set_default_callbacks(&callbacks);
-	//loading_globals.loading_in_progress = false;
+	//loading_globals.progress_valid = false;
 }
 
 bool __cdecl main_loading_is_idle()
@@ -374,32 +374,37 @@ bool __cdecl main_loading_is_idle()
 	//return cache_files_copy_in_progress() == 0;
 }
 
-void __cdecl main_loading_progress_done(const char* description, void* userdata)
+void __cdecl main_loading_progress_done(const char* description, void* user_data)
 {
-	//INVOKE(0x0052FB60, main_loading_progress_done, description, userdata);
+	//INVOKE(0x0052FB60, main_loading_progress_done, description, user_data);
 
-	ASSERT(loading_globals.progress_valid, "someone called main_loading_progress_done without calling main_loading_progress_start!");
+	if (!loading_globals.progress_valid)
+	{
+		event(_event_warning, "someone called main_loading_progress_done without calling main_loading_progress_start!");
+	}
 	loading_globals.loading_progress.print("%s... done|n", description);
 	main_loop_pregame();
 	loading_globals.progress_valid = false;
 }
 
-void __cdecl main_loading_progress_new(const char* description, void* userdata)
+void __cdecl main_loading_progress_new(const char* description, void* user_data)
 {
-	//INVOKE(0x0052FB70, main_loading_progress_new, description, userdata);
+	//INVOKE(0x0052FB70, main_loading_progress_new, description, user_data);
 
 	loading_globals.loading_progress.print("%s...|n", description);
 	loading_globals.progress_valid = true;
 	main_loop_pregame();
 }
 
-void __cdecl main_loading_progress_update(const char* description, const char* scenario_path, int32 progress, void* userdata)
+void __cdecl main_loading_progress_update(const char* description, const char* optional_description, int32 progress, void* user_data)
 {
-	//INVOKE(0x0052FB80, main_loading_progress_update, description, scenario_path, progress, userdata);
+	//INVOKE(0x0052FB80, main_loading_progress_update, description, optional_description, progress, userdata);
 
 	loading_globals.loading_progress.print("%s... %2d%c|n", description, progress, '%');
-	if (scenario_path)
-		loading_globals.loading_progress.append_print("    %s", scenario_path);
+	if (optional_description)
+	{
+		loading_globals.loading_progress.append_print("    %s", optional_description);
+	}
 	loading_basic_progress_update_fraction(progress / 100.0f);
 	main_loop_pregame();
 }
