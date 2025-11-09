@@ -3116,35 +3116,35 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&g_ai_render,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_all_actors,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_all_actors,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_inactive_actors,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_inactive_actors,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_lineoffire_crouching,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_lineoffire,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_lineoffire,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_lineofsight,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_lineofsight,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_ballistic_lineoffire,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_ballistic_lineoffire,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vision_cones,
@@ -3321,15 +3321,15 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_aiming_validity,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_aiming_validity,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_speech,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_speech,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_leadership,
@@ -3391,15 +3391,15 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_ai_behavior,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_dialogue,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_dialogue,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_dialogue_queue,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_dialogue_queue,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_dialogue_records,
@@ -3451,10 +3451,10 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_mission_critical,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_mission_critical,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_gun_positions,
@@ -3636,120 +3636,120 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&g_ai_render_dynamic_firing_positions,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_clumps,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_clumps,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_clump_props,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_clump_props,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_clump_props_all,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_clump_props_all,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_clump_dialogue,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_clump_dialogue,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sectors,
 	_hs_type_boolean,
 	&g_ai_render_sectors,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sector_bsps,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_sector_bsps,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_giant_sector_bsps,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_giant_sector_bsps,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sector_link_errors,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_sector_link_errors,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_intersection_links,
 	_hs_type_boolean,
 	&g_ai_render_intersection_links,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_non_walkable_sectors,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_non_walkable_sectors,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_threshold_links,
 	_hs_type_boolean,
 	&g_ai_render_suppress_combat,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sector_geometry_errors,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_sector_geometry_errors,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_pathfinding_generation_verbose,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sectors_range_max,
 	_hs_type_long_integer,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_sectors_range_max,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sectors_range_min,
 	_hs_type_long_integer,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_sectors_range_min,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_link_specific,
 	_hs_type_long_integer,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_link_specific,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_links,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_links,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_user_hints,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_user_hints,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_area_flight_hints,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_hints,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_hints,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_hints_detailed,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_object_hints,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_object_hints,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_object_hints_all,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_object_hints_all,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_object_properties,
@@ -3771,15 +3771,15 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_orders,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_orders,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_suppress_combat,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_suppress_combat,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_squad_patrol,
@@ -3841,15 +3841,15 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_decisions,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_decisions,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_decisions_all,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_decisions_all,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_command_scripts,
@@ -3896,20 +3896,20 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_joint_behaviors,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_joint_behaviors,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_swarm,
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_flocks,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_flocks,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_vehicle_interest,
@@ -3956,10 +3956,10 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_firing_positions_all,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_firing_positions_all,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_firing_position_info,
