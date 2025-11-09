@@ -26,7 +26,7 @@ static_assert(sizeof(s_windows_params));
 extern s_windows_params& g_windows_params;
 
 extern LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern BOOL WINAPI HandlerRoutine(DWORD CtrlType);
+extern BOOL WINAPI control_handler_routine(DWORD CtrlType);
 extern char* __cdecl shell_get_command_line();
 extern void __cdecl shell_idle();
 extern void __cdecl shell_platform_dispose();
@@ -35,7 +35,7 @@ extern void __cdecl shell_platform_verify();
 extern void __cdecl shell_halt_if_necessary();
 extern void __cdecl shell_screen_pause(bool pause);
 extern void __cdecl sub_42EA80();
-extern LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo);
+extern LONG WINAPI unhandled_exception_handler(_EXCEPTION_POINTERS* ExceptionInfo);
 extern int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 extern const char* __cdecl sub_5013A0();
 extern bool __cdecl input_process_key(UINT uMsg, WPARAM wParam, LPARAM lParam);

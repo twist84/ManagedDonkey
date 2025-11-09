@@ -340,9 +340,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 }
 
-BOOL WINAPI HandlerRoutine(DWORD CtrlType)
+BOOL WINAPI control_handler_routine(DWORD CtrlType)
 {
-	return INVOKE(0x0042E900, HandlerRoutine, CtrlType);
+	return INVOKE(0x0042E900, control_handler_routine, CtrlType);
 }
 
 char* __cdecl shell_get_command_line()
@@ -417,15 +417,15 @@ void __cdecl shell_platform_dispose()
 {
 	//INVOKE(0x0042EA00, shell_platform_dispose);
 
-	SetConsoleCtrlHandler(HandlerRoutine, FALSE);
+	SetConsoleCtrlHandler(control_handler_routine, FALSE);
 }
 
 bool __cdecl shell_platform_initialize()
 {
 	//return INVOKE(0x0042EA10, shell_platform_initialize);
 
-	SetConsoleCtrlHandler(HandlerRoutine, TRUE);
-	SetUnhandledExceptionFilter(TopLevelExceptionFilter);
+	SetConsoleCtrlHandler(control_handler_routine, TRUE);
+	SetUnhandledExceptionFilter(unhandled_exception_handler);
 	sub_42EA80();
 
 	return true;
@@ -473,9 +473,9 @@ void __cdecl sub_42EA80()
 	}
 }
 
-LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo)
+LONG WINAPI unhandled_exception_handler(_EXCEPTION_POINTERS* ExceptionInfo)
 {
-	return INVOKE(0x0042EAC0, TopLevelExceptionFilter, ExceptionInfo);
+	return INVOKE(0x0042EAC0, unhandled_exception_handler, ExceptionInfo);
 
 	//if (!is_main_thread())
 	//{
@@ -483,7 +483,9 @@ LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo)
 	//	PostThreadMessageA(get_main_thread_id(), WM_NULL, 0, 0);
 	//
 	//	while (true)
-	//		Sleep(1);
+	//	{
+	//		sleep(1);
+	//	}
 	//}
 	//return generic_exception_filter(ExceptionInfo->ExceptionRecord->ExceptionCode, ExceptionInfo);
 }
