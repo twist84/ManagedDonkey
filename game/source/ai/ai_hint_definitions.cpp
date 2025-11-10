@@ -1,5 +1,6 @@
 #include "ai/ai_hint_definitions.hpp"
 
+#include "ai/ai_debug.hpp"
 #include "ai/ai_reference_frame.hpp"
 #include "ai/sector.hpp"
 #include "ai/sector_definitions.hpp"
@@ -7,6 +8,23 @@
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
 #include "scenario/scenario.hpp"
+
+const char* g_hoist_height_names[k_climb_hint_hoist_count]
+{
+	"step",
+	"crouch",
+	"stand",
+};
+
+const char* g_jump_height_names[k_jump_height_count]
+{
+	"down",
+	"step",
+	"crouch",
+	"stand",
+	"storey",
+	"tower",
+};
 
 //.text:0148A2C0 ; bool __cdecl ai_hint_door_traversable(const pathfinding_data*, sector_link*, const pathfinding_hint_data*)
 //.text:0148A370 ; bool __cdecl ai_hint_find_closest_point(object_marker*, const real_point3d*, real32, real_point3d*)
@@ -207,60 +225,70 @@ void render_flight_hints()
 	}
 }
 
-void render_giant_sector_hints(const real_argb_color* color)
-{
-	//{
-	//	const user_hint_data* user;
-	//	{
-	//		const s_user_hint_giant* giant_data;
-	//		{
-	//			int16 sector_hint_index;
-	//			{
-	//				s_user_hint_sector* sector_hint;
-	//			}
-	//		}
-	//	}
-	//}
-}
-
 void render_giant_rail_hints(const real_argb_color* color)
 {
-	//{
-	//	const user_hint_data* user;
-	//	{
-	//		const s_user_hint_giant* giant_data;
-	//		{
-	//			int16 rail_index;
-	//			{
-	//				s_user_hint_giant_rail* rail;
-	//				user_hint_line_segment* line_segment;
-	//			}
-	//		}
-	//	}
-	//}
+	const user_hint_data* user = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user && user->giant_hints.count > 0)
+	{
+		const s_user_hint_giant* giant_data = TAG_BLOCK_GET_ELEMENT(&user->giant_hints, 0, const s_user_hint_giant);
+		for (int16 rail_index = 0; rail_index < (int16)giant_data->giant_rail_hints.count; rail_index++)
+		{
+			s_user_hint_giant_rail* rail = TAG_BLOCK_GET_ELEMENT(&giant_data->giant_rail_hints, rail_index, s_user_hint_giant_rail);
+			user_hint_line_segment* line_segment = TAG_BLOCK_GET_ELEMENT_SAFE(&user->line_segment_geometry, rail->geometry_index, user_hint_line_segment);
+			if (user_hint_line_segment_on_active_structure(line_segment))
+			{
+				user_hint_render_line_segment(line_segment, color);
+			}
+		}
+	}
+}
+
+void render_giant_sector_hints(const real_argb_color* color)
+{
+	const user_hint_data* user = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user && user->giant_hints.count > 0)
+	{
+		const s_user_hint_giant* giant_data = TAG_BLOCK_GET_ELEMENT(&user->giant_hints, 0, const s_user_hint_giant);
+		for (int16 sector_hint_index = 0; sector_hint_index < (int16)giant_data->giant_sector_hints.count; sector_hint_index++)
+		{
+			s_user_hint_sector* sector_hint = TAG_BLOCK_GET_ELEMENT(&giant_data->giant_sector_hints, sector_hint_index, s_user_hint_sector);
+			if (user_hint_sector_on_active_structure(sector_hint))
+			{
+				render_sector_hint(sector_hint, color);
+			}
+		}
+	}
 }
 
 void render_hoist_hint(const pathfinding_data* pf_data, int32 hint_index)
 {
-	//{
-	//	pathfinding_hint_data* hint;
-	//	const hint_hoist_data* hoist;
-	//	{
-	//		real_point3d* point0;
-	//		real_point3d* point1;
-	//		real_point3d midpoint;
-	//		{
-	//			int16 height_index;
-	//		}
-	//	}
-	//}
+	pathfinding_hint_data* hint = TAG_BLOCK_GET_ELEMENT(&pf_data->hints, hint_index, pathfinding_hint_data);
+	const hint_hoist_data* hoist = &hint->hoist;
+	if (hoist->point_index0 != NONE && hoist->point_index1 != NONE)
+	{
+		real_point3d* point0 = &TAG_BLOCK_GET_ELEMENT(&pf_data->sector_vertices, hoist->point_index0, sector_vertex)->point;
+		real_point3d* point1 = &TAG_BLOCK_GET_ELEMENT(&pf_data->sector_vertices, hoist->point_index1, sector_vertex)->point;
+		real_point3d midpoint{};
+		add_vectors3d((real_vector3d*)point0, (real_vector3d*)point1, (real_vector3d*)&midpoint);
+		scale_vector3d((real_vector3d*)&midpoint, 0.5f, (real_vector3d*)&midpoint);
+		render_arrow(point0, point1, global_real_argb_blue, false);
+		ai_debug_drawstack_setup(&midpoint);
+		for (int16 height_index = 0; height_index < 3; height_index++)
+		{
+			if (TEST_BIT(hoist->flags, height_index))
+			{
+				render_debug_string_at_point(ai_debug_drawstack(), g_hoist_height_names[height_index], global_real_argb_blue);
+			}
+		}
+		render_debug_string_at_point(ai_debug_drawstack(), "hoist", global_real_argb_blue);
+	}
 }
 
 void render_jump_hint(int16 structure_index, int32 hint_index)
 {
 	//int16 destination_reference_frame;
 	//pathfinding_hint_data* hint;
-	//pathfinding_data const* pf_data;
+	//const pathfinding_data* pf_data;
 	//real_point3d destination_point0;
 	//real_point3d destination_point1;
 	//real_point3d center;
@@ -283,27 +311,61 @@ void render_jump_hint(int16 structure_index, int32 hint_index)
 
 void render_sector_hint(const s_user_hint_sector* sector_hint, const real_argb_color* color)
 {
-	//{
-	//	{
-	//		int16 point_index;
-	//		{
-	//			real_point3d point0;
-	//			real_point3d point1;
-	//			s_user_hint_sector_point* sector_point0;
-	//			s_user_hint_sector_point* sector_point1;
-	//			real_vector3d normal0;
-	//			real_vector3d normal1;
-	//		}
-	//		{
-	//			real_point3d point0;
-	//			real_point3d point1;
-	//			s_user_hint_sector_point* sector_point0;
-	//			s_user_hint_sector_point* sector_point1;
-	//			real_vector3d normal0;
-	//			real_vector3d normal1;
-	//		}
-	//	}
-	//}
+	for (int16 point_index = 1; point_index < (int16)sector_hint->points.count; point_index++)
+	{
+		s_user_hint_sector_point* sector_point0 = TAG_BLOCK_GET_ELEMENT(&sector_hint->points, point_index, s_user_hint_sector_point);
+		s_user_hint_sector_point* sector_point1 = TAG_BLOCK_GET_ELEMENT(&sector_hint->points, point_index - 1, s_user_hint_sector_point);
+
+		real_point3d point0{};
+		real_point3d point1{};
+		ai_point_get_position(&sector_point0->position, &point0);
+		ai_point_get_position(&sector_point1->position, &point1);
+
+		real_vector3d normal0{};
+		real_vector3d normal1{};
+		vector3d_from_euler_angles2d(&normal0, &sector_point0->normal);
+		vector3d_from_euler_angles2d(&normal1, &sector_point1->normal);
+
+		point_from_line3d(&point0, &normal0, 0.02f, &point0);
+		point_from_line3d(&point1, &normal1, 0.02f, &point1);
+
+		if (color)
+		{
+			render_debug_line(true, &point0, &point1, color);
+		}
+		else
+		{
+			render_debug_line(true, &point0, &point1, global_real_argb_blue);
+		}
+	}
+
+	if (sector_hint->points.count > 2)
+	{
+		s_user_hint_sector_point* sector_point0 = TAG_BLOCK_GET_ELEMENT(&sector_hint->points, sector_hint->points.count - 1, s_user_hint_sector_point);
+		s_user_hint_sector_point* sector_point1 = TAG_BLOCK_GET_ELEMENT(&sector_hint->points, 0, s_user_hint_sector_point);
+
+		real_point3d point0{};
+		real_point3d point1{};
+		ai_point_get_position(&sector_point0->position, &point0);
+		ai_point_get_position(&sector_point1->position, &point1);
+
+		real_vector3d normal0{};
+		real_vector3d normal1{};
+		vector3d_from_euler_angles2d(&normal0, &sector_point0->normal);
+		vector3d_from_euler_angles2d(&normal1, &sector_point1->normal);
+
+		point_from_line3d(&point0, &normal0, 0.02f, &point0);
+		point_from_line3d(&point1, &normal1, 0.02f, &point1);
+
+		if (color)
+		{
+			render_debug_line(true, &point0, &point1, color);
+		}
+		else
+		{
+			render_debug_line(true, &point0, &point1, global_real_argb_blue);
+		}
+	}
 }
 
 void render_sector_hints(const real_argb_color* color)
@@ -395,6 +457,42 @@ void user_hint_handle_parallelogram_point_move(user_hint_parallelogram* parallel
 	//}
 }
 
+bool user_hint_line_segment_on_active_structure(user_hint_line_segment* line)
+{
+	bool result = false;
+	const scenario* scenario = global_scenario_get();
+	int16 active_bsp_mask = (int16)global_structure_bsp_active_mask_get();
+	bool ambiguous = false;
+	for (int16 structure_index = 0; structure_index < (int16)scenario->structure_bsp_references.count; structure_index++)
+	{
+		if (TEST_BIT(active_bsp_mask, structure_index))
+		{
+			result = user_hint_line_segment_on_structure(line, structure_index, false, &ambiguous);
+			if (result)
+			{
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+bool user_hint_line_segment_on_structure(user_hint_line_segment* line, int16 structure_index, bool strict, bool* ambiguous)
+{
+	bool result = false;
+	if (strict)
+	{
+		result = ai_point_on_structure(&line->point0, structure_index, ambiguous)
+			&& ai_point_on_structure(&line->point1, structure_index, ambiguous);
+	}
+	else
+	{
+		result = ai_point_on_structure(&line->point0, structure_index, ambiguous)
+			|| ai_point_on_structure(&line->point1, structure_index, ambiguous);
+	}
+	return result;
+}
+
 bool user_hint_render_jump(int16 jump_hint_index)
 {
 	return false;
@@ -416,6 +514,42 @@ bool user_hint_render_jump(int16 jump_hint_index)
 	//		}
 	//	}
 	//}
+}
+
+void user_hint_render_jump_vault_internal(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_point3d const* point3)
+{
+#if 0
+	real_vector3d offset0{};
+	real_vector3d offset1{};
+	vector_from_points3d(point0, point2, &offset0);
+	vector_from_points3d(point1, point3, &offset1);
+
+	real_point3d vault_point0;
+	real_point3d vault_point1;
+	if (normalize3d(&offset0) > 0.0f && normalize3d(&offset1) > 0.0f)
+	{
+		int16 const k_num_ticks = 4;
+
+		point_from_line3d(point0, &offset0, 0.15f, &vault_point0);
+		point_from_line3d(&vault_point0, global_up3d, 0.4f, &vault_point0);
+		point_from_line3d(point1, &offset1, 0.15f, &vault_point1);
+		point_from_line3d(&vault_point1, global_up3d, 0.4f, &vault_point1);
+		render_debug_line(true, &vault_point0, &vault_point1, global_real_argb_red);
+
+		real_vector3d side{};
+		vector_from_points3d(&vault_point0, &vault_point1, &side);
+		point_from_line3d(&vault_point0, global_up3d, 0.2f, &vault_point0);
+		point_from_line3d(&vault_point0, global_down3d, 2.0f * 0.2f, &vault_point1);
+
+		real_point3d anchor_point = vault_point0;
+		for (int16 index = 0; k_num_ticks; index++)
+		{
+			point_from_line3d(&anchor_point, &side, ((real32)index * 1.0f) / 3.0f, &vault_point0);
+			point_from_line3d(&vault_point0, global_down3d, 2.0f * 0.2f, &vault_point1);
+			render_debug_line(true, &vault_point0, &vault_point1, global_real_argb_red);
+		}
+	}
+#endif
 }
 
 void user_hint_render_line_segment(const user_hint_line_segment* line_segment, const real_argb_color* color)

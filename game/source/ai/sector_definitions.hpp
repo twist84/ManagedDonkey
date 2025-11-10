@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
+struct pathfinding_hint_data;
+
 enum e_sector_flags
 {
 	_sector_walkable_bit = 0,
@@ -68,41 +70,6 @@ struct sector_vertex
 	real_point3d point;
 };
 static_assert(sizeof(sector_vertex) == sizeof(real_point3d));
-
-enum e_hint_type
-{
-	_hint_type_intersection = 0,
-	_hint_type_jump,
-	_hint_type_climb,
-	_hint_type_vault,
-	_hint_type_mount,
-	_hint_type_hoist,
-	_hint_type_wall_jump,
-	_hint_type_breakable_floor,
-	_hint_type_rail,
-	_hint_type_seam,
-	_hint_type_door,
-
-	k_hint_type_count
-};
-
-struct pathfinding_hint_data
-{
-	int16 type; // e_hint_type
-	int16 next_hint;
-	union
-	{
-		//hint_intersection_data intersection;
-		//hint_jump_data jump;
-		//hint_hoist_data hoist;
-		//hint_breakable_data breakable;
-		//hint_rail_data rail;
-		//hint_seam_data seam;
-		//hint_door_data door;
-		int32 pad1[4];
-	};
-};
-static_assert(sizeof(pathfinding_hint_data) == 0x14);
 
 struct pathfinding_data
 {

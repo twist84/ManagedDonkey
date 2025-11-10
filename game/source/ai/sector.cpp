@@ -1,5 +1,6 @@
 #include "ai/sector.hpp"
 
+#include "ai/ai_hint_definitions.hpp"
 #include "ai/sector_definitions.hpp"
 #include "render/render_debug.hpp"
 

@@ -42,7 +42,7 @@ void __cdecl loading_basic_progress_complete()
 	//loading_globals.basic_progress_current_bytes[0] = 0.0f;
 	//loading_globals.basic_progress_current_bytes[1] = 0.0f;
 	//loading_globals.basic_progress_current_bytes[2] = 0.0f;
-	//loading_globals.progress = 1.0f;
+	//loading_globals.basic_progress_fraction = 1.0f;
 }
 
 void __cdecl loading_basic_progress_disable()
@@ -81,7 +81,7 @@ real32 __cdecl loading_basic_progress_get()
 	return INVOKE(0x0052EEB0, loading_basic_progress_get);
 
 	//ASSERT(loading_globals.basic_progress_enabled);
-	//return loading_globals.progress;
+	//return loading_globals.basic_progress_fraction;
 }
 
 void __cdecl loading_basic_progress_phase_begin(e_basic_loading_phase phase, uns32 bytes_remaining)
