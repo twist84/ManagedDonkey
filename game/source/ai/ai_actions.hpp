@@ -5,6 +5,39 @@
 class c_ai_point3d
 {
 public:
+	int16 bsp_index() const
+	{
+		return m_bsp_index;
+	}
+
+	const real_point3d* point() const
+	{
+		return &m_point;
+	}
+
+	int16 reference_frame() const
+	{
+		return m_reference_frame;
+	}
+
+	void set(const real_point3d* point)
+	{
+		set(point, NONE);
+	}
+
+	void set(const real_point3d* point, int16 reference_frame)
+	{
+		set(point, reference_frame, NONE);
+	}
+
+	void set(const real_point3d* point, int16 reference_frame, int16 bsp_index)
+	{
+		m_point = *point;
+		m_reference_frame = reference_frame;
+		m_bsp_index = bsp_index;
+	}
+
+private:
 	real_point3d m_point;
 	int16 m_reference_frame;
 	int16 m_bsp_index;
