@@ -63,7 +63,9 @@ uns32* __cdecl get_random_seed_address()
 	//return INVOKE(0x0051F000, get_random_seed_address);
 
 	if (game_in_editor())
+	{
 		ASSERT(random_seed_allow_use_count > 0);
+	}
 
 	return g_deterministic_random_seed_ptr;
 }
@@ -144,6 +146,12 @@ void __cdecl set_random_seed(uns32 random_seed)
 
 //.text:01596530 ; void __cdecl `dynamic initializer for 'g_deterministic_random_seed_ptr_allocator''()
 //.text:015F99B0 ; void __cdecl `dynamic atexit destructor for 'g_deterministic_random_seed_ptr_allocator''()
+
+real32 _real_random_range(uns32* seed, const char* purpose, const char* source_file, uns32 source_line, real32 lower_bound, real32 upper_bound)
+{
+	*seed = 0x19660D * *seed + 0x3C6EF35F;
+	return ((((real32)((*seed >> 16) & 0xFFFF)) / 0xFFFF) * (upper_bound - lower_bound)) + lower_bound;
+}
 
 bool random_seed_usable()
 {

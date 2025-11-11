@@ -18,6 +18,9 @@ extern void __cdecl random_math_initialize_internal();
 extern void __cdecl random_math_initialize_tool();
 extern void __cdecl set_random_seed(uns32 random_seed);
 
+extern real32 _real_random_range(uns32* seed, const char* purpose, const char* source_file, uns32 source_line, real32 lower_bound, real32 upper_bound);
+#define REAL_RANDOM_RANGE(SEED, PURPOSE, LOWER_BOUND, UPPER_BOUND) _real_random_range((SEED), (PURPOSE), __FILE__, __LINE__, (LOWER_BOUND), (UPPER_BOUND))
+
 extern bool random_seed_usable();
 extern void random_seed_allow_use();
 extern void random_seed_disallow_use();
