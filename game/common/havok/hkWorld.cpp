@@ -4,6 +4,38 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x00C78040, hkWorld, stepDeltaTime);
 
+template<>
+hkArray<hkEntity*>::hkArray()
+{
+	m_data = NULL;
+	m_size = 0;
+	m_capacityAndFlags = 0x80000000;
+}
+
+template<>
+void hkArray<hkEntity*>::pushBack(hkEntity** t)
+{
+	INVOKE_CLASS_MEMBER(0x00C7FAA0, hkArray<hkEntity*>, pushBack, t);
+}
+
+template<>
+int hkArray<hkEntity*>::getSize() const
+{
+	return m_size;
+}
+
+//template<>
+//const hkEntity*& hkArray<hkEntity*>::operator[](int i) const
+//{
+//	return m_data[i];
+//}
+
+template<>
+hkEntity*& hkArray<hkEntity*>::operator[](int i)
+{
+	return m_data[i];
+}
+
 hkStepResult __thiscall hkWorld::stepDeltaTime(float physicsDeltaTime)
 {
 	this;

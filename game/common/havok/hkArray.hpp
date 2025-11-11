@@ -15,6 +15,11 @@ struct hkArray :
 	public hkArrayBase<t_type>
 {
 public:
+	hkArray();
+	void pushBack(t_type* t);
+	int getSize() const;
+	//const t_type& operator[](int i) const;
+	t_type& operator[](int i);
 };
 static_assert(sizeof(hkArray<void*>) == 0xC);
 
