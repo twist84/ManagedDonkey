@@ -202,6 +202,49 @@ void __cdecl havok_update()
 	INVOKE(0x005C7B50, havok_update);
 }
 
+void havok_update_jumping_beans()
+{
+#if 0
+	c_havok_entity_iterator iterator(g_havok_world, _iteration_type_inactive_entities);
+	hkArray<hkEntity*> entities;
+	iterator.begin();
+	while (iterator.next())
+	{
+		hkEntity* entity = iterator.get_entity();
+		const int32 havok_component_index = havok_entity_get_havok_component_index(entity);
+		if (havok_component_index != NONE)
+		{
+			const c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, havok_component_index);
+			const object_header_datum* object_header = DATUM_TRY_AND_GET(object_header_data, const object_header_datum, havok_component->get_object_index());
+			if (TEST_BIT(object_header->flags, _object_header_active_bit))
+			{
+				entities->pushBack(&entity);
+			}
+		}
+	}
+	iterator.end();
+
+	for (int32 entity_index = 0; entity_index < entities.getSize(); entity_index++)
+	{
+		const hkEntity* entity = entities[entity_index];
+		const int32 havok_component_index = havok_entity_get_havok_component_index(entity);
+		const int32 rigid_body_index = havok_entity_get_havok_component_rigid_body_index(entity);
+		if (havok_component_index != NONE && rigid_body_index != NONE)
+		{
+			c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, havok_component_index);
+
+			real_vector3d acceleration{};
+			set_real_vector3d(&acceleration,
+				_real_random_range(get_random_seed_address(), "jumping beans x", __FILE__, __LINE__, -0.1f, 0.1f),
+				_real_random_range(get_random_seed_address(), "jumping beans y", __FILE__, __LINE__, -0.1f, 0.1f),
+				_real_random_range(get_random_seed_address(), "jumping beans z", __FILE__, __LINE__, 0.0f, 0.1f)
+			);
+			havok_component->rigid_body_apply_acceleration(rigid_body_index, &acceleration);
+		}
+	}
+#endif
+}
+
 void havok_debug_render()
 {
 	bool set_single_thread_request_flag = debug_objects

@@ -84,5 +84,6 @@ extern void __cdecl havok_object_set_position(int32 object_index, bool a2, bool 
 extern void __cdecl havok_prepare_fpu_for_update();
 extern void __cdecl havok_restore_fpu_from_update();
 extern void __cdecl havok_update();
+extern void havok_update_jumping_beans();
 extern void havok_debug_render();
 
