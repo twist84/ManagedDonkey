@@ -2,9 +2,9 @@
 
 void s_ai_globals_definition::update_reference_names()
 {
-	UPDATE_REFERENCE_NAME(global_dialogue_tag);
+	UPDATE_REFERENCE_NAME(global_dialogue);
 
-	UPDATE_BLOCK_REFERENCE_NAMES(global_styles);
+	UPDATE_BLOCK_REFERENCE_NAMES(styles);
 	UPDATE_BLOCK_REFERENCE_NAMES(spawn_formations);
 	UPDATE_BLOCK_REFERENCE_NAMES(squad_templates);
 }

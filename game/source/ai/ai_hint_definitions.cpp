@@ -109,8 +109,8 @@ void ai_render_hints()
 					sector_link* link = TAG_BLOCK_GET_ELEMENT(&pf_data->sector_links, link_index, sector_link);
 					if (TEST_BIT(link->flags, _sector_link_leanable_bit))
 					{
-						real_point3d* p0 = TAG_BLOCK_GET_ELEMENT_SAFE(&pf_data->sector_vertices, link->index, real_point3d);
-						real_point3d* p1 = TAG_BLOCK_GET_ELEMENT_SAFE(&pf_data->sector_vertices, link->index2, real_point3d);
+						real_point3d* p0 = &TAG_BLOCK_GET_ELEMENT_SAFE(&pf_data->sector_vertices, link->index, sector_vertex)->point;
+						real_point3d* p1 = &TAG_BLOCK_GET_ELEMENT_SAFE(&pf_data->sector_vertices, link->index2, sector_vertex)->point;
 						render_debug_line(true, p0, p1, global_real_argb_green);
 
 						real_vector3d link_vector{};
@@ -286,9 +286,9 @@ void render_hoist_hint(const pathfinding_data* pf_data, int32 hint_index)
 
 void render_jump_hint(int16 structure_index, int32 hint_index)
 {
-	//int16 destination_reference_frame;
-	//pathfinding_hint_data* hint;
 	//const pathfinding_data* pf_data;
+	//pathfinding_hint_data* hint;
+	//int16 destination_reference_frame;
 	//real_point3d destination_point0;
 	//real_point3d destination_point1;
 	//real_point3d center;

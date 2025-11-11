@@ -20,25 +20,12 @@ struct s_ai_globals_definition
 	real32 danger_exetended_shield_damage;
 	real32 danger_body_damage;
 	real32 danger_extended_body_damage;
-	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG, INVALID_TAG> global_dialogue_tag;
-	c_string_id default_mission_dialogue_sound_effect;
-	real32 jump_down;
-	real32 jump_step;
-	real32 jump_crouch;
-	real32 jump_stand;
-	real32 jump_storey;
-	real32 jump_tower;
-	real32 max_jump_down_height_down;
-	real32 max_jump_down_height_step;
-	real32 max_jump_down_height_crouch;
-	real32 max_jump_down_height_stand;
-	real32 max_jump_down_height_storey;	
-	real32 max_jump_down_height_tower;
-	real_bounds hoist_step;
-	real_bounds hoist_crouch;
-	real_bounds hoist_stand;
-	real_bounds vault_step;
-	real_bounds vault_crouch;
+	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG, INVALID_TAG> global_dialogue;
+	c_string_id default_mission_dialogue_sound_effect_id;
+	real32 jump_speeds[6];
+	real32 jump_down_heights[6];
+	real32 climb_ranges[3][2];
+	real32 vault_ranges[2][2];
 
 	//PATHFINDING SEARCH RANGES
 	// 
@@ -54,9 +41,7 @@ struct s_ai_globals_definition
 	real32 berserking_actor_scariness;
 	real32 kamikazeing_actor_scariness;
 	real32 invincible_scariness;
-	real32 morph_delay_ranged;
-	real32 morph_delay_tank;
-	real32 morph_delay_stalker;
+	real32 morph_delays[3];
 
 	// RESURRECTION
 	// 
@@ -65,7 +50,10 @@ struct s_ai_globals_definition
 	real32 projectile_distance;
 	real32 idle_clump_distance;
 	real32 dangerous_clump_distance;
-	c_typed_tag_block<s_ai_globals_styles_definition> global_styles;
+	c_typed_tag_block<s_ai_globals_styles_definition> styles;
+
+	// Added ODST
+
 	c_typed_tag_block<s_ai_globals_formation_definition> spawn_formations;
 	c_typed_tag_block<s_ai_globals_squad_template_definition> squad_templates;
 
