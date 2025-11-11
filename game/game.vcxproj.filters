@@ -2082,6 +2082,9 @@
     <ClCompile Include="source\interface\gui_screens\dialog\gui_screen_dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\sector_geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4596,6 +4599,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render_methods\render_method_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\sector_geometry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
