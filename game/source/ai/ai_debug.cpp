@@ -70,6 +70,7 @@ int32 g_ai_render_link_specific = 0;
 bool g_ai_render_links = false;
 bool g_ai_render_user_hints = false;
 bool g_ai_render_hints = false;
+bool g_ai_render_hints_detailed = false;
 bool g_ai_render_object_hints_all = false;
 bool g_ai_render_object_hints = false;
 bool g_ai_render_object_properties = false;

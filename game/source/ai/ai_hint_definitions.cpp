@@ -4,6 +4,7 @@
 #include "ai/ai_reference_frame.hpp"
 #include "ai/sector.hpp"
 #include "ai/sector_definitions.hpp"
+#include "ai/sector_geometry.hpp"
 #include "cache/cache_files.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
@@ -40,7 +41,12 @@ const char* g_jump_height_names[k_jump_height_count]
 //.text:0148AFC0 ; bool __cdecl ai_hint_get_hoist_height(int16, real32*, real32*)
 //.text:0148B030 ; int16 __cdecl ai_hint_get_hoist_markers(int32, object_marker*, int16, int16)
 //.text:0148B0B0 ; bool __cdecl ai_hint_get_jump_destination_normal(pathfinding_data*, hint_jump_data*, real_vector3d*)
-//.text:0148B1C0 ; bool __cdecl ai_hint_get_jump_destination_rail(int16, hint_jump_data*, const real_point3d*, real_point3d*, real_point3d*, c_sector_ref*, int16*)
+
+bool __cdecl ai_hint_get_jump_destination_rail(int16 structure_index, hint_jump_data* jump, const real_point3d* anchor, real_point3d* point_ref0, real_point3d* point_ref1, c_sector_ref* destination_sector_ref, int16* destination_reference_frame)
+{
+	return INVOKE(0x0148B1C0, ai_hint_get_jump_destination_rail, structure_index, jump, anchor, point_ref0, point_ref1, destination_sector_ref, destination_reference_frame);
+}
+
 //.text:0148B350 ; bool __cdecl ai_hint_get_jump_maneuver_point(pathfinding_data*, pathfinding_hint_data*, const c_ai_point3d*, c_sector_ref, real32, c_ai_point3d*, c_sector_ref*, c_ai_point3d*, c_sector_ref*)
 //.text:0148B610 ; real32 __cdecl ai_hint_get_jump_velocity(int16)
 //.text:0148B670 ; bool __cdecl ai_hint_get_maneuver_point(int32, real32, int32, const c_ai_point3d*, c_sector_ref, c_ai_point3d*, c_sector_ref*, c_ai_point3d*, c_sector_ref*)
@@ -51,18 +57,23 @@ const char* g_jump_height_names[k_jump_height_count]
 //.text:0148BBD0 ; bool __cdecl ai_hint_hoist_range_valid(const real_point3d*, const real_point3d*, const special_movement*)
 //.text:0148BC90 ; bool __cdecl ai_hint_is_down(const real_point3d*, const real_point3d*, const real_point3d*, const real_point3d*)
 //.text:0148BCD0 ; bool __cdecl ai_hint_marker_valid(object_marker*)
-//.text:0148BD20 ; bool __cdecl ai_hint_test_jump(const real_point3d*, const real_point3d*, const real_point3d*, const real_point3d*, int16)
+
+bool __cdecl ai_hint_test_jump(const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_point3d* point3, int16 jump_height)
+{
+	return INVOKE(0x0148BD20, ai_hint_test_jump, point0, point1, point2, point3, jump_height);
+}
+
 //.text:0148BE80 ; bool __cdecl ai_hint_vault_range_valid(const real_point3d*, const real_point3d*, const special_movement*)
 //.text:0148BF30 ; bool __cdecl ai_link_hint_traversable(const struct pathfinding_data*, int32)
 
 bool ai_point_on_structure(const c_ai_point3d* point, int16 structure_index, bool* ambiguous)
 {
 	bool result = false;
-	if (point->m_bsp_index == structure_index)
+	if (point->bsp_index() == structure_index)
 	{
 		result = true;
 	}
-	else if (point->m_bsp_index == NONE)
+	else if (point->bsp_index() == NONE)
 	{
 		*ambiguous = true;
 		result = true;
@@ -286,27 +297,80 @@ void render_hoist_hint(const pathfinding_data* pf_data, int32 hint_index)
 
 void render_jump_hint(int16 structure_index, int32 hint_index)
 {
-	//const pathfinding_data* pf_data;
-	//pathfinding_hint_data* hint;
-	//int16 destination_reference_frame;
-	//real_point3d destination_point0;
-	//real_point3d destination_point1;
-	//real_point3d center;
-	//{
-	//	c_ai_point3d ai_point0;
-	//	c_ai_point3d ai_point1;
-	//	c_ai_point3d ai_point2;
-	//	c_ai_point3d ai_point3;
-	//	{
-	//		real_point3d point0;
-	//		real_point3d point1;
-	//		real_point3d point2;
-	//		real_point3d point3;
-	//	}
-	//	{
-	//		int16 height_index;
-	//	}
-	//}
+	const pathfinding_data* pf_data = pathfinding_data_get(structure_index);
+	ASSERT(pf_data);
+
+	pathfinding_hint_data* hint = TAG_BLOCK_GET_ELEMENT(&pf_data->hints, hint_index, pathfinding_hint_data);
+
+	real_point3d destination_point0{};
+	real_point3d destination_point1{};
+	int16 destination_reference_frame;
+	if (hint->jump.point_index0 != NONE
+		&& ai_hint_get_jump_destination_rail(structure_index,
+			&hint->jump,
+			NULL,
+			&destination_point0,
+			&destination_point1,
+			NULL,
+			&destination_reference_frame))
+	{
+		c_ai_point3d ai_point0{};
+		c_ai_point3d ai_point1{};
+		c_ai_point3d ai_point2{};
+		c_ai_point3d ai_point3{};
+
+		ai_point0.set(&TAG_BLOCK_GET_ELEMENT(&pf_data->sector_vertices, hint->jump.point_index0, sector_vertex)->point, hint->jump.reference_frame0);
+
+		if (TEST_BIT(hint->jump.control_flags, _jump_height_step_bit) || hint->jump.point_index1x != NONE)
+		{
+			ai_point1.set(ai_point0.point(), hint->jump.reference_frame1);
+		}
+		else
+		{
+			ai_point1.set(&TAG_BLOCK_GET_ELEMENT(&pf_data->sector_vertices, hint->jump.point_index1x, sector_vertex)->point, hint->jump.reference_frame1);
+		}
+		ai_point2.set(&destination_point0, destination_reference_frame);
+		ai_point3.set(&destination_point1, destination_reference_frame);
+
+		real_point3d center{};
+		{
+			real_point3d point0{};
+			real_point3d point1{};
+			real_point3d point2{};
+			real_point3d point3{};
+			ai_point_get_position(&ai_point0, &point0);
+			ai_point_get_position(&ai_point1, &point1);
+			ai_point_get_position(&ai_point2, &point2);
+			ai_point_get_position(&ai_point3, &point3);
+
+			render_debug_sphere(true, &point0, 0.06f, global_real_argb_blue);
+			render_debug_sphere(true, &point1, 0.06f, global_real_argb_blue);
+			render_debug_sphere(true, &point2, 0.06f, global_real_argb_blue);
+			render_debug_sphere(true, &point3, 0.06f, global_real_argb_blue);
+
+			render_debug_line(true, &point0, &point1, global_real_argb_blue);
+			render_debug_line(true, &point2, &point3, global_real_argb_blue);
+			render_arrow(&point0, &point2, global_real_argb_yellow, false);
+			render_arrow(&point1, &point3, global_real_argb_yellow, false);
+
+			add_vectors3d((real_vector3d*)&point0, (real_vector3d*)&point1, (real_vector3d*)&center);
+			add_vectors3d((real_vector3d*)&center, (real_vector3d*)&point2, (real_vector3d*)&center);
+			add_vectors3d((real_vector3d*)&center, (real_vector3d*)&point3, (real_vector3d*)&center);
+			scale_vector3d((real_vector3d*)&center, 0.25f, (real_vector3d*)&center);
+		}
+
+		if (g_ai_render_hints_detailed)
+		{
+			for (int16 height_index = 0; height_index < NUMBEROF(g_jump_height_names); height_index++)
+			{
+				if (TEST_BIT(hint->jump.control_flags, height_index))
+				{
+					render_debug_string_at_point(&center, g_jump_height_names[height_index], global_real_argb_blue);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void render_sector_hint(const s_user_hint_sector* sector_hint, const real_argb_color* color)
@@ -436,25 +500,35 @@ void render_well_hints(const real_argb_color* color, bool full)
 
 void user_hint_handle_parallelogram_point_move(user_hint_parallelogram* parallelogram, int16 point_index, const real_point3d* point)
 {
-	//{
-	//	const user_hint_data* user_data;
-	//	bool valid;
-	//	{
-	//		int16 jump_index;
-	//		{
-	//			user_hint_jump* jump_hint;
-	//			{
-	//				user_hint_parallelogram* other;
-	//				{
-	//					c_sector_ref sector_ref;
-	//					{
-	//						const sector* sector;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+#if 0
+	ASSERT(VALID_INDEX(point_index, 4));
+
+	bool valid = true;
+
+	const user_hint_data* user_data = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user_data)
+	{
+		for (int16 jump_index = 0; jump_index < user_data->jump_hints.count; jump_index++)
+		{
+			user_hint_jump* jump_hint = TAG_BLOCK_GET_ELEMENT(&user_data->jump_hints, jump_index, user_hint_jump);
+			if (VALID_INDEX(jump_hint->geometry_index, user_data->parallelogram_geometry.count))
+			{
+				user_hint_parallelogram* other = TAG_BLOCK_GET_ELEMENT(&user_data->parallelogram_geometry, jump_hint->geometry_index, user_hint_parallelogram);
+				if (other == parallelogram)
+				{
+					c_sector_ref sector_ref = sector_from_point(point, NULL);
+					if (sector_ref.valid())
+					{
+						const sector* sector = pathfinding_get_sector(sector_ref);
+						valid = TEST_BIT(sector->flags, _sector_floor_bit);
+					}
+				}
+			}
+		}
+	}
+
+	SET_BIT(parallelogram->points_invalid_flags, point_index, !valid);
+#endif
 }
 
 bool user_hint_line_segment_on_active_structure(user_hint_line_segment* line)
@@ -493,32 +567,80 @@ bool user_hint_line_segment_on_structure(user_hint_line_segment* line, int16 str
 	return result;
 }
 
+// Seems like this was somewhat replaced with `render_jump_hint`?
 bool user_hint_render_jump(int16 jump_hint_index)
 {
-	return false;
+	bool result = false;
+	const user_hint_data* user_data = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->ai_user_hints, 0, const user_hint_data);
+	if (user_data && VALID_INDEX(jump_hint_index, user_data->jump_hints.count))
+	{
+		user_hint_jump* jump_hint = TAG_BLOCK_GET_ELEMENT(&user_data->jump_hints, jump_hint_index, user_hint_jump);
+		if (VALID_INDEX(jump_hint->geometry_index, user_data->parallelogram_geometry.count))
+		{
+			user_hint_parallelogram* parallelogram = TAG_BLOCK_GET_ELEMENT_SAFE(&user_data->parallelogram_geometry, jump_hint->geometry_index, user_hint_parallelogram);
 
-	//if (global_scenario_get()->ai_user_hints.count > 0)
-	//{
-	//	real_point3d vault_point0;
-	//	real_point3d vault_point1;
-	//	real_vector3d offset0;
-	//	real_vector3d offset1;
-	//	{
-	//		real_vector3d side;
-	//		const int16 k_num_ticks;
-	//		{
-	//			real_point3d anchor_point;
-	//			{
-	//				int16 index;
-	//			}
-	//		}
-	//	}
-	//}
+			bool bi = TEST_BIT(parallelogram->flags, _user_hint_geometry_bidirectional);
+			user_hint_render_parallelogram(parallelogram, bi);
+
+			real_point3d point0{};
+			real_point3d point1{};
+			real_point3d point2{};
+			real_point3d point3{};
+			ai_point_get_position(&parallelogram->point0, &point0);
+			ai_point_get_position(&parallelogram->point1, &point1);
+			ai_point_get_position(&parallelogram->point2, &point2);
+			ai_point_get_position(&parallelogram->point3, &point3);
+
+			if (TEST_BIT(jump_hint->user_flags, _user_jump_hint_vault_bit))
+			{
+				user_hint_render_jump_vault_internal(&point0, &point1, &point2, &point3);
+				if (bi)
+				{
+					user_hint_render_jump_vault_internal(&point2, &point3, &point0, &point1);
+				}
+			}
+
+			if (parallelogram->point0.reference_frame() == parallelogram->point1.reference_frame() &&
+				parallelogram->point2.reference_frame() == parallelogram->point3.reference_frame() &&
+				parallelogram->point0.reference_frame() == parallelogram->point2.reference_frame())
+			{
+				int16 height_index = 0;
+				for (; height_index < NUMBEROF(g_jump_height_names); height_index++)
+				{
+					if (ai_hint_test_jump(&point0, &point1, &point2, &point3, height_index))
+					{
+						break;
+					}
+				}
+
+				{
+					real_point3d mean_point;
+					add_vectors3d((real_vector3d*)&point0, (real_vector3d*)&point1, (real_vector3d*)&mean_point);
+					add_vectors3d((real_vector3d*)&mean_point, (real_vector3d*)&point2, (real_vector3d*)&mean_point);
+					add_vectors3d((real_vector3d*)&mean_point, (real_vector3d*)&point3, (real_vector3d*)&mean_point);
+					scale_vector3d((real_vector3d*)&mean_point, 0.25f, (real_vector3d*)&mean_point);
+
+					if (height_index < NUMBEROF(g_jump_height_names))
+					{
+						render_debug_string_at_point(&mean_point,
+							c_string_builder("[%s]", g_jump_height_names[height_index]).get_string(),
+							global_real_argb_blue);
+					}
+					else
+					{
+						render_debug_string_at_point(&mean_point,
+							c_string_builder("[infinite]", g_jump_height_names[height_index]).get_string(),
+							global_real_argb_blue);
+					}
+				}
+			}
+		}
+	}
+	return result;
 }
 
 void user_hint_render_jump_vault_internal(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_point3d const* point3)
 {
-#if 0
 	real_vector3d offset0{};
 	real_vector3d offset1{};
 	vector_from_points3d(point0, point2, &offset0);
@@ -549,7 +671,6 @@ void user_hint_render_jump_vault_internal(real_point3d const* point0, real_point
 			render_debug_line(true, &vault_point0, &vault_point1, global_real_argb_red);
 		}
 	}
-#endif
 }
 
 void user_hint_render_line_segment(const user_hint_line_segment* line_segment, const real_argb_color* color)

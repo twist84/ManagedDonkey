@@ -3736,10 +3736,10 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&g_ai_render_hints,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	ai_render_hints_detailed,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_ai_render_hints_detailed,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_object_hints,

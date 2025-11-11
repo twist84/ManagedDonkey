@@ -41,6 +41,7 @@ extern int32 g_ai_render_link_specific;
 extern bool g_ai_render_links;
 extern bool g_ai_render_user_hints;
 extern bool g_ai_render_hints;
+extern bool g_ai_render_hints_detailed;
 extern bool g_ai_render_object_hints_all;
 extern bool g_ai_render_object_hints;
 extern bool g_ai_render_object_properties;

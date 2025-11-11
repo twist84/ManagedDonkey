@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
+class c_sector_ref;
 struct pathfinding_data;
 
 enum
@@ -19,6 +20,16 @@ enum
 	_user_hint_geometry_closed,
 
 	k_user_hint_geometry_flag_count,
+};
+
+enum
+{
+	_user_jump_hint_magic_lift_bit = 0,
+	_user_jump_hint_vehicle_only_bit,
+	_user_jump_hint_railing_bit,
+	_user_jump_hint_vault_bit,
+
+	k_user_jump_flag_count,
 };
 
 enum
@@ -200,6 +211,7 @@ struct user_hint_line_segment
 		c_ai_point3d points[2];
 	};
 };
+static_assert(sizeof(user_hint_line_segment) == 0x24);
 
 struct user_hint_parallelogram
 {
@@ -218,6 +230,7 @@ struct user_hint_parallelogram
 	int16 points_invalid_flags;
 	int16 pad0;
 };
+static_assert(sizeof(user_hint_parallelogram) == 0x48);
 
 struct user_hint_well_point
 {
@@ -287,6 +300,9 @@ static_assert(sizeof(user_hint_data) == 0x6C);
 
 extern const char* g_hoist_height_names[k_climb_hint_hoist_count];
 extern const char* g_jump_height_names[k_jump_height_count];
+
+extern bool __cdecl ai_hint_get_jump_destination_rail(int16 structure_index, hint_jump_data* jump, const real_point3d* anchor, real_point3d* point_ref0, real_point3d* point_ref1, c_sector_ref* destination_sector_ref, int16* destination_reference_frame);
+extern bool __cdecl ai_hint_test_jump(const real_point3d* point0, const real_point3d* point1, const real_point3d* point2, const real_point3d* point3, int16 jump_height);
 
 extern bool ai_point_on_structure(const c_ai_point3d* point, int16 structure_index, bool* ambiguous);
 extern void ai_render_hints();
