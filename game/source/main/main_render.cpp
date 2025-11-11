@@ -458,14 +458,14 @@ void __cdecl game_engine_render_window_watermarks(int32 user_index)
 
 void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_controller_index controller_index)
 {
-	static bool first_run = true;
+	static bool x_once = true;
 	static c_static_string<128> strings[3]{};
 	static c_static_string<20> player_xuid_rand{};
 	static c_static_string<16> display_name{};
 
-	if (first_run)
+	if (x_once)
 	{
-		first_run = false;
+		x_once = false;
 
 		strings[0].clear();
 		strings[1].clear();
@@ -527,14 +527,14 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 
 void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_controller_index controller_index)
 {
-	static bool first_run = true;
+	static bool x_once = true;
 	static c_static_string<128> strings[3]{};
 	static c_static_string<20> player_xuid_rand{};
 	static c_static_string<16> display_name{};
 
-	if (first_run)
+	if (x_once)
 	{
-		first_run = false;
+		x_once = false;
 
 		strings[0].clear();
 		strings[1].clear();
@@ -597,14 +597,14 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 
 void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_release(e_controller_index controller_index)
 {
-	static bool first_run = true;
+	static bool x_once = true;
 	static c_static_string<128> strings[3]{};
 	static c_static_string<20> player_xuid_rand{};
 	static c_static_string<16> display_name{};
 
-	if (first_run)
+	if (x_once)
 	{
-		first_run = false;
+		x_once = false;
 
 		strings[0].clear();
 		strings[1].clear();
