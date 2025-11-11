@@ -6,12 +6,18 @@
 #include "cseries/cseries_events.hpp"
 #include "interface/terminal.hpp"
 #include "main/main.hpp"
+#include "math/random_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
+#include "physics/havok_component.hpp"
+#include "physics/havok_entity_iterator.hpp"
+
+#include <hkWorld.hpp>
 
 REFERENCE_DECLARE(0x018A2324, s_havok_constants, g_havok_constants);
 REFERENCE_DECLARE(0x018A2370, s_havok_globals, g_havok_globals);
+REFERENCE_DECLARE(0x02443FFC, hkWorld*, g_havok_world);
 REFERENCE_DECLARE(0x04B1DA80, bool, g_havok_memory_always_system);
 
 HOOK_DECLARE(0x005C5520, havok_display_stats_printf);
@@ -199,14 +205,28 @@ void __cdecl havok_restore_fpu_from_update()
 
 void __cdecl havok_update()
 {
+#if 0
+	if (g_havok_world)
+	{
+		//ASSERT(havok_can_modify_state());
+
+		if (g_havok_constants.havok_jumping_beans)
+		{
+			havok_update_jumping_beans();
+		}
+	}
+#endif
+
 	INVOKE(0x005C7B50, havok_update);
 }
 
 void havok_update_jumping_beans()
 {
-#if 0
-	c_havok_entity_iterator iterator(g_havok_world, _iteration_type_inactive_entities);
+	// $TODO probably memory leak becayse entities doesn't release its memory
+
+	c_havok_entity_iterator iterator(g_havok_world, c_havok_entity_iterator::_iteration_type_inactive_entities);
 	hkArray<hkEntity*> entities;
+
 	iterator.begin();
 	while (iterator.next())
 	{
@@ -215,16 +235,17 @@ void havok_update_jumping_beans()
 		if (havok_component_index != NONE)
 		{
 			const c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, havok_component_index);
-			const object_header_datum* object_header = DATUM_TRY_AND_GET(object_header_data, const object_header_datum, havok_component->get_object_index());
-			if (TEST_BIT(object_header->flags, _object_header_active_bit))
+			const object_header_datum* object_header = DATUM_TRY_AND_GET(object_header_data, const object_header_datum, havok_component->m_object_index);
+			if (TEST_FLAG(object_header->flags, _object_header_active_bit))
 			{
-				entities->pushBack(&entity);
+				entities.pushBack(&entity);
 			}
 		}
 	}
 	iterator.end();
 
-	for (int32 entity_index = 0; entity_index < entities.getSize(); entity_index++)
+	int32 entity_count = entities.getSize() & 0xFFFF;
+	for (int32 entity_index = 0; entity_index < entity_count; entity_index++)
 	{
 		const hkEntity* entity = entities[entity_index];
 		const int32 havok_component_index = havok_entity_get_havok_component_index(entity);
@@ -235,14 +256,13 @@ void havok_update_jumping_beans()
 
 			real_vector3d acceleration{};
 			set_real_vector3d(&acceleration,
-				_real_random_range(get_random_seed_address(), "jumping beans x", __FILE__, __LINE__, -0.1f, 0.1f),
-				_real_random_range(get_random_seed_address(), "jumping beans y", __FILE__, __LINE__, -0.1f, 0.1f),
-				_real_random_range(get_random_seed_address(), "jumping beans z", __FILE__, __LINE__, 0.0f, 0.1f)
+				REAL_RANDOM_RANGE(get_random_seed_address(), "jumping beans x", -0.1f, 0.1f),
+				REAL_RANDOM_RANGE(get_random_seed_address(), "jumping beans y", -0.1f, 0.1f),
+				REAL_RANDOM_RANGE(get_random_seed_address(), "jumping beans z", 0.0f, 0.1f)
 			);
 			havok_component->rigid_body_apply_acceleration(rigid_body_index, &acceleration);
 		}
 	}
-#endif
 }
 
 void havok_debug_render()
