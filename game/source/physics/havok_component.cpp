@@ -8,6 +8,16 @@
 
 REFERENCE_DECLARE(0x02446080, c_smart_data_array<c_havok_component>, g_havok_component_data);
 
+int32 __cdecl havok_entity_get_havok_component_index(const hkWorldObject* world_object)
+{
+	return INVOKE(0x005EA8E0, havok_entity_get_havok_component_index, world_object);
+}
+
+int32 __cdecl havok_entity_get_havok_component_rigid_body_index(const hkWorldObject* world_object)
+{
+	return INVOKE(0x005EA930, havok_entity_get_havok_component_rigid_body_index, world_object);
+}
+
 void c_havok_component::render_debug(
     bool water_physics,
     bool render_physics_model,
@@ -97,5 +107,10 @@ void c_havok_component::render_debug(
 			// $IMPLEMENT
 		}
 	}
+}
+
+void c_havok_component::rigid_body_apply_acceleration(int32 rigid_body_index, const real_vector3d* acceleration)
+{
+	INVOKE_CLASS_MEMBER(0x005ECC50, c_havok_component, rigid_body_apply_acceleration, rigid_body_index, acceleration);
 }
 

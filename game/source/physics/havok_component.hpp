@@ -7,6 +7,8 @@
 #include <hkArray.hpp>
 #include <hkMath.hpp>
 
+struct hkWorldObject;
+
 class c_havok_contact_point
 {
 public:
@@ -49,6 +51,7 @@ class c_havok_component :
 {
 public:
 	void render_debug(bool water_physics, bool render_physics_model, bool expensive_physics, bool contact_points, bool constraints, bool vehicle_physics, bool render_mass);
+	void rigid_body_apply_acceleration(int32 rigid_body_index, const real_vector3d* acceleration);
 
 	hkRigidBody* get_rigid_body(int32 rigid_body_index)
 	{
@@ -147,4 +150,7 @@ public:
 static_assert(sizeof(c_havok_component) == 0x80);
 
 extern c_smart_data_array<c_havok_component>& g_havok_component_data;
+
+extern int32 __cdecl havok_entity_get_havok_component_index(const hkWorldObject* world_object);
+extern int32 __cdecl havok_entity_get_havok_component_rigid_body_index(const hkWorldObject* world_object);
 
