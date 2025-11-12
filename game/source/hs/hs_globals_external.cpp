@@ -5546,10 +5546,10 @@ EXTERNAL_GLOBAL_DECLARE2(
 	_hs_type_boolean,
 	NULL, // $TODO write the global chuckle nuts
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	global_playtest_mode,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&global_playtest_mode,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_override_logon_task,

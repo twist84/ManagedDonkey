@@ -91,6 +91,8 @@ struct s_date_and_time
 };
 static_assert(sizeof(s_date_and_time) == 0x18);
 
+extern bool& global_playtest_mode;
+
 extern s_game_system const g_game_systems[];
 extern int32 const g_game_system_count;
 

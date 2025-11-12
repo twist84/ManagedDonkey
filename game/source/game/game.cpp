@@ -101,6 +101,8 @@
 #include "visibility/visibility_collection.hpp"
 #include "visibility/visibility_portal_activation.hpp"
 
+REFERENCE_DECLARE(0x02390D3C, bool, global_playtest_mode);
+
 HOOK_DECLARE(0x00530F80, game_finish);
 HOOK_DECLARE(0x00530CD0, game_dispose);
 HOOK_DECLARE(0x00530D10, game_dispose_from_old_map);
