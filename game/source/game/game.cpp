@@ -1141,7 +1141,7 @@ void __cdecl game_options_new(game_options* options)
 
 void __cdecl game_options_setup_default_players(int32 player_count, game_options* options)
 {
-	DECLFUNC(0x00532440, void, __cdecl, int32, game_options*)(player_count, options);
+	INVOKE(0x00532440, game_options_setup_default_players, player_count, options);
 }
 
 //.text:00532610 ; void __cdecl game_options_setup_for_playback(e_game_playback_type)
