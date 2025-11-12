@@ -523,7 +523,9 @@ void ai_debug_string(const char* string, int16 tab_stop_count, const int16* tab_
 	bounds.y1 = SHRT_MAX;
 
 	if (!color)
+	{
 		color = global_real_argb_white;
+	}
 
 	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 
@@ -541,12 +543,14 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 {
 	// $IMPLEMENT
 
-	// $TODO `hs_thread_get`, `cs_atom_string`
+	// $TODO `cs_atom_string`
 
 	//command_script_datum* command_script = DATUM_GET(command_script_data, command_script_datum, command_script_index);
 	//
 	//if (command_script->next_cs != NONE)
+	//{
 	//	render_command_scripts_helper(actor, command_script->next_cs);
+	//}
 	//
 	//if (command_script->thread_index != NONE)
 	//{
@@ -555,33 +559,47 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 	//	const real_argb_color* color = NULL;
 	//
 	//	if (thread->script_index != NONE)
-	//		script = &global_scenario_get()->scripts[thread->script_index];
+	//	{
+	//		script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, thread->script_index, hs_script);
+	//	}
 	//
 	//	int16 atom_channel_start = actor->meta.swarm ? 1 : 3;
 	//	for (int16 atom_channel = atom_channel_start - 1; atom_channel >= 0; atom_channel--)
 	//	{
-	//		if (command_script_index == actor->commands.last_script_index)
+	//		if (command_script_index == actor->commands.first_command_script_index)
+	//		{
 	//			color = global_real_argb_white;
+	//		}
 	//		else
+	//		{
 	//			color = global_real_argb_grey;
+	//		}
 	//
 	//		char string[202]{};
-	//		switch (command_script->control[atom_channel].__unknown4)
+	//		switch (command_script->control[atom_channel].status)
 	//		{
 	//		case NONE:
-	//			csstrnzcpy(string, "(NONE)", sizeof(string));
-	//			break;
+	//		{
+	//			csstrnzcpy(string, "(NONE)", NUMBEROF(string));
+	//		}
+	//		break;
 	//		case 0:
-	//			csstrnzcpy(string, "(FAILED)", sizeof(string));
-	//			break;
+	//		{
+	//			csstrnzcpy(string, "(FAILED)", NUMBEROF(string));
+	//		}
+	//		break;
 	//		case 1:
-	//			csstrnzcpy(string, "(FINISHED)", sizeof(string));
-	//			break;
+	//		{
+	//			csstrnzcpy(string, "(FINISHED)", NUMBEROF(string));
+	//		}
+	//		break;
 	//		case 2:
+	//		{
 	//			string[0] = '(';
-	//			cs_atom_string(command_script_index, atom_channel, &string[1], sizeof(string) - 2);
-	//			csstrnzcat(string, ")", sizeof(string));
-	//			break;
+	//			cs_atom_string(command_script_index, atom_channel, &string[1], NUMBEROF(string) - 2);
+	//			csstrnzcat(string, ")", NUMBEROF(string));
+	//		}
+	//		break;
 	//		}
 	//
 	//		render_debug_string_at_point(ai_debug_drawstack(), string, color);
@@ -589,7 +607,7 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 	//
 	//	if (script)
 	//	{
-	//		render_debug_string_at_point(ai_debug_drawstack(), script->name.get_string(), color);
+	//		render_debug_string_at_point(ai_debug_drawstack(), script->name, color);
 	//	}
 	//	else
 	//	{
@@ -609,12 +627,12 @@ void render_command_scripts()
 	//actor_iterator_new(&actor_iter, false);
 	//while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	//{
-	//	if (actor->commands.script_index != NONE)
+	//	if (actor->commands.first_command_script_index != NONE)
 	//	{
 	//		real_point3d position{};
 	//		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 	//		ai_debug_drawstack_setup(&position);
-	//		render_command_scripts_helper(actor, actor->commands.script_index);
+	//		render_command_scripts_helper(actor, actor->commands.first_command_script_index);
 	//	}
 	//}
 }
@@ -630,7 +648,9 @@ void ai_debug_render_behavior_stacks_all()
 		ai_debug_drawstack_setup(&position);
 
 		for (int16 layer_index = 0; layer_index <= actor->state.leaf_layer; layer_index++)
+		{
 			render_debug_string_at_point(ai_debug_drawstack(), behavior_names[actor_behavior_index_get(actor, layer_index)], global_real_argb_green);
+		}
 	}
 }
 
@@ -806,9 +826,13 @@ void ai_debug_render_squads()
 				real32 radius = 0.0f;
 
 				if (squad_actor->meta.unit_index == NONE)
+				{
 					center = squad_actor->input.position.body_position;
+				}
 				else
+				{
 					object_get_bounding_sphere(squad_actor->meta.unit_index, &center, &radius);
+				}
 
 				render_debug_line(true, &position, &center, squad_actor->meta.squad_limbo ? global_real_argb_yellow : global_real_argb_red);
 			}
@@ -821,7 +845,9 @@ void ai_debug_render_squads()
 			}
 
 			if (g_ai_render_objectives)
+			{
 				ai_debug_render_objectives(squad_iter.squad_index, &position);
+			}
 
 			render_debug_string_at_point(ai_debug_drawstack(), squad_def->name.get_string(), global_real_argb_red);
 		}
@@ -835,7 +861,9 @@ void ai_debug_render_suppress_combat()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		if (actor->state.suppress_combat)
+		{
 			render_debug_string_at_point(&actor->input.position.head_position, "COMBAT SUPPRESSED", global_real_argb_blue);
+		}
 	}
 }
 
@@ -915,7 +943,9 @@ void ai_debug_tracking_data()
 		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
 		{
 			if (actor_prop_ref->tracking_index != NONE)
+			{
 				tracking_index++;
+			}
 		}
 
 		csnzprintf(string, sizeof(string), "Tracking data: %i", tracking_index);
@@ -973,9 +1003,13 @@ void ai_debug_render_tracked_props_all()
 				real_point3d position{};
 				object_get_origin(actor_prop_ref->object_index, &position);
 				if (actor_prop_ref_iter.index == actor->target.target_prop_index)
+				{
 					render_debug_line(true, &actor->input.position.head_position, &position, global_real_argb_red);
+				}
 				else
+				{
 					render_debug_line(true, &actor->input.position.head_position, &position, global_real_argb_yellow);
+				}
 			}
 		}
 	}
@@ -1049,7 +1083,9 @@ void ai_debug_render_dynamic_firing_positions()
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("members: %i", dynamic_firing_set->num_members).get_string(), color);
 
 		if (dynamic_firing_set->support_object_index != NONE)
+		{
 			render_debug_string_at_point(ai_debug_drawstack(), "No object", global_real_argb_orange);
+		}
 	}
 
 

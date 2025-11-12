@@ -222,7 +222,7 @@ void __cdecl havok_update()
 
 void havok_update_jumping_beans()
 {
-	// $TODO probably memory leak becayse entities doesn't release its memory
+	// $TODO potential memory leak due to `hkArray` has no destructor therefore no call to `releaseMemory` is ran
 
 	c_havok_entity_iterator iterator(g_havok_world, c_havok_entity_iterator::_iteration_type_inactive_entities);
 	hkArray<hkEntity*> entities;

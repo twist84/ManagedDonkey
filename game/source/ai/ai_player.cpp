@@ -32,16 +32,20 @@ bool __cdecl ai_player_state_needs_vehicle(int16 ai_player_index)
 {
 	//return INVOKE(0x014366A0, ai_player_state_needs_vehicle, ai_player_index);
 
-	ai_player_state& ai_player = g_ai_players[ai_player_index];
-	if (ai_player.player_index != NONE)
+	bool result = false;
+	const ai_player_state* player_state = &g_ai_players[ai_player_index];
+	if (player_state->player_index != NONE)
 	{
-		if ((game_time_get() - ai_player.needs_vehicle_time) < game_seconds_to_ticks_round(5.0f))
-			return !ai_player.needs_vehicle;
+		if ((game_time_get() - player_state->needs_vehicle_time) < game_seconds_to_ticks_round(5.0f))
+		{
+			result = !player_state->needs_vehicle;
+		}
 		else
-			return ai_player.needs_vehicle;
+		{
+			result = player_state->needs_vehicle;
+		}
 	}
-
-	return false;
+	return result;
 }
 
 void __cdecl ai_player_state_update()
