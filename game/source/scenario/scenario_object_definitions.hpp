@@ -8,7 +8,7 @@
 template<tag ...t_group_tags>
 struct scenario_object_palette_entry
 {
-	c_typed_tag_reference<t_group_tags> name;
+	c_typed_tag_reference<t_group_tags...> name;
 
 	byte GYFQQPUM[0x20]; // pad
 
@@ -22,7 +22,7 @@ static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
 template<tag ...t_group_tags>
 struct scenario_object_palette_entry_with_string_id
 {
-	c_typed_tag_reference<t_group_tags> name;
+	c_typed_tag_reference<t_group_tags...> name;
 	c_string_id display_name;
 	int32 maximum_allowed;
 	real32 price_per_instance;
