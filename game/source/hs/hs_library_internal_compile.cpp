@@ -536,7 +536,7 @@ bool hs_parse_wake(int16 function_index, int32 expression_index)
 		hs_syntax_node* script_name_node = hs_syntax_get(script_name_index);
 		if (hs_parse(script_name_index, _hs_type_script))
 		{
-			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_name_index, hs_script);
+			hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_name_node->short_value, hs_script);
 			if (script->script_type == _hs_script_static || script->script_type == _hs_script_command_script)
 			{
 				hs_compile_globals.error_message = "static or command-script scripts cannot be awakened.";
