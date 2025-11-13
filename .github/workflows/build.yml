@@ -7,7 +7,7 @@ on:
 jobs:
   build-win:
     env:
-      SOLUTION_FILE_PATH: .
+      SOLUTION_FILE_PATH: ./ManagedDonkey.sln
       PLATFORM: x86
 
     strategy:
@@ -39,7 +39,7 @@ jobs:
 
     - name: Build
       working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ matrix.SOLUTION_FILE_PATH }}
+      run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ env.SOLUTION_FILE_PATH }}
 
     - name: Zip Release
       run: |
