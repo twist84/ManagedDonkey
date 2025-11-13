@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="game/game.vcxproj" Id="fb59080f-57e1-4857-9a57-333f885779bb" />
+  <Project Path="launcher/launcher.vcxproj" Id="f16090b0-3456-4a56-9542-4243eb165cd2" />
+  <Project Path="remote/remote.vcxproj" Id="de8d5b1a-be3f-4c81-a7f4-50b9ddfe3a6c" />
+</Solution>
