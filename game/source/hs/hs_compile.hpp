@@ -40,7 +40,7 @@ struct s_hs_reference
 };
 static_assert(sizeof(s_hs_reference) == 0x14);
 
-typedef struct
+struct s_hs_compile_globals
 {
 	bool initialized;
 
@@ -68,7 +68,7 @@ typedef struct
 	s_hs_reference** script_references;
 	s_hs_reference** global_references;
 	int16 allocated_references;
-} s_hs_compile_globals;
+};
 static_assert(sizeof(s_hs_compile_globals) == 0x444);
 
 class c_hs_compile_error_listener
