@@ -148,7 +148,7 @@ bool shell_get_command_line_parameter(char* command_line, const char* parameter_
 void system_set_maps_directory()
 {
 	c_static_string<256> map_directory = "maps\\";
-	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-maps", &map_directory, map_directory.get_string()))
+	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-maps", &map_directory, map_directory.get_string()))
 	{
 		if (!map_directory.ends_with("\\") && !map_directory.ends_with("/"))
 		{

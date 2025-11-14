@@ -444,7 +444,6 @@ public:
 	static void __cdecl rasterizer_device_acquire_thread();
 	static void __cdecl rasterizer_device_release_thread();
 	static bool __cdecl rasterizer_thread_owns_device();
-	static void __cdecl initialize_window();
 	static e_gpr_allocation __cdecl set_gprs_allocation(e_gpr_allocation type);
 	static void __cdecl clear_sampler_textures(uns32 samplers_flag);
 	static e_cull_mode __cdecl get_cull_mode(void);
@@ -964,8 +963,10 @@ static_assert(sizeof(rasterizer_dynamic_screen_geometry_parameters) == 0x9C);
 
 extern void rasterizer_reset_device();
 
-extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
+extern void __cdecl rasterizer_window_initialize();
+
+extern void __cdecl draw_tesselated_quad();
 extern void __cdecl rasterizer_psuedo_dynamic_screen_quad_draw(const rasterizer_dynamic_screen_geometry_parameters* parameters, rasterizer_vertex_screen* vertices);
 extern void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color, const s_tag_reference* reference, int16 bitmap_index, bool point_sampled);
 extern void __cdecl rasterizer_quad_screenspace_explicit(point2d const(&points)[4], uns32 color, c_rasterizer_texture_ref texture_ref, bool point_sampled, c_rasterizer::e_alpha_blend_mode blend_mode);

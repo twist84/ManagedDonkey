@@ -88,7 +88,7 @@ HOOK_DECLARE_CLASS(0x00A1FC90, c_rasterizer, get_is_widescreen);
 
 //HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
 HOOK_DECLARE_CLASS(0x00A22130, c_rasterizer, set_render_resolution);
-HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
+HOOK_DECLARE(0x00A223F0, rasterizer_window_initialize);
 
 //HOOK_DECLARE_CLASS(0x00A22D10, c_rasterizer, set_alpha_blend_mode);
 //HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);
@@ -334,8 +334,8 @@ bool __cdecl c_rasterizer::get_is_widescreen()
 
 	RECT client_rect{};
 
-	HWND window_handle = g_windows_params.window_handle;
-	if (window_handle != NULL || (window_handle = g_windows_params.game_window_handle) != NULL)
+	HWND window_handle = window_globals.hWndPresentTarget;
+	if (window_handle != NULL || (window_handle = window_globals.hWnd) != NULL)
 	{
 		GetClientRect(window_handle, &client_rect);
 	}
@@ -558,21 +558,21 @@ bool __cdecl c_rasterizer::reset_device()
 	*presentation_parameters = *get_new_presentation_parameters();
 
 	bool fullscreen = global_preferences_get_fullscreen();
-	if (fullscreen && g_windows_params.editor_window_create)
+	if (fullscreen && window_globals.editorWindowCreate)
 	{
 		global_preferences_set_fullscreen(fullscreen = false);
 	}
 
 	LONG window_style = fullscreen ? WS_OVERLAPPED : WS_OVERLAPPEDWINDOW;
-	if (g_windows_params.editor_window_create)
+	if (window_globals.editorWindowCreate)
 	{
 		window_style &= ~(WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
 	}
-	SetWindowLongA(g_windows_params.game_window_handle, GWL_STYLE, window_style);
+	SetWindowLongA(window_globals.hWnd, GWL_STYLE, window_style);
 
 	if (fullscreen)
 	{
-		ShowWindow(g_windows_params.game_window_handle, SW_MAXIMIZE);
+		ShowWindow(window_globals.hWnd, SW_MAXIMIZE);
 	}
 	else
 	{
@@ -583,11 +583,11 @@ bool __cdecl c_rasterizer::reset_device()
 		rect.bottom = presentation_parameters->BackBufferHeight;
 
 		RECT window_rect{};
-		GetWindowRect(g_windows_params.game_window_handle, &window_rect);
+		GetWindowRect(window_globals.hWnd, &window_rect);
 		int window_x = window_rect.left;
 		int window_y = window_rect.top;
 
-		if (!g_windows_params.editor_window_create)
+		if (!window_globals.editorWindowCreate)
 		{
 			static bool x_first_run = true;
 			if (x_first_run)
@@ -603,24 +603,24 @@ bool __cdecl c_rasterizer::reset_device()
 
 		AdjustWindowRect(&rect, window_style, FALSE);
 		SetWindowPos(
-			g_windows_params.game_window_handle,
+			window_globals.hWnd,
 			HWND_NOTOPMOST,
 			window_x,
 			window_y,
 			rect.right,
 			rect.bottom,
 			SWP_SHOWWINDOW);
-		ShowWindow(g_windows_params.game_window_handle, SW_SHOWNORMAL);
+		ShowWindow(window_globals.hWnd, SW_SHOWNORMAL);
 
-		if (g_windows_params.editor_window_create)
+		if (window_globals.editorWindowCreate)
 		{
-			GetClientRect(g_windows_params.editor_window_handle, &rect);
+			GetClientRect(window_globals.hWndEditor, &rect);
 
 			if (HWND console_window = GetConsoleWindow())
 			{
 				editor_set_console_attributes();
 
-				SetParent(console_window, g_windows_params.editor_window_handle);
+				SetParent(console_window, window_globals.hWndEditor);
 				SetWindowPos(
 					console_window,
 					HWND_BOTTOM,
@@ -633,7 +633,7 @@ bool __cdecl c_rasterizer::reset_device()
 	}
 
 	RECT rect{};
-	GetClientRect(g_windows_params.game_window_handle, &rect);
+	GetClientRect(window_globals.hWnd, &rect);
 	c_rasterizer::render_globals.window_width24 = rect.right - rect.left;
 	c_rasterizer::render_globals.window_height28 = rect.bottom - rect.top;
 
@@ -828,11 +828,11 @@ bool __cdecl c_rasterizer::end_frame()
 		HRESULT hs = S_OK;
 		if (c_rasterizer::render_globals.is_d3d9ex)
 		{
-			hs = c_rasterizer::g_device->PresentEx(NULL, NULL, g_windows_params.window_handle, NULL, 0);
+			hs = c_rasterizer::g_device->PresentEx(NULL, NULL, window_globals.hWndPresentTarget, NULL, 0);
 		}
 		else
 		{
-			hs = c_rasterizer::g_device->Present(NULL, NULL, g_windows_params.window_handle, NULL);
+			hs = c_rasterizer::g_device->Present(NULL, NULL, window_globals.hWndPresentTarget, NULL);
 		}
 
 		if (FAILED(hs))
@@ -1077,13 +1077,13 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//
 	//	if (window_exists)
 	//	{
-	//		g_windows_params.game_window_handle = GetDesktopWindow();
+	//		window_globals.hWnd = GetDesktopWindow();
 	//	}
 	//	else
 	//	{
 	//		render_globals.back_buffer_width = width;
 	//		render_globals.back_buffer_height = height;
-	//		initialize_window();
+	//		rasterizer_window_initialize();
 	//	}
 	//
 	//	set_render_resolution(width, height, global_preferences_get_fullscreen());
@@ -1099,7 +1099,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	//	if (SUCCEEDED(g_direct3d->CreateDevice(
 	//		g_adapter,
 	//		windowed ? D3DDEVTYPE_NULLREF : D3DDEVTYPE_HAL,
-	//		g_windows_params.game_window_handle,
+	//		window_globals.hWnd,
 	//		D3DCREATE_PUREDEVICE | D3DCREATE_HARDWARE_VERTEXPROCESSING,
 	//		get_presentation_parameters(),
 	//		(IDirect3DDevice9**)&c_rasterizer::g_device)))
@@ -1165,29 +1165,29 @@ bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 	//return g_thread_owning_device == get_current_thread_index();
 }
 
-void __cdecl c_rasterizer::initialize_window()
+void __cdecl rasterizer_window_initialize()
 {
-	//INVOKE(0x00A223F0, c_rasterizer::initialize_window);
+	//INVOKE(0x00A223F0, rasterizer_window_initialize);
 
-	if (g_windows_params.game_window_handle != NULL)
+	if (window_globals.hWnd != NULL)
 	{
 		return;
 	}
 
-	if (g_windows_params.editor_window_create)
+	if (window_globals.editorWindowCreate)
 	{
 		WNDCLASSA editor_window_class = { };
-		editor_window_class.lpfnWndProc = g_windows_params.editor_window_proc;
-		editor_window_class.hInstance = g_windows_params.instance;
-		editor_window_class.lpszClassName = g_windows_params.editor_class_name;
+		editor_window_class.lpfnWndProc = window_globals.lpfnWndProcEditor;
+		editor_window_class.hInstance = window_globals.hInstance;
+		editor_window_class.lpszClassName = window_globals.classNameEditor;
 		editor_window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
 		editor_window_class.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 		ATOM editor_class_registered = RegisterClassA(&editor_window_class);
 		if (editor_class_registered != INVALID_ATOM)
 		{
 			HWND editor_window_handle_created = CreateWindowA(
-				g_windows_params.editor_class_name,
-				g_windows_params.editor_window_name,
+				window_globals.classNameEditor,
+				window_globals.windowTitleEditor,
 				WS_TILEDWINDOW,
 				0,
 				0,
@@ -1198,7 +1198,7 @@ void __cdecl c_rasterizer::initialize_window()
 				editor_window_class.hInstance,
 				NULL
 			);
-			g_windows_params.editor_window_handle = editor_window_handle_created;
+			window_globals.hWndEditor = editor_window_handle_created;
 			ShowWindow(editor_window_handle_created, SW_MAXIMIZE);
 		}
 		else
@@ -1219,10 +1219,10 @@ void __cdecl c_rasterizer::initialize_window()
 
 	WNDCLASSA window_class{};
 	//window_class.style = CS_CLASSDC;
-	window_class.lpfnWndProc = g_windows_params.window_proc;
-	window_class.hInstance = g_windows_params.instance;
+	window_class.lpfnWndProc = window_globals.lpfnWndProc;
+	window_class.hInstance = window_globals.hInstance;
 	window_class.hCursor = sub_A22340();
-	window_class.lpszClassName = g_windows_params.class_name;
+	window_class.lpszClassName = window_globals.className;
 
 	ATOM class_registered = RegisterClassA(&window_class);
 	if (class_registered != INVALID_ATOM)
@@ -1232,7 +1232,7 @@ void __cdecl c_rasterizer::initialize_window()
 		int32 width = 1152;
 		int32 height = 640;
 
-		if (g_windows_params.editor_window_create)
+		if (window_globals.editorWindowCreate)
 		{
 			width = 1244;
 			height = 700;
@@ -1248,18 +1248,18 @@ void __cdecl c_rasterizer::initialize_window()
 		}
 
 		HWND window_handle_created = CreateWindowA(
-			g_windows_params.class_name,
-			g_windows_params.window_name,
-			g_windows_params.editor_window_create ? WS_CHILD : WS_TILEDWINDOW,
-			g_windows_params.editor_window_create ? 0 : window_x,
-			g_windows_params.editor_window_create ? 0 : window_y,
+			window_globals.className,
+			window_globals.windowTitle,
+			window_globals.editorWindowCreate ? WS_CHILD : WS_TILEDWINDOW,
+			window_globals.editorWindowCreate ? 0 : window_x,
+			window_globals.editorWindowCreate ? 0 : window_y,
 			width,
 			height,
-			g_windows_params.editor_window_handle,
+			window_globals.hWndEditor,
 			NULL,
 			window_class.hInstance,
 			NULL);
-		g_windows_params.game_window_handle = window_handle_created;
+		window_globals.hWnd = window_handle_created;
 
 		if (window_handle_created != NULL)
 		{
@@ -1274,7 +1274,7 @@ void __cdecl c_rasterizer::initialize_window()
 
 			if (window_position_set == TRUE)
 			{
-				ShowWindow(window_handle_created, g_windows_params.cmd_show);
+				ShowWindow(window_handle_created, window_globals.nShowCmd);
 
 				return;
 			}
@@ -2331,7 +2331,7 @@ bool rasterizer_dump_display_to_bmp(const char* file_name)
 	if (file_exists(&info))
 		file_delete(&info);
 
-	HWND window_handle = g_windows_params.game_window_handle;
+	HWND window_handle = window_globals.hWnd;
 	if (!window_handle)
 		return false;
 

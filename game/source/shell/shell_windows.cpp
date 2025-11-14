@@ -15,7 +15,7 @@
 #include <commctrl.h>  // For common controls like status bar
 #pragma comment(lib, "Comctl32.lib")
 
-REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
+REFERENCE_DECLARE(0x0199C010, window_data, window_globals);
 
 HOOK_DECLARE(0x0042E940, shell_idle);
 HOOK_DECLARE(0x0042EB10, _WinMain);
@@ -23,11 +23,11 @@ HOOK_DECLARE(0x0051CE40, shell_get_system_identifier);
 
 bool fake_system_identifier = false;
 
-bool s_windows_params::editor_window_create = false;
-HWND s_windows_params::editor_window_handle = NULL;
-WNDPROC s_windows_params::editor_window_proc = DefWindowProcA;
-CHAR s_windows_params::editor_class_name[64]{};
-CHAR s_windows_params::editor_window_name[64]{};
+bool window_data::editorWindowCreate = false;
+HWND window_data::hWndEditor = NULL;
+WNDPROC window_data::lpfnWndProcEditor = DefWindowProcA;
+CHAR window_data::classNameEditor[64]{};
+CHAR window_data::windowTitleEditor[64]{};
 
 #define ID_FILE_OPTION_01 57601
 #define ID_FILE_OPTION_02 57603
@@ -217,7 +217,7 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		break;
 		case ID_VIEW_OPTION_03:
 		{
-			ShowWindow(g_windows_params.game_window_handle, IsWindowVisible(g_windows_params.game_window_handle) ? SW_HIDE : SW_SHOW);
+			ShowWindow(window_globals.hWnd, IsWindowVisible(window_globals.hWnd) ? SW_HIDE : SW_SHOW);
 		}
 		break;
 		case ID_VIEW_OPTION_07:
@@ -276,9 +276,9 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	//return INVOKE(0x0042E6A0, WndProc, hWnd, uMsg, wParam, lParam);
+	//return INVOKE(0x0042E6A0, MainWndProc, hWnd, uMsg, wParam, lParam);
 
 	if (uMsg == WM_DESTROY)
 	{
@@ -349,7 +349,7 @@ char* __cdecl shell_get_command_line()
 {
 	//return INVOKE(0x0042E930, shell_get_command_line);
 
-	return g_windows_params.cmd_line;
+	return window_globals.lpCmdLine;
 }
 
 bool shell_get_command_line_parameter(char* command_line, const char* parameter_name, int32* value, int32 default_value)
@@ -497,14 +497,14 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	SetLastError(NO_ERROR);
 	SetProcessDPIAware();
 
-	g_windows_params.cmd_line = GetCommandLineA(); // lpCmdLine is empty set
-	g_windows_params.instance = hInstance;
-	g_windows_params.cmd_show = nCmdShow;
-	g_windows_params.window_proc = WndProc;
-	g_windows_params.window_handle = NULL;
+	window_globals.lpCmdLine = GetCommandLineA(); // lpCmdLine is empty set
+	window_globals.hInstance = hInstance;
+	window_globals.nShowCmd = nCmdShow;
+	window_globals.lpfnWndProc = MainWndProc;
+	window_globals.hWndPresentTarget = NULL;
 
 	static bool x_splash_enabled = false;
-	if (x_splash_enabled && shell_get_command_line_parameter(g_windows_params.cmd_line, "-nosplash", NULL, 0))
+	if (x_splash_enabled && shell_get_command_line_parameter(window_globals.lpCmdLine, "-nosplash", NULL, 0))
 	{
 		splash_screen_show(L"donkey_splash.png", 500, 2000, 500);
 	}
@@ -516,7 +516,7 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
 	}
 
-	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-haltonstartup", NULL, 0))
+	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-haltonstartup", NULL, 0))
 	{
 		while (!is_debugger_present())
 		{
@@ -525,31 +525,31 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	}
 
 	int32 cache_size_increase = 0;
-	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
+	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
 	{
 		g_physical_memory_cache_size_increase_mb = static_cast<uns32>(cache_size_increase);
 	}
 
-	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-editor", NULL, 0))
+	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-editor", NULL, 0))
 	{
-		g_windows_params.editor_window_create = true;
-		g_windows_params.editor_window_proc = EditorWndProc;
+		window_globals.editorWindowCreate = true;
+		window_globals.lpfnWndProcEditor = EditorWndProc;
 
 		SetConsoleTitleA("Output window");
 
 		c_static_string<64> editor_name = "Managed Donkey - Editor";
-		editor_name.copy_to(g_windows_params.editor_class_name, sizeof(g_windows_params.editor_class_name));
-		editor_name.copy_to(g_windows_params.editor_window_name, sizeof(g_windows_params.editor_window_name));
+		editor_name.copy_to(window_globals.classNameEditor, sizeof(window_globals.classNameEditor));
+		editor_name.copy_to(window_globals.windowTitleEditor, sizeof(window_globals.windowTitleEditor));
 
 		c_static_string<64> name("Game window");
-		name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
-		name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
+		name.copy_to(window_globals.className, sizeof(window_globals.className));
+		name.copy_to(window_globals.windowTitle, sizeof(window_globals.windowTitle));
 	}
 	else
 	{
 		c_static_string<64> name = c_static_string<64>().print("HaloOnline %s", sub_5013A0());
-		name.copy_to(g_windows_params.class_name, sizeof(g_windows_params.class_name));
-		name.copy_to(g_windows_params.window_name, sizeof(g_windows_params.window_name));
+		name.copy_to(window_globals.className, sizeof(window_globals.className));
+		name.copy_to(window_globals.windowTitle, sizeof(window_globals.windowTitle));
 	}
 
 	physical_memory_initialize();

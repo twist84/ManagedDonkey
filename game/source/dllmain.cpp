@@ -52,7 +52,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 // some globals addresses
 //.data:0199C000 ; bool shell_application_paused
 //.data:0199C004 ; s_project_version g_project_version
-//.data:0199C010 ; s_windows_params g_windows_params
+//.data:0199C010 ; window_data window_globals
 //.data:0199C0A8 ; int32 const k_network_compatible_version
 //.data:0199C0B0 ; s_netdebug_globals g_netdebug_globals
 //.data:0199FA20 ; c_synchronized_long g_net_debug_thread_has_exited

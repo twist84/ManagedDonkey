@@ -18,7 +18,7 @@ s_user_interface_mouse_globals user_interface_mouse_globals{};
 
 void user_interface_mouse_update()
 {
-	if (g_windows_params.game_window_handle != GetForegroundWindow())
+	if (window_globals.hWnd != GetForegroundWindow())
 	{
 		return;
 	}
@@ -89,7 +89,7 @@ void user_interface_mouse_update_tracking()
 
 	POINT cursor_position{};
 	GetCursorPos(&cursor_position);
-	ScreenToClient(g_windows_params.game_window_handle, &cursor_position);
+	ScreenToClient(window_globals.hWnd, &cursor_position);
 
 	int32 x_delta = abs(cursor_position.x - user_interface_mouse_globals.update_cursor_position.x);
 	int32 y_delta = abs(cursor_position.y - user_interface_mouse_globals.update_cursor_position.y);
