@@ -117,24 +117,18 @@ object_datum* __cdecl object_get(int32 object_index)
 
 void* __cdecl object_get_and_verify_type(int32 object_index, uns32 object_type_mask)
 {
-	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
+	//VASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
-	const object_header_datum* object_header = object_header_get(object_index);
-	if (!object_header)
-		return NULL;
-
-	object_datum* object = object_header->datum;
-
-	if (!_bittest((int32*)&object_type_mask, object->object.object_identifier.m_type.get()))
+	object_datum* object = NULL;
+	if (const object_header_datum* object_header = object_header_get(object_index))
 	{
-		c_static_string<256> string_builder;
-		string_builder.print_line("got an object type we didn't expect (expected one of 0x%08x but got #%d).",
-			object_type_mask,
-			object->object.object_identifier.m_type.get());
+		object = object_header->datum;
 
-		ASSERT(!_bittest((int32*)&object_type_mask, object->object.object_identifier.m_type.get()), string_builder.get_string());
+		VASSERT(TEST_BIT(object_type_mask, object->object.object_identifier.get_type()),
+			c_string_builder("got an object type we didn't expect (expected one of 0x%08x but got #%d).",
+				object_type_mask,
+				object->object.object_identifier.get_type()).get_string());
 	}
-
 	return object;
 }
 
