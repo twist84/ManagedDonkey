@@ -78,6 +78,8 @@ extern real_point3d* ai_debug_drawstack();
 extern real_point3d* ai_debug_drawstack_offset(real32 offset);
 extern void ai_debug_string(const char* string, int16 tab_stop_count, const int16* tab_stops, const real_argb_color* color);
 
+extern void ai_debug_render_actor(int32 actor_index, bool actor_selected, int32* a3);
+extern void ai_debug_render_all_actors(bool inactive);
 extern void ai_debug_render_behavior_stacks_all();
 extern void ai_debug_render_character_names();
 extern void ai_debug_render_sectors();

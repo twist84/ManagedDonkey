@@ -204,12 +204,14 @@ void __cdecl ai_debug_render()
 			{
 				ai_debug_render_squad_members(g_ai_debug_selected_actor_unit_index);
 			}
+#endif
 
-			if (g_ai_debug_selected_actor_index != NONE && !ai_render_all_actors)
+			if (g_ai_debug_selected_actor_index != NONE && !g_ai_render_all_actors)
 			{
-				ai_debug_render_actor(g_ai_debug_selected_actor_index, 1u, 0);
+				ai_debug_render_actor(g_ai_debug_selected_actor_index, true, NULL);
 			}
 
+#if 0
 			if (g_ai_debug_path)
 			{
 				ai_debug_render_path();
@@ -219,12 +221,14 @@ void __cdecl ai_debug_render()
 			{
 				ai_debug_render_paths_failed();
 			}
+#endif
 
 			if (g_ai_render_all_actors)
 			{
 				ai_debug_render_all_actors(g_ai_render_inactive_actors);
 			}
 
+#if 0
 			if (g_ai_render_dialogue)
 			{
 				ai_debug_dialogue();
@@ -623,9 +627,9 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 
 void render_command_scripts()
 {
-	//actor_iterator actor_iter{};
-	//actor_iterator_new(&actor_iter, false);
-	//while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	//actor_iterator iterator{};
+	//actor_iterator_new(&iterator, false);
+	//while (actor_datum* actor = actor_iterator_next(&iterator))
 	//{
 	//	if (actor->commands.first_command_script_index != NONE)
 	//	{
@@ -637,11 +641,30 @@ void render_command_scripts()
 	//}
 }
 
+// $TODO figure out parameter names
+void ai_debug_render_actor(int32 actor_index, bool actor_selected, int32* a3)
+{
+}
+
+void ai_debug_render_all_actors(bool inactive)
+{
+	// $IMPLEMENT `ai_debug_render_actor`
+
+#if 0
+	actor_iterator iterator;
+	actor_iterator_new(&iterator, !inactive);
+	while (actor_iterator_next(&iterator))
+	{
+		ai_debug_render_actor(iterator.index, iterator.index == g_ai_debug_selected_actor_index, NULL);
+	}
+#endif
+}
+
 void ai_debug_render_behavior_stacks_all()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, false);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
@@ -656,9 +679,9 @@ void ai_debug_render_behavior_stacks_all()
 
 void ai_debug_render_character_names()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, false);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
@@ -856,9 +879,9 @@ void ai_debug_render_squads()
 
 void ai_debug_render_suppress_combat()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, true);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		if (actor->state.suppress_combat)
 		{
@@ -929,9 +952,9 @@ void ai_debug_tracking_data()
 	char string[50]{};
 	int16 total_tracking_index = 0;
 
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, true);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
@@ -939,7 +962,7 @@ void ai_debug_tracking_data()
 
 		int16 tracking_index = 0;
 		actor_prop_ref_iterator actor_prop_ref_iter{};
-		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.index);
+		actor_prop_ref_iterator_new(&actor_prop_ref_iter, iterator.index);
 		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
 		{
 			if (actor_prop_ref->tracking_index != NONE)
@@ -975,9 +998,9 @@ void ai_debug_perception_data()
 
 void debug_combat_status()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, true);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
@@ -990,12 +1013,12 @@ void debug_combat_status()
 
 void ai_debug_render_tracked_props_all()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, true);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		actor_prop_ref_iterator actor_prop_ref_iter{};
-		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.index);
+		actor_prop_ref_iterator_new(&actor_prop_ref_iter, iterator.index);
 		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
 		{
 			if (actor_prop_ref->tracking_index != NONE)
@@ -1017,9 +1040,9 @@ void ai_debug_render_tracked_props_all()
 
 void ai_debug_render_targets_all()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, true);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		if (actor->target.target_prop_index != NONE)
 		{
@@ -1034,9 +1057,9 @@ void ai_debug_render_targets_all()
 
 void render_dialogue_variants()
 {
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, false);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		if (actor->meta.unit_index != NONE)
 		{
@@ -1089,9 +1112,9 @@ void ai_debug_render_dynamic_firing_positions()
 	}
 
 
-	actor_iterator actor_iter{};
-	actor_iterator_new(&actor_iter, false);
-	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
 		if (actor->firing_positions.dynamic_firing_set_index != NONE)
 		{
