@@ -1,8 +1,9 @@
+#pragma once
+
 #include "cseries/cseries.hpp"
 
 class c_bitstream;
 
-#pragma once
 #pragma pack(push, 1)
 
 enum e_damage_resistance_percentage_setting
