@@ -151,21 +151,22 @@ void __cdecl c_network_message_type_collection::dispose_message(e_network_messag
 
 void __cdecl c_network_message_type_collection::encode_message(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size, const void* message_storage) const
 {
-	const s_network_message_type* type_definition = &m_message_types[message_type];
-
 	ASSERT(packet);
 	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
+
+	const s_network_message_type* type_definition = &m_message_types[message_type];
 	ASSERT(type_definition->initialized);
+
 	ASSERT(message_storage_size >= type_definition->message_size);
 	ASSERT(message_storage_size <= type_definition->message_size_maximum);
 
 	encode_message_header(packet, message_type, message_storage_size);
 
-	if (TEST_BIT(type_definition->flags, 1))
-		return;
-
-	ASSERT(type_definition->encode_function);
-	return type_definition->encode_function(packet, message_storage_size, message_storage);
+	if (!TEST_BIT(type_definition->flags, 1))
+	{
+		ASSERT(type_definition->encode_function);
+		type_definition->encode_function(packet, message_storage_size, message_storage);
+	}
 }
 
 void c_network_message_type_collection::encode_message_header(c_bitstream* packet, e_network_message_type message_type, int32 message_storage_size) const
