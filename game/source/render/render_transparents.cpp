@@ -78,6 +78,13 @@ void __cdecl c_transparency_renderer::render(bool depth_test)
 		for (int32 transparent_index = starting_transparent_index; transparent_index < total_transparent_count; transparent_index++)
 		{
 			uns16 order = c_transparency_renderer::transparent_sorted_order.m_order[transparent_index];
+
+			// $TODO bug
+			if (order >= c_transparency_renderer::transparents.get_count())
+			{
+				continue;
+			}
+
 			s_transparent_types* transparent = &c_transparency_renderer::transparents[order];
 
 			if (render_debug_transparents)
