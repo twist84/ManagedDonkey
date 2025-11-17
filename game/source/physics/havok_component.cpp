@@ -68,8 +68,7 @@ void c_havok_component::render_debug(
 				}
 				
 				object_datum* object = OBJECT_GET(object_datum, m_object_index);
-				//if (object->object.physics_flags.test(_object_build_with_inexpensive_physics_bit))
-				if (TEST_BIT(object->object.physics_flags, 23))
+				if (object->object.physics_flags.test(_object_build_with_inexpensive_physics_bit))
 				{
 					color = global_real_argb_lightblue;
 					if (rigid_body->isActive())

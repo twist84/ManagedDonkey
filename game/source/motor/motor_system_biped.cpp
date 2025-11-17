@@ -40,7 +40,7 @@ void __cdecl biped_falling_damage(int32 biped_index)
 	bool immune_to_falling_damage = 
 		TEST_BIT(biped->unit.flags, 8) ||
 		biped_definition->biped.flags.test(_biped_definition_flags_immune_to_falling_damage) || 
-		TEST_BIT(biped->object.damage_flags, 8);
+		biped->object.damage_flags.test(_object_cannot_take_damage_bit);
 
 	real32 gravity_scale = biped_definition->biped.physics.ground_physics.gravity_scale;
 	if (gravity_scale <= 0.0f)
@@ -67,7 +67,7 @@ void __cdecl biped_falling_damage(int32 biped_index)
 			biped->biped.physics.get_mode() == c_character_physics_component::e_mode::_mode_ground &&
 			-(falling_damage.runtime_maximum_falling_velocity * gravity_scale) > k)
 		{
-			if (!immune_to_falling_damage && !TEST_BIT(biped->object.damage_flags, 2))
+			if (!immune_to_falling_damage && !biped->object.damage_flags.test(_object_dead_bit))
 			{
 				SET_BIT(biped->biped.flags, 5, true);
 				s_damage_data damage_data{};

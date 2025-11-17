@@ -809,7 +809,7 @@ bool __cdecl units_debug_can_select_unit(int32 unit_index)
 	if (object)
 	{
 		unit_datum* unit = UNIT_GET(unit_index);
-		result = unit->unit.player_index == NONE && !TEST_BIT(unit->object.damage_flags, 2) && !unit->object.flags.test(_object_created_with_parent_bit);
+		result = unit->unit.player_index == NONE && !unit->object.damage_flags.test(_object_dead_bit) && !unit->object.flags.test(_object_created_with_parent_bit);
 	}
 	return result;
 }

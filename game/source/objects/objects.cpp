@@ -1295,7 +1295,7 @@ void __cdecl object_placement_data_new(object_placement_data* data, int32 defini
 		data->owner_player_index = NONE;
 		data->owner_team_index = NONE;
 	
-		SET_BIT(data->flags, 5, TEST_BIT(owner_object->object.physics_flags, 2));
+		SET_BIT(data->flags, 5, owner_object->object.physics_flags.test(_object_in_local_physics_bit));
 	
 		if (TEST_BIT(_object_mask_unit, owner_object->object.object_identifier.get_type()))
 		{

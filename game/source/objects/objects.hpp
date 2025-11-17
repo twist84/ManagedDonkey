@@ -109,7 +109,6 @@ static_assert(0b0000000100000000 == _object_mask_machine);
 static_assert(0b0000001000000000 == _object_mask_control);
 static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
 
-// Same as Halo 3
 enum e_object_data_flags
 {
 	_object_hidden_bit = 0,
@@ -147,6 +146,74 @@ enum e_object_data_flags
 
 	k_object_data_flags_count
 };
+typedef c_flags<e_object_data_flags, uns32, k_object_data_flags_count> c_object_data_flags;
+
+enum e_object_physics_flags
+{
+	_object_is_early_mover_bit = 0,
+	_object_was_in_local_physics_bit,
+	_object_in_local_physics_bit,
+	_object_accepted_local_physics_bit,
+	_object_is_early_mover_child_bit,
+	_object_new_disconnected_from_parent_bit,
+	_object_dynamic_simulation_disabled_bit,
+	_object_connected_to_physics_bit,
+	_object_disable_physics_bit,
+	_object_at_rest_bit,
+	_object_in_water_bit,
+	_object_has_scripted_function_variables_bit,
+	_object_physics_phantom_power_on_bit,
+	_object_has_havok_shape_phantoms_bit,
+	_object_has_proxy_bit,
+	_object_phantom_volume_was_latched_bit,
+	_object_phantom_volume_latched_bit,
+	_object_phantom_was_on_last_update_bit,
+	_object_must_check_for_child_bounding_sphere_radius_override,
+	_object_soft_ceilings_active_bit,
+	_object_physics_force_dynamic,
+	_object_physics_non_camera_collision_bit,
+	_object_physics_invisible_to_projectile_aiming_bit,
+	_object_build_with_inexpensive_physics_bit,
+
+	k_object_physics_flags_count,
+};
+typedef c_flags<e_object_physics_flags, uns32, k_object_physics_flags_count> c_object_physics_flags;
+
+enum e_object_simulation_flags
+{
+	_object_simulation_requires_interpolation_bit = 0,
+	_object_simulation_multiplayer_cinematic_object_bit,
+	_object_simulation_is_respawned_object,
+	_object_simulation_has_used_death_grenade_bit,
+
+	k_object_simulation_flags_count,
+};
+typedef c_flags<e_object_simulation_flags, uns8, k_object_simulation_flags_count> c_object_simulation_flags;
+
+enum e_object_damage_flags
+{
+	_object_passed_body_damage_threshold_bit = 0,
+	_object_passed_shield_damage_threshold_bit,
+	_object_dead_bit,
+	_object_shield_depleted_bit,
+	_object_shield_depleted_permanently_bit,
+	_object_shield_over_charging_bit,
+	_object_die_act_of_god_bit,
+	_object_die_act_of_god_silent_bit,
+	_object_cannot_take_damage_bit,
+	_object_body_charging_bit,
+	_object_shield_charging_bit,
+	_object_shield_charging_networked_bit,
+	_object_die_act_of_god_no_statistics_bit,
+	_object_shield_damage_scripted_bit,
+	_object_hanging_on_to_life_bit,
+	_object_die_from_no_riders_bit,
+	_object_cannot_die_from_damage_bit,
+
+	k_object_damage_flags_count,
+};
+typedef c_flags<e_object_damage_flags, uns32, k_object_damage_flags_count> c_object_damage_flags;
+
 
 struct object_header_block_reference
 {
@@ -157,11 +224,8 @@ static_assert(sizeof(object_header_block_reference) == 0x4);
 
 struct _object_datum
 {
-	c_flags<e_object_data_flags, uns32, k_object_data_flags_count> flags;
-
-	// override
-	int32 collision_damage_definition_index;
-
+	c_object_data_flags flags;
+	int32 collision_damage_definition_index; // override
 	int32 next_object_index;
 	int32 first_child_object_index;
 	int32 parent_object_index;
@@ -190,7 +254,7 @@ struct _object_datum
 	int32 havok_component_index;
 	int32 local_physics_space_object_index;
 	int32 last_motion_time;
-	uns32 physics_flags;
+	c_object_physics_flags physics_flags;
 	uns8 physics_deactivation_count;
 	uns8 physically_attached_node;
 	uns8 phantom_power_scale;
@@ -208,7 +272,7 @@ struct _object_datum
 	uns8 clusters_touched_on_connection;
 	int32 simulation_object_glue_index;
 	int16 owner_team_index;
-	uns8 simulation_flags;
+	c_object_simulation_flags simulation_flags;
 	int8 child_variant_index;
 	int32 simulation_object_interpolation_time;
 	real_point3d simulation_object_interpolation_position;
@@ -228,7 +292,7 @@ struct _object_datum
 	real32 shield_impact_current_shield_damage;
 	int16 shield_stun_ticks;
 	int16 body_stun_ticks;
-	uns32 damage_flags;
+	c_object_damage_flags damage_flags;
 	int8 damaged_explosion_timer;
 	int8 body_damage_delay_ticks;
 	int8 shield_impact_decay_timer;
