@@ -152,7 +152,7 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//		return 0;
 	//	}
 	//
-	//	uns32 result = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
+	//	uns32 returned_token = render_thread_set_mode(_render_thread_mode_enabled, _render_thread_mode_disabled) ? FLAG(1) : 0;
 	//	if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
 	//	{
 	//		restricted_region_lock_primary(k_game_state_render_region);
@@ -160,7 +160,7 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//
 	//		c_rasterizer::rasterizer_device_acquire_thread();
 	//
-	//		result |= FLAG(0);
+	//		returned_token |= FLAG(0);
 	//
 	//		if (!thread_has_crashed(k_thread_render))
 	//		{
@@ -189,7 +189,7 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//		main_thread_process_pending_messages();
 	//	}
 	//
-	//	return result;
+	//	return returned_token;
 	//}
 }
 
@@ -2326,22 +2326,22 @@ bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_t
 
 //.text:00507700 ; void __cdecl render_thread_unlock_rasterizer_and_resources()
 
-void __cdecl unlock_resources_and_resume_render_thread(uns32 flags)
+void __cdecl unlock_resources_and_resume_render_thread(uns32 token)
 {
-	INVOKE(0x00507940, unlock_resources_and_resume_render_thread, flags);
+	INVOKE(0x00507940, unlock_resources_and_resume_render_thread, token);
 
 	//if (game_is_multithreaded())
 	//{
-	//	if (TEST_BIT(flags, 0))
+	//	if (TEST_BIT(token, _unlock_render_section))
 	//	{
 	//		c_rasterizer::rasterizer_device_release_thread();
 	//		restricted_region_unlock_primary(k_global_render_data_region);
 	//		restricted_region_unlock_primary(k_game_state_render_region);
 	//	}
 	//
-	//	if (TEST_BIT(flags, 1) && game_is_multithreaded())
+	//	if (TEST_BIT(token, _resume_render_thread) && game_is_multithreaded())
 	//	{
-	//		g_render_thread_enabled.set_if_equal(_render_thread_mode_enabled, _render_thread_mode_disabled);
+	//		render_thread_set_mode(_render_thread_mode_disabled, _render_thread_mode_enabled);
 	//	}
 	//}
 }
