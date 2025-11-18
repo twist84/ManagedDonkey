@@ -226,7 +226,7 @@ extern void __cdecl process_published_game_state(bool render);
 extern void __cdecl publish_waiting_gamestate();
 extern e_render_thread_mode __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_set_mode(e_render_thread_mode old_setting, e_render_thread_mode setting);
-extern void __cdecl unlock_resources_and_resume_render_thread(uns32 flags);
+extern void __cdecl unlock_resources_and_resume_render_thread(uns32 token);
 extern void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, void* context);
 extern void __cdecl main_trace_event_internal(const char* context);
 
