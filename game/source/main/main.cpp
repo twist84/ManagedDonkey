@@ -869,49 +869,50 @@ void __cdecl main_loop()
 		if (main_loop_is_suspended())
 		{
 			switch_to_thread();
-			continue;
-		}
-
-		uns32 current_loop_time = system_milliseconds();
-		uns32 loop_time_advance = current_loop_time - previous_loop_time;
-		previous_loop_time = current_loop_time;
-		if (!disable_main_loop_throttle && loop_time_advance < 7)
-		{
-			uns32 sleepy_time = 7 - loop_time_advance;
-			sleep(sleepy_time);
-		}
-		main_globals.main_loop_pregame_last_time = current_loop_time;
-
-
-		main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
-
-		bool single_threaded_mode_active = false;
-
-		e_render_thread_mode render_thread_mode = render_thread_get_mode();
-		if (game_is_multithreaded() && (render_thread_mode == _render_thread_mode_enabled || render_thread_mode == _render_thread_mode_loading_screen))
-		{
-			main_thread_process_pending_messages();
-			main_loop_body_multi_threaded();
 		}
 		else
 		{
-			single_threaded_mode_active = true;
-			main_thread_process_pending_messages();
-			main_loop_body_single_threaded();
-		}
-
-		g_single_thread_request_flags.set_bit(3, screenshot_globals.take_screenshot2 && screenshot_globals.take_screenshot);
-
-		bool single_threaded_desired = g_single_thread_request_flags.test_bit(_single_thread_for_user_request);
-		if (game_is_multithreaded() && single_threaded_desired != single_threaded_mode_active)
-		{
-			if (single_threaded_mode_active)
+			uns32 current_loop_time = system_milliseconds();
+			uns32 loop_time_advance = current_loop_time - previous_loop_time;
+			previous_loop_time = current_loop_time;
+			if (!disable_main_loop_throttle && loop_time_advance < 7)
 			{
-				unlock_resources_and_resume_render_thread(render_thread_lock_token);
+				uns32 sleepy_time = 7 - loop_time_advance;
+				sleep(sleepy_time);
+			}
+			main_globals.main_loop_pregame_last_time = current_loop_time;
+
+
+			main_set_single_thread_request_flag(_single_thread_for_user_request, !g_render_thread_user_setting);
+
+			bool single_threaded_mode_active = false;
+
+			e_render_thread_mode render_thread_mode = render_thread_get_mode();
+			if (render_thread_mode == _render_thread_mode_enabled || render_thread_mode == _render_thread_mode_loading_screen)
+			{
+				main_thread_process_pending_messages();
+				main_loop_body_multi_threaded();
 			}
 			else
 			{
-				render_thread_lock_token = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+				single_threaded_mode_active = true;
+				main_thread_process_pending_messages();
+				main_loop_body_single_threaded();
+			}
+
+			main_set_single_thread_request_flag(_single_thread_for_unknown3, screenshot_globals.take_screenshot2 && screenshot_globals.take_screenshot);
+
+			bool single_threaded_desired = g_single_thread_request_flags.peek() == _single_thread_for_user_request;
+			if (single_threaded_desired != single_threaded_mode_active)
+			{
+				if (single_threaded_mode_active)
+				{
+					unlock_resources_and_resume_render_thread(render_thread_lock_token);
+				}
+				else
+				{
+					render_thread_lock_token = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+				}
 			}
 		}
 	}

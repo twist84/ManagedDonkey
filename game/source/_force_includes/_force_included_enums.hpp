@@ -5018,13 +5018,13 @@ enum e_game_state_proc_flags
 enum e_single_threaded_request_flags
 {
 	_single_thread_for_user_request = 0,
+	_single_thread_for_unknown1,
+	_single_thread_for_unknown2,
+	_single_thread_for_unknown3,
 	_single_thread_for_physics_debug,
 	_single_thread_for_actor_debug,
 	_single_thread_for_ai_profile,
 	_single_thread_for_hs_debug,
-	_single_thread_for_unknown5,
-	_single_thread_for_unknown6,
-	_single_thread_for_unknown7,
 	_single_thread_for_render_device_reset
 };
 
