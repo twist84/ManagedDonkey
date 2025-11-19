@@ -128,7 +128,9 @@ void debug_menu_dispose_from_old_map()
 	g_debug_menu_globals.m_active_menu = NULL;
 
 	if (g_user_interface_controller_globals.suppressed)
+	{
 		g_user_interface_controller_globals.suppressed = false;
+	}
 }
 
 void debug_menu_rebuild()
@@ -142,7 +144,9 @@ void debug_menu_update_current_gamepad_state()
 	for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
 		if (const gamepad_state* state = input_get_gamepad_state(static_cast<int16>(controller_index)))
+		{
 			xor_buffers(&g_debug_menu_globals.m_current_gamepad, state, sizeof(gamepad_state));
+		}
 	}
 
 	csmemset(&g_debug_menu_globals.m_current_gamepad.sticks, 0, 8);
@@ -229,7 +233,9 @@ void debug_menu_close()
 void render_debug_debug_menu_game()
 {
 	if (debug_menu_get_active())
+	{
 		debug_menu_get_active_menu()->game_render();
+	}
 }
 
 void render_debug_debug_menu()
@@ -325,7 +331,9 @@ void debug_menu_set_active_menu(c_debug_menu* active_menu, bool dont_open)
 	}
 
 	for (int16 caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
+	{
 		debug_menu_set_caption(caption_index, "");
+	}
 }
 
 void debug_menu_set_caption(int16 caption_index, const char* caption)
@@ -359,6 +367,8 @@ void* debug_menu_malloc(int32 size)
 void xor_buffers(void* dest, const void* source, int32 count)
 {
 	for (int32 i = 0; i < count; i++)
+	{
 		((byte*)dest)[i] ^= ((const byte*)source)[i];
+	}
 }
 
