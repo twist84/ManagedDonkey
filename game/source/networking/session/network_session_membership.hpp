@@ -133,8 +133,11 @@ public:
 	int32 get_first_player() const;
 	const s_network_session_peer* get_host_peer() const;
 	s_network_session_peer* get_host_peer();
+	const s_network_session_peer* get_local_peer() const;
+	s_network_session_peer* get_local_peer();
 	int32 get_next_peer(int32 peer_index) const;
 	int32 get_next_player(int32 peer_index) const;
+	s_network_session_peer const* get_peer(int32 peer_index) const;
 	s_network_session_peer* get_peer(int32 peer_index);
 	e_network_session_peer_state get_peer_connection_state(int32 peer_index) const;
 	s_network_session_player* get_player(int32 player_index);

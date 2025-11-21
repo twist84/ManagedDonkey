@@ -25,6 +25,18 @@ int32 c_network_session_membership::get_first_player() const
 
 //.text:0044E6F0 ; public: const s_player_add_queue_entry* c_network_session_membership::get_first_player_from_player_add_queue() const
 
+const s_network_session_peer* c_network_session_membership::get_local_peer() const
+{
+	ASSERT(is_peer_valid(m_local_peer_index));
+	return &m_shared_network_membership.peers[m_local_peer_index];
+}
+
+s_network_session_peer* c_network_session_membership::get_local_peer()
+{
+	ASSERT(is_peer_valid(m_local_peer_index));
+	return &m_shared_network_membership.peers[m_local_peer_index];
+}
+
 int32 c_network_session_membership::get_next_peer(int32 peer_index) const
 {
 	//return INVOKE_CLASS_MEMBER(0x0044E710, c_network_session_membership, get_next_peer, peer_index);
@@ -65,9 +77,20 @@ s_network_session_peer* c_network_session_membership::get_host_peer()
 	return &m_shared_network_membership.peers[host_peer_index()];
 }
 
+s_network_session_peer const* c_network_session_membership::get_peer(int32 peer_index) const
+{
+	ASSERT(is_peer_valid(peer_index));
+
+	return &m_shared_network_membership.peers[peer_index];
+}
+
 s_network_session_peer* c_network_session_membership::get_peer(int32 peer_index)
 {
-	return INVOKE_CLASS_MEMBER(0x0044E7C0, c_network_session_membership, get_peer, peer_index);
+	//return INVOKE_CLASS_MEMBER(0x0044E7C0, c_network_session_membership, get_peer, peer_index);
+
+	ASSERT(is_peer_valid(peer_index));
+
+	return &m_shared_network_membership.peers[peer_index];
 }
 
 e_network_session_peer_state c_network_session_membership::get_peer_connection_state(int32 peer_index) const
