@@ -13,7 +13,11 @@ c_life_cycle_state_handler::c_life_cycle_state_handler() :
 	//DECLFUNC(0x00453EC0, void, __thiscall, c_life_cycle_state_handler*)(this);
 }
 
-//.text:0048CDB0 ; protected: bool c_life_cycle_state_handler::all_peers_have_main_menu_ready(const c_network_session*)
+bool c_life_cycle_state_handler::all_peers_have_main_menu_ready(const c_network_session* session)
+{
+	return INVOKE_CLASS_MEMBER(0x0048CDB0, c_life_cycle_state_handler, all_peers_have_main_menu_ready, session);
+}
+
 //.text:0048CE20 ; protected: bool c_life_cycle_state_handler::all_squad_peers_established_in_group()
 //.text:0048CF70 ; protected: void c_life_cycle_state_handler::build_player_options(const s_network_session_player*, uns32, const s_machine_identifier*, const c_game_variant*, int32, int32, int32, game_player_options*)
 //.text:0048D010 ; protected: bool c_life_cycle_state_handler::can_pick_teams_for_group_with_party_exclude_mask(uns32)

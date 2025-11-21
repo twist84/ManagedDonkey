@@ -39,6 +39,11 @@ public:
 
 public:
 	c_life_cycle_state_handler();
+
+protected:
+	bool all_peers_have_main_menu_ready(const c_network_session* session);
+
+public:
 	void dispose();
 	c_life_cycle_state_manager* get_manager() const;
 	uns64 get_required_group_session_parameter_mask() const;
