@@ -59,19 +59,18 @@ void c_life_cycle_state_handler_none::update()
 	//INVOKE_CLASS_MEMBER(0x0048F200, c_life_cycle_state_handler_none, update);
 
 	c_life_cycle_state_manager* manager = get_manager();
-	c_network_session* active_squad_session = manager->get_active_squad_session();
-	if (active_squad_session->disconnected() || active_squad_session->leaving_session())
+	c_network_session* squad_session = manager->get_active_squad_session();
+	if (!squad_session->disconnected() && !squad_session->leaving_session())
 	{
-		return;
-	}
+		if (squad_session->is_host())
+		{
+			c_network_session_parameters* squad_session_parameters = squad_session->get_session_parameters();
+			squad_session_parameters->m_parameters.session_mode.set(_network_session_mode_idle);
+		}
 
-	if (active_squad_session->is_host())
-	{
-		active_squad_session->get_session_parameters()->session_mode.set(_network_session_mode_idle);
+		event(_event_message, "lifecycle: state none with a squad, entering pregame");
+		manager->request_state_change(_life_cycle_state_pre_game, 0, NULL);
 	}
-
-	event(_event_message, "lifecycle: state none with a squad, entering pregame");
-	manager->request_state_change(_life_cycle_state_pre_game, 0, NULL);
 }
 
 e_life_cycle_state_transition_type c_life_cycle_state_handler_none::update_for_state_transition()
