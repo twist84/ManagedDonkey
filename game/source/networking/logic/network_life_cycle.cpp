@@ -709,7 +709,7 @@ bool __cdecl network_life_cycle_set_pre_game_state()
 	}
 
 	c_network_session_parameters* session_parameters = active_squad_session->get_session_parameters();
-	if (!session_parameters->session_mode.request_change(_network_session_mode_idle))
+	if (!session_parameters->m_parameters.session_mode.request_change(_network_session_mode_idle))
 	{
 		return false;
 	}

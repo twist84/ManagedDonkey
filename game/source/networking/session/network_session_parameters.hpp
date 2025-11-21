@@ -55,7 +55,7 @@ class c_network_observer;
 class c_network_session_parameters
 {
 public:
-	struct// s_network_session_parameters_internal
+	struct s_network_session_parameters_internal
 	{
 		c_network_session_parameter_session_mode session_mode;
 		c_network_session_parameter_session_size session_size;
@@ -107,12 +107,12 @@ public:
 		c_generic_network_session_parameter<s_network_session_parameter_leader_properties> leader_properties;
 		c_network_session_parameter_lobby_vote_set lobby_vote_set;
 	};
-	//static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
+	static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
 
 	bool handle_update(const s_network_message_parameters_update* update);
 	bool parameters_transmitted_to_peers(uns64 parameter_mask) const;
 
-	//s_network_session_parameters_internal m_parameters;
+	s_network_session_parameters_internal m_parameters;
 	c_network_session* m_session;
 	c_network_observer* m_observer;
 	c_network_session_parameter_base* m_parameter_interfaces[49 /* k_network_session_parameter_type_count */];

@@ -346,7 +346,7 @@ const char* c_network_session::get_mode_string() const
 		"matchmaking-choosing-game"
 	};
 
-	int32 current_mode = m_session_parameters.session_mode.get();
+	int32 current_mode = m_session_parameters.m_parameters.session_mode.get();
 	ASSERT(current_mode >= 0 && current_mode < k_network_session_mode_count);
 
 	return mode_names[current_mode];
@@ -659,7 +659,7 @@ bool c_network_session::leader_request_delegate_leadership(const s_transport_sec
 
 e_network_session_mode c_network_session::session_mode() const
 {
-	return m_session_parameters.session_mode.get();
+	return m_session_parameters.m_parameters.session_mode.get();
 }
 
 e_network_session_type c_network_session::session_type() const
