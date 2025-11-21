@@ -46,5 +46,9 @@ void __cdecl network_banhammer_update()
 //.text:004D91B0 ; void __cdecl network_banhammer_update_machine_network_statistics()
 //.text:004D9730 ; void __cdecl network_banhammer_update_rsa_manifest()
 //.text:004D9820 ; 
-//.text:004D9840 ; void __cdecl network_banhammer_upload_network_statistics()
+
+void __cdecl network_banhammer_upload_network_statistics()
+{
+	INVOKE(0x004D9840, network_banhammer_upload_network_statistics);
+}
 
