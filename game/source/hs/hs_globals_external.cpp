@@ -23,6 +23,7 @@
 #include "main/main_render.hpp"
 #include "main/main_time.hpp"
 #include "motor/sync_action.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_end_game_write_stats.hpp"
 #include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
 #include "networking/messages/network_message_gateway.hpp"
 #include "objects/object_types.hpp"
@@ -6762,6 +6763,11 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&g_gui_custom_bitmaps_enabled,
 );
+EXTERNAL_GLOBAL_DECLARE(
+	end_game_write_stats_bypass_override,
+	_hs_type_boolean,
+	&g_end_game_write_stats_bypass_override,
+);
 
 #pragma endregion // HS_EXTERNAL_GLOBALS_DEFINITIONS
 
@@ -8104,6 +8110,7 @@ static hs_global_external* const hs_external_globals[]
 	&mean_look_sensitivity_definition,
 	&watermark_enabled_definition,
 	&gui_custom_bitmaps_enabled_definition,
+	&end_game_write_stats_bypass_override_definition,
 };
 const int16 k_hs_external_global_count = NUMBEROF(hs_external_globals);
 static_assert(k_hs_external_global_count >= k_maximum_number_of_ms23_hs_globals);
