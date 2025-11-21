@@ -129,7 +129,7 @@ void __cdecl network_session_interface_clear_peer_status_flags()
 {
 	INVOKE(0x00436200, network_session_interface_clear_peer_status_flags);
 
-	//session_interface_globals.peer_status_flags.clear();
+	//session_interface_globals.flags.clear();
 }
 
 void __cdecl network_session_interface_dispose()
@@ -298,7 +298,7 @@ void __cdecl network_session_interface_set_peer_status_flag(e_network_session_pe
 {
 	INVOKE(0x00436BC0, network_session_interface_set_peer_status_flag, flag, value);
 
-	//session_interface_globals.peer_status_flags.set(flag, value);
+	session_interface_globals.flags.set(flag, value);
 }
 
 void __cdecl network_session_interface_set_ready_hopper_identifier(uns16 hopper_identifier, e_session_game_start_error game_start_error)
@@ -310,7 +310,7 @@ bool __cdecl network_session_interface_test_peer_status_flag(e_network_session_p
 {
 	return INVOKE(0x00436C10, network_session_interface_test_peer_status_flag, flag);
 
-	//return session_interface_globals.peer_status_flags.test(flag);
+	//return session_interface_globals.flags.test(flag);
 }
 
 void __cdecl network_session_interface_update()

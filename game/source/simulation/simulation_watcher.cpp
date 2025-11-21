@@ -83,7 +83,7 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 	ASSERT(membership);
 
 	char host_name[256]{};
-	wchar_string_to_ascii_string(membership->get_host_peer()->properties.peer_name.get_string(), host_name, sizeof(host_name), NULL);
+	wchar_string_to_ascii_string(membership->get_host_peer()->properties.peer_name, host_name, sizeof(host_name), NULL);
 	int32 peer_observer_channel = m_session->get_peer_observer_channel(membership->host_peer_index());
 
 	int32 join_time_elapsed = 0;

@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"
 #include "game/players.hpp"
+#include "networking/logic/network_session_interface.hpp"
 #include "networking/online/online.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "text/unicode.hpp"
@@ -18,29 +19,28 @@ struct s_network_session_peer_connectivity
 
 struct s_network_session_peer_properties
 {
-	c_static_wchar_string<16> peer_name;
-	c_static_wchar_string<32> peer_session_name;
-	uns32 peer_mp_map_mask[1];
-	int32 peer_map;
-	c_enum<e_network_session_map_status, int32, _network_session_map_status_none, k_network_session_map_status_count> peer_map_status;
+	wchar_t peer_name[16];
+	wchar_t peer_session_name[32];
+	uns32 available_multiplayer_map_mask;
+	e_map_id peer_map_id;
+	e_network_session_map_status peer_map_status;
 	int32 peer_map_progress_percentage;
 	uns64 peer_game_instance;
-	int16 ready_hopper_id;
-	int16 : 16;
-	c_enum<e_session_game_start_error, int32, _session_game_start_error_none, k_session_game_start_error_count> game_start_error;
-	bool peer_has_hard_drive;
-	int32 estimated_downstream_bandwidth_bps;
-	int32 estimated_upstream_bandwidth_bps;
-	bool estimated_upstream_is_reliable;
-	c_enum<e_online_nat_type, int32, _online_nat_type_unknown, k_online_nat_type_count> nat_type;
+	int32 ready_hopper_identifier;
+	e_session_game_start_error game_start_error;
+	bool has_hard_drive;
+	int32 peer_estimated_downstream_bandwidth_bps;
+	int32 peer_estimated_upstream_bandwidth_bps;
+	bool peer_upstream_estimate_is_reliable;
+	e_online_nat_type peer_nat_type;
 	int32 connectivity_badness_rating;
 	int32 host_badness_rating;
 	int32 client_badness_rating;
-	s_network_session_peer_connectivity connectivity;
-	c_enum<e_language, int32, _language_invalid, k_language_count> language;
+	s_network_session_peer_connectivity peer_connectivity;
+	e_language language;
 	int32 determinism_version;
 	int32 determinism_compatible_version;
-	c_flags<e_network_session_peer_properties_status_flags, uns32, k_network_session_peer_properties_status_flag_count> flags;
+	c_network_session_peer_properties_status_flags flags;
 };
 static_assert(sizeof(s_network_session_peer_properties) == 0xC0);
 

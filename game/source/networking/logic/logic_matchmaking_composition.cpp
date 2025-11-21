@@ -95,7 +95,7 @@ e_network_session_matchmaking_composition_build_result __cdecl network_session_m
 	// $IMPLEMENT
 
 	composition_out->session_properties.language = session_membership->m_shared_network_membership.peers[session_membership->m_local_peer_index].properties.language;
-	composition_out->session_properties.nat_type = session_membership->m_shared_network_membership.peers[session_membership->m_local_peer_index].properties.nat_type;
+	composition_out->session_properties.nat_type = session_membership->m_shared_network_membership.peers[session_membership->m_local_peer_index].properties.peer_nat_type;
 	
 	//composition_out->session_properties.gamer_region = ;
 	//composition_out->session_properties.gamer_zone = ;
