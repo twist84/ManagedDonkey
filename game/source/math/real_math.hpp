@@ -429,6 +429,10 @@ extern const real_rectangle3d* const& global_null_rectangle3d;
 extern const real_rectangle2d* const& global_zero_rectangle2d;
 extern const real_rectangle3d* const& global_zero_rectangle3d;
 
+extern real32 __cdecl real_max(real32 a, real32 b);
+extern real32 __cdecl real_min(real32 a, real32 b);
+extern real32 __cdecl real_pin(real32 value, real32 min_value, real32 max_value);
+extern void __cdecl interpolate_scalar(real32* current, real32 desired, real32 maximum_speed);
 extern bool __cdecl valid_real_vector2d(const real_vector2d* v);
 extern bool __cdecl valid_real_vector4d(const real_vector4d* v);
 extern bool __cdecl valid_real_sine_cosine(real32 sine, real32 cosine);
@@ -471,9 +475,13 @@ extern bool __cdecl valid_polygon2d(int32 point_count, const real_point2d* const
 extern real_vector3d* __cdecl add_vectors3d(const real_vector3d* a, const real_vector3d* b, real_vector3d* result);
 extern real32 __cdecl arctangent(real32 y, real32 x);
 extern real_vector3d* __cdecl cross_product3d(const real_vector3d* a, const real_vector3d* b, real_vector3d* result);
+extern real32 __cdecl distance_squared2d(const real_point2d* a, const real_point2d* b);
 extern real32 __cdecl distance_squared3d(const real_point3d* a, const real_point3d* b);
+extern real32 __cdecl distance2d(const real_point2d* a, const real_point2d* b);
 extern real32 __cdecl distance3d(const real_point3d* a, const real_point3d* b);
+extern real32 __cdecl dot_product2d(const real_vector2d* a, const real_vector2d* b);
 extern real32 __cdecl dot_product3d(const real_vector3d* a, const real_vector3d* b);
+extern real32 __cdecl dot_product4d(const real_vector4d* a, const real_vector4d* b);
 extern real32 __cdecl magnitude_squared2d(const real_vector2d* v);
 extern real32 __cdecl magnitude_squared3d(const real_vector3d* v);
 extern real32 __cdecl magnitude2d(const real_vector2d* v);
@@ -482,10 +490,11 @@ extern real_vector3d* __cdecl negate_vector3d(const real_vector3d* a, real_vecto
 extern real_rectangle2d* __cdecl offset_real_rectangle2d(real_rectangle2d* rectangle, real32 dx, real32 dy);
 extern real32 __cdecl normalize2d(real_vector2d* v);
 extern real32 __cdecl normalize3d(real_vector3d* v);
+extern real_vector2d* __cdecl perpendicular2d(const real_vector2d* a, real_vector2d* result);
 extern real_vector3d* __cdecl perpendicular3d(const real_vector3d* a, real_vector3d* result);
 extern real32 __cdecl plane3d_distance_to_point(const real_plane3d* plane, const real_point3d* point);
-extern real_point3d* __cdecl point_from_line3d(const real_point3d* p, const real_vector3d* v, real32 t, real_point3d* result);
 extern real_point2d* __cdecl point_from_line2d(const real_point2d* p, const real_vector2d* v, real32 t, real_point2d* result);
+extern real_point3d* __cdecl point_from_line3d(const real_point3d* p, const real_vector3d* v, real32 t, real_point3d* result);
 extern bool __cdecl point_in_sphere(const real_point3d* point, const real_point3d* center, real32 radius);
 extern bool __cdecl point_intersects_rectangle2d(const real_point2d* p, const real_rectangle2d* bounds);
 extern real_vector2d* __cdecl rotate_vector2d(const real_vector2d* v, real32 sine, real32 cosine, real_vector2d* result);

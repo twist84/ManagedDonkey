@@ -75,6 +75,26 @@ int16 const global_projection3d_inverse_mappings[3][2][3] =
 	}
 };
 
+real32 __cdecl real_max(real32 a, real32 b)
+{
+	return (a > b) ? a : b;
+}
+
+real32 __cdecl real_min(real32 a, real32 b)
+{
+	return (a < b) ? a : b;
+}
+
+real32 __cdecl real_pin(real32 value, real32 min_value, real32 max_value)
+{
+	return real_min(real_max(value, min_value), max_value);
+}
+
+void __cdecl interpolate_scalar(real32* current, real32 desired, real32 maximum_speed)
+{
+	*current += real_pin(desired - *current, -maximum_speed, maximum_speed);
+}
+
 bool __cdecl valid_real_vector2d(const real_vector2d* v)
 {
 	return valid_real(v->i)
@@ -645,10 +665,21 @@ real_vector3d* __cdecl cross_product3d(const real_vector3d* a, const real_vector
 	return result;
 }
 
+real32 __cdecl distance_squared2d(const real_point2d* a, const real_point2d* b)
+{
+	real_vector2d temp{};
+	return magnitude_squared2d(vector_from_points2d(a, b, &temp));
+}
+
 real32 __cdecl distance_squared3d(const real_point3d* a, const real_point3d* b)
 {
 	real_vector3d temp{};
 	return magnitude_squared3d(vector_from_points3d(a, b, &temp));
+}
+
+real32 __cdecl distance2d(const real_point2d* a, const real_point2d* b)
+{
+	return square_root(distance_squared2d(a, b));
 }
 
 real32 __cdecl distance3d(const real_point3d* a, const real_point3d* b)
@@ -656,9 +687,19 @@ real32 __cdecl distance3d(const real_point3d* a, const real_point3d* b)
 	return square_root(distance_squared3d(a, b));
 }
 
+real32 __cdecl dot_product2d(const real_vector2d* a, const real_vector2d* b)
+{
+	return (a->i * b->i) + (a->j * b->j);
+}
+
 real32 __cdecl dot_product3d(const real_vector3d* a, const real_vector3d* b)
 {
 	return ((a->i * b->i) + (a->j * b->j)) + (a->k * b->k);
+}
+
+real32 __cdecl dot_product4d(const real_vector4d* a, const real_vector4d* b)
+{
+	return (((a->i * b->i) + (a->j * b->j)) + (a->k * b->k)) + (a->l * b->l);
 }
 
 real32 __cdecl magnitude_squared2d(const real_vector2d* v)
@@ -730,6 +771,13 @@ real_rectangle2d* __cdecl offset_real_rectangle2d(real_rectangle2d* rectangle, r
 	return rectangle;
 }
 
+real_vector2d* __cdecl perpendicular2d(const real_vector2d* a, real_vector2d* result)
+{
+	result->i = -a->j;
+	result->j = a->i;
+	return result;
+}
+
 real_vector3d* __cdecl perpendicular3d(const real_vector3d* a, real_vector3d* result)
 {
 	real32 i = fabsf(a->i);
@@ -765,19 +813,19 @@ real32 __cdecl plane3d_distance_to_point(const real_plane3d* plane, const real_p
 	return ((((point->x * plane->n.i) + (point->y * plane->n.j)) + (point->z * plane->n.k)) - plane->d);
 }
 
+real_point2d* __cdecl point_from_line2d(const real_point2d* p, const real_vector2d* v, real32 t, real_point2d* result)
+{
+	result->x = p->x * (v->i * t);
+	result->y = p->y * (v->j * t);
+
+	return result;
+}
+
 real_point3d* __cdecl point_from_line3d(const real_point3d* p, const real_vector3d* v, real32 t, real_point3d* result)
 {
 	result->x = p->x + (v->i * t);
 	result->y = p->y + (v->j * t);
 	result->z = p->z + (v->k * t);
-
-	return result;
-}
-
-real_point2d* __cdecl point_from_line2d(const real_point2d* p, const real_vector2d* v, real32 t, real_point2d* result)
-{
-	result->x = p->x * (v->i * t);
-	result->y = p->y * (v->j * t);
 
 	return result;
 }

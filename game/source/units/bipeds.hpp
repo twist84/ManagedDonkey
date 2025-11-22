@@ -5,9 +5,34 @@
 #include "physics/character_physics.hpp"
 #include "units/units.hpp"
 
+enum e_biped_flag
+{
+	_biped_player_accept_melee_aiming_from_unit_bit = 0,
+	_biped_ejected_from_seat_bit,
+	_biped_effected_by_phantom_this_tick_bit,
+
+	_biped_unknown_bit3,
+
+	_biped_pathfinding_ground_collision_valid_bit,
+	_biped_falling_to_his_death_bit,
+	_biped_outside_map_bit,
+	_biped_turn_on_pivot_point,
+	_biped_debug_melee_in_range_bit,
+	_biped_first_person_camera_offset_valid_bit,
+	_biped_setting_relaxation_pose_bit,
+	_biped_contact_with_ground_bit,
+	_biped_request_immediate_ragdoll_bit,
+	_biped_request_immediate_dead_airborne_bit,
+	_biped_force_ground_fitting_on_bit,
+	_biped_magic_deceleration_bit,
+
+	k_biped_flag_count,
+};
+typedef c_flags<e_biped_flag, uns16, k_biped_flag_count> c_biped_flags;
+
 struct _biped_datum
 {
-	uns16 flags;
+	c_biped_flags flags;
 	int16 pathfinding_structure_index;
 	int32 last_pathfinding_attempt_time;
 	int32 pathfinding_surface_index;
@@ -85,19 +110,22 @@ extern bool debug_biped_throttle;
 extern bool debug_objects_unit_pathfinding_surface;
 extern bool debug_objects_pendulum;
 
+extern void __cdecl biped_build_2d_camera_frame(const real_vector3d* forward_vector, const real_vector3d* up_vector, real_vector2d* forward_axis, real_vector2d* side_axis);
 extern void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const real_vector3d* old_velocity);
 extern void __cdecl biped_get_autoaim_pill(int32 biped_index, real_point3d* base, real_vector3d* height, real32* autoaim_width);
+extern real32 __cdecl biped_get_desired_camera_height(int32 biped_index);
 extern void __cdecl biped_get_physics_pill(int32 biped_index, real_point3d* position, real32* height, real32* radius);
 extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(int32 biped_index, real_point3d* position, real_vector3d* velocity);
 extern void __cdecl biped_get_sight_position(int32 biped_index, int16 estimate_mode, bool offset_camera, const real_point3d* estimated_body_position, const real_vector3d* a5, const real_vector3d* desired_facing_vector, const real_vector3d* desired_gun_offset, real_point3d* camera_position);
 extern bool __cdecl biped_in_airborne_state(int32 biped_index);
-extern void __cdecl biped_scripting_ragdoll(int32 biped_index);
+extern void __cdecl biped_ragdoll(int32 biped_index);
 extern void __cdecl biped_render_debug(int32 biped_index);
 extern bool __cdecl biped_update(int32 biped_index);
 extern void __cdecl biped_update_camera(int32 biped_index);
 extern void __cdecl biped_update_jetpack(int32 biped_index);
 extern void __cdecl biped_update_keyframed_rigid_bodies(int32 biped_index);
 extern void __cdecl biped_update_kill_volumes(int32 biped_index);
+extern void __cdecl biped_update_leaning(int32 biped_index);
 extern void __cdecl biped_update_pendulum(int32 biped_index);
 extern void __cdecl biped_update_root_matrix_history(int32 biped_index);
 extern bool __cdecl biped_update_soft_ceilings(int32 biped_index);

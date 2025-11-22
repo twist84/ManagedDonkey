@@ -69,7 +69,7 @@ void __cdecl biped_falling_damage(int32 biped_index)
 		{
 			if (!immune_to_falling_damage && !biped->object.damage_flags.test(_object_dead_bit))
 			{
-				SET_BIT(biped->biped.flags, 5, true);
+				biped->biped.flags.set(_biped_falling_to_his_death_bit, true);
 				s_damage_data damage_data{};
 				damage_data.global_material_type = c_global_material_type();
 				damage_data_new(&damage_data, falling_damage.distance_damage.index);

@@ -9748,7 +9748,7 @@ MACRO_FUNCTION_EVALUATE(hs_function_definition, 2,
 	_hs_type_void,
 	biped_ragdoll,
 	0,
-	biped_scripting_ragdoll, // 0x00736360,
+	biped_ragdoll, // 0x00736360,
 	"given a dead biped, turns on ragdoll\r\nNETWORK SAFE: Unknown, assumed unsafe",
 	NULL,
 	1, _hs_type_unit

@@ -144,7 +144,12 @@ bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* point, rea
 //.text:00B3CDE0 ; void __cdecl unit_cause_player_melee_damage(int32 unit_index, int32 damage_definition_index, const s_damage_owner* damage_owner, const s_unit_player_melee_damage_target* damage_target)
 //.text:00B3D3A0 ; void __cdecl unit_check_ping_thresholds(int32 unit_index, real32 shield_damage, real32 body_damage, int32* ping_type)
 //.text:00B3D470 ; void __cdecl unit_clear_aim_assist(int32 unit_index)
-//.text:00B3D4F0 ; bool __cdecl unit_clip_vector_to_aiming_screen_bounds(int32 unit_index, real_vector3d* vector, bool use_looking_screen)
+
+bool __cdecl unit_clip_vector_to_aiming_screen_bounds(int32 unit_index, real_vector3d* vector, bool use_looking_screen)
+{
+	return INVOKE(0x00B3D4F0, unit_clip_vector_to_aiming_screen_bounds, unit_index, vector, use_looking_screen);
+}
+
 //.text:00B3D9A0 ; real32 __cdecl unit_compute_boost_fraction(int32 unit_index)
 //.text:00B3DA70 ; bool __cdecl unit_compute_function_value(int32 unit_index, int32 function, int32 function_owner_definition_index, real32* value, bool* active, bool* deterministic)
 //.text:00B3DDC0 ; int32 __cdecl unit_compute_ping_type(int32 unit_index, bool died, bool died_flying, bool died_airborne, bool ignore_hard_pings, bool force_hard_pings, bool ignore_hard_death, real32 shield_damage, real32 body_damage)

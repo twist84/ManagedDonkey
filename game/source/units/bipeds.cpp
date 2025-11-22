@@ -1,14 +1,16 @@
 #include "units/bipeds.hpp"
 
 #include "ai/ai.hpp"
+#include "cache/cache_files.hpp"
 #include "cutscene/recorded_animations.hpp"
 #include "game/cheats.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "motor/motor_animation.hpp"
 #include "motor/motor_system.hpp"
 #include "physics/character_physics.hpp"
 #include "render/render_debug.hpp"
-#include "units/bipeds.hpp"
+#include "units/biped_definitions.hpp"
 
 #include <math.h>
 
@@ -31,7 +33,11 @@ bool debug_objects_pendulum = false;
 //.text:00B6B160 ; bool __cdecl biped_bring_ragdoll_inside_world(int32, bool, const real_point3d*, real32)
 //.text:00B6B260 ; bool __cdecl biped_bring_ragdoll_inside_world_recursive(int32, bool, const real_point3d*, real32, const c_runtime_node_to_havok_component_rigid_body_index_mapping*, uns32*, int32, bool)
 //.text:00B6B3A0 ; bool __cdecl biped_bring_rigid_body_to_safe_position(int32, bool, const real_point3d*, real32, int32, int32, int32, bool)
-//.text:00B6B770 ; void __cdecl biped_build_2d_camera_frame(const real_vector3d*, const real_vector3d*, real_vector2d*, real_vector2d*)
+
+void __cdecl biped_build_2d_camera_frame(const real_vector3d* forward_vector, const real_vector3d* up_vector, real_vector2d* forward_axis, real_vector2d* side_axis)
+{
+	INVOKE(0x00B6B770, biped_build_2d_camera_frame, forward_vector, up_vector, forward_axis, side_axis);
+}
 
 void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const real_vector3d* old_velocity)
 {
@@ -60,8 +66,7 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const re
 				biped_datum* bumped_biped = BIPED_GET(object_index);
 				if (bumped_biped->biped.physics.get_mode() == c_character_physics_component::_mode_melee)
 				{
-					//biped->biped.flags.set(15, true);
-					SET_BIT(biped->biped.flags, 15, true);
+					biped->biped.flags.set(_biped_magic_deceleration_bit, true);
 				}
 			}
 
@@ -82,7 +87,9 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const re
 									player_set_unit_index(biped->unit.player_index, object_index);
 
 									if (bump_object->object.object_identifier.get_type() == _object_type_biped)
+									{
 										bump_object->biped.bump_ticks = -static_cast<int8>(game_seconds_to_ticks_round(0.5f));
+									}
 								}
 							}
 
@@ -136,7 +143,12 @@ void __cdecl biped_get_autoaim_pill(int32 biped_index, real_point3d* base, real_
 
 //.text:00B6E250 ; int32 __cdecl biped_get_current_weapon(int32)
 //.text:00B6E2F0 ; c_character_physics_component::e_mode __cdecl biped_get_default_movement_type(int32)
-//.text:00B6E360 ; real32 __cdecl biped_get_desired_camera_height(int32)
+
+real32 __cdecl biped_get_desired_camera_height(int32 biped_index)
+{
+	return INVOKE(0x00B6E360, biped_get_desired_camera_height, biped_index);
+}
+
 //.text:00B6E3D0 ; real32 __cdecl biped_get_gravity_scale(int32)
 //.text:00B6E450 ; void __cdecl biped_get_melee_target_physics_pill(int32, real_point3d*, real32*, real32*)
 //.text:00B6E510 ; bool __cdecl biped_get_movement_ground_direction(int32, real_point3d*, real_vector3d*)
@@ -156,13 +168,12 @@ void __cdecl biped_get_sentinel_animation_node_position_and_velocity(int32 biped
 	INVOKE(0x00B6E9C0, biped_get_sentinel_animation_node_position_and_velocity, biped_index, position, velocity);
 }
 
-// 0: none
-// 1: head_standing
-// 2: head_crouching
-// 3: gun_position
-// 4: aiming_standing
-// 5: aiming_crouching
-// 6: count
+// 0: _unit_estimate_none
+// 1: _unit_estimate_head_standing
+// 2: _unit_estimate_head_crouching
+// 3: _unit_estimate_gun_position
+// 4: _unit_estimate_aiming_standing
+// 5: _unit_estimate_aiming_crouching
 void __cdecl biped_get_sight_position(int32 biped_index, int16 estimate_mode, bool offset_camera, const real_point3d* estimated_body_position, const real_vector3d* a5, const real_vector3d* desired_facing_vector, const real_vector3d* desired_gun_offset, real_point3d* camera_position)
 {
 	INVOKE(0x00B6EB80, biped_get_sight_position, biped_index, estimate_mode, offset_camera, estimated_body_position, a5, desired_facing_vector, desired_gun_offset, camera_position);
@@ -198,9 +209,21 @@ bool __cdecl biped_in_airborne_state(int32 biped_index)
 //.text:00B70AC0 ; bool __cdecl biped_post_update(int32)
 //.text:00B70AE0 ; void __cdecl biped_postprocess_node_matrices(int32, int32, real_matrix4x3*)
 
-void __cdecl biped_scripting_ragdoll(int32 biped_index)
+void __cdecl biped_ragdoll(int32 biped_index)
 {
-	INVOKE(0x00B70DB0, biped_scripting_ragdoll, biped_index);
+	INVOKE(0x00B70DB0, biped_ragdoll, biped_index);
+
+	//if (biped_index != NONE)
+	//{
+	//	biped_datum* biped = BIPED_GET(biped_index);
+	//	if (biped)
+	//	{
+	//		biped->object.damage_flags.set(_object_die_act_of_god_silent_bit, true);
+	//		biped->unit.special_death_type = 1;
+	//		object_wake(biped_index);
+	//		object_set_at_rest(biped_index, false);
+	//	}
+	//}
 }
 
 void __cdecl biped_render_debug(int32 biped_index)
@@ -333,7 +356,7 @@ bool __cdecl biped_update(int32 biped_index)
 
 	biped_datum* biped = BIPED_GET(biped_index);
 
-	bool v5 = biped_update_soft_ceilings(biped_index);
+	bool affected_by_soft_ceiling = biped_update_soft_ceilings(biped_index);
 
 	if (biped->unit.actor_index != NONE)
 	{
@@ -341,7 +364,7 @@ bool __cdecl biped_update(int32 biped_index)
 		biped->biped.ai_combat_status = (int8)actor->state.combat_status;
 	}
 
-	bool result = false;
+	bool awake = false;
 
 	if (biped->object.havok_component_index != NONE)
 	{
@@ -350,17 +373,19 @@ bool __cdecl biped_update(int32 biped_index)
 		int32 parent_index = object_get_root_object(biped->object.parent_object_index);
 		if (parent_index == NONE)
 		{
-			result = biped_update_without_parent(biped_index) || biped_update_stun(biped_index);
+			awake = biped_update_without_parent(biped_index) || biped_update_stun(biped_index);
 		}
 		else
 		{
-			result = biped_update_with_parent(biped_index, parent_index) || biped_update_stun(biped_index);
+			awake = biped_update_with_parent(biped_index, parent_index) || biped_update_stun(biped_index);
 		}
 
 		biped_update_camera(biped_index);
 	}
 
-	if (!v5)
+	biped_update_leaning(biped_index);
+
+	if (!affected_by_soft_ceiling)
 	{
 		biped_update_jetpack(biped_index);
 	}
@@ -369,12 +394,64 @@ bool __cdecl biped_update(int32 biped_index)
 	biped_update_keyframed_rigid_bodies(biped_index);
 	biped_update_root_matrix_history(biped_index);
 
-	return result;
+	return awake;
 }
 
 void __cdecl biped_update_camera(int32 biped_index)
 {
-	INVOKE(0x00B717B0, biped_update_camera, biped_index);
+	//INVOKE(0x00B717B0, biped_update_camera, biped_index);
+	
+	biped_datum* biped = BIPED_GET(biped_index);
+	if (biped->unit.player_index != NONE &&
+		!motor_animation_resource_busy(biped_index, _motor_resource_primary_impulse) &&
+		!motor_animation_resource_busy(biped_index, _motor_resource_secondary_impulse))
+	{
+		real_matrix4x3* root_matrix = object_get_node_matrix(biped_index, 0);
+
+		object_marker head_marker{};
+		if (!object_get_markers_by_string_id(biped_index, STRING_ID(global, fp_body_cam), &head_marker, 1))
+		{
+			object_get_markers_by_string_id(biped_index, STRING_ID(global, head), &head_marker, 1);
+		}
+
+		real_vector3d offset_vector{};
+		vector_from_points3d(&root_matrix->origin, &head_marker.matrix.origin, &offset_vector);
+
+		real_vector3d aiming_vector = biped->unit.aiming_vector;
+		unit_clip_vector_to_aiming_screen_bounds(biped_index, &aiming_vector, false);
+
+		real_vector2d forward_axis{}, side_axis{};
+		biped_build_2d_camera_frame(&aiming_vector, &biped->object.up, &forward_axis, &side_axis);
+		real32 forward = dot_product2d((real_vector2d*)&offset_vector, &forward_axis);
+		real32 left = dot_product2d((real_vector2d*)&offset_vector, &side_axis);
+		real32 up = offset_vector.k;
+
+		real_vector3d relative_offset{};
+		set_real_vector3d(&relative_offset, forward, left, up);
+
+		if (biped->biped.flags.test(_biped_first_person_camera_offset_valid_bit))
+		{
+			interpolate_scalar(&biped->biped.first_person_camera_offset.i, relative_offset.i, 0.01f);
+			interpolate_scalar(&biped->biped.first_person_camera_offset.j, relative_offset.j, 0.01f);
+			interpolate_scalar(&biped->biped.first_person_camera_offset.k, relative_offset.k, 0.01f);
+		}
+		else
+		{
+			biped->biped.first_person_camera_offset = relative_offset;
+			biped->biped.flags.set(_biped_first_person_camera_offset_valid_bit, true);
+		}
+	}
+
+	{
+		real32 camera_height_delta = biped_get_desired_camera_height(biped_index) - biped->biped.camera_height;
+		real32 camera_height = fabsf(camera_height_delta);
+		real32 scale = real_pin(camera_height, 0.0f, 1.0f);
+		struct biped_definition* biped_definition = TAG_GET(BIPED_TAG, struct biped_definition, biped->definition_index);
+		real32 height_velocity = biped_definition->biped.camera_height_velocity_function.evaluate_scalar(scale, 0.0f);
+		real32 step = real_min(height_velocity * game_tick_length(), camera_height);
+		int32 sign = (camera_height_delta == 0.0f) ? 0 : (camera_height_delta >= 0.0f ? 1 : -1);
+		biped->biped.camera_height += (step * (real32)sign);
+	}
 }
 
 //.text:00B71AD0 ; 
@@ -447,7 +524,11 @@ void __cdecl biped_update_kill_volumes(int32 biped_index)
 	INVOKE(0x00B71C10, biped_update_kill_volumes, biped_index);
 }
 
-//.text:00B71D10 ; 
+void __cdecl biped_update_leaning(int32 biped_index)
+{
+	//INVOKE(0x00B71D10, biped_update_leaning, biped_index);
+}
+
 //.text:00B71D20 ; bool __cdecl biped_update_melee_turning(int32, s_animation_control_data*)
 //.text:00B71DF0 ; void __cdecl biped_update_mixing_board(int32)
 //.text:00B71E90 ; void __cdecl biped_update_moving_turn_constraints(int32)

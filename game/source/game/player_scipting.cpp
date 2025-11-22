@@ -9,7 +9,7 @@ void hs_player_ragdoll()
 	int32 unit_index = player_mapping_get_unit_by_output_user(user_index);
 	if (unit_index != NONE)
 	{
-		biped_scripting_ragdoll(unit_index);
+		biped_ragdoll(unit_index);
 	}
 }
 

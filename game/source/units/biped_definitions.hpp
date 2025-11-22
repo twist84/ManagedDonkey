@@ -166,7 +166,7 @@ struct _biped_definition
 	real32 crouch_walking_camera_height; // world units
 	real32 crouch_transition_time; // seconds
 
-	mapping_function camera_height_velocity_function;
+	c_function_definition camera_height_velocity_function;
 	c_typed_tag_block<s_biped_camera_height> camera_heights;
 
 	// looking-downward angle that starts camera interpolation to fp position

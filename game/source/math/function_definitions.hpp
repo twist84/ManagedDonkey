@@ -27,6 +27,8 @@ static_assert(sizeof(mapping_function) == sizeof(s_tag_data));
 class c_function_definition :
 	public mapping_function
 {
+public:
+	real32 evaluate_scalar(real32 input, real32 range) const;
 };
 static_assert(sizeof(c_function_definition) == sizeof(mapping_function));
 

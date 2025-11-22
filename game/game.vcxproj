@@ -282,10 +282,12 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\items\weapon_definitions.cpp" />
     <ClCompile Include="source\main\main_screenshot.cpp" />
+    <ClCompile Include="source\math\function_definitions.cpp" />
     <ClCompile Include="source\math\unit_vector_quantization.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\memory\memory_pool.cpp" />
     <ClCompile Include="source\motor\biped_ground_motor_program.cpp" />
+    <ClCompile Include="source\motor\motor_animation.cpp" />
     <ClCompile Include="source\motor\motor_system.cpp" />
     <ClCompile Include="source\motor\motor_system_biped.cpp" />
     <ClCompile Include="source\motor\mover.cpp" />
@@ -1073,6 +1075,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\models\model_definitions.hpp" />
     <ClInclude Include="source\models\model_skinning.hpp" />
     <ClInclude Include="source\motor\biped_ground_motor_program.hpp" />
+    <ClInclude Include="source\motor\motor_animation.hpp" />
     <ClInclude Include="source\motor\motor_system.hpp" />
     <ClInclude Include="source\motor\motor_system_biped.hpp" />
     <ClInclude Include="source\motor\mover.hpp" />
