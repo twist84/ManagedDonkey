@@ -49,6 +49,7 @@
 #include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
 #include "text/font_loading.hpp"
+#include "units/bipeds.hpp"
 #include "visibility/visibility_collection.hpp"
 
 // a static byte array used in `c_network_channel::receive_packet`
@@ -114,8 +115,41 @@ void show_location_messages()
 
 void __cdecl test_main_loop_body_begin()
 {
+	// $TODO make this better
+	if (input_key_frames_down(_key_right_shift, _input_type_ui) >= 1 && input_key_frames_down(_key_right_control, _input_type_ui) >= 1)
+	{
+		c_player_in_game_iterator player_iterator{};
+		player_iterator.begin();
+		while (player_iterator.next())
+		{
+			int32 index = player_iterator.get_index();
+			int16 absolute_index = player_iterator.get_absolute_index();
+			player_datum* player = player_iterator.get_datum();
+
+			biped_datum* biped = BIPED_GET(player->unit_index);
+			biped->biped.lean = real_pin(biped->biped.lean + 0.1f, -1.0f, 1.0f);
+			break;
+		}
+	}
+	// $TODO make this better
+	if (input_key_frames_down(_key_right_shift, _input_type_ui) >= 1 && input_key_frames_down(_key_right_alt, _input_type_ui) >= 1)
+	{
+		c_player_in_game_iterator player_iterator{};
+		player_iterator.begin();
+		while (player_iterator.next())
+		{
+			int32 index = player_iterator.get_index();
+			int16 absolute_index = player_iterator.get_absolute_index();
+			player_datum* player = player_iterator.get_datum();
+
+			biped_datum* biped = BIPED_GET(player->unit_index);
+			biped->biped.lean = real_pin(biped->biped.lean - 0.1f, -1.0f, 1.0f);
+			break;
+		}
+	}
+
 	// right control for tests
-	if (input_key_frames_down(_key_right_control, _input_type_ui) == 1)
+	if (input_key_frames_down(_key_right_control, _input_type_ui) == 1 && input_key_frames_down(_key_right_shift, _input_type_ui) == 0 && input_key_frames_down(_key_right_alt, _input_type_ui) == 0)
 	{
 		async_globals;
 		cache_file_copy_globals;

@@ -527,6 +527,17 @@ void __cdecl biped_update_kill_volumes(int32 biped_index)
 void __cdecl biped_update_leaning(int32 biped_index)
 {
 	//INVOKE(0x00B71D10, biped_update_leaning, biped_index);
+	
+	biped_datum* biped = BIPED_GET(biped_index);
+	if (biped && biped->unit.player_index != NONE && biped->biped.lean != 0.0f)
+	{
+		interpolate_scalar(&biped->biped.lean, 0.0f, 0.035f);
+
+		if (IN_RANGE_INCLUSIVE(biped->biped.lean, -0.035f, 0.035f))
+		{
+			biped->biped.lean = 0.0f;
+		}
+	}
 }
 
 //.text:00B71D20 ; bool __cdecl biped_update_melee_turning(int32, s_animation_control_data*)
