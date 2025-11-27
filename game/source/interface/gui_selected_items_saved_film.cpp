@@ -312,9 +312,9 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 	static int32 task_id = NONE;
 
 	task_id = async_enumerate_files(
-		0,
+		FLAG(_find_files_recursive_bit),
 		"saved_films",
-		512,
+		NUMBEROF(saved_films_files),
 		&find_file_data,
 		saved_films_files,
 		&saved_films_file_count,
@@ -386,7 +386,7 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 	qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
 
 	csmemset(&find_file_data, 0, sizeof(s_find_file_data));
-	csmemset(saved_films_files, 0, sizeof(s_file_reference) * 512);
+	csmemset(saved_films_files, 0, sizeof(saved_films_files));
 	saved_films_file_count = 0;
 }
 

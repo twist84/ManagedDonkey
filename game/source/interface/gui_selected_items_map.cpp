@@ -209,7 +209,7 @@ void c_gui_map_subitem_selectable_item_datasource::update_content_enumeration()
 	task_id = async_enumerate_files(
 		FLAG(_find_files_recursive_bit),
 		"map_variants",
-		512,
+		NUMBEROF(saved_films_files),
 		&find_file_data,
 		saved_films_files,
 		&saved_films_file_count,
@@ -301,7 +301,7 @@ void c_gui_map_subitem_selectable_item_datasource::update_content_enumeration()
 	qsort(&m_maps, m_map_count, sizeof(c_gui_map_selected_item), map_selected_item_sort_proc);
 
 	csmemset(&find_file_data, 0, sizeof(s_find_file_data));
-	csmemset(saved_films_files, 0, sizeof(s_file_reference) * 512);
+	csmemset(saved_films_files, 0, sizeof(saved_films_files));
 	saved_films_file_count = 0;
 }
 
