@@ -6,27 +6,23 @@
 #include "memory/byte_swapping.hpp"
 #include "networking/transport/transport_security.hpp"
 
-#define HIBYTE(x) ((byte)((x) >> 8 * (sizeof(x) - 1)))
-
-// ===================== halo 4 begin =====================
-
 template<typename t_type>
 t_type left_shift_fast(t_type value, int32 shift_bits)
 {
 	ASSERT(shift_bits <= SIZEOF_BITS(t_type));
-
-	return t_type(value << shift_bits);
+	t_type result = t_type(value << shift_bits);
+	return result;
 }
 
 template<typename t_type>
 t_type left_shift_safe(t_type value, int32 shift_bits)
 {
+	t_type result = t_type(value << shift_bits);
 	if (shift_bits >= SIZEOF_BITS(t_type))
 	{
-		return t_type(0);
+		result = t_type(0);
 	}
-
-	return t_type(value << shift_bits);
+	return result;
 }
 
 template<typename t_type>
@@ -34,21 +30,20 @@ t_type right_shift_fast(t_type value, int32 shift_bits)
 {
 	ASSERT(shift_bits < SIZEOF_BITS(t_type));
 
-	return t_type(value >> shift_bits);
+	t_type result = t_type(value >> shift_bits);
+	return result;
 }
 
 template<typename t_type>
 t_type right_shift_safe(t_type value, int32 shift_bits)
 {
+	t_type result = t_type(value >> shift_bits);
 	if (shift_bits < SIZEOF_BITS(t_type))
 	{
-		return t_type(0);
+		result = t_type(0);
 	}
-
-	return t_type(value >> shift_bits);
+	return result;
 }
-
-// ====================== halo 4 end ======================
 
 //.text:0043B5B0 ; c_bitstream::c_bitstream(byte* data, int32 data_length)
 //.text:0043B5D0 ; c_bitstream::~c_bitstream()
@@ -383,32 +378,30 @@ uns64 c_bitstream::decode_qword_from_memory()
 	return DECLFUNC(0x00557D70, uns64, __thiscall, c_bitstream*)(this);
 	//return INVOKE_CLASS_MEMBER(0x00557D70, c_bitstream, decode_qword_from_memory);
 
-	//byte* next_data = m_bitstream_data.next_data;
 	//uns64 value = 0;
-	//int32 size_in_bits = 0;
+	//int32 used_bit_count = 0;
 	//
-	//if ((next_data + QWORD_BYTES) > m_data_max)
+	//if ((m_bitstream_data.next_data + QWORD_BYTES) > m_data_max)
 	//{
-	//	while (next_data < m_data_max)
+	//	while (m_bitstream_data.next_data < m_data_max)
 	//	{
-	//		value = (value << CHAR_BITS) | *next_data++;
-	//		size_in_bits += CHAR_BITS;
+	//		value = left_shift_fast<uns64>(value, CHAR_BITS) | *m_bitstream_data.next_data;
+	//		m_bitstream_data.next_data++;
+	//		used_bit_count += CHAR_BITS;
 	//	}
 	//
-	//	m_bitstream_data.next_data = next_data;
-	//
-	//	value = left_shift_fast<uns64>(value, QWORD_BITS - size_in_bits);
+	//	value = left_shift_fast<uns64>(value, QWORD_BITS - used_bit_count);
 	//}
 	//else
 	//{
-	//	uns64 next_value = *(uns64*)next_data;
-	//	value = bswap_uns64(next_value);
-	//
+	//	value = bswap_uns64((uns64)m_bitstream_data.next_data);
 	//	m_bitstream_data.next_data += QWORD_BYTES;
+	//	used_bit_count = QWORD_BYTES;
 	//}
 	//
 	//ASSERT(m_bitstream_data.next_data <= m_data_max);
-	//m_bitstream_data.current_memory_bit_position += size_in_bits;
+	//m_bitstream_data.current_memory_bit_position += used_bit_count;
+	//
 	//return value;
 }
 
@@ -416,13 +409,13 @@ uns64 c_bitstream::decode_qword_from_memory()
 
 void c_bitstream::discard_remaining_data()
 {
+	//DECLFUNC(0x00557F60, void, __thiscall, const c_bitstream*)(this);
+
 	ASSERT(reading());
 
 	m_bitstream_data.current_memory_bit_position = CHAR_BITS * m_data_size_bytes;
 	m_bitstream_data.accumulator = 0;
 	m_bitstream_data.accumulator_bit_count = 0;
-
-	//DECLFUNC(0x00557F60, void, __thiscall, const c_bitstream*)(this);
 }
 
 void c_bitstream::encode_qword_to_memory(uns64 value, int32 bit_count)
@@ -430,24 +423,22 @@ void c_bitstream::encode_qword_to_memory(uns64 value, int32 bit_count)
 	DECLFUNC(0x00557F80, void, __thiscall, const c_bitstream*, uns64, int32)(this, value, bit_count);
 	//INVOKE_CLASS_MEMBER(0x00557F80, c_bitstream, encode_qword_to_memory, value, bit_count);
 
-	//byte* next_data = m_bitstream_data.next_data;
-	//
-	//if ((next_data + QWORD_BYTES) > m_data_max)
+	//if ((m_bitstream_data.next_data + QWORD_BYTES) > m_data_max)
 	//{
-	//	while (next_data < m_data_max)
+	//	while (m_bitstream_data.next_data < m_data_max)
 	//	{
-	//		*next_data++ = (byte)((value >> (QWORD_BITS - CHAR_BITS)) & MASK(CHAR_BITS));
-	//		value <<= CHAR_BITS;
+	//		*m_bitstream_data.next_data++ = (byte)right_shift_fast<uns64>(value, QWORD_BITS - CHAR_BITS);
+	//		value = left_shift_fast<uint64_t>(value, CHAR_BITS);
 	//	}
 	//
-	//	m_bitstream_data.next_data = next_data;
 	//	m_bitstream_data.current_memory_bit_position += bit_count;
-	//	return;
+	//}
+	//else
+	//{
+	//	*(uns64*)m_bitstream_data.next_data = bswap_uns64(value);
+	//	m_bitstream_data.next_data += QWORD_BYTES;
 	//}
 	//
-	//*(uns64*)next_data = bswap_uns64(value);
-	//
-	//m_bitstream_data.next_data += QWORD_BYTES;
 	//m_bitstream_data.current_memory_bit_position += bit_count;
 }
 
