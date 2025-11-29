@@ -428,7 +428,7 @@ void c_bitstream::encode_qword_to_memory(uns64 value, int32 bit_count)
 	//	while (m_bitstream_data.next_data < m_data_max)
 	//	{
 	//		*m_bitstream_data.next_data++ = (byte)right_shift_fast<uns64>(value, QWORD_BITS - CHAR_BITS);
-	//		value = left_shift_fast<uint64_t>(value, CHAR_BITS);
+	//		value = left_shift_fast<uns64>(value, CHAR_BITS);
 	//	}
 	//
 	//	m_bitstream_data.current_memory_bit_position += bit_count;
