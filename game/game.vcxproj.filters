@@ -2091,6 +2091,9 @@
     <ClCompile Include="source\math\function_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\math\periodic_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4611,6 +4614,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\motor\motor_animation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\periodic_functions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

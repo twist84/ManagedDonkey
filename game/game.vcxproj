@@ -283,6 +283,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\items\weapon_definitions.cpp" />
     <ClCompile Include="source\main\main_screenshot.cpp" />
     <ClCompile Include="source\math\function_definitions.cpp" />
+    <ClCompile Include="source\math\periodic_functions.cpp" />
     <ClCompile Include="source\math\unit_vector_quantization.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\memory\memory_pool.cpp" />
@@ -1059,6 +1060,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\main\main_screenshot.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
     <ClInclude Include="source\math\matrix_math.hpp" />
+    <ClInclude Include="source\math\periodic_functions.hpp" />
     <ClInclude Include="source\math\random_math.hpp" />
     <ClInclude Include="source\math\real_math.hpp" />
     <ClInclude Include="source\math\unit_vector_quantization.hpp" />
