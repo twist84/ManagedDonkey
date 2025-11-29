@@ -115,7 +115,7 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const re
 }
 
 //.text:00B6BA60 ; int32 __cdecl biped_calculate_better_melee_target(int32, int32, int32)
-//.text:00B6BDA0 ; bool __cdecl biped_calculate_invisible_crouched_z_offset(int32, real32*)
+//.text:00B6BDA0 ; bool __cdecl biped_calculate_invisible_crouched_uber_melee_z_offset(int32, real32*)
 //.text:00B6BE30 ; bool __cdecl biped_calculate_melee_aiming(int32, real_vector3d*)
 //.text:00B6C1E0 ; void __cdecl biped_calculate_melee_target_parameters(int32, int32, const real_vector3d*, s_biped_melee_target_parameters*)
 //.text:00B6C840 ; real32 __cdecl biped_calculate_animated_jump_z_offset_per_tick()

@@ -2122,12 +2122,14 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 	case _instance_modification_stage_post_scenario_tags_load:
 	{
 		// "edge drop" fix
-		biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
+		biped_definition->biped.physics.ground.scale_ground_adhesion_velocity = 30.0f / 60;
 
 		//void __cdecl biped_initialize_character_physics_update_input(int32, s_character_physics_update_input_datum* physics_input, bool, bool, real32, bool, bool)
 		//{
-		//	if (biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
-		//		physics_input->m_ground_adhesion_velocity_scale = biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity;
+		//	if (biped_definition->biped.physics.ground.scale_ground_adhesion_velocity > 0.0f)
+		//	{
+		//		physics_input->ground.adhesion_velocity_scale = biped_definition->biped.physics.ground.scale_ground_adhesion_velocity;
+		//	}
 		//}
 	}
 	break;

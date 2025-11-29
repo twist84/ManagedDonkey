@@ -4,22 +4,6 @@
 #include "physics/physics_model_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
-enum e_character_physics_flags
-{
-	_character_physics_centered_at_origin_bit,
-	_character_physics_shape_spherical_bit,
-	_character_physics_use_player_physics_bit,
-	_character_physics_climb_any_surface_bit,
-	_character_physics_flying_bit,
-	_character_physics_not_physical_bit,
-	_character_physics_dead_character_collision_group_bit,
-	_character_physics_suppress_ground_planes_on_bipeds_bit,
-	_character_physics_physical_ragdoll_bit,
-	_character_physics_do_not_resize_dead_spheres_bit,
-
-	k_number_of_character_physics_flags
-};
-
 struct s_character_physics_ground_definition
 {
 	real32 maximum_slope_angle; // degrees
@@ -32,8 +16,10 @@ struct s_character_physics_ground_definition
 	real32 uphill_velocity_scale;
 
 	real32 runtime_minimum_normal_k;
-	real32 runtime_downhill_k[2];
-	real32 runtime_uphill_k[2];
+	real32 runtime_downhill_k0;
+	real32 runtime_downhill_k1;
+	real32 runtime_uphill_k0;
+	real32 runtime_uphill_k1;
 
 	// angle for bipeds at which climb direction changes between up and down
 	real32 climb_inflection_angle;
@@ -87,40 +73,55 @@ static_assert(sizeof(s_character_physics_flying_definition) == 0x2C);
 
 struct s_character_physics_definition
 {
-	c_flags<e_character_physics_flags, uns32, k_number_of_character_physics_flags> flags;
+	enum e_flag
+	{
+		_centered_at_origin_bit,
+		_shape_spherical_bit,
+		_use_player_physics_bit,
+		_climb_any_surface_bit,
+		_flying_bit,
+		_not_physical_bit,
+		_always_dead_character_collision_group_bit,
+		_suppress_ground_planes_on_bipeds_bit,
+		_physical_ragdoll_bit,
+		_do_not_resize_dead_spheres_bit,
 
-	real32 height_standing;
-	real32 height_crouching;
+		k_flag_count
+	};
 
-	real32 radius;
-	real32 mass;
+	c_flags<e_flag, uns32, k_flag_count> flags;
+
+	real32 collision_height_standing;
+	real32 collision_height_crouching;
+	real32 collision_radius;
+	real32 collision_mass;
 
 	// collision material used when character is alive
-	c_string_id living_material_name;
+	c_string_id collision_global_material_name;
 
 	// collision material used when character is dead
-	c_string_id dead_material_name;
+	c_string_id dead_collision_global_material_name;
 
 	// runtime
-	int16 global_material_type;
+	int16 collision_global_material_type;
 
 	// runtime
-	int16 dead_global_material_type;
+	int16 dead_collision_global_material_type;
 
 	// don't be a jerk, edit something else
-	c_typed_tag_block<s_physics_model_sphere> dead_sphere_shapes;
+	c_typed_tag_block<s_physics_model_sphere> dead_spheres;
 
 	// don't be a jerk, edit something else
-	c_typed_tag_block<s_physics_model_pill> pill_shapes;
+	c_typed_tag_block<s_physics_model_pill> pills;
 
 	// don't be a jerk, edit something else
-	c_typed_tag_block<s_physics_model_sphere> sphere_shapes;
+	c_typed_tag_block<s_physics_model_sphere> spheres;
 
 	// ground
-	s_character_physics_ground_definition ground_physics;
+	s_character_physics_ground_definition ground;
 
 	// flying
-	s_character_physics_flying_definition flying_physics;
+	s_character_physics_flying_definition flying;
 };
 static_assert(sizeof(s_character_physics_definition) == 0xB4);
 

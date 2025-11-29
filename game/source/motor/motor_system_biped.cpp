@@ -42,9 +42,11 @@ void __cdecl biped_falling_damage(int32 biped_index)
 		biped_definition->biped.flags.test(_biped_definition_flags_immune_to_falling_damage) || 
 		biped->object.damage_flags.test(_object_cannot_take_damage_bit);
 
-	real32 gravity_scale = biped_definition->biped.physics.ground_physics.gravity_scale;
+	real32 gravity_scale = biped_definition->biped.physics.ground.gravity_scale;
 	if (gravity_scale <= 0.0f)
+	{
 		gravity_scale = 1.0f;
+	}
 
 	if (!game_is_multiplayer() && biped->object.parent_object_index == NONE)
 	{
@@ -54,12 +56,16 @@ void __cdecl biped_falling_damage(int32 biped_index)
 		real32 k = linear_velocity.k;
 		real32 crouch_velocity_delta = 0.0f;
 		if (TEST_BIT(motor_state_flags, 0) && biped_calculate_crouch_velocity_delta(biped_index, &crouch_velocity_delta))
+		{
 			k -= crouch_velocity_delta;
+		}
 
 		real_vector3d linear_local_space_velocity{};
 		real_vector3d angular_local_space_velocity{};
 		if (object_get_early_mover_local_space_velocity(biped_index, &linear_local_space_velocity, &angular_local_space_velocity, false, false))
+		{
 			k -= linear_local_space_velocity.k;
+		}
 
 		ASSERT(!game_is_predicted());
 
