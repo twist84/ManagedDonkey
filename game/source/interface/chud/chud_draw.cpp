@@ -89,7 +89,7 @@ void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, con
 	real32 current_angle = 0.0f;
 	for (int32 i = 0; i < CIRCLE_DIVISIONS; i++)
 	{
-		set_real_point3d(&points[i], cosf(current_angle) * v2, real32(sinf(current_angle) * v2) - real32(magic_crosshair_offset * (1.0f / CIRCLE_DIVISIONS)), -(1.0f / CIRCLE_DIVISIONS));
+		set_real_point3d(&points[i], cosine(current_angle) * v2, real32(sine(current_angle) * v2) - real32(magic_crosshair_offset * (1.0f / CIRCLE_DIVISIONS)), -(1.0f / CIRCLE_DIVISIONS));
 		matrix4x3_transform_point(&rasterizer_projection->view_to_world, &points[i], &points[i]);
 	
 		current_angle += (TWO_PI / CIRCLE_DIVISIONS);

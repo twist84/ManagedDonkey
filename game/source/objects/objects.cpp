@@ -2185,7 +2185,7 @@ void object_render_debug_internal(int32 object_index)
 		real32 a2 = 0.4f;
 		real32 seconds = game_ticks_to_seconds(real32(game_time_get()));
 		real32 angle = (seconds * TWO_PI) / 3.0f;
-		real32 cos_angle = cosf(angle);
+		real32 cos_angle = cosine(angle);
 		real32 radius = (((cos_angle + 1.0f) * a2) / 2) + a1;
 
 		real_point3d origin{};

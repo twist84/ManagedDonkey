@@ -73,8 +73,8 @@ void initialize_circle_strip()
 		s_rasterizer_implicit_vertex* vertex_data = &g_rasterizer_implicit_geometry_globals->circle_strip[i];
 
 		real32 angle_scaling_factor = i * 63.0f;
-		real32 circle_x_shift = sinf(angle_scaling_factor * TWO_PI);
-		real32 circle_y_shift = cosf(angle_scaling_factor * TWO_PI);
+		real32 circle_x_shift = sine(angle_scaling_factor * TWO_PI);
+		real32 circle_y_shift = cosine(angle_scaling_factor * TWO_PI);
 
  
 		// MS23

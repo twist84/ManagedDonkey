@@ -429,6 +429,12 @@ extern const real_rectangle3d* const& global_null_rectangle3d;
 extern const real_rectangle2d* const& global_zero_rectangle2d;
 extern const real_rectangle3d* const& global_zero_rectangle3d;
 
+extern real32 __cdecl cosine(real32 angle);
+extern real32 __cdecl sine(real32 angle);
+extern real32 __cdecl arctangent(real32 y, real32 x);
+extern real32 __cdecl square_root(real32 x);
+extern real32 __cdecl reciprocal_square_root(real32 x);
+
 extern real32 __cdecl real_max(real32 a, real32 b);
 extern real32 __cdecl real_min(real32 a, real32 b);
 extern real32 __cdecl real_pin(real32 value, real32 min_value, real32 max_value);
@@ -473,7 +479,6 @@ extern real_vector3d* __cdecl vector3d_from_euler_angles2d(real_vector3d* vector
 extern bool __cdecl valid_real_vector3d_axes3(const real_vector3d* forward, const real_vector3d* left, const real_vector3d* up);
 extern bool __cdecl valid_polygon2d(int32 point_count, const real_point2d* const points);
 extern real_vector3d* __cdecl add_vectors3d(const real_vector3d* a, const real_vector3d* b, real_vector3d* result);
-extern real32 __cdecl arctangent(real32 y, real32 x);
 extern real_vector3d* __cdecl cross_product3d(const real_vector3d* a, const real_vector3d* b, real_vector3d* result);
 extern real32 __cdecl distance_squared2d(const real_point2d* a, const real_point2d* b);
 extern real32 __cdecl distance_squared3d(const real_point3d* a, const real_point3d* b);
@@ -507,7 +512,6 @@ extern real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* bounds, 
 extern real_vector2d* __cdecl set_real_vector2d(real_vector2d* vector, real32 i, real32 j);
 extern real_vector3d* __cdecl set_real_vector3d(real_vector3d* vector, real32 i, real32 j, real32 k);
 extern real_vector4d* __cdecl set_real_vector4d(real_vector4d* result, real32 i, real32 j, real32 k, real32 l);
-extern real32 __cdecl square_root(real32 x);
 extern real32 __cdecl triple_product3d(const real_vector3d* a, const real_vector3d* b, const real_vector3d* n);
 extern real_vector2d* __cdecl vector_from_points2d(const real_point2d* a, const real_point2d* b, real_vector2d* result);
 extern real_vector3d* __cdecl vector_from_points3d(const real_point3d* a, const real_point3d* b, real_vector3d* result);

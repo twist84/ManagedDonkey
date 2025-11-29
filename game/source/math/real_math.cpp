@@ -75,6 +75,36 @@ int16 const global_projection3d_inverse_mappings[3][2][3] =
 	}
 };
 
+real32 __cdecl sine(real32 angle)
+{
+	return (real32)sin(angle);
+}
+
+real32 __cdecl cosine(real32 angle)
+{
+	return (real32)cos(angle);
+}
+
+real32 __cdecl arctangent(real32 y, real32 x)
+{
+	return (real32)atan2(y, x);
+}
+
+real32 __cdecl arccosine(real32 x)
+{
+	return (real32)acos(x);
+}
+
+real32 __cdecl square_root(real32 x)
+{
+	return (real32)sqrt(x);
+}
+
+real32 __cdecl reciprocal_square_root(real32 x)
+{
+	return 1.0f / square_root(x);
+}
+
 real32 __cdecl real_max(real32 a, real32 b)
 {
 	return (a > b) ? a : b;
@@ -567,8 +597,8 @@ real_vector3d* __cdecl vector3d_from_angle(real_vector3d* vector, real32 angle)
 {
 	return INVOKE(0x004FF020, vector3d_from_angle, vector, angle);
 
-	//vector->i = cosf(angle);
-	//vector->j = sinf(angle);
+	//vector->i = cosine(angle);
+	//vector->j = sine(angle);
 	//vector->k = 0.0f;
 	//return vector;
 }
@@ -577,9 +607,9 @@ real_vector3d* __cdecl vector3d_from_euler_angles2d(real_vector3d* vector, const
 {
 	return INVOKE(0x004FF060, vector3d_from_euler_angles2d, vector, angles);
 
-	//vector->i = cosf(angles->yaw) * cosf(angles->pitch);
-	//vector->j = sinf(angles->yaw) * cosf(angles->pitch);
-	//vector->k = sinf(angles->pitch);
+	//vector->i = cosine(angles->yaw) * cosine(angles->pitch);
+	//vector->j = sine(angles->yaw) * cosine(angles->pitch);
+	//vector->k = sine(angles->pitch);
 	//return vector;
 }
 
@@ -649,11 +679,6 @@ real_vector3d* __cdecl add_vectors3d(const real_vector3d* a, const real_vector3d
 	result->k = a->k + b->k;
 
 	return result;
-}
-
-real32 __cdecl arctangent(real32 y, real32 x)
-{
-	return atan2f(y, x); // atan2
 }
 
 real_vector3d* __cdecl cross_product3d(const real_vector3d* a, const real_vector3d* b, real_vector3d* result)
@@ -929,11 +954,6 @@ real_vector4d* __cdecl set_real_vector4d(real_vector4d* result, real32 i, real32
 	result->l = l;
 
 	return result;
-}
-
-real32 __cdecl square_root(real32 x)
-{
-	return sqrtf(x); // sqrt
 }
 
 real32 __cdecl triple_product3d(const real_vector3d* a, const real_vector3d* b, const real_vector3d* n)

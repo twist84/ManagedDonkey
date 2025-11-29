@@ -1218,8 +1218,8 @@ void __cdecl render_debug_cone_outline(bool immediate, const real_point3d* origi
 	real_vector3d local_center = *center;
 	normalize3d(&local_center);
 
-	real32 circle_radius = sinf(cone_angle) * length_along_edge;
-	real32 length_along_center = cosf(cone_angle) * length_along_edge;
+	real32 circle_radius = sine(cone_angle) * length_along_edge;
+	real32 length_along_center = cosine(cone_angle) * length_along_edge;
 
 	real_point3d circle_center{};
 	point_from_line3d(origin, &local_center, length_along_center, &circle_center);
@@ -1236,8 +1236,8 @@ void __cdecl render_debug_cone_outline(bool immediate, const real_point3d* origi
 	for (int32 corner_index = 0; corner_index < NUMBEROF(circle_corners); corner_index++)
 	{
 		real32 angle = (TWO_PI * corner_index) / NUMBEROF(circle_corners);
-		point_from_line3d(&circle_center, &circle_left, (circle_radius * sinf(angle)), &circle_corners[corner_index]);
-		point_from_line3d(&circle_corners[corner_index], &circle_up, (circle_radius * cosf(angle)), &circle_corners[corner_index]);
+		point_from_line3d(&circle_center, &circle_left, (circle_radius * sine(angle)), &circle_corners[corner_index]);
+		point_from_line3d(&circle_corners[corner_index], &circle_up, (circle_radius * cosine(angle)), &circle_corners[corner_index]);
 	}
 
 	for (int32 corner_index = 0; corner_index < NUMBEROF(circle_corners); corner_index++)
@@ -1741,8 +1741,8 @@ void __cdecl render_debug_build_circle_points(real32 radius, real_point2d* point
 	ASSERT(total_point_count > 0);
 
 	real32 angle = (TWO_PI / (total_point_count - 1));
-	real32 sine_angle = sinf(angle);
-	real32 cosine_angle = cosf(angle);
+	real32 sine_angle = sine(angle);
+	real32 cosine_angle = cosine(angle);
 	set_real_point2d(points, radius, 0.0f);
 	for (int32 point_index = 0; point_index + 1 < total_point_count; point_index++)
 	{
