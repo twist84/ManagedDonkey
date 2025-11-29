@@ -112,6 +112,7 @@ extern bool debug_objects_pendulum;
 
 extern void __cdecl biped_build_2d_camera_frame(const real_vector3d* forward_vector, const real_vector3d* up_vector, real_vector2d* forward_axis, real_vector2d* side_axis);
 extern void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const real_vector3d* old_velocity);
+extern void __cdecl biped_compute_lean(int32 biped_index, real_point3d* camera_position, real_vector3d* camera_forward, real_vector3d* camera_up);
 extern void __cdecl biped_get_autoaim_pill(int32 biped_index, real_point3d* base, real_vector3d* height, real32* autoaim_width);
 extern real32 __cdecl biped_get_desired_camera_height(int32 biped_index);
 extern void __cdecl biped_get_physics_pill(int32 biped_index, real_point3d* position, real32* height, real32* radius);

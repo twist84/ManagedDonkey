@@ -4,6 +4,7 @@
 #include "cache/cache_files.hpp"
 #include "cutscene/recorded_animations.hpp"
 #include "game/cheats.hpp"
+#include "math/periodic_functions.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "motor/motor_animation.hpp"
@@ -14,7 +15,13 @@
 
 #include <math.h>
 
+REFERENCE_DECLARE(0x01947EAC, real32, global_lean_pivot_offset) = 1.3f;
+REFERENCE_DECLARE(0x01947EB0, real32, global_lean_return_amount) = 0.6f;
+REFERENCE_DECLARE(0x01947EFC, real32, global_lean_angle) = 20.0f * DEG;
+REFERENCE_DECLARE(0x01947F00, real32, global_lean_turn_angle) = 30.0f * DEG;
+
 HOOK_DECLARE(0x00B6B8F0, biped_bumped_object);
+HOOK_DECLARE(0x00B6CC70, biped_compute_lean);
 HOOK_DECLARE(0x00B70DF0, biped_render_debug);
 HOOK_DECLARE(0x00B716C0, biped_update);
 
@@ -114,7 +121,31 @@ void __cdecl biped_bumped_object(int32 biped_index, int32 object_index, const re
 //.text:00B6C840 ; real32 __cdecl biped_calculate_animated_jump_z_offset_per_tick()
 //.text:00B6C870 ; bool __cdecl biped_can_trade_weapon_with_player(int32, int32)
 //.text:00B6CAE0 ; bool __cdecl biped_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
-//.text:00B6CC70 ; void __cdecl biped_compute_lean(int32, real_point3d*, real_vector3d*, real_vector3d*)
+
+void __cdecl biped_compute_lean(int32 biped_index, real_point3d* camera_position, real_vector3d* camera_forward, real_vector3d* camera_up)
+{
+	//INVOKE(0x00B6CC70, biped_compute_lean, biped_index, camera_position, camera_forward, camera_up);
+
+	ASSERT(camera_position);
+	ASSERT(camera_forward);
+	ASSERT(camera_up);
+
+	biped_datum* biped = BIPED_GET(biped_index);
+	real32 lean = transition_function_evaluate(_transition_function_early, fabsf(biped->biped.lean));
+	lean *= (real32)(biped->biped.lean == 0.0f ? 0 : (biped->biped.lean >= 0.0f ? 1 : -1));
+
+	real32 lean_angle = lean * global_lean_angle;
+	real32 turn_angle = lean * global_lean_turn_angle;
+	real32 return_angle = lean_angle * -global_lean_return_amount;
+
+	real_point3d pivot{};
+	rotate_vector_about_axis(camera_forward, camera_up, sine(turn_angle), cosine(turn_angle));
+	point_from_line3d(camera_position, camera_up, -global_lean_pivot_offset, &pivot);
+	rotate_vector_about_axis(camera_up, camera_forward, sine(lean_angle), cosine(lean_angle));
+	point_from_line3d(camera_position, camera_up, global_lean_pivot_offset, &pivot);
+	rotate_vector_about_axis(camera_up, camera_forward, sine(return_angle), cosine(return_angle));
+}
+
 //.text:00B6CE70 ; void __cdecl biped_dash(int32, int32, int32, bool)
 //.text:00B6D010 ; int32 __cdecl biped_dash_time_to_target(int32)
 //.text:00B6D0D0 ; void __cdecl biped_delete(int32)
@@ -400,7 +431,7 @@ bool __cdecl biped_update(int32 biped_index)
 void __cdecl biped_update_camera(int32 biped_index)
 {
 	//INVOKE(0x00B717B0, biped_update_camera, biped_index);
-	
+
 	biped_datum* biped = BIPED_GET(biped_index);
 	if (biped->unit.player_index != NONE &&
 		!motor_animation_resource_busy(biped_index, _motor_resource_primary_impulse) &&
@@ -527,7 +558,7 @@ void __cdecl biped_update_kill_volumes(int32 biped_index)
 void __cdecl biped_update_leaning(int32 biped_index)
 {
 	//INVOKE(0x00B71D10, biped_update_leaning, biped_index);
-	
+
 	biped_datum* biped = BIPED_GET(biped_index);
 	if (biped && biped->unit.player_index != NONE && biped->biped.lean != 0.0f)
 	{
