@@ -570,7 +570,23 @@ int32 __cdecl rectangle3d_build_vertices(const real_rectangle3d* bounds, int32 m
 //.text:004FD240 ; void __cdecl rectangle3d_compute_nearest_point(const real_rectangle3d*, const real_point3d*, real_point3d*)
 //.text:004FD2D0 ; real_vector3d* __cdecl reflect_vector3d(const real_vector3d*, const real_vector3d*, real_vector3d*)
 //.text:004FD350 ; 
-//.text:004FD560 ; real_vector3d* __cdecl rotate_vector_about_axis(real_vector3d*, const real_vector3d*, real32, real32)
+
+real_vector3d* __cdecl rotate_vector_about_axis(real_vector3d* forward, const real_vector3d* up, real32 sine, real32 cosine)
+{
+	return INVOKE(0x004FD560, rotate_vector_about_axis, forward, up, sine, cosine);
+
+	real32 one_minus_cosine_times_v_dot_n = (forward->i * up->i + forward->j * up->j + forward->k * up->k) * (1.0f - cosine);
+	real32 v_cross_n_i = forward->j * up->k - forward->k * up->j;
+	real32 v_cross_n_j = forward->k * up->i - forward->i * up->k;
+	real32 v_cross_n_k = forward->i * up->j - forward->j * up->i;
+
+	forward->i = cosine * forward->i + one_minus_cosine_times_v_dot_n * up->i - v_cross_n_i * sine;
+	forward->j = cosine * forward->j + one_minus_cosine_times_v_dot_n * up->j - v_cross_n_j * sine;
+	forward->k = cosine * forward->k + one_minus_cosine_times_v_dot_n * up->k - v_cross_n_k * sine;
+
+	return forward;
+}
+
 //.text:004FD660 ; 
 //.text:004FD6F0 ; void __cdecl scalars_interpolate(real32, real32, real32, real32*)
 //.text:004FD720 ; 

@@ -474,6 +474,7 @@ extern real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectang
 extern int32 __cdecl rectangle3d_build_edges(const real_rectangle3d* bounds, int32 maximum_edge_count, real_point3d(* const edges)[2]);
 extern int32 __cdecl rectangle3d_build_faces(const real_rectangle3d* bounds, int32 maximum_face_count, real_point3d(* const faces)[4]);
 extern int32 __cdecl rectangle3d_build_vertices(const real_rectangle3d* bounds, int32 maximum_vertex_count, real_point3d* const vertices);
+extern real_vector3d* __cdecl rotate_vector_about_axis(real_vector3d* forward, const real_vector3d* up, real32 sine, real32 cosine);
 extern real_vector3d* __cdecl vector3d_from_angle(real_vector3d* vector, real32 angle);
 extern real_vector3d* __cdecl vector3d_from_euler_angles2d(real_vector3d* vector, const real_euler_angles2d* angles);
 extern bool __cdecl valid_real_vector3d_axes3(const real_vector3d* forward, const real_vector3d* left, const real_vector3d* up);
