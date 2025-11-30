@@ -68,7 +68,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForcedIncludeFiles>_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
       <SupportJustMyCode>false</SupportJustMyCode>
@@ -107,7 +107,7 @@ COPY /Y "$(TargetPath)" "$(SolutionDir)bin\game.dll"</Command>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForcedIncludeFiles>_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
     </ClCompile>
