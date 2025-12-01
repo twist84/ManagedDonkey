@@ -4,6 +4,7 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "math/random_math.hpp"
@@ -46,6 +47,12 @@ HOOK_DECLARE(0x004426F0, simulation_update_pregame);
 int32 g_simulation_bandwidth_eater = 0;
 bool g_simulation_disable_replicated_aim_assist = false;
 
+bool g_simulation_status_world = false;
+s_status_line g_simulation_world_status_line;
+
+bool g_simulation_status_views = false;
+s_status_line g_simulation_view_status_lines[k_simulation_world_maximum_views];
+s_status_line g_simulation_view_send_status_lines[k_simulation_world_maximum_views];
 
 c_wait_for_render_thread::c_wait_for_render_thread(const char* file, int32 line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
@@ -726,25 +733,29 @@ void __cdecl simulation_initialize()
 	ASSERT(!simulation_globals.initialized);
 
 	simulation_gamestate_entities_initialize();
-	if (!network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
+	if (network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
 	{
-		return;
+		ASSERT(simulation_globals.world);
+		ASSERT(simulation_globals.watcher);
+		ASSERT(simulation_globals.type_collection);
+
+		simulation_globals.type_collection->clear_types();
+
+		int32 entity_type_count, event_type_count;
+		simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
+		simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
+
+		status_lines_initialize(&g_simulation_world_status_line, &g_simulation_status_world, 1);
+		for (int32 view_index = 0; view_index < k_simulation_world_maximum_views; view_index++)
+		{
+			status_lines_initialize(&g_simulation_view_status_lines[view_index], &g_simulation_status_views, 1);
+			status_lines_initialize(&g_simulation_view_send_status_lines[view_index], &g_simulation_status_views, 1);
+		}
+
+		simulation_globals.simulation_reset_in_progress = false;
+		simulation_globals.recording_film = false;
+		simulation_globals.initialized = true;
 	}
-
-	ASSERT(simulation_globals.world);
-	ASSERT(simulation_globals.watcher);
-	ASSERT(simulation_globals.type_collection);
-
-	int32 entity_type_count = NONE;
-	int32 event_type_count = NONE;
-
-	simulation_globals.type_collection->clear_types();
-	simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
-	simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
-
-	simulation_globals.simulation_reset_in_progress = false;
-	simulation_globals.recording_film = false;
-	simulation_globals.initialized = true;
 }
 
 void __cdecl simulation_initialize_for_new_map()
@@ -1105,38 +1116,220 @@ void __cdecl simulation_start()
 
 	//ASSERT(game_in_progress());
 	//
-	//if (!simulation_globals.initialized)
+	//if (simulation_globals.initialized)
 	//{
-	//	return;
+	//	ASSERT(simulation_globals.world);
+	//
+	//	if (!simulation_globals.world->attached_to_map())
+	//	{
+	//		simulation_globals.world->attach_to_map();
+	//	}
 	//}
-	//
-	//ASSERT(simulation_globals.world);
-	//
-	//if (simulation_globals.world->attached_to_map())
-	//{
-	//	return;
-	//}
-	//
-	//simulation_globals.world->attach_to_map();
 }
 
 bool __cdecl simulation_starting_up()
 {
 	//return INVOKE(0x004420E0, simulation_starting_up);
 
-	if (!simulation_globals.initialized)
+	bool starting_up = false;
+	if (simulation_globals.initialized)
 	{
-		return false;
+		ASSERT(simulation_globals.world);
+
+		if (!simulation_globals.simulation_aborted && simulation_globals.world->exists())
+		{
+			starting_up = !simulation_globals.world->is_active();
+		}
+	}
+	return starting_up;
+}
+
+void __cdecl simulation_status_lines_update()
+{
+	if (g_simulation_status_world && simulation_globals.initialized)
+	{
+		c_simulation_world* world = simulation_globals.world;
+		ASSERT(world);
+
+		s_status_line* line = &g_simulation_world_status_line;
+
+		if (world->exists())
+		{
+			char textbuf[256]{};
+
+			line->flags.set(_status_line_inhibit_drawing_bit, false);
+			line->flags.set(_status_line_left_justify_bit, true);
+
+			int32 world_type = world->get_world_type();
+			csnzprintf(textbuf, NUMBEROF(textbuf), "%s",
+				c_simulation_world::get_type_string(world_type));
+
+			int32 world_state = world->get_state();
+			switch (world_state)
+			{
+			case _simulation_world_state_joining:
+			{
+
+				int32 join_time_elapsed;
+				int32 join_time_to_abort;
+				int32 join_attempt_count;
+				int32 join_attempt_maximum;
+				int32 join_client_establishing_count;
+				int32 join_client_waiting_count;
+				int32 join_client_joining_count;
+				int32 join_client_complete_count;
+				int32 join_client_total_count;
+				int32 join_time_to_failure;
+				world->get_join_status(
+					&join_time_elapsed,
+					&join_time_to_abort,
+					&join_attempt_count,
+					&join_attempt_maximum,
+					&join_client_establishing_count,
+					&join_client_waiting_count,
+					&join_client_joining_count,
+					&join_client_complete_count,
+					&join_client_total_count,
+					&join_time_to_failure);
+
+				csnzappendf(textbuf, NUMBEROF(textbuf), " %s@%d",
+					c_simulation_world::get_state_string(_simulation_world_state_joining),
+					join_time_elapsed);
+
+				if (world->is_authority())
+				{
+					csnzappendf(textbuf, NUMBEROF(textbuf), " cli-%d/%d/%d/%d/%d",
+						join_client_establishing_count,
+						join_client_waiting_count,
+						join_client_joining_count,
+						join_client_complete_count,
+						join_client_total_count);
+				}
+			}
+			break;
+			case _simulation_world_state_disconnected:
+			{
+				int32 time_elapsed;
+				int32 time_to_failure;
+				world->get_disconnected_status(&time_elapsed, &time_to_failure);
+				csnzappendf(textbuf, NUMBEROF(textbuf), " %s@%d",
+					c_simulation_world::get_state_string(_simulation_world_state_disconnected),
+					time_elapsed);
+			}
+			break;
+			default:
+			{
+				csnzappendf(textbuf, NUMBEROF(textbuf), " %s",
+					c_simulation_world::get_state_string(world_state));
+			}
+			}
+
+			{
+				int32 failure_count, failure_timeout;
+				if (world->get_failure_status(&failure_count, &failure_timeout))
+				{
+					csnzappendf(textbuf, NUMBEROF(textbuf), " fail-%d time-%d",
+						failure_count,
+						failure_timeout);
+				}
+			}
+
+			{
+				int32 view_count = world->get_view_count();
+				csnzappendf(textbuf, NUMBEROF(textbuf), " %d view%s",
+					view_count,
+					view_count == 1 ? "" : "s");
+			}
+
+			if (!world->runs_simulation())
+			{
+				int32 next_update_dequeue, next_update_expected;
+				world->get_update_queue_status(&next_update_dequeue, &next_update_expected);
+				csnzappendf(textbuf, NUMBEROF(textbuf), " upd %d/%d",
+					next_update_dequeue,
+					next_update_expected);
+			}
+			
+			if (world_type == _simulation_world_type_synchronous_game_client)
+			{
+				int32 gamestate_write_progress;
+				world->get_synchronous_client_status(&gamestate_write_progress);
+				if (gamestate_write_progress != NONE)
+				{
+					csnzappendf(textbuf, NUMBEROF(textbuf), " gs%.1fk", (real32)(gamestate_write_progress / 1024));
+				}
+			}
+
+			g_simulation_world_status_line.text.print("world: %s", textbuf);
+		}
+		else
+		{
+			line->flags.set(_status_line_inhibit_drawing_bit, true);
+		}
 	}
 
-	ASSERT(simulation_globals.world);
-
-	if (simulation_globals.simulation_aborted || !simulation_globals.world->exists())
+	if (g_simulation_status_views && simulation_globals.initialized)
 	{
-		return false;
-	}
+		for (int32 view_index = 0; view_index < k_simulation_world_maximum_views; view_index++)
+		{
+			s_status_line* line = &g_simulation_view_status_lines[view_index];
+			s_status_line* send_line = &g_simulation_view_send_status_lines[view_index];
 
-	return !simulation_globals.world->is_active();
+			line->flags.set(_status_line_inhibit_drawing_bit, true);
+			send_line->flags.set(_status_line_inhibit_drawing_bit, true);
+		}
+
+		if (simulation_globals.world->exists())
+		{
+			ASSERT(simulation_globals.world);
+
+			s_simulation_world_view_iterator iterator{};
+			c_simulation_world::iterator_begin(&iterator, NONE);
+
+			c_simulation_view* view = NULL;
+			while (simulation_globals.world->iterator_next(&iterator, &view))
+			{
+				int32 view_index = view->get_world_view_index();
+				int32 view_type = view->view_type();
+
+				ASSERT(VALID_INDEX(view_index, k_simulation_world_maximum_views));
+				s_status_line* line = &g_simulation_view_status_lines[view_index];
+				s_status_line* send_line = &g_simulation_view_send_status_lines[view_index];
+
+				line->flags.set(_status_line_inhibit_drawing_bit, false);
+				send_line->flags.set(_status_line_inhibit_drawing_bit, false);
+
+				line->flags.set(_status_line_left_justify_bit, true);
+				send_line->flags.set(_status_line_left_justify_bit, true);
+
+				s_simulation_view_statistics statistics{};
+				view->get_statistics(&statistics);
+
+				char textbuf[256]{};
+				csnzprintf(textbuf, NUMBEROF(textbuf), "events%d/%d/%d updates%d/%d creations%d/%d deletions%d/%d",
+					c_simulation_view::get_type_string(view_type),
+					view->get_view_establishment_mode(),
+					view->get_view_establishment_identifier(),
+					view->get_remote_establishment_mode(),
+					view->get_remote_establishment_identifier());
+
+				line->text.print("view %s: %s",
+					view->get_view_description(),
+					textbuf);
+
+				send_line->text.print("events%d/%d/%d updates%d/%d creations%d/%d deletions%d/%d",
+					statistics.event.events_pending,
+					statistics.event.events_in_transit,
+					statistics.event.events_sent,
+					statistics.entity.updates_pending,
+					statistics.entity.updates_sent,
+					statistics.entity.creations_pending,
+					statistics.entity.creations_sent,
+					statistics.entity.deletions_pending,
+					statistics.entity.deletions_sent);
+			}
+		}
+	}
 }
 
 void __cdecl simulation_stop()
@@ -1145,15 +1338,13 @@ void __cdecl simulation_stop()
 
 	//ASSERT(game_in_progress());
 	//
-	//if (!simulation_globals.initialized)
+	//if (simulation_globals.initialized)
 	//{
-	//	return;
-	//}
-	//
-	//ASSERT(simulation_globals.world);
-	//if (simulation_globals.world->attached_to_map() && !simulation_reset_in_progress() && !main_game_reset_in_progress())
-	//{
-	//	simulation_globals.world->detach_from_map();
+	//	ASSERT(simulation_globals.world);
+	//	if (simulation_globals.world->attached_to_map() && !simulation_reset_in_progress() && !main_game_reset_in_progress())
+	//	{
+	//		simulation_globals.world->detach_from_map();
+	//	}
 	//}
 }
 
@@ -1178,72 +1369,121 @@ void __cdecl simulation_update()
 
 	if (!simulation_globals.initialized)
 	{
-		return;
+		simulation_globals.simulation_in_online_networked_session = false;
 	}
-	
-	if (simulation_globals.simulation_aborted
-		&& game_in_progress()
-		&& game_is_ui_shell()
-		&& simulation_globals.simulation_aborted_reason != _simulation_abort_reason_preparing_to_play_film)
+	else
 	{
-		main_menu_launch_force();
-	}
-	
-	if (!simulation_globals.initialized)
-	{
-		return;
-	}
-	
-	if (simulation_globals.simulation_deferred)
-	{
-		simulation_globals.simulation_deferred = saved_film_manager_has_pending_global_state_change();
-	}
-	
-	if (simulation_globals.initialized && !simulation_globals.simulation_aborted && game_in_progress())
-	{
-		ASSERT(simulation_globals.world && simulation_globals.watcher);
-	
-		if (simulation_globals.simulation_fatal_error)
+		if (simulation_globals.simulation_aborted && game_in_progress() && game_is_ui_shell())
 		{
-			simulation_abort_immediate(_simulation_abort_reason_fatal_error);
+			event( _event_critical, "networking:simulation: simulation aborted in main menu [%s], reloading the main menu!",
+				simulation_get_abort_reason_string());
+
+			main_menu_launch_force();
 		}
-		else if (!simulation_globals.watcher->maintain_connection())
+
+		if (simulation_globals.simulation_deferred)
 		{
-			simulation_abort_immediate(_simulation_abort_reason_lost_connection);
+			simulation_globals.simulation_deferred = saved_film_manager_has_pending_global_state_change();
 		}
-		else if (simulation_globals.world->is_playback() && saved_film_manager_playback_aborted())
+
+		if (!simulation_globals.simulation_aborted && game_in_progress())
 		{
-			simulation_abort_immediate(_simulation_abort_reason_film_playback_error);
-		}
-	
-		if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
-		{
-			simulation_globals.world->update();
-		}
-	
-		simulation_update_out_of_sync();
-	
-		if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
-		{
-			if (!simulation_globals.world->runs_simulation()
-				&& simulation_globals.world->time_running()
-				&& simulation_globals.world->is_active()
-				&& !simulation_globals.world->is_out_of_sync())
+			ASSERT(simulation_globals.world != NULL);
+			ASSERT(simulation_globals.watcher != NULL);
+
+			if (!simulation_globals.simulation_aborted)
 			{
-				simulation_globals.world->process_playback_events();
-			}
-	
-			if (simulation_globals.world->is_playback()
-				&& simulation_globals.world->is_authority()
-				&& simulation_globals.world->time_running()
-				&& simulation_globals.world->is_active()
-				&& !simulation_globals.world->is_out_of_sync())
-			{
-				int32 ticks_remaining = saved_film_manager_get_ticks_remaining();
-				if (ticks_remaining > 0)
+				if (simulation_globals.simulation_fatal_error)
 				{
-					int32 updates_read = 0;
-					if (!simulation_film_retrieve_updates(ticks_remaining, &updates_read) && updates_read != ticks_remaining)
+					event(_event_error, "networking:simulation: fatal error raised, aborting simulation");
+					simulation_abort_immediate(_simulation_abort_reason_fatal_error);
+				}
+			}
+
+			if (!simulation_globals.simulation_aborted)
+			{
+				if (!simulation_globals.watcher->maintain_connection())
+				{
+					event(_event_message, "networking:simulation: watcher connection lost, aborting simulation");
+					simulation_abort_immediate(_simulation_abort_reason_lost_connection);
+				}
+			}
+
+			if (!simulation_globals.simulation_aborted)
+			{
+				if (simulation_globals.world->is_playback() && saved_film_manager_playback_aborted())
+				{
+					event(_event_message, "networking:simulation: saved film playback aborted, aborting simulation");
+					simulation_abort_immediate(_simulation_abort_reason_film_playback_error);
+				}
+			}
+
+			if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
+			{
+				simulation_globals.world->update();
+			}
+
+			simulation_update_out_of_sync();
+
+			if (!simulation_globals.simulation_aborted && !simulation_globals.simulation_deferred)
+			{
+				if (!simulation_globals.world->runs_simulation()
+					&& simulation_globals.world->time_running()
+					&& simulation_globals.world->is_active()
+					&& !simulation_globals.world->is_out_of_sync())
+				{
+					simulation_globals.world->process_playback_events();
+				}
+
+				if (!simulation_globals.simulation_aborted
+					&& !simulation_globals.simulation_deferred
+					&& simulation_globals.world->is_playback()
+					&& simulation_globals.world->is_authority()
+					&& simulation_globals.world->time_running()
+					&& simulation_globals.world->is_active()
+					&& !simulation_globals.world->is_out_of_sync())
+				{
+					bool exit_saved_film_due_to_error = false;
+					e_game_playback_type playback = game_playback_get();
+					if (playback == _game_playback_film || playback == _game_playback_network_server)
+					{
+						int32 saved_film_ticks_remaining = saved_film_manager_get_ticks_remaining();
+						if (saved_film_ticks_remaining > 0)
+						{
+							int32 updates_read = 0;
+							if (!simulation_film_retrieve_updates(saved_film_ticks_remaining, &updates_read) && updates_read != saved_film_ticks_remaining)
+							{
+								event(_event_error, "networking:simulation: failed to read updates from saved film (should have had %d to read?)", saved_film_ticks_remaining);
+								exit_saved_film_due_to_error = true;
+							}
+						}
+
+						{
+							real32 seconds = game_time_get_speed() * 0.25f;
+							int32 updates_required = game_seconds_to_ticks_round(seconds);
+							ASSERT(updates_required >= 0);
+
+							if (updates_required > 0)
+							{
+								int32 update_queue_length = 0;
+								simulation_globals.world->time_get_available(NULL, &update_queue_length);
+								ASSERT(update_queue_length >= 0);
+
+								if (saved_film_ticks_remaining && !update_queue_length)
+								{
+									event(_event_error, "networking:simulation: update queue empty and it should not be (film ticks remaming %d)", saved_film_ticks_remaining);
+									exit_saved_film_due_to_error = true;
+								}
+							}
+						}
+					}
+					else
+					{
+						event(_event_error, "networking:simulation: world is playback authority but game playback type is not");
+						exit_saved_film_due_to_error = true;
+					}
+
+					if (exit_saved_film_due_to_error)
 					{
 						saved_film_manager_abort_playback(_saved_film_playback_abort_simulation_failed_to_read);
 						if (network_life_cycle_get_state() == _life_cycle_state_none)
@@ -1252,56 +1492,45 @@ void __cdecl simulation_update()
 						}
 					}
 				}
-	
-				int32 tick_rate = game_seconds_to_ticks_round(game_time_get_speed() * 0.25f);
-				if (tick_rate > 0)
-				{
-					int32 updates_available = 0;
-					simulation_globals.world->time_get_available(NULL, &updates_available);
-					if (ticks_remaining && updates_available == 0)
-					{
-						event(_event_error, "networking:simulation: update queue empty and it should not be (film ticks remaining %d)",
-							ticks_remaining);
-					}
-				}
 			}
 		}
-	}
-	
-	if (simulation_starting_up())
-	{
-		if (simulation_globals.initialized && simulation_globals.watcher)
+
+		if (simulation_starting_up())
 		{
-			simulation_globals.watcher->describe_status(simulation_globals.status_buffer, sizeof(simulation_globals.status_buffer));
+			simulation_describe_status(simulation_globals.status_buffer, NUMBEROF(simulation_globals.status_buffer));
 		}
-		else
+
+		bool in_online_networked_session = false;
+		if (simulation_globals.initialized)
 		{
-			csstrnzcpy(simulation_globals.status_buffer, "simulation initializing", sizeof(simulation_globals.status_buffer));
+			if (simulation_globals.simulation_aborted && simulation_globals.recording_film)
+			{
+				saved_film_manager_close();
+				simulation_globals.recording_film = false;
+				saved_film_manager_copy_film_to_debug_path();
+			}
+
+			if (simulation_globals.simulation_aborted)
+			{
+				if (simulation_globals.world->exists() && simulation_globals.world->is_playback() && saved_film_manager_is_reading())
+				{
+					saved_film_manager_close();
+				}
+			}
+
+			if (simulation_globals.must_close_saved_film)
+			{
+				saved_film_manager_close();
+				simulation_globals.must_close_saved_film = false;
+			}
+
+			in_online_networked_session = simulation_globals.watcher->in_online_networked_session();
 		}
+		simulation_globals.simulation_in_online_networked_session = in_online_networked_session;
+
+		simulation_status_lines_update();
+		simulation_test_update();
 	}
-	
-	if (!simulation_globals.initialized)
-	{
-		return;
-	}
-	
-	if (simulation_globals.simulation_aborted)
-	{
-		simulation_film_stop_recording();
-	}
-	
-	if (simulation_globals.simulation_aborted && saved_film_manager_is_reading())
-	{
-		saved_film_manager_close();
-	}
-	
-	if (simulation_globals.must_close_saved_film)
-	{
-		saved_film_manager_close();
-		simulation_globals.must_close_saved_film = false;
-	}
-	
-	simulation_globals.simulation_in_online_networked_session = simulation_globals.watcher->in_online_networked_session();
 }
 
 void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata)

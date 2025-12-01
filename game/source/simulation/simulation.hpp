@@ -131,6 +131,8 @@ static_assert(sizeof(s_simulation_globals) == 0x128);
 extern s_simulation_globals& simulation_globals;
 
 extern int32 g_simulation_bandwidth_eater;
+extern bool g_simulation_status_world;
+extern bool g_simulation_status_views;
 
 extern void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason);
 extern bool __cdecl simulation_aborted();
@@ -201,6 +203,7 @@ extern void __cdecl simulation_set_performed_main_save_and_exit_campaign_immedia
 extern bool __cdecl simulation_should_transmit_simulation_data();
 extern void __cdecl simulation_start();
 extern bool __cdecl simulation_starting_up();
+extern void __cdecl simulation_status_lines_update();
 extern void __cdecl simulation_stop();
 extern void __cdecl simulation_test_update();
 extern int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time);
