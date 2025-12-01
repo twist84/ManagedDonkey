@@ -97,17 +97,17 @@ uns32 c_bitstream::read_integer(const char* debug_string, int32 size_in_bits)
 {
 	//return DECLFUNC(0x00443970, uns32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 	//return INVOKE_CLASS_MEMBER(0x00443970, c_bitstream, read_integer, debug_string, size_in_bits);
-	
+
 	ASSERT(reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
-	
+
 	uns32 value = c_bitstream::read_dword_internal(size_in_bits);
-	
+
 	if (size_in_bits < LONG_BITS)
 	{
 		ASSERT(value < (uns32)(1 << size_in_bits));
 	}
-	
+
 	return value;
 }
 
@@ -453,10 +453,10 @@ bool c_bitstream::error_occurred() const
 {
 	//DECLFUNC(0x00558090, bool, __thiscall, const c_bitstream*)(this);
 
-	bool result = overflowed();
+	bool result = c_bitstream::overflowed();
 	if (m_data_error_detected)
 	{
-			return true;
+		result = true;
 	}
 	return result;
 }
@@ -475,7 +475,7 @@ void c_bitstream::finish_consistency_check()
 {
 	//DECLFUNC(0x005580B0, void, __thiscall, c_bitstream*)(this);
 
-	finish_reading();
+	c_bitstream::finish_reading();
 }
 
 void c_bitstream::finish_reading()
@@ -573,13 +573,13 @@ uns64 c_bitstream::read_accumulator_from_memory(int32 size_in_bits)
 	return DECLFUNC(0x005583D0, bool, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 
 	//uns64 old_accumulator = m_bitstream_data.accumulator;
-	//uns64 new_accumulator = c_bitstream::decode_qword_from_memory();
+	//uns64 next_accumulator = c_bitstream::decode_qword_from_memory();
 	//
 	//m_bitstream_data.current_stream_bit_position += size_in_bits;
 	//int32 bits_from_next_accumulator = m_bitstream_data.accumulator_bit_count + size_in_bits - QWORD_BITS;
 	//if (bits_from_next_accumulator < QWORD_BITS)
 	//{
-	//	m_bitstream_data.accumulator = new_accumulator << bits_from_next_accumulator;
+	//	m_bitstream_data.accumulator = next_accumulator << bits_from_next_accumulator;
 	//}
 	//else
 	//{
@@ -587,8 +587,8 @@ uns64 c_bitstream::read_accumulator_from_memory(int32 size_in_bits)
 	//}
 	//m_bitstream_data.accumulator_bit_count = bits_from_next_accumulator;
 	//
-	//uns64 value_portion_from_old_accumulator = right_shift_fast(old_accumulator, size_in_bits);
-	//uns64 value_portion_from_new_accumulator = right_shift_fast(new_accumulator, QWORD_BITS - bits_from_next_accumulator);
+	//uns64 value_portion_from_old_accumulator = right_shift_fast<uns64>(old_accumulator, size_in_bits);
+	//uns64 value_portion_from_new_accumulator = right_shift_fast<uns64>(next_accumulator, QWORD_BITS - bits_from_next_accumulator);
 	//ASSERT((value_portion_from_old_accumulator & MASK(bits_from_next_accumulator)) == 0);
 	//
 	//return value_portion_from_old_accumulator | value_portion_from_new_accumulator;
@@ -982,7 +982,7 @@ void c_bitstream::write_secure_address(const char* debug_string, const s_transpo
 
 	ASSERT(writing());
 	ASSERT(address);
-	
+
 	c_bitstream::write_bits_internal(address->data, SIZEOF_BITS(s_transport_secure_address));
 }
 

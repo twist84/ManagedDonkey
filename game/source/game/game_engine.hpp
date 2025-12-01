@@ -45,18 +45,6 @@ enum e_game_engine_end_condition
 
 extern const char* (&k_game_engine_end_conditions)[k_game_engine_game_end_condition_count];
 
-// game_engine_hud_get_state_message
-// e_string_id_global
-enum e_game_engine_state
-{
-	_game_engine_state_game_over = 0,
-	_game_engine_state_round_progress,
-	_game_engine_state_round_over,
-	_game_engine_state_waiting_for_next_round,
-
-	k_game_engine_state_count
-};
-
 enum e_garbage_collect_speed
 {
 	_garbage_collect_speed_normal = 0,
@@ -109,12 +97,12 @@ struct s_game_engine_globals
 	uns16 active_teams;
 	uns16 ever_active_teams;
 	c_static_array<int16, 9> team_designator_to_team_index;
-	c_static_array<int8, 8> team_lives_per_round;
+	c_static_array<int8, 8> shared_team_lives;
 	uns32 game_engine_gamestate_index;
 	uns32 statborg_gamestate_index;
 	c_static_array<int32, 16> player_gamestate_indices;
 	c_map_variant runtime_map_variant;
-	c_enum<e_game_engine_state, int16, _game_engine_state_game_over, k_game_engine_state_count> current_state;
+	int16 current_state;
 	int16 round_index;
 	int32 round_start_time;
 	c_flags<int32, uns8, 8> round_condition_flags;
@@ -151,15 +139,15 @@ struct s_game_engine_globals
 	c_static_array<s_player_navpoint_data, 16> player_navpoint_data;
 
 	int32 last_netdebug_update_time;
-	c_static_array<s_simulation_player_netdebug_data, 16> player_netdebug_data;
+	s_simulation_player_netdebug_data player_netdebug_data[16];
 
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	uns32 game_engine_state_timer;
-	c_enum<e_game_engine_state, int32, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
+	int32 desired_state;
 	bool game_engine_has_handled_game_end;
 	e_garbage_collect_speed garbage_collect_speed;
 	c_game_engine_performance_flags performance_flags;
-	c_enum<e_game_engine_type, int32, _game_engine_type_none, k_game_engine_type_count> game_engine_index;
+	e_game_engine_type game_engine_index;
 
 	int32 multiplayer_weapon_count;
 	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;

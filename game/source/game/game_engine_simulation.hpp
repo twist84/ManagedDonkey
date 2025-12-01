@@ -2,26 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-enum e_multiplayer_event_type
-{
-	_multiplayer_event_type_general = 0,
-	_multiplayer_event_type_flavor,
-	_multiplayer_event_type_slayer,
-	_multiplayer_event_type_capture_the_flag,
-	_multiplayer_event_type_oddball,
-	_multiplayer_event_type_dummy,
-	_multiplayer_event_type_king_of_the_hill,
-	_multiplayer_event_type_vip,
-	_multiplayer_event_type_territories,
-	_multiplayer_event_type_juggernaut,
-	_multiplayer_event_type_assault,
-	_multiplayer_event_type_infection,
-	_multiplayer_event_type_survival,
-	_multiplayer_event_type_earn_wp,
-
-	k_multiplayer_event_type_count
-};
-
 struct s_territories_event_data
 {
 	int16 territory_index;

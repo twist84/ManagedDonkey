@@ -551,86 +551,98 @@ bool __cdecl debugging_system_has_focus()
 	return console_is_active() || debug_menu_get_active();
 }
 
-void status_line_add_single(s_status_line* inStatusLine)
+void status_line_add_single(s_status_line* in_status_line)
 {
-	ASSERT(NULL == inStatusLine->prev);
-	ASSERT(NULL == inStatusLine->next);
+	ASSERT(NULL == in_status_line->prev);
+	ASSERT(NULL == in_status_line->next);
 
-	inStatusLine->next = NULL;
-	inStatusLine->prev = g_status_line_tail;
+	in_status_line->next = NULL;
+	in_status_line->prev = g_status_line_tail;
 	
 	if (g_status_line_tail)
-		g_status_line_tail->next = inStatusLine;
+	{
+		g_status_line_tail->next = in_status_line;
+	}
 	else
-		g_status_line_head = inStatusLine;
+	{
+		g_status_line_head = in_status_line;
+	}
 
-	if (inStatusLine->next)
-		inStatusLine->next->prev = inStatusLine;
+	if (in_status_line->next)
+	{
+		in_status_line->next->prev = in_status_line;
+	}
 	else
-		g_status_line_tail = inStatusLine;
+	{
+		g_status_line_tail = in_status_line;
+	}
 }
 
 void status_line_draw()
 {
 	PROFILER(status_line_draw)
 	{
-		if (!console_globals.status_render/* || !can_use_claws()*/)
-			return;
-
-		for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
+		if (console_globals.status_render/* && can_use_claws()*/)
 		{
-			s_status_line& status_line = g_status_strings[i].line;
-			if (!status_line.text.is_empty())
+			for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
 			{
-				uns32 time = system_milliseconds();
-				int32 time_delta = time - g_status_strings[i].time_created;
-				if (time_delta > 10000)
+				s_status_line& status_line = g_status_strings[i].line;
+				if (!status_line.text.is_empty())
 				{
-					status_line.text.clear();
-				}
-				else
-				{
-					if (time_delta > 5000)
+					uns32 time = system_milliseconds();
+					int32 time_delta = time - g_status_strings[i].time_created;
+					if (time_delta > 10000)
 					{
-						time = time_delta - 5000;
-						status_line.alpha = 1.0f - (real32(time) / 5000);
+						status_line.text.clear();
 					}
 					else
 					{
-						status_line.alpha = 1.0f;
+						if (time_delta > 5000)
+						{
+							time = time_delta - 5000;
+							status_line.alpha = 1.0f - (real32(time) / 5000);
+						}
+						else
+						{
+							status_line.alpha = 1.0f;
+						}
 					}
 				}
 			}
-		}
 
-		c_rasterizer_draw_string draw_string{};
-		c_font_cache_mt_safe font_cache{};
-		s_string_cache string_cache{};
+			c_rasterizer_draw_string draw_string{};
+			c_font_cache_mt_safe font_cache{};
+			s_string_cache string_cache{};
 
-		string_cache.string.clear();
+			string_cache.string.clear();
 
-		for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
-		{
-			if (!status_line_visible(status_line))
-				continue;
-
-			e_text_justification justification = e_text_justification(!status_line->flags.test(_status_line_left_justify_bit));
-
-			const char* string = status_line->text.get_string();
-			if (status_line->flags.test(_status_line_blink_bit) && system_milliseconds() % 500 < 250)
-				string = "|n";
-
-			if (!string_cache_add(&string_cache, string, status_line->alpha, status_line->color, justification))
+			for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
 			{
-				string_cache_render(&string_cache, &draw_string, &font_cache);
-				string_cache_add(&string_cache, string, status_line->alpha, status_line->color, justification);
+				if (status_line_visible(status_line))
+				{
+					e_text_justification justification = e_text_justification(!status_line->flags.test(_status_line_left_justify_bit));
 
-				if (status_line->flags.test(_status_line_draw_once_bit))
-					status_line->text.clear();
+					const char* string = status_line->text.get_string();
+					if (status_line->flags.test(_status_line_blink_bit) && system_milliseconds() % 500 < 250)
+					{
+						string = "|n";
+					}
+
+					if (!string_cache_add(&string_cache, string, status_line->alpha, status_line->color, justification))
+					{
+						string_cache_render(&string_cache, &draw_string, &font_cache);
+						string_cache_add(&string_cache, string, status_line->alpha, status_line->color, justification);
+
+						if (status_line->flags.test(_status_line_draw_once_bit))
+						{
+							status_line->text.clear();
+						}
+					}
+				}
 			}
-		}
 
-		string_cache_render(&string_cache, &draw_string, &font_cache);
+			string_cache_render(&string_cache, &draw_string, &font_cache);
+		}
 	}
 }
 
@@ -639,7 +651,9 @@ void status_line_dump()
 	for (s_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next)
 	{
 		if (status_line_visible(status_line))
+		{
 			event(_event_message, "status_lines: %s", status_line->text.get_string());
+		}
 	}
 }
 
@@ -767,26 +781,33 @@ void status_printf_va(const char* format, char* argument_list)
 
 void status_string_internal(const char* status, const char* message)
 {
-	for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
+	bool found = false;
+
+	int32 count = NUMBEROF(g_status_strings);
+	for (int32 index = 0; index < NUMBEROF(g_status_strings); index++)
 	{
-		s_status_string& status_string = g_status_strings[i];
-		if (!status_string.line.text.is_empty() && status_string.format_string.is_equal(status))
+		s_status_string* status_string = &g_status_strings[index];
+		if (!status_string->line.text.is_empty() && status_string->format_string.is_equal(status))
 		{
-			status_string.time_created = system_milliseconds();
-			status_string.line.text.set(message);
-			return;
+			status_string->time_created = system_milliseconds();
+			status_string->line.text.set(message);
+			found = true;
 		}
 	}
 
-	for (int32 i = 0; i < NUMBEROF(g_status_strings); i++)
+	if (!found)
 	{
-		s_status_string& status_string = g_status_strings[i];
-		if (status_string.line.text.is_empty())
+		for (int32 index = 0; index < count; index++)
 		{
-			status_string.time_created = system_milliseconds();
-			status_string.line.text.set(message);
-			status_string.format_string.set(status);
-			break;
+			s_status_string* status_string = &g_status_strings[index];
+			s_status_line* line = &status_string->line;
+			if (line->text.is_empty())
+			{
+				status_string->time_created = system_milliseconds();
+				status_string->format_string.set(status);
+				line->text.set(message);
+				break;
+			}
 		}
 	}
 }
@@ -809,15 +830,15 @@ void status_strings(const char* status, const char* strings)
 	}
 }
 
-bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, const real_rgb_color& color, e_text_justification justification)
+bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, real_rgb_color color, e_text_justification justification)
 {
-	bool result = false;
+	bool add = false;
 	if (cache->string.is_empty())
 	{
 		cache->color = color;
 		cache->alpha = alpha;
 		cache->justification = justification;
-		result = true;
+		add = true;
 	}
 	else if (cache->alpha == alpha
 		&& cache->color.red == color.red
@@ -825,37 +846,36 @@ bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, c
 		&& cache->color.blue == color.blue
 		&& cache->justification == justification)
 	{
-		result = true;
+		add = true;
 	}
 
-	if (result)
+	if (add)
 	{
 		cache->string.append(string);
 		cache->string.append("|n");
 	}
-
-	return result;
+	return add;
 }
 
 void string_cache_render(s_string_cache* cache, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
-	if (cache->string.is_empty())
-		return;
+	if (!cache->string.is_empty())
+	{
+		real_argb_color color{};
+		real_argb_color shadow_color{};
 
-	real_argb_color color{};
-	real_argb_color shadow_color{};
+		color.rgb = cache->color;
+		color.alpha = cache->alpha * 0.5f;
 
-	color.rgb = cache->color;
-	color.alpha = cache->alpha * 0.5f;
+		shadow_color.rgb = *global_real_rgb_black;
+		shadow_color.alpha = cache->alpha;
 
-	shadow_color.rgb = *global_real_rgb_black;
-	shadow_color.alpha = cache->alpha;
+		draw_string->set_justification(cache->justification);
+		draw_string->set_color(&color);
+		draw_string->set_shadow_color(&shadow_color);
+		draw_string->draw(font_cache, cache->string.get_string());
 
-	draw_string->set_justification(cache->justification);
-	draw_string->set_color(&color);
-	draw_string->set_shadow_color(&shadow_color);
-	draw_string->draw(font_cache, cache->string.get_string());
-
-	cache->string.clear();
+		cache->string.clear();
+	}
 }
 

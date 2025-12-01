@@ -278,7 +278,7 @@ public:
 	e_update_queue_state m_update_queue_state;
 	uns32 m_update_queue_state_time;
 	int32 m_view_count;
-	c_simulation_view* m_views[16];
+	c_simulation_view* m_views[k_simulation_world_maximum_views];
 	c_simulation_player m_players[16];
 	c_simulation_actor m_actors[16];
 	uns32 m_synchronous_catchup_initiation_failure_timestamp;

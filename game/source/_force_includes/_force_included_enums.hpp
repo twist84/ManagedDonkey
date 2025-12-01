@@ -38,6 +38,11 @@ enum
 
 enum
 {
+	k_simulation_world_maximum_views = 16
+};
+
+enum
+{
 	_campaign_player0 = 0,
 	_campaign_player1,
 	_campaign_player2,
@@ -155,11 +160,11 @@ enum e_simulation_world_type
 	_simulation_world_type_none = 0,
 	_simulation_world_type_local,
 	_simulation_world_type_local_playback,
-	_simulation_world_type_synchronous_game_server,
+	_simulation_world_type_synchronous_game_authority,
 	_simulation_world_type_synchronous_game_client,
-	_simulation_world_type_synchronous_film_server,
-	_simulation_world_type_synchronous_film_client,
-	_simulation_world_type_distributed_server,
+	_simulation_world_type_synchronous_playback_authority,
+	_simulation_world_type_synchronous_playback_client,
+	_simulation_world_type_distributed_authority,
 	_simulation_world_type_distributed_client,
 
 	k_simulation_world_type_count,
@@ -4060,13 +4065,14 @@ enum e_network_synchronous_playback_control
 enum e_simulation_view_establishment_mode
 {
 	_simulation_view_establishment_mode_none = 0,
-	_simulation_view_establishment_mode_unknown1,
-	_simulation_view_establishment_mode_unknown2,
-	_simulation_view_establishment_mode_unknown3,
+	_simulation_view_establishment_mode_connected,
+	_simulation_view_establishment_mode_established,
+	_simulation_view_establishment_mode_ready,
 	_simulation_view_establishment_mode_joining,
-	_simulation_view_establishment_mode_unknown5,
+	_simulation_view_establishment_mode_active,
 
-	k_simulation_view_establishment_mode_count
+	k_simulation_view_establishment_mode_count,
+	k_simulation_view_establishment_mode_bits = 3,
 };
 
 enum e_simulation_view_synchronous_catchup_stage
@@ -5555,5 +5561,39 @@ enum e_submit_visibility_flags
 	_submit_visibility_first_person,
 
 	k_number_of_submit_visibility_flags,
+};
+
+enum
+{
+	_game_engine_state_invalid = 0,
+	_game_engine_state_in_round,
+	_game_engine_state_post_round,
+	_game_engine_state_between_rounds,
+
+	k_game_engine_state_count
+};
+
+enum e_multiplayer_event_type
+{
+	_game_engine_event_type_general = 0,
+	_game_engine_event_type_flavor,
+	_game_engine_event_type_slayer,
+	_game_engine_event_type_ctf,
+	_game_engine_event_type_oddball,
+	_game_engine_event_type_unused1,
+	_game_engine_event_type_king,
+	_game_engine_event_type_vip,
+	_game_engine_event_type_juggernaut,
+	_game_engine_event_type_territories,
+	_game_engine_event_type_assault,
+	_game_engine_event_type_infection,
+
+	// ODST
+	_game_engine_event_type_survival,
+
+	// Halo Online
+	_game_engine_event_type_earn_wp,
+
+	k_number_of_game_engine_event_types
 };
 

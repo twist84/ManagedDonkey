@@ -10,23 +10,6 @@
 #include "networking/replication/replication_scheduler.hpp"
 #include "simulation/simulation_view_telemetry.hpp"
 
-/*
-	built from `c_simulation_view::get_statistics`
-
-	char* status_line = g_simulation_view_send_status_lines[world_view_index];
-	status_line.print(
-		"events%d/%d/%d updates%d/%d creations%d/%d deletions%d/%d",
-		event_statistics.events_pending,
-		event_statistics.events_in_transit,
-		event_statistics.__unknown0,
-		entity_statistics.updates_pending,
-		entity_statistics.updates_unknown,
-		entity_statistics.creations_pending,
-		entity_statistics.creations_unknown,
-		entity_statistics.deletions_pending,
-		entity_statistics.deletions_unknown
-	);
-*/
 struct s_simulation_view_statistics
 {
 	s_replication_entity_manager_view_statistics entity_statistics;
@@ -104,7 +87,7 @@ public:
 	int32 m_view_death_reason;
 	int32 m_view_establishment_mode;
 	uns32 m_view_establishment_identifier;
-	int32 m_remote_establishment_mode;
+	e_simulation_view_establishment_mode m_remote_establishment_mode;
 	uns32 m_remote_establishment_identifier;
 	c_network_channel* m_channel;
 	uns32 m_channel_connection_identifier;

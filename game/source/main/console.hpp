@@ -84,7 +84,7 @@ extern void __cdecl console_warning(const char* format, ...);
 
 extern bool __cdecl debugging_system_has_focus();
 
-extern void status_line_add_single(s_status_line* status_line);
+extern void status_line_add_single(s_status_line* in_status_line);
 extern void status_line_draw();
 extern void status_line_dump();
 extern void status_line_remove_single(s_status_line* status_line);
@@ -104,5 +104,5 @@ extern void status_printf_va(const char* format, char* list);
 extern void status_string_internal(const char* status, const char* message);
 extern void status_strings(const char* status, const char* strings);
 
-extern bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, const real_rgb_color& color, e_text_justification justification);
+extern bool string_cache_add(s_string_cache* cache, const char* string, real32 alpha, real_rgb_color color, e_text_justification justification);
 extern void string_cache_render(s_string_cache* string_cache, c_draw_string* draw_string, c_font_cache_base* font_cache);
