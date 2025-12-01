@@ -46,6 +46,7 @@ HOOK_DECLARE(0x004426F0, simulation_update_pregame);
 
 int32 g_simulation_bandwidth_eater = 0;
 bool g_simulation_disable_replicated_aim_assist = false;
+bool g_simulation_entity_validate = false;
 
 bool g_simulation_status_world = false;
 s_status_line g_simulation_world_status_line;

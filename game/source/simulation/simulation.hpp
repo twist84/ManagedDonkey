@@ -131,6 +131,8 @@ static_assert(sizeof(s_simulation_globals) == 0x128);
 extern s_simulation_globals& simulation_globals;
 
 extern int32 g_simulation_bandwidth_eater;
+extern bool g_simulation_disable_replicated_aim_assist;
+extern bool g_simulation_entity_validate;
 extern bool g_simulation_status_world;
 extern bool g_simulation_status_views;
 

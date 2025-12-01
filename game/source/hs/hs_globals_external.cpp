@@ -47,6 +47,7 @@
 #include "render/views/render_player_view.hpp"
 #include "render/views/render_view.hpp"
 #include "scenario/scenario_soft_ceilings.hpp"
+#include "simulation/simulation.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
@@ -5257,30 +5258,30 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&g_network_interface_fake_network_quality,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	sim_status_world,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_simulation_status_world,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	sim_status_views,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_simulation_status_views,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	sim_entity_validate,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_simulation_entity_validate,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	sim_disable_aim_assist,
 	_hs_type_boolean,
-	NULL, // $TODO write the global chuckle nuts
+	&g_simulation_disable_replicated_aim_assist,
 );
-EXTERNAL_GLOBAL_DECLARE2(
+EXTERNAL_GLOBAL_DECLARE(
 	sim_bandwidth_eater,
 	_hs_type_long_integer,
-	NULL, // $TODO write the global chuckle nuts
+	&g_simulation_bandwidth_eater,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_teleport,
