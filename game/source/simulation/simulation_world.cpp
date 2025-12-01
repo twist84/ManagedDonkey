@@ -1,5 +1,7 @@
 #include "simulation/simulation_world.hpp"
 
+#include "networking/network_configuration.hpp"
+#include "networking/network_time.hpp"
 #include "simulation/simulation.hpp"
 
 bool c_simulation_world::actor_exists(int32 simulation_actor_index) const
@@ -228,12 +230,33 @@ c_simulation_view* c_simulation_world::get_client_view_by_machine_index(int32 re
 	return INVOKE_CLASS_MEMBER(0x004692B0, c_simulation_world, get_client_view_by_machine_index, remote_machine_index);
 }
 
-//.text:00469310 ; 
-//.text:00469320 ; 
-//.text:00469330 ; 
-//.text:00469340 ; 
-//.text:00469360 ; 
-//.text:00469380 ; 
+void c_simulation_world::get_disconnected_status(int32* disconnected_time_elapsed, int32* disconnected_time_to_failure) const
+{
+	ASSERT(disconnected_time_elapsed);
+	ASSERT(disconnected_time_to_failure);
+	ASSERT(exists());
+	ASSERT(m_world_state == _simulation_world_state_disconnected);
+
+	int32 time_since_last_active = network_time_since(m_last_active_timestamp);
+	*disconnected_time_elapsed = network_time_since(m_world_state_data.disconnected.disconnected_timestamp);
+	*disconnected_time_to_failure = g_network_configuration.simulation.world.client_activation_failure_timeout - time_since_last_active;
+}
+
+bool c_simulation_world::get_failure_status(int32* failure_count, int32* failure_timeout) const
+{
+	ASSERT(failure_count);
+	ASSERT(failure_timeout);
+	ASSERT(exists());
+
+	bool potential_failure = false;
+	if (!c_simulation_world::is_active() && !c_simulation_world::is_dead())
+	{
+		*failure_count = m_unsuccessful_join_attempts;
+		*failure_timeout = network_time_since(m_last_active_timestamp);
+		potential_failure = true;
+	}
+	return potential_failure;
+}
 
 void c_simulation_world::get_join_status(
 	int32* join_time_elapsed,
@@ -247,7 +270,78 @@ void c_simulation_world::get_join_status(
 	int32* join_client_total_count,
 	int32* join_time_to_failure) const
 {
+	ASSERT(join_time_elapsed);
+	ASSERT(join_time_to_abort);
+	ASSERT(join_attempt_count);
+	ASSERT(join_attempt_maximum);
+	ASSERT(join_client_establishing_count);
+	ASSERT(join_client_waiting_count);
+	ASSERT(join_client_joining_count);
+	ASSERT(join_client_complete_count);
+	ASSERT(join_client_total_count);
+	ASSERT(join_time_to_failure);
+	ASSERT(exists());
+	ASSERT(m_world_state == _simulation_world_state_joining);
+
+	int32 time_since_last_active = network_time_since(m_last_active_timestamp);
+	*join_time_elapsed = network_time_since(m_world_state_data.disconnected.disconnected_timestamp);
+	*join_time_to_abort = g_network_configuration.simulation.world.join_timeout - *join_time_elapsed;
+	*join_time_to_failure = g_network_configuration.simulation.world.client_activation_failure_timeout - time_since_last_active;
+	*join_attempt_count = 0;
+	*join_attempt_maximum = 0;
+	*join_client_establishing_count = 0;
+	*join_client_waiting_count = 0;
+	*join_client_joining_count = 0;
+	*join_client_complete_count = 0;
+	*join_client_total_count = 0;
+
+	if (c_simulation_world::is_authority())
+	{
+		*join_client_total_count = m_view_count;
+
+		s_simulation_world_view_iterator iterator{};
+		constexpr uns32 view_type_mask = FLAG(_simulation_view_type_synchronous_to_remote_client) | FLAG(_simulation_view_type_distributed_to_remote_client);
+		c_simulation_world::iterator_begin(&iterator, view_type_mask);
+
+		c_simulation_view* view = NULL;
+		while (c_simulation_world::iterator_next(&iterator, &view))
+		{
+			ASSERT(view);
+
+			if (!view->is_dead(NULL))
+			{
+				if (!view->established())
+				{
+					++*join_client_establishing_count;
+				}
+				else if (view->get_view_establishment_mode() != _simulation_view_establishment_mode_joining)
+				{
+					++*join_client_waiting_count;
+				}
+				else if (view->client_join_is_finished())
+				{
+					++*join_client_complete_count;
+				}
+				else
+				{
+					++*join_client_joining_count;
+				}
+			}
+		}
+	}
+	else
+	{
+		*join_attempt_count = m_unsuccessful_join_attempts;
+		*join_attempt_maximum = g_network_configuration.simulation.world.client_join_failure_count;
+	}
 }
+
+//.text:00469310 ; 
+//.text:00469320 ; 
+//.text:00469330 ; 
+//.text:00469340 ; 
+//.text:00469360 ; 
+//.text:00469380 ; 
 
 void c_simulation_world::get_machine_identifier(s_machine_identifier* identifier) const
 {
@@ -288,25 +382,92 @@ void c_simulation_world::get_player_machine(int32 player_index, s_machine_identi
 
 const char* c_simulation_world::get_state_string(int32 state)
 {
+	const char* state_string = "<unknown>";
 	switch (state)
 	{
 	case _simulation_world_state_none:
-		return "none";
+		state_string = "none";
+		break;
 	case _simulation_world_state_dead:
-		return "dead";
+		state_string = "dead";
+		break;
 	case _simulation_world_state_disconnected:
-		return "disconnected";
+		state_string = "disconnected";
+		break;
 	case _simulation_world_state_joining:
-		return "joining";
+		state_string = "joining";
+		break;
 	case _simulation_world_state_active:
-		return "active";
+		state_string = "active";
+		break;
 	case _simulation_world_state_handoff:
-		return "handoff";
+		state_string = "handoff";
+		break;
 	case 6:
-		return "leaving"; // if this exists add it to the enum
+		state_string = "leaving"; // if this exists add it to the enum
+		break;
 	}
+	return state_string;
+}
 
-	return "<unknown>";
+void c_simulation_world::get_synchronous_client_status(int32* gamestate_write_progress) const
+{
+	ASSERT(gamestate_write_progress);
+	ASSERT(exists());
+	ASSERT(m_world_type == _simulation_world_type_synchronous_game_client);
+
+	*gamestate_write_progress = 0;
+	if (c_simulation_view* view = c_simulation_world::get_authority_view())
+	{
+		*gamestate_write_progress = view->m_synchronous_catchup_buffer_offset;
+	}
+}
+
+const char* c_simulation_world::get_type_string(int32 world_type)
+{
+	const char* type_string = "<unknown>";
+	switch (world_type)
+	{
+	case _simulation_world_type_none:
+		type_string = "none";
+		break;
+	case _simulation_world_type_local:
+		type_string = "local";
+		break;
+	case _simulation_world_type_local_playback:
+		type_string = "local-playback";
+		break;
+	case _simulation_world_type_synchronous_game_authority:
+		type_string = "sync-game-server";
+		break;
+	case _simulation_world_type_synchronous_game_client:
+		type_string = "sync-game-client";
+		break;
+	case _simulation_world_type_synchronous_playback_authority:
+		type_string = "sync-film-server";
+		break;
+	case _simulation_world_type_synchronous_playback_client:
+		type_string = "sync-film-client";
+		break;
+	case _simulation_world_type_distributed_authority:
+		type_string = "dist-server";
+		break;
+	case _simulation_world_type_distributed_client:
+		type_string = "dist-client";
+		break;
+	}
+	return type_string;
+}
+
+void c_simulation_world::get_update_queue_status(int32* next_update_dequeue, int32* next_update_expected) const
+{
+	ASSERT(next_update_dequeue);
+	ASSERT(next_update_expected);
+	ASSERT(exists());
+	ASSERT(!runs_simulation());
+
+	*next_update_dequeue = m_update_queue_next_update_number_to_dequeue;
+	*next_update_expected = c_simulation_world::update_queue_get_next_expected_update_number();
 }
 
 //.text:004694F0 ; 
@@ -389,14 +550,36 @@ bool c_simulation_world::is_synchronous() const
 	return INVOKE_CLASS_MEMBER(0x00469C60, c_simulation_world, is_synchronous);
 }
 
-void c_simulation_world::iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask) const
+void c_simulation_world::iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask)
 {
-	INVOKE_CLASS_MEMBER(0x00469C80, c_simulation_world, iterator_begin, iterator, view_type_mask);
+	//INVOKE(0x00469C80, c_simulation_world::iterator_begin, iterator, view_type_mask);
+
+	ASSERT(iterator);
+	ASSERT(view_type_mask == NONE || (view_type_mask != 0 && VALID_BITS(view_type_mask, k_simulation_view_type_count)));
+
+	iterator->view_type_mask = view_type_mask;
+	iterator->next_world_view_index = 0;
 }
 
 bool c_simulation_world::iterator_next(s_simulation_world_view_iterator* iterator, c_simulation_view** view) const
 {
-	return INVOKE_CLASS_MEMBER(0x00469CA0, c_simulation_world, iterator_next, iterator, view);
+	//return INVOKE_CLASS_MEMBER(0x00469CA0, c_simulation_world, iterator_next, iterator, view);
+
+	ASSERT(iterator);
+	ASSERT(view);
+
+	bool success = false;
+	while (VALID_INDEX(iterator->next_world_view_index, NUMBEROF(m_views)))
+	{
+		c_simulation_view* test_view = m_views[iterator->next_world_view_index++];
+		if (test_view && TEST_BIT(iterator->view_type_mask, test_view->view_type()))
+		{
+			*view = test_view;
+			success = true;
+			break;
+		}
+	}
+	return success;
 }
 
 void c_simulation_world::mark_player_pending_deletion(int32 player_index)

@@ -137,6 +137,8 @@ public:
 	c_simulation_view* get_authority_view() const;
 	c_simulation_view* get_client_view_by_machine_identifier(const s_machine_identifier* remote_machine_identifier);
 	c_simulation_view* get_client_view_by_machine_index(int32 remote_machine_index);
+	void get_disconnected_status(int32* disconnected_time_elapsed, int32* disconnected_time_to_failure) const;
+	bool get_failure_status(int32* failure_count, int32* failure_timeout) const;
 	void get_join_status(
 		int32* join_time_elapsed,
 		int32* join_time_to_abort,
@@ -158,6 +160,9 @@ public:
 	void get_player_machine(int32 player_index, s_machine_identifier* machine_identifier) const;
 	e_simulation_world_state get_state() const;
 	static const char* get_state_string(int32 state);
+	void get_synchronous_client_status(int32* gamestate_write_progress) const;
+	static const char* get_type_string(int32 world_type);
+	void get_update_queue_status(int32* next_update_dequeue, int32* next_update_expected) const;
 	int32 get_time() const;
 	c_simulation_view* get_view_by_channel(const c_network_channel* channel);
 	c_simulation_view* get_view_by_observer(int32 observer_channel_index);
@@ -171,7 +176,7 @@ public:
 	void handle_view_activation(c_simulation_view* view, bool active);
 	void handle_view_establishment(c_simulation_view* view, bool established);
 	void initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world);
-	bool is_active();
+	bool is_active() const;
 	bool is_authority() const;
 	bool is_connected() const;
 	bool is_dead() const;
@@ -181,7 +186,7 @@ public:
 	bool is_out_of_sync() const;
 	bool is_playback() const;
 	bool is_synchronous() const;
-	void iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask) const;
+	static void iterator_begin(s_simulation_world_view_iterator* iterator, uns32 view_type_mask);
 	bool iterator_next(s_simulation_world_view_iterator* iterator, c_simulation_view** view) const;
 	void mark_player_pending_deletion(int32 player_index);
 	void notify_gamestate_flush();
