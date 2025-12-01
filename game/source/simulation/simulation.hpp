@@ -8,6 +8,8 @@
 #include "simulation/simulation_view.hpp"
 #include "units/units.hpp"
 
+struct s_simulation_player_netdebug_data;
+
 #define RENDER_THREAD_LOCK c_wait_for_render_thread CONCAT(__render_thread_lock, __LINE__)(__FILE__, __LINE__)
 class c_wait_for_render_thread
 {
@@ -128,7 +130,7 @@ static_assert(sizeof(s_simulation_globals) == 0x128);
 
 extern s_simulation_globals& simulation_globals;
 
-struct s_simulation_player_netdebug_data;
+extern int32 g_simulation_bandwidth_eater;
 
 extern void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason);
 extern bool __cdecl simulation_aborted();
@@ -200,6 +202,7 @@ extern bool __cdecl simulation_should_transmit_simulation_data();
 extern void __cdecl simulation_start();
 extern bool __cdecl simulation_starting_up();
 extern void __cdecl simulation_stop();
+extern void __cdecl simulation_test_update();
 extern int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time);
 extern void __cdecl simulation_update();
 extern void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata);

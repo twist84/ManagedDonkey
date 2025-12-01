@@ -14,6 +14,7 @@
 #include "networking/network_memory.hpp"
 #include "profiler/profiler.hpp"
 #include "saved_games/saved_film_manager.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 #include "simulation/game_interface/simulation_game_interface.hpp"
 #include "simulation/simulation_encoding.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
@@ -41,6 +42,9 @@ HOOK_DECLARE(0x00441F90, simulation_record_update);
 HOOK_DECLARE(0x00442080, simulation_saved_film_revert);
 HOOK_DECLARE(0x004421B0, simulation_update);
 HOOK_DECLARE(0x004426F0, simulation_update_pregame);
+
+int32 g_simulation_bandwidth_eater = 0;
+bool g_simulation_disable_replicated_aim_assist = false;
 
 
 c_wait_for_render_thread::c_wait_for_render_thread(const char* file, int32 line) :
@@ -83,7 +87,7 @@ e_simulation_world_type c_simulation_world::get_world_type() const
 	return INVOKE_CLASS_MEMBER(0x00440AE0, c_simulation_world, get_world_type);
 }
 
-bool c_simulation_world::is_active()
+bool c_simulation_world::is_active() const
 {
 	return INVOKE_CLASS_MEMBER(0x00440AF0, c_simulation_world, is_out_of_sync);
 
@@ -99,7 +103,7 @@ bool c_simulation_world::is_authority() const
 	//ASSERT(exists());
 	//
 	//bool is_client = m_world_type == _simulation_world_type_synchronous_game_client
-	//	|| m_world_type == _simulation_world_type_synchronous_film_client
+	//	|| m_world_type == _simulation_world_type_synchronous_playback_client
 	//	|| m_world_type == _simulation_world_type_distributed_client;
 	//return !is_client;
 }
@@ -110,7 +114,7 @@ bool c_simulation_world::is_distributed() const
 
 	//ASSERT(exists());
 	//
-	//return m_world_type == _simulation_world_type_distributed_server || m_world_type == _simulation_world_type_distributed_client;
+	//return m_world_type == _simulation_world_type_distributed_authority || m_world_type == _simulation_world_type_distributed_client;
 }
 
 bool c_simulation_world::is_local() const
@@ -1151,6 +1155,16 @@ void __cdecl simulation_stop()
 	//{
 	//	simulation_globals.world->detach_from_map();
 	//}
+}
+
+void __cdecl simulation_test_update()
+{
+	for (int32 event_index = 0; event_index < g_simulation_bandwidth_eater; event_index++)
+	{
+		s_game_engine_event_data test_event{};
+		game_engine_initialize_event(_game_engine_event_type_general, STRING_ID(game_engine, general_event_unused1), &test_event);
+		simulation_action_multiplayer_event(&test_event);
+	}
 }
 
 int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time)
