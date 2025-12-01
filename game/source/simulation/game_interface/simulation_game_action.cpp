@@ -108,7 +108,11 @@ void __cdecl simulation_action_game_engine_player_update(int32 player_index, c_f
 }
 
 //.text:004B2BE0 ; void __cdecl simulation_action_hit_marker(int32)
-//.text:004B2C00 ; void __cdecl simulation_action_multiplayer_event(const s_game_engine_event_data*)
+
+void __cdecl simulation_action_multiplayer_event(const s_game_engine_event_data* in_event_data)
+{
+	INVOKE(0x004B2C00, simulation_action_multiplayer_event, in_event_data);
+}
 
 void __cdecl simulation_action_object_create(int32 object_index)
 {

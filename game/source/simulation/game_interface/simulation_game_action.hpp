@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_game_engine_event_data;
+
 class c_simulation_object_update_flags :
 	public c_flags<int32, uns64, 64>
 {
@@ -32,6 +34,7 @@ struct object_placement_data;
 
 extern void __cdecl simulation_action_game_engine_globals_update(c_flags<int32, uns64, 64>& flags);
 extern void __cdecl simulation_action_game_engine_player_update(int32 player_index, c_flags<int32, uns64, 64>& flags);
+extern void __cdecl simulation_action_multiplayer_event(const s_game_engine_event_data* in_event_data);
 extern void __cdecl simulation_action_object_create(int32 object_index);
 extern void __cdecl simulation_action_object_force_update(int32 object_index, c_simulation_object_update_flags& flags);
 extern void __cdecl simulation_action_object_update_internal(int32 object_index, c_simulation_object_update_flags& flags);
