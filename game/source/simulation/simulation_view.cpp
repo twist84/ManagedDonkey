@@ -1,9 +1,16 @@
 #include "simulation/simulation_view.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 //.text:00465D00 ; void c_simulation_view::attach_observer_channel(c_network_observer*, int32, const s_transport_secure_address*)
 //.text:00465EC0 ; void c_simulation_view::attach_to_world(c_simulation_world*)
 //.text:00465EE0 ; bool c_simulation_view::client_in_game() const
-//.text:00465F00 ; bool c_simulation_view::client_join_is_finished() const
+
+bool c_simulation_view::client_join_is_finished() const
+{
+	return INVOKE_CLASS_MEMBER(0x00465F00, c_simulation_view, client_join_is_finished);
+}
+
 //.text:00465F50 ; void c_simulation_view::destroy_view()
 //.text:00465F60 ; void c_simulation_view::detach_from_world()
 //.text:00465FC0 ; void c_simulation_view::detach_observer_channel()
@@ -14,9 +21,20 @@
 //.text:00466370 ; static void c_simulation_view::distributed_join_complete()
 //.text:00466380 ; bool c_simulation_view::distributed_join_in_progress() const
 //.text:004663F0 ; bool c_simulation_view::distributed_join_initiate()
-//.text:00466400 ; bool c_simulation_view::established() const
+
+bool c_simulation_view::established() const
+{
+	return INVOKE_CLASS_MEMBER(0x00466400, c_simulation_view, established);
+}
+
 //.text:00466420 ; bool c_simulation_view::establishment_add_cache_file_signature(int32*, int32, uns8*) const
 //.text:00466480 ; bool c_simulation_view::establishment_verify_cache_file_signature(int32, const uns8*) const
+
+bool c_simulation_view::exists() const
+{
+	return m_view_type != _simulation_view_type_none;
+}
+
 //.text:00466500 ; void c_simulation_view::failed_to_join()
 //.text:00466590 ; void c_simulation_view::force_unacknowledge_player(int32)
 //.text:004665B0 ; uns32 c_simulation_view::get_acknowledged_player_mask() const
@@ -28,8 +46,53 @@ e_simulation_view_type c_simulation_view::view_type() const
 }
 
 //.text:00466620 ; int32 c_simulation_view::get_machine_index() const
-//.text:00466680 ; void c_simulation_view::get_statistics(s_simulation_view_statistics*)
+
+int32 c_simulation_view::get_remote_establishment_identifier() const
+{
+	ASSERT(exists());
+	ASSERT(m_remote_establishment_identifier == NONE || m_remote_establishment_identifier >= 0);
+
+	return m_remote_establishment_identifier;
+}
+
+e_simulation_view_establishment_mode c_simulation_view::get_remote_establishment_mode() const
+{
+	ASSERT(exists());
+	ASSERT(VALID_INDEX(m_remote_establishment_mode, k_simulation_view_establishment_mode_count));
+
+	return m_remote_establishment_mode;
+}
+
+void c_simulation_view::get_statistics(s_simulation_view_statistics* statistics)
+{
+	INVOKE_CLASS_MEMBER(0x00466680, c_simulation_view, get_statistics, statistics);
+}
+
 //.text:00466700 ; c_simulation_view::get_machine_identifier?
+
+const char* c_simulation_view::get_type_string(int32 view_type)
+{
+	const char* type_string = "<unknown>";
+	switch (view_type)
+	{
+	case _simulation_view_type_none:
+		type_string = "none";
+		break;
+	case _simulation_view_type_synchronous_to_remote_authority:
+		type_string = "sync-to-server";
+		break;
+	case _simulation_view_type_synchronous_to_remote_client:
+		type_string = "sync-to-client";
+		break;
+	case _simulation_view_type_distributed_to_remote_authority:
+		type_string = "dist-to-server";
+		break;
+	case _simulation_view_type_distributed_to_remote_client:
+		type_string = "dist-to-client";
+		break;
+	}
+	return type_string;
+}
 
 const char* c_simulation_view::get_view_description() const
 {
@@ -52,6 +115,12 @@ e_simulation_view_establishment_mode c_simulation_view::get_view_establishment_m
 	//return m_view_establishment_mode;
 }
 
+int32 c_simulation_view::get_world_view_index() const
+{
+	ASSERT(exists());
+	return m_world_view_index;
+}
+
 //.text:00466740 ; void c_simulation_view::go_out_of_sync()
 
 bool c_simulation_view::handle_distributed_game_results(int32 message_establishment_identifier, int32 incremental_update_number, const s_game_results_incremental_update* incremental_update)
@@ -64,7 +133,7 @@ bool c_simulation_view::handle_distributed_game_results(int32 message_establishm
 	//
 	//if (message_establishment_identifier == m_view_establishment_identifier)
 	//{
-	//	return m_distributed_view->m_control_view.m_game_results_replicator.handle_update();
+	//	return m_distributed_view->m_game_results_replicator.handle_update();
 	//}
 	//
 	//if (message_establishment_identifier >= m_view_establishment_identifier)
@@ -126,7 +195,11 @@ bool c_simulation_view::is_client_view() const
 	return INVOKE_CLASS_MEMBER(0x00466FC0, c_simulation_view, is_client_view);
 }
 
-//.text:00466FE0 ; bool c_simulation_view::is_dead(int32*) const
+bool c_simulation_view::is_dead(int32* death_reason) const
+{
+	return INVOKE_CLASS_MEMBER(0x00466FE0, c_simulation_view, is_dead, death_reason);
+}
+
 //.text:00467000 ; bool c_simulation_view::is_distributed() const
 //.text:00467050 ; void c_simulation_view::kill_view(e_simulation_view_reason)
 //.text:00467120 ; void c_simulation_view::no_longer_authority()

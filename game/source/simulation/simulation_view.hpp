@@ -12,8 +12,8 @@
 
 struct s_simulation_view_statistics
 {
-	s_replication_entity_manager_view_statistics entity_statistics;
-	s_replication_event_manager_view_statistics event_statistics;
+	s_replication_entity_manager_view_statistics entity;
+	s_replication_event_manager_view_statistics event;
 };
 static_assert(sizeof(s_simulation_view_statistics) == 0x24);
 
@@ -54,10 +54,18 @@ class c_simulation_view :
 	public s_datum_header
 {
 public:
+	bool client_join_is_finished() const;
+	bool established() const;
+	bool exists() const;
 	e_simulation_view_type view_type() const;
+	void get_statistics(s_simulation_view_statistics* statistics);
+	int32 get_remote_establishment_identifier() const;
+	e_simulation_view_establishment_mode get_remote_establishment_mode() const;
+	static const char* get_type_string(int32 view_type);
 	const char* get_view_description() const;
 	int32 get_view_establishment_identifier() const;
 	e_simulation_view_establishment_mode get_view_establishment_mode() const;
+	int32 get_world_view_index() const;
 	bool handle_distributed_game_results(int32 message_establishment_identifier, int32 incremental_update_number, const s_game_results_incremental_update* incremental_update);
 	bool handle_player_acknowledge(uns32 player_valid_mask, uns32 player_in_game_mask, const s_player_identifier* player_identifiers);
 	bool handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, int32 establishment_identifier, int32 signature_size, const uns8* signature_data);
@@ -67,6 +75,7 @@ public:
 	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
 	bool handle_synchronous_update(const struct simulation_update* update);
 	bool is_client_view() const;
+	bool is_dead(int32* death_reason) const;
 	int32 synchronous_catchup_attempt_count() const;
 	void synchronous_catchup_complete();
 	bool synchronous_catchup_in_progress() const;
