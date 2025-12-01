@@ -57,7 +57,7 @@ const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 #define ALIGN_UP(value, bit) ((((value) & (FLAG((bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
 #define SET_BIT(flags, bit, enable) ((flags) = (enable) ? (flags) | FLAG((bit)) : (flags) & ~FLAG((bit)))
 #define SET_MASK(flags, mask, enable) ((flags) = (enable) ? (flags) | (mask) : (flags) | ~(mask))
-#define VALID_BITS(flags, max_bits) ((flags) & ~((1 << (max_bits)) - 1))
+#define VALID_BITS(flags, max_bits) (((flags) & ~RANGE((max_bits))) != 0)
 
 #define INVALID_ASYNC_TASK_ID (-1)
 
