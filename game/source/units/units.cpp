@@ -701,33 +701,15 @@ bool __cdecl unit_update(int32 unit_index)
 
 		updated = unit_update_control(unit_index);
 		updated |= unit_update_weapons(unit_index);
-
-		for (int32 slot_index = 0; slot_index < 4; slot_index++)
-		{
-			unit_update_equipment(unit_index, slot_index);
-		}
-
+		updated |= unit_update_equipment(unit_index, 0);
 		updated |= unit_update_aiming(unit_index);
 		updated |= unit_update_seats(unit_index);
 		updated |= unit_update_damage(unit_index);
-
-		// HO
-		updated |= sub_B4BD70(unit_index);
-		unit_update_consumable_energy(unit_index);
-
 		unit_dialogue_update(unit_index);
 		unit_update_team_index(unit_index);
 		unit_update_active_camouflage(unit_index);
-		unit_update_health(unit_index);
 		unit_update_vision_mode(unit_index);
 		unit_update_illumination(unit_index);
-		unit_update_hologram(unit_index);
-
-		// HO
-		unit_update_armor_lock(unit_index);
-		unit_datum* unit = UNIT_GET(unit_index);
-		sub_B4BCB0(&unit->unit.__unknown2FC);
-		sub_B4BCB0(&unit->unit.__unknown310);
 
 		//unit_verify_vectors(unit_index, "unit-update-end");
 	}
