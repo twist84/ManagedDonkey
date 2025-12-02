@@ -15,7 +15,7 @@
 #include "objects/object_scripting.hpp"
 #include "render/render_objects_static_lighting.hpp"
 
-#define OBJECT_GET(TYPE, INDEX) ((TYPE*)object_get_and_verify_type(INDEX, _object_mask_all))
+#define OBJECT_GET(INDEX) ((struct object_datum*)object_get_and_verify_type(INDEX, _object_mask_all))
 
 #define UNIT_GET(INDEX) ((struct unit_datum*)object_get_and_verify_type(INDEX, _object_mask_unit))
 #define BIPED_GET(INDEX) ((struct biped_datum*)object_get_and_verify_type(INDEX, _object_mask_biped))
@@ -79,6 +79,13 @@ enum e_object_mask
 		_object_mask_unit |
 		_object_mask_creature,
 
+	_object_mask_sightblocking =
+		_object_mask_vehicle | 
+		_object_mask_scenery |
+		_object_mask_machine |
+		_object_mask_crate |
+		_object_mask_giant,
+
 	_object_mask_editor_placeable_objects = 
 		_object_mask_unit | 
 		_object_mask_item | 
@@ -107,7 +114,12 @@ static_assert(0b0000000000010000 == _object_mask_arg_device);
 static_assert(0b0000000000100000 == _object_mask_terminal);
 static_assert(0b0000000100000000 == _object_mask_machine);
 static_assert(0b0000001000000000 == _object_mask_control);
+static_assert(0b0010100110000010 == _object_mask_sightblocking);
 static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
+
+static_assert(0b0000001100000100 == (_object_mask_weapon | _object_mask_machine | _object_mask_control));
+static_assert(0b0001010001000000 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
+static_assert(0b0010101110111111 == (_object_mask_unit | _object_mask_item | _object_mask_scenery | _object_mask_crate | _object_mask_device));
 
 enum e_object_data_flags
 {
@@ -636,7 +648,7 @@ extern void* __cdecl object_header_block_get_with_count(int32 object_index, cons
 extern const object_header_datum* __cdecl object_header_get(int32 object_index);
 extern object_header_datum* __cdecl object_header_get_mutable(int32 object_index);
 extern object_datum* __cdecl object_get(int32 object_index);
-extern void* __cdecl object_get_and_verify_type(int32 object_index, uns32 object_type_mask);
+extern void* __cdecl object_get_and_verify_type(int32 object_index, uns32 valid_type_flags);
 extern e_object_type __cdecl object_get_type(int32 object_index);
 extern void __cdecl object_get_bounding_sphere(int32 object_index, real_point3d* center, real32* radius);
 extern int32 __cdecl cluster_get_first_collideable_object(int32* datum_index, s_cluster_reference cluster_reference);

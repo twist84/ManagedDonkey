@@ -173,7 +173,7 @@ void c_lightmap_shadows_view::render(int32 ignore_object_index)
 			}
 
 			int32 object_index = global_items.objects[root_object.first_visibility_object_index].object_index;
-			object_datum* object = OBJECT_GET(object_datum, object_index);
+			object_datum* object = OBJECT_GET(object_index);
 
 			bool should_be_visible = render_object_should_be_visible(object_index);
 			if (object_index == ignore_object_index

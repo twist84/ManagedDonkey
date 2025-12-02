@@ -251,7 +251,7 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 						int32 weapon_object_index = object_new(&weapon_placement_data);
 						if (weapon_object_index != NONE)
 						{
-							if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
+							if (unit_add_weapon_to_inventory(object_index, weapon_object_index, _unit_add_weapon_silently))
 							{
 								break;
 							}

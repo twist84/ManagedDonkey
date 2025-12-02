@@ -12,7 +12,11 @@ HOOK_DECLARE_CALL(0x00A970BB, chud_post_action_response); // c_chud_messaging_ma
 
 //.text:00A95750 ; void __cdecl chud_messaging_clear(int32)
 
-//.text:00A95850 ; void __cdecl chud_messaging_picked_up_powerup(int32, int32)
+void __cdecl chud_messaging_picked_up_powerup(int32 user_index, int32 powerup_definition_index)
+{
+	INVOKE(0x00A95850, chud_messaging_picked_up_powerup, user_index, powerup_definition_index);
+}
+
 //.text:00A95890 ; void __cdecl chud_messaging_picked_up_weapon(int32, int32)
 //.text:00A958D0 ; void __cdecl chud_messaging_post(int32, int32, e_chud_message_context)
 

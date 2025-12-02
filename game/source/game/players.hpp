@@ -733,6 +733,7 @@ extern bool __cdecl player_consider_weapon_interaction(int32 player_index, int32
 extern void __cdecl player_copy_object_appearance(int32 player_index, int32 object_index);
 extern void __cdecl player_delete(int32 player_index);
 extern bool __cdecl player_evaluate_interaction(int32 player_index, const s_player_interaction* interaction, s_player_interaction* current_interaction);
+extern void __cdecl player_examine_nearby_item(int32 player_index, int32 item_index);
 extern void __cdecl player_find_action_context(int32 player_index, s_player_action_context* out_action_context);
 extern int32 __cdecl player_index_from_absolute_player_index(int32 player_index);
 extern int32 __cdecl player_index_from_unit_index(int32 unit_index);
@@ -740,6 +741,7 @@ extern bool __cdecl player_interaction_exists(int32 player_index, uns32 object_m
 extern bool __cdecl player_is_local(int32 player_index);
 extern bool __cdecl player_is_reading_terminal();
 extern int32 __cdecl player_new(int32 player_array_index, const game_player_options* options, bool joined_in_progress);
+extern void __cdecl player_pickup_equipment(int32 player_index, int32 equipment_index);
 extern void __cdecl player_positions_dispose();
 extern void __cdecl player_positions_dispose_from_old_map();
 extern void __cdecl player_positions_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
@@ -749,6 +751,7 @@ extern void __cdecl player_positions_initialize_for_new_structure_bsp(uns32 acti
 extern real_rgb_color __cdecl player_profile_get_rgb_color(int32 color_index);
 extern void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing);
 extern void __cdecl player_set_unit_index(int32 player_index, int32 unit_index);
+extern bool __cdecl player_should_auto_pickup_weapon(int32 player_index, int32 weapon_index);
 extern bool __cdecl player_spawn(int32 player_index, const real_point3d* position, const real32* facing);
 extern void __cdecl player_suppress_action(int32 player_index, int32 player_suppress_action_type);
 extern bool __cdecl player_teleport(int32 player_index, int32 source_unit_index, const real_point3d* position);
@@ -759,6 +762,7 @@ extern bool __cdecl player_try_to_drop_weapon(int32 player_index, bool primary_w
 extern int32 __cdecl player_unit_get_representation_index(int32 unit_index);
 extern int32 __cdecl player_unit_get_control_index(int32 unit_index);
 extern void __cdecl player_update_invisibility(int32 player_index);
+extern void __cdecl player_use_multiplayer_powerup(int32 player_index, int32 equipment_index);
 extern bool __cdecl players_all_are_dead();
 extern bool __cdecl players_any_are_dead();
 extern bool __cdecl players_any_are_in_the_air(int32* out_unit_index);

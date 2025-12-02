@@ -4,6 +4,31 @@
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
 
+int32 __cdecl game_get_grenade_type_index_from_item_defintion(int32 item_definition_index)
+{
+	return INVOKE(0x0052D1A0, game_get_grenade_type_index_from_item_defintion, item_definition_index);
+}
+
+e_language get_map_language()
+{
+	e_language result = k_first_language;
+	if (global_scenario && VALID_INDEX(global_game_globals->language, k_language_count))
+	{
+		result = global_game_globals->language;
+	}
+	return result;
+}
+
+int32 get_map_minor_version()
+{
+	int32 result = NONE;
+	if (global_scenario)
+	{
+		result = cache_files_get_header()->minor_version_number;
+	}
+	return result;
+}
+
 rgb_color const k_player_colors[]
 {
 	{ .value = 0x6E6E6E }, // Steel
@@ -39,27 +64,6 @@ rgb_color const k_player_colors[]
 };
 
 c_typed_tag_block<rgb_color> s_game_globals::profile_colors{};
-
-e_language get_map_language()
-{
-	e_language result = k_first_language;
-	if (global_scenario && VALID_INDEX(global_game_globals->language, k_language_count))
-	{
-		result = global_game_globals->language;
-	}
-	return result;
-}
-
-int32 get_map_minor_version()
-{
-	int32 result = NONE;
-	if (global_scenario)
-	{
-		result = cache_files_get_header()->minor_version_number;
-	}
-	return result;
-}
-
 void s_game_globals::update_static_runtime_data()
 {
 	profile_colors.count = NUMBEROF(k_player_colors);

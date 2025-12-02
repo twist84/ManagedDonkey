@@ -289,6 +289,7 @@ extern bool __cdecl weapon_can_be_dual_wielded(int32 weapon_index);
 extern void __cdecl weapon_debug_render(int32 weapon_index, int32 weapon_slot);
 extern real32 __cdecl weapon_get_age(int32 weapon_index);
 extern real32 __cdecl weapon_get_field_of_view_change_time(int32 weapon_index);
+extern bool __cdecl weapon_handle_potential_inventory_item(int32 weapon_index, int32 item_index, int32 unit_index, int32 player_index, int16* rounds_picked_up);
 extern bool __cdecl weapon_has_infinite_ammo(int32 weapon_index);
 extern bool __cdecl weapon_is_support_weapon(int32 weapon_index);
 extern void __cdecl weapons_debug_render();

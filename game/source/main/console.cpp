@@ -784,7 +784,7 @@ void status_string_internal(const char* status, const char* message)
 	bool found = false;
 
 	int32 count = NUMBEROF(g_status_strings);
-	for (int32 index = 0; index < NUMBEROF(g_status_strings); index++)
+	for (int32 index = 0; index < count; index++)
 	{
 		s_status_string* status_string = &g_status_strings[index];
 		if (!status_string->line.text.is_empty() && status_string->format_string.is_equal(status))
@@ -792,6 +792,7 @@ void status_string_internal(const char* status, const char* message)
 			status_string->time_created = system_milliseconds();
 			status_string->line.text.set(message);
 			found = true;
+			break;
 		}
 	}
 

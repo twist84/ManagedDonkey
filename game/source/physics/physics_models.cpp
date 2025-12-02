@@ -209,7 +209,7 @@ bool __cdecl physics_model_instance_new(s_physics_model_instance* instance, int3
 {
 	return INVOKE(0x00786430, physics_model_instance_new, instance, object_index);
 
-	//object_datum* object = OBJECT_GET(object_datum, object_index);
+	//object_datum* object = OBJECT_GET(object_index);
 	//
 	//struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 	//if (object_definition->object.model.index == NONE)
@@ -295,7 +295,7 @@ void __cdecl render_debug_physics_model(const s_physics_model_instance* instance
 	 
 	ASSERT(instance && instance->model && instance->physics_model);
 
-	object_datum* object = OBJECT_GET(object_datum, instance->object_index);
+	object_datum* object = OBJECT_GET(instance->object_index);
 	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 
 	s_model_definition* model = instance->model;

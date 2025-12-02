@@ -210,8 +210,17 @@ void __cdecl chud_motion_sensor_invalidate(int32 user_index)
 //.text:00A898B0 ; bool __cdecl chud_motion_sensor_slow_moving_boardable_enemy_vehicles_nearby(int32 user_index)
 //.text:00A898F0 ; 
 //.text:00A89940 ; 
-//.text:00A89980 ; void __cdecl chud_picked_up_ammunition(int32 user_index, int32 weapon_definition_index, int16 count)
-//.text:00A899D0 ; void __cdecl chud_picked_up_grenade(int32 user_index, int32 grenade_definition_index)
+
+void __cdecl chud_picked_up_ammunition(int32 user_index, int32 weapon_definition_index, int16 count)
+{
+	INVOKE(0x00A89980, chud_picked_up_ammunition, user_index, weapon_definition_index, count);
+}
+
+void __cdecl chud_picked_up_grenade(int32 user_index, int32 grenade_definition_index)
+{
+	INVOKE(0x00A899D0, chud_picked_up_grenade, user_index, grenade_definition_index);
+}
+
 //.text:00A89A20 ; void __cdecl chud_picked_up_survival_mode_lives(int32)
 //.text:00A89A70 ; void __cdecl chud_play_sound(int32 user_index, int32 type_flags, const s_tag_block* sounds, int32* sound_handles, uint16* sound_flags)
 //.text:00A89BB0 ; 

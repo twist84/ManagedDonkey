@@ -101,7 +101,7 @@ void __cdecl unit_add_starting_profile_equipment(int32 unit_index, int16 startin
 	INVOKE(0x00B39110, unit_add_starting_profile_equipment, unit_index, starting_profile_index, reset, infinite_supply);
 }
 
-bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, int32 mode /* e_weapon_addition_method */)
+bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, e_weapon_addition_method mode)
 {
 	return INVOKE(0x00B393D0, unit_add_weapon_to_inventory, unit_index, object_index, mode);
 }
@@ -125,7 +125,10 @@ bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index)
 	return INVOKE(0x00B3AAA0, unit_can_pickup_equipment, unit_index, equipment_index);
 }
 
-//.text:00B3AC10 ; bool __cdecl unit_can_pickup_weapon(int32 unit_index, int32 weapon_index, e_weapon_addition_method mode, unit_weapon_pickup_result* result)
+bool __cdecl unit_can_pickup_weapon(int32 unit_index, int32 weapon_index, e_weapon_addition_method mode, unit_weapon_pickup_result* result)
+{
+	return INVOKE(0x00B3AC10, unit_can_pickup_weapon, unit_index, weapon_index, mode, result);
+}
 
 bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* point, real32 theta)
 {

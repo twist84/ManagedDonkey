@@ -609,3 +609,5 @@ struct s_game_globals_tag_reference :
 	void update_reference_names();
 };
 
+extern int32 __cdecl game_get_grenade_type_index_from_item_defintion(int32 item_definition_index);
+

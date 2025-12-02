@@ -2,11 +2,13 @@
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
+#include "game/game_engine_notifications.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/interface_constants.hpp"
 #include "items/equipment.hpp"
+#include "items/equipment_definitions.hpp"
 #include "items/weapons.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
@@ -21,6 +23,7 @@
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
+HOOK_DECLARE(0x005394A0, player_examine_nearby_item);
 HOOK_DECLARE(0x00539B20, player_find_action_context);
 HOOK_DECLARE(0x0053C8A0, player_set_facing);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
@@ -234,7 +237,7 @@ void players_debug_render()
 		bounds.y0 = bounds.y1 - 40;
 
 		const char* string_const = string_id_get_string_const(g_player_desired_mode_override);
-		csnzprintf(string, sizeof(string), "Player Forced Into Mode: %s|n", string_const);
+		csnzprintf(string, NUMBEROF(string), "Player Forced Into Mode: %s|n", string_const);
 
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(&font_cache, string);
@@ -249,7 +252,7 @@ void players_debug_render()
 		//bounds.y0 = bounds.y1 - 20;
 		//
 		//const char* character_physics_override = g_character_physics_override < k_total_character_physics_overrides ? global_character_physics_override_names[g_character_physics_override] : "OUT OF RANGE!";
-		//csnzprintf(string, sizeof(string), "Character Physics Override: %s|n", character_physics_override);
+		//csnzprintf(string, NUMBEROF(string), "Character Physics Override: %s|n", character_physics_override);
 		//
 		//draw_string.set_bounds(&bounds);
 		//draw_string.draw(&font_cache, string);
@@ -364,7 +367,7 @@ void __cdecl player_delete(int32 player_index)
 	//player_mapping_set_input_controller(player_index, k_no_controller);
 	//player_mapping_detach_output_users(player_index);
 	//players_rebuild_user_mapping(false);
-	//datum_delete(*player_data, player_index);
+	//datum_delete(player_data, player_index);
 	//game_engine_player_deleted(player_index);
 	//players_handle_deleted_player_internal(player_index);
 }
@@ -380,7 +383,171 @@ bool __cdecl player_evaluate_interaction(int32 player_index, const s_player_inte
 }
 
 //.text:005392F0 ; real32 __cdecl player_evaluate_interaction_compute_weight(int32, int32)
-//.text:005394A0 ; void __cdecl player_examine_nearby_item(int32, int32)
+
+void __cdecl player_examine_nearby_item(int32 player_index, int32 item_index)
+{
+	//INVOKE(0x005394A0, player_examine_nearby_item, player_index, item_index);
+
+	const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+	if (player && player->unit_index != NONE && !object_is_multiplayer_cinematic_object(item_index))
+	{
+		const unit_datum* unit = UNIT_GET(player->unit_index);
+		const item_datum* item = ITEM_GET(item_index);
+
+		bool parent_object_can_have_attached_weapons = false;
+
+		if (item->object.parent_object_index != NONE)
+		{
+			if (item->object.physics_flags.test(_object_is_early_mover_child_bit)
+				|| TEST_BIT(_object_mask_sightblocking, object_get_type(item->object.parent_object_index)))
+			{
+				parent_object_can_have_attached_weapons = true;
+			}
+		}
+
+		if (item->object.parent_object_index == NONE || parent_object_can_have_attached_weapons)
+		{
+			if (item->item.ignore_object_index != player->unit_index)
+			{
+				const real32 examine_nearby_object_bonus = 0.4f;
+				if (point_in_sphere(&item->object.bounding_sphere_center, &unit->object.bounding_sphere_center, unit->object.bounding_sphere_radius + examine_nearby_object_bonus))
+				{
+					if (!game_is_multiplayer() || unit_can_access_object(player->unit_index, item_index))
+					{
+						int32 ammo_taker_weapon_index = NONE;
+
+						for (int32 index = 0; index < NUMBEROF(unit->unit.weapon_object_indices); index++)
+						{
+							int32 primary_weapon_index = 0;
+							if (unit->unit.current_weapon_set.weapon_indices[0] >= 0)
+							{
+								primary_weapon_index = unit->unit.current_weapon_set.weapon_indices[0];
+							}
+
+							int32 weapon_index = unit->unit.weapon_object_indices[(index + primary_weapon_index) % NUMBEROF(unit->unit.weapon_object_indices)];
+							if (weapon_index != NONE)
+							{
+								int16 rounds_picked_up = 0;
+								if (weapon_handle_potential_inventory_item(
+									weapon_index,
+									item_index,
+									player->unit_index,
+									player_index,
+									&rounds_picked_up) &&
+									rounds_picked_up > 0)
+								{
+									//data_mine_insert_equipment_event("ammo pickup", layer->unit_index, item->definition_index, rounds_picked_up);
+
+									ammo_taker_weapon_index = weapon_index;
+
+									c_player_output_user_iterator iterator{};
+									iterator.begin_player(player_index);
+									while (iterator.next())
+									{
+										const weapon_datum* weapon = WEAPON_GET(weapon_index);
+										int32 user_index = iterator.get_user_index();
+										chud_picked_up_ammunition(user_index, weapon->definition_index, rounds_picked_up);
+									}
+								}
+
+								if (ammo_taker_weapon_index != NONE && ammo_taker_weapon_index != weapon_index)
+								{
+									if (OBJECT_GET(ammo_taker_weapon_index)->definition_index == OBJECT_GET(weapon_index)->definition_index)
+									{
+										object_wake(weapon_index);
+									}
+								}
+							}
+						}
+
+						// this shouldn't be needed
+						if (TEST_BIT(_object_mask_equipment, item->object.object_identifier.get_type()))
+						{
+							const equipment_datum* equipment = EQUIPMENT_GET(item_index);
+							if (equipment)
+							{
+								// bool can_pickup_grenades; // where used?
+
+								if (game_get_grenade_type_index_from_item_defintion(equipment->definition_index) == NONE)
+								{
+									if (game_is_multiplayer() && unit_can_pickup_equipment(player->unit_index, item_index))
+									{
+										e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
+										int32 current_equipment_index = unit_get_current_equipment(player->unit_index, 0);
+
+										if (equipment_type == _equipment_type_multiplayer_powerup)
+										{
+											if (game_is_predicted())
+											{
+												simulation_request_autopickup_powerup(player_index, item_index);
+											}
+											else
+											{
+												player_use_multiplayer_powerup(player_index, item_index);
+											}
+										}
+										else if (current_equipment_index == NONE)
+										{
+											if (game_is_predicted())
+											{
+												simulation_request_autopickup_equipment(player_index, item_index);
+											}
+											else
+											{
+												player_pickup_equipment(player_index, item_index);
+											}
+										}
+									}
+								}
+								else if (!game_is_multiplayer() || player->multiplayer.player_traits.get_weapons_traits()->get_weapon_pickup_allowed())
+								{
+									if (game_is_predicted())
+									{
+										simulation_request_autopickup_grenade(player_index, item_index);
+									}
+									else if (unit_add_grenade_to_inventory(player->unit_index, item_index))
+									{
+										//data_mine_insert_equipment_event("grenade pickup", player->unit_index, equipment->definition_index, 1);
+
+										c_player_output_user_iterator iterator{};
+										iterator.begin_player(player_index);
+										while (iterator.next())
+										{
+											chud_picked_up_grenade(iterator.get_user_index(), equipment->definition_index);
+										}
+									}
+								}
+							}
+						}
+
+						unit_weapon_pickup_result pickup_result{};
+						if (TEST_BIT(_object_mask_weapon, object_get_type(item_index))
+							&& unit_can_pickup_weapon(player->unit_index, item_index, _unit_add_weapon_unknown_method, &pickup_result)
+							&& pickup_result.can_pick_up[0]
+							&& player_should_auto_pickup_weapon(player_index, item_index))
+						{
+							if (game_is_predicted())
+							{
+								simulation_request_pickup_weapon(player->unit_index, item_index, _unit_add_weapon_as_primary_weapon);
+							}
+							else
+							{
+								action_request request{};
+								request.type = _action_weapon_pickup;
+								request.weapon_pickup.weapon_index = item_index;
+								request.weapon_pickup.add_weapon_mode = _unit_add_weapon_as_primary_weapon;
+								action_submit(player->unit_index, &request);
+							}
+						}
+
+						game_engine_player_nearby_item(player_index, item_index);
+					}
+				}
+			}
+		}
+	}
+}
+
 //.text:00539900 ; void __cdecl player_examine_nearby_objects(int32)
 //.text:00539A30 ; bool __cdecl player_fancy_assassinate_object(int32, int32)
 
@@ -388,85 +555,97 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 {
 	//INVOKE(0x00539B20, player_find_action_context, player_index, out_action_context);
 
-	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+	const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
 
 	player_action_context_clear(out_action_context);
 
-	if (player->unit_index == NONE)
-		return;
-
-	unit_datum* unit = UNIT_GET(player->unit_index);
-	if (unit->object.parent_object_index != NONE && !TEST_BIT(player->flags, _player_unknown_bit14))
-		return;
-
-	s_location location{};
-	object_get_location(player->unit_index, &location);
-
-	real32 search_radius = (unit->object.bounding_sphere_radius + 0.4f) + 0.1f;
-
-	int32 object_indices[64]{};
-	int32 object_count = objects_in_sphere(
-		0,
-		0x2BBF,
-		&location,
-		&unit->object.bounding_sphere_center,
-		search_radius,
-		object_indices,
-		NUMBEROF(object_indices));
-
-	int32 index = 0;
-	for (int32 index = 0; index < object_count; index++)
+	if (player->unit_index != NONE)
 	{
-		object_datum* object = object_get(object_indices[index]);
-		e_object_type object_type = object->object.object_identifier.get_type();
-
-		if (TEST_BIT(0x1440, object_type))
-			continue;
-
-		bool search_children = false;
-
-		if (!TEST_BIT(0x304, object_type) || point_in_sphere(&object->object.bounding_sphere_center, &unit->object.bounding_sphere_center, search_radius + object->object.bounding_sphere_radius))
+		unit_datum* unit = UNIT_GET(player->unit_index);
+		if (unit->object.parent_object_index == NONE || TEST_BIT(player->flags, _player_unknown_bit14))
 		{
-			switch (object_type)
-			{
-			case _object_type_biped:
-				player_consider_biped_interaction(player_index, object_indices[index], out_action_context);
-				break;
-			case _object_type_vehicle:
-				player_consider_vehicle_interaction(player_index, object_indices[index], out_action_context);
-				search_children = true;
-				break;
-			case _object_type_weapon:
-				player_consider_weapon_interaction(player_index, object_indices[index], out_action_context);
-				break;
-			case _object_type_equipment:
-				player_consider_equipment_interaction(player_index, object_indices[index], out_action_context);
-				break;
-			case _object_type_arg_device:
-			case _object_type_terminal:
-			case _object_type_control:
-				player_consider_device_interaction(player_index, object_indices[index], out_action_context);
-				break;
-			default:
-				search_children = true;
-				break;
-			}
+			const uns32 accept_type_mask = _object_mask_unit | _object_mask_item | _object_mask_scenery | _object_mask_crate | _object_mask_device;
+			static_assert(0x2BBF == accept_type_mask);
 
-			if (search_children)
-			{
-				object_datum* child_object = NULL;
+			const real32 examine_nearby_object_bonus = 0.4f;
+			real32 search_radius = (unit->object.bounding_sphere_radius + examine_nearby_object_bonus) + 0.1f;
+			int32 object_indices[64]{};
+			int32 object_count = objects_in_sphere(
+				0,
+				accept_type_mask,
+				&unit->object.location,
+				&unit->object.bounding_sphere_center,
+				search_radius,
+				object_indices,
+				NUMBEROF(object_indices));
 
-				for (int32 child_object_index = object->object.first_child_object_index;
-					child_object_index != NONE && object_count < NUMBEROF(object_indices);
-					child_object_index = child_object->object.next_object_index)
+			const uns32 exclude_type_mask = _object_mask_weapon | _object_mask_machine | _object_mask_control;
+			static_assert(0x304 == exclude_type_mask);
+			for (int32 index = 0; index < object_count; index++)
+			{
+				const object_datum* object = object_get(object_indices[index]);
+				e_object_type object_type = object->object.object_identifier.get_type();
+				
+				uns32 local_exclude_type_mask = _object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature;
+				static_assert(0x1440 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
+
+				if (!TEST_BIT(local_exclude_type_mask, object_type))
 				{
-					child_object = object_get(child_object_index);
-					object_indices[object_count++] = child_object_index;
+					bool examine_children = TEST_BIT(exclude_type_mask, object_type);
+					if (!examine_children || point_in_sphere(&object->object.bounding_sphere_center, &unit->object.bounding_sphere_center, search_radius + object->object.bounding_sphere_radius))
+					{
+						switch (object_type)
+						{
+						case _object_type_biped:
+							player_consider_biped_interaction(player_index, object_indices[index], out_action_context);
+							break;
+						case _object_type_vehicle:
+							player_consider_vehicle_interaction(player_index, object_indices[index], out_action_context);
+							static_assert(0x1442 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature | _object_mask_vehicle));
+							local_exclude_type_mask |= _object_mask_vehicle;
+							break;
+						case _object_type_weapon:
+							player_consider_weapon_interaction(player_index, object_indices[index], out_action_context);
+							break;
+						case _object_type_equipment:
+							player_consider_equipment_interaction(player_index, object_indices[index], out_action_context);
+							break;
+						case _object_type_arg_device:
+						case _object_type_terminal:
+						case _object_type_control:
+							player_consider_device_interaction(player_index, object_indices[index], out_action_context);
+							break;
+						default:
+							examine_children = true;
+							break;
+						}
+
+						if (examine_children)
+						{
+							object_datum* child_object = NULL;
+
+							for (int32 child_object_index = object->object.first_child_object_index;
+								child_object_index != NONE && object_count < NUMBEROF(object_indices);
+								child_object_index = child_object->object.next_object_index)
+							{
+								e_object_type child_object_type = child_object->object.object_identifier.get_type();
+								bool consider_child = TEST_BIT(local_exclude_type_mask, child_object_type);
+								if (!consider_child && 
+									(!examine_children || point_in_sphere(&child_object->object.bounding_sphere_center, &unit->object.bounding_sphere_center, search_radius + child_object->object.bounding_sphere_radius)))
+								{
+									child_object = object_get(child_object_index);
+									object_indices[object_count++] = child_object_index;
+								}
+							}
+						}
+
+						if (TEST_MASK(_object_mask_unit, object_type))
+						{
+							player_consider_unit_interaction(player_index, object_indices[index], out_action_context);
+						}
+					}
 				}
 			}
-
-			if (TEST_MASK(_object_mask_unit, object_type))
-				player_consider_unit_interaction(player_index, object_indices[index], out_action_context);
 		}
 	}
 }
@@ -556,6 +735,27 @@ int32 __cdecl player_new(int32 player_array_index, const game_player_options* op
 	//	}
 	//}
 	//return player_absolute_index;
+}
+
+void __cdecl player_pickup_equipment(int32 player_index, int32 equipment_index)
+{
+	const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+	const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+
+	action_request request{};
+	request.type = _action_equipment_pickup;
+	request.equipment_pickup.equipment_index = equipment_index;
+	action_submit(player->unit_index, &request);
+	//data_mine_insert_equipment_event("powerup pickup", player->unit_index, equipment->definition_index, 1);
+	equipment_definition_handle_pickup(player_index, equipment->definition_index);
+
+	c_player_output_user_iterator iterator{};
+	iterator.begin_player(player_index);
+	while (iterator.next())
+	{
+		chud_messaging_picked_up_powerup(iterator.get_user_index(), equipment->definition_index);
+	}
+	simulation_action_pickup_powerup(player->unit_index, equipment->definition_index);
 }
 
 //.text:0053B8F0 ; void __cdecl player_notify_of_tracking_or_locking(int32, int32, int16)
@@ -654,7 +854,10 @@ void __cdecl player_set_unit_index(int32 player_index, int32 unit_index)
 	INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);
 }
 
-//.text:0053CDC0 ; bool __cdecl player_should_auto_pickup_weapon(int32, int32)
+bool __cdecl player_should_auto_pickup_weapon(int32 player_index, int32 weapon_index)
+{
+	return INVOKE(0x0053CDC0, player_should_auto_pickup_weapon, player_index, weapon_index);
+}
 
 bool __cdecl player_spawn(int32 player_index, const real_point3d* position, const real32* facing)
 {
@@ -902,7 +1105,12 @@ void __cdecl player_update_invisibility(int32 player_index)
 
 //.text:00540650 ; void __cdecl player_update_reactive_armor(int32)
 //.text:00540730 ; void __cdecl player_update_tank_mode(int32)
-//.text:005408E0 ; void __cdecl player_use_multiplayer_powerup(int32, int32)
+
+void __cdecl player_use_multiplayer_powerup(int32 player_index, int32 equipment_index)
+{
+	INVOKE(0x005408E0, player_use_multiplayer_powerup, player_index, equipment_index);
+}
+
 //.text:00540A70 ; 
 //.text:00540A80 ; void __cdecl player_validate_configuration(int32, s_player_configuration*)
 //.text:00540AE0 ; bool __cdecl player_waiting_to_respawn_compare(int32, int32, const void*)

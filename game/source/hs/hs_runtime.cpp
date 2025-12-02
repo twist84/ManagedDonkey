@@ -1066,7 +1066,7 @@ void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index
 		}
 		else if (*result_index != NONE)
 		{
-			const object_datum* object = OBJECT_GET(const object_datum, *result_index);
+			const object_datum* object = OBJECT_GET(*result_index);
 			int16 desired_type = function_index - (_hs_function_object_to_unit - 1);
 			if (TEST_BIT(hs_object_type_masks[desired_type], object->object.object_identifier.get_type()))
 			{
@@ -1711,14 +1711,14 @@ void __cdecl hs_global_reconcile_write(int16 global_designator)
 				object_index != NONE;
 				object_index = object_list_get_next(runtime_global->value, &object_list_reference_index))
 			{
-				object_datum* object = OBJECT_GET(object_datum, runtime_global->value);
+				object_datum* object = OBJECT_GET(runtime_global->value);
 				object->object.flags.set(_object_ever_referenced_by_hs_bit, true);
 			}
 		}
 	}
 	else if (runtime_global->value != NONE)
 	{
-		object_datum* object = OBJECT_GET(object_datum, runtime_global->value);
+		object_datum* object = OBJECT_GET(runtime_global->value);
 		object->object.flags.set(_object_ever_referenced_by_hs_bit, true);
 	}
 }
@@ -1728,7 +1728,7 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 {
 	//INVOKE(0x00596F50, hs_handle_deleted_object, object_index);
 
-	const object_datum* object = OBJECT_GET(const object_datum, object_index);
+	const object_datum* object = OBJECT_GET(object_index);
 	if (object->object.flags.test(_object_ever_referenced_by_hs_bit))
 	{
 		bool need_object_list_gc = false;
@@ -2659,7 +2659,7 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 								int32 object_index = parameter_results[parameter_index];
 								if (object_index != NONE)
 								{
-									object_datum* object = OBJECT_GET(object_datum, object_index);
+									object_datum* object = OBJECT_GET(object_index);
 									object->object.flags.set(_object_ever_referenced_by_hs_bit, true);
 								}
 							}

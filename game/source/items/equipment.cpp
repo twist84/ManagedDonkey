@@ -16,7 +16,12 @@
 //.text:00B882F0 ; bool __cdecl equipment_can_be_thrown(int32)
 //.text:00B88360 ; bool __cdecl equipment_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00B88470 ; void __cdecl equipment_delete_recursive(int32, int32)
-//.text:00B887B0 ; void __cdecl equipment_definition_handle_pickup(int32, int32)
+
+void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipment_definition_index)
+{
+	INVOKE(0x00B887B0, equipment_definition_handle_pickup, player_index, equipment_definition_index);
+}
+
 //.text:00B88860 ; bool __cdecl equipment_desires_3rd_person_camera(int32)
 //.text:00B888E0 ; void __cdecl sub_B888E0(int32)
 //.text:00B889F0 ; real64 __cdecl sub_B889F0(int32)

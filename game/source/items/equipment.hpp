@@ -42,3 +42,5 @@ struct equipment_datum
 };
 static_assert(sizeof(equipment_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
 
+extern void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipment_definition_index);
+

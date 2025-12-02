@@ -486,7 +486,12 @@ real32 __cdecl weapon_get_field_of_view_change_time(int32 weapon_index)
 //.text:00B63690 ; 
 //.text:00B636E0 ; real32 __cdecl weapon_get_zoom_magnification(int32, int16)
 //.text:00B637C0 ; void __cdecl weapon_handle_deleted_projectile(int32, int32)
-//.text:00B63840 ; bool __cdecl weapon_handle_potential_inventory_item(int32, int32, int32, int32, int16*)
+
+bool __cdecl weapon_handle_potential_inventory_item(int32 weapon_index, int32 item_index, int32 unit_index, int32 player_index, int16* rounds_picked_up)
+{
+	return INVOKE(0x00B63840, weapon_handle_potential_inventory_item, weapon_index, item_index, unit_index, player_index, rounds_picked_up);
+}
+
 //.text:00B63BE0 ; bool __cdecl weapon_has_clang_melee(int32)
 
 bool __cdecl weapon_has_infinite_ammo(int32 weapon_index)

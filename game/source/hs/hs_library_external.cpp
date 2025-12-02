@@ -157,7 +157,7 @@ void __cdecl hs_damage_object(int32 object_index, int32 material_name, real32 da
 		const s_game_globals_falling_damage* falling_damage = TAG_BLOCK_GET_ELEMENT(&scenario_get_game_globals()->falling_damage, 0, const s_game_globals_falling_damage);
 		if (falling_damage->hs_damage.index != NONE && object_index != NONE)
 		{
-			const object_datum* object = OBJECT_GET(const object_datum, object_index);
+			const object_datum* object = OBJECT_GET(object_index);
 			const struct object_definition* object_definition = TAG_GET(OBJECT_TAG, const struct object_definition, object->definition_index);
 			if (object_definition->object.model.index != NONE)
 			{
@@ -352,7 +352,7 @@ void __cdecl hs_effect_new_from_object_marker(int32 definition_index, int32 obje
 		}
 		else
 		{
-			const object_datum* object = OBJECT_GET(const object_datum, object_index);
+			const object_datum* object = OBJECT_GET(object_index);
 			const s_tag_block* object_names = &global_scenario_get()->object_names;
 			scenario_object_name* object_name = TAG_BLOCK_GET_ELEMENT_SAFE(object_names, object->object.name_index, scenario_object_name);
 
@@ -879,7 +879,7 @@ void __cdecl hs_object_orient(int32 object_index, const real_point3d* position, 
 #if 0 // $REVIEW
 	if (object_index != NONE)
 	{
-		const object_datum* object = OBJECT_GET(const object_datum, object_index);
+		const object_datum* object = OBJECT_GET(object_index);
 		if (set_position)
 		{
 			if (object->object.parent_object_index != NONE)
@@ -1388,7 +1388,7 @@ bool __cdecl hs_unit_can_see_object(int32 unit_index, int32 object_index, real32
 		}
 		else
 		{
-			target_point = OBJECT_GET(object_datum, object_index)->object.bounding_sphere_center;
+			target_point = OBJECT_GET(object_index)->object.bounding_sphere_center;
 		}
 
 		if (unit_can_see_point(unit_index, &target_point, degrees * DEG))

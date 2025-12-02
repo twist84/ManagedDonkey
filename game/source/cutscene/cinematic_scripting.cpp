@@ -106,7 +106,7 @@ void __cdecl cinematic_scripting_destroy_object(int32 cinematic_index, int32 sce
 			int32 object_index = cinematic_scripting_get_object(cinematic_index, scene_index, scene_object_index);
 			if (object_index != NONE)
 			{
-				object_datum* object = OBJECT_GET(object_datum, object_index);
+				object_datum* object = OBJECT_GET(object_index);
 
 				if (!TEST_BIT(scene_object->flags, _scene_object_flags_not_created_dynamically) &&
 					!TEST_BIT(scene_object->flags, _scene_object_flags_comes_from_game))

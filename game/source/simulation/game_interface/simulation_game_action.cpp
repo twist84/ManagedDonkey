@@ -195,7 +195,12 @@ void simulation_action_object_update_internal(int32 object_index, c_simulation_o
 
 //.text:004B3080 ; void __cdecl simulation_action_pickup_ammo(int32, int32, int32, int32)
 //.text:004B3140 ; void __cdecl simulation_action_pickup_equipment(int32, int32)
-//.text:004B31C0 ; void __cdecl simulation_action_pickup_powerup(int32, int32)
+
+void __cdecl simulation_action_pickup_powerup(int32 unit_index, int32 equipment_index)
+{
+	INVOKE(0x004B31C0, simulation_action_pickup_powerup, unit_index, equipment_index);
+}
+
 //.text:004B3240 ; void __cdecl simulation_action_pickup_weapon(int32, int32)
 //.text:004B32C0 ; simulation_action_player_taunt
 //.text:004B3300 ; void __cdecl simulation_action_projectile_attached(int32, int32, int16, const real_point3d*, const s_location*)
@@ -218,15 +223,50 @@ bool __cdecl simulation_query_object_placement(const object_placement_data* data
 //.text:004B48E0 ; bool __cdecl simulation_query_predictive_event(int32, int32, int32*)
 //.text:004B4950 ; bool __cdecl simulation_request_actor_create(int32, int32)
 //.text:004B49E0 ; void __cdecl simulation_request_actor_delete(int32)
-//.text:004B49F0 ; void __cdecl simulation_request_autopickup_ammo(int32, int32, int32)
-//.text:004B4A00 ; 
-//.text:004B4A10 ; void __cdecl simulation_request_autopickup_powerup(int32, int32)
-//.text:004B4A20 ; void __cdecl simulation_request_autopickup_grenade(int32, int32)
+
+void __cdecl simulation_request_autopickup_ammo(int32 unit_index, int32 weapon_index, int32 item_index)
+{
+	//INVOKE(0x004B49F0, simulation_request_autopickup_ammo, unit_index, weapon_index, item_index);
+
+	simulation_request_object_refresh(item_index);
+}
+
+void __cdecl simulation_request_autopickup_equipment(int32 unit_index, int32 equipment_index)
+{
+	//INVOKE(0x004B4A00, simulation_request_autopickup_equipment, unit_index, equipment_index);
+
+	simulation_request_object_refresh(equipment_index);
+}
+
+void __cdecl simulation_request_autopickup_grenade(int32 unit_index, int32 item_index)
+{
+	//INVOKE(0x004B4A10, simulation_request_autopickup_grenade, unit_index, item_index);
+
+	simulation_request_object_refresh(item_index);
+}
+
+void __cdecl simulation_request_autopickup_powerup(int32 unit_index, int32 item_index)
+{
+	//INVOKE(0x004B4A20, simulation_request_autopickup_powerup, unit_index, item_index);
+
+	simulation_request_object_refresh(item_index);
+}
+
 //.text:004B4A30 ; void __cdecl simulation_request_drop_weapon(int32, int16)
 //.text:004B4B10 ; void __cdecl simulation_request_flip_vehicle(int32, int32, bool)
-//.text:004B4B70 ; void __cdecl simulation_request_object_refresh(int32)
+
+void __cdecl simulation_request_object_refresh(int32 object_index)
+{
+	INVOKE(0x004B4B70, simulation_request_object_refresh, object_index);
+}
+
 //.text:004B4CA0 ; void __cdecl simulation_request_pickup_equipment(int32, int32)
-//.text:004B4D00 ; void __cdecl simulation_request_pickup_weapon(int32, int32, e_weapon_addition_method)
+
+void __cdecl simulation_request_pickup_weapon(int32 unit_index, int32 weapon_index, e_weapon_addition_method add_weapon_mode)
+{
+	INVOKE(0x004B4D00, simulation_request_pickup_weapon, unit_index, weapon_index, add_weapon_mode);
+}
+
 //.text:004B4D90 ; bool __cdecl simulation_request_player_attach(int32, int32)
 //.text:004B4E10 ; void __cdecl simulation_request_player_boot(int32, int32)
 //.text:004B4E50 ; void __cdecl simulation_request_player_detach(int32)

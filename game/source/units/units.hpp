@@ -9,6 +9,30 @@
 
 int32 const k_seat_acceleration_memory_length = 6;
 
+enum e_weapon_addition_method
+{
+	_unit_add_weapon_unknown_method = NONE,
+	_unit_add_weapon_normally,
+	_unit_add_weapon_silently,
+	_unit_add_weapon_as_only_weapon,
+	_unit_add_weapon_as_primary_weapon,
+	_unit_add_weapon_swap_for_primary_weapon,
+	_unit_add_weapon_as_secondary_weapon,
+	_unit_add_weapon_swap_for_secondary_weapon,
+	_unit_add_weapon_as_secondary_weapon_silently,
+	_unit_add_weapon_unknown8,
+
+	k_unit_add_weapon_modes_count,
+	k_unit_add_weapon_modes_bits = 4,
+};
+
+struct unit_weapon_pickup_result
+{
+	bool can_pick_up[2];
+	bool can_swap_for_current[2];
+};
+static_assert(sizeof(unit_weapon_pickup_result) == 0x4);
+
 struct s_unit_weapon_set
 {
 	uns16 set_identifier;
@@ -378,8 +402,9 @@ extern void __cdecl unit_add_equipment_to_inventory(int32 unit_index, int32 slot
 extern bool __cdecl unit_add_grenade_to_inventory(int32 unit_index, int32 equipment_index);
 extern int16 __cdecl unit_add_grenade_type_to_inventory(int32 unit_index, int16 grenade_type, int16 grenade_count);
 extern void __cdecl unit_add_starting_profile_equipment(int32 unit_index, int16 starting_profile_index, bool reset, bool infinite_supply);
-extern bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, int32 mode);
+extern bool __cdecl unit_add_weapon_to_inventory(int32 unit_index, int32 object_index, e_weapon_addition_method mode);
 extern bool __cdecl unit_can_access_object(int32 unit_index, int32 object_index);
+extern bool __cdecl unit_can_pickup_weapon(int32 unit_index, int32 weapon_index, e_weapon_addition_method mode, unit_weapon_pickup_result* result);
 extern bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index);
 extern bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* point, real32 theta);
 extern bool __cdecl unit_clip_vector_to_aiming_screen_bounds(int32 unit_index, real_vector3d* vector, bool use_looking_screen);
