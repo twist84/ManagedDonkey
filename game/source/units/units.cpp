@@ -771,28 +771,24 @@ void __cdecl unit_update_driver_and_gunner(int32 unit_index)
 
 bool __cdecl unit_update_equipment(int32 unit_index, int32 slot_index)
 {
-	return INVOKE(0x00B4BA20, unit_update_equipment, unit_index, slot_index);
+	//return INVOKE(0x00B4BA20, unit_update_equipment, unit_index, slot_index);
 
-	// HO
-	//if (VALID_INDEX(slot_index, 4))
-	//{
-	//	int32 current_equipment_index = UNIT_GET(unit_index)->unit.equipment_object_indices[slot_index];
-	//	if (current_equipment_index != NONE)
-	//		sub_B891F0(current_equipment_index, unit_index);
-	//}
+	bool awake = false;
 
-	// H3
-	//int32 current_equipment_index = UNIT_GET(unit_index)->unit.equipment_object_indices[slot_index];
-	//if (equipment_remaining_charges(current_equipment_index) || equipment_active_fraction(current_equipment_index) != 0.0f)
-	//{
-	//	sub_B891F0(current_equipment_index, unit_index);
-	//}
-	//else
-	//{
-	//	unit_delete_current_equipment(unit_index);
-	//}
-	//
-	//return false
+	const int32 equipment_index = unit_get_current_equipment(unit_index, slot_index);
+	if (equipment_index != NONE)
+	{
+		if (equipment_remaining_charges(equipment_index) || equipment_active_fraction(equipment_index) != 0.0f)
+		{
+			equipment_update(equipment_index, unit_index);
+		}
+		else
+		{
+			unit_delete_current_equipment(unit_index, slot_index);
+		}
+	}
+
+	return awake;
 }
 
 void __cdecl unit_update_health(int32 unit_index)

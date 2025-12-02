@@ -412,6 +412,7 @@ extern void __cdecl unit_control(int32 unit_index, const unit_control_data* cont
 extern void __cdecl unit_debug_ninja_rope(int32 unit_index);
 extern void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index);
 extern void __cdecl unit_drop_current_equipment(int32 unit_index, int32 slot_index);
+extern void __cdecl unit_drop_item(int32 unit_index, int32 item_index, e_unit_drop_type drop_type);
 extern bool __cdecl unit_get_acceleration_origin_and_data(int32 unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data);
 extern int32 __cdecl unit_get_active_primary_weapon(int32 unit_index, int32* gunner_unit_index_ref);
 extern int32 __cdecl unit_get_aim_assist_dash_target(int32 unit_index);
