@@ -14,6 +14,17 @@
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"
 
+class c_scenario_resource_registry;
+
+struct effect_vector_field;
+struct s_game_non_bsp_zone_set;
+
+enum e_effect_deterministic
+{
+	_effect_not_deterministic = 0,
+	_effect_deterministic,
+};
+
 struct s_effect_vector
 {
 	real_point3d position;
@@ -154,13 +165,12 @@ static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
 
 extern bool debug_damage_effects;
 
-struct s_game_non_bsp_zone_set;
-class c_scenario_resource_registry;
 extern void __cdecl effects_prepare_for_new_zone_set(uns32 old_active_structure_bsp_mask, uns32 new_active_structure_bsp_mask);
 extern void __cdecl effects_initialize_for_new_non_bsp_zone_set(const s_game_non_bsp_zone_set* new_non_bsp_zone_set);
 extern void __cdecl effects_dispose_from_old_non_bsp_zone_set(const s_game_non_bsp_zone_set* old_non_bsp_zone_set);
 extern bool __cdecl dangerous_effects_near_player();
 extern void __cdecl effect_render(int32 effect_index, int32 user_index);
+extern int32 __cdecl effect_new_from_object(c_tag_index definition_index, const s_damage_owner* damage_owner, const s_damage_reporting_info& damage_reporting_info, int32 object_index, real32 scale_a, real32 scale_b, const real_rgb_color* color, const effect_vector_field* impulse_field, e_effect_deterministic deterministic);
 extern int32 __cdecl effect_new_from_point_vector(int32 effect_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* normal, int32 match_all_markers, int32 effect_deterministic, const real_plane3d* plane, s_cluster_reference* cluster_reference);
 extern void __cdecl effects_dispose();
 extern void __cdecl effects_dispose_from_old_map();

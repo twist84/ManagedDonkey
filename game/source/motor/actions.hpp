@@ -460,7 +460,14 @@ static_assert(sizeof(action_request_grenade) == 0x44);
 
 struct action_request_equipment
 {
-	byte __data[0x44];
+	int32 spawner_object_definition_index;
+	bool network_predicted;
+	bool network_throw_immediate;
+	bool network_death_equipment;
+	real_point3d network_aiming_origin;
+	real_vector3d network_aiming_vector;
+
+	byte __data[0x44 - 0x20];
 };
 static_assert(sizeof(action_request_equipment) == 0x44);
 

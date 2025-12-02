@@ -30,56 +30,65 @@
 //HOOK_DECLARE(0x00BA0650, equipment_get_vision_definition);
 //HOOK_DECLARE(0x00BA0650, equipment_get_weapon_jammer_definition);
 
-e_equipment_type equipment_definition_get_type(int32 definition_index, int32 expected_equipment_type_index)
+e_equipment_type equipment_definition_get_type(int32 equipment_definition_index, int32 type_index)
 {
-	return INVOKE(0x00BA0260, equipment_definition_get_type, definition_index, expected_equipment_type_index);
+	//return INVOKE(0x00BA0260, equipment_definition_get_type, equipment_definition_index, type_index);
 
-	//int32 current_type_index = 0;
-	//e_equipment_type equipment_types[]
-	//{
-	//	// specific equipment can be disabled with a comment below
-	//
-	//	_equipment_type_super_shield,
-	//	_equipment_type_multiplayer_powerup,
-	//	_equipment_type_spawner,
-	//	_equipment_type_proximity_mine,
-	//	_equipment_type_motion_tracker_noise,
-	//	_equipment_type_showme,
-	//	_equipment_type_invisibility,
-	//	_equipment_type_invincibility,
-	//	_equipment_type_tree_of_life,
-	//	_equipment_type_health_pack,
-	//	_equipment_type_forced_reload,
-	//	_equipment_type_concussive_blast,
-	//	_equipment_type_tank_mode,
-	//	_equipment_type_mag_pulse,
-	//	_equipment_type_hologram,
-	//	_equipment_type_reactive_armor,
-	//	_equipment_type_bomb_run,
-	//	_equipment_type_armor_lock,
-	//	_equipment_type_adrenaline,
-	//	_equipment_type_lightning_strike,
-	//	_equipment_type_scrambler,
-	//	_equipment_type_weapon_jammer,
-	//	_equipment_type_ammo_pack,
-	//	_equipment_type_vision
-	//};
-	//
-	//if (struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition, definition_index))
-	//{
-	//	for (int32 equipment_type_index = 0; equipment_type_index < NUMBEROF(equipment_types); equipment_type_index++)
-	//	{
-	//		if (equipment_definition->equipment.equipment_types[equipment_types[equipment_type_index]].count > 0)
-	//		{
-	//			if (current_type_index == expected_equipment_type_index)
-	//				return equipment_types[equipment_type_index];
-	//
-	//			current_type_index++;
-	//		}
-	//	}
-	//}
-	//
-	//return k_equipment_type_none;
+	const e_equipment_type k_type_order[]
+	{
+		// specific equipment can be disabled with a comment below
+	
+		_equipment_type_super_shield,
+		_equipment_type_multiplayer_powerup,
+		_equipment_type_spawner,
+		_equipment_type_proximity_mine,
+		_equipment_type_motion_tracker_noise,
+		_equipment_type_showme,
+		_equipment_type_invisibility_mode,
+		_equipment_type_invincibility,
+		_equipment_type_treeoflife,
+	
+		//// ODST
+		//_equipment_type_health_pack,
+		//
+		//// Halo Online
+		//_equipment_type_forced_reload,
+		//_equipment_type_concussive_blast,
+		//_equipment_type_tank_mode,
+		//_equipment_type_mag_pulse,
+		//_equipment_type_hologram,
+		//_equipment_type_reactive_armor,
+		//_equipment_type_bomb_run,
+		//_equipment_type_armor_lock,
+		//_equipment_type_adrenaline,
+		//_equipment_type_lightning_strike,
+		//_equipment_type_scrambler,
+		//_equipment_type_weapon_jammer,
+		//_equipment_type_ammo_pack,
+		//_equipment_type_vision
+	};
+	//static_assert(NUMBEROF(k_type_order) == k_equipment_type_count);
+	static_assert(NUMBEROF(k_type_order) == _equipment_type_treeoflife + 1);
+	
+	e_equipment_type result_equipment_type = _equipment_type_none;
+	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment_definition_index);
+	
+	int32 type_count = 0;
+	for (int32 type_blocks_index = 0; type_blocks_index < NUMBEROF(k_type_order); type_blocks_index++)
+	{
+		if (equipment_definition->equipment.tag_blocks[k_type_order[type_blocks_index]].count > 0)
+		{
+			if (type_count == type_index)
+			{
+				result_equipment_type = k_type_order[type_blocks_index];
+				break;
+			}
+	
+			type_count++;
+		}
+	}
+	
+	return result_equipment_type;
 }
 
 bool equipment_definition_has_type(int32 definition_index, e_equipment_type equipment_type)
@@ -351,8 +360,8 @@ void s_equipment_type_super_shield::update_reference_names()
 
 void s_equipment_type_spawner::update_reference_names()
 {
-	UPDATE_REFERENCE_NAME(spawned_object);
-	UPDATE_REFERENCE_NAME(spawned_effect);
+	UPDATE_REFERENCE_NAME(spawned_object_definition);
+	UPDATE_REFERENCE_NAME(spawned_effect_definition);
 }
 
 void s_equipment_type_proximity_mine::update_reference_names()

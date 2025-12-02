@@ -4149,10 +4149,10 @@ enum e_simulation_unit_update_flag
 
 enum e_simulation_item_update_flag
 {
-	_simulation_item_update_set_at_rest = k_simulation_object_update_flag_count,
-	_simulation_item_update_equipment_begin_animation_state,
-	_simulation_item_update_equipment_creation_time,
-	_simulation_item_update_equipment_owner,
+	_simulation_item_update_at_rest_bit = k_simulation_object_update_flag_count,
+	_simulation_item_equipment_deployed_bit,
+	_simulation_item_equipment_activated_bit,
+	_simulation_item_equipment_creator_bit,
 
 	k_simulation_item_update_flag_count
 };

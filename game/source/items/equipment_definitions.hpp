@@ -8,15 +8,16 @@
 
 enum e_equipment_type
 {
-	_equipment_type_super_shield = 0,
+	_equipment_type_none = NONE,
+	_equipment_type_super_shield,
 	_equipment_type_multiplayer_powerup,
 	_equipment_type_spawner,
 	_equipment_type_proximity_mine,
 	_equipment_type_motion_tracker_noise,
 	_equipment_type_showme,
-	_equipment_type_invisibility,
+	_equipment_type_invisibility_mode,
 	_equipment_type_invincibility,
-	_equipment_type_tree_of_life,
+	_equipment_type_treeoflife,
 	_equipment_type_health_pack,
 	_equipment_type_forced_reload,
 	_equipment_type_concussive_blast,
@@ -34,8 +35,6 @@ enum e_equipment_type
 	_equipment_type_vision,
 
 	k_equipment_type_count,
-
-	k_equipment_type_none = -1
 };
 
 enum e_equipment_flags
@@ -145,7 +144,7 @@ struct _equipment_definition
 			c_typed_tag_block<s_equipment_type_vision> vision;
 		};
 
-		c_static_array<s_tag_block, k_equipment_type_count> equipment_types;
+		c_static_array<s_tag_block, k_equipment_type_count> tag_blocks;
 	};
 
 	s_tag_reference chud_interface;
@@ -177,9 +176,9 @@ static_assert(sizeof(equipment_definition) == sizeof(_object_definition) + sizeo
 
 struct s_equipment_type_super_shield
 {
-	real32 shield_recharge_delay_scale; // 0.0f defaults to 1.0f
-	real32 shield_recharge_rate_scale; // 0.0f defaults to 1.0f
-	real32 shield_ceiling_scale; // 0.0f defaults to 1.0f
+	real32 shield_recharge_delay_multiplier; // 0.0f defaults to 1.0f
+	real32 shield_recharge_rate_multiplier; // 0.0f defaults to 1.0f
+	real32 shield_ceiling_multiplier; // 0.0f defaults to 1.0f
 	s_tag_reference shield_effect;
 	s_tag_reference overcharge_effect;
 	s_tag_reference overcharge_damage_effect;
@@ -205,8 +204,8 @@ struct s_equipment_type_spawner
 		k_spawn_type_count
 	};
 
-	s_tag_reference spawned_object;
-	s_tag_reference spawned_effect;
+	s_tag_reference spawned_object_definition;
+	s_tag_reference spawned_effect_definition;
 
 	// distance from players eyeball on the z-plane that this effect spawns
 	real32 spawn_radius;

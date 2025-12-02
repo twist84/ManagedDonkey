@@ -150,7 +150,12 @@ void __cdecl effect_render(int32 effect_index, int32 user_index)
 //.text:005B7E20 ; void __cdecl effect_new_attached_from_particle(c_tag_index, int32, uns8, uns8, const real_point3d*, const real_vector3d*, const real_vector3d*, real32, real32, const s_location*, bool)
 //.text:005B7EF0 ; int32 __cdecl effect_new_breakable_surface(c_tag_index, int32, real32, real32)
 //.text:005B7FC0 ; int32 __cdecl effect_new_from_creation_data(const s_effect_creation_data*)
-//.text:005B8550 ; int32 __cdecl effect_new_from_object(c_tag_index, const s_damage_owner*, const s_damage_reporting_info&, int32, real32, real32, const real_rgb_color*, const effect_vector_field*, e_effect_deterministic)
+
+int32 __cdecl effect_new_from_object(c_tag_index definition_index, const s_damage_owner* damage_owner, const s_damage_reporting_info& damage_reporting_info, int32 object_index, real32 scale_a, real32 scale_b, const real_rgb_color* color, const effect_vector_field* impulse_field, e_effect_deterministic deterministic)
+{
+	return INVOKE(0x005B8550, effect_new_from_object, definition_index, damage_owner, damage_reporting_info, object_index, scale_a, scale_b, color, impulse_field, deterministic);
+}
+
 //.text:005B86A0 ; 
 
 //int32 __cdecl effect_new_from_point_vector(int32, const real_point3d*, const real_vector3d*, const real_vector3d*, e_match_all_markers, e_effect_deterministic, const real_plane3d*, s_cluster_reference*)

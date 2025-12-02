@@ -97,17 +97,20 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 	int32 join_client_total_count = 0;
 	int32 join_time_to_failure = 0;
 
-	m_world->get_join_status(
-		&join_time_elapsed,
-		&join_time_to_abort,
-		&join_attempt_count,
-		&join_attempt_maximum,
-		&join_client_establishing_count,
-		&join_client_waiting_count,
-		&join_client_joining_count,
-		&join_client_complete_count,
-		&join_client_total_count,
-		&join_time_to_failure);
+	if (state == _simulation_world_state_joining)
+	{
+		m_world->get_join_status(
+			&join_time_elapsed,
+			&join_time_to_abort,
+			&join_attempt_count,
+			&join_attempt_maximum,
+			&join_client_establishing_count,
+			&join_client_waiting_count,
+			&join_client_joining_count,
+			&join_client_complete_count,
+			&join_client_total_count,
+			&join_time_to_failure);
+	}
 
 	if (m_world->is_authority())
 	{
