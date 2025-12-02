@@ -287,8 +287,44 @@ void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index)
 //.text:00B407A0 ; bool __cdecl unit_does_not_show_readied_weapon(int32 unit_index)
 //.text:00B407F0 ; bool __cdecl unit_driven_by_ai(int32 unit_index)
 //.text:00B40840 ; void __cdecl unit_drop_all_hidden_inventory_weapons(int32 unit_index)
-//.text:00B409E0 ; void __cdecl unit_drop_current_equipment(int32 unit_index, int32 slot_index)
-//.text:00B40A70 ; void __cdecl unit_drop_item(int32 unit_index, int32 item_index, e_unit_drop_type drop_type)
+
+void __cdecl unit_drop_current_equipment(int32 unit_index, int32 slot_index)
+{
+	//INVOKE(0x00B409E0, unit_drop_current_equipment, unit_index, slot_index);
+
+	if (VALID_INDEX(slot_index, 4))
+	{
+		unit_datum* unit = UNIT_GET(unit_index);
+		const int32 equipment_index = unit->unit.equipment_object_indices[slot_index];
+		if (equipment_index != NONE && !game_is_predicted())
+		{
+			if (equipment_remaining_charges(equipment_index))
+			{
+				const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+				unit_drop_item(unit_index, equipment_index, _unit_drop_type_default);
+
+				if (!equipment->object.physics_flags.test(_object_connected_to_physics_bit))
+				{
+					object_reconnect_to_physics(equipment_index);
+				}
+
+				unit->unit.equipment_object_indices[slot_index] = NONE;
+				unit->unit.active_equipment_object_indices[slot_index] = NONE;
+				simulation_action_object_update(unit_index, _simulation_unit_update_equipment);
+			}
+			else
+			{
+				unit_delete_current_equipment(unit_index, slot_index);
+			}
+		}
+	}
+}
+
+void __cdecl unit_drop_item(int32 unit_index, int32 item_index, e_unit_drop_type drop_type)
+{
+	INVOKE(0x00B40A70, unit_drop_item, unit_index, item_index, drop_type);
+}
+
 //.text:00B40B80 ; bool __cdecl unit_equipment_desires_3rd_person_camera(int32)
 
 // these should it in equipment.cpp
