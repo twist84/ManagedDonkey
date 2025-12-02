@@ -395,7 +395,15 @@ void __cdecl unit_get_camera_position(int32 unit_index, real_point3d* camera_pos
 
 int32 __cdecl unit_get_current_equipment(int32 unit_index, int32 slot_index)
 {
-	return INVOKE(0x00B43C20, unit_get_current_equipment, unit_index, slot_index);
+	//return INVOKE(0x00B43C20, unit_get_current_equipment, unit_index, slot_index);
+
+	int32 equipment_index = NONE;
+	if (VALID_INDEX(slot_index, 4))
+	{
+		const unit_datum* unit = UNIT_GET(unit_index);
+		equipment_index = unit->unit.equipment_object_indices[slot_index];
+	}
+	return equipment_index;
 }
 
 //.text:00B43C70 ; 
