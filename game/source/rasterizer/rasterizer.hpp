@@ -378,6 +378,16 @@ public:
 		k_number_of_z_buffer_modes
 	};
 
+	enum e_render_mode
+	{
+		_render_mode_default = 0,
+		_render_mode_7e3,
+		_render_mode_gamma2,
+		_render_mode_xRGB,
+
+		k_number_of_render_modes,
+	};
+
 	enum
 	{
 		_color_write_enable_none = 0,
@@ -476,7 +486,7 @@ public:
 	static void __cdecl setup_render_target_globals_with_exposure(real32 view_exposure, real32 illum_scale, real32 HDR_target_stops, bool alpha_blend);
 	static void __cdecl setup_render_target_globals_with_exposure_for_texture_camera_only(real32 view_exposure, real32 illum_scale, real32 HDR_target_stops, bool alpha_blend);
 	static void __cdecl setup_targets_albedo(bool clear_stencil, bool is_clear);
-	static void __cdecl setup_targets_distortion(rectangle2d* pixel_bounds, bool depth_test);
+	static void __cdecl setup_targets_distortion(const rectangle2d* pixel_bounds, bool depth_test);
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting(real32 view_exposure, real32 illum_scale, bool render_to_HDR_target, real32 HDR_target_stops, bool clear, bool copy_albedo_pc, bool a7);
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool render_to_HDR_target, bool alpha_blend);
@@ -497,7 +507,7 @@ public:
 	static c_rasterizer_texture_ref __cdecl get_surface_texture(c_rasterizer::e_surface surface);
 	static int32 __cdecl get_surface_width(e_surface surface);
 
-	static void __cdecl resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 dest_left, int16 dest_top);
+	static void __cdecl resolve_surface(e_surface surface, int32 source_render_target, const rectangle2d* source_rectangle, int16 dest_left, int16 dest_top);
 	static void __cdecl set_depth_stencil_surface(e_surface depth_stencil);
 	static void __cdecl set_possibly_stale_surface_as_texture(int32 sampler_index, e_surface surface);
 	static void __cdecl set_render_target(int32 surface_index, e_surface surface, int32 force_is_srgb);
@@ -538,6 +548,14 @@ public:
 	static bool& g_d3d_device_is_lost;
 	static bool& g_d3d_device_reset;
 	static _D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
+
+	static e_render_mode& g_LDR_render_mode;
+	static e_render_mode& g_HDR_render_mode;
+	static int32& g_triliner_threshold;
+	static int32& g_present_immediate_threshold;
+	static c_rasterizer_texture_ref& m_albedo_texture;
+	static c_rasterizer_texture_ref& m_normal_texture;
+
 	static uns32& g_render_thread;
 
 	static s_rasterizer_render_globals& render_globals;

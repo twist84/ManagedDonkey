@@ -193,9 +193,9 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 			ASSERT(!c_render_globals::get_distortion_visible());
 			c_rasterizer::set_possibly_stale_surface_as_texture(0, _surface_distortion);
 		}
-
 		c_rasterizer::set_sampler_address_mode(0, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
 		c_rasterizer::set_sampler_filter_mode(0, _sampler_filter_bilinear);
+
 		c_rasterizer::set_surface_as_texture(1, _surface_post_LDR);
 		c_rasterizer::set_sampler_address_mode(1, _sampler_address_clamp, _sampler_address_clamp, _sampler_address_clamp);
 		c_rasterizer::set_sampler_filter_mode(1, _sampler_filter_bilinear);
@@ -214,8 +214,9 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 
 		c_rasterizer_globals* rasterizer_globals = TAG_GET_SAFE(RASTERIZER_GLOBALS_TAG, c_rasterizer_globals, global_game_globals->rasterizer_globals_ref.index);
 
-		const s_tag_reference* vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(use_motion_blur ? c_rasterizer_globals::_shader_displacement_motion_blur : c_rasterizer_globals::_shader_displacement);
-		const s_tag_reference* pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(use_motion_blur ? c_rasterizer_globals::_shader_displacement_motion_blur : c_rasterizer_globals::_shader_displacement);
+		using enum c_rasterizer_globals::e_explicit_shader;
+		const s_tag_reference* vertex_shader_ref = rasterizer_globals->get_explicit_vertex_shader_ref(use_motion_blur ? _shader_displacement_motion_blur : _shader_displacement);
+		const s_tag_reference* pixel_shader_ref = rasterizer_globals->get_explicit_pixel_shader_ref(use_motion_blur ? _shader_displacement_motion_blur : _shader_displacement);
 
 		const c_rasterizer_vertex_shader* vertex_shader = c_rasterizer_vertex_shader::get(vertex_shader_ref->index);
 		c_rasterizer::set_vertex_shader(vertex_shader, _vertex_type_screen, _transfer_vertex_none, _entry_point_default);
@@ -223,15 +224,15 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 		const c_rasterizer_pixel_shader* pixel_shader = c_rasterizer_pixel_shader::get(pixel_shader_ref->index);
 		c_rasterizer::set_pixel_shader(pixel_shader, _entry_point_default);
 
-		int32 width = rectangle2d_width(window_pixel_bounds);
-		int32 height = rectangle2d_height(window_pixel_bounds);
+		int16 width = rectangle2d_width(window_pixel_bounds);
+		int16 height = rectangle2d_height(window_pixel_bounds);
 
 		rectangle2d viewport_bounds;
 		set_rectangle2d(&viewport_bounds,
 			0,
 			0,
-			(int16)width,
-			(int16)height);
+			width * 2,   // we `window_pixel_bounds->x1 / 2` in `c_player_view::submit_distortions`
+			height * 2); // we `window_pixel_bounds->y1 / 2` in `c_player_view::submit_distortions`
 		c_rasterizer::set_viewport(viewport_bounds, 0.0f, 1.0f);
 
 		real_vector4d screen_constants;

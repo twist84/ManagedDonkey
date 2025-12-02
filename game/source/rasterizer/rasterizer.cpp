@@ -33,6 +33,12 @@
 REFERENCE_DECLARE(0x050DD9D0, bool, c_rasterizer::g_d3d_device_is_lost);
 REFERENCE_DECLARE(0x050DD9D1, bool, c_rasterizer::g_d3d_device_reset);
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
+REFERENCE_DECLARE(0x019100CC, c_rasterizer::e_render_mode, c_rasterizer::g_LDR_render_mode);
+REFERENCE_DECLARE(0x019100D0, c_rasterizer::e_render_mode, c_rasterizer::g_HDR_render_mode);
+REFERENCE_DECLARE(0x019100D4, int32, c_rasterizer::g_triliner_threshold);
+REFERENCE_DECLARE(0x019100D8, int32, c_rasterizer::g_present_immediate_threshold);
+REFERENCE_DECLARE(0x01910104, c_rasterizer_texture_ref, c_rasterizer::m_albedo_texture);
+REFERENCE_DECLARE(0x01910108, c_rasterizer_texture_ref, c_rasterizer::m_normal_texture);
 REFERENCE_DECLARE(0x019104FC, uns32, c_rasterizer::g_render_thread);
 REFERENCE_DECLARE(0x019106C0, s_rasterizer_render_globals, c_rasterizer::render_globals);
 REFERENCE_DECLARE(0x01916114, bool, c_rasterizer::g_using_albedo_sampler);
@@ -1812,7 +1818,7 @@ void __cdecl c_rasterizer::setup_targets_albedo(bool clear_stencil, bool is_clea
 	//}
 }
 
-void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, bool depth_test)
+void __cdecl c_rasterizer::setup_targets_distortion(const rectangle2d* pixel_bounds, bool depth_test)
 {
 	//INVOKE(0x00A250D0, c_rasterizer::setup_targets_distortion, pixel_bounds, depth_test);
 
@@ -1825,12 +1831,13 @@ void __cdecl c_rasterizer::setup_targets_distortion(rectangle2d* pixel_bounds, b
 		c_rasterizer::set_depth_stencil_surface(_surface_none);
 	}
 
-	c_rasterizer::set_depth_stencil_surface(_surface_depth_stencil);
 	c_rasterizer::set_render_target(0, _surface_distortion, 0xFFFFFFFF);
 	c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
 	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
 	c_rasterizer::set_render_target(3, _surface_none, 0xFFFFFFFF);
-	c_rasterizer::clear(1, 0x808000, 0.0f, 0);
+
+	c_rasterizer::clear(FLAG(0), 0x808000, 0.0f, 0);
+
 	c_rasterizer::set_viewport(*pixel_bounds, 0.0f, 1.0f);
 	c_rasterizer::set_scissor_rect(pixel_bounds);
 }
@@ -1858,25 +1865,30 @@ void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool render
 {
 	//INVOKE(0x00A25400, c_rasterizer::setup_targets_static_lighting_alpha_blend, render_to_HDR_target, alpha_blend);
 
-	c_rasterizer::set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
+	e_surface LDR_surface = _surface_accum_LDR;
+	//LDR_surface = c_rasterizer::get_surface_accum_LDR(alpha_blend);
+
+	c_rasterizer::set_render_target(0, LDR_surface, 0xFFFFFFFF);
 
 	BOOL gamma2_flags[2]
 	{
-		FALSE,
+		FALSE, // c_rasterizer::g_LDR_render_mode == _render_mode_gamma2 && !c_rasterizer::g_HDR_alpha_blend,
 		FALSE
 	};
 
 	if (render_to_HDR_target)
 	{
-		c_rasterizer::set_render_target(1, _surface_accum_HDR, 0xFFFFFFFF);
+		e_surface HDR_surface = _surface_accum_HDR;
+		//HDR_surface = c_rasterizer::get_surface_accum_HDR(alpha_blend);
+		c_rasterizer::set_render_target(1, HDR_surface, 0xFFFFFFFF);
+		//gamma2_flags[1] = c_rasterizer::g_HDR_render_mode == _render_mode_gamma2 && !c_rasterizer::g_HDR_alpha_blend;
 	}
 	else
 	{
 		c_rasterizer::set_render_target(1, _surface_none, 0xFFFFFFFF);
 	}
-
-	c_rasterizer::set_render_target(2, _surface_none, 0xFFFFFFFF);
 	c_rasterizer::set_pixel_shader_constant_bool(k_ps_ldr_gamma2, NUMBEROF(gamma2_flags), gamma2_flags);
+
 	c_rasterizer::restore_last_viewport();
 	c_rasterizer::restore_last_scissor_rect();
 }
@@ -1960,7 +1972,7 @@ int32 __cdecl c_rasterizer::get_surface_width(e_surface surface)
 }
 
 // nullsub
-void __cdecl c_rasterizer::resolve_surface(e_surface surface, int32 source_render_target, rectangle2d* source_rectangle, int16 dest_left, int16 dest_top)
+void __cdecl c_rasterizer::resolve_surface(e_surface surface, int32 source_render_target, const rectangle2d* source_rectangle, int16 dest_left, int16 dest_top)
 {
 	//INVOKE(0x00A48C50, c_rasterizer::resolve_surface, surface, source_render_target, source_rectangle, dest_left, dest_top);
 }

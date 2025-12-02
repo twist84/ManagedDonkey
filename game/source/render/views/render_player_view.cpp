@@ -1286,11 +1286,14 @@ void __thiscall c_player_view::submit_distortions()
 		{
 			c_rasterizer_profile_scope _generate(_rasterizer_profile_element_distortions, L"generate");
 
-			rectangle2d _distortion_pixel_bounds = m_rasterizer_camera.window_pixel_bounds;
-			//_distortion_pixel_bounds.y0 /= 2;
-			//_distortion_pixel_bounds.x0 /= 2;
-			//_distortion_pixel_bounds.y1 /= 2;
-			//_distortion_pixel_bounds.x1 /= 2;
+			const rectangle2d* window_pixel_bounds = &m_rasterizer_camera.window_pixel_bounds;
+
+			rectangle2d _distortion_pixel_bounds;
+			const rectangle2d* distortion_pixel_bounds = set_rectangle2d(&_distortion_pixel_bounds,
+				window_pixel_bounds->x0,
+				window_pixel_bounds->y0,
+				window_pixel_bounds->x1 / 2,
+				window_pixel_bounds->y1 / 2);
 
 			render_method_submit_single_extern(_render_method_extern_texture_global_target_z, false);
 
@@ -1304,7 +1307,7 @@ void __thiscall c_player_view::submit_distortions()
 				depth_test = false;
 			}
 #endif
-			c_rasterizer::setup_targets_distortion(&_distortion_pixel_bounds, depth_test);
+			c_rasterizer::setup_targets_distortion(distortion_pixel_bounds, depth_test);
 
 			rasterizer_occlusion_submit(
 				k_occlusion_query_type_distortion,
@@ -1324,9 +1327,9 @@ void __thiscall c_player_view::submit_distortions()
 			c_rasterizer::resolve_surface(
 				c_rasterizer::_surface_distortion,
 				0,
-				&_distortion_pixel_bounds,
-				_distortion_pixel_bounds.x0,
-				_distortion_pixel_bounds.y0);
+				window_pixel_bounds,
+				distortion_pixel_bounds->x0,
+				distortion_pixel_bounds->y0);
 		}
 
 		c_transparency_renderer::pop_marker();
