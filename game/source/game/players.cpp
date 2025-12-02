@@ -460,61 +460,57 @@ void __cdecl player_examine_nearby_item(int32 player_index, int32 item_index)
 							}
 						}
 
-						// this shouldn't be needed
-						if (TEST_BIT(_object_mask_equipment, item->object.object_identifier.get_type()))
+						const equipment_datum* equipment = EQUIPMENT_GET(item_index);
+						if (equipment)
 						{
-							const equipment_datum* equipment = EQUIPMENT_GET(item_index);
-							if (equipment)
+							// bool can_pickup_grenades; // where used?
+
+							if (game_get_grenade_type_index_from_item_defintion(equipment->definition_index) == NONE)
 							{
-								// bool can_pickup_grenades; // where used?
-
-								if (game_get_grenade_type_index_from_item_defintion(equipment->definition_index) == NONE)
+								if (game_is_multiplayer() && unit_can_pickup_equipment(player->unit_index, item_index))
 								{
-									if (game_is_multiplayer() && unit_can_pickup_equipment(player->unit_index, item_index))
-									{
-										e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
-										int32 current_equipment_index = unit_get_current_equipment(player->unit_index, 0);
+									e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
+									int32 current_equipment_index = unit_get_current_equipment(player->unit_index, 0);
 
-										if (equipment_type == _equipment_type_multiplayer_powerup)
+									if (equipment_type == _equipment_type_multiplayer_powerup)
+									{
+										if (game_is_predicted())
 										{
-											if (game_is_predicted())
-											{
-												simulation_request_autopickup_powerup(player_index, item_index);
-											}
-											else
-											{
-												player_use_multiplayer_powerup(player_index, item_index);
-											}
+											simulation_request_autopickup_powerup(player_index, item_index);
 										}
-										else if (current_equipment_index == NONE)
+										else
 										{
-											if (game_is_predicted())
-											{
-												simulation_request_autopickup_equipment(player_index, item_index);
-											}
-											else
-											{
-												player_pickup_equipment(player_index, item_index);
-											}
+											player_use_multiplayer_powerup(player_index, item_index);
+										}
+									}
+									else if (current_equipment_index == NONE)
+									{
+										if (game_is_predicted())
+										{
+											simulation_request_autopickup_equipment(player_index, item_index);
+										}
+										else
+										{
+											player_pickup_equipment(player_index, item_index);
 										}
 									}
 								}
-								else if (!game_is_multiplayer() || player->multiplayer.player_traits.get_weapons_traits()->get_weapon_pickup_allowed())
+							}
+							else if (!game_is_multiplayer() || player->multiplayer.player_traits.get_weapons_traits()->get_weapon_pickup_allowed())
+							{
+								if (game_is_predicted())
 								{
-									if (game_is_predicted())
-									{
-										simulation_request_autopickup_grenade(player_index, item_index);
-									}
-									else if (unit_add_grenade_to_inventory(player->unit_index, item_index))
-									{
-										//data_mine_insert_equipment_event("grenade pickup", player->unit_index, equipment->definition_index, 1);
+									simulation_request_autopickup_grenade(player_index, item_index);
+								}
+								else if (unit_add_grenade_to_inventory(player->unit_index, item_index))
+								{
+									//data_mine_insert_equipment_event("grenade pickup", player->unit_index, equipment->definition_index, 1);
 
-										c_player_output_user_iterator iterator{};
-										iterator.begin_player(player_index);
-										while (iterator.next())
-										{
-											chud_picked_up_grenade(iterator.get_user_index(), equipment->definition_index);
-										}
+									c_player_output_user_iterator iterator{};
+									iterator.begin_player(player_index);
+									while (iterator.next())
+									{
+										chud_picked_up_grenade(iterator.get_user_index(), equipment->definition_index);
 									}
 								}
 							}
