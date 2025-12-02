@@ -126,7 +126,45 @@ bool __cdecl unit_can_access_object(int32 unit_index, int32 object_index)
 
 bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index)
 {
-	return INVOKE(0x00B3AAA0, unit_can_pickup_equipment, unit_index, equipment_index);
+	//return INVOKE(0x00B3AAA0, unit_can_pickup_equipment, unit_index, equipment_index);
+
+	const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+	const int32 current_equipment_index = unit_get_current_equipment(unit_index, 0);
+	ASSERT(equipment_index != NONE && equipment_index != current_equipment_index);
+
+	e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
+	bool can_pickup = equipment_type == _equipment_type_multiplayer_powerup || VALID_INDEX(equipment_type, _equipment_type_treeoflife + 1) && equipment_remaining_charges(equipment_index);
+	if (can_pickup && !equipment->item.inventory_state && !action_executing(unit_index, _action_equipment))
+	{
+		int32 player_index = UNIT_GET(unit_index)->unit.player_index;
+		if (equipment_type == _equipment_type_multiplayer_powerup)
+		{
+			can_pickup = game_is_multiplayer() && game_engine_running();
+		}
+		else
+		{
+			if (current_equipment_index != NONE)
+			{
+				can_pickup = true;
+
+				const equipment_datum* current_equipment = EQUIPMENT_GET(current_equipment_index);
+				if (equipment->definition_index == current_equipment->definition_index)
+				{
+					if (equipment_remaining_charges(equipment_index) <= equipment_remaining_charges(current_equipment_index))
+					{
+						can_pickup = false;
+					}
+				}
+			}
+
+			if (can_pickup && player_index != NONE)
+			{
+				const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+				can_pickup = player->multiplayer.player_traits.get_weapons_traits()->get_weapon_pickup_allowed();
+			}
+		}
+	}
+	return can_pickup;
 }
 
 bool __cdecl unit_can_pickup_weapon(int32 unit_index, int32 weapon_index, e_weapon_addition_method mode, unit_weapon_pickup_result* result)
