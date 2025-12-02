@@ -130,6 +130,7 @@ extern void __cdecl ai_globals_initialize_for_new_map();
 extern void __cdecl ai_globals_set_ai_active(bool enable);
 extern void __cdecl ai_globals_update();
 extern void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, const real_vector3d* old_velocity);
+extern void __cdecl ai_handle_noisemaker(int32 equipment_index);
 extern void __cdecl ai_initialize();
 extern void __cdecl ai_initialize_for_new_map();
 extern void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_mask);

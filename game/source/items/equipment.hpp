@@ -20,9 +20,7 @@ struct _equipment_datum
 	int32 __unknown10;
 
 	s_damage_owner creator_damage_owner;
-
-	// creation effect definition index?
-	int32 __unknown20;
+	int32 looping_effect_index;
 
 	int32 __unknown24;
 	int32 __unknown28;
@@ -44,4 +42,6 @@ static_assert(sizeof(equipment_datum) == sizeof(int32) + sizeof(_object_datum) +
 extern bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_index, bool network_predicted);
 extern real32 __cdecl equipment_active_fraction(int32 equipment_index);
 extern void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipment_definition_index);
+extern void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index);
+extern bool __cdecl equipment_update(int32 equipment_index);
 

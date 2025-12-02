@@ -1,14 +1,32 @@
 #include "items/equipment.hpp"
 
+#include "ai/ai.hpp"
+#include "animations/animation_manager.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "items/equipment_definitions.hpp"
 #include "memory/module.hpp"
 #include "motor/actions.hpp"
+#include "physics/havok_component.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 
 HOOK_DECLARE(0x00B86C20, equipment_activate);
+
+void __cdecl equipment_update0(int32 equipment_index, int32 owner_unit_index)
+{
+	equipment_update(equipment_index, owner_unit_index);
+}
+HOOK_DECLARE(0x00B891F0, equipment_update0);
+
+#if 0
+void __cdecl equipment_update1(int32 equipment_index)
+{
+	equipment_update(equipment_index);
+}
+HOOK_DECLARE(0x00B89550, equipment_update1);
+#endif
 
 //.text:00B86440 ; void __cdecl sub_B86440(equipment_datum*, int32, void*(__cdecl*)(void*), void*(__cdecl*)(void*))
 //.text:00B865A0 ; void __cdecl sub_B865A0(equipment_datum*, int32, void*(__cdecl*)(void*), void*(__cdecl*)(void*))
@@ -30,12 +48,13 @@ bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_index, b
 		const bool has_sufficient_charges = equipment_definition->equipment.charges == NONE || equipment_definition->equipment.charges != equipment->equipment.charges_used;
 		if (has_sufficient_charges)
 		{
-			long type_index = 0;
+			int32 type_index = 0;
 			for (e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
 				equipment_type != _equipment_type_none;
 				equipment_type = equipment_definition_get_type(equipment->definition_index, type_index))
 			{
 				type_index++;
+
 				switch (equipment_type)
 				{
 				case _equipment_type_super_shield:
@@ -164,8 +183,247 @@ void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipm
 //.text:00B89090 ; bool __cdecl sub_B89090(int32, int32*)
 //.text:00B89130 ; void __cdecl equipment_place(int32, s_scenario_equipment*)
 //.text:00B89190 ; int32 __cdecl equipment_remaining_charges(int32)
-//.text:00B891F0 ; void __cdecl sub_B891F0(int32, int32)
-//.text:00B89550 ; bool __cdecl equipment_update(int32)
+
+void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index)
+{
+	//INVOKE(0x00B891F0, equipment_update, equipment_index, owner_unit_index);
+
+	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+	if (!equipment->object.damage_flags.test(_object_dead_bit))
+	{
+		int32 type_index = 0;
+		for (e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
+			equipment_type != _equipment_type_none;
+			equipment_type = equipment_definition_get_type(equipment->definition_index, type_index))
+		{
+			type_index++;
+
+			switch (equipment_type)
+			{
+			case _equipment_type_super_shield:
+			case _equipment_type_multiplayer_powerup:
+			case _equipment_type_spawner:
+			case _equipment_type_proximity_mine:
+			case _equipment_type_motion_tracker_noise:
+			case _equipment_type_showme:
+			case _equipment_type_invisibility_mode:
+			case _equipment_type_treeoflife:
+				continue;
+
+			case _equipment_type_invincibility:
+			{
+				const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment_index);
+				const s_equipment_type_invincibility* invincibility = equipment_get_invincibility_mode_definition(equipment->definition_index);
+				if (equipment->equipment.last_use_time != NONE)
+				{
+					int32 age = game_time_get() - equipment->equipment.last_use_time;
+					int32 recharge_time = game_seconds_to_ticks_round(invincibility->shield_recharge_time) - 1;
+					int32 duration_ticks = game_seconds_to_ticks_round(equipment_definition->equipment.duration);
+					if (!age)
+					{
+						if (invincibility->activation_effect.index != NONE)
+						{
+							s_damage_reporting_info damage_reporting_info{};
+							effect_new_from_object(invincibility->activation_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0f, 0.0f, NULL, NULL, _effect_deterministic);
+						}
+					}
+
+					// $TODO add back the `ending_effect` tag reference within `s_equipment_type_invincibility`
+					//if (age + 1 == duration_ticks)
+					//{
+					//	if (invincibility->ending_effect.index)
+					//	{
+					//		s_damage_reporting_info damage_reporting_info{};
+					//		effect_new_from_object(invincibility->ending_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0, 0.0, NULL, NULL, _effect_deterministic);
+					//	}
+					//}
+
+					if (invincibility->ongoing_effect.index != NONE)
+					{
+						if (equipment->equipment.looping_effect_index == NONE)
+						{
+							s_damage_reporting_info damage_reporting_info{};
+							equipment->equipment.looping_effect_index = effect_new_from_object(invincibility->ongoing_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0f, 0.0f, NULL, NULL, _effect_not_deterministic);
+						}
+						else
+						{
+							effect_ping(equipment->equipment.looping_effect_index, invincibility->ongoing_effect.index, 0.0f, 0.0f, false);
+						}
+					}
+
+					if (IN_RANGE_INCLUSIVE(age, 0, recharge_time) && owner_unit_index != NONE)
+					{
+						unit_datum* owner_unit = UNIT_GET(owner_unit_index);
+						if (recharge_time <= 0)
+						{
+							owner_unit->object.shield_vitality = 1.0f;
+						}
+						else
+						{
+							real32 fraction = (1.0f / recharge_time) + owner_unit->object.shield_vitality;
+							if (fraction > 1.0f)
+							{
+								fraction = 1.0f;
+							}
+							owner_unit->object.shield_vitality = fraction;
+						}
+					}
+				}
+			}
+			break;
+			
+			default:
+				UNREACHABLE();
+				break;
+			}
+		}
+	}
+}
+
+bool __cdecl equipment_update(int32 equipment_index)
+{
+	//return DECLFUNC(0x00B89550, bool, __cdecl, int32)(equipment_index);
+	//return INVOKE(0x00B89550, equipment_update, equipment_index);
+
+	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+
+	bool phantom_volumes_active = false;
+	bool waiting_to_self_destruct = false;
+	bool animating = false;
+	real32 active_fraction = 0.0f;
+
+#if 0
+	if (equipment->object.physics_flags.test(_object_has_havok_shape_phantoms_bit) && equipment->object.havok_component_index != NONE)
+	{
+		c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, equipment->object.havok_component_index);
+		int32 activation_time = game_seconds_to_ticks_round(equipment_definition->equipment.phantom_volume_activation_time);
+		const int32 age = game_time_get() - equipment->equipment.last_use_time;
+		if (activation_time && equipment->equipment.last_use_time != NONE && age == activation_time)
+		{
+			havok_component->update_phantoms(true);
+			phantom_volumes_active = true;
+		}
+	}
+
+	if (!equipment->object.damage_flags.test(_object_dead_bit))
+	{
+		active_fraction = equipment_active_fraction(equipment_index);
+
+		if (object_has_animation_manager(equipment_index))
+		{
+			c_animation_manager* animation_manager;
+			const c_animation_channel* animation_channel = &animation_manager->m_state_channel;
+
+			int32 current_state = animation_manager->m_goal_settings.state;
+			int32 desired_state = active_fraction == 0.0f ? STRING_ID(global, idle) : STRING_ID(global, emitting);
+			animating = animation_manager->update_state_animation(object_animation_callback, equipment_index, 0, NULL, NULL);
+			if (!animating
+				|| TEST_BIT(animation_channel->m_state_flags, 2 /* _animation_state_playback_complete_bit */)
+				|| current_state != desired_state && (current_state == STRING_ID(global, idle) || current_state == STRING_ID(global, emitting)))
+			{
+				bool success = equipment_begin_animation_state(equipment_index, desired_state, 0x82, k_animation_looping_playback_default_flags);
+				if (success)
+				{
+					if (animation_channel->m_initialized
+						&& animation_channel->m_graph_index != NONE
+						&& animation_channel->m_animation_id.m_index >= 0)
+					{
+						animation_manager->set_state_position_to_last_frame();
+						success = false;
+					}
+				}
+				animating = success;
+			}
+
+			if (animating)
+			{
+				object_set_requires_motion(equipment_index);
+			}
+		}
+
+		int32 type_index = 0;
+		for (e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
+			equipment_type != _equipment_type_none;
+			equipment_type = equipment_definition_get_type(equipment->definition_index, type_index))
+		{
+			type_index++;
+
+			switch (equipment_type)
+			{
+			case _equipment_type_super_shield:
+			case _equipment_type_multiplayer_powerup:
+			case _equipment_type_spawner:
+			case _equipment_type_showme:
+			case _equipment_type_invisibility_mode:
+			case _equipment_type_invincibility:
+				continue;
+
+			case _equipment_type_proximity_mine:
+			{
+				if (equipment->equipment.last_use_time != NONE && !game_is_predicted())
+				{
+					const s_equipment_type_proximity_mine* proximity_mine = equipment_get_proximity_mine_definition(equipment->definition_index);
+					const real32 age = game_ticks_to_seconds(game_time_get() - equipment->equipment.last_use_time);
+					ASSERT(age >= 0.0f);
+
+					waiting_to_self_destruct = true;
+
+					// $IMPLEMENT
+				}
+			}
+			break;
+			case _equipment_type_motion_tracker_noise:
+			{
+				const s_equipment_type_motion_tracker_noise* motion_tracker_noise = equipment_get_motion_tracker_noise_definition(equipment->definition_index);
+				real_point3d equipment_origin{};
+				object_get_center_of_mass(equipment_index, &equipment_origin);
+				chud_add_noisemaker_zone(
+					equipment_index,
+					&equipment_origin,
+					motion_tracker_noise->noise_radius,
+					motion_tracker_noise->flash_radius,
+					motion_tracker_noise->noise_count);
+				ai_handle_noisemaker(equipment_index);
+			}
+			break;
+			case _equipment_type_treeoflife:
+			{
+				if (!game_is_predicted() && equipment->object.havok_component_index != NONE)
+				{
+					const c_havok_component* havok_component = DATUM_TRY_AND_GET(g_havok_component_data, c_havok_component, equipment->object.havok_component_index);
+					int32 phantom_body_count = havok_component->get_bodies_in_phantoms_count();
+					for (int32 phantom_body_index = 0; phantom_body_index < phantom_body_count; phantom_body_index++)
+					{
+						int32 body_object_index;
+						int32 body_physics_model_material_index;
+						int32 body_rigid_body_index;
+						havok_component->get_bodies_in_phantom_info(
+							phantom_body_index,
+							&body_object_index,
+							&body_physics_model_material_index,
+							&body_rigid_body_index);
+						if (body_object_index != NONE && body_object_index != equipment_index)
+						{
+							unit_datum* unit = UNIT_GET(body_object_index);
+							unit->object.shield_stun_ticks = 0;
+							unit->object.body_stun_ticks = 0;
+						}
+					}
+				}
+			}
+			break;
+			default:
+				UNREACHABLE();
+				break;
+			}
+		}
+	}
+#endif
+
+	return phantom_volumes_active || waiting_to_self_destruct || animating || active_fraction != 0.0f;
+}
+
 //.text:00B89E90 ; 
 //.text:00B89EA0 ; 
 //.text:00B89EB0 ; s_unknown_unit_struct_sizeof_14* __cdecl sub_B89EC0(void*)

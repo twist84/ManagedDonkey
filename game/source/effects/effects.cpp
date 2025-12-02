@@ -173,7 +173,12 @@ int32 __cdecl effect_new_from_point_vector(int32 effect_index, const real_point3
 //.text:005B8CC0 ; 
 //.text:005B8CE0 ; 
 //.text:005B8D40 ; 
-//.text:005B8DA0 ; bool __cdecl effect_ping(int32, int32, real32, real32, bool)
+
+bool __cdecl effect_ping(int32 effect_index, int32 effect_definition_index, real32 scale_a, real32 scale_b, bool force_restart)
+{
+	return INVOKE(0x005B8DA0, effect_ping, effect_index, effect_definition_index, scale_a, scale_b, force_restart);
+}
+
 //.text:005B8E20 ; 
 //.text:005B8ED0 ; bool __cdecl effect_ping_from_impact(int32, real32, real32, const real_matrix4x3*, const real_vector3d*, const real_point2d*, const real_plane3d*)
 //.text:005B9100 ; 

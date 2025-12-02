@@ -87,7 +87,11 @@ void __thiscall c_chud_update_user_data::compute_weapon_update_(int32 weapon_ind
 //.text:00A88A30 ; tls
 //.text:00A88A70 ; tls
 //.text:00A88AB0 ; tls
-//.text:00A88AF0 ; void __cdecl chud_add_noisemaker_zone(int32 datum_index, const real_point3d* position, real32 blip_radius, real32 flash_radius, int32 blip_count)
+
+void __cdecl chud_add_noisemaker_zone(int32 datum_index, const real_point3d* position, real32 blip_radius, real32 flash_radius, int32 blip_count)
+{
+	INVOKE(0x00A88AF0, chud_add_noisemaker_zone, datum_index, position, blip_radius, flash_radius, blip_count);
+}
 
 void __cdecl chud_apply_distortion(int32 user_index, int32 target_width, int32 target_height)
 {

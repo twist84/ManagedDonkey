@@ -222,7 +222,12 @@ void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, const real_ve
 //.text:01433490 ; void __cdecl ai_handle_firing_position_move(int16, int16, const real_vector3d*)
 //.text:014334A0 ; void __cdecl ai_handle_get_attention(int32, int32)
 //.text:014334D0 ; bool __cdecl ai_handle_killing_spree(int32, int16)
-//.text:01433530 ; void __cdecl ai_handle_noisemaker(int32)
+
+void __cdecl ai_handle_noisemaker(int32 equipment_index)
+{
+	INVOKE(0x01433530, ai_handle_noisemaker, equipment_index);
+}
+
 //.text:01433690 ; void __cdecl ai_handle_objectives_editing()
 //.text:014336A0 ; void __cdecl ai_handle_projectile_attach(int32, int32)
 //.text:01433790 ; void __cdecl ai_handle_projectile_impact(int32, int32)

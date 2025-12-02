@@ -68,7 +68,7 @@ struct s_equipment_type_proximity_mine;
 struct s_equipment_type_motion_tracker_noise;
 struct s_equipment_type_showme;
 struct s_equipment_type_invisibility_mode;
-struct s_equipment_type_invincibility_mode;
+struct s_equipment_type_invincibility;
 struct s_equipment_type_treeoflife;
 struct s_equipment_type_health_pack;
 struct s_equipment_type_forced_reload;
@@ -125,7 +125,7 @@ struct _equipment_definition
 			c_typed_tag_block<s_equipment_type_motion_tracker_noise> motion_tracker_noise;
 			c_typed_tag_block<s_equipment_type_showme> showme;
 			c_typed_tag_block<s_equipment_type_invisibility_mode> invisibility_mode;
-			c_typed_tag_block<s_equipment_type_invincibility_mode> invincibility_mode;
+			c_typed_tag_block<s_equipment_type_invincibility> invincibility_mode;
 			c_typed_tag_block<s_equipment_type_treeoflife> tree_of_life;
 			c_typed_tag_block<s_equipment_type_health_pack> health_pack;
 			c_typed_tag_block<s_equipment_type_forced_reload> forced_reload;
@@ -280,22 +280,20 @@ struct s_equipment_type_invisibility_mode
 };
 static_assert(sizeof(s_equipment_type_invisibility_mode) == 0x8);
 
-struct s_equipment_type_invincibility_mode
+struct s_equipment_type_invincibility
 {
-	c_string_id invincibility_material;
+	c_string_id invincibility_material_name;
 	c_global_material_type invincibility_material_type;
-
-	// pad
-	byte invincibility_material_pad[0x2];
-
+	int16 pad;
 	real32 shield_recharge_time; // seconds
 
 	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> activation_effect;
-	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> attached_effect;
+	c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> ongoing_effect;
+	//c_typed_tag_reference<EFFECT_TAG, INVALID_TAG> ending_effect;
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_invincibility_mode) == 0x2C);
+static_assert(sizeof(s_equipment_type_invincibility) == 0x2C);
 
 struct s_equipment_type_treeoflife
 {
@@ -505,7 +503,7 @@ extern const s_equipment_type_concussive_blast* equipment_get_concussive_blast_d
 extern const s_equipment_type_forced_reload* equipment_get_forced_reload_definition(int32 definition_index);
 extern const s_equipment_type_health_pack* equipment_get_health_pack_definition(int32 definition_index);
 extern const s_equipment_type_hologram* equipment_get_hologram_definition(int32 definition_index);
-extern const s_equipment_type_invincibility_mode* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index);
+extern const s_equipment_type_invincibility* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index);
 extern const s_equipment_type_invisibility_mode* __cdecl equipment_get_invisibility_mode_definition(int32 definition_index);
 extern const s_equipment_type_lightning_strike* __cdecl equipment_get_lightning_strike_definition(int32 definition_index);
 extern const s_equipment_type_mag_pulse* __cdecl equipment_get_mag_pulse_definition(int32 definition_index);

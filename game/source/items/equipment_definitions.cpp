@@ -172,12 +172,12 @@ const s_equipment_type_hologram* equipment_get_hologram_definition(int32 definit
 	//return result;
 }
 
-const s_equipment_type_invincibility_mode* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index)
+const s_equipment_type_invincibility* __cdecl equipment_get_invincibility_mode_definition(int32 definition_index)
 {
 	return INVOKE(0x00BA0490, equipment_get_invincibility_mode_definition, definition_index);
 
 	//const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, struct equipment_definition const, definition_index);
-	//const s_equipment_type_invincibility_mode* result = equipment_definition->equipment.invincibility_mode.begin();
+	//const s_equipment_type_invincibility* result = equipment_definition->equipment.invincibility_mode.begin();
 	//return result;
 }
 
@@ -370,10 +370,10 @@ void s_equipment_type_proximity_mine::update_reference_names()
 	UPDATE_REFERENCE_NAME(explosion_damage_effect);
 }
 
-void s_equipment_type_invincibility_mode::update_reference_names()
+void s_equipment_type_invincibility::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(activation_effect);
-	UPDATE_REFERENCE_NAME(attached_effect);
+	UPDATE_REFERENCE_NAME(ongoing_effect);
 }
 
 void s_equipment_type_treeoflife::update_reference_names()

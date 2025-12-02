@@ -172,6 +172,7 @@ extern bool __cdecl dangerous_effects_near_player();
 extern void __cdecl effect_render(int32 effect_index, int32 user_index);
 extern int32 __cdecl effect_new_from_object(c_tag_index definition_index, const s_damage_owner* damage_owner, const s_damage_reporting_info& damage_reporting_info, int32 object_index, real32 scale_a, real32 scale_b, const real_rgb_color* color, const effect_vector_field* impulse_field, e_effect_deterministic deterministic);
 extern int32 __cdecl effect_new_from_point_vector(int32 effect_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* normal, int32 match_all_markers, int32 effect_deterministic, const real_plane3d* plane, s_cluster_reference* cluster_reference);
+extern bool __cdecl effect_ping(int32 effect_index, int32 effect_definition_index, real32 scale_a, real32 scale_b, bool force_restart);
 extern void __cdecl effects_dispose();
 extern void __cdecl effects_dispose_from_old_map();
 extern void __cdecl effects_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_mask);
