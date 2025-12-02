@@ -119,17 +119,22 @@ void* __cdecl object_get_and_verify_type(int32 object_index, uns32 valid_type_fl
 {
 	//VASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
-	object_datum* object = NULL;
+	object_datum* result = NULL;
 	if (const object_header_datum* object_header = object_header_get(object_index))
 	{
-		object = object_header->datum;
-
-		VASSERT(TEST_BIT(valid_type_flags, object->object.object_identifier.get_type()),
-			c_string_builder("got an object type we didn't expect (expected one of 0x%08x but got #%d).",
-				valid_type_flags,
-				object->object.object_identifier.get_type()).get_string());
+		object_datum* object = object_header->datum;
+		if (TEST_BIT(valid_type_flags, object->object.object_identifier.get_type()))
+		{
+			result = object;
+		}
+		else
+		{
+			//c_string_builder("got an object type we didn't expect (expected one of 0x%08x but got #%d).",
+			//	valid_type_flags,
+			//	object->object.object_identifier.get_type()).get_string();
+		}
 	}
-	return object;
+	return result;
 }
 
 e_object_type __cdecl object_get_type(int32 object_index)
