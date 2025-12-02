@@ -410,6 +410,7 @@ extern bool __cdecl unit_can_see_point(int32 unit_index, const real_point3d* poi
 extern bool __cdecl unit_clip_vector_to_aiming_screen_bounds(int32 unit_index, real_vector3d* vector, bool use_looking_screen);
 extern void __cdecl unit_control(int32 unit_index, const unit_control_data* control_data);
 extern void __cdecl unit_debug_ninja_rope(int32 unit_index);
+extern void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index);
 extern bool __cdecl unit_get_acceleration_origin_and_data(int32 unit_index, real_matrix4x3* origin, unit_seat_acceleration* acceleration_data);
 extern int32 __cdecl unit_get_active_primary_weapon(int32 unit_index, int32* gunner_unit_index_ref);
 extern int32 __cdecl unit_get_aim_assist_dash_target(int32 unit_index);

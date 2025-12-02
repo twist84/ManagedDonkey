@@ -753,6 +753,7 @@ extern bool __cdecl actor_datum_available_to_current_thread();
 extern void __cdecl actor_delete(int32 actor_index, bool died);
 extern void __cdecl actor_erase(int32 actor_index, bool delete_immediately);
 extern bool __cdecl actor_general_update(int32 actor_index);
+extern void __cdecl actor_handle_equipment_delete(int32 actor_index);
 extern bool __cdecl actor_is_active(const actor_datum* actor);
 extern bool __cdecl actor_is_blind(int32 actor_index);
 extern bool __cdecl actor_is_deaf(int32 actor_index);

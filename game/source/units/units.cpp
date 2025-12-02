@@ -3,12 +3,16 @@
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/players.hpp"
+#include "items/equipment.hpp"
+#include "items/equipment_definitions.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "motor/actions.hpp"
 #include "objects/objects.hpp"
 #include "physics/collisions.hpp"
 #include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 #include "units/unit_definition.hpp"
 #include "units/unit_dialogue.hpp"
 #include "units/vehicles.hpp"
@@ -208,7 +212,31 @@ void __cdecl unit_debug_ninja_rope(int32 unit_index)
 //.text:00B3F9B0 ; void __cdecl unit_delete(int32 unit_index)
 //.text:00B3FAD0 ; void __cdecl unit_delete_all_weapons(int32 unit_index)
 //.text:00B3FB80 ; void __cdecl unit_delete_all_weapons_internal(int32 unit_index)
-//.text:00B3FC50 ; void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index)
+
+void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index)
+{
+	//INVOKE(0x00B3FC50, unit_delete_current_equipment, unit_index, slot_index);
+
+	if (VALID_INDEX(slot_index, 4))
+	{
+		unit_datum* unit = UNIT_GET(unit_index);
+		const int32 equipment_index = unit->unit.equipment_object_indices[slot_index];
+		if (equipment_index != NONE)
+		{
+			unit_drop_item(unit_index, equipment_index, _unit_drop_type_delete);
+
+			unit->unit.equipment_object_indices[slot_index] = NONE;
+			unit->unit.active_equipment_object_indices[slot_index] = NONE;
+			simulation_action_object_update(unit_index, _simulation_unit_update_equipment);
+
+			if (unit->unit.actor_index != NONE)
+			{
+				actor_handle_equipment_delete(unit->unit.actor_index);
+			}
+		}
+	}
+}
+
 //.text:00B3FD00 ; bool __cdecl unit_desires_blocked_tracking(int32 unit_index)
 //.text:00B3FD60 ; bool __cdecl unit_desires_tight_camera_track(int32 unit_index)
 //.text:00B3FD90 ; void __cdecl unit_destroy(int32 unit_index)

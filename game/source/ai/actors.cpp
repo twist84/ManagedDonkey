@@ -106,7 +106,12 @@ bool __cdecl actor_general_update(int32 actor_index)
 //.text:0142AF40 ; void __cdecl actor_handle_damage(int32, int16, int32, int32, real32, const real_vector3d*)
 //.text:0142B2C0 ; void __cdecl actor_handle_deleted_actor(int32, int32)
 //.text:0142B350 ; void __cdecl actor_handle_deleted_object(int32, int32)
-//.text:0142B530 ; void __cdecl actor_handle_equipment_delete(int32)
+
+void __cdecl actor_handle_equipment_delete(int32 actor_index)
+{
+	INVOKE(0x0142B530, actor_handle_equipment_delete, actor_index);
+}
+
 //.text:0142B560 ; void __cdecl actor_handle_get_attention(int32, int32)
 //.text:0142B600 ; bool __cdecl actor_handle_kill_volume(int32)
 //.text:0142B6A0 ; void __cdecl actor_handle_order_change(int32, orders_definition*)
