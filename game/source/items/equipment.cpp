@@ -182,7 +182,18 @@ void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipm
 //.text:00B89010 ; bool __cdecl equipment_override_damage_material_type(int32, c_global_material_type*)
 //.text:00B89090 ; bool __cdecl sub_B89090(int32, int32*)
 //.text:00B89130 ; void __cdecl equipment_place(int32, s_scenario_equipment*)
-//.text:00B89190 ; int32 __cdecl equipment_remaining_charges(int32)
+
+int32 __cdecl equipment_remaining_charges(int32 equipment_index)
+{
+	//return INVOKE(0x00B89190, equipment_remaining_charges, equipment_index);
+
+	const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+
+	return equipment_definition->equipment.charges != NONE
+		? equipment_definition->equipment.charges - equipment->equipment.charges_used
+		: NONE;
+}
 
 void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index)
 {
@@ -212,7 +223,7 @@ void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index)
 
 			case _equipment_type_invincibility:
 			{
-				const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment_index);
+				const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
 				const s_equipment_type_invincibility* invincibility = equipment_get_invincibility_mode_definition(equipment->definition_index);
 				if (equipment->equipment.last_use_time != NONE)
 				{
