@@ -235,16 +235,18 @@ void __cdecl c_rasterizer::draw_full_window_displacement(const rectangle2d* wind
 			height * 2); // we `window_pixel_bounds->y1 / 2` in `c_player_view::submit_distortions`
 		c_rasterizer::set_viewport(viewport_bounds, 0.0f, 1.0f);
 
+		real32 scale_x = 1.0f, scale_y = 1.0f;
+		screenshot_get_scales(&scale_x, &scale_y);
+
 		real_vector4d screen_constants;
 		set_real_vector4d(&screen_constants,
 			1.0f / (real32)width,
 			1.0f / (real32)height,
-			0.0f,
-			0.0f);
-		screenshot_get_scales(&screen_constants.k, &screen_constants.l);
+			scale_x,
+			scale_y);
 		c_rasterizer::set_pixel_shader_constant(k_ps_displacement_screen_constants, 1, &screen_constants);
 
-		real_vector4d window_bounds{};
+		real_vector4d window_bounds;
 		set_real_vector4d(&window_bounds,
 			0.0f,
 			0.0f,

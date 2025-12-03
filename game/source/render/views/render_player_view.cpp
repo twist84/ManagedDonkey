@@ -1290,8 +1290,8 @@ void __thiscall c_player_view::submit_distortions()
 
 			rectangle2d _distortion_pixel_bounds;
 			const rectangle2d* distortion_pixel_bounds = set_rectangle2d(&_distortion_pixel_bounds,
-				window_pixel_bounds->x0,
-				window_pixel_bounds->y0,
+				window_pixel_bounds->x0 / 2,
+				window_pixel_bounds->y0 / 2,
 				window_pixel_bounds->x1 / 2,
 				window_pixel_bounds->y1 / 2);
 
