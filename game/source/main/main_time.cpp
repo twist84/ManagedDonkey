@@ -165,10 +165,16 @@ bool __cdecl main_time_is_throttled()
 {
 	//return INVOKE(0x00507FF0, main_time_is_throttled);
 
+	bool throttle = true;
 	if (!game_in_progress() || debug_disable_frame_rate_throttle)
-		return false;
-	
-	return !g_main_time_globals->temporary_throttle_control || g_main_time_globals->temporary_throttle;
+	{
+		throttle = false;
+	}
+	else
+	{
+		throttle = !g_main_time_globals->temporary_throttle_control || g_main_time_globals->temporary_throttle;
+	}
+	return throttle;
 }
 
 void __cdecl main_time_mark_input_collection_time()
