@@ -244,7 +244,7 @@ struct s_equipment_type_proximity_mine
 	real32 trigger_time;
 
 	// WU/sec at which we trigger explosion
-	real32 trigger_velocity;
+	real32 minimum_velocity_to_trigger;
 
 	void update_reference_names();
 };
