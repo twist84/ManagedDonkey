@@ -150,7 +150,14 @@ real32 __cdecl equipment_active_fraction(int32 equipment_index)
 	return (real32)DECLFUNC(0x00B87DA0, real64, __cdecl, int32)(equipment_index);
 }
 
-//.text:00B87E60 ; 
+string_id __cdecl equipment_animation_get_desired_idle(int32 equipment_index)
+{
+	//return INVOKE(0x00B87E60, equipment_animation_get_desired_idle, equipment_index);
+
+	real32 active_fraction = equipment_active_fraction(equipment_index);
+	return active_fraction == 0.0f ? STRING_ID(global, idle) : STRING_ID(global, emitting);
+}
+
 //.text:00B87EA0 ; 
 //.text:00B87EC0 ; bool __cdecl equipment_begin_activation_animation(int32)
 
@@ -309,10 +316,6 @@ bool __cdecl equipment_update(int32 equipment_index)
 	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
 
 	bool phantom_volumes_active = false;
-	bool waiting_to_self_destruct = false;
-	bool animating = false;
-	real32 active_fraction = 0.0f;
-
 	if (equipment->object.physics_flags.test(_object_has_havok_shape_phantoms_bit) && equipment->object.havok_component_index != NONE)
 	{
 		c_havok_component* havok_component = DATUM_GET(g_havok_component_data, c_havok_component, equipment->object.havok_component_index);
@@ -331,6 +334,9 @@ bool __cdecl equipment_update(int32 equipment_index)
 		}
 	}
 
+	real32 active_fraction = 0.0f;
+	bool animating = false;
+	bool waiting_to_self_destruct = false;
 	if (!equipment->object.damage_flags.test(_object_dead_bit))
 	{
 		active_fraction = equipment_active_fraction(equipment_index);
@@ -343,12 +349,13 @@ bool __cdecl equipment_update(int32 equipment_index)
 			animating = animation_manager->update_state_animation(object_animation_callback, equipment_index, 0, NULL, NULL);
 
 			int32 current_state = animation_manager->get_state_name();
-			int32 desired_state = active_fraction == 0.0f ? STRING_ID(global, idle) : STRING_ID(global, emitting);
+			int32 desired_state = equipment_animation_get_desired_idle(equipment_index);
 
 			if (!animating || animation_channel->playback_complete() || 
 				current_state != desired_state && (current_state == STRING_ID(global, idle) || current_state == STRING_ID(global, emitting)))
 			{
-				bool success = equipment_begin_animation_state(equipment_index, desired_state, 0x82, k_animation_looping_playback_default_flags);
+				constexpr int32 goal_flags = FLAG(1) | FLAG(7); // FLAG(_allow_default_state) | FLAG(_ignore_weapon);
+				bool success = equipment_begin_animation_state(equipment_index, desired_state, goal_flags, k_animation_looping_playback_default_flags);
 				if (!success && animation_channel->valid())
 				{
 					animation_manager->set_state_position_to_last_frame();
