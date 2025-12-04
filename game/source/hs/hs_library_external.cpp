@@ -137,7 +137,7 @@ void __cdecl hs_damage_new(int32 definition_index, int16 flag_index)
 	if (!game_is_predicted() && definition_index != NONE && tag_get_group_tag(definition_index) == DAMAGE_EFFECT_TAG)
 	{
 		scenario_cutscene_flag* flag = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->cutscene_flags, flag_index, scenario_cutscene_flag);
-		s_damage_data damage;
+		s_damage_data damage{};
 		damage_data_new(&damage, definition_index);
 		damage.epicenter = flag->position;
 		damage.origin = damage.epicenter;

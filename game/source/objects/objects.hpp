@@ -1,5 +1,6 @@
 #pragma once
 
+#include "animations/animation_id.hpp"
 #include "cseries/cseries.hpp"
 #include "objects/damage.hpp"
 #include "objects/damage_owner.hpp"
@@ -226,6 +227,7 @@ enum e_object_damage_flags
 };
 typedef c_flags<e_object_damage_flags, uns32, k_object_damage_flags_count> c_object_damage_flags;
 
+struct s_animation_event_data;
 
 struct object_header_block_reference
 {
@@ -666,6 +668,7 @@ extern void __cdecl hs_object_definition_predict_low(int32 definition_index);
 extern int32 __cdecl object_accepted_local_physics_object_get(int32 object_index);
 extern void __cdecl object_activate(int32 object_index);
 extern void __cdecl object_adjust_garbage_timer(int32 object_index, int32 time);
+extern void __cdecl object_animation_callback(const s_animation_event_data* event_data, int32 user_param);
 extern bool __cdecl object_can_be_melee_instant_killed(int32 object_index);
 extern bool __cdecl object_can_interpolate(int32 object_index);
 extern void __cdecl object_choose_variant(int32 object_index, int32 name);
@@ -708,6 +711,7 @@ extern bool __cdecl object_get_change_color(int32 object_index, int32 change_col
 extern void __cdecl object_get_closest_point_and_normal(int32 object_index, const real_point3d* origin, real_point3d* closest_point, real_vector3d* normal);
 extern void __cdecl object_get_damage_owner(int32 object_index, s_damage_owner* owner);
 extern bool __cdecl object_get_function_value(int32 object_index, int32 function_name, int32 object_definition_index, real32* out_function_magnitude);
+extern bool __cdecl object_get_localized_velocities(int32 object_index, real_vector3d* translational_velocity, real_vector3d* angular_velocity, real_vector3d* local_translational_velocity, real_vector3d* local_angular_velocity);
 extern s_location* __cdecl object_get_location(int32 object_index, s_location* location);
 extern int16 __cdecl object_get_markers_by_string_id(int32 object_index, string_id marker_name, object_marker* markers, int16 maximum_marker_count);
 extern real_matrix4x3* __cdecl object_get_node_matrix(int32 object_index, int16 node_index);

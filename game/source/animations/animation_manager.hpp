@@ -2,7 +2,9 @@
 
 #include "animations/animation_interpolation.hpp"
 #include "animations/mixing_board/channels/animation_channel.hpp"
-#include "cseries/cseries.hpp"
+#include "math/real_math.hpp"
+
+struct s_animation_event_data;
 
 struct s_animation_goal_settings
 {
@@ -18,8 +20,11 @@ class c_animation_manager
 {
 public:
 	const c_model_animation_graph* get_graph() const;
-	bool valid_graph() const;
+	const c_animation_channel* get_state_channel() const;
 	int32 get_state_name() const;
+	void set_state_position_to_last_frame();
+	bool update_state_animation(void(__cdecl* callback)(const s_animation_event_data*, int32), int32 user_param, int32 orientation_count, real_orientation* original_orientations, real_orientation* current_orientations);
+	bool valid_graph() const;
 
 	c_animation_channel m_state_channel;
 	c_animation_channel m_transition_channel;

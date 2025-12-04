@@ -95,7 +95,7 @@
 
 const c_model_animation_graph* c_animation_manager::get_graph() const
 {
-    return INVOKE_CLASS_MEMBER(0x006DBEC0, c_animation_manager, get_graph);
+	return INVOKE_CLASS_MEMBER(0x006DBEC0, c_animation_manager, get_graph);
 }
 
 //.text:006DBED0 ; 
@@ -120,19 +120,35 @@ const c_model_animation_graph* c_animation_manager::get_graph() const
 //.text:006DC5F0 ; 
 //.text:006DC6A0 ; public: t_short_fixed<13> __cdecl c_animation_manager::get_slider_value_from_chain(int32, e_mixing_board_parent_slider_type) const
 //.text:006DC7A0 ; public: const animation_graph_sound_reference* __cdecl c_animation_manager::get_sound_reference(int32) const
+
+const c_animation_channel* c_animation_manager::get_state_channel() const
+{
+	return &m_state_channel;
+}
+
+int32 c_animation_manager::get_state_name() const
+{
+	return m_goal_settings.state;
+}
+
 //.text:006DC7C0 ; public: real32 __cdecl c_animation_manager::get_state_playback_ratio() const
 //.text:006DC7F0 ; 
 //.text:006DC820 ; 
 //.text:006DC850 ; 
 //.text:006DC880 ; 
 
-bool c_animation_manager::valid_graph() const
+void c_animation_manager::set_state_position_to_last_frame()
 {
-    return m_graph_tag_index != NONE;
+	INVOKE_CLASS_MEMBER(0x006DE250, c_animation_manager, set_state_position_to_last_frame);
 }
 
-int32 c_animation_manager::get_state_name() const
+bool c_animation_manager::update_state_animation(void(__cdecl* callback)(const s_animation_event_data*, int32), int32 user_param, int32 orientation_count, real_orientation* original_orientations, real_orientation* current_orientations)
 {
-    return m_goal_settings.state;
+	return INVOKE_CLASS_MEMBER(0x006DF4E0, c_animation_manager, update_state_animation, callback, user_param, orientation_count, original_orientations, current_orientations);
+}
+
+bool c_animation_manager::valid_graph() const
+{
+	return m_graph_tag_index != NONE;
 }
 

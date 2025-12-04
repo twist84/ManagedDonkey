@@ -178,7 +178,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, const char* effect_name, int32 eff
 			collision_position.y -= forward->j * 0.25f;
 			collision_position.z -= forward->k * 0.25f;
 
-			effect_new_from_point_vector(effect_index, &collision_position, forward, &normal, 1, 1, NULL, NULL);
+			effect_new_from_point_vector(effect_index, &collision_position, forward, &normal, _match_all_markers, _effect_deterministic, NULL, NULL);
 
 			success = true;
 		}

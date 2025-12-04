@@ -139,6 +139,8 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
   <ItemGroup>
     <ClCompile Include="common\havok\hkWorld.cpp" />
     <ClCompile Include="source\ai\sector_geometry.cpp" />
+    <ClCompile Include="source\animations\mixing_board\channels\animation_channel.cpp" />
+    <ClCompile Include="source\animations\mixing_board\channels\channel_base.cpp" />
     <ClCompile Include="source\game\player_scipting.cpp" />
     <ClCompile Include="source\ai\activities.cpp" />
     <ClCompile Include="source\ai\actors.cpp" />
@@ -840,6 +842,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="common\havok\hkThread.hpp" />
     <ClInclude Include="common\havok\hkWorld.hpp" />
     <ClInclude Include="source\ai\sector_geometry.hpp" />
+    <ClInclude Include="source\animations\animation_id.hpp" />
     <ClInclude Include="source\game\player_scipting.hpp" />
     <ClInclude Include="source\ai\activities.hpp" />
     <ClInclude Include="source\ai\actor_firing_position.hpp" />

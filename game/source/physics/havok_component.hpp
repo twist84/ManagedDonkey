@@ -50,8 +50,13 @@ class c_havok_component :
 	public s_datum_header
 {
 public:
+	void get_bodies_in_phantom_info(int32 body_index, int32* body_object_index, int32* body_rigid_body_index, int32* body_physics_model_material_index) const;
+	int32 get_bodies_in_phantoms_count() const;
+	int32 get_object_index() const;
 	void render_debug(bool water_physics, bool render_physics_model, bool expensive_physics, bool contact_points, bool constraints, bool vehicle_physics, bool render_mass);
 	void rigid_body_apply_acceleration(int32 rigid_body_index, const real_vector3d* acceleration);
+	void update_phantoms(bool phantom_on);
+	void wake_all_bodies_in_phantoms();
 
 	hkRigidBody* get_rigid_body(int32 rigid_body_index)
 	{

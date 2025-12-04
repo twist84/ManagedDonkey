@@ -486,7 +486,12 @@ void __cdecl object_adjust_garbage_timer(int32 object_index, int32 time)
 //.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(int32, const real_vector3d*, const real_vector3d*)
 //.text:00B296D0 ; void __cdecl object_adjust_placement(object_placement_data*)
 //.text:00B29720 ; void __cdecl object_align_marker_to_matrix(int32, const object_marker*, const real_matrix4x3*)
-//.text:00B29900 ; void __cdecl object_animation_callback(const s_animation_event_data*, int32)
+
+void __cdecl object_animation_callback(const s_animation_event_data* event_data, int32 user_param)
+{
+	INVOKE(0x00B29900, object_animation_callback, event_data, user_param);
+}
+
 //.text:00B29B50 ; void __cdecl object_apply_acceleration(int32, int32, const real_point3d*, const real_vector3d*, const real_vector3d*)
 //.text:00B29D40 ; void __cdecl object_apply_function_overlay_node_orientations(int32, const render_model_definition*, const c_animation_manager*, const c_static_flags<256>*, int32, real_orientation*)
 //.text:00B29F20 ; void __cdecl object_attach_gamestate_entity(int32 object_index, int32 gamestate_entity_index)
@@ -729,7 +734,11 @@ bool __cdecl object_get_function_value(int32 object_index, int32 function_name, 
 
 //.text:00B2E1A0 ; real32 __cdecl object_get_function_value_simple(int32, int32, int32)
 //.text:00B2E1E0 ; int16 __cdecl object_get_local_markers_by_string_id(int32, int32, object_marker*, int16)
-//.text:00B2E200 ; bool __cdecl object_get_localized_velocities(int32, real_vector3d*, real_vector3d*, real_vector3d*, real_vector3d*)
+
+bool __cdecl object_get_localized_velocities(int32 object_index, real_vector3d* translational_velocity, real_vector3d* angular_velocity, real_vector3d* local_translational_velocity, real_vector3d* local_angular_velocity)
+{
+	return INVOKE(0x00B2E200, object_get_localized_velocities, object_index, translational_velocity, angular_velocity, local_translational_velocity, local_angular_velocity);
+}
 
 s_location* __cdecl object_get_location(int32 object_index, s_location* location)
 {

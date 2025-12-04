@@ -1,5 +1,6 @@
 #pragma once
 
+#include "animations/animation_id.hpp"
 #include "animations/animation_interpolation.hpp"
 #include "animations/animation_manager.hpp"
 #include "animations/mixing_board/mixing_board_slider.hpp"

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "animations/animation_id.hpp"
+#include "math/real_math.hpp"
 
 struct s_havok_vehicle_physics_instance;
 struct render_model_definition;

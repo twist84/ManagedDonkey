@@ -158,10 +158,9 @@ int32 __cdecl effect_new_from_object(c_tag_index definition_index, const s_damag
 
 //.text:005B86A0 ; 
 
-//int32 __cdecl effect_new_from_point_vector(int32, const real_point3d*, const real_vector3d*, const real_vector3d*, e_match_all_markers, e_effect_deterministic, const real_plane3d*, s_cluster_reference*)
-int32 __cdecl effect_new_from_point_vector(int32 effect_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* normal, int32 match_all_markers, int32 effect_deterministic, const real_plane3d* plane, s_cluster_reference* cluster_reference)
+int32 __cdecl effect_new_from_point_vector(int32 effect_index, const real_point3d* position, const real_vector3d* forward, const real_vector3d* normal, e_match_all_markers match_all_markers, e_effect_deterministic effect_deterministic, const real_plane3d* plane, const s_location* location)
 {
-	return INVOKE(0x005B87F0, effect_new_from_point_vector, effect_index, position, forward, normal, match_all_markers, effect_deterministic, plane, cluster_reference);
+	return INVOKE(0x005B87F0, effect_new_from_point_vector, effect_index, position, forward, normal, match_all_markers, effect_deterministic, plane, location);
 }
 
 //.text:005B88E0 ; int32 __cdecl effect_new_looping(c_tag_index, const s_damage_owner*, const s_damage_reporting_info&, int32, int32, int32, int32, int16)

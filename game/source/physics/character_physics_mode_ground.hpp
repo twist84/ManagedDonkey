@@ -1,5 +1,4 @@
-#include "cseries/cseries.hpp"
-
+#include "animations/animation_id.hpp"
 #include "game/materials.hpp"
 
 struct s_character_physics_definition;

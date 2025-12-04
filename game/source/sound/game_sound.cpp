@@ -85,6 +85,11 @@ void __cdecl game_sound_update(real32 game_seconds_elapsed)
 //.text:005DAB20 ; void __cdecl game_sound_update_listeners(real32)
 //.text:005DB160 ; int32 __cdecl generate_game_looping_sound_controller_identifier(int32, int32)
 
+int32 __cdecl object_impulse_sound_new(int32 object_index, int32 definition_index, int16 node_index, const real_point3d* position, const real_vector3d* forward, real32 scale)
+{
+	return INVOKE(0x005DBBA0, object_impulse_sound_new, object_index, definition_index, node_index, position, forward, scale);
+}
+
 //.text:005DC410 ; void __cdecl scripted_looping_sound_set_alternate(int32, bool)
 //.text:005DC470 ; void __cdecl scripted_looping_sound_set_scale(int32, real32)
 //.text:005DC4D0 ; void __cdecl scripted_looping_sound_start(int32, int32, real32)
@@ -117,4 +122,20 @@ void __cdecl scripting_looping_sound_spam()
 		scripted_looping_sound_start_with_effect(loop_tag_index, NONE, 1.0f, 0);
 	}
 }
+
+//.text:005DDFB0 ; int32 __cdecl unattached_impulse_sound_new(int32, const s_sound_location*, real32)
+//.text:005DE0D0 ; real32 __cdecl unattached_looping_sound_get_amplitude(int32)
+//.text:005DE1C0 ; void __cdecl unattached_looping_sound_set_scale(int32, real32)
+//.text:005DE1F0 ; int32 __cdecl unattached_looping_sound_start(int32, int32, real32)
+//.text:005DE250 ; int32 __cdecl unattached_looping_sound_start_with_effect(int32, int32, real32, int32)
+//.text:005DE2D0 ; void __cdecl unattached_looping_sound_stop(int32)
+
+int32 __cdecl unspatialized_impulse_sound_new(int32 definition_index, real32 scale)
+{
+	return INVOKE(0x005DE300, unspatialized_impulse_sound_new, definition_index, scale);
+}
+
+//.text:005DE360 ; void __cdecl update_potentially_audible_looping_sound(int32)
+//.text:005DE810 ; void __cdecl update_spatialization_if_first_person(int32, int8*, int32*)
+//.text:005DE8A0 ; void __cdecl update_unit_impulse_sound(int32, int32, int32, int32, real32)
 

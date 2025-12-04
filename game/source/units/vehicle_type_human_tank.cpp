@@ -76,8 +76,7 @@ void c_vehicle_type_human_tank::reset(int32 vehicle_index)
 	INVOKE_CLASS_MEMBER(0x00BC7D80, c_vehicle_type_human_tank, reset, vehicle_index);
 
 	//vehicle_engine_reset(&m_engine);
-	//m_ground_speed_animation_id.m_subgraph = NONE;
-	//m_ground_speed_animation_id.m_index = NONE;
+	//m_ground_speed_animation_id.clear();
 	//m_stop_counter.reset();
 }
 

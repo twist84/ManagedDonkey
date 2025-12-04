@@ -120,6 +120,7 @@ extern bool debug_player_damage;
 extern bool debug_damage;
 extern int32 global_debug_damage_object_index;
 
+extern int32 __cdecl area_of_effect_cause_damage(s_damage_data* damage_data, int32 ignore_object_index, int32 predictability);
 extern real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, const void* damage_definition, int32 object_index, bool* a5);
 extern void __cdecl damage_acceleration_apply(const s_damage_globals::s_damage_acceleration* damage_acceleration);
 extern void __cdecl damage_acceleration_queue_begin();
@@ -137,6 +138,7 @@ extern void __cdecl object_cannot_take_damage(int32 object_list_index);
 extern void __cdecl object_cause_damage(s_damage_data* damage_data, int32 object_index, int16 node_index, int16 region_index, int16 material_index, int32 predictability);
 extern void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object_index, int32 predictability);
 extern const s_model_damage_info* __cdecl object_get_damage_info(int32 object_index);
+extern void __cdecl object_deplete_body(int32 object_index, const s_damage_owner* depleter, const s_damage_reporting_info& damage_reporting_info);
 
 extern void render_debug_object_damage();
 

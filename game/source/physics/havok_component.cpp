@@ -8,6 +8,21 @@
 
 REFERENCE_DECLARE(0x02446080, c_smart_data_array<c_havok_component>, g_havok_component_data);
 
+void c_havok_component::get_bodies_in_phantom_info(int32 body_index, int32* body_object_index, int32* body_rigid_body_index, int32* body_physics_model_material_index) const
+{
+	INVOKE_CLASS_MEMBER(0x005E92F0, c_havok_component, get_bodies_in_phantom_info, body_index, body_object_index, body_rigid_body_index, body_physics_model_material_index);
+}
+
+int32 c_havok_component::get_bodies_in_phantoms_count() const
+{
+	return INVOKE_CLASS_MEMBER(0x005E9320, c_havok_component, get_bodies_in_phantoms_count);
+}
+
+int32 c_havok_component::get_object_index() const
+{
+	return m_object_index;
+}
+
 int32 __cdecl havok_entity_get_havok_component_index(const hkWorldObject* world_object)
 {
 	return INVOKE(0x005EA8E0, havok_entity_get_havok_component_index, world_object);
@@ -111,5 +126,15 @@ void c_havok_component::render_debug(
 void c_havok_component::rigid_body_apply_acceleration(int32 rigid_body_index, const real_vector3d* acceleration)
 {
 	INVOKE_CLASS_MEMBER(0x005ECC50, c_havok_component, rigid_body_apply_acceleration, rigid_body_index, acceleration);
+}
+
+void c_havok_component::update_phantoms(bool phantom_on)
+{
+	INVOKE_CLASS_MEMBER(0x005F0350, c_havok_component, update_phantoms, phantom_on);
+}
+
+void c_havok_component::wake_all_bodies_in_phantoms()
+{
+	INVOKE_CLASS_MEMBER(0x005F07D0, c_havok_component, wake_all_bodies_in_phantoms);
 }
 

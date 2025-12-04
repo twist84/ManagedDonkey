@@ -1206,15 +1206,6 @@ struct s_location
 static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
 //static_assert(sizeof(s_location) == 0x4);
 
-// $TODO find an actual home
-class c_animation_id
-{
-public:
-	int16 m_subgraph;
-	int16 m_index;
-};
-static_assert(sizeof(c_animation_id) == sizeof(int16) * 2);
-
 template<int32 k_maximum_count>
 class c_static_string
 {

@@ -27,6 +27,12 @@ bool debug_player_damage = false;
 bool debug_damage = false;
 int32 global_debug_damage_object_index = NONE;
 
+//int32 __cdecl area_of_effect_cause_damage(s_damage_data*, int32, e_predictability)
+int32 __cdecl area_of_effect_cause_damage(s_damage_data* damage_data, int32 ignore_object_index, int32 predictability)
+{
+	return INVOKE(0x00B4E810, area_of_effect_cause_damage, damage_data, ignore_object_index, predictability);
+}
+
 //real32 __cdecl compute_total_damage(s_damage_data* damage_data, s_damage_effect_definition* damage_effect_definition, const damage_definition* damage_definition, int32 object_index, bool* a5)
 real32 __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, const void* damage_definition, int32 object_index, bool* a5)
 {
@@ -66,11 +72,13 @@ void __cdecl damage_acceleration_queue_end()
 {
 	//INVOKE(0x00B50140, damage_acceleration_queue_end);
 
-	for (int32 i = 0; i < damage_globals->damage_acceleration_count; i++)
+	for (int32 damage_acceleration_index = 0; damage_acceleration_index < damage_globals->damage_acceleration_count; damage_acceleration_index++)
 	{
-		s_damage_globals::s_damage_acceleration& damage_acceleration = damage_globals->damage_accelerations[i];
+		s_damage_globals::s_damage_acceleration& damage_acceleration = damage_globals->damage_accelerations[damage_acceleration_index];
 		if (damage_acceleration.object_index != NONE)
+		{
 			damage_acceleration_apply(&damage_acceleration);
+		}
 	}
 
 	damage_globals->damage_acceleration_count = 0;
@@ -220,6 +228,11 @@ void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object
 const s_model_damage_info* __cdecl object_get_damage_info(int32 object_index)
 {
 	return INVOKE(0x00B578D0, object_get_damage_info, object_index);
+}
+
+void __cdecl object_deplete_body(int32 object_index, const s_damage_owner* depleter, const s_damage_reporting_info& damage_reporting_info)
+{
+	INVOKE(0x00B56B20, object_deplete_body, object_index, depleter, damage_reporting_info);
 }
 
 void render_debug_object_damage()
