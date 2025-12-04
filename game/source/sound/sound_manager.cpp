@@ -21,16 +21,6 @@ int32 const sound_sample_rate_samples_per_second[NUMBER_OF_SOUND_SAMPLE_RATES]
 	32000
 };
 
-struct s_sound_location
-{
-	real_point3d position;
-	real_quaternion orientation;
-	real_vector3d vector;
-	s_location location;
-	byte __data2A[0x2];
-};
-static_assert(sizeof(s_sound_location) == 0x2C);
-
 struct s_sound_source
 {
 	uns16 flags;

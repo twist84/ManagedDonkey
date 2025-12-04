@@ -9,6 +9,16 @@ tag const k_sound_listener_header_signature = 'lshd';
 tag const k_sound_listener_footer_signature = 'lsft';
 int32 const k_number_of_sound_manager_listeners = 4;
 
+struct s_sound_location
+{
+	real_point3d position;
+	real_quaternion orientation;
+	real_vector3d translational_velocity;
+	s_location game_location;
+	byte __data2A[0x2];
+};
+static_assert(sizeof(s_sound_location) == 0x2C);
+
 struct s_sound_listener
 {
 	tag header_signature;

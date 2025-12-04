@@ -8,12 +8,16 @@
 #include "game/game_time.hpp"
 #include "items/equipment_definitions.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "motor/actions.hpp"
 #include "physics/havok_component.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "sound/game_sound.hpp"
+#include "sound/sound_manager.hpp"
 
 HOOK_DECLARE(0x00B86C20, equipment_activate);
+HOOK_DECLARE(0x00B87DA0, equipment_active_fraction);
+HOOK_DECLARE(0x00B882F0, equipment_can_be_thrown);
 
 void __cdecl equipment_update0(int32 equipment_index, int32 owner_unit_index)
 {
@@ -147,7 +151,23 @@ bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_index, b
 real32 __cdecl equipment_active_fraction(int32 equipment_index)
 {
 	//return INVOKE(0x00B87DA0, equipment_active_fraction, equipment_index);
-	return (real32)DECLFUNC(0x00B87DA0, real64, __cdecl, int32)(equipment_index);
+	//return (real32)DECLFUNC(0x00B87DA0, real64, __cdecl, int32)(equipment_index);
+
+	equipment_datum const* equipment = EQUIPMENT_GET(equipment_index);
+	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+
+	real32 fraction = 0.0f;
+	if (equipment->equipment.last_use_time != NONE && equipment_definition->equipment.duration > 0.001f)
+	{
+		int32 duration_ticks = game_seconds_to_ticks_round(equipment_definition->equipment.duration);
+		if (duration_ticks < 1)
+		{
+			duration_ticks = 1;
+		}
+		fraction = 1.0f - ((real32)(game_time_get() - equipment->equipment.last_use_time) / (real32)duration_ticks);
+		fraction = real_pin(fraction, 0.0f, 1.0f);
+	}
+	return fraction;
 }
 
 string_id __cdecl equipment_animation_get_desired_idle(int32 equipment_index)
@@ -201,12 +221,27 @@ bool __cdecl equipment_can_be_thrown(int32 equipment_index)
 void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipment_definition_index)
 {
 	INVOKE(0x00B887B0, equipment_definition_handle_pickup, player_index, equipment_definition_index);
+	
+	//const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
+	//if (player->unit_index != NONE)
+	//{
+	//	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment_definition_index);
+	//	if (equipment_definition->equipment.pickup_sound.index != NONE)
+	//	{
+	//		s_sound_location sound_location{};
+	//		unit_get_body_position(player->unit_index, &sound_location.position);
+	//		sound_location_set_forward(&sound_location, global_up3d);
+	//		sound_location.translational_velocity = *global_zero_vector3d;
+	//		object_get_location(player->unit_index, &sound_location.game_location);
+	//		object_unattached_impulse_sound_new(player->unit_index, equipment_definition->equipment.pickup_sound.index, &sound_location, 1.0f);
+	//	}
+	//}
 }
 
 //.text:00B88860 ; bool __cdecl equipment_desires_3rd_person_camera(int32)
 //.text:00B888E0 ; void __cdecl sub_B888E0(int32)
-//.text:00B889F0 ; real64 __cdecl sub_B889F0(int32)
-//.text:00B88B10 ; real64 __cdecl equipment_get_invincible_fraction(int32)
+//.text:00B889F0 ; real32 __cdecl sub_B889F0(int32)
+//.text:00B88B10 ; real32 __cdecl equipment_get_invincible_fraction(int32)
 //.text:00B88B70 ; bool __cdecl sub_B88B70(int32, real32*)
 //.text:00B88C00 ; int32 __cdecl sub_B88C00(int32, int32)
 //.text:00B88C40 ; void __cdecl equipment_handle_pickup(int32, int32)

@@ -730,7 +730,7 @@ bool c_network_session::peer_request_player_desired_properties_update(int32 play
 
 	if (c_network_session::is_host())
 	{
-		ASSERT(m_session_membership.local_peer_index() >= 0 && m_session_membership.local_peer_index() < k_network_maximum_machines_per_session);
+		ASSERT(VALID_INDEX(m_session_membership.local_peer_index(), k_network_maximum_machines_per_session));
 
 		int32 player_index = m_session_membership.get_player_index_from_peer(m_session_membership.local_peer_index());
 		if (player_index == NONE)

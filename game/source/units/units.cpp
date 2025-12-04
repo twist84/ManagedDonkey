@@ -20,6 +20,8 @@
 #include <math.h>
 
 HOOK_DECLARE_CALL(0x0053F212, unit_control); // player_submit_control
+HOOK_DECLARE(0x00B3AAA0, unit_can_pickup_equipment);
+HOOK_DECLARE(0x00B409E0, unit_drop_current_equipment);
 HOOK_DECLARE(0x00B47080, unit_render_debug);
 HOOK_DECLARE(0x00B49F10, unit_update);
 
@@ -148,12 +150,15 @@ bool __cdecl unit_can_pickup_equipment(int32 unit_index, int32 equipment_index)
 				can_pickup = true;
 
 				const equipment_datum* current_equipment = EQUIPMENT_GET(current_equipment_index);
-				if (equipment->definition_index == current_equipment->definition_index)
+				if (equipment->definition_index == current_equipment->definition_index &&
+					equipment_remaining_charges(equipment_index) <= equipment_remaining_charges(current_equipment_index))
 				{
-					if (equipment_remaining_charges(equipment_index) <= equipment_remaining_charges(current_equipment_index))
-					{
-						can_pickup = false;
-					}
+					can_pickup = false;
+				}
+
+				if (can_pickup && equipment_active_fraction(current_equipment_index) != 0.0f)
+				{
+					can_pickup = false;
 				}
 			}
 
