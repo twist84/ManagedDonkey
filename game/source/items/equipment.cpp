@@ -6,6 +6,7 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
+#include "game/multiplayer_definitions.hpp"
 #include "items/equipment_definitions.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -644,4 +645,66 @@ bool __cdecl equipment_update(int32 equipment_index)
 //.text:00B89F60 ; 
 //.text:00B89F80 ; void __cdecl sub_B89F80(int32)
 //.text:00B8A040 ; bool __cdecl sub_B8A040(int32, int32)
+
+// ====================================================================================
+// |                                                                                  |
+// |      Patches and Hooks that don't belong in this file, because I am LAZY!!       |
+// |                                                                                  |
+// ====================================================================================
+
+// player_submit_actions
+// skip over `cooldown_reset_unknown40` check
+byte const player_consumables_cooldown_reset_skip_patch_bytes[]
+{
+	//.text:0053DC0A                 jnz     short loc_53DC6B
+
+	0x90,
+	0x90
+};
+DATA_PATCH_DECLARE(0x0053DC0A, player_consumables_cooldown_reset_skip, player_consumables_cooldown_reset_skip_patch_bytes);
+
+int32 multiplayer_globals_get_equipment_block_index(int32 equipment_definition_index)
+{
+	int32 result = NONE;
+	if (s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data())
+	{
+		for (int32 equipment_block_index = 1; equipment_block_index < universal_data->equipment.count; equipment_block_index++)
+		{
+			s_multiplayer_equipment* equipment = &universal_data->equipment[equipment_block_index];
+			if (equipment->object.index == equipment_definition_index)
+			{
+				result = equipment_block_index;
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout_sub_5366A0(player_datum* player)
+{
+	//return INVOKE(0x005366A0, player_get_weapon_loadout_sub_5366A0, player);
+
+	s_s3d_player_weapon_configuration_loadout* weapon_loadout = &player->configuration.host.weapon.loadouts[player->weapon_loadout_index];
+	if (player->unit_index != NONE)
+	{
+		int32 slot_index = 0;
+
+		int32 current_equipment_index = unit_get_current_equipment(player->unit_index, slot_index);
+		if (current_equipment_index != NONE)
+		{
+			const equipment_datum* current_equipment = EQUIPMENT_GET(current_equipment_index);
+			int32 equipment_block_index = multiplayer_globals_get_equipment_block_index(current_equipment->definition_index);
+			if (equipment_block_index != NONE)
+			{
+				weapon_loadout->consumables[slot_index] = (int8)equipment_block_index;
+			}
+		}
+	}
+	return weapon_loadout;
+}
+// called in `c_chud_update_user_data` constructor
+HOOK_DECLARE_CALL(0x00A858FE, player_get_weapon_loadout_sub_5366A0);
+
+// =====================================================================================
 
