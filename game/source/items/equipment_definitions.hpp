@@ -2,40 +2,10 @@
 
 #include "cseries/cseries.hpp"
 #include "game/materials.hpp"
+#include "items/equipment_types.hpp"
 #include "items/item_definitions.hpp"
 #include "math/function_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
-
-enum e_equipment_type
-{
-	_equipment_type_none = NONE,
-	_equipment_type_super_shield,
-	_equipment_type_multiplayer_powerup,
-	_equipment_type_spawner,
-	_equipment_type_proximity_mine,
-	_equipment_type_motion_tracker_noise,
-	_equipment_type_showme,
-	_equipment_type_invisibility_mode,
-	_equipment_type_invincibility,
-	_equipment_type_treeoflife,
-	_equipment_type_health_pack,
-	_equipment_type_forced_reload,
-	_equipment_type_concussive_blast,
-	_equipment_type_tank_mode,
-	_equipment_type_mag_pulse,
-	_equipment_type_hologram,
-	_equipment_type_reactive_armor,
-	_equipment_type_bomb_run,
-	_equipment_type_armor_lock,
-	_equipment_type_adrenaline,
-	_equipment_type_lightning_strike,
-	_equipment_type_scrambler,
-	_equipment_type_weapon_jammer,
-	_equipment_type_ammo_pack,
-	_equipment_type_vision,
-
-	k_equipment_type_count,
-};
 
 enum e_equipment_flags
 {
@@ -144,7 +114,7 @@ struct _equipment_definition
 			c_typed_tag_block<s_equipment_type_vision> vision;
 		};
 
-		c_static_array<s_tag_block, k_equipment_type_count> tag_blocks;
+		c_static_array<s_tag_block, k_equipment_type_count_halo_online> tag_blocks;
 	};
 
 	s_tag_reference chud_interface;

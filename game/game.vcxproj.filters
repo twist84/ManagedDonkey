@@ -2100,6 +2100,9 @@
     <ClCompile Include="source\animations\mixing_board\channels\animation_channel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\items\equipment_types.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4626,6 +4629,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\animations\animation_id.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\items\equipment_types.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

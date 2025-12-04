@@ -281,6 +281,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\interface\user_interface_player_model_camera.cpp" />
     <ClCompile Include="source\interface\user_interface_window_manager_debug.cpp" />
     <ClCompile Include="source\items\equipment.cpp" />
+    <ClCompile Include="source\items\equipment_types.cpp" />
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\items\weapon_definitions.cpp" />
     <ClCompile Include="source\main\main_screenshot.cpp" />
@@ -1052,6 +1053,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\interface\user_interface_player_model_camera.hpp" />
     <ClInclude Include="source\interface\user_interface_window_manager_debug.hpp" />
     <ClInclude Include="source\items\equipment.hpp" />
+    <ClInclude Include="source\items\equipment_types.hpp" />
     <ClInclude Include="source\items\items.hpp" />
     <ClInclude Include="source\items\item_definitions.hpp" />
     <ClInclude Include="source\items\projectiles.hpp" />

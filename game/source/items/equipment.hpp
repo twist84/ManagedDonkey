@@ -41,7 +41,10 @@ extern string_id __cdecl equipment_animation_get_desired_idle(int32 equipment_in
 extern bool __cdecl equipment_begin_animation_state(int32 equipment_index, string_id state_name, int32 goal_flags, uns32 playback_flags);
 extern bool __cdecl equipment_can_be_thrown(int32 equipment_index);
 extern void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipment_definition_index);
+extern bool __cdecl equipment_new(int32 equipment_index, object_placement_data* data, bool* out_of_memory);
 extern int32 __cdecl equipment_remaining_charges(int32 equipment_index);
 extern void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index);
 extern bool __cdecl equipment_update(int32 equipment_index);
+extern bool __cdecl equipment_update_animation(int32 equipment_index);
+extern bool __cdecl equipment_update_phantoms(int32 equipment_index);
 
