@@ -39,6 +39,7 @@ extern bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_i
 extern real32 __cdecl equipment_active_fraction(int32 equipment_index);
 extern string_id __cdecl equipment_animation_get_desired_idle(int32 equipment_index);
 extern bool __cdecl equipment_begin_animation_state(int32 equipment_index, string_id state_name, int32 goal_flags, uns32 playback_flags);
+extern bool __cdecl equipment_can_be_thrown(int32 equipment_index);
 extern void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipment_definition_index);
 extern int32 __cdecl equipment_remaining_charges(int32 equipment_index);
 extern void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index);

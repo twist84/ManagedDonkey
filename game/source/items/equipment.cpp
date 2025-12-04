@@ -169,7 +169,32 @@ bool __cdecl equipment_begin_animation_state(int32 equipment_index, string_id st
 //.text:00B88040 ; void __cdecl equipment_calculate_noise_maker_blip(int32, uns32*, int32, real_point2d*)
 //.text:00B88160 ; int32 __cdecl equipment_calculate_noise_maker_blip_count(int32)
 //.text:00B881A0 ; void __cdecl equipment_calculate_spawn_location(int32, real32, real32, real32, int16, real_point3d*, real_vector3d*)
-//.text:00B882F0 ; bool __cdecl equipment_can_be_thrown(int32)
+
+bool __cdecl equipment_can_be_thrown(int32 equipment_index)
+{
+	//return INVOKE(0x00B882F0, equipment_can_be_thrown, equipment_index);
+	
+	bool can_be_thrown = false;
+
+	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+
+	int32 type_index = 0;
+	for (e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
+		equipment_type != _equipment_type_none;
+		equipment_type = equipment_definition_get_type(equipment->definition_index, type_index))
+	{
+		type_index++;
+
+		if (equipment_type == _equipment_type_spawner)
+		{
+			can_be_thrown = true;
+			break;
+		}
+	}
+
+	return can_be_thrown;
+}
+
 //.text:00B88360 ; bool __cdecl equipment_compute_function_value(int32, int32, int32, real32*, bool*, bool*)
 //.text:00B88470 ; void __cdecl equipment_delete_recursive(int32, int32)
 
