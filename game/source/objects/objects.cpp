@@ -1276,13 +1276,13 @@ void __cdecl object_placement_data_copy_change_colors(object_placement_data* dat
 
 	//object_datum* object = object_get(object_index);
 	//int32 change_color_count = 0;
-	//if (real_rgb_color* change_colors = (real_rgb_color*)object_header_block_get_with_count(object_index, &object->object.change_colors, sizeof(real_rgb_color), &change_color_count))
+	//if (real_rgb_color* change_colors = OBJECT_HEADER_BLOCK_GET_WITH_COUNT(object_index, real_rgb_color, &object->object.change_colors, &change_color_count))
 	//{
 	//	ASSERT(change_color_count % 2 == 0);
 	//	for (int32 change_color_index = 0; change_color_index < change_color_count / 2; change_color_index++)
 	//	{
-	//		data->change_colors[change_color_index] = change_colors[change_color_index];
-	//		data->active_change_colors.set(change_color_index, true);
+	//		data->change_color_overrides[change_color_index] = change_colors[change_color_index];
+	//		data->change_color_override_mask.set(change_color_index, true);
 	//	}
 	//}
 }
@@ -1533,9 +1533,9 @@ void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, 
 	INVOKE(0x00B32F20, object_set_initial_change_colors, object_index, active_change_colors, change_colors);
 }
 
-void __cdecl object_set_invalid_for_recycling(int32 object_index, bool a2)
+void __cdecl object_set_invalid_for_recycling(int32 object_index, bool invalid)
 {
-	INVOKE(0x00B33290, object_set_invalid_for_recycling, object_index, a2);
+	INVOKE(0x00B33290, object_set_invalid_for_recycling, object_index, invalid);
 }
 
 bool __cdecl object_set_model_state(int32 object_index, int32 a2, int32 a3, bool a4)

@@ -272,7 +272,7 @@ void render_debug_object_damage()
 					if (damage_info->damage_sections.count > 0)
 					{
 						int32 element_count = 0;
-						struct object_damage_section* object_damage_section = (struct object_damage_section*)object_header_block_get_with_count(global_debug_damage_object_index, &object->object.damage_sections, sizeof(struct object_damage_section), &element_count);
+						struct object_damage_section* object_damage_section = OBJECT_HEADER_BLOCK_GET_WITH_COUNT(global_debug_damage_object_index, struct object_damage_section, &object->object.damage_sections, &element_count);
 
 						if (element_count > damage_info->damage_sections.count)
 							element_count = damage_info->damage_sections.count;

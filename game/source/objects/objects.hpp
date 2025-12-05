@@ -16,29 +16,32 @@
 #include "objects/object_scripting.hpp"
 #include "render/render_objects_static_lighting.hpp"
 
-#define OBJECT_GET(INDEX) ((struct object_datum*)object_get_and_verify_type(INDEX, _object_mask_all))
+#define OBJECT_HEADER_BLOCK_GET(INDEX, TYPE, REFERENCE) ((TYPE*)object_header_block_get((INDEX), (REFERENCE)))
+#define OBJECT_HEADER_BLOCK_GET_WITH_COUNT(INDEX, TYPE, REFERENCE, ELEMENT_COUNT) ((TYPE*)object_header_block_get_with_count((INDEX), (REFERENCE), sizeof(TYPE), (ELEMENT_COUNT)))
 
-#define UNIT_GET(INDEX) ((struct unit_datum*)object_get_and_verify_type(INDEX, _object_mask_unit))
-#define BIPED_GET(INDEX) ((struct biped_datum*)object_get_and_verify_type(INDEX, _object_mask_biped))
-#define VEHICLE_GET(INDEX) ((struct vehicle_datum*)object_get_and_verify_type(INDEX, _object_mask_vehicle))
-#define GIANT_GET(INDEX) ((struct giant_datum*)object_get_and_verify_type(INDEX, _object_mask_giant))
+#define OBJECT_GET(INDEX) ((struct object_datum*)object_get_and_verify_type((INDEX), _object_mask_all))
 
-#define ITEM_GET(INDEX) ((struct item_datum*)object_get_and_verify_type(INDEX, _object_mask_item))
-#define WEAPON_GET(INDEX) ((struct weapon_datum*)object_get_and_verify_type(INDEX, _object_mask_weapon))
-#define EQUIPMENT_GET(INDEX) ((struct equipment_datum*)object_get_and_verify_type(INDEX, _object_mask_equipment))
+#define UNIT_GET(INDEX) ((struct unit_datum*)object_get_and_verify_type((INDEX), _object_mask_unit))
+#define BIPED_GET(INDEX) ((struct biped_datum*)object_get_and_verify_type((INDEX), _object_mask_biped))
+#define VEHICLE_GET(INDEX) ((struct vehicle_datum*)object_get_and_verify_type((INDEX), _object_mask_vehicle))
+#define GIANT_GET(INDEX) ((struct giant_datum*)object_get_and_verify_type((INDEX), _object_mask_giant))
 
-#define PROJECTILE_GET(INDEX) ((struct projectile_datum*)object_get_and_verify_type(INDEX, _object_mask_projectile))
-#define SCENERY_GET(INDEX) ((struct scenery_datum*)object_get_and_verify_type(INDEX, _object_mask_scenery))
-#define SOUND_SCENERY_GET(INDEX) ((struct sound_scenery_datum*)object_get_and_verify_type(INDEX, _object_mask_sound_scenery))
-#define CRATE_GET(INDEX) ((struct crate_datum*)object_get_and_verify_type(INDEX, _object_mask_crate))
-#define CREATURE_GET(INDEX) ((struct creature_datum*)object_get_and_verify_type(INDEX, _object_mask_creature))
-#define EFFECT_SCENERY_GET(INDEX) ((struct effect_scenery_datum*)object_get_and_verify_type(INDEX, _object_mask_effect_scenery))
+#define ITEM_GET(INDEX) ((struct item_datum*)object_get_and_verify_type((INDEX), _object_mask_item))
+#define WEAPON_GET(INDEX) ((struct weapon_datum*)object_get_and_verify_type((INDEX), _object_mask_weapon))
+#define EQUIPMENT_GET(INDEX) ((struct equipment_datum*)object_get_and_verify_type((INDEX), _object_mask_equipment))
 
-#define DEVICE_GET(INDEX) ((struct device_datum*)object_get_and_verify_type(INDEX, _object_mask_device))
-#define ARG_DEVICE_GET(INDEX) ((struct arg_device_datum*)object_get_and_verify_type(INDEX, _object_mask_arg_device))
-#define TERMINAL_GET(INDEX) ((struct terminal_datum*)object_get_and_verify_type(INDEX, _object_mask_terminal))
-#define MACHINE_GET(INDEX) ((struct machine_datum*)object_get_and_verify_type(INDEX, _object_mask_machine))
-#define CONTROL_GET(INDEX) ((struct control_datum*)object_get_and_verify_type(INDEX, _object_mask_control))
+#define PROJECTILE_GET(INDEX) ((struct projectile_datum*)object_get_and_verify_type((INDEX), _object_mask_projectile))
+#define SCENERY_GET(INDEX) ((struct scenery_datum*)object_get_and_verify_type((INDEX), _object_mask_scenery))
+#define SOUND_SCENERY_GET(INDEX) ((struct sound_scenery_datum*)object_get_and_verify_type((INDEX), _object_mask_sound_scenery))
+#define CRATE_GET(INDEX) ((struct crate_datum*)object_get_and_verify_type((INDEX), _object_mask_crate))
+#define CREATURE_GET(INDEX) ((struct creature_datum*)object_get_and_verify_type((INDEX), _object_mask_creature))
+#define EFFECT_SCENERY_GET(INDEX) ((struct effect_scenery_datum*)object_get_and_verify_type((INDEX), _object_mask_effect_scenery))
+
+#define DEVICE_GET(INDEX) ((struct device_datum*)object_get_and_verify_type((INDEX), _object_mask_device))
+#define ARG_DEVICE_GET(INDEX) ((struct arg_device_datum*)object_get_and_verify_type((INDEX), _object_mask_arg_device))
+#define TERMINAL_GET(INDEX) ((struct terminal_datum*)object_get_and_verify_type((INDEX), _object_mask_terminal))
+#define MACHINE_GET(INDEX) ((struct machine_datum*)object_get_and_verify_type((INDEX), _object_mask_machine))
+#define CONTROL_GET(INDEX) ((struct control_datum*)object_get_and_verify_type((INDEX), _object_mask_control))
 
 enum e_object_mask
 {
@@ -800,7 +803,7 @@ extern void __cdecl object_set_hidden(int32 object_index, bool hidden);
 extern void __cdecl object_set_in_limbo(int32 object_index, bool deactivate);
 extern void __cdecl object_set_infinite_shield_stun(int32 object_index);
 extern void __cdecl object_set_initial_change_colors(int32 object_index, c_flags<int8, uns8, 5> active_change_colors, const real_rgb_color* change_colors);
-extern void __cdecl object_set_invalid_for_recycling(int32 object_index, bool a2);
+extern void __cdecl object_set_invalid_for_recycling(int32 object_index, bool invalid);
 extern bool __cdecl object_set_model_state(int32 object_index, int32 a2, int32 a3, bool a4);
 extern void __cdecl object_set_model_state_property(int32 object_index, int32 a2, int32 a3, bool a4, bool a5);
 extern void __cdecl object_set_model_state_property_per_region(int32 object_index, int32 a2, int32 a3, int16 a4, bool a5);

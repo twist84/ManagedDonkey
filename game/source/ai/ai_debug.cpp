@@ -1064,7 +1064,7 @@ void render_dialogue_variants()
 		if (actor->meta.unit_index != NONE)
 		{
 			unit_datum* unit = UNIT_GET(actor->meta.unit_index);
-			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->unit.seat_storage);
+			s_seat_storage* seat_storage = OBJECT_HEADER_BLOCK_GET(actor->meta.unit_index, s_seat_storage, &unit->unit.seat_storage);
 			if (seat_storage->dialogue_definition_index != NONE)
 			{
 				s_dialogue_definition* dialogue_definition = TAG_GET(DIALOGUE_TAG, s_dialogue_definition, seat_storage->dialogue_definition_index);
