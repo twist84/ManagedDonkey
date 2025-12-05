@@ -388,7 +388,12 @@ int16 __cdecl unit_get_all_seats(int32 unit_index, unit_seat_source* seat_array,
 
 //.text:00B43370 ; void __cdecl unit_get_all_seats_internal(int32 object_index, unit_seat_source* seat_array, int16* index, int16 max_number_of_seats, bool allow_dead_vehicles)
 //.text:00B434C0 ; int32 __cdecl unit_get_best_seat_entrance_animation(int32 unit_index, int32 parent_unit_index, int16 seat_index, real_point3d* seat_marker_pos, real_point3d* animation_start_pos)
-//.text:00B43630 ; bool __cdecl unit_get_body_position(int32 unit_index, real_point3d* body_position)
+
+bool __cdecl unit_get_body_position(int32 unit_index, real_point3d* body_position)
+{
+	return INVOKE(0x00B43630, unit_get_body_position, unit_index, body_position);
+}
+
 //.text:00B43670 ; void __cdecl unit_get_camera_info(int32 unit_index, s_unit_camera_info* camera_info)
 
 void __cdecl unit_get_camera_position(int32 unit_index, real_point3d* camera_position)

@@ -1,12 +1,13 @@
 #include "items/equipment_types.hpp"
 
+#include "ai/ai.hpp"
 #include "cache/cache_files.hpp"
 #include "game/game.hpp"
 #include "items/equipment.hpp"
 #include "items/equipment_definitions.hpp"
 #include "physics/havok_component.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 #include "sound/game_sound.hpp"
-#include <ai/ai.hpp>
 
 class c_equipment_type_authoritative :
 	public c_equipment_type
@@ -100,7 +101,7 @@ public:
 		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
 
 		bool waiting_to_self_destruct = false;
-		if (equipment->equipment.last_use_time != NONE && !game_is_predicted())
+		if (equipment_is_active(equipment_index) && !game_is_predicted())
 		{
 			const s_equipment_type_proximity_mine* proximity_mine = equipment_get_proximity_mine_definition(equipment->definition_index);
 			const real32 age = game_ticks_to_seconds((real32)(game_time_get() - equipment->equipment.last_use_time));
@@ -259,6 +260,98 @@ public:
 		// $IMPLEMENT
 		return false;
 	}
+	virtual void update(int32 equipment_index, int32 owner_unit_index) const override
+	{
+		equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+		const s_equipment_type_invincibility* invincibility = equipment_get_invincibility_mode_definition(equipment->definition_index);
+
+		if (equipment_is_active(equipment_index))
+		{
+			int32 age = equipment_get_age(equipment_index);
+			int32 recharge_time = game_seconds_to_ticks_round(invincibility->shield_recharge_time) - 1;
+			int32 duration_ticks = game_seconds_to_ticks_round(equipment_definition->equipment.duration);
+			if (!age)
+			{
+				if (invincibility->activation_effect.index != NONE)
+				{
+					s_damage_reporting_info damage_reporting_info{};
+					effect_new_from_object(invincibility->activation_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0f, 0.0f, NULL, NULL, _effect_deterministic);
+				}
+			}
+
+			if (age + 1 == duration_ticks)
+			{
+				//// $TODO add back the `ending_effect` tag reference within `s_equipment_type_invincibility`
+				//if (invincibility->ending_effect.index != NONE)
+				//{
+				//	s_damage_reporting_info damage_reporting_info{};
+				//	effect_new_from_object(invincibility->ending_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0, 0.0, NULL, NULL, _effect_deterministic);
+				//}
+
+				// sub_B888E0
+				if (invincibility->ongoing_effect.index != NONE)
+				{
+					s_damage_reporting_info damage_reporting_info{};
+					effect_new_from_object(
+						invincibility->ongoing_effect.index,
+						NULL,
+						damage_reporting_info,
+						owner_unit_index,
+						0.0f,
+						0.0f,
+						NULL,
+						NULL,
+						_effect_deterministic);
+				}
+			}
+
+			if (invincibility->ongoing_effect.index != NONE)
+			{
+				if (equipment->equipment.looping_effect_index == NONE)
+				{
+					s_damage_reporting_info damage_reporting_info{};
+					equipment->equipment.looping_effect_index = effect_new_from_object(
+						invincibility->ongoing_effect.index,
+						NULL,
+						damage_reporting_info,
+						owner_unit_index,
+						0.0f,
+						0.0f,
+						NULL,
+						NULL,
+						_effect_not_deterministic);
+				}
+				else
+				{
+					effect_ping(
+						equipment->equipment.looping_effect_index,
+						invincibility->ongoing_effect.index,
+						0.0f,
+						0.0f,
+						false);
+				}
+			}
+
+			if (IN_RANGE_INCLUSIVE(age, 0, recharge_time) && owner_unit_index != NONE)
+			{
+				unit_datum* owner_unit = UNIT_GET(owner_unit_index);
+				if (recharge_time <= 0)
+				{
+					owner_unit->object.shield_vitality = 1.0f;
+				}
+				else
+				{
+					real32 fraction = (1.0f / recharge_time) + owner_unit->object.shield_vitality;
+					if (fraction > 1.0f)
+					{
+						fraction = 1.0f;
+					}
+					owner_unit->object.shield_vitality = fraction;
+				}
+			}
+		}
+	}
 	virtual void activate(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
@@ -277,7 +370,7 @@ public:
 	{
 		//if (game_is_authoritative())
 		//{
-		//	equipment_activate(equipment_index, 0);
+		//	equipment_activate(equipment_index, _equipment_activation_local);
 		//}
 	}
 	virtual bool update(int32 equipment_index) const override

@@ -37,6 +37,11 @@ enum e_equipment_type
 	k_equipment_type_count_halo_online,
 };
 
+static inline e_equipment_type operator++(e_equipment_type& value, int increment)
+{
+	return value = e_equipment_type((int)value + 1);
+}
+
 class c_equipment_type
 {
 public:
@@ -55,6 +60,7 @@ public:
 	virtual void apply_activation_message_local(int32 equipment_index) const {}
 	virtual void apply_deactivation_message_local(int32 equipment_index) const {}
 	virtual bool update(int32 equipment_index) const { return false; }
+	virtual void update(int32 equipment_index, int32 owner_unit_index) const {}
 	virtual void notify_child_took_shield_damage(int32 equipment_index) const {}
 	virtual bool can_be_thrown(int32 equipment_index) const { return false; }
 	virtual void handle_client_key_frame_request(int32 equipment_index) const {}

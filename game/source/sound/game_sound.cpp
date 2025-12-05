@@ -90,6 +90,13 @@ int32 __cdecl object_impulse_sound_new(int32 object_index, int32 definition_inde
 	return INVOKE(0x005DBBA0, object_impulse_sound_new, object_index, definition_index, node_index, position, forward, scale);
 }
 
+//.text:005DBC50 ; int32 __cdecl object_impulse_sound_new_internal(int32, int32, e_sound_spatialization_mode, const s_sound_attachment_data*, const s_sound_tracker*, real32, int32, const s_game_sound_deterministic_permutation*)
+
+int32 __cdecl object_unattached_impulse_sound_new(int32 object_index, int32 definition_index, const s_sound_location* location, real32 scale)
+{
+	return INVOKE(0x005DBD10, object_unattached_impulse_sound_new, object_index, definition_index, location, scale);
+}
+
 //.text:005DC410 ; void __cdecl scripted_looping_sound_set_alternate(int32, bool)
 //.text:005DC470 ; void __cdecl scripted_looping_sound_set_scale(int32, real32)
 //.text:005DC4D0 ; void __cdecl scripted_looping_sound_start(int32, int32, real32)

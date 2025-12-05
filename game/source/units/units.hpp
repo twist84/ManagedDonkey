@@ -420,6 +420,7 @@ extern bool __cdecl unit_get_aim_position(int32 unit_index, real_point3d* aim_po
 extern int32 __cdecl unit_get_aiming_unit_index(int32 unit_index);
 extern void __cdecl unit_get_aiming_vector(int32 unit_index, real_vector3d* aiming_vector);
 extern int16 __cdecl unit_get_all_seats(int32 unit_index, unit_seat_source* seat_array, int16 max_number_of_seats, bool allow_dead_vehicles);
+extern bool __cdecl unit_get_body_position(int32 unit_index, real_point3d* body_position);
 extern void __cdecl unit_get_camera_position(int32 unit_index, real_point3d* camera_position);
 extern int32 __cdecl unit_get_current_equipment(int32 unit_index, int32 slot_index);
 extern real32 __cdecl unit_get_field_of_view(int32 unit_index, real32 default_field_of_view, int16 zoom_level);

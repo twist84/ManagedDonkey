@@ -137,6 +137,11 @@ int32 c_animation_manager::get_state_name() const
 //.text:006DC850 ; 
 //.text:006DC880 ; 
 
+bool c_animation_manager::set_goal(string_id input_mode_name, string_id input_weapon_class_name, string_id input_weapon_type_name, string_id input_state_name, int32 flags, uns32 playback_flags, real32 playback_scale)
+{
+	return INVOKE_CLASS_MEMBER(0x006DE010, c_animation_manager, set_goal, input_mode_name, input_weapon_class_name, input_weapon_type_name, input_state_name, flags, playback_flags, playback_scale);
+}
+
 void c_animation_manager::set_state_position_to_last_frame()
 {
 	INVOKE_CLASS_MEMBER(0x006DE250, c_animation_manager, set_state_position_to_last_frame);

@@ -22,6 +22,7 @@ public:
 	const c_model_animation_graph* get_graph() const;
 	const c_animation_channel* get_state_channel() const;
 	int32 get_state_name() const;
+	bool set_goal(string_id input_mode_name, string_id input_weapon_class_name, string_id input_weapon_type_name, string_id input_state_name, int32 flags, uns32 playback_flags, real32 playback_scale);
 	void set_state_position_to_last_frame();
 	bool update_state_animation(void(__cdecl* callback)(const s_animation_event_data*, int32), int32 user_param, int32 orientation_count, real_orientation* original_orientations, real_orientation* current_orientations);
 	bool valid_graph() const;
