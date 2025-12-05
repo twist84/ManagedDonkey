@@ -20,8 +20,10 @@
 #include <math.h>
 
 HOOK_DECLARE_CALL(0x0053F212, unit_control); // player_submit_control
+HOOK_DECLARE(0x00B38AB0, unit_add_equipment_to_inventory);
 HOOK_DECLARE(0x00B3AAA0, unit_can_pickup_equipment);
 HOOK_DECLARE(0x00B409E0, unit_drop_current_equipment);
+HOOK_DECLARE(0x00B43C20, unit_get_current_equipment);
 HOOK_DECLARE(0x00B47080, unit_render_debug);
 HOOK_DECLARE(0x00B49F10, unit_update);
 
@@ -86,7 +88,47 @@ void __cdecl unit_active_camouflage_set_maximum(int32 unit_index, real32 maximum
 
 void __cdecl unit_add_equipment_to_inventory(int32 unit_index, int32 slot_index, int32 equipment_index)
 {
-	INVOKE(0x00B38AB0, unit_add_equipment_to_inventory, unit_index, slot_index, equipment_index);
+	//INVOKE(0x00B38AB0, unit_add_equipment_to_inventory, unit_index, slot_index, equipment_index);
+
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+	slot_index = 0;
+#endif
+
+	if (VALID_INDEX(slot_index, EQUIPMENT_SLOT_COUNT))
+	{
+		unit_datum* unit = UNIT_GET(unit_index);
+		const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+		
+		if (unit->unit.player_index != NONE)
+		{
+			player_training_notify_equipment_pickup(unit->unit.player_index);
+		}
+
+		ASSERT(unit->unit.equipment_object_indices[slot_index] == NONE);
+		ASSERT(equipment_definition_get_type(equipment->definition_index, 0) != _equipment_type_none);
+
+		if (equipment->object.physics_flags.test(_object_connected_to_physics_bit))
+		{
+			object_disconnect_from_physics(equipment_index);
+		}
+
+		if (equipment->object.parent_object_index != NONE)
+		{
+			object_detach(equipment_index);
+		}
+
+		item_in_unit_inventory(equipment_index, unit_index);
+		item_hide_inventory(equipment_index);
+		
+		unit->unit.equipment_object_indices[slot_index] = equipment_index;
+		unit->unit.equipment_pickup_time = game_time_get();
+
+		simulation_action_object_update(unit_index, _simulation_unit_update_equipment);
+		if (unit->unit.player_index != NONE)
+		{
+			equipment_handle_pickup(unit->unit.player_index, equipment_index);
+		}
+	}
 }
 
 bool __cdecl unit_add_grenade_to_inventory(int32 unit_index, int32 equipment_index)
@@ -260,7 +302,11 @@ void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index)
 {
 	//INVOKE(0x00B3FC50, unit_delete_current_equipment, unit_index, slot_index);
 
-	if (VALID_INDEX(slot_index, 4))
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+	slot_index = 0;
+#endif
+
+	if (VALID_INDEX(slot_index, EQUIPMENT_SLOT_COUNT))
 	{
 		unit_datum* unit = UNIT_GET(unit_index);
 		const int32 equipment_index = unit->unit.equipment_object_indices[slot_index];
@@ -297,7 +343,11 @@ void __cdecl unit_drop_current_equipment(int32 unit_index, int32 slot_index)
 {
 	//INVOKE(0x00B409E0, unit_drop_current_equipment, unit_index, slot_index);
 
-	if (VALID_INDEX(slot_index, 4))
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+	slot_index = 0;
+#endif
+
+	if (VALID_INDEX(slot_index, EQUIPMENT_SLOT_COUNT))
 	{
 		unit_datum* unit = UNIT_GET(unit_index);
 		const int32 equipment_index = unit->unit.equipment_object_indices[slot_index];
@@ -407,8 +457,12 @@ int32 __cdecl unit_get_current_equipment(int32 unit_index, int32 slot_index)
 {
 	//return INVOKE(0x00B43C20, unit_get_current_equipment, unit_index, slot_index);
 
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+	slot_index = 0;
+#endif
+
 	int32 equipment_index = NONE;
-	if (VALID_INDEX(slot_index, 4))
+	if (VALID_INDEX(slot_index, EQUIPMENT_SLOT_COUNT))
 	{
 		const unit_datum* unit = UNIT_GET(unit_index);
 		equipment_index = unit->unit.equipment_object_indices[slot_index];
@@ -710,11 +764,21 @@ bool __cdecl unit_update(int32 unit_index)
 		//unit_verify_vectors(unit_index, "unit-update-begin");
 
 		updated = unit_update_control(unit_index);
-		updated |= unit_update_weapons(unit_index);
-		updated |= unit_update_equipment(unit_index, 0);
-		updated |= unit_update_aiming(unit_index);
-		updated |= unit_update_seats(unit_index);
-		updated |= unit_update_damage(unit_index);
+		updated = unit_update_weapons(unit_index) || updated;
+
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+		int32 slot_index = 0;
+		updated = unit_update_equipment(unit_index, slot_index) || updated;
+#else
+		for (int32 slot_index = 0; slot_index < EQUIPMENT_SLOT_COUNT; slot_index++)
+		{
+			updated = unit_update_equipment(unit_index, slot_index) || updated;
+		}
+#endif
+
+		updated = unit_update_aiming(unit_index) || updated;
+		updated = unit_update_seats(unit_index) || updated;
+		updated = unit_update_damage(unit_index) || updated;
 		unit_dialogue_update(unit_index);
 		unit_update_team_index(unit_index);
 		unit_update_active_camouflage(unit_index);
@@ -765,18 +829,25 @@ bool __cdecl unit_update_equipment(int32 unit_index, int32 slot_index)
 {
 	//return INVOKE(0x00B4BA20, unit_update_equipment, unit_index, slot_index);
 
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+	slot_index = 0;
+#endif
+
 	bool awake = false;
 
-	const int32 equipment_index = unit_get_current_equipment(unit_index, slot_index);
-	if (equipment_index != NONE)
+	if (VALID_INDEX(slot_index, EQUIPMENT_SLOT_COUNT))
 	{
-		if (equipment_remaining_charges(equipment_index) || equipment_active_fraction(equipment_index) != 0.0f)
+		const int32 equipment_index = unit_get_current_equipment(unit_index, slot_index);
+		if (equipment_index != NONE)
 		{
-			equipment_update(equipment_index, unit_index);
-		}
-		else
-		{
-			unit_delete_current_equipment(unit_index, slot_index);
+			if (equipment_remaining_charges(equipment_index) || equipment_active_fraction(equipment_index) != 0.0f)
+			{
+				equipment_update(equipment_index, unit_index);
+			}
+			else
+			{
+				unit_delete_current_equipment(unit_index, slot_index);
+			}
 		}
 	}
 
@@ -877,7 +948,24 @@ bool __cdecl unit_update_weapons(int32 unit_index)
 
 bool __cdecl unit_use_current_equipment(int32 unit_index, int32 slot_index, bool network_predicted)
 {
-	return INVOKE(0x00B4CE90, unit_use_current_equipment, unit_index, slot_index, network_predicted);
+	//return INVOKE(0x00B4CE90, unit_use_current_equipment, unit_index, slot_index, network_predicted);
+
+#if defined(USE_FIRST_EQUIPMENT_SLOT_INDEX)
+	slot_index = 0;
+#endif
+
+	bool result = false;
+	if (VALID_INDEX(slot_index, EQUIPMENT_SLOT_COUNT))
+	{
+		unit_datum* unit = UNIT_GET(unit_index);
+		const int32 equipment_index = unit->unit.equipment_object_indices[0];
+		if (equipment_index != NONE)
+		{
+			//data_mine_insert_equipment_event("equipment use", unit_index, EQUIPMENT_GET(equipment_index)->definition_index, 1);
+			result = equipment_activate(equipment_index, unit_index, network_predicted);
+		}
+	}
+	return result;
 }
 
 void __cdecl sub_B4CF60(int32 unit_index, int32 equipment_definition_index)

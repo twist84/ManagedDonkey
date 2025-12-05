@@ -50,7 +50,11 @@ void __cdecl player_training_initialize_for_new_map()
 	INVOKE(0x00689BF0, player_training_initialize_for_new_map);
 }
 
-//.text:00689C90 ; void __cdecl player_training_notify_equipment_pickup(int32)
+void __cdecl player_training_notify_equipment_pickup(int32 player_index)
+{
+	INVOKE(0x00689C90, player_training_notify_equipment_pickup, player_index);
+}
+
 //.text:00689CD0 ; void __cdecl player_training_notify_grenade_pickup(int32)
 //.text:00689D10 ; void __cdecl player_training_notify_kill(int32, int32, uns8)
 //.text:00689E10 ; int32 __cdecl player_training_profile_data_get_completion_count(const s_player_training_profile_data*, int32)

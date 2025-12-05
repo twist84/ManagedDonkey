@@ -17,9 +17,19 @@ bool __cdecl dangerous_items_near_player(int32* out_item_index)
 //.text:00BABD10 ; void __cdecl item_detonate(int32)
 //.text:00BABE20 ; void __cdecl item_fix_position(int32)
 //.text:00BAC1B0 ; void __cdecl item_get_position_even_if_in_inventory(int32, real_point3d*)
-//.text:00BAC210 ; void __cdecl item_hide_inventory(int32)
+
+void __cdecl item_hide_inventory(int32 item_index)
+{
+	INVOKE(0x00BAC210, item_hide_inventory, item_index);
+}
+
 //.text:00BAC270 ; bool __cdecl item_in_hand(int32)
-//.text:00BAC2B0 ; void __cdecl item_set_inventory_ownership(int32, int32)
+
+void __cdecl item_in_unit_inventory(int32 item_index, int32 owner_unit_index)
+{
+	INVOKE(0x00BAC2B0, item_in_unit_inventory, item_index, owner_unit_index);
+}
+
 //.text:00BAC510 ; void __cdecl item_maintain_z_up(int32)
 //.text:00BAC690 ; void __cdecl item_mark_relevance(int32)
 //.text:00BAC6D0 ; void __cdecl item_move(int32)

@@ -24,4 +24,6 @@ struct item_datum
 static_assert(sizeof(item_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum));
 
 extern bool __cdecl dangerous_items_near_player(int32* out_item_index);
+extern void __cdecl item_hide_inventory(int32 item_index);
+extern void __cdecl item_in_unit_inventory(int32 item_index, int32 owner_unit_index);
 

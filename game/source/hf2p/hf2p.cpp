@@ -16,6 +16,8 @@
 
 #include <stdlib.h>
 
+//#define ALLOW_LOADING_CONSUMABLES_FROM_FILE
+
 REFERENCE_DECLARE(0x04FE67A0, int32, mainmenu_spartan_unit_index);
 REFERENCE_DECLARE(0x04FE67A4, int32, mainmenu_elite_unit_index);
 
@@ -506,7 +508,7 @@ void load_customization_from_file_hs(const char* filename)
 		{
 			string_terminate_at_first_delimiter(buffer, "\r\n");
 
-			// consumables
+#if defined(ALLOW_LOADING_CONSUMABLES_FROM_FILE)
 			{
 				int32 consumable_index = NONE;
 				char consumable_name[32]{};
@@ -516,6 +518,7 @@ void load_customization_from_file_hs(const char* filename)
 					continue;
 				}
 			}
+#endif
 
 			// colors
 			{
@@ -524,29 +527,31 @@ void load_customization_from_file_hs(const char* filename)
 				if (sscanf_s(buffer, "colors[%[^]]]: #%08X", color_type_name, sizeof(color_type_name), &rgb_value) && (*color_type_name && rgb_value != NONE))
 				{
 					int32 index = NONE;
-					if (csstricmp(color_type_name, "primary") == 0)
+					switch (string_hash(color_type_name))
 					{
+					case "primary"_hash:
 						index = _color_type_primary;
-					}
-					else if (csstricmp(color_type_name, "secondary") == 0)
-					{
+						break;
+					case "secondary"_hash:
 						index = _color_type_secondary;
-					}
-					else if (csstricmp(color_type_name, "visor") == 0)
-					{
+						break;
+					case "visor"_hash:
 						index = _color_type_visor;
-					}
-					else if (csstricmp(color_type_name, "lights") == 0)
-					{
+						break;
+					case "lights"_hash:
 						index = _color_type_lights;
+						break;
+					case "holo"_hash:
+						if (!cache_file_has_halo3_armors)
+						{
+							index = _color_type_holo;
+						}
+						break;
 					}
-					else if (csstricmp(color_type_name, "holo") == 0 && !cache_file_has_halo3_armors)
-					{
-						index = _color_type_holo;
-					}
-
 					if (VALID_INDEX(index, k_color_type_count))
+					{
 						armor_loadout.colors[index].value = rgb_value;
+					}
 
 					continue;
 				}
@@ -607,14 +612,13 @@ void load_customization_from_file_hs(const char* filename)
 
 			fprintf_s(customization_info_file, "Example usage:\n\n");
 
-			if (cache_file_has_halo3_armors)
-			{
-				fprintf_s(customization_info_file, "consumables[<consumable_index(0 - 3)>]: <consumable_name>\n");
-				fprintf_s(customization_info_file, "consumables[0]: empty\n");
-				fprintf_s(customization_info_file, "consumables[1]: empty\n");
-				fprintf_s(customization_info_file, "consumables[2]: empty\n");
-				fprintf_s(customization_info_file, "consumables[3]: empty\n\n");
-			}
+#if defined(ALLOW_LOADING_CONSUMABLES_FROM_FILE)
+			fprintf_s(customization_info_file, "consumables[<consumable_index(0 - 3)>]: <consumable_name>\n");
+			fprintf_s(customization_info_file, "consumables[0]: empty\n");
+			fprintf_s(customization_info_file, "consumables[1]: empty\n");
+			fprintf_s(customization_info_file, "consumables[2]: empty\n");
+			fprintf_s(customization_info_file, "consumables[3]: empty\n\n");
+#endif
 
 			fprintf_s(customization_info_file, "colors[<color_type_name>]: #RGB\n");
 			fprintf_s(customization_info_file, "colors[primary]: #FF0000\n");
@@ -623,7 +627,9 @@ void load_customization_from_file_hs(const char* filename)
 			fprintf_s(customization_info_file, "colors[lights]: #00F00F\n");
 
 			if (!cache_file_has_halo3_armors)
+			{
 				fprintf_s(customization_info_file, "colors[holo]: #0F0F00\n\n");
+			}
 
 			if (cache_file_has_halo3_armors)
 			{

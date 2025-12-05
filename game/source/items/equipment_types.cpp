@@ -13,43 +13,43 @@ class c_equipment_type_authoritative :
 	public c_equipment_type
 {
 public:
-	virtual void activate_local_predicted(int32 equipment_index) const override
+	void activate_local_predicted(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void deactivate_local_predicted(int32 equipment_index) const override
+	void deactivate_local_predicted(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void activate_local_authoritative(int32 equipment_index) const override
+	void activate_local_authoritative(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void deactivate_local_authoritative(int32 equipment_index) const override
+	void deactivate_local_authoritative(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void handle_activation_request(int32 equipment_index) const override
+	void handle_activation_request(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void handle_deactivation_request(int32 equipment_index) const override
+	void handle_deactivation_request(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void apply_activation_message_remote(int32 equipment_index) const override
+	void apply_activation_message_remote(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void apply_deactivation_message_remote(int32 equipment_index) const override
+	void apply_deactivation_message_remote(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void apply_activation_message_local(int32 equipment_index) const override
+	void apply_activation_message_local(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void apply_deactivation_message_local(int32 equipment_index) const override
+	void apply_deactivation_message_local(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
@@ -67,15 +67,15 @@ class c_equipment_type_spawner :
 	public c_equipment_type
 {
 public:
-	virtual void activate_local_predicted(int32 equipment_index) const override
+	void activate_local_predicted(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void activate_local_authoritative(int32 equipment_index) const override
+	void activate_local_authoritative(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual bool update(int32 equipment_index) const override
+	bool update(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 		return false;
@@ -95,7 +95,7 @@ public:
 		// $IMPLEMENT
 		return false;
 	}
-	virtual bool update(int32 equipment_index) const override
+	bool update(int32 equipment_index) const override
 	{
 		equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
 		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
@@ -213,7 +213,7 @@ class c_equipment_type_motion_tracker_noise :
 	public c_equipment_type
 {
 public:
-	virtual bool update(int32 equipment_index) const override
+	bool update(int32 equipment_index) const override
 	{
 		equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
 		const s_equipment_type_motion_tracker_noise* motion_tracker_noise = equipment_get_motion_tracker_noise_definition(equipment->definition_index);
@@ -235,32 +235,32 @@ class c_equipment_type_invincibility_mode :
 	public c_equipment_type_authoritative
 {
 public:
-	virtual void deactivate_local_predicted(int32 equipment_index) const override
+	void deactivate_local_predicted(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void deactivate_local_authoritative(int32 equipment_index) const override
+	void deactivate_local_authoritative(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void handle_deactivation_request(int32 equipment_index) const override
+	void handle_deactivation_request(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void apply_deactivation_message_remote(int32 equipment_index) const override
+	void apply_deactivation_message_remote(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void apply_deactivation_message_local(int32 equipment_index) const override
+	void apply_deactivation_message_local(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual bool update(int32 equipment_index) const override
+	bool update(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 		return false;
 	}
-	virtual void update(int32 equipment_index, int32 owner_unit_index) const override
+	void update(int32 equipment_index, int32 owner_unit_index) const override
 	{
 		equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
 		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
@@ -352,11 +352,11 @@ public:
 			}
 		}
 	}
-	virtual void activate(int32 equipment_index) const override
+	void activate(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
-	virtual void deactivate(int32 equipment_index) const override
+	void deactivate(int32 equipment_index) const override
 	{
 		// $IMPLEMENT
 	}
@@ -366,14 +366,15 @@ class c_equipment_type_treeoflife :
 	public c_equipment_type
 {
 public:
-	virtual void equipment_new(int32 equipment_index) const override
+	void equipment_new(int32 equipment_index) const override
 	{
-		//if (game_is_authoritative())
-		//{
-		//	equipment_activate(equipment_index, _equipment_activation_local);
-		//}
+		if (game_is_authoritative())
+		{
+			equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
+			equipment_activate(equipment_index, equipment->item.inventory_unit_index, false);
+		}
 	}
-	virtual bool update(int32 equipment_index) const override
+	bool update(int32 equipment_index) const override
 	{
 		bool updated = equipment_active_fraction(equipment_index) > 0.0f;
 		if (updated)

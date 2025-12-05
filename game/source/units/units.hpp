@@ -7,6 +7,9 @@
 #include "objects/target_tracking.hpp"
 #include "units/unit_definition.hpp"
 
+#define USE_FIRST_EQUIPMENT_SLOT_INDEX
+#define EQUIPMENT_SLOT_COUNT 4
+
 int32 const k_seat_acceleration_memory_length = 6;
 
 enum e_weapon_addition_method
@@ -214,8 +217,8 @@ struct _unit_datum
 	s_unit_weapon_set desired_weapon_set;
 	c_static_array<int32, 4> weapon_object_indices;
 	c_static_array<int32, 4> weapon_last_used_at_game_time;
-	c_static_array<int32, 4> equipment_object_indices;
-	c_static_array<int32, 4> active_equipment_object_indices;
+	c_static_array<int32, EQUIPMENT_SLOT_COUNT> equipment_object_indices;
+	c_static_array<int32, EQUIPMENT_SLOT_COUNT> active_equipment_object_indices;
 	int32 equipment_pickup_time;
 	int32 consumable_energy_level;
 	int32 consumable_energy_restored_game_time;

@@ -12,5 +12,6 @@ extern void __cdecl player_training_dispose();
 extern void __cdecl player_training_dispose_from_old_map();
 extern void __cdecl player_training_initialize();
 extern void __cdecl player_training_initialize_for_new_map();
+extern void __cdecl player_training_notify_equipment_pickup(int32 player_index);
 extern void __cdecl player_training_render_screen(int32 user_index);
 
