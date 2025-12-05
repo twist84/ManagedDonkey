@@ -214,7 +214,7 @@ void __cdecl hs_initialize()
 	g_hs_syntax_data = data_new_disconnected("script node", k_maximum_hs_syntax_nodes_per_scenario, sizeof(hs_syntax_node), 0, g_normal_allocation);
 	object_lists_initialize();
 	hs_runtime_initialize();
-	hs_initialize_for_new_map(false, true);
+	hs_initialize_for_new_map();
 }
 
 void __cdecl hs_initialize_for_new_map()
