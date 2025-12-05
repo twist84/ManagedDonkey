@@ -922,10 +922,12 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout_sub
 	//return INVOKE(0x005366A0, player_get_weapon_loadout_sub_5366A0, player);
 
 	s_s3d_player_weapon_configuration_loadout* weapon_loadout = &player->configuration.host.weapon.loadouts[player->weapon_loadout_index];
+
+	int32 slot_index = 0;
+	weapon_loadout->consumables[slot_index] = 0;
+
 	if (player->unit_index != NONE)
 	{
-		int32 slot_index = 0;
-
 		int32 current_equipment_index = unit_get_current_equipment(player->unit_index, slot_index);
 		if (current_equipment_index != NONE)
 		{
@@ -937,6 +939,7 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout_sub
 			}
 		}
 	}
+
 	return weapon_loadout;
 }
 // called in `c_chud_update_user_data` constructor
