@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "camera/observer.hpp"
 
 #define REMOTE_COMMAND_HEADER_TAG "RCN"

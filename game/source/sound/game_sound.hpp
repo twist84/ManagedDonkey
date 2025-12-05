@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_sound_location;
+
 struct game_looping_sound_datum :
 	s_datum_header
 {
@@ -55,6 +57,7 @@ extern void __cdecl game_sound_initialize_for_new_structure_bsp(uns32 activating
 extern void __cdecl game_sound_process_update_messages();
 extern void __cdecl game_sound_update(real32 game_seconds_elapsed);
 extern int32 __cdecl object_impulse_sound_new(int32 object_index, int32 definition_index, int16 node_index, const real_point3d* position, const real_vector3d* forward, real32 scale);
+extern int32 __cdecl object_unattached_impulse_sound_new(int32 object_index, int32 definition_index, const s_sound_location* location, real32 scale);
 extern void __cdecl scripted_looping_sound_start_with_effect(int32 definition_index, int32 source_object_index, real32 scale, int32 playback_label);
 extern void __cdecl scripting_looping_sound_spam();
 extern int32 __cdecl unspatialized_impulse_sound_new(int32 definition_index, real32 scale);

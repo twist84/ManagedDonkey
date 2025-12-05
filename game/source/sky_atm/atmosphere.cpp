@@ -1,5 +1,7 @@
 #include "sky_atm/atmosphere.hpp"
 
+#include "cseries/cseries.hpp"
+
 REFERENCE_DECLARE(0x018BE9DC, int32, c_atmosphere_fog_interface::m_last_custom_index);
 REFERENCE_DECLARE(0x018BE9E0, bool, c_atmosphere_fog_interface::m_use_local_pvs);
 REFERENCE_DECLARE(0x02497E08, s_weighted_atmosphere_parameters, c_atmosphere_fog_interface::m_default_parameters);

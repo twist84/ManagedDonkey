@@ -1,5 +1,6 @@
 #include "render/render_visibility_collection.hpp"
 
+#include "cseries/location.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_visibility.hpp"
 #include "visibility/visibility_collection.hpp"

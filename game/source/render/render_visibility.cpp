@@ -1,5 +1,6 @@
 #include "render/render_visibility.hpp"
 
+#include "cseries/cseries.hpp"
 #include "visibility/visibility_collection.hpp"
 
 void __cdecl render_invisible_objects_iterate(void(*function)(int32))

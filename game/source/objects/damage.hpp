@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
 #include "game/materials.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"

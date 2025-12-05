@@ -1189,23 +1189,6 @@ protected:
 	t_storage_type m_enum_value;
 };
 
-// $TODO find an actual home
-struct s_cluster_reference
-{
-	int8 bsp_index;
-	uns8 cluster_index;
-};
-static_assert(sizeof(s_cluster_reference) == 0x2);
-
-// $TODO find an actual home
-struct s_location
-{
-	s_cluster_reference cluster_reference;
-	//uns16 leaf_index;
-};
-static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
-//static_assert(sizeof(s_location) == 0x4);
-
 template<int32 k_maximum_count>
 class c_static_string
 {

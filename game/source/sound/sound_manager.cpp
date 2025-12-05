@@ -6,6 +6,7 @@
 #include "memory/module.hpp"
 #include "render/render_debug.hpp"
 #include "simulation/simulation.hpp"
+#include "sound/game_sound_definitions.hpp"
 #include "sound/sound_classes.hpp"
 
 #include <string.h>

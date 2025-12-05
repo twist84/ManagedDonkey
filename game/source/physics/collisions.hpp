@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
 #include "game/materials.hpp"
 #include "physics/collision_constants.hpp"
 #include "physics/collision_bsp_references.hpp"

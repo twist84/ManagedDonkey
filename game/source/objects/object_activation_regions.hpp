@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
 
 struct s_object_activation_region :
 	s_datum_header

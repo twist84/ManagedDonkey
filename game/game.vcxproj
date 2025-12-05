@@ -775,6 +775,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\simulation\simulation_world.cpp" />
     <ClCompile Include="source\sky_atm\atmosphere.cpp" />
     <ClCompile Include="source\sound\game_sound.cpp" />
+    <ClCompile Include="source\sound\game_sound_definitions.cpp" />
     <ClCompile Include="source\sound\game_sound_deterministic.cpp" />
     <ClCompile Include="source\sound\game_sound_player_effects.cpp" />
     <ClCompile Include="source\sound\sound_classes.cpp" />
@@ -844,6 +845,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="common\havok\hkWorld.hpp" />
     <ClInclude Include="source\ai\sector_geometry.hpp" />
     <ClInclude Include="source\animations\animation_id.hpp" />
+    <ClInclude Include="source\cseries\location.hpp" />
     <ClInclude Include="source\game\player_scipting.hpp" />
     <ClInclude Include="source\ai\activities.hpp" />
     <ClInclude Include="source\ai\actor_firing_position.hpp" />
@@ -1599,6 +1601,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\sky_atm\atmosphere.hpp" />
     <ClInclude Include="source\sound\game_audibility.hpp" />
     <ClInclude Include="source\sound\game_sound.hpp" />
+    <ClInclude Include="source\sound\game_sound_definitions.hpp" />
     <ClInclude Include="source\sound\game_sound_deterministic.hpp" />
     <ClInclude Include="source\sound\game_sound_player_effects.hpp" />
     <ClInclude Include="source\sound\sound_acoustics_definitions.hpp" />

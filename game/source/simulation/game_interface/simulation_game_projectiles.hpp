@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
 #include "simulation/game_interface/simulation_game_interface.hpp"
 
 struct s_simulation_projectile_attached_event_data

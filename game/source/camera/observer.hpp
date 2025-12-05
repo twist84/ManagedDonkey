@@ -1,6 +1,7 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
+#include "math/real_math.hpp"
 
 #define OBSERVER_SIGNATURE 'rad!'
 

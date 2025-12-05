@@ -1,13 +1,14 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 class c_bitstream;
 struct player_action;
+struct s_location;
 struct s_simulation_camera_update;
 struct simulation_machine_update;
 struct simulation_player_update;
 struct unit_control_data;
+union real_point3d;
+union real_rectangle3d;
 
 extern bool __cdecl player_action_compare(const player_action* action_a, player_action* action_b);
 extern bool __cdecl player_action_decode(c_bitstream* packet, player_action* action);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
 
 class c_particle_system :
 	public s_datum_header

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
+#include "math/real_math.hpp"
 
 struct s_weighted_atmosphere_parameters
 {

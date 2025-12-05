@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/location.hpp"
 #include "game/aim_assist.hpp"
 #include "game/game_engine_player_traits.hpp"
 #include "memory/data.hpp"
