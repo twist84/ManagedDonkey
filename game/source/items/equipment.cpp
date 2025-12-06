@@ -633,6 +633,7 @@ bool __cdecl equipment_update(int32 equipment_index)
 			}
 		}
 #else
+		bool waiting_to_self_destruct = false;
 		int32 type_index = 0;
 		for (e_equipment_type equipment_type = equipment_definition_get_type(equipment->definition_index, 0);
 			equipment_type != _equipment_type_none;
@@ -665,7 +666,6 @@ bool __cdecl equipment_update(int32 equipment_index)
 			break;
 			case _equipment_type_proximity_mine:
 			{
-				bool waiting_to_self_destruct = false;
 				if (equipment_is_active(equipment_index) && !game_is_predicted())
 				{
 					const s_equipment_type_proximity_mine* proximity_mine = equipment_get_proximity_mine_definition(equipment->definition_index);
@@ -770,7 +770,6 @@ bool __cdecl equipment_update(int32 equipment_index)
 						}
 					}
 				}
-				updated = waiting_to_self_destruct || updated;
 			}
 			break;
 			case _equipment_type_treeoflife:
@@ -804,6 +803,7 @@ bool __cdecl equipment_update(int32 equipment_index)
 				break;
 			}
 		}
+		updated = waiting_to_self_destruct || updated;
 #endif
 	}
 
