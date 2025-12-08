@@ -124,9 +124,9 @@ struct _equipment_definition
 	s_tag_reference activate_effect;
 	s_tag_reference deactivate_sound;
 
-	c_string_id activation_animation;
-	c_string_id active_animation;
-	c_string_id deactivate_animation;
+	string_id activation_animation;
+	string_id active_animation;
+	string_id deactivate_animation;
 
 	void update_reference_names();
 };

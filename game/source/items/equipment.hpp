@@ -42,7 +42,6 @@ extern bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_i
 extern real32 __cdecl equipment_active_fraction(int32 equipment_index);
 extern string_id __cdecl equipment_animation_get_desired_idle(int32 equipment_index);
 extern bool __cdecl equipment_animation_is_interruptable(int32 equipment_index, int32 animation_state, int32 desired_state);
-extern bool __cdecl equipment_begin_activation_animation(int32 equipment_index);
 extern bool __cdecl equipment_begin_animation_state(int32 equipment_index, string_id state_name, int32 goal_flags, uns32 playback_flags);
 extern void __cdecl equipment_calculate_noise_maker_blip(int32 equipment_index, uns32* seed, int32 blip_index, real_point2d* local_position);
 extern int32 __cdecl equipment_calculate_noise_maker_blip_count(int32 equipment_index);

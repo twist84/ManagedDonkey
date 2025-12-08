@@ -209,10 +209,7 @@ bool __cdecl equipment_animation_is_interruptable(int32 equipment_index, int32 a
 	return interruptable;
 }
 
-bool __cdecl equipment_begin_activation_animation(int32 equipment_index)
-{
-	return INVOKE(0x00B87EC0, equipment_begin_activation_animation, equipment_index);
-}
+//.text:00B87EC0 ; bool __cdecl equipment_begin_activation_animation(int32)
 
 bool __cdecl equipment_begin_animation_state(int32 equipment_index, string_id state_name, int32 goal_flags, uns32 playback_flags)
 {
@@ -258,6 +255,69 @@ int32 __cdecl equipment_calculate_noise_maker_blip_count(int32 equipment_index)
 void __cdecl equipment_calculate_spawn_location(int32 owner_unit_index, real32 spawn_radius_offset, real32 spawn_z_offset, real32 spawn_area_radius, int16 type, real_point3d* result_position, real_vector3d* result_vector)
 {
 	INVOKE(0x00B881A0, equipment_calculate_spawn_location, owner_unit_index, spawn_radius_offset, spawn_z_offset, spawn_area_radius, type, result_position, result_vector);
+
+#if 0
+	if (spawn_area_radius)
+	{
+		spawn_area_radius = 0.1f;
+	}
+
+	real_point3d position{};
+	s_equipment_type_spawner::e_spawn_type spawn_type = (s_equipment_type_spawner::e_spawn_type)type;
+	if (spawn_type == s_equipment_type_spawner::_spawn_type_along_aiming_vector || 
+		spawn_type == s_equipment_type_spawner::_spawn_type_camera_pos_z_plane)
+	{
+		unit_get_camera_position(owner_unit_index, &position);
+	}
+	else
+	{
+		object_get_origin(owner_unit_index, &position);
+	}
+
+	real_vector3d aiming_vector{};
+	unit_get_aiming_vector(owner_unit_index, &aiming_vector);
+	if (spawn_type == s_equipment_type_spawner::_spawn_type_camera_pos_z_plane ||
+		spawn_type == s_equipment_type_spawner::_spawn_type_foot_pos_z_plane)
+	{
+		aiming_vector.k = 0.0f;
+	}
+	normalize3d_with_default(&aiming_vector, global_forward3d);
+
+	real_point3d effect_position{};
+	point_from_line3d(&position, &aiming_vector, spawn_radius_offset, &effect_position);
+
+	{
+		real_point3d unit_center_of_mass{};
+		object_get_center_of_mass(owner_unit_index, &unit_center_of_mass);
+
+		const int32 k_maximum_iterations_count = 10;
+		real_point3d fixed_position{};
+		if (!calculate_sphere_fixed_position(
+			spawn_area_radius,
+			spawn_area_radius * 3.0f,
+			_havok_group_item,
+			k_maximum_iterations_count,
+			NONE,
+			&effect_position,
+			&unit_center_of_mass,
+			owner_unit_index,
+			&fixed_position,
+			true))
+		{
+			fixed_position = unit_center_of_mass;
+		}
+
+		if (result_position)
+		{
+			*result_position = fixed_position;
+		}
+
+		if (result_vector)
+		{
+			*result_vector = aiming_vector;
+		}
+	}
+#endif
 }
 
 bool __cdecl equipment_can_be_thrown(int32 equipment_index)
@@ -364,7 +424,7 @@ real32 __cdecl equipment_get_invincible_fraction(int32 equipment_index)
 }
 
 //.text:00B88B70 ; bool __cdecl sub_B88B70(int32, real32*)
-//.text:00B88C00 ; int32 __cdecl sub_B88C00(int32, int32)
+//.text:00B88C00 ; int32 __cdecl equipment_get_unit_slot_index(int32, int32)
 
 void __cdecl equipment_handle_pickup(int32 player_index, int32 equipment_index)
 {
@@ -374,7 +434,7 @@ void __cdecl equipment_handle_pickup(int32 player_index, int32 equipment_index)
 	equipment_definition_handle_pickup(player_index, equipment->definition_index);
 }
 
-//.text:00B88C80 ; equipment_has_remaining_use_duration?
+//.text:00B88C80 ; bool __cdecl equipment_has_remaining_use_duration(int32)
 
 bool __cdecl equipment_is_active(int32 equipment_index)
 {
@@ -436,6 +496,16 @@ bool __cdecl equipment_new(int32 equipment_index, object_placement_data* data, b
 		constexpr int32 goal_flags = FLAG(1) | FLAG(7); // FLAG(_allow_default_state) | FLAG(_ignore_weapon);
 		equipment_begin_animation_state(equipment_index, desired_state, goal_flags, k_animation_looping_playback_default_flags);
 	}
+
+#if defined(REACH_STYLE_EQUIPMENT)
+	for (e_equipment_type equipment_type_index = _equipment_type_super_shield; equipment_type_index < k_equipment_type_count; equipment_type_index++)
+	{
+		if (equipment_definition_has_type(equipment->definition_index, equipment_type_index))
+		{
+			g_equipment_types[equipment_type_index]->equipment_new(equipment_index);
+		}
+	}
+#endif
 
 	return true;
 }

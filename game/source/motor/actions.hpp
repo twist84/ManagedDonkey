@@ -473,7 +473,8 @@ static_assert(sizeof(action_request_equipment) == 0x44);
 
 struct action_request_equipment_animation
 {
-	byte __data[0x44];
+	int32 slot_index;
+	byte __data[0x44 - 0x4];
 };
 static_assert(sizeof(action_request_equipment_animation) == 0x44);
 
