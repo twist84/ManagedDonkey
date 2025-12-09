@@ -38,22 +38,28 @@ public:
 	c_url_string(const char* url, e_cachable_type cachable);
 	c_url_string();
 
-	const char* get_string() const;
+	void clear();
+
 	e_cachable_type get_cachable() const;
 	e_network_http_request_queue_type get_request_type() const;
 	e_online_lsp_service_type get_service_type() const;
+	const char* get_string() const;
 	int32 get_untracked_cache_lifetime_seconds() const;
+	c_static_string<256>* get_url_string();
+
+	bool is_empty() const;
+	bool is_equal(const c_url_string*) const;
 
 	void set(const c_url_string* other);
 	void set_cachable(e_cachable_type cachable);
-	void set_request_type(e_network_http_request_queue_type queue_type);
-	void set_service_type(e_online_lsp_service_type service_type);
+	void set_request_type(e_network_http_request_queue_type value);
+	void set_service_type(e_online_lsp_service_type value);
+	void set_untracked_cache_lifetime_seconds(int32 value);
 
-	void operator=(const c_url_string* other) { set(other); }
-
-	c_static_string<256> m_string;
+private:
+	c_static_string<256> m_url_string;
 	e_online_lsp_service_type m_service_type;
-	e_cachable_type m_cachable;
+	e_cachable_type m_cachable_type;
 	int32 m_untracked_cache_lifetime_seconds;
 	e_network_http_request_queue_type m_request_type;
 };
@@ -86,7 +92,7 @@ extern void __cdecl online_url_initialize();
 extern void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, uns64 xuid, uns32 consumable_id);
 extern void __cdecl online_url_make_bnet_consume_complete(c_url_string* url, uns64 xuid, uns32 consumable_id);
 extern void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, uns64 xuid, int32 game_region, int32 profile_region, bool extras_portal_debug);
-extern void __cdecl online_url_make_cache_key(const c_url_string* url, s_network_storage_cache_key* cache_key);
+extern void __cdecl online_url_make_cache_key(const c_url_string* url, s_network_storage_cache_key* out_cache_key);
 extern void __cdecl online_url_make_matchmaking_banhammer_message(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_descriptions(c_url_string* url);
 extern void __cdecl online_url_make_matchmaking_game_variant(c_url_string* url, uns16 hopper_id, const char* variant_name);
