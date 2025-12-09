@@ -2979,6 +2979,11 @@ hs_syntax_node* __cdecl hs_syntax_get(int32 index)
 {
 	//return INVOKE(0x00598A10, hs_syntax_get, index);
 
+	if (!VALID_INDEX(DATUM_INDEX_TO_ABSOLUTE_INDEX(index), g_hs_syntax_data->count))
+	{
+		printf("");
+	}
+
 	return (struct hs_syntax_node*)datum_get(g_hs_syntax_data, index);
 }
 

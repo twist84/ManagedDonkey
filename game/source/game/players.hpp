@@ -26,6 +26,7 @@ enum e_bungienet_user
 enum e_player_appearance_flags
 {
 	_female_voice_bit = 0,
+
 	k_number_of_player_appearance_flags
 };
 typedef c_flags_no_init<e_player_appearance_flags, uns8, k_number_of_player_appearance_flags> c_player_appearance_flags;
@@ -349,9 +350,9 @@ struct player_datum :
 	int32 weapon_loadout_index;
 
 	// used in `players_update_after_game`
-	uns8 melee_recovery_ticks;
-	uns8 melee_soft_recovery_ticks;
-	uns8 grenade_suppression_timer;
+	int8 sword_exploit_timer;
+	int8 melee_suppression_timer;
+	int8 grenade_suppression_timer;
 
 	bool sprinting;
 	bool crouching;
@@ -370,7 +371,7 @@ struct player_datum :
 		uns16 __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
 	};
 
-	real_vector3d position;
+	real_point3d last_soft_ceiling_update_position;
 
 	s_player_configuration configuration;
 	s_player_configuration desired_configuration;
@@ -534,8 +535,8 @@ static_assert(0x0048 == OFFSETOF(player_datum, outside_of_world_timer));
 static_assert(0x0049 == OFFSETOF(player_datum, next_spawn_control_context));
 static_assert(0x004C == OFFSETOF(player_datum, armor_loadout_index));
 static_assert(0x0050 == OFFSETOF(player_datum, weapon_loadout_index));
-static_assert(0x0054 == OFFSETOF(player_datum, melee_recovery_ticks));
-static_assert(0x0055 == OFFSETOF(player_datum, melee_soft_recovery_ticks));
+static_assert(0x0054 == OFFSETOF(player_datum, sword_exploit_timer));
+static_assert(0x0055 == OFFSETOF(player_datum, melee_suppression_timer));
 static_assert(0x0056 == OFFSETOF(player_datum, grenade_suppression_timer));
 static_assert(0x0057 == OFFSETOF(player_datum, sprinting));
 static_assert(0x0058 == OFFSETOF(player_datum, crouching));
@@ -547,7 +548,7 @@ static_assert(0x005E == OFFSETOF(player_datum, __unknown5E));
 static_assert(0x005F == OFFSETOF(player_datum, __unknown5F));
 static_assert(0x0060 == OFFSETOF(player_datum, __unknown60));
 static_assert(0x0062 == OFFSETOF(player_datum, __unknown62));
-static_assert(0x0064 == OFFSETOF(player_datum, position));
+static_assert(0x0064 == OFFSETOF(player_datum, last_soft_ceiling_update_position));
 static_assert(0x0070 == OFFSETOF(player_datum, configuration));
 static_assert(0x1690 == OFFSETOF(player_datum, desired_configuration));
 static_assert(0x2CB0 == OFFSETOF(player_datum, single_player_respawn_timer));

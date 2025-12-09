@@ -918,7 +918,7 @@ void __cdecl hs_object_orient(int32 object_index, const real_point3d* position, 
 				unit->unit.desired_facing_vector = *forward;
 				unit->unit.desired_aiming_vector = *forward;
 				unit->unit.desired_looking_vector = *forward;
-				simulation_action_object_update(object_index, _simulation_unit_update_desired_aiming_vector);
+				simulation_action_object_update(object_index, _simulation_unit_update_desired_aiming_vector_bit);
 			}
 
 			int32 player_index = player_index_from_unit_index(object_index);

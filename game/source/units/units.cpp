@@ -123,7 +123,7 @@ void __cdecl unit_add_equipment_to_inventory(int32 unit_index, int32 slot_index,
 		unit->unit.equipment_object_indices[slot_index] = equipment_index;
 		unit->unit.equipment_pickup_time = game_time_get();
 
-		simulation_action_object_update(unit_index, _simulation_unit_update_equipment);
+		simulation_action_object_update(unit_index, _simulation_unit_update_equipment_bit);
 		if (unit->unit.player_index != NONE)
 		{
 			equipment_handle_pickup(unit->unit.player_index, equipment_index);
@@ -316,7 +316,7 @@ void __cdecl unit_delete_current_equipment(int32 unit_index, int32 slot_index)
 
 			unit->unit.equipment_object_indices[slot_index] = NONE;
 			unit->unit.active_equipment_object_indices[slot_index] = NONE;
-			simulation_action_object_update(unit_index, _simulation_unit_update_equipment);
+			simulation_action_object_update(unit_index, _simulation_unit_update_equipment_bit);
 
 			if (unit->unit.actor_index != NONE)
 			{
@@ -365,7 +365,7 @@ void __cdecl unit_drop_current_equipment(int32 unit_index, int32 slot_index)
 
 				unit->unit.equipment_object_indices[slot_index] = NONE;
 				unit->unit.active_equipment_object_indices[slot_index] = NONE;
-				simulation_action_object_update(unit_index, _simulation_unit_update_equipment);
+				simulation_action_object_update(unit_index, _simulation_unit_update_equipment_bit);
 			}
 			else
 			{
@@ -704,7 +704,11 @@ void __cdecl unit_render_debug_indicator(int32 unit_index, const real_argb_color
 //.text:00B482C0 ; void __cdecl unit_seat_try_closing(int32 unit_index, int32 seat_index, bool immediate, bool start_only, bool testing_early)
 //.text:00B48380 ; void __cdecl unit_seat_try_opening(int32 unit_index, int32 seat_index, bool immediate, bool start_only, bool testing_late)
 //.text:00B48440 ; 
-//.text:00B484D0 ; void __cdecl unit_set_actively_controlled(int32 unit_index, bool actively_controlled)
+
+void __cdecl unit_set_actively_controlled(int32 unit_index, bool actively_controlled)
+{
+	INVOKE(0x00B484D0, unit_set_actively_controlled, unit_index, actively_controlled);
+}
 
 void __cdecl unit_set_aiming_vectors(int32 unit_index, const real_vector3d* aiming_vector, const real_vector3d* looking_vector)
 {

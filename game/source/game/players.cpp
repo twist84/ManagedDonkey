@@ -581,7 +581,7 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 			{
 				const object_datum* object = object_get(object_indices[index]);
 				e_object_type object_type = object->object.object_identifier.get_type();
-				
+
 				uns32 local_exclude_type_mask = _object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature;
 				static_assert(0x1440 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
 
@@ -626,7 +626,7 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 							{
 								e_object_type child_object_type = child_object->object.object_identifier.get_type();
 								bool consider_child = TEST_BIT(local_exclude_type_mask, child_object_type);
-								if (!consider_child && 
+								if (!consider_child &&
 									(!examine_children || point_in_sphere(&child_object->object.bounding_sphere_center, &unit->object.bounding_sphere_center, search_radius + child_object->object.bounding_sphere_radius)))
 								{
 									child_object = object_get(child_object_index);
@@ -821,7 +821,7 @@ void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing)
 	//INVOKE(0x0053C8A0, player_set_facing, player_index, facing);
 
 	const player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
-	if (game_is_authoritative())
+		if (game_is_authoritative())
 	{
 		if (player->unit_index != NONE)
 		{
@@ -829,12 +829,12 @@ void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing)
 			unit->unit.desired_facing_vector = *facing;
 			unit->unit.desired_aiming_vector = *facing;
 			unit->unit.desired_looking_vector = *facing;
-	
-			simulation_action_object_update(player->unit_index, _simulation_unit_update_desired_aiming_vector);
+
+			simulation_action_object_update(player->unit_index, _simulation_unit_update_desired_aiming_vector_bit);
 		}
-	
+
 	}
-	
+
 	int32 input_user_index = player_mapping_get_input_user(player_index);
 	if (input_user_index != NONE)
 	{
@@ -845,9 +845,98 @@ void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing)
 //.text:0053C980 ; 
 //.text:0053CA10 ; 
 
+HOOK_DECLARE(0x0053CA80, player_set_unit_index);
+
 void __cdecl player_set_unit_index(int32 player_index, int32 unit_index)
 {
-	INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);
+	//INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);
+	HOOK_INVOKE(, player_set_unit_index, player_index, unit_index);
+
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+	if (player->unit_index != NONE)
+	{
+		unit_datum* unit = UNIT_GET(player->unit_index);
+		printf("");
+	}
+
+#if 0
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+	if (player->unit_index != unit_index)
+	{
+		if (player->unit_index != NONE)
+		{
+			unit_datum* old_unit = UNIT_GET(player->unit_index);
+
+			player_mapping_set_player_unit(player_index, NONE);
+			old_unit->unit.player_index = NONE;
+			old_unit->unit.last_player_index = player_index;
+
+			old_unit->unit.consumable_energy_level = 1;
+			old_unit->unit.consumable_energy_restored_game_time = NONE;
+
+			simulation_action_object_update(player->unit_index, _simulation_unit_update_control_bit);
+			unit_set_actively_controlled(player->unit_index, false);
+
+			player->unit_index = NONE;
+		}
+
+		player->latched_action_flags = 0;
+		player->momentum_timer = 0;
+		player->momemtum_unknown2CE6 = 0;
+		player->momentum_decay_timer = 0;
+		player->momentum_falloff_timer = 0;
+		player->momemtum_suppressed = false;
+		player->sprinting = false;
+		player->crouching = false;
+		player->shooting_left = false;
+		player->shooting_right = false;
+		player->__unknown5E = false;
+		player->__unknown5F = false;
+		player->__unknown60 = 0;
+		player->magnification_level = NONE;
+		player->latched_control_flags = 0;
+		player->__unknown62 = 0;
+
+		set_real_point3d(&player->last_soft_ceiling_update_position,
+			2.0f * 32768.0f,
+			2.0f * 32768.0f,
+			2.0f * 32768.0f);
+
+		if (unit_index != NONE)
+		{
+			unit_datum* new_unit = UNIT_GET(unit_index);
+			ASSERT(new_unit->unit.player_index == NONE);
+
+			new_unit->unit.player_index = player_index;
+			new_unit->unit.last_player_index = NONE;
+
+			simulation_action_object_update(player->unit_index, _simulation_unit_update_control_bit);
+			unit_set_actively_controlled(player->unit_index, true);
+
+			if (player->dead_unit_index != NONE && player->dead_unit_index != unit_index)
+			{
+				object_adjust_garbage_timer(player->dead_unit_index, 0);
+			}
+			player->dead_unit_index = NONE;
+
+			player_mapping_set_player_unit(player_index, unit_index);
+
+			//unit_dialogue_setup(unit_index, player->configuration.client.appearance.flags.test(_female_voice_bit));
+
+			if (current_game_engine())
+			{
+				new_unit->object.shield_vitality = (real32)player->multiplayer.player_traits.get_shield_vitality_traits()->get_shield_multiplier();
+			}
+
+			if (game_is_multiplayer())
+			{
+				const uns8 k_supression_ticks = 2;
+				player->melee_suppression_timer = k_supression_ticks;
+				player->grenade_suppression_timer = k_supression_ticks;
+			}
+		}
+	}
+#endif
 }
 
 bool __cdecl player_should_auto_pickup_weapon(int32 player_index, int32 weapon_index)
@@ -947,9 +1036,9 @@ void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 sour
 #if 1
 	INVOKE(0x0053FB80, player_teleport_internal_postprocess, player_index, source_unit_index, play_teleport_effect);
 #else
-	player_datum *player = DATUM_GET(player_data, player_datum, player_index);
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
 	object_set_velocities(object_get_ultimate_parent(player->unit_index), global_zero_vector3d, global_zero_vector3d);
-	
+
 	{
 		c_player_output_user_iterator iterator;
 		iterator.begin_player(player_index);
@@ -958,7 +1047,7 @@ void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 sour
 			chud_motion_sensor_invalidate(iterator.get_user_index());
 		}
 	}
-	
+
 	if (source_unit_index != NONE)
 	{
 		real_vector3d forward = UNIT_GET(source_unit_index)->object.forward;
@@ -978,7 +1067,7 @@ void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 sour
 			object_set_velocities(player->unit_index, &source_unit_local_linear_velocity, NULL);
 		}
 	}
-	
+
 	if (play_teleport_effect)
 	{
 		player->flags |= FLAG(_player_play_coop_spawn_effect_bit);

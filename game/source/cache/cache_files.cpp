@@ -582,8 +582,8 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<uns32>& resourc
 				continue;
 			}
 
-			resource_blocks[resource_count] = resource->resource_data;
 			s_cache_file_tag_resource_data* resource_data = resource->resource_data;
+			resource_blocks[resource_count] = resource_data;
 
 			uns8 flags = resource_data->file_location.flags.get_unsafe();
 

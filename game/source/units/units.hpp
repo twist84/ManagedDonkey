@@ -173,7 +173,7 @@ struct _unit_datum
 	uns32 flags;
 	int32 team;
 	int32 player_index;
-	int32 last_weak_player_index;
+	int32 last_player_index;
 	int32 game_time_at_last_unit_effect;
 	uns32 unit_control_flags;
 	int32 desired_mode;
@@ -433,6 +433,7 @@ extern bool __cdecl unit_has_weapon_definition_index(int32 unit_index, int32 wea
 extern int32 __cdecl unit_inventory_get_weapon(int32 unit_index, int16 inventory_index);
 extern void __cdecl unit_render_debug(int32 unit_index);
 extern void __cdecl unit_render_debug_indicator(int32 unit_index, const real_argb_color* color);
+extern void __cdecl unit_set_actively_controlled(int32 unit_index, bool actively_controlled);
 extern void __cdecl unit_set_aiming_vectors(int32 unit_index, const real_vector3d* aiming_vector, const real_vector3d* looking_vector);
 extern bool __cdecl unit_try_to_drop_weapon(int32 unit_index, bool drop_secondary);
 extern bool __cdecl unit_unsuspecting(int32 unit_index, const real_point3d* attacker_position, const real_vector3d* attacker_direction);
