@@ -253,23 +253,21 @@ void __cdecl main_activate_designer_zone(int32 designer_zone_index)
 
 void __cdecl main_cheat_drop_tag(int32 tag_index, int32 variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
 {
-	if (tag_index == NONE)
+	if (tag_index != NONE)
 	{
-		return;
-	}
+		cheat_drop_tag_index = tag_index;
+		cheat_drop_variant_name = variant_name;
+		main_globals.drop_cheat_tag = true;
+		cheat_drop_permutation_count = 0;
 
-	cheat_drop_tag_index = tag_index;
-	cheat_drop_variant_name = variant_name;
-	main_globals.drop_cheat_tag = true;
-	cheat_drop_permutation_count = 0;
-
-	if (permutations)
-	{
-		for (int32 i = 0; i < permutation_count; i++)
+		if (permutations)
 		{
-			cheat_drop_permutations[i].region_name = permutations[i].region_name;
-			cheat_drop_permutations[i].permutation_name = permutations[i].permutation_name;
-			cheat_drop_permutation_count++;
+			for (int32 permutation_index = 0; permutation_index < permutation_count; permutation_index++)
+			{
+				cheat_drop_permutations[permutation_index].region_name = permutations[permutation_index].region_name;
+				cheat_drop_permutations[permutation_index].permutation_name = permutations[permutation_index].permutation_name;
+				cheat_drop_permutation_count++;
+			}
 		}
 	}
 }
@@ -489,7 +487,9 @@ bool __cdecl main_events_pending()
 	if (game_in_editor())
 	{
 		if (main_globals.reset_zone_resources || main_globals.switch_zone_set || main_globals.reset_map)
+		{
 			result = true;
+		}
 	}
 	else if (main_globals.skip_cinematic
 		|| main_globals.reset_map
