@@ -24,6 +24,7 @@
 // not referenced
 #define BIT_VECTOR_OR_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] |= (1 << (BIT & (LONG_BITS - 1))))
 #define BIT_VECTOR_AND_FLAG(BIT_VECTOR, BIT) (BIT_VECTOR[BIT >> 5] &= ~(1 << (BIT & (LONG_BITS - 1))))
+#define BIT_VECTOR_SET_FLAG(BIT_VECTOR, BIT, ENABLE) (BIT_VECTOR[BIT >> 5] = (ENABLE) ? BIT_VECTOR[BIT >> 5] | (1 << (BIT & (LONG_BITS - 1))) : BIT_VECTOR[BIT >> 5] & ~(1 << (BIT & (LONG_BITS - 1))))
 
 #define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
