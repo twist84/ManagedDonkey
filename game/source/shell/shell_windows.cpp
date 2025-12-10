@@ -21,7 +21,7 @@ HOOK_DECLARE(0x0042E940, shell_idle);
 HOOK_DECLARE(0x0042EB10, _WinMain);
 HOOK_DECLARE(0x0051CE40, shell_get_system_identifier);
 
-bool fake_system_identifier = false;
+bool fake_system_identifier = true;
 
 bool window_data::editorWindowCreate = false;
 HWND window_data::hWndEditor = NULL;

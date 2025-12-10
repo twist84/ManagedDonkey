@@ -31,11 +31,12 @@ bool __cdecl network_get_machine_name(wchar_t* name, int32 name_length)
 	//return INVOKE(0x0042ED50, network_get_machine_name, machine_name, machine_name_len);
 
 	char system_identifier[264];
-	if (!shell_get_system_identifier(system_identifier, 256) || !system_identifier[0])
-		return false;
-
-	ascii_string_to_wchar_string(system_identifier, name, name_length, NULL);
-	return true;
+	bool valid_machine_name = shell_get_system_identifier(system_identifier, 256) && system_identifier[0];
+	if (valid_machine_name)
+	{
+		ascii_string_to_wchar_string(system_identifier, name, name_length, NULL);
+	}
+	return valid_machine_name;
 }
 
 //.text:0042ED60 ; void __cdecl network_get_player_colors(e_game_team, bool, const c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count>* const, real_rgb_color* const)
@@ -58,8 +59,9 @@ void __cdecl network_remote_reporting_initialize()
 
 	//char system_identifier[160]{};
 	//if (!shell_get_system_identifier(system_identifier, sizeof(system_identifier)))
+	//{
 	//	csstrnzcpy(system_identifier, "unknown_system", sizeof(system_identifier));
-	//
+	//}
 	//netdebug_initialize(shell_get_target(), version_get_build_identifier(), system_identifier);
 }
 
