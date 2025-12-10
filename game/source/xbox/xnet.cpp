@@ -31,31 +31,24 @@ int32 __cdecl XNetFindEntry(const transport_address* address, const s_transport_
 	for (int32 entry_index = 0; entry_index < NUMBEROF(g_transport_address_mapping); entry_index++)
 	{
 		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
-
-		if (ignore_invalid && !address_mapping.initialized)
+		if (!ignore_invalid || address_mapping.initialized)
 		{
-			continue;
-		}
-
-		if (address && transport_address_equivalent(&address_mapping.address, address))
-		{
-			return entry_index;
-		}
-
-		if (secure_address && transport_secure_address_compare(&address_mapping.secure_address, secure_address))
-		{
-			return entry_index;
-		}
-
-		if (!ignore_invalid && !address_mapping.initialized)
-		{
-			if (result == NONE)
+			if (address && transport_address_equivalent(&address_mapping.address, address))
+			{
+				result = entry_index;
+				break;
+			}
+			if (secure_address && transport_secure_address_compare(&address_mapping.secure_address, secure_address))
+			{
+				result = entry_index;
+				break;
+			}
+			if (!ignore_invalid && !address_mapping.initialized && result == NONE)
 			{
 				result = entry_index;
 			}
 		}
 	}
-
 	return result;
 }
 
@@ -66,14 +59,15 @@ void __cdecl XNetAddEntry(const transport_address* address, const s_transport_se
 	//INVOKE(0x0052D7B0, XNetAddEntry, address, secure_address, secure_identifier);
 
 	int32 entry_index = XNetFindEntry(address, secure_address, false);
-	if (entry_index == -1)
-		return;
-
-	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
-	address_mapping.initialized = true;
-	address_mapping.address = *address;
-	address_mapping.secure_address = *secure_address;
-	address_mapping.secure_identifier = *secure_identifier;
+	bool valid_entry = entry_index != NONE;
+	if (valid_entry)
+	{
+		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+		address_mapping.initialized = true;
+		address_mapping.address = *address;
+		address_mapping.secure_address = *secure_address;
+		address_mapping.secure_identifier = *secure_identifier;
+	}
 }
 
 // called from `transport_secure_address_decode`
@@ -81,14 +75,14 @@ bool __cdecl XNetXnAddrToInAddr(const s_transport_secure_address* secure_address
 {
 	//return INVOKE(0x0052D840, XNetXnAddrToInAddr, secure_address, secure_identifier, out_address);
 
-	int32 entry_index = XNetFindEntry(nullptr, secure_address, true);
-	if (entry_index == -1)
-		return false;
-
-	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
-	*out_address = address_mapping.address;
-
-	return true;
+	int32 entry_index = XNetFindEntry(NULL, secure_address, true);
+	bool valid_entry = entry_index != NONE;
+	if (valid_entry)
+	{
+		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+		*out_address = address_mapping.address;
+	}
+	return valid_entry;
 }
 
 // called from `transport_secure_address_retrieve`
@@ -96,14 +90,14 @@ bool __cdecl _XNetInAddrToXnAddr(const transport_address* address, s_transport_s
 {
 	//return INVOKE(0x0052D8F0, XNetInAddrToXnAddr, address, out_secure_address);
 
-	int32 entry_index = XNetFindEntry(address, nullptr, true);
-	if (entry_index == -1)
-		return false;
-
-	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
-	*out_secure_address = address_mapping.secure_address;
-
-	return true;
+	int32 entry_index = XNetFindEntry(address, NULL, true);
+	bool valid_entry = entry_index != NONE;
+	if (valid_entry)
+	{
+		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+		*out_secure_address = address_mapping.secure_address;
+	}
+	return valid_entry;
 }
 
 // called from `transport_secure_identifier_retrieve`
@@ -111,15 +105,15 @@ bool __cdecl XNetInAddrToXnAddr(const transport_address* address, s_transport_se
 {
 	//return INVOKE(0x0052D970, XNetInAddrToXnAddr, address, out_secure_address, out_secure_identifier);
 
-	int32 entry_index = XNetFindEntry(address, nullptr, true);
-	if (entry_index == -1)
-		return false;
-
-	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
-	*out_secure_address = address_mapping.secure_address;
-	*out_secure_identifier = address_mapping.secure_identifier;
-
-	return true;
+	int32 entry_index = XNetFindEntry(address, NULL, true);
+	bool valid_entry = entry_index != NONE;
+	if (valid_entry)
+	{
+		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+		*out_secure_address = address_mapping.secure_address;
+		*out_secure_identifier = address_mapping.secure_identifier;
+	}
+	return valid_entry;
 }
 
 // transport security
@@ -128,12 +122,13 @@ void __cdecl XNetRemoveEntry(const transport_address* address)
 {
 	//INVOKE(0x0052DA40, XNetRemoveEntry, address);
 
-	int32 entry_index = XNetFindEntry(address, nullptr, true);
-	if (entry_index == -1)
-		return;
-
-	s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
-	address_mapping.initialized = false;
+	int32 entry_index = XNetFindEntry(address, NULL, true);
+	bool valid_entry = entry_index != NONE;
+	if (valid_entry)
+	{
+		s_transport_address_mapping& address_mapping = g_transport_address_mapping[entry_index];
+		address_mapping.initialized = false;
+	}
 }
 
 struct s_external_ip
