@@ -100,41 +100,38 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 {
 	//return INVOKE(0x0043FA30, transport_endpoint_accept, listening_endpoint);
 
-	ASSERT(listening_endpoint != NULL);
-	ASSERT(listening_endpoint->socket != INVALID_SOCKET);
-	ASSERT(TEST_BIT(listening_endpoint->flags, _transport_endpoint_listening_bit));
+	byte address_buffer[k_socket_address_size]{};
+	int32 address_length = k_socket_address_size;
 
-	if (!transport_available())
-		return NULL;
-
-	byte socket_address[0x1C];
-	int socket_address_size = sizeof(socket_address);
-	csmemset(socket_address, 0, socket_address_size);
-
-	SOCKET listening_socket = accept(listening_endpoint->socket, (sockaddr*)socket_address, &socket_address_size);
-	if (listening_socket == INVALID_SOCKET)
+	transport_endpoint* endpoint = NULL;
+	if (transport_available())
 	{
-		event(_event_warning, "transport:endpoint: accept() failed: error= %s",
-			winsock_error_to_string(WSAGetLastError()));
-		return NULL;
-	}
-	else
-	{
-		transport_endpoint* endpoint = transport_endpoint_create(listening_endpoint->type);
-		if (endpoint)
+		ASSERT(listening_endpoint != NULL);
+		ASSERT(listening_endpoint->socket != INVALID_SOCKET);
+		ASSERT(TEST_BIT(listening_endpoint->flags, _transport_endpoint_listening_bit));
+
+		SOCKET new_socket = ::accept(listening_endpoint->socket, (sockaddr*)address_buffer, (int*)&address_length);
+		if (new_socket == INVALID_SOCKET)
 		{
-			endpoint->flags |= FLAG(_transport_endpoint_connected_bit);
-			endpoint->socket = listening_socket;
+			event(error_level(WSAGetLastError()), "transport:endpoint: accept() failed: error= %s",
+				winsock_error_to_string(WSAGetLastError()));
 		}
-		return endpoint;
+		else
+		{
+			endpoint = transport_endpoint_create(listening_endpoint->type);
+			if (endpoint)
+			{
+				endpoint->socket = new_socket;
+				SET_BIT(endpoint->flags, _transport_endpoint_connected_bit, true);
+			}
+		}
 	}
-
-	return NULL;
+	return endpoint;
 }
 
 bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, const transport_address* address)
 {
-	//return INVOKE(0x0043FAC0, transport_endpoint_async_connect, endpoint, );
+	//return INVOKE(0x0043FAC0, transport_endpoint_async_connect, endpoint, address);
 
 	ASSERT(endpoint != NULL);
 	ASSERT(address != NULL);
@@ -149,7 +146,7 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, cons
 	{
 		if (transport_endpoint_set_blocking(endpoint, false))
 		{
-			int result = connect(endpoint->socket, (const sockaddr*)address_buffer, address_length);
+			int result = ::connect(endpoint->socket, (const sockaddr*)address_buffer, address_length);
 			if (result)
 			{
 				if (WSAGetLastError() == WSAEWOULDBLOCK)
@@ -209,7 +206,7 @@ bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint,
 			FD_ZERO(&except_set);
 			FD_SET(endpoint->socket, &except_set);
 
-			if (select(0, NULL, &writeable_set, &except_set, &timeout) == -1)
+			if (::select(0, NULL, &writeable_set, &except_set, &timeout) == -1)
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: transport_endpoint_async_is_connected() failed in select(): error= %s",
 					winsock_error_to_string(WSAGetLastError()));
@@ -249,7 +246,7 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 		transport_endpoint_get_socket_address(address, &address_length, address_buffer) &&
 		transport_endpoint_create_socket(endpoint, address))
 	{
-		if (bind(endpoint->socket, (const sockaddr*)&address_buffer, address_length))
+		if (::bind(endpoint->socket, (const sockaddr*)&address_buffer, address_length))
 		{
 			event(error_level(WSAGetLastError()), "transport:endpoint: bind() failed: error= %s",
 				winsock_error_to_string(WSAGetLastError()));
@@ -286,7 +283,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, const tran
 		transport_endpoint_get_socket_address(address, &address_length, address_buffer) &&
 		transport_endpoint_create_socket(endpoint, address))
 	{
-		if (connect(endpoint->socket, (const sockaddr*)address_buffer, address_length))
+		if (::connect(endpoint->socket, (const sockaddr*)address_buffer, address_length))
 		{
 			event(error_level(WSAGetLastError()), "transport:endpoint: connect() failed: error= %s",
 				winsock_error_to_string(WSAGetLastError()));
@@ -315,7 +312,6 @@ transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 	//return INVOKE(0x0043FDF0, transport_endpoint_create, type);
 
 	transport_endpoint* endpoint = NULL;
-
 	if (transport_available())
 	{
 		endpoint = (transport_endpoint*)system_malloc(sizeof(transport_endpoint));
@@ -332,7 +328,6 @@ transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 	{
 		event(_event_warning, "networking:transport:endpoint: transport_endpoint_create() called when transport_available()==false");
 	}
-
 	return endpoint;
 }
 
@@ -426,7 +421,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 				event(error_level(WSAGetLastError()), "transport:endpoint: shutdown() failed: error= %s",
 					winsock_error_to_string(WSAGetLastError()));
 			}
-			if (closesocket(endpoint->socket))
+			if (::closesocket(endpoint->socket))
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: closesocket() failed: error= %s",
 					winsock_error_to_string(WSAGetLastError()));
@@ -462,7 +457,7 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 		{
 			int32 option_value = 0;
 			int32 option_length = sizeof(option_value);
-			if (getsockopt(endpoint->socket, SOL_SOCKET, platform_option, (char*)&option_value, (int*)&option_length))
+			if (::getsockopt(endpoint->socket, SOL_SOCKET, platform_option, (char*)&option_value, (int*)&option_length))
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: getsockopt(%d, %d) failed with %s",
 					option,
@@ -573,6 +568,7 @@ bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_lengt
 	{
 		event(_event_error, "networking:transport:endpoint: get_transport_address() failed: unknown address type %d",
 			socket_address_length);
+
 		csmemset(address, 0, sizeof(*address));
 	}
 	break;
@@ -599,7 +595,7 @@ bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
 	bool success = false;
 	if (transport_available())
 	{
-		if (listen(endpoint->socket, k_maximum_outstanding_connect_requests))
+		if (::listen(endpoint->socket, k_maximum_outstanding_connect_requests))
 		{
 			event(error_level(WSAGetLastError()), "transport:endpoint: listen() failed: error= %s",
 				winsock_error_to_string(WSAGetLastError()));
@@ -728,7 +724,7 @@ bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
 			FD_ZERO(&readable_set);
 			FD_SET(endpoint->socket, &readable_set);
 
-			readable = select(1, &readable_set, NULL, NULL, &timeout) == 1 && FD_ISSET(endpoint->socket, &readable_set);
+			readable = ::select(1, &readable_set, NULL, NULL, &timeout) == 1 && FD_ISSET(endpoint->socket, &readable_set);
 		}
 	}
 	return readable;
@@ -769,7 +765,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 			if (!blocking)
 			{
 				uns32 flags = 1;
-				if (ioctlsocket(endpoint->socket, FIONBIO, &flags))
+				if (::ioctlsocket(endpoint->socket, FIONBIO, &flags))
 				{
 					event(error_level(WSAGetLastError()), "transport:endpoint: failed to set endpoint non-blocking; error= %s",
 						winsock_error_to_string(WSAGetLastError()));
@@ -785,7 +781,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 		else if (blocking)
 		{
 			uns32 flags = 0;
-			if (ioctlsocket(endpoint->socket, FIONBIO, &flags))
+			if (::ioctlsocket(endpoint->socket, FIONBIO, &flags))
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: failed to set endpoint blocking; error= %s",
 					winsock_error_to_string(WSAGetLastError()));
@@ -817,7 +813,7 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 		if (platform_option != NONE)	
 		{
 			const char* setsockopt_value = (const char*)&result;
-			if (setsockopt(endpoint->socket, SOL_SOCKET, platform_option, setsockopt_value, option_length))
+			if (::setsockopt(endpoint->socket, SOL_SOCKET, platform_option, setsockopt_value, option_length))
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: setsockopt(%d, %d) failed with %s",
 					option,
