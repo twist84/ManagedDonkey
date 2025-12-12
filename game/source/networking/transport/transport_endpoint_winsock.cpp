@@ -462,7 +462,7 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 		{
 			int32 option_value = 0;
 			int32 option_length = sizeof(option_value);
-			if (getsockopt(endpoint->socket, -1i16, platform_option, (char*)&option_value, (int*)&option_length))
+			if (getsockopt(endpoint->socket, SOL_SOCKET, platform_option, (char*)&option_value, (int*)&option_length))
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: getsockopt(%d, %d) failed with %s",
 					option,
@@ -638,7 +638,7 @@ int16 __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 		bytes_read = ::recv(endpoint->socket, (char*)buffer, length, 0);
 		if (bytes_read == -1i16)
 		{
-			int wsa_error = WSAGetLastError();
+			int32 wsa_error = WSAGetLastError();
 			if (wsa_error == WSAEWOULDBLOCK)
 			{
 				bytes_read = -2i16;
@@ -817,7 +817,7 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 		if (platform_option != NONE)	
 		{
 			const char* setsockopt_value = (const char*)&result;
-			if (setsockopt(endpoint->socket, -1i16, platform_option, setsockopt_value, option_length))
+			if (setsockopt(endpoint->socket, SOL_SOCKET, platform_option, setsockopt_value, option_length))
 			{
 				event(error_level(WSAGetLastError()), "transport:endpoint: setsockopt(%d, %d) failed with %s",
 					option,
@@ -935,7 +935,6 @@ int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const vo
 		bytes_written = ::sendto(endpoint->socket, (const char*)buffer, length, 0, (const sockaddr*)address_buffer, (int)address_length);
 		if (bytes_written == -1i16)
 		{
-
 			int32 wsa_error = WSAGetLastError();
 			if (wsa_error == WSAEWOULDBLOCK)
 			{
