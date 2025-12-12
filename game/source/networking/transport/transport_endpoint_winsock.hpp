@@ -1,7 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 enum e_transport_type
 {
 	_transport_type_udp = 0,
@@ -74,7 +72,7 @@ extern void __cdecl transport_endpoint_delete(transport_endpoint* endpoint);
 extern void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint);
 extern int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option);
 extern bool __cdecl transport_endpoint_get_socket_address(const transport_address* address, int32* socket_address_size, uns8* const socket_address);
-extern bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, const uns8* const socket_address, transport_address* address);
+extern bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_length, const uns8* socket_address, transport_address* address);
 extern e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_listening(transport_endpoint* endpoint);
