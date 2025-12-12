@@ -280,15 +280,15 @@ bool __thiscall c_http_client::receive_data(
 		*out_response_content_buffer_count = 0;
 	}
 
-	if (4096 - m_response_buffer_count > 0 && (m_current_state == _upload_state_receiving_header || m_bytes_remaining > 0))
+	if (sizeof(m_response_buffer) - m_response_buffer_count > 0 && (m_current_state == _upload_state_receiving_header || m_bytes_remaining > 0))
 	{
-		bytes_read = transport_endpoint_read(m_endpoint_ptr, m_response_buffer + m_response_buffer_count, static_cast<int16>(4096 - m_response_buffer_count));
-		if (bytes_read <= 0)
+		bytes_read = transport_endpoint_read(m_endpoint_ptr, m_response_buffer + m_response_buffer_count, (int16)(sizeof(m_response_buffer) - m_response_buffer_count));
+		if (bytes_read <= 0i16)
 		{
-			if (bytes_read == -2)
+			if (bytes_read == -2i16)
 			{
 				result = true;
-				bytes_read = 0;
+				bytes_read = 0i16;
 			}
 			else if (bytes_read)
 			{

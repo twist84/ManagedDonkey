@@ -318,7 +318,7 @@ void __cdecl network_initialize()
 		&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth)
 		&& network_session_tracker_initialize())
 	{
-		transport_register_transition_functions(network_startup_transport, network_shutdown_transport, nullptr, nullptr);
+		transport_register_transition_functions(network_startup_transport, network_shutdown_transport, NULL, NULL);
 		online_initialize();
 		online_url_initialize();
 		network_storage_initialize();

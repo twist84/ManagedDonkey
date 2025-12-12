@@ -140,7 +140,7 @@ void __cdecl transport_startup()
 	{
 		csmemset(&wsa_data, 0, sizeof(wsa_data));
 
-		int wsa_startup_result = WSAStartup(2u, &wsa_data);
+		int wsa_startup_result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
 		if (wsa_startup_result)
 		{
 			event(_event_error, "networking:transport: WSAStartup() failed; error= %s",

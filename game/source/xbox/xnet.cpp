@@ -147,8 +147,6 @@ uns32 get_external_ip()
 		const char* host = "ifconfig.me";
 		transport_address_from_host(host, g_external_ip.address);
 
-		g_external_ip.http_client;
-		g_external_ip.get_stream;
 		g_external_ip.get_stream.add_header("Host", host);
 		g_external_ip.get_stream.add_header("Connection", "close");
 		g_external_ip.get_stream.add_header("User-Agent", "DonkeyClient");
