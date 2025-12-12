@@ -104,7 +104,7 @@ do                                                     \
 {                                                      \
     user_interface_update(_time);                      \
     network_update();                                  \
-} while (_get_value() != _value);
+} while (_get_value() != _value)
 
 // comment out until `network_initialize` is implemented
 #define NETWORK_ENTER_AND_LOCK_TIME \
