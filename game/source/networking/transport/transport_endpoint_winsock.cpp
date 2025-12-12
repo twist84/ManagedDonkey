@@ -367,13 +367,14 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 			break;
 		};
 
-		if (address->address_length == 4)
+		switch (address->address_length)
 		{
+		case sizeof(address->ina):
 			family = AF_INET;
-		}
-		else if (address->address_length == 16)
-		{
+			break;
+		case sizeof(address->ina6):
 			family = AF_INET6;
+			break;
 		}
 
 		endpoint->socket = ::socket(family, socket_type, socket_protocol);
@@ -430,8 +431,6 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 		else
 		{
 			event(_event_error, "networking:transport:endpoint: unable to disconnect endpoint, transport is unavailable (we probably leaked a socket and might crash)");
-			endpoint->socket = INVALID_SOCKET;
-			endpoint->flags = 0;
 		}
 	}
 

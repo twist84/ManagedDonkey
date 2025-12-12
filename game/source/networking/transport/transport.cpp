@@ -3,7 +3,8 @@
 #include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
-#include "networking/online/online_error.hpp"
+#include "networking/transport/transport_endpoint_set_winsock.hpp"
+#include "networking/transport/transport_endpoint_winsock.hpp"
 #include "networking/transport/transport_security.hpp"
 
 #include <WinSock2.h>
@@ -13,8 +14,12 @@ REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
 HOOK_DECLARE(0x00430630, transport_available);
 //HOOK_DECLARE(0x00430650, transport_dispose);
 
+int32 x_link_status_override = NONE;
+
 bool __cdecl transport_available()
 {
+	//return INVOKE(0x00430630, transport_available);
+
 	return transport_globals.initialized && transport_globals.winsock_initialized;
 }
 
@@ -31,34 +36,43 @@ void __cdecl transport_dispose()
 	}
 }
 
-int32 __cdecl transport_get_packet_maximum_payload(int32 type)
+int32 __cdecl transport_get_packet_maximum_payload(int32 transport_type)
 {
+	//return INVOKE(0x00430680, transport_get_packet_maximum_payload, transport_type);
+
 	return 4096;
 }
 
-int32 __cdecl transport_get_packet_overhead(int32 type)
+int32 __cdecl transport_get_packet_overhead(int32 transport_type)
 {
-	if (type >= 0)
+	//return INVOKE(0x00430690, transport_get_packet_overhead, transport_type);
+
+	int32 overhead = 0;
+	if (transport_type >= _transport_type_udp)
 	{
-		if (type <= 1)
-			return 0x1C;
-
-		if (type == 2)
-			return 0x28;
+		if (transport_type <= _transport_type_vdp)
+		{
+			overhead = 0x1C;
+		}
+		else if (transport_type == _transport_type_tcp)
+		{
+			overhead = 0x28;
+		}
 	}
-
-	return 0;
+	return overhead;
 }
 
 void __cdecl transport_global_update()
 {
+	//INVOKE(0x004306C0, transport_global_update);
+
 	if (transport_globals.initialized)
 	{
-		bool available = transport_network_available();
-		if (transport_globals.is_started != available)
+		bool network_available = transport_network_available();
+		if (transport_globals.is_started != network_available)
 		{
-			transport_globals.is_started = available;
-			if (available)
+			transport_globals.is_started = network_available;
+			if (network_available)
 			{
 				event(_event_message, "networking:transport: network interface connection restored, resetting networking");
 				transport_startup();
@@ -71,7 +85,9 @@ void __cdecl transport_global_update()
 		}
 
 		if (transport_globals.is_started)
+		{
 			transport_secure_address_resolve();
+		}
 	}
 }
 
@@ -84,45 +100,68 @@ void __cdecl transport_initialize()
 	transport_qos_initialize();
 	transport_globals.initialized = true;
 
-	if (transport_network_available())
+	if (x_link_status_override == NONE || x_link_status_override > 0)
+	{
 		transport_startup();
+	}
 }
 
 bool __cdecl transport_network_available()
 {
-	return transport_globals.initialized;
+	//return INVOKE(0x00430720, transport_network_available);
+
+	bool connection_live = false;
+	if (x_link_status_override != NONE)
+	{
+		connection_live = x_link_status_override > 0;
+	}
+	else
+	{
+		connection_live = transport_globals.initialized;
+	}
+	return connection_live;
 }
 
-void __cdecl transport_register_transition_functions(transport_startup_function_t startup_function, transport_shutdown_function_t shutdown_function, transport_reset_function_t reset_function, void* callback_data)
+void __cdecl transport_register_transition_functions(transport_startup_func_t startup_func, transport_shutdown_func_t shutdown_func, transport_reset_func_t reset_func, void* context)
 {
-	transport_globals.startup_functions[transport_globals.transition_function_count] = startup_function;
-	transport_globals.shutdown_functions[transport_globals.transition_function_count] = shutdown_function;
-	transport_globals.reset_functions[transport_globals.transition_function_count] = reset_function;
-	transport_globals.callback_datas[transport_globals.transition_function_count++] = callback_data;
+	//INVOKE(0x00430730, transport_register_transition_functions, startup_func, shutdown_func, reset_func, context);
+
+	transport_globals.startup_functions[transport_globals.transition_function_count] = startup_func;
+	transport_globals.shutdown_functions[transport_globals.transition_function_count] = shutdown_func;
+	transport_globals.reset_functions[transport_globals.transition_function_count] = reset_func;
+	transport_globals.transport_function_context[transport_globals.transition_function_count++] = context;
 }
 
 void __cdecl transport_reset()
 {
+	//INVOKE(0x00430780, transport_reset);
+
 	ASSERT(transport_globals.initialized);
 
-	for (int32 i = 0; i < transport_globals.transition_function_count; i++)
+	for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
 	{
-		transport_reset_function_t reset_function = transport_globals.reset_functions[i];
-		if (reset_function)
-			reset_function(transport_globals.callback_datas[i]);
+		transport_reset_func_t reset_func = transport_globals.reset_functions[function_index];
+		if (reset_func)
+		{
+			reset_func(transport_globals.transport_function_context[function_index]);
+		}
 	}
 }
 
 void __cdecl transport_shutdown()
 {
+	//INVOKE(0x004307C0, transport_shutdown);
+
 	if (transport_globals.winsock_initialized)
 	{
 		network_session_interface_handle_message(_network_message_network_interface_connection_lost);
-		for (int32 i = 0; i < transport_globals.transition_function_count; i++)
+		for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
 		{
-			transport_shutdown_function_t shutdown_function = transport_globals.shutdown_functions[i];
-			if (shutdown_function)
-				shutdown_function(transport_globals.callback_datas[i]);
+			transport_shutdown_func_t shutdown_func = transport_globals.shutdown_functions[function_index];
+			if (shutdown_func)
+			{
+				shutdown_func(transport_globals.transport_function_context[function_index]);
+			}
 		}
 
 		transport_qos_shutdown();
@@ -134,35 +173,51 @@ void __cdecl transport_shutdown()
 
 void __cdecl transport_startup()
 {
-	WSAData wsa_data;
+	//INVOKE(0x00430820, transport_startup);
 
 	if (!transport_globals.winsock_initialized)
 	{
-		csmemset(&wsa_data, 0, sizeof(wsa_data));
+		bool success = true;
+		bool winsock_initialized = false;
 
-		int wsa_startup_result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
-		if (wsa_startup_result)
 		{
-			event(_event_error, "networking:transport: WSAStartup() failed; error= %s",
-				online_error_get_string(wsa_startup_result).get_string());
+			WSAData info;
+			csmemset(&info, 0, sizeof(info));
+
+			int result = WSAStartup(MAKEWORD(2, 2), &info);
+			if (result)
+			{
+				//event(_event_error, "networking:transport: WSAStartup() failed; error= %s",
+				//	winsock_error_to_string(result));
+
+				success = false;
+			}
+			else
+			{
+				winsock_initialized = true;
+			}
 		}
-		else
-		{
-			event(_event_message, "networking:transport: Winsock initialized");
 
-			transport_globals.winsock_initialized = true;
+		if (success)
+		{
+			transport_globals.winsock_initialized = winsock_initialized;
 			transport_security_startup();
 			transport_qos_startup();
 
-			for (int32 i = 0; i < transport_globals.transition_function_count; i++)
+			for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
 			{
-				transport_startup_function_t startup_function = transport_globals.startup_functions[i];
-				if (startup_function)
-					startup_function(transport_globals.callback_datas[i]);
+				transport_startup_func_t startup_func = transport_globals.startup_functions[function_index];
+				if (startup_func)
+				{
+					startup_func(transport_globals.transport_function_context[function_index]);
+				}
 			}
 
 			network_session_interface_handle_message(_network_message_network_interface_connected);
-			event(_event_message, "networking:transport: Trasport global started");
+		}
+		else
+		{
+			event(_event_error, "networking:transport: transport_startup() failed!");
 		}
 	}
 }
