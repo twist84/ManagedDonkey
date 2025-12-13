@@ -389,16 +389,14 @@ void __cdecl network_receive()
 
 	PROFILER(networking_receive)
 	{
-		if (!network_initialized())
+		if (network_initialized())
 		{
-			return;
+			NETWORK_ENTER_AND_LOCK_TIME;
+
+			g_network_link->process_incoming_packets();
+
+			NETWORK_EXIT_AND_UNLOCK_TIME;
 		}
-
-		NETWORK_ENTER_AND_LOCK_TIME;
-
-		g_network_link->process_incoming_packets();
-
-		NETWORK_EXIT_AND_UNLOCK_TIME;
 	}
 }
 
@@ -410,24 +408,22 @@ void __cdecl network_send()
 
 	PROFILER(networking_send)
 	{
-		if (!network_initialized())
+		if (network_initialized())
 		{
-			return;
+			NETWORK_ENTER_AND_LOCK_TIME;
+
+			for (int32 i = 0; i < k_network_session_type_count; i++)
+			{
+				g_network_sessions[i].idle();
+			}
+
+			g_network_observer->monitor();
+			simulation_prepare_to_send();
+			g_network_link->process_all_channels();
+			g_network_message_gateway->send_all_pending_messages();
+
+			NETWORK_EXIT_AND_UNLOCK_TIME;
 		}
-
-		NETWORK_ENTER_AND_LOCK_TIME;
-
-		for (int32 i = 0; i < k_network_session_type_count; i++)
-		{
-			g_network_sessions[i].idle();
-		}
-
-		g_network_observer->monitor();
-		simulation_prepare_to_send();
-		g_network_link->process_all_channels();
-		g_network_message_gateway->send_all_pending_messages();
-
-		NETWORK_EXIT_AND_UNLOCK_TIME;
 	}
 }
 
@@ -440,21 +436,19 @@ void __cdecl network_shutdown_transport(void* userdata)
 {
 	//INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
 
-	if (!network_initialized())
+	if (network_initialized())
 	{
-		return;
-	}
+		event(_event_error, "networking:global: network terminating due to transport shutdown");
 
-	event(_event_error, "networking:global: network terminating due to transport shutdown");
+		if (g_network_link)
+		{
+			g_network_link->destroy_endpoints();
+		}
 
-	if (g_network_link)
-	{
-		g_network_link->destroy_endpoints();
-	}
-
-	if (g_network_observer)
-	{
-		g_network_observer->set_online_network_environment(false);
+		if (g_network_observer)
+		{
+			g_network_observer->set_online_network_environment(false);
+		}
 	}
 }
 
@@ -462,17 +456,10 @@ void __cdecl network_startup_transport(void* userdata)
 {
 	//INVOKE(0x0049E770, network_startup_transport, userdata);
 
-	if (!network_initialized())
+	if (network_initialized() && g_network_link)
 	{
-		return;
+		g_network_link->create_endpoints();
 	}
-
-	if (!g_network_link)
-	{
-		return;
-	}
-
-	g_network_link->create_endpoints();
 }
 
 void __cdecl network_update()
@@ -485,51 +472,49 @@ void __cdecl network_update()
 	{
 		transport_global_update();
 	
-		if (!network_initialized())
+		if (network_initialized())
 		{
-			return;
+			NETWORK_ENTER_AND_LOCK_TIME;
+
+			//static uns32 time_of_last_update = 0;
+			//if (time_of_last_update)
+			//{
+			//	if (network_time_since(time_of_last_update) > 1000)
+			//	{
+			//		event(_event_message, "networking:update: *** it has been %d milliseconds since the last network update",
+			//			network_time_since(time_of_last_update));
+			//	}
+			//}
+			//time_of_last_update = network_time_get();
+
+			network_configuration_update();
+			network_bandwidth_update();
+			network_broadcast_search_update();
+			network_recruiting_search_update();
+			network_session_tracker_update();
+			network_session_interface_update();
+			network_join_update();
+			network_life_cycle_update();
+			network_banhammer_update();
+			online_session_manager_update();
+			online_update();
+			network_leaderboard_update();
+			network_arbitration_update();
+			network_storage_queue_update();
+			network_storage_manifest_update();
+			network_storage_cache_update();
+			data_mine_update();
+			network_webstats_update();
+			online_guide_update();
+			online_rich_presence_update();
+			online_files_update();
+			network_http_request_cache_update();
+			network_http_request_queue_update();
+			online_service_record_manager_update();
+			c_online_lsp_manager::get()->update();
+
+			NETWORK_EXIT_AND_UNLOCK_TIME;
 		}
-
-		NETWORK_ENTER_AND_LOCK_TIME;
-
-		//static uns32 time_of_last_update = 0;
-		//if (time_of_last_update)
-		//{
-		//	if (network_time_since(time_of_last_update) > 1000)
-		//	{
-		//		event(_event_message, "networking:update: *** it has been %d milliseconds since the last network update",
-		//			network_time_since(time_of_last_update));
-		//	}
-		//}
-		//time_of_last_update = network_time_get();
-
-		network_configuration_update();
-		network_bandwidth_update();
-		network_broadcast_search_update();
-		network_recruiting_search_update();
-		network_session_tracker_update();
-		network_session_interface_update();
-		network_join_update();
-		network_life_cycle_update();
-		network_banhammer_update();
-		online_session_manager_update();
-		online_update();
-		network_leaderboard_update();
-		network_arbitration_update();
-		network_storage_queue_update();
-		network_storage_manifest_update();
-		network_storage_cache_update();
-		data_mine_update();
-		network_webstats_update();
-		online_guide_update();
-		online_rich_presence_update();
-		online_files_update();
-		network_http_request_cache_update();
-		network_http_request_queue_update();
-		online_service_record_manager_update();
-		c_online_lsp_manager::get()->update();
-
-		NETWORK_EXIT_AND_UNLOCK_TIME;
 	}
 }
 
