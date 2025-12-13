@@ -60,29 +60,40 @@ int32 c_network_link::compute_size_on_wire(const s_link_packet* packet) const
 	return INVOKE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire, packet);
 }
 
-bool c_network_link::create_endpoint(e_transport_type type, uns16 port, bool set_broadcast_option, transport_endpoint** out_endpoint)
+bool c_network_link::create_endpoint(e_transport_type endpoint_type, uns16 port, bool broadcast, transport_endpoint** out_endpoint)
 {
-	return DECLFUNC(0x0043B6F0, bool, __cdecl, e_transport_type, uns16, bool, transport_endpoint**)(type, port, set_broadcast_option, out_endpoint);
+	//return DECLFUNC(0x0043B6F0, bool, __cdecl, e_transport_type, uns16, bool, transport_endpoint**)(endpoint_type, port, broadcast, out_endpoint);
+	//return INVOKE_CLASS_MEMBER(0x0043B6F0, c_network_link, create_endpoint, endpoint_type, port, broadcast, out_endpoint);
 
-	//transport_endpoint* endpoint = transport_endpoint_create(type);
-	//if (!endpoint)
-	//{
-	//	event(_event_error, "networking:link: create_endpoint[%d] - unable to create endpoint!", type);
-	//	return false;
-	//}
-	//
-	//transport_address address;
-	//transport_get_listen_address(&address, port);
-	//
-	//if (!transport_endpoint_bind(endpoint, &address) || !transport_endpoint_set_blocking(endpoint, false) || (set_broadcast_option && !transport_endpoint_set_option_value(endpoint, _transport_endpoint_option_broadcast, true)))
-	//{
-	//	event(_event_error, "networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
-	//	transport_endpoint_delete(endpoint);
-	//	return false;
-	//}
-	//
-	//*out_endpoint = endpoint;
-	//return true;
+	bool success = false;
+	if (transport_endpoint* endpoint = transport_endpoint_create(endpoint_type))
+	{
+		transport_address listen_address{};
+		transport_get_listen_address(&listen_address, port);
+		// $TODO transport_get_listen_address_ipv6(&listen_address, port);
+
+		success = transport_endpoint_bind(endpoint, &listen_address) && transport_endpoint_set_blocking(endpoint, false);
+		if (broadcast)
+		{
+			success = success && transport_endpoint_set_option_value(endpoint, _transport_endpoint_option_broadcast, true);
+			if (success)
+			{
+				*out_endpoint = endpoint;
+			}
+			else
+			{
+				event(_event_error, "networking:link: create_endpoint(%d) - unable to setup endpoint!",
+					endpoint_type);
+				transport_endpoint_delete(endpoint);
+			}
+		}
+	}
+	else
+	{
+		event(_event_error, "networking:link: create_endpoint[%d] - unable to create endpoint!",
+			endpoint_type);
+	}
+	return success;
 }
 
 bool c_network_link::create_endpoints()
