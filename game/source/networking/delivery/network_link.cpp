@@ -7,6 +7,8 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_address.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x0043B7C0, c_network_link, create_endpoints);
+
 bool c_network_link::adjust_packet_size(bool game_data, int32 voice_data_length, int32* game_data_length) const
 {
 	//return DECLFUNC(0x0043B5E0, bool, __cdecl, bool, int32, int32*)(game_data, voice_data_length, game_data_length);
@@ -107,7 +109,7 @@ bool c_network_link::create_endpoints()
 	{
 		g_broadcast_port = broadcast_port;
 
-		result = create_endpoint(_transport_type_udp, broadcast_port, true, &m_endpoint);
+		result = c_network_link::create_endpoint(_transport_type_udp, broadcast_port, true, &m_endpoint);
 		if (result)
 			break;
 
