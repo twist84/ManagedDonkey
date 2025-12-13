@@ -49,6 +49,7 @@ extern char* __cdecl transport_address_to_string(const transport_address* addres
 extern bool __cdecl transport_address_valid(const transport_address* address);
 extern void __cdecl transport_get_broadcast_address(transport_address* address, uns16 port);
 extern void __cdecl transport_get_listen_address(transport_address* address, uns16 port);
+extern void __cdecl transport_get_listen_address_ipv6(transport_address* address, uns16 port);
 extern void __cdecl transport_get_loopback_address(transport_address* address, uns16 port);
 
 extern void transport_address_from_string(const wchar_t* str, transport_address& address);

@@ -215,7 +215,7 @@ void __cdecl transport_get_broadcast_address(transport_address* address, uns16 p
 
 	ASSERT(address);
 
-	address->address_length = sizeof(uns32);
+	address->address_length = sizeof(address->ipv4_address);
 	address->ipv4_address = 0xFFFFFFFF;
 	address->port = port;
 }
@@ -226,9 +226,23 @@ void __cdecl transport_get_listen_address(transport_address* address, uns16 port
 
 	ASSERT(address);
 
-	address->address_length = sizeof(uns32);
+	address->address_length = sizeof(address->ipv4_address);
 	address->ipv4_address = 0;
 	address->port = port;
+}
+
+void __cdecl transport_get_listen_address_ipv6(transport_address* address, uns16 port)
+{
+	ASSERT(address);
+
+	csmemset(&address->ina6, 0, sizeof(address->ina6));
+	address->address_length = sizeof(address->ina6);
+	address->port = port;
+
+	for (int32 i = 0; i < NUMBEROF(address->ina6.words); i++)
+	{
+		address->ina6.words[i] = 0;
+	}
 }
 
 void __cdecl transport_get_loopback_address(transport_address* address, uns16 port)
