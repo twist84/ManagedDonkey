@@ -11,6 +11,7 @@
 #include "main/console.hpp"
 #include "main/levels.hpp"
 #include "math/color_math.hpp"
+#include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/delivery/network_link.hpp"
@@ -58,6 +59,10 @@
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/tag_groups.hpp"
 #include "xbox/xnet.hpp"
+
+#include <WS2tcpip.h>
+
+void network_test_ipv6(const char* host, const char* port, const char* url);
 
 REFERENCE_DECLARE(0x0224A490, c_network_session_parameter_type_collection*, g_network_parameter_types);
 REFERENCE_DECLARE(0x0224A494, c_network_link*, g_network_link);
@@ -392,6 +397,12 @@ void __cdecl network_receive()
 		if (network_initialized())
 		{
 			NETWORK_ENTER_AND_LOCK_TIME;
+
+			static bool x_test = false;
+			if (x_test)
+			{
+				network_test_ipv6("::1", "8000", "/storage/test.txt");
+			}
 
 			g_network_link->process_incoming_packets();
 
@@ -786,6 +797,157 @@ void network_test_set_player_color(int32 profile_color_index)
 			loadout.colors[_color_type_holo] = profile_color;
 
 			network_session_interface_set_local_user_properties(user_index, controller_index, &player_data, player_voice_settings);
+		}
+	}
+}
+
+void network_test_ipv6(const char* host, const char* port, const char* url)
+{
+	ASSERT(host != NULL);
+	ASSERT(port != NULL);
+	ASSERT(url != NULL);
+
+	auto resolve_host = [](const char* host, const char* port, transport_address* out_address) -> bool
+	{
+		addrinfo hints{};
+		hints.ai_family = AF_INET6;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_protocol = IPPROTO_TCP;
+
+		addrinfo* result = NULL;
+		int rc = getaddrinfo(host, port, &hints, &result);
+		if (rc == 0 && result)
+		{
+			for (addrinfo* ptr = result; ptr != NULL; ptr = ptr->ai_next)
+			{
+				if (ptr->ai_family == AF_INET)
+				{
+					sockaddr_in* ipv4 = (sockaddr_in*)ptr->ai_addr;
+					out_address->address_length = sizeof(out_address->ina);
+					out_address->port = bswap_uns16(ipv4->sin_port);
+					out_address->ipv4_address = bswap_uns32(ipv4->sin_addr.s_addr);
+					break;
+				}
+				else if (ptr->ai_family == AF_INET6)
+				{
+					sockaddr_in6* ipv6 = (sockaddr_in6*)ptr->ai_addr;
+					out_address->address_length = sizeof(out_address->ina6);
+					out_address->port = bswap_uns16(ipv6->sin6_port);
+					for (int32 i = 0; i < NUMBEROF(out_address->ina6.words); ++i)
+					{
+						out_address->ina6.words[i] = bswap_uns16(ipv6->sin6_addr.u.Word[i]);
+					}
+					break;
+				}
+			}
+			freeaddrinfo(result);
+			return true;
+		}
+		else
+		{
+			fprintf(stderr, "Failed to resolve host '%s': %d\n", host, rc);
+			return false;
+		}
+	};
+
+	auto create_and_connect_endpoint = [](const transport_address* address) -> transport_endpoint*
+	{
+		transport_endpoint* endpoint = transport_endpoint_create(_transport_type_tcp);
+		if (endpoint)
+		{
+			if (transport_endpoint_async_connect(endpoint, address))
+			{
+				bool connected = false;
+				while (!connected)
+				{
+					if (!transport_endpoint_async_is_connected(endpoint, &connected))
+					{
+						fprintf(stderr, "Error polling connection state\n");
+						transport_endpoint_delete(endpoint);
+						return NULL;
+					}
+				}
+				return endpoint;
+			}
+			else
+			{
+				fprintf(stderr, "Failed to initiate async connect\n");
+				transport_endpoint_delete(endpoint);
+				return NULL;
+			}
+		}
+		else
+		{
+			fprintf(stderr, "Failed to create transport endpoint\n");
+			return NULL;
+		}
+	};
+
+	auto send_http_request = [](transport_endpoint* endpoint, const char* url) -> bool
+	{
+		c_static_string<1536> headers;
+		c_static_string<1024> extra_headers;
+
+		extra_headers.append_print("%s: %s\r\n", "Connection", "close");
+		extra_headers.append_print("%s: %s\r\n", "User-Agent", "TestClient");
+
+		headers.print("GET %s HTTP/1.0\r\n%s\r\n", url, extra_headers.get_string());
+		int32 headers_length = headers.length();
+
+		int16 sent = transport_endpoint_write(endpoint, headers.get_string(), (int16)headers_length);
+		if (sent >= 0)
+		{
+			return true;
+		}
+		else
+		{
+			fprintf(stderr, "Failed to send request: %d\n", sent);
+			return false;
+		}
+	};
+
+	auto read_http_response = [](transport_endpoint* endpoint)
+	{
+		char response_buffer[4096]{};
+		int response_count = 0;
+		int16 bytes_read = 0;
+
+		while ((bytes_read = transport_endpoint_read(endpoint, response_buffer + response_count, sizeof(response_buffer) - response_count - 1)) != 0)
+		{
+			if (bytes_read > 0)
+			{
+				response_count += bytes_read;
+				response_buffer[response_count] = '\0';
+			}
+			else if (bytes_read == -2)
+			{
+				continue; // would block
+			}
+			else
+			{
+				fprintf(stderr, "Error reading response: %d\n", bytes_read);
+				break;
+			}
+		}
+
+		if (response_count > 0)
+		{
+			printf("%s\n", response_buffer);
+		}
+	};
+
+	transport_address address{};
+	if (resolve_host(host, port, &address))
+	{
+		transport_endpoint* endpoint = create_and_connect_endpoint(&address);
+		if (endpoint)
+		{
+			if (send_http_request(endpoint, url))
+			{
+				read_http_response(endpoint);
+			}
+
+			transport_endpoint_delete(endpoint);
 		}
 	}
 }
