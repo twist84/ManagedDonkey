@@ -2106,7 +2106,7 @@
     <ClCompile Include="source\sound\game_sound_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="network_statistics.cpp">
+    <ClCompile Include="source\networking\network_statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

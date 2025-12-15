@@ -393,7 +393,7 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 		SET_BIT(endpoint->flags, _transport_endpoint_blocking_bit, true);
 		success = true;
 
-		int v6only = 1;
+		int v6only = 0;
 		::setsockopt(endpoint->socket, IPPROTO_IPV6, IPV6_V6ONLY, (const char*)&v6only, sizeof(v6only));
 	}
 
