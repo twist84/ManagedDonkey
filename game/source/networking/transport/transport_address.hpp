@@ -1,6 +1,20 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+enum
+{
+	IPV4_ADDRESS_LENGTH = 0x4,
+	IPV6_ADDRESS_LENGTH = 0x10,
+
+	IPV4_IP_HEADER_SIZE = 0x14,
+	IPV6_IP_HEADER_SIZE = 0x28,
+
+	TCP_PACKET_HEADER_SIZE = 0x14,
+	UDP_PACKET_HEADER_SIZE = 0x8,
+
+	IPV4_UNKNOWN_ADDRESS = 0x0,
+	IPV4_LOOPBACK_ADDRESS = 0x7F000001,
+	IPV4_BROADCAST_ADDRESS = 0xFFFFFFFF,
+};
 
 struct s_player_identifier;
 struct s_transport_secure_address;
@@ -42,14 +56,14 @@ static_assert(sizeof(transport_address) == 0x14);
 
 extern bool __cdecl transport_address_equivalent(const transport_address* a, const transport_address* b);
 extern const char* __cdecl transport_address_get_string(const transport_address* address);
-extern void __cdecl transport_address_ipv4_build(transport_address* address, uns32 ip_address, uns16 port);
+extern void __cdecl transport_address_ipv4_build(transport_address* address, uns32 ipv4_address, uns16 port);
+extern void __cdecl transport_address_ipv6_build(transport_address* address, const uns16* ipv6_address, uns16 port);
 extern uns32 __cdecl transport_address_ipv4_extract(const transport_address* address);
 extern bool __cdecl transport_address_is_loopback(const transport_address* address);
 extern char* __cdecl transport_address_to_string(const transport_address* address, const s_transport_secure_address* secure_address, char* string, int16 maximum_string_length, bool include_port, bool include_extra);
 extern bool __cdecl transport_address_valid(const transport_address* address);
 extern void __cdecl transport_get_broadcast_address(transport_address* address, uns16 port);
 extern void __cdecl transport_get_listen_address(transport_address* address, uns16 port);
-extern void __cdecl transport_get_listen_address_ipv6(transport_address* address, uns16 port);
 extern void __cdecl transport_get_loopback_address(transport_address* address, uns16 port);
 
 extern void transport_address_from_string(const wchar_t* str, transport_address& address);

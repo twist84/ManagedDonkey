@@ -75,13 +75,13 @@ extern bool __cdecl transport_secure_address_get_machine_id(const s_transport_se
 //extern char* __cdecl transport_secure_address_get_string(const s_transport_secure_address*);
 extern void __cdecl transport_secure_address_reset_for_new_networking_mode(void* callback_data);
 extern bool __cdecl transport_secure_address_resolve();
-extern bool __cdecl transport_secure_address_retrieve(const transport_address* usable_address, int32 platform, s_transport_secure_address* secure_address);
-extern char* __cdecl transport_secure_address_to_string(const s_transport_secure_address* secure_address, char* string, int32 maximum_string_length, bool include_online, bool include_mac);
+extern bool __cdecl transport_secure_address_retrieve(const transport_address* usable_address, int32 address_platform, s_transport_secure_address* secure_address);
+extern char* __cdecl transport_secure_address_to_string(const s_transport_secure_address* secure_address, char* string, int32 length, bool include_online, bool include_mac);
 //extern bool __cdecl transport_secure_connection_initiate(const transport_address*);
 //extern e_transport_secure_connection __cdecl transport_secure_connection_status(const transport_address*);
 //extern void __cdecl transport_secure_connection_terminate(const transport_address*);
 extern char* __cdecl transport_secure_identifier_get_string(const s_transport_secure_identifier* secure_identifier);
-extern bool __cdecl transport_secure_identifier_retrieve(const transport_address* usable_address, int32 transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
+extern bool __cdecl transport_secure_identifier_retrieve(const transport_address* usable_address, int32 address_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
 //extern bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform);
 //extern bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform);
 extern bool __cdecl transport_secure_nonce_compare(uns64 nonce1, uns64 nonce2);

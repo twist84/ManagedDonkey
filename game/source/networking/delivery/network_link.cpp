@@ -72,7 +72,6 @@ bool c_network_link::create_endpoint(e_transport_type endpoint_type, uns16 port,
 	{
 		transport_address listen_address{};
 		transport_get_listen_address(&listen_address, port);
-		// $TODO transport_get_listen_address_ipv6(&listen_address, port);
 
 		success = transport_endpoint_bind(endpoint, &listen_address) && transport_endpoint_set_blocking(endpoint, false);
 		if (broadcast)
@@ -111,7 +110,9 @@ bool c_network_link::create_endpoints()
 
 		result = c_network_link::create_endpoint(_transport_type_udp, broadcast_port, true, &m_endpoint);
 		if (result)
+		{
 			break;
+		}
 
 		if (m_endpoint)
 		{

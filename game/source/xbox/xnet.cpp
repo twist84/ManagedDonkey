@@ -171,11 +171,15 @@ uns32 get_external_ip()
 				Sleep(0);
 
 				if (completed_successfully)
+				{
 					break;
+				}
 			}
 
 			if (completed_successfully)
+			{
 				transport_address_from_host(response_content_buffer, g_external_ip.address);
+			}
 		}
 		g_external_ip.http_client.stop();
 	}

@@ -56,8 +56,9 @@ bool __cdecl transport_secure_address_get(s_transport_secure_address* secure_add
 	//INVOKE(0x00430BA0, transport_secure_address_get, secure_address);
 
 	if (secure_address)
+	{
 		*secure_address = transport_security_globals.local_secure_address;
-
+	}
 	return transport_security_globals.local_address_valid;
 }
 
@@ -66,8 +67,9 @@ bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 	//return INVOKE(0x00430BD0, transport_secure_address_get_insecure, address);
 
 	if (address)
+	{
 		*address = transport_security_globals.local_insecure_address;
-
+	}
 	return transport_security_globals.local_address_valid;
 }
 
@@ -75,15 +77,17 @@ uns64 __cdecl transport_secure_address_get_local_machine_id()
 {
 	//return INVOKE(0x00430C10, transport_secure_address_get_local_machine_id);
 
-	s_transport_secure_address secure_address{};
-	if (transport_secure_address_get(&secure_address))
+	uns64 machine_id{};
+	s_transport_secure_address local_secure_address{};
+	if (transport_secure_address_get(&local_secure_address))
 	{
-		uns64 machine_id{};
-		if (transport_secure_address_get_machine_id(&secure_address, &machine_id))
-			return machine_id;
+		uns64 local_machine_id{};
+		if (transport_secure_address_get_machine_id(&local_secure_address, &local_machine_id))
+		{
+			machine_id = local_machine_id;
+		}
 	}
-
-	return 0;
+	return machine_id;
 }
 
 bool __cdecl transport_secure_address_get_machine_id(const s_transport_secure_address* secure_address, uns64* secure_machine_id)
@@ -101,7 +105,8 @@ bool __cdecl transport_secure_address_get_machine_id(const s_transport_secure_ad
 	//return online_is_connected_to_live() && *secure_machine_id;
 
 	*secure_machine_id = 0xFA00000000000000 | make_int64(*(int32*)secure_address->data, (*(int32*)secure_address->data) & 0x0000FFFF);
-	return online_is_connected_to_live() && *secure_machine_id;
+	bool success = online_is_connected_to_live() && *secure_machine_id;
+	return success;
 }
 
 //00430C40 ; const s_transport_secure_address* __cdecl transport_secure_address_get_safe()
@@ -122,23 +127,30 @@ bool __cdecl transport_secure_address_resolve()
 	return INVOKE(0x00430CF0, transport_secure_address_resolve);
 }
 
-bool __cdecl transport_secure_address_retrieve(const transport_address* usable_address, int32 platform, s_transport_secure_address* secure_address)
+bool __cdecl transport_secure_address_retrieve(const transport_address* usable_address, int32 address_platform, s_transport_secure_address* secure_address)
 {
-	//return INVOKE(0x00430DF0, transport_secure_address_retrieve, usable_address, platform, secure_address);
+	//return INVOKE(0x00430DF0, transport_secure_address_retrieve, usable_address, address_platform, secure_address);
 
 	//bool result = false;
-	//HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, platform, secure_address);
+	//HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, address_platform, secure_address);
 	//return result;
+	
+	ASSERT(usable_address);
+	ASSERT(secure_address);
 
-	if (usable_address->address_length == sizeof(uns32) && usable_address->ipv4_address && platform)
-		return _XNetInAddrToXnAddr(usable_address, secure_address);
+	// $TODO add IPV6 support
 
-	return false;
+	bool success = false;
+	if (usable_address->address_length == IPV4_ADDRESS_LENGTH && usable_address->ipv4_address && address_platform)
+	{
+		success = _XNetInAddrToXnAddr(usable_address, secure_address);
+	}
+	return success;
 }
 
-char* __cdecl transport_secure_address_to_string(const s_transport_secure_address* secure_address, char* string, int32 maximum_string_length, bool include_online, bool include_mac)
+char* __cdecl transport_secure_address_to_string(const s_transport_secure_address* secure_address, char* string, int32 length, bool include_online, bool include_mac)
 {
-	return INVOKE(0x00430E20, transport_secure_address_to_string, secure_address, string, maximum_string_length, include_online, include_mac);
+	return INVOKE(0x00430E20, transport_secure_address_to_string, secure_address, string, length, include_online, include_mac);
 }
 
 //00430E90 ; XNetRemoveEntry thunk
@@ -164,10 +176,18 @@ bool __cdecl transport_secure_identifier_retrieve(const transport_address* usabl
 	//HOOK_INVOKE(result =, transport_secure_identifier_retrieve, usable_address, platform, secure_identifier, secure_address);
 	//return result;
 
-	if (usable_address->address_length == sizeof(uns32) && usable_address->ipv4_address && platform)
-		return XNetInAddrToXnAddr(usable_address, secure_address, secure_identifier);
+	ASSERT(usable_address);
+	ASSERT(secure_identifier);
+	ASSERT(secure_address);
 
-	return false;
+	// $TODO add IPV6 support
+
+	bool success = false;
+	if (usable_address->address_length == IPV4_ADDRESS_LENGTH && usable_address->ipv4_address && platform)
+	{
+		success = XNetInAddrToXnAddr(usable_address, secure_address, secure_identifier);
+	}
+	return success;
 }
 
 //00430F60 ; bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform)
@@ -222,9 +242,11 @@ void __cdecl transport_secure_random(int32 random_length, byte* random_data)
 	{
 		INVOKE(0x00431130, transport_secure_random, random_length, random_data);
 
-		//int32 random_seed = generate_random_seed(random_length);
-		//for (int32 i = 0; i < random_length; ++i)
-		//	random_data[i] = _random_range(random_seed, 0, __FILE__, __LINE__, 0, 256);
+		//uns32 seed = generate_random_seed();
+		//for (int32 byte_index = 0; byte_index < random_length; byte_index++)
+		//{
+		//	random_data[byte_index] = _random_range(&seed, 0, __FILE__, __LINE__, 0, 256);
+		//}
 	}
 }
 
