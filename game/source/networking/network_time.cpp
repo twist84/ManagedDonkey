@@ -31,7 +31,7 @@ uns32 __cdecl network_time_get_exact()
 	return system_milliseconds();
 }
 
-int32 network_time_since(uns32 timestamp)
+int32 __cdecl network_time_since(uns32 timestamp)
 {
 	//return INVOKE(0x00439E70, network_time_since, timestamp);
 

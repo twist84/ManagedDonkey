@@ -18,7 +18,7 @@ struct s_transport_secure_identifier;
 extern int32 __cdecl network_time_difference_msec(uns32 timestamp1, uns32 timestamp2);
 extern uns32 __cdecl network_time_get();
 extern uns32 __cdecl network_time_get_exact();
-extern int32 network_time_since(uns32 timestamp);
+extern int32 __cdecl network_time_since(uns32 timestamp);
 extern void __cdecl network_session_time_deregister_session_manager();
 extern bool __cdecl network_session_time_exists(const s_transport_secure_identifier* session_id);
 extern bool __cdecl network_session_time_get_id_and_time(int32 session_index, s_transport_secure_identifier* session_id, uns32* timestamp);

@@ -372,10 +372,10 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 
 		switch (address->address_length)
 		{
-		case sizeof(address->ina):
+		case IPV4_ADDRESS_LENGTH:
 			family = AF_INET;
 			break;
-		case sizeof(address->ina6):
+		case IPV6_ADDRESS_LENGTH:
 			family = AF_INET6;
 			break;
 		}
@@ -393,7 +393,7 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 		SET_BIT(endpoint->flags, _transport_endpoint_blocking_bit, true);
 		success = true;
 
-		int v6only = 0;
+		int v6only = 1;
 		::setsockopt(endpoint->socket, IPPROTO_IPV6, IPV6_V6ONLY, (const char*)&v6only, sizeof(v6only));
 	}
 
@@ -482,7 +482,7 @@ bool __cdecl transport_endpoint_get_socket_address(const transport_address* addr
 	bool success = false;
 	switch (address->address_length)
 	{
-	case sizeof(address->ina):
+	case IPV4_ADDRESS_LENGTH:
 	{
 		sockaddr_in* ipv4_address = (sockaddr_in*)socket_address;
 
@@ -494,7 +494,7 @@ bool __cdecl transport_endpoint_get_socket_address(const transport_address* addr
 		success = true;
 	}
 	break;
-	case sizeof(address->ina6):
+	case IPV6_ADDRESS_LENGTH:
 	{
 		sockaddr_in6* ipv6_address = (sockaddr_in6*)socket_address;
 
@@ -542,7 +542,7 @@ bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_lengt
 
 		address->port = bswap_uns16(ipv4_address->sin_port);
 		address->ipv4_address = bswap_uns32(ipv4_address->sin_addr.s_addr);
-		address->address_length = sizeof(address->ina);
+		address->address_length = IPV4_ADDRESS_LENGTH;
 
 		success = true;
 	}
@@ -561,7 +561,7 @@ bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_lengt
 		address->ina6.words[6] = bswap_uns16(ipv6_address->sin6_addr.s6_words[6]);
 		address->ina6.words[7] = bswap_uns16(ipv6_address->sin6_addr.s6_words[7]);
 		address->port = bswap_uns16(ipv6_address->sin6_port);
-		address->address_length = sizeof(address->ina6);
+		address->address_length = IPV6_ADDRESS_LENGTH;
 
 		success = true;
 	}

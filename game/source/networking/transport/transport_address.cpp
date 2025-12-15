@@ -110,7 +110,7 @@ bool __cdecl transport_address_is_loopback(const transport_address* address)
 		loopback = address->ipv4_address == IPV4_LOOPBACK_ADDRESS;
 		break;
 	case IPV6_ADDRESS_LENGTH:
-		loopback = csmemcmp(&address->ina6, IPV6_LOOPBACK_ADDRESS, IPV6_ADDRESS_LENGTH) != 0;
+		loopback = csmemcmp(&address->ina6, IPV6_LOOPBACK_ADDRESS, IPV6_ADDRESS_LENGTH) == 0;
 		break;
 	}
 	return loopback;
