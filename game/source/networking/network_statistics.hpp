@@ -1,14 +1,11 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 class c_network_time_statistics
 {
 private:
 	static int32 const k_network_statistics_interval_count = 20;
 
 public:
-
 	struct s_statistics_interval
 	{
 		int32 events;
@@ -16,6 +13,21 @@ public:
 	};
 	static_assert(sizeof(s_statistics_interval) == 0x8);
 
+//public:
+//	void add_event(int32 value);
+//	real32 average_events_per_second();
+//	real32 average_values_per_second();
+//
+//private:
+//	void check_interval_rollover();
+//
+//public:
+//	void initialize(int32 period_duration_msec);
+//	void reset();
+//	uns64 total_events() const;
+//	uns64 total_values() const;
+//
+//private:
 	uns64 m_total_events;
 	uns64 m_total_values;
 	uns32 m_current_interval_start_timestamp;
@@ -35,7 +47,6 @@ private:
 	static int32 const k_network_statistics_maximum_window_size = 32;
 
 public:
-
 	struct s_statistics_window_entry
 	{
 		uns32 timestamp;
@@ -43,6 +54,15 @@ public:
 	};
 	static_assert(sizeof(s_statistics_window_entry) == 0x8);
 
+//public:
+//	void add_event(int32 value);
+//	real32 average_values_in_window();
+//	void initialize(int32 window_size);
+//	void reset();
+//	int32 window_aperture_msec() const;
+//	int32 window_size() const;
+//
+//private:
 	int32 m_window_size;
 	int32 m_window_next_entry;
 	s_statistics_window_entry m_window_entries[k_network_statistics_maximum_window_size];

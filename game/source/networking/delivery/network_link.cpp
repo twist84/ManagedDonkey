@@ -177,20 +177,29 @@ bool c_network_link::initialize_link()
 {
 	return INVOKE_CLASS_MEMBER(0x0043BAB0, c_network_link, initialize_link);
 
-	//m_packets_transmitted.initialize(2000);
-	//m_packets_received.initialize(2000);
-	//m_upstream_bandwidth.initialize(2000);
-	//m_downstream_bandwidth.initialize(2000);
-	//bool result = m_simulation_queues[0].initialize_queue() && m_simulation_queues[1].initialize_queue();
+	//m_packets_transmitted.initialize(k_network_link_statistics_period);
+	//m_packets_received.initialize(k_network_link_statistics_period);
+	//m_upstream_bandwidth.initialize(k_network_link_statistics_period);
+	//m_downstream_bandwidth.initialize(k_network_link_statistics_period);
+	//
+	//bool success = true;// m_incoming_queue.initialize_queue() && m_outgoing_queue.initialize_queue();
 	//ASSERT(transport_get_packet_overhead(_transport_type_udp) + k_network_link_maximum_game_data_size <= k_network_link_maximum_encoded_packet_size);
 	//ASSERT(transport_get_packet_overhead(_transport_type_vdp) + k_network_link_maximum_game_data_size + k_network_link_maximum_voice_data_size <= k_network_link_maximum_encoded_packet_size);
-	//if (result && transport_available() && !create_endpoints())
-	//	event(_event_error, "networking:link: initialize() failed to create packet endpoints!");
-	//if (result)
+	//
+	//if (success)
+	//{
+	//	if (transport_available() && !c_network_link::create_endpoints())
+	//	{
+	//		event(_event_error, "networking:link: initialize() failed to create packet endpoints!");
+	//	}
 	//	m_initialized = true;
+	//}
 	//else
-	//	destroy_link();
-	//return result;
+	//{
+	//	c_network_link::destroy_link();
+	//}
+	//
+	//return success;
 }
 
 void __cdecl c_network_link::initialize_packet(s_link_packet* packet)

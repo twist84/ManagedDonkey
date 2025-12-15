@@ -138,6 +138,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\havok\hkWorld.cpp" />
+    <ClCompile Include="network_statistics.cpp" />
     <ClCompile Include="source\ai\sector_geometry.cpp" />
     <ClCompile Include="source\animations\mixing_board\channels\animation_channel.cpp" />
     <ClCompile Include="source\animations\mixing_board\channels\channel_base.cpp" />

@@ -20,6 +20,11 @@ class c_bitstream;
 class c_network_link
 {
 public:
+	static const int32 k_network_link_maximum_channels = 16;
+	static const int32 k_network_link_maximum_encoded_packet_size = 4096;
+	static const int32 k_network_link_statistics_period = 2000;
+
+public:
 	struct s_link_packet
 	{
 		int32 packet_mode;
