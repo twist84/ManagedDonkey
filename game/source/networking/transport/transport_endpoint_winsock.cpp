@@ -43,6 +43,9 @@ HOOK_DECLARE(0x004406C0, transport_endpoint_write_to);
 HOOK_DECLARE(0x00440740, transport_endpoint_writeable);
 HOOK_DECLARE(0x004407D0, transport_get_endpoint_address);
 
+#define wsa_error_level() error_level(WSAGetLastError())
+#define wsa_error_string() winsock_error_to_string(WSAGetLastError())
+
 bool known_error_code(int32 error_code)
 {
 	bool known = false;
@@ -113,8 +116,8 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 		SOCKET new_socket = ::accept(listening_endpoint->socket, (sockaddr*)address_buffer, (int*)&address_length);
 		if (new_socket == INVALID_SOCKET)
 		{
-			event(error_level(WSAGetLastError()), "transport:endpoint: accept() failed: error= %s",
-				winsock_error_to_string(WSAGetLastError()));
+			event(wsa_error_level(), "transport:endpoint: accept() failed: error= %s",
+				wsa_error_string());
 		}
 		else
 		{
@@ -155,8 +158,8 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, cons
 				}
 				else
 				{
-					event(error_level(WSAGetLastError()), "transport:endpoint: connect() failed: error= %s",
-						winsock_error_to_string(WSAGetLastError()));
+					event(wsa_error_level(), "transport:endpoint: connect() failed: error= %s",
+						wsa_error_string());
 				}
 			}
 			else
@@ -168,8 +171,8 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, cons
 		}
 		else
 		{
-			event(error_level(WSAGetLastError()), "transport:endpoint: transport_endpoint_set_blocking() failed: error= %s",
-				winsock_error_to_string(WSAGetLastError()));
+			event(wsa_error_level(), "transport:endpoint: transport_endpoint_set_blocking() failed: error= %s",
+				wsa_error_string());
 		}
 	}
 	return success;
@@ -208,8 +211,8 @@ bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint,
 
 			if (::select(0, NULL, &writeable_set, &except_set, &timeout) == -1)
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: transport_endpoint_async_is_connected() failed in select(): error= %s",
-					winsock_error_to_string(WSAGetLastError()));
+				event(wsa_error_level(), "transport:endpoint: transport_endpoint_async_is_connected() failed in select(): error= %s",
+					wsa_error_string());
 			}
 			else if (FD_ISSET(endpoint->socket, &except_set))
 			{
@@ -248,8 +251,8 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 	{
 		if (::bind(endpoint->socket, (const sockaddr*)&address_buffer, address_length))
 		{
-			event(error_level(WSAGetLastError()), "transport:endpoint: bind() failed: error= %s",
-				winsock_error_to_string(WSAGetLastError()));
+			event(wsa_error_level(), "transport:endpoint: bind() failed: error= %s",
+				wsa_error_string());
 		}
 		else
 		{
@@ -285,8 +288,8 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, const tran
 	{
 		if (::connect(endpoint->socket, (const sockaddr*)address_buffer, address_length))
 		{
-			event(error_level(WSAGetLastError()), "transport:endpoint: connect() failed: error= %s",
-				winsock_error_to_string(WSAGetLastError()));
+			event(wsa_error_level(), "transport:endpoint: connect() failed: error= %s",
+				wsa_error_string());
 		}
 		else
 		{
@@ -382,8 +385,8 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 
 	if (endpoint->socket == INVALID_SOCKET)
 	{
-		event(error_level(WSAGetLastError()), "transport:endpoint: socket() failed: error= %s",
-			winsock_error_to_string(WSAGetLastError()));
+		event(wsa_error_level(), "transport:endpoint: socket() failed: error= %s",
+			wsa_error_string());
 	}
 	else
 	{
@@ -419,13 +422,13 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 		{
 			if (TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit) && shutdown(endpoint->socket, SD_BOTH))
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: shutdown() failed: error= %s",
-					winsock_error_to_string(WSAGetLastError()));
+				event(wsa_error_level(), "transport:endpoint: shutdown() failed: error= %s",
+					wsa_error_string());
 			}
 			if (::closesocket(endpoint->socket))
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: closesocket() failed: error= %s",
-					winsock_error_to_string(WSAGetLastError()));
+				event(wsa_error_level(), "transport:endpoint: closesocket() failed: error= %s",
+					wsa_error_string());
 			}
 		}
 		else
@@ -458,10 +461,10 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 			int32 option_length = sizeof(option_value);
 			if (::getsockopt(endpoint->socket, SOL_SOCKET, platform_option, (char*)&option_value, (int*)&option_length))
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: getsockopt(%d, %d) failed with %s",
+				event(wsa_error_level(), "transport:endpoint: getsockopt(%d, %d) failed with %s",
 					option,
 					platform_option,
-					winsock_error_to_string(WSAGetLastError()));
+					wsa_error_string());
 			}
 			result = option_value;
 		}
@@ -498,14 +501,14 @@ bool __cdecl transport_endpoint_get_socket_address(const transport_address* addr
 		ipv6_address->sin6_family = AF_INET6;
 		ipv6_address->sin6_port = bswap_uns16(address->port);
 		ipv6_address->sin6_flowinfo = 0;
-		ipv6_address->sin6_addr.u.Word[0] = bswap_uns16(address->ina6.words[0]);
-		ipv6_address->sin6_addr.u.Word[1] = bswap_uns16(address->ina6.words[1]);
-		ipv6_address->sin6_addr.u.Word[2] = bswap_uns16(address->ina6.words[2]);
-		ipv6_address->sin6_addr.u.Word[3] = bswap_uns16(address->ina6.words[3]);
-		ipv6_address->sin6_addr.u.Word[4] = bswap_uns16(address->ina6.words[4]);
-		ipv6_address->sin6_addr.u.Word[5] = bswap_uns16(address->ina6.words[5]);
-		ipv6_address->sin6_addr.u.Word[6] = bswap_uns16(address->ina6.words[6]);
-		ipv6_address->sin6_addr.u.Word[7] = bswap_uns16(address->ina6.words[7]);
+		ipv6_address->sin6_addr.s6_words[0] = bswap_uns16(address->ina6.words[0]);
+		ipv6_address->sin6_addr.s6_words[1] = bswap_uns16(address->ina6.words[1]);
+		ipv6_address->sin6_addr.s6_words[2] = bswap_uns16(address->ina6.words[2]);
+		ipv6_address->sin6_addr.s6_words[3] = bswap_uns16(address->ina6.words[3]);
+		ipv6_address->sin6_addr.s6_words[4] = bswap_uns16(address->ina6.words[4]);
+		ipv6_address->sin6_addr.s6_words[5] = bswap_uns16(address->ina6.words[5]);
+		ipv6_address->sin6_addr.s6_words[6] = bswap_uns16(address->ina6.words[6]);
+		ipv6_address->sin6_addr.s6_words[7] = bswap_uns16(address->ina6.words[7]);
 		ipv6_address->sin6_scope_id = 0;
 
 		*socket_address_size = sizeof(sockaddr_in6);
@@ -549,14 +552,14 @@ bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_lengt
 		const sockaddr_in6* ipv6_address = (const sockaddr_in6*)socket_address;
 		ASSERT(ipv6_address->sin6_family == AF_INET6);
 
-		address->ina6.words[0] = bswap_uns16(ipv6_address->sin6_addr.u.Word[0]);
-		address->ina6.words[1] = bswap_uns16(ipv6_address->sin6_addr.u.Word[1]);
-		address->ina6.words[2] = bswap_uns16(ipv6_address->sin6_addr.u.Word[2]);
-		address->ina6.words[3] = bswap_uns16(ipv6_address->sin6_addr.u.Word[3]);
-		address->ina6.words[4] = bswap_uns16(ipv6_address->sin6_addr.u.Word[4]);
-		address->ina6.words[5] = bswap_uns16(ipv6_address->sin6_addr.u.Word[5]);
-		address->ina6.words[6] = bswap_uns16(ipv6_address->sin6_addr.u.Word[6]);
-		address->ina6.words[7] = bswap_uns16(ipv6_address->sin6_addr.u.Word[7]);
+		address->ina6.words[0] = bswap_uns16(ipv6_address->sin6_addr.s6_words[0]);
+		address->ina6.words[1] = bswap_uns16(ipv6_address->sin6_addr.s6_words[1]);
+		address->ina6.words[2] = bswap_uns16(ipv6_address->sin6_addr.s6_words[2]);
+		address->ina6.words[3] = bswap_uns16(ipv6_address->sin6_addr.s6_words[3]);
+		address->ina6.words[4] = bswap_uns16(ipv6_address->sin6_addr.s6_words[4]);
+		address->ina6.words[5] = bswap_uns16(ipv6_address->sin6_addr.s6_words[5]);
+		address->ina6.words[6] = bswap_uns16(ipv6_address->sin6_addr.s6_words[6]);
+		address->ina6.words[7] = bswap_uns16(ipv6_address->sin6_addr.s6_words[7]);
 		address->port = bswap_uns16(ipv6_address->sin6_port);
 		address->address_length = sizeof(address->ina6);
 
@@ -596,12 +599,12 @@ bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
 	{
 		if (::listen(endpoint->socket, k_maximum_outstanding_connect_requests))
 		{
-			event(error_level(WSAGetLastError()), "transport:endpoint: listen() failed: error= %s",
-				winsock_error_to_string(WSAGetLastError()));
+			event(wsa_error_level(), "transport:endpoint: listen() failed: error= %s",
+				wsa_error_string());
 		}
 		else
 		{
-			endpoint->flags |= FLAG(_transport_endpoint_listening_bit);
+			SET_BIT(endpoint->flags, _transport_endpoint_listening_bit, true);
 			success = true;
 		}
 	}
@@ -766,8 +769,8 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 				uns32 flags = 1;
 				if (::ioctlsocket(endpoint->socket, FIONBIO, &flags))
 				{
-					event(error_level(WSAGetLastError()), "transport:endpoint: failed to set endpoint non-blocking; error= %s",
-						winsock_error_to_string(WSAGetLastError()));
+					event(wsa_error_level(), "transport:endpoint: failed to set endpoint non-blocking; error= %s",
+						wsa_error_string());
 
 					success = false;
 				}
@@ -782,8 +785,8 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 			uns32 flags = 0;
 			if (::ioctlsocket(endpoint->socket, FIONBIO, &flags))
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: failed to set endpoint blocking; error= %s",
-					winsock_error_to_string(WSAGetLastError()));
+				event(wsa_error_level(), "transport:endpoint: failed to set endpoint blocking; error= %s",
+					wsa_error_string());
 
 				success = false;
 			}
@@ -814,10 +817,10 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 			const char* setsockopt_value = (const char*)&result;
 			if (::setsockopt(endpoint->socket, SOL_SOCKET, platform_option, setsockopt_value, option_length))
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: setsockopt(%d, %d) failed with %s",
+				event(wsa_error_level(), "transport:endpoint: setsockopt(%d, %d) failed with %s",
 					option,
 					platform_option,
-					winsock_error_to_string(WSAGetLastError()));
+					wsa_error_string());
 			}
 			else
 			{
@@ -998,8 +1001,8 @@ bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transp
 				::getpeername(endpoint->socket, (sockaddr*)address_buffer, (int*)&length) &&
 				::getsockname(endpoint->socket, (sockaddr*)address_buffer, (int*)&length))
 			{
-				event(error_level(WSAGetLastError()), "transport:endpoint: transport_get_endpoint_address() failed to retrieve an address; error= %s",
-					winsock_error_to_string(WSAGetLastError()));
+				event(wsa_error_level(), "transport:endpoint: transport_get_endpoint_address() failed to retrieve an address; error= %s",
+					wsa_error_string());
 			}
 			else
 			{
