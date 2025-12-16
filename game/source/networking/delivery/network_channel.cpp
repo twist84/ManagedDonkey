@@ -1,5 +1,7 @@
 #include "networking/delivery/network_channel.hpp"
 
+#include "cseries/cseries_events.hpp"
+#include "networking/delivery/network_link.hpp"
 #include "networking/messages/network_message_gateway.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_connect.hpp"
@@ -21,72 +23,98 @@ const char* c_network_channel::get_name() const
 
 const char* __cdecl c_network_channel::get_closure_reason_string(e_network_channel_closure_reason closure_reason)
 {
+	const char* reason_string = "<unknown>";
 	switch (closure_reason)
 	{
 	case _network_channel_reason_none:
-		return "no-reason-given";
+		reason_string = "no-reason-given";
+		break;
 	case _network_channel_reason_link_destroyed:
-		return "link-destroyed";
+		reason_string = "link-destroyed";
+		break;
 	case _network_channel_reason_link_refused_listening:
-		return "link-refused-listen";
+		reason_string = "link-refused-listen";
+		break;
 	case _network_channel_reason_channel_deleted:
-		return "channel-deleted";
+		reason_string = "channel-deleted";
+		break;
 	case _network_channel_reason_connect_request_timeout:
-		return "connect-timeout";
+		reason_string = "connect-timeout";
+		break;
 	case _network_channel_reason_connect_refuse:
-		return "connect-refused";
+		reason_string = "connect-refused";
+		break;
 	case _network_channel_reason_connect_reinitiated:
-		return "connect-reinitiate";
+		reason_string = "connect-reinitiate";
+		break;
 	case _network_channel_reason_establish_timeout:
-		return "establish-timeout";
+		reason_string = "establish-timeout";
+		break;
 	case _network_channel_reason_address_change:
-		return "address-change";
+		reason_string = "address-change";
+		break;
 	case _network_channel_reason_destination_unreachable:
-		return "destination-unreachable";
+		reason_string = "destination-unreachable";
+		break;
 	case _network_channel_reason_remote_closure:
-		return "remote-closure";
+		reason_string = "remote-closure";
+		break;
 	case _network_channel_reason_connection_overflowed:
-		return "connection-overflow";
+		reason_string = "connection-overflow";
+		break;
 	case _network_channel_reason_message_queue_overflowed:
-		return "message-overflow";
+		reason_string = "message-overflow";
+		break;
 	case _network_channel_reason_observer_security_lost:
-		return "security-lost";
+		reason_string = "security-lost";
+		break;
 	case _network_channel_reason_observer_owners_released:
-		return "observer-released";
+		reason_string = "observer-released";
+		break;
 	case _network_channel_reason_observer_fatal_refusal:
-		return "observer-refused";
+		reason_string = "observer-refused";
+		break;
 	case _network_channel_reason_observer_timeout:
-		return "observer-timeout";
+		reason_string = "observer-timeout";
+		break;
 	case _network_channel_reason_observer_reset:
-		return "observer-reset";
+		reason_string = "observer-reset";
+		break;
 	case _network_channel_reason_observer_reset_security:
-		return "observer-reset-security";
+		reason_string = "observer-reset-security";
+		break;
 	case _network_channel_reason_test:
-		return "test";
+		reason_string = "test";
+		break;
 	}
-
-	return "<unknown>";
+	return reason_string;
 }
 
 const char* __cdecl c_network_channel::get_state_string(e_network_channel_state state)
 {
+	const char* state_string = "<unknown>";
 	switch (state)
 	{
 	case _network_channel_state_none:
-		return "none";
+		state_string = "none";
+		break;
 	case _network_channel_state_empty:
-		return "empty";
+		state_string = "empty";
+		break;
 	case _network_channel_state_closed:
-		return "closed";
+		state_string = "closed";
+		break;
 	case _network_channel_state_connecting:
-		return "connecting";
+		state_string = "connecting";
+		break;
 	case _network_channel_state_established:
-		return "established";
+		state_string = "established";
+		break;
 	case _network_channel_state_connected:
-		return "connected";
+		state_string = "connected";
+		break;
 	}
-
-	return "<unknown>";
+	return state_string;
 }
 
 bool c_network_channel::get_remote_address(transport_address* address) const
@@ -95,13 +123,13 @@ bool c_network_channel::get_remote_address(transport_address* address) const
 
 	ASSERT(address);
 
+	bool has_address = false;
 	if (get_state() == _network_channel_state_none && get_state() != _network_channel_state_empty)
 	{
 		*address = m_remote_address;
-		return true;
+		has_address = true;
 	}
-
-	return false;
+	return has_address;
 }
 
 uns32 c_network_channel::get_remote_identifier() const
@@ -163,7 +191,7 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 	c_console::write_line("MP/NET/CHANNEL,CTRL: c_network_channel::close: Closing channel. Reason %s.",
 		get_closure_reason_string(closure_reason));
 
-	if (connected() && closure_reason != _network_channel_reason_connect_reinitiated)
+	if (c_network_channel::connected() && closure_reason != _network_channel_reason_connect_reinitiated)
 	{
 		s_network_message_connect_closed connect_closed =
 		{
@@ -176,7 +204,9 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 	}
 
 	if (m_simulation_interface)
+	{
 		m_simulation_interface->notify_closed();
+	}
 
 	ASSERT(m_simulation_interface == NULL);
 
@@ -194,6 +224,21 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 void c_network_channel::establish(uns32 remote_channel_identifier)
 {
 	INVOKE_CLASS_MEMBER(0x0045FC20, c_network_channel, establish, remote_channel_identifier);
+}
+
+bool c_network_channel::idle()
+{
+	return INVOKE_CLASS_MEMBER(0x0045FE70, c_network_channel, idle);
+}
+
+void c_network_channel::notify_destination_unreachable()
+{
+	//INVOKE_CLASS_MEMBER(0x00460370, c_network_channel, notify_destination_unreachable);
+
+	if (!c_network_channel::closed())
+	{
+		m_destination_unreachable = true;
+	}
 }
 
 void c_network_channel::open(const transport_address* remote_address, bool send_connect_packets, int32 channel_identifier)
@@ -236,10 +281,47 @@ void c_network_channel::open(const transport_address* remote_address, bool send_
 	//m_message_queue.reserve_first_fragment();
 }
 
+//.text:004604D0 ; public: virtual e_network_read_result c_network_channel_simulation_gatekeeper::read_from_packet(int32*, c_bitstream*)
+
+bool c_network_channel::receive_packet(c_bitstream* packet, int32 packet_size_on_wire, bool consistency_check_only)
+{
+	return INVOKE_CLASS_MEMBER(0x00460520, c_network_channel, receive_packet, packet, packet_size_on_wire, consistency_check_only);
+}
+
+//.text:00460860 ; 
+//.text:00460890 ; public: void c_network_channel::reset_activity_times()
+//.text:004608C0 ; private: void c_network_channel::send_connection_established(bool)
+
 void c_network_channel::send_message(e_network_message_type message_type, int32 raw_message_size, const void* raw_message_payload)
 {
 	//INVOKE_CLASS_MEMBER(0x00460930, c_network_channel, send_message, message_type, raw_message_size, raw_message_payload);
 
 	m_message_queue.send_message(message_type, raw_message_size, raw_message_payload);
 }
+
+void c_network_channel::send_packet(c_bitstream* packet, bool sequenced_packet, bool force_fill_packet, int32 voice_data_size, const void* voice_data, int32* out_bytes_on_wire, int32* out_bytes_game_data, int32* out_bytes_voice_data)
+{
+	INVOKE_CLASS_MEMBER(0x00460940, c_network_channel, send_packet, packet, sequenced_packet, force_fill_packet, voice_data_size, voice_data, out_bytes_on_wire, out_bytes_game_data, out_bytes_voice_data);
+}
+
+//.text:00460C20 ; public: void c_network_channel_simulation_interface::set_established(bool)
+//.text:00460C30 ; 
+//.text:00460C40 ; 
+//.text:00460C50 ; public: virtual int32 c_network_channel_simulation_gatekeeper::space_required_bits(int32, int32)
+
+void c_network_channel::update_activity(e_network_channel_activity activity_type)
+{
+	//INVOKE_CLASS_MEMBER(0x00460C60, c_network_channel, update_activity, activity_type);
+
+	ASSERT(VALID_INDEX(activity_type, k_network_channel_activity_count));
+
+	m_activity_timers[activity_type].timestamp = network_time_get();
+}
+
+void c_network_channel::update_packet_delivery()
+{
+	INVOKE_CLASS_MEMBER(0x00460CA0, c_network_channel, update_packet_delivery);
+}
+
+//.text:00460E00 ; public: static bool __cdecl c_network_channel::valid_channel_flags(uns32)
 

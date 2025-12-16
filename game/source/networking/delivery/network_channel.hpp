@@ -12,8 +12,20 @@ class c_network_link;
 class c_network_observer;
 class c_network_message_gateway;
 class c_network_message_handler;
-struct s_channel_configuration;
 class c_network_message_type_collection;
+struct s_channel_configuration;
+
+enum e_network_channel_activity
+{
+	_network_channel_activity_send = 0,
+	_network_channel_activity_send_sequenced,
+	_network_channel_activity_send_voice,
+	_network_channel_activity_receive,
+	_network_channel_activity_receive_acknowledgement,
+	_network_channel_activity_receive_voice,
+
+	k_network_channel_activity_count,
+};
 
 class c_network_channel_client
 {
@@ -181,6 +193,7 @@ public:
 	};
 	static_assert(sizeof(s_activity_timer) == 0x4);
 
+public:
 	const char* get_short_name() const;
 	const char* get_name() const;
 	static const char* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
@@ -188,6 +201,7 @@ public:
 	bool get_remote_address(transport_address* address) const;
 	uns32 get_remote_identifier() const;
 	uns32 get_identifier() const;
+	bool is_channel_remote_address(const transport_address* address) const;
 	const c_network_message_queue* network_message_queue_get() const;
 	const c_network_connection* network_connection_get() const;
 	bool allocated() const;
@@ -197,11 +211,23 @@ public:
 	bool connected() const;
 	void close(e_network_channel_closure_reason reason);
 	void establish(uns32 remote_channel_identifier);
+	bool idle();
+	void notify_destination_unreachable();
 	void open(const transport_address* remote_address, bool send_connect_packets, int32 channel_identifier);
-
+	bool receive_packet(c_bitstream* packet, int32 packet_size_on_wire, bool consistency_check_only);
 	void send_message(e_network_message_type message_type, int32 raw_message_size, const void* raw_message_payload);
 
-//protected:
+private:
+	void send_packet(c_bitstream* packet, bool sequenced_packet, bool force_fill_packet, int32 voice_data_size, const void* voice_data, int32* out_bytes_on_wire, int32* out_bytes_game_data, int32* out_bytes_voice_data);
+
+public:
+	void update_activity(e_network_channel_activity activity_type);
+
+private:
+	void update_packet_delivery();
+
+public:
+//private:
 	c_network_link* m_link;
 	c_network_observer* m_observer;
 	c_network_message_gateway* m_message_gateway;
@@ -227,7 +253,7 @@ public:
 	int32 m_sent_connect_packet_count;
 	uns32 m_established_timestamp;
 	uns32 m_connected_timestamp;
-	s_activity_timer m_activity_times[6];
+	s_activity_timer m_activity_timers[k_network_channel_activity_count];
 	bool m_destination_unreachable;
 };
 static_assert(sizeof(c_network_channel) == 0xA74);
@@ -256,6 +282,6 @@ static_assert(0xA48 == OFFSETOF(c_network_channel, m_next_connect_packet_timesta
 static_assert(0xA4C == OFFSETOF(c_network_channel, m_sent_connect_packet_count));
 static_assert(0xA50 == OFFSETOF(c_network_channel, m_established_timestamp));
 static_assert(0xA54 == OFFSETOF(c_network_channel, m_connected_timestamp));
-static_assert(0xA58 == OFFSETOF(c_network_channel, m_activity_times));
+static_assert(0xA58 == OFFSETOF(c_network_channel, m_activity_timers));
 static_assert(0xA70 == OFFSETOF(c_network_channel, m_destination_unreachable));
 

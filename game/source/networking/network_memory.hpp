@@ -15,8 +15,14 @@
 #include "simulation/simulation_watcher.hpp"
 #include "simulation/simulation_world.hpp"
 
-struct s_data_array;
+const uns16 k_broadcast_port = 11774; // port 1003 outside of Halo Online
+
+// the maximum number of ports to try when the broadcast port is already in use
+const uns16 k_broadcast_port_alt_ammount = 1000; // needs a better name
+
 class c_fixed_memory_rockall_heap;
+struct s_data_array;
+
 struct s_network_shared_memory_globals
 {
 	int32 current_configuration;
@@ -40,9 +46,8 @@ static_assert(sizeof(s_network_shared_memory_globals) == 0x30);
 
 struct s_network_base_memory_globals
 {
-	c_network_link link;
-	//c_network_message_type_collection message_types;
-	byte message_types[0x57C];
+	byte link[0x378]; //c_network_link link;
+	byte message_types[0x57C]; //c_network_message_type_collection message_types;
 	c_network_message_gateway message_gateway;
 	c_network_message_handler message_handler;
 	c_network_observer observer;
@@ -55,16 +60,12 @@ struct s_network_base_memory_globals
 };
 static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
-uns16 const k_broadcast_port = 11774; // port 1001 outside of Halo Online
-
-// the maximum number of ports to try when the broadcast port is already in use
-uns16 const k_broadcast_port_alt_ammount = 1000; // needs a better name
-
 extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;
 extern uns16& g_broadcast_port;
 
 extern c_simulation_distributed_world* __cdecl network_allocate_simulation_distributed_world();
+extern c_network_channel* __cdecl network_channel_iterate(const c_network_channel* channel);
 extern void* __cdecl network_heap_allocate_block(int32 block_size);
 extern char* __cdecl network_heap_describe(char* buffer, int32 buffer_size);
 extern void __cdecl network_heap_free_block(void* block);

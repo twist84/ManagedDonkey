@@ -100,8 +100,9 @@ HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 //s_status_line g_network_leaderboard_query_status_lines[4]{};
 //s_status_line g_network_leaderboard_write_status_lines[6]{};
 
-c_network_message_type_collection custom_message_types_override = {};
-c_network_message_gateway custom_message_gateway_override = {};
+static c_network_link custom_link_override = {};
+static c_network_message_type_collection custom_message_types_override = {};
+static c_network_message_gateway custom_message_gateway_override = {};
 
 #define UI_WAIT(_time, _set_value, _get_value, _value) \
 _set_value(_value);                                    \
@@ -159,15 +160,16 @@ bool __cdecl network_memory_base_initialize(
 
 	bool result = INVOKE(0x004623F0, network_memory_base_initialize, link, message_types, message_gateway, message_handler, observer, sessions, session_manager, session_parameter_types);
 
-	//*link = &network_base_memory_globals.link;
-	//*message_types = &network_base_memory_globals.message_types;
-	//*message_gateway = &network_base_memory_globals.message_gateway;
+	////*link = &network_base_memory_globals.link;
+	////*message_types = &network_base_memory_globals.message_types;
+	////*message_gateway = &network_base_memory_globals.message_gateway;
 	//*message_handler = &network_base_memory_globals.message_handler;
 	//*observer = &network_base_memory_globals.observer;
 	//*sessions = network_base_memory_globals.sessions;
 	//*session_manager = &network_base_memory_globals.session_manager;
 	//*session_parameter_types = &network_base_memory_globals.sesssion_parameter_types;
 
+	*link = &custom_link_override;
 	*message_types = &custom_message_types_override;
 	*message_gateway = &custom_message_gateway_override;
 

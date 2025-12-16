@@ -10,7 +10,10 @@ c_simulation_distributed_world* __cdecl network_allocate_simulation_distributed_
     return INVOKE(0x004621A0, network_allocate_simulation_distributed_world);
 }
 
-//.text:004621B0 ; c_network_channel* __cdecl network_channel_iterate(c_network_channel*)
+c_network_channel* __cdecl network_channel_iterate(const c_network_channel* channel)
+{
+    return INVOKE(0x004621B0, network_channel_iterate, channel);
+}
 
 void* __cdecl network_heap_allocate_block(int32 block_size)
 {
