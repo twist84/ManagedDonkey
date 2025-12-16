@@ -165,14 +165,14 @@ char* __cdecl transport_address_to_string(const transport_address* address, cons
 	case IPV6_ADDRESS_LENGTH:
 	{
 		csnzprintf(string, maximum_string_length, "%04X.%04X.%04X.%04X.%04X.%04X.%04X.%04X",
-			address->ina6.words[0],
-			address->ina6.words[1],
-			address->ina6.words[2],
-			address->ina6.words[3],
-			address->ina6.words[4],
-			address->ina6.words[5],
-			address->ina6.words[6],
-			address->ina6.words[7]);
+			address->ipv6_address[0],
+			address->ipv6_address[1],
+			address->ipv6_address[2],
+			address->ipv6_address[3],
+			address->ipv6_address[4],
+			address->ipv6_address[5],
+			address->ipv6_address[6],
+			address->ipv6_address[7]);
 
 		if (include_port)
 		{
@@ -182,7 +182,7 @@ char* __cdecl transport_address_to_string(const transport_address* address, cons
 	break;
 	case -1i16:
 	{
-		csstrnzcpy(string, address->str, maximum_string_length);
+		csstrnzcpy(string, address->file_socket_name, maximum_string_length);
 	}
 	break;
 	case 0:
@@ -220,9 +220,9 @@ bool __cdecl transport_address_valid(const transport_address* address)
 		break;
 		case IPV6_ADDRESS_LENGTH:
 		{
-			for (int32 address_word_index = 0; address_word_index < NUMBEROF(address->ina6.words); address_word_index++)
+			for (int32 address_word_index = 0; address_word_index < NUMBEROF(address->ipv6_address); address_word_index++)
 			{
-				if (address->ina6.words[address_word_index])
+				if (address->ipv6_address[address_word_index])
 				{
 					valid = true;
 					break;
