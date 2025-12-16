@@ -393,8 +393,10 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, cons
 		SET_BIT(endpoint->flags, _transport_endpoint_blocking_bit, true);
 		success = true;
 
+#ifdef USE_IPV6
 		int v6only = 0;
 		::setsockopt(endpoint->socket, IPPROTO_IPV6, IPV6_V6ONLY, (const char*)&v6only, sizeof(v6only));
+#endif
 	}
 
 	return success;
@@ -639,13 +641,13 @@ int16 __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 			int32 wsa_error = WSAGetLastError();
 			if (wsa_error == WSAEWOULDBLOCK)
 			{
-				bytes_read = -2i16;
+				bytes_read = _transport_readwrite_error_would_block;
 			}
 			else
 			{
 				event(error_level(wsa_error), "transport:read: recv() failed w/ unknown error '%s'",
 					winsock_error_to_string(wsa_error));
-				bytes_read = -3i16;
+				bytes_read = _transport_readwrite_error_unknown;
 			}
 		}
 		else if (bytes_read)
@@ -685,13 +687,13 @@ int16 __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* b
 			int wsa_error = WSAGetLastError();
 			if (wsa_error == WSAEWOULDBLOCK)
 			{
-				bytes_read = -2i16;
+				bytes_read = _transport_readwrite_error_would_block;
 			}
 			else
 			{
 				event(error_level(wsa_error), "transport:read: recvfrom() failed w/ unknown error '%s'",
 					winsock_error_to_string(wsa_error));
-				bytes_read = -3i16;
+				bytes_read = _transport_readwrite_error_unknown;
 			}
 		}
 		else if (bytes_read)
@@ -890,18 +892,18 @@ int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, const void*
 			int32 wsa_error = WSAGetLastError();
 			if (wsa_error == WSAEWOULDBLOCK)
 			{
-				return -2i16;
+				return _transport_readwrite_error_would_block;
 			}
 			else if (wsa_error == WSAEHOSTUNREACH)
 			{
-				return -1i16;
+				return _transport_write_error_unreachable;
 			}
 			else
 			{
 				event(error_level(wsa_error), "transport:write: send() failed w/ unknown error '%s'",
 					winsock_error_to_string(wsa_error));
 
-				return -3i16;
+				return _transport_readwrite_error_unknown;
 			}
 		}
 		else
@@ -926,7 +928,7 @@ int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const vo
 	byte address_buffer[k_socket_address_size];
 	int32 address_length;
 
-	int16 bytes_written = -3i16;
+	int16 bytes_written = _transport_readwrite_error_unknown;
 	if (transport_available() &&
 		transport_endpoint_get_socket_address(destination, &address_length, address_buffer))
 	{
@@ -936,11 +938,11 @@ int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const vo
 			int32 wsa_error = WSAGetLastError();
 			if (wsa_error == WSAEWOULDBLOCK)
 			{
-				bytes_written = -2i16;
+				bytes_written = _transport_readwrite_error_would_block;
 			}
 			else if (wsa_error == WSAEHOSTUNREACH)
 			{
-				bytes_written = -1i16;
+				bytes_written = _transport_write_error_unreachable;
 			}
 			else
 			{
@@ -948,7 +950,7 @@ int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const vo
 					transport_address_get_string(destination),
 					winsock_error_to_string(wsa_error));
 
-				bytes_written = -3i16;
+				bytes_written = _transport_readwrite_error_unknown;
 			}
 		}
 		else

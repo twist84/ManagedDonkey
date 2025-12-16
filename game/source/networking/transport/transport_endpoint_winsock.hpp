@@ -1,5 +1,13 @@
 #pragma once
 
+enum
+{
+	_transport_readwrite_error_endpoint_closed = 0,
+	_transport_write_error_unreachable = -1,
+	_transport_readwrite_error_would_block = -2,
+	_transport_readwrite_error_unknown = -3,
+};
+
 enum e_transport_type
 {
 	_transport_type_udp = 0,

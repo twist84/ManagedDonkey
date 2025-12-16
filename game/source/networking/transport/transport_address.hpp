@@ -1,5 +1,7 @@
 #pragma once
 
+//#define USE_IPV6
+
 enum
 {
 	IPV4_ADDRESS_LENGTH = 0x4,

@@ -6,8 +6,6 @@
 #include "networking/transport/transport_dns_winsock.hpp"
 #include "networking/transport/transport_security.hpp"
 
-//#define USE_IPV6
-
 HOOK_DECLARE(0x0043F660, transport_address_equivalent);
 HOOK_DECLARE(0x0043F6F0, transport_address_get_string);
 HOOK_DECLARE(0x0043F720, transport_address_ipv4_extract);
@@ -286,9 +284,9 @@ void __cdecl transport_get_loopback_address(transport_address* address, uns16 po
 	address->address_length = IPV6_ADDRESS_LENGTH;
 	address->port = port;
 #else
-	//address->address_length = IPV4_ADDRESS_LENGTH;
-	//address->ipv4_address = IPV4_LOOPBACK_ADDRESS;
-	//address->port = port;
+	address->address_length = IPV4_ADDRESS_LENGTH;
+	address->ipv4_address = IPV4_LOOPBACK_ADDRESS;
+	address->port = port;
 #endif
 }
 
