@@ -369,6 +369,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClCompile Include="source\physics\point_physics.cpp" />
     <ClCompile Include="source\profiler\profiler.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
+    <ClCompile Include="source\profiler\profiler_tracedump.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_dynamic_render_targets.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_loading_screen.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_memory.cpp" />
@@ -1314,6 +1315,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\physics\point_physics.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
+    <ClInclude Include="source\profiler\profiler_tracedump.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_dynamic_render_targets.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_loading_screen.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_memory.hpp" />

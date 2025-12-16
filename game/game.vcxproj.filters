@@ -2109,6 +2109,9 @@
     <ClCompile Include="source\networking\network_statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\profiler\profiler_tracedump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4644,6 +4647,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\location.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\profiler\profiler_tracedump.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

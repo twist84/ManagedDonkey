@@ -7,6 +7,7 @@
 #include "networking/network_time.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_address.hpp"
+#include "profiler/profiler_tracedump.hpp"
 
 HOOK_DECLARE_CLASS_MEMBER(0x0043B5E0, c_network_link, adjust_packet_size);
 HOOK_DECLARE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire);
@@ -23,7 +24,7 @@ HOOK_DECLARE_CLASS(0x0043BB20, c_network_link, initialize_packet);
 HOOK_DECLARE_CLASS(0x0043BBA0, c_network_link, packet_has_voice);
 HOOK_DECLARE_CLASS(0x0043BBB0, c_network_link, physical_link_available);
 HOOK_DECLARE_CLASS_MEMBER(0x0043BBC0, c_network_link, process_all_channels);
-//HOOK_DECLARE_CLASS_MEMBER(0x0043BC70, c_network_link, process_incoming_packets);
+HOOK_DECLARE_CLASS_MEMBER(0x0043BC70, c_network_link, process_incoming_packets);
 HOOK_DECLARE_CLASS_MEMBER(0x0043BDA0, c_network_link, process_packet_internal);
 HOOK_DECLARE_CLASS_MEMBER(0x0043BEC0, c_network_link, read_data_immediate_);
 HOOK_DECLARE_CLASS_MEMBER(0x0043BF50, c_network_link, read_packet_internal);
@@ -43,7 +44,7 @@ c_network_link::c_network_link() :
 	m_next_channel_identifier(0),
 	m_next_first_channel_index(0),
 	//m_endpoints_created(false),
-	m_endpoints(),
+	m_endpoints({ NULL }),
 	//m_simulation_parameters(),
 	m_out_of_band_consumer(NULL)
 {
@@ -494,7 +495,80 @@ void c_network_link::process_all_channels()
 
 void c_network_link::process_incoming_packets()
 {
-	INVOKE_CLASS_MEMBER(0x0043BC70, c_network_link, process_incoming_packets);
+	//INVOKE_CLASS_MEMBER(0x0043BC70, c_network_link, process_incoming_packets);
+
+	// $TODO simulate packet logic
+
+	ASSERT(m_initialized);
+
+	c_network_channel* processed_channels[16]{};
+	bool tracing_enabled = trace_dump_is_trace_enabled();
+
+	bool packet_received = false;
+	do
+	{
+		transport_address source_address{};
+		int32 source_packet_mode = NONE;
+		int32 packet_length = 0;
+		byte packet_buffer[4096]{};
+
+		packet_received = false;
+		for (int32 read_packet_mode = 0; read_packet_mode < NUMBEROF(m_endpoints); read_packet_mode++)
+		{
+			if (packet_received = c_network_link::read_data_immediate(read_packet_mode, &source_address, &packet_length, packet_buffer, sizeof(packet_buffer)))
+			{
+				source_packet_mode = read_packet_mode;
+				break;
+			}
+		}
+
+		s_link_packet packet{};
+
+		bool packet_valid = false;
+		if (packet_received)
+		{
+			c_network_link::initialize_packet(&packet);
+			packet.packet_mode = source_packet_mode;
+			packet.address = source_address;
+			packet_valid = c_network_link::decode_packet(packet_length, packet_buffer, &packet);
+		}
+
+		if (packet_valid)
+		{
+			bool process_packet = true;
+			if (tracing_enabled)
+			{
+				if (packet.packet_mode == _network_packet_mode_out_of_band || packet.packet_mode == _network_packet_mode_broadcast)
+				{
+					process_packet = false;
+				}
+				else if (packet.packet_mode == _network_packet_mode_channel)
+				{
+					c_network_channel* channel = c_network_link::get_associated_channel(&packet.address);
+					for (int32 index = 0; index < NUMBEROF(processed_channels); index++)
+					{
+						if (channel == processed_channels[index])
+						{
+							process_packet = false;
+							break;
+						}
+
+						if (!processed_channels[index] == NULL)
+						{
+							processed_channels[index] = channel;
+							break;
+						}
+					}
+				}
+			}
+
+			if (process_packet)
+			{
+				c_network_link::process_packet_internal(&packet);
+			}
+		}
+	}
+	while (packet_received);
 }
 
 void c_network_link::process_packet_internal(const s_link_packet* packet)
@@ -889,21 +963,9 @@ void c_network_link::send_packet_internal(const s_link_packet* packet)
 #if 0
 				int32 packet_size_on_wire = c_network_link::compute_size_on_wire(packet);
 				uns32 delivery_timestamp;
-				if (c_network_simulation_queue::get_packet_delivery(
-					&m_simulation_parameters,
-					&m_simulation_state,
-					network_time_get(),
-					packet_size_on_wire,
-					false,
-					&delivery_timestamp))
+				if (c_network_simulation_queue::get_packet_delivery(&m_simulation_parameters, &m_simulation_state, network_time_get(), packet_size_on_wire, false, &delivery_timestamp))
 				{
-					c_network_link::add_packet_to_simulation_queue(
-						false,
-						delivery_timestamp,
-						packet->packet_mode,
-						&packet->address,
-						data_length,
-						data_buffer);
+					c_network_link::add_packet_to_simulation_queue(false, delivery_timestamp, packet->packet_mode, &packet->address, data_length, data_buffer);
 				}
 #endif
 			}
