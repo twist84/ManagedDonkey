@@ -144,7 +144,7 @@ uns32 get_external_ip()
 {
 	if (g_external_ip.address.ipv4_address == 0)
 	{
-		const char* host = "ifconfig.me";
+		constexpr const char* host = "ifconfig.me";
 		transport_address_from_host(host, g_external_ip.address);
 
 		g_external_ip.get_stream.add_header("Host", host);
