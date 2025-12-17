@@ -152,20 +152,22 @@ void c_bitstream::write_bit_internal(bool value)
 {
 	DECLFUNC(0x00444AD0, void, __thiscall, c_bitstream*, bool)(this, value);
 
-	//ASSERT(writing());
-	//
-	//m_bitstream_data.current_stream_bit_position++;
-	//
-	//if (m_bitstream_data.accumulator_bit_count >= QWORD_BITS)
-	//{
-	//	uns64 bit = value ? 1 : 0;
-	//	write_accumulator_to_memory(bit, 1);
-	//}
-	//else
-	//{
-	//	m_bitstream_data.accumulator = (m_bitstream_data.accumulator << 1) | (value ? 1 : 0);
-	//	m_bitstream_data.accumulator_bit_count += 1;
-	//}
+#if 0
+	ASSERT(writing());
+	
+	m_bitstream_data.current_stream_bit_position++;
+	
+	if (m_bitstream_data.accumulator_bit_count >= QWORD_BITS)
+	{
+		uns64 bit = value ? 1 : 0;
+		write_accumulator_to_memory(bit, 1);
+	}
+	else
+	{
+		m_bitstream_data.accumulator = (m_bitstream_data.accumulator << 1) | (value ? 1 : 0);
+		m_bitstream_data.accumulator_bit_count += 1;
+	}
+#endif
 }
 
 void c_bitstream::write_bool(const char* debug_string, bool value)
@@ -181,42 +183,46 @@ void c_bitstream::write_dword_internal(uns32 value, int32 size_in_bits)
 {
 	DECLFUNC(0x00444B90, void, __thiscall, c_bitstream*, uns32, int32)(this, value, size_in_bits);
 
-	//ASSERT(m_state == _bitstream_state_write);
-	//ASSERT(size_in_bits >= 0 && size_in_bits <= LONG_BITS);
-	//ASSERT((value & ~((1 << size_in_bits) - 1)) == 0);
-	//
-	//int32 shift = QWORD_BITS - m_bitstream_data.accumulator_bit_count;
-	//
-	//if (size_in_bits > shift)
-	//{
-	//	write_accumulator_to_memory((uns64)value, size_in_bits);
-	//}
-	//else
-	//{
-	//	m_bitstream_data.current_stream_bit_position += size_in_bits;
-	//	m_bitstream_data.accumulator <<= size_in_bits;
-	//	m_bitstream_data.accumulator |= value;
-	//	m_bitstream_data.accumulator_bit_count += size_in_bits;
-	//}
+#if 0
+	ASSERT(m_state == _bitstream_state_write);
+	ASSERT(size_in_bits >= 0 && size_in_bits <= LONG_BITS);
+	ASSERT((value & ~((1 << size_in_bits) - 1)) == 0);
+	
+	int32 shift = QWORD_BITS - m_bitstream_data.accumulator_bit_count;
+	
+	if (size_in_bits > shift)
+	{
+		write_accumulator_to_memory((uns64)value, size_in_bits);
+	}
+	else
+	{
+		m_bitstream_data.current_stream_bit_position += size_in_bits;
+		m_bitstream_data.accumulator <<= size_in_bits;
+		m_bitstream_data.accumulator |= value;
+		m_bitstream_data.accumulator_bit_count += size_in_bits;
+	}
+#endif
 }
 
 void c_bitstream::write_integer(const char* debug_string, uns32 value, int32 size_in_bits)
 {
 	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, const char*, uns32, int32)(this, debug_string, value, size_in_bits);
 
-	//ASSERT(writing());
-	//ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
-	//
-	//if (size_in_bits < LONG_BITS && value >= FLAG(size_in_bits))
-	//{
-	//	VASSERT(c_string_builder("%u %s max value of %u (writing %s)",
-	//		value,
-	//		value > FLAG(size_in_bits) ? "exceeds" : "equal to",
-	//		MASK(size_in_bits),
-	//		debug_string).get_string());
-	//}
-	//
-	//c_bitstream::write_dword_internal(value, size_in_bits);
+#if 0
+	ASSERT(writing());
+	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
+	
+	if (size_in_bits < LONG_BITS && value >= FLAG(size_in_bits))
+	{
+		VASSERT(c_string_builder("%u %s max value of %u (writing %s)",
+			value,
+			value > FLAG(size_in_bits) ? "exceeds" : "equal to",
+			MASK(size_in_bits),
+			debug_string).get_string());
+	}
+	
+	c_bitstream::write_dword_internal(value, size_in_bits);
+#endif
 }
 
 void c_bitstream::write_raw_data(const char* debug_string, const void* raw_data, int32 size_in_bits)
@@ -285,52 +291,56 @@ void c_bitstream::angle_to_axes_internal(const real_vector3d* up, real32 forward
 
 void c_bitstream::append(const c_bitstream* stream)
 {
+	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, const c_bitstream*)(this, stream);
+
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
 	ASSERT(writing());
 
 	c_bitstream::write_bits_internal(stream->m_data, stream->m_bitstream_data.current_memory_bit_position);
 	m_number_of_bits_rewound += stream->m_number_of_bits_rewound;
 	m_number_of_position_resets += stream->m_number_of_position_resets;
-
-	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, const c_bitstream*)(this, stream);
 }
 
 void c_bitstream::axes_compute_reference_internal(const real_vector3d* up, real_vector3d* forward_reference, real_vector3d* left_reference)
 {
 	INVOKE(0x00557150, c_bitstream::axes_compute_reference_internal, up, forward_reference, left_reference);
 
-	//ASSERT(up);
-	//ASSERT(forward_reference);
-	//ASSERT(left_reference);
-	//
-	//assert_valid_real_normal3d(up);
-	//
-	//if (fabsf(dot_product3d(up, global_forward3d)) < fabsf(dot_product3d(up, global_left3d)))
-	//{
-	//	cross_product3d(up, global_forward3d, forward_reference);
-	//}
-	//else
-	//{
-	//	cross_product3d(global_left3d, up, forward_reference);
-	//}
-	//real32 forward_magnitude = normalize3d(forward_reference);
-	//ASSERT(forward_magnitude > k_real_epsilon);
-	//
-	//cross_product3d(up, forward_reference, left_reference);
-	//real32 left_magnitude = normalize3d(left_reference);
-	//ASSERT(left_magnitude > k_real_epsilon);
-	//
-	//assert_valid_real_vector3d_axes3(forward_reference, left_reference, up);
+#if 0
+	ASSERT(up);
+	ASSERT(forward_reference);
+	ASSERT(left_reference);
+	
+	assert_valid_real_normal3d(up);
+	
+	if (fabsf(dot_product3d(up, global_forward3d)) < fabsf(dot_product3d(up, global_left3d)))
+	{
+		cross_product3d(up, global_forward3d, forward_reference);
+	}
+	else
+	{
+		cross_product3d(global_left3d, up, forward_reference);
+	}
+	real32 forward_magnitude = normalize3d(forward_reference);
+	ASSERT(forward_magnitude > k_real_epsilon);
+	
+	cross_product3d(up, forward_reference, left_reference);
+	real32 left_magnitude = normalize3d(left_reference);
+	ASSERT(left_magnitude > k_real_epsilon);
+	
+	assert_valid_real_vector3d_axes3(forward_reference, left_reference, up);
+#endif
 }
 
 real32 c_bitstream::axes_to_angle_internal(const real_vector3d* forward, const real_vector3d* up)
 {
 	return INVOKE(0x005573F0, c_bitstream::axes_to_angle_internal, forward, up);
 
-	//real_vector3d forward_reference{};
-	//real_vector3d left_reference{};
-	//axes_compute_reference_internal(up, &forward_reference, &left_reference);
-	//return arctangent(dot_product3d(&left_reference, forward), dot_product3d(&left_reference, forward));
+#if 0
+	real_vector3d forward_reference{};
+	real_vector3d left_reference{};
+	axes_compute_reference_internal(up, &forward_reference, &left_reference);
+	return arctangent(dot_product3d(&left_reference, forward), dot_product3d(&left_reference, forward));
+#endif
 }
 
 
@@ -378,31 +388,33 @@ uns64 c_bitstream::decode_qword_from_memory()
 	return DECLFUNC(0x00557D70, uns64, __thiscall, c_bitstream*)(this);
 	//return INVOKE_CLASS_MEMBER(0x00557D70, c_bitstream, decode_qword_from_memory);
 
-	//uns64 value = 0;
-	//int32 used_bit_count = 0;
-	//
-	//if ((m_bitstream_data.next_data + QWORD_BYTES) > m_data_max)
-	//{
-	//	while (m_bitstream_data.next_data < m_data_max)
-	//	{
-	//		value = left_shift_fast<uns64>(value, CHAR_BITS) | *m_bitstream_data.next_data;
-	//		m_bitstream_data.next_data++;
-	//		used_bit_count += CHAR_BITS;
-	//	}
-	//
-	//	value = left_shift_fast<uns64>(value, QWORD_BITS - used_bit_count);
-	//}
-	//else
-	//{
-	//	value = bswap_uns64((uns64)m_bitstream_data.next_data);
-	//	m_bitstream_data.next_data += QWORD_BYTES;
-	//	used_bit_count = QWORD_BYTES;
-	//}
-	//
-	//ASSERT(m_bitstream_data.next_data <= m_data_max);
-	//m_bitstream_data.current_memory_bit_position += used_bit_count;
-	//
-	//return value;
+#if 0
+	uns64 value = 0;
+	int32 used_bit_count = 0;
+	
+	if ((m_bitstream_data.next_data + QWORD_BYTES) > m_data_max)
+	{
+		while (m_bitstream_data.next_data < m_data_max)
+		{
+			value = left_shift_fast<uns64>(value, CHAR_BITS) | *m_bitstream_data.next_data;
+			m_bitstream_data.next_data++;
+			used_bit_count += CHAR_BITS;
+		}
+	
+		value = left_shift_fast<uns64>(value, QWORD_BITS - used_bit_count);
+	}
+	else
+	{
+		value = bswap_uns64((uns64)m_bitstream_data.next_data);
+		m_bitstream_data.next_data += QWORD_BYTES;
+		used_bit_count = QWORD_BYTES;
+	}
+	
+	ASSERT(m_bitstream_data.next_data <= m_data_max);
+	m_bitstream_data.current_memory_bit_position += used_bit_count;
+	
+	return value;
+#endif
 }
 
 //.text:00557EB0 ; 
@@ -423,23 +435,25 @@ void c_bitstream::encode_qword_to_memory(uns64 value, int32 bit_count)
 	DECLFUNC(0x00557F80, void, __thiscall, const c_bitstream*, uns64, int32)(this, value, bit_count);
 	//INVOKE_CLASS_MEMBER(0x00557F80, c_bitstream, encode_qword_to_memory, value, bit_count);
 
-	//if ((m_bitstream_data.next_data + QWORD_BYTES) > m_data_max)
-	//{
-	//	while (m_bitstream_data.next_data < m_data_max)
-	//	{
-	//		*m_bitstream_data.next_data++ = (byte)right_shift_fast<uns64>(value, QWORD_BITS - CHAR_BITS);
-	//		value = left_shift_fast<uns64>(value, CHAR_BITS);
-	//	}
-	//
-	//	m_bitstream_data.current_memory_bit_position += bit_count;
-	//}
-	//else
-	//{
-	//	*(uns64*)m_bitstream_data.next_data = bswap_uns64(value);
-	//	m_bitstream_data.next_data += QWORD_BYTES;
-	//}
-	//
-	//m_bitstream_data.current_memory_bit_position += bit_count;
+#if 0
+	if ((m_bitstream_data.next_data + QWORD_BYTES) > m_data_max)
+	{
+		while (m_bitstream_data.next_data < m_data_max)
+		{
+			*m_bitstream_data.next_data++ = (byte)right_shift_fast<uns64>(value, QWORD_BITS - CHAR_BITS);
+			value = left_shift_fast<uns64>(value, CHAR_BITS);
+		}
+	
+		m_bitstream_data.current_memory_bit_position += bit_count;
+	}
+	else
+	{
+		*(uns64*)m_bitstream_data.next_data = bswap_uns64(value);
+		m_bitstream_data.next_data += QWORD_BYTES;
+	}
+	
+	m_bitstream_data.current_memory_bit_position += bit_count;
+#endif
 }
 
 bool c_bitstream::overflowed() const
@@ -497,35 +511,37 @@ void c_bitstream::finish_writing(int32* bits_wasted)
 
 	DECLFUNC(0x005580D0, void, __thiscall, c_bitstream*, int32*)(this, bits_wasted);
 
-	//int32 accumulator_bit_count = m_bitstream_data.accumulator_bit_count;
-	//if (accumulator_bit_count != QWORD_BITS)
-	//{
-	//	m_bitstream_data.accumulator = left_shift_fast<uns64>(m_bitstream_data.accumulator, QWORD_BITS - accumulator_bit_count);
-	//}
-	//
-	//c_bitstream::encode_qword_to_memory(m_bitstream_data.accumulator, QWORD_BITS);
-	//
-	//m_bitstream_data.current_memory_bit_position += accumulator_bit_count;
-	//
-	//m_bitstream_data.accumulator = 0;
-	//m_bitstream_data.accumulator_bit_count = 0;
-	//
-	//int32 total_bits = m_bitstream_data.current_memory_bit_position;
-	//int32 total_bytes = (total_bits + (CHAR_BITS - 1)) / CHAR_BITS;
-	//m_data_size_bytes = total_bytes;
-	//m_data_max = &m_data[total_bytes];
-	//
-	//if (total_bytes % m_data_size_alignment)
-	//{
-	//	m_data_size_bytes = m_data_size_alignment + total_bytes - (total_bytes % m_data_size_alignment);
-	//}
-	//
-	//m_state = _bitstream_state_write_finished;
-	//
-	//if (bits_wasted)
-	//{
-	//	*bits_wasted = (m_data_size_bytes * CHAR_BITS) - total_bits;
-	//}
+#if 0
+	int32 accumulator_bit_count = m_bitstream_data.accumulator_bit_count;
+	if (accumulator_bit_count != QWORD_BITS)
+	{
+		m_bitstream_data.accumulator = left_shift_fast<uns64>(m_bitstream_data.accumulator, QWORD_BITS - accumulator_bit_count);
+	}
+	
+	c_bitstream::encode_qword_to_memory(m_bitstream_data.accumulator, QWORD_BITS);
+	
+	m_bitstream_data.current_memory_bit_position += accumulator_bit_count;
+	
+	m_bitstream_data.accumulator = 0;
+	m_bitstream_data.accumulator_bit_count = 0;
+	
+	int32 total_bits = m_bitstream_data.current_memory_bit_position;
+	int32 total_bytes = (total_bits + (CHAR_BITS - 1)) / CHAR_BITS;
+	m_data_size_bytes = total_bytes;
+	m_data_max = &m_data[total_bytes];
+	
+	if (total_bytes % m_data_size_alignment)
+	{
+		m_data_size_bytes = m_data_size_alignment + total_bytes - (total_bytes % m_data_size_alignment);
+	}
+	
+	m_state = _bitstream_state_write_finished;
+	
+	if (bits_wasted)
+	{
+		*bits_wasted = (m_data_size_bytes * CHAR_BITS) - total_bits;
+	}
+#endif
 }
 
 int32 c_bitstream::get_current_stream_bit_position()
@@ -572,64 +588,68 @@ uns64 c_bitstream::read_accumulator_from_memory(int32 size_in_bits)
 {
 	return DECLFUNC(0x005583D0, bool, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 
-	//uns64 old_accumulator = m_bitstream_data.accumulator;
-	//uns64 next_accumulator = c_bitstream::decode_qword_from_memory();
-	//
-	//m_bitstream_data.current_stream_bit_position += size_in_bits;
-	//int32 bits_from_next_accumulator = m_bitstream_data.accumulator_bit_count + size_in_bits - QWORD_BITS;
-	//if (bits_from_next_accumulator < QWORD_BITS)
-	//{
-	//	m_bitstream_data.accumulator = next_accumulator << bits_from_next_accumulator;
-	//}
-	//else
-	//{
-	//	m_bitstream_data.accumulator = 0LL;
-	//}
-	//m_bitstream_data.accumulator_bit_count = bits_from_next_accumulator;
-	//
-	//uns64 value_portion_from_old_accumulator = right_shift_fast<uns64>(old_accumulator, size_in_bits);
-	//uns64 value_portion_from_new_accumulator = right_shift_fast<uns64>(next_accumulator, QWORD_BITS - bits_from_next_accumulator);
-	//ASSERT((value_portion_from_old_accumulator & MASK(bits_from_next_accumulator)) == 0);
-	//
-	//return value_portion_from_old_accumulator | value_portion_from_new_accumulator;
+#if 0
+	uns64 old_accumulator = m_bitstream_data.accumulator;
+	uns64 next_accumulator = c_bitstream::decode_qword_from_memory();
+	
+	m_bitstream_data.current_stream_bit_position += size_in_bits;
+	int32 bits_from_next_accumulator = m_bitstream_data.accumulator_bit_count + size_in_bits - QWORD_BITS;
+	if (bits_from_next_accumulator < QWORD_BITS)
+	{
+		m_bitstream_data.accumulator = next_accumulator << bits_from_next_accumulator;
+	}
+	else
+	{
+		m_bitstream_data.accumulator = 0LL;
+	}
+	m_bitstream_data.accumulator_bit_count = bits_from_next_accumulator;
+	
+	uns64 value_portion_from_old_accumulator = right_shift_fast<uns64>(old_accumulator, size_in_bits);
+	uns64 value_portion_from_new_accumulator = right_shift_fast<uns64>(next_accumulator, QWORD_BITS - bits_from_next_accumulator);
+	ASSERT((value_portion_from_old_accumulator & MASK(bits_from_next_accumulator)) == 0);
+	
+	return value_portion_from_old_accumulator | value_portion_from_new_accumulator;
+#endif
 }
 
 bool c_bitstream::read_bit_internal()
 {
 	return DECLFUNC(0x00558570, bool, __thiscall, c_bitstream*)(this);
 
-	//if (m_bitstream_data.accumulator_bit_count < QWORD_BITS)
-	//{
-	//	uns64 accumulator = m_bitstream_data.accumulator;
-	//	bool result = (accumulator >> (QWORD_BITS - 1)) != 0;
-	//
-	//	m_bitstream_data.current_stream_bit_position++;
-	//	m_bitstream_data.accumulator = accumulator << 1;
-	//	m_bitstream_data.accumulator_bit_count += 1;
-	//
-	//	return result;
-	//}
-	//
-	//uns64 value = c_bitstream::decode_qword_from_memory();
-	//
-	//uns64 old_accumulator = m_bitstream_data.accumulator;
-	//bool result = (old_accumulator >> (QWORD_BITS - 1)) != 0;
-	//
-	//int32 new_accumulator_bits = m_bitstream_data.accumulator_bit_count - (QWORD_BITS - 1);
-	//m_bitstream_data.accumulator_bit_count = new_accumulator_bits;
-	//
-	//m_bitstream_data.current_stream_bit_position++;
-	//
-	//if (new_accumulator_bits < QWORD_BITS)
-	//{
-	//	m_bitstream_data.accumulator = left_shift_fast<uns64>(value, new_accumulator_bits);
-	//}
-	//else
-	//{
-	//	m_bitstream_data.accumulator = 0;
-	//}
-	//
-	//return result || ((value >> (QWORD_BITS - new_accumulator_bits)) != 0);
+#if 0
+	if (m_bitstream_data.accumulator_bit_count < QWORD_BITS)
+	{
+		uns64 accumulator = m_bitstream_data.accumulator;
+		bool result = (accumulator >> (QWORD_BITS - 1)) != 0;
+	
+		m_bitstream_data.current_stream_bit_position++;
+		m_bitstream_data.accumulator = accumulator << 1;
+		m_bitstream_data.accumulator_bit_count += 1;
+	
+		return result;
+	}
+	
+	uns64 value = c_bitstream::decode_qword_from_memory();
+	
+	uns64 old_accumulator = m_bitstream_data.accumulator;
+	bool result = (old_accumulator >> (QWORD_BITS - 1)) != 0;
+	
+	int32 new_accumulator_bits = m_bitstream_data.accumulator_bit_count - (QWORD_BITS - 1);
+	m_bitstream_data.accumulator_bit_count = new_accumulator_bits;
+	
+	m_bitstream_data.current_stream_bit_position++;
+	
+	if (new_accumulator_bits < QWORD_BITS)
+	{
+		m_bitstream_data.accumulator = left_shift_fast<uns64>(value, new_accumulator_bits);
+	}
+	else
+	{
+		m_bitstream_data.accumulator = 0;
+	}
+	
+	return result || ((value >> (QWORD_BITS - new_accumulator_bits)) != 0);
+#endif
 }
 
 void c_bitstream::read_bits_internal(byte* data, int32 size_in_bits)
@@ -638,45 +658,49 @@ void c_bitstream::read_bits_internal(byte* data, int32 size_in_bits)
 
 	DECLFUNC(0x00558740, void, __thiscall, c_bitstream*, byte*, int32)(this, data, size_in_bits);
 
-	//int32 size_in_qwords = size_in_bits / QWORD_BITS;
-	//for (int32 qword_index = 0; qword_index < size_in_qwords; qword_index++)
-	//{
-	//	uns64 value = c_bitstream::read_qword_internal(QWORD_BITS);
-	//	value = bswap_uns64(value);
-	//
-	//	*(uns64*)data = value;
-	//	data += QWORD_BYTES;
-	//}
-	//
-	//int32 remaining_bits = size_in_bits % QWORD_BITS;
-	//if (remaining_bits > CHAR_BITS)
-	//{
-	//	uns64 value = c_bitstream::read_qword_internal(remaining_bits);
-	//	value = left_shift_fast<uns64>(value, QWORD_BITS - remaining_bits);
-	//
-	//	int32 byte_count = remaining_bits / CHAR_BITS;
-	//	for (int32 i = 0; i < byte_count; i++)
-	//	{
-	//		data[i] = (byte)(value >> (QWORD_BITS - CHAR_BITS));
-	//		value <<= CHAR_BITS;
-	//	}
-	//
-	//	int32 partial_bits = remaining_bits % CHAR_BITS;
-	//	if (partial_bits > 0)
-	//	{
-	//		data[byte_count] = (byte)(value >> (QWORD_BITS - CHAR_BITS));
-	//	}
-	//}
+#if 0
+	int32 size_in_qwords = size_in_bits / QWORD_BITS;
+	for (int32 qword_index = 0; qword_index < size_in_qwords; qword_index++)
+	{
+		uns64 value = c_bitstream::read_qword_internal(QWORD_BITS);
+		value = bswap_uns64(value);
+	
+		*(uns64*)data = value;
+		data += QWORD_BYTES;
+	}
+	
+	int32 remaining_bits = size_in_bits % QWORD_BITS;
+	if (remaining_bits > CHAR_BITS)
+	{
+		uns64 value = c_bitstream::read_qword_internal(remaining_bits);
+		value = left_shift_fast<uns64>(value, QWORD_BITS - remaining_bits);
+	
+		int32 byte_count = remaining_bits / CHAR_BITS;
+		for (int32 i = 0; i < byte_count; i++)
+		{
+			data[i] = (byte)(value >> (QWORD_BITS - CHAR_BITS));
+			value <<= CHAR_BITS;
+		}
+	
+		int32 partial_bits = remaining_bits % CHAR_BITS;
+		if (partial_bits > 0)
+		{
+			data[byte_count] = (byte)(value >> (QWORD_BITS - CHAR_BITS));
+		}
+	}
+#endif
 }
 
 uns32 c_bitstream::read_dword_internal(int32 size_in_bits)
 {
 	return DECLFUNC(0x005589A0, uns32, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 
-	//ASSERT(reading());
-	//ASSERT(size_in_bits <= SIZEOF_BITS(uns32));
-	//
-	//return (uns32)read_qword_internal(size_in_bits);
+#if 0
+	ASSERT(reading());
+	ASSERT(size_in_bits <= SIZEOF_BITS(uns32));
+	
+	return (uns32)read_qword_internal(size_in_bits);
+#endif
 }
 
 void c_bitstream::read_identifier(const char* debug_string)
@@ -698,11 +722,13 @@ void c_bitstream::read_point3d(const char* debug_string, long_point3d* point, in
 
 	DECLFUNC(0x00558C50, void, __thiscall, c_bitstream*, const char*, long_point3d*, int32)(this, debug_string, point, axis_encoding_size_in_bits);
 
-	//for (int32 axis = 0; axis < 3; axis++)
-	//{
-	//	point->n[axis] = c_bitstream::read_dword_internal(axis_encoding_size_in_bits);
-	//	ASSERT(point->n[axis] < left_shift_fast<int32>(1, axis_encoding_size_in_bits));
-	//}
+#if 0
+	for (int32 axis = 0; axis < 3; axis++)
+	{
+		point->n[axis] = c_bitstream::read_dword_internal(axis_encoding_size_in_bits);
+		ASSERT(point->n[axis] < left_shift_fast<int32>(1, axis_encoding_size_in_bits));
+	}
+#endif
 }
 
 real32 c_bitstream::read_quantized_real(const char* debug_string, real32 min_value, real32 max_value, int32 size_in_bits, bool exact_midpoint, bool exact_endpoints)
@@ -719,23 +745,25 @@ uns64 c_bitstream::read_qword_internal(int32 size_in_bits)
 
 	return DECLFUNC(0x00559160, uns64, __thiscall, c_bitstream*, int32)(this, size_in_bits);
 
-	//ASSERT(reading());
-	//ASSERT(size_in_bits > 0 && size_in_bits <= QWORD_BITS);
-	//
-	//if (size_in_bits > QWORD_BITS - m_bitstream_data.accumulator_bit_count)
-	//{
-	//	return c_bitstream::read_accumulator_from_memory(size_in_bits);
-	//}
-	//
-	//uns64 value = right_shift_fast(m_bitstream_data.accumulator, QWORD_BITS - size_in_bits);
-	//m_bitstream_data.current_stream_bit_position += size_in_bits;
-	//uns64 accumulator = m_bitstream_data.accumulator << size_in_bits;
-	//if (size_in_bits >= QWORD_BITS)
-	//{
-	//	accumulator = 0LL;
-	//}
-	//m_bitstream_data.accumulator_bit_count += size_in_bits;
-	//m_bitstream_data.accumulator = accumulator;
+#if 0
+	ASSERT(reading());
+	ASSERT(size_in_bits > 0 && size_in_bits <= QWORD_BITS);
+	
+	if (size_in_bits > QWORD_BITS - m_bitstream_data.accumulator_bit_count)
+	{
+		return c_bitstream::read_accumulator_from_memory(size_in_bits);
+	}
+	
+	uns64 value = right_shift_fast(m_bitstream_data.accumulator, QWORD_BITS - size_in_bits);
+	m_bitstream_data.current_stream_bit_position += size_in_bits;
+	uns64 accumulator = m_bitstream_data.accumulator << size_in_bits;
+	if (size_in_bits >= QWORD_BITS)
+	{
+		accumulator = 0LL;
+	}
+	m_bitstream_data.accumulator_bit_count += size_in_bits;
+	m_bitstream_data.accumulator = accumulator;
+#endif
 }
 
 void c_bitstream::read_secure_address(const char* debug_string, s_transport_secure_address* address)
@@ -779,8 +807,10 @@ void c_bitstream::read_unit_vector(const char* debug_string, real_vector3d* valu
 {
 	DECLFUNC(0x00559A90, void, __thiscall, c_bitstream*, const char*, real_vector3d*, int32)(this, debug_string, value, size_in_bits);
 
-	//int32 unit_vector_quantization = c_bitstream::read_integer(debug_string, size_in_bits);
-	//dequantize_unit_vector3d(unit_vector_quantization, value, size_in_bits);
+#if 0
+	int32 unit_vector_quantization = c_bitstream::read_integer(debug_string, size_in_bits);
+	dequantize_unit_vector3d(unit_vector_quantization, value, size_in_bits);
+#endif
 }
 
 void c_bitstream::read_vector(const char* debug_string, real_vector3d* value, real32 min_magnitude, real32 max_magnitude, int32 magnitude_size_in_bits, int32 size_in_bits)
@@ -799,39 +829,41 @@ void c_bitstream::reset(int32 state)
 {
 	DECLFUNC(0x00559BE0, void, __thiscall, c_bitstream*, int32)(this, state);
 
-	//ASSERT(state >= 0 && state < k_bitstream_state_count);
+#if 0
+	ASSERT(state >= 0 && state < k_bitstream_state_count);
+	
+	m_state = state;
+	
+	m_bitstream_data.current_memory_bit_position = 0;
+	m_bitstream_data.current_stream_bit_position = 0;
+	m_bitstream_data.next_data = m_data;
+	m_bitstream_data.accumulator = 0;
+	m_bitstream_data.accumulator_bit_count = 0;
+	
+	m_position_stack_depth = 0;
+	m_data_error_detected = false;
+	
+	if (c_bitstream::writing())
+	{
+		m_number_of_bits_rewound = 0;
+		m_number_of_position_resets = 0;
+	}
+	else if (c_bitstream::reading())
+	{
+		uns64 value = c_bitstream::decode_qword_from_memory();
+		m_bitstream_data.accumulator = value;
+	
+	//#if PROFILE?
+	//	if ((uns32)(value >> LONG_BITS) == 'debg')
+	//	{
+	//		c_bitstream::read_dword_internal(LONG_BITS);
+	//		event(_event_warning, "c_bitstream::reset - release version cannot read debug bitstreams");
 	//
-	//m_state = state;
-	//
-	//m_bitstream_data.current_memory_bit_position = 0;
-	//m_bitstream_data.current_stream_bit_position = 0;
-	//m_bitstream_data.next_data = m_data;
-	//m_bitstream_data.accumulator = 0;
-	//m_bitstream_data.accumulator_bit_count = 0;
-	//
-	//m_position_stack_depth = 0;
-	//m_data_error_detected = false;
-	//
-	//if (c_bitstream::writing())
-	//{
-	//	m_number_of_bits_rewound = 0;
-	//	m_number_of_position_resets = 0;
-	//}
-	//else if (c_bitstream::reading())
-	//{
-	//	uns64 value = c_bitstream::decode_qword_from_memory();
-	//	m_bitstream_data.accumulator = value;
-	//
-	////#if PROFILE?
-	////	if ((uns32)(value >> LONG_BITS) == 'debg')
-	////	{
-	////		c_bitstream::read_dword_internal(LONG_BITS);
-	////		event(_event_warning, "c_bitstream::reset - release version cannot read debug bitstreams");
-	////
-	////		m_data_error_detected = true;
-	////	}
-	////#endif
-	//}
+	//		m_data_error_detected = true;
+	//	}
+	//#endif
+	}
+#endif
 }
 
 void c_bitstream::set_data(byte* data, int32 data_length)
@@ -855,67 +887,73 @@ bool c_bitstream::would_overflow(int32 size_in_bits) const
 {
 	return DECLFUNC(0x00559E90, bool, __thiscall, const c_bitstream*, int32)(this, size_in_bits);
 
-	//ASSERT(writing());
-	//return size_in_bits + m_bitstream_data.current_stream_bit_position > CHAR_BITS * m_data_size_bytes;
+#if 0
+	ASSERT(writing());
+	return size_in_bits + m_bitstream_data.current_stream_bit_position > CHAR_BITS * m_data_size_bytes;
+#endif
 }
 
 void c_bitstream::write_accumulator_to_memory(uns64 value, int32 size_in_bits)
 {
 	DECLFUNC(0x00559EB0, void, __thiscall, c_bitstream*, uns64, int32)(this, value, size_in_bits);
 
-	//int32 shift_bits = QWORD_BITS - m_bitstream_data.accumulator_bit_count;
-	//int32 accumulator_bit_count = size_in_bits - shift_bits;
-	//
-	//m_bitstream_data.current_stream_bit_position += size_in_bits;
-	//m_bitstream_data.accumulator = value;
-	//m_bitstream_data.accumulator_bit_count = accumulator_bit_count;
-	//
-	//uns64 accumulator = value;
-	//if (accumulator_bit_count < QWORD_BITS)
-	//{
-	//	uns64 shifted_accumulator = left_shift_fast<uns64>(m_bitstream_data.accumulator, shift_bits);
-	//	accumulator = shifted_accumulator | (value >> accumulator_bit_count);
-	//}
-	//
-	//c_bitstream::encode_qword_to_memory(accumulator, QWORD_BITS);
+#if 0
+	int32 shift_bits = QWORD_BITS - m_bitstream_data.accumulator_bit_count;
+	int32 accumulator_bit_count = size_in_bits - shift_bits;
+	
+	m_bitstream_data.current_stream_bit_position += size_in_bits;
+	m_bitstream_data.accumulator = value;
+	m_bitstream_data.accumulator_bit_count = accumulator_bit_count;
+	
+	uns64 accumulator = value;
+	if (accumulator_bit_count < QWORD_BITS)
+	{
+		uns64 shifted_accumulator = left_shift_fast<uns64>(m_bitstream_data.accumulator, shift_bits);
+		accumulator = shifted_accumulator | (value >> accumulator_bit_count);
+	}
+	
+	c_bitstream::encode_qword_to_memory(accumulator, QWORD_BITS);
+#endif
 }
 
 void c_bitstream::write_bits_internal(const byte* data, int32 size_in_bits)
 {
 	DECLFUNC(0x0055A000, void, __thiscall, c_bitstream*, const byte*, int32)(this, data, size_in_bits);
 
-	//ASSERT(writing());
-	//
-	//int32 size_in_qwords = size_in_bits / QWORD_BITS;
-	//for (int32 qword_index = 0; qword_index < size_in_qwords; qword_index++)
-	//{
-	//	uns64 chunk = *(const uns64*)data;
-	//	chunk = bswap_uns64(chunk);
-	//	c_bitstream::write_qword_internal(chunk, QWORD_BITS);
-	//	data += QWORD_BYTES;
-	//}
-	//
-	//int32 remaining_bits = size_in_bits % QWORD_BITS;
-	//if (remaining_bits > 0)
-	//{
-	//	uns64 value = 0;
-	//
-	//	int32 size_in_bytes = remaining_bits / CHAR_BITS;
-	//	for (int32 byte_index = 0; byte_index < size_in_bytes; byte_index++)
-	//	{
-	//		value = (value << CHAR_BITS) | *data++;
-	//	}
-	//
-	//	int32 bit_remainder = remaining_bits % CHAR_BITS;
-	//	if (bit_remainder > 0)
-	//	{
-	//		value = left_shift_fast<uns64>(value, bit_remainder);
-	//		uns8 partial = (*data >> (CHAR_BITS - bit_remainder)) & MASK(bit_remainder);
-	//		value |= partial;
-	//	}
-	//
-	//	c_bitstream::write_qword_internal(value, remaining_bits);
-	//}
+#if 0
+	ASSERT(writing());
+	
+	int32 size_in_qwords = size_in_bits / QWORD_BITS;
+	for (int32 qword_index = 0; qword_index < size_in_qwords; qword_index++)
+	{
+		uns64 chunk = *(const uns64*)data;
+		chunk = bswap_uns64(chunk);
+		c_bitstream::write_qword_internal(chunk, QWORD_BITS);
+		data += QWORD_BYTES;
+	}
+	
+	int32 remaining_bits = size_in_bits % QWORD_BITS;
+	if (remaining_bits > 0)
+	{
+		uns64 value = 0;
+	
+		int32 size_in_bytes = remaining_bits / CHAR_BITS;
+		for (int32 byte_index = 0; byte_index < size_in_bytes; byte_index++)
+		{
+			value = (value << CHAR_BITS) | *data++;
+		}
+	
+		int32 bit_remainder = remaining_bits % CHAR_BITS;
+		if (bit_remainder > 0)
+		{
+			value = left_shift_fast<uns64>(value, bit_remainder);
+			uns8 partial = (*data >> (CHAR_BITS - bit_remainder)) & MASK(bit_remainder);
+			value |= partial;
+		}
+	
+		c_bitstream::write_qword_internal(value, remaining_bits);
+	}
+#endif
 }
 
 void c_bitstream::write_identifier(const char* identifier)
@@ -929,18 +967,20 @@ void c_bitstream::write_point3d(const char* debug_string, const long_point3d* po
 {
 	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream*, const char*, const long_point3d*, int32)(this, debug_string, point, axis_encoding_size_in_bits);
 
-	//ASSERT(axis_encoding_size_in_bits >= 0 && axis_encoding_size_in_bits <= SIZEOF_BITS(point->n[0]));
-	//
-	//for (int32 i = 0; i < 3; ++i)
-	//{
-	//	if (axis_encoding_size_in_bits < LONG_BITS)
-	//	{
-	//		ASSERT(point->n[i] < FLAG(axis_encoding_size_in_bits));
-	//	}
-	//
-	//	write_dword_internal((uns32)point->n[i], axis_encoding_size_in_bits);
-	//	//m_potential_bit_position += axis_encoding_size_in_bits;
-	//}
+#if 0
+	ASSERT(axis_encoding_size_in_bits >= 0 && axis_encoding_size_in_bits <= SIZEOF_BITS(point->n[0]));
+	
+	for (int32 i = 0; i < 3; ++i)
+	{
+		if (axis_encoding_size_in_bits < LONG_BITS)
+		{
+			ASSERT(point->n[i] < FLAG(axis_encoding_size_in_bits));
+		}
+	
+		write_dword_internal((uns32)point->n[i], axis_encoding_size_in_bits);
+		//m_potential_bit_position += axis_encoding_size_in_bits;
+	}
+#endif
 }
 
 void c_bitstream::write_point3d_efficient(const char* debug_string, const long_point3d* point1, const long_point3d* point2)
@@ -959,21 +999,23 @@ void c_bitstream::write_qword_internal(uns64 value, int32 size_in_bits)
 {
 	DECLFUNC(0x0055A3A0, void, __thiscall, c_bitstream*, uns64, int32)(this, value, size_in_bits);
 
-	//ASSERT(writing());
-	//ASSERT(size_in_bits <= QWORD_BITS);
-	//
-	//int32 accumulator_bit_count = m_bitstream_data.accumulator_bit_count;
-	//if (size_in_bits > QWORD_BITS - accumulator_bit_count)
-	//{
-	//	c_bitstream::write_accumulator_to_memory(value, size_in_bits);
-	//}
-	//else
-	//{
-	//	m_bitstream_data.current_stream_bit_position += size_in_bits;
-	//	uns64 shifted = (size_in_bits >= QWORD_BITS) ? 0 : left_shift_fast<uns64>(m_bitstream_data.accumulator, size_in_bits);
-	//	m_bitstream_data.accumulator = shifted | value;
-	//	m_bitstream_data.accumulator_bit_count = accumulator_bit_count + size_in_bits;
-	//}
+#if 0
+	ASSERT(writing());
+	ASSERT(size_in_bits <= QWORD_BITS);
+	
+	int32 accumulator_bit_count = m_bitstream_data.accumulator_bit_count;
+	if (size_in_bits > QWORD_BITS - accumulator_bit_count)
+	{
+		c_bitstream::write_accumulator_to_memory(value, size_in_bits);
+	}
+	else
+	{
+		m_bitstream_data.current_stream_bit_position += size_in_bits;
+		uns64 shifted = (size_in_bits >= QWORD_BITS) ? 0 : left_shift_fast<uns64>(m_bitstream_data.accumulator, size_in_bits);
+		m_bitstream_data.accumulator = shifted | value;
+		m_bitstream_data.accumulator_bit_count = accumulator_bit_count + size_in_bits;
+	}
+#endif
 }
 
 void c_bitstream::write_secure_address(const char* debug_string, const s_transport_secure_address* address)
