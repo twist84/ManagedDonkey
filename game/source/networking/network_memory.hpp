@@ -46,7 +46,7 @@ static_assert(sizeof(s_network_shared_memory_globals) == 0x30);
 
 struct s_network_base_memory_globals
 {
-	byte link[0x378]; //c_network_link link;
+	c_network_link link; // byte link[0x378];
 	byte message_types[0x57C]; //c_network_message_type_collection message_types;
 	c_network_message_gateway message_gateway;
 	c_network_message_handler message_handler;
