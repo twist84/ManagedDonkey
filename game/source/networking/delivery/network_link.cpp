@@ -9,7 +9,8 @@
 #include "networking/transport/transport_address.hpp"
 #include "profiler/profiler_tracedump.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x0043B5E0, c_network_link, adjust_packet_size);
+#if 0
+HOOK_DECLARE_CLASS(0x0043B5E0, c_network_link, adjust_packet_size);
 HOOK_DECLARE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire);
 HOOK_DECLARE_CLASS_MEMBER(0x0043B6F0, c_network_link, create_endpoint);
 HOOK_DECLARE_CLASS_MEMBER(0x0043B7C0, c_network_link, create_endpoints);
@@ -33,6 +34,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x0043C020, c_network_link, send_channel);
 HOOK_DECLARE_CLASS_MEMBER(0x0043C150, c_network_link, send_data_immediate);
 HOOK_DECLARE_CLASS_MEMBER(0x0043C250, c_network_link, send_out_of_band);
 HOOK_DECLARE_CLASS_MEMBER(0x0043C370, c_network_link, send_packet_internal);
+#endif
 
 bool __thiscall c_network_link::read_data_immediate_(transport_address* address, int32* packet_data_length, byte* packet_buffer, int32 packet_buffer_size)
 {
@@ -56,10 +58,11 @@ c_network_link::~c_network_link()
 	c_network_link::destroy_link();
 }
 
-bool c_network_link::adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length)// const
+bool __cdecl c_network_link::adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length)// const
 {
-	//return INVOKE_CLASS_MEMBER(0x0043B5E0, c_network_link, adjust_packet_size, out_of_band, voice_data_length, game_data_length);
+	return INVOKE(0x0043B5E0, c_network_link::adjust_packet_size, out_of_band, voice_data_length, game_data_length);
 
+#if 0
 	ASSERT(game_data_length);
 	ASSERT(voice_data_length > 0 || *game_data_length > 0);
 
@@ -112,6 +115,7 @@ bool c_network_link::adjust_packet_size(bool out_of_band, int32 voice_data_lengt
 	}
 
 	return true;
+#endif
 }
 
 void c_network_link::attach_out_of_band(c_network_out_of_band_consumer* out_of_band)
@@ -121,8 +125,9 @@ void c_network_link::attach_out_of_band(c_network_out_of_band_consumer* out_of_b
 
 int32 c_network_link::compute_size_on_wire(const s_link_packet* packet)// const
 {
-	//return INVOKE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire, packet);
+	return INVOKE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire, packet);
 
+#if 0
 	int32 transport_type = c_network_link::packet_has_voice(packet->packet_mode);
 	int32 padded_game_data = packet->game_data_length;
 	if (padded_game_data % 8 > 0)
@@ -131,12 +136,14 @@ int32 c_network_link::compute_size_on_wire(const s_link_packet* packet)// const
 	}
 	padded_game_data += packet->voice_data_length + transport_get_packet_overhead(transport_type);
 	return padded_game_data;
+#endif
 }
 
 bool c_network_link::create_endpoint(e_transport_type endpoint_type, uns16 port, bool broadcast, transport_endpoint** out_endpoint)
 {
-	//return INVOKE_CLASS_MEMBER(0x0043B6F0, c_network_link, create_endpoint, endpoint_type, port, broadcast, out_endpoint);
+	return INVOKE_CLASS_MEMBER(0x0043B6F0, c_network_link, create_endpoint, endpoint_type, port, broadcast, out_endpoint);
 
+#if 0
 	bool success = false;
 	if (transport_endpoint* endpoint = transport_endpoint_create(endpoint_type))
 	{
@@ -165,6 +172,7 @@ bool c_network_link::create_endpoint(e_transport_type endpoint_type, uns16 port,
 			endpoint_type);
 	}
 	return success;
+#endif
 }
 
 bool c_network_link::create_endpoints()
@@ -173,20 +181,21 @@ bool c_network_link::create_endpoints()
 
 	bool success = false;
 
-	//if (c_network_link::create_endpoint(_transport_type_vdp, 1000, false, &m_endpoints[_network_packet_mode_channel]) &&
-	//	c_network_link::create_endpoint(_transport_type_udp, 1002, false, &m_endpoints[_network_packet_mode_out_of_band]) &&
-	//	c_network_link::create_endpoint(_transport_type_vdp, 1003, true, &m_endpoints[_network_packet_mode_broadcast]))
-	//{
-	//	m_endpoints_created = true;
-	//	success = true;
-	//}
-	//else
-	//{
-	//	c_network_link::destroy_endpoints();
-	//	m_endpoints_created = false;
-	//	success = false;
-	//}
-
+#if 0
+	if (c_network_link::create_endpoint(_transport_type_vdp, 1000, false, &m_endpoints[_network_packet_mode_channel]) &&
+		c_network_link::create_endpoint(_transport_type_udp, 1002, false, &m_endpoints[_network_packet_mode_out_of_band]) &&
+		c_network_link::create_endpoint(_transport_type_vdp, 1003, true, &m_endpoints[_network_packet_mode_broadcast]))
+	{
+		m_endpoints_created = true;
+		success = true;
+	}
+	else
+	{
+		c_network_link::destroy_endpoints();
+		m_endpoints_created = false;
+		success = false;
+	}
+#else
 	uns16 broadcast_port = k_broadcast_port;
 	while (true)
 	{
@@ -206,14 +215,16 @@ bool c_network_link::create_endpoints()
 			return success;
 		}
 	}
+#endif
 
 	return success;
 }
 
 bool c_network_link::decode_packet(int32 data_buffer_size, const byte* data_buffer, s_link_packet* packet)// const
 {
-	//return INVOKE_CLASS_MEMBER(0x0043B820, c_network_link, decode_packet, data_buffer_size, data_buffer, packet);
+	return INVOKE_CLASS_MEMBER(0x0043B820, c_network_link, decode_packet, data_buffer_size, data_buffer, packet);
 
+#if 0
 	ASSERT(data_buffer);
 	ASSERT(packet);
 
@@ -270,12 +281,14 @@ bool c_network_link::decode_packet(int32 data_buffer_size, const byte* data_buff
 		csmemcpy(packet->game_data_buffer, data_buffer, data_buffer_size);
 	}
 	return packet_valid;
+#endif
 }
 
 void c_network_link::destroy_endpoints()
 {
-	//INVOKE_CLASS_MEMBER(0x0043B940, c_network_link, destroy_endpoints);
+	INVOKE_CLASS_MEMBER(0x0043B940, c_network_link, destroy_endpoints);
 
+#if 0
 	for (int32 packet_mode = 0; packet_mode < NUMBEROF(m_endpoints); packet_mode++)
 	{
 		if (m_endpoints[packet_mode])
@@ -284,12 +297,14 @@ void c_network_link::destroy_endpoints()
 			m_endpoints[packet_mode] = NULL;
 		}
 	}
+#endif
 }
 
 void c_network_link::destroy_link()
 {
-	//INVOKE_CLASS_MEMBER(0x0043B960, c_network_link, destroy_link);
+	INVOKE_CLASS_MEMBER(0x0043B960, c_network_link, destroy_link);
 
+#if 0
 	//m_incoming_queue.destroy_queue();
 	//m_outgoing_queue.destroy_queue();
 
@@ -303,12 +318,14 @@ void c_network_link::destroy_link()
 	c_network_link::destroy_endpoints();
 	m_out_of_band_consumer = NULL;
 	m_initialized = false;
+#endif
 }
 
 void c_network_link::encode_packet(const s_link_packet* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size)// const
 {
-	//INVOKE_CLASS_MEMBER(0x0043B990, c_network_link, encode_packet, packet, data_length, data_buffer, data_buffer_size);
+	INVOKE_CLASS_MEMBER(0x0043B990, c_network_link, encode_packet, packet, data_length, data_buffer, data_buffer_size);
 
+#if 0
 	ASSERT(packet);
 	ASSERT(data_length);
 	ASSERT(data_buffer);
@@ -330,12 +347,14 @@ void c_network_link::encode_packet(const s_link_packet* packet, int32* data_leng
 		ASSERT(packet->voice_data_length == 0);
 		*data_length = packet->game_data_length;
 	}
+#endif
 }
 
 uns32 c_network_link::generate_channel_identifier()
 {
-	//return INVOKE_CLASS_MEMBER(0x0043BA20, c_network_link, generate_channel_identifier);
+	return INVOKE_CLASS_MEMBER(0x0043BA20, c_network_link, generate_channel_identifier);
 
+#if 0
 	uns32 identifier = m_next_channel_identifier;
 	m_next_channel_identifier = identifier + 1;
 	if (m_next_channel_identifier == NONE)
@@ -343,12 +362,14 @@ uns32 c_network_link::generate_channel_identifier()
 		m_next_channel_identifier++;
 	}
 	return identifier;
+#endif
 }
 
 c_network_channel* c_network_link::get_associated_channel(const transport_address* address)// const
 {
-	//return INVOKE_CLASS_MEMBER(0x0043BA40, c_network_link, get_associated_channel, address);
+	return INVOKE_CLASS_MEMBER(0x0043BA40, c_network_link, get_associated_channel, address);
 
+#if 0
 	c_network_channel* channel = NULL;
 	while (channel = network_channel_iterate(channel))
 	{
@@ -358,6 +379,7 @@ c_network_channel* c_network_link::get_associated_channel(const transport_addres
 		}
 	}
 	return channel;
+#endif
 }
 
 const char* c_network_link::get_packet_mode_string(int32 packet_mode)
@@ -380,8 +402,9 @@ const char* c_network_link::get_packet_mode_string(int32 packet_mode)
 
 bool c_network_link::initialize_link()
 {
-	//return INVOKE_CLASS_MEMBER(0x0043BAB0, c_network_link, initialize_link);
+	return INVOKE_CLASS_MEMBER(0x0043BAB0, c_network_link, initialize_link);
 
+#if 0
 	m_packets_transmitted.initialize(k_network_link_statistics_period);
 	m_packets_received.initialize(k_network_link_statistics_period);
 	m_upstream_bandwidth.initialize(k_network_link_statistics_period);
@@ -406,50 +429,60 @@ bool c_network_link::initialize_link()
 	}
 	
 	return success;
+#endif
 }
 
 void __cdecl c_network_link::initialize_packet(s_link_packet* packet)
 {
-	//INVOKE(0x0043BB20, c_network_link::initialize_packet, packet);
+	INVOKE(0x0043BB20, c_network_link::initialize_packet, packet);
 
+#if 0
 	ASSERT(packet);
 	packet->packet_mode = NONE;
 	packet->simulate_packet = false;
 	packet->address = {};
 	packet->game_data_length = 0;
 	packet->voice_data_length = 0;
+#endif
 }
 
 bool c_network_channel::is_channel_remote_address(const transport_address* address) const
 {
-	//return INVOKE_CLASS_MEMBER(0x0043BB60, c_network_channel, is_channel_remote_address, address);
+	return INVOKE_CLASS_MEMBER(0x0043BB60, c_network_channel, is_channel_remote_address, address);
 
+#if 0
 	bool is_address = false;
 	if (c_network_channel::get_state() && c_network_channel::get_state() != _network_channel_state_empty)
 	{
 		is_address = transport_address_equivalent(&m_remote_address, address);
 	}
 	return is_address;
+#endif
 }
 
 bool __cdecl c_network_link::packet_has_voice(int32 packet_mode)
 {
-	//return INVOKE(0x0043BBA0, c_network_link::packet_has_voice, packet_mode);
+	return INVOKE(0x0043BBA0, c_network_link::packet_has_voice, packet_mode);
 
-	return packet_mode != _network_packet_mode_out_of_band;
+#if 0
+	return packet_mode == _network_packet_mode_channel;
+#endif
 }
 
 bool __cdecl c_network_link::physical_link_available()
 {
-	//INVOKE(0x0043BBB0, c_network_link::physical_link_available);
+	return INVOKE(0x0043BBB0, c_network_link::physical_link_available);
 
+#if 0
 	return transport_available();
+#endif
 }
 
 void c_network_link::process_all_channels()
 {
-	//INVOKE_CLASS_MEMBER(0x0043BBC0, c_network_link, process_all_channels);
+	INVOKE_CLASS_MEMBER(0x0043BBC0, c_network_link, process_all_channels);
 
+#if 0
 	c_network_channel* channels[k_maximum_machines * 2] = {};
 	int32 channel_count = 0;
 
@@ -491,12 +524,14 @@ void c_network_link::process_all_channels()
 	//	c_network_simulation_queue::update_simulation_state(&m_simulation_parameters, &m_simulation_state, current_timestamp);
 	//	send_pending_simulated_packets(current_timestamp);
 	//}
+#endif
 }
 
 void c_network_link::process_incoming_packets()
 {
-	//INVOKE_CLASS_MEMBER(0x0043BC70, c_network_link, process_incoming_packets);
+	INVOKE_CLASS_MEMBER(0x0043BC70, c_network_link, process_incoming_packets);
 
+#if 0
 	// $TODO simulate packet logic
 
 	ASSERT(m_initialized);
@@ -569,12 +604,14 @@ void c_network_link::process_incoming_packets()
 		}
 	}
 	while (packet_received);
+#endif
 }
 
 void c_network_link::process_packet_internal(const s_link_packet* packet)
 {
-	//INVOKE_CLASS_MEMBER(0x0043BDA0, c_network_link, process_packet_internal, packet);
+	INVOKE_CLASS_MEMBER(0x0043BDA0, c_network_link, process_packet_internal, packet);
 
+#if 0
 	ASSERT(packet);
 
 	int32 packet_size_on_wire = c_network_link::compute_size_on_wire(packet);
@@ -630,12 +667,14 @@ void c_network_link::process_packet_internal(const s_link_packet* packet)
 	}
 	break;
 	}
+#endif
 }
 
 bool c_network_link::read_data_immediate(int32 packet_mode, transport_address* address, int32* packet_data_length, byte* packet_buffer, int32 packet_buffer_size)
 {
-	//return INVOKE_CLASS_MEMBER(0x0043BEC0, c_network_link, read_data_immediate, address, packet_data_length, packet_buffer, packet_buffer_size);
+	return INVOKE_CLASS_MEMBER(0x0043BEC0, c_network_link, read_data_immediate_, address, packet_data_length, packet_buffer, packet_buffer_size);
 
+#if 0
 	ASSERT(VALID_INDEX(packet_mode, k_network_packet_mode_count));
 	ASSERT(address);
 	ASSERT(packet_data_length);
@@ -674,12 +713,14 @@ bool c_network_link::read_data_immediate(int32 packet_mode, transport_address* a
 		}
 	}
 	return packet_received;
+#endif
 }
 
 bool c_network_link::read_packet_internal(s_link_packet* packet)
 {
-	//return INVOKE_CLASS_MEMBER(0x0043BF50, c_network_link, read_packet_internal, packet);
+	return INVOKE_CLASS_MEMBER(0x0043BF50, c_network_link, read_packet_internal, packet);
 
+#if 0
 	ASSERT(packet);
 
 	transport_address source_address{};
@@ -727,12 +768,14 @@ bool c_network_link::read_packet_internal(s_link_packet* packet)
 	}
 
 	return data_received;
+#endif
 }
 
 void c_network_link::send_broadcast(const c_bitstream* game_data, int32* out_size_on_wire)
 {
-	//INVOKE_CLASS_MEMBER(0x0043BFD0, c_network_link, send_broadcast, game_data, out_size_on_wire);
+	INVOKE_CLASS_MEMBER(0x0043BFD0, c_network_link, send_broadcast, game_data, out_size_on_wire);
 
+#if 0
 	transport_address broadcast_address{};
 	transport_get_broadcast_address(&broadcast_address, 11774 /*1003*/);
 	
@@ -743,12 +786,14 @@ void c_network_link::send_broadcast(const c_bitstream* game_data, int32* out_siz
 	{
 		*out_size_on_wire = bytes_transmitted_on_wire;
 	}
+#endif
 }
 
 void c_network_link::send_channel(const c_bitstream* game_data, int32 voice_data_length, const byte* voice_data, const transport_address* address, int32* out_bytes_on_wire)
 {
-	//INVOKE_CLASS_MEMBER(0x0043C020, c_network_link, send_channel, game_data, voice_data_length, voice_data, address, out_bytes_on_wire);
+	INVOKE_CLASS_MEMBER(0x0043C020, c_network_link, send_channel, game_data, voice_data_length, voice_data, address, out_bytes_on_wire);
 
+#if 0
 	ASSERT(voice_data_length == 0 || voice_data != NULL);
 
 	int32 bytes_transmitted_on_wire = 0;
@@ -806,12 +851,14 @@ void c_network_link::send_channel(const c_bitstream* game_data, int32 voice_data
 	{
 		*out_bytes_on_wire = bytes_transmitted_on_wire;
 	}
+#endif
 }
 
 void c_network_link::send_data_immediate(int32 packet_mode, const transport_address* address, int32 packet_data_length, const void* packet_data)
 {
-	//INVOKE_CLASS_MEMBER(0x0043C150, c_network_link, send_data_immediate, packet_mode, address, packet_data_length, packet_data);
+	INVOKE_CLASS_MEMBER(0x0043C150, c_network_link, send_data_immediate, packet_mode, address, packet_data_length, packet_data);
 
+#if 0
 	ASSERT(VALID_INDEX(packet_mode, k_network_packet_mode_count));
 	ASSERT(transport_address_valid(address));
 	ASSERT(packet_data_length > 0);
@@ -882,6 +929,7 @@ void c_network_link::send_data_immediate(int32 packet_mode, const transport_addr
 			else
 			{
 				event(_event_warning, "networking:link:send: send_data_immediate: unknown transport error #%d writing %d bytes on packet mode %s to '%s'",
+					bytes_written,
 					packet_data_length,
 					c_network_link::get_packet_mode_string(packet_mode),
 					transport_address_get_string(&full_address));
@@ -895,12 +943,14 @@ void c_network_link::send_data_immediate(int32 packet_mode, const transport_addr
 			c_network_link::get_packet_mode_string(packet_mode),
 			transport_address_get_string(&full_address));
 	}
+#endif
 }
 
 void c_network_link::send_out_of_band(const c_bitstream* game_data, const transport_address* address, int32* out_size_on_wire)
 {
-	//INVOKE_CLASS_MEMBER(0x0043C250, c_network_link, send_out_of_band, game_data, address, out_size_on_wire);
+	INVOKE_CLASS_MEMBER(0x0043C250, c_network_link, send_out_of_band, game_data, address, out_size_on_wire);
 
+#if 0
 	ASSERT(game_data);
 	ASSERT(address);
 
@@ -938,12 +988,14 @@ void c_network_link::send_out_of_band(const c_bitstream* game_data, const transp
 	{
 		*out_size_on_wire = bytes_transmitted_on_wire;
 	}
+#endif
 }
 
 void c_network_link::send_packet_internal(const s_link_packet* packet)
 {
-	//INVOKE_CLASS_MEMBER(0x0043C370, c_network_link, send_packet_internal, packet);
+	INVOKE_CLASS_MEMBER(0x0043C370, c_network_link, send_packet_internal, packet);
 
+#if 0
 	ASSERT(packet);
 	ASSERT(m_initialized);
 
@@ -981,5 +1033,6 @@ void c_network_link::send_packet_internal(const s_link_packet* packet)
 			data_length,
 			transport_get_packet_maximum_payload(_transport_type_udp));
 	}
+#endif
 }
 

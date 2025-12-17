@@ -47,12 +47,12 @@ public:
 	c_network_link();
 	~c_network_link();
 
-	bool adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length);// const;
+	static bool __cdecl adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length);// const;
 	void attach_out_of_band(c_network_out_of_band_consumer* out_of_band);
 	int32 compute_size_on_wire(const s_link_packet* packet);// const;
 	bool create_endpoint(e_transport_type endpoint_type, uns16 port, bool broadcast, transport_endpoint** out_endpoint);
 	bool create_endpoints();
-	bool decode_packet(int32 data_buffer_size, const byte* data_buffer, s_link_packet* packet);// const;
+	bool decode_packet(int32 data_length, const byte* data_buffer, s_link_packet* packet);// const;
 	void destroy_endpoints();
 	void destroy_link();
 	void encode_packet(const s_link_packet* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size);// const;
