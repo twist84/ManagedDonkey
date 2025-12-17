@@ -249,7 +249,7 @@ void __cdecl network_initialize()
 		network_globals.thread_id = system_get_current_thread_id();
 		network_configuration_initialize(false);
 
-		if (!network_memory_base_initialize(
+		if (network_memory_base_initialize(
 			&g_network_link,
 			&g_network_message_types,
 			&g_network_message_gateway,
@@ -259,103 +259,104 @@ void __cdecl network_initialize()
 			&g_network_session_manager,
 			&g_network_session_parameter_types))
 		{
-			event(_event_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
-			return;
-		}
+			ASSERT(g_network_link != NULL);
+			ASSERT(g_network_message_types != NULL);
+			ASSERT(g_network_message_gateway != NULL);
+			ASSERT(g_network_message_handler != NULL);
+			ASSERT(g_network_observer != NULL);
+			ASSERT(g_network_sessions != NULL);
+			ASSERT(g_network_session_manager != NULL);
+			ASSERT(g_network_session_parameter_types);
 
-		ASSERT(g_network_link != NULL);
-		ASSERT(g_network_message_types != NULL);
-		ASSERT(g_network_message_gateway != NULL);
-		ASSERT(g_network_message_handler != NULL);
-		ASSERT(g_network_observer != NULL);
-		ASSERT(g_network_sessions != NULL);
-		ASSERT(g_network_session_manager != NULL);
-		ASSERT(g_network_session_parameter_types);
+			bool success = g_network_link->initialize_link();
+			g_network_message_types->clear_message_types();
+			network_message_types_register_out_of_band(g_network_message_types);
+			network_message_types_register_connect(g_network_message_types);
+			network_message_types_register_session_protocol(g_network_message_types);
+			network_message_types_register_session_membership(g_network_message_types);
+			network_message_types_register_session_parameters(g_network_message_types);
+			network_message_types_register_simulation(g_network_message_types);
+			network_message_types_register_simulation_synchronous(g_network_message_types);
+			network_message_types_register_simulation_distributed(g_network_message_types);
+			network_message_types_register_text_chat(g_network_message_types);
+			network_message_types_register_test(g_network_message_types);
 
-		bool success = g_network_link->initialize_link();
-		g_network_message_types->clear_message_types();
-		network_message_types_register_out_of_band(g_network_message_types);
-		network_message_types_register_connect(g_network_message_types);
-		network_message_types_register_session_protocol(g_network_message_types);
-		network_message_types_register_session_membership(g_network_message_types);
-		network_message_types_register_session_parameters(g_network_message_types);
-		network_message_types_register_simulation(g_network_message_types);
-		network_message_types_register_simulation_synchronous(g_network_message_types);
-		network_message_types_register_simulation_distributed(g_network_message_types);
-		network_message_types_register_text_chat(g_network_message_types);
-		network_message_types_register_test(g_network_message_types);
+			success = success &&
+				g_network_message_gateway->initialize_gateway(g_network_link, g_network_message_types) &&
+				g_network_message_handler->initialize_handler(g_network_link, g_network_message_types, g_network_message_gateway) &&
+				g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer);
 
-		success |=
-			g_network_message_gateway->initialize_gateway(g_network_link, g_network_message_types) &&
-			g_network_message_handler->initialize_handler(g_network_link, g_network_message_types, g_network_message_gateway) &&
-			g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer);
+			g_network_message_handler->register_observer(g_network_observer);
 
-		g_network_message_handler->register_observer(g_network_observer);
+			g_network_session_parameter_types->clear_session_parameter_types();
+			network_session_parameter_types_register(g_network_session_parameter_types);
+			g_network_session_parameter_types->check_session_parameter_types();
+			network_session_parameters_register_parameter_type_collection(g_network_session_parameter_types);
 
-		g_network_session_parameter_types->clear_session_parameter_types();
-		network_session_parameter_types_register(g_network_session_parameter_types);
-		g_network_session_parameter_types->check_session_parameter_types();
-		network_session_parameters_register_parameter_type_collection(g_network_session_parameter_types);
+			success = success && g_network_session_manager->initialize_session_manager();
+			network_session_time_register_session_manager(g_network_session_manager);
+			g_network_message_handler->register_session_manager(g_network_session_manager);
 
-		success |= g_network_session_manager->initialize_session_manager();
-		network_session_time_register_session_manager(g_network_session_manager);
-		g_network_message_handler->register_session_manager(g_network_session_manager);
+			success = success &&
+				g_network_sessions[0].initialize_session(0, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
+				g_network_sessions[1].initialize_session(1, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
+				g_network_sessions[2].initialize_session(2, _network_session_type_group, g_network_message_gateway, g_network_observer, g_network_session_manager);
 
-		success |=
-			g_network_sessions[0].initialize_session(0, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
-			g_network_sessions[1].initialize_session(1, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
-			g_network_sessions[2].initialize_session(2, _network_session_type_group, g_network_message_gateway, g_network_observer, g_network_session_manager);
+			online_session_manager_initialize();
 
-		online_session_manager_initialize();
+			if (success
+				&& network_banhammer_initialize()
+				&& network_broadcast_search_initialize(g_network_link, g_network_message_gateway)
+				&& network_recruiting_search_initialize()
+				&& network_search_initialize()
+				&& network_life_cycle_initialize(g_network_observer, g_network_session_manager, &g_network_sessions[0], &g_network_sessions[1], &g_network_sessions[2])
+				&& network_session_interface_initialize(g_network_session_manager)
+				&& network_leaderboard_initialize()
+				&& network_arbitration_initialize()
+				&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth)
+				&& network_session_tracker_initialize())
+			{
+				transport_register_transition_functions(network_startup_transport, network_shutdown_transport, NULL, NULL);
+				online_initialize();
+				online_url_initialize();
+				network_storage_initialize();
+				network_storage_manifest_initialize();
+				network_storage_cache_initialize();
+				online_lsp_initialize();
+				online_guide_initialize();
+				online_rich_presence_initialize();
+				online_files_initialize();
+				network_http_request_queue_initialize();
+				online_service_record_manager_initialize();
 
-		if (success
-			&& network_banhammer_initialize()
-			&& network_broadcast_search_initialize(g_network_link, g_network_message_gateway)
-			&& network_recruiting_search_initialize()
-			&& network_search_initialize()
-			&& network_life_cycle_initialize(g_network_observer, g_network_session_manager, &g_network_sessions[0], &g_network_sessions[1], &g_network_sessions[2])
-			&& network_session_interface_initialize(g_network_session_manager)
-			&& network_leaderboard_initialize()
-			&& network_arbitration_initialize()
-			&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth)
-			&& network_session_tracker_initialize())
-		{
-			transport_register_transition_functions(network_startup_transport, network_shutdown_transport, NULL, NULL);
-			online_initialize();
-			online_url_initialize();
-			network_storage_initialize();
-			network_storage_manifest_initialize();
-			network_storage_cache_initialize();
-			online_lsp_initialize();
-			online_guide_initialize();
-			online_rich_presence_initialize();
-			online_files_initialize();
-			network_http_request_queue_initialize();
-			online_service_record_manager_initialize();
+				//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
+				//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
+				//status_lines_initialize(g_network_simulation_status_lines, &g_network_status_simulation, 2);
+				//status_lines_initialize(g_network_channel_status_lines, &g_network_status_channels, 32);
+				//status_lines_initialize(g_network_connection_status_lines, &g_network_status_connections, 64);
+				//status_lines_initialize(g_network_message_queue_status_lines, &g_network_status_message_queues, 32);
+				//status_lines_initialize(g_network_observer_status_lines, &g_network_status_observer, 65);
+				//status_lines_initialize(g_network_session_status_lines, &g_network_status_sessions, 7);
+				//status_lines_initialize(g_network_leaderboard_query_status_lines, &g_network_status_leaderboard, 4);
+				//status_lines_initialize(g_network_leaderboard_write_status_lines, &g_network_status_leaderboard, 16);
+			}
 
-			//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
-			//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
-			//status_lines_initialize(g_network_simulation_status_lines, &g_network_status_simulation, 2);
-			//status_lines_initialize(g_network_channel_status_lines, &g_network_status_channels, 32);
-			//status_lines_initialize(g_network_connection_status_lines, &g_network_status_connections, 64);
-			//status_lines_initialize(g_network_message_queue_status_lines, &g_network_status_message_queues, 32);
-			//status_lines_initialize(g_network_observer_status_lines, &g_network_status_observer, 65);
-			//status_lines_initialize(g_network_session_status_lines, &g_network_status_sessions, 7);
-			//status_lines_initialize(g_network_leaderboard_query_status_lines, &g_network_status_leaderboard, 4);
-			//status_lines_initialize(g_network_leaderboard_write_status_lines, &g_network_status_leaderboard, 16);
-		}
+			if (success)
+			{
+				network_set_online_environment(false);
+				network_globals.initialized = true;
 
-		if (success)
-		{
-			network_set_online_environment(false);
-			network_globals.initialized = true;
-
-			get_external_ip();
+				get_external_ip();
+			}
+			else
+			{
+				event(_event_warning, "network_globals_initialize(): failed to initialize networking");
+				network_dispose();
+			}
 		}
 		else
 		{
-			event(_event_warning, "network_globals_initialize(): failed to initialize networking");
-			network_dispose();
+			event(_event_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
 		}
 	}
 }
