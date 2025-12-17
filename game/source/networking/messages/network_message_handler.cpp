@@ -1221,16 +1221,11 @@ void c_network_message_handler::handle_ping(const transport_address* address, co
 	//INVOKE_CLASS_MEMBER(0x0049D720, c_network_message_handler, handle_ping, address, message);
 
 	event(_event_message, "networking:test:ping: ping #%d received from '%s' at local %dms",
-		message->id,
+		message->unique_identifier,
 		transport_address_get_string(address),
 		network_time_get_exact());
 
-	s_network_message_pong pong =
-	{
-		.id = message->id,
-		.timestamp = message->timestamp,
-		.qos_response = 2
-	};
+	s_network_message_pong pong = { message->unique_identifier, message->origin_timestamp, _network_qos_response_accept };
 	m_message_gateway->send_message_directed(address, _network_message_pong, sizeof(s_network_message_pong), &pong);
 }
 
@@ -1351,10 +1346,10 @@ void c_network_message_handler::handle_pong(const transport_address* address, co
 	//INVOKE_CLASS_MEMBER(0x0049D9B0, c_network_message_handler, handle_pong, address, message);
 
 	event(_event_message, "networking:test:ping: ping #%d returned from '%s' at local %dms (latency %dms)",
-		message->id,
+		message->unique_identifier,
 		transport_address_get_string(address),
 		network_time_get_exact(),
-		network_time_since(message->timestamp));
+		network_time_since(message->origin_timestamp));
 }
 
 void c_network_message_handler::handle_session_boot(const transport_address* address, const s_network_message_session_boot* message)

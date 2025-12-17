@@ -7,19 +7,29 @@
 #include "networking/network_utilities.hpp"
 #include "text/unicode.hpp"
 
+enum e_network_qos_response
+{
+	_network_qos_response_deny = 0,
+	_network_qos_response_delay,
+	_network_qos_response_accept,
+
+	k_network_qos_response_count,
+	k_network_qos_response_bits = 2,
+};
+
 struct s_network_message_ping
 {
-	uns16 id;
-	uns32 timestamp;
-	bool request_qos;
+	uns16 unique_identifier;
+	uns32 origin_timestamp;
+	bool request_permission_to_qos;
 };
 static_assert(sizeof(s_network_message_ping) == 0xC);
 
 struct s_network_message_pong
 {
-	uns16 id;
-	uns32 timestamp;
-	uns32 qos_response;
+	uns16 unique_identifier;
+	uns32 origin_timestamp;
+	e_network_qos_response qos_response;
 };
 static_assert(sizeof(s_network_message_pong) == 0xC);
 

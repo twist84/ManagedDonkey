@@ -48,9 +48,9 @@ bool __cdecl c_network_message_ping::decode(c_bitstream* packet, int32 message_s
 
 	ASSERT(message_storage_size == sizeof(s_network_message_ping));
 
-	message->id = (uns16)packet->read_integer("id", 16);
-	message->timestamp = packet->read_integer("timestamp", 32);
-	message->request_qos = packet->read_bool("request_qos");
+	message->unique_identifier = (uns16)packet->read_integer("id", 16);
+	message->origin_timestamp = packet->read_integer("timestamp", 32);
+	message->request_permission_to_qos = packet->read_bool("request_qos");
 
 	return !packet->error_occurred();
 }
@@ -63,11 +63,11 @@ bool __cdecl c_network_message_pong::decode(c_bitstream* packet, int32 message_s
 
 	ASSERT(message_storage_size == sizeof(s_network_message_pong));
 
-	message->id = (uns16)packet->read_integer("id", 16);
-	message->timestamp = packet->read_integer("timestamp", 32);
-	message->qos_response = packet->read_integer("qos_response", 2);
+	message->unique_identifier = (uns16)packet->read_integer("id", 16);
+	message->origin_timestamp = packet->read_integer("timestamp", 32);
+	message->qos_response = (e_network_qos_response)packet->read_integer("qos_response", k_network_qos_response_bits);
 
-	return !packet->error_occurred() && VALID_INDEX(message->qos_response, 3);
+	return !packet->error_occurred() && VALID_INDEX(message->qos_response, k_network_qos_response_count);
 }
 
 void __cdecl c_network_message_directed_search::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
@@ -110,9 +110,9 @@ void __cdecl c_network_message_ping::encode(c_bitstream* packet, int32 message_s
 
 	ASSERT(message_storage_size == sizeof(s_network_message_ping));
 
-	packet->write_integer("id", message->id, 16);
-	packet->write_integer("timestamp", message->timestamp, 32);
-	packet->write_bool("request_qos", message->request_qos);
+	packet->write_integer("id", message->unique_identifier, 16);
+	packet->write_integer("timestamp", message->origin_timestamp, 32);
+	packet->write_bool("request_qos", message->request_permission_to_qos);
 }
 
 void __cdecl c_network_message_pong::encode(c_bitstream* packet, int32 message_storage_size, const void* message_storage)
@@ -123,9 +123,9 @@ void __cdecl c_network_message_pong::encode(c_bitstream* packet, int32 message_s
 
 	ASSERT(message_storage_size == sizeof(s_network_message_pong));
 
-	packet->write_integer("id", message->id, 16);
-	packet->write_integer("timestamp", message->timestamp, 32);
-	packet->write_integer("qos_response", message->qos_response, 2);
+	packet->write_integer("id", message->unique_identifier, 16);
+	packet->write_integer("timestamp", message->origin_timestamp, 32);
+	packet->write_integer("qos_response", message->qos_response, k_network_qos_response_bits);
 }
 
 void __cdecl network_message_types_register_out_of_band(c_network_message_type_collection* message_collection)
