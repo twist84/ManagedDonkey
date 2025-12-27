@@ -217,6 +217,12 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 {
 	//return INVOKE(0x0052F930, main_loading_get_loading_status, loading_progress_string);
 
+	int32 percentage_progress = 0;
+	if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
+	{
+		percentage_progress = int32((loaded_resource_bytes * 100.0f) / total_resource_bytes);
+	}
+
 	e_main_pregame_frame pregame_frame = _main_pregame_frame_none;
 	if (bink_playback_active())
 	{
@@ -246,7 +252,7 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 				{
 					if (loading_progress_string)
 					{
-						loading_progress_string->append_print(L"%s|n", spinner_chars[spinner_index]);
+						loading_progress_string->append_print(L"%s %%%d|n", spinner_chars[spinner_index], percentage_progress);
 					}
 
 					if (string_is_not_empty(loading_globals.blocking_map_name))
@@ -287,12 +293,6 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 		}
 		else if (loading_globals.basic_progress_enabled)
 		{
-			int32 percentage_progress = 0;
-			if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
-			{
-				percentage_progress = int32((loaded_resource_bytes * 100.0f) / total_resource_bytes);
-			}
-
 			if (loading_progress_string)
 			{
 				loading_progress_string->append_print(L"basic loading progress: %%%d|n", percentage_progress);
@@ -309,6 +309,8 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 			pregame_frame = _main_pregame_frame_cache_loading;
 		}
 	}
+
+	//pregame_frame = _main_pregame_frame_loading_screen;
 
 	return pregame_frame;
 }
