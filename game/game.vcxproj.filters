@@ -2112,6 +2112,12 @@
     <ClCompile Include="source\profiler\profiler_tracedump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\http\http_server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\http\http_routes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4650,6 +4656,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\profiler\profiler_tracedump.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\http\http_server.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\http\http_routes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\http\http_static_strings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

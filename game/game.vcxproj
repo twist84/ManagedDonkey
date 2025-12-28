@@ -138,6 +138,8 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\havok\hkWorld.cpp" />
+    <ClCompile Include="source\networking\http\http_routes.cpp" />
+    <ClCompile Include="source\networking\http\http_server.cpp" />
     <ClCompile Include="source\networking\network_statistics.cpp" />
     <ClCompile Include="source\ai\sector_geometry.cpp" />
     <ClCompile Include="source\animations\mixing_board\channels\animation_channel.cpp" />
@@ -1097,6 +1099,9 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\multithreading\synchronization.hpp" />
     <ClInclude Include="source\multithreading\threads.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
+    <ClInclude Include="source\networking\http\http_routes.hpp" />
+    <ClInclude Include="source\networking\http\http_server.hpp" />
+    <ClInclude Include="source\networking\http\http_static_strings.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_state_handler.hpp" />
     <ClInclude Include="source\networking\logic\logic_managed_user.hpp" />
     <ClInclude Include="source\networking\logic\logic_matchmaking_composition.hpp" />
