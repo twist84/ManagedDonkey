@@ -62,19 +62,8 @@
 
 #include <WS2tcpip.h>
 
-struct s_http_server
-{
-	transport_endpoint* server_endpoint;
-	uns16 port;
-	bool running;
-};
-
-static s_http_server g_http_server{};
-
-void http_client_handler(transport_endpoint* client_endpoint);
-void http_server_dispose(s_http_server* server);
-bool http_server_initialize(s_http_server* server, uns16 port);
-void http_server_update(s_http_server* server);
+#include "networking/http/http_routes.hpp"
+#include "networking/http/http_server.hpp"
 
 void network_test_ipv6(const char* host, const char* port, const char* url);
 
@@ -196,7 +185,7 @@ void __cdecl network_dispose()
 
 	if (network_globals.initialized)
 	{
-		http_server_dispose(&g_http_server);
+		http_server_dispose();
 
 		network_storage_cache_dispose();
 		network_storage_manifest_dispose();
@@ -364,7 +353,28 @@ void __cdecl network_initialize()
 
 				get_external_ip();
 
-				http_server_initialize(&g_http_server, 11775);
+				// Initialize HTTP server
+				if (http_server_initialize(11770))
+				{
+					// Register routes
+					http_server_register_route("/", _http_method_get, http_route_index);
+					http_server_register_route("/session", _http_method_get, http_route_session_info);
+					http_server_register_route("/dashboard", _http_method_get, http_route_dashboard);
+
+					// API routes
+					http_server_register_route("/api/ping", _http_method_get, http_route_api_ping);
+					http_server_register_route("/api/players", _http_method_get, http_route_api_players);
+					http_server_register_route("/api/map", _http_method_get, http_route_api_map);
+					http_server_register_route("/api/game-state", _http_method_get, http_route_api_game_state);
+					http_server_register_route("/api/events", _http_method_get, http_route_api_events);
+
+					// Control routes
+					http_server_register_route("/api/kick", _http_method_post, http_route_api_kick_player);
+					http_server_register_route("/api/change-map", _http_method_post, http_route_api_change_map);
+
+					// Static files (catch-all, must be last)
+					http_server_register_route("*", _http_method_get, http_route_static_files);
+				}
 			}
 			else
 			{
@@ -421,7 +431,7 @@ void __cdecl network_receive()
 				network_test_ipv6("::1", "8000", "/storage/test.txt");
 			}
 
-			http_server_update(&g_http_server);
+			http_server_update();
 
 			g_network_link->process_incoming_packets();
 
@@ -943,214 +953,6 @@ void network_test_ipv6(const char* host, const char* port, const char* url)
 			}
 
 			transport_endpoint_delete(endpoint);
-		}
-	}
-}
-
-
-char FAKE_SESSION_INFO_HTTP_RESPONSE[] =
-"HTTP/1.0 200 OK\r\n"
-"Content-Type: application/json\r\n"
-"Connection: close\r\n"
-"\r\n"
-"{"
-"  \"name\": \"DonkeyTest\","
-"  \"game_port\" : 11774,"
-"  \"has_teams\" : false,"
-"  \"scenario_name\" : \"s3d_avalanche\","
-"  \"status\" : \"in_lobby\","
-"  \"players\" : 0,"
-"  \"maximum_players\" : 16,"
-"  \"donkey_version\" : \"" "donkey cache debug pc 1.106708 cert_ms23  " __DATE__ " " __TIME__ "\""
-"}";
-
-char HTTP_RESPONSE_200[] =
-"HTTP/1.0 200 OK\r\n"
-"Content-Type: text/html\r\n"
-"Connection: close\r\n"
-"\r\n"
-"<html>\r\n"
-"<head><title>Simple HTTP Server</title></head>\r\n"
-"<body>\r\n"
-"<h1>Hello from Custom HTTP Server!</h1>\r\n"
-"<p>This server is built using custom transport endpoint functions.</p>\r\n"
-"</body>\r\n"
-"</html>\r\n";
-
-char HTTP_RESPONSE_404[] =
-"HTTP/1.0 404 Not Found\r\n"
-"Content-Type: text/html\r\n"
-"Connection: close\r\n"
-"\r\n"
-"<html>\r\n"
-"<head><title>404 Not Found</title></head>\r\n"
-"<body>\r\n"
-"<h1>404 - Page Not Found</h1>\r\n"
-"</body>\r\n"
-"</html>\r\n";
-
-void http_client_handler(transport_endpoint* client_endpoint)
-{
-	char buffer[4096];
-
-	int16 bytes_read = transport_endpoint_read(client_endpoint, buffer, sizeof(buffer) - 1);
-
-	if (bytes_read > 0)
-	{
-		buffer[bytes_read] = '\0';
-
-		printf("Received request:\n%s\n", buffer);
-
-		char* response = NULL;
-		bool should_free = false;
-
-		if (strstr(buffer, "GET / ") || strstr(buffer, "GET /index"))
-		{
-			s_file_reference index_file{};
-			if (file_reference_create_from_path(&index_file, "bin/index.html", false) && file_exists(&index_file))
-			{
-				uns32 content_size = 0;
-				char* file_content = (char*)file_read_into_memory_with_null_padding(&index_file, &content_size, 16);
-
-				if (file_content)
-				{
-					const char* header_fmt =
-						"HTTP/1.0 200 OK\r\n"
-						"Content-Type: text/html\r\n"
-						"Content-Length: %d\r\n"
-						"Connection: close\r\n"
-						"\r\n";
-
-					int header_size = snprintf(NULL, 0, header_fmt, content_size);
-					response = (char*)system_malloc(header_size + content_size + 1);
-
-					if (response)
-					{
-						snprintf(response, header_size + 1, header_fmt, content_size);
-						csmemcpy(response + header_size, file_content, content_size);
-						response[header_size + content_size] = '\0';
-						should_free = true;
-					}
-
-					system_free(file_content);
-				}
-			}
-
-			if (!response)
-			{
-				response = HTTP_RESPONSE_200;
-			}
-		}
-		else if (strstr(buffer, "GET /session"))
-		{
-			response = FAKE_SESSION_INFO_HTTP_RESPONSE;
-		}
-		else
-		{
-			response = HTTP_RESPONSE_404;
-		}
-
-		int16 response_len = (int16)strlen(response);
-		int16 bytes_written = transport_endpoint_write(client_endpoint, response, response_len);
-
-		if (bytes_written > 0)
-		{
-			printf("Sent %d bytes in response\n", bytes_written);
-		}
-
-		if (should_free)
-		{
-			system_free(response);
-		}
-	}
-
-	transport_endpoint_disconnect(client_endpoint);
-	transport_endpoint_delete(client_endpoint);
-}
-
-void http_server_dispose(s_http_server* server)
-{
-	ASSERT(server != NULL);
-
-	if (server->server_endpoint)
-	{
-		printf("Shutting down HTTP server on port %d\n", server->port);
-		transport_endpoint_disconnect(server->server_endpoint);
-		transport_endpoint_delete(server->server_endpoint);
-		server->server_endpoint = NULL;
-	}
-
-	server->running = false;
-}
-
-bool http_server_initialize(s_http_server* server, uns16 port)
-{
-	ASSERT(server != NULL);
-
-	bool success = false;
-
-	csmemset(server, 0, sizeof(s_http_server));
-	server->port = port;
-	server->running = false;
-
-	server->server_endpoint = transport_endpoint_create(_transport_type_tcp);
-	if (server->server_endpoint)
-	{
-		transport_address server_address{};
-		transport_address_ipv4_build(&server_address, 0, port);
-
-		if (transport_endpoint_bind(server->server_endpoint, &server_address))
-		{
-			transport_endpoint_set_option_value(server->server_endpoint, _transport_endpoint_option_reuse_address, 1);
-
-			if (transport_endpoint_listen(server->server_endpoint))
-			{
-				transport_endpoint_set_blocking(server->server_endpoint, false);
-
-				server->running = true;
-				printf("HTTP server initialized on http://localhost:%d/\n", port);
-
-				return true;
-			}
-			else
-			{
-				printf("Failed to listen on port %d\n", port);
-				transport_endpoint_delete(server->server_endpoint);
-				server->server_endpoint = NULL;
-			}
-		}
-		else
-		{
-			printf("Failed to bind to port %d\n", port);
-			transport_endpoint_delete(server->server_endpoint);
-			server->server_endpoint = NULL;
-		}
-	}
-	else
-	{
-		printf("Failed to create server endpoint\n");
-	}
-
-	return success;
-}
-
-void http_server_update(s_http_server* server)
-{
-	ASSERT(server != NULL);
-
-	if (server->running && server->server_endpoint)
-	{
-		transport_endpoint* client_endpoint = transport_endpoint_accept(server->server_endpoint);
-
-		if (client_endpoint)
-		{
-			transport_address client_address;
-			if (transport_get_endpoint_address(client_endpoint, &client_address))
-			{
-				printf("Accepted connection from client\n");
-			}
-
-			http_client_handler(client_endpoint);
 		}
 	}
 }
