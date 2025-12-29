@@ -10,6 +10,8 @@ public:
 	static void toggle_window_visibility();
 	static void clear();
 
+	static void enable_ansi();
+
 private:
 	static bool console_allocated();
 

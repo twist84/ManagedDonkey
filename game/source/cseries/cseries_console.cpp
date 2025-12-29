@@ -12,8 +12,6 @@ void c_console::initialize(const char* window_title)
 {
 	if (!m_initialized)
 	{
-		m_initialized = true;
-
 		AllocConsole();
 		AttachConsole(GetCurrentProcessId());
 		SetConsoleTitleA(window_title);
@@ -25,6 +23,8 @@ void c_console::initialize(const char* window_title)
 #if !defined(_DEBUG)
 		toggle_window_visibility();
 #endif
+
+		m_initialized = true;
 	}
 }
 
@@ -35,7 +35,9 @@ void c_console::dispose()
 		m_initialized = false;
 
 		if (m_file)
+		{
 			fclose(m_file);
+		}
 
 		FreeConsole();
 		PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
@@ -46,6 +48,8 @@ void c_console::toggle_window_visibility()
 {
 	HWND hwnd = GetConsoleWindow();
 	ShowWindow(hwnd, IsWindowVisible(hwnd) ? SW_HIDE : SW_SHOW);
+
+	c_console::enable_ansi();
 }
 
 void c_console::clear()
@@ -69,6 +73,14 @@ void c_console::clear()
 bool c_console::console_allocated()
 {
 	return GetConsoleWindow() != NULL;
+}
+
+void c_console::enable_ansi()
+{
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD mode;
+	GetConsoleMode(h, &mode);
+	SetConsoleMode(h, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 }
 
 void c_console::write(const char* format, ...)
@@ -105,64 +117,80 @@ void c_console::write_line(const wchar_t* format, ...)
 
 void c_console::write_va(const char* format, va_list list)
 {
-	if (!m_initialized)
-		return;
+	if (m_initialized)
+	{
+		c_static_string<4096> str;
 
-	c_static_string<4096> str;
+		str.print_va(format, list);
 
-	str.print_va(format, list);
-
-	if (console_allocated())
-		printf(str.get_string());
-	else
-		OutputDebugStringA(str.get_string());
+		if (console_allocated())
+		{
+			printf(str.get_string());
+		}
+		else
+		{
+			OutputDebugStringA(str.get_string());
+		}
+	}
 }
 
 void c_console::write_line_va(const char* format, va_list list)
 {
-	if (!m_initialized)
-		return;
+	if (m_initialized)
+	{
+		c_static_string<4096> str;
 
-	c_static_string<4096> str;
+		str.print_va(format, list);
+		str.append("\n");
 
-	str.print_va(format, list);
-	str.append("\n");
-
-	if (console_allocated())
-		printf(str.get_string());
-	else
-		OutputDebugStringA(str.get_string());
+		if (console_allocated())
+		{
+			printf(str.get_string());
+		}
+		else
+		{
+			OutputDebugStringA(str.get_string());
+		}
+	}
 }
 
 void c_console::write_va(const wchar_t* format, va_list list)
 {
-	if (!m_initialized)
-		return;
+	if (m_initialized)
+	{
+		c_static_wchar_string<4096> str;
 
-	c_static_wchar_string<4096> str;
+		str.print_va(format, list);
 
-	str.print_va(format, list);
-
-	if (console_allocated())
-		wprintf(str.get_string());
-	else
-		OutputDebugStringW(str.get_string());
+		if (console_allocated())
+		{
+			wprintf(str.get_string());
+		}
+		else
+		{
+			OutputDebugStringW(str.get_string());
+		}
+	}
 }
 
 void c_console::write_line_va(const wchar_t* format, va_list list)
 {
-	if (!m_initialized)
-		return;
+	if (m_initialized)
+	{
+		c_static_wchar_string<4096> str;
 
-	c_static_wchar_string<4096> str;
+		str.print_va(format, list);
+		str.append(L"\n");
 
-	str.print_va(format, list);
-	str.append(L"\n");
-
-	if (console_allocated())
-		wprintf(str.get_string());
-	else
-		OutputDebugStringW(str.get_string());
+		if (console_allocated())
+		{
+			wprintf(str.get_string());
+		}
+		else
+		{
+			OutputDebugStringW(str.get_string());
+		}
+	}
 }
 
 void get_error_message(uns32 message_id, char(&message_buffer)[2048])
