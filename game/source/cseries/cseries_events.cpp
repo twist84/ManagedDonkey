@@ -1795,6 +1795,123 @@ void reset_event_message_buffer()
 	event_globals.message_buffer[0] = 0;
 }
 
+struct log_colors
+{
+	const real_rgb_color* log_path;
+	const real_rgb_color* func_name;
+	const real_rgb_color* int_spec;       // %d, %i, %u, %I64d, %I32d
+	const real_rgb_color* hex_spec;       // %x, %X, %04X, %llX
+	const real_rgb_color* float_spec;     // %f, %g, %e
+	const real_rgb_color* string_spec;    // %s, %S
+	const real_rgb_color* pointer_spec;   // %p
+	const real_rgb_color* fallback_spec;  // anything else
+};
+
+void color_network_debug_print(c_string_builder& builder,
+	const char* format,
+	const log_colors& colors)
+{
+	const char* first_sep = ": ";
+	const char* second_sep = ": ";
+
+	const char* first_split = csstrstr(format, first_sep);
+	const char* after_first = first_split ? first_split + csstrnlen(first_sep, 2) : format;
+
+	// 1. Log path
+	if (first_split)
+	{
+		int32 first_len = first_split - format;
+		builder.set_foreground_color(colors.log_path);
+		builder.append_print("%.*s", first_len, format);
+		builder.set_reset_color();
+		builder.append(first_sep);
+	}
+
+	// 2. Function/method
+	const char* second_split = csstrstr(after_first, second_sep);
+	const char* remaining = after_first;
+
+	if (second_split)
+	{
+		int32 second_len = second_split - after_first;
+		builder.set_foreground_color(colors.func_name);
+		builder.append_print("%.*s", second_len, after_first);
+		builder.set_reset_color();
+		builder.append(second_sep);
+		remaining = second_split + csstrnlen(second_sep, 2);
+	}
+
+	// 3. Scan remaining string for printf specifiers and color per type
+	const char* p = remaining;
+	const char* text_start = p;
+
+	while (*p)
+	{
+		if (*p == '%')
+		{
+			if (*(p + 1) == '%') { p += 2; continue; }
+
+			if (p > text_start)
+				builder.append_print("%.*s", (int)(p - text_start), text_start);
+
+			const char* spec = p;
+			p++; // skip '%'
+
+			// Flags
+			while (*p && strchr("-+ #0", *p)) p++;
+
+			// Width
+			while (*p && isdigit(*p)) p++;
+
+			// Precision
+			if (*p == '.') { p++; while (*p && isdigit(*p)) p++; }
+
+			// Length modifiers
+			if (*p)
+			{
+				if (*p == 'I') // MSVC-specific (I32, I64)
+				{
+					p++;
+					while (*p && isdigit(*p)) p++;
+				}
+				else if ((*p == 'h' && *(p + 1) == 'h') || (*p == 'l' && *(p + 1) == 'l'))
+					p += 2;
+				else if (strchr("hlLzjt", *p))
+					p++;
+			}
+
+			// Conversion character
+			char conv = *p;
+			if (*p) p++;
+
+			int spec_len = p - spec;
+
+			const real_rgb_color* chosen_color = colors.fallback_spec;
+			switch (conv)
+			{
+			case 'd': case 'i': case 'u': case 'D': chosen_color = colors.int_spec; break;
+			case 'x': case 'X': chosen_color = colors.hex_spec; break;
+			case 'f': case 'F': case 'g': case 'G': case 'e': case 'E': chosen_color = colors.float_spec; break;
+			case 's': case 'S': chosen_color = colors.string_spec; break;
+			case 'p': chosen_color = colors.pointer_spec; break;
+			}
+
+			builder.set_foreground_color(chosen_color);
+			builder.append_print("%.*s", spec_len, spec);
+			builder.set_reset_color();
+
+			text_start = p;
+		}
+		else
+		{
+			p++;
+		}
+	}
+
+	if (*text_start)
+		builder.append(text_start);
+}
+
 // used inplace of `c_event::generate`
 // net::REMOTE_BINLOGGER
 void __cdecl network_debug_print(const char* format, ...)
@@ -2056,9 +2173,25 @@ void __cdecl network_debug_print(const char* format, ...)
 		break;
 	}
 
-	va_list list;
-	va_start(list, format);
-	c_console::write_line_va(format, list);
-	va_end(list);
+	{
+		static c_string_builder sb;
+		sb.clear();
+
+		color_network_debug_print(sb, format, {
+			.log_path      = global_real_rgb_violet,
+			.func_name     = global_real_rgb_aqua,
+			.int_spec      = global_real_rgb_orange,
+			.hex_spec      = global_real_rgb_yellow,
+			.float_spec    = global_real_rgb_cyan,
+			.string_spec   = global_real_rgb_green,
+			.pointer_spec  = global_real_rgb_magenta,
+			.fallback_spec = global_real_rgb_white,
+		});
+
+		va_list list;
+		va_start(list, format);
+		c_console::write_line_va(sb.get_string(), list);
+		va_end(list);
+	}
 }
 
