@@ -314,7 +314,7 @@ const char* c_network_session::get_state_string() const
 		"peer-established",
 		"peer-leaving",
 		"host-established",
-		"host-disband"
+		"host-disband",
 
 		//"host-handoff",
 		//"host-reestablish",
@@ -331,19 +331,19 @@ const char* c_network_session::get_mode_string() const
 {
 	static const char* const mode_names[k_network_session_mode_count]
 	{
-		"none"
-		"idle"
-		"setup"
-		"in-game"
-		"end-game"
-		"post-game"
-		"matchmaking-start"
-		"matchmaking-searching"
-		"matchmaking-gathering"
-		"matchmaking-slave"
-		"matchmaking-disbanding"
-		"matchmaking-arbitrating"
-		"matchmaking-choosing-game"
+		"none",
+		"idle",
+		"setup",
+		"in-game",
+		"end-game",
+		"post-game",
+		"matchmaking-start",
+		"matchmaking-searching",
+		"matchmaking-gathering",
+		"matchmaking-slave",
+		"matchmaking-disbanding",
+		"matchmaking-arbitrating",
+		"matchmaking-choosing-game",
 	};
 
 	int32 current_mode = m_session_parameters.m_parameters.session_mode.get();
