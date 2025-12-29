@@ -2,6 +2,7 @@
 
 #include "config/version.hpp"
 #include "game/game_engine_team.hpp"
+#include "memory/thread_local.hpp"
 #include "networking/http/http_server.hpp"
 #include "networking/http/http_static_strings.hpp"
 #include "networking/network_globals.hpp"
@@ -216,33 +217,91 @@ void http_route_api_game_state(s_http_client* client, const s_http_request* requ
 
 		json.begin_object("game");
 		{
-			json.add_string("map", "sandtrap");
-			json.add_string("mode", "slayer");
-			json.add_string("state", "in_progress");
-			json.add_integer("time_elapsed", 300);
-			json.add_integer("time_remaining", 300);
+			char map[32] = "unknown";
+			char mode[32] = "unknown";
+			char state[32] = "unknown";
+			int32 time_elapsed = 0;
+			int32 time_remaining = 0;
+
+			if (game_engine_running())
+			{
+				const c_map_variant& map_variant = game_engine_globals->runtime_map_variant;
+				wchar_string_to_ascii_string(map_variant.m_metadata.display_name, map, NUMBEROF(map), NULL);
+
+				const c_game_variant* game_variant = user_interface_game_settings_get_game_variant();
+				const c_game_engine_base_variant* active_variant = game_variant->get_active_variant();
+				const s_saved_game_item_metadata* metadata = active_variant->get_metadata();
+				wchar_string_to_ascii_string(metadata->display_name, mode, NUMBEROF(mode), NULL);
+
+				// state
+
+				time_elapsed = game_engine_round_time_get();
+				time_remaining = game_engine_globals->round_timer_in_seconds;
+			}
+
+			json.add_string("map", map);
+			json.add_string("mode", mode);
+			json.add_string("state", state);
+			json.add_integer("time_elapsed", time_elapsed);
+			json.add_integer("time_remaining", time_remaining);
 		}
 		json.end_object();
 
-		json.begin_array("teams");
+		if (game_engine_running())
 		{
-			json.begin_object();
-			{
-				json.add_string("name", "Red");
-				json.add_integer("score", 25);
-				json.add_integer("players", 4);
-			}
-			json.end_object();
+			s_game_engine_score_list new_list{};
+			game_engine_scoring_build_score_list(&new_list, _game_engine_scoring_type_in_round, false);
+			//if (new_list.player_count > 0)
+			//{
+			//	bool has_teams = game_engine_has_teams();
+			//	ASSERT(VALID_COUNT(new_list.player_count, NUMBEROF(new_list.player_indices)));
+			//
+			//	json.begin_object();
+			//	for (int32 player_num = 0; player_num < new_list.player_count; player_num++)
+			//	{
+			//		int32 player_index = new_list.player_indices[player_num];
+			//		if (player_index != NONE)
+			//		{
+			//			const player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
+			//	
+			//			c_static_string<32> player_name;
+			//			wchar_string_to_ascii_string(player->configuration.host.name.get_string(), player_name.get_buffer(), player_name.element_count, NULL);
+			//		}
+			//	}
+			//	json.end_object();
+			//}
 
-			json.begin_object();
+			if (new_list.team_count > 0)
 			{
-				json.add_string("name", "Blue");
-				json.add_integer("score", 30);
-				json.add_integer("players", 4);
+				constexpr const char* k_team_names[k_multiplayer_team_count]
+				{
+					"Red",
+					"Blue",
+					"Green",
+					"Yellow",
+					"Purple",
+					"Orange",
+					"Brown",
+					"Pink",
+				};
+
+				json.begin_array("teams");
+				for (int32 team_num = 0; team_num < new_list.team_count; team_num++)
+				{
+					e_game_team team_index = new_list.team_indices[team_num];
+					int32 team_score = game_engine_get_team_score(team_index);
+
+					json.begin_object();
+					{
+						json.add_string("name", k_team_names[team_index]);
+						json.add_integer("score", team_score);
+						json.add_integer("players", 4);
+					}
+					json.end_object();
+				}
+				json.end_array();
 			}
-			json.end_object();
 		}
-		json.end_array();
 	}
 	json.finalize_root_object();
 
@@ -727,7 +786,6 @@ void http_route_session_info(s_http_client* client, const s_http_request* reques
 	ASSERT(server != NULL);
 
 	c_json_static_string<2048> json;
-	json.clear();
 
 	json.build_root_object();
 	{
@@ -776,7 +834,6 @@ void http_route_api_ping(s_http_client* client, const s_http_request* request, s
 	ASSERT(response != NULL);
 
 	c_json_static_string<512> json;
-	json.clear();
 
 	json.build_root_object();
 	{
