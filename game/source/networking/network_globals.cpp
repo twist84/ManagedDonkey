@@ -373,7 +373,7 @@ void __cdecl network_initialize()
 					http_server_register_route("/api/change-map", _http_method_post, http_route_api_change_map);
 
 					// Static files (catch-all, must be last)
-					http_server_register_route("*", _http_method_get, http_route_static_files);
+					http_server_register_route("*", _http_method_get, http_route_fallback);
 				}
 			}
 			else

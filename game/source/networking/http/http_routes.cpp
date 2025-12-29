@@ -1,5 +1,6 @@
 #include "networking/http/http_routes.hpp"
 
+#include "config/version.hpp"
 #include "networking/http/http_server.hpp"
 #include "networking/http/http_static_strings.hpp"
 #include "networking/network_globals.hpp"
@@ -113,6 +114,7 @@ void http_route_index(s_http_client* client, const s_http_request* request, s_ht
 		http_response_set_body(response, html.get_string(), html.length());
 	}
 }
+
 void http_route_api_players(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
 	ASSERT(client != NULL);
@@ -125,24 +127,30 @@ void http_route_api_players(s_http_client* client, const s_http_request* request
 	{
 		json.begin_array("players");
 
-		// Iterate through active players
-		for (int32 player_index = 0; player_index < 4; player_index++)
+		// Iterate through potential players (adjust max if your game supports more)
+		for (int32 player_index = 0; player_index < 16; player_index++)  // Increased to 16 for flexibility
 		{
-			// Get player data (pseudo-code, adjust for your actual API)
-			// const s_player_data* player = get_player_data(player_index);
-			// if (!player || !player->active) continue;
+			// TODO: Replace with actual game engine player query
+			// Example placeholder logic - in real code, check if player is connected
+			bool is_active = (player_index < 4);  // Dummy: first 4 players active
+			if (!is_active) continue;
 
 			json.begin_object();
 			{
 				json.add_integer("index", player_index);
 
 				c_static_string<64> player_name;
-				player_name.print("Player%d", player_index);
+				player_name.print("Player%d", player_index + 1);
 				json.add_string("name", player_name.get_string());
 
-				json.add_integer("score", player_index * 100);
-				json.add_integer("kills", player_index * 5);
-				json.add_integer("deaths", player_index * 3);
+				json.add_integer("score", player_index * 250 + 500);
+				json.add_integer("kills", player_index * 8);
+				json.add_integer("deaths", player_index * 2);
+
+				// Simulate realistic ping (20-150 ms)
+				int32 simulated_ping = 20 + (player_index * 27) % 130;
+				if (simulated_ping < 30) simulated_ping += 10;
+				json.add_integer("ping", simulated_ping);
 			}
 			json.end_object();
 		}
@@ -153,6 +161,7 @@ void http_route_api_players(s_http_client* client, const s_http_request* request
 
 	http_response_set_json(response, json.get_string());
 }
+
 void http_route_api_map(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
 	ASSERT(client != NULL);
@@ -172,6 +181,7 @@ void http_route_api_map(s_http_client* client, const s_http_request* request, s_
 
 	http_response_set_json(response, json.get_string());
 }
+
 void http_route_api_game_state(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
 	ASSERT(client != NULL);
@@ -339,7 +349,7 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 	ASSERT(request != NULL);
 	ASSERT(response != NULL);
 
-	c_html_static_string<8192> html;
+	static c_html_static_string<16384> html;  // Increased buffer for safety
 
 	html.begin_html();
 	{
@@ -347,33 +357,118 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 		{
 			html.meta_charset("UTF-8");
 			html.meta_viewport();
-			html.title("Server Dashboard");
+			html.title("Donkey Server Dashboard");
 
 			html.style_begin();
 			{
 				html.raw("body { font-family: Arial, sans-serif; margin: 0; background: #1a1a1a; color: #fff; }");
 				html.raw(".header { background: #2a2a2a; padding: 20px; border-bottom: 2px solid #00ff00; }");
 				html.raw(".container { max-width: 1200px; margin: 0 auto; padding: 20px; }");
-				html.raw(".stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }");
-				html.raw(".stat-card { background: #2a2a2a; padding: 20px; border-radius: 5px; border-left: 4px solid #00ff00; }");
-				html.raw(".stat-value { font-size: 36px; font-weight: bold; color: #00ff00; }");
-				html.raw(".stat-label { font-size: 14px; color: #aaa; margin-top: 5px; }");
-				html.raw(".players { margin-top: 30px; }");
-				html.raw("table { width: 100%; background: #2a2a2a; border-radius: 5px; overflow: hidden; }");
-				html.raw("th { background: #3a3a3a; padding: 12px; text-align: left; }");
-				html.raw("td { padding: 12px; border-top: 1px solid #3a3a3a; }");
-				html.raw(".refresh { background: #00ff00; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }");
+				html.raw(".stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0; }");
+				html.raw(".stat-card { background: #2a2a2a; padding: 20px; border-radius: 8px; border-left: 5px solid #00ff00; }");
+				html.raw(".stat-value { font-size: 42px; font-weight: bold; color: #00ff00; margin: 10px 0; }");
+				html.raw(".stat-label { font-size: 16px; color: #aaa; }");
+				html.raw(".players { margin-top: 40px; }");
+				html.raw("h2 { color: #00ccff; }");
+				html.raw("table { width: 100%; border-collapse: collapse; background: #2a2a2a; border-radius: 8px; overflow: hidden; }");
+				html.raw("th { background: #3a3a3a; padding: 15px; text-align: left; }");
+				html.raw("td { padding: 12px 15px; border-top: 1px solid #444; }");
+				html.raw("tr:nth-child(even) { background: #333; }");
+				html.raw(".team-red { color: #ff6666; }");
+				html.raw(".team-blue { color: #6688ff; }");
+				html.raw(".refresh { background: #00ff00; color: #000; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; margin-left: 20px; }");
+				html.raw(".refresh:hover { background: #00cc00; }");
+				html.raw(".loading { color: #aaa; font-style: italic; }");
+				html.raw(".ping-good { color: #00ff00; font-weight: bold; }");
+				html.raw(".ping-ok   { color: #ffff00; }");
+				html.raw(".ping-bad  { color: #ff4444; font-weight: bold; }");
 			}
 			html.style_end();
 
 			html.script_begin();
 			{
-				html.raw("function refreshStats() {");
-				html.raw("  fetch('/api/game-state')");
-				html.raw("    .then(r => r.json())");
-				html.raw("    .then(data => { console.log(data); });");
-				html.raw("}");
-				html.raw("setInterval(refreshStats, 5000);");
+				html.raw(R"(
+					function formatTime(seconds) {
+						const mins = Math.floor(seconds / 60);
+						const secs = seconds % 60;
+						return mins + ':' + (secs < 10 ? '0' : '') + secs;
+					}
+
+					function getPingClass(ping) {
+						if (ping < 50) return 'ping-good';      // Green
+						if (ping < 100) return 'ping-ok';       // Yellow
+						return 'ping-bad';                      // Red
+					}
+
+					function updateDashboard() {
+						fetch('/api/game-state')
+							.then(r => r.json())
+							.then(data => {
+								document.getElementById('server-name').textContent = data.server.name;
+								document.getElementById('uptime').textContent = Math.floor(data.server.uptime / 1000) + 's';
+
+								document.getElementById('current-map').textContent = data.game.map;
+								document.getElementById('game-mode').textContent = data.game.mode;
+								document.getElementById('time-remaining').textContent = formatTime(data.game.time_remaining || 0);
+
+								const teams = data.teams || [];
+								teams.forEach((team, i) => {
+									const scoreEl = document.getElementById('team-' + i + '-score');
+									if (scoreEl) scoreEl.textContent = team.score;
+									const nameEl = document.getElementById('team-' + i + '-name');
+									if (nameEl) nameEl.textContent = team.name;
+								});
+
+								// Update players with ping
+								fetch('/api/players')
+									.then(r => r.json())
+									.then(playersData => {
+										const tbody = document.querySelector('#players-table tbody');
+										tbody.innerHTML = '';
+										const players = playersData.players || [];
+
+										if (players.length === 0) {
+											const row = document.createElement('tr');
+											row.innerHTML = '<td colspan="6" class="loading">No players connected</td>';
+											tbody.appendChild(row);
+										} else {
+											players.forEach(player => {
+												const row = document.createElement('tr');
+												const teamClass = player.index % 2 === 0 ? 'team-red' : 'team-blue';
+												const teamName = player.index % 2 === 0 ? 'Red' : 'Blue';
+
+												let kdText;
+												if (player.deaths === 0) {
+													kdText = player.kills > 0 ? 'Perfect' : '0.00';
+												} else {
+													kdText = (player.kills / player.deaths).toFixed(2);
+												}
+
+												const ping = player.ping || 999;
+												const pingClass = getPingClass(ping);
+
+												row.innerHTML = `
+													<td>${player.name || 'Player' + player.index}</td>
+													<td class="${teamClass}">${teamName}</td>
+													<td>${player.score || 0}</td>
+													<td>${player.kills || 0}</td>
+													<td>${kdText}</td>
+													<td class="${pingClass}">${ping} ms</td>
+												`;
+												tbody.appendChild(row);
+											});
+										}
+									});
+							})
+							.catch(err => {
+								console.error('Failed to fetch data:', err);
+								document.getElementById('status').textContent = 'Error loading data';
+							});
+					}
+
+					document.addEventListener('DOMContentLoaded', updateDashboard);
+					setInterval(updateDashboard, 5000);
+				)");
 			}
 			html.script_end();
 		}
@@ -388,13 +483,21 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 				html.div_begin();
 				{
 					html.css_class("container");
+
 					html.h1("Donkey Server Dashboard");
+
+					html.span_begin();
+					{
+						html.attr("id", "status");
+						html.text("Live");
+					}
+					html.span_end();
 
 					html.button_begin();
 					{
 						html.css_class("refresh");
-						html.attr("onclick", "refreshStats()");
-						html.text("Refresh");
+						html.attr("onclick", "updateDashboard()");
+						html.text("Refresh Now");
 					}
 					html.button_end();
 				}
@@ -406,41 +509,56 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 			{
 				html.css_class("container");
 
+				// Stats Grid
 				html.div_begin();
 				{
 					html.css_class("stats");
 
+					// Server Name & Uptime
 					html.div_begin();
 					{
 						html.css_class("stat-card");
-
 						html.div_begin();
 						{
 							html.css_class("stat-value");
-							html.text("8");
+							html.attr("id", "server-name");
+							html.text("Loading...");
+						}
+						html.div_end();
+						html.div_begin();
+						{
+							html.css_class("stat-label");
+							html.text("Server Name");
 						}
 						html.div_end();
 
 						html.div_begin();
 						{
+							html.css_class("stat-value");
+							html.attr("id", "uptime");
+							html.text("--");
+						}
+						html.div_end();
+						html.div_begin();
+						{
 							html.css_class("stat-label");
-							html.text("Active Players");
+							html.text("Uptime");
 						}
 						html.div_end();
 					}
 					html.div_end();
 
+					// Current Map
 					html.div_begin();
 					{
 						html.css_class("stat-card");
-
 						html.div_begin();
 						{
 							html.css_class("stat-value");
-							html.text("sandtrap");
+							html.attr("id", "current-map");
+							html.text("Loading...");
 						}
 						html.div_end();
-
 						html.div_begin();
 						{
 							html.css_class("stat-label");
@@ -450,17 +568,37 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 					}
 					html.div_end();
 
+					// Game Mode
 					html.div_begin();
 					{
 						html.css_class("stat-card");
-
 						html.div_begin();
 						{
 							html.css_class("stat-value");
-							html.text("5:00");
+							html.attr("id", "game-mode");
+							html.text("Loading...");
 						}
 						html.div_end();
+						html.div_begin();
+						{
+							html.css_class("stat-label");
+							html.text("Game Mode");
+						}
+						html.div_end();
+					}
+					html.div_end();
 
+					// Time Remaining
+					html.div_begin();
+					{
+						html.css_class("stat-card");
+						html.div_begin();
+						{
+							html.css_class("stat-value");
+							html.attr("id", "time-remaining");
+							html.text("--:--");
+						}
+						html.div_end();
 						html.div_begin();
 						{
 							html.css_class("stat-label");
@@ -469,9 +607,51 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 						html.div_end();
 					}
 					html.div_end();
+
+					// Team Scores
+					html.div_begin();
+					{
+						html.css_class("stat-card");
+						html.div_begin();
+						{
+							html.css_class("stat-value");
+							html.attr("id", "team-0-score");
+							html.text("--");
+						}
+						html.div_end();
+						html.div_begin();
+						{
+							html.css_class("stat-label");
+							html.attr("id", "team-0-name");
+							html.text("Red Team");
+						}
+						html.div_end();
+					}
+					html.div_end();
+
+					html.div_begin();
+					{
+						html.css_class("stat-card");
+						html.div_begin();
+						{
+							html.css_class("stat-value");
+							html.attr("id", "team-1-score");
+							html.text("--");
+						}
+						html.div_end();
+						html.div_begin();
+						{
+							html.css_class("stat-label");
+							html.attr("id", "team-1-name");
+							html.text("Blue Team");
+						}
+						html.div_end();
+					}
+					html.div_end();
 				}
 				html.div_end();
 
+				// Players Table
 				html.div_begin();
 				{
 					html.css_class("players");
@@ -479,6 +659,7 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 
 					html.table_begin();
 					{
+						html.attr("id", "players-table");
 						html.thead_begin();
 						{
 							html.tr_begin();
@@ -486,7 +667,9 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 								html.th("Name");
 								html.th("Team");
 								html.th("Score");
+								html.th("Kills");
 								html.th("K/D");
+								html.th("Ping");
 							}
 							html.tr_end();
 						}
@@ -494,23 +677,13 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 
 						html.tbody_begin();
 						{
-							html.attr("id", "players");
-
 							html.tr_begin();
 							{
-								html.td("Player1");
-								html.td("Red");
-								html.td("1500");
-								html.td("15/3");
-							}
-							html.tr_end();
-
-							html.tr_begin();
-							{
-								html.td("Player2");
-								html.td("Blue");
-								html.td("1200");
-								html.td("12/5");
+								html.td_begin();
+								html.attr("colspan", "6");
+								html.css_class("loading");
+								html.text("Loading players...");
+								html.td_end();
 							}
 							html.tr_end();
 						}
@@ -544,21 +717,29 @@ void http_route_session_info(s_http_client* client, const s_http_request* reques
 
 	json.build_root_object();
 	{
+		const char* version = version_get_full_string();
+
 		json.add_string("server", "Donkey Dedicated Server");
-		json.add_string("version", "donkey cache debug pc 1.106708 cert_ms23 " __DATE__ " " __TIME__);
+		json.add_string("version", version);
 		json.add_integer("game_port", g_broadcast_port);
 		json.add_integer("http_port", server->port);
 		json.add_unsigned("uptime_ms", network_time_get());
 		json.add_boolean("initialized", network_globals.initialized);
 
-		if (g_network_session_manager)
+		json.add_boolean("has_session_manager", g_network_session_manager != NULL);
+		if (g_network_session_manager != NULL)
 		{
-			json.add_boolean("has_session_manager", true);
-			// Add more session-specific info here if needed
-		}
-		else
-		{
-			json.add_boolean("has_session_manager", false);
+			json.begin_object("session");
+			{
+				int32 session_index = 0;
+				c_network_session* session = g_network_session_manager->get_session(session_index);
+
+				json.add_string("session_state", session->get_state_string());
+				json.add_string("session_mode", session->get_mode_string());
+
+				// Add more session-specific info here if needed
+			}
+			json.end_object();
 		}
 
 		json.begin_object("stats");
@@ -594,88 +775,44 @@ void http_route_api_ping(s_http_client* client, const s_http_request* request, s
 	http_response_set_json(response, json.get_string());
 }
 
-void http_route_static_files(s_http_client* client, const s_http_request* request, s_http_response* response)
+void http_route_fallback(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
 	ASSERT(client != NULL);
 	ASSERT(request != NULL);
 	ASSERT(response != NULL);
 
-	// Serve static files from bin/ directory
-	// Security: prevent directory traversal
-	if (strstr(request->uri, "..") || strstr(request->uri, "\\"))
+	// File not found
+	http_response_set_status(response, _http_status_not_found);
+	http_response_set_content_type(response, "text/html");
+
+	c_html_static_string<1024> html;
 	{
-		http_response_set_status(response, _http_status_forbidden);
-		http_response_set_content_type(response, "text/html");
-
-		c_html_static_string<512> html;
+		html.begin_html();
+		html.head_begin();
 		{
-			html.begin_html();
-			{
-				html.head_begin();
-				{
-					html.meta_charset("UTF-8");
-					html.title("403 Forbidden");
-				}
-				html.head_end();
-
-				html.body_begin();
-				{
-					html.h1("403 - Forbidden");
-					html.p("Access to this resource is forbidden.");
-				}
-				html.body_end();
-			}
-			html.end_html();
+			html.meta_charset("UTF-8");
+			html.title("404 Not Found");
+			html.style_begin();
+			html.raw("body { font-family: Arial, sans-serif; margin: 40px; background: #1a1a1a; color: #fff; }");
+			html.raw("h1 { color: #ff0000; }");
+			html.style_end();
 		}
+		html.head_end();
 
-		http_response_set_body(response, html.get_string(), html.length());
+		html.body_begin();
+		{
+			html.h1("404 - Not Found");
+			html.p_begin();
+			html.text("The requested resource '");
+			html.strong(request->uri);
+			html.text("' was not found.");
+			html.p_end();
+			html.a("/", "Return to home");
+		}
+		html.body_end();
+		html.end_html();
 	}
-	else
-	{
-		c_static_string<512> filepath;
-		filepath.print("bin%s", request->uri);
 
-		s_file_reference file{};
-		if (file_reference_create_from_path(&file, filepath.get_string(), false) && file_exists(&file))
-		{
-			http_response_set_file(response, filepath.get_string());
-		}
-		else
-		{
-			// File not found
-			http_response_set_status(response, _http_status_not_found);
-			http_response_set_content_type(response, "text/html");
-
-			c_html_static_string<1024> html;
-			{
-				html.begin_html();
-				html.head_begin();
-				{
-					html.meta_charset("UTF-8");
-					html.title("404 Not Found");
-					html.style_begin();
-					html.raw("body { font-family: Arial, sans-serif; margin: 40px; background: #1a1a1a; color: #fff; }");
-					html.raw("h1 { color: #ff0000; }");
-					html.style_end();
-				}
-				html.head_end();
-
-				html.body_begin();
-				{
-					html.h1("404 - Not Found");
-					html.p_begin();
-					html.text("The requested resource '");
-					html.strong(request->uri);
-					html.text("' was not found.");
-					html.p_end();
-					html.a("/", "Return to home");
-				}
-				html.body_end();
-				html.end_html();
-			}
-
-			http_response_set_body(response, html.get_string(), html.length());
-		}
-	}
+	http_response_set_body(response, html.get_string(), html.length());
 }
 

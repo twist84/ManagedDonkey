@@ -62,7 +62,7 @@ bool http_server_initialize(uns16 port)
 	if (server->server_endpoint)
 	{
 		transport_address server_address{};
-		transport_address_ipv4_build(&server_address, 0, port);
+		transport_get_listen_address(&server_address, port);
 
 		if (transport_endpoint_bind(server->server_endpoint, &server_address))
 		{
@@ -71,11 +71,23 @@ bool http_server_initialize(uns16 port)
 			if (transport_endpoint_listen(server->server_endpoint))
 			{
 				transport_endpoint_set_blocking(server->server_endpoint, false);
-
-				server->running = true;
-				event(_event_message, "networking:http_server: initialized on http://localhost:%d/", port);
-
-				success = true;
+				
+				switch (server_address.address_length)
+				{
+				case IPV4_ADDRESS_LENGTH:
+				{
+					event(_event_message, "networking:http_server: initialized on http://127.0.0.1:%d/", port);
+					server->running = true;
+				}
+				break;
+				case IPV6_ADDRESS_LENGTH:
+				{
+					event(_event_message, "networking:http_server: initialized on http://[::1]:%d/", port);
+					server->running = true;
+				}
+				break;
+				}
+				success = server->running;
 			}
 			else
 			{
@@ -223,12 +235,9 @@ void http_server_update()
 				{
 					client->last_activity_time = current_time;
 
-					// Check if keep-alive is enabled
 					if (client->request.keep_alive)
 					{
-						// Reset for next request
 						http_client_reset(client);
-						client->endpoint = client->endpoint; // Keep endpoint
 						client->state = _http_client_state_reading_request;
 						client->last_activity_time = current_time;
 					}
@@ -302,14 +311,17 @@ static void http_client_reset(s_http_client* client)
 	if (client->request.body)
 	{
 		system_free(client->request.body);
+		client->request.body = NULL;
 	}
 	if (client->response.body)
 	{
 		system_free(client->response.body);
+		client->response.body = NULL;
 	}
 	if (client->response.response_buffer)
 	{
 		system_free(client->response.response_buffer);
+		client->response.response_buffer = NULL;
 	}
 
 	csmemset(client, 0, sizeof(s_http_client));
@@ -610,6 +622,7 @@ void http_response_set_body(s_http_response* response, const char* body, int32 l
 	if (response->body)
 	{
 		system_free(response->body);
+		response->body = NULL;
 	}
 
 	response->body = (char*)system_malloc(length + 1);
@@ -641,6 +654,7 @@ void http_response_append_body(s_http_response* response, const char* data, int3
 			{
 				csmemcpy(new_body, response->body, response->body_length);
 				system_free(response->body);
+				response->body = NULL;
 			}
 
 			response->body = new_body;
@@ -661,7 +675,7 @@ void http_response_append_body(s_http_response* response, const char* data, int3
 void http_response_set_json(s_http_response* response, const char* json)
 {
 	http_response_set_content_type(response, "application/json");
-	http_response_set_body(response, json, strlen(json));
+	http_response_set_body(response, json, strlen_debug(json));
 }
 
 void http_response_set_file(s_http_response* response, const char* filepath)
@@ -681,6 +695,7 @@ void http_response_set_file(s_http_response* response, const char* filepath)
 			http_response_set_body(response, file_content, file_size);
 
 			system_free(file_content);
+			file_content = NULL;
 		}
 		else
 		{
@@ -891,3 +906,4 @@ const char* http_get_mime_type(const char* filepath)
 	const char* extension = strrchr(filepath, '.');
 	return http_get_content_type_for_extension(extension);
 }
+

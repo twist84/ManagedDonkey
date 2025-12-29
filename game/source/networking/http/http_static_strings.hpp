@@ -327,7 +327,7 @@ public:
 
 	void doctype()
 	{
-		this->append("<!DOCTYPE html>\r\n");
+		this->set("<!DOCTYPE html>\r\n");
 	}
 
 	void begin_html()

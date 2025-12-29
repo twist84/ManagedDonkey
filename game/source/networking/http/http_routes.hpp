@@ -15,4 +15,5 @@ void http_route_api_events(s_http_client* client, const s_http_request* request,
 void http_route_api_kick_player(s_http_client* client, const s_http_request* request, s_http_response* response);
 void http_route_api_change_map(s_http_client* client, const s_http_request* request, s_http_response* response);
 void http_route_dashboard(s_http_client* client, const s_http_request* request, s_http_response* response);
-void http_route_static_files(s_http_client* client, const s_http_request* request, s_http_response* response);
+void http_route_fallback(s_http_client* client, const s_http_request* request, s_http_response* response);
+
