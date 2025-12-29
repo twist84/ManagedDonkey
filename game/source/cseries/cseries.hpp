@@ -1215,6 +1215,27 @@ public:
 		set(s);
 	}
 
+	void set_foreground_color(const real_rgb_color* color)
+	{
+		append_print("\033[38;2;%d;%d;%dm",
+			(int)(255.0f * color->red),
+			(int)(255.0f * color->green),
+			(int)(255.0f * color->blue));
+	}
+
+	void set_background_color(const real_rgb_color* color)
+	{
+		append_print("\033[48;2;%d;%d;%dm",
+			(int)(255.0f * color->red),
+			(int)(255.0f * color->green),
+			(int)(255.0f * color->blue));
+	}
+
+	void set_reset_color()
+	{
+		append_print("\x1b[0m");
+	}
+
 	void append(const char* s)
 	{
 		csstrnzcat(m_string, s, k_maximum_count);
@@ -1223,7 +1244,9 @@ public:
 	void append_line(const char* s = nullptr)
 	{
 		if (s != nullptr)
+		{
 			csstrnzcat(m_string, s, k_maximum_count);
+		}
 		csstrnzcat(m_string, "\r\n", k_maximum_count);
 	}
 
@@ -1275,7 +1298,9 @@ public:
 	char* copy_to(char* string, uns32 string_length) const
 	{
 		if (string_length > k_maximum_count)
+		{
 			string_length = k_maximum_count;
+		}
 
 		return csstrnzcpy(string, m_string, string_length);
 	}
@@ -1288,7 +1313,9 @@ public:
 		int32 suffix_length = csstrnlen(string, k_maximum_count);
 
 		if (suffix_length > _length)
+		{
 			return false;
+		}
 
 		const char* suffix = get_string() + (_length - suffix_length);
 
@@ -1304,7 +1331,9 @@ public:
 	const char* get_offset(int32 offset) const
 	{
 		if (VALID_INDEX(offset, length()))
+		{
 			return &m_string[offset];
+		}
 
 		return "";
 	}
@@ -1348,7 +1377,9 @@ public:
 		{
 			const char* s = csstrstr(m_string + start_at, string);
 			if (s)
+			{
 				result = s - get_string();
+			}
 		}
 
 		return result;
@@ -1399,9 +1430,13 @@ public:
 	void set_bounded(const char* src, int32 length)
 	{
 		if (length + 1 < k_maximum_count)
+		{
 			length++;
+		}
 		else
+		{
 			length = k_maximum_count;
+		}
 
 		csstrnzcpy(m_string, src, length);
 	}
@@ -1427,7 +1462,9 @@ public:
 		//}
 
 		if (!m_string[index])
+		{
 			m_string[index + 1] = 0;
+		}
 
 		m_string[index] = character;
 	}
