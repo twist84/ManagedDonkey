@@ -1217,7 +1217,7 @@ public:
 
 	void set_foreground_color(const real_rgb_color* color)
 	{
-		append_print("\033[38;2;%d;%d;%dm",
+		append_print("\x1b[38;2;%d;%d;%dm",
 			(int)(255.0f * color->red),
 			(int)(255.0f * color->green),
 			(int)(255.0f * color->blue));
@@ -1225,7 +1225,7 @@ public:
 
 	void set_background_color(const real_rgb_color* color)
 	{
-		append_print("\033[48;2;%d;%d;%dm",
+		append_print("\x1b[48;2;%d;%d;%dm",
 			(int)(255.0f * color->red),
 			(int)(255.0f * color->green),
 			(int)(255.0f * color->blue));
