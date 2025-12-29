@@ -1,6 +1,7 @@
 #include "networking/http/http_routes.hpp"
 
 #include "config/version.hpp"
+#include "game/game_engine_team.hpp"
 #include "networking/http/http_server.hpp"
 #include "networking/http/http_static_strings.hpp"
 #include "networking/network_globals.hpp"
@@ -125,37 +126,50 @@ void http_route_api_players(s_http_client* client, const s_http_request* request
 
 	json.build_root_object();
 	{
-		json.begin_array("players");
-
-		// Iterate through potential players (adjust max if your game supports more)
-		for (int32 player_index = 0; player_index < 16; player_index++)  // Increased to 16 for flexibility
+		if (game_engine_running())
 		{
-			// TODO: Replace with actual game engine player query
-			// Example placeholder logic - in real code, check if player is connected
-			bool is_active = (player_index < 4);  // Dummy: first 4 players active
-			if (!is_active) continue;
-
-			json.begin_object();
+			s_game_engine_score_list new_list{};
+			game_engine_scoring_build_score_list(&new_list, _game_engine_scoring_type_in_round, false);
+			if (new_list.player_count > 0)
 			{
-				json.add_integer("index", player_index);
+				ASSERT(VALID_COUNT(new_list.player_count, NUMBEROF(new_list.player_indices)));
 
-				c_static_string<64> player_name;
-				player_name.print("Player%d", player_index + 1);
-				json.add_string("name", player_name.get_string());
+				json.begin_array("players");
+				for (int32 player_num = 0; player_num < new_list.player_count; player_num++)
+				{
+					int32 player_index = new_list.player_indices[player_num];
+					if (player_index == NONE)
+					{
+						continue;
+					}
 
-				json.add_integer("score", player_index * 250 + 500);
-				json.add_integer("kills", player_index * 8);
-				json.add_integer("deaths", player_index * 2);
+					const player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 
-				// Simulate realistic ping (20-150 ms)
-				int32 simulated_ping = 20 + (player_index * 27) % 130;
-				if (simulated_ping < 30) simulated_ping += 10;
-				json.add_integer("ping", simulated_ping);
+					json.begin_object();
+					{
+						json.add_integer("index", player_index);
+
+						c_static_string<32> player_name;
+						wchar_string_to_ascii_string(player->configuration.host.name.get_string(), player_name.get_buffer(), player_name.element_count, NULL);
+						json.add_string("name", player_name.get_string());
+
+						json.add_integer("score", game_engine_get_player_score(player_index));
+						json.add_integer("kills", game_engine_get_player_kills(player_index));
+						json.add_integer("deaths", game_engine_get_player_deaths(player_index));
+
+						// Simulate realistic ping (20-150 ms)
+						int32 simulated_ping = 20 + (player_index * 27) % 130;
+						if (simulated_ping < 30)
+						{
+							 simulated_ping += 10;
+						}
+						json.add_integer("ping", simulated_ping);
+					}
+					json.end_object();
+				}
+				json.end_array();
 			}
-			json.end_object();
 		}
-
-		json.end_array();
 	}
 	json.finalize_root_object();
 

@@ -120,9 +120,21 @@ void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_str
 }
 
 //.text:005504C0 ; int32 __cdecl game_engine_get_number_of_rounds()
-//.text:005504E0 ; int32 __cdecl game_engine_get_player_assists(int32)
-//.text:00550580 ; int32 __cdecl game_engine_get_player_deaths(int32)
-//.text:00550620 ; int32 __cdecl game_engine_get_player_kills(int32)
+
+int32 __cdecl game_engine_get_player_assists(int32 player_index)
+{
+	return INVOKE(0x005504E0, game_engine_get_player_assists, player_index);
+}
+
+int32 __cdecl game_engine_get_player_deaths(int32 player_index)
+{
+	return INVOKE(0x00550580, game_engine_get_player_deaths, player_index);
+}
+
+int32 __cdecl game_engine_get_player_kills(int32 player_index)
+{
+	return INVOKE(0x00550620, game_engine_get_player_kills, player_index);
+}
 
 const s_simulation_player_netdebug_data* __cdecl game_engine_get_player_netdebug_data(int32 player_index)
 {
@@ -182,9 +194,12 @@ int32 __cdecl game_engine_get_team_place(int32 team)
 }
 
 //.text:00550C20 ; int32 __cdecl game_engine_get_team_rounds_won(e_game_team)
-//.text:00550C90 ; int32 __cdecl game_engine_get_team_score(e_game_team)
 
-//
+int32 __cdecl game_engine_get_team_score(e_game_team team_index)
+{
+	return INVOKE(0x00550C90, game_engine_get_team_score, team_index);
+}
+
 int32 __cdecl game_engine_get_team_score_for_display(int32 team, bool final_score)
 {
 	return INVOKE(0x00550D10, game_engine_get_team_score_for_display, team, final_score);

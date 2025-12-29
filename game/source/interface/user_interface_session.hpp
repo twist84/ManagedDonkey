@@ -18,6 +18,7 @@ extern int16 __cdecl user_interface_game_settings_get_campaign_insertion_point()
 extern e_campaign_metagame_scoring __cdecl user_interface_game_settings_get_campaign_metagame_scoring();
 extern const s_saved_film_description* __cdecl user_interface_game_settings_get_film();
 extern const c_game_variant* __cdecl user_interface_game_settings_get_game_variant();
+extern const c_map_variant* __cdecl user_interface_game_settings_get_map_variant();
 extern e_session_game_mode __cdecl user_interface_get_session_game_mode();
 extern e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, uns32* player_error_mask);
 extern bool __cdecl user_interface_interactive_session_is_squad();
