@@ -152,38 +152,41 @@ void http_server_update()
 	{
 		uns32 current_time = network_time_get();
 
-		transport_endpoint* client_endpoint = transport_endpoint_accept(server->server_endpoint);
-		if (client_endpoint)
+		if (transport_endpoint_readable(server->server_endpoint))
 		{
-			s_http_client* client = NULL;
-			for (int32 client_index = 0; client_index < s_http_server::k_max_clients; client_index++)
+			transport_endpoint* client_endpoint = transport_endpoint_accept(server->server_endpoint);
+			if (client_endpoint)
 			{
-				if (!http_client_is_active(&server->clients[client_index]))
+				s_http_client* client = NULL;
+				for (int32 client_index = 0; client_index < s_http_server::k_max_clients; client_index++)
 				{
-					client = &server->clients[client_index];
-					break;
+					if (!http_client_is_active(&server->clients[client_index]))
+					{
+						client = &server->clients[client_index];
+						break;
+					}
 				}
-			}
 
-			if (client)
-			{
-				http_client_reset(client);
-				client->endpoint = client_endpoint;
-				client->state = _http_client_state_reading_request;
-				client->connection_time = current_time;
-				client->last_activity_time = current_time;
+				if (client)
+				{
+					http_client_reset(client);
+					client->endpoint = client_endpoint;
+					client->state = _http_client_state_reading_request;
+					client->connection_time = current_time;
+					client->last_activity_time = current_time;
 
-				transport_get_endpoint_address(client_endpoint, &client->address);
-				transport_endpoint_set_blocking(client_endpoint, false);
+					transport_get_endpoint_address(client_endpoint, &client->address);
+					transport_endpoint_set_blocking(client_endpoint, false);
 
-				event(_event_message, "networking:http_server: accepted connection from %s",
-					transport_address_get_string(&client->address));
-			}
-			else
-			{
-				event(_event_warning, "networking:http_server: no available client slots, rejecting connection");
-				transport_endpoint_disconnect(client_endpoint);
-				transport_endpoint_delete(client_endpoint);
+					event(_event_message, "networking:http_server: accepted connection from %s",
+						transport_address_get_string(&client->address));
+				}
+				else
+				{
+					event(_event_warning, "networking:http_server: no available client slots, rejecting connection");
+					transport_endpoint_disconnect(client_endpoint);
+					transport_endpoint_delete(client_endpoint);
+				}
 			}
 		}
 
