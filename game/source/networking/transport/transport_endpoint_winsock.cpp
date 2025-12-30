@@ -712,7 +712,7 @@ bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
 	ASSERT(endpoint != NULL);
 
 	bool readable = false;
-	if (transport_available() && endpoint->socket == INVALID_SOCKET)
+	if (transport_available() && endpoint->socket != INVALID_SOCKET)
 	{
 		if (TEST_BIT(endpoint->flags, _transport_endpoint_readable_bit))
 		{
