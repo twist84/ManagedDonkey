@@ -122,7 +122,7 @@ bool __cdecl transport_network_available()
 	return connection_live;
 }
 
-void __cdecl transport_register_transition_functions(transport_startup_func_t startup_func, transport_shutdown_func_t shutdown_func, transport_reset_func_t reset_func, void* context)
+void __cdecl transport_register_transition_functions(transport_startup_func_t* startup_func, transport_shutdown_func_t* shutdown_func, transport_reset_func_t* reset_func, void* context)
 {
 	//INVOKE(0x00430730, transport_register_transition_functions, startup_func, shutdown_func, reset_func, context);
 
@@ -140,7 +140,7 @@ void __cdecl transport_reset()
 
 	for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
 	{
-		transport_reset_func_t reset_func = transport_globals.reset_functions[function_index];
+		transport_reset_func_t* reset_func = transport_globals.reset_functions[function_index];
 		if (reset_func)
 		{
 			reset_func(transport_globals.transport_function_context[function_index]);
@@ -157,7 +157,7 @@ void __cdecl transport_shutdown()
 		network_session_interface_handle_message(_network_message_network_interface_connection_lost);
 		for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
 		{
-			transport_shutdown_func_t shutdown_func = transport_globals.shutdown_functions[function_index];
+			transport_shutdown_func_t* shutdown_func = transport_globals.shutdown_functions[function_index];
 			if (shutdown_func)
 			{
 				shutdown_func(transport_globals.transport_function_context[function_index]);
@@ -206,7 +206,7 @@ void __cdecl transport_startup()
 
 			for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
 			{
-				transport_startup_func_t startup_func = transport_globals.startup_functions[function_index];
+				transport_startup_func_t* startup_func = transport_globals.startup_functions[function_index];
 				if (startup_func)
 				{
 					startup_func(transport_globals.transport_function_context[function_index]);
