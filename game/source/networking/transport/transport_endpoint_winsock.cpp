@@ -249,7 +249,7 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 		transport_endpoint_get_socket_address(address, &address_length, address_buffer) &&
 		transport_endpoint_create_socket(endpoint, address))
 	{
-		if (::bind(endpoint->socket, (const sockaddr*)&address_buffer, address_length))
+		if (::bind(endpoint->socket, (const sockaddr*)&address_buffer, address_length) != 0)
 		{
 			event(wsa_error_level(), "transport:endpoint: bind() failed: error= %s",
 				wsa_error_string());
@@ -286,7 +286,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, const tran
 		transport_endpoint_get_socket_address(address, &address_length, address_buffer) &&
 		transport_endpoint_create_socket(endpoint, address))
 	{
-		if (::connect(endpoint->socket, (const sockaddr*)address_buffer, address_length))
+		if (::connect(endpoint->socket, (const sockaddr*)address_buffer, address_length) != 0)
 		{
 			event(wsa_error_level(), "transport:endpoint: connect() failed: error= %s",
 				wsa_error_string());
@@ -427,7 +427,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 				event(wsa_error_level(), "transport:endpoint: shutdown() failed: error= %s",
 					wsa_error_string());
 			}
-			if (::closesocket(endpoint->socket))
+			if (::closesocket(endpoint->socket) != 0)
 			{
 				event(wsa_error_level(), "transport:endpoint: closesocket() failed: error= %s",
 					wsa_error_string());
@@ -461,7 +461,7 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 		{
 			int32 option_value = 0;
 			int32 option_length = sizeof(option_value);
-			if (::getsockopt(endpoint->socket, SOL_SOCKET, platform_option, (char*)&option_value, (int*)&option_length))
+			if (::getsockopt(endpoint->socket, SOL_SOCKET, platform_option, (char*)&option_value, (int*)&option_length) != 0)
 			{
 				event(wsa_error_level(), "transport:endpoint: getsockopt(%d, %d) failed with %s",
 					option,
@@ -599,7 +599,7 @@ bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
 	bool success = false;
 	if (transport_available())
 	{
-		if (::listen(endpoint->socket, k_maximum_outstanding_connect_requests))
+		if (::listen(endpoint->socket, k_maximum_outstanding_connect_requests) != 0)
 		{
 			event(wsa_error_level(), "transport:endpoint: listen() failed: error= %s",
 				wsa_error_string());
@@ -769,7 +769,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 			if (!blocking)
 			{
 				uns32 flags = 1;
-				if (::ioctlsocket(endpoint->socket, FIONBIO, &flags))
+				if (::ioctlsocket(endpoint->socket, FIONBIO, &flags) != 0)
 				{
 					event(wsa_error_level(), "transport:endpoint: failed to set endpoint non-blocking; error= %s",
 						wsa_error_string());
@@ -785,7 +785,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 		else if (blocking)
 		{
 			uns32 flags = 0;
-			if (::ioctlsocket(endpoint->socket, FIONBIO, &flags))
+			if (::ioctlsocket(endpoint->socket, FIONBIO, &flags) != 0)
 			{
 				event(wsa_error_level(), "transport:endpoint: failed to set endpoint blocking; error= %s",
 					wsa_error_string());
@@ -817,7 +817,7 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 		if (platform_option != NONE)	
 		{
 			const char* setsockopt_value = (const char*)&result;
-			if (::setsockopt(endpoint->socket, SOL_SOCKET, platform_option, setsockopt_value, option_length))
+			if (::setsockopt(endpoint->socket, SOL_SOCKET, platform_option, setsockopt_value, option_length) != 0)
 			{
 				event(wsa_error_level(), "transport:endpoint: setsockopt(%d, %d) failed with %s",
 					option,
@@ -864,7 +864,7 @@ bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, const transpo
 	if (transport_available()
 		&& transport_endpoint_get_socket_address(address, &address_length, address_buffer)
 		&& transport_endpoint_create_socket(endpoint, address)
-		&& !::connect(endpoint->socket, (const sockaddr*)address_buffer, (int)address_length))
+		&& ::connect(endpoint->socket, (const sockaddr*)address_buffer, (int)address_length) == 0)
 	{
 		SET_BIT(endpoint->flags, _transport_endpoint_connected_bit, true);
 		SET_BIT(endpoint->flags, _transport_endpoint_clientside_bit, true);
@@ -1000,8 +1000,8 @@ bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transp
 			int32 length = k_socket_address_size;
 			if (!TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit) ||
 				TEST_BIT(endpoint->flags, _transport_endpoint_listening_bit) ||
-				::getpeername(endpoint->socket, (sockaddr*)address_buffer, (int*)&length) &&
-				::getsockname(endpoint->socket, (sockaddr*)address_buffer, (int*)&length))
+				::getpeername(endpoint->socket, (sockaddr*)address_buffer, (int*)&length) != 0 &&
+				::getsockname(endpoint->socket, (sockaddr*)address_buffer, (int*)&length) != 0)
 			{
 				event(wsa_error_level(), "transport:endpoint: transport_get_endpoint_address() failed to retrieve an address; error= %s",
 					wsa_error_string());

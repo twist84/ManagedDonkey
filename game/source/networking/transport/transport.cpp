@@ -167,7 +167,7 @@ void __cdecl transport_shutdown()
 		transport_qos_shutdown();
 		transport_globals.winsock_initialized = false;
 
-		WSACleanup();
+		::WSACleanup();
 	}
 }
 
@@ -184,8 +184,8 @@ void __cdecl transport_startup()
 			WSAData info;
 			csmemset(&info, 0, sizeof(info));
 
-			int result = WSAStartup(MAKEWORD(2, 2), &info);
-			if (result)
+			int result = ::WSAStartup(MAKEWORD(2, 2), &info);
+			if (result != 0)
 			{
 				//event(_event_error, "networking:transport: WSAStartup() failed; error= %s",
 				//	winsock_error_to_string(result));
