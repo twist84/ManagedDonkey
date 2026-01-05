@@ -2,7 +2,21 @@
 
 #include "cache/cache_files.hpp"
 #include "memory/bitstream.hpp"
+#include "memory/module.hpp"
 #include "simulation/simulation_encoding.hpp"
+
+static void* map_variant_get_unique_id = member_to_static_function(&c_map_variant::get_unique_id_);
+HOOK_DECLARE_CALL(0x00AEB265, map_variant_get_unique_id);
+
+uns64 c_map_variant::get_unique_id_()
+{
+	uns64 unique_id = c_map_variant::get_unique_id();
+	if (unique_id == 0)
+	{
+		unique_id = s_saved_game_item_metadata::generate_unique_id();
+	}
+	return unique_id;
+}
 
 //.text:00580B00 ; 
 //.text:00580B10 ; 
@@ -196,7 +210,12 @@ void c_map_variant::encode(c_bitstream* packet) const
 //.text:00583320 ; public: const s_scenario_multiplayer_object_properties* c_map_variant::get_object_scenario_multiplayer_properties(int32)
 //.text:005833F0 ; public: bool c_map_variant::get_object_scenario_properties(int32, e_object_type*, int32*)
 //.text:005834E0 ; public: int32 c_map_variant::get_scenario_object_reserved_map_variant_index(e_object_type, int32) const
-//.text:00583530 ; public: uns64 c_map_variant::get_unique_id() const
+
+uns64 c_map_variant::get_unique_id() const
+{
+	return INVOKE_CLASS_MEMBER(0x00583530, c_map_variant, get_unique_id);
+}
+
 //.text:005835F0 ; 
 //.text:00583600 ; public: const s_variant_object_datum* c_map_variant::get_variant_object_datum(int32) const
 //.text:00583630 ; public: void c_map_variant::get_variant_object_datum(int32, s_variant_object_datum*) const

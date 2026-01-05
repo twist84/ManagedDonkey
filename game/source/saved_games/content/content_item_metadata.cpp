@@ -82,7 +82,12 @@ void s_saved_game_item_metadata::encode(c_bitstream* packet) const
 //.text:005244C0 ; e_saved_game_file_type __cdecl game_content_type_to_saved_game_file_type(e_game_content_type)
 //.text:00524570 ; e_game_content_type __cdecl game_engine_index_to_game_content_type(e_game_engine_type)
 //.text:005245F0 ; e_saved_game_file_type __cdecl game_engine_index_to_saved_game_file_type(e_game_engine_type)
-//.text:00524670 ; public: static uns64 __cdecl s_saved_game_item_metadata::generate_unique_id()
+
+uns64 __cdecl s_saved_game_item_metadata::generate_unique_id()
+{
+	return INVOKE(0x00524670, s_saved_game_item_metadata::generate_unique_id);
+}
+
 //.text:005246C0 ; public: c_game_engine_base_variant* c_game_variant::get_active_variant_writeable()
 //.text:005246E0 ; public: static e_metadata_file_type s_saved_game_item_metadata::get_file_type_from_saved_game_type(e_saved_game_file_type)
 //.text:00524740 ; public: e_game_content_type s_saved_game_item_metadata::get_game_content_type() const

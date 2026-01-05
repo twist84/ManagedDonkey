@@ -141,11 +141,15 @@ class c_bitstream;
 class c_map_variant
 {
 public:
+	uns64 get_unique_id_();
+
+public:
 	c_map_variant();
 	//~c_map_variant();
 	void create_default(e_map_id map_id);
 	bool decode(c_bitstream* packet);
 	void encode(c_bitstream* packet) const;
+	uns64 get_unique_id() const;
 	bool is_valid() const;
 	bool lossily_compare_to(c_map_variant* map_variant);
 	bool save_to(const c_map_variant* source);
@@ -176,3 +180,5 @@ public:
 	c_static_array<int32, 80> m_gamestate_indices;
 };
 static_assert(sizeof(c_map_variant) == 0xE090);
+
+
