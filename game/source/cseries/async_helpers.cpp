@@ -533,7 +533,26 @@ e_async_completion __cdecl async_validify_file_callback(
 		in_task);
 }
 
-//.text:005ADFC0 ; int32 __cdecl async_write_buffer_to_file(const wchar_t*, const void*, uns32, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+int32 __cdecl async_write_buffer_to_file(
+	const wchar_t* path,
+	const void* buffer,
+	uns32 size,
+	int32 dst_on_utility_drive,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* success,
+	c_synchronized_long* done)
+{
+	return INVOKE(0x005ADFC0, async_write_buffer_to_file,
+		path,
+		buffer,
+		size,
+		dst_on_utility_drive,
+		category,
+		priority,
+		success,
+		done);
+}
 
 int32 __cdecl async_write_position(
 	s_file_handle file,

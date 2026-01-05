@@ -46,7 +46,7 @@ extern int32 __cdecl async_copy_position(
 extern e_async_completion __cdecl async_copy_position_callback(
 	s_async_task* in_task);
 
-int32 __cdecl async_create_file(
+extern int32 __cdecl async_create_file(
 	const wchar_t* file_name,
 	uns32 desired_access,
 	int32 creation_disposition,
@@ -191,7 +191,17 @@ extern int32 __cdecl async_validify_file(
 extern e_async_completion __cdecl async_validify_file_callback(
 	s_async_task* in_task);
 
-int32 __cdecl async_write_position(
+extern int32 __cdecl async_write_buffer_to_file(
+	const wchar_t* path,
+	const void* buffer,
+	uns32 size,
+	int32 dst_on_utility_drive,
+	e_async_category category,
+	e_async_priority priority,
+	c_synchronized_long* success,
+	c_synchronized_long* done);
+
+extern int32 __cdecl async_write_position(
 	s_file_handle file,
 	void* buffer,
 	int32 size,
@@ -205,7 +215,7 @@ int32 __cdecl async_write_position(
 extern e_async_completion __cdecl async_write_position_callback(
 	s_async_task* in_task);
 
-int32 __cdecl async_write_position_ex(
+extern int32 __cdecl async_write_position_ex(
 	s_file_handle file,
 	void* buffer,
 	int32 size,
