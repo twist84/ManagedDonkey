@@ -48,4 +48,6 @@ extern int32 __cdecl saved_game_files_save_last_film_to_debugging_hard_drive(e_c
 extern void __cdecl saved_game_files_uniquify_name(e_controller_index controller_index, e_saved_game_file_type saved_game_file_type, wchar_t* name, int32 maximum_characters);
 extern void __cdecl saved_game_files_update();
 extern bool __cdecl saved_game_read_metadata_from_file(s_file_reference* file, s_saved_game_item_metadata* out_metadata);
+extern bool __cdecl saved_game_synchronize_contents_from_metadata(s_file_reference* file, s_saved_game_item_metadata* metadata, e_game_content_type content_type);
+extern bool __cdecl saved_game_write_metadata_to_file(s_file_reference* file, const s_saved_game_item_metadata* metadata, e_game_content_type content_type, bool synchronize_contents_from_metadata);
 

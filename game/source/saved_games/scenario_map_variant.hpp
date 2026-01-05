@@ -181,4 +181,5 @@ public:
 };
 static_assert(sizeof(c_map_variant) == 0xE090);
 
+extern c_map_variant* __cdecl game_engine_get_runtime_map_variant();
 

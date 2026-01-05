@@ -202,7 +202,12 @@ void c_map_variant::encode(c_bitstream* packet) const
 //.text:00583200 ; 
 //.text:00583210 ; 
 //.text:00583220 ; 
-//.text:00583230 ; c_map_variant* __cdecl game_engine_get_runtime_map_variant()
+
+c_map_variant* __cdecl game_engine_get_runtime_map_variant()
+{
+	return INVOKE(0x00583230, game_engine_get_runtime_map_variant);
+}
+
 //.text:00583250 ; public: real32 c_map_variant::get_budget_fraction(int32*, int32*) const
 //.text:005832A0 ; public: int32 c_map_variant::get_map_variant_index_for_definition_index(int32)
 //.text:005832E0 ; public: int32 c_map_variant::get_object_index(int32) const

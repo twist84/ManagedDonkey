@@ -11,6 +11,9 @@ class c_start_menu_game_editor :
 	public c_start_menu_pane_screen_widget
 {
 public:
+	void __thiscall update_save_as_new_operation_();
+
+public:
 	enum e_asynchronous_operation
 	{
 		_operation_none = 0,
@@ -37,6 +40,16 @@ public:
 
 		_invalid_result = NONE,
 	};
+
+protected:
+	void load_progress_ui(e_controller_index controller_index);
+
+private:
+	void setup_map_variant_for_write(s_blffile_map_variant* variant_on_disk, const wchar_t* map_name, const wchar_t* map_description, e_map_id map_id, const c_map_variant* map_variant);
+
+public:
+	void update_save_as_new_operation();
+	void update_save_operation();
 
 public:
 	e_asynchronous_operation m_asynchronous_operation;

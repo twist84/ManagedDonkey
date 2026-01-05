@@ -160,8 +160,17 @@ bool __cdecl saved_game_read_metadata_from_file(s_file_reference* file, s_saved_
 }
 
 //.text:005273E0 ; bool __cdecl saved_game_read_metadata_from_open_file_internal(s_file_reference*, s_saved_game_item_metadata*)
-//.text:005274C0 ; saved_game_synchronize_contents_from_metadata
-//.text:005276E0 ; bool __cdecl saved_game_write_metadata_to_file(s_file_reference*, const s_saved_game_item_metadata*, e_game_content_type, bool)
+
+bool __cdecl saved_game_synchronize_contents_from_metadata(s_file_reference* file, s_saved_game_item_metadata* metadata, e_game_content_type content_type)
+{
+	return INVOKE(0x005274C0, saved_game_synchronize_contents_from_metadata, file, metadata, content_type);
+}
+
+bool __cdecl saved_game_write_metadata_to_file(s_file_reference* file, const s_saved_game_item_metadata* metadata, e_game_content_type content_type, bool synchronize_contents_from_metadata)
+{
+	return INVOKE(0x005276E0, saved_game_write_metadata_to_file, file, metadata, content_type, synchronize_contents_from_metadata);
+}
+
 //.text:00527720 ; bool __cdecl saved_game_write_metadata_to_open_file_internal(s_file_reference*, const s_saved_game_item_metadata*, e_game_content_type, bool)
 //.text:00527860 ; e_async_completion __cdecl saved_games_async_work_slice_finish(bool, bool, e_saved_game_file_operation_result, c_synchronized_long*, c_synchronized_long*)
 //.text:005278C0 ; 
