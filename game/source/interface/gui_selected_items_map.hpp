@@ -44,7 +44,7 @@ public:
 public:
 	enum
 	{
-		k_maximum_maps_shown = 151,
+		k_maximum_map_variants_shown = 151,
 		k_saved_game_files_enumeration_batch_size = 5,
 	};
 
@@ -58,7 +58,7 @@ protected:
 public:
 //private:
 	e_map_id m_enumeration_map_id;
-	c_static_array<c_gui_map_selected_item, k_maximum_maps_shown> m_maps;
+	c_static_array<c_gui_map_selected_item, k_maximum_map_variants_shown> m_maps;
 	int32 m_map_count;
 	e_controller_index m_controller_index;
 	bool m_enumeration_complete;

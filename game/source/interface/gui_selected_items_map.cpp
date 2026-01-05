@@ -81,41 +81,44 @@ bool c_gui_map_selected_item::get_map_variant(c_map_variant* map_variant) const
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD9A30, c_gui_map_selected_item, get_map_variant, map_variant);
 
-	s_blffile_map_variant variant_on_disk{};
+	bool success = false;
 
-	switch (c_gui_map_selected_item::get_location())
+	s_blffile_map_variant variant_on_disk{};
+	e_gui_selected_item_location location = c_gui_map_selected_item::get_location();
+	switch (location)
 	{
 	case _gui_stored_item_location_saved_game_file:
 	case _gui_stored_item_location_autosave_queue:
 	{
-		c_synchronized_long success = 0;
-		c_synchronized_long done = 0;
-		if (autosave_queue_read_file(&m_file_reference, &variant_on_disk, sizeof(s_blffile_map_variant), &success, &done) == NONE)
+		c_synchronized_long read_success = 0;
+		c_synchronized_long complete = 0;
+		if (autosave_queue_read_file(&m_file_reference, &variant_on_disk, sizeof(s_blffile_map_variant), &read_success, &complete) == NONE)
 		{
 			break;
 		}
-		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
-		if (success.peek() != 1)
+		internal_async_yield_until_done(&complete, false, false, __FILE__, __LINE__);
+		if (read_success.peek() != 1)
 		{
 			break;
 		}
 
-		bool was_valid = false;
-		if (variant_on_disk.copy_to_and_validate(map_variant, &was_valid))
+		if (!variant_on_disk.copy_to_and_validate(map_variant, &success))
 		{
-			return was_valid;
+			variant_on_disk.variant.map_variant.save_to(map_variant);
+			success = true;
 		}
-
-		if (variant_on_disk.variant.map_variant.save_to(map_variant))
-		{
-			was_valid = true;
-		}
-		return was_valid;
+	}
+	break;
+	case _gui_stored_item_location_none: break;
+	case _gui_stored_item_location_built_in: break;
+	default:
+	{
+		UNREACHABLE();
 	}
 	break;
 	}
 
-	return false;
+	return success;
 }
 
 //.text:00AD9C30 ; 
@@ -142,49 +145,47 @@ void c_gui_map_subitem_selectable_item_datasource::update_autosave_enumeration()
 {
 	//INVOKE_CLASS_MEMBER(0x00ADA360, c_gui_map_subitem_selectable_item_datasource, update_autosave_enumeration);
 
-	if (m_enumeration_complete)
+	if (!m_enumeration_complete)
 	{
-		return;
-	}
-
-	while (m_autosave_enumerator.are_items_available())
-	{
-		s_saved_game_item_enumeration_data item{};
-		if (!m_autosave_enumerator.dequeue_item(&item))
+		while (m_autosave_enumerator.are_items_available())
 		{
-			break;
+			s_saved_game_item_enumeration_data item{};
+			if (!m_autosave_enumerator.dequeue_item(&item))
+			{
+				break;
+			}
+
+			if (item.state != s_saved_game_item_enumeration_data::_item_state_ready)
+			{
+				continue;
+			}
+
+			if (m_map_count >= k_maximum_map_variants_shown)
+			{
+				break;
+			}
+
+			s_ui_saved_game_item_metadata metadata{};
+			metadata.set(&item.metadata);
+
+			m_maps[m_map_count++] = c_gui_map_selected_item(
+				&metadata,
+				_gui_stored_item_location_autosave_queue,
+				m_controller_index,
+				&item.file,
+				0,
+				c_gui_selected_item::_special_item_type_none,
+				item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+				false);
 		}
 
-		if (item.state != s_saved_game_item_enumeration_data::_item_state_ready)
+		//m_maps.sort(m_map_count, map_selected_item_sort_proc);
+		qsort(&m_maps, m_map_count, sizeof(c_gui_map_selected_item), map_selected_item_sort_proc);
+
+		if (!m_autosave_enumerator.is_busy() && !m_autosave_enumerator.are_items_available())
 		{
-			continue;
+			m_enumeration_complete = true;
 		}
-
-		if (m_map_count >= k_maximum_maps_shown)
-		{
-			break;
-		}
-
-		s_ui_saved_game_item_metadata metadata{};
-		metadata.set(&item.metadata);
-
-		m_maps[m_map_count++] = c_gui_map_selected_item(
-			&metadata,
-			_gui_stored_item_location_autosave_queue,
-			m_controller_index,
-			&item.file,
-			0,
-			c_gui_selected_item::_special_item_type_none,
-			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-			false);
-	}
-
-	//m_maps.sort(m_map_count, map_selected_item_sort_proc);
-	qsort(&m_maps, m_map_count, sizeof(c_gui_map_selected_item), map_selected_item_sort_proc);
-
-	if (!m_autosave_enumerator.is_busy() && !m_autosave_enumerator.are_items_available())
-	{
-		m_enumeration_complete = true;
 	}
 }
 
@@ -194,114 +195,105 @@ void c_gui_map_subitem_selectable_item_datasource::update_content_enumeration()
 
 	// $TODO properly implement content items and un/reimplement this function at that time
 
-	if (m_enumeration_complete)
-	{
-		return;
-	}
-
-	static s_find_file_data find_file_data{};
-	static s_file_reference saved_films_files[512]{};
-	static int32 saved_films_file_count = 0;
-	static c_synchronized_long success;
-	static c_synchronized_long done;
-	static int32 task_id = NONE;
-
-	task_id = async_enumerate_files(
-		FLAG(_find_files_recursive_bit),
-		"map_variants",
-		NUMBEROF(saved_films_files),
-		&find_file_data,
-		saved_films_files,
-		&saved_films_file_count,
-		_async_category_saved_games,
-		_async_priority_very_important_non_blocking,
-		&success,
-		&done);
-
-	m_enumeration_complete = success.peek();
 	if (!m_enumeration_complete)
 	{
-		return;
-	}
+		static s_file_reference saved_films_files[512]{};
+		static int32 saved_films_file_count = 0;
 
-	for (int32 saved_films_file_index = 0; saved_films_file_index < saved_films_file_count; saved_films_file_index++)
-	{
-		if (m_map_count >= k_maximum_maps_shown)
+		s_find_file_data find_file_data{};
+		c_synchronized_long enumerate_success;
+		c_synchronized_long complete;
+		async_enumerate_files(
+			FLAG(_find_files_recursive_bit),
+			"map_variants",
+			NUMBEROF(saved_films_files),
+			&find_file_data,
+			saved_films_files,
+			&saved_films_file_count,
+			_async_category_saved_games,
+			_async_priority_very_important_non_blocking,
+			&enumerate_success,
+			&complete);
+		internal_async_yield_until_done(&complete, false, false, __FILE__, __LINE__);
+
+		m_enumeration_complete = complete.peek();
+		if (m_enumeration_complete)
 		{
-			continue;
-		}
-
-		s_file_reference* saved_films_file = &saved_films_files[saved_films_file_index];
-		if (file_is_directory(saved_films_file))
-		{
-			continue;
-		}
-
-		wchar_t found_file_extension[256]{};
-		file_reference_get_name_wide(saved_films_file, FLAG(_name_extension_bit), found_file_extension, NUMBEROF(found_file_extension));
-
-		const wchar_t* filename_extension = L"map";
-		if (ustricmp(found_file_extension, filename_extension) != 0)
-		{
-			continue;
-		}
-
-		s_saved_game_item_enumeration_data item{};
-		{
-			s_blffile_saved_game_file variant_on_disk{};
-			c_synchronized_long success = 0;
-			c_synchronized_long done = 0;
-			if (autosave_queue_read_file(saved_films_file, &variant_on_disk, sizeof(s_blffile_saved_game_file), &success, &done) == NONE)
+			for (int32 saved_films_file_index = 0; m_map_count < k_maximum_map_variants_shown && saved_films_file_index < saved_films_file_count; saved_films_file_index++)
 			{
-				continue;
+				s_file_reference* saved_films_file = &saved_films_files[saved_films_file_index];
+				if (file_is_directory(saved_films_file))
+				{
+					continue;
+				}
+
+				wchar_t found_file_extension[256]{};
+				file_reference_get_name_wide(saved_films_file, FLAG(_name_extension_bit), found_file_extension, NUMBEROF(found_file_extension));
+
+				const wchar_t* filename_extension = L"map";
+				if (ustricmp(found_file_extension, filename_extension) != 0)
+				{
+					continue;
+				}
+
+				s_saved_game_item_enumeration_data item{};
+				{
+					s_blffile_saved_game_file variant_on_disk{};
+					c_synchronized_long success = 0;
+					c_synchronized_long done = 0;
+					if (autosave_queue_read_file(saved_films_file, &variant_on_disk, sizeof(s_blffile_saved_game_file), &success, &done) == NONE)
+					{
+						continue;
+					}
+
+					internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+
+					if (success.peek() != 1)
+					{
+						continue;
+					}
+
+					item.file = *saved_films_file;
+					item.metadata = variant_on_disk.content_header.metadata;
+				}
+
+				if (item.metadata.file_type != _saved_game_map_variant || m_enumeration_map_id != item.metadata.map_id)
+				{
+					continue;
+				}
+
+				bool exists = false;
+				for (int32 map_index = 0; !exists && map_index < m_map_count; map_index++)
+				{
+					exists = item.metadata.unique_id == m_maps[map_index].m_metadata.unique_id;
+				}
+
+				if (exists)
+				{
+					continue;
+				}
+
+				s_ui_saved_game_item_metadata metadata{};
+				metadata.set(&item.metadata);
+
+				m_maps[m_map_count++] = c_gui_map_selected_item(
+					&metadata,
+					_gui_stored_item_location_saved_game_file,
+					m_controller_index,
+					&item.file,
+					0,
+					c_gui_selected_item::_special_item_type_none,
+					item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+					false);
 			}
 
-			internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+			//m_maps.sort(m_map_count, map_selected_item_sort_proc);
+			qsort(&m_maps, m_map_count, sizeof(c_gui_map_selected_item), map_selected_item_sort_proc);
 
-			if (success.peek() != 1)
-			{
-				continue;
-			}
-
-			item.file = *saved_films_file;
-			item.metadata = variant_on_disk.content_header.metadata;
+			csmemset(&find_file_data, 0, sizeof(s_find_file_data));
+			csmemset(saved_films_files, 0, sizeof(saved_films_files));
+			saved_films_file_count = 0;
 		}
-
-		if (item.metadata.file_type != _saved_game_map_variant || m_enumeration_map_id != item.metadata.map_id)
-		{
-			continue;
-		}
-
-		bool exists = false;
-		for (int32 map_index = 0; !exists && map_index < m_map_count; map_index++)
-		{
-			exists = item.metadata.unique_id == m_maps[map_index].m_metadata.unique_id;
-		}
-
-		if (exists)
-		{
-			continue;
-		}
-
-		s_ui_saved_game_item_metadata metadata{};
-		metadata.set(&item.metadata);
-
-		m_maps[m_map_count++] = c_gui_map_selected_item(
-			&metadata,
-			_gui_stored_item_location_saved_game_file,
-			m_controller_index,
-			&item.file,
-			0,
-			c_gui_selected_item::_special_item_type_none,
-			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-			false);
 	}
-
-	//m_maps.sort(m_map_count, map_selected_item_sort_proc);
-	qsort(&m_maps, m_map_count, sizeof(c_gui_map_selected_item), map_selected_item_sort_proc);
-
-	csmemset(&find_file_data, 0, sizeof(s_find_file_data));
-	csmemset(saved_films_files, 0, sizeof(saved_films_files));
-	saved_films_file_count = 0;
 }
 

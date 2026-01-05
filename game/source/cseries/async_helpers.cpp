@@ -225,9 +225,9 @@ int32 __cdecl async_enumerate_files(
 	ASSERT(success != NULL);
 	ASSERT(done != NULL);
 
-	//*out_reference_count = 0;
-	//success->set(0);
-	//done->set(0);
+	*out_reference_count = 0;
+	success->set(0);
+	done->set(0);
 
 	s_enumerate_files_task task{};
 	csmemset(&task, 0, sizeof(s_enumerate_files_task));

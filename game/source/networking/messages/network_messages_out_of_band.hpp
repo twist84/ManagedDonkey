@@ -65,9 +65,9 @@ struct s_network_squad_status_data_game_details
 	int16 open_private_slot_count;
 	int16 current_public_players;
 	int16 current_private_players;
-	int16 game_mode;
-	int16 game_state;
-	int16 network_game_type;
+	int16 game_mode; // e_gui_game_mode
+	int16 game_state; // e_session_game_mode
+	int16 network_game_type; // e_network_game_type
 	int16 connection_quality;
 	char playlist_name[16];
 	e_game_engine_type game_engine_type;

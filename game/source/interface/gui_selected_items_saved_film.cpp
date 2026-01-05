@@ -245,51 +245,49 @@ void c_gui_saved_film_subitem_datasource::update_autosave_enumeration()
 {
 	//INVOKE_CLASS_MEMBER(0x00ADD3E0, c_gui_saved_film_subitem_datasource, update_autosave_enumeration);
 
-	if (m_enumeration_complete)
+	if (!m_enumeration_complete)
 	{
-		return;
-	}
-
-	while (m_autosave_enumerator.are_items_available())
-	{
-		s_saved_game_item_enumeration_data item{};
-		if (!m_autosave_enumerator.dequeue_item(&item))
+		while (m_autosave_enumerator.are_items_available())
 		{
-			break;
+			s_saved_game_item_enumeration_data item{};
+			if (!m_autosave_enumerator.dequeue_item(&item))
+			{
+				break;
+			}
+
+			if (item.state != s_saved_game_item_enumeration_data::_item_state_ready)
+			{
+				continue;
+			}
+
+			if (!c_gui_saved_film_subitem_datasource::film_matches_category(&item.metadata))
+			{
+				continue;
+			}
+
+			if (m_saved_film_count >= k_maximum_saved_films_shown)
+			{
+				break;
+			}
+
+			m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
+				&item.metadata,
+				m_category,
+				_gui_stored_item_location_autosave_queue,
+				m_controller_index,
+				&item.file,
+				0,
+				item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+				false);
 		}
 
-		if (item.state != s_saved_game_item_enumeration_data::_item_state_ready)
+		//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
+		qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
+
+		if (!m_autosave_enumerator.is_busy() && !m_autosave_enumerator.are_items_available())
 		{
-			continue;
+			m_enumeration_complete = true;
 		}
-
-		if (!c_gui_saved_film_subitem_datasource::film_matches_category(&item.metadata))
-		{
-			continue;
-		}
-
-		if (m_saved_film_count >= k_maximum_saved_films_shown)
-		{
-			break;
-		}
-
-		m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
-			&item.metadata,
-			m_category,
-			_gui_stored_item_location_autosave_queue,
-			m_controller_index,
-			&item.file,
-			0,
-			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-			false);
-	}
-
-	//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
-	qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
-
-	if (!m_autosave_enumerator.is_busy() && !m_autosave_enumerator.are_items_available())
-	{
-		m_enumeration_complete = true;
 	}
 }
 
@@ -299,94 +297,88 @@ void c_gui_saved_film_subitem_datasource::update_content_enumeration()
 
 	// $TODO properly implement content items and un/reimplement this function at that time
 
-	if (m_enumeration_complete)
-	{
-		return;
-	}
-
-	static s_find_file_data find_file_data{};
-	static s_file_reference saved_films_files[512]{};
-	static int32 saved_films_file_count = 0;
-	static c_synchronized_long success;
-	static c_synchronized_long done;
-	static int32 task_id = NONE;
-
-	task_id = async_enumerate_files(
-		FLAG(_find_files_recursive_bit),
-		"saved_films",
-		NUMBEROF(saved_films_files),
-		&find_file_data,
-		saved_films_files,
-		&saved_films_file_count,
-		_async_category_saved_games,
-		_async_priority_very_important_non_blocking,
-		&success,
-		&done);
-
-	m_enumeration_complete = success.peek();
 	if (!m_enumeration_complete)
 	{
-		return;
+		static s_file_reference saved_films_files[512]{};
+		static int32 saved_films_file_count = 0;
+
+		s_find_file_data find_file_data{};
+		c_synchronized_long enumerate_success;
+		c_synchronized_long complete;
+		async_enumerate_files(
+			FLAG(_find_files_recursive_bit),
+			"saved_films",
+			NUMBEROF(saved_films_files),
+			&find_file_data,
+			saved_films_files,
+			&saved_films_file_count,
+			_async_category_saved_games,
+			_async_priority_very_important_non_blocking,
+			&enumerate_success,
+			&complete);
+		internal_async_yield_until_done(&complete, false, false, __FILE__, __LINE__);
+
+		m_enumeration_complete = complete.peek();
+		if (m_enumeration_complete)
+		{
+			s_saved_game_item_enumeration_data item{};
+			for (int32 saved_films_file_index = 0; saved_films_file_index < saved_films_file_count; saved_films_file_index++)
+			{
+				if (m_saved_film_count >= k_maximum_saved_films_shown)
+				{
+					break;
+				}
+
+				s_file_reference* saved_films_file = &saved_films_files[saved_films_file_index];
+				if (file_is_directory(saved_films_file))
+				{
+					continue;
+				}
+
+				item.file = *saved_films_file;
+
+				if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
+				{
+					continue;
+				}
+
+				if (item.metadata.file_type != _saved_game_film && item.metadata.file_type != _saved_game_film_clip)
+				{
+					continue;
+				}
+
+				if (!c_gui_saved_film_subitem_datasource::film_matches_category(&item.metadata))
+				{
+					continue;
+				}
+
+				bool exists = false;
+				for (int32 saved_film_index = 0; !exists && saved_film_index < m_saved_film_count; saved_film_index++)
+				{
+					exists = item.metadata.unique_id == m_saved_films[saved_film_index].m_metadata.unique_id;
+				}
+
+				if (!exists)
+				{
+					m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
+						&item.metadata,
+						m_category,
+						_gui_stored_item_location_saved_game_file,
+						m_controller_index,
+						&item.file,
+						0,
+						item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
+						item.metadata.date > get_current_time_in_seconds(_one_week_in_seconds));
+				}
+			}
+
+			//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
+			qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
+
+			csmemset(&find_file_data, 0, sizeof(s_find_file_data));
+			csmemset(saved_films_files, 0, sizeof(saved_films_files));
+			saved_films_file_count = 0;
+		}
 	}
-
-	s_saved_game_item_enumeration_data item{};
-	for (int32 saved_films_file_index = 0; saved_films_file_index < saved_films_file_count; saved_films_file_index++)
-	{
-		if (m_saved_film_count >= k_maximum_saved_films_shown)
-		{
-			break;
-		}
-
-		s_file_reference* saved_films_file = &saved_films_files[saved_films_file_index];
-		if (file_is_directory(saved_films_file))
-		{
-			continue;
-		}
-
-		item.file = *saved_films_file;
-
-		if (!saved_game_read_metadata_from_file(&item.file, &item.metadata))
-		{
-			continue;
-		}
-
-		if (item.metadata.file_type != _saved_game_film && item.metadata.file_type != _saved_game_film_clip)
-		{
-			continue;
-		}
-
-		if (!c_gui_saved_film_subitem_datasource::film_matches_category(&item.metadata))
-		{
-			continue;
-		}
-
-		bool exists = false;
-		for (int32 saved_film_index = 0; !exists && saved_film_index < m_saved_film_count; saved_film_index++)
-		{
-			exists = item.metadata.unique_id == m_saved_films[saved_film_index].m_metadata.unique_id;
-		}
-
-		if (exists)
-		{
-			continue;
-		}
-
-		m_saved_films[m_saved_film_count++] = c_gui_saved_film_selected_item(
-			&item.metadata,
-			m_category,
-			_gui_stored_item_location_saved_game_file,
-			m_controller_index,
-			&item.file,
-			0,
-			item.state == s_saved_game_item_enumeration_data::_item_state_corrupt,
-			item.metadata.date > get_current_time_in_seconds(_one_week_in_seconds));
-	}
-
-	//m_saved_films.sort(m_saved_film_count, saved_film_sort_proc);
-	qsort(&m_saved_films, m_saved_film_count, sizeof(c_gui_saved_film_selected_item), saved_film_sort_proc);
-
-	csmemset(&find_file_data, 0, sizeof(s_find_file_data));
-	csmemset(saved_films_files, 0, sizeof(saved_films_files));
-	saved_films_file_count = 0;
 }
 
