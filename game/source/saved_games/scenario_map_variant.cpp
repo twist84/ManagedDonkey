@@ -5,19 +5,6 @@
 #include "memory/module.hpp"
 #include "simulation/simulation_encoding.hpp"
 
-static void* map_variant_get_unique_id = member_to_static_function(&c_map_variant::get_unique_id_);
-HOOK_DECLARE_CALL(0x00AEB265, map_variant_get_unique_id);
-
-uns64 c_map_variant::get_unique_id_()
-{
-	uns64 unique_id = c_map_variant::get_unique_id();
-	if (unique_id == 0)
-	{
-		unique_id = s_saved_game_item_metadata::generate_unique_id();
-	}
-	return unique_id;
-}
-
 //.text:00580B00 ; 
 //.text:00580B10 ; 
 //.text:00580B20 ; 
@@ -258,7 +245,12 @@ bool c_map_variant::lossily_compare_to(c_map_variant* map_variant)
 //.text:005848D0 ; public: void c_map_variant::create_all_objects() const
 //.text:005849D0 ; public: int32 c_map_variant::create_object(int32) const
 //.text:00584A70 ; void __cdecl process_early_mover_attachment_for_scenario_attachments(int32, int32)
-//.text:00584CF0 ; public: void c_map_variant::quantize(void)
+
+void c_map_variant::quantize()
+{
+	INVOKE_CLASS_MEMBER(0x00584CF0, c_map_variant, quantize);
+}
+
 //.text:00584D80 ; public: void c_map_variant::recalculate_budget()
 //.text:00584E10 ; public: void c_map_variant::recalculate_quota(int32, bool)
 //.text:00584FA0 ; public: void c_map_variant::recover_from_promotion_to_simulation_authority()
@@ -271,7 +263,7 @@ bool c_map_variant::lossily_compare_to(c_map_variant* map_variant)
 //.text:00585EE0 ; public: void c_map_variant::reset_objects()
 //.text:00586090 ; public: void c_map_variant::sanity_check(int32)
 
-bool c_map_variant::save_to(const c_map_variant* source)
+bool c_map_variant::save_to(const c_map_variant* source) const
 {
 	return INVOKE_CLASS_MEMBER(0x005860F0, c_map_variant, save_to, source);
 }
@@ -292,7 +284,10 @@ void c_map_variant::set_description(const char* description)
 	return INVOKE_CLASS_MEMBER(0x00586460, c_map_variant, set_description, description);
 }
 
-//.text:005864A0 ; public: void c_map_variant::set_metadata(const s_saved_game_item_metadata*)
+void c_map_variant::set_metadata(const s_saved_game_item_metadata* metadata)
+{
+	INVOKE_CLASS_MEMBER(0x005864A0, c_map_variant, set_metadata, metadata);
+}
 
 void c_map_variant::set_name(const wchar_t* name)
 {
@@ -317,7 +312,11 @@ bool c_map_variant::validate()
 	return INVOKE_CLASS_MEMBER(0x00586D00, c_map_variant, validate);
 }
 
-//.text:00586D20 ; public: void c_map_variant::validate_for_all_engines()
+void c_map_variant::validate_for_all_engines()
+{
+	INVOKE_CLASS_MEMBER(0x00586D20, c_map_variant, validate_for_all_engines);
+}
+
 //.text:00587220 ; public: void c_map_variant::validate_for_object_objective_games(e_scenario_game_engine)
 
 e_map_id c_map_variant::get_map_id() const

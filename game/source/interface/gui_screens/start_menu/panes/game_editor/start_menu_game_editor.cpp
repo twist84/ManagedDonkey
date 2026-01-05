@@ -67,7 +67,18 @@ void c_start_menu_game_editor::load_progress_ui(e_controller_index controller_in
 
 void c_start_menu_game_editor::setup_map_variant_for_write(s_blffile_map_variant* variant_on_disk, const wchar_t* map_name, const wchar_t* map_description, e_map_id map_id, const c_map_variant* map_variant)
 {
-	INVOKE_CLASS_MEMBER(0x00AEB250, c_start_menu_game_editor, setup_map_variant_for_write, variant_on_disk, map_name, map_description, map_id, map_variant);
+	//INVOKE_CLASS_MEMBER(0x00AEB250, c_start_menu_game_editor, setup_map_variant_for_write, variant_on_disk, map_name, map_description, map_id, map_variant);
+
+	e_controller_index controller_index = c_gui_widget::get_single_responding_controller();
+	uns64 unique_id = s_saved_game_item_metadata::generate_unique_id();
+
+	variant_on_disk->content_header.metadata.initialize(controller_index, _saved_game_map_variant, map_name, map_description, unique_id, sizeof(s_blffile_map_variant));
+	map_variant->save_to(&variant_on_disk->variant.map_variant);
+	variant_on_disk->content_header.metadata.map_id = map_id;
+	variant_on_disk->variant.map_variant.validate_for_all_engines();
+	variant_on_disk->variant.map_variant.quantize();
+	variant_on_disk->variant.map_variant.set_metadata(&variant_on_disk->content_header.metadata);
+	variant_on_disk->variant.map_variant.m_map_id = map_id;
 }
 
 //.text:00AEB2D0 ; public: virtual void c_start_menu_game_editor::submenu_invoked(c_gui_list_widget*)
@@ -93,8 +104,6 @@ void c_start_menu_game_editor::update_save_as_new_operation()
 			map_description,
 			map_variant->m_map_id,
 			map_variant);
-
-		m_variant_on_disk.content_header.metadata.unique_id = system_seconds();
 
 		//wchar_t filename[256]{};
 		const wchar_t* filename = L"bin\\test_map.map"; // $TODO

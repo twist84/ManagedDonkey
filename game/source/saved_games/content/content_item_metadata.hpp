@@ -44,6 +44,7 @@ struct s_saved_game_item_metadata
 	static uns64 __cdecl generate_unique_id();
 	e_gui_game_mode get_gui_game_mode() const;
 	e_metadata_file_type get_metadata_file_type() const;
+	void initialize(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 unique_id, uns64 size);
 	void initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 size);
 	bool is_valid() const;
 

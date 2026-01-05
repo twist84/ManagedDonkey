@@ -107,6 +107,11 @@ e_metadata_file_type s_saved_game_item_metadata::get_metadata_file_type() const
 //.text:00524830 ; public: bool s_saved_game_item_metadata::get_metadata_integer(int32, int32*) const
 //.text:00524940 ; public: bool s_saved_game_item_metadata::get_metadata_text(int32, c_static_wchar_string<1024>*) const
 
+void s_saved_game_item_metadata::initialize(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 unique_id, uns64 size)
+{
+	INVOKE_CLASS_MEMBER(0x00524E20, s_saved_game_item_metadata, initialize, controller_index, file_type, in_name, in_description, unique_id, size);
+}
+
 void s_saved_game_item_metadata::initialize_from_current_game_settings(e_controller_index controller_index, e_saved_game_file_type file_type, const wchar_t* in_name, const wchar_t* in_description, uns64 size)
 {
 	INVOKE_CLASS_MEMBER(0x00525000, s_saved_game_item_metadata, initialize_from_current_game_settings, controller_index, file_type, in_name, in_description, size);

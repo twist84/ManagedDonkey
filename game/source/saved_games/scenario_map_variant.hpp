@@ -152,10 +152,13 @@ public:
 	uns64 get_unique_id() const;
 	bool is_valid() const;
 	bool lossily_compare_to(c_map_variant* map_variant);
-	bool save_to(const c_map_variant* source);
+	void quantize();
+	bool save_to(const c_map_variant* source) const;
 	void set_description(const char* description);
+	void set_metadata(const s_saved_game_item_metadata* metadata);
 	void set_name(const wchar_t* name);
 	bool validate();
+	void validate_for_all_engines();
 	e_map_id get_map_id() const;
 
 	void print();
