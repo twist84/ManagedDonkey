@@ -245,9 +245,7 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 
 	s_load_image_from_file_task* task = (s_load_image_from_file_task*)work;
 
-	wchar_t name_buffer[256];
-
-	bool v2 = false;
+	bool completed = false;
 	bool success = false;
 	bool cancelled = task->cancelled->peek() != 0;
 
@@ -257,19 +255,21 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 	{
 		if (!cancelled)
 		{
+			wchar_t name_buffer[256]{};
+
 			constexpr int32 name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
 			wchar_t* name = file_reference_get_name_wide(task->file, name_flags, name_buffer, NUMBEROF(name_buffer));
 
 			task->image_source_was_dlc = content_catalogue_open_dlc(name, true);
 
-			uns32 error = 0;
-			if (file_open(task->file, FLAG(_file_open_flag_desired_access_read), &error))
+			uns32 error_code = 0;
+			constexpr int32 opent_flags = FLAG(_file_open_flag_desired_access_read);
+			if (file_open(task->file, opent_flags, &error_code))
 			{
-				if (file_get_size(task->file, &task->file_size)
-					&& task->file_size < (uns32)task->load_buffer_length)
+				if (file_get_size(task->file, &task->file_size) && task->file_size < (uns32)task->load_buffer_length)
 				{
 					task->state = s_load_image_from_file_task::_state_reading;
-					v2 = true;
+					completed = true;
 
 					break;
 				}
@@ -286,10 +286,11 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 			file_close(task->file);
 
 			task->state = s_load_image_from_file_task::_state_decompressing;
-			v2 = true;
+			completed = true;
 
 			break;
 		}
+
 		// left over from `case 0`
 		file_close(task->file);
 	}
@@ -299,32 +300,38 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 		if (!cancelled)
 		{
 			int32 image_data_length = 0;
-			// c_network_blf_buffer_reader::find_chunk(load_buffer, file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_chunk_major_version, _blf_file_authentication_type_rsa, &chunk_size);
-			const char* chunk = DECLFUNC(0x00462B40, const char*, __cdecl, const char*, int32, int32, int32, int32, int32*)(
-				task->load_buffer,
-				task->file_size,
-				s_blf_chunk_map_image::k_chunk_type,
-				s_blf_chunk_map_image::k_chunk_major_version,
-				_blf_file_authentication_type_rsa,
-				&image_data_length);
+			//const s_map_image_data* map_image_data = (const s_map_image_data*)c_network_blf_buffer_reader::find_chunk(task->load_buffer, task->file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_chunk_major_version, _blf_file_authentication_type_rsa, &image_data_length);
 
-			if (chunk)
+			auto find_chunk = DECLFUNC(0x00462B40, const char*, __cdecl, const char*, int32, int32, int32, int32, int32*); // funk you
+			const s_map_image_data* map_image_data = (const s_map_image_data*)find_chunk(task->load_buffer, task->file_size, s_blf_chunk_map_image::k_chunk_type, s_blf_chunk_map_image::k_chunk_major_version, _blf_file_authentication_type_rsa, &image_data_length);
+
+			if (map_image_data)
 			{
-				if (image_data_length > 8 && VALID_INDEX(*chunk, k_map_image_type_count))
+				s_map_image_data::e_image_type image_type = map_image_data->image_type;
+
+				// hack
+				if (!VALID_INDEX(bswap_uns32(map_image_data->image_type), s_map_image_data::k_image_type_count))
 				{
-					int32 buffer_size = *reinterpret_cast<const int32*>(chunk + 4);
-					const char* buffer = reinterpret_cast<const char*>(chunk + 8);
+					image_type = (s_map_image_data::e_image_type)bswap_uns32(map_image_data->image_type);
+				}
+
+				if (image_data_length > sizeof(s_map_image_data) && VALID_INDEX(image_type, s_map_image_data::k_image_type_count))
+				{
+					int32 image_data_bytes = map_image_data->image_data_bytes;
 
 					// hack
-					if (bswap_uns32(buffer_size) == image_data_length - 8)
-						buffer_size = bswap_uns32(buffer_size);
-
-					if (buffer_size == image_data_length - 8)
+					if (bswap_uns32(image_data_bytes) == image_data_length - sizeof(s_map_image_data))
 					{
-						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(task->storage_item_index, buffer, buffer_size, task->desired_aspect_ratio))
+						image_data_bytes = bswap_uns32(image_data_bytes);
+					}
+
+					if (image_data_bytes == image_data_length - sizeof(s_map_image_data))
+					{
+						const char* image_data = (const char*)map_image_data + sizeof(s_map_image_data);
+						if (c_gui_custom_bitmap_storage_manager::get()->load_bitmap_from_buffer(task->storage_item_index, image_data, image_data_bytes, task->desired_aspect_ratio))
 						{
 							task->state = s_load_image_from_file_task::_state_done;
-							v2 = true;
+							completed = true;
 							success = true;
 						}
 					}
@@ -337,17 +344,17 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 
 	*task->success = success;
 
-	if (v2 && !success)
+	e_async_completion result = _async_completion_retry;
+	if (!completed || success)
 	{
-		return _async_completion_retry;
-	}
+		if (task->image_source_was_dlc)
+		{
+			content_catalogue_close_all_dlc(true);
+		}
 
-	if (task->image_source_was_dlc)
-	{
-		content_catalogue_close_all_dlc(true);
+		result = _async_completion_done;
 	}
-
-	return _async_completion_done;
+	return result;
 }
 
 e_async_completion __cdecl load_image_from_buffer_callback(s_async_task* work)
