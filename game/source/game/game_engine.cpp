@@ -446,7 +446,9 @@ void __cdecl game_engine_update()
 	//
 	//	c_player_in_game_iterator player_in_game_iter{};
 	//	while (player_in_game_iter.next())
+	//	{
 	//		game_engine_update_player(player_in_game_iter.get_index());
+	//	}
 	//
 	//	game_engine_spawn_influencers_update();
 	//
@@ -455,14 +457,18 @@ void __cdecl game_engine_update()
 	//		for (int32 team_index = 0; team_index < 8; team_index++)
 	//		{
 	//			if (game_engine_is_team_active(team_index))
+	//			{
 	//				game_engine_update_team(team_index);
+	//			}
 	//		}
 	//	}
 	//
 	//	current_game_engine()->update();
 	//
 	//	if (!game_is_predicted())
+	//	{
 	//		game_engine_scoring_update_leaders();
+	//	}
 	//
 	//	game_engine_update_player_states();
 	//	game_engine_update_player_netdebug_state();
@@ -480,11 +486,6 @@ void __cdecl game_engine_update()
 	//	}
 	//
 	//	game_engine_globals->out_of_round_timer = game_engine_in_round() ? 0 : game_engine_globals->out_of_round_timer + 1;
-	//	game_engine_events_update();
-	//}
-	//else if (game_is_survival())
-	//{
-	//	game_engine_update_multiplayer_sound();
 	//	game_engine_events_update();
 	//}
 }
@@ -587,37 +588,58 @@ void __cdecl game_engine_update_round_conditions()
 {
 	//INVOKE(0x00553660, game_engine_update_round_conditions);
 
-	if (!game_is_authoritative())
-		return;
-
-	int32 round_time = game_engine_round_time_get();
-
-	c_flags<int32, uns8, 8> round_condition_flags(round_time < 5);
-
-	round_condition_flags.set(1, round_time < game_seconds_integer_to_ticks(1));
-	round_condition_flags.set(2, round_time < game_seconds_integer_to_ticks(3));
-	round_condition_flags.set(3, round_time < game_seconds_integer_to_ticks(4));
-	round_condition_flags.set(4, round_time < game_engine_get_post_round_ticks());
-	round_condition_flags.set(5, round_time < game_engine_get_pre_round_ticks());
-	round_condition_flags.set(6, round_time < game_seconds_integer_to_ticks(5));
-	round_condition_flags.set(7, round_time < game_seconds_integer_to_ticks(4));
-
-	if (game_engine_globals->round_condition_flags == round_condition_flags)
-		return;
-
-	if (game_engine_globals->round_condition_flags.test(3) && !round_condition_flags.test(3))
+#if 1
+	// Skip all round conditions
+	if (game_is_authoritative())
 	{
-		c_player_in_game_iterator player_iterator;
-		player_iterator.begin();
-		while (player_iterator.next())
+		static const c_flags<int32, uns8, 8> round_condition_flags = 0;
+		if (game_engine_globals->round_condition_flags != round_condition_flags)
 		{
-			current_game_engine()->emit_game_start_event(player_iterator.get_index());
+			c_player_in_game_iterator player_iterator;
+			player_iterator.begin();
+			while (player_iterator.next())
+			{
+				current_game_engine()->emit_game_start_event(player_iterator.get_index());
+			}
+
+			c_flags<int32, uns64, 64> flags(64);
+			simulation_action_game_engine_globals_update(flags);
+			game_engine_globals->round_condition_flags = round_condition_flags;
 		}
 	}
+#else
+	if (game_is_authoritative())
+	{
+		int32 round_time = game_engine_round_time_get();
 
-	c_flags<int32, uns64, 64> flags(64);
-	simulation_action_game_engine_globals_update(flags);
-	game_engine_globals->round_condition_flags = round_condition_flags;
+		c_flags<int32, uns8, 8> round_condition_flags(round_time < 5);
+
+		round_condition_flags.set(1, round_time < game_seconds_integer_to_ticks(1));
+		round_condition_flags.set(2, round_time < game_seconds_integer_to_ticks(3));
+		round_condition_flags.set(3, round_time < game_seconds_integer_to_ticks(4));
+		round_condition_flags.set(4, round_time < game_engine_get_post_round_ticks());
+		round_condition_flags.set(5, round_time < game_engine_get_pre_round_ticks());
+		round_condition_flags.set(6, round_time < game_seconds_integer_to_ticks(5));
+		round_condition_flags.set(7, round_time < game_seconds_integer_to_ticks(4));
+
+		if (game_engine_globals->round_condition_flags != round_condition_flags)
+		{
+			if (game_engine_globals->round_condition_flags.test(3) && !round_condition_flags.test(3))
+			{
+				c_player_in_game_iterator player_iterator;
+				player_iterator.begin();
+				while (player_iterator.next())
+				{
+					current_game_engine()->emit_game_start_event(player_iterator.get_index());
+				}
+			}
+
+			c_flags<int32, uns64, 64> flags(64);
+			simulation_action_game_engine_globals_update(flags);
+			game_engine_globals->round_condition_flags = round_condition_flags;
+		}
+	}
+#endif
 }
 
 //.text:005537F0 ; void __cdecl game_engine_update_score_and_standing()
