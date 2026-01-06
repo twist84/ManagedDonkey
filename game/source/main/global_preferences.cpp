@@ -357,10 +357,10 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 		{
 		case _ui_game_mode_campaign:
 		{
-			if (global_preferences_get()->current.data.last_game_setup.get_campaign()->is_valid())
+			if (global_preferences_get()->current.data.last_game_setup.campaign_settings.valid)
 			{
-				*campaign_id = global_preferences_get()->current.data.last_game_setup.get_campaign()->campaign_id;
-				*map_id = global_preferences_get()->current.data.last_game_setup.get_campaign()->map_id;
+				*campaign_id = global_preferences_get()->current.data.last_game_setup.campaign_settings.campaign_id;
+				*map_id = global_preferences_get()->current.data.last_game_setup.campaign_settings.map_id;
 				result = true;
 			}
 		}
@@ -371,40 +371,40 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 		break;
 		case _ui_game_mode_multiplayer:
 		{
-			if (global_preferences_get()->current.data.last_game_setup.get_multiplayer()->is_valid())
+			if (global_preferences_get()->current.data.last_game_setup.multiplayer_settings.valid)
 			{
 				*campaign_id = NONE;
-				*map_id = global_preferences_get()->current.data.last_game_setup.get_multiplayer()->map_variant_settings.get_variant()->get_map_id();
+				*map_id = global_preferences_get()->current.data.last_game_setup.multiplayer_settings.map_variant_settings.variant.get_map_id();
 				result = true;
 			}
 		}
 		break;
 		case _ui_game_mode_map_editor:
 		{
-			if (global_preferences_get()->current.data.last_game_setup.get_mapeditor()->is_valid())
+			if (global_preferences_get()->current.data.last_game_setup.map_editor_settings.valid)
 			{
 				*campaign_id = NONE;
-				*map_id = global_preferences_get()->current.data.last_game_setup.get_mapeditor()->map_variant_settings.get_variant()->get_map_id();
+				*map_id = global_preferences_get()->current.data.last_game_setup.map_editor_settings.map_variant_settings.variant.get_map_id();
 				result = true;
 			}
 		}
 		break;
 		case _ui_game_mode_theater:
 		{
-			if (global_preferences_get()->current.data.last_game_setup.get_theater()->is_valid())
+			if (global_preferences_get()->current.data.last_game_setup.theater_settings.valid)
 			{
-				*campaign_id = global_preferences_get()->current.data.last_game_setup.get_theater()->film_description.campaign_id;
-				*map_id = global_preferences_get()->current.data.last_game_setup.get_theater()->film_description.map_id;
+				*campaign_id = global_preferences_get()->current.data.last_game_setup.theater_settings.film_description.campaign_id;
+				*map_id = global_preferences_get()->current.data.last_game_setup.theater_settings.film_description.map_id;
 				result = true;
 			}
 		}
 		break;
 		case _ui_game_mode_survival:
 		{
-			if (global_preferences_get()->current.data.last_game_setup.get_survival()->is_valid())
+			if (global_preferences_get()->current.data.last_game_setup.survival_settings.valid)
 			{
-				*campaign_id = global_preferences_get()->current.data.last_game_setup.get_survival()->campaign_id;
-				*map_id = global_preferences_get()->current.data.last_game_setup.get_survival()->map_id;
+				*campaign_id = global_preferences_get()->current.data.last_game_setup.survival_settings.campaign_id;
+				*map_id = global_preferences_get()->current.data.last_game_setup.survival_settings.map_id;
 				result = true;
 			}
 		}

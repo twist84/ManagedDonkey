@@ -24,26 +24,6 @@ struct s_gui_game_setup_storage
 {
 	struct s_game_variant_settings
 	{
-	public:
-		bool is_valid() const
-		{
-			return game_engine_variant_is_valid(&variant);
-		}
-
-		const c_game_variant* get_variant() const
-		{
-			return &variant;
-		}
-
-		void set_variant(const c_game_variant& other)
-		{
-			if (!variant.is_equal_to(&other))
-			{
-				variant.copy_from_unsafe(&other);
-			}
-		}
-
-	protected:
 		c_game_variant variant;
 
 		struct
@@ -58,26 +38,6 @@ struct s_gui_game_setup_storage
 
 	struct s_map_variant_settings
 	{
-	public:
-		bool is_valid() const
-		{
-			return variant.is_valid();
-		}
-
-		const c_map_variant* get_variant() const
-		{
-			return &variant;
-		}
-
-		void set_variant(c_map_variant& source)
-		{
-			//if (!variant.is_equal_to(&source))
-			{
-				source.save_to(&variant);
-			}
-		}
-
-	protected:
 		c_map_variant variant;
 
 		struct
@@ -92,13 +52,6 @@ struct s_gui_game_setup_storage
 
 	struct s_campaign_settings
 	{
-	public:
-		bool is_valid() const
-		{
-			return valid;
-		}
-
-	//protected:
 		bool valid;
 		e_campaign_id campaign_id;
 		e_map_id map_id;
@@ -130,13 +83,6 @@ struct s_gui_game_setup_storage
 
 	struct s_multiplayer_settings
 	{
-	public:
-		bool is_valid() const
-		{
-			return valid && game_variant_settings.is_valid() && map_variant_settings.is_valid();
-		}
-
-	//protected:
 		bool valid;
 		s_game_variant_settings game_variant_settings;
 		s_map_variant_settings map_variant_settings;
@@ -145,13 +91,6 @@ struct s_gui_game_setup_storage
 
 	struct s_mapeditor_settings
 	{
-	public:
-		bool is_valid() const
-		{
-			return valid && map_variant_settings.is_valid();
-		}
-
-	//protected:
 		bool valid;
 		bool dirtied_in_game;
 		int32 pad;
@@ -161,13 +100,6 @@ struct s_gui_game_setup_storage
 
 	struct s_theater_settings
 	{
-	public:
-		bool is_valid() const
-		{
-			return valid;
-		}
-
-	//protected:
 		bool valid;
 		e_gui_selected_item_location location;
 		s_player_identifier owner;
@@ -178,68 +110,6 @@ struct s_gui_game_setup_storage
 	};
 	static_assert(sizeof(s_theater_settings) == 0x24E80);
 
-public:
-	s_campaign_settings* get_campaign()
-	{
-		return &campaign_settings;
-	}
-
-	s_campaign_settings const* get_campaign() const
-	{
-		return &campaign_settings;
-	}
-
-	s_survival_settings* get_survival()
-	{
-		return &survival_settings;
-	}
-
-	s_survival_settings const* get_survival() const
-	{
-		return &survival_settings;
-	}
-
-	s_matchmaking_settings* get_matchmaking()
-	{
-		return &matchmaking_settings;
-	}
-
-	s_matchmaking_settings const* get_matchmaking() const
-	{
-		return &matchmaking_settings;
-	}
-
-	s_multiplayer_settings* get_multiplayer()
-	{
-		return &multiplayer_settings;
-	}
-
-	s_multiplayer_settings const* get_multiplayer() const
-	{
-		return &multiplayer_settings;
-	}
-
-	s_mapeditor_settings* get_mapeditor()
-	{
-		return &map_editor_settings;
-	}
-
-	s_mapeditor_settings const* get_mapeditor() const
-	{
-		return &map_editor_settings;
-	}
-
-	s_theater_settings* get_theater()
-	{
-		return &theater_settings;
-	}
-
-	s_theater_settings const* get_theater() const
-	{
-		return &theater_settings;
-	}
-
-protected:
 	s_campaign_settings campaign_settings;
 	s_survival_settings survival_settings;
 	s_matchmaking_settings matchmaking_settings;

@@ -199,7 +199,7 @@ bool c_gui_pregame_setup_manager::set_selected_item_type_difficulty(e_controller
 		return false;
 	}
 
-	game_setup_storage.campaign = *last_game_setup->get_campaign();
+	game_setup_storage.campaign = last_game_setup->campaign_settings;
 	game_setup_storage.campaign.difficulty = difficulty_selected_item->m_difficulty;
 	m_selected_from_recent_list[difficulty_selected_item->m_selection_type] = selected_from_recent_list;
 	return true;
@@ -209,7 +209,7 @@ bool c_gui_pregame_setup_manager::set_selected_item_type_film(e_controller_index
 {
 	const s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
 
-	csmemcpy(&game_setup_storage.theater, last_game_setup->get_theater(), sizeof(s_gui_game_setup_storage::s_theater_settings));
+	csmemcpy(&game_setup_storage.theater, &last_game_setup->theater_settings, sizeof(s_gui_game_setup_storage::s_theater_settings));
 	ASSERT(film_selected_item->get_location() == _gui_stored_item_location_saved_game_file || film_selected_item->get_location() == _gui_stored_item_location_autosave_queue);
 
 	if (film_selected_item->get_film_details(&game_setup_storage.theater.game_options, &game_setup_storage.theater.length_in_ticks, &game_setup_storage.theater.start_tick))
@@ -307,7 +307,7 @@ bool c_gui_pregame_setup_manager::set_selected_item_type_hopper(e_controller_ind
 		return false;
 	}
 
-	game_setup_storage.matchmaking = *last_game_setup->get_matchmaking();
+	game_setup_storage.matchmaking = last_game_setup->matchmaking_settings;
 	user_interface_matchmaking_squad_set_search_preference(_matchmaking_search_preference_none);
 	game_setup_storage.matchmaking.hopper_id = hopper_selected_item->m_hopper_information.hopper_identifier;
 	m_selected_from_recent_list[hopper_selected_item->m_selection_type] = selected_from_recent_list;
@@ -327,7 +327,7 @@ bool c_gui_pregame_setup_manager::set_selected_item_type_level(e_controller_inde
 		return false;
 	}
 
-	game_setup_storage.campaign = *last_game_setup->get_campaign();
+	game_setup_storage.campaign = last_game_setup->campaign_settings;
 	game_setup_storage.campaign.campaign_id = level_selected_item->m_campaign_id;
 	m_selected_from_recent_list[level_selected_item->m_selection_type] = selected_from_recent_list;
 	user_interface_squad_set_campaign_insertion_point(level_selected_item->m_insertion_point);
