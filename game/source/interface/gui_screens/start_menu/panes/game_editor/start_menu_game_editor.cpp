@@ -9,6 +9,10 @@
 #include "memory/module.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 
+// $TODO be better
+constexpr const wchar_t* k_map_name = L"Test Map";
+constexpr const wchar_t* k_map_filename = L"test_map";
+
 struct controller_interface_class // c_controller_interface
 {
 	bool __thiscall storage_device_valid()
@@ -96,17 +100,19 @@ void c_start_menu_game_editor::update_save_as_new_operation()
 		//utf8_string_to_wchar_string(map_variant->m_metadata.description, map_description, NUMBEROF(map_description), NULL);
 		ascii_string_to_wchar_string(map_variant->m_metadata.description, map_description, NUMBEROF(map_description), NULL);
 
-		//wchar_t map_name[256]{};
-		const wchar_t* map_name = L"Test Map"; // $TODO
-		c_start_menu_game_editor::setup_map_variant_for_write(
-			&m_variant_on_disk,
-			map_name,
-			map_description,
-			map_variant->m_map_id,
-			map_variant);
+		wchar_t map_name[256]{};
+		ustrnzcpy(map_name, k_map_name, NUMBEROF(map_name));
 
-		//wchar_t filename[256]{};
-		const wchar_t* filename = L"bin\\test_map.map"; // $TODO
+		c_start_menu_game_editor::setup_map_variant_for_write(&m_variant_on_disk, map_name, map_description, map_variant->m_map_id, map_variant);
+
+		wchar_t filename[256]{};
+		usnzprintf(filename, NUMBEROF(filename), L"map_variants\\_saved\\%s\\", map_name, k_map_filename);
+		{
+			s_file_reference file{};
+			file_reference_create_from_path_wide(&file, filename, true);
+			file_create_parent_directories_if_not_present(&file);
+		}
+		ustrnzcat(filename, L"sandbox.map", NUMBEROF(filename));
 
 		m_create_new_variant_task = async_write_buffer_to_file(
 			filename,
@@ -121,10 +127,19 @@ void c_start_menu_game_editor::update_save_as_new_operation()
 		{
 			event(_event_error, "ui: failed to initiate async saved game file creation for map variant!");
 		}
-		else
-		{
-			c_start_menu_game_editor::load_progress_ui(m_asynchronous_operation_controller);
-		}
+
+		s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
+		s_gui_single_game_setup_storage single_game_setup{};
+		single_game_setup.game_mode = _ui_game_mode_map_editor;
+		single_game_setup.mapeditor = last_game_setup->map_editor_settings;
+		single_game_setup.mapeditor.map_variant_settings.only_local.file_path;
+		single_game_setup.mapeditor.map_variant_settings.only_local.valid = true;
+		single_game_setup.mapeditor.map_variant_settings.only_local.location = _gui_stored_item_location_saved_game_file;
+		single_game_setup.mapeditor.dirtied_in_game = true;
+		map_variant->save_to(&single_game_setup.mapeditor.map_variant_settings.variant);
+		single_game_setup.mapeditor.map_variant_settings.variant.validate_for_all_engines();
+		single_game_setup.mapeditor.map_variant_settings.variant.quantize();
+		global_preferences_update_last_game_setup(&single_game_setup);
 	}
 	else
 	{
