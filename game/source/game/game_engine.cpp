@@ -588,28 +588,13 @@ void __cdecl game_engine_update_round_conditions()
 {
 	//INVOKE(0x00553660, game_engine_update_round_conditions);
 
+	if (game_is_authoritative())
+	{
 #if 1
-	// Skip all round conditions
-	if (game_is_authoritative())
-	{
+		// Skip all round conditions
 		static const c_flags<int32, uns8, 8> round_condition_flags = 0;
-		if (game_engine_globals->round_condition_flags != round_condition_flags)
-		{
-			c_player_in_game_iterator player_iterator;
-			player_iterator.begin();
-			while (player_iterator.next())
-			{
-				current_game_engine()->emit_game_start_event(player_iterator.get_index());
-			}
-
-			c_flags<int32, uns64, 64> flags(64);
-			simulation_action_game_engine_globals_update(flags);
-			game_engine_globals->round_condition_flags = round_condition_flags;
-		}
-	}
 #else
-	if (game_is_authoritative())
-	{
+		c_flags<int32, uns8, 8> round_condition_flags;
 		int32 round_time = game_engine_round_time_get();
 
 		c_flags<int32, uns8, 8> round_condition_flags(round_time < 5);
@@ -621,6 +606,7 @@ void __cdecl game_engine_update_round_conditions()
 		round_condition_flags.set(5, round_time < game_engine_get_pre_round_ticks());
 		round_condition_flags.set(6, round_time < game_seconds_integer_to_ticks(5));
 		round_condition_flags.set(7, round_time < game_seconds_integer_to_ticks(4));
+#endif
 
 		if (game_engine_globals->round_condition_flags != round_condition_flags)
 		{
@@ -639,7 +625,6 @@ void __cdecl game_engine_update_round_conditions()
 			game_engine_globals->round_condition_flags = round_condition_flags;
 		}
 	}
-#endif
 }
 
 //.text:005537F0 ; void __cdecl game_engine_update_score_and_standing()
