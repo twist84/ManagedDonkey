@@ -412,13 +412,20 @@ struct s_blf_chunk_scenario_atlas :
 };
 static_assert(sizeof(s_blf_chunk_scenario_atlas) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_atlas) * 9));
 
-enum e_map_image_type
+struct s_map_image_data
 {
-	_map_image_type_jpg = 0,
-	_map_image_type_png,
+	enum e_image_type
+	{
+		_image_type_jpeg = 0,
+		_image_type_png,
 
-	k_map_image_type_count
+		k_image_type_count,
+	};
+
+	e_image_type image_type;
+	int32 image_data_bytes;
 };
+static_assert(sizeof(s_map_image_data) == 0x8);
 
 struct s_blf_chunk_map_image
 {
@@ -428,12 +435,9 @@ public:
 	static int32 const k_chunk_minor_version = 1;
 
 	s_blf_header header;
-
-	uns8 type;
-	int32 buffer_size;
-	__pragma(warning(disable : 4200)) char buffer[];
+	s_map_image_data map_image_data;
 };
-static_assert(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + 0x8);
+static_assert(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + sizeof(s_map_image_data));
 
 extern bool __cdecl network_blf_verify_start_of_file(const char* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size);
 extern bool __cdecl network_blf_find_chunk(const char* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, const char** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found);
