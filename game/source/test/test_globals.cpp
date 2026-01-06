@@ -265,7 +265,7 @@ void __cdecl test_main_loop_body_begin()
 	if (input_key_frames_down(_keypad_divide, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
 	{
 		//{
-		//	LOCAL_TAG_RESOURCE_SCOPE_LOCK;
+		//	LOCAL_TAG_RESOURCE_SCOPE_LOCK();
 		//
 		//	//console_process_command("player_ragdoll", true);
 		//	//console_process_command("player_drop_weapon", true);

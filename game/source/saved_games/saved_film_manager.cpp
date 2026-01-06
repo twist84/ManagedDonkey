@@ -883,7 +883,7 @@ void saved_film_manager_notify_gamestate_decompression_after_load_procs()
 		//determinism_debug_manager_set_file_position(0, 0);
 
 		{
-			LOCAL_TAG_RESOURCE_SCOPE_LOCK;
+			LOCAL_TAG_RESOURCE_SCOPE_LOCK();
 			players_finish_creation();
 		}
 
@@ -1449,7 +1449,7 @@ bool saved_film_manager_seeking(int32* seek_time_available_out)
 // $REVIEW
 void saved_film_manager_set_director_state(const s_saved_film_manager_director_state* director_state)
 {
-	LOCAL_TAG_RESOURCE_SCOPE_LOCK;
+	LOCAL_TAG_RESOURCE_SCOPE_LOCK();
 
 	for (int32 user_index = 0; user_index < 4; user_index++)
 	{
