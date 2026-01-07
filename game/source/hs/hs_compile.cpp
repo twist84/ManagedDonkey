@@ -1868,7 +1868,9 @@ bool hs_parse_enum(int32 expression_index)
 			}
 
 			if (enum_definition->count > 1)
+			{
 				csstrnzcat(hs_compile_globals.error_buffer, "or ", k_hs_compile_error_buffer_size);
+			}
 
 			csstrnzcat(hs_compile_globals.error_buffer, "\"", k_hs_compile_error_buffer_size);
 			csstrnzcat(hs_compile_globals.error_buffer, enum_definition->identifiers[enum_index], k_hs_compile_error_buffer_size);
@@ -1877,6 +1879,12 @@ bool hs_parse_enum(int32 expression_index)
 			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 			hs_compile_globals.error_offset = expression->source_offset;
 			success = false;
+		}
+
+		// $HACK to use `saved_film_play` without a valid controller index, use `no_controller`
+		if (expression->type == _hs_type_enum_controller && enum_index == k_number_of_controllers)
+		{
+			enum_index = k_no_controller;
 		}
 
 		expression->short_value = enum_index;

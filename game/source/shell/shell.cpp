@@ -1090,12 +1090,15 @@ const char* global_multiplayer_team_names[k_multiplayer_team_count]
 };
 
 // 0191CB00
-const char* global_controller_index_names[k_number_of_controllers]
+const char* global_controller_index_names[k_number_of_controllers + 1]
 {
 	"controller1",
 	"controller2",
 	"controller3",
-	"controller4"
+	"controller4",
+
+	// $HACK to use `saved_film_play` without a valid controller index
+	"no_controller"
 };
 
 // 0191CB10

@@ -43,7 +43,7 @@ extern const char* k_game_variant_parameter_names[k_number_of_editable_game_vari
 extern const char* global_campaign_difficulty_level_names[k_campaign_difficulty_levels_count];
 extern const char* global_campaign_team_names[k_campaign_team_count];
 extern const char* global_multiplayer_team_names[k_multiplayer_team_count];
-extern const char* global_controller_index_names[k_number_of_controllers];
+extern const char* global_controller_index_names[k_number_of_controllers + 1 /* $HACK to use `saved_film_play` without a valid controller index */];
 extern const char* global_button_preset_names[k_button_presets_count];
 extern const char* global_joystick_preset_names[k_joystick_presets_count];
 extern const char* global_player_model_choice_names[k_player_model_choice_count];
