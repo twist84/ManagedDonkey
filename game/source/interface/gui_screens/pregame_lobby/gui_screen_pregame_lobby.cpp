@@ -34,17 +34,20 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B23440, c_gui_screen_pregame_lobby, update_widget_
 // $TODO remove this once things are properly implemented for `advanced_options`
 bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(const c_controller_input_message* message)
 {
+	bool message_handled = false;
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
 		// `c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen`
 		// `c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen`
 		c_gui_screen_pregame_lobby::load_game_variant_editing_screen(message->get_controller());
-		return true;
+		message_handled = true;
 	}
 
-	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_screen_pregame_lobby, handle_controller_input_message_, message);
-	return result;
+	if (!message_handled)
+	{
+		HOOK_INVOKE_CLASS_MEMBER(message_handled =, c_gui_screen_pregame_lobby, handle_controller_input_message_, message);
+	}
+	return message_handled;
 }
 
 bool __thiscall c_gui_screen_pregame_lobby::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
@@ -103,6 +106,7 @@ c_gui_screen_pregame_lobby::c_gui_screen_pregame_lobby(int32 name) :
 bool c_gui_screen_pregame_lobby::advanced_options_enabled()
 {
 	bool result = false;
+
 	switch (m_name)
 	{
 	case STRING_ID(gui, pregame_lobby_campaign):
@@ -121,16 +125,26 @@ bool c_gui_screen_pregame_lobby::advanced_options_enabled()
 void c_gui_screen_pregame_lobby::commit_team_change(int32 player_index, c_gui_roster_list_widget* roster_list_widget, int32 lying_end_time)
 {
 	INVOKE_CLASS_MEMBER(0x00B212A0, c_gui_screen_pregame_lobby, commit_team_change, player_index, roster_list_widget, lying_end_time);
+
+	//e_controller_index controller_index;
 }
 
 c_gui_bitmap_widget* c_gui_screen_pregame_lobby::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00B212F0, c_gui_screen_pregame_lobby, create_bitmap_widget, definition);
+
+	//c_gui_bitmap_widget *bitmap_widget;
 }
 
 c_gui_list_widget* c_gui_screen_pregame_lobby::create_list_widget(const s_list_widget_block* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21370, c_gui_screen_pregame_lobby, create_list_widget, definition);
+
+	//c_gui_list_widget* list_widget;
+	//{
+	//	bool game_roster_is_local_party;
+	//	bool remote_team_game;
+	//}
 }
 
 void c_gui_screen_pregame_lobby::dispose()
@@ -144,58 +158,55 @@ e_campaign_id __cdecl c_gui_screen_pregame_lobby::get_current_campaign_id()
 {
 	//return INVOKE(0x00B21410, c_gui_screen_pregame_lobby::get_current_campaign_id);
 
+	e_campaign_id result = _campaign_id_none;
+
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-	if (game_mode != _ui_game_mode_campaign)
+	if (game_mode == _ui_game_mode_campaign)
 	{
-		return _campaign_id_none;
+		e_campaign_id temporary_campaign_id = _campaign_id_none;
+		e_map_id temporary_map_id = _map_id_none;
+		if (user_interface_session_get_map(&temporary_campaign_id, &temporary_map_id))
+		{
+			result = temporary_campaign_id;
+		}
 	}
 
-	e_campaign_id campaign_id = {};
-	e_map_id map_id = {};
-	if (!user_interface_session_get_map(&campaign_id, &map_id))
-	{
-		return _campaign_id_none;
-	}
-
-	return campaign_id;
+	return result;
 }
 
 e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
 {
 	//return INVOKE(0x00B21450, c_gui_screen_pregame_lobby::get_current_map_id);
 
+	e_map_id result = _map_id_none;
+
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-	if (game_mode != _ui_game_mode_campaign &&
-		game_mode != _ui_game_mode_multiplayer &&
-		game_mode != _ui_game_mode_map_editor &&
-		game_mode != _ui_game_mode_theater)
+	if (game_mode == _ui_game_mode_campaign || game_mode == _ui_game_mode_multiplayer || game_mode == _ui_game_mode_map_editor || game_mode == _ui_game_mode_theater)
 	{
-		return _map_id_none;
+		e_campaign_id campaign_id = _campaign_id_none;
+		e_map_id temporary_map_id = _map_id_none;
+		if (!user_interface_session_get_map(&campaign_id, &temporary_map_id))
+		{
+			result = temporary_map_id;
+		}
 	}
 
-	e_campaign_id campaign_id = {};
-	e_map_id map_id = {};
-	if (!user_interface_session_get_map(&campaign_id, &map_id))
-	{
-		return _map_id_none;
-	}
-
-	return map_id;
+	return result;
 }
 
 const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
 {
 	//return INVOKE(0x00B214A0, c_gui_screen_pregame_lobby::get_current_variant);
 
+	const c_game_variant* result = NULL;
+
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-	if (game_mode != _ui_game_mode_multiplayer &&
-		game_mode != _ui_game_mode_map_editor &&
-		game_mode != _ui_game_mode_theater)
+	if (game_mode == _ui_game_mode_multiplayer || game_mode == _ui_game_mode_map_editor || game_mode == _ui_game_mode_theater)
 	{
-		return NULL;
+		result = user_interface_game_settings_get_game_variant();
 	}
 
-	return user_interface_game_settings_get_game_variant();
+	return result;
 }
 
 //.text:00B214D0 ; 
@@ -231,29 +242,41 @@ int32 c_gui_screen_pregame_lobby::get_options_button_name(bool is_leader)
 	}
 	break;
 	}
-
 	return result;
 }
 
 int32 __cdecl c_gui_screen_pregame_lobby::get_start_status_text(bool is_leader)
 {
 	return INVOKE(0x00B214E0, c_gui_screen_pregame_lobby::get_start_status_text, is_leader);
+
+	//int32 result;
+	//int32 delaying_player;
+	//e_session_game_start_status game_start_status;
+	//e_session_game_start_error game_start_error;
 }
 
 bool c_gui_screen_pregame_lobby::handle_back_out(e_controller_index controller_index)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21930, c_gui_screen_pregame_lobby, handle_back_out, controller_index);
+
+	//int32 dialog_name;
+	//{
+	//	const c_controller_interface* controller;
+	//}
+	//{
+	//	c_load_dialog_screen_message* load_dialog_message;
+	//}
 }
 
 bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_controller_input_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message, message);
 
-	//bool in_or_after_countdown = user_interface_squad_in_or_after_countdown();
+	//bool is_countdown_started = user_interface_squad_in_or_after_countdown();
 	//
 	//if (message->get_event_type() == _event_type_tab_left || message->get_event_type() == _event_type_tab_right)
 	//{
-	//	if (in_or_after_countdown)
+	//	if (is_countdown_started)
 	//	{
 	//		return c_gui_screen_widget::handle_controller_input_message(message);
 	//	}
@@ -289,7 +312,7 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 	//break;
 	//case _controller_component_button_a:
 	//{
-	//	if (in_or_after_countdown)
+	//	if (is_countdown_started)
 	//	{
 	//		user_interface_squad_start_countdown_timer(message->get_controller(), 6, 4);
 	//		return false;
@@ -319,7 +342,7 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 	//break;
 	//case _controller_component_button_b:
 	//{
-	//	if (!in_or_after_countdown)
+	//	if (!is_countdown_started)
 	//	{
 	//		if (!c_gui_screen_pregame_lobby::team_switching_allowed())
 	//		{
@@ -358,7 +381,7 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 	//break;
 	//case _controller_component_button_x:
 	//{
-	//	if (in_or_after_countdown)
+	//	if (is_countdown_started)
 	//	{
 	//		user_interface_squad_stop_countdown_timer(message->get_controller(), -1, false);
 	//	}
@@ -377,7 +400,7 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 	//case _controller_component_button_left_shoulder:
 	//case _controller_component_button_right_shoulder:
 	//{
-	//	if (!in_or_after_countdown || !team_switching_allowed())
+	//	if (!is_countdown_started || !team_switching_allowed())
 	//	{
 	//		break;
 	//	}
@@ -418,12 +441,15 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 bool c_gui_screen_pregame_lobby::handle_dialog_result(const c_dialog_result_message* message)
 {
 	return INVOKE_CLASS_MEMBER(0x00B21E20, c_gui_screen_pregame_lobby, handle_dialog_result, message);
+
+	//bool handled;
 }
 
 bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B21EA0, c_gui_screen_pregame_lobby, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 
+	bool handled = false;
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
 		int32 target_name = _string_id_invalid;
@@ -441,12 +467,14 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 					screen_message->set_parent_screen_index(m_screen_index);
 					user_interface_messaging_post(screen_message);
 				}
-				return true;
+				handled = true;
 			}
 		}
 		else if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &target_name))
 		{
-			if (target_name == STRING_ID(gui, switch_lobby))
+			switch (target_name)
+			{
+			case STRING_ID(gui, switch_lobby):
 			{
 				if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
 					STRING_ID(gui, pregame_switch_lobby),
@@ -461,9 +489,10 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 						user_interface_networking_get_name_from_gui_game_mode(get_gui_game_mode()));
 					user_interface_messaging_post(screen_message);
 				}
-				return true;
+				handled = true;
 			}
-			if (target_name == STRING_ID(gui, start_game))
+			break;
+			case STRING_ID(gui, start_game):
 			{
 				if (user_interface_squad_start_countdown_timer(message->get_controller(), 6, 4))
 				{
@@ -483,7 +512,9 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 				{
 					c_gui_screen_widget::play_sound(_ui_global_sound_effect_failure);
 				}
-				return true;
+				handled = true;
+			}
+			break;
 			}
 		}
 	}
@@ -493,17 +524,19 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_integer_value(element_handle, STRING_ID(gui, player_index), &target_session_player_index))
 		{
-			if (const s_player_identifier* player_identifier = user_interface_session_get_player_identifier(target_session_player_index))
+			const s_player_identifier* player_identifier = user_interface_session_get_player_identifier(target_session_player_index);
+			if (player_identifier && select_player_in_roster(message->get_controller(), player_identifier))
 			{
-				if (select_player_in_roster(message->get_controller(), player_identifier))
-				{
-					return true;
-				}
+				handled = true;
 			}
 		}
 	}
 
-	return c_gui_screen_widget::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	if (!handled)
+	{
+		handled = c_gui_screen_widget::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	}
+	return handled;
 }
 
 bool c_gui_screen_pregame_lobby::postgame_stats_enabled()
@@ -654,23 +687,30 @@ void c_gui_screen_pregame_lobby::post_initialize()
 
 	c_gui_screen_widget::post_initialize();
 
-	if (!location_manager_get()->get_show_postgame_stats_upon_lobby_entrance())
+	if (location_manager_get()->get_show_postgame_stats_upon_lobby_entrance())
 	{
-		return;
-	}
+		c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message, STRING_ID(gui, carnage_report), k_any_controller, k_number_of_player_windows, m_name);
+		if (screen_message)
+		{
+			user_interface_messaging_post(screen_message);
+		}
 
-	c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message, STRING_ID(gui, carnage_report), k_any_controller, k_number_of_player_windows, m_name);
-	if (screen_message)
-	{
-		user_interface_messaging_post(screen_message);
+		location_manager_get()->set_show_postgame_stats_upon_lobby_entrance(false);
 	}
-
-	location_manager_get()->set_show_postgame_stats_upon_lobby_entrance(false);
 }
 
 bool c_gui_screen_pregame_lobby::select_player_in_roster(e_controller_index controller_index, const s_player_identifier* target_player_identifier)
 {
 	return INVOKE_CLASS_MEMBER(0x00B22B80, c_gui_screen_pregame_lobby, select_player_in_roster, controller_index, target_player_identifier);
+
+	//bool result;
+	//int32 current_player_index;
+	//{
+	//	const s_player_identifier* current_player_identifier;
+	//	{
+	//		c_load_player_select_screen_message* load_screen_message;
+	//	}
+	//}
 }
 
 //.text:00B22C90 ; private: void c_gui_screen_pregame_lobby::show_vidmaster_popup_if_needed()?
@@ -699,6 +739,34 @@ bool c_gui_screen_pregame_lobby::team_switching_allowed()
 void c_gui_screen_pregame_lobby::update(uns32 current_milliseconds)
 {
 	INVOKE_CLASS_MEMBER(0x00B22DE0, c_gui_screen_pregame_lobby, update, current_milliseconds);
+
+	//e_map_id map_id;
+	//bool any_players_changing_teams;
+	//c_gui_map_widget* map_image_bitmap;
+	//bool is_countdown_started;
+	//c_gui_list_widget* lobby_list;
+	//int32 countdown_value;
+	//c_gui_roster_list_widget* roster_list_widget;
+	//bool is_leader;
+	//{
+	//	const c_game_variant* variant;
+	//	{
+	//		int32 team_change_delay;
+	//		int32 maximum_team;
+	//		int32 team_change_lying_time;
+	//		{
+	//			int32 player_index;
+	//			{
+	//				int32 desired_team;
+	//			}
+	//		}
+	//	}
+	//}
+	//{
+	//	int32 countdown_warning_beep_time;
+	//	int32 fade_at_second;
+	//}
+	//
 }
 
 //.text:00B23220 ; private: void c_gui_screen_pregame_lobby::update_precaching(uns32)
@@ -732,59 +800,61 @@ void c_gui_screen_pregame_lobby::update_widget_visiblility()
 	//INVOKE_CLASS_MEMBER(0x00B23440, c_gui_screen_pregame_lobby, update_widget_visiblility);
 
 	bool is_leader = user_interface_squad_local_peer_is_leader();
-	bool in_or_after_countdown = user_interface_squad_in_or_after_countdown();
+	bool is_countdown_started = user_interface_squad_in_or_after_countdown();
 
-	c_gui_bitmap_widget* advanced_options_bitmap_widget = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, advanced_options));
-	c_gui_text_widget* advanced_options_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(gui, advanced_options));
-	c_gui_text_widget* change_teams_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(global, change_teams));
-	c_gui_text_widget* postgame_stats_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(gui, postgame_stats));
+	c_gui_bitmap_widget* advanced_options_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, advanced_options));
+	c_gui_text_widget* advanced_options_text = c_gui_widget::get_child_text_widget(STRING_ID(gui, advanced_options));
+	c_gui_text_widget* change_teams_text = c_gui_widget::get_child_text_widget(STRING_ID(global, change_teams));
+	c_gui_text_widget* postgame_stats_text = c_gui_widget::get_child_text_widget(STRING_ID(gui, postgame_stats));
 
-	bool advanced_options_visible = !in_or_after_countdown && advanced_options_enabled();
-
-	if (advanced_options_text_widget)
 	{
-		advanced_options_text_widget->set_text_from_string_id(this, get_options_button_name(is_leader));
-		advanced_options_text_widget->set_use_alternate_ambient_state(!advanced_options_visible);
+		bool options_visible = !is_countdown_started && advanced_options_enabled();
 
-		if (advanced_options_visible != m_advanced_options_visible)
+		if (advanced_options_text)
 		{
-			advanced_options_text_widget->start_animation(advanced_options_visible ? _custom_animation0 : _custom_animation1, 0);
+			advanced_options_text->set_text_from_string_id(this, get_options_button_name(is_leader));
+			advanced_options_text->set_use_alternate_ambient_state(!options_visible);
+
+			if (options_visible != m_advanced_options_visible)
+			{
+				advanced_options_text->start_animation(options_visible ? _custom_animation0 : _custom_animation1, false);
+			}
 		}
+
+		if (advanced_options_bitmap)
+		{
+			advanced_options_bitmap->set_use_alternate_ambient_state(!options_visible);
+
+			if (options_visible != m_advanced_options_visible)
+			{
+				advanced_options_bitmap->start_animation(options_visible ? _custom_animation0 : _custom_animation1, false);
+			}
+		}
+
+		m_advanced_options_visible = options_visible;
 	}
 
-	if (advanced_options_bitmap_widget)
+	if (change_teams_text)
 	{
-		advanced_options_bitmap_widget->set_use_alternate_ambient_state(!advanced_options_visible);
-
-		if (advanced_options_visible != m_advanced_options_visible)
-		{
-			advanced_options_bitmap_widget->start_animation(advanced_options_visible ? _custom_animation0 : _custom_animation1, false);
-		}
-	}
-
-	m_advanced_options_visible = advanced_options_visible;
-
-	if (change_teams_text_widget)
-	{
-		bool change_teams_visible = !in_or_after_countdown && team_switching_allowed();
-		change_teams_text_widget->set_use_alternate_ambient_state(!change_teams_visible);
+		bool change_teams_visible = !is_countdown_started && team_switching_allowed();
+		change_teams_text->set_use_alternate_ambient_state(!change_teams_visible);
 
 		if (change_teams_visible != m_change_teams_visible)
 		{
-			change_teams_text_widget->start_animation(change_teams_visible ? _custom_animation0 : _custom_animation1, false);
+			change_teams_text->start_animation(change_teams_visible ? _custom_animation0 : _custom_animation1, false);
 		}
 
 		m_change_teams_visible = change_teams_visible;
 	}
 
-	if (postgame_stats_text_widget)
+	if (postgame_stats_text)
 	{
-		bool postgame_stats_visible = !in_or_after_countdown && user_interface_networking_get_final_game_results();
-		postgame_stats_text_widget->set_use_alternate_ambient_state(!postgame_stats_visible);
+		bool postgame_stats_visible = !is_countdown_started && user_interface_networking_get_final_game_results();
+		postgame_stats_text->set_use_alternate_ambient_state(!postgame_stats_visible);
 
 		if (postgame_stats_visible != m_postgame_stats_visible)
 		{
-			postgame_stats_text_widget->start_animation(postgame_stats_visible ? _custom_animation0 : _custom_animation1, false);
+			postgame_stats_text->start_animation(postgame_stats_visible ? _custom_animation0 : _custom_animation1, false);
 		}
 
 		m_postgame_stats_visible = postgame_stats_visible;
