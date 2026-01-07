@@ -71,7 +71,7 @@ bool c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen(const c_contr
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
 		int32 target_name = _string_id_invalid;
-		if (datasource->get_string_id_value(list_item_widget->get_element_handle(), STRING_ID(gui, target), &target_name))
+		if (datasource->get_string_id_value(list_item_widget->get_element_handle(), STRING_ID(gui, target), &target_name) && target_name == STRING_ID(global, map))
 		{
 			if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
 				message->get_controller(),
@@ -111,7 +111,22 @@ bool __cdecl parse_xml_lobby_mapeditor_map(void* this_ptr, wchar_t* buffer, int3
 
 void c_gui_screen_pregame_lobby_mapeditor::post_initialize()
 {
-	INVOKE_CLASS_MEMBER(0x00B02470, c_gui_screen_pregame_lobby_mapeditor, post_initialize);
+	//INVOKE_CLASS_MEMBER(0x00B02470, c_gui_screen_pregame_lobby_mapeditor, post_initialize);
+
+	c_gui_screen_pregame_lobby::post_initialize();
+
+	s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
+	if (last_game_setup->map_editor_settings.dirtied_in_game)
+	{
+		s_gui_game_setup_storage game_setup{};
+		csmemcpy(&game_setup, last_game_setup, sizeof(game_setup));
+		game_setup.map_editor_settings.dirtied_in_game = 0;
+		csmemcpy(&game_setup.multiplayer_settings.map_variant_settings, &game_setup.map_editor_settings.map_variant_settings, sizeof(game_setup.multiplayer_settings.map_variant_settings));
+		global_preferences_set_last_game_setup(&game_setup);
+
+		c_gui_pregame_setup_manager::get()->restore_from_last(_ui_game_mode_multiplayer);
+		c_gui_pregame_setup_manager::get()->restore_from_last(_ui_game_mode_map_editor);
+	}
 }
 
 void c_gui_screen_pregame_lobby_mapeditor::update(uns32 current_milliseconds)
