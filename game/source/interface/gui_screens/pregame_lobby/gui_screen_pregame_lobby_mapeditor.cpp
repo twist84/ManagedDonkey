@@ -47,6 +47,7 @@ int32 c_gui_screen_pregame_lobby_mapeditor::get_start_button_name()
 
 bool c_gui_screen_pregame_lobby_mapeditor::handle_controller_input_message(const c_controller_input_message* message)
 {
+	bool message_handled = false;
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_x)
 	{
 		if (user_interface_squad_in_or_after_countdown())
@@ -58,36 +59,47 @@ bool c_gui_screen_pregame_lobby_mapeditor::handle_controller_input_message(const
 			c_gui_screen_pregame_lobby::load_game_variant_editing_screen(message->get_controller());
 		}
 
-		return true;
+		message_handled = true;
 	}
 
-	return c_gui_screen_pregame_lobby::handle_controller_input_message(message);
+	if (!message_handled)
+	{
+		message_handled = c_gui_screen_pregame_lobby::handle_controller_input_message(message);
+	}
+	return message_handled;
 }
 
 bool c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B02280, c_gui_screen_pregame_lobby_mapeditor, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
 	
+	bool handled = false;
 	if (list_name == STRING_ID(gui, lobby_list))
 	{
 		int32 target_name = _string_id_invalid;
-		if (datasource->get_string_id_value(list_item_widget->get_element_handle(), STRING_ID(gui, target), &target_name) && target_name == STRING_ID(global, map))
+		if (datasource->get_string_id_value(list_item_widget->get_element_handle(), STRING_ID(gui, target), &target_name)
+			&& target_name == STRING_ID(global, map))
 		{
-			if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
+			e_gui_selected_item_type selection_type = _gui_selection_type_map;
+			if (c_load_pregame_selection_screen_message* load_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
 				message->get_controller(),
 				c_gui_screen_widget::get_render_window(),
 				m_name,
-				_gui_selection_type_map))
+				selection_type))
 			{
-				pregame_selection_screen_message->set_parent_screen_index(m_screen_index);
-				user_interface_messaging_post(pregame_selection_screen_message);
+				load_screen_message->set_parent_screen_index(m_screen_index);
+				user_interface_messaging_post(load_screen_message);
 			}
 
-			return true;
+			handled = true;
 		}
 	}
 
-	return c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	if (!handled)
+	{
+		handled = c_gui_screen_pregame_lobby::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	}
+	return handled;
 }
 
 void c_gui_screen_pregame_lobby_mapeditor::initialize()
