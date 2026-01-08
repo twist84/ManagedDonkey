@@ -47,17 +47,17 @@ public:
 	c_network_link();
 	~c_network_link();
 
-	static bool __cdecl adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length);// const;
+	static bool __cdecl adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length);
 	void attach_out_of_band(c_network_out_of_band_consumer* out_of_band);
-	int32 compute_size_on_wire(const s_link_packet* packet);// const;
+	int32 compute_size_on_wire(const s_link_packet* packet) const;
 	bool create_endpoint(e_transport_type endpoint_type, uns16 port, bool broadcast, transport_endpoint** out_endpoint);
 	bool create_endpoints();
-	bool decode_packet(int32 data_length, const byte* data_buffer, s_link_packet* packet);// const;
+	bool decode_packet(int32 data_length, const byte* data_buffer, s_link_packet* packet) const;
 	void destroy_endpoints();
 	void destroy_link();
-	void encode_packet(const s_link_packet* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size);// const;
+	void encode_packet(const s_link_packet* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size) const;
 	uns32 generate_channel_identifier();
-	c_network_channel* get_associated_channel(const transport_address* address);// const;
+	c_network_channel* get_associated_channel(const transport_address* address) const;
 	static const char* get_packet_mode_string(int32 packet_mode);
 	bool initialize_link();
 	static void __cdecl initialize_packet(s_link_packet* packet);

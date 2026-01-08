@@ -97,7 +97,7 @@ class c_decal :
 	public s_datum_header
 {
 public:
-	void __thiscall render(c_decal_definition::e_pass pass);// const;
+	void __thiscall render(c_decal_definition::e_pass pass) const;
 	static void __cdecl render_all(c_decal_definition::e_pass pass);
 
 	int32 m_definition_block_index;

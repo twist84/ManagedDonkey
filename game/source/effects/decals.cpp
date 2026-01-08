@@ -72,7 +72,7 @@ void __cdecl c_decal_system::prepare_for_non_bsp_zone_set_switch(const s_game_no
 	INVOKE(0x006941B0, prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 }
 
-void __thiscall c_decal::render(c_decal_definition::e_pass pass)// const
+void __thiscall c_decal::render(c_decal_definition::e_pass pass) const
 {
 	//INVOKE_CLASS_MEMBER(0x00694430, c_decal, render, pass);
 

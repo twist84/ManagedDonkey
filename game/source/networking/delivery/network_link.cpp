@@ -58,7 +58,7 @@ c_network_link::~c_network_link()
 	c_network_link::destroy_link();
 }
 
-bool __cdecl c_network_link::adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length)// const
+bool __cdecl c_network_link::adjust_packet_size(bool out_of_band, int32 voice_data_length, int32* game_data_length)
 {
 	return INVOKE(0x0043B5E0, c_network_link::adjust_packet_size, out_of_band, voice_data_length, game_data_length);
 
@@ -123,7 +123,7 @@ void c_network_link::attach_out_of_band(c_network_out_of_band_consumer* out_of_b
 	m_out_of_band_consumer = out_of_band;
 }
 
-int32 c_network_link::compute_size_on_wire(const s_link_packet* packet)// const
+int32 c_network_link::compute_size_on_wire(const s_link_packet* packet) const
 {
 	return INVOKE_CLASS_MEMBER(0x0043B6A0, c_network_link, compute_size_on_wire, packet);
 
@@ -220,7 +220,7 @@ bool c_network_link::create_endpoints()
 	return success;
 }
 
-bool c_network_link::decode_packet(int32 data_buffer_size, const byte* data_buffer, s_link_packet* packet)// const
+bool c_network_link::decode_packet(int32 data_buffer_size, const byte* data_buffer, s_link_packet* packet) const
 {
 	return INVOKE_CLASS_MEMBER(0x0043B820, c_network_link, decode_packet, data_buffer_size, data_buffer, packet);
 
@@ -321,7 +321,7 @@ void c_network_link::destroy_link()
 #endif
 }
 
-void c_network_link::encode_packet(const s_link_packet* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size)// const
+void c_network_link::encode_packet(const s_link_packet* packet, int32* data_length, byte* data_buffer, int32 data_buffer_size) const
 {
 	INVOKE_CLASS_MEMBER(0x0043B990, c_network_link, encode_packet, packet, data_length, data_buffer, data_buffer_size);
 
@@ -365,7 +365,7 @@ uns32 c_network_link::generate_channel_identifier()
 #endif
 }
 
-c_network_channel* c_network_link::get_associated_channel(const transport_address* address)// const
+c_network_channel* c_network_link::get_associated_channel(const transport_address* address) const
 {
 	return INVOKE_CLASS_MEMBER(0x0043BA40, c_network_link, get_associated_channel, address);
 
