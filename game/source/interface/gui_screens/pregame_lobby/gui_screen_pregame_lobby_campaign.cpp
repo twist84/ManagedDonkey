@@ -141,7 +141,7 @@ bool c_gui_screen_pregame_lobby_campaign::handle_controller_input_message(const 
 			return true;
 		}
 
-		if (user_interface_squad_local_peer_is_leader() /*&& !get_is_blue_disk()*/)
+		if (user_interface_squad_local_peer_is_leader() && !get_is_blue_disk())
 		{
 			// $IMPLEMENT
 			if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,

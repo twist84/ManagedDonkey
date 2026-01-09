@@ -229,6 +229,7 @@ extern bool __cdecl get_alpha_is_locked_down();
 extern int32 __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_debug_frame_element_bounds();
 extern bool __cdecl get_is_alpha_version();
+extern bool __cdecl get_is_blue_disk();
 extern void __cdecl set_debug_frame_element_bounds(bool enable);
 extern void __cdecl ui_handle_script_verification();
 extern void __cdecl user_interface_dispose();

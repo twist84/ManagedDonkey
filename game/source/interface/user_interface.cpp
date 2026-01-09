@@ -89,6 +89,13 @@ bool __cdecl get_is_alpha_version()
 	return INVOKE(0x00A841E0, get_is_alpha_version);
 }
 
+bool __cdecl get_is_blue_disk()
+{
+	// true:  halo3_blue
+	// false: halo3_black
+	return false;
+}
+
 //.text:00A841F0 ; 
 //.text:00A84200 ; c_gui_data* __cdecl interface_get_global_datasource(int32)
 

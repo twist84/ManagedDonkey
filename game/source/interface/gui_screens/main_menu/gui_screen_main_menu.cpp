@@ -77,7 +77,7 @@ void c_main_menu_screen_widget::set_list_elements()
 	{
 		bool has_saved_game_state_blocking = false;
 		e_controller_index saved_game_controller = k_no_controller;
-		if (get_in_use_controller_count(&saved_game_controller) == 1 /*&& !get_is_blue_disk()*/)
+		if (get_in_use_controller_count(&saved_game_controller) == 1 && !get_is_blue_disk())
 		{
 			has_saved_game_state_blocking = saved_game_files_controller_has_saved_game_state_blocking(saved_game_controller);
 		}
@@ -127,7 +127,7 @@ void c_main_menu_screen_widget::set_list_elements()
 		}
 	}
 
-	//if (!get_is_blue_disk())
+	if (!get_is_blue_disk())
 	{
 		if (c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, main_menu)))
 		{
