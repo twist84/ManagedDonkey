@@ -2328,19 +2328,17 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 			for (int32 block_index = 0; block_index < multilingual_unicode_string_list->string_references.count; block_index++)
 			{
 				s_multilingual_unicode_string_reference& string_reference = multilingual_unicode_string_list->string_references[block_index];
-				if (string_reference.id != STRING_ID(global, leave_game))
+				if (string_reference.id == STRING_ID(global, leave_game))
 				{
-					continue;
+					static char x_english_string[] = "QUIT TO DESKTOP";
+					char* string = (char*)tag_data_get_pointer(&multilingual_unicode_string_list->text_data, string_reference.offset[_language_english], sizeof(x_english_string));
+					uns32 string_length = csstrnlen(string, sizeof(x_english_string));
+					if (string_length + 1 >= sizeof(x_english_string))
+					{
+						csstrnzcpy(string, x_english_string, string_length + 1);
+					}
+					break;
 				}
-
-				static char x_english_string[] = "QUIT TO DESKTOP";
-				char* string = (char*)tag_data_get_pointer(&multilingual_unicode_string_list->text_data, string_reference.offset[_language_english], sizeof(x_english_string));
-				uns32 string_length = csstrnlen(string, sizeof(x_english_string));
-				if (string_length + 1 >= sizeof(x_english_string))
-				{
-					csstrnzcpy(string, x_english_string, string_length + 1);
-				}
-				break;
 			}
 		}
 	}
