@@ -88,20 +88,20 @@ public:
 public:
 	c_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position);
 
-	void set_focus_on_load_by_name(int32 list_name, int32 column_name, int32 column_value);
-	void set_transition_type(e_screen_transition_type transition_type);
-	void set_focus_on_load(int32 list_name, int32 element_handle);
-	void set_parent_screen_index(int32 parent_screen_index);
-
-	e_screen_transition_type get_transition_type() const;
-	bool get_respond_to_controller_events() const;
-	int32 get_focus_on_load_list_name() const;
-	int32 get_focus_on_load_element_handle() const;
+	bool get_applies_even_to_codeless_screens() const;
 	int32 get_focus_on_load_column_name() const;
 	int32 get_focus_on_load_column_value() const;
-	int32 get_parent_screen_index() const;
+	int32 get_focus_on_load_element_handle() const;
+	int32 get_focus_on_load_list_name() const;
 	int32 get_layered_position() const;
-	bool get_applies_even_to_codeless_screens() const;
+	int32 get_parent_screen_index() const;
+	bool get_respond_to_controller_events() const;
+	e_screen_transition_type get_transition_type() const;
+
+	void set_focus_on_load(int32 list_name, int32 element_handle);
+	void set_focus_on_load_by_name(int32 list_name, int32 column_name, int32 column_value);
+	void set_parent_screen_index(int32 parent_screen_index);
+	void set_transition_type(e_screen_transition_type transition_type);
 
 protected:
 	e_screen_transition_type m_transition_type;

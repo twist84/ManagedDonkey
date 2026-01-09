@@ -5,6 +5,7 @@
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_memory.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_game_files.hpp"
 

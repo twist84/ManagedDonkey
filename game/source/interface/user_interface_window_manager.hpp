@@ -56,6 +56,10 @@ public:
 	void dispose();
 	void dispose_from_old_map();
 	void dispose_screen(c_gui_screen_widget* screen);
+	bool get_fading() const;
+	real32 get_fading_amount() const;
+	bool get_fading_max() const;
+	bool get_fading_min() const;
 	e_window_index get_render_window_for_screen(c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_screen_above(e_window_index window_index, const c_gui_screen_widget* screen);
 	c_gui_screen_widget* get_screen_below(e_window_index window_index, const c_gui_screen_widget* screen_widget);

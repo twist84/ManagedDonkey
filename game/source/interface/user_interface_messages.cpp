@@ -80,12 +80,6 @@ e_window_index c_message::get_window() const
 	return m_window;
 }
 
-//user_interface_window_manager.obj
-int32 c_message::get_game_time_at_creation() const
-{
-	return m_game_time_at_creation;
-}
-
 c_controller_input_message::c_controller_input_message(int32 screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, int32 event_value) :
 	c_message(_message_type_controller_input, screen_name, controller, window),
 	m_event_type(event_type),
@@ -157,6 +151,13 @@ void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen_widg
 {
 }
 
+//gui_screen_start_menu.obj
+void c_load_screen_message::set_focus_on_load(int32 list_name, int32 element_handle)
+{
+	m_focus_on_load_name = list_name;
+	m_focus_on_load_element_handle = element_handle;
+}
+
 //saved_film_director.obj
 void c_load_screen_message::set_focus_on_load_by_name(int32 list_name, int32 column_name, int32 column_value)
 {
@@ -166,76 +167,15 @@ void c_load_screen_message::set_focus_on_load_by_name(int32 list_name, int32 col
 }
 
 //gui_screen_start_menu.obj
-void c_load_screen_message::set_transition_type(e_screen_transition_type transition_type)
-{
-	m_transition_type = transition_type;
-}
-
-//gui_screen_start_menu.obj
-void c_load_screen_message::set_focus_on_load(int32 list_name, int32 element_handle)
-{
-	m_focus_on_load_name = list_name;
-	m_focus_on_load_element_handle = element_handle;
-}
-
-//gui_screen_start_menu.obj
 void c_load_screen_message::set_parent_screen_index(int32 parent_screen_index)
 {
 	m_parent_screen_index = parent_screen_index;
 }
 
-//user_interface_window_manager.obj
-e_screen_transition_type c_load_screen_message::get_transition_type() const
+//gui_screen_start_menu.obj
+void c_load_screen_message::set_transition_type(e_screen_transition_type transition_type)
 {
-	return m_transition_type;
-}
-
-//user_interface_window_manager.obj
-bool c_load_screen_message::get_respond_to_controller_events() const
-{
-	return m_respond_to_controller_events;
-}
-
-//user_interface_window_manager.obj
-int32 c_load_screen_message::get_focus_on_load_list_name() const
-{
-	return m_focus_on_load_name;
-}
-
-//user_interface_window_manager.obj
-int32 c_load_screen_message::get_focus_on_load_element_handle() const
-{
-	return m_focus_on_load_element_handle;
-}
-
-//user_interface_window_manager.obj
-int32 c_load_screen_message::get_focus_on_load_column_name() const
-{
-	return m_focus_on_load_column_name;
-}
-
-//user_interface_window_manager.obj
-int32 c_load_screen_message::get_focus_on_load_column_value() const
-{
-	return m_focus_on_load_column_value;
-}
-
-//user_interface_window_manager.obj
-int32 c_load_screen_message::get_parent_screen_index() const
-{
-	return m_parent_screen_index;
-}
-
-//user_interface_window_manager.obj
-int32 c_load_screen_message::get_layered_position() const
-{
-	return m_layered_position;
-}
-
-//user_interface_window_manager.obj
-bool c_load_screen_message::get_applies_even_to_codeless_screens() const
-{
-	return m_applies_even_to_codeless_screens;
+	m_transition_type = transition_type;
 }
 
 c_screen_custom_message::c_screen_custom_message(int32 sub_type, int32 screen_name, e_controller_index controller, e_window_index window) :
