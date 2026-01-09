@@ -403,10 +403,10 @@ void c_player_profile_interface::set_player_appearance(const s_player_appearance
 	ASSERT(player_appearance != NULL);
 
 	c_player_profile_interface::set_female_voice_enabled(player_appearance->flags.test(_female_voice_bit), set_by_user);
-	c_player_profile_interface::set_primary_change_color((e_player_color_index)player_appearance->change_color_index[0], set_by_user);
-	c_player_profile_interface::set_secondary_change_color((e_player_color_index)player_appearance->change_color_index[1], set_by_user);
-	c_player_profile_interface::set_tertiary_change_color((e_player_color_index)player_appearance->change_color_index[2], set_by_user);
-	c_player_profile_interface::set_player_model_choice((e_player_model_choice)player_appearance->player_model_choice, set_by_user);
+	c_player_profile_interface::set_primary_change_color(player_appearance->change_color_index[0], set_by_user);
+	c_player_profile_interface::set_secondary_change_color(player_appearance->change_color_index[1], set_by_user);
+	c_player_profile_interface::set_tertiary_change_color(player_appearance->change_color_index[2], set_by_user);
+	c_player_profile_interface::set_player_model_choice(player_appearance->player_model_choice, set_by_user);
 	c_player_profile_interface::set_emblem_info(&player_appearance->emblem_info, set_by_user);
 }
 
@@ -416,18 +416,18 @@ void c_player_profile_interface::set_emblem_info(const s_emblem_info* emblem_inf
 	ASSERT(emblem_info != NULL);
 	ASSERT(emblem_info->pad == 0);
 
-	if (emblem_info->foreground_emblem_index >= 80
-		|| emblem_info->background_emblem_index >= 48
-		|| emblem_info->primary_color_index >= k_player_color_index_count
-		|| emblem_info->secondary_color_index >= k_player_color_index_count
-		|| emblem_info->background_color_index >= k_player_color_index_count)
-	{
-		event(_event_error, "ui:profile: invalid emblem");
-	}
-	else
+	if (VALID_INDEX(emblem_info->foreground_emblem_index, 80)
+		&& VALID_INDEX(emblem_info->background_emblem_index, 48)
+		&& VALID_INDEX(emblem_info->primary_color_index, k_player_color_index_count)
+		&& VALID_INDEX(emblem_info->secondary_color_index, k_player_color_index_count)
+		&& VALID_INDEX(emblem_info->background_color_index, k_player_color_index_count))
 	{
 		dirty_or(set_by_user && csmemcmp(emblem_info, &m_appearance.emblem, sizeof(s_emblem_info)) != 0);
 		m_appearance.emblem = *emblem_info;
+	}
+	else
+	{
+		event(_event_error, "ui:profile: invalid emblem");
 	}
 }
 
