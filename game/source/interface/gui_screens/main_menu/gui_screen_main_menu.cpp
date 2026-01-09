@@ -1,6 +1,7 @@
 #include "interface/gui_screens/main_menu/gui_screen_main_menu.hpp"
 
 #include "interface/c_controller.hpp"
+#include "interface/c_gui_list_item_widget.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "memory/module.hpp"
@@ -70,69 +71,69 @@ void c_main_menu_screen_widget::set_list_elements()
 {
 	//INVOKE_CLASS_MEMBER(0x00AE80F0, c_main_menu_screen_widget, set_list_elements);
 
-	static bool x_enable_leave_game_element = true; // $TODO make the menu taller?
+	static bool x_disable_leave_game_element = false; // $TODO make the menu taller?
 	static bool x_disable_theater_element = true;   // $TODO enable when saved films actually work?
 
-	if (c_gui_data* data = get_data(STRING_ID(gui, main_menu), NULL))
+	if (c_gui_data* datasource = get_data(STRING_ID(gui, main_menu), NULL))
 	{
-		bool has_saved_game_state_blocking = false;
+		bool one_and_only_one_saved_game_exists = false;
 		e_controller_index saved_game_controller = k_no_controller;
 		if (get_in_use_controller_count(&saved_game_controller) == 1 && !get_is_blue_disk())
 		{
-			has_saved_game_state_blocking = saved_game_files_controller_has_saved_game_state_blocking(saved_game_controller);
+			ASSERT(saved_game_controller != k_no_controller);
+			one_and_only_one_saved_game_exists = saved_game_files_controller_has_saved_game_state_blocking(saved_game_controller);
 		}
 
-		data->clear_disabled_elements();
+		datasource->clear_disabled_elements();
 
-		if (has_saved_game_state_blocking)
+		if (one_and_only_one_saved_game_exists)
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, start_new_campaign));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, start_new_campaign));
 		}
 		else
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, resume_campaign));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, resume_campaign));
 		}
 
 		if (get_alpha_is_internal_beta())
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, campaign));
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, mapeditor));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, campaign));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, mapeditor));
 		}
-		else
+		else if (x_disable_leave_game_element)
 		{
-			if (!x_enable_leave_game_element)
-			{
-				data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
-			}
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
 		}
 
 		if (get_alpha_custom_games_disabled())
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, multiplayer));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, multiplayer));
 		}
 
 		if (get_alpha_is_locked_down())
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, matchmaking));
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, theater));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, matchmaking));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, theater));
 		}
 		else
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, locked));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, locked));
 		}
 
 		if (x_disable_theater_element)
 		{
-			data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, theater));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, theater));
 		}
 	}
 
 	if (!get_is_blue_disk())
 	{
-		if (c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, main_menu)))
+		if (c_gui_list_widget* list_widget = get_child_list_widget(STRING_ID(gui, main_menu)))
 		{
-			if (c_gui_widget* main_menu_list_item = get_first_child_widget_by_type(_gui_list_item))
-				main_menu_list_item->set_use_alternate_ambient_state(get_in_use_controller_count(NULL) > 1);
+			if (c_gui_list_item_widget* list_item = (c_gui_list_item_widget*)get_first_child_widget_by_type(_gui_list_item))
+			{
+				list_item->set_use_alternate_ambient_state(get_in_use_controller_count(NULL) > 1);
+			}
 		}
 	}
 }
