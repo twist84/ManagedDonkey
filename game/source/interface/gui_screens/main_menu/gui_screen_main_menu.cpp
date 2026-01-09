@@ -4,6 +4,7 @@
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 #include "saved_games/saved_game_files.hpp"
 
@@ -32,33 +33,78 @@ int32 c_main_menu_screen_widget::get_in_use_controller_count(e_controller_index*
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE75D0, c_main_menu_screen_widget, get_in_use_controller_count, out_first_in_use_controller);
 
-	int32 in_use_controller_count = 0;
+	int32 controller_count = 0;
 	if (out_first_in_use_controller)
 	{
 		*out_first_in_use_controller = k_no_controller;
 	}
-
-	for (e_controller_index controller = _controller0; controller < k_number_of_controllers; controller++)
+	for (e_controller_index controller_index = _controller0; controller_index < k_number_of_controllers; controller_index++)
 	{
-		if (!controller_get(controller)->in_use())
+		if (controller_get(controller_index)->in_use())
 		{
-			continue;
-		}
+			if (out_first_in_use_controller && *out_first_in_use_controller == k_no_controller)
+			{
+				*out_first_in_use_controller = controller_index;
+			}
 
-		if (out_first_in_use_controller && *out_first_in_use_controller == k_no_controller)
-		{
-			*out_first_in_use_controller = controller;
+			controller_count++;
 		}
-
-		in_use_controller_count++;
 	}
-	return in_use_controller_count;
+	return controller_count;
 }
 
 //.text:00AE7630 ; 
 //.text:00AE7640 ; 
 //.text:00AE7650 ; 
-//.text:00AE7660 ; public: virtual bool c_main_menu_screen_widget::handle_controller_input_message(const c_controller_input_message*)
+
+#if 0
+//.text:00AE7660 ; public: virtual 
+bool c_main_menu_screen_widget::handle_controller_input_message(const c_controller_input_message* message)
+{
+	bool const window_manager_faded = !window_manager_get()->get_fading() && window_manager_get()->get_fading_amount() <= k_real_epsilon;
+
+	bool message_handled = window_manager_faded;
+	if (!message_handled && message->get_event_type() == _event_type_button_press)
+	{
+		e_controller_index controller_index = message->get_controller();
+		e_controller_component component = message->get_component();
+		switch (component)
+		{
+		case _controller_component_button_b:
+		{
+			const c_controller_interface* controller = controller_get(controller_index);
+			if (!controller->is_unsigned_in_user())
+			{
+				c_load_dialog_screen_message* load_dialog_message = UI_MALLOC(c_load_dialog_screen_message,
+					controller_index,
+					c_gui_screen_widget::get_render_window(),
+					m_name,
+					STRING_ID(gui_dialog, back_out_main_menu_no_profile),
+					m_name);
+				if (load_dialog_message)
+				{
+					user_interface_messaging_post(load_dialog_message);
+				}
+				message_handled = true;
+			}
+		}
+		break;
+		case _controller_component_button_y:
+		{
+			online_guide_show_friends_ui(controller_index);
+			message_handled = true;
+		}
+		break;
+		}
+	}
+	if (!message_handled)
+	{
+		message_handled = c_gui_screen_widget::handle_controller_input_message(message);
+	}
+	return message_handled;
+}
+#endif
+
 //.text:00AE7790 ; public: virtual bool c_main_menu_screen_widget::handle_dialog_result(const c_dialog_result_message*)
 //.text:00AE77D0 ; public: virtual bool c_main_menu_screen_widget::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
 //.text:00AE7E80 ; public: virtual void c_main_menu_screen_widget::initialize()
