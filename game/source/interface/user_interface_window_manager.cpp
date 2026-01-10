@@ -102,8 +102,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		return UI_MALLOC(c_start_menu_game_campaign, screen_name);
 	case STRING_ID(gui, start_menu_game_multiplayer):
 		return UI_MALLOC(c_start_menu_game_multiplayer, screen_name);
-	//case STRING_ID(gui, start_menu_game_editor):
-	//	return UI_MALLOC(c_start_menu_game_editor, screen_name);
+	case STRING_ID(gui, start_menu_game_editor):
+		return UI_MALLOC(c_start_menu_game_editor, screen_name);
 	case STRING_ID(gui, start_menu_game_saved_film):
 		return UI_MALLOC(c_start_menu_game_saved_film, screen_name);
 	//case STRING_ID(gui, start_menu_hq):
