@@ -3,11 +3,14 @@
 #include "cseries/async_helpers.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game_engine_team.hpp"
+#include "interface/c_gui_list_widget.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
 #include "saved_games/scenario_map_variant.hpp"
+#include "networking/online/online_guide_pc.hpp"
+#include "interface/user_interface_controller.hpp"
 
 // $TODO be better
 constexpr const wchar_t* k_map_name = L"Test Map";
@@ -23,7 +26,7 @@ struct controller_interface_class // c_controller_interface
 static void* storage_device_valid_for_save_map_as = member_to_static_function(&controller_interface_class::storage_device_valid);
 HOOK_DECLARE_CALL(0x00AEAAC8, storage_device_valid_for_save_map_as);
 
-HOOK_DECLARE_CLASS_MEMBER(0x00AEB490, c_start_menu_game_editor, update_save_as_new_operation);
+HOOK_DECLARE_CLASS_MEMBER(0x00AEB490, c_start_menu_game_editor, update_save_as_new_operation_);
 
 void __thiscall c_start_menu_game_editor::update_save_as_new_operation_()
 {
@@ -34,7 +37,31 @@ void __thiscall c_start_menu_game_editor::update_save_as_new_operation_()
 //.text:00AE9DA0 ; 
 //.text:00AE9DD0 ; 
 //.text:00AE9DF0 ; public: c_load_legal_screen_message::c_load_legal_screen_message(e_controller_index, e_window_index, int32, c_start_menu_game_editor*, bool)
-//.text:00AE9E30 ; public: c_start_menu_game_editor::c_start_menu_game_editor(int32)
+
+c_start_menu_game_editor::c_start_menu_game_editor(int32 name) :
+	c_start_menu_pane_screen_widget(name),
+	m_asynchronous_operation(_operation_none),
+	m_confirmation_action(_invalid_result),
+	m_confirmation_result(_result_indeterminate),
+	m_variant_on_disk(),
+	m_asynchronous_operation_controller(k_no_controller),
+	m_keyboard_task(c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_no_controller, NULL, NULL, NULL, NUMBEROF(m_virtual_keyboard_results_buffer), 0, true)),
+	m_virtual_keyboard_results_buffer(),
+	m_multiplayer_setup(),
+	m_create_new_variant_task(INVALID_ASYNC_TASK_ID),
+	m_write_new_variant_task(INVALID_ASYNC_TASK_ID),
+	m_write_variant_task(INVALID_ASYNC_TASK_ID),
+	m_async_success(),
+	m_async_complete(),
+	m_content_item_index(NONE),
+	m_progress_dialog_start_time_milliseconds(0)
+
+{
+	//DECLFUNC(0x00AE9E30, void, __thiscall, c_start_menu_game_editor*, int32)(this, name);
+
+	set_automatic_button_key(STRING_ID(gui, a_confirm_b_cancel));
+}
+
 //.text:00AE9F90 ; 
 //.text:00AE9FA0 ; 
 //.text:00AE9FB0 ; public: virtual c_start_menu_game_editor::~c_start_menu_game_editor()
@@ -42,7 +69,14 @@ void __thiscall c_start_menu_game_editor::update_save_as_new_operation_()
 //.text:00AEA020 ; public: virtual void* c_gui_gametype_category_datasource::`scalar deleting destructor'(unsigned int)
 //.text:00AEA050 ; public: virtual void* c_load_legal_screen_message::`vector deleting destructor'(unsigned int)
 //.text:00AEA080 ; public: virtual void* c_start_menu_game_editor::`scalar deleting destructor'(unsigned int)
-//.text:00AEA0F0 ; public: virtual bool c_start_menu_game_editor::allow_pane_tab_change()
+
+bool c_start_menu_game_editor::allow_pane_tab_change()
+{
+	//return INVOKE_CLASS_MEMBER(0x00AEA0F0, c_start_menu_game_editor, allow_pane_tab_change);
+
+	return true;
+}
+
 //.text:00AEA100 ; public: virtual void c_load_legal_screen_message::apply_initial_state(c_gui_screen_widget*) const
 //.text:00AEA120 ; protected: void c_start_menu_game_editor::begin_save_as_current_edited_variant(e_controller_index)
 //.text:00AEA380 ; protected: void c_start_menu_game_editor::begin_save_current_edited_variant(e_controller_index)
@@ -51,11 +85,28 @@ void __thiscall c_start_menu_game_editor::update_save_as_new_operation_()
 //.text:00AEA530 ; public: virtual bool c_gui_gametype_category_datasource::get_element(int32, void*, int32)
 //.text:00AEA550 ; public: virtual bool c_gui_gametype_category_datasource::get_integer_value(int32, int32, int32*)
 //.text:00AEA570 ; public: virtual bool c_gui_gametype_category_datasource::get_text_value(int32, int32, c_static_wchar_string<1024>*)
-//.text:00AEA5E0 ; public: virtual bool c_start_menu_game_editor::handle_dialog_result(const c_dialog_result_message*)
-//.text:00AEA7D0 ; public: virtual bool c_start_menu_game_editor::handle_list_item_chosen(const c_controller_input_message*, int32, c_gui_list_item_widget*, c_gui_data*)
+
+bool c_start_menu_game_editor::handle_dialog_result(const c_dialog_result_message* message)
+{
+	return INVOKE_CLASS_MEMBER(0x00AEA5E0, c_start_menu_game_editor, handle_dialog_result, message);
+}
+
+bool c_start_menu_game_editor::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
+{
+	return INVOKE_CLASS_MEMBER(0x00AEA7D0, c_start_menu_game_editor, handle_list_item_chosen, message, list_name, list_item_widget, datasource);
+}
+
 //.text:00AEACE0 ; public: virtual bool c_gui_gametype_category_datasource::initialize(int32)
-//.text:00AEAD30 ; public: virtual void c_start_menu_game_editor::initialize()
-//.text:00AEADA0 ; public: virtual void c_start_menu_game_editor::initialize_datasource()
+
+void c_start_menu_game_editor::initialize()
+{
+	INVOKE_CLASS_MEMBER(0x00AEAD30, c_start_menu_game_editor, initialize);
+}
+
+void c_start_menu_game_editor::initialize_datasource()
+{
+	INVOKE_CLASS_MEMBER(0x00AEADA0, c_start_menu_game_editor, initialize_datasource);
+}
 
 void c_start_menu_game_editor::load_progress_ui(e_controller_index controller_index)
 {
@@ -85,8 +136,97 @@ void c_start_menu_game_editor::setup_map_variant_for_write(s_blffile_map_variant
 	variant_on_disk->variant.map_variant.m_map_id = map_id;
 }
 
-//.text:00AEB2D0 ; public: virtual void c_start_menu_game_editor::submenu_invoked(c_gui_list_widget*)
-//.text:00AEB320 ; public: virtual void c_start_menu_game_editor::update(uns32)
+void c_start_menu_game_editor::submenu_invoked(c_gui_list_widget* submenu_widget)
+{
+	//INVOKE_CLASS_MEMBER(0x00AEB2D0, c_start_menu_game_editor, submenu_invoked, submenu_widget);
+
+	ASSERT(VALID_INDEX(get_single_responding_controller(), k_number_of_controllers));
+
+	c_gui_screen_widget::submenu_invoked(submenu_widget);
+
+	int32 value_to_set = NONE;
+
+	switch (submenu_widget->m_name)
+	{
+	case STRING_ID(global, change_teams):
+		value_to_set = user_interface_controller_get_team_index(c_gui_widget::get_single_responding_controller());
+		break;
+	}
+
+	if (value_to_set != NONE)
+	{
+		submenu_widget->set_focused_datasource_element_from_value(STRING_ID(global, value), value_to_set, false);
+	}
+}
+
+void c_start_menu_game_editor::update(uns32 current_milliseconds)
+{
+	//INVOKE_CLASS_MEMBER(0x00AEB320, c_start_menu_game_editor, update, current_milliseconds);
+
+	c_gui_ordered_data* datasource = (c_gui_ordered_data*)c_gui_screen_widget::get_data(STRING_ID(gui, teams), NULL);
+	if (datasource)
+	{
+		const c_game_variant* variant = user_interface_game_settings_get_game_variant();
+
+		e_map_id map_id = _map_id_none;
+		e_campaign_id campaign_id = _campaign_id_none;
+		if (user_interface_session_get_map(&campaign_id, &map_id) && variant)
+		{
+			ASSERT(campaign_id == _campaign_id_none);
+			ASSERT(map_id != _map_id_none);
+
+			datasource->clear_disabled_elements();
+
+			uns16 teams_allowed = game_engine_get_available_teams();
+			for (int32 element_handle = datasource->get_first_element_handle(); element_handle != NONE; element_handle = datasource->get_next_element_handle(element_handle))
+			{
+				e_game_team team_index;
+				if (datasource->get_integer_value(element_handle, STRING_ID(global, value), (int32*)&team_index) && !TEST_BIT(teams_allowed, team_index))
+				{
+					int32 value = NONE;
+					if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &value))
+					{
+						datasource->set_disabled_element(STRING_ID(global, name), value);
+					}
+				}
+			}
+		}
+	}
+
+	switch (m_asynchronous_operation)
+	{
+	case _operation_none:
+	{
+		c_gui_screen_widget* in_progress_screen = (c_gui_screen_widget*)c_gui_widget::get_child_widget(_gui_screen, STRING_ID(gui, in_progress));
+		if (in_progress_screen && !in_progress_screen->transitioning_out())
+		{
+			uns32 milliseconds_elapsed = user_interface_milliseconds() - m_progress_dialog_start_time_milliseconds;
+			if (milliseconds_elapsed >= 3000)
+			{
+				in_progress_screen->transition_out(_transition_out_normal);
+			}
+		}
+	}
+	break;
+	case _operation_save:
+	{
+		c_start_menu_game_editor::update_save_operation();
+	}
+	break;
+	case _operation_save_as_new:
+	{
+		c_start_menu_game_editor::update_save_as_new_operation();
+	}
+	break;
+	default:
+	{
+		UNREACHABLE();
+	}
+	break;
+	}
+
+	c_start_menu_pane_screen_widget::update(current_milliseconds);
+}
 
 void c_start_menu_game_editor::update_save_as_new_operation()
 {

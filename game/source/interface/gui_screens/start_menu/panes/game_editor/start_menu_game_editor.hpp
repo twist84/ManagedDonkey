@@ -41,6 +41,19 @@ public:
 		_invalid_result = NONE,
 	};
 
+public:
+	virtual ~c_start_menu_game_editor() = default;
+	virtual void initialize() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual void initialize_datasource();
+	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
+	virtual bool handle_dialog_result(const c_dialog_result_message* message) override;
+	virtual void submenu_invoked(c_gui_list_widget* submenu_widget) override;
+	virtual bool allow_pane_tab_change() override;
+
+public:
+	c_start_menu_game_editor(int32 name);
+
 protected:
 	void load_progress_ui(e_controller_index controller_index);
 
