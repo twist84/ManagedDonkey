@@ -187,8 +187,7 @@ bool __cdecl network_session_interface_get_local_user_properties(int32 user_inde
 	//return success;
 }
 
-//e_network_interface_user_state __cdecl network_session_interface_get_local_user_state(int32 user_index)
-int32 __cdecl network_session_interface_get_local_user_state(int32 user_index)
+e_network_interface_user_state __cdecl network_session_interface_get_local_user_state(int32 user_index)
 {
 	return INVOKE(0x00436580, network_session_interface_get_local_user_state, user_index);
 }
@@ -198,7 +197,36 @@ uns64 __cdecl network_session_interface_get_local_user_xuid(int32 user_index)
 	return INVOKE(0x004365A0, network_session_interface_get_local_user_xuid, user_index);
 }
 
-//.text:004365C0 ; int32 __cdecl network_session_interface_get_team_index(int32)
+int32 __cdecl network_session_interface_get_team_index(int32 user_index)
+{
+	//return INVOKE(0x004365C0, network_session_interface_get_team_index, user_index);
+
+	int32 team_index = NONE;
+#if 0
+	ASSERT(VALID_INDEX(user_index, k_number_of_users));
+	ASSERT(network_session_interface_local_user_exists(user_index));
+
+	const s_network_session_interface_user* user = &session_interface_globals.users[user_index];
+
+	team_index = user->desired_team_index;
+	if (team_index == NONE)
+	{
+		c_network_session* session = NULL;
+		if (network_life_cycle_in_squad_session(&session) && session->established())
+		{
+			const c_network_session_membership* session_membership = session->get_session_membership();
+
+			int32 player_index = session_membership->get_local_peer()->user_player_indices[user_index];
+			if (player_index != NONE)
+			{
+				const s_player_configuration* player_data = &session_membership->get_player(player_index)->player_data;
+				team_index = player_data->host.team_index;
+			}
+		}
+	}
+#endif
+	return team_index;
+}
 
 void __cdecl network_session_interface_handle_message(e_session_network_message message)
 {

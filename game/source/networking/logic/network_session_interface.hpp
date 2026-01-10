@@ -183,8 +183,9 @@ extern bool __cdecl network_session_interface_get_is_zombie_local_user(int32 use
 extern bool __cdecl network_session_interface_get_live_connection_info(s_transport_qos_result* qos_result, e_online_nat_type* nat_type, int32* estimated_bandwidth_bps, int32* max_machine_count);
 extern bool __cdecl network_session_interface_get_local_user_identifier(int32 user_index, s_player_identifier* player_identifier, bool allow_users_in_erroneous_states);
 extern bool __cdecl network_session_interface_get_local_user_properties(int32 user_index, e_controller_index* controller_index, s_player_configuration* player_data, uns32* player_voice_settings);
-extern int32 __cdecl network_session_interface_get_local_user_state(int32 user_index);
+extern e_network_interface_user_state __cdecl network_session_interface_get_local_user_state(int32 user_index);
 extern uns64 __cdecl network_session_interface_get_local_user_xuid(int32 user_index);
+extern int32 __cdecl network_session_interface_get_team_index(int32 user_index);
 extern void __cdecl network_session_interface_handle_message(e_session_network_message message);
 extern bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager);
 extern bool __cdecl network_session_interface_local_user_exists(int32 user_index);
