@@ -47,13 +47,19 @@ static_assert(sizeof(s_network_session_peer_properties) == 0xC0);
 struct s_network_session_peer
 {
 	s_transport_secure_address secure_address;
-	c_enum<e_network_session_peer_state, int32, _network_session_peer_state_none, k_network_session_peer_state_count> connection_state;
-	int32 version;
-	uns32 join_start_time;
+	e_network_session_peer_state peer_connection_state;
+	int32 network_version_number;
+	uns32 creation_timestamp;
 	int32 __unknown1C;
 	s_network_session_peer_properties properties;
 	uns64 party_nonce;
 	uns64 join_nonce;
+
+	// Halo 3
+	//int32 player_count;
+	//int32 user_player_indices[4];
+
+	// Halo Online
 	uns32 player_mask[1];
 };
 static_assert(sizeof(s_network_session_peer) == 0xF8);
@@ -140,6 +146,7 @@ public:
 	s_network_session_peer const* get_peer(int32 peer_index) const;
 	s_network_session_peer* get_peer(int32 peer_index);
 	e_network_session_peer_state get_peer_connection_state(int32 peer_index) const;
+	const s_network_session_player* get_player(int32 player_index) const;
 	s_network_session_player* get_player(int32 player_index);
 	int32 get_player_index_from_peer(int32 peer_index);
 	bool is_peer_valid(int32 peer_index) const;

@@ -104,7 +104,15 @@ e_network_session_peer_state c_network_session_membership::get_peer_connection_s
 //.text:0044E9E0 ; public: int32 c_network_session_membership::get_peer_from_unique_identifier(const s_transport_unique_identifier*) const
 //.text:0044EAE0 ; public: int32 c_network_session_membership::get_peer_index_of_player_in_queue(const s_player_identifier*) const
 //.text:0044EB10 ; public: uns32 c_network_session_membership::get_peer_valid_mask() const
-//.text:0044EB20 ; public: const s_network_session_player* c_network_session_membership::get_player(int32) const
+
+const s_network_session_player* c_network_session_membership::get_player(int32 player_index) const
+{
+	//return INVOKE_CLASS_MEMBER(0x0044EB20, c_network_session_membership, get_player, player_index);
+
+	ASSERT(is_player_valid(player_index));
+
+	return &m_shared_network_membership.players[player_index];
+}
 
 s_network_session_player* c_network_session_membership::get_player(int32 player_index)
 {
