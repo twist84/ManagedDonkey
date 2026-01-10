@@ -77,6 +77,7 @@ extern void __cdecl user_interface_controller_detached(e_controller_index contro
 extern void __cdecl user_interface_controller_dispose();
 extern s_user_interface_controller* __cdecl user_interface_controller_get(e_controller_index controller_index);
 extern bool __cdecl user_interface_controller_get_player_configuration(e_controller_index controller_index, s_player_identifier* player_identifier, s_player_configuration* player_data);
+extern int32 __cdecl user_interface_controller_get_team_index(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event);
 extern bool __cdecl user_interface_controller_is_player_profile_valid(e_controller_index controller_index);
 extern void __cdecl user_interface_controller_reset(e_controller_index controller_index);

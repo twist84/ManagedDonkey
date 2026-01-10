@@ -162,7 +162,12 @@ bool __cdecl user_interface_controller_get_player_configuration(e_controller_ind
 //.text:00A948F0 ; int16 __cdecl user_interface_controller_get_signed_in_live_account_count()
 //.text:00A94930 ; int16 __cdecl user_interface_controller_get_signed_in_master_live_account_count()
 //.text:00A94980 ; int16 __cdecl user_interface_controller_get_signed_in_non_guest_controller_count()
-//.text:00A94A00 ; int32 __cdecl user_interface_controller_get_desired_team_index(e_controller_index)
+
+int32 __cdecl user_interface_controller_get_team_index(e_controller_index controller_index)
+{
+	return INVOKE(0x00A94A00, user_interface_controller_get_team_index, controller_index);
+}
+
 //.text:00A94A30 ; int32 __cdecl user_interface_controller_get_user_index(e_controller_index)
 //.text:00A94A50 ; void __cdecl user_interface_controller_initialize()
 
