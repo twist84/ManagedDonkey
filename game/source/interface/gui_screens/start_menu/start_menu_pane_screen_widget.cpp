@@ -72,34 +72,32 @@ bool __cdecl gui_screen_widget_is_start_menu_pane_screen(c_gui_screen_widget* sc
 {
 	//return INVOKE(0x00B1F5D0, gui_screen_widget_is_start_menu_pane_screen, screen);
 
-	if (!screen)
+	bool start_menu_pane = false;
+	if (screen)
 	{
-		return false;
+		switch (screen->m_name)
+		{
+		case STRING_ID(gui, start_menu_hq):
+		case STRING_ID(gui, start_menu_hq_service_record):
+		case STRING_ID(gui, start_menu_hq_service_record_file_share):
+		case STRING_ID(gui, start_menu_hq_service_record_file_share_bungie):
+		case STRING_ID(gui, start_menu_hq_screenshots):
+		case STRING_ID(gui, start_menu_hq_transfers):
+		case STRING_ID(gui, start_menu_settings):
+		case STRING_ID(gui, start_menu_settings_controls):
+		case STRING_ID(gui, start_menu_settings_controls_button):
+		case STRING_ID(gui, start_menu_settings_controls_thumbstick):
+		case STRING_ID(gui, start_menu_settings_appearance):
+		case STRING_ID(gui, start_menu_settings_appearance_model):
+		case STRING_ID(gui, start_menu_settings_appearance_emblem):
+		case STRING_ID(gui, start_menu_settings_appearance_colors):
+		case STRING_ID(gui, start_menu_settings_camera):
+		case STRING_ID(gui, start_menu_settings_film_autosave):
+		case STRING_ID(gui, start_menu_settings_display):
+			start_menu_pane = true;
+		}
 	}
-
-	switch (screen->m_name)
-	{
-	case STRING_ID(gui, start_menu_hq):
-	case STRING_ID(gui, start_menu_hq_service_record):
-	case STRING_ID(gui, start_menu_hq_service_record_file_share):
-	case STRING_ID(gui, start_menu_hq_service_record_file_share_bungie):
-	case STRING_ID(gui, start_menu_hq_screenshots):
-	case STRING_ID(gui, start_menu_hq_transfers):
-	case STRING_ID(gui, start_menu_settings):
-	case STRING_ID(gui, start_menu_settings_controls):
-	case STRING_ID(gui, start_menu_settings_controls_button):
-	case STRING_ID(gui, start_menu_settings_controls_thumbstick):
-	case STRING_ID(gui, start_menu_settings_appearance):
-	case STRING_ID(gui, start_menu_settings_appearance_model):
-	case STRING_ID(gui, start_menu_settings_appearance_emblem):
-	case STRING_ID(gui, start_menu_settings_appearance_colors):
-	case STRING_ID(gui, start_menu_settings_camera):
-	case STRING_ID(gui, start_menu_settings_film_autosave):
-	case STRING_ID(gui, start_menu_settings_display):
-		return true;
-	}
-
-	return false;
+	return start_menu_pane;
 }
 
 bool c_start_menu_pane_screen_widget::handle_controller_input_message(const c_controller_input_message* message)
@@ -116,26 +114,25 @@ bool c_start_menu_pane_screen_widget::__funcs53()
 {
 	return INVOKE_CLASS_MEMBER(0x00B1F800, c_start_menu_pane_screen_widget, __funcs53);
 
+	//bool result = false;
+	//
 	//c_window_manager* window_manager = window_manager_get();
 	//e_window_index render_window = c_gui_screen_widget::get_render_window();
 	//for (c_gui_screen_widget* screen_above = window_manager->get_screen_above(render_window, this);
 	//	screen_above;
 	//	screen_above = window_manager->get_screen_above(render_window, screen_above))
 	//{
-	//	if (TEST_BIT(screen_above->m_definition.flags, 4) || screen_above->transitioning_out())
+	//	if (!TEST_BIT(screen_above->m_definition.flags, 4) && !screen_above->transitioning_out())
 	//	{
-	//		continue;
+	//		if (!gui_screen_widget_is_start_menu_pane_screen(screen_above))
+	//		{
+	//			result = true;
+	//			break;
+	//		}
 	//	}
-	//
-	//	if (gui_screen_widget_is_start_menu_pane_screen(screen_above))
-	//	{
-	//		continue;
-	//	}
-	//
-	//	return true;
 	//}
 	//
-	//return false;
+	//return result;
 }
 
 //.text:00B1F8B0 ; public: void c_start_menu_pane_screen_widget::replace_current_subpane(int32)
