@@ -195,43 +195,32 @@ void c_start_menu_game_multiplayer::update(uns32 current_milliseconds)
 
 	c_start_menu_pane_screen_widget::update(current_milliseconds);
 
-	if (c_gui_data* teams_data = c_gui_screen_widget::get_data(STRING_ID(gui, teams), NULL))
+	if (c_gui_ordered_data* datasource = (c_gui_ordered_data*)c_gui_screen_widget::get_data(STRING_ID(gui, teams), NULL))
 	{
-		e_campaign_id campaign_id = _campaign_id_none;
+		const c_game_variant* variant = user_interface_game_settings_get_game_variant();
+
 		e_map_id map_id = _map_id_none;
-		if (user_interface_session_get_map(&campaign_id, &map_id))
+		e_campaign_id campaign_id = _campaign_id_none;
+		if (user_interface_session_get_map(&campaign_id, &map_id) && variant)
 		{
-			const c_game_variant* game_variant = user_interface_game_settings_get_game_variant();
-			if (game_variant)
+			ASSERT(campaign_id == _campaign_id_none);
+			ASSERT(map_id != _map_id_none);
+
+			datasource->clear_disabled_elements();
+
+			uns16 available_teams = game_engine_get_available_teams();
+			for (int32 element_handle = datasource->get_first_element_handle();
+				element_handle != NONE;
+				element_handle = datasource->get_next_element_handle(element_handle))
 			{
-				ASSERT(campaign_id == _campaign_id_none);
-				ASSERT(map_id != _map_id_none);
-
-				teams_data->clear_disabled_elements();
-				uns16 available_teams = game_engine_get_available_teams();
-
-				for (int32 element_handle = teams_data->get_first_element_handle();
-					element_handle != NONE;
-					element_handle = teams_data->get_next_element_handle(element_handle))
+				e_game_team team_index;
+				if (datasource->get_integer_value(element_handle, STRING_ID(global, value), (int32*)&team_index) && !TEST_BIT(available_teams, team_index))
 				{
-					int32 team_index;
-					if (!teams_data->get_integer_value(element_handle, STRING_ID(global, value), &team_index))
-					{
-						continue;
-					}
-;
-					if (!TEST_BIT(available_teams, team_index))
-					{
-						continue;
-					}
-
 					int32 value = NONE;
-					if (!teams_data->get_string_id_value(element_handle, STRING_ID(global, name), &value))
+					if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &value))
 					{
-						continue;
+						datasource->set_disabled_element(STRING_ID(global, name), value);
 					}
-
-					teams_data->set_disabled_element(STRING_ID(global, name), value);
 				}
 			}
 		}
