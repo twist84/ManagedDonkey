@@ -165,7 +165,18 @@ bool __cdecl user_interface_controller_get_player_configuration(e_controller_ind
 
 int32 __cdecl user_interface_controller_get_team_index(e_controller_index controller_index)
 {
-	return INVOKE(0x00A94A00, user_interface_controller_get_team_index, controller_index);
+	//return INVOKE(0x00A94A00, user_interface_controller_get_team_index, controller_index);
+
+	int32 team_index = NONE;
+
+	c_controller_interface* controller_interface = controller_get(controller_index);
+	int32 user_index = controller_interface->get_user_index();
+	if (user_index != NONE)
+	{
+		team_index = network_session_interface_get_team_index(user_index);
+	}
+
+	return team_index;
 }
 
 //.text:00A94A30 ; int32 __cdecl user_interface_controller_get_user_index(e_controller_index)
