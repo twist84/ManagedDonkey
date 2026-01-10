@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
+#include "game/game_engine_team.hpp"
 #include "game/game_engine_util.hpp"
 #include "game/game_grief.hpp"
 #include "game/game_time.hpp"
@@ -650,7 +651,59 @@ void __cdecl game_engine_update_round_conditions()
 //.text:005541E0 ; 
 //.text:005541F0 ; public: e_infinite_ammo_setting __cdecl c_player_trait_weapons::get_infinite_ammo_setting() const
 //.text:00554200 ; 
-//.text:00554210 ; void __cdecl get_living_or_connecting_team_count(int32*, int32*, int32*)
+
+void __cdecl get_living_or_connecting_team_count(int32* living_or_connecting_player_index, int32* input_living_team_count, int32* input_playing_team_count)
+{
+	//INVOKE(0x00554210, get_living_or_connecting_team_count, living_or_connecting_player_index, input_living_team_count, input_playing_team_count);
+
+	const c_game_variant* variant = current_game_variant();
+
+	int32 playing_team_mask = 0;
+	int32 playing_team_count = 0;
+
+	int32 living_team_count = 0;
+	int32 living_team_mask = 0;
+
+	c_data_iterator<player_datum> player_iterator;
+	player_iterator.begin(player_data);
+	while (player_iterator.next())
+	{
+		const player_datum* player = player_iterator.get_datum();
+		int32 player_team_index = player->configuration.host.team_index;
+		if (!TEST_BIT(player->flags, _player_left_game_bit) && (VALID_INDEX(player_team_index, k_maximum_teams)
+			|| player_team_index == k_observer_team && game_engine_variant_is_observer_allowed(variant)))
+		{
+			if (!TEST_BIT(playing_team_mask, player_team_index))
+			{
+				SET_BIT(playing_team_mask, player_team_index, true);
+				playing_team_count++;
+			}
+
+			if (game_engine_player_is_playing(player_iterator.get_index()) ||
+				!TEST_BIT(player->flags, _player_left_game_bit) && !TEST_BIT(player->flags, _player_active_in_game_bit))
+			{
+				*living_or_connecting_player_index = player_iterator.get_index();
+
+				if (!TEST_BIT(living_team_mask, player_team_index))
+				{
+					SET_BIT(living_team_mask, player_team_index, true);
+					living_team_count++;
+				}
+			}
+		}
+	}
+
+	if (input_playing_team_count)
+	{
+		*input_playing_team_count = playing_team_count;
+	}
+
+	if (input_living_team_count)
+	{
+		*input_living_team_count = living_team_count;
+	}
+}
+
 //.text:00554330 ; 
 //.text:00554340 ; 
 //.text:00554350 ; 
