@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x005568E0, game_engine_has_player_switching_enabled);
+HOOK_DECLARE(0x00556ED0, game_engine_variant_is_observer_allowed);
 
 //.text:00556200 ; void __cdecl game_engine_build_initial_teams(void)
 //.text:00556360 ; void __cdecl game_engine_build_teams(void)
@@ -69,5 +70,25 @@ int32 __cdecl game_engine_variant_get_maximum_team_count(const c_game_variant* v
 }
 
 //.text:00556EB0 ; bool __cdecl game_engine_variant_has_teams(const c_game_variant*)
-//.text:00556ED0 ; bool __cdecl game_engine_variant_is_observer_allowed(const c_game_variant*)
+
+bool __cdecl game_engine_variant_is_observer_allowed(const c_game_variant* variant)
+{
+	//INVOKE(0x00556ED0, game_engine_variant_is_observer_allowed, variant);
+
+#if 0
+	// Testing
+	return true;
+#else
+
+#if 1
+	// Halo Online
+	return false;
+#else
+	// Halo 3
+	ASSERT(variant != NULL);
+	return variant->get_active_variant()->get_social_options()->get_observers_enabled();
+#endif
+
+#endif
+}
 

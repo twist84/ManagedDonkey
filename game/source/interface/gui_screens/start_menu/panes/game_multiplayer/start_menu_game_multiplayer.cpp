@@ -214,7 +214,8 @@ void c_start_menu_game_multiplayer::update(uns32 current_milliseconds)
 				element_handle = datasource->get_next_element_handle(element_handle))
 			{
 				e_game_team team_index;
-				if (datasource->get_integer_value(element_handle, STRING_ID(global, value), (int32*)&team_index) && !TEST_BIT(available_teams, team_index))
+				if (datasource->get_integer_value(element_handle, STRING_ID(global, value), (int32*)&team_index) && (!TEST_BIT(available_teams, team_index) ||
+					team_index == k_observer_team && !game_engine_variant_is_observer_allowed(variant)))
 				{
 					int32 value = NONE;
 					if (datasource->get_string_id_value(element_handle, STRING_ID(global, name), &value))
