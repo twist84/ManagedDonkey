@@ -671,7 +671,7 @@ void __cdecl get_living_or_connecting_team_count(int32* living_or_connecting_pla
 		const player_datum* player = player_iterator.get_datum();
 		int32 player_team_index = player->configuration.host.team_index;
 		if (!TEST_BIT(player->flags, _player_left_game_bit) && (VALID_INDEX(player_team_index, k_maximum_teams)
-			|| player_team_index == k_observer_team && game_engine_variant_is_observer_allowed(variant)))
+			|| player_team_index == _game_team_observer && game_engine_variant_is_observer_allowed(variant)))
 		{
 			if (!TEST_BIT(playing_team_mask, player_team_index))
 			{

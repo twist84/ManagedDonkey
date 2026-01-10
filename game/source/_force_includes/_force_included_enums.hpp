@@ -2649,8 +2649,9 @@ enum e_game_team
 	_multiplayer_team_last = _multiplayer_team_grey,
 	_multiplayer_team_none = NONE,
 
+	_game_team_observer = 16,
+
 	k_maximum_teams = 16,
-	k_observer_team = 16,
 };
 
 enum e_voice_output_setting
