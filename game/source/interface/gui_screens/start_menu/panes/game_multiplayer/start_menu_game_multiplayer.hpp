@@ -6,6 +6,9 @@ class c_start_menu_game_multiplayer :
 	public c_start_menu_pane_screen_widget
 {
 public:
+	void __thiscall submenu_invoked_(c_gui_list_widget* submenu_widget);
+
+public:
 	virtual ~c_start_menu_game_multiplayer() = default;
 	virtual void initialize() override;
 	virtual c_gui_bitmap_widget* create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition) override;

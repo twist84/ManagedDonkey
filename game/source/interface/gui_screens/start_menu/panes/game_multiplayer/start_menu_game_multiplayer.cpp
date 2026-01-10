@@ -5,10 +5,19 @@
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
+#include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
+#include "memory/module.hpp"
+
+HOOK_DECLARE_CLASS_MEMBER(0x00AE9C10, c_start_menu_game_multiplayer, submenu_invoked_);
+
+void __thiscall c_start_menu_game_multiplayer::submenu_invoked_(c_gui_list_widget* submenu_widget)
+{
+	c_start_menu_game_multiplayer::submenu_invoked(submenu_widget);
+}
 
 c_start_menu_game_multiplayer::c_start_menu_game_multiplayer(int32 name) :
 	c_start_menu_pane_screen_widget(name),
@@ -88,45 +97,43 @@ void c_start_menu_game_multiplayer::initialize_datasource()
 	c_gui_screen_widget::initialize_datasource();
 
 	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
-	if (!sidebar_items_data)
+	if (sidebar_items_data)
 	{
-		return;
-	}
+		sidebar_items_data->clear_disabled_elements();
 
-	sidebar_items_data->clear_disabled_elements();
+		if (!is_change_teams_allowed(c_gui_widget::get_single_responding_controller()))
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, change_teams));
+		}
 
-	if (!is_change_teams_allowed(c_gui_widget::get_single_responding_controller()))
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, change_teams));
-	}
+		if (!user_interface_squad_local_peer_is_leader() || user_interface_squad_in_matchmaking())
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, select_network_mode));
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, end_game));
+		}
 
-	if (!user_interface_squad_local_peer_is_leader() || user_interface_squad_in_matchmaking())
-	{
+		if (user_interface_squad_get_player_count() <= user_interface_squad_get_local_player_count())
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
+		}
+
 		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, select_network_mode));
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, end_game));
-	}
 
-	if (user_interface_squad_get_player_count() <= user_interface_squad_get_local_player_count())
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
-	}
+		if (!user_interface_squad_local_peer_is_leader())
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+		}
 
-	sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, select_network_mode));
+		if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || user_interface_squad_get_ui_game_mode() == _ui_game_mode_matchmaking)
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+		}
 
-	if (!user_interface_squad_local_peer_is_leader())
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
-	}
-
-	if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || user_interface_squad_get_ui_game_mode() == _ui_game_mode_matchmaking)
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
-	}
-
-	if (!should_display_editor_elements())
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, save_map));
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, save_map_as));
+		if (!should_display_editor_elements())
+		{
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, save_map));
+			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui, save_map_as));
+		}
 	}
 }
 
@@ -161,17 +168,25 @@ bool __cdecl should_display_editor_elements()
 
 void c_start_menu_game_multiplayer::submenu_invoked(c_gui_list_widget* submenu_widget)
 {
-	INVOKE_CLASS_MEMBER(0x00AE9C10, c_start_menu_game_multiplayer, submenu_invoked, submenu_widget);
+	//INVOKE_CLASS_MEMBER(0x00AE9C10, c_start_menu_game_multiplayer, submenu_invoked, submenu_widget);
 
-	//c_gui_screen_widget::submenu_invoked(submenu_widget);
-	//if (submenu_widget->m_name == STRING_ID(global, change_teams))
-	//{
-	//	int32 team_index = user_interface_controller_get_team_index(c_gui_widget::get_single_responding_controller());
-	//	if (team_index != NONE)
-	//	{
-	//		c_start_menu_pane_screen_widget::set_focused_datasource_element_from_value(submenu_widget, STRING_ID(global, value), team_index, false);
-	//	}
-	//}
+	ASSERT(VALID_INDEX(get_single_responding_controller(), k_number_of_controllers));
+
+	c_gui_screen_widget::submenu_invoked(submenu_widget);
+
+	int32 value_to_set = NONE;
+
+	switch (submenu_widget->m_name)
+	{
+	case STRING_ID(global, change_teams):
+		value_to_set = user_interface_controller_get_team_index(c_gui_widget::get_single_responding_controller());
+		break;
+	}
+
+	if (value_to_set != NONE)
+	{
+		submenu_widget->set_focused_datasource_element_from_value(STRING_ID(global, value), value_to_set, false);
+	}
 }
 
 void c_start_menu_game_multiplayer::update(uns32 current_milliseconds)
