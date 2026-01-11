@@ -225,14 +225,19 @@ void __cdecl object_cause_damage_simple(s_damage_data* damage_data, int32 object
 	INVOKE(0x00B542A0, object_cause_damage_simple, damage_data, object_index, predictability);
 }
 
+void __cdecl object_deplete_body(int32 object_index, const s_damage_owner* depleter, const s_damage_reporting_info& damage_reporting_info)
+{
+	INVOKE(0x00B56B20, object_deplete_body, object_index, depleter, damage_reporting_info);
+}
+
 const s_model_damage_info* __cdecl object_get_damage_info(int32 object_index)
 {
 	return INVOKE(0x00B578D0, object_get_damage_info, object_index);
 }
 
-void __cdecl object_deplete_body(int32 object_index, const s_damage_owner* depleter, const s_damage_reporting_info& damage_reporting_info)
+void __cdecl object_kill_instantly(int32 object_index, bool silent, bool no_statistics, bool bypass_cheats, const s_damage_owner* damage_owner, const s_damage_reporting_info& damage_reporting_info)
 {
-	INVOKE(0x00B56B20, object_deplete_body, object_index, depleter, damage_reporting_info);
+	INVOKE(0x00B57E60, object_kill_instantly, object_index, silent, no_statistics, bypass_cheats, damage_owner, damage_reporting_info);
 }
 
 void render_debug_object_damage()
