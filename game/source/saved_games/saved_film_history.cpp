@@ -288,8 +288,24 @@ void c_saved_film_history_record_manager::validate()
 	ASSERT(working_count == 0 || working_count == 1);
 }
 
-//c_async_stored_buffer_set<1>* saved_film_history_buffer_acquire()
-//c_async_stored_buffer_set<1>* saved_film_history_buffer_get_without_acquire()
+c_async_stored_buffer_set<1>* saved_film_history_buffer_acquire()
+{
+	c_async_stored_buffer_set<1>* history_buffer = NULL;
+#if 0
+	c_saved_film_scratch_memory::s_system_data* system_data;
+	{
+		event(_event_warning, "networking:saved_film:history: couldn't acquire history buffer");
+	}
+#endif
+	return history_buffer;
+}
+
+c_async_stored_buffer_set<1>* saved_film_history_buffer_get_without_acquire()
+{
+	c_async_stored_buffer_set<1>* history_buffer = saved_film_history_buffer_acquire();
+	saved_film_history_buffer_release();
+	return history_buffer;
+}
 
 void saved_film_history_buffer_release()
 {
@@ -371,13 +387,37 @@ void saved_film_history_initialize_internal()
 void saved_film_history_memory_dispose()
 {
 	// $IMPLEMENT
+
+#if 0
+	if (c_saved_film_scratch_memory::get()->valid())
+	{
+		c_saved_film_scratch_memory::get()->block_until_not_busy();
+		saved_film_history_buffer_get_without_acquire()->close_file();
+	}
+
+	if (saved_film_history_globals.history_buffer)
+	{
+		saved_film_history_globals.history_buffer->block_until_not_busy();
+		saved_film_history_buffer_release();
+		saved_film_history_globals.history_buffer = NULL;
+	}
+#endif
 }
 
 void saved_film_history_memory_initialize()
 {
 	// $IMPLEMENT
 
-	//event(...)
+#if 0
+	c_static_wchar_string<260> file;
+	file.set_char(k_saved_film_history_file_path);
+
+	if (!saved_film_history_buffer_get_without_acquire()->open_file(file.get_string(), _async_buffer_file_access_read_write, _async_buffer_disposition_create_always))
+	{
+		VASSERT(false, "failed to allocate for saved film history");
+		event(_event_critical, "networking:saved_film:history: failed to allocate for saved film history");
+	}
+#endif
 }
 
 void saved_film_history_notify_initial_gamestate_loaded()
@@ -409,10 +449,16 @@ bool saved_film_history_ready_for_revert_or_reset()
 {
 	// $IMPLEMENT
 
-	//bool ready;
-	//c_saved_film_scratch_memory::s_system_data* system_data;
-
-	return false;
+	bool ready = false;
+#if 0
+	c_saved_film_scratch_memory::s_system_data* system_data = c_saved_film_scratch_memory::get()->try_and_acquire(c_saved_film_scratch_memory::_system_film_history);
+	if (system_data)
+	{
+		saved_film_history_buffer_release();
+		ready = true;
+	}
+#endif
+	return ready;
 }
 
 void saved_film_history_render_debug()
@@ -484,17 +530,20 @@ bool saved_film_history_revert_by_film_tick(int32 revert_seek_tick)
 	ASSERT(game_is_playback());
 	ASSERT(game_in_progress());
 
+	bool success = false;
 	int32 target_record_index = saved_film_history_get_target_record_index_by_tick(revert_seek_tick);
 	if (target_record_index == NONE)
 	{
 		event(_event_warning, "saved_film:history: failed to get record index for seek index %d",
 			revert_seek_tick);
-		return false;
 	}
-
-	event(_event_message, "networking:saved_film:history: reverting by film tick [%d]",
-		revert_seek_tick);
-	return saved_film_history_revert_internal(target_record_index);
+	else
+	{
+		event(_event_message, "networking:saved_film:history: reverting by film tick [%d]",
+			revert_seek_tick);
+		success = saved_film_history_revert_internal(target_record_index);
+	}
+	return success;
 }
 
 bool saved_film_history_revert_by_index(int32 revert_index)
@@ -609,7 +658,6 @@ bool saved_film_history_time_for_chapter_archive(int32 film_tick)
 
 void saved_film_history_update()
 {
-	// $IMPLEMENT
 	if (saved_film_history_globals.history_buffer && !saved_film_history_globals.history_buffer->is_async_io_in_progress())
 	{
 		event(_event_message, "networking:saved_film:history: releasing the history buffer");
