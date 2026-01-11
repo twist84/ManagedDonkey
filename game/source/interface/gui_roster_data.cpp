@@ -276,7 +276,7 @@ bool c_gui_roster_data::get_text_value(int32 element_handle, int32 value_name, c
 	{
 		if (player_row->player_row_type == _player_row_type_player)
 		{
-			value->set(player_row->player_configuration.host.name.get_string());
+			value->set(player_row->player_configuration.host.name);
 		}
 		return true;
 	}

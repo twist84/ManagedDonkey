@@ -239,7 +239,7 @@ void __cdecl test_main_loop_body_begin()
 				c_console::write_line(L"    0x%08X, #%hi, %s",
 					index,
 					absolute_index,
-					player->configuration.host.name.get_string());
+					player->configuration.host.name);
 			}
 		}
 

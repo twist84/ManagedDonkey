@@ -355,26 +355,26 @@ void __cdecl game_create_players()
 
 				const wchar_t* name = online_local_user_get_name(controller_index);
 
-				if (player->configuration.host.name.is_empty())
+				if (player->configuration.host.name[0] != 0)
 				{
-					player->configuration.host.name = name;
+					ustrnzcpy(player->configuration.host.name, name, NUMBEROF(player->configuration.host.name));
 				}
 
-				if (player->configuration.client.desired_name.is_empty())
+				if (player->configuration.client.desired_name[0] != 0)
 				{
-					player->configuration.client.desired_name = name;
+					ustrnzcpy(player->configuration.client.desired_name, name, NUMBEROF(player->configuration.client.desired_name));
 				}
 			}
 			else
 			{
-				if (player->configuration.host.name.is_empty())
+				if (player->configuration.host.name[0] != 0)
 				{
-					player->configuration.host.name.print(L"player_%d", absolute_index);
+					usnzprintf(player->configuration.host.name, NUMBEROF(player->configuration.host.name), L"player_%d", absolute_index);
 				}
 
-				if (player->configuration.client.desired_name.is_empty())
+				if (player->configuration.client.desired_name[0] != 0)
 				{
-					player->configuration.client.desired_name.print(L"player_%d", absolute_index);
+					usnzprintf(player->configuration.client.desired_name, NUMBEROF(player->configuration.client.desired_name), L"player_%d", absolute_index);
 				}
 			}
 		}

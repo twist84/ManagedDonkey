@@ -24,7 +24,7 @@ bool __cdecl parse_target_player_name(void* this_ptr, wchar_t* buffer, int32 buf
 	c_gui_player_select_screen_widget* this_ = static_cast<c_gui_player_select_screen_widget*>(this_ptr);
 	if (this_ && this_->m_target_player_configuration_valid && this_ptr != (void*)-0x1AB0)
 	{
-		c_static_wchar_string<256> string = this_->m_target_player_configuration.host.name.get_string();
+		c_static_wchar_string<256> string = this_->m_target_player_configuration.host.name;
 		string.copy_to(buffer, MAX(buffer_length, 256));
 
 		return true;

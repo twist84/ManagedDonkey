@@ -129,7 +129,7 @@ struct s_player_configuration_from_client
 {
 	s_player_configuration_from_client();
 
-	c_static_wchar_string<16> desired_name;
+	wchar_t desired_name[16];//c_static_wchar_string<16> desired_name;
 	uns8 user_selected_team_index;
 	uns8 vote_selection_index;
 	uns8 armor_loadout_index;
@@ -145,7 +145,7 @@ struct s_player_configuration_from_host
 	s_player_configuration_from_host();
 
 	s_player_identifier player_identifier;
-	c_static_wchar_string<16> name;
+	wchar_t name[16];//c_static_wchar_string<16> name;
 	e_game_team team_index;
 	e_game_team assigned_team_index;
 	s_player_appearance appearance;
@@ -382,15 +382,19 @@ struct player_datum :
 		bool early_respawn_requested;
 		bool respawn_in_progress;
 		bool respawn_forced; // if true respawn instantaneously
+
 		uns8 __unknown2CB7;
+
 		int32 respawn_timer;
 		int32 respawn_timer_countdown;
 		int32 respawn_penalty;
 		int32 telefrag_timer;
 		int32 dead_timer;
+
 		int32 __unknown2CCC;
 		int32 __unknown2CD0;
 		int32 __unknown2CD4;
+
 		int32 grenade_recharge_timer;
 	};
 

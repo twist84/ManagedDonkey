@@ -151,7 +151,7 @@ void http_route_api_players(s_http_client* client, const s_http_request* request
 						json.add_integer("index", player_index);
 
 						c_static_string<32> player_name;
-						wchar_string_to_ascii_string(player->configuration.host.name.get_string(), player_name.get_buffer(), player_name.element_count, NULL);
+						wchar_string_to_ascii_string(player->configuration.host.name, player_name.get_buffer(), player_name.element_count, NULL);
 						json.add_string("name", player_name.get_string());
 
 						json.add_integer("score", game_engine_get_player_score(player_index));
