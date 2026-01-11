@@ -129,7 +129,7 @@ struct s_player_configuration_from_client
 {
 	s_player_configuration_from_client();
 
-	wchar_t desired_name[16];//c_static_wchar_string<16> desired_name;
+	wchar_t desired_name[16];
 	uns8 user_selected_team_index;
 	uns8 vote_selection_index;
 	uns8 armor_loadout_index;
@@ -145,7 +145,7 @@ struct s_player_configuration_from_host
 	s_player_configuration_from_host();
 
 	s_player_identifier player_identifier;
-	wchar_t name[16];//c_static_wchar_string<16> name;
+	wchar_t name[16];
 	e_game_team team_index;
 	e_game_team assigned_team_index;
 	s_player_appearance appearance;
