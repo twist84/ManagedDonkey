@@ -960,6 +960,8 @@ void __cdecl global_preferences_set_controls_method(int32 controls_method)
 		c_global_preferences_scope_lock scope_lock;
 		global_preferences_get()->current.data.controls_settings.controls_method = controls_method;
 		global_preferences_dirty(true);
+
+		input_abstraction_globals.controls_method = controls_method;
 	}
 }
 
