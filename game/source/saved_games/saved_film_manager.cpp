@@ -1513,12 +1513,12 @@ bool saved_film_manager_set_playback_game_speed(real32 game_speed)
 	bool success = false;
 	if (saved_film_manager_can_set_playback_control())
 	{
-		event(_event_warning, "networking:saved_film:manager: can't set playback control, can't set game speed");
+		saved_film_manager_globals.playback_game_speed = MAX(0.0f, MIN(30.0f, game_speed));
+		success = true;
 	}
 	else
 	{
-		saved_film_manager_globals.playback_game_speed = MAX(0.0f, MIN(30.0f, game_speed));
-		success = true;
+		event(_event_warning, "networking:saved_film:manager: can't set playback control, can't set game speed");
 	}
 	return success;
 }
