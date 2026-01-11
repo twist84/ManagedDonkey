@@ -294,25 +294,32 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	if (uMsg == WM_SIZE)
 	{
-		int width = LOWORD(lParam);
-		int height = HIWORD(lParam);
-		global_preferences_set_screen_resolution(width, height);
-		rasterizer_reset_device();
+		if (wParam != SIZE_MINIMIZED && wParam != SIZE_MAXIMIZED)
+		{
+			// $TODO
+
+			//int width = LOWORD(lParam);
+			//int height = HIWORD(lParam);
+			//
+			//global_preferences_set_screen_resolution(width, height);
+			//rasterizer_reset_device();
+		}
+
 		return 0;
 	}
 
 	if (uMsg == WM_ACTIVATEAPP)
 	{
-		if (!input_get_mouse_state(_input_type_ui))
-			return 0;
-
-		int v4 = strcmp(shell_get_target(), "blam");
-		if (v4)
-			v4 = v4 < 0 ? -1 : 1;
-		if (v4)
+		if (input_get_mouse_state(_input_type_ui))
 		{
-			shell_application_pause(wParam == 0);
-			return 0;
+			int v4 = strcmp(shell_get_target(), "blam");
+			if (v4)
+				v4 = v4 < 0 ? -1 : 1;
+			if (v4)
+			{
+				shell_application_pause(wParam == 0);
+				return 0;
+			}
 		}
 	}
 
@@ -320,7 +327,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		WndProc_HandleRawMouse(WM_INPUT, wParam, lParam);
 		if (!GET_RAWINPUT_CODE_WPARAM(wParam))
+		{
 			return DefWindowProcA(hWnd, WM_INPUT, wParam, lParam);
+		}
 
 		return 0;
 	}
