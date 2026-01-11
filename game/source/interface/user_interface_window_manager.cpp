@@ -40,7 +40,7 @@
 #include "memory/module.hpp"
 #include "text/font_cache.hpp"
 
-//#define USER_INTERFACE_WINDOW_MANAGER_WIP
+#define USER_INTERFACE_WINDOW_MANAGER_WIP
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 #if defined(USER_INTERFACE_WINDOW_MANAGER_WIP)
