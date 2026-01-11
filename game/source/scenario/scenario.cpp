@@ -245,7 +245,7 @@ bool __cdecl scenario_connect_game_to_new_bsps(uns32 game_structure_bsp_mask, un
 	//if (!new_structure_bsp_mask || game_structure_bsp_mask == new_structure_bsp_mask)
 	//	return false;
 	//
-	//LOCAL_TAG_RESOURCE_SCOPE_LOCK();
+	//TAG_RESOURCES_GAME_LOCK();
 	//game_initialize_for_new_structure_bsp(new_structure_bsp_mask & ~game_structure_bsp_mask);
 	//
 	//return true;
@@ -314,7 +314,7 @@ bool __cdecl scenario_disconnect_game_from_old_bsps(uns32 old_structure_bsp_mask
 	//bool result = false;
 	//if (old_structure_bsp_mask != new_structure_bsp_mask)
 	//{
-	//	LOCAL_TAG_RESOURCE_SCOPE_LOCK();
+	//	TAG_RESOURCES_GAME_LOCK();
 	//
 	//	game_prepare_to_switch_structure_bsp(old_structure_bsp_mask, new_structure_bsp_mask);
 	//	if (old_structure_bsp_mask)

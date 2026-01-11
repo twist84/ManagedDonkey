@@ -170,7 +170,7 @@ uns32 __cdecl _internal_halt_render_thread_and_lock_resources(const char* file, 
 	//				if (restricted_region_lock_mirror(k_game_state_shared_region))
 	//				{
 	//					{
-	//						LOCAL_TAG_RESOURCE_SCOPE_LOCK();
+	//						TAG_RESOURCES_GAME_LOCK();
 	//						process_published_game_state(false);
 	//					}
 	//
@@ -1048,7 +1048,7 @@ void __cdecl main_loop_body()
 
 					PROFILER(update_console_terminal_and_debug_menu) // main_loop, con
 					{
-						LOCAL_TAG_RESOURCE_SCOPE_LOCK();
+						TAG_RESOURCES_GAME_LOCK();
 
 						if (main_globals.drop_cheat_tag)
 						{
@@ -1084,7 +1084,7 @@ void __cdecl main_loop_body()
 					}
 
 					{
-						LOCAL_TAG_RESOURCE_SCOPE_LOCK();
+						TAG_RESOURCES_GAME_LOCK();
 
 						world_seconds_elapsed = 0.0f;
 						if (!main_time_halted())

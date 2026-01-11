@@ -5,7 +5,7 @@
 
 bool write_bink_tag_resource_to_disk(int32 tag_index, const char* filename)
 {
-	LOCAL_TAG_RESOURCE_SCOPE_LOCK();
+	TAG_RESOURCES_GAME_LOCK();
 
 	s_bink_definition* bink_definition = TAG_GET(BINK_TAG, s_bink_definition, tag_index);
 	if (bink_definition == NULL)
