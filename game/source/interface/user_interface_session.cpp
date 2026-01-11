@@ -6,6 +6,8 @@
 #include "networking/online/online.hpp"
 #include "saved_games/saved_film_manager.hpp"
 
+HOOK_DECLARE(0x00A81F10, user_interface_session_is_verifying_strings);
+HOOK_DECLARE(0x00A821D0, user_interface_session_string_verify_update);
 HOOK_DECLARE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
 HOOK_DECLARE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
@@ -148,7 +150,9 @@ bool __cdecl user_interface_squad_is_player_valid(int32 player_index)
 
 bool __cdecl user_interface_session_is_verifying_strings()
 {
-	return INVOKE(0x00A81F10, user_interface_session_is_verifying_strings);
+	//return INVOKE(0x00A81F10, user_interface_session_is_verifying_strings);
+
+	return false;
 }
 
 //.text:00A81F80 ; void __cdecl user_interface_session_memory_dispose()
@@ -168,7 +172,12 @@ uns64 __cdecl user_interface_session_player_get_player_xuid(const s_player_ident
 //.text:00A820E0 ; uns64 __cdecl user_interface_session_player_get_usable_player_xuid(const s_player_identifier*)
 //.text:00A82140 ; bool __cdecl user_interface_session_player_in_current_session(const s_player_identifier*)
 //.text:00A82150 ; bool __cdecl user_interface_session_set_name(const wchar_t*, const wchar_t*)
-//.text:00A821D0 ; void __cdecl user_interface_session_string_verify_update()
+
+void __cdecl user_interface_session_string_verify_update()
+{
+	//INVOKE(0x00A821D0, user_interface_session_string_verify_update);
+}
+
 //.text:00A827D0 ; void __cdecl user_interface_session_update()
 //.text:00A827E0 ; bool __cdecl user_interface_squad_boot_player(int32)
 //.text:00A82860 ; bool __cdecl user_interface_squad_can_set_game_settings()
