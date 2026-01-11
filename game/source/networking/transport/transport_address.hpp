@@ -1,6 +1,6 @@
 #pragma once
 
-//#define USE_IPV6
+#define USE_IPV6
 
 enum
 {
