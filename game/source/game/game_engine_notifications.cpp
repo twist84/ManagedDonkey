@@ -92,7 +92,9 @@ void __cdecl game_engine_player_prepare_to_change_team(int32 player_index, e_gam
 {
 	//INVOKE(0x005A24C0, game_engine_player_prepare_to_change_team, player_index, team_index);
 
+	// when false the player switches teams without dying or changing unit
 	static bool x_should_kill_player_on_change_team = true;
+
 	if (x_should_kill_player_on_change_team && current_game_engine() && game_engine_has_teams() && !game_is_predicted())
 	{
 		player_datum* player = DATUM_GET(player_data, player_datum, player_index);

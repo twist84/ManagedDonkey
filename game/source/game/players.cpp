@@ -25,6 +25,7 @@ HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x005394A0, player_examine_nearby_item);
 HOOK_DECLARE(0x00539B20, player_find_action_context);
+HOOK_DECLARE(0x0053C630, player_set_configuration);
 HOOK_DECLARE(0x0053C8A0, player_set_facing);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
 //HOOK_DECLARE(0x0053FB80, player_teleport_internal_postprocess);
@@ -813,7 +814,48 @@ real_rgb_color __cdecl player_profile_get_rgb_color(int32 color_index)
 //.text:0053C020 ; void __cdecl player_rejoined_game(int32, const game_player_options*, bool)
 //.text:0053C070 ; void __cdecl player_reset(int32, bool, bool, const game_player_options*)
 //.text:0053C570 ; 
-//.text:0053C630 ; void __cdecl player_set_configuration(int32,const s_player_configuration*)
+
+void __cdecl player_set_configuration(int32 player_index, const s_player_configuration* configuration_data)
+{
+	//INVOKE(0x0053C630, player_set_configuration, player_index, configuration_data);
+
+	ASSERT(configuration_data);
+
+	player_datum* player = DATUM_GET(player_data, player_datum, player_index);
+
+	s_player_configuration previous_desired_configuration = player->desired_configuration;
+	s_player_configuration previous_configuration = player->configuration;
+	player->desired_configuration = *configuration_data;
+	s_player_configuration clean_configuration_data = *configuration_data;
+
+	player_validate_configuration(player_index, &clean_configuration_data);
+	game_engine_player_prepare_to_change_team(player_index, clean_configuration_data.host.team_index);
+
+	player->configuration = clean_configuration_data;
+
+	event(_event_message, "networking:game:players: player 0x%08X set configuration (team previous desired/actual %d/%d new desired/actual %d/%d)",
+		player_index,
+		previous_desired_configuration.host.team_index,
+		previous_configuration.host.team_index,
+		player->desired_configuration.host.team_index,
+		player->configuration.host.team_index);
+
+	if (ustrncmp(previous_configuration.host.name, player->configuration.host.name, NUMBEROF(previous_configuration.host.name)) != 0)
+	{
+		game_engine_player_changed_names(player_index, previous_configuration.host.name, player->configuration.host.name);
+	}
+
+	if (previous_configuration.host.team_index != player->configuration.host.team_index)
+	{
+		game_engine_player_changed_teams(player_index, previous_configuration.host.team_index, player->configuration.host.team_index);
+	}
+
+	if (player->unit_index != NONE)
+	{
+		player_copy_object_appearance(player_index, player->unit_index);
+	}
+}
+
 //.text:0053C860 ; 
 
 void __cdecl player_set_facing(int32 player_index, const real_vector3d* facing)
@@ -1197,7 +1239,12 @@ void __cdecl player_use_multiplayer_powerup(int32 player_index, int32 equipment_
 }
 
 //.text:00540A70 ; 
-//.text:00540A80 ; void __cdecl player_validate_configuration(int32, s_player_configuration*)
+
+void __cdecl player_validate_configuration(int32 player_index, s_player_configuration* configuration_data)
+{
+	INVOKE(0x00540A80, player_validate_configuration, player_index, configuration_data);
+}
+
 //.text:00540AE0 ; bool __cdecl player_waiting_to_respawn_compare(int32, int32, const void*)
 //.text:00540B30 ; void __cdecl player_weapon_pickup_inhibit(bool)
 //.text:00540B50 ; int32 __cdecl players_active_zone_set_switch_trigger_get(void)
