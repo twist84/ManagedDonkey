@@ -73,17 +73,13 @@ void __cdecl c_transparency_renderer::render(bool depth_test)
 			c_lighting_interface::setup_default_lighting();
 		}
 
-		int32 starting_transparent_index = c_transparency_renderer::m_markers[c_transparency_renderer::m_current_marker_index][0].starting_transparent_index;
-		int32 total_transparent_count = c_transparency_renderer::m_total_transparent_count;
-		for (int32 transparent_index = starting_transparent_index; transparent_index < total_transparent_count; transparent_index++)
+		int32 transparent_index = c_transparency_renderer::m_markers[c_transparency_renderer::m_current_marker_index][0].starting_transparent_index;
+		for (int32 total_transparent_count = c_transparency_renderer::m_total_transparent_count; transparent_index < total_transparent_count; transparent_index++)
 		{
-			uns16 order = c_transparency_renderer::transparent_sorted_order.m_order[transparent_index];
+			int32 order_count = c_transparency_renderer::transparent_sorted_order.m_order.get_count();
+			ASSERT(transparent_index < order_count);
 
-			// $TODO bug
-			if (order >= c_transparency_renderer::transparents.get_count())
-			{
-				continue;
-			}
+			uns16 order = c_transparency_renderer::transparent_sorted_order.m_order[transparent_index];
 
 			s_transparent_types* transparent = &c_transparency_renderer::transparents[order];
 

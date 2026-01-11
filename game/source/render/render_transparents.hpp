@@ -40,7 +40,7 @@ public:
 	enum
 	{
 		k_max_number_of_transparency_markers = 6,
-		k_max_number_of_rendered_transparents = 768, // possible 1024
+		k_max_number_of_rendered_transparents = 768, // possibly 1024
 	};
 	using c_markers = s_transparency_marker[k_max_number_of_transparency_markers][3];
 	using c_transparent_sorted_order = c_sorter<s_transparent_types, k_max_number_of_rendered_transparents>;
