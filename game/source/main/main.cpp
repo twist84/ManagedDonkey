@@ -1068,14 +1068,10 @@ void __cdecl main_loop_body()
 							g_toggle_game_scripts = false;
 						}
 
-						real32 seconds_elapsed = 0.0f;
-						if (!main_time_halted())
-						{
-							seconds_elapsed = shell_seconds_elapsed;
-						}
+						real32 terminal_update_time = main_time_halted() ? 0.0f : shell_seconds_elapsed;
 
-						terminal_update(seconds_elapsed);
-						console_update(seconds_elapsed);
+						terminal_update(terminal_update_time);
+						console_update(terminal_update_time);
 						//telnet_console_update();
 						//xbox_connection_update();
 						remote_command_process();
@@ -1086,11 +1082,7 @@ void __cdecl main_loop_body()
 					{
 						TAG_RESOURCES_GAME_LOCK();
 
-						world_seconds_elapsed = 0.0f;
-						if (!main_time_halted())
-						{
-							world_seconds_elapsed = shell_seconds_elapsed;
-						}
+						world_seconds_elapsed = main_time_halted() ? 0.0f : shell_seconds_elapsed;
 
 						g_main_gamestate_timing_data->shell_dt += shell_seconds_elapsed;
 						g_main_gamestate_timing_data->world_dt += world_seconds_elapsed;
@@ -1121,13 +1113,13 @@ void __cdecl main_loop_body()
 						{
 							PROFILER(main_simulation) // main_loop, main_sim
 							{
-								bool game_update_result = false;
+								bool game_time_advancing = false;
 								PROFILER(main_simulation_time_update)
 								{
-									game_update_result = game_time_update(world_seconds_elapsed, &game_seconds_elapsed, &game_ticks_elapsed);
+									game_time_advancing = game_time_update(world_seconds_elapsed, &game_seconds_elapsed, &game_ticks_elapsed);
 								}
 
-								g_main_gamestate_timing_data->flags.set(_game_published_game_time_unchanged, !game_update_result);
+								g_main_gamestate_timing_data->flags.set(_game_published_game_time_unchanged, !game_time_advancing);
 								g_main_gamestate_timing_data->game_dt += game_seconds_elapsed;
 								g_main_gamestate_timing_data->elapsed_game_ticks += game_ticks_elapsed;
 								g_main_gamestate_timing_data->flags.set(_game_published_new_game_tick, g_main_gamestate_timing_data->elapsed_game_ticks);
@@ -1244,7 +1236,9 @@ void __cdecl main_loop_body()
 				g_main_gamestate_timing_data->flags.set(_game_published_network_playback_client, true);
 			}
 
-			if (g_main_gamestate_timing_data->world_dt < 0.06666667f)
+			constexpr real32 k_maintain_minimal_framerate = 15.0f;
+			constexpr real32 k_minimum_playable_framerate = 40.0f; // 120.0f in h3ek
+			if (g_main_gamestate_timing_data->world_dt < 1.0f / k_maintain_minimal_framerate)
 			{
 				if (user_interface_requests_unlocked_framerate())
 				{
@@ -1252,7 +1246,7 @@ void __cdecl main_loop_body()
 				}
 				else if (game_in_progress() && game_is_playback())
 				{
-					if (g_main_gamestate_timing_data->world_dt > 0.0f && g_main_gamestate_timing_data->world_dt < 0.025f // 0.0083333338 in h3ek
+					if (IN_RANGE(g_main_gamestate_timing_data->world_dt, 0.0f, 1.0f / k_minimum_playable_framerate)
 						&& !g_main_gamestate_timing_data->flags.test(_game_published_framerate_infinite)
 						&& !g_main_gamestate_timing_data->flags.test(_game_published_ui_request)
 						&& !g_main_gamestate_timing_data->flags.test(_game_published_new_game_tick))
