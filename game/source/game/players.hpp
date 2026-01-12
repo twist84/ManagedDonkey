@@ -48,6 +48,11 @@ struct s_player_identifier
 
 	byte identifier[8];
 
+	bool is_empty() const
+	{
+		return *(uns64*)identifier == 0;
+	}
+
 	bool operator==(const s_player_identifier& other)
 	{
 		return csmemcmp(this, &other, sizeof(*this)) == 0;
