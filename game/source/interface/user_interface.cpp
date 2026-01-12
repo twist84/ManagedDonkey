@@ -495,11 +495,15 @@ void __cdecl user_interface_update_console_scoreboard()
 		{
 			c_window_manager* window_manager = window_manager_get();
 			if (window_manager->get_screen_above(_console_window, scoreboard_screen))
+			{
 				scoreboard_screen_is_above = true;
+			}
 		}
 
 		if (!scoreboard_screen_is_above)
+		{
 			c_gui_screen_scoreboard::show_scoreboard(k_any_controller, false);
+		}
 	}
 	else
 	{
@@ -510,5 +514,21 @@ void __cdecl user_interface_update_console_scoreboard()
 void __cdecl user_interface_update_toast_position()
 {
 	INVOKE(0x00A85050, user_interface_update_toast_position);
+
+#if 0
+	e_online_guide_toast_position toast_position = k_toast_position_default;
+	if (!game_is_ui_shell())
+	{
+		if (cinematic_in_progress())
+		{
+			toast_position = _toast_position_top_right;
+		}
+		else if (player_mapping_output_user_active_count() > 1)
+		{
+			toast_position = _toast_position_top_right;
+		}
+	}
+	online_guide_set_toast_position(toast_position);
+#endif
 }
 
