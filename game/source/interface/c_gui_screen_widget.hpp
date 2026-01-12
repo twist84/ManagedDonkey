@@ -177,7 +177,11 @@ public:
 	virtual void update(uns32 current_milliseconds) override;
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
 	virtual bool get_string_by_string_id(int32 string_identifier, c_static_wchar_string<1024>* buffer) override;
+
+protected:
 	virtual e_render_data_size get_render_data_size();
+
+public:
 	virtual e_gui_location get_gui_location() const;
 	virtual void reconstruct();
 	virtual void initialize_datasource();

@@ -28,7 +28,10 @@ public:
 	virtual void update(uns32 current_milliseconds) override;
 	virtual void update_render_state(uns32 current_milliseconds) override;
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
+
+protected:
 	virtual e_render_data_size get_render_data_size() override;
+
 	virtual void initialize_datasource() override;
 	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
 
