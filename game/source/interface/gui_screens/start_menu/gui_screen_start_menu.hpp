@@ -24,8 +24,32 @@ class c_start_menu_screen_widget :
 {
 public:
 	void __thiscall back_out_current_pane_();
+	void __thiscall dispose_();
 	bool __thiscall handle_controller_input_message_(c_controller_input_message* message);
 	static bool __cdecl handle_global_start_button_press_(c_controller_input_message* message);
+	void __thiscall initialize_();
+
+public:
+	virtual ~c_start_menu_screen_widget() = default;
+	virtual void initialize() override;
+	virtual void post_initialize() override;
+	virtual void dispose() override;
+	virtual void update(uns32 current_milliseconds) override;
+	virtual void update_render_state(uns32 current_milliseconds) override;
+	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
+
+protected:
+	virtual e_render_data_size get_render_data_size() override;
+
+public:
+	virtual void reconstruct() override;
+	virtual void initialize_datasource() override;
+	virtual bool process_message(const c_message* message) override;
+	virtual void transition_out_with_transition_type(e_transition_out_type transition_out, e_screen_transition_type transition_type) override;
+	virtual bool __funcs53() override;
+
+private:
+	void update_pane();
 
 public:
 	c_start_menu_screen_widget(int32 name) :
@@ -44,6 +68,7 @@ private:
 	c_gui_screen_widget* get_current_pane();
 
 public:
+	static bool __cdecl handle_global_start_button_press(const c_controller_input_message* message);
 	void load_pane(int32 pane_to_load, bool is_top_level_pane, e_screen_transition_type transition_type, int32 focus_on_load_list_name, int32 focus_on_load_element_handle, real32 appearance_camera_zoom, real32 appearance_camera_yaw);
 
 private:
