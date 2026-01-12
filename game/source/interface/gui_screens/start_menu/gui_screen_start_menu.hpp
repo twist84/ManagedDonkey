@@ -14,6 +14,23 @@ struct s_start_menu_breadcrumb
 		k_maximum_breadcrumbs = 8,
 	};
 
+	s_start_menu_breadcrumb(int32 _screen_id, int32 _element_handle) :
+		screen_id(_screen_id),
+		element_handle(_element_handle)
+	{
+	}
+
+	s_start_menu_breadcrumb()
+	{
+		s_start_menu_breadcrumb::reset();
+	}
+
+	void reset()
+	{
+		screen_id = NONE;
+		element_handle = NONE;
+	}
+
 	int32 screen_id;
 	int32 element_handle;
 };
