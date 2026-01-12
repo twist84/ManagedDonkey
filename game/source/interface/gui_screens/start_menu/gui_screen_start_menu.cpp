@@ -101,7 +101,18 @@ void c_start_menu_screen_widget::back_out_current_pane()
 
 void c_start_menu_screen_widget::dispose()
 {
-	INVOKE_CLASS_MEMBER(0x00AE03C0, c_start_menu_screen_widget, dispose);
+	//INVOKE_CLASS_MEMBER(0x00AE03C0, c_start_menu_screen_widget, dispose);
+
+	c_gui_screen_widget::dispose();
+
+	if (game_is_playback())
+	{
+		saved_film_manager_set_playback_game_speed(m_old_film_playback_speed);
+	}
+	if (game_time_get_paused_for_reason(_game_time_pause_ui))
+	{
+		game_time_set_paused(false, _game_time_pause_ui);
+	}
 }
 
 //.text:00AE03F0 ; 
@@ -316,7 +327,34 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(const 
 
 void c_start_menu_screen_widget::initialize()
 {
-	INVOKE_CLASS_MEMBER(0x00AE07A0, c_start_menu_screen_widget, initialize);
+	//INVOKE_CLASS_MEMBER(0x00AE07A0, c_start_menu_screen_widget, initialize);
+
+	c_gui_screen_widget::initialize();
+
+	c_controller_interface const* controller = controller_get(get_single_responding_controller());
+	controller->get_player_identifier(&m_owner_player_id);
+	if (m_owner_player_id.is_empty())
+	{
+		transition_out(_transition_out_normal);
+	}
+	controller->get_player_identifier(&m_target_player_id);
+	if (m_target_player_id.is_empty())
+	{
+		transition_out(_transition_out_normal);
+	}
+	if (!m_target_player_xuid)
+	{
+		m_target_player_xuid = controller->get_player_xuid();
+	}
+	if (game_is_playback())
+	{
+		m_old_film_playback_speed = saved_film_manager_get_playback_game_speed();
+		saved_film_manager_set_playback_game_speed(0.0f);
+	}
+	if (game_is_campaign())
+	{
+		m_wants_to_pause_game_time = !game_is_cooperative() || user_interface_squad_get_machine_count() <= 1;
+	}
 }
 
 void c_start_menu_screen_widget::initialize_datasource()
@@ -351,7 +389,24 @@ bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index cont
 
 void c_start_menu_screen_widget::post_initialize()
 {
-	INVOKE_CLASS_MEMBER(0x00AE0F00, c_start_menu_screen_widget, post_initialize);
+	//INVOKE_CLASS_MEMBER(0x00AE0F00, c_start_menu_screen_widget, post_initialize);
+
+	const c_controller_interface* controller = controller_get(c_gui_widget::get_single_responding_controller());
+
+	c_gui_text_widget* player_name_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(global, player_name));
+	c_gui_bitmap_widget* ring_of_light_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, ring_of_light));
+
+	c_gui_screen_widget::post_initialize();
+	c_start_menu_screen_widget::update_pane();
+
+	if (player_name_text_widget)
+	{
+		player_name_text_widget->set_text(controller->m_display_name);
+	}
+	if (ring_of_light_bitmap)
+	{
+		ring_of_light_bitmap->set_sprite_frame(controller->get_controller_index());
+	}
 }
 
 bool c_start_menu_screen_widget::process_message(const c_message* message)
@@ -364,7 +419,14 @@ bool c_start_menu_screen_widget::process_message(const c_message* message)
 
 void c_start_menu_screen_widget::reconstruct()
 {
-	INVOKE_CLASS_MEMBER(0x00AE10D0, c_start_menu_screen_widget, reconstruct);
+	//INVOKE_CLASS_MEMBER(0x00AE10D0, c_start_menu_screen_widget, reconstruct);
+
+	m_requested_pane = NONE;
+	m_breadcrumb_to_load.reset();
+	m_breadcrumb_to_load_valid = false;
+	m_breadcrumbs.clear();
+
+	c_gui_screen_widget::reconstruct();
 }
 
 //.text:00AE1110 ; 
@@ -382,7 +444,18 @@ void c_start_menu_screen_widget::reconstruct()
 
 void c_start_menu_screen_widget::transition_out_with_transition_type(e_transition_out_type transition_out_type, e_screen_transition_type transition_type)
 {
-	INVOKE_CLASS_MEMBER(0x00AE1300, c_start_menu_screen_widget, transition_out_with_transition_type, transition_out_type, transition_type);
+	//INVOKE_CLASS_MEMBER(0x00AE1300, c_start_menu_screen_widget, transition_out_with_transition_type, transition_out_type, transition_type);
+
+	for (c_gui_screen_widget* screen = (c_gui_screen_widget*)this->get_first_child_widget_by_type(_gui_screen);
+		screen != NULL;
+		screen = (c_gui_screen_widget*)screen->get_next_widget_of_type(_gui_screen))
+	{
+		if (!screen->transitioning_out())
+		{
+			screen->transition_out_with_transition_type(transition_out_type, transition_type);
+		}
+	}
+	c_gui_screen_widget::transition_out_with_transition_type(transition_out_type, transition_type);
 }
 
 void c_start_menu_screen_widget::update(uns32 current_milliseconds)
