@@ -141,9 +141,6 @@ class c_bitstream;
 class c_map_variant
 {
 public:
-	uns64 get_unique_id_();
-
-public:
 	c_map_variant();
 	//~c_map_variant();
 	void create_default(e_map_id map_id);

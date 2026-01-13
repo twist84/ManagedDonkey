@@ -189,6 +189,6 @@ void c_main_menu_screen_widget::set_list_elements()
 //.text:00AE8250 ; private: void c_main_menu_screen_widget::show_motd_popup_if_needed()
 //.text:00AE8370 ; 
 //.text:00AE8380 ; public: void c_http_blf_simple_downloader<s_message_of_the_day_popup>::update()
-//.text:00AE8390 ; public: virtual void c_main_menu_screen_widget::update(uns32)
+//.text:00AE8390 ; public: virtual void c_main_menu_screen_widget::update(uns32 current_milliseconds)
 //.text:00AE8650 ; private: void c_main_menu_screen_widget::update_motd_popup()
 
