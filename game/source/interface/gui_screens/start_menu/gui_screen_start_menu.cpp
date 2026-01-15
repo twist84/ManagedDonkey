@@ -392,7 +392,50 @@ bool c_start_menu_screen_widget::__funcs53()
 
 void c_start_menu_screen_widget::load_pane(int32 pane_to_load, bool is_top_level_pane, e_screen_transition_type transition_type, int32 focus_on_load_list_name, int32 focus_on_load_element_handle, real32 appearance_camera_zoom, real32 appearance_camera_yaw)
 {
-	INVOKE_CLASS_MEMBER(0x00AE09A0, c_start_menu_screen_widget, load_pane, pane_to_load, is_top_level_pane, transition_type, focus_on_load_list_name, focus_on_load_element_handle, appearance_camera_zoom, appearance_camera_yaw);
+	//INVOKE_CLASS_MEMBER(0x00AE09A0, c_start_menu_screen_widget, load_pane, pane_to_load, is_top_level_pane, transition_type, focus_on_load_list_name, focus_on_load_element_handle, appearance_camera_zoom, appearance_camera_yaw);
+
+	c_gui_screen_widget* current_pane = get_current_pane();
+
+	if (m_breadcrumbs.count() < s_start_menu_breadcrumb::k_maximum_breadcrumbs && pane_to_load != m_requested_pane)
+	{
+		s_start_menu_breadcrumb breadcrumb;
+		breadcrumb.screen_id = pane_to_load;
+		breadcrumb.element_handle = NONE;
+
+		if (is_top_level_pane)
+		{
+			m_breadcrumbs.clear();
+		}
+		else if (m_breadcrumbs.count() > 0)
+		{
+			s_start_menu_breadcrumb* previous_breadcrumb = m_breadcrumbs.get_top();
+
+			long element_handle = NONE;
+			if (current_pane)
+			{
+				c_gui_widget* focused_widget = get_focused_widget();
+				if (focused_widget)
+				{
+					c_gui_list_item_widget* focused_list_item = static_cast<c_gui_list_item_widget*>(focused_widget);
+					if (focused_widget->get_type() != _gui_list_item)
+					{
+						focused_list_item = focused_widget->get_parent_list_item();
+					}
+
+					if (focused_list_item)
+					{
+						element_handle = focused_list_item->get_element_handle();
+					}
+				}
+			}
+
+			previous_breadcrumb->element_handle = element_handle;
+		}
+
+		m_breadcrumbs.push_back(breadcrumb);
+
+		c_start_menu_screen_widget::load_pane_direct(pane_to_load, transition_type, focus_on_load_list_name, focus_on_load_element_handle, appearance_camera_zoom, appearance_camera_yaw);
+	}
 }
 
 void c_start_menu_screen_widget::load_pane_direct(int32 pane_to_load, e_screen_transition_type transition_type, int32 focus_on_load_list_name, int32 focus_on_load_element_handle, real32 camera_zoom, real32 camera_yaw)
