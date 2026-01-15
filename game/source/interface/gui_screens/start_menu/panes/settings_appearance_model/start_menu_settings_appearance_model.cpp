@@ -118,9 +118,9 @@ void c_start_menu_settings_appearance_model::initialize()
 {
 	c_gui_screen_widget::initialize();
 
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<part-description", this, parse_xml_part_description));
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<part-count-current", this, parse_xml_part_count_current));
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<part-count-total", this, parse_xml_part_count_total));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<part-description", this, parse_xml_part_description));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<part-count-current", this, parse_xml_part_count_current));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<part-count-total", this, parse_xml_part_count_total));
 }
 
 void c_start_menu_settings_appearance_model::initialize_datasource()
@@ -146,7 +146,7 @@ void c_start_menu_settings_appearance_model::initialize_datasource()
 	{
 		// $IMPLEMENT `c_settings_appearance_model_sidebar_items_datasource`
 
-		//c_settings_appearance_model_sidebar_items_datasource* sidebar_items_datasource = UI_MALLOC(c_settings_appearance_model_sidebar_items_datasource,
+		//c_settings_appearance_model_sidebar_items_datasource* sidebar_items_datasource = new (_ui_allocation_marker_dummy) c_settings_appearance_model_sidebar_items_datasource(
 		//	data,
 		//	player_profile,
 		//	this);

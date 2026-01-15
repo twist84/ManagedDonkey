@@ -117,13 +117,16 @@ void c_gui_location_manager::change_location(int32 new_location_name)
 	exempt_screens[6] = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, gui_alert_ingame_split));
 	window_manager_get()->close_all_screens(exempt_screens + (except_these_count == 7), except_these_count);
 
-	c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message, new_location_name, k_any_controller, k_number_of_player_windows, STRING_ID(gui, bottom_most));
-	if (!screen_message)
+	c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
+		new_location_name,
+		k_any_controller,
+		k_number_of_player_windows,
+		STRING_ID(gui, bottom_most));
+	if (screen_message)
 	{
-		return;
+		user_interface_messaging_post(screen_message);
+		screen_message->set_transition_type(transition_type);
 	}
-	user_interface_messaging_post(screen_message);
-	screen_message->set_transition_type(transition_type);
 }
 
 e_gui_location c_gui_location_manager::get_current_ui_location()

@@ -294,10 +294,10 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	}
 	else
 	{
-		bool half_screen = false;
+		bool full_size = true;
 		if (controller_index == k_any_controller)
 		{
-			half_screen = true;
+			full_size = false;
 		}
 		else
 		{
@@ -307,11 +307,12 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 				int32 horizontal_window_count = 0;
 				int32 vertical_window_count = 0;
 				user_interface_get_number_of_render_windows(user_index, &horizontal_window_count, &vertical_window_count);
-				half_screen = vertical_window_count == 1;
+				full_size = vertical_window_count != 1;
 			}
 		}
 	
-		if (c_scoreboard_load_screen_message* message = UI_MALLOC(c_scoreboard_load_screen_message, !half_screen + STRING_ID(gui, scoreboard),
+		if (c_scoreboard_load_screen_message* message = new (_ui_allocation_marker_dummy) c_scoreboard_load_screen_message(
+			full_size ? STRING_ID(gui, scoreboard) : STRING_ID(gui, scoreboard_half),
 			controller_index,
 			user_interface_get_window_for_controller(controller_index),
 			STRING_ID(gui, top_most),

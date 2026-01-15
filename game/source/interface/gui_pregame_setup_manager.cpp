@@ -437,7 +437,7 @@ bool c_gui_pregame_setup_manager::set_selected_item_type_network_mode(e_controll
 		}
 		else
 		{
-			if (c_load_game_browser_screen_message* message = UI_MALLOC(c_load_game_browser_screen_message,
+			if (c_load_game_browser_screen_message* message = new (_ui_allocation_marker_dummy) c_load_game_browser_screen_message(
 				STRING_ID(gui, game_browser),
 				controller_index,
 				k_number_of_player_windows,

@@ -319,7 +319,12 @@ void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 							player_datum* griefer = DATUM_TRY_AND_GET(player_data, player_datum, griefer_player_index);
 							e_window_index window_index = user_interface_get_window_for_controller(controller_index);
 
-							if (c_load_boot_betrayer_screen_message* message = UI_MALLOC(c_load_boot_betrayer_screen_message, controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))
+							if (c_load_boot_betrayer_screen_message* message = new (_ui_allocation_marker_dummy) c_load_boot_betrayer_screen_message(
+								controller_index,
+								window_index,
+								STRING_ID(gui, top_most),
+								&player->player_identifier,
+								&griefer->player_identifier))
 							{
 								user_interface_messaging_post(message);
 								game_grief_set_ui_active_for_local_user(controller_index, true);

@@ -130,12 +130,16 @@ c_gui_bitmap_widget* c_motd_popup_screen_widget::create_bitmap_widget(const s_ru
 {
 	//return INVOKE_CLASS_MEMBER(0x00B138C0, c_motd_popup_screen_widget, create_bitmap_widget, definition);
 
+	c_gui_bitmap_widget* bitmap_widget = NULL;
 	if (definition->widget_identifier == STRING_ID(gui, flavor_image))
 	{
-		return UI_MALLOC(c_gui_custom_bitmap_widget);
+		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
 	}
-
-	return c_gui_widget::create_bitmap_widget(definition);
+	else
+	{
+		bitmap_widget = c_gui_widget::create_bitmap_widget(definition);
+	}
+	return bitmap_widget;
 }
 
 s_tag_reference __cdecl c_motd_popup_screen_widget::get_bitmap_tag_reference_from_screen(int32 screen_name, int32 group_index, int32 bitmap_block_index)

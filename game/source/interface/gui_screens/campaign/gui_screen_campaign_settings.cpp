@@ -130,7 +130,7 @@ void c_gui_screen_campaign_settings::initialize_datasource()
 {
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_primary_skulls_data* primary_skulls = UI_MALLOC(c_gui_primary_skulls_data);
+	c_gui_primary_skulls_data* primary_skulls = new (_ui_allocation_marker_dummy) c_gui_primary_skulls_data();
 	if (primary_skulls && primary_skulls->initialize(STRING_ID(gui, primary_skulls)))
 	{
 		c_gui_screen_widget::add_datasource(primary_skulls);
@@ -140,7 +140,7 @@ void c_gui_screen_campaign_settings::initialize_datasource()
 		ui_track_delete<c_gui_primary_skulls_data>(primary_skulls);
 	}
 	
-	c_gui_secondary_skulls_data* secondary_skulls = UI_MALLOC(c_gui_secondary_skulls_data);
+	c_gui_secondary_skulls_data* secondary_skulls = new (_ui_allocation_marker_dummy) c_gui_secondary_skulls_data();
 	if (secondary_skulls && secondary_skulls->initialize(STRING_ID(gui, secondary_skulls)))
 	{
 		c_gui_screen_widget::add_datasource(secondary_skulls);
@@ -305,7 +305,7 @@ bool c_gui_screen_campaign_settings::warn_about_loss_of_saved_game_progress(e_co
 		return false;
 	}
 
-	c_load_dialog_screen_message* screen_message = UI_MALLOC(c_load_dialog_screen_message,
+	c_load_dialog_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_dialog_screen_message(
 		controller_index,
 		c_gui_screen_widget::get_render_window(),
 		m_name,

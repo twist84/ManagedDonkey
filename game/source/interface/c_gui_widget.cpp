@@ -309,72 +309,42 @@ c_gui_bitmap_widget* c_gui_widget::create_bitmap_widget(const s_runtime_bitmap_w
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB81A0, c_gui_widget, create_bitmap_widget, definition);
 
-	c_gui_bitmap_widget* bitmap_widget = UI_MALLOC(c_gui_bitmap_widget);
-	if (!bitmap_widget)
-	{
-		return NULL;
-	}
-	return bitmap_widget;
+	return new (_ui_allocation_marker_dummy) c_gui_bitmap_widget();;
 }
 
 c_gui_button_key_widget* c_gui_widget::create_button_key_widget(const s_button_key_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8200, c_gui_widget, create_button_key_widget, definition);
 
-	//c_gui_button_key_widget* button_key_widget = UI_MALLOC(c_gui_button_key_widget);
-	//if (!button_key_widget)
-	//{
-	//	return NULL;
-	//}
-	//return button_key_widget;
+	//return new (_ui_allocation_marker_dummy) c_gui_button_key_widget();
 }
 
 c_gui_group_widget* c_gui_widget::create_group_widget(const s_group_widget_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8260, c_gui_widget, create_group_widget, definition);
 
-	//c_gui_group_widget* group_widget = UI_MALLOC(c_gui_group_widget);
-	//if (!group_widget)
-	//{
-	//	return NULL;
-	//}
-	//return group_widget;
+	//return new (_ui_allocation_marker_dummy) c_gui_group_widget();
 }
 
 c_gui_list_item_widget* c_gui_widget::create_list_item_widget(const s_list_item_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget, definition);
 
-	c_gui_list_item_widget* list_item_widget = UI_MALLOC(c_gui_list_item_widget);
-	if (!list_item_widget)
-	{
-		return NULL;
-	}
-	return list_item_widget;
+	return new (_ui_allocation_marker_dummy) c_gui_list_item_widget();
 }
 
 c_gui_list_widget* c_gui_widget::create_list_widget(const s_list_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget, definition);
 
-	c_gui_list_widget* list_widget = UI_MALLOC(c_gui_list_widget);
-	if (!list_widget)
-	{
-		return NULL;
-	}
-	return list_widget;
+	return new (_ui_allocation_marker_dummy) c_gui_list_widget();
 }
 
 c_gui_model_widget* c_gui_widget::create_model_widget(const s_model_widget_block* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget, definition);
 
-	//c_gui_model_widget* model_widget = UI_MALLOC(c_gui_model_widget);
-	//if (!model_widget)
-	//{
-	//	return NULL;
-	//}
-	//return model_widget;
+	//return new (_ui_allocation_marker_dummy) c_gui_model_widget();
 }
 
 c_gui_text_widget* c_gui_widget::create_text_widget(const s_runtime_text_widget_definition* definition)
@@ -384,17 +354,16 @@ c_gui_text_widget* c_gui_widget::create_text_widget(const s_runtime_text_widget_
 	//c_gui_text_widget* result = NULL;
 	//if (TEST_BIT(definition->flags, 14))
 	//{
-	//	result = UI_MALLOC(c_gui_sized_text_widget<1024>);
+	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<1024>();
 	//}
 	//else if (TEST_BIT(definition->flags, 13))
 	//{
-	//	result = UI_MALLOC(c_gui_sized_text_widget<256>);
+	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<256>();
 	//}
 	//else
 	//{
-	//	result = UI_MALLOC(c_gui_sized_text_widget<48>);
+	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<48>();
 	//}
-	//
 	//return result;
 }
 

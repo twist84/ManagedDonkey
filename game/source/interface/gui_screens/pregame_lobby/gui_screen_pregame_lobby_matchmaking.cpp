@@ -65,17 +65,17 @@ c_gui_bitmap_widget* c_gui_screen_pregame_lobby_matchmaking::create_bitmap_widge
 {
 	//return INVOKE_CLASS_MEMBER(0x00B017F0, c_gui_screen_pregame_lobby_matchmaking, create_bitmap_widget, definition);
 
+	c_gui_bitmap_widget* bitmap_widget = NULL;
 	if (definition->widget_identifier == STRING_ID(gui, nightmap))
 	{
-		c_gui_custom_bitmap_widget* nightmap_bitmap_widget = UI_MALLOC(c_gui_custom_bitmap_widget);
-		if (!nightmap_bitmap_widget)
-		{
-			return NULL;
-		}
-		return nightmap_bitmap_widget;
+		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
 	}
+	else
+	{
+		bitmap_widget = c_gui_widget::create_bitmap_widget(definition);
 
-	return c_gui_widget::create_bitmap_widget(definition);
+	}
+	return bitmap_widget;
 }
 
 e_gui_game_mode c_gui_screen_pregame_lobby_matchmaking::get_gui_game_mode()
@@ -118,7 +118,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_controller_input_message(con
 			return true;
 		}
 
-		if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
+		if (c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 			STRING_ID(gui, pregame_advanced_options_matchmaking),
 			message->get_controller(),
 			c_gui_screen_widget::get_render_window(),
@@ -163,7 +163,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_con
 			{
 			case STRING_ID(gui, advanced_options):
 			{
-				if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
+				if (c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 					STRING_ID(gui, pregame_advanced_options_matchmaking),
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
@@ -179,7 +179,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_con
 			{
 				if (!is_lobby_in_live_mode())
 				{
-					if (c_load_dialog_screen_message* dialog_screen_message = UI_MALLOC(c_load_dialog_screen_message,
+					if (c_load_dialog_screen_message* dialog_screen_message = new (_ui_allocation_marker_dummy) c_load_dialog_screen_message(
 						message->get_controller(),
 						c_gui_screen_widget::get_render_window(),
 						m_name,
@@ -193,7 +193,7 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_list_item_chosen(const c_con
 				{
 					if (user_interface_matchmaking_hopper_catalog_load_status() == _network_files_load_complete)
 					{
-						if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
+						if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = new (_ui_allocation_marker_dummy) c_load_pregame_selection_screen_message(
 							message->get_controller(),
 							c_gui_screen_widget::get_render_window(),
 							m_name,
@@ -223,9 +223,9 @@ void c_gui_screen_pregame_lobby_matchmaking::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 3;
 
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-matchmaking-hopper", this, parse_xml_lobby_matchmaking_hopper));
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-matchmaking-hopper-population", this, parse_xml_lobby_matchmaking_hopper_population));
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-matchmaking-total-population", this, parse_xml_lobby_matchmaking_total_population));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper", this, parse_xml_lobby_matchmaking_hopper));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<lobby-matchmaking-hopper-population", this, parse_xml_lobby_matchmaking_hopper_population));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<lobby-matchmaking-total-population", this, parse_xml_lobby_matchmaking_total_population));
 }
 
 bool c_gui_screen_pregame_lobby_matchmaking::is_lobby_in_live_mode()

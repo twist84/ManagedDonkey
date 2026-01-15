@@ -76,7 +76,7 @@ bool c_main_menu_screen_widget::handle_controller_input_message(const c_controll
 			const c_controller_interface* controller = controller_get(controller_index);
 			if (!controller->is_unsigned_in_user())
 			{
-				c_load_dialog_screen_message* load_dialog_message = UI_MALLOC(c_load_dialog_screen_message,
+				c_load_dialog_screen_message* load_dialog_message = new (_ui_allocation_marker_dummy) c_load_dialog_screen_message(
 					controller_index,
 					c_gui_screen_widget::get_render_window(),
 					m_name,

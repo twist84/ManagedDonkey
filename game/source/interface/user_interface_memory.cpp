@@ -46,6 +46,16 @@ c_ui_memory_scope_lock::~c_ui_memory_scope_lock()
 	}
 }
 
+void* operator new(unsigned int size, e_ui_allocation_marker unused)
+{
+	return user_interface_malloc(size);
+}
+
+void operator delete(void* object, e_ui_allocation_marker unused)
+{
+	VASSERT(false, "this operator should never be used - use ui_track_delete(), or user_interface_free() for primitive types");
+}
+
 void __cdecl user_interface_free(const void* ptr)
 {
 	//INVOKE(0x00AB4E50, user_interface_free, ptr);

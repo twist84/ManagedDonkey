@@ -1815,7 +1815,7 @@ void saved_film_manager_update_ui_screens()
 	//		return;
 	//	}
 	//
-	//	if (c_load_in_progress_screen_message* screen_message = UI_MALLOC(c_load_in_progress_screen_message,
+	//	if (c_load_in_progress_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_in_progress_screen_message(
 	//		screen_message,
 	//		STRING_ID(gui, in_progress_mini_me),
 	//		k_any_controller,

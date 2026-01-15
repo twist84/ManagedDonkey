@@ -101,7 +101,7 @@ bool c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen(const c_con
 
 			if (selection_type != _gui_selection_type_none)
 			{
-				if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = UI_MALLOC(c_load_pregame_selection_screen_message,
+				if (c_load_pregame_selection_screen_message* pregame_selection_screen_message = new (_ui_allocation_marker_dummy) c_load_pregame_selection_screen_message(
 					message->get_controller(),
 					c_gui_screen_widget::get_render_window(),
 					m_name,
@@ -132,8 +132,8 @@ void c_gui_screen_pregame_lobby_multiplayer::initialize()
 	m_initial_focused_widget = STRING_ID(gui, lobby_list);
 	m_initial_focused_widget_element_handle = 4;
 
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-multiplayer-game", this, parse_xml_lobby_multiplayer_game));
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-multiplayer-map", this, parse_xml_lobby_multiplayer_map));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<lobby-multiplayer-game", this, parse_xml_lobby_multiplayer_game));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<lobby-multiplayer-map", this, parse_xml_lobby_multiplayer_map));
 }
 
 bool __cdecl parse_xml_lobby_multiplayer_game(void* this_ptr, wchar_t* buffer, int32 buffer_length)

@@ -26,7 +26,7 @@ void c_start_menu_pane_screen_widget::close_current_subpane()
 {
 	INVOKE_CLASS_MEMBER(0x00B1F360, c_start_menu_pane_screen_widget, close_current_subpane);
 
-	//if (c_start_menu_custom_message* message = UI_MALLOC(c_start_menu_custom_message,
+	//if (c_start_menu_custom_message* message = new (_ui_allocation_marker_dummy) c_start_menu_custom_message(
 	//	_message_type_close_current_pane,
 	//	STRING_ID(gui, start_menu),
 	//	c_gui_widget::get_single_responding_controller(),
@@ -40,7 +40,7 @@ void c_start_menu_pane_screen_widget::close_start_menu1()
 {
 	INVOKE_CLASS_MEMBER(0x00B1F400, c_start_menu_pane_screen_widget, close_start_menu1);
 
-	//if (c_start_menu_custom_message* message = UI_MALLOC(c_start_menu_custom_message,
+	//if (c_start_menu_custom_message* message = new (_ui_allocation_marker_dummy) c_start_menu_custom_message(
 	//	_message_type_close_start_menu,
 	//	STRING_ID(gui, start_menu),
 	//	c_gui_widget::get_single_responding_controller(),
@@ -55,7 +55,7 @@ void c_start_menu_pane_screen_widget::close_start_menu0()
 {
 	INVOKE_CLASS_MEMBER(0x00B1F4A0, c_start_menu_pane_screen_widget, close_start_menu0);
 
-	//if (c_start_menu_custom_message* message = UI_MALLOC(c_start_menu_custom_message,
+	//if (c_start_menu_custom_message* message = new (_ui_allocation_marker_dummy) c_start_menu_custom_message(
 	//	_message_type_close_start_menu,
 	//	STRING_ID(gui, start_menu),
 	//	c_gui_widget::get_single_responding_controller(),

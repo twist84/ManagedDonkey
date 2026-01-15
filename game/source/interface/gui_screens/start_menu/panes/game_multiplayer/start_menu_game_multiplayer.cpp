@@ -45,12 +45,16 @@ c_gui_bitmap_widget* c_start_menu_game_multiplayer::create_bitmap_widget(const s
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE9150, c_start_menu_game_multiplayer, create_bitmap_widget, definition);
 
+	c_gui_bitmap_widget* bitmap_widget = NULL;
 	if (definition->widget_identifier == STRING_ID(gui, map_image))
 	{
-		return UI_MALLOC(c_gui_custom_bitmap_widget);
+		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
 	}
-
-	return c_gui_widget::create_bitmap_widget(definition);
+	else
+	{
+		bitmap_widget = c_gui_widget::create_bitmap_widget(definition);
+	}
+	return bitmap_widget;
 }
 
 //.text:00AE91D0 ; public: const wchar_t* c_start_menu_game_multiplayer::get_hopper_description() const

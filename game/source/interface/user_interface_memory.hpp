@@ -1,9 +1,12 @@
 #pragma once
 
-#include <new> // required for placement new
-#define UI_MALLOC(CLASS, ...) new (user_interface_malloc(sizeof(CLASS))) CLASS(__VA_ARGS__) // $TODO update this and assert on `user_interface_malloc` result
-
 enum e_map_memory_configuration;
+
+enum e_ui_allocation_marker
+{
+	_ui_allocation_marker_dummy = 0,
+};
+
 class c_allocation_base;
 
 class c_ui_memory_scope_lock
@@ -13,6 +16,8 @@ public:
 	~c_ui_memory_scope_lock();
 };
 
+extern void* operator new(unsigned int size, e_ui_allocation_marker unused);
+extern void operator delete(void* object, e_ui_allocation_marker unused);
 extern void __cdecl user_interface_free(const void* ptr);
 extern void* __cdecl user_interface_malloc(unsigned int size);
 extern void* __cdecl user_interface_malloc_tracked(unsigned int size, const char* file, int32 line);

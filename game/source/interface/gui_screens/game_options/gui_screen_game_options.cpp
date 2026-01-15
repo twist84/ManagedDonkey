@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_events.hpp"
 #include "interface/c_gui_list_widget.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
 
@@ -382,8 +383,8 @@ void c_gui_screen_game_options::initialize()
 
 	//c_gui_screen_widget::initialize();
 	//
-	//c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<current-value", this, parse_current_selected_value));
-	//c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<current-name", this, parse_current_selected_name));
+	//c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<current-value", this, parse_current_selected_value));
+	//c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<current-name", this, parse_current_selected_name));
 }
 
 void c_gui_screen_game_options::initialize_datasource()

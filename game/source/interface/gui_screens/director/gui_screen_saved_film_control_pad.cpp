@@ -61,7 +61,7 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 				if (screenshots_uploader_try_and_get() &&
 					screenshots_uploader_try_and_get()->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none)
 				{
-					if (c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
+					if (c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 						STRING_ID(gui, saved_film_take_screenshot),
 						message->get_controller(),
 						c_gui_screen_widget::get_render_window(),
@@ -251,7 +251,7 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 
 	if (m_previous_snippet_state != _saved_film_snippet_state_recorded_and_ready && snippet_state == _saved_film_snippet_state_recorded_and_ready)
 	{
-		c_load_screen_message* screen_message = UI_MALLOC(c_load_screen_message,
+		c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 			STRING_ID(gui, saved_film_snippet),
 			k_any_controller,
 			c_gui_screen_widget::get_render_window(),

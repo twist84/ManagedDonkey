@@ -107,7 +107,7 @@ void c_start_menu_game_saved_film::initialize()
 
 	c_gui_screen_widget::initialize();
 
-	c_gui_screen_widget::add_game_tag_parser(UI_MALLOC(c_magic_string_game_tag_parser, L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
+	c_gui_screen_widget::add_game_tag_parser(new (_ui_allocation_marker_dummy) c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_xml_ui_screen_party_privacy));
 }
 
 void c_start_menu_game_saved_film::initialize_datasource()
