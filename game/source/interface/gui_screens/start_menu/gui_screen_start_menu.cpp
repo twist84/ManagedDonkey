@@ -299,35 +299,26 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(const 
 	bool handled = false;
 	if (message->get_event_type() == _event_type_button_press && message->get_component() == _controller_component_button_start)
 	{
+		e_controller_index controller_index = message->get_controller();
+		c_controller_interface const* controller = controller_get(controller_index);
 
 		if (simulation_starting_up())
 		{
 			event(_event_status, "ui:start_menu: Can't show start menu -- simulation starting up.");
-			handled = false;
 		}
+		else if (controller->in_use() && controller->get_user_index() != INT16_MAX)
+		{
+			unsigned long long target_player_xuid = controller->get_player_xuid();
 
-		e_controller_index controller_index = message->get_controller();
-		const c_controller_interface* controller = controller_get(controller_index);
-		if (!handled && !controller->in_use() || controller->get_user_index() == NONE)
-		{
-			event(_event_error, "ui:start_menu: controller not in use.");
-			handled = false;
+			s_player_identifier target_player_id;
+			controller->get_player_identifier(&target_player_id);
+			handled = c_start_menu_screen_widget::load_start_menu(controller_index, &target_player_id, &target_player_xuid, nullptr, nullptr, 0);
 		}
-		if (!handled)
+		else
 		{
-			s_player_identifier player_identifier{};
-			controller->get_player_identifier(&player_identifier);
-			uns64 const player_xuid = controller->get_player_xuid();
-			handled = c_start_menu_screen_widget::load_start_menu(
-				controller_index,
-				&player_identifier,
-				&player_xuid,
-				NULL,
-				NULL,
-				0);
+			event(_event_status, "ui:start_menu: Can't show start menu -- simulation starting up.");
 		}
 	}
-
 	return handled;
 }
 
