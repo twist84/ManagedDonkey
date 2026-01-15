@@ -6,6 +6,7 @@
 #include "game/players.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
+#include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
 #include "interface/gui_screens/start_menu/panes/settings/start_menu_settings.hpp"
@@ -229,58 +230,54 @@ bool c_start_menu_screen_widget::handle_controller_input_message(const c_control
 	case _event_type_tab_left:
 	case _event_type_tab_right:
 	{
-		if (!m_is_rooted || m_breadcrumbs.count() != 1)
+		if (c_start_menu_screen_widget::current_pane_is_root_pane())
 		{
-			break;
+			c_gui_list_widget* list_widget = focused_widget->get_parent_list();
+			int32 element_handle = list_widget->get_focused_element_handle();
+			ASSERT(element_handle != NONE);
+
+			c_gui_data* data = list_widget->get_data();
+			int32 target_element_handle = NONE;
+			e_screen_transition_type transition_type = _screen_transition_type_none;
+			if (event_type == _event_type_tab_right)
+			{
+				target_element_handle = data->get_next_element_handle(element_handle);
+				transition_type = _screen_transition_type_cycle_next;
+			}
+			else
+			{
+				target_element_handle = data->get_previous_element_handle(element_handle);
+				transition_type = _screen_transition_type_cycle_previous;
+			}
+
+			string_id pane_to_show = NONE;
+			if (data->get_string_id_value(target_element_handle, STRING_ID(gui, target), &pane_to_show)
+				&& pane_to_show != _string_id_invalid && pane_to_show != k_string_id_empty_string)
+			{
+				c_start_menu_settings* current_pane = (c_start_menu_settings*)c_start_menu_screen_widget::get_current_pane();
+
+				real32 appearance_camera_zoom = 0.0f;
+				if (current_pane && gui_screen_widget_is_start_menu_pane_screen(current_pane))
+				{
+					appearance_camera_zoom = current_pane->m_appearance_camera_zoom;
+				}
+
+				real32 appearance_camera_yaw = 0.0f;
+				if (current_pane && gui_screen_widget_is_start_menu_pane_screen(current_pane))
+				{
+					appearance_camera_yaw = current_pane->m_appearance_camera_yaw;
+				}
+
+				c_start_menu_screen_widget::load_pane(
+					pane_to_show,
+					true,
+					transition_type,
+					NONE,
+					NONE,
+					appearance_camera_zoom,
+					appearance_camera_yaw);
+			}
 		}
-
-		c_gui_list_widget* list_widget = focused_widget->get_parent_list();
-		int32 element_handle = list_widget->get_focused_element_handle();
-		ASSERT(element_handle != NONE);
-
-		c_gui_data* data = list_widget->get_data();
-		int32 target_element_handle = NONE;
-		e_screen_transition_type transition_type = _screen_transition_type_none;
-		if (event_type == _event_type_tab_right)
-		{
-			target_element_handle = data->get_next_element_handle(element_handle);
-			transition_type = _screen_transition_type_cycle_next;
-		}
-		else
-		{
-			target_element_handle = data->get_previous_element_handle(element_handle);
-			transition_type = _screen_transition_type_cycle_previous;
-		}
-
-		int32 pane_to_show = NONE;
-		if (!data->get_string_id_value(target_element_handle, STRING_ID(gui, target), &pane_to_show)
-			|| pane_to_show == NONE || pane_to_show == k_string_id_empty_string)
-		{
-			break;
-		}
-
-		c_start_menu_settings* current_pane = (c_start_menu_settings*)c_start_menu_screen_widget::get_current_pane();
-
-		real32 appearance_camera_zoom = 0.0f;
-		if (current_pane && gui_screen_widget_is_start_menu_pane_screen(current_pane))
-		{
-			appearance_camera_zoom = current_pane->m_appearance_camera_zoom;
-		}
-
-		real32 appearance_camera_yaw = 0.0f;
-		if (current_pane && gui_screen_widget_is_start_menu_pane_screen(current_pane))
-		{
-			appearance_camera_yaw = current_pane->m_appearance_camera_yaw;
-		}
-
-		c_start_menu_screen_widget::load_pane(
-			pane_to_show,
-			true,
-			transition_type,
-			NONE,
-			NONE,
-			appearance_camera_zoom,
-			appearance_camera_yaw);
 	}
 	break;
 	}
