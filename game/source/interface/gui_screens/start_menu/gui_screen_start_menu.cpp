@@ -97,7 +97,13 @@ void c_start_menu_screen_widget::back_out_current_pane()
 //.text:00AE0340 ; 
 //.text:00AE0350 ; public: static void __cdecl c_start_menu_screen_widget::close_start_menu()
 //.text:00AE0390 ; 
-//.text:00AE03A0 ; private: bool c_start_menu_screen_widget::current_pane_is_root_pane() const
+
+bool c_start_menu_screen_widget::current_pane_is_root_pane() const
+{
+	//return INVOKE_CLASS_MEMBER(0x00AE03A0, c_start_menu_screen_widget, current_pane_is_root_pane);
+
+	return m_is_rooted && m_breadcrumbs.count() == 1;
+}
 
 void c_start_menu_screen_widget::dispose()
 {
@@ -331,7 +337,8 @@ void c_start_menu_screen_widget::initialize()
 
 	c_gui_screen_widget::initialize();
 
-	c_controller_interface const* controller = controller_get(get_single_responding_controller());
+	const c_controller_interface* controller = controller_get(c_gui_widget::get_single_responding_controller());
+
 	controller->get_player_identifier(&m_owner_player_id);
 	if (m_owner_player_id.is_empty())
 	{
@@ -342,10 +349,11 @@ void c_start_menu_screen_widget::initialize()
 	{
 		transition_out(_transition_out_normal);
 	}
-	if (!m_target_player_xuid)
+	if (m_target_player_xuid == 0ULL)
 	{
 		m_target_player_xuid = controller->get_player_xuid();
 	}
+
 	if (game_is_playback())
 	{
 		m_old_film_playback_speed = saved_film_manager_get_playback_game_speed();
@@ -360,6 +368,21 @@ void c_start_menu_screen_widget::initialize()
 void c_start_menu_screen_widget::initialize_datasource()
 {
 	INVOKE_CLASS_MEMBER(0x00AE0870, c_start_menu_screen_widget, initialize_datasource);
+
+	//c_gui_screen_widget::initialize_datasource();
+	//
+	//c_gui_data* datasource = new(_ui_allocation_marker_dummy) c_start_menu_screen_widget_sidebar_items_datasource();
+	//if (datasource != nullptr)
+	//{
+	//	if (datasource->initialize(STRING_ID(gui, top_menu)))
+	//	{
+	//		add_datasource(datasource);
+	//	}
+	//	else
+	//	{
+	//		ui_track_delete<c_gui_data>(datasource);
+	//	}
+	//}
 }
 
 bool c_start_menu_screen_widget::__funcs53()

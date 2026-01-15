@@ -58,6 +58,9 @@ public:
 protected:
 	virtual e_render_data_size get_render_data_size() override;
 
+private:
+	bool current_pane_is_root_pane() const;
+
 public:
 	virtual void reconstruct() override;
 	virtual void initialize_datasource() override;
