@@ -202,7 +202,7 @@ bool c_start_menu_screen_widget::handle_controller_input_message(const c_control
 		{
 		case _controller_component_button_b:
 		{
-			if (m_breadcrumbs.count() != 1)
+			if (m_breadcrumbs.count() == 1)
 			{
 				c_gui_screen_widget::transition_out(_transition_out_back_out);
 			}
@@ -404,7 +404,7 @@ void c_start_menu_screen_widget::load_pane(int32 pane_to_load, bool is_top_level
 				c_gui_widget* focused_widget = get_focused_widget();
 				if (focused_widget)
 				{
-					c_gui_list_item_widget* focused_list_item = static_cast<c_gui_list_item_widget*>(focused_widget);
+					c_gui_list_item_widget* focused_list_item = (c_gui_list_item_widget*)focused_widget;
 					if (focused_widget->get_type() != _gui_list_item)
 					{
 						focused_list_item = focused_widget->get_parent_list_item();
