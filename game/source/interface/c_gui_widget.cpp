@@ -883,6 +883,11 @@ bool c_gui_widget::get_string_by_string_id(int32 string_identifier, c_static_wch
 //.text:00AB9760 ; private: virtual c_user_interface_text* __cdecl c_gui_sized_text_widget<1024>::get_text_internal()
 //.text:00AB9770 ; 
 
+e_gui_widget_type c_gui_widget::get_type() const
+{
+	return m_type;
+}
+
 gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds, unprojected_bounds, apply_translation, apply_scale, apply_rotation);
