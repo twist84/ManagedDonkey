@@ -124,14 +124,14 @@ void c_gui_data_array::delete_element(int32 element_handle)
 	INVOKE_CLASS_MEMBER(0x00AD48B0, c_gui_data_array, delete_element, element_handle);
 }
 
-void c_gui_data::disable_all_elements(int32 string_id_column_name)
+void c_gui_data::disable_all_elements(string_id string_id_column_name)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD48D0, c_gui_data, disable_all_elements, string_id_column_name);
 
 	VASSERT(0, "datasource doesn't support enabling and disabling");
 }
 
-void c_gui_ordered_data::disable_all_elements(int32 string_id_column_name)
+void c_gui_ordered_data::disable_all_elements(string_id string_id_column_name)
 {
 	INVOKE_CLASS_MEMBER(0x00AD48E0, c_gui_ordered_data, disable_all_elements, string_id_column_name);
 }
@@ -141,29 +141,29 @@ void c_gui_data::dispose()
 	//INVOKE_CLASS_MEMBER(0x00AD4950, c_gui_data, dispose);
 }
 
-void c_gui_data::enable_element(int32 string_id_column_name, int32 string_id_value)
+void c_gui_data::enable_element(string_id string_id_column_name, string_id string_id_value)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD4960, c_gui_data, enable_element, string_id_column_name, string_id_value);
 
 	VASSERT(0, "datasource doesn't support enabling and disabling");
 }
 
-void c_gui_ordered_data::enable_element(int32 string_id_column_name, int32 string_id_value)
+void c_gui_ordered_data::enable_element(string_id string_id_column_name, string_id string_id_value)
 {
 	INVOKE_CLASS_MEMBER(0x00AD4970, c_gui_ordered_data, enable_element, string_id_column_name, string_id_value);
 }
 
-int32 c_gui_data::find_element_handle_from_string_id_value(int32 column_name, int32 value)
+int32 c_gui_data::find_element_handle_from_string_id_value(string_id column_name, int32 value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD49E0, c_gui_data, find_element_handle_from_string_id_value, column_name, value);
 }
 
-void c_gui_data_array_test::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_data_array_test::get_column_names(string_id* const column_names, int32* column_count)
 {
 	INVOKE_CLASS_MEMBER(0x00AD4A50, c_gui_data_array_test, get_column_names, column_names, column_count);
 }
 
-void c_gui_tag_datasource::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_tag_datasource::get_column_names(string_id* const column_names, int32* column_count)
 {
 	INVOKE_CLASS_MEMBER(0x00AD4A60, c_gui_tag_datasource, get_column_names, column_names, column_count);
 }
@@ -219,24 +219,24 @@ const c_gui_selected_item* c_gui_data::get_gui_selected_item(int32 element_handl
 	return NULL;
 }
 
-bool c_gui_data::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_data::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD4E80, c_gui_data, get_integer_value, element_handle, value_name, value);
 
 	return false;
 }
 
-bool c_gui_data_array_test::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_data_array_test::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD4E90, c_gui_data_array_test, get_integer_value, element_handle, value_name, value);
 }
 
-bool c_gui_tag_datasource::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_tag_datasource::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD4ED0, c_gui_tag_datasource, get_integer_value, element_handle, value_name, value);
 }
 
-bool c_gui_data::get_invoked_control(int32 element_handle, int32* control_name)
+bool c_gui_data::get_invoked_control(int32 element_handle, string_id* control_name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD4F40, c_gui_data, get_invoked_control, element_handle, control_name);
 
@@ -244,7 +244,7 @@ bool c_gui_data::get_invoked_control(int32 element_handle, int32* control_name)
 }
 
 
-bool c_gui_tag_datasource::get_invoked_control(int32 element_handle, int32* control_name)
+bool c_gui_tag_datasource::get_invoked_control(int32 element_handle, string_id* control_name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD4F50, c_gui_tag_datasource, get_invoked_control, element_handle, control_name);
 }
@@ -288,60 +288,60 @@ int32 c_gui_ordered_data::get_previous_element_handle(int32 element_handle)
 	return INVOKE_CLASS_MEMBER(0x00AD50C0, c_gui_ordered_data, get_previous_element_handle, element_handle);
 }
 
-bool c_gui_data::get_qword_value(int32 element_handle, int32 value_name, uns64* value)
+bool c_gui_data::get_qword_value(int32 element_handle, string_id value_name, uns64* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD5160, c_gui_data, get_qword_value, element_handle, value_name, value);
 
 	return false;
 }
 
-bool c_gui_data::get_real_value(int32 element_handle, int32 value_name, real32* value)
+bool c_gui_data::get_real_value(int32 element_handle, string_id value_name, real32* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD5170, c_gui_data, get_real_value, element_handle, value_name, value);
 
 	return false;
 }
 
-bool c_gui_data::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_data::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD5180, c_gui_data, get_string_id_value, element_handle, value_name, value);
 
 	return false;
 }
 
-bool c_gui_data_array_test::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_data_array_test::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD5190, c_gui_data_array_test, get_string_id_value, element_handle, value_name, value);
 }
 
-bool c_gui_tag_datasource::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_tag_datasource::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD51B0, c_gui_tag_datasource, get_string_id_value, element_handle, value_name, value);
 }
 
-bool c_gui_data::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_data::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD5220, c_gui_data, get_text_value, element_handle, value_name, buffer);
 
 	return false;
 }
 
-bool c_gui_data_array_test::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_data_array_test::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD5230, c_gui_data_array_test, get_text_value, element_handle, value_name, buffer);
 }
 
-bool c_gui_tag_datasource::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_tag_datasource::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD5280, c_gui_tag_datasource, get_text_value, element_handle, value_name, buffer);
 }
 
-int32 c_gui_data::get_name()
+string_id c_gui_data::get_name()
 {
 	return m_name;
 }
 
-bool c_gui_data::initialize(int32 name)
+bool c_gui_data::initialize(string_id name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD52F0, c_gui_data, initialize, name);
 
@@ -349,19 +349,19 @@ bool c_gui_data::initialize(int32 name)
 	return true;
 }
 
-bool c_gui_data_array::initialize(int32 name)
+bool c_gui_data_array::initialize(string_id name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD5300, c_gui_data_array, initialize, name);
 }
 
-bool c_gui_data_array_test::initialize(int32 name)
+bool c_gui_data_array_test::initialize(string_id name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD5330, c_gui_data_array_test, initialize, name);
 }
 
 //.text:00AD5370 ; public: virtual bool c_gui_data_proxy::initialize()
 
-bool c_gui_tag_datasource::initialize(int32 name)
+bool c_gui_tag_datasource::initialize(string_id name)
 {
 	return INVOKE_CLASS_MEMBER(0x00AD5390, c_gui_tag_datasource, initialize, name);
 }
@@ -375,14 +375,14 @@ bool c_gui_data::is_busy() const
 
 //.text:00AD53C0 ; private: bool c_gui_ordered_data::is_enabled(int32 absolute_index)
 
-void c_gui_data::set_disabled_element(int32 string_id_column_name, int32 string_id_value)
+void c_gui_data::set_disabled_element(string_id string_id_column_name, string_id string_id_value)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD5430, c_gui_data, set_disabled_element, string_id_column_name, string_id_value);
 
 	VASSERT(0, "datasource doesn't support enabling and disabling");
 }
 
-void c_gui_ordered_data::set_disabled_element(int32 string_id_column_name, int32 string_id_value)
+void c_gui_ordered_data::set_disabled_element(string_id string_id_column_name, string_id string_id_value)
 {
 	//INVOKE_CLASS_MEMBER(0x00AD5440, c_gui_ordered_data, set_disabled_element, string_id_column_name, string_id_value);
 

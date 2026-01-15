@@ -330,7 +330,7 @@ c_gui_insertion_point_data::c_gui_insertion_point_data(int32 string_list_index) 
 {
 }
 
-void c_gui_insertion_point_data::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_insertion_point_data::get_column_names(string_id* const column_names, int32* column_count)
 {
 	*column_count = 0;
 	column_names[(*column_count)++] = STRING_ID(gui, insertion_point);
@@ -341,7 +341,7 @@ int32 c_gui_insertion_point_data::get_current_item_count_internal()
 	return m_insertion_point_count;
 }
 
-bool c_gui_insertion_point_data::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_insertion_point_data::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	if (!VALID_INDEX(element_handle, m_insertion_point_count))
 	{
@@ -379,7 +379,7 @@ bool c_gui_insertion_point_data::get_text_value(int32 element_handle, int32 valu
 	return false;
 }
 
-bool c_gui_insertion_point_data::initialize(int32 name)
+bool c_gui_insertion_point_data::initialize(string_id name)
 {
 	m_insertion_point_count = 0;
 	m_insertion_point_unlocked = 1;

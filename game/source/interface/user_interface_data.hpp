@@ -11,7 +11,7 @@ class c_gui_data
 {
 public:
 	virtual ~c_gui_data();
-	virtual bool initialize(int32 name);
+	virtual bool initialize(string_id name);
 	virtual void dispose();
 	virtual void update();
 	virtual bool is_busy() const;
@@ -19,34 +19,34 @@ public:
 	virtual int32 get_first_element_handle() = 0;
 	virtual int32 get_next_element_handle(int32 element_handle) = 0;
 	virtual int32 get_previous_element_handle(int32 element_handle) = 0;
-	virtual void get_column_names(int32* const column_names, int32* column_count) = 0;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) = 0;
 	virtual bool get_element(int32 element_handle, void* element, int32 element_size);
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value);
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer);
-	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value);
-	virtual bool get_qword_value(int32 element_handle, int32 value_name, uns64* value);
-	virtual bool get_real_value(int32 element_handle, int32 value_name, real32* value);
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value);
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer);
+	virtual bool get_string_id_value(int32 element_handle, string_id value_name, int32* value);
+	virtual bool get_qword_value(int32 element_handle, string_id value_name, uns64* value);
+	virtual bool get_real_value(int32 element_handle, string_id value_name, real32* value);
 	virtual bool get_player_appearance(int32 element_handle, s_player_appearance* appearance);
 	virtual const c_gui_selected_item* get_gui_selected_item(int32 element_handle) const;
 	virtual int32 get_maximum_item_count();
 	virtual int32 add_element();
 	virtual void delete_element(int32 element_handle);
 	virtual void set_element(int32 element_handle, const void* element, int32 element_size);
-	virtual bool get_invoked_control(int32 element_handle, int32* control_name);
+	virtual bool get_invoked_control(int32 element_handle, string_id* control_name);
 	virtual void clear_disabled_elements();
-	virtual void set_disabled_element(int32 string_id_column_name, int32 string_id_value);
-	virtual void disable_all_elements(int32 string_id_column_name);
-	virtual void enable_element(int32 string_id_column_name, int32 string_id_value);
+	virtual void set_disabled_element(string_id string_id_column_name, string_id string_id_value);
+	virtual void disable_all_elements(string_id string_id_column_name);
+	virtual void enable_element(string_id string_id_column_name, string_id string_id_value);
 
 public:
 	c_gui_data();
 	bool contains(int32 element_handle);
-	int32 find_element_handle_from_string_id_value(int32 column_name, int32 value);
-	int32 get_name();
+	int32 find_element_handle_from_string_id_value(string_id column_name, int32 value);
+	string_id get_name();
 	void set_name(int32 name);
 
 protected:
-	int32 m_name;
+	string_id m_name;
 };
 static_assert(sizeof(c_gui_data) == 0x8);
 
@@ -55,7 +55,7 @@ class c_gui_data_array :
 {
 public:
 	virtual ~c_gui_data_array();
-	virtual bool initialize(int32 name) override;
+	virtual bool initialize(string_id name) override;
 	virtual int32 get_current_item_count() override;
 	virtual int32 get_first_element_handle() override;
 	virtual int32 get_next_element_handle(int32 element_handle) override;
@@ -92,11 +92,11 @@ public:
 
 public:
 	virtual ~c_gui_data_array_test() = default;
-	virtual bool initialize(int32 name) override;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
-	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual bool initialize(string_id name) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_string_id_value(int32 element_handle, string_id value_name, int32* value) override;
 
 public:
 	c_gui_data_array_test();
@@ -130,9 +130,9 @@ public:
 	virtual int32 get_next_element_handle(int32 element_handle) override;
 	virtual int32 get_previous_element_handle(int32 element_handle) override;
 	virtual void clear_disabled_elements() override;
-	virtual void set_disabled_element(int32 string_id_column_name, int32 string_id_value) override;
-	virtual void disable_all_elements(int32 string_id_column_name) override;
-	virtual void enable_element(int32 string_id_column_name, int32 string_id_value) override;
+	virtual void set_disabled_element(string_id string_id_column_name, string_id string_id_value) override;
+	virtual void disable_all_elements(string_id string_id_column_name) override;
+	virtual void enable_element(string_id string_id_column_name, string_id string_id_value) override;
 
 protected:
 	virtual int32 get_current_item_count_internal() = 0;
@@ -152,13 +152,13 @@ class c_gui_tag_datasource :
 {
 public:
 	virtual ~c_gui_tag_datasource() = default;
-	virtual bool initialize(int32 name) override;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
+	virtual bool initialize(string_id name) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
 	virtual bool get_element(int32 element_handle, void* element, int32 element_size) override;
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
-	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_invoked_control(int32 element_handle, int32* control_name) override;
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_string_id_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_invoked_control(int32 element_handle, string_id* control_name) override;
 	virtual int32 get_current_item_count_internal() override;
 
 public:

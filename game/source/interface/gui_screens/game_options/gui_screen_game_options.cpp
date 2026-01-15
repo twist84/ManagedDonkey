@@ -170,7 +170,7 @@ bool __cdecl can_save_settings(e_game_engine_type game_engine)
 //.text:00B0BC70 ; public: c_flags<e_text_value_pair_flags, uns8, 1>::c_flags<e_text_value_pair_flags, uns8, k_number_of_text_value_pair_flags>()
 //.text:00B0BC80 ; protected: void c_gui_screen_game_options::finish_editing_setting()
 
-void c_game_options_category_datasource::get_column_names(int32* const column_names, int32* column_count)
+void c_game_options_category_datasource::get_column_names(string_id* const column_names, int32* column_count)
 {
 	INVOKE_CLASS_MEMBER(0x00B0BC90, c_game_options_category_datasource, get_column_names, column_names, column_count);
 
@@ -178,7 +178,7 @@ void c_game_options_category_datasource::get_column_names(int32* const column_na
 	//column_names[(*column_count)++] = STRING_ID(global, value);
 }
 
-void c_game_options_parameter_datasource::get_column_names(int32* const column_names, int32* column_count)
+void c_game_options_parameter_datasource::get_column_names(string_id* const column_names, int32* column_count)
 {
 	INVOKE_CLASS_MEMBER(0x00B0BCB0, c_game_options_parameter_datasource, get_column_names, column_names, column_count);
 
@@ -231,7 +231,7 @@ bool c_game_options_category_datasource::get_element(int32 element_handle, void*
 	return INVOKE_CLASS_MEMBER(0x00B0BD50, c_game_options_category_datasource, get_element, element_handle, element, element_size);
 }
 
-bool c_game_options_parameter_datasource::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_game_options_parameter_datasource::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00B0BDC0, c_game_options_parameter_datasource, get_integer_value, element_handle, value_name, value);
 }
@@ -248,12 +248,12 @@ e_game_engine_category c_gui_screen_game_options::get_interface_setting() const
 	//return m_settings_history_stack[m_setting_stack_depth].interface_category;
 }
 
-bool c_game_options_category_datasource::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_game_options_category_datasource::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00B0BE30, c_game_options_category_datasource, get_string_id_value, element_handle, value_name, value);
 }
 
-bool c_game_options_parameter_datasource::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_game_options_parameter_datasource::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00B0C010, c_game_options_parameter_datasource, get_string_id_value, element_handle, value_name, value);
 

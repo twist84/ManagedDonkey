@@ -25,9 +25,9 @@ class c_game_options_category_datasource :
 {
 public:
 	virtual ~c_game_options_category_datasource() = default;
-	virtual void get_column_names(int32* const column_names, int32* column_count);
+	virtual void get_column_names(string_id* const column_names, int32* column_count);
 	virtual bool get_element(int32 element_handle, void* element, int32 element_size);
-	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value);
+	virtual bool get_string_id_value(int32 element_handle, string_id value_name, int32* value);
 
 protected:
 	virtual int32 get_current_item_count_internal();
@@ -50,9 +50,9 @@ class c_game_options_parameter_datasource :
 {
 public:
 	virtual ~c_game_options_parameter_datasource() = default;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_string_id_value(int32 element_handle, string_id value_name, int32* value) override;
 	virtual int32 get_current_item_count_internal() override;
 
 public:

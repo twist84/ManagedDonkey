@@ -11,12 +11,12 @@ HOOK_DECLARE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, get_integer_value_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, get_text_value_);
 HOOK_DECLARE_CLASS_MEMBER(0x00B25430, c_gui_active_roster_data, update_);
 
-bool __thiscall c_gui_roster_data::get_integer_value_(int32 element_handle, int32 value_name, int32* value)
+bool __thiscall c_gui_roster_data::get_integer_value_(int32 element_handle, string_id value_name, int32* value)
 {
 	return c_gui_roster_data::get_integer_value(element_handle, value_name, value);
 }
 
-bool __thiscall c_gui_roster_data::get_text_value_(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* value)
+bool __thiscall c_gui_roster_data::get_text_value_(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* value)
 {
 	return c_gui_roster_data::get_text_value(element_handle, value_name, value);
 }
@@ -83,7 +83,7 @@ c_gui_roster_data::s_player_row::s_player_row()
 
 //.text:00B24B60 ; protected: static bool __cdecl c_gui_roster_data::considered_to_be_in_same_party(const c_gui_roster_data::s_player_row*, const c_gui_roster_data::s_player_row*)
 
-void c_gui_roster_data::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_roster_data::get_column_names(string_id* const column_names, int32* column_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00B24BC0, c_gui_roster_data, get_column_names, column_names, column_count);
 
@@ -116,7 +116,7 @@ int32 c_gui_roster_data::get_current_item_count_internal()
 	return m_player_count;
 }
 
-bool c_gui_roster_data::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_roster_data::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, get_integer_value, element_handle, value_name, value);
 
@@ -259,7 +259,7 @@ bool c_gui_roster_data::get_player_identifier_value(int32 element_handle, s_play
 	return INVOKE_CLASS_MEMBER(0x00B24F90, c_gui_roster_data, get_player_identifier_value, element_handle, player_identifier);
 }
 
-bool c_gui_roster_data::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* value)
+bool c_gui_roster_data::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, _get_text_value, element_handle, value_name, value);
 

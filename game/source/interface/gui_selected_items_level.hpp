@@ -28,10 +28,10 @@ class c_gui_level_category_datasource :
 {
 public:
 	virtual ~c_gui_level_category_datasource() = default;
-	virtual bool initialize(int32 name) override;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool initialize(string_id name) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer) override;
 	virtual int32 get_current_item_count_internal() override;
 
 public:
@@ -58,10 +58,10 @@ public:
 
 public:
 	virtual ~c_gui_level_subitem_selectable_item_datasource() = default;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
-	virtual bool get_string_id_value(int32 element_handle, int32 value_name, int32* value) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual bool get_string_id_value(int32 element_handle, string_id value_name, int32* value) override;
 	virtual const c_gui_selected_item* get_gui_selected_item(int32 element_handle) const override;
 	virtual int32 get_current_item_count_internal() override;
 	virtual bool initialize(e_controller_index controller_index, int32 name, e_campaign_id campaign_id);

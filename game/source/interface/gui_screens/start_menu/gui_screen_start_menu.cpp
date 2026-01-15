@@ -126,7 +126,7 @@ void c_start_menu_screen_widget::dispose()
 //.text:00AE0400 ; 
 //.text:00AE0420 ; 
 //.text:00AE0430 ; 
-//.text:00AE0440 ; public: virtual void c_start_menu_screen_widget_sidebar_items_datasource::get_column_names(int32* const column_names, int32* column_count)
+//.text:00AE0440 ; public: virtual void c_start_menu_screen_widget_sidebar_items_datasource::get_column_names(string_id* const column_names, int32* column_count)
 
 int32 __cdecl c_start_menu_screen_widget::get_current_game_pane_name()
 {

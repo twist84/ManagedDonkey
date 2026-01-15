@@ -136,9 +136,9 @@ public:
 public:
 	virtual ~c_gui_scoreboard_data() = default;
 	virtual void update() override;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
-	virtual bool get_integer_value(int32 element_handle, int32 value_name, int32* value) override;
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
+	virtual bool get_integer_value(int32 element_handle, string_id value_name, int32* value) override;
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer) override;
 	virtual bool get_player_appearance(int32 element_handle, s_player_appearance* appearance) override;
 
 protected:

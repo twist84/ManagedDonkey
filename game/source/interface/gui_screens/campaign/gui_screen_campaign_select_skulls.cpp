@@ -29,7 +29,7 @@ c_gui_secondary_skulls_data::c_gui_secondary_skulls_data() :
 //.text:00AFE5C0 ; public: virtual void* c_gui_screen_campaign_select_skulls::`scalar deleting destructor'(unsigned int)
 //.text:00AFE5F0 ; public: virtual void* c_gui_secondary_skulls_data::`scalar deleting destructor'(unsigned int)
 
-void c_gui_primary_skulls_data::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_primary_skulls_data::get_column_names(string_id* const column_names, int32* column_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00AFE620, c_gui_primary_skulls_data, get_column_names, column_names, column_count);
 
@@ -41,7 +41,7 @@ void c_gui_primary_skulls_data::get_column_names(int32* const column_names, int3
 	column_names[*column_count++] = STRING_ID(gui, skull_name);
 }
 
-void c_gui_secondary_skulls_data::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_secondary_skulls_data::get_column_names(string_id* const column_names, int32* column_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00AFE680, c_gui_secondary_skulls_data, get_column_names, column_names, column_count);
 
@@ -64,7 +64,7 @@ int32 c_gui_secondary_skulls_data::get_current_item_count_internal()
 	return k_campaign_skull_secondary_count;
 }
 
-bool c_gui_primary_skulls_data::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_primary_skulls_data::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AFE700, c_gui_primary_skulls_data, get_integer_value, element_handle, value_name, value);
 
@@ -101,7 +101,7 @@ bool c_gui_primary_skulls_data::get_integer_value(int32 element_handle, int32 va
 	return false;
 }
 
-bool c_gui_secondary_skulls_data::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_secondary_skulls_data::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AFE770, c_gui_secondary_skulls_data, get_integer_value, element_handle, value_name, value);
 
@@ -138,12 +138,12 @@ bool c_gui_secondary_skulls_data::get_integer_value(int32 element_handle, int32 
 	return false;
 }
 
-bool c_gui_primary_skulls_data::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_primary_skulls_data::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AFE7D0, c_gui_primary_skulls_data, get_string_id_value, element_handle, value_name, value);
 }
 
-bool c_gui_secondary_skulls_data::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_secondary_skulls_data::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AFE890, c_gui_secondary_skulls_data, get_string_id_value, element_handle, value_name, value);
 }

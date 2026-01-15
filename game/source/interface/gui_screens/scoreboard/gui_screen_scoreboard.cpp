@@ -142,7 +142,7 @@ void c_scoreboard_load_screen_message::apply_initial_state(c_gui_screen_widget* 
 	scoreboard->set_is_interactive(m_is_interactive);
 }
 
-void c_gui_scoreboard_data::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_scoreboard_data::get_column_names(string_id* const column_names, int32* column_count)
 {
 	INVOKE_CLASS_MEMBER(0x00AB2E30, c_gui_scoreboard_data, get_column_names, column_names, column_count);
 }
@@ -158,7 +158,7 @@ int32 c_gui_scoreboard_data::get_current_item_count_internal()
 
 //.text:00AB2F00 ; 
 
-bool c_gui_scoreboard_data::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_scoreboard_data::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB2F10, c_gui_scoreboard_data, get_integer_value, element_handle, value_name, value);
 }
@@ -187,7 +187,7 @@ c_gui_screen_scoreboard* __cdecl c_gui_screen_scoreboard::get_scoreboard_screen(
 	return INVOKE(0x00AB3120, c_gui_screen_scoreboard::get_scoreboard_screen, controller_index);
 }
 
-bool c_gui_scoreboard_data::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_scoreboard_data::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB31A0, c_gui_scoreboard_data, get_text_value, element_handle, value_name, buffer);
 }

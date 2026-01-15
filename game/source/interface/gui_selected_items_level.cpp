@@ -57,7 +57,7 @@ c_gui_level_subitem_selectable_item_datasource::s_level::s_level()
 //.text:00B207E0 ; public: virtual void* c_gui_level_category_datasource::`vector deleting destructor'(unsigned int)
 //.text:00B20810 ; public: virtual void* c_gui_level_subitem_selectable_item_datasource::`scalar deleting destructor'(unsigned int)
 
-void c_gui_level_category_datasource::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_level_category_datasource::get_column_names(string_id* const column_names, int32* column_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00B20840, c_gui_level_category_datasource, get_column_names, column_names, column_count);
 
@@ -67,7 +67,7 @@ void c_gui_level_category_datasource::get_column_names(int32* const column_names
 	column_names[*column_count++] = STRING_ID(global, description);
 }
 
-void c_gui_level_subitem_selectable_item_datasource::get_column_names(int32* const column_names, int32* column_count)
+void c_gui_level_subitem_selectable_item_datasource::get_column_names(string_id* const column_names, int32* column_count)
 {
 	//INVOKE_CLASS_MEMBER(0x00B20880, c_gui_level_subitem_selectable_item_datasource,get_column_names, column_names, column_count);
 
@@ -102,32 +102,32 @@ const c_gui_selected_item* c_gui_level_subitem_selectable_item_datasource::get_g
 	return &m_levels[element_handle].item;
 }
 
-bool c_gui_level_category_datasource::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_level_category_datasource::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00B20900, c_gui_level_category_datasource, get_integer_value, element_handle, value_name, value);
 }
 
-bool c_gui_level_subitem_selectable_item_datasource::get_integer_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_level_subitem_selectable_item_datasource::get_integer_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00B20950, c_gui_level_subitem_selectable_item_datasource, get_integer_value, element_handle, value_name, value);
 }
 
-bool c_gui_level_subitem_selectable_item_datasource::get_string_id_value(int32 element_handle, int32 value_name, int32* value)
+bool c_gui_level_subitem_selectable_item_datasource::get_string_id_value(int32 element_handle, string_id value_name, int32* value)
 {
 	return INVOKE_CLASS_MEMBER(0x00B209A0, c_gui_level_subitem_selectable_item_datasource, get_string_id_value, element_handle, value_name, value);
 }
 
-bool c_gui_level_category_datasource::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_level_category_datasource::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00B209C0, c_gui_level_category_datasource, get_text_value, element_handle, value_name, buffer);
 }
 
-bool c_gui_level_subitem_selectable_item_datasource::get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer)
+bool c_gui_level_subitem_selectable_item_datasource::get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer)
 {
 	return INVOKE_CLASS_MEMBER(0x00B20A30, c_gui_level_subitem_selectable_item_datasource, get_text_value, element_handle, value_name, buffer);
 }
 
-bool c_gui_level_category_datasource::initialize(int32 name)
+bool c_gui_level_category_datasource::initialize(string_id name)
 {
 	return INVOKE_CLASS_MEMBER(0x00B20AB0, c_gui_level_category_datasource, initialize, name);
 }

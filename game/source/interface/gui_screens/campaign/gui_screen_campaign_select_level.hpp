@@ -9,10 +9,10 @@ class c_gui_insertion_point_data :
 {
 public:
 	virtual ~c_gui_insertion_point_data() = default;
-	virtual bool initialize(int32 name) override;
+	virtual bool initialize(string_id name) override;
 	virtual void update() override;
-	virtual void get_column_names(int32* const column_names, int32* column_count) override;
-	virtual bool get_text_value(int32 element_handle, int32 value_name, c_static_wchar_string<1024>* buffer) override;
+	virtual void get_column_names(string_id* const column_names, int32* column_count) override;
+	virtual bool get_text_value(int32 element_handle, string_id value_name, c_static_wchar_string<1024>* buffer) override;
 
 protected:
 	virtual int32 get_current_item_count_internal() override;
