@@ -108,7 +108,7 @@ protected:
 		uns8 m_variant_storage[k_maximum_game_engine_variant_size];
 	};
 };
-static_assert(sizeof(c_game_variant) == 0x264);
+COMPILE_ASSERT(sizeof(c_game_variant) == 0x264);
 
 extern const char* game_engine_type_get_string(int32 game_engine_variant);
 extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);

@@ -97,7 +97,7 @@ protected:
 
 	byte m_pad1[2];
 };
-static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x200);
+COMPILE_ASSERT(sizeof(c_game_engine_juggernaut_variant) == 0x200);
 
 class c_juggernaut_engine :
 	public c_game_engine
@@ -116,7 +116,7 @@ struct s_juggernaut_globals
 	c_static_array<int32, 16> juggernaut_kills;
 	int32 juggernaut_player_index_at_game_update_start;
 };
-static_assert(sizeof(s_juggernaut_globals) == 0x510);
+COMPILE_ASSERT(sizeof(s_juggernaut_globals) == 0x510);
 
 extern c_game_engine_juggernaut_variant*& juggernaut_variant;
 

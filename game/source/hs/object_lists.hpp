@@ -10,7 +10,7 @@ struct object_list_header_datum :
 	int16 count;
 	int32 first_reference_index;
 };
-static_assert(sizeof(object_list_header_datum) == 0xC);
+COMPILE_ASSERT(sizeof(object_list_header_datum) == 0xC);
 
 struct object_list_datum :
 	s_datum_header
@@ -18,7 +18,7 @@ struct object_list_datum :
 	int32 object_index;
 	int32 reference_index;
 };
-static_assert(sizeof(object_list_datum) == 0xC);
+COMPILE_ASSERT(sizeof(object_list_datum) == 0xC);
 
 extern void __cdecl object_list_add(int32 object_list_index, int32 object_index);
 extern void __cdecl object_list_add_reference(int32 object_list_index);

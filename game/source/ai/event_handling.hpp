@@ -9,7 +9,7 @@ struct ai_spatial_effect
 	real_point3d position;
 	int32 last_tick;
 };
-static_assert(sizeof(ai_spatial_effect) == 0x14);
+COMPILE_ASSERT(sizeof(ai_spatial_effect) == 0x14);
 
 struct ai_allegiance_information_data
 {
@@ -17,19 +17,19 @@ struct ai_allegiance_information_data
 	int16 team2_index;
 	int16 type;
 };
-static_assert(sizeof(ai_allegiance_information_data) == 0x6);
+COMPILE_ASSERT(sizeof(ai_allegiance_information_data) == 0x6);
 
 struct ai_combat_stimulus_information_data
 {
 	int32 unused;
 };
-static_assert(sizeof(ai_combat_stimulus_information_data) == 0x4);
+COMPILE_ASSERT(sizeof(ai_combat_stimulus_information_data) == 0x4);
 
 struct ai_information_target_knowledge_data
 {
 	int32 object_index;
 };
-static_assert(sizeof(ai_information_target_knowledge_data) == 0x4);
+COMPILE_ASSERT(sizeof(ai_information_target_knowledge_data) == 0x4);
 
 struct ai_information_data
 {
@@ -43,7 +43,7 @@ struct ai_information_data
 		ai_information_target_knowledge_data target_knowledge;
 	};
 };
-static_assert(sizeof(ai_information_data) == 0x18);
+COMPILE_ASSERT(sizeof(ai_information_data) == 0x18);
 
 struct ai_information_packet
 {
@@ -52,7 +52,7 @@ struct ai_information_packet
 	int32 listener_object_index;
 	ai_information_data information_data;
 };
-static_assert(sizeof(ai_information_packet) == 0x20);
+COMPILE_ASSERT(sizeof(ai_information_packet) == 0x20);
 
 struct ai_sound_data
 {
@@ -64,7 +64,7 @@ struct ai_sound_data
 		ai_information_data comm;
 	};
 };
-static_assert(sizeof(ai_sound_data) == 0x1C);
+COMPILE_ASSERT(sizeof(ai_sound_data) == 0x1C);
 
 extern void __cdecl event_handling_initialize();
 

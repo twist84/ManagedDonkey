@@ -43,8 +43,8 @@ enum e_vehicle_type
 	_vehicle_mask_ground = FLAG(_vehicle_type_human_tank) | FLAG(_vehicle_type_human_jeep) | FLAG(_vehicle_type_alien_scout) | FLAG(_vehicle_type_chopper),
 	_vehicle_mask_flying = FLAG(_vehicle_type_human_plane) | FLAG(_vehicle_type_alien_fighter) | FLAG(_vehicle_type_vtol)
 };
-static_assert(0b0000000100001011 == _vehicle_mask_ground);
-static_assert(0b0000000010010100 == _vehicle_mask_flying);
+COMPILE_ASSERT(0b0000000100001011 == _vehicle_mask_ground);
+COMPILE_ASSERT(0b0000000010010100 == _vehicle_mask_flying);
 
 struct s_vehicle_human_tank_definition;
 struct s_vehicle_human_jeep_definition;
@@ -62,7 +62,7 @@ struct s_vehicle_physics_types
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_vehicle_physics_types) == 0x78);
+COMPILE_ASSERT(sizeof(s_vehicle_physics_types) == 0x78);
 
 struct s_toruqe_curve_definition
 {
@@ -75,7 +75,7 @@ struct s_toruqe_curve_definition
 	real32 torque_at_max_angular_velocity;
 	real32 torque_at_2x_max_angular_velocity;
 };
-static_assert(sizeof(s_toruqe_curve_definition) == 0x18);
+COMPILE_ASSERT(sizeof(s_toruqe_curve_definition) == 0x18);
 
 struct s_vehicle_gear_definition
 {
@@ -92,7 +92,7 @@ struct s_vehicle_gear_definition
 	real32 min_time_to_downshift;
 	real32 engine_down_shift_scale;
 };
-static_assert(sizeof(s_vehicle_gear_definition) == 0x44);
+COMPILE_ASSERT(sizeof(s_vehicle_gear_definition) == 0x44);
 
 struct s_vehicle_engine_definition
 {
@@ -105,7 +105,7 @@ struct s_vehicle_engine_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_vehicle_engine_definition) == 0x24);
+COMPILE_ASSERT(sizeof(s_vehicle_engine_definition) == 0x24);
 
 struct s_vehicle_human_tank_definition
 {
@@ -138,7 +138,7 @@ struct s_vehicle_human_tank_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_vehicle_human_tank_definition) == 0x58);
+COMPILE_ASSERT(sizeof(s_vehicle_human_tank_definition) == 0x58);
 
 struct s_vehicle_steering_control_definition
 {
@@ -151,7 +151,7 @@ struct s_vehicle_steering_control_definition
 	real32 overdampen_cusp_angle; // degrees
 	real32 overdampen_exponent;
 };
-static_assert(sizeof(s_vehicle_steering_control_definition) == 0x8);
+COMPILE_ASSERT(sizeof(s_vehicle_steering_control_definition) == 0x8);
 
 struct s_vehicle_turning_control_definition
 {
@@ -161,7 +161,7 @@ struct s_vehicle_turning_control_definition
 	real32 maximum_right_turn_negative;
 	real32 turn_rate;
 };
-static_assert(sizeof(s_vehicle_turning_control_definition) == 0xC);
+COMPILE_ASSERT(sizeof(s_vehicle_turning_control_definition) == 0xC);
 
 struct s_vehicle_human_jeep_definition
 {
@@ -173,7 +173,7 @@ struct s_vehicle_human_jeep_definition
 	real32 wheel_circumferance;
 	real32 gravity_adjust;
 };
-static_assert(sizeof(s_vehicle_human_jeep_definition) == 0x40);
+COMPILE_ASSERT(sizeof(s_vehicle_human_jeep_definition) == 0x40);
 
 struct s_vehicle_steering_animation_definition
 {
@@ -190,7 +190,7 @@ struct s_vehicle_steering_animation_definition
 	// non-zero= max angle delta per frame
 	real32 max_angle;
 };
-static_assert(sizeof(s_vehicle_steering_animation_definition) == 0x8);
+COMPILE_ASSERT(sizeof(s_vehicle_steering_animation_definition) == 0x8);
 
 struct s_vehicle_human_plane_definition
 {
@@ -219,7 +219,7 @@ struct s_vehicle_human_plane_definition
 	real32 maximum_roll;
 	s_vehicle_steering_animation_definition steering_animation;
 };
-static_assert(sizeof(s_vehicle_human_plane_definition) == 0x4C);
+COMPILE_ASSERT(sizeof(s_vehicle_human_plane_definition) == 0x4C);
 
 struct s_engine_function_definition
 {
@@ -241,7 +241,7 @@ struct s_engine_function_definition
 	// So when we slow down for any reason we see the function go down
 	real32 maximum_vehicle_speed;
 };
-static_assert(sizeof(s_engine_function_definition) == 0x14);
+COMPILE_ASSERT(sizeof(s_engine_function_definition) == 0x14);
 
 struct physics_variable_speed
 {
@@ -250,7 +250,7 @@ struct physics_variable_speed
 	real32 acceleration;
 	real32 deceleration;
 };
-static_assert(sizeof(physics_variable_speed) == 0x10);
+COMPILE_ASSERT(sizeof(physics_variable_speed) == 0x10);
 
 struct s_vehicle_alien_scout_definition
 {
@@ -303,7 +303,7 @@ struct s_vehicle_alien_scout_definition
 
 	s_vehicle_steering_animation_definition steering_animation;
 };
-static_assert(sizeof(s_vehicle_alien_scout_definition) == 0x70);
+COMPILE_ASSERT(sizeof(s_vehicle_alien_scout_definition) == 0x70);
 
 struct s_vehicle_alien_fighter_definition
 {
@@ -352,13 +352,13 @@ struct s_vehicle_alien_fighter_definition
 	real32 cruising_throttle;
 	real32 dive_speed_scale;
 };
-static_assert(sizeof(s_vehicle_alien_fighter_definition) == 0x64);
+COMPILE_ASSERT(sizeof(s_vehicle_alien_fighter_definition) == 0x64);
 
 struct s_vehicle_turret_definition
 {
 	int32 pad[0x1];
 };
-static_assert(sizeof(s_vehicle_turret_definition) == 0x4);
+COMPILE_ASSERT(sizeof(s_vehicle_turret_definition) == 0x4);
 
 enum e_walker_physics_leg_group
 {
@@ -413,7 +413,7 @@ struct s_walker_physics_leg
 	real_point3d plant_constraint_position;
 	int32 pad3[0x3];
 };
-static_assert(sizeof(s_walker_physics_leg) == 0xA0);
+COMPILE_ASSERT(sizeof(s_walker_physics_leg) == 0xA0);
 
 struct s_walker_physics_definition
 {
@@ -425,7 +425,7 @@ struct s_walker_physics_definition
 	real32 drop_exponent;
 	real_vector3d object_space_pivot_position;
 };
-static_assert(sizeof(s_walker_physics_definition) == 0x34);
+COMPILE_ASSERT(sizeof(s_walker_physics_definition) == 0x34);
 
 struct s_vehicle_mantis_definition
 {
@@ -481,7 +481,7 @@ struct s_vehicle_mantis_definition
 	// WU, amount foot moves down when jumping
 	real32 jump_leg_distance;
 };
-static_assert(sizeof(s_vehicle_mantis_definition) == 0xAC);
+COMPILE_ASSERT(sizeof(s_vehicle_mantis_definition) == 0xAC);
 
 struct s_vehicle_vtol_definition
 {
@@ -539,7 +539,7 @@ struct s_vehicle_vtol_definition
 
 	real_bounds prop_rotation_speed;
 };
-static_assert(sizeof(s_vehicle_vtol_definition) == 0x74);
+COMPILE_ASSERT(sizeof(s_vehicle_vtol_definition) == 0x74);
 
 struct s_vehicle_chopper_definition
 {
@@ -564,7 +564,7 @@ struct s_vehicle_chopper_definition
 	real32 wheel_accel;
 	real32 gyroscopic_damping;
 };
-static_assert(sizeof(s_vehicle_chopper_definition) == 0x70);
+COMPILE_ASSERT(sizeof(s_vehicle_chopper_definition) == 0x70);
 
 struct s_vehicle_guardian_definition
 {
@@ -580,7 +580,7 @@ struct s_vehicle_guardian_definition
 	real32 torque_scale;
 	real32 anti_gravity_force_z_offset;
 };
-static_assert(sizeof(s_vehicle_guardian_definition) == 0x30);
+COMPILE_ASSERT(sizeof(s_vehicle_guardian_definition) == 0x30);
 
 enum e_player_training_vehicle_type
 {
@@ -645,7 +645,7 @@ struct _vehicle_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_vehicle_definition) == 0x140);
+COMPILE_ASSERT(sizeof(_vehicle_definition) == 0x140);
 
 struct vehicle_definition
 {
@@ -657,7 +657,7 @@ struct vehicle_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(vehicle_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_vehicle_definition));
+COMPILE_ASSERT(sizeof(vehicle_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_vehicle_definition));
 
 extern void __cdecl vehicle_definition_fixup(int32 vehicle_definition_index);
 extern e_vehicle_type __cdecl vehicle_definition_get_default_type(int32 vehicle_definition_index);

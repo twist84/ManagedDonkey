@@ -73,7 +73,7 @@ public:
 			int32 highest_party_experience;
 		} calculated_for_group;
 	};
-	static_assert(sizeof(s_player_row) == 0x1678);
+	COMPILE_ASSERT(sizeof(s_player_row) == 0x1678);
 
 public:
 	bool __thiscall get_integer_value_(int32 element_handle, string_id value_name, int32* value);
@@ -102,29 +102,29 @@ protected:
 	e_controller_index m_driving_controller;
 	bool m_pause_updating;
 };
-static_assert(sizeof(c_gui_roster_data) == 0x168A8);
-static_assert(0x0000 == OFFSETOF(c_gui_roster_data::s_player_row, player_row_type));
-static_assert(0x0004 == OFFSETOF(c_gui_roster_data::s_player_row, session_player_index));
-static_assert(0x0008 == OFFSETOF(c_gui_roster_data::s_player_row, player_identifier));
-static_assert(0x0010 == OFFSETOF(c_gui_roster_data::s_player_row, player_identifier_valid));
-static_assert(0x0018 == OFFSETOF(c_gui_roster_data::s_player_row, player_configuration));
-static_assert(0x1638 == OFFSETOF(c_gui_roster_data::s_player_row, player_configuration_valid));
-static_assert(0x163C == OFFSETOF(c_gui_roster_data::s_player_row, configuration));
-static_assert(0x163C == OFFSETOF(c_gui_roster_data::s_player_row, configuration.skill_level));
-static_assert(0x1640 == OFFSETOF(c_gui_roster_data::s_player_row, configuration.experience));
-static_assert(0x1644 == OFFSETOF(c_gui_roster_data::s_player_row, machine_index));
-static_assert(0x1648 == OFFSETOF(c_gui_roster_data::s_player_row, squad_join_sequence_number));
-static_assert(0x1650 == OFFSETOF(c_gui_roster_data::s_player_row, squad_nonce));
-static_assert(0x1658 == OFFSETOF(c_gui_roster_data::s_player_row, leader_team));
-static_assert(0x165C == OFFSETOF(c_gui_roster_data::s_player_row, local_controller_index));
-static_assert(0x1660 == OFFSETOF(c_gui_roster_data::s_player_row, voice_state));
-static_assert(0x1664 == OFFSETOF(c_gui_roster_data::s_player_row, party_bar_length));
-static_assert(0x1668 == OFFSETOF(c_gui_roster_data::s_player_row, is_leader));
-static_assert(0x1669 == OFFSETOF(c_gui_roster_data::s_player_row, show_teams));
-static_assert(0x166C == OFFSETOF(c_gui_roster_data::s_player_row, special_status));
-static_assert(0x1670 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group));
-static_assert(0x1670 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group.highest_party_skill));
-static_assert(0x1674 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group.highest_party_experience));
+COMPILE_ASSERT(sizeof(c_gui_roster_data) == 0x168A8);
+COMPILE_ASSERT(0x0000 == OFFSETOF(c_gui_roster_data::s_player_row, player_row_type));
+COMPILE_ASSERT(0x0004 == OFFSETOF(c_gui_roster_data::s_player_row, session_player_index));
+COMPILE_ASSERT(0x0008 == OFFSETOF(c_gui_roster_data::s_player_row, player_identifier));
+COMPILE_ASSERT(0x0010 == OFFSETOF(c_gui_roster_data::s_player_row, player_identifier_valid));
+COMPILE_ASSERT(0x0018 == OFFSETOF(c_gui_roster_data::s_player_row, player_configuration));
+COMPILE_ASSERT(0x1638 == OFFSETOF(c_gui_roster_data::s_player_row, player_configuration_valid));
+COMPILE_ASSERT(0x163C == OFFSETOF(c_gui_roster_data::s_player_row, configuration));
+COMPILE_ASSERT(0x163C == OFFSETOF(c_gui_roster_data::s_player_row, configuration.skill_level));
+COMPILE_ASSERT(0x1640 == OFFSETOF(c_gui_roster_data::s_player_row, configuration.experience));
+COMPILE_ASSERT(0x1644 == OFFSETOF(c_gui_roster_data::s_player_row, machine_index));
+COMPILE_ASSERT(0x1648 == OFFSETOF(c_gui_roster_data::s_player_row, squad_join_sequence_number));
+COMPILE_ASSERT(0x1650 == OFFSETOF(c_gui_roster_data::s_player_row, squad_nonce));
+COMPILE_ASSERT(0x1658 == OFFSETOF(c_gui_roster_data::s_player_row, leader_team));
+COMPILE_ASSERT(0x165C == OFFSETOF(c_gui_roster_data::s_player_row, local_controller_index));
+COMPILE_ASSERT(0x1660 == OFFSETOF(c_gui_roster_data::s_player_row, voice_state));
+COMPILE_ASSERT(0x1664 == OFFSETOF(c_gui_roster_data::s_player_row, party_bar_length));
+COMPILE_ASSERT(0x1668 == OFFSETOF(c_gui_roster_data::s_player_row, is_leader));
+COMPILE_ASSERT(0x1669 == OFFSETOF(c_gui_roster_data::s_player_row, show_teams));
+COMPILE_ASSERT(0x166C == OFFSETOF(c_gui_roster_data::s_player_row, special_status));
+COMPILE_ASSERT(0x1670 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group));
+COMPILE_ASSERT(0x1670 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group.highest_party_skill));
+COMPILE_ASSERT(0x1674 == OFFSETOF(c_gui_roster_data::s_player_row, calculated_for_group.highest_party_experience));
 
 class c_gui_active_roster_data :
 	public c_gui_roster_data
@@ -139,7 +139,7 @@ public:
 public:
 	c_gui_active_roster_data(e_controller_index driving_controller);
 };
-static_assert(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
+COMPILE_ASSERT(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
 
 class c_gui_static_roster_data :
 	public c_gui_roster_data
@@ -150,5 +150,5 @@ public:
 public:
 	c_gui_static_roster_data();
 };
-static_assert(sizeof(c_gui_static_roster_data) == sizeof(c_gui_roster_data));
+COMPILE_ASSERT(sizeof(c_gui_static_roster_data) == sizeof(c_gui_roster_data));
 

@@ -32,7 +32,7 @@ public:
 		bool m_auto_exposure_lock;
 		int32 m_debug_mode;
 	};
-	static_assert(sizeof(s_settings) == 0x38);
+	COMPILE_ASSERT(sizeof(s_settings) == 0x38);
 
 	static void __cdecl accept_edited_settings();
 

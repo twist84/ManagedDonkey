@@ -22,5 +22,5 @@ public:
 	byte pad[0x1];
 	byte unused[0x28];
 };
-static_assert(sizeof(c_orbiting_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_orbiting_camera) == 0x4C);
 

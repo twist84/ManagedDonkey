@@ -26,14 +26,14 @@ struct s_screen_effect_datum :
 	// odst?
 	real_rectangle2d __rectangle2C;
 };
-static_assert(sizeof(s_screen_effect_datum) == 0x3C);
+COMPILE_ASSERT(sizeof(s_screen_effect_datum) == 0x3C);
 
 struct screen_effect_scalar_function
 {
 	// Mapping
 	c_function_definition mapping;
 };
-static_assert(sizeof(screen_effect_scalar_function) == sizeof(c_function_definition));
+COMPILE_ASSERT(sizeof(screen_effect_scalar_function) == sizeof(c_function_definition));
 
 struct s_screen_effect_settings
 {
@@ -77,7 +77,7 @@ struct s_screen_effect_settings
 	// adds noise to the vision mode
 	real32 vision_noise; // [0-1]
 };
-static_assert(sizeof(s_screen_effect_settings) == 0x40);
+COMPILE_ASSERT(sizeof(s_screen_effect_settings) == 0x40);
 
 struct s_single_screen_effect_definition
 {
@@ -108,13 +108,13 @@ struct s_single_screen_effect_definition
 	// applies this shader to the entire screen
 	s_tag_reference shader_effect;
 };
-static_assert(sizeof(s_single_screen_effect_definition) == 0x9C);
+COMPILE_ASSERT(sizeof(s_single_screen_effect_definition) == 0x9C);
 
 struct s_area_screen_effect_definition
 {
 	c_typed_tag_block<s_single_screen_effect_definition> screen_effects;
 };
-static_assert(sizeof(s_area_screen_effect_definition) == 0xC);
+COMPILE_ASSERT(sizeof(s_area_screen_effect_definition) == 0xC);
 
 struct s_screen_effect_shader_sample_result
 {
@@ -125,12 +125,12 @@ struct s_screen_effect_shader_sample_result
 		byte __data4[0x10];
 		real_rectangle2d rect;
 	};
-	static_assert(sizeof(s_screen_effect_shader_sample) == 0x24);
+	COMPILE_ASSERT(sizeof(s_screen_effect_shader_sample) == 0x24);
 
 	s_screen_effect_shader_sample __unknown0[8];
 	int32 __unknown120;
 };
-static_assert(sizeof(s_screen_effect_shader_sample_result) == 0x124);
+COMPILE_ASSERT(sizeof(s_screen_effect_shader_sample_result) == 0x124);
 
 
 extern void __cdecl screen_effect_dispose();

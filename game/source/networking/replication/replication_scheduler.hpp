@@ -23,7 +23,7 @@ public:
 public:
 	int32 m_client_index;
 };
-static_assert(sizeof(c_replication_scheduler_client) == 0x8);
+COMPILE_ASSERT(sizeof(c_replication_scheduler_client) == 0x8);
 
 class c_replication_telemetry_provider;
 class c_replication_scheduler :
@@ -41,5 +41,5 @@ public:
 	int32 m_space_required_bits;
 	c_replication_telemetry_provider* m_telemetry_provider;
 };
-static_assert(sizeof(c_replication_scheduler) == sizeof(c_network_channel_client) + 0x28);
+COMPILE_ASSERT(sizeof(c_replication_scheduler) == sizeof(c_network_channel_client) + 0x28);
 

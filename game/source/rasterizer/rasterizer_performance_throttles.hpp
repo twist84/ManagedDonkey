@@ -48,7 +48,7 @@ struct s_performance_throttles
 	// less than 1.0 - off, equals 1.0 - 4x, larger than 1.0 - 8x
 	// real32 anisotropy_level;
 };
-static_assert(sizeof(s_performance_throttles) == 0x38);
+COMPILE_ASSERT(sizeof(s_performance_throttles) == 0x38);
 
 class c_performance_throttles
 {

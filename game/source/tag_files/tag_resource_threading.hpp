@@ -25,7 +25,7 @@ protected:
 	c_tag_resource_cache_thread_lock_lock_freeish* m_resource_thread_access_lock;
 	byte __data[0x10];
 };
-static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
+COMPILE_ASSERT(sizeof(c_tag_resource_thread_access) == 0x80);
 
 class c_io_result;
 class c_thread_safeish_tag_resource_cache :
@@ -56,5 +56,5 @@ public:
 protected:
 	c_tag_resource_thread_access m_resource_thread_access;
 };
-static_assert(sizeof(c_thread_safeish_tag_resource_cache) == 0x400);
+COMPILE_ASSERT(sizeof(c_thread_safeish_tag_resource_cache) == 0x400);
 

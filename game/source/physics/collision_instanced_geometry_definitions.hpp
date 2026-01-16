@@ -10,7 +10,7 @@ public:
 	s_tag_reference structure_bsp_reference;
 	int32 cluster_index;
 };
-static_assert(sizeof(c_cluster_collision_instanced_geometry_shape) == 0x2C);
+COMPILE_ASSERT(sizeof(c_cluster_collision_instanced_geometry_shape) == 0x2C);
 
 class c_cluster_collision_instanced_geometry_mopp_bv_tree_shape
 {
@@ -20,7 +20,7 @@ public:
 	void* shape_collection_ptr;
 	void* mopp_code_ptr;
 };
-static_assert(sizeof(c_cluster_collision_instanced_geometry_mopp_bv_tree_shape) == 0x1C);
+COMPILE_ASSERT(sizeof(c_cluster_collision_instanced_geometry_mopp_bv_tree_shape) == 0x1C);
 
 struct s_collision_instanced_geometry_definition
 {
@@ -28,5 +28,5 @@ struct s_collision_instanced_geometry_definition
 	c_cluster_collision_instanced_geometry_mopp_bv_tree_shape mopp_bv_tree_shape;
 	s_tag_block mopp_code_block;
 };
-static_assert(sizeof(s_collision_instanced_geometry_definition) == 0x54);
+COMPILE_ASSERT(sizeof(s_collision_instanced_geometry_definition) == 0x54);
 

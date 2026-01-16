@@ -75,7 +75,7 @@ protected:
 
 	byte m_pad1[2];
 };
-static_assert(sizeof(c_game_engine_oddball_variant) == 0x200);
+COMPILE_ASSERT(sizeof(c_game_engine_oddball_variant) == 0x200);
 
 class c_oddball_engine :
 	public c_game_engine
@@ -101,7 +101,7 @@ struct s_oddball_globals
 		c_static_array<int32, 5> ball_last_held_time;
 	} local;
 };
-static_assert(sizeof(s_oddball_globals) == 0x90);
+COMPILE_ASSERT(sizeof(s_oddball_globals) == 0x90);
 
 extern c_game_engine_oddball_variant*& oddball_variant;
 

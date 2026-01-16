@@ -22,7 +22,7 @@ struct s_muffin_datum :
 		real_matrix4x3 fixed_world_to_muffin_matrix;
 		real_matrix4x3 jiggle_world_to_muffin_matrix;
 	};
-	static_assert(sizeof(s_muffin) == 0xC4);
+	COMPILE_ASSERT(sizeof(s_muffin) == 0xC4);
 
 	uns8 unused;
 	uns8 muffin_count;
@@ -31,5 +31,5 @@ struct s_muffin_datum :
 	int32 object_index;
 	real32 time_accumulator;
 };
-static_assert(sizeof(s_muffin_datum) == 0x1890);
+COMPILE_ASSERT(sizeof(s_muffin_datum) == 0x1890);
 

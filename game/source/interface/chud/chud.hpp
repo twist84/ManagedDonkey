@@ -39,7 +39,7 @@ struct s_chud_runtime_widget_datum :
 	int32 next_drawn_widget_index;
 	real32 input_values[2];
 };
-static_assert(sizeof(s_chud_runtime_widget_datum) == 0x18);
+COMPILE_ASSERT(sizeof(s_chud_runtime_widget_datum) == 0x18);
 
 struct s_chud_draw_widget_data
 {
@@ -49,7 +49,7 @@ struct s_chud_draw_widget_data
 	s_chud_widget_collection* widget_collection;
 	s_chud_widget_base* widget_base;
 };
-static_assert(sizeof(s_chud_draw_widget_data) == 0x14);
+COMPILE_ASSERT(sizeof(s_chud_draw_widget_data) == 0x14);
 
 class c_chud_equipment_effect_manager
 {
@@ -71,7 +71,7 @@ public:
 		real32 flash_radius;
 		int32 blip_count;
 	};
-	static_assert(sizeof(s_noisemaker_zone) == 0x28);
+	COMPILE_ASSERT(sizeof(s_noisemaker_zone) == 0x28);
 
 public:
 	static c_chud_equipment_effect_manager* __cdecl get();
@@ -82,7 +82,7 @@ public:
 	int32 m_last_update_tick_index;
 	int32 __unknown144;
 };
-static_assert(sizeof(c_chud_equipment_effect_manager) == 0x148);
+COMPILE_ASSERT(sizeof(c_chud_equipment_effect_manager) == 0x148);
 
 class c_chud_scripting
 {
@@ -138,7 +138,7 @@ public:
 	int32 m_survival_bonus_timer;
 	int32 m_survival_bonus_round_target_score;
 };
-static_assert(sizeof(c_chud_scripting) == 0x2B8);
+COMPILE_ASSERT(sizeof(c_chud_scripting) == 0x2B8);
 
 class c_chud_persistent_global_data
 {
@@ -155,7 +155,7 @@ public:
 	c_chud_scripting m_chud_scripting_globals;
 	s_player_navpoint_data m_campaign_player_navpoint_data[k_max_campaign_players];
 };
-static_assert(sizeof(c_chud_persistent_global_data) == 0x470);
+COMPILE_ASSERT(sizeof(c_chud_persistent_global_data) == 0x470);
 
 struct game_engine_interface_state
 {
@@ -212,7 +212,7 @@ struct game_engine_interface_state
 		real32 budget_spent;
 	} sandbox;
 };
-static_assert(sizeof(game_engine_interface_state) == 0x1B8);
+COMPILE_ASSERT(sizeof(game_engine_interface_state) == 0x1B8);
 
 class c_chud_directional_damage
 {
@@ -238,7 +238,7 @@ public:
 		real32 arrow_behind_us_yaw_sign;
 		real32 arrow_alpha;
 	};
-	static_assert(sizeof(s_instance) == 0x70);
+	COMPILE_ASSERT(sizeof(s_instance) == 0x70);
 	
 public:
 	void update(int32 user_index, real32 dt);
@@ -246,7 +246,7 @@ public:
 //private:
 	s_instance m_instances[k_directional_damage_instance_count];
 };
-static_assert(sizeof(c_chud_directional_damage) == 0x1C0);
+COMPILE_ASSERT(sizeof(c_chud_directional_damage) == 0x1C0);
 
 class c_chud_cinematic_fade
 {
@@ -257,7 +257,7 @@ public:
 	real32 m_fade_desired;
 	real32 m_fade_velocity;
 };
-static_assert(sizeof(c_chud_cinematic_fade) == 0xC);
+COMPILE_ASSERT(sizeof(c_chud_cinematic_fade) == 0xC);
 
 class c_chud_damage_tracker
 {
@@ -268,7 +268,7 @@ public:
 	real32 m_projectile_angles[4];
 	int32 m_projectile_count;
 };
-static_assert(sizeof(c_chud_damage_tracker) == 0x14);
+COMPILE_ASSERT(sizeof(c_chud_damage_tracker) == 0x14);
 
 class c_chud_cortana_effect
 {
@@ -284,7 +284,7 @@ public:
 		real_point2d origin;
 		real_vector2d vec0;
 	};
-	static_assert(sizeof(s_basis) == 0x10);
+	COMPILE_ASSERT(sizeof(s_basis) == 0x10);
 
 public:
 	void update(int32 user_index);
@@ -310,7 +310,7 @@ public:
 	int32 m_far_config_flags;
 	s_cortana_effect_heading_config m_blended_config;
 };
-static_assert(sizeof(c_chud_cortana_effect) == 0x128);
+COMPILE_ASSERT(sizeof(c_chud_cortana_effect) == 0x128);
 
 struct s_chud_shared_persistent_user_data
 {
@@ -333,7 +333,7 @@ struct s_chud_shared_persistent_user_data
 		// missing in Halo Online
 		//s_emblem_info player_emblem_info[4];
 	};
-	static_assert(sizeof(s_metagame) == 0x44);
+	COMPILE_ASSERT(sizeof(s_metagame) == 0x44);
 
 	bool player_training_available;
 	wchar_t player_training_text[k_player_training_text_length];
@@ -374,7 +374,7 @@ struct s_chud_shared_persistent_user_data
 	real_vector4d saved_film_data[4];
 	int32 thread_safe_current_resolution;
 };
-static_assert(sizeof(s_chud_shared_persistent_user_data) == 0x10E8);
+COMPILE_ASSERT(sizeof(s_chud_shared_persistent_user_data) == 0x10E8);
 
 class c_chud_impulse_manager
 {
@@ -390,7 +390,7 @@ public:
 		int32 definition_index;
 		int32 count;
 	};
-	static_assert(sizeof(s_ammo_pickup) == 0x8);
+	COMPILE_ASSERT(sizeof(s_ammo_pickup) == 0x8);
 
 public:
 	static c_chud_impulse_manager* __cdecl get(int32 user_index);
@@ -404,7 +404,7 @@ public:
 	bool __unknown30[4];
 	real32 __unknown34;
 };
-static_assert(sizeof(c_chud_impulse_manager) == 0x38);
+COMPILE_ASSERT(sizeof(c_chud_impulse_manager) == 0x38);
 
 class c_chud_update_user_data;
 class c_chud_persistent_user_data
@@ -423,7 +423,7 @@ public:
 		int32 active_widget_count;
 		int32 weapon_index;
 	};
-	static_assert(sizeof(s_persistent_chud_definition_data) == 0xC);
+	COMPILE_ASSERT(sizeof(s_persistent_chud_definition_data) == 0xC);
 
 	struct s_shield_data
 	{
@@ -434,7 +434,7 @@ public:
 		int32 fade_time;
 		int32 last_shield_hit_time;
 	};
-	static_assert(sizeof(s_shield_data) == 0x10);
+	COMPILE_ASSERT(sizeof(s_shield_data) == 0x10);
 
 	struct s_body_data
 	{
@@ -442,14 +442,14 @@ public:
 		int32 fade_time;
 		int32 last_body_hit_time;
 	};
-	static_assert(sizeof(s_body_data) == 0xC);
+	COMPILE_ASSERT(sizeof(s_body_data) == 0xC);
 
 	struct s_flava_data
 	{
 		real32 target_distance;
 		real32 target_elevation;
 	};
-	static_assert(sizeof(s_flava_data) == 0x8);
+	COMPILE_ASSERT(sizeof(s_flava_data) == 0x8);
 
 	struct s_stamina_data
 	{
@@ -457,14 +457,14 @@ public:
 		real32 last_stamina;
 		real32 fov_multiplier;
 	};
-	static_assert(sizeof(s_stamina_data) == 0xC);
+	COMPILE_ASSERT(sizeof(s_stamina_data) == 0xC);
 
 	struct s_consumable_data
 	{
 		real32 consumable;
 		real32 last_consumable;
 	};
-	static_assert(sizeof(s_consumable_data) == 0x8);
+	COMPILE_ASSERT(sizeof(s_consumable_data) == 0x8);
 
 public:
 	void update(int32 user_index, real32 dt);
@@ -497,7 +497,7 @@ public:
 	int32 m_last_sound_handles[32];
 	uns16 m_sound_flags;
 };
-static_assert(sizeof(c_chud_persistent_user_data) == 0x3E90);
+COMPILE_ASSERT(sizeof(c_chud_persistent_user_data) == 0x3E90);
 
 struct s_chud_weapon_state_flags
 {
@@ -506,7 +506,7 @@ struct s_chud_weapon_state_flags
 	uns16 crosshair_state;
 	uns16 misc_state;
 };
-static_assert(sizeof(s_chud_weapon_state_flags) == 0x8);
+COMPILE_ASSERT(sizeof(s_chud_weapon_state_flags) == 0x8);
 
 struct s_chud_global_state_flags
 {
@@ -519,7 +519,7 @@ struct s_chud_global_state_flags
 	uns16 sandbox_state_flags;
 	uns16 hindsight_state_flags;
 };
-static_assert(sizeof(s_chud_global_state_flags) == 0x14);
+COMPILE_ASSERT(sizeof(s_chud_global_state_flags) == 0x14);
 
 struct s_chud_survival_flags
 {
@@ -529,7 +529,7 @@ struct s_chud_survival_flags
 	uns16 lives_flags;
 	uns16 difficulty_flags;
 };
-static_assert(sizeof(s_chud_survival_flags) == 0xA);
+COMPILE_ASSERT(sizeof(s_chud_survival_flags) == 0xA);
 
 struct s_chud_unit_state_flags
 {
@@ -538,7 +538,7 @@ struct s_chud_unit_state_flags
 	uns16 armed_state;
 	uns32 misc_state;
 };
-static_assert(sizeof(s_chud_unit_state_flags) == 0xC);
+COMPILE_ASSERT(sizeof(s_chud_unit_state_flags) == 0xC);
 
 struct s_chud_misc_state_flags
 {
@@ -547,7 +547,7 @@ struct s_chud_misc_state_flags
 	uns32 __flags4;
 	uns32 __flags8;
 };
-static_assert(sizeof(s_chud_misc_state_flags) == 0xC);
+COMPILE_ASSERT(sizeof(s_chud_misc_state_flags) == 0xC);
 
 struct s_campaign_metagame_interface_state
 {
@@ -572,7 +572,7 @@ struct s_campaign_metagame_interface_state
 
 	int32 survival_bonus_score;
 };
-static_assert(sizeof(s_campaign_metagame_interface_state) == 0x40);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_interface_state) == 0x40);
 
 struct s_saved_film_hud_interface_state
 {
@@ -585,7 +585,7 @@ struct s_saved_film_hud_interface_state
 	bool recording;
 	c_static_array<real32, 10> chapter_mark_theta;
 };
-static_assert(sizeof(s_saved_film_hud_interface_state) == 0x44);
+COMPILE_ASSERT(sizeof(s_saved_film_hud_interface_state) == 0x44);
 
 struct s_network_game_quality
 {
@@ -594,7 +594,7 @@ struct s_network_game_quality
 	e_network_rough_quality host_framerate;
 	e_network_rough_quality local_framerate;
 };
-static_assert(sizeof(s_network_game_quality) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_game_quality) == 0x10);
 
 class c_chud_update_user_data
 {
@@ -663,13 +663,13 @@ public:
 			real32 locking_theta;
 			real_point3d lock_point;
 		};
-		static_assert(sizeof(s_chud_definition_weapon_state) == 0x54);
+		COMPILE_ASSERT(sizeof(s_chud_definition_weapon_state) == 0x54);
 
 		int32 weapon_index;
 		int32 chud_definition_index;
 		s_chud_definition_weapon_state weapon_state;
 	};
-	static_assert(sizeof(s_chud_definition_info) == 0x5C);
+	COMPILE_ASSERT(sizeof(s_chud_definition_info) == 0x5C);
 
 	struct s_unit_state
 	{
@@ -732,7 +732,7 @@ public:
 		real32 __unknownDC[11];
 		real32 stamina_current;
 	};
-	static_assert(sizeof(s_unit_state) == 0x10C);
+	COMPILE_ASSERT(sizeof(s_unit_state) == 0x10C);
 
 protected:
 	void compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting);
@@ -767,7 +767,7 @@ public:
 	s_saved_film_hud_interface_state m_saved_film_state;
 	s_network_game_quality m_network_quality;
 };
-static_assert(sizeof(c_chud_update_user_data) == 0x910);
+COMPILE_ASSERT(sizeof(c_chud_update_user_data) == 0x910);
 
 class c_chud_manager
 {
@@ -785,7 +785,7 @@ public:
 	thread_local static c_chud_persistent_user_data*& x_persistent_user_data;
 	thread_local static c_chud_persistent_global_data*& x_persistent_global_data;
 };
-static_assert(sizeof(c_chud_manager) == 0x1);
+COMPILE_ASSERT(sizeof(c_chud_manager) == 0x1);
 
 extern s_chud_globals_definition*& chud_globals;
 

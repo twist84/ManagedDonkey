@@ -9,19 +9,19 @@ class c_cache_file_resource_uber_location_table
 {
 	c_wrapped_array<s_cache_file_tag_resource_data*>* m_locations;
 };
-static_assert(sizeof(c_cache_file_resource_uber_location_table) == 0x4);
+COMPILE_ASSERT(sizeof(c_cache_file_resource_uber_location_table) == 0x4);
 
 struct s_cache_file_resource_streaming_sublocation
 {
 	int32 memory_offset;
 	int32 memory_size;
 };
-static_assert(sizeof(s_cache_file_resource_streaming_sublocation) == 0x8);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_streaming_sublocation) == 0x8);
 
 struct s_cache_file_resource_streaming_sublocation_table
 {
 	int32 total_memory_size;
 	c_typed_tag_block<s_cache_file_resource_streaming_sublocation> streaming_sublocations;
 };
-static_assert(sizeof(s_cache_file_resource_streaming_sublocation_table) == 0x10);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_streaming_sublocation_table) == 0x10);
 

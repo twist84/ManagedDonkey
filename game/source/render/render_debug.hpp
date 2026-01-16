@@ -44,7 +44,7 @@ protected:
 	real32 m_oo_screen_width;
 	real32 m_oo_screen_height;
 };
-static_assert(sizeof(c_render_debug_line_drawer) == 0x2024);
+COMPILE_ASSERT(sizeof(c_render_debug_line_drawer) == 0x2024);
 
 extern void __cdecl render_debug_initialize();
 

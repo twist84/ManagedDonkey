@@ -55,7 +55,7 @@ struct s_campaign_metagame_globals
 	int32 killpocalpyse_threshold;
 	int32 killionaire_threshold;
 };
-static_assert(sizeof(s_campaign_metagame_globals) == 0x98);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_globals) == 0x98);
 
 struct s_campaign_metagame_style_type
 {
@@ -64,19 +64,19 @@ struct s_campaign_metagame_style_type
 	int32 display_ticks;
 	c_string_id survival_mode_event_name;
 };
-static_assert(sizeof(s_campaign_metagame_style_type) == 0x10);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_style_type) == 0x10);
 
 struct s_campaign_metagame_difficulty
 {
 	real32 difficulty_multiplier;
 };
-static_assert(sizeof(s_campaign_metagame_difficulty) == sizeof(real32));
+COMPILE_ASSERT(sizeof(s_campaign_metagame_difficulty) == sizeof(real32));
 
 struct s_campaign_metagame_skull_data
 {
 	real32 difficulty_multiplier;
 };
-static_assert(sizeof(s_campaign_metagame_skull_data) == sizeof(real32));
+COMPILE_ASSERT(sizeof(s_campaign_metagame_skull_data) == sizeof(real32));
 
 enum e_campaign_metagame_bucket_flag
 {
@@ -144,7 +144,7 @@ struct s_campaign_metagame_bucket
 	int16 point_count;
 	int16 pad1;
 };
-static_assert(sizeof(s_campaign_metagame_bucket) == 0x8);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_bucket) == 0x8);
 
 struct s_campaign_metagame_scenario;
 

@@ -35,5 +35,5 @@ private:
 
 	static int16& g_num_entity_iterators_in_use;
 };
-static_assert(sizeof(c_havok_entity_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(c_havok_entity_iterator) == 0x14);
 

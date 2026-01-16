@@ -14,13 +14,13 @@ struct s_group_session_join_request_payload
 {
 	s_matchmaking_search_party_properties search_party_properties;
 };
-static_assert(sizeof(s_group_session_join_request_payload) == 0xD8);
+COMPILE_ASSERT(sizeof(s_group_session_join_request_payload) == 0xD8);
 
 struct s_squad_session_join_request_payload
 {
 	int32 dummy;
 };
-static_assert(sizeof(s_squad_session_join_request_payload) == 0x4);
+COMPILE_ASSERT(sizeof(s_squad_session_join_request_payload) == 0x4);
 
 struct s_network_session_join_request_payload
 {
@@ -31,10 +31,10 @@ struct s_network_session_join_request_payload
 		s_squad_session_join_request_payload squad_payload;
 	};
 };
-static_assert(sizeof(s_network_session_join_request_payload) == 0xDC);
-static_assert(0x0 == OFFSETOF(s_network_session_join_request_payload, payload_type));
-static_assert(0x4 == OFFSETOF(s_network_session_join_request_payload, group_payload));
-static_assert(0x4 == OFFSETOF(s_network_session_join_request_payload, squad_payload));
+COMPILE_ASSERT(sizeof(s_network_session_join_request_payload) == 0xDC);
+COMPILE_ASSERT(0x0 == OFFSETOF(s_network_session_join_request_payload, payload_type));
+COMPILE_ASSERT(0x4 == OFFSETOF(s_network_session_join_request_payload, group_payload));
+COMPILE_ASSERT(0x4 == OFFSETOF(s_network_session_join_request_payload, squad_payload));
 
 struct s_network_session_join_request_peer
 {
@@ -42,13 +42,13 @@ struct s_network_session_join_request_peer
 	int32 joining_network_version_number;
 	int32 user_player_index;
 };
-static_assert(sizeof(s_network_session_join_request_peer) == 0x18);
+COMPILE_ASSERT(sizeof(s_network_session_join_request_peer) == 0x18);
 
 struct s_network_session_join_request_player
 {
 	s_player_identifier joining_peer_player_id;
 };
-static_assert(sizeof(s_network_session_join_request_player) == sizeof(s_player_identifier));
+COMPILE_ASSERT(sizeof(s_network_session_join_request_player) == sizeof(s_player_identifier));
 
 struct s_network_session_join_request
 {
@@ -61,15 +61,15 @@ struct s_network_session_join_request
 	bool join_to_public_slots;
 	s_network_session_join_request_payload payload;
 };
-static_assert(sizeof(s_network_session_join_request) == 0x310);
-static_assert(0x000 == OFFSETOF(s_network_session_join_request, join_nonce));
-static_assert(0x008 == OFFSETOF(s_network_session_join_request, party_nonce));
-static_assert(0x010 == OFFSETOF(s_network_session_join_request, joining_peer_count));
-static_assert(0x014 == OFFSETOF(s_network_session_join_request, joining_peers));
-static_assert(0x1AC == OFFSETOF(s_network_session_join_request, joining_player_count));
-static_assert(0x1B0 == OFFSETOF(s_network_session_join_request, joining_players));
-static_assert(0x230 == OFFSETOF(s_network_session_join_request, join_to_public_slots));
-static_assert(0x234 == OFFSETOF(s_network_session_join_request, payload));
+COMPILE_ASSERT(sizeof(s_network_session_join_request) == 0x310);
+COMPILE_ASSERT(0x000 == OFFSETOF(s_network_session_join_request, join_nonce));
+COMPILE_ASSERT(0x008 == OFFSETOF(s_network_session_join_request, party_nonce));
+COMPILE_ASSERT(0x010 == OFFSETOF(s_network_session_join_request, joining_peer_count));
+COMPILE_ASSERT(0x014 == OFFSETOF(s_network_session_join_request, joining_peers));
+COMPILE_ASSERT(0x1AC == OFFSETOF(s_network_session_join_request, joining_player_count));
+COMPILE_ASSERT(0x1B0 == OFFSETOF(s_network_session_join_request, joining_players));
+COMPILE_ASSERT(0x230 == OFFSETOF(s_network_session_join_request, join_to_public_slots));
+COMPILE_ASSERT(0x234 == OFFSETOF(s_network_session_join_request, payload));
 
 struct s_networking_join_queue_entry
 {
@@ -78,7 +78,7 @@ struct s_networking_join_queue_entry
 	uns32 times[2];
 	int32 session_desirability;
 };
-static_assert(sizeof(s_networking_join_queue_entry) == 0x338);
+COMPILE_ASSERT(sizeof(s_networking_join_queue_entry) == 0x338);
 
 struct s_networking_join_data
 {
@@ -101,7 +101,7 @@ struct s_networking_join_data
 	int32 number_of_peers_expected_in_membership_at_last_desiribility_calculation;
 	s_networking_join_queue_entry join_queue[32];
 };
-static_assert(sizeof(s_networking_join_data) == 0x68C8);
+COMPILE_ASSERT(sizeof(s_networking_join_data) == 0x68C8);
 
 extern s_networking_join_data& g_network_join_data;
 

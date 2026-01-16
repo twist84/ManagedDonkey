@@ -15,7 +15,7 @@ struct __declspec(align(8)) s_network_session_tracker_session_data
 	s_network_squad_status_data status_data;
 	int32 desirability;
 };
-static_assert(sizeof(s_network_session_tracker_session_data) == 0x16528);
+COMPILE_ASSERT(sizeof(s_network_session_tracker_session_data) == 0x16528);
 
 struct s_network_session_tracker_session_status
 {
@@ -23,7 +23,7 @@ struct s_network_session_tracker_session_status
 	e_network_session_tracker_session_unsuitable_reason unsuitable_reason;
 	e_network_session_tracker_session_undesirable_reason undesirable_reason;
 };
-static_assert(sizeof(s_network_session_tracker_session_status) == 0xC);
+COMPILE_ASSERT(sizeof(s_network_session_tracker_session_status) == 0xC);
 
 struct s_session_tracker_session_data
 {
@@ -44,7 +44,7 @@ struct s_session_tracker_session_data
 	int32 desirability;
 	byte __data[0x4];
 };
-static_assert(sizeof(s_session_tracker_session_data) == 0x16550);
+COMPILE_ASSERT(sizeof(s_session_tracker_session_data) == 0x16550);
 
 struct s_session_tracker_qos_attempt
 {
@@ -53,7 +53,7 @@ struct s_session_tracker_qos_attempt
 	int32 target_count;
 	uns32 time;
 };
-static_assert(sizeof(s_session_tracker_qos_attempt) == 0x10);
+COMPILE_ASSERT(sizeof(s_session_tracker_qos_attempt) == 0x10);
 
 class c_matchmaking_quality;
 class c_session_tracker
@@ -129,13 +129,13 @@ protected:
 	int32 m_maximum_qos_tasks;
 	c_static_array<s_session_tracker_qos_attempt, QOS_ATTEMPT_MAX_COUNT> m_qos_attempts;
 };
-static_assert(sizeof(c_session_tracker) == 0xD0);
+COMPILE_ASSERT(sizeof(c_session_tracker) == 0xD0);
 
 struct s_session_tracker_globals
 {
 	c_session_tracker session_tracker;
 };
-static_assert(sizeof(s_session_tracker_globals) == sizeof(c_session_tracker));
+COMPILE_ASSERT(sizeof(s_session_tracker_globals) == sizeof(c_session_tracker));
 
 extern s_session_tracker_globals& session_tracker_globals;
 

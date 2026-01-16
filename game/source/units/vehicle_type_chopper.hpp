@@ -52,5 +52,5 @@ protected:
 	c_vehicle_braking_counter m_braking_counter;
 	bool m_control_e_brake;
 };
-static_assert(sizeof(c_vehicle_type_chopper) == 0x3C);
+COMPILE_ASSERT(sizeof(c_vehicle_type_chopper) == 0x3C);
 

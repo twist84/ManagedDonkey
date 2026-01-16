@@ -25,7 +25,7 @@ public:
 	int32 g_exposure_adapt_instantly_frames;
 	int32 g_disable_autoexposure_frames;
 };
-static_assert(sizeof(s_scripted_exposure) == 0x34);
+COMPILE_ASSERT(sizeof(s_scripted_exposure) == 0x34);
 
 struct s_ssao_parameter
 {
@@ -38,7 +38,7 @@ struct s_ssao_parameter
 	real32 m_radius;
 	real32 m_sample_z_threshold;
 };
-static_assert(sizeof(s_ssao_parameter) == 0x10);
+COMPILE_ASSERT(sizeof(s_ssao_parameter) == 0x10);
 
 struct s_color_grading_parameter
 {
@@ -58,7 +58,7 @@ struct s_color_grading_parameter
 	s_tag_block m_selective_color;
 	s_tag_block m_color_balance;
 };
-static_assert(sizeof(s_color_grading_parameter) == 0x50);
+COMPILE_ASSERT(sizeof(s_color_grading_parameter) == 0x50);
 
 struct s_lightshafts
 {
@@ -76,7 +76,7 @@ struct s_lightshafts
 	real32 m_intensity;       // [0...50]
 	real32 m_blur_radius;     // [0...20]
 };
-static_assert(sizeof(s_lightshafts) == 0x2C);
+COMPILE_ASSERT(sizeof(s_lightshafts) == 0x2C);
 
 class c_camera_fx_settings
 {
@@ -156,7 +156,7 @@ public:
 	s_color_grading_parameter m_color_grading;
 	s_lightshafts m_lightshafts;
 };
-static_assert(sizeof(c_camera_fx_settings) == 0x170);
+COMPILE_ASSERT(sizeof(c_camera_fx_settings) == 0x170);
 
 // $TODO figure out the difference
 class c_exposure
@@ -173,7 +173,7 @@ public:
 
 	int32 m_buffer_index;
 };
-static_assert(sizeof(c_exposure) == 0x10C);
+COMPILE_ASSERT(sizeof(c_exposure) == 0x10C);
 
 class c_camera_fx_values
 {
@@ -205,7 +205,7 @@ public:
 	s_color_grading_parameter color_grading;
 	s_lightshafts lightshafts;
 };
-static_assert(sizeof(c_camera_fx_values) == 0x1F0);
+COMPILE_ASSERT(sizeof(c_camera_fx_values) == 0x1F0);
 
 extern void __cdecl scripted_exposure_update(real32 game_seconds_elapsed);
 

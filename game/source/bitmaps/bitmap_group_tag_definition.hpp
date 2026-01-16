@@ -13,7 +13,7 @@ struct bitmap_group_sprite
 	real_rectangle2d bounds;
 	real_point2d registration_point;
 };
-static_assert(sizeof(bitmap_group_sprite) == 0x20);
+COMPILE_ASSERT(sizeof(bitmap_group_sprite) == 0x20);
 
 struct bitmap_group_sequence
 {
@@ -23,7 +23,7 @@ struct bitmap_group_sequence
 	int32 unused[4];
 	c_typed_tag_block<bitmap_group_sprite> sprites;
 };
-static_assert(sizeof(bitmap_group_sequence) == 0x40);
+COMPILE_ASSERT(sizeof(bitmap_group_sequence) == 0x40);
 
 enum e_bitmap_more_flags
 {
@@ -273,7 +273,7 @@ struct bitmap_data
 
 	void* base_address;
 };
-static_assert(sizeof(bitmap_data) == 0x30);
+COMPILE_ASSERT(sizeof(bitmap_data) == 0x30);
 
 enum e_bitmap_usage_global
 {
@@ -658,5 +658,5 @@ struct bitmap_group
 	s_tag_block interleaved_hardware_textures;
 	int32 __unknownB4;
 };
-static_assert(sizeof(bitmap_group) == 0xB8);
+COMPILE_ASSERT(sizeof(bitmap_group) == 0xB8);
 

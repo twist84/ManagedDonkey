@@ -29,5 +29,5 @@ public:
 protected:
 	c_vehicle_auto_turret m_auto_turret;
 };
-static_assert(sizeof(c_vehicle_type_turret) == sizeof(c_vehicle_auto_turret));
+COMPILE_ASSERT(sizeof(c_vehicle_type_turret) == sizeof(c_vehicle_auto_turret));
 

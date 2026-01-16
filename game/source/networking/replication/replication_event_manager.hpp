@@ -29,7 +29,7 @@ public:
 	uns32 m_pending_acknowledgement_mask;
 	c_replication_outgoing_event* m_next;
 };
-static_assert(sizeof(c_replication_outgoing_event) == 0x2C);
+COMPILE_ASSERT(sizeof(c_replication_outgoing_event) == 0x2C);
 
 class c_replication_event_manager
 {
@@ -41,5 +41,5 @@ public:
 	int32 m_outgoing_event_count;
 	c_replication_outgoing_event* m_outgoing_event_list;
 };
-static_assert(sizeof(c_replication_event_manager) == 0x54);
+COMPILE_ASSERT(sizeof(c_replication_event_manager) == 0x54);
 

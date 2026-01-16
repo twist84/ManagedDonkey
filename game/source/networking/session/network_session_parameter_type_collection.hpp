@@ -39,5 +39,5 @@ public:
 protected:
 	s_network_session_parameter_type m_session_parameter_types[k_network_session_parameter_type_count];
 };
-static_assert(sizeof(c_network_session_parameter_type_collection) == 0x620);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_type_collection) == 0x620);
 

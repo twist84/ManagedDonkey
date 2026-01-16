@@ -72,11 +72,11 @@ private:
 	c_static_array<bool, 17> m_transmitted_peer_updates;
 	uns32 m_flags;
 };
-static_assert(sizeof(c_network_session_parameter_base) == 0x30);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_base) == 0x30);
 
 struct s_network_session_parameter_update
 {
 	byte* payload;
 };
-static_assert(sizeof(s_network_session_parameter_update) == sizeof(byte*));
+COMPILE_ASSERT(sizeof(s_network_session_parameter_update) == sizeof(byte*));
 

@@ -39,7 +39,7 @@ struct s_depth_of_field
 	real32 actual_focus_distance_far;
 	real32 actual_aperture;
 };
-static_assert(sizeof(s_depth_of_field) == 0x40);
+COMPILE_ASSERT(sizeof(s_depth_of_field) == 0x40);
 
 extern void __cdecl render_animate_depth_of_field(real32 near_distance, real32 far_distance, real32 depth, real32 ticks);
 extern void __cdecl render_animate_depth_of_field_blur(real32 blur, real32 ticks);

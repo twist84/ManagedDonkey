@@ -9,20 +9,20 @@ struct s_player_taunt_request_event_data
 	int16 absolute_player_index;
 	int16 __unknown2;
 };
-static_assert(sizeof(s_player_taunt_request_event_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_player_taunt_request_event_data) == 0x4);
 
 struct s_player_respawn_target_request_event_data
 {
 	int16 player_index;
 	int16 absolute_player_index;
 };
-static_assert(sizeof(s_player_respawn_target_request_event_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_player_respawn_target_request_event_data) == 0x4);
 
 struct s_player_force_base_respawn_event_data
 {
 	int16 absolute_player_index;
 };
-static_assert(sizeof(s_player_force_base_respawn_event_data) == 0x2);
+COMPILE_ASSERT(sizeof(s_player_force_base_respawn_event_data) == 0x2);
 
 struct s_player_editor_request_event_data
 {
@@ -46,7 +46,7 @@ struct s_player_editor_request_event_data
 	bool editor_desired_mode;
 	s_variant_multiplayer_object_properties_definition placement_properties;
 };
-static_assert(sizeof(s_player_editor_request_event_data) == 0x78);
+COMPILE_ASSERT(sizeof(s_player_editor_request_event_data) == 0x78);
 
 class c_simulation_game_engine_player_entity_definition :
 	public c_simulation_entity_definition

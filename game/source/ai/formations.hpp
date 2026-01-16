@@ -7,7 +7,7 @@ struct formation_datum :
 {
 	byte __data[0x292];
 };
-static_assert(sizeof(formation_datum) == 0x294);
+COMPILE_ASSERT(sizeof(formation_datum) == 0x294);
 
 extern void __cdecl formations_dispose();
 extern void __cdecl formations_dispose_from_old_map();

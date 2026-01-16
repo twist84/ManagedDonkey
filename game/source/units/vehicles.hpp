@@ -48,8 +48,8 @@ struct _vehicle_datum
 	real_point3d last_soft_ceiling_update_position;
 	object_header_block_reference vehicle_physics_cache;
 };
-static_assert(sizeof(_vehicle_datum) == 0x340);
-static_assert(0x7 == OFFSETOF(_vehicle_datum, pad7));
+COMPILE_ASSERT(sizeof(_vehicle_datum) == 0x340);
+COMPILE_ASSERT(0x7 == OFFSETOF(_vehicle_datum, pad7));
 
 struct vehicle_datum
 {
@@ -59,7 +59,7 @@ struct vehicle_datum
 	_unit_datum unit;
 	_vehicle_datum vehicle;
 };
-static_assert(sizeof(vehicle_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
+COMPILE_ASSERT(sizeof(vehicle_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
 
 extern bool __cdecl vehicle_about_to_detonate_near_any_player(int32* out_vehicle_index);
 extern bool __cdecl vehicle_can_be_teleported(int32 vehicle_index);

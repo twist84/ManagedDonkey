@@ -57,5 +57,5 @@ public:
 
 	byte unused[0x10];
 };
-static_assert(sizeof(c_flying_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_flying_camera) == 0x4C);
 

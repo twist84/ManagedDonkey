@@ -12,7 +12,7 @@ struct s_object_schedule
 	int16 phase_index;
 	int16 phase_count;
 };
-static_assert(sizeof(s_object_schedule) == 0x10);
+COMPILE_ASSERT(sizeof(s_object_schedule) == 0x10);
 
 class c_schedule_iterator
 {
@@ -22,7 +22,7 @@ public:
 	int32 phase_index;
 	c_static_flags<32> phases_allocated;
 };
-static_assert(sizeof(c_schedule_iterator) == 0x8);
+COMPILE_ASSERT(sizeof(c_schedule_iterator) == 0x8);
 
 struct s_object_schedule_globals
 {
@@ -32,7 +32,7 @@ struct s_object_schedule_globals
 	c_static_array<real32, 30> phases;
 	c_static_flags<30> phases_allocated;
 };
-static_assert(sizeof(s_object_schedule_globals) == 0x27C);
+COMPILE_ASSERT(sizeof(s_object_schedule_globals) == 0x27C);
 
 extern void __cdecl object_scheduler_dispose();
 extern void __cdecl object_scheduler_dispose_from_old_map();

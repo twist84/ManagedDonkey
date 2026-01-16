@@ -46,7 +46,7 @@ struct s_game_system
 	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(const s_game_non_bsp_zone_set* new_non_bsp_zone_set);
 	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(const s_game_non_bsp_zone_set* old_non_bsp_zone_set);
 };
-static_assert(sizeof(s_game_system) == sizeof(void*) * 13);
+COMPILE_ASSERT(sizeof(s_game_system) == sizeof(void*) * 13);
 
 enum e_game_create_mode
 {
@@ -77,8 +77,8 @@ struct s_game_options_launch_settings
 	//char insertion_point_name[128]; // name speculation, never actually saw this used
 	//char zone_set_name[128];
 };
-//static_assert(sizeof(s_game_options_launch_settings) == 0x210);
-static_assert(sizeof(s_game_options_launch_settings) == 0x11C);
+//COMPILE_ASSERT(sizeof(s_game_options_launch_settings) == 0x210);
+COMPILE_ASSERT(sizeof(s_game_options_launch_settings) == 0x11C);
 
 struct s_date_and_time
 {
@@ -89,7 +89,7 @@ struct s_date_and_time
 	int32 minute;
 	int32 second;
 };
-static_assert(sizeof(s_date_and_time) == 0x18);
+COMPILE_ASSERT(sizeof(s_date_and_time) == 0x18);
 
 extern bool& global_playtest_mode;
 

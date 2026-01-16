@@ -11,12 +11,12 @@ struct cinematics_globals_block
 
 	void update_reference_names();
 };
-static_assert(sizeof(cinematics_globals_block) == 0x18);
+COMPILE_ASSERT(sizeof(cinematics_globals_block) == 0x18);
 
 struct s_cinematic_reference
 {
 	c_typed_tag_reference<CINEMATIC_TAG, INVALID_TAG> name;
 };
-static_assert(sizeof(s_cinematic_reference) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_cinematic_reference) == sizeof(s_tag_reference));
 
 struct s_scenario_cutscene_title;

@@ -80,5 +80,5 @@ protected:
 	bool __unknown16656;
 	bool __unknown16657;
 };
-static_assert(sizeof(c_simulation_watcher) == 0x16658);
+COMPILE_ASSERT(sizeof(c_simulation_watcher) == 0x16658);
 

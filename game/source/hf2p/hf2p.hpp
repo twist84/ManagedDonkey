@@ -38,7 +38,7 @@ public:
 
 		uns32 __unknownC;
 	};
-	static_assert(sizeof(s_json_data) == 0x10);
+	COMPILE_ASSERT(sizeof(s_json_data) == 0x10);
 
 	struct s_json_request
 	{
@@ -55,7 +55,7 @@ public:
 		int32 user_val;
 		bool __unknown18;
 	};
-	static_assert(sizeof(s_json_request) == 0x1C);
+	COMPILE_ASSERT(sizeof(s_json_request) == 0x1C);
 
 	s_json_request m_requests[16];
 	int32 m_current_request;

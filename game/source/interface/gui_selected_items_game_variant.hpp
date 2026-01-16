@@ -30,11 +30,11 @@ public:
 	s_file_reference m_file_reference;
 	int32 m_sort_order;
 };
-static_assert(sizeof(c_gui_game_variant_selected_item) == sizeof(c_gui_selected_item) + 0x120);
-static_assert(0x190 == OFFSETOF(c_gui_game_variant_selected_item, m_controller_index));
-static_assert(0x194 == OFFSETOF(c_gui_game_variant_selected_item, m_variant_index));
-static_assert(0x198 == OFFSETOF(c_gui_game_variant_selected_item, m_file_reference));
-static_assert(0x2A8 == OFFSETOF(c_gui_game_variant_selected_item, m_sort_order));
+COMPILE_ASSERT(sizeof(c_gui_game_variant_selected_item) == sizeof(c_gui_selected_item) + 0x120);
+COMPILE_ASSERT(0x190 == OFFSETOF(c_gui_game_variant_selected_item, m_controller_index));
+COMPILE_ASSERT(0x194 == OFFSETOF(c_gui_game_variant_selected_item, m_variant_index));
+COMPILE_ASSERT(0x198 == OFFSETOF(c_gui_game_variant_selected_item, m_file_reference));
+COMPILE_ASSERT(0x2A8 == OFFSETOF(c_gui_game_variant_selected_item, m_sort_order));
 
 class c_gui_game_variant_subitem_selectable_item_datasource :
 	public c_gui_ordered_data
@@ -66,14 +66,14 @@ public:
 	bool m_enumeration_complete;
 	c_autosave_queue_enumerator m_autosave_enumerator;
 };
-static_assert(sizeof(c_gui_game_variant_subitem_selectable_item_datasource) == 0x1D418);
-static_assert(sizeof(c_gui_game_variant_subitem_selectable_item_datasource) == sizeof(c_gui_ordered_data) + 0x1D30C);
-static_assert(0x0010C == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_game_engine_type));
-static_assert(0x00110 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_game_variants));
-static_assert(0x196E0 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_game_variant_count));
-static_assert(0x196E4 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_controller_index));
-static_assert(0x196E8 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_enumeration_complete));
-static_assert(0x196F0 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_autosave_enumerator));
+COMPILE_ASSERT(sizeof(c_gui_game_variant_subitem_selectable_item_datasource) == 0x1D418);
+COMPILE_ASSERT(sizeof(c_gui_game_variant_subitem_selectable_item_datasource) == sizeof(c_gui_ordered_data) + 0x1D30C);
+COMPILE_ASSERT(0x0010C == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_game_engine_type));
+COMPILE_ASSERT(0x00110 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_game_variants));
+COMPILE_ASSERT(0x196E0 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_game_variant_count));
+COMPILE_ASSERT(0x196E4 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_controller_index));
+COMPILE_ASSERT(0x196E8 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_enumeration_complete));
+COMPILE_ASSERT(0x196F0 == OFFSETOF(c_gui_game_variant_subitem_selectable_item_datasource, m_autosave_enumerator));
 
 extern int __cdecl game_variant_selected_item_sort_proc(const void* a, const void* b);
 

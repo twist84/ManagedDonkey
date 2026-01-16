@@ -48,7 +48,7 @@ struct s_dynamic_spawn_influencer
 	real_matrix4x3 matrix;
 	real32 weight;
 };
-static_assert(sizeof(s_dynamic_spawn_influencer) == 0x48);
+COMPILE_ASSERT(sizeof(s_dynamic_spawn_influencer) == 0x48);
 
 struct s_dynamic_spawn_influencer_collection
 {
@@ -56,7 +56,7 @@ struct s_dynamic_spawn_influencer_collection
 	int16 count;
 	c_static_array<s_dynamic_spawn_influencer, 446> influencers;
 };
-static_assert(sizeof(s_dynamic_spawn_influencer_collection) == 0x7D74);
+COMPILE_ASSERT(sizeof(s_dynamic_spawn_influencer_collection) == 0x7D74);
 
 extern bool __cdecl game_engine_should_spawn_player(int32 player_index);
 

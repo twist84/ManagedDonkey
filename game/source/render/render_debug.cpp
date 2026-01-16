@@ -198,7 +198,7 @@ struct s_render_debug_globals
 
 	char cache_string[MAXIMUM_CACHE_STRING_LENGTH];
 };
-static_assert(sizeof(s_render_debug_globals) == 0x81020);
+COMPILE_ASSERT(sizeof(s_render_debug_globals) == 0x81020);
 
 static s_render_debug_globals _render_debug_globals{};
 

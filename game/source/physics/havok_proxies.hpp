@@ -11,7 +11,7 @@ struct s_havok_proxy_datum :
 	int32 object_index;
 	int32 creation_time;
 };
-static_assert(sizeof(s_havok_proxy_datum) == 0x44);
+COMPILE_ASSERT(sizeof(s_havok_proxy_datum) == 0x44);
 
 extern void __cdecl havok_proxies_dispose();
 extern void __cdecl havok_proxies_dispose_from_old_map();

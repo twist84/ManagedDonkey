@@ -19,7 +19,7 @@ struct s_rasterizer_globals
 	int64 render_begin_timestamp;
 	int64 render_end_timestamp;
 };
-static_assert(sizeof(s_rasterizer_globals) == 0x78);
+COMPILE_ASSERT(sizeof(s_rasterizer_globals) == 0x78);
 
 struct s_rasterizer_timing_data :
 	s_synchronized_list_entry
@@ -36,7 +36,7 @@ struct s_rasterizer_timing_data :
 	int64 throttle_vblank_overrun;
 	int64 swap_vblank_overrun;
 };
-static_assert(sizeof(s_rasterizer_timing_data) == 0x60);
+COMPILE_ASSERT(sizeof(s_rasterizer_timing_data) == 0x60);
 
 struct s_rasterizer_timing_globals
 {
@@ -46,7 +46,7 @@ struct s_rasterizer_timing_globals
 	byte __data[0x1A0];
 	s_rasterizer_timing_data next_time_set;
 };
-static_assert(sizeof(s_rasterizer_timing_globals) == 0x1360);
+COMPILE_ASSERT(sizeof(s_rasterizer_timing_globals) == 0x1360);
 
 struct s_frame_rate_data
 {
@@ -56,7 +56,7 @@ struct s_frame_rate_data
 	uns32 measurement_sum;
 	uns32 measurement_count;
 };
-static_assert(sizeof(s_frame_rate_data) == 0x14);
+COMPILE_ASSERT(sizeof(s_frame_rate_data) == 0x14);
 
 extern s_frame_rate_data g_frame_rate_data;
 

@@ -81,7 +81,7 @@ struct s_character_physics_update_input_datum
 	real32 airborne_acceleration_maximum;
 	const hkShape* shape_switch_request;
 };
-static_assert(sizeof(s_character_physics_update_input_datum) == 0x16C);
+COMPILE_ASSERT(sizeof(s_character_physics_update_input_datum) == 0x16C);
 
 struct s_havok_contact_point_reference;
 struct s_character_physics_move_output_datum;
@@ -124,12 +124,12 @@ public:
 	real_vector3d m_ground_plane;
 	real32 m_landing_velocity;
 };
-static_assert(sizeof(c_character_physics_mode_ground_datum) == 0x74);
+COMPILE_ASSERT(sizeof(c_character_physics_mode_ground_datum) == 0x74);
 
 struct s_havok_contact_point_reference
 {
 	int16 rigid_body_index;
 	int16 contact_point_index;
 };
-static_assert(sizeof(s_havok_contact_point_reference) == 0x4);
+COMPILE_ASSERT(sizeof(s_havok_contact_point_reference) == 0x4);
 

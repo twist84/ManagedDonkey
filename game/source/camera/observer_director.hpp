@@ -33,5 +33,5 @@ public:
 
 	byte pad[0x2];
 };
-static_assert(sizeof(c_observer_director) == 0x158);
+COMPILE_ASSERT(sizeof(c_observer_director) == 0x158);
 

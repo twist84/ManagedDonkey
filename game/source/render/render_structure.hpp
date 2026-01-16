@@ -14,7 +14,7 @@ public:
 	s_tag_resource cache_file_resources;
 	int32 use_resource_items;
 };
-static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
+COMPILE_ASSERT(sizeof(c_structure_bsp_resource_interface) == 0x20);
 
 // $TODO use `s_*_bsp_types` for collision bsp logic
 //struct s_small_bsp_types
@@ -53,7 +53,7 @@ struct s_structure_bsp_resources
 	c_typed_tag_block<structure_instanced_geometry_definition> instanced_geometries_definitions;
 	s_tag_block pathfinding_data;
 };
-static_assert(sizeof(s_structure_bsp_resources) == 0x30);
+COMPILE_ASSERT(sizeof(s_structure_bsp_resources) == 0x30);
 
 struct bsp3d_node;
 struct collision_leaf;
@@ -73,7 +73,7 @@ struct collision_bsp
 	c_typed_tag_block<collision_edge> edges;
 	c_typed_tag_block<collision_vertex> vertices;
 };
-static_assert(sizeof(collision_bsp) == 0x60);
+COMPILE_ASSERT(sizeof(collision_bsp) == 0x60);
 
 struct large_bsp3d_node;
 struct large_collision_leaf;
@@ -93,7 +93,7 @@ struct large_collision_bsp
 	c_typed_tag_block<large_collision_edge> edges;
 	c_typed_tag_block<large_collision_vertex> vertices;
 };
-static_assert(sizeof(large_collision_bsp) == 0x60);
+COMPILE_ASSERT(sizeof(large_collision_bsp) == 0x60);
 
 struct structure_instanced_geometry_definition
 {
@@ -112,13 +112,13 @@ struct structure_instanced_geometry_definition
 	s_tag_block mesh_mopps;
 	void* mesh_mopp_bv_tree;
 };
-static_assert(sizeof(structure_instanced_geometry_definition) == 0xC8);
+COMPILE_ASSERT(sizeof(structure_instanced_geometry_definition) == 0xC8);
 
 struct bsp3d_node
 {
 	int64 node_data_designator;
 };
-static_assert(sizeof(bsp3d_node) == 0x8);
+COMPILE_ASSERT(sizeof(bsp3d_node) == 0x8);
 
 struct large_bsp3d_node
 {
@@ -126,7 +126,7 @@ struct large_bsp3d_node
 	int32 back_child;
 	int32 front_child;
 };
-static_assert(sizeof(large_bsp3d_node) == 0xC);
+COMPILE_ASSERT(sizeof(large_bsp3d_node) == 0xC);
 
 enum e_leaf_flags
 {
@@ -142,7 +142,7 @@ struct collision_leaf
 	int16 bsp2d_reference_count;
 	int32 first_bsp2d_reference;
 };
-static_assert(sizeof(collision_leaf) == 0x8);
+COMPILE_ASSERT(sizeof(collision_leaf) == 0x8);
 
 struct large_collision_leaf
 {
@@ -150,21 +150,21 @@ struct large_collision_leaf
 	int16 bsp2d_reference_count;
 	int32 first_bsp2d_reference;
 };
-static_assert(sizeof(large_collision_leaf) == 0x8);
+COMPILE_ASSERT(sizeof(large_collision_leaf) == 0x8);
 
 struct bsp2d_reference
 {
 	int16 plane;
 	int16 bsp2d_node;
 };
-static_assert(sizeof(bsp2d_reference) == 0x4);
+COMPILE_ASSERT(sizeof(bsp2d_reference) == 0x4);
 
 struct large_bsp2d_reference
 {
 	int32 plane;
 	int32 bsp2d_node;
 };
-static_assert(sizeof(large_bsp2d_reference) == 0x8);
+COMPILE_ASSERT(sizeof(large_bsp2d_reference) == 0x8);
 
 struct bsp2d_node
 {
@@ -172,7 +172,7 @@ struct bsp2d_node
 	int16 left_child;
 	int16 right_child;
 };
-static_assert(sizeof(bsp2d_node) == 0x10);
+COMPILE_ASSERT(sizeof(bsp2d_node) == 0x10);
 
 struct large_bsp2d_node
 {
@@ -180,7 +180,7 @@ struct large_bsp2d_node
 	int32 left_child;
 	int32 right_child;
 };
-static_assert(sizeof(large_bsp2d_node) == 0x14);
+COMPILE_ASSERT(sizeof(large_bsp2d_node) == 0x14);
 
 enum e_surface_flags
 {
@@ -205,7 +205,7 @@ struct collision_surface
 	c_flags<e_surface_flags, uns8, k_collision_surface_flags> flags;
 	uns8 best_plane_calculation_vertex_index;
 };
-static_assert(sizeof(collision_surface) == 0xC);
+COMPILE_ASSERT(sizeof(collision_surface) == 0xC);
 
 struct large_collision_surface
 {
@@ -217,7 +217,7 @@ struct large_collision_surface
 	c_flags<e_surface_flags, uns8, k_collision_surface_flags> flags;
 	uns8 best_plane_calculation_vertex_index;
 };
-static_assert(sizeof(large_collision_surface) == 0x10);
+COMPILE_ASSERT(sizeof(large_collision_surface) == 0x10);
 
 struct collision_edge
 {
@@ -225,7 +225,7 @@ struct collision_edge
 	int16 edge_indices[2];
 	int16 surface_indices[2];
 };
-static_assert(sizeof(collision_edge) == 0xC);
+COMPILE_ASSERT(sizeof(collision_edge) == 0xC);
 
 struct large_collision_edge
 {
@@ -233,7 +233,7 @@ struct large_collision_edge
 	int32 edge_indices[2];
 	int32 surface_indices[2];
 };
-static_assert(sizeof(large_collision_edge) == 0x18);
+COMPILE_ASSERT(sizeof(large_collision_edge) == 0x18);
 
 struct collision_vertex
 {
@@ -241,7 +241,7 @@ struct collision_vertex
 	int16 first_edge;
 	int16 sink;
 };
-static_assert(sizeof(collision_vertex) == 0x10);
+COMPILE_ASSERT(sizeof(collision_vertex) == 0x10);
 
 struct large_collision_vertex
 {
@@ -249,7 +249,7 @@ struct large_collision_vertex
 	int32 first_edge;
 	int32 sink;
 };
-static_assert(sizeof(large_collision_vertex) == 0x14);
+COMPILE_ASSERT(sizeof(large_collision_vertex) == 0x14);
 
 struct s_render_cluster_part
 {
@@ -258,7 +258,7 @@ struct s_render_cluster_part
 	uns16 mesh_index;
 	uns16 part_index;
 };
-static_assert(sizeof(s_render_cluster_part) == 0xC);
+COMPILE_ASSERT(sizeof(s_render_cluster_part) == 0xC);
 
 struct s_render_instance_part
 {
@@ -269,7 +269,7 @@ struct s_render_instance_part
 	uns16 part_index;
 	uns8 alpha_byte;
 };
-static_assert(sizeof(s_render_instance_part) == 0x10);
+COMPILE_ASSERT(sizeof(s_render_instance_part) == 0x10);
 
 enum
 {
@@ -298,7 +298,7 @@ struct render_structure_globals
 	int32 last_instance_definition_index;
 	int32 last_structure_instance_index;
 };
-static_assert(sizeof(render_structure_globals) == 0x1210C);
+COMPILE_ASSERT(sizeof(render_structure_globals) == 0x1210C);
 
 class c_structure_renderer
 {

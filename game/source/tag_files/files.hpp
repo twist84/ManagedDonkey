@@ -33,14 +33,14 @@ struct file_reference_info
 	int16 location;
 	c_static_string<k_tag_long_string_length> path;
 };
-static_assert(sizeof(file_reference_info) == 0x108);
+COMPILE_ASSERT(sizeof(file_reference_info) == 0x108);
 
 struct s_file_reference : file_reference_info
 {
 	s_file_handle handle;
 	int32 position;
 };
-static_assert(sizeof(s_file_reference) == 0x110);
+COMPILE_ASSERT(sizeof(s_file_reference) == 0x110);
 
 extern file_reference_info* __cdecl file_reference_get_info(s_file_reference* info);
 extern void __cdecl directory_create_or_delete_contents(const char* directory);

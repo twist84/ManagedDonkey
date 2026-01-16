@@ -77,8 +77,8 @@ protected:
 	int32 m_maximum_input_characters;
 	bool m_sanitize_result;
 };
-static_assert(sizeof(c_virtual_keyboard_task) == 0x6A0);
-static_assert(sizeof(c_virtual_keyboard_task) == sizeof(c_overlapped_task) + 0x690);
+COMPILE_ASSERT(sizeof(c_virtual_keyboard_task) == 0x6A0);
+COMPILE_ASSERT(sizeof(c_virtual_keyboard_task) == sizeof(c_overlapped_task) + 0x690);
 
 class c_string_verify_task :
 	public c_overlapped_task
@@ -106,8 +106,8 @@ protected:
 	int32 m_strings_to_verify_count;
 	bool m_results[k_maximum_simultaneous_strings];
 };
-static_assert(sizeof(c_string_verify_task) == 0x81C);
-static_assert(sizeof(c_string_verify_task) == sizeof(c_overlapped_task) + 0x80C);
+COMPILE_ASSERT(sizeof(c_string_verify_task) == 0x81C);
+COMPILE_ASSERT(sizeof(c_string_verify_task) == sizeof(c_overlapped_task) + 0x80C);
 
 enum e_online_guide_toast_position
 {

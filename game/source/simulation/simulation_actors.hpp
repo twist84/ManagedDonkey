@@ -14,5 +14,5 @@ public:
 	int32 m_current_control_time;
 	unit_control_data m_current_control;
 };
-static_assert(sizeof(c_simulation_actor) == 0x94);
+COMPILE_ASSERT(sizeof(c_simulation_actor) == 0x94);
 

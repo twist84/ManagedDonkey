@@ -16,7 +16,7 @@ struct s_simulation_queue_decoded_creation_data
     byte update_data_payload[0x4000];
     int32 update_data_payload_size;
 };
-static_assert(sizeof(s_simulation_queue_decoded_creation_data) == 0x8018);
+COMPILE_ASSERT(sizeof(s_simulation_queue_decoded_creation_data) == 0x8018);
 
 struct s_simulation_queue_decoded_update_data
 {
@@ -29,5 +29,5 @@ struct s_simulation_queue_decoded_update_data
     byte update_data_payload[0x4000];
     int32 update_data_payload_size;
 };
-static_assert(sizeof(s_simulation_queue_decoded_update_data) == 0x4018);
+COMPILE_ASSERT(sizeof(s_simulation_queue_decoded_update_data) == 0x4018);
 

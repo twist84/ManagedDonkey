@@ -62,7 +62,7 @@ struct transport_endpoint
 	e_transport_type type;
 	int32 flags;
 };
-static_assert(sizeof(transport_endpoint) == 0xC);
+COMPILE_ASSERT(sizeof(transport_endpoint) == 0xC);
 
 struct transport_address;
 

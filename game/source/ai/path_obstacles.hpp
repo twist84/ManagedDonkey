@@ -16,7 +16,7 @@ struct disc
 	// debug only?
 	//real32 z;
 };
-static_assert(sizeof(struct disc) == 0x14);
+COMPILE_ASSERT(sizeof(struct disc) == 0x14);
 
 struct obstacles
 {
@@ -27,7 +27,7 @@ struct obstacles
 	int16 medium_threshold_disc_count;
 	disc discs[MAXIMUM_DISC_COUNT];
 };
-static_assert(sizeof(struct obstacles) == 0x140C);
+COMPILE_ASSERT(sizeof(struct obstacles) == 0x140C);
 
 extern const struct disc* __cdecl obstacles_get_disc(const struct obstacles* obstacles, int16 disc_index);
 extern void __cdecl obstacles_new(struct obstacles* obstacles);

@@ -197,7 +197,7 @@ struct s_font_loading_task
 {
 	s_font_loading_state* loading_state;
 };
-static_assert(sizeof(s_font_loading_task) == 0x4);
+COMPILE_ASSERT(sizeof(s_font_loading_task) == 0x4);
 
 union s_configuration_enumeration_task
 {
@@ -294,7 +294,7 @@ struct s_async_queue_element
 	c_synchronized_long* done;
 	s_async_queue_element* next;
 };
-static_assert(sizeof(s_async_queue_element) == 0x238);
+COMPILE_ASSERT(sizeof(s_async_queue_element) == 0x238);
 
 struct s_async_globals
 {
@@ -308,7 +308,7 @@ struct s_async_globals
 	// Added back by us
 	static c_synchronized_long async_work_delay_milliseconds;
 };
-static_assert(sizeof(s_async_globals) == 0x378C);
+COMPILE_ASSERT(sizeof(s_async_globals) == 0x378C);
 
 extern s_async_globals& async_globals;
 

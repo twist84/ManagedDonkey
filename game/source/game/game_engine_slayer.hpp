@@ -91,7 +91,7 @@ protected:
 
 	byte m_pad1[2];
 };
-static_assert(sizeof(c_game_engine_slayer_variant) == 0x200);
+COMPILE_ASSERT(sizeof(c_game_engine_slayer_variant) == 0x200);
 
 class c_slayer_engine :
 	public c_game_engine

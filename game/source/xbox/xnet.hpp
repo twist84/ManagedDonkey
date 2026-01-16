@@ -12,7 +12,7 @@ struct s_transport_address_mapping
 	s_transport_secure_address secure_address;
 	s_transport_secure_identifier secure_identifier;
 };
-static_assert(sizeof(s_transport_address_mapping) == 0x38);
+COMPILE_ASSERT(sizeof(s_transport_address_mapping) == 0x38);
 
 extern s_transport_address_mapping(&g_transport_address_mapping)[51];
 

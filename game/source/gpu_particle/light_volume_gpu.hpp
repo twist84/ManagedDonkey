@@ -15,11 +15,11 @@ public:
 		int32 m_prev;
 		int32 m_next;
 	};
-	static_assert(sizeof(s_row) == 0xC);
+	COMPILE_ASSERT(sizeof(s_row) == 0xC);
 
 	int32 m_light_volume_index;
 	int32 m_row_head;
 	uns16 m_flags;
 };
-static_assert(sizeof(c_light_volume_gpu) == 0x10);
+COMPILE_ASSERT(sizeof(c_light_volume_gpu) == 0x10);
 

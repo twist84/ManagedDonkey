@@ -30,7 +30,7 @@ public:
 protected:
 	bool m_recent_film_set;
 };
-static_assert(sizeof(c_gui_screen_pregame_lobby_theater) == sizeof(c_gui_screen_pregame_lobby) + 0x4);
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_lobby_theater) == sizeof(c_gui_screen_pregame_lobby) + 0x4);
 
 extern bool __cdecl parse_xml_lobby_theater_film(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_theater_film_length(void* this_ptr, wchar_t* buffer, int32 buffer_length);

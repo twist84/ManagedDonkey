@@ -6,5 +6,5 @@ struct hkMoppCode
 {
 	byte __data[0x30];
 };
-static_assert(sizeof(hkMoppCode) == 0x30);
+COMPILE_ASSERT(sizeof(hkMoppCode) == 0x30);
 

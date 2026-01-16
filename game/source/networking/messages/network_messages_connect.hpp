@@ -21,21 +21,21 @@ struct s_network_message_connect_request
 	uns32 channel_identifier;
 	uns32 flags;
 };
-static_assert(sizeof(s_network_message_connect_request) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_message_connect_request) == 0x8);
 
 struct s_network_message_connect_refuse
 {
 	uns32 remote_identifier;
 	int32 reason;
 };
-static_assert(sizeof(s_network_message_connect_refuse) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_message_connect_refuse) == 0x8);
 
 struct s_network_message_connect_establish
 {
 	uns32 identifier;
 	uns32 remote_identifier;
 };
-static_assert(sizeof(s_network_message_connect_establish) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_message_connect_establish) == 0x8);
 
 struct s_network_message_connect_closed
 {
@@ -43,7 +43,7 @@ struct s_network_message_connect_closed
 	uns32 identifier;
 	c_enum<e_network_channel_closure_reason, int32, _network_channel_reason_none, k_network_channel_reason_count> reason;
 };
-static_assert(sizeof(s_network_message_connect_closed) == 0xC);
+COMPILE_ASSERT(sizeof(s_network_message_connect_closed) == 0xC);
 
 class c_bitstream;
 

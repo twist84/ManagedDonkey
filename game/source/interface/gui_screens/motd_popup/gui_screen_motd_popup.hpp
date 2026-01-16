@@ -34,7 +34,7 @@ struct s_message_of_the_day_popup
 	int32 message_text_length;
 	wchar_t message_text[1024];
 };
-static_assert(sizeof(s_message_of_the_day_popup) == 0x99C);
+COMPILE_ASSERT(sizeof(s_message_of_the_day_popup) == 0x99C);
 
 class c_motd_popup_screen_message :
 	public c_load_screen_message
@@ -50,8 +50,8 @@ public:
 	s_message_of_the_day_popup m_message;
 	int32 m_message_index;
 };
-static_assert(sizeof(c_motd_popup_screen_message) == 0x9DC);
-static_assert(sizeof(c_motd_popup_screen_message) == sizeof(c_load_screen_message) + 0x9A0);
+COMPILE_ASSERT(sizeof(c_motd_popup_screen_message) == 0x9DC);
+COMPILE_ASSERT(sizeof(c_motd_popup_screen_message) == sizeof(c_load_screen_message) + 0x9A0);
 
 class c_motd_popup_screen_widget :
 	public c_gui_screen_widget
@@ -118,17 +118,17 @@ public:
 	s_bitmap_widget_block m_fake_group0_bitmaps[12];
 	s_bitmap_widget_block m_fake_group1_bitmaps[4];
 };
-static_assert(sizeof(c_motd_popup_screen_widget) == 0x124A0);
-static_assert(sizeof(c_motd_popup_screen_widget) == sizeof(c_gui_screen_widget) + 0x10A00);
-static_assert(0x01AA0 == OFFSETOF(c_motd_popup_screen_widget, m_allow_dismissal_milliseconds));
-static_assert(0x01AA4 == OFFSETOF(c_motd_popup_screen_widget, m_message));
-static_assert(0x02440 == OFFSETOF(c_motd_popup_screen_widget, m_image_downloader));
-static_assert(0x11AD8 == OFFSETOF(c_motd_popup_screen_widget, m_image_url_key));
-static_assert(0x11ADC == OFFSETOF(c_motd_popup_screen_widget, m_motd_displayed));
-static_assert(0x11AE0 == OFFSETOF(c_motd_popup_screen_widget, m_message_index));
-static_assert(0x11AE4 == OFFSETOF(c_motd_popup_screen_widget, m_fake_definition));
-static_assert(0x11B8C == OFFSETOF(c_motd_popup_screen_widget, m_fake_groups));
-static_assert(0x11C64 == OFFSETOF(c_motd_popup_screen_widget, m_fake_group0_texts));
-static_assert(0x11DE0 == OFFSETOF(c_motd_popup_screen_widget, m_fake_group0_bitmaps));
-static_assert(0x122F0 == OFFSETOF(c_motd_popup_screen_widget, m_fake_group1_bitmaps));
+COMPILE_ASSERT(sizeof(c_motd_popup_screen_widget) == 0x124A0);
+COMPILE_ASSERT(sizeof(c_motd_popup_screen_widget) == sizeof(c_gui_screen_widget) + 0x10A00);
+COMPILE_ASSERT(0x01AA0 == OFFSETOF(c_motd_popup_screen_widget, m_allow_dismissal_milliseconds));
+COMPILE_ASSERT(0x01AA4 == OFFSETOF(c_motd_popup_screen_widget, m_message));
+COMPILE_ASSERT(0x02440 == OFFSETOF(c_motd_popup_screen_widget, m_image_downloader));
+COMPILE_ASSERT(0x11AD8 == OFFSETOF(c_motd_popup_screen_widget, m_image_url_key));
+COMPILE_ASSERT(0x11ADC == OFFSETOF(c_motd_popup_screen_widget, m_motd_displayed));
+COMPILE_ASSERT(0x11AE0 == OFFSETOF(c_motd_popup_screen_widget, m_message_index));
+COMPILE_ASSERT(0x11AE4 == OFFSETOF(c_motd_popup_screen_widget, m_fake_definition));
+COMPILE_ASSERT(0x11B8C == OFFSETOF(c_motd_popup_screen_widget, m_fake_groups));
+COMPILE_ASSERT(0x11C64 == OFFSETOF(c_motd_popup_screen_widget, m_fake_group0_texts));
+COMPILE_ASSERT(0x11DE0 == OFFSETOF(c_motd_popup_screen_widget, m_fake_group0_bitmaps));
+COMPILE_ASSERT(0x122F0 == OFFSETOF(c_motd_popup_screen_widget, m_fake_group1_bitmaps));
 

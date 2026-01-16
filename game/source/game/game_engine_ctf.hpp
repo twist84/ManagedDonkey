@@ -65,7 +65,7 @@ protected:
 
 	byte m_pad1[6];
 };
-static_assert(sizeof(c_game_engine_ctf_variant) == 0x200);
+COMPILE_ASSERT(sizeof(c_game_engine_ctf_variant) == 0x200);
 
 struct s_static_spawn_zone;
 class c_ctf_engine :
@@ -101,7 +101,7 @@ struct s_ctf_shared_globals
 	uns16 helper_flags;
 	uns16 flags;
 };
-static_assert(sizeof(s_ctf_shared_globals) == 0x164C);
+COMPILE_ASSERT(sizeof(s_ctf_shared_globals) == 0x164C);
 
 struct s_ctf_globals : s_ctf_shared_globals
 {
@@ -112,7 +112,7 @@ struct s_ctf_globals : s_ctf_shared_globals
 	c_static_array<int16, 9> failure_event_timer;
 	c_static_array<int16, 9> timeout_return_second_counter;
 };
-static_assert(sizeof(s_ctf_globals) == 0x16D8);
+COMPILE_ASSERT(sizeof(s_ctf_globals) == 0x16D8);
 
 extern c_game_engine_ctf_variant*& ctf_variant;
 

@@ -131,7 +131,7 @@ struct s_camera_globals
 	// see above
 	real32 game_director_exit_vehicle_transition_time; // seconds
 };
-static_assert(sizeof(s_camera_globals) == 0x94);
+COMPILE_ASSERT(sizeof(s_camera_globals) == 0x94);
 
 extern s_camera_globals& g_camera_globals;
 extern real32& g_director_camera_speed_scale;

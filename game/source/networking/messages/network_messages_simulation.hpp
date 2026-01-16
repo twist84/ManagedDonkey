@@ -12,7 +12,7 @@ struct s_network_message_view_establishment
 	int32 signature_size;
 	byte signature_data[0x3C];
 };
-static_assert(sizeof(s_network_message_view_establishment) == 0x4C);
+COMPILE_ASSERT(sizeof(s_network_message_view_establishment) == 0x4C);
 
 struct s_network_message_player_acknowledge
 {
@@ -20,7 +20,7 @@ struct s_network_message_player_acknowledge
 	uns32 player_in_game_mask;
 	s_player_identifier player_identifiers[16];
 };
-static_assert(sizeof(s_network_message_player_acknowledge) == 0x88);
+COMPILE_ASSERT(sizeof(s_network_message_player_acknowledge) == 0x88);
 
 class c_bitstream;
 

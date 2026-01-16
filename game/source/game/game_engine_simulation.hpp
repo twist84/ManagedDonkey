@@ -6,13 +6,13 @@ struct s_territories_event_data
 {
 	int16 territory_index;
 };
-static_assert(sizeof(s_territories_event_data) == sizeof(int16));
+COMPILE_ASSERT(sizeof(s_territories_event_data) == sizeof(int16));
 
 struct s_objective_game_role_change_event_data
 {
 	int32 objective_game_role_index;
 };
-static_assert(sizeof(s_objective_game_role_change_event_data) == sizeof(int32));
+COMPILE_ASSERT(sizeof(s_objective_game_role_change_event_data) == sizeof(int32));
 
 struct s_game_engine_event_data
 {
@@ -32,7 +32,7 @@ struct s_game_engine_event_data
 		s_objective_game_role_change_event_data objective_game_role_event_data;
 	};
 };
-static_assert(sizeof(s_game_engine_event_data) == 0x28);
+COMPILE_ASSERT(sizeof(s_game_engine_event_data) == 0x28);
 
 enum e_game_engine_queued_event_flags
 {
@@ -49,5 +49,5 @@ struct s_game_engine_queued_event
 	c_flags<e_game_engine_queued_event_flags, uns8, k_game_engine_queued_event_flags_count> flags;
 	s_game_engine_event_data event_data;
 };
-static_assert(sizeof(s_game_engine_queued_event) == 0x30);
+COMPILE_ASSERT(sizeof(s_game_engine_queued_event) == 0x30);
 

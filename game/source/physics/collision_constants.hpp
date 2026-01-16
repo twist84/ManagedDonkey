@@ -31,7 +31,7 @@ enum e_collision_test_flag
 
 	k_collision_test_flags_count
 };
-static_assert(MASK(k_collision_test_flags_count) == ~0xFFC00000);
+COMPILE_ASSERT(MASK(k_collision_test_flags_count) == ~0xFFC00000);
 
 enum e_collision_test_objects_flag
 {
@@ -56,14 +56,14 @@ enum e_collision_test_objects_flag
 
 	k_collision_test_objects_flags_count
 };
-static_assert(MASK(k_collision_test_objects_flags_count) == ~0xFFFF0000);
+COMPILE_ASSERT(MASK(k_collision_test_objects_flags_count) == ~0xFFFF0000);
 
 struct s_collision_test_flags
 {
 	c_flags<e_collision_test_flag, uns32, k_collision_test_flags_count> collision_flags;
 	c_flags<e_collision_test_objects_flag, uns32, k_collision_test_objects_flags_count> object_flags;
 };
-static_assert(sizeof(s_collision_test_flags) == 0x8);
+COMPILE_ASSERT(sizeof(s_collision_test_flags) == 0x8);
 
 extern s_collision_test_flags& k_trivial_obstruction_collision_flags;
 extern s_collision_test_flags& k_perception_collision_flags;

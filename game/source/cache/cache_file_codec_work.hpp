@@ -11,7 +11,7 @@ struct s_simple_read_file_ex_overlapped_result
 	uns32 bytes_transferred;
 	uns32 bytes_requested;
 };
-static_assert(sizeof(s_simple_read_file_ex_overlapped_result) == 0x10);
+COMPILE_ASSERT(sizeof(s_simple_read_file_ex_overlapped_result) == 0x10);
 
 class c_asynchronous_io_marker;
 class c_cache_file_decompressor;
@@ -28,7 +28,7 @@ public:
 	c_cache_file_decompressor* m_active_decompressor;
 	c_basic_buffer<void> m_active_decompression_buffer;
 };
-static_assert(sizeof(c_cache_file_async_decompression_task) == 0x28);
+COMPILE_ASSERT(sizeof(c_cache_file_async_decompression_task) == 0x28);
 
 int32 __cdecl async_decompress_file_section(
 	e_async_priority priority,

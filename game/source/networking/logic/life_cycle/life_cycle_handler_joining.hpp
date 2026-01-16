@@ -26,8 +26,8 @@ public:
 	e_gui_game_mode m_failure_game_mode;
 	e_life_cycle_state m_previous_state;
 };
-static_assert(sizeof(c_life_cycle_state_handler_joining) == 0x38);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_joining, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_joining, m_failure_game_mode));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_joining, m_previous_state));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_joining) == 0x38);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_joining, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_joining, m_failure_game_mode));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_joining, m_previous_state));
 

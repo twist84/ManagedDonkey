@@ -69,7 +69,7 @@ struct looping_sound_track
 	int16 alternate_fade_out_mode;
 	int16 alternate_fade_out_pad;
 };
-static_assert(sizeof(looping_sound_track) == 0xA0);
+COMPILE_ASSERT(sizeof(looping_sound_track) == 0xA0);
 
 struct looping_sound_detail
 {
@@ -93,7 +93,7 @@ struct looping_sound_detail
 	real32 distance_lower_bound;
 	real32 distance_upper_bound;
 };
-static_assert(sizeof(looping_sound_detail) == 0x3C);
+COMPILE_ASSERT(sizeof(looping_sound_detail) == 0x3C);
 
 struct looping_sound_definition
 {
@@ -117,7 +117,7 @@ struct looping_sound_definition
 	// detail sounds play at random throughout the duration of the looping sound.
 	c_typed_tag_block<looping_sound_detail> details;
 };
-static_assert(sizeof(looping_sound_definition) == 0x40);
+COMPILE_ASSERT(sizeof(looping_sound_definition) == 0x40);
 
 struct s_sound_globals_definition
 {
@@ -130,5 +130,5 @@ struct s_sound_globals_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_sound_globals_definition) == 0x60);
+COMPILE_ASSERT(sizeof(s_sound_globals_definition) == 0x60);
 

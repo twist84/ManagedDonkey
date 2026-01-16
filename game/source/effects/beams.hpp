@@ -23,7 +23,7 @@ public:
 	real32 m_effect_scale_b;
 	int32 m_lod;
 };
-static_assert(sizeof(c_beam_system) == 0x2C);
+COMPILE_ASSERT(sizeof(c_beam_system) == 0x2C);
 
 class c_beam :
 	public s_datum_header
@@ -40,7 +40,7 @@ class c_beam :
 	uns32 m_random_seed_starter;
 	real32 m_random_seed[2];
 };
-static_assert(sizeof(c_beam) == 0x34);
+COMPILE_ASSERT(sizeof(c_beam) == 0x34);
 
 class c_beam_location :
 	public s_datum_header
@@ -53,5 +53,5 @@ class c_beam_location :
 	real_vector3d m_direction;
 	real32 m_length_cap;
 };
-static_assert(sizeof(c_beam_location) == 0x30);
+COMPILE_ASSERT(sizeof(c_beam_location) == 0x30);
 

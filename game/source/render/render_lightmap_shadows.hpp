@@ -7,7 +7,7 @@ struct old_light_geometry_spherical_parameters
 	real32 diffuse_radius;
 	real32 specular_radius;
 };
-static_assert(sizeof(old_light_geometry_spherical_parameters) == 0x8);
+COMPILE_ASSERT(sizeof(old_light_geometry_spherical_parameters) == 0x8);
 
 struct old_light_geometry_frustum_parameters
 {
@@ -17,7 +17,7 @@ struct old_light_geometry_frustum_parameters
 	real32 falloff_distance;
 	real32 cutoff_distance;
 };
-static_assert(sizeof(old_light_geometry_frustum_parameters) == 0x14);
+COMPILE_ASSERT(sizeof(old_light_geometry_frustum_parameters) == 0x14);
 
 struct light_intermediate_frustum_geometry
 {
@@ -32,7 +32,7 @@ struct light_intermediate_frustum_geometry
 	real_vector2d cutoff_size;
 	real_point3d cutoff_position;
 };
-static_assert(sizeof(light_intermediate_frustum_geometry) == 0x44);
+COMPILE_ASSERT(sizeof(light_intermediate_frustum_geometry) == 0x44);
 
 struct light_intermediate_spherical_geometry
 {
@@ -41,7 +41,7 @@ struct light_intermediate_spherical_geometry
 	real32 specular_radius;
 	real32 maximum_radius;
 };
-static_assert(sizeof(light_intermediate_spherical_geometry) == 0x10);
+COMPILE_ASSERT(sizeof(light_intermediate_spherical_geometry) == 0x10);
 
 struct light_intermediate_geometry
 {
@@ -55,7 +55,7 @@ struct light_intermediate_geometry
 		light_intermediate_spherical_geometry spherical;
 	};
 };
-static_assert(sizeof(light_intermediate_geometry) == 0x64);
+COMPILE_ASSERT(sizeof(light_intermediate_geometry) == 0x64);
 
 struct light_geometry
 {
@@ -67,5 +67,5 @@ struct light_geometry
 	};
 	light_intermediate_geometry intermediate;
 };
-static_assert(sizeof(light_geometry) == 0x7C);
+COMPILE_ASSERT(sizeof(light_geometry) == 0x7C);
 

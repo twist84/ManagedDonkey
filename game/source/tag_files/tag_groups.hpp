@@ -229,7 +229,7 @@ struct s_tag_block
 	};
 	int32 : 32; // uns8* definition;
 };
-static_assert(sizeof(s_tag_block) == 0xC);
+COMPILE_ASSERT(sizeof(s_tag_block) == 0xC);
 
 struct s_tag_reference
 {
@@ -249,7 +249,7 @@ struct s_tag_reference
 	const char* get_name();
 	const char* get_group_name();
 };
-static_assert(sizeof(s_tag_reference) == 0x10);
+COMPILE_ASSERT(sizeof(s_tag_reference) == 0x10);
 
 struct s_tag_data
 {
@@ -265,7 +265,7 @@ struct s_tag_data
 
 	int32 : 32; // uns8* definition;
 };
-static_assert(sizeof(s_tag_data) == 0x14);
+COMPILE_ASSERT(sizeof(s_tag_data) == 0x14);
 
 template<typename t_element_type, uns32 ...t_extra>
 //using c_typed_tag_block = s_tag_block;
@@ -341,7 +341,7 @@ struct s_tag_resource
 
 	uns32 definition_address;
 };
-static_assert(sizeof(s_tag_resource) == 0x8);
+COMPILE_ASSERT(sizeof(s_tag_resource) == 0x8);
 
 template<typename t_resource_type, uns32 ...t_extra>
 class c_typed_tag_resource :
@@ -353,7 +353,7 @@ public:
 		return reinterpret_cast<t_resource_type*>(resource_handle);
 	}
 };
-static_assert(sizeof(c_typed_tag_resource<void>) == sizeof(s_tag_resource));
+COMPILE_ASSERT(sizeof(c_typed_tag_resource<void>) == sizeof(s_tag_resource));
 
 struct s_cache_file_tag_group
 {
@@ -376,7 +376,7 @@ struct s_cache_file_tag_group
 		return !is_group(group_tag_);
 	}
 };
-static_assert(sizeof(s_cache_file_tag_group) == 0x10);
+COMPILE_ASSERT(sizeof(s_cache_file_tag_group) == 0x10);
 
 extern void* __cdecl tag_block_get_element_with_size(const s_tag_block* block, int32 index, int32 size);
 extern void* __cdecl tag_data_get_pointer(const s_tag_data* data, int32 offset, int32 size);

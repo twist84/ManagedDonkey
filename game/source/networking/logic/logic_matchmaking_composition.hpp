@@ -39,7 +39,7 @@ struct s_network_session_player_matchmaking_composition
 	real32 mu;
 	int32 adjusted_skill_level;
 };
-static_assert(sizeof(s_network_session_player_matchmaking_composition) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_session_player_matchmaking_composition) == 0x10);
 
 struct __declspec(align(4)) s_network_session_party_matchmaking_composition
 {
@@ -52,7 +52,7 @@ struct __declspec(align(4)) s_network_session_party_matchmaking_composition
 	int32 average_experience_rank;
 	c_network_session_matchmaking_composition_flags flags;
 };
-static_assert(sizeof(s_network_session_party_matchmaking_composition) == 0x20);
+COMPILE_ASSERT(sizeof(s_network_session_party_matchmaking_composition) == 0x20);
 
 struct s_network_session_matchmaking_composition
 {
@@ -67,7 +67,7 @@ struct s_network_session_matchmaking_composition
 	int32 best_host_estimated_downstream_bandwidth_bps;
 	int32 best_host_estimated_upstream_bandwidth_bps;
 };
-static_assert(sizeof(s_network_session_matchmaking_composition) == 0x400);
+COMPILE_ASSERT(sizeof(s_network_session_matchmaking_composition) == 0x400);
 
 //extern const char*(&k_network_session_matchmaking_composition_build_results)[k_network_session_matchmaking_composition_build_result_count];
 extern const char* k_network_session_matchmaking_composition_build_results[k_network_session_matchmaking_composition_build_result_count];

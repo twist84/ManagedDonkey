@@ -19,5 +19,5 @@ public:
 protected:
 	c_static_array<c_network_session*, 3> m_sessions;
 };
-static_assert(sizeof(c_network_session_manager) == 0xC);
+COMPILE_ASSERT(sizeof(c_network_session_manager) == 0xC);
 

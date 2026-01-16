@@ -9,7 +9,7 @@ struct s_list_entry // LIST_ENTRY
 	s_list_entry* forward_link;
 	s_list_entry* backward_link;
 };
-static_assert(sizeof(s_list_entry) == 0x8);
+COMPILE_ASSERT(sizeof(s_list_entry) == 0x8);
 
 struct s_critical_section_debug // RTL_CRITICAL_SECTION_DEBUG
 {
@@ -23,7 +23,7 @@ struct s_critical_section_debug // RTL_CRITICAL_SECTION_DEBUG
 	uns16 creator_back_trace_index_high;
 	uns16 spare_word;
 };
-static_assert(sizeof(s_critical_section_debug) == 0x20);
+COMPILE_ASSERT(sizeof(s_critical_section_debug) == 0x20);
 
 struct s_critical_section // RTL_CRITICAL_SECTION
 {
@@ -40,7 +40,7 @@ struct s_critical_section // RTL_CRITICAL_SECTION
 	void* lock_semaphore;
 	/* ULONG_PTR */ uns32 spin_count;        // force size on 64-bit systems when packed
 };
-static_assert(sizeof(s_critical_section) == 0x18);
+COMPILE_ASSERT(sizeof(s_critical_section) == 0x18);
 
 class c_synchronization_object
 {
@@ -48,7 +48,7 @@ public:
 	c_interlocked_long locking_thread;
 	c_interlocked_long lock_count;
 };
-static_assert(sizeof(c_synchronization_object) == 0x8);
+COMPILE_ASSERT(sizeof(c_synchronization_object) == 0x8);
 
 class c_critical_section_data :
 	public c_synchronization_object
@@ -56,7 +56,7 @@ class c_critical_section_data :
 public:
 	s_critical_section critical_section;
 };
-static_assert(sizeof(c_critical_section_data) == 0x20);
+COMPILE_ASSERT(sizeof(c_critical_section_data) == 0x20);
 
 class c_synchronization_handle :
 	public c_synchronization_object
@@ -64,7 +64,7 @@ class c_synchronization_handle :
 public:
 	void* handle;
 };
-static_assert(sizeof(c_synchronization_handle) == 0xC);
+COMPILE_ASSERT(sizeof(c_synchronization_handle) == 0xC);
 
 class c_semaphore_handle :
 	public c_synchronization_handle
@@ -72,7 +72,7 @@ class c_semaphore_handle :
 public:
 	int32 thread_reference_count[k_registered_thread_count];
 };
-static_assert(sizeof(c_semaphore_handle) == 0x34);
+COMPILE_ASSERT(sizeof(c_semaphore_handle) == 0x34);
 
 struct s_synchronization_globals
 {
@@ -82,7 +82,7 @@ struct s_synchronization_globals
 	c_synchronization_handle sync_event[k_total_synchronization_events];
 	c_semaphore_handle semaphore[k_total_synchronization_semaphores];
 };
-static_assert(sizeof(s_synchronization_globals) == 0x91C);
+COMPILE_ASSERT(sizeof(s_synchronization_globals) == 0x91C);
 
 class c_critical_section_scope
 {

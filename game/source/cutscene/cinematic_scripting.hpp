@@ -17,7 +17,7 @@ struct s_cinematic_custom_script
 {
 	s_tag_data script;
 };
-static_assert(sizeof(s_cinematic_custom_script) == sizeof(s_tag_data));
+COMPILE_ASSERT(sizeof(s_cinematic_custom_script) == sizeof(s_tag_data));
 
 struct s_cinematic_scene
 {
@@ -32,7 +32,7 @@ struct s_cinematic_scene
 	s_cinematic_custom_script footer;
 	int32 version;
 };
-static_assert(sizeof(s_cinematic_scene) == 0x78);
+COMPILE_ASSERT(sizeof(s_cinematic_scene) == 0x78);
 
 struct s_scene_object
 {
@@ -47,7 +47,7 @@ struct s_scene_object
 	s_cinematic_custom_script custom_override_creation_condition;
 	s_tag_block attachments;
 };
-static_assert(sizeof(s_scene_object) == 0x74);
+COMPILE_ASSERT(sizeof(s_scene_object) == 0x74);
 
 struct s_cinematic_definition; // $TODO
 

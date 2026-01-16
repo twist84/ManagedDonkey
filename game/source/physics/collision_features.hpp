@@ -34,7 +34,7 @@ struct collision_sphere
 	real_point3d center;
 	real32 radius;
 };
-static_assert(sizeof(collision_sphere) == 0x24);
+COMPILE_ASSERT(sizeof(collision_sphere) == 0x24);
 
 struct collision_cylinder
 {
@@ -49,7 +49,7 @@ struct collision_cylinder
 	real_vector3d height;
 	real32 width;
 };
-static_assert(sizeof(collision_cylinder) == 0x30);
+COMPILE_ASSERT(sizeof(collision_cylinder) == 0x30);
 
 struct collision_prism
 {
@@ -67,7 +67,7 @@ struct collision_prism
 	int32 point_count;
 	real_point2d points[MAXIMUM_POINTS_PER_COLLISION_PRISM];
 };
-static_assert(sizeof(collision_prism) == 0x70);
+COMPILE_ASSERT(sizeof(collision_prism) == 0x70);
 
 struct collision_plane
 {
@@ -81,7 +81,7 @@ struct collision_plane
 	real_point3d point;
 	real_plane3d plane;
 };
-static_assert(sizeof(collision_plane) == 0x30);
+COMPILE_ASSERT(sizeof(collision_plane) == 0x30);
 
 struct collision_feature_list
 {
@@ -90,11 +90,11 @@ struct collision_feature_list
 	collision_cylinder cylinders[MAXIMUM_COLLISION_FEATURES_PER_TEST];
 	collision_prism prisms[MAXIMUM_COLLISION_FEATURES_PER_TEST];
 };
-static_assert(sizeof(collision_feature_list) == 0xC408);
-static_assert(0x0000 == OFFSETOF(collision_feature_list, count));
-static_assert(0x0008 == OFFSETOF(collision_feature_list, spheres));
-static_assert(0x2408 == OFFSETOF(collision_feature_list, cylinders));
-static_assert(0x5408 == OFFSETOF(collision_feature_list, prisms));
+COMPILE_ASSERT(sizeof(collision_feature_list) == 0xC408);
+COMPILE_ASSERT(0x0000 == OFFSETOF(collision_feature_list, count));
+COMPILE_ASSERT(0x0008 == OFFSETOF(collision_feature_list, spheres));
+COMPILE_ASSERT(0x2408 == OFFSETOF(collision_feature_list, cylinders));
+COMPILE_ASSERT(0x5408 == OFFSETOF(collision_feature_list, prisms));
 
 extern bool __cdecl collision_features_test_point(const collision_feature_list* features, const real_point3d* point, collision_plane* plane);
 

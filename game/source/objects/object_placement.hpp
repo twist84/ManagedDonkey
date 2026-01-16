@@ -12,7 +12,7 @@ struct s_object_placement_globals
 {
 	byte __data[0x320];
 };
-static_assert(sizeof(s_object_placement_globals) == 0x320);
+COMPILE_ASSERT(sizeof(s_object_placement_globals) == 0x320);
 
 enum e_object_placement_zone_set_create_mode
 {

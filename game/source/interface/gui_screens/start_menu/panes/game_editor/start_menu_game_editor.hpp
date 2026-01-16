@@ -81,6 +81,6 @@ public:
 	c_synchronized_long m_content_item_index;
 	uns32 m_progress_dialog_start_time_milliseconds;
 };
-static_assert(sizeof(c_start_menu_game_editor) == 0x1E838);
-static_assert(sizeof(c_start_menu_game_editor) == sizeof(c_start_menu_pane_screen_widget) + 0x1C6D0);
+COMPILE_ASSERT(sizeof(c_start_menu_game_editor) == 0x1E838);
+COMPILE_ASSERT(sizeof(c_start_menu_game_editor) == sizeof(c_start_menu_pane_screen_widget) + 0x1C6D0);
 

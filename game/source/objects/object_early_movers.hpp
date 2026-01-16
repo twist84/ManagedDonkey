@@ -26,21 +26,21 @@ struct s_object_early_movers_globals
 		int32 bsp_reference_count;
 		c_static_array<uns32, 8> bsp_references;
 	};
-	static_assert(sizeof(s_meta) == 0x130);
+	COMPILE_ASSERT(sizeof(s_meta) == 0x130);
 
 	s_meta meta[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
 	int32 object_indexes[MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP];
 	int32 object_index_count;
 	bool map_initialized;
 };
-static_assert(sizeof(s_object_early_movers_globals) == 0x2688);
+COMPILE_ASSERT(sizeof(s_object_early_movers_globals) == 0x2688);
 
 struct s_object_early_mover_obb
 {
 	real_rectangle3d aabb;
 	real_matrix4x3 transform;
 };
-static_assert(sizeof(s_object_early_mover_obb) == 0x4C);
+COMPILE_ASSERT(sizeof(s_object_early_mover_obb) == 0x4C);
 
 extern bool __cdecl object_early_mover_get_obb(int32 object_index_array_index, s_object_early_mover_obb* obb);
 extern void __cdecl object_early_mover_notify_local_objects(int32 early_mover_object_index);

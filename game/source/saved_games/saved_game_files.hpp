@@ -14,7 +14,7 @@ struct s_saved_game_file_text_parser_input
 	const wchar_t* campaign_map_name;
 	int32 campaign_difficulty;
 };
-static_assert(sizeof(s_saved_game_file_text_parser_input) == 0x14);
+COMPILE_ASSERT(sizeof(s_saved_game_file_text_parser_input) == 0x14);
 
 struct s_saved_game_file_globals
 {
@@ -25,7 +25,7 @@ struct s_saved_game_file_globals
 	c_magic_string_game_tag_parser campaign_map_name_parser;
 	c_magic_string_game_tag_parser campaign_difficulty_parser;
 };
-static_assert(sizeof(s_saved_game_file_globals) == 0x68);
+COMPILE_ASSERT(sizeof(s_saved_game_file_globals) == 0x68);
 
 extern s_saved_game_file_globals& g_saved_game_files_globals;
 

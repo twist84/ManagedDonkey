@@ -12,7 +12,7 @@ struct device_group_datum :
 	real32 initial_value;
 	uns32 __unknownC;
 };
-static_assert(sizeof(device_group_datum) == 0x10);
+COMPILE_ASSERT(sizeof(device_group_datum) == 0x10);
 
 struct s_device_animation_control
 {
@@ -25,7 +25,7 @@ struct s_device_animation_control
 	real32 exit_velocity;
 	real32 exit_pos;
 };
-static_assert(sizeof(s_device_animation_control) == 0x20);
+COMPILE_ASSERT(sizeof(s_device_animation_control) == 0x20);
 
 struct _device_datum
 {
@@ -43,7 +43,7 @@ struct _device_datum
 	c_animation_channel position_channel;
 	c_animation_channel power_and_overlay_track_channel;
 };
-static_assert(sizeof(_device_datum) == 0xD8);
+COMPILE_ASSERT(sizeof(_device_datum) == 0xD8);
 
 struct device_datum
 {
@@ -51,7 +51,7 @@ struct device_datum
 	_object_datum object;
 	_device_datum device;
 };
-static_assert(sizeof(device_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum));
+COMPILE_ASSERT(sizeof(device_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum));
 
 extern int32 __cdecl device_group_get_from_scenario_index(int16 device_index);
 

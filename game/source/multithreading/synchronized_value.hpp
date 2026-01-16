@@ -32,7 +32,7 @@ public:
 private:
 	volatile int32 m_value;
 };
-static_assert(sizeof(c_synchronized_long) == 0x4);
+COMPILE_ASSERT(sizeof(c_synchronized_long) == 0x4);
 
 class c_synchronized_int64
 {
@@ -64,7 +64,7 @@ public:
 private:
 	volatile int64 m_value;
 };
-static_assert(sizeof(c_synchronized_int64) == 0x8);
+COMPILE_ASSERT(sizeof(c_synchronized_int64) == 0x8);
 
 class c_interlocked_long
 {
@@ -98,7 +98,7 @@ public:
 private:
 	volatile int32 m_value;
 };
-static_assert(sizeof(c_interlocked_long) == 0x4);
+COMPILE_ASSERT(sizeof(c_interlocked_long) == 0x4);
 
 class c_interlocked_int64
 {
@@ -146,12 +146,12 @@ public:
 //private:
 	c_synchronized_long m_value[k_count];
 };
-static_assert(sizeof(c_synchronized_array<1>) == (sizeof(c_synchronized_long) * 1));
+COMPILE_ASSERT(sizeof(c_synchronized_array<1>) == (sizeof(c_synchronized_long) * 1));
 
 template<int32 k_bit_count>
 class c_synchronized_bitvector :
 	public c_synchronized_array<((k_bit_count + (32 - 1)) >> 5)>
 {
 };
-static_assert(sizeof(c_synchronized_bitvector<256>) == sizeof(c_synchronized_array<8>));
+COMPILE_ASSERT(sizeof(c_synchronized_bitvector<256>) == sizeof(c_synchronized_array<8>));
 

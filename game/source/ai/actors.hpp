@@ -53,7 +53,7 @@ struct actor_meta_data
 	int32 clump_index;
 	int32 clump_next_actor_index;
 };
-static_assert(sizeof(actor_meta_data) == 0x6C);
+COMPILE_ASSERT(sizeof(actor_meta_data) == 0x6C);
 
 struct behavior_stimulus
 {
@@ -61,7 +61,7 @@ struct behavior_stimulus
 	int16 ticks;
 	int16 desire;
 };
-static_assert(sizeof(behavior_stimulus) == 0x8);
+COMPILE_ASSERT(sizeof(behavior_stimulus) == 0x8);
 
 struct s_actor_patrol_state
 {
@@ -70,7 +70,7 @@ struct s_actor_patrol_state
 	int16 __unknown4;
 	uns16 flags;
 };
-static_assert(sizeof(s_actor_patrol_state) == 0x8);
+COMPILE_ASSERT(sizeof(s_actor_patrol_state) == 0x8);
 
 struct actor_state_data
 {
@@ -110,7 +110,7 @@ struct actor_state_data
 	uns16 engineer_state_flags;
 	int16 isolated_from_squad_ticks;
 };
-static_assert(sizeof(actor_state_data) == 0x2E4);
+COMPILE_ASSERT(sizeof(actor_state_data) == 0x2E4);
 
 struct actor_position_data
 {
@@ -120,7 +120,7 @@ struct actor_position_data
 	s_location body_location;
 	real_vector3d velocity;
 };
-static_assert(sizeof(actor_position_data) == 0x34);
+COMPILE_ASSERT(sizeof(actor_position_data) == 0x34);
 
 struct actor_input_data
 {
@@ -153,7 +153,7 @@ struct actor_input_data
 	bool player_weighting_valid;
 	real32 player_weighting;
 };
-static_assert(sizeof(actor_input_data) == 0xB8);
+COMPILE_ASSERT(sizeof(actor_input_data) == 0xB8);
 
 class c_recent_obstacle
 {
@@ -162,14 +162,14 @@ public:
 	int16 m_ticks;
 	uns16 m_flags;
 };
-static_assert(sizeof(c_recent_obstacle) == 0x8);
+COMPILE_ASSERT(sizeof(c_recent_obstacle) == 0x8);
 
 struct actor_obstacle_data
 {
 	c_recent_obstacle recent_obstacles[3];
 	uns8 interaction_target[8];
 };
-static_assert(sizeof(actor_obstacle_data) == 0x20);
+COMPILE_ASSERT(sizeof(actor_obstacle_data) == 0x20);
 
 struct actor_memory_data
 {
@@ -191,7 +191,7 @@ struct actor_memory_data
 	bool armored;
 	int16 protecting;
 };
-static_assert(sizeof(actor_memory_data) == 0x5C);
+COMPILE_ASSERT(sizeof(actor_memory_data) == 0x5C);
 
 struct actor_morph_data
 {
@@ -207,7 +207,7 @@ struct actor_morph_data
 	int16 pending_form_priority;
 	int16 turtle_delay_ticks;
 };
-static_assert(sizeof(actor_morph_data) == 0x18);
+COMPILE_ASSERT(sizeof(actor_morph_data) == 0x18);
 
 struct actor_situation
 {
@@ -216,7 +216,7 @@ struct actor_situation
 	int32 highest_prop_class_prop_index;
 	bool close_enemy;
 };
-static_assert(sizeof(actor_situation) == 0xC);
+COMPILE_ASSERT(sizeof(actor_situation) == 0xC);
 
 struct actor_target_data
 {
@@ -231,7 +231,7 @@ struct actor_target_data
 	int16 target_group;
 	bool target_group_include_player;
 };
-static_assert(sizeof(actor_target_data) == 0x20);
+COMPILE_ASSERT(sizeof(actor_target_data) == 0x20);
 
 struct actor_activity_data
 {
@@ -241,7 +241,7 @@ struct actor_activity_data
 	bool starting_location_activity;
 	int32 __unknown8;
 };
-static_assert(sizeof(actor_activity_data) == 0xC);
+COMPILE_ASSERT(sizeof(actor_activity_data) == 0xC);
 
 struct actor_danger_zone
 {
@@ -264,7 +264,7 @@ struct actor_danger_zone
 	real_point3d bounding_sphere_center;
 	byte union_storage[2];
 };
-static_assert(sizeof(actor_danger_zone) == 0x58);
+COMPILE_ASSERT(sizeof(actor_danger_zone) == 0x58);
 
 struct actor_stimulus_data
 {
@@ -279,7 +279,7 @@ struct actor_stimulus_data
 	int32 tracking_projectile_start_time;
 	int32 tracking_projectile_last_time;
 };
-static_assert(sizeof(actor_stimulus_data) == 0x2C);
+COMPILE_ASSERT(sizeof(actor_stimulus_data) == 0x2C);
 
 struct actor_vehicle_data
 {
@@ -300,7 +300,7 @@ struct actor_vehicle_data
 	int16 disallow_vehicle_exit_ticks;
 	int32 vehicle_turtling_time;
 };
-static_assert(sizeof(actor_vehicle_data) == 0x2C);
+COMPILE_ASSERT(sizeof(actor_vehicle_data) == 0x2C);
 
 struct actor_player_data
 {
@@ -317,7 +317,7 @@ struct actor_player_data
 	int16 player_interested_ticks;
 	int16 player_uninterested_ticks;
 };
-static_assert(sizeof(actor_player_data) == 0x18);
+COMPILE_ASSERT(sizeof(actor_player_data) == 0x18);
 
 struct actor_emotion_data
 {
@@ -326,7 +326,7 @@ struct actor_emotion_data
 	bool ignorant_of_broken_surfaces;
 	int32 last_vehicle_charge_time;
 };
-static_assert(sizeof(actor_player_data) == 0x18);
+COMPILE_ASSERT(sizeof(actor_player_data) == 0x18);
 
 struct actor_discarded_firing_position
 {
@@ -334,7 +334,7 @@ struct actor_discarded_firing_position
 	bool pad;
 	firing_position_ref index;
 };
-static_assert(sizeof(actor_discarded_firing_position) == 0x6);
+COMPILE_ASSERT(sizeof(actor_discarded_firing_position) == 0x6);
 
 struct actor_firing_position_data
 {
@@ -351,7 +351,7 @@ struct actor_firing_position_data
 	c_ai_point3d proxy_point;
 	bool proxy_valid;
 };
-static_assert(sizeof(actor_firing_position_data) == 0x44);
+COMPILE_ASSERT(sizeof(actor_firing_position_data) == 0x44);
 
 struct actor_look_orders
 {
@@ -361,7 +361,7 @@ struct actor_look_orders
 	c_ai_direction look_direction;
 	bool look_force_weapon_down;
 };
-static_assert(sizeof(actor_look_orders) == 0x34);
+COMPILE_ASSERT(sizeof(actor_look_orders) == 0x34);
 
 struct actor_move_orders
 {
@@ -402,7 +402,7 @@ struct actor_move_orders
 	bool throttle_vehicle_speed;
 	real32 throttle_vehicle_desired;
 };
-static_assert(sizeof(actor_move_orders) == 0x48);
+COMPILE_ASSERT(sizeof(actor_move_orders) == 0x48);
 
 struct actor_combat_orders
 {
@@ -421,7 +421,7 @@ struct actor_combat_orders
 	bool lower_weapon;
 	bool raise_weapon;
 };
-static_assert(sizeof(actor_combat_orders) == 0x1C);
+COMPILE_ASSERT(sizeof(actor_combat_orders) == 0x1C);
 
 struct actor_swarm_orders
 {
@@ -437,13 +437,13 @@ struct actor_orders
 	actor_combat_orders combat;
 	actor_swarm_orders swarm;
 };
-static_assert(sizeof(actor_orders) == 0xA0);
+COMPILE_ASSERT(sizeof(actor_orders) == 0xA0);
 
 struct actor_action_data
 {
 	c_ai_action ai_action;
 };
-static_assert(sizeof(actor_action_data) == 0x30);
+COMPILE_ASSERT(sizeof(actor_action_data) == 0x30);
 
 class c_path_destination
 {
@@ -453,7 +453,7 @@ public:
 	c_sector_ref m_sector_ref;
 	real32 m_target_radius;
 };
-static_assert(sizeof(c_path_destination) == 0x24);
+COMPILE_ASSERT(sizeof(c_path_destination) == 0x24);
 
 struct path_step
 {
@@ -463,7 +463,7 @@ struct path_step
 	c_hint_ref hint_ref;
 	c_ai_point3d point;
 };
-static_assert(sizeof(path_step) == 0x1C);
+COMPILE_ASSERT(sizeof(path_step) == 0x1C);
 
 struct path_step_source
 {
@@ -475,7 +475,7 @@ struct path_step_source
 		int32 hint_index;
 	};
 };
-static_assert(sizeof(path_step_source) == 0x8);
+COMPILE_ASSERT(sizeof(path_step_source) == 0x8);
 
 struct path_error_info
 {
@@ -483,7 +483,7 @@ struct path_error_info
 	int16 num_thresholds;
 	path_step_source failed_threshold[3];
 };
-static_assert(sizeof(path_error_info) == 0x1C);
+COMPILE_ASSERT(sizeof(path_error_info) == 0x1C);
 
 struct path_result
 {
@@ -499,7 +499,7 @@ struct path_result
 	path_step steps[4];
 	path_error_info error_info;
 };
-static_assert(sizeof(path_result) == 0xCC);
+COMPILE_ASSERT(sizeof(path_result) == 0xCC);
 
 struct actor_path_control_data
 {
@@ -509,7 +509,7 @@ struct actor_path_control_data
 	int16 failure_count;
 	path_result path;
 };
-static_assert(sizeof(actor_path_control_data) == 0x13C);
+COMPILE_ASSERT(sizeof(actor_path_control_data) == 0x13C);
 
 struct turn_info
 {
@@ -527,7 +527,7 @@ struct turn_info
 	real32 current_yaw_angle;
 	bool valid;
 };
-static_assert(sizeof(turn_info) == 0x34);
+COMPILE_ASSERT(sizeof(turn_info) == 0x34);
 
 struct flying_turn_info
 {
@@ -542,7 +542,7 @@ struct flying_turn_info
 	real_vector3d current_throttle;
 	real_vector3d last_throttle;
 };
-static_assert(sizeof(flying_turn_info) == 0x30);
+COMPILE_ASSERT(sizeof(flying_turn_info) == 0x30);
 
 struct hovering_turn_info
 {
@@ -552,7 +552,7 @@ struct hovering_turn_info
 	real32 current_throttle_scale;
 	int16 last_mode;
 };
-static_assert(sizeof(hovering_turn_info) == 0x14);
+COMPILE_ASSERT(sizeof(hovering_turn_info) == 0x14);
 
 struct actor_control_data
 {
@@ -653,14 +653,14 @@ struct actor_control_data
 	bool anchor_valid;
 	real_point3d anchor_point;
 };
-static_assert(sizeof(actor_control_data) == 0x36C);
+COMPILE_ASSERT(sizeof(actor_control_data) == 0x36C);
 
 struct actor_animation_orders
 {
 	int32 impulse;
 	real_vector2d alignment_vector;
 };
-static_assert(sizeof(actor_animation_orders) == 0xC);
+COMPILE_ASSERT(sizeof(actor_animation_orders) == 0xC);
 
 struct actor_output_data
 {
@@ -676,7 +676,7 @@ struct actor_output_data
 	real_vector3d looking_vector;
 	real_point3d gaze_position;
 };
-static_assert(sizeof(actor_output_data) == 0x5C);
+COMPILE_ASSERT(sizeof(actor_output_data) == 0x5C);
 
 struct actor_script_data
 {
@@ -684,7 +684,7 @@ struct actor_script_data
 	int32 active_list;
 	int16 cl_layer;
 };
-static_assert(sizeof(actor_script_data) == 0xC);
+COMPILE_ASSERT(sizeof(actor_script_data) == 0xC);
 
 struct actor_datum :
 	s_datum_header
@@ -710,27 +710,27 @@ struct actor_datum :
 	actor_output_data output;
 	actor_script_data commands;
 };
-static_assert(sizeof(actor_datum) == 0xA98);
-static_assert(0x004 == OFFSETOF(actor_datum, meta));
-static_assert(0x070 == OFFSETOF(actor_datum, state));
-static_assert(0x354 == OFFSETOF(actor_datum, input));
-static_assert(0x40C == OFFSETOF(actor_datum, obstacles));
-static_assert(0x42C == OFFSETOF(actor_datum, memory));
-static_assert(0x488 == OFFSETOF(actor_datum, morph));
-static_assert(0x4A0 == OFFSETOF(actor_datum, situation));
-static_assert(0x4AC == OFFSETOF(actor_datum, target));
-static_assert(0x4CC == OFFSETOF(actor_datum, danger_zone));
-static_assert(0x524 == OFFSETOF(actor_datum, stimuli));
-static_assert(0x550 == OFFSETOF(actor_datum, activity));
-static_assert(0x55C == OFFSETOF(actor_datum, vehicle));
-static_assert(0x588 == OFFSETOF(actor_datum, player));
-static_assert(0x5A0 == OFFSETOF(actor_datum, emotions));
-static_assert(0x5B0 == OFFSETOF(actor_datum, firing_positions));
-static_assert(0x5F4 == OFFSETOF(actor_datum, orders));
-static_assert(0x694 == OFFSETOF(actor_datum, actions));
-static_assert(0x6C4 == OFFSETOF(actor_datum, control));
-static_assert(0xA30 == OFFSETOF(actor_datum, output));
-static_assert(0xA8C == OFFSETOF(actor_datum, commands));
+COMPILE_ASSERT(sizeof(actor_datum) == 0xA98);
+COMPILE_ASSERT(0x004 == OFFSETOF(actor_datum, meta));
+COMPILE_ASSERT(0x070 == OFFSETOF(actor_datum, state));
+COMPILE_ASSERT(0x354 == OFFSETOF(actor_datum, input));
+COMPILE_ASSERT(0x40C == OFFSETOF(actor_datum, obstacles));
+COMPILE_ASSERT(0x42C == OFFSETOF(actor_datum, memory));
+COMPILE_ASSERT(0x488 == OFFSETOF(actor_datum, morph));
+COMPILE_ASSERT(0x4A0 == OFFSETOF(actor_datum, situation));
+COMPILE_ASSERT(0x4AC == OFFSETOF(actor_datum, target));
+COMPILE_ASSERT(0x4CC == OFFSETOF(actor_datum, danger_zone));
+COMPILE_ASSERT(0x524 == OFFSETOF(actor_datum, stimuli));
+COMPILE_ASSERT(0x550 == OFFSETOF(actor_datum, activity));
+COMPILE_ASSERT(0x55C == OFFSETOF(actor_datum, vehicle));
+COMPILE_ASSERT(0x588 == OFFSETOF(actor_datum, player));
+COMPILE_ASSERT(0x5A0 == OFFSETOF(actor_datum, emotions));
+COMPILE_ASSERT(0x5B0 == OFFSETOF(actor_datum, firing_positions));
+COMPILE_ASSERT(0x5F4 == OFFSETOF(actor_datum, orders));
+COMPILE_ASSERT(0x694 == OFFSETOF(actor_datum, actions));
+COMPILE_ASSERT(0x6C4 == OFFSETOF(actor_datum, control));
+COMPILE_ASSERT(0xA30 == OFFSETOF(actor_datum, output));
+COMPILE_ASSERT(0xA8C == OFFSETOF(actor_datum, commands));
 
 struct ai_reference_frame
 {
@@ -738,7 +738,7 @@ struct ai_reference_frame
 	int16 runtime_flags;
 	int16 pad0;
 };
-static_assert(sizeof(ai_reference_frame) == 0x8);
+COMPILE_ASSERT(sizeof(ai_reference_frame) == 0x8);
 
 struct actor_iterator
 {
@@ -746,7 +746,7 @@ struct actor_iterator
 	bool active_only;
 	int32 index;
 };
-static_assert(sizeof(actor_iterator) == 0x18);
+COMPILE_ASSERT(sizeof(actor_iterator) == 0x18);
 
 extern const real_argb_color* __cdecl actor_activation_debug_color(int32 actor_index);
 extern bool __cdecl actor_datum_available_to_current_thread();

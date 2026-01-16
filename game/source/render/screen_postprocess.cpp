@@ -304,7 +304,7 @@ void __cdecl c_screen_postprocess::gaussian_blur_fixed(
 			{ 0.5f,  1.3f,   0.234375f, 0.0f },
 			{ 0.5f,  3.1f, 0.01953125f, 0.0f },
 		};
-		static_assert(NUMBEROF(kernel_vertical) == 5);
+		COMPILE_ASSERT(NUMBEROF(kernel_vertical) == 5);
 		c_rasterizer::set_pixel_shader_constant(3, NUMBEROF(kernel_vertical), kernel_vertical);
 	}
 

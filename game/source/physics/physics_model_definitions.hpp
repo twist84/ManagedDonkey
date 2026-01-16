@@ -31,7 +31,7 @@ struct s_physics_model_primitive
 	int8 phantom;
 	int8 runtime_collision_group;
 };
-static_assert(sizeof(s_physics_model_primitive) == 0x20);
+COMPILE_ASSERT(sizeof(s_physics_model_primitive) == 0x20);
 
 struct s_havok_shape // hkShape
 {
@@ -41,14 +41,14 @@ struct s_havok_shape // hkShape
 	int32 user_data;
 	int32 type;
 };
-static_assert(sizeof(s_havok_shape) == 0x10);
+COMPILE_ASSERT(sizeof(s_havok_shape) == 0x10);
 
 struct s_havok_convex_shape // hkConvexShape
 {
 	s_havok_shape base;
 	real32 radius;
 };
-static_assert(sizeof(s_havok_convex_shape) == 0x14);
+COMPILE_ASSERT(sizeof(s_havok_convex_shape) == 0x14);
 
 enum e_havok_shape
 {
@@ -77,7 +77,7 @@ struct s_havok_shape_reference // hkShape *
 	c_enum<e_havok_shape, int16, _havok_shape_sphere, k_havok_shape_count> shape_type;
 	int16 shape;
 };
-static_assert(sizeof(s_havok_shape_reference) == 0x4);
+COMPILE_ASSERT(sizeof(s_havok_shape_reference) == 0x4);
 
 struct s_havok_convex_translate_shape // hkConvexTranslateShape
 {
@@ -88,7 +88,7 @@ struct s_havok_convex_translate_shape // hkConvexTranslateShape
 	real_vector3d translation;
 	real32 havok_w_translation;
 };
-static_assert(sizeof(s_havok_convex_translate_shape) == 0x30);
+COMPILE_ASSERT(sizeof(s_havok_convex_translate_shape) == 0x30);
 
 struct s_havok_shape_collection // hkShapeCollection
 {
@@ -98,7 +98,7 @@ struct s_havok_shape_collection // hkShapeCollection
 	int8 collection_type;
 	byte VDVAPBSS[0x2]; // pad
 };
-static_assert(sizeof(s_havok_shape_collection) == 0x18);
+COMPILE_ASSERT(sizeof(s_havok_shape_collection) == 0x18);
 
 struct s_physics_model_sphere
 {
@@ -107,7 +107,7 @@ struct s_physics_model_sphere
 	byte algn344[0xC]; // pad
 	s_havok_convex_translate_shape translate_shape;
 };
-static_assert(sizeof(s_physics_model_sphere) == 0x70);
+COMPILE_ASSERT(sizeof(s_physics_model_sphere) == 0x70);
 
 struct s_physics_model_pill
 {
@@ -119,5 +119,5 @@ struct s_physics_model_pill
 	real_vector3d top;
 	real32 havok_w_top;
 };
-static_assert(sizeof(s_physics_model_pill) == 0x60);
+COMPILE_ASSERT(sizeof(s_physics_model_pill) == 0x60);
 

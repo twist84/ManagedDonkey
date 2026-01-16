@@ -59,7 +59,7 @@ public:
 	bool m_player_switch_gui_activated;
 	byte pad[0x3];
 };
-static_assert(sizeof(c_director) == 0x14C);
+COMPILE_ASSERT(sizeof(c_director) == 0x14C);
 
 struct s_director_info
 {
@@ -67,7 +67,7 @@ struct s_director_info
 	e_director_perspective perspective;
 	e_camera_mode camera_mode;
 };
-static_assert(sizeof(s_director_info) == 0xC);
+COMPILE_ASSERT(sizeof(s_director_info) == 0xC);
 
 struct s_director_globals
 {
@@ -78,14 +78,14 @@ struct s_director_globals
 	real32 fade_maximum;
 	bool debug_force_scripted_camera_disable;
 };
-static_assert(sizeof(s_director_globals) == 0x5C0);
+COMPILE_ASSERT(sizeof(s_director_globals) == 0x5C0);
 
 struct s_observer_gamestate_globals
 {
 	int32 active_structure_bsp_index_mask;
 	s_cluster_reference cluster_references[4];
 };
-static_assert(sizeof(s_observer_gamestate_globals) == 0xC);
+COMPILE_ASSERT(sizeof(s_observer_gamestate_globals) == 0xC);
 
 extern e_director_mode __cdecl choose_appropriate_director(int32 user_index);
 extern int32 __cdecl dead_or_alive_unit_from_user(int32 user_index);

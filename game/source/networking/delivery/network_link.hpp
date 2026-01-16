@@ -41,7 +41,7 @@ public:
 		int32 voice_data_length;
 		byte voice_data_buffer[k_network_link_maximum_voice_data_size];
 	};
-	static_assert(sizeof(s_link_packet) == 0x7E4);
+	COMPILE_ASSERT(sizeof(s_link_packet) == 0x7E4);
 
 public:
 	c_network_link();
@@ -95,16 +95,16 @@ public:
 	//c_network_simulation_queue m_incoming_queue;
 	//c_network_simulation_queue m_outgoing_queue;
 };
-//static_assert(sizeof(c_network_link) == 0x380);
-static_assert(sizeof(c_network_link) == 0x378);
-static_assert(0x000 == OFFSETOF(c_network_link, m_initialized));
-static_assert(0x004 == OFFSETOF(c_network_link, m_next_channel_identifier));
-static_assert(0x008 == OFFSETOF(c_network_link, m_next_first_channel_index));
-//static_assert(0x00C == OFFSETOF(c_network_link, m_endpoints_created));
-static_assert(0x00C/*0x010*/ == OFFSETOF(c_network_link, m_endpoints));
-static_assert(0x010/*0x01C*/ == OFFSETOF(c_network_link, m_out_of_band_consumer));
-static_assert(0x018/*0x020*/ == OFFSETOF(c_network_link, m_packets_transmitted));
-static_assert(0x0F0/*0x0F8*/ == OFFSETOF(c_network_link, m_packets_received));
-static_assert(0x1C8/*0x1D0*/ == OFFSETOF(c_network_link, m_upstream_bandwidth));
-static_assert(0x2A0/*0x2A8*/ == OFFSETOF(c_network_link, m_downstream_bandwidth));
+//COMPILE_ASSERT(sizeof(c_network_link) == 0x380);
+COMPILE_ASSERT(sizeof(c_network_link) == 0x378);
+COMPILE_ASSERT(0x000 == OFFSETOF(c_network_link, m_initialized));
+COMPILE_ASSERT(0x004 == OFFSETOF(c_network_link, m_next_channel_identifier));
+COMPILE_ASSERT(0x008 == OFFSETOF(c_network_link, m_next_first_channel_index));
+//COMPILE_ASSERT(0x00C == OFFSETOF(c_network_link, m_endpoints_created));
+COMPILE_ASSERT(0x00C/*0x010*/ == OFFSETOF(c_network_link, m_endpoints));
+COMPILE_ASSERT(0x010/*0x01C*/ == OFFSETOF(c_network_link, m_out_of_band_consumer));
+COMPILE_ASSERT(0x018/*0x020*/ == OFFSETOF(c_network_link, m_packets_transmitted));
+COMPILE_ASSERT(0x0F0/*0x0F8*/ == OFFSETOF(c_network_link, m_packets_received));
+COMPILE_ASSERT(0x1C8/*0x1D0*/ == OFFSETOF(c_network_link, m_upstream_bandwidth));
+COMPILE_ASSERT(0x2A0/*0x2A8*/ == OFFSETOF(c_network_link, m_downstream_bandwidth));
 

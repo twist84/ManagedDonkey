@@ -71,7 +71,7 @@ struct _item_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_item_definition) == 0xB4);
+COMPILE_ASSERT(sizeof(_item_definition) == 0xB4);
 
 struct item_definition
 {
@@ -82,7 +82,7 @@ struct item_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(item_definition) == sizeof(_object_definition) + sizeof(_item_definition));
+COMPILE_ASSERT(sizeof(item_definition) == sizeof(_object_definition) + sizeof(_item_definition));
 
 struct s_predicted_bitmaps
 {
@@ -90,5 +90,5 @@ struct s_predicted_bitmaps
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_predicted_bitmaps) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_predicted_bitmaps) == sizeof(s_tag_reference));
 

@@ -48,7 +48,7 @@ public:
 protected:
 	string_id m_name;
 };
-static_assert(sizeof(c_gui_data) == 0x8);
+COMPILE_ASSERT(sizeof(c_gui_data) == 0x8);
 
 class c_gui_data_array :
 	public c_gui_data
@@ -72,8 +72,8 @@ public:
 protected:
 	s_data_array* m_list_data;
 };
-static_assert(sizeof(c_gui_data_array) == 0xC);
-static_assert(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
+COMPILE_ASSERT(sizeof(c_gui_data_array) == 0xC);
+COMPILE_ASSERT(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
 
 class c_gui_data_array_test:
 	public c_gui_data_array
@@ -104,8 +104,8 @@ public:
 protected:
 	s_data_array* m_list_data;
 };
-static_assert(sizeof(c_gui_data_array) == 0xC);
-static_assert(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
+COMPILE_ASSERT(sizeof(c_gui_data_array) == 0xC);
+COMPILE_ASSERT(sizeof(c_gui_data_array) == sizeof(c_gui_data) + 0x4);
 
 class c_gui_ordered_data :
 	public c_gui_data
@@ -121,7 +121,7 @@ public:
 		int32 name;
 		int32 value;
 	};
-	static_assert(sizeof(s_disabled_element) == 0x8);
+	COMPILE_ASSERT(sizeof(s_disabled_element) == 0x8);
 
 public:
 	virtual ~c_gui_ordered_data() = default;
@@ -144,8 +144,8 @@ protected:
 	s_disabled_element m_disabled_elements[k_maximum_disabled_elements];
 	int32 m_disabled_element_count;
 };
-static_assert(sizeof(c_gui_ordered_data) == 0x10C);
-static_assert(sizeof(c_gui_ordered_data) == sizeof(c_gui_data) + 0x104);
+COMPILE_ASSERT(sizeof(c_gui_ordered_data) == 0x10C);
+COMPILE_ASSERT(sizeof(c_gui_ordered_data) == sizeof(c_gui_data) + 0x104);
 
 class c_gui_tag_datasource :
 	public c_gui_ordered_data
@@ -168,6 +168,6 @@ public:
 protected:
 	int32 m_tag_index;
 };
-static_assert(sizeof(c_gui_tag_datasource) == 0x110);
-static_assert(sizeof(c_gui_tag_datasource) == sizeof(c_gui_ordered_data) + 0x4);
+COMPILE_ASSERT(sizeof(c_gui_tag_datasource) == 0x110);
+COMPILE_ASSERT(sizeof(c_gui_tag_datasource) == sizeof(c_gui_ordered_data) + 0x4);
 

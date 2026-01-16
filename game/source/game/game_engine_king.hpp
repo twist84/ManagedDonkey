@@ -68,7 +68,7 @@ protected:
 
 	byte m_pad1[6];
 };
-static_assert(sizeof(c_game_engine_king_variant) == 0x200);
+COMPILE_ASSERT(sizeof(c_game_engine_king_variant) == 0x200);
 
 class c_king_engine :
 	public c_game_engine
@@ -87,7 +87,7 @@ struct s_king_globals
 	uns16 pad;
 	c_static_array<int32, 16> hill_kills;
 };
-static_assert(sizeof(s_king_globals) == 0x480);
+COMPILE_ASSERT(sizeof(s_king_globals) == 0x480);
 
 extern c_game_engine_king_variant*& king_variant;
 

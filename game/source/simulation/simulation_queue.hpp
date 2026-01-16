@@ -29,7 +29,7 @@ struct s_simulation_queue_element
 	int32 data_size;
 	uns8* data;
 };
-static_assert(sizeof(s_simulation_queue_element) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_queue_element) == 0x10);
 
 class c_bitstream;
 class c_simulation_queue
@@ -69,5 +69,5 @@ protected:
 	s_simulation_queue_element* m_head;
 	s_simulation_queue_element* m_elements;
 };
-static_assert(sizeof(c_simulation_queue) == 0x1C);
+COMPILE_ASSERT(sizeof(c_simulation_queue) == 0x1C);
 

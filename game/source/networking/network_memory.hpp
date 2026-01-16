@@ -42,7 +42,7 @@ struct s_network_shared_memory_globals
 	//s_network_memory_status total_status;
 	//s_network_memory_status block_status[21];
 };
-static_assert(sizeof(s_network_shared_memory_globals) == 0x30);
+COMPILE_ASSERT(sizeof(s_network_shared_memory_globals) == 0x30);
 
 struct s_network_base_memory_globals
 {
@@ -58,7 +58,7 @@ struct s_network_base_memory_globals
 	c_simulation_watcher simulation_watcher;
 	c_simulation_type_collection simulation_types;
 };
-static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
+COMPILE_ASSERT(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
 extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;

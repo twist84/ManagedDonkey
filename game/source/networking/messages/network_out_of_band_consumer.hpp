@@ -9,5 +9,5 @@ public:
 
 	c_network_out_of_band_consumer();
 };
-static_assert(sizeof(c_network_out_of_band_consumer) == 0x4);
+COMPILE_ASSERT(sizeof(c_network_out_of_band_consumer) == 0x4);
 

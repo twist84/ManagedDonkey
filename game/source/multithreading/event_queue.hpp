@@ -12,5 +12,5 @@ struct __declspec(align(32)) t_event_queue
 	int32 m_entry_limit;
 	const char* m_name;
 };
-static_assert(sizeof(t_event_queue<int32, 6>) == 0x40);
+COMPILE_ASSERT(sizeof(t_event_queue<int32, 6>) == 0x40);
 

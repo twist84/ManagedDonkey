@@ -9,7 +9,7 @@ struct s_replication_event_manager_view_statistics
 	int32 events_pending;
 	int32 events_in_transit;
 };
-static_assert(sizeof(s_replication_event_manager_view_statistics) == 0xC);
+COMPILE_ASSERT(sizeof(s_replication_event_manager_view_statistics) == 0xC);
 
 class c_replication_outgoing_event;
 class c_replication_event_manager;
@@ -22,7 +22,7 @@ public:
 		c_replication_outgoing_event* m_event;
 		c_event_record* m_next;
 	};
-	static_assert(sizeof(c_event_record) == 0x8);
+	COMPILE_ASSERT(sizeof(c_event_record) == 0x8);
 	
 	class c_packet_record
 	{
@@ -30,7 +30,7 @@ public:
 		c_event_record* m_event_list;
 		c_packet_record* m_next;
 	};
-	static_assert(sizeof(c_packet_record) == 0xC);
+	COMPILE_ASSERT(sizeof(c_packet_record) == 0xC);
 
 //private:
 	bool m_initialized;
@@ -41,5 +41,5 @@ public:
 	c_replication_event_manager* m_event_manager;
 	s_replication_event_manager_view_statistics m_view_statistics;
 };
-static_assert(sizeof(c_replication_event_manager_view) == 0x28);
+COMPILE_ASSERT(sizeof(c_replication_event_manager_view) == 0x28);
 

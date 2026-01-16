@@ -17,7 +17,7 @@ struct s_game_state_proc_globals
 	c_synchronized_long state; // e_game_state_proc_state
 	uns32 wait_for_render_thread;
 };
-static_assert(sizeof(s_game_state_proc_globals) == 0x8);
+COMPILE_ASSERT(sizeof(s_game_state_proc_globals) == 0x8);
 
 extern s_game_state_proc_globals& g_game_state_proc_globals;
 

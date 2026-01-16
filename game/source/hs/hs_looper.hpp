@@ -25,7 +25,7 @@ private:
     int32 m_loop_thread_index;
     bool m_loop_enabled;
 };
-static_assert(sizeof(c_hs_looper) == 0x1008);
+COMPILE_ASSERT(sizeof(c_hs_looper) == 0x1008);
 
 extern void hs_looper_clear();
 extern void hs_looper_game_tick();

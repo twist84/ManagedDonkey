@@ -71,7 +71,7 @@ struct _terminal_datum
 	real_vector2d c;
 	bool can_exit;
 };
-static_assert(sizeof(_terminal_datum) == 0x78);
+COMPILE_ASSERT(sizeof(_terminal_datum) == 0x78);
 
 struct terminal_datum
 {
@@ -80,5 +80,5 @@ struct terminal_datum
 	_device_datum device;
 	_terminal_datum terminal;
 };
-static_assert(sizeof(terminal_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_terminal_datum));
+COMPILE_ASSERT(sizeof(terminal_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_terminal_datum));
 

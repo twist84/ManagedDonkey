@@ -23,7 +23,7 @@ public:
 public:
 	c_gui_screen_pregame_lobby_multiplayer(int32 name);
 };
-static_assert(sizeof(c_gui_screen_pregame_lobby_multiplayer) == sizeof(c_gui_screen_pregame_lobby));
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_lobby_multiplayer) == sizeof(c_gui_screen_pregame_lobby));
 
 extern bool __cdecl parse_xml_lobby_multiplayer_game(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_lobby_multiplayer_map(void* this_ptr, wchar_t* buffer, int32 buffer_length);

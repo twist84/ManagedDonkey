@@ -11,12 +11,12 @@ public:
 	int32 m_blocked_message_delay;
 	int32 m_blocked_ticks;
 };
-static_assert(sizeof(c_teleporter_area) == 0x70);
+COMPILE_ASSERT(sizeof(c_teleporter_area) == 0x70);
 
 // g_teleporter_globals
 struct s_teleporter_globals
 {
 	c_area_set<c_teleporter_area, 32> teleporters;
 };
-static_assert(sizeof(s_teleporter_globals) == 0xE10);
+COMPILE_ASSERT(sizeof(s_teleporter_globals) == 0xE10);
 

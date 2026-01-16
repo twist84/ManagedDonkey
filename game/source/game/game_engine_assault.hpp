@@ -86,7 +86,7 @@ protected:
 
 	byte m_pad1[4];
 };
-static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
+COMPILE_ASSERT(sizeof(c_game_engine_assault_variant) == 0x228);
 
 class c_assault_engine :
 	public c_ctf_engine
@@ -104,7 +104,7 @@ struct s_assault_globals : s_ctf_shared_globals
 	c_static_array<uns8, 8> __unknown16A8;
 	c_static_array<int16, 9> assault_timeout_return_second_counter;
 };
-static_assert(sizeof(s_assault_globals) == 0x16C4);
+COMPILE_ASSERT(sizeof(s_assault_globals) == 0x16C4);
 
 extern c_game_engine_assault_variant*& assault_variant;
 

@@ -7,7 +7,7 @@ struct s_tag_resource_access_datum
 	int32 resource_handle;
 	void* resource_data;
 };
-static_assert(sizeof(s_tag_resource_access_datum) == 0x8);
+COMPILE_ASSERT(sizeof(s_tag_resource_access_datum) == 0x8);
 
 enum e_tag_resource_access_state_bit
 {
@@ -51,5 +51,5 @@ public:
 	c_allocation_base* m_allocator;
 	void* m_allocation_base;
 };
-static_assert(sizeof(c_tag_resource_cache_file_access_cache) == 0x28);
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_file_access_cache) == 0x28);
 

@@ -12,7 +12,7 @@ struct s_rasterizer_game_states
 	bool cinematic_motion_blur;
 	int32 weather_effect_indices[128];
 };
-static_assert(sizeof(s_rasterizer_game_states) == 0x208);
+COMPILE_ASSERT(sizeof(s_rasterizer_game_states) == 0x208);
 
 extern bool render_debug_force_4x3_aspect_ratio;
 

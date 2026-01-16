@@ -36,7 +36,7 @@ private:
 	int32 m_live_service_qos_index;
 	uns32 m_last_attempt_time;
 };
-static_assert(sizeof(c_live_service_qos_manager) == 0x2C);
+COMPILE_ASSERT(sizeof(c_live_service_qos_manager) == 0x2C);
 
 class c_session_qos_reply_manager
 {
@@ -60,7 +60,7 @@ private:
 	uns32 m_qos_listener_update_timestamp;
 	s_network_squad_status_data saved_qos_status;
 };
-static_assert(sizeof(c_session_qos_reply_manager) == 0x164D0);
+COMPILE_ASSERT(sizeof(c_session_qos_reply_manager) == 0x164D0);
 
 class c_squad_session_qos_reply_manager :
 	public c_session_qos_reply_manager
@@ -75,7 +75,7 @@ protected:
 public:
 	c_squad_session_qos_reply_manager();
 };
-static_assert(sizeof(c_squad_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
+COMPILE_ASSERT(sizeof(c_squad_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
 
 class c_group_session_qos_reply_manager :
 	public c_session_qos_reply_manager
@@ -90,7 +90,7 @@ protected:
 public:
 	c_group_session_qos_reply_manager();
 };
-static_assert(sizeof(c_group_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
+COMPILE_ASSERT(sizeof(c_group_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
 
 struct s_logic_qos_reply_manager_globals
 {
@@ -99,7 +99,7 @@ struct s_logic_qos_reply_manager_globals
 	c_squad_session_qos_reply_manager squad_qos_reply_manager;
 	c_group_session_qos_reply_manager group_qos_reply_manager;
 };
-static_assert(sizeof(s_logic_qos_reply_manager_globals) == 0x2C9D0);
+COMPILE_ASSERT(sizeof(s_logic_qos_reply_manager_globals) == 0x2C9D0);
 
 extern s_logic_qos_reply_manager_globals& g_logic_qos_reply_manager_globals;
 

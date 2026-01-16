@@ -27,7 +27,7 @@ struct hs_function_definition
 	int16 formal_parameter_count;
 	__pragma(warning(disable : 4200)) int16 formal_parameters[];
 };
-static_assert(sizeof(hs_function_definition) >= 0x20);
+COMPILE_ASSERT(sizeof(hs_function_definition) >= 0x20);
 
 extern const hs_function_definition* const hs_function_table[];
 extern const int32 hs_function_table_count;

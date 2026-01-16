@@ -43,7 +43,7 @@ struct real_decibel
 {
 	real32 db;
 };
-static_assert(sizeof(real_decibel) == sizeof(real32));
+COMPILE_ASSERT(sizeof(real_decibel) == sizeof(real32));
 
 #define DEFINE_REAL_CONSTANT(NAME) real32 const k##NAME = NAME
 
@@ -88,7 +88,7 @@ union real_bounds
 	};
 	real32 n[2];
 };
-static_assert(sizeof(real_bounds) == sizeof(real32) * 2);
+COMPILE_ASSERT(sizeof(real_bounds) == sizeof(real32) * 2);
 
 union real_point2d
 {
@@ -104,7 +104,7 @@ union real_point2d
 	};
 	real32 n[2];
 };
-static_assert(sizeof(real_point2d) == sizeof(real32) * 2);
+COMPILE_ASSERT(sizeof(real_point2d) == sizeof(real32) * 2);
 
 union real_point3d
 {
@@ -122,7 +122,7 @@ union real_point3d
 	};
 	real32 n[3];
 };
-static_assert(sizeof(real_point3d) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(real_point3d) == sizeof(real32) * 3);
 
 union real_point4d
 {
@@ -135,7 +135,7 @@ union real_point4d
 	};
 	real32 n[4];
 };
-static_assert(sizeof(real_point4d) == sizeof(real32) * 4);
+COMPILE_ASSERT(sizeof(real_point4d) == sizeof(real32) * 4);
 
 union real_vector2d
 {
@@ -146,7 +146,7 @@ union real_vector2d
 	};
 	real32 n[2];
 };
-static_assert(sizeof(real_vector2d) == sizeof(real32) * 2);
+COMPILE_ASSERT(sizeof(real_vector2d) == sizeof(real32) * 2);
 
 union real_vector3d
 {
@@ -158,7 +158,7 @@ union real_vector3d
 	};
 	real32 n[3];
 };
-static_assert(sizeof(real_vector3d) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(real_vector3d) == sizeof(real32) * 3);
 
 union real_vector4d
 {
@@ -171,21 +171,21 @@ union real_vector4d
 	};
 	real32 n[4];
 };
-static_assert(sizeof(real_vector4d) == sizeof(real32) * 4);
+COMPILE_ASSERT(sizeof(real_vector4d) == sizeof(real32) * 4);
 
 struct real_plane2d
 {
 	real_vector2d n; // normal
 	real32 d; // distance
 };
-static_assert(sizeof(real_plane2d) == 0xC);
+COMPILE_ASSERT(sizeof(real_plane2d) == 0xC);
 
 struct real_plane3d
 {
 	real_vector3d n; // normal
 	real32 d; // distance
 };
-static_assert(sizeof(real_plane3d) == 0x10);
+COMPILE_ASSERT(sizeof(real_plane3d) == 0x10);
 
 union real_rgb_color
 {
@@ -198,7 +198,7 @@ union real_rgb_color
 		real32 blue;
 	};
 };
-static_assert(sizeof(real_rgb_color) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(real_rgb_color) == sizeof(real32) * 3);
 
 union real_argb_color
 {
@@ -218,7 +218,7 @@ union real_argb_color
 		real32 blue;
 	};
 };
-static_assert(sizeof(real_argb_color) == sizeof(real32) * 4);
+COMPILE_ASSERT(sizeof(real_argb_color) == sizeof(real32) * 4);
 
 union real_hsv_color
 {
@@ -231,7 +231,7 @@ union real_hsv_color
 		real32 value;
 	};
 };
-static_assert(sizeof(real_hsv_color) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(real_hsv_color) == sizeof(real32) * 3);
 
 union real_ahsv_color
 {
@@ -251,7 +251,7 @@ union real_ahsv_color
 		real32 value;
 	};
 };
-static_assert(sizeof(real_ahsv_color) == sizeof(real32) * 4);
+COMPILE_ASSERT(sizeof(real_ahsv_color) == sizeof(real32) * 4);
 
 struct real_linear_rgb_color
 {
@@ -259,7 +259,7 @@ struct real_linear_rgb_color
 	real32 green;
 	real32 blue;
 };
-static_assert(sizeof(real_linear_rgb_color) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(real_linear_rgb_color) == sizeof(real32) * 3);
 
 union angle_bounds
 {
@@ -271,7 +271,7 @@ union angle_bounds
 		real32 upper;
 	};
 };
-static_assert(sizeof(angle_bounds) == sizeof(real32) * 2);
+COMPILE_ASSERT(sizeof(angle_bounds) == sizeof(real32) * 2);
 
 union real_euler_angles2d
 {
@@ -283,7 +283,7 @@ union real_euler_angles2d
 		real32 pitch;
 	};
 };
-static_assert(sizeof(real_euler_angles2d) == sizeof(real32) * 2);
+COMPILE_ASSERT(sizeof(real_euler_angles2d) == sizeof(real32) * 2);
 
 union real_euler_angles3d
 {
@@ -296,7 +296,7 @@ union real_euler_angles3d
 		real32 roll;
 	};
 };
-static_assert(sizeof(real_euler_angles3d) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(real_euler_angles3d) == sizeof(real32) * 3);
 
 struct real_matrix3x3
 {
@@ -313,7 +313,7 @@ struct real_matrix3x3
 		};
 	};
 };
-static_assert(sizeof(real_matrix3x3) == sizeof(real_vector3d) * 3);
+COMPILE_ASSERT(sizeof(real_matrix3x3) == sizeof(real_vector3d) * 3);
 
 struct real_matrix4x3
 {
@@ -343,7 +343,7 @@ struct real_matrix4x3
 		};
 	};
 };
-static_assert(sizeof(real_matrix4x3) == 0x34);
+COMPILE_ASSERT(sizeof(real_matrix4x3) == 0x34);
 
 union real_rectangle2d
 {
@@ -358,7 +358,7 @@ union real_rectangle2d
 		real32 y1;
 	};
 };
-static_assert(sizeof(real_rectangle2d) == sizeof(real32) * 4);
+COMPILE_ASSERT(sizeof(real_rectangle2d) == sizeof(real32) * 4);
 
 union real_rectangle3d
 {
@@ -375,14 +375,14 @@ union real_rectangle3d
 		real32 z1;
 	};
 };
-static_assert(sizeof(real_rectangle3d) == sizeof(real32) * 6);
+COMPILE_ASSERT(sizeof(real_rectangle3d) == sizeof(real32) * 6);
 
 struct real_quaternion
 {
 	real_vector3d v;
 	real32 w;
 };
-static_assert(sizeof(real_quaternion) == 0x10);
+COMPILE_ASSERT(sizeof(real_quaternion) == 0x10);
 
 struct real_orientation
 {
@@ -390,7 +390,7 @@ struct real_orientation
 	real_point3d translation;
 	real32 scale;
 };
-static_assert(sizeof(real_orientation) == 0x20);
+COMPILE_ASSERT(sizeof(real_orientation) == 0x20);
 
 extern const real_point2d* const& global_origin2d;
 extern const real_point2d* const& global_x_axis2d;

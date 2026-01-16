@@ -6,14 +6,14 @@ struct s_breakable_surface_globals
 {
 	byte __data[0x3CE18];
 };
-static_assert(sizeof(s_breakable_surface_globals) == 0x3CE18);
+COMPILE_ASSERT(sizeof(s_breakable_surface_globals) == 0x3CE18);
 
 struct s_breakable_surface_set_broken_event :
 	s_datum_header
 {
 	byte __data[0x462];
 };
-static_assert(sizeof(s_breakable_surface_set_broken_event) == 0x464);
+COMPILE_ASSERT(sizeof(s_breakable_surface_set_broken_event) == 0x464);
 
 extern void __cdecl breakable_surfaces_dispose();
 extern void __cdecl breakable_surfaces_dispose_from_old_map();

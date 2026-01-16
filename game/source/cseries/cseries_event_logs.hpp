@@ -17,7 +17,7 @@ private:
 	char m_buffer[16384];
 	int32 m_buffer_length;
 };
-static_assert(sizeof(c_file_output_buffer) == 0x4008);
+COMPILE_ASSERT(sizeof(c_file_output_buffer) == 0x4008);
 
 enum e_event_log_flags
 {
@@ -40,7 +40,7 @@ struct s_event_log
 	bool first_line_displayed;
 	bool stream_open;
 };
-static_assert(sizeof(s_event_log) == 0x4220);
+COMPILE_ASSERT(sizeof(s_event_log) == 0x4220);
 
 struct s_event_log_globals
 {
@@ -50,14 +50,14 @@ struct s_event_log_globals
 	c_static_array<s_event_log, 32> event_logs;
 	int32 event_log_count;
 };
-static_assert(sizeof(s_event_log_globals) == 0x84488);
+COMPILE_ASSERT(sizeof(s_event_log_globals) == 0x84488);
 
 struct s_event_log_cache_entry
 {
 	c_flags<int32, uns32, 32> event_log_indices;
 	const char* error_string;
 };
-static_assert(sizeof(s_event_log_cache_entry) == 0x8);
+COMPILE_ASSERT(sizeof(s_event_log_cache_entry) == 0x8);
 
 struct s_event_log_cache
 {
@@ -67,7 +67,7 @@ struct s_event_log_cache
 	char entry_string_cache[32768];
 	int32 entry_string_cache_size;
 };
-static_assert(sizeof(s_event_log_cache) == 0xA010);
+COMPILE_ASSERT(sizeof(s_event_log_cache) == 0xA010);
 
 extern s_event_log_globals event_log_globals;
 extern s_event_log_cache g_event_log_cache;

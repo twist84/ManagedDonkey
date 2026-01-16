@@ -4,7 +4,7 @@
 
 // 32-bit data array index handle
 typedef uns32 datum_index;
-static_assert(sizeof(datum_index) == 0x4);
+COMPILE_ASSERT(sizeof(datum_index) == 0x4);
 
 enum : datum_index
 {
@@ -38,7 +38,7 @@ enum class data_address_type : int32
 	definition,
 	resource
 };
-static_assert(sizeof(data_address_type) == 0x4);
+COMPILE_ASSERT(sizeof(data_address_type) == 0x4);
 
 union data_address
 {
@@ -49,7 +49,7 @@ union data_address
 		int32 offset : 29;
 	};
 };
-static_assert(sizeof(data_address) == 0x4);
+COMPILE_ASSERT(sizeof(data_address) == 0x4);
 
 struct s_data_array
 {
@@ -71,7 +71,7 @@ struct s_data_array
 	uns32 offset_to_data;
 	uns32 offset_to_bit_vector;
 };
-static_assert(sizeof(s_data_array) == 0x54);
+COMPILE_ASSERT(sizeof(s_data_array) == 0x54);
 
 struct s_data_iterator
 {
@@ -79,12 +79,12 @@ struct s_data_iterator
 	int32 index;
 	int32 absolute_index;
 };
-static_assert(sizeof(s_data_iterator) == 0xC);
+COMPILE_ASSERT(sizeof(s_data_iterator) == 0xC);
 
 template <typename t_datum_type>
 class c_smart_data_array
 {
-	static_assert(__is_base_of(s_datum_header, t_datum_type));
+	COMPILE_ASSERT(__is_base_of(s_datum_header, t_datum_type));
 
 public:
 	s_data_array*& get_restricted_data_array_address()
@@ -121,12 +121,12 @@ public:
 		s_typed_access* m_type_access;
 	};
 };
-static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
+COMPILE_ASSERT(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
 
 template <typename t_datum_type>
 class c_wrapped_data_array
 {
-	static_assert(__is_base_of(s_datum_header, t_datum_type));
+	COMPILE_ASSERT(__is_base_of(s_datum_header, t_datum_type));
 
 public:
 	void dispose()
@@ -172,7 +172,7 @@ public:
 
 	c_smart_data_array<t_datum_type> m_data_array;
 };
-static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
+COMPILE_ASSERT(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
 
 extern int32 __cdecl data_allocation_size(int32 maximum_count, int32 size, int32 alignment_bits);
 extern void __cdecl data_connect(s_data_array* data, int32 count, void* datums);
@@ -219,7 +219,7 @@ extern void* __cdecl datum_try_and_get_unsafe(const s_data_array* data, int32 in
 template<typename t_datum_type>
 class c_data_iterator
 {
-	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
+	COMPILE_ASSERT((std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value));
 
 public:
 	c_data_iterator() :
@@ -263,12 +263,12 @@ public:
 	t_datum_type* m_datum;
 	s_data_iterator iterator;
 };
-static_assert(sizeof(c_data_iterator<void>) == 0x10);
+COMPILE_ASSERT(sizeof(c_data_iterator<void>) == 0x10);
 
 template<typename t_datum_type>
 class c_data_iterator_with_byte_flags
 {
-	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
+	COMPILE_ASSERT((std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value));
 
 public:
 	c_data_iterator_with_byte_flags() :
@@ -324,5 +324,5 @@ public:
 	uns8 m_flag_value;
 	s_data_iterator iterator;
 };
-static_assert(sizeof(c_data_iterator_with_byte_flags<void>) == 0x18);
+COMPILE_ASSERT(sizeof(c_data_iterator_with_byte_flags<void>) == 0x18);
 

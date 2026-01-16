@@ -24,7 +24,7 @@ struct debug_key
 	bool toggle_variable;
 	bool* variable;
 };
-static_assert(sizeof(debug_key) == 0x14);
+COMPILE_ASSERT(sizeof(debug_key) == 0x14);
 
 struct s_debug_button
 {
@@ -36,7 +36,7 @@ struct s_debug_button
 	bool toggle_variable;
 	bool* variable;
 };
-static_assert(sizeof(s_debug_button) == 0x14);
+COMPILE_ASSERT(sizeof(s_debug_button) == 0x14);
 
 extern debug_key global_debug_key_list[];
 //extern c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4), NUMBEROF(global_debug_key_list)> global_debug_key_down;

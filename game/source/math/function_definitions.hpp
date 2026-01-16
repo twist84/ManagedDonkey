@@ -6,7 +6,7 @@ struct real_block
 {
 	real32 value;
 };
-static_assert(sizeof(real_block) == sizeof(real32));
+COMPILE_ASSERT(sizeof(real_block) == sizeof(real32));
 
 struct function_definition_data
 {
@@ -16,13 +16,13 @@ struct function_definition_data
 	rgb_color color[4];
 	c_typed_tag_block<real_block> values;
 };
-static_assert(sizeof(function_definition_data) == 0x20);
+COMPILE_ASSERT(sizeof(function_definition_data) == 0x20);
 
 struct mapping_function
 {
 	c_typed_tag_data<function_definition_data> data;
 };
-static_assert(sizeof(mapping_function) == sizeof(s_tag_data));
+COMPILE_ASSERT(sizeof(mapping_function) == sizeof(s_tag_data));
 
 class c_function_definition :
 	public mapping_function
@@ -30,5 +30,5 @@ class c_function_definition :
 public:
 	real32 evaluate_scalar(real32 input, real32 range) const;
 };
-static_assert(sizeof(c_function_definition) == sizeof(mapping_function));
+COMPILE_ASSERT(sizeof(c_function_definition) == sizeof(mapping_function));
 

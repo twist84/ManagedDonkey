@@ -19,7 +19,7 @@ struct cs_point
 
 	real_euler_angles2d facing_direction;
 };
-static_assert(sizeof(cs_point) == 0x3C);
+COMPILE_ASSERT(sizeof(cs_point) == 0x3C);
 
 enum e_point_set_flags
 {
@@ -50,14 +50,14 @@ struct cs_point_set
 	// pad
 	byte AJDEYNFD[0x2];
 };
-static_assert(sizeof(cs_point_set) == 0x38);
+COMPILE_ASSERT(sizeof(cs_point_set) == 0x38);
 
 struct cs_script_data
 {
 	c_typed_tag_block<cs_point_set> point_sets;
 	int32 pad1[0x1E];
 };
-static_assert(sizeof(cs_script_data) == 0x84);
+COMPILE_ASSERT(sizeof(cs_script_data) == 0x84);
 
 extern int16 cs_point_set_index_by_name(const char* name);
 extern int16 cs_point_index_by_name(cs_point_set* point_set, const char* name);

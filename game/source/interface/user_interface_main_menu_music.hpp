@@ -58,5 +58,5 @@ public:
 	//bool m_debug_render_music_state;
 	static bool m_debug_render_music_state;
 };
-static_assert(sizeof(c_user_interface_main_menu_music) == 0x18);
+COMPILE_ASSERT(sizeof(c_user_interface_main_menu_music) == 0x18);
 

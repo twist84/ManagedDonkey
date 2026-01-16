@@ -8,7 +8,7 @@ struct s_damage_owner
 	int32 object_index;
 	uns8 team;
 };
-static_assert(sizeof(s_damage_owner) == 0xC);
+COMPILE_ASSERT(sizeof(s_damage_owner) == 0xC);
 
 extern const s_damage_owner* const& global_damage_owner_unknown;
 

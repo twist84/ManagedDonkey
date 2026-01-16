@@ -41,7 +41,7 @@ public:
 	uns32 m_location_change_throttle_time;
 	int32 m_location_change_throttle_count;
 };
-static_assert(sizeof(c_gui_location_manager) == 0x14);
+COMPILE_ASSERT(sizeof(c_gui_location_manager) == 0x14);
 
 extern c_gui_location_manager& g_location_manager;
 

@@ -65,21 +65,21 @@ public:
 	uns64 m_required_squad_session_parameter_mask;
 	uns64 m_required_group_session_parameter_mask;
 };
-static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler) == 0x28);
 
 #ifdef __INTELLISENSE__
-static_assert(0x04 == OFFSETOF(c_life_cycle_state_handler, m_state));
-static_assert(0x08 == OFFSETOF(c_life_cycle_state_handler, m_manager));
-static_assert(0x0C == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
-static_assert(0x0D == OFFSETOF(c_life_cycle_state_handler, pad));
-static_assert(0x18 == OFFSETOF(c_life_cycle_state_handler, m_required_squad_session_parameter_mask));
-static_assert(0x20 == OFFSETOF(c_life_cycle_state_handler, m_required_group_session_parameter_mask));
+COMPILE_ASSERT(0x04 == OFFSETOF(c_life_cycle_state_handler, m_state));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_life_cycle_state_handler, m_manager));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
+COMPILE_ASSERT(0x0D == OFFSETOF(c_life_cycle_state_handler, pad));
+COMPILE_ASSERT(0x18 == OFFSETOF(c_life_cycle_state_handler, m_required_squad_session_parameter_mask));
+COMPILE_ASSERT(0x20 == OFFSETOF(c_life_cycle_state_handler, m_required_group_session_parameter_mask));
 #else
-static_assert(0x08 == OFFSETOF(c_life_cycle_state_handler, m_state));
-static_assert(0x0C == OFFSETOF(c_life_cycle_state_handler, m_manager));
-static_assert(0x10 == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
-static_assert(0x11 == OFFSETOF(c_life_cycle_state_handler, pad));
-static_assert(0x18 == OFFSETOF(c_life_cycle_state_handler, m_required_squad_session_parameter_mask));
-static_assert(0x20 == OFFSETOF(c_life_cycle_state_handler, m_required_group_session_parameter_mask));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_life_cycle_state_handler, m_state));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_life_cycle_state_handler, m_manager));
+COMPILE_ASSERT(0x10 == OFFSETOF(c_life_cycle_state_handler, m_handler_flags));
+COMPILE_ASSERT(0x11 == OFFSETOF(c_life_cycle_state_handler, pad));
+COMPILE_ASSERT(0x18 == OFFSETOF(c_life_cycle_state_handler, m_required_squad_session_parameter_mask));
+COMPILE_ASSERT(0x20 == OFFSETOF(c_life_cycle_state_handler, m_required_group_session_parameter_mask));
 #endif // __INTELLENSE__
 

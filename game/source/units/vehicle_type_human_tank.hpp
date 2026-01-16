@@ -37,5 +37,5 @@ protected:
 	real32 m_right_tread;
 	c_vehicle_stop_counter m_stop_counter;
 };
-static_assert(sizeof(c_vehicle_type_human_tank) == 0x28);
+COMPILE_ASSERT(sizeof(c_vehicle_type_human_tank) == 0x28);
 

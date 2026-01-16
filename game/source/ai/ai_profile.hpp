@@ -53,7 +53,7 @@ struct ai_meter
 	int16 history_max_index;
 	int16 history_count[60];
 };
-static_assert(sizeof(ai_meter) == 0x88);
+COMPILE_ASSERT(sizeof(ai_meter) == 0x88);
 
 struct ai_meter_definition
 {
@@ -61,7 +61,7 @@ struct ai_meter_definition
 	int16 flags;
 	int16(__cdecl* value_callback)();
 };
-static_assert(sizeof(ai_meter_definition) == 0x8);
+COMPILE_ASSERT(sizeof(ai_meter_definition) == 0x8);
 
 struct s_ai_profile_info
 {
@@ -71,7 +71,7 @@ struct s_ai_profile_info
 	int16 firing_position_evaluation;
 	int16 perception_line_of_sight;
 };
-static_assert(sizeof(s_ai_profile_info) == 0xA);
+COMPILE_ASSERT(sizeof(s_ai_profile_info) == 0xA);
 
 struct ai_profile_state
 {
@@ -89,7 +89,7 @@ struct ai_profile_state
 	ai_meter meters[NUMBER_OF_AI_METERS];
 	s_ai_profile_info ai_profile_info;
 };
-static_assert(sizeof(ai_profile_state) == 0xDE8);
+COMPILE_ASSERT(sizeof(ai_profile_state) == 0xDE8);
 
 extern int16 global_ai_profile_draw_string_position;
 extern char profilestring[2048];

@@ -36,7 +36,7 @@ public:
 	real32 m_effect_scale_b;
 	int32 m_lod;
 };
-static_assert(sizeof(c_contrail_system) == 0x30);
+COMPILE_ASSERT(sizeof(c_contrail_system) == 0x30);
 
 class c_contrail :
 	public s_datum_header
@@ -69,7 +69,7 @@ public:
 	real32 m_profile_lifespan;
 	real_point2d m_uv_offset;
 };
-static_assert(sizeof(c_contrail) == 0x4C);
+COMPILE_ASSERT(sizeof(c_contrail) == 0x4C);
 
 class c_contrail_location :
 	public s_datum_header
@@ -90,7 +90,7 @@ public:
 	real_vector3d m_velocity;
 	real_point3d m_origin;
 };
-static_assert(sizeof(c_contrail_location) == 0x60);
+COMPILE_ASSERT(sizeof(c_contrail_location) == 0x60);
 
 class c_contrail_profile :
 	public s_datum_header
@@ -114,7 +114,7 @@ public:
 	real_argb_color m_initial_color;
 	real32 m_initial_alpha;
 };
-static_assert(sizeof(c_contrail_profile) == 0x4C);
+COMPILE_ASSERT(sizeof(c_contrail_profile) == 0x4C);
 
 extern bool contrail_render_enable;
 

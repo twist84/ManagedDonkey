@@ -78,7 +78,7 @@ public:
 	c_animation_id m_lift_right_id;
 	real32 m_gear_position;
 };
-static_assert(sizeof(c_vehicle_type_vtol) == 0x60);
+COMPILE_ASSERT(sizeof(c_vehicle_type_vtol) == 0x60);
 
 extern real32 __cdecl calculate_acceleration_magnitude_vtol(bool govern_velocity, bool acceleration_as_force, real32 mass, real32 distance, real32 acceleration, real32 velocity_towards_target, real32 maximum_velocity, real32 dead_radius, real32 hookes_law_e, bool disable_damping, real32* scale);
 extern real32 __cdecl calculate_desired_acceleration(real32 velocity, real32 minimum_acceleration, real32 maximum_acceleration, real32 distance);

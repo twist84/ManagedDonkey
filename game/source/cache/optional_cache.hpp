@@ -12,7 +12,7 @@ struct s_optional_cache_user_memory_configuration
 	int32 maximum_priority;
 	uns32 maximum_size;
 };
-static_assert(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_optional_cache_user_memory_configuration) == 0x8);
 
 enum e_optional_cache_user_priority;
 struct s_optional_cache_user_memory_configuration;
@@ -24,14 +24,14 @@ public:
 	virtual void idle(const void*);
 	virtual void terminate(const void*);
 };
-static_assert(sizeof(c_optional_cache_user_callback) == sizeof(void*));
+COMPILE_ASSERT(sizeof(c_optional_cache_user_callback) == sizeof(void*));
 
 struct s_optional_cache_user
 {
 	c_optional_cache_user_callback* callback;
 	void* allocated_memory;
 };
-static_assert(sizeof(s_optional_cache_user) == 0x8);
+COMPILE_ASSERT(sizeof(s_optional_cache_user) == 0x8);
 
 class c_optional_cache_backend
 {
@@ -44,7 +44,7 @@ private:
 	bool m_active;
 	uns32 __unknown8;
 };
-static_assert(sizeof(c_optional_cache_backend) == 0xC);
+COMPILE_ASSERT(sizeof(c_optional_cache_backend) == 0xC);
 
 struct s_optional_cache_globals
 {
@@ -54,7 +54,7 @@ struct s_optional_cache_globals
 	c_static_array<s_optional_cache_user, k_number_of_optional_cache_users> cache_users;
 	c_static_flags<k_number_of_optional_cache_users> active_cache_users;
 };
-static_assert(sizeof(s_optional_cache_globals) == 0x40);
+COMPILE_ASSERT(sizeof(s_optional_cache_globals) == 0x40);
 
 extern s_optional_cache_globals& g_optional_cache_globals;
 

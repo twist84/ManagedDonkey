@@ -41,7 +41,7 @@ const char* k_network_session_tracker_session_undesirable_reason_descriptions[]
 	"none",
 	"latency"
 };
-static_assert(k_network_session_tracker_session_undesirable_reason_count == NUMBEROF(k_network_session_tracker_session_undesirable_reason_descriptions));
+COMPILE_ASSERT(k_network_session_tracker_session_undesirable_reason_count == NUMBEROF(k_network_session_tracker_session_undesirable_reason_descriptions));
 
 const char* k_network_session_tracker_session_unsuitable_reason_descriptions[]
 {
@@ -58,7 +58,7 @@ const char* k_network_session_tracker_session_unsuitable_reason_descriptions[]
 	"join-failed",
 	"failed-to-get-session-data"
 };
-static_assert(k_network_session_tracker_session_unsuitable_reason_count == NUMBEROF(k_network_session_tracker_session_unsuitable_reason_descriptions));
+COMPILE_ASSERT(k_network_session_tracker_session_unsuitable_reason_count == NUMBEROF(k_network_session_tracker_session_unsuitable_reason_descriptions));
 
 bool c_session_tracker::add_session(const char* session_name, const s_transport_session_description* session_description)
 {

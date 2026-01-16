@@ -15,7 +15,7 @@ struct collision_model_instance
 	const int8* region_permutation_indices;
 	const real_matrix4x3* matrices;
 };
-static_assert(sizeof(collision_model_instance) == 0x14);
+COMPILE_ASSERT(sizeof(collision_model_instance) == 0x14);
 
 struct collision_model_bsp_iterator
 {
@@ -38,7 +38,7 @@ struct collision_model_bsp_iterator
 	uns8 region_index;
 	c_collision_bsp_reference bsp_reference;
 };
-static_assert(sizeof(collision_model_bsp_iterator) == 0x20);
+COMPILE_ASSERT(sizeof(collision_model_bsp_iterator) == 0x20);
 
 extern void __cdecl collision_model_bsp_iterator_new(collision_model_bsp_iterator* iterator, const s_model_definition* model, const collision_model_definition* collision_model, const int8* region_permutation_indices);
 extern bool __cdecl collision_model_bsp_iterator_next(collision_model_bsp_iterator* iterator);

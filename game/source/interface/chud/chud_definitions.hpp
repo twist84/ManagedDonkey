@@ -30,7 +30,7 @@ struct s_chud_widget_base
 	s_tag_block animation_data;
 	s_tag_block render_data;
 };
-static_assert(sizeof(s_chud_widget_base) == 0x38);
+COMPILE_ASSERT(sizeof(s_chud_widget_base) == 0x38);
 
 struct s_chud_widget_collection :
 	s_chud_widget_base
@@ -43,8 +43,8 @@ struct s_chud_widget_collection :
 	s_tag_block bitmap_widgets;
 	s_tag_block text_widgets;
 };
-static_assert(sizeof(s_chud_widget_collection) == 0x60);
-static_assert(sizeof(s_chud_widget_collection) == sizeof(s_chud_widget_base) + 0x28);
+COMPILE_ASSERT(sizeof(s_chud_widget_collection) == 0x60);
+COMPILE_ASSERT(sizeof(s_chud_widget_collection) == sizeof(s_chud_widget_base) + 0x28);
 
 struct s_chud_widget_placement_data
 {
@@ -54,7 +54,7 @@ struct s_chud_widget_placement_data
 	real_point2d origin_offset;
 	real_point2d widget_scale;
 };
-static_assert(sizeof(s_chud_widget_placement_data) == 0x1C);
+COMPILE_ASSERT(sizeof(s_chud_widget_placement_data) == 0x1C);
 
 struct s_chud_definition_info
 {
@@ -62,12 +62,12 @@ struct s_chud_definition_info
 	int32 low_ammo_reserve_threshold;
 	int32 low_battery_threshold;
 };
-static_assert(sizeof(s_chud_definition_info) == 0xC);
+COMPILE_ASSERT(sizeof(s_chud_definition_info) == 0xC);
 
 struct s_chud_definition
 {
 	s_tag_block widget_collections;
 	s_chud_definition_info info;
 };
-static_assert(sizeof(s_chud_definition) == 0x18);
+COMPILE_ASSERT(sizeof(s_chud_definition) == 0x18);
 

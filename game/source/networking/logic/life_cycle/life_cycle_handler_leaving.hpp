@@ -25,8 +25,8 @@ public:
 	bool m_leave_and_disconnect;
 	e_gui_game_mode m_failure_game_mode;
 };
-static_assert(sizeof(c_life_cycle_state_handler_leaving) == 0x30);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_leaving, m_flags));
-static_assert(0x29 == OFFSETOF(c_life_cycle_state_handler_leaving, m_leave_and_disconnect));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_leaving, m_failure_game_mode));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_leaving) == 0x30);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_leaving, m_flags));
+COMPILE_ASSERT(0x29 == OFFSETOF(c_life_cycle_state_handler_leaving, m_leave_and_disconnect));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_leaving, m_failure_game_mode));
 

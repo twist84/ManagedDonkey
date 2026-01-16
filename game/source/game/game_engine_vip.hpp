@@ -110,7 +110,7 @@ protected:
 	c_player_traits m_vip_influence_traits;
 	c_player_traits m_vip_traits;
 };
-static_assert(sizeof(c_game_engine_vip_variant) == 0x238);
+COMPILE_ASSERT(sizeof(c_game_engine_vip_variant) == 0x238);
 
 class c_vip_engine :
 	public c_game_engine
@@ -125,7 +125,7 @@ class c_destination_zone :
 public:
 	uns8 m_team_has_visited;
 };
-static_assert(sizeof(c_destination_zone) == 0x68);
+COMPILE_ASSERT(sizeof(c_destination_zone) == 0x68);
 
 struct s_vip_globals
 {
@@ -134,7 +134,7 @@ struct s_vip_globals
 	c_static_array<s_multiplayer_object_boundary_geometry_data, 8> vip_influence_area;
 	c_area_set<c_destination_zone, 12> zones;
 };
-static_assert(sizeof(s_vip_globals) == 0x794);
+COMPILE_ASSERT(sizeof(s_vip_globals) == 0x794);
 
 extern c_game_engine_vip_variant*& vip_variant;
 

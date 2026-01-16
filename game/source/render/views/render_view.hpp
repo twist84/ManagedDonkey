@@ -70,7 +70,7 @@ protected:
 	render_camera m_render_camera;
 	render_projection m_render_projection;
 };
-static_assert(sizeof(c_view) == 0x294);
+COMPILE_ASSERT(sizeof(c_view) == 0x294);
 
 // 0165DBAC
 class c_ui_view :
@@ -92,7 +92,7 @@ public:
 	bool m_is_screenshot;
 	c_rasterizer::e_surface m_render_surface;
 };
-static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
+COMPILE_ASSERT(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 
 // 0165DBC0
 class c_fullscreen_view :
@@ -111,7 +111,7 @@ public:
 	void setup_camera(const s_observer_result* observer);
 	void render_blank_frame(const real_rgb_color* background_color);
 };
-static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
+COMPILE_ASSERT(sizeof(c_fullscreen_view) == sizeof(c_view));
 
 // 01692BDC
 class c_world_view :
@@ -125,10 +125,10 @@ public:
 	byte pad;
 	s_cluster_reference m_stored_cluster;
 };
-static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
-static_assert(0x0 == OFFSETOF(c_world_view, m_using_stored_cluster) - sizeof(c_view));
-static_assert(0x1 == OFFSETOF(c_world_view, pad) - sizeof(c_view));
-static_assert(0x2 == OFFSETOF(c_world_view, m_stored_cluster) - sizeof(c_view));
+COMPILE_ASSERT(sizeof(c_world_view) == sizeof(c_view) + 0x4);
+COMPILE_ASSERT(0x0 == OFFSETOF(c_world_view, m_using_stored_cluster) - sizeof(c_view));
+COMPILE_ASSERT(0x1 == OFFSETOF(c_world_view, pad) - sizeof(c_view));
+COMPILE_ASSERT(0x2 == OFFSETOF(c_world_view, m_stored_cluster) - sizeof(c_view));
 
 // 0165E0C4
 class c_lights_view :
@@ -161,7 +161,7 @@ protected:
 		real32 m_bounding_radius2;
 		real32 m_padding[3];
 	};
-	static_assert(sizeof(s_simple_light) == 0x50);
+	COMPILE_ASSERT(sizeof(s_simple_light) == 0x50);
 
 	IDirect3DSurface9* m_ldr_surface;
 	IDirect3DSurface9* m_hdr_surface;
@@ -182,7 +182,7 @@ protected:
 	s_simple_light m_simple_lights[8];
 	real32 m_light_intensity_scale;
 };
-static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
+COMPILE_ASSERT(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
 
 // 0165E0D8
 class c_lightmap_shadows_view :
@@ -222,7 +222,7 @@ public:
 	static bool& g_debug_force_fancy_shadows;
 	static bool& g_debug_force_old_shadows;
 };
-static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
+COMPILE_ASSERT(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 
 // 0165E0EC
 class c_occlusion_view :
@@ -230,7 +230,7 @@ class c_occlusion_view :
 {
 public:
 };
-static_assert(sizeof(c_occlusion_view) == sizeof(c_lightmap_shadows_view));
+COMPILE_ASSERT(sizeof(c_occlusion_view) == sizeof(c_lightmap_shadows_view));
 
 // 0165E108
 class c_reflection_view :
@@ -238,7 +238,7 @@ class c_reflection_view :
 {
 public:
 };
-static_assert(sizeof(c_reflection_view) == sizeof(c_view));
+COMPILE_ASSERT(sizeof(c_reflection_view) == sizeof(c_view));
 
 // 0165E11C
 class c_first_person_view :
@@ -262,7 +262,7 @@ public:
 
 	render_camera* m_default_rasterizer_camera;
 };
-static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
+COMPILE_ASSERT(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
 
 // 0165E130
 class c_player_view :
@@ -342,7 +342,7 @@ public:
 		c_rasterizer::e_splitscreen_res m_splitscreen_res_index;
 		int32 m_splitscreen_resolve_surface;
 	};
-	static_assert(sizeof(s_camera_user_data) == 0x1C);
+	COMPILE_ASSERT(sizeof(s_camera_user_data) == 0x1C);
 
 	s_render_game_state::s_player_window* m_window_game_state;
 	real32 m_render_exposure;
@@ -370,7 +370,7 @@ public:
 	s_camera_user_data m_camera_user_data;
 	bool m_stall_cpu_to_wait_for_gpu;
 };
-static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
+COMPILE_ASSERT(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
 
 class c_hud_camera_view :
 	public c_player_view
@@ -380,7 +380,7 @@ public:
 
 	void render(int32 player_index, const c_player_view* player_view, void* data);
 };
-static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
+COMPILE_ASSERT(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 
 class c_texture_camera_view :
 	public c_player_view
@@ -399,7 +399,7 @@ protected:
 	void(__cdecl* m_render_callback)(int32);
 	int32 m_callback_user_data;
 };
-static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
+COMPILE_ASSERT(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
 
 extern bool& render_lightmap_shadows_enabled;
 extern bool render_debug_pix_events;

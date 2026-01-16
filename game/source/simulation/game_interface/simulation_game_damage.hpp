@@ -24,7 +24,7 @@ struct s_simulation_damage_aftermath_event_data
 	int32 special_death_type;
 	s_damage_reporting_info damage_reporting_info;
 };
-static_assert(sizeof(s_simulation_damage_aftermath_event_data) == 0x50);
+COMPILE_ASSERT(sizeof(s_simulation_damage_aftermath_event_data) == 0x50);
 
 struct s_simulation_damage_section_response_event_data
 {
@@ -32,5 +32,5 @@ struct s_simulation_damage_section_response_event_data
 	int32 response_index;
 	int32 damage_section_response_type;
 };
-static_assert(sizeof(s_simulation_damage_section_response_event_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_simulation_damage_section_response_event_data) == 0xC);
 

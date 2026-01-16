@@ -20,7 +20,7 @@ public:
 	real_euler_angles2d m_orientation_offset;
 	bool m_allow_controlled_facing;
 };
-static_assert(sizeof(c_first_person_camera) == 0x20);
+COMPILE_ASSERT(sizeof(c_first_person_camera) == 0x20);
 
 class c_authored_camera :
 	public c_camera
@@ -38,5 +38,5 @@ public:
 	real_point3d m_position;
 	real_vector3d m_forward;
 };
-static_assert(sizeof(c_authored_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_authored_camera) == 0x4C);
 

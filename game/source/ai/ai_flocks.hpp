@@ -30,7 +30,7 @@ struct flock_definition
 	real32 position_min_radius;
 	real32 position_max_radius;
 };
-static_assert(sizeof(flock_definition) == 0x5C);
+COMPILE_ASSERT(sizeof(flock_definition) == 0x5C);
 
 struct s_flock_instance
 {
@@ -53,7 +53,7 @@ struct s_flock_instance
 	int16 boid_count_max;
 	int16 enemy_flock;
 };
-static_assert(sizeof(s_flock_instance) == 0x48);
+COMPILE_ASSERT(sizeof(s_flock_instance) == 0x48);
 
 struct s_perlin_state
 {
@@ -62,7 +62,7 @@ struct s_perlin_state
 	real_point3d random_offset;
 	real_point3d previous_random_offset;
 };
-static_assert(sizeof(s_perlin_state) == 0x1C);
+COMPILE_ASSERT(sizeof(s_perlin_state) == 0x1C);
 
 struct boid_state
 {
@@ -84,7 +84,7 @@ struct boid_state
 	int16 target_shooting_ticks;
 	s_perlin_state perlin;
 };
-static_assert(sizeof(boid_state) == 0x44);
+COMPILE_ASSERT(sizeof(boid_state) == 0x44);
 
 struct flock_datum :
 	s_datum_header
@@ -107,21 +107,21 @@ struct flock_datum :
 	int16 danger_ticks;
 	real_rectangle3d bounding_box;
 };
-static_assert(sizeof(flock_datum) == 0x4C);
+COMPILE_ASSERT(sizeof(flock_datum) == 0x4C);
 
 struct flock_boid_iterator
 {
 	int32 next_boid_index;
 	int32 boid_index;
 };
-static_assert(sizeof(flock_boid_iterator) == 0x8);
+COMPILE_ASSERT(sizeof(flock_boid_iterator) == 0x8);
 
 struct flock_iterator
 {
 	c_data_iterator<flock_datum> iterator;
 	int32 index;
 };
-static_assert(sizeof(flock_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(flock_iterator) == 0x14);
 
 struct s_flock_palette_entry;
 

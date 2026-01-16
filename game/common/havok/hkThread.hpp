@@ -21,7 +21,7 @@ struct hkThreadMemory
 		char* m_base;
 		char* m_end;
 	};
-	static_assert(sizeof(Stack) == 0x10);
+	COMPILE_ASSERT(sizeof(Stack) == 0x10);
 
 	struct FreeList
 	{
@@ -29,12 +29,12 @@ struct hkThreadMemory
 		{
 			FreeElem* m_next;
 		};
-		static_assert(sizeof(FreeElem) == 0x4);
+		COMPILE_ASSERT(sizeof(FreeElem) == 0x4);
 
 		FreeElem* m_head;
 		int m_numElem;
 	};
-	static_assert(sizeof(FreeList) == 0x8);
+	COMPILE_ASSERT(sizeof(FreeList) == 0x8);
 
 	byte __data4[0xC];
 	hkMemory* m_memory;
@@ -48,4 +48,4 @@ struct hkThreadMemory
 	char m_small_size_to_row_lut[512 + 1];
 	int m_large_size_to_row_lut[10];
 };
-static_assert(sizeof(hkThreadMemory) == 0x330);
+COMPILE_ASSERT(sizeof(hkThreadMemory) == 0x330);

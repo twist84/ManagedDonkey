@@ -7,5 +7,5 @@ struct s_ragdoll_datum :
 {
 	byte __data[0x12E];
 };
-static_assert(sizeof(s_ragdoll_datum) == 0x130);
+COMPILE_ASSERT(sizeof(s_ragdoll_datum) == 0x130);
 

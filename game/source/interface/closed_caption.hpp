@@ -21,7 +21,7 @@ struct s_caption_entry
 	int32 sound_definition_index;
 	uns32 entry_time_milliseconds;
 };
-static_assert(sizeof(s_caption_entry) == 0xC);
+COMPILE_ASSERT(sizeof(s_caption_entry) == 0xC);
 
 struct s_closed_caption_globals // $TODO find the actual name of this
 {
@@ -30,7 +30,7 @@ struct s_closed_caption_globals // $TODO find the actual name of this
 	e_text_justification justification;
 	s_caption_entry entries[k_caption_count];
 };
-static_assert(sizeof(s_closed_caption_globals) == 0x48);
+COMPILE_ASSERT(sizeof(s_closed_caption_globals) == 0x48);
 
 extern s_closed_caption_globals& g_closed_caption_globals;
 extern wchar_t(&caption_text)[128];

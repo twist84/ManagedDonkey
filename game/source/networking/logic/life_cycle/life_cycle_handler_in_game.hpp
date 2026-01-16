@@ -41,10 +41,10 @@ public:
 	uns32 m_simulation_aborted_timestamp;
 	uns64 m_game_instance;
 };
-static_assert(sizeof(c_life_cycle_state_handler_in_game) == 0x40);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_in_game, m_flags));
-static_assert(0x29 == OFFSETOF(c_life_cycle_state_handler_in_game, m_handled_simulation_abort));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_in_game, m_time_of_handled_campaign_quit));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_in_game, m_simulation_aborted_timestamp));
-static_assert(0x38 == OFFSETOF(c_life_cycle_state_handler_in_game, m_game_instance));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_in_game) == 0x40);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_in_game, m_flags));
+COMPILE_ASSERT(0x29 == OFFSETOF(c_life_cycle_state_handler_in_game, m_handled_simulation_abort));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_in_game, m_time_of_handled_campaign_quit));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_in_game, m_simulation_aborted_timestamp));
+COMPILE_ASSERT(0x38 == OFFSETOF(c_life_cycle_state_handler_in_game, m_game_instance));
 

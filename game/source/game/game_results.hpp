@@ -24,7 +24,7 @@ struct s_game_results_game_description // s_game_results_multiplayer_game_descri
 
 	byte __pad3CF[0x1];
 };
-static_assert(sizeof(s_game_results_game_description) == 0x3D0);
+COMPILE_ASSERT(sizeof(s_game_results_game_description) == 0x3D0);
 
 struct s_integer_statistic_update
 {
@@ -56,7 +56,7 @@ struct s_game_results_player_data
 
 	int32 player_score;
 };
-static_assert(sizeof(s_game_results_player_data) == 0x1640);
+COMPILE_ASSERT(sizeof(s_game_results_player_data) == 0x1640);
 
 struct s_game_results_player_data_update
 {
@@ -65,7 +65,7 @@ struct s_game_results_player_data_update
 	byte __pad2[0x6];
 	s_game_results_player_data update;
 };
-static_assert(sizeof(s_game_results_player_data_update) == 0x1648);
+COMPILE_ASSERT(sizeof(s_game_results_player_data_update) == 0x1648);
 
 struct s_game_results_team_data
 {
@@ -73,7 +73,7 @@ struct s_game_results_team_data
 	uns8 team_standing;
 	uns16 team_score;
 };
-static_assert(sizeof(s_game_results_team_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_game_results_team_data) == 0x4);
 
 struct s_game_results_team_data_update
 {
@@ -82,7 +82,7 @@ struct s_game_results_team_data_update
 
 	s_game_results_team_data update;
 };
-static_assert(sizeof(s_game_results_team_data_update) == 0x6);
+COMPILE_ASSERT(sizeof(s_game_results_team_data_update) == 0x6);
 
 struct s_game_results_player_medal_statistics_update
 {
@@ -90,7 +90,7 @@ struct s_game_results_player_medal_statistics_update
 	byte __pad[0x1]; // statistics_valid?
 	s_integer_statistic_update statistics[k_game_results_medal_count];
 };
-static_assert(sizeof(s_game_results_player_medal_statistics_update) == 0x76);
+COMPILE_ASSERT(sizeof(s_game_results_player_medal_statistics_update) == 0x76);
 
 struct s_game_results_player_achievement_statistics_update
 {
@@ -98,7 +98,7 @@ struct s_game_results_player_achievement_statistics_update
 	byte __pad[0x1]; // statistics_valid?
 	s_integer_statistic_update statistics[k_achievement_count];
 };
-static_assert(sizeof(s_game_results_player_achievement_statistics_update) == 0x60);
+COMPILE_ASSERT(sizeof(s_game_results_player_achievement_statistics_update) == 0x60);
 
 struct s_game_results_player_damage_statistics_update
 {
@@ -106,7 +106,7 @@ struct s_game_results_player_damage_statistics_update
 	byte __pad1[0x1]; // statistics_valid?
 	s_integer_statistic_update statistics[k_game_results_damage_statistic_count];
 };
-static_assert(sizeof(s_game_results_player_damage_statistics_update) == 0xC);
+COMPILE_ASSERT(sizeof(s_game_results_player_damage_statistics_update) == 0xC);
 
 struct s_game_results_player_statistics
 {
@@ -117,7 +117,7 @@ struct s_game_results_player_statistics
 
 	s_game_results_player_damage_statistics_update damage[k_damage_reporting_type_count];
 };
-static_assert(sizeof(s_game_results_player_statistics) == 0x438);
+COMPILE_ASSERT(sizeof(s_game_results_player_statistics) == 0x438);
 
 struct s_game_results_player_statistics_update
 {
@@ -129,7 +129,7 @@ struct s_game_results_player_statistics_update
 	s_game_results_player_achievement_statistics_update achievements;
 	s_game_results_player_damage_statistics_update damage[k_damage_reporting_type_count];
 };
-static_assert(sizeof(s_game_results_player_statistics_update) == 0x43E);
+COMPILE_ASSERT(sizeof(s_game_results_player_statistics_update) == 0x43E);
 
 enum e_game_results_player_vs_player_statistic
 {
@@ -143,7 +143,7 @@ struct s_game_results_player_vs_player_statistics
 {
 	s_integer_statistic_update statistics[k_game_results_player_vs_player_statistic_count];
 };
-static_assert(sizeof(s_game_results_player_vs_player_statistics) == 0x4);
+COMPILE_ASSERT(sizeof(s_game_results_player_vs_player_statistics) == 0x4);
 
 struct s_game_results_player_vs_player_statistics_update
 {
@@ -151,13 +151,13 @@ struct s_game_results_player_vs_player_statistics_update
 	byte __pad1[0x1]; // statistics_valid?
 	s_game_results_player_vs_player_statistics update;
 };
-static_assert(sizeof(s_game_results_player_vs_player_statistics_update) == 0x6);
+COMPILE_ASSERT(sizeof(s_game_results_player_vs_player_statistics_update) == 0x6);
 
 struct s_game_results_team_statistics
 {
 	s_integer_statistic_update statistics[k_game_results_statistic_count];
 };
-static_assert(sizeof(s_game_results_team_statistics) == 0x66);
+COMPILE_ASSERT(sizeof(s_game_results_team_statistics) == 0x66);
 
 struct s_game_results_team_statistics_update
 {
@@ -165,7 +165,7 @@ struct s_game_results_team_statistics_update
 	byte __pad1[0x1]; // statistics_valid?
 	s_game_results_team_statistics update;
 };
-static_assert(sizeof(s_game_results_team_statistics_update) == 0x68);
+COMPILE_ASSERT(sizeof(s_game_results_team_statistics_update) == 0x68);
 
 struct s_game_results_statistics
 {
@@ -176,7 +176,7 @@ struct s_game_results_statistics
 
 	c_static_array<s_game_results_team_statistics, 16> team;
 };
-static_assert(sizeof(s_game_results_statistics) == 0x4DE0);
+COMPILE_ASSERT(sizeof(s_game_results_statistics) == 0x4DE0);
 
 struct s_game_results_statistics_update
 {
@@ -187,7 +187,7 @@ struct s_game_results_statistics_update
 
 	c_static_array<s_game_results_team_statistics_update, 16> team;
 };
-static_assert(sizeof(s_game_results_statistics_update) == 0x5060);
+COMPILE_ASSERT(sizeof(s_game_results_statistics_update) == 0x5060);
 
 #pragma pack(push, 1)
 struct s_game_results_machine_data
@@ -208,7 +208,7 @@ struct s_game_results_machine_data
 		byte __data[0xA];
 	} machine_bandwidth_estimate;
 };
-static_assert(sizeof(s_game_results_machine_data) == 0x20);
+COMPILE_ASSERT(sizeof(s_game_results_machine_data) == 0x20);
 #pragma pack(pop)
 
 struct s_game_results_machine_data_update
@@ -218,7 +218,7 @@ struct s_game_results_machine_data_update
 
 	s_game_results_machine_data update;
 };
-static_assert(sizeof(s_game_results_machine_data_update) == 0x22);
+COMPILE_ASSERT(sizeof(s_game_results_machine_data_update) == 0x22);
 
 struct s_game_results_incremental_update
 {
@@ -234,7 +234,7 @@ struct s_game_results_incremental_update
 	c_static_array<s_game_results_machine_data_update, 17> machines;
 	byte __pad1[0x6];
 };
-static_assert(sizeof(s_game_results_incremental_update) == 0x1B7A0);
+COMPILE_ASSERT(sizeof(s_game_results_incremental_update) == 0x1B7A0);
 
 struct s_game_results_incremental
 {
@@ -248,7 +248,7 @@ struct s_game_results_incremental
 	s_game_results_statistics statistics;
 	c_static_array<s_game_results_machine_data, 17> machines;
 };
-static_assert(sizeof(s_game_results_incremental) == 0x1B450);
+COMPILE_ASSERT(sizeof(s_game_results_incremental) == 0x1B450);
 
 struct s_game_results_event
 {
@@ -299,7 +299,7 @@ struct s_game_results_event
 
 	/* 0x20 */ uns32 time;
 };
-static_assert(sizeof(s_game_results_event) == 0x24);
+COMPILE_ASSERT(sizeof(s_game_results_event) == 0x24);
 
 class c_game_results
 {
@@ -317,7 +317,7 @@ public:
 	c_static_array<s_game_results_event, 1000> events;
 	c_static_array<s_game_results_machine_data, 17> machines;
 };
-static_assert(sizeof(c_game_results) == 0x24510);
+COMPILE_ASSERT(sizeof(c_game_results) == 0x24510);
 
 struct s_game_results_globals
 {
@@ -328,7 +328,7 @@ struct s_game_results_globals
 	uns32 __time8;
 	c_game_results* results;
 };
-static_assert(sizeof(s_game_results_globals) == 0x10);
+COMPILE_ASSERT(sizeof(s_game_results_globals) == 0x10);
 
 class c_simulation_view;
 class c_game_results_replicator
@@ -344,7 +344,7 @@ public:
 	uns32 __time1B460;
 	byte __data1B464[0x4];
 };
-static_assert(sizeof(c_game_results_replicator) == 0x1B468);
+COMPILE_ASSERT(sizeof(c_game_results_replicator) == 0x1B468);
 
 struct s_integer_statistic_definition
 {
@@ -357,7 +357,7 @@ struct s_integer_statistic_definition
 	uns16 maximum_value;
 	uns32 encoding_bits;
 };
-static_assert(sizeof(s_integer_statistic_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_integer_statistic_definition) == 0x10);
 
 extern s_integer_statistic_definition(&g_game_results_achievement_statistic_definitions)[k_achievement_count];
 extern s_integer_statistic_definition(&g_game_results_statistic_definitions)[k_game_results_statistic_count];

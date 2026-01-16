@@ -15,6 +15,6 @@ public:
 public:
 	c_start_menu_settings(int32 name);
 };
-static_assert(sizeof(c_start_menu_settings) == 0x2168);
-static_assert(sizeof(c_start_menu_settings) == sizeof(c_start_menu_pane_screen_widget));
+COMPILE_ASSERT(sizeof(c_start_menu_settings) == 0x2168);
+COMPILE_ASSERT(sizeof(c_start_menu_settings) == sizeof(c_start_menu_pane_screen_widget));
 

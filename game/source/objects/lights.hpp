@@ -18,7 +18,7 @@ struct light_state
 	real_rgb_color color;
 	real_vector2d gel_translation;
 };
-static_assert(sizeof(light_state) == 0x64);
+COMPILE_ASSERT(sizeof(light_state) == 0x64);
 
 struct light_datum :
 	s_datum_header
@@ -46,7 +46,7 @@ struct light_datum :
 	light_state state;
 	int32 precomputed_structure_visibility_block_index;
 };
-static_assert(sizeof(light_datum) == 0xE4);
+COMPILE_ASSERT(sizeof(light_datum) == 0xE4);
 
 struct lights_game_globals_definition
 {
@@ -56,13 +56,13 @@ struct lights_game_globals_definition
 	bool pad[0x3];
 	c_static_flags_no_init<400> light_active_bitvector;
 };
-static_assert(sizeof(lights_game_globals_definition) == 0x40);
+COMPILE_ASSERT(sizeof(lights_game_globals_definition) == 0x40);
 
 struct s_nondeterministic_light_data
 {
 	byte __data[0x2580];
 };
-static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
+COMPILE_ASSERT(sizeof(s_nondeterministic_light_data) == 0x2580);
 
 extern bool __cdecl lights_enable(bool enable);
 extern void __cdecl lights_prepare_for_window(int32 player_window_index);

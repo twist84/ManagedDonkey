@@ -102,7 +102,7 @@ struct weapon_barrel
 
 	byte __data2C[0x8];
 };
-static_assert(sizeof(weapon_barrel) == 0x34);
+COMPILE_ASSERT(sizeof(weapon_barrel) == 0x34);
 
 enum e_weapon_trigger_state
 {
@@ -141,7 +141,7 @@ struct weapon_trigger
 
 	byte __data8[0x4];
 };
-static_assert(sizeof(weapon_trigger) == 0xC);
+COMPILE_ASSERT(sizeof(weapon_trigger) == 0xC);
 
 enum e_weapon_magazine_state
 {
@@ -180,13 +180,13 @@ struct weapon_magazine
 	int16 __unknown16;
 	int16 __unknown18;
 };
-static_assert(sizeof(weapon_magazine) == 0x1A);
+COMPILE_ASSERT(sizeof(weapon_magazine) == 0x1A);
 
 struct weapon_first_person_emulation
 {
 	byte __data[0x1C];
 };
-static_assert(sizeof(weapon_first_person_emulation) == 0x1C);
+COMPILE_ASSERT(sizeof(weapon_first_person_emulation) == 0x1C);
 
 enum e_weapon_flags
 {
@@ -266,7 +266,7 @@ struct _weapon_datum
 	int32 game_time_last_fired;
 	weapon_first_person_emulation first_person_emulation;
 };
-static_assert(sizeof(_weapon_datum) == 0x150);
+COMPILE_ASSERT(sizeof(_weapon_datum) == 0x150);
 
 struct weapon_datum
 {
@@ -275,7 +275,7 @@ struct weapon_datum
 	_item_datum item;
 	_weapon_datum weapon;
 };
-static_assert(sizeof(weapon_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
+COMPILE_ASSERT(sizeof(weapon_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
 extern bool debug_weapons;
 extern bool debug_weapons_triggers;

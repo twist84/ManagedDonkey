@@ -22,7 +22,7 @@ struct hs_tokenizer
 	const char* source_file_data;
 	int32 source_file_size;
 };
-static_assert(sizeof(hs_tokenizer) == 0xC);
+COMPILE_ASSERT(sizeof(hs_tokenizer) == 0xC);
 
 struct s_hs_compile_state
 {
@@ -38,7 +38,7 @@ struct s_hs_reference
 	int32 node_index;
 	s_hs_reference* next;
 };
-static_assert(sizeof(s_hs_reference) == 0x14);
+COMPILE_ASSERT(sizeof(s_hs_reference) == 0x14);
 
 struct s_hs_compile_globals
 {
@@ -69,7 +69,7 @@ struct s_hs_compile_globals
 	s_hs_reference** global_references;
 	int16 allocated_references;
 };
-static_assert(sizeof(s_hs_compile_globals) == 0x444);
+COMPILE_ASSERT(sizeof(s_hs_compile_globals) == 0x444);
 
 class c_hs_compile_error_listener
 {

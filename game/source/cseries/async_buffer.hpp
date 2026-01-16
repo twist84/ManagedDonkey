@@ -45,7 +45,7 @@ struct s_async_buffer
 	int32 async_expected_bytes;
 	c_synchronized_long async_ready;
 };
-static_assert(sizeof(s_async_buffer) == 0x20);
+COMPILE_ASSERT(sizeof(s_async_buffer) == 0x20);
 
 class c_async_buffer_set_base
 {
@@ -65,7 +65,7 @@ public:
 	c_static_array<s_async_buffer, k_maximum_buffer_count> m_buffers;
 	bool m_destination_on_utility_drive;
 };
-static_assert(sizeof(c_async_buffer_set_base) == 0x68);
+COMPILE_ASSERT(sizeof(c_async_buffer_set_base) == 0x68);
 
 class c_async_buffer_set :
 	public c_async_buffer_set_base
@@ -116,8 +116,8 @@ protected:
 	bool m_fatal_error_encountered;
 	bool m_explicit_flush;
 };
-static_assert(sizeof(c_async_buffer_set) == 0x88);
-static_assert(sizeof(c_async_buffer_set) == sizeof(c_async_buffer_set_base) + 0x20);
+COMPILE_ASSERT(sizeof(c_async_buffer_set) == 0x88);
+COMPILE_ASSERT(sizeof(c_async_buffer_set) == sizeof(c_async_buffer_set_base) + 0x20);
 
 template<int32 k_buffer_count>
 class c_async_stored_buffer_set :

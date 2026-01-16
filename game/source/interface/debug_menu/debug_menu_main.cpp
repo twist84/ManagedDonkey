@@ -48,7 +48,7 @@ struct s_debug_menu_globals
 	gamepad_state m_last_gamepad;
 	int32 open_menu_time;
 };
-static_assert(sizeof(s_debug_menu_globals) == 0x488);
+COMPILE_ASSERT(sizeof(s_debug_menu_globals) == 0x488);
 
 real_argb_color const instance_debug_real_argb_grey       = { 1.0f,  0.3f, 0.42f, 0.33f };
 real_argb_color const instance_debug_real_argb_white      = { 1.0f,  0.9f, 0.9f,  0.8f  };

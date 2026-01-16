@@ -18,7 +18,7 @@ struct s_memory_pool_block_header
 	int32 line;
 	int32 timestamp;
 };
-static_assert(sizeof(s_memory_pool_block_header) == 0x10);
+COMPILE_ASSERT(sizeof(s_memory_pool_block_header) == 0x10);
 
 struct s_memory_pool_block
 {
@@ -27,7 +27,7 @@ struct s_memory_pool_block
 	int32 next_block_handle;
 	int32 previous_block_handle;
 };
-static_assert(sizeof(s_memory_pool_block) == 0x10);
+COMPILE_ASSERT(sizeof(s_memory_pool_block) == 0x10);
 
 struct s_memory_pool
 {
@@ -45,7 +45,7 @@ struct s_memory_pool
 	bool debug;
 	e_memory_pool_callback_list reference_tracking_callback_index;
 };
-static_assert(sizeof(s_memory_pool) == 0x44);
+COMPILE_ASSERT(sizeof(s_memory_pool) == 0x44);
 
 extern int32 __cdecl memory_pool_allocation_size(int32 size);
 extern bool __cdecl memory_pool_block_allocate(s_memory_pool* pool, void** ptr, int32 size, const char* file, int32 line);

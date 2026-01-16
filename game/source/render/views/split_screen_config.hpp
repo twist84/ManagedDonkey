@@ -10,7 +10,7 @@ struct s_splitscreen_view_config
 	real32 m_bottom;
 	int32 m_render_target_resolution;
 };
-static_assert(sizeof(s_splitscreen_view_config) == 0x14);
+COMPILE_ASSERT(sizeof(s_splitscreen_view_config) == 0x14);
 
 class c_splitscreen_config
 {

@@ -37,7 +37,7 @@ struct s_emblem_info
 	c_enum<e_player_color_index, int8, _player_color_none, k_player_color_index_count> background_color_index;
 	uns16 pad;
 };
-static_assert(sizeof(s_emblem_info) == 0x8);
+COMPILE_ASSERT(sizeof(s_emblem_info) == 0x8);
 
 extern s_emblem_info g_user_interface_emblem_info;
 

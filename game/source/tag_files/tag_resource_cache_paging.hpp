@@ -8,7 +8,7 @@ class c_tag_resource_page_table_io_listener
 public:
 	c_tag_resource_cache_new* m_resource_cache_new;
 };
-static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
+COMPILE_ASSERT(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
 
 struct s_tag_resource_page_datum :
 	s_datum_header
@@ -23,7 +23,7 @@ struct s_tag_resource_page_datum :
 	int32 reservation;
 	c_basic_buffer<void> buffer;
 };
-static_assert(sizeof(s_tag_resource_page_datum) == 0x14);
+COMPILE_ASSERT(sizeof(s_tag_resource_page_datum) == 0x14);
 
 struct s_lruv_cache;
 class c_tag_resource_page_range_allocator;
@@ -41,7 +41,7 @@ public:
 		s_lruv_cache* m_lruv_cache;
 		c_basic_buffer<void> m_lruv_data;
 	};
-	static_assert(sizeof(c_tag_resource_lruv_cache) == 0x14);
+	COMPILE_ASSERT(sizeof(c_tag_resource_lruv_cache) == 0x14);
 
 	struct s_pending_state
 	{
@@ -66,23 +66,23 @@ public:
 	bool m_prefetching_can_run;
 	bool m_status_lines_enabled;
 };
-static_assert(sizeof(c_tag_resource_page_table) == 0x64);
-static_assert(0x00 == OFFSETOF(c_tag_resource_page_table, m_resource_page_data));
-static_assert(0x04 == OFFSETOF(c_tag_resource_page_table, m_resource_page_lruv_cache));
-static_assert(0x18 == OFFSETOF(c_tag_resource_page_table, m_pending_resource_requests));
-static_assert(0x1C == OFFSETOF(c_tag_resource_page_table, m_ready_pages_flags));
-static_assert(0x24 == OFFSETOF(c_tag_resource_page_table, m_pinned_pages_flags));
-static_assert(0x2C == OFFSETOF(c_tag_resource_page_table, m_cache_file_reader));
-static_assert(0x30 == OFFSETOF(c_tag_resource_page_table, m_resource_location_handler));
-static_assert(0x34 == OFFSETOF(c_tag_resource_page_table, m_published_resource_interface));
-static_assert(0x38 == OFFSETOF(c_tag_resource_page_table, m_tracking_data_allocator));
-static_assert(0x3C == OFFSETOF(c_tag_resource_page_table, m_tracking_allocation_base));
-static_assert(0x40 == OFFSETOF(c_tag_resource_page_table, m_control_interface));
-static_assert(0x44 == OFFSETOF(c_tag_resource_page_table, m_pending_state));
-static_assert(0x58 == OFFSETOF(c_tag_resource_page_table, m_total_prefetch_bytes));
-static_assert(0x5C == OFFSETOF(c_tag_resource_page_table, m_current_prefetch_bytes));
-static_assert(0x60 == OFFSETOF(c_tag_resource_page_table, m_prefetching_can_run));
-static_assert(0x61 == OFFSETOF(c_tag_resource_page_table, m_status_lines_enabled));
+COMPILE_ASSERT(sizeof(c_tag_resource_page_table) == 0x64);
+COMPILE_ASSERT(0x00 == OFFSETOF(c_tag_resource_page_table, m_resource_page_data));
+COMPILE_ASSERT(0x04 == OFFSETOF(c_tag_resource_page_table, m_resource_page_lruv_cache));
+COMPILE_ASSERT(0x18 == OFFSETOF(c_tag_resource_page_table, m_pending_resource_requests));
+COMPILE_ASSERT(0x1C == OFFSETOF(c_tag_resource_page_table, m_ready_pages_flags));
+COMPILE_ASSERT(0x24 == OFFSETOF(c_tag_resource_page_table, m_pinned_pages_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_tag_resource_page_table, m_cache_file_reader));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_tag_resource_page_table, m_resource_location_handler));
+COMPILE_ASSERT(0x34 == OFFSETOF(c_tag_resource_page_table, m_published_resource_interface));
+COMPILE_ASSERT(0x38 == OFFSETOF(c_tag_resource_page_table, m_tracking_data_allocator));
+COMPILE_ASSERT(0x3C == OFFSETOF(c_tag_resource_page_table, m_tracking_allocation_base));
+COMPILE_ASSERT(0x40 == OFFSETOF(c_tag_resource_page_table, m_control_interface));
+COMPILE_ASSERT(0x44 == OFFSETOF(c_tag_resource_page_table, m_pending_state));
+COMPILE_ASSERT(0x58 == OFFSETOF(c_tag_resource_page_table, m_total_prefetch_bytes));
+COMPILE_ASSERT(0x5C == OFFSETOF(c_tag_resource_page_table, m_current_prefetch_bytes));
+COMPILE_ASSERT(0x60 == OFFSETOF(c_tag_resource_page_table, m_prefetching_can_run));
+COMPILE_ASSERT(0x61 == OFFSETOF(c_tag_resource_page_table, m_status_lines_enabled));
 
 struct s_indirect_cache_file_sub_location
 {
@@ -93,7 +93,7 @@ struct s_indirect_cache_file_sub_location
 	bool valid_checksum;
 	uns32 checksum;
 };
-static_assert(sizeof(s_indirect_cache_file_sub_location) == 0x18);
+COMPILE_ASSERT(sizeof(s_indirect_cache_file_sub_location) == 0x18);
 
 struct s_indirect_cache_file_read_request
 {
@@ -101,7 +101,7 @@ struct s_indirect_cache_file_read_request
 	uns64 location_identifier;
 	s_indirect_cache_file_sub_location sub_location;
 };
-static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
+COMPILE_ASSERT(sizeof(s_indirect_cache_file_read_request) == 0x28);
 
 enum e_indirect_cache_file_read_result
 {
@@ -120,7 +120,7 @@ class c_indirect_cache_file_bulk_read_iterator
 public:
 	virtual void __cdecl request_data(int32 requested_page_handle, const s_indirect_cache_file_read_request* read_request);
 };
-static_assert(sizeof(c_indirect_cache_file_bulk_read_iterator) == 0x4);
+COMPILE_ASSERT(sizeof(c_indirect_cache_file_bulk_read_iterator) == 0x4);
 
 class c_tag_resource_cache_file_reader;
 class c_tag_resource_cache_file_datum_handler;
@@ -144,17 +144,17 @@ public:
 	c_tag_resource_cache_file_datum_handler* m_cache_file_datum_handler;
 };
 #pragma	pack(pop)
-static_assert(sizeof(c_synchronous_resource_io) == 0x1485C);
-static_assert(0x00004 == OFFSETOF(c_synchronous_resource_io, m_resource_sort_keys));
-static_assert(0x02EEC == OFFSETOF(c_synchronous_resource_io, m_resource_read_requests));
-static_assert(0x11954 == OFFSETOF(c_synchronous_resource_io, m_requested_page_handles));
-static_assert(0x130C8 == OFFSETOF(c_synchronous_resource_io, m_request_results));
-static_assert(0x1483C == OFFSETOF(c_synchronous_resource_io, m_total_request_size));
-static_assert(0x14840 == OFFSETOF(c_synchronous_resource_io, m_finished_io_request_size));
-static_assert(0x14844 == OFFSETOF(c_synchronous_resource_io, __unknown14844));
-static_assert(0x14848 == OFFSETOF(c_synchronous_resource_io, __unknown14848));
-static_assert(0x1484C == OFFSETOF(c_synchronous_resource_io, m_outstanding_request_count));
-static_assert(0x14850 == OFFSETOF(c_synchronous_resource_io, m_page_table));
-static_assert(0x14854 == OFFSETOF(c_synchronous_resource_io, m_cache_file_reader));
-static_assert(0x14858 == OFFSETOF(c_synchronous_resource_io, m_cache_file_datum_handler));
+COMPILE_ASSERT(sizeof(c_synchronous_resource_io) == 0x1485C);
+COMPILE_ASSERT(0x00004 == OFFSETOF(c_synchronous_resource_io, m_resource_sort_keys));
+COMPILE_ASSERT(0x02EEC == OFFSETOF(c_synchronous_resource_io, m_resource_read_requests));
+COMPILE_ASSERT(0x11954 == OFFSETOF(c_synchronous_resource_io, m_requested_page_handles));
+COMPILE_ASSERT(0x130C8 == OFFSETOF(c_synchronous_resource_io, m_request_results));
+COMPILE_ASSERT(0x1483C == OFFSETOF(c_synchronous_resource_io, m_total_request_size));
+COMPILE_ASSERT(0x14840 == OFFSETOF(c_synchronous_resource_io, m_finished_io_request_size));
+COMPILE_ASSERT(0x14844 == OFFSETOF(c_synchronous_resource_io, __unknown14844));
+COMPILE_ASSERT(0x14848 == OFFSETOF(c_synchronous_resource_io, __unknown14848));
+COMPILE_ASSERT(0x1484C == OFFSETOF(c_synchronous_resource_io, m_outstanding_request_count));
+COMPILE_ASSERT(0x14850 == OFFSETOF(c_synchronous_resource_io, m_page_table));
+COMPILE_ASSERT(0x14854 == OFFSETOF(c_synchronous_resource_io, m_cache_file_reader));
+COMPILE_ASSERT(0x14858 == OFFSETOF(c_synchronous_resource_io, m_cache_file_datum_handler));
 

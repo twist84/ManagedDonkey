@@ -15,7 +15,7 @@ struct s_player_prediction
 	real_vector3d translational_velocity;
 	real_vector3d angular_velocity;
 };
-static_assert(sizeof(s_player_prediction) == 0x48);
+COMPILE_ASSERT(sizeof(s_player_prediction) == 0x48);
 
 enum e_aim_assist_targeting_result_flags
 {
@@ -35,7 +35,7 @@ struct s_player_predicted_aim_assist
 
 	c_flags<e_aim_assist_targeting_result_flags, uns8, k_aim_assist_targeting_result_flags> flags;
 };
-static_assert(sizeof(s_player_predicted_aim_assist) == 0x24);
+COMPILE_ASSERT(sizeof(s_player_predicted_aim_assist) == 0x24);
 
 struct s_player_motion
 {
@@ -53,7 +53,7 @@ struct s_player_motion
 	bool predicted_aim_assist_exists;
 	s_player_predicted_aim_assist aim_assist;
 };
-static_assert(sizeof(s_player_motion) == 0x4C);
+COMPILE_ASSERT(sizeof(s_player_motion) == 0x4C);
 
 class c_bitstream;
 

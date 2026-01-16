@@ -15,7 +15,7 @@ struct output_line_datum :
 	real_argb_color color;
 	real32 timer;
 };
-static_assert(sizeof(output_line_datum) == 0x120);
+COMPILE_ASSERT(sizeof(output_line_datum) == 0x120);
 
 struct terminal_gets_state
 {
@@ -27,7 +27,7 @@ struct terminal_gets_state
 	int32 horizontal_scroll_amount;
 	edit_text edit;
 };
-//static_assert(sizeof(terminal_gets_state) == 0x11FC);
+//COMPILE_ASSERT(sizeof(terminal_gets_state) == 0x11FC);
 
 struct s_terminal_globals
 {
@@ -41,7 +41,7 @@ struct s_terminal_globals
 	bool insertion_point_visible;
 	real32 insertion_point_toggle_timer;
 };
-static_assert(sizeof(s_terminal_globals) == 0x1C);
+COMPILE_ASSERT(sizeof(s_terminal_globals) == 0x1C);
 
 extern s_terminal_globals terminal_globals;
 extern bool g_terminal_render_enable;

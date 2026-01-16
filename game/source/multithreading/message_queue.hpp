@@ -11,5 +11,5 @@ struct t_message_queue
 	c_synchronized_bitvector<k_max_per_frame> m_bitflags;
 	t_type m_message[k_max_per_frame];
 };
-static_assert(sizeof(t_message_queue<int32, 1024>) == 0x1084);
+COMPILE_ASSERT(sizeof(t_message_queue<int32, 1024>) == 0x1084);
 

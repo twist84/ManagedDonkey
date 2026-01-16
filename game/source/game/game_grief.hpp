@@ -6,7 +6,7 @@ struct s_game_grief_user
 	int32 time_of_last_ejection_ms;
 	int32 last_update_time_ms;
 };
-static_assert(sizeof(s_game_grief_user) == 0xC);
+COMPILE_ASSERT(sizeof(s_game_grief_user) == 0xC);
 
 struct s_game_grief_globals
 {
@@ -14,7 +14,7 @@ struct s_game_grief_globals
 	int32 time_of_last_forgiveness_ms;
 	bool betrayal_boot_ui_active_for_user[4];
 };
-static_assert(sizeof(s_game_grief_globals) == 0x14);
+COMPILE_ASSERT(sizeof(s_game_grief_globals) == 0x14);
 
 extern s_game_grief_globals& game_grief_globals;
 

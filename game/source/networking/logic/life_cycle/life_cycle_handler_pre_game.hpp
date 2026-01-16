@@ -24,8 +24,8 @@ public:
 	int32 m_last_countdown_timer;
 	uns32 m_game_start_timestamp;
 };
-static_assert(sizeof(c_life_cycle_state_handler_pre_game) == 0x38);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_pre_game, m_last_countdown_timestamp));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_pre_game, m_last_countdown_timer));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_pre_game, m_game_start_timestamp));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_pre_game) == 0x38);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_pre_game, m_last_countdown_timestamp));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_pre_game, m_last_countdown_timer));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_pre_game, m_game_start_timestamp));
 

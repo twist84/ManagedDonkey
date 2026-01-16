@@ -16,7 +16,7 @@ struct s_creature_control_data
 	real_vector3d forward;
 	real_vector3d up;
 };
-static_assert(sizeof(s_creature_control_data) == 0x30);
+COMPILE_ASSERT(sizeof(s_creature_control_data) == 0x30);
 
 struct _creature_datum
 {
@@ -33,7 +33,7 @@ struct _creature_datum
 	int16 destroy_after_death_timer;
 	int16 lifetime_ticks;
 };
-static_assert(sizeof(_creature_datum) == 0xD4);
+COMPILE_ASSERT(sizeof(_creature_datum) == 0xD4);
 
 struct creature_datum
 {
@@ -42,7 +42,7 @@ struct creature_datum
 	_mover_datum mover;
 	_creature_datum creature;
 };
-static_assert(sizeof(creature_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_creature_datum));
+COMPILE_ASSERT(sizeof(creature_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_creature_datum));
 
 extern void __cdecl creature_get_head_position(int32 creature_index, real_point3d* head_position);
 

@@ -18,7 +18,7 @@ struct s_campaign_datum :
 	wchar_t description[128];
 	e_map_id map_ids[64];
 };
-static_assert(sizeof(s_campaign_datum) == 0x288);
+COMPILE_ASSERT(sizeof(s_campaign_datum) == 0x288);
 
 struct s_level_datum :
 	s_datum_header
@@ -38,7 +38,7 @@ struct s_level_datum :
 	bool allows_survival;
 	int8 playable_character;
 };
-static_assert(sizeof(s_level_datum) == 0x360);
+COMPILE_ASSERT(sizeof(s_level_datum) == 0x360);
 
 struct s_level_insertion_datum :
 	s_datum_header
@@ -54,7 +54,7 @@ struct s_level_insertion_datum :
 	int32 survival_presence_context_ids[k_max_campaign_insertion_points];
 	uns8 __flagsB9C[k_max_campaign_insertion_points];
 };
-static_assert(sizeof(s_level_insertion_datum) == 0xBA8);
+COMPILE_ASSERT(sizeof(s_level_insertion_datum) == 0xBA8);
 
 struct s_level_globals
 {
@@ -72,7 +72,7 @@ struct s_level_globals
 	uns8 preorder_unlock_controller_mask;
 	uns32 checksum;
 };
-static_assert(sizeof(s_level_globals) == 0xA1C);
+COMPILE_ASSERT(sizeof(s_level_globals) == 0xA1C);
 
 extern s_level_globals& g_level_globals;
 

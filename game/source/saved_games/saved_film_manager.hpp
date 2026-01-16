@@ -62,13 +62,13 @@ struct s_saved_film_manager_user_director_state
 	int32 camera_target_player_absolute_index;
 	bool valid;
 };
-static_assert(sizeof(s_saved_film_manager_user_director_state) == 0x80);
+COMPILE_ASSERT(sizeof(s_saved_film_manager_user_director_state) == 0x80);
 
 struct s_saved_film_manager_director_state
 {
 	c_static_array<s_saved_film_manager_user_director_state, 4> user_director_states;
 };
-static_assert(sizeof(s_saved_film_manager_director_state) == sizeof(s_saved_film_manager_user_director_state) * 4);
+COMPILE_ASSERT(sizeof(s_saved_film_manager_director_state) == sizeof(s_saved_film_manager_user_director_state) * 4);
 
 class c_saved_film;
 struct s_saved_film_manager_globals

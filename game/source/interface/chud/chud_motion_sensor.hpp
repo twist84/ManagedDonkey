@@ -66,14 +66,14 @@ public:
 		uns8 blip_shape;
 		byte pad[1];
 	};
-	static_assert(sizeof(s_motion_sensor_blip) == 0x10);
+	COMPILE_ASSERT(sizeof(s_motion_sensor_blip) == 0x10);
 
 	struct s_motion_sensor_history
 	{
 		int32 blip_count;
 		s_motion_sensor_blip blips[k_max_blips_per_history];
 	};
-	static_assert(sizeof(s_motion_sensor_history) == 0x104);
+	COMPILE_ASSERT(sizeof(s_motion_sensor_history) == 0x104);
 
 	struct s_motion_sensor_tracked_entity
 	{
@@ -81,7 +81,7 @@ public:
 		real32 squared_distance;
 		int32 ping_timer;
 	};
-	static_assert(sizeof(s_motion_sensor_tracked_entity) == 0xC);
+	COMPILE_ASSERT(sizeof(s_motion_sensor_tracked_entity) == 0xC);
 
 //private:
 	s_motion_sensor_tracked_entity m_tracked_entities[k_max_tracked_entities_per_motion_sensor];
@@ -96,5 +96,5 @@ public:
 	real32 m_radar_distance;
 	real32 m_oo_radar_distance;
 };
-static_assert(sizeof(c_chud_motion_sensor) == 0xCC4);
+COMPILE_ASSERT(sizeof(c_chud_motion_sensor) == 0xCC4);
 

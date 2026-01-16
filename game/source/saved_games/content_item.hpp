@@ -34,5 +34,5 @@ struct s_content_item
 	s_saved_game_item_metadata m_metadata;
 	byte _content_data_space[k_sizeof_xcontent_data];
 };
-static_assert(sizeof(s_content_item) == 0x240);
+COMPILE_ASSERT(sizeof(s_content_item) == 0x240);
 

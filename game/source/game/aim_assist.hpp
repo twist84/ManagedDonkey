@@ -12,7 +12,7 @@ struct s_aim_assist_targeting_result
 	real_vector3d lead_vector;
 	uns32 flags;
 };
-static_assert(sizeof(s_aim_assist_targeting_result) == 0x28);
+COMPILE_ASSERT(sizeof(s_aim_assist_targeting_result) == 0x28);
 
 struct s_aim_assist_query
 {
@@ -52,7 +52,7 @@ struct s_aim_assist_query
 	real32 projectile_velocity;
 	real32 projectile_autoaim_leading_max_lead_time;
 };
-static_assert(sizeof(s_aim_assist_query) == 0x58);
+COMPILE_ASSERT(sizeof(s_aim_assist_query) == 0x58);
 
 extern bool __cdecl aim_assist_build_query_parameters(int32 unit_index, uns8 flags, int16 magnification_level, s_aim_assist_query* out_query);
 

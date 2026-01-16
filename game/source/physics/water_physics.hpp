@@ -38,7 +38,7 @@ struct s_water_physics_test_vector_result
 	c_global_material_type material_type;
 	s_water_physics_effect_parameters effect_parameters;
 };
-static_assert(sizeof(s_water_physics_test_vector_result) == 0x44);
+COMPILE_ASSERT(sizeof(s_water_physics_test_vector_result) == 0x44);
 
 extern bool water_physics_debug;
 extern real32& k_full_scale_effect_velocity;

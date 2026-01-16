@@ -21,5 +21,5 @@ public:
 	e_map_id m_map_id;
 	e_campaign_difficulty_level m_difficulty;
 };
-static_assert(sizeof(c_gui_screen_campaign_select_difficulty) == sizeof(c_gui_screen_widget) + 0x10);
+COMPILE_ASSERT(sizeof(c_gui_screen_campaign_select_difficulty) == sizeof(c_gui_screen_widget) + 0x10);
 

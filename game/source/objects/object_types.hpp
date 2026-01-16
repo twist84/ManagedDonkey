@@ -57,7 +57,7 @@ struct object_type_definition
 	object_type_definition* next;
 	uns32 deleted_object_notification_mask;
 };
-static_assert(sizeof(object_type_definition) == 0xF4);
+COMPILE_ASSERT(sizeof(object_type_definition) == 0xF4);
 
 extern bool debug_objects_player_only;
 extern int32 debug_object_index;

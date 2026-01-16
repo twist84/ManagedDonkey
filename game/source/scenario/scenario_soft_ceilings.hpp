@@ -11,13 +11,13 @@ struct s_soft_ceiling_debug_cache
 	real_point3d contact_position;
 	real_vector3d normal;
 };
-static_assert(sizeof(s_soft_ceiling_debug_cache) == 0x50);
+COMPILE_ASSERT(sizeof(s_soft_ceiling_debug_cache) == 0x50);
 
 struct s_scenario_soft_ceilings_globals
 {
 	c_static_flags<128> flags;
 };
-static_assert(sizeof(s_scenario_soft_ceilings_globals) == 0x10);
+COMPILE_ASSERT(sizeof(s_scenario_soft_ceilings_globals) == 0x10);
 
 extern bool soft_ceilings_disable;
 

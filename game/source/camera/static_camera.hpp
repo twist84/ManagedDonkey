@@ -21,7 +21,7 @@ public:
 
 	byte unused[0x18];
 };
-static_assert(sizeof(c_static_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_static_camera) == 0x4C);
 
 class c_scripted_camera :
 	public c_camera
@@ -35,5 +35,5 @@ public:
 //protected:
 	byte unused[0x3C];
 };
-static_assert(sizeof(c_scripted_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_scripted_camera) == 0x4C);
 

@@ -16,7 +16,7 @@ struct s_rasterizer_memory_cost
 	uns16 GPU_memory_blocks; // GPU_memory_in_bytes / k_rasterizer_GPU_memory_pool_alignment
 	real32 GPU_frontend_cost;
 };
-static_assert(sizeof(s_rasterizer_memory_cost) == 0x8);
+COMPILE_ASSERT(sizeof(s_rasterizer_memory_cost) == 0x8);
 
 struct s_rasterizer_GPU_memory_pool
 {
@@ -41,7 +41,7 @@ struct s_rasterizer_memory_globals
 	bool GPU_memory_pool_is_dirty;
 	real32 GPU_frontend_remaining;
 };
-static_assert(sizeof(s_rasterizer_memory_globals) == 0x100048);
+COMPILE_ASSERT(sizeof(s_rasterizer_memory_globals) == 0x100048);
 
 extern s_rasterizer_memory_globals& rasterizer_memory_globals;
 

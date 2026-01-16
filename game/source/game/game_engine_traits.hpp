@@ -110,7 +110,7 @@ protected:
 	c_enum<int32, uns8, 1, 15> m_round_limit;
 	c_enum<int32, uns8, 2, 15> m_early_victory_win_count;
 };
-static_assert(sizeof(c_game_engine_miscellaneous_options) == 0x4);
+COMPILE_ASSERT(sizeof(c_game_engine_miscellaneous_options) == 0x4);
 
 class c_game_engine_respawn_options
 {
@@ -182,7 +182,7 @@ protected:
 
 	c_player_traits m_respawn_player_traits;
 };
-static_assert(sizeof(c_game_engine_respawn_options) == 0x28);
+COMPILE_ASSERT(sizeof(c_game_engine_respawn_options) == 0x28);
 
 class c_game_engine_social_options
 {
@@ -229,7 +229,7 @@ protected:
 	c_flags<e_game_engine_social_options_flags, uns16, k_game_engine_social_options_flags> m_flags;
 	c_enum<int32, uns16, 0, 2> m_team_changing;
 };
-static_assert(sizeof(c_game_engine_social_options) == 0x4);
+COMPILE_ASSERT(sizeof(c_game_engine_social_options) == 0x4);
 
 class c_game_engine_map_override_options
 {
@@ -300,5 +300,5 @@ protected:
 	// gonna pack her bags and leave this house of pain
 	byte pad[0x1];
 };
-static_assert(sizeof(c_game_engine_map_override_options) == 0x7C);
+COMPILE_ASSERT(sizeof(c_game_engine_map_override_options) == 0x7C);
 

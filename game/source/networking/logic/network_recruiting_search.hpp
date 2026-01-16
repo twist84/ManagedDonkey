@@ -7,7 +7,7 @@ struct s_recruiting_session_search
 {
 	byte __data[0x2E8];
 };
-static_assert(sizeof(s_recruiting_session_search) == 0x2E8);
+COMPILE_ASSERT(sizeof(s_recruiting_session_search) == 0x2E8);
 
 class c_recruiting_seeker
 {
@@ -30,7 +30,7 @@ public:
 	int32 m_game_mode;
 	int32 m_game_type;
 };
-static_assert(sizeof(c_recruiting_seeker) == 0x2EB8);
+COMPILE_ASSERT(sizeof(c_recruiting_seeker) == 0x2EB8);
 
 struct s_available_session;
 struct s_network_recruiting_search_globals
@@ -45,14 +45,14 @@ struct s_network_recruiting_search_globals
 	s_available_session* session_storage;
 	uns32 __unknownC7C4;
 };
-static_assert(sizeof(s_network_recruiting_search_globals) == 0xC7C8);
-static_assert(0x0008 == OFFSETOF(s_network_recruiting_search_globals, recruiting_seeker));
-static_assert(0x2EC0 == OFFSETOF(s_network_recruiting_search_globals, matchmaking_quality));
-static_assert(0xC7B8 == OFFSETOF(s_network_recruiting_search_globals, search_active));
-static_assert(0xC7B9 == OFFSETOF(s_network_recruiting_search_globals, sessions_updated));
-static_assert(0xC7BC == OFFSETOF(s_network_recruiting_search_globals, maximum_session_count));
-static_assert(0xC7C0 == OFFSETOF(s_network_recruiting_search_globals, session_storage));
-static_assert(0xC7C4 == OFFSETOF(s_network_recruiting_search_globals, __unknownC7C4));
+COMPILE_ASSERT(sizeof(s_network_recruiting_search_globals) == 0xC7C8);
+COMPILE_ASSERT(0x0008 == OFFSETOF(s_network_recruiting_search_globals, recruiting_seeker));
+COMPILE_ASSERT(0x2EC0 == OFFSETOF(s_network_recruiting_search_globals, matchmaking_quality));
+COMPILE_ASSERT(0xC7B8 == OFFSETOF(s_network_recruiting_search_globals, search_active));
+COMPILE_ASSERT(0xC7B9 == OFFSETOF(s_network_recruiting_search_globals, sessions_updated));
+COMPILE_ASSERT(0xC7BC == OFFSETOF(s_network_recruiting_search_globals, maximum_session_count));
+COMPILE_ASSERT(0xC7C0 == OFFSETOF(s_network_recruiting_search_globals, session_storage));
+COMPILE_ASSERT(0xC7C4 == OFFSETOF(s_network_recruiting_search_globals, __unknownC7C4));
 
 extern s_network_recruiting_search_globals& g_recruiting_search_globals;
 

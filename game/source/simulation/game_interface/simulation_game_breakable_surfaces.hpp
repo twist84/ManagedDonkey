@@ -9,5 +9,5 @@ struct s_simulation_breakable_surface_damage_event_data
 	s_cluster_reference cluster_reference;
 	real_point3d position;
 };
-static_assert(sizeof(s_simulation_breakable_surface_damage_event_data) == 0x18);
+COMPILE_ASSERT(sizeof(s_simulation_breakable_surface_damage_event_data) == 0x18);
 

@@ -16,5 +16,5 @@ class c_contrail_states
 	uns32 m_valid_states;
 	uns32 m_used_states;
 };
-static_assert(sizeof(c_contrail_states) == 0x58);
+COMPILE_ASSERT(sizeof(c_contrail_states) == 0x58);
 

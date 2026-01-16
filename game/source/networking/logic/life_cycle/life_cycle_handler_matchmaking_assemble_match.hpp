@@ -37,12 +37,12 @@ public:
 	int32 m_last_qos_listener_data_replies_sent;
 	s_qos_listener_data m_qos_listener_data;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_assemble_match) == 0x128);
-static_assert(0x028 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_flags));
-static_assert(0x02C == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_gather_start_time));
-static_assert(0x030 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_ready_to_start_time));
-static_assert(0x034 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_advertised_session_properties));
-static_assert(0x0F8 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_qos_listener_stats_query_time));
-static_assert(0x0FC == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_last_qos_listener_data_replies_sent));
-static_assert(0x100 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_qos_listener_data));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_assemble_match) == 0x128);
+COMPILE_ASSERT(0x028 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_flags));
+COMPILE_ASSERT(0x02C == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_gather_start_time));
+COMPILE_ASSERT(0x030 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_ready_to_start_time));
+COMPILE_ASSERT(0x034 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_advertised_session_properties));
+COMPILE_ASSERT(0x0F8 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_qos_listener_stats_query_time));
+COMPILE_ASSERT(0x0FC == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_last_qos_listener_data_replies_sent));
+COMPILE_ASSERT(0x100 == OFFSETOF(c_life_cycle_state_handler_matchmaking_assemble_match, m_qos_listener_data));
 

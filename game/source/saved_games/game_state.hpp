@@ -50,7 +50,7 @@ class c_game_state_compressor_callback :
 	public c_optional_cache_user_callback
 {
 };
-static_assert(sizeof(c_game_state_compressor_callback) == sizeof(c_optional_cache_user_callback));
+COMPILE_ASSERT(sizeof(c_game_state_compressor_callback) == sizeof(c_optional_cache_user_callback));
 
 class c_restricted_memory;
 class c_restricted_memory_callbacks
@@ -112,7 +112,7 @@ protected:
 	int32 m_compressed_game_state_size;
 	int32 m_status;
 };
-static_assert(sizeof(c_game_state_compressor) == 0x1C);
+COMPILE_ASSERT(sizeof(c_game_state_compressor) == 0x1C);
 
 struct game_state_header
 {
@@ -127,17 +127,17 @@ struct game_state_header
 	uns8 random_salt[20];
 	s_network_http_request_hash gamestate_hash;
 };
-static_assert(sizeof(game_state_header) == 0x24CD0);
-static_assert(0x00000 == OFFSETOF(game_state_header, allocation_size_checksum));
-static_assert(0x00004 == OFFSETOF(game_state_header, unused));
-static_assert(0x00008 == OFFSETOF(game_state_header, map_name));
-static_assert(0x00108 == OFFSETOF(game_state_header, build_number));
-static_assert(0x00128 == OFFSETOF(game_state_header, cache_file_checksum));
-static_assert(0x00130 == OFFSETOF(game_state_header, options));
-static_assert(0x24C78 == OFFSETOF(game_state_header, scenario_game_state));
-static_assert(0x24C98 == OFFSETOF(game_state_header, unused2));
-static_assert(0x24CA8 == OFFSETOF(game_state_header, random_salt));
-static_assert(0x24CBC == OFFSETOF(game_state_header, gamestate_hash));
+COMPILE_ASSERT(sizeof(game_state_header) == 0x24CD0);
+COMPILE_ASSERT(0x00000 == OFFSETOF(game_state_header, allocation_size_checksum));
+COMPILE_ASSERT(0x00004 == OFFSETOF(game_state_header, unused));
+COMPILE_ASSERT(0x00008 == OFFSETOF(game_state_header, map_name));
+COMPILE_ASSERT(0x00108 == OFFSETOF(game_state_header, build_number));
+COMPILE_ASSERT(0x00128 == OFFSETOF(game_state_header, cache_file_checksum));
+COMPILE_ASSERT(0x00130 == OFFSETOF(game_state_header, options));
+COMPILE_ASSERT(0x24C78 == OFFSETOF(game_state_header, scenario_game_state));
+COMPILE_ASSERT(0x24C98 == OFFSETOF(game_state_header, unused2));
+COMPILE_ASSERT(0x24CA8 == OFFSETOF(game_state_header, random_salt));
+COMPILE_ASSERT(0x24CBC == OFFSETOF(game_state_header, gamestate_hash));
 
 struct s_game_state_globals
 {

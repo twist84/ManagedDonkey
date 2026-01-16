@@ -16,7 +16,7 @@ struct s_available_session
 	byte __data31[0x7];
 	s_network_squad_status_data status_data;
 };
-static_assert(sizeof(s_available_session) == 0x164F8);
+COMPILE_ASSERT(sizeof(s_available_session) == 0x164F8);
 
 struct s_network_search_globals
 {
@@ -28,7 +28,7 @@ struct s_network_search_globals
 	int32 available_session_count;
 	s_available_session* available_sessions;
 };
-static_assert(sizeof(s_network_search_globals) == 0x1C);
+COMPILE_ASSERT(sizeof(s_network_search_globals) == 0x1C);
 
 extern s_network_search_globals& g_network_search_globals;
 

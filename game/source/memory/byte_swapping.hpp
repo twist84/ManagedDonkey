@@ -44,7 +44,7 @@ struct byte_swap_definition
 	uns32 signature;
 	bool verified;
 };
-static_assert(sizeof(byte_swap_definition) == 0x14);
+COMPILE_ASSERT(sizeof(byte_swap_definition) == 0x14);
 
 extern void __cdecl _byte_swap_data(byte_swap_definition* definition, void* data, const int32* codes, int32* total_size_in_bytes, int32* total_size_in_codes);
 extern int32 __cdecl byte_swap_codes_size(const char* name, const int32* codes);

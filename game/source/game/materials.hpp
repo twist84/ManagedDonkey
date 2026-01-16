@@ -17,7 +17,7 @@ public:
 
 	uns16 m_index;
 };
-static_assert(sizeof(c_global_material_type) == sizeof(uns16));
+COMPILE_ASSERT(sizeof(c_global_material_type) == sizeof(uns16));
 
 struct s_global_material_definition;
 

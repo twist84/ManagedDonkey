@@ -19,7 +19,7 @@ struct s_network_broadcast_search_globals
 	int32 maximum_session_count;
 	s_available_session* available_sessions;
 };
-static_assert(sizeof(s_network_broadcast_search_globals) == 0x28);
+COMPILE_ASSERT(sizeof(s_network_broadcast_search_globals) == 0x28);
 
 extern s_network_broadcast_search_globals& g_broadcast_search_globals;
 int32 const k_network_broadcast_search_interval = 2000;

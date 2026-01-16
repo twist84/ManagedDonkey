@@ -14,8 +14,8 @@ public:
 	e_controller_index m_controller_index;
 	int32 m_asset; // XMARKETPLACE_ASSET
 };
-static_assert(sizeof(c_online_marketplace_consume_asset_task) == 0x18);
-static_assert(sizeof(c_online_marketplace_consume_asset_task) == sizeof(c_overlapped_task) + 0x8);
+COMPILE_ASSERT(sizeof(c_online_marketplace_consume_asset_task) == 0x18);
+COMPILE_ASSERT(sizeof(c_online_marketplace_consume_asset_task) == sizeof(c_overlapped_task) + 0x8);
 
 class c_online_marketplace_enumerate_assets_task :
 	public c_overlapped_task
@@ -42,8 +42,8 @@ protected:
 	int32 m_results[k_maximum_number_of_assets_to_enumerate];
 	int32 m_result_count;
 };
-static_assert(sizeof(c_online_marketplace_enumerate_assets_task) == 0xA0);
-static_assert(sizeof(c_online_marketplace_enumerate_assets_task) == sizeof(c_overlapped_task) + 0x90);
+COMPILE_ASSERT(sizeof(c_online_marketplace_enumerate_assets_task) == 0xA0);
+COMPILE_ASSERT(sizeof(c_online_marketplace_enumerate_assets_task) == sizeof(c_overlapped_task) + 0x90);
 
 class c_online_marketplace_enumerate_offers_task :
 	public c_overlapped_task
@@ -63,7 +63,7 @@ public:
 	{
 		uns64 offer_id;
 	};
-	static_assert(sizeof(s_enumerated_offer) == 0x8);
+	COMPILE_ASSERT(sizeof(s_enumerated_offer) == 0x8);
 
 public:
 	virtual ~c_online_marketplace_enumerate_offers_task() = default;
@@ -83,8 +83,8 @@ protected:
 	s_enumerated_offer m_results[k_maximum_number_of_offers_to_enumerate];
 	int32 m_result_count;
 };
-static_assert(sizeof(c_online_marketplace_enumerate_offers_task) == 0x128);
-static_assert(sizeof(c_online_marketplace_enumerate_offers_task) == sizeof(c_overlapped_task) + 0x118);
+COMPILE_ASSERT(sizeof(c_online_marketplace_enumerate_offers_task) == 0x128);
+COMPILE_ASSERT(sizeof(c_online_marketplace_enumerate_offers_task) == sizeof(c_overlapped_task) + 0x118);
 
 class c_online_marketplace_purchase_task :
 	public c_overlapped_task
@@ -112,6 +112,6 @@ public:
 	int32 m_offer_count;
 	int32 m_purchase_result;
 };
-static_assert(sizeof(c_online_marketplace_purchase_task) == 0x40);
-static_assert(sizeof(c_online_marketplace_purchase_task) == sizeof(c_overlapped_task) + 0x30);
+COMPILE_ASSERT(sizeof(c_online_marketplace_purchase_task) == 0x40);
+COMPILE_ASSERT(sizeof(c_online_marketplace_purchase_task) == sizeof(c_overlapped_task) + 0x30);
 

@@ -85,7 +85,7 @@ protected:
 	int32 m_member_index;
 	int32 m_thread_id;
 };
-static_assert(sizeof(t_restricted_allocation_manager<NONE>) == 0xC);
+COMPILE_ASSERT(sizeof(t_restricted_allocation_manager<NONE>) == 0xC);
 
 struct s_thread_local_storage
 {
@@ -239,7 +239,7 @@ struct s_thread_local_storage
 	// name: "effect messaging queue"
 	// size: 0x17084
 	t_message_queue<s_effect_message, 1024>* g_effect_message_queue;
-	static_assert(sizeof(*g_effect_message_queue) == 0x17084);
+	COMPILE_ASSERT(sizeof(*g_effect_message_queue) == 0x17084);
 
 	// name: "effect lightprobes"
 	// size: 0xFE00, sizeof(s_effect_lightprobe) * 128
@@ -280,7 +280,7 @@ struct s_thread_local_storage
 	// name: "visibility active portals"
 	// size: 0x800
 	c_static_array<c_static_flags<1024>, 16>* g_active_portal_bitvectors;
-	static_assert(sizeof(*g_active_portal_bitvectors) == 0x800);
+	COMPILE_ASSERT(sizeof(*g_active_portal_bitvectors) == 0x800);
 
 	// name: "campaign meta-game globals"
 	// size: 0x1A158
@@ -714,7 +714,7 @@ struct s_thread_local_storage
 	// name: "object messaging queue"
 	// size: 0x4104
 	t_message_queue<s_object_render_thread_message, 2048>* g_object_message_queue;
-	static_assert(sizeof(*g_object_message_queue) == 0x4104);
+	COMPILE_ASSERT(sizeof(*g_object_message_queue) == 0x4104);
 
 	// name: "collideable object"
 	// size: 0x14
@@ -971,7 +971,7 @@ struct s_thread_local_storage
 
 	void* __unknown580;
 };
-static_assert(sizeof(s_thread_local_storage) == 0x584);
+COMPILE_ASSERT(sizeof(s_thread_local_storage) == 0x584);
 
 // $TODO move all `t_restricted_allocation_manager` declarations to the correct files
 

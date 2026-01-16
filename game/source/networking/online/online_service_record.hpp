@@ -61,7 +61,7 @@ public:
 	const char* m_buffer;
 	int32 m_buffer_length;
 };
-static_assert(sizeof(c_online_service_record) == 0x8);
+COMPILE_ASSERT(sizeof(c_online_service_record) == 0x8);
 
 class c_online_service_record_manager
 {
@@ -73,7 +73,7 @@ public:
 	int64 m_current_service_record_refresh_milliseconds;
 	c_online_service_record m_current_service_record;
 };
-static_assert(sizeof(c_online_service_record_manager) == 0x17D0);
+COMPILE_ASSERT(sizeof(c_online_service_record_manager) == 0x17D0);
 
 struct s_service_record_identity
 {
@@ -89,7 +89,7 @@ struct s_service_record_identity
 	e_experience_grade experience_grade;
 	int32 games_completed;
 };
-static_assert(sizeof(s_service_record_identity) == 0x6A0);
+COMPILE_ASSERT(sizeof(s_service_record_identity) == 0x6A0);
 
 extern c_online_service_record_manager& g_online_service_record_manager;
 

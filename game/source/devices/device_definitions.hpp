@@ -44,7 +44,7 @@ struct _device_definition
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> delay_effect;
 	real32 automatic_activation_radius; // world units
 };
-static_assert(sizeof(_device_definition) == 0x98);
+COMPILE_ASSERT(sizeof(_device_definition) == 0x98);
 
 struct device_definition
 {
@@ -53,7 +53,7 @@ struct device_definition
 	_object_definition object;
 	_device_definition device;
 };
-static_assert(sizeof(device_definition) == sizeof(_object_definition) + sizeof(_device_definition));
+COMPILE_ASSERT(sizeof(device_definition) == sizeof(_object_definition) + sizeof(_device_definition));
 
 enum // type
 {
@@ -86,7 +86,7 @@ struct _control_definition
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> off_effect;
 	c_typed_tag_reference<SOUND_TAG, EFFECT_TAG, INVALID_TAG> deny_effect;
 };
-static_assert(sizeof(_control_definition) == 0x3C);
+COMPILE_ASSERT(sizeof(_control_definition) == 0x3C);
 
 struct control_definition
 {
@@ -96,7 +96,7 @@ struct control_definition
 	_device_definition device;
 	_control_definition control;
 };
-static_assert(sizeof(control_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_control_definition));
+COMPILE_ASSERT(sizeof(control_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_control_definition));
 
 enum // type
 {
@@ -139,7 +139,7 @@ struct _machine_definition
 	int16 pathfinding_policy;
 	int16 pad0;
 };
-static_assert(sizeof(_machine_definition) == 0x18);
+COMPILE_ASSERT(sizeof(_machine_definition) == 0x18);
 
 struct machine_definition
 {
@@ -147,7 +147,7 @@ struct machine_definition
 	_device_definition device;
 	_machine_definition machine;
 };
-static_assert(sizeof(machine_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_machine_definition));
+COMPILE_ASSERT(sizeof(machine_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_machine_definition));
 
 struct terminal_difficulty_setting
 {
@@ -159,7 +159,7 @@ struct terminal_difficulty_setting
 	int16 story_image_frame_index;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG, INVALID_TAG> error_strings;
 };
-static_assert(sizeof(terminal_difficulty_setting) == 0x38);
+COMPILE_ASSERT(sizeof(terminal_difficulty_setting) == 0x38);
 
 struct _terminal_definition
 {
@@ -180,7 +180,7 @@ struct _terminal_definition
 	c_typed_tag_reference<SOUND_TAG, INVALID_TAG> error_sound;
 	terminal_difficulty_setting settings[4];
 };
-static_assert(sizeof(_terminal_definition) == 0x140);
+COMPILE_ASSERT(sizeof(_terminal_definition) == 0x140);
 
 struct terminal_definition
 {
@@ -190,7 +190,7 @@ struct terminal_definition
 	_device_definition device;
 	_terminal_definition terminal;
 };
-static_assert(sizeof(terminal_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_terminal_definition));
+COMPILE_ASSERT(sizeof(terminal_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_terminal_definition));
 
 struct _arg_device_definition
 {
@@ -198,7 +198,7 @@ struct _arg_device_definition
 
 	string_id action_string;
 };
-static_assert(sizeof(_arg_device_definition) == 0x4);
+COMPILE_ASSERT(sizeof(_arg_device_definition) == 0x4);
 
 struct arg_device_definition
 {
@@ -208,5 +208,5 @@ struct arg_device_definition
 	_device_definition device;
 	_arg_device_definition arg_device;
 };
-static_assert(sizeof(arg_device_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_arg_device_definition));
+COMPILE_ASSERT(sizeof(arg_device_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_arg_device_definition));
 

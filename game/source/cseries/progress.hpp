@@ -22,7 +22,7 @@ struct s_progress_globals
 	int32 last_progress;
 	uns32 last_milliseconds;
 };
-static_assert(sizeof(s_progress_globals) == 0x134);
+COMPILE_ASSERT(sizeof(s_progress_globals) == 0x134);
 
 extern s_progress_globals& progress_globals;
 

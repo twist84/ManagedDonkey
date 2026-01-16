@@ -10,5 +10,5 @@ public:
 	int16 m_interpolation_type;
 	uns16 m_flags;
 };
-static_assert(sizeof(c_interpolator_control) == 0xC);
+COMPILE_ASSERT(sizeof(c_interpolator_control) == 0xC);
 

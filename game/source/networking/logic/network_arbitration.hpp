@@ -16,14 +16,14 @@ struct s_arbitration_registrant
 	int32 trustworthiness;
 	uns64 xuid;
 };
-static_assert(sizeof(s_arbitration_registrant) == 0x18);
+COMPILE_ASSERT(sizeof(s_arbitration_registrant) == 0x18);
 
 struct s_arbitration_registration_result
 {
 	int32 registrant_count;
 	s_arbitration_registrant registrants[16];
 };
-static_assert(sizeof(s_arbitration_registration_result) == 0x188);
+COMPILE_ASSERT(sizeof(s_arbitration_registration_result) == 0x188);
 
 struct s_network_arbitration_globals
 {
@@ -32,7 +32,7 @@ struct s_network_arbitration_globals
 	e_network_arbitration_status arbitration_status;
 	s_arbitration_registration_result registration_result;
 };
-static_assert(sizeof(s_network_arbitration_globals) == 0x198);
+COMPILE_ASSERT(sizeof(s_network_arbitration_globals) == 0x198);
 
 //extern const char*(&g_network_arbitration_status_string)[k_network_arbitration_status_count];
 extern const char* g_network_arbitration_status_string[k_network_arbitration_status_count];

@@ -7,7 +7,7 @@ struct s_havok_gamestate
 	int32 last_state_reset_time;
 	int32 last_garbage_collection_reset_time;
 };
-static_assert(sizeof(s_havok_gamestate) == 0x8);
+COMPILE_ASSERT(sizeof(s_havok_gamestate) == 0x8);
 
 struct s_havok_constants
 {
@@ -38,7 +38,7 @@ struct s_havok_constants
 	real32 havok_minimum_maximum_penetration_depth;
 	int32 havok_thread_count;
 };
-static_assert(sizeof(s_havok_constants) == 0x38);
+COMPILE_ASSERT(sizeof(s_havok_constants) == 0x38);
 
 struct hkRigidBody;
 struct s_havok_globals
@@ -63,7 +63,7 @@ struct s_havok_globals
 	__declspec(align(8)) int32 collision_dispatcher_buffer[1860];
 	bool collision_dispatcher_buffer_initialized;
 };
-static_assert(sizeof(s_havok_globals) == 0x12400);
+COMPILE_ASSERT(sizeof(s_havok_globals) == 0x12400);
 
 extern s_havok_constants& g_havok_constants;
 extern s_havok_globals& g_havok_globals;

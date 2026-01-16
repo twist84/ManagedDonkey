@@ -46,7 +46,7 @@ struct s_cache_file_resource_shared_file
 	c_flags_no_init<e_cache_file_resource_shared_file_bit, uns16, k_number_of_cache_file_resource_shared_file_bits> flags;
 	uns32 io_offset;
 };
-static_assert(sizeof(s_cache_file_resource_shared_file) == 0x108);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_shared_file) == 0x108);
 #endif
 
 void c_cache_file_tag_resource_runtime_manager::commit_zone_state()

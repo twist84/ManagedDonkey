@@ -36,7 +36,7 @@ struct s_animation_transform
 	int16 bitmap_sprite_frame;
 	e_font_id font;
 };
-static_assert(sizeof(s_animation_transform) == 0x88);
+COMPILE_ASSERT(sizeof(s_animation_transform) == 0x88);
 
 union gui_real_rectangle2d
 {
@@ -63,5 +63,5 @@ union gui_real_rectangle2d
 		real_point2d bottom_right;
 	};
 };
-static_assert(sizeof(gui_real_rectangle2d) == 0x20);
+COMPILE_ASSERT(sizeof(gui_real_rectangle2d) == 0x20);
 

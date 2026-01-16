@@ -45,7 +45,7 @@ protected:
 	c_enum<e_sandbox_respawn_time, int16, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
 	c_player_traits m_player_traits;
 };
-static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
+COMPILE_ASSERT(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
 
 class c_sandbox_engine :
 	public c_game_engine
@@ -60,7 +60,7 @@ struct s_core_quota
 	uns8 placed_on_map;
 	byte pad0;
 };
-static_assert(sizeof(s_core_quota) == 0x8);
+COMPILE_ASSERT(sizeof(s_core_quota) == 0x8);
 
 struct s_sandbox_globals
 {
@@ -82,7 +82,7 @@ struct s_sandbox_globals
 	int32 last_rendered_boundary_object_index;
 	s_variant_multiplayer_object_properties_definition edited_object_properties;
 };
-static_assert(sizeof(s_sandbox_globals) == 0x748);
+COMPILE_ASSERT(sizeof(s_sandbox_globals) == 0x748);
 
 extern c_game_engine_sandbox_variant*& sandbox_variant;
 

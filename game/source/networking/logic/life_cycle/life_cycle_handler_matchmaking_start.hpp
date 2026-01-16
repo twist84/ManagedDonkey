@@ -39,7 +39,7 @@ struct s_matchmaking_start_data
 	int32 initial_desperation_sessions_found_count;
 	int32 initial_session_search_count;
 };
-static_assert(sizeof(s_matchmaking_start_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_matchmaking_start_data) == 0xC);
 
 class c_life_cycle_state_handler_matchmaking_start :
 	public c_life_cycle_state_handler
@@ -67,10 +67,10 @@ public:
 	uns32 m_waiting_to_start_timer;
 	uns32 m_last_warning_toast_time;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_start) == 0x48);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_matchmaking_find_match_role));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_entry_data));
-static_assert(0x3C == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_waiting_to_start_timer));
-static_assert(0x40 == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_last_warning_toast_time));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_start) == 0x48);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_matchmaking_find_match_role));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_entry_data));
+COMPILE_ASSERT(0x3C == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_waiting_to_start_timer));
+COMPILE_ASSERT(0x40 == OFFSETOF(c_life_cycle_state_handler_matchmaking_start, m_last_warning_toast_time));
 

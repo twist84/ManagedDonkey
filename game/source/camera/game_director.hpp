@@ -14,5 +14,5 @@ public:
 //protected:
 	byte unused[0x14];
 };
-static_assert(sizeof(c_game_director) == 0x160);
+COMPILE_ASSERT(sizeof(c_game_director) == 0x160);
 

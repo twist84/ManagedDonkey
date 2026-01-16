@@ -9,7 +9,7 @@ struct s_animation_sync_action
 	real_vector3d forward;
 	real_vector3d up;
 };
-static_assert(sizeof(s_animation_sync_action) == 0x28);
+COMPILE_ASSERT(sizeof(s_animation_sync_action) == 0x28);
 
 extern bool& debug_enable_force_phonebooth_assassinate;
 

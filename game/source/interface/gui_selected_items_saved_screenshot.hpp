@@ -16,11 +16,11 @@ public:
 	uns64 m_size_in_bytes;
 	int32 m_list_item_index;
 };
-static_assert(sizeof(c_gui_saved_screenshot_selected_item) == sizeof(c_gui_selected_item) + 0x140);
-static_assert(0x190 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_controller_index));
-static_assert(0x194 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_file_reference));
-static_assert(0x2A4 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_author));
-static_assert(0x2B8 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_date));
-static_assert(0x2C0 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_size_in_bytes));
-static_assert(0x2C8 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_list_item_index));
+COMPILE_ASSERT(sizeof(c_gui_saved_screenshot_selected_item) == sizeof(c_gui_selected_item) + 0x140);
+COMPILE_ASSERT(0x190 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_controller_index));
+COMPILE_ASSERT(0x194 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_file_reference));
+COMPILE_ASSERT(0x2A4 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_author));
+COMPILE_ASSERT(0x2B8 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_date));
+COMPILE_ASSERT(0x2C0 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_size_in_bytes));
+COMPILE_ASSERT(0x2C8 == OFFSETOF(c_gui_saved_screenshot_selected_item, m_list_item_index));
 

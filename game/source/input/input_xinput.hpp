@@ -6,7 +6,7 @@ struct debug_gamepad_data
 {
 	point2d sticks[2];
 };
-static_assert(sizeof(debug_gamepad_data) == 0x8);
+COMPILE_ASSERT(sizeof(debug_gamepad_data) == 0x8);
 
 extern c_static_array<debug_gamepad_data, k_number_of_controllers> g_debug_gamepad_data;
 

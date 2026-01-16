@@ -17,11 +17,11 @@ public:
 	bool m_level_is_locked;
 	int16 m_insertion_point;
 };
-static_assert(sizeof(c_gui_level_selected_item) == sizeof(c_gui_selected_item) + 0x10);
-static_assert(0x190 == OFFSETOF(c_gui_level_selected_item, m_campaign_id));
-static_assert(0x194 == OFFSETOF(c_gui_level_selected_item, m_map_id));
-static_assert(0x198 == OFFSETOF(c_gui_level_selected_item, m_level_is_locked));
-static_assert(0x19A == OFFSETOF(c_gui_level_selected_item, m_insertion_point));
+COMPILE_ASSERT(sizeof(c_gui_level_selected_item) == sizeof(c_gui_selected_item) + 0x10);
+COMPILE_ASSERT(0x190 == OFFSETOF(c_gui_level_selected_item, m_campaign_id));
+COMPILE_ASSERT(0x194 == OFFSETOF(c_gui_level_selected_item, m_map_id));
+COMPILE_ASSERT(0x198 == OFFSETOF(c_gui_level_selected_item, m_level_is_locked));
+COMPILE_ASSERT(0x19A == OFFSETOF(c_gui_level_selected_item, m_insertion_point));
 
 class c_gui_level_category_datasource :
 	public c_gui_ordered_data
@@ -54,7 +54,7 @@ public:
 		wchar_t name[48];
 		c_gui_level_selected_item item;
 	};
-	static_assert(sizeof(s_level) == 0x200);
+	COMPILE_ASSERT(sizeof(s_level) == 0x200);
 
 public:
 	virtual ~c_gui_level_subitem_selectable_item_datasource() = default;
@@ -73,5 +73,5 @@ protected:
 	c_static_array<s_level, 64> m_levels;
 	int32 m_level_count;
 };
-//static_assert(sizeof(c_gui_level_subitem_selectable_item_datasource) == sizeof(c_gui_ordered_data) == 0x8008);
+//COMPILE_ASSERT(sizeof(c_gui_level_subitem_selectable_item_datasource) == sizeof(c_gui_ordered_data) == 0x8008);
 

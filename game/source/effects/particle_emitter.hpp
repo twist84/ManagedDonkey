@@ -19,7 +19,7 @@ class c_particle_emitter :
 		real32 m_starting_count;
 		real32 m_max_count;
 	};
-	static_assert(sizeof(s_property_values) == 0x3C);
+	COMPILE_ASSERT(sizeof(s_property_values) == 0x3C);
 
 	uns16 m_particle_cpu_count;
 	uns16 m_flags;
@@ -32,5 +32,5 @@ class c_particle_emitter :
 	real32 m_particle_accumulator;
 	real_matrix4x3 m_matrix;
 };
-static_assert(sizeof(c_particle_emitter) == 0x90);
+COMPILE_ASSERT(sizeof(c_particle_emitter) == 0x90);
 

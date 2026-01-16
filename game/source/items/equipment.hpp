@@ -27,7 +27,7 @@ struct _equipment_datum
 	int32 __unknown28;
 	int32 __unknown2C[16]; // child effect definition indices?
 };
-static_assert(sizeof(_equipment_datum) == 0x6C);
+COMPILE_ASSERT(sizeof(_equipment_datum) == 0x6C);
 
 struct equipment_datum
 {
@@ -36,7 +36,7 @@ struct equipment_datum
 	_item_datum item;
 	_equipment_datum equipment;
 };
-static_assert(sizeof(equipment_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
+COMPILE_ASSERT(sizeof(equipment_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
 
 extern bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_index, bool network_predicted);
 extern real32 __cdecl equipment_active_fraction(int32 equipment_index);

@@ -18,7 +18,7 @@ public:
 		real32 boundary_positive_height;
 		real32 boundary_negative_height;
 	};
-	static_assert(sizeof(tag_shape_data) == 0x10);
+	COMPILE_ASSERT(sizeof(tag_shape_data) == 0x10);
 
 	s_variant_multiplayer_object_properties_definition() :
 		symmetry_placement_flags(),
@@ -67,7 +67,7 @@ public:
 	c_enum<e_multiplayer_object_boundary_shape, int8, _shape_unused, k_multiplayer_object_boundary_count> shape;
 	tag_shape_data shape_data;
 };
-static_assert(sizeof(s_variant_multiplayer_object_properties_definition) == 0x18);
+COMPILE_ASSERT(sizeof(s_variant_multiplayer_object_properties_definition) == 0x18);
 
 enum e_variant_object_placement_flags
 {
@@ -109,7 +109,7 @@ public:
 	c_object_identifier spawn_attached_to;
 	s_variant_multiplayer_object_properties_definition multiplayer_game_object_properties;
 };
-static_assert(sizeof(s_variant_object_datum) == 0x54);
+COMPILE_ASSERT(sizeof(s_variant_object_datum) == 0x54);
 
 struct s_variant_quota
 {
@@ -134,7 +134,7 @@ public:
 	uns8 maximum_allowed;
 	real32 price_per_item;
 };
-static_assert(sizeof(s_variant_quota) == 0xC);
+COMPILE_ASSERT(sizeof(s_variant_quota) == 0xC);
 
 class c_bitstream;
 
@@ -179,7 +179,7 @@ public:
 	c_static_array<s_variant_quota, 256> m_quotas;
 	c_static_array<int32, 80> m_gamestate_indices;
 };
-static_assert(sizeof(c_map_variant) == 0xE090);
+COMPILE_ASSERT(sizeof(c_map_variant) == 0xE090);
 
 extern c_map_variant* __cdecl game_engine_get_runtime_map_variant();
 

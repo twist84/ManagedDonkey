@@ -30,7 +30,7 @@ public:
     int32 m_custom_setting_index;
     int32 m_predicted_resource_atom;
 };
-static_assert(sizeof(c_render_method) == 0x40);
+COMPILE_ASSERT(sizeof(c_render_method) == 0x40);
 
 // what does `macro` mean in this context?
 

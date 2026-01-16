@@ -10,7 +10,7 @@ struct impact_globals
 	bool disconnected_from_physics;
 	int32 object_iteration_next_absolute_index;
 };
-static_assert(sizeof(impact_globals) == 0x8C);
+COMPILE_ASSERT(sizeof(impact_globals) == 0x8C);
 
 struct impact_array_datum :
 	s_datum_header
@@ -19,7 +19,7 @@ struct impact_array_datum :
 	int32 impact_indexes[32];
 	int32 object_index;
 };
-static_assert(sizeof(impact_array_datum) == 0x88);
+COMPILE_ASSERT(sizeof(impact_array_datum) == 0x88);
 
 // $TODO find a home
 struct s_physics_model_constraint_reference
@@ -27,7 +27,7 @@ struct s_physics_model_constraint_reference
 	int16 constraint_type;
 	int16 constraint_type_index;
 };
-static_assert(sizeof(s_physics_model_constraint_reference) == 0x4);
+COMPILE_ASSERT(sizeof(s_physics_model_constraint_reference) == 0x4);
 
 class c_impact :
 	public s_datum_header
@@ -83,7 +83,7 @@ public:
 		int16 explicit_pad2;
 		s_physics_model_constraint_reference constraint_reference;
 	};
-	static_assert(sizeof(s_contact_description) == 0x40);
+	COMPILE_ASSERT(sizeof(s_contact_description) == 0x40);
 
 	uns8 m_flags;
 	int8 m_score_sorted_order;
@@ -133,7 +133,7 @@ public:
 	real32 m_last_collision_effect_scale;
 	s_physics_model_constraint_reference m_constraint_reference;
 };
-static_assert(sizeof(c_impact) == 0xB4);
+COMPILE_ASSERT(sizeof(c_impact) == 0xB4);
 
 class c_havok_contact_point;
 

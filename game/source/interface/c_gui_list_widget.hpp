@@ -26,7 +26,7 @@ struct s_list_widget_definition :
 	s_tag_reference prev_indicator_bitmap;
 	s_tag_reference next_indicator_bitmap;
 };
-static_assert(sizeof(s_list_widget_definition) == sizeof(s_core_widget_definition) + 0x44);
+COMPILE_ASSERT(sizeof(s_list_widget_definition) == sizeof(s_core_widget_definition) + 0x44);
 
 struct s_runtime_list_widget_definition :
 	s_runtime_core_widget_definition
@@ -40,7 +40,7 @@ struct s_runtime_list_widget_definition :
 	int32 previous_indicator_bitmap_reference_index;
 	int32 next_indicator_bitmap_reference_index;
 };
-static_assert(sizeof(s_runtime_list_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x20);
+COMPILE_ASSERT(sizeof(s_runtime_list_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x20);
 
 struct s_list_widget_block
 {
@@ -49,7 +49,7 @@ struct s_list_widget_block
 	s_tag_reference widget_template_reference;
 	s_list_widget_definition override_definition;
 };
-static_assert(sizeof(s_list_widget_block) == 0x80);
+COMPILE_ASSERT(sizeof(s_list_widget_block) == 0x80);
 
 class c_gui_data;
 class c_gui_list_widget :
@@ -130,17 +130,17 @@ public:
 	bool m_is_submenu;
 	bool m_is_submenu_needs_disposal;
 };
-static_assert(sizeof(c_gui_list_widget) == 0x158);
-static_assert(sizeof(c_gui_list_widget) == sizeof(c_gui_widget) + 0x78);
-static_assert(0x0E0 == OFFSETOF(c_gui_list_widget, m_definition));
-static_assert(0x134 == OFFSETOF(c_gui_list_widget, m_datasource_name));
-static_assert(0x138 == OFFSETOF(c_gui_list_widget, m_more_items_preceeding_bitmap));
-static_assert(0x13C == OFFSETOF(c_gui_list_widget, m_more_items_following_bitmap));
-static_assert(0x140 == OFFSETOF(c_gui_list_widget, m_focused_item_index));
-static_assert(0x144 == OFFSETOF(c_gui_list_widget, m_current_scroll_direction));
-static_assert(0x148 == OFFSETOF(c_gui_list_widget, m_scroll_position));
-static_assert(0x14C == OFFSETOF(c_gui_list_widget, m_selectable_item_cap));
-static_assert(0x150 == OFFSETOF(c_gui_list_widget, m_submenu_item));
-static_assert(0x154 == OFFSETOF(c_gui_list_widget, m_is_submenu));
-static_assert(0x155 == OFFSETOF(c_gui_list_widget, m_is_submenu_needs_disposal));
+COMPILE_ASSERT(sizeof(c_gui_list_widget) == 0x158);
+COMPILE_ASSERT(sizeof(c_gui_list_widget) == sizeof(c_gui_widget) + 0x78);
+COMPILE_ASSERT(0x0E0 == OFFSETOF(c_gui_list_widget, m_definition));
+COMPILE_ASSERT(0x134 == OFFSETOF(c_gui_list_widget, m_datasource_name));
+COMPILE_ASSERT(0x138 == OFFSETOF(c_gui_list_widget, m_more_items_preceeding_bitmap));
+COMPILE_ASSERT(0x13C == OFFSETOF(c_gui_list_widget, m_more_items_following_bitmap));
+COMPILE_ASSERT(0x140 == OFFSETOF(c_gui_list_widget, m_focused_item_index));
+COMPILE_ASSERT(0x144 == OFFSETOF(c_gui_list_widget, m_current_scroll_direction));
+COMPILE_ASSERT(0x148 == OFFSETOF(c_gui_list_widget, m_scroll_position));
+COMPILE_ASSERT(0x14C == OFFSETOF(c_gui_list_widget, m_selectable_item_cap));
+COMPILE_ASSERT(0x150 == OFFSETOF(c_gui_list_widget, m_submenu_item));
+COMPILE_ASSERT(0x154 == OFFSETOF(c_gui_list_widget, m_is_submenu));
+COMPILE_ASSERT(0x155 == OFFSETOF(c_gui_list_widget, m_is_submenu_needs_disposal));
 

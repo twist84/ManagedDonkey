@@ -51,16 +51,16 @@ public:
 	s_file_reference m_screenshot_file;
 	bool m_progress_spinner_active;
 };
-static_assert(sizeof(c_screenshots_uploader) == 0xE08);
-static_assert(0x000 == OFFSETOF(c_screenshots_uploader, m_http_post_source));
-static_assert(0x13C == OFFSETOF(c_screenshots_uploader, m_http_uploader));
-static_assert(0xBD4 == OFFSETOF(c_screenshots_uploader, m_controller_index));
-static_assert(0xBD8 == OFFSETOF(c_screenshots_uploader, m_screenshots_uploader_task));
-static_assert(0xBDC == OFFSETOF(c_screenshots_uploader, m_screenshot_upload_time));
-static_assert(0xBE0 == OFFSETOF(c_screenshots_uploader, m_screenshots_uploader_url));
-static_assert(0xCF0 == OFFSETOF(c_screenshots_uploader, m_content_item_index));
-static_assert(0xCF4 == OFFSETOF(c_screenshots_uploader, m_screenshot_file));
-static_assert(0xE04 == OFFSETOF(c_screenshots_uploader, m_progress_spinner_active));
+COMPILE_ASSERT(sizeof(c_screenshots_uploader) == 0xE08);
+COMPILE_ASSERT(0x000 == OFFSETOF(c_screenshots_uploader, m_http_post_source));
+COMPILE_ASSERT(0x13C == OFFSETOF(c_screenshots_uploader, m_http_uploader));
+COMPILE_ASSERT(0xBD4 == OFFSETOF(c_screenshots_uploader, m_controller_index));
+COMPILE_ASSERT(0xBD8 == OFFSETOF(c_screenshots_uploader, m_screenshots_uploader_task));
+COMPILE_ASSERT(0xBDC == OFFSETOF(c_screenshots_uploader, m_screenshot_upload_time));
+COMPILE_ASSERT(0xBE0 == OFFSETOF(c_screenshots_uploader, m_screenshots_uploader_url));
+COMPILE_ASSERT(0xCF0 == OFFSETOF(c_screenshots_uploader, m_content_item_index));
+COMPILE_ASSERT(0xCF4 == OFFSETOF(c_screenshots_uploader, m_screenshot_file));
+COMPILE_ASSERT(0xE04 == OFFSETOF(c_screenshots_uploader, m_progress_spinner_active));
 
 extern c_screenshots_uploader*& g_screenshots_uploader;
 

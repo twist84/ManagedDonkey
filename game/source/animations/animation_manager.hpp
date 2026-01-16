@@ -13,7 +13,7 @@ struct s_animation_goal_settings
 	string_id weapon_type;
 	string_id state;
 };
-static_assert(sizeof(s_animation_goal_settings) == 0x10);
+COMPILE_ASSERT(sizeof(s_animation_goal_settings) == 0x10);
 
 class c_model_animation_graph;
 class c_animation_manager
@@ -39,5 +39,5 @@ public:
 	s_animation_goal_settings m_previous_goal;
 	real_vector3d m_transition_delta;
 };
-static_assert(sizeof(c_animation_manager) == 0xC0);
+COMPILE_ASSERT(sizeof(c_animation_manager) == 0xC0);
 

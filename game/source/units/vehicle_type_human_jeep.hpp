@@ -41,5 +41,5 @@ protected:
 	c_vehicle_braking_counter m_braking_counter;
 	uns8 m_control_e_brake;
 };
-static_assert(sizeof(c_vehicle_type_human_jeep) == 0x3C);
+COMPILE_ASSERT(sizeof(c_vehicle_type_human_jeep) == 0x3C);
 

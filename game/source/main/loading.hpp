@@ -13,7 +13,7 @@ struct s_main_loading_action
 	bool map_has_progression;
 	bool stop_map_prefetch;
 };
-static_assert(sizeof(s_main_loading_action) == 0x10C);
+COMPILE_ASSERT(sizeof(s_main_loading_action) == 0x10C);
 
 struct loading_globals_definition
 {
@@ -33,7 +33,7 @@ struct loading_globals_definition
 
 	static c_static_string<256> loading_progress;
 };
-static_assert(sizeof(loading_globals_definition) == 0x38);
+COMPILE_ASSERT(sizeof(loading_globals_definition) == 0x38);
 
 extern bool& disable_progress_screen;
 extern loading_globals_definition& loading_globals;

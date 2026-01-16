@@ -22,11 +22,11 @@ class c_xor_cache_file_decompressor :
 	c_basic_buffer<void> m_buffer_left;
 	char const m_xor_value;
 };
-static_assert(sizeof(c_xor_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x14);
+COMPILE_ASSERT(sizeof(c_xor_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x14);
 
 class c_xor_cache_file_decompressor_service :
 	c_single_instance_cache_file_decompressor_service<c_xor_cache_file_decompressor>
 {
 };
-static_assert(sizeof(c_xor_cache_file_decompressor_service) == 0x24);
+COMPILE_ASSERT(sizeof(c_xor_cache_file_decompressor_service) == 0x24);
 

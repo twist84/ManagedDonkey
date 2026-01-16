@@ -15,7 +15,7 @@ struct s_main_time_globals
 	int64 last_publish_start_timestamp;
 	int64 last_publish_end_timestamp;
 };
-static_assert(sizeof(s_main_time_globals) == 0x40);
+COMPILE_ASSERT(sizeof(s_main_time_globals) == 0x40);
 
 extern bool& display_framerate;
 extern bool debug_disable_frame_rate_throttle;

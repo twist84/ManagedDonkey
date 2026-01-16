@@ -10,7 +10,7 @@ struct s_user_interface_widget_reference
 {
 	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG, INVALID_TAG> widget_tag;
 };
-static_assert(sizeof(s_user_interface_widget_reference) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_user_interface_widget_reference) == sizeof(s_tag_reference));
 
 struct s_user_interface_tag_globals
 {
@@ -36,7 +36,7 @@ struct s_user_interface_tag_globals
 	// These are Saber tags
 	c_typed_tag_reference<TEXTURE_RENDER_LIST_TAG, INVALID_TAG> texture_render_list;
 };
-static_assert(sizeof(s_user_interface_tag_globals) == 0x4C);
+COMPILE_ASSERT(sizeof(s_user_interface_tag_globals) == 0x4C);
 
 struct s_campaign_character
 {
@@ -44,7 +44,7 @@ struct s_campaign_character
 	char ai_squad_name[32];
 	c_string_id ai_start_pos;
 };
-static_assert(sizeof(s_campaign_character) == 0x44);
+COMPILE_ASSERT(sizeof(s_campaign_character) == 0x44);
 
 struct s_user_interface_shared_globals
 {
@@ -181,7 +181,7 @@ struct s_user_interface_shared_globals
 	real32 pda_fourth_wall_text_fade_time;
 	s_tag_block pda_fourth_wall_audio_sounds;
 };
-static_assert(sizeof(s_user_interface_shared_globals) == 0x3CC);
+COMPILE_ASSERT(sizeof(s_user_interface_shared_globals) == 0x3CC);
 
 struct s_user_interface_globals
 {
@@ -212,7 +212,7 @@ struct s_user_interface_globals
 	int32 m_active_user_count;
 	bool m_campaign_custom_music_warning_shown;
 };
-static_assert(sizeof(s_user_interface_globals) == 0x2258);
+COMPILE_ASSERT(sizeof(s_user_interface_globals) == 0x2258);
 
 extern s_user_interface_globals& g_user_interface_globals;
 

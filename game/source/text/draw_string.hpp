@@ -44,7 +44,7 @@ public:
 		bool can_line_break_before_current_character;
 		bool pad[0x3];
 	};
-	static_assert(sizeof(s_parse_string_state) == 0x4C);
+	COMPILE_ASSERT(sizeof(s_parse_string_state) == 0x4C);
 
 	// HACK: so we don't have to manually construct the class
 	struct
@@ -147,7 +147,7 @@ protected:
 	int16 m_saved_tab_stop_line_count;
 	int16 m_saved_maximum_tab_stop_line_count;
 };
-static_assert(sizeof(c_draw_string) == 0x100);
+COMPILE_ASSERT(sizeof(c_draw_string) == 0x100);
 
 // 01692AD0
 class c_hardware_draw_string :
@@ -162,7 +162,7 @@ protected:
 	int32 __unknown10C;
 	int32 __unknown110;
 };
-static_assert(sizeof(c_hardware_draw_string) == sizeof(c_draw_string) + 0x14);
+COMPILE_ASSERT(sizeof(c_hardware_draw_string) == sizeof(c_draw_string) + 0x14);
 
 // 01697104
 class c_simple_font_draw_string :
@@ -189,7 +189,7 @@ public:
 protected:
 	s_character_group_render_data m_character_cache;
 };
-static_assert(sizeof(c_simple_font_draw_string) == sizeof(c_draw_string) + 0x110);
+COMPILE_ASSERT(sizeof(c_simple_font_draw_string) == sizeof(c_draw_string) + 0x110);
 
 // 01692AF0
 class c_rasterizer_draw_string :
@@ -208,7 +208,7 @@ public:
 			real32 bitmap_width;
 			real32 bitmap_height;
 		};
-		static_assert(sizeof(s_glyph_render_data) == 0x1C);
+		COMPILE_ASSERT(sizeof(s_glyph_render_data) == 0x1C);
 
 		e_font_id font_id;
 		uns32 color;
@@ -216,7 +216,7 @@ public:
 		s_glyph_render_data glyphs[64];
 		int32 count;
 	};
-	static_assert(sizeof(s_glyph_group_render_data) == 0x710);
+	COMPILE_ASSERT(sizeof(s_glyph_group_render_data) == 0x710);
 
 public:
 	c_rasterizer_draw_string();
@@ -232,7 +232,7 @@ protected:
 	bool pad[0x3];
 	s_glyph_group_render_data m_render_data;
 };
-static_assert(sizeof(c_rasterizer_draw_string) == sizeof(c_draw_string) + 0x728);
+COMPILE_ASSERT(sizeof(c_rasterizer_draw_string) == sizeof(c_draw_string) + 0x728);
 
 // 01692AF0
 class c_chud_draw_string :
@@ -246,7 +246,7 @@ protected:
 	real32 m_character_scale;
 	real_rectangle2d m_pixel_clip;
 };
-static_assert(sizeof(c_chud_draw_string) == sizeof(c_draw_string) + 0x18);
+COMPILE_ASSERT(sizeof(c_chud_draw_string) == sizeof(c_draw_string) + 0x18);
 
 extern real32 __cdecl draw_string_get_glyph_scaling_for_display_settings();
 

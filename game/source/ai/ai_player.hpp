@@ -18,8 +18,8 @@ struct ai_player_state
 	int32 needs_vehicle_time;
 	real_vector3d battle_vector;
 };
-static_assert(sizeof(ai_player_state) * 0x2C);
-static_assert(sizeof(ai_player_state) * 4 == 0xB0);
+COMPILE_ASSERT(sizeof(ai_player_state) * 0x2C);
+COMPILE_ASSERT(sizeof(ai_player_state) * 4 == 0xB0);
 
 extern void __cdecl ai_player_initialize();
 extern bool __cdecl ai_player_state_needs_vehicle(int16 ai_player_index);

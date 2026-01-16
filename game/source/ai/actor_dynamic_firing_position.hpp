@@ -16,7 +16,7 @@ struct firing_position_definition
 	real_euler_angles2d normal;
 	real32 yaw;
 };
-static_assert(sizeof(firing_position_definition) == 0x28);
+COMPILE_ASSERT(sizeof(firing_position_definition) == 0x28);
 
 struct dynamic_firing_set_datum :
 	s_datum_header
@@ -35,14 +35,14 @@ struct dynamic_firing_set_datum :
 	firing_position_definition firing_positions[32];
 	int16 firing_position_types[32];
 };
-static_assert(sizeof(dynamic_firing_set_datum) == 0x584);
+COMPILE_ASSERT(sizeof(dynamic_firing_set_datum) == 0x584);
 
 struct dynamic_firing_set_iterator
 {
 	c_data_iterator<dynamic_firing_set_datum> iterator;
 	int32 index;
 };
-static_assert(sizeof(dynamic_firing_set_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(dynamic_firing_set_iterator) == 0x14);
 
 extern void __cdecl dynamic_firing_sets_dispose_from_old_map();
 extern void __cdecl dynamic_firing_sets_initialize();

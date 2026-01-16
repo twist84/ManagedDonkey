@@ -47,17 +47,17 @@
 
 // 32-character ascii string
 //typedef char string[k_tag_string_length];
-//static_assert(sizeof(string) == 0x20);
+//COMPILE_ASSERT(sizeof(string) == 0x20);
 
 // 256-character ascii string
 //typedef char long_string[k_tag_long_string_length];
-//static_assert(sizeof(long_string) == 0x100);
+//COMPILE_ASSERT(sizeof(long_string) == 0x100);
 
 struct s_datum_header
 {
 	int16 identifier;
 };
-static_assert(sizeof(s_datum_header) == 0x2);
+COMPILE_ASSERT(sizeof(s_datum_header) == 0x2);
 
 class c_tag_index
 {
@@ -744,14 +744,14 @@ public:
 		int32 key_b;
 		int32 key_c;
 	};
-	static_assert(sizeof(s_data) == sizeof(t_type) + (sizeof(int32) * 3));
+	COMPILE_ASSERT(sizeof(s_data) == sizeof(t_type) + (sizeof(int32) * 3));
 
 	int32 m_total_count;
 	c_static_array<s_data, k_maximum_mapped> data;
 	c_static_array<int16, k_maximum_mapped> m_hash_entry_count;
 	c_static_array<int16, k_maximum_mapped> m_original_hash_entry;
 };
-static_assert(sizeof(c_simple_hash_table<int32, 8192, 3307, 3, 337>) == 0x28004);
+COMPILE_ASSERT(sizeof(c_simple_hash_table<int32, 8192, 3307, 3, 337>) == 0x28004);
 
 template<typename t_type>
 class c_reference_count
@@ -759,7 +759,7 @@ class c_reference_count
 public:
 	t_type m_reference_count;
 };
-static_assert(sizeof(c_reference_count<int32>) == 0x4);
+COMPILE_ASSERT(sizeof(c_reference_count<int32>) == 0x4);
 
 class c_wrapped_flags
 {
@@ -767,14 +767,14 @@ public:
 	uns32* m_bit_storage;
 	int32 m_bit_count;
 };
-static_assert(sizeof(c_wrapped_flags) == 0x8);
+COMPILE_ASSERT(sizeof(c_wrapped_flags) == 0x8);
 
 template<typename t_type, typename t_storage_type, t_storage_type k_count>
 class c_flags_no_init
 {
 public:
 	static t_type const k_maximum_count = (t_type)k_count;
-	//static_assert(k_maximum_count <= SIZEOF_BITS(t_storage_type));
+	//COMPILE_ASSERT(k_maximum_count <= SIZEOF_BITS(t_storage_type));
 
 	void clear()
 	{
@@ -814,13 +814,13 @@ public:
 
 	bool valid() const
 	{
-		static_assert((uns16)~MASK(11) == 0xF800);
+		COMPILE_ASSERT((uns16)~MASK(11) == 0xF800);
 		return !TEST_MASK(m_flags, ~MASK(k_count));
 	}
 
 	bool is_empty() const
 	{
-		static_assert(MASK(11) == 0x7FF);
+		COMPILE_ASSERT(MASK(11) == 0x7FF);
 		return !TEST_MASK(m_flags, MASK(k_count));
 	}
 
@@ -1547,7 +1547,7 @@ private:
 	c_static_string<260> m_root;
 	c_static_string<260> m_path;
 };
-static_assert(sizeof(c_debug_output_path) == 260 * 2);
+COMPILE_ASSERT(sizeof(c_debug_output_path) == 260 * 2);
 
 extern char* tag_to_string(tag _tag, char* buffer);
 
@@ -1568,7 +1568,7 @@ public:
 protected:
 	string_id m_id;
 };
-static_assert(sizeof(c_string_id) == sizeof(string_id));
+COMPILE_ASSERT(sizeof(c_string_id) == sizeof(string_id));
 
 class c_old_string_id :
 	public c_string_id
@@ -1576,28 +1576,28 @@ class c_old_string_id :
 public:
 	bool is_string(const char* string) const;
 };
-static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
+COMPILE_ASSERT(sizeof(c_old_string_id) == sizeof(c_string_id));
 
 class c_word_quantized_position
 {
 public:
 	uns16 m_position[3];
 };
-static_assert(sizeof(c_word_quantized_position) == 0x6);
+COMPILE_ASSERT(sizeof(c_word_quantized_position) == 0x6);
 
 class c_dword_unit_vector
 {
 public:
 	uns32 m_vector;
 };
-static_assert(sizeof(c_dword_unit_vector) == 0x4);
+COMPILE_ASSERT(sizeof(c_dword_unit_vector) == 0x4);
 
 class c_short_quaternion
 {
 public:
 	int16 m_quaternion[4];
 };
-static_assert(sizeof(c_short_quaternion) == 0x8);
+COMPILE_ASSERT(sizeof(c_short_quaternion) == 0x8);
 
 extern int64 make_int64(int32 low, int32 high);
 

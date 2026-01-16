@@ -29,17 +29,17 @@ public:
 	char* m_bitmap_pixel_buffer;
 	int32 m_bitmap_pixel_buffer_length;
 };
-static_assert(sizeof(c_gui_custom_bitmap_storage_item) == 0x54);
-static_assert(0x00 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_width));
-static_assert(0x04 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_height));
-static_assert(0x08 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_use_compressed_format));
-static_assert(0x0C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_data));
-static_assert(0x3C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_allocated));
-static_assert(0x40 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_hardware_format_bitmap));
-static_assert(0x44 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_ready));
-static_assert(0x48 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_allocation));
-static_assert(0x4C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer));
-static_assert(0x50 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_length));
+COMPILE_ASSERT(sizeof(c_gui_custom_bitmap_storage_item) == 0x54);
+COMPILE_ASSERT(0x00 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_width));
+COMPILE_ASSERT(0x04 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_height));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_use_compressed_format));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_data));
+COMPILE_ASSERT(0x3C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_allocated));
+COMPILE_ASSERT(0x40 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_hardware_format_bitmap));
+COMPILE_ASSERT(0x44 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_ready));
+COMPILE_ASSERT(0x48 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_allocation));
+COMPILE_ASSERT(0x4C == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer));
+COMPILE_ASSERT(0x50 == OFFSETOF(c_gui_custom_bitmap_storage_item, m_bitmap_pixel_buffer_length));
 
 class c_gui_custom_bitmap_storage_manager
 {
@@ -63,7 +63,7 @@ public:
 		e_bitmap_storage_state state;
 		c_gui_custom_bitmap_storage_item storage_item;
 	};
-	static_assert(sizeof(s_bitmap_storage_handle_datum) == 0x60);
+	COMPILE_ASSERT(sizeof(s_bitmap_storage_handle_datum) == 0x60);
 
 	c_gui_custom_bitmap_storage_manager();
 	void acquire_bitmap(int32 bitmap_storage_index);
@@ -83,10 +83,10 @@ public:
 	void* m_d3dx_scratch_buffer;
 	int32 m_d3dx_scratch_buffer_length;
 };
-static_assert(sizeof(c_gui_custom_bitmap_storage_manager) == 0xC);
-static_assert(0x0 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_bitmap_storage_items));
-static_assert(0x4 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer));
-static_assert(0x8 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer_length));
+COMPILE_ASSERT(sizeof(c_gui_custom_bitmap_storage_manager) == 0xC);
+COMPILE_ASSERT(0x0 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_bitmap_storage_items));
+COMPILE_ASSERT(0x4 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer));
+COMPILE_ASSERT(0x8 == OFFSETOF(c_gui_custom_bitmap_storage_manager, m_d3dx_scratch_buffer_length));
 
 extern c_gui_custom_bitmap_storage_manager& g_gui_custom_bitmap_storage_manager;
 extern bool g_gui_custom_bitmaps_enabled;

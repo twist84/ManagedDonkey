@@ -9,11 +9,11 @@ struct s_hud_camera_globals
 	public:
 		byte __data[0x120];
 	};
-	static_assert(sizeof(c_player_window_data) == 0x120);
+	COMPILE_ASSERT(sizeof(c_player_window_data) == 0x120);
 
 	c_player_window_data player_windows[4];
 };
-static_assert(sizeof(s_hud_camera_globals) == 0x480);
+COMPILE_ASSERT(sizeof(s_hud_camera_globals) == 0x480);
 
 extern void __cdecl render_hud_camera_dispose();
 extern void __cdecl render_hud_camera_dispose_from_old_map();

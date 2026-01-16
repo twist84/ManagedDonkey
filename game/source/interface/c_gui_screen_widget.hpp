@@ -43,7 +43,7 @@ struct s_screen_widget_definition :
 	int16 script_index;
 	int16 pad;
 };
-static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definition) + 0x7C);
+COMPILE_ASSERT(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definition) + 0x7C);
 
 struct s_runtime_screen_widget_definition :
 	s_runtime_core_widget_definition
@@ -60,28 +60,28 @@ struct s_runtime_screen_widget_definition :
 	int16 script_index;
 	int16 pad;
 };
-static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
+COMPILE_ASSERT(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
 struct s_integer_data_nugget
 {
 	int32 name;
 	int32 value;
 };
-static_assert(sizeof(s_integer_data_nugget) == 0x8);
+COMPILE_ASSERT(sizeof(s_integer_data_nugget) == 0x8);
 
 struct s_string_data_nugget
 {
 	int32 name;
 	char string[32];
 };
-static_assert(sizeof(s_string_data_nugget) == 0x24);
+COMPILE_ASSERT(sizeof(s_string_data_nugget) == 0x24);
 
 struct s_string_id_data_nugget
 {
 	int32 name;
 	int32 value;
 };
-static_assert(sizeof(s_string_id_data_nugget) == 0x8);
+COMPILE_ASSERT(sizeof(s_string_id_data_nugget) == 0x8);
 
 struct s_datasource_block
 {
@@ -90,7 +90,7 @@ struct s_datasource_block
 	c_typed_tag_block<s_string_id_data_nugget> string_id_nuggets;
 	int32 submenu_control_name;
 };
-static_assert(sizeof(s_datasource_block) == 0x28);
+COMPILE_ASSERT(sizeof(s_datasource_block) == 0x28);
 
 struct s_datasource_definition
 {
@@ -98,13 +98,13 @@ struct s_datasource_definition
 	int32 pad[3];
 	c_typed_tag_block<s_datasource_block> elements;
 };
-static_assert(sizeof(s_datasource_definition) == 0x1C);
+COMPILE_ASSERT(sizeof(s_datasource_definition) == 0x1C);
 
 struct s_datasource_definition_block
 {
 	s_tag_reference datasource_tag_reference;
 };
-static_assert(sizeof(s_datasource_definition_block) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_datasource_definition_block) == sizeof(s_tag_reference));
 
 struct s_depth_sorted_render_widget
 {
@@ -113,7 +113,7 @@ struct s_depth_sorted_render_widget
 	real32 depth;
 	int32 depth_bias;
 };
-static_assert(sizeof(s_depth_sorted_render_widget) == 0x10);
+COMPILE_ASSERT(sizeof(s_depth_sorted_render_widget) == 0x10);
 
 struct s_window_manager_static_render_data
 {
@@ -127,7 +127,7 @@ struct s_window_manager_static_render_data
 	s_depth_sorted_render_widget render_list[k_maximum_rendered_child_widgets_per_screen];
 	int32 current_count;
 };
-static_assert(sizeof(s_window_manager_static_render_data) == 0x15808);
+COMPILE_ASSERT(sizeof(s_window_manager_static_render_data) == 0x15808);
 
 struct s_window_manager_screen_render_data
 {
@@ -149,7 +149,7 @@ struct s_window_manager_screen_render_data
 	int32 current_count;
 	rectangle2d built_for_viewport_bounds;
 };
-static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
+COMPILE_ASSERT(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
 class c_gui_screen_widget :
 	public c_gui_widget
@@ -295,6 +295,6 @@ public:
 	s_window_manager_screen_render_data m_render_data;
 	bool m_running_in_codeless_mode;
 };
-static_assert(sizeof(c_gui_screen_widget) == 0x1AA0);
-static_assert(sizeof(c_gui_screen_widget) == sizeof(c_gui_widget) + 0x19C0);
+COMPILE_ASSERT(sizeof(c_gui_screen_widget) == 0x1AA0);
+COMPILE_ASSERT(sizeof(c_gui_screen_widget) == sizeof(c_gui_widget) + 0x19C0);
 

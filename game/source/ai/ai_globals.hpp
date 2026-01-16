@@ -84,7 +84,7 @@ struct s_ai_globals_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_ai_globals_definition) == 0x144);
+COMPILE_ASSERT(sizeof(s_ai_globals_definition) == 0x144);
 
 struct s_ai_globals_gravemind_definition
 {
@@ -92,7 +92,7 @@ struct s_ai_globals_gravemind_definition
 	real32 ideal_retreat_time;
 	real32 max_retreat_time;
 };
-static_assert(sizeof(s_ai_globals_gravemind_definition) == 0xC);
+COMPILE_ASSERT(sizeof(s_ai_globals_gravemind_definition) == 0xC);
 
 struct s_ai_globals_styles_definition
 {
@@ -100,7 +100,7 @@ struct s_ai_globals_styles_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_ai_globals_styles_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_ai_globals_styles_definition) == 0x10);
 
 struct s_ai_globals_formation_definition
 {
@@ -108,7 +108,7 @@ struct s_ai_globals_formation_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_ai_globals_formation_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_ai_globals_formation_definition) == 0x10);
 
 struct s_ai_globals_squad_template_definition
 {
@@ -116,5 +116,5 @@ struct s_ai_globals_squad_template_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_ai_globals_squad_template_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_ai_globals_squad_template_definition) == 0x10);
 

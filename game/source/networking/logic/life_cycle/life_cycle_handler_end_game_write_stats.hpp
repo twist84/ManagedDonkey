@@ -74,7 +74,7 @@ private:
 	uns32 m_end_game_write_stats_start_time; // 0x28
 	c_end_game_write_stats_flags m_flags;    // 0x2C
 };
-static_assert(sizeof(c_life_cycle_state_handler_end_game_write_stats) == 0x30);
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_end_game_write_stats) == 0x30);
 
 extern bool g_end_game_write_stats_bypass_override;
 

@@ -46,11 +46,11 @@ public:
 	uns32 m_waiting_for_stats_replication_timer;
 	int32 m_pre_rematch_squad_peer_count;
 };
-static_assert(sizeof(c_life_cycle_state_handler_post_match) == 0x40);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_post_match, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_post_match, m_countdown_seconds_timer));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_post_match, m_rematch_squad_host_update_timer));
-static_assert(0x34 == OFFSETOF(c_life_cycle_state_handler_post_match, m_ready_for_next_match_timer));
-static_assert(0x38 == OFFSETOF(c_life_cycle_state_handler_post_match, m_waiting_for_stats_replication_timer));
-static_assert(0x3C == OFFSETOF(c_life_cycle_state_handler_post_match, m_pre_rematch_squad_peer_count));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_post_match) == 0x40);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_post_match, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_post_match, m_countdown_seconds_timer));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_post_match, m_rematch_squad_host_update_timer));
+COMPILE_ASSERT(0x34 == OFFSETOF(c_life_cycle_state_handler_post_match, m_ready_for_next_match_timer));
+COMPILE_ASSERT(0x38 == OFFSETOF(c_life_cycle_state_handler_post_match, m_waiting_for_stats_replication_timer));
+COMPILE_ASSERT(0x3C == OFFSETOF(c_life_cycle_state_handler_post_match, m_pre_rematch_squad_peer_count));
 

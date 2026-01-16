@@ -8,5 +8,5 @@ struct s_damage_reporting_info
 	uns8 modifier;
 	uns8 recycling_flag;
 };
-static_assert(sizeof(s_damage_reporting_info) == 0x4);
+COMPILE_ASSERT(sizeof(s_damage_reporting_info) == 0x4);
 

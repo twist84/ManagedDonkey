@@ -114,7 +114,7 @@ struct s_multiplayer_object_boundary_geometry_data
 	real_matrix4x3 boundary_matrix;
 	real32 boundary_radius;
 };
-static_assert(sizeof(s_multiplayer_object_boundary_geometry_data) == 0x50);
+COMPILE_ASSERT(sizeof(s_multiplayer_object_boundary_geometry_data) == 0x50);
 
 struct s_multiplayer_object_properties_definition
 {
@@ -184,7 +184,7 @@ struct s_multiplayer_object_properties_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_object_properties_definition) == 0xC4);
+COMPILE_ASSERT(sizeof(s_multiplayer_object_properties_definition) == 0xC4);
 
 extern void __cdecl multiplayer_object_render_debug_boundary(const s_multiplayer_object_boundary_geometry_data* geometry_data, const real_argb_color* color);
 

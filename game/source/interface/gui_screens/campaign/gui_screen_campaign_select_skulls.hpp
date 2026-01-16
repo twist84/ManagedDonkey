@@ -34,7 +34,7 @@ public:
 public:
 	e_skull_state m_skull_state[k_campaign_skull_primary_count];
 };
-static_assert(sizeof(c_gui_primary_skulls_data) == sizeof(c_gui_ordered_data) + 0x24);
+COMPILE_ASSERT(sizeof(c_gui_primary_skulls_data) == sizeof(c_gui_ordered_data) + 0x24);
 
 class c_gui_secondary_skulls_data :
 	public c_gui_ordered_data
@@ -60,6 +60,6 @@ public:
 public:
 	e_skull_state m_skull_state[k_campaign_skull_secondary_count];
 };
-static_assert(sizeof(c_gui_secondary_skulls_data) == sizeof(c_gui_ordered_data) + 0x1C);
+COMPILE_ASSERT(sizeof(c_gui_secondary_skulls_data) == sizeof(c_gui_ordered_data) + 0x1C);
 
 

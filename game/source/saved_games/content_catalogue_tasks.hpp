@@ -55,7 +55,7 @@ public:
 	int32 m_user_content_data_count;
 	int32 m_dlc_content_data_count;
 };
-static_assert(sizeof(c_content_enumeration_overlapped_task) == 0x30);
+COMPILE_ASSERT(sizeof(c_content_enumeration_overlapped_task) == 0x30);
 
 class c_content_item_overlapped_task :
 	public c_overlapped_task
@@ -77,5 +77,5 @@ public:
 	int32 m_content_creation_flags;
 	int32 m_maximum_content_size_bytes;
 };
-static_assert(sizeof(c_content_item_overlapped_task) == 0x20);
+COMPILE_ASSERT(sizeof(c_content_item_overlapped_task) == 0x20);
 

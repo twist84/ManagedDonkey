@@ -35,7 +35,7 @@ struct s_character_physics_ground_definition
 
 	real32 airborne_acceleration_scale;
 };
-static_assert(sizeof(s_character_physics_ground_definition) == 0x44);
+COMPILE_ASSERT(sizeof(s_character_physics_ground_definition) == 0x44);
 
 struct s_character_physics_flying_definition
 {
@@ -69,7 +69,7 @@ struct s_character_physics_flying_definition
 	// how much slower we fly if crouching (zero = same speed)
 	real32 crouch_velocity_modifier; // [0,1]
 };
-static_assert(sizeof(s_character_physics_flying_definition) == 0x2C);
+COMPILE_ASSERT(sizeof(s_character_physics_flying_definition) == 0x2C);
 
 struct s_character_physics_definition
 {
@@ -123,5 +123,5 @@ struct s_character_physics_definition
 	// flying
 	s_character_physics_flying_definition flying;
 };
-static_assert(sizeof(s_character_physics_definition) == 0xB4);
+COMPILE_ASSERT(sizeof(s_character_physics_definition) == 0xB4);
 

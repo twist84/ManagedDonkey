@@ -22,7 +22,7 @@ struct s_game_save_globals
 	int32 time_of_last_game_save;
 	int32 unsafe_object_index;
 };
-static_assert(sizeof(s_game_save_globals) == 0x18);
+COMPILE_ASSERT(sizeof(s_game_save_globals) == 0x18);
 
 extern bool debug_game_save;
 

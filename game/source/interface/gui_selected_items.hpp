@@ -32,25 +32,25 @@ struct s_ui_saved_game_item_metadata
 	uns16 pad;
 	uns64 game_id;
 };
-static_assert(sizeof(s_ui_saved_game_item_metadata) == 0x178);
-static_assert(0x000 == OFFSETOF(s_ui_saved_game_item_metadata, unique_id));
-static_assert(0x008 == OFFSETOF(s_ui_saved_game_item_metadata, display_name));
-static_assert(0x028 == OFFSETOF(s_ui_saved_game_item_metadata, description));
-static_assert(0x128 == OFFSETOF(s_ui_saved_game_item_metadata, author));
-static_assert(0x138 == OFFSETOF(s_ui_saved_game_item_metadata, file_type));
-static_assert(0x13C == OFFSETOF(s_ui_saved_game_item_metadata, author_is_xuid_online));
-static_assert(0x140 == OFFSETOF(s_ui_saved_game_item_metadata, author_id));
-static_assert(0x148 == OFFSETOF(s_ui_saved_game_item_metadata, size_in_bytes));
-static_assert(0x150 == OFFSETOF(s_ui_saved_game_item_metadata, date));
-static_assert(0x158 == OFFSETOF(s_ui_saved_game_item_metadata, length_seconds));
-static_assert(0x15C == OFFSETOF(s_ui_saved_game_item_metadata, campaign_id));
-static_assert(0x160 == OFFSETOF(s_ui_saved_game_item_metadata, map_id));
-static_assert(0x164 == OFFSETOF(s_ui_saved_game_item_metadata, game_engine_index));
-static_assert(0x168 == OFFSETOF(s_ui_saved_game_item_metadata, campaign_difficulty));
-static_assert(0x16C == OFFSETOF(s_ui_saved_game_item_metadata, campaign_insertion_point));
-static_assert(0x16D == OFFSETOF(s_ui_saved_game_item_metadata, campaign_survival_enabled));
-static_assert(0x16E == OFFSETOF(s_ui_saved_game_item_metadata, pad));
-static_assert(0x170 == OFFSETOF(s_ui_saved_game_item_metadata, game_id));
+COMPILE_ASSERT(sizeof(s_ui_saved_game_item_metadata) == 0x178);
+COMPILE_ASSERT(0x000 == OFFSETOF(s_ui_saved_game_item_metadata, unique_id));
+COMPILE_ASSERT(0x008 == OFFSETOF(s_ui_saved_game_item_metadata, display_name));
+COMPILE_ASSERT(0x028 == OFFSETOF(s_ui_saved_game_item_metadata, description));
+COMPILE_ASSERT(0x128 == OFFSETOF(s_ui_saved_game_item_metadata, author));
+COMPILE_ASSERT(0x138 == OFFSETOF(s_ui_saved_game_item_metadata, file_type));
+COMPILE_ASSERT(0x13C == OFFSETOF(s_ui_saved_game_item_metadata, author_is_xuid_online));
+COMPILE_ASSERT(0x140 == OFFSETOF(s_ui_saved_game_item_metadata, author_id));
+COMPILE_ASSERT(0x148 == OFFSETOF(s_ui_saved_game_item_metadata, size_in_bytes));
+COMPILE_ASSERT(0x150 == OFFSETOF(s_ui_saved_game_item_metadata, date));
+COMPILE_ASSERT(0x158 == OFFSETOF(s_ui_saved_game_item_metadata, length_seconds));
+COMPILE_ASSERT(0x15C == OFFSETOF(s_ui_saved_game_item_metadata, campaign_id));
+COMPILE_ASSERT(0x160 == OFFSETOF(s_ui_saved_game_item_metadata, map_id));
+COMPILE_ASSERT(0x164 == OFFSETOF(s_ui_saved_game_item_metadata, game_engine_index));
+COMPILE_ASSERT(0x168 == OFFSETOF(s_ui_saved_game_item_metadata, campaign_difficulty));
+COMPILE_ASSERT(0x16C == OFFSETOF(s_ui_saved_game_item_metadata, campaign_insertion_point));
+COMPILE_ASSERT(0x16D == OFFSETOF(s_ui_saved_game_item_metadata, campaign_survival_enabled));
+COMPILE_ASSERT(0x16E == OFFSETOF(s_ui_saved_game_item_metadata, pad));
+COMPILE_ASSERT(0x170 == OFFSETOF(s_ui_saved_game_item_metadata, game_id));
 
 class c_gui_selected_item
 {
@@ -83,23 +83,23 @@ public:
 	bool m_is_new;
 	s_ui_saved_game_item_metadata m_metadata;
 };
-static_assert(sizeof(c_gui_selected_item) == 0x190);
+COMPILE_ASSERT(sizeof(c_gui_selected_item) == 0x190);
 #ifdef __INTELLISENSE__
-static_assert(0x04 == OFFSETOF(c_gui_selected_item, m_selection_type));
-static_assert(0x08 == OFFSETOF(c_gui_selected_item, m_special_item_type));
-static_assert(0x0C == OFFSETOF(c_gui_selected_item, m_location));
-static_assert(0x10 == OFFSETOF(c_gui_selected_item, m_enabled));
-static_assert(0x11 == OFFSETOF(c_gui_selected_item, m_corrupt));
-static_assert(0x12 == OFFSETOF(c_gui_selected_item, m_is_new));
-static_assert(0x18 == OFFSETOF(c_gui_selected_item, m_metadata));
+COMPILE_ASSERT(0x04 == OFFSETOF(c_gui_selected_item, m_selection_type));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_gui_selected_item, m_special_item_type));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_gui_selected_item, m_location));
+COMPILE_ASSERT(0x10 == OFFSETOF(c_gui_selected_item, m_enabled));
+COMPILE_ASSERT(0x11 == OFFSETOF(c_gui_selected_item, m_corrupt));
+COMPILE_ASSERT(0x12 == OFFSETOF(c_gui_selected_item, m_is_new));
+COMPILE_ASSERT(0x18 == OFFSETOF(c_gui_selected_item, m_metadata));
 #else
-static_assert(0x08 == OFFSETOF(c_gui_selected_item, m_selection_type));
-static_assert(0x0C == OFFSETOF(c_gui_selected_item, m_special_item_type));
-static_assert(0x10 == OFFSETOF(c_gui_selected_item, m_location));
-static_assert(0x14 == OFFSETOF(c_gui_selected_item, m_enabled));
-static_assert(0x15 == OFFSETOF(c_gui_selected_item, m_corrupt));
-static_assert(0x16 == OFFSETOF(c_gui_selected_item, m_is_new));
-static_assert(0x18 == OFFSETOF(c_gui_selected_item, m_metadata));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_gui_selected_item, m_selection_type));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_gui_selected_item, m_special_item_type));
+COMPILE_ASSERT(0x10 == OFFSETOF(c_gui_selected_item, m_location));
+COMPILE_ASSERT(0x14 == OFFSETOF(c_gui_selected_item, m_enabled));
+COMPILE_ASSERT(0x15 == OFFSETOF(c_gui_selected_item, m_corrupt));
+COMPILE_ASSERT(0x16 == OFFSETOF(c_gui_selected_item, m_is_new));
+COMPILE_ASSERT(0x18 == OFFSETOF(c_gui_selected_item, m_metadata));
 #endif // __INTELLENSE__
 
 extern bool gui_selected_item_get_file_path(c_gui_selected_item const* selected_item, wchar_t* path, int32 maximum_characters);

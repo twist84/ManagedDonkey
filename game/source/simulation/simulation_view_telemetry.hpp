@@ -10,7 +10,7 @@ struct __declspec(align(4)) s_simulation_view_player_telemetry_data
 	real_vector3d desired_aiming_vector;
 	int8 desired_zoom_level;
 };
-static_assert(sizeof(s_simulation_view_player_telemetry_data) == 0x24);
+COMPILE_ASSERT(sizeof(s_simulation_view_player_telemetry_data) == 0x24);
 
 struct __declspec(align(8)) s_simulation_view_telemetry_data
 {
@@ -20,7 +20,7 @@ struct __declspec(align(8)) s_simulation_view_telemetry_data
 	int32 number_of_players;
 	s_simulation_view_player_telemetry_data players[4];
 };
-static_assert(sizeof(s_simulation_view_telemetry_data) == 0xA0);
+COMPILE_ASSERT(sizeof(s_simulation_view_telemetry_data) == 0xA0);
 
 class c_simulation_view;
 class c_simulation_view_telemetry_provider
@@ -29,5 +29,5 @@ public:
 	c_simulation_view* m_view;
 	s_simulation_view_telemetry_data m_telemetry_data;
 };
-static_assert(sizeof(c_simulation_view_telemetry_provider) == 0xA8);
+COMPILE_ASSERT(sizeof(c_simulation_view_telemetry_provider) == 0xA8);
 

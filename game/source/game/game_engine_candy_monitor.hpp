@@ -11,7 +11,7 @@ public:
 	int16 m_respawn_timer_seconds;
 	int16 pad;
 };
-static_assert(sizeof(c_candy_spawner) == 0x10);
+COMPILE_ASSERT(sizeof(c_candy_spawner) == 0x10);
 
 class c_candy_monitor
 {
@@ -22,7 +22,7 @@ public:
 	bool m_pad[0x3];
 	int16 m_abandonment_timeout;
 };
-static_assert(sizeof(c_candy_monitor) == 0xC);
+COMPILE_ASSERT(sizeof(c_candy_monitor) == 0xC);
 
 class c_multiplayer_candy_monitor_manager
 {
@@ -37,7 +37,7 @@ public:
 	c_static_array<c_candy_spawner, k_maximum_number_of_monitored_pieces_of_candy> m_candy_spawners;
 	c_static_array<c_candy_monitor, k_maximum_number_of_monitored_pieces_of_candy> m_candy_monitors;
 };
-static_assert(sizeof(c_multiplayer_candy_monitor_manager) == 0x3800);
+COMPILE_ASSERT(sizeof(c_multiplayer_candy_monitor_manager) == 0x3800);
 
 extern bool __cdecl game_engine_any_player_nearby_and_looking_at_sphere(const real_point3d* sphere_center, real32 sphere_radius, real32 distance);
 extern void __cdecl game_engine_candy_monitor_prepare_for_promotion_to_simulation_authority();

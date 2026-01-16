@@ -81,7 +81,7 @@ public:
 	void set_fading(bool fade_state);
 	void update(uns32 milliseconds);
 };
-static_assert(sizeof(c_window_manager) == 0x128);
+COMPILE_ASSERT(sizeof(c_window_manager) == 0x128);
 
 extern c_window_manager& g_window_manager;
 

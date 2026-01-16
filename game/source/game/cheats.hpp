@@ -19,7 +19,7 @@ struct cheat_globals
 	bool bottomless_clip;
 	bool chevy;
 };
-static_assert(sizeof(cheat_globals) == 0xC);
+COMPILE_ASSERT(sizeof(cheat_globals) == 0xC);
 
 extern cheat_globals cheat;
 extern char cheat_strings[NUMBER_OF_GAMEPAD_BUTTONS][200];

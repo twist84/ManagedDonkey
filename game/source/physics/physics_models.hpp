@@ -16,7 +16,7 @@ struct s_physics_model_instance
 	const char* region_permutation_indices;
 	const real_matrix4x3* matrices;
 };
-static_assert(sizeof(s_physics_model_instance) == 0x54);
+COMPILE_ASSERT(sizeof(s_physics_model_instance) == 0x54);
 
 struct hkShape;
 struct hkTransform;

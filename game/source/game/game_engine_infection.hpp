@@ -94,7 +94,7 @@ protected:
 
 	byte m_pad1[4];
 };
-static_assert(sizeof(c_game_engine_infection_variant) == 0x250);
+COMPILE_ASSERT(sizeof(c_game_engine_infection_variant) == 0x250);
 
 class c_infection_engine :
 	public c_game_engine
@@ -122,7 +122,7 @@ struct s_infection_globals
 		bool emitted_last_man_standing_event;
 	} local;
 };
-static_assert(sizeof(s_infection_globals) == 0x550);
+COMPILE_ASSERT(sizeof(s_infection_globals) == 0x550);
 
 extern c_game_engine_infection_variant*& infection_variant;
 

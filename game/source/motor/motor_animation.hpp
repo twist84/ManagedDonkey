@@ -14,9 +14,9 @@ enum e_motor_resource
 	_motor_resource_mask_impulse = FLAG(_motor_resource_primary_impulse) | FLAG(_motor_resource_secondary_impulse),
 	_motor_resource_mask_state = FLAG(_motor_resource_state),
 };
-static_assert(0xF == _motor_resource_mask_all);
-static_assert(0xC == _motor_resource_mask_impulse);
-static_assert(0x1 == _motor_resource_mask_state);
+COMPILE_ASSERT(0xF == _motor_resource_mask_all);
+COMPILE_ASSERT(0xC == _motor_resource_mask_impulse);
+COMPILE_ASSERT(0x1 == _motor_resource_mask_state);
 
 extern bool __cdecl motor_animation_resource_busy(long mover_index, e_motor_resource resource);
 

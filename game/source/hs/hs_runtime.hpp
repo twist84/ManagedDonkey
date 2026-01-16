@@ -85,7 +85,7 @@ struct hs_stack_pointer
 {
 	int16 stack_offset;
 };
-static_assert(sizeof(hs_stack_pointer) == 0x2);
+COMPILE_ASSERT(sizeof(hs_stack_pointer) == 0x2);
 
 struct hs_destination_pointer
 {
@@ -97,7 +97,7 @@ struct hs_destination_pointer
 		int16 runtime_global_index;
 	};
 };
-static_assert(sizeof(hs_destination_pointer) == 0x4);
+COMPILE_ASSERT(sizeof(hs_destination_pointer) == 0x4);
 
 struct hs_stack_frame
 {
@@ -108,7 +108,7 @@ struct hs_stack_frame
 	hs_stack_pointer parent;
 	int16 size;
 };
-static_assert(sizeof(hs_stack_frame) == 0x14);
+COMPILE_ASSERT(sizeof(hs_stack_frame) == 0x14);
 
 struct hs_thread :
 	s_datum_header
@@ -127,7 +127,7 @@ struct hs_thread :
 	int32 ai_index;
 	byte stack_data[HS_THREAD_STACK_SIZE];
 };
-static_assert(sizeof(hs_thread) == 0x524);
+COMPILE_ASSERT(sizeof(hs_thread) == 0x524);
 
 struct s_hs_runtime_globals
 {
@@ -137,7 +137,7 @@ struct s_hs_runtime_globals
 	bool globals_initialization;
 	int32 executing_thread_index;
 };
-static_assert(sizeof(s_hs_runtime_globals) == 0x8);
+COMPILE_ASSERT(sizeof(s_hs_runtime_globals) == 0x8);
 
 struct hs_global_runtime :
 	s_datum_header
@@ -145,14 +145,14 @@ struct hs_global_runtime :
 	int16 distributed_global_runtime_index;
 	int32 value;
 };
-static_assert(sizeof(hs_global_runtime) == 0x8);
+COMPILE_ASSERT(sizeof(hs_global_runtime) == 0x8);
 
 struct s_hs_distributed_global_data :
 	s_datum_header
 {
 	byte __data[0x2A];
 };
-static_assert(sizeof(s_hs_distributed_global_data) == 0x2C);
+COMPILE_ASSERT(sizeof(s_hs_distributed_global_data) == 0x2C);
 
 struct s_hs_thread_tracking_data :
 	s_datum_header
@@ -160,7 +160,7 @@ struct s_hs_thread_tracking_data :
 	e_hs_thread_tracking_type type;
 	int32 index;
 };
-static_assert(sizeof(s_hs_thread_tracking_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_hs_thread_tracking_data) == 0xC);
 
 struct s_hs_thread_iterator
 {
@@ -169,13 +169,13 @@ struct s_hs_thread_iterator
 	bool iterate_non_deterministic;
 	bool non_deterministic;
 };
-static_assert(sizeof(s_hs_thread_iterator) == 0x8);
+COMPILE_ASSERT(sizeof(s_hs_thread_iterator) == 0x8);
 
 struct hs_debug_data_definition
 {
 	c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO> activated_trigger_volumes;
 };
-static_assert(sizeof(hs_debug_data_definition) == sizeof(c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO>));
+COMPILE_ASSERT(sizeof(hs_debug_data_definition) == sizeof(c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO>));
 
 typedef void(*hs_type_inspector)(int16, int32, char*, int32);
 typedef int32(*typecasting_procedure)(int32);

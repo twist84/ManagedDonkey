@@ -29,10 +29,10 @@ public:
 	s_file_reference m_file_reference;
 	int32 m_sort_order;
 };
-static_assert(sizeof(c_gui_map_selected_item) == sizeof(c_gui_selected_item) + 0x118);
-static_assert(0x190 == OFFSETOF(c_gui_map_selected_item, m_controller_index));
-static_assert(0x194 == OFFSETOF(c_gui_map_selected_item, m_file_reference));
-static_assert(0x2A4 == OFFSETOF(c_gui_map_selected_item, m_sort_order));
+COMPILE_ASSERT(sizeof(c_gui_map_selected_item) == sizeof(c_gui_selected_item) + 0x118);
+COMPILE_ASSERT(0x190 == OFFSETOF(c_gui_map_selected_item, m_controller_index));
+COMPILE_ASSERT(0x194 == OFFSETOF(c_gui_map_selected_item, m_file_reference));
+COMPILE_ASSERT(0x2A4 == OFFSETOF(c_gui_map_selected_item, m_sort_order));
 
 class c_gui_map_subitem_selectable_item_datasource : 
 	public c_gui_ordered_data
@@ -64,14 +64,14 @@ public:
 	bool m_enumeration_complete;
 	c_autosave_queue_enumerator m_autosave_enumerator;
 };
-static_assert(sizeof(c_gui_map_subitem_selectable_item_datasource) == 0x1CF60);
-static_assert(sizeof(c_gui_map_subitem_selectable_item_datasource) == sizeof(c_gui_ordered_data) + 0x1CE54);
-static_assert(0x0010C == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_enumeration_map_id));
-static_assert(0x00110 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_maps));
-static_assert(0x19228 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_map_count));
-static_assert(0x1922C == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_controller_index));
-static_assert(0x19230 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_enumeration_complete));
-static_assert(0x19238 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_autosave_enumerator));
+COMPILE_ASSERT(sizeof(c_gui_map_subitem_selectable_item_datasource) == 0x1CF60);
+COMPILE_ASSERT(sizeof(c_gui_map_subitem_selectable_item_datasource) == sizeof(c_gui_ordered_data) + 0x1CE54);
+COMPILE_ASSERT(0x0010C == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_enumeration_map_id));
+COMPILE_ASSERT(0x00110 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_maps));
+COMPILE_ASSERT(0x19228 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_map_count));
+COMPILE_ASSERT(0x1922C == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_controller_index));
+COMPILE_ASSERT(0x19230 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_enumeration_complete));
+COMPILE_ASSERT(0x19238 == OFFSETOF(c_gui_map_subitem_selectable_item_datasource, m_autosave_enumerator));
 
 extern int __cdecl map_selected_item_sort_proc(const void* a, const void* b);
 

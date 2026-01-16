@@ -34,7 +34,7 @@ struct s_gui_skin_definition
 	c_typed_tag_block<s_text_widget_block> text_blocks;
 	c_typed_tag_block<s_bitmap_widget_block> bitmap_blocks;
 };
-static_assert(sizeof(s_gui_skin_definition) == 0x1C);
+COMPILE_ASSERT(sizeof(s_gui_skin_definition) == 0x1C);
 
 struct s_core_widget_definition
 {
@@ -60,7 +60,7 @@ struct s_core_widget_definition
 
 	c_typed_tag_reference<GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG, INVALID_TAG> animation_collection_reference;
 };
-static_assert(sizeof(s_core_widget_definition) == 0x2C);
+COMPILE_ASSERT(sizeof(s_core_widget_definition) == 0x2C);
 
 struct s_runtime_core_widget_definition
 {
@@ -87,7 +87,7 @@ struct s_runtime_core_widget_definition
 
 	int32 animation_collection_reference_index;
 };
-static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
+COMPILE_ASSERT(sizeof(s_runtime_core_widget_definition) == 0x34);
 
 struct s_gui_widget_render_data
 {
@@ -124,9 +124,9 @@ struct s_gui_widget_render_data
 	bool render_debug_rotation_origin;
 #pragma pack(pop)
 };
-//static_assert(sizeof(s_gui_widget_render_data) == 0x2C); // == release
-//static_assert(sizeof(s_gui_widget_render_data) == 0x30); // == profile
-//static_assert(sizeof(s_gui_widget_render_data) == 0x50); // >= play
+//COMPILE_ASSERT(sizeof(s_gui_widget_render_data) == 0x2C); // == release
+//COMPILE_ASSERT(sizeof(s_gui_widget_render_data) == 0x30); // == profile
+//COMPILE_ASSERT(sizeof(s_gui_widget_render_data) == 0x50); // >= play
 
 class c_gui_widget
 {
@@ -318,24 +318,24 @@ public:
 	int32 m_last_animated_milliseconds;
 	int32 __unknownDC;
 };
-static_assert(sizeof(c_gui_widget) == 0xE0);
-static_assert(0x04 == OFFSETOF(c_gui_widget, __unknown4));
-static_assert(0x08 == OFFSETOF(c_gui_widget, m_type));
-static_assert(0x0C == OFFSETOF(c_gui_widget, m_visible));
-static_assert(0x0D == OFFSETOF(c_gui_widget, m_enabled));
-static_assert(0x0E == OFFSETOF(c_gui_widget, m_needs_disposal));
-static_assert(0x0F == OFFSETOF(c_gui_widget, m_use_alternate_ambient_state));
-static_assert(0x10 == OFFSETOF(c_gui_widget, m_parent));
-static_assert(0x1C == OFFSETOF(c_gui_widget, m_children));
-static_assert(0x28 == OFFSETOF(c_gui_widget, m_next));
-static_assert(0x34 == OFFSETOF(c_gui_widget, m_previous));
-static_assert(0x40 == OFFSETOF(c_gui_widget, m_name));
-static_assert(0x44 == OFFSETOF(c_gui_widget, __unknown44));
-static_assert(0x48 == OFFSETOF(c_gui_widget, m_flags));
-static_assert(0x4C == OFFSETOF(c_gui_widget, __unknown4C));
-static_assert(0x50 == OFFSETOF(c_gui_widget, m_animated_state));
-static_assert(0xD8 == OFFSETOF(c_gui_widget, m_last_animated_milliseconds));
-static_assert(0xDC == OFFSETOF(c_gui_widget, __unknownDC));
+COMPILE_ASSERT(sizeof(c_gui_widget) == 0xE0);
+COMPILE_ASSERT(0x04 == OFFSETOF(c_gui_widget, __unknown4));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_gui_widget, m_type));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_gui_widget, m_visible));
+COMPILE_ASSERT(0x0D == OFFSETOF(c_gui_widget, m_enabled));
+COMPILE_ASSERT(0x0E == OFFSETOF(c_gui_widget, m_needs_disposal));
+COMPILE_ASSERT(0x0F == OFFSETOF(c_gui_widget, m_use_alternate_ambient_state));
+COMPILE_ASSERT(0x10 == OFFSETOF(c_gui_widget, m_parent));
+COMPILE_ASSERT(0x1C == OFFSETOF(c_gui_widget, m_children));
+COMPILE_ASSERT(0x28 == OFFSETOF(c_gui_widget, m_next));
+COMPILE_ASSERT(0x34 == OFFSETOF(c_gui_widget, m_previous));
+COMPILE_ASSERT(0x40 == OFFSETOF(c_gui_widget, m_name));
+COMPILE_ASSERT(0x44 == OFFSETOF(c_gui_widget, __unknown44));
+COMPILE_ASSERT(0x48 == OFFSETOF(c_gui_widget, m_flags));
+COMPILE_ASSERT(0x4C == OFFSETOF(c_gui_widget, __unknown4C));
+COMPILE_ASSERT(0x50 == OFFSETOF(c_gui_widget, m_animated_state));
+COMPILE_ASSERT(0xD8 == OFFSETOF(c_gui_widget, m_last_animated_milliseconds));
+COMPILE_ASSERT(0xDC == OFFSETOF(c_gui_widget, __unknownDC));
 
 extern bool gui_debug_text_bounds_global;
 extern bool gui_debug_bitmap_bounds_global;

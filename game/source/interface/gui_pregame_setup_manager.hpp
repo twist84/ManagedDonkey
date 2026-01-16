@@ -50,7 +50,7 @@ public:
 	e_gui_game_mode m_game_mode;
 	bool m_start_countdown_when_ready;
 };
-static_assert(sizeof(c_gui_pregame_setup_manager) == 0x24E98);
+COMPILE_ASSERT(sizeof(c_gui_pregame_setup_manager) == 0x24E98);
 
 #pragma pack(pop)
 

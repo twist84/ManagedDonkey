@@ -40,11 +40,11 @@ public:
 	uns32 m_progress_dialog_start_time_milliseconds;
 	bool m_catalogue_enumeration_active;
 };
-static_assert(sizeof(c_gui_screen_pregame_lobby_campaign) == sizeof(c_gui_screen_pregame_lobby) + 0x94);
-static_assert(0x03390 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_last_player_count));
-static_assert(0x03394 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_session_class));
-static_assert(0x03398 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_last_player_identifiers));
-static_assert(0x03418 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_use_saved_game_from_controller));
-static_assert(0x0341C == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_progress_dialog_start_time_milliseconds));
-static_assert(0x03420 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_catalogue_enumeration_active));
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_lobby_campaign) == sizeof(c_gui_screen_pregame_lobby) + 0x94);
+COMPILE_ASSERT(0x03390 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_last_player_count));
+COMPILE_ASSERT(0x03394 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_session_class));
+COMPILE_ASSERT(0x03398 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_last_player_identifiers));
+COMPILE_ASSERT(0x03418 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_use_saved_game_from_controller));
+COMPILE_ASSERT(0x0341C == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_progress_dialog_start_time_milliseconds));
+COMPILE_ASSERT(0x03420 == OFFSETOF(c_gui_screen_pregame_lobby_campaign, m_catalogue_enumeration_active));
 

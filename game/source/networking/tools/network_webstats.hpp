@@ -18,7 +18,7 @@ struct s_game_matchmaking_options
 	int32 experience_base_increment;
 	int32 experience_penalty_decrement;
 };
-static_assert(sizeof(s_game_matchmaking_options) == 0x5C);
+COMPILE_ASSERT(sizeof(s_game_matchmaking_options) == 0x5C);
 
 extern void __cdecl network_webstats_disable(bool disabled);
 extern void __cdecl network_webstats_dispose();

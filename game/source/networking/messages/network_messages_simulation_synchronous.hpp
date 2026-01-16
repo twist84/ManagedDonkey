@@ -7,9 +7,9 @@ struct s_network_message_synchronous_update
 	struct simulation_update update;
 	s_simulation_update_metadata metadata;
 };
-static_assert(sizeof(s_network_message_synchronous_update) == 0x1668);
-static_assert(0x0000 == OFFSETOF(s_network_message_synchronous_update, update));
-static_assert(0x1658 == OFFSETOF(s_network_message_synchronous_update, metadata));
+COMPILE_ASSERT(sizeof(s_network_message_synchronous_update) == 0x1668);
+COMPILE_ASSERT(0x0000 == OFFSETOF(s_network_message_synchronous_update, update));
+COMPILE_ASSERT(0x1658 == OFFSETOF(s_network_message_synchronous_update, metadata));
 
 struct s_network_message_synchronous_playback_control
 {
@@ -17,7 +17,7 @@ struct s_network_message_synchronous_playback_control
 	int32 identifier;
 	int32 update_number;
 };
-static_assert(sizeof(s_network_message_synchronous_playback_control) == 0xC);
+COMPILE_ASSERT(sizeof(s_network_message_synchronous_playback_control) == 0xC);
 
 struct s_network_message_synchronous_actions
 {
@@ -26,13 +26,13 @@ struct s_network_message_synchronous_actions
 	uns32 valid_user_mask;
 	player_action user_actions[4];
 };
-static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);
+COMPILE_ASSERT(sizeof(s_network_message_synchronous_actions) == 0x210);
 
 struct s_network_message_synchronous_acknowledge
 {
 	int32 current_update_number;
 };
-static_assert(sizeof(s_network_message_synchronous_acknowledge) == 0x4);
+COMPILE_ASSERT(sizeof(s_network_message_synchronous_acknowledge) == 0x4);
 
 class c_bitstream;
 

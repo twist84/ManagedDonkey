@@ -8,7 +8,7 @@ struct direction_playback_controller
 	int16 yaw;
 	int16 pitch;
 };
-static_assert(sizeof(direction_playback_controller) == 0x4);
+COMPILE_ASSERT(sizeof(direction_playback_controller) == 0x4);
 
 struct animation_playback_controller
 {
@@ -16,7 +16,7 @@ struct animation_playback_controller
 	direction_playback_controller aiming_control;
 	direction_playback_controller looking_control;
 };
-static_assert(sizeof(animation_playback_controller) == 0xC);
+COMPILE_ASSERT(sizeof(animation_playback_controller) == 0xC);
 
 struct animation_thread :
 	s_datum_header
@@ -30,7 +30,7 @@ struct animation_thread :
 	animation_playback_controller animation_state;
 	int16 version;
 };
-static_assert(sizeof(animation_thread) == 0xA4);
+COMPILE_ASSERT(sizeof(animation_thread) == 0xA4);
 
 extern bool debug_recording;
 

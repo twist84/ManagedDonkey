@@ -9,7 +9,7 @@ struct edit_text
 	int16 insertion_point_index;
 	int16 selection_start_index;
 };
-static_assert(sizeof(edit_text) == 0xC);
+COMPILE_ASSERT(sizeof(edit_text) == 0xC);
 
 struct s_key_state;
 

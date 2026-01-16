@@ -100,115 +100,115 @@ struct action_request_death_ping
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_death_ping) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_death_ping) == 0x44);
 
 struct action_request_custom_animation
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_custom_animation) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_custom_animation) == 0x44);
 
 struct action_request_stop_custom_animation
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_stop_custom_animation) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_stop_custom_animation) == 0x44);
 
 struct action_request_sync_container
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_sync_container) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_sync_container) == 0x44);
 
 struct action_request_assassinate
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_assassinate) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_assassinate) == 0x44);
 
 struct action_request_get_infected
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_get_infected) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_get_infected) == 0x44);
 
 struct action_request_hostile_morph
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_hostile_morph) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_hostile_morph) == 0x44);
 
 struct action_request_resurrect
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_resurrect) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_resurrect) == 0x44);
 
 struct action_request_hard_ping
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_hard_ping) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_hard_ping) == 0x44);
 
 struct action_request_ping
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_ping) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_ping) == 0x44);
 
 struct action_request_morph
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_morph) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_morph) == 0x44);
 
 struct action_request_morph_arrival
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_morph_arrival) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_morph_arrival) == 0x44);
 
 struct action_request_infect
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_infect) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_infect) == 0x44);
 
 struct action_request_posture
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_posture) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_posture) == 0x44);
 
 struct action_request_posture_exit
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_posture_exit) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_posture_exit) == 0x44);
 
 struct action_request_vehicle_exit
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vehicle_exit) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_exit) == 0x44);
 
 struct action_request_vehicle_exit_and_detach
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vehicle_exit_and_detach) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_exit_and_detach) == 0x44);
 
 struct action_request_vehicle_ejection
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vehicle_ejection) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_ejection) == 0x44);
 
 struct action_request_vehicle_board
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vehicle_board) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_board) == 0x44);
 
 struct action_request_vehicle_enter
 {
@@ -219,163 +219,163 @@ struct action_request_vehicle_enter
 
 	byte __data[0x44 - 0x8];
 };
-static_assert(sizeof(action_request_vehicle_enter) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_enter) == 0x44);
 
 struct action_request_open
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_open) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_open) == 0x44);
 
 struct action_request_close
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_close) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_close) == 0x44);
 
 struct action_request_vehicle_exit_immediate
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vehicle_exit_immediate) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_exit_immediate) == 0x44);
 
 struct action_request_vehicle_flip
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vehicle_flip) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vehicle_flip) == 0x44);
 
 struct action_request_climb_attach
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_climb_attach) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_climb_attach) == 0x44);
 
 struct action_request_climb_detach
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_climb_detach) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_climb_detach) == 0x44);
 
 struct action_request_wall_lean
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_wall_lean) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_wall_lean) == 0x44);
 
 struct action_request_wall_lean_open
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_wall_lean_open) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_wall_lean_open) == 0x44);
 
 struct action_request_token
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_token) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_token) == 0x44);
 
 struct action_request_takeoff
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_takeoff) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_takeoff) == 0x44);
 
 struct action_request_perch
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_perch) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_perch) == 0x44);
 
 struct action_request_perch_jump
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_perch_jump) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_perch_jump) == 0x44);
 
 struct action_request_land
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_land) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_land) == 0x44);
 
 struct action_request_jump
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_jump) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_jump) == 0x44);
 
 struct action_request_leap_anticipation
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_leap_anticipation) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_leap_anticipation) == 0x44);
 
 struct action_request_leap
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_leap) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_leap) == 0x44);
 
 struct action_request_leap_recovery
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_leap_recovery) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_leap_recovery) == 0x44);
 
 struct action_request_emit_ai
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_emit_ai) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_emit_ai) == 0x44);
 
 struct action_request_berserk
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_berserk) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_berserk) == 0x44);
 
 struct action_request_flurry
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_flurry) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_flurry) == 0x44);
 
 struct action_request_deploy_turret
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_deploy_turret) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_deploy_turret) == 0x44);
 
 struct action_request_smash
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_smash) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_smash) == 0x44);
 
 struct action_request_vault
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_vault) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_vault) == 0x44);
 
 struct action_request_hoist
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_hoist) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_hoist) == 0x44);
 
 struct action_request_ai_impulse
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_ai_impulse) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_ai_impulse) == 0x44);
 
 struct action_request_melee_ai
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_melee_ai) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_melee_ai) == 0x44);
 
 struct action_request_weapon_pickup
 {
@@ -384,79 +384,79 @@ struct action_request_weapon_pickup
 
 	byte __data[0x44 - 0x8];
 };
-static_assert(sizeof(action_request_weapon_pickup) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_weapon_pickup) == 0x44);
 
 struct action_request_weapon_trade
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_weapon_trade) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_weapon_trade) == 0x44);
 
 struct action_request_primary_weapon_drop
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_drop) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_drop) == 0x44);
 
 struct action_request_secondary_weapon_drop
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_drop) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_drop) == 0x44);
 
 struct action_request_surge
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_surge) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_surge) == 0x44);
 
 struct action_request_phase
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_phase) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_phase) == 0x44);
 
 struct action_request_stow
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_stow) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_stow) == 0x44);
 
 struct action_request_draw
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_draw) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_draw) == 0x44);
 
 struct action_request_infection_spew
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_infection_spew) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_infection_spew) == 0x44);
 
 struct action_request_kamikaze
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_kamikaze) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_kamikaze) == 0x44);
 
 struct action_request_primary_weapon_switch
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_switch) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_switch) == 0x44);
 
 struct action_request_secondary_weapon_switch
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_switch) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_switch) == 0x44);
 
 struct action_request_grenade
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_grenade) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_grenade) == 0x44);
 
 struct action_request_equipment
 {
@@ -469,14 +469,14 @@ struct action_request_equipment
 
 	byte __data[0x44 - 0x20];
 };
-static_assert(sizeof(action_request_equipment) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_equipment) == 0x44);
 
 struct action_request_equipment_animation
 {
 	int32 slot_index;
 	byte __data[0x44 - 0x4];
 };
-static_assert(sizeof(action_request_equipment_animation) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_equipment_animation) == 0x44);
 
 struct action_request_equipment_pickup
 {
@@ -484,157 +484,157 @@ struct action_request_equipment_pickup
 
 	byte __data[0x44 - 0x4];
 };
-static_assert(sizeof(action_request_equipment_pickup) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_equipment_pickup) == 0x44);
 
 struct action_request_equipment_drop
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_equipment_drop) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_equipment_drop) == 0x44);
 
 struct action_request_melee_player
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_melee_player) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_melee_player) == 0x44);
 
 struct action_request_primary_weapon_primary_reload
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_primary_reload) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_primary_reload) == 0x44);
 
 struct action_request_primary_weapon_secondary_reload
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_secondary_reload) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_secondary_reload) == 0x44);
 
 struct action_request_secondary_weapon_primary_reload
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_primary_reload) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_primary_reload) == 0x44);
 
 struct action_request_secondary_weapon_secondary_reload
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_secondary_reload) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_secondary_reload) == 0x44);
 
 struct action_request_soft_ping
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_soft_ping) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_soft_ping) == 0x44);
 
 struct action_request_primary_weapon_primary_recoil
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_primary_recoil) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_primary_recoil) == 0x44);
 
 struct action_request_primary_weapon_secondary_recoil
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_secondary_recoil) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_secondary_recoil) == 0x44);
 
 struct action_request_primary_weapon_primary_chamber
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_primary_chamber) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_primary_chamber) == 0x44);
 
 struct action_request_primary_weapon_secondary_chamber
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_secondary_chamber) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_secondary_chamber) == 0x44);
 
 struct action_request_primary_weapon_primary_charged
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_primary_charged) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_primary_charged) == 0x44);
 
 struct action_request_primary_weapon_secondary_charged
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_secondary_charged) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_secondary_charged) == 0x44);
 
 struct action_request_secondary_weapon_primary_recoil
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_primary_recoil) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_primary_recoil) == 0x44);
 
 struct action_request_secondary_weapon_secondary_recoil
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_secondary_recoil) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_secondary_recoil) == 0x44);
 
 struct action_request_secondary_weapon_primary_chamber
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_primary_chamber) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_primary_chamber) == 0x44);
 
 struct action_request_secondary_weapon_secondary_chamber
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_secondary_chamber) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_secondary_chamber) == 0x44);
 
 struct action_request_secondary_weapon_primary_charged
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_primary_charged) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_primary_charged) == 0x44);
 
 struct action_request_secondary_weapon_secondary_charged
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_secondary_charged) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_secondary_charged) == 0x44);
 
 struct action_request_primary_weapon_overheat_enter
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_overheat_enter) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_overheat_enter) == 0x44);
 
 struct action_request_primary_weapon_overheat_loop
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_overheat_loop) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_overheat_loop) == 0x44);
 
 struct action_request_primary_weapon_overheat_exit
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_primary_weapon_overheat_exit) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_primary_weapon_overheat_exit) == 0x44);
 
 struct action_request_secondary_weapon_overheat_enter
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_overheat_enter) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_overheat_enter) == 0x44);
 
 struct action_request_secondary_weapon_overheat_loop
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_overheat_loop) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_overheat_loop) == 0x44);
 
 struct action_request_secondary_weapon_overheat_exit
 {
 	byte __data[0x44];
 };
-static_assert(sizeof(action_request_secondary_weapon_overheat_exit) == 0x44);
+COMPILE_ASSERT(sizeof(action_request_secondary_weapon_overheat_exit) == 0x44);
 
 struct action_request
 {
@@ -733,7 +733,7 @@ struct action_request
 		byte storage[0x44];
 	};
 };
-static_assert(sizeof(action_request) == 0x4 + 0x44);
+COMPILE_ASSERT(sizeof(action_request) == 0x4 + 0x44);
 
 extern bool __cdecl action_executing(int32 mover_index, e_action action_type);
 extern bool __cdecl action_submit(int32 mover_index, const action_request* request);

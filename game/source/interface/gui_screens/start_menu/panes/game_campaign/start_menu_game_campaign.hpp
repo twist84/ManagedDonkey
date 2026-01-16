@@ -19,8 +19,8 @@ public:
 public:
 	c_start_menu_game_campaign(int32 name);
 };
-static_assert(sizeof(c_start_menu_game_campaign) == 0x2168);
-static_assert(sizeof(c_start_menu_game_campaign) == sizeof(c_start_menu_pane_screen_widget));
+COMPILE_ASSERT(sizeof(c_start_menu_game_campaign) == 0x2168);
+COMPILE_ASSERT(sizeof(c_start_menu_game_campaign) == sizeof(c_start_menu_pane_screen_widget));
 
 extern bool __cdecl parse_xml_primary_mission_objectives(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_xml_secondary_mission_objectives(void* this_ptr, wchar_t* buffer, int32 buffer_length);

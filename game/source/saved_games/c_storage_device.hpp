@@ -26,7 +26,7 @@ public:
 	uns32* m_device_id;
 	bool m_always_show;
 };
-static_assert(sizeof(c_storage_device_selector_overlapped_task) == 0x24);
+COMPILE_ASSERT(sizeof(c_storage_device_selector_overlapped_task) == 0x24);
 
 class c_storage_device
 {
@@ -38,5 +38,5 @@ public:
 	e_controller_index m_controller_index;
 	c_storage_device_selector_overlapped_task m_storage_device_selector_task;
 };
-static_assert(sizeof(c_storage_device) == 0x30);
+COMPILE_ASSERT(sizeof(c_storage_device) == 0x30);
 

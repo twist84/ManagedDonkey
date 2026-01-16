@@ -35,10 +35,10 @@ public:
 	bool m_handled_simulation_abort;
 	uns32 m_simulation_aborted_timestamp;
 };
-static_assert(sizeof(c_life_cycle_state_handler_in_match) == 0x40);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_in_match, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_in_match, m_match_start_time));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_in_match, m_match_game_instance));
-static_assert(0x38 == OFFSETOF(c_life_cycle_state_handler_in_match, m_handled_simulation_abort));
-static_assert(0x3C == OFFSETOF(c_life_cycle_state_handler_in_match, m_simulation_aborted_timestamp));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_in_match) == 0x40);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_in_match, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_in_match, m_match_start_time));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_in_match, m_match_game_instance));
+COMPILE_ASSERT(0x38 == OFFSETOF(c_life_cycle_state_handler_in_match, m_handled_simulation_abort));
+COMPILE_ASSERT(0x3C == OFFSETOF(c_life_cycle_state_handler_in_match, m_simulation_aborted_timestamp));
 

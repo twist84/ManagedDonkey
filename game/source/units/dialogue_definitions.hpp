@@ -12,7 +12,7 @@ struct s_dialogue_definition
 	// 3-letter mission dialogue designator name
 	c_string_id mission_dialogue_designator;
 };
-static_assert(sizeof(s_dialogue_definition) == 0x24);
+COMPILE_ASSERT(sizeof(s_dialogue_definition) == 0x24);
 
 // unit_datum: object_header_block_reference seat_storage;
 struct s_seat_storage
@@ -23,5 +23,5 @@ struct s_seat_storage
 
 	byte __dataC[0x50];
 };
-static_assert(sizeof(s_seat_storage) == 0x5C);
+COMPILE_ASSERT(sizeof(s_seat_storage) == 0x5C);
 

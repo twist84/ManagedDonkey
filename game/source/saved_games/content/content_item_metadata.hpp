@@ -51,5 +51,5 @@ struct s_saved_game_item_metadata
 	void decode_from_mcc(c_bitstream* packet);
 	void encode_to_mcc(c_bitstream* packet) const;
 };
-static_assert(sizeof(s_saved_game_item_metadata) == 0xF8);
+COMPILE_ASSERT(sizeof(s_saved_game_item_metadata) == 0xF8);
 

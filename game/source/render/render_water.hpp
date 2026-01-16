@@ -29,8 +29,8 @@ struct s_new_interaction_event
 	real_vector3d water_velocity;
 	int32 water_ripple_definition_index;
 };
-static_assert(sizeof(s_new_interaction_event) == 0x28);
-static_assert(sizeof(s_new_interaction_event) * 128 == 0x1400);
+COMPILE_ASSERT(sizeof(s_new_interaction_event) == 0x28);
+COMPILE_ASSERT(sizeof(s_new_interaction_event) * 128 == 0x1400);
 
 class c_water_renderer
 {

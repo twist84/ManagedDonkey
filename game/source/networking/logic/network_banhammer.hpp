@@ -22,13 +22,13 @@ struct s_network_web_event_cheating_local_player
 	bool webstats_submitted;
 	byte _pad45[0x3];
 };
-static_assert(sizeof(s_network_web_event_cheating_local_player) == 0x48);
+COMPILE_ASSERT(sizeof(s_network_web_event_cheating_local_player) == 0x48);
 
 struct s_network_banhammer_remote_cheater_data :
 	s_network_web_event_cheating_local_player
 {
 };
-static_assert(sizeof(s_network_banhammer_remote_cheater_data) == sizeof(s_network_web_event_cheating_local_player));
+COMPILE_ASSERT(sizeof(s_network_banhammer_remote_cheater_data) == sizeof(s_network_web_event_cheating_local_player));
 
 struct s_network_banhammer_cheating_report
 {
@@ -45,7 +45,7 @@ struct s_network_banhammer_cheating_report
 
 	byte __data10A[0x6];
 };
-static_assert(sizeof(s_network_banhammer_cheating_report) == 0x110);
+COMPILE_ASSERT(sizeof(s_network_banhammer_cheating_report) == 0x110);
 
 struct s_network_banhammer_controller_data
 {
@@ -70,20 +70,20 @@ struct s_network_banhammer_controller_data
 
 	byte __dataFD4[0x4];
 };
-static_assert(sizeof(s_network_banhammer_controller_data) == 0xFD8);
+COMPILE_ASSERT(sizeof(s_network_banhammer_controller_data) == 0xFD8);
 
 struct s_map_file_manifest_entry
 {
 	char signature[256];
 };
-static_assert(sizeof(s_map_file_manifest_entry) == 0x100);
+COMPILE_ASSERT(sizeof(s_map_file_manifest_entry) == 0x100);
 
 struct s_map_file_manifest
 {
 	int32 entry_count;
 	s_map_file_manifest_entry entries[128];
 };
-static_assert(sizeof(s_map_file_manifest) == 0x8004);
+COMPILE_ASSERT(sizeof(s_map_file_manifest) == 0x8004);
 
 struct s_files_user_banhammer_messages
 {
@@ -93,7 +93,7 @@ struct __declspec(align(8)) s_network_banhammer_controller_downloaders
 {
 	c_http_stored_buffer_downloader<4373> user_downloader;
 };
-static_assert(sizeof(s_network_banhammer_controller_downloaders) == 0x17B0);
+COMPILE_ASSERT(sizeof(s_network_banhammer_controller_downloaders) == 0x17B0);
 
 struct s_network_banhammer_globals
 {
@@ -132,31 +132,31 @@ struct s_network_banhammer_globals
 	byte __data20984[0x4];
 	s_network_quality_statistics network_statistics_upload_buffer;
 };
-static_assert(sizeof(c_http_stored_buffer_downloader<34977>) == 0x8F3C);
-static_assert(sizeof(s_network_banhammer_globals) == 0x20A48);
-static_assert(0x00000 == OFFSETOF(s_network_banhammer_globals, controller_flags));
-static_assert(0x00004 == OFFSETOF(s_network_banhammer_globals, controller_cheat_flags));
-static_assert(0x00008 == OFFSETOF(s_network_banhammer_globals, map_id));
-static_assert(0x0000C == OFFSETOF(s_network_banhammer_globals, controller_ban_flags));
-static_assert(0x00010 == OFFSETOF(s_network_banhammer_globals, controller_ban_message_flags));
-static_assert(0x00014 == OFFSETOF(s_network_banhammer_globals, __data14));
-static_assert(0x00018 == OFFSETOF(s_network_banhammer_globals, controllers));
-static_assert(0x03F78 == OFFSETOF(s_network_banhammer_globals, remote_cheaters));
-static_assert(0x05178 == OFFSETOF(s_network_banhammer_globals, machine_file_download_time));
-static_assert(0x0517C == OFFSETOF(s_network_banhammer_globals, machine_file_refresh_time));
-static_assert(0x05180 == OFFSETOF(s_network_banhammer_globals, map_file_manifest_valid));
-static_assert(0x05181 == OFFSETOF(s_network_banhammer_globals, map_file_manifest_failed));
-static_assert(0x05184 == OFFSETOF(s_network_banhammer_globals, map_file_manifest_attempt_index));
-static_assert(0x05188 == OFFSETOF(s_network_banhammer_globals, current_map_file_manifest));
-static_assert(0x0D18C == OFFSETOF(s_network_banhammer_globals, map_file_manifest_downloader));
-static_assert(0x160D4 == OFFSETOF(s_network_banhammer_globals, __unknown160D4));
-static_assert(0x160D5 == OFFSETOF(s_network_banhammer_globals, __unknown160D5));
-static_assert(0x160D6 == OFFSETOF(s_network_banhammer_globals, map_signature));
-static_assert(0x161D8 == OFFSETOF(s_network_banhammer_globals, machine_downloader));
-static_assert(0x170E4 == OFFSETOF(s_network_banhammer_globals, message_downloader));
-static_assert(0x1A030 == OFFSETOF(s_network_banhammer_globals, controller_downloaders));
-static_assert(0x1FEF0 == OFFSETOF(s_network_banhammer_globals, machine_uploader));
-static_assert(0x20988 == OFFSETOF(s_network_banhammer_globals, network_statistics_upload_buffer));
+COMPILE_ASSERT(sizeof(c_http_stored_buffer_downloader<34977>) == 0x8F3C);
+COMPILE_ASSERT(sizeof(s_network_banhammer_globals) == 0x20A48);
+COMPILE_ASSERT(0x00000 == OFFSETOF(s_network_banhammer_globals, controller_flags));
+COMPILE_ASSERT(0x00004 == OFFSETOF(s_network_banhammer_globals, controller_cheat_flags));
+COMPILE_ASSERT(0x00008 == OFFSETOF(s_network_banhammer_globals, map_id));
+COMPILE_ASSERT(0x0000C == OFFSETOF(s_network_banhammer_globals, controller_ban_flags));
+COMPILE_ASSERT(0x00010 == OFFSETOF(s_network_banhammer_globals, controller_ban_message_flags));
+COMPILE_ASSERT(0x00014 == OFFSETOF(s_network_banhammer_globals, __data14));
+COMPILE_ASSERT(0x00018 == OFFSETOF(s_network_banhammer_globals, controllers));
+COMPILE_ASSERT(0x03F78 == OFFSETOF(s_network_banhammer_globals, remote_cheaters));
+COMPILE_ASSERT(0x05178 == OFFSETOF(s_network_banhammer_globals, machine_file_download_time));
+COMPILE_ASSERT(0x0517C == OFFSETOF(s_network_banhammer_globals, machine_file_refresh_time));
+COMPILE_ASSERT(0x05180 == OFFSETOF(s_network_banhammer_globals, map_file_manifest_valid));
+COMPILE_ASSERT(0x05181 == OFFSETOF(s_network_banhammer_globals, map_file_manifest_failed));
+COMPILE_ASSERT(0x05184 == OFFSETOF(s_network_banhammer_globals, map_file_manifest_attempt_index));
+COMPILE_ASSERT(0x05188 == OFFSETOF(s_network_banhammer_globals, current_map_file_manifest));
+COMPILE_ASSERT(0x0D18C == OFFSETOF(s_network_banhammer_globals, map_file_manifest_downloader));
+COMPILE_ASSERT(0x160D4 == OFFSETOF(s_network_banhammer_globals, __unknown160D4));
+COMPILE_ASSERT(0x160D5 == OFFSETOF(s_network_banhammer_globals, __unknown160D5));
+COMPILE_ASSERT(0x160D6 == OFFSETOF(s_network_banhammer_globals, map_signature));
+COMPILE_ASSERT(0x161D8 == OFFSETOF(s_network_banhammer_globals, machine_downloader));
+COMPILE_ASSERT(0x170E4 == OFFSETOF(s_network_banhammer_globals, message_downloader));
+COMPILE_ASSERT(0x1A030 == OFFSETOF(s_network_banhammer_globals, controller_downloaders));
+COMPILE_ASSERT(0x1FEF0 == OFFSETOF(s_network_banhammer_globals, machine_uploader));
+COMPILE_ASSERT(0x20988 == OFFSETOF(s_network_banhammer_globals, network_statistics_upload_buffer));
 
 
 extern bool& g_network_banhammer_initialized;

@@ -13,5 +13,5 @@ struct s_motd_data
 	c_static_string<511> message;
 	byte __data[2721 - sizeof(message_length) - sizeof(message)];
 };
-static_assert(sizeof(s_motd_data) == 2721);
+COMPILE_ASSERT(sizeof(s_motd_data) == 2721);
 #pragma pack(pop)

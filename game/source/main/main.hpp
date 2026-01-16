@@ -30,7 +30,7 @@ struct s_scenario_zone_activation
 	int32 deactivating_cinematic_zone_mask;
 	int32 activating_cinematic_zone_mask;
 };
-static_assert(sizeof(s_scenario_zone_activation) == 0x10);
+COMPILE_ASSERT(sizeof(s_scenario_zone_activation) == 0x10);
 
 struct _main_globals
 {
@@ -78,7 +78,7 @@ struct _main_globals
 	int32 main_loop_pregame_entered;
 	uns32 main_loop_pregame_last_time;
 };
-static_assert(sizeof(_main_globals) == 0x84);
+COMPILE_ASSERT(sizeof(_main_globals) == 0x84);
 
 struct s_main_status_value
 {

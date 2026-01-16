@@ -25,13 +25,13 @@ struct leaf_map
 	s_tag_block leaves;
 	s_tag_block connections;
 };
-static_assert(sizeof(leaf_map) == 0x1C);
+COMPILE_ASSERT(sizeof(leaf_map) == 0x1C);
 
 struct structure_leaf
 {
 	uns8 cluster_index;
 };
-static_assert(sizeof(structure_leaf) == sizeof(uns8));
+COMPILE_ASSERT(sizeof(structure_leaf) == sizeof(uns8));
 
 struct structure_seam_identifier;
 struct structure_edge_to_seam_edge_mapping;
@@ -101,20 +101,20 @@ struct structure_bsp
 	s_tag_block widget_references;
 	c_structure_bsp_resource_interface resource_interface;
 };
-static_assert(sizeof(structure_bsp) == 0x3A0);
+COMPILE_ASSERT(sizeof(structure_bsp) == 0x3A0);
 
 struct structure_seam_identifier
 {
 	int32 seam_id[4];
 };
-static_assert(sizeof(structure_seam_identifier) == 0x10);
+COMPILE_ASSERT(sizeof(structure_seam_identifier) == 0x10);
 
 struct structure_edge_to_seam_edge_mapping
 {
 	int16 seam_index;
 	int16 seam_edge_index;
 };
-static_assert(sizeof(structure_edge_to_seam_edge_mapping) == 0x4);
+COMPILE_ASSERT(sizeof(structure_edge_to_seam_edge_mapping) == 0x4);
 
 struct structure_collision_material
 {
@@ -124,21 +124,21 @@ struct structure_collision_material
 	int16 seam_mapping_index;
 	byte pad[0x2];
 };
-static_assert(sizeof(structure_collision_material) == 0x18);
+COMPILE_ASSERT(sizeof(structure_collision_material) == 0x18);
 
 struct structure_surface
 {
 	int32 first_structure_surface_to_triangle_mapping_index;
 	int32 structure_surface_to_triangle_mapping_count;
 };
-static_assert(sizeof(structure_surface) == 0x8);
+COMPILE_ASSERT(sizeof(structure_surface) == 0x8);
 
 struct structure_surface_to_triangle_mapping
 {
 	int16 triangle_index;
 	int16 section_index;
 };
-static_assert(sizeof(structure_surface_to_triangle_mapping) == 0x4);
+COMPILE_ASSERT(sizeof(structure_surface_to_triangle_mapping) == 0x4);
 
 enum e_cluster_portal_flags
 {
@@ -162,7 +162,7 @@ struct cluster_portal
 	c_flags<e_cluster_portal_flags, uns32, k_cluster_portal_flags> flags;
 	c_typed_tag_block<real_point3d> vertices;
 };
-static_assert(sizeof(cluster_portal) == 0x28);
+COMPILE_ASSERT(sizeof(cluster_portal) == 0x28);
 
 struct structure_weather_palette_entry
 {
@@ -176,7 +176,7 @@ struct structure_weather_palette_entry
 	int16 runtime_wind_global_scenario_function_index;
 	char wind_scale_function[32];
 };
-static_assert(sizeof(structure_weather_palette_entry) == 0x78);
+COMPILE_ASSERT(sizeof(structure_weather_palette_entry) == 0x78);
 
 enum e_structure_cluster_flags
 {
@@ -219,14 +219,14 @@ struct structure_cluster
 	s_tag_block pvs_bound_object_references;
 	c_typed_tag_block<s_structure_cluster_cubemap_info> cluster_cubemaps;
 };
-static_assert(sizeof(structure_cluster) == 0xDC);
+COMPILE_ASSERT(sizeof(structure_cluster) == 0xDC);
 
 struct structure_conveyor_surface
 {
 	real_vector3d u;
 	real_vector3d v;
 };
-static_assert(sizeof(structure_conveyor_surface) == 0x18);
+COMPILE_ASSERT(sizeof(structure_conveyor_surface) == 0x18);
 
 struct structure_marker
 {
@@ -234,7 +234,7 @@ struct structure_marker
 	real_quaternion rotation;
 	real_point3d position;
 };
-static_assert(sizeof(structure_marker) == 0x3C);
+COMPILE_ASSERT(sizeof(structure_marker) == 0x3C);
 
 struct structure_runtime_decal
 {
@@ -245,7 +245,7 @@ struct structure_runtime_decal
 	real_point3d position;
 	real32 scale;
 };
-static_assert(sizeof(structure_runtime_decal) == 0x24);
+COMPILE_ASSERT(sizeof(structure_runtime_decal) == 0x24);
 
 enum e_instanced_geometry_flags
 {
@@ -301,7 +301,7 @@ struct structure_instanced_geometry_instance
 	int16 cubemap_0_bitmap_index;
 	int16 cubemap_1_bitmap_index;
 };
-static_assert(sizeof(structure_instanced_geometry_instance) == 0x74);
+COMPILE_ASSERT(sizeof(structure_instanced_geometry_instance) == 0x74);
 
 extern void __cdecl structure_bsp_compute_cluster_active_pvs(s_cluster_reference cluster_reference, s_game_cluster_bit_vectors* destination_pvs);
 

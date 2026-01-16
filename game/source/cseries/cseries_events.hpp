@@ -28,7 +28,7 @@ struct s_spamming_event
 	char spam_text[2048];
 	bool valid;
 };
-static_assert(sizeof(s_spamming_event) == 0x80C);
+COMPILE_ASSERT(sizeof(s_spamming_event) == 0x80C);
 
 struct s_event_category_default_configuration
 {
@@ -40,7 +40,7 @@ struct s_event_category_default_configuration
 	void(__cdecl* log_format_func)(char*, int32);
 	e_event_level initial_remote_log_level;
 };
-static_assert(sizeof(s_event_category_default_configuration) == 0x24);
+COMPILE_ASSERT(sizeof(s_event_category_default_configuration) == 0x24);
 
 struct s_event_category
 {
@@ -63,7 +63,7 @@ struct s_event_category
 	int32 first_child_index;
 	int32 sibling_index;
 };
-static_assert(sizeof(s_event_category) == 0x188);
+COMPILE_ASSERT(sizeof(s_event_category) == 0x188);
 
 class c_event_listener_base
 {
@@ -71,7 +71,7 @@ class c_event_listener_base
 	int32 m_category_index;
 	int32 m_event_listener_index;
 };
-static_assert(sizeof(c_event_listener_base) == 0x88);
+COMPILE_ASSERT(sizeof(c_event_listener_base) == 0x88);
 
 class c_event_listener : 
 	public c_event_listener_base
@@ -79,7 +79,7 @@ class c_event_listener :
 public:
 	virtual void handle_event(e_event_level, const char*) = 0;
 };
-static_assert(sizeof(c_event_listener) == sizeof(c_event_listener_base) + sizeof(void*));
+COMPILE_ASSERT(sizeof(c_event_listener) == sizeof(c_event_listener_base) + sizeof(void*));
 
 struct s_event_globals
 {
@@ -113,7 +113,7 @@ struct s_event_globals
 	bool suppress_console_display_and_show_spinner;
 	int32 permitted_thread_bits;
 };
-static_assert(sizeof(s_event_globals) == 0x82B70);
+COMPILE_ASSERT(sizeof(s_event_globals) == 0x82B70);
 
 class c_event
 {
@@ -129,7 +129,7 @@ protected:
 	int32 m_event_category_index;
 	uns32 m_event_response_suppress_flags;
 };
-static_assert(sizeof(c_event) == 0xC);
+COMPILE_ASSERT(sizeof(c_event) == 0xC);
 
 class c_event_context_string_builder
 {
@@ -153,7 +153,7 @@ struct s_event_context
 	char description[128];
 	bool display_to_console;
 };
-static_assert(sizeof(s_event_context) == 0xC1);
+COMPILE_ASSERT(sizeof(s_event_context) == 0xC1);
 
 extern bool g_events_debug_render_enable;
 extern const char* const k_error_snapshot_directory;

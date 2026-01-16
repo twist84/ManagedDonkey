@@ -15,7 +15,7 @@ struct s_network_message_join_request
 	s_transport_secure_identifier session_id;
 	s_network_session_join_request join_request;
 };
-static_assert(sizeof(s_network_message_join_request) == 0x330);
+COMPILE_ASSERT(sizeof(s_network_message_join_request) == 0x330);
 
 struct s_network_message_peer_connect
 {
@@ -23,46 +23,46 @@ struct s_network_message_peer_connect
 	s_transport_secure_identifier session_id;
 	uns64 join_nonce;
 };
-static_assert(sizeof(s_network_message_peer_connect) == 0x20);
+COMPILE_ASSERT(sizeof(s_network_message_peer_connect) == 0x20);
 
 struct s_network_message_join_abort
 {
 	s_transport_secure_identifier session_id;
 	uns64 join_nonce;
 };
-static_assert(sizeof(s_network_message_join_abort) == 0x18);
+COMPILE_ASSERT(sizeof(s_network_message_join_abort) == 0x18);
 
 struct s_network_message_join_refuse
 {
 	s_transport_secure_identifier session_id;
 	c_enum<e_network_join_refuse_reason, int32, _network_join_refuse_reason_none, k_network_join_refuse_reason_count> reason;
 };
-static_assert(sizeof(s_network_message_join_refuse) == 0x14);
+COMPILE_ASSERT(sizeof(s_network_message_join_refuse) == 0x14);
 
 struct s_network_message_leave_session
 {
 	s_transport_secure_identifier session_id;
 };
-static_assert(sizeof(s_network_message_leave_session) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_message_leave_session) == 0x10);
 
 struct s_network_message_leave_acknowledge
 {
 	s_transport_secure_identifier session_id;
 };
-static_assert(sizeof(s_network_message_leave_acknowledge) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_message_leave_acknowledge) == 0x10);
 
 struct s_network_message_session_disband
 {
 	s_transport_secure_identifier session_id;
 };
-static_assert(sizeof(s_network_message_session_disband) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_message_session_disband) == 0x10);
 
 struct s_network_message_session_boot
 {
 	s_transport_secure_identifier session_id;
 	c_enum<e_network_session_boot_reason, int32, _network_session_boot_user_request_in_game, k_network_session_boot_reason_count> reason;
 };
-static_assert(sizeof(s_network_message_session_boot) == 0x14);
+COMPILE_ASSERT(sizeof(s_network_message_session_boot) == 0x14);
 
 struct s_network_message_host_decline
 {
@@ -73,13 +73,13 @@ struct s_network_message_host_decline
 	byte __pad13[0x1];
 	s_transport_secure_address host_address;
 };
-static_assert(sizeof(s_network_message_host_decline) == 0x24);
+COMPILE_ASSERT(sizeof(s_network_message_host_decline) == 0x24);
 
 struct s_network_message_peer_establish
 {
 	s_transport_secure_identifier session_id;
 };
-static_assert(sizeof(s_network_message_peer_establish) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_message_peer_establish) == 0x10);
 
 struct s_network_message_time_synchronize
 {
@@ -88,7 +88,7 @@ struct s_network_message_time_synchronize
 	uns32 authority_timestamp[2];
 	uns32 synchronization_stage;
 };
-static_assert(sizeof(s_network_message_time_synchronize) == 0x24);
+COMPILE_ASSERT(sizeof(s_network_message_time_synchronize) == 0x24);
 
 class c_bitstream;
 

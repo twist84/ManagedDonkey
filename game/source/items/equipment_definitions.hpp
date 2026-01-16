@@ -130,7 +130,7 @@ struct _equipment_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_equipment_definition) == 0x1B0);
+COMPILE_ASSERT(sizeof(_equipment_definition) == 0x1B0);
 
 struct equipment_definition
 {
@@ -142,7 +142,7 @@ struct equipment_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(equipment_definition) == sizeof(_object_definition) + sizeof(_item_definition) + sizeof(_equipment_definition));
+COMPILE_ASSERT(sizeof(equipment_definition) == sizeof(_object_definition) + sizeof(_item_definition) + sizeof(_equipment_definition));
 
 struct s_equipment_type_super_shield
 {
@@ -155,13 +155,13 @@ struct s_equipment_type_super_shield
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_super_shield) == 0x3C);
+COMPILE_ASSERT(sizeof(s_equipment_type_super_shield) == 0x3C);
 
 struct s_equipment_type_multiplayer_powerup
 {
 	c_enum<e_multiplayer_powerup_flavor, int32, _powerup_flavor_red, _powerup_flavor_yellow> flavor;
 };
-static_assert(sizeof(s_equipment_type_multiplayer_powerup) == 0x4);
+COMPILE_ASSERT(sizeof(s_equipment_type_multiplayer_powerup) == 0x4);
 
 struct s_equipment_type_spawner
 {
@@ -195,7 +195,7 @@ struct s_equipment_type_spawner
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_spawner) == 0x34);
+COMPILE_ASSERT(sizeof(s_equipment_type_spawner) == 0x34);
 
 struct s_equipment_type_proximity_mine
 {
@@ -218,7 +218,7 @@ struct s_equipment_type_proximity_mine
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_proximity_mine) == 0x30);
+COMPILE_ASSERT(sizeof(s_equipment_type_proximity_mine) == 0x30);
 
 struct s_equipment_type_motion_tracker_noise
 {
@@ -234,21 +234,21 @@ struct s_equipment_type_motion_tracker_noise
 	// radius in WU that the damage flash noise extends to.
 	real32 flash_radius;
 };
-static_assert(sizeof(s_equipment_type_motion_tracker_noise) == 0x10);
+COMPILE_ASSERT(sizeof(s_equipment_type_motion_tracker_noise) == 0x10);
 
 struct s_equipment_type_showme
 {
 	// radius in WU that the showme extends to.
 	real32 showme_radius;
 };
-static_assert(sizeof(s_equipment_type_showme) == 0x4);
+COMPILE_ASSERT(sizeof(s_equipment_type_showme) == 0x4);
 
 struct s_equipment_type_invisibility_mode
 {
 	real32 invisible_time; // seconds
 	real32 transition_time; // seconds
 };
-static_assert(sizeof(s_equipment_type_invisibility_mode) == 0x8);
+COMPILE_ASSERT(sizeof(s_equipment_type_invisibility_mode) == 0x8);
 
 struct s_equipment_type_invincibility
 {
@@ -263,7 +263,7 @@ struct s_equipment_type_invincibility
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_invincibility) == 0x2C);
+COMPILE_ASSERT(sizeof(s_equipment_type_invincibility) == 0x2C);
 
 struct s_equipment_type_treeoflife
 {
@@ -271,14 +271,14 @@ struct s_equipment_type_treeoflife
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_treeoflife) == 0x10);
+COMPILE_ASSERT(sizeof(s_equipment_type_treeoflife) == 0x10);
 
 struct s_equipment_type_health_pack
 {
 	real32 heath_ammount;
 	real32 shield_ammount;
 };
-static_assert(sizeof(s_equipment_type_health_pack) == 0x8);
+COMPILE_ASSERT(sizeof(s_equipment_type_health_pack) == 0x8);
 
 struct s_equipment_type_forced_reload
 {
@@ -287,7 +287,7 @@ struct s_equipment_type_forced_reload
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_forced_reload) == 0x14);
+COMPILE_ASSERT(sizeof(s_equipment_type_forced_reload) == 0x14);
 
 struct s_equipment_type_concussive_blast
 {
@@ -296,7 +296,7 @@ struct s_equipment_type_concussive_blast
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_concussive_blast) == 0x20);
+COMPILE_ASSERT(sizeof(s_equipment_type_concussive_blast) == 0x20);
 
 struct s_equipment_type_tank_mode
 {
@@ -310,7 +310,7 @@ struct s_equipment_type_tank_mode
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_tank_mode) == 0x28);
+COMPILE_ASSERT(sizeof(s_equipment_type_tank_mode) == 0x28);
 
 struct s_equipment_type_mag_pulse
 {
@@ -319,7 +319,7 @@ struct s_equipment_type_mag_pulse
 	real32 __unknown8;
 	real32 __unknownC;
 };
-static_assert(sizeof(s_equipment_type_mag_pulse) == 0x10);
+COMPILE_ASSERT(sizeof(s_equipment_type_mag_pulse) == 0x10);
 
 struct s_equipment_type_hologram
 {
@@ -346,7 +346,7 @@ struct s_equipment_type_hologram
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_hologram) == 0x6C);
+COMPILE_ASSERT(sizeof(s_equipment_type_hologram) == 0x6C);
 
 struct s_equipment_type_reactive_armor
 {
@@ -360,7 +360,7 @@ struct s_equipment_type_reactive_armor
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_reactive_armor) == 0x4C);
+COMPILE_ASSERT(sizeof(s_equipment_type_reactive_armor) == 0x4C);
 
 struct s_equipment_type_bomb_run
 {
@@ -373,7 +373,7 @@ struct s_equipment_type_bomb_run
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_bomb_run) == 0x34);
+COMPILE_ASSERT(sizeof(s_equipment_type_bomb_run) == 0x34);
 
 struct s_equipment_type_armor_lock
 {
@@ -382,7 +382,7 @@ struct s_equipment_type_armor_lock
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_armor_lock) == 0x20);
+COMPILE_ASSERT(sizeof(s_equipment_type_armor_lock) == 0x20);
 
 struct s_equipment_type_adrenaline
 {
@@ -392,7 +392,7 @@ struct s_equipment_type_adrenaline
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_adrenaline) == 0x24);
+COMPILE_ASSERT(sizeof(s_equipment_type_adrenaline) == 0x24);
 
 struct s_equipment_type_lightning_strike
 {
@@ -401,7 +401,7 @@ struct s_equipment_type_lightning_strike
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_lightning_strike) == 0x14);
+COMPILE_ASSERT(sizeof(s_equipment_type_lightning_strike) == 0x14);
 
 struct s_equipment_type_scrambler
 {
@@ -414,7 +414,7 @@ struct s_equipment_type_scrambler
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_scrambler) == 0x24);
+COMPILE_ASSERT(sizeof(s_equipment_type_scrambler) == 0x24);
 
 struct s_equipment_type_weapon_jammer
 {
@@ -427,7 +427,7 @@ struct s_equipment_type_weapon_jammer
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_weapon_jammer) == 0x24);
+COMPILE_ASSERT(sizeof(s_equipment_type_weapon_jammer) == 0x24);
 
 struct s_equipment_type_ammo_pack_weapon
 {
@@ -437,7 +437,7 @@ struct s_equipment_type_ammo_pack_weapon
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_ammo_pack_weapon) == 0x18);
+COMPILE_ASSERT(sizeof(s_equipment_type_ammo_pack_weapon) == 0x18);
 
 struct s_equipment_type_ammo_pack
 {
@@ -452,7 +452,7 @@ struct s_equipment_type_ammo_pack
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_ammo_pack) == 0x34);
+COMPILE_ASSERT(sizeof(s_equipment_type_ammo_pack) == 0x34);
 
 struct s_equipment_type_vision
 {
@@ -461,7 +461,7 @@ struct s_equipment_type_vision
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_type_vision) == 0x20);
+COMPILE_ASSERT(sizeof(s_equipment_type_vision) == 0x20);
 
 extern e_equipment_type equipment_definition_get_type(int32 definition_index, int32 expected_equipment_type_index);
 extern bool equipment_definition_has_type(int32 definition_index, e_equipment_type equipment_type);

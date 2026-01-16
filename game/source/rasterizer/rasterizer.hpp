@@ -155,7 +155,7 @@ struct s_rasterizer_render_globals
 	void* window_handle;
 	bool is_d3d9ex;
 };
-static_assert(sizeof(s_rasterizer_render_globals) == 0x44);
+COMPILE_ASSERT(sizeof(s_rasterizer_render_globals) == 0x44);
 
 class c_rasterizer
 {
@@ -413,7 +413,7 @@ public:
 		unsigned int offset;
 		unsigned int stride;
 	};
-	static_assert(sizeof(s_stream_source) == 0xC);
+	COMPILE_ASSERT(sizeof(s_stream_source) == 0xC);
 
 	static void __cdecl begin(rectangle2d viewport, rectangle2d scissor_rect);
 	static bool __cdecl cleanup_before_device_reset();
@@ -742,7 +742,7 @@ public:
 
 		void update_reference_names();
 	};
-	static_assert(sizeof(s_explicit_shader) == 0x20);
+	COMPILE_ASSERT(sizeof(s_explicit_shader) == 0x20);
 
 	const s_tag_reference* get_default_texture_ref(int32 index);
 	const s_explicit_shader* get_explicit_shaders(int32 index);
@@ -937,7 +937,7 @@ protected:
 	real32 m_motion_blur_center_falloff;
 	real32 m_motion_blur_expected_dt;
 };
-static_assert(sizeof(c_rasterizer_globals) == 0xB4);
+COMPILE_ASSERT(sizeof(c_rasterizer_globals) == 0xB4);
 
 struct s_global_bitmaps
 {
@@ -946,7 +946,7 @@ struct s_global_bitmaps
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_global_bitmaps) == 0x14);
+COMPILE_ASSERT(sizeof(s_global_bitmaps) == 0x14);
 
 struct s_texture_references_block
 {
@@ -954,7 +954,7 @@ struct s_texture_references_block
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
 struct rasterizer_dynamic_screen_geometry_parameters
 {
@@ -977,7 +977,7 @@ struct rasterizer_dynamic_screen_geometry_parameters
 	int32 explicit_override_index;
 	c_rasterizer::e_surface instead_of_texture;
 };
-static_assert(sizeof(rasterizer_dynamic_screen_geometry_parameters) == 0x9C);
+COMPILE_ASSERT(sizeof(rasterizer_dynamic_screen_geometry_parameters) == 0x9C);
 
 extern void rasterizer_reset_device();
 

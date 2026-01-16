@@ -21,7 +21,7 @@ public:
 	real32 m_filter_green;
 	real32 m_filter_blue;
 };
-static_assert(sizeof(c_hue_saturation_control) == 0x14);
+COMPILE_ASSERT(sizeof(c_hue_saturation_control) == 0x14);
 
 extern c_hue_saturation_control& g_hue_saturation_control_default;
 extern c_hue_saturation_control& g_hue_saturation_control_exposed_to_hs;

@@ -16,7 +16,7 @@ struct s_transport_globals
 	transport_reset_func_t* reset_functions[8];
 	void* transport_function_context[8];
 };
-static_assert(sizeof(s_transport_globals) == 0x88);
+COMPILE_ASSERT(sizeof(s_transport_globals) == 0x88);
 
 extern s_transport_globals& transport_globals;
 

@@ -13,14 +13,14 @@ struct s_network_bandwidth_persistent_data
 
 	int32 bandwidth_dispute_count;
 };
-static_assert(sizeof(s_network_bandwidth_persistent_data) == 0x6C);
+COMPILE_ASSERT(sizeof(s_network_bandwidth_persistent_data) == 0x6C);
 
 struct s_network_quality_session_statistics
 {
 	uns64 client_badness_history[2];
 	uns64 host_badness_history[2];
 };
-static_assert(sizeof(s_network_quality_session_statistics) == 0x20);
+COMPILE_ASSERT(sizeof(s_network_quality_session_statistics) == 0x20);
 
 struct s_network_quality_statistics
 {
@@ -28,7 +28,7 @@ struct s_network_quality_statistics
 	uns64 connectivity_history[2];
 	s_network_bandwidth_persistent_data bandwidth_data;
 };
-static_assert(sizeof(s_network_quality_statistics) == 0xC0);
+COMPILE_ASSERT(sizeof(s_network_quality_statistics) == 0xC0);
 
 class c_network_observer;
 struct s_bandwidth_configuration;
@@ -46,7 +46,7 @@ struct s_network_bandwidth_globals
 	int32 estimated_bps;
 	int32 estimated_max_machine_count;
 };
-static_assert(sizeof(s_network_bandwidth_globals) == 0x24);
+COMPILE_ASSERT(sizeof(s_network_bandwidth_globals) == 0x24);
 
 extern s_network_bandwidth_globals& network_bandwidth_globals;
 

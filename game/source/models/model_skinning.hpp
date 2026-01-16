@@ -19,5 +19,5 @@ struct s_model_skinning_matrix
 	real32 up_k;
 	real32 center_z;
 };
-static_assert(sizeof(s_model_skinning_matrix) == sizeof(real32) * 12);
+COMPILE_ASSERT(sizeof(s_model_skinning_matrix) == sizeof(real32) * 12);
 

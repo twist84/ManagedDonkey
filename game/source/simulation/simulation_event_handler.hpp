@@ -16,5 +16,5 @@ public:
 	c_simulation_entity_database* m_entity_database;
 	byte __data[0x4];
 };
-static_assert(sizeof(c_simulation_event_handler) == 0x18);
+COMPILE_ASSERT(sizeof(c_simulation_event_handler) == 0x18);
 

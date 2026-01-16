@@ -7,25 +7,25 @@ struct s_transport_unique_identifier
 {
 	byte data[0x8];
 };
-static_assert(sizeof(s_transport_unique_identifier) == 0x8);
+COMPILE_ASSERT(sizeof(s_transport_unique_identifier) == 0x8);
 
 struct s_transport_secure_identifier
 {
 	byte data[0x10];
 };
-static_assert(sizeof(s_transport_secure_identifier) == 0x10);
+COMPILE_ASSERT(sizeof(s_transport_secure_identifier) == 0x10);
 
 struct s_transport_secure_address
 {
 	byte data[0x10];
 };
-static_assert(sizeof(s_transport_secure_address) == 0x10);
+COMPILE_ASSERT(sizeof(s_transport_secure_address) == 0x10);
 
 struct s_transport_secure_key
 {
 	byte data[0x10];
 };
-static_assert(sizeof(s_transport_secure_key) == 0x10);
+COMPILE_ASSERT(sizeof(s_transport_secure_key) == 0x10);
 
 struct s_transport_session_description
 {
@@ -33,7 +33,7 @@ struct s_transport_session_description
 	s_transport_secure_address host_address;
 	s_transport_secure_key key;
 };
-static_assert(sizeof(s_transport_session_description) == 0x30);
+COMPILE_ASSERT(sizeof(s_transport_session_description) == 0x30);
 
 struct s_transport_security_key
 {
@@ -43,7 +43,7 @@ struct s_transport_security_key
 	s_transport_secure_identifier key_id;
 	s_transport_secure_key key;
 };
-static_assert(sizeof(s_transport_security_key) == 0x28);
+COMPILE_ASSERT(sizeof(s_transport_security_key) == 0x28);
 
 struct s_transport_security_globals
 {
@@ -57,7 +57,7 @@ struct s_transport_security_globals
 	byte pad[0x8];
 	s_transport_security_key keys[10];
 };
-static_assert(sizeof(s_transport_security_globals) == 0x1D8);
+COMPILE_ASSERT(sizeof(s_transport_security_globals) == 0x1D8);
 
 extern s_transport_security_globals& transport_security_globals;
 

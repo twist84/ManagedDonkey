@@ -41,5 +41,5 @@ public:
 	uns8 m_first_person_user_mask[2];
 	int16 m_particle_count;
 };
-static_assert(sizeof(c_particle_system) == 0x58);
+COMPILE_ASSERT(sizeof(c_particle_system) == 0x58);
 

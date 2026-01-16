@@ -55,7 +55,7 @@ struct transport_address
 	uns16 port;
 	int16 address_length;
 };
-static_assert(sizeof(transport_address) == 0x14);
+COMPILE_ASSERT(sizeof(transport_address) == 0x14);
 
 extern bool __cdecl transport_address_equivalent(const transport_address* a, const transport_address* b);
 extern const char* __cdecl transport_address_get_string(const transport_address* address);

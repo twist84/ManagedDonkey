@@ -22,7 +22,7 @@ struct s_user_interface_mouse_globals
 	void* last_focused_widget;
 	bool list_item_selected_dirty;
 };
-static_assert(sizeof(s_user_interface_mouse_globals) == 0x3C);
+COMPILE_ASSERT(sizeof(s_user_interface_mouse_globals) == 0x3C);
 
 extern s_user_interface_mouse_globals user_interface_mouse_globals;
 

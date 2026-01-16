@@ -12,4 +12,4 @@ public:
 		DECLFUNC(0x00ADE090, void, __thiscall, c_gui_game_info_screen*, int32)(this, name);
 	}
 };
-static_assert(sizeof(c_gui_game_info_screen) == sizeof(c_gui_screen_widget));
+COMPILE_ASSERT(sizeof(c_gui_game_info_screen) == sizeof(c_gui_screen_widget));

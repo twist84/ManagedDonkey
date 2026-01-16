@@ -21,6 +21,6 @@ protected:
 	const t_character_type* m_xml_tag;
 	//wchar_t m_magic_character;
 };
-static_assert(sizeof(c_xml_tag_parser<wchar_t>) == 0x8);
-//static_assert(sizeof(c_xml_tag_parser<wchar_t>) == 0xC);
+COMPILE_ASSERT(sizeof(c_xml_tag_parser<wchar_t>) == 0x8);
+//COMPILE_ASSERT(sizeof(c_xml_tag_parser<wchar_t>) == 0xC);
 

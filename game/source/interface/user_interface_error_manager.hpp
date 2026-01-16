@@ -13,7 +13,7 @@ struct s_gui_alert_description
 	c_string_id title;
 	c_string_id message;
 };
-static_assert(sizeof(s_gui_alert_description) == 0x10);
+COMPILE_ASSERT(sizeof(s_gui_alert_description) == 0x10);
 
 class c_gui_queued_error
 {
@@ -53,7 +53,7 @@ protected:
 	c_static_wchar_string<256> m_custom_message;
 	bool m_blocking;
 };
-static_assert(sizeof(c_gui_queued_error) == 0x424);
+COMPILE_ASSERT(sizeof(c_gui_queued_error) == 0x424);
 
 class c_gui_error_manager
 {
@@ -100,7 +100,7 @@ protected:
 	e_alert_display_mode m_last_error_display_mode;
 	bool m_utility_drive_cleared_message_shown;
 };
-static_assert(sizeof(c_gui_error_manager) == 0x8488);
+COMPILE_ASSERT(sizeof(c_gui_error_manager) == 0x8488);
 
 extern c_gui_error_manager& g_gui_error_manager;
 

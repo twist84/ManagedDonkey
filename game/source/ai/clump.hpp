@@ -11,7 +11,7 @@ public:
 	uns16 m_flags;
 	int32 m_time;
 };
-static_assert(sizeof(c_clump_behavior_state) == 0x8);
+COMPILE_ASSERT(sizeof(c_clump_behavior_state) == 0x8);
 
 struct clump_datum :
 	s_datum_header
@@ -46,14 +46,14 @@ struct clump_datum :
 	int32 behavior_check_timer[1];
 	invitation_data const invitations[10];
 };
-static_assert(sizeof(clump_datum) == 0x108);
+COMPILE_ASSERT(sizeof(clump_datum) == 0x108);
 
 struct clump_iterator
 {
 	c_data_iterator<clump_datum> iterator;
 	int32 index;
 };
-static_assert(sizeof(clump_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(clump_iterator) == 0x14);
 
 struct clump_prop_iterator
 {
@@ -61,7 +61,7 @@ struct clump_prop_iterator
 	int32 index;
 	int32 next_index;
 };
-static_assert(sizeof(clump_prop_iterator) == 0xC);
+COMPILE_ASSERT(sizeof(clump_prop_iterator) == 0xC);
 
 extern const char* const group_state_names[4];
 

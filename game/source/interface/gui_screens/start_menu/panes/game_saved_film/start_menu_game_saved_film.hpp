@@ -20,6 +20,6 @@ public:
 public:
 	e_controller_index m_controller_index;
 };
-static_assert(sizeof(c_start_menu_game_saved_film) == 0x2170);
-static_assert(sizeof(c_start_menu_game_saved_film) == sizeof(c_start_menu_pane_screen_widget) + 0x8);
+COMPILE_ASSERT(sizeof(c_start_menu_game_saved_film) == 0x2170);
+COMPILE_ASSERT(sizeof(c_start_menu_game_saved_film) == sizeof(c_start_menu_pane_screen_widget) + 0x8);
 

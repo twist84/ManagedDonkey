@@ -17,7 +17,7 @@ struct s_player_navpoint_data
 	int8 current_navpoint_action_timer;
 	int8 next_navpoint_action;
 };
-static_assert(sizeof(s_player_navpoint_data) == 0x1C);
+COMPILE_ASSERT(sizeof(s_player_navpoint_data) == 0x1C);
 
 struct s_chud_navpoint
 {
@@ -30,7 +30,7 @@ struct s_chud_navpoint
 	wchar_t navpoint_text[6];
 	real_point3d position_worldspace;
 };
-static_assert(sizeof(s_chud_navpoint) == 0x30);
+COMPILE_ASSERT(sizeof(s_chud_navpoint) == 0x30);
 
 class __declspec(align(4)) c_chud_navpoint_manager
 {
@@ -46,7 +46,7 @@ public:
 		int32 flash_timer;
 		real32 fade_alpha;
 	};
-	static_assert(sizeof(s_managed_navpoint) == 0x74);
+	COMPILE_ASSERT(sizeof(s_managed_navpoint) == 0x74);
 
 public:
 	static c_chud_navpoint_manager* __cdecl get(int32 user_index);
@@ -66,7 +66,7 @@ private:
 	real32 m_scripted_navpoint_vertical_offsets[8];
 	int32 m_scripted_navpoint_count;
 };
-static_assert(sizeof(c_chud_navpoint_manager) == 0x998);
+COMPILE_ASSERT(sizeof(c_chud_navpoint_manager) == 0x998);
 
 extern s_player_navpoint_data* __cdecl chud_get_campaign_navpoint_data(int32 absolute_iter_index);
 extern real32 __cdecl chud_get_string_width(int32 font_id, wchar_t* s);

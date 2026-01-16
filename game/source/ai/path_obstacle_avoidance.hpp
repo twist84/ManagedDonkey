@@ -23,7 +23,7 @@ struct step
 	int16 blocking_obstacle_index;
 	bool failed;
 };
-static_assert(sizeof(struct step) == 0x38);
+COMPILE_ASSERT(sizeof(struct step) == 0x38);
 
 struct obstacle_path
 {
@@ -46,7 +46,7 @@ struct obstacle_path
 	int16 heap[MAXIMUM_OBSTACLE_AVOIDANCE_STEPS];
 	int16 blocking_obstacle_index;
 };
-static_assert(sizeof(struct obstacle_path) == 0xEB4);
+COMPILE_ASSERT(sizeof(struct obstacle_path) == 0xEB4);
 
 extern bool debug_obstacle_path;
 extern bool debug_obstacle_path_on_failure;

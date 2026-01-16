@@ -50,7 +50,7 @@ struct s_physics_model_definition
 	s_tag_block prismatic_constraints;
 	s_tag_block phantom_shapes;
 };
-static_assert(sizeof(s_physics_model_definition) == 0x198);
+COMPILE_ASSERT(sizeof(s_physics_model_definition) == 0x198);
 
 struct s_model_region
 {
@@ -60,7 +60,7 @@ struct s_model_region
 	byte pad[0x2];
 	s_tag_block permutations;
 };
-static_assert(sizeof(s_model_region) == 0x14);
+COMPILE_ASSERT(sizeof(s_model_region) == 0x14);
 
 struct s_model_permutation
 {
@@ -70,21 +70,21 @@ struct s_model_permutation
 	int8 physics_permutation_index;
 	byte pad;
 };
-static_assert(sizeof(s_model_permutation) == 0x8);
+COMPILE_ASSERT(sizeof(s_model_permutation) == 0x8);
 
 struct s_physics_model_region
 {
 	string_id name;
 	s_tag_block permutations;
 };
-static_assert(sizeof(s_physics_model_region) == 0x10);
+COMPILE_ASSERT(sizeof(s_physics_model_region) == 0x10);
 
 struct s_physics_model_permutation
 {
 	string_id name;
 	s_tag_block rigid_body_indices;
 };
-static_assert(sizeof(s_physics_model_permutation) == 0x10);
+COMPILE_ASSERT(sizeof(s_physics_model_permutation) == 0x10);
 
 struct s_physics_model_rigid_body
 {
@@ -113,7 +113,7 @@ struct s_physics_model_rigid_body
 	int16 pad3;
 	uns16 runtime_flags;
 };
-static_assert(sizeof(s_physics_model_rigid_body) == 0xB0);
+COMPILE_ASSERT(sizeof(s_physics_model_rigid_body) == 0xB0);
 
 class c_sphere_shape :
 	public hkSphereShape

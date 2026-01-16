@@ -77,7 +77,7 @@ struct sound_class_datum
 {
 	byte __data[0x1144];
 };
-static_assert(sizeof(sound_class_datum) == 0x1144);
+COMPILE_ASSERT(sizeof(sound_class_datum) == 0x1144);
 
 extern const char* const sound_class_names[k_sound_class_count];
 

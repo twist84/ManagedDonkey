@@ -20,5 +20,5 @@ protected:
 	e_synchronization_semaphore m_read_lock;
 	int32 m_max_readers;
 };
-static_assert(sizeof(c_read_write_lock) == 0xC);
+COMPILE_ASSERT(sizeof(c_read_write_lock) == 0xC);
 

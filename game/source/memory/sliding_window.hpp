@@ -12,5 +12,5 @@ public:
 	int32 m_trailing_sequence_number;
 	c_ring_buffer m_window;
 };
-static_assert(sizeof(c_sliding_window) == 0x1C);
+COMPILE_ASSERT(sizeof(c_sliding_window) == 0x1C);
 

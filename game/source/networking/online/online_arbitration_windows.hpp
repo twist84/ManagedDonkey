@@ -22,14 +22,14 @@ enum e_online_arbitration_registration_status
 //	void* m_session_handle;
 //	uns64 m_session_nonce;
 //};
-//static_assert(sizeof(c_arbitration_overlapped_task) == 0x1020);
+//COMPILE_ASSERT(sizeof(c_arbitration_overlapped_task) == 0x1020);
 //
 //struct s_online_arbitration_globals
 //{
 //	bool initialized;
 //	c_arbitration_overlapped_task* arbitration_overlapped_task;
 //};
-//static_assert(sizeof(s_online_arbitration_globals) == 0x8);
+//COMPILE_ASSERT(sizeof(s_online_arbitration_globals) == 0x8);
 //
 //extern s_online_arbitration_globals g_online_arbitration_globals;
 

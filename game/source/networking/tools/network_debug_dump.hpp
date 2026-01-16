@@ -20,7 +20,7 @@ struct s_netdebug_upload_task
 	s_file_reference file_to_upload;
 	uns32 checksum;
 };
-static_assert(sizeof(s_netdebug_upload_task) == 0x224);
+COMPILE_ASSERT(sizeof(s_netdebug_upload_task) == 0x224);
 
 struct s_netdebug_globals
 {
@@ -39,7 +39,7 @@ struct s_netdebug_globals
 	s_netdebug_upload_task task_queue[10];
 	bool initialized;
 };
-static_assert(sizeof(s_netdebug_globals) == 0x3970);
+COMPILE_ASSERT(sizeof(s_netdebug_globals) == 0x3970);
 
 extern s_netdebug_globals& g_netdebug_globals;
 extern c_synchronized_long& g_net_debug_thread_has_exited;

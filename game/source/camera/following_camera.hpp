@@ -25,5 +25,5 @@ public:
 
 	byte unused[0x18];
 };
-static_assert(sizeof(c_following_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_following_camera) == 0x4C);
 

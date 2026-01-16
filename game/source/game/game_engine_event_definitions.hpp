@@ -71,7 +71,7 @@ struct s_multiplayer_event_sound_response_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_event_sound_response_definition) == 0xC8);
+COMPILE_ASSERT(sizeof(s_multiplayer_event_sound_response_definition) == 0xC8);
 
 struct s_multiplayer_event_response_definition
 {
@@ -100,5 +100,5 @@ struct s_multiplayer_event_response_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_event_response_definition) == 0x10C);
+COMPILE_ASSERT(sizeof(s_multiplayer_event_response_definition) == 0x10C);
 

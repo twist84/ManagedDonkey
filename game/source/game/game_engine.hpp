@@ -75,7 +75,7 @@ struct s_simulation_player_netdebug_data
 	uns16 client_bandwidth_bps;
 	uns16 client_packet_loss;
 };
-static_assert(sizeof(s_simulation_player_netdebug_data) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_player_netdebug_data) == 0x10);
 
 struct s_multiplayer_weapon_tracker
 {
@@ -85,7 +85,7 @@ struct s_multiplayer_weapon_tracker
 	int32 owner_unit_index;
 	int32 owner_player_index;
 };
-static_assert(sizeof(s_multiplayer_weapon_tracker) == 0x10);
+COMPILE_ASSERT(sizeof(s_multiplayer_weapon_tracker) == 0x10);
 
 struct s_game_engine_globals
 {
@@ -162,7 +162,7 @@ struct s_game_engine_globals
 
 	byte __data15854[0x4];
 };
-static_assert(sizeof(s_game_engine_globals) == 0x15858);
+COMPILE_ASSERT(sizeof(s_game_engine_globals) == 0x15858);
 
 struct s_player_state_data
 {
@@ -170,13 +170,13 @@ struct s_player_state_data
 	int32 current_state_timer;
 	int32 current_state_response_index;
 };
-static_assert(sizeof(s_player_state_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_player_state_data) == 0xC);
 
 struct s_user_talker_data
 {
 	c_static_array<int16, 16> talking_ticks;
 };
-static_assert(sizeof(s_user_talker_data) == 0x20);
+COMPILE_ASSERT(sizeof(s_user_talker_data) == 0x20);
 
 struct s_local_game_engine_globals
 {
@@ -185,7 +185,7 @@ struct s_local_game_engine_globals
 	c_static_array<s_player_state_data, 4> user_player_state_data;
 	c_static_array<s_user_talker_data, 4> user_talker_data;
 };
-static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
+COMPILE_ASSERT(sizeof(s_local_game_engine_globals) == 0xC4);
 
 extern void __cdecl game_engine_dispose();
 extern void __cdecl game_engine_dispose_from_old_map();

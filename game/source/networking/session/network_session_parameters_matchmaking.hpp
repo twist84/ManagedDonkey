@@ -12,7 +12,7 @@ struct s_game_hopper_custom_category
 	int16 category_image_index;
 	c_static_string<32> category_name;
 };
-static_assert(sizeof(s_game_hopper_custom_category) == 0x24);
+COMPILE_ASSERT(sizeof(s_game_hopper_custom_category) == 0x24);
 
 struct s_network_session_matchmaking_hopper_entry
 {
@@ -26,7 +26,7 @@ struct s_network_session_matchmaking_hopper_entry
 	bool has_xp_penalty;
 	c_static_string<32> hopper_name;
 };
-static_assert(sizeof(s_network_session_matchmaking_hopper_entry) == 0x30);
+COMPILE_ASSERT(sizeof(s_network_session_matchmaking_hopper_entry) == 0x30);
 
 struct s_network_session_matchmaking_hopper_list
 {
@@ -38,14 +38,14 @@ struct s_network_session_matchmaking_hopper_list
 	int32 hopper_count;
 	s_network_session_matchmaking_hopper_entry hoppers[32];
 };
-static_assert(sizeof(s_network_session_matchmaking_hopper_list) == 0x6A4);
+COMPILE_ASSERT(sizeof(s_network_session_matchmaking_hopper_list) == 0x6A4);
 
 class c_network_session_parameter_matchmaking_hopper_list :
 	public c_network_session_parameter_base,
 	public c_generic_network_session_parameter_data<s_network_session_matchmaking_hopper_list>
 {
 };
-static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 0xD78);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 0xD78);
 
 struct s_network_session_matchmaking_hopper
 {
@@ -73,14 +73,14 @@ struct s_network_session_matchmaking_hopper
 	int32 post_match_voice_configuration;
 	bool restrict_open_channel;
 };
-static_assert(sizeof(s_network_session_matchmaking_hopper) == 0x4C);
+COMPILE_ASSERT(sizeof(s_network_session_matchmaking_hopper) == 0x4C);
 
 class c_network_session_parameter_matchmaking_hopper :
 	public c_network_session_parameter_base,
 	public c_generic_network_session_parameter_data<s_network_session_matchmaking_hopper>
 {
 };
-static_assert(sizeof(c_network_session_parameter_matchmaking_hopper) == 0xC8);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_matchmaking_hopper) == 0xC8);
 
 struct s_replicated_life_cycle_matchmaking_progress_searching_for_match
 {
@@ -91,7 +91,7 @@ struct s_replicated_life_cycle_matchmaking_progress_searching_for_match
 	int32 potential_session_count;
 	int32 search_queries_submitted;
 };
-static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_searching_for_match) == 0x18);
+COMPILE_ASSERT(sizeof(s_replicated_life_cycle_matchmaking_progress_searching_for_match) == 0x18);
 
 struct s_replicated_life_cycle_matchmaking_progress_assembling_match
 {
@@ -99,7 +99,7 @@ struct s_replicated_life_cycle_matchmaking_progress_assembling_match
 	int32 give_up_timer_maximum_seconds;
 	int32 qos_listener_data_replies_sent;
 };
-static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_assembling_match) == 0xC);
+COMPILE_ASSERT(sizeof(s_replicated_life_cycle_matchmaking_progress_assembling_match) == 0xC);
 
 enum e_matchmaking_configuring_match_state
 {
@@ -123,14 +123,14 @@ struct s_replicated_life_cycle_matchmaking_progress_configuring_match
 	int32 current_game_map_index;
 	bool encountered_load_failure;
 };
-static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_configuring_match) == 0x1C);
+COMPILE_ASSERT(sizeof(s_replicated_life_cycle_matchmaking_progress_configuring_match) == 0x1C);
 
 struct s_replicated_life_cycle_progress_post_match
 {
 	bool countdown_running;
 	int32 countdown;
 };
-static_assert(sizeof(s_replicated_life_cycle_progress_post_match) == 0x8);
+COMPILE_ASSERT(sizeof(s_replicated_life_cycle_progress_post_match) == 0x8);
 
 struct s_replicated_life_cycle_matchmaking_progress
 {
@@ -144,7 +144,7 @@ struct s_replicated_life_cycle_matchmaking_progress
 		s_replicated_life_cycle_progress_post_match post_match;
 	};
 };
-static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress) == 0x20);
+COMPILE_ASSERT(sizeof(s_replicated_life_cycle_matchmaking_progress) == 0x20);
 
 struct s_replicated_life_cycle_matchmaking_progress_search_criteria
 {
@@ -158,7 +158,7 @@ struct s_replicated_life_cycle_matchmaking_progress_search_criteria
 	int32 hopper_required_player_count;
 	int32 hopper_preferred_player_count;
 };
-static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_search_criteria) == 0x24);
+COMPILE_ASSERT(sizeof(s_replicated_life_cycle_matchmaking_progress_search_criteria) == 0x24);
 
 struct __declspec(align(4)) s_life_cycle_matchmaking_progress_common
 {
@@ -168,7 +168,7 @@ struct __declspec(align(4)) s_life_cycle_matchmaking_progress_common
 	bool hopper_is_ranked;
 	bool hopper_is_team;
 };
-static_assert(sizeof(s_life_cycle_matchmaking_progress_common) == 0x4C);
+COMPILE_ASSERT(sizeof(s_life_cycle_matchmaking_progress_common) == 0x4C);
 
 struct s_life_cycle_matchmaking_progress_searching_for_match
 {
@@ -176,7 +176,7 @@ struct s_life_cycle_matchmaking_progress_searching_for_match
 	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
 	s_replicated_life_cycle_matchmaking_progress_searching_for_match searching_progress;
 };
-static_assert(sizeof(s_life_cycle_matchmaking_progress_searching_for_match) == 0x40);
+COMPILE_ASSERT(sizeof(s_life_cycle_matchmaking_progress_searching_for_match) == 0x40);
 
 struct s_life_cycle_matchmaking_progress_assembling_match
 {
@@ -184,14 +184,14 @@ struct s_life_cycle_matchmaking_progress_assembling_match
 	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
 	s_replicated_life_cycle_matchmaking_progress_assembling_match assembling_progress;
 };
-static_assert(sizeof(s_life_cycle_matchmaking_progress_assembling_match) == 0x34);
+COMPILE_ASSERT(sizeof(s_life_cycle_matchmaking_progress_assembling_match) == 0x34);
 
 struct s_life_cycle_matchmaking_progress_setting_up_match
 {
 	e_matchmaking_search_preference search_preference;
 	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
 };
-static_assert(sizeof(s_life_cycle_matchmaking_progress_setting_up_match) == 0x28);
+COMPILE_ASSERT(sizeof(s_life_cycle_matchmaking_progress_setting_up_match) == 0x28);
 
 struct s_life_cycle_matchmaking_progress_configuring_match
 {
@@ -202,7 +202,7 @@ struct s_life_cycle_matchmaking_progress_configuring_match
 	e_game_engine_type game_engine_index;
 	wchar_t game_variant_name[32];
 };
-static_assert(sizeof(s_life_cycle_matchmaking_progress_configuring_match) == 0xA8);
+COMPILE_ASSERT(sizeof(s_life_cycle_matchmaking_progress_configuring_match) == 0xA8);
 
 struct __declspec(align(4)) s_life_cycle_progress_post_match
 {
@@ -214,7 +214,7 @@ struct __declspec(align(4)) s_life_cycle_progress_post_match
 	uns32 group_player_in_rematching_party_mask;
 	bool is_preparing_for_rematch;
 };
-static_assert(sizeof(s_life_cycle_progress_post_match) == 0x1C);
+COMPILE_ASSERT(sizeof(s_life_cycle_progress_post_match) == 0x1C);
 
 struct s_life_cycle_matchmaking_progress
 {
@@ -229,7 +229,7 @@ struct s_life_cycle_matchmaking_progress
 		s_life_cycle_progress_post_match post_match;
 	};
 };
-static_assert(sizeof(s_life_cycle_matchmaking_progress) == 0xF8);
+COMPILE_ASSERT(sizeof(s_life_cycle_matchmaking_progress) == 0xF8);
 
 struct s_network_session_parameter_matchmaking_rematch_team_data
 {
@@ -238,35 +238,35 @@ struct s_network_session_parameter_matchmaking_rematch_team_data
 	bool join_data_valid;
 	s_transport_session_description host_description;
 };
-static_assert(sizeof(s_network_session_parameter_matchmaking_rematch_team_data) == 0x3C);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_matchmaking_rematch_team_data) == 0x3C);
 
 struct s_network_session_parameter_matchmaking_rematch_data
 {
 	uns32 team_rematch_mask;
 	c_static_array<s_network_session_parameter_matchmaking_rematch_team_data, 16> teams;
 };
-static_assert(sizeof(s_network_session_parameter_matchmaking_rematch_data) == 0x3C4);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_matchmaking_rematch_data) == 0x3C4);
 
 class c_network_session_parameter_matchmaking_rematch_data :
 	public c_network_session_parameter_base,
 	public c_generic_network_session_parameter_data<s_network_session_parameter_matchmaking_rematch_data>
 {
 };
-static_assert(sizeof(c_network_session_parameter_matchmaking_rematch_data) == 0x7B8);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_matchmaking_rematch_data) == 0x7B8);
 
 struct s_matchmaking_single_hopper_statistics
 {
 	int32 total_online_population;
 	int32 current_hopper_population;
 };
-static_assert(sizeof(s_matchmaking_single_hopper_statistics) == 0x8);
+COMPILE_ASSERT(sizeof(s_matchmaking_single_hopper_statistics) == 0x8);
 
 class c_network_session_parameter_matchmaking_hopper_statistics :
 	public c_network_session_parameter_base,
 	public c_generic_network_session_parameter_data<s_matchmaking_single_hopper_statistics>
 {
 };
-static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_statistics) == 0x40);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_matchmaking_hopper_statistics) == 0x40);
 
 struct s_network_session_parameter_matchmaking_messaging
 {
@@ -274,12 +274,12 @@ struct s_network_session_parameter_matchmaking_messaging
 	int32 display_cookie;
 	int32 player_sequence_number;
 };
-static_assert(sizeof(s_network_session_parameter_matchmaking_messaging) == 0xC);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_matchmaking_messaging) == 0xC);
 
 class c_network_session_parameter_matchmaking_messaging :
 	public c_network_session_parameter_base,
 	public c_generic_network_session_parameter_data<s_network_session_parameter_matchmaking_messaging>
 {
 };
-static_assert(sizeof(c_network_session_parameter_matchmaking_messaging) == 0x48);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_matchmaking_messaging) == 0x48);
 

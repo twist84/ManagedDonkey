@@ -109,7 +109,7 @@ struct melee_damage_parameters_struct
 
 	void update_reference_names();
 };
-static_assert(sizeof(melee_damage_parameters_struct) == 0xCC);
+COMPILE_ASSERT(sizeof(melee_damage_parameters_struct) == 0xCC);
 
 struct aim_assist_parameters
 {
@@ -126,14 +126,14 @@ struct aim_assist_parameters
 	byte CVYGPMLMX[0xC];
 	byte UQXKLVAXI[0x4];
 };
-static_assert(sizeof(aim_assist_parameters) == 0x38);
+COMPILE_ASSERT(sizeof(aim_assist_parameters) == 0x38);
 
 struct weapon_tracking
 {
 	int16 tracking_type;
 	byte F[0x2];
 };
-static_assert(sizeof(weapon_tracking) == 0x4);
+COMPILE_ASSERT(sizeof(weapon_tracking) == 0x4);
 
 struct weapon_interface_definition_new
 {
@@ -142,7 +142,7 @@ struct weapon_interface_definition_new
 
 	void update_reference_names();
 };
-static_assert(sizeof(weapon_interface_definition_new) == 0x1C);
+COMPILE_ASSERT(sizeof(weapon_interface_definition_new) == 0x1C);
 
 struct s_weapon_magazine
 {
@@ -181,7 +181,7 @@ struct s_weapon_magazine
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_weapon_magazine) == 0x80);
+COMPILE_ASSERT(sizeof(s_weapon_magazine) == 0x80);
 
 enum e_weapon_trigger_definition_flags
 {
@@ -252,7 +252,7 @@ struct weapon_trigger_definition
 		c_enum<e_weapon_trigger_autofire_action, int16, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> secondary_action;
 		c_enum<e_weapon_trigger_autofire_action, int16, _weapon_trigger_autofire_action_fire, k_weapon_trigger_autofire_actions> primary_action;
 	};
-	static_assert(sizeof(s_autofire_fields) == 0xC);
+	COMPILE_ASSERT(sizeof(s_autofire_fields) == 0xC);
 
 	struct s_charging_fields
 	{
@@ -295,7 +295,7 @@ struct weapon_trigger_definition
 
 		void update_reference_names();
 	};
-	static_assert(sizeof(s_charging_fields) == 0x68);
+	COMPILE_ASSERT(sizeof(s_charging_fields) == 0x68);
 
 	c_flags<e_weapon_trigger_definition_flags, uns32, k_weapon_trigger_definition_flags> flags;
 	c_enum<e_weapon_trigger_input, int16, _weapon_trigger_input_right_trigger, k_weapon_trigger_inputs> input;
@@ -316,7 +316,7 @@ struct weapon_trigger_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(weapon_trigger_definition) == 0x90);
+COMPILE_ASSERT(sizeof(weapon_trigger_definition) == 0x90);
 
 struct s_weapon_barrel_firing_parameters
 {
@@ -346,7 +346,7 @@ struct s_weapon_barrel_firing_parameters
 
 	real32 __unknown;
 };
-static_assert(sizeof(s_weapon_barrel_firing_parameters) == sizeof(real32) * 9);
+COMPILE_ASSERT(sizeof(s_weapon_barrel_firing_parameters) == sizeof(real32) * 9);
 
 struct s_weapon_barrel_firing_error
 {
@@ -367,7 +367,7 @@ struct s_weapon_barrel_firing_error
 
 	real32 __unknown;
 };
-static_assert(sizeof(s_weapon_barrel_firing_error) == sizeof(real32) * 7);
+COMPILE_ASSERT(sizeof(s_weapon_barrel_firing_error) == sizeof(real32) * 7);
 
 struct s_weapon_barrel_dual_weapon_error
 {
@@ -384,7 +384,7 @@ struct s_weapon_barrel_dual_weapon_error
 	real32 dual_wield_damage_scale;
 	real32 __unknown;
 };
-static_assert(sizeof(s_weapon_barrel_dual_weapon_error) == sizeof(real32) * 8);
+COMPILE_ASSERT(sizeof(s_weapon_barrel_dual_weapon_error) == sizeof(real32) * 8);
 
 struct s_weapon_barrel
 {
@@ -442,7 +442,7 @@ struct s_weapon_barrel
 	// $TODO map the rest of this struct
 	byte __data88[0x1AC - 0x88];
 };
-static_assert(sizeof(s_weapon_barrel) == 0x1AC);
+COMPILE_ASSERT(sizeof(s_weapon_barrel) == 0x1AC);
 
 struct _weapon_definition
 {
@@ -636,11 +636,11 @@ struct _weapon_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_weapon_definition) == 0x384);
-static_assert(0x191 == OFFSETOF(_weapon_definition, FEOROBJE));
-static_assert(0x1DC == OFFSETOF(_weapon_definition, __unknown1DC));
-static_assert(0x1FE == OFFSETOF(_weapon_definition, GTIXVRPA));
-static_assert(0x280 == OFFSETOF(_weapon_definition, __unknown280));
+COMPILE_ASSERT(sizeof(_weapon_definition) == 0x384);
+COMPILE_ASSERT(0x191 == OFFSETOF(_weapon_definition, FEOROBJE));
+COMPILE_ASSERT(0x1DC == OFFSETOF(_weapon_definition, __unknown1DC));
+COMPILE_ASSERT(0x1FE == OFFSETOF(_weapon_definition, GTIXVRPA));
+COMPILE_ASSERT(0x280 == OFFSETOF(_weapon_definition, __unknown280));
 
 struct weapon_definition
 {
@@ -652,6 +652,6 @@ struct weapon_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(weapon_definition) == sizeof(_weapon_definition) + sizeof(_item_definition) + sizeof(_object_definition));
+COMPILE_ASSERT(sizeof(weapon_definition) == sizeof(_weapon_definition) + sizeof(_item_definition) + sizeof(_object_definition));
 
 

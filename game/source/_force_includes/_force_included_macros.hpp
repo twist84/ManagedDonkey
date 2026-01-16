@@ -62,15 +62,15 @@ const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 
 //#define CHAR_MAX char(0x7F)
 #define UNSIGNED_CHAR_MAX ((uns8)-1)
-static_assert(UNSIGNED_CHAR_MAX == 0xFF);
+COMPILE_ASSERT(UNSIGNED_CHAR_MAX == 0xFF);
 
 //#define SHORT_MAX int16(0x7FFF)
 #define UNSIGNED_SHORT_MAX ((uns16)-1)
-static_assert(UNSIGNED_SHORT_MAX == 0xFFFF);
+COMPILE_ASSERT(UNSIGNED_SHORT_MAX == 0xFFFF);
 
 //#define LONG_MAX int32(0x7FFFFFFF)
 #define UNSIGNED_LONG_MAX ((uns32)-1)
-static_assert(UNSIGNED_LONG_MAX == 0xFFFFFFFF);
+COMPILE_ASSERT(UNSIGNED_LONG_MAX == 0xFFFFFFFF);
 
 #define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller0 && (CONTROLLER) < k_number_of_controllers)
 

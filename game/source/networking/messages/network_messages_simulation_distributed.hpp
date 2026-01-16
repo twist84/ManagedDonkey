@@ -9,7 +9,7 @@ struct s_network_message_distributed_game_results
 	int32 update_number;
 	s_game_results_incremental_update update;
 };
-static_assert(sizeof(s_network_message_distributed_game_results) == 0x1B7A8);
+COMPILE_ASSERT(sizeof(s_network_message_distributed_game_results) == 0x1B7A8);
 
 class c_bitstream;
 

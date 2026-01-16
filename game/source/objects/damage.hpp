@@ -16,14 +16,14 @@ struct s_damage_globals
 		int16 node_index;
 		uns16 flags;
 	};
-	static_assert(sizeof(s_damage_acceleration) == 0x20);
+	COMPILE_ASSERT(sizeof(s_damage_acceleration) == 0x20);
 
 	int32 damage_acceleration_count;
 	c_static_array<s_damage_acceleration, 64> damage_accelerations;
 	c_static_flags<64> damage_accelerations_evictable;
 	bool damage_acceleration_queue_active;
 };
-static_assert(sizeof(s_damage_globals) == 0x810);
+COMPILE_ASSERT(sizeof(s_damage_globals) == 0x810);
 
 struct s_projectile_material_response_definition;
 class c_aoe_damage_batchifier;
@@ -58,7 +58,7 @@ struct s_damage_data
 	c_aoe_damage_batchifier* optional_batchifier;
 	int32 secret_melee_material_index;
 };
-static_assert(sizeof(s_damage_data) == 0x98);
+COMPILE_ASSERT(sizeof(s_damage_data) == 0x98);
 
 struct s_model_material;
 struct s_model_damage_info;
@@ -80,7 +80,7 @@ struct s_damage_response_data
 	int32 special_death_type;
 	bool supress_damage_effects;
 };
-static_assert(sizeof(s_damage_response_data) == 0x38);
+COMPILE_ASSERT(sizeof(s_damage_response_data) == 0x38);
 
 struct s_damage_aftermath_result_data
 {
@@ -101,7 +101,7 @@ struct s_damage_aftermath_result_data
 	int32 ping_type;
 	int32 special_death_type;
 };
-static_assert(sizeof(s_damage_aftermath_result_data) == 0x58);
+COMPILE_ASSERT(sizeof(s_damage_aftermath_result_data) == 0x58);
 
 struct object_damage_section
 {
@@ -112,7 +112,7 @@ struct object_damage_section
 	uns16 timed_response_timer : 12;
 	int16 damage_section_recharge_ticks;
 };
-static_assert(sizeof(object_damage_section) == 0x8);
+COMPILE_ASSERT(sizeof(object_damage_section) == 0x8);
 
 extern bool debug_damage_radius;
 extern bool debug_damage_this_event;

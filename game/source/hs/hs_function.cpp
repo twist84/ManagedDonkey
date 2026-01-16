@@ -251,7 +251,7 @@ CONCAT(MACRO_FUNCTION_EVALUATE_IMPL_, HAS_PARAMS_##FORMAL_PARAMETER_COUNT)(RETUR
 COMPILE_ASSERT(#FUNCTION[0] != '0'); \
 COMPILE_ASSERT(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
 COMPILE_ASSERT(VALID_COUNT(FORMAL_PARAMETER_COUNT, MAX_HS_FUNCTION_PARAMETERS)); \
-static_assert(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
+COMPILE_ASSERT(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
 void NAME##_##FUNCTION##_##FORMAL_PARAMETER_COUNT##_evaluate(int16 function_index, int32 thread_index, bool initialize) \
 { \
     MACRO_FUNCTION_EVALUATE_##RETURN_TYPE(RETURN_TYPE, FUNCTION, FORMAL_PARAMETER_COUNT, __VA_ARGS__) \
@@ -270,10 +270,10 @@ static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE NAME##_##FORMAL_PARAMETE
 }
 
 #define MACRO_FUNCTION_EVALUATE2(STRUCT_NAME, EXTRA_BYTES_SIZE, RETURN_TYPE, NAME, FLAGS, FUNCTION_ADDRESS, DOCUMENTATION, PARAMETERS, FORMAL_PARAMETER_COUNT, ...) \
-static_assert(#FUNCTION_ADDRESS[0] == '0'); \
-static_assert(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
-static_assert(VALID_COUNT(FORMAL_PARAMETER_COUNT, MAX_HS_FUNCTION_PARAMETERS)); \
-static_assert(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
+COMPILE_ASSERT(#FUNCTION_ADDRESS[0] == '0'); \
+COMPILE_ASSERT(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
+COMPILE_ASSERT(VALID_COUNT(FORMAL_PARAMETER_COUNT, MAX_HS_FUNCTION_PARAMETERS)); \
+COMPILE_ASSERT(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
 static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE NAME##_##FORMAL_PARAMETER_COUNT##_definition = \
 { \
     .return_type = (RETURN_TYPE), \
@@ -288,10 +288,10 @@ static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE NAME##_##FORMAL_PARAMETE
 }
 
 #define MACRO_FUNCTION_EVALUATE3(STRUCT_NAME, EXTRA_BYTES_SIZE, RETURN_TYPE, NAME, FLAGS, FUNCTION, FUNCTION_ADDRESS, DOCUMENTATION, PARAMETERS, FORMAL_PARAMETER_COUNT, ...) \
-static_assert(#FUNCTION_ADDRESS[0] == '0'); \
-static_assert(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
-static_assert(VALID_COUNT(FORMAL_PARAMETER_COUNT, MAX_HS_FUNCTION_PARAMETERS)); \
-static_assert(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
+COMPILE_ASSERT(#FUNCTION_ADDRESS[0] == '0'); \
+COMPILE_ASSERT(EXTRA_BYTES_SIZE == sizeof(int16) * FORMAL_PARAMETER_COUNT); \
+COMPILE_ASSERT(VALID_COUNT(FORMAL_PARAMETER_COUNT, MAX_HS_FUNCTION_PARAMETERS)); \
+COMPILE_ASSERT(FORMAL_PARAMETER_COUNT == count_formal_parameters(__VA_ARGS__)); \
 static $##STRUCT_NAME##$_extra_bytes_##EXTRA_BYTES_SIZE FUNCTION##_##FORMAL_PARAMETER_COUNT##_definition = \
 { \
     .return_type = (RETURN_TYPE), \
@@ -17779,5 +17779,5 @@ static const hs_function_definition* const hs_function_table[]
 	(hs_function_definition*)&vsync_set_1_definition,
 };
 const int32 hs_function_table_count = NUMBEROF(hs_function_table);
-static_assert(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);
+COMPILE_ASSERT(hs_function_table_count >= k_maximum_number_of_ms23_hs_functions);
 

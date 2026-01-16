@@ -45,7 +45,7 @@ protected:
 	transport_address m_outgoing_packet_address;
 	c_bitstream m_outgoing_packet;
 };
-static_assert(sizeof(c_network_message_gateway) == 0x688);
+COMPILE_ASSERT(sizeof(c_network_message_gateway) == 0x688);
 
 extern char const k_network_message_packet_header[];
 extern char const k_network_message_experimental_packet_header[];

@@ -32,7 +32,7 @@ protected:
 	int32 m_current_user_index;
 	const s_observer_result* m_current_observer_result;
 };
-static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(c_player_render_camera_iterator) == 0x14);
 
 struct s_render_fullscreen_text_context_colors
 {
@@ -48,7 +48,7 @@ struct s_render_fullscreen_text_context
 	real_rgb_color* shadow_color;
 	real32 font_scale;
 };
-static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
+COMPILE_ASSERT(sizeof(s_render_fullscreen_text_context) == 0x10);
 
 extern real_vector4d& g_player_window_constants;
 

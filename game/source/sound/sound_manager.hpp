@@ -23,7 +23,7 @@ struct s_sound_listener
 	real_vector3d velocity;
 	tag footer_signature;
 };
-static_assert(sizeof(s_sound_listener) == 0x50);
+COMPILE_ASSERT(sizeof(s_sound_listener) == 0x50);
 
 struct s_sound_azimuth_image
 {
@@ -32,7 +32,7 @@ struct s_sound_azimuth_image
 	real32 pitch_factor;
 	real32 gain_fraction;
 };
-static_assert(sizeof(s_sound_azimuth_image) == 0x10);
+COMPILE_ASSERT(sizeof(s_sound_azimuth_image) == 0x10);
 
 struct s_sound_manager_reverb
 {
@@ -41,13 +41,13 @@ struct s_sound_manager_reverb
 	int32 sound_environment_index;
 	s_sound_azimuth_image azimuth_image;
 };
-static_assert(sizeof(s_sound_manager_reverb) == 0x1C);
+COMPILE_ASSERT(sizeof(s_sound_manager_reverb) == 0x1C);
 
 struct s_platform_sound_status
 {
 	byte __data0[0x60];
 };
-static_assert(sizeof(s_platform_sound_status) == 0x60);
+COMPILE_ASSERT(sizeof(s_platform_sound_status) == 0x60);
 
 struct s_sound_manager_globals
 {
@@ -107,13 +107,13 @@ struct s_sound_manager_globals
 	int16 __unknown2B2;
 	real32 __unknown2B4;
 };
-static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
+COMPILE_ASSERT(sizeof(s_sound_manager_globals) == 0x2B8);
 
 struct s_sound_channel_properties
 {
 	byte __data[0x4B8];
 };
-static_assert(sizeof(s_sound_channel_properties) == 0x4B8);
+COMPILE_ASSERT(sizeof(s_sound_channel_properties) == 0x4B8);
 
 extern bool debug_sound_class_totals;
 extern bool debug_sound_timing;

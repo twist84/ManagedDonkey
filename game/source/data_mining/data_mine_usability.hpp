@@ -10,7 +10,7 @@ struct s_persisted_usability_globals
 	c_static_string<256> mission_segment;
 	c_static_string<256> user_experience;
 };
-static_assert(sizeof(s_persisted_usability_globals) == 0x201);
+COMPILE_ASSERT(sizeof(s_persisted_usability_globals) == 0x201);
 
 extern void data_mine_render_mission_segment();
 

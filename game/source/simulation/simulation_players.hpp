@@ -34,7 +34,7 @@ struct simulation_player_update
 
 	byte __pad1654[0x4];
 };
-static_assert(sizeof(simulation_player_update) == 0x1658);
+COMPILE_ASSERT(sizeof(simulation_player_update) == 0x1658);
 
 // generated based on `e_simulation_player_update_type`
 struct s_player_collection_player
@@ -50,7 +50,7 @@ struct s_player_collection_player
 
 	s_player_configuration configuration_data;
 };
-static_assert(sizeof(s_player_collection_player) == 0x1640);
+COMPILE_ASSERT(sizeof(s_player_collection_player) == 0x1640);
 
 struct s_player_collection
 {
@@ -58,7 +58,7 @@ struct s_player_collection
 	uns32 __unknown4;
 	s_player_collection_player collection_players[16];
 };
-static_assert(sizeof(s_player_collection) == 0x16408);
+COMPILE_ASSERT(sizeof(s_player_collection) == 0x16408);
 
 class c_simulation_world;
 class c_simulation_player
@@ -75,7 +75,7 @@ public:
 	int32 m_current_action_time;
 	player_action m_current_action;
 };
-static_assert(sizeof(c_simulation_player) == 0xB0);
+COMPILE_ASSERT(sizeof(c_simulation_player) == 0xB0);
 
 extern void __cdecl simulation_player_collection_apply_update(s_player_collection* collection, const simulation_player_update* player_update);
 extern void __cdecl simulation_player_collection_build(s_player_collection* collection);

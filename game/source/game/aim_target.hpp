@@ -27,7 +27,7 @@ public:
 		int32 m_laser_designation;
 	};
 };
-static_assert(sizeof(c_aim_target_object) == 0xC);
+COMPILE_ASSERT(sizeof(c_aim_target_object) == 0xC);
 
 class c_aim_target_predicted :
 	public c_aim_target_base
@@ -39,7 +39,7 @@ public:
 		int32 m_laser_designation;
 	};
 };
-static_assert(sizeof(c_aim_target_predicted) == 0xC);
+COMPILE_ASSERT(sizeof(c_aim_target_predicted) == 0xC);
 
 class c_aim_target_simulation_entity :
 	public c_aim_target_base
@@ -53,5 +53,5 @@ public:
 	};
 	int32 m_gamestate_index;
 };
-static_assert(sizeof(c_aim_target_simulation_entity) == 0x14);
+COMPILE_ASSERT(sizeof(c_aim_target_simulation_entity) == 0x14);
 

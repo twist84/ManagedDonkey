@@ -4115,16 +4115,16 @@ enum e_string_id_input
 	k_string_id_namespace_input_count
 };
 
-static_assert(0x611 == k_string_id_namespace_global_count);
-static_assert(0x684 == k_string_id_namespace_gui_count);
-static_assert(0x09B == k_string_id_namespace_gui_alert_count);
-static_assert(0x058 == k_string_id_namespace_gui_dialog_count);
-static_assert(0x0F7 == k_string_id_namespace_game_engine_count);
-static_assert(0x04C == k_string_id_namespace_game_start_count);
-static_assert(0x02F == k_string_id_namespace_online_count);
-static_assert(0x018 == k_string_id_namespace_saved_game_count);
-static_assert(0x00D == k_string_id_namespace_gpu_count);
-static_assert(0x073 == k_string_id_namespace_input_count);
+COMPILE_ASSERT(0x611 == k_string_id_namespace_global_count);
+COMPILE_ASSERT(0x684 == k_string_id_namespace_gui_count);
+COMPILE_ASSERT(0x09B == k_string_id_namespace_gui_alert_count);
+COMPILE_ASSERT(0x058 == k_string_id_namespace_gui_dialog_count);
+COMPILE_ASSERT(0x0F7 == k_string_id_namespace_game_engine_count);
+COMPILE_ASSERT(0x04C == k_string_id_namespace_game_start_count);
+COMPILE_ASSERT(0x02F == k_string_id_namespace_online_count);
+COMPILE_ASSERT(0x018 == k_string_id_namespace_saved_game_count);
+COMPILE_ASSERT(0x00D == k_string_id_namespace_gpu_count);
+COMPILE_ASSERT(0x073 == k_string_id_namespace_input_count);
 
 enum
 {
@@ -4169,8 +4169,8 @@ enum
 	k_global_string_offset
 	= k_gpu_string_offset + k_string_id_namespace_gpu_count
 };
-static_assert(0x1 == k_first_string_offset);
-static_assert(0xF1E == k_last_string_offset);
+COMPILE_ASSERT(0x1 == k_first_string_offset);
+COMPILE_ASSERT(0xF1E == k_last_string_offset);
 
 int32 const k_string_namespace_offsets[k_string_id_namespace_count]
 {
@@ -4198,7 +4198,7 @@ struct s_string_id_globals
 	c_hash_table<int32, int32> string_id_mappings;
 	int32 string_id_count;
 };
-static_assert(sizeof(s_string_id_globals) == 0x1C);
+COMPILE_ASSERT(sizeof(s_string_id_globals) == 0x1C);
 
 struct s_constant_string_id
 {

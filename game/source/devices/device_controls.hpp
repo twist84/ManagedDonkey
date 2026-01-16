@@ -18,7 +18,7 @@ struct _control_datum
 	int16 hud_override_index;
 	uns16 pad;
 };
-static_assert(sizeof(_control_datum) == 0x8);
+COMPILE_ASSERT(sizeof(_control_datum) == 0x8);
 
 struct control_datum
 {
@@ -27,7 +27,7 @@ struct control_datum
 	_device_datum device;
 	_control_datum control;
 };
-static_assert(sizeof(control_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_control_datum));
+COMPILE_ASSERT(sizeof(control_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_control_datum));
 
 struct s_scenario_control;
 

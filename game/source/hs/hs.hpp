@@ -12,7 +12,7 @@ struct hs_enum_definition
 	int16 count;
 	const char** identifiers;
 };
-static_assert(sizeof(hs_enum_definition) == 0x8);
+COMPILE_ASSERT(sizeof(hs_enum_definition) == 0x8);
 
 struct hs_syntax_node;
 struct hs_function_definition;

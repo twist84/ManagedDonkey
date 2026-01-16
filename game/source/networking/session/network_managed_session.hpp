@@ -93,15 +93,15 @@ public:
 	uns64 m_player_xuids[16];
 	uns32 m_private_slots[16];
 };
-static_assert(sizeof(c_managed_session_overlapped_task) == 0x100);
-static_assert(sizeof(c_managed_session_overlapped_task) == sizeof(c_overlapped_task) + 0xF0);
+COMPILE_ASSERT(sizeof(c_managed_session_overlapped_task) == 0x100);
+COMPILE_ASSERT(sizeof(c_managed_session_overlapped_task) == sizeof(c_overlapped_task) + 0xF0);
 
 struct s_online_context
 {
 	int32 id;
 	int32 value;
 };
-static_assert(sizeof(s_online_context) == 0x8);
+COMPILE_ASSERT(sizeof(s_online_context) == 0x8);
 
 struct s_online_managed_session
 {
@@ -132,38 +132,38 @@ struct s_online_managed_session
 	s_online_context creation_contexts[4];
 	int32 context_count;
 };
-static_assert(sizeof(s_online_managed_session) == 0x608);
-static_assert(0x000 == offsetof(s_online_managed_session, session_class));
-static_assert(0x004 == offsetof(s_online_managed_session, secure_key_platform));
-static_assert(0x008 == offsetof(s_online_managed_session, flags));
-static_assert(0x00C == offsetof(s_online_managed_session, current_operation_flags));
-static_assert(0x00E == offsetof(s_online_managed_session, pending_operation_flags));
-static_assert(0x010 == offsetof(s_online_managed_session, overlapped_task));
-static_assert(0x110 == offsetof(s_online_managed_session, time_of_last_failure));
-static_assert(0x114 == offsetof(s_online_managed_session, not_connected_to_live));
-static_assert(0x115 == offsetof(s_online_managed_session, has_no_valid_address));
-static_assert(0x116 == offsetof(s_online_managed_session, has_conflicting_session_id));
-static_assert(0x118 == offsetof(s_online_managed_session, desired_online_session_state));
-static_assert(0x268 == offsetof(s_online_managed_session, transitory_online_session_state));
-static_assert(0x3B8 == offsetof(s_online_managed_session, actual_online_session_state));
-static_assert(0x508 == offsetof(s_online_managed_session, xuids));
-static_assert(0x588 == offsetof(s_online_managed_session, xuid_flags));
-static_assert(0x598 == offsetof(s_online_managed_session, xuid_next_flags));
-static_assert(0x5A8 == offsetof(s_online_managed_session, session_player_operation_count));
-static_assert(0x5AC == offsetof(s_online_managed_session, we_are_the_new_host));
-static_assert(0x5AD == offsetof(s_online_managed_session, we_were_the_host));
-static_assert(0x5AE == offsetof(s_online_managed_session, host_migration_description));
-static_assert(0x5E0 == offsetof(s_online_managed_session, creation_contexts));
-static_assert(0x600 == offsetof(s_online_managed_session, context_count));
+COMPILE_ASSERT(sizeof(s_online_managed_session) == 0x608);
+COMPILE_ASSERT(0x000 == offsetof(s_online_managed_session, session_class));
+COMPILE_ASSERT(0x004 == offsetof(s_online_managed_session, secure_key_platform));
+COMPILE_ASSERT(0x008 == offsetof(s_online_managed_session, flags));
+COMPILE_ASSERT(0x00C == offsetof(s_online_managed_session, current_operation_flags));
+COMPILE_ASSERT(0x00E == offsetof(s_online_managed_session, pending_operation_flags));
+COMPILE_ASSERT(0x010 == offsetof(s_online_managed_session, overlapped_task));
+COMPILE_ASSERT(0x110 == offsetof(s_online_managed_session, time_of_last_failure));
+COMPILE_ASSERT(0x114 == offsetof(s_online_managed_session, not_connected_to_live));
+COMPILE_ASSERT(0x115 == offsetof(s_online_managed_session, has_no_valid_address));
+COMPILE_ASSERT(0x116 == offsetof(s_online_managed_session, has_conflicting_session_id));
+COMPILE_ASSERT(0x118 == offsetof(s_online_managed_session, desired_online_session_state));
+COMPILE_ASSERT(0x268 == offsetof(s_online_managed_session, transitory_online_session_state));
+COMPILE_ASSERT(0x3B8 == offsetof(s_online_managed_session, actual_online_session_state));
+COMPILE_ASSERT(0x508 == offsetof(s_online_managed_session, xuids));
+COMPILE_ASSERT(0x588 == offsetof(s_online_managed_session, xuid_flags));
+COMPILE_ASSERT(0x598 == offsetof(s_online_managed_session, xuid_next_flags));
+COMPILE_ASSERT(0x5A8 == offsetof(s_online_managed_session, session_player_operation_count));
+COMPILE_ASSERT(0x5AC == offsetof(s_online_managed_session, we_are_the_new_host));
+COMPILE_ASSERT(0x5AD == offsetof(s_online_managed_session, we_were_the_host));
+COMPILE_ASSERT(0x5AE == offsetof(s_online_managed_session, host_migration_description));
+COMPILE_ASSERT(0x5E0 == offsetof(s_online_managed_session, creation_contexts));
+COMPILE_ASSERT(0x600 == offsetof(s_online_managed_session, context_count));
 
 struct s_online_session_manager_globals
 {
 	c_flags<e_online_managed_session_operation_flags, uns16, k_online_managed_session_operation_flags_count> current_operation_flags;
 	s_online_managed_session managed_sessions[8];
 };
-static_assert(sizeof(s_online_session_manager_globals) == 0x3048);
-static_assert(0x0 == offsetof(s_online_session_manager_globals, current_operation_flags));
-static_assert(0x8 == offsetof(s_online_session_manager_globals, managed_sessions));
+COMPILE_ASSERT(sizeof(s_online_session_manager_globals) == 0x3048);
+COMPILE_ASSERT(0x0 == offsetof(s_online_session_manager_globals, current_operation_flags));
+COMPILE_ASSERT(0x8 == offsetof(s_online_session_manager_globals, managed_sessions));
 
 extern s_online_session_manager_globals& online_session_manager_globals;
 

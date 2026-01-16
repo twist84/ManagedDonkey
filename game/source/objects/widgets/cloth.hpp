@@ -8,14 +8,14 @@ struct cloth_vertex
 	real_point3d last_position;
 	c_dword_unit_vector normal;
 };
-static_assert(sizeof(cloth_vertex) == 0x1C);
+COMPILE_ASSERT(sizeof(cloth_vertex) == 0x1C);
 
 struct cloth_vertex_attachment
 {
 	int16 vertex_index;
 	int16 marker_index;
 };
-static_assert(sizeof(cloth_vertex_attachment) == 0x4);
+COMPILE_ASSERT(sizeof(cloth_vertex_attachment) == 0x4);
 
 struct cloth_datum :
 	s_datum_header
@@ -35,5 +35,5 @@ struct cloth_datum :
 	int16 attached_link_count;
 	int32 last_update_tick;
 };
-static_assert(sizeof(cloth_datum) == 0x1704);
+COMPILE_ASSERT(sizeof(cloth_datum) == 0x1704);
 

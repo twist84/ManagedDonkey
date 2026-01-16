@@ -34,7 +34,7 @@ struct s_gui_game_setup_storage
 			wchar_t file_path[256];
 		} only_local;
 	};
-	static_assert(sizeof(s_game_variant_settings) == 0x474);
+	COMPILE_ASSERT(sizeof(s_game_variant_settings) == 0x474);
 
 	struct s_map_variant_settings
 	{
@@ -48,7 +48,7 @@ struct s_gui_game_setup_storage
 			wchar_t file_path[256];
 		} only_local;
 	};
-	static_assert(sizeof(s_map_variant_settings) == 0xE2A0);
+	COMPILE_ASSERT(sizeof(s_map_variant_settings) == 0xE2A0);
 
 	struct s_campaign_settings
 	{
@@ -69,7 +69,7 @@ struct s_gui_game_setup_storage
 		s_campaign_game_progression campaign_progression;
 		s_hub_progression hub_progression;
 	};
-	static_assert(sizeof(s_campaign_settings) == 0x198);
+	COMPILE_ASSERT(sizeof(s_campaign_settings) == 0x198);
 
 	typedef s_campaign_settings s_survival_settings;
 
@@ -79,7 +79,7 @@ struct s_gui_game_setup_storage
 		uns16 hopper_id;
 		int32 pad;
 	};
-	static_assert(sizeof(s_matchmaking_settings) == 0x8);
+	COMPILE_ASSERT(sizeof(s_matchmaking_settings) == 0x8);
 
 	struct s_multiplayer_settings
 	{
@@ -87,7 +87,7 @@ struct s_gui_game_setup_storage
 		s_game_variant_settings game_variant_settings;
 		s_map_variant_settings map_variant_settings;
 	};
-	static_assert(sizeof(s_multiplayer_settings) == 0xE718);
+	COMPILE_ASSERT(sizeof(s_multiplayer_settings) == 0xE718);
 
 	struct s_mapeditor_settings
 	{
@@ -96,7 +96,7 @@ struct s_gui_game_setup_storage
 		int32 pad;
 		s_map_variant_settings map_variant_settings;
 	};
-	static_assert(sizeof(s_mapeditor_settings) == 0xE2A8);
+	COMPILE_ASSERT(sizeof(s_mapeditor_settings) == 0xE2A8);
 
 	struct s_theater_settings
 	{
@@ -108,7 +108,7 @@ struct s_gui_game_setup_storage
 		int32 length_in_ticks;
 		int32 start_tick;
 	};
-	static_assert(sizeof(s_theater_settings) == 0x24E80);
+	COMPILE_ASSERT(sizeof(s_theater_settings) == 0x24E80);
 
 	s_campaign_settings campaign_settings;
 	s_survival_settings survival_settings;
@@ -117,7 +117,7 @@ struct s_gui_game_setup_storage
 	s_mapeditor_settings map_editor_settings;
 	s_theater_settings theater_settings;
 };
-static_assert(sizeof(s_gui_game_setup_storage) == 0x41B78);
+COMPILE_ASSERT(sizeof(s_gui_game_setup_storage) == 0x41B78);
 
 #pragma pack(push, 4)
 
@@ -135,7 +135,7 @@ struct s_gui_single_game_setup_storage
 		s_gui_game_setup_storage::s_theater_settings theater;
 	};
 };
-static_assert(sizeof(s_gui_single_game_setup_storage) == 0x24E84);
+COMPILE_ASSERT(sizeof(s_gui_single_game_setup_storage) == 0x24E84);
 
 #pragma pack(pop)
 
@@ -159,7 +159,7 @@ struct s_global_preferences_data
 		bool vsync;
 		bool antialiasing;
 	};
-	static_assert(sizeof(s_video_settings) == 0x34);
+	COMPILE_ASSERT(sizeof(s_video_settings) == 0x34);
 
 	struct s_sound_settings
 	{
@@ -170,7 +170,7 @@ struct s_global_preferences_data
 		int32 voice_chat_control;
 		int32 voice_chat_volume;
 	};
-	static_assert(sizeof(s_sound_settings) == 0x18);
+	COMPILE_ASSERT(sizeof(s_sound_settings) == 0x18);
 
 	struct s_gameplay_settings
 	{
@@ -180,7 +180,7 @@ struct s_global_preferences_data
 		int32 team_color;
 		real32 camera_fov;
 	};
-	static_assert(sizeof(s_gameplay_settings) == 0xC);
+	COMPILE_ASSERT(sizeof(s_gameplay_settings) == 0xC);
 
 	struct s_control_settings
 	{
@@ -195,7 +195,7 @@ struct s_global_preferences_data
 		int32 keyboard_preset;
 		s_keyboard_input_preferences keyboard_preferences;
 	};
-	static_assert(sizeof(s_control_settings) == 0x19C);
+	COMPILE_ASSERT(sizeof(s_control_settings) == 0x19C);
 
 	int32 version;
 	c_enum<e_language, int32, _language_invalid, k_language_count> last_language;
@@ -222,7 +222,7 @@ struct s_global_preferences_data
 	s_gameplay_settings gameplay_settings;
 	s_control_settings controls_settings;
 };
-static_assert(sizeof(s_global_preferences_data) == 0x41DF0);
+COMPILE_ASSERT(sizeof(s_global_preferences_data) == 0x41DF0);
 
 struct s_global_preferences
 {
@@ -231,7 +231,7 @@ struct s_global_preferences
 	s_global_preferences_data data;
 	byte __data41E08[0x1F8];
 };
-static_assert(sizeof(s_global_preferences) == 0x42000);
+COMPILE_ASSERT(sizeof(s_global_preferences) == 0x42000);
 
 struct s_global_preferences_internals_type
 {
@@ -244,7 +244,7 @@ struct s_global_preferences_internals_type
 	c_synchronized_long ready_to_write;
 	bool need_utility_drive_flush;
 };
-static_assert(sizeof(s_global_preferences_internals_type) == 0x84018);
+COMPILE_ASSERT(sizeof(s_global_preferences_internals_type) == 0x84018);
 
 extern s_global_preferences_internals_type& g_global_preferences_internal;
 

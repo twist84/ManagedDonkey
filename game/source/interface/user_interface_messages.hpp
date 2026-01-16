@@ -32,7 +32,7 @@ protected:
 	e_controller_index m_controller;
 	e_window_index m_window;
 };
-static_assert(sizeof(c_message) == 0x18);
+COMPILE_ASSERT(sizeof(c_message) == 0x18);
 
 //_ui_message_type_controller_input
 class c_controller_input_message :
@@ -54,7 +54,7 @@ protected:
 	int32 m_event_value;
 	int32 m_from_automation;
 };
-static_assert(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
+COMPILE_ASSERT(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
 
 //_ui_message_type_xenon
 class c_xenon_message :
@@ -75,7 +75,7 @@ protected:
 	e_xenon_message_type m_xenon_message_type;
 	int32 m_event_value;
 };
-static_assert(sizeof(c_xenon_message) == sizeof(c_message) + 0x8);
+COMPILE_ASSERT(sizeof(c_xenon_message) == sizeof(c_message) + 0x8);
 
 //_ui_message_type_load_screen
 class c_load_screen_message :
@@ -114,8 +114,8 @@ protected:
 	int32 m_layered_position;
 	bool m_applies_even_to_codeless_screens;
 };
-static_assert(sizeof(c_load_screen_message) == 0x3C);
-static_assert(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
+COMPILE_ASSERT(sizeof(c_load_screen_message) == 0x3C);
+COMPILE_ASSERT(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
 
 //_ui_message_type_screen_custom
 class c_screen_custom_message :
@@ -132,7 +132,7 @@ public:
 protected:
 	int32 m_sub_type;
 };
-static_assert(sizeof(c_screen_custom_message) == sizeof(c_message) + 0x4);
+COMPILE_ASSERT(sizeof(c_screen_custom_message) == sizeof(c_message) + 0x4);
 
 //_ui_message_type_dialog_result
 class c_dialog_result_message :
@@ -154,7 +154,7 @@ protected:
 	int32 m_dialog_name;
 	int32 m_dispose_on_success_screen_index;
 };
-static_assert(sizeof(c_dialog_result_message) == sizeof(c_message) + 0xC);
+COMPILE_ASSERT(sizeof(c_dialog_result_message) == sizeof(c_message) + 0xC);
 
 class c_load_terminal_screen_message :
 	public c_load_screen_message
@@ -168,7 +168,7 @@ public:
 protected:
 	int32 m_initial_state; // apply_initial_state
 };
-static_assert(sizeof(c_load_terminal_screen_message) == sizeof(c_load_screen_message) + 0x4);
+COMPILE_ASSERT(sizeof(c_load_terminal_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
 class c_load_alert_screen_message :
 	public c_load_screen_message
@@ -182,7 +182,7 @@ public:
 protected:
 	c_gui_queued_error m_error; // apply_initial_state
 };
-static_assert(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x424);
+COMPILE_ASSERT(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x424);
 
 class c_load_dialog_screen_message :
 	public c_load_screen_message
@@ -203,7 +203,7 @@ protected:
 	bool m_test_mode;
 	int32 m_dispose_on_success_screen_index;
 };
-static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
+COMPILE_ASSERT(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
 class c_load_game_browser_screen_message :
 	public c_load_screen_message
@@ -218,7 +218,7 @@ protected:
 	uns32 m_squad_search_flags;
 	c_enum<e_browser_type, int32, _browse_system_link, k_number_of_game_browser_types> m_type;
 };
-static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
+COMPILE_ASSERT(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
 
 class c_load_pregame_selection_screen_message :
 	public c_load_screen_message
@@ -233,7 +233,7 @@ public:
 protected:
 	e_gui_selected_item_type m_selection_type;
 };
-static_assert(sizeof(c_load_pregame_selection_screen_message) == sizeof(c_load_screen_message) + 0x4);
+COMPILE_ASSERT(sizeof(c_load_pregame_selection_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
 class c_load_campaign_select_difficulty_screen_message :
 	public c_load_screen_message
@@ -251,7 +251,7 @@ protected:
 	e_map_id m_map_id;
 	e_campaign_difficulty_level m_difficulty;
 };
-static_assert(sizeof(c_load_campaign_select_difficulty_screen_message) == sizeof(c_load_screen_message) + 0x10);
+COMPILE_ASSERT(sizeof(c_load_campaign_select_difficulty_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
 class c_load_campaign_select_level_screen_message :
 	public c_load_screen_message
@@ -269,7 +269,7 @@ protected:
 	e_map_id m_map_id;
 	int16 m_campaign_insertion_point;
 };
-static_assert(sizeof(c_load_campaign_select_level_screen_message) == sizeof(c_load_screen_message) + 0x10);
+COMPILE_ASSERT(sizeof(c_load_campaign_select_level_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
 class c_message_globals
 {
@@ -310,7 +310,7 @@ public:
 	void set_xbox_guide_is_active(bool xbox_guide_is_active);
 	void* get_system_message_notification_handle();
 };
-static_assert(sizeof(c_message_globals) == 0x18C);
+COMPILE_ASSERT(sizeof(c_message_globals) == 0x18C);
 
 extern c_message_globals& g_message_globals;
 

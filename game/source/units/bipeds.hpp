@@ -90,7 +90,7 @@ struct _biped_datum
 	uns8 airborne_intentional_ticks;
 	int8 ai_combat_status;
 };
-static_assert(sizeof(_biped_datum) == 0x2C8);
+COMPILE_ASSERT(sizeof(_biped_datum) == 0x2C8);
 
 struct biped_datum
 {
@@ -100,7 +100,7 @@ struct biped_datum
 	_unit_datum unit;
 	_biped_datum biped;
 };
-static_assert(sizeof(biped_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_biped_datum));
+COMPILE_ASSERT(sizeof(biped_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_biped_datum));
 
 extern bool debug_objects_physics_control_node;
 extern bool debug_objects_biped_autoaim_pills;

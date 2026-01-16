@@ -10,7 +10,7 @@ struct s_simulation_unit_board_vehicle_event_data
 {
 	int32 boarding_seat_index;
 };
-static_assert(sizeof(s_simulation_unit_board_vehicle_event_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_simulation_unit_board_vehicle_event_data) == 0x4);
 
 struct s_simulation_unit_pickup_event_data
 {
@@ -18,14 +18,14 @@ struct s_simulation_unit_pickup_event_data
 	int32 unit_pickup_definition_index;
 	int32 count;
 };
-static_assert(sizeof(s_simulation_unit_pickup_event_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_simulation_unit_pickup_event_data) == 0xC);
 
 struct s_simulation_unit_exit_vehicle_event_data
 {
 	int32 parent_seat_index;
 	bool detach_on_exit;
 };
-static_assert(sizeof(s_simulation_unit_exit_vehicle_event_data) == 0x8);
+COMPILE_ASSERT(sizeof(s_simulation_unit_exit_vehicle_event_data) == 0x8);
 
 struct s_simulation_unit_melee_damage_event_data
 {
@@ -42,14 +42,14 @@ struct s_simulation_unit_melee_damage_event_data
 	real32 scale;
 	s_damage_reporting_info damage_reporting_info;
 };
-static_assert(sizeof(s_simulation_unit_melee_damage_event_data) == 0x3C);
+COMPILE_ASSERT(sizeof(s_simulation_unit_melee_damage_event_data) == 0x3C);
 
 struct s_simulation_unit_assassinate_event_data
 {
 	s_animation_sync_action sync_action;
 	s_simulation_unit_melee_damage_event_data melee_damage;
 };
-static_assert(sizeof(s_simulation_unit_assassinate_event_data) == 0x64);
+COMPILE_ASSERT(sizeof(s_simulation_unit_assassinate_event_data) == 0x64);
 
 struct s_simulation_unit_throw_initiate_event_data
 {
@@ -65,14 +65,14 @@ struct s_simulation_unit_throw_initiate_event_data
 		int32 unit_throw_definition_index;
 	};
 };
-static_assert(sizeof(s_simulation_unit_throw_initiate_event_data) == 0x8);
+COMPILE_ASSERT(sizeof(s_simulation_unit_throw_initiate_event_data) == 0x8);
 
 struct s_simulation_unit_melee_initiate_event_data
 {
 	int16 melee_type;
 	int16 prediction_type;
 };
-static_assert(sizeof(s_simulation_unit_melee_initiate_event_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_simulation_unit_melee_initiate_event_data) == 0x4);
 
 struct s_simulation_unit_throw_release_event_data
 {
@@ -93,7 +93,7 @@ struct s_simulation_unit_throw_release_event_data
 	c_aim_target_simulation_entity simulation_entity;
 	real_vector3d lead_vector;
 };
-static_assert(sizeof(s_simulation_unit_throw_release_event_data) == 0x40);
+COMPILE_ASSERT(sizeof(s_simulation_unit_throw_release_event_data) == 0x40);
 
 struct s_simulation_unit_melee_clang_event_data
 {
@@ -101,13 +101,13 @@ struct s_simulation_unit_melee_clang_event_data
 	real_point3d position;
 	real_vector3d forward;
 };
-static_assert(sizeof(s_simulation_unit_melee_clang_event_data) == 0x1C);
+COMPILE_ASSERT(sizeof(s_simulation_unit_melee_clang_event_data) == 0x1C);
 
 struct s_simulation_unit_enter_vehicle_event_data
 {
 	int32 parent_seat_index;
 };
-static_assert(sizeof(s_simulation_unit_enter_vehicle_event_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_simulation_unit_enter_vehicle_event_data) == 0x4);
 
 class c_simulation_unit_entity_definition :
 	public c_simulation_entity_definition

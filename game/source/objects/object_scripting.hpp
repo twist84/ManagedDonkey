@@ -17,13 +17,13 @@ struct s_object_scripting_state
 		int32 new_value_set_time;
 		int32 interpolation_time;
 	};
-	static_assert(sizeof(s_variable) == 0x14);
+	COMPILE_ASSERT(sizeof(s_variable) == 0x14);
 
 	s_variable variables[k_maximum_varaibles];
 	int32 variable_owner_indexes[k_maximum_varaibles];
 	bool map_initialized;
 };
-static_assert(sizeof(s_object_scripting_state) == 0x304);
+COMPILE_ASSERT(sizeof(s_object_scripting_state) == 0x304);
 
 extern int32 __cdecl object_at_marker(int32 parent_object_index, int32 parent_marker_name_id);
 extern void __cdecl object_scripting_clear_all_cinematic_function_variables(int32 object_index);

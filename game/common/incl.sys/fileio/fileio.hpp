@@ -7,7 +7,7 @@ struct osTIMER
 	int start;
 	int time;
 };
-static_assert(sizeof(osTIMER) == 0x8);
+COMPILE_ASSERT(sizeof(osTIMER) == 0x8);
 
 enum FIO_OPEN
 {
@@ -46,7 +46,7 @@ struct osASYNC_INFO
 	int holdSignal;
 	byte data[0x4A];
 };
-static_assert(sizeof(osASYNC_INFO) == 0x60);
+COMPILE_ASSERT(sizeof(osASYNC_INFO) == 0x60);
 
 struct fioCHUNK_DESCR;
 struct fioFILE_BUFFER;
@@ -81,7 +81,7 @@ struct fioFILE
 	int random_seed;
 	dsFLAGS<FIO_OPEN, int> state;
 };
-static_assert(sizeof(fioFILE) == 0x24);
+COMPILE_ASSERT(sizeof(fioFILE) == 0x24);
 
 struct fioFILE_DISK :
 	public fioFILE
@@ -95,7 +95,7 @@ struct fioFILE_DISK :
 	int bufSize;
 	int bufSizeMax;
 };
-static_assert(sizeof(fioFILE_DISK) == 0x348);
+COMPILE_ASSERT(sizeof(fioFILE_DISK) == 0x348);
 
 struct fioFILE_MEM :
 	public fioFILE
@@ -108,4 +108,4 @@ struct fioFILE_MEM :
 	osASYNC_FILE_HANDLE_DUMMY* fpAsync;
 	osASYNC_INFO fpAsyncInfo;
 };
-static_assert(sizeof(fioFILE_MEM) == 0x9C);
+COMPILE_ASSERT(sizeof(fioFILE_MEM) == 0x9C);

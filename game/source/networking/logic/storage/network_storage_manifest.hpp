@@ -9,14 +9,14 @@ struct s_online_file
 	s_network_storage_cache_key cache_key;
 	s_network_http_request_hash hash;
 };
-static_assert(sizeof(s_online_file) == 0x64);
+COMPILE_ASSERT(sizeof(s_online_file) == 0x64);
 
 struct s_online_file_manifest
 {
 	int32 file_count;
 	s_online_file files[128];
 };
-static_assert(sizeof(s_online_file_manifest) == 0x3204);
+COMPILE_ASSERT(sizeof(s_online_file_manifest) == 0x3204);
 
 struct s_network_storage_manifest_untracked_entry
 {
@@ -24,7 +24,7 @@ struct s_network_storage_manifest_untracked_entry
 	s_online_file online_file;
 	int32 __time68;
 };
-static_assert(sizeof(s_network_storage_manifest_untracked_entry) == 0x6C);
+COMPILE_ASSERT(sizeof(s_network_storage_manifest_untracked_entry) == 0x6C);
 
 class c_network_storage_manifest
 {
@@ -46,7 +46,7 @@ public:
 	c_http_blf_simple_downloader<s_online_file_manifest, 15009> m_online_file_manifest_downloader;
 	s_network_storage_manifest_untracked_entry m_untracked_entries[32];
 };
-static_assert(sizeof(c_network_storage_manifest) == 0x50D4);
+COMPILE_ASSERT(sizeof(c_network_storage_manifest) == 0x50D4);
 
 extern void __cdecl network_storage_manifest_dispose();
 extern void __cdecl network_storage_manifest_expire_now();

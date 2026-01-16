@@ -24,14 +24,14 @@ struct render_camera
 	real32 enlarge_size_x;
 	real32 enlarge_size_y;
 };
-static_assert(sizeof(render_camera) == 0x88);
+COMPILE_ASSERT(sizeof(render_camera) == 0x88);
 
 struct s_oriented_bounding_box
 {
 	real_matrix4x3 m_transform;
 	real_vector3d m_extents;
 };
-static_assert(sizeof(s_oriented_bounding_box) == 0x40);
+COMPILE_ASSERT(sizeof(s_oriented_bounding_box) == 0x40);
 
 struct render_projection
 {
@@ -41,7 +41,7 @@ struct render_projection
 	real32 projection_matrix[4][4];
 	real_vector2d world_to_screen_size;
 };
-static_assert(sizeof(render_projection) == 0xC0);
+COMPILE_ASSERT(sizeof(render_projection) == 0xC0);
 
 struct render_view_parameters
 {
@@ -52,7 +52,7 @@ struct render_view_parameters
 	real_vector2d projection_coefficients;
 	real_rectangle2d projection_bounds;
 };
-static_assert(sizeof(render_view_parameters) == 0x40);
+COMPILE_ASSERT(sizeof(render_view_parameters) == 0x40);
 
 extern bool debug_camera_projection;
 extern bool debug_static_first_person;

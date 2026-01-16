@@ -36,7 +36,7 @@ struct FMOD_REVERB_PROPERTIES
 	float Density;
 	unsigned int Flags;
 };
-static_assert(sizeof(FMOD_REVERB_PROPERTIES) == 0x7C);
+COMPILE_ASSERT(sizeof(FMOD_REVERB_PROPERTIES) == 0x7C);
 
 struct HALO_CHANNEL;
 
@@ -107,7 +107,7 @@ struct HALO_SOUND_SYSTEM
 	byte __data80[0x12C];
 	byte __data1AC[0x58];
 };
-static_assert(sizeof(HALO_SOUND_SYSTEM) == 0x204);
+COMPILE_ASSERT(sizeof(HALO_SOUND_SYSTEM) == 0x204);
 
 namespace FMOD
 {
@@ -197,7 +197,7 @@ namespace FMOD
 		EventSystemI_vtbl* __vftable /*VFT*/;
 		byte __data[0xE0];
 	};
-	static_assert(sizeof(EventSystemI) == 0xE4);
+	COMPILE_ASSERT(sizeof(EventSystemI) == 0xE4);
 
 	extern int32 __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata);
 };
@@ -257,7 +257,7 @@ namespace snd
 		byte __data8[0x24];
 		int listenersCount;
 	};
-	static_assert(sizeof(SYSTEM) == 0x30);
+	COMPILE_ASSERT(sizeof(SYSTEM) == 0x30);
 
 	struct SYSTEM_FMOD :
 		SYSTEM
@@ -288,7 +288,7 @@ namespace snd
 		dsVECTOR<FMOD_REVERB_PROPERTIES, 8> auxPresets;
 		dsVECTOR<dsTSTRING<char>, 8> auxPresetNames;
 	};
-	static_assert(sizeof(SYSTEM_FMOD) == 0x368);
+	COMPILE_ASSERT(sizeof(SYSTEM_FMOD) == 0x368);
 
 	//extern int& THREAD_ID;
 	//extern FMOD::System*& fmodOriginalSystem;

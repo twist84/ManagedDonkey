@@ -29,7 +29,7 @@ struct s_player_mapping_globals
 	c_static_array<int32, k_number_of_users> output_user_unit_mapping;
 	c_static_array<uns8, 16> player_output_user_mapping;
 };
-static_assert(sizeof(s_player_mapping_globals) == 0xE8);
+COMPILE_ASSERT(sizeof(s_player_mapping_globals) == 0xE8);
 
 extern void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address);
 extern void __cdecl player_mapping_attach_output_user(int32 user_index, int32 player_index);

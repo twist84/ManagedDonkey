@@ -11,7 +11,7 @@ struct s_sound_location
 	s_location game_location;
 	byte __data2A[0x2];
 };
-static_assert(sizeof(s_sound_location) == 0x2C);
+COMPILE_ASSERT(sizeof(s_sound_location) == 0x2C);
 
 extern void __cdecl sound_location_set_forward(s_sound_location* sound_location, const real_vector3d* forward);
 

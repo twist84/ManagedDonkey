@@ -10,11 +10,11 @@ struct s_network_session_parameter_saved_film_game_options
 	int32 start_ticks;
 	game_options options;
 };
-static_assert(sizeof(s_network_session_parameter_saved_film_game_options) == 0x24B50);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_saved_film_game_options) == 0x24B50);
 
 class c_network_session_parameter_saved_film_game_options :
 	public c_network_session_parameter_chunked<s_network_session_parameter_saved_film_game_options, 34816>
 {
 };
-static_assert(sizeof(c_network_session_parameter_saved_film_game_options) == 0x5A740);
+COMPILE_ASSERT(sizeof(c_network_session_parameter_saved_film_game_options) == 0x5A740);
 

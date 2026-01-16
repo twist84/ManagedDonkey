@@ -21,7 +21,7 @@ struct s_cinematic_field_of_view
 	real32 start;
 	real32 end;
 };
-static_assert(sizeof(s_cinematic_field_of_view) == 0x10);
+COMPILE_ASSERT(sizeof(s_cinematic_field_of_view) == 0x10);
 
 struct s_scripted_camera_globals
 {
@@ -45,7 +45,7 @@ struct s_scripted_camera_globals
 		//s_scripted_camera_cinematic internal_cinematic;
 	};
 };
-static_assert(sizeof(s_scripted_camera_globals) == 0xF0);
+COMPILE_ASSERT(sizeof(s_scripted_camera_globals) == 0xF0);
 
 extern void __cdecl scripted_camera_game_tick();
 extern void __cdecl scripted_camera_initialize();

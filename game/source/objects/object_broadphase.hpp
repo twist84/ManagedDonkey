@@ -6,7 +6,7 @@ struct s_object_broadphase
 {
 	byte __data[0x32450];
 };
-static_assert(sizeof(s_object_broadphase) == 0x32450);
+COMPILE_ASSERT(sizeof(s_object_broadphase) == 0x32450);
 
 extern void __cdecl object_broadphase_dispose();
 extern void __cdecl object_broadphase_dispose_from_old_map();

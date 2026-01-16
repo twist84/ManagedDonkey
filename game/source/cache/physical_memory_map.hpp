@@ -17,7 +17,7 @@ enum
 	k_physical_memory_total_size = k_physical_memory_data_size + k_physical_memory_cache_size,
 };
 
-static_assert(k_physical_memory_total_size == k_total_allocated_physical_memory);
+COMPILE_ASSERT(k_physical_memory_total_size == k_total_allocated_physical_memory);
 
 enum
 {
@@ -44,8 +44,8 @@ class c_physical_memory_allocation :
 {
 	memory_stage m_memory_stage;
 };
-static_assert(sizeof(c_physical_memory_allocation) == 0x8);
-static_assert(sizeof(c_physical_memory_allocation) == sizeof(c_allocation_base) + 0x4);
+COMPILE_ASSERT(sizeof(c_physical_memory_allocation) == 0x8);
+COMPILE_ASSERT(sizeof(c_physical_memory_allocation) == sizeof(c_allocation_base) + 0x4);
 
 struct s_physical_memory_stage
 {
@@ -55,7 +55,7 @@ struct s_physical_memory_stage
 	uns32 allocation_count;
 	uns32 fixed_address_allocation_count;
 };
-static_assert(sizeof(s_physical_memory_stage) == 0x14);
+COMPILE_ASSERT(sizeof(s_physical_memory_stage) == 0x14);
 
 class c_physical_memory_contiguous_region_listener
 {
@@ -64,7 +64,7 @@ public:
 	virtual void resize_no_fail(c_basic_buffer<void>, c_basic_buffer<void>) = 0;
 	virtual void dispose_resize_buffer(c_basic_buffer<void>) = 0;
 };
-static_assert(sizeof(c_physical_memory_contiguous_region_listener) == sizeof(void*));
+COMPILE_ASSERT(sizeof(c_physical_memory_contiguous_region_listener) == sizeof(void*));
 
 struct s_physical_memory_globals
 {
@@ -75,7 +75,7 @@ struct s_physical_memory_globals
 	int8* no_mans_land;
 	c_static_array<s_physical_memory_stage, k_memory_stage_count> memory_stages;
 };
-static_assert(sizeof(s_physical_memory_globals) == 0xB4);
+COMPILE_ASSERT(sizeof(s_physical_memory_globals) == 0xB4);
 
 extern s_physical_memory_globals& physical_memory_globals;
 extern uns32 g_physical_memory_data_size_increase_mb;

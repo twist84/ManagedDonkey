@@ -15,7 +15,7 @@ struct s_rasterizer_implicit_cylinder_object
 {
 	real32 width;
 };
-static_assert(sizeof(s_rasterizer_implicit_cylinder_object) == sizeof(real32));
+COMPILE_ASSERT(sizeof(s_rasterizer_implicit_cylinder_object) == sizeof(real32));
 
 struct s_rasterizer_implicit_sphere_object
 {
@@ -23,7 +23,7 @@ struct s_rasterizer_implicit_sphere_object
 	real32 absolute_positive_height;
 	real32 absolute_negative_height;
 };
-static_assert(sizeof(s_rasterizer_implicit_sphere_object) == sizeof(real32) * 3);
+COMPILE_ASSERT(sizeof(s_rasterizer_implicit_sphere_object) == sizeof(real32) * 3);
 
 struct s_rasterizer_implicit_box_object
 {
@@ -32,7 +32,7 @@ struct s_rasterizer_implicit_box_object
 	real32 absolute_positive_height;
 	real32 absolute_negative_height;
 };
-static_assert(sizeof(s_rasterizer_implicit_box_object) == sizeof(real32) * 4);
+COMPILE_ASSERT(sizeof(s_rasterizer_implicit_box_object) == sizeof(real32) * 4);
 
 struct s_rasterizer_implicit_object
 {
@@ -48,14 +48,14 @@ struct s_rasterizer_implicit_object
 		s_rasterizer_implicit_box_object box;
 	};
 };
-static_assert(sizeof(s_rasterizer_implicit_object) == 0x5C);
+COMPILE_ASSERT(sizeof(s_rasterizer_implicit_object) == 0x5C);
 
 struct s_rasterizer_implicit_vertex
 {
 	real_point3d position;
 	real_point2d texcoord;
 };
-static_assert(sizeof(s_rasterizer_implicit_vertex) == 0x14);
+COMPILE_ASSERT(sizeof(s_rasterizer_implicit_vertex) == 0x14);
 
 struct s_rasterizer_implicit_geometry_globals
 {
@@ -63,7 +63,7 @@ struct s_rasterizer_implicit_geometry_globals
 	s_rasterizer_implicit_object implicit_objects[64];
 	s_rasterizer_implicit_vertex circle_strip[128];
 };
-static_assert(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
+COMPILE_ASSERT(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
 
 /*
 void initialize_circle_strip()

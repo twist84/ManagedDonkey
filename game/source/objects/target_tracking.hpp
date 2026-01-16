@@ -18,7 +18,7 @@ public:
 
 	bool m_locked;
 };
-static_assert(sizeof(c_tracked_target) == 0x1C);
+COMPILE_ASSERT(sizeof(c_tracked_target) == 0x1C);
 
 class c_target_tracking_system
 {
@@ -27,5 +27,5 @@ public:
 	int32 m_best_target_index;
 	int32 __unknown8;
 };
-static_assert(sizeof(c_target_tracking_system) == 0x40);
+COMPILE_ASSERT(sizeof(c_target_tracking_system) == 0x40);
 

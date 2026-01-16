@@ -16,7 +16,7 @@ struct s_multiplayer_globals_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_globals_definition) == 0x18);
+COMPILE_ASSERT(sizeof(s_multiplayer_globals_definition) == 0x18);
 
 struct s_multiplayer_customized_model_character;
 struct s_multiplayer_equipment;
@@ -67,7 +67,7 @@ struct s_multiplayer_universal_globals_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_universal_globals_definition) == 0xD8);
+COMPILE_ASSERT(sizeof(s_multiplayer_universal_globals_definition) == 0xD8);
 
 struct s_multiplayer_customized_model_selection;
 struct s_multiplayer_customized_model_character
@@ -78,7 +78,7 @@ struct s_multiplayer_customized_model_character
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_customized_model_character) == 0x14);
+COMPILE_ASSERT(sizeof(s_multiplayer_customized_model_character) == 0x14);
 
 struct s_multiplayer_customized_model_selection
 {
@@ -94,7 +94,7 @@ struct s_multiplayer_customized_model_selection
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_customized_model_selection) == 0x30);
+COMPILE_ASSERT(sizeof(s_multiplayer_customized_model_selection) == 0x30);
 
 struct s_multiplayer_equipment
 {
@@ -105,14 +105,14 @@ struct s_multiplayer_equipment
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_equipment) == 0x18);
+COMPILE_ASSERT(sizeof(s_multiplayer_equipment) == 0x18);
 
 struct s_multiplayer_energy_regeneration
 {
 	int32 duration;
 	int32 energy_level;
 };
-static_assert(sizeof(s_multiplayer_energy_regeneration) == 0x8);
+COMPILE_ASSERT(sizeof(s_multiplayer_energy_regeneration) == 0x8);
 
 struct s_multiplayer_weapon_selection
 {
@@ -125,7 +125,7 @@ struct s_multiplayer_weapon_selection
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_weapon_selection) == 0x18);
+COMPILE_ASSERT(sizeof(s_multiplayer_weapon_selection) == 0x18);
 
 struct s_multiplayer_vehicle_selection
 {
@@ -134,7 +134,7 @@ struct s_multiplayer_vehicle_selection
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_vehicle_selection) == 0x14);
+COMPILE_ASSERT(sizeof(s_multiplayer_vehicle_selection) == 0x14);
 
 struct s_multiplayer_grenade_selection
 {
@@ -143,7 +143,7 @@ struct s_multiplayer_grenade_selection
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_grenade_selection) == 0x14);
+COMPILE_ASSERT(sizeof(s_multiplayer_grenade_selection) == 0x14);
 
 struct s_multiplayer_object_remap_entry;
 struct s_multiplayer_weapon_set
@@ -151,21 +151,21 @@ struct s_multiplayer_weapon_set
 	c_string_id name;
 	c_typed_tag_block<s_multiplayer_object_remap_entry> remap_table;
 };
-static_assert(sizeof(s_multiplayer_weapon_set) == 0x10);
+COMPILE_ASSERT(sizeof(s_multiplayer_weapon_set) == 0x10);
 
 struct s_multiplayer_vehicle_set
 {
 	c_string_id name;
 	c_typed_tag_block<s_multiplayer_object_remap_entry> remap_table;
 };
-static_assert(sizeof(s_multiplayer_vehicle_set) == 0x10);
+COMPILE_ASSERT(sizeof(s_multiplayer_vehicle_set) == 0x10);
 
 struct s_multiplayer_object_remap_entry
 {
 	c_string_id placed_object_name;
 	c_string_id remapped_object_name;
 };
-static_assert(sizeof(s_multiplayer_object_remap_entry) == 0x8);
+COMPILE_ASSERT(sizeof(s_multiplayer_object_remap_entry) == 0x8);
 
 struct s_multiplayer_podium_stance_animation;
 struct s_multiplayer_podium_move_animation;
@@ -179,7 +179,7 @@ struct s_multiplayer_podium_animation
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_podium_animation) == 0x30);
+COMPILE_ASSERT(sizeof(s_multiplayer_podium_animation) == 0x30);
 
 struct s_multiplayer_podium_stance_animation
 {
@@ -190,7 +190,7 @@ struct s_multiplayer_podium_stance_animation
 	c_string_id armed_transition;
 	real32 camera_distance_offset;
 };
-static_assert(sizeof(s_multiplayer_podium_stance_animation) == 0x34);
+COMPILE_ASSERT(sizeof(s_multiplayer_podium_stance_animation) == 0x34);
 
 struct s_multiplayer_podium_move_animation
 {
@@ -204,7 +204,7 @@ struct s_multiplayer_podium_move_animation
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_podium_move_animation) == 0x50);
+COMPILE_ASSERT(sizeof(s_multiplayer_podium_move_animation) == 0x50);
 
 struct s_multiplayer_constants;
 struct s_game_engine_status_response;
@@ -276,7 +276,7 @@ struct s_multiplayer_runtime_globals_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_runtime_globals_definition) == 0x2A8);
+COMPILE_ASSERT(sizeof(s_multiplayer_runtime_globals_definition) == 0x2A8);
 
 struct s_multiplayer_constants
 {
@@ -401,7 +401,7 @@ struct s_multiplayer_constants
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_multiplayer_constants) == 0x220);
+COMPILE_ASSERT(sizeof(s_multiplayer_constants) == 0x220);
 
 struct s_game_engine_status_response
 {
@@ -416,7 +416,7 @@ struct s_game_engine_status_response
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_engine_status_response) == 0x24);
+COMPILE_ASSERT(sizeof(s_game_engine_status_response) == 0x24);
 
 template<tag ...k_group_tags>
 struct s_multiplayer_globals_tag_reference :

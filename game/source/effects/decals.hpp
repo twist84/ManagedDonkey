@@ -51,7 +51,7 @@ public:
 	real32 m_specular_multiplier;
 	real32 m_bitmap_aspect;
 };
-static_assert(sizeof(c_decal_definition) == 0x74);
+COMPILE_ASSERT(sizeof(c_decal_definition) == 0x74);
 
 struct s_game_non_bsp_zone_set;
 struct s_game_cluster_bit_vectors;
@@ -82,7 +82,7 @@ public:
 	real_matrix4x3 m_projection;
 	real32 m_rotation;
 };
-static_assert(sizeof(c_decal_system) == 0x50);
+COMPILE_ASSERT(sizeof(c_decal_system) == 0x50);
 
 struct s_decal_counts
 {
@@ -91,7 +91,7 @@ struct s_decal_counts
 	uns32 m_vertex_count;
 	uns32 m_index_count;
 };
-static_assert(sizeof(s_decal_counts) == 0x10);
+COMPILE_ASSERT(sizeof(s_decal_counts) == 0x10);
 
 class c_decal :
 	public s_datum_header
@@ -119,7 +119,7 @@ public:
 
 	static const s_shader_extern_info& x_shader_extern_info;
 };
-static_assert(sizeof(c_decal) == 0x130);
+COMPILE_ASSERT(sizeof(c_decal) == 0x130);
 
 struct s_decal_message
 {
@@ -144,7 +144,7 @@ struct s_decal_message_queue :
 	t_message_queue<s_decal_message, s_decal_message::k_max_per_frame>
 {
 };
-static_assert(sizeof(s_decal_message_queue) == 0x824);
+COMPILE_ASSERT(sizeof(s_decal_message_queue) == 0x824);
 
 extern void __cdecl sub_6948C0(int32 a1);
 

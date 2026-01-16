@@ -23,7 +23,7 @@ struct s_object_render_context
 {
 	byte __data0[0x10];
 };
-static_assert(sizeof(s_object_render_context) == 0x10);
+COMPILE_ASSERT(sizeof(s_object_render_context) == 0x10);
 
 struct s_context_mesh_part
 {
@@ -35,7 +35,7 @@ struct s_context_mesh_part
 	uns16 region_index;
 	byte __data[0xA];
 };
-static_assert(sizeof(s_context_mesh_part) == 0x1C);
+COMPILE_ASSERT(sizeof(s_context_mesh_part) == 0x1C);
 
 struct s_render_object_globals
 {
@@ -48,7 +48,7 @@ struct s_render_object_globals
 	int32 object_render_context_markers[6];
 	int32 context_mesh_part_markers[6];
 };
-static_assert(sizeof(s_render_object_globals) == 0x3C040);
+COMPILE_ASSERT(sizeof(s_render_object_globals) == 0x3C040);
 
 class c_object_renderer
 {

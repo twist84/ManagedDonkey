@@ -8,7 +8,7 @@ struct antenna_vertex_datum
 	real_vector3d velocity;
 	int16 sprite_index;
 };
-static_assert(sizeof(antenna_vertex_datum) == 0x1C);
+COMPILE_ASSERT(sizeof(antenna_vertex_datum) == 0x1C);
 
 struct antenna_datum :
 	s_datum_header
@@ -23,5 +23,5 @@ struct antenna_datum :
 	int32 last_update_index;
 	real_vector3d attachment_vector;
 };
-static_assert(sizeof(antenna_datum) == 0x64);
+COMPILE_ASSERT(sizeof(antenna_datum) == 0x64);
 

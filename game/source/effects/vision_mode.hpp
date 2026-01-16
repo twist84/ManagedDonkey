@@ -31,13 +31,13 @@ struct s_vision_mode_ping_falloff
 	// delay between the end of one ping, and the beginning of the next, note there can only be one ping at a time
 	real32 ping_delay;
 };
-static_assert(sizeof(s_vision_mode_ping_falloff) == sizeof(real32) * 6);
+COMPILE_ASSERT(sizeof(s_vision_mode_ping_falloff) == sizeof(real32) * 6);
 
 struct s_vision_mode_function
 {
 	c_function_definition mapping;
 };
-static_assert(sizeof(s_vision_mode_function) == sizeof(c_function_definition));
+COMPILE_ASSERT(sizeof(s_vision_mode_function) == sizeof(c_function_definition));
 
 struct s_vision_mode_ping_color
 {
@@ -51,7 +51,7 @@ struct s_vision_mode_ping_color
 	real32 ping_intensity;
 	real32 overlapping_dimming_factor;
 };
-static_assert(sizeof(s_vision_mode_ping_color) == (sizeof(s_vision_mode_function) * 2) + (sizeof(real32) * 4));
+COMPILE_ASSERT(sizeof(s_vision_mode_ping_color) == (sizeof(s_vision_mode_function) * 2) + (sizeof(real32) * 4));
 
 struct s_vision_mode_definition
 {
@@ -87,11 +87,11 @@ struct s_vision_mode_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_vision_mode_definition) == 0x194);
+COMPILE_ASSERT(sizeof(s_vision_mode_definition) == 0x194);
 
 struct s_vision_mode_state
 {
 	byte __data[0x3C];
 };
-static_assert(sizeof(s_vision_mode_state) == 0x3C);
+COMPILE_ASSERT(sizeof(s_vision_mode_state) == 0x3C);
 

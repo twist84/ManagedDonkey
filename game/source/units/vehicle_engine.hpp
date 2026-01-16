@@ -18,7 +18,7 @@ struct s_vehicle_engine
 	// padding?
 	byte __unknown13;
 };
-static_assert(sizeof(s_vehicle_engine) == 0x14);
+COMPILE_ASSERT(sizeof(s_vehicle_engine) == 0x14);
 
 extern real32 __cdecl vehicle_engine_get_rpm_function_scale(const s_vehicle_engine* engine);
 

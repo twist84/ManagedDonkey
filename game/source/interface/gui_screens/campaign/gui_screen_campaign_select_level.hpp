@@ -28,7 +28,7 @@ protected:
 	int16 m_insertion_point_unlocked;
 	int32 m_string_list_index;
 };
-//static_assert(sizeof(c_gui_insertion_point_data) == sizeof(c_gui_ordered_data) + 0xB48);
+//COMPILE_ASSERT(sizeof(c_gui_insertion_point_data) == sizeof(c_gui_ordered_data) + 0xB48);
 
 class c_gui_screen_campaign_select_level :
 	public c_gui_screen_widget
@@ -67,5 +67,5 @@ public:
 	bool m_saved_game;
 	bool m_coop_saved_game;
 };
-static_assert(sizeof(c_gui_screen_campaign_select_level) == sizeof(c_gui_screen_widget) + 0x18);
+COMPILE_ASSERT(sizeof(c_gui_screen_campaign_select_level) == sizeof(c_gui_screen_widget) + 0x18);
 

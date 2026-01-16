@@ -74,7 +74,7 @@ protected:
 	int32 m_next_retry_milliseconds;
 	int32 m_attempt_index;
 };
-static_assert(sizeof(c_http_buffer_downloader) == 0x694);
+COMPILE_ASSERT(sizeof(c_http_buffer_downloader) == 0x694);
 
 template<int32 k_buffer_size>
 class c_http_stored_buffer_downloader :

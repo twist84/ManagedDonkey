@@ -11,6 +11,6 @@ public:
 		k_tag_type = SHADER_DECAL_TAG,
 	};
 };
-static_assert(sizeof(c_render_method_shader_decal) == 0x40);
-static_assert(sizeof(c_render_method_shader_decal) == sizeof(c_render_method));
+COMPILE_ASSERT(sizeof(c_render_method_shader_decal) == 0x40);
+COMPILE_ASSERT(sizeof(c_render_method_shader_decal) == sizeof(c_render_method));
 

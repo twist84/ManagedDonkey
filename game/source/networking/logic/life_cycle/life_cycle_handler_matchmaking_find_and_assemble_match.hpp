@@ -16,7 +16,7 @@ struct s_find_and_assemble_data
 	int32 initial_desperation_sessions_found_count;
 	int32 initial_desperation_session_search_count;
 };
-static_assert(sizeof(s_find_and_assemble_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_find_and_assemble_data) == 0xC);
 
 class c_life_cycle_state_handler_matchmaking_find_and_assemble_match :
 	public c_life_cycle_state_handler
@@ -50,15 +50,15 @@ public:
 	s_find_and_assemble_data m_enter_find_and_assemble_data;
 	s_qos_listener_data m_qos_listener_data;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_find_and_assemble_match) == 0x19B60);
-static_assert(0x00028 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_flags));
-static_assert(0x00030 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_matchmaking_seeker));
-static_assert(0x03538 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_current_session_join_attempt));
-static_assert(0x19A60 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_gather_start_time));
-static_assert(0x19A64 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_desparation_start_time));
-static_assert(0x19A68 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_force_gather_in_matchmaking_start));
-static_assert(0x19A69 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, pad));
-static_assert(0x19A6C == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_advertised_session_properties));
-static_assert(0x19B30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_enter_find_and_assemble_data));
-static_assert(0x19B3C == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_qos_listener_data));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_find_and_assemble_match) == 0x19B60);
+COMPILE_ASSERT(0x00028 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_flags));
+COMPILE_ASSERT(0x00030 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_matchmaking_seeker));
+COMPILE_ASSERT(0x03538 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_current_session_join_attempt));
+COMPILE_ASSERT(0x19A60 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_gather_start_time));
+COMPILE_ASSERT(0x19A64 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_desparation_start_time));
+COMPILE_ASSERT(0x19A68 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_force_gather_in_matchmaking_start));
+COMPILE_ASSERT(0x19A69 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, pad));
+COMPILE_ASSERT(0x19A6C == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_advertised_session_properties));
+COMPILE_ASSERT(0x19B30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_enter_find_and_assemble_data));
+COMPILE_ASSERT(0x19B3C == OFFSETOF(c_life_cycle_state_handler_matchmaking_find_and_assemble_match, m_qos_listener_data));
 

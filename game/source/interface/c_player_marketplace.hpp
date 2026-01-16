@@ -124,7 +124,7 @@ protected:
 	int32 m_purchase_result; // HRESULT
 	bool m_purchase_attempted_this_session;
 };
-static_assert(sizeof(c_player_marketplace) == 0x1460);
+COMPILE_ASSERT(sizeof(c_player_marketplace) == 0x1460);
 
 //extern c_static_array<c_player_marketplace, 4>& g_player_marketplace;
 extern c_player_marketplace(&g_player_marketplace)[4];

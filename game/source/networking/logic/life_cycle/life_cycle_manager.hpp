@@ -66,21 +66,21 @@ public:
 	//bool m_pause_state_enabled;
 	//e_life_cycle_state m_pause_state;
 };
-static_assert(sizeof(c_life_cycle_state_manager) == 0x9990);
-static_assert(0x0000 == OFFSETOF(c_life_cycle_state_manager, m_current_state));
-static_assert(0x0004 == OFFSETOF(c_life_cycle_state_manager, m_handlers));
-static_assert(0x004C == OFFSETOF(c_life_cycle_state_manager, m_session_manager));
-static_assert(0x0050 == OFFSETOF(c_life_cycle_state_manager, m_active_squad_session));
-static_assert(0x0054 == OFFSETOF(c_life_cycle_state_manager, m_target_session));
-static_assert(0x0058 == OFFSETOF(c_life_cycle_state_manager, m_group_session));
-static_assert(0x005C == OFFSETOF(c_life_cycle_state_manager, m_observer));
-static_assert(0x0060 == OFFSETOF(c_life_cycle_state_manager, m_pending_state_change));
-static_assert(0x0064 == OFFSETOF(c_life_cycle_state_manager, m_pending_state));
-static_assert(0x0068 == OFFSETOF(c_life_cycle_state_manager, m_pending_state_change_entry_data_size));
-static_assert(0x006C == OFFSETOF(c_life_cycle_state_manager, m_pending_state_change_entry_data));
-static_assert(0x0080 == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_quality));
-static_assert(0x9978 == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_messaging_session_identifier_valid));
-static_assert(0x9979 == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_messaging_session_identifier));
-static_assert(0x998C == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_messaging_current_cookie));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_manager) == 0x9990);
+COMPILE_ASSERT(0x0000 == OFFSETOF(c_life_cycle_state_manager, m_current_state));
+COMPILE_ASSERT(0x0004 == OFFSETOF(c_life_cycle_state_manager, m_handlers));
+COMPILE_ASSERT(0x004C == OFFSETOF(c_life_cycle_state_manager, m_session_manager));
+COMPILE_ASSERT(0x0050 == OFFSETOF(c_life_cycle_state_manager, m_active_squad_session));
+COMPILE_ASSERT(0x0054 == OFFSETOF(c_life_cycle_state_manager, m_target_session));
+COMPILE_ASSERT(0x0058 == OFFSETOF(c_life_cycle_state_manager, m_group_session));
+COMPILE_ASSERT(0x005C == OFFSETOF(c_life_cycle_state_manager, m_observer));
+COMPILE_ASSERT(0x0060 == OFFSETOF(c_life_cycle_state_manager, m_pending_state_change));
+COMPILE_ASSERT(0x0064 == OFFSETOF(c_life_cycle_state_manager, m_pending_state));
+COMPILE_ASSERT(0x0068 == OFFSETOF(c_life_cycle_state_manager, m_pending_state_change_entry_data_size));
+COMPILE_ASSERT(0x006C == OFFSETOF(c_life_cycle_state_manager, m_pending_state_change_entry_data));
+COMPILE_ASSERT(0x0080 == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_quality));
+COMPILE_ASSERT(0x9978 == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_messaging_session_identifier_valid));
+COMPILE_ASSERT(0x9979 == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_messaging_session_identifier));
+COMPILE_ASSERT(0x998C == OFFSETOF(c_life_cycle_state_manager, m_matchmaking_messaging_current_cookie));
 
 

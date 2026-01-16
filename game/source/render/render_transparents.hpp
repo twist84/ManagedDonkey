@@ -15,13 +15,13 @@ struct s_transparent_types
 	const void* user_data;
 	int32 user_context;
 };
-static_assert(sizeof(s_transparent_types) == 0xA4);
+COMPILE_ASSERT(sizeof(s_transparent_types) == 0xA4);
 
 struct s_transparency_marker
 {
 	uns16 starting_transparent_index;
 };
-static_assert(sizeof(s_transparency_marker) == sizeof(uns16));
+COMPILE_ASSERT(sizeof(s_transparency_marker) == sizeof(uns16));
 
 template<typename t_type, int32 k_count>
 class c_sorter
@@ -32,7 +32,7 @@ public:
 	uns16 m_count;
 	t_type* m_data;
 };
-static_assert(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);
+COMPILE_ASSERT(sizeof(c_sorter<s_transparent_types, 1024>) == 0x810);
 
 class c_transparency_renderer
 {

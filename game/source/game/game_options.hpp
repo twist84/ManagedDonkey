@@ -60,6 +60,6 @@ struct game_options
 	game_machine_options machines;
 	game_player_options players[16];
 };
-static_assert(sizeof(game_options) == 0x24B48);
+COMPILE_ASSERT(sizeof(game_options) == 0x24B48);
 #pragma warning(pop)
 

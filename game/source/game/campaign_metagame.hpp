@@ -17,7 +17,7 @@ struct s_campaign_metagame_runtime_globals
 
 	byte __data[0x8];
 };
-static_assert(sizeof(s_campaign_metagame_runtime_globals) == 0x1A158);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_runtime_globals) == 0x1A158);
 
 struct s_campaign_metagame_runtime_sizeof_10C
 {
@@ -32,7 +32,7 @@ struct s_campaign_metagame_runtime_sizeof_10C
 
 	byte __unknown108[4];
 };
-static_assert(sizeof(s_campaign_metagame_runtime_sizeof_10C) == 0x10C);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_runtime_sizeof_10C) == 0x10C);
 
 struct s_campaign_metagame_runtime_globals_secondary
 {
@@ -46,7 +46,7 @@ struct s_campaign_metagame_runtime_globals_secondary
 	int32 __unknown5B8; // __unknown5BC_index
 	byte __unknown5BC[500][0xE];
 };
-static_assert(sizeof(s_campaign_metagame_runtime_globals_secondary) == 0x2114);
+COMPILE_ASSERT(sizeof(s_campaign_metagame_runtime_globals_secondary) == 0x2114);
 
 extern bool& chud_debug_metagame;
 extern s_campaign_metagame_runtime_globals_secondary& g_campaign_metagame_runtime_globals_secondary;

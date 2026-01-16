@@ -37,5 +37,5 @@ public:
 	int32 m_killed_most_by_player_index;
 	int16 m_killed_by_count;
 };
-static_assert(sizeof(c_gui_player_select_screen_widget) == sizeof(c_gui_screen_widget) + 0x1650);
+COMPILE_ASSERT(sizeof(c_gui_player_select_screen_widget) == sizeof(c_gui_screen_widget) + 0x1650);
 

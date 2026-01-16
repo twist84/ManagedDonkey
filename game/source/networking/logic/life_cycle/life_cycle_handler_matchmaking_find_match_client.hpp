@@ -27,5 +27,5 @@ public:
 //protected:
 	c_matchmaking_find_match_client_flags m_flags;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_find_match_client) == 0x30);
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_find_match_client) == 0x30);
 

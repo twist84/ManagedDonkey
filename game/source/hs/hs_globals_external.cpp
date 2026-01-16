@@ -59,7 +59,7 @@ enum : int16
 };
 
 #define EXTERNAL_GLOBAL_DECLARE(NAME, TYPE, VALUE, ...) \
-static_assert(#VALUE[0] == '&'); \
+COMPILE_ASSERT(#VALUE[0] == '&'); \
 static hs_global_external NAME##_definition \
 { \
 	.name = #NAME, \
@@ -68,7 +68,7 @@ static hs_global_external NAME##_definition \
 }
 
 #define EXTERNAL_GLOBAL_DECLARE2(NAME, TYPE, VALUE_ADDRESS, ...) \
-static_assert((#VALUE_ADDRESS[0] == '0' && #VALUE_ADDRESS[1] == 'x') || (#VALUE_ADDRESS[0] == 'N' && #VALUE_ADDRESS[1] == 'U' && #VALUE_ADDRESS[2] == 'L' && #VALUE_ADDRESS[3] == 'L')); \
+COMPILE_ASSERT((#VALUE_ADDRESS[0] == '0' && #VALUE_ADDRESS[1] == 'x') || (#VALUE_ADDRESS[0] == 'N' && #VALUE_ADDRESS[1] == 'U' && #VALUE_ADDRESS[2] == 'L' && #VALUE_ADDRESS[3] == 'L')); \
 static hs_global_external NAME##_definition = \
 { \
 	.name = #NAME, \
@@ -8114,5 +8114,5 @@ static hs_global_external* const hs_external_globals[]
 	&end_game_write_stats_bypass_override_definition,
 };
 const int16 k_hs_external_global_count = NUMBEROF(hs_external_globals);
-static_assert(k_hs_external_global_count >= k_maximum_number_of_ms23_hs_globals);
+COMPILE_ASSERT(k_hs_external_global_count >= k_maximum_number_of_ms23_hs_globals);
 

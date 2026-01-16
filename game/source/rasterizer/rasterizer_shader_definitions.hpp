@@ -11,7 +11,7 @@ struct s_compiled_shader_reference
 	int8 start_index;
 	int8 count;
 };
-static_assert(sizeof(s_compiled_shader_reference) == 0x2);
+COMPILE_ASSERT(sizeof(s_compiled_shader_reference) == 0x2);
 
 struct s_rasterizer_vertex_shader_entry_point
 {
@@ -19,7 +19,7 @@ struct s_rasterizer_vertex_shader_entry_point
 
 	c_typed_tag_block<s_compiled_shader_reference> vertex_types;
 };
-static_assert(sizeof(s_rasterizer_vertex_shader_entry_point) == sizeof(s_tag_block));
+COMPILE_ASSERT(sizeof(s_rasterizer_vertex_shader_entry_point) == sizeof(s_tag_block));
 
 class c_rasterizer_constant_table_definition
 {
@@ -30,7 +30,7 @@ public:
 	// pad
 	byte qersaui[0x3];
 };
-static_assert(sizeof(c_rasterizer_constant_table_definition) == 0x10);
+COMPILE_ASSERT(sizeof(c_rasterizer_constant_table_definition) == 0x10);
 
 class c_rasterizer_compiled_shader
 {
@@ -46,7 +46,7 @@ public:
 	// ..:gprs
 	int32 gprs;
 };
-static_assert(sizeof(c_rasterizer_compiled_shader) == 0x4C);
+COMPILE_ASSERT(sizeof(c_rasterizer_compiled_shader) == 0x4C);
 
 class c_rasterizer_compiled_vertex_shader :
 	public c_rasterizer_compiled_shader // compiled shader splut
@@ -56,7 +56,7 @@ public:
 
 	IDirect3DVertexShader9* runtime_shader;
 };
-static_assert(sizeof(c_rasterizer_compiled_vertex_shader) == 0x50);
+COMPILE_ASSERT(sizeof(c_rasterizer_compiled_vertex_shader) == 0x50);
 
 class c_rasterizer_compiled_pixel_shader :
 	public c_rasterizer_compiled_shader // compiled shader splut
@@ -66,7 +66,7 @@ public:
 
 	IDirect3DPixelShader9* runtime_shader;
 };
-static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
+COMPILE_ASSERT(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
 
 class c_rasterizer_vertex_shader
 {
@@ -84,7 +84,7 @@ public:
 	int32 version;
 	c_typed_tag_block<c_rasterizer_compiled_vertex_shader> compiled_shader;
 };
-static_assert(sizeof(c_rasterizer_vertex_shader) == 0x20);
+COMPILE_ASSERT(sizeof(c_rasterizer_vertex_shader) == 0x20);
 
 class c_rasterizer_pixel_shader
 {
@@ -100,5 +100,5 @@ public:
 	int32 version;
 	c_typed_tag_block<c_rasterizer_compiled_pixel_shader> compiled_shader;
 };
-static_assert(sizeof(c_rasterizer_pixel_shader) == 0x20);
+COMPILE_ASSERT(sizeof(c_rasterizer_pixel_shader) == 0x20);
 

@@ -10,7 +10,7 @@ struct s_posture_info
 	bool disallow_targeting;
 	bool debilitated;
 };
-static_assert(sizeof(s_posture_info) == 0x14);
+COMPILE_ASSERT(sizeof(s_posture_info) == 0x14);
 
 extern e_ai_posture const(&g_activity_posture_variants)[k_activity_count][k_max_activity_variants];
 extern int32 const(&g_activity_names)[k_activity_count];

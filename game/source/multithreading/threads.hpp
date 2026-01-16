@@ -45,7 +45,7 @@ struct s_thread_assert_arguments
 	int32 line;
 	bool fatal;
 };
-static_assert(sizeof(s_thread_assert_arguments) == 0x10);
+COMPILE_ASSERT(sizeof(s_thread_assert_arguments) == 0x10);
 
 struct s_thread_definition
 {
@@ -56,7 +56,7 @@ struct s_thread_definition
 	uns32(*start_routine)(void*);
 	void* user_parameter;
 };
-static_assert(sizeof(s_thread_definition) == 0x18);
+COMPILE_ASSERT(sizeof(s_thread_definition) == 0x18);
 
 struct s_thread_system_globals
 {
@@ -77,7 +77,7 @@ struct s_thread_system_globals
 
 	c_interlocked_long thread_has_crashed[k_registered_thread_count];
 };
-static_assert(sizeof(s_thread_system_globals) == 0xCC);
+COMPILE_ASSERT(sizeof(s_thread_system_globals) == 0xCC);
 
 extern c_interlocked_long thread_should_assert[k_registered_thread_count];
 extern c_interlocked_long thread_should_crash[k_registered_thread_count];

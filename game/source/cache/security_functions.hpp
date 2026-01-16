@@ -14,14 +14,14 @@ enum e_secure_memory_region
 	k_secure_memory_network_storage_manifest_size = 0x6400,
 	k_secure_memory_size = k_secure_memory_cache_file_size + k_secure_memory_network_storage_manifest_size
 };
-static_assert(k_secure_memory_size == 0xA000);
+COMPILE_ASSERT(k_secure_memory_size == 0xA000);
 
 struct s_secure_memory_region
 {
 	int32 offset;
 	int32 size;
 };
-static_assert(sizeof(s_secure_memory_region) == 0x8);
+COMPILE_ASSERT(sizeof(s_secure_memory_region) == 0x8);
 
 extern s_secure_memory_region(&k_secure_memory_regions)[k_secure_memory_region_count];
 extern int32& g_secure_memory_size;

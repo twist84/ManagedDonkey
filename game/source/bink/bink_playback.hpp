@@ -26,7 +26,7 @@ struct s_bink_shared_game_state
 	int32 texture_index_to_render;
 	int32 last_updated_frame;
 };
-static_assert(sizeof(s_bink_shared_game_state) == 0x8);
+COMPILE_ASSERT(sizeof(s_bink_shared_game_state) == 0x8);
 
 struct s_game_non_bsp_zone_set;
 class c_scenario_resource_registry;

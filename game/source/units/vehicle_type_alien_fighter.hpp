@@ -53,5 +53,5 @@ protected:
 	int8 m_trick_type;
 	uns8 m_trick_tick;
 };
-static_assert(sizeof(c_vehicle_type_alien_fighter) == 0x1C);
+COMPILE_ASSERT(sizeof(c_vehicle_type_alien_fighter) == 0x1C);
 

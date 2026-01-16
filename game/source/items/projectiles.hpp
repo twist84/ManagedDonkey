@@ -7,7 +7,7 @@ struct s_projectile_targeting_data
 {
 	c_aim_target_object object;
 };
-static_assert(sizeof(s_projectile_targeting_data) == sizeof(c_aim_target_object));
+COMPILE_ASSERT(sizeof(s_projectile_targeting_data) == sizeof(c_aim_target_object));
 
 struct _projectile_datum
 {
@@ -44,7 +44,7 @@ struct _projectile_datum
 	int16 shot_id;
 	int16 time_of_flight_ticks;
 };
-static_assert(sizeof(_projectile_datum) == 0x9C);
+COMPILE_ASSERT(sizeof(_projectile_datum) == 0x9C);
 
 struct projectile_datum
 {
@@ -52,7 +52,7 @@ struct projectile_datum
 	_object_datum object;
 	_projectile_datum projectile;
 };
-static_assert(sizeof(projectile_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_projectile_datum));
+COMPILE_ASSERT(sizeof(projectile_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_projectile_datum));
 
 extern bool __cdecl dangerous_projectiles_near_player(int32* out_projectile_index);
 

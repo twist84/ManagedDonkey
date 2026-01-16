@@ -11,7 +11,7 @@ struct s_campaign_armaments_weapon
 	int16 runtime_rounds_inventory_maximum;
 	int16 rounds_loaded_amount;
 };
-static_assert(sizeof(s_campaign_armaments_weapon) == 0x8);
+COMPILE_ASSERT(sizeof(s_campaign_armaments_weapon) == 0x8);
 
 struct s_campaign_armaments_player
 {
@@ -23,20 +23,20 @@ struct s_campaign_armaments_player
 	s_campaign_armaments_weapon secondary_weapon;
 	c_static_array<uns8, 4> grenade_counts;
 };
-static_assert(sizeof(s_campaign_armaments_player) == 0x1E);
+COMPILE_ASSERT(sizeof(s_campaign_armaments_player) == 0x1E);
 
 struct s_campaign_armaments
 {
 	c_static_array<s_campaign_armaments_player, 4> players;
 };
-static_assert(sizeof(s_campaign_armaments) == 0x78);
+COMPILE_ASSERT(sizeof(s_campaign_armaments) == 0x78);
 
 struct s_campaign_game_progression
 {
 	// int32[32]?
 	c_static_array<uns32, 32> integer_names;
 };
-static_assert(sizeof(s_campaign_game_progression) == 0x80);
+COMPILE_ASSERT(sizeof(s_campaign_game_progression) == 0x80);
 
 struct s_hub_progression
 {
@@ -47,7 +47,7 @@ struct s_hub_progression
 	uns8 : 8;
 	uns8 : 8;
 };
-static_assert(sizeof(s_hub_progression) == 0x80);
+COMPILE_ASSERT(sizeof(s_hub_progression) == 0x80);
 #pragma warning(pop)
 
 extern int32 __cdecl game_progression_get_last_level();

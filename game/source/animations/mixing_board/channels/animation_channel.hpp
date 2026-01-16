@@ -53,5 +53,5 @@ public:
 	c_animation_frame_event_flags m_past_event_flags;
 	c_animation_state_flags m_state_flags;
 };
-static_assert(sizeof(c_animation_channel) == 0x3C);
+COMPILE_ASSERT(sizeof(c_animation_channel) == 0x3C);
 

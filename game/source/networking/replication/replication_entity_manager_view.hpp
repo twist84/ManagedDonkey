@@ -12,7 +12,7 @@ struct s_replication_entity_view_data
 
 	byte __data[0x8];
 };
-static_assert(sizeof(s_replication_entity_view_data) == 0x18);
+COMPILE_ASSERT(sizeof(s_replication_entity_view_data) == 0x18);
 
 struct s_replication_entity_manager_view_statistics
 {
@@ -23,7 +23,7 @@ struct s_replication_entity_manager_view_statistics
 	int32 deletions_sent;
 	int32 deletions_pending;
 };
-static_assert(sizeof(s_replication_entity_manager_view_statistics) == 0x18);
+COMPILE_ASSERT(sizeof(s_replication_entity_manager_view_statistics) == 0x18);
 
 class c_replication_entity_manager;
 class c_replication_entity_packet_record;
@@ -48,5 +48,5 @@ public:
 	uns64 m_valid_entity_mask[16];
 	s_replication_entity_manager_view_statistics m_statistics;
 };
-static_assert(sizeof(c_replication_entity_manager_view) == 0x60C0);
+COMPILE_ASSERT(sizeof(c_replication_entity_manager_view) == 0x60C0);
 

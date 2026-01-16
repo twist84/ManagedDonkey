@@ -58,7 +58,7 @@ struct game_globals_storage
 
 	byte __data25204[0x4];
 };
-static_assert(sizeof(game_globals_storage) == 0x25208);
+COMPILE_ASSERT(sizeof(game_globals_storage) == 0x25208);
 
 extern e_language get_map_language();
 extern int32 get_map_minor_version();
@@ -190,19 +190,19 @@ struct s_game_globals
 		int16 version;
 		c_static_string<k_tag_string_length> name;
 	};
-	static_assert(sizeof(damage_reporting_type_block) == 0x24);
+	COMPILE_ASSERT(sizeof(damage_reporting_type_block) == 0x24);
 
 	void update_static_runtime_data();
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals) == 0x608);
+COMPILE_ASSERT(sizeof(s_game_globals) == 0x608);
 
 struct s_damage_group_definition;
 struct s_damage_globals_definition
 {
 	c_typed_tag_block<s_damage_group_definition> damage_groups;
 };
-static_assert(sizeof(s_damage_globals_definition) == 0xC);
+COMPILE_ASSERT(sizeof(s_damage_globals_definition) == 0xC);
 
 struct s_armor_modifier_definition;
 struct s_damage_group_definition
@@ -210,14 +210,14 @@ struct s_damage_group_definition
 	c_string_id name;
 	c_typed_tag_block<s_armor_modifier_definition> armor_modifiers;
 };
-static_assert(sizeof(s_damage_group_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_damage_group_definition) == 0x10);
 
 struct s_armor_modifier_definition
 {
 	c_string_id name;
 	real32 damage_multiplier;
 };
-static_assert(sizeof(s_armor_modifier_definition) == 0x8);
+COMPILE_ASSERT(sizeof(s_armor_modifier_definition) == 0x8);
 
 struct s_game_globals_havok_cleanup_resources
 {
@@ -225,7 +225,7 @@ struct s_game_globals_havok_cleanup_resources
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
+COMPILE_ASSERT(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
 
 struct s_game_globals_camera
 {
@@ -350,7 +350,7 @@ struct s_look_function_block
 {
 	real32 scale;
 };
-static_assert(sizeof(s_look_function_block) == sizeof(real32));
+COMPILE_ASSERT(sizeof(s_look_function_block) == sizeof(real32));
 
 struct s_game_globals_player_control
 {
@@ -392,7 +392,7 @@ struct s_game_globals_player_control
 	int16 minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
 	c_typed_tag_block<s_look_function_block> look_function;
 };
-static_assert(sizeof(s_game_globals_player_control) == 0x70);
+COMPILE_ASSERT(sizeof(s_game_globals_player_control) == 0x70);
 
 struct s_game_globals_difficulty_information
 {
@@ -453,7 +453,7 @@ struct s_game_globals_difficulty_information
 
 	byte Q[0x54];
 };
-static_assert(sizeof(s_game_globals_difficulty_information) == 0x284);
+COMPILE_ASSERT(sizeof(s_game_globals_difficulty_information) == 0x284);
 
 struct s_game_globals_falling_damage
 {
@@ -470,7 +470,7 @@ struct s_game_globals_falling_damage
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
+COMPILE_ASSERT(sizeof(s_game_globals_falling_damage) == 0x78);
 
 struct s_game_globals_grenade
 {
@@ -483,7 +483,7 @@ struct s_game_globals_grenade
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals_grenade) == 0x44);
+COMPILE_ASSERT(sizeof(s_game_globals_grenade) == 0x44);
 
 struct s_game_globals_interface_tag_references
 {
@@ -516,11 +516,11 @@ struct s_game_globals_interface_tag_references
 
 		void update_reference_names();
 	};
-	static_assert(sizeof(gfx_ui_string_block) == 0x30);
+	COMPILE_ASSERT(sizeof(gfx_ui_string_block) == 0x30);
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals_interface_tag_references) == 0x12C);
+COMPILE_ASSERT(sizeof(s_game_globals_interface_tag_references) == 0x12C);
 
 struct s_game_globals_player_information
 {
@@ -571,7 +571,7 @@ struct s_game_globals_player_information
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals_player_information) == 0xCC);
+COMPILE_ASSERT(sizeof(s_game_globals_player_information) == 0xCC);
 
 struct s_game_globals_player_representation
 {
@@ -589,7 +589,7 @@ struct s_game_globals_player_representation
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
+COMPILE_ASSERT(sizeof(s_game_globals_player_representation) == 0x6C);
 
 struct s_game_globals_shield_boost
 {
@@ -600,7 +600,7 @@ struct s_game_globals_shield_boost
 	real32 shield_boost_recharge_time; // time to recharge full shields when getting boosted
 	real32 shield_boost_stun_time;     // stun time when getting boosted
 };
-static_assert(sizeof(s_game_globals_shield_boost) == 0xC);
+COMPILE_ASSERT(sizeof(s_game_globals_shield_boost) == 0xC);
 
 template<tag ...k_group_tags>
 struct s_game_globals_tag_reference :

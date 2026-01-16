@@ -69,20 +69,20 @@ struct s_file_last_modification_date
 	uns32 low;
 	uns32 hi;
 };
-static_assert(sizeof(s_file_last_modification_date) == 0x8);
+COMPILE_ASSERT(sizeof(s_file_last_modification_date) == 0x8);
 
 struct s_file_handle
 {
 	void* handle;
 };
-static_assert(sizeof(s_file_handle) == 0x4);
+COMPILE_ASSERT(sizeof(s_file_handle) == 0x4);
 
 struct s_indirect_file
 {
 	// map_file_index?
 	void* handle;
 };
-static_assert(sizeof(s_indirect_file) == 0x4);
+COMPILE_ASSERT(sizeof(s_indirect_file) == 0x4);
 
 struct s_find_file_data
 {

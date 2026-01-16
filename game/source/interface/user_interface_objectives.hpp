@@ -19,5 +19,5 @@ struct s_current_objective_state
 	c_static_array<c_enum<e_objective_state, int8, _objective_state_none, k_objective_state_count>, k_maximum_number_of_objectives> primary_objective;
 	c_static_array<c_enum<e_objective_state, int8, _objective_state_none, k_objective_state_count>, k_maximum_number_of_objectives> secondary_objective;
 };
-static_assert(sizeof(s_current_objective_state) == 0x14);
+COMPILE_ASSERT(sizeof(s_current_objective_state) == 0x14);
 

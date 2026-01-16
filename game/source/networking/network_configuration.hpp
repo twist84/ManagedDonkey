@@ -11,7 +11,7 @@ struct s_network_file_download_configuration
 	int32 required_file_invalidation_check_interval_msec;
 	int32 required_file_download_retry_interval_msec;
 };
-static_assert(sizeof(s_network_file_download_configuration) == 0xC);
+COMPILE_ASSERT(sizeof(s_network_file_download_configuration) == 0xC);
 
 #pragma endregion
 
@@ -33,7 +33,7 @@ struct s_bandwidth_configuration_host_preference_table
 	int32 connectivity_rating_multiplier;
 	int32 synchronous_hostable_peers_multiplier;
 };
-static_assert(sizeof(s_bandwidth_configuration_host_preference_table) == 0x34);
+COMPILE_ASSERT(sizeof(s_bandwidth_configuration_host_preference_table) == 0x34);
 
 struct s_bandwidth_configuration
 {
@@ -73,7 +73,7 @@ struct s_bandwidth_configuration
 	int32 minimum_voice_repeater_downstream_bandwidth_bps;
 	int32 voice_channel_bandwidth_bps;
 };
-static_assert(sizeof(s_bandwidth_configuration) == 0x238);
+COMPILE_ASSERT(sizeof(s_bandwidth_configuration) == 0x238);
 
 #pragma endregion
 
@@ -90,7 +90,7 @@ struct s_life_cycle_handler_joining_configuration
 	int32 join_timeout_msec;
 	int32 desperation_wait_time_seconds;
 };
-static_assert(sizeof(s_life_cycle_handler_joining_configuration) == 0x20);
+COMPILE_ASSERT(sizeof(s_life_cycle_handler_joining_configuration) == 0x20);
 
 struct s_life_cycle_handler_matchmaking_configuration
 {
@@ -116,14 +116,14 @@ struct s_life_cycle_handler_matchmaking_configuration
 	int32 post_match_stats_refresh_time;
 	int32 warning_toast_minimum_time_seconds;
 };
-static_assert(sizeof(s_life_cycle_handler_matchmaking_configuration) == 0x54);
+COMPILE_ASSERT(sizeof(s_life_cycle_handler_matchmaking_configuration) == 0x54);
 
 struct s_life_cycle_handler_in_game_configuration
 {
 	int32 simulation_aborted_host_delay_ms;
 	int32 simulation_aborted_peer_delay_ms;
 };
-static_assert(sizeof(s_life_cycle_handler_in_game_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_life_cycle_handler_in_game_configuration) == 0x8);
 
 struct s_life_cycle_configuration
 {
@@ -131,7 +131,7 @@ struct s_life_cycle_configuration
 	s_life_cycle_handler_matchmaking_configuration matchmaking;
 	s_life_cycle_handler_in_game_configuration in_game;
 };
-static_assert(sizeof(s_life_cycle_configuration) == 0x7C);
+COMPILE_ASSERT(sizeof(s_life_cycle_configuration) == 0x7C);
 
 #pragma endregion
 
@@ -146,7 +146,7 @@ struct s_logic_session_tracker_configuration
 	int32 maximum_target_sessions_per_default_qos_task;
 	int32 maximum_qos_tasks;
 };
-static_assert(sizeof(s_logic_session_tracker_configuration) == 0x18);
+COMPILE_ASSERT(sizeof(s_logic_session_tracker_configuration) == 0x18);
 
 struct s_logic_matchmaking_desirability
 {
@@ -174,7 +174,7 @@ struct s_logic_matchmaking_desirability
 	int32 ping_desirability_bonus_interval;
 	int32 desirability_bonus_per_ping_interval;
 };
-static_assert(sizeof(s_logic_matchmaking_desirability) == 0x5C);
+COMPILE_ASSERT(sizeof(s_logic_matchmaking_desirability) == 0x5C);
 
 struct s_logic_matchmaking_seeker_configuration
 {
@@ -198,7 +198,7 @@ struct s_logic_matchmaking_seeker_configuration
 	int32 search_stage_any_final_average_skill_range;
 	int32 search_stage_any_final_desired_skill_range;
 };
-static_assert(sizeof(s_logic_matchmaking_seeker_configuration) == 0x4C);
+COMPILE_ASSERT(sizeof(s_logic_matchmaking_seeker_configuration) == 0x4C);
 
 struct s_logic_leaderboard_configuration
 {
@@ -207,7 +207,7 @@ struct s_logic_leaderboard_configuration
 	int32 milliseconds_between_consecutive_failed_downloads;
 	int32 refresh_request_wait_time_ms;
 };
-static_assert(sizeof(s_logic_leaderboard_configuration) == 0x10);
+COMPILE_ASSERT(sizeof(s_logic_leaderboard_configuration) == 0x10);
 
 struct s_session_interface_configuration
 {
@@ -219,21 +219,21 @@ struct s_session_interface_configuration
 	int32 ready_for_next_match_wait_time_milliseconds;
 	int32 stat_replication_wait_threshold_milliseconds;
 };
-static_assert(sizeof(s_session_interface_configuration) == 0x1C);
+COMPILE_ASSERT(sizeof(s_session_interface_configuration) == 0x1C);
 
 struct s_qos_reply_block_configuration
 {
 	int32 qos_listener_update_interval;
 	int32 disabled_qos_reply_bandwidth_bps;
 };
-static_assert(sizeof(s_qos_reply_block_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_qos_reply_block_configuration) == 0x8);
 
 struct s_session_qos_reply_block_configuration
 {
 	int32 out_of_game_qos_reply_bandwidth_bps;
 	int32 in_game_qos_reply_bandwidth_bps;
 };
-static_assert(sizeof(s_session_qos_reply_block_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_session_qos_reply_block_configuration) == 0x8);
 
 struct s_logic_configuration
 {
@@ -248,7 +248,7 @@ struct s_logic_configuration
 	int32 maximum_players_in_coop;
 	int32 maximum_players_in_forge;
 };
-static_assert(sizeof(s_logic_configuration) == 0x10C);
+COMPILE_ASSERT(sizeof(s_logic_configuration) == 0x10C);
 
 #pragma endregion
 
@@ -263,7 +263,7 @@ struct s_banhammer_configuration
 	int32 host_chance_reduction_percentage;
 	int32 idle_controller_timeout_seconds;
 };
-static_assert(sizeof(s_banhammer_configuration) == 0x18);
+COMPILE_ASSERT(sizeof(s_banhammer_configuration) == 0x18);
 
 #pragma endregion
 
@@ -276,7 +276,7 @@ struct s_simulation_zoom_relevance
 	real32 zoom_0_relevance_bonus;
 	real32 zoom_1_relevance_bonus;
 };
-static_assert(sizeof(s_simulation_zoom_relevance) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_zoom_relevance) == 0x10);
 
 struct s_simulation_control_relevance
 {
@@ -286,7 +286,7 @@ struct s_simulation_control_relevance
 	int32 min_period;
 	int32 max_period;
 };
-static_assert(sizeof(s_simulation_control_relevance) == 0x14);
+COMPILE_ASSERT(sizeof(s_simulation_control_relevance) == 0x14);
 
 struct s_simulation_position_relevance
 {
@@ -295,28 +295,28 @@ struct s_simulation_position_relevance
 	real32 aiming_vector_medium_tolerance;
 	real32 distance_to_player_medium_tolerance;
 };
-static_assert(sizeof(s_simulation_position_relevance) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_position_relevance) == 0x10);
 
 struct s_simulation_netdebug_configuration
 {
 	int32 bar_maximum_count;
 	int32 axis_bounds[4][2];
 };
-static_assert(sizeof(s_simulation_netdebug_configuration) == 0x24);
+COMPILE_ASSERT(sizeof(s_simulation_netdebug_configuration) == 0x24);
 
 struct s_simulation_view_configuration
 {
 	int32 game_results_update_interval_msec;
 	int32 synchronous_client_block_duration_msec;
 };
-static_assert(sizeof(s_simulation_view_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_simulation_view_configuration) == 0x8);
 
 struct s_simulation_shared_configuration
 {
 	real32 action_persist_time;
 	real32 simulation_event_projectile_supercombine_request_fraction;
 };
-static_assert(sizeof(s_simulation_shared_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_simulation_shared_configuration) == 0x8);
 
 struct s_simulation_world_configuration
 {
@@ -334,7 +334,7 @@ struct s_simulation_world_configuration
 	real32 game_simulation_queue_danger_allocation_size_percentage;
 	real32 game_simulation_queue_danger_allocation_count_percentage;
 };
-static_assert(sizeof(s_simulation_world_configuration) == 0x34);
+COMPILE_ASSERT(sizeof(s_simulation_world_configuration) == 0x34);
 
 struct s_simulation_event_configuration
 {
@@ -344,7 +344,7 @@ struct s_simulation_event_configuration
 	real32 minimum_priority;
 	real32 maximum_priority;
 };
-static_assert(sizeof(s_simulation_event_configuration) == 0x14);
+COMPILE_ASSERT(sizeof(s_simulation_event_configuration) == 0x14);
 
 struct s_simulation_entity_creation_configuration
 {
@@ -353,7 +353,7 @@ struct s_simulation_entity_creation_configuration
 	real32 creation_minimum_priority;
 	real32 creation_maximum_priority;
 };
-static_assert(sizeof(s_simulation_entity_creation_configuration) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_entity_creation_configuration) == 0x10);
 
 struct s_simulation_entity_update_configuration
 {
@@ -373,14 +373,14 @@ struct s_simulation_entity_update_configuration
 	real32 dead_priority;
 	real32 in_motion_by_unit;
 };
-static_assert(sizeof(s_simulation_entity_update_configuration) == 0x3C);
+COMPILE_ASSERT(sizeof(s_simulation_entity_update_configuration) == 0x3C);
 
 struct s_simulation_entity_configuration
 {
 	s_simulation_entity_creation_configuration creation_configuration;
 	s_simulation_entity_update_configuration update_configuration;
 };
-static_assert(sizeof(s_simulation_entity_configuration) == 0x4C);
+COMPILE_ASSERT(sizeof(s_simulation_entity_configuration) == 0x4C);
 
 struct s_simulation_warping_configuration
 {
@@ -391,7 +391,7 @@ struct s_simulation_warping_configuration
 	real32 position_update_recent_seconds;
 	real32 position_update_minimum_distance;
 };
-static_assert(sizeof(s_simulation_warping_configuration) == 0x18);
+COMPILE_ASSERT(sizeof(s_simulation_warping_configuration) == 0x18);
 
 struct s_simulation_weapon_configuration
 {
@@ -400,7 +400,7 @@ struct s_simulation_weapon_configuration
 	real32 predicted_fire_allow_ratio;
 	real32 predicted_fire_always_allow_threshold;
 };
-static_assert(sizeof(s_simulation_weapon_configuration) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_weapon_configuration) == 0x10);
 
 struct s_simulation_configuration
 {
@@ -420,7 +420,7 @@ struct s_simulation_configuration
 	s_simulation_warping_configuration warping;
 	s_simulation_weapon_configuration weapon;
 };
-static_assert(sizeof(s_simulation_configuration) == 0xA5C);
+COMPILE_ASSERT(sizeof(s_simulation_configuration) == 0xA5C);
 
 #pragma endregion
 
@@ -430,7 +430,7 @@ struct s_event_manager_view_configuration
 {
 	int32 replication_event_maximum_blocked_time;
 };
-static_assert(sizeof(s_event_manager_view_configuration) == 0x4);
+COMPILE_ASSERT(sizeof(s_event_manager_view_configuration) == 0x4);
 
 struct s_replication_control_view
 {
@@ -442,7 +442,7 @@ struct s_replication_control_view
 	real32 min_priority_base;
 	real32 min_priority_relevance_scale;
 };
-static_assert(sizeof(s_replication_control_view) == 0x1C);
+COMPILE_ASSERT(sizeof(s_replication_control_view) == 0x1C);
 
 struct s_replication_configuration
 {
@@ -450,7 +450,7 @@ struct s_replication_configuration
 	s_replication_control_view replication_control_view;
 	int32 maximum_requests_to_send_in_one_frame;
 };
-static_assert(sizeof(s_replication_configuration) == 0x24);
+COMPILE_ASSERT(sizeof(s_replication_configuration) == 0x24);
 
 #pragma endregion
 
@@ -484,7 +484,7 @@ struct s_session_configuration
 	int32 minimum_election_send_interval_msec;
 	int32 allow_third_party_host_elections;
 };
-static_assert(sizeof(s_session_configuration) == 0x64);
+COMPILE_ASSERT(sizeof(s_session_configuration) == 0x64);
 
 #pragma endregion
 
@@ -720,7 +720,7 @@ struct s_observer_configuration
 	int32 slow_probe_overprobe_maximum_bps;
 	int32 slow_probe_overprobe_transmit_ratio;
 };
-static_assert(sizeof(s_observer_configuration) == 0x418);
+COMPILE_ASSERT(sizeof(s_observer_configuration) == 0x418);
 
 struct s_channel_configuration
 {
@@ -730,7 +730,7 @@ struct s_channel_configuration
 	int32 establish_timeout_msec;
 	int32 packet_statistics_interval;
 };
-static_assert(sizeof(s_channel_configuration) == 0x14);
+COMPILE_ASSERT(sizeof(s_channel_configuration) == 0x14);
 
 struct s_connection_configuration
 {
@@ -756,7 +756,7 @@ struct s_connection_configuration
 	real32 bandwidth_warning_latency_multiplier;
 	int32 bandwidth_warning_latency_minimum_increase;
 };
-static_assert(sizeof(s_connection_configuration) == 0x54);
+COMPILE_ASSERT(sizeof(s_connection_configuration) == 0x54);
 
 #pragma endregion
 
@@ -767,7 +767,7 @@ struct s_delivery_configuration
 	s_channel_configuration channel_configuration;
 	s_connection_configuration connection;
 };
-static_assert(sizeof(s_delivery_configuration) == 0x68);
+COMPILE_ASSERT(sizeof(s_delivery_configuration) == 0x68);
 
 #pragma endregion
 
@@ -782,7 +782,7 @@ struct s_transport_configuration
 	int32 qos_upstream_cap_upstream_modifier_percentage;
 	int32 qos_upstream_cap_correction_modifier;
 };
-static_assert(sizeof(s_transport_configuration) == 0x20);
+COMPILE_ASSERT(sizeof(s_transport_configuration) == 0x20);
 
 #pragma endregion
 
@@ -795,7 +795,7 @@ struct s_voice_configuration
 	bool clients_can_be_preferred_consumers_of_voice_repeater;
 	int32 open_channel_player_count;
 };
-static_assert(sizeof(s_voice_configuration) == 0x10);
+COMPILE_ASSERT(sizeof(s_voice_configuration) == 0x10);
 
 #pragma endregion
 
@@ -807,7 +807,7 @@ struct s_data_mine_configuration
 	int32 ui_upload_time_threshold;
 	bool record_uploads_prevent_game_from_starting;
 };
-static_assert(sizeof(s_data_mine_configuration) == 0xC);
+COMPILE_ASSERT(sizeof(s_data_mine_configuration) == 0xC);
 
 #pragma endregion
 
@@ -821,7 +821,7 @@ struct s_griefer_configuration
 	int32 ejection_cutoff;
 	real32 friendly_assist_amount; // UNUSED
 };
-static_assert(sizeof(s_griefer_configuration) == 0x14);
+COMPILE_ASSERT(sizeof(s_griefer_configuration) == 0x14);
 
 #pragma endregion
 
@@ -832,7 +832,7 @@ struct s_network_memory_configuration
 	int32 network_heap_large_size;
 	int32 network_heap_small_size;
 };
-static_assert(sizeof(s_network_memory_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_memory_configuration) == 0x8);
 
 #pragma endregion
 
@@ -845,7 +845,7 @@ struct s_user_interface
 	int32 basic_training_completion_minimum_games_completed;
 	int32 basic_training_completion_minimum_experience;
 };
-static_assert(sizeof(s_user_interface) == 0x10);
+COMPILE_ASSERT(sizeof(s_user_interface) == 0x10);
 
 #pragma endregion
 
@@ -855,7 +855,7 @@ struct s_skill_level_configuration
 {
 	int32 bonus_skill_level_wins_required[50];
 };
-static_assert(sizeof(s_skill_level_configuration) == 0xC8);
+COMPILE_ASSERT(sizeof(s_skill_level_configuration) == 0xC8);
 
 #pragma endregion
 
@@ -866,7 +866,7 @@ struct s_experience_configuration
 	int32 experience_for_rank[56];
 	int32 skill_for_rank[14];
 };
-static_assert(sizeof(s_experience_configuration) == 0x118);
+COMPILE_ASSERT(sizeof(s_experience_configuration) == 0x118);
 
 #pragma endregion
 
@@ -879,7 +879,7 @@ struct s_alpha_configuration
 	int32 ui_level;
 	int32 maximum_multiplayer_split_screen;
 };
-static_assert(sizeof(s_alpha_configuration) == 0xC);
+COMPILE_ASSERT(sizeof(s_alpha_configuration) == 0xC);
 
 #pragma endregion
 
@@ -890,7 +890,7 @@ struct s_crash_handling_configuration
 	bool display_crash_handling_ui;
 	int32 minidump_generation;
 };
-static_assert(sizeof(s_crash_handling_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_crash_handling_configuration) == 0x8);
 
 #pragma endregion
 
@@ -904,7 +904,7 @@ struct s_lsp_configuration
 	int32 search_results_fresh_milliseconds;
 	int32 recent_activity_milliseconds;
 };
-static_assert(sizeof(s_lsp_configuration) == 0x14);
+COMPILE_ASSERT(sizeof(s_lsp_configuration) == 0x14);
 
 #pragma endregion
 
@@ -915,7 +915,7 @@ struct s_map_information
 	e_map_id map_id;
 	int32 map_status;
 };
-static_assert(sizeof(s_map_information) == 0x8);
+COMPILE_ASSERT(sizeof(s_map_information) == 0x8);
 
 struct s_map_configuration
 {
@@ -933,7 +933,7 @@ struct s_chicken_switches
 	bool disallow_cross_language_coop;
 	bool disable_prefer_good_connection_changes;
 };
-static_assert(sizeof(s_chicken_switches) == 0x4);
+COMPILE_ASSERT(sizeof(s_chicken_switches) == 0x4);
 
 #pragma endregion
 
@@ -944,7 +944,7 @@ struct s_determinism_configuration
 	int32 determinism_version;
 	int32 determinism_compatible_version;
 };
-static_assert(sizeof(s_determinism_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_determinism_configuration) == 0x8);
 
 #pragma endregion
 
@@ -975,7 +975,7 @@ struct s_network_configuration
 	s_chicken_switches chicken_switches;
 	s_determinism_configuration determinism_configuration;
 };
-static_assert(sizeof(s_network_configuration) == 0x16C4);
+COMPILE_ASSERT(sizeof(s_network_configuration) == 0x16C4);
 
 class c_network_configuration_globals
 {
@@ -985,7 +985,7 @@ public:
 	bool has_downloaded_network_configuration;
 	int32 attempt_index;
 };
-static_assert(sizeof(c_network_configuration_globals) == 0x2610);
+COMPILE_ASSERT(sizeof(c_network_configuration_globals) == 0x2610);
 
 extern bool& g_network_configuration_initialized;
 extern s_network_configuration& g_network_configuration;

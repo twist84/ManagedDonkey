@@ -81,14 +81,14 @@ public:
 
 	t_type data[k_maximum_count];
 };
-static_assert(sizeof(c_simple_list<int32, 6>) == 0x1C);
+COMPILE_ASSERT(sizeof(c_simple_list<int32, 6>) == 0x1C);
 
 struct s_zone_cluster
 {
 	s_cluster_reference cluster_reference;
 	int16 zone_index;
 };
-static_assert(sizeof(s_zone_cluster) == 0x4);
+COMPILE_ASSERT(sizeof(s_zone_cluster) == 0x4);
 
 struct s_lod_transparency
 {
@@ -97,7 +97,7 @@ struct s_lod_transparency
 	uns8 shadow_alpha;
 	uns8 unused_alpha;
 };
-static_assert(sizeof(s_lod_transparency) == 0x4);
+COMPILE_ASSERT(sizeof(s_lod_transparency) == 0x4);
 
 struct s_visible_object_hierarchy
 {
@@ -107,7 +107,7 @@ struct s_visible_object_hierarchy
 	uns16 visibility_object_index_count;
 	s_lod_transparency lod_transparency;
 };
-static_assert(sizeof(s_visible_object_hierarchy) == 0x10);
+COMPILE_ASSERT(sizeof(s_visible_object_hierarchy) == 0x10);
 
 struct s_shader_extern_info;
 struct s_render_object_info
@@ -124,7 +124,7 @@ struct s_render_object_info
 	uns32 clip_plane_masks;
 	s_shader_extern_info* render_info;
 };
-static_assert(sizeof(s_render_object_info) == 0x6C);
+COMPILE_ASSERT(sizeof(s_render_object_info) == 0x6C);
 
 struct s_visible_object_render_visibility
 {
@@ -133,7 +133,7 @@ struct s_visible_object_render_visibility
 	uns32* subpart_bitvector;
 	uns8 flags;
 };
-static_assert(sizeof(s_visible_object_render_visibility) == 0x78);
+COMPILE_ASSERT(sizeof(s_visible_object_render_visibility) == 0x78);
 
 struct s_visible_instance_list
 {
@@ -143,7 +143,7 @@ struct s_visible_instance_list
 	uns16 visible_instance_list_count;
 	uns16 mesh_index;
 };
-static_assert(sizeof(s_visible_instance_list) == 0xC);
+COMPILE_ASSERT(sizeof(s_visible_instance_list) == 0xC);
 
 struct s_visible_instances
 {
@@ -154,7 +154,7 @@ struct s_visible_instances
 	uns8 alpha_byte;
 	uns32* part_bitvector;
 };
-static_assert(sizeof(s_visible_instances) == 0x10);
+COMPILE_ASSERT(sizeof(s_visible_instances) == 0x10);
 
 struct s_visible_clusters
 {
@@ -164,7 +164,7 @@ struct s_visible_clusters
 	uns16 mesh_index;
 	uns32* part_bitvector;
 };
-static_assert(sizeof(s_visible_clusters) == 0x10);
+COMPILE_ASSERT(sizeof(s_visible_clusters) == 0x10);
 
 struct s_visible_items
 {
@@ -181,7 +181,7 @@ struct s_visible_items
 	c_static_flags<65536> visibility_region_cluster_bitvector;      // address: 0x018E61A8, offset: 0x26AC0
 	uns16 __unknown28AC0[2048];                                     // address: 0x018E81A8, offset: 0x28AC0
 };
-static_assert(sizeof(s_visible_items) == 0x29AC0);
+COMPILE_ASSERT(sizeof(s_visible_items) == 0x29AC0);
 
 class c_visible_items
 {
@@ -236,19 +236,19 @@ struct visibility_volume
 	real_plane3d world_planes[6];
 	real_vector3d world_edge_vectors[4];
 };
-static_assert(sizeof(visibility_volume) == 0x164);
-static_assert(0x000 == OFFSETOF(visibility_volume, vector_planes));
-static_assert(0x060 == OFFSETOF(visibility_volume, projection_index));
-static_assert(0x062 == OFFSETOF(visibility_volume, region_cluster_index));
-static_assert(0x064 == OFFSETOF(visibility_volume, plane_index));
-static_assert(0x068 == OFFSETOF(visibility_volume, plane_bsp_index));
-static_assert(0x06A == OFFSETOF(visibility_volume, parent_volume_index));
-static_assert(0x06C == OFFSETOF(visibility_volume, frustum_bounds));
-static_assert(0x07C == OFFSETOF(visibility_volume, portal_nearest_z));
-static_assert(0x080 == OFFSETOF(visibility_volume, world_vertices));
-static_assert(0x0BC == OFFSETOF(visibility_volume, world_bounds));
-static_assert(0x0D4 == OFFSETOF(visibility_volume, world_planes));
-static_assert(0x134 == OFFSETOF(visibility_volume, world_edge_vectors));
+COMPILE_ASSERT(sizeof(visibility_volume) == 0x164);
+COMPILE_ASSERT(0x000 == OFFSETOF(visibility_volume, vector_planes));
+COMPILE_ASSERT(0x060 == OFFSETOF(visibility_volume, projection_index));
+COMPILE_ASSERT(0x062 == OFFSETOF(visibility_volume, region_cluster_index));
+COMPILE_ASSERT(0x064 == OFFSETOF(visibility_volume, plane_index));
+COMPILE_ASSERT(0x068 == OFFSETOF(visibility_volume, plane_bsp_index));
+COMPILE_ASSERT(0x06A == OFFSETOF(visibility_volume, parent_volume_index));
+COMPILE_ASSERT(0x06C == OFFSETOF(visibility_volume, frustum_bounds));
+COMPILE_ASSERT(0x07C == OFFSETOF(visibility_volume, portal_nearest_z));
+COMPILE_ASSERT(0x080 == OFFSETOF(visibility_volume, world_vertices));
+COMPILE_ASSERT(0x0BC == OFFSETOF(visibility_volume, world_bounds));
+COMPILE_ASSERT(0x0D4 == OFFSETOF(visibility_volume, world_planes));
+COMPILE_ASSERT(0x134 == OFFSETOF(visibility_volume, world_edge_vectors));
 
 struct visibility_projection
 {
@@ -270,24 +270,24 @@ struct visibility_projection
 	int32 convex_hull_point_count;
 	real_point2d convex_hull_points[4];
 };
-static_assert(sizeof(visibility_projection) == 0x218);
-static_assert(0x000 == OFFSETOF(visibility_projection, parallel_projection_flag));
-static_assert(0x001 == OFFSETOF(visibility_projection, pad0));
-static_assert(0x004 == OFFSETOF(visibility_projection, world_to_basis));
-static_assert(0x038 == OFFSETOF(visibility_projection, basis_to_world));
-static_assert(0x06C == OFFSETOF(visibility_projection, near_bounded_flag));
-static_assert(0x06D == OFFSETOF(visibility_projection, pad1));
-static_assert(0x070 == OFFSETOF(visibility_projection, near_distance));
-static_assert(0x074 == OFFSETOF(visibility_projection, near_plane));
-static_assert(0x084 == OFFSETOF(visibility_projection, far_bounded_flag));
-static_assert(0x085 == OFFSETOF(visibility_projection, far_bounded_spherical_flag));
-static_assert(0x086 == OFFSETOF(visibility_projection, pad2));
-static_assert(0x088 == OFFSETOF(visibility_projection, far_distance));
-static_assert(0x08C == OFFSETOF(visibility_projection, volume_bounded_flag));
-static_assert(0x08D == OFFSETOF(visibility_projection, pad3));
-static_assert(0x090 == OFFSETOF(visibility_projection, volume));
-static_assert(0x1F4 == OFFSETOF(visibility_projection, convex_hull_point_count));
-static_assert(0x1F8 == OFFSETOF(visibility_projection, convex_hull_points));
+COMPILE_ASSERT(sizeof(visibility_projection) == 0x218);
+COMPILE_ASSERT(0x000 == OFFSETOF(visibility_projection, parallel_projection_flag));
+COMPILE_ASSERT(0x001 == OFFSETOF(visibility_projection, pad0));
+COMPILE_ASSERT(0x004 == OFFSETOF(visibility_projection, world_to_basis));
+COMPILE_ASSERT(0x038 == OFFSETOF(visibility_projection, basis_to_world));
+COMPILE_ASSERT(0x06C == OFFSETOF(visibility_projection, near_bounded_flag));
+COMPILE_ASSERT(0x06D == OFFSETOF(visibility_projection, pad1));
+COMPILE_ASSERT(0x070 == OFFSETOF(visibility_projection, near_distance));
+COMPILE_ASSERT(0x074 == OFFSETOF(visibility_projection, near_plane));
+COMPILE_ASSERT(0x084 == OFFSETOF(visibility_projection, far_bounded_flag));
+COMPILE_ASSERT(0x085 == OFFSETOF(visibility_projection, far_bounded_spherical_flag));
+COMPILE_ASSERT(0x086 == OFFSETOF(visibility_projection, pad2));
+COMPILE_ASSERT(0x088 == OFFSETOF(visibility_projection, far_distance));
+COMPILE_ASSERT(0x08C == OFFSETOF(visibility_projection, volume_bounded_flag));
+COMPILE_ASSERT(0x08D == OFFSETOF(visibility_projection, pad3));
+COMPILE_ASSERT(0x090 == OFFSETOF(visibility_projection, volume));
+COMPILE_ASSERT(0x1F4 == OFFSETOF(visibility_projection, convex_hull_point_count));
+COMPILE_ASSERT(0x1F8 == OFFSETOF(visibility_projection, convex_hull_points));
 
 struct visibility_cluster
 {
@@ -295,10 +295,10 @@ struct visibility_cluster
 	int16 volume_counts[6];
 	int16 first_volume_indices[6];
 };
-static_assert(sizeof(visibility_cluster) == 0x1A);
-static_assert(0x0 == OFFSETOF(visibility_cluster, cluster_reference));
-static_assert(0x2 == OFFSETOF(visibility_cluster, volume_counts));
-static_assert(0xE == OFFSETOF(visibility_cluster, first_volume_indices));
+COMPILE_ASSERT(sizeof(visibility_cluster) == 0x1A);
+COMPILE_ASSERT(0x0 == OFFSETOF(visibility_cluster, cluster_reference));
+COMPILE_ASSERT(0x2 == OFFSETOF(visibility_cluster, volume_counts));
+COMPILE_ASSERT(0xE == OFFSETOF(visibility_cluster, first_volume_indices));
 
 struct s_visibility_region
 {
@@ -310,14 +310,14 @@ struct s_visibility_region
 	int16 volume_count;
 	visibility_volume volumes[512];
 };
-static_assert(sizeof(s_visibility_region) == 0x2E39C);
-static_assert(0x0000 == OFFSETOF(s_visibility_region, projection_count));
-static_assert(0x0004 == OFFSETOF(s_visibility_region, projections));
-static_assert(0x0C94 == OFFSETOF(s_visibility_region, cluster_count));
-static_assert(0x0C96 == OFFSETOF(s_visibility_region, clusters));
-static_assert(0x1998 == OFFSETOF(s_visibility_region, cluster_remap_table));
-static_assert(0x1B98 == OFFSETOF(s_visibility_region, volume_count));
-static_assert(0x1B9C == OFFSETOF(s_visibility_region, volumes));
+COMPILE_ASSERT(sizeof(s_visibility_region) == 0x2E39C);
+COMPILE_ASSERT(0x0000 == OFFSETOF(s_visibility_region, projection_count));
+COMPILE_ASSERT(0x0004 == OFFSETOF(s_visibility_region, projections));
+COMPILE_ASSERT(0x0C94 == OFFSETOF(s_visibility_region, cluster_count));
+COMPILE_ASSERT(0x0C96 == OFFSETOF(s_visibility_region, clusters));
+COMPILE_ASSERT(0x1998 == OFFSETOF(s_visibility_region, cluster_remap_table));
+COMPILE_ASSERT(0x1B98 == OFFSETOF(s_visibility_region, volume_count));
+COMPILE_ASSERT(0x1B9C == OFFSETOF(s_visibility_region, volumes));
 
 enum e_collection_shape
 {
@@ -354,20 +354,20 @@ struct s_visibility_input
 	uns32 visible_cluster_bitvector[16][8];
 	c_static_array<c_static_array<int8, 256>, 16> cluster_to_visibility_cluster_lookup;
 };
-static_assert(sizeof(s_visibility_input) == 0x2F5CC);
-static_assert(0x0 == OFFSETOF(s_visibility_input, region));
-static_assert(0x2E39C == OFFSETOF(s_visibility_input, cluster_reference));
-static_assert(0x2E3A0 == OFFSETOF(s_visibility_input, user_index));
-static_assert(0x2E3A4 == OFFSETOF(s_visibility_input, player_window_index));
-static_assert(0x2E3A8 == OFFSETOF(s_visibility_input, flags));
-static_assert(0x2E3AC == OFFSETOF(s_visibility_input, projection_count));
-static_assert(0x2E3B0 == OFFSETOF(s_visibility_input, sphere_center));
-static_assert(0x2E3BC == OFFSETOF(s_visibility_input, sphere_radius));
-static_assert(0x2E3C0 == OFFSETOF(s_visibility_input, collection_type));
-static_assert(0x2E3C4 == OFFSETOF(s_visibility_input, collection_shape));
-static_assert(0x2E3C8 == OFFSETOF(s_visibility_input, visible_items_marker_index));
-static_assert(0x2E3CC == OFFSETOF(s_visibility_input, visible_cluster_bitvector));
-static_assert(0x2E5CC == OFFSETOF(s_visibility_input, cluster_to_visibility_cluster_lookup));
+COMPILE_ASSERT(sizeof(s_visibility_input) == 0x2F5CC);
+COMPILE_ASSERT(0x0 == OFFSETOF(s_visibility_input, region));
+COMPILE_ASSERT(0x2E39C == OFFSETOF(s_visibility_input, cluster_reference));
+COMPILE_ASSERT(0x2E3A0 == OFFSETOF(s_visibility_input, user_index));
+COMPILE_ASSERT(0x2E3A4 == OFFSETOF(s_visibility_input, player_window_index));
+COMPILE_ASSERT(0x2E3A8 == OFFSETOF(s_visibility_input, flags));
+COMPILE_ASSERT(0x2E3AC == OFFSETOF(s_visibility_input, projection_count));
+COMPILE_ASSERT(0x2E3B0 == OFFSETOF(s_visibility_input, sphere_center));
+COMPILE_ASSERT(0x2E3BC == OFFSETOF(s_visibility_input, sphere_radius));
+COMPILE_ASSERT(0x2E3C0 == OFFSETOF(s_visibility_input, collection_type));
+COMPILE_ASSERT(0x2E3C4 == OFFSETOF(s_visibility_input, collection_shape));
+COMPILE_ASSERT(0x2E3C8 == OFFSETOF(s_visibility_input, visible_items_marker_index));
+COMPILE_ASSERT(0x2E3CC == OFFSETOF(s_visibility_input, visible_cluster_bitvector));
+COMPILE_ASSERT(0x2E5CC == OFFSETOF(s_visibility_input, cluster_to_visibility_cluster_lookup));
 
 class c_visibility_collection
 {
@@ -407,7 +407,7 @@ public:
 	uns16* __unknown4;
 	// pointer to `s_visible_items::__unknown28AC0`
 };
-static_assert(sizeof(c_visibility_collection) == 0x8);
+COMPILE_ASSERT(sizeof(c_visibility_collection) == 0x8);
 
 struct s_visibility_globals
 {
@@ -415,7 +415,7 @@ struct s_visibility_globals
 	c_visibility_collection camera_visibility;
 	c_visible_items visible_items;
 };
-static_assert(sizeof(s_visibility_globals) == 0x2F5D8);
+COMPILE_ASSERT(sizeof(s_visibility_globals) == 0x2F5D8);
 
 struct __declspec(align(16)) c_visibility_globals_keeper
 {
@@ -443,7 +443,7 @@ struct __declspec(align(16)) c_visibility_globals_keeper
 	s_visibility_globals m_visibility_globals;
 	bool m_initialized;
 };
-static_assert(sizeof(c_visibility_globals_keeper) == 0x2F5E0);
+COMPILE_ASSERT(sizeof(c_visibility_globals_keeper) == 0x2F5E0);
 
 extern bool debug_pvs;
 extern bool debug_pvs_render_all;

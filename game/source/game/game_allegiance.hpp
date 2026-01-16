@@ -16,7 +16,7 @@ struct game_allegiance
 	int16 current_incident_decay_time;
 	int32 last_incident_time;
 };
-static_assert(sizeof(game_allegiance) == 0x14);
+COMPILE_ASSERT(sizeof(game_allegiance) == 0x14);
 
 struct s_game_allegiance_globals
 {
@@ -25,7 +25,7 @@ struct s_game_allegiance_globals
 	c_static_flags<256> ally_bitvector;
 	c_static_flags<256> friendly_bitvector;
 };
-static_assert(sizeof(s_game_allegiance_globals) == 0x184);
+COMPILE_ASSERT(sizeof(s_game_allegiance_globals) == 0x184);
 
 extern bool __cdecl game_allegiance_betrayal_exists();
 extern void __cdecl game_allegiance_dispose();

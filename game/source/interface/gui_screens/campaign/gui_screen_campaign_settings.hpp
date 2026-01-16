@@ -27,5 +27,5 @@ public:
 	void set_focus(e_focus_state new_state, int16 new_index);
 	bool warn_about_loss_of_saved_game_progress(e_controller_index controller_index);
 };
-static_assert(sizeof(c_gui_screen_campaign_settings) == sizeof(c_gui_screen_widget));
+COMPILE_ASSERT(sizeof(c_gui_screen_campaign_settings) == sizeof(c_gui_screen_widget));
 

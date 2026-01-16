@@ -5,7 +5,7 @@ struct s_network_message_test
 	bool in_sequence;
 	int32 id;
 };
-static_assert(sizeof(s_network_message_test) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_message_test) == 0x8);
 
 class c_bitstream;
 

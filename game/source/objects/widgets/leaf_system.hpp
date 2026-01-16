@@ -16,7 +16,7 @@ struct s_leaf
 	uns16 age_in_quarter_ticks;
 	uns16 rotation;
 };
-static_assert(sizeof(s_leaf) == 0x24);
+COMPILE_ASSERT(sizeof(s_leaf) == 0x24);
 
 struct s_leaf_system_datum :
 	s_datum_header
@@ -33,5 +33,5 @@ struct s_leaf_system_datum :
 	bool valid_lighting_sample;
 	real_vector3d lighting_sample;
 };
-static_assert(sizeof(s_leaf_system_datum) == 0x94C);
+COMPILE_ASSERT(sizeof(s_leaf_system_datum) == 0x94C);
 

@@ -24,5 +24,5 @@ public:
 	byte pad[0x2];
 	byte unused[0x4];
 };
-static_assert(sizeof(c_saved_film_director) == 0x160);
+COMPILE_ASSERT(sizeof(c_saved_film_director) == 0x160);
 

@@ -55,7 +55,7 @@ public:
 	}
 
 };
-static_assert(sizeof(c_font_cache_base) == 0x4);
+COMPILE_ASSERT(sizeof(c_font_cache_base) == 0x4);
 
 class c_font_cache_scope_lock
 {
@@ -66,7 +66,7 @@ public:
 protected:
 	volatile bool m_locked;
 };
-static_assert(sizeof(c_font_cache_scope_lock) == sizeof(bool));
+COMPILE_ASSERT(sizeof(c_font_cache_scope_lock) == sizeof(bool));
 
 #define FONT_CACHE_SCOPE_LOCK c_font_cache_scope_lock __local_font_cache_scope_lock
 
@@ -81,7 +81,7 @@ public:
 protected:
 	c_font_cache_scope_lock m_locked;
 };
-static_assert(sizeof(c_font_cache_mt_safe) == sizeof(c_font_cache_base) + 0x4);
+COMPILE_ASSERT(sizeof(c_font_cache_mt_safe) == sizeof(c_font_cache_base) + 0x4);
 
 // 0165FCE8
 //c_null_font_cache

@@ -154,5 +154,5 @@ public:
 	c_network_observer* m_observer;
 	c_network_session_manager* m_session_manager;
 };
-static_assert(sizeof(c_network_message_handler) == 0x18);
+COMPILE_ASSERT(sizeof(c_network_message_handler) == 0x18);
 

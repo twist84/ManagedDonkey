@@ -7,13 +7,13 @@ struct rasterizer_vertex_debug
 	real_point3d position;
 	uns32 color;
 };
-static_assert(sizeof(rasterizer_vertex_debug) == 0x10);
+COMPILE_ASSERT(sizeof(rasterizer_vertex_debug) == 0x10);
 
 struct rasterizer_vertex_lightmap_uv
 {
 	real_vector2d texcoord;
 };
-static_assert(sizeof(rasterizer_vertex_lightmap_uv) == 0x8);
+COMPILE_ASSERT(sizeof(rasterizer_vertex_lightmap_uv) == 0x8);
 
 struct rasterizer_vertex_rigid
 {
@@ -23,7 +23,7 @@ struct rasterizer_vertex_rigid
 	real_vector3d tangent;
 	real_vector3d binormal;
 };
-static_assert(sizeof(rasterizer_vertex_rigid) == 0x38);
+COMPILE_ASSERT(sizeof(rasterizer_vertex_rigid) == 0x38);
 
 struct rasterizer_vertex_screen
 {
@@ -31,7 +31,7 @@ struct rasterizer_vertex_screen
 	real_vector2d texcoord;
 	uns32 color;
 };
-static_assert(sizeof(rasterizer_vertex_screen) == 0x14);
+COMPILE_ASSERT(sizeof(rasterizer_vertex_screen) == 0x14);
 
 struct rasterizer_vertex_transparent
 {
@@ -39,7 +39,7 @@ struct rasterizer_vertex_transparent
 	real_vector2d texcoord;
 	uns32 color;
 };
-static_assert(sizeof(rasterizer_vertex_transparent) == 0x18);
+COMPILE_ASSERT(sizeof(rasterizer_vertex_transparent) == 0x18);
 
 struct rasterizer_vertex_world
 {
@@ -49,5 +49,5 @@ struct rasterizer_vertex_world
 	real_vector3d tangent;  //int16 tangent[4];
 	real_vector3d binormal; //int16 binormal[4];
 };
-static_assert(sizeof(rasterizer_vertex_world) == 0x38);
+COMPILE_ASSERT(sizeof(rasterizer_vertex_world) == 0x38);
 

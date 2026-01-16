@@ -95,7 +95,7 @@ struct character_definition
 	c_typed_tag_block<s_campaign_metagame_scenario> campaign_metagame_bucket;
 	c_typed_tag_block<character_activity_objects> activity_objects;
 };
-static_assert(sizeof(character_definition) == 0x1F8);
+COMPILE_ASSERT(sizeof(character_definition) == 0x1F8);
 
 struct s_character_voice
 {
@@ -103,7 +103,7 @@ struct s_character_voice
 	c_string_id designator;
 	real32 weight;
 };
-static_assert(sizeof(s_character_voice) == 0x18);
+COMPILE_ASSERT(sizeof(s_character_voice) == 0x18);
 
 struct character_variant
 {
@@ -112,23 +112,23 @@ struct character_variant
 	int16 pad0;
 	c_typed_tag_block<s_character_voice> voices;
 };
-static_assert(sizeof(character_variant) == 0x14);
+COMPILE_ASSERT(sizeof(character_variant) == 0x14);
 
 struct character_voice_properties
 {
 	c_typed_tag_block<s_character_voice> voices;
 };
-static_assert(sizeof(character_voice_properties) == 0xC);
+COMPILE_ASSERT(sizeof(character_voice_properties) == 0xC);
 
 struct character_general_properties
 {
 };
-static_assert(sizeof(character_general_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_general_properties) == 0x1);
 
 struct character_vitality_properties
 {
 };
-static_assert(sizeof(character_vitality_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_vitality_properties) == 0x1);
 
 struct character_placement_properties
 {
@@ -137,7 +137,7 @@ struct character_placement_properties
 	real32 normal_upgrade_chance[sizeof(real32) * k_campaign_difficulty_levels_count];
 	real32 many_upgrade_chance[sizeof(real32) * k_campaign_difficulty_levels_count];
 };
-static_assert(sizeof(character_placement_properties) == 0xC4);
+COMPILE_ASSERT(sizeof(character_placement_properties) == 0xC4);
 
 struct character_perception_properties
 {
@@ -153,7 +153,7 @@ struct character_perception_properties
 	real32 awareness_time;
 	real32 first_acknowledgement_surprise_distance;
 };
-static_assert(sizeof(character_perception_properties) == 0x2C);
+COMPILE_ASSERT(sizeof(character_perception_properties) == 0x2C);
 
 struct character_look_properties
 {
@@ -190,12 +190,12 @@ struct character_look_properties
 	// rate at which we change aiming directions when looking around randomly when searching or in combat
 	real_bounds combat_idle_aiming; // seconds
 };
-static_assert(sizeof(character_look_properties) == 0x50);
+COMPILE_ASSERT(sizeof(character_look_properties) == 0x50);
 
 struct character_movement_properties
 {
 };
-static_assert(sizeof(character_movement_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_movement_properties) == 0x1);
 
 struct character_flocking_properties
 {
@@ -208,7 +208,7 @@ struct character_flocking_properties
 	real_bounds throttle_threshold_bounds;
 	real32 deceleration_stop_time;
 };
-static_assert(sizeof(character_flocking_properties) == 0x18);
+COMPILE_ASSERT(sizeof(character_flocking_properties) == 0x18);
 
 struct character_swarm_properties
 {
@@ -247,19 +247,19 @@ struct character_swarm_properties
 	// how far we have to move in (stuck time) to not get deleted
 	real32 stuck_distance;
 };
-static_assert(sizeof(character_swarm_properties) == 0x38);
+COMPILE_ASSERT(sizeof(character_swarm_properties) == 0x38);
 
 struct character_ready_properties
 {
 	// Character will pause for given time before engaging threat
 	real_bounds ready_time_bounds;
 };
-static_assert(sizeof(character_ready_properties) == sizeof(real_bounds));
+COMPILE_ASSERT(sizeof(character_ready_properties) == sizeof(real_bounds));
 
 struct character_engage_properties
 {
 };
-static_assert(sizeof(character_engage_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_engage_properties) == 0x1);
 
 struct character_charge_properties
 {
@@ -275,7 +275,7 @@ struct character_charge_properties
 	// We'd like at least this number of guys in a single clump can be berserking at one time (primarily combat forms)
 	int16 min_berserk_count;
 };
-static_assert(sizeof(character_charge_properties) == 0x6);
+COMPILE_ASSERT(sizeof(character_charge_properties) == 0x6);
 
 struct character_evasion_properties
 {
@@ -295,27 +295,27 @@ struct character_evasion_properties
 	// Chance of retreating (fleeing) after danger avoidance dive
 	real32 dive_retreat_chance;
 };
-static_assert(sizeof(character_evasion_properties) == 0x14);
+COMPILE_ASSERT(sizeof(character_evasion_properties) == 0x14);
 
 struct character_cover_properties
 {
 };
-static_assert(sizeof(character_cover_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_cover_properties) == 0x1);
 
 struct character_retreat_properties
 {
 };
-static_assert(sizeof(character_retreat_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_retreat_properties) == 0x1);
 
 struct character_search_properties
 {
 };
-static_assert(sizeof(character_search_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_search_properties) == 0x1);
 
 struct character_presearch_properties
 {
 };
-static_assert(sizeof(character_presearch_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_presearch_properties) == 0x1);
 
 struct character_idle_properties
 {
@@ -327,7 +327,7 @@ struct character_idle_properties
 	// time to pause at a point while wandering
 	real_bounds wander_delay_time; // seconds
 };
-static_assert(sizeof(character_idle_properties) == 0x14);
+COMPILE_ASSERT(sizeof(character_idle_properties) == 0x14);
 
 struct character_vocalization_properties
 {
@@ -345,12 +345,12 @@ struct character_vocalization_properties
 	// How long does the player look at the AI before he responds with his 'long look' comment?
 	real32 look_long_comment_time; // s
 };
-static_assert(sizeof(character_vocalization_properties) == 0xC);
+COMPILE_ASSERT(sizeof(character_vocalization_properties) == 0xC);
 
 struct character_boarding_properties
 {
 };
-static_assert(sizeof(character_boarding_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_boarding_properties) == 0x1);
 
 struct character_kungfu_properties
 {
@@ -360,7 +360,7 @@ struct character_kungfu_properties
 	// If you are kungfu disallowed and your danger is above this level, take cover"
 	real32 kungfu_cover_danger_threshold; // wus
 };
-static_assert(sizeof(character_kungfu_properties) == 0x8);
+COMPILE_ASSERT(sizeof(character_kungfu_properties) == 0x8);
 
 struct character_guardian_properties
 {
@@ -382,7 +382,7 @@ struct character_guardian_properties
 	// Minimum distance from my target that I will phase to
 	real32 target_position_distance; // wu
 };
-static_assert(sizeof(character_guardian_properties) == 0x18);
+COMPILE_ASSERT(sizeof(character_guardian_properties) == 0x18);
 
 struct character_combatform_properties
 {
@@ -392,7 +392,7 @@ struct character_combatform_properties
 	// chance of berserking this second
 	real32 berserk_chance;
 };
-static_assert(sizeof(character_combatform_properties) == 0x8);
+COMPILE_ASSERT(sizeof(character_combatform_properties) == 0x8);
 
 struct character_engineer_properties
 {
@@ -428,7 +428,7 @@ struct character_engineer_properties
 	// if target enters radius and detonation is not chosen, deploy this equipment.
 	c_typed_tag_reference<EQUIPMENT_TAG, INVALID_TAG> proximity_equipment;
 };
-static_assert(sizeof(character_engineer_properties) == 0x38);
+COMPILE_ASSERT(sizeof(character_engineer_properties) == 0x38);
 
 struct character_inspect_properties
 {
@@ -441,7 +441,7 @@ struct character_inspect_properties
 	// range in which we should search for objects to inspect
 	real_bounds search_range; // wu"
 };
-static_assert(sizeof(character_inspect_properties) == 0x14);
+COMPILE_ASSERT(sizeof(character_inspect_properties) == 0x14);
 
 struct character_scarab_properties
 {
@@ -460,37 +460,37 @@ struct character_scarab_properties
 	// When moving forward within this dot of our desired facing, just move forward", nullptr
 	real32 snap_forward_angle_max; // [0-1]
 };
-static_assert(sizeof(character_scarab_properties) == 0x18);
+COMPILE_ASSERT(sizeof(character_scarab_properties) == 0x18);
 
 struct character_weapons_properties
 {
 };
-static_assert(sizeof(character_weapons_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_weapons_properties) == 0x1);
 
 struct character_firing_pattern_properties
 {
 };
-static_assert(sizeof(character_firing_pattern_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_firing_pattern_properties) == 0x1);
 
 struct character_grenades_properties
 {
 };
-static_assert(sizeof(character_grenades_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_grenades_properties) == 0x1);
 
 struct character_vehicle_properties
 {
 };
-static_assert(sizeof(character_vehicle_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_vehicle_properties) == 0x1);
 
 struct character_morph_properties
 {
 };
-static_assert(sizeof(character_morph_properties) == 0x1);
+COMPILE_ASSERT(sizeof(character_morph_properties) == 0x1);
 
 struct character_equipment_definition
 {
 };
-static_assert(sizeof(character_equipment_definition) == 0x1);
+COMPILE_ASSERT(sizeof(character_equipment_definition) == 0x1);
 
 struct character_activity_objects
 {
@@ -499,7 +499,7 @@ struct character_activity_objects
 	c_string_id crate_marker_name;
 	c_string_id unit_marker_name;
 };
-static_assert(sizeof(character_activity_objects) == 0x1C);
+COMPILE_ASSERT(sizeof(character_activity_objects) == 0x1C);
 
 extern character_perception_properties* __cdecl actor_perception_properties_get(int32 actor_index);
 

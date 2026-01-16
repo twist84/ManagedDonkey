@@ -57,7 +57,7 @@ protected:
 	c_player_traits m_defender_traits;
 	c_player_traits m_attacker_traits;
 };
-static_assert(sizeof(c_game_engine_territories_variant) == 0x210);
+COMPILE_ASSERT(sizeof(c_game_engine_territories_variant) == 0x210);
 
 class c_territories_engine :
 	public c_game_engine
@@ -74,7 +74,7 @@ struct s_territory_data :
 	int32 controlling_team_designator;
 	int32 state;
 };
-static_assert(sizeof(s_territory_data) == 0x84);
+COMPILE_ASSERT(sizeof(s_territory_data) == 0x84);
 
 struct s_territories_globals
 {
@@ -83,7 +83,7 @@ struct s_territories_globals
 	int32 sudden_death_time_left;
 	int32 grace_period_time_left;
 };
-static_assert(sizeof(s_territories_globals) == 0x43C);
+COMPILE_ASSERT(sizeof(s_territories_globals) == 0x43C);
 
 extern c_game_engine_territories_variant*& territories_variant;
 

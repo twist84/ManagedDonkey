@@ -18,7 +18,7 @@ struct s_game_options_history_stack_node
 	e_game_engine_category interface_category;
 	int32 focused_element_handle;
 };
-static_assert(sizeof(s_game_options_history_stack_node) == 0xC);
+COMPILE_ASSERT(sizeof(s_game_options_history_stack_node) == 0xC);
 
 class c_game_options_category_datasource :
 	public c_gui_ordered_data
@@ -42,8 +42,8 @@ private:
 	e_game_engine_category m_template_category;
 	e_game_engine_category m_interface_category;
 };
-static_assert(sizeof(c_game_options_category_datasource) == 0x118);
-static_assert(sizeof(c_game_options_category_datasource) == sizeof(c_gui_ordered_data) + 0xC);
+COMPILE_ASSERT(sizeof(c_game_options_category_datasource) == 0x118);
+COMPILE_ASSERT(sizeof(c_game_options_category_datasource) == sizeof(c_gui_ordered_data) + 0xC);
 
 class c_game_options_parameter_datasource :
 	public c_gui_ordered_data
@@ -64,8 +64,8 @@ protected:
 private:
 	e_game_variant_parameter m_parameter;
 };
-static_assert(sizeof(c_game_options_parameter_datasource) == 0x110);
-static_assert(sizeof(c_game_options_parameter_datasource) == sizeof(c_gui_ordered_data) + 0x4);
+COMPILE_ASSERT(sizeof(c_game_options_parameter_datasource) == 0x110);
+COMPILE_ASSERT(sizeof(c_game_options_parameter_datasource) == sizeof(c_gui_ordered_data) + 0x4);
 
 class c_gui_screen_game_options :
 	public c_gui_screen_widget
@@ -153,8 +153,8 @@ private:
 	c_synchronized_long m_content_item_index;
 	uns32 m_progress_dialog_start_time_milliseconds;
 };
-static_assert(sizeof(c_gui_screen_game_options) == 0x11758);
-static_assert(sizeof(c_gui_screen_game_options) == sizeof(c_gui_screen_widget) + 0xFCB8);
+COMPILE_ASSERT(sizeof(c_gui_screen_game_options) == 0x11758);
+COMPILE_ASSERT(sizeof(c_gui_screen_game_options) == sizeof(c_gui_screen_widget) + 0xFCB8);
 
 class c_load_game_options_screen_message :
 	public c_load_screen_message
@@ -176,8 +176,8 @@ private:
 	int32 m_history_stack_depth;
 	int32 m_layered_position;
 };
-static_assert(sizeof(c_load_game_options_screen_message) == 0x5D8);
-static_assert(sizeof(c_load_game_options_screen_message) == sizeof(c_load_screen_message) + 0x59C);
+COMPILE_ASSERT(sizeof(c_load_game_options_screen_message) == 0x5D8);
+COMPILE_ASSERT(sizeof(c_load_game_options_screen_message) == sizeof(c_load_screen_message) + 0x59C);
 
 extern bool __cdecl can_edit_settings();
 extern bool __cdecl can_save_settings(e_game_engine_type game_engine);

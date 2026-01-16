@@ -89,7 +89,7 @@ class c_hook_call
 		byte opcode;
 		uns32 offset;
 	};
-	static_assert(sizeof(call_instruction) == 0x5);
+	COMPILE_ASSERT(sizeof(call_instruction) == 0x5);
 #pragma pack(pop)
 
 public:

@@ -31,8 +31,8 @@ enum
 	k_game_state_compressor_allocation_size = 0x480000,
 	k_game_state_maximum_compressed_size = 0x480000,
 };
-static_assert(0x0980000 == k_game_state_allocation_size);
-static_assert(0x1280000 == k_game_state_file_size);
+COMPILE_ASSERT(0x0980000 == k_game_state_allocation_size);
+COMPILE_ASSERT(0x1280000 == k_game_state_file_size);
 
 enum e_restricted_section_constants
 {
@@ -61,7 +61,7 @@ public:
 	uns32 m_size;
 	int32 m_owner_thread;
 };
-static_assert(sizeof(c_restricted_section) == 0x18);
+COMPILE_ASSERT(sizeof(c_restricted_section) == 0x18);
 
 class c_restricted_memory_callbacks;
 class c_restricted_memory
@@ -84,7 +84,7 @@ public:
 		c_synchronized_long writable_flag;
 		c_restricted_section* restricted_section;
 	};
-	static_assert(sizeof(s_mirror_slot) == 0x10);
+	COMPILE_ASSERT(sizeof(s_mirror_slot) == 0x10);
 
 	struct s_registered_member
 	{
@@ -95,7 +95,7 @@ public:
 		void(__cdecl* post_copy_function)(void*);
 		void(__cdecl* overwrite_function)(void*);
 	};
-	static_assert(sizeof(s_registered_member) == 0x18);
+	COMPILE_ASSERT(sizeof(s_registered_member) == 0x18);
 
 	c_interlocked_long m_mirror_read_in_progress;
 	c_interlocked_long m_mirror_write_in_progress;
@@ -118,7 +118,7 @@ public:
 	void* m_mirror_backup_memory;
 	int32 m_region_index;
 };
-static_assert(sizeof(c_restricted_memory) == 0xC88);
+COMPILE_ASSERT(sizeof(c_restricted_memory) == 0xC88);
 
 extern const char*(&g_restricted_region_names)[k_total_restricted_memory_regions];
 extern c_restricted_section(&g_restricted_section)[k_total_restricted_memory_regions];

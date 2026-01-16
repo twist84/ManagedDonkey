@@ -562,7 +562,7 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 		if (unit->object.parent_object_index == NONE || TEST_BIT(player->flags, _player_unknown_bit14))
 		{
 			const uns32 accept_type_mask = _object_mask_unit | _object_mask_item | _object_mask_scenery | _object_mask_crate | _object_mask_device;
-			static_assert(0x2BBF == accept_type_mask);
+			COMPILE_ASSERT(0x2BBF == accept_type_mask);
 
 			const real32 examine_nearby_object_bonus = 0.4f;
 			real32 search_radius = (unit->object.bounding_sphere_radius + examine_nearby_object_bonus) + 0.1f;
@@ -577,14 +577,14 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 				NUMBEROF(object_indices));
 
 			const uns32 exclude_type_mask = _object_mask_weapon | _object_mask_machine | _object_mask_control;
-			static_assert(0x304 == exclude_type_mask);
+			COMPILE_ASSERT(0x304 == exclude_type_mask);
 			for (int32 index = 0; index < object_count; index++)
 			{
 				const object_datum* object = object_get(object_indices[index]);
 				e_object_type object_type = object->object.object_identifier.get_type();
 
 				uns32 local_exclude_type_mask = _object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature;
-				static_assert(0x1440 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
+				COMPILE_ASSERT(0x1440 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
 
 				if (!TEST_BIT(local_exclude_type_mask, object_type))
 				{
@@ -598,7 +598,7 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 							break;
 						case _object_type_vehicle:
 							player_consider_vehicle_interaction(player_index, object_indices[index], out_action_context);
-							static_assert(0x1442 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature | _object_mask_vehicle));
+							COMPILE_ASSERT(0x1442 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature | _object_mask_vehicle));
 							local_exclude_type_mask |= _object_mask_vehicle;
 							break;
 						case _object_type_weapon:

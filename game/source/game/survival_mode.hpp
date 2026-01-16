@@ -36,7 +36,7 @@ struct s_survival_mode_globals
 
 	byte __data7D8[0x8];
 };
-static_assert(sizeof(s_survival_mode_globals) == 0x7E0);
+COMPILE_ASSERT(sizeof(s_survival_mode_globals) == 0x7E0);
 
 extern void __cdecl survival_mode_dispose();
 extern void __cdecl survival_mode_dispose_from_old_map();

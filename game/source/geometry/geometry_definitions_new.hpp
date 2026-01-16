@@ -11,5 +11,5 @@ struct geometry_material
 	byte pad[1];
 	uns16 runtime_flags;
 };
-static_assert(sizeof(geometry_material) == 0x24);
+COMPILE_ASSERT(sizeof(geometry_material) == 0x24);
 

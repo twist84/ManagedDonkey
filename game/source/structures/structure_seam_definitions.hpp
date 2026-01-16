@@ -15,7 +15,7 @@ struct s_structure_seams
 	c_typed_tag_block<error_report_category> errors;
 	c_typed_tag_block<s_structure_seam> seams;
 };
-static_assert(sizeof(s_structure_seams) == 0x1C);
+COMPILE_ASSERT(sizeof(s_structure_seams) == 0x1C);
 
 enum e_error_report_types
 {
@@ -52,38 +52,38 @@ struct error_report_category
 
 	s_tag_block reports;
 };
-static_assert(sizeof(s_structure_seams) == 0x1C);
+COMPILE_ASSERT(sizeof(s_structure_seams) == 0x1C);
 
 struct s_structure_seam_identifier
 {
 	uns32 part[4];
 };
-static_assert(sizeof(s_structure_seam_identifier) == 0x10);
+COMPILE_ASSERT(sizeof(s_structure_seam_identifier) == 0x10);
 
 struct s_structure_seam_original_vertex
 {
 	real_point3d original_vertex;
 	int32 final_point_index;
 };
-static_assert(sizeof(s_structure_seam_original_vertex) == 0x10);
+COMPILE_ASSERT(sizeof(s_structure_seam_original_vertex) == 0x10);
 
 struct s_structure_seam_original_geometry
 {
 	c_typed_tag_block<s_structure_seam_original_vertex> original_vertices;
 };
-static_assert(sizeof(s_structure_seam_original_geometry) == sizeof(s_tag_block));
+COMPILE_ASSERT(sizeof(s_structure_seam_original_geometry) == sizeof(s_tag_block));
 
 struct s_structure_seam_final_plane
 {
 	real_plane3d plane;
 };
-static_assert(sizeof(s_structure_seam_final_plane) == sizeof(real_plane3d));
+COMPILE_ASSERT(sizeof(s_structure_seam_final_plane) == sizeof(real_plane3d));
 
 struct s_structure_seam_final_point
 {
 	real_point3d point;
 };
-static_assert(sizeof(s_structure_seam_final_point) == sizeof(real_point3d));
+COMPILE_ASSERT(sizeof(s_structure_seam_final_point) == sizeof(real_point3d));
 
 struct s_structure_seam_final_triangle
 {
@@ -93,14 +93,14 @@ struct s_structure_seam_final_triangle
 	// PAD
 	byte pad0[0x2];
 };
-static_assert(sizeof(s_structure_seam_final_triangle) == 0xC);
+COMPILE_ASSERT(sizeof(s_structure_seam_final_triangle) == 0xC);
 
 struct s_structure_seam_final_edge
 {
 	int32 final_plane;
 	int16 final_points[2]; // s_structure_seam_final_point
 };
-static_assert(sizeof(s_structure_seam_final_edge) == 0x8);
+COMPILE_ASSERT(sizeof(s_structure_seam_final_edge) == 0x8);
 
 struct s_structure_seam_final_geometry
 {
@@ -109,7 +109,7 @@ struct s_structure_seam_final_geometry
 	c_typed_tag_block<s_structure_seam_final_triangle> triangles;
 	c_typed_tag_block<s_structure_seam_final_edge> edges;
 };
-static_assert(sizeof(s_structure_seam_final_geometry) == sizeof(s_tag_block) * 4);
+COMPILE_ASSERT(sizeof(s_structure_seam_final_geometry) == sizeof(s_tag_block) * 4);
 
 struct s_structure_seam
 {
@@ -117,5 +117,5 @@ struct s_structure_seam
 	s_structure_seam_original_geometry original;
 	s_structure_seam_final_geometry final;
 };
-static_assert(sizeof(s_structure_seam) == 0x4C);
+COMPILE_ASSERT(sizeof(s_structure_seam) == 0x4C);
 

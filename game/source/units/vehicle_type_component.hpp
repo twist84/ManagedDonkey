@@ -77,5 +77,5 @@ protected:
 	byte m_vehicle_type_buffer[0x60];
 	c_enum<e_vehicle_type, int8, _vehicle_type_human_tank, k_vehicle_type_count> m_initialization_type;
 };
-static_assert(sizeof(c_vehicle_type_component) == 0x64);
+COMPILE_ASSERT(sizeof(c_vehicle_type_component) == 0x64);
 

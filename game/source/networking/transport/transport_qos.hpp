@@ -12,7 +12,7 @@ struct s_transport_qos_listener_stats
 	int32 data_replies_bytes_sent;
 	int32 probe_replies_sent;
 };
-static_assert(sizeof(s_transport_qos_listener_stats) == 0x1C);
+COMPILE_ASSERT(sizeof(s_transport_qos_listener_stats) == 0x1C);
 
 struct s_qos_listener_data
 {
@@ -20,7 +20,7 @@ struct s_qos_listener_data
 	uns32 update_time;
 	s_transport_qos_listener_stats qos_listener_stats;
 };
-static_assert(sizeof(s_qos_listener_data) == 0x24);
+COMPILE_ASSERT(sizeof(s_qos_listener_data) == 0x24);
 
 struct s_transport_qos_result
 {
@@ -33,7 +33,7 @@ struct s_transport_qos_result
 	int32 data_block_size;
 	void* data_block;
 };
-static_assert(sizeof(s_transport_qos_result) == 0x20);
+COMPILE_ASSERT(sizeof(s_transport_qos_result) == 0x20);
 
 struct s_transport_qos_target;
 

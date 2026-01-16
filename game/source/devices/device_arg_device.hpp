@@ -12,7 +12,7 @@ struct _arg_device_datum
 	int32 unit_index;
 	int32 unit_last_time_touched;
 };
-static_assert(sizeof(_arg_device_datum) == 0x10);
+COMPILE_ASSERT(sizeof(_arg_device_datum) == 0x10);
 
 struct arg_device_datum
 {
@@ -21,7 +21,7 @@ struct arg_device_datum
 	_device_datum device;
 	_arg_device_datum arg_device;
 };
-static_assert(sizeof(arg_device_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_arg_device_datum));
+COMPILE_ASSERT(sizeof(arg_device_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_arg_device_datum));
 
 struct object_placement_data;
 struct s_scenario_arg_device;

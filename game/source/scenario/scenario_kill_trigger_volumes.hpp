@@ -8,7 +8,7 @@ struct s_scenario_kill_trigger_volumes_state
 	c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO> disabled_kill_volumes;
 	bool map_initialized;
 };
-static_assert(sizeof(s_scenario_kill_trigger_volumes_state) == 0x84);
+COMPILE_ASSERT(sizeof(s_scenario_kill_trigger_volumes_state) == 0x84);
 
 extern void __cdecl scenario_kill_trigger_volume_disable(int32 trigger_volume_index);
 extern void __cdecl scenario_kill_trigger_volume_enable(int32 trigger_volume_index);

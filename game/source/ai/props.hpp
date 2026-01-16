@@ -36,14 +36,14 @@ struct prop_ref_datum :
 	real32 distance;
 	real32 salience;
 };
-static_assert(sizeof(prop_ref_datum) == 0x3C);
+COMPILE_ASSERT(sizeof(prop_ref_datum) == 0x3C);
 
 struct zone_area_ref
 {
 	int16 zone_index;
 	int16 area_index;
 };
-static_assert(sizeof(zone_area_ref) == 0x4);
+COMPILE_ASSERT(sizeof(zone_area_ref) == 0x4);
 
 struct prop_state
 {
@@ -71,7 +71,7 @@ struct prop_state
 	bool underwater;
 	bool pathfinding_data_valid;
 };
-static_assert(sizeof(prop_state) == 0x70);
+COMPILE_ASSERT(sizeof(prop_state) == 0x70);
 
 struct prop_datum :
 	s_datum_header
@@ -104,7 +104,7 @@ struct prop_datum :
 	zone_area_ref pursuit_area;
 	prop_state state;
 };
-static_assert(sizeof(prop_datum) == 0xC4);
+COMPILE_ASSERT(sizeof(prop_datum) == 0xC4);
 
 struct prop_view
 {
@@ -136,7 +136,7 @@ struct prop_view
 	int32 orphaned_time;
 	real_point3d last_new_position;
 };
-static_assert(sizeof(prop_view) == 0x8C);
+COMPILE_ASSERT(sizeof(prop_view) == 0x8C);
 
 struct tracking_datum :
 	s_datum_header
@@ -144,14 +144,14 @@ struct tracking_datum :
 	prop_state state;
 	prop_view view;
 };
-static_assert(sizeof(tracking_datum) == 0x100);
+COMPILE_ASSERT(sizeof(tracking_datum) == 0x100);
 
 struct actor_prop_ref_iterator
 {
 	int32 index;
 	int32 next_index;
 };
-static_assert(sizeof(actor_prop_ref_iterator) == 0x8);
+COMPILE_ASSERT(sizeof(actor_prop_ref_iterator) == 0x8);
 
 extern prop_state* __cdecl prop_state_get(const prop_ref_datum* pref);
 extern void __cdecl props_dispose();

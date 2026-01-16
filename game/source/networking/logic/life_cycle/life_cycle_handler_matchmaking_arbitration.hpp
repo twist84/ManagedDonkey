@@ -84,9 +84,9 @@ public:
 	uns32 m_arbitration_waiting_for_completion_start_time;
 	s_arbitration_registration_result m_registration_result;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_arbitration) == 0x1C0);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_arbitration_start_time));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_arbitration_waiting_for_completion_start_time));
-static_assert(0x38 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_registration_result));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_arbitration) == 0x1C0);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_arbitration_start_time));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_arbitration_waiting_for_completion_start_time));
+COMPILE_ASSERT(0x38 == OFFSETOF(c_life_cycle_state_handler_matchmaking_arbitration, m_registration_result));
 

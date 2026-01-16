@@ -18,7 +18,7 @@ struct s_giant_foot_data
 	uns8 foot_flags;
 	uns8 state;
 };
-static_assert(sizeof(s_giant_foot_data) == 0x3C);
+COMPILE_ASSERT(sizeof(s_giant_foot_data) == 0x3C);
 
 struct s_buckling_workspace
 {
@@ -28,7 +28,7 @@ struct s_buckling_workspace
 	real_point3d maxima;
 	real_point3d minima;
 };
-static_assert(sizeof(s_buckling_workspace) == 0x3050);
+COMPILE_ASSERT(sizeof(s_buckling_workspace) == 0x3050);
 
 struct _giant_datum
 {
@@ -61,7 +61,7 @@ struct _giant_datum
 	uns32 pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 };
-static_assert(sizeof(_giant_datum) == 0x3208);
+COMPILE_ASSERT(sizeof(_giant_datum) == 0x3208);
 
 struct giant_datum
 {
@@ -71,7 +71,7 @@ struct giant_datum
 	_unit_datum unit;
 	_giant_datum giant;
 };
-static_assert(sizeof(giant_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_giant_datum));
+COMPILE_ASSERT(sizeof(giant_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum) + sizeof(_giant_datum));
 
 extern int32& g_giant_hunt_player;
 extern real32& g_giant_hunting_min_radius;

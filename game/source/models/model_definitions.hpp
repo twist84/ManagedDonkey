@@ -167,7 +167,7 @@ struct s_model_definition
 	s_tag_reference overshield_parameter_override;
 	s_tag_reference first_person_overshield_parameter_override;
 };
-static_assert(sizeof(s_model_definition) == 0x1B4);
+COMPILE_ASSERT(sizeof(s_model_definition) == 0x1B4);
 
 struct s_model_variant_region;
 struct s_model_variant_object;
@@ -192,7 +192,7 @@ struct s_model_variant
 
 	byte RHTDQLFD[0x8];
 };
-static_assert(sizeof(s_model_variant) == 0x50);
+COMPILE_ASSERT(sizeof(s_model_variant) == 0x50);
 
 enum e_region_sort
 {
@@ -232,7 +232,7 @@ struct s_model_variant_region
 	// negative values mean closer to the camera
 	c_enum<e_region_sort, int16, _region_sort_no_sorting, k_region_sort_count> sort_order;
 	byte JO[0x2];
-}; static_assert(sizeof(s_model_variant_region) == 0x18);
+}; COMPILE_ASSERT(sizeof(s_model_variant_region) == 0x18);
 
 enum e_model_variant_permutation_flags
 {
@@ -254,7 +254,7 @@ struct s_model_variant_permutation
 	int8 runtime_state_permutation_indices[5];
 	byte LOOEL[0x7];
 };
-static_assert(sizeof(s_model_variant_permutation) == 0x24);
+COMPILE_ASSERT(sizeof(s_model_variant_permutation) == 0x24);
 
 enum e_model_state_property_flags
 {
@@ -279,7 +279,7 @@ struct s_model_variant_state
 	c_string_id looping_effect_marker_name;
 	real32 initial_probability;
 };
-static_assert(sizeof(s_model_variant_state) == 0x20);
+COMPILE_ASSERT(sizeof(s_model_variant_state) == 0x20);
 
 struct s_model_variant_object
 {
@@ -291,7 +291,7 @@ struct s_model_variant_object
 
 	c_typed_tag_reference<OBJECT_TAG, INVALID_TAG> child_object;
 };
-static_assert(sizeof(s_model_variant_object) == 0x1C);
+COMPILE_ASSERT(sizeof(s_model_variant_object) == 0x1C);
 
 class c_model_instance_group_member
 {
@@ -307,7 +307,7 @@ public:
 
 	int32 instance_placement_mask[4];
 };
-static_assert(sizeof(c_model_instance_group_member) == 0x1C);
+COMPILE_ASSERT(sizeof(c_model_instance_group_member) == 0x1C);
 
 enum e_model_instance_group_choice
 {
@@ -329,7 +329,7 @@ public:
 	c_typed_tag_block<c_model_instance_group_member> member_list;
 	real32 total_probability;
 };
-static_assert(sizeof(c_model_instance_group) == 0x18);
+COMPILE_ASSERT(sizeof(c_model_instance_group) == 0x18);
 
 struct s_model_material
 {
@@ -342,7 +342,7 @@ struct s_model_material
 	int16 runtime_global_material_index;
 	byte SEWETKHRE[0x2];
 };
-static_assert(sizeof(s_model_material) == 0x14);
+COMPILE_ASSERT(sizeof(s_model_material) == 0x14);
 
 struct s_model_damage_section
 {
@@ -368,7 +368,7 @@ struct s_model_damage_section
 	// pad
 	byte AG[0x2];
 };
-static_assert(sizeof(s_model_damage_section) == 0x44);
+COMPILE_ASSERT(sizeof(s_model_damage_section) == 0x44);
 
 struct s_model_damage_info
 {
@@ -453,7 +453,7 @@ struct s_model_damage_info
 	s_tag_block damage_seats;
 	s_tag_block damage_constraints;
 };
-static_assert(sizeof(s_model_damage_info) == 0x100);
+COMPILE_ASSERT(sizeof(s_model_damage_info) == 0x100);
 
 enum e_model_target_lock_on_flags
 {
@@ -478,7 +478,7 @@ struct s_model_target_lock_on_data
 	// a weapon can track/lock on this target if this string is in the weapon's tracking block
 	c_string_id tracking_type;
 };
-static_assert(sizeof(s_model_target_lock_on_data) == 0xC);
+COMPILE_ASSERT(sizeof(s_model_target_lock_on_data) == 0xC);
 
 enum e_model_target_flags
 {
@@ -519,5 +519,5 @@ struct s_model_target
 
 	s_model_target_lock_on_data lock_on_data;
 };
-static_assert(sizeof(s_model_target) == 0x28);
+COMPILE_ASSERT(sizeof(s_model_target) == 0x28);
 

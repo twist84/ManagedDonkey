@@ -35,7 +35,7 @@ public:
 
 	void set_next_move_instantly();
 };
-static_assert(sizeof(c_camera) == 0x10);
+COMPILE_ASSERT(sizeof(c_camera) == 0x10);
 
 class c_null_camera :
 	public c_camera
@@ -43,7 +43,7 @@ class c_null_camera :
 public:
 	byte unused[0x3C];
 };
-static_assert(sizeof(c_null_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_null_camera) == 0x4C);
 
 //extern const char* const (&global_camera_mode_names)[k_number_of_camera_modes];
 extern const char* const global_camera_mode_names[k_number_of_camera_modes];

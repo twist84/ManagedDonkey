@@ -6,7 +6,7 @@ struct s_cinematic_new_globals_definition
 {
 	byte __data0[0x2808];
 };
-static_assert(sizeof(s_cinematic_new_globals_definition) == 0x2808);
+COMPILE_ASSERT(sizeof(s_cinematic_new_globals_definition) == 0x2808);
 
 struct s_cinematic_title_datum
 {
@@ -14,7 +14,7 @@ struct s_cinematic_title_datum
 	int16 title_timer;
 	bool forced;
 };
-static_assert(sizeof(s_cinematic_title_datum) == 0x6);
+COMPILE_ASSERT(sizeof(s_cinematic_title_datum) == 0x6);
 
 struct s_subtitle
 {
@@ -22,7 +22,7 @@ struct s_subtitle
 	real32 total_duration;
 	real32 current_duration;
 };
-static_assert(sizeof(s_subtitle) == 0xC);
+COMPILE_ASSERT(sizeof(s_subtitle) == 0xC);
 
 struct s_cinematic_globals_definition
 {
@@ -40,13 +40,13 @@ struct s_cinematic_globals_definition
 	int32 cinematic_fade_out_start_time;
 	int32 cinematic_fade_out_stop_time;
 };
-static_assert(sizeof(s_cinematic_globals_definition) == 0x3C);
+COMPILE_ASSERT(sizeof(s_cinematic_globals_definition) == 0x3C);
 
 struct s_cinematic_light_globals
 {
 	byte __data[0xB2C8];
 };
-static_assert(sizeof(s_cinematic_light_globals) == 0xB2C8);
+COMPILE_ASSERT(sizeof(s_cinematic_light_globals) == 0xB2C8);
 
 struct s_game_non_bsp_zone_set;
 class c_scenario_resource_registry;

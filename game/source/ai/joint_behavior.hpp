@@ -14,7 +14,7 @@ struct invitation_data
 	int32 jindex;
 	int32 expiration_time;
 };
-static_assert(sizeof(invitation_data) == 0x10);
+COMPILE_ASSERT(sizeof(invitation_data) == 0x10);
 
 struct participant_entry
 {
@@ -23,7 +23,7 @@ struct participant_entry
 	int16 joint_priority;
 	real32 grade;
 };
-static_assert(sizeof(participant_entry) == 0xC);
+COMPILE_ASSERT(sizeof(participant_entry) == 0xC);
 
 struct crossfire_data
 {
@@ -33,13 +33,13 @@ struct crossfire_data
 	int32 position_timer;
 	bool reached_cross_position;
 };
-static_assert(sizeof(crossfire_data) == 0x1C);
+COMPILE_ASSERT(sizeof(crossfire_data) == 0x1C);
 
 struct surprise_data
 {
 	int32 target_object_index;
 };
-static_assert(sizeof(surprise_data) == 0x4);
+COMPILE_ASSERT(sizeof(surprise_data) == 0x4);
 
 struct joint_formation_data
 {
@@ -48,7 +48,7 @@ struct joint_formation_data
 	int32 point_ref;
 	int32 point_ref_destination;
 };
-static_assert(sizeof(joint_formation_data) == 0xC);
+COMPILE_ASSERT(sizeof(joint_formation_data) == 0xC);
 
 struct joint_scared_by_leader_data
 {
@@ -56,14 +56,14 @@ struct joint_scared_by_leader_data
 	int32 leader_actor_index;
 	bool played_berserk;
 };
-static_assert(sizeof(joint_scared_by_leader_data) == 0xC);
+COMPILE_ASSERT(sizeof(joint_scared_by_leader_data) == 0xC);
 
 struct coordinated_ambush_data
 {
 	bool launch_attack;
 	bool finished;
 };
-static_assert(sizeof(coordinated_ambush_data) == 0x2);
+COMPILE_ASSERT(sizeof(coordinated_ambush_data) == 0x2);
 
 struct pursuit_location
 {
@@ -72,7 +72,7 @@ struct pursuit_location
 	c_sector_ref sector_ref;
 	c_ai_point3d position;
 };
-static_assert(sizeof(pursuit_location) == 0x18);
+COMPILE_ASSERT(sizeof(pursuit_location) == 0x18);
 
 struct pursuit_sync_data
 {
@@ -85,7 +85,7 @@ struct pursuit_sync_data
 	real32 orphan_time;
 	real_vector3d orphan_vector;
 };
-static_assert(sizeof(pursuit_sync_data) == 0x3C);
+COMPILE_ASSERT(sizeof(pursuit_sync_data) == 0x3C);
 
 struct joint_vehicle_flip_data
 {
@@ -95,7 +95,7 @@ struct joint_vehicle_flip_data
 	real_vector3d target_direction;
 	int16 current_position_index;
 };
-static_assert(sizeof(joint_vehicle_flip_data) == 0x18);
+COMPILE_ASSERT(sizeof(joint_vehicle_flip_data) == 0x18);
 
 struct joint_presearch_data
 {
@@ -105,7 +105,7 @@ struct joint_presearch_data
 	int32 pref_index;
 	bool vocalized_end;
 };
-static_assert(sizeof(joint_presearch_data) == 0x10);
+COMPILE_ASSERT(sizeof(joint_presearch_data) == 0x10);
 
 struct joint_huddle_data
 {
@@ -113,7 +113,7 @@ struct joint_huddle_data
 	int32 initiator_index;
 	int16 actor_type;
 };
-static_assert(sizeof(joint_huddle_data) == 0xC);
+COMPILE_ASSERT(sizeof(joint_huddle_data) == 0xC);
 
 struct joint_state_datum :
 	s_datum_header
@@ -139,7 +139,7 @@ struct joint_state_datum :
 		joint_huddle_data huddle;
 	};
 };
-static_assert(sizeof(joint_state_datum) == 0xCC);
+COMPILE_ASSERT(sizeof(joint_state_datum) == 0xCC);
 
 extern void __cdecl joint_behavior_create_for_new_map();
 extern void __cdecl joint_behavior_dispose();

@@ -45,7 +45,7 @@ const char* const k_physical_memory_stage_names[k_memory_stage_count]
 	"resize_locked",
 	"in_level"
 };
-static_assert(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
+COMPILE_ASSERT(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
 void* __cdecl _physical_memory_malloc(memory_stage stage, const char* name, int32 size, uns32 flags)
 {

@@ -7,7 +7,7 @@ struct s_dynamic_area
 {
 	byte __data0[0x6];
 };
-static_assert(sizeof(s_dynamic_area) == 0x6);
+COMPILE_ASSERT(sizeof(s_dynamic_area) == 0x6);
 
 struct squad_datum :
 	s_datum_header
@@ -71,7 +71,7 @@ struct squad_datum :
 
 	byte __padEA[0x2];
 };
-static_assert(sizeof(squad_datum) == 0xEC);
+COMPILE_ASSERT(sizeof(squad_datum) == 0xEC);
 
 struct squad_group_datum :
 	s_datum_header
@@ -90,7 +90,7 @@ struct squad_group_datum :
 	int16 current_in_combat_count;
 	real32 current_strength_fraction;
 };
-static_assert(sizeof(squad_group_datum) == 0x24);
+COMPILE_ASSERT(sizeof(squad_group_datum) == 0x24);
 
 struct squad_actor_iterator
 {
@@ -99,14 +99,14 @@ struct squad_actor_iterator
 	int32 next_index;
 	bool active_only;
 };
-static_assert(sizeof(squad_actor_iterator) == 0x10);
+COMPILE_ASSERT(sizeof(squad_actor_iterator) == 0x10);
 
 struct squad_iterator
 {
 	c_data_iterator<squad_datum> iterator;
 	int32 squad_index;
 };
-static_assert(sizeof(squad_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(squad_iterator) == 0x14);
 
 struct actor_datum;
 

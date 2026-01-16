@@ -36,8 +36,8 @@ public:
 	real32 m_appearance_camera_yaw;
 	int32 m_automatic_button_key;
 };
-static_assert(sizeof(c_start_menu_pane_screen_widget) == 0x2168);
-static_assert(sizeof(c_start_menu_pane_screen_widget) == sizeof(c_gui_screen_widget) + 0x6C8);
+COMPILE_ASSERT(sizeof(c_start_menu_pane_screen_widget) == 0x2168);
+COMPILE_ASSERT(sizeof(c_start_menu_pane_screen_widget) == sizeof(c_gui_screen_widget) + 0x6C8);
 
 extern bool __cdecl gui_screen_widget_is_start_menu_pane_screen(c_gui_screen_widget* screen);
 

@@ -6,7 +6,7 @@ struct s_collision_materials_extant_flags
 {
 	c_static_flags<512> flags;
 };
-static_assert(sizeof(s_collision_materials_extant_flags) == 0x40);
+COMPILE_ASSERT(sizeof(s_collision_materials_extant_flags) == 0x40);
 
 struct s_seam_mapping
 {
@@ -16,13 +16,13 @@ struct s_seam_mapping
 		int16 cluster_indices[2];
 		int16 cluster_mapping_indices[2];
 	};
-	static_assert(sizeof(s_seam_cluster_mapping) == 0x14);
+	COMPILE_ASSERT(sizeof(s_seam_cluster_mapping) == 0x14);
 
 	int8 structure_bsp_indices[2];
 	int16 cluster_count;
 	c_static_array<s_seam_cluster_mapping, 32> clusters;
 };
-static_assert(sizeof(s_seam_mapping) == 0x284);
+COMPILE_ASSERT(sizeof(s_seam_mapping) == 0x284);
 
 struct s_structure_seam_globals
 {
@@ -31,7 +31,7 @@ struct s_structure_seam_globals
 	c_static_flags<128> active_seams_mask;
 	uns32 connected_bsps_mask;
 };
-static_assert(sizeof(s_structure_seam_globals) == 0x14614);
+COMPILE_ASSERT(sizeof(s_structure_seam_globals) == 0x14614);
 
 struct s_structure_seams;
 

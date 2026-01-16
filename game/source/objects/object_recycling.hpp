@@ -62,7 +62,7 @@ struct s_recycling_volume
 	int32 max_object_count;
 	int32 ending_tick;
 };
-static_assert(sizeof(s_recycling_volume) == 0x14);
+COMPILE_ASSERT(sizeof(s_recycling_volume) == 0x14);
 
 struct s_recycling_volumes
 {
@@ -70,7 +70,7 @@ struct s_recycling_volumes
 	int32 recycling_volume_free_list_top;
 	s_recycling_volume recycling_volume_members[k_recycling_max_volumes];
 };
-static_assert(sizeof(s_recycling_volumes) == 0x148);
+COMPILE_ASSERT(sizeof(s_recycling_volumes) == 0x148);
 
 struct s_recycling_group :
 	s_datum_header
@@ -79,7 +79,7 @@ struct s_recycling_group :
 	int32 first_member;
 	real_point3d world_position;
 };
-static_assert(sizeof(s_recycling_group) == 0x14);
+COMPILE_ASSERT(sizeof(s_recycling_group) == 0x14);
 
 struct s_recycling_entry
 {
@@ -87,7 +87,7 @@ struct s_recycling_entry
 	int32 index;
 	real_rectangle3d bounding_box;
 };
-static_assert(sizeof(s_recycling_entry) == 0x20);
+COMPILE_ASSERT(sizeof(s_recycling_entry) == 0x20);
 
 struct s_recycling_workspace
 {
@@ -95,12 +95,12 @@ struct s_recycling_workspace
 	int32 group_count;
 	s_recycling_entry group_list[k_recycling_max_groups];
 };
-static_assert(sizeof(s_recycling_workspace) == 0x1008);
+COMPILE_ASSERT(sizeof(s_recycling_workspace) == 0x1008);
 
 struct s_recycling_history_item
 {
 	real_point3d world_center;
 	real32 radius;
 };
-static_assert(sizeof(s_recycling_history_item) == 0x10);
+COMPILE_ASSERT(sizeof(s_recycling_history_item) == 0x10);
 

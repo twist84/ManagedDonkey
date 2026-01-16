@@ -8,7 +8,7 @@ struct s_scenario_pvs_row
 	c_static_array<uns32*, 16> bit_vectors;
 	c_static_array<int32, 16> bit_vector_counts;
 };
-static_assert(sizeof(s_scenario_pvs_row) == 0x80);
+COMPILE_ASSERT(sizeof(s_scenario_pvs_row) == 0x80);
 
 class c_pvs_cluster_iterator
 {
@@ -28,7 +28,7 @@ private:
 	int32 m_current_bsp_index;
 	int32 m_current_cluster_index;
 };
-static_assert(sizeof(c_pvs_cluster_iterator) == 0x88);
+COMPILE_ASSERT(sizeof(c_pvs_cluster_iterator) == 0x88);
 
 struct s_game_cluster_bit_vectors;
 extern void __cdecl scenario_zone_set_pvs_get_row(int32 scenario_definition_index, s_scenario_pvs_row* row, int32 zone_set_index, s_cluster_reference cluster_reference, bool doors_closed);

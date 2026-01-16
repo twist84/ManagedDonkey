@@ -36,14 +36,14 @@ public:
 	bool m_motd_popup_shown;
 	int32 m_url_key;
 };
-static_assert(sizeof(c_main_menu_screen_widget) == 0x33B4);
-static_assert(0x1AA0 == OFFSETOF(c_main_menu_screen_widget, m_last_ui_lockdown_level));
-static_assert(0x1AA4 == OFFSETOF(c_main_menu_screen_widget, m_checked_for_film_autoplayback));
-static_assert(0x1AA5 == OFFSETOF(c_main_menu_screen_widget, m_bink_was_active));
-static_assert(0x1AA6 == OFFSETOF(c_main_menu_screen_widget, m_content_enumeration_active));
-static_assert(0x1AA7 == OFFSETOF(c_main_menu_screen_widget, m_last_active_players));
-static_assert(0x1AC8 == OFFSETOF(c_main_menu_screen_widget, m_progress_dialog_start_time_milliseconds));
-static_assert(0x1ACC == OFFSETOF(c_main_menu_screen_widget, m_motd_popup_downloader));
-static_assert(0x33AC == OFFSETOF(c_main_menu_screen_widget, m_motd_popup_shown));
-static_assert(0x33B0 == OFFSETOF(c_main_menu_screen_widget, m_url_key));
+COMPILE_ASSERT(sizeof(c_main_menu_screen_widget) == 0x33B4);
+COMPILE_ASSERT(0x1AA0 == OFFSETOF(c_main_menu_screen_widget, m_last_ui_lockdown_level));
+COMPILE_ASSERT(0x1AA4 == OFFSETOF(c_main_menu_screen_widget, m_checked_for_film_autoplayback));
+COMPILE_ASSERT(0x1AA5 == OFFSETOF(c_main_menu_screen_widget, m_bink_was_active));
+COMPILE_ASSERT(0x1AA6 == OFFSETOF(c_main_menu_screen_widget, m_content_enumeration_active));
+COMPILE_ASSERT(0x1AA7 == OFFSETOF(c_main_menu_screen_widget, m_last_active_players));
+COMPILE_ASSERT(0x1AC8 == OFFSETOF(c_main_menu_screen_widget, m_progress_dialog_start_time_milliseconds));
+COMPILE_ASSERT(0x1ACC == OFFSETOF(c_main_menu_screen_widget, m_motd_popup_downloader));
+COMPILE_ASSERT(0x33AC == OFFSETOF(c_main_menu_screen_widget, m_motd_popup_shown));
+COMPILE_ASSERT(0x33B0 == OFFSETOF(c_main_menu_screen_widget, m_url_key));
 

@@ -13,7 +13,7 @@ struct _sound_scenery_datum
 	real32 override_outer_cone_angle;
 	real_decibel override_outer_cone_gain_db;
 };
-static_assert(sizeof(_sound_scenery_datum) == 0x1C);
+COMPILE_ASSERT(sizeof(_sound_scenery_datum) == 0x1C);
 
 struct sound_scenery_datum
 {
@@ -21,5 +21,5 @@ struct sound_scenery_datum
 	_object_datum object;
 	_sound_scenery_datum sound_scenery;
 };
-static_assert(sizeof(sound_scenery_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_sound_scenery_datum));
+COMPILE_ASSERT(sizeof(sound_scenery_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_sound_scenery_datum));
 

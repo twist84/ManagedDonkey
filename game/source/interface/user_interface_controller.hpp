@@ -10,7 +10,7 @@ struct s_event_record
 	e_controller_component component;
 	int16 value;
 };
-static_assert(sizeof(s_event_record) == 0x10);
+COMPILE_ASSERT(sizeof(s_event_record) == 0x10);
 
 enum e_bungienet_user_flags
 {
@@ -44,20 +44,20 @@ struct s_user_interface_controller
 	bool online_session_id_valid;
 	s_transport_secure_identifier online_session_id;
 };
-static_assert(sizeof(s_user_interface_controller) == 0x2C);
-static_assert(0x00 == OFFSETOF(s_user_interface_controller, bungienet_user_flags));
-static_assert(0x04 == OFFSETOF(s_user_interface_controller, hopper_access_flags));
-static_assert(0x05 == OFFSETOF(s_user_interface_controller, extras_portal_debug));
-static_assert(0x06 == OFFSETOF(s_user_interface_controller, __unknown6));
-static_assert(0x07 == OFFSETOF(s_user_interface_controller, desires_veto));
-static_assert(0x08 == OFFSETOF(s_user_interface_controller, armor_loadout_index));
-static_assert(0x0C == OFFSETOF(s_user_interface_controller, weapon_loadout_index));
-static_assert(0x10 == OFFSETOF(s_user_interface_controller, desires_rematch));
-static_assert(0x11 == OFFSETOF(s_user_interface_controller, griefer));
-static_assert(0x12 == OFFSETOF(s_user_interface_controller, notification_pending));
-static_assert(0x14 == OFFSETOF(s_user_interface_controller, online_presence_flags));
-static_assert(0x18 == OFFSETOF(s_user_interface_controller, online_session_id_valid));
-static_assert(0x19 == OFFSETOF(s_user_interface_controller, online_session_id));
+COMPILE_ASSERT(sizeof(s_user_interface_controller) == 0x2C);
+COMPILE_ASSERT(0x00 == OFFSETOF(s_user_interface_controller, bungienet_user_flags));
+COMPILE_ASSERT(0x04 == OFFSETOF(s_user_interface_controller, hopper_access_flags));
+COMPILE_ASSERT(0x05 == OFFSETOF(s_user_interface_controller, extras_portal_debug));
+COMPILE_ASSERT(0x06 == OFFSETOF(s_user_interface_controller, __unknown6));
+COMPILE_ASSERT(0x07 == OFFSETOF(s_user_interface_controller, desires_veto));
+COMPILE_ASSERT(0x08 == OFFSETOF(s_user_interface_controller, armor_loadout_index));
+COMPILE_ASSERT(0x0C == OFFSETOF(s_user_interface_controller, weapon_loadout_index));
+COMPILE_ASSERT(0x10 == OFFSETOF(s_user_interface_controller, desires_rematch));
+COMPILE_ASSERT(0x11 == OFFSETOF(s_user_interface_controller, griefer));
+COMPILE_ASSERT(0x12 == OFFSETOF(s_user_interface_controller, notification_pending));
+COMPILE_ASSERT(0x14 == OFFSETOF(s_user_interface_controller, online_presence_flags));
+COMPILE_ASSERT(0x18 == OFFSETOF(s_user_interface_controller, online_session_id_valid));
+COMPILE_ASSERT(0x19 == OFFSETOF(s_user_interface_controller, online_session_id));
 
 struct s_user_interface_controller_globals
 {
@@ -66,7 +66,7 @@ struct s_user_interface_controller_globals
 	bool controller_removed_dialog_required[k_number_of_controllers];
 	bool suppressed;
 };
-static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
+COMPILE_ASSERT(sizeof(s_user_interface_controller_globals) == 0xF8);
 
 extern s_user_interface_controller_globals& g_user_interface_controller_globals;
 

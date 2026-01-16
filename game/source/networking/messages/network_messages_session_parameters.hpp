@@ -15,7 +15,7 @@ struct s_network_message_parameters_update
 	uns64 updated_parameters;
 	byte payload[k_network_session_parameters_update_payload_size];
 };
-static_assert(sizeof(s_network_message_parameters_update) == 0x20028);
+COMPILE_ASSERT(sizeof(s_network_message_parameters_update) == 0x20028);
 
 struct s_network_message_parameters_request
 {
@@ -23,7 +23,7 @@ struct s_network_message_parameters_request
 	uns64 change_request_parameters;
 	byte payload[k_network_session_parameters_request_payload_size];
 };
-static_assert(sizeof(s_network_message_parameters_request) == 0x20018);
+COMPILE_ASSERT(sizeof(s_network_message_parameters_request) == 0x20018);
 
 class c_bitstream;
 

@@ -9,7 +9,7 @@ public:
 	virtual bool decompress_buffer(c_basic_buffer<void> input_buffer, c_basic_buffer<void>* out_decompressed_buffer) = 0;
 	virtual bool finish(c_basic_buffer<void>* out_decompressed_buffer) = 0;
 };
-static_assert(sizeof(c_cache_file_decompressor) == 0x4);
+COMPILE_ASSERT(sizeof(c_cache_file_decompressor) == 0x4);
 
 class c_cache_file_decompressor_service
 {
@@ -19,7 +19,7 @@ public:
 	virtual c_cache_file_decompressor* begin_decompression(c_basic_buffer<void> buffer) = 0;
 	virtual void dispose_decompressor(c_cache_file_decompressor* decompressor) = 0;
 };
-static_assert(sizeof(c_cache_file_decompressor_service) == 0x4);
+COMPILE_ASSERT(sizeof(c_cache_file_decompressor_service) == 0x4);
 
 struct s_tag_persistent_identifier;
 class c_cache_file_decompressor_registry
@@ -29,7 +29,7 @@ public:
 
 	virtual c_cache_file_decompressor_service* find_decompressor_service(s_tag_persistent_identifier* identifier) = 0;
 };
-static_assert(sizeof(c_cache_file_decompressor_registry) == 0x4);
+COMPILE_ASSERT(sizeof(c_cache_file_decompressor_registry) == 0x4);
 
 template<typename decompressor_class_t>
 class c_single_instance_cache_file_decompressor_service :
@@ -76,5 +76,5 @@ public:
 
 	virtual c_cache_file_decompressor_service* find_decompressor_service(s_tag_persistent_identifier* identifier) override;
 };
-static_assert(sizeof(c_cache_file_runtime_decompressor_registry) == sizeof(c_cache_file_decompressor_registry));
+COMPILE_ASSERT(sizeof(c_cache_file_runtime_decompressor_registry) == sizeof(c_cache_file_decompressor_registry));
 

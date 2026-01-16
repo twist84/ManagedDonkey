@@ -34,7 +34,7 @@ struct unit_weapon_pickup_result
 	bool can_pick_up[2];
 	bool can_swap_for_current[2];
 };
-static_assert(sizeof(unit_weapon_pickup_result) == 0x4);
+COMPILE_ASSERT(sizeof(unit_weapon_pickup_result) == 0x4);
 
 struct s_unit_weapon_set
 {
@@ -59,7 +59,7 @@ struct unit_control_data
 	real_point3d gaze_position;
 	s_aim_assist_targeting_result aim_assist_data;
 };
-static_assert(sizeof(unit_control_data) == 0x80);
+COMPILE_ASSERT(sizeof(unit_control_data) == 0x80);
 
 struct s_unit_predicted_weapon_state
 {
@@ -67,7 +67,7 @@ struct s_unit_predicted_weapon_state
 	int16 rounds_inventory;
 	int32 definition_index;
 };
-static_assert(sizeof(s_unit_predicted_weapon_state) == 0x8);
+COMPILE_ASSERT(sizeof(s_unit_predicted_weapon_state) == 0x8);
 
 struct s_unknown_unit_struct_sizeof_14
 {
@@ -85,7 +85,7 @@ struct unit_attacker
 	int32 team_index;
 	int32 player_index;
 };
-static_assert(sizeof(unit_attacker) == 0x10);
+COMPILE_ASSERT(sizeof(unit_attacker) == 0x10);
 
 // $TODO are there more than 32 flags?
 enum e_unit_control_flags
@@ -354,21 +354,21 @@ struct _unit_datum
 
 	byte __data408[0x4];
 };
-static_assert(sizeof(_unit_datum) == 0x40C);
-static_assert(0x0AA == OFFSETOF(_unit_datum, __unknownAA));
-static_assert(0x0AB == OFFSETOF(_unit_datum, __padAB));
-static_assert(0x234 == OFFSETOF(_unit_datum, __unknown234));
-static_assert(0x238 == OFFSETOF(_unit_datum, __unknown238));
-static_assert(0x2F9 == OFFSETOF(_unit_datum, __pad2F9));
-static_assert(0x2FC == OFFSETOF(_unit_datum, __unknown2FC));
-static_assert(0x310 == OFFSETOF(_unit_datum, __unknown310));
-static_assert(0x336 == OFFSETOF(_unit_datum, __data336));
-static_assert(0x3A0 == OFFSETOF(_unit_datum, __unknown3A0_team_index_update_time));
-static_assert(0x3A4 == OFFSETOF(_unit_datum, __unknown3A4_team_index));
-static_assert(0x3A8 == OFFSETOF(_unit_datum, __unknown3A8_object_index));
-static_assert(0x3FC == OFFSETOF(_unit_datum, __unknown3FC));
-static_assert(0x3FD == OFFSETOF(_unit_datum, __pad3FD));
-static_assert(0x408 == OFFSETOF(_unit_datum, __data408));
+COMPILE_ASSERT(sizeof(_unit_datum) == 0x40C);
+COMPILE_ASSERT(0x0AA == OFFSETOF(_unit_datum, __unknownAA));
+COMPILE_ASSERT(0x0AB == OFFSETOF(_unit_datum, __padAB));
+COMPILE_ASSERT(0x234 == OFFSETOF(_unit_datum, __unknown234));
+COMPILE_ASSERT(0x238 == OFFSETOF(_unit_datum, __unknown238));
+COMPILE_ASSERT(0x2F9 == OFFSETOF(_unit_datum, __pad2F9));
+COMPILE_ASSERT(0x2FC == OFFSETOF(_unit_datum, __unknown2FC));
+COMPILE_ASSERT(0x310 == OFFSETOF(_unit_datum, __unknown310));
+COMPILE_ASSERT(0x336 == OFFSETOF(_unit_datum, __data336));
+COMPILE_ASSERT(0x3A0 == OFFSETOF(_unit_datum, __unknown3A0_team_index_update_time));
+COMPILE_ASSERT(0x3A4 == OFFSETOF(_unit_datum, __unknown3A4_team_index));
+COMPILE_ASSERT(0x3A8 == OFFSETOF(_unit_datum, __unknown3A8_object_index));
+COMPILE_ASSERT(0x3FC == OFFSETOF(_unit_datum, __unknown3FC));
+COMPILE_ASSERT(0x3FD == OFFSETOF(_unit_datum, __pad3FD));
+COMPILE_ASSERT(0x408 == OFFSETOF(_unit_datum, __data408));
 
 struct unit_datum
 {
@@ -377,7 +377,7 @@ struct unit_datum
 	_mover_datum mover;
 	_unit_datum unit;
 };
-static_assert(sizeof(unit_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum));
+COMPILE_ASSERT(sizeof(unit_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_mover_datum) + sizeof(_unit_datum));
 
 struct unit_seat_source
 {
@@ -385,7 +385,7 @@ struct unit_seat_source
 	int16 seat_index;
 	c_flags<e_unit_seat_flags, uns32, k_unit_seat_flags>* flags;
 };
-static_assert(sizeof(unit_seat_source) == 0xC);
+COMPILE_ASSERT(sizeof(unit_seat_source) == 0xC);
 
 extern bool debug_objects_unit_vectors;
 extern bool debug_objects_unit_seats;

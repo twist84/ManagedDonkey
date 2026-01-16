@@ -275,29 +275,29 @@ struct s_user_interface_text_render_data :
 	real_rectangle2d bounds_rect;
 	real_rectangle2d clip_rect;
 };
-//static_assert(sizeof(s_user_interface_text_render_data) == 0x98);
-static_assert(sizeof(s_user_interface_text_render_data) == sizeof(s_gui_widget_render_data) + 0x6C);
+//COMPILE_ASSERT(sizeof(s_user_interface_text_render_data) == 0x98);
+COMPILE_ASSERT(sizeof(s_user_interface_text_render_data) == sizeof(s_gui_widget_render_data) + 0x6C);
 
 struct s_gui_text_widget_small_render_data :
 	s_user_interface_text_render_data
 {
 	wchar_t text[48];
 };
-static_assert(sizeof(s_gui_text_widget_small_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 48));
+COMPILE_ASSERT(sizeof(s_gui_text_widget_small_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 48));
 
 struct s_gui_text_widget_large_render_data :
 	s_user_interface_text_render_data
 {
 	wchar_t text[256];
 };
-static_assert(sizeof(s_gui_text_widget_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 256));
+COMPILE_ASSERT(sizeof(s_gui_text_widget_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 256));
 
 struct s_gui_text_widget_extra_large_render_data :
 	s_user_interface_text_render_data
 {
 	wchar_t text[1024];
 };
-static_assert(sizeof(s_gui_text_widget_extra_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 1024));
+COMPILE_ASSERT(sizeof(s_gui_text_widget_extra_large_render_data) == sizeof(s_user_interface_text_render_data) + (sizeof(wchar_t) * 1024));
 
 class c_user_interface_text
 {
@@ -349,7 +349,7 @@ public:
 	real_vector2d m_scroll_amount;
 	real32 m_scale;
 };
-static_assert(sizeof(c_user_interface_text) == 0x5C);
+COMPILE_ASSERT(sizeof(c_user_interface_text) == 0x5C);
 
 struct s_parse_text_entry
 {
@@ -357,7 +357,7 @@ struct s_parse_text_entry
 	uns32 magic_character;
 	void(__cdecl* parse_proc)(wchar_t*, e_controller_index controller_index, uns32 magic_character, c_static_wchar_string<1024>* buffer);
 };
-static_assert(sizeof(s_parse_text_entry) == 0xC);
+COMPILE_ASSERT(sizeof(s_parse_text_entry) == 0xC);
 
 struct s_last_known_session_state
 {
@@ -367,7 +367,7 @@ struct s_last_known_session_state
 	c_static_wchar_string<256> leader;
 	int32 player_count;
 };
-static_assert(sizeof(s_last_known_session_state) == 0x808);
+COMPILE_ASSERT(sizeof(s_last_known_session_state) == 0x808);
 
 extern s_parse_text_entry(&g_parse_text_table)[131];
 extern s_last_known_session_state& g_last_known_session_state;

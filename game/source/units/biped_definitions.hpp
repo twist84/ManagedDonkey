@@ -11,7 +11,7 @@ struct s_biped_camera_height
 	real32 standing_height;
 	real32 crouching_height;
 };
-static_assert(sizeof(s_biped_camera_height) == 0xC);
+COMPILE_ASSERT(sizeof(s_biped_camera_height) == 0xC);
 
 enum e_biped_lock_on_flags
 {
@@ -28,7 +28,7 @@ struct s_biped_lock_on_data
 	c_flags<e_biped_lock_on_flags, uns32, k_biped_lock_on_flags> flags;
 	real32 lock_on_distance;
 };
-static_assert(sizeof(s_biped_lock_on_data) == 0x8);
+COMPILE_ASSERT(sizeof(s_biped_lock_on_data) == 0x8);
 
 struct s_biped_movement_gate
 {
@@ -40,13 +40,13 @@ struct s_biped_movement_gate
 	// default function		
 	mapping_function default_function;
 };
-static_assert(sizeof(s_biped_movement_gate) == 0x24);
+COMPILE_ASSERT(sizeof(s_biped_movement_gate) == 0x24);
 
 struct biped_contact_point
 {
 	c_string_id marker_name; // old string id
 };
-static_assert(sizeof(biped_contact_point) == sizeof(string_id));
+COMPILE_ASSERT(sizeof(biped_contact_point) == sizeof(string_id));
 
 enum e_biped_leap_flags
 {
@@ -69,7 +69,7 @@ struct s_biped_leaping_data
 	real_bounds reaction_force_bounds;        // units per second
 	real32 lobbing_desire;             // 1= heavy arc, 0= no arc
 };
-static_assert(sizeof(s_biped_leaping_data) == 48);
+COMPILE_ASSERT(sizeof(s_biped_leaping_data) == 48);
 
 struct s_biped_ground_fitting_data
 {
@@ -95,7 +95,7 @@ struct s_biped_ground_fitting_data
 	real32 pivot_throttle_scale;   // pivoting slows throttle (0=none, 1= full)
 	real32 pivot_offset_dampening; // react to pivot changes (0=slow, 1= fast)
 };
-static_assert(sizeof(s_biped_ground_fitting_data) == 0x30);
+COMPILE_ASSERT(sizeof(s_biped_ground_fitting_data) == 0x30);
 
 enum e_biped_definition_flags
 {
@@ -233,7 +233,7 @@ struct _biped_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_biped_definition) == 0x23C);
+COMPILE_ASSERT(sizeof(_biped_definition) == 0x23C);
 
 struct biped_definition
 {
@@ -245,5 +245,5 @@ struct biped_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(biped_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_biped_definition));
+COMPILE_ASSERT(sizeof(biped_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_biped_definition));
 

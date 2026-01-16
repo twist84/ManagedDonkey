@@ -39,17 +39,17 @@ public:
 	c_flags<e_content_catalogue_flags, uns32, k_number_of_content_catalogue_flags> m_flags;
 	uns32 __unknown2AC;
 };
-static_assert(sizeof(c_content_catalogue) == 0x2B0);
-static_assert(0x000 == OFFSETOF(c_content_catalogue, m_controller_index));
-static_assert(0x004 == OFFSETOF(c_content_catalogue, m_content_item_data_array));
-static_assert(0x008 == OFFSETOF(c_content_catalogue, m_content_item_array));
-static_assert(0x010 == OFFSETOF(c_content_catalogue, m_content_item_to_delete));
-static_assert(0x250 == OFFSETOF(c_content_catalogue, m_content_item_task));
-static_assert(0x270 == OFFSETOF(c_content_catalogue, m_enumeration_task));
-static_assert(0x2A0 == OFFSETOF(c_content_catalogue, m_enumeration_metadata_task));
-static_assert(0x2A4 == OFFSETOF(c_content_catalogue, m_enumeration_metadata_complete));
-static_assert(0x2A8 == OFFSETOF(c_content_catalogue, m_flags));
-static_assert(0x2AC == OFFSETOF(c_content_catalogue, __unknown2AC));
+COMPILE_ASSERT(sizeof(c_content_catalogue) == 0x2B0);
+COMPILE_ASSERT(0x000 == OFFSETOF(c_content_catalogue, m_controller_index));
+COMPILE_ASSERT(0x004 == OFFSETOF(c_content_catalogue, m_content_item_data_array));
+COMPILE_ASSERT(0x008 == OFFSETOF(c_content_catalogue, m_content_item_array));
+COMPILE_ASSERT(0x010 == OFFSETOF(c_content_catalogue, m_content_item_to_delete));
+COMPILE_ASSERT(0x250 == OFFSETOF(c_content_catalogue, m_content_item_task));
+COMPILE_ASSERT(0x270 == OFFSETOF(c_content_catalogue, m_enumeration_task));
+COMPILE_ASSERT(0x2A0 == OFFSETOF(c_content_catalogue, m_enumeration_metadata_task));
+COMPILE_ASSERT(0x2A4 == OFFSETOF(c_content_catalogue, m_enumeration_metadata_complete));
+COMPILE_ASSERT(0x2A8 == OFFSETOF(c_content_catalogue, m_flags));
+COMPILE_ASSERT(0x2AC == OFFSETOF(c_content_catalogue, __unknown2AC));
 
 struct s_content_catalogue_globals
 {
@@ -59,7 +59,7 @@ struct s_content_catalogue_globals
 	c_storage_device user_storage_devices[4];
 };
 const size_t k_content_catalogue_globals_size = sizeof(s_content_catalogue_globals);
-static_assert(sizeof(s_content_catalogue_globals) == 0xB88);
+COMPILE_ASSERT(sizeof(s_content_catalogue_globals) == 0xB88);
 
 extern s_content_catalogue_globals& g_content_catalogue_globals;
 

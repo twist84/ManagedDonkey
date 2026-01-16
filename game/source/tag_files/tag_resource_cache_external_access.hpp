@@ -13,7 +13,7 @@ class c_tag_resource_cache_published_location_interface
 public:
 	c_tag_resource_cache_new* m_resource_cache;
 };
-static_assert(sizeof(c_tag_resource_cache_published_location_interface) == sizeof(c_tag_resource_cache_new*));
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_published_location_interface) == sizeof(c_tag_resource_cache_new*));
 
 class c_tag_resource_cache_file_datum_handler;
 class c_tag_resource_runtime_active_set;
@@ -50,22 +50,22 @@ public:
 
 	byte __data364[0x1C];
 };
-static_assert(sizeof(c_tag_resource_cache_new) == 0x380);
-static_assert(0x000 == OFFSETOF(c_tag_resource_cache_new, m_published_resource_interface));
-static_assert(0x004 == OFFSETOF(c_tag_resource_cache_new, m_page_io_listener));
-static_assert(0x008 == OFFSETOF(c_tag_resource_cache_new, m_page_table));
-static_assert(0x06C == OFFSETOF(c_tag_resource_cache_new, m_cache_controller));
-static_assert(0x0CC == OFFSETOF(c_tag_resource_cache_new, m_address_cache));
-static_assert(0x110 == OFFSETOF(c_tag_resource_cache_new, m_inverse_page_table));
-static_assert(0x128 == OFFSETOF(c_tag_resource_cache_new, m_resource_datum_handler));
-static_assert(0x12C == OFFSETOF(c_tag_resource_cache_new, m_runtime_active_set));
-static_assert(0x130 == OFFSETOF(c_tag_resource_cache_new, m_cache_file_prefetch_set));
-static_assert(0x134 == OFFSETOF(c_tag_resource_cache_new, __data134));
-static_assert(0x140 == OFFSETOF(c_tag_resource_cache_new, m_thread_access_lock));
-static_assert(0x300 == OFFSETOF(c_tag_resource_cache_new, m_load_optional_resources_in_idle));
-static_assert(0x301 == OFFSETOF(c_tag_resource_cache_new, m_can_eat_up_memory));
-static_assert(0x307 == OFFSETOF(c_tag_resource_cache_new, __data307));
-static_assert(0x35C == OFFSETOF(c_tag_resource_cache_new, m_idle_signal_flags));
-static_assert(0x360 == OFFSETOF(c_tag_resource_cache_new, m_do_not_allocate_beyond_size));
-static_assert(0x364 == OFFSETOF(c_tag_resource_cache_new, __data364));
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_new) == 0x380);
+COMPILE_ASSERT(0x000 == OFFSETOF(c_tag_resource_cache_new, m_published_resource_interface));
+COMPILE_ASSERT(0x004 == OFFSETOF(c_tag_resource_cache_new, m_page_io_listener));
+COMPILE_ASSERT(0x008 == OFFSETOF(c_tag_resource_cache_new, m_page_table));
+COMPILE_ASSERT(0x06C == OFFSETOF(c_tag_resource_cache_new, m_cache_controller));
+COMPILE_ASSERT(0x0CC == OFFSETOF(c_tag_resource_cache_new, m_address_cache));
+COMPILE_ASSERT(0x110 == OFFSETOF(c_tag_resource_cache_new, m_inverse_page_table));
+COMPILE_ASSERT(0x128 == OFFSETOF(c_tag_resource_cache_new, m_resource_datum_handler));
+COMPILE_ASSERT(0x12C == OFFSETOF(c_tag_resource_cache_new, m_runtime_active_set));
+COMPILE_ASSERT(0x130 == OFFSETOF(c_tag_resource_cache_new, m_cache_file_prefetch_set));
+COMPILE_ASSERT(0x134 == OFFSETOF(c_tag_resource_cache_new, __data134));
+COMPILE_ASSERT(0x140 == OFFSETOF(c_tag_resource_cache_new, m_thread_access_lock));
+COMPILE_ASSERT(0x300 == OFFSETOF(c_tag_resource_cache_new, m_load_optional_resources_in_idle));
+COMPILE_ASSERT(0x301 == OFFSETOF(c_tag_resource_cache_new, m_can_eat_up_memory));
+COMPILE_ASSERT(0x307 == OFFSETOF(c_tag_resource_cache_new, __data307));
+COMPILE_ASSERT(0x35C == OFFSETOF(c_tag_resource_cache_new, m_idle_signal_flags));
+COMPILE_ASSERT(0x360 == OFFSETOF(c_tag_resource_cache_new, m_do_not_allocate_beyond_size));
+COMPILE_ASSERT(0x364 == OFFSETOF(c_tag_resource_cache_new, __data364));
 

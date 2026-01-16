@@ -34,5 +34,5 @@ protected:
 	real32 m_alt_range;
 	real32 m_alt_time;
 };
-static_assert(sizeof(c_vehicle_auto_turret) == 0x30);
+COMPILE_ASSERT(sizeof(c_vehicle_auto_turret) == 0x30);
 

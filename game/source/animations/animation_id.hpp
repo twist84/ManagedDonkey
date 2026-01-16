@@ -60,5 +60,5 @@ private:
 	int16 m_subgraph;
 	int16 m_index;
 };
-static_assert(sizeof(c_animation_id) == sizeof(int16) * 2);
+COMPILE_ASSERT(sizeof(c_animation_id) == sizeof(int16) * 2);
 

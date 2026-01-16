@@ -7,7 +7,7 @@ struct s_list_item_widget_block :
 {
 	c_string_id item_text_identifier;
 };
-static_assert(sizeof(s_list_item_widget_block) == sizeof(s_core_widget_definition) + 0x4);
+COMPILE_ASSERT(sizeof(s_list_item_widget_block) == sizeof(s_core_widget_definition) + 0x4);
 
 struct s_runtime_list_item_widget_definition :
 	s_runtime_core_widget_definition
@@ -16,7 +16,7 @@ struct s_runtime_list_item_widget_definition :
 
 	c_string_id item_text_identifier;
 };
-static_assert(sizeof(s_runtime_list_item_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x4);
+COMPILE_ASSERT(sizeof(s_runtime_list_item_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x4);
 
 class c_gui_list_item_widget :
 	public c_gui_widget
@@ -51,10 +51,10 @@ public:
 	bool __unknown11C;
 	c_static_wchar_string<200> __string11E;
 };
-static_assert(sizeof(c_gui_list_item_widget) == 0x2B0);
-static_assert(sizeof(c_gui_list_item_widget) == sizeof(c_gui_widget) + 0x1D0);
-static_assert(0x0E0 == OFFSETOF(c_gui_list_item_widget, m_definition));
-static_assert(0x118 == OFFSETOF(c_gui_list_item_widget, m_list_item_index));
-static_assert(0x11C == OFFSETOF(c_gui_list_item_widget, __unknown11C));
-static_assert(0x11E == OFFSETOF(c_gui_list_item_widget, __string11E));
+COMPILE_ASSERT(sizeof(c_gui_list_item_widget) == 0x2B0);
+COMPILE_ASSERT(sizeof(c_gui_list_item_widget) == sizeof(c_gui_widget) + 0x1D0);
+COMPILE_ASSERT(0x0E0 == OFFSETOF(c_gui_list_item_widget, m_definition));
+COMPILE_ASSERT(0x118 == OFFSETOF(c_gui_list_item_widget, m_list_item_index));
+COMPILE_ASSERT(0x11C == OFFSETOF(c_gui_list_item_widget, __unknown11C));
+COMPILE_ASSERT(0x11E == OFFSETOF(c_gui_list_item_widget, __string11E));
 

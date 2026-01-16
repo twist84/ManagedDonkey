@@ -8,7 +8,7 @@ struct s_simulation_hs_script_wake_event_data
 	char script_name[32];
 	int32 script_index;
 };
-static_assert(sizeof(s_simulation_hs_script_wake_event_data) == 0x24);
+COMPILE_ASSERT(sizeof(s_simulation_hs_script_wake_event_data) == 0x24);
 
 class c_simulation_hs_script_wake_event_definition :
 	public c_simulation_event_definition

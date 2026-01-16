@@ -39,5 +39,5 @@ protected:
 	real32 m_turn_animation_position;
 	c_animation_id m_turn_animation_id;
 };
-static_assert(sizeof(c_vehicle_type_alien_scout) == 0x20);
+COMPILE_ASSERT(sizeof(c_vehicle_type_alien_scout) == 0x20);
 

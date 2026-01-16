@@ -37,7 +37,7 @@ struct s_machine_identifier
 {
 	int32 parts[4];
 };
-static_assert(sizeof(s_machine_identifier) == 0x10);
+COMPILE_ASSERT(sizeof(s_machine_identifier) == 0x10);
 
 struct s_player_identifier
 {
@@ -66,7 +66,7 @@ struct s_player_identifier
 	//// 0000 0000 1100 1001
 	//uns16 flags;
 };
-static_assert(sizeof(s_player_identifier) == 0x8);
+COMPILE_ASSERT(sizeof(s_player_identifier) == 0x8);
 
 struct s_player_appearance
 {
@@ -79,7 +79,7 @@ struct s_player_appearance
 	c_static_wchar_string<5> service_tag;
 	byte __pad65E[0x2];
 };
-static_assert(sizeof(s_player_appearance) == 0x660);
+COMPILE_ASSERT(sizeof(s_player_appearance) == 0x660);
 
 struct s_s3d_player_armor_configuration_loadout
 {
@@ -90,7 +90,7 @@ struct s_s3d_player_armor_configuration_loadout
 	uns8 : 8;
 	uns8 : 8;
 };
-static_assert(sizeof(s_s3d_player_armor_configuration_loadout) == 0x20);
+COMPILE_ASSERT(sizeof(s_s3d_player_armor_configuration_loadout) == 0x20);
 
 struct s_s3d_player_configuration_armor
 {
@@ -103,7 +103,7 @@ struct s_s3d_player_configuration_armor
 	c_static_array<s_s3d_player_armor_configuration_loadout, 5> loadouts;
 	c_static_array<c_static_array<uns32, k_gameplay_modifier_count>, 5> loadout_modifiers;
 };
-static_assert(sizeof(s_s3d_player_configuration_armor) == 0x7EC);
+COMPILE_ASSERT(sizeof(s_s3d_player_configuration_armor) == 0x7EC);
 
 struct s_s3d_player_weapon_configuration_loadout
 {
@@ -115,7 +115,7 @@ struct s_s3d_player_weapon_configuration_loadout
 	// using this uns8 for our implementation
 	c_flags<e_bungienet_user, uns8, k_bungienet_user_count> bungienet_user;
 };
-static_assert(sizeof(s_s3d_player_weapon_configuration_loadout) == 0x8);
+COMPILE_ASSERT(sizeof(s_s3d_player_weapon_configuration_loadout) == 0x8);
 
 struct s_s3d_player_configuration_weapon
 {
@@ -128,7 +128,7 @@ struct s_s3d_player_configuration_weapon
 	c_static_array<s_s3d_player_weapon_configuration_loadout, 5> loadouts;
 	c_static_array<c_static_array<uns32, k_gameplay_modifier_count>, 5> loadout_modifiers;
 };
-static_assert(sizeof(s_s3d_player_configuration_weapon) == 0x774);
+COMPILE_ASSERT(sizeof(s_s3d_player_configuration_weapon) == 0x774);
 
 struct s_player_configuration_from_client
 {
@@ -143,7 +143,7 @@ struct s_player_configuration_from_client
 	uns32 cheat_flags;
 	uns32 ban_flags;
 };
-static_assert(sizeof(s_player_configuration_from_client) == 0x30);
+COMPILE_ASSERT(sizeof(s_player_configuration_from_client) == 0x30);
 
 struct s_player_configuration_from_host
 {
@@ -157,7 +157,7 @@ struct s_player_configuration_from_host
 	s_s3d_player_configuration_armor armor;
 	s_s3d_player_configuration_weapon weapon;
 };
-static_assert(sizeof(s_player_configuration_from_host) == 0x15F0);
+COMPILE_ASSERT(sizeof(s_player_configuration_from_host) == 0x15F0);
 
 struct s_player_configuration
 {
@@ -166,7 +166,7 @@ struct s_player_configuration
 	s_player_configuration_from_client client;
 	s_player_configuration_from_host host;
 };
-static_assert(sizeof(s_player_configuration) == 0x1620);
+COMPILE_ASSERT(sizeof(s_player_configuration) == 0x1620);
 
 #pragma pack(push, 1)
 struct game_machine_options
@@ -180,7 +180,7 @@ struct game_machine_options
 	uns8 : 8;
 	uns8 : 8;
 };
-static_assert(sizeof(game_machine_options) == 0x128);
+COMPILE_ASSERT(sizeof(game_machine_options) == 0x128);
 #pragma pack(pop)
 
 struct game_player_options
@@ -193,7 +193,7 @@ struct game_player_options
 	s_player_identifier player_identifier;
 	s_player_configuration configuration_data;
 };
-static_assert(sizeof(game_player_options) == 0x1640);
+COMPILE_ASSERT(sizeof(game_player_options) == 0x1640);
 
 struct s_tracking_object
 {
@@ -201,7 +201,7 @@ struct s_tracking_object
 	int32 object_index;
 	int32 __time8;
 };
-static_assert(sizeof(s_tracking_object) == 0xC);
+COMPILE_ASSERT(sizeof(s_tracking_object) == 0xC);
 
 struct s_king_player_info
 {
@@ -210,13 +210,13 @@ struct s_king_player_info
 	int16 ticks_on_hill_contested;
 	int16 pad;
 };
-static_assert(sizeof(s_king_player_info) == 0x8);
+COMPILE_ASSERT(sizeof(s_king_player_info) == 0x8);
 
 struct s_juggernaut_player_info
 {
 	int32 juggernaut_index;
 };
-static_assert(sizeof(s_juggernaut_player_info) == 0x4);
+COMPILE_ASSERT(sizeof(s_juggernaut_player_info) == 0x4);
 
 struct multiplayer_player_info
 {
@@ -250,7 +250,7 @@ struct multiplayer_player_info
 		s_juggernaut_player_info juggernaut_player_info;
 	};
 };
-static_assert(sizeof(multiplayer_player_info) == 0x60);
+COMPILE_ASSERT(sizeof(multiplayer_player_info) == 0x60);
 
 struct s_simulation_unit_melee_damage_event_data;
 struct _simulation_unit_melee_damage_event_data
@@ -276,7 +276,7 @@ struct s_player_shot_info
 	uns16 pad;
 	int32 game_time;
 };
-static_assert(sizeof(s_player_shot_info) == 0xC);
+COMPILE_ASSERT(sizeof(s_player_shot_info) == 0xC);
 
 // there's a high likelihood of Halo Online using the Halo Reach player flags enum
 enum e_player_flags
@@ -522,124 +522,124 @@ struct player_datum :
 	int16 spawn_count;
 	byte __pad2F06[0x2];
 };
-static_assert(sizeof(player_datum) == 0x2F08);
-static_assert(0x0002 == OFFSETOF(player_datum, __unknown2));
-static_assert(0x0004 == OFFSETOF(player_datum, flags));
-static_assert(0x0008 == OFFSETOF(player_datum, player_identifier));
-static_assert(0x0010 == OFFSETOF(player_datum, left_game_time));
-static_assert(0x0014 == OFFSETOF(player_datum, machine_identifier));
-static_assert(0x0024 == OFFSETOF(player_datum, machine_index));
-static_assert(0x0026 == OFFSETOF(player_datum, machine_user_index));
-static_assert(0x0028 == OFFSETOF(player_datum, machine_controller_index));
-static_assert(0x002C == OFFSETOF(player_datum, cluster_reference));
-static_assert(0x0030 == OFFSETOF(player_datum, unit_index));
-static_assert(0x0034 == OFFSETOF(player_datum, dead_unit_index));
-static_assert(0x0038 == OFFSETOF(player_datum, failed_teleport_unit_index));
-static_assert(0x003C == OFFSETOF(player_datum, latched_control_flags));
-static_assert(0x0040 == OFFSETOF(player_datum, cooldown_reset_unknown40));
-static_assert(0x0042 == OFFSETOF(player_datum, cooldown_reset_unknown42));
-static_assert(0x0044 == OFFSETOF(player_datum, cooldown_reset_unknown44));
-static_assert(0x0046 == OFFSETOF(player_datum, latched_action_flags));
-static_assert(0x0048 == OFFSETOF(player_datum, outside_of_world_timer));
-static_assert(0x0049 == OFFSETOF(player_datum, next_spawn_control_context));
-static_assert(0x004C == OFFSETOF(player_datum, armor_loadout_index));
-static_assert(0x0050 == OFFSETOF(player_datum, weapon_loadout_index));
-static_assert(0x0054 == OFFSETOF(player_datum, sword_exploit_timer));
-static_assert(0x0055 == OFFSETOF(player_datum, melee_suppression_timer));
-static_assert(0x0056 == OFFSETOF(player_datum, grenade_suppression_timer));
-static_assert(0x0057 == OFFSETOF(player_datum, sprinting));
-static_assert(0x0058 == OFFSETOF(player_datum, crouching));
-static_assert(0x0059 == OFFSETOF(player_datum, shooting_left));
-static_assert(0x005A == OFFSETOF(player_datum, shooting_right));
-static_assert(0x005B == OFFSETOF(player_datum, __unknown5B));
-static_assert(0x005C == OFFSETOF(player_datum, magnification_level));
-static_assert(0x005E == OFFSETOF(player_datum, __unknown5E));
-static_assert(0x005F == OFFSETOF(player_datum, __unknown5F));
-static_assert(0x0060 == OFFSETOF(player_datum, __unknown60));
-static_assert(0x0062 == OFFSETOF(player_datum, __unknown62));
-static_assert(0x0064 == OFFSETOF(player_datum, last_soft_ceiling_update_position));
-static_assert(0x0070 == OFFSETOF(player_datum, configuration));
-static_assert(0x1690 == OFFSETOF(player_datum, desired_configuration));
-static_assert(0x2CB0 == OFFSETOF(player_datum, single_player_respawn_timer));
-static_assert(0x2CB4 == OFFSETOF(player_datum, early_respawn_requested));
-static_assert(0x2CB5 == OFFSETOF(player_datum, respawn_in_progress));
-static_assert(0x2CB6 == OFFSETOF(player_datum, respawn_forced));
-static_assert(0x2CB7 == OFFSETOF(player_datum, __unknown2CB7));
-static_assert(0x2CB8 == OFFSETOF(player_datum, respawn_timer));
-static_assert(0x2CBC == OFFSETOF(player_datum, respawn_timer_countdown));
-static_assert(0x2CC0 == OFFSETOF(player_datum, respawn_penalty));
-static_assert(0x2CC4 == OFFSETOF(player_datum, telefrag_timer));
-static_assert(0x2CC8 == OFFSETOF(player_datum, dead_timer));
-static_assert(0x2CCC == OFFSETOF(player_datum, __unknown2CCC));
-static_assert(0x2CD0 == OFFSETOF(player_datum, __unknown2CD0));
-static_assert(0x2CD4 == OFFSETOF(player_datum, __unknown2CD4));
-static_assert(0x2CD8 == OFFSETOF(player_datum, grenade_recharge_timer));
-static_assert(0x2CDC == OFFSETOF(player_datum, aim_assist_object_index));
-static_assert(0x2CE0 == OFFSETOF(player_datum, aim_assist_timestamp));
-static_assert(0x2CE4 == OFFSETOF(player_datum, momentum_timer));
-static_assert(0x2CE6 == OFFSETOF(player_datum, momemtum_unknown2CE6));
-static_assert(0x2CE8 == OFFSETOF(player_datum, momentum_decay_timer));
-static_assert(0x2CEA == OFFSETOF(player_datum, momentum_falloff_timer));
-static_assert(0x2CEC == OFFSETOF(player_datum, momemtum_suppressed));
-static_assert(0x2CEE == OFFSETOF(player_datum, vehicle_ban_timer));
-static_assert(0x2CF0 == OFFSETOF(player_datum, cached_target));
-static_assert(0x2CFC == OFFSETOF(player_datum, cached_target_untargeted_ticks));
-static_assert(0x2D00 == OFFSETOF(player_datum, tracking_objects));
-static_assert(0x2D60 == OFFSETOF(player_datum, recently_spawned_timer));
-static_assert(0x2D62 == OFFSETOF(player_datum, recently_spawned_timer_is_initial_spawn));
-static_assert(0x2D63 == OFFSETOF(player_datum, respawn_failure_reason));
-static_assert(0x2D64 == OFFSETOF(player_datum, tank_mode_time2D64));
-static_assert(0x2D68 == OFFSETOF(player_datum, tank_mode_duration));
-static_assert(0x2D6C == OFFSETOF(player_datum, tank_mode_unknown2D6C));
-static_assert(0x2D70 == OFFSETOF(player_datum, tank_mode_damage_absorption_scale));
-static_assert(0x2D74 == OFFSETOF(player_datum, tank_mode_unknown2D74));
-static_assert(0x2D78 == OFFSETOF(player_datum, tank_mode_unknown2D78));
-static_assert(0x2D7C == OFFSETOF(player_datum, reactive_armor_time2D7C));
-static_assert(0x2D80 == OFFSETOF(player_datum, reactive_armor_duration));
-static_assert(0x2D84 == OFFSETOF(player_datum, reactive_armor_damage_reflection_scale));
-static_assert(0x2D88 == OFFSETOF(player_datum, reactive_armor_unknown2D88));
-static_assert(0x2D8C == OFFSETOF(player_datum, stamina_restore_near_death_timer));
-static_assert(0x2D90 == OFFSETOF(player_datum, grenade_scavenger_modifier_used));
-static_assert(0x2D91 == OFFSETOF(player_datum, __data2D91));
-static_assert(0x2D94 == OFFSETOF(player_datum, multiplayer.player_display_index));
-static_assert(0x2D98 == OFFSETOF(player_datum, multiplayer.teleporter_index));
-static_assert(0x2D9A == OFFSETOF(player_datum, multiplayer.in_vehicle_timer));
-static_assert(0x2D9B == OFFSETOF(player_datum, multiplayer.without_unit_timer));
-static_assert(0x2D9C == OFFSETOF(player_datum, multiplayer.with_unit_timer));
-static_assert(0x2D9D == OFFSETOF(player_datum, multiplayer.was_crouched));
-static_assert(0x2D9E == OFFSETOF(player_datum, multiplayer.is_crouched));
-static_assert(0x2D9F == OFFSETOF(player_datum, multiplayer.pad));
-static_assert(0x2DA0 == OFFSETOF(player_datum, multiplayer.player_display_count));
-static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.remaining_lives));
-static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.last_betrayer_player_index));
-static_assert(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
-static_assert(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
-static_assert(0x2DD4 == OFFSETOF(player_datum, multiplayer.dead_camera_target_player_index));
-static_assert(0x2DD8 == OFFSETOF(player_datum, multiplayer.map_editor_data.player_locked_for_manipulation));
-static_assert(0x2DD9 == OFFSETOF(player_datum, multiplayer.map_editor_data.pad));
-static_assert(0x2DDC == OFFSETOF(player_datum, multiplayer.map_editor_data.roll_distance_amount));
-static_assert(0x2DE4 == OFFSETOF(player_datum, multiplayer.map_editor_data.yaw_pitch_angles));
-static_assert(0x2DEC == OFFSETOF(player_datum, multiplayer.king_player_info));
-static_assert(0x2DEC == OFFSETOF(player_datum, multiplayer.juggernaut_player_info));
-static_assert(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_nemesis_counts));
-static_assert(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_avenger_counts));
-static_assert(0x2E14 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E14));
-static_assert(0x2E16 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E16));
-static_assert(0x2E18 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E18));
-static_assert(0x2E1C == OFFSETOF(player_datum, revenge_shield_boost_player_index));
-static_assert(0x2E20 == OFFSETOF(player_datum, revenge_shield_boost_damage));
-static_assert(0x2E24 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E24));
-static_assert(0x2E25 == OFFSETOF(player_datum, __data2E25));
-static_assert(0x2E28 == OFFSETOF(player_datum, __data2E28));
-static_assert(0x2E2A == OFFSETOF(player_datum, __data2E2A));
-static_assert(0x2E48 == OFFSETOF(player_datum, weak_assassination_unit_index));
-static_assert(0x2E4C == OFFSETOF(player_datum, is_assassination_victim));
-static_assert(0x2E50 == OFFSETOF(player_datum, assassination_authoritative_position));
-static_assert(0x2E5C == OFFSETOF(player_datum, assassination_authoritative_forward));
-static_assert(0x2E68 == OFFSETOF(player_datum, melee_damage_event_data));
-static_assert(0x2EA4 == OFFSETOF(player_datum, shot_info));
-static_assert(0x2F04 == OFFSETOF(player_datum, spawn_count));
-static_assert(0x2F06 == OFFSETOF(player_datum, __pad2F06));
+COMPILE_ASSERT(sizeof(player_datum) == 0x2F08);
+COMPILE_ASSERT(0x0002 == OFFSETOF(player_datum, __unknown2));
+COMPILE_ASSERT(0x0004 == OFFSETOF(player_datum, flags));
+COMPILE_ASSERT(0x0008 == OFFSETOF(player_datum, player_identifier));
+COMPILE_ASSERT(0x0010 == OFFSETOF(player_datum, left_game_time));
+COMPILE_ASSERT(0x0014 == OFFSETOF(player_datum, machine_identifier));
+COMPILE_ASSERT(0x0024 == OFFSETOF(player_datum, machine_index));
+COMPILE_ASSERT(0x0026 == OFFSETOF(player_datum, machine_user_index));
+COMPILE_ASSERT(0x0028 == OFFSETOF(player_datum, machine_controller_index));
+COMPILE_ASSERT(0x002C == OFFSETOF(player_datum, cluster_reference));
+COMPILE_ASSERT(0x0030 == OFFSETOF(player_datum, unit_index));
+COMPILE_ASSERT(0x0034 == OFFSETOF(player_datum, dead_unit_index));
+COMPILE_ASSERT(0x0038 == OFFSETOF(player_datum, failed_teleport_unit_index));
+COMPILE_ASSERT(0x003C == OFFSETOF(player_datum, latched_control_flags));
+COMPILE_ASSERT(0x0040 == OFFSETOF(player_datum, cooldown_reset_unknown40));
+COMPILE_ASSERT(0x0042 == OFFSETOF(player_datum, cooldown_reset_unknown42));
+COMPILE_ASSERT(0x0044 == OFFSETOF(player_datum, cooldown_reset_unknown44));
+COMPILE_ASSERT(0x0046 == OFFSETOF(player_datum, latched_action_flags));
+COMPILE_ASSERT(0x0048 == OFFSETOF(player_datum, outside_of_world_timer));
+COMPILE_ASSERT(0x0049 == OFFSETOF(player_datum, next_spawn_control_context));
+COMPILE_ASSERT(0x004C == OFFSETOF(player_datum, armor_loadout_index));
+COMPILE_ASSERT(0x0050 == OFFSETOF(player_datum, weapon_loadout_index));
+COMPILE_ASSERT(0x0054 == OFFSETOF(player_datum, sword_exploit_timer));
+COMPILE_ASSERT(0x0055 == OFFSETOF(player_datum, melee_suppression_timer));
+COMPILE_ASSERT(0x0056 == OFFSETOF(player_datum, grenade_suppression_timer));
+COMPILE_ASSERT(0x0057 == OFFSETOF(player_datum, sprinting));
+COMPILE_ASSERT(0x0058 == OFFSETOF(player_datum, crouching));
+COMPILE_ASSERT(0x0059 == OFFSETOF(player_datum, shooting_left));
+COMPILE_ASSERT(0x005A == OFFSETOF(player_datum, shooting_right));
+COMPILE_ASSERT(0x005B == OFFSETOF(player_datum, __unknown5B));
+COMPILE_ASSERT(0x005C == OFFSETOF(player_datum, magnification_level));
+COMPILE_ASSERT(0x005E == OFFSETOF(player_datum, __unknown5E));
+COMPILE_ASSERT(0x005F == OFFSETOF(player_datum, __unknown5F));
+COMPILE_ASSERT(0x0060 == OFFSETOF(player_datum, __unknown60));
+COMPILE_ASSERT(0x0062 == OFFSETOF(player_datum, __unknown62));
+COMPILE_ASSERT(0x0064 == OFFSETOF(player_datum, last_soft_ceiling_update_position));
+COMPILE_ASSERT(0x0070 == OFFSETOF(player_datum, configuration));
+COMPILE_ASSERT(0x1690 == OFFSETOF(player_datum, desired_configuration));
+COMPILE_ASSERT(0x2CB0 == OFFSETOF(player_datum, single_player_respawn_timer));
+COMPILE_ASSERT(0x2CB4 == OFFSETOF(player_datum, early_respawn_requested));
+COMPILE_ASSERT(0x2CB5 == OFFSETOF(player_datum, respawn_in_progress));
+COMPILE_ASSERT(0x2CB6 == OFFSETOF(player_datum, respawn_forced));
+COMPILE_ASSERT(0x2CB7 == OFFSETOF(player_datum, __unknown2CB7));
+COMPILE_ASSERT(0x2CB8 == OFFSETOF(player_datum, respawn_timer));
+COMPILE_ASSERT(0x2CBC == OFFSETOF(player_datum, respawn_timer_countdown));
+COMPILE_ASSERT(0x2CC0 == OFFSETOF(player_datum, respawn_penalty));
+COMPILE_ASSERT(0x2CC4 == OFFSETOF(player_datum, telefrag_timer));
+COMPILE_ASSERT(0x2CC8 == OFFSETOF(player_datum, dead_timer));
+COMPILE_ASSERT(0x2CCC == OFFSETOF(player_datum, __unknown2CCC));
+COMPILE_ASSERT(0x2CD0 == OFFSETOF(player_datum, __unknown2CD0));
+COMPILE_ASSERT(0x2CD4 == OFFSETOF(player_datum, __unknown2CD4));
+COMPILE_ASSERT(0x2CD8 == OFFSETOF(player_datum, grenade_recharge_timer));
+COMPILE_ASSERT(0x2CDC == OFFSETOF(player_datum, aim_assist_object_index));
+COMPILE_ASSERT(0x2CE0 == OFFSETOF(player_datum, aim_assist_timestamp));
+COMPILE_ASSERT(0x2CE4 == OFFSETOF(player_datum, momentum_timer));
+COMPILE_ASSERT(0x2CE6 == OFFSETOF(player_datum, momemtum_unknown2CE6));
+COMPILE_ASSERT(0x2CE8 == OFFSETOF(player_datum, momentum_decay_timer));
+COMPILE_ASSERT(0x2CEA == OFFSETOF(player_datum, momentum_falloff_timer));
+COMPILE_ASSERT(0x2CEC == OFFSETOF(player_datum, momemtum_suppressed));
+COMPILE_ASSERT(0x2CEE == OFFSETOF(player_datum, vehicle_ban_timer));
+COMPILE_ASSERT(0x2CF0 == OFFSETOF(player_datum, cached_target));
+COMPILE_ASSERT(0x2CFC == OFFSETOF(player_datum, cached_target_untargeted_ticks));
+COMPILE_ASSERT(0x2D00 == OFFSETOF(player_datum, tracking_objects));
+COMPILE_ASSERT(0x2D60 == OFFSETOF(player_datum, recently_spawned_timer));
+COMPILE_ASSERT(0x2D62 == OFFSETOF(player_datum, recently_spawned_timer_is_initial_spawn));
+COMPILE_ASSERT(0x2D63 == OFFSETOF(player_datum, respawn_failure_reason));
+COMPILE_ASSERT(0x2D64 == OFFSETOF(player_datum, tank_mode_time2D64));
+COMPILE_ASSERT(0x2D68 == OFFSETOF(player_datum, tank_mode_duration));
+COMPILE_ASSERT(0x2D6C == OFFSETOF(player_datum, tank_mode_unknown2D6C));
+COMPILE_ASSERT(0x2D70 == OFFSETOF(player_datum, tank_mode_damage_absorption_scale));
+COMPILE_ASSERT(0x2D74 == OFFSETOF(player_datum, tank_mode_unknown2D74));
+COMPILE_ASSERT(0x2D78 == OFFSETOF(player_datum, tank_mode_unknown2D78));
+COMPILE_ASSERT(0x2D7C == OFFSETOF(player_datum, reactive_armor_time2D7C));
+COMPILE_ASSERT(0x2D80 == OFFSETOF(player_datum, reactive_armor_duration));
+COMPILE_ASSERT(0x2D84 == OFFSETOF(player_datum, reactive_armor_damage_reflection_scale));
+COMPILE_ASSERT(0x2D88 == OFFSETOF(player_datum, reactive_armor_unknown2D88));
+COMPILE_ASSERT(0x2D8C == OFFSETOF(player_datum, stamina_restore_near_death_timer));
+COMPILE_ASSERT(0x2D90 == OFFSETOF(player_datum, grenade_scavenger_modifier_used));
+COMPILE_ASSERT(0x2D91 == OFFSETOF(player_datum, __data2D91));
+COMPILE_ASSERT(0x2D94 == OFFSETOF(player_datum, multiplayer.player_display_index));
+COMPILE_ASSERT(0x2D98 == OFFSETOF(player_datum, multiplayer.teleporter_index));
+COMPILE_ASSERT(0x2D9A == OFFSETOF(player_datum, multiplayer.in_vehicle_timer));
+COMPILE_ASSERT(0x2D9B == OFFSETOF(player_datum, multiplayer.without_unit_timer));
+COMPILE_ASSERT(0x2D9C == OFFSETOF(player_datum, multiplayer.with_unit_timer));
+COMPILE_ASSERT(0x2D9D == OFFSETOF(player_datum, multiplayer.was_crouched));
+COMPILE_ASSERT(0x2D9E == OFFSETOF(player_datum, multiplayer.is_crouched));
+COMPILE_ASSERT(0x2D9F == OFFSETOF(player_datum, multiplayer.pad));
+COMPILE_ASSERT(0x2DA0 == OFFSETOF(player_datum, multiplayer.player_display_count));
+COMPILE_ASSERT(0x2DA2 == OFFSETOF(player_datum, multiplayer.remaining_lives));
+COMPILE_ASSERT(0x2DA4 == OFFSETOF(player_datum, multiplayer.last_betrayer_player_index));
+COMPILE_ASSERT(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
+COMPILE_ASSERT(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
+COMPILE_ASSERT(0x2DD4 == OFFSETOF(player_datum, multiplayer.dead_camera_target_player_index));
+COMPILE_ASSERT(0x2DD8 == OFFSETOF(player_datum, multiplayer.map_editor_data.player_locked_for_manipulation));
+COMPILE_ASSERT(0x2DD9 == OFFSETOF(player_datum, multiplayer.map_editor_data.pad));
+COMPILE_ASSERT(0x2DDC == OFFSETOF(player_datum, multiplayer.map_editor_data.roll_distance_amount));
+COMPILE_ASSERT(0x2DE4 == OFFSETOF(player_datum, multiplayer.map_editor_data.yaw_pitch_angles));
+COMPILE_ASSERT(0x2DEC == OFFSETOF(player_datum, multiplayer.king_player_info));
+COMPILE_ASSERT(0x2DEC == OFFSETOF(player_datum, multiplayer.juggernaut_player_info));
+COMPILE_ASSERT(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_nemesis_counts));
+COMPILE_ASSERT(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_avenger_counts));
+COMPILE_ASSERT(0x2E14 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E14));
+COMPILE_ASSERT(0x2E16 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E16));
+COMPILE_ASSERT(0x2E18 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E18));
+COMPILE_ASSERT(0x2E1C == OFFSETOF(player_datum, revenge_shield_boost_player_index));
+COMPILE_ASSERT(0x2E20 == OFFSETOF(player_datum, revenge_shield_boost_damage));
+COMPILE_ASSERT(0x2E24 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E24));
+COMPILE_ASSERT(0x2E25 == OFFSETOF(player_datum, __data2E25));
+COMPILE_ASSERT(0x2E28 == OFFSETOF(player_datum, __data2E28));
+COMPILE_ASSERT(0x2E2A == OFFSETOF(player_datum, __data2E2A));
+COMPILE_ASSERT(0x2E48 == OFFSETOF(player_datum, weak_assassination_unit_index));
+COMPILE_ASSERT(0x2E4C == OFFSETOF(player_datum, is_assassination_victim));
+COMPILE_ASSERT(0x2E50 == OFFSETOF(player_datum, assassination_authoritative_position));
+COMPILE_ASSERT(0x2E5C == OFFSETOF(player_datum, assassination_authoritative_forward));
+COMPILE_ASSERT(0x2E68 == OFFSETOF(player_datum, melee_damage_event_data));
+COMPILE_ASSERT(0x2EA4 == OFFSETOF(player_datum, shot_info));
+COMPILE_ASSERT(0x2F04 == OFFSETOF(player_datum, spawn_count));
+COMPILE_ASSERT(0x2F06 == OFFSETOF(player_datum, __pad2F06));
 #pragma pack(pop)
 
 struct players_global_data
@@ -672,34 +672,34 @@ struct players_global_data
 	uns32 combined_pvs[8];
 	uns32 combined_pvs_local[8];
 };
-static_assert(sizeof(players_global_data) == 0x234);
-static_assert(0x000 == OFFSETOF(players_global_data, players_in_game_count));
-static_assert(0x004 == OFFSETOF(players_global_data, input_inhibited));
-static_assert(0x005 == OFFSETOF(players_global_data, input_mostly_inhibited));
-static_assert(0x006 == OFFSETOF(players_global_data, weapon_pickup_inhibited));
-static_assert(0x007 == OFFSETOF(players_global_data, sprint_inhibited));
-static_assert(0x008 == OFFSETOF(players_global_data, equipment_use_inhibited));
-static_assert(0x00C == OFFSETOF(players_global_data, machine_valid_mask));
-static_assert(0x010 == OFFSETOF(players_global_data, machine_identifiers));
-static_assert(0x120 == OFFSETOF(players_global_data, local_machine_exists));
-//static_assert(0x121 == OFFSETOF(players_global_data, local_machine_identifier));
-static_assert(0x134 == OFFSETOF(players_global_data, local_machine_index));
-static_assert(0x138 == OFFSETOF(players_global_data, scripted_dont_allow_respawning));
-static_assert(0x13A == OFFSETOF(players_global_data, respawn_failure_reason));
-static_assert(0x13C == OFFSETOF(players_global_data, force_player_positions_initialize));
-static_assert(0x140 == OFFSETOF(players_global_data, switching_player_position));
-static_assert(0x14C == OFFSETOF(players_global_data, switching_player_forward));
-static_assert(0x158 == OFFSETOF(players_global_data, begin_zone_set_switch_trigger_volume_index));
-static_assert(0x15C == OFFSETOF(players_global_data, commit_zone_set_switch_trigger_volume_index));
-static_assert(0x160 == OFFSETOF(players_global_data, zone_set_switch_check_recursive_ticks));
-static_assert(0x164 == OFFSETOF(players_global_data, zone_set_switch_player_index));
-static_assert(0x168 == OFFSETOF(players_global_data, zone_set_switch_previous_zone_set_index));
-static_assert(0x16C == OFFSETOF(players_global_data, disabled_zone_set_switch_trigger_volume_flags));
-static_assert(0x1EC == OFFSETOF(players_global_data, terminal_completed_flags));
-static_assert(0x1EE == OFFSETOF(players_global_data, terminal_accessed_flags));
-static_assert(0x1F0 == OFFSETOF(players_global_data, terminal_being_read));
-static_assert(0x1F4 == OFFSETOF(players_global_data, combined_pvs));
-static_assert(0x214 == OFFSETOF(players_global_data, combined_pvs_local));
+COMPILE_ASSERT(sizeof(players_global_data) == 0x234);
+COMPILE_ASSERT(0x000 == OFFSETOF(players_global_data, players_in_game_count));
+COMPILE_ASSERT(0x004 == OFFSETOF(players_global_data, input_inhibited));
+COMPILE_ASSERT(0x005 == OFFSETOF(players_global_data, input_mostly_inhibited));
+COMPILE_ASSERT(0x006 == OFFSETOF(players_global_data, weapon_pickup_inhibited));
+COMPILE_ASSERT(0x007 == OFFSETOF(players_global_data, sprint_inhibited));
+COMPILE_ASSERT(0x008 == OFFSETOF(players_global_data, equipment_use_inhibited));
+COMPILE_ASSERT(0x00C == OFFSETOF(players_global_data, machine_valid_mask));
+COMPILE_ASSERT(0x010 == OFFSETOF(players_global_data, machine_identifiers));
+COMPILE_ASSERT(0x120 == OFFSETOF(players_global_data, local_machine_exists));
+//COMPILE_ASSERT(0x121 == OFFSETOF(players_global_data, local_machine_identifier));
+COMPILE_ASSERT(0x134 == OFFSETOF(players_global_data, local_machine_index));
+COMPILE_ASSERT(0x138 == OFFSETOF(players_global_data, scripted_dont_allow_respawning));
+COMPILE_ASSERT(0x13A == OFFSETOF(players_global_data, respawn_failure_reason));
+COMPILE_ASSERT(0x13C == OFFSETOF(players_global_data, force_player_positions_initialize));
+COMPILE_ASSERT(0x140 == OFFSETOF(players_global_data, switching_player_position));
+COMPILE_ASSERT(0x14C == OFFSETOF(players_global_data, switching_player_forward));
+COMPILE_ASSERT(0x158 == OFFSETOF(players_global_data, begin_zone_set_switch_trigger_volume_index));
+COMPILE_ASSERT(0x15C == OFFSETOF(players_global_data, commit_zone_set_switch_trigger_volume_index));
+COMPILE_ASSERT(0x160 == OFFSETOF(players_global_data, zone_set_switch_check_recursive_ticks));
+COMPILE_ASSERT(0x164 == OFFSETOF(players_global_data, zone_set_switch_player_index));
+COMPILE_ASSERT(0x168 == OFFSETOF(players_global_data, zone_set_switch_previous_zone_set_index));
+COMPILE_ASSERT(0x16C == OFFSETOF(players_global_data, disabled_zone_set_switch_trigger_volume_flags));
+COMPILE_ASSERT(0x1EC == OFFSETOF(players_global_data, terminal_completed_flags));
+COMPILE_ASSERT(0x1EE == OFFSETOF(players_global_data, terminal_accessed_flags));
+COMPILE_ASSERT(0x1F0 == OFFSETOF(players_global_data, terminal_being_read));
+COMPILE_ASSERT(0x1F4 == OFFSETOF(players_global_data, combined_pvs));
+COMPILE_ASSERT(0x214 == OFFSETOF(players_global_data, combined_pvs_local));
 
 class c_player_in_game_iterator
 {

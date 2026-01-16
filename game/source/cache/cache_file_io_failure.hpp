@@ -37,5 +37,5 @@ protected:
 
 	static bool m_halt_and_display_error;
 };
-static_assert(sizeof(c_simple_io_result) == 0xC);
+COMPILE_ASSERT(sizeof(c_simple_io_result) == 0xC);
 

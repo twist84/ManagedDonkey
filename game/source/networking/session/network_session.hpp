@@ -22,7 +22,7 @@ public:
 	virtual void notify_channel_connection(int32 observer_channel_index, uns32 connection_identifier, bool connected);
 	virtual void notify_channel_died(int32 observer_channel_index);
 };
-static_assert(sizeof(c_network_channel_owner) == 0x4);
+COMPILE_ASSERT(sizeof(c_network_channel_owner) == 0x4);
 
 struct s_network_message_boot_machine;
 struct s_network_message_delegate_leadership;
@@ -138,7 +138,7 @@ public:
 		uns64 join_nonce;
 		s_network_session_join_request join_request;
 	};
-	static_assert(sizeof(s_local_state_data_peer_creating) == 0x320);
+	COMPILE_ASSERT(sizeof(s_local_state_data_peer_creating) == 0x320);
 
 	struct s_local_state_data_peer_joining
 	{
@@ -154,7 +154,7 @@ public:
 		int32 join_attempt_count;
 		uns32 last_join_attempt_timestamp;
 	};
-	static_assert(sizeof(s_local_state_data_peer_joining) == 0x360);
+	COMPILE_ASSERT(sizeof(s_local_state_data_peer_joining) == 0x360);
 
 	struct s_local_state_data_peer_join_abort
 	{
@@ -166,14 +166,14 @@ public:
 		uns32 join_abort_initiated_timestamp;
 		uns32 last_join_abort_timestamp;
 	};
-	static_assert(sizeof(s_local_state_data_peer_join_abort) == 0x50);
+	COMPILE_ASSERT(sizeof(s_local_state_data_peer_join_abort) == 0x50);
 
 	struct s_local_state_data_peer_established
 	{
 		int32 peer_reestablishment_state; // e_peer_reestablish_state
 		uns32 established_timestamp;
 	};
-	static_assert(sizeof(s_local_state_data_peer_established) == 0x8);
+	COMPILE_ASSERT(sizeof(s_local_state_data_peer_established) == 0x8);
 
 	struct s_local_state_data_peer_leaving
 	{
@@ -181,7 +181,7 @@ public:
 		uns32 leave_initiated_timestamp;
 		uns32 last_leave_attempt_timestamp;
 	};
-	static_assert(sizeof(s_local_state_data_peer_leaving) == 0xC);
+	COMPILE_ASSERT(sizeof(s_local_state_data_peer_leaving) == 0xC);
 
 	struct s_local_state_data
 	{
@@ -238,7 +238,7 @@ public:
 		uns32 request_time;
 	} m_local_user_player_add;
 };
-static_assert(sizeof(c_network_session) == 0x25BC40);
+COMPILE_ASSERT(sizeof(c_network_session) == 0x25BC40);
 
 extern const char* g_session_disconnection_policy_strings[k_network_session_disconnection_policy_count];
 

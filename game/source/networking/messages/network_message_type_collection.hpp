@@ -25,7 +25,7 @@ public:
 		compare_t* compare_function;
 		dispose_t* dispose_function;
 	};
-	static_assert(sizeof(s_network_message_type) == 0x24);
+	COMPILE_ASSERT(sizeof(s_network_message_type) == 0x24);
 
 public:
 	void __thiscall clear_message_types_();
@@ -72,6 +72,6 @@ public:
 protected:
 	s_network_message_type m_message_types[k_network_message_type_count];
 };
-static_assert(sizeof(c_network_message_type_collection) == 0x57C
+COMPILE_ASSERT(sizeof(c_network_message_type_collection) == 0x57C
 	+ (sizeof(c_network_message_type_collection::s_network_message_type) * k_custom_network_message_count));
 

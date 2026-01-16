@@ -8,5 +8,5 @@ struct s_scenario_editor_folder
 
 	c_static_string<k_tag_long_string_length> name;
 };
-static_assert(sizeof(s_scenario_editor_folder) == 0x104);
+COMPILE_ASSERT(sizeof(s_scenario_editor_folder) == 0x104);
 

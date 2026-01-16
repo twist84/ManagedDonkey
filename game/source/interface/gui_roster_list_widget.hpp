@@ -42,5 +42,5 @@ protected:
 
 	byte __data[0x4];
 };
-static_assert(sizeof(c_gui_roster_list_widget) == sizeof(c_gui_list_widget) + 0x108);
+COMPILE_ASSERT(sizeof(c_gui_roster_list_widget) == sizeof(c_gui_list_widget) + 0x108);
 

@@ -18,7 +18,7 @@ struct collision_model_pathfinding_sphere
 	real_point3d center;
 	real32 radius;
 };
-static_assert(sizeof(collision_model_pathfinding_sphere) == 0x14);
+COMPILE_ASSERT(sizeof(collision_model_pathfinding_sphere) == 0x14);
 
 enum e_collision_model_flags
 {
@@ -31,7 +31,7 @@ struct collision_model_material
 {
 	c_string_id name;
 };
-static_assert(sizeof(collision_model_material) == sizeof(c_string_id));
+COMPILE_ASSERT(sizeof(collision_model_material) == sizeof(c_string_id));
 
 struct collision_model_definition
 {
@@ -43,5 +43,5 @@ struct collision_model_definition
 	s_tag_block pathfinding_spheres;
 	s_tag_block nodes;
 };
-static_assert(sizeof(collision_model_definition) == 0x44);
+COMPILE_ASSERT(sizeof(collision_model_definition) == 0x44);
 

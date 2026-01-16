@@ -10,7 +10,7 @@ struct s_objective_datum :
 	uns32 __unknown4;
 	uns32 __unknown8;
 };
-static_assert(sizeof(s_objective_datum) == 0xC);
+COMPILE_ASSERT(sizeof(s_objective_datum) == 0xC);
 
 struct s_task_record
 {
@@ -32,7 +32,7 @@ struct s_task_record
 	int16 __unknown36;
 	c_clump_behavior_state state;
 };
-static_assert(sizeof(s_task_record) == 0x40);
+COMPILE_ASSERT(sizeof(s_task_record) == 0x40);
 
 struct s_area_reference
 {
@@ -44,7 +44,7 @@ struct s_area_reference
 	real32 yaw;
 	//uns32 connection_flags;
 };
-static_assert(sizeof(s_area_reference) == 0x10);
+COMPILE_ASSERT(sizeof(s_area_reference) == 0x10);
 
 enum e_task_flags
 {
@@ -233,7 +233,7 @@ struct s_task
 	c_typed_tag_block<s_area_reference> areas;
 	s_tag_block direction;
 };
-static_assert(sizeof(s_task) == 0xE8);
+COMPILE_ASSERT(sizeof(s_task) == 0xE8);
 
 enum e_objective_flags
 {
@@ -252,7 +252,7 @@ struct s_objective
 	int16 editor_folder; // short_block_index
 	c_typed_tag_block<s_task> tasks;
 };
-static_assert(sizeof(s_objective) == 0x24);
+COMPILE_ASSERT(sizeof(s_objective) == 0x24);
 
 extern s_task_record* __cdecl objective_get_task_record(int16 objective_index, int16 task_index);
 extern void __cdecl objectives_initialize();

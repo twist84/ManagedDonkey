@@ -14,7 +14,7 @@ struct s_physics_constants
 	int32 character_ground_adhesion_forces_enable_time;
 	real32 slip_surface_maximum_k;
 };
-static_assert(sizeof(s_physics_constants) == 0x20);
+COMPILE_ASSERT(sizeof(s_physics_constants) == 0x20);
 
 extern bool __cdecl character_ground_adhesion_forces_disabled();
 extern void __cdecl disable_character_ground_adhesion_forces(real32 disable_time);

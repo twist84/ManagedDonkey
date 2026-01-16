@@ -74,13 +74,13 @@ public:
 	uns8 vidmaster;
 	byte __data1442[0x6];
 };
-static_assert(sizeof(c_controller_interface) == 0x1448);
+COMPILE_ASSERT(sizeof(c_controller_interface) == 0x1448);
 
 struct s_controller_globals
 {
 	c_controller_interface m_controllers[k_number_of_controllers];
 };
-static_assert(sizeof(s_controller_globals) == 0x5120);
+COMPILE_ASSERT(sizeof(s_controller_globals) == 0x5120);
 
 extern s_controller_globals& g_controller_globals;
 extern bool controller_centered_crosshair;

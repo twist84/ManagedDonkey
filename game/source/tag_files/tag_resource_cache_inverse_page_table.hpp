@@ -13,7 +13,7 @@ public:
 		uns16 used_resource_handle_count;
 		uns16 resource_handle_count;
 	};
-	static_assert(sizeof(s_page_resource_reference_range) == 0x8);
+	COMPILE_ASSERT(sizeof(s_page_resource_reference_range) == 0x8);
 
 	c_allocation_base* m_allocator;
 	void* m_allocation;
@@ -22,5 +22,5 @@ public:
 	uns16 flags;
 	uns16 m_next_resource_handle_index;
 };
-static_assert(sizeof(c_tag_resource_inverse_page_table) == 0x18);
+COMPILE_ASSERT(sizeof(c_tag_resource_inverse_page_table) == 0x18);
 

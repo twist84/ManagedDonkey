@@ -40,7 +40,7 @@ struct s_online_file_description
 	bool overwrite_if_needed;
 	s_saved_game_item_metadata metadata;
 };
-static_assert(sizeof(s_online_file_description) == 0x108);
+COMPILE_ASSERT(sizeof(s_online_file_description) == 0x108);
 
 struct s_queued_work_item
 {
@@ -66,7 +66,7 @@ struct s_queued_work_item
 		} download;
 	};
 };
-static_assert(sizeof(s_queued_work_item) == 0x250);
+COMPILE_ASSERT(sizeof(s_queued_work_item) == 0x250);
 
 class c_online_files_enqueuer
 {
@@ -82,7 +82,7 @@ public:
 	c_synchronized_long m_enqueue_for_transfer_async_task_success;
 	__declspec(align(8)) s_queued_work_item m_enqueue_for_transfer_work_item;
 };
-static_assert(sizeof(c_online_files_enqueuer) == 0x14E0);
+COMPILE_ASSERT(sizeof(c_online_files_enqueuer) == 0x14E0);
 
 class c_signed_in_users_watcher
 {
@@ -96,7 +96,7 @@ public:
 	e_watched_state m_watched_state;
 	s_player_identifier m_player_ids[4];
 };
-static_assert(sizeof(c_signed_in_users_watcher) == 0x24);
+COMPILE_ASSERT(sizeof(c_signed_in_users_watcher) == 0x24);
 
 struct s_queued_work_item_status
 {
@@ -108,14 +108,14 @@ struct s_queued_work_item_status
 	int32 slot_index;
 	real32 progress_ratio;
 };
-static_assert(sizeof(s_queued_work_item_status) == 0x128);
+COMPILE_ASSERT(sizeof(s_queued_work_item_status) == 0x128);
 
 struct s_queued_work_item_status_tracker
 {
 	char filename[24];
 	s_queued_work_item_status status;
 };
-static_assert(sizeof(s_queued_work_item_status_tracker) == 0x140);
+COMPILE_ASSERT(sizeof(s_queued_work_item_status_tracker) == 0x140);
 
 struct __declspec(align(8)) c_online_files_active_transfer_tracker
 {
@@ -141,7 +141,7 @@ struct __declspec(align(8)) c_online_files_active_transfer_tracker
 	bool m_transfers_list_changed;
 	c_signed_in_users_watcher m_users_watcher;
 };
-static_assert(sizeof(c_online_files_active_transfer_tracker) == 0x1448);
+COMPILE_ASSERT(sizeof(c_online_files_active_transfer_tracker) == 0x1448);
 
 class c_aligned_buffered_file_writer
 {
@@ -151,7 +151,7 @@ public:
 	int32 m_write_buffer_size;
 	int32 m_write_buffer_count;
 };
-static_assert(sizeof(c_aligned_buffered_file_writer) == 0x10);
+COMPILE_ASSERT(sizeof(c_aligned_buffered_file_writer) == 0x10);
 
 template<int32 t_write_buffer>
 class c_aligned_stored_buffered_file_writer
@@ -160,13 +160,13 @@ public:
 	c_aligned_buffered_file_writer m_writer;
 	char m_write_buffer[t_write_buffer];
 };
-static_assert(sizeof(c_aligned_stored_buffered_file_writer<4096>) == 0x1010);
+COMPILE_ASSERT(sizeof(c_aligned_stored_buffered_file_writer<4096>) == 0x1010);
 
 struct s_blam_zlib_memory
 {
 	s_memory_pool* heap;
 };
-static_assert(sizeof(s_blam_zlib_memory) == 0x4);
+COMPILE_ASSERT(sizeof(s_blam_zlib_memory) == 0x4);
 
 struct __declspec(align(8)) z_stream_s
 {
@@ -187,7 +187,7 @@ struct __declspec(align(8)) z_stream_s
 	uns32 adler;
 	uns32 reserved;
 };
-static_assert(sizeof(z_stream_s) == 0x38);
+COMPILE_ASSERT(sizeof(z_stream_s) == 0x38);
 
 class c_online_file_manager
 {
@@ -299,7 +299,7 @@ public:
 		} decompressing;
 	} m_state_data;
 };
-static_assert(sizeof(c_online_file_manager) == 0x76F8);
+COMPILE_ASSERT(sizeof(c_online_file_manager) == 0x76F8);
 
 extern const char*& k_upload_directory;
 extern int32& k_online_files_automatic_refresh_milliseconds;

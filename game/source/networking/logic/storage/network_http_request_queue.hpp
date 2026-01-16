@@ -19,13 +19,13 @@ public:
 	c_static_string<1024> m_headers;
 	c_http_post_source m_post_source;
 };
-static_assert(sizeof(c_network_http_request_description) == 0x658);
-static_assert(0x000 == OFFSETOF(c_network_http_request_description, m_url));
-static_assert(0x100 == OFFSETOF(c_network_http_request_description, m_request_type));
-static_assert(0x104 == OFFSETOF(c_network_http_request_description, m_has_file_hash));
-static_assert(0x105 == OFFSETOF(c_network_http_request_description, m_file_hash));
-static_assert(0x119 == OFFSETOF(c_network_http_request_description, m_headers));
-static_assert(0x51C == OFFSETOF(c_network_http_request_description, m_post_source));
+COMPILE_ASSERT(sizeof(c_network_http_request_description) == 0x658);
+COMPILE_ASSERT(0x000 == OFFSETOF(c_network_http_request_description, m_url));
+COMPILE_ASSERT(0x100 == OFFSETOF(c_network_http_request_description, m_request_type));
+COMPILE_ASSERT(0x104 == OFFSETOF(c_network_http_request_description, m_has_file_hash));
+COMPILE_ASSERT(0x105 == OFFSETOF(c_network_http_request_description, m_file_hash));
+COMPILE_ASSERT(0x119 == OFFSETOF(c_network_http_request_description, m_headers));
+COMPILE_ASSERT(0x51C == OFFSETOF(c_network_http_request_description, m_post_source));
 
 class c_network_http_request_queue;
 class c_network_http_request_item
@@ -51,7 +51,7 @@ public:
 
 	int32 m_retries_remaining;
 };
-static_assert(sizeof(c_network_http_request_item) == 0x67C);
+COMPILE_ASSERT(sizeof(c_network_http_request_item) == 0x67C);
 
 class c_network_http_request_queue
 {
@@ -77,7 +77,7 @@ public:
 	c_http_get_stream m_http_get_stream;
 	c_http_post_stream m_http_post_stream;
 };
-static_assert(sizeof(c_network_http_request_queue) == 0xF8D8);
+COMPILE_ASSERT(sizeof(c_network_http_request_queue) == 0xF8D8);
 
 extern c_network_http_request_queue(&g_network_http_request_queue)[k_network_http_request_queue_type_count];
 extern c_static_string<256>& g_storage_url_subdirectory;

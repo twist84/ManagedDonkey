@@ -37,5 +37,5 @@ protected:
 	real32 m_hover;
 	c_vehicle_auto_turret m_auto_turret;
 };
-static_assert(sizeof(c_vehicle_type_guardian) == 0x38);
+COMPILE_ASSERT(sizeof(c_vehicle_type_guardian) == 0x38);
 

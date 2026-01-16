@@ -25,7 +25,7 @@ struct hs_tag_reference
 
 	void update_reference_names();
 };
-static_assert(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
 
 struct hs_script_parameter
 {
@@ -33,7 +33,7 @@ struct hs_script_parameter
 	int16 type; // e_hs_type
 	int16 pad0;
 };
-static_assert(sizeof(hs_script_parameter) == 0x24);
+COMPILE_ASSERT(sizeof(hs_script_parameter) == 0x24);
 
 struct hs_global_internal
 {
@@ -42,7 +42,7 @@ struct hs_global_internal
 	uns16 pad;
 	int32 initialization_expression_index;
 };
-static_assert(sizeof(hs_global_internal) == 0x28);
+COMPILE_ASSERT(sizeof(hs_global_internal) == 0x28);
 
 struct hs_script
 {
@@ -52,7 +52,7 @@ struct hs_script
 	int32 root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
 };
-static_assert(sizeof(hs_script) == 0x34);
+COMPILE_ASSERT(sizeof(hs_script) == 0x34);
 
 enum hs_source_file_flags
 {
@@ -114,7 +114,7 @@ struct hs_syntax_node :
 	int16 line_number;
 	int16 pad0;
 };
-static_assert(sizeof(hs_syntax_node) == 0x18);
+COMPILE_ASSERT(sizeof(hs_syntax_node) == 0x18);
 
 struct hs_source_file
 {
@@ -123,12 +123,12 @@ struct hs_source_file
 	c_typed_tag_block<hs_tag_reference> external_references;
 	uns32 flags;
 };
-static_assert(sizeof(hs_source_file) == 0x44);
+COMPILE_ASSERT(sizeof(hs_source_file) == 0x44);
 
 struct s_hs_unit_seat_mapping
 {
 	int32 unit_definition_tag_index;
 	c_static_flags<k_maximum_hs_unit_seats> unit_seats;
 };
-static_assert(sizeof(s_hs_unit_seat_mapping) == 0xC);
+COMPILE_ASSERT(sizeof(s_hs_unit_seat_mapping) == 0xC);
 

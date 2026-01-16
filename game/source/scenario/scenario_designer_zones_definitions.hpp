@@ -25,5 +25,5 @@ struct s_scenario_designer_zone
 	s_tag_block character;
 	s_tag_block budget_reference;
 };
-static_assert(sizeof(s_scenario_designer_zone) == 0xC8);
+COMPILE_ASSERT(sizeof(s_scenario_designer_zone) == 0xC8);
 

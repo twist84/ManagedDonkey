@@ -20,7 +20,7 @@ struct s_network_message_text_chat_payload
 		c_static_wchar_string<122> text;
 	};
 };
-static_assert(sizeof(s_network_message_text_chat_payload) == 0x210 /* 0x188 */);
+COMPILE_ASSERT(sizeof(s_network_message_text_chat_payload) == 0x210 /* 0x188 */);
 
 struct s_network_message_text_chat
 {
@@ -28,7 +28,7 @@ struct s_network_message_text_chat
 	int32 routed_players;
 	s_network_message_text_chat_payload payload;
 };
-static_assert(sizeof(s_network_message_text_chat) == 0x224 /* 0x194 */);
+COMPILE_ASSERT(sizeof(s_network_message_text_chat) == 0x224 /* 0x194 */);
 
 class c_bitstream;
 class c_network_message_text_chat

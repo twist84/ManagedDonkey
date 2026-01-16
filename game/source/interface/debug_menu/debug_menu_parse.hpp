@@ -190,8 +190,8 @@ struct s_parser_state
 	bool m_has_item_type;
 	c_enum<e_item_types, int32, _item_type_none, k_item_type_count> m_item_type;
 };
-//static_assert(sizeof(s_parser_state) == 0x330);
-static_assert(sizeof(s_parser_state) == 0x3030);
+//COMPILE_ASSERT(sizeof(s_parser_state) == 0x330);
+COMPILE_ASSERT(sizeof(s_parser_state) == 0x3030);
 
 extern const char* const g_token_names[k_token_count];
 

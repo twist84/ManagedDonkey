@@ -23,7 +23,7 @@ private:
 	int16 m_bsp_index;
 	uns16 m_sector_index;
 };
-static_assert(sizeof(c_sector_ref) == 0x4);
+COMPILE_ASSERT(sizeof(c_sector_ref) == 0x4);
 
 extern const pathfinding_data* __cdecl pathfinding_data_get(int16 structure_bsp_index);
 extern sector* __cdecl pathfinding_get_sector(c_sector_ref ref);

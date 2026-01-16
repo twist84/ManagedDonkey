@@ -12,7 +12,7 @@ class c_light_volume_location :
 	real_point3d m_origin;
 	real_vector3d m_direction;
 };
-static_assert(sizeof(c_light_volume_location) == 0x2C);
+COMPILE_ASSERT(sizeof(c_light_volume_location) == 0x2C);
 
 class c_light_volume :
 	public s_datum_header
@@ -29,7 +29,7 @@ class c_light_volume :
 	uns32 m_random_seed_starter;
 	real32 m_random_seed[2];
 };
-static_assert(sizeof(c_light_volume) == 0x34);
+COMPILE_ASSERT(sizeof(c_light_volume) == 0x34);
 
 class c_light_volume_system :
 	public s_datum_header
@@ -52,5 +52,5 @@ public:
 	real32 m_effect_scale_b;
 	int32 m_lod;
 };
-static_assert(sizeof(c_light_volume_system) == 0x2C);
+COMPILE_ASSERT(sizeof(c_light_volume_system) == 0x2C);
 

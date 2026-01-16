@@ -10,5 +10,5 @@ public:
 
 //protected:
 };
-static_assert(sizeof(c_error_dialog_screen_widget) == sizeof(c_error_dialog_screen_widget));
+COMPILE_ASSERT(sizeof(c_error_dialog_screen_widget) == sizeof(c_error_dialog_screen_widget));
 

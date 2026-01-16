@@ -31,7 +31,7 @@ struct s_saved_game_item_enumeration_data
 	s_saved_game_item_metadata metadata;
 	s_file_last_modification_date modification_date;
 };
-static_assert(sizeof(s_saved_game_item_enumeration_data) == 0x218);
+COMPILE_ASSERT(sizeof(s_saved_game_item_enumeration_data) == 0x218);
 
 class c_autosave_queue_enumerator
 {
@@ -67,7 +67,7 @@ private:
 	c_synchronized_long m_async_signal;
 	c_synchronized_long m_async_cancelled;
 };
-static_assert(sizeof(c_autosave_queue_enumerator) == 0x3D28);
+COMPILE_ASSERT(sizeof(c_autosave_queue_enumerator) == 0x3D28);
 
 #pragma pack(push, 1)
 struct s_autosave_queue_globals
@@ -78,7 +78,7 @@ struct s_autosave_queue_globals
 	byte pad[0x7];
 	s_saved_game_item_metadata active_metadata;
 };
-static_assert(sizeof(s_autosave_queue_globals) == 0x320);
+COMPILE_ASSERT(sizeof(s_autosave_queue_globals) == 0x320);
 #pragma pack(pop)
 
 extern s_autosave_queue_globals& g_autosave_queue_globals;

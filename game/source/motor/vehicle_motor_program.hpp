@@ -16,7 +16,7 @@ struct s_vehicle_physics_point_datum
 	real_vector3d surface_velocity;
 	int32 object_index;
 };
-static_assert(sizeof(s_vehicle_physics_point_datum) == 0x84);
+COMPILE_ASSERT(sizeof(s_vehicle_physics_point_datum) == 0x84);
 
 struct s_anti_gravity_vehicle_physics_point_datum :
 	s_vehicle_physics_point_datum
@@ -29,7 +29,7 @@ struct s_anti_gravity_vehicle_physics_point_datum :
 	real32 antigrav_error;
 	real32 antigrav_height_fraction;
 };
-static_assert(sizeof(s_anti_gravity_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x28);
+COMPILE_ASSERT(sizeof(s_anti_gravity_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x28);
 
 struct s_friction_datum
 {
@@ -37,7 +37,7 @@ struct s_friction_datum
 	real_vector3d parallel;
 	real_vector3d perpendicular;
 };
-static_assert(sizeof(s_friction_datum) == 0x24);
+COMPILE_ASSERT(sizeof(s_friction_datum) == 0x24);
 
 struct s_friction_vehicle_physics_point_datum :
 	s_vehicle_physics_point_datum
@@ -60,7 +60,7 @@ struct s_friction_vehicle_physics_point_datum :
 	bool disabled;
 	s_friction_datum ground_friction;
 };
-static_assert(sizeof(s_friction_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x68);
+COMPILE_ASSERT(sizeof(s_friction_vehicle_physics_point_datum) == sizeof(s_vehicle_physics_point_datum) + 0x68);
 
 struct s_havok_vehicle_physics_instance
 {
@@ -82,5 +82,5 @@ struct s_havok_vehicle_physics_instance
 	s_anti_gravity_vehicle_physics_point_datum anti_gravity_points[16];
 	s_friction_vehicle_physics_point_datum friction_points[16];
 };
-static_assert(sizeof(s_havok_vehicle_physics_instance) == 0x1A10);
+COMPILE_ASSERT(sizeof(s_havok_vehicle_physics_instance) == 0x1A10);
 

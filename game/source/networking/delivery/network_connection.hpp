@@ -11,7 +11,7 @@
 //	{
 //		uns16 flags;
 //	};
-//	static_assert(sizeof(s_connection_incoming_packet) == 0x2);
+//	COMPILE_ASSERT(sizeof(s_connection_incoming_packet) == 0x2);
 //
 //	struct s_connection_outgoing_packet
 //	{
@@ -21,7 +21,7 @@
 //		int16 unretired_window_size;
 //		uns16 flags;
 //	};
-//	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
+//	COMPILE_ASSERT(sizeof(s_connection_outgoing_packet) == 0x10);
 //
 //	const char* m_name;
 //
@@ -38,5 +38,5 @@
 //
 //	uns32 m_packet_timeout;
 //};
-//static_assert(sizeof(c_network_connection) == 0x960);
+//COMPILE_ASSERT(sizeof(c_network_connection) == 0x960);
 

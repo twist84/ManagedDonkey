@@ -34,15 +34,15 @@ struct s_text_widget_definition :
 	int16 font;
 	int16 pad0;
 };
-static_assert(sizeof(s_text_widget_definition) == 0x3C);
-static_assert(sizeof(s_text_widget_definition) == sizeof(s_core_widget_definition) + 0x10);
+COMPILE_ASSERT(sizeof(s_text_widget_definition) == 0x3C);
+COMPILE_ASSERT(sizeof(s_text_widget_definition) == sizeof(s_core_widget_definition) + 0x10);
 
 struct s_text_widget_block
 {
 	s_tag_reference widget_template_reference;
 	s_text_widget_definition override_definition;
 };
-static_assert(sizeof(s_text_widget_block) == 0x4C);
+COMPILE_ASSERT(sizeof(s_text_widget_block) == 0x4C);
 
 struct s_runtime_text_widget_definition :
 	s_runtime_core_widget_definition
@@ -52,7 +52,7 @@ struct s_runtime_text_widget_definition :
 	real_argb_color text_color;
 	e_font_id font;
 };
-static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
+COMPILE_ASSERT(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 
 class c_gui_screen_widget;
 struct s_text_widget_block;
@@ -79,7 +79,7 @@ public:
 		int32 name;
 		int32 element_handle;
 	};
-	static_assert(sizeof(s_text_source_data) == 0xC);
+	COMPILE_ASSERT(sizeof(s_text_source_data) == 0xC);
 
 public:
 	virtual ~c_gui_text_widget() = default;
@@ -107,8 +107,8 @@ protected:
 	s_runtime_text_widget_definition m_definition;
 	int32 __unknown13C;
 };
-static_assert(sizeof(c_gui_text_widget) == 0x140);
-static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x60);
+COMPILE_ASSERT(sizeof(c_gui_text_widget) == 0x140);
+COMPILE_ASSERT(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x60);
 
 template<int32 k_maximum_count>
 class c_sized_user_interface_text :
@@ -142,9 +142,9 @@ protected:
 	c_static_wchar_string<k_maximum_count> m_text_render_buffer;
 	c_static_wchar_string<k_maximum_count> m_text_cache_buffer;
 };
-static_assert(sizeof(c_sized_user_interface_text<48>) == 0x11C);
-static_assert(sizeof(c_sized_user_interface_text<256>) == 0x45C);
-static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x105C);
+COMPILE_ASSERT(sizeof(c_sized_user_interface_text<48>) == 0x11C);
+COMPILE_ASSERT(sizeof(c_sized_user_interface_text<256>) == 0x45C);
+COMPILE_ASSERT(sizeof(c_sized_user_interface_text<1024>) == 0x105C);
 
 template<int32 k_text_buffer_size>
 class c_gui_sized_text_widget :
@@ -173,7 +173,7 @@ public:
 protected:
 	c_sized_user_interface_text<k_text_buffer_size> m_text;
 };
-static_assert(sizeof(c_gui_sized_text_widget<48>) == 0x25C);
-static_assert(sizeof(c_gui_sized_text_widget<256>) == 0x59C);
-static_assert(sizeof(c_gui_sized_text_widget<1024>) == 0x119C);
+COMPILE_ASSERT(sizeof(c_gui_sized_text_widget<48>) == 0x25C);
+COMPILE_ASSERT(sizeof(c_gui_sized_text_widget<256>) == 0x59C);
+COMPILE_ASSERT(sizeof(c_gui_sized_text_widget<1024>) == 0x119C);
 

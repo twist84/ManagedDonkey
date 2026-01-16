@@ -55,7 +55,7 @@ public:
 protected:
 	int32 m_value;
 };
-static_assert(sizeof(c_long_designator<3, false>) == 0x4);
+COMPILE_ASSERT(sizeof(c_long_designator<3, false>) == 0x4);
 
 enum e_tag_resource_fixup_type
 {
@@ -103,5 +103,5 @@ public:
 protected:
 	c_long_designator<k_tag_resource_fixup_type_bits, false> designator;
 };
-static_assert(sizeof(c_tag_resource_fixup) == sizeof(c_long_designator<3, false>));
+COMPILE_ASSERT(sizeof(c_tag_resource_fixup) == sizeof(c_long_designator<3, false>));
 

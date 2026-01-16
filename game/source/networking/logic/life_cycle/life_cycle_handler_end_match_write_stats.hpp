@@ -24,7 +24,7 @@ public:
 	c_end_match_write_stats_flags m_flags;
 	uns32 m_end_match_write_stats_start_time;
 };
-static_assert(sizeof(c_life_cycle_state_handler_end_match_write_stats) == 0x30);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_end_match_write_stats, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_end_match_write_stats, m_end_match_write_stats_start_time));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_end_match_write_stats) == 0x30);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_end_match_write_stats, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_end_match_write_stats, m_end_match_write_stats_start_time));
 

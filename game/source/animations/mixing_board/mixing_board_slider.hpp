@@ -14,5 +14,5 @@ public:
 	uns8 m_parent_slider_type;
 	int8 m_parent_slider_index;
 };
-static_assert(sizeof(c_mixing_board_slider) == 0xC);
+COMPILE_ASSERT(sizeof(c_mixing_board_slider) == 0xC);
 

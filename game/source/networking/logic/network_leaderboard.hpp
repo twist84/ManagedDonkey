@@ -40,16 +40,16 @@ struct s_online_data
 	};
 
 };
-static_assert(sizeof(s_online_data) == 0x10);
+COMPILE_ASSERT(sizeof(s_online_data) == 0x10);
 
 struct s_online_property
 {
 	e_online_property_id id;
 	s_online_data value;
 };
-static_assert(sizeof(s_online_property) == 0x18);
-static_assert(0x0 == OFFSETOF(s_online_property, id));
-//static_assert(0x4 == OFFSETOF(s_online_property, value));
+COMPILE_ASSERT(sizeof(s_online_property) == 0x18);
+COMPILE_ASSERT(0x0 == OFFSETOF(s_online_property, id));
+//COMPILE_ASSERT(0x4 == OFFSETOF(s_online_property, value));
 
 struct s_online_stat_write
 {
@@ -57,22 +57,22 @@ struct s_online_stat_write
 	int32 property_count;
 	s_online_property properties[16];
 };
-static_assert(sizeof(s_online_stat_write) == 0x188);
-static_assert(0x0 == OFFSETOF(s_online_stat_write, leaderboard_id));
-static_assert(0x4 == OFFSETOF(s_online_stat_write, property_count));
-static_assert(0x8 == OFFSETOF(s_online_stat_write, properties));
+COMPILE_ASSERT(sizeof(s_online_stat_write) == 0x188);
+COMPILE_ASSERT(0x0 == OFFSETOF(s_online_stat_write, leaderboard_id));
+COMPILE_ASSERT(0x4 == OFFSETOF(s_online_stat_write, property_count));
+COMPILE_ASSERT(0x8 == OFFSETOF(s_online_stat_write, properties));
 
 struct s_network_leaderboard_custom_stats_write
 {
 	s_online_stat_write stat_writes;
 };
-static_assert(sizeof(s_network_leaderboard_custom_stats_write) == sizeof(s_online_stat_write));
+COMPILE_ASSERT(sizeof(s_network_leaderboard_custom_stats_write) == sizeof(s_online_stat_write));
 
 struct s_network_leaderboard_matchmade_stats_write
 {
 	s_online_stat_write stat_writes[3];
 };
-static_assert(sizeof(s_network_leaderboard_matchmade_stats_write) == sizeof(s_online_stat_write) * 3);
+COMPILE_ASSERT(sizeof(s_network_leaderboard_matchmade_stats_write) == sizeof(s_online_stat_write) * 3);
 
 struct s_online_stat_query
 {
@@ -80,10 +80,10 @@ struct s_online_stat_query
 	int32 column_count;
 	e_online_leaderboard_column_id columns[32];
 };
-static_assert(sizeof(s_online_stat_query) == 0x88);
-static_assert(0x0 == OFFSETOF(s_online_stat_query, leaderboard_id));
-static_assert(0x4 == OFFSETOF(s_online_stat_query, column_count));
-static_assert(0x8 == OFFSETOF(s_online_stat_query, columns));
+COMPILE_ASSERT(sizeof(s_online_stat_query) == 0x88);
+COMPILE_ASSERT(0x0 == OFFSETOF(s_online_stat_query, leaderboard_id));
+COMPILE_ASSERT(0x4 == OFFSETOF(s_online_stat_query, column_count));
+COMPILE_ASSERT(0x8 == OFFSETOF(s_online_stat_query, columns));
 
 struct s_network_leaderboard_player_game_results
 {
@@ -95,14 +95,14 @@ struct s_network_leaderboard_player_game_results
 	bool won;
 	bool valid;
 };
-static_assert(sizeof(s_network_leaderboard_player_game_results) == 0x1630);
-static_assert(0x0000 == OFFSETOF(s_network_leaderboard_player_game_results, identifier));
-static_assert(0x0008 == OFFSETOF(s_network_leaderboard_player_game_results, configuration));
-static_assert(0x1628 == OFFSETOF(s_network_leaderboard_player_game_results, relative_score));
-static_assert(0x162C == OFFSETOF(s_network_leaderboard_player_game_results, played));
-static_assert(0x162D == OFFSETOF(s_network_leaderboard_player_game_results, completed));
-static_assert(0x162E == OFFSETOF(s_network_leaderboard_player_game_results, won));
-static_assert(0x162F == OFFSETOF(s_network_leaderboard_player_game_results, valid));
+COMPILE_ASSERT(sizeof(s_network_leaderboard_player_game_results) == 0x1630);
+COMPILE_ASSERT(0x0000 == OFFSETOF(s_network_leaderboard_player_game_results, identifier));
+COMPILE_ASSERT(0x0008 == OFFSETOF(s_network_leaderboard_player_game_results, configuration));
+COMPILE_ASSERT(0x1628 == OFFSETOF(s_network_leaderboard_player_game_results, relative_score));
+COMPILE_ASSERT(0x162C == OFFSETOF(s_network_leaderboard_player_game_results, played));
+COMPILE_ASSERT(0x162D == OFFSETOF(s_network_leaderboard_player_game_results, completed));
+COMPILE_ASSERT(0x162E == OFFSETOF(s_network_leaderboard_player_game_results, won));
+COMPILE_ASSERT(0x162F == OFFSETOF(s_network_leaderboard_player_game_results, valid));
 
 struct s_network_leaderboard_game_results
 {
@@ -119,19 +119,19 @@ struct s_network_leaderboard_game_results
 	int32 player_count;
 	uns32 game_time;
 };
-static_assert(sizeof(s_network_leaderboard_game_results) == 0x28);
-static_assert(0x00 == OFFSETOF(s_network_leaderboard_game_results, hopper_identifier));
-static_assert(0x04 == OFFSETOF(s_network_leaderboard_game_results, draw_probability));
-static_assert(0x08 == OFFSETOF(s_network_leaderboard_game_results, beta));
-static_assert(0x0C == OFFSETOF(s_network_leaderboard_game_results, tau));
-static_assert(0x10 == OFFSETOF(s_network_leaderboard_game_results, experience_base_increment));
-static_assert(0x14 == OFFSETOF(s_network_leaderboard_game_results, experience_penalty_decrement));
-static_assert(0x18 == OFFSETOF(s_network_leaderboard_game_results, matchmade));
-static_assert(0x19 == OFFSETOF(s_network_leaderboard_game_results, ranked));
-static_assert(0x1A == OFFSETOF(s_network_leaderboard_game_results, team_game));
-static_assert(0x1C == OFFSETOF(s_network_leaderboard_game_results, team_count));
-static_assert(0x20 == OFFSETOF(s_network_leaderboard_game_results, player_count));
-static_assert(0x24 == OFFSETOF(s_network_leaderboard_game_results, game_time));
+COMPILE_ASSERT(sizeof(s_network_leaderboard_game_results) == 0x28);
+COMPILE_ASSERT(0x00 == OFFSETOF(s_network_leaderboard_game_results, hopper_identifier));
+COMPILE_ASSERT(0x04 == OFFSETOF(s_network_leaderboard_game_results, draw_probability));
+COMPILE_ASSERT(0x08 == OFFSETOF(s_network_leaderboard_game_results, beta));
+COMPILE_ASSERT(0x0C == OFFSETOF(s_network_leaderboard_game_results, tau));
+COMPILE_ASSERT(0x10 == OFFSETOF(s_network_leaderboard_game_results, experience_base_increment));
+COMPILE_ASSERT(0x14 == OFFSETOF(s_network_leaderboard_game_results, experience_penalty_decrement));
+COMPILE_ASSERT(0x18 == OFFSETOF(s_network_leaderboard_game_results, matchmade));
+COMPILE_ASSERT(0x19 == OFFSETOF(s_network_leaderboard_game_results, ranked));
+COMPILE_ASSERT(0x1A == OFFSETOF(s_network_leaderboard_game_results, team_game));
+COMPILE_ASSERT(0x1C == OFFSETOF(s_network_leaderboard_game_results, team_count));
+COMPILE_ASSERT(0x20 == OFFSETOF(s_network_leaderboard_game_results, player_count));
+COMPILE_ASSERT(0x24 == OFFSETOF(s_network_leaderboard_game_results, game_time));
 
 struct s_network_leaderboard_statistic
 {
@@ -159,14 +159,14 @@ struct s_network_leaderboard_query_user_statistics
   e_network_leaderboard_user_highest_skill_update_state highest_skill_update_state;
   int32 highest_skill;
 };
-static_assert(sizeof(s_network_leaderboard_query_user_statistics) == 0x948);
+COMPILE_ASSERT(sizeof(s_network_leaderboard_query_user_statistics) == 0x948);
 
 struct s_network_leaderboard_write_statistics
 {
 	e_network_leaderboard_statistics_write_state state;
 	uns32 timestamp;
 };
-static_assert(sizeof(s_network_leaderboard_write_statistics) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_leaderboard_write_statistics) == 0x8);
 
 struct s_network_leaderboard_globals
 {
@@ -182,7 +182,7 @@ struct s_network_leaderboard_globals
 	s_network_leaderboard_write_statistics global_write;
 	c_static_array<s_network_leaderboard_write_statistics, 16> write_player_stats;
 };
-static_assert(sizeof(s_network_leaderboard_globals) == 0x25C8);
+COMPILE_ASSERT(sizeof(s_network_leaderboard_globals) == 0x25C8);
 
 extern s_network_leaderboard_globals& network_leaderboard_globals;
 

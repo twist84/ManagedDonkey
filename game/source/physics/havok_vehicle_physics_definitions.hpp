@@ -62,7 +62,7 @@ struct s_havok_vehicle_physics_definition
 	c_typed_tag_block<s_friction_point_definition> friction_points;
 	c_typed_tag_block<s_vehicle_phantom_shape_definition> shape_phantom_shape;
 };
-static_assert(sizeof(s_havok_vehicle_physics_definition) == 0x60);
+COMPILE_ASSERT(sizeof(s_havok_vehicle_physics_definition) == 0x60);
 
 struct s_anti_gravity_point_definition
 {
@@ -86,7 +86,7 @@ struct s_anti_gravity_point_definition
 	c_string_id damage_source_region_name;
 	real32 model_state_error[k_number_of_model_states];
 };
-static_assert(sizeof(s_anti_gravity_point_definition) == 0x4C);
+COMPILE_ASSERT(sizeof(s_anti_gravity_point_definition) == 0x4C);
 
 enum e_friction_point_flags
 {
@@ -136,7 +136,7 @@ struct s_friction_point_definition
 	c_string_id region_name; // only need point can destroy flag set
 	int32 runtime_region_index;
 };
-static_assert(sizeof(s_friction_point_definition) == 0x4C);
+COMPILE_ASSERT(sizeof(s_friction_point_definition) == 0x4C);
 
 struct s_havok_vector4 // hkVector4
 {
@@ -190,5 +190,5 @@ struct s_vehicle_phantom_shape_definition
 	c_multi_sphere_shape multispheres[4];
 	c_list_shape::ChildInfo list_shape_children[4];
 };
-static_assert(sizeof(s_vehicle_phantom_shape_definition) == 0x330);
+COMPILE_ASSERT(sizeof(s_vehicle_phantom_shape_definition) == 0x330);
 

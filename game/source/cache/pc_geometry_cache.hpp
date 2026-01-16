@@ -31,7 +31,7 @@ struct geometry_block_info
 	c_flags<enum e_geometry_block_info_bit, uns8, k_number_of_geometry_block_info_bits> flags;
 	int32 runtime_cache_block_index;
 };
-static_assert(sizeof(geometry_block_info) == 0x28);
+COMPILE_ASSERT(sizeof(geometry_block_info) == 0x28);
 
 extern bool __cdecl _geometry_cache_block_query(geometry_block_info* block_info, int32 flags);
 extern void __cdecl geometry_cache_block_delete(geometry_block_info* block_info);

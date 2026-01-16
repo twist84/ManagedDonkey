@@ -7,5 +7,5 @@ struct shield_render_cache_message :
 {
 	byte __data[0x12];
 };
-static_assert(sizeof(shield_render_cache_message) == 0x14);
+COMPILE_ASSERT(sizeof(shield_render_cache_message) == 0x14);
 

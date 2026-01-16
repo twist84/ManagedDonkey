@@ -27,7 +27,7 @@ struct _machine_datum
 	int16 door_machine_portal_index_count;
 	int16 door_machine_portal_structure_bsp_index;
 };
-static_assert(sizeof(_machine_datum) == 0x10);
+COMPILE_ASSERT(sizeof(_machine_datum) == 0x10);
 
 struct machine_datum
 {
@@ -36,5 +36,5 @@ struct machine_datum
 	_device_datum device;
 	_machine_datum machine;
 };
-static_assert(sizeof(machine_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_machine_datum));
+COMPILE_ASSERT(sizeof(machine_datum) == sizeof(int32) + sizeof(_object_datum) + sizeof(_device_datum) + sizeof(_machine_datum));
 

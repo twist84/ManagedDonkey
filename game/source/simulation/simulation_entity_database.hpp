@@ -17,7 +17,7 @@ struct s_simulation_entity
 	uns32 state_data_size;
 	void* state_data;
 };
-static_assert(sizeof(s_simulation_entity) == 0x30);
+COMPILE_ASSERT(sizeof(s_simulation_entity) == 0x30);
 
 class c_simulation_world;
 class c_replication_entity_manager;
@@ -35,6 +35,6 @@ protected:
 	c_simulation_type_collection* m_type_collection;
 	s_simulation_entity m_entity_data[1024];
 };
-static_assert(sizeof(c_simulation_entity_database) == 0xC010);
-//static_assert(sizeof(c_simulation_entity_database) == 0xC028);
+COMPILE_ASSERT(sizeof(c_simulation_entity_database) == 0xC010);
+//COMPILE_ASSERT(sizeof(c_simulation_entity_database) == 0xC028);
 

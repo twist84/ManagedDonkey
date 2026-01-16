@@ -17,7 +17,7 @@ struct s_chud_render_data
 	real_vector4d texture_transform;
 	rectangle2d rectangle;
 };
-static_assert(sizeof(s_chud_render_data) == 0xA4);
+COMPILE_ASSERT(sizeof(s_chud_render_data) == 0xA4);
 
 class c_chud_point_tracker
 {
@@ -29,7 +29,7 @@ class c_chud_point_tracker
 	bool m_behind_camera;
 	real32 m_behind_camera_yaw_sign;
 };
-static_assert(sizeof(c_chud_point_tracker) == 0x2C);
+COMPILE_ASSERT(sizeof(c_chud_point_tracker) == 0x2C);
 
 struct s_chud_draw_globals
 {
@@ -63,7 +63,7 @@ struct s_chud_draw_globals
 	int32 metagame_player_count;
 	real_point2d saved_film_bar_position;
 };
-static_assert(sizeof(s_chud_draw_globals) == 0xBC);
+COMPILE_ASSERT(sizeof(s_chud_draw_globals) == 0xBC);
 
 extern bool& chud_enabled;
 extern bool& chud_debug_messages;

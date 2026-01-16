@@ -64,8 +64,8 @@ private:
 	static real32(&m_scoreboard_alpha)[4];
 	static real32& m_console_scoreboard_alpha;
 };
-static_assert(sizeof(c_gui_screen_scoreboard) == 0x1AA8);
-static_assert(sizeof(c_gui_screen_scoreboard) == sizeof(c_gui_screen_widget) + 0x8);
+COMPILE_ASSERT(sizeof(c_gui_screen_scoreboard) == 0x1AA8);
+COMPILE_ASSERT(sizeof(c_gui_screen_scoreboard) == sizeof(c_gui_screen_widget) + 0x8);
 
 class c_scoreboard_load_screen_message :
 	public c_load_screen_message
@@ -80,8 +80,8 @@ public:
 protected:
 	bool m_is_interactive;
 };
-static_assert(sizeof(c_scoreboard_load_screen_message) == 0x40);
-static_assert(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_message) + 0x4);
+COMPILE_ASSERT(sizeof(c_scoreboard_load_screen_message) == 0x40);
+COMPILE_ASSERT(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
 class c_gui_scoreboard_data :
 	public c_gui_ordered_data
@@ -129,7 +129,7 @@ public:
 		bool is_dead;
 		bool left_game;
 	};
-	static_assert(sizeof(s_player_row) == 0x868);
+	COMPILE_ASSERT(sizeof(s_player_row) == 0x868);
 
 	using scoreboard_sort_proc_t = int __cdecl(const void*, const void*);
 
@@ -177,6 +177,6 @@ public:
 	int32 m_player_row_count;
 	e_controller_index m_driving_controller;
 };
-static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
-static_assert(sizeof(c_gui_scoreboard_data) == sizeof(c_gui_ordered_data) + 0xD234);
+COMPILE_ASSERT(sizeof(c_gui_scoreboard_data) == 0xD340);
+COMPILE_ASSERT(sizeof(c_gui_scoreboard_data) == sizeof(c_gui_ordered_data) + 0xD234);
 

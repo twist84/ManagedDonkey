@@ -66,7 +66,7 @@ struct collision_result
 	int16 material_index;
 	int8 breakable_surface_set_index;
 };
-static_assert(sizeof(collision_result) == 0x5C);
+COMPILE_ASSERT(sizeof(collision_result) == 0x5C);
 
 struct collision_bsp_test_vector_result
 {
@@ -83,7 +83,7 @@ struct collision_bsp_test_vector_result
 	int32 leaf_indices[256];
 	int32 breakable_surface_set_index;
 };
-static_assert(sizeof(collision_bsp_test_vector_result) == 0x424);
+COMPILE_ASSERT(sizeof(collision_bsp_test_vector_result) == 0x424);
 
 struct collision_model_test_vector_result
 {
@@ -92,7 +92,7 @@ struct collision_model_test_vector_result
 	int16 region_index;
 	collision_bsp_test_vector_result bsp_result;
 };
-static_assert(sizeof(collision_model_test_vector_result) == 0x42C);
+COMPILE_ASSERT(sizeof(collision_model_test_vector_result) == 0x42C);
 
 struct collision_bsp_test_sphere_result
 {
@@ -111,7 +111,7 @@ struct collision_bsp_test_sphere_result
 	int32 leaf_count;
 	int32 leaf_indices[256];
 };
-static_assert(sizeof(collision_bsp_test_sphere_result) == 0x1C10);
+COMPILE_ASSERT(sizeof(collision_bsp_test_sphere_result) == 0x1C10);
 
 struct collision_feature_list;
 struct collision_plane;

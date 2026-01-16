@@ -14,7 +14,7 @@ struct s_structure_physics
 	s_tag_block breakable_surfaces_mopp_code_block;
 	s_tag_block breakable_surface_key_table;
 };
-static_assert(sizeof(s_structure_physics) == 0x40);
+COMPILE_ASSERT(sizeof(s_structure_physics) == 0x40);
 
 struct s_structure_soft_ceiling_triangle
 {
@@ -25,7 +25,7 @@ struct s_structure_soft_ceiling_triangle
 	real_point3d vertex1;
 	real_point3d vertex2;
 };
-static_assert(sizeof(s_structure_soft_ceiling_triangle) == 0x44);
+COMPILE_ASSERT(sizeof(s_structure_soft_ceiling_triangle) == 0x44);
 
 struct s_structure_soft_ceiling
 {
@@ -34,19 +34,19 @@ struct s_structure_soft_ceiling
 	byte fresh[0x2];
 	c_typed_tag_block<s_structure_soft_ceiling_triangle> soft_ceiling_triangles;
 };
-static_assert(sizeof(s_structure_soft_ceiling) == 0x14);
+COMPILE_ASSERT(sizeof(s_structure_soft_ceiling) == 0x14);
 
 struct s_structure_physics_water_group
 {
 	c_string_id name;
 };
-static_assert(sizeof(s_structure_physics_water_group) == sizeof(c_string_id));
+COMPILE_ASSERT(sizeof(s_structure_physics_water_group) == sizeof(c_string_id));
 
 struct s_structure_physics_water_instance_debug_triangle
 {
 	real_point3d points[3];
 };
-static_assert(sizeof(s_structure_physics_water_instance_debug_triangle) == sizeof(real_point3d) * 3);
+COMPILE_ASSERT(sizeof(s_structure_physics_water_instance_debug_triangle) == sizeof(real_point3d) * 3);
 
 struct s_structure_physics_water_instance
 {
@@ -57,7 +57,7 @@ struct s_structure_physics_water_instance
 	s_tag_block water_planes;
 	c_typed_tag_block<s_structure_physics_water_instance_debug_triangle>  water_debug_triangles;
 };
-static_assert(sizeof(s_structure_physics_water_instance) == 0x2C);
+COMPILE_ASSERT(sizeof(s_structure_physics_water_instance) == 0x2C);
 
 struct s_structure_design_physics
 {
@@ -68,7 +68,7 @@ struct s_structure_design_physics
 	c_typed_tag_block<s_structure_physics_water_group> water_groups;
 	c_typed_tag_block<s_structure_physics_water_instance> water_instances;
 };
-static_assert(sizeof(s_structure_design_physics) == 0x40);
+COMPILE_ASSERT(sizeof(s_structure_design_physics) == 0x40);
 
 struct s_structure_design
 {
@@ -76,5 +76,5 @@ struct s_structure_design
 
 	real32 pda_z_plane_min; // meters
 };
-static_assert(sizeof(s_structure_design) == 0x44);
+COMPILE_ASSERT(sizeof(s_structure_design) == 0x44);
 

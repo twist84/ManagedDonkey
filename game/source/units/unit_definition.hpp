@@ -11,7 +11,7 @@ struct s_unit_camera_track
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_unit_camera_track) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_unit_camera_track) == sizeof(s_tag_reference));
 
 struct s_unit_camera_acceleration_displacment_function
 {
@@ -26,7 +26,7 @@ struct s_unit_camera_acceleration_displacment_function
 	// scale factor used when this acceleration component is perpendicular to the camera
 	real32 camera_scale_perpendicular;
 };
-static_assert(sizeof(s_unit_camera_acceleration_displacment_function) == 0x18);
+COMPILE_ASSERT(sizeof(s_unit_camera_acceleration_displacment_function) == 0x18);
 
 struct s_unit_camera_acceleration
 {
@@ -38,7 +38,7 @@ struct s_unit_camera_acceleration
 	// maximum offset velocity
 	real32 maximum_displacment_velocity;
 };
-static_assert(sizeof(s_unit_camera_acceleration) == 0x4C);
+COMPILE_ASSERT(sizeof(s_unit_camera_acceleration) == 0x4C);
 
 enum e_unit_camera_flags
 {
@@ -61,7 +61,7 @@ struct s_unit_camera
 	real32 spring_velocity;
 	c_typed_tag_block<s_unit_camera_acceleration> camera_acceleration;
 };
-static_assert(sizeof(s_unit_camera) == 0x3C);
+COMPILE_ASSERT(sizeof(s_unit_camera) == 0x3C);
 
 struct unit_seat_acceleration
 {
@@ -73,13 +73,13 @@ struct unit_seat_acceleration
 	// detach unit
 	real32 attachment_limit; // [0,1+]
 };
-static_assert(sizeof(unit_seat_acceleration) == 0x14);
+COMPILE_ASSERT(sizeof(unit_seat_acceleration) == 0x14);
 
 struct s_unit_additional_node_names
 {
 	c_string_id preferred_gun_node;
 };
-static_assert(sizeof(s_unit_additional_node_names) == sizeof(string_id));
+COMPILE_ASSERT(sizeof(s_unit_additional_node_names) == sizeof(string_id));
 
 struct s_unit_boarding_melee
 {
@@ -95,7 +95,7 @@ struct s_unit_boarding_melee
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_unit_boarding_melee) == sizeof(s_tag_reference) * 9);
+COMPILE_ASSERT(sizeof(s_unit_boarding_melee) == sizeof(s_tag_reference) * 9);
 
 struct s_unit_boost
 {
@@ -108,14 +108,14 @@ struct s_unit_boost
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_unit_boost) == sizeof(real32) * 5 + sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_unit_boost) == sizeof(real32) * 5 + sizeof(s_tag_reference));
 
 struct s_unit_lipsync_scales
 {
 	real32 attack_weight;
 	real32 decay_weight;
 };
-static_assert(sizeof(s_unit_lipsync_scales) == 0x8);
+COMPILE_ASSERT(sizeof(s_unit_lipsync_scales) == 0x8);
 
 enum e_unit_definition_flags
 {
@@ -309,7 +309,7 @@ struct _unit_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_unit_definition) == 0x2C8);
+COMPILE_ASSERT(sizeof(_unit_definition) == 0x2C8);
 
 struct unit_definition
 {
@@ -320,14 +320,14 @@ struct unit_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(unit_definition) == sizeof(_object_definition) + sizeof(_unit_definition));
+COMPILE_ASSERT(sizeof(unit_definition) == sizeof(_object_definition) + sizeof(_unit_definition));
 
 struct s_posture_definition
 {
 	c_string_id name;
 	real_vector3d pill_offset;
 };
-static_assert(sizeof(s_posture_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_posture_definition) == 0x10);
 
 struct unit_hud_reference
 {
@@ -335,7 +335,7 @@ struct unit_hud_reference
 
 	void update_reference_names();
 };
-static_assert(sizeof(unit_hud_reference) == 0x10);
+COMPILE_ASSERT(sizeof(unit_hud_reference) == 0x10);
 
 struct dialogue_variant_definition
 {
@@ -345,14 +345,14 @@ struct dialogue_variant_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(dialogue_variant_definition) == 0x14);
+COMPILE_ASSERT(sizeof(dialogue_variant_definition) == 0x14);
 
 struct powered_seat_definition
 {
 	real32 driver_powerup_time;
 	real32 driver_powerdown_time;
 };
-static_assert(sizeof(powered_seat_definition) == 0x8);
+COMPILE_ASSERT(sizeof(powered_seat_definition) == 0x8);
 
 struct unit_initial_weapon
 {
@@ -360,13 +360,13 @@ struct unit_initial_weapon
 
 	void update_reference_names();
 };
-static_assert(sizeof(unit_initial_weapon) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(unit_initial_weapon) == sizeof(s_tag_reference));
 
 struct s_tracking_type
 {
 	c_string_id tracking_type;
 };
-static_assert(sizeof(s_tracking_type) == sizeof(string_id));
+COMPILE_ASSERT(sizeof(s_tracking_type) == sizeof(string_id));
 
 struct s_target_tracking_parameters
 {
@@ -379,7 +379,7 @@ struct s_target_tracking_parameters
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_target_tracking_parameters) == 0x38);
+COMPILE_ASSERT(sizeof(s_target_tracking_parameters) == 0x38);
 
 enum e_unit_seat_flags
 {
@@ -498,5 +498,5 @@ struct unit_seat
 
 	void update_reference_names();
 };
-static_assert(sizeof(unit_seat) == 0xE4);
+COMPILE_ASSERT(sizeof(unit_seat) == 0xE4);
 

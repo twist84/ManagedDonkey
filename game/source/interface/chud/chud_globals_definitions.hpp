@@ -115,7 +115,7 @@ struct s_chud_globals_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_chud_globals_definition) == 0x2B8);
+COMPILE_ASSERT(sizeof(s_chud_globals_definition) == 0x2B8);
 
 enum e_chud_skin_type
 {
@@ -196,7 +196,7 @@ struct s_chud_curvature_info
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_chud_curvature_info) == 0xE8);
+COMPILE_ASSERT(sizeof(s_chud_curvature_info) == 0xE8);
 
 enum e_chud_sound_cue_flags
 {
@@ -247,7 +247,7 @@ struct s_chud_sound_character_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_chud_sound_character_definition) == 0x14);
+COMPILE_ASSERT(sizeof(s_chud_sound_character_definition) == 0x14);
 
 struct chud_sound_element_definition
 {
@@ -257,13 +257,13 @@ struct chud_sound_element_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(chud_sound_element_definition) == 0x14);
+COMPILE_ASSERT(sizeof(chud_sound_element_definition) == 0x14);
 
 struct s_chud_medal_name
 {
 	c_string_id medal_name;
 };
-static_assert(sizeof(s_chud_medal_name) == sizeof(c_string_id));
+COMPILE_ASSERT(sizeof(s_chud_medal_name) == sizeof(c_string_id));
 
 struct s_chud_config_info
 {
@@ -275,7 +275,7 @@ struct s_chud_config_info
 	real32 equipment_horizontal_size;
 	real32 scoreboard_spacing_size;
 };
-static_assert(sizeof(s_chud_config_info) == 0x20);
+COMPILE_ASSERT(sizeof(s_chud_config_info) == 0x20);
 
 struct s_chud_skin_info
 {
@@ -362,7 +362,7 @@ struct s_chud_skin_info
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_chud_skin_info) == 0x2B0);
+COMPILE_ASSERT(sizeof(s_chud_skin_info) == 0x2B0);
 
 struct s_chud_shader
 {
@@ -371,7 +371,7 @@ struct s_chud_shader
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_chud_shader) == sizeof(s_tag_reference) * 2);
+COMPILE_ASSERT(sizeof(s_chud_shader) == sizeof(s_tag_reference) * 2);
 
 struct s_chud_suck_profile
 {
@@ -397,7 +397,7 @@ struct s_chud_suck_profile
 	real32 noise_sharpness_max;
 	real32 noise_sharpness_power;
 };
-static_assert(sizeof(s_chud_suck_profile) == sizeof(real32) * 16);
+COMPILE_ASSERT(sizeof(s_chud_suck_profile) == sizeof(real32) * 16);
 
 struct s_cortana_effect_heading_config
 {
@@ -421,7 +421,7 @@ struct s_cortana_effect_heading_config
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_cortana_effect_heading_config) == (sizeof(real_bounds) * 12) + sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_cortana_effect_heading_config) == (sizeof(real_bounds) * 12) + sizeof(s_tag_reference));
 
 struct s_cortana_effect_distance_config
 {
@@ -454,7 +454,7 @@ struct s_cortana_effect_distance_config
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_cortana_effect_distance_config) == sizeof(real32) + (sizeof(s_cortana_effect_heading_config) * 2));
+COMPILE_ASSERT(sizeof(s_cortana_effect_distance_config) == sizeof(real32) + (sizeof(s_cortana_effect_heading_config) * 2));
 
 struct s_cortana_effect_config
 {
@@ -463,7 +463,7 @@ struct s_cortana_effect_config
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_cortana_effect_config) == sizeof(string_id) + sizeof(s_tag_block));
+COMPILE_ASSERT(sizeof(s_cortana_effect_config) == sizeof(string_id) + sizeof(s_tag_block));
 
 enum e_player_training_flags
 {
@@ -497,5 +497,5 @@ struct s_player_training_entry_data
 	// pad
 	byte HURLUV[0x2];
 };
-static_assert(sizeof(s_player_training_entry_data) == 0x14);
+COMPILE_ASSERT(sizeof(s_player_training_entry_data) == 0x14);
 

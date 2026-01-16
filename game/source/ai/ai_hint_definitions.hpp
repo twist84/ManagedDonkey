@@ -92,14 +92,14 @@ struct hint_breakable_data
 	int32 surface_index;
 	int32 instanced_geometry_index;
 };
-static_assert(sizeof(hint_breakable_data) == 0x8);
+COMPILE_ASSERT(sizeof(hint_breakable_data) == 0x8);
 
 struct hint_door_data
 {
 	int32 m_pathfinding_door_index;
 	int32 m_scenario_object_index;
 };
-static_assert(sizeof(hint_door_data) == 0x8);
+COMPILE_ASSERT(sizeof(hint_door_data) == 0x8);
 
 struct hint_hoist_data
 {
@@ -109,7 +109,7 @@ struct hint_hoist_data
 	uns32 normal_index : 16;
 	int16 flags : 16;
 };
-static_assert(sizeof(hint_hoist_data) == 0xC);
+COMPILE_ASSERT(sizeof(hint_hoist_data) == 0xC);
 
 struct hint_intersection_data
 {
@@ -117,7 +117,7 @@ struct hint_intersection_data
 	int32 deprecated;
 	int32 deprecateds[2];
 };
-static_assert(sizeof(hint_intersection_data) == 0x10);
+COMPILE_ASSERT(sizeof(hint_intersection_data) == 0x10);
 
 struct hint_jump_data
 {
@@ -131,7 +131,7 @@ struct hint_jump_data
 	int32 reference_frame0 : 16;
 	int32 reference_frame1 : 16;
 };
-static_assert(sizeof(hint_jump_data) == 0x10);
+COMPILE_ASSERT(sizeof(hint_jump_data) == 0x10);
 
 struct hint_rail_data
 {
@@ -139,7 +139,7 @@ struct hint_rail_data
 	uns32 point_index : 16;
 	int32 flags : 16;
 };
-static_assert(sizeof(hint_rail_data) == 0x8);
+COMPILE_ASSERT(sizeof(hint_rail_data) == 0x8);
 
 struct hint_seam_data
 {
@@ -147,7 +147,7 @@ struct hint_seam_data
 	int32 seam_edge_index;
 	int32 walkable_sector_index;
 };
-static_assert(sizeof(hint_seam_data) == 0xC);
+COMPILE_ASSERT(sizeof(hint_seam_data) == 0xC);
 
 struct pathfinding_hint_data
 {
@@ -165,7 +165,7 @@ struct pathfinding_hint_data
 		int32 pad1[4];
 	};
 };
-static_assert(sizeof(pathfinding_hint_data) == 0x14);
+COMPILE_ASSERT(sizeof(pathfinding_hint_data) == 0x14);
 
 struct user_hint_climb
 {
@@ -174,20 +174,20 @@ struct user_hint_climb
 	int16 forced_climb_height;
 	int16 pad0;
 };
-static_assert(sizeof(user_hint_climb) == 0x8);
+COMPILE_ASSERT(sizeof(user_hint_climb) == 0x8);
 
 struct user_hint_flight_point
 {
 	real_point3d point;
 };
-static_assert(sizeof(user_hint_flight_point) == 0xC);
+COMPILE_ASSERT(sizeof(user_hint_flight_point) == 0xC);
 
 struct user_flight_hint
 {
 	c_typed_tag_block<user_hint_flight_point> points;
 };
-static_assert(sizeof(user_flight_hint) == 0xC);
-static_assert(sizeof(user_flight_hint) == sizeof(s_tag_block));
+COMPILE_ASSERT(sizeof(user_flight_hint) == 0xC);
+COMPILE_ASSERT(sizeof(user_flight_hint) == sizeof(s_tag_block));
 
 struct user_hint_jump
 {
@@ -196,7 +196,7 @@ struct user_hint_jump
 	int16 forced_jump_height;
 	int16 user_flags;
 };
-static_assert(sizeof(user_hint_jump) == 0x8);
+COMPILE_ASSERT(sizeof(user_hint_jump) == 0x8);
 
 struct user_hint_line_segment
 {
@@ -211,7 +211,7 @@ struct user_hint_line_segment
 		c_ai_point3d points[2];
 	};
 };
-static_assert(sizeof(user_hint_line_segment) == 0x24);
+COMPILE_ASSERT(sizeof(user_hint_line_segment) == 0x24);
 
 struct user_hint_parallelogram
 {
@@ -230,7 +230,7 @@ struct user_hint_parallelogram
 	int16 points_invalid_flags;
 	int16 pad0;
 };
-static_assert(sizeof(user_hint_parallelogram) == 0x48);
+COMPILE_ASSERT(sizeof(user_hint_parallelogram) == 0x48);
 
 struct user_hint_well_point
 {
@@ -239,47 +239,47 @@ struct user_hint_well_point
 	c_ai_point3d position;
 	real_euler_angles2d normal;
 };
-static_assert(sizeof(user_hint_well_point) == 0x1C);
+COMPILE_ASSERT(sizeof(user_hint_well_point) == 0x1C);
 
 struct user_hint_well
 {
 	int32 flags;
 	c_typed_tag_block<user_hint_well_point> points;
 };
-static_assert(sizeof(user_hint_well) == 0x10);
+COMPILE_ASSERT(sizeof(user_hint_well) == 0x10);
 
 struct s_user_hint_sector_point
 {
 	c_ai_point3d position;
 	real_euler_angles2d normal;
 };
-static_assert(sizeof(s_user_hint_sector_point) == 0x18);
+COMPILE_ASSERT(sizeof(s_user_hint_sector_point) == 0x18);
 
 struct s_user_hint_sector
 {
 	c_typed_tag_block<s_user_hint_sector_point> points;
 };
-static_assert(sizeof(s_user_hint_sector) == 0xC);
+COMPILE_ASSERT(sizeof(s_user_hint_sector) == 0xC);
 
 struct s_user_hint_flood
 {
 	c_typed_tag_block<s_user_hint_sector> flood_sector_hints;
 };
-static_assert(sizeof(s_user_hint_flood) == 0xC);
+COMPILE_ASSERT(sizeof(s_user_hint_flood) == 0xC);
 
 struct s_user_hint_giant_rail
 {
 	int16 geometry_index;
 	int16 pad0;
 };
-static_assert(sizeof(s_user_hint_giant_rail) == 0x4);
+COMPILE_ASSERT(sizeof(s_user_hint_giant_rail) == 0x4);
 
 struct s_user_hint_giant
 {
 	s_tag_block giant_sector_hints;
 	c_typed_tag_block<s_user_hint_giant_rail> giant_rail_hints;
 };
-static_assert(sizeof(s_user_hint_giant) == 0x18);
+COMPILE_ASSERT(sizeof(s_user_hint_giant) == 0x18);
 
 struct user_hint_data
 {
@@ -296,7 +296,7 @@ struct user_hint_data
 	c_typed_tag_block<s_user_hint_giant> giant_hints;
 	c_typed_tag_block<s_user_hint_flood> flood_hints;
 };
-static_assert(sizeof(user_hint_data) == 0x6C);
+COMPILE_ASSERT(sizeof(user_hint_data) == 0x6C);
 
 extern const char* g_hoist_height_names[k_climb_hint_hoist_count];
 extern const char* g_jump_height_names[k_jump_height_count];

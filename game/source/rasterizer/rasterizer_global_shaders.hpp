@@ -10,7 +10,7 @@ struct s_rasterizer_global_shader_globals
 	IDirect3DVertexShader9* vertex_shaders[k_number_of_global_shaders];
 	bool initialized;
 };
-static_assert(sizeof(s_rasterizer_global_shader_globals) == 0x54);
+COMPILE_ASSERT(sizeof(s_rasterizer_global_shader_globals) == 0x54);
 
 extern s_rasterizer_global_shader_globals& g_rasterizer_global_shader_globals;
 

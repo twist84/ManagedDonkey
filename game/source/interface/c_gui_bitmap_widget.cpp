@@ -246,7 +246,7 @@ struct s_dynamic_render_target
 	c_rasterizer_texture_ref normal_surface;
 	c_rasterizer_texture_ref depth_stencil_surface;
 };
-static_assert(sizeof(s_dynamic_render_target) == 0x1C);
+COMPILE_ASSERT(sizeof(s_dynamic_render_target) == 0x1C);
 
 void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, const rectangle2d* window_bounds)
 {

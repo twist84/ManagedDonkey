@@ -100,30 +100,30 @@ enum e_object_mask
 		_object_mask_crate | 
 		_object_mask_creature,
 };
-static_assert(0b0010000000000011 == _object_mask_unit);
-static_assert(0b0000000000000001 == _object_mask_biped);
-static_assert(0b0000000000000010 == _object_mask_vehicle);
-static_assert(0b0010000000000000 == _object_mask_giant);
-static_assert(0b0000000000001100 == _object_mask_item);
-static_assert(0b0000000000000100 == _object_mask_weapon);
-static_assert(0b0000000000001000 == _object_mask_equipment);
-static_assert(0b0000000001000000 == _object_mask_projectile);
-static_assert(0b0000000010000000 == _object_mask_scenery);
-static_assert(0b0000010000000000 == _object_mask_sound_scenery);
-static_assert(0b0000100000000000 == _object_mask_crate);
-static_assert(0b0001000000000000 == _object_mask_creature);
-static_assert(0b0100000000000000 == _object_mask_effect_scenery);
-static_assert(0b0000001100110000 == _object_mask_device);
-static_assert(0b0000000000010000 == _object_mask_arg_device);
-static_assert(0b0000000000100000 == _object_mask_terminal);
-static_assert(0b0000000100000000 == _object_mask_machine);
-static_assert(0b0000001000000000 == _object_mask_control);
-static_assert(0b0010100110000010 == _object_mask_sightblocking);
-static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
+COMPILE_ASSERT(0b0010000000000011 == _object_mask_unit);
+COMPILE_ASSERT(0b0000000000000001 == _object_mask_biped);
+COMPILE_ASSERT(0b0000000000000010 == _object_mask_vehicle);
+COMPILE_ASSERT(0b0010000000000000 == _object_mask_giant);
+COMPILE_ASSERT(0b0000000000001100 == _object_mask_item);
+COMPILE_ASSERT(0b0000000000000100 == _object_mask_weapon);
+COMPILE_ASSERT(0b0000000000001000 == _object_mask_equipment);
+COMPILE_ASSERT(0b0000000001000000 == _object_mask_projectile);
+COMPILE_ASSERT(0b0000000010000000 == _object_mask_scenery);
+COMPILE_ASSERT(0b0000010000000000 == _object_mask_sound_scenery);
+COMPILE_ASSERT(0b0000100000000000 == _object_mask_crate);
+COMPILE_ASSERT(0b0001000000000000 == _object_mask_creature);
+COMPILE_ASSERT(0b0100000000000000 == _object_mask_effect_scenery);
+COMPILE_ASSERT(0b0000001100110000 == _object_mask_device);
+COMPILE_ASSERT(0b0000000000010000 == _object_mask_arg_device);
+COMPILE_ASSERT(0b0000000000100000 == _object_mask_terminal);
+COMPILE_ASSERT(0b0000000100000000 == _object_mask_machine);
+COMPILE_ASSERT(0b0000001000000000 == _object_mask_control);
+COMPILE_ASSERT(0b0010100110000010 == _object_mask_sightblocking);
+COMPILE_ASSERT(0b0011100110111111 == _object_mask_editor_placeable_objects);
 
-static_assert(0b0000001100000100 == (_object_mask_weapon | _object_mask_machine | _object_mask_control));
-static_assert(0b0001010001000000 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
-static_assert(0b0010101110111111 == (_object_mask_unit | _object_mask_item | _object_mask_scenery | _object_mask_crate | _object_mask_device));
+COMPILE_ASSERT(0b0000001100000100 == (_object_mask_weapon | _object_mask_machine | _object_mask_control));
+COMPILE_ASSERT(0b0001010001000000 == (_object_mask_projectile | _object_mask_sound_scenery | _object_mask_creature));
+COMPILE_ASSERT(0b0010101110111111 == (_object_mask_unit | _object_mask_item | _object_mask_scenery | _object_mask_crate | _object_mask_device));
 
 enum e_object_data_flags
 {
@@ -237,7 +237,7 @@ struct object_header_block_reference
 	int16 size;
 	uns16 offset;
 };
-static_assert(sizeof(object_header_block_reference) == 0x4);
+COMPILE_ASSERT(sizeof(object_header_block_reference) == 0x4);
 
 struct _object_datum
 {
@@ -347,14 +347,14 @@ struct _object_datum
 		int32 device_machine_air_probe_index;
 	};
 };
-static_assert(sizeof(_object_datum) == 0x174);
+COMPILE_ASSERT(sizeof(_object_datum) == 0x174);
 
 struct object_datum
 {
 	int32 definition_index;
 	_object_datum object;
 };
-static_assert(sizeof(object_datum) == sizeof(int32) + sizeof(_object_datum));
+COMPILE_ASSERT(sizeof(object_datum) == sizeof(int32) + sizeof(_object_datum));
 
 enum e_object_header_flags
 {
@@ -380,7 +380,7 @@ struct object_header_datum :
 	int32 datum_handle;
 	object_datum* datum;
 };
-static_assert(sizeof(object_header_datum) == 0x10);
+COMPILE_ASSERT(sizeof(object_header_datum) == 0x10);
 
 class c_object_iterator_base
 {
@@ -403,12 +403,12 @@ private:
 		int32 index;
 		uns32 signature; // 0x86868686 is initialized
 	};
-	static_assert(sizeof(s_object_iterator) == 0x18);
+	COMPILE_ASSERT(sizeof(s_object_iterator) == 0x18);
 
 	object_datum* m_object;
 	s_object_iterator m_iterator;
 };
-static_assert(sizeof(c_object_iterator_base) == 0x1C);
+COMPILE_ASSERT(sizeof(c_object_iterator_base) == 0x1C);
 
 template<typename t_object_type>
 class c_object_iterator :
@@ -436,7 +436,7 @@ struct s_model_customization_region_permutation // s_model_customization_region
 	int32 region_name;
 	int32 permutation_name;
 };
-static_assert(sizeof(s_model_customization_region_permutation) == 0x8);
+COMPILE_ASSERT(sizeof(s_model_customization_region_permutation) == 0x8);
 
 struct object_placement_data
 {
@@ -478,42 +478,42 @@ struct object_placement_data
 	c_string_id child_marker;
 	s_scenario_multiplayer_object_properties multiplayer_properties;
 };
-static_assert(sizeof(object_placement_data) == 0x18C);
-static_assert(0x000 == OFFSETOF(object_placement_data, definition_index));
-static_assert(0x004 == OFFSETOF(object_placement_data, object_identifier));
-static_assert(0x00C == OFFSETOF(object_placement_data, model_variant_index));
-static_assert(0x010 == OFFSETOF(object_placement_data, scenario_datum_index));
-static_assert(0x014 == OFFSETOF(object_placement_data, bsp_placement_policy));
-static_assert(0x015 == OFFSETOF(object_placement_data, pad1));
-static_assert(0x018 == OFFSETOF(object_placement_data, flags));
-static_assert(0x01C == OFFSETOF(object_placement_data, position));
-static_assert(0x028 == OFFSETOF(object_placement_data, forward));
-static_assert(0x034 == OFFSETOF(object_placement_data, up));
-static_assert(0x040 == OFFSETOF(object_placement_data, translational_velocity));
-static_assert(0x04C == OFFSETOF(object_placement_data, angular_velocity));
-static_assert(0x058 == OFFSETOF(object_placement_data, scale));
-static_assert(0x05C == OFFSETOF(object_placement_data, owner_player_index));
-static_assert(0x060 == OFFSETOF(object_placement_data, owner_object_index));
-static_assert(0x064 == OFFSETOF(object_placement_data, owner_team_index));
-static_assert(0x068 == OFFSETOF(object_placement_data, damage_owner));
-static_assert(0x074 == OFFSETOF(object_placement_data, change_color_override_mask));
-static_assert(0x078 == OFFSETOF(object_placement_data, change_color_overrides));
-static_assert(0x0B4 == OFFSETOF(object_placement_data, model_customization_override_count));
-static_assert(0x0B8 == OFFSETOF(object_placement_data, model_customization_overrides));
-static_assert(0x138 == OFFSETOF(object_placement_data, disabled_regions));
-static_assert(0x13C == OFFSETOF(object_placement_data, destroyed_constraints));
-static_assert(0x13E == OFFSETOF(object_placement_data, loosened_constraints));
-static_assert(0x140 == OFFSETOF(object_placement_data, ai_state_type));
-static_assert(0x142 == OFFSETOF(object_placement_data, ai_state_size));
-static_assert(0x144 == OFFSETOF(object_placement_data, ai_state_alignment_bits));
-static_assert(0x146 == OFFSETOF(object_placement_data, location_set));
-static_assert(0x147 == OFFSETOF(object_placement_data, __data147));
-static_assert(0x148 == OFFSETOF(object_placement_data, location));
-static_assert(0x14A == OFFSETOF(object_placement_data, multiplayer_cinematic_object));
-static_assert(0x14C == OFFSETOF(object_placement_data, parent_object_index));
-static_assert(0x150 == OFFSETOF(object_placement_data, parent_marker));
-static_assert(0x154 == OFFSETOF(object_placement_data, child_marker));
-static_assert(0x158 == OFFSETOF(object_placement_data, multiplayer_properties));
+COMPILE_ASSERT(sizeof(object_placement_data) == 0x18C);
+COMPILE_ASSERT(0x000 == OFFSETOF(object_placement_data, definition_index));
+COMPILE_ASSERT(0x004 == OFFSETOF(object_placement_data, object_identifier));
+COMPILE_ASSERT(0x00C == OFFSETOF(object_placement_data, model_variant_index));
+COMPILE_ASSERT(0x010 == OFFSETOF(object_placement_data, scenario_datum_index));
+COMPILE_ASSERT(0x014 == OFFSETOF(object_placement_data, bsp_placement_policy));
+COMPILE_ASSERT(0x015 == OFFSETOF(object_placement_data, pad1));
+COMPILE_ASSERT(0x018 == OFFSETOF(object_placement_data, flags));
+COMPILE_ASSERT(0x01C == OFFSETOF(object_placement_data, position));
+COMPILE_ASSERT(0x028 == OFFSETOF(object_placement_data, forward));
+COMPILE_ASSERT(0x034 == OFFSETOF(object_placement_data, up));
+COMPILE_ASSERT(0x040 == OFFSETOF(object_placement_data, translational_velocity));
+COMPILE_ASSERT(0x04C == OFFSETOF(object_placement_data, angular_velocity));
+COMPILE_ASSERT(0x058 == OFFSETOF(object_placement_data, scale));
+COMPILE_ASSERT(0x05C == OFFSETOF(object_placement_data, owner_player_index));
+COMPILE_ASSERT(0x060 == OFFSETOF(object_placement_data, owner_object_index));
+COMPILE_ASSERT(0x064 == OFFSETOF(object_placement_data, owner_team_index));
+COMPILE_ASSERT(0x068 == OFFSETOF(object_placement_data, damage_owner));
+COMPILE_ASSERT(0x074 == OFFSETOF(object_placement_data, change_color_override_mask));
+COMPILE_ASSERT(0x078 == OFFSETOF(object_placement_data, change_color_overrides));
+COMPILE_ASSERT(0x0B4 == OFFSETOF(object_placement_data, model_customization_override_count));
+COMPILE_ASSERT(0x0B8 == OFFSETOF(object_placement_data, model_customization_overrides));
+COMPILE_ASSERT(0x138 == OFFSETOF(object_placement_data, disabled_regions));
+COMPILE_ASSERT(0x13C == OFFSETOF(object_placement_data, destroyed_constraints));
+COMPILE_ASSERT(0x13E == OFFSETOF(object_placement_data, loosened_constraints));
+COMPILE_ASSERT(0x140 == OFFSETOF(object_placement_data, ai_state_type));
+COMPILE_ASSERT(0x142 == OFFSETOF(object_placement_data, ai_state_size));
+COMPILE_ASSERT(0x144 == OFFSETOF(object_placement_data, ai_state_alignment_bits));
+COMPILE_ASSERT(0x146 == OFFSETOF(object_placement_data, location_set));
+COMPILE_ASSERT(0x147 == OFFSETOF(object_placement_data, __data147));
+COMPILE_ASSERT(0x148 == OFFSETOF(object_placement_data, location));
+COMPILE_ASSERT(0x14A == OFFSETOF(object_placement_data, multiplayer_cinematic_object));
+COMPILE_ASSERT(0x14C == OFFSETOF(object_placement_data, parent_object_index));
+COMPILE_ASSERT(0x150 == OFFSETOF(object_placement_data, parent_marker));
+COMPILE_ASSERT(0x154 == OFFSETOF(object_placement_data, child_marker));
+COMPILE_ASSERT(0x158 == OFFSETOF(object_placement_data, multiplayer_properties));
 
 struct object_marker
 {
@@ -522,7 +522,7 @@ struct object_marker
 	real_matrix4x3 matrix;
 	real32 radius;
 };
-static_assert(sizeof(object_marker) == 0x70);
+COMPILE_ASSERT(sizeof(object_marker) == 0x70);
 
 struct s_object_cluster_payload
 {
@@ -532,13 +532,13 @@ struct s_object_cluster_payload
 	real_point3d bounding_sphere_center;
 	real32 bounding_sphere_radius;
 };
-static_assert(sizeof(s_object_cluster_payload) == 0x14);
+COMPILE_ASSERT(sizeof(s_object_cluster_payload) == 0x14);
 
 struct s_object_render_data
 {
 	int32 cached_render_state_index;
 };
-static_assert(sizeof(s_object_render_data) == sizeof(int32));
+COMPILE_ASSERT(sizeof(s_object_render_data) == sizeof(int32));
 
 struct s_object_globals
 {
@@ -562,7 +562,7 @@ struct s_object_globals
 	c_static_array<int32, k_object_type_count> scenario_object_to_object_index_type_start_index;
 	c_static_array<int32, 6368> scenario_object_to_object_index;
 };
-static_assert(sizeof(s_object_globals) == 0x6608);
+COMPILE_ASSERT(sizeof(s_object_globals) == 0x6608);
 
 struct s_object_render_thread_message
 {
@@ -570,7 +570,7 @@ struct s_object_render_thread_message
 	int16 message_type;
 	int16 message_param;
 };
-static_assert(sizeof(s_object_render_thread_message) == 0x8);
+COMPILE_ASSERT(sizeof(s_object_render_thread_message) == 0x8);
 
 struct objects_information
 {
@@ -587,7 +587,7 @@ struct objects_information
 	int32 noncollideable_object_actual_count;
 	int32 noncollideable_object_maximum_count;
 };
-static_assert(sizeof(objects_information) == 0x20);
+COMPILE_ASSERT(sizeof(objects_information) == 0x20);
 
 enum
 {
@@ -601,13 +601,13 @@ struct s_object_override
 	int32 object_index;
 	int32 shader_index;
 };
-static_assert(sizeof(s_object_override) == 0xC);
+COMPILE_ASSERT(sizeof(s_object_override) == 0xC);
 
 struct s_object_override_globals
 {
 	s_object_override overrides[k_maximum_object_override_count];
 };
-static_assert(sizeof(s_object_override_globals) == sizeof(s_object_override) * k_maximum_object_override_count);
+COMPILE_ASSERT(sizeof(s_object_override_globals) == sizeof(s_object_override) * k_maximum_object_override_count);
 
 extern s_object_override_globals object_override_globals;
 

@@ -17,7 +17,7 @@ public:
 		uns8 m_used_count;
 		real32 m_lifespan;
 	};
-	static_assert(sizeof(s_row) == 0x14);
+	COMPILE_ASSERT(sizeof(s_row) == 0x14);
 
 	int32 m_system_index;
 	int32 m_emitter_def_index;
@@ -25,5 +25,5 @@ public:
 	int32 m_row_head;
 	uns16 m_particle_count;
 };
-static_assert(sizeof(c_particle_emitter_gpu) == 0x18);
+COMPILE_ASSERT(sizeof(c_particle_emitter_gpu) == 0x18);
 

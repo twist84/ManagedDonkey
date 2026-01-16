@@ -11,7 +11,7 @@ public:
 		int32 events;
 		int32 total_values;
 	};
-	static_assert(sizeof(s_statistics_interval) == 0x8);
+	COMPILE_ASSERT(sizeof(s_statistics_interval) == 0x8);
 
 public:
 	c_network_time_statistics();
@@ -42,7 +42,7 @@ private:
 	s_statistics_interval m_stored_intervals[k_network_statistics_interval_count];
 	s_statistics_interval m_stored_total;
 };
-static_assert(sizeof(c_network_time_statistics) == 0xD8);
+COMPILE_ASSERT(sizeof(c_network_time_statistics) == 0xD8);
 
 class c_network_window_statistics
 {
@@ -55,7 +55,7 @@ public:
 		uns32 timestamp;
 		int32 value;
 	};
-	static_assert(sizeof(s_statistics_window_entry) == 0x8);
+	COMPILE_ASSERT(sizeof(s_statistics_window_entry) == 0x8);
 
 public:
 	c_network_window_statistics();
@@ -75,5 +75,5 @@ private:
 	int32 m_window_total_values;
 	int32 m_window_aperture_msec;
 };
-static_assert(sizeof(c_network_window_statistics) == 0x110);
+COMPILE_ASSERT(sizeof(c_network_window_statistics) == 0x110);
 

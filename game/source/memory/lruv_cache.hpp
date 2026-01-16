@@ -30,7 +30,7 @@ public:
 protected:
 	volatile int32 m_value;
 };
-static_assert(sizeof(c_lruv_block_long) == 0x4);
+COMPILE_ASSERT(sizeof(c_lruv_block_long) == 0x4);
 
 struct s_lruv_cache_block :
 	s_datum_header
@@ -42,7 +42,7 @@ struct s_lruv_cache_block :
 	int32 previous_block_index;
 	c_lruv_block_long last_used_frame_index;
 };
-static_assert(sizeof(s_lruv_cache_block) == 0x18);
+COMPILE_ASSERT(sizeof(s_lruv_cache_block) == 0x18);
 
 struct s_lruv_cache_hole
 {
@@ -51,7 +51,7 @@ struct s_lruv_cache_hole
 	int32 first_page_index;
 	int32 page_count;
 };
-static_assert(sizeof(s_lruv_cache_hole) == 0x10);
+COMPILE_ASSERT(sizeof(s_lruv_cache_hole) == 0x10);
 
 enum e_lruv_cache_bit
 {
@@ -98,7 +98,7 @@ struct s_lruv_cache
 	int32 critical_section_index;
 	c_flags<e_lruv_cache_bit, uns32, k_lruv_cache_bits> flags;
 };
-static_assert(sizeof(s_lruv_cache) == 0x84);
+COMPILE_ASSERT(sizeof(s_lruv_cache) == 0x84);
 
 extern s_lruv_cache* __cdecl lruv_allocate(const char* name, int32 page_size_bits, void* proc_context, delete_block_proc_t* delete_block_proc, locked_block_proc_t* locked_block_proc, usage_block_proc_t* usage_block_proc, c_allocation_base* allocation, int32 critical_section_index);
 extern int32 __cdecl lruv_allocation_size(int32 maximum_count);

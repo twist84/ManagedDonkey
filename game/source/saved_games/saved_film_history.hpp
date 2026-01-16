@@ -28,7 +28,7 @@ struct s_saved_film_history_archive_record
 	bool working;
 	bool valid;
 };
-static_assert(sizeof(s_saved_film_history_archive_record) == 0x20);
+COMPILE_ASSERT(sizeof(s_saved_film_history_archive_record) == 0x20);
 
 class c_saved_film_history_record_manager
 {
@@ -54,7 +54,7 @@ public:
 private:
 	c_static_array<s_saved_film_history_archive_record, SAVED_FILM_HISTORY_ARCHIVE_COUNT> m_archive_records;
 };
-static_assert(sizeof(c_saved_film_history_record_manager) == sizeof(s_saved_film_history_archive_record) * SAVED_FILM_HISTORY_ARCHIVE_COUNT);
+COMPILE_ASSERT(sizeof(c_saved_film_history_record_manager) == sizeof(s_saved_film_history_archive_record) * SAVED_FILM_HISTORY_ARCHIVE_COUNT);
 
 struct s_saved_film_history_globals
 {
@@ -64,7 +64,7 @@ struct s_saved_film_history_globals
 	uns32 last_revert_time;
 	bool reverted_last_tick;
 };
-static_assert(sizeof(s_saved_film_history_globals) == 0x210);
+COMPILE_ASSERT(sizeof(s_saved_film_history_globals) == 0x210);
 
 extern c_async_stored_buffer_set<1>* saved_film_history_buffer_acquire();
 extern c_async_stored_buffer_set<1>* saved_film_history_buffer_get_without_acquire();

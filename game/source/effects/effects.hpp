@@ -37,7 +37,7 @@ struct s_effect_vector
 	real_vector3d direction;
 	c_string_id name;
 };
-static_assert(sizeof(s_effect_vector) == 0x1C);
+COMPILE_ASSERT(sizeof(s_effect_vector) == 0x1C);
 
 struct effect_datum :
 	s_datum_header
@@ -70,7 +70,7 @@ struct effect_datum :
 	int32 breakable_surface_event_index;
 	real_plane3d location_constraint_plane;
 };
-static_assert(sizeof(effect_datum) == 0xA0);
+COMPILE_ASSERT(sizeof(effect_datum) == 0xA0);
 
 struct event_datum :
 	s_datum_header
@@ -82,7 +82,7 @@ struct event_datum :
 	real32 time;
 	real32 duration;
 };
-static_assert(sizeof(event_datum) == 0x14);
+COMPILE_ASSERT(sizeof(event_datum) == 0x14);
 
 struct effect_location_datum :
 	s_datum_header
@@ -92,20 +92,20 @@ struct effect_location_datum :
 	int32 next_instance_location_index;
 	real_matrix4x3 matrix;
 };
-static_assert(sizeof(effect_location_datum) == 0x40);
+COMPILE_ASSERT(sizeof(effect_location_datum) == 0x40);
 
 struct s_effect_counts
 {
 	byte __data[0x18];
 };
-static_assert(sizeof(s_effect_counts) == 0x18);
+COMPILE_ASSERT(sizeof(s_effect_counts) == 0x18);
 
 struct effect_geometry_sample_datum :
 	s_datum_header
 {
 	byte __data[0x26];
 };
-static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
+COMPILE_ASSERT(sizeof(effect_geometry_sample_datum) == 0x28);
 
 struct s_effect_message
 {
@@ -144,7 +144,7 @@ struct s_effect_message
 		byte storage[0x44];
 	};
 };
-static_assert(sizeof(s_effect_message) == 0x5C);
+COMPILE_ASSERT(sizeof(s_effect_message) == 0x5C);
 
 struct s_geometry_sample
 {
@@ -160,14 +160,14 @@ struct s_geometry_sample
 	bool m_needs_interpolation;
 	real32 m_chocalate_mountain_scale;
 };
-static_assert(sizeof(s_geometry_sample) == 0x1F8);
+COMPILE_ASSERT(sizeof(s_geometry_sample) == 0x1F8);
 
 struct s_effect_lightprobe
 {
 	uns8 m_flags;
 	s_geometry_sample m_geometry_sample;
 };
-static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
+COMPILE_ASSERT(sizeof(s_effect_lightprobe) == 0x1FC);
 
 extern bool debug_damage_effects;
 

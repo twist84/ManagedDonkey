@@ -57,7 +57,7 @@ void __cdecl rasterizer_stipple_initialize()
 
 		constexpr int32 num_block_sizes = 3;
 		constexpr real32 block_sizes[] = { 4.0f, 2.0f, 1.0f };
-		static_assert(NUMBEROF(block_sizes) == num_block_sizes);
+		COMPILE_ASSERT(NUMBEROF(block_sizes) == num_block_sizes);
 		for (int32 block_size_index = 0; block_size_index < num_block_sizes; block_size_index++)
 		{
 			csmemset(block_size, 0, sizeof(block_size));

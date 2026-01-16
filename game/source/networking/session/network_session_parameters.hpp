@@ -20,7 +20,7 @@ struct s_network_session_parameter_map
 	s_campaign_game_progression campaign_progression;
 	s_hub_progression hub_progression;
 };
-static_assert(sizeof(s_network_session_parameter_map) == 0x200);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_map) == 0x200);
 
 enum e_network_ui_state_flags
 {
@@ -33,21 +33,21 @@ struct s_network_ui_state
 {
 	c_flags<e_network_ui_state_flags, uns16, k_network_ui_state_flags> flags;
 };
-static_assert(sizeof(s_network_ui_state) == 0x2);
+COMPILE_ASSERT(sizeof(s_network_ui_state) == 0x2);
 
 struct s_network_session_parameter_synchronous_out_of_sync
 {
 	bool out_of_sync;
 	bool determinism_failure;
 };
-static_assert(sizeof(s_network_session_parameter_synchronous_out_of_sync) == 0x2);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_synchronous_out_of_sync) == 0x2);
 
 struct s_network_session_parameter_request_campaign_quit
 {
 	int32 reason;
 	int32 peer_index;
 };
-static_assert(sizeof(s_network_session_parameter_request_campaign_quit) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_session_parameter_request_campaign_quit) == 0x8);
 
 struct s_network_message_parameters_update;
 class c_network_session;
@@ -107,7 +107,7 @@ public:
 		c_generic_network_session_parameter<s_network_session_parameter_leader_properties> leader_properties;
 		c_network_session_parameter_lobby_vote_set lobby_vote_set;
 	};
-	static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
+	COMPILE_ASSERT(sizeof(s_network_session_parameters_internal) == 0xB7858);
 
 	bool handle_update(const s_network_message_parameters_update* update);
 	bool parameters_transmitted_to_peers(uns64 parameter_mask) const;
@@ -120,5 +120,5 @@ public:
 	uns32 m_initial_parameters_update_mask;
 	int32 : 32;
 };
-static_assert(sizeof(c_network_session_parameters) == 0xB7930);
+COMPILE_ASSERT(sizeof(c_network_session_parameters) == 0xB7930);
 

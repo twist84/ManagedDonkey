@@ -26,7 +26,7 @@ struct simulation_machine_update
 	uns32 machine_valid_mask;
 	c_static_array<s_machine_identifier, 17> machine_identifiers;
 };
-static_assert(sizeof(simulation_machine_update) == 0x114);
+COMPILE_ASSERT(sizeof(simulation_machine_update) == 0x114);
 
 struct s_simulation_camera_update
 {
@@ -36,7 +36,7 @@ struct s_simulation_camera_update
 	real_vector3d forward;
 	bool zoomed;
 };
-static_assert(sizeof(s_simulation_camera_update) == 0x24);
+COMPILE_ASSERT(sizeof(s_simulation_camera_update) == 0x24);
 
 struct simulation_update
 {
@@ -70,7 +70,7 @@ struct simulation_update
 	c_simulation_queue bookkeeping_simulation_queue;
 	c_simulation_queue game_simulation_queue;
 };
-static_assert(sizeof(struct simulation_update) == 0x1658);
+COMPILE_ASSERT(sizeof(struct simulation_update) == 0x1658);
 
 struct s_simulation_update_metadata
 {
@@ -79,7 +79,7 @@ struct s_simulation_update_metadata
 	int32 saved_film_position;
 	int32 saved_film_tick;
 };
-static_assert(sizeof(s_simulation_update_metadata) == 0xC);
+COMPILE_ASSERT(sizeof(s_simulation_update_metadata) == 0xC);
 
 struct s_simulation_queued_update
 {
@@ -98,7 +98,7 @@ struct s_simulation_queued_update
 	} playback_event;
 	s_simulation_queued_update* next_node;
 };
-static_assert(sizeof(s_simulation_queued_update) == 0x1680);
+COMPILE_ASSERT(sizeof(s_simulation_queued_update) == 0x1680);
 
 class c_simulation_world;
 class c_simulation_watcher;
@@ -126,7 +126,7 @@ struct s_simulation_globals
 	bool simulation_paused;
 	bool handled_determinism_failure;
 };
-static_assert(sizeof(s_simulation_globals) == 0x128);
+COMPILE_ASSERT(sizeof(s_simulation_globals) == 0x128);
 
 extern s_simulation_globals& simulation_globals;
 

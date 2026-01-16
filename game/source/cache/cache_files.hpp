@@ -22,7 +22,7 @@ struct s_cache_file_section_file_bounds
 	int32 offset;
 	int32 size;
 };
-static_assert(sizeof(s_cache_file_section_file_bounds) == 0x8);
+COMPILE_ASSERT(sizeof(s_cache_file_section_file_bounds) == 0x8);
 
 const int32 k_cache_file_header_signature = 'head';
 const int32 k_cache_file_footer_signature = 'foot';
@@ -113,7 +113,7 @@ union s_cache_file_header
 		tag footer_signature;
 	};
 };
-static_assert(sizeof(s_cache_file_header) == 0x3390);
+COMPILE_ASSERT(sizeof(s_cache_file_header) == 0x3390);
 #pragma pack(pop)
 
 union cache_address
@@ -126,7 +126,7 @@ union cache_address
 		uns32 : 1;
 	};
 };
-static_assert(sizeof(cache_address) == 0x4);
+COMPILE_ASSERT(sizeof(cache_address) == 0x4);
 
 union cache_file_tag_instance
 {
@@ -159,7 +159,7 @@ union cache_file_tag_instance
 	int32 get_tag_index();
 	const char* get_tag_name();
 };
-static_assert(sizeof(cache_file_tag_instance) == 0x24);
+COMPILE_ASSERT(sizeof(cache_file_tag_instance) == 0x24);
 
 struct s_file_reference_persist
 {
@@ -170,7 +170,7 @@ struct s_file_reference_persist
 	uns32 handle;
 	int32 position;
 };
-static_assert(sizeof(s_file_reference_persist) == 0x7C);
+COMPILE_ASSERT(sizeof(s_file_reference_persist) == 0x7C);
 
 struct s_cache_file_report
 {
@@ -184,20 +184,20 @@ struct s_cache_file_report
 	uns32 __unknown10C;
 	uns32 __unknown110;
 };
-static_assert(sizeof(s_cache_file_report) == 0x114);
+COMPILE_ASSERT(sizeof(s_cache_file_report) == 0x114);
 
 // this is an actual calculation used within the game
 #define GET_REPORT_COUNT_FROM_SIZE(REPORT_SIZE) (((0x76B981DBi64 * REPORT_SIZE) >> 32) >> 7)
 
-static_assert(GET_REPORT_COUNT_FROM_SIZE(sizeof(s_cache_file_report) * 1000) == 1000);
-static_assert(GET_REPORT_COUNT_FROM_SIZE(0x0004FC80) == 0x0004FC80 / sizeof(s_cache_file_report));
+COMPILE_ASSERT(GET_REPORT_COUNT_FROM_SIZE(sizeof(s_cache_file_report) * 1000) == 1000);
+COMPILE_ASSERT(GET_REPORT_COUNT_FROM_SIZE(0x0004FC80) == 0x0004FC80 / sizeof(s_cache_file_report));
 
 struct s_cache_file_reports
 {
 	int32 count;
 	s_cache_file_report* elements;
 };
-static_assert(sizeof(s_cache_file_reports) == 0x8);
+COMPILE_ASSERT(sizeof(s_cache_file_reports) == 0x8);
 
 union s_cache_file_section_header
 {
@@ -214,7 +214,7 @@ union s_cache_file_section_header
 		uns32 __unknown1C;
 	};
 };
-static_assert(sizeof(s_cache_file_section_header) == 0x20);
+COMPILE_ASSERT(sizeof(s_cache_file_section_header) == 0x20);
 
 const int32 k_tag_cache_maximum_files_count = 60000;
 const int32 k_tag_cache_maximum_size = 0x4B00000;
@@ -225,7 +225,7 @@ struct s_cache_file_debug_globals
 	char debug_tag_name_buffer[k_tag_cache_maximum_files_count * k_tag_long_string_length];
 	const char* debug_tag_names[k_tag_cache_maximum_files_count];
 };
-static_assert(sizeof(s_cache_file_debug_globals) == 0xF1B300);
+COMPILE_ASSERT(sizeof(s_cache_file_debug_globals) == 0xF1B300);
 
 struct s_cache_file_globals
 {
@@ -271,7 +271,7 @@ struct s_cache_file_globals
 	c_static_array<const char*, 5> resource_files;
 	const char* map_directory;
 };
-static_assert(sizeof(s_cache_file_globals) == 0x3500);
+COMPILE_ASSERT(sizeof(s_cache_file_globals) == 0x3500);
 
 extern const char*& k_multiplayer_shared_scenario_tag;
 extern const char*& k_single_player_shared_scenario_tag;
@@ -352,7 +352,7 @@ struct tag_iterator
 	c_data_iterator<void/*s_tag_instance_datum*/> iterator;
 	tag key_group_tag;
 };
-static_assert(sizeof(tag_iterator) == 0x14);
+COMPILE_ASSERT(sizeof(tag_iterator) == 0x14);
 
 extern void __cdecl tag_files_close();
 extern void __cdecl tag_files_initialize_from_main();

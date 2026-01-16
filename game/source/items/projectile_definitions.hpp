@@ -155,7 +155,7 @@ struct _projectile_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_projectile_definition) == 0x1AC);
+COMPILE_ASSERT(sizeof(_projectile_definition) == 0x1AC);
 
 struct projectile_definition
 {
@@ -166,7 +166,7 @@ struct projectile_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(projectile_definition) == sizeof(_projectile_definition) + sizeof(_object_definition));
+COMPILE_ASSERT(sizeof(projectile_definition) == sizeof(_projectile_definition) + sizeof(_object_definition));
 
 struct s_projectile_material_response_definition
 {
@@ -215,7 +215,7 @@ struct s_projectile_material_response_definition
 	// the fraction of the projectile's velocity perpendicular to the surface lost on impact
 	real32 perpendicular_friction;
 };
-static_assert(sizeof(s_projectile_material_response_definition) == 0x40);
+COMPILE_ASSERT(sizeof(s_projectile_material_response_definition) == 0x40);
 
 struct s_projectile_brute_grenade_definition
 {
@@ -236,13 +236,13 @@ struct s_projectile_brute_grenade_definition
 	real32 attach_acceleration_e;
 	real32 attach_acceleration_damping;
 };
-static_assert(sizeof(s_projectile_brute_grenade_definition) == 0x30);
+COMPILE_ASSERT(sizeof(s_projectile_brute_grenade_definition) == 0x30);
 
 struct s_projectile_fire_bomb_grenade_definition
 {
 	real32 projection_offset;
 };
-static_assert(sizeof(s_projectile_fire_bomb_grenade_definition) == sizeof(real32));
+COMPILE_ASSERT(sizeof(s_projectile_fire_bomb_grenade_definition) == sizeof(real32));
 
 struct s_projectile_conical_projection_defintion
 {
@@ -258,5 +258,5 @@ struct s_projectile_conical_projection_defintion
 
 	real32 spread; // degrees
 };
-static_assert(sizeof(s_projectile_conical_projection_defintion) == 0xC);
+COMPILE_ASSERT(sizeof(s_projectile_conical_projection_defintion) == 0xC);
 

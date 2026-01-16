@@ -30,9 +30,9 @@ public:
 	uns32 m_countdown_start_time;
 	uns32 m_loading_start_time;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_prepare_map) == 0x38);
-static_assert(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_flags));
-static_assert(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_prepare_map_start_time));
-static_assert(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_countdown_start_time));
-static_assert(0x34 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_loading_start_time));
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_prepare_map) == 0x38);
+COMPILE_ASSERT(0x28 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_flags));
+COMPILE_ASSERT(0x2C == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_prepare_map_start_time));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_countdown_start_time));
+COMPILE_ASSERT(0x34 == OFFSETOF(c_life_cycle_state_handler_matchmaking_prepare_map, m_loading_start_time));
 

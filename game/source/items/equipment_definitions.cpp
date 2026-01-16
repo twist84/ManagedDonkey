@@ -67,7 +67,7 @@ e_equipment_type equipment_definition_get_type(int32 equipment_definition_index,
 		//_equipment_type_ammo_pack,
 		//_equipment_type_vision
 	};
-	static_assert(NUMBEROF(k_type_order) == k_equipment_type_count);
+	COMPILE_ASSERT(NUMBEROF(k_type_order) == k_equipment_type_count);
 	
 	e_equipment_type result_equipment_type = _equipment_type_none;
 	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment_definition_index);

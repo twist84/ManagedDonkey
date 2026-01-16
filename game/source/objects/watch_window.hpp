@@ -8,7 +8,7 @@ struct s_watch_object_results
 	const char* object_information;
 	object_datum* object;
 };
-static_assert(sizeof(s_watch_object_results) == 0x8);
+COMPILE_ASSERT(sizeof(s_watch_object_results) == 0x8);
 
 extern uns32 __cdecl clear_watch_window_globals();
 extern bool __cdecl object_index_valid_for_try_and_get(int32 object_index);

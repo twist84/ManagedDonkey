@@ -19,7 +19,7 @@ struct s_object_activation_region :
 	// pad?
 	byte __data26[0x2];
 };
-static_assert(sizeof(s_object_activation_region) == 0x28);
+COMPILE_ASSERT(sizeof(s_object_activation_region) == 0x28);
 
 extern void __cdecl object_activation_regions_dispose();
 extern void __cdecl object_activation_regions_dispose_from_old_map();

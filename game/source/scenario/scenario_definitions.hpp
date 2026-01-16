@@ -370,7 +370,7 @@ struct scenario
 	
 	void update_reference_names();
 };
-static_assert(sizeof(struct scenario) == 0x824);
+COMPILE_ASSERT(sizeof(struct scenario) == 0x824);
 
 enum e_scenario_structure_size
 {
@@ -450,7 +450,7 @@ struct scenario_structure_bsp_reference
 	
 	void update_reference_names();
 };
-static_assert(sizeof(scenario_structure_bsp_reference) == 0x6C);
+COMPILE_ASSERT(sizeof(scenario_structure_bsp_reference) == 0x6C);
 
 struct s_scenario_sky_reference
 {
@@ -464,7 +464,7 @@ struct s_scenario_sky_reference
 	
 	void update_reference_names();
 };
-static_assert(sizeof(s_scenario_sky_reference) == 0x14);
+COMPILE_ASSERT(sizeof(s_scenario_sky_reference) == 0x14);
 
 enum e_scenario_zone_set_flags
 {
@@ -490,7 +490,7 @@ struct s_scenario_zone_set
 	int32 hint_previous_zone_set;   // long_block_index
 	int32 audibility_index;         // long_block_index
 };
-static_assert(sizeof(s_scenario_zone_set) == 0x24);
+COMPILE_ASSERT(sizeof(s_scenario_zone_set) == 0x24);
 
 struct s_scenario_zone_set_pvs
 {
@@ -500,20 +500,20 @@ struct s_scenario_zone_set_pvs
 	s_tag_block structure_bsp_pvs;
 	s_tag_block structure_portal_device_mapping_block;
 };
-static_assert(sizeof(s_scenario_zone_set_pvs) == 0x2C);
+COMPILE_ASSERT(sizeof(s_scenario_zone_set_pvs) == 0x2C);
 
 struct s_scenario_cinematic_lighting_palette_entry
 {
 	c_string_id name;
 	c_typed_tag_reference<NEW_CINEMATIC_LIGHTING_TAG, INVALID_TAG> cinematic_lighting_tag;
 };
-static_assert(sizeof(s_scenario_cinematic_lighting_palette_entry) == 0x14);
+COMPILE_ASSERT(sizeof(s_scenario_cinematic_lighting_palette_entry) == 0x14);
 
 struct s_scenario_budget_reference
 {
 	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG, SOUND_LOOPING_TAG, SOUND_TAG, INVALID_TAG> reference;
 };
-static_assert(sizeof(s_scenario_budget_reference) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_scenario_budget_reference) == sizeof(s_tag_reference));
 
 struct s_scenario_airprobe_info
 {
@@ -522,7 +522,7 @@ struct s_scenario_airprobe_info
 	uns16 manual_bsp_flags;
 	uns16 pad;
 };
-static_assert(sizeof(s_scenario_airprobe_info) == 0x14);
+COMPILE_ASSERT(sizeof(s_scenario_airprobe_info) == 0x14);
 
 struct s_scenario_lighting_zone_set
 {
@@ -534,13 +534,13 @@ struct s_scenario_lighting_zone_set
 	// scenario_structure_bsp_reference
 	int32 extra_bsp_flags; // long_block_flags
 };
-static_assert(sizeof(s_scenario_lighting_zone_set) == 0xC);
+COMPILE_ASSERT(sizeof(s_scenario_lighting_zone_set) == 0xC);
 
 struct scenario_campaign_player_representation_names_block
 {
 	c_string_id name;
 };
-static_assert(sizeof(scenario_campaign_player_representation_names_block) == 0x4);
+COMPILE_ASSERT(sizeof(scenario_campaign_player_representation_names_block) == 0x4);
 
 struct scenario_object_name
 {
@@ -548,7 +548,7 @@ struct scenario_object_name
 	int16 object_type; // short_block_index_custom_search
 	int16 scenario_datum_index; // short_block_index_custom_search
 };
-static_assert(sizeof(scenario_object_name) == 0x24);
+COMPILE_ASSERT(sizeof(scenario_object_name) == 0x24);
 
 enum e_scenario_soft_ceiling_flags
 {
@@ -579,7 +579,7 @@ struct s_scenario_soft_ceiling
 	// pad
 	byte my_name_is[0x2];
 };
-static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
+COMPILE_ASSERT(sizeof(s_scenario_soft_ceiling) == 0xC);
 
 struct starting_weapon_info
 {
@@ -587,7 +587,7 @@ struct starting_weapon_info
 	int16 rounds_loaded;
 	int16 rounds_total;
 };
-static_assert(sizeof(starting_weapon_info) == 0x14);
+COMPILE_ASSERT(sizeof(starting_weapon_info) == 0x14);
 
 struct scenario_starting_profile
 {
@@ -616,7 +616,7 @@ struct scenario_starting_profile
 
 	void update_reference_names();
 };
-static_assert(sizeof(scenario_starting_profile) == 0x60);
+COMPILE_ASSERT(sizeof(scenario_starting_profile) == 0x60);
 
 enum e_scenario_player_flags
 {
@@ -639,7 +639,7 @@ struct scenario_player
 	// pad
 	byte ANDYNDGE[0x2];
 };
-static_assert(sizeof(scenario_player) == 0x1C);
+COMPILE_ASSERT(sizeof(scenario_player) == 0x1C);
 
 struct squad_group_definition
 {
@@ -652,13 +652,13 @@ struct squad_group_definition
 
 	int16 editor_folder;
 };
-static_assert(sizeof(squad_group_definition) == 0x28);
+COMPILE_ASSERT(sizeof(squad_group_definition) == 0x28);
 
 struct s_squad_definition_internal
 {
 	s_tag_block cells;
 };
-static_assert(sizeof(s_squad_definition_internal) == sizeof(s_tag_block));
+COMPILE_ASSERT(sizeof(s_squad_definition_internal) == sizeof(s_tag_block));
 
 struct s_squad_definition
 {
@@ -683,7 +683,7 @@ struct s_squad_definition
 	s_squad_definition_internal designer;
 	s_squad_definition_internal templated;
 };
-static_assert(sizeof(s_squad_definition) == 0x68);
+COMPILE_ASSERT(sizeof(s_squad_definition) == 0x68);
 
 struct area_definition
 {
@@ -725,7 +725,7 @@ struct area_definition
 	real32 cover_offset_distance;
 	real32 too_close_distance;
 };
-static_assert(sizeof(area_definition) == 0xA8);
+COMPILE_ASSERT(sizeof(area_definition) == 0xA8);
 
 struct zone_definition
 {
@@ -735,7 +735,7 @@ struct zone_definition
 	s_tag_block firing_positions;
 	c_typed_tag_block<area_definition> areas;
 };
-static_assert(sizeof(zone_definition) == 0x3C);
+COMPILE_ASSERT(sizeof(zone_definition) == 0x3C);
 
 struct scenario_cutscene_flag
 {
@@ -750,7 +750,7 @@ struct scenario_cutscene_flag
 	// pad
 	byte IWERHADF[0x2];
 };
-static_assert(sizeof(scenario_cutscene_flag) == 0x20);
+COMPILE_ASSERT(sizeof(scenario_cutscene_flag) == 0x20);
 
 enum e_scenario_camera_flags
 {
@@ -773,7 +773,7 @@ struct scenario_cutscene_camera_point
 	real_point3d position;
 	real_euler_angles3d orientation;
 };
-static_assert(sizeof(scenario_cutscene_camera_point) == 0x40);
+COMPILE_ASSERT(sizeof(scenario_cutscene_camera_point) == 0x40);
 
 struct s_scenario_cutscene_title
 {
@@ -792,7 +792,7 @@ struct s_scenario_cutscene_title
 	real32 up_time; // seconds
 	real32 fade_out_time; // seconds
 };
-static_assert(sizeof(s_scenario_cutscene_title) == 0x28);
+COMPILE_ASSERT(sizeof(s_scenario_cutscene_title) == 0x28);
 
 struct s_background_bitmap_reference_definition
 {
@@ -800,13 +800,13 @@ struct s_background_bitmap_reference_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_background_bitmap_reference_definition) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_background_bitmap_reference_definition) == sizeof(s_tag_reference));
 
 struct scenario_decal_palette_entry
 {
 	c_typed_tag_reference<DECAL_SYSTEM_TAG, INVALID_TAG> reference;
 };
-static_assert(sizeof(scenario_decal_palette_entry) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(scenario_decal_palette_entry) == sizeof(s_tag_reference));
 
 extern int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(const struct scenario* scenario, string_id name);
 

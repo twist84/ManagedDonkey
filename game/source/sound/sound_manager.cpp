@@ -37,7 +37,7 @@ struct s_sound_source
 	int16 outer_cone_angle_step;
 	int32 __unknown48;
 };
-static_assert(sizeof(s_sound_source) == 0x4C);
+COMPILE_ASSERT(sizeof(s_sound_source) == 0x4C);
 
 struct s_sound_tracker
 {
@@ -45,7 +45,7 @@ struct s_sound_tracker
 
 	byte __data[0x2C];
 };
-static_assert(sizeof(s_sound_tracker) == 0x30);
+COMPILE_ASSERT(sizeof(s_sound_tracker) == 0x30);
 
 struct s_cache_file_sound_permutation;
 struct sound_channel_datum
@@ -75,7 +75,7 @@ struct sound_channel_datum
 	s_cache_file_sound_permutation* playing_chunk_permutation;
 	s_cache_file_sound_permutation* queued_chunk_permutation;
 };
-static_assert(sizeof(sound_channel_datum) == 0x38);
+COMPILE_ASSERT(sizeof(sound_channel_datum) == 0x38);
 
 struct s_sound_tracker_datum :
 	s_datum_header
@@ -88,7 +88,7 @@ struct s_sound_tracker_datum :
 
 	byte __data3C[0x4];
 };
-static_assert(sizeof(s_sound_tracker_datum) == 0x40);
+COMPILE_ASSERT(sizeof(s_sound_tracker_datum) == 0x40);
 
 struct sound_datum :
 	s_datum_header
@@ -142,14 +142,14 @@ struct sound_datum :
 	int32 __unknownC0;
 	int32 __unknownC4;
 };
-static_assert(sizeof(sound_datum) == 0xC8);
+COMPILE_ASSERT(sizeof(sound_datum) == 0xC8);
 
 struct s_xbox_sound_datum :
 	s_datum_header
 {
 	byte __data0[0xA];
 };
-static_assert(sizeof(s_xbox_sound_datum) == 0xC);
+COMPILE_ASSERT(sizeof(s_xbox_sound_datum) == 0xC);
 
 struct looping_sound_track_datum
 {
@@ -161,7 +161,7 @@ struct looping_sound_track_datum
 	byte __dataF[0x5];
 	c_static_array<real32, 4> gains;
 };
-static_assert(sizeof(looping_sound_track_datum) == 0x24);
+COMPILE_ASSERT(sizeof(looping_sound_track_datum) == 0x24);
 
 struct looping_sound_datum :
 	s_datum_header
@@ -182,7 +182,7 @@ struct looping_sound_datum :
 
 	c_static_array<looping_sound_track_datum, 4> tracks;
 };
-static_assert(sizeof(looping_sound_datum) == 0x128);
+COMPILE_ASSERT(sizeof(looping_sound_datum) == 0x128);
 
 struct s_sound_effect_datum :
 	s_datum_header
@@ -197,7 +197,7 @@ struct s_sound_effect_datum :
 
 	byte __dataC[0x8];
 };
-static_assert(sizeof(s_sound_effect_datum) == 0x64);
+COMPILE_ASSERT(sizeof(s_sound_effect_datum) == 0x64);
 
 class c_sound_playback_controller :
 	public s_datum_header
@@ -211,7 +211,7 @@ class c_sound_playback_controller :
 
 	byte __dataC[0x10];
 };
-static_assert(sizeof(c_sound_playback_controller) == 0x1C);
+COMPILE_ASSERT(sizeof(c_sound_playback_controller) == 0x1C);
 
 REFERENCE_DECLARE(0x0238E858, s_sound_manager_globals*, g_sound_manager_globals);
 

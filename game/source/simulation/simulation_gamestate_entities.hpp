@@ -9,7 +9,7 @@ struct s_simulation_gamestate_entity :
 	int32 object_index;
 	bool marked_for_deletion;
 };
-static_assert(sizeof(s_simulation_gamestate_entity) == 0x10);
+COMPILE_ASSERT(sizeof(s_simulation_gamestate_entity) == 0x10);
 
 class c_bitstream;
 

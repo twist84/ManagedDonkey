@@ -53,7 +53,7 @@ struct s_cache_file_resource_file_location
 	s_cache_file_resource_checksum checksum;
 	s_cache_file_resource_streaming_sublocation_table streaming_sublocation_table;
 };
-static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_file_location) == 0x24);
 
 struct s_render_texture_format
 {
@@ -68,7 +68,7 @@ struct s_render_texture_format
 	int8 bm_curve;
 	uns16 bm_flags;
 };
-static_assert(sizeof(s_render_texture_format) == 0x10);
+COMPILE_ASSERT(sizeof(s_render_texture_format) == 0x10);
 
 struct s_render_texture_descriptor
 {
@@ -76,7 +76,7 @@ struct s_render_texture_descriptor
 	s_tag_data high_res_pixel_data;
 	s_render_texture_format texture;
 };
-static_assert(sizeof(s_render_texture_descriptor) == 0x38);
+COMPILE_ASSERT(sizeof(s_render_texture_descriptor) == 0x38);
 
 // $TODO add other control data structures
 union control_data_t
@@ -89,14 +89,14 @@ struct s_cache_file_resource_fixup_location
 	int32 encoded_fixup_location;
 	int32 encoded_fixup_value;
 };
-static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
 struct s_tag_resource_interop_location
 {
 	c_tag_resource_fixup encoded_interop_location;
 	int32 interop_type_index; // long_block_index
 };
-static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
 extern const char* const k_cache_file_resource_type_names[k_cache_file_resource_type_count];
 
@@ -112,14 +112,14 @@ struct s_cache_file_resource_runtime_data_new
 	c_typed_tag_block<s_tag_resource_interop_location> interop_locations;
 	c_flags<e_cache_file_resource_data_flags, uns32, k_cache_file_resource_data_flags> flags;
 };
-static_assert(sizeof(s_cache_file_resource_runtime_data_new) == 0x48);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_runtime_data_new) == 0x48);
 
 struct s_cache_file_tag_resource_data
 {
 	s_cache_file_resource_file_location file_location;
 	s_cache_file_resource_runtime_data_new runtime_data;
 };
-static_assert(sizeof(s_cache_file_tag_resource_data) == 0x6C);
+COMPILE_ASSERT(sizeof(s_cache_file_tag_resource_data) == 0x6C);
 
 struct s_cache_file_tag_parentage
 {
@@ -129,7 +129,7 @@ struct s_cache_file_tag_parentage
 	c_typed_tag_block<int32> parent_indices; // s_cache_file_tag_parentage block indices
 	c_typed_tag_block<int32> child_indices;  // s_cache_file_tag_parentage block indices
 };
-static_assert(sizeof(s_cache_file_tag_parentage) == 0x2C);
+COMPILE_ASSERT(sizeof(s_cache_file_tag_parentage) == 0x2C);
 
 struct s_tag_resource_prediction_quantum;
 struct s_tag_resource_prediction_atom;
@@ -144,7 +144,7 @@ struct s_tag_resource_cache_prediction_table
 	c_typed_tag_block<s_tag_resource_prediction_molecule> molecules;
 	c_typed_tag_block<s_tag_resource_prediction_molecule_key> molecule_keys;
 };
-static_assert(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
+COMPILE_ASSERT(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
 
 struct s_cache_file_zone_manifest;
 
@@ -190,7 +190,7 @@ struct s_cache_file_resource_gestalt
 	// Next time we don't put things that the game depends on outside of tool, guerilla, or sapien
 	e_map_id map_id;
 };
-static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
+COMPILE_ASSERT(sizeof(s_cache_file_resource_gestalt) == 0x17C);
 
 extern const char* cache_file_resource_type_get_name(int32 resource_type);
 

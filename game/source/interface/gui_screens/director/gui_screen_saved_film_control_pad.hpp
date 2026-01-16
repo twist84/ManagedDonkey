@@ -16,6 +16,6 @@ public:
 public:
 	int32 m_previous_snippet_state;
 };
-//static_assert(sizeof(c_saved_film_control_pad) == 0x1AA8);
-//static_assert(sizeof(c_saved_film_control_pad) == sizeof(c_gui_screen_widget) + 0x8);
+//COMPILE_ASSERT(sizeof(c_saved_film_control_pad) == 0x1AA8);
+//COMPILE_ASSERT(sizeof(c_saved_film_control_pad) == sizeof(c_gui_screen_widget) + 0x8);
 

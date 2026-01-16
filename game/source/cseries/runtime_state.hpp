@@ -11,7 +11,7 @@ class c_runtime_state_allocation :
 	public c_allocation_base
 {
 };
-static_assert(sizeof(c_runtime_state_allocation) == sizeof(c_allocation_base));
+COMPILE_ASSERT(sizeof(c_runtime_state_allocation) == sizeof(c_allocation_base));
 
 struct s_runtime_state_globals
 {
@@ -20,7 +20,7 @@ struct s_runtime_state_globals
 	int32 allocated_size;
 	uns32 size_checksum;
 };
-static_assert(sizeof(s_runtime_state_globals) == 0x10);
+COMPILE_ASSERT(sizeof(s_runtime_state_globals) == 0x10);
 
 extern c_allocation_base*& g_runtime_state_allocation;
 extern c_runtime_state_allocation& g_actual_runtime_state_allocation;

@@ -15,11 +15,11 @@ public:
 		c_camera_fx_settings m_camera_fx_settings;
 		c_camera_fx_values m_camera_fx_values;
 	};
-	static_assert(sizeof(s_player_window) == 0x360);
+	COMPILE_ASSERT(sizeof(s_player_window) == 0x360);
 
 	s_player_window player_window[MAXIMUM_PLAYER_WINDOWS];
 };
-static_assert(sizeof(s_render_game_state) == 0xD80);
+COMPILE_ASSERT(sizeof(s_render_game_state) == 0xD80);
 
 extern void __cdecl __tls_set_g_render_game_globals_allocator(void* new_address);
 extern s_render_game_state::s_player_window* __cdecl get_render_player_window_game_state(int32 player_window_index);

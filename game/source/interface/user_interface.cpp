@@ -262,7 +262,7 @@ void __cdecl user_interface_render(e_controller_index controller, int32 user_ind
 				real32 fraction;
 				uns32 color;
 			};
-			static_assert(sizeof(s_safe_bounds) == 0x8);
+			COMPILE_ASSERT(sizeof(s_safe_bounds) == 0x8);
 
 			s_safe_bounds k_safe_bounds[4]
 			{

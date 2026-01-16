@@ -11,7 +11,7 @@ struct s_tag_resource_control_datum :
 	//s_tag_resource_location_handle_struct page_handle;
 	uns32 page_handle;
 };
-static_assert(sizeof(s_tag_resource_control_datum) == 0xC);
+COMPILE_ASSERT(sizeof(s_tag_resource_control_datum) == 0xC);
 
 class c_tag_resource_cache_controller;
 class c_tag_resource_cache_control_datum_info
@@ -51,5 +51,5 @@ public:
 	bool m_can_load_all_desired_resources;
 	bool m_throttle_demand_to_io;
 };
-static_assert(sizeof(c_tag_resource_cache_controller) == 0x60);
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_controller) == 0x60);
 

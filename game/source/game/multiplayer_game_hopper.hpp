@@ -92,14 +92,14 @@ struct s_hopper_universal_configuration
 	int32 post_match_voice_configuration;
 	bool restrict_open_channel;
 };
-static_assert(sizeof(s_hopper_universal_configuration) == 0x240);
+COMPILE_ASSERT(sizeof(s_hopper_universal_configuration) == 0x240);
 
 struct s_ffa_hopper_configuration
 {
 	int32 minimum_player_count;
 	int32 maximum_player_count;
 };
-static_assert(sizeof(s_ffa_hopper_configuration) == 0x8);
+COMPILE_ASSERT(sizeof(s_ffa_hopper_configuration) == 0x8);
 
 struct s_ranked_teams_hopper_configuration
 {
@@ -111,7 +111,7 @@ struct s_ranked_teams_hopper_configuration
 	int32 maximum_big_squad_imbalance;
 	bool enable_big_squad_mixed_skill_restrictions;
 };
-static_assert(sizeof(s_ranked_teams_hopper_configuration) == 0x1C);
+COMPILE_ASSERT(sizeof(s_ranked_teams_hopper_configuration) == 0x1C);
 
 struct s_unranked_teams_hopper_configuration
 {
@@ -121,7 +121,7 @@ struct s_unranked_teams_hopper_configuration
 	bool allow_uneven_teams;
 	bool allow_parties_to_split;
 };
-static_assert(sizeof(s_unranked_teams_hopper_configuration) == 0x10);
+COMPILE_ASSERT(sizeof(s_unranked_teams_hopper_configuration) == 0x10);
 
 struct s_hopper_type_configuration
 {
@@ -141,7 +141,7 @@ public:
 	s_hopper_universal_configuration m_universal;
 	s_hopper_type_configuration m_type;
 };
-static_assert(sizeof(c_hopper_configuration) == 0x260);
+COMPILE_ASSERT(sizeof(c_hopper_configuration) == 0x260);
 
 struct s_hopper_configuration_table
 {
@@ -151,7 +151,7 @@ struct s_hopper_configuration_table
 	int32 hopper_configuration_count;
 	c_static_array<c_hopper_configuration, k_hopper_maximum_hopper_count> hopper_configurations;
 };
-static_assert(sizeof(s_hopper_configuration_table) == 0x4C98);
+COMPILE_ASSERT(sizeof(s_hopper_configuration_table) == 0x4C98);
 
 struct s_game_hopper_description
 {
@@ -159,14 +159,14 @@ struct s_game_hopper_description
 	int32 hopper_description_type;
 	c_static_string<k_tag_long_string_length> hopper_description;
 };
-static_assert(sizeof(s_game_hopper_description) == 0x108);
+COMPILE_ASSERT(sizeof(s_game_hopper_description) == 0x108);
 
 struct s_game_hopper_description_table
 {
 	int32 hopper_description_count;
 	c_static_array<s_game_hopper_description, 64> hopper_descriptions;
 };
-static_assert(sizeof(s_game_hopper_description_table) == 0x4204);
+COMPILE_ASSERT(sizeof(s_game_hopper_description_table) == 0x4204);
 
 struct s_game_set_entry
 {
@@ -182,14 +182,14 @@ struct s_game_set_entry
 	c_static_string<k_tag_string_length> map_variant_file_name;
 	s_network_http_request_hash map_variant_hash;
 };
-static_assert(sizeof(s_game_set_entry) == 0x78);
+COMPILE_ASSERT(sizeof(s_game_set_entry) == 0x78);
 
 struct s_game_set
 {
 	int32 game_entry_count;
 	c_static_array<s_game_set_entry, 128> entries;
 };
-static_assert(sizeof(s_game_set) == 0x3C04);
+COMPILE_ASSERT(sizeof(s_game_set) == 0x3C04);
 
 struct multiplayer_file_load
 {
@@ -202,7 +202,7 @@ struct multiplayer_file_load
 	uns32 time_of_last_load;
 	uns32 retry_interval;
 };
-static_assert(sizeof(multiplayer_file_load) == 0x24);
+COMPILE_ASSERT(sizeof(multiplayer_file_load) == 0x24);
 
 struct multiplayer_hopper_check
 {
@@ -224,7 +224,7 @@ struct multiplayer_hopper_check
 	uns32 paid_hopper_mask;
 	uns32 required_maps_mask;
 };
-static_assert(sizeof(multiplayer_hopper_check) == 0x44);
+COMPILE_ASSERT(sizeof(multiplayer_hopper_check) == 0x44);
 
 extern void __cdecl initialize_fake_hopper(s_hopper_configuration_table* configuration, s_game_hopper_description_table* description, s_game_set* game_set_a, s_game_set* game_set_b);
 extern e_hopper_load_status __cdecl multiplayer_game_hopper_catalog_load_status();

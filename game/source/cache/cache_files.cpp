@@ -214,7 +214,7 @@ struct s_cache_file_global_tags_definition
 	c_typed_tag_block<s_tag_reference> references;
 	uns32 : 32;
 };
-static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
+COMPILE_ASSERT(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
 const char* tag_get_name(int32 tag_name_index)
 {
@@ -376,13 +376,13 @@ struct __declspec(align(8)) s_cache_file_security_globals
 	s_network_http_request_hash hash_of_hashes;
 	s_rsa_signature rsa_signature;
 };
-static_assert(sizeof(s_cache_file_security_globals) == 0x38C8);
-static_assert(0x00000000 == OFFSETOF(s_cache_file_security_globals, clean_header));
-static_assert(0x00003390 == OFFSETOF(s_cache_file_security_globals, hashes_valid));
-static_assert(0x00003394 == OFFSETOF(s_cache_file_security_globals, hash_sizes));
-static_assert(0x00003398 == OFFSETOF(s_cache_file_security_globals, hash_addresses));
-static_assert(0x0000339C == OFFSETOF(s_cache_file_security_globals, hashes));
-static_assert(0x000037C4 == OFFSETOF(s_cache_file_security_globals, rsa_signature));
+COMPILE_ASSERT(sizeof(s_cache_file_security_globals) == 0x38C8);
+COMPILE_ASSERT(0x00000000 == OFFSETOF(s_cache_file_security_globals, clean_header));
+COMPILE_ASSERT(0x00003390 == OFFSETOF(s_cache_file_security_globals, hashes_valid));
+COMPILE_ASSERT(0x00003394 == OFFSETOF(s_cache_file_security_globals, hash_sizes));
+COMPILE_ASSERT(0x00003398 == OFFSETOF(s_cache_file_security_globals, hash_addresses));
+COMPILE_ASSERT(0x0000339C == OFFSETOF(s_cache_file_security_globals, hashes));
+COMPILE_ASSERT(0x000037C4 == OFFSETOF(s_cache_file_security_globals, rsa_signature));
 
 s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 {

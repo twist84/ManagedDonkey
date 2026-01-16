@@ -31,7 +31,7 @@ struct s_model_widget_globals_definition
 	int16 rotate_up_button;
 	int16 rotate_down_button;
 };
-static_assert(sizeof(s_model_widget_globals_definition) == 0x40);
+COMPILE_ASSERT(sizeof(s_model_widget_globals_definition) == 0x40);
 
 struct s_model_widget_camera_slice
 {
@@ -41,7 +41,7 @@ struct s_model_widget_camera_slice
 	real32 top;
 	real32 bottom;
 };
-static_assert(sizeof(s_model_widget_camera_slice) == 0x14);
+COMPILE_ASSERT(sizeof(s_model_widget_camera_slice) == 0x14);
 
 struct s_model_widget_definition :
 	s_core_widget_definition
@@ -50,14 +50,14 @@ struct s_model_widget_definition :
 	s_model_widget_globals_definition model_widget_globals;
 	c_typed_tag_block<s_model_widget_camera_slice> texture_camera_slices;
 };
-static_assert(sizeof(s_model_widget_definition) == sizeof(s_core_widget_definition) + 0x58);
+COMPILE_ASSERT(sizeof(s_model_widget_definition) == sizeof(s_core_widget_definition) + 0x58);
 
 struct s_model_widget_block
 {
 	s_tag_reference widget_template_reference;
 	s_model_widget_definition override_definition;
 };
-static_assert(sizeof(s_model_widget_block) == 0x94);
+COMPILE_ASSERT(sizeof(s_model_widget_block) == 0x94);
 
 struct s_runtime_model_widget_camera_settings
 {
@@ -99,7 +99,7 @@ struct s_runtime_model_widget_camera_settings
 	s_tag_reference model;
 	c_string_id variant;
 };
-static_assert(sizeof(s_runtime_model_widget_camera_settings) == 0xA0);
+COMPILE_ASSERT(sizeof(s_runtime_model_widget_camera_settings) == 0xA0);
 
 struct s_runtime_model_widget_definition :
 	s_runtime_core_widget_definition
@@ -108,7 +108,7 @@ struct s_runtime_model_widget_definition :
 	s_model_widget_globals_definition model_widget_globals;
 	s_model_widget_camera_slice texture_camera_slice[4];
 };
-static_assert(sizeof(s_runtime_model_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1490);
+COMPILE_ASSERT(sizeof(s_runtime_model_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1490);
 
 struct s_gui_model_widget_render_data :
 	s_gui_widget_render_data
@@ -130,7 +130,7 @@ struct s_gui_model_widget_render_data :
 	real32 camera_slice_top;
 	real32 camera_slice_bottom;
 };
-static_assert(sizeof(s_gui_model_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x6C4);
+COMPILE_ASSERT(sizeof(s_gui_model_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x6C4);
 
 class c_gui_model_widget :
 	public c_gui_widget
@@ -190,6 +190,6 @@ public:
 	uns32 m_texture_camera_unit_index;
 	byte __data1C6C[0x4];
 };
-static_assert(sizeof(c_gui_model_widget) == 0x1C70);
-static_assert(sizeof(c_gui_model_widget) == sizeof(c_gui_widget) + 0x1B90);
+COMPILE_ASSERT(sizeof(c_gui_model_widget) == 0x1C70);
+COMPILE_ASSERT(sizeof(c_gui_model_widget) == sizeof(c_gui_widget) + 0x1B90);
 

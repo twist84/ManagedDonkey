@@ -6,7 +6,7 @@ struct s_system_memory_information
 	int32 total;
 	int32 pad[0x2];
 };
-static_assert(sizeof(s_system_memory_information) == 0x10);
+COMPILE_ASSERT(sizeof(s_system_memory_information) == 0x10);
 
 extern void display_debug_string(const char* string);
 extern void set_debug_output(void(__stdcall* output)(const char*));

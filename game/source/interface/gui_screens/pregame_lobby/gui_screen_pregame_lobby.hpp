@@ -95,5 +95,5 @@ protected:
 
 	int32 m_url_key;
 };
-static_assert(sizeof(c_gui_screen_pregame_lobby) == sizeof(c_gui_screen_widget) + 0x18F0);
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_lobby) == sizeof(c_gui_screen_widget) + 0x18F0);
 

@@ -21,5 +21,5 @@ class c_cache_file_uncompressed_decompressor :
 	int32 m_bytes_processed;
 	c_basic_buffer<void> __buffer;
 };
-static_assert(sizeof(c_cache_file_uncompressed_decompressor) == sizeof(c_cache_file_decompressor) + 0xC);
+COMPILE_ASSERT(sizeof(c_cache_file_uncompressed_decompressor) == sizeof(c_cache_file_decompressor) + 0xC);
 

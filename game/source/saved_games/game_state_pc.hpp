@@ -11,7 +11,7 @@ struct s_pc_game_state_globals
 	int32 buffer_size_to_persist;
 	bool storage_is_valid;
 };
-static_assert(sizeof(s_pc_game_state_globals) == 0x14);
+COMPILE_ASSERT(sizeof(s_pc_game_state_globals) == 0x14);
 
 extern s_pc_game_state_globals& pc_game_state_globals;
 

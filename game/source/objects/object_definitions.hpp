@@ -153,7 +153,7 @@ struct _object_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_object_definition) == 0x120);
+COMPILE_ASSERT(sizeof(_object_definition) == 0x120);
 
 struct object_definition
 {
@@ -163,7 +163,7 @@ struct object_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(object_definition) == sizeof(_object_definition));
+COMPILE_ASSERT(sizeof(object_definition) == sizeof(_object_definition));
 
 struct s_object_early_mover_obb_definition
 {
@@ -171,7 +171,7 @@ struct s_object_early_mover_obb_definition
 	real_rectangle3d bounds;
 	real_euler_angles3d angles;
 };
-static_assert(sizeof(s_object_early_mover_obb_definition) == 0x28);
+COMPILE_ASSERT(sizeof(s_object_early_mover_obb_definition) == 0x28);
 
 enum e_ai_properties_flags
 {
@@ -221,7 +221,7 @@ struct object_ai_properties
 	c_enum<e_ai_size, int16, _ai_size_default, k_ai_size_count> ai_size;
 	c_enum<e_global_ai_jump_height, int16, _global_ai_jump_height_none, k_global_ai_jump_height_count> leap_jump_speed;
 };
-static_assert(sizeof(object_ai_properties) == 0xC);
+COMPILE_ASSERT(sizeof(object_ai_properties) == 0xC);
 
 enum e_object_function_flags
 {
@@ -258,7 +258,7 @@ struct s_object_function_definition
 	mapping_function default_function;
 	c_string_id scale_by;
 };
-static_assert(sizeof(s_object_function_definition) == 0x2C);
+COMPILE_ASSERT(sizeof(s_object_function_definition) == 0x2C);
 
 enum e_object_attachment_flags
 {
@@ -295,7 +295,7 @@ struct object_attachment_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(object_attachment_definition) == 0x24);
+COMPILE_ASSERT(sizeof(object_attachment_definition) == 0x24);
 
 struct object_definition_widget
 {
@@ -303,7 +303,7 @@ struct object_definition_widget
 
 	void update_reference_names();
 };
-static_assert(sizeof(object_definition_widget) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(object_definition_widget) == sizeof(s_tag_reference));
 
 struct object_change_color_initial_permutation;
 struct object_change_color_function;
@@ -312,7 +312,7 @@ struct object_change_color_definition
 	c_typed_tag_block<object_change_color_initial_permutation> initial_permutations_block;
 	c_typed_tag_block<object_change_color_function> functions_block;
 };
-static_assert(sizeof(object_change_color_definition) == 0x18);
+COMPILE_ASSERT(sizeof(object_change_color_definition) == 0x18);
 
 struct object_change_color_initial_permutation
 {
@@ -321,7 +321,7 @@ struct object_change_color_initial_permutation
 	real_rgb_color color_upper_bound;
 	c_string_id variant_name;
 };
-static_assert(sizeof(object_change_color_initial_permutation) == 0x20);
+COMPILE_ASSERT(sizeof(object_change_color_initial_permutation) == 0x20);
 
 enum e_global_rgb_interpolation_flags
 {
@@ -343,13 +343,13 @@ struct object_change_color_function
 	c_string_id darken_by;
 	c_string_id scale_by;
 };
-static_assert(sizeof(object_change_color_function) == 0x28);
+COMPILE_ASSERT(sizeof(object_change_color_function) == 0x28);
 
 struct object_node_map_defintion
 {
 	int8 target_node;
 };
-static_assert(sizeof(object_node_map_defintion) == 0x1);
+COMPILE_ASSERT(sizeof(object_node_map_defintion) == 0x1);
 
 struct s_object_health_pack_definition
 {
@@ -357,7 +357,7 @@ struct s_object_health_pack_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_object_health_pack_definition) == sizeof(s_tag_reference));
+COMPILE_ASSERT(sizeof(s_object_health_pack_definition) == sizeof(s_tag_reference));
 
 struct s_scenario_multiplayer_scenario_object_parent
 {
@@ -369,7 +369,7 @@ struct s_scenario_multiplayer_scenario_object_parent
 	c_string_id parent_marker;
 	c_string_id connection_marker;
 };
-static_assert(sizeof(s_scenario_multiplayer_scenario_object_parent) == 0xC);
+COMPILE_ASSERT(sizeof(s_scenario_multiplayer_scenario_object_parent) == 0xC);
 
 enum e_multiplayer_object_placement_spawn_flags
 {
@@ -411,7 +411,7 @@ struct s_scenario_multiplayer_object_properties
 	// This is valid only for objects which are used as player respawn locations
 	real32 natural_respawn_weight;
 };
-static_assert(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
+COMPILE_ASSERT(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
 
 struct s_scenario_object;
 class c_object_identifier
@@ -439,5 +439,5 @@ public:
 	c_enum<e_object_type, int8, _object_type_biped, k_object_type_count> m_type;
 	c_enum<e_object_source, int8, _object_source_structure_object, k_number_of_object_sources> m_source;
 };
-static_assert(sizeof(c_object_identifier) == 0x8);
+COMPILE_ASSERT(sizeof(c_object_identifier) == 0x8);
 

@@ -36,8 +36,8 @@ struct s_bitmap_widget_definition :
 	int32 value_override_list;
 	int32 value_identifier;
 };
-static_assert(sizeof(s_bitmap_widget_definition) == 0x5C);
-static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
+COMPILE_ASSERT(sizeof(s_bitmap_widget_definition) == 0x5C);
+COMPILE_ASSERT(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
 struct s_bitmap_widget_block
 {
@@ -49,7 +49,7 @@ struct s_bitmap_widget_block
 	s_tag_reference widget_template_reference;
 	s_bitmap_widget_definition override_definition;
 };
-static_assert(sizeof(s_bitmap_widget_block) == 0x6C);
+COMPILE_ASSERT(sizeof(s_bitmap_widget_block) == 0x6C);
 
 struct s_runtime_bitmap_widget_definition :
 	s_runtime_core_widget_definition
@@ -67,7 +67,7 @@ struct s_runtime_bitmap_widget_definition :
 	string_id value_override_list;
 	string_id value_identifier;
 };
-static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
+COMPILE_ASSERT(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
 class c_gui_bitmap_widget :
 	public c_gui_widget
@@ -105,12 +105,12 @@ public:
 	int32 m_override_sprite_sequence;
 	s_runtime_bitmap_widget_definition m_definition;
 };
-static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
-static_assert(sizeof(c_gui_bitmap_widget) == sizeof(c_gui_widget) + 0x58);
-static_assert(0xE0 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_bitmap_index));
-static_assert(0xE4 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_frame));
-static_assert(0xE8 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_sequence));
-static_assert(0xEC == OFFSETOF(c_gui_bitmap_widget, m_definition));
+COMPILE_ASSERT(sizeof(c_gui_bitmap_widget) == 0x138);
+COMPILE_ASSERT(sizeof(c_gui_bitmap_widget) == sizeof(c_gui_widget) + 0x58);
+COMPILE_ASSERT(0xE0 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_bitmap_index));
+COMPILE_ASSERT(0xE4 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_frame));
+COMPILE_ASSERT(0xE8 == OFFSETOF(c_gui_bitmap_widget, m_override_sprite_sequence));
+COMPILE_ASSERT(0xEC == OFFSETOF(c_gui_bitmap_widget, m_definition));
 
 struct s_gui_bitmap_widget_render_data :
 	s_gui_widget_render_data
@@ -124,27 +124,27 @@ struct s_gui_bitmap_widget_render_data :
 			real32 __unknown8;
 			real32 __unknownC;
 		};
-		static_assert(sizeof(s_texture_camera_data) == 0x10);
+		COMPILE_ASSERT(sizeof(s_texture_camera_data) == 0x10);
 
 		struct s_sprite_data
 		{
 			int16 sequence;
 			int16 frame;
 		};
-		static_assert(sizeof(s_sprite_data) == 0x4);
+		COMPILE_ASSERT(sizeof(s_sprite_data) == 0x4);
 
 		struct s_custom_bitmap
 		{
 			int32 storage_index;
 		};
-		static_assert(sizeof(s_custom_bitmap) == 0x4);
+		COMPILE_ASSERT(sizeof(s_custom_bitmap) == 0x4);
 
 		s_texture_camera_data texture_camera;
 		s_sprite_data sprite;
 		s_emblem_info emblem;
 		s_custom_bitmap custom_bitmap;
 	};
-	static_assert(sizeof(u_source_data) == 0x10);
+	COMPILE_ASSERT(sizeof(u_source_data) == 0x10);
 
 	int32 bitmap_definition_index;
 	u_source_data source;
@@ -153,8 +153,8 @@ struct s_gui_bitmap_widget_render_data :
 	int32 frame_buffer_blend_function;
 	int32 explicit_shader_index;
 };
-//static_assert(sizeof(s_gui_bitmap_widget_render_data) == 0x54);
-static_assert(sizeof(s_gui_bitmap_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x28);
+//COMPILE_ASSERT(sizeof(s_gui_bitmap_widget_render_data) == 0x54);
+COMPILE_ASSERT(sizeof(s_gui_bitmap_widget_render_data) == sizeof(s_gui_widget_render_data) + 0x28);
 
 extern void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, const rectangle2d* window_bounds);
 

@@ -12,7 +12,7 @@ struct s_matchmaking_session_player_properties
 	int32 peer_index;
 	int32 party_index;
 };
-static_assert(sizeof(s_matchmaking_session_player_properties) == 0x8);
+COMPILE_ASSERT(sizeof(s_matchmaking_session_player_properties) == 0x8);
 
 enum e_network_session_matchmaking_composition_flags
 {
@@ -48,7 +48,7 @@ struct s_matchmaking_session_properties
 	e_online_nat_type nat_type;
 	c_network_session_matchmaking_composition_flags flags;
 };
-static_assert(sizeof(s_matchmaking_session_properties) == 0xC4);
+COMPILE_ASSERT(sizeof(s_matchmaking_session_properties) == 0xC4);
 
 struct s_matchmaking_search_party_preferences
 {
@@ -56,7 +56,7 @@ struct s_matchmaking_search_party_preferences
 	int32 minimum_skill_level;
 	int32 maximum_skill_level;
 };
-static_assert(sizeof(s_matchmaking_search_party_preferences) == 0xC);
+COMPILE_ASSERT(sizeof(s_matchmaking_search_party_preferences) == 0xC);
 
 struct s_matchmaking_gather_party_properties
 {
@@ -64,7 +64,7 @@ struct s_matchmaking_gather_party_properties
 	s_matchmaking_search_party_preferences preferences;
 	s_matchmaking_session_properties session_properties;
 };
-static_assert(sizeof(s_matchmaking_gather_party_properties) == 0xD4);
+COMPILE_ASSERT(sizeof(s_matchmaking_gather_party_properties) == 0xD4);
 
 struct s_matchmaking_search_party_properties
 {
@@ -73,5 +73,5 @@ struct s_matchmaking_search_party_properties
 	s_matchmaking_search_party_preferences preferences;
 	s_matchmaking_session_properties session_properties;
 };
-static_assert(sizeof(s_matchmaking_search_party_properties) == 0xD8);
+COMPILE_ASSERT(sizeof(s_matchmaking_search_party_properties) == 0xD8);
 

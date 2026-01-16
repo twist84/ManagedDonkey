@@ -9,7 +9,7 @@ struct s_network_time_globals
 	uns32 time_locked_timestamp;
 	c_network_session_manager* session_manager;
 };
-static_assert(sizeof(s_network_time_globals) == 0xC);
+COMPILE_ASSERT(sizeof(s_network_time_globals) == 0xC);
 
 extern s_network_time_globals& network_time_globals;
 

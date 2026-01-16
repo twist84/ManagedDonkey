@@ -51,14 +51,14 @@ struct s_game_statborg_player
 	c_static_array<uns16, k_statborg_indices_count> statistics;
 	bool __unknown32;
 };
-static_assert(sizeof(s_game_statborg_player) == 0x34);
+COMPILE_ASSERT(sizeof(s_game_statborg_player) == 0x34);
 
 struct s_game_statborg_team
 {
 	c_static_array<uns16, 12> statistics;
 	bool finalised;
 };
-static_assert(sizeof(s_game_statborg_team) == 0x1A);
+COMPILE_ASSERT(sizeof(s_game_statborg_team) == 0x1A);
 
 class c_game_statborg
 {
@@ -71,5 +71,5 @@ public:
 	c_static_flags<64> update_mask;
 	bool finalized;
 };
-static_assert(sizeof(c_game_statborg) == 0x424);
+COMPILE_ASSERT(sizeof(c_game_statborg) == 0x424);
 

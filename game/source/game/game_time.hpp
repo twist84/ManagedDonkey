@@ -69,7 +69,7 @@ struct s_game_tick_time_samples
 	real32 game_dt;
 	int32 elapsed_game_ticks;
 };
-static_assert(sizeof(s_game_tick_time_samples) == 0x14);
+COMPILE_ASSERT(sizeof(s_game_tick_time_samples) == 0x14);
 
 struct game_time_globals_definition
 {
@@ -86,7 +86,7 @@ struct game_time_globals_definition
 	real32 rate_scale_final;
 	int32 game_message_tick;
 };
-static_assert(sizeof(game_time_globals_definition) == 0x2C);
+COMPILE_ASSERT(sizeof(game_time_globals_definition) == 0x2C);
 
 extern real32 debug_game_speed;
 extern bool debug_game_time_statistics;

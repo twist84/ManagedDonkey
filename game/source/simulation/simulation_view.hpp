@@ -15,7 +15,7 @@ struct s_simulation_view_statistics
 	s_replication_entity_manager_view_statistics entity;
 	s_replication_event_manager_view_statistics event;
 };
-static_assert(sizeof(s_simulation_view_statistics) == 0x24);
+COMPILE_ASSERT(sizeof(s_simulation_view_statistics) == 0x24);
 
 class c_simulation_distributed_view :
 	public s_datum_header
@@ -28,7 +28,7 @@ public:
 	c_simulation_view_telemetry_provider m_telemetry_provider;
 	c_game_results_replicator m_game_results_replicator;
 };
-static_assert(sizeof(c_simulation_distributed_view) == 0x22948);
+COMPILE_ASSERT(sizeof(c_simulation_distributed_view) == 0x22948);
 
 struct player_action;
 
@@ -46,7 +46,7 @@ struct s_network_message_synchronous_gamestate
 	int32 chunk_size;
 	uns32 decompressed_checksum;
 };
-static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 
 class c_simulation_world;
 class c_network_observer;
@@ -114,5 +114,5 @@ public:
 	s_network_message_synchronous_gamestate m_checksum_message;
 	int32 m_synchronous_next_action_number;
 };
-static_assert(sizeof(c_simulation_view) == 0xC0);
+COMPILE_ASSERT(sizeof(c_simulation_view) == 0xC0);
 

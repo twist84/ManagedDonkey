@@ -10,7 +10,7 @@ struct s_async_io_file
 	uns32 outstanding_io_count;
 	uns32 io_offset;
 };
-static_assert(sizeof(s_async_io_file) == 0xC);
+COMPILE_ASSERT(sizeof(s_async_io_file) == 0xC);
 
 // OVERLAPPED
 struct s_overlapped
@@ -21,7 +21,7 @@ struct s_overlapped
 	uns32 offset_high;
 	void* event_handle;
 };
-static_assert(sizeof(s_overlapped) == 0x14);
+COMPILE_ASSERT(sizeof(s_overlapped) == 0x14);
 
 class c_asynchronous_io_marker
 {
@@ -30,7 +30,7 @@ public:
 	uns32 m_unaligned_requested_size;
 	c_synchronized_long m_io_status;
 };
-static_assert(sizeof(c_asynchronous_io_marker) == 0x1C);
+COMPILE_ASSERT(sizeof(c_asynchronous_io_marker) == 0x1C);
 
 class c_asynchronous_io_arena
 {
@@ -51,7 +51,7 @@ public:
 		uns32 m_on_idle_file_offset;
 		c_asynchronous_io_marker m_submit_on_idle_marker;
 	};
-	static_assert(sizeof(c_idle_io_handler) == 0x2C);
+	COMPILE_ASSERT(sizeof(c_idle_io_handler) == 0x2C);
 
 	s_file_handle m_io_completion_port;
 	c_static_flags<32> m_valid_files;
@@ -59,5 +59,5 @@ public:
 	int32 m_outstanding_io_requests;
 	c_idle_io_handler io_handler;
 };
-static_assert(sizeof(c_asynchronous_io_arena) == 0x1B8);
+COMPILE_ASSERT(sizeof(c_asynchronous_io_arena) == 0x1B8);
 

@@ -17,12 +17,12 @@ public:
 		uns8 m_used_count;
 		real32 m_lifespan;
 	};
-	static_assert(sizeof(s_row) == 0x14);
+	COMPILE_ASSERT(sizeof(s_row) == 0x14);
 
 	int32 m_contrail_index;
 	int32 m_row_head;
 	uns16 m_profile_count;
 	uns16 m_flags;
 };
-static_assert(sizeof(c_contrail_gpu) == 0x10);
+COMPILE_ASSERT(sizeof(c_contrail_gpu) == 0x10);
 

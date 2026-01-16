@@ -37,7 +37,7 @@ struct s_animation_graph_node
 	real32 vector_range;
 	real32 z_pos;
 };
-static_assert(sizeof(s_animation_graph_node) == 0x20);
+COMPILE_ASSERT(sizeof(s_animation_graph_node) == 0x20);
 
 struct s_animation_inheritence
 {
@@ -47,7 +47,7 @@ struct s_animation_inheritence
 	real32 z_scale;
 	int32 inheritance_flags;
 };
-static_assert(sizeof(s_animation_inheritence) == 0x30);
+COMPILE_ASSERT(sizeof(s_animation_inheritence) == 0x30);
 
 class c_animation_graph_definitions
 {
@@ -65,7 +65,7 @@ public:
 	s_tag_block foot_markers;
 	s_tag_block animations;
 };
-static_assert(sizeof(c_animation_graph_definitions) == 0x5C);
+COMPILE_ASSERT(sizeof(c_animation_graph_definitions) == 0x5C);
 
 class c_model_animation_graph_contents
 {
@@ -77,7 +77,7 @@ public:
 	s_tag_block vehicle_suspension;
 	s_tag_block object_overlays;
 };
-static_assert(sizeof(c_model_animation_graph_contents) == 0x24);
+COMPILE_ASSERT(sizeof(c_model_animation_graph_contents) == 0x24);
 
 class c_model_animation_runtime_data
 {
@@ -89,14 +89,14 @@ public:
 	c_static_flags<256> left_arm_bit_vector;
 	c_static_flags<256> right_arm_bit_vector;
 };
-static_assert(sizeof(c_model_animation_runtime_data) == 0x58);
+COMPILE_ASSERT(sizeof(c_model_animation_runtime_data) == 0x58);
 
 class c_model_animation_tag_resource
 {
 public:
 	s_tag_block members;
 };
-static_assert(sizeof(c_model_animation_tag_resource) == sizeof(s_tag_block));
+COMPILE_ASSERT(sizeof(c_model_animation_tag_resource) == sizeof(s_tag_block));
 
 class c_model_animation_tag_resource_group
 {
@@ -104,7 +104,7 @@ public:
 	int32 reference_count;
 	s_tag_resource tag_resource;
 };
-static_assert(sizeof(c_model_animation_tag_resource_group) == 0xC);
+COMPILE_ASSERT(sizeof(c_model_animation_tag_resource_group) == 0xC);
 
 class c_model_animation_tag_resource_member
 {
@@ -117,7 +117,7 @@ public:
 	c_animation_data_sizes data_sizes;
 	s_tag_data animation_tag_data;
 };
-static_assert(sizeof(c_model_animation_tag_resource_member) == 0x30);
+COMPILE_ASSERT(sizeof(c_model_animation_tag_resource_member) == 0x30);
 
 class c_model_animation
 {
@@ -153,7 +153,7 @@ public:
 	real32 average_translation_magnitude;
 	real32 average_pivot_magnitude;
 };
-static_assert(sizeof(c_model_animation) == 0x88);
+COMPILE_ASSERT(sizeof(c_model_animation) == 0x88);
 
 class c_model_animation_graph
 {
@@ -173,5 +173,5 @@ public:
 	s_tag_block additional_node_data;
 	s_tag_block resource_groups;
 };
-static_assert(sizeof(c_model_animation_graph) == 0x104);
+COMPILE_ASSERT(sizeof(c_model_animation_graph) == 0x104);
 

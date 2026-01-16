@@ -10,12 +10,12 @@ public:
 	real_argb_color m_area_color;
 	int32 m_object_index;
 };
-static_assert(sizeof(c_area) == 0x64);
+COMPILE_ASSERT(sizeof(c_area) == 0x64);
 
 template<typename t_area_type, int32 k_area_max_count>
 class c_area_set
 {
-	static_assert(__is_base_of(c_area, t_area_type));
+	COMPILE_ASSERT(__is_base_of(c_area, t_area_type));
 
 public:
 	c_static_array<t_area_type, k_area_max_count> m_areas;
@@ -24,5 +24,5 @@ public:
 	int32 m_area_object_type_flags;
 	int32 m_area_iteration_match_flags;
 };
-static_assert(sizeof(c_area_set<c_area, 1>) == 0x74);
+COMPILE_ASSERT(sizeof(c_area_set<c_area, 1>) == 0x74);
 

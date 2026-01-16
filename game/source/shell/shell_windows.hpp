@@ -21,7 +21,7 @@ struct window_data
 	static CHAR classNameEditor[64];
 	static CHAR windowTitleEditor[64];
 };
-static_assert(sizeof(window_data));
+COMPILE_ASSERT(sizeof(window_data));
 
 extern window_data& window_globals;
 

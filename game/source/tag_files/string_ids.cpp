@@ -4125,6 +4125,6 @@ s_constant_string_id const g_constant_string_id_table[]
 	DEFINE_CONSTANT_STRING_ID(global, bipeds),
 #pragma endregion
 };
-static_assert(NUMBEROF(g_constant_string_id_table) == k_constant_string_id_table_entries);
-//static_assert(k_constant_string_id_table_entries + k_constant_string_id_table_entries_missing == g_strings_defined_in_tags_starting_index);
+COMPILE_ASSERT(NUMBEROF(g_constant_string_id_table) == k_constant_string_id_table_entries);
+//COMPILE_ASSERT(k_constant_string_id_table_entries + k_constant_string_id_table_entries_missing == g_strings_defined_in_tags_starting_index);
 

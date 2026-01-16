@@ -14,7 +14,7 @@ public:
 protected:
 	wchar_t m_magic_character;
 };
-static_assert(sizeof(c_game_tag_parser) == 0xC);
+COMPILE_ASSERT(sizeof(c_game_tag_parser) == 0xC);
 
 class c_magic_string_game_tag_parser :
 	public c_game_tag_parser
@@ -33,7 +33,7 @@ protected:
 	void* m_game_data;
 	bool(__cdecl* m_game_data_function)(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 };
-static_assert(sizeof(c_magic_string_game_tag_parser) == sizeof(c_game_tag_parser) + 0x8);
+COMPILE_ASSERT(sizeof(c_magic_string_game_tag_parser) == sizeof(c_game_tag_parser) + 0x8);
 
 class c_user_interface_text_parse_manager
 {
@@ -51,7 +51,7 @@ public:
 	};
 	c_static_array<s_text_parser, 256> m_tag_parsers;
 };
-static_assert(sizeof(c_user_interface_text_parse_manager) == 0x804);
+COMPILE_ASSERT(sizeof(c_user_interface_text_parse_manager) == 0x804);
 
 extern c_user_interface_text_parse_manager& g_parse_manager;
 

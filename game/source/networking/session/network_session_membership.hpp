@@ -42,7 +42,7 @@ struct s_network_session_peer_properties
 	int32 determinism_compatible_version;
 	c_network_session_peer_properties_status_flags flags;
 };
-static_assert(sizeof(s_network_session_peer_properties) == 0xC0);
+COMPILE_ASSERT(sizeof(s_network_session_peer_properties) == 0xC0);
 
 struct s_network_session_peer
 {
@@ -62,7 +62,7 @@ struct s_network_session_peer
 	// Halo Online
 	uns32 player_mask[1];
 };
-static_assert(sizeof(s_network_session_peer) == 0xF8);
+COMPILE_ASSERT(sizeof(s_network_session_peer) == 0xF8);
 
 struct s_network_session_player
 {
@@ -87,7 +87,7 @@ struct s_network_session_player
 
 	uns32 __unknown1644;
 };
-static_assert(sizeof(s_network_session_player) == 0x1648);
+COMPILE_ASSERT(sizeof(s_network_session_player) == 0x1648);
 
 struct s_network_session_shared_membership
 {
@@ -110,7 +110,7 @@ struct s_network_session_shared_membership
 	int32 __unknown17524;
 };
 constexpr size_t agt = OFFSETOF(s_network_session_shared_membership, __unknown17524);
-static_assert(sizeof(s_network_session_shared_membership) == 0x17528);
+COMPILE_ASSERT(sizeof(s_network_session_shared_membership) == 0x17528);
 
 struct s_local_session_peer
 {
@@ -118,7 +118,7 @@ struct s_local_session_peer
 	int32 channel_index;
 	int32 expected_update_number;
 };
-static_assert(sizeof(s_local_session_peer) == 0xC);
+COMPILE_ASSERT(sizeof(s_local_session_peer) == 0xC);
 
 struct s_player_add_queue_entry
 {
@@ -129,7 +129,7 @@ struct s_player_add_queue_entry
 	s_player_configuration_from_client player_data_from_client;
 	uns32 player_voice_settings;
 };
-static_assert(sizeof(s_player_add_queue_entry) == 0x48);
+COMPILE_ASSERT(sizeof(s_player_add_queue_entry) == 0x48);
 
 class c_network_session;
 class c_network_session_membership
@@ -177,19 +177,19 @@ public:
 	int32 m_add_queue_first_used_slot;
 	int32 m_add_queue_first_free_slot;
 };
-static_assert(sizeof(c_network_session_membership) == 0x1A3F20);
-static_assert(0x00000000 == OFFSETOF(c_network_session_membership, m_session));
-static_assert(0x00000008 == OFFSETOF(c_network_session_membership, m_shared_network_membership));
-static_assert(0x00017530 == OFFSETOF(c_network_session_membership, m_transmitted_shared_network_membership));
-static_assert(0x001A3CD8 == OFFSETOF(c_network_session_membership, m_baseline_checksum));
-static_assert(0x001A3D1C == OFFSETOF(c_network_session_membership, __unknown1A3D1C));
-static_assert(0x001A3D1D == OFFSETOF(c_network_session_membership, __unknown1A3D1D));
-static_assert(0x001A3D1E == OFFSETOF(c_network_session_membership, __unknown1A3D1E));
-static_assert(0x001A3D1F == OFFSETOF(c_network_session_membership, __unknown1A3D1F));
-static_assert(0x001A3D20 == OFFSETOF(c_network_session_membership, m_local_peer_index));
-static_assert(0x001A3D24 == OFFSETOF(c_network_session_membership, m_local_membership_update_number));
-static_assert(0x001A3D28 == OFFSETOF(c_network_session_membership, m_local_peer_state));
-static_assert(0x001A3DF4 == OFFSETOF(c_network_session_membership, m_player_add_queue));
-static_assert(0x001A3F14 == OFFSETOF(c_network_session_membership, m_add_queue_first_used_slot));
-static_assert(0x001A3F18 == OFFSETOF(c_network_session_membership, m_add_queue_first_free_slot));
+COMPILE_ASSERT(sizeof(c_network_session_membership) == 0x1A3F20);
+COMPILE_ASSERT(0x00000000 == OFFSETOF(c_network_session_membership, m_session));
+COMPILE_ASSERT(0x00000008 == OFFSETOF(c_network_session_membership, m_shared_network_membership));
+COMPILE_ASSERT(0x00017530 == OFFSETOF(c_network_session_membership, m_transmitted_shared_network_membership));
+COMPILE_ASSERT(0x001A3CD8 == OFFSETOF(c_network_session_membership, m_baseline_checksum));
+COMPILE_ASSERT(0x001A3D1C == OFFSETOF(c_network_session_membership, __unknown1A3D1C));
+COMPILE_ASSERT(0x001A3D1D == OFFSETOF(c_network_session_membership, __unknown1A3D1D));
+COMPILE_ASSERT(0x001A3D1E == OFFSETOF(c_network_session_membership, __unknown1A3D1E));
+COMPILE_ASSERT(0x001A3D1F == OFFSETOF(c_network_session_membership, __unknown1A3D1F));
+COMPILE_ASSERT(0x001A3D20 == OFFSETOF(c_network_session_membership, m_local_peer_index));
+COMPILE_ASSERT(0x001A3D24 == OFFSETOF(c_network_session_membership, m_local_membership_update_number));
+COMPILE_ASSERT(0x001A3D28 == OFFSETOF(c_network_session_membership, m_local_peer_state));
+COMPILE_ASSERT(0x001A3DF4 == OFFSETOF(c_network_session_membership, m_player_add_queue));
+COMPILE_ASSERT(0x001A3F14 == OFFSETOF(c_network_session_membership, m_add_queue_first_used_slot));
+COMPILE_ASSERT(0x001A3F18 == OFFSETOF(c_network_session_membership, m_add_queue_first_free_slot));
 

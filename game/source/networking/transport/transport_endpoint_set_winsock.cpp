@@ -13,7 +13,7 @@ struct transport_endpoint_set
 	int16 current_index;
 	bool changed;
 };
-static_assert(sizeof(transport_endpoint_set) == 0x110);
+COMPILE_ASSERT(sizeof(transport_endpoint_set) == 0x110);
 
 int16 __cdecl get_next_available_set_array_index(transport_endpoint_set* set)
 {

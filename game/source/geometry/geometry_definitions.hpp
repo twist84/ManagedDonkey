@@ -20,7 +20,7 @@ struct s_mesh
 	s_tag_block instance_bucket;
 	s_tag_block water_indices_start;
 };
-static_assert(sizeof(s_mesh) == 0x4C);
+COMPILE_ASSERT(sizeof(s_mesh) == 0x4C);
 
 struct s_compression_info
 {
@@ -39,7 +39,7 @@ struct s_compression_info
 	real_point3d position_bounds[2];
 	real_point3d texcoord_bounds[2];
 };
-static_assert(sizeof(s_compression_info) == 0x34);
+COMPILE_ASSERT(sizeof(s_compression_info) == 0x34);
 
 struct s_positioning
 {
@@ -49,7 +49,7 @@ struct s_positioning
 	int8 node_indices[4];
 	real32 node_weights[4];
 };
-static_assert(sizeof(s_positioning) == 0x34);
+COMPILE_ASSERT(sizeof(s_positioning) == 0x34);
 
 struct s_render_geometry_user_data_header
 {
@@ -57,14 +57,14 @@ struct s_render_geometry_user_data_header
 	int8 data_count;
 	int16 data_size;
 };
-static_assert(sizeof(s_render_geometry_user_data_header) == 0x4);
+COMPILE_ASSERT(sizeof(s_render_geometry_user_data_header) == 0x4);
 
 struct s_render_geometry_user_data
 {
 	s_render_geometry_user_data_header user_data_header;
 	s_tag_data user_data;
 };
-static_assert(sizeof(s_render_geometry_user_data) == 0x18);
+COMPILE_ASSERT(sizeof(s_render_geometry_user_data) == 0x18);
 
 struct s_per_mesh_raw_data
 {
@@ -75,33 +75,33 @@ struct s_per_mesh_raw_data
 	int16 parameterized_texture_height;
 	uns32 flags;
 };
-static_assert(sizeof(s_per_mesh_raw_data) == 0x2C);
+COMPILE_ASSERT(sizeof(s_per_mesh_raw_data) == 0x2C);
 
 struct s_per_mesh_mopp
 {
 	s_tag_data mopp_code;
 	s_tag_block mopp_reorder_table;
 };
-static_assert(sizeof(s_per_mesh_mopp) == 0x20);
+COMPILE_ASSERT(sizeof(s_per_mesh_mopp) == 0x20);
 
 struct s_per_mesh_node_map
 {
 	s_tag_block node_map;
 };
-static_assert(sizeof(s_per_mesh_node_map) == 0xC);
+COMPILE_ASSERT(sizeof(s_per_mesh_node_map) == 0xC);
 
 struct s_per_mesh_subpart_visibility
 {
 	s_tag_block bounding_sphere;
 };
-static_assert(sizeof(s_per_mesh_subpart_visibility) == 0xC);
+COMPILE_ASSERT(sizeof(s_per_mesh_subpart_visibility) == 0xC);
 
 struct s_per_mesh_prt_data
 {
 	s_tag_data mesh_pca_data;
 	s_tag_block per_instance_prt_data;
 };
-static_assert(sizeof(s_per_mesh_prt_data) == 0x20);
+COMPILE_ASSERT(sizeof(s_per_mesh_prt_data) == 0x20);
 
 struct s_per_instance_lightmap_texcoords
 {
@@ -109,7 +109,7 @@ struct s_per_instance_lightmap_texcoords
 	int16 vertex_buffer_index;
 	byte HTJIAHA[0x2];
 };
-static_assert(sizeof(s_per_instance_lightmap_texcoords) == 0x10);
+COMPILE_ASSERT(sizeof(s_per_instance_lightmap_texcoords) == 0x10);
 
 struct s_render_geometry_api_resource
 {
@@ -118,7 +118,7 @@ struct s_render_geometry_api_resource
 	s_tag_block xenon_vertex_buffers;
 	s_tag_block xenon_index_buffers;
 };
-static_assert(sizeof(s_render_geometry_api_resource) == 0x30);
+COMPILE_ASSERT(sizeof(s_render_geometry_api_resource) == 0x30);
 
 struct s_render_geometry
 {
@@ -135,7 +135,7 @@ struct s_render_geometry
 	c_typed_tag_block<s_per_instance_lightmap_texcoords> per_instance_lightmap_texcoords;
 	c_typed_tag_resource<s_render_geometry_api_resource> api_resource;
 };
-static_assert(sizeof(s_render_geometry) == 0x84);
+COMPILE_ASSERT(sizeof(s_render_geometry) == 0x84);
 
 //extern bool mesh_has_subpart_mopp(const s_render_geometry* render_geometry, int32 mesh_index);
 extern bool mesh_has_subpart_mopp(s_render_geometry* render_geometry, int32 mesh_index);

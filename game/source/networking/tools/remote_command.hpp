@@ -50,7 +50,7 @@ struct s_remote_command_globals
 	// int32 connections?
 	bool connected;
 };
-static_assert(sizeof(s_remote_command_globals) == 0x104B4);
+COMPILE_ASSERT(sizeof(s_remote_command_globals) == 0x104B4);
 
 //-----------------------------------------------------------------------------
 

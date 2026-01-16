@@ -15,7 +15,7 @@ struct s_server_connect_info
 	uns16 port;
 	c_static_string<200> services_supported;
 };
-static_assert(sizeof(s_server_connect_info) == 0xDA);
+COMPILE_ASSERT(sizeof(s_server_connect_info) == 0xDA);
 
 class c_online_lsp_manager
 {
@@ -71,7 +71,7 @@ public:
 
 	int32 connection_token;
 };
-static_assert(sizeof(c_online_lsp_manager) == 0x494);
+COMPILE_ASSERT(sizeof(c_online_lsp_manager) == 0x494);
 
 extern c_static_string<4>(&g_server_descriptions)[9];
 extern s_server_connect_info(&g_additional_raw_servers)[1];

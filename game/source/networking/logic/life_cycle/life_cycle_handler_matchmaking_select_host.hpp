@@ -28,5 +28,5 @@ public:
 	c_matchmaking_select_host_flags m_flags;
 	uns32 m_select_host_start_time;
 };
-static_assert(sizeof(c_life_cycle_state_handler_matchmaking_select_host) == 0x30);
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_matchmaking_select_host) == 0x30);
 

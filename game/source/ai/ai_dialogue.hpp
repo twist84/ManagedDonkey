@@ -47,13 +47,13 @@ struct s_vocalization_record :
 	int32 variant_designator;
 	int32 next_record_index;
 };
-static_assert(sizeof(s_vocalization_record) == 0x5C);
+COMPILE_ASSERT(sizeof(s_vocalization_record) == 0x5C);
 
 struct vocalization_timers
 {
 	byte __data[0xFB8];
 };
-static_assert(sizeof(vocalization_timers) == 0xFB8);
+COMPILE_ASSERT(sizeof(vocalization_timers) == 0xFB8);
 
 extern void __cdecl ai_dialogue_dispose_from_old_map();
 extern void __cdecl ai_dialogue_initialize();

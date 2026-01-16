@@ -7,7 +7,7 @@ struct s_squad_patrol_datum :
 {
 	byte __data[0x6C2];
 };
-static_assert(sizeof(s_squad_patrol_datum) == 0x6C4);
+COMPILE_ASSERT(sizeof(s_squad_patrol_datum) == 0x6C4);
 
 struct s_squad_patrol_definition;
 

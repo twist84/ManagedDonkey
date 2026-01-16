@@ -23,7 +23,7 @@ struct s_campaign_progression_profile_data
 	uns32 active_secondary_skulls;
 	int32 __unknown19C;
 };
-static_assert(sizeof(s_campaign_progression_profile_data) == 0x1A0);
+COMPILE_ASSERT(sizeof(s_campaign_progression_profile_data) == 0x1A0);
 
 struct s_player_training_profile_data
 {
@@ -31,7 +31,7 @@ struct s_player_training_profile_data
 	int32 training_blob_bitvector_high[2];
 	int32 expansion[4];
 };
-static_assert(sizeof(s_player_training_profile_data) == 0x20);
+COMPILE_ASSERT(sizeof(s_player_training_profile_data) == 0x20);
 
 enum e_campaign_game_mode
 {
@@ -58,7 +58,7 @@ public:
 
 	c_static_array<c_static_flags<k_max_map_count>, k_max_insertion_point_count> m_flags;
 };
-static_assert(sizeof(c_player_profile_insertion_point_flags<32, 9>) == 0x24);
+COMPILE_ASSERT(sizeof(c_player_profile_insertion_point_flags<32, 9>) == 0x24);
 
 enum e_popup_message_title
 {
@@ -292,5 +292,5 @@ public:
 	s_player_training_profile_data m_training_data;
 	c_string_verify_task m_string_verify_task;
 };
-static_assert(sizeof(c_player_profile_interface) == 0x13F8);
+COMPILE_ASSERT(sizeof(c_player_profile_interface) == 0x13F8);
 

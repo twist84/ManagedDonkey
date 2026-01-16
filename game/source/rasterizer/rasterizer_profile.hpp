@@ -74,7 +74,7 @@ struct s_gpu_time_profile
 	c_stop_watch stop_watch;
 	int64 cycles;
 };
-static_assert(sizeof(s_gpu_time_profile) == 0x20);
+COMPILE_ASSERT(sizeof(s_gpu_time_profile) == 0x20);
 
 class c_rasterizer_profile_globals
 {
@@ -111,7 +111,7 @@ protected:
 
 	e_rasterizer_profile_modes m_mode;
 };
-static_assert(sizeof(c_rasterizer_profile_globals) == 0x9D0);
+COMPILE_ASSERT(sizeof(c_rasterizer_profile_globals) == 0x9D0);
 
 class c_rasterizer_profile_scope
 {

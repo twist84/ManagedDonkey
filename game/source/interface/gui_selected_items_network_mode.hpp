@@ -39,7 +39,7 @@ public:
 	e_network_mode_category m_network_mode;
 	e_network_mode_choice m_network_choice;
 };
-static_assert(sizeof(c_gui_network_mode_selected_item) == sizeof(c_gui_selected_item) + 0x8);
-static_assert(0x190 == OFFSETOF(c_gui_network_mode_selected_item, m_network_mode));
-static_assert(0x194 == OFFSETOF(c_gui_network_mode_selected_item, m_network_choice));
+COMPILE_ASSERT(sizeof(c_gui_network_mode_selected_item) == sizeof(c_gui_selected_item) + 0x8);
+COMPILE_ASSERT(0x190 == OFFSETOF(c_gui_network_mode_selected_item, m_network_mode));
+COMPILE_ASSERT(0x194 == OFFSETOF(c_gui_network_mode_selected_item, m_network_choice));
 

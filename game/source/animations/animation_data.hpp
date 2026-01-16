@@ -13,7 +13,7 @@ public:
 	int32 m_uncompressed_data;
 	int32 m_compressed_data;
 };
-static_assert(sizeof(c_animation_data_sizes) == 0x10);
+COMPILE_ASSERT(sizeof(c_animation_data_sizes) == 0x10);
 
 class c_animation_data
 {
@@ -24,5 +24,5 @@ public:
 	uns8 m_movement_data_type;
 	int16 m_frame_count;
 };
-static_assert(sizeof(c_animation_data) == 0xC);
+COMPILE_ASSERT(sizeof(c_animation_data) == 0xC);
 

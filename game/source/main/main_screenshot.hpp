@@ -35,7 +35,7 @@ struct s_screenshot_globals
 	bool force_exact_tiling_by_expanding_size;
 	s_saved_camera* saved_camera_buffer;
 };
-static_assert(sizeof(s_screenshot_globals) == 0x48);
+COMPILE_ASSERT(sizeof(s_screenshot_globals) == 0x48);
 
 extern bool& g_screenshot_needs_taking;
 extern bool& g_screenshot_use_relative_path;

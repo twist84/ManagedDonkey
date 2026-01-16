@@ -39,7 +39,7 @@ public:
 	virtual void notify_packet_acknowledged(int32);
 	virtual void notify_packet_retired(int32, bool);
 };
-static_assert(sizeof(c_network_channel_client) == sizeof(void*));
+COMPILE_ASSERT(sizeof(c_network_channel_client) == sizeof(void*));
 
 class c_network_connection :
 	public c_network_channel_client
@@ -49,7 +49,7 @@ public:
 	{
 		uns16 flags;
 	};
-	static_assert(sizeof(s_connection_incoming_packet) == 0x2);
+	COMPILE_ASSERT(sizeof(s_connection_incoming_packet) == 0x2);
 
 	struct s_connection_outgoing_packet
 	{
@@ -59,7 +59,7 @@ public:
 		int16 unretired_window_size;
 		uns16 flags;
 	};
-	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
+	COMPILE_ASSERT(sizeof(s_connection_outgoing_packet) == 0x10);
 
 //private:
 	bool m_allocated;
@@ -78,7 +78,7 @@ public:
 	bool m_outgoing_window_fully_retired;
 	int32 m_current_timeout_msec;
 };
-static_assert(sizeof(c_network_connection) == 0x960);
+COMPILE_ASSERT(sizeof(c_network_connection) == 0x960);
 
 class c_network_message_queue :
 	public c_network_channel_client
@@ -92,7 +92,7 @@ public:
 		uns16 message_encoded_size_bits;
 		uns32 timestamp;
 	};
-	static_assert(sizeof(s_outgoing_message_description) == 0x10);
+	COMPILE_ASSERT(sizeof(s_outgoing_message_description) == 0x10);
 
 	struct s_outgoing_fragment_record
 	{
@@ -104,7 +104,7 @@ public:
 		s_outgoing_message_description message_description;
 		__pragma(warning(disable : 4200)) byte payload[];
 	};
-	static_assert(sizeof(s_outgoing_fragment_record) == 0x1C);
+	COMPILE_ASSERT(sizeof(s_outgoing_fragment_record) == 0x1C);
 
 	struct s_incoming_fragment_record
 	{
@@ -115,7 +115,7 @@ public:
 		s_incoming_fragment_record* next_fragment;
 		__pragma(warning(disable : 4200)) byte payload[];
 	};
-	static_assert(sizeof(s_incoming_fragment_record) == 0xC);
+	COMPILE_ASSERT(sizeof(s_incoming_fragment_record) == 0xC);
 
 public:
 	bool has_channel_been_used() const;
@@ -141,14 +141,14 @@ public:
 	int32 m_outgoing_payload_bytes;
 	int32 m_incoming_payload_bytes;
 };
-static_assert(sizeof(c_network_message_queue) == 0x64);
+COMPILE_ASSERT(sizeof(c_network_message_queue) == 0x64);
 
 struct s_network_channel_client_info
 {
 	uns32 flags;
 	c_network_channel_client* client;
 };
-static_assert(sizeof(s_network_channel_client_info) == 0x8);
+COMPILE_ASSERT(sizeof(s_network_channel_client_info) == 0x8);
 
 class c_network_channel_simulation_interface
 {
@@ -171,7 +171,7 @@ protected:
 	bool m_simulation_is_authority;
 	bool m_established;
 };
-static_assert(sizeof(c_network_channel_simulation_interface) == 0x34);
+COMPILE_ASSERT(sizeof(c_network_channel_simulation_interface) == 0x34);
 
 class c_network_channel_simulation_gatekeeper :
 	public c_network_channel_client
@@ -180,7 +180,7 @@ public:
 	bool m_write_simulation_data_available;
 	bool m_read_simulation_data_expected;
 };
-static_assert(sizeof(c_network_channel_simulation_gatekeeper) == 0x8);
+COMPILE_ASSERT(sizeof(c_network_channel_simulation_gatekeeper) == 0x8);
 
 class c_network_channel
 {
@@ -191,7 +191,7 @@ public:
 	{
 		uns32 timestamp;
 	};
-	static_assert(sizeof(s_activity_timer) == 0x4);
+	COMPILE_ASSERT(sizeof(s_activity_timer) == 0x4);
 
 public:
 	const char* get_short_name() const;
@@ -256,32 +256,32 @@ public:
 	s_activity_timer m_activity_timers[k_network_channel_activity_count];
 	bool m_destination_unreachable;
 };
-static_assert(sizeof(c_network_channel) == 0xA74);
-static_assert(0x000 == OFFSETOF(c_network_channel, m_link));
-static_assert(0x004 == OFFSETOF(c_network_channel, m_observer));
-static_assert(0x008 == OFFSETOF(c_network_channel, m_message_gateway));
-static_assert(0x00C == OFFSETOF(c_network_channel, m_message_handler));
-static_assert(0x010 == OFFSETOF(c_network_channel, m_configuration));
-static_assert(0x014 == OFFSETOF(c_network_channel, m_type_collection));
-static_assert(0x018 == OFFSETOF(c_network_channel, m_connection));
-static_assert(0x978 == OFFSETOF(c_network_channel, m_message_queue));
-static_assert(0x9DC == OFFSETOF(c_network_channel, m_simulation_gatekeeper));
-static_assert(0x9E4 == OFFSETOF(c_network_channel, m_client_count));
-static_assert(0x9E8 == OFFSETOF(c_network_channel, m_clients));
-static_assert(0xA00 == OFFSETOF(c_network_channel, m_simulation_interface));
-static_assert(0xA04 == OFFSETOF(c_network_channel, m_channel_flags));
-static_assert(0xA08 == OFFSETOF(c_network_channel, m_channel_identifier));
-static_assert(0xA0C == OFFSETOF(c_network_channel, m_remote_channel_identifier));
-static_assert(0xA10 == OFFSETOF(c_network_channel, m_channel_state));
-static_assert(0xA14 == OFFSETOF(c_network_channel, m_channel_closure_reason));
-static_assert(0xA18 == OFFSETOF(c_network_channel, m_channel_closure_address));
-static_assert(0xA2C == OFFSETOF(c_network_channel, m_remote_address));
-static_assert(0xA40 == OFFSETOF(c_network_channel, m_send_connect_packets));
-static_assert(0xA44 == OFFSETOF(c_network_channel, m_first_connect_packet_timestamp));
-static_assert(0xA48 == OFFSETOF(c_network_channel, m_next_connect_packet_timestamp));
-static_assert(0xA4C == OFFSETOF(c_network_channel, m_sent_connect_packet_count));
-static_assert(0xA50 == OFFSETOF(c_network_channel, m_established_timestamp));
-static_assert(0xA54 == OFFSETOF(c_network_channel, m_connected_timestamp));
-static_assert(0xA58 == OFFSETOF(c_network_channel, m_activity_timers));
-static_assert(0xA70 == OFFSETOF(c_network_channel, m_destination_unreachable));
+COMPILE_ASSERT(sizeof(c_network_channel) == 0xA74);
+COMPILE_ASSERT(0x000 == OFFSETOF(c_network_channel, m_link));
+COMPILE_ASSERT(0x004 == OFFSETOF(c_network_channel, m_observer));
+COMPILE_ASSERT(0x008 == OFFSETOF(c_network_channel, m_message_gateway));
+COMPILE_ASSERT(0x00C == OFFSETOF(c_network_channel, m_message_handler));
+COMPILE_ASSERT(0x010 == OFFSETOF(c_network_channel, m_configuration));
+COMPILE_ASSERT(0x014 == OFFSETOF(c_network_channel, m_type_collection));
+COMPILE_ASSERT(0x018 == OFFSETOF(c_network_channel, m_connection));
+COMPILE_ASSERT(0x978 == OFFSETOF(c_network_channel, m_message_queue));
+COMPILE_ASSERT(0x9DC == OFFSETOF(c_network_channel, m_simulation_gatekeeper));
+COMPILE_ASSERT(0x9E4 == OFFSETOF(c_network_channel, m_client_count));
+COMPILE_ASSERT(0x9E8 == OFFSETOF(c_network_channel, m_clients));
+COMPILE_ASSERT(0xA00 == OFFSETOF(c_network_channel, m_simulation_interface));
+COMPILE_ASSERT(0xA04 == OFFSETOF(c_network_channel, m_channel_flags));
+COMPILE_ASSERT(0xA08 == OFFSETOF(c_network_channel, m_channel_identifier));
+COMPILE_ASSERT(0xA0C == OFFSETOF(c_network_channel, m_remote_channel_identifier));
+COMPILE_ASSERT(0xA10 == OFFSETOF(c_network_channel, m_channel_state));
+COMPILE_ASSERT(0xA14 == OFFSETOF(c_network_channel, m_channel_closure_reason));
+COMPILE_ASSERT(0xA18 == OFFSETOF(c_network_channel, m_channel_closure_address));
+COMPILE_ASSERT(0xA2C == OFFSETOF(c_network_channel, m_remote_address));
+COMPILE_ASSERT(0xA40 == OFFSETOF(c_network_channel, m_send_connect_packets));
+COMPILE_ASSERT(0xA44 == OFFSETOF(c_network_channel, m_first_connect_packet_timestamp));
+COMPILE_ASSERT(0xA48 == OFFSETOF(c_network_channel, m_next_connect_packet_timestamp));
+COMPILE_ASSERT(0xA4C == OFFSETOF(c_network_channel, m_sent_connect_packet_count));
+COMPILE_ASSERT(0xA50 == OFFSETOF(c_network_channel, m_established_timestamp));
+COMPILE_ASSERT(0xA54 == OFFSETOF(c_network_channel, m_connected_timestamp));
+COMPILE_ASSERT(0xA58 == OFFSETOF(c_network_channel, m_activity_timers));
+COMPILE_ASSERT(0xA70 == OFFSETOF(c_network_channel, m_destination_unreachable));
 

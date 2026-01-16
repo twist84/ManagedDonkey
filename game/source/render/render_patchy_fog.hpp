@@ -17,5 +17,5 @@ public:
 	real32 m_lateral_offsets[100];
 	real32 m_vertical_offsets[100];
 };
-static_assert(sizeof(c_patchy_fog) == 0x354);
+COMPILE_ASSERT(sizeof(c_patchy_fog) == 0x354);
 

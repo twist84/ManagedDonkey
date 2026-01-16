@@ -17,7 +17,7 @@ struct scenario_object_palette_entry
 		UPDATE_REFERENCE_NAME(name);
 	}
 };
-static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
+COMPILE_ASSERT(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
 
 template<tag ...t_group_tags>
 struct scenario_object_palette_entry_with_string_id
@@ -34,7 +34,7 @@ struct scenario_object_palette_entry_with_string_id
 		UPDATE_REFERENCE_NAME(name);
 	}
 };
-static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
+COMPILE_ASSERT(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
 
 struct s_scenario_object_datum
 {
@@ -56,7 +56,7 @@ struct s_scenario_object_datum
 	// pad
 	byte asdf[0x2];
 };
-static_assert(sizeof(s_scenario_object_datum) == 0x50);
+COMPILE_ASSERT(sizeof(s_scenario_object_datum) == 0x50);
 
 struct s_scenario_object_permutation
 {
@@ -64,7 +64,7 @@ struct s_scenario_object_permutation
 	uns32 active_change_colors;
 	rgb_color change_colors[5];
 };
-static_assert(sizeof(s_scenario_object_permutation) == 0x1C);
+COMPILE_ASSERT(sizeof(s_scenario_object_permutation) == 0x1C);
 
 struct s_scenario_object
 {
@@ -73,7 +73,7 @@ struct s_scenario_object
 	s_scenario_object_datum object_data;
 	s_scenario_object_permutation permutation_data;
 };
-static_assert(sizeof(s_scenario_object) == 0x70);
+COMPILE_ASSERT(sizeof(s_scenario_object) == 0x70);
 
 enum e_scenario_unit_datum_flags
 {
@@ -89,7 +89,7 @@ struct s_scenario_unit_datum
 	real32 body_vitality;
 	c_flags<e_scenario_unit_datum_flags, uns32, k_scenario_unit_datum_flags> flags;
 };
-static_assert(sizeof(s_scenario_unit_datum) == 0x8);
+COMPILE_ASSERT(sizeof(s_scenario_unit_datum) == 0x8);
 
 struct s_scenario_unit :
 	s_scenario_object
@@ -97,7 +97,7 @@ struct s_scenario_unit :
 	s_scenario_unit_datum unit_data;
 	s_scenario_multiplayer_object_properties multiplayer_data;
 };
-static_assert(sizeof(s_scenario_unit) == 0xAC);
+COMPILE_ASSERT(sizeof(s_scenario_unit) == 0xAC);
 
 struct s_scenario_arg_device;
 struct s_scenario_crate;
@@ -108,7 +108,7 @@ struct s_scenario_biped :
 	s_scenario_unit
 {
 };
-static_assert(sizeof(s_scenario_biped) == sizeof(s_scenario_unit));
+COMPILE_ASSERT(sizeof(s_scenario_biped) == sizeof(s_scenario_unit));
 
 struct s_scenario_control;
 
@@ -129,7 +129,7 @@ struct scenario_device_group
 	// pad
 	byte WAFNDIO[0x2];
 };
-static_assert(sizeof(scenario_device_group) == 0x2C);
+COMPILE_ASSERT(sizeof(scenario_device_group) == 0x2C);
 
 struct s_scenario_effect_scenery;
 struct s_scenario_equipment;
@@ -143,14 +143,14 @@ struct scenario_giant_datum
 
 	s_tag_block pathfinding_references;
 };
-static_assert(sizeof(scenario_giant_datum) == 0x10);
+COMPILE_ASSERT(sizeof(scenario_giant_datum) == 0x10);
 
 struct s_scenario_giant :
 	s_scenario_unit
 {
 	scenario_giant_datum giant_data;
 };
-static_assert(sizeof(s_scenario_giant) == sizeof(s_scenario_unit) + sizeof(scenario_giant_datum));
+COMPILE_ASSERT(sizeof(s_scenario_giant) == sizeof(s_scenario_unit) + sizeof(scenario_giant_datum));
 
 struct scenario_light_block;
 struct s_scenario_machine;
@@ -161,7 +161,7 @@ struct s_scenario_vehicle :
 	s_scenario_unit
 {
 };
-static_assert(sizeof(s_scenario_vehicle) == sizeof(s_scenario_unit));
+COMPILE_ASSERT(sizeof(s_scenario_vehicle) == sizeof(s_scenario_unit));
 
 enum e_scenario_weapon_datum_flags
 {
@@ -178,7 +178,7 @@ struct s_scenario_weapon_datum
 	int16 rounds_loaded;
 	c_flags<e_scenario_weapon_datum_flags, uns32, k_scenario_weapon_datum_flags> flags;
 };
-static_assert(sizeof(s_scenario_weapon_datum) == 0x8);
+COMPILE_ASSERT(sizeof(s_scenario_weapon_datum) == 0x8);
 
 struct s_scenario_weapon :
 	s_scenario_object
@@ -186,5 +186,5 @@ struct s_scenario_weapon :
 	s_scenario_weapon_datum weapon_data;
 	s_scenario_multiplayer_object_properties multiplayer_data;
 };
-static_assert(sizeof(s_scenario_weapon) == 0xAC);
+COMPILE_ASSERT(sizeof(s_scenario_weapon) == 0xAC);
 

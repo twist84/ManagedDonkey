@@ -38,5 +38,5 @@ public:
 	real_vector3d m_destination_facing;
 	c_ai_action m_destination_action;
 };
-static_assert(sizeof(c_destination_orders) == 0x68);
+COMPILE_ASSERT(sizeof(c_destination_orders) == 0x68);
 

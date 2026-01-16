@@ -160,7 +160,7 @@ public:
 		int32 accumulator_bit_count;
 		byte* next_data;
 	};
-	static_assert(sizeof(s_bitstream_stack_entry) == 0x18);
+	COMPILE_ASSERT(sizeof(s_bitstream_stack_entry) == 0x18);
 
 	byte* m_data;
 	byte* m_data_max;
@@ -174,17 +174,17 @@ public:
 	int32 m_number_of_bits_rewound;
 	int32 m_number_of_position_resets;
 };
-static_assert(sizeof(c_bitstream) == 0xA0);
-static_assert(0x00 == OFFSETOF(c_bitstream, m_data));
-static_assert(0x04 == OFFSETOF(c_bitstream, m_data_max));
-static_assert(0x08 == OFFSETOF(c_bitstream, m_data_size_bytes));
-static_assert(0x0C == OFFSETOF(c_bitstream, m_data_size_alignment));
-static_assert(0x10 == OFFSETOF(c_bitstream, m_state));
-static_assert(0x14 == OFFSETOF(c_bitstream, m_data_error_detected));
-static_assert(0x18 == OFFSETOF(c_bitstream, m_bitstream_data));
-static_assert(0x30 == OFFSETOF(c_bitstream, m_position_stack_depth)); // 8 byte aligned
-static_assert(0x38 == OFFSETOF(c_bitstream, m_position_stack));
-static_assert(0x98 == OFFSETOF(c_bitstream, m_number_of_bits_rewound));
-static_assert(0x9C == OFFSETOF(c_bitstream, m_number_of_position_resets));
+COMPILE_ASSERT(sizeof(c_bitstream) == 0xA0);
+COMPILE_ASSERT(0x00 == OFFSETOF(c_bitstream, m_data));
+COMPILE_ASSERT(0x04 == OFFSETOF(c_bitstream, m_data_max));
+COMPILE_ASSERT(0x08 == OFFSETOF(c_bitstream, m_data_size_bytes));
+COMPILE_ASSERT(0x0C == OFFSETOF(c_bitstream, m_data_size_alignment));
+COMPILE_ASSERT(0x10 == OFFSETOF(c_bitstream, m_state));
+COMPILE_ASSERT(0x14 == OFFSETOF(c_bitstream, m_data_error_detected));
+COMPILE_ASSERT(0x18 == OFFSETOF(c_bitstream, m_bitstream_data));
+COMPILE_ASSERT(0x30 == OFFSETOF(c_bitstream, m_position_stack_depth)); // 8 byte aligned
+COMPILE_ASSERT(0x38 == OFFSETOF(c_bitstream, m_position_stack));
+COMPILE_ASSERT(0x98 == OFFSETOF(c_bitstream, m_number_of_bits_rewound));
+COMPILE_ASSERT(0x9C == OFFSETOF(c_bitstream, m_number_of_position_resets));
 
 

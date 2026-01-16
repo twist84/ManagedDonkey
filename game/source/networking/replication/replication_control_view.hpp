@@ -23,5 +23,5 @@ public:
 	uns32 m_prediction_available_receive;
 	s_player_prediction m_prediction[k_network_maximum_control_streams];
 };
-static_assert(sizeof(c_replication_control_view) == 0x1320);
+COMPILE_ASSERT(sizeof(c_replication_control_view) == 0x1320);
 

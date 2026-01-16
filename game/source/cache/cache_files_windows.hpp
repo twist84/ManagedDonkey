@@ -44,13 +44,13 @@ struct s_cache_file_share_map // this probably isn't the correct name
 	e_map_file_index index;
 	e_map_file_index previous_index;
 };
-static_assert(sizeof(s_cache_file_share_map) == 0xC);
+COMPILE_ASSERT(sizeof(s_cache_file_share_map) == 0xC);
 
 class c_cache_file_copy_optional_cache_callback :
 	public c_optional_cache_user_callback
 {
 };
-static_assert(sizeof(c_cache_file_copy_optional_cache_callback) == sizeof(c_optional_cache_user_callback));
+COMPILE_ASSERT(sizeof(c_cache_file_copy_optional_cache_callback) == sizeof(c_optional_cache_user_callback));
 
 struct s_cached_map_file
 {
@@ -63,7 +63,7 @@ struct s_cached_map_file
 	s_indirect_file bulk_read_handle;
 	s_file_handle overlapped_handle;
 };
-static_assert(sizeof(s_cached_map_file) == 0x33A0);
+COMPILE_ASSERT(sizeof(s_cached_map_file) == 0x33A0);
 
 struct s_failed_map
 {
@@ -71,7 +71,7 @@ struct s_failed_map
 	uns32 time;
 	int32 index;
 };
-static_assert(sizeof(s_failed_map) == 0x108);
+COMPILE_ASSERT(sizeof(s_failed_map) == 0x108);
 
 struct s_cache_file_table_of_contents
 {
@@ -82,14 +82,14 @@ struct s_cache_file_table_of_contents
 	e_cache_file_load_action pending_action;
 	s_failed_map failed_maps[8];
 };
-static_assert(sizeof(s_cache_file_table_of_contents) == 0x30EB0);
+COMPILE_ASSERT(sizeof(s_cache_file_table_of_contents) == 0x30EB0);
 
 struct s_cache_copy_request
 {
 	c_static_string<k_tag_long_string_length> map_name;
 	e_cache_file_load_action action;
 };
-static_assert(sizeof(s_cache_copy_request) == 0x104);
+COMPILE_ASSERT(sizeof(s_cache_copy_request) == 0x104);
 
 struct s_cache_file_copy_globals
 {
@@ -119,7 +119,7 @@ struct s_cache_file_copy_globals
 	s_cache_copy_request pending_request;
 	uns32 running_realtime_checksum;
 };
-static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
+COMPILE_ASSERT(sizeof(s_cache_file_copy_globals) == 0x36E8);
 
 class c_cache_file_copy_fake_decompressor :
 	public c_cache_file_decompressor
@@ -150,7 +150,7 @@ class c_cache_file_copy_fake_decompressor :
 	byte m_overlapped[0x14]; // OVERLAPPED
 	c_basic_buffer<void> m_copy_buffer;
 };
-static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
+COMPILE_ASSERT(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
 
 extern c_cache_file_copy_optional_cache_callback& g_cache_file_copy_optional_cache_callback;
 extern c_cache_file_copy_fake_decompressor& g_copy_decompressor;

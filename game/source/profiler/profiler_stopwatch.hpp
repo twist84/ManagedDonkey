@@ -29,5 +29,5 @@ protected:
 	bool m_paused;
 	byte __data11[0x7];
 };
-static_assert(sizeof(c_stop_watch) == 0x18);
+COMPILE_ASSERT(sizeof(c_stop_watch) == 0x18);
 

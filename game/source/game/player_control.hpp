@@ -8,7 +8,7 @@ struct s_player_control_globals_deterministic
 {
 	byte __data[0x80];
 };
-static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
+COMPILE_ASSERT(sizeof(s_player_control_globals_deterministic) == 0x80);
 
 enum e_player_control_action_test_bit
 {
@@ -151,7 +151,7 @@ struct s_player_control_non_deterministic_input_user_state
 
 	byte __pad2C[0x4];
 };
-static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x30);
+COMPILE_ASSERT(sizeof(s_player_control_non_deterministic_input_user_state) == 0x30);
 
 struct s_player_interaction
 {
@@ -172,14 +172,14 @@ struct s_player_interaction
 
 	int32 object_index;
 };
-static_assert(sizeof(s_player_interaction) == 0x8);
+COMPILE_ASSERT(sizeof(s_player_interaction) == 0x8);
 
 struct s_player_action_context
 {
 	s_player_interaction interaction;
 	int32 melee_target_unit_index;
 };
-static_assert(sizeof(s_player_action_context) == 0xC);
+COMPILE_ASSERT(sizeof(s_player_action_context) == 0xC);
 
 struct s_player_control_input
 {
@@ -194,7 +194,7 @@ struct s_player_control_input
 	real32 lookstick_pitch;
 	s_aim_assist_targeting_result aim_assist_targeting;
 };
-static_assert(sizeof(s_player_control_input) == 0x50);
+COMPILE_ASSERT(sizeof(s_player_control_input) == 0x50);
 
 struct s_player_control_state
 {
@@ -219,14 +219,14 @@ struct s_player_control_state
 		uns16 map_editor_flags;
 	} map_editor_data;
 };
-static_assert(sizeof(s_player_control_state) == 0x6C);
+COMPILE_ASSERT(sizeof(s_player_control_state) == 0x6C);
 
 struct s_player_control_output_state
 {
 	int32 unit_index;
 	s_player_control_state output;
 };
-static_assert(sizeof(s_player_control_output_state) == 0x70);
+COMPILE_ASSERT(sizeof(s_player_control_output_state) == 0x70);
 
 struct s_player_control_input_state
 {
@@ -257,7 +257,7 @@ struct s_player_control_input_state
 	real_point3d gaze_target;
 	real32 gaze_max_velocity;
 };
-static_assert(sizeof(s_player_control_input_state) == 0xF8);
+COMPILE_ASSERT(sizeof(s_player_control_input_state) == 0xF8);
 
 struct player_action
 {
@@ -284,7 +284,7 @@ struct player_action
 	bool velocity_exceeds_motion_tracker_threshold;
 	uns64 action_test_flags;
 };
-static_assert(sizeof(player_action) == 0x80);
+COMPILE_ASSERT(sizeof(player_action) == 0x80);
 
 struct s_player_control_globals
 {
@@ -298,7 +298,7 @@ struct s_player_control_globals
 	bool machinima_camera_debug;
 	bool initialized;
 };
-static_assert(sizeof(s_player_control_globals) == 0x8B0);
+COMPILE_ASSERT(sizeof(s_player_control_globals) == 0x8B0);
 
 struct s_game_input_state;
 

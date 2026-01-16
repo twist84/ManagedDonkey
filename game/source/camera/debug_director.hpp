@@ -21,5 +21,5 @@ public:
 	byte pad[0x2];
 	byte unused[0xC];
 };
-static_assert(sizeof(c_debug_director) == 0x160);
+COMPILE_ASSERT(sizeof(c_debug_director) == 0x160);
 

@@ -106,7 +106,7 @@ struct effect_definition
 
 	s_tag_block conical_distribution;
 };
-static_assert(sizeof(effect_definition) == 0x68);
+COMPILE_ASSERT(sizeof(effect_definition) == 0x68);
 
 enum e_effect_part_flags
 {
@@ -181,7 +181,7 @@ struct effect_part_definition
 	c_flags<e_effect_part_scaleable_values, uns32, k_effect_part_scaleable_values> A_scale_value;
 	c_flags<e_effect_part_scaleable_values, uns32, k_effect_part_scaleable_values> B_scale_value;
 };
-static_assert(sizeof(effect_part_definition) == 0x60);
+COMPILE_ASSERT(sizeof(effect_part_definition) == 0x60);
 
 struct effect_event_definition
 {
@@ -206,5 +206,5 @@ struct effect_event_definition
 	s_tag_block accelerations;
 	s_tag_block particle_systems;
 };
-static_assert(sizeof(effect_event_definition) == 0x44);
+COMPILE_ASSERT(sizeof(effect_event_definition) == 0x44);
 

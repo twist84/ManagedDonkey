@@ -87,7 +87,7 @@ protected:
 	c_flags<e_base_variant_flags, uns16, k_base_variant_flags> m_flags;
 	c_enum<e_team_scoring_method, int16, _team_scoring_method_first, k_number_of_team_scoring_methods> m_team_scoring_method;
 };
-static_assert(sizeof(c_game_engine_base_variant) == 0x1D0);
+COMPILE_ASSERT(sizeof(c_game_engine_base_variant) == 0x1D0);
 
 struct s_game_engine_state_data
 {
@@ -105,7 +105,7 @@ struct s_game_engine_state_data
 	uns8 round_condition_flags;
 	byte pad2B[0x1];
 };
-static_assert(sizeof(s_game_engine_state_data) == 0x2C);
+COMPILE_ASSERT(sizeof(s_game_engine_state_data) == 0x2C);
 
 enum e_game_engine_kill_flags;
 class c_game_engine

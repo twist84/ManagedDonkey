@@ -521,7 +521,7 @@ protected:
 	// elephant
 	byte pad[0x3];
 };
-static_assert(sizeof(c_player_trait_shield_vitality) == 0x8);
+COMPILE_ASSERT(sizeof(c_player_trait_shield_vitality) == 0x8);
 
 typedef c_enum<e_grenade_count_setting, int16, _grenade_count_setting_unchanged, k_grenade_count_settings> c_grenade_count_setting;
 typedef c_enum<e_damage_modifier_percentage_setting, uns8, _damage_modifier_percentage_setting_unchanged, k_damage_modifier_percentage_settings> c_damage_modifier_percentage_setting;
@@ -581,7 +581,7 @@ protected:
 	c_infinite_ammo_setting m_infinite_ammo_setting;
 	c_weapon_pickup_setting m_weapon_pickup_setting;
 };
-static_assert(sizeof(c_player_trait_weapons) == 0x8);
+COMPILE_ASSERT(sizeof(c_player_trait_weapons) == 0x8);
 
 typedef c_enum<e_player_speed_setting, uns8, _player_speed_setting_unchanged, k_player_speed_settings> c_player_speed_setting;
 typedef c_enum<e_player_gravity_setting, uns8, _player_gravity_setting_unchanged, k_player_gravity_settings> c_player_gravity_setting;
@@ -615,7 +615,7 @@ protected:
 	// shark
 	byte pad;
 };
-static_assert(sizeof(c_player_trait_movement) == 0x4);
+COMPILE_ASSERT(sizeof(c_player_trait_movement) == 0x4);
 
 // Traits that affect the player's appearance
 typedef c_enum<e_active_camo_setting, uns8, _active_camo_setting_unchanged, k_active_camo_settings> c_active_camo_setting;
@@ -648,7 +648,7 @@ protected:
 	c_aura_setting m_aura_setting;
 	c_forced_change_color_setting m_forced_change_color_setting;
 };
-static_assert(sizeof(c_player_trait_appearance) == 0x4);
+COMPILE_ASSERT(sizeof(c_player_trait_appearance) == 0x4);
 
 // Traits that affect the HUD motion sensor behavior
 typedef c_enum<e_motion_tracker_setting, uns16, _motion_tracker_setting_unchanged, k_motion_tracker_settings> c_motion_tracker_setting;
@@ -673,7 +673,7 @@ protected:
 	c_motion_tracker_setting m_motion_tracker_setting;
 	c_motion_tracker_range_setting m_motion_tracker_range_setting;
 };
-static_assert(sizeof(c_player_trait_sensors) == 0x4);
+COMPILE_ASSERT(sizeof(c_player_trait_sensors) == 0x4);
 
 class c_player_traits
 {
@@ -712,6 +712,6 @@ protected:
 	c_player_trait_appearance m_appearance_traits;
 	c_player_trait_sensors m_sensor_traits;
 };
-static_assert(sizeof(c_player_traits) == 0x1C);
+COMPILE_ASSERT(sizeof(c_player_traits) == 0x1C);
 
 #pragma pack(pop)

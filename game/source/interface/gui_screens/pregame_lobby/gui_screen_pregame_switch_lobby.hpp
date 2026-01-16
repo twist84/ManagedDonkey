@@ -13,6 +13,6 @@ public:
 public:
 	c_gui_screen_pregame_switch_lobby(int32 name);
 };
-static_assert(sizeof(c_gui_screen_pregame_switch_lobby) == 0x1AA0);
-static_assert(sizeof(c_gui_screen_pregame_switch_lobby) == sizeof(c_gui_screen_widget));
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_switch_lobby) == 0x1AA0);
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_switch_lobby) == sizeof(c_gui_screen_widget));
 

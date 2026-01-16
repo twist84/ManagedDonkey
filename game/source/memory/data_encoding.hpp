@@ -10,7 +10,7 @@ struct data_encoding_state
 	int32 buffer_size;
 	uns8 overflow_flag;
 };
-static_assert(sizeof(data_encoding_state) == 0x10);
+COMPILE_ASSERT(sizeof(data_encoding_state) == 0x10);
 
 extern void* data_decode_array(data_encoding_state* state, int32 element_count_size, int32* element_count_reference, int32 maximum_element_count, byte_swap_definition* bs_definition);
 extern byte data_decode_byte(data_encoding_state* state);

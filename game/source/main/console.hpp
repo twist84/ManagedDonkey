@@ -17,7 +17,7 @@ struct s_console_globals
 	int16 newest_previous_command_index;
 	int16 selected_previous_command_index;
 };
-//static_assert(sizeof(s_console_globals) == 0x1204);
+//COMPILE_ASSERT(sizeof(s_console_globals) == 0x1204);
 
 struct s_status_line
 {
@@ -32,7 +32,7 @@ struct s_status_line
 	s_status_line* prev;
 	s_status_line* next;
 };
-static_assert(sizeof(s_status_line) == 0x124);
+COMPILE_ASSERT(sizeof(s_status_line) == 0x124);
 
 struct s_status_string
 {
@@ -42,7 +42,7 @@ struct s_status_string
 	int32 time_created;
 	s_status_line line;
 };
-static_assert(sizeof(s_status_string) == 0x228);
+COMPILE_ASSERT(sizeof(s_status_string) == 0x228);
 
 struct s_string_cache
 {
@@ -53,7 +53,7 @@ struct s_string_cache
 	real_rgb_color color;
 	e_text_justification justification;
 };
-static_assert(sizeof(s_string_cache) == 0x1014);
+COMPILE_ASSERT(sizeof(s_string_cache) == 0x1014);
 
 extern s_console_globals console_globals;
 

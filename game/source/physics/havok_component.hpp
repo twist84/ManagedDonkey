@@ -40,7 +40,7 @@ public:
 	int8 m_rigid_body_index_b;
 	int8 m_structure_bsp_index;
 };
-static_assert(sizeof(c_havok_contact_point) == 0x44);
+COMPILE_ASSERT(sizeof(c_havok_contact_point) == 0x44);
 
 struct hkAabbPhantom;
 struct hkConstraintInstance;
@@ -89,7 +89,7 @@ public:
 		{
 			c_havok_contact_point contact_point;
 		};
-		static_assert(sizeof(s_contact_point_buffer) == 0x44);
+		COMPILE_ASSERT(sizeof(s_contact_point_buffer) == 0x44);
 
 		hkArray<s_contact_point_buffer> m_havok_contact_points;
 		hkInplaceArray<int8, k_inplace_rigid_body_indexes> m_rigid_body_indexes;
@@ -105,7 +105,7 @@ public:
 
 		char pad0[3];
 	};
-	static_assert(sizeof(c_rigid_body) == 0x48);
+	COMPILE_ASSERT(sizeof(c_rigid_body) == 0x48);
 
 	class c_constraint
 	{
@@ -119,7 +119,7 @@ public:
 		int32 m_constraint_impact_datum_index;
 		hkConstraintInstance* m_constraint;
 	};
-	static_assert(sizeof(c_constraint) == 0xC);
+	COMPILE_ASSERT(sizeof(c_constraint) == 0xC);
 
 	struct s_body_in_phantom
 	{
@@ -128,7 +128,7 @@ public:
 		int32 body_object_index;
 		int32 reference_count;
 	};
-	static_assert(sizeof(s_body_in_phantom) == 0xC);
+	COMPILE_ASSERT(sizeof(s_body_in_phantom) == 0xC);
 
 	// FLAG(0) _records_contact_points_bit
 	// FLAG(1) _ignores_gravity_bit
@@ -152,7 +152,7 @@ public:
 	hkSimpleShapePhantom* m_simple_shape_phantom;
 	hkAabbPhantom* m_aabb_phantom;
 };
-static_assert(sizeof(c_havok_component) == 0x80);
+COMPILE_ASSERT(sizeof(c_havok_component) == 0x80);
 
 extern c_smart_data_array<c_havok_component>& g_havok_component_data;
 

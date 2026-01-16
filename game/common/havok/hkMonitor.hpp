@@ -10,5 +10,5 @@ struct hkMonitorStream
 	hkPadSpu<char*> m_capacityMinus16;
 	hkBool m_isBufferAllocatedOnTheHeap;
 };
-static_assert(sizeof(hkMonitorStream) == 0x14);
+COMPILE_ASSERT(sizeof(hkMonitorStream) == 0x14);
 

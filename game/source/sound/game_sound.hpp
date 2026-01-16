@@ -9,7 +9,7 @@ struct game_looping_sound_datum :
 {
 	byte __data[0x1E];
 };
-static_assert(sizeof(game_looping_sound_datum) == 0x20);
+COMPILE_ASSERT(sizeof(game_looping_sound_datum) == 0x20);
 
 struct s_game_sound_listener
 {
@@ -17,7 +17,7 @@ struct s_game_sound_listener
 	int32 active_fog_definition_index;
 	bool tracked_as_underwater;
 };
-static_assert(sizeof(s_game_sound_listener) == 0xC);
+COMPILE_ASSERT(sizeof(s_game_sound_listener) == 0xC);
 
 struct s_sound_global_environment_parameters
 {
@@ -28,7 +28,7 @@ struct s_sound_global_environment_parameters
 	int32 speaker_filter_frequency;
 	real32 speaker_filter_gain;
 };
-static_assert(sizeof(s_sound_global_environment_parameters) == 0x18);
+COMPILE_ASSERT(sizeof(s_sound_global_environment_parameters) == 0x18);
 
 struct s_game_sound_globals
 {
@@ -40,13 +40,13 @@ struct s_game_sound_globals
 	bool suppress_ambience_update_on_revert;
 	real32 additional_occlusion_interpolator_dt;
 };
-static_assert(sizeof(s_game_sound_globals) == 0x154);
+COMPILE_ASSERT(sizeof(s_game_sound_globals) == 0x154);
 
 struct s_game_sound_impulse_datum
 {
 	byte __data[0x200];
 };
-static_assert(sizeof(s_game_sound_impulse_datum) == 0x200);
+COMPILE_ASSERT(sizeof(s_game_sound_impulse_datum) == 0x200);
 
 extern void __cdecl game_sound_dispose();
 extern void __cdecl game_sound_dispose_from_old_map();

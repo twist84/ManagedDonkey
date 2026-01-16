@@ -17,5 +17,5 @@ public:
 	void dispose();
 	void initialize(c_life_cycle_state_manager* manager);
 };
-static_assert(sizeof(c_life_cycle_state_handler_none) == 0x28);
+COMPILE_ASSERT(sizeof(c_life_cycle_state_handler_none) == 0x28);
 

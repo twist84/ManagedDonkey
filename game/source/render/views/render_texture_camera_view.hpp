@@ -103,5 +103,5 @@ struct s_render_texture_camera_globals
     int32 width;
     int32 height;
 };
-static_assert(sizeof(s_render_texture_camera_globals) == 0x6C);
+COMPILE_ASSERT(sizeof(s_render_texture_camera_globals) == 0x6C);
 

@@ -29,8 +29,8 @@ public:
 	wchar_t m_gametype[32];
 	wchar_t m_gametype_description[256];
 };
-static_assert(sizeof(c_start_menu_game_multiplayer) == 0x23A8);
-static_assert(sizeof(c_start_menu_game_multiplayer) == sizeof(c_start_menu_pane_screen_widget) + 0x240);
+COMPILE_ASSERT(sizeof(c_start_menu_game_multiplayer) == 0x23A8);
+COMPILE_ASSERT(sizeof(c_start_menu_game_multiplayer) == sizeof(c_start_menu_pane_screen_widget) + 0x240);
 
 extern bool __cdecl parse_game_description(void* this_ptr, wchar_t* buffer, int32 buffer_length);
 extern bool __cdecl parse_game_type(void* this_ptr, wchar_t* buffer, int32 buffer_length);

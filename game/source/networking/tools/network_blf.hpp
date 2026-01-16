@@ -17,7 +17,7 @@ public:
 	int16 major_version;
 	int16 minor_version;
 };
-static_assert(sizeof(s_blf_header) == 0xC);
+COMPILE_ASSERT(sizeof(s_blf_header) == 0xC);
 #pragma pack(pop)
 
 struct s_blf_chunk_start_of_file
@@ -41,7 +41,7 @@ public:
 
 	char alignment_padding_unused[0x2];
 };
-static_assert(sizeof(s_blf_chunk_start_of_file) == sizeof(s_blf_header) + 0x24);
+COMPILE_ASSERT(sizeof(s_blf_chunk_start_of_file) == sizeof(s_blf_header) + 0x24);
 
 #pragma pack(push, 1)
 
@@ -72,7 +72,7 @@ public:
 	int32 total_file_size;
 	c_enum<e_blf_file_authentication_type, int8, _blf_file_authentication_type_none, k_blf_file_authentication_type_count> authentication_type;
 };
-static_assert(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
+COMPILE_ASSERT(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
 
 struct s_blf_chunk_end_of_file_with_crc :
 	s_blf_chunk_end_of_file
@@ -86,7 +86,7 @@ public:
 
 	uns32 checksum;
 };
-static_assert(sizeof(s_blf_chunk_end_of_file_with_crc) == 0x15);
+COMPILE_ASSERT(sizeof(s_blf_chunk_end_of_file_with_crc) == 0x15);
 
 struct s_blf_chunk_end_of_file_with_rsa :
 	s_blf_chunk_end_of_file
@@ -95,7 +95,7 @@ struct s_blf_chunk_end_of_file_with_rsa :
 
 	s_rsa_signature rsa_signature;
 };
-static_assert(sizeof(s_blf_chunk_end_of_file_with_rsa) == 0x111);
+COMPILE_ASSERT(sizeof(s_blf_chunk_end_of_file_with_rsa) == 0x111);
 
 struct s_blf_chunk_author
 {
@@ -115,7 +115,7 @@ public:
 	char program_build_string[28];
 	char user[16];
 };
-static_assert(sizeof(s_blf_chunk_author) == sizeof(s_blf_header) + 0x44);
+COMPILE_ASSERT(sizeof(s_blf_chunk_author) == sizeof(s_blf_header) + 0x44);
 
 #pragma pack(pop)
 
@@ -138,7 +138,7 @@ public:
 
 	s_saved_game_item_metadata metadata;
 };
-static_assert(sizeof(s_blf_chunk_content_header) == sizeof(s_blf_header) + 0xFC);
+COMPILE_ASSERT(sizeof(s_blf_chunk_content_header) == sizeof(s_blf_header) + 0xFC);
 
 struct s_blf_chunk_game_variant
 {
@@ -153,7 +153,7 @@ public:
 
 	c_game_variant game_variant;
 };
-static_assert(sizeof(s_blf_chunk_game_variant) == sizeof(s_blf_header) + 0x264);
+COMPILE_ASSERT(sizeof(s_blf_chunk_game_variant) == sizeof(s_blf_header) + 0x264);
 
 struct s_blf_chunk_map_variant
 {
@@ -168,7 +168,7 @@ public:
 	byte pad[0x2];
 	c_map_variant map_variant;
 };
-static_assert(sizeof(s_blf_chunk_map_variant) == sizeof(s_blf_header) + 0xE094);
+COMPILE_ASSERT(sizeof(s_blf_chunk_map_variant) == sizeof(s_blf_header) + 0xE094);
 
 struct s_blffile_saved_game_file
 {
@@ -178,7 +178,7 @@ public:
 	s_blf_chunk_start_of_file start_of_file;
 	s_blf_chunk_content_header content_header;
 };
-static_assert(sizeof(s_blffile_saved_game_file) == 0x138);
+COMPILE_ASSERT(sizeof(s_blffile_saved_game_file) == 0x138);
 
 #pragma pack(push, 1)
 struct s_blffile_game_variant :
@@ -194,7 +194,7 @@ public:
 
 	byte pad[0x3];
 };
-static_assert(sizeof(s_blffile_game_variant) == 0x3BC);
+COMPILE_ASSERT(sizeof(s_blffile_game_variant) == 0x3BC);
 #pragma pack(pop)
 
 struct s_blffile_map_variant :
@@ -210,7 +210,7 @@ public:
 
 	byte pad[0x7];
 };
-static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
+COMPILE_ASSERT(sizeof(s_blffile_map_variant) == 0xE1F0);
 
 struct s_blf_saved_film :
 	public s_blffile_saved_game_file
@@ -244,7 +244,7 @@ public:
 			int32 map_signature_size;
 			byte map_signature_bytes[0x3C];
 		};
-		static_assert(sizeof(s_saved_film_build_compatibility) == 0x80);
+		COMPILE_ASSERT(sizeof(s_saved_film_build_compatibility) == 0x80);
 
 		s_blf_header header;
 		int8 pad0[4];
@@ -260,7 +260,7 @@ public:
 		int32 snippet_start_tick;
 		byte padding_to_align_for_utility_drive[0xD80];
 	};
-	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
+	COMPILE_ASSERT(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
 #pragma pack(pop)
 
 	struct s_blf_chunk_saved_film_data
@@ -274,7 +274,7 @@ public:
 
 		s_blf_header header;
 	};
-	static_assert(sizeof(s_blf_chunk_saved_film_data) == sizeof(s_blf_header));
+	COMPILE_ASSERT(sizeof(s_blf_chunk_saved_film_data) == sizeof(s_blf_header));
 
 public:
 	s_blf_saved_film();
@@ -285,7 +285,7 @@ public:
 	s_blf_chunk_saved_film_header film_header;
 	s_blf_chunk_saved_film_data film_data;
 };
-static_assert(sizeof(s_blf_saved_film) == 0x25B80);
+COMPILE_ASSERT(sizeof(s_blf_saved_film) == 0x25B80);
 
 struct s_blf_chunk_campaign
 {
@@ -308,7 +308,7 @@ public:
 
 	byte pad[0x4];
 };
-static_assert(sizeof(s_blf_chunk_campaign) == sizeof(s_blf_header) + 0x130C);
+COMPILE_ASSERT(sizeof(s_blf_chunk_campaign) == sizeof(s_blf_header) + 0x130C);
 
 enum e_scenario_insertion_flags
 {
@@ -331,7 +331,7 @@ struct s_scenario_insertion_point_halo3
 	wchar_t names[k_language_count][32];
 	wchar_t descriptions[k_language_count][128];
 };
-static_assert(sizeof(s_scenario_insertion_point_halo3) == 0xF08);
+COMPILE_ASSERT(sizeof(s_scenario_insertion_point_halo3) == 0xF08);
 
 struct s_scenario_insertion_point_atlas
 {
@@ -350,7 +350,7 @@ struct s_scenario_insertion_point_atlas
 	wchar_t names[k_language_count][32];
 	wchar_t descriptions[k_language_count][128];
 };
-static_assert(sizeof(s_scenario_insertion_point_atlas) == 0xF10);
+COMPILE_ASSERT(sizeof(s_scenario_insertion_point_atlas) == 0xF10);
 
 // Despite the fact that ODST added to this chunk neither version was updated
 // Probably an oversight by Bungie?
@@ -386,7 +386,7 @@ struct s_blf_chunk_scenario
 
 	byte __pad112A[0x6];
 };
-static_assert(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x1124);
+COMPILE_ASSERT(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x1124);
 
 template<typename insertion_struct, int32 insertion_count>
 struct s_blf_chunk_scenario_minor_version :
@@ -403,14 +403,14 @@ struct s_blf_chunk_scenario_halo3 :
 {
 	s_blf_chunk_scenario_halo3();
 };
-static_assert(sizeof(s_blf_chunk_scenario_halo3) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_halo3) * 4));
+COMPILE_ASSERT(sizeof(s_blf_chunk_scenario_halo3) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_halo3) * 4));
 
 struct s_blf_chunk_scenario_atlas :
 	s_blf_chunk_scenario_minor_version<s_scenario_insertion_point_atlas, 9>
 {
 	s_blf_chunk_scenario_atlas();
 };
-static_assert(sizeof(s_blf_chunk_scenario_atlas) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_atlas) * 9));
+COMPILE_ASSERT(sizeof(s_blf_chunk_scenario_atlas) == sizeof(s_blf_chunk_scenario) + (sizeof(s_scenario_insertion_point_atlas) * 9));
 
 struct s_map_image_data
 {
@@ -425,7 +425,7 @@ struct s_map_image_data
 	e_image_type image_type;
 	int32 image_data_bytes;
 };
-static_assert(sizeof(s_map_image_data) == 0x8);
+COMPILE_ASSERT(sizeof(s_map_image_data) == 0x8);
 
 struct s_blf_chunk_map_image
 {
@@ -437,7 +437,7 @@ public:
 	s_blf_header header;
 	s_map_image_data map_image_data;
 };
-static_assert(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + sizeof(s_map_image_data));
+COMPILE_ASSERT(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + sizeof(s_map_image_data));
 
 extern bool __cdecl network_blf_verify_start_of_file(const char* buffer, int32 buffer_count, bool* out_byte_swap, int32* out_chunk_size);
 extern bool __cdecl network_blf_find_chunk(const char* buffer, int32 buffer_count, bool must_byte_swap, int32 desired_chunk_type, int16 desired_version_major, int32* out_chunk_size, const char** out_found_chunk_data_size, int32* out_chunk_buffer_size, int16* out_version_minor, bool* out_eof_found);

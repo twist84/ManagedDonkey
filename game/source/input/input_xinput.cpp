@@ -73,7 +73,7 @@ static constexpr WORD button_to_xinput_button_mask[] =
 	XINPUT_GAMEPAD_LEFT_SHOULDER,  // _gamepad_binary_button_left_bumper
 	XINPUT_GAMEPAD_RIGHT_SHOULDER, // _gamepad_binary_button_right_bumper
 };
-static_assert(NUMBEROF(button_to_xinput_button_mask) == NUMBER_OF_GAMEPAD_BUTTONS);
+COMPILE_ASSERT(NUMBEROF(button_to_xinput_button_mask) == NUMBER_OF_GAMEPAD_BUTTONS);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 

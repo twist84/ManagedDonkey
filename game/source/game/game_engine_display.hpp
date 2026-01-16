@@ -7,7 +7,7 @@ struct s_game_engine_render_globals
 {
 	uns8 fade_to_black_cache_latch_faliure_count[4];
 };
-static_assert(sizeof(s_game_engine_render_globals) == 0x4);
+COMPILE_ASSERT(sizeof(s_game_engine_render_globals) == 0x4);
 
 extern bool g_fade_to_black_enabled;
 

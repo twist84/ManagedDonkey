@@ -59,7 +59,7 @@ struct style_palette_entry
 	c_typed_tag_block<special_movement_definition> special_movement;
 	c_typed_tag_block<style_behavior_name> behavior_list;
 };
-static_assert(sizeof(style_palette_entry) == 0x5C);
+COMPILE_ASSERT(sizeof(style_palette_entry) == 0x5C);
 
 enum e_special_movement_flags
 {
@@ -81,13 +81,13 @@ struct special_movement_definition
 {
 	c_flags<e_special_movement_flags, uns32, k_special_movement_flags> special_movement1;
 };
-static_assert(sizeof(special_movement_definition) == sizeof(uns32));
+COMPILE_ASSERT(sizeof(special_movement_definition) == sizeof(uns32));
 
 struct style_behavior_name
 {
 	c_static_string<k_tag_string_length> behavior_name;
 };
-static_assert(sizeof(style_behavior_name) == sizeof(c_static_string<k_tag_string_length>));
+COMPILE_ASSERT(sizeof(style_behavior_name) == sizeof(c_static_string<k_tag_string_length>));
 
 extern int32 __cdecl style_get_by_name(const char* name);
 

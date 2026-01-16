@@ -33,7 +33,7 @@ struct sector
 	int16 hint_data;
 	int32 first_link_index; // do not set manually
 };
-static_assert(sizeof(sector) == 0x8);
+COMPILE_ASSERT(sizeof(sector) == 0x8);
 
 enum e_sector_link_flags
 {
@@ -63,13 +63,13 @@ struct sector_link
 	uns16 links[2]; // forward, reverse
 	uns16 sectors[2]; // left, right
 };
-static_assert(sizeof(sector_link) == 0x10);
+COMPILE_ASSERT(sizeof(sector_link) == 0x10);
 
 struct sector_vertex
 {
 	real_point3d point;
 };
-static_assert(sizeof(sector_vertex) == sizeof(real_point3d));
+COMPILE_ASSERT(sizeof(sector_vertex) == sizeof(real_point3d));
 
 struct pathfinding_data
 {
@@ -87,5 +87,5 @@ struct pathfinding_data
 	s_tag_block jump_seams;
 	s_tag_block doors;
 };
-static_assert(sizeof(pathfinding_data) == 0x94);
+COMPILE_ASSERT(sizeof(pathfinding_data) == 0x94);
 

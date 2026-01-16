@@ -61,8 +61,8 @@ struct s_task_slot
 	uns32 calling_result;
 	bool cancelled;
 };
-//static_assert(sizeof(s_task_slot) == 0xC);
-static_assert(sizeof(s_task_slot) == 0x28);
+//COMPILE_ASSERT(sizeof(s_task_slot) == 0xC);
+COMPILE_ASSERT(sizeof(s_task_slot) == 0x28);
 
 struct s_overlapped_globals
 {
@@ -79,8 +79,8 @@ struct s_overlapped_globals
 	int32 description_count;
 	c_static_array<c_static_string<64>, k_maximum_task_slots> descriptions;
 };
-//static_assert(sizeof(s_overlapped_globals) == 0x30C);
-static_assert(sizeof(s_overlapped_globals) == 0x1A8C);
+//COMPILE_ASSERT(sizeof(s_overlapped_globals) == 0x30C);
+COMPILE_ASSERT(sizeof(s_overlapped_globals) == 0x1A8C);
 
 static s_overlapped_globals g_overlapped_globals{};
 

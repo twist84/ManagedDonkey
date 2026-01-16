@@ -35,14 +35,14 @@ struct s_lens_flare
 	int8 flags;
 	int32 user_index;
 };
-static_assert(sizeof(s_lens_flare) == 0x44);
+COMPILE_ASSERT(sizeof(s_lens_flare) == 0x44);
 
 struct _lens_flare_globals
 {
 	c_simple_hash_table<s_lens_flare, 256, 3307, 3, 337> lens_flare_array;
 	int32 lens_flare_frame_index;
 };
-static_assert(sizeof(_lens_flare_globals) == 0x5408);
+COMPILE_ASSERT(sizeof(_lens_flare_globals) == 0x5408);
 
 extern bool& render_lens_flares_enabled;
 extern _lens_flare_globals& g_lens_flare_globals;

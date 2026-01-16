@@ -25,5 +25,5 @@ public:
 	byte pad[0x2];
 	byte unused[0x10];
 };
-static_assert(sizeof(c_dead_camera) == 0x4C);
+COMPILE_ASSERT(sizeof(c_dead_camera) == 0x4C);
 

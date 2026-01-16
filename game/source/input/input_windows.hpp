@@ -346,7 +346,7 @@ struct s_input_key_state
 	uns8 frames;
 	bool latched;
 };
-static_assert(sizeof(s_input_key_state) == 0x4);
+COMPILE_ASSERT(sizeof(s_input_key_state) == 0x4);
 
 struct key_stroke
 {
@@ -355,7 +355,7 @@ struct key_stroke
 	int16 ascii_code;
 	bool repeating;
 };
-static_assert(sizeof(key_stroke) == 0x6);
+COMPILE_ASSERT(sizeof(key_stroke) == 0x6);
 
 // key_stroke
 struct s_key_state
@@ -379,7 +379,7 @@ struct s_key_state
 	// = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
 	bool repeating;
 };
-static_assert(sizeof(s_key_state) == 0x10);
+COMPILE_ASSERT(sizeof(s_key_state) == 0x10);
 
 struct s_mouse_state
 {
@@ -389,7 +389,7 @@ struct s_mouse_state
 	uns32 wheel_delta;
 	c_enum<e_mouse_button, int8, _mouse_button_1, k_mouse_button_count> mouse_button;
 };
-static_assert(sizeof(s_mouse_state) == 0x14);
+COMPILE_ASSERT(sizeof(s_mouse_state) == 0x14);
 
 struct mouse_state
 {
@@ -405,7 +405,7 @@ struct mouse_state
 	int16 wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
 	int16 hwheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_HWHEEL) ? usButtonData : 0
 };
-static_assert(sizeof(mouse_state) == 0x2C);
+COMPILE_ASSERT(sizeof(mouse_state) == 0x2C);
 
 // based on `XINPUT_STATE`
 struct gamepad_state
@@ -416,7 +416,7 @@ struct gamepad_state
 	uns16 button_msec[NUMBER_OF_GAMEPAD_BUTTONS];
 	point2d sticks[2];
 };
-static_assert(sizeof(gamepad_state) == 0x3C);
+COMPILE_ASSERT(sizeof(gamepad_state) == 0x3C);
 
 // based on `XINPUT_VIBRATION`
 struct rumble_state
@@ -424,7 +424,7 @@ struct rumble_state
 	uns16 left_motor_speed;
 	uns16 right_motor_speed;
 };
-static_assert(sizeof(rumble_state) == 0x4);
+COMPILE_ASSERT(sizeof(rumble_state) == 0x4);
 
 struct s_input_globals
 {
@@ -472,7 +472,7 @@ struct s_input_globals
 	uns32 raw_mouse_wheel_update_time;
 	int32 __unknownC6C;
 };
-static_assert(sizeof(s_input_globals) == 0xC70);
+COMPILE_ASSERT(sizeof(s_input_globals) == 0xC70);
 
 // key_to_virtual_table[_key_escape] = VK_ESCAPE
 //extern c_static_array<uns8 const, k_key_code_count>& key_to_virtual_table;

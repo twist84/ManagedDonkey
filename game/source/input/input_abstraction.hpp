@@ -14,7 +14,7 @@ struct s_keyboard_input_preferences
 
 	int16 joystick_preset;
 };
-static_assert(sizeof(s_keyboard_input_preferences) == 0x17C);
+COMPILE_ASSERT(sizeof(s_keyboard_input_preferences) == 0x17C);
 
 struct s_gamepad_input_preferences
 {
@@ -37,7 +37,7 @@ struct s_gamepad_input_preferences
 	real32 camera_flying_movement;
 	real32 camera_flying_thrust;
 };
-static_assert(sizeof(s_gamepad_input_preferences) == 0x208);
+COMPILE_ASSERT(sizeof(s_gamepad_input_preferences) == 0x208);
 
 class c_abstract_button
 {
@@ -73,7 +73,7 @@ protected:
 	int8 m_button_accessor_index;
 	int8 m_button_locked_index;
 };
-static_assert(sizeof(c_abstract_button) == 0xC);
+COMPILE_ASSERT(sizeof(c_abstract_button) == 0xC);
 
 struct s_game_input_state
 {
@@ -114,7 +114,7 @@ struct s_game_input_state
 
 	bool aim_instantaneously;
 };
-static_assert(sizeof(s_game_input_state) == 0x328);
+COMPILE_ASSERT(sizeof(s_game_input_state) == 0x328);
 
 struct s_input_globals_definition
 {
@@ -124,7 +124,7 @@ struct s_input_globals_definition
 	s_tag_data __unknown1C;
 	int32 __unknown30;
 };
-static_assert(sizeof(s_input_globals_definition) == 0x34);
+COMPILE_ASSERT(sizeof(s_input_globals_definition) == 0x34);
 
 struct s_input_abstraction_globals
 {
@@ -138,7 +138,7 @@ struct s_input_abstraction_globals
 	// 'inpg'
 	s_input_globals_definition* input_globals;
 };
-static_assert(sizeof(s_input_abstraction_globals) == 0x14D4);
+COMPILE_ASSERT(sizeof(s_input_abstraction_globals) == 0x14D4);
 
 extern s_input_abstraction_globals& input_abstraction_globals;
 extern bool use_mean_look_rate;

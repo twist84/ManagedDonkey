@@ -11,7 +11,7 @@ class c_particle :
 		real32 m_animation_rate;
 		real_vector3d m_self_acceleration;
 	};
-	static_assert(sizeof(s_property_values) == 0x14);
+	COMPILE_ASSERT(sizeof(s_property_values) == 0x14);
 
 	uns16 m_flags : 13;
 	uns16 m_collision_countdown : 3;
@@ -30,5 +30,5 @@ class c_particle :
 	real_vector3d m_axis;
 	s_property_values m_property_values;
 };
-static_assert(sizeof(c_particle) == 0x7C);
+COMPILE_ASSERT(sizeof(c_particle) == 0x7C);
 

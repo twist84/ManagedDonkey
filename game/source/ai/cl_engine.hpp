@@ -69,7 +69,7 @@ struct cs_command
 	int32 ref_index;
 	int32 ref_index2;
 };
-static_assert(sizeof(cs_command) == 0x2C);
+COMPILE_ASSERT(sizeof(cs_command) == 0x2C);
 
 struct s_control_directmovement
 {
@@ -77,20 +77,20 @@ struct s_control_directmovement
 	real_vector3d vector;
 	real_point3d start_position;
 };
-static_assert(sizeof(s_control_directmovement) == 0x1C);
+COMPILE_ASSERT(sizeof(s_control_directmovement) == 0x1C);
 
 struct s_control_point_destination
 {
 	c_ai_point3d point;
 	real32 radius;
 };
-static_assert(sizeof(s_control_point_destination) == 0x14);
+COMPILE_ASSERT(sizeof(s_control_point_destination) == 0x14);
 
 struct s_control_move_towards
 {
 	int32 object_index;
 };
-static_assert(sizeof(s_control_move_towards) == 0x4);
+COMPILE_ASSERT(sizeof(s_control_move_towards) == 0x4);
 
 struct s_control_jump
 {
@@ -98,7 +98,7 @@ struct s_control_jump
 	real32 target_horizontal_vel;
 	real32 target_vertical_vel;
 };
-static_assert(sizeof(s_control_jump) == 0xC);
+COMPILE_ASSERT(sizeof(s_control_jump) == 0xC);
 
 struct s_atom_control
 {
@@ -115,14 +115,14 @@ struct s_atom_control
 		s_control_jump jump;
 	};
 };
-static_assert(sizeof(s_atom_control) == 0x24);
+COMPILE_ASSERT(sizeof(s_atom_control) == 0x24);
 
 struct cs_target_specification
 {
 	int16 type;
 	int32 index;
 };
-static_assert(sizeof(cs_target_specification) == 0x8);
+COMPILE_ASSERT(sizeof(cs_target_specification) == 0x8);
 
 struct command_script_datum :
 	s_datum_header
@@ -187,7 +187,7 @@ struct command_script_datum :
 	real32 approach_max_distance_sq;
 	real32 approach_follow_distance_sq;
 };
-static_assert(sizeof(command_script_datum) == 0x188);
+COMPILE_ASSERT(sizeof(command_script_datum) == 0x188);
 
 struct cs_script_data;
 struct cs_point_set;

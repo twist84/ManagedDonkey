@@ -21,14 +21,14 @@ struct s_game_hopper_picked_game_collection
 {
 	c_static_array<s_game_hopper_picked_game, 4> picked_games;
 };
-static_assert(sizeof(s_game_hopper_picked_game_collection) == 0x1B0);
+COMPILE_ASSERT(sizeof(s_game_hopper_picked_game_collection) == 0x1B0);
 
 struct s_matchmaking_quality_qos_sample
 {
 	byte __data0[0x20];
 	s_transport_qos_result qos_result;
 };
-static_assert(sizeof(s_matchmaking_quality_qos_sample) == 0x40);
+COMPILE_ASSERT(sizeof(s_matchmaking_quality_qos_sample) == 0x40);
 
 struct s_matchmaking_session_search_status
 {
@@ -49,7 +49,7 @@ struct s_matchmaking_session_search_status
 	int32 join_results[20];
 	byte __data[0x8];
 };
-static_assert(sizeof(s_matchmaking_session_search_status) == 0xC0);
+COMPILE_ASSERT(sizeof(s_matchmaking_session_search_status) == 0xC0);
 
 enum e_matchmaking_search_stage;
 enum e_language;
@@ -77,7 +77,7 @@ struct s_matchmaking_session_search_query
 	e_matchmaking_search_preference search_preference;
 	int16 query_flags;
 };
-static_assert(sizeof(s_matchmaking_session_search_query) == 0x54);
+COMPILE_ASSERT(sizeof(s_matchmaking_session_search_query) == 0x54);
 
 struct __declspec(align(8)) s_online_session_search_parameters
 {
@@ -88,13 +88,13 @@ struct __declspec(align(8)) s_online_session_search_parameters
 	int32 context_count;
 	s_online_context contexts[6];
 };
-static_assert(sizeof(s_online_session_search_parameters) == 0x228);
-static_assert(0x000 == OFFSETOF(s_online_session_search_parameters, query));
-static_assert(0x004 == OFFSETOF(s_online_session_search_parameters, controller_index));
-static_assert(0x008 == OFFSETOF(s_online_session_search_parameters, property_count));
-static_assert(0x010 == OFFSETOF(s_online_session_search_parameters, properties));
-static_assert(0x1F0 == OFFSETOF(s_online_session_search_parameters, context_count));
-static_assert(0x1F4 == OFFSETOF(s_online_session_search_parameters, contexts));
+COMPILE_ASSERT(sizeof(s_online_session_search_parameters) == 0x228);
+COMPILE_ASSERT(0x000 == OFFSETOF(s_online_session_search_parameters, query));
+COMPILE_ASSERT(0x004 == OFFSETOF(s_online_session_search_parameters, controller_index));
+COMPILE_ASSERT(0x008 == OFFSETOF(s_online_session_search_parameters, property_count));
+COMPILE_ASSERT(0x010 == OFFSETOF(s_online_session_search_parameters, properties));
+COMPILE_ASSERT(0x1F0 == OFFSETOF(s_online_session_search_parameters, context_count));
+COMPILE_ASSERT(0x1F4 == OFFSETOF(s_online_session_search_parameters, contexts));
 
 struct s_matchmaking_session_search
 {
@@ -102,10 +102,10 @@ struct s_matchmaking_session_search
 	s_matchmaking_session_search_query query;
 	s_online_session_search_parameters online_query;
 };
-static_assert(sizeof(s_matchmaking_session_search) == 0x340);
-static_assert(0x000 == OFFSETOF(s_matchmaking_session_search, status));
-static_assert(0x0C0 == OFFSETOF(s_matchmaking_session_search, query));
-static_assert(0x118 == OFFSETOF(s_matchmaking_session_search, online_query));
+COMPILE_ASSERT(sizeof(s_matchmaking_session_search) == 0x340);
+COMPILE_ASSERT(0x000 == OFFSETOF(s_matchmaking_session_search, status));
+COMPILE_ASSERT(0x0C0 == OFFSETOF(s_matchmaking_session_search, query));
+COMPILE_ASSERT(0x118 == OFFSETOF(s_matchmaking_session_search, online_query));
 
 struct __declspec(align(8)) s_matchmaking_quality_data
 {
@@ -142,7 +142,7 @@ struct __declspec(align(8)) s_matchmaking_quality_data
 	bool primary_map_load_failure;
 	bool secondary_map_load_failure;
 };
-static_assert(sizeof(s_matchmaking_quality_data) == 0x98F0);
+COMPILE_ASSERT(sizeof(s_matchmaking_quality_data) == 0x98F0);
 
 class c_matchmaking_quality
 {
@@ -152,5 +152,5 @@ public:
 	bool m_needs_submission_to_webstats;
 	s_matchmaking_quality_data m_data;
 };
-static_assert(sizeof(c_matchmaking_quality) == 0x98F8);
+COMPILE_ASSERT(sizeof(c_matchmaking_quality) == 0x98F8);
 

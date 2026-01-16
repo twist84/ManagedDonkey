@@ -16,7 +16,7 @@ struct swarm_datum :
 	bool anchor_valid;
 	bool connected_to_spawner;
 };
-static_assert(sizeof(swarm_datum) == 0x34);
+COMPILE_ASSERT(sizeof(swarm_datum) == 0x34);
 
 struct s_swarm_spawner
 {
@@ -40,14 +40,14 @@ struct s_swarm_spawner
 	real32 time_between_min;
 	real32 time_between_max;
 };
-static_assert(sizeof(s_swarm_spawner) == 0x78);
-static_assert(sizeof(s_swarm_spawner) * 5 == 0x258);
+COMPILE_ASSERT(sizeof(s_swarm_spawner) == 0x78);
+COMPILE_ASSERT(sizeof(s_swarm_spawner) * 5 == 0x258);
 
 struct s_spawner_globals
 {
 	int16 creatures_count;
 };
-static_assert(sizeof(s_spawner_globals) == 0x2);
+COMPILE_ASSERT(sizeof(s_spawner_globals) == 0x2);
 
 struct creature_datum;
 struct swarm_creature_iterator
@@ -55,7 +55,7 @@ struct swarm_creature_iterator
 	int32 next_creature_index;
 	int32 creature_index;
 };
-static_assert(sizeof(swarm_creature_iterator) == 0x8);
+COMPILE_ASSERT(sizeof(swarm_creature_iterator) == 0x8);
 
 extern void __cdecl swarm_creature_iterator_new(int32 swarm_index, swarm_creature_iterator* iterator);
 extern creature_datum* __cdecl swarm_creature_iterator_next(swarm_creature_iterator* iterator);

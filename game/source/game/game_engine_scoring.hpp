@@ -19,7 +19,7 @@ struct s_game_engine_score_list
 	int16 player_count;
 	int16 team_count;
 };
-static_assert(sizeof(s_game_engine_score_list) == 0x7C);
+COMPILE_ASSERT(sizeof(s_game_engine_score_list) == 0x7C);
 
 extern void __cdecl game_engine_scoring_build_score_list(s_game_engine_score_list* out_list, int32 scoring_type, bool used_for_display);
 

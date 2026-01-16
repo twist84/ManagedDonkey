@@ -49,7 +49,7 @@ protected:
 	const char* m_file;
 	int32 m_line;
 };
-static_assert(sizeof(c_overlapped_task) == 0x10);
+COMPILE_ASSERT(sizeof(c_overlapped_task) == 0x10);
 
 struct s_task_slot;
 

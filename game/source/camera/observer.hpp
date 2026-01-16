@@ -10,7 +10,7 @@ struct s_focus_and_distance
 	real_point3d focus;
 	real32 distance;
 };
-static_assert(sizeof(s_focus_and_distance) == 0x10);
+COMPILE_ASSERT(sizeof(s_focus_and_distance) == 0x10);
 
 struct s_observer_depth_of_field
 {
@@ -26,7 +26,7 @@ struct s_observer_depth_of_field
 	real32 focal_depth;
 	real32 blur_amount;
 };
-static_assert(sizeof(s_observer_depth_of_field) == 0x14);
+COMPILE_ASSERT(sizeof(s_observer_depth_of_field) == 0x14);
 
 struct s_observer_command
 {
@@ -95,7 +95,7 @@ struct s_observer_command
 
 	s_observer_depth_of_field depth_of_field;
 };
-static_assert(sizeof(s_observer_command) == 0xEC);
+COMPILE_ASSERT(sizeof(s_observer_command) == 0xEC);
 
 struct s_observer_result
 {
@@ -113,7 +113,7 @@ struct s_observer_result
 	real32 vertical_field_of_view;
 	real32 field_of_view_scale;
 };
-static_assert(sizeof(s_observer_result) == 0x70);
+COMPILE_ASSERT(sizeof(s_observer_result) == 0x70);
 
 struct s_observer_derivative
 {
@@ -179,7 +179,7 @@ struct s_observer
 
 	int32 trailer_signature;
 };
-static_assert(sizeof(s_observer) == 0x3C8);
+COMPILE_ASSERT(sizeof(s_observer) == 0x3C8);
 
 struct s_observer_globals
 {
@@ -189,7 +189,7 @@ struct s_observer_globals
 	bool bsp_lightmap_block_requested_for_next_tick;
 	bool full_block_requested_for_next_tick;
 };
-static_assert(sizeof(s_observer_globals) == 0xF28);
+COMPILE_ASSERT(sizeof(s_observer_globals) == 0xF28);
 
 extern real32& g_observer_wave_height;
 extern real32& g_camera_speed;

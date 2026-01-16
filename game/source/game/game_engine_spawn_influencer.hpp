@@ -8,14 +8,14 @@ struct s_dead_player_info
 	int32 time_of_death;
 	real_point3d location;
 };
-static_assert(sizeof(s_dead_player_info) == 0x14);
+COMPILE_ASSERT(sizeof(s_dead_player_info) == 0x14);
 
 struct s_netgame_goal_influencer
 {
 	int32 type;
 	int32 object_index;
 };
-static_assert(sizeof(s_netgame_goal_influencer) == 0x8);
+COMPILE_ASSERT(sizeof(s_netgame_goal_influencer) == 0x8);
 
 struct s_netgame_goal_spawn_influence
 {
@@ -25,7 +25,7 @@ struct s_netgame_goal_spawn_influence
 	real32 lower_cylinder_height; // wu
 	real32 weight;
 };
-static_assert(sizeof(s_netgame_goal_spawn_influence) == 0x14);
+COMPILE_ASSERT(sizeof(s_netgame_goal_spawn_influence) == 0x14);
 
 struct s_player_spawn_influence
 {
@@ -35,7 +35,7 @@ struct s_player_spawn_influence
 	real32 lower_height; // wu
 	real32 weight;
 };
-static_assert(sizeof(s_player_spawn_influence) == 0x14);
+COMPILE_ASSERT(sizeof(s_player_spawn_influence) == 0x14);
 
 struct s_weapon_spawn_influence
 {
@@ -47,7 +47,7 @@ struct s_weapon_spawn_influence
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_weapon_spawn_influence) == 0x20);
+COMPILE_ASSERT(sizeof(s_weapon_spawn_influence) == 0x20);
 
 struct s_vehicle_spawn_influence
 {
@@ -59,7 +59,7 @@ struct s_vehicle_spawn_influence
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_vehicle_spawn_influence) == 0x20);
+COMPILE_ASSERT(sizeof(s_vehicle_spawn_influence) == 0x20);
 
 struct s_projectile_spawn_influence
 {
@@ -70,7 +70,7 @@ struct s_projectile_spawn_influence
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_projectile_spawn_influence) == 0x1C);
+COMPILE_ASSERT(sizeof(s_projectile_spawn_influence) == 0x1C);
 
 struct s_equipment_spawn_influence
 {
@@ -79,5 +79,5 @@ struct s_equipment_spawn_influence
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_equipment_spawn_influence) == 0x14);
+COMPILE_ASSERT(sizeof(s_equipment_spawn_influence) == 0x14);
 

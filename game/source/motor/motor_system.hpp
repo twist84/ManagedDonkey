@@ -25,7 +25,7 @@ public:
 	bool __unknown1A;
 	byte __data1B[0x1];
 };
-static_assert(sizeof(c_motor_task) == 0x1C);
+COMPILE_ASSERT(sizeof(c_motor_task) == 0x1C);
 
 class c_motor_request
 {
@@ -44,7 +44,7 @@ public:
 		byte m_storage[0x2C];
 	};
 };
-static_assert(sizeof(c_motor_request) == 0x38);
+COMPILE_ASSERT(sizeof(c_motor_request) == 0x38);
 
 extern int32 __cdecl motor_system_submit(int32 motor_index, const c_motor_request* request);
 

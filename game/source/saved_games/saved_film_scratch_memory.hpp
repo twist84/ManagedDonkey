@@ -41,7 +41,7 @@ public:
 		int32 buffer_length;
 		c_async_stored_buffer_set<1> buffer_set;
 	};
-	static_assert(sizeof(s_system_data) == 0x98);
+	COMPILE_ASSERT(sizeof(s_system_data) == 0x98);
 
 public:
 	c_saved_film_scratch_memory();
@@ -66,4 +66,4 @@ private:
 	int32 m_buffer_length;
 	s_system_data m_systems[k_system_count];
 };
-static_assert(sizeof(c_saved_film_scratch_memory) == 0x13C);
+COMPILE_ASSERT(sizeof(c_saved_film_scratch_memory) == 0x13C);

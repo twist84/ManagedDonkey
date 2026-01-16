@@ -53,13 +53,13 @@ struct s_online_user_globals
 	wchar_t* gamertag;
 	wchar_t* display_name;
 };
-static_assert(sizeof(s_online_user_globals) == 0x38);
+COMPILE_ASSERT(sizeof(s_online_user_globals) == 0x38);
 
 struct s_online_globals
 {
 	s_online_user_globals users[4];
 };
-static_assert(sizeof(s_online_globals) == sizeof(s_online_user_globals) * 4);
+COMPILE_ASSERT(sizeof(s_online_globals) == sizeof(s_online_user_globals) * 4);
 
 s_online_globals online_globals{};
 

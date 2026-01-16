@@ -51,14 +51,14 @@ struct scenario_trigger_volume
 	// s_scenario_editor_folder
 	int16 editor_folder_index; // short_block_index
 };
-static_assert(sizeof(scenario_trigger_volume) == 0x7C);
+COMPILE_ASSERT(sizeof(scenario_trigger_volume) == 0x7C);
 
 struct s_real_sector_point
 {
 	real_point3d position;
 	real_euler_angles2d normal;
 };
-static_assert(sizeof(s_real_sector_point) == 0x14);
+COMPILE_ASSERT(sizeof(s_real_sector_point) == 0x14);
 
 struct s_trigger_volume_triangle
 {
@@ -67,7 +67,7 @@ struct s_trigger_volume_triangle
 	real_point2d vertex[3];
 	real_rectangle3d bounds;
 };
-static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
+COMPILE_ASSERT(sizeof(s_trigger_volume_triangle) == 0x50);
 
 class c_trigger_volume_query
 {
@@ -76,7 +76,7 @@ public:
 	real_matrix4x3 m_transform;
 	bool m_valid;
 };
-static_assert(sizeof(c_trigger_volume_query) == 0x3C);
+COMPILE_ASSERT(sizeof(c_trigger_volume_query) == 0x3C);
 
 extern int32 __cdecl scenario_trigger_volume_return_objects(int32 trigger_volume_index);
 extern int32 __cdecl scenario_trigger_volume_return_objects_by_type(int32 trigger_volume_index, int32 type_mask);

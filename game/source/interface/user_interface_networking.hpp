@@ -42,7 +42,7 @@ struct s_user_interface_networking_globals
 
 	bool should_show_teams;
 };
-static_assert(sizeof(s_user_interface_networking_globals) == 0x88);
+COMPILE_ASSERT(sizeof(s_user_interface_networking_globals) == 0x88);
 
 extern s_user_interface_networking_globals& user_interface_networking_globals;
 

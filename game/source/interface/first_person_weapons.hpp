@@ -16,13 +16,13 @@ struct s_weapon_orientations
 	real_orientation node_orientations[150];
 	real_orientation original_node_orientations[150];
 };
-static_assert(sizeof(s_weapon_orientations) == 0x2580);
+COMPILE_ASSERT(sizeof(s_weapon_orientations) == 0x2580);
 
 struct s_first_person_orientations
 {
 	s_weapon_orientations weapon_orientations[4][2];
 };
-static_assert(sizeof(s_first_person_orientations) == 0x12C00);
+COMPILE_ASSERT(sizeof(s_first_person_orientations) == 0x12C00);
 
 struct first_person_weapon_attachment
 {
@@ -39,7 +39,7 @@ struct first_person_weapon_attachment
 	int32 weapon_node_count;
 	int32 hands_node_count;
 };
-static_assert(sizeof(first_person_weapon_attachment) == 0x30);
+COMPILE_ASSERT(sizeof(first_person_weapon_attachment) == 0x30);
 
 enum e_first_person_weapon_data_flags
 {
@@ -87,7 +87,7 @@ struct first_person_weapon_data
 	string_id pending_state;
 	bool pending_reset_sounds;
 };
-static_assert(sizeof(first_person_weapon_data) == 0x27A0);
+COMPILE_ASSERT(sizeof(first_person_weapon_data) == 0x27A0);
 
 struct first_person_weapon
 {
@@ -108,7 +108,7 @@ struct first_person_weapon
 	int32 custom_animation_name;
 	c_animation_id custom_animation_id;
 };
-static_assert(sizeof(first_person_weapon) == 0x5000);
+COMPILE_ASSERT(sizeof(first_person_weapon) == 0x5000);
 
 extern bool& debug_animation_fp_sprint_disable;
 

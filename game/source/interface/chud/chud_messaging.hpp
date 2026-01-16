@@ -49,7 +49,7 @@ public:
 		real32 horizontal_offset;
 		real32 alpha;
 	};
-	static_assert(sizeof(s_medal) == 0x28);
+	COMPILE_ASSERT(sizeof(s_medal) == 0x28);
 
 	struct s_normal_message
 	{
@@ -66,7 +66,7 @@ public:
 		real32 flash;
 		int32 context;
 	};
-	static_assert(sizeof(s_normal_message) == 0xE8);
+	COMPILE_ASSERT(sizeof(s_normal_message) == 0xE8);
 
 	struct s_state_message
 	{
@@ -79,7 +79,7 @@ public:
 		real32 alpha;
 		real32 flash;
 	};
-	static_assert(sizeof(s_state_message) == 0xDC);
+	COMPILE_ASSERT(sizeof(s_state_message) == 0xDC);
 
 public:
 	static c_chud_messaging_manager* __cdecl get(int32 user_index);
@@ -101,7 +101,7 @@ public:
 	bool __unknown13FD;
 	bool __unknown13FE;
 };
-static_assert(sizeof(c_chud_messaging_manager) == 0x1400);
+COMPILE_ASSERT(sizeof(c_chud_messaging_manager) == 0x1400);
 
 extern void __cdecl chud_messaging_picked_up_powerup(int32 user_index, int32 powerup_definition_index);
 extern void __cdecl chud_messaging_post(int32 user_index, const wchar_t* message_text, e_chud_message_context chud_message_context);

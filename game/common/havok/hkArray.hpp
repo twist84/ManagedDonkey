@@ -8,7 +8,7 @@ public:
 	int m_size;
 	unsigned int m_capacityAndFlags;
 };
-static_assert(sizeof(hkArrayBase<void*>) == 0xC);
+COMPILE_ASSERT(sizeof(hkArrayBase<void*>) == 0xC);
 
 template <typename t_type, typename t_allocator = void>
 struct hkArray :
@@ -21,7 +21,7 @@ public:
 	//const t_type& operator[](int i) const;
 	t_type& operator[](int i);
 };
-static_assert(sizeof(hkArray<void*>) == 0xC);
+COMPILE_ASSERT(sizeof(hkArray<void*>) == 0xC);
 
 template <typename t_type, int t_count, typename t_allocator = void>
 struct hkInplaceArray :

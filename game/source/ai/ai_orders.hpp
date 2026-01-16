@@ -22,7 +22,7 @@ struct orders_definition
 	s_tag_block order_endings;
 	s_tag_block pureform_distribution;
 };
-static_assert(sizeof(orders_definition) == 0x9C);
+COMPILE_ASSERT(sizeof(orders_definition) == 0x9C);
 
 struct trigger_definition;
 

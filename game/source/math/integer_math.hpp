@@ -9,7 +9,7 @@ union int16_bounds
 	};
 	int16 n[2];
 };
-static_assert(sizeof(int16_bounds) == 0x4);
+COMPILE_ASSERT(sizeof(int16_bounds) == 0x4);
 
 union int32_bounds
 {
@@ -20,7 +20,7 @@ union int32_bounds
 	};
 	int32 n[2];
 };
-static_assert(sizeof(int32_bounds) == 0x8);
+COMPILE_ASSERT(sizeof(int32_bounds) == 0x8);
 
 union int64_bounds
 {
@@ -31,7 +31,7 @@ union int64_bounds
 	};
 	int64 n[2];
 };
-static_assert(sizeof(int64_bounds) == 0x10);
+COMPILE_ASSERT(sizeof(int64_bounds) == 0x10);
 
 union point2d
 {
@@ -42,7 +42,7 @@ union point2d
 	};
 	int16 n[2];
 };
-static_assert(sizeof(point2d) == 0x4);
+COMPILE_ASSERT(sizeof(point2d) == 0x4);
 
 union point3d
 {
@@ -54,7 +54,7 @@ union point3d
 	};
 	int16 n[3];
 };
-static_assert(sizeof(point3d) == 0x6);
+COMPILE_ASSERT(sizeof(point3d) == 0x6);
 
 union long_point2d
 {
@@ -65,7 +65,7 @@ union long_point2d
 	};
 	int32 n[2];
 };
-static_assert(sizeof(long_point2d) == 0x8);
+COMPILE_ASSERT(sizeof(long_point2d) == 0x8);
 
 union long_point3d
 {
@@ -77,7 +77,7 @@ union long_point3d
 	};
 	int32 n[3];
 };
-static_assert(sizeof(long_point3d) == 0xC);
+COMPILE_ASSERT(sizeof(long_point3d) == 0xC);
 
 union rectangle2d
 {
@@ -90,7 +90,7 @@ union rectangle2d
 	};
 	int16 n[4];
 };
-static_assert(sizeof(rectangle2d) == 0x8);
+COMPILE_ASSERT(sizeof(rectangle2d) == 0x8);
 
 union long_rectangle2d
 {
@@ -103,7 +103,7 @@ union long_rectangle2d
 	};
 	int32 n[4];
 };
-static_assert(sizeof(long_rectangle2d) == 0x10);
+COMPILE_ASSERT(sizeof(long_rectangle2d) == 0x10);
 
 union rgb_color
 {
@@ -117,7 +117,7 @@ union rgb_color
 	uns8 n[4];
 	uns32 value;
 };
-static_assert(sizeof(rgb_color) == 0x4);
+COMPILE_ASSERT(sizeof(rgb_color) == 0x4);
 
 union argb_color
 {
@@ -131,7 +131,7 @@ union argb_color
 	uns8 n[4];
 	uns32 value;
 };
-static_assert(sizeof(argb_color) == 0x4);
+COMPILE_ASSERT(sizeof(argb_color) == 0x4);
 
 extern rectangle2d* __cdecl adjust_rectangle2d(const rectangle2d* bounds, const rectangle2d* source, rectangle2d* destination, int16 mode);
 extern bool __cdecl bit_vector_and(int32 count, const uns32* v0, const uns32* v1, uns32* result);

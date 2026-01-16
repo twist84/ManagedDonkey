@@ -21,5 +21,5 @@ struct recorded_animation_definition
 
 	s_tag_data recorded_animation_event_stream;
 };
-static_assert(sizeof(recorded_animation_definition) == 0x40);
+COMPILE_ASSERT(sizeof(recorded_animation_definition) == 0x40);
 

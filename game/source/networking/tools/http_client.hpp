@@ -81,5 +81,5 @@ protected:
 	int32 m_upstream_quota;
 	e_upload_state m_current_state;
 };
-static_assert(sizeof(c_http_client) == 0x1060);
+COMPILE_ASSERT(sizeof(c_http_client) == 0x1060);
 

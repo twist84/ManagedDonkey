@@ -67,5 +67,5 @@ public:
 	bool m_last_was_enumerating;
 	int32 __unknown1E04;
 };
-static_assert(sizeof(c_gui_screen_pregame_selection) == sizeof(c_gui_screen_widget) + 0x368);
+COMPILE_ASSERT(sizeof(c_gui_screen_pregame_selection) == sizeof(c_gui_screen_widget) + 0x368);
 

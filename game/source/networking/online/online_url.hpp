@@ -63,7 +63,7 @@ private:
 	int32 m_untracked_cache_lifetime_seconds;
 	e_network_http_request_queue_type m_request_type;
 };
-static_assert(sizeof(c_url_string) == 0x110);
+COMPILE_ASSERT(sizeof(c_url_string) == 0x110);
 
 struct _g_online_url // supposed to be unnamed
 {
@@ -77,7 +77,7 @@ struct s_network_storage_cache_key
 {
 	char value[80];
 };
-static_assert(sizeof(s_network_storage_cache_key) == 0x50);
+COMPILE_ASSERT(sizeof(s_network_storage_cache_key) == 0x50);
 
 extern int32& g_online_url_hopper_directory_key;
 extern int32& k_default_untracked_lifetime_seconds;

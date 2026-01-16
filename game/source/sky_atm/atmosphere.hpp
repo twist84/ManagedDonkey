@@ -23,7 +23,7 @@ struct s_weighted_atmosphere_parameters
 	real32 half_intensity_height;
 	real_point3d wind_direction;
 };
-static_assert(sizeof(s_weighted_atmosphere_parameters) == 0x7C);
+COMPILE_ASSERT(sizeof(s_weighted_atmosphere_parameters) == 0x7C);
 
 struct s_game_cluster_bit_vectors;
 class c_atmosphere_fog_interface
@@ -56,5 +56,5 @@ public:
 
 	byte __data[0x14];
 };
-static_assert(sizeof(c_atmosphere_fog_interface) == 0x14);
+COMPILE_ASSERT(sizeof(c_atmosphere_fog_interface) == 0x14);
 

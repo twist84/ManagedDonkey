@@ -12,7 +12,7 @@ struct s_simulation_projectile_attached_event_data
 	s_location location;
 	byte __data1A[0x2];
 };
-static_assert(sizeof(s_simulation_projectile_attached_event_data) == 0x1C);
+COMPILE_ASSERT(sizeof(s_simulation_projectile_attached_event_data) == 0x1C);
 
 struct s_simulation_projectile_detonate_event_data
 {
@@ -32,7 +32,7 @@ struct s_simulation_projectile_detonate_event_data
 	int32 player_index0; // from?
 	int32 player_index1; // to?
 };
-static_assert(sizeof(s_simulation_projectile_detonate_event_data) == 0x40);
+COMPILE_ASSERT(sizeof(s_simulation_projectile_detonate_event_data) == 0x40);
 
 struct s_simulation_projectile_impact_effect_event_data
 {
@@ -45,7 +45,7 @@ struct s_simulation_projectile_impact_effect_event_data
 	int32 material_index;
 	bool from_impact;
 };
-static_assert(sizeof(s_simulation_projectile_impact_effect_event_data) == 0x38);
+COMPILE_ASSERT(sizeof(s_simulation_projectile_impact_effect_event_data) == 0x38);
 
 struct s_simulation_projectile_object_impact_effect_event_data :
 	s_simulation_projectile_impact_effect_event_data
@@ -54,13 +54,13 @@ struct s_simulation_projectile_object_impact_effect_event_data :
 	int32 collision_node_index;
 	int32 position_encoding_type;
 };
-static_assert(sizeof(s_simulation_projectile_object_impact_effect_event_data) == 0x44);
+COMPILE_ASSERT(sizeof(s_simulation_projectile_object_impact_effect_event_data) == 0x44);
 
 struct s_simulation_projectile_supercombine_request_event_data
 {
 	int32 projectile_definition_index;
 };
-static_assert(sizeof(s_simulation_projectile_supercombine_request_event_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_simulation_projectile_supercombine_request_event_data) == 0x4);
 
 class c_simulation_projectile_entity_definition :
 	public c_simulation_game_engine_globals_definition

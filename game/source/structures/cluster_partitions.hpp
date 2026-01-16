@@ -6,5 +6,5 @@ struct cluster_partition
 	void* data_reference;
 	void* cluster_first_data_references;
 };
-static_assert(sizeof(cluster_partition) == 0xC);
+COMPILE_ASSERT(sizeof(cluster_partition) == 0xC);
 

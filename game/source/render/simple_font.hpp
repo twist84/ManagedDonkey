@@ -33,7 +33,7 @@ public:
 	int32 m_max_row;
 	char buffer[1024];
 };
-static_assert(sizeof(c_simple_font_screen_display) == 0x424);
+COMPILE_ASSERT(sizeof(c_simple_font_screen_display) == 0x424);
 
 struct bitmap_data;
 struct rasterizer_vertex_screen;
@@ -43,7 +43,7 @@ namespace simple_font
 	{
 		bool render_drop_shadow;
 	};
-	static_assert(sizeof(s_simple_font_globals) == 0x1);
+	COMPILE_ASSERT(sizeof(s_simple_font_globals) == 0x1);
 
 	struct s_font_data
 	{
@@ -69,7 +69,7 @@ namespace simple_font
 		int32 const source_height;
 		const char* source_data;
 	};
-	static_assert(sizeof(s_font_data) == 0x3C);
+	COMPILE_ASSERT(sizeof(s_font_data) == 0x3C);
 
 	extern bool __cdecl begin_rendering(real32 scale, bool drop_shadow);
 	extern void __cdecl draw_quads(rasterizer_vertex_screen* triangle_vertices, int32 verts_used, bool apply_display_scalar_correction);

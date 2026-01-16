@@ -42,7 +42,7 @@ private:
 	int16 m_reference_frame;
 	int16 m_bsp_index;
 };
-static_assert(sizeof(c_ai_point3d) == 0x10);
+COMPILE_ASSERT(sizeof(c_ai_point3d) == 0x10);
 
 class c_ai_direction
 {
@@ -58,7 +58,7 @@ public:
 		c_ai_point3d m_ai_point;
 	};
 };
-static_assert(sizeof(c_ai_direction) == 0x14);
+COMPILE_ASSERT(sizeof(c_ai_direction) == 0x14);
 
 class c_ai_action
 {
@@ -83,4 +83,4 @@ public:
 	c_ai_point3d m_point;
 	c_ai_direction m_alignment;
 };
-static_assert(sizeof(c_ai_action) == 0x30);
+COMPILE_ASSERT(sizeof(c_ai_action) == 0x30);

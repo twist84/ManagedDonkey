@@ -21,7 +21,7 @@ struct s_replication_entity_data
 	uns8 seed;
 	uns16 deletion_mask;
 };
-static_assert(sizeof(s_replication_entity_data) == 0x4);
+COMPILE_ASSERT(sizeof(s_replication_entity_data) == 0x4);
 
 class c_replication_entity_manager
 {
@@ -32,5 +32,5 @@ public:
 	s_replication_entity_data m_entity_data[1024];
 	int32 m_entity_creation_start_position;
 };
-static_assert(sizeof(c_replication_entity_manager) == 0x104C);
+COMPILE_ASSERT(sizeof(c_replication_entity_manager) == 0x104C);
 

@@ -178,7 +178,7 @@ struct s_network_configuration_file
 	s_blf_chunk_end_of_file_with_crc end_of_file_chunk;
 	byte __pad3719[0x3];
 };
-static_assert(sizeof(s_network_configuration_file) == 0x1768);
+COMPILE_ASSERT(sizeof(s_network_configuration_file) == 0x1768);
 
 void network_build_network_configuration()
 {

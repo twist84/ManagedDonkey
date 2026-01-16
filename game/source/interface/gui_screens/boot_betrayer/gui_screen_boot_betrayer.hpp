@@ -26,7 +26,7 @@ protected:
 
 	byte __pad1AB1[0x7];
 };
-static_assert(sizeof(c_gui_screen_boot_betrayer) == sizeof(c_gui_screen_widget) + 0x18);
+COMPILE_ASSERT(sizeof(c_gui_screen_boot_betrayer) == sizeof(c_gui_screen_widget) + 0x18);
 
 class c_load_boot_betrayer_screen_message :
 	public c_load_screen_message
@@ -42,5 +42,5 @@ protected:
 	s_player_identifier m_current_player_id;
 	s_player_identifier m_target_player_id;
 };
-static_assert(sizeof(c_load_boot_betrayer_screen_message) == sizeof(c_load_screen_message) + 0x10);
+COMPILE_ASSERT(sizeof(c_load_boot_betrayer_screen_message) == sizeof(c_load_screen_message) + 0x10);
 

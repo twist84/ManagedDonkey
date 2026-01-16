@@ -13,7 +13,7 @@ struct s_scenario_game_state
 	uns32 touched_cinematic_zone_mask;
 	uns32 loaded_cinematic_zone_mask;
 };
-static_assert(sizeof(s_scenario_game_state) == 0x20);
+COMPILE_ASSERT(sizeof(s_scenario_game_state) == 0x20);
 
 struct s_scenario_zone_state
 {
@@ -26,14 +26,14 @@ struct s_scenario_zone_state
 	uns32 pending_designer_zone_mask;
 	uns32 pending_cinematic_zone_mask;
 };
-static_assert(sizeof(s_scenario_zone_state) == 0x20);
+COMPILE_ASSERT(sizeof(s_scenario_zone_state) == 0x20);
 
 struct s_game_non_bsp_zone_set
 {
 	uns32 designer_zone_mask;
 	uns32 cinematic_zone_mask;
 };
-static_assert(sizeof(s_game_non_bsp_zone_set) == 0x8);
+COMPILE_ASSERT(sizeof(s_game_non_bsp_zone_set) == 0x8);
 
 struct s_scenario_zone_change
 {
@@ -52,7 +52,7 @@ struct s_scenario_zone_change
 	uns32 new_designer_zone_mask;
 	uns32 new_cinematic_zone_mask;
 };
-static_assert(sizeof(s_scenario_zone_change) == 0x10);
+COMPILE_ASSERT(sizeof(s_scenario_zone_change) == 0x10);
 
 struct s_game_globals;
 struct structure_bsp;

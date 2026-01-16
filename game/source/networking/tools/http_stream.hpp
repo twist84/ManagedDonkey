@@ -53,7 +53,7 @@ protected:
 	bool m_is_json;
 	byte __pad139[0x3];
 };
-static_assert(sizeof(c_http_post_source) == 0x13C);
+COMPILE_ASSERT(sizeof(c_http_post_source) == 0x13C);
 
 class c_http_stream
 {
@@ -89,7 +89,7 @@ protected:
 	c_static_string<k_extra_headers_size> m_extra_headers;
 	int32 m_position;
 };
-static_assert(sizeof(c_http_stream) == 0xB0C);
+COMPILE_ASSERT(sizeof(c_http_stream) == 0xB0C);
 
 class c_http_get_stream :
 	public c_http_stream
@@ -106,7 +106,7 @@ public:
 	virtual int32 get_length() override;
 	virtual bool at_end() override;
 };
-static_assert(sizeof(c_http_get_stream) == sizeof(c_http_stream));
+COMPILE_ASSERT(sizeof(c_http_get_stream) == sizeof(c_http_stream));
 
 class c_http_post_stream :
 	public c_http_stream
@@ -137,5 +137,5 @@ protected:
 	int32 m_mime_header_length;
 	int32 m_mime_footer_length;
 };
-static_assert(sizeof(c_http_post_stream) == 0xDD4);
+COMPILE_ASSERT(sizeof(c_http_post_stream) == 0xDD4);
 

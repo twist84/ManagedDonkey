@@ -25,7 +25,7 @@ struct s_exception_type_info
 	const char* exception_string;
 	uns32 exception_parameters[3];
 };
-static_assert(sizeof(s_exception_type_info) == 0x10);
+COMPILE_ASSERT(sizeof(s_exception_type_info) == 0x10);
 
 struct s_exception_information
 {
@@ -42,7 +42,7 @@ struct s_exception_information
 		s_thread_assert_arguments thread_assert_arguments;
 	};
 };
-static_assert(sizeof(s_exception_information) == 0x2F4);
+COMPILE_ASSERT(sizeof(s_exception_information) == 0x2F4);
 
 REFERENCE_DECLARE(0x0238E878, bool, g_set_always_a_debugger_present);
 REFERENCE_DECLARE(0x0238E879, bool, g_set_never_a_debugger_present);

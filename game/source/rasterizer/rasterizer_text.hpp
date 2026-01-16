@@ -50,7 +50,7 @@ public:
 //protected:
 	int32 m_datum_ref;
 };
-static_assert(sizeof(c_rasterizer_texture_ref) == 0x4);
+COMPILE_ASSERT(sizeof(c_rasterizer_texture_ref) == 0x4);
 
 struct s_hardware_character
 {
@@ -62,7 +62,7 @@ struct s_hardware_character
 	int16 x0;
 	int16 y0;
 };
-static_assert(sizeof(s_hardware_character) == 0x14);
+COMPILE_ASSERT(sizeof(s_hardware_character) == 0x14);
 
 struct s_hardware_character_cache_globals
 {
@@ -80,7 +80,7 @@ struct s_hardware_character_cache_globals
 	c_static_array<int16, 512> hash_buckets;
 	c_static_array<s_hardware_character, 512> hardware_character_data;
 };
-static_assert(sizeof(s_hardware_character_cache_globals) == 0x2C28);
+COMPILE_ASSERT(sizeof(s_hardware_character_cache_globals) == 0x2C28);
 
 extern s_hardware_character_cache_globals& hardware_character_cache_globals;
 

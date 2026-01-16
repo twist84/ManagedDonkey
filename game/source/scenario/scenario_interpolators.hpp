@@ -12,14 +12,14 @@ struct s_scenario_interpolator_state
 	uns8 flags;
 	byte pad[0x3];
 };
-static_assert(sizeof(s_scenario_interpolator_state) == 0x20);
+COMPILE_ASSERT(sizeof(s_scenario_interpolator_state) == 0x20);
 
 struct s_scenario_interpolator_globals
 {
 	c_string_id last_interpolator_name_id;
 	s_scenario_interpolator_state states[16];
 };
-static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
+COMPILE_ASSERT(sizeof(s_scenario_interpolator_globals) == 0x204);
 
 extern void __cdecl scenario_interpolators_dispose();
 extern void __cdecl scenario_interpolators_dispose_from_old_map();

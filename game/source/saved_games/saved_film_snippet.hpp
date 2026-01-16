@@ -54,7 +54,7 @@ struct s_saved_film_snippet_globals
 	bool progress_spinner_active;
 	e_saved_film_snippet_state current_state;
 };
-//static_assert(sizeof(s_saved_film_snippet_globals) == 0x26100);
+//COMPILE_ASSERT(sizeof(s_saved_film_snippet_globals) == 0x26100);
 
 extern void saved_film_snippet_build_auto_description(e_controller_index controller_index, c_static_wchar_string<128>* snippet_description_out);
 extern void saved_film_snippet_build_auto_name(e_controller_index controller_index, c_static_wchar_string<16>* snippet_name_out);

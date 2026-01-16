@@ -32,5 +32,5 @@ protected:
 };
 int32 const k_simulation_entity_type_maximum_size = sizeof(int32) + (sizeof(c_simulation_entity_definition*) * k_simulation_entity_type_maximum_count);
 int32 const k_simulation_event_type_maximum_size = sizeof(int32) + (sizeof(c_simulation_event_definition*) * k_simulation_event_type_maximum_count);
-static_assert(sizeof(c_simulation_type_collection) == k_simulation_entity_type_maximum_size + k_simulation_event_type_maximum_size);
+COMPILE_ASSERT(sizeof(c_simulation_type_collection) == k_simulation_entity_type_maximum_size + k_simulation_event_type_maximum_size);
 

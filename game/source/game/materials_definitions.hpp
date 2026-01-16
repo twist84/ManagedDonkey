@@ -28,7 +28,7 @@ struct s_material_physics_drag_properties
 	// objects of this flotation category have this density relative to being in this material (1.0f==neutral)
 	real32 water_densities[k_water_density_count];
 };
-static_assert(sizeof(s_material_physics_drag_properties) == 0x28);
+COMPILE_ASSERT(sizeof(s_material_physics_drag_properties) == 0x28);
 
 enum e_global_material_bit
 {
@@ -47,7 +47,7 @@ struct s_material_physics_properties
 	real32 density;
 	c_typed_tag_block<s_material_physics_drag_properties> drag_block;
 };
-static_assert(sizeof(s_material_physics_properties) == 0x1C);
+COMPILE_ASSERT(sizeof(s_material_physics_properties) == 0x1C);
 
 enum e_global_material_sweetener_types
 {
@@ -101,7 +101,7 @@ struct s_global_material_sweeteners_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_global_material_sweeteners_definition) == 0x114);
+COMPILE_ASSERT(sizeof(s_global_material_sweeteners_definition) == 0x114);
 
 struct s_global_material_underwater_proxy
 {
@@ -114,7 +114,7 @@ struct s_global_material_underwater_proxy
 	int16 underwater_material_type;
 	int16 proxy_material_type;
 };
-static_assert(sizeof(s_global_material_underwater_proxy) == 0xC);
+COMPILE_ASSERT(sizeof(s_global_material_underwater_proxy) == 0xC);
 
 struct s_global_material_definition
 {
@@ -135,5 +135,5 @@ struct s_global_material_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(s_global_material_definition) == 0x178);
+COMPILE_ASSERT(sizeof(s_global_material_definition) == 0x178);
 

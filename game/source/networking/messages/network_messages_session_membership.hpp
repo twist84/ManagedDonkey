@@ -47,7 +47,7 @@ struct s_network_message_membership_update_peer_properties
 	bool flags_updated;
 	uns32 flags;
 };
-static_assert(sizeof(s_network_message_membership_update_peer_properties) == 0xE0);
+COMPILE_ASSERT(sizeof(s_network_message_membership_update_peer_properties) == 0xE0);
 
 struct s_network_message_membership_update_peer
 {
@@ -74,7 +74,7 @@ struct s_network_message_membership_update_peer
 	bool peer_properties_updated;
 	s_network_message_membership_update_peer_properties peer_properties;
 };
-static_assert(sizeof(s_network_message_membership_update_peer) == 0x120);
+COMPILE_ASSERT(sizeof(s_network_message_membership_update_peer) == 0x120);
 
 struct s_network_message_membership_update_player
 {
@@ -94,7 +94,7 @@ struct s_network_message_membership_update_player
 	s_player_configuration player_data;
 	uns32 player_voice;
 };
-static_assert(sizeof(s_network_message_membership_update_player) == 0x1650);
+COMPILE_ASSERT(sizeof(s_network_message_membership_update_player) == 0x1650);
 
 struct s_network_message_membership_update
 {
@@ -126,7 +126,7 @@ struct s_network_message_membership_update
 	uns32 checksum;
 	int32 : 32;
 };
-static_assert(sizeof(s_network_message_membership_update) == 0x17870);
+COMPILE_ASSERT(sizeof(s_network_message_membership_update) == 0x17870);
 
 struct s_network_message_peer_properties
 {
@@ -134,14 +134,14 @@ struct s_network_message_peer_properties
 	s_transport_secure_address secure_address;
 	s_network_session_peer_properties peer_properties;
 };
-static_assert(sizeof(s_network_message_peer_properties) == 0xE0);
+COMPILE_ASSERT(sizeof(s_network_message_peer_properties) == 0xE0);
 
 struct s_network_message_delegate_leadership
 {
 	s_transport_secure_identifier session_id;
 	s_transport_secure_address desired_leader_address;
 };
-static_assert(sizeof(s_network_message_delegate_leadership) == 0x20);
+COMPILE_ASSERT(sizeof(s_network_message_delegate_leadership) == 0x20);
 
 struct s_network_message_boot_machine
 {
@@ -149,7 +149,7 @@ struct s_network_message_boot_machine
 	int32 reason; // e_network_session_boot_reason
 	s_transport_secure_address boot_peer_address;
 };
-static_assert(sizeof(s_network_message_boot_machine) == 0x24);
+COMPILE_ASSERT(sizeof(s_network_message_boot_machine) == 0x24);
 
 struct s_network_message_player_add
 {
@@ -160,7 +160,7 @@ struct s_network_message_player_add
 	s_player_configuration_from_client player_data;
 	int32 player_voice;
 };
-static_assert(sizeof(s_network_message_player_add) == 0x54);
+COMPILE_ASSERT(sizeof(s_network_message_player_add) == 0x54);
 
 struct s_network_message_player_refuse
 {
@@ -168,13 +168,13 @@ struct s_network_message_player_refuse
 	s_player_identifier player_identifier;
 	int32 join_refusal_reason;
 };
-static_assert(sizeof(s_network_message_player_refuse) == 0x1C);
+COMPILE_ASSERT(sizeof(s_network_message_player_refuse) == 0x1C);
 
 struct s_network_message_player_remove
 {
 	s_transport_secure_identifier session_id;
 };
-static_assert(sizeof(s_network_message_player_remove) == 0x10);
+COMPILE_ASSERT(sizeof(s_network_message_player_remove) == 0x10);
 
 struct s_player_configuration_from_host_partial
 {
@@ -185,14 +185,14 @@ struct s_player_configuration_from_host_partial
 	c_static_array<int8, 4> consumables;
 	s_emblem_info emblem;
 };
-static_assert(sizeof(s_player_configuration_from_host_partial) == 0x38);
+COMPILE_ASSERT(sizeof(s_player_configuration_from_host_partial) == 0x38);
 
 struct s_player_configuration_for_player_properties
 {
 	s_player_configuration_from_client client;
 	s_player_configuration_from_host_partial host_partial;
 };
-static_assert(sizeof(s_player_configuration_for_player_properties) == 0x68);
+COMPILE_ASSERT(sizeof(s_player_configuration_for_player_properties) == 0x68);
 
 struct s_network_message_player_properties
 {
@@ -202,7 +202,7 @@ struct s_network_message_player_properties
 	s_player_configuration_for_player_properties player_data;
 	int32 player_voice_settings;
 };
-static_assert(sizeof(s_network_message_player_properties) == 0x4C + sizeof(s_player_configuration_from_host_partial));
+COMPILE_ASSERT(sizeof(s_network_message_player_properties) == 0x4C + sizeof(s_player_configuration_from_host_partial));
 
 class c_bitstream;
 

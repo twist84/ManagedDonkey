@@ -6,7 +6,7 @@ struct s_tag_resource_prediction_quantum
 {
 	int32 internal_resource_handle;
 };
-static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
+COMPILE_ASSERT(sizeof(s_tag_resource_prediction_quantum) == 0x4);
 
 struct s_tag_resource_prediction_atom
 {
@@ -14,7 +14,7 @@ struct s_tag_resource_prediction_atom
 	uns16 predicted_resource_count;
 	int32 first_prediction_index;
 };
-static_assert(sizeof(s_tag_resource_prediction_atom) == 0x8);
+COMPILE_ASSERT(sizeof(s_tag_resource_prediction_atom) == 0x8);
 
 struct s_tag_resource_prediction_molecule
 {
@@ -23,7 +23,7 @@ struct s_tag_resource_prediction_molecule
 	uns16 predicted_resource_count;
 	int16 first_predicted_resource_index;
 };
-static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
+COMPILE_ASSERT(sizeof(s_tag_resource_prediction_molecule) == 0x8);
 
 struct s_tag_resource_prediction_molecule_key
 {
@@ -31,7 +31,7 @@ struct s_tag_resource_prediction_molecule_key
 	int32 index_b;
 	int32 index_c;
 };
-static_assert(sizeof(s_tag_resource_prediction_molecule_key) == 0xC);
+COMPILE_ASSERT(sizeof(s_tag_resource_prediction_molecule_key) == 0xC);
 
 class c_tag_resource_cache_prediction_table
 {
@@ -41,7 +41,7 @@ public:
 	c_wrapped_array<const int32*> m_prediction_molecule_atoms;
 	c_wrapped_array<const s_tag_resource_prediction_molecule*> m_prediction_molecules;
 };
-static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
 
 class c_tag_resource_prediction_table_base
 {
@@ -62,14 +62,14 @@ public:
 	c_simple_hash_table<int32, k_maximum_mapped_molecules, k_a_hash_scalar, k_b_hash_scalar, k_c_hash_scalar> m_molecule_index_table;
 	c_tag_resource_cache_prediction_table m_precomputed_prediction_table;
 };
-static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
 
 class c_tag_index_hash_table
 {
 public:
 	c_simple_hash_table<int32, 8192, 3307, 3, 337> m_hash_table;
 };
-static_assert(sizeof(c_tag_index_hash_table) == 0x28004);
+COMPILE_ASSERT(sizeof(c_tag_index_hash_table) == 0x28004);
 
 // $TODO find an actual home
 template<typename t_salt_type>
@@ -78,7 +78,7 @@ class c_negative_salt_generator
 public:
 	t_salt_type m_salt;
 };
-static_assert(sizeof(c_negative_salt_generator<int16>) == sizeof(int16));
+COMPILE_ASSERT(sizeof(c_negative_salt_generator<int16>) == sizeof(int16));
 
 class c_tag_resource_prediction_atom_generator;
 class c_tag_resource_cache_dynamic_predictor :
@@ -112,5 +112,5 @@ public:
 
 	uns32 m_last_reset_time;
 };
-static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
+COMPILE_ASSERT(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
 

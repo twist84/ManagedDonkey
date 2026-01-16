@@ -7,7 +7,7 @@ struct s_synchronized_list_entry
 {
 	s_synchronized_list_entry* next;
 };
-static_assert(sizeof(s_synchronized_list_entry) == 0x4);
+COMPILE_ASSERT(sizeof(s_synchronized_list_entry) == 0x4);
 
 // SLIST_HEADER
 struct s_synchronized_list_header
@@ -23,7 +23,7 @@ struct s_synchronized_list_header
 		} s;
 	};
 };
-static_assert(sizeof(s_synchronized_list_header) == 0x8);
+COMPILE_ASSERT(sizeof(s_synchronized_list_header) == 0x8);
 
 extern void __cdecl synchronized_list_initialize(s_synchronized_list_header* header);
 extern void __cdecl synchronized_list_entry_clear(s_synchronized_list_entry* entry);

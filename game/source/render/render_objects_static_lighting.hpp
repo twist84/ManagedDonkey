@@ -10,7 +10,7 @@ struct s_cubemap_sample
 	int16 cluster_cubemap_index;
 	int16 cubemap_bitmap_index;
 };
-static_assert(sizeof(s_cubemap_sample) == 0x6);
+COMPILE_ASSERT(sizeof(s_cubemap_sample) == 0x6);
 
 class c_dynamic_cubemap_sample
 {
@@ -19,7 +19,7 @@ public:
 	s_cubemap_sample m_last;
 	real32 m_blend_factor;
 };
-static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
+COMPILE_ASSERT(sizeof(c_dynamic_cubemap_sample) == 0x10);
 
 struct render_lighting
 {
@@ -28,7 +28,7 @@ struct render_lighting
 	c_dynamic_cubemap_sample cubemap_state;
 	int32 cinematic_sh_light_index;
 };
-static_assert(sizeof(render_lighting) == 0x218);
+COMPILE_ASSERT(sizeof(render_lighting) == 0x218);
 
 struct s_shader_extern_info
 {
@@ -48,7 +48,7 @@ struct s_shader_extern_info
 	c_rasterizer_texture_ref emblem_player_shoulder_texture;
 	c_rasterizer_texture_ref emblem_clan_chest_texture;
 };
-static_assert(sizeof(s_shader_extern_info) == 0x25C);
+COMPILE_ASSERT(sizeof(s_shader_extern_info) == 0x25C);
 
 struct object_render_state :
 	s_datum_header
@@ -65,7 +65,7 @@ struct object_render_state :
 	int8 last_level_of_detail_rendered;
 	int8 last_rendered_permutation_indices[4][16];
 };
-static_assert(sizeof(object_render_state) == 0x4D8);
+COMPILE_ASSERT(sizeof(object_render_state) == 0x4D8);
 
 struct render_first_person_model
 {
@@ -74,7 +74,7 @@ struct render_first_person_model
 	uns32 flags;
 	c_static_array<real_matrix4x3, 150> node_matrices;
 };
-static_assert(sizeof(render_first_person_model) == 0x1E84);
+COMPILE_ASSERT(sizeof(render_first_person_model) == 0x1E84);
 
 struct s_render_object_first_person_globals
 {
@@ -82,7 +82,7 @@ struct s_render_object_first_person_globals
 	int32 first_person_model_count;
 	c_static_array<render_first_person_model, 6> first_person_models;
 };
-static_assert(sizeof(s_render_object_first_person_globals) == 0xB720);
+COMPILE_ASSERT(sizeof(s_render_object_first_person_globals) == 0xB720);
 
 extern bool render_debug_show_air_probes;
 extern s_render_object_first_person_globals& render_object_globals;
