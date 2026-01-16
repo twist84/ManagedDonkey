@@ -17,3 +17,4 @@ class c_network_session_parameter_saved_film_game_options :
 {
 };
 static_assert(sizeof(c_network_session_parameter_saved_film_game_options) == 0x5A740);
+

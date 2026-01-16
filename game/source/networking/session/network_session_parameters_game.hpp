@@ -66,3 +66,4 @@ struct s_network_session_parameter_leader_properties
 	c_static_string<64> override_hopper_directory;
 };
 static_assert(sizeof(s_network_session_parameter_leader_properties) == 0x40);
+

@@ -74,3 +74,4 @@ struct s_matchmaking_search_party_properties
 	s_matchmaking_session_properties session_properties;
 };
 static_assert(sizeof(s_matchmaking_search_party_properties) == 0xD8);
+

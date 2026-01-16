@@ -282,3 +282,4 @@ class c_network_session_parameter_matchmaking_messaging :
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_messaging) == 0x48);
+

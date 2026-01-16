@@ -4667,6 +4667,9 @@
     <ClInclude Include="source\networking\http\http_static_strings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\_force_includes\_force_included_compile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">

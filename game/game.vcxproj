@@ -70,7 +70,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <ForcedIncludeFiles>_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
+      <ForcedIncludeFiles>_force_includes/_force_included_compile.hpp;_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
       <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
@@ -109,7 +109,7 @@ COPY /Y "$(TargetPath)" "$(SolutionDir)bin\game.dll"</Command>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(ProjectDir)common\havok\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <ForcedIncludeFiles>_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
+      <ForcedIncludeFiles>_force_includes/_force_included_compile.hpp;_force_includes/_force_included_types.hpp;_force_includes/_force_included_enums.hpp;_force_includes/_force_included_macros.hpp</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -1655,6 +1655,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\text\unicode.hpp" />
     <ClInclude Include="source\text\xml_parser.hpp" />
     <ClInclude Include="source\toolbox\game_helpers.hpp" />
+    <ClInclude Include="source\_force_includes\_force_included_compile.hpp" />
     <ClInclude Include="source\_force_includes\_force_included_enums.hpp" />
     <ClInclude Include="source\_force_includes\_force_included_macros.hpp" />
     <ClInclude Include="source\_force_includes\_force_included_types.hpp" />

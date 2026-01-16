@@ -13,3 +13,4 @@ public:
 	c_ring_buffer m_window;
 };
 static_assert(sizeof(c_sliding_window) == 0x1C);
+

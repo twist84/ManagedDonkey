@@ -17,3 +17,4 @@ class c_network_session_parameter_map_variant :
 {
 };
 static_assert(sizeof(c_network_session_parameter_map_variant) == 0x2A1D0);
+
