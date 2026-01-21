@@ -178,6 +178,7 @@ extern void saved_film_manager_play_last_hs();
 extern void saved_film_manager_play(e_controller_index controller_index, const char* film_name);
 extern bool saved_film_manager_playback_aborted();
 extern void saved_film_manager_playback_lock_set(real32 playback_game_speed, bool locked);
+extern bool saved_film_manager_preparing_film();
 extern void saved_film_manager_preview_snippet_start();
 extern void saved_film_manager_preview_snippet_stop();
 extern bool saved_film_manager_read_simulation_update(const s_saved_film_update* update, struct simulation_update* simulation_update_out);

@@ -87,7 +87,7 @@ bool saved_film_manager_authored_camera_locked_for_snippet()
 {
 	bool locked = game_in_progress()
 		&& game_playback_get() == _game_playback_film
-		&& saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read
+		&& saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read
 		&& !saved_film_manager_globals.film_ended
 		&& saved_film_snippet_recording_or_previewing();
 
@@ -987,7 +987,8 @@ void saved_film_manager_notify_snippet_preview_complete()
 bool saved_film_manager_open_film_for_reading(e_controller_index controller_index, const char* film_name)
 {
 	bool success = false;
-	e_saved_film_state film_state = saved_film_manager_globals.saved_film.m_film_state;
+
+	e_saved_film_state film_state = saved_film_manager_globals.saved_film.get_film_state();
 	if (film_state != k_saved_film_state_none)
 	{
 		event(_event_error, "networking:saved_film:manager: can't open film for reading, current state is %d",
@@ -995,13 +996,14 @@ bool saved_film_manager_open_film_for_reading(e_controller_index controller_inde
 	}
 	else
 	{
-		c_static_string<128> saved_film_file_path{};
+		c_static_string<128> saved_film_file_path;
+
 		ASSERT(saved_film_manager_globals.initialized);
 
 		event(_event_message, "networking:saved_film:manager: opening film %s for reading",
 			film_name);
 
-		if (csstrstr(film_name, "\\"))
+		if (csstrstr(film_name, "\\") != 0)
 		{
 			saved_film_file_path.set(film_name);
 		}
@@ -1010,15 +1012,18 @@ bool saved_film_manager_open_film_for_reading(e_controller_index controller_inde
 			saved_film_manager_build_file_path_from_name(film_name, _file_path_for_reading, &saved_film_file_path);
 		}
 
-		// $TODO clean this up
-		c_debug_output_path debug_output_path{};
 		success = saved_film_manager_globals.saved_film.open_for_read(saved_film_file_path.get_string(), controller_index, saved_film_manager_globals.disable_version_checking);
-		if (success || !csstrstr(film_name, "\\")
-			&& (saved_film_file_path.print("%s%s%s.film", debug_output_path.get_root(), "saved_films\\", film_name),
-				success = saved_film_manager_globals.saved_film.open_for_read(saved_film_file_path.get_string(), controller_index, saved_film_manager_globals.disable_version_checking)))
+		if (!success && csstrstr(film_name, "\\") == 0)
+		{
+			c_debug_output_path debug_output_path;
+			saved_film_file_path.print("%s%s%s.film", debug_output_path.get_root(), "saved_films\\", film_name);
+			success = saved_film_manager_globals.saved_film.open_for_read(saved_film_file_path.get_string(), controller_index, saved_film_manager_globals.disable_version_checking);
+		}
+
+		if (success)
 		{
 			saved_film_manager_globals.saved_film_name.set(film_name);
-			saved_film_manager_globals.pending_gamestate_load = saved_film_manager_globals.saved_film.m_film_header.film_header.contains_gamestate;
+			saved_film_manager_globals.pending_gamestate_load = saved_film_manager_globals.saved_film.contains_gamestate();
 			saved_film_manager_globals.gamestate_file_position = saved_film_manager_globals.saved_film.get_position();
 		}
 		else
@@ -1028,6 +1033,7 @@ bool saved_film_manager_open_film_for_reading(e_controller_index controller_inde
 			saved_film_manager_globals.gamestate_file_position = NONE;
 		}
 	}
+
 	return success;
 }
 
@@ -1174,15 +1180,12 @@ void saved_film_manager_play(e_controller_index controller_index, const char* fi
 
 		saved_film_manager_globals.saved_film_name.set(film_name);
 
-		game_options options{};
+		game_options options;
+
 		csmemcpy(&options, saved_film_manager_globals.saved_film.get_game_options(), sizeof(game_options));
 		options.game_playback = _game_playback_film;
 		options.playback_length_in_ticks = saved_film_manager_get_length_in_ticks();
-
-		options.playback_start_tick = saved_film_manager_globals.saved_film.m_film_header.film_header.is_snippet
-			? saved_film_manager_globals.saved_film.m_film_header.film_header.snippet_start_tick
-			: NONE;
-
+		options.playback_start_tick = saved_film_manager_globals.saved_film.get_snippet_start_tick();
 		options.record_saved_film = false;
 
 		game_options_validate(&options);
@@ -1206,6 +1209,21 @@ void saved_film_manager_playback_lock_set(real32 playback_game_speed, bool locke
 
 	saved_film_manager_globals.playback_locked = locked;
 	saved_film_manager_globals.playback_game_speed = MAX(0.0f, MIN(30.0f, playback_game_speed));
+}
+
+bool saved_film_manager_preparing_film()
+{
+	bool preparing_screen_should_be_active = false;
+	if (game_in_progress() && game_is_playback())
+	{
+		int32 snippet_start_tick = saved_film_manager_get_snippet_start_tick();
+		if (snippet_start_tick != NONE)
+		{
+			int32 current_tick = saved_film_manager_get_current_tick_estimate();
+			preparing_screen_should_be_active = current_tick < snippet_start_tick;
+		}
+	}
+	return preparing_screen_should_be_active;
 }
 
 void saved_film_manager_preview_snippet_start()
@@ -1433,7 +1451,7 @@ bool saved_film_manager_seeking(int32* seek_time_available_out)
 	bool seeking = false;
 	if (game_in_progress()
 		&& game_is_playback()
-		&& saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read
+		&& saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read
 		&& saved_film_manager_globals.seek_film_tick != NONE)
 	{
 		int32 current_tick = saved_film_manager_get_current_tick_estimate();
@@ -1596,7 +1614,7 @@ bool saved_film_manager_snippets_available()
 {
 	bool available = game_in_progress()
 		&& game_playback_get() == _game_playback_film
-		&& saved_film_manager_globals.saved_film.m_film_state == _saved_film_open_for_read
+		&& saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read
 		&& !saved_film_manager_globals.film_ended;
 	return available;
 }
@@ -1719,7 +1737,7 @@ void saved_film_manager_update_seeking(int32 current_film_tick)
 {
 	if (!game_in_progress()
 		|| !game_is_playback()
-		|| saved_film_manager_globals.saved_film.m_film_state != _saved_film_open_for_read
+		|| saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_read
 		|| saved_film_manager_globals.seek_film_tick == NONE)
 	{
 		return;
@@ -1784,73 +1802,57 @@ void saved_film_manager_update_snippet_authored_cameras()
 
 void saved_film_manager_update_ui_screens()
 {
-	//if (!game_is_playback())
-	//{
-	//	return;
-	//}
-	//
-	//const int32 snippet_start_tick = saved_film_manager_get_snippet_start_tick();
-	//if (snippet_start_tick == NONE || g_universal_saved_film_tick.peek() >= snippet_start_tick)
-	//{
-	//	if (!saved_film_manager_globals.ui_screen_active)
-	//	{
-	//		return;
-	//	}
-	//
-	//	c_gui_screen_widget* screen_widget = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
-	//	if (screen_widget)
-	//	{
-	//		screen_widget->transition_out(_transition_out_normal);
-	//	}
-	//
-	//	saved_film_manager_globals.ui_screen_active = false;
-	//	return;
-	//}
-	//
-	//if (!saved_film_manager_globals.ui_screen_active)
-	//{
-	//	c_gui_screen_widget* screen_widget = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
-	//	if (screen_widget)
-	//	{
-	//		return;
-	//	}
-	//
-	//	if (c_load_in_progress_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_in_progress_screen_message(
-	//		screen_message,
-	//		STRING_ID(gui, in_progress_mini_me),
-	//		k_any_controller,
-	//		k_number_of_player_windows,
-	//		STRING_ID(gui, film_snippet_preparing_title),
-	//		STRING_ID(gui, film_snippet_preparing_message),
-	//		false,
-	//		true))
-	//	{
-	//		user_interface_messaging_post(screen_message);
-	//		saved_film_manager_globals.ui_screen_active = true;
-	//	}
-	//}
+	bool preparing_screen_should_be_active = saved_film_manager_preparing_film();
+	if (!preparing_screen_should_be_active)
+	{
+		if (saved_film_manager_globals.ui_screen_active)
+		{
+			c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
+			if (screen != NULL)
+			{
+				screen->transition_out(_transition_out_normal);
+			}
+
+			saved_film_manager_globals.ui_screen_active = false;
+		}
+	}
+	else if (!saved_film_manager_globals.ui_screen_active)
+	{
+		c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
+		if (screen == NULL)
+		{
+			c_load_in_progress_screen_message* load_screen_message = new (_ui_allocation_marker_dummy) c_load_in_progress_screen_message(
+				STRING_ID(gui, in_progress_mini_me),
+				k_any_controller,
+				k_number_of_player_windows,
+				STRING_ID(gui, film_snippet_preparing_title),
+				STRING_ID(gui, film_snippet_preparing_message),
+				false,
+				true);
+			if (load_screen_message != NULL)
+			{
+				user_interface_messaging_post(load_screen_message);
+				saved_film_manager_globals.ui_screen_active = true;
+			}
+		}
+	}
 }
 
 void saved_film_manager_update()
 {
 	saved_film_manager_update_ui_screens();
 
-	if (!game_in_progress())
+	if (game_in_progress())
 	{
-		return;
-	}
+		if (game_is_playback())
+		{
+			// $IMPLEMENT
+		}
 
-	if (game_is_playback())
-	{
-		// $IMPLEMENT
-
-	}
-
-	if (!game_is_playback() && saved_film_manager_globals.saved_film.m_film_state > _saved_film_open_for_write)
-	{
-		g_universal_saved_film_tick.set(game_time_get());
-
-		return;
+		if (!game_is_playback() && saved_film_manager_globals.saved_film.get_film_state() > _saved_film_open_for_write)
+		{
+			g_universal_saved_film_tick.set(game_time_get());
+		}
 	}
 }
 
@@ -1891,7 +1893,7 @@ bool saved_film_manager_write_simulation_update(const struct simulation_update* 
 	ASSERT(saved_film_manager_globals.initialized);
 
 	bool success = false;
-	if (saved_film_manager_globals.saved_film.m_film_state != _saved_film_open_for_write)
+	if (saved_film_manager_globals.saved_film.get_film_state() != _saved_film_open_for_write)
 	{
 		event(_event_error, "networking:saved_film:manager: film not open for write, can't write simulation update");
 	}
