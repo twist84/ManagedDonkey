@@ -13,6 +13,7 @@
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_difficulty.hpp"
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
 #include "interface/gui_screens/campaign/gui_screen_campaign_settings.hpp"
+#include "interface/gui_screens/director/gui_screen_snippet.hpp"
 #include "interface/gui_screens/error_dialogs/screen_error_dialog_ok.hpp"
 #include "interface/gui_screens/game_details/gui_game_details.hpp"
 #include "interface/gui_screens/main_menu/gui_screen_main_menu.hpp"
@@ -318,8 +319,8 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 		//case STRING_ID(gui, saved_film_take_screenshot):
 		//	screen = new (_ui_allocation_marker_dummy) c_saved_film_take_screenshot(screen_name);
 		//	break;
-		//case STRING_ID(gui, saved_film_snippet):
-		//	screen = new (_ui_allocation_marker_dummy) c_saved_film_snippet_screen(screen_name);
+		case STRING_ID(gui, saved_film_snippet):
+			screen = new (_ui_allocation_marker_dummy) c_saved_film_snippet_screen(screen_name);
 		//	break;
 		//case STRING_ID(gui, terminal_screen):
 		//	screen = new (_ui_allocation_marker_dummy) c_gui_screen_terminal(screen_name);
