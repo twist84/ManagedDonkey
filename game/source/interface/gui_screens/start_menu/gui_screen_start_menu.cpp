@@ -360,11 +360,11 @@ void c_start_menu_screen_widget::initialize_datasource()
 	//c_gui_screen_widget::initialize_datasource();
 	//
 	//c_gui_data* datasource = new(_ui_allocation_marker_dummy) c_start_menu_screen_widget_sidebar_items_datasource();
-	//if (datasource != nullptr)
+	//if (datasource)
 	//{
 	//	if (datasource->initialize(STRING_ID(gui, top_menu)))
 	//	{
-	//		add_datasource(datasource);
+	//		c_gui_screen_widget::add_datasource(datasource);
 	//	}
 	//	else
 	//	{

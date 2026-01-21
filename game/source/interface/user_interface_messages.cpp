@@ -129,7 +129,7 @@ int32 c_xenon_message::get_event_value() const
 
 c_load_screen_message::c_load_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position) :
 	c_message(_message_type_load_screen, screen_name, controller, window),
-	m_transition_type((e_screen_transition_type)1),
+	m_transition_type(_screen_transition_type_normal),
 	m_respond_to_controller_events(true),
 	m_focus_on_load_name(NONE),
 	m_focus_on_load_element_handle(NONE),
