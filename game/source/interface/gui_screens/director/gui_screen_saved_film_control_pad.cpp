@@ -20,6 +20,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AE4F90, c_saved_film_control_pad, update_enabled_m
 
 bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
+	bool handled = true;
 	if (list_name == STRING_ID(gui, button_list))
 	{
 		int32 item_name = NONE;
@@ -30,13 +31,13 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 			case STRING_ID(gui, skip_back):
 			{
 				saved_film_manager_request_revert(_saved_film_revert_backwards);
-				return true;
+				handled = true;
 			}
 			break;
 			case STRING_ID(gui, skip_forward):
 			{
 				saved_film_manager_request_revert(_saved_film_revert_forwards);
-				return true;
+				handled = true;
 			}
 			break;
 			case STRING_ID(gui, take_screenshot):
@@ -55,24 +56,26 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 				if (!controller->is_signed_in_to_machine())
 				{
 					c_gui_screen_widget::play_sound(_ui_global_sound_effect_failure);
-					break;
 				}
-
-				if (screenshots_uploader_try_and_get() &&
-					screenshots_uploader_try_and_get()->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none)
+				else
 				{
-					if (c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
-						STRING_ID(gui, saved_film_take_screenshot),
-						message->get_controller(),
-						c_gui_screen_widget::get_render_window(),
-						STRING_ID(gui, top_most)))
+					c_screenshots_uploader* uploader = screenshots_uploader_try_and_get();
+					if (uploader != NULL && uploader->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none)
 					{
-						user_interface_messaging_post(screen_message);
-						c_gui_screen_widget::transition_out(_transition_out_normal);
+						c_load_screen_message* load_screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
+							STRING_ID(gui, saved_film_take_screenshot),
+							message->get_controller(),
+							c_gui_screen_widget::get_render_window(),
+							STRING_ID(gui, top_most));
+						if (load_screen_message != NULL)
+						{
+							user_interface_messaging_post(load_screen_message);
+							c_gui_screen_widget::transition_out(_transition_out_normal);
+						}
 					}
-				}
 
-				return true;
+					handled = true;
+				}
 			}
 			break;
 			case STRING_ID(gui, record_clip):
@@ -82,37 +85,43 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 				if (!controller->is_signed_in_to_machine())
 				{
 					c_gui_screen_widget::play_sound(_ui_global_sound_effect_failure);
-					break;
 				}
-
-				//saved_film_manager_start_recording_snippet();
+				else
+				{
+#if defined(SNIPPETS_ENABLED)
+					saved_film_manager_start_recording_snippet();
+#endif
+					handled = true;
+				}
 			}
-			return true;
+			break;
 			case STRING_ID(gui, play_film):
 			{
 				saved_film_manager_set_playback_game_speed(1.0f);
-				return true;
+				handled = true;
 			}
 			break;
 			case STRING_ID(gui, pause_film):
 			{
 				saved_film_manager_set_playback_game_speed(0.0f);
-				return true;
+				handled = true;
 			}
 			break;
 			case STRING_ID(gui, stop_recording):
 			{
-				//if (saved_film_manager_get_snippet_state() == _saved_film_snippet_state_recording)
-				//{
-				//	saved_film_manager_stop_recording_snippet();
-				//}
-				//return true;
+#if defined(SNIPPETS_ENABLED)
+				if (saved_film_manager_get_snippet_state() == _saved_film_snippet_state_recording)
+				{
+					saved_film_manager_stop_recording_snippet();
+				}
+#endif
+				handled = true;
 			}
 			break;
 			case STRING_ID(gui, replay_film):
 			{
 				saved_film_manager_replay_film();
-				return true;
+				handled = true;
 			}
 			break;
 			case STRING_ID(gui, end_preview):
@@ -121,14 +130,36 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 				{
 					saved_film_manager_preview_snippet_stop();
 				}
-				return true;
+				handled = true;
+			}
+			break;
+			case STRING_ID(gui, eject):
+			{
+				string_id dialog_invoker = c_saved_film_control_pad::get_name();
+				string_id layered_position = get_name();
+				c_load_dialog_screen_message* load_dialog_message = new(_ui_allocation_marker_dummy) c_load_dialog_screen_message(
+					message->get_controller(),
+					c_gui_screen_widget::get_render_window(),
+					layered_position,
+					STRING_ID(gui_dialog, in_game_exit_film_playback),
+					dialog_invoker);
+				if (load_dialog_message != NULL)
+				{
+					load_dialog_message->set_parent_screen_index(get_screen_index());
+					user_interface_messaging_post(load_dialog_message);
+				}
+				handled = true;
 			}
 			break;
 			}
 		}
 	}
 
-	return c_gui_screen_widget::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	if (!handled)
+	{
+		handled = c_gui_screen_widget::handle_list_item_chosen(message, list_name, list_item_widget, datasource);
+	}
+	return handled;
 }
 
 void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
@@ -136,16 +167,16 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 	e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
 
 	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), NULL);
-	c_gui_list_widget* button_list = c_gui_widget::get_child_list_widget(STRING_ID(gui, button_list));
+	c_gui_list_widget* pad_list_item = c_gui_widget::get_child_list_widget(STRING_ID(gui, button_list));
 
 	c_gui_screen_widget::update(current_milliseconds);
 	c_saved_film_control_pad::update_enabled_menu_items();
 
-	if (data && button_list)
+	if (data && pad_list_item)
 	{
-		button_list->set_enabled(snippet_state == _saved_film_snippet_state_none);
+		pad_list_item->set_enabled(snippet_state == _saved_film_snippet_state_none);
 
-		for (c_gui_list_item_widget* child_button = (c_gui_list_item_widget*)button_list->get_first_child_widget_by_type(_gui_list_item);
+		for (c_gui_list_item_widget* child_button = (c_gui_list_item_widget*)pad_list_item->get_first_child_widget_by_type(_gui_list_item);
 			child_button != NULL;
 			child_button = child_button->get_next_list_item_widget(true))
 		{
@@ -156,16 +187,16 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 				continue;
 			}
 
-			int32 button_name = NONE;
+			string_id button_name = _string_id_invalid;
 			if (data->get_string_id_value(element_handle, STRING_ID(gui, gui_item), &button_name))
 			{
-				for (c_gui_bitmap_widget* child_button_bitmap = (c_gui_bitmap_widget*)child_button->get_first_child_widget_by_type(_gui_bitmap);
-					child_button_bitmap != NULL;
-					child_button_bitmap = child_button_bitmap->get_next_bitmap_widget())
+				for (c_gui_bitmap_widget* pad_item_bitmap = (c_gui_bitmap_widget*)child_button->get_first_child_widget_by_type(_gui_bitmap);
+					pad_item_bitmap != NULL;
+					pad_item_bitmap = pad_item_bitmap->get_next_bitmap_widget())
 				{
-					if (child_button_bitmap->get_name() != STRING_ID(gui, hilite))
+					if (pad_item_bitmap->get_name() != STRING_ID(gui, hilite))
 					{
-						child_button_bitmap->set_visible(false);
+						pad_item_bitmap->set_visible(false);
 					}
 				}
 
@@ -177,9 +208,8 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 				{
 					if (button_name == STRING_ID(gui, take_screenshot))
 					{
-						bool enabled = !screenshots_uploader_try_and_get() ||
-							screenshots_uploader_try_and_get()->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none;
-						child_button->set_enabled(enabled);
+						c_screenshots_uploader* uploader = screenshots_uploader_try_and_get();
+						child_button->set_enabled(uploader != NULL && uploader->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none);
 					}
 				}
 				break;
@@ -194,52 +224,58 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 				break;
 				case _saved_film_snippet_state_recording:
 				{
-					bool enabled = button_name == STRING_ID(gui, stop_recording);
-					child_button->set_enabled(enabled);
+					child_button->set_enabled(button_name == STRING_ID(gui, stop_recording));
 				}
 				break;
 				case _saved_film_snippet_state_previewing:
 				{
-					bool enabled = button_name == STRING_ID(gui, end_preview) &&
-						saved_film_manager_get_current_tick_estimate() > saved_film_manager_get_snippet_start_tick();
-					child_button->set_enabled(enabled);
+					child_button->set_enabled(button_name == STRING_ID(gui, end_preview) &&
+						saved_film_manager_get_current_tick_estimate() > saved_film_manager_get_snippet_start_tick());
 				}
 				break;
 				}
 
-				if (button_name == STRING_ID(gui, skip_back) &&
-					!saved_film_manager_can_revert(_saved_film_revert_backwards))
+				if (button_name == STRING_ID(gui, skip_back))
 				{
-					child_button->set_enabled(false);
+					bool enable_skip_back = saved_film_manager_can_revert(_saved_film_revert_backwards);
+					if (!enable_skip_back)
+					{
+						child_button->set_enabled(false);
+					}
 				}
 					
-				if (button_name == STRING_ID(gui, skip_forward) &&
-					!saved_film_manager_can_revert(_saved_film_revert_forwards))
+				if (button_name == STRING_ID(gui, skip_forward))
 				{
-					child_button->set_enabled(false);
+					bool enable_skip_forward = saved_film_manager_can_revert(_saved_film_revert_forwards);
+					if (!enable_skip_forward)
+					{
+						child_button->set_enabled(false);
+					}
 				}
 
-				if (button_name == STRING_ID(gui, record_clip) &&
-					(game_in_progress() &&
-						game_is_multiplayer() &&
-						game_playback_get() == _game_playback_film &&
+				if (button_name == STRING_ID(gui, record_clip))
+				{
+					bool enable_recording = game_in_progress() && game_is_multiplayer() && game_playback_get() == _game_playback_film &&
 						player_mapping_output_user_active_count() == 1 &&
 						saved_film_manager_get_snippet_start_tick() == NONE &&
 						saved_film_manager_get_ticks_remaining() &&
-						controller_get_first_non_guest_signed_in_controller() != k_no_controller))
-				{
-					child_button->set_enabled(false);
+						controller_get_first_non_guest_signed_in_controller() != k_no_controller;
+					if (!enable_recording)
+					{
+						child_button->set_enabled(false);
+					}
 				}
 
-				if (button_name == STRING_ID(gui, take_screenshot) &&
-					(!game_in_progress() || 
-						game_playback_get() != _game_playback_film || 
-						player_mapping_output_user_active_count() != 1))
+				if (button_name == STRING_ID(gui, take_screenshot))
 				{
-					child_button->set_enabled(false);
+					bool enable_screenshot = game_in_progress() && game_playback_get() == _game_playback_film && player_mapping_output_user_active_count() == 1;
+					if (!enable_screenshot)
+					{
+						child_button->set_enabled(false);
+					}
 				}
 
-				if (button_name == STRING_ID(gui, replay_film) && !game_is_campaign())
+				if (button_name == STRING_ID(gui, replay_film) && game_is_campaign())
 				{
 					child_button->set_enabled(false);
 				}
@@ -295,68 +331,66 @@ void c_saved_film_control_pad::update_enabled_menu_items()
 	//INVOKE_CLASS_MEMBER(0x00AE4F90, c_saved_film_control_pad, update_enabled_menu_items);
 
 	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), NULL);
-	if (!data)
+	if (data != NULL)
 	{
-		return;
-	}
+		data->clear_disabled_elements();
 
-	data->clear_disabled_elements();
+		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, take_screenshot_upload));
+		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, take_screenshot_disabled));
 
-	data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, take_screenshot_upload));
-	data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, take_screenshot_disabled));
-
-	if (saved_film_manager_get_ticks_remaining())
-	{
-		if (saved_film_manager_get_playback_game_speed() > 0.0f)
+		if (saved_film_manager_get_ticks_remaining())
 		{
-			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, play_film));
+			if (saved_film_manager_get_playback_game_speed() > 0.0f)
+			{
+				data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, play_film));
+			}
+			else
+			{
+				data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, pause_film));
+			}
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, replay_film));
 		}
 		else
 		{
 			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, pause_film));
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, play_film));
 		}
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, replay_film));
-	}
-	else
-	{
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, pause_film));
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, play_film));
-	}
 
-	e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
-	switch (snippet_state)
-	{
-	case _saved_film_snippet_state_none:
-	case _saved_film_snippet_state_recording_waiting_for_seek:
-	case _saved_film_snippet_state_recording_waiting_for_start:
-	case _saved_film_snippet_state_previewing_waiting_for_seek:
-	case _saved_film_snippet_state_commiting_invoking_title_keyboard:
-	case _saved_film_snippet_state_commiting_waiting_title_keyboard:
-	case _saved_film_snippet_state_commiting_invoking_description_keyboard:
-	case _saved_film_snippet_state_commiting_waiting_description_keyboard:
-	case _saved_film_snippet_state_commiting_initiate_creation:
-	case _saved_film_snippet_state_commiting_wait_for_creation:
-	case _saved_film_snippet_state_commiting_initiate_metadata_update:
-	case _saved_film_snippet_state_commiting_wait_for_metadata_update:
-	case _saved_film_snippet_state_resetting:
-	{
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, stop_recording));
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, end_preview));
-	}
-	break;
-	case _saved_film_snippet_state_recording:
-	case _saved_film_snippet_state_recorded_and_ready:
-	{
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, record_clip));
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, end_preview));
-	}
-	break;
-	case _saved_film_snippet_state_previewing:
-	{
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, record_clip));
-		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, stop_recording));
-	}
-	break;
+		e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
+		switch (snippet_state)
+		{
+		case _saved_film_snippet_state_none:
+		case _saved_film_snippet_state_recording_waiting_for_seek:
+		case _saved_film_snippet_state_recording_waiting_for_start:
+		case _saved_film_snippet_state_previewing_waiting_for_seek:
+		case _saved_film_snippet_state_commiting_invoking_title_keyboard:
+		case _saved_film_snippet_state_commiting_waiting_title_keyboard:
+		case _saved_film_snippet_state_commiting_invoking_description_keyboard:
+		case _saved_film_snippet_state_commiting_waiting_description_keyboard:
+		case _saved_film_snippet_state_commiting_initiate_creation:
+		case _saved_film_snippet_state_commiting_wait_for_creation:
+		case _saved_film_snippet_state_commiting_initiate_metadata_update:
+		case _saved_film_snippet_state_commiting_wait_for_metadata_update:
+		case _saved_film_snippet_state_resetting:
+		{
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, stop_recording));
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, end_preview));
+		}
+		break;
+		case _saved_film_snippet_state_recording:
+		case _saved_film_snippet_state_recorded_and_ready:
+		{
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, record_clip));
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, end_preview));
+		}
+		break;
+		case _saved_film_snippet_state_previewing:
+		{
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, record_clip));
+			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, stop_recording));
+		}
+		break;
+		}
 	}
 }
 

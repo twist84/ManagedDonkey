@@ -92,11 +92,12 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 
 			if (!saved_film_manager_film_is_ended(NULL) && screen_visible)
 			{
-				if (c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
+				c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 					STRING_ID(gui, saved_film_control_pad),
 					k_any_controller,
 					k_number_of_player_windows,
-					STRING_ID(gui, top_most)))
+					STRING_ID(gui, top_most));
+				if (screen_message != NULL)
 				{
 					int32 value = STRING_ID(gui, play_film);
 					if (play_or_eject)

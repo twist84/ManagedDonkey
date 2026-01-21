@@ -293,6 +293,8 @@ bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_s
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE5440, c_gui_custom_bitmap_storage_manager, load_bitmap_from_buffer, bitmap_storage_index, buffer, buffer_length, aspect_ratio);
 
+	bool result = false;
+
 	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = NULL;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
@@ -302,7 +304,7 @@ bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_s
 		}
 	}
 
-	if (!bitmap_storage_handle_datum)
+	if (bitmap_storage_handle_datum != NULL)
 	{
 		return false;
 	}
@@ -310,18 +312,18 @@ bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_s
 	event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer starting %d",
 		bitmap_storage_index);
 
-	bool bitmap_ready = bitmap_storage_handle_datum->storage_item.load_from_buffer(buffer, buffer_length, m_d3dx_scratch_buffer, m_d3dx_scratch_buffer_length, aspect_ratio);
+	result = bitmap_storage_handle_datum->storage_item.load_from_buffer(buffer, buffer_length, m_d3dx_scratch_buffer, m_d3dx_scratch_buffer_length, aspect_ratio);
 
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		ASSERT(bitmap_storage_handle_datum->state == _bitmap_storage_state_loading);
-		bitmap_storage_handle_datum->state = bitmap_ready ? _bitmap_storage_state_ready : _bitmap_storage_state_none;
+		bitmap_storage_handle_datum->state = result ? _bitmap_storage_state_ready : _bitmap_storage_state_none;
 	}
 
 	event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer ending %d",
 		bitmap_storage_index);
 
-	return bitmap_ready;
+	return result;
 }
 
 //.text:00AE5500 ; public: bool c_data_iterator<c_gui_custom_bitmap_storage_manager::s_bitmap_storage_handle_datum>::next()

@@ -1064,6 +1064,11 @@ void c_gui_screen_widget::set_initial_focused_widget()
 	INVOKE_CLASS_MEMBER(0x00AB21E0, c_gui_screen_widget, set_initial_focused_widget);
 }
 
+void c_gui_screen_widget::set_responds_to_controller_events(bool value)
+{
+	m_responds_to_controller_events = value;
+}
+
 void c_gui_screen_widget::set_text_widget_string_id(int32 widget_name, int32 widget_text)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB22D0, c_gui_screen_widget, set_text_widget_string_id, widget_name, widget_text);

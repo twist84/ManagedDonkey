@@ -261,6 +261,7 @@ private:
 	void set_initial_focused_widget();
 
 public:
+	void set_responds_to_controller_events(bool value);
 	void set_text_widget_string_id(int32 widget_name, int32 widget_text);
 	void set_text_widget_string_id_from_focused_list_item(int32 text_widget_name, int32 list_name, int32 column_name);
 	void set_text_widget_text(int32 widget_name, const wchar_t* widget_text);
