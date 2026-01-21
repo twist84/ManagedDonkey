@@ -2118,6 +2118,9 @@
     <ClCompile Include="source\networking\http\http_routes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\in_progress\gui_screen_in_progress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -4668,6 +4671,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\_force_includes\_force_included_compile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\in_progress\gui_screen_in_progress.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

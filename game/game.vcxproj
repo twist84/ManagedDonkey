@@ -138,6 +138,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\havok\hkWorld.cpp" />
+    <ClCompile Include="source\interface\gui_screens\in_progress\gui_screen_in_progress.cpp" />
     <ClCompile Include="source\networking\http\http_routes.cpp" />
     <ClCompile Include="source\networking\http\http_server.cpp" />
     <ClCompile Include="source\networking\network_statistics.cpp" />
@@ -1009,6 +1010,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
     <ClInclude Include="source\interface\gui_screens\error_dialogs\screen_error_dialog.hpp" />
     <ClInclude Include="source\interface\gui_screens\error_dialogs\screen_error_dialog_ok.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_options\gui_screen_game_options.hpp" />
+    <ClInclude Include="source\interface\gui_screens\in_progress\gui_screen_in_progress.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\game_campaign\start_menu_game_campaign.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\game_editor\start_menu_game_editor.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\game_multiplayer\start_menu_game_multiplayer.hpp" />
