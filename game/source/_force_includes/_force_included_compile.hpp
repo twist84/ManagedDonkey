@@ -13,3 +13,10 @@
 #define NUMBEROF(ARRAY) (sizeof(ARRAY) / sizeof(ARRAY[0]))
 #endif // NUMBEROF
 
+constexpr size_t compile_strlen(const char* str)
+{
+	size_t len = 0;
+	while (str[++len] != '\0');
+	return len;
+}
+
