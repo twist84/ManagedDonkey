@@ -7,6 +7,7 @@
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_difficulty.hpp"
 #include "interface/gui_screens/campaign/gui_screen_campaign_select_level.hpp"
+#include "interface/gui_screens/in_progress/gui_screen_in_progress.hpp"
 #include "interface/gui_screens/pregame_lobby/gui_screen_pregame_selection.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
@@ -270,7 +271,10 @@ c_load_pregame_selection_screen_message::c_load_pregame_selection_screen_message
 void c_load_pregame_selection_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
 {
 	if (!screen_widget->running_in_codeless_mode())
-		((c_gui_screen_pregame_selection*)screen_widget)->m_selection_type = m_selection_type;
+	{
+		c_gui_screen_pregame_selection* selection_screen_widget = (c_gui_screen_pregame_selection*)screen_widget;
+		selection_screen_widget->m_selection_type = m_selection_type;
+	}
 }
 
 c_load_campaign_select_difficulty_screen_message::c_load_campaign_select_difficulty_screen_message(int32 screen_name, e_controller_index controller, e_window_index window, int32 layered_position, e_gui_campaign_difficulty_setup_mode campaign_setup_mode, e_campaign_id campaign_id, e_map_id map_id, e_campaign_difficulty_level difficulty) :
@@ -298,7 +302,46 @@ c_load_campaign_select_level_screen_message::c_load_campaign_select_level_screen
 
 void c_load_campaign_select_level_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
 {
-	((c_gui_screen_campaign_select_level*)screen_widget)->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_campaign_insertion_point);
+	c_gui_screen_campaign_select_level* campaign_select_level = (c_gui_screen_campaign_select_level*)screen_widget;
+	campaign_select_level->setup(m_campaign_setup_mode, m_campaign_id, m_map_id, m_campaign_insertion_point);
+}
+
+void c_load_in_progress_screen_message::apply_initial_state(c_gui_screen_widget* screen_widget) const
+{
+	c_gui_screen_in_progress* in_progress_screen = (c_gui_screen_in_progress*)screen_widget;
+
+	in_progress_screen->setup(m_title, m_message);
+	if (!m_blocking)
+	{
+		in_progress_screen->set_responds_to_controller_events(false);
+	}
+	in_progress_screen->set_loaded_manually(m_loaded_manually);
+}
+
+c_load_in_progress_screen_message::c_load_in_progress_screen_message(string_id screen_name, e_controller_index controller, e_window_index window, string_id title, string_id message, bool blocking, bool loaded_manually) :
+	c_load_screen_message(screen_name, controller, window, STRING_ID(gui, top_most)),
+	m_title(title),
+	m_message(message),
+	m_blocking(blocking),
+	m_loaded_manually(loaded_manually)
+{
+	//DECLFUNC(0x00A926F0, void, __thiscall, c_load_in_progress_screen_message, string_id, e_controller_index, e_window_index, string_id, string_id, bool, bool)(this,
+	//	screen_name, controller, window, title, message, blocking, loaded_manually);
+
+	m_applies_even_to_codeless_screens = true;
+}
+
+c_load_in_progress_screen_message::c_load_in_progress_screen_message(e_controller_index controller, e_window_index window, string_id title, string_id message) :
+	c_load_screen_message(STRING_ID(gui, in_progress), controller, window, STRING_ID(gui, top_most)),
+	m_title(title),
+	m_message(message),
+	m_blocking(true),
+	m_loaded_manually(false)
+{
+	//DECLFUNC(0x00A92740, void, __thiscall, c_load_in_progress_screen_message, string_id, e_controller_index, e_window_index, string_id, string_id)(this,
+	//	STRING_ID(gui, in_progress), controller, window, STRING_ID(gui, top_most), message);
+
+	m_applies_even_to_codeless_screens = true;
 }
 
 c_message_globals::c_message_globals()

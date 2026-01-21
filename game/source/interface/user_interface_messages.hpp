@@ -271,6 +271,25 @@ protected:
 };
 COMPILE_ASSERT(sizeof(c_load_campaign_select_level_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
+class c_load_in_progress_screen_message :
+	public c_load_screen_message
+{
+public:
+	virtual void apply_initial_state(c_gui_screen_widget* screen_widget) const override;
+
+public:
+	c_load_in_progress_screen_message(string_id screen_name, e_controller_index controller, e_window_index window, string_id title, string_id message, bool blocking, bool loaded_manually);
+	c_load_in_progress_screen_message(e_controller_index controller, e_window_index window, string_id title, string_id message);
+
+private:
+	int32 m_title;
+	int32 m_message;
+	bool m_blocking;
+	bool m_loaded_manually;
+};
+COMPILE_ASSERT(sizeof(c_load_in_progress_screen_message) == 0x48);
+COMPILE_ASSERT(sizeof(c_load_in_progress_screen_message) == sizeof(c_load_screen_message) + 0xC);
+
 class c_message_globals
 {
 public:
