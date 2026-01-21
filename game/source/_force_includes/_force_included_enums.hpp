@@ -5598,3 +5598,14 @@ enum e_multiplayer_event_type
 	k_number_of_game_engine_event_types
 };
 
+enum e_aspect_ratio
+{
+	_aspect_ratio_auto = 0,
+	_aspect_ratio_43,
+	_aspect_ratio_169,
+
+	k_aspect_ratio_count,
+
+	k_aspect_ratio_default = _aspect_ratio_auto,
+};
+

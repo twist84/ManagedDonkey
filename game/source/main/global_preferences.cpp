@@ -87,11 +87,11 @@ bool __cdecl global_preferences_get_antialiasing()
 	return result;
 }
 
-int32 __cdecl global_preferences_get_aspect_ratio()
+e_aspect_ratio __cdecl global_preferences_get_aspect_ratio()
 {
 	//return INVOKE(0x0050A8B0, global_preferences_get_aspect_ratio);
 
-	int32 result = 0;
+	e_aspect_ratio result = k_aspect_ratio_default;
 	if (global_preferences_available())
 	{
 		c_global_preferences_scope_lock scope_lock;
@@ -868,9 +868,9 @@ void __cdecl global_preferences_make_safe(s_global_preferences* preferences)
 		preferences->data.subtitle_setting = _subtitle_setting_automatic;
 	}
 
-	if (!VALID_INDEX(preferences->data.aspect_ratio, 3))
+	if (!VALID_INDEX(preferences->data.aspect_ratio, k_aspect_ratio_count))
 	{
-		preferences->data.aspect_ratio = 0;
+		preferences->data.aspect_ratio = k_aspect_ratio_default;
 	}
 
 	if (!VALID_INDEX(preferences->data.brightness, 100))
@@ -903,7 +903,7 @@ void __cdecl global_preferences_set_antialiasing(bool antialiasing)
 	}
 }
 
-void __cdecl global_preferences_set_aspect_ratio(bool aspect_ratio)
+void __cdecl global_preferences_set_aspect_ratio(e_aspect_ratio aspect_ratio)
 {
 	//INVOKE(0x0050CD70, global_preferences_set_aspect_ratio, aspect_ratio);
 
