@@ -717,8 +717,8 @@ void ai_debug_render_sectors()
 				{
 					sector_link& link = pf_data->sector_links[link_index];
 
-					if (link.sectors[0] >= sectors_range_min && link.sectors[0] <= sectors_range_max ||
-						link.sectors[1] >= sectors_range_min && link.sectors[1] <= sectors_range_max)
+					if (IN_RANGE_INCLUSIVE(link.sectors[0], sectors_range_min, sectors_range_max) ||
+						IN_RANGE_INCLUSIVE(link.sectors[1], sectors_range_min, sectors_range_max))
 					{
 						sector_link_render_debug(link_index, pf_data, NULL, false);
 					}
