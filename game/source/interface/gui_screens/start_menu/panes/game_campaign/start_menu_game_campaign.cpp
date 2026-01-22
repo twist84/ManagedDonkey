@@ -49,87 +49,91 @@ c_gui_bitmap_widget* c_start_menu_game_campaign::create_bitmap_widget(const s_ru
 	return bitmap_widget;
 }
 
-bool c_start_menu_game_campaign::handle_dialog_result(const c_dialog_result_message* message)
+bool c_start_menu_game_campaign::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE87E0, c_start_menu_game_campaign, handle_dialog_result, message);
 
-	if (c_start_menu_game_multiplayer::handle_leave_game_response(this, message))
-	{
-		return true;
-	}
+	bool handled = c_start_menu_game_multiplayer::handle_leave_game_response(this, dialog_result_message);
 
-	int32 dialog_name = message->get_dialog_name();
-	switch (dialog_name)
+	if (!handled)
 	{
-	case STRING_ID(gui_dialog, in_game_end_game):
-	case STRING_ID(gui_dialog, in_campaign_save_and_quit):
-	case STRING_ID(gui_dialog, in_coop_end_game):
-	{
-		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		string_id dialog_name = dialog_result_message->get_dialog_name();
+		switch (dialog_name)
 		{
-			window_manager_get()->set_fade_out_and_quit_campaign(true, dialog_name == STRING_ID(gui_dialog, in_campaign_save_and_quit));
-			c_start_menu_pane_screen_widget::close_start_menu0();
-		}
+		case STRING_ID(gui_dialog, in_game_end_game):
+		case STRING_ID(gui_dialog, in_campaign_save_and_quit):
+		case STRING_ID(gui_dialog, in_coop_end_game):
+		{
+			if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+			{
+				window_manager_get()->set_fade_out_and_quit_campaign(true, dialog_name == STRING_ID(gui_dialog, in_campaign_save_and_quit));
+				c_start_menu_pane_screen_widget::close_start_menu0();
+			}
 
-		return true;
-	}
-	break;
-	case STRING_ID(gui_dialog, in_campaign_revert_to_last_save):
-	{
-		if (message->get_dialog_result() == _gui_dialog_choice_first)
-		{
-			simulation_queue_game_global_event_insert(_simulation_queue_game_global_event_type_revert_map);
-			c_start_menu_pane_screen_widget::close_start_menu0();
-		}
-
-		return true;
-	}
-	break;
-	case STRING_ID(gui_dialog, in_campaign_restart_level):
-	{
-		if (message->get_dialog_result() == _gui_dialog_choice_first)
-		{
-			simulation_queue_game_global_event_insert(_simulation_queue_game_global_event_type_reset_map);
-			c_start_menu_pane_screen_widget::close_start_menu0();
-		}
-
-		return true;
-	}
-	break;
-	case STRING_ID(gui_dialog, in_game_change_network_privacy):
-	{
-		e_gui_network_session_advertisement_mode session_advertisement = user_interface_networking_get_session_advertisement();
-
-		switch (message->get_dialog_result())
-		{
-		case _gui_dialog_choice_first:
-		{
-			session_advertisement = _network_advertise_xbox_live_public;
+			handled = true;
 		}
 		break;
-		case _gui_dialog_choice_second:
+		case STRING_ID(gui_dialog, in_campaign_revert_to_last_save):
 		{
-			session_advertisement = _network_advertise_xbox_live_friends_only;
+			if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+			{
+				simulation_queue_game_global_event_insert(_simulation_queue_game_global_event_type_revert_map);
+				c_start_menu_pane_screen_widget::close_start_menu0();
+			}
+
+			handled = true;
 		}
 		break;
-		case _gui_dialog_choice_third:
+		case STRING_ID(gui_dialog, in_campaign_restart_level):
 		{
-			session_advertisement = _network_advertise_xbox_live_invite_only;
+			if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+			{
+				simulation_queue_game_global_event_insert(_simulation_queue_game_global_event_type_reset_map);
+				c_start_menu_pane_screen_widget::close_start_menu0();
+			}
+
+			handled = true;
+		}
+		break;
+		case STRING_ID(gui_dialog, in_game_change_network_privacy):
+		{
+			e_gui_network_session_advertisement_mode advertisement_mode = user_interface_networking_get_session_advertisement();
+
+			switch (dialog_result_message->get_dialog_result())
+			{
+			case _gui_dialog_choice_first:
+			{
+				advertisement_mode = _network_advertise_xbox_live_public;
+			}
+			break;
+			case _gui_dialog_choice_second:
+			{
+				advertisement_mode = _network_advertise_xbox_live_friends_only;
+			}
+			break;
+			case _gui_dialog_choice_third:
+			{
+				advertisement_mode = _network_advertise_xbox_live_invite_only;
+			}
+			break;
+			}
+
+			if (!user_interface_networking_set_session_advertisement(advertisement_mode))
+			{
+				event(_event_warning, "ui: failed to set session advertisement mode to mode #%d",
+					advertisement_mode);
+			}
+			handled = true;
 		}
 		break;
 		}
-
-		if (!user_interface_networking_set_session_advertisement(session_advertisement))
-		{
-			event(_event_warning, "ui: failed to set session advertisement mode to mode #%d",
-				session_advertisement);
-		}
-		return true;
-	}
-	break;
 	}
 
-	return c_gui_screen_widget::handle_dialog_result(message);
+	if (!handled)
+	{
+		handled = c_gui_screen_widget::handle_dialog_result(dialog_result_message);
+	}
+	return handled;
 }
 
 bool c_start_menu_game_campaign::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
@@ -156,44 +160,42 @@ void c_start_menu_game_campaign::initialize_datasource()
 
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
-	if (!sidebar_items_data)
+	c_gui_data* datasource = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
+	if (datasource != NULL)
 	{
-		return;
-	}
+		datasource->clear_disabled_elements();
 
-	sidebar_items_data->clear_disabled_elements();
-
-	if (user_interface_squad_local_peer_is_host())
-	{
-		if (game_is_campaign() && !game_is_cooperative() && campaign_skull_is_active(_campaign_skull_primary_iron))
+		if (user_interface_squad_local_peer_is_host())
 		{
-			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, revert_to_last_save));
+			if (game_is_campaign() && !game_is_cooperative() && campaign_skull_is_active(_campaign_skull_primary_iron))
+			{
+				datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, revert_to_last_save));
+			}
 		}
-	}
-	else
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, revert_to_last_save));
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, restart_level));
-	}
+		else
+		{
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, revert_to_last_save));
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, restart_level));
+		}
 
-	if (user_interface_squad_exists() && user_interface_squad_get_player_count() != 1)
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, save_and_quit));
-	}
-	else
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
-	}
+		if (user_interface_squad_exists() && user_interface_squad_get_player_count() != 1)
+		{
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, save_and_quit));
+		}
+		else
+		{
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(global, leave_game));
+		}
 
-	if (!user_interface_squad_local_peer_is_leader())
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
-	}
+		if (!user_interface_squad_local_peer_is_leader())
+		{
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+		}
 
-	if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || game_is_cooperative())
-	{
-		sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+		if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || game_is_cooperative())
+		{
+			datasource->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
+		}
 	}
 }
 

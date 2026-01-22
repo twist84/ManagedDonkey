@@ -86,9 +86,9 @@ bool c_start_menu_game_editor::allow_pane_tab_change()
 //.text:00AEA550 ; public: virtual bool c_gui_gametype_category_datasource::get_integer_value(int32, int32, int32*)
 //.text:00AEA570 ; public: virtual bool c_gui_gametype_category_datasource::get_text_value(int32, int32, c_static_wchar_string<1024>*)
 
-bool c_start_menu_game_editor::handle_dialog_result(const c_dialog_result_message* message)
+bool c_start_menu_game_editor::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE_CLASS_MEMBER(0x00AEA5E0, c_start_menu_game_editor, handle_dialog_result, message);
+	return INVOKE_CLASS_MEMBER(0x00AEA5E0, c_start_menu_game_editor, handle_dialog_result, dialog_result_message);
 }
 
 bool c_start_menu_game_editor::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)

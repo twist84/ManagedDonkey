@@ -74,22 +74,28 @@ bool c_gui_screen_campaign_select_level::handle_controller_input_message(const c
 	return c_gui_screen_widget::handle_controller_input_message(message);
 }
 
-bool c_gui_screen_campaign_select_level::handle_dialog_result(const c_dialog_result_message* message)
+bool c_gui_screen_campaign_select_level::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AFCF20, c_gui_screen_campaign_select_level, handle_dialog_result, message);
 
-	if (message->get_dialog_name() == STRING_ID(gui_dialog, campaign_changing_setting_will_delete_saved_game))
+	bool handled = false;
+
+	if (dialog_result_message->get_dialog_name() == STRING_ID(gui_dialog, campaign_changing_setting_will_delete_saved_game))
 	{
-		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
 		{
-			saved_game_files_delete_saved_game_state_blocking(message->get_controller());
-			c_gui_screen_campaign_select_level::level_chosen_immediate(message->get_controller());
+			saved_game_files_delete_saved_game_state_blocking(dialog_result_message->get_controller());
+			c_gui_screen_campaign_select_level::level_chosen_immediate(dialog_result_message->get_controller());
 		}
 
-		return true;
+		handled = true;
 	}
 
-	return c_gui_screen_widget::handle_dialog_result(message);
+	if (!handled)
+	{
+		handled = c_gui_screen_widget::handle_dialog_result(dialog_result_message);
+	}
+	return handled;
 }
 
 bool c_gui_screen_campaign_select_level::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)

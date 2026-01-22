@@ -671,21 +671,23 @@ bool c_gui_screen_widget::handle_controller_tab_attempt(const c_controller_input
 	return m_current_focused_widget && m_current_focused_widget->handle_tab(message);
 }
 
-bool c_gui_screen_widget::handle_dialog_result(const c_dialog_result_message* message)
+bool c_gui_screen_widget::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB13F0, c_gui_screen_widget, handle_dialog_result, message);
 
-	if (message->get_screen_name() == STRING_ID(gui_dialog, need_to_select_storage_device_to_save))
+	bool handled = false;
+
+	if (dialog_result_message->get_screen_name() == STRING_ID(gui_dialog, need_to_select_storage_device_to_save))
 	{
-		return false;
+		if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+		{
+			content_catalogue_display_device_selection_guide_interface(dialog_result_message->get_controller());
+		}
+
+		handled = true;
 	}
 
-	if (message->get_dialog_result() == _gui_dialog_choice_first)
-	{
-		content_catalogue_display_device_selection_guide_interface(message->get_controller());
-	}
-
-	return true;
+	return handled;
 }
 
 bool c_gui_screen_widget::handle_focused_widget_selected(const c_controller_input_message* message, c_gui_widget* widget)

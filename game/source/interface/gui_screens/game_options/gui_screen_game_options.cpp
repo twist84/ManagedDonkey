@@ -367,9 +367,9 @@ bool c_gui_screen_game_options::handle_controller_input_message(const c_controll
 	//return c_gui_screen_widget::handle_controller_input_message(message);
 }
 
-bool c_gui_screen_game_options::handle_dialog_result(const c_dialog_result_message* message)
+bool c_gui_screen_game_options::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE_CLASS_MEMBER(0x00B0C200, c_gui_screen_game_options, handle_dialog_result, message);
+	return INVOKE_CLASS_MEMBER(0x00B0C200, c_gui_screen_game_options, handle_dialog_result, dialog_result_message);
 }
 
 bool c_gui_screen_game_options::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)

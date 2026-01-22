@@ -60,9 +60,9 @@ c_gui_bitmap_widget* c_start_menu_game_multiplayer::create_bitmap_widget(const s
 //.text:00AE91D0 ; public: const wchar_t* c_start_menu_game_multiplayer::get_hopper_description() const
 //.text:00AE91E0 ; public: const wchar_t* c_start_menu_game_multiplayer::get_hopper_name() const
 
-bool c_start_menu_game_multiplayer::handle_dialog_result(const c_dialog_result_message* message)
+bool c_start_menu_game_multiplayer::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE_CLASS_MEMBER(0x00AE91F0, c_start_menu_game_multiplayer, handle_dialog_result, message);
+	return INVOKE_CLASS_MEMBER(0x00AE91F0, c_start_menu_game_multiplayer, handle_dialog_result, dialog_result_message);
 }
 
 void c_start_menu_game_multiplayer::handle_leave_game_choice(c_start_menu_pane_screen_widget* screen, const c_controller_input_message* message)

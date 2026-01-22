@@ -133,16 +133,16 @@ bool c_gui_screen_pregame_lobby_matchmaking::handle_controller_input_message(con
 	return c_gui_screen_pregame_lobby::handle_controller_input_message(message);
 }
 
-bool c_gui_screen_pregame_lobby_matchmaking::handle_dialog_result(const c_dialog_result_message* message)
+bool c_gui_screen_pregame_lobby_matchmaking::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE_CLASS_MEMBER(0x00B018E0, c_gui_screen_pregame_lobby_matchmaking, handle_dialog_result, message);
+	return INVOKE_CLASS_MEMBER(0x00B018E0, c_gui_screen_pregame_lobby_matchmaking, handle_dialog_result, dialog_result_message);
 
-	//if (message->get_dialog_name() != STRING_ID(gui_dialog, matchmaking_lobby_switch_to_live))
+	//if (dialog_result_message->get_dialog_name() != STRING_ID(gui_dialog, matchmaking_lobby_switch_to_live))
 	//{
-	//	return c_gui_screen_pregame_lobby::handle_dialog_result(message);
+	//	return c_gui_screen_pregame_lobby::handle_dialog_result(dialog_result_message);
 	//}
 	//
-	//if (message->get_dialog_result() == _gui_dialog_choice_first)
+	//if (dialog_result_message->get_dialog_result() == _gui_dialog_choice_first)
 	//{
 	//	user_interface_networking_set_session_advertisement(global_preferences_get_xbox_live_private_privacy_setting());
 	//}

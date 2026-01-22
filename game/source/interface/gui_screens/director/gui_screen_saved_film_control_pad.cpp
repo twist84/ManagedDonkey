@@ -333,6 +333,8 @@ void c_saved_film_control_pad::update_enabled_menu_items()
 	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), NULL);
 	if (data != NULL)
 	{
+		e_saved_film_snippet_state saved_film_snippet_state = saved_film_manager_get_snippet_state();
+
 		data->clear_disabled_elements();
 
 		data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, take_screenshot_upload));
@@ -356,8 +358,7 @@ void c_saved_film_control_pad::update_enabled_menu_items()
 			data->set_disabled_element(STRING_ID(gui, gui_item), STRING_ID(gui, play_film));
 		}
 
-		e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
-		switch (snippet_state)
+		switch (saved_film_snippet_state)
 		{
 		case _saved_film_snippet_state_none:
 		case _saved_film_snippet_state_recording_waiting_for_seek:

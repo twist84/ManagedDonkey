@@ -194,7 +194,7 @@ public:
 	virtual bool process_message(const c_message* message);
 	virtual bool handle_focused_widget_selected(const c_controller_input_message* message, c_gui_widget* widget);
 	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource);
-	virtual bool handle_dialog_result(const c_dialog_result_message* message);
+	virtual bool handle_dialog_result(const c_dialog_result_message* dialog_result_message);
 	virtual void submenu_invoked(c_gui_list_widget* submenu_widget);
 	virtual void transition_out_with_transition_type(e_transition_out_type transition_out, e_screen_transition_type transition_type);
 	virtual bool __funcs53();

@@ -438,9 +438,9 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 	//return c_gui_screen_widget::handle_controller_input_message(message);
 }
 
-bool c_gui_screen_pregame_lobby::handle_dialog_result(const c_dialog_result_message* message)
+bool c_gui_screen_pregame_lobby::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE_CLASS_MEMBER(0x00B21E20, c_gui_screen_pregame_lobby, handle_dialog_result, message);
+	return INVOKE_CLASS_MEMBER(0x00B21E20, c_gui_screen_pregame_lobby, handle_dialog_result, dialog_result_message);
 
 	//bool handled;
 }

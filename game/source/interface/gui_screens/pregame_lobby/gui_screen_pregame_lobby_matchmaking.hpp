@@ -21,7 +21,7 @@ public:
 	virtual void update(uns32 current_milliseconds) override;
 	virtual bool handle_controller_input_message(const c_controller_input_message* message) override;
 	virtual bool handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource) override;
-	virtual bool handle_dialog_result(const c_dialog_result_message* message) override;
+	virtual bool handle_dialog_result(const c_dialog_result_message* dialog_result_message) override;
 	virtual int32 get_lobby_header() override;
 	virtual int32 get_lobby_title() override;
 	virtual int32 get_start_button_name() override;

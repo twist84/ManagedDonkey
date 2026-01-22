@@ -189,9 +189,9 @@ bool __cdecl user_interface_networking_get_start_game_when_ready()
 	return user_interface_networking_globals.start_game_when_ready;
 }
 
-bool __cdecl user_interface_networking_handle_dialog_result(const c_dialog_result_message* message)
+bool __cdecl user_interface_networking_handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE(0x00A7F1C0, user_interface_networking_handle_dialog_result, message);
+	return INVOKE(0x00A7F1C0, user_interface_networking_handle_dialog_result, dialog_result_message);
 }
 
 void __cdecl user_interface_networking_in_progress_update()

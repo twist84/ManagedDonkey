@@ -30,70 +30,73 @@ bool c_start_menu_game_saved_film::allow_pane_tab_change()
 	return true;
 }
 
-bool c_start_menu_game_saved_film::handle_dialog_result(const c_dialog_result_message* message)
+bool c_start_menu_game_saved_film::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AEBBC0, c_start_menu_game_saved_film, handle_dialog_result, message);
+	//return INVOKE_CLASS_MEMBER(0x00AEBBC0, c_start_menu_game_saved_film, handle_dialog_result, dialog_result_message);
 
-	if (c_start_menu_game_multiplayer::handle_leave_game_response(this, message))
+	bool handled = c_start_menu_game_multiplayer::handle_leave_game_response(this, dialog_result_message);
+	if (!handled)
 	{
-		return true;
-	}
-
-	switch (message->get_dialog_name())
-	{
-	case STRING_ID(gui_dialog, in_game_exit_film_playback):
-	{
-		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		switch (dialog_result_message->get_dialog_name())
 		{
-			c_start_menu_pane_screen_widget::close_start_menu1();
-		}
-		return true;
-	}
-	break;
-	case STRING_ID(gui_dialog, screenshot_uploading_end_session):
-	{
-		if (message->get_dialog_result() == _gui_dialog_choice_first)
+		case STRING_ID(gui_dialog, in_game_exit_film_playback):
 		{
-			screenshots_uploader_get()->cancel_upload();
-			c_start_menu_pane_screen_widget::close_start_menu1();
-		}
-		return true;
-	}
-	break;
-	case STRING_ID(gui_dialog, in_game_change_network_privacy):
-	{
-		e_gui_network_session_advertisement_mode session_advertisement = user_interface_networking_get_session_advertisement();
-
-		switch (message->get_dialog_result())
-		{
-		case _gui_dialog_choice_first:
-		{
-			session_advertisement = _network_advertise_xbox_live_public;
+			if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+			{
+				c_start_menu_pane_screen_widget::close_start_menu1();
+			}
+			handled = true;
 		}
 		break;
-		case _gui_dialog_choice_second:
+		case STRING_ID(gui_dialog, screenshot_uploading_end_session):
 		{
-			session_advertisement = _network_advertise_xbox_live_friends_only;
+			if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+			{
+				screenshots_uploader_get()->cancel_upload();
+				c_start_menu_pane_screen_widget::close_start_menu1();
+			}
+			handled = true;
 		}
 		break;
-		case _gui_dialog_choice_third:
+		case STRING_ID(gui_dialog, in_game_change_network_privacy):
 		{
-			session_advertisement = _network_advertise_xbox_live_invite_only;
+			e_gui_network_session_advertisement_mode session_advertisement = user_interface_networking_get_session_advertisement();
+
+			switch (dialog_result_message->get_dialog_result())
+			{
+			case _gui_dialog_choice_first:
+			{
+				session_advertisement = _network_advertise_xbox_live_public;
+			}
+			break;
+			case _gui_dialog_choice_second:
+			{
+				session_advertisement = _network_advertise_xbox_live_friends_only;
+			}
+			break;
+			case _gui_dialog_choice_third:
+			{
+				session_advertisement = _network_advertise_xbox_live_invite_only;
+			}
+			break;
+			}
+
+			if (!user_interface_networking_set_session_advertisement(session_advertisement))
+			{
+				event(_event_warning, "ui: failed to set session advertisement mode to mode #%d",
+					session_advertisement);
+			}
+			handled = true;
 		}
 		break;
 		}
-
-		if (!user_interface_networking_set_session_advertisement(session_advertisement))
-		{
-			event(_event_warning, "ui: failed to set session advertisement mode to mode #%d",
-				session_advertisement);
-		}
-		return true;
-	}
-	break;
 	}
 
-	return c_gui_screen_widget::handle_dialog_result(message);
+	if (!handled)
+	{
+		handled = c_gui_screen_widget::handle_dialog_result(dialog_result_message);
+	}
+	return handled;
 }
 
 bool c_start_menu_game_saved_film::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
