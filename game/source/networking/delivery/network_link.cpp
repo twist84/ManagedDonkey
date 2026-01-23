@@ -504,7 +504,7 @@ void c_network_link::process_all_channels()
 			channel_index = (channel_index + 1) % channel_count)
 		{
 			c_network_channel* channel = channels[channel_index];
-			ASSERT(channels[channel_index] != nullptr);
+			ASSERT(channels[channel_index] != NULL);
 
 			if (channel->idle() && channel_index == channel_start)
 			{

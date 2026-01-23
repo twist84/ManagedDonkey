@@ -25,7 +25,7 @@ do                                              \
 	network_update();                           \
 } while (_get_value() != _value);               \
 
-	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, _ui_game_mode_multiplayer);
+	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, _gui_game_setup_mode_multiplayer);
 	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, _network_advertise_system_link);
 }
 
@@ -161,12 +161,12 @@ int32 __cdecl user_interface_networking_get_name_from_gui_game_mode(e_gui_game_m
 
 	//switch (gui_game_mode)
 	//{
-	//case _ui_game_mode_campaign:    return STRING_ID(gui, campaign);
-	//case _ui_game_mode_matchmaking: return STRING_ID(gui, matchmaking);
-	//case _ui_game_mode_multiplayer: return STRING_ID(global, multiplayer);
-	//case _ui_game_mode_map_editor:  return STRING_ID(gui, mapeditor);
-	//case _ui_game_mode_theater:     return STRING_ID(gui, theater);
-	//case _ui_game_mode_survival:    return STRING_ID(gui, survival);
+	//case _gui_game_setup_mode_campaign:    return STRING_ID(gui, campaign);
+	//case _gui_game_setup_mode_matchmaking: return STRING_ID(gui, matchmaking);
+	//case _gui_game_setup_mode_multiplayer: return STRING_ID(global, multiplayer);
+	//case _gui_game_setup_mode_mapeditor:   return STRING_ID(gui, mapeditor);
+	//case _gui_game_setup_mode_theater:     return STRING_ID(gui, theater);
+	//case _gui_game_setup_mode_survival:    return STRING_ID(gui, survival);
 	//}
 	//
 	//return _string_id_invalid; // ?

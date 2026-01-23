@@ -214,37 +214,37 @@ int32 c_gui_location_manager::get_pregame_lobby_name(int32 game_mode)
 	int32 result = _string_id_invalid;
 	switch (game_mode)
 	{
-	case _ui_game_mode_none:
+	case _gui_game_setup_mode_none:
 	{
 		result = _string_id_invalid;
 	}
 	break;
-	case _ui_game_mode_campaign:
+	case _gui_game_setup_mode_campaign:
 	{
 		result = STRING_ID(gui, pregame_lobby_campaign);
 	}
 	break;
-	case _ui_game_mode_matchmaking:
+	case _gui_game_setup_mode_matchmaking:
 	{
 		result = STRING_ID(gui, pregame_lobby_matchmaking);
 	}
 	break;
-	case _ui_game_mode_multiplayer:
+	case _gui_game_setup_mode_multiplayer:
 	{
 		result = STRING_ID(gui, pregame_lobby_multiplayer);
 	}
 	break;
-	case _ui_game_mode_map_editor:
+	case _gui_game_setup_mode_mapeditor:
 	{
 		result = STRING_ID(gui, pregame_lobby_mapeditor);
 	}
 	break;
-	case _ui_game_mode_theater:
+	case _gui_game_setup_mode_theater:
 	{
 		result = STRING_ID(gui, pregame_lobby_theater);
 	}
 	break;
-	//case _ui_game_mode_survival:
+	//case _gui_game_setup_mode_survival:
 	//{
 	//	result = STRING_ID(gui, pregame_lobby_survival);
 	//}
@@ -340,7 +340,7 @@ void c_gui_location_manager::update()
 		if (current_ui_location == _gui_location_pregame_lobby)
 		{
 			e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-			if (game_mode != _ui_game_mode_none)
+			if (game_mode != _gui_game_setup_mode_none)
 			{
 				ASSERT(location_screen && location_screen->get_gui_location() == _gui_location_pregame_lobby);
 

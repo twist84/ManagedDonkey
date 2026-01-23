@@ -92,7 +92,7 @@ e_gui_game_mode c_gui_screen_pregame_lobby_campaign::get_gui_game_mode()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AFF9D0, c_gui_screen_pregame_lobby_campaign, get_gui_game_mode);
 
-	return _ui_game_mode_campaign;
+	return _gui_game_setup_mode_campaign;
 }
 
 e_gui_location c_gui_screen_pregame_lobby::get_gui_location() const

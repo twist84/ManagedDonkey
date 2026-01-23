@@ -355,7 +355,7 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 		c_global_preferences_scope_lock scope_lock;
 		switch (game_mode)
 		{
-		case _ui_game_mode_campaign:
+		case _gui_game_setup_mode_campaign:
 		{
 			if (global_preferences_get()->current.data.last_game_setup.campaign_settings.valid)
 			{
@@ -365,11 +365,11 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 			}
 		}
 		break;
-		case _ui_game_mode_matchmaking:
+		case _gui_game_setup_mode_matchmaking:
 		{
 		}
 		break;
-		case _ui_game_mode_multiplayer:
+		case _gui_game_setup_mode_multiplayer:
 		{
 			if (global_preferences_get()->current.data.last_game_setup.multiplayer_settings.valid)
 			{
@@ -379,7 +379,7 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 			}
 		}
 		break;
-		case _ui_game_mode_map_editor:
+		case _gui_game_setup_mode_mapeditor:
 		{
 			if (global_preferences_get()->current.data.last_game_setup.map_editor_settings.valid)
 			{
@@ -389,7 +389,7 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 			}
 		}
 		break;
-		case _ui_game_mode_theater:
+		case _gui_game_setup_mode_theater:
 		{
 			if (global_preferences_get()->current.data.last_game_setup.theater_settings.valid)
 			{
@@ -399,7 +399,7 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 			}
 		}
 		break;
-		case _ui_game_mode_survival:
+		case _gui_game_setup_mode_survival:
 		{
 			if (global_preferences_get()->current.data.last_game_setup.survival_settings.valid)
 			{
@@ -431,7 +431,7 @@ e_gui_game_mode __cdecl global_preferences_get_last_main_menu_item()
 {
 	//return INVOKE(0x0050B810, global_preferences_get_last_main_menu_item);
 
-	e_gui_game_mode result = _ui_game_mode_campaign;
+	e_gui_game_mode result = _gui_game_setup_mode_campaign;
 	if (global_preferences_available())
 	{
 		c_global_preferences_scope_lock scope_lock;

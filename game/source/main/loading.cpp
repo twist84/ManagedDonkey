@@ -206,11 +206,11 @@ int32 __cdecl main_loading_get_gui_game_mode()
 	//if (user_interface_squad_exists())
 	//	return user_interface_squad_get_ui_game_mode();
 	//
-	//e_gui_game_mode game_mode = _ui_game_mode_none;
+	//e_gui_game_mode game_mode = _gui_game_setup_mode_none;
 	//if (c_gui_pregame_setup_manager::get()->try_to_get_last_set_game_mode(&game_mode))
 	//	return game_mode;
 	//
-	//return _ui_game_mode_none;
+	//return _gui_game_setup_mode_none;
 }
 
 e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_progress_string)

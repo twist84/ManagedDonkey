@@ -366,13 +366,13 @@ enum e_session_game_mode
 
 enum e_gui_game_mode
 {
-	_ui_game_mode_none = NONE,
-	_ui_game_mode_campaign,
-	_ui_game_mode_matchmaking,
-	_ui_game_mode_multiplayer,
-	_ui_game_mode_map_editor,
-	_ui_game_mode_theater,
-	_ui_game_mode_survival,
+	_gui_game_setup_mode_none = NONE,
+	_gui_game_setup_mode_campaign,
+	_gui_game_setup_mode_matchmaking,
+	_gui_game_setup_mode_multiplayer,
+	_gui_game_setup_mode_mapeditor,
+	_gui_game_setup_mode_theater,
+	_gui_game_setup_mode_survival,
 
 	k_gui_game_setup_mode_count,
 	k_gui_game_setup_mode_bits = 3,

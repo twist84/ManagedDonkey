@@ -459,7 +459,7 @@ void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 					user_interface_update_toast_position();
 				}
 
-				//if (user_interface_squad_exists() && user_interface_squad_get_ui_game_mode() == _ui_game_mode_survival)
+				//if (user_interface_squad_exists() && user_interface_squad_get_ui_game_mode() == _gui_game_setup_mode_survival)
 				//	user_interface_show_campaign_custom_music_warning_if_needed(NULL);
 
 				user_interface_player_model_camera_update();

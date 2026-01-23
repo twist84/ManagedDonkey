@@ -270,7 +270,7 @@ void c_start_menu_game_editor::update_save_as_new_operation()
 
 		s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
 		s_gui_single_game_setup_storage single_game_setup{};
-		single_game_setup.game_mode = _ui_game_mode_map_editor;
+		single_game_setup.game_mode = _gui_game_setup_mode_mapeditor;
 		single_game_setup.mapeditor = last_game_setup->map_editor_settings;
 		ustrnzcpy(single_game_setup.mapeditor.map_variant_settings.only_local.file_path, filename, NUMBEROF(single_game_setup.mapeditor.map_variant_settings.only_local.file_path));
 		single_game_setup.mapeditor.map_variant_settings.only_local.valid = true;

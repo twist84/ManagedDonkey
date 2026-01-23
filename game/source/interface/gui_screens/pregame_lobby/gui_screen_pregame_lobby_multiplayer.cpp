@@ -31,7 +31,7 @@ e_gui_game_mode c_gui_screen_pregame_lobby_multiplayer::get_gui_game_mode()
 {
 	//return INVOKE_CLASS_MEMBER(0x00B01210, c_gui_screen_pregame_lobby_multiplayer, get_gui_game_mode);
 
-	return _ui_game_mode_multiplayer;
+	return _gui_game_setup_mode_multiplayer;
 }
 
 int32 c_gui_screen_pregame_lobby_multiplayer::get_lobby_header()

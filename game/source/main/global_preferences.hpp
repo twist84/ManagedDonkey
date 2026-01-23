@@ -204,7 +204,7 @@ struct s_global_preferences_data
 	int32 build_number;
 	real32 betrayal_count; // betrayal_penalty?
 	int32 eviction_count;
-	c_enum<e_gui_game_mode, int32, _ui_game_mode_none, k_gui_game_setup_mode_count> last_main_menu_item;
+	c_enum<e_gui_game_mode, int32, _gui_game_setup_mode_none, k_gui_game_setup_mode_count> last_main_menu_item;
 	int32 last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
 	e_gui_network_session_advertisement_mode xbox_live_private_privacy_setting;

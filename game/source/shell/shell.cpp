@@ -234,22 +234,24 @@ e_shell_tool_type __cdecl shell_tool_type()
 
 const char* quality_setting_get_name(e_quality_setting quality_setting)
 {
-	if (quality_setting < _quality_setting_low || quality_setting >= k_quality_setting_count)
-		return "<invalid 'quality_setting'>";
-
-	const char* names[k_quality_setting_count]
+	if (VALID_INDEX(quality_setting, k_quality_setting_count))
 	{
-		"low",
-		"medium",
-		"high",
-	};
+		static const char* k_names[k_quality_setting_count]
+		{
+			"low",
+			"medium",
+			"high",
+		};
 
-	return names[quality_setting];
+		return k_names[quality_setting];
+	}
+	return "<invalid 'quality_setting'>";
+
 }
 
 e_quality_setting quality_setting_from_string(const char* str)
 {
-	const char* names[k_quality_setting_count]
+	static const char* k_names[k_quality_setting_count]
 	{
 		"low",
 		"medium",
@@ -259,7 +261,7 @@ e_quality_setting quality_setting_from_string(const char* str)
 	e_quality_setting quality_setting = e_quality_setting(-1);
 	for (int32 i = _quality_setting_low; i < k_quality_setting_count; i++)
 	{
-		if (csstricmp(str, names[i]) != 0)
+		if (csstricmp(str, k_names[i]) != 0)
 			continue;
 
 		quality_setting = e_quality_setting(i);
@@ -270,10 +272,11 @@ e_quality_setting quality_setting_from_string(const char* str)
 
 const char* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
 {
-	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_number_of_subtitle_settings)
-		return "<invalid 'subtitle_setting'>";
-
-	return global_subtitle_setting_names[subtitle_setting];
+	if (VALID_INDEX(subtitle_setting, k_number_of_subtitle_settings))
+	{
+		return global_subtitle_setting_names[subtitle_setting];
+	}
+	return "<invalid 'subtitle_setting'>";
 }
 
 e_subtitle_setting subtitle_setting_from_string(const char* str)
@@ -292,10 +295,11 @@ e_subtitle_setting subtitle_setting_from_string(const char* str)
 
 const char* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
 {
-	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_campaign_difficulty_levels_count)
-		return "<invalid 'difficulty'>";
-
-	return global_campaign_difficulty_level_names[difficulty];
+	if (VALID_INDEX(difficulty, k_campaign_difficulty_levels_count))
+	{
+		return global_campaign_difficulty_level_names[difficulty];
+	}
+	return "<invalid 'difficulty'>";
 }
 
 e_campaign_difficulty_level campaign_difficulty_level_from_string(const char* str)
@@ -322,26 +326,29 @@ const char* network_session_mode_get_name(int32 session_mode)
 
 const char* ui_game_mode_get_name(int32 ui_game_mode)
 {
-	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_gui_game_setup_mode_count)
-		return "<invalid 'ui_game_mode'>";
-
-	return k_ui_game_mode_names[ui_game_mode];
+	if (VALID_INDEX(ui_game_mode, k_gui_game_setup_mode_count))
+	{
+		return k_ui_game_mode_names[ui_game_mode];
+	}
+	return "<invalid 'ui_game_mode'>";
 }
 
 const char* gui_network_session_advertisement_mode_get_name(int32 advertisement_mode)
 {
-	if (advertisement_mode < _network_advertise_xbox_live_public || advertisement_mode >= k_network_session_advertisement_mode_count)
-		return "<invalid 'ui_game_mode'>";
-
-	return k_gui_network_session_advertisement_mode_names[advertisement_mode];
+	if (VALID_INDEX(advertisement_mode, k_network_session_advertisement_mode_count))
+	{
+		return k_gui_network_session_advertisement_mode_names[advertisement_mode];
+	}
+	return "<invalid 'advertisement_mode'>";
 }
 
 const char* game_variant_parameter_get_name(int32 parameter)
 {
-	if (parameter < _game_variant_base_miscellaneous_teams || parameter >= k_number_of_editable_game_variant_parameters)
-		return "<invalid 'parameter'>";
-
-	return k_game_variant_parameter_names[parameter];
+	if (VALID_INDEX(parameter, k_number_of_editable_game_variant_parameters))
+	{
+		return k_game_variant_parameter_names[parameter];
+	}
+	return "<invalid 'parameter'>";
 }
 
 const char* k_network_session_mode_names[k_network_session_mode_count]

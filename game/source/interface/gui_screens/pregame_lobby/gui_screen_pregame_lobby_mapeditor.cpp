@@ -21,7 +21,7 @@ e_gui_game_mode c_gui_screen_pregame_lobby_mapeditor::get_gui_game_mode()
 {
 	//return INVOKE_CLASS_MEMBER(0x00B02240, c_gui_screen_pregame_lobby_mapeditor, get_gui_game_mode);
 
-	return _ui_game_mode_map_editor;
+	return _gui_game_setup_mode_mapeditor;
 }
 
 int32 c_gui_screen_pregame_lobby_mapeditor::get_lobby_header()
@@ -136,8 +136,8 @@ void c_gui_screen_pregame_lobby_mapeditor::post_initialize()
 		csmemcpy(&game_setup.multiplayer_settings.map_variant_settings, &game_setup.map_editor_settings.map_variant_settings, sizeof(game_setup.multiplayer_settings.map_variant_settings));
 		global_preferences_set_last_game_setup(&game_setup);
 
-		c_gui_pregame_setup_manager::get()->restore_from_last(_ui_game_mode_multiplayer);
-		c_gui_pregame_setup_manager::get()->restore_from_last(_ui_game_mode_map_editor);
+		c_gui_pregame_setup_manager::get()->restore_from_last(_gui_game_setup_mode_multiplayer);
+		c_gui_pregame_setup_manager::get()->restore_from_last(_gui_game_setup_mode_mapeditor);
 	}
 }
 

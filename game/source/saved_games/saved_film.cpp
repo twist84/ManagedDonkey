@@ -266,24 +266,24 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	
 	s_saved_game_item_metadata metadata{};
 	metadata.initialize_from_current_game_settings(controller_index, _saved_game_film, L"", L"", 0);
-	e_gui_game_mode game_mode = _ui_game_mode_multiplayer;// metadata.get_gui_game_mode();
+	e_gui_game_mode game_mode = _gui_game_setup_mode_multiplayer;// metadata.get_gui_game_mode();
 	
 	const wchar_t* active_session_map_name = NULL;
 
 	switch (game_mode)
 	{
-	case _ui_game_mode_none:
+	case _gui_game_setup_mode_none:
 	{
 		wchar_t level_name[64]{};
 		active_session_map_name = levels_get_active_session_map_name(level_name, sizeof(level_name));
 	}
 	break;
-	case _ui_game_mode_campaign:
-	case _ui_game_mode_matchmaking:
-	case _ui_game_mode_multiplayer:
-	case _ui_game_mode_map_editor:
-	case _ui_game_mode_theater:
-	case _ui_game_mode_survival:
+	case _gui_game_setup_mode_campaign:
+	case _gui_game_setup_mode_matchmaking:
+	case _gui_game_setup_mode_multiplayer:
+	case _gui_game_setup_mode_mapeditor:
+	case _gui_game_setup_mode_theater:
+	case _gui_game_setup_mode_survival:
 	{
 		active_session_map_name = options->map_variant.m_metadata.display_name;
 	}

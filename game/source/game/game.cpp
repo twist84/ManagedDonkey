@@ -641,7 +641,7 @@ void __cdecl game_globals_initialize_for_new_map(const game_options* options)
 	csmemcpy(&game_globals->options, options, sizeof(game_options));
 	game_globals->options.load_level_only = true;
 
-	if (game_globals->options.game_mode == _ui_game_mode_multiplayer || options->multiplayer_variant.get_game_engine_index())
+	if (game_globals->options.game_mode == _gui_game_setup_mode_multiplayer || options->multiplayer_variant.get_game_engine_index())
 	{
 		game_globals->options.multiplayer_variant.copy_from_and_validate(&options->multiplayer_variant);
 		if (!game_engine_variant_validate(&game_globals->options.multiplayer_variant))

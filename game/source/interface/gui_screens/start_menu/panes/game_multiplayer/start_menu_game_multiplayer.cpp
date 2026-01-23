@@ -128,7 +128,7 @@ void c_start_menu_game_multiplayer::initialize_datasource()
 			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
 		}
 
-		if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || user_interface_squad_get_ui_game_mode() == _ui_game_mode_matchmaking)
+		if (user_interface_squad_get_session_class() != _network_session_class_xbox_live || user_interface_squad_get_ui_game_mode() == _gui_game_setup_mode_matchmaking)
 		{
 			sidebar_items_data->set_disabled_element(STRING_ID(global, name), STRING_ID(gui_dialog, in_game_change_network_privacy));
 		}

@@ -82,7 +82,7 @@ e_gui_game_mode c_gui_screen_pregame_lobby_matchmaking::get_gui_game_mode()
 {
 	//return INVOKE_CLASS_MEMBER(0x00B01870, c_gui_screen_pregame_lobby_matchmaking, get_gui_game_mode);
 
-	return _ui_game_mode_matchmaking;
+	return _gui_game_setup_mode_matchmaking;
 }
 
 //.text:00B01880 ; public: const s_matchmaking_single_hopper_statistics* c_gui_screen_pregame_lobby_matchmaking::get_hopper_statistics()
