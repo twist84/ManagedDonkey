@@ -161,7 +161,7 @@ e_campaign_id __cdecl c_gui_screen_pregame_lobby::get_current_campaign_id()
 	e_campaign_id result = _campaign_id_none;
 
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-	if (game_mode == _ui_game_mode_campaign)
+	if (game_mode == _gui_game_setup_mode_campaign)
 	{
 		e_campaign_id temporary_campaign_id = _campaign_id_none;
 		e_map_id temporary_map_id = _map_id_none;
@@ -181,7 +181,7 @@ e_map_id __cdecl c_gui_screen_pregame_lobby::get_current_map_id()
 	e_map_id result = _map_id_none;
 
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-	if (game_mode == _ui_game_mode_campaign || game_mode == _ui_game_mode_multiplayer || game_mode == _ui_game_mode_map_editor || game_mode == _ui_game_mode_theater)
+	if (game_mode == _gui_game_setup_mode_campaign || game_mode == _gui_game_setup_mode_multiplayer || game_mode == _gui_game_setup_mode_mapeditor || game_mode == _gui_game_setup_mode_theater)
 	{
 		e_campaign_id campaign_id = _campaign_id_none;
 		e_map_id temporary_map_id = _map_id_none;
@@ -201,7 +201,7 @@ const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
 	const c_game_variant* result = NULL;
 
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-	if (game_mode == _ui_game_mode_multiplayer || game_mode == _ui_game_mode_map_editor || game_mode == _ui_game_mode_theater)
+	if (game_mode == _gui_game_setup_mode_multiplayer || game_mode == _gui_game_setup_mode_mapeditor || game_mode == _gui_game_setup_mode_theater)
 	{
 		result = user_interface_game_settings_get_game_variant();
 	}
@@ -314,7 +314,7 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 	//{
 	//	if (is_countdown_started)
 	//	{
-	//		user_interface_squad_start_countdown_timer(message->get_controller(), 6, 4);
+	//		user_interface_squad_start_countdown_timer(message->get_controller(), k_networked_countdown_timer_seconds, k_networked_accelerate_countdown_timer_limit_seconds);
 	//		return false;
 	//	}
 	//
@@ -476,25 +476,33 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 			{
 			case STRING_ID(gui, switch_lobby):
 			{
-				if (c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
+				c_load_screen_message* load_screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 					STRING_ID(gui, pregame_switch_lobby),
 					k_any_controller,
-					c_gui_screen_widget::get_render_window(),
-					m_name))
+					get_render_window(),
+					m_name);
+				if (load_screen_message != NULL)
 				{
-					screen_message->set_parent_screen_index(m_screen_index);
-					screen_message->set_focus_on_load_by_name(
-						STRING_ID(gui, switch_lobby),
-						STRING_ID(global, name),
-						user_interface_networking_get_name_from_gui_game_mode(get_gui_game_mode()));
-					user_interface_messaging_post(screen_message);
+					load_screen_message->set_parent_screen_index(get_screen_index());
+
+					bool blue_disk_in_campaign_lobby = get_is_blue_disk() && user_interface_squad_get_ui_game_mode() == _gui_game_setup_mode_campaign;
+					if (!blue_disk_in_campaign_lobby)
+					{
+						load_screen_message->set_focus_on_load_by_name(
+							STRING_ID(gui, switch_lobby),
+							STRING_ID(global, name),
+							user_interface_networking_get_name_from_gui_game_mode(get_gui_game_mode()));
+					}
+
+					user_interface_messaging_post(load_screen_message);
 				}
+
 				handled = true;
 			}
 			break;
 			case STRING_ID(gui, start_game):
 			{
-				if (user_interface_squad_start_countdown_timer(message->get_controller(), 6, 4))
+				if (user_interface_squad_start_countdown_timer(message->get_controller(), k_networked_countdown_timer_seconds, k_networked_accelerate_countdown_timer_limit_seconds))
 				{
 					e_controller_index saved_game_controller = user_interface_networking_get_saved_game_controller();
 					if (VALID_INDEX(saved_game_controller, k_number_of_controllers) &&
@@ -512,6 +520,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 				{
 					c_gui_screen_widget::play_sound(_ui_global_sound_effect_failure);
 				}
+
 				handled = true;
 			}
 			break;
@@ -524,10 +533,10 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_integer_value(element_handle, STRING_ID(gui, player_index), &target_session_player_index))
 		{
-			const s_player_identifier* player_identifier = user_interface_session_get_player_identifier(target_session_player_index);
-			if (player_identifier && select_player_in_roster(message->get_controller(), player_identifier))
+			const s_player_identifier* target_player_identifier = user_interface_session_get_player_identifier(target_session_player_index);
+			if (target_player_identifier != NULL)
 			{
-				handled = true;
+				handled = select_player_in_roster(message->get_controller(), target_player_identifier);
 			}
 		}
 	}
