@@ -59,7 +59,7 @@ void __cdecl user_interface_networking_clear_last_game_started()
 
 	event(_event_message, "networking:ui: clearning last game started flag");
 
-	user_interface_networking_globals.start_game_last_started = false;
+	user_interface_networking_globals.last_game_was_started_from_main_menu_mode = _last_game_was_started_from_main_menu_mode_none;
 }
 
 //.text:00A7EC60 ; bool __cdecl user_interface_networking_dialogs_handle_results(const c_dialog_result_message*)
@@ -87,17 +87,17 @@ void __cdecl user_interface_networking_game_start_when_joined(int32 player_count
 {
 	return INVOKE(0x00A7EEC0, user_interface_networking_game_start_when_joined, player_count, countdown_timer);
 
-	//if (player_count || countdown_timer || user_interface_squad_get_countdown_timer() <= 0)
-	//{
-	//	user_interface_networking_globals.start_game_when_ready = true;
-	//	user_interface_networking_globals.__unknown1C = true;
-	//	user_interface_networking_globals.player_count = player_count;
-	//	user_interface_networking_globals.countdown_timer = countdown_timer;
-	//}
-	//else if (user_interface_squad_get_countdown_timer() >= 4 && user_interface_squad_start_countdown_timer(0, 0, 4))
-	//{
-	//	while (user_interface_squad_get_countdown_timer() > 4 && user_interface_squad_start_countdown_timer(0, 0, 4));
-	//}
+	if (player_count || countdown_timer || user_interface_squad_get_countdown_timer() <= 0)
+	{
+		user_interface_networking_globals.start_game_when_ready = true;
+		user_interface_networking_globals.start_game_when_ready_from_test_command = true;
+		user_interface_networking_globals.start_game_when_ready_user_count = player_count;
+		user_interface_networking_globals.countdown_timer = countdown_timer;
+	}
+	else if (user_interface_squad_get_countdown_timer() >= k_networked_accelerate_countdown_timer_limit_seconds && user_interface_squad_start_countdown_timer(_controller0, 0, k_networked_accelerate_countdown_timer_limit_seconds))
+	{
+		while (user_interface_squad_get_countdown_timer() > k_networked_accelerate_countdown_timer_limit_seconds && user_interface_squad_start_countdown_timer(_controller0, 0, k_networked_accelerate_countdown_timer_limit_seconds));
+	}
 }
 
 bool __cdecl user_interface_interactive_session_get_campaign_quit()
@@ -204,10 +204,10 @@ void __cdecl user_interface_networking_initialize()
 	INVOKE(0x00A7F380, user_interface_networking_initialize);
 
 	//csmemset(&user_interface_networking_globals, 0, sizeof(user_interface_networking_globals));
-	//user_interface_networking_globals.current_screen_controller_index = k_no_controller;
+	//user_interface_networking_globals.current_error_controller_index = k_no_controller;
 	//user_interface_networking_globals.active_alert = _string_id_invalid;
 	//user_interface_networking_globals.active_dialog = _string_id_invalid;
-	//user_interface_networking_globals.join_failed_alert_name = _string_id_invalid;
+	//user_interface_networking_globals.previous_join_alert = _string_id_invalid;
 	//user_interface_session_initialize();
 }
 

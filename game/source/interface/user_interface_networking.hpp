@@ -8,39 +8,36 @@ struct s_transport_qos_result;
 
 struct s_user_interface_networking_globals
 {
-	byte __data0[0x8];
-
-	bool join_in_progress;
-	c_string_id join_failed_alert_name;
-
+	int16 minutes_spent_in_current_state;
+	int16 minutes_remaining_in_current_state;
+	uns32 time_entered_current_state;
+	bool showing_join_dialog;
+	c_string_id previous_join_alert;
 	bool start_game_when_ready;
-	int32 start_game_last_started;
-	int32 start_game_controller_index;
-
-	bool __unknown1C;
-	int32 player_count;
+	e_last_game_was_started_from_main_menu_mode last_game_was_started_from_main_menu_mode;
+	e_controller_index start_game_when_ready_controller_index;
+	bool start_game_when_ready_from_test_command;
+	int32 start_game_when_ready_user_count;
 	int32 countdown_timer;
-
-	int32 local_user_state;
-
-	int32 current_screen_controller_index;
+	e_network_interface_user_state current_error_priority_state;
+	e_controller_index current_error_controller_index;
 	c_string_id current_screen_name;
 	c_string_id active_alert;
 	c_string_id active_dialog;
-
-	bool xbox_guide_active;
-	uns32 xbox_guide_last_active_time;
-	bool __unknown44;
-	bool __unknown45;
-
-	c_string_id join_dialog_name;
-	bool join_to_public_slots;
-	int32 session_class;
-	s_transport_secure_identifier session_id;
-	s_transport_secure_address host_secure_address;
-	s_transport_secure_key session_key;
-
-	bool should_show_teams;
+	bool guide_was_open;
+	uns32 time_the_guide_closed;
+	bool do_not_reset_errored_users_on_dialog_close;
+	bool do_not_show_dialog_until_guide_comes_up;
+	struct
+	{
+		c_string_id dialog_name;
+		bool join_to_public_slots;
+		int32 session_class;
+		s_transport_secure_identifier remote_session_id;
+		s_transport_secure_address remote_host_address;
+		s_transport_secure_key key;
+	} current_join;
+	bool last_known_good_matchmaking_team_setting;
 };
 COMPILE_ASSERT(sizeof(s_user_interface_networking_globals) == 0x88);
 

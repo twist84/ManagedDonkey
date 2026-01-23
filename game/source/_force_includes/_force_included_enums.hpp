@@ -341,6 +341,12 @@ enum e_network_game_type
 };
 //using c_session_creation_flags = c_flags<e_session_creation_flags, uns8, k_network_game_type_count>;
 
+enum
+{
+	k_networked_countdown_timer_seconds = 6,
+	k_networked_accelerate_countdown_timer_limit_seconds = 4,
+};
+
 enum e_desired_multiplayer_mode
 {
 	_desired_multiplayer_mode_none = NONE,
@@ -2895,12 +2901,21 @@ enum e_player_color_index
 	k_default_emblem_background_color = _player_color_02,
 };
 
+enum e_last_game_was_started_from_main_menu_mode
+{
+	_last_game_was_started_from_main_menu_mode_none = 0,
+	_last_game_was_started_from_main_menu_mode_set,
+	_last_game_was_started_from_main_menu_mode_in_game,
+};
+
 enum e_network_interface_user_state
 {
 	_network_session_interface_user_state_none = 0,
 	_network_session_interface_user_state_exists,
 	_network_session_interface_user_state_zombie,
-	_network_session_interface_user_state_error_online_permissions,
+
+	_network_session_interface_user_state_error_first,
+	_network_session_interface_user_state_error_online_permissions = _network_session_interface_user_state_error_first,
 	_network_session_interface_user_state_error_user_content_not_permitted,
 	_network_session_interface_user_state_error_generic,
 	_network_session_interface_user_state_error_game_in_matchmaking,
