@@ -203,7 +203,11 @@ void c_controller_interface::reset_user_index()
 	INVOKE_CLASS_MEMBER(0x00A7DA20, c_controller_interface, reset_user_index);
 }
 
-//.text:00A7DA30 ; public: void c_controller_interface::set_as_unsigned_in_user(bool)
+void c_controller_interface::set_as_unsigned_in_user(bool activate)
+{
+	INVOKE_CLASS_MEMBER(0x00A7DA30, c_controller_interface, set_as_unsigned_in_user, activate);
+}
+
 //.text:00A7DA80 ; // vidmaster related
 //.text:00A7DA90 ; 
 //.text:00A7DAA0 ; // vidmaster related

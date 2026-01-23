@@ -440,9 +440,63 @@ bool c_gui_screen_pregame_lobby::handle_controller_input_message(const c_control
 
 bool c_gui_screen_pregame_lobby::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	return INVOKE_CLASS_MEMBER(0x00B21E20, c_gui_screen_pregame_lobby, handle_dialog_result, dialog_result_message);
+	//return INVOKE_CLASS_MEMBER(0x00B21E20, c_gui_screen_pregame_lobby, handle_dialog_result, dialog_result_message);
 
-	//bool handled;
+	bool handled = false;
+
+	switch (dialog_result_message->get_dialog_name())
+	{
+	case STRING_ID(gui_dialog, back_out_lobby_local_players_with_profile):
+	{
+		if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+		{
+			user_interface_leave_sessions(_user_interface_session_leave_to_main_menu, _user_interface_session_leaving_backing_out_of_pre_game);
+		}
+		else if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_cancel)
+		{
+			online_guide_show_sign_in_ui(1, 0);
+		}
+
+		handled = true;
+	}
+	break;
+	case STRING_ID(gui_dialog, back_out_lobby_local_players_no_profile):
+	{
+		if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+		{
+			user_interface_leave_sessions(_user_interface_session_leave_to_main_menu, _user_interface_session_leaving_backing_out_of_pre_game);
+		}
+		else if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_cancel)
+		{
+			c_controller_interface* controller = controller_get(dialog_result_message->get_controller());
+			controller->set_as_unsigned_in_user(false);
+		}
+
+		handled = true;
+	}
+	break;
+	case STRING_ID(gui_dialog, back_out_lobby_remote_players):
+	{
+		if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_ok)
+		{
+			user_interface_leave_sessions(_user_interface_session_leave_to_pre_game_lobby, _user_interface_session_leaving_backing_out_of_pre_game);
+		}
+		else if (dialog_result_message->get_dialog_result() == k_gui_dialog_choice_cancel)
+		{
+			c_controller_interface* controller = controller_get(dialog_result_message->get_controller());
+			controller->set_as_unsigned_in_user(false);
+		}
+
+		handled = true;
+	}
+	break;
+	}
+
+	if (!handled)
+	{
+		handled = c_gui_screen_widget::handle_dialog_result(dialog_result_message);
+	}
+	return handled;
 }
 
 bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)

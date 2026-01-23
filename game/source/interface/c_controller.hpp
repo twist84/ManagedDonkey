@@ -26,6 +26,7 @@ public:
 
 //public:
 	void reset_user_index();
+	void set_as_unsigned_in_user(bool activate);
 
 //private:
 	void sign_in_controller(const s_player_identifier* player_identifier, bool is_temporary);
