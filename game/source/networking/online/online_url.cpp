@@ -1,4 +1,4 @@
-﻿#include "networking/online/online_url.hpp"
+#include "networking/online/online_url.hpp"
 
 #include "cseries/language.hpp"
 #include "memory/module.hpp"

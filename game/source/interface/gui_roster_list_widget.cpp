@@ -1,4 +1,4 @@
-﻿#include "interface/gui_roster_list_widget.hpp"
+#include "interface/gui_roster_list_widget.hpp"
 
 #include "game/game_engine_display.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"

@@ -1,4 +1,4 @@
-﻿#include "main/main.hpp"
+#include "main/main.hpp"
 
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files_windows.hpp"

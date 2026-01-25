@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef COMPILE_ASSERT
 #define COMPILE_ASSERT(EXPRESSION) typedef char __static_assert_t[(EXPRESSION) ? 1 : -1]

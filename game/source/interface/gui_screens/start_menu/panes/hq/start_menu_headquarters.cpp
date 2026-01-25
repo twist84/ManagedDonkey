@@ -10,7 +10,7 @@ e_download_status __thiscall t_motd_data_downloader::get_data_no_update(const s_
 
 	if (!static_data.message_length)
 	{
-		static_data.message.set("Need more Render Minutes?  Check your B.net Profile to get more.  And if you want to turn your in game clips into streaming video, but don’t have Bungie Pro, visit www.bungie.net/pro.");
+		static_data.message.set("Need more Render Minutes?  Check your B.net Profile to get more.  And if you want to turn your in game clips into streaming video, but don't have Bungie Pro, visit www.bungie.net/pro.");
 		static_data.message_length = static_data.message.length();
 	}
 

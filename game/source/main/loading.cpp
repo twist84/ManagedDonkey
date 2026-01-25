@@ -1,4 +1,4 @@
-﻿#include "main/loading.hpp"
+#include "main/loading.hpp"
 
 #include "bink/bink_playback.hpp"
 #include "cache/cache_files.hpp"

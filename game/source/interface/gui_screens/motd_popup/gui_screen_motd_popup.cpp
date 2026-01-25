@@ -1,4 +1,4 @@
-﻿#include "interface/gui_screens/motd_popup/gui_screen_motd_popup.hpp"
+#include "interface/gui_screens/motd_popup/gui_screen_motd_popup.hpp"
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
