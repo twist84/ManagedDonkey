@@ -3,8 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
-#include "config/version_git_commit.hpp"
-
 //#define ORIGINAL_PROJECT_VERSION
 #if defined(ORIGINAL_PROJECT_VERSION)
 #define VERSION_BUILD_STRING "1.106708 cert_ms23"

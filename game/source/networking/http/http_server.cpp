@@ -1,5 +1,7 @@
 #include "networking/http/http_server.hpp"
 
+#include <string.h>
+
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "networking/network_time.hpp"

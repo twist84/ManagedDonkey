@@ -6,13 +6,9 @@ on:
 
 jobs:
   build-win:
-    env:
-      SOLUTION_FILE_PATH: ./ManagedDonkey.sln
-      PLATFORM: x86
-
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [ Debug, Release ]
+        BUILD_CONFIGURATION: [ 0_Tags, 1_Debug, 2_Test, 3_Play, 4_Profile, 5_Release ]
 
     runs-on: windows-latest
 
@@ -27,23 +23,17 @@ jobs:
       run: |
         $version = (git rev-parse --short=7 HEAD).Trim()
         Write-Output "Version determined: $version"
-        Write-Host "::set-output name=version::$version"
+        echo "version=$version" >> $env:GITHUB_OUTPUT
 
-    - name: Install 7Zip
-      run: |
-        Invoke-WebRequest -Uri "https://www.7-zip.org/a/7z1900-x64.msi" -OutFile "$env:TEMP\7z.msi"
-        Start-Process -Wait -FilePath msiexec -ArgumentList "/i", "$env:TEMP\7z.msi", "/quiet" 
-
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+    - name: Configure CMake
+      run: cmake -B build -S . -A Win32
 
     - name: Build
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ env.SOLUTION_FILE_PATH }}
+      run: cmake --build build --config ${{ matrix.BUILD_CONFIGURATION }}
 
     - name: Zip Release
       run: |
-        & "C:\Program Files\7-Zip\7z.exe" a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
+        7z a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -54,9 +44,3 @@ jobs:
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    #- name: Upload
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: ${{ matrix.BUILD_CONFIGURATION }}
-    #    path: ./bin/${{ matrix.BUILD_CONFIGURATION }}/

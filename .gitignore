@@ -355,3 +355,17 @@ MigrationBackup/
 
 !detours.pdb
 
+# CMake
+build/
+CMakeCache.txt
+CMakeFiles/
+CMakeSettings.json
+cmake_install.cmake
+
+# Project-specific
+ManagedDonkey.slnx
+ManagedDonkey.ChildProcessDbgSettings
+
+# VS Code
+.vscode/
+
