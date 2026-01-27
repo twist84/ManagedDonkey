@@ -76,9 +76,12 @@ target_link_libraries(game PRIVATE
 
 set_target_properties(game PROPERTIES
     OUTPUT_NAME "game"
+    MSVC_RUNTIME_LIBRARY "$<$<OR:$<CONFIG:0_Tags>,$<CONFIG:1_Debug>>:MultiThreadedDebugDLL>$<$<NOT:$<OR:$<CONFIG:0_Tags>,$<CONFIG:1_Debug>>>:MultiThreadedDLL>"
 )
 
-# Post-build copy to root bin (as done in Makefile)
+# 7. Post Build
 add_custom_command(TARGET game POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:game> ${CMAKE_SOURCE_DIR}/bin/game.dll
+    COMMAND powershell -Command "if ('$(LocalDebuggerWorkingDirectory).' -ne '.' -and '$(LocalDebuggerWorkingDirectory).' -ne '$(ProjectDir).') { Copy-Item -Force -Recurse '$(TargetDir)*' -Destination '$(LocalDebuggerWorkingDirectory)' }"
+    COMMENT "Copying all build files to $(LocalDebuggerWorkingDirectory)"
+    VERBATIM
 )

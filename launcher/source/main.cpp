@@ -44,65 +44,83 @@ int main(int argc, char* argv[])
 		for (int argi = 1; argi < argc; argi++)
 		{
 			if (STRING_ENDS_WITH(argv[argi], ".exe"))
+			{
 				ExecutableName = argv[argi];
+			}
 
 			if (STRING_ENDS_WITH(argv[argi], ".dll"))
+			{
 				DllName = argv[argi];
+			}
 		}
 	}
 
 	GetCurrentDirectoryA(4096, CurrentDirectory);
 	if (GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 2;
+	}
 
 	if (strstr(ExecutableName, ":\\") != 0)
+	{
 		strcpy_s(ExecutablePath, ExecutableName);
+	}
 	else
+	{
 		PathCombineA(ExecutablePath, CurrentDirectory, ExecutableName);
+	}
 
 	printf("Launcher: Checking `%s` exists\n", ExecutableName);
 
 	if (GetFileAttributesA(ExecutablePath) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 3;
+	}
 
 	if (strstr(DllName, ":\\") != 0)
+	{
 		strcpy_s(DllPath, DllName);
+	}
 	else
+	{
 		PathCombineA(DllPath, CurrentDirectory, DllName);
+	}
 
 	printf("Launcher: Checking `%s` exists\n", DllName);
 
 	if (GetFileAttributesA(DllPath) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 4;
+	}
 
 	strcpy_s(CurrentDirectory, ExecutablePath);
 	if (PathRemoveFileSpecA(CurrentDirectory) == FALSE && GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 5;
+	}
 
 	printf("Launcher: Parsing process commandline '");
-
 	for (int argi = 0; argi < argc; argi++)
 	{
-		if (STRING_ENDS_WITH(argv[argi], ".exe"))
-			continue;
-
-		if (STRING_ENDS_WITH(argv[argi], ".dll"))
-			continue;
-
-		strcat_s(CommandLine, argv[argi]);
-		printf("%s", argv[argi]);
-
-		if (argi < argc - 1)
+		if (!STRING_ENDS_WITH(argv[argi], ".exe") && !STRING_ENDS_WITH(argv[argi], ".dll"))
 		{
-			strcat_s(CommandLine, " ");
-			printf(" ");
+			strcat_s(CommandLine, argv[argi]);
+			printf("%s", argv[argi]);
+
+			if (argi < argc - 1)
+			{
+				strcat_s(CommandLine, " ");
+				printf(" ");
+			}
 		}
 	}
-	printf("'");
+	printf("'\n");
 
 	printf("Launcher: Creating executable `%s`\n", ExecutableName);
 	if (DetourCreateProcessWithDllA(ExecutablePath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
+	{
 		return 6;
+	}
 
 #ifndef REMOTE_CONSOLE_ENABLED
 #ifndef NO_WAIT_FOR_PROCESS

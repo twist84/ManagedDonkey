@@ -45,6 +45,10 @@ endif()
 
 # Global definitions
 add_compile_definitions(WIN32 _CONSOLE _UNICODE UNICODE)
+add_compile_definitions(
+    $<$<OR:$<CONFIG:0_Tags>,$<CONFIG:1_Debug>>:_DEBUG>
+    $<$<NOT:$<OR:$<CONFIG:0_Tags>,$<CONFIG:1_Debug>>>:NDEBUG>
+)
 
 # Map configurations to NETWORK_EXECUTABLE_TYPE
 # 0_Tags=0, 1_Debug=1, 2_Test=2, 3_Play=3, 4_Profile=4, 5_Release=5
@@ -62,3 +66,6 @@ add_definitions(-DWIN32 -D_CONSOLE -D_UNICODE -DUNICODE)
 add_subdirectory(remote)
 add_subdirectory(launcher)
 add_subdirectory(game)
+
+# Set the startup project for Visual Studio
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT launcher)
