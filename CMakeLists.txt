@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+# Disable C++20 module scanning (reduces build overhead and log redundancy)
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
 # Configuration types
 if(MSVC)
   # Prefixing with numbers and underscores to force Visual Studio UI order
@@ -30,6 +33,14 @@ if(MSVC)
 
   set(CMAKE_CXX_FLAGS_5_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "" FORCE)
   set(CMAKE_C_FLAGS_5_RELEASE "${CMAKE_C_FLAGS_RELEASE}" CACHE STRING "" FORCE)
+
+  # Enable debug symbols (Compiler)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi" CACHE STRING "" FORCE)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Zi" CACHE STRING "" FORCE)
+
+  # Enable debug symbols and map files (Linker)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /DEBUG" CACHE STRING "" FORCE)
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DEBUG" CACHE STRING "" FORCE)
 endif()
 
 # Global definitions

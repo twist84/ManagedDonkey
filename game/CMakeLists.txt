@@ -14,16 +14,15 @@ if(NOT GIT_RESULT EQUAL 0)
 endif()
 
 # 2. Source Files
-file(GLOB_RECURSE GAME_SOURCES_CPP 
-    "source/*.cpp"
-    "common/*.cpp"
-)
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "source/*.cpp" "source/*.h" "source/*.hpp" "source/*.inl")
+file(GLOB_RECURSE COMMON_FILES CONFIGURE_DEPENDS "common/*.cpp" "common/*.h" "common/*.hpp" "common/*.inl")
+file(GLOB_RECURSE RESOURCE_FILES CONFIGURE_DEPENDS "resource/*.rc")
 
-file(GLOB_RECURSE GAME_SOURCES_RC
-    "resource/*.rc"
-)
+set(GAME_SOURCES ${SOURCE_FILES} ${COMMON_FILES} ${RESOURCE_FILES})
 
-set(GAME_SOURCES ${GAME_SOURCES_CPP} ${GAME_SOURCES_RC})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/source" PREFIX "Source" FILES ${SOURCE_FILES})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/common" PREFIX "Common" FILES ${COMMON_FILES})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/resource" PREFIX "Resources" FILES ${RESOURCE_FILES})
 
 # 3. Target
 add_library(game SHARED ${GAME_SOURCES})

@@ -1,8 +1,10 @@
 project(remote)
 
-set(REMOTE_SOURCES
-    source/main.cpp
-)
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "source/*.cpp" "source/*.h" "source/*.hpp" "source/*.inl")
+
+set(REMOTE_SOURCES ${SOURCE_FILES})
+
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/source" PREFIX "Source" FILES ${SOURCE_FILES})
 
 add_executable(remote_console ${REMOTE_SOURCES})
 
