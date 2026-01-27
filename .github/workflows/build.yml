@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Get CMake
       uses: lukka/get-cmake@v4.2.0
@@ -33,9 +33,9 @@ jobs:
         7z a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
 
     - name: Upload Build Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: builds
+        name: builds-${{ matrix.BUILD_CONFIGURATION }}
         path: ${{ matrix.BUILD_CONFIGURATION }}.7z
 
   release:
@@ -43,9 +43,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
-        name: builds
+        pattern: builds-*
+        merge-multiple: true
 
     - name: Update Latest Release
       uses: softprops/action-gh-release@v1
