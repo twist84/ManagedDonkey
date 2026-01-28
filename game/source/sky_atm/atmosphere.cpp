@@ -91,9 +91,9 @@ void __cdecl c_atmosphere_fog_interface::invalidate_atmosphere_constants()
 	INVOKE(0x00A397D0, invalidate_atmosphere_constants);
 }
 
-void __cdecl c_atmosphere_fog_interface::restore_atmosphere_constants()
+void __cdecl c_atmosphere_fog_interface::restore_default_atmosphere_constants()
 {
-	INVOKE(0x00A3B5A0, c_atmosphere_fog_interface::restore_atmosphere_constants);
+	INVOKE(0x00A3B5A0, c_atmosphere_fog_interface::restore_default_atmosphere_constants);
 }
 
 void __cdecl c_atmosphere_fog_interface::set_default_atmosphere_constants(s_weighted_atmosphere_parameters* parameters)

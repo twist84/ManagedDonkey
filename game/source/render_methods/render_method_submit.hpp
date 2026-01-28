@@ -1,5 +1,7 @@
 #pragma once
 
+class c_render_method;
+
 struct s_shader_extern_info;
 
 enum e_render_method_extern
@@ -64,6 +66,7 @@ extern const char* k_render_method_extern_names[k_render_method_extern_count];
 
 extern void __cdecl render_method_clear_extern(e_render_method_extern render_method_extern);
 extern void __cdecl render_method_clear_externs();
+extern bool __cdecl render_method_submit(int32 render_method_context_tag_index, const c_render_method* render_method, e_vertex_type vertex_type, e_transfer_vector_vertex_types prt_vertex_type, e_entry_point entry_point, bool is_implicit_geometry);
 extern void __cdecl render_method_submit_data(int32 structure_bsp_index, const s_shader_extern_info* shader_extern_info);
 extern void __cdecl render_method_submit_invalidate_cache();
 extern void __cdecl render_method_submit_single_extern(e_render_method_extern render_method_extern, bool fakeout);

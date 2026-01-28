@@ -1,7 +1,5 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-
 class c_contrail_system;
 class c_contrail_location;
 class c_contrail;

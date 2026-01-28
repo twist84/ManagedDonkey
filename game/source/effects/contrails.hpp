@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+class c_contrail_definition;
+
 class c_contrail_system :
 	public s_datum_header
 {
@@ -38,6 +40,31 @@ public:
 };
 COMPILE_ASSERT(sizeof(c_contrail_system) == 0x30);
 
+class c_contrail_location :
+	public s_datum_header
+{
+public:
+	enum e_flags
+	{
+		_should_frame_advance_bit = 0,
+
+		k_flags
+	};
+
+public:
+	const c_contrail_system* get_parent_system(void) const;
+
+public:
+	int32 m_next_sibling_index;
+	int32 m_parent_system_index;
+	int32 m_first_contrail_index;
+	uns32 m_flags;
+	real_matrix4x3 m_matrix;
+	real_vector3d m_velocity;
+	real_point3d m_origin;
+};
+COMPILE_ASSERT(sizeof(c_contrail_location) == 0x60);
+
 class c_contrail :
 	public s_datum_header
 {
@@ -51,9 +78,13 @@ public:
 	};
 
 public:
-	static void __cdecl render_callback(const void*, int32);
+	static c_contrail* __cdecl get(int32 datum_index);
+	const c_contrail_definition* get_definition(void) const;
+	const c_contrail_location* get_parent_location(void) const;
 	void render() const;
+	static void __cdecl render_callback(const void* user_data, int32 user_context);
 
+public:
 	int32 m_next_sibling_index;
 	int32 m_contrail_gpu_index;
 	int32 m_first_profile_index;
@@ -70,27 +101,6 @@ public:
 	real_point2d m_uv_offset;
 };
 COMPILE_ASSERT(sizeof(c_contrail) == 0x4C);
-
-class c_contrail_location :
-	public s_datum_header
-{
-public:
-	enum e_flags
-	{
-		_should_frame_advance_bit = 0,
-
-		k_flags
-	};
-
-	int32 m_next_sibling_index;
-	int32 m_parent_system_index;
-	int32 m_first_contrail_index;
-	uns32 m_flags;
-	real_matrix4x3 m_matrix;
-	real_vector3d m_velocity;
-	real_point3d m_origin;
-};
-COMPILE_ASSERT(sizeof(c_contrail_location) == 0x60);
 
 class c_contrail_profile :
 	public s_datum_header

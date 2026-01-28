@@ -245,7 +245,7 @@ void __thiscall c_player_view::render_()
 			c_atmosphere_fog_interface::populate_atmosphere_parameters(cluster_reference, &weighted_atmosphere_parameters);
 
 			c_atmosphere_fog_interface::set_default_atmosphere_constants(&weighted_atmosphere_parameters);
-			c_atmosphere_fog_interface::restore_atmosphere_constants();
+			c_atmosphere_fog_interface::restore_default_atmosphere_constants();
 		}
 
 		rasterizer_stipple_initialize();

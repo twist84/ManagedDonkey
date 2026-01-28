@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "render/render_objects_static_lighting.hpp"
+#include "render_methods/render_method_definitions.hpp"
 
 REFERENCE_DECLARE(0x050FB608, bool, g_accum_LDR_hack);
 
@@ -13,6 +14,11 @@ void __cdecl render_method_clear_extern(e_render_method_extern render_method_ext
 void __cdecl render_method_clear_externs()
 {
 	INVOKE(0x00A3CA50, render_method_clear_externs);
+}
+
+bool __cdecl render_method_submit(int32 render_method_context_tag_index, const c_render_method* render_method, e_vertex_type vertex_type, e_transfer_vector_vertex_types prt_vertex_type, e_entry_point entry_point, bool is_implicit_geometry)
+{
+	return INVOKE(0x00A3CA60, render_method_submit, render_method_context_tag_index, render_method, vertex_type, prt_vertex_type, entry_point, is_implicit_geometry);
 }
 
 void __cdecl render_method_submit_data(int32 structure_bsp_index, const s_shader_extern_info* shader_extern_info)
