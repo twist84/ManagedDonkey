@@ -16,19 +16,29 @@ char k_dll_name[] = "bin\\game.dll";
 char k_dll_name[] = "game.dll";
 #endif // DLL_FROM_RESOURCE
 
-int main(int argc, char* argv[])
+int main(int argc, const char* argv[])
 {
-	char* ExecutableName = k_exe_name;
-	char* DllName = k_dll_name;
+	c_simple_span<const char*> args = c_simple_span<const char*>(argv, argv + argc);
+
+	const char* ExecutableName = k_exe_name;
+	const char* DllName = k_dll_name;
 
 	bool print_usage = false;
-	for (int argi = 1; !print_usage && argi < argc && argv[argi]; argi++)
+	for (const char* arg : args)
 	{
-		print_usage |= strcmp(argv[argi], "/?") == 0;
-		print_usage |= strcmp(argv[argi], "/h") == 0;
-		print_usage |= strcmp(argv[argi], "-h") == 0;
-		print_usage |= strcmp(argv[argi], "/help") == 0;
-		print_usage |= strcmp(argv[argi], "--help") == 0;
+		if (!args.is_front(arg))
+		{
+			print_usage = print_usage || strcmp(arg, "/?") == 0;
+			print_usage = print_usage || strcmp(arg, "/h") == 0;
+			print_usage = print_usage || strcmp(arg, "-h") == 0;
+			print_usage = print_usage || strcmp(arg, "/help") == 0;
+			print_usage = print_usage || strcmp(arg, "--help") == 0;
+		}
+
+		if (print_usage)
+		{
+			break;
+		}
 	}
 
 	if (print_usage)
@@ -41,68 +51,85 @@ int main(int argc, char* argv[])
 	if (!embedded_resource_extract(DLL_RESOURCE_ID, _resource_type_dll, k_dll_name))
 #endif
 	{
-		for (int argi = 1; argi < argc; argi++)
+		for (const char* arg : args)
 		{
-			if (STRING_ENDS_WITH(argv[argi], ".exe"))
-				ExecutableName = argv[argi];
+			if (!args.is_front(arg))
+			{
+				if (STRING_ENDS_WITH(arg, ".exe"))
+				{
+					ExecutableName = arg;
+				}
 
-			if (STRING_ENDS_WITH(argv[argi], ".dll"))
-				DllName = argv[argi];
+				if (STRING_ENDS_WITH(arg, ".dll"))
+				{
+					DllName = arg;
+				}
+			}
 		}
 	}
 
 	GetCurrentDirectoryA(4096, CurrentDirectory);
 	if (GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 2;
+	}
 
 	if (strstr(ExecutableName, ":\\") != 0)
+	{
 		strcpy_s(ExecutablePath, ExecutableName);
+	}
 	else
+	{
 		PathCombineA(ExecutablePath, CurrentDirectory, ExecutableName);
+	}
 
 	printf("Launcher: Checking `%s` exists\n", ExecutableName);
 
 	if (GetFileAttributesA(ExecutablePath) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 3;
+	}
 
 	if (strstr(DllName, ":\\") != 0)
+	{
 		strcpy_s(DllPath, DllName);
+	}
 	else
+	{
 		PathCombineA(DllPath, CurrentDirectory, DllName);
+	}
 
 	printf("Launcher: Checking `%s` exists\n", DllName);
 
 	if (GetFileAttributesA(DllPath) == INVALID_FILE_ATTRIBUTES)
+	{
 		return 4;
+	}
 
 	strcpy_s(CurrentDirectory, ExecutablePath);
 	if (PathRemoveFileSpecA(CurrentDirectory) == FALSE && GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
-		return 5;
-
-	printf("Launcher: Parsing process commandline '");
-
-	for (int argi = 0; argi < argc; argi++)
 	{
-		if (STRING_ENDS_WITH(argv[argi], ".exe"))
-			continue;
+		return 5;
+	}
 
-		if (STRING_ENDS_WITH(argv[argi], ".dll"))
-			continue;
-
-		strcat_s(CommandLine, argv[argi]);
-		printf("%s", argv[argi]);
-
-		if (argi < argc - 1)
+	for (const char* arg : args)
+	{
+		if (!STRING_ENDS_WITH(arg, ".exe") && !STRING_ENDS_WITH(arg, ".dll"))
 		{
-			strcat_s(CommandLine, " ");
-			printf(" ");
+			strcat_s(CommandLine, arg);
+
+			if (!args.is_back(arg))
+			{
+				strcat_s(CommandLine, " ");
+			}
 		}
 	}
-	printf("'");
 
-	printf("Launcher: Creating executable `%s`\n", ExecutableName);
+	printf("Launcher: Creating process for `%s` with commandline '%s'\n", ExecutableName, CommandLine);
 	if (DetourCreateProcessWithDllA(ExecutablePath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
+	{
 		return 6;
+	}
 
 #ifndef REMOTE_CONSOLE_ENABLED
 #ifndef NO_WAIT_FOR_PROCESS
