@@ -204,7 +204,7 @@ struct s_global_preferences_data
 	int32 build_number;
 	real32 betrayal_count; // betrayal_penalty?
 	int32 eviction_count;
-	c_enum<e_gui_game_mode, int32, _gui_game_setup_mode_none, k_gui_game_setup_mode_count> last_main_menu_item;
+	string_id last_main_menu_item;
 	int32 last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
 	e_gui_network_session_advertisement_mode xbox_live_private_privacy_setting;
@@ -282,7 +282,7 @@ extern void __cdecl global_preferences_get_last_fonts_modification_date(s_file_l
 extern s_gui_game_setup_storage* __cdecl global_preferences_get_last_game_setup();
 extern bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mode, int32* campaign_id, int32* map_id);
 extern e_language __cdecl global_preferences_get_last_language();
-extern e_gui_game_mode __cdecl global_preferences_get_last_main_menu_item();
+extern string_id __cdecl global_preferences_get_last_main_menu_item();
 extern e_quality_setting __cdecl global_preferences_get_lighting_quality();
 extern int32 __cdecl global_preferences_get_master_volume();
 extern bool __cdecl global_preferences_get_motion_blur();
@@ -337,7 +337,7 @@ extern void __cdecl global_preferences_set_last_font_language(e_language last_fo
 extern void __cdecl global_preferences_set_last_fonts_modification_date(const s_file_last_modification_date* last_fonts_modification_date);
 extern void __cdecl global_preferences_set_last_game_setup(const s_gui_game_setup_storage* last_game_setup);
 extern void __cdecl global_preferences_set_last_language(e_language last_language);
-extern void __cdecl global_preferences_set_last_main_menu_item(int32 last_main_menu_item);
+extern void __cdecl global_preferences_set_last_main_menu_item(string_id last_main_menu_item);
 extern void __cdecl global_preferences_set_lighting_quality(e_quality_setting lighting_quality);
 extern void __cdecl global_preferences_set_master_volume(int32 master_volume);
 extern void __cdecl global_preferences_set_motion_blur(bool motion_blur);

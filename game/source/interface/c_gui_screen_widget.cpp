@@ -673,7 +673,7 @@ bool c_gui_screen_widget::handle_controller_tab_attempt(const c_controller_input
 
 bool c_gui_screen_widget::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AB13F0, c_gui_screen_widget, handle_dialog_result, message);
+	//return INVOKE_CLASS_MEMBER(0x00AB13F0, c_gui_screen_widget, handle_dialog_result, dialog_result_message);
 
 	bool handled = false;
 

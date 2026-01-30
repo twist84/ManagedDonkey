@@ -51,7 +51,7 @@ c_gui_bitmap_widget* c_start_menu_game_campaign::create_bitmap_widget(const s_ru
 
 bool c_start_menu_game_campaign::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AE87E0, c_start_menu_game_campaign, handle_dialog_result, message);
+	//return INVOKE_CLASS_MEMBER(0x00AE87E0, c_start_menu_game_campaign, handle_dialog_result, dialog_result_message);
 
 	bool handled = c_start_menu_game_multiplayer::handle_leave_game_response(this, dialog_result_message);
 

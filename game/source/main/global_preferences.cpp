@@ -427,17 +427,17 @@ e_language __cdecl global_preferences_get_last_language()
 	return result;
 }
 
-e_gui_game_mode __cdecl global_preferences_get_last_main_menu_item()
+string_id __cdecl global_preferences_get_last_main_menu_item()
 {
 	//return INVOKE(0x0050B810, global_preferences_get_last_main_menu_item);
 
-	e_gui_game_mode result = _gui_game_setup_mode_campaign;
+	string_id last_main_menu_item = k_string_id_empty_string;
 	if (global_preferences_available())
 	{
 		c_global_preferences_scope_lock scope_lock;
-		result = global_preferences_get()->current.data.last_main_menu_item;
+		last_main_menu_item = global_preferences_get()->current.data.last_main_menu_item;
 	}
-	return result;
+	return last_main_menu_item;
 }
 
 e_quality_setting __cdecl global_preferences_get_lighting_quality()
@@ -1156,7 +1156,7 @@ void __cdecl global_preferences_set_last_language(e_language last_language)
 	}
 }
 
-void __cdecl global_preferences_set_last_main_menu_item(int32 last_main_menu_item)
+void __cdecl global_preferences_set_last_main_menu_item(string_id last_main_menu_item)
 {
 	//INVOKE(0x0050DA10, global_preferences_set_last_main_menu_item, last_main_menu_item);
 

@@ -76,7 +76,7 @@ bool c_gui_screen_campaign_select_level::handle_controller_input_message(const c
 
 bool c_gui_screen_campaign_select_level::handle_dialog_result(const c_dialog_result_message* dialog_result_message)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AFCF20, c_gui_screen_campaign_select_level, handle_dialog_result, message);
+	//return INVOKE_CLASS_MEMBER(0x00AFCF20, c_gui_screen_campaign_select_level, handle_dialog_result, dialog_result_message);
 
 	bool handled = false;
 
