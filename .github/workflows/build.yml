@@ -2,7 +2,6 @@ name: build
 
 on:
   push:
-    branches: [ "main" ]
 
 jobs:
   build-win:
@@ -17,7 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Initialize Submodules 
       uses: snickerbockers/submodules-init@v4
@@ -29,27 +28,23 @@ jobs:
         Write-Output "Version determined: $version"
         Write-Host "::set-output name=version::$version"
 
-    - name: Install 7Zip
-      run: |
-        Invoke-WebRequest -Uri "https://www.7-zip.org/a/7z1900-x64.msi" -OutFile "$env:TEMP\7z.msi"
-        Start-Process -Wait -FilePath msiexec -ArgumentList "/i", "$env:TEMP\7z.msi", "/quiet" 
-
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
     - name: Build
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
       run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ env.SOLUTION_FILE_PATH }}
 
     - name: Zip Release
       run: |
-        & "C:\Program Files\7-Zip\7z.exe" a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
+        7z a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
 
-    - name: Create Release
+    - name: Update Latest Release
       uses: softprops/action-gh-release@v1
       with:
-        files: ${{ matrix.BUILD_CONFIGURATION }}.7z
-        tag_name: ${{ steps.determine_version.outputs.version }}
+        files: "*.7z"
+        tag_name: latest
+        name: Latest Build
+        body: "Automated build from latest commit."
         draft: false
         prerelease: false
       env:
