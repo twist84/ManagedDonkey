@@ -87,13 +87,13 @@ void __cdecl remote_command_initialize()
 		if (remote_command_globals.listen_endpoint)
 		{
 			transport_address listen_address{};
-			transport_register_transition_functions(NULL, remote_command_transport_shutdown, NULL, NULL);
+			transport_register_transition_functions(nullptr, remote_command_transport_shutdown, nullptr, nullptr);
 			transport_get_listen_address(&listen_address, 1030);
 			if (!transport_endpoint_bind(remote_command_globals.listen_endpoint, &listen_address) || !transport_endpoint_listen(remote_command_globals.listen_endpoint))
 			{
 				event(_event_error, "remote command client couldn't listen for incoming commands");
 				transport_endpoint_delete(remote_command_globals.listen_endpoint);
-				remote_command_globals.listen_endpoint = NULL;
+				remote_command_globals.listen_endpoint = nullptr;
 			}
 		}
 		else
@@ -113,21 +113,21 @@ void __cdecl remote_command_disconnect()
 	// Delete the receive endpoint if it exists
 	if (remote_command_globals.receive_endpoint)
 	{
-		// If the receive and send endpoints are the same, set the send endpoint to NULL
+		// If the receive and send endpoints are the same, set the send endpoint to nullptr
 		if (remote_command_globals.send_endpoint == remote_command_globals.receive_endpoint)
 		{
-			remote_command_globals.send_endpoint = NULL;
+			remote_command_globals.send_endpoint = nullptr;
 		}
 
 		transport_endpoint_delete(remote_command_globals.receive_endpoint);
-		remote_command_globals.receive_endpoint = NULL;
+		remote_command_globals.receive_endpoint = nullptr;
 	}
 
 	// Delete the send endpoint if it exists
 	if (remote_command_globals.send_endpoint)
 	{
 		transport_endpoint_delete(remote_command_globals.send_endpoint);
-		remote_command_globals.send_endpoint = NULL;
+		remote_command_globals.send_endpoint = nullptr;
 	}
 }
 
@@ -149,7 +149,7 @@ void __cdecl remote_command_process()
 			}
 
 			// Assign the new connection endpoint as the receive endpoint
-			ASSERT(remote_command_globals.receive_endpoint == NULL);
+			ASSERT(remote_command_globals.receive_endpoint == nullptr);
 			remote_command_globals.receive_endpoint = endpoint;
 
 			// If the new endpoint is writeable, set it as the send endpoint too
@@ -254,7 +254,7 @@ bool __cdecl remote_command_send_encoded(int32 encoded_command_size, const void*
 	// Ensure that the input is valid
 	ASSERT((encoded_command_size > 0) && (encoded_command_size <= MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE));
 	ASSERT(encoded_command_buffer);
-	ASSERT(((payload_size == 0) && (payload == NULL)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != NULL)));
+	ASSERT(((payload_size == 0) && (payload == nullptr)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != nullptr)));
 
 	// Check if the remote command is connected
 	if (!remote_command_connected())
@@ -278,7 +278,7 @@ bool __cdecl remote_command_send_encoded(int32 encoded_command_size, const void*
 	}
 
 	// Write the encoded packet to the send endpoint and check for errors
-	ASSERT(remote_command_globals.send_endpoint != NULL);
+	ASSERT(remote_command_globals.send_endpoint != nullptr);
 	int16 bytes_written = transport_endpoint_write(remote_command_globals.send_endpoint, encode_packet, static_cast<int16>(encode_packet_size));
 	if (bytes_written <= 0)
 	{
@@ -354,7 +354,7 @@ bool __cdecl remote_camera_update(int32 user_index, const s_observer_result* cam
 	}
 
 	// Send the updated camera information to the remote endpoint.
-	bool result = remote_command_send(_remote_command_camera, camera, 0, NULL);
+	bool result = remote_command_send(_remote_command_camera, camera, 0, nullptr);
 
 	// Store the current time and updated camera information.
 	remote_command_globals.last_camera_sync_milliseconds = network_time_get();
@@ -437,7 +437,7 @@ void command_execute(int32 token_count, tokens_t& tokens, int32 command_count, c
 	output.print_line("Unknown command: '%s'", tokens[0]);
 	output.append_line("For a list of command use 'help'");
 	output.append_line();
-	//output = help_callback(NULL, 1, {});
+	//output = help_callback(nullptr, 1, {});
 	transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<int16>(output.length()));
 }
 
@@ -524,7 +524,7 @@ callback_result_t net_session_create_callback(const void* userdata, int32 token_
 		transport_secure_address_get_insecure(&insecure);
 
 		static char ip_port[256]{};
-		transport_address_to_string(&insecure, NULL, ip_port, 256, true, false);
+		transport_address_to_string(&insecure, nullptr, ip_port, 256, true, false);
 		invite_string.print("add_session %s", ip_port);
 	}
 
@@ -586,7 +586,7 @@ callback_result_t net_session_add_callback(const void* userdata, int32 token_cou
 	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void
 	{
 		*outgoing_address = address;
-		//network_broadcast_search_update_callback = NULL;
+		//network_broadcast_search_update_callback = nullptr;
 	};
 	load_game_browser(k_any_controller, 0, _browse_system_link);
 

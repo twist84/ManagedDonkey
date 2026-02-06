@@ -22,7 +22,7 @@ const char* symbol_name_from_address(uns32 routine_address, int32* out_symbol_of
 		return buffer;
 
 	HANDLE process = GetCurrentProcess();
-	SymInitialize(process, NULL, TRUE);
+	SymInitialize(process, nullptr, TRUE);
 
 	csmemset(symbol, 0, sizeof(SYMBOL_INFO) + 256 * sizeof(char));
 
@@ -94,7 +94,7 @@ void walk_stack(uns32* routine_addresses, uns32 number_of_levels, int16 levels_t
 
 	void* stack[k_max_stack_depth]{};
 
-	int32 stack_trace_result = static_cast<int32>(CaptureStackBackTrace(static_cast<DWORD>(levels_to_ignore), k_max_stack_depth, stack, NULL));
+	int32 stack_trace_result = static_cast<int32>(CaptureStackBackTrace(static_cast<DWORD>(levels_to_ignore), k_max_stack_depth, stack, nullptr));
 	ASSERT(SUCCEEDED(stack_trace_result));
 
 	csmemcpy(routine_addresses, stack, sizeof(uns32) * number_of_levels);

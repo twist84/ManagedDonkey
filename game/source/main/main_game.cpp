@@ -63,7 +63,7 @@ bool debug_load_panic_to_main_menu = true;
 //	{ user_interface_networking_memory_dispose, user_interface_networking_memory_initialize },
 //	{ online_files_memory_dispose, online_files_memory_initialize },
 //	{ bink_playback_memory_dispose, bink_playback_memory_initialize },
-//	{ NULL, NULL /*saved_film_manager_memory_dispose, saved_film_manager_memory_initialize*/ },
+//	{ nullptr, nullptr /*saved_film_manager_memory_dispose, saved_film_manager_memory_initialize*/ },
 //	{ screenshots_uploader_memory_dispose, screenshots_uploader_memory_initialize },
 //};
 
@@ -177,7 +177,7 @@ void __cdecl main_game_change(const game_options* options)
 	}
 
 	main_game_globals.map_change_pending = true;
-	main_game_globals.map_change_pending_unload = options == NULL;
+	main_game_globals.map_change_pending_unload = options == nullptr;
 	main_game_globals.map_change_initiate_time = system_milliseconds();
 
 	if (!options)
@@ -213,7 +213,7 @@ bool __cdecl main_game_change_immediate(const game_options* options)
 	main_render_assert_no_pending_messages();
 	main_events_reset(_main_reset_events_map_change);
 	main_render_assert_no_pending_messages();
-	main_status("map", NULL);
+	main_status("map", nullptr);
 
 	if (options)
 	{
@@ -354,7 +354,7 @@ void __cdecl main_game_change_update()
 		game_options* pending_game_options = &main_game_globals.pending_game_options;
 		if (main_game_globals.map_change_pending_unload && !main_game_loaded_pregame())
 		{
-			pending_game_options = NULL;
+			pending_game_options = nullptr;
 		}
 		main_game_change_immediate(pending_game_options);
 
@@ -673,7 +673,7 @@ bool __cdecl main_game_load_map(const game_options* options)
 
 	if (map_load_status == 0 || map_load_status == 1)
 	{
-		main_game_unload_and_prepare_for_next_game(NULL);
+		main_game_unload_and_prepare_for_next_game(nullptr);
 		main_game_pregame_blocking_load();
 	}
 
@@ -782,7 +782,7 @@ void __cdecl main_game_load_panic()
 	RENDER_THREAD_LOCK;
 
 	main_render_purge_pending_messages();
-	main_game_unload_and_prepare_for_next_game(NULL);
+	main_game_unload_and_prepare_for_next_game(nullptr);
 	ASSERT(!main_game_loaded_map() && !main_game_loaded_pregame());
 
 	bool successfully_loaded = false;

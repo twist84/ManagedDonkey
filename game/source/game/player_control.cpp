@@ -339,7 +339,7 @@ void __cdecl player_control_update_machinima()
 	for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 	{
 		e_controller_index controller_index = controller_index_from_user_index(user_index);
-		s_game_input_state* input_state = NULL;
+		s_game_input_state* input_state = nullptr;
 
 		if (VALID_CONTROLLER(controller_index))
 		{

@@ -25,7 +25,7 @@ void data_mine_render_mission_segment()
 		rectangle2d display_title_safe_pixel_bounds{};
 		rectangle2d bounds{};
 
-		interface_get_current_display_settings(NULL, NULL, NULL, &display_title_safe_pixel_bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &display_title_safe_pixel_bounds);
 
 		bounds.x0 = display_title_safe_pixel_bounds.x0;
 		bounds.y0 = display_title_safe_pixel_bounds.y1 - 80;
@@ -35,7 +35,7 @@ void data_mine_render_mission_segment()
 		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 
 		draw_string.set_color(global_real_argb_yellow);
-		draw_string.set_tab_stops(NULL, 0);
+		draw_string.set_tab_stops(nullptr, 0);
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(&font_cache, g_persisted_usability_globals.mission_segment.get_string());
 	}

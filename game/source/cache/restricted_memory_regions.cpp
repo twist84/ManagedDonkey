@@ -10,7 +10,7 @@ void* __cdecl restricted_memory_get_address(int32 index, uns32 offset)
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* address = g_restricted_address[index];
-	//ASSERT(address != NULL);
+	//ASSERT(address != nullptr);
 	//ASSERT(offset < g_restricted_regions[index].subsection_size());
 	//return (byte*)address + offset;
 }
@@ -28,7 +28,7 @@ void __cdecl restricted_region_add_alias(int32 index)
 	INVOKE(0x0059FFD0, restricted_region_add_alias, index);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//ASSERT(g_restricted_address[index] == NULL);
+	//ASSERT(g_restricted_address[index] == nullptr);
 	//g_restricted_address[index] = g_restricted_regions[index].add_alias();
 	//g_restricted_alias[index] = true;
 }
@@ -71,7 +71,7 @@ void __cdecl restricted_region_begin_aliasing(int32 index)
 	INVOKE(0x005A00E0, restricted_region_begin_aliasing, index);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//ASSERT(g_restricted_address[index] != NULL);
+	//ASSERT(g_restricted_address[index] != nullptr);
 	//g_restricted_regions[index].begin_aliasing();
 }
 
@@ -104,7 +104,7 @@ void __cdecl restricted_region_end_aliasing(int32 index)
 	INVOKE(0x005A0170, restricted_region_end_aliasing, index);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//ASSERT(g_restricted_address[index] != NULL);
+	//ASSERT(g_restricted_address[index] != nullptr);
 	//g_restricted_regions[index].end_aliasing();
 }
 
@@ -127,7 +127,7 @@ void* __cdecl restricted_region_get_member_address(int32 index, int32 member_ind
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* address = g_restricted_address[index];
-	//ASSERT(address != NULL);
+	//ASSERT(address != nullptr);
 	//return (byte*)address + g_restricted_regions[index].get_member_offset(member_index);
 }
 
@@ -177,7 +177,7 @@ void __cdecl restricted_region_handle_crash_of_current_thread()
 
 	//for (int32 index = 0; index < k_total_restricted_memory_regions; index++)
 	//{
-	//	g_restricted_address[index] = NULL;
+	//	g_restricted_address[index] = nullptr;
 	//	if (g_restricted_regions[index].initialized())
 	//		g_restricted_regions[index].handle_crash_of_current_thread();
 	//}
@@ -197,9 +197,9 @@ bool __cdecl restricted_region_lock_mirror(int32 index)
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].lock_mirror();
-	//ASSERT(g_restricted_address[index] == NULL);
+	//ASSERT(g_restricted_address[index] == nullptr);
 	//g_restricted_address[index] = base_address;
-	//return base_address != NULL;
+	//return base_address != nullptr;
 }
 
 void __cdecl restricted_region_lock_primary(int32 index)
@@ -209,7 +209,7 @@ void __cdecl restricted_region_lock_primary(int32 index)
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].lock_primary();
 	//ASSERT(base_address);
-	//ASSERT(g_restricted_address[index] == NULL);
+	//ASSERT(g_restricted_address[index] == nullptr);
 	//g_restricted_address[index] = base_address;
 }
 
@@ -219,7 +219,7 @@ bool __cdecl restricted_region_locked_for_current_thread(int32 index)
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(g_restricted_regions[index].initialized());
-	//return g_restricted_address[index] != NULL;
+	//return g_restricted_address[index] != nullptr;
 }
 
 bool __cdecl restricted_region_mirror_locked_for_current_thread(int32 index)
@@ -254,7 +254,7 @@ void __cdecl restricted_region_remove_alias(int32 index)
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//ASSERT(restricted_region_aliased_for_current_thread(index));
 	//g_restricted_regions[index].remove_alias();
-	//g_restricted_address[index] = NULL;
+	//g_restricted_address[index] = nullptr;
 	//g_restricted_alias[index] = false;
 }
 
@@ -272,9 +272,9 @@ bool __cdecl restricted_region_try_and_lock_mirror(int32 index)
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].try_and_lock_mirror();
-	//ASSERT(g_restricted_address[index] == NULL);
+	//ASSERT(g_restricted_address[index] == nullptr);
 	//g_restricted_address[index] = base_address;
-	//return base_address != NULL;
+	//return base_address != nullptr;
 }
 
 bool __cdecl restricted_region_try_and_lock_primary(int32 index)
@@ -283,9 +283,9 @@ bool __cdecl restricted_region_try_and_lock_primary(int32 index)
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
 	//void* base_address = g_restricted_regions[index].try_and_lock_primary();
-	//ASSERT(g_restricted_address[index] == NULL);
+	//ASSERT(g_restricted_address[index] == nullptr);
 	//g_restricted_address[index] = base_address;
-	//return base_address != NULL;
+	//return base_address != nullptr;
 }
 
 void __cdecl restricted_region_unlock_mirror(int32 index)
@@ -293,8 +293,8 @@ void __cdecl restricted_region_unlock_mirror(int32 index)
 	INVOKE(0x005A0570, restricted_region_unlock_mirror, index);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//ASSERT(g_restricted_address[index] != NULL);
-	//g_restricted_address[index] = NULL;
+	//ASSERT(g_restricted_address[index] != nullptr);
+	//g_restricted_address[index] = nullptr;
 	//g_restricted_regions[index].unlock_mirror();
 }
 
@@ -303,8 +303,8 @@ void __cdecl restricted_region_unlock_primary(int32 index)
 	INVOKE(0x005A05B0, restricted_region_unlock_primary, index);
 
 	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
-	//ASSERT(g_restricted_address[index] != NULL);
-	//g_restricted_address[index] = NULL;
+	//ASSERT(g_restricted_address[index] != nullptr);
+	//g_restricted_address[index] = nullptr;
 	//g_restricted_regions[index].unlock_primary();
 }
 

@@ -48,7 +48,7 @@ void __thiscall c_director::player_switch_gui_create_or_update_()
 
 s_director_globals* director_globals_get()
 {
-	return (director_globals && director_globals->directors[0][0]) ? director_globals : NULL;
+	return (director_globals && director_globals->directors[0][0]) ? director_globals : nullptr;
 }
 
 //.text:005914B0 ; c_director::c_director(int32)
@@ -101,7 +101,7 @@ c_director* __cdecl director_get(int32 user_index)
 
 	if (!director_globals_get())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return (c_director*)&director_globals_get()->directors[user_index];
@@ -277,7 +277,7 @@ void __cdecl director_render()
 		);
 
 		rectangle2d bounds{};
-		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		bounds.y0 += 80;
 
 		draw_string.set_font(_large_body_text_font);
@@ -440,7 +440,7 @@ c_camera* c_director::get_camera()
 
 	if (!m_camera_storage[0])
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return (c_camera*)&m_camera_storage;
@@ -452,7 +452,7 @@ const c_camera* c_director::get_camera() const
 
 	if (!m_camera_storage[0])
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return (c_camera*)&m_camera_storage;
@@ -788,7 +788,7 @@ s_director_info* director_get_info(int32 user_index)
 {
 	if (!director_globals_get())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &director_globals_get()->director_info[user_index];
@@ -905,7 +905,7 @@ void director_save_camera_named(const char* name)
 	fopen_s(&file, filename.get_string(), "w");
 	if (file)
 	{
-		const s_observer_result* camera = NULL;
+		const s_observer_result* camera = nullptr;
 		for (int32 user_index = first_output_user(); user_index != NONE; user_index = next_output_user(user_index))
 		{
 			camera = observer_try_and_get_camera(user_index);

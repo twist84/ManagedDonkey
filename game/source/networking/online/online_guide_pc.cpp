@@ -38,7 +38,7 @@ HOOK_DECLARE(0x004E1960, online_guide_show_sign_in_ui);
 HOOK_DECLARE(0x004E1970, online_guide_show_virtual_keyboard_ui);
 HOOK_DECLARE(0x004E1980, online_guide_update);
 
-c_virtual_keyboard_task* c_virtual_keyboard_task::m_instance = NULL;
+c_virtual_keyboard_task* c_virtual_keyboard_task::m_instance = nullptr;
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance_(
 	const char* file,
@@ -156,7 +156,7 @@ void __cdecl c_virtual_keyboard_task::dispose_instance()
 	if (m_instance)
 	{
 		overlapped_track_delete(m_instance);
-		m_instance = NULL;
+		m_instance = nullptr;
 	}
 }
 
@@ -271,7 +271,7 @@ void __cdecl online_guide_show_damaged_media_ui()
 {
 	//INVOKE(0x004E18C0, online_guide_show_damaged_media_ui);
 
-	MessageBoxA(NULL, "Damaged Media UI Placeholder", "networking:online:guide", MB_OK);
+	MessageBoxA(nullptr, "Damaged Media UI Placeholder", "networking:online:guide", MB_OK);
 
 	//e_controller_index controller_index = controller_get_first_signed_in_controller();
 	//if (controller_index == k_any_controller)
@@ -284,11 +284,11 @@ uns32 __cdecl online_guide_show_device_selector_ui(e_controller_index controller
 {
 	//return INVOKE(0x004E18D0, online_guide_show_device_selector_ui, controller_index, requested_bytes, always_show, device_id, xenon_task_handle);
 
-	//MessageBoxA(NULL, "Device Selector UI Placeholder", "networking:online:guide", MB_OK);
+	//MessageBoxA(nullptr, "Device Selector UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	ASSERT(device_id != NULL);
-	ASSERT(xenon_task_handle != NULL);
+	ASSERT(device_id != nullptr);
+	ASSERT(xenon_task_handle != nullptr);
 
 	//if (controller_get(controller_index)->is_signed_in_to_machine())
 	//{
@@ -304,7 +304,7 @@ void __cdecl online_guide_show_file_share_recommendation(e_controller_index cont
 {
 	//INVOKE(0x004E18E0, online_guide_show_file_share_recommendation, controller_index, file_share_xuid, slot_index, server_id, service_record_identity, custom_message_text);
 
-	MessageBoxA(NULL, "File Share Recommendation UI Placeholder", "networking:online:guide", MB_OK);
+	MessageBoxA(nullptr, "File Share Recommendation UI Placeholder", "networking:online:guide", MB_OK);
 
 	//if (g_online_guide_globals->busy()) 
 	//	event(_event_error, "networking:online:guide: online_guide_show_file_share_recommendation called when task is already in progress");
@@ -314,7 +314,7 @@ uns32 __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 {
 	//return INVOKE(0x004E18F0, online_guide_show_friend_request_ui, controller_index, user_xuid);
 
-	MessageBoxA(NULL, "Friend Request UI Placeholder", "networking:online:guide", MB_OK);
+	MessageBoxA(nullptr, "Friend Request UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 
@@ -336,7 +336,7 @@ uns32 __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 {
 	//return INVOKE(0x004E1900, online_guide_show_friends_ui, controller_index);
 
-	MessageBoxA(NULL, "Friends UI Placeholder", "networking:online:guide", MB_OK);
+	MessageBoxA(nullptr, "Friends UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 
@@ -357,7 +357,7 @@ uns32 __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 {
 	//return INVOKE(0x004E1910, online_guide_show_gamer_card_ui, controller_index, user_xuid);
 
-	MessageBoxA(NULL, "Gamer Card UI Placeholder", "networking:online:guide", MB_OK);
+	MessageBoxA(nullptr, "Gamer Card UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 
@@ -384,7 +384,7 @@ void __cdecl online_guide_show_marketplace_offer(e_controller_index controller_i
 {
 	//INVOKE(0x004E1930, online_guide_show_marketplace_offer, controller_index, marketplace_offer_id);
 
-	ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(nullptr, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), nullptr, nullptr, SW_SHOWNORMAL);
 }
 
 uns32 __cdecl online_guide_show_message_ui(e_controller_index controller_index, uns64 target_player_xuid)
@@ -398,10 +398,10 @@ uns32 __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 {
 	//return INVOKE(0x004E1950, online_guide_show_player_review_ui, controller_index, target_user_xuid);
 
-	MessageBoxA(NULL, "Player Review UI Placeholder", "networking:online:guide", MB_OK);
+	MessageBoxA(nullptr, "Player Review UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	ASSERT(target_user_xuid != NULL);
+	ASSERT(target_user_xuid != nullptr);
 
 	//uns32 result = E_FAIL;
 	//c_static_string<256> error_string;
@@ -421,7 +421,7 @@ bool __cdecl online_guide_show_sign_in_ui(int32 pane_count, uns32 flags)
 {
 	//return INVOKE(0x004E1960, online_guide_show_sign_in_ui, pane_count, flags);
 
-	//MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
+	//MessageBoxA(nullptr, "Signin UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(pane_count == 1 || pane_count == 2 || pane_count == 4);
 
@@ -444,9 +444,9 @@ uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controlle
 	//return INVOKE(0x004E1970, online_guide_show_virtual_keyboard_ui, controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, overlapped);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	ASSERT(result_text != NULL);
+	ASSERT(result_text != nullptr);
 	ASSERT(maximum_character_count > 0);
-	ASSERT(overlapped != NULL);
+	ASSERT(overlapped != nullptr);
 
 	c_controller_interface* controller = controller_get(controller_index);
 	if (!controller->is_signed_in_to_machine())

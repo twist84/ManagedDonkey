@@ -262,7 +262,7 @@ bool __cdecl c_rasterizer::end_albedo(const rectangle2d* bounds)
 			1.0f,
 			1.0f,
 			1.0f,
-			NULL);
+			nullptr);
 
 		return false;
 	}
@@ -342,7 +342,7 @@ bool __cdecl c_rasterizer::get_is_widescreen()
 	RECT client_rect{};
 
 	HWND window_handle = window_globals.hWndPresentTarget;
-	if (window_handle != NULL || (window_handle = window_globals.hWnd) != NULL)
+	if (window_handle != nullptr || (window_handle = window_globals.hWnd) != nullptr)
 	{
 		GetClientRect(window_handle, &client_rect);
 	}
@@ -717,7 +717,7 @@ void __cdecl c_rasterizer::clear(uns32 clear_channels, uns32 clear_color, real32
 	//INVOKE(0x00A213F0, c_rasterizer::clear, clear_channels, clear_color, clear_z, clear_stencil);
 
 	real32 Z = c_rasterizer::m_use_floating_point_z_buffer ? 1.0f - clear_z : clear_z;
-	c_rasterizer::g_device->Clear(0, NULL, clear_channels, clear_color, Z, clear_stencil);
+	c_rasterizer::g_device->Clear(0, nullptr, clear_channels, clear_color, Z, clear_stencil);
 }
 
 void __cdecl c_rasterizer::sub_A21440()
@@ -820,7 +820,7 @@ bool __cdecl c_rasterizer::end_frame()
 		c_render_surface* display_specialized_surface = c_render_surfaces_interface::get_render_surface(_surface_display);
 		c_rasterizer::g_device->StretchRect(
 			specialized_surface->m_d3d_surface,
-			NULL,
+			nullptr,
 			display_specialized_surface->m_d3d_surface,
 			&destination_rect,
 			D3DTEXF_LINEAR);
@@ -835,11 +835,11 @@ bool __cdecl c_rasterizer::end_frame()
 		HRESULT hs = S_OK;
 		if (c_rasterizer::render_globals.is_d3d9ex)
 		{
-			hs = c_rasterizer::g_device->PresentEx(NULL, NULL, window_globals.hWndPresentTarget, NULL, 0);
+			hs = c_rasterizer::g_device->PresentEx(nullptr, nullptr, window_globals.hWndPresentTarget, nullptr, 0);
 		}
 		else
 		{
-			hs = c_rasterizer::g_device->Present(NULL, NULL, window_globals.hWndPresentTarget, NULL);
+			hs = c_rasterizer::g_device->Present(nullptr, nullptr, window_globals.hWndPresentTarget, nullptr);
 		}
 
 		if (FAILED(hs))
@@ -929,7 +929,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 
 	if (!LoadLibraryA("d3dx9_43.dll"))
 	{
-		MessageBoxA(NULL, "d3dx9_43.dll not found.", "Error", MB_OK);
+		MessageBoxA(nullptr, "d3dx9_43.dll not found.", "Error", MB_OK);
 	}
 	else
 	{
@@ -951,7 +951,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 	
 		if (d3d9ex)
 		{
-			IDirect3D9Ex* direct3d = NULL;
+			IDirect3D9Ex* direct3d = nullptr;
 			decltype(Direct3DCreate9Ex)* Direct3DCreateEx = GetDirect3DCreate9Ex();
 			if (SUCCEEDED(Direct3DCreateEx(D3D_SDK_VERSION, &direct3d))) // 32 | 0x80000000
 			{
@@ -964,13 +964,13 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 		}
 	
 		render_globals.is_d3d9ex = d3d9ex;
-		if (g_direct3d == NULL)
+		if (g_direct3d == nullptr)
 		{
 			decltype(Direct3DCreate9)* Direct3DCreate = GetDirect3DCreate9();
 			g_direct3d = (IDirect3D9Ex*)Direct3DCreate(D3D_SDK_VERSION); // 32 | 0x80000000
 		}
 
-		if (g_direct3d != NULL)
+		if (g_direct3d != nullptr)
 		{
 			g_adapter = 0;
 			if (!windowed)
@@ -1057,7 +1057,7 @@ bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 
 				const char* width_string = csstrstr(command_line, width_string_prefix);
 				const char* height_string = csstrstr(command_line, height_string_prefix);
-				if (width_string != NULL && height_string != NULL)
+				if (width_string != nullptr && height_string != nullptr)
 				{
 					width = atol(width_string + compile_strlen(width_string_prefix));
 					height = atol(height_string + compile_strlen(height_string_prefix));
@@ -1191,13 +1191,13 @@ HCURSOR __cdecl sub_A22340()
 {
 	//return INVOKE(0x00A22340, sub_A22340);
 
-	HCURSOR result = (HCURSOR)LoadImage(NULL, L"halo3.cur", IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
+	HCURSOR result = (HCURSOR)LoadImage(nullptr, L"halo3.cur", IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
 	if (!result)
 	{
-		result = (HCURSOR)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(102), IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
+		result = (HCURSOR)LoadImage(GetModuleHandle(nullptr), MAKEINTRESOURCE(102), IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 		if (!result)
 		{
-			return LoadCursor(NULL, MAKEINTRESOURCE(0x7F00));
+			return LoadCursor(nullptr, MAKEINTRESOURCE(0x7F00));
 		}
 	}
 	return result;
@@ -1214,7 +1214,7 @@ void __cdecl rasterizer_window_initialize()
 {
 	//INVOKE(0x00A223F0, rasterizer_window_initialize);
 
-	if (window_globals.hWnd != NULL)
+	if (window_globals.hWnd != nullptr)
 	{
 		return;
 	}
@@ -1225,7 +1225,7 @@ void __cdecl rasterizer_window_initialize()
 		editor_window_class.lpfnWndProc = window_globals.lpfnWndProcEditor;
 		editor_window_class.hInstance = window_globals.hInstance;
 		editor_window_class.lpszClassName = window_globals.classNameEditor;
-		editor_window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
+		editor_window_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		editor_window_class.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 		ATOM editor_class_registered = RegisterClassA(&editor_window_class);
 		if (editor_class_registered != INVALID_ATOM)
@@ -1238,10 +1238,10 @@ void __cdecl rasterizer_window_initialize()
 				0,
 				GetSystemMetrics(SM_CXSCREEN),
 				GetSystemMetrics(SM_CYSCREEN),
-				NULL,
-				NULL,
+				nullptr,
+				nullptr,
 				editor_window_class.hInstance,
-				NULL
+				nullptr
 			);
 			window_globals.hWndEditor = editor_window_handle_created;
 			ShowWindow(editor_window_handle_created, SW_MAXIMIZE);
@@ -1251,12 +1251,12 @@ void __cdecl rasterizer_window_initialize()
 			CHAR error_message_buffer[256]{};
 			FormatMessageA(
 				FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-				NULL,
+				nullptr,
 				GetLastError(),
 				0,
 				error_message_buffer,
 				sizeof(error_message_buffer),
-				NULL);
+				nullptr);
 
 			event(_event_warning, "%s", error_message_buffer);
 		}
@@ -1301,12 +1301,12 @@ void __cdecl rasterizer_window_initialize()
 			width,
 			height,
 			window_globals.hWndEditor,
-			NULL,
+			nullptr,
 			window_class.hInstance,
-			NULL);
+			nullptr);
 		window_globals.hWnd = window_handle_created;
 
-		if (window_handle_created != NULL)
+		if (window_handle_created != nullptr)
 		{
 			BOOL window_position_set = SetWindowPos(
 				window_handle_created,
@@ -1330,26 +1330,26 @@ void __cdecl rasterizer_window_initialize()
 		CHAR error_message_buffer[256]{};
 		FormatMessageA(
 			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-			NULL,
+			nullptr,
 			GetLastError(),
 			0,
 			error_message_buffer,
 			sizeof(error_message_buffer),
-			NULL);
+			nullptr);
 
 		event(_event_warning, "%s", error_message_buffer);
 	}
 
-	LPSTR error_message = NULL;
+	LPSTR error_message = nullptr;
 	FormatMessageA(
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPSTR)&error_message,
 		0,
-		NULL);
-	MessageBoxA(NULL, error_message, "ERROR - failed to create window", MB_ICONINFORMATION);
+		nullptr);
+	MessageBoxA(nullptr, error_message, "ERROR - failed to create window", MB_ICONINFORMATION);
 	LocalFree(error_message);
 
 	event(_event_error, "failed to create a window");
@@ -1450,11 +1450,11 @@ bool __cdecl c_rasterizer::set_compiled_vertex_shader(const c_rasterizer_compile
 	//
 	//if (d3d_shader == g_current_vertex_shader)
 	//{
-	//	return d3d_shader != NULL && vertex_declaration_set;
+	//	return d3d_shader != nullptr && vertex_declaration_set;
 	//}
 	//
 	//g_current_vertex_shader = d3d_shader;
-	//return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
+	//return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(d3d_shader)) && d3d_shader != nullptr && vertex_declaration_set;
 }
 
 void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
@@ -1507,16 +1507,16 @@ bool __cdecl c_rasterizer::set_pixel_shader(const c_rasterizer_pixel_shader* pix
 	//	IDirect3DPixelShader9* d3d_shader = pixel_shader->get_d3d_shader(entry_point, 0);
 	//	if (d3d_shader == g_current_pixel_shader)
 	//	{
-	//		return d3d_shader != NULL;
+	//		return d3d_shader != nullptr;
 	//	}
 	//
 	//	g_current_pixel_shader = d3d_shader;
-	//	return SUCCEEDED(c_rasterizer::g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
+	//	return SUCCEEDED(c_rasterizer::g_device->SetPixelShader(d3d_shader)) && d3d_shader != nullptr;
 	//}
 	//else if (g_current_pixel_shader)
 	//{
-	//	g_current_pixel_shader = NULL;
-	//	return SUCCEEDED(c_rasterizer::g_device->SetPixelShader(NULL));
+	//	g_current_pixel_shader = nullptr;
+	//	return SUCCEEDED(c_rasterizer::g_device->SetPixelShader(nullptr));
 	//}
 	//
 	//return true;
@@ -1663,16 +1663,16 @@ bool __cdecl c_rasterizer::set_vertex_shader(const c_rasterizer_vertex_shader* v
 	//
 	//	if (d3d_shader == g_current_vertex_shader)
 	//	{
-	//		return d3d_shader != NULL && vertex_declaration_set;
+	//		return d3d_shader != nullptr && vertex_declaration_set;
 	//	}
 	//
 	//	g_current_vertex_shader = d3d_shader;
-	//	return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
+	//	return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(d3d_shader)) && d3d_shader != nullptr && vertex_declaration_set;
 	//}
 	//else if (g_current_vertex_shader)
 	//{
-	//	g_current_vertex_shader = NULL;
-	//	return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(NULL));
+	//	g_current_vertex_shader = nullptr;
+	//	return SUCCEEDED(c_rasterizer::g_device->SetVertexShader(nullptr));
 	//}
 	//
 	//return true;
@@ -2120,9 +2120,9 @@ HBITMAP create_bitmap_handle(HWND window_handle)
 {
 	if (!window_handle)
 	{
-		c_console::write_line("invalid parameter: window handle cannot be NULL");
+		c_console::write_line("invalid parameter: window handle cannot be nullptr");
 
-		return NULL;
+		return nullptr;
 	}
 
 	HDC window_device_context = GetWindowDC(window_handle);
@@ -2130,7 +2130,7 @@ HBITMAP create_bitmap_handle(HWND window_handle)
 	{
 		c_console::write_line("could not get the window device context");
 
-		return NULL;
+		return nullptr;
 	}
 
 	RECT window_rect{};
@@ -2139,7 +2139,7 @@ HBITMAP create_bitmap_handle(HWND window_handle)
 		c_console::write_line("could not get the window rectangle");
 
 		ReleaseDC(window_handle, window_device_context);
-		return NULL;
+		return nullptr;
 	}
 
 	int width = window_rect.bottom - window_rect.top;
@@ -2150,7 +2150,7 @@ HBITMAP create_bitmap_handle(HWND window_handle)
 		c_console::write_line("invalid window width or height");
 
 		ReleaseDC(window_handle, window_device_context);
-		return NULL;
+		return nullptr;
 	}
 
 	HBITMAP bitmap_handle = CreateCompatibleBitmap(window_device_context, height, width);
@@ -2163,14 +2163,14 @@ bool write_window_to_bitmap(HWND window_handle, HBITMAP bitmap_handle)
 {
 	if (!window_handle)
 	{
-		c_console::write_line("invalid parameter, window handle cannot be NULL");
+		c_console::write_line("invalid parameter, window handle cannot be nullptr");
 
 		return false;
 	}
 
 	if (!bitmap_handle)
 	{
-		c_console::write_line("invalid parameter, handle to bitmap cannot be NULL");
+		c_console::write_line("invalid parameter, handle to bitmap cannot be nullptr");
 
 		return false;
 	}
@@ -2227,21 +2227,21 @@ bool create_bitmap_info_header(HWND window_handle, HBITMAP bitmap_handle, LPBITM
 {
 	if (!window_handle)
 	{
-		c_console::write_line("invalid parameter, window handle cannot be NULL");
+		c_console::write_line("invalid parameter, window handle cannot be nullptr");
 
 		return false;
 	}
 
 	if (!bitmap_handle)
 	{
-		c_console::write_line("invalid parameter, window bitmap handle cannot be NULL");
+		c_console::write_line("invalid parameter, window bitmap handle cannot be nullptr");
 
 		return false;
 	}
 
 	if (!out_bitmap_info_header)
 	{
-		c_console::write_line("invalid out parameter, out_bitmap_info_header cannot be NULL");
+		c_console::write_line("invalid out parameter, out_bitmap_info_header cannot be nullptr");
 
 		return false;
 	}
@@ -2281,28 +2281,28 @@ bool get_device_context_for_window(HWND window_handle, const char* file_name, HB
 {
 	if (!window_handle)
 	{
-		c_console::write_line("invalid parameter, window handle cannot be NULL");
+		c_console::write_line("invalid parameter, window handle cannot be nullptr");
 
 		return false;
 	}
 
 	if (!file_name)
 	{
-		c_console::write_line("invalid parameter, file_name cannot be NULL");
+		c_console::write_line("invalid parameter, file_name cannot be nullptr");
 
 		return false;
 	}
 
 	if (!bitmap_handle)
 	{
-		c_console::write_line("invalid parameter, window bitmap handle cannot be NULL");
+		c_console::write_line("invalid parameter, window bitmap handle cannot be nullptr");
 
 		return false;
 	}
 
 	if (!window_device_context)
 	{
-		c_console::write_line("invalid parameter, window device context cannot be NULL");
+		c_console::write_line("invalid parameter, window device context cannot be nullptr");
 
 		return false;
 	}
@@ -2372,7 +2372,7 @@ bool rasterizer_dump_display_to_bmp(const char* file_name)
 {
 	if (!file_name)
 	{
-		c_console::write_line("invalid parameter, file_name cannot be NULL");
+		c_console::write_line("invalid parameter, file_name cannot be nullptr");
 
 		return false;
 	}
@@ -2386,7 +2386,7 @@ bool rasterizer_dump_display_to_bmp(const char* file_name)
 	if (!window_handle)
 		return false;
 
-	//HWND window_handle = FindWindowA(NULL, NULL);
+	//HWND window_handle = FindWindowA(nullptr, nullptr);
 	//if (!window_handle)
 	//	return false;
 	//
@@ -2471,10 +2471,10 @@ const c_rasterizer_globals::s_explicit_shader* c_rasterizer_globals::get_explici
 
 	if (!VALID_INDEX(index, m_explicit_shader_refs.count))
 	{
-		event(_event_error, "Explicit shader (%d) doesn't exist in rasterizer_globals - returning NULL, RENDERING MAY BE AFFECTED, CRASHES MAY ENSUE - TRY GETTING LATEST TAGS AND REBUILDING ANY CACHE FILES",
+		event(_event_error, "Explicit shader (%d) doesn't exist in rasterizer_globals - returning nullptr, RENDERING MAY BE AFFECTED, CRASHES MAY ENSUE - TRY GETTING LATEST TAGS AND REBUILDING ANY CACHE FILES",
 			index);
 
-		return NULL;
+		return nullptr;
 	}
 
 	return &m_explicit_shader_refs[index];

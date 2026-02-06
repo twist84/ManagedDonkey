@@ -71,10 +71,10 @@ void __cdecl progress_set_custom_callbacks(const progress_callbacks* callbacks)
 	//{
 	//	progress_globals.custom_callbacks =
 	//	{
-	//		.progress_new_proc = NULL,
-	//		.progress_update_proc = NULL,
-	//		.progress_done_proc = NULL,
-	//		.progress_data = NULL
+	//		.progress_new_proc = nullptr,
+	//		.progress_update_proc = nullptr,
+	//		.progress_done_proc = nullptr,
+	//		.progress_data = nullptr
 	//	};
 	//}
 }
@@ -91,10 +91,10 @@ void __cdecl progress_set_default_callbacks(const progress_callbacks* callbacks)
 	//{
 	//	progress_globals.default_callbacks =
 	//	{
-	//		.progress_new_proc = NULL,
-	//		.progress_update_proc = NULL,
-	//		.progress_done_proc = NULL,
-	//		.progress_data = NULL
+	//		.progress_new_proc = nullptr,
+	//		.progress_update_proc = nullptr,
+	//		.progress_done_proc = nullptr,
+	//		.progress_data = nullptr
 	//	};
 	//}
 }
@@ -103,7 +103,7 @@ int32 __cdecl progress_update(int32 current_amount, int32 total_amount)
 {
 	return INVOKE(0x005F0990, progress_update, current_amount, total_amount);
 
-	//return progress_update_with_description(current_amount, total_amount, NULL);
+	//return progress_update_with_description(current_amount, total_amount, nullptr);
 }
 
 int32 __cdecl progress_update_with_description(int32 current_amount, int32 total_amount, const char* optional_description)

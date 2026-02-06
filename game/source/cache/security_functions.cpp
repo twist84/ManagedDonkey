@@ -55,7 +55,7 @@ void __cdecl security_dispose()
 	if (g_secure_memory)
 	{
 		system_free(g_secure_memory);
-		g_secure_memory = NULL;
+		g_secure_memory = nullptr;
 	}
 	g_secure_memory_size = 0;
 }
@@ -71,7 +71,7 @@ void __cdecl security_get_working_memory(e_secure_memory_region region, void** o
 	ASSERT(k_secure_memory_regions[region].offset >= 0 && k_secure_memory_regions[region].offset + k_secure_memory_regions[region].size <= k_secure_memory_size);
 	ASSERT(g_secure_memory);
 
-	void* working_memory = NULL;
+	void* working_memory = nullptr;
 	int32 working_memory_size = 0;
 
 	if (g_secure_memory_size >= k_secure_memory_size)
@@ -105,7 +105,7 @@ bool __cdecl security_hash_manifest_find_hash(const s_network_http_request_hash*
 		int32 manifest_count = manifest_size / sizeof(s_network_http_request_hash);
 		if (manifest_size == sizeof(s_network_http_request_hash) * manifest_count)
 		{
-			int32 manifest_index = bsearch_elements(hash, manifest, manifest_count, sizeof(s_network_http_request_hash), hash_compare_function, NULL);
+			int32 manifest_index = bsearch_elements(hash, manifest, manifest_count, sizeof(s_network_http_request_hash), hash_compare_function, nullptr);
 			found = manifest_index != NONE;
 		}
 	}
@@ -199,7 +199,7 @@ bool __cdecl security_rsa_manifest_find_signature(const s_rsa_signature* rsa_sig
 		ASSERT(manifest);
 
 		int32 manifest_count = manifest_size >> 8;
-		int32 manifest_index = bsearch_elements(rsa_signature, manifest, manifest_count, sizeof(s_rsa_signature), rsa_signature_compare_function, NULL);
+		int32 manifest_index = bsearch_elements(rsa_signature, manifest, manifest_count, sizeof(s_rsa_signature), rsa_signature_compare_function, nullptr);
 		found = manifest_index != NONE;
 	}
 	else

@@ -23,7 +23,7 @@ void c_game_engine_oddball_variant::byteswap()
 
 void c_game_engine_oddball_variant::set(const c_game_engine_oddball_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	c_game_engine_base_variant::set(variant, force);
 
@@ -292,7 +292,7 @@ void c_game_engine_oddball_variant::set_carrier_traits(const c_player_traits* tr
 
 void c_oddball_engine::dump_settings(s_file_reference* file) const
 {
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 
 	c_game_engine::dump_settings(file);
 

@@ -141,7 +141,7 @@ void __cdecl network_configuration_update()
 	//{
 	//	g_network_configuration_globals.downloader.update();
 	//
-	//	s_network_configuration* network_configuration = NULL;
+	//	s_network_configuration* network_configuration = nullptr;
 	//	int32 network_configuration_size = 0;
 	//
 	//	switch (g_network_configuration_globals.get_data(&network_configuration, &network_configuration_size))

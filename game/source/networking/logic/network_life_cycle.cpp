@@ -186,7 +186,7 @@ c_network_session* __cdecl network_life_cycle_get_group_session_for_join()
 
 	if (!life_cycle_globals.initialized)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return life_cycle_globals.life_cycle_state_manager.get_group_session();
@@ -301,7 +301,7 @@ bool __cdecl network_life_cycle_get_observer(c_network_observer** observer)
 	//return INVOKE(0x00454D70, network_life_cycle_get_observer, observer);
 
 	ASSERT(observer);
-	*observer = NULL;
+	*observer = nullptr;
 
 	if (!life_cycle_globals.initialized)
 	{
@@ -318,7 +318,7 @@ c_network_session* __cdecl network_life_cycle_get_squad_session_for_join()
 
 	if (!life_cycle_globals.initialized)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return life_cycle_globals.life_cycle_state_manager.get_active_squad_session();
@@ -349,7 +349,7 @@ c_network_session* __cdecl network_life_cycle_get_target_session_for_join()
 
 	if (!life_cycle_globals.initialized)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return life_cycle_globals.life_cycle_state_manager.get_target_session();
@@ -731,7 +731,7 @@ bool __cdecl network_life_cycle_squad_local_peer_is_host()
 {
 	//return INVOKE(0x004552F0, network_life_cycle_squad_local_peer_is_host);
 
-	c_network_session* squad_session = NULL;
+	c_network_session* squad_session = nullptr;
 	if (!network_life_cycle_in_squad_session(&squad_session))
 	{
 		return false;
@@ -745,7 +745,7 @@ bool __cdecl network_life_cycle_squad_local_peer_is_leader()
 {
 	//return INVOKE(0x00455320, network_life_cycle_squad_local_peer_is_leader);
 
-	c_network_session* squad_session = NULL;
+	c_network_session* squad_session = nullptr;
 	if (!network_life_cycle_in_squad_session(&squad_session))
 	{
 		return false;

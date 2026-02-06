@@ -88,7 +88,7 @@ HOOK_DECLARE(0x00507450, process_published_game_state);
 
 bool g_toggle_game_scripts = false;
 
-#define NULL_BELONGS_TO_CHUCKY *(const char**)NULL = "chucky was here!  NULL belongs to me!!!!!"
+#define NULL_BELONGS_TO_CHUCKY *(const char**)nullptr = "chucky was here!  nullptr belongs to me!!!!!"
 
 static c_synchronized_long ill_never_be_done{};
 
@@ -341,7 +341,7 @@ void __cdecl main_crash(const char* type)
 	break;
 	case "async"_hash:
 	{
-		async_queue_simple_callback(main_crash_async, NULL, 0, _async_priority_blocking_generic, &ill_never_be_done);
+		async_queue_simple_callback(main_crash_async, nullptr, 0, _async_priority_blocking_generic, &ill_never_be_done);
 	}
 	break;
 	case "screen"_hash:
@@ -610,13 +610,13 @@ void __cdecl main_halt_and_catch_fire()
 
 	event(_event_warning, "lifecycle: CRASH");
 	main_status("system_milliseconds", "time %d", system_milliseconds());
-	main_status_dump(NULL);
+	main_status_dump(nullptr);
 
 	font_initialize_emergency();
 	online_process_debug_output_queue();
 	transport_initialize();
 	input_clear_all_rumblers();
-	progress_set_default_callbacks(NULL);
+	progress_set_default_callbacks(nullptr);
 	saved_film_manager_close();
 	c_online_lsp_manager::get()->go_into_crash_mode();
 	network_webstats_force_reset();
@@ -774,7 +774,7 @@ void __cdecl main_halt_and_display_errors()
 
 	//main_globals.halted_with_errors = true;
 	////damaged_media_halt_and_display_error();
-	//main_game_change(NULL);
+	//main_game_change(nullptr);
 }
 
 bool __cdecl main_halted_with_errors()
@@ -1393,7 +1393,7 @@ void __cdecl main_loop_exit()
 	}
 
 	main_render_sub_604AD0();
-	main_game_unload_and_prepare_for_next_game(NULL);
+	main_game_unload_and_prepare_for_next_game(nullptr);
 	physical_memory_resize_region_dispose();
 	game_dispose();
 	console_dispose();
@@ -2404,7 +2404,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, 
 			file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
 		}
 
-		if (last_resource_owner != NONE && g_cache_file_globals.resource_gestalt != NULL)
+		if (last_resource_owner != NONE && g_cache_file_globals.resource_gestalt != nullptr)
 		{
 			for (s_cache_file_tag_resource_data* resource : g_cache_file_globals.resource_gestalt->resources)
 			{

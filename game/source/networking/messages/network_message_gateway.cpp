@@ -22,12 +22,12 @@ void c_network_message_gateway::destroy_gateway()
 	{
 		if (m_link)
 		{
-			m_link->attach_out_of_band(NULL);
-			m_link = NULL;
+			m_link->attach_out_of_band(nullptr);
+			m_link = nullptr;
 		}
 
-		m_message_handler = NULL;
-		m_message_types = NULL;
+		m_message_handler = nullptr;
+		m_message_types = nullptr;
 		m_initialized = false;
 
 		//c_console::write_line("MP/NET/MESSAGE,CTRL: c_network_message_gateway::destroy_gateway: Message gateway destoyed");
@@ -45,7 +45,7 @@ bool c_network_message_gateway::initialize_gateway(c_network_link* link, const c
 	m_message_types = message_types;
 	message_types->check_message_types();
 
-	m_message_handler = NULL;
+	m_message_handler = nullptr;
 	m_outgoing_packet_pending = false;
 	m_initialized = true;
 
@@ -81,9 +81,9 @@ c_network_message_gateway::c_network_message_gateway() :
 	c_network_out_of_band_consumer(),
 	m_outgoing_packet_pending(false),
 	m_outgoing_packet(m_outgoing_packet_storage, sizeof(m_outgoing_packet_storage)),
-	m_link(NULL),
-	m_message_types(NULL),
-	m_message_handler(NULL),
+	m_link(nullptr),
+	m_message_types(nullptr),
+	m_message_handler(nullptr),
 	m_initialized(false)
 {
 }
@@ -167,7 +167,7 @@ bool c_network_message_gateway::receive_out_of_band_packet(const transport_addre
 		data_string.append("}");
 
 		static char address_string[256]{};
-		transport_address_to_string(incoming_address, NULL, address_string, 256, true, true);
+		transport_address_to_string(incoming_address, nullptr, address_string, 256, true, true);
 
 		event(_event_verbose, "networking:messages:gateway:anomaly: foreign packet (%d bytes %s%s) from '%s'",
 			data_length,
@@ -195,7 +195,7 @@ void c_network_message_gateway::send_all_pending_messages()
 		ASSERT(!m_outgoing_packet.would_overflow(1));
 
 		m_outgoing_packet.write_bool("has_message", false);
-		m_outgoing_packet.finish_writing(NULL);
+		m_outgoing_packet.finish_writing(nullptr);
 
 		if (m_outgoing_packet.begin_consistency_check())
 		{
@@ -223,7 +223,7 @@ void c_network_message_gateway::send_all_pending_messages()
 		}
 
 		if (result)
-			m_link->send_out_of_band(&m_outgoing_packet, &m_outgoing_packet_address, NULL);
+			m_link->send_out_of_band(&m_outgoing_packet, &m_outgoing_packet_address, nullptr);
 
 		m_outgoing_packet_pending = false;
 	}

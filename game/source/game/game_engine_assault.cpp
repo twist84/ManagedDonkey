@@ -32,7 +32,7 @@ void c_game_engine_assault_variant::byteswap()
 
 void c_game_engine_assault_variant::set(const c_game_engine_assault_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	c_game_engine_base_variant::set(variant, force);
 
@@ -322,7 +322,7 @@ void c_game_engine_assault_variant::set_arming_traits(const c_player_traits* tra
 
 void c_assault_engine::dump_settings(s_file_reference* file) const
 {
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 
 	c_game_engine::dump_settings(file);
 

@@ -57,8 +57,8 @@ public:
 	// Add a string property
 	void add_string(const char* key, const char* value)
 	{
-		ASSERT(key != NULL);
-		ASSERT(value != NULL);
+		ASSERT(key != nullptr);
+		ASSERT(value != nullptr);
 
 		c_static_string<k_maximum_count> escaped;
 		escape_string(value, escaped);
@@ -71,7 +71,7 @@ public:
 	// Add a string value (for arrays)
 	void add_string_value(const char* value)
 	{
-		ASSERT(value != NULL);
+		ASSERT(value != nullptr);
 
 		c_static_string<k_maximum_count> escaped;
 		escape_string(value, escaped);
@@ -84,7 +84,7 @@ public:
 	// Add an integer property
 	void add_integer(const char* key, int32 value)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -102,7 +102,7 @@ public:
 	// Add a 64-bit integer property
 	void add_integer64(const char* key, int64 value)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -112,7 +112,7 @@ public:
 	// Add an unsigned integer property
 	void add_unsigned(const char* key, uns32 value)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -122,7 +122,7 @@ public:
 	// Add a float property
 	void add_float(const char* key, float value)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -132,7 +132,7 @@ public:
 	// Add a double property
 	void add_double(const char* key, double value)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -142,7 +142,7 @@ public:
 	// Add a boolean property
 	void add_boolean(const char* key, bool value)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -160,7 +160,7 @@ public:
 	// Add a null property
 	void add_null(const char* key)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -178,7 +178,7 @@ public:
 	// Start a nested object with a key
 	void begin_object(const char* key)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -190,7 +190,7 @@ public:
 	// Start a nested array with a key
 	void begin_array(const char* key)
 	{
-		ASSERT(key != NULL);
+		ASSERT(key != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -202,8 +202,8 @@ public:
 	// Add raw JSON (be careful with this!)
 	void add_raw(const char* key, const char* raw_json)
 	{
-		ASSERT(key != NULL);
-		ASSERT(raw_json != NULL);
+		ASSERT(key != nullptr);
+		ASSERT(raw_json != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -213,7 +213,7 @@ public:
 	// Add raw JSON value for arrays
 	void add_raw_value(const char* raw_json)
 	{
-		ASSERT(raw_json != NULL);
+		ASSERT(raw_json != nullptr);
 
 		write_comma_if_needed();
 		write_indent();
@@ -347,7 +347,7 @@ public:
 
 	void begin_tag(const char* tag_name)
 	{
-		ASSERT(tag_name != NULL);
+		ASSERT(tag_name != nullptr);
 
 		close_opening_tag_if_needed();
 		write_indent();
@@ -361,7 +361,7 @@ public:
 
 	void end_tag(const char* tag_name)
 	{
-		ASSERT(tag_name != NULL);
+		ASSERT(tag_name != nullptr);
 
 		close_opening_tag_if_needed();
 		m_depth--;
@@ -371,7 +371,7 @@ public:
 
 	void self_closing_tag(const char* tag_name)
 	{
-		ASSERT(tag_name != NULL);
+		ASSERT(tag_name != nullptr);
 
 		close_opening_tag_if_needed();
 		write_indent();
@@ -384,8 +384,8 @@ public:
 
 	c_html_static_string& attr(const char* name, const char* value)
 	{
-		ASSERT(name != NULL);
-		ASSERT(value != NULL);
+		ASSERT(name != nullptr);
+		ASSERT(value != nullptr);
 
 		c_static_string<k_maximum_count> escaped;
 		escape_attribute(value, escaped);
@@ -404,7 +404,7 @@ public:
 
 	c_html_static_string& attr(const char* name, int32 value)
 	{
-		ASSERT(name != NULL);
+		ASSERT(name != nullptr);
 
 		int32 len = this->length();
 		if (len >= 3 && this->get_string()[len - 3] == '>' &&
@@ -468,7 +468,7 @@ public:
 
 	void text(const char* content)
 	{
-		ASSERT(content != NULL);
+		ASSERT(content != nullptr);
 
 		close_opening_tag_if_needed();
 		c_static_string<k_maximum_count> escaped;
@@ -481,7 +481,7 @@ public:
 
 	void raw(const char* content)
 	{
-		ASSERT(content != NULL);
+		ASSERT(content != nullptr);
 
 		close_opening_tag_if_needed();
 		write_indent();

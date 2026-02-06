@@ -365,15 +365,15 @@ void c_contrail_gpu::render(const c_contrail_states* contrail_states) const
 		if (effects_render && contrail_render && m_row_head != NONE && m_profile_count > 1)
 		{
 			c_contrail* contrail = c_contrail::get(m_contrail_index);
-			if (contrail == NULL)
+			if (contrail == nullptr)
 			{
-				event(_event_critical, "effects:gpu: Got NULL c_contrail in c_contrail_gpu::render");
+				event(_event_critical, "effects:gpu: Got nullptr c_contrail in c_contrail_gpu::render");
 			}
 
 			const c_contrail_definition* contrail_definition = contrail->get_definition();
-			if (contrail_definition == NULL)
+			if (contrail_definition == nullptr)
 			{
-				event(_event_critical, "effects:gpu: Got NULL c_contrail_definition in c_contrail_gpu::render");
+				event(_event_critical, "effects:gpu: Got nullptr c_contrail_definition in c_contrail_gpu::render");
 			}
 
 			// $TODO PIX event
@@ -415,7 +415,7 @@ void c_contrail_gpu::render(const c_contrail_states* contrail_states) const
 			}
 
 			const c_render_method_shader_contrail* render_method = &contrail_definition->m_shader;
-			if (x_render_vertex_shader.shader_reference != NULL)
+			if (x_render_vertex_shader.shader_reference != nullptr)
 			{
 				x_render_vertex_shader.initialize(&render_method->m_definition);
 			}

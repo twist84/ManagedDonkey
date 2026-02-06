@@ -130,7 +130,7 @@ c_gui_bitmap_widget* c_motd_popup_screen_widget::create_bitmap_widget(const s_ru
 {
 	//return INVOKE_CLASS_MEMBER(0x00B138C0, c_motd_popup_screen_widget, create_bitmap_widget, definition);
 
-	c_gui_bitmap_widget* bitmap_widget = NULL;
+	c_gui_bitmap_widget* bitmap_widget = nullptr;
 	if (definition->widget_identifier == STRING_ID(gui, flavor_image))
 	{
 		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
@@ -158,13 +158,13 @@ const s_bitmap_widget_block* __cdecl c_motd_popup_screen_widget::get_bitmap_widg
 	//s_screen_widget_definition* screen_widget_definition = TAG_GET(GUI_SCREEN_WIDGET_DEFINITION_TAG, s_screen_widget_definition, screen_definition_index);
 	//if (!VALID_INDEX(group_index, screen_widget_definition->group_blocks.count))
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//s_group_widget_block* group_widget_block = TAG_BLOCK_GET_ELEMENT(&screen_widget_definition->group_blocks, group_index, s_group_widget_block);
 	//if (!VALID_INDEX(bitmap_block_index, group_widget_block->override_definition.bitmap_blocks.count))
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//s_bitmap_widget_block* bitmap_widget_block = TAG_BLOCK_GET_ELEMENT(&group_widget_block->override_definition.bitmap_blocks, bitmap_block_index, s_bitmap_widget_block);
@@ -597,7 +597,7 @@ void c_motd_popup_screen_widget::update(uns32 current_milliseconds)
 	if (flavor_image_bitmap)
 	{
 		int32 image_size = 0;
-		const char* image_buffer = NULL;
+		const char* image_buffer = nullptr;
 
 		if (m_image_url_key != g_online_url_hopper_directory_key)
 		{

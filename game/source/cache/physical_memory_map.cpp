@@ -49,7 +49,7 @@ COMPILE_ASSERT(NUMBEROF(k_physical_memory_stage_names) == k_memory_stage_count);
 
 void* __cdecl _physical_memory_malloc(memory_stage stage, const char* name, int32 size, uns32 flags)
 {
-	return physical_memory_system_malloc(size, NULL);
+	return physical_memory_system_malloc(size, nullptr);
 }
 
 uns32 __cdecl align_up(uns32 value, int32 alignment_bits)
@@ -98,7 +98,7 @@ void __cdecl physical_memory_destroy_resizeable_contiguous_region(const c_physic
 {
 	return INVOKE(0x0051D580, physical_memory_destroy_resizeable_contiguous_region, resize_region_listener);
 
-	//physical_memory_globals.resize_region_listener = NULL;
+	//physical_memory_globals.resize_region_listener = nullptr;
 }
 
 void __cdecl physical_memory_dispose()
@@ -148,7 +148,7 @@ void __cdecl physical_memory_initialize()
 	recalculate_data_size_increase(g_physical_memory_data_size_increase_mb);
 	recalculate_cache_size_increase(g_physical_memory_cache_size_increase_mb);
 
-	k_physical_memory_base_virtual_address = physical_memory_system_malloc(g_physical_memory_data_size_new + g_physical_memory_cache_size_new, NULL);
+	k_physical_memory_base_virtual_address = physical_memory_system_malloc(g_physical_memory_data_size_new + g_physical_memory_cache_size_new, nullptr);
 	k_virtual_to_physical_base_offset = k_physical_memory_base_virtual_address;
 	resources_buffer = (byte*)k_physical_memory_base_virtual_address + g_physical_memory_data_size_new;
 
@@ -300,7 +300,7 @@ bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_m
 {
 	return INVOKE(0x0051DC90, physical_memory_try_to_resize_contiguous_buffer_simple, region_listener, in_region, minimum_new_size, out_new_region);
 
-	//void* new_base_address = NULL;
+	//void* new_base_address = nullptr;
 	//uns32 new_region_size = 0;
 	//bool result = physical_memory_try_to_resize_contiguous_region(region_listener, in_region.begin(), in_region.size(), minimum_new_size, minimum_new_size, 0, &new_base_address, &new_region_size);
 	//if (result)

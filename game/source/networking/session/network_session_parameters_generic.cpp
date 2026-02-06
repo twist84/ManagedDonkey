@@ -11,7 +11,7 @@ inline t_type* c_generic_network_session_parameter<t_type>::get() const
 			get_session_description(),
 			m_parameter_type,
 			m_parameter_type_description);
-		return NULL;
+		return nullptr;
 	}
 
 	return &this->m_data;

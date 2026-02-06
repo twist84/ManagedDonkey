@@ -45,7 +45,7 @@ c_gui_bitmap_widget* c_start_menu_game_multiplayer::create_bitmap_widget(const s
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE9150, c_start_menu_game_multiplayer, create_bitmap_widget, definition);
 
-	c_gui_bitmap_widget* bitmap_widget = NULL;
+	c_gui_bitmap_widget* bitmap_widget = nullptr;
 	if (definition->widget_identifier == STRING_ID(gui, map_image))
 	{
 		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
@@ -100,7 +100,7 @@ void c_start_menu_game_multiplayer::initialize_datasource()
 
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
+	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), nullptr);
 	if (sidebar_items_data)
 	{
 		sidebar_items_data->clear_disabled_elements();
@@ -199,7 +199,7 @@ void c_start_menu_game_multiplayer::update(uns32 current_milliseconds)
 
 	c_start_menu_pane_screen_widget::update(current_milliseconds);
 
-	if (c_gui_ordered_data* datasource = (c_gui_ordered_data*)c_gui_screen_widget::get_data(STRING_ID(gui, teams), NULL))
+	if (c_gui_ordered_data* datasource = (c_gui_ordered_data*)c_gui_screen_widget::get_data(STRING_ID(gui, teams), nullptr))
 	{
 		const c_game_variant* variant = user_interface_game_settings_get_game_variant();
 

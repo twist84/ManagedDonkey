@@ -259,7 +259,7 @@ void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 			e_controller_index controller_index = controller_index_from_user_index(user_index);
 			if (controller_index != k_no_controller)
 			{
-				s_game_input_state* input_state = NULL;
+				s_game_input_state* input_state = nullptr;
 				input_abstraction_get_input_state(controller_index, &input_state);
 				bool back_pressed = input_state && input_state->get_button(_button_back).down_frames() != 0;
 
@@ -272,7 +272,7 @@ void __cdecl game_engine_interface_update(real32 world_seconds_elapsed)
 					local_game_engine_globals->round_or_game_over_timer = game_time_get() + game_seconds_integer_to_ticks(1);
 				}
 
-				if (user_interface_should_show_console_scoreboard(NULL))
+				if (user_interface_should_show_console_scoreboard(nullptr))
 				{
 					c_gui_screen_scoreboard::hide_scoreboard(controller_index);
 				}
@@ -425,7 +425,7 @@ bool __cdecl game_engine_running()
 {
 	//return INVOKE(0x00552410, game_engine_running);
 
-	return current_game_engine() != NULL;
+	return current_game_engine() != nullptr;
 }
 
 //.text:00552420 ; void __cdecl game_engine_sandbox_get_string(int32, c_static_wchar_string<1024>*)

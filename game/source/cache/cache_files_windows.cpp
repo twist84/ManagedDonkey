@@ -122,7 +122,7 @@ bool __cdecl cache_file_copy_do_action()
 	case _cache_copy_state_create_source_file:
 	{
 		wchar_t source_file[256]{};
-		ascii_string_to_wchar_string(cache_file_copy_globals.copying_map_file_path, source_file, NUMBEROF(source_file), NULL);
+		ascii_string_to_wchar_string(cache_file_copy_globals.copying_map_file_path, source_file, NUMBEROF(source_file), nullptr);
 	
 		cache_file_copy_globals.copy_task_id = async_create_file(
 			source_file,
@@ -484,7 +484,7 @@ void __cdecl cache_file_copy_release_buffer()
 	//if (cache_file_copy_globals.buffer.begin())
 	//{
 	//	_optional_cache_free((e_optional_cache_user)0, cache_file_copy_globals.buffer.begin());
-	//	cache_file_copy_globals.buffer.set_buffer(NULL, 0ul);
+	//	cache_file_copy_globals.buffer.set_buffer(nullptr, 0ul);
 	//}
 }
 
@@ -680,7 +680,7 @@ bool __cdecl cache_files_copy_in_progress()
 {
 	return INVOKE(0x005AAC60, cache_files_copy_in_progress);
 
-	//return cache_files_copy_in_progress_internal(NULL);
+	//return cache_files_copy_in_progress_internal(nullptr);
 }
 
 bool __cdecl cache_files_copy_in_progress_internal(real32* out_progress)
@@ -1059,7 +1059,7 @@ void c_cache_file_copy_fake_decompressor::teardown()
 	INVOKE_CLASS_MEMBER(0x005AC640, c_cache_file_copy_fake_decompressor, teardown);
 
 	//m_done.peek();
-	//m_buffer.set_buffer(NULL, 0ul);
+	//m_buffer.set_buffer(nullptr, 0ul);
 	//m_overall_copy_in_progress = false;
 }
 

@@ -20,7 +20,7 @@ void __thiscall c_gui_list_widget::close_active_submenu_(c_gui_list_widget* subm
 template<>
 void ui_track_delete<c_gui_list_widget>(const c_gui_list_widget* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_list_widget();
 	user_interface_free(object);
@@ -30,13 +30,13 @@ c_gui_list_widget::c_gui_list_widget() :
 	c_gui_widget(_gui_list),
 	m_definition(),
 	m_datasource_name(NONE),
-	m_more_items_preceeding_bitmap(NULL),
-	m_more_items_following_bitmap(NULL),
+	m_more_items_preceeding_bitmap(nullptr),
+	m_more_items_following_bitmap(nullptr),
 	m_focused_item_index(0),
 	m_current_scroll_direction(_list_scroll_direction_none),
 	m_scroll_position(0),
 	m_selectable_item_cap(NONE),
-	m_submenu_item(NULL),
+	m_submenu_item(nullptr),
 	m_is_submenu(false),
 	m_is_submenu_needs_disposal(false)
 {
@@ -71,14 +71,14 @@ void c_gui_list_widget::close_active_submenu(c_gui_list_widget* submenu_widget)
 {
 	//INVOKE_CLASS_MEMBER(0x00B14B90, c_gui_list_widget, close_active_submenu, submenu_widget);
 
-	ASSERT(submenu_widget != NULL);
-	ASSERT(m_submenu_item != NULL);
+	ASSERT(submenu_widget != nullptr);
+	ASSERT(m_submenu_item != nullptr);
 
 	c_gui_screen_widget* parent_screen = get_parent_screen();
-	ASSERT(parent_screen != NULL);
+	ASSERT(parent_screen != nullptr);
 
 	parent_screen->transfer_focus_without_animations(m_submenu_item, false, true);
-	m_submenu_item = NULL;
+	m_submenu_item = nullptr;
 	c_gui_list_widget::dispose_submenu(submenu_widget);
 	c_gui_widget::animate_recursively(m_last_animated_milliseconds);
 }
@@ -143,14 +143,14 @@ c_gui_data* c_gui_list_widget::get_data()
 	if (!parent_screen)
 	{
 		event(_event_message, "ui: failed to find list datasource '%s'", m_datasource_name.get_string());
-		return NULL;
+		return nullptr;
 	}
 
 	int32 datasource_index = NONE;
 	c_gui_data* datasource = parent_screen->get_data(m_datasource_name.get_value(), &datasource_index);
 	if (!datasource)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return datasource;
@@ -388,7 +388,7 @@ void c_gui_list_widget::update(uns32 current_milliseconds)
 	if (c_gui_list_widget::is_submenu_that_needs_disposal())
 	{
 		c_gui_list_widget* parent_list = c_gui_widget::get_parent_list();
-		ASSERT(parent_list != NULL);
+		ASSERT(parent_list != nullptr);
 		parent_list->close_active_submenu(this);
 	}
 }

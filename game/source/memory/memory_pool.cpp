@@ -162,7 +162,7 @@ void* __cdecl memory_pool_get_address(const s_memory_pool* memory_pool, int32 ha
 	//
 	//if (!handle)
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//return offset_pointer((void*)memory_pool, handle);

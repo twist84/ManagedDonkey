@@ -53,10 +53,10 @@ void splash_screen_show(const wchar_t* png_path, int fade_in_ms, int hold_ms, in
 }
 
 c_splash_screen::c_splash_screen() :
-	m_instance(GetModuleHandle(NULL)),
-	m_hwnd(NULL),
-	m_bitmap(NULL),
-	m_gdiplus_token(NULL),
+	m_instance(GetModuleHandle(nullptr)),
+	m_hwnd(nullptr),
+	m_bitmap(nullptr),
+	m_gdiplus_token(nullptr),
 	m_alpha(0),
 	m_step(0),
 	m_timer_interval(0),
@@ -76,7 +76,7 @@ c_splash_screen::~c_splash_screen()
 void c_splash_screen::initialize()
 {
 	Gdiplus::GdiplusStartupInput input;
-	Gdiplus::GdiplusStartup(&m_gdiplus_token, &input, NULL);
+	Gdiplus::GdiplusStartup(&m_gdiplus_token, &input, nullptr);
 }
 
 void c_splash_screen::disose()
@@ -92,7 +92,7 @@ void c_splash_screen::show(const wchar_t* png_path, int fade_in_ms, int hold_ms,
 
 LRESULT CALLBACK c_splash_screen::window_proc(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_param)
 {
-	c_splash_screen* _this = NULL;
+	c_splash_screen* _this = nullptr;
 
 	if (msg == WM_NCCREATE)
 	{
@@ -118,14 +118,14 @@ LRESULT CALLBACK c_splash_screen::window_proc(HWND hwnd, UINT msg, WPARAM w_para
 				{
 					_this->m_alpha = 255;
 					_this->m_state = _state_hold;
-					SetTimer(hwnd, k_splash_timer_id, _this->m_hold_ms, NULL);
+					SetTimer(hwnd, k_splash_timer_id, _this->m_hold_ms, nullptr);
 				}
 			}
 			else if (_this->m_state == _state_hold)
 			{
 				_this->m_state = _state_fading_out;
 				_this->m_step = 255 * _this->m_timer_interval / (_this->m_fade_out_ms > 1 ? _this->m_fade_out_ms : 1);
-				SetTimer(hwnd, k_splash_timer_id, _this->m_timer_interval, NULL);
+				SetTimer(hwnd, k_splash_timer_id, _this->m_timer_interval, nullptr);
 			}
 			else if (_this->m_state == _state_fading_out) // fade out
 			{
@@ -175,7 +175,7 @@ void c_splash_screen::run(const wchar_t* path, int fade_in_ms, int hold_ms, int 
 	wc.lpfnWndProc = window_proc;
 	wc.hInstance = m_instance;
 	wc.lpszClassName = class_name;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClass(&wc);
 
 	int screen_w = GetSystemMetrics(SM_CXSCREEN);
@@ -188,16 +188,16 @@ void c_splash_screen::run(const wchar_t* path, int fade_in_ms, int hold_ms, int 
 		WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW,
 		class_name, L"", WS_POPUP,
 		x, y, w, h,
-		NULL, NULL, m_instance, this);
+		nullptr, nullptr, m_instance, this);
 
 	ShowWindow(m_hwnd, SW_SHOWNORMAL);
 	UpdateWindow(m_hwnd);
 
 	draw((BYTE)m_alpha);
-	SetTimer(m_hwnd, k_splash_timer_id, m_timer_interval, NULL);
+	SetTimer(m_hwnd, k_splash_timer_id, m_timer_interval, nullptr);
 
 	MSG msg = {};
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (GetMessage(&msg, nullptr, 0, 0))
 	{
 		if (!IsDialogMessage(m_hwnd, &msg))
 		{
@@ -209,7 +209,7 @@ void c_splash_screen::run(const wchar_t* path, int fade_in_ms, int hold_ms, int 
 
 void c_splash_screen::draw(BYTE alpha)
 {
-	HDC screen_dc = GetDC(NULL);
+	HDC screen_dc = GetDC(nullptr);
 	HDC mem_dc = CreateCompatibleDC(screen_dc);
 
 	int w = m_bitmap->GetWidth();
@@ -223,8 +223,8 @@ void c_splash_screen::draw(BYTE alpha)
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
 
-	void* bits = NULL;
-	HBITMAP dib = CreateDIBSection(mem_dc, &bmi, DIB_RGB_COLORS, &bits, NULL, 0);
+	void* bits = nullptr;
+	HBITMAP dib = CreateDIBSection(mem_dc, &bmi, DIB_RGB_COLORS, &bits, nullptr, 0);
 	(void)SelectObject(mem_dc, dib);
 
 	Gdiplus::Graphics g(mem_dc);
@@ -247,7 +247,7 @@ void c_splash_screen::draw(BYTE alpha)
 
 	DeleteObject(dib);
 	DeleteDC(mem_dc);
-	ReleaseDC(NULL, screen_dc);
+	ReleaseDC(nullptr, screen_dc);
 }
 
 void c_splash_screen::cleanup()
@@ -255,7 +255,7 @@ void c_splash_screen::cleanup()
 	if (m_bitmap)
 	{
 		delete m_bitmap;
-		m_bitmap = NULL;
+		m_bitmap = nullptr;
 	}
 }
 

@@ -75,7 +75,7 @@ bool __cdecl XNetXnAddrToInAddr(const s_transport_secure_address* secure_address
 {
 	//return INVOKE(0x0052D840, XNetXnAddrToInAddr, secure_address, secure_identifier, out_address);
 
-	int32 entry_index = XNetFindEntry(NULL, secure_address, true);
+	int32 entry_index = XNetFindEntry(nullptr, secure_address, true);
 	bool valid_entry = entry_index != NONE;
 	if (valid_entry)
 	{
@@ -90,7 +90,7 @@ bool __cdecl _XNetInAddrToXnAddr(const transport_address* address, s_transport_s
 {
 	//return INVOKE(0x0052D8F0, XNetInAddrToXnAddr, address, out_secure_address);
 
-	int32 entry_index = XNetFindEntry(address, NULL, true);
+	int32 entry_index = XNetFindEntry(address, nullptr, true);
 	bool valid_entry = entry_index != NONE;
 	if (valid_entry)
 	{
@@ -105,7 +105,7 @@ bool __cdecl XNetInAddrToXnAddr(const transport_address* address, s_transport_se
 {
 	//return INVOKE(0x0052D970, XNetInAddrToXnAddr, address, out_secure_address, out_secure_identifier);
 
-	int32 entry_index = XNetFindEntry(address, NULL, true);
+	int32 entry_index = XNetFindEntry(address, nullptr, true);
 	bool valid_entry = entry_index != NONE;
 	if (valid_entry)
 	{
@@ -122,7 +122,7 @@ void __cdecl XNetRemoveEntry(const transport_address* address)
 {
 	//INVOKE(0x0052DA40, XNetRemoveEntry, address);
 
-	int32 entry_index = XNetFindEntry(address, NULL, true);
+	int32 entry_index = XNetFindEntry(address, nullptr, true);
 	bool valid_entry = entry_index != NONE;
 	if (valid_entry)
 	{

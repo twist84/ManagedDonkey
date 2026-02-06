@@ -161,7 +161,7 @@ void __cdecl ai_debug_render()
 	if (actor_datum_available_to_current_thread() && ai_globals->ai_initialized_for_map)
 	{
 		rectangle2d bounds{};
-		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		global_ai_debug_string_position = bounds.y1 - 20;
 		//dword_143C86DD8 = (dword_143C86DD8 + 1) % 1000;
 		if (g_ai_debug_selected_actor_index != NONE)
@@ -208,7 +208,7 @@ void __cdecl ai_debug_render()
 
 			if (g_ai_debug_selected_actor_index != NONE && !g_ai_render_all_actors)
 			{
-				ai_debug_render_actor(g_ai_debug_selected_actor_index, true, NULL);
+				ai_debug_render_actor(g_ai_debug_selected_actor_index, true, nullptr);
 			}
 
 #if 0
@@ -559,8 +559,8 @@ void render_command_scripts_helper(actor_datum* actor, int32 command_script_inde
 	//if (command_script->thread_index != NONE)
 	//{
 	//	hs_thread* thread = hs_thread_get(command_script->thread_index);
-	//	hs_script* script = NULL;
-	//	const real_argb_color* color = NULL;
+	//	hs_script* script = nullptr;
+	//	const real_argb_color* color = nullptr;
 	//
 	//	if (thread->script_index != NONE)
 	//	{
@@ -655,7 +655,7 @@ void ai_debug_render_all_actors(bool inactive)
 	actor_iterator_new(&iterator, !inactive);
 	while (actor_iterator_next(&iterator))
 	{
-		ai_debug_render_actor(iterator.index, iterator.index == g_ai_debug_selected_actor_index, NULL);
+		ai_debug_render_actor(iterator.index, iterator.index == g_ai_debug_selected_actor_index, nullptr);
 	}
 #endif
 }
@@ -720,7 +720,7 @@ void ai_debug_render_sectors()
 					if (IN_RANGE_INCLUSIVE(link.sectors[0], sectors_range_min, sectors_range_max) ||
 						IN_RANGE_INCLUSIVE(link.sectors[1], sectors_range_min, sectors_range_max))
 					{
-						sector_link_render_debug(link_index, pf_data, NULL, false);
+						sector_link_render_debug(link_index, pf_data, nullptr, false);
 					}
 				}
 			}
@@ -784,7 +784,7 @@ void ai_debug_render_intersection_links()
 				{
 					if (TEST_BIT(pf_data->sector_links[link_index].flags, _sector_link_section_link_bit))
 					{
-						sector_link_render_debug(link_index, pf_data, NULL, false);
+						sector_link_render_debug(link_index, pf_data, nullptr, false);
 					}
 				}
 			}
@@ -978,7 +978,7 @@ void ai_debug_tracking_data()
 	}
 
 	csnzprintf(string, sizeof(string), "Total tracking data: %i", total_tracking_index);
-	ai_debug_string(string, 0, NULL, global_real_argb_green);
+	ai_debug_string(string, 0, nullptr, global_real_argb_green);
 }
 
 void ai_debug_perception_data()
@@ -1082,7 +1082,7 @@ void ai_debug_render_dynamic_firing_positions()
 	while (dynamic_firing_set_iter.next())
 	{
 		real_point3d position{};
-		const real_argb_color* color = NULL;
+		const real_argb_color* color = nullptr;
 
 		dynamic_firing_set_datum* dynamic_firing_set = dynamic_firing_set_iter.get_datum();
 		if (dynamic_firing_set->support_object_index == NONE)

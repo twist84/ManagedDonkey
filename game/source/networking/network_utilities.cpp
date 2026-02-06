@@ -34,7 +34,7 @@ bool __cdecl network_get_machine_name(wchar_t* name, int32 name_length)
 	bool valid_machine_name = shell_get_system_identifier(system_identifier, 256) && system_identifier[0];
 	if (valid_machine_name)
 	{
-		ascii_string_to_wchar_string(system_identifier, name, name_length, NULL);
+		ascii_string_to_wchar_string(system_identifier, name, name_length, nullptr);
 	}
 	return valid_machine_name;
 }

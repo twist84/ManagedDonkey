@@ -17,10 +17,10 @@ uns32 __thiscall c_storage_device_selector_overlapped_task::start_(void* platfor
 
 c_storage_device_selector_overlapped_task::c_storage_device_selector_overlapped_task(const char* file, int32 line) :
 	c_overlapped_task(file, line),
-	m_storage_device(NULL),
+	m_storage_device(nullptr),
 	m_controller_index(k_no_controller),
 	m_minimum_required_bytes(0),
-	m_device_id(NULL),
+	m_device_id(nullptr),
 	m_always_show(false)
 {
 	//DECLFUNC(0x0074D3E0, void, __thiscall, c_storage_device_selector_overlapped_task*, const char*, int32)(this, file, line);
@@ -66,8 +66,8 @@ uns32 c_storage_device_selector_overlapped_task::start(void* platform_handle)
 	//INVOKE_CLASS_MEMBER(0x0074D690, c_storage_device_selector_overlapped_task, start, platform_handle);
 
 	ASSERT(VALID_INDEX(m_controller_index, k_number_of_controllers));
-	ASSERT(m_storage_device != NULL);
-	ASSERT(m_device_id != NULL);
+	ASSERT(m_storage_device != nullptr);
+	ASSERT(m_device_id != nullptr);
 
 	m_storage_device->set_device_selection_cancelled(false);
 

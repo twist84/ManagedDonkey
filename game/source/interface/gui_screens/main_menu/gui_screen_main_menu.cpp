@@ -121,7 +121,7 @@ void c_main_menu_screen_widget::set_list_elements()
 	static bool x_disable_leave_game_element = false; // $TODO make the menu taller?
 	static bool x_disable_theater_element = true;   // $TODO enable when saved films actually work?
 
-	if (c_gui_data* datasource = get_data(STRING_ID(gui, main_menu), NULL))
+	if (c_gui_data* datasource = get_data(STRING_ID(gui, main_menu), nullptr))
 	{
 		bool one_and_only_one_saved_game_exists = false;
 		e_controller_index saved_game_controller = k_no_controller;
@@ -179,7 +179,7 @@ void c_main_menu_screen_widget::set_list_elements()
 		{
 			if (c_gui_list_item_widget* list_item = (c_gui_list_item_widget*)get_first_child_widget_by_type(_gui_list_item))
 			{
-				list_item->set_use_alternate_ambient_state(get_in_use_controller_count(NULL) > 1);
+				list_item->set_use_alternate_ambient_state(get_in_use_controller_count(nullptr) > 1);
 			}
 		}
 	}

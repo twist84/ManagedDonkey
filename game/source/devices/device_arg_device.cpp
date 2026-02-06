@@ -56,7 +56,7 @@ void __cdecl device_arg_device_touched(int32 arg_device_index, int32 unit_index,
 
 	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
 	//
-	//hs_script* script = NULL;
+	//hs_script* script = nullptr;
 	//int16 script_index = held_script ? arg_device->arg_device.held_script_index : arg_device->arg_device.pressed_script_index;
 	//if (script_index != NONE)
 	//{

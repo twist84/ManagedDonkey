@@ -55,7 +55,7 @@ c_gui_bitmap_widget* c_gui_screen_campaign_select_level::create_bitmap_widget(co
 {
 	//return INVOKE_CLASS_MEMBER(0x00AFCC00, c_gui_screen_campaign_select_level, create_bitmap_widget, definition);
 
-	c_gui_bitmap_widget* bitmap_widget = NULL;
+	c_gui_bitmap_widget* bitmap_widget = nullptr;
 	if (definition->widget_identifier == STRING_ID(gui, level_image))
 	{
 		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
@@ -106,14 +106,14 @@ bool c_gui_screen_campaign_select_level::handle_list_item_chosen(const c_control
 	{
 	case STRING_ID(global, level):
 	{
-		c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), NULL);
+		c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), nullptr);
 		c_gui_level_selected_item* level_selected_item = (c_gui_level_selected_item*)level_data->get_gui_selected_item(list_item_widget->get_element_handle());
 		if (level_selected_item->m_map_id == _map_id_none)
 		{
 			return true;
 		}
 
-		c_gui_insertion_point_data* insertion_point_data = (c_gui_insertion_point_data*)c_gui_screen_widget::get_data(STRING_ID(gui, insertion_point), NULL);
+		c_gui_insertion_point_data* insertion_point_data = (c_gui_insertion_point_data*)c_gui_screen_widget::get_data(STRING_ID(gui, insertion_point), nullptr);
 		if (insertion_point_data->set_campaign_level_id(level_selected_item->m_campaign_id, level_selected_item->m_map_id) <= 0)
 		{
 			c_gui_screen_campaign_select_level::level_chosen_immediate(message->get_controller());
@@ -190,7 +190,7 @@ void c_gui_screen_campaign_select_level::level_chosen_immediate(e_controller_ind
 {
 	//INVOKE_CLASS_MEMBER(0x00AFD6F0, c_gui_screen_campaign_select_level, level_chosen_immediate, controller_index);
 
-	c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), NULL);
+	c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), nullptr);
 	c_gui_list_widget* level_list_widget = get_child_list_widget(STRING_ID(global, level));
 	if (!level_data || !level_list_widget)
 	{
@@ -265,7 +265,7 @@ void c_gui_screen_campaign_select_level::post_initialize()
 
 	c_gui_screen_widget::post_initialize();
 
-	c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), NULL);
+	c_gui_data* level_data = c_gui_screen_widget::get_data(STRING_ID(global, level), nullptr);
 	c_gui_list_widget* level_list_widget = get_child_list_widget(STRING_ID(global, level));
 	if (!level_list_widget || !level_data)
 	{

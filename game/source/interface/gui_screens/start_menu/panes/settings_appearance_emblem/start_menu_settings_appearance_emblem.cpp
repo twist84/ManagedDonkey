@@ -82,9 +82,9 @@ bool c_start_menu_settings_appearance_emblem::handle_controller_input_message(co
 
 bool c_start_menu_settings_appearance_emblem::handle_list_item_chosen(const c_controller_input_message* message, int32 list_name, c_gui_list_item_widget* list_item_widget, c_gui_data* datasource)
 {
-	ASSERT(message != NULL);
-	ASSERT(list_item_widget != NULL);
-	ASSERT(datasource != NULL);
+	ASSERT(message != nullptr);
+	ASSERT(list_item_widget != nullptr);
+	ASSERT(datasource != nullptr);
 
 	switch (list_name)
 	{
@@ -188,7 +188,7 @@ void c_start_menu_settings_appearance_emblem::update_render_state(uns32 current_
 	e_player_color_index primary_change_color = player_profile->get_primary_change_color();
 
 	for (c_gui_bitmap_widget* child_button_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, base_color));
-		child_button_bitmap != NULL;
+		child_button_bitmap != nullptr;
 		child_button_bitmap = child_button_bitmap->get_next_bitmap_widget())
 	{
 		if (child_button_bitmap->get_name() == STRING_ID(gui, base_color))

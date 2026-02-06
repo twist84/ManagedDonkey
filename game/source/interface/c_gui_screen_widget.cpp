@@ -18,7 +18,7 @@
 template<>
 void ui_track_delete<c_gui_data>(const c_gui_data* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_data();
 	user_interface_free(object);
@@ -27,7 +27,7 @@ void ui_track_delete<c_gui_data>(const c_gui_data* object)
 template<>
 void ui_track_delete<c_gui_tag_datasource>(const c_gui_tag_datasource* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_tag_datasource();
 	user_interface_free(object);
@@ -36,7 +36,7 @@ void ui_track_delete<c_gui_tag_datasource>(const c_gui_tag_datasource* object)
 template<>
 void ui_track_delete<c_game_tag_parser>(const c_game_tag_parser* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_game_tag_parser();
 	user_interface_free(object);
@@ -45,7 +45,7 @@ void ui_track_delete<c_game_tag_parser>(const c_game_tag_parser* object)
 template<>
 void ui_track_delete<c_gui_data_array_test>(const c_gui_data_array_test* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_data_array_test();
 	user_interface_free(object);
@@ -54,7 +54,7 @@ void ui_track_delete<c_gui_data_array_test>(const c_gui_data_array_test* object)
 template<>
 void ui_track_delete<c_gui_group_widget>(const c_gui_group_widget* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_group_widget();
 	user_interface_free(object);
@@ -63,7 +63,7 @@ void ui_track_delete<c_gui_group_widget>(const c_gui_group_widget* object)
 template<>
 void ui_track_delete<c_controller_input_message>(const c_controller_input_message* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_controller_input_message();
 	user_interface_free(object);
@@ -75,7 +75,7 @@ c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	m_creation_time_milliseconds(user_interface_milliseconds()),
 	m_disposal_time_milliseconds(-1),
 	m_last_focus_change_time_milliseconds(-1),
-	m_current_focused_widget(NULL),
+	m_current_focused_widget(nullptr),
 	m_suppress_focus(false),
 	m_render_in_screenshot(false),
 	m_reload_next_frame(false),
@@ -95,12 +95,12 @@ c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	m_definition.widget_identifier = name;
 	for (int32 datasource_index = 0; datasource_index < NUMBEROF(m_datasource); datasource_index++)
 	{
-		m_datasource[datasource_index] = NULL;
+		m_datasource[datasource_index] = nullptr;
 	}
 
 	for (int32 datasource_index = 0; datasource_index < NUMBEROF(m_game_tag_parsers); datasource_index++)
 	{
-		m_game_tag_parsers[datasource_index] = NULL;
+		m_game_tag_parsers[datasource_index] = nullptr;
 	}
 
 	clear_display_groups();
@@ -114,7 +114,7 @@ s_runtime_screen_widget_definition::s_runtime_screen_widget_definition()
 }
 
 s_window_manager_screen_render_data::s_window_manager_screen_render_data() :
-	render_data_buffer(NULL),
+	render_data_buffer(nullptr),
 	render_data_buffer_length(0),
 	render_data_buffer_count(0),
 	render_list(),
@@ -139,7 +139,7 @@ void c_gui_screen_widget::add_definition_fields(const s_screen_widget_definition
 {
 	//INVOKE_CLASS_MEMBER(0x00AB06F0, c_gui_screen_widget, add_definition_fields, definition, was_templated);
 
-	c_gui_widget::add_definition_fields(m_type, definition, &m_definition, NULL, was_templated);
+	c_gui_widget::add_definition_fields(m_type, definition, &m_definition, nullptr, was_templated);
 
 	if (definition->initial_button_key_name)
 	{
@@ -248,8 +248,8 @@ void c_gui_screen_widget::clear_display_groups()
 
 	for (int32 display_group_index = 0; display_group_index < k_display_group_type_count; display_group_index++)
 	{
-		m_current_display_group_widgets[display_group_index] = NULL;
-		m_previous_display_group_widgets[display_group_index] = NULL;
+		m_current_display_group_widgets[display_group_index] = nullptr;
+		m_previous_display_group_widgets[display_group_index] = nullptr;
 		m_current_display_group_indicies[display_group_index] = NONE;
 	}
 }
@@ -274,7 +274,7 @@ void c_gui_screen_widget::dispose()
 
 		user_interface_text_parser_unregister(game_tag_parser, m_screen_index);
 		ui_track_delete<c_game_tag_parser>(game_tag_parser);
-		game_tag_parser = NULL;
+		game_tag_parser = nullptr;
 	}
 	m_game_tag_parser_count = 0;
 }
@@ -288,7 +288,7 @@ void s_window_manager_screen_render_data::dispose()
 		user_interface_free(render_data_buffer);
 
 		// Bungie shouldn't this be nulled out to prevent use after free?
-		//render_data_buffer = NULL;
+		//render_data_buffer = nullptr;
 	}
 }
 
@@ -318,7 +318,7 @@ void c_gui_screen_widget::dispose_datasource()
 
 		datasource->dispose();
 		ui_track_delete<c_gui_data>(datasource);
-		datasource = NULL;
+		datasource = nullptr;
 	}
 	m_datasource_count = 0;
 }
@@ -345,7 +345,7 @@ c_gui_group_widget* c_gui_screen_widget::get_button_key_widget()
 
 		return (c_gui_group_widget*)child_widget;
 	}
-	return NULL;
+	return nullptr;
 }
 
 int32 c_gui_screen_widget::get_constants_datasource_integer(int32 constant_name)
@@ -373,7 +373,7 @@ c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
 
 	if (m_datasource_count <= 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int32 index = 0;
@@ -381,7 +381,7 @@ c_gui_data* c_gui_screen_widget::get_data(int32 name, int32* datasource_index)
 	{
 		if (++index >= m_datasource_count)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -411,7 +411,7 @@ c_gui_widget* c_gui_screen_widget::get_focused_widget()
 
 	if (m_suppress_focus)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_current_focused_widget;
@@ -430,7 +430,7 @@ const char* c_gui_screen_widget::get_multilingual_unicode_string_list_tag_name()
 
 	if (m_definition.string_list_tag_reference_index == NONE)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return tag_get_name_safe(m_definition.string_list_tag_reference_index);
@@ -449,7 +449,7 @@ bool c_gui_screen_widget::get_string_by_string_id(int32 string_identifier, c_sta
 {
 	return INVOKE_CLASS_MEMBER(0x00AB1000, c_gui_screen_widget, get_string_by_string_id, string_identifier, buffer);
 
-	//ASSERT(buffer!=NULL);
+	//ASSERT(buffer!=nullptr);
 	//
 	//if (string_identifier == k_string_id_empty_string)
 	//{
@@ -510,7 +510,7 @@ bool c_gui_screen_widget::handle_controller_input_message(const c_controller_inp
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB1270, c_gui_screen_widget, handle_controller_input_message, message);
 
-	ASSERT(message != NULL);
+	ASSERT(message != nullptr);
 
 	if (c_gui_screen_widget* focused_widget = (c_gui_screen_widget*)m_current_focused_widget)
 	{
@@ -603,7 +603,7 @@ bool c_gui_screen_widget::handle_controller_input_message(const c_controller_inp
 		//	point2d cursor_location{};
 		//	user_interface_get_cursor_coords(&cursor_location);
 		//
-		//	c_gui_widget* new_hovered_widget = NULL;
+		//	c_gui_widget* new_hovered_widget = nullptr;
 		//	c_gui_screen_widget::find_hovered_widget(&cursor_location, true, &new_hovered_widget);
 		//	if (!new_hovered_widget)
 		//	{
@@ -995,7 +995,7 @@ void c_gui_screen_widget::reconstruct()
 	//INVOKE_CLASS_MEMBER(0x00AB1C10, c_gui_screen_widget, reconstruct);
 
 	csmemset(&m_animated_state, 0, sizeof(m_animated_state));
-	m_current_focused_widget = NULL;
+	m_current_focused_widget = nullptr;
 	c_gui_screen_widget::clear_display_groups();
 	c_gui_screen_widget::dispose_child_screens();
 	c_gui_widget::delete_all_children();
@@ -1144,7 +1144,7 @@ void c_gui_screen_widget::transfer_focus_without_animations(c_gui_widget* new_fo
 {
 	//INVOKE_CLASS_MEMBER(0x00AB27D0, c_gui_screen_widget, transfer_focus_without_animations, new_focused_widget, play_received_animation, play_lost_animation);
 
-	ASSERT(new_focused_widget != NULL);
+	ASSERT(new_focused_widget != nullptr);
 
 	if (!new_focused_widget->can_receive_focus())
 	{
@@ -1199,7 +1199,7 @@ bool c_gui_screen_widget::try_and_get_render_data_emblem_info(c_gui_bitmap_widge
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB2930, c_gui_screen_widget, try_and_get_render_data_emblem_info, bitmap_widget, emblem_info);
 
-	return NULL;
+	return nullptr;
 }
 
 void c_gui_screen_widget::update(uns32 current_milliseconds)
@@ -1231,6 +1231,6 @@ bool s_window_manager_screen_render_data::valid() const
 {
 	//INVOKE_CLASS_MEMBER(0x00AB29B0, s_window_manager_screen_render_data, valid);
 
-	return render_data_buffer != NULL;
+	return render_data_buffer != nullptr;
 }
 

@@ -20,7 +20,7 @@ void* __cdecl tag_block_get_element_with_size(const s_tag_block* block, int32 in
 	//// due to bad caches the block address needs checking
 	//if (!IN_RANGE_INCLUSIVE((uns32)block->address, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_cache_size))
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 
 	return block->base + index * size;
@@ -36,7 +36,7 @@ void* __cdecl tag_data_get_pointer(const s_tag_data* data, int32 offset, int32 s
 	// due to bad caches the data address needs checking
 	if (!IN_RANGE_INCLUSIVE((uns32)data->address, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_cache_size))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return data->base + offset;
@@ -88,7 +88,7 @@ void* s_tag_reference::get_definition()
 {
 	if (index == NONE)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return tag_get(group_tag, index);

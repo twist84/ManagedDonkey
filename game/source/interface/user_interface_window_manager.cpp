@@ -57,7 +57,7 @@ c_gui_screen_widget* c_window_manager::allocate_codeless_screen(int32 screen_nam
 {
 	return INVOKE_CLASS_MEMBER(0x00AA8D90, c_window_manager, allocate_codeless_screen, screen_name);
 
-	//c_gui_screen_codeless_widget* screen = NULL;
+	//c_gui_screen_codeless_widget* screen = nullptr;
 	//int32 screen_tag_index = c_window_manager::locate_screen_definition_tag_by_name(screen_name);
 	//if (screen_tag_index == NONE)
 	//{
@@ -84,7 +84,7 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AA8E00, c_window_manager, allocate_named_screen, screen_name);
 	
-	c_gui_screen_widget* screen = NULL;
+	c_gui_screen_widget* screen = nullptr;
 
 	int32 screen_tag_index = c_window_manager::locate_screen_definition_tag_by_name(screen_name);
 	if (screen_tag_index == NONE && screen_name != STRING_ID(gui, message))
@@ -386,12 +386,12 @@ c_gui_screen_widget* c_window_manager::allocate_named_screen(int32 screen_name)
 
 		// $TODO remove this when each of the above classes exist and have a constructor 
 
-		if (screen == NULL)
+		if (screen == nullptr)
 		{
 			HOOK_INVOKE_CLASS_MEMBER(screen =, c_window_manager, allocate_named_screen, screen_name);
 		}
 
-		if (screen == NULL)
+		if (screen == nullptr)
 		{
 			event(_event_warning, "ui: no c_gui_screen_class registered for ui screen '%s'",
 				string_id_get_string_const(screen_name));
@@ -489,7 +489,7 @@ void c_window_manager::dispose()
 	//{
 	//	ASSERT(m_active_screens->actual_count == 0);
 	//	data_dispose(m_active_screens);
-	//	m_active_screens = NULL;
+	//	m_active_screens = nullptr;
 	//}
 }
 
@@ -635,7 +635,7 @@ s_window_manager_screen_render_data* c_gui_screen_widget::get_render_state()
 
 	if (!m_render_data.valid())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &m_render_data;
@@ -687,13 +687,13 @@ c_gui_screen_widget* c_window_manager::get_screen_by_screen_index(int32 screen_i
 	//
 	//if (!m_active_screens)
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//s_screen_handle_datum* screen_handle = DATUM_TRY_AND_GET(m_active_screens, s_screen_handle_datum, screen_index);
 	//if (!screen_handle)
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//return screen_handle->screen;
@@ -1164,7 +1164,7 @@ void __cdecl window_manager_add_widgets_to_render_list_recursive(const rectangle
 
 	for (c_gui_widget* child_widget = root_widget->get_children(); child_widget; child_widget = child_widget->get_next())
 	{
-		if (child_widget->m_type == _gui_screen || !child_widget->should_render(NULL))
+		if (child_widget->m_type == _gui_screen || !child_widget->should_render(nullptr))
 		{
 			continue;
 		}
@@ -1274,7 +1274,7 @@ void __cdecl window_manager_build_render_data_for_screen(const rectangle2d* view
 	//render_data->clear();
 	//render_data->built_for_viewport_bounds = *viewport_bounds;
 	//
-	//if (screen->should_render(NULL))
+	//if (screen->should_render(nullptr))
 	//{
 	//	window_manager_add_widgets_to_render_list_recursive(viewport_bounds, screen, render_data, screen->get_driving_controller());
 	//}

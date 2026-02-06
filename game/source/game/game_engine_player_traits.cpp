@@ -13,7 +13,7 @@ void c_player_traits::byteswap()
 
 void c_player_traits::set(const c_player_traits* traits, bool force)
 {
-	ASSERT(traits != NULL);
+	ASSERT(traits != nullptr);
 
 	if (traits)
 	{
@@ -148,7 +148,7 @@ void c_player_traits::set_sensor_traits(const c_player_trait_sensors* traits, bo
 
 void c_player_trait_shield_vitality::set(const c_player_trait_shield_vitality* traits, bool force)
 {
-	ASSERT(traits != NULL);
+	ASSERT(traits != nullptr);
 
 	set_damage_resistance_percentage_setting(traits->get_damage_resistance_percentage_setting(), force);
 	set_shield_recharge_rate_percentage_setting(traits->get_shield_recharge_rate_percentage_setting(), force);
@@ -159,7 +159,7 @@ void c_player_trait_shield_vitality::set(const c_player_trait_shield_vitality* t
 
 void c_player_trait_shield_vitality::encode_to_mcc(c_bitstream* packet) const
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_damage_resistance_percentage_setting damage_resistance_percentage_setting = get_damage_resistance_percentage_setting();
 	e_shield_recharge_rate_percentage_setting shield_recharge_rate_percentage_setting = get_shield_recharge_rate_percentage_setting();
@@ -176,7 +176,7 @@ void c_player_trait_shield_vitality::encode_to_mcc(c_bitstream* packet) const
 
 void c_player_trait_shield_vitality::decode_from_mcc(c_bitstream* packet)
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_damage_resistance_percentage_setting damage_resistance_percentage_setting = packet->read_enum<e_damage_resistance_percentage_setting, 4>("player-trait-damage-resistance");
 	e_shield_recharge_rate_percentage_setting shield_recharge_rate_percentage_setting = packet->read_enum<e_shield_recharge_rate_percentage_setting, 4>("player-trait-shield-recharge-rate");
@@ -437,7 +437,7 @@ void c_player_trait_weapons::byteswap()
 
 void c_player_trait_weapons::set(const c_player_trait_weapons* traits, bool force)
 {
-	ASSERT(traits != NULL);
+	ASSERT(traits != nullptr);
 
 	set_initial_grenade_count_setting(traits->get_initial_grenade_count_setting(), force);
 	set_initial_primary_weapon_absolute_index(traits->get_initial_primary_weapon_absolute_index(), force);
@@ -450,7 +450,7 @@ void c_player_trait_weapons::set(const c_player_trait_weapons* traits, bool forc
 
 void c_player_trait_weapons::encode_to_mcc(c_bitstream* packet) const
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_damage_modifier_percentage_setting damage_modifier_percentage_setting = get_damage_modifier_percentage_setting();
 	int8 initial_primary_weapon_absolute_index = get_initial_primary_weapon_absolute_index();
@@ -471,7 +471,7 @@ void c_player_trait_weapons::encode_to_mcc(c_bitstream* packet) const
 
 void c_player_trait_weapons::decode_from_mcc(c_bitstream* packet)
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_damage_modifier_percentage_setting damage_modifier_percentage_setting = packet->read_enum<e_damage_modifier_percentage_setting, 4>("player-trait-damage-modifier");
 	int8 initial_primary_weapon_absolute_index = static_cast<int8>(packet->read_signed_integer("player-trait-initial-primary-weapon", 8));
@@ -762,7 +762,7 @@ void c_player_trait_weapons::set_weapon_pickup_allowed(bool weapon_pickup_allowe
 
 void c_player_trait_movement::set(const c_player_trait_movement* traits, bool force)
 {
-	ASSERT(traits != NULL);
+	ASSERT(traits != nullptr);
 
 	set_speed_setting(traits->get_speed_setting(), force);
 	set_gravity_setting(traits->get_gravity_setting(), force);
@@ -771,7 +771,7 @@ void c_player_trait_movement::set(const c_player_trait_movement* traits, bool fo
 
 void c_player_trait_movement::encode_to_mcc(c_bitstream* packet) const
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_player_speed_setting speed_setting = get_speed_setting();
 	e_player_gravity_setting gravity_setting = get_gravity_setting();
@@ -784,7 +784,7 @@ void c_player_trait_movement::encode_to_mcc(c_bitstream* packet) const
 
 void c_player_trait_movement::decode_from_mcc(c_bitstream* packet)
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_player_speed_setting speed_setting = packet->read_enum<e_player_speed_setting, 4>("player-traits-movement-speed");
 	e_player_gravity_setting gravity_setting = packet->read_enum<e_player_gravity_setting, 3>("player-traits-movement-gravity");
@@ -919,7 +919,7 @@ void c_player_trait_movement::set_vehicle_usage_setting(e_vehicle_usage_setting 
 
 void c_player_trait_appearance::set(const c_player_trait_appearance* traits, bool force)
 {
-	ASSERT(traits != NULL);
+	ASSERT(traits != nullptr);
 
 	set_active_camo_setting(traits->get_active_camo_setting(), force);
 	set_waypoint_setting(traits->get_waypoint_setting(), force);
@@ -929,7 +929,7 @@ void c_player_trait_appearance::set(const c_player_trait_appearance* traits, boo
 
 void c_player_trait_appearance::encode_to_mcc(c_bitstream* packet) const
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_active_camo_setting active_camo_setting = get_active_camo_setting();
 	e_waypoint_setting waypoint_setting = get_waypoint_setting();
@@ -944,7 +944,7 @@ void c_player_trait_appearance::encode_to_mcc(c_bitstream* packet) const
 
 void c_player_trait_appearance::decode_from_mcc(c_bitstream* packet)
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_active_camo_setting active_camo_setting = packet->read_enum<e_active_camo_setting, 3>("player-traits-appearance-active-camo");
 	e_waypoint_setting waypoint_setting = packet->read_enum<e_waypoint_setting, 2>("player-traits-appearance-waypoint");
@@ -1045,7 +1045,7 @@ void c_player_trait_sensors::byteswap()
 
 void c_player_trait_sensors::set(const c_player_trait_sensors* traits, bool force)
 {
-	ASSERT(traits != NULL);
+	ASSERT(traits != nullptr);
 
 	set_motion_tracker_setting(traits->get_motion_tracker_setting(), force);
 	set_motion_tracker_range_setting(traits->get_motion_tracker_range_setting(), force);
@@ -1053,7 +1053,7 @@ void c_player_trait_sensors::set(const c_player_trait_sensors* traits, bool forc
 
 void c_player_trait_sensors::encode_to_mcc(c_bitstream* packet) const
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_motion_tracker_setting motion_tracker_setting = get_motion_tracker_setting();
 	e_motion_tracker_range_setting motion_tracker_range_setting = get_motion_tracker_range_setting();
@@ -1064,7 +1064,7 @@ void c_player_trait_sensors::encode_to_mcc(c_bitstream* packet) const
 
 void c_player_trait_sensors::decode_from_mcc(c_bitstream* packet)
 {
-	ASSERT(packet != NULL);
+	ASSERT(packet != nullptr);
 
 	e_motion_tracker_setting motion_tracker_setting = packet->read_enum<e_motion_tracker_setting, 3>("player-traits-sensors-motion-tracker");
 	e_motion_tracker_range_setting motion_tracker_range_setting = packet->read_enum<e_motion_tracker_range_setting, 3>("player-traits-sensors-motion-tracker-range");

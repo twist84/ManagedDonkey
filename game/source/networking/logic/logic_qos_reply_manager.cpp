@@ -60,7 +60,7 @@ bool c_group_session_qos_reply_manager::desires_qos_reply_block_set()
 {
 	//return INVOKE_CLASS_MEMBER(0x0049AE60, c_group_session_qos_reply_manager, desires_qos_reply_block_set);
 
-	c_network_session* group_session = NULL;
+	c_network_session* group_session = nullptr;
 	if (!network_life_cycle_in_group_session(&group_session) || !group_session->established() || !group_session->is_host())
 	{
 		return false;
@@ -72,7 +72,7 @@ bool c_squad_session_qos_reply_manager::desires_qos_reply_block_set()
 {
 	//return INVOKE_CLASS_MEMBER(0x0049AEB0, c_squad_session_qos_reply_manager, desires_qos_reply_block_set);
 
-	c_network_session* squad_session = NULL;
+	c_network_session* squad_session = nullptr;
 	if (!network_life_cycle_in_squad_session(&squad_session) || !squad_session->established() || !squad_session->is_host())
 	{
 		return false;
@@ -347,7 +347,7 @@ void c_session_qos_reply_manager::update()
 	//
 	//if (clear_reply_block)
 	//{
-	//	transport_qos_listener_set_reply_block(&session_id, false, 0, NULL);
+	//	transport_qos_listener_set_reply_block(&session_id, false, 0, nullptr);
 	//	transport_qos_listener_set_bandwidth_limit(&session_id, false, g_network_configuration.logic.base_qos_reply_block.disabled_qos_reply_bandwidth_bps);
 	//}
 	//

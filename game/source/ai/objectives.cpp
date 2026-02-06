@@ -185,7 +185,7 @@ void ai_debug_render_objectives(int32 squad_index, const real_point3d* position)
 	{
 		s_objective& objective = global_scenario_get()->ai_objectives[squad->objective_index];
 
-		s_task* task = NULL;
+		s_task* task = nullptr;
 		if (squad->task_index != NONE)
 			task = &objective.tasks[squad->task_index];
 

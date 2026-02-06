@@ -51,7 +51,7 @@ void __thiscall s_emblem_info::encode_const(c_bitstream* packet) const
 
 s_emblem_info* emblem_get_render_constants_emblem_info_from_user_interface(s_emblem_info* emblem_info)
 {
-	ASSERT(emblem_info != NULL);
+	ASSERT(emblem_info != nullptr);
 
 	*emblem_info = g_user_interface_emblem_info;
 	return emblem_info;
@@ -100,7 +100,7 @@ bool emblem_set_render_constants_for_local_user(e_controller_index controller_in
 
 bool emblem_set_render_constants_from_user_interface(const s_emblem_info* emblem_info)
 {
-	ASSERT(emblem_info != NULL);
+	ASSERT(emblem_info != nullptr);
 
 	g_user_interface_emblem_info = *emblem_info;
 

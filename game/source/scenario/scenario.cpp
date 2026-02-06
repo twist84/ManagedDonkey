@@ -139,7 +139,7 @@ struct scenario* __cdecl global_scenario_try_and_get()
 	if (global_scenario)
 		return global_scenario_get();
 
-	return NULL;
+	return nullptr;
 }
 
 uns32 __cdecl global_structure_bsp_active_mask_get()
@@ -518,7 +518,7 @@ void __cdecl scenario_initialize_for_new_structure_bsp(uns32 activating_structur
 	// scenario structure seams is always none, is this compiled out?
 	s_structure_seams* structure_seams = global_scenario_get()->structure_seams.cast_to<s_structure_seams>();
 
-	// structure_seams is NULL
+	// structure_seams is nullptr
 	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, activating_structure_bsp_mask);
 }
 
@@ -534,8 +534,8 @@ void __cdecl scenario_invalidate()
 	//INVOKE(0x004EA3E0, scenario_invalidate);
 
 	global_scenario_index = NONE;
-	global_scenario = NULL;
-	global_game_globals = NULL;
+	global_scenario = nullptr;
+	global_game_globals = nullptr;
 	scenario_invalidate_zone_set_internal();
 }
 
@@ -853,7 +853,7 @@ s_game_globals* __cdecl scenario_try_and_get_game_globals()
 	if (global_game_globals)
 		return scenario_get_game_globals();
 
-	return NULL;
+	return nullptr;
 }
 
 void __cdecl scenario_unload()

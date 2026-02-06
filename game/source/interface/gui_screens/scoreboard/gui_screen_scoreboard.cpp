@@ -268,7 +268,7 @@ void c_gui_screen_scoreboard::set_scoreboard_mode(e_scoreboard_mode scoreboard_m
 {
 	//INVOKE_CLASS_MEMBER(0x00AB3B50, c_gui_screen_scoreboard, set_scoreboard_mode, scoreboard_mode);
 
-	c_gui_scoreboard_data* scoreboard_data = (c_gui_scoreboard_data*)c_gui_screen_widget::get_data(STRING_ID(gui, scoreboard), NULL);
+	c_gui_scoreboard_data* scoreboard_data = (c_gui_scoreboard_data*)c_gui_screen_widget::get_data(STRING_ID(gui, scoreboard), nullptr);
 	if (scoreboard_data)
 	{
 		m_current_scoreboard_mode = scoreboard_mode;
@@ -583,7 +583,7 @@ void c_gui_screen_scoreboard::update_render_state(uns32 current_milliseconds)
 		return;
 	}
 
-	c_gui_scoreboard_data* scoreboard_data = (c_gui_scoreboard_data*)c_gui_screen_widget::get_data(STRING_ID(gui, scoreboard), NULL);
+	c_gui_scoreboard_data* scoreboard_data = (c_gui_scoreboard_data*)c_gui_screen_widget::get_data(STRING_ID(gui, scoreboard), nullptr);
 	if (scoreboard_data)
 	{
 		bool has_teams = game_engine_has_teams();

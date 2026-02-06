@@ -44,7 +44,7 @@ void user_interface_mouse_update()
 		{
 			if (!user_interface_mouse_handle_screen_widget(topmost_screen))
 			{
-				user_interface_mouse_globals.last_focused_widget = NULL;
+				user_interface_mouse_globals.last_focused_widget = nullptr;
 			}
 		}
 	}
@@ -195,7 +195,7 @@ bool user_interface_mouse_handle_spinner_list_widget_focus(c_gui_screen_widget* 
 			event_manager_button_pressed(user_interface_mouse_globals.controller_index, _button_a);
 		}
 
-		c_gui_data* datasource = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL);
+		c_gui_data* datasource = screen_widget->get_data(list_widget->m_datasource_name.get_value(), nullptr);
 		int32 current_item_count = datasource->get_current_item_count();
 		if (current_item_count)
 		{
@@ -224,7 +224,7 @@ void user_interface_mouse_handle_scroll_list_widget(c_gui_screen_widget* screen_
 {
 	if (scroll_amount != 0 && list_widget->m_scroll_position != NONE)
 	{
-		if (c_gui_data* datasource = screen_widget->get_data(list_widget->m_datasource_name.get_value(), NULL))
+		if (c_gui_data* datasource = screen_widget->get_data(list_widget->m_datasource_name.get_value(), nullptr))
 		{
 			int32 current_item_count = datasource->get_current_item_count();
 			if (current_item_count >= 1)
@@ -274,13 +274,13 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 					{
 						if (current_focused_widget != child_widget)
 						{
-							user_interface_mouse_globals.last_focused_widget = NULL;
+							user_interface_mouse_globals.last_focused_widget = nullptr;
 							screen_widget->transfer_focus_to_list(list_widget, child_widget->get_element_handle(), true, true);
 						}
 					}
 					else
 					{
-						user_interface_mouse_globals.last_focused_widget = NULL;
+						user_interface_mouse_globals.last_focused_widget = nullptr;
 						screen_widget->transfer_focus(list_widget);
 					}
 				}
@@ -294,7 +294,7 @@ bool user_interface_mouse_handle_list_widget(c_gui_screen_widget* screen_widget,
 			}
 			else if (user_interface_mouse_globals.last_focused_widget == child_widget)
 			{
-				user_interface_mouse_globals.last_focused_widget = NULL;
+				user_interface_mouse_globals.last_focused_widget = nullptr;
 			}
 		}
 	}
@@ -387,7 +387,7 @@ bool user_interface_mouse_handle_screen_widget(c_gui_screen_widget* screen_widge
 					}
 				}
 			}
-			handled = user_interface_mouse_handle_list_widgets(screen_widget, NULL) != false;
+			handled = user_interface_mouse_handle_list_widgets(screen_widget, nullptr) != false;
 		}
 	}
 	return handled;

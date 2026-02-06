@@ -363,7 +363,7 @@ void c_gui_active_roster_data::update()
 	//
 	//	m_player_count = 0;
 	//	uns32 player_error_mask = 0;
-	//	e_session_game_start_status session_game_start_status = user_interface_get_session_game_start_status(NULL, &player_error_mask);
+	//	e_session_game_start_status session_game_start_status = user_interface_get_session_game_start_status(nullptr, &player_error_mask);
 	//
 	//	for (int32 session_player_index = 0; session_player_index < 16; session_player_index++)
 	//	{

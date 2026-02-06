@@ -163,7 +163,7 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 	}
 
 	const char* chunk = (const char*)this + chunk_size;
-	const char* chunk_data = NULL;
+	const char* chunk_data = nullptr;
 	bool eof_found = false;
 	if (network_blf_read_for_known_chunk(
 		chunk,
@@ -173,8 +173,8 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 		s_blf_chunk_map_variant::k_chunk_major_version,
 		&chunk_size,
 		&chunk_data,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		&eof_found))
 	{
 		while (!eof_found && chunk_size > 0)
@@ -211,8 +211,8 @@ bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, boo
 				s_blf_chunk_map_variant::k_chunk_major_version,
 				&chunk_size,
 				&chunk_data,
-				NULL,
-				NULL,
+				nullptr,
+				nullptr,
 				&eof_found))
 			{
 				return false;
@@ -287,7 +287,7 @@ bool s_blf_saved_film::copy_to_and_validate(game_options* options, int32* out_le
 	}
 
 	const char* chunk = (const char*)this + chunk_size;
-	const char* chunk_data = NULL;
+	const char* chunk_data = nullptr;
 	bool eof_found = false;
 	if (network_blf_read_for_known_chunk(
 		chunk,
@@ -297,8 +297,8 @@ bool s_blf_saved_film::copy_to_and_validate(game_options* options, int32* out_le
 		s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_major_version,
 		&chunk_size,
 		&chunk_data,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		&eof_found))
 	{
 		while (!eof_found && chunk_size > 0)
@@ -353,8 +353,8 @@ bool s_blf_saved_film::copy_to_and_validate(game_options* options, int32* out_le
 				s_blf_saved_film::s_blf_chunk_saved_film_header::k_chunk_major_version,
 				&chunk_size,
 				&chunk_data,
-				NULL,
-				NULL,
+				nullptr,
+				nullptr,
 				&eof_found))
 			{
 				return false;

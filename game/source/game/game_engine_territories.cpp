@@ -20,7 +20,7 @@ void c_game_engine_territories_variant::byteswap()
 
 void c_game_engine_territories_variant::set(const c_game_engine_territories_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	c_game_engine_base_variant::set(variant, force);
 
@@ -185,7 +185,7 @@ void c_game_engine_territories_variant::set_attacker_traits(const c_player_trait
 
 void c_territories_engine::dump_settings(s_file_reference* file) const
 {
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 
 	c_game_engine::dump_settings(file);
 

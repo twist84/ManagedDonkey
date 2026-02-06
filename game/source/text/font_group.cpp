@@ -38,7 +38,7 @@ int32 __cdecl font_get_line_height(const s_font_header* header)
 	//return INVOKE(0x0065B5E0, font_get_line_height, header);
 
 	long line_height = 10;
-	if (header != NULL)
+	if (header != nullptr)
 	{
 		line_height = header->descending_height + header->leading_height + header->ascending_height;
 	}

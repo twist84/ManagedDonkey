@@ -208,7 +208,7 @@ void c_network_channel::close(e_network_channel_closure_reason closure_reason)
 		m_simulation_interface->notify_closed();
 	}
 
-	ASSERT(m_simulation_interface == NULL);
+	ASSERT(m_simulation_interface == nullptr);
 
 	m_channel_state = _network_channel_state_closed;
 	m_channel_closure_reason = closure_reason;
@@ -248,7 +248,7 @@ void c_network_channel::open(const transport_address* remote_address, bool send_
 	//ASSERT(remote_address && transport_address_valid(remote_address));
 	//ASSERT(allocated());
 	//ASSERT(closed());
-	//ASSERT(m_simulation_interface == NULL);
+	//ASSERT(m_simulation_interface == nullptr);
 	//
 	//m_remote_address = *remote_address;
 	//m_channel_state = _network_channel_state_connecting;

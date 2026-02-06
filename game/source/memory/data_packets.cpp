@@ -56,7 +56,7 @@ unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definiti
 		data_encode_memory(&state, data.bytes, sizeof(data.bytes), _1byte);
 	}
 
-	_data_packet_encode(packet_definition, &state, version, data, NULL, packet_definition->fields, NULL);
+	_data_packet_encode(packet_definition, &state, version, data, nullptr, packet_definition->fields, nullptr);
 	*buffer_size = static_cast<int16>(state.offset);
 
 	return state.overflow_flag == 0;

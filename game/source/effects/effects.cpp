@@ -562,7 +562,7 @@ void debug_effects_full()
 
 		if (!TEST_BIT(effect->flags, 1) && !TEST_BIT(effect->flags, 2) && !TEST_BIT(effect->flags, 5))
 		{
-			event_datum* _event = NULL;
+			event_datum* _event = nullptr;
 			for (int32 event_index = effect->event_datum_head; event_index != NONE; event_index = _event->next_event_index)
 			{
 				_event = DATUM_GET(event_data, event_datum, event_index);

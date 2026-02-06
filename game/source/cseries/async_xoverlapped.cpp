@@ -140,7 +140,7 @@ s_task_slot* __cdecl find_task_slot(const c_overlapped_task* task)
 
 	ASSERT(task);
 
-	s_task_slot* task_slot = NULL;
+	s_task_slot* task_slot = nullptr;
 	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (g_overlapped_globals.task_slots[task_slot_index].task == task)
@@ -170,7 +170,7 @@ void __cdecl overlapped_initialize()
 
 	csmemset(&g_overlapped_globals, 0, sizeof(g_overlapped_globals));
 	overlapped_memory_initialize();
-	c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_any_controller, NULL, NULL, NULL, 0, 0, true);
+	c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_any_controller, nullptr, nullptr, nullptr, 0, 0, true);
 	g_overlapped_globals.toggle_debug_rendering = false;
 	g_overlapped_globals.inject_error = false;
 	g_overlapped_globals.pause = false;
@@ -186,16 +186,16 @@ void __cdecl overlapped_render()
 		c_simple_font_draw_string draw_string;
 
 		rectangle2d bounds{};
-		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		bounds.x0 += (bounds.x1 - bounds.x0) >> 1;
 		draw_string.set_bounds(&bounds);
 		draw_string.set_color(global_real_argb_green);
 
-		draw_string.draw(NULL, "---------- xoverlapped tasks ----------\r\n");
+		draw_string.draw(nullptr, "---------- xoverlapped tasks ----------\r\n");
 
 		for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 		{
-			const char* status = NULL;
+			const char* status = nullptr;
 			char string[256]{};
 
 			{
@@ -240,10 +240,10 @@ void __cdecl overlapped_render()
 			}
 
 			if (string[0])
-				draw_string.draw_more(NULL, string);
+				draw_string.draw_more(nullptr, string);
 		}
 
-		draw_string.draw_more(NULL, "---------------------------------------");
+		draw_string.draw_more(nullptr, "---------------------------------------");
 	}
 }
 
@@ -283,7 +283,7 @@ bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, const char*
 
 	c_async_xoverlapped_scope_lock scope_lock;
 
-	s_task_slot* first_free_task_slot = NULL;
+	s_task_slot* first_free_task_slot = nullptr;
 	for (int32 task_slot_index = 0; task_slot_index < k_maximum_task_slots; task_slot_index++)
 	{
 		if (!g_overlapped_globals.task_slots[task_slot_index].task)
@@ -475,12 +475,12 @@ bool __cdecl task_is_complete(s_task_slot* task_slot, uns32* return_result, uns3
 {
 	//return INVOKE(0x005A9230, task_is_complete, task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
 
-	ASSERT(task_slot != NULL);
-	ASSERT(task_slot->task != NULL);
-	ASSERT(return_result != NULL);
-	ASSERT(calling_result != NULL);
-	ASSERT(overlapped_error != NULL);
-	ASSERT(overlapped_extended_error != NULL);
+	ASSERT(task_slot != nullptr);
+	ASSERT(task_slot->task != nullptr);
+	ASSERT(return_result != nullptr);
+	ASSERT(calling_result != nullptr);
+	ASSERT(overlapped_error != nullptr);
+	ASSERT(overlapped_extended_error != nullptr);
 
 	*return_result = ERROR_SUCCESS;
 	*calling_result = task_slot->calling_result;
@@ -523,7 +523,7 @@ void __cdecl task_now_finished(s_task_slot* task_slot, uns32 return_result, uns3
 {
 	//INVOKE(0x005A9280, task_now_finished, task_slot, return_result, calling_result, overlapped_error, overlapped_extended_error);
 	
-	ASSERT(task_slot->task != NULL);
+	ASSERT(task_slot->task != nullptr);
 	ASSERT(task_slot->task->get_task_state() == _overlapped_task_state_starting || task_slot->task->get_task_state() == _overlapped_task_state_pending);
 
 	bool succeeded = false;
@@ -655,7 +655,7 @@ void overlapped_tasks_log_to_debug_txt(e_event_level event_level)
 		{
 			s_task_slot* task_slot = &g_overlapped_globals.task_slots[task_slot_index];
 
-			const char* status = NULL;
+			const char* status = nullptr;
 			switch (task_slot->task->get_task_state())
 			{
 			case _overlapped_task_state_none:

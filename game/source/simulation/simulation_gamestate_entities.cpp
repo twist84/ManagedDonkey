@@ -11,7 +11,7 @@ void __cdecl simulation_gamestate_entities_dispose()
 {
 	//INVOKE(0x00471CE0, simulation_gamestate_entities_dispose);
 
-	simulation_gamestate_entity_data = NULL;
+	simulation_gamestate_entity_data = nullptr;
 }
 
 void __cdecl simulation_gamestate_entities_dispose_from_old_map()
@@ -28,7 +28,7 @@ void __cdecl simulation_gamestate_entities_initialize()
 
 	simulation_gamestate_entity_data = data_new("sim. gamestate entities", 2048, sizeof(s_simulation_gamestate_entity), 0, &g_simulation_gamestate_entity_data_allocator);
 
-	ASSERT(simulation_gamestate_entity_data != NULL);
+	ASSERT(simulation_gamestate_entity_data != nullptr);
 }
 
 void __cdecl simulation_gamestate_entities_initialize_for_new_map()
@@ -88,7 +88,7 @@ bool __cdecl simulation_gamestate_index_valid(int32 gamestate_index)
 {
 	//return INVOKE(0x00472120, simulation_gamestate_index_valid, gamestate_index);
 
-	return gamestate_index != NONE && datum_try_and_get(simulation_gamestate_entity_data, gamestate_index) != NULL;
+	return gamestate_index != NONE && datum_try_and_get(simulation_gamestate_entity_data, gamestate_index) != nullptr;
 }
 
 int32 __cdecl simulation_entity_create(e_simulation_entity_type entity_type, int32 object_index, int32 simulation_object_glue_index)

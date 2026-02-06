@@ -46,7 +46,7 @@ public:
 		if (*iterator >= m_count - 1)
 		{
 			*iterator = NONE;
-			return NULL;
+			return nullptr;
 		}
 
 		return data[++*iterator];
@@ -374,13 +374,13 @@ class c_visibility_collection
 public:
 	s_cluster_reference get_cluster_reference() const
 	{
-		ASSERT(m_input != NULL);
+		ASSERT(m_input != nullptr);
 		return m_input->cluster_reference;
 	}
 
 	e_collection_type get_collection_type()
 	{
-		ASSERT(m_input != NULL);
+		ASSERT(m_input != nullptr);
 		ASSERT(m_input->collection_type >= 0 && m_input->collection_type < k_number_collection_types);
 		return m_input->collection_type;
 	}
@@ -392,7 +392,7 @@ public:
 
 	const s_visibility_region* get_region() const
 	{
-		ASSERT(m_input != NULL);
+		ASSERT(m_input != nullptr);
 		return &m_input->region;
 	}
 

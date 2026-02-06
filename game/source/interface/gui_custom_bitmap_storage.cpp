@@ -36,7 +36,7 @@ void __thiscall c_gui_custom_bitmap_storage_item::dispose()
 	if (m_bitmap_pixel_buffer_allocation)
 	{
 		user_interface_free(m_bitmap_pixel_buffer_allocation);
-		m_bitmap_pixel_buffer_allocation = NULL;
+		m_bitmap_pixel_buffer_allocation = nullptr;
 	}
 
 	m_allocated = false;
@@ -81,14 +81,14 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_buffer(const char* b
 {
 	//return INVOKE_CLASS_MEMBER(0x00B20490, c_gui_custom_bitmap_storage_item, load_from_buffer, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 
-	return load_from_file_or_buffer(NULL, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
+	return load_from_file_or_buffer(nullptr, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 }
 
 bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(const char* filename, const char* buffer, int32 buffer_length, void* d3dx_scratch_buffer, int32 d3dx_scratch_buffer_length, e_custom_bitmap_desired_aspect_ratio aspect_ratio)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B204B0, c_gui_custom_bitmap_storage_item, load_from_file_or_buffer, filename, buffer, buffer_length, d3dx_scratch_buffer, d3dx_scratch_buffer_length, aspect_ratio);
 
-	bool load_from_file = filename != NULL;
+	bool load_from_file = filename != nullptr;
 
 	ASSERT(!load_from_file || (filename && !buffer));
 	ASSERT(load_from_file || (!filename && buffer));
@@ -107,11 +107,11 @@ bool __thiscall c_gui_custom_bitmap_storage_item::load_from_file_or_buffer(const
 	HRESULT load_surface_from_file_result = S_OK;
 	if (load_from_file)
 	{
-		load_surface_from_file_result = D3DXLoadSurfaceFromFileA(d3d_surface, NULL, NULL, filename, NULL, D3DX_DEFAULT, 0, NULL);
+		load_surface_from_file_result = D3DXLoadSurfaceFromFileA(d3d_surface, nullptr, nullptr, filename, nullptr, D3DX_DEFAULT, 0, nullptr);
 	}
 	else
 	{
-		load_surface_from_file_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_length, NULL, D3DX_DEFAULT, 0, NULL);
+		load_surface_from_file_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, nullptr, nullptr, buffer, buffer_length, nullptr, D3DX_DEFAULT, 0, nullptr);
 	}
 
 	d3d_surface->Release();
@@ -156,7 +156,7 @@ void __thiscall c_gui_custom_bitmap_storage_item::unload_rendered_bitmap()
 
 c_gui_custom_bitmap_storage_manager::c_gui_custom_bitmap_storage_manager() :
 	m_bitmap_storage_items(0),
-	m_d3dx_scratch_buffer(NULL),
+	m_d3dx_scratch_buffer(nullptr),
 	m_d3dx_scratch_buffer_length(0)
 {
 	//DECLFUNC(0x00AE5010, void, __thiscall, c_gui_custom_bitmap_storage_manager*)(this);
@@ -166,7 +166,7 @@ void c_gui_custom_bitmap_storage_manager::acquire_bitmap(int32 bitmap_storage_in
 {
 	INVOKE_CLASS_MEMBER(0x00AE5030, c_gui_custom_bitmap_storage_manager, acquire_bitmap, bitmap_storage_index);
 
-	//s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = NULL;
+	//s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = nullptr;
 	//{
 	//	c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 	//	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
@@ -228,7 +228,7 @@ void c_gui_custom_bitmap_storage_manager::dispose()
 	//{
 	//	ASSERT(m_bitmap_storage_items->actual_count == 0);
 	//	data_dispose(m_bitmap_storage_items);
-	//	m_bitmap_storage_items = NULL;
+	//	m_bitmap_storage_items = nullptr;
 	//}
 }
 
@@ -248,7 +248,7 @@ const c_gui_custom_bitmap_storage_item* c_gui_custom_bitmap_storage_manager::get
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE52F0, c_gui_custom_bitmap_storage_manager, get_bitmap, bitmap_storage_index);
 
-	const c_gui_custom_bitmap_storage_item* storage_item = NULL;
+	const c_gui_custom_bitmap_storage_item* storage_item = nullptr;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
@@ -268,7 +268,7 @@ void c_gui_custom_bitmap_storage_manager::initialize()
 	INVOKE_CLASS_MEMBER(0x00AE5390, c_gui_custom_bitmap_storage_manager, initialize);
 
 	//c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-	//ASSERT(m_bitmap_storage_items == NULL);
+	//ASSERT(m_bitmap_storage_items == nullptr);
 	//m_bitmap_storage_items = data_new("gui bitmap storage", k_maximum_number_of_bitmap_items, sizeof(s_bitmap_storage_handle_datum), 0, g_runtime_state_allocation);
 	//ASSERT(m_bitmap_storage_items);
 	//data_make_valid(m_bitmap_storage_items);
@@ -283,7 +283,7 @@ void c_gui_custom_bitmap_storage_manager::initialize_for_new_map()
 
 	//if (game_is_ui_shell())
 	//{
-	//	ASSERT(m_d3dx_scratch_buffer == NULL);
+	//	ASSERT(m_d3dx_scratch_buffer == nullptr);
 	//	m_d3dx_scratch_buffer_length = 0xA00000;
 	//	m_d3dx_scratch_buffer = user_interface_malloc(0xA00000);
 	//}
@@ -295,7 +295,7 @@ bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_s
 
 	bool result = false;
 
-	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = NULL;
+	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = nullptr;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 		if (bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index))
@@ -304,7 +304,7 @@ bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_s
 		}
 	}
 
-	if (bitmap_storage_handle_datum != NULL)
+	if (bitmap_storage_handle_datum != nullptr)
 	{
 		return false;
 	}
@@ -344,7 +344,7 @@ void c_gui_custom_bitmap_storage_manager::release_unused_bitmap(int32 bitmap_sto
 {
 	INVOKE_CLASS_MEMBER(0x00AE5590, c_gui_custom_bitmap_storage_manager, release_unused_bitmap, bitmap_storage_index);
 
-	//s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = NULL;
+	//s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = nullptr;
 	//{
 	//	c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
 	//	if (bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index))

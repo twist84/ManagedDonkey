@@ -310,7 +310,7 @@ void __cdecl biped_render_debug(int32 biped_index)
 		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
 		point_from_line3d(&base, &height, 1.0f, &base);
 
-		const char* mode_string = NULL;
+		const char* mode_string = nullptr;
 		switch (biped->biped.physics.get_mode())
 		{
 		case c_character_physics_component::_mode_ground:
@@ -508,7 +508,7 @@ void __cdecl biped_update_jetpack(int32 biped_index)
 					}
 					else
 					{
-						object_get_velocities(biped_index, &linear_velocity, NULL);
+						object_get_velocities(biped_index, &linear_velocity, nullptr);
 
 						real32 velocity_dot = dot_product3d(&biped->unit.aiming_vector, &linear_velocity);
 						if (velocity_dot < 0.0f)
@@ -538,7 +538,7 @@ void __cdecl biped_update_jetpack(int32 biped_index)
 
 						linear_velocity.k += global_gravity_get() * game_tick_length();
 					}
-					object_set_velocities(biped_index, &linear_velocity, NULL);
+					object_set_velocities(biped_index, &linear_velocity, nullptr);
 				}
 			}
 		}

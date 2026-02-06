@@ -273,7 +273,7 @@ void __cdecl user_interface_render(e_controller_index controller, int32 user_ind
 			};
 
 			rectangle2d frame_bounds{};
-			interface_get_current_display_settings(&frame_bounds, NULL, NULL, NULL);
+			interface_get_current_display_settings(&frame_bounds, nullptr, nullptr, nullptr);
 			real32 rect_height = rectangle2d_height(&frame_bounds);
 			real32 rect_width = rectangle2d_width(&frame_bounds);
 
@@ -460,14 +460,14 @@ void __cdecl user_interface_update(real32 shell_seconds_elapsed)
 				}
 
 				//if (user_interface_squad_exists() && user_interface_squad_get_ui_game_mode() == _gui_game_setup_mode_survival)
-				//	user_interface_show_campaign_custom_music_warning_if_needed(NULL);
+				//	user_interface_show_campaign_custom_music_warning_if_needed(nullptr);
 
 				user_interface_player_model_camera_update();
 				//user_interface_hs_update();
 			}
 			else if (game_is_campaign())
 			{
-				//user_interface_show_campaign_custom_music_warning_if_needed(NULL);
+				//user_interface_show_campaign_custom_music_warning_if_needed(nullptr);
 			}
 	
 			//sub_635120(shell_seconds_elapsed); // saber function
@@ -487,7 +487,7 @@ void __cdecl user_interface_update_console_scoreboard()
 	//INVOKE(0x00A85040, user_interface_update_console_scoreboard);
 
 	c_gui_screen_scoreboard::update_scoreboard_alpha(k_any_controller);
-	if (user_interface_should_show_console_scoreboard(NULL))
+	if (user_interface_should_show_console_scoreboard(nullptr))
 	{
 		bool scoreboard_screen_is_above = false;
 		c_gui_screen_scoreboard* scoreboard_screen = c_gui_screen_scoreboard::get_scoreboard_screen(k_any_controller);

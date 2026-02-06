@@ -75,7 +75,7 @@ void __cdecl font_dispose()
 	{
 		font_close_loaded_file(&g_font_globals.package_loading_state);
 		csmemset(&g_font_globals.package_loading_state, 0, sizeof(g_font_globals.package_loading_state));
-		g_font_globals.font_package_header = NULL;
+		g_font_globals.font_package_header = nullptr;
 		font_cache_delete();
 		font_package_cache_delete();
 	}
@@ -93,7 +93,7 @@ const char* __cdecl font_get_debug_name(e_font_index internal_index)
 	if (internal_index == _font_index_fallback)
 		return "fallback-font";
 
-	return NULL;
+	return nullptr;
 }
 
 e_font_index __cdecl font_get_font_index(e_font_id font)
@@ -134,7 +134,7 @@ const s_font_header* __cdecl font_get_header_internal(e_font_index internal_inde
 		return fallback_font_get_header();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle)
@@ -420,7 +420,7 @@ void __cdecl fonts_close()
 
 	font_close_loaded_file(&g_font_globals.package_loading_state);
 	csmemset(&g_font_globals.package_loading_state, 0, sizeof(g_font_globals.package_loading_state));
-	g_font_globals.font_package_header = NULL;
+	g_font_globals.font_package_header = nullptr;
 }
 
 void __cdecl fonts_copy_to_hard_drive()

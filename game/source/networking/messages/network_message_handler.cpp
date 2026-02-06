@@ -35,12 +35,12 @@ void c_network_message_handler::destroy_handler()
 	{
 		if (m_message_gateway)
 		{
-			m_message_gateway->attach_handler(NULL);
-			m_message_gateway = NULL;
+			m_message_gateway->attach_handler(nullptr);
+			m_message_gateway = nullptr;
 		}
-		m_session_manager = NULL;
-		m_message_types = NULL;
-		m_link = NULL;
+		m_session_manager = nullptr;
+		m_message_types = nullptr;
+		m_link = nullptr;
 		m_initialized = false;
 	}
 }
@@ -1636,7 +1636,7 @@ void c_network_message_handler::handle_view_establishment(c_network_channel* cha
 			message->establishment_mode,
 			message->establishment_identifier,
 			message->signature_exists ? message->signature_size : NONE,
-			message->signature_exists ? message->signature_data : NULL))
+			message->signature_exists ? message->signature_data : nullptr))
 		{
 			event(_event_warning, "networking:messages:view-establishment: simulation view failed to handle view-establishment (%d/%d) over channel '%s'",
 				message->establishment_mode,
@@ -1673,8 +1673,8 @@ bool c_network_message_handler::initialize_handler(c_network_link* link, const c
 	m_message_types = message_types;
 	m_message_gateway = message_gateway;
 	message_gateway->attach_handler(this);
-	m_observer = NULL;
-	m_session_manager = NULL;
+	m_observer = nullptr;
+	m_session_manager = nullptr;
 	m_initialized = true;
 
 	return m_initialized;
@@ -1686,7 +1686,7 @@ void c_network_message_handler::register_observer(c_network_observer* observer)
 
 	ASSERT(m_initialized);
 	ASSERT(observer);
-	ASSERT(m_observer == NULL);
+	ASSERT(m_observer == nullptr);
 
 	m_observer = observer;
 }
@@ -1697,7 +1697,7 @@ void c_network_message_handler::register_session_manager(c_network_session_manag
 
 	ASSERT(m_initialized);
 	ASSERT(session_manager);
-	ASSERT(m_session_manager == NULL);
+	ASSERT(m_session_manager == nullptr);
 
 	m_session_manager = session_manager;
 }

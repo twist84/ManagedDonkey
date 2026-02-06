@@ -136,7 +136,7 @@ void c_gui_model_widget::initialize(const s_model_widget_block* template_and_ove
 	if (template_and_override_block)
 	{
 		bool was_templated = false;
-		s_model_widget_definition* widget_template = NULL;
+		s_model_widget_definition* widget_template = nullptr;
 		if (template_and_override_block->widget_template_reference.index != NONE)
 		{
 			widget_template = TAG_GET(NONE, s_model_widget_definition, template_and_override_block->widget_template_reference.index);
@@ -185,7 +185,7 @@ void __cdecl c_gui_model_widget::render(const s_gui_model_widget_render_data* re
 {
 	//INVOKE(0x00B1BFA0, c_gui_model_widget::render, render_data, window_bounds);
 
-	ASSERT(render_data != NULL);
+	ASSERT(render_data != nullptr);
 	s_gui_bitmap_widget_render_data bitmap_render_data{};
 	csmemcpy(&bitmap_render_data, render_data, sizeof(s_gui_widget_render_data));
 	bitmap_render_data.type = _gui_bitmap;

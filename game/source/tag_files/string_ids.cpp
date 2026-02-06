@@ -132,15 +132,15 @@ const char* __cdecl string_id_get_string_const(int32 string_id)
 void __cdecl string_id_initialize()
 {
 	//g_string_id_globals.ascii_strings = (const char**)malloc(0x48000);
-	//ASSERT(g_string_id_globals.ascii_strings != NULL);
+	//ASSERT(g_string_id_globals.ascii_strings != nullptr);
 	//csmemset(g_string_id_globals.ascii_strings, 0, 0x48000);
 	//
 	//g_string_id_globals.ascii_storage = (char*)malloc(k_maximum_string_id_storage);
-	//ASSERT(g_string_id_globals.ascii_storage != NULL);
+	//ASSERT(g_string_id_globals.ascii_storage != nullptr);
 	//csmemset(g_string_id_globals.ascii_storage, 0, k_maximum_string_id_storage);
 
-	FILE* strings_file = NULL;
-	if (fopen_s(&strings_file, k_cache_strings_file, "rb") == 0 && strings_file != NULL)
+	FILE* strings_file = nullptr;
+	if (fopen_s(&strings_file, k_cache_strings_file, "rb") == 0 && strings_file != nullptr)
 	{
 		fread_s(&g_string_id_globals.string_id_count, sizeof(int32), sizeof(int32), 1, strings_file);
 	
@@ -148,7 +148,7 @@ void __cdecl string_id_initialize()
 		fread_s(&string_buffer_size, sizeof(int32), sizeof(int32), 1, strings_file);
 
 		g_string_id_globals.ascii_storage = (char*)malloc(string_buffer_size);
-		ASSERT(g_string_id_globals.ascii_storage != NULL);
+		ASSERT(g_string_id_globals.ascii_storage != nullptr);
 		csmemset(g_string_id_globals.ascii_storage, 0, string_buffer_size);
 
 		int32* string_offsets = (int32*)g_normal_allocation->allocate(sizeof(int32) * g_string_id_globals.string_id_count, "string id offsetss");
@@ -157,7 +157,7 @@ void __cdecl string_id_initialize()
 		fread_s(g_string_id_globals.ascii_storage, string_buffer_size, sizeof(char), string_buffer_size, strings_file);
 
 		g_string_id_globals.ascii_strings = (const char**)malloc(sizeof(const char*) * g_string_id_globals.string_id_count);
-		ASSERT(g_string_id_globals.ascii_strings != NULL);
+		ASSERT(g_string_id_globals.ascii_strings != nullptr);
 		csmemset(g_string_id_globals.ascii_strings, 0, sizeof(const char*) * g_string_id_globals.string_id_count);
 
 		for (int32 string_id_index = 0; string_id_index < k_constant_string_id_table_entries; string_id_index++)
@@ -178,7 +178,7 @@ void __cdecl string_id_initialize()
 			}
 			else
 			{
-				g_string_id_globals.ascii_strings[string_id_index] = NULL;
+				g_string_id_globals.ascii_strings[string_id_index] = nullptr;
 			}
 		}
 	
@@ -206,16 +206,16 @@ void __cdecl string_id_initialize()
 	const char* gpu_g_hidden_from_compiler = ASSERT_STRING_ID(gpu, g_hidden_from_compiler);
 
 	// base tag strings
-	const char* tags_material = NULL; ASSERT_STRING_ID_TAGS(material, "material");
-	const char* tags_s3d_turf = NULL; ASSERT_STRING_ID_TAGS(s3d_turf, "s3d_turf");
+	const char* tags_material = nullptr; ASSERT_STRING_ID_TAGS(material, "material");
+	const char* tags_s3d_turf = nullptr; ASSERT_STRING_ID_TAGS(s3d_turf, "s3d_turf");
 
 	// 0.5 tag strings
-	const char* tags_ibr_texture = NULL; ASSERT_STRING_ID_TAGS(ibr_texture, "ibr_texture");
-	const char* tags_rations = NULL;     ASSERT_STRING_ID_TAGS(rations, "rations");
+	const char* tags_ibr_texture = nullptr; ASSERT_STRING_ID_TAGS(ibr_texture, "ibr_texture");
+	const char* tags_rations = nullptr;     ASSERT_STRING_ID_TAGS(rations, "rations");
 
 	// 0.6 tag string
-	const char* tags_actions_dualwield = NULL;                  ASSERT_STRING_ID_TAGS(actions_dualwield, "actions_dualwield");
-	const char* tags_social_team_changing_balanced_desc = NULL; ASSERT_STRING_ID_TAGS(social_team_changing_balanced_desc, "social_team_changing_balanced_desc");
+	const char* tags_actions_dualwield = nullptr;                  ASSERT_STRING_ID_TAGS(actions_dualwield, "actions_dualwield");
+	const char* tags_social_team_changing_balanced_desc = nullptr; ASSERT_STRING_ID_TAGS(social_team_changing_balanced_desc, "social_team_changing_balanced_desc");
 }
 
 void __cdecl string_id_dispose()

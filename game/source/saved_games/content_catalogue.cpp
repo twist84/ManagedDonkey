@@ -67,7 +67,7 @@ bool __cdecl content_catalogue_handle_dialog_result_message(const c_dialog_resul
 {
 	//return INVOKE(0x005A57D0, content_catalogue_handle_dialog_result_message, dialog_result_message);
 
-	ASSERT(dialog_result_message != NULL);
+	ASSERT(dialog_result_message != nullptr);
 
 	if (dialog_result_message->get_screen_name() == STRING_ID(gui, controller_no_storage_device_chosen))
 	{

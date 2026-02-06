@@ -162,7 +162,7 @@ bool c_player_render_camera_iterator::next()
 		if (m_current_user_index != NONE)
 		{
 			m_current_observer_result = observer_get_camera(m_current_user_index);
-			ASSERT(m_current_observer_result != NULL);
+			ASSERT(m_current_observer_result != nullptr);
 		}
 	}
 
@@ -234,7 +234,7 @@ void __cdecl main_render()
 							}
 							else
 							{
-								main_render_pregame(_main_pregame_frame_normal, NULL);
+								main_render_pregame(_main_pregame_frame_normal, nullptr);
 							}
 
 							should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
@@ -301,7 +301,7 @@ void __cdecl main_render_frame_begin()
 #define PLAYER_VIEW_RENDER_END \
 { \
 	c_view::end(); \
-	c_player_view::set_global_player_view(NULL); \
+	c_player_view::set_global_player_view(nullptr); \
 }
 
 void __cdecl main_render_game()
@@ -338,7 +338,7 @@ void __cdecl main_render_game()
 			c_player_view* player_view = c_player_view::get_current(window_index);
 
 			int32 user_index = NONE;
-			const s_observer_result* observer_result = NULL;
+			const s_observer_result* observer_result = nullptr;
 			if (iterator.next())
 			{
 				user_index = iterator.get_user_index();
@@ -382,7 +382,7 @@ void __cdecl main_render_game()
 				}
 
 				c_ui_view ui_view{};
-				ui_view.setup_camera(NULL, c_rasterizer::get_display_surface());
+				ui_view.setup_camera(nullptr, c_rasterizer::get_display_surface());
 				{
 					c_rasterizer_profile_scope _fullscreen_view_render(_rasterizer_profile_element_total, L"fullscreen_view_render");
 
@@ -494,7 +494,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_or_window_settings(nullptr, nullptr, nullptr, &bounds);
 
 	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
@@ -564,7 +564,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_con
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_or_window_settings(nullptr, nullptr, nullptr, &bounds);
 
 	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
@@ -644,7 +644,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_releas
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_or_window_settings(nullptr, nullptr, nullptr, &bounds);
 
 	draw_string.set_font(_body_text_font);
 	draw_string.set_color(0xB0FFFFFF);
@@ -710,7 +710,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		draw_string.set_color(global_real_argb_white);
 
 		rectangle2d display_title_safe_pixel_bounds{};
-		interface_get_current_display_or_window_settings(NULL, NULL, NULL, &display_title_safe_pixel_bounds);
+		interface_get_current_display_or_window_settings(nullptr, nullptr, nullptr, &display_title_safe_pixel_bounds);
 		real_rectangle2d bounds{};
 		set_real_rectangle2d(&bounds,
 			display_title_safe_pixel_bounds.x0,
@@ -742,7 +742,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, const 
 		c_view::abort_current_view_stack();
 
 		c_fullscreen_view fullscreen_view;
-		fullscreen_view.setup_camera(NULL);
+		fullscreen_view.setup_camera(nullptr);
 		fullscreen_view.begin(&fullscreen_view);
 		ASSERT(pregame_frame_type >= 0 && pregame_frame_type < k_main_pregame_frame_count);
 		fullscreen_view.render_blank_frame(&pregame_frame_colors[pregame_frame_type].blank_frame);
@@ -871,6 +871,6 @@ void __cdecl main_render_view(c_player_view* player_view, int32 player_index)
 	player_view->render_submit_visibility();
 	player_view->render();
 	c_view::end();
-	c_player_view::set_global_player_view(NULL);
+	c_player_view::set_global_player_view(nullptr);
 }
 

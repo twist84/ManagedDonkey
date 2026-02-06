@@ -27,8 +27,8 @@ class c_main_menu :
 {
 public:
 	c_main_menu() :
-		//c_debug_menu_scroll(NULL, 26, "Main") // Halo 3
-		c_debug_menu_scroll(NULL, 26, version_get_full_string()) // version_get_build_and_changelist_string() in Halo 4
+		//c_debug_menu_scroll(nullptr, 26, "Main") // Halo 3
+		c_debug_menu_scroll(nullptr, 26, version_get_full_string()) // version_get_build_and_changelist_string() in Halo 4
 	{
 	}
 };
@@ -82,12 +82,12 @@ void debug_menu_draw_rect(int16 x0, int16 y0, int16 x1, int16 y1, real32 alpha, 
 	set_point2d(&points[2], x1, y0);
 	set_point2d(&points[3], x0, y0);
 
-	rasterizer_quad_screenspace(points, real_argb_color_to_pixel32(color), NULL, 0, false);
+	rasterizer_quad_screenspace(points, real_argb_color_to_pixel32(color), nullptr, 0, false);
 }
 
 bool debug_menu_get_active()
 {
-	return g_debug_menu_globals.m_active_menu != NULL;
+	return g_debug_menu_globals.m_active_menu != nullptr;
 }
 
 c_debug_menu* debug_menu_get_root()
@@ -106,8 +106,8 @@ void debug_menu_dispose()
 void debug_menu_initialize_for_new_map()
 {
 	g_debug_menu_globals.m_do_render = false;
-	g_debug_menu_globals.m_main_menu = NULL;
-	g_debug_menu_globals.m_active_menu = NULL;
+	g_debug_menu_globals.m_main_menu = nullptr;
+	g_debug_menu_globals.m_active_menu = nullptr;
 
 	g_debug_menu_globals.m_main_menu = DEBUG_MENU_MALLOC(c_main_menu);
 
@@ -123,9 +123,9 @@ void debug_menu_dispose_from_old_map()
 	if (g_debug_menu_globals.m_main_menu)
 	{
 		g_debug_menu_stack.resize(0);
-		g_debug_menu_globals.m_main_menu = NULL;
+		g_debug_menu_globals.m_main_menu = nullptr;
 	}
-	g_debug_menu_globals.m_active_menu = NULL;
+	g_debug_menu_globals.m_active_menu = nullptr;
 
 	if (g_user_interface_controller_globals.suppressed)
 	{
@@ -226,7 +226,7 @@ void debug_menu_close()
 	if (debug_menu_get_root() && debug_menu_get_active() &&
 		system_milliseconds() - g_debug_menu_globals.open_menu_time > 100)
 	{
-		debug_menu_set_active_menu(NULL, false);
+		debug_menu_set_active_menu(nullptr, false);
 	}
 }
 

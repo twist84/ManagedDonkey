@@ -14,7 +14,7 @@
 template<>
 void ui_track_delete<c_gui_primary_skulls_data>(const c_gui_primary_skulls_data* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_primary_skulls_data();
 	user_interface_free(object);
@@ -23,7 +23,7 @@ void ui_track_delete<c_gui_primary_skulls_data>(const c_gui_primary_skulls_data*
 template<>
 void ui_track_delete<c_gui_secondary_skulls_data>(const c_gui_secondary_skulls_data* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_secondary_skulls_data();
 	user_interface_free(object);
@@ -176,7 +176,7 @@ void c_gui_screen_campaign_settings::set_focus(e_focus_state new_state, int16 ne
 	bool primary_visible = false;
 	bool secondary_visible = false;
 
-	c_gui_list_widget* chosen_list = NULL;
+	c_gui_list_widget* chosen_list = nullptr;
 
 	switch (new_state)
 	{
@@ -246,7 +246,7 @@ void c_gui_screen_campaign_settings::update(uns32 current_milliseconds)
 	c_gui_screen_widget::update(current_milliseconds);
 
 	c_gui_list_widget* primary_skulls_list_widget = c_gui_widget::get_child_list_widget(STRING_ID(gui, primary_skulls));
-	c_gui_data* primary_skulls_list_data = NULL;
+	c_gui_data* primary_skulls_list_data = nullptr;
 	if (primary_skulls_list_widget)
 	{
 		primary_skulls_list_data = primary_skulls_list_widget->get_data();
@@ -265,7 +265,7 @@ void c_gui_screen_campaign_settings::update(uns32 current_milliseconds)
 	}
 
 	c_gui_list_widget* secondary_skulls_list_widget = c_gui_widget::get_child_list_widget(STRING_ID(gui, secondary_skulls));
-	c_gui_data* secondary_skulls_list_data = NULL;
+	c_gui_data* secondary_skulls_list_data = nullptr;
 	if (secondary_skulls_list_widget)
 	{
 		secondary_skulls_list_data = secondary_skulls_list_widget->get_data();
@@ -283,7 +283,7 @@ void c_gui_screen_campaign_settings::update(uns32 current_milliseconds)
 		}
 	}
 
-	c_gui_data* scoring_option_list_data = NULL;
+	c_gui_data* scoring_option_list_data = nullptr;
 	c_gui_list_widget* scoring_option_list_widget = c_gui_widget::get_child_list_widget(STRING_ID(gui, scoring_option));
 	if (scoring_option_list_widget)
 	{

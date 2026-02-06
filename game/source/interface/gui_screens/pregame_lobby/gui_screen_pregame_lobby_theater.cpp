@@ -241,7 +241,7 @@ void c_gui_screen_pregame_lobby_theater::update(uns32 current_milliseconds)
 		return;
 	}
 
-	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, recent_films), NULL);
+	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, recent_films), nullptr);
 	if (!data || data->is_busy())
 	{
 		return;

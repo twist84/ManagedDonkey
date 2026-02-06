@@ -9,7 +9,7 @@ enum : uns32
 	k_font_character_maximum_pages = 1026,
 };
 
-const s_font_header* g_fallback_font_header = NULL;
+const s_font_header* g_fallback_font_header = nullptr;
 
 bool fallback_font_get_character(e_utf32 utf_character, const s_font_character** out_character, const void** out_pixel_data)
 {

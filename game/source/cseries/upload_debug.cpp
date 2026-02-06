@@ -89,7 +89,7 @@ bool __cdecl upload_debug_get_output(char* buffer, int32 buffer_length)
 	{
 		*buffer = 0;
 
- 		if (upload_debug_complete(NULL))
+ 		if (upload_debug_complete(nullptr))
 		{
 			if (g_upload_debug_globals.archive_upload_success)
 				csnzappendf(buffer, buffer_length, "\r\nFile upload to server complete.  (Safe to reboot)");
@@ -182,11 +182,11 @@ void __cdecl create_and_upload_zip_archive()
 		progress_new("uploading crash files");
 		progress_update(0, 1);
 
-		netdebug_upload_file(NULL, k_crash_file_archive, upload_debug_update_callback, upload_debug_completion_callback, NULL);
+		netdebug_upload_file(nullptr, k_crash_file_archive, upload_debug_update_callback, upload_debug_completion_callback, nullptr);
 	}
 	else
 	{
-		upload_debug_completion_callback(false, NULL);
+		upload_debug_completion_callback(false, nullptr);
 	}
 }
 

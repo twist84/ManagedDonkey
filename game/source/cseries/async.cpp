@@ -55,9 +55,9 @@ void __cdecl async_initialize()
 	//	task->next = next_task;
 	//	next_task->task_id = INVALID_ASYNC_TASK_ID;
 	//}
-	//async_globals.free_list_blocks[NUMBEROF(async_globals.free_list_blocks) - 1].next = NULL;
+	//async_globals.free_list_blocks[NUMBEROF(async_globals.free_list_blocks) - 1].next = nullptr;
 	//async_globals.free_list = async_globals.free_list_blocks;
-	//async_globals.work_list = NULL;
+	//async_globals.work_list = nullptr;
 	//async_task_buffer_initialize();
 	//start_thread(k_thread_async_io);
 	//if (shell_application_type())
@@ -260,7 +260,7 @@ s_async_queue_element* __cdecl free_list_get_and_remove(bool block_if_task_list_
 	//return INVOKE(0x00508980, free_list_get_and_remove, block_if_task_list_is_full);
 
 	bool stalled = false;
-	s_async_queue_element* free_list = NULL;
+	s_async_queue_element* free_list = nullptr;
 	while (!free_list)
 	{
 		// mutex_async_free_take
@@ -365,7 +365,7 @@ void __cdecl work_list_remove_internal_assumes_locked_does_not_clear_id_does_not
 {
 	//INVOKE(0x00508C30, work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend, element);
 
-	ASSERT(async_globals.work_list != NULL);
+	ASSERT(async_globals.work_list != nullptr);
 	if (async_globals.work_list == element)
 	{
 		async_globals.work_list = element->next;

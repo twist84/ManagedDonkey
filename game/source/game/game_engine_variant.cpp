@@ -206,7 +206,7 @@ bool c_game_variant::is_equal_to(const c_game_variant* other) const
 	return INVOKE_CLASS_MEMBER(0x0057A4C0, c_game_variant, is_equal_to, other);
 
 	// $TODO
-	//ASSERT(other != NULL);
+	//ASSERT(other != nullptr);
 	//
 	//if (get_game_engine_index() != other->get_game_engine_index())
 	//	return false;
@@ -519,7 +519,7 @@ bool __cdecl game_engine_variant_is_valid(const c_game_variant* variant)
 {
 	return INVOKE(0x005728B0, game_engine_variant_is_valid, variant);
 
-	//ASSERT(variant != NULL);
+	//ASSERT(variant != nullptr);
 	//
 	//if (main_game_loaded_map())
 	//{
@@ -535,7 +535,7 @@ bool game_engine_variant_validate(c_game_variant* variant)
 {
 	return INVOKE(0x00572920, game_engine_variant_validate, variant);
 
-	//ASSERT(variant != NULL);
+	//ASSERT(variant != nullptr);
 	//
 	//c_game_variant game_variant;
 	//game_variant.copy_from_unsafe(variant);

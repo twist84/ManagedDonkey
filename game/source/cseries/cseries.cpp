@@ -122,7 +122,7 @@ void display_assert(const char* statement, const char* file, int32 line, bool fa
 
 		if (k_tracked_build)
 		{
-			RaiseException('stk', 0, 0, NULL);
+			RaiseException('stk', 0, 0, nullptr);
 		}
 
 		main_halt_and_catch_fire();
@@ -145,7 +145,7 @@ bool handle_assert_as_exception(const char* statement, const char* file, int32 l
 	};
 
 	post_thread_assert_arguments(&arguments);
-	RaiseException('stk', 0, 0, NULL);
+	RaiseException('stk', 0, 0, nullptr);
 
 	return true;
 }
@@ -374,7 +374,7 @@ bool ascii_isupper(char C)
 
 void ascii_strnlwr(char* string, int32 count)
 {
-	ASSERT(string != NULL || count == 0);
+	ASSERT(string != nullptr || count == 0);
 	ASSERT(count >= 0 && count < MAXIMUM_STRING_SIZE);
 
 	for (int32 i = 0; i < count && string[i]; i++)

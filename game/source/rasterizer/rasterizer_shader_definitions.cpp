@@ -45,19 +45,19 @@ const c_rasterizer_compiled_vertex_shader* c_rasterizer_vertex_shader::get_compi
 	if (entry_point >= entry_points.count)
 	{
 		event(_event_error, "rasterizer: vertex shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
-		return NULL;
+		return nullptr;
 	}
 
 	const s_rasterizer_vertex_shader_entry_point* shader_entry_point = get_entry_point(entry_point);
 	if (vertex_type >= shader_entry_point->vertex_types.count)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const s_compiled_shader_reference* shader_reference = shader_entry_point->get_shader_reference(vertex_type);
 	if (!VALID_INDEX(shader_index, shader_reference->count))
 	{
-		NULL;
+		nullptr;
 	}
 
 	return get_compiled_shader(shader_reference->start_index + shader_index);
@@ -70,7 +70,7 @@ IDirect3DVertexShader9* c_rasterizer_vertex_shader::get_d3d_shader(e_vertex_type
 		return compiled_shader->get_d3d_shader();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const c_rasterizer_pixel_shader* c_rasterizer_pixel_shader::get(int32 definition_index)
@@ -90,13 +90,13 @@ const c_rasterizer_compiled_pixel_shader* c_rasterizer_pixel_shader::get_compile
 	if (entry_point >= entry_points.count)
 	{
 		event(_event_error, ": pixel shader entry point (%d) doesn't exist - shader probably failed to compile", entry_point);
-		return NULL;
+		return nullptr;
 	}
 
 	s_compiled_shader_reference& reference = entry_points[entry_point];
 	if (!VALID_INDEX(shader_index, reference.count))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &compiled_shader[shader_index + reference.start_index];
@@ -109,6 +109,6 @@ IDirect3DPixelShader9* c_rasterizer_pixel_shader::get_d3d_shader(e_entry_point e
 		return compiled_shader->get_d3d_shader();
 	}
 
-	return NULL;
+	return nullptr;
 }
 

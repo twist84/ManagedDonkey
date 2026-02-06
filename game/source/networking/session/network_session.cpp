@@ -136,8 +136,8 @@ void c_network_session::destroy_session()
 	//m_local_state = k_network_session_state_none;
 	//m_session_class = k_network_session_class_none;
 	//m_session_type = _network_session_type_none;
-	//m_message_gateway = NULL;
-	//m_observer = NULL;
+	//m_message_gateway = nullptr;
+	//m_observer = nullptr;
 }
 
 //.text:0045B9D0 ; public: void c_network_session::disband_and_reestablish_as_host(e_disband_and_reestablish_policy)
@@ -240,7 +240,7 @@ const c_network_session_membership* c_network_session::get_session_membership_un
 
 	if (c_network_session::disconnected() || !m_session_membership.has_membership())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	ASSERT(m_session_membership.is_peer_valid(m_session_membership.local_peer_index()));

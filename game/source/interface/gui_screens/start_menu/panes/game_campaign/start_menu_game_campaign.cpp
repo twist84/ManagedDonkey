@@ -37,7 +37,7 @@ c_gui_bitmap_widget* c_start_menu_game_campaign::create_bitmap_widget(const s_ru
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE8760, c_start_menu_game_campaign, create_bitmap_widget, definition);
 
-	c_gui_bitmap_widget* bitmap_widget = NULL;
+	c_gui_bitmap_widget* bitmap_widget = nullptr;
 	if (definition->widget_identifier == STRING_ID(gui, map_image))
 	{
 		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
@@ -160,8 +160,8 @@ void c_start_menu_game_campaign::initialize_datasource()
 
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_data* datasource = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
-	if (datasource != NULL)
+	c_gui_data* datasource = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), nullptr);
+	if (datasource != nullptr)
 	{
 		datasource->clear_disabled_elements();
 

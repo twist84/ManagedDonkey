@@ -28,7 +28,7 @@ void c_saved_film_snippet_screen::dispose()
 		k_number_of_player_windows,
 		get_name());
 
-	if (load_screen_message != NULL)
+	if (load_screen_message != nullptr)
 	{
 		string_id initial_focused_item;
 

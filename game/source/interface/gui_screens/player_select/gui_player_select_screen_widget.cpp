@@ -258,8 +258,8 @@ void __thiscall c_gui_player_select_screen_widget::initialize_()
 
 bool __thiscall c_gui_player_select_screen_widget::try_and_get_render_data_emblem_info_(c_gui_bitmap_widget* bitmap_widget, s_emblem_info* emblem_info)
 {
-	ASSERT(bitmap_widget != NULL);
-	ASSERT(emblem_info != NULL);
+	ASSERT(bitmap_widget != nullptr);
+	ASSERT(emblem_info != nullptr);
 
 	if (!bitmap_widget->renders_as_player_emblem())
 	{
@@ -268,7 +268,7 @@ bool __thiscall c_gui_player_select_screen_widget::try_and_get_render_data_emble
 
 	const c_game_results* final_game_results = user_interface_networking_get_final_game_results();
 
-	const s_player_configuration* configuration = NULL;
+	const s_player_configuration* configuration = nullptr;
 	if (bitmap_widget->m_name == STRING_ID(gui, killed_emblem))
 	{
 		if (final_game_results && m_killed_most_player_index != NONE)

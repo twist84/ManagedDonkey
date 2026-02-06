@@ -79,7 +79,7 @@ void __cdecl havok_display_stats_printf(bool display_as_event, const real_argb_c
 	}
 	else
 	{
-		terminal_printf(NULL, "%s", buffer);
+		terminal_printf(nullptr, "%s", buffer);
 	}
 }
 

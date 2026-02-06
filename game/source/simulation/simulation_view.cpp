@@ -98,7 +98,7 @@ const char* c_simulation_view::get_view_description() const
 {
 	return INVOKE_CLASS_MEMBER(0x00466710, c_simulation_view, get_view_description);
 
-	//return NULL;
+	//return nullptr;
 }
 
 int32 c_simulation_view::get_view_establishment_identifier() const

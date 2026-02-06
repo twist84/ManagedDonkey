@@ -16,12 +16,12 @@ void __cdecl reference_list_add(s_data_array* array, int32* first_reference_inde
 	//if (payload_size <= 0)
 	//{
 	//	ASSERT(array->size == sizeof(struct data_reference));
-	//	ASSERT(payload == NULL);
+	//	ASSERT(payload == nullptr);
 	//}
 	//else
 	//{
 	//	ASSERT(payload_size == array->size - sizeof(struct data_reference));
-	//	ASSERT(payload != NULL);
+	//	ASSERT(payload != nullptr);
 	//}
 	//
 	//int32 reference_index = datum_new(array);
@@ -33,7 +33,7 @@ void __cdecl reference_list_add(s_data_array* array, int32* first_reference_inde
 	//}
 	//else
 	//{
-	//	struct data_reference* data_reference = NULL;
+	//	struct data_reference* data_reference = nullptr;
 	//	if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) < array->count)
 	//	{
 	//		data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) * array->size);
@@ -61,7 +61,7 @@ bool __cdecl reference_list_contains(s_data_array* array, int32* first_reference
 	//
 	//while (true)
 	//{
-	//	struct data_reference* data_reference = NULL;
+	//	struct data_reference* data_reference = nullptr;
 	//	if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) < array->count)
 	//	{
 	//		data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) * array->size);
@@ -94,7 +94,7 @@ void __cdecl reference_list_delete(s_data_array* array, int32 first_reference_in
 	//	int32 reference_index = first_reference_index;
 	//	do
 	//	{
-	//		struct data_reference* data_reference = NULL;
+	//		struct data_reference* data_reference = nullptr;
 	//		if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) < array->count)
 	//		{
 	//			data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(reference_index) * array->size);
@@ -114,7 +114,7 @@ int32 __cdecl reference_list_get_next_datum_and_payload(s_data_array* array, int
 	//	return NONE;
 	//}
 	//
-	//struct data_reference* data_reference = NULL;
+	//struct data_reference* data_reference = nullptr;
 	//if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) < array->count)
 	//{
 	//	data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) * array->size);
@@ -138,7 +138,7 @@ int32 __cdecl reference_list_get_next_datum_index(s_data_array* array, int32* re
 	//	return NONE;
 	//}
 	//
-	//struct data_reference* data_reference = NULL;
+	//struct data_reference* data_reference = nullptr;
 	//if (array->valid && DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) < array->count)
 	//{
 	//	data_reference = (struct data_reference*)offset_pointer(array->data, DATUM_INDEX_TO_ABSOLUTE_INDEX(*reference_index) * array->size);

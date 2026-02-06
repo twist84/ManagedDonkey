@@ -9,7 +9,7 @@ void* __cdecl overlapped_malloc(uns32 size)
 {
 	//return INVOKE(0x0066D550, overlapped_malloc, size);
 
-	return overlapped_malloc_tracked(size, NULL, 0);
+	return overlapped_malloc_tracked(size, nullptr, 0);
 }
 
 void* __cdecl overlapped_malloc_tracked(uns32 size, const char* file, int32 line)

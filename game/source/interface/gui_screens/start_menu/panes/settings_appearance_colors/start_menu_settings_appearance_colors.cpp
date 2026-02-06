@@ -81,7 +81,7 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 	e_event_type event_type = message->get_event_type();
 	e_controller_component component = message->get_component();
 
-	c_gui_list_widget* focused_parent_list_widget = NULL;
+	c_gui_list_widget* focused_parent_list_widget = nullptr;
 	if (c_gui_widget* focused_widget = get_focused_widget())
 		focused_parent_list_widget = focused_widget->get_parent_list();
 
@@ -92,7 +92,7 @@ bool __thiscall c_start_menu_settings_appearance_colors::handle_controller_input
 		{
 			if ((event_type == _event_type_button_press && component == _controller_component_button_a) || event_type == _event_type_tab_right)
 			{
-				c_gui_list_item_widget* parent_list_item = NULL;
+				c_gui_list_item_widget* parent_list_item = nullptr;
 				if (c_gui_widget* focused_widget = get_focused_widget())
 					parent_list_item = focused_widget->get_parent_list_item();
 

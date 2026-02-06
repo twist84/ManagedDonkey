@@ -56,7 +56,7 @@ void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, const p
 }
 
 c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly) :
-	c_debug_menu_item_numbered(menu, name, NULL),
+	c_debug_menu_item_numbered(menu, name, nullptr),
 	m_readonly(readonly)
 {
 }

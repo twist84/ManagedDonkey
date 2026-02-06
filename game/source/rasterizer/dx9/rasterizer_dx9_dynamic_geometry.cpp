@@ -83,7 +83,7 @@ void __cdecl c_rasterizer::draw_debug_line(const real_point3d& point1, const rea
 	{
 		set_cull_mode(_cull_mode_off);
 		set_z_buffer_mode(_z_buffer_mode_read);
-		set_indices(NULL);
+		set_indices(nullptr);
 		draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, 1, point_list, sizeof(rasterizer_vertex_debug));
 		set_cull_mode(_cull_mode_cw);
 	}
@@ -103,7 +103,7 @@ void __cdecl c_rasterizer::draw_debug_line_list2d_explicit(const rasterizer_vert
 		set_cull_mode(_cull_mode_off);
 		set_z_buffer_mode(_z_buffer_mode_off);
 		set_pixel_shader_constant(1, NUMBEROF(fill_color), fill_color);
-		set_indices(NULL);
+		set_indices(nullptr);
 		draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, line_count, points, sizeof(rasterizer_vertex_debug));
 		set_cull_mode(_cull_mode_cw);
 	}
@@ -117,7 +117,7 @@ void __cdecl c_rasterizer::draw_debug_line_list_explicit(const rasterizer_vertex
 	{
 		set_cull_mode(_cull_mode_off);
 		set_z_buffer_mode(_z_buffer_mode_read);
-		set_indices(NULL);
+		set_indices(nullptr);
 		draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_line_list, line_count, points, sizeof(rasterizer_vertex_debug));
 		set_cull_mode(_cull_mode_cw);
 	}
@@ -136,7 +136,7 @@ void __cdecl c_rasterizer::draw_debug_polygon2d(const rasterizer_vertex_debug* p
 	{
 		set_cull_mode(_cull_mode_off);
 		set_z_buffer_mode(_z_buffer_mode_off);
-		set_indices(NULL);
+		set_indices(nullptr);
 		draw_primitive_up(primitive_type, primitive_count, polygon2d, sizeof(rasterizer_vertex_debug));
 		set_cull_mode(_cull_mode_cw);
 	}
@@ -152,7 +152,7 @@ void __cdecl c_rasterizer::draw_debug_polygon(const rasterizer_vertex_debug* ver
 		{
 			set_cull_mode(_cull_mode_off);
 			set_z_buffer_mode(_z_buffer_mode_read);
-			set_indices(NULL);
+			set_indices(nullptr);
 			draw_primitive_up(primitive_type, primitive_count, vertices, sizeof(rasterizer_vertex_debug));
 			set_cull_mode(_cull_mode_cw);
 		}
@@ -313,7 +313,7 @@ void __cdecl c_rasterizer::draw_fullscreen_quad(int width, int height)
 	triangle_fan[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_off);
-	set_indices(NULL);
+	set_indices(nullptr);
 	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, triangle_fan, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
@@ -349,7 +349,7 @@ void __cdecl draw_tesselated_quad()
 	//vertices[3].color = 0xFFFFFFFF;
 	//
 	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
-	//c_rasterizer::set_indices(NULL);
+	//c_rasterizer::set_indices(nullptr);
 	//c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
 	//c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 
@@ -406,7 +406,7 @@ void __cdecl draw_tesselated_quad()
 		}
 
 		c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_ccw);
-		c_rasterizer::set_indices(NULL);
+		c_rasterizer::set_indices(nullptr);
 		c_rasterizer::draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 4 * k_rects_x * k_rects_y - 2, vertices, sizeof(rasterizer_vertex_screen));
 		c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_cw);
 	}
@@ -446,7 +446,7 @@ void __cdecl c_rasterizer::draw_fullscreen_quad_with_texture_xform(int width, in
 	vertices[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_off);
-	set_indices(NULL);
+	set_indices(nullptr);
 	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
@@ -490,7 +490,7 @@ void __cdecl c_rasterizer::draw_screen_quad_with_texture_transform(int target_wi
 	vertices[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_off);
-	set_indices(NULL);
+	set_indices(nullptr);
 	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
@@ -528,7 +528,7 @@ void __cdecl c_rasterizer::draw_textured_screen_quad(real32 x0, real32 y0, real3
 	vertices[3].color = 0xFFFFFFFF;
 
 	set_cull_mode(_cull_mode_off);
-	set_indices(NULL);
+	set_indices(nullptr);
 	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_strip, 2, vertices, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
@@ -552,7 +552,7 @@ void __cdecl c_rasterizer::draw_textured_screen_triangle_list(const rasterizer_v
 
 	set_cull_mode(_cull_mode_off);
 	set_z_buffer_mode(_z_buffer_mode_off);
-	set_indices(NULL);
+	set_indices(nullptr);
 	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_list, primitive_count, textured_screen_triangle_list, sizeof(rasterizer_vertex_screen));
 	set_cull_mode(_cull_mode_cw);
 }
@@ -584,7 +584,7 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(const rasterizer_vertex_world
 	//DECLFUNC(0x00A46890, void, __cdecl, const rasterizer_vertex_world*, int32)(worldspace_polygon, polygon_count);
 
 	set_cull_mode(_cull_mode_off);
-	set_indices(NULL);
+	set_indices(nullptr);
 	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_fan, polygon_count - 2, worldspace_polygon, sizeof(rasterizer_vertex_world));
 	set_cull_mode(_cull_mode_cw);
 }
@@ -603,7 +603,7 @@ void __cdecl rasterizer_quad_screenspace(point2d const(&points)[4], uns32 color,
 
 	//if (!reference)
 	//{
-	//	c_rasterizer_globals* rasterizer_globals = NULL;
+	//	c_rasterizer_globals* rasterizer_globals = nullptr;
 	//	s_game_globals* game_globals = scenario_get_game_globals();
 	//	if (game_globals->rasterizer_globals_ref.index == NONE)
 	//	{

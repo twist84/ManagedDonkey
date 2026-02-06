@@ -73,7 +73,7 @@ class c_hash_table
 {
 public:
 	c_hash_table() :
-		m_hash_table(NULL)
+		m_hash_table(nullptr)
 	{
 	}
 
@@ -87,7 +87,7 @@ public:
 
 	bool __cdecl create(const char* name, int32 bucket_count, int32 maximum_elements, hash_table_hash_function_t* hash_function, hash_table_compare_function_t* compare_function, c_allocation_base* allocation)
 	{
-		ASSERT(m_hash_table == NULL);
+		ASSERT(m_hash_table == nullptr);
 		m_hash_table = hash_table_new(name, sizeof(t_user_data_type), bucket_count, maximum_elements, hash_function, compare_function, allocation);
 
 		return created();
@@ -110,7 +110,7 @@ public:
 
 	bool __cdecl created()
 	{
-		return m_hash_table != NULL;
+		return m_hash_table != nullptr;
 	}
 
 	s_hash_table* m_hash_table;

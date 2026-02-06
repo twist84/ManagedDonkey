@@ -88,7 +88,7 @@ bool __cdecl file_close(s_file_reference* reference)
 		return true;
 	}
 
-	file_error(__FUNCTION__, reference, NULL, false);
+	file_error(__FUNCTION__, reference, nullptr, false);
 
 	return false;
 }
@@ -124,14 +124,14 @@ bool __cdecl file_create(s_file_reference* reference)
 
 	if (TEST_BIT(reference->flags, _file_reference_flag_is_file_name))
 	{
-		HANDLE handle = CreateFileA(reference->path.get_string(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE handle = CreateFileA(reference->path.get_string(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (handle && handle != INVALID_HANDLE_VALUE)
 		{
 			CloseHandle(handle);
 			return true;
 		}
 	}
-	else if (CreateDirectoryA(reference->path.get_string(), NULL))
+	else if (CreateDirectoryA(reference->path.get_string(), nullptr))
 	{
 		return true;
 	}
@@ -162,7 +162,7 @@ bool __cdecl file_delete_recursive(s_file_reference* reference)
 void __cdecl file_error(const char* file_function, s_file_reference* reference_a, s_file_reference* reference_b, bool suppress_error)
 {
 	file_reference_info* info0 = file_reference_get_info(reference_a);
-	file_reference_info* info1 = NULL;
+	file_reference_info* info1 = nullptr;
 	if (reference_b)
 	{
 		info1 = file_reference_get_info(reference_b);
@@ -240,7 +240,7 @@ bool __cdecl file_get_size(s_file_reference* reference, uns32* out_file_size)
 		return true;
 	}
 
-	file_error(__FUNCTION__, reference, NULL, false);
+	file_error(__FUNCTION__, reference, nullptr, false);
 
 	return false;
 }
@@ -261,8 +261,8 @@ bool __cdecl file_is_directory(const s_file_reference* reference)
 
 bool __cdecl file_last_modification_date_to_time(const s_file_last_modification_date* date, tm* time, bool is_local)
 {
-	ASSERT(date != NULL);
-	ASSERT(time != NULL);
+	ASSERT(date != nullptr);
+	ASSERT(time != nullptr);
 
 	return INVOKE(0x00529CA0, file_last_modification_date_to_time, date, time, is_local);
 }
@@ -328,7 +328,7 @@ bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* err
 		flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
 	}
 
-	HANDLE handle = CreateFileA(reference->path.get_string(), desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
+	HANDLE handle = CreateFileA(reference->path.get_string(), desired_access, share_mode, nullptr, OPEN_EXISTING, flags_and_attributes, nullptr);
 	if (!handle || handle == INVALID_HANDLE_VALUE)
 	{
 		switch (GetLastError())
@@ -436,7 +436,7 @@ bool __cdecl file_read(s_file_reference* reference, uns32 size, bool print_error
 	if (!size)
 		return true;
 
-	if (ReadFile(reference->handle.handle, buffer, size, &bytes_read, NULL))
+	if (ReadFile(reference->handle.handle, buffer, size, &bytes_read, nullptr))
 	{
 		if (size == bytes_read)
 			result = true;
@@ -448,7 +448,7 @@ bool __cdecl file_read(s_file_reference* reference, uns32 size, bool print_error
 
 	if (!result)
 	{
-		file_error(__FUNCTION__, reference, NULL, print_error);
+		file_error(__FUNCTION__, reference, nullptr, print_error);
 	}
 
 	return result;
@@ -497,7 +497,7 @@ bool __cdecl file_reference_get_file_handle(s_file_reference* reference, s_file_
 {
 	*out_file_handle = reference->handle;
 
-	return reference->handle.handle != NULL;
+	return reference->handle.handle != nullptr;
 }
 
 bool __cdecl file_rename(s_file_reference* reference, const char* name)
@@ -532,7 +532,7 @@ bool __cdecl file_set_position(s_file_reference* reference, uns32 offset, bool p
 	bool result = reference->position != INVALID_SET_FILE_POINTER;
 	if (!result)
 	{
-		file_error(__FUNCTION__, reference, NULL, print_error);
+		file_error(__FUNCTION__, reference, nullptr, print_error);
 	}
 
 	return result;
@@ -619,7 +619,7 @@ void find_files_recursive(void* userdata, s_file_reference* directory, uns32 ope
 	find_files_start(&find_file_data, FLAG(1) | FLAG(2), directory);
 
 	s_file_reference found_file{};
-	while (find_files_next(&find_file_data, &found_file, NULL))
+	while (find_files_next(&find_file_data, &found_file, nullptr))
 	{
 		if (found_file.path.is_equal(".") || found_file.path.is_equal(".."))
 		{

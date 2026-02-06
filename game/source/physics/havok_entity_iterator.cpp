@@ -10,7 +10,7 @@ c_havok_entity_iterator::c_havok_entity_iterator(hkWorld* world, e_iteration_typ
 {
 	DECLFUNC(0x00760740, void, __thiscall, c_havok_entity_iterator*, hkWorld*, e_iteration_type)(this, world, iteration_type);
 
-	//ASSERT(m_world != NULL);
+	//ASSERT(m_world != nullptr);
 	//ASSERT(VALID_INDEX(iteration_type, k_iteration_type_count));
 	//
 	//m_iterating = false;
@@ -27,7 +27,7 @@ void c_havok_entity_iterator::begin()
 {
 	INVOKE_CLASS_MEMBER(0x00760770, c_havok_entity_iterator, begin);
 
-	//ASSERT(m_world != NULL);
+	//ASSERT(m_world != nullptr);
 	//ASSERT(!m_iterating);
 	//
 	//m_inactive_simulation_islands = false;

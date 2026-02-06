@@ -12,7 +12,7 @@ void c_game_engine_miscellaneous_options::byteswap()
 
 void c_game_engine_miscellaneous_options::set(const c_game_engine_miscellaneous_options* options, bool force)
 {
-	ASSERT(options != NULL);
+	ASSERT(options != nullptr);
 
 	set_teams_enabled(options->get_teams_enabled());
 	set_round_reset_players(options->get_round_reset_players());
@@ -147,7 +147,7 @@ void c_game_engine_respawn_options::byteswap()
 
 void c_game_engine_respawn_options::set(const c_game_engine_respawn_options* options, bool force)
 {
-	ASSERT(options != NULL);
+	ASSERT(options != nullptr);
 
 	set_inherit_respawn_time_enabled(options->get_inherit_respawn_time_enabled());
 	set_respawn_with_teammate_enabled(options->get_respawn_with_teammate_enabled());
@@ -376,7 +376,7 @@ void c_game_engine_social_options::byteswap()
 
 void c_game_engine_social_options::set(const c_game_engine_social_options* options, bool force)
 {
-	ASSERT(options != NULL);
+	ASSERT(options != nullptr);
 
 	set_observers_enabled(options->get_observers_enabled());
 	set_team_changing_enabled(options->get_team_changing_enabled());
@@ -552,7 +552,7 @@ void c_game_engine_map_override_options::byteswap()
 
 void c_game_engine_map_override_options::set(const c_game_engine_map_override_options* options, bool force)
 {
-	ASSERT(options != NULL);
+	ASSERT(options != nullptr);
 
 	set_grenades_on_map_enabled(get_grenades_on_map_enabled());
 	set_indestructible_vehicles_enabled(get_indestructible_vehicles_enabled());

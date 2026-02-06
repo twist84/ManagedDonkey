@@ -101,17 +101,17 @@ void __cdecl online_dispose()
 		if (user.online_xuid_string)
 		{
 			free(user.online_xuid_string);
-			user.online_xuid_string = NULL;
+			user.online_xuid_string = nullptr;
 		}
 		if (user.gamertag)
 		{
 			free(user.gamertag);
-			user.gamertag = NULL;
+			user.gamertag = nullptr;
 		}
 		if (user.display_name)
 		{
 			free(user.display_name);
-			user.display_name = NULL;
+			user.display_name = nullptr;
 		}
 	}
 
@@ -355,17 +355,17 @@ void __cdecl online_user_set_name(int32 user_index, const char* name)
 		if (user.online_xuid_string)
 		{
 			free(user.online_xuid_string);
-			user.online_xuid_string = NULL;
+			user.online_xuid_string = nullptr;
 		}
 		if (user.gamertag)
 		{
 			free(user.gamertag);
-			user.gamertag = NULL;
+			user.gamertag = nullptr;
 		}
 		if (user.display_name)
 		{
 			free(user.display_name);
-			user.display_name = NULL;
+			user.display_name = nullptr;
 		}
 
 		user.online_xuid_string = _wcsdup(name_wide.get_string());

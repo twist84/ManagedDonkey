@@ -24,7 +24,7 @@ HOOK_DECLARE(0x0051CE40, shell_get_system_identifier);
 bool fake_system_identifier = true;
 
 bool window_data::editorWindowCreate = false;
-HWND window_data::hWndEditor = NULL;
+HWND window_data::hWndEditor = nullptr;
 WNDPROC window_data::lpfnWndProcEditor = DefWindowProcA;
 CHAR window_data::classNameEditor[64]{};
 CHAR window_data::windowTitleEditor[64]{};
@@ -82,15 +82,15 @@ CHAR window_data::windowTitleEditor[64]{};
 
 LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static HMENU menu_handle = NULL;
-	static HMENU file_menu_handle = NULL;
-	static HMENU edit_menu_handle = NULL;
-	static HMENU view_menu_handle = NULL;
-	static HMENU scenarios_menu_handle = NULL;
-	static HMENU help_menu_handle = NULL;
+	static HMENU menu_handle = nullptr;
+	static HMENU file_menu_handle = nullptr;
+	static HMENU edit_menu_handle = nullptr;
+	static HMENU view_menu_handle = nullptr;
+	static HMENU scenarios_menu_handle = nullptr;
+	static HMENU help_menu_handle = nullptr;
 
-	static HINSTANCE status_bar_instance = NULL;
-	static HWND status_bar_handle = NULL;
+	static HINSTANCE status_bar_instance = nullptr;
+	static HWND status_bar_handle = nullptr;
 
 	switch (uMsg)
 	{
@@ -101,13 +101,13 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (file_menu_handle = CreateMenu())
 			{
 				AppendMenu(file_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_FILE_OPTION_01, TEXT("&Open Scenario\tCtrl+O"));
-				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(file_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_FILE_OPTION_02, TEXT("&Save Scenario\tCtrl+S"));
 				AppendMenu(file_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_FILE_OPTION_03, TEXT("Save Scenario &As..."));
-				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(file_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_FILE_OPTION_04, TEXT("&Compile scripts\tCtrl+Shift+C"));
 				AppendMenu(file_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_FILE_OPTION_05, TEXT("&Export script names\tCtrl+Shift+E"));
-				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(file_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(file_menu_handle, MF_STRING, ID_FILE_OPTION_06, TEXT("E&xit"));
 				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)file_menu_handle, TEXT("&File"));
 			}
@@ -128,13 +128,13 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			{
 				AppendMenu(view_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_VIEW_OPTION_01, TEXT("Toolbar"));
 				AppendMenu(view_menu_handle, MF_STRING | MF_CHECKED, ID_VIEW_OPTION_02, TEXT("&Status Bar"));
-				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(view_menu_handle, MF_STRING | MF_CHECKED, ID_VIEW_OPTION_03, TEXT("&Game window"));
 				AppendMenu(view_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_VIEW_OPTION_04, TEXT("&Properties palette"));
 				AppendMenu(view_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_VIEW_OPTION_05, TEXT("&Hierarchy view"));
 				AppendMenu(view_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_VIEW_OPTION_06, TEXT("&Tool window"));
 				AppendMenu(view_menu_handle, MF_STRING | MF_CHECKED, ID_VIEW_OPTION_07, TEXT("&Output Window"));
-				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(view_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(view_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_VIEW_OPTION_08, TEXT("Reset window prefs"));
 				AppendMenu(view_menu_handle, MF_STRING | MF_UNCHECKED | MF_UNIMPLEMENTED, ID_VIEW_OPTION_09, TEXT("&Lock aspect ratio"));
 				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)view_menu_handle, TEXT("View"));
@@ -144,18 +144,18 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			{
 				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_01, TEXT("Run game scripts\tAlt+G"));
 				AppendMenu(scenarios_menu_handle, MF_STRING, ID_SCENARIOS_OPTION_02, TEXT("Map reset\tAlt+R"));
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_DISABLED | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_03, TEXT("Place Squad\tCtrl+P"));
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_DISABLED | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_04, TEXT("Erase Squad\tCtrl+Shift+P"));
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_05, TEXT("Generate all pathfinding data"));
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_06, TEXT("S&plit Mission resources\tCtrl+Shift+P"));
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_07, TEXT("Split Mission &scripts"));
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_08, TEXT("&Add Mission script"));
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_09, TEXT("Split Mission AI"));
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_DISABLED | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_10, TEXT("Set Active Mission AI"));
-				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, NULL);
+				AppendMenu(scenarios_menu_handle, MF_SEPARATOR, 0, nullptr);
 				AppendMenu(scenarios_menu_handle, MF_STRING | MF_UNIMPLEMENTED, ID_SCENARIOS_OPTION_11, TEXT("&Import comments\tCtrl+Shift+L"));
 				AppendMenu(menu_handle, MF_POPUP, (UINT_PTR)scenarios_menu_handle, TEXT("Scenarios"));
 			}
@@ -177,14 +177,14 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		status_bar_handle = CreateWindowEx(
 			0,
 			STATUSCLASSNAME,
-			NULL,
+			nullptr,
 			WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP,
 			0, 0,
 			0, 0,
 			hWnd,
 			(HMENU)1,
 			status_bar_instance,
-			NULL);
+			nullptr);
 
 		SendMessageA(status_bar_handle, SB_SETTEXT, 0, (LPARAM)L"Ready");
 		SetWindowPos(status_bar_handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -237,7 +237,7 @@ LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		break;
 		case ID_ABOUT_OPTION_1:
 		{
-			ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), NULL, NULL, SW_SHOWNORMAL);
+			ShellExecute(nullptr, TEXT("open"), TEXT("https://github.com/twist84/ManagedDonkey"), nullptr, nullptr, SW_SHOWNORMAL);
 		}
 		break;
 		}
@@ -401,7 +401,7 @@ void __cdecl shell_idle()
 	static uns32 quit_timeout = NONE;
 	
 	MSG message{};
-	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
+	while (PeekMessageW(&message, nullptr, 0, 0, PM_REMOVE))
 	{
 		TranslateMessage(&message);
 		if (message.message == WM_QUIT)
@@ -475,7 +475,7 @@ void __cdecl sub_42EA80()
 	}
 
 	ULONG HeapInformation;
-	if (HeapQueryInformation(GetProcessHeap(), HeapCompatibilityInformation, &HeapInformation, sizeof(HeapInformation), NULL))
+	if (HeapQueryInformation(GetProcessHeap(), HeapCompatibilityInformation, &HeapInformation, sizeof(HeapInformation), nullptr))
 	{
 		//event(_event_message, "HeapCompatibilityInformation == %d!", HeapInformation);
 		printf("HeapCompatibilityInformation == %d!", HeapInformation); printf("\n");
@@ -510,10 +510,10 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	window_globals.hInstance = hInstance;
 	window_globals.nShowCmd = nCmdShow;
 	window_globals.lpfnWndProc = MainWndProc;
-	window_globals.hWndPresentTarget = NULL;
+	window_globals.hWndPresentTarget = nullptr;
 
 	static bool x_splash_enabled = false;
-	if (x_splash_enabled && shell_get_command_line_parameter(window_globals.lpCmdLine, "-nosplash", NULL, 0))
+	if (x_splash_enabled && shell_get_command_line_parameter(window_globals.lpCmdLine, "-nosplash", nullptr, 0))
 	{
 		splash_screen_show(L"donkey_splash.png", 500, 2000, 500);
 	}
@@ -522,10 +522,10 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	if (GetAsyncKeyState(VK_SHIFT) & 0x8000) // if shift is held open the "Choose Rasterizer" dialog
 	{
-		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
+		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), nullptr, ChooseRasterizerDialogProc);
 	}
 
-	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-haltonstartup", NULL, 0))
+	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-haltonstartup", nullptr, 0))
 	{
 		while (!is_debugger_present())
 		{
@@ -539,7 +539,7 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		g_physical_memory_cache_size_increase_mb = static_cast<uns32>(cache_size_increase);
 	}
 
-	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-editor", NULL, 0))
+	if (shell_get_command_line_parameter(window_globals.lpCmdLine, "-editor", nullptr, 0))
 	{
 		window_globals.editorWindowCreate = true;
 		window_globals.lpfnWndProcEditor = EditorWndProc;
@@ -613,7 +613,7 @@ bool __cdecl input_process_key(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	};
 
 	int16 key_code = NONE;
-	const uns8* key_table = NULL;
+	const uns8* key_table = nullptr;
 
 	if (uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP)
 	{

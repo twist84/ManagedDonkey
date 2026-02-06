@@ -297,7 +297,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		}
 	}
 
-	c_debug_menu_item* item = NULL;
+	c_debug_menu_item* item = nullptr;
 
 	switch (type)
 	{
@@ -312,7 +312,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		real32 max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
 		real32 min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
 
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, nullptr, g_parser_state.m_variable, min_value, max_value, inc_value);
 	}
 	break;
 	case _hs_type_short_integer:
@@ -321,7 +321,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		int16 max_value = g_parser_state.m_has_max ? (int16)g_parser_state.m_max : SHRT_MAX - 1;
 		int16 min_value = g_parser_state.m_has_min ? (int16)g_parser_state.m_min : SHRT_MIN + 1;
 
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, nullptr, g_parser_state.m_variable, min_value, max_value, inc_value);
 	}
 	break;
 	case _hs_type_long_integer:
@@ -330,7 +330,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		int32 max_value = g_parser_state.m_has_max ? (int32)g_parser_state.m_max : LONG_MAX - 1;
 		int32 min_value = g_parser_state.m_has_min ? (int32)g_parser_state.m_min : LONG_MIN + 1;
 
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, nullptr, g_parser_state.m_variable, min_value, max_value, inc_value);
 	}
 	break;
 	}
@@ -339,13 +339,13 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 	{
 		char undefined_name[1024]{};
 		csnzprintf(undefined_name, sizeof(undefined_name), "UNDEFINED: %s", g_parser_state.m_variable);
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item, menu, undefined_name, NULL, false);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item, menu, undefined_name, nullptr, false);
 	}
-	ASSERT(item != NULL);
+	ASSERT(item != nullptr);
 
 	menu->add_item(item);
 
-	return NULL;
+	return nullptr;
 }
 
 const char* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
@@ -360,7 +360,7 @@ const char* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer
 	const char* command = g_parser_state.m_variable;
 	menu->add_item(DEBUG_MENU_MALLOC(c_debug_menu_item_hs_command, menu, name, command));
 
-	return NULL;
+	return nullptr;
 }
 
 const char* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 error_buffer_size)
@@ -371,7 +371,7 @@ const char* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, int32 
 		return error_buffer;
 	}
 
-	const char* result = NULL;
+	const char* result = nullptr;
 	switch (g_parser_state.m_item_type.get())
 	{
 	case _item_type_hs_variable_global:
@@ -398,7 +398,7 @@ c_debug_menu* debug_menu_build_menu(e_property_owners property_owner, c_debug_me
 {
 	const char* name = g_parser_state.m_has_name ? g_parser_state.m_name : "untitled menu";
 	const char* caption = g_parser_state.m_has_caption ? g_parser_state.m_caption : "";
-	c_debug_menu* child = NULL;
+	c_debug_menu* child = nullptr;
 
 	for (int32 i = 0; i < s_parser_state::k_string_length; i++)
 	{
@@ -440,17 +440,17 @@ void debug_menu_display_error(const char* error_text, bool fatal)
 
 const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debug_menu* menu, int32* line_count, char* error_buffer, int32 error_buffer_length)
 {
-	const char* parse_error = NULL;
+	const char* parse_error = nullptr;
 
 	parse_stack_t parse_stack{};
 	parse_stack.push_back(_parse_state_none);
 
 	g_parser_state.reset();
 
-	ASSERT(menu_file != NULL);
-	ASSERT(menu != NULL);
-	ASSERT(line_count != NULL);
-	ASSERT(error_buffer != NULL);
+	ASSERT(menu_file != nullptr);
+	ASSERT(menu != nullptr);
+	ASSERT(line_count != nullptr);
+	ASSERT(error_buffer != nullptr);
 
 	while (file_char && file_char != NONE && !parse_error)
 	{
@@ -653,7 +653,7 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 							PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag);
 							{
 								file_char = fgetc(menu_file);
-								return NULL;
+								return nullptr;
 							}
 						}
 					}
@@ -738,15 +738,15 @@ const char* debug_menu_build_recursive(FILE* menu_file, int32& file_char, c_debu
 		}
 	}
 
-	return parse_error ? parse_error : NULL;
+	return parse_error ? parse_error : nullptr;
 }
 
 void debug_menu_parse(c_debug_menu* root_menu, const char* file_name)
 {
-	ASSERT(file_name != NULL);
-	ASSERT(root_menu != NULL);
+	ASSERT(file_name != nullptr);
+	ASSERT(root_menu != nullptr);
 
-	FILE* file = NULL;
+	FILE* file = nullptr;
 	if (fopen_s(&file, file_name, "rb") == 0 && file)
 	{
 		char error_buffer[1024]{};

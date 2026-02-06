@@ -66,7 +66,7 @@ void gui_real_rectangle2d::set(const real_rectangle2d* source)
 	//INVOKE_CLASS_MEMBER(0x00B18080, gui_real_rectangle2d, set, source);
 	DECLFUNC(0x00B18080, void, __thiscall, gui_real_rectangle2d*, const real_rectangle2d*)(this, source);
 
-	//ASSERT(source != NULL);
+	//ASSERT(source != nullptr);
 	//vertex[0].n[0] = source->n[0];
 	//vertex[0].n[1] = source->n[2];
 	//vertex[1].n[0] = source->n[0];
@@ -82,7 +82,7 @@ void gui_real_rectangle2d::set(const rectangle2d* source)
 	//INVOKE_CLASS_MEMBER(0x00B180C0, gui_real_rectangle2d, set, source);
 	DECLFUNC(0x00B180C0, void, __thiscall, gui_real_rectangle2d*, const rectangle2d*)(this, source);
 
-	//ASSERT(source != NULL);
+	//ASSERT(source != nullptr);
 	//vertex[0].n[0] = (real32)source->n[1];
 	//vertex[0].n[1] = (real32)source->n[0];
 	//vertex[1].n[0] = (real32)source->n[1];

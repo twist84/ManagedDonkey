@@ -163,7 +163,7 @@ c_gui_screen_widget* c_gui_location_manager::get_location_screen()
 		return location_screen;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int32 c_gui_location_manager::get_location_screen_name(int32 new_location)
@@ -324,7 +324,7 @@ void c_gui_location_manager::update()
 	e_gui_location current_ui_location = c_gui_location_manager::get_current_ui_location();
 	const c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen();
 
-	c_network_session* session = NULL;
+	c_network_session* session = nullptr;
 	bool in_session = network_life_cycle_in_session(&session);
 	if (game_in_progress() &&
 		game_is_ui_shell() &&

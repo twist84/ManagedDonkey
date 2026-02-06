@@ -106,15 +106,15 @@ void __cdecl input_xinput_dispose()
 	//INVOKE(0x0065EEB0, input_xinput_dispose);
 
 #if defined(STATIC_XINPUT)
-	XInputGetState_proxy = NULL;
-	XInputSetState_proxy = NULL;
+	XInputGetState_proxy = nullptr;
+	XInputSetState_proxy = nullptr;
 #else
 	if (XInput_module)
 	{
 		FreeLibrary(XInput_module);
-		XInput_module = NULL;
-		XInputGetState_proxy = NULL;
-		XInputSetState_proxy = NULL;
+		XInput_module = nullptr;
+		XInputGetState_proxy = nullptr;
+		XInputSetState_proxy = nullptr;
 	}
 #endif
 }
@@ -136,7 +136,7 @@ bool __cdecl input_xinput_initialize()
 
 	return true;
 #else
-	VASSERT(XInput_module == NULL, "please don't try to initialize xinput multiple times!");
+	VASSERT(XInput_module == nullptr, "please don't try to initialize xinput multiple times!");
 
 	if (XInput_module = LoadLibrary(XINPUT_DLL))
 	{
@@ -148,7 +148,7 @@ bool __cdecl input_xinput_initialize()
 		event(_event_message, "system:input: XInput dll ('%s') not found, controllers will be unavailable", XINPUT_DLL_A);
 	}
 
-	return XInput_module != NULL;
+	return XInput_module != nullptr;
 #endif
 }
 

@@ -215,7 +215,7 @@ void c_gui_roster_list_widget::update(uns32 current_milliseconds)
 				}
 
 				for (c_gui_widget* list_item_child_widget = list_item_widget->get_children();
-					list_item_child_widget != NULL;
+					list_item_child_widget != nullptr;
 					list_item_child_widget = list_item_child_widget->get_next())
 				{
 					list_item_child_widget->set_use_alternate_ambient_state(special_status_value == c_gui_roster_data::_special_status_error);
@@ -411,11 +411,11 @@ void c_gui_roster_list_widget::update_render_state(uns32 current_milliseconds)
 		int32 party_bar_length = 0;
 		int32 player_color = 0;
 
-		if (base_color_bitmap_widget != NULL
-			&& base_color_hilite_bitmap_widget != NULL
-			&& party_bar_player_bitmap_widget != NULL
-			&& name_text_widget != NULL
-			&& service_tag_text_widget != NULL
+		if (base_color_bitmap_widget != nullptr
+			&& base_color_hilite_bitmap_widget != nullptr
+			&& party_bar_player_bitmap_widget != nullptr
+			&& name_text_widget != nullptr
+			&& service_tag_text_widget != nullptr
 			&& data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
 			&& data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type_index)
 			&& data->get_integer_value(element_handle, STRING_ID(gui, party_bar_length), &party_bar_length)

@@ -106,10 +106,10 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 	byte address_buffer[k_socket_address_size]{};
 	int32 address_length = k_socket_address_size;
 
-	transport_endpoint* endpoint = NULL;
+	transport_endpoint* endpoint = nullptr;
 	if (transport_available())
 	{
-		ASSERT(listening_endpoint != NULL);
+		ASSERT(listening_endpoint != nullptr);
 		ASSERT(listening_endpoint->socket != INVALID_SOCKET);
 		ASSERT(TEST_BIT(listening_endpoint->flags, _transport_endpoint_listening_bit));
 
@@ -136,8 +136,8 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, cons
 {
 	//return INVOKE(0x0043FAC0, transport_endpoint_async_connect, endpoint, address);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(address != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(address != nullptr);
 
 	byte address_buffer[k_socket_address_size];
 	int32 address_length;
@@ -182,7 +182,7 @@ bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint,
 {
 	//return INVOKE(0x0043FB60, transport_endpoint_async_is_connected, endpoint, is_connected);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 	ASSERT(is_connected);
 
 	*is_connected = false;
@@ -209,7 +209,7 @@ bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint,
 			FD_ZERO(&except_set);
 			FD_SET(endpoint->socket, &except_set);
 
-			if (::select(0, NULL, &writeable_set, &except_set, &timeout) == -1)
+			if (::select(0, nullptr, &writeable_set, &except_set, &timeout) == -1)
 			{
 				event(wsa_error_level(), "transport:endpoint: transport_endpoint_async_is_connected() failed in select(): error= %s",
 					wsa_error_string());
@@ -238,8 +238,8 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 {
 	//return INVOKE(0x0043FCE0, transport_endpoint_bind, endpoint, address);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(address != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(address != nullptr);
 
 	byte address_buffer[k_socket_address_size];
 	int32 address_length;
@@ -266,7 +266,7 @@ bool __cdecl transport_endpoint_blocking(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x0043FD50, transport_endpoint_blocking, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 	return TEST_BIT(endpoint->flags, _transport_endpoint_blocking_bit);
 }
 
@@ -274,8 +274,8 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, const tran
 {
 	//return INVOKE(0x0043FD70, transport_endpoint_connect, endpoint, address);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(address != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(address != nullptr);
 
 	byte address_buffer[k_socket_address_size];
 	int32 address_length;
@@ -306,7 +306,7 @@ bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x0043FDE0, transport_endpoint_connected, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 	return TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit);
 }
 
@@ -314,7 +314,7 @@ transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 {
 	//return INVOKE(0x0043FDF0, transport_endpoint_create, type);
 
-	transport_endpoint* endpoint = NULL;
+	transport_endpoint* endpoint = nullptr;
 	if (transport_available())
 	{
 		endpoint = (transport_endpoint*)system_malloc(sizeof(transport_endpoint));
@@ -406,7 +406,7 @@ void __cdecl transport_endpoint_delete(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x0043FED0, transport_endpoint_delete, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	transport_endpoint_disconnect(endpoint);
 	system_free(endpoint);
@@ -416,7 +416,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x0043FF30, transport_endpoint_disconnect, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	if (endpoint->socket != INVALID_SOCKET)
 	{
@@ -447,7 +447,7 @@ int32 __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, 
 {
 	//return INVOKE(0x0043FF80, transport_endpoint_get_option_value, endpoint, option);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	int32 result = 0;
 	if (transport_available() && endpoint->socket != INVALID_SOCKET)
@@ -584,7 +584,7 @@ e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoin
 {
 	//return INVOKE(0x00440230, transport_endpoint_get_type, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	return endpoint->type;
 }
@@ -593,7 +593,7 @@ bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x00440240, transport_endpoint_listen, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 
 	bool success = false;
@@ -617,7 +617,7 @@ bool __cdecl transport_endpoint_listening(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x00440280, transport_endpoint_listening, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	return TEST_BIT(endpoint->flags, _transport_endpoint_listening_bit);
 }
@@ -626,8 +626,8 @@ int16 __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 {
 	//return INVOKE(0x00440290, transport_endpoint_read, endpoint, buffer, length);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(buffer != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(buffer != nullptr);
 	ASSERT(length > 0);
 
 	ASSERT(endpoint->socket != INVALID_SOCKET);
@@ -668,10 +668,10 @@ int16 __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* b
 {
 	//return INVOKE(0x004402F0, transport_endpoint_read_from, endpoint, buffer, length, source);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(buffer != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(buffer != nullptr);
 	ASSERT(length > 0);
-	ASSERT(source != NULL);
+	ASSERT(source != nullptr);
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 	ASSERT(endpoint->type != _transport_type_unix);
 
@@ -709,7 +709,7 @@ bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x00440390, transport_endpoint_readable, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	bool readable = false;
 	if (transport_available() && endpoint->socket != INVALID_SOCKET)
@@ -728,7 +728,7 @@ bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
 			FD_ZERO(&readable_set);
 			FD_SET(endpoint->socket, &readable_set);
 
-			readable = ::select(1, &readable_set, NULL, NULL, &timeout) == 1 && FD_ISSET(endpoint->socket, &readable_set);
+			readable = ::select(1, &readable_set, nullptr, nullptr, &timeout) == 1 && FD_ISSET(endpoint->socket, &readable_set);
 		}
 	}
 	return readable;
@@ -753,7 +753,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 {
 	//return INVOKE(0x00440470, transport_endpoint_set_blocking, endpoint, blocking);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	bool success = true;
 	if (transport_available())
@@ -805,7 +805,7 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 {
 	//return INVOKE(0x00440520, transport_endpoint_set_option_value, endpoint, option, value);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	int32 result = value;
 	int32 option_length = sizeof(result);
@@ -854,8 +854,8 @@ bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, const transpo
 {
 	//return INVOKE(0x004405C0, transport_endpoint_test, endpoint, address);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(address != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(address != nullptr);
 
 	byte address_buffer[k_socket_address_size];
 	int32 address_length;
@@ -878,8 +878,8 @@ int16 __cdecl transport_endpoint_write(transport_endpoint* endpoint, const void*
 {
 	//return INVOKE(0x00440660, transport_endpoint_write, endpoint, buffer, length);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(buffer != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(buffer != nullptr);
 	ASSERT(length > 0);
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 
@@ -918,10 +918,10 @@ int16 __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, const vo
 {
 	//return INVOKE(0x004406C0, transport_endpoint_write_to, endpoint, buffer, length, destination);
 
-	ASSERT(endpoint != NULL);
-	ASSERT(buffer != NULL);
+	ASSERT(endpoint != nullptr);
+	ASSERT(buffer != nullptr);
 	ASSERT(length > 0);
-	ASSERT(destination != NULL);
+	ASSERT(destination != nullptr);
 	ASSERT(endpoint->socket != INVALID_SOCKET);
 	ASSERT(endpoint->type != _transport_type_unix);
 
@@ -965,7 +965,7 @@ bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 {
 	//return INVOKE(0x00440740, transport_endpoint_writeable, endpoint);
 
-	ASSERT(endpoint != NULL);
+	ASSERT(endpoint != nullptr);
 
 	bool writeable = false;
 	if (transport_available() && endpoint->socket != INVALID_SOCKET)
@@ -978,7 +978,7 @@ bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 		FD_ZERO(&writeable_set);
 		FD_SET(endpoint->socket, &writeable_set);
 
-		writeable = ::select(1, NULL, &writeable_set, NULL, &timeout) == 1 && FD_ISSET(endpoint->socket, &writeable_set);
+		writeable = ::select(1, nullptr, &writeable_set, nullptr, &timeout) == 1 && FD_ISSET(endpoint->socket, &writeable_set);
 	}
 	return writeable;
 }
@@ -987,7 +987,7 @@ bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transp
 {
 	//return INVOKE(0x004407D0, transport_get_endpoint_address, endpoint, address);
 
-	ASSERT(address != NULL);
+	ASSERT(address != nullptr);
 
 	bool success = false;
 	if (transport_available())

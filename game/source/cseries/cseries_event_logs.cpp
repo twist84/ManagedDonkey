@@ -13,7 +13,7 @@ s_event_log_globals event_log_globals;
 s_event_log_cache g_event_log_cache;
 
 c_file_output_buffer::c_file_output_buffer() :
-	m_file(NULL),
+	m_file(nullptr),
 	m_buffer(),
 	m_buffer_length(0)
 {
@@ -52,7 +52,7 @@ void c_file_output_buffer::release_reference()
 	if (m_file)
 	{
 		flush();
-		m_file = NULL;
+		m_file = nullptr;
 		m_buffer_length = 0;
 	}
 }
@@ -381,7 +381,7 @@ void write_raw_to_error_file(c_file_output_buffer* file_buffer, int32 event_log_
 {
 	if (!events_force_no_log)
 	{
-		ASSERT(string != NULL);
+		ASSERT(string != nullptr);
 
 		if (file_buffer)
 		{
@@ -397,7 +397,7 @@ void write_raw_to_error_file(c_file_output_buffer* file_buffer, int32 event_log_
 
 void write_event_log_cache_entry(bool use_report_buffers, int32 event_log_index, const char* string, bool flush)
 {
-	c_file_output_buffer* output_buffer = NULL;
+	c_file_output_buffer* output_buffer = nullptr;
 
 	c_critical_section_scope section_scope(k_crit_section_event_logs);
 

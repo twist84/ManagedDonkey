@@ -76,7 +76,7 @@ s_file_reference* __cdecl create_report_file_reference(s_file_reference* referen
 	path.append(name);
 
 	s_file_reference* result = file_reference_create_from_path(reference, path.get_string(), false);
-	ASSERT(result != NULL);
+	ASSERT(result != nullptr);
 	if (result)
 	{
 		file_create_parent_directories_if_not_present(result);
@@ -96,8 +96,8 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_level    = k_event_level_none,
 		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
 		.initial_log_level        = _event_message,
-		.log_name                 = NULL,
-		.log_format_func          = NULL,
+		.log_name                 = nullptr,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = _event_message
 	},
 	{
@@ -105,8 +105,8 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_level    = _event_message,
 		.initial_display_color    = { 1.0f, 0.1f, 0.1f },
 		.initial_log_level        = _event_message,
-		.log_name                 = NULL,
-		.log_format_func          = NULL,
+		.log_name                 = nullptr,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = _event_message
 	},
 	{
@@ -115,7 +115,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 1.0f, 0.0f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "animation_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -124,7 +124,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.63f, 0.48f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "ai_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -133,7 +133,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.0f, 0.0f, 1.0f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "shaders_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -142,7 +142,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.0f, 0.0f, 0.8f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "geometry_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -151,7 +151,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.0f, 0.0f, 0.6f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "environment_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -160,7 +160,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.4f, 0.1f, 0.4f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "objects_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -178,7 +178,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "leaderboard_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = _event_message
 	},
 	{
@@ -214,7 +214,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.0f, 1.0f },
 		.initial_log_level        = _event_warning,
 		.log_name                 = "tag_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -223,7 +223,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.5f, 0.0f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "ui_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -232,7 +232,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.5f, 0.0f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "ui_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = _event_message
 	},
 	{
@@ -241,7 +241,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.5f, 0.0f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "ui_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = _event_message
 	},
 	{
@@ -250,7 +250,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.7f, 0.7f, 0.7f },
 		.initial_log_level        = _event_warning,
 		.log_name                 = "sound_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -259,7 +259,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.8f, 0.1f, 0.6f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "multiplayer_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -268,7 +268,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.0f, 0.0f, 0.8f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "effects_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = _event_error
 	},
 	{
@@ -277,7 +277,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.7f, 0.7f, 0.5f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "animation_audio_content_debug_4tx_",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -286,7 +286,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.0f, 0.0f, 0.6f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "environment_materials_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -295,7 +295,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.4f, 0.1f, 0.4f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "object_materials_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -304,7 +304,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.63f, 0.48f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "design_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -313,7 +313,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.0f, 0.0f, 0.0f },
 		.initial_log_level        = k_event_level_none,
 		.log_name                 = "localization_debug.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -322,7 +322,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 0.5f, 0.8f, 0.3f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "hs_log.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -330,8 +330,8 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_level    = k_event_level_none,
 		.initial_display_color    = { 1.0f, 1.0f, 0.0f },
 		.initial_log_level        = _event_message,
-		.log_name                 = NULL,
-		.log_format_func          = NULL,
+		.log_name                 = nullptr,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -339,8 +339,8 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_level    = k_event_level_none,
 		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
 		.initial_log_level        = _event_message,
-		.log_name                 = NULL,
-		.log_format_func          = NULL,
+		.log_name                 = nullptr,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -349,7 +349,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "system_log.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -357,8 +357,8 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_level    = k_event_level_none,
 		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
 		.initial_log_level        = _event_message,
-		.log_name                 = NULL,
-		.log_format_func          = NULL,
+		.log_name                 = nullptr,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -367,7 +367,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 0.4f, 0.7f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "bitmaps_log.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -375,8 +375,8 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_level    = k_event_level_none,
 		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
 		.initial_log_level        = _event_message,
-		.log_name                 = NULL,
-		.log_format_func          = NULL,
+		.log_name                 = nullptr,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 	{
@@ -385,7 +385,7 @@ const s_event_category_default_configuration k_event_category_default_configurat
 		.initial_display_color    = { 1.0f, 1.0f, 1.0f },
 		.initial_log_level        = _event_message,
 		.log_name                 = "bink_log.txt",
-		.log_format_func          = NULL,
+		.log_format_func          = nullptr,
 		.initial_remote_log_level = k_event_level_none
 	},
 };
@@ -523,7 +523,7 @@ void events_debug_render()
 	uns32 current_time = system_milliseconds();
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 
 	rectangle2d frame_bounds{};
 	set_rectangle2d(&frame_bounds, bounds.x0, bounds.y0 + 70, SHRT_MAX, SHRT_MAX);
@@ -534,7 +534,7 @@ void events_debug_render()
 	c_simple_font_draw_string draw_string;
 	interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 	draw_string.set_color(&color);
-	draw_string.set_tab_stops(NULL, 0);
+	draw_string.set_tab_stops(nullptr, 0);
 	draw_string.set_bounds(&frame_bounds);
 
 	if (event_globals.suppress_console_display_and_show_spinner)
@@ -544,7 +544,7 @@ void events_debug_render()
 			const char* spinner_chars[] = { "/", "-", "\\" };
 			long spinner_index = (8 * current_time / 1000) % 3;
 			const char* spinner_text = spinner_chars[spinner_index];
-			draw_string.draw(NULL, spinner_text);
+			draw_string.draw(nullptr, spinner_text);
 		}
 	}
 	else
@@ -565,14 +565,14 @@ void events_debug_render()
 			{
 				if (first_draw)
 				{
-					draw_string.draw(NULL, spamming_event.spam_text);
+					draw_string.draw(nullptr, spamming_event.spam_text);
 					first_draw = false;
 				}
 				else
 				{
-					draw_string.draw_more(NULL, spamming_event.spam_text);
+					draw_string.draw_more(nullptr, spamming_event.spam_text);
 				}
-				draw_string.draw_more(NULL, "\r\n");
+				draw_string.draw_more(nullptr, "\r\n");
 			}
 		}
 	}
@@ -715,7 +715,7 @@ int32 event_find_category_recursive(int32 parent_category_index, bool create_cat
 		
 		ASSERT(category_index != NONE);
 
-		s_event_category* temp_category = NULL;
+		s_event_category* temp_category = nullptr;
 		for (next_category_index = event_category_get(category_index)->first_child_index;
 			next_category_index != NONE;
 			next_category_index = temp_category->sibling_index)
@@ -738,11 +738,11 @@ int32 event_find_category_recursive(int32 parent_category_index, bool create_cat
 
 			g_event_read_write_lock.write_lock();
 
-			s_event_category* next_category = NULL;
+			s_event_category* next_category = nullptr;
 			int32 category_index_ = event_globals.category_count;
 			if (event_globals.category_count < 1024
 				&& (next_category_index = event_globals.category_count++,
-					(next_category = event_category_get(category_index_)) != NULL))
+					(next_category = event_category_get(category_index_)) != nullptr))
 			{
 				s_event_category* parent_category = event_category_get(parent_category_index);
 
@@ -832,7 +832,7 @@ void event_initialize_categories()
 	category->sibling_index = NONE;
 	category->current_display_color = global_real_argb_white->rgb;
 	category->event_log_index = NONE;
-	category->log_format_func = NULL;
+	category->log_format_func = nullptr;
 	category->event_listeners = 0;
 	event_globals.category_count++;
 
@@ -872,7 +872,7 @@ bool events_initialize_if_possible()
 		event_globals.current_minimum_level = k_event_level_none;
 		event_globals.current_minimum_category_level = k_event_level_none;
 		event_globals.event_index = 0;
-		event_globals.event_listeners.set_all(NULL);
+		event_globals.event_listeners.set_all(nullptr);
 		event_globals.console_suppression_old_time = 0;
 		event_globals.console_suppression_count = 0;
 		event_globals.console_suppression_old_line_check_time = 0;
@@ -1431,7 +1431,7 @@ void event_generated_handle_log(e_event_level event_level, int32 category_index,
 
 	ASSERT(event_log_count <= NUMBEROF(event_log_indices));
 
-	format_event_for_log(string, sizeof(string), event_level, NULL, buffer, event_text);
+	format_event_for_log(string, sizeof(string), event_level, nullptr, buffer, event_text);
 	write_to_event_log(event_log_indices, event_log_count, string);
 }
 
@@ -1541,7 +1541,7 @@ void event_generate_handle_recursive(e_event_level event_level, int32 category_i
 		}
 
 		c_debug_output_path debug_output_path{};
-		FILE* output_file = NULL;
+		FILE* output_file = nullptr;
 		fopen_s(&output_file, debug_output_path.get_path("debug_lost.txt"), "a");
 		if (output_file)
 		{
@@ -1549,7 +1549,7 @@ void event_generate_handle_recursive(e_event_level event_level, int32 category_i
 			char file_buffer[2048]{};
 
 			event_context_get(_event_context_query_destination_log, event_context_buffer, sizeof(event_context_buffer));
-			format_event_for_log(file_buffer, sizeof(file_buffer), event_level, NULL, event_context_buffer, buffer);
+			format_event_for_log(file_buffer, sizeof(file_buffer), event_level, nullptr, event_context_buffer, buffer);
 			fprintf(output_file, "%s", file_buffer);
 			fclose(output_file);
 		}

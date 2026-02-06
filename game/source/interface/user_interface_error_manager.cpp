@@ -130,14 +130,14 @@ const wchar_t* c_gui_queued_error::get_custom_title() const
 {
 	ASSERT(is_valid());
 
-	return m_custom_title.length() > 0 ? m_custom_title.get_string() : NULL;
+	return m_custom_title.length() > 0 ? m_custom_title.get_string() : nullptr;
 }
 
 const wchar_t* c_gui_queued_error::get_custom_message() const
 {
 	ASSERT(is_valid());
 
-	return m_custom_message.length() > 0 ? m_custom_message.get_string() : NULL;
+	return m_custom_message.length() > 0 ? m_custom_message.get_string() : nullptr;
 }
 
 e_controller_index c_gui_queued_error::get_controller_index() const
@@ -156,12 +156,12 @@ c_gui_error_manager::c_gui_error_manager() :
 
 bool c_gui_error_manager::any_error_active_for_controller(e_controller_index controller_index)
 {
-	return get_current_for_user(controller_index) != NULL;
+	return get_current_for_user(controller_index) != nullptr;
 }
 
 bool c_gui_error_manager::any_error_active_for_window(e_window_index window_index)
 {
-	return get_current_for_window(window_index) != NULL;
+	return get_current_for_window(window_index) != nullptr;
 }
 
 void c_gui_error_manager::clear_all_errors()
@@ -174,7 +174,7 @@ void c_gui_error_manager::clear_all_errors()
 
 void c_gui_error_manager::clear_error(int32 error_name, e_controller_index controller_index)
 {
-	clear_error_with_custom_message(error_name, controller_index, NULL);
+	clear_error_with_custom_message(error_name, controller_index, nullptr);
 }
 
 void c_gui_error_manager::clear_error_with_custom_message(int32 error_name, e_controller_index controller_index, const wchar_t* custom_message)
@@ -221,7 +221,7 @@ const c_gui_queued_error* c_gui_error_manager::get_error(e_controller_index cont
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void c_gui_error_manager::initialize()
@@ -267,17 +267,17 @@ void c_gui_error_manager::initialize_for_new_map()
 
 void c_gui_error_manager::post_error(int32 error_name, e_controller_index controller_index, bool requires_resolution)
 {
-	post_error_with_custom_message(error_name, NULL, NULL, controller_index, requires_resolution, true);
+	post_error_with_custom_message(error_name, nullptr, nullptr, controller_index, requires_resolution, true);
 }
 
 void c_gui_error_manager::post_error_with_custom_message(int32 error_name, const wchar_t* custom_message, e_controller_index controller_index, bool requires_resolution)
 {
-	post_error_with_custom_message(error_name, NULL, custom_message, controller_index, requires_resolution, true);
+	post_error_with_custom_message(error_name, nullptr, custom_message, controller_index, requires_resolution, true);
 }
 
 void c_gui_error_manager::post_toast(int32 error_name)
 {
-	post_toast_with_custom_message(error_name, NULL, NULL);
+	post_toast_with_custom_message(error_name, nullptr, nullptr);
 }
 
 void c_gui_error_manager::post_toast_with_custom_message(int32 error_name, const wchar_t* custom_title, const wchar_t* custom_message)
@@ -290,7 +290,7 @@ void c_gui_error_manager::post_toast_with_custom_message(int32 error_name, const
 
 void c_gui_error_manager::resolve_error(int32 error_name, e_controller_index controller_index)
 {
-	resolve_error_with_custom_message(error_name, controller_index, NULL);
+	resolve_error_with_custom_message(error_name, controller_index, nullptr);
 }
 
 void c_gui_error_manager::resolve_error_with_custom_message(int32 error_name, e_controller_index controller_index, const wchar_t* custom_message)
@@ -396,7 +396,7 @@ const c_gui_queued_error* c_gui_error_manager::get_current_for_user(e_controller
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const c_gui_queued_error* c_gui_error_manager::get_current_for_window(e_window_index window_index)
@@ -415,7 +415,7 @@ const c_gui_queued_error* c_gui_error_manager::get_current_for_window(e_window_i
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 c_gui_error_manager::e_alert_display_mode c_gui_error_manager::get_error_display_mode(e_controller_index* controller_index)

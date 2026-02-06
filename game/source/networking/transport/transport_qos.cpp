@@ -30,7 +30,7 @@ bool __cdecl transport_qos_get_result(int32 index, int32 target_index, s_transpo
 	result->bandwidth_upstream_bps = 20 * 1024;
 	result->bandwidth_downstream_bps = 20 * 1024;
 	result->data_block_size = 0;
-	result->data_block = NULL;
+	result->data_block = nullptr;
 
 	return true;
 }

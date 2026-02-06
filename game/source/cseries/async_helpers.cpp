@@ -217,13 +217,13 @@ int32 __cdecl async_enumerate_files(
 	//	success,
 	//	done);
 
-	ASSERT(directory != NULL);
+	ASSERT(directory != nullptr);
 	ASSERT(maximum_count > 0);
-	ASSERT(in_find_file_data != NULL);
-	ASSERT(out_references != NULL);
-	ASSERT(out_reference_count != NULL);
-	ASSERT(success != NULL);
-	ASSERT(done != NULL);
+	ASSERT(in_find_file_data != nullptr);
+	ASSERT(out_references != nullptr);
+	ASSERT(out_reference_count != nullptr);
+	ASSERT(success != nullptr);
+	ASSERT(done != nullptr);
 
 	*out_reference_count = 0;
 	success->set(0);

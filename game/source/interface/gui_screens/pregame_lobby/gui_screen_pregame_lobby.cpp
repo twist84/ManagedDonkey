@@ -78,7 +78,7 @@ void c_gui_screen_pregame_lobby::update_widget_visiblility_()
 template<>
 void ui_track_delete<c_gui_active_roster_data>(const c_gui_active_roster_data* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_active_roster_data();
 	user_interface_free(object);
@@ -198,7 +198,7 @@ const c_game_variant* c_gui_screen_pregame_lobby::get_current_variant()
 {
 	//return INVOKE(0x00B214A0, c_gui_screen_pregame_lobby::get_current_variant);
 
-	const c_game_variant* result = NULL;
+	const c_game_variant* result = nullptr;
 
 	e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
 	if (game_mode == _gui_game_setup_mode_multiplayer || game_mode == _gui_game_setup_mode_mapeditor || game_mode == _gui_game_setup_mode_theater)
@@ -535,7 +535,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 					k_any_controller,
 					get_render_window(),
 					m_name);
-				if (load_screen_message != NULL)
+				if (load_screen_message != nullptr)
 				{
 					load_screen_message->set_parent_screen_index(get_screen_index());
 
@@ -588,7 +588,7 @@ bool c_gui_screen_pregame_lobby::handle_list_item_chosen(const c_controller_inpu
 		if (datasource->get_integer_value(element_handle, STRING_ID(gui, player_index), &target_session_player_index))
 		{
 			const s_player_identifier* target_player_identifier = user_interface_session_get_player_identifier(target_session_player_index);
-			if (target_player_identifier != NULL)
+			if (target_player_identifier != nullptr)
 			{
 				handled = select_player_in_roster(message->get_controller(), target_player_identifier);
 			}
@@ -606,7 +606,7 @@ bool c_gui_screen_pregame_lobby::postgame_stats_enabled()
 {
 	//return INVOKE_CLASS_MEMBER(0x00B22130, c_gui_screen_pregame_lobby, postgame_stats_enabled);
 
-	return user_interface_networking_get_final_game_results() != NULL;
+	return user_interface_networking_get_final_game_results() != nullptr;
 }
 
 void c_gui_screen_pregame_lobby::initialize()
@@ -664,7 +664,7 @@ void c_gui_screen_pregame_lobby::load_game_variant_editing_screen(e_controller_i
 	//const c_game_variant* game_variant = user_interface_game_settings_get_game_variant();
 	//if (!game_variant)
 	//{
-	//	event(_event_message, "ui: user_interface_game_settings_get_game_variant() returned NULL");
+	//	event(_event_message, "ui: user_interface_game_settings_get_game_variant() returned nullptr");
 	//	return;
 	//}
 	//
@@ -845,7 +845,7 @@ void c_gui_screen_pregame_lobby::update_status()
 
 	c_gui_text_widget* lobby_status_text_widget = c_gui_widget::get_child_text_widget(STRING_ID(gui, lobby_status));
 	c_gui_list_item_widget* start_game_list_item_widget = c_gui_screen_widget::find_list_item(STRING_ID(gui, lobby_list), STRING_ID(global, name), STRING_ID(gui, start_game));
-	bool error = user_interface_get_session_game_start_status(NULL, NULL) == _session_game_start_status_error;
+	bool error = user_interface_get_session_game_start_status(nullptr, nullptr) == _session_game_start_status_error;
 	bool is_leader = user_interface_squad_local_peer_is_leader();
 	int32 start_status_text = c_gui_screen_pregame_lobby::get_start_status_text(is_leader);
 	c_gui_screen_widget::set_text_widget_string_id(STRING_ID(gui, lobby_status), start_status_text);

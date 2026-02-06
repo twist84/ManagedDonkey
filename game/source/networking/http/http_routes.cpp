@@ -15,9 +15,9 @@
 // ============================================================================
 void http_route_index(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	// Try to serve index.html from bin directory
 	s_file_reference index_file{};
@@ -119,9 +119,9 @@ void http_route_index(s_http_client* client, const s_http_request* request, s_ht
 
 void http_route_api_players(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	c_json_static_string<4096> json;
 
@@ -151,7 +151,7 @@ void http_route_api_players(s_http_client* client, const s_http_request* request
 						json.add_integer("index", player_index);
 
 						c_static_string<32> player_name;
-						wchar_string_to_ascii_string(player->configuration.host.name, player_name.get_buffer(), player_name.element_count, NULL);
+						wchar_string_to_ascii_string(player->configuration.host.name, player_name.get_buffer(), player_name.element_count, nullptr);
 						json.add_string("name", player_name.get_string());
 
 						json.add_integer("score", game_engine_get_player_score(player_index));
@@ -179,9 +179,9 @@ void http_route_api_players(s_http_client* client, const s_http_request* request
 
 void http_route_api_map(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	c_json_static_string<512> json;
 
@@ -199,9 +199,9 @@ void http_route_api_map(s_http_client* client, const s_http_request* request, s_
 
 void http_route_api_game_state(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	c_json_static_string<4096> json;
 
@@ -226,12 +226,12 @@ void http_route_api_game_state(s_http_client* client, const s_http_request* requ
 			if (game_engine_running())
 			{
 				const c_map_variant& map_variant = game_engine_globals->runtime_map_variant;
-				wchar_string_to_ascii_string(map_variant.m_metadata.display_name, map, NUMBEROF(map), NULL);
+				wchar_string_to_ascii_string(map_variant.m_metadata.display_name, map, NUMBEROF(map), nullptr);
 
 				const c_game_variant* game_variant = user_interface_game_settings_get_game_variant();
 				const c_game_engine_base_variant* active_variant = game_variant->get_active_variant();
 				const s_saved_game_item_metadata* metadata = active_variant->get_metadata();
-				wchar_string_to_ascii_string(metadata->display_name, mode, NUMBEROF(mode), NULL);
+				wchar_string_to_ascii_string(metadata->display_name, mode, NUMBEROF(mode), nullptr);
 
 				// state
 
@@ -265,7 +265,7 @@ void http_route_api_game_state(s_http_client* client, const s_http_request* requ
 			//			const player_datum* player = DATUM_TRY_AND_GET(player_data, player_datum, player_index);
 			//	
 			//			c_static_string<32> player_name;
-			//			wchar_string_to_ascii_string(player->configuration.host.name.get_string(), player_name.get_buffer(), player_name.element_count, NULL);
+			//			wchar_string_to_ascii_string(player->configuration.host.name.get_string(), player_name.get_buffer(), player_name.element_count, nullptr);
 			//		}
 			//	}
 			//	json.end_object();
@@ -344,9 +344,9 @@ void http_route_api_events(s_http_client* client, const s_http_request* request,
 
 void http_route_api_kick_player(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	if (request->method != _http_method_post)
 	{
@@ -381,9 +381,9 @@ void http_route_api_kick_player(s_http_client* client, const s_http_request* req
 
 void http_route_api_change_map(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	if (request->method != _http_method_post)
 	{
@@ -418,9 +418,9 @@ void http_route_api_change_map(s_http_client* client, const s_http_request* requ
 
 void http_route_dashboard(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	static c_html_static_string<16384> html;  // Increased buffer for safety
 
@@ -778,12 +778,12 @@ void http_route_dashboard(s_http_client* client, const s_http_request* request, 
 
 void http_route_session_info(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	s_http_server* server = http_server_get();
-	ASSERT(server != NULL);
+	ASSERT(server != nullptr);
 
 	c_json_static_string<2048> json;
 
@@ -798,8 +798,8 @@ void http_route_session_info(s_http_client* client, const s_http_request* reques
 		json.add_unsigned("uptime_ms", network_time_get());
 		json.add_boolean("initialized", network_globals.initialized);
 
-		json.add_boolean("has_session_manager", g_network_session_manager != NULL);
-		if (g_network_session_manager != NULL)
+		json.add_boolean("has_session_manager", g_network_session_manager != nullptr);
+		if (g_network_session_manager != nullptr)
 		{
 			json.begin_object("session");
 			{
@@ -829,9 +829,9 @@ void http_route_session_info(s_http_client* client, const s_http_request* reques
 
 void http_route_api_ping(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	c_json_static_string<512> json;
 
@@ -848,9 +848,9 @@ void http_route_api_ping(s_http_client* client, const s_http_request* request, s
 
 void http_route_fallback(s_http_client* client, const s_http_request* request, s_http_response* response)
 {
-	ASSERT(client != NULL);
-	ASSERT(request != NULL);
-	ASSERT(response != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(request != nullptr);
+	ASSERT(response != nullptr);
 
 	// File not found
 	http_response_set_status(response, _http_status_not_found);

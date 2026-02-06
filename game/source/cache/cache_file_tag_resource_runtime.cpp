@@ -353,10 +353,10 @@ void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* al
 	//m_running_off_dvd = cache_files_running_off_dvd();
 	//m_in_level_memory_manager.m_resource_header_location_table.m_uber_location_table.__unknown4 = 0;
 	//m_game_mode = _game_mode_none;
-	//m_resource_gestalt = NULL;
+	//m_resource_gestalt = nullptr;
 	//m_in_level_memory_manager.m_tag_resource_cache.initialize();
 	//physical_memory_create_resizeable_contiguous_region(this);
-	//m_optional_cache_backend.initialize(_map_memory_configuration_none, NULL);
+	//m_optional_cache_backend.initialize(_map_memory_configuration_none, nullptr);
 	//optional_cache_set_in_game_backend(&m_optional_cache_backend);
 	//m_in_level_memory_manager.m_resource_header_location_table.m_header_file_locations
 	//	= data_new("shared file handles", 8, sizeof(c_cache_file_resource_header_location_table::s_header_file_location), 0, g_runtime_state_allocation);

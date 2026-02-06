@@ -83,7 +83,7 @@ void c_simulation_watcher::describe_status(char* buffer, int32 buffer_length) co
 	ASSERT(membership);
 
 	char host_name[256]{};
-	wchar_string_to_ascii_string(membership->get_host_peer()->properties.peer_name, host_name, sizeof(host_name), NULL);
+	wchar_string_to_ascii_string(membership->get_host_peer()->properties.peer_name, host_name, sizeof(host_name), nullptr);
 	int32 peer_observer_channel = m_session->get_peer_observer_channel(membership->host_peer_index());
 
 	int32 join_time_elapsed = 0;
@@ -222,11 +222,11 @@ void c_simulation_watcher::destroy_watcher()
 	//if (m_observer)
 	//{
 	//	m_observer->deregister_owner((e_network_observer_owner)3, this);
-	//	m_observer = NULL;
+	//	m_observer = nullptr;
 	//}
 	//
-	//m_session = NULL;
-	//m_world = NULL;
+	//m_session = nullptr;
+	//m_world = nullptr;
 	//m_game_revert_occured = false;
 }
 
@@ -321,11 +321,11 @@ void c_simulation_watcher::initialize_watcher(c_simulation_world* world)
 	INVOKE_CLASS_MEMBER(0x0046CDA0, c_simulation_watcher, initialize_watcher, world);
 
 	//ASSERT(world);
-	//ASSERT(m_world == NULL);
+	//ASSERT(m_world == nullptr);
 	//
 	//m_world = world;
-	//m_session = NULL;
-	//m_observer = NULL;
+	//m_session = nullptr;
+	//m_observer = nullptr;
 	//m_game_revert_occured = false;
 	//c_simulation_watcher::reset_tracking_arrays();
 }

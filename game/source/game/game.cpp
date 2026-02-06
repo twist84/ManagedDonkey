@@ -320,7 +320,7 @@ void __cdecl game_create_players()
 	//	ASSERT(!simulation_reset_in_progress());
 	//
 	//	players_set_machines(options->machines.valid_machine_mask, options->machines.machines);
-	//	players_set_local_machine(options->machines.local_machine_exists ? &options->machines.local_machine : NULL);
+	//	players_set_local_machine(options->machines.local_machine_exists ? &options->machines.local_machine : nullptr);
 	//	for (int32 i = 0; i < 16; i++)
 	//	{
 	//		if (options->players[i].valid)
@@ -627,9 +627,9 @@ void __cdecl game_globals_dispose_from_old_map()
 {
 	//INVOKE(0x00531290, game_globals_dispose_from_old_map);
 
-	main_status("game_instance", NULL);
-	main_status("game_simulation", NULL);
-	main_status("game_playback", NULL);
+	main_status("game_instance", nullptr);
+	main_status("game_simulation", nullptr);
+	main_status("game_playback", nullptr);
 }
 
 void __cdecl game_globals_initialize_for_new_map(const game_options* options)
@@ -1456,12 +1456,12 @@ void __cdecl game_pvs_debug_render()
 			const struct structure_bsp* structure_bsp = global_structure_bsp_get(structure_bsp_index);
 			for (int32 cluster_index = 0; cluster_index < structure_bsp->clusters.count; cluster_index++)
 			{
-				const real_argb_color* cluster_color = NULL;
+				const real_argb_color* cluster_color = nullptr;
 				if (debug_pvs_activation)
 				{
 					const real_argb_color* const* k_activation_colors[k_cluster_activation_reason_count]
 					{
-						NULL,                     // none
+						nullptr,                     // none
 						&global_real_argb_orange, // player_pvs
 						&global_real_argb_green,  // ai
 						&global_real_argb_pink,   // scripted_object
@@ -1885,7 +1885,7 @@ void __cdecl game_tick()
 		}
 
 		simulation_destroy_update(&update);
-		main_status(__FUNCTION__, NULL);
+		main_status(__FUNCTION__, nullptr);
 		render_debug_notify_game_tick_end();
 	}
 }
@@ -1952,7 +1952,7 @@ void __cdecl game_update_pvs()
 		cluster_activation_reason->clear();
 
 		game_compute_pvs(&game_globals->cluster_pvs, false, cluster_activation_reason);
-		game_compute_pvs(&game_globals->cluster_pvs_local, true, NULL);
+		game_compute_pvs(&game_globals->cluster_pvs_local, true, nullptr);
 
 		for (int32 structure_bsp_index = global_structure_bsp_first_active_index_get();
 			structure_bsp_index != NONE;

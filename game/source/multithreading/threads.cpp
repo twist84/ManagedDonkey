@@ -57,7 +57,7 @@ void __cdecl current_thread_update_test_functions()
 
 	ASSERT(!current_thread_should_assert());
 	if (current_thread_should_crash())
-		*(const char**)NULL = "Forced crash to test the minidump system, this is awesome";
+		*(const char**)nullptr = "Forced crash to test the minidump system, this is awesome";
 }
 
 void __cdecl destroy_thread_management()
@@ -130,8 +130,8 @@ void __cdecl initialize_thread(e_registered_threads thread_index)
 	{
 		//ASSERT(g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE, "Thread already created");
 		uns32 thread_id;
-		HANDLE thread_handle = CreateThread(NULL, definition->stack_size, thread_execution_wrapper, (void*)thread_index, 0, &thread_id);
-		register_thread(thread_handle, thread_index, thread_id, NULL);
+		HANDLE thread_handle = CreateThread(nullptr, definition->stack_size, thread_execution_wrapper, (void*)thread_index, 0, &thread_id);
+		register_thread(thread_handle, thread_index, thread_id, nullptr);
 	}
 }
 
@@ -373,7 +373,7 @@ void __cdecl unregister_thread(int32 thread_index)
 	//ASSERT(VALID_INDEX(thread_index, k_registered_thread_count));
 	//g_thread_globals.thread_handle[thread_index] = INVALID_HANDLE_VALUE;
 	//g_thread_globals.thread_id[thread_index] = NONE;
-	//g_thread_globals.thread_user_data[thread_index] = NULL;
+	//g_thread_globals.thread_user_data[thread_index] = nullptr;
 }
 
 bool __cdecl wait_for_thread_to_exit(int32 thread_index, uns32 timeout_in_milliseconds)
@@ -408,16 +408,16 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 //		.thread_processor = (e_thread_processor)4,
 //		.stack_size       = 0,
 //		.priority         = _thread_priority_normal,
-//		.start_routine    = NULL,
-//		.thread_parameter = NULL
+//		.start_routine    = nullptr,
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "MAIN_THREAD",
 //		.thread_processor = (e_thread_processor)0,
 //		.stack_size       = 0,
 //		.priority         = _thread_priority_normal,
-//		.start_routine    = NULL,
-//		.thread_parameter = NULL
+//		.start_routine    = nullptr,
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "RENDER",
@@ -425,7 +425,7 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 //		.stack_size       = 0x64000,
 //		.priority         = _thread_priority_normal,
 //		.start_routine    = render_thread_loop,
-//		.thread_parameter = NULL
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "ASYNC_IO",
@@ -433,7 +433,7 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 //		.stack_size       = 0x10000,
 //		.priority         = _thread_priority_normal,
 //		.start_routine    = async_main,
-//		.thread_parameter = NULL
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "NET_DEBUG",
@@ -441,7 +441,7 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 //		.stack_size       = 0x10000,
 //		.priority         = _thread_priority_normal,
 //		.start_routine    = netdebug_thread_function,
-//		.thread_parameter = NULL
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "AUDIO",
@@ -449,31 +449,31 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 //		.stack_size       = 0x10000,
 //		.priority         = _thread_priority_time_critical,
 //		.start_routine    = audio_thread_loop,
-//		.thread_parameter = NULL
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "PROFILER",
 //		.thread_processor = (e_thread_processor)5,
 //		.stack_size       = 0x10000,
 //		.priority         = _thread_priority_normal,
-//		.start_routine    = NULL,
-//		.thread_parameter = NULL
+//		.start_routine    = nullptr,
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "EVENT_LOGS",
 //		.thread_processor = (e_thread_processor)4,
 //		.stack_size       = 0x10000,
 //		.priority         = _thread_priority_normal,
-//		.start_routine    = NULL,
-//		.thread_parameter = NULL
+//		.start_routine    = nullptr,
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "NET_BLOCK",
 //		.thread_processor = (e_thread_processor)5,
 //		.stack_size       = 0x10000,
 //		.priority         = _thread_priority_normal,
-//		.start_routine    = NULL,
-//		.thread_parameter = NULL
+//		.start_routine    = nullptr,
+//		.thread_parameter = nullptr
 //	},
 //	{
 //		.name             = "UPDATE",
@@ -481,6 +481,6 @@ void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 //		.stack_size       = 0x64000,
 //		.priority         = _thread_priority_normal,
 //		.start_routine    = update_thread_loop,
-//		.thread_parameter = NULL
+//		.thread_parameter = nullptr
 //	},
 //};

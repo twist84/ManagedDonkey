@@ -161,7 +161,7 @@ c_gui_screen_widget* c_start_menu_screen_widget::get_current_pane()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE04D0, c_start_menu_screen_widget, get_current_pane);
 
-	c_gui_screen_widget* current_pane = NULL;
+	c_gui_screen_widget* current_pane = nullptr;
 	if (m_requested_pane != NONE)
 	{
 		current_pane = (c_gui_screen_widget*)c_gui_widget::get_child_widget(_gui_screen, m_requested_pane);
@@ -501,7 +501,7 @@ void c_start_menu_screen_widget::transition_out_with_transition_type(e_transitio
 	//INVOKE_CLASS_MEMBER(0x00AE1300, c_start_menu_screen_widget, transition_out_with_transition_type, transition_out_type, transition_type);
 
 	for (c_gui_screen_widget* screen = (c_gui_screen_widget*)this->get_first_child_widget_by_type(_gui_screen);
-		screen != NULL;
+		screen != nullptr;
 		screen = (c_gui_screen_widget*)screen->get_next_widget_of_type(_gui_screen))
 	{
 		if (!screen->transitioning_out())

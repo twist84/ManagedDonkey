@@ -98,7 +98,7 @@ void __cdecl random_math_dispose_tool()
 	if (g_deterministic_random_seed_ptr)
 	{
 		system_free(g_deterministic_random_seed_ptr);
-		g_deterministic_random_seed_ptr = NULL;
+		g_deterministic_random_seed_ptr = nullptr;
 	}
 }
 

@@ -105,7 +105,7 @@ void c_gui_screen_pregame_selection::begin_deletion_of_selected_item(e_controlle
 	m_async_task_result.set(0);
 
 	char filename[256]{};
-	wchar_string_to_ascii_string(filename_buffer, filename, NUMBEROF(filename), NULL);
+	wchar_string_to_ascii_string(filename_buffer, filename, NUMBEROF(filename), nullptr);
 
 	m_delete_file_async_task_id = async_delete_file(filename,
 		false,
@@ -143,8 +143,8 @@ void c_gui_screen_pregame_selection::begin_saved_game_file_save_changes(e_contro
 	//}
 
 	c_gui_list_widget* subitem = c_gui_widget::get_child_list_widget(STRING_ID(gui, subitem));
-	c_gui_data* data = NULL;
-	const c_gui_selected_item* selected_item = NULL;
+	c_gui_data* data = nullptr;
+	const c_gui_selected_item* selected_item = nullptr;
 	if (!subitem ||
 		!(data = subitem->get_data()) ||
 		!(selected_item = data->get_gui_selected_item(subitem->get_focused_element_handle())) ||
@@ -162,7 +162,7 @@ void c_gui_screen_pregame_selection::begin_saved_game_file_save_changes(e_contro
 	}
 
 	char filename[256]{};
-	wchar_string_to_ascii_string(filename_buffer, filename, NUMBEROF(filename), NULL);
+	wchar_string_to_ascii_string(filename_buffer, filename, NUMBEROF(filename), nullptr);
 
 	//m_async_task_signal.set(0);
 	//m_async_task_success.set(0);
@@ -190,8 +190,8 @@ void c_gui_screen_pregame_selection::begin_selected_item_text_edit(e_controller_
 	//INVOKE_CLASS_MEMBER(0x00B03530, c_gui_screen_pregame_selection, begin_selected_item_text_edit, controller_index, edit_title, edit_description);
 
 	c_gui_list_widget* subitem = c_gui_widget::get_child_list_widget(STRING_ID(gui, subitem));
-	c_gui_data* data = NULL;
-	const c_gui_selected_item* selected_item = NULL;
+	c_gui_data* data = nullptr;
+	const c_gui_selected_item* selected_item = nullptr;
 	if (!subitem ||
 		!(data = subitem->get_data()) ||
 		!(selected_item = data->get_gui_selected_item(subitem->get_focused_element_handle())) ||

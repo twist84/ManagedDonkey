@@ -42,8 +42,8 @@ void __cdecl network_session_time_deregister_session_manager()
 {
 	//INVOKE(0x0045F190, network_session_time_deregister_session_manager);
 
-	ASSERT(network_time_globals.session_manager != NULL);
-	network_time_globals.session_manager = NULL;
+	ASSERT(network_time_globals.session_manager != nullptr);
+	network_time_globals.session_manager = nullptr;
 }
 
 bool __cdecl network_session_time_exists(const s_transport_secure_identifier* session_id)
@@ -52,25 +52,25 @@ bool __cdecl network_session_time_exists(const s_transport_secure_identifier* se
 
 	//ASSERT(session_id);
 	//c_network_session* session = network_time_globals.session_manager->get_session(session_id);
-	//return session != NULL && session->m_time_exists;
+	//return session != nullptr && session->m_time_exists;
 }
 
 bool __cdecl network_session_time_get_id_and_time(int32 session_index, s_transport_secure_identifier* session_id, uns32* timestamp)
 {
 	return INVOKE(0x0045F1D0, network_session_time_get_id_and_time, session_index, session_id, timestamp);
 
-	//if (!network_time_globals.session_manager != NULL)
+	//if (!network_time_globals.session_manager != nullptr)
 	//{
 	//	return false;
 	//}
 	//
 	//c_network_session* session = network_time_globals.session_manager->get_session(session_index);
-	//if (session == NULL || !session->m_time_exists)
+	//if (session == nullptr || !session->m_time_exists)
 	//{
 	//	return false;
 	//}
 	//
-	//session->get_secure_key(session_id, NULL, NULL);
+	//session->get_secure_key(session_id, nullptr, nullptr);
 	//*timestamp = session->time_get();
 	//return true;
 }
@@ -81,13 +81,13 @@ uns32 __cdecl network_session_time_get_time(const s_transport_secure_identifier*
 
 	//ASSERT(session_id);
 	//
-	//if (!network_time_globals.session_manager != NULL)
+	//if (!network_time_globals.session_manager != nullptr)
 	//{
 	//	return false;
 	//}
 	//
 	//c_network_session* session = network_time_globals.session_manager->get_session(session_id);
-	//if (session == NULL || !session->m_time_exists)
+	//if (session == nullptr || !session->m_time_exists)
 	//{
 	//	return false;
 	//}
@@ -99,7 +99,7 @@ void __cdecl network_session_time_register_session_manager(c_network_session_man
 {
 	//INVOKE(0x0045F260, network_session_time_register_session_manager, session_manager);
 
-	ASSERT(network_time_globals.session_manager == NULL);
+	ASSERT(network_time_globals.session_manager == nullptr);
 	network_time_globals.session_manager = session_manager;
 }
 

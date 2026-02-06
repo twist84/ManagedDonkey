@@ -153,7 +153,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 		int32 text_x_offset = (200 - screen_display.m_base_x) / screen_display.m_char_width;
 		int32 text_y_offset = (525 - screen_display.m_base_y) / screen_display.m_char_height;
 
-		const char* weapon_state_string = NULL;
+		const char* weapon_state_string = nullptr;
 
 		e_weapon_state weapon_state = weapon->weapon.state;
 		switch (weapon_state)
@@ -238,7 +238,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 				const weapon_trigger& trigger = weapon->weapon.triggers[trigger_index];
 				ASSERT(trigger_index >= 0 && trigger_index < weapon_definition->weapon.triggers.count);
 
-				const char* trigger_behavior_string = NULL;
+				const char* trigger_behavior_string = nullptr;
 				e_weapon_trigger_behavior trigger_behavior = weapon_definition->weapon.triggers[trigger_index].behavior;
 				switch (trigger_behavior)
 				{
@@ -271,7 +271,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 					break;
 				}
 
-				const char* trigger_state_string = NULL;
+				const char* trigger_state_string = nullptr;
 				e_weapon_trigger_state trigger_state = trigger.state;
 				switch (trigger_state)
 				{
@@ -322,7 +322,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 				const weapon_barrel& barrel = weapon->weapon.barrels[barrel_index];
 				ASSERT(barrel_index >= 0 && barrel_index < weapon_definition->weapon.barrels.count);
 
-				const char* barrel_state_string = NULL;
+				const char* barrel_state_string = nullptr;
 
 				e_weapon_barrel_state barrel_state = barrel.state;
 				switch (barrel_state)
@@ -385,7 +385,7 @@ void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 				const weapon_magazine& magazine = weapon->weapon.magazines[magazine_index];
 				ASSERT(magazine_index >= 0 && magazine_index < weapon_definition->weapon.magazines.count);
 
-				const char* magazine_state_string = NULL;
+				const char* magazine_state_string = nullptr;
 
 				e_weapon_magazine_state magazine_state = magazine.state;
 				switch (magazine_state)
@@ -622,7 +622,7 @@ void __cdecl weapons_debug_render()
 					{
 						if (((unit_datum*)parent_object)->unit.gunner_object_index == unit_index)
 						{
-							primary_weapon_index = unit_get_active_primary_weapon(unit->object.parent_object_index, NULL);
+							primary_weapon_index = unit_get_active_primary_weapon(unit->object.parent_object_index, nullptr);
 						}
 					}
 				}

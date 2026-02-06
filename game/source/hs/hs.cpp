@@ -108,8 +108,8 @@ HOOK_DECLARE(0x006792E0, hs_global_get_type);
 
 int16 enumeration_count = 0;
 int16 enumeration_results_count = 0;
-const char** enumeration_results = NULL;
-const char* enumeration_token = NULL;
+const char** enumeration_results = nullptr;
+const char* enumeration_token = nullptr;
 
 int32 const k_maximum_hs_token_enumerator_count = 32;
 
@@ -283,7 +283,7 @@ void __cdecl hs_node_gc()
 			const hs_thread* thread = hs_thread_get(thread_index);
 			if (hs_thread_stack(thread)->expression_index != NONE)
 			{
-				ASSERT(hs_syntax_get(hs_thread_stack(thread)->expression_index) != NULL);
+				ASSERT(hs_syntax_get(hs_thread_stack(thread)->expression_index) != nullptr);
 			}
 		}
 	}
@@ -310,8 +310,8 @@ bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, b
 	const void* old_syntax_data = g_hs_syntax_data;
 	struct scenario* scenario = global_scenario_get();
 	bool ai_failure = false;
-	const char* error_message = NULL;
-	const char* error_source = NULL;
+	const char* error_message = nullptr;
+	const char* error_source = nullptr;
 	bool success = true;
 
 	if (scenario->hs_syntax_datums.count == 0)
@@ -485,7 +485,7 @@ int16 hs_find_global_by_name(const char* name)
 
 const char* hs_global_get_name(int16 global_designator)
 {
-	const char* result = NULL;
+	const char* result = nullptr;
 
 	int16 global_index = global_designator & MASK(15);
 	if (TEST_BIT(global_designator, 15) && VALID_INDEX(global_index, k_hs_external_global_count))
@@ -506,7 +506,7 @@ void resize_scenario_syntax_data(int32 count)
 
 void hs_doc()
 {
-	FILE* file = NULL;
+	FILE* file = nullptr;
 	fopen_s(&file, "hs_doc.txt", "w");
 	if (file)
 	{
@@ -649,7 +649,7 @@ int16 hs_tokens_enumerate(const char* token, int32 type_mask, const char** match
 	}
 
 	qsort_4byte(matching_items, enumeration_count, sort_by_found_index, enumeration_token);
-	enumeration_results = NULL;
+	enumeration_results = nullptr;
 
 	return enumeration_count;
 }

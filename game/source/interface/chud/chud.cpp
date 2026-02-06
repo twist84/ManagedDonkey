@@ -13,7 +13,7 @@
 #include "render/views/render_view.hpp"
 #include "units/units.hpp"
 
-REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals) = NULL;
+REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals) = nullptr;
 
 HOOK_DECLARE(0x00A88DA0, chud_draw_screen);
 HOOK_DECLARE(0x00A89100, chud_draw_screen_saved_film);
@@ -116,7 +116,7 @@ void __cdecl chud_dispose_from_old_map()
 
 	//c_chud_manager::dispose_from_old_map();
 	//cortana_effect_dispose_from_old_map();
-	//chud_globals = NULL;
+	//chud_globals = nullptr;
 }
 
 void __cdecl chud_draw_screen(int32 user_index)
@@ -147,7 +147,7 @@ void __cdecl chud_draw_screen_saved_film(int32 user_index)
 	//{
 	//	if (chud_draw_begin(user_index, 1.0f, false, true))
 	//	{
-	//		s_chud_runtime_widget_datum* widget = NULL;
+	//		s_chud_runtime_widget_datum* widget = nullptr;
 	//		for (int32 widget_index = chud_shared_persistent_user_data_get(user_index)->first_drawn_saved_film_widget_index;
 	//			widget_index != NONE;
 	//			widget_index = widget->next_drawn_widget_index)

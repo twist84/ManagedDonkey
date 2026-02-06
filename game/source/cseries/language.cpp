@@ -243,7 +243,7 @@ void __cdecl get_localized_data_directory_name(e_language language, char* buffer
 {
 	//INVOKE(0x00530070, get_localized_data_directory_name, language, buffer, count);
 
-	ASSERT(buffer != NULL);
+	ASSERT(buffer != nullptr);
 	ASSERT(count > 0);
 
 	const char* language_suffix = get_language_suffix(language, 1);

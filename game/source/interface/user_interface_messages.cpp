@@ -30,7 +30,7 @@ HOOK_DECLARE(0x00A934B0, user_interface_xbox_guide_is_active);
 template<>
 void ui_track_delete<c_message>(const c_message* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_message();
 	user_interface_free(object);
@@ -347,10 +347,10 @@ c_load_in_progress_screen_message::c_load_in_progress_screen_message(e_controlle
 c_message_globals::c_message_globals()
 {
 	csmemset(m_queue, 0, sizeof(m_queue));
-	m_next_read = NULL;
-	m_prev_read = NULL;
+	m_next_read = nullptr;
+	m_prev_read = nullptr;
 	m_xbox_guide_is_active = false;
-	//m_system_message_notification_handle = NULL;
+	//m_system_message_notification_handle = nullptr;
 }
 
 c_message_globals::~c_message_globals()
@@ -369,14 +369,14 @@ void c_message_globals::dispose()
 	//if (m_system_message_notification_handle && m_system_message_notification_handle != INVALID_HANDLE_VALUE)
 	//{
 	//	CloseHandle(m_system_message_notification_handle);
-	//	m_system_message_notification_handle = NULL;
+	//	m_system_message_notification_handle = nullptr;
 	//}
 }
 
 void c_message_globals::initialize_for_new_map()
 {
-	s_message_queue_node* next = NULL;
-	s_message_queue_node* prev = NULL;
+	s_message_queue_node* next = nullptr;
+	s_message_queue_node* prev = nullptr;
 
 	for (int32 node_index = 0; node_index < NUMBEROF(m_queue); node_index++)
 	{
@@ -400,7 +400,7 @@ void c_message_globals::initialize_for_new_map()
 
 		m_queue[node_index].m_next = next;
 		m_queue[node_index].m_prev = prev;
-		m_queue[node_index].m_message = NULL;
+		m_queue[node_index].m_message = nullptr;
 	}
 
 	m_prev_read = m_queue;
@@ -425,7 +425,7 @@ c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unkn
 	//return INVOKE_CLASS_MEMBER(0x00A92EC0, c_message_globals, dequeue_node, node, unknown);
 
 	ASSERT(&m_queue[0] <= node && node <= &m_queue[NUMBEROF(m_queue) - 1]);
-	ASSERT(node->m_message != NULL);
+	ASSERT(node->m_message != nullptr);
 
 	c_message* message = node->m_message;
 
@@ -455,12 +455,12 @@ bool c_message_globals::can_read()
 {
 	//return INVOKE_CLASS_MEMBER(0x00A92E10, c_message_globals, can_read);
 
-	return m_next_read->m_message != NULL;
+	return m_next_read->m_message != nullptr;
 }
 
 void c_message_globals::queue(c_message* message)
 {
-	ASSERT(message != NULL);
+	ASSERT(message != nullptr);
 	ASSERT(can_write());
 	//ASSERT(user_interface_is_tracked_memory(message));
 
@@ -484,10 +484,10 @@ bool c_message_globals::can_write()
 
 void c_message_globals::get_next_message(int32 screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
-	ASSERT(message_reference != NULL);
+	ASSERT(message_reference != nullptr);
 
-	c_message* next_message = NULL;
-	s_message_queue_node* next_node = NULL;
+	c_message* next_message = nullptr;
+	s_message_queue_node* next_node = nullptr;
 
 	if (*message_reference)
 	{
@@ -504,7 +504,7 @@ void c_message_globals::get_next_message(int32 screen_name, e_controller_index c
 	}
 	else
 	{
-		ASSERT(m_next_read != NULL);
+		ASSERT(m_next_read != nullptr);
 		next_node = m_next_read;
 	}
 
@@ -559,7 +559,7 @@ void c_message_globals::set_xbox_guide_is_active(bool xbox_guide_is_active)
 void* c_message_globals::get_system_message_notification_handle()
 {
 	//return m_system_message_notification_handle;
-	return NULL;
+	return nullptr;
 }
 
 bool __cdecl user_interface_message_queue_is_empty()
@@ -593,7 +593,7 @@ bool __cdecl user_interface_messaging_get_next_message(int32 screen_name, e_cont
 	}
 
 	g_message_globals.get_next_message(screen_name, controller, window, message_reference);
-	return *message_reference != NULL;
+	return *message_reference != nullptr;
 }
 
 void __cdecl user_interface_messaging_initialize()
@@ -626,7 +626,7 @@ void __cdecl user_interface_messaging_post(c_message* message)
 {
 	//INVOKE(0x00A93450, user_interface_messaging_post, message);
 
-	ASSERT(message != NULL);
+	ASSERT(message != nullptr);
 
 	bool message_queued = false;
 	if (!game_in_progress())

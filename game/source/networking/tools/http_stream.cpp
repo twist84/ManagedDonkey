@@ -8,8 +8,8 @@ c_http_post_source::c_http_post_source() :
 	m_source_type(_contents_source_none),
 	m_content_type("text/plain"),
 	m_filename("blob"),
-	m_contents_buffer(NULL),
-	m_contents_file(NULL),
+	m_contents_buffer(nullptr),
+	m_contents_file(nullptr),
 	m_contents_length(0),
 	m_start_position(0),
 	m_is_json(false)

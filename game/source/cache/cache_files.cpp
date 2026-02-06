@@ -167,7 +167,7 @@ const char* cache_file_tag_instance::get_tag_name()
 
 const char* tag_group_get_name(tag group_tag)
 {
-	const s_cache_file_tag_group* group = NULL;
+	const s_cache_file_tag_group* group = nullptr;
 	int32 index = s_cache_file_tag_group_bsearch::search(group_tag, global_tag_groups, global_tag_group_count);
 	if (index != -1)
 	{
@@ -395,7 +395,7 @@ const void* __cdecl cache_file_globals_get_tag_cache_base_address()
 
 	if (!g_cache_file_globals.tags_loaded)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return g_cache_file_globals.tag_cache_base_address;
@@ -650,7 +650,7 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 	int32 resource_fixup_size = sizeof(s_cache_file_tag_resource_data*) * total_resource_fixup_count;
 	int32 resource_gestalt_size = resource_fixup_size + sizeof(s_cache_file_resource_gestalt);
 
-	s_cache_file_resource_gestalt* resource_gestalt = (s_cache_file_resource_gestalt*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, resource_gestalt_size, 0);
+	s_cache_file_resource_gestalt* resource_gestalt = (s_cache_file_resource_gestalt*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, resource_gestalt_size, 0);
 	csmemset(resource_gestalt, 0, resource_gestalt_size);
 
 	cache_file_tags_fixup_all_resources(resource_offsets, resource_gestalt);
@@ -677,7 +677,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 		s_cache_file_header clean_header = *header;
 		cache_file_builder_security_clean_header(&clean_header);
 
-		if (security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, NULL))
+		if (security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, header->content_hashes, nullptr))
 		{
 			s_network_http_request_hash hash_of_hashes;
 			security_calculate_hash(header->content_hashes, sizeof(s_network_http_request_hash), true, &hash_of_hashes);
@@ -740,7 +740,7 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
 
 	//int32 reports_buffer_size = cache_file_round_up_read_size(header->reports.size);
-	//void* reports_buffer = _physical_memory_malloc(_memory_stage_level_initialize, NULL, reports_buffer_size, 0);
+	//void* reports_buffer = _physical_memory_malloc(_memory_stage_level_initialize, nullptr, reports_buffer_size, 0);
 	//
 	//cache_file_blocking_read(_cache_file_debug_section, header->reports.offset, reports_buffer_size, reports_buffer);
 	//
@@ -804,11 +804,11 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resou
 
 	if (!success)
 	{
-		resource_offsets->set_elements(NULL, 0);
+		resource_offsets->set_elements(nullptr, 0);
 		return;
 	}
 
-	uns32* file_offsets = (uns32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, sizeof(uns32) * file_count, 0);
+	uns32* file_offsets = (uns32*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, sizeof(uns32) * file_count, 0);
 
 	int32 offset_index_offset = 0;
 	for (int32 i = 0; i < NUMBEROF(section_handles); i++)
@@ -849,7 +849,7 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<uns32>* resou
 	if (!success)
 	{
 		physical_memory_free(file_offsets);
-		resource_offsets->set_elements(NULL, 0);
+		resource_offsets->set_elements(nullptr, 0);
 		return;
 	}
 
@@ -941,7 +941,7 @@ bool __cdecl cache_file_tags_load_recursive(int32 tag_index)
 
 // to mitigate a lot of file read operations we load all of `tags.dat` into this buffer
 // I don't like having this as a global but for right now its fine
-static void* tags_section = NULL;
+static void* tags_section = nullptr;
 
 void __cdecl cache_file_load_tags_section()
 {
@@ -966,7 +966,7 @@ void __cdecl cache_file_load_tags_section()
 		if (tags_section)
 		{
 			free(tags_section);
-			tags_section = NULL;
+			tags_section = nullptr;
 		}
 
 		if (tags_section = malloc(file_size))
@@ -992,7 +992,7 @@ void __cdecl cache_file_close_tags_section()
 	if (tags_section)
 	{
 		free(tags_section);
-		tags_section = NULL;
+		tags_section = nullptr;
 	}
 }
 //HOOK_DECLARE(0x00502900, cache_file_close_tags_section);
@@ -1184,7 +1184,7 @@ bool __cdecl cache_file_tags_load_allocate()
 	{
 		tag_offsets_size = sizeof(int32) * g_cache_file_globals.header.tag_count;
 		g_cache_file_globals.tag_total_count = g_cache_file_globals.header.tag_count;
-		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
+		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, cache_file_round_up_read_size(tag_offsets_size), 0);
 
 		result = cache_file_blocking_read(_cache_file_tag_section, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
 	}
@@ -1205,8 +1205,8 @@ bool __cdecl cache_file_tags_load_allocate()
 
 		tag_offsets_size = sizeof(int32) * tags_header.file_count;
 		g_cache_file_globals.tag_total_count = tags_header.file_count;
-		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
-		int32* tag_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+		g_cache_file_globals.tag_cache_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, tag_offsets_size, 0);
+		int32* tag_offsets = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, tag_offsets_size, 0);
 
 		if (!cache_file_tags_section_read(tags_header.file_offsets, tag_offsets_size, tag_offsets))
 		{
@@ -1222,8 +1222,8 @@ bool __cdecl cache_file_tags_load_allocate()
 		physical_memory_free(tag_offsets);
 	}
 
-	g_cache_file_globals.tag_index_absolute_mapping = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
-	g_cache_file_globals.absolute_index_tag_mapping = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+	g_cache_file_globals.tag_index_absolute_mapping = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, tag_offsets_size, 0);
+	g_cache_file_globals.absolute_index_tag_mapping = (int32*)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, tag_offsets_size, 0);
 	csmemset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
 	csmemset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
 
@@ -1263,44 +1263,44 @@ void __cdecl cache_file_tags_unload()
 	{
 		physical_memory_free(g_cache_file_globals.tag_cache_base_address);
 
-		g_cache_file_globals.tag_cache_base_address = NULL;
+		g_cache_file_globals.tag_cache_base_address = nullptr;
 		g_cache_file_globals.tag_loaded_size = 0;
 	}
 
 	if (g_cache_file_globals.tag_instances)
 	{
 		physical_memory_free(g_cache_file_globals.tag_instances);
-		g_cache_file_globals.tag_instances = NULL;
+		g_cache_file_globals.tag_instances = nullptr;
 	}
 
 	if (g_cache_file_globals.tag_cache_offsets)
 	{
 		physical_memory_free(g_cache_file_globals.tag_cache_offsets);
-		g_cache_file_globals.tag_cache_offsets = NULL;
+		g_cache_file_globals.tag_cache_offsets = nullptr;
 	}
 
 	if (g_cache_file_globals.tag_index_absolute_mapping)
 	{
 		physical_memory_free(g_cache_file_globals.tag_index_absolute_mapping);
-		g_cache_file_globals.tag_index_absolute_mapping = NULL;
+		g_cache_file_globals.tag_index_absolute_mapping = nullptr;
 	}
 
 	if (g_cache_file_globals.absolute_index_tag_mapping)
 	{
 		physical_memory_free(g_cache_file_globals.absolute_index_tag_mapping);
-		g_cache_file_globals.absolute_index_tag_mapping = NULL;
+		g_cache_file_globals.absolute_index_tag_mapping = nullptr;
 	}
 
 	if (g_cache_file_globals.resource_gestalt)
 	{
 		physical_memory_free(g_cache_file_globals.resource_gestalt);
-		g_cache_file_globals.resource_gestalt = NULL;
+		g_cache_file_globals.resource_gestalt = nullptr;
 	}
 
 	if (g_cache_file_globals.reports.elements)
 	{
 		physical_memory_free(g_cache_file_globals.reports.elements);
-		g_cache_file_globals.reports.elements = NULL;
+		g_cache_file_globals.reports.elements = nullptr;
 		g_cache_file_globals.reports.count = 0;
 	}
 }
@@ -1375,7 +1375,7 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 		cache_file_tags_load_allocate();
 
 		uns32 total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
-		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc(_memory_stage_level_initialize, NULL, total_instance_size, 0);
+		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc(_memory_stage_level_initialize, nullptr, total_instance_size, 0);
 		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
 
 		g_cache_file_globals.tag_loaded_count = 0;
@@ -1387,7 +1387,7 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 
 		g_cache_file_globals.tag_loaded_size = 0;
 
-		success = g_cache_file_globals.tag_cache_base_address != NULL;
+		success = g_cache_file_globals.tag_cache_base_address != nullptr;
 		if (!success)
 		{
 			event(_event_critical, "failed to allocate the physical memory for the tags");
@@ -1587,7 +1587,7 @@ void __cdecl tag_files_close()
 
 	//cache_file_tag_resources_dispose();
 	//physical_memory_free(g_cache_file_globals.debug_tag_names);
-	//g_cache_file_globals.debug_tag_names = NULL;
+	//g_cache_file_globals.debug_tag_names = nullptr;
 	//optional_cache_unregister_user((e_optional_cache_user)0, &g_cache_file_copy_optional_cache_callback);
 
 	//tag build
@@ -1611,7 +1611,7 @@ void __cdecl tag_files_open()
 
 	cache_files_initialize();
 
-	ASSERT(g_cache_file_debug_globals == NULL);
+	ASSERT(g_cache_file_debug_globals == nullptr);
 	g_cache_file_debug_globals = (s_cache_file_debug_globals*)_physical_memory_malloc(_memory_stage_game_initialize, "cache file debug globals", sizeof(s_cache_file_debug_globals), 1);
 
 	string_id_initialize();
@@ -1625,19 +1625,19 @@ void* __cdecl tag_get(tag group_tag, int32 tag_index)
 
 	if (tag_index == NONE)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int32 tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
 	if (tag_absolute_index == NONE)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	cache_file_tag_instance* tag_instance = g_cache_file_globals.tag_instances[tag_absolute_index];
 	if (!tag_instance)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	void* data = tag_instance->base + tag_instance->offset;
@@ -1645,7 +1645,7 @@ void* __cdecl tag_get(tag group_tag, int32 tag_index)
 	// due to bad caches the tag address needs checking
 	if (!IN_RANGE_INCLUSIVE((uns32)data, (uns32)g_cache_file_globals.tag_cache_base_address, (uns32)g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return data;
@@ -1664,7 +1664,7 @@ void* __cdecl tag_get(tag group_tag, const char* tag_name)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 uns32 __cdecl tag_get_group_tag(int32 tag_index)
@@ -1706,7 +1706,7 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 // $TODO create some sort of tag modification manager
 void apply_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != GLOBALS_TAG)
 	{
@@ -1743,7 +1743,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 // $TODO create some sort of tag modification manager
 void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != MULTIPLAYER_GLOBALS_TAG)
 	{
@@ -1801,7 +1801,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 		//if (is_base_cache)
 		//{
-		//	if (multiplayer_globals == NULL || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count <= 0)
+		//	if (multiplayer_globals == nullptr || multiplayer_globals->universal.count <= 0 || multiplayer_globals->universal[0].weapon_selections.count <= 0)
 		//	{
 		//		return;
 		//	}
@@ -1894,7 +1894,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 // $TODO create some sort of tag modification manager
 void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != RASTERIZER_GLOBALS_TAG)
 	{
@@ -1927,7 +1927,7 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 // $TODO create some sort of tag modification manager
 void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != SCENARIO_TAG)
 	{
@@ -1960,7 +1960,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 // $TODO create some sort of tag modification manager
 void apply_chud_globals_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != CHUD_GLOBALS_DEFINITION_TAG)
 	{
@@ -1997,7 +1997,7 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 // $TODO create some sort of tag modification manager
 void apply_vision_mode_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != VISION_MODE_TAG)
 	{
@@ -2030,7 +2030,7 @@ void apply_vision_mode_definition_instance_modification(cache_file_tag_instance*
 // $TODO create some sort of tag modification manager
 void apply_object_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != OBJECT_TAG)
 	{
@@ -2063,7 +2063,7 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 // $TODO create some sort of tag modification manager
 void apply_unit_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != UNIT_TAG)
 	{
@@ -2096,7 +2096,7 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 // $TODO create some sort of tag modification manager
 void apply_biped_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != BIPED_TAG)
 	{
@@ -2139,7 +2139,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 // $TODO create some sort of tag modification manager
 void apply_vehicle_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != VEHICLE_TAG)
 	{
@@ -2172,7 +2172,7 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 // $TODO create some sort of tag modification manager
 void apply_item_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != ITEM_TAG)
 	{
@@ -2205,7 +2205,7 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 // $TODO create some sort of tag modification manager
 void apply_equipment_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != EQUIPMENT_TAG)
 	{
@@ -2238,7 +2238,7 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 // $TODO create some sort of tag modification manager
 void apply_weapon_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != WEAPON_TAG)
 	{
@@ -2271,7 +2271,7 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 // $TODO create some sort of tag modification manager
 void apply_projectile_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != PROJECTILE_TAG)
 	{
@@ -2304,7 +2304,7 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 // $TODO create some sort of tag modification manager
 void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != MULTILINGUAL_UNICODE_STRING_LIST_TAG)
 	{
@@ -2353,7 +2353,7 @@ void apply_multilingual_unicode_string_list_instance_modification(cache_file_tag
 // $TODO create some sort of tag modification manager
 void apply_gui_datasource_definition_tag_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != GUI_DATASOURCE_DEFINITION_TAG)
 	{
@@ -2402,7 +2402,7 @@ void apply_gui_datasource_definition_tag_instance_modification(cache_file_tag_in
 // $TODO create some sort of tag modification manager
 void apply_gui_skin_definition_tag_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != GUI_SKIN_DEFINITION_TAG)
 	{
@@ -2451,7 +2451,7 @@ void apply_gui_skin_definition_tag_instance_modification(cache_file_tag_instance
 // $TODO create some sort of tag modification manager
 void apply_camera_fx_settings_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	ASSERT(instance != NULL);
+	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != CAMERA_FX_SETTINGS_TAG)
 	{
@@ -2486,7 +2486,7 @@ void apply_camera_fx_settings_instance_modification(cache_file_tag_instance* ins
 // $TODO create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
-	if (instance == NULL)
+	if (instance == nullptr)
 	{
 		return;
 	}

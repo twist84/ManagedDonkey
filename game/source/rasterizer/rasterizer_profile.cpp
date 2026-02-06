@@ -177,7 +177,7 @@ const char* rasterizer_profile_get_stall_name(int32 profile_element_index)
 
 const char* rasterizer_profile_get_element_name(e_rasterizer_profile_elements profile_element_index)
 {
-	const char* result = NULL;
+	const char* result = nullptr;
 	switch (g_rasterizer_profile_globals.get_mode())
 	{
 	case _rasterizer_profile_mode_1:
@@ -203,7 +203,7 @@ const char* rasterizer_profile_get_element_name(e_rasterizer_profile_elements pr
 	break;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 c_rasterizer_profile_globals::c_rasterizer_profile_globals() :
@@ -309,7 +309,7 @@ void c_rasterizer_profile_globals::toggle_element_timer(e_rasterizer_profile_ele
 	//
 	//	uns8 start_flag = start ? 0x8000 : 0;
 	//
-	//	ASSERT(c_rasterizer::get_device() != NULL);
+	//	ASSERT(c_rasterizer::get_device() != nullptr);
 	//	c_rasterizer::get_device()->InsertCallback(
 	//		0,
 	//		c_rasterizer_profile_globals::frame_time_callback,

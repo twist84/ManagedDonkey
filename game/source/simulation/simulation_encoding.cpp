@@ -292,7 +292,7 @@ bool __cdecl unit_control_decode(c_bitstream* bitstream, unit_control_data* unit
 	//bitstream->read_unit_vector("looking", &unit_control->looking_vector, 19);
 	//
 	//// position
-	//simulation_read_quantized_position(bitstream, &unit_control->gaze_position, 16, NULL);
+	//simulation_read_quantized_position(bitstream, &unit_control->gaze_position, 16, nullptr);
 	//
 	//// aim-assist-data
 	//bitstream->read_bits_internal(align_pointer(&unit_control->aim_assist_data, 2), SIZEOF_BITS(s_aim_assist_targeting_result));

@@ -7,8 +7,8 @@
 
 //c_network_session_parameter_base::c_network_session_parameter_base() :
 //	m_parameter_type(k_network_session_parameter_type_none),
-//	m_parameter_type_description(NULL),
-//	m_session(NULL),
+//	m_parameter_type_description(nullptr),
+//	m_session(nullptr),
 //	m_update_priority(_parameter_update_priority_default),
 //	m_change_request_access(_parameter_change_request_access_default),
 //	m_transmitted_peer_updates(),
@@ -118,7 +118,7 @@ const char* c_network_session_parameter_base::get_session_description(void) cons
 {
 	return INVOKE_CLASS_MEMBER(0x00450DA0, c_network_session_parameter_base, get_session_description);
 
-	//if (m_session && m_session->get_session_id(NULL))
+	//if (m_session && m_session->get_session_id(nullptr))
 	//	return managed_session_get_id_string(m_session->managed_session_index());
 	//
 	//return "UNKNOWN";
@@ -386,7 +386,7 @@ void c_network_session_parameter_base::transition_state_to_become_host(void)
 //	c_bitstream encoded_message((byte*)buffer, size);
 //	encoded_message.begin_writing(1);
 //	g_network_session_parameter_type_collection->encode_update(m_parameter_type, &encoded_message, original, update_size);
-//	encoded_message.finish_writing(NULL);
+//	encoded_message.finish_writing(nullptr);
 //	csmemset(temporary, 0, update_size);
 //	encoded_message.begin_reading();
 //	g_network_session_parameter_type_collection->decode_update(m_parameter_type, &encoded_message, temporary, update_size);

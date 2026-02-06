@@ -51,8 +51,8 @@ bool __cdecl transport_address_equivalent(const transport_address* a, const tran
 {
 	//return INVOKE(0x0043F660, transport_address_equivalent, a, b);
 
-	ASSERT(a != NULL);
-	ASSERT(b != NULL);
+	ASSERT(a != nullptr);
+	ASSERT(b != nullptr);
 
 	int16 address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
 	return a->address_length > 0 && a->address_length == b->address_length && csmemcmp(a, b, address_length) == 0 && a->port == b->port;
@@ -63,7 +63,7 @@ const char* __cdecl transport_address_get_string(const transport_address* addres
 	//return INVOKE(0x0043F6F0, transport_address_get_string, address);
 
 	static char static_string[256]{};
-	transport_address_to_string(address, NULL, static_string, NUMBEROF(static_string), false, true);
+	transport_address_to_string(address, nullptr, static_string, NUMBEROF(static_string), false, true);
 
 	return static_string;
 }

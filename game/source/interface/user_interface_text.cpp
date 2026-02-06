@@ -17,7 +17,7 @@ bool g_render_text_as_font_index = false;
 
 void wchar_string_sanitize_for_game(wchar_t* string, int32 maximum_character_count)
 {
-	ASSERT(string != NULL);
+	ASSERT(string != nullptr);
 
 	wchar_t v1[3][2]
 	{
@@ -88,7 +88,7 @@ void __cdecl c_user_interface_text::render(s_user_interface_text_render_data* re
 {
 	//INVOKE(0x00ABD530, c_user_interface_text::render, render_data, window_bounds);
 
-	ASSERT(render_data != NULL);
+	ASSERT(render_data != nullptr);
 
 	wchar_t* render_data_text = ((s_gui_text_widget_extra_large_render_data*)render_data)->text;
 	if (g_render_text_as_font_index)

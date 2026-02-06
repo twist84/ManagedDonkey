@@ -335,7 +335,7 @@ s_gui_game_setup_storage* __cdecl global_preferences_get_last_game_setup()
 {
 	//return INVOKE(0x0050B560, global_preferences_get_last_game_setup);
 
-	s_gui_game_setup_storage* result = NULL;
+	s_gui_game_setup_storage* result = nullptr;
 	if (global_preferences_available())
 	{
 		c_global_preferences_scope_lock scope_lock;
@@ -1899,7 +1899,7 @@ bool global_preference_set_impl(const char* name, int16 parameter_count, ...)
 
 const char* global_preference_get_name(e_global_preference preference)
 {
-	const char* result = NULL;
+	const char* result = nullptr;
 	if (VALID_INDEX(preference, k_global_preference_count))
 	{
 		result = k_global_preference_names[preference];

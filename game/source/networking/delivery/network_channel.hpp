@@ -156,8 +156,8 @@ public:
 	void __cdecl notify_closed() const
 	{
 		ASSERT(m_initialized);
-		ASSERT(m_simulation_context != NULL);
-		ASSERT(m_simulation_closure_callback != NULL);
+		ASSERT(m_simulation_context != nullptr);
+		ASSERT(m_simulation_closure_callback != nullptr);
 
 		m_simulation_closure_callback(m_simulation_context);
 	}

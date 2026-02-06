@@ -105,7 +105,7 @@ bool c_player_in_game_iterator::next()
 	{
 	}
 
-	return m_iterator.m_datum != NULL;
+	return m_iterator.m_datum != nullptr;
 }
 
 player_datum* c_player_in_game_iterator::get_datum()
@@ -136,7 +136,7 @@ bool c_player_with_unit_iterator::next()
 	{
 	}
 
-	return m_iterator.m_datum != NULL;
+	return m_iterator.m_datum != nullptr;
 }
 
 player_datum* c_player_with_unit_iterator::get_datum()
@@ -213,7 +213,7 @@ void players_debug_render()
 		//		{
 		//			real_point3d position{};
 		//			real_vector3d aiming_vector{};
-		//			biped_get_sight_position(player->unit_index, 0, false, NULL, NULL, NULL, NULL, &position);
+		//			biped_get_sight_position(player->unit_index, 0, false, nullptr, nullptr, nullptr, nullptr, &position);
 		//			unit_get_aiming_vector(player->unit_index, &aiming_vector);
 		//
 		//			real_point3d point{};
@@ -234,7 +234,7 @@ void players_debug_render()
 		c_rasterizer_draw_string draw_string;
 
 		rectangle2d bounds{};
-		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		bounds.y0 = bounds.y1 - 40;
 
 		const char* string_const = string_id_get_string_const(g_player_desired_mode_override);
@@ -249,7 +249,7 @@ void players_debug_render()
 		//c_rasterizer_draw_string draw_string;
 		//
 		//rectangle2d bounds{};
-		//interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		//interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		//bounds.y0 = bounds.y1 - 20;
 		//
 		//const char* character_physics_override = g_character_physics_override < k_total_character_physics_overrides ? global_character_physics_override_names[g_character_physics_override] : "OUT OF RANGE!";
@@ -318,7 +318,7 @@ bool __cdecl player_consider_equipment_interaction(int32 player_index, int32 equ
 	if (unit_get_current_equipment(player->unit_index, 0) == NONE || !unit_can_pickup_equipment(player->unit_index, equipment_index))
 		return false;
 
-	int32 active_primary_weapon = unit_get_active_primary_weapon(player->unit_index, NULL);
+	int32 active_primary_weapon = unit_get_active_primary_weapon(player->unit_index, nullptr);
 	if (active_primary_weapon != NONE && weapon_is_support_weapon(active_primary_weapon))
 		return false;
 
@@ -619,7 +619,7 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 
 						if (examine_children)
 						{
-							object_datum* child_object = NULL;
+							object_datum* child_object = nullptr;
 
 							for (int32 child_object_index = object->object.first_child_object_index;
 								child_object_index != NONE && object_count < NUMBEROF(object_indices);
@@ -1106,7 +1106,7 @@ void __cdecl player_teleport_internal_postprocess(int32 player_index, int32 sour
 				false))
 		{
 			object_in_early_mover_join(source_unit_index, player->unit_index);
-			object_set_velocities(player->unit_index, &source_unit_local_linear_velocity, NULL);
+			object_set_velocities(player->unit_index, &source_unit_local_linear_velocity, nullptr);
 		}
 	}
 
@@ -1136,7 +1136,7 @@ void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit
 					&& TEST_BIT(_object_mask_vehicle, object_get_type(ultimate_parent_index))
 					&& vehicle_can_be_teleported(ultimate_parent_index))
 				{
-					object_set_position(ultimate_parent_index, NULL, facing, global_up3d, NULL);
+					object_set_position(ultimate_parent_index, nullptr, facing, global_up3d, nullptr);
 					success = player_teleport_internal(player_index, source_unit_index, position, false, true);
 				}
 
@@ -1149,7 +1149,7 @@ void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit
 
 		if (!success)
 		{
-			object_set_position(player->unit_index, NULL, facing, global_up3d, NULL);
+			object_set_position(player->unit_index, nullptr, facing, global_up3d, nullptr);
 			unit_set_aiming_vectors(player->unit_index, facing, facing);
 			success = player_teleport_internal(player_index, source_unit_index, position, true, true);
 		}
@@ -1179,7 +1179,7 @@ void __cdecl player_teleport_on_bsp_switch(int32 player_index, int32 source_unit
 				real_point3d new_origin{};
 				point_from_line3d(&source_unit_center_of_mass, &origin_offset, 1.0f, &new_origin);
 
-				object_set_position(unit_ultimate_parent_index, &new_origin, NULL, NULL, &source_unit_location);
+				object_set_position(unit_ultimate_parent_index, &new_origin, nullptr, nullptr, &source_unit_location);
 				player_teleport_internal_postprocess(player_index, source_unit_index, true);
 
 				event(_event_warning, "failed to used standard teleporation techniques, teleporting directly to the center of mass of the source unit.");

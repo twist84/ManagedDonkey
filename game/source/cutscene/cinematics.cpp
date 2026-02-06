@@ -253,7 +253,7 @@ void cinematic_debug_camera_control_update()
 	//if (controller_index == k_no_controller || camera_input_inhibited(controller_index))
 	//	return;
 	//
-	//s_game_input_state* input_state = NULL;
+	//s_game_input_state* input_state = nullptr;
 	//input_abstraction_get_input_state(controller_index, &input_state);
 	//
 	//if (!g_cinematic_debugging_enable)

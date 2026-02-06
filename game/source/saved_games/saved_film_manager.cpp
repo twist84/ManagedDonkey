@@ -424,7 +424,7 @@ bool saved_film_manager_get_current_film_name(c_static_string<64>* film_name_out
 
 const game_options* saved_film_manager_get_current_game_options()
 {
-	const game_options* game_options_out = NULL;
+	const game_options* game_options_out = nullptr;
 	if (saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read)
 	{
 		game_options_out = saved_film_manager_globals.saved_film.get_game_options();
@@ -434,7 +434,7 @@ const game_options* saved_film_manager_get_current_game_options()
 
 const s_saved_game_item_metadata* saved_film_manager_get_current_metadata()
 {
-	const s_saved_game_item_metadata* metadata_out = NULL;
+	const s_saved_game_item_metadata* metadata_out = nullptr;
 	if (saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_read
 		&& saved_film_manager_globals.saved_film.get_film_content_header()->metadata.is_valid())
 	{
@@ -718,7 +718,7 @@ void saved_film_manager_initialize_for_new_map()
 			if (game_is_authoritative_playback())
 			{
 				int32 local_signature_size = 0;
-				const byte* local_signature_bytes = NULL;
+				const byte* local_signature_bytes = nullptr;
 
 				if (cache_file_get_content_signature(&local_signature_size, &local_signature_bytes))
 				{
@@ -1157,7 +1157,7 @@ void saved_film_manager_play_hs(int16 controller_index, const char* film_name)
 void saved_film_manager_play_last_hs()
 {
 	char filename[64]{};
-	if (saved_film_manager_get_last_recorded_film(filename, sizeof(filename), NULL))
+	if (saved_film_manager_get_last_recorded_film(filename, sizeof(filename), nullptr))
 	{
 		saved_film_manager_play(k_no_controller, filename);
 	}
@@ -1808,7 +1808,7 @@ void saved_film_manager_update_ui_screens()
 		if (saved_film_manager_globals.ui_screen_active)
 		{
 			c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
-			if (screen != NULL)
+			if (screen != nullptr)
 			{
 				screen->transition_out(_transition_out_normal);
 			}
@@ -1819,7 +1819,7 @@ void saved_film_manager_update_ui_screens()
 	else if (!saved_film_manager_globals.ui_screen_active)
 	{
 		c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(k_number_of_player_windows, STRING_ID(gui, in_progress_mini_me));
-		if (screen == NULL)
+		if (screen == nullptr)
 		{
 			c_load_in_progress_screen_message* load_screen_message = new (_ui_allocation_marker_dummy) c_load_in_progress_screen_message(
 				STRING_ID(gui, in_progress_mini_me),
@@ -1829,7 +1829,7 @@ void saved_film_manager_update_ui_screens()
 				STRING_ID(gui, film_snippet_preparing_message),
 				false,
 				true);
-			if (load_screen_message != NULL)
+			if (load_screen_message != nullptr)
 			{
 				user_interface_messaging_post(load_screen_message);
 				saved_film_manager_globals.ui_screen_active = true;

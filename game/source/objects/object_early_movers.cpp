@@ -70,11 +70,11 @@ void __cdecl object_get_early_movers(const int32** object_early_movers, int32* o
 {
 	INVOKE(0x00B98EB0, object_get_early_movers, object_early_movers, object_early_movers_count);
 
-	//ASSERT(g_object_early_movers_globals != NULL);
+	//ASSERT(g_object_early_movers_globals != nullptr);
 	//ASSERT(g_object_early_movers_globals->map_initialized);
 	//
-	//ASSERT(object_early_movers != NULL);
-	//ASSERT(object_early_movers_count != NULL);
+	//ASSERT(object_early_movers != nullptr);
+	//ASSERT(object_early_movers_count != nullptr);
 	//
 	//ASSERT(IN_RANGE_INCLUSIVE(g_object_early_movers_globals->object_index_count, 0, MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP));
 	//

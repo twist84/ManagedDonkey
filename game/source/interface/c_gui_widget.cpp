@@ -102,7 +102,7 @@ bool __thiscall c_gui_widget::handle_tab_(const c_controller_input_message* mess
 template<>
 void ui_track_delete<c_gui_widget>(const c_gui_widget* object)
 {
-	ASSERT(object != NULL);
+	ASSERT(object != nullptr);
 
 	object->~c_gui_widget();
 	user_interface_free(object);
@@ -115,11 +115,11 @@ c_gui_widget::c_gui_widget(e_gui_widget_type type) :
 	m_enabled(true),
 	m_needs_disposal(false),
 	m_use_alternate_ambient_state(false),
-	m_parent(NULL),
-	m_children(NULL),
-	m_next(NULL),
-	m_previous(NULL),
-	m_name(NULL),
+	m_parent(nullptr),
+	m_children(nullptr),
+	m_next(nullptr),
+	m_previous(nullptr),
+	m_name(nullptr),
 	__unknown44(0),
 	m_flags(0),
 	__unknown4C(0),
@@ -181,8 +181,8 @@ void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, c
 {
 	//INVOKE_CLASS_MEMBER(0x00AB7330, c_gui_widget, assemble_render_data, render_data, window_bounds, local_controller_index, apply_translation, apply_scale, apply_rotation);
 
-	ASSERT(render_data != NULL);
-	ASSERT(window_bounds != NULL);
+	ASSERT(render_data != nullptr);
+	ASSERT(window_bounds != nullptr);
 
 	render_data->type = m_type;
 
@@ -258,7 +258,7 @@ bool c_gui_widget::can_receive_focus()
 
 bool c_gui_widget::contains_point(const point2d* point)
 {
-	ASSERT(point != NULL);
+	ASSERT(point != nullptr);
 
 	rectangle2d bounds{};
 	c_gui_widget::get_mouse_region(&bounds);
@@ -351,7 +351,7 @@ c_gui_text_widget* c_gui_widget::create_text_widget(const s_runtime_text_widget_
 {
 	return INVOKE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget, definition);
 
-	//c_gui_text_widget* result = NULL;
+	//c_gui_text_widget* result = nullptr;
 	//if (TEST_BIT(definition->flags, 14))
 	//{
 	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<1024>();
@@ -373,8 +373,8 @@ void c_gui_widget::delete_all_children()
 
 	//for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
 	//{
-	//	c_gui_widget::set_children(NULL);
-	//	c_gui_widget::set_parent(NULL);
+	//	c_gui_widget::set_children(nullptr);
+	//	c_gui_widget::set_parent(nullptr);
 	//
 	//	child_widget->dispose();
 	//	ui_track_delete<c_gui_widget>(child_widget);
@@ -406,10 +406,10 @@ real_rectangle2d* c_gui_widget::get_authored_bounds(real_rectangle2d* unanimated
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8A10, c_gui_widget, get_authored_bounds, unanimated_bounds);
 
-	ASSERT(unanimated_bounds != NULL);
+	ASSERT(unanimated_bounds != nullptr);
 
 	s_runtime_core_widget_definition* definition = get_core_definition();
-	ASSERT(definition != NULL);
+	ASSERT(definition != nullptr);
 
 	*unanimated_bounds = definition->authored_bounds;
 	return unanimated_bounds;
@@ -478,7 +478,7 @@ real_argb_color* c_gui_widget::get_cumulative_color_tint(real_argb_color* tint)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8CB0, c_gui_widget, get_cumulative_color_tint, tint);
 
-	ASSERT(tint != NULL);
+	ASSERT(tint != nullptr);
 
 	*tint = m_animated_state.color;
 	return tint;
@@ -488,10 +488,10 @@ real_rectangle2d* c_gui_widget::get_current_bounds(real_rectangle2d* unanimated_
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8CE0, c_gui_widget, get_current_bounds, unanimated_bounds);
 
-	ASSERT(unanimated_bounds != NULL);
+	ASSERT(unanimated_bounds != nullptr);
 
 	s_runtime_core_widget_definition* definition = get_core_definition();
-	ASSERT(definition != NULL);
+	ASSERT(definition != nullptr);
 
 	*unanimated_bounds = definition->runtime_bounds;
 	return unanimated_bounds;
@@ -663,7 +663,7 @@ c_gui_widget* c_gui_widget::get_last_child_widget_by_type(e_gui_widget_type type
 {
 	return INVOKE_CLASS_MEMBER(0x00AB9010, c_gui_widget, get_last_child_widget_by_type, type);
 
-	//c_gui_widget* last_child_widget = NULL;
+	//c_gui_widget* last_child_widget = nullptr;
 	//for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
 	//{
 	//	if (child_widget->m_type != type)
@@ -719,7 +719,7 @@ c_gui_list_item_widget* c_gui_widget::get_next_list_item_widget(bool only_consid
 	c_gui_list_item_widget* result = (c_gui_list_item_widget*)c_gui_widget::get_next_widget_of_type(_gui_list_item);
 	if (result && only_consider_valid_items && result->get_element_handle() == NONE)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return result;
@@ -799,7 +799,7 @@ c_gui_list_item_widget* c_gui_widget::get_previous_list_item_widget(bool only_co
 	c_gui_list_item_widget* result = (c_gui_list_item_widget*)c_gui_widget::get_previous_widget_of_type(_gui_list_item);
 	if (result && only_consider_valid_items && result->get_element_handle() == NONE)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return result;
@@ -835,8 +835,8 @@ gui_real_rectangle2d* c_gui_widget::get_projected_bounds(const rectangle2d* wind
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB95D0, c_gui_widget, get_projected_bounds, window_bounds, projected_bounds, apply_translation, apply_scale, apply_rotation);
 
-	ASSERT(window_bounds != NULL);
-	ASSERT(projected_bounds != NULL);
+	ASSERT(window_bounds != nullptr);
+	ASSERT(projected_bounds != nullptr);
 
 	c_gui_widget::get_unprojected_bounds(projected_bounds, apply_translation, apply_scale, apply_rotation);
 	projected_bounds->apply_projection_transform(m_animated_state.position.z, window_bounds);
@@ -914,7 +914,7 @@ gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*
 	// this is more or less what Halo 3 MCC is doing
 
 	rectangle2d render_window_bounds;
-	interface_get_current_display_settings(NULL, NULL, &render_window_bounds, NULL);
+	interface_get_current_display_settings(nullptr, nullptr, &render_window_bounds, nullptr);
 
 	real_vector2d scale{};
 	scale.i = rectangle2d_width(&render_window_bounds) / 1152.0f;
@@ -1026,7 +1026,7 @@ bool c_gui_widget::leaf_node_of_widget(c_gui_widget* branch_widget)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9CC0, c_gui_widget, leaf_node_of_widget, branch_widget);
 
-	ASSERT(branch_widget != NULL);
+	ASSERT(branch_widget != nullptr);
 
 	if (branch_widget == this)
 	{
@@ -1097,8 +1097,8 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 {
 	//INVOKE(0x00AB9F40, c_gui_widget::render, user_index, render_data, window_bounds, is_screenshot);
 
-	ASSERT(render_data != NULL);
-	ASSERT(window_bounds != NULL);
+	ASSERT(render_data != nullptr);
+	ASSERT(window_bounds != nullptr);
 
 	//c_rasterizer_profile_scope _render(, L"");
 
@@ -1134,7 +1134,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		draw_string.set_color(render_data->debug_color);
 
 		const char* text = string_id_get_string_const(render_data->name);
-		draw_string.draw(NULL, text);
+		draw_string.draw(nullptr, text);
 	}
 
 	if (render_data->render_debug_animation_state)
@@ -1299,7 +1299,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		};
 		draw_string.set_bounds(&text_bounds);
 		draw_string.set_color(render_data->debug_color);
-		draw_string.draw(NULL, text.get_string());
+		draw_string.draw(nullptr, text.get_string());
 	}
 
 	if (render_data->render_debug_bounds)
@@ -1334,7 +1334,7 @@ void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* rend
 		};
 		draw_string.set_bounds(&text_bounds);
 		draw_string.set_color(render_data->debug_color);
-		draw_string.draw(NULL, "(+)");
+		draw_string.draw(nullptr, "(+)");
 	}
 }
 
@@ -1503,7 +1503,7 @@ void c_gui_widget::set_tint_color_direct(const real_argb_color* color)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA730, c_gui_widget, set_tint_color_direct, color);
 
-	ASSERT(color != NULL);
+	ASSERT(color != nullptr);
 	m_animated_state.color = *color;
 }
 

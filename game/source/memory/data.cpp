@@ -60,7 +60,7 @@ void __cdecl data_dispose(s_data_array* data)
 	INVOKE(0x0055ACC0, data_dispose, data);
 
 	//c_allocation_base* allocation = data->allocator;
-	//ASSERT(allocation != NULL);
+	//ASSERT(allocation != nullptr);
 	//
 	//csmemset(data, 0, sizeof(s_data_array));
 	//
@@ -101,7 +101,7 @@ void __cdecl data_initialize_disconnected(s_data_array* data, const char* name, 
 	//data->size = size;
 	//data->alignment_bits = alignment_bits;
 	//data->signature = k_data_signature;
-	//data->data = NULL;
+	//data->data = nullptr;
 	//data->offset_to_data = 0;
 	//data->valid = false;
 	//data->in_use_bit_vector = in_use_bit_vector;
@@ -352,9 +352,9 @@ void* __cdecl datum_try_and_get(const s_data_array* data, int32 index)
 	//return INVOKE(0x0055B6D0, datum_try_and_get, data, index);
 
 	if (!data)
-		return NULL;
+		return nullptr;
 
-	void* result = NULL;
+	void* result = nullptr;
 	
 	ASSERT(data);
 	ASSERT(data->valid);
@@ -363,7 +363,7 @@ void* __cdecl datum_try_and_get(const s_data_array* data, int32 index)
 	uns16 absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
 	if (index == NONE || index == 0 || identifier == int16(0xFFFF) || absolute_index == uns16(0xFFFF))
-		return NULL;
+		return nullptr;
 
 	if (index != NONE || absolute_index != uns16(0xFFFF))
 	{
@@ -425,7 +425,7 @@ void* __cdecl datum_try_and_get_absolute(const s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B710, datum_try_and_get_absolute, data, index);
 
-	//void* result = NULL;
+	//void* result = nullptr;
 	//
 	//ASSERT(data);
 	//ASSERT(data->valid);
@@ -474,7 +474,7 @@ void* __cdecl datum_try_and_get_unsafe(const s_data_array* data, int32 index)
 {
 	return INVOKE(0x0055B740, datum_try_and_get_unsafe, data, index);
 
-	//void* result = NULL;
+	//void* result = nullptr;
 	//
 	//ASSERT(data);
 	//ASSERT(data->valid);

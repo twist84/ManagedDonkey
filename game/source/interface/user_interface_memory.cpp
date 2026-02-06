@@ -62,8 +62,8 @@ void __cdecl user_interface_free(const void* ptr)
 
 	c_ui_memory_scope_lock scope_lock;
 	
-	ASSERT(ptr != NULL);
-	ASSERT(g_ui_memory_pool != NULL);
+	ASSERT(ptr != nullptr);
+	ASSERT(g_ui_memory_pool != nullptr);
 	//ASSERT(user_interface_is_tracked_memory(ptr));
 	//ASSERT(!user_interface_messaging_is_memory_in_message_queue(ptr));
 
@@ -78,7 +78,7 @@ void* __cdecl user_interface_malloc(unsigned int size)
 {
 	//return INVOKE(0x00AB4ED0, user_interface_malloc, size);
 
-	return user_interface_malloc_tracked(size, NULL, 0);
+	return user_interface_malloc_tracked(size, nullptr, 0);
 }
 
 void* __cdecl user_interface_malloc_tracked(unsigned int size, const char* file, int32 line)
@@ -87,9 +87,9 @@ void* __cdecl user_interface_malloc_tracked(unsigned int size, const char* file,
 
 	c_ui_memory_scope_lock scope_lock;
 
-	ASSERT(g_ui_memory_pool != NULL);
+	ASSERT(g_ui_memory_pool != nullptr);
 
-	void* ptr = NULL;
+	void* ptr = nullptr;
 	if (memory_pool_block_allocate(g_ui_memory_pool, &ptr, size, file, line))
 	{
 		g_ui_memory_pool_blocks++;
@@ -111,7 +111,7 @@ void* __cdecl user_interface_malloc_tracked(unsigned int size, const char* file,
 	else
 	{
 		user_interface_out_of_memory(size, file, line);
-		ptr = NULL;
+		ptr = nullptr;
 	}
 
 	user_interface_memory_update_status_line();
@@ -133,7 +133,7 @@ void __cdecl user_interface_memory_dispose()
 	if (g_ui_memory_pool)
 	{
 		memory_pool_dispose(g_ui_memory_pool);
-		g_ui_memory_pool = NULL;
+		g_ui_memory_pool = nullptr;
 	}
 }
 
@@ -191,14 +191,14 @@ void __cdecl user_interface_out_of_memory(unsigned int size, const char* file, i
 		g_ui_memory_pool_dumped = true;
 	}
 	
-	event(_event_critical, "ui: ui failed to allocate %d bytes at %s#%d", size, file ? file : "NULL", line);
+	event(_event_critical, "ui: ui failed to allocate %d bytes at %s#%d", size, file ? file : "nullptr", line);
 }
 
 void* __cdecl user_interface_realloc(void* ptr, unsigned int size)
 {
 	//return INVOKE(0x00AB5140, user_interface_realloc, ptr, size);
 
-	return user_interface_realloc_tracked(ptr, size, NULL, 0);
+	return user_interface_realloc_tracked(ptr, size, nullptr, 0);
 }
 
 void* __cdecl user_interface_realloc_tracked(void* ptr, unsigned int size, const char* file, int32 line)
@@ -207,7 +207,7 @@ void* __cdecl user_interface_realloc_tracked(void* ptr, unsigned int size, const
 
 	c_ui_memory_scope_lock scope_lock;
 
-	ASSERT(g_ui_memory_pool != NULL);
+	ASSERT(g_ui_memory_pool != nullptr);
 
 	if (ptr)
 	{
@@ -226,7 +226,7 @@ void* __cdecl user_interface_realloc_tracked(void* ptr, unsigned int size, const
 		else
 		{
 			user_interface_out_of_memory(size, file, line);
-			ptr = NULL;
+			ptr = nullptr;
 		}
 	}
 	else

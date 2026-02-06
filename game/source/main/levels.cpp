@@ -210,7 +210,7 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 	if (must_byte_swap)
 		flags.set_unsafe(bswap_uns32(flags.get_unsafe()));
 
-	s_level_datum* level = NULL;
+	s_level_datum* level = nullptr;
 
 	if (flags.test(_level_is_main_menu_bit))
 	{
@@ -224,7 +224,7 @@ void __cdecl levels_add_level_from_configuration_file(const s_blf_chunk_scenario
 			level = DATUM_GET(levels_data, s_level_datum, level_index);
 	}
 
-	if (level != NULL)
+	if (level != nullptr)
 	{
 		level->flags.clear();
 		level->flags.set(_level_from_dlc_bit, dlc_content);
@@ -771,8 +771,8 @@ void __cdecl levels_get_multiplayer_map_ids(e_map_id* out_map_ids, int32* in_out
 {
 	//INVOKE(0x0054BEE0, levels_get_multiplayer_map_ids, out_map_ids, in_out_count);
 
-	ASSERT(out_map_ids != NULL);
-	ASSERT(in_out_count != NULL);
+	ASSERT(out_map_ids != nullptr);
+	ASSERT(in_out_count != nullptr);
 
 	int32 count = 0;
 	if (g_level_globals.initialized)
@@ -835,7 +835,7 @@ char* __cdecl levels_get_path(e_campaign_id campaign_id, e_map_id map_id, char* 
 {
 	//return INVOKE(0x0054C040, levels_get_path, campaign_id, map_id, path, maximum_characters);
 
-	ASSERT(path != NULL);
+	ASSERT(path != nullptr);
 	ASSERT(maximum_characters > 0);
 
 	c_critical_section_scope critical_section_scope(k_crit_section_levels);
@@ -1021,7 +1021,7 @@ bool __cdecl levels_try_and_get_campaign_map(e_map_id map_id, s_level_datum* lev
 {
 	//return INVOKE(0x0054CAB0, levels_try_and_get_campaign_map, map_id, level);
 
-	ASSERT(level != NULL);
+	ASSERT(level != nullptr);
 
 	return levels_try_and_get_by_map_id(g_level_globals.campaign_levels, map_id, level);
 }
@@ -1030,7 +1030,7 @@ bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
 {
 	//return INVOKE(0x0054CAD0, levels_try_and_get_main_menu_map, level);
 
-	ASSERT(level != NULL);
+	ASSERT(level != nullptr);
 
 	c_critical_section_scope critical_section_scope(k_crit_section_levels);
 	*level = g_level_globals.main_menu;
@@ -1042,7 +1042,7 @@ bool __cdecl levels_try_and_get_multiplayer_map(e_map_id map_id, s_level_datum* 
 {
 	//return INVOKE(0x0054CB00, levels_try_and_get_multiplayer_map, map_id, level);
 
-	ASSERT(level != NULL);
+	ASSERT(level != nullptr);
 
 	return levels_try_and_get_by_map_id(g_level_globals.multiplayer_levels, map_id, level);
 }

@@ -60,8 +60,8 @@ public:
 
 	hkRigidBody* get_rigid_body(int32 rigid_body_index)
 	{
-		//ASSERT(get_havok_rigid_bodies()[rigid_body_index].get_rigid_body() != NULL);
-		ASSERT(m_havok_rigid_bodies.m_data[rigid_body_index].get_rigid_body() != NULL);
+		//ASSERT(get_havok_rigid_bodies()[rigid_body_index].get_rigid_body() != nullptr);
+		ASSERT(m_havok_rigid_bodies.m_data[rigid_body_index].get_rigid_body() != nullptr);
 
 		return m_havok_rigid_bodies.m_data[rigid_body_index].get_rigid_body();
 	}
@@ -79,7 +79,7 @@ public:
 	public:
 		hkRigidBody* get_rigid_body()
 		{
-			ASSERT(m_rigid_body != NULL);
+			ASSERT(m_rigid_body != nullptr);
 			return m_rigid_body;
 		}
 

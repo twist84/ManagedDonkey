@@ -226,12 +226,12 @@ void __cdecl network_dispose()
 		g_network_link->destroy_link();
 
 		network_globals.initialized = false;
-		g_network_link = NULL;
-		g_network_message_types = NULL;
-		g_network_message_gateway = NULL;
-		g_network_message_handler = NULL;
-		g_network_observer = NULL;
-		g_network_sessions = NULL;
+		g_network_link = nullptr;
+		g_network_message_types = nullptr;
+		g_network_message_gateway = nullptr;
+		g_network_message_handler = nullptr;
+		g_network_observer = nullptr;
+		g_network_sessions = nullptr;
 
 		network_memory_base_dispose();
 		network_configuration_dispose();
@@ -264,13 +264,13 @@ void __cdecl network_initialize()
 			&g_network_session_manager,
 			&g_network_session_parameter_types))
 		{
-			ASSERT(g_network_link != NULL);
-			ASSERT(g_network_message_types != NULL);
-			ASSERT(g_network_message_gateway != NULL);
-			ASSERT(g_network_message_handler != NULL);
-			ASSERT(g_network_observer != NULL);
-			ASSERT(g_network_sessions != NULL);
-			ASSERT(g_network_session_manager != NULL);
+			ASSERT(g_network_link != nullptr);
+			ASSERT(g_network_message_types != nullptr);
+			ASSERT(g_network_message_gateway != nullptr);
+			ASSERT(g_network_message_handler != nullptr);
+			ASSERT(g_network_observer != nullptr);
+			ASSERT(g_network_sessions != nullptr);
+			ASSERT(g_network_session_manager != nullptr);
 			ASSERT(g_network_session_parameter_types);
 
 			bool success = g_network_link->initialize_link();
@@ -321,7 +321,7 @@ void __cdecl network_initialize()
 				&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth)
 				&& network_session_tracker_initialize())
 			{
-				transport_register_transition_functions(network_startup_transport, network_shutdown_transport, NULL, NULL);
+				transport_register_transition_functions(network_startup_transport, network_shutdown_transport, nullptr, nullptr);
 				online_initialize();
 				online_url_initialize();
 				network_storage_initialize();
@@ -808,9 +808,9 @@ void network_test_set_player_color(int32 profile_color_index)
 
 void network_test_ipv6(const char* host, const char* port, const char* url)
 {
-	ASSERT(host != NULL);
-	ASSERT(port != NULL);
-	ASSERT(url != NULL);
+	ASSERT(host != nullptr);
+	ASSERT(port != nullptr);
+	ASSERT(url != nullptr);
 
 	auto resolve_host = [](const char* host, const char* port, transport_address* out_address) -> bool
 	{
@@ -819,11 +819,11 @@ void network_test_ipv6(const char* host, const char* port, const char* url)
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 
-		addrinfo* result = NULL;
+		addrinfo* result = nullptr;
 		int rc = getaddrinfo(host, port, &hints, &result);
 		if (rc == 0 && result)
 		{
-			for (addrinfo* ptr = result; ptr != NULL; ptr = ptr->ai_next)
+			for (addrinfo* ptr = result; ptr != nullptr; ptr = ptr->ai_next)
 			{
 				if (ptr->ai_family == AF_INET)
 				{
@@ -869,7 +869,7 @@ void network_test_ipv6(const char* host, const char* port, const char* url)
 					{
 						fprintf(stderr, "Error polling connection state\n");
 						transport_endpoint_delete(endpoint);
-						return NULL;
+						return nullptr;
 					}
 				}
 				return endpoint;
@@ -878,13 +878,13 @@ void network_test_ipv6(const char* host, const char* port, const char* url)
 			{
 				fprintf(stderr, "Failed to initiate async connect\n");
 				transport_endpoint_delete(endpoint);
-				return NULL;
+				return nullptr;
 			}
 		}
 		else
 		{
 			fprintf(stderr, "Failed to create transport endpoint\n");
-			return NULL;
+			return nullptr;
 		}
 	};
 

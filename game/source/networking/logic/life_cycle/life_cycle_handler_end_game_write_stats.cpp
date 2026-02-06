@@ -56,9 +56,9 @@ void c_life_cycle_state_handler_end_game_write_stats::enter(c_life_cycle_state_h
 	//INVOKE_CLASS_MEMBER(0x00492B50, c_life_cycle_state_handler_end_game_write_stats, enter, from, entry_data_size, entry_data);
 
 	ASSERT(entry_data_size == 0);
-	ASSERT(entry_data == NULL);
+	ASSERT(entry_data == nullptr);
 
-	c_life_cycle_state_handler::enter(from, 0, NULL);
+	c_life_cycle_state_handler::enter(from, 0, nullptr);
 
 	m_flags.clear();
 	e_life_cycle_state from_state = from->get_state();
@@ -294,7 +294,7 @@ e_life_cycle_state_transition_type c_life_cycle_state_handler_end_game_write_sta
 
 		if (squad_session->session_mode() != _network_session_mode_end_game)
 		{
-			manager->request_state_change(_life_cycle_state_pre_game, 0, NULL);
+			manager->request_state_change(_life_cycle_state_pre_game, 0, nullptr);
 			result = _life_cycle_state_transition_change_requested;
 		}
 	}

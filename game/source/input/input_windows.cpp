@@ -243,7 +243,7 @@ const gamepad_state* __cdecl input_get_gamepad_state(int16 gamepad_index)
 
 	if (!input_has_gamepad(gamepad_index))
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	if (input_globals.input_suppressed)
@@ -287,7 +287,7 @@ mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
 
 	//if (!input_globals.raw_input_mouse_state_update)
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//if (input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed)
@@ -532,7 +532,7 @@ bool __cdecl sub_512650()
 	//	.usUsagePage = 1, // HID_USAGE_PAGE_GENERIC
 	//	.usUsage     = 2, // HID_USAGE_GENERIC_MOUSE
 	//	.dwFlags     = RIDEV_REMOVE,
-	//	.hwndTarget  = NULL
+	//	.hwndTarget  = nullptr
 	//};
 	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
 }
@@ -568,7 +568,7 @@ void __cdecl sub_5129B0()
 	//	if (input_globals.raw_input_unknownAB4 || game_options_valid() && !game_is_ui_shell())
 	//		sub_511620();
 	//	else
-	//		ClipCursor(NULL);
+	//		ClipCursor(nullptr);
 	//}
 }
 

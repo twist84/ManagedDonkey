@@ -11,7 +11,7 @@ c_robust_void_pointer::c_robust_void_pointer(void* value) :
 
 c_robust_void_pointer::c_robust_void_pointer()
 {
-	set_value(NULL);
+	set_value(nullptr);
 }
 
 void* c_robust_void_pointer::get_corrected_value() const
@@ -40,7 +40,7 @@ void* c_robust_void_pointer::get_corrected_value() const
 		bool value2 = m_value[2] && count_bits(m_value[2]) != 1;
 		if (!value0 && !value1 && !value2)
 		{
-			return NULL;
+			return nullptr;
 		}
 		else
 		{

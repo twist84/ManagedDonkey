@@ -265,7 +265,7 @@ const s_observer_result* observer_get_camera(int32 user_index)
 	//return INVOKE(0x006127C0, observer_get_camera, user_index);
 
 	s_observer_result* result = &observer_get(user_index)->result;
-	ASSERT(result != NULL);
+	ASSERT(result != nullptr);
 
 	return result;
 }
@@ -568,7 +568,7 @@ void __cdecl debug_render_observer()
 	render_view_compute_fullscreen_bounds(&camera);
 
 	render_projection projection{};
-	render_camera_build_projection(&camera, NULL, &projection, 0.0f);
+	render_camera_build_projection(&camera, nullptr, &projection, 0.0f);
 
 	real_point2d screen_points[4]{};
 	screen_points[0].x = static_cast<real32>(camera.render_pixel_bounds.x0);

@@ -37,7 +37,7 @@ void __thiscall c_gui_custom_bitmap_widget::set_map_image_(e_custom_map_image_ty
 c_gui_custom_bitmap_widget::c_gui_custom_bitmap_widget() :
 	c_gui_bitmap_widget(),
 	m_storage_item_index(NONE),
-	m_async_load_buffer(NULL),
+	m_async_load_buffer(nullptr),
 	m_async_load_buffer_count(0),
 	m_async_task_id(INVALID_ASYNC_TASK_ID),
 	m_async_task_signal(0),
@@ -95,7 +95,7 @@ const bitmap_data* c_gui_custom_bitmap_widget::get_current_bitmap() const
 	const c_gui_custom_bitmap_storage_item* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
 	if (!bitmap || !bitmap->m_bitmap_ready)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &bitmap->m_bitmap_data;
@@ -108,7 +108,7 @@ char* c_gui_custom_bitmap_widget::get_current_buffer() const
 	const c_gui_custom_bitmap_storage_item* bitmap = c_gui_custom_bitmap_storage_manager::get()->get_bitmap(m_storage_item_index);
 	if (!bitmap)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return bitmap->m_bitmap_pixel_buffer;
@@ -397,10 +397,10 @@ void c_gui_custom_bitmap_widget::reset()
 		m_storage_item_index = NONE;
 	}
 
-	if (m_async_load_buffer != NULL)
+	if (m_async_load_buffer != nullptr)
 	{
 		user_interface_free(m_async_load_buffer);
-		m_async_load_buffer = NULL;
+		m_async_load_buffer = nullptr;
 	}
 }
 

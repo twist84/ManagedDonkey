@@ -55,9 +55,9 @@ bool c_network_observer::initialize_observer(c_network_link* link, c_network_mes
     //ASSERT(link);
     //ASSERT(message_types);
     //ASSERT(configuration);
-    //ASSERT(m_link == NULL);
-    //ASSERT(m_message_types == NULL);
-    //ASSERT(m_configuration == NULL);
+    //ASSERT(m_link == nullptr);
+    //ASSERT(m_message_types == nullptr);
+    //ASSERT(m_configuration == nullptr);
 }
 
 //.text:00446D90 ; bool c_network_observer::is_bandwidth_stable()
@@ -81,10 +81,10 @@ int32 c_network_observer::observer_channel_find_by_network_channel(int32 owner_t
     //return INVOKE_CLASS_MEMBER(0x00447150, c_network_observer, observer_channel_find_by_network_channel, owner_type, channel);
 
     //ASSERT(owner_type >= 0 && owner_type < k_network_observer_owner_count);
-    ASSERT(channel != NULL);
+    ASSERT(channel != nullptr);
 
     const s_channel_observer* observer = find_observer_by_channel(channel);
-    ASSERT(observer != NULL);
+    ASSERT(observer != nullptr);
 
     if (observer->state && TEST_BIT(observer->owner_flags, owner_type))
         return observer - m_channel_observers;
@@ -161,7 +161,7 @@ void c_network_observer::register_owner(e_network_observer_owner owner_type, c_n
 
     //ASSERT(owner);
     //ASSERT(owner_type >= 0 && owner_type < k_network_observer_owner_count);
-    //ASSERT(m_owners[owner_type].owner == NULL);
+    //ASSERT(m_owners[owner_type].owner == nullptr);
     //
     //m_owners[owner_type].owner = owner;
     //m_owners[owner_type].managed_session_index = NONE;

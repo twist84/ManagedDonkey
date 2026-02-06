@@ -14,7 +14,7 @@ void __cdecl scenario_kill_trigger_volume_disable(int32 trigger_volume_index)
 {
 	//INVOKE(0x0068C350, scenario_kill_trigger_volume_disable, trigger_volume_index);
 
-	ASSERT(g_scenario_kill_trigger_volumes_state != NULL);
+	ASSERT(g_scenario_kill_trigger_volumes_state != nullptr);
 	ASSERT(g_scenario_kill_trigger_volumes_state->map_initialized);
 
 	if (trigger_volume_index == NONE)
@@ -36,7 +36,7 @@ void __cdecl scenario_kill_trigger_volume_enable(int32 trigger_volume_index)
 {
 	//INVOKE(0x0068C3B0, scenario_kill_trigger_volume_enable, trigger_volume_index);
 
-	ASSERT(g_scenario_kill_trigger_volumes_state != NULL);
+	ASSERT(g_scenario_kill_trigger_volumes_state != nullptr);
 	ASSERT(g_scenario_kill_trigger_volumes_state->map_initialized);
 
 	if (trigger_volume_index == NONE)

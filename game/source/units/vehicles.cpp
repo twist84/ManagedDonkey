@@ -91,7 +91,7 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 			render_debug_string_at_point(&text_point, "invalid vehicle!!! read your debug.txt", global_real_argb_red);
 		}
 
-		const s_vehicle_engine_definition* engine_definition = NULL;
+		const s_vehicle_engine_definition* engine_definition = nullptr;
 		const s_vehicle_engine* engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
 		switch (vehicle_get_type(vehicle_index))
 		{
@@ -119,7 +119,7 @@ void __cdecl vehicle_render_debug(int32 vehicle_index)
 		}
 		break;
 		}
-		ASSERT((engine == NULL) == (engine_definition == NULL));
+		ASSERT((engine == nullptr) == (engine_definition == nullptr));
 
 		if (engine && engine_definition)
 		{

@@ -45,7 +45,7 @@ bool debug_game_time_lock = false;
 bool debug_pause_game_active = false;
 bool debug_pause_game = false;
 
-FILE* game_time_statistics_file = NULL;
+FILE* game_time_statistics_file = nullptr;
 bool game_time_statistics_started;
 bool game_time_statistics_update_time;
 bool game_time_statistics_write_header;

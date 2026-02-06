@@ -13,7 +13,7 @@ c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 {
 	//return INVOKE(0x004A55F0, c_network_storage_manifest::get);
 
-	void* working_memory = NULL;
+	void* working_memory = nullptr;
 	int32 working_memory_size = 0;
 	security_get_working_memory(_secure_memory_region_network_storage_manifest, &working_memory, &working_memory_size);
 

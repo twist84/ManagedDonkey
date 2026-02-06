@@ -167,7 +167,7 @@ public:
 
 	void reset()
 	{
-		*m_data_array = NULL;
+		*m_data_array = nullptr;
 	}
 
 	c_smart_data_array<t_datum_type> m_data_array;

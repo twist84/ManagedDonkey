@@ -143,7 +143,7 @@ bool saved_film_snippet_commit_by_keyboard(e_controller_index controller_index)
 	ASSERT(saved_film_snippet_globals.recording_stop_tick != NONE);
 	ASSERT(saved_film_snippet_globals.recording_start_tick <= saved_film_snippet_globals.recording_stop_tick);
 	ASSERT(saved_film_snippet_globals.current_state == _saved_film_snippet_state_recorded_and_ready);
-	ASSERT(saved_film_snippet_globals.virtual_keyboard_task == NULL);
+	ASSERT(saved_film_snippet_globals.virtual_keyboard_task == nullptr);
 	
 	bool success = false;
 
@@ -151,7 +151,7 @@ bool saved_film_snippet_commit_by_keyboard(e_controller_index controller_index)
 	{
 		event(_event_warning, "networking:saved_film:snippet: failed to close camera file for commit by keyboard");
 	}
-	else if (saved_film_snippet_globals.virtual_keyboard_task = c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, controller_index, NULL, NULL, NULL, 256, 0, false))
+	else if (saved_film_snippet_globals.virtual_keyboard_task = c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, controller_index, nullptr, nullptr, nullptr, 256, 0, false))
 	{
 		event(_event_error, "networking:saved_film:snippet: failed to get virtual keyboard task interface");
 	}
@@ -201,7 +201,7 @@ void saved_film_snippet_dispose_virtual_keyboard_task()
 	if (saved_film_snippet_globals.virtual_keyboard_task)
 	{
 		overlapped_task_block_until_finished(saved_film_snippet_globals.virtual_keyboard_task);
-		saved_film_snippet_globals.virtual_keyboard_task = NULL;
+		saved_film_snippet_globals.virtual_keyboard_task = nullptr;
 	}
 }
 
@@ -215,7 +215,7 @@ bool saved_film_snippet_finished_revert_for_seek(int32 update_number, void* game
 		ASSERT(saved_film_snippet_globals.recording_stop_tick == NONE);
 		ASSERT(saved_film_snippet_globals.camera_file.get_position() == 0);
 
-		game_state_security_write_signature(false, NULL);
+		game_state_security_write_signature(false, nullptr);
 		if (!saved_film_snippet_globals.destination_film.write_gamestate_from_buffer(update_number, gamestate, gamestate_size))
 		{
 			event(_event_warning, "networking:saved_film:snippets: failed to write gamestate for preview");

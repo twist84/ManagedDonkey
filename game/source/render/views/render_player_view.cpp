@@ -440,7 +440,7 @@ void __thiscall c_player_view::render_()
 						1.0f,
 						1.0f,
 						1.0f,
-						NULL);
+						nullptr);
 				}
 			}
 		}
@@ -485,7 +485,7 @@ void __thiscall c_player_view::render_()
 			}
 		}
 
-		render_screen_shaders(&screen_effect_shader_sample_result, 1, c_rasterizer::get_display_surface(), c_rasterizer::_surface_none, NULL);
+		render_screen_shaders(&screen_effect_shader_sample_result, 1, c_rasterizer::get_display_surface(), c_rasterizer::_surface_none, nullptr);
 
 		{
 			c_rasterizer_profile_scope _chud_draw_screen(_rasterizer_profile_element_total, L"chud_draw_screen");
@@ -508,7 +508,7 @@ void __thiscall c_player_view::render_()
 			c_rasterizer_profile_scope _user_interface_render(_rasterizer_profile_element_total, L"user_interface_render");
 
 			rectangle2d display_pixel_bounds{};
-			interface_get_current_window_settings(NULL, NULL, &display_pixel_bounds, NULL);
+			interface_get_current_window_settings(nullptr, nullptr, &display_pixel_bounds, nullptr);
 			user_interface_render(
 				m_camera_user_data.controller_index,
 				m_camera_user_data.user_index,
@@ -1115,7 +1115,7 @@ void __thiscall c_player_view::render_water()
 
 	c_rasterizer_profile_scope _water_render(_rasterizer_profile_element_water, L"water_render");
 
-	c_rasterizer::resolve_surface(c_rasterizer::_surface_accum_LDR, 0, NULL, 0, 0);
+	c_rasterizer::resolve_surface(c_rasterizer::_surface_accum_LDR, 0, nullptr, 0, 0);
 	c_rasterizer::stretch_rect(c_rasterizer::_surface_accum_LDR, c_rasterizer::_surface_post_LDR);
 
 	render_method_submit_single_extern(_render_method_extern_scene_ldr_texture, false);

@@ -268,7 +268,7 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	metadata.initialize_from_current_game_settings(controller_index, _saved_game_film, L"", L"", 0);
 	e_gui_game_mode game_mode = _gui_game_setup_mode_multiplayer;// metadata.get_gui_game_mode();
 	
-	const wchar_t* active_session_map_name = NULL;
+	const wchar_t* active_session_map_name = nullptr;
 
 	switch (game_mode)
 	{
@@ -350,7 +350,7 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	csmemset(header->film_header.build_compatibility.map_signature_bytes, 0, k_saved_film_maximum_map_signature_bytes);
 	
 	int32 signature_size = 0;
-	const byte* signature_bytes = NULL;
+	const byte* signature_bytes = nullptr;
 	if (cache_file_get_content_signature(&signature_size, &signature_bytes))
 	{
 		ASSERT(signature_size <= sizeof(header->film_header.build_compatibility.map_signature_bytes));
@@ -476,7 +476,7 @@ bool c_saved_film::write_gamestate()
 	return false;
 
 	//c_game_state_compressor* compressor = game_state_get_compressor();
-	//byte* compressed_game_state = NULL;
+	//byte* compressed_game_state = nullptr;
 	//int32 compressed_size = 0;
 	//
 	//if (!compressor->lock())
@@ -513,7 +513,7 @@ bool c_saved_film::write_gamestate_from_buffer(int32 update_number, const void* 
 	return false;
 
 	//c_game_state_compressor* compressor = game_state_get_compressor();
-	//byte* compressed_game_state = NULL;
+	//byte* compressed_game_state = nullptr;
 	//int32 compressed_size = 0;
 	//
 	//if (!compressor->lock())

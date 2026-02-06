@@ -37,7 +37,7 @@ bool __cdecl actor_datum_available_to_current_thread()
 {
 	//return INVOKE(0x01429350, actor_datum_available_to_current_thread);
 
-	return actor_data != NULL;
+	return actor_data != nullptr;
 }
 
 void __cdecl actor_delete(int32 actor_index, bool died)
@@ -181,7 +181,7 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 {
 	//return INVOKE(0x0142C990, actor_iterator_next, iterator);
 	
-	actor_datum* actor = NULL;
+	actor_datum* actor = nullptr;
 	if (ai_globals->ai_initialized_for_map)
 	{
 		while (iterator->iterator.next())
@@ -195,7 +195,7 @@ actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator)
 		iterator->index = iterator->iterator.get_index();
 	}
 
-	ASSERT(((iterator->index == NONE) && (actor == NULL)) || ((iterator->index != NONE) && (actor != NULL)));
+	ASSERT(((iterator->index == NONE) && (actor == nullptr)) || ((iterator->index != NONE) && (actor != nullptr)));
 
 	return actor;
 }

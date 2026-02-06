@@ -448,7 +448,7 @@ void __cdecl lruv_connect(s_lruv_cache* cache, s_data_array* blocks, int32 maxim
 
 	//ASSERT(cache);
 	//ASSERT(blocks);
-	//ASSERT(cache->blocks == NULL);
+	//ASSERT(cache->blocks == nullptr);
 	//
 	//cache->maximum_page_count = maximum_page_count;
 	//cache->blocks = blocks;
@@ -603,7 +603,7 @@ bool __cdecl lruv_has_locked_proc(const s_lruv_cache* cache)
 
 	//ASSERT(cache);
 	//
-	//return cache->locked_block_proc != NULL;
+	//return cache->locked_block_proc != nullptr;
 }
 
 void __cdecl lruv_idle(s_lruv_cache* cache)
@@ -754,7 +754,7 @@ void __cdecl lruv_setup(s_lruv_cache* cache, const char* name, int32 page_size_b
 	//cache->page_size_bits = page_size_bits;
 	//cache->maximum_page_count = 0;
 	//cache->fragmentation_threshold = NONE;
-	//cache->blocks = NULL;
+	//cache->blocks = nullptr;
 	//cache->signature = LRUV_CACHE_SIGNATURE;
 	//cache->first_block_index = NONE;
 	//cache->last_block_index = NONE;
@@ -773,14 +773,14 @@ bool __cdecl lruv_verify_slave_data_array(const s_lruv_cache* cache, const s_dat
 	//block_iterator.begin(cache->blocks);
 	//while (block_iterator.next() && valid)
 	//{
-	//	valid &= datum_try_and_get(data, block_iterator.get_index()) != NULL;
+	//	valid &= datum_try_and_get(data, block_iterator.get_index()) != nullptr;
 	//}
 	//
 	//c_data_iterator<void> iterator;
 	//iterator.begin(data);
 	//while (iterator.next() && valid)
 	//{
-	//	valid &= datum_try_and_get(cache->blocks, iterator.get_index()) != NULL;
+	//	valid &= datum_try_and_get(cache->blocks, iterator.get_index()) != nullptr;
 	//}
 	//
 	//return valid;

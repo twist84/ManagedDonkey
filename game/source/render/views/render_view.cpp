@@ -168,7 +168,7 @@ render_projection* c_view::get_render_projection_modifiable()
 
 c_view* __cdecl c_view::top()
 {
-	return g_view_stack_top < 0 ? NULL : g_view_stack[g_view_stack_top];
+	return g_view_stack_top < 0 ? nullptr : g_view_stack[g_view_stack_top];
 }
 
 void c_lights_view::render(int32 user_index, int32 player_index, IDirect3DSurface9* a3, IDirect3DSurface9* a4, IDirect3DSurface9* a5)
@@ -186,7 +186,7 @@ void c_fullscreen_view::render_debug_stuff_while_loading()
 	rectangle2d screen_bounds{};
 	rectangle2d frame_bounds{};
 	rectangle2d window_bounds{};
-	interface_get_current_display_settings(&screen_bounds, &frame_bounds, &window_bounds, NULL);
+	interface_get_current_display_settings(&screen_bounds, &frame_bounds, &window_bounds, nullptr);
 	user_interface_render(k_no_controller, NONE, k_number_of_player_windows, &window_bounds, c_rasterizer::get_display_surface(), false);
 	terminal_draw(&screen_bounds, &frame_bounds);
 	status_line_draw();
@@ -201,7 +201,7 @@ void c_fullscreen_view::setup_camera(const s_observer_result* observer)
 	csmemset(rasterizer_camera_modifiable, 0, sizeof(render_camera));
 
 	render_view_compute_fullscreen_bounds(rasterizer_camera_modifiable);
-	render_camera_build(rasterizer_camera_modifiable, NULL);
+	render_camera_build(rasterizer_camera_modifiable, nullptr);
 
 	real_rectangle2d frustum_bounds;
 	render_camera_build_viewport_frustum_bounds(rasterizer_camera_modifiable, &frustum_bounds);
@@ -265,7 +265,7 @@ void __thiscall c_ui_view::render_()
 	//INVOKE_CLASS_MEMBER(0x00A290A0, c_ui_view, render);
 
 	rectangle2d window_bounds{};
-	interface_get_current_display_settings(NULL, NULL, &window_bounds, NULL);
+	interface_get_current_display_settings(nullptr, nullptr, &window_bounds, nullptr);
 	user_interface_render(k_no_controller, NONE, k_number_of_player_windows, &window_bounds, m_render_surface, m_is_screenshot);
 }
 

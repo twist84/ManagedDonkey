@@ -214,7 +214,7 @@ const s_game_hopper_custom_category* __cdecl multiplayer_game_hopper_get_categor
 		return &multiplayer_game_hopper_globals.configuration.hopper_category[category_index];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const c_game_variant* __cdecl multiplayer_game_hopper_get_current_game_variant()
@@ -259,7 +259,7 @@ const utf8* __cdecl multiplayer_game_hopper_get_description(uns16 hopper_identif
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 uns16 __cdecl multiplayer_game_hopper_get_hopper_identifier(int32 hopper_index)
@@ -440,7 +440,7 @@ int32 __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, int32 buff
 	//int32 space_used_in_bytes = (bitstream.get_space_used_in_bits() + CHAR_BITS - 1) / CHAR_BITS;
 	//map_variant_header->setup('gvar', sizeof(s_blf_header) + space_used_in_bytes, 10, 1);
 	//
-	//bitstream.finish_writing(NULL);
+	//bitstream.finish_writing(nullptr);
 	//
 	//s_blf_chunk_end_of_file* end_of_file = (s_blf_chunk_end_of_file*)offset_pointer(map_variant_data, sizeof(s_blf_chunk_end_of_file));
 	//end_of_file->initialize();
@@ -489,7 +489,7 @@ int32 __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, int32 buffe
 	//int32 space_used_in_bytes = (bitstream.get_space_used_in_bits() + CHAR_BITS-1) / CHAR_BITS;
 	//map_variant_header->setup('mvar', sizeof(s_blf_header) + space_used_in_bytes, 12, 1);
 	//
-	//bitstream.finish_writing(NULL);
+	//bitstream.finish_writing(nullptr);
 	//
 	//s_blf_chunk_end_of_file* end_of_file = (s_blf_chunk_end_of_file*)offset_pointer(map_variant_data, sizeof(s_blf_chunk_end_of_file));
 	//end_of_file->initialize();
@@ -772,7 +772,7 @@ void __cdecl multiplayer_game_hopper_update()
 		bool failed = false;
 
 		int32 bytes_read = 0;
-		e_network_http_request_result request_result = request_queue->is_fill_buffer_complete(multiplayer_file->request_cookie, &bytes_read, &multiplayer_file->configuration_hash, NULL);
+		e_network_http_request_result request_result = request_queue->is_fill_buffer_complete(multiplayer_file->request_cookie, &bytes_read, &multiplayer_file->configuration_hash, nullptr);
 		if (request_result == _network_http_request_result_success)
 		{
 			switch (multiplayer_game_file)
@@ -920,7 +920,7 @@ c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuratio
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(int32 player_count, int32 valid_map_mask, s_game_hopper_picked_game_collection* game_collection_out)
@@ -970,7 +970,7 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(int32 player_c
 
 				if (total_entry_weight > 0)
 				{
-					int32 random_entry_weight = _random_range(get_local_random_seed_address(), NULL, __FILE__, __LINE__, 0, (int16)total_entry_weight);
+					int32 random_entry_weight = _random_range(get_local_random_seed_address(), nullptr, __FILE__, __LINE__, 0, (int16)total_entry_weight);
 					for (int32 game_entry_index = 0; game_entry_index < multiplayer_game_hopper_globals.game_set.game_entry_count; game_entry_index++)
 					{
 						s_game_set_entry* entry = &multiplayer_game_hopper_globals.game_set.entries[game_entry_index];
@@ -1094,7 +1094,7 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(uns16 hopper_ide
 		game_start_error = multiplayer_game_hopper_check_required_files(check_hopper, hopper_identifier != int16(0xFFFF));
 	}
 
-	if (game_start_error == _session_game_start_error_none && check_hopper && (hopper_identifier == int16(0xFFFF) || hopper == NULL))
+	if (game_start_error == _session_game_start_error_none && check_hopper && (hopper_identifier == int16(0xFFFF) || hopper == nullptr))
 	{
 		game_start_error = _session_game_start_match_error_invalid_hopper;
 	}

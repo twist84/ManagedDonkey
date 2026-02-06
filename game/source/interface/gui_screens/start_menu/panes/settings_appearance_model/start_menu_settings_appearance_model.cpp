@@ -216,13 +216,13 @@ void c_start_menu_settings_appearance_model::update_model_widget(bool force_upda
 		return;
 	}
 
-	c_gui_model_widget* model_widget = NULL;
+	c_gui_model_widget* model_widget = nullptr;
 	if (c_gui_widget* group_widget = c_gui_widget::get_first_child_widget_by_type(_gui_group))
 	{
 		model_widget = (c_gui_model_widget*)group_widget->get_first_child_widget_by_type(_gui_model);
 	}
 
-	c_gui_data* data = c_gui_screen_widget::get_data(area_name, NULL);
+	c_gui_data* data = c_gui_screen_widget::get_data(area_name, nullptr);
 	if (!model_widget || !data)
 	{
 		return;
@@ -294,7 +294,7 @@ void c_start_menu_settings_appearance_model::update_render_state(uns32 current_m
 
 	c_gui_widget::update_render_state(current_milliseconds);
 	for (c_gui_bitmap_widget* child_button_bitmap = c_gui_widget::get_child_bitmap_widget(STRING_ID(gui, base_color));
-		child_button_bitmap != NULL;
+		child_button_bitmap != nullptr;
 		child_button_bitmap = child_button_bitmap->get_next_bitmap_widget())
 	{
 		if (child_button_bitmap->get_name() == STRING_ID(gui, base_color))
@@ -386,7 +386,7 @@ static bool get_current_model_selection_area_and_item_index(c_gui_screen_widget*
 		return false;
 	}
 
-	c_gui_data* area_name_data = screen_widget->get_data(*area_name, NULL);
+	c_gui_data* area_name_data = screen_widget->get_data(*area_name, nullptr);
 	if (!area_name_data)
 	{
 		return false;
@@ -411,7 +411,7 @@ static bool get_current_model_selection_area_and_item_index(c_gui_screen_widget*
 bool __cdecl parse_xml_part_count_current(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	ASSERT(this_ptr);
-	ASSERT(buffer != NULL);
+	ASSERT(buffer != nullptr);
 	ASSERT(buffer_length > 0);
 
 	c_gui_screen_widget* screen_widget = (c_gui_screen_widget*)this_ptr;
@@ -433,7 +433,7 @@ bool __cdecl parse_xml_part_count_current(void* this_ptr, wchar_t* buffer, int32
 bool __cdecl parse_xml_part_count_total(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	ASSERT(this_ptr);
-	ASSERT(buffer != NULL);
+	ASSERT(buffer != nullptr);
 	ASSERT(buffer_length > 0);
 
 	c_gui_screen_widget* screen_widget = (c_gui_screen_widget*)this_ptr;
@@ -445,7 +445,7 @@ bool __cdecl parse_xml_part_count_total(void* this_ptr, wchar_t* buffer, int32 b
 		return false;
 	}
 
-	c_gui_data* data = screen_widget->get_data(area_name, NULL);
+	c_gui_data* data = screen_widget->get_data(area_name, nullptr);
 	if (!data)
 	{
 		return false;
@@ -461,7 +461,7 @@ bool __cdecl parse_xml_part_count_total(void* this_ptr, wchar_t* buffer, int32 b
 bool __cdecl parse_xml_part_description(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
 	ASSERT(this_ptr);
-	ASSERT(buffer != NULL);
+	ASSERT(buffer != nullptr);
 	ASSERT(buffer_length > 0);
 
 	c_gui_screen_widget* screen_widget = (c_gui_screen_widget*)this_ptr;
@@ -473,7 +473,7 @@ bool __cdecl parse_xml_part_description(void* this_ptr, wchar_t* buffer, int32 b
 		return false;
 	}
 
-	c_gui_data* data = screen_widget->get_data(area_name, NULL);
+	c_gui_data* data = screen_widget->get_data(area_name, nullptr);
 	if (!data)
 	{
 		return false;

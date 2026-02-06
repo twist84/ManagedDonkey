@@ -22,7 +22,7 @@ void c_game_engine_juggernaut_variant::byteswap()
 
 void c_game_engine_juggernaut_variant::set(const c_game_engine_juggernaut_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	c_game_engine_base_variant::set(variant, force);
 
@@ -407,7 +407,7 @@ void c_game_engine_juggernaut_variant::set_juggernaut_traits(const c_player_trai
 
 void c_juggernaut_engine::dump_settings(s_file_reference* file) const
 {
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 
 	c_game_engine::dump_settings(file);
 

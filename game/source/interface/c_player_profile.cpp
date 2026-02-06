@@ -110,7 +110,7 @@ void c_player_profile_interface::get_player_appearance(s_player_appearance* play
 {
 	//INVOKE_CLASS_MEMBER(0x00AA0A30, c_player_profile_interface, get_player_appearance, player_appearance);
 
-	ASSERT(player_appearance != NULL);
+	ASSERT(player_appearance != nullptr);
 
 	player_appearance->flags.clear();
 	player_appearance->flags.set(_female_voice_bit, TEST_BIT(m_flags, _voice_female_bit));
@@ -400,7 +400,7 @@ void c_player_profile_interface::set_player_appearance(const s_player_appearance
 {
 	//INVOKE_CLASS_MEMBER(0x00AA3560, c_player_profile_interface, set_player_appearance, player_appearance, set_by_user);
 
-	ASSERT(player_appearance != NULL);
+	ASSERT(player_appearance != nullptr);
 
 	c_player_profile_interface::set_female_voice_enabled(player_appearance->flags.test(_female_voice_bit), set_by_user);
 	c_player_profile_interface::set_primary_change_color(player_appearance->change_color_index[0], set_by_user);
@@ -413,7 +413,7 @@ void c_player_profile_interface::set_player_appearance(const s_player_appearance
 //.text:00AA35C0 ; public: void c_player_profile_interface::set_emblem_info(int32, const s_emblem_info*)
 void c_player_profile_interface::set_emblem_info(const s_emblem_info* emblem_info, bool set_by_user)
 {
-	ASSERT(emblem_info != NULL);
+	ASSERT(emblem_info != nullptr);
 	ASSERT(emblem_info->pad == 0);
 
 	if (VALID_INDEX(emblem_info->foreground_emblem_index, 80)

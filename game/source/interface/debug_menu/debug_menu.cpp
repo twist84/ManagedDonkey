@@ -250,7 +250,7 @@ void c_debug_menu::notify_up()
 	int16 selection = get_selection();
 	m_last_up = debug_menu_get_time();
 	
-	c_debug_menu_item* item = NULL;
+	c_debug_menu_item* item = nullptr;
 	do
 	{
 		int16 current_selection = get_selection();
@@ -279,7 +279,7 @@ void c_debug_menu::notify_down()
 	int16 selection = get_selection();
 	m_last_down = debug_menu_get_time();
 	
-	c_debug_menu_item* item = NULL;
+	c_debug_menu_item* item = nullptr;
 	do
 	{
 		int16 current_selection = get_selection();
@@ -349,7 +349,7 @@ void c_debug_menu::render_title(c_font_cache_base* font_cache, const point2d& po
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 
 	int16 x0 = point.x;
 	int16 y0 = int16(point.y + debug_menu_get_item_indent_y());
@@ -370,7 +370,7 @@ void c_debug_menu::render_caption(c_font_cache_base* font_cache, const point2d& 
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 	if (*get_caption())
 	{
 		int16 x0 = point.x;
@@ -391,7 +391,7 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, const po
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 
 	set_rectangle2d(&bounds, point.x, int16((point.y + get_title_height()) * (get_num_items_to_render() + 1) * get_item_height()), int16(point.x + debug_menu_get_item_width()), bounds.y1);
 	draw_string.set_color(debug_real_argb_tv_magenta);
@@ -484,8 +484,8 @@ void c_debug_menu::try_right()
 }
 
 c_debug_menu::c_debug_menu(c_debug_menu* parent, const char* name) :
-	m_name(NULL),
-	m_caption(NULL),
+	m_name(nullptr),
+	m_caption(nullptr),
 	m_parent_ref(parent)
 {
 	set_name(name ? name : "Menu???");
@@ -502,7 +502,7 @@ void c_debug_menu::clear()
 
 		if (c_debug_menu_item* item = m_items[item_index])
 			item->~c_debug_menu_item();
-		m_items[item_index] = NULL;
+		m_items[item_index] = nullptr;
 	}
 
 	set_num_items(0);
@@ -537,7 +537,7 @@ void c_debug_menu::set_selection(int16 selection)
 c_debug_menu_item* c_debug_menu::get_item(int16 item_index)
 {
 	ASSERT(get_num_items() >= 0 && get_num_items() < k_max_items);
-	ASSERT(m_items[item_index] != NULL);
+	ASSERT(m_items[item_index] != nullptr);
 	ASSERT(VALID_INDEX(item_index, get_num_items()));
 
 	return m_items[item_index];
@@ -560,7 +560,7 @@ void c_debug_menu::set_name(const char* name)
 {
 	int32 name_size = strlen_debug(name) + 1;
 
-	ASSERT(m_name == NULL);
+	ASSERT(m_name == nullptr);
 	m_name = static_cast<char*>(debug_menu_malloc(name_size));
 	csstrnzcpy(m_name, name, name_size);
 }
@@ -569,7 +569,7 @@ void c_debug_menu::set_caption(const char* caption)
 {
 	int32 caption_size = strlen_debug(caption) + 1;
 
-	//ASSERT(m_caption == NULL);
+	//ASSERT(m_caption == nullptr);
 	m_caption = static_cast<char*>(debug_menu_malloc(caption_size));
 	csstrnzcpy(m_caption, caption, caption_size);
 }

@@ -96,7 +96,7 @@ const c_gui_selected_item* c_gui_level_subitem_selectable_item_datasource::get_g
 
 	if (!VALID_INDEX(element_handle, m_level_count))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &m_levels[element_handle].item;

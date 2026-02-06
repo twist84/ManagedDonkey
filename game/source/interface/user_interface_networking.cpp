@@ -131,7 +131,7 @@ int32 __cdecl user_interface_networking_get_current_party_size()
 	return INVOKE(0x00A7F050, user_interface_networking_get_current_party_size);
 
 	//int32 player_count = 1;
-	//if (network_squad_session_get_membership(NULL, NULL, NULL, NULL, NULL, NULL, NULL, &player_count, NULL, NULL))
+	//if (network_squad_session_get_membership(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, &player_count, nullptr, nullptr))
 	//	return player_count;
 	//
 	//return player_count;
@@ -145,7 +145,7 @@ const c_game_results* __cdecl user_interface_networking_get_final_game_results()
 	//if (final_game_results && final_game_results->game_description.finished)
 	//	return final_game_results;
 	//
-	//return NULL;
+	//return nullptr;
 }
 
 int32 __cdecl user_interface_networking_get_maximum_party_size()

@@ -23,7 +23,7 @@
 #include <ctype.h>
 
 s_hs_compile_globals hs_compile_globals{};
-char* g_error_output_buffer = NULL;
+char* g_error_output_buffer = nullptr;
 int32 g_error_buffer_length = 0;
 static s_hs_static_globals hs_static_globals;
 
@@ -143,7 +143,7 @@ return_type_t hs_check_block_index_type_and_return(return_type_t return_value)
 
 hs_source_file* source_offset_get_source_file(int32 offset, int32* offset_within_file)
 {
-	hs_source_file* result = NULL;
+	hs_source_file* result = nullptr;
 
 	const struct scenario* scenario = global_scenario_get();
 	int32 total_source_size = 0;
@@ -441,7 +441,7 @@ void hs_compile_add_reference(int32 referred_index, e_reference_type reference_t
 			reference->type = referer_type;
 			reference->index = referer_index;
 			reference->node_index = node_index;
-			reference->next = NULL;
+			reference->next = nullptr;
 
 			switch (reference_type)
 			{
@@ -479,10 +479,10 @@ char* hs_compile_add_source(int32 source_size, const char* source_data)
 	// $IMPLEMENT
 
 #if 1
-	char* compiled_new_source = NULL;
+	char* compiled_new_source = nullptr;
 #else
 #define system_realloc realloc
-	char* compiled_new_source = NULL;
+	char* compiled_new_source = nullptr;
 	char* compiled_source = (char*)system_realloc(hs_compile_globals.compiled_source, source_size + hs_compile_globals.compiled_source_size + 1);
 	if (compiled_source)
 	{
@@ -508,8 +508,8 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 	hs_validify_expression(expression, expressionbuf, sizeof(expressionbuf));
 	if (string_is_not_empty(expressionbuf))
 	{
-		const char* error_message = NULL;
-		const char* error_source = NULL;
+		const char* error_message = nullptr;
+		const char* error_source = nullptr;
 
 		if (g_hs_syntax_data && g_hs_syntax_data->valid && hs_runtime_safe_to_gc())
 		{
@@ -530,7 +530,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 		{
 			if (error_message)
 			{
-				hs_compile_source_error(NULL, error_message, error_source, expressionbuf);
+				hs_compile_source_error(nullptr, error_message, error_source, expressionbuf);
 			}
 		}
 		else
@@ -549,7 +549,7 @@ bool hs_compile_and_evaluate(e_event_level event_level, const char* source, cons
 
 	if (g_recompile_scripts)
 	{
-		hs_rebuild_and_compile(NULL, false, true);
+		hs_rebuild_and_compile(nullptr, false, true);
 		g_recompile_scripts = false;
 	}
 
@@ -565,8 +565,8 @@ void hs_compile_first_pass(s_hs_compile_state* compile_state, int32 source_file_
 	tokenizer.source_file_size = source_file_size;
 	if (tokenizer.cursor = hs_compile_add_source(source_file_size, source_file_data))
 	{
-		hs_compile_globals.error_message = NULL;
-		*error_message_pointer = NULL;
+		hs_compile_globals.error_message = nullptr;
+		*error_message_pointer = nullptr;
 		hs_compile_globals.error_offset = NONE;
 	
 		skip_whitespace(&tokenizer.cursor);
@@ -604,26 +604,26 @@ void hs_compile_dispose()
 	if (hs_compile_globals.malloced)
 	{
 		system_free(compiled_source);
-		hs_compile_globals.compiled_source = NULL;
+		hs_compile_globals.compiled_source = nullptr;
 		hs_compile_globals.malloced = false;
 	}
 
 	if (hs_compile_globals.references)
 	{
 		system_free(hs_compile_globals.references);
-		hs_compile_globals.references = NULL;
+		hs_compile_globals.references = nullptr;
 	}
 
 	if (hs_compile_globals.script_references)
 	{
 		system_free(hs_compile_globals.script_references);
-		hs_compile_globals.script_references = NULL;
+		hs_compile_globals.script_references = nullptr;
 	}
 
 	if (hs_compile_globals.global_references)
 	{
 		system_free(hs_compile_globals.global_references);
-		hs_compile_globals.global_references = NULL;
+		hs_compile_globals.global_references = nullptr;
 	}
 
 	hs_compile_globals.initialized = false;
@@ -672,8 +672,8 @@ int32 hs_compile_expression(int32 source_size, const char* source_data, const ch
 			hs_compile_globals.compiled_source_size = old_size + source_size;
 			hs_compile_globals.compiled_source[old_size + source_size] = 0;
 
-			*error_message_pointer = NULL;
-			*error_source_pointer = NULL;
+			*error_message_pointer = nullptr;
+			*error_source_pointer = nullptr;
 
 			hs_compile_globals.error_message = 0;
 			hs_compile_globals.error_offset = NONE;
@@ -757,17 +757,17 @@ void hs_compile_initialize(bool permanent)
 	ASSERT(!hs_compile_globals.initialized);
 
 	hs_compile_globals.initialized = true;
-	hs_compile_globals.compiled_source = NULL;
+	hs_compile_globals.compiled_source = nullptr;
 	hs_compile_globals.compiled_source_size = 0;
 	hs_compile_globals.permanent = permanent;
-	hs_compile_globals.error_message = NULL;
+	hs_compile_globals.error_message = nullptr;
 	hs_compile_globals.error_offset = NONE;
 	hs_compile_globals.indent = 0;
 	hs_compile_globals.current_script_index = NONE;
 	hs_compile_globals.current_global_index = NONE;
-	hs_compile_globals.references = NULL;
-	hs_compile_globals.script_references = NULL;
-	hs_compile_globals.global_references = NULL;
+	hs_compile_globals.references = nullptr;
+	hs_compile_globals.script_references = nullptr;
+	hs_compile_globals.global_references = nullptr;
 	hs_compile_globals.allocated_references = 0;
 
 	if (permanent)
@@ -793,12 +793,12 @@ void hs_compile_initialize(bool permanent)
 
 		for (int32 script_index = 0; script_index < k_maximum_hs_scripts_per_scenario; script_index++)
 		{
-			hs_compile_globals.script_references = NULL;
+			hs_compile_globals.script_references = nullptr;
 		}
 
 		for (int32 global_index = 0; global_index < k_maximum_hs_globals_per_scenario; global_index++)
 		{
-			hs_compile_globals.global_references = NULL;
+			hs_compile_globals.global_references = nullptr;
 		}
 	}
 }
@@ -818,8 +818,8 @@ bool hs_compile_postprocess_and_verify(const char** error_message_pointer, const
 	hs_compile_globals.current_script_index = NONE;
 	hs_compile_globals.current_global_index = NONE;
 
-	*error_message_pointer = NULL;
-	*error_source_pointer = NULL;
+	*error_message_pointer = nullptr;
+	*error_source_pointer = nullptr;
 
 	for (int32 node_index = data_next_index(g_hs_syntax_data, NONE);
 		success&& node_index != NONE;
@@ -851,7 +851,7 @@ bool hs_compile_postprocess_and_verify(const char** error_message_pointer, const
 
 								if (success)
 								{
-									hs_compile_globals.error_message = NULL;
+									hs_compile_globals.error_message = nullptr;
 									hs_compile_globals.error_offset = NONE;
 								}
 							}
@@ -876,10 +876,10 @@ bool hs_compile_postprocess_and_verify(const char** error_message_pointer, const
 				}
 				else
 				{
-					const char* name = NULL;
+					const char* name = nullptr;
 					if (TEST_BIT(node->flags, _hs_syntax_node_script_bit))
 					{
-						hs_script* script = NULL;
+						hs_script* script = nullptr;
 						if (VALID_INDEX(node->script_index, global_scenario_get()->hs_scripts.count)
 							&& (script = TAG_BLOCK_GET_ELEMENT_SAFE(&global_scenario_get()->hs_scripts, node->script_index, hs_script), script->script_type == _hs_script_static))
 						{
@@ -994,8 +994,8 @@ bool hs_compile_postprocess_and_verify(const char** error_message_pointer, const
 			*error_source_pointer = &hs_compile_globals.compiled_source[hs_compile_globals.error_offset];
 		}
 
-		hs_compile_globals.compiled_source = NULL;
-		hs_compile_globals.error_message = NULL;
+		hs_compile_globals.compiled_source = nullptr;
+		hs_compile_globals.error_message = nullptr;
 		hs_compile_globals.error_offset = NONE;
 		hs_compile_globals.variables_predetermined = false;
 	}
@@ -1029,7 +1029,7 @@ bool hs_compile_register_error_listener(c_hs_compile_error_listener* listener)
 	bool successfully_added = 0;
 	for (int32 compile_error_listener_index = 0; compile_error_listener_index < hs_static_globals.k_maximum_hs_compile_error_listeners; compile_error_listener_index++)
 	{
-		if (hs_static_globals.compile_error_listeners[compile_error_listener_index] == NULL)
+		if (hs_static_globals.compile_error_listeners[compile_error_listener_index] == nullptr)
 		{
 			hs_static_globals.compile_error_listeners[compile_error_listener_index] = listener;
 
@@ -1174,7 +1174,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 		{
 			ascii_strnlwr(source_text, source_file->source.size);
 
-			const char* error_message = NULL;
+			const char* error_message = nullptr;
 			int32 error_offset = NONE;
 			hs_compile_first_pass(&compile_state, source_file->source.size, source_text, &error_message, &error_offset);
 			total_source_size += source_file->source.size;
@@ -1235,7 +1235,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 
 void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source)
 {
-	const char* newline = NULL;
+	const char* newline = nullptr;
 	if (error_source)
 	{
 		newline = strchr(error_source, '\n');
@@ -1311,7 +1311,7 @@ void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* 
 void fail_special_form_recursive(int32* strip_globals, int32* strip_scripts, int32 index, e_reference_type type)
 {
 #if 0
-	s_hs_reference* reference = NULL;
+	s_hs_reference* reference = nullptr;
 	struct scenario* scenario = global_scenario_get();
 	switch (type)
 	{
@@ -1401,7 +1401,7 @@ void hs_compile_unregister_error_listener(c_hs_compile_error_listener* listener)
 	{
 		if (hs_static_globals.compile_error_listeners[compile_error_listener_index] == listener)
 		{
-			hs_static_globals.compile_error_listeners[compile_error_listener_index] = NULL;
+			hs_static_globals.compile_error_listeners[compile_error_listener_index] = nullptr;
 		}
 	}
 }
@@ -2173,7 +2173,7 @@ bool hs_parse_object(int32 expression_index)
 
 		if (!success && hs_parse_ai(expression_index))
 		{
-			hs_compile_globals.error_message = NULL;
+			hs_compile_globals.error_message = nullptr;
 			hs_compile_globals.error_offset = NONE;
 			success = true;
 		}
@@ -3242,12 +3242,12 @@ bool hs_verify_source_offset(int32 source_offset)
 
 hs_type_primitive_parser_t* hs_type_primitive_parsers[NUMBER_OF_HS_NODE_TYPES]
 {
-	NULL,                                 // unparsed
-	NULL,                                 // special_form
-	NULL,                                 // function_name
-	NULL,                                 // passthrough
+	nullptr,                                 // unparsed
+	nullptr,                                 // special_form
+	nullptr,                                 // function_name
+	nullptr,                                 // passthrough
 
-	NULL,                                 // void
+	nullptr,                                 // void
 	hs_parse_boolean,                     // boolean
 	hs_parse_real,                        // real32
 	hs_parse_integer,                     // short_integer

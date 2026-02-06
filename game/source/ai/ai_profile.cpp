@@ -20,35 +20,35 @@ ai_profile_state ai_profile{};
 ai_meter_definition global_ai_meter_definitions[NUMBER_OF_AI_METERS]
 {
 	{ _ai_meter_encounter_active, 0, ai_meter_actor },
-	{ _ai_meter_actor, 0, NULL },
-	{ _ai_meter_actor_active, 0, NULL },
-	{ _ai_meter_actor_non_dormant, 0, NULL },
+	{ _ai_meter_actor, 0, nullptr },
+	{ _ai_meter_actor_active, 0, nullptr },
+	{ _ai_meter_actor_non_dormant, 0, nullptr },
 
 	{ _ai_meter_unit, 0, ai_meter_unit },
-	{ _ai_meter_unit_active, 0, NULL },
-	{ _ai_meter_unit_non_dormant, 0, NULL },
+	{ _ai_meter_unit_active, 0, nullptr },
+	{ _ai_meter_unit_non_dormant, 0, nullptr },
 
 	{ _ai_meter_prop, 0, ai_meter_prop },
-	{ _ai_meter_prop_acknowledged_body, 0, NULL },
-	{ _ai_meter_prop_orphaned_body, 0, NULL },
-	{ _ai_meter_prop_unacknowledged_body, 0, NULL },
-	{ _ai_meter_prop_acknowledged_enemy, 0, NULL },
-	{ _ai_meter_prop_orphaned_enemy, 0, NULL },
-	{ _ai_meter_prop_unacknowledged_enemy, 0, NULL },
-	{ _ai_meter_prop_acknowledged_friend, 0, NULL },
-	{ _ai_meter_prop_orphaned_friend, 0, NULL },
-	{ _ai_meter_prop_unacknowledged_friend, 0, NULL },
+	{ _ai_meter_prop_acknowledged_body, 0, nullptr },
+	{ _ai_meter_prop_orphaned_body, 0, nullptr },
+	{ _ai_meter_prop_unacknowledged_body, 0, nullptr },
+	{ _ai_meter_prop_acknowledged_enemy, 0, nullptr },
+	{ _ai_meter_prop_orphaned_enemy, 0, nullptr },
+	{ _ai_meter_prop_unacknowledged_enemy, 0, nullptr },
+	{ _ai_meter_prop_acknowledged_friend, 0, nullptr },
+	{ _ai_meter_prop_orphaned_friend, 0, nullptr },
+	{ _ai_meter_prop_unacknowledged_friend, 0, nullptr },
 
 	{ _ai_meter_swarm_actor, 0, ai_meter_swarm_actor },
 	{ _ai_meter_swarm_cache, 0, ai_meter_swarm_cache },
 
-	{ _ai_meter_collision_vector, 0, NULL },
-	{ _ai_meter_line_of_sight, 0, NULL },
-	{ _ai_meter_line_of_fire, 0, NULL },
-	{ _ai_meter_path_flood, 0, NULL },
-	{ _ai_meter_path_find, 0, NULL },
-	{ _ai_meter_action_change, 0, NULL },
-	{ _ai_meter_firing_point_eval, 0, NULL }
+	{ _ai_meter_collision_vector, 0, nullptr },
+	{ _ai_meter_line_of_sight, 0, nullptr },
+	{ _ai_meter_line_of_fire, 0, nullptr },
+	{ _ai_meter_path_flood, 0, nullptr },
+	{ _ai_meter_path_find, 0, nullptr },
+	{ _ai_meter_action_change, 0, nullptr },
+	{ _ai_meter_firing_point_eval, 0, nullptr }
 };
 
 const char* spray_mode_names[NUMBER_OF_AI_PROFILE_RENDER_SPRAY_MODES]
@@ -187,7 +187,7 @@ void ai_profile_render()
 	if (ai_globals->ai_initialized_for_map)
 	{
 		rectangle2d bounds{};
-		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		global_ai_profile_draw_string_position = bounds.y1 - 20;
 		ai_profile_render_spray();
 		if (ai_profile.show)
@@ -230,7 +230,7 @@ void ai_profile_render_spray()
 			{
 				actor_datum* actor = DATUM_GET(actor_data, actor_datum, iterator.index);
 
-				const real_argb_color* debug_color = NULL;
+				const real_argb_color* debug_color = nullptr;
 				if (ai_profile.render_spray_mode == _ai_profile_render_spray_actions)
 				{
 					debug_color = global_real_argb_black;

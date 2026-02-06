@@ -290,7 +290,7 @@ void c_saved_film_history_record_manager::validate()
 
 c_async_stored_buffer_set<1>* saved_film_history_buffer_acquire()
 {
-	c_async_stored_buffer_set<1>* history_buffer = NULL;
+	c_async_stored_buffer_set<1>* history_buffer = nullptr;
 #if 0
 	c_saved_film_scratch_memory::s_system_data* system_data;
 	{
@@ -366,7 +366,7 @@ int32 saved_film_history_get_target_record_index_by_tick(int32 tick_index)
 
 void saved_film_history_initialize()
 {
-	saved_film_history_globals.history_buffer = NULL;
+	saved_film_history_globals.history_buffer = nullptr;
 	saved_film_history_initialize_internal();
 }
 
@@ -399,7 +399,7 @@ void saved_film_history_memory_dispose()
 	{
 		saved_film_history_globals.history_buffer->block_until_not_busy();
 		saved_film_history_buffer_release();
-		saved_film_history_globals.history_buffer = NULL;
+		saved_film_history_globals.history_buffer = nullptr;
 	}
 #endif
 }
@@ -663,7 +663,7 @@ void saved_film_history_update()
 		event(_event_message, "networking:saved_film:history: releasing the history buffer");
 
 		saved_film_history_buffer_release();
-		saved_film_history_globals.history_buffer = NULL;
+		saved_film_history_globals.history_buffer = nullptr;
 	}
 }
 

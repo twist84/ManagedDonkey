@@ -12,7 +12,7 @@
 //{
 //	if (unicode_warn_on_truncation)
 //	{
-//		ASSERT(string != NULL);
+//		ASSERT(string != nullptr);
 //
 //		int32 source_string_size = 0;
 //		while (string[source_string_size++]);
@@ -29,7 +29,7 @@
 
 unsigned int ustrnlen(const wchar_t* string, int32 count)
 {
-	ASSERT(string != NULL);
+	ASSERT(string != nullptr);
 
 	return wcsnlen(string, count);
 }
@@ -46,16 +46,16 @@ wchar_t* ustrnzcat(wchar_t* dest, const wchar_t* src, int32 count)
 
 int ustrncmp(const wchar_t* string1, const wchar_t* string2, int32 max_count)
 {
-	ASSERT(string1 != NULL);
-	ASSERT(string2 != NULL);
+	ASSERT(string1 != nullptr);
+	ASSERT(string2 != nullptr);
 
 	return wcsncmp(string1, string2, max_count);
 }
 
 wchar_t* ustrncpy(wchar_t* dest, const wchar_t* src, int32 count)
 {
-	//ASSERT(dest != NULL);
-	//ASSERT(src != NULL);
+	//ASSERT(dest != nullptr);
+	//ASSERT(src != nullptr);
 	//
 	//check_source_string_against_copy_buffer_size(src, count + 1);
 
@@ -64,8 +64,8 @@ wchar_t* ustrncpy(wchar_t* dest, const wchar_t* src, int32 count)
 
 wchar_t* ustrnzcpy(wchar_t* dest, const wchar_t* src, int32 count)
 {
-	ASSERT(dest != NULL);
-	ASSERT(src != NULL);
+	ASSERT(dest != nullptr);
+	ASSERT(src != nullptr);
 	ASSERT(count > 0);
 
 	//check_source_string_against_copy_buffer_size(src, count);

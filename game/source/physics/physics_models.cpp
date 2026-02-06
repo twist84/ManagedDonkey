@@ -226,8 +226,8 @@ bool __cdecl physics_model_instance_new(s_physics_model_instance* instance, int3
 	//s_physics_model_definition* physics_model = TAG_GET(PHYSICS_MODEL_TAG, s_physics_model_definition, model->physics_model.index);
 	//
 	//int32 region_count = 0;
-	//char* region_permutation_indices = NULL;
-	//object_get_region_information(object_index, &region_count, &region_permutation_indices, NULL, NULL);
+	//char* region_permutation_indices = nullptr;
+	//object_get_region_information(object_index, &region_count, &region_permutation_indices, nullptr, nullptr);
 	//
 	//int32 node_matrices_count = 0;
 	//real_matrix4x3* node_matrices = object_get_node_matrices(object_index, &node_matrices_count);
@@ -305,7 +305,7 @@ void __cdecl render_debug_physics_model(const s_physics_model_instance* instance
 	{
 		const s_model_region* region = TAG_BLOCK_GET_ELEMENT(&model->runtime_regions, region_index, s_model_region);
 		ASSERT(region_index < model->runtime_regions.count);
-		ASSERT(region != NULL);
+		ASSERT(region != nullptr);
 
 		const int16 physics_region_index = region->physics_region_index;
 		const int16 region_permutation_index = instance->region_permutation_indices[region_index];
@@ -316,7 +316,7 @@ void __cdecl render_debug_physics_model(const s_physics_model_instance* instance
 		}
 
 		const s_model_permutation* region_permutation = TAG_BLOCK_GET_ELEMENT(&region->permutations, region_permutation_index, s_model_permutation);
-		ASSERT(region_permutation != NULL);
+		ASSERT(region_permutation != nullptr);
 
 		const int16 physics_permutation_index = region_permutation->physics_permutation_index;
 		if (physics_permutation_index == NONE)
@@ -325,17 +325,17 @@ void __cdecl render_debug_physics_model(const s_physics_model_instance* instance
 		}
 
 		const s_physics_model_region* physics_region = TAG_BLOCK_GET_ELEMENT(&physics_model->regions, physics_region_index, s_physics_model_region);
-		ASSERT(physics_region != NULL);
+		ASSERT(physics_region != nullptr);
 
 		const s_physics_model_permutation* physics_permutation = TAG_BLOCK_GET_ELEMENT(&physics_region->permutations, physics_permutation_index, s_physics_model_permutation);
-		ASSERT(physics_permutation != NULL);
+		ASSERT(physics_permutation != nullptr);
 
 		for (int32 rigid_body_num = 0; rigid_body_num < physics_permutation->rigid_body_indices.count; rigid_body_num++)
 		{
 			const int16* rigid_body_indices = TAG_BLOCK_GET_ELEMENT(&physics_permutation->rigid_body_indices, rigid_body_num, int16);
 			const int16 rigid_body_index = *rigid_body_indices;
 			const s_physics_model_rigid_body* rigid_body = TAG_BLOCK_GET_ELEMENT(&physics_model->rigid_bodies, rigid_body_index, s_physics_model_rigid_body);
-			ASSERT(rigid_body != NULL);
+			ASSERT(rigid_body != nullptr);
 
 			const int16 node_index = rigid_body->node_index;
 			const real_matrix4x3* matrix = &instance->object_matrix;

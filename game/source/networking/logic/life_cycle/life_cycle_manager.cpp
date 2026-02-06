@@ -38,7 +38,7 @@ void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state sta
 	//INVOKE_CLASS_MEMBER(0x0048D180, c_life_cycle_state_manager, deregister_state_handler, state, handler);
 
 	ASSERT(m_handlers[state] == handler);
-	m_handlers[state] = NULL;
+	m_handlers[state] = nullptr;
 }
 
 void c_life_cycle_state_manager::display_state_strings()
@@ -56,7 +56,7 @@ void c_life_cycle_state_manager::dispose()
 
 c_network_session* c_life_cycle_state_manager::get_active_squad_session() const
 {
-	ASSERT(m_active_squad_session != NULL);
+	ASSERT(m_active_squad_session != nullptr);
 	return m_active_squad_session;
 }
 
@@ -64,13 +64,13 @@ c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handle
 {
 	//return INVOKE_CLASS_MEMBER(0x0048D340, c_life_cycle_state_manager, get_current_state_handler);
 
-	ASSERT(m_handlers[get_current_state()] != NULL);
+	ASSERT(m_handlers[get_current_state()] != nullptr);
 	return m_handlers[get_current_state()];
 }
 
 c_network_session* c_life_cycle_state_manager::get_group_session() const
 {
-	ASSERT(m_group_session != NULL);
+	ASSERT(m_group_session != nullptr);
 	return m_group_session;
 }
 
@@ -81,13 +81,13 @@ c_matchmaking_quality* c_life_cycle_state_manager::get_matchmaking_quality()
 
 c_network_observer* c_life_cycle_state_manager::get_observer() const
 {
-	ASSERT(m_observer != NULL);
+	ASSERT(m_observer != nullptr);
 	return m_observer;
 }
 
 c_network_session* c_life_cycle_state_manager::get_target_session() const
 {
-	ASSERT(m_target_session != NULL);
+	ASSERT(m_target_session != nullptr);
 	return m_target_session;
 }
 
@@ -126,7 +126,7 @@ void c_life_cycle_state_manager::notify_expect_squad_join()
 		return;
 	}
 	
-	c_life_cycle_state_manager::set_current_state(_life_cycle_state_joining, 0, NULL);
+	c_life_cycle_state_manager::set_current_state(_life_cycle_state_joining, 0, nullptr);
 }
 
 void c_life_cycle_state_manager::notify_lost_connection()
@@ -160,7 +160,7 @@ void c_life_cycle_state_manager::notify_session_disbandment_and_host_assumption(
 
 void c_life_cycle_state_manager::register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
 {
-	ASSERT(m_handlers[state] == NULL);
+	ASSERT(m_handlers[state] == nullptr);
 	m_handlers[state] = handler;
 }
 
@@ -195,7 +195,7 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 	if (m_pending_state_change_entry_data_size > 0)
 	{
-		ASSERT(entry_data != NULL);
+		ASSERT(entry_data != nullptr);
 		csmemcpy(m_pending_state_change_entry_data, entry_data, m_pending_state_change_entry_data_size);
 	}
 }
@@ -204,7 +204,7 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, int
 {
 	//INVOKE_CLASS_MEMBER(0x0048E0E0, c_life_cycle_state_manager, set_current_state, state, entry_data_size, entry_data);
 
-	ASSERT((entry_data_size == 0 && entry_data == NULL) || (entry_data_size > 0 && entry_data != NULL));
+	ASSERT((entry_data_size == 0 && entry_data == nullptr) || (entry_data_size > 0 && entry_data != nullptr));
 
 	if (m_current_state != state)
 	{
@@ -212,8 +212,8 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, int
 
 		c_life_cycle_state_handler* from_handler = m_handlers[get_current_state()];
 		c_life_cycle_state_handler* to_handler = m_handlers[state];
-		ASSERT(from_handler != NULL);
-		ASSERT(to_handler != NULL);
+		ASSERT(from_handler != nullptr);
+		ASSERT(to_handler != nullptr);
 
 		from_handler->exit(to_handler);
 		to_handler->enter(from_handler, entry_data_size, entry_data);
@@ -275,7 +275,7 @@ void c_life_cycle_state_manager::terminate()
 {
 	//INVOKE_CLASS_MEMBER(0x0048E440, c_life_cycle_state_manager, terminate);
 
-	set_current_state(_life_cycle_state_none, 0, NULL);
+	set_current_state(_life_cycle_state_none, 0, nullptr);
 }
 
 void c_life_cycle_state_manager::update()

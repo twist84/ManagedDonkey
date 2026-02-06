@@ -11,7 +11,7 @@
 
 DWORD WINAPI XGetOverlappedExtendedError(PXOVERLAPPED pOverlapped)
 {
-	if (pOverlapped == NULL)
+	if (pOverlapped == nullptr)
 		return GetLastError();
 
 	if (pOverlapped->InternalLow == ERROR_IO_PENDING)
@@ -175,9 +175,9 @@ int32 XShowKeyboardUI(
 // $TODO add an icon for notifications, more customization?
 void display_notification(const wchar_t* tip, const wchar_t* info, const wchar_t* info_title)
 {
-	ASSERT(tip != NULL);
-	ASSERT(info != NULL);
-	ASSERT(info_title != NULL);
+	ASSERT(tip != nullptr);
+	ASSERT(info != nullptr);
+	ASSERT(info_title != nullptr);
 
 	NOTIFYICONDATAW notify_icon_data = { sizeof(NOTIFYICONDATAW) };
 
@@ -188,7 +188,7 @@ void display_notification(const wchar_t* tip, const wchar_t* info, const wchar_t
 	notify_icon_data.uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE;
 
 	// Load an icon
-	notify_icon_data.hIcon = LoadIcon(NULL, IDI_INFORMATION);
+	notify_icon_data.hIcon = LoadIcon(nullptr, IDI_INFORMATION);
 	wcscpy_s(notify_icon_data.szTip, tip);
 	notify_icon_data.uCallbackMessage = WM_USER;
 

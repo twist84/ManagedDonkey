@@ -22,9 +22,9 @@ const real_argb_color* c_debug_menu_item_hs_command::get_enabled_color()
 }
 
 c_debug_menu_item_hs_command::c_debug_menu_item_hs_command(c_debug_menu* menu, const char* name, const char* command) :
-	c_debug_menu_item_numbered(menu, name, NULL)
+	c_debug_menu_item_numbered(menu, name, nullptr)
 {
-	ASSERT(name != NULL && command != NULL && menu != NULL);
+	ASSERT(name != nullptr && command != nullptr && menu != nullptr);
 
 	int32 command_length = strlen_debug(command) + 1;
 	ASSERT(command_length > 0);

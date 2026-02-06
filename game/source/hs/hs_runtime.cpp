@@ -373,8 +373,8 @@ int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_
 
 	hs_stack_pointer evaluation_results_reference{};
 	int32* evaluation_results = (int32*)hs_stack_allocate(thread_index, sizeof(int32) * formal_parameter_count, 2, &evaluation_results_reference);
-	int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
-	int32* expression_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, nullptr);
+	int32* expression_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	if (evaluation_results && argument_index && expression_index)
 	{
 		if (initialize)
@@ -393,7 +393,7 @@ int32* __cdecl hs_arguments_evaluate(int32 thread_index, int16 formal_parameter_
 				destination.destination_type = _hs_destination_stack;
 				destination.stack_pointer = evaluation_results_reference;
 				destination.stack_pointer.stack_offset += sizeof(int32) * *argument_index;
-				hs_evaluate(thread_index, *expression_index, destination, NULL);
+				hs_evaluate(thread_index, *expression_index, destination, nullptr);
 				*expression_index = hs_syntax_get(*expression_index)->next_node_index;
 				(*argument_index)++;
 				evaluation_results = 0;
@@ -447,7 +447,7 @@ bool __cdecl hs_can_cast(int16 actual_type, int16 desired_type)
 	//	return hs_object_type_can_cast(actual_type - _hs_type_object_name, desired_type - _hs_type_object_name);
 	//
 	//if (HS_TYPE_IS_OBJECT_NAME(actual_type))
-	//	return g_typecasting_procedures[desired_type][actual_type] != NULL;
+	//	return g_typecasting_procedures[desired_type][actual_type] != nullptr;
 	//
 	//return false;
 }
@@ -468,12 +468,12 @@ int32* __cdecl hs_destination(hs_thread* thread, hs_destination_pointer destinat
 {
 	//return INVOKE(0x00594460, hs_destination, thread, destination_pointer);
 
-	int32* destination = NULL;
+	int32* destination = nullptr;
 	switch (destination_pointer.destination_type)
 	{
 	case _hs_destination_none:
 	{
-		destination = NULL;
+		destination = nullptr;
 	}
 	break;
 	case _hs_destination_stack:
@@ -583,11 +583,11 @@ void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bo
 	//INVOKE(0x00594680, hs_evaluate_arithmetic, function_index, thread_index, initialize);
 
 	const hs_thread* thread = hs_thread_get(thread_index);
-	int16* parameter_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
-	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int16* parameter_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, nullptr);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	hs_stack_pointer result_reference{};
 	int32* parameter_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
-	real32* result = (real32*)hs_stack_allocate(thread_index, sizeof(real32), 2, NULL);
+	real32* result = (real32*)hs_stack_allocate(thread_index, sizeof(real32), 2, nullptr);
 	if (parameter_index && parameters_index && parameter_result && result)
 	{
 		if (initialize)
@@ -664,7 +664,7 @@ void __cdecl hs_evaluate_arithmetic(int16 function_index, int32 thread_index, bo
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = result_reference;
-			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			hs_evaluate(thread_index, *parameters_index, destination, nullptr);
 			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
 		}
 		else
@@ -681,7 +681,7 @@ void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool in
 	//INVOKE(0x00594960, hs_evaluate_begin, function_index, thread_index, initialize);
 
 	const hs_thread* thread = hs_thread_get(thread_index);
-	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	hs_stack_pointer result_reference{};
 	int32* parameters_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
 	if (parameters_index && parameters_result)
@@ -698,7 +698,7 @@ void __cdecl hs_evaluate_begin(int16 function_index, int32 thread_index, bool in
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = result_reference;
-			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			hs_evaluate(thread_index, *parameters_index, destination, nullptr);
 			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
 		}
 		else
@@ -713,8 +713,8 @@ void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, 
 	//INVOKE(0x00594AB0, hs_evaluate_begin_random, function_index, thread_index, initialize);
 
 	hs_thread const* thread = hs_thread_get(thread_index);
-	int16* argument_count = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
-	int32* argument_evaluation_flags = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int16* argument_count = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, nullptr);
+	int32* argument_evaluation_flags = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	hs_stack_pointer result_reference{};
 	int32* result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
 	if (argument_count && argument_evaluation_flags && result)
@@ -751,7 +751,7 @@ void __cdecl hs_evaluate_begin_random(int16 function_index, int32 thread_index, 
 				hs_destination_pointer destination;
 				destination.destination_type = _hs_destination_stack;
 				destination.stack_pointer = result_reference;
-				hs_evaluate(thread_index, hs_syntax_nth(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, actual_argument_index), destination, NULL);
+				hs_evaluate(thread_index, hs_syntax_nth(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, actual_argument_index), destination, nullptr);
 				BIT_VECTOR_OR_FLAG(argument_evaluation_flags, actual_argument_index);
 				break;
 			}
@@ -770,11 +770,11 @@ void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, 
 	//INVOKE(0x00594D20, hs_evaluate_debug_string, function_index, thread_index, initialize);
 
 	hs_thread const* thread = hs_thread_get(thread_index);
-	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	hs_stack_pointer parameters_result_reference{};
 	int32* parameters_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &parameters_result_reference);
-	int32* string_count = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
-	char** string_storage = (char**)hs_stack_allocate(thread_index, 128, 2, NULL);
+	int32* string_count = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
+	char** string_storage = (char**)hs_stack_allocate(thread_index, 128, 2, nullptr);
 	if (parameters_index && parameters_result && string_count && string_storage)
 	{
 		ASSERT(IN_RANGE_INCLUSIVE(function_index, _hs_function_debug_string__first, _hs_function_debug_string__last));
@@ -790,7 +790,7 @@ void __cdecl hs_evaluate_debug_string(int16 function_index, int32 thread_index, 
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = parameters_result_reference;
-			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			hs_evaluate(thread_index, *parameters_index, destination, nullptr);
 			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
 			string_storage[(*string_count)++] = (char*)*parameters_result;
 		}
@@ -841,7 +841,7 @@ void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initi
 	const hs_thread* thread = hs_thread_get(thread_index);
 	hs_stack_pointer condition_result_reference{};
 	int32* condition_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &condition_result_reference);
-	int32* evaluate_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int32* evaluate_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	hs_stack_pointer evaluate_result_reference{};
 	int32* evaluate_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &evaluate_result_reference);
 	if (condition_result && evaluate_index && evaluate_result)
@@ -855,7 +855,7 @@ void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initi
 			destination.stack_pointer = condition_result_reference;
 			*condition_result = 0;
 			*evaluate_index = NONE;
-			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, nullptr);
 		}
 		else if (*evaluate_index == NONE)
 		{
@@ -866,7 +866,7 @@ void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initi
 			if (*(bool*)condition_result)
 			{
 				*evaluate_index = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index)->next_node_index;
-				hs_evaluate(thread_index, *evaluate_index, destination, NULL);
+				hs_evaluate(thread_index, *evaluate_index, destination, nullptr);
 			}
 			else
 			{
@@ -877,7 +877,7 @@ void __cdecl hs_evaluate_if(int16 function_index, int32 thread_index, bool initi
 				}
 				else
 				{
-					hs_evaluate(thread_index, *evaluate_index, destination, NULL);
+					hs_evaluate(thread_index, *evaluate_index, destination, nullptr);
 				}
 			}
 		}
@@ -979,7 +979,7 @@ void __cdecl hs_evaluate_inspect(int16 function_index, int32 thread_index, bool 
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = expression_reference;
-			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, nullptr);
 		}
 		else
 		{
@@ -1003,10 +1003,10 @@ void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool 
 	//INVOKE(0x00595550, hs_evaluate_logical, function_index, thread_index, initialize);
 
 	const hs_thread* thread = hs_thread_get(thread_index);
-	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+	int32* parameters_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 	hs_stack_pointer result_reference{};
 	int32* parameter_result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
-	bool* result = (bool*)hs_stack_allocate(thread_index, sizeof(bool), 0, NULL);
+	bool* result = (bool*)hs_stack_allocate(thread_index, sizeof(bool), 0, nullptr);
 	if (parameters_index && parameter_result && result)
 	{
 		ASSERT(function_index == _hs_function_and || function_index == _hs_function_or);
@@ -1035,7 +1035,7 @@ void __cdecl hs_evaluate_logical(int16 function_index, int32 thread_index, bool 
 			hs_destination_pointer destination;
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = result_reference;
-			hs_evaluate(thread_index, *parameters_index, destination, NULL);
+			hs_evaluate(thread_index, *parameters_index, destination, nullptr);
 			*parameters_index = hs_syntax_get(*parameters_index)->next_node_index;
 		}
 		else
@@ -1062,7 +1062,7 @@ void __cdecl hs_evaluate_object_cast_up(int16 function_index, int32 thread_index
 			hs_destination_pointer destination;
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = result_reference;
-			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, nullptr);
 		}
 		else if (*result_index != NONE)
 		{
@@ -1092,12 +1092,12 @@ void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool init
 {
 	//INVOKE(0x005957F0, hs_evaluate_set, function_index, thread_index, initialize);
 
-	int32* evaluate_result = NULL; // what's supposed to use this?
+	int32* evaluate_result = nullptr; // what's supposed to use this?
 
 	const hs_thread* thread = hs_thread_get(thread_index);
 	int32 variable_reference_index = hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index;
 	const hs_syntax_node* variable_reference = hs_syntax_get(variable_reference_index);
-	if (hs_stack_allocate(thread_index, sizeof(int32), 2, NULL))
+	if (hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr))
 	{
 		int16 type = hs_global_get_type(variable_reference->short_value);
 		if (initialize)
@@ -1109,7 +1109,7 @@ void __cdecl hs_evaluate_set(int16 function_index, int32 thread_index, bool init
 			{
 				object_list_add_reference(hs_global_evaluate(variable_reference->short_value));
 			}
-			hs_evaluate(thread_index, variable_reference->next_node_index, destination, NULL);
+			hs_evaluate(thread_index, variable_reference->next_node_index, destination, nullptr);
 		}
 		else
 		{
@@ -1156,7 +1156,7 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 	int32* time = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &time_reference);
 	hs_stack_pointer script_reference{};
 	int32* script_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &script_reference);
-	int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, nullptr);
 	if (time && script_index && argument_index)
 	{
 		ASSERT(function_index == _hs_function_sleep);
@@ -1168,7 +1168,7 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 			hs_destination_pointer destination;
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = time_reference;
-			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+			hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, nullptr);
 			*argument_index = 0;
 		}
 		else if (*argument_index == 0)
@@ -1181,7 +1181,7 @@ void __cdecl hs_evaluate_sleep(int16 function_index, int32 thread_index, bool in
 				hs_destination_pointer destination;
 				destination.destination_type = _hs_destination_stack;
 				destination.stack_pointer = script_reference;
-				hs_evaluate(thread_index, script_node_index, destination, NULL);
+				hs_evaluate(thread_index, script_node_index, destination, nullptr);
 			}
 			else
 			{
@@ -1277,8 +1277,8 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 	int32* period = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &period_reference);
 	hs_stack_pointer expiration_reference{};
 	int32* expiration = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &expiration_reference);
-	int32* start_time = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
-	int16* optional_argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
+	int32* start_time = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
+	int16* optional_argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, nullptr);
 	if (condition && period && expiration && start_time && optional_argument_index)
 	{
 		int32 optional_argument_expression_index = hs_syntax_get(hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index)->next_node_index;
@@ -1298,7 +1298,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 				hs_destination_pointer destination;
 				destination.destination_type = _hs_destination_stack;
 				destination.stack_pointer = period_reference;
-				hs_evaluate(thread_index, optional_argument_expression_index, destination, NULL);
+				hs_evaluate(thread_index, optional_argument_expression_index, destination, nullptr);
 			}
 		}
 		else if (*optional_argument_index == 0)
@@ -1309,7 +1309,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 				hs_destination_pointer destination;
 				destination.destination_type = _hs_destination_stack;
 				destination.stack_pointer = expiration_reference;
-				hs_evaluate(thread_index, hs_syntax_get(optional_argument_expression_index)->next_node_index, destination, NULL);
+				hs_evaluate(thread_index, hs_syntax_get(optional_argument_expression_index)->next_node_index, destination, nullptr);
 			}
 		}
 		else
@@ -1340,7 +1340,7 @@ void __cdecl hs_evaluate_sleep_until(int16 function_index, int32 thread_index, b
 					hs_destination_pointer destination;
 					destination.destination_type = _hs_destination_stack;
 					destination.stack_pointer = condition_reference;
-					hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, NULL);
+					hs_evaluate(thread_index, hs_syntax_get(hs_syntax_get(hs_thread_stack(thread)->expression_index)->long_value)->next_node_index, destination, nullptr);
 				}
 				{
 					int32 period_hs_ticks = *period;
@@ -2147,7 +2147,7 @@ bool __cdecl hs_runtime_evaluate(int32 expression_index, bool display_expression
 
 				hs_destination_pointer destination{};
 				destination.destination_type = _hs_destination_thread_result;
-				hs_evaluate(thread_index, expression_index, destination, NULL);
+				hs_evaluate(thread_index, expression_index, destination, nullptr);
 				if (TEST_BIT(thread->flags, _hs_thread_in_function_call_bit))
 				{
 					hs_thread_main(thread_index);
@@ -2179,7 +2179,7 @@ const char* __cdecl hs_runtime_get_executing_thread_name()
 {
 	//return INVOKE(0x00597870, hs_runtime_get_executing_thread_name);
 
-	const char* thread_name = NULL;
+	const char* thread_name = nullptr;
 	if (hs_runtime_globals->executing_thread_index != NONE)
 	{
 		thread_name = hs_thread_format(hs_runtime_globals->executing_thread_index);
@@ -2287,7 +2287,7 @@ void __cdecl hs_runtime_initialize_for_new_map()
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_runtime_global;
 			destination.runtime_global_index = (int16)global_index;
-			hs_evaluate(internal_thread_index, internal_global->initialization_expression_index, destination, NULL);
+			hs_evaluate(internal_thread_index, internal_global->initialization_expression_index, destination, nullptr);
 
 			if (TEST_BIT(internal_thread->flags, _hs_thread_in_function_call_bit))
 			{
@@ -2365,7 +2365,7 @@ int32 __cdecl hs_runtime_internal_evaluate(int32 expression_index)
 			hs_thread* thread = hs_thread_get(thread_index);
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_thread_result;
-			hs_evaluate(thread_index, expression_index, destination, NULL);
+			hs_evaluate(thread_index, expression_index, destination, nullptr);
 			if (TEST_BIT(thread->flags, _hs_thread_in_function_call_bit))
 			{
 				hs_thread_main(thread_index);
@@ -2499,7 +2499,7 @@ int32 __cdecl hs_runtime_script_begin(int16 script_index, e_hs_script_type scrip
 					hs_thread_format(thread_index));
 			}
 			destination.destination_type = _hs_destination_thread_result;
-			hs_evaluate(thread_index, script->root_expression_index, destination, NULL);
+			hs_evaluate(thread_index, script->root_expression_index, destination, nullptr);
 		}
 	}
 	else
@@ -2578,16 +2578,16 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 		hs_script* script = TAG_BLOCK_GET_ELEMENT(&global_scenario_get()->hs_scripts, script_index, hs_script);
 		hs_thread* thread = hs_thread_get(thread_index);
 
-		int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, NULL);
-		int32* expression_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, NULL);
+		int16* argument_index = (int16*)hs_stack_allocate(thread_index, sizeof(int16), 1, nullptr);
+		int32* expression_index = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, nullptr);
 		hs_stack_pointer result_reference{};
 		int32* result = (int32*)hs_stack_allocate(thread_index, sizeof(int32), 2, &result_reference);
 		if (argument_index && expression_index && result)
 		{
 			hs_stack_pointer parameter_reference = { .stack_offset = NONE };
-			int32* parameter_results = NULL;
+			int32* parameter_results = nullptr;
 			if (script->parameters.count > 0
-				&& (parameter_results = (int32*)hs_stack_allocate(thread_index, sizeof(int32) * script->parameters.count, 2, &parameter_reference)) == NULL)
+				&& (parameter_results = (int32*)hs_stack_allocate(thread_index, sizeof(int32) * script->parameters.count, 2, &parameter_reference)) == nullptr)
 			{
 				event(_event_error, "hs: stack overflow allocating #%d parameters (thread 0x%08X '%s' stack size/max %d/%d)",
 					script->parameters.count,
@@ -2612,7 +2612,7 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 					destination.stack_pointer = parameter_reference;
 					destination.stack_pointer.stack_offset += sizeof(int32) * *argument_index;
 
-					hs_evaluate(thread_index, *expression_index, destination, NULL);
+					hs_evaluate(thread_index, *expression_index, destination, nullptr);
 					*expression_index = hs_syntax_get(*expression_index)->next_node_index;
 				}
 				else if (*argument_index == script->parameters.count)
@@ -2621,7 +2621,7 @@ void __cdecl hs_script_evaluate(int16 script_index, int32 thread_index, bool ini
 					hs_destination_pointer destination;
 					destination.destination_type = _hs_destination_stack;
 					destination.stack_pointer = result_reference;
-					if (hs_evaluate(thread_index, call_expression_index, destination, NULL))
+					if (hs_evaluate(thread_index, call_expression_index, destination, nullptr))
 					{
 						if (TEST_BIT(thread->flags, _hs_thread_verbose_bit))
 						{
@@ -2863,7 +2863,7 @@ void* __cdecl hs_stack_allocate(int32 thread_index, int32 size, int32 alignment_
 	int32 unaligned_offset = thread->stack.stack_offset + sizeof(hs_stack_frame) + frame->size;
 	void* unaligned_result = align_pointer(&thread->stack_data[unaligned_offset], alignment_bits);
 	int32 alignment_pad = pointer_distance(&thread->stack_data[unaligned_offset], unaligned_result);
-	void* result = NULL;
+	void* result = nullptr;
 
 	ASSERT(alignment_bits <= 4);
 	SCRIPT_EXECUTION_ERROR(thread_index, valid_thread(thread_index), "corrupted stack.");
@@ -2929,7 +2929,7 @@ void __cdecl hs_stack_pop(int32 thread_index)
 	//INVOKE(0x00598900, hs_stack_pop, thread_index);
 
 	hs_thread* thread = hs_thread_get(thread_index);
-	ASSERT(hs_stack(thread, hs_thread_stack(thread)->parent) != NULL);
+	ASSERT(hs_stack(thread, hs_thread_stack(thread)->parent) != nullptr);
 	thread->stack = hs_thread_stack(thread)->parent;
 }
 
@@ -2989,7 +2989,7 @@ hs_syntax_node* __cdecl hs_syntax_get(int32 index)
 
 bool __cdecl hs_syntax_node_exists(int32 index)
 {
-	return datum_try_and_get(g_hs_syntax_data, index) != NULL;
+	return datum_try_and_get(g_hs_syntax_data, index) != nullptr;
 }
 
 int32 __cdecl hs_syntax_nth(int32 expression_index, int16 n)
@@ -3083,7 +3083,7 @@ const char* __cdecl hs_thread_format(int32 thread_index)
 
 	const hs_thread* thread = hs_thread_get(thread_index);
 
-	const char* result = NULL;
+	const char* result = nullptr;
 	switch (thread->type)
 	{
 	case _hs_thread_type_script:
@@ -3122,7 +3122,7 @@ const char* __cdecl hs_thread_format(int32 thread_index)
 
 hs_thread* hs_thread_get(int32 thread_index)
 {
-	hs_thread* thread = NULL;
+	hs_thread* thread = nullptr;
 
 #ifndef USE_HS_THREAD_TRACKING
 	thread = DATUM_TRY_AND_GET(hs_thread_deterministic_data, hs_thread, thread_index);
@@ -3276,7 +3276,7 @@ void __cdecl hs_thread_main(int32 thread_index)
 			hs_destination_pointer destination{};
 			destination.destination_type = _hs_destination_stack;
 			destination.stack_pointer = start_reference;
-			hs_evaluate(thread_index, script->root_expression_index, destination, NULL);
+			hs_evaluate(thread_index, script->root_expression_index, destination, nullptr);
 		}
 	}
 

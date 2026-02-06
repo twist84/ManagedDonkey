@@ -37,8 +37,8 @@ int32 c_hs_looper::create_suspended_loop_thread()
 			hs_node_gc();
 		}
 
-		const char* error_message = NULL;
-		const char* error_source = NULL;
+		const char* error_message = nullptr;
+		const char* error_source = nullptr;
 		int32 loop_expression_index = hs_compile_expression(csstrnlen(valid_loop_expression, sizeof(valid_loop_expression)), valid_loop_expression, &error_message, &error_source);
 		if (loop_expression_index != NONE)
 		{
@@ -50,7 +50,7 @@ int32 c_hs_looper::create_suspended_loop_thread()
 
 				hs_destination_pointer destination{};
 				destination.destination_type = _hs_destination_thread_result;
-				hs_evaluate(thread_index, loop_expression_index, destination, NULL);
+				hs_evaluate(thread_index, loop_expression_index, destination, nullptr);
 				if (TEST_BIT(thread->flags, _hs_thread_in_function_call_bit))
 				{
 					loop_thread_index = thread_index;
@@ -67,7 +67,7 @@ int32 c_hs_looper::create_suspended_loop_thread()
 		}
 		else if (error_message)
 		{
-			hs_compile_source_error(NULL, error_message, error_source, valid_loop_expression);
+			hs_compile_source_error(nullptr, error_message, error_source, valid_loop_expression);
 			m_loop_enabled = false;
 		}
 	}

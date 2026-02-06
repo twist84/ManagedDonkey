@@ -8,13 +8,13 @@ bool write_bink_tag_resource_to_disk(int32 tag_index, const char* filename)
 	TAG_RESOURCES_GAME_LOCK();
 
 	s_bink_definition* bink_definition = TAG_GET(BINK_TAG, s_bink_definition, tag_index);
-	if (bink_definition == NULL)
+	if (bink_definition == nullptr)
 	{
 		return false;
 	}
 
 	s_bink_resource_definition* bink_resource = TAG_RESOURCE_TRY_TO_GET(s_bink_resource_definition, &bink_definition->bink_resource);
-	if (bink_resource == NULL || bink_resource->resource_data.address == NULL)
+	if (bink_resource == nullptr || bink_resource->resource_data.address == nullptr)
 	{
 		return false;
 	}

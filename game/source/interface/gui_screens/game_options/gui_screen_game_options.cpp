@@ -20,7 +20,7 @@ c_game_options_category_datasource::c_game_options_category_datasource(e_game_en
 	//DECLFUNC(0x00B0AF00, void, __thiscall, c_game_options_category_datasource*, e_game_engine_category, e_game_engine_category, const c_game_variant*)(
 	//	this, template_category, interface_category, edit_variant);
 
-	ASSERT(edit_variant != NULL);
+	ASSERT(edit_variant != nullptr);
 	ASSERT(VALID_INDEX(m_template_category, k_number_of_editable_game_engine_category_groups) || m_template_category == k_invalid_category);
 
 	if (m_interface_category > k_number_of_editable_game_engine_category_groups)
@@ -56,7 +56,7 @@ c_gui_screen_game_options::c_gui_screen_game_options(int32 name) :
 	m_confirmation_result(_result_indeterminate),
 	m_variant_on_disk(),
 	m_asynchronous_operation_controller(k_no_controller),
-	m_keyboard_task(NULL),
+	m_keyboard_task(nullptr),
 	m_virtual_keyboard_results_buffer(),
 	m_string_verify_task(),
 	m_saved_game_name_buffer(),
@@ -89,7 +89,7 @@ c_load_game_options_screen_message::c_load_game_options_screen_message(int32 scr
 	//DECLFUNC(0x00B0B140, void, __thiscall, c_load_game_options_screen_message*, int32, e_controller_index, e_window_index, int32, const c_game_variant*, const c_game_variant*, e_game_engine_category, e_game_engine_category, int32, s_game_options_history_stack_node*, int32)(
 	//	this, screen_name, controller, window, layered_position, edit_game_variant, revert_game_variant, template_category, interface_category, focused_element_handle, settings_history_stack, history_stack_depth);
 
-	ASSERT(edit_game_variant != NULL);
+	ASSERT(edit_game_variant != nullptr);
 
 	m_edit_game_variant.copy_from_unsafe(edit_game_variant);
 	m_revert_game_variant.copy_from_unsafe(revert_game_variant);
@@ -398,7 +398,7 @@ bool __cdecl parse_current_selected_item_nugget(void* this_ptr, int32 nugget_id,
 {
 	return INVOKE(0x00B0CDB0, parse_current_selected_item_nugget, this_ptr, nugget_id, buffer, buffer_length);
 
-	//ASSERT(this_ptr != NULL);
+	//ASSERT(this_ptr != nullptr);
 	//
 	//c_gui_screen_widget* screen_widget = (c_gui_screen_widget*)this_ptr;
 	//

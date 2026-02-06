@@ -180,7 +180,7 @@ void c_managed_session_overlapped_task::process_remove_players(int32 managed_ses
 	m_result = false;
 	m_return_result = 0;
 
-	filter_local_users(player_count, player_xuids, online_enabled, NULL);
+	filter_local_users(player_count, player_xuids, online_enabled, nullptr);
 
 	if (!m_player_count)
 	{
@@ -290,7 +290,7 @@ uns32 c_managed_session_overlapped_task::start(void* overlapped)
 		//
 		//DWORD cbResultsBuffer = 640;
 		//XSESSION_LOCAL_DETAILS SessionDetails{};
-		//if (XSessionGetDetails(m_session->handle, &cbResultsBuffer, &SessionDetails, NULL))
+		//if (XSessionGetDetails(m_session->handle, &cbResultsBuffer, &SessionDetails, nullptr))
 		//{
 		//	event(_event_warning, "networking:managed_session: attempting to delete XSession handle %08X, but GetDetails() failed, so we are assuming the session is toast!",
 		//		m_session->handle);

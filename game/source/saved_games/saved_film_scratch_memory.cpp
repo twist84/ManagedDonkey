@@ -10,7 +10,7 @@ c_saved_film_scratch_memory g_saved_film_scratch_memory{};
 c_saved_film_scratch_memory::s_system_data::s_system_data() :
 	state(_system_state_none),
 	reference_count(0),
-	buffer(NULL),
+	buffer(nullptr),
 	buffer_length(0),
 	buffer_set()
 {
@@ -18,7 +18,7 @@ c_saved_film_scratch_memory::s_system_data::s_system_data() :
 
 c_saved_film_scratch_memory::c_saved_film_scratch_memory() :
 	m_initialized(false),
-	m_buffer(NULL),
+	m_buffer(nullptr),
 	m_buffer_length(0),
 	m_systems()
 {
@@ -67,11 +67,11 @@ void c_saved_film_scratch_memory::memory_dispose()
 	for (int32 system_index = 0; system_index < k_system_count; system_index++)
 	{
 		ASSERT(m_systems[system_index].state == _system_state_none);
-		m_systems[system_index].buffer_set.release_storage(NULL);
+		m_systems[system_index].buffer_set.release_storage(nullptr);
 	}
 
 	g_physical_memory_allocation.deallocate(m_buffer);
-	m_buffer = NULL;
+	m_buffer = nullptr;
 
 	m_buffer_length = 0;
 	m_initialized = false;
@@ -108,7 +108,7 @@ c_saved_film_scratch_memory::s_system_data* c_saved_film_scratch_memory::try_and
 {
 	if (!m_initialized)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if (m_systems[system].state == _system_state_acquired)
@@ -123,7 +123,7 @@ c_saved_film_scratch_memory::s_system_data* c_saved_film_scratch_memory::try_and
 	{
 		if (m_systems[system_index].state == _system_state_acquired)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 

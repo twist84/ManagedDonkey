@@ -10,14 +10,14 @@ c_gui_data::c_gui_data() :
 
 c_gui_data_array::c_gui_data_array() :
 	c_gui_data(),
-	m_list_data(NULL)
+	m_list_data(nullptr)
 {
 	//DECLFUNC(0x00AD4510, void, __thiscall, c_gui_data_array*)(this);
 }
 
 c_gui_data_array_test::c_gui_data_array_test() :
 	c_gui_data_array(),
-	m_list_data(NULL)
+	m_list_data(nullptr)
 {
 	//DECLFUNC(0x00AD4530, void, __thiscall, c_gui_data_array_test*)(this);
 }
@@ -57,7 +57,7 @@ c_gui_data_array::~c_gui_data_array()
 	if (m_list_data)
 	{
 		data_dispose(m_list_data);
-		m_list_data = NULL;
+		m_list_data = nullptr;
 	}
 }
 
@@ -216,7 +216,7 @@ const c_gui_selected_item* c_gui_data::get_gui_selected_item(int32 element_handl
 {
 	//return INVOKE_CLASS_MEMBER(0x00AD4E70, c_gui_data, get_gui_selected_item, element_handle);
 
-	return NULL;
+	return nullptr;
 }
 
 bool c_gui_data::get_integer_value(int32 element_handle, string_id value_name, int32* value)

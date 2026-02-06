@@ -411,9 +411,9 @@ void __cdecl simulation_dispose()
 		return;
 	}
 	
-	simulation_globals.world = NULL;
-	simulation_globals.watcher = NULL;
-	simulation_globals.type_collection = NULL;
+	simulation_globals.world = nullptr;
+	simulation_globals.watcher = nullptr;
+	simulation_globals.type_collection = nullptr;
 	simulation_globals.initialized = false;
 }
 
@@ -487,7 +487,7 @@ bool __cdecl simulation_film_retrieve_updates(int32 maximum_updates_to_read, int
 	for (int32 i = 0; i < 30; i++)
 	{
 		int32 updates_available = 0;
-		simulation_globals.world->time_get_available(NULL, &updates_available);
+		simulation_globals.world->time_get_available(nullptr, &updates_available);
 	
 		if (updates_available >= target_updates)
 		{
@@ -711,12 +711,12 @@ c_simulation_world* __cdecl simulation_get_world_if_exists()
 
 	//if (!simulation_globals.initialized || !simulation_globals.world)
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//if (simulation_globals.world->m_world_type == _simulation_world_type_none)
 	//{
-	//	return NULL;
+	//	return nullptr;
 	//}
 	//
 	//return simulation_globals.world;
@@ -770,7 +770,7 @@ void __cdecl simulation_initialize_for_new_map()
 		return;
 	}
 	
-	c_simulation_distributed_world* distributed_world = NULL;
+	c_simulation_distributed_world* distributed_world = nullptr;
 	simulation_gamestate_entities_initialize_for_new_map();
 	simulation_globals.simulation_fatal_error = false;
 	simulation_globals.simulation_deferred = false;
@@ -825,7 +825,7 @@ void __cdecl simulation_notify_channel_closure(void* simulation_context)
 	INVOKE(0x00441CE0, simulation_notify_channel_closure, simulation_context);
 
 	//c_simulation_view* view = (c_simulation_view*)simulation_context;
-	//ASSERT(view != NULL);
+	//ASSERT(view != nullptr);
 	//view->notify_closed();
 }
 
@@ -1287,7 +1287,7 @@ void __cdecl simulation_status_lines_update()
 			s_simulation_world_view_iterator iterator{};
 			c_simulation_world::iterator_begin(&iterator, NONE);
 
-			c_simulation_view* view = NULL;
+			c_simulation_view* view = nullptr;
 			while (simulation_globals.world->iterator_next(&iterator, &view))
 			{
 				int32 view_index = view->get_world_view_index();
@@ -1389,8 +1389,8 @@ void __cdecl simulation_update()
 
 		if (!simulation_globals.simulation_aborted && game_in_progress())
 		{
-			ASSERT(simulation_globals.world != NULL);
-			ASSERT(simulation_globals.watcher != NULL);
+			ASSERT(simulation_globals.world != nullptr);
+			ASSERT(simulation_globals.watcher != nullptr);
 
 			if (!simulation_globals.simulation_aborted)
 			{
@@ -1467,7 +1467,7 @@ void __cdecl simulation_update()
 							if (updates_required > 0)
 							{
 								int32 update_queue_length = 0;
-								simulation_globals.world->time_get_available(NULL, &update_queue_length);
+								simulation_globals.world->time_get_available(nullptr, &update_queue_length);
 								ASSERT(update_queue_length >= 0);
 
 								if (saved_film_ticks_remaining && !update_queue_length)
@@ -1613,7 +1613,7 @@ bool __cdecl simulation_update_write_to_buffer(const struct simulation_update* u
 	//c_bitstream encoded_update((byte*)buffer, buffer_size);
 	//encoded_update.begin_writing(1);
 	//simulation_update_encode(&encoded_update, update);
-	//encoded_update.finish_writing(NULL);
+	//encoded_update.finish_writing(nullptr);
 	//int32 space_used_in_bytes = encoded_update.get_space_used_in_bytes();
 	//if (encoded_update.overflowed())
 	//{

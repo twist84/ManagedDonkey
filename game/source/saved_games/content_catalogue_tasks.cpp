@@ -2,12 +2,12 @@
 
 c_content_enumeration_overlapped_task::c_content_enumeration_overlapped_task(const char* file, int32 line) :
 	c_overlapped_task(file, line),
-	m_enumeration_handle(NULL),
-	m_content_catalogue(NULL),
+	m_enumeration_handle(nullptr),
+	m_content_catalogue(nullptr),
 	m_controller_index(k_no_controller),
 	m_content_origin(_content_origin_invalid),
 	m_device_id(0xCACACACA),
-	m_xcontent_data_array(NULL),
+	m_xcontent_data_array(nullptr),
 	m_user_content_data_count(0),
 	m_dlc_content_data_count(0)
 {
@@ -17,7 +17,7 @@ c_content_enumeration_overlapped_task::c_content_enumeration_overlapped_task(con
 c_content_item_overlapped_task::c_content_item_overlapped_task(const char* file, int32 line) :
 	c_overlapped_task(file, line),
 	m_task_type(_content_item_task_type_none),
-	m_content_item(NULL),
+	m_content_item(nullptr),
 	m_content_creation_flags(0),
 	m_maximum_content_size_bytes(0)
 {

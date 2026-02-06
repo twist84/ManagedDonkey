@@ -65,7 +65,7 @@ c_gui_bitmap_widget* c_gui_screen_pregame_lobby_matchmaking::create_bitmap_widge
 {
 	//return INVOKE_CLASS_MEMBER(0x00B017F0, c_gui_screen_pregame_lobby_matchmaking, create_bitmap_widget, definition);
 
-	c_gui_bitmap_widget* bitmap_widget = NULL;
+	c_gui_bitmap_widget* bitmap_widget = nullptr;
 	if (definition->widget_identifier == STRING_ID(gui, nightmap))
 	{
 		bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_custom_bitmap_widget();
@@ -280,7 +280,7 @@ void c_gui_screen_pregame_lobby_matchmaking::update_nightmap()
 {
 	//INVOKE_CLASS_MEMBER(0x00B01F50, c_gui_screen_pregame_lobby_matchmaking, update_nightmap);
 
-	const char* downloaded_data = NULL;
+	const char* downloaded_data = nullptr;
 	int32 downloaded_data_length = 0;
 
 	if (m_url_key != g_online_url_hopper_directory_key)
@@ -350,7 +350,7 @@ void c_gui_screen_pregame_lobby_matchmaking::update_population()
 	//
 	//user_interface_matchmaking_update_hopper_statistics_for_screen(&m_hopper_statstics_downloader, &m_statistics_current_hopper_id, &m_statistics_current_statistics);
 	//
-	//s_matchmaking_single_hopper_statistics* current_statistics = NULL;
+	//s_matchmaking_single_hopper_statistics* current_statistics = nullptr;
 	//bool total_population_visible = false;
 	//
 	//if (m_statistics_current_hopper_id != 0xFFFFi16 && m_statistics_current_hopper_id == user_interface_matchmaking_get_hopper())

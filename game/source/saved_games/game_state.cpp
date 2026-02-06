@@ -39,7 +39,7 @@ bool g_game_state_allocation_file_reference_valid = false;
 
 void __cdecl restricted_region_create_for_render_initialize(int32 index, c_restricted_section* primary_section, int32 critical_section_index, c_restricted_memory_callbacks* callbacks)
 {
-	ASSERT(callbacks == NULL);
+	ASSERT(callbacks == nullptr);
 	callbacks = &g_gamestate_allocation_record_allocation_callbacks;
 
 	restricted_region_create(index, primary_section, critical_section_index, callbacks);
@@ -500,7 +500,7 @@ bool __cdecl game_state_read_core(const char* core_name, void* buffer, uns32 buf
 
 		if (buffer == game_state_globals.base_address)
 		{
-			success = success && game_state_security_verify_signature_insecure(NULL);
+			success = success && game_state_security_verify_signature_insecure(nullptr);
 			if (!success)
 			{
 				event(_event_critical, "game_state: core '%s' failed signature check", core_name);
@@ -720,7 +720,7 @@ void __cdecl game_state_shell_initialize()
 	restricted_region_lock_primary(k_game_state_render_region);
 	restricted_region_lock_primary(k_game_state_shared_region);
 
-	int32 game_state_header_member_index = restricted_region_add_member(k_game_state_header_region, "header", "game_state_header", sizeof(game_state_header), 0, game_state_set_header_address, NULL, NULL);
+	int32 game_state_header_member_index = restricted_region_add_member(k_game_state_header_region, "header", "game_state_header", sizeof(game_state_header), 0, game_state_set_header_address, nullptr, nullptr);
 	game_state_globals.header = (game_state_header*)restricted_region_get_member_address(k_game_state_header_region, game_state_header_member_index);
 	ASSERT(game_state_globals.header == (game_state_header*)game_state_globals.base_address);
 
@@ -860,7 +860,7 @@ void c_game_state_compressor::initialize()
 	//m_scratch_buffer_size = 0x4B000;
 	//optional_cache_register_user((e_optional_cache_user)5, &g_game_state_compressor_optional_cache_callback);
 	//
-	//m_compressed_game_state_buffer = NULL;
+	//m_compressed_game_state_buffer = nullptr;
 	//m_compressed_game_state_buffer_size = 0;
 	//
 	//m_locked = false;

@@ -202,7 +202,7 @@ COMPILE_ASSERT(sizeof(s_render_debug_globals) == 0x81020);
 
 static s_render_debug_globals _render_debug_globals{};
 
-thread_local s_render_debug_globals* g_render_debug_globals = NULL;
+thread_local s_render_debug_globals* g_render_debug_globals = nullptr;
 
 int32 type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
 
@@ -651,8 +651,8 @@ void __cdecl render_debug_circle(bool immediate, const real_point3d* center, con
 
 void __cdecl render_debug_polygon_regular(bool immediate, const real_point3d* center, int32 point_count, const real_vector3d* normal, real32 radius, const real_argb_color* color)
 {
-	ASSERT(center != NULL);
-	ASSERT(normal != NULL);
+	ASSERT(center != nullptr);
+	ASSERT(normal != nullptr);
 	ASSERT(point_count <= CIRCLE_DIVISIONS);
 
 	real_matrix4x3 transform{};
@@ -980,7 +980,7 @@ void __cdecl render_debug_cylinder(bool immediate, const real_point3d* base, con
 		real_point3d bottom_points[CIRCLE_DIVISIONS + 1]{};
 		real_point3d top_points[CIRCLE_DIVISIONS + 1]{};
 
-		render_debug_build_pill_points(base, height, width, bottom_points, top_points, NULL, NULL, NULL, NULL);
+		render_debug_build_pill_points(base, height, width, bottom_points, top_points, nullptr, nullptr, nullptr, nullptr);
 
 		for (int32 segment_index = 0; segment_index < CIRCLE_DIVISIONS; segment_index++)
 		{
@@ -1252,7 +1252,7 @@ void __cdecl render_debug_string(const char* string)
 {
 	ASSERT(string);
 
-	//render_debug_string_immediate(false, NULL, 0, string);
+	//render_debug_string_immediate(false, nullptr, 0, string);
 	render_debug_add_cache_entry(_render_debug_type_string, string);
 }
 
@@ -1274,7 +1274,7 @@ void __cdecl render_debug_string_immediate(const int16* tab_stops, int16 tab_sto
 			c_simple_font_draw_string draw_string;
 			draw_string.set_tab_stops(tab_stops, tab_stop_count);
 			interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
-			draw_string.draw(NULL, string);
+			draw_string.draw(nullptr, string);
 		}
 		else
 		{
@@ -1326,7 +1326,7 @@ void __cdecl render_debug_string_at_point_immediate(const real_point3d* point, c
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
-			draw_string.draw(NULL, string);
+			draw_string.draw(nullptr, string);
 		}
 		else
 		{

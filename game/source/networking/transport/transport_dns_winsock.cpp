@@ -16,7 +16,7 @@ bool __cdecl transport_dns_address_to_name(dns_result* result)
 	bool success = false;
 	if (transport_available())
 	{
-		ASSERT(result != NULL);
+		ASSERT(result != nullptr);
 
 		union
 		{
@@ -82,10 +82,10 @@ bool __cdecl transport_dns_name_to_address(dns_result* result)
 	bool success = false;
 	if (transport_available())
 	{
-		ASSERT(result != NULL);
+		ASSERT(result != nullptr);
 
 		hostent* host = gethostbyname(result->name);
-		if (host != NULL)
+		if (host != nullptr)
 		{
 			for (int16 i = 0; i < NUMBEROF(result->address); i++)
 			{

@@ -7,7 +7,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00C78040, hkWorld, stepDeltaTime);
 template<>
 hkArray<hkEntity*>::hkArray()
 {
-	m_data = NULL;
+	m_data = nullptr;
 	m_size = 0;
 	m_capacityAndFlags = 0x80000000;
 }

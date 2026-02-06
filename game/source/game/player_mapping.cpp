@@ -71,7 +71,7 @@ void __cdecl player_mapping_dispose()
 	INVOKE(0x005899C0, player_mapping_dispose);
 
 	//if (player_mapping_globals)
-	//	player_mapping_globals = NULL;
+	//	player_mapping_globals = nullptr;
 }
 
 int32 __cdecl player_mapping_first_active_input_user()

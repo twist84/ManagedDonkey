@@ -23,7 +23,7 @@ void c_gui_screen_pregame_switch_lobby::post_initialize()
 {
 	//INVOKE_CLASS_MEMBER(0x00B02F60, c_gui_screen_pregame_switch_lobby, post_initialize);
 
-	c_gui_data* switch_lobby_data = c_gui_screen_widget::get_data(STRING_ID(gui, switch_lobby), NULL);
+	c_gui_data* switch_lobby_data = c_gui_screen_widget::get_data(STRING_ID(gui, switch_lobby), nullptr);
 	if (switch_lobby_data)
 	{
 		if (get_alpha_is_internal_beta())

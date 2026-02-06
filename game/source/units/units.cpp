@@ -289,7 +289,7 @@ void __cdecl unit_debug_ninja_rope(int32 unit_index)
 		if (collision.plane.n.k > 0.95f)
 		{
 			collision.point.z += 0.25f;
-			object_set_position(parent_index, &collision.point, NULL, NULL, NULL);
+			object_set_position(parent_index, &collision.point, nullptr, nullptr, nullptr);
 		}
 	}
 }
@@ -997,7 +997,7 @@ bool __cdecl units_debug_can_select_unit(int32 unit_index)
 	//return INVOKE(0x00B4D3D0, units_debug_can_select_unit, unit_index);
 
 	const object_header_datum* header = object_header_get(unit_index);
-	void* object = NULL;
+	void* object = nullptr;
 	if (header && TEST_BIT(_object_mask_unit, header->object_type.get()))
 	{
 		object = header->datum;

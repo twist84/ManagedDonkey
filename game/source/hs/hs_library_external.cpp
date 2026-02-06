@@ -348,7 +348,7 @@ void __cdecl hs_effect_new_from_object_marker(int32 definition_index, int32 obje
 		if (object_get_markers_by_string_id(object_index, marker_id, &marker, 1))
 		{
 			s_damage_reporting_info damage_reporting_info{};
-			effect_new_attached_from_marker_name(definition_index, NULL, &damage_reporting_info, object_index, NONE, marker_id, 1.0f, 1.0f, NULL, NULL, 0, _effect_deterministic);
+			effect_new_attached_from_marker_name(definition_index, nullptr, &damage_reporting_info, object_index, NONE, marker_id, 1.0f, 1.0f, nullptr, nullptr, 0, _effect_deterministic);
 		}
 		else
 		{
@@ -937,7 +937,7 @@ void __cdecl hs_object_orient(int32 object_index, const real_point3d* position, 
 			}
 		}
 
-		object_set_position(object_index, set_position ? position : NULL, set_facing ? forward : NULL, set_facing ? up : NULL, NULL);
+		object_set_position(object_index, set_position ? position : nullptr, set_facing ? forward : nullptr, set_facing ? up : nullptr, nullptr);
 	}
 #endif
 }

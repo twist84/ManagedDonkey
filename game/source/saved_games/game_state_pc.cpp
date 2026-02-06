@@ -77,7 +77,7 @@ bool __cdecl game_state_read_from_file_storage(int32 storage_index, int32 game_s
 			bool file_result = file_read(&scratch_save_file, pc_game_state_globals.buffer_size_to_persist, false, pc_game_state_globals.allocation);
 			file_close(&scratch_save_file);
 
-			//bool signature_check_result = game_state_security_verify_signature_insecure(NULL) && file_result;
+			//bool signature_check_result = game_state_security_verify_signature_insecure(nullptr) && file_result;
 			//if (!signature_check_result)
 			//	event(_event_critical, "game_state: pc game state read from file failed signature check");
 

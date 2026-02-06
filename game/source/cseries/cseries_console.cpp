@@ -5,7 +5,7 @@
 
 #include <windows.h>
 
-FILE* c_console::m_file = NULL;
+FILE* c_console::m_file = nullptr;
 bool c_console::m_initialized = false;
 
 void c_console::initialize(const char* window_title)
@@ -72,7 +72,7 @@ void c_console::clear()
 
 bool c_console::console_allocated()
 {
-	return GetConsoleWindow() != NULL;
+	return GetConsoleWindow() != nullptr;
 }
 
 void c_console::enable_ansi()
@@ -199,12 +199,12 @@ void get_error_message(uns32 message_id, char(&message_buffer)[2048])
 
 	FormatMessageA(
 		FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		message_id,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		message_buffer,
 		2048,
-		NULL
+		nullptr
 	);
 }
 

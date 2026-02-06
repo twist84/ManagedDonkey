@@ -178,7 +178,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, const char* effect_name, int32 eff
 			collision_position.y -= forward->j * 0.25f;
 			collision_position.z -= forward->k * 0.25f;
 
-			effect_new_from_point_vector(effect_index, &collision_position, forward, &normal, _match_all_markers, _effect_deterministic, NULL, NULL);
+			effect_new_from_point_vector(effect_index, &collision_position, forward, &normal, _match_all_markers, _effect_deterministic, nullptr, nullptr);
 
 			success = true;
 		}
@@ -206,7 +206,7 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 		if (object_definition_index != NONE)
 		{
 			object_placement_data placement_data{};
-			object_placement_data_new(&placement_data, object_definition_index, NONE, NULL);
+			object_placement_data_new(&placement_data, object_definition_index, NONE, nullptr);
 
 			struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object_definition_index);
 			real32 bounding_radius = object_definition->object.bounding_radius + 1.0f;
@@ -247,7 +247,7 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 					for (int32 weapon_definition_index = tag_iterator_next(&iterator); weapon_definition_index != NONE; weapon_definition_index = tag_iterator_next(&iterator))
 					{
 						object_placement_data weapon_placement_data{};
-						object_placement_data_new(&weapon_placement_data, weapon_definition_index, NONE, NULL);
+						object_placement_data_new(&weapon_placement_data, weapon_definition_index, NONE, nullptr);
 						int32 weapon_object_index = object_new(&weapon_placement_data);
 						if (weapon_object_index != NONE)
 						{
@@ -365,14 +365,14 @@ void __cdecl cheat_drop_tag_in_main_event_loop(int32 tag_index, int32 variant_na
 
 void __cdecl cheat_drop_tag_name(const char* tag_name)
 {
-	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, NULL, 0);
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, nullptr, 0);
 }
 
 void __cdecl cheat_drop_tag_name_with_permutation_hs(const char* tag_name, const char* permutation_info)
 {
 	s_model_customization_region_permutation permutations[16]{};
 	int32 permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_info, permutations, NUMBEROF(permutations));
-	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, permutations, permutation_count);
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, permutations, permutation_count);
 }
 
 void __cdecl cheat_drop_tag_name_with_variant_and_permutations(const char* tag_name, const char* variant_name, const s_model_customization_region_permutation* permutations, int32 permutation_count)
@@ -414,12 +414,12 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(const char* tag_n
 
 void __cdecl cheat_drop_tag_name_with_variant_hs(const char* tag_name, const char* variant_name)
 {
-	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, NULL, 0);
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, nullptr, 0);
 }
 
 void __cdecl cheat_drop_tag_safe(int32 tag_index)
 {
-	main_cheat_drop_tag(tag_index, NONE, NULL, 0);
+	main_cheat_drop_tag(tag_index, NONE, nullptr, 0);
 }
 
 void __cdecl cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, int32* out_droppable_tag_type_count)
@@ -518,7 +518,7 @@ void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 					object_get_orientation(player->unit_index, &forward, &up);
 
 					object_placement_data data{};
-					object_placement_data_new(&data, reference.index, NONE, NULL);
+					object_placement_data_new(&data, reference.index, NONE, nullptr);
 
 					data.position = origin;
 					data.forward = forward;
@@ -605,7 +605,7 @@ void __cdecl cheat_teleport_to_camera()
 					object_set_in_limbo(ultimate_parent, false);
 				}
 
-				object_set_position(ultimate_parent, &camera->position, NULL, NULL, NULL);
+				object_set_position(ultimate_parent, &camera->position, nullptr, nullptr, nullptr);
 			}
 		}
 	}

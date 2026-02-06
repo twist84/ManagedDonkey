@@ -11,9 +11,9 @@
 
 void c_game_engine::dump_player_trait_settings(const char* traits_name, const c_player_traits* traits, s_file_reference* file) const
 {
-	ASSERT(traits_name != NULL);
-	ASSERT(traits != NULL);
-	ASSERT(file != NULL);
+	ASSERT(traits_name != nullptr);
+	ASSERT(traits != nullptr);
+	ASSERT(file != nullptr);
 
 	file_printf(file, "---------- '%s' player traits:\r\n", traits_name);
 
@@ -225,7 +225,7 @@ void c_game_engine::dump_player_trait_settings(const char* traits_name, const c_
 
 void c_game_engine::dump_settings(s_file_reference* file) const
 {
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 
 	const c_game_engine_base_variant* active_variant = current_game_variant()->get_active_variant();
 
@@ -332,7 +332,7 @@ void c_game_engine_base_variant::byteswap()
 
 void c_game_engine_base_variant::set(const c_game_engine_base_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	set_name(variant->get_name());
 	set_description(variant->get_description());

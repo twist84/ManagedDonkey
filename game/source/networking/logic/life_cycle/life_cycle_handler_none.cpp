@@ -31,9 +31,9 @@ void c_life_cycle_state_handler_none::enter(c_life_cycle_state_handler* from, in
 	//INVOKE_CLASS_MEMBER(0x0048F180, c_life_cycle_state_handler_none, enter, from, entry_data_size, entry_data);
 
 	ASSERT(entry_data_size == 0);
-	ASSERT(entry_data == NULL);
+	ASSERT(entry_data == nullptr);
 
-	c_life_cycle_state_handler::enter(from, 0, NULL);
+	c_life_cycle_state_handler::enter(from, 0, nullptr);
 	get_manager()->get_target_session()->force_disconnect();
 	network_squad_session_set_closed_status(_network_session_closed_not_closed);
 	network_join_set_join_queue_mode(_network_join_closed_to_all_joins);
@@ -69,7 +69,7 @@ void c_life_cycle_state_handler_none::update()
 		}
 
 		event(_event_message, "lifecycle: state none with a squad, entering pregame");
-		manager->request_state_change(_life_cycle_state_pre_game, 0, NULL);
+		manager->request_state_change(_life_cycle_state_pre_game, 0, nullptr);
 	}
 }
 

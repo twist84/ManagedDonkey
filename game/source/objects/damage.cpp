@@ -250,7 +250,7 @@ void render_debug_object_damage()
 	if (debug_damage)
 	{
 		rectangle2d bounds{};
-		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 		bounds.x0 += int16((real32)rectangle2d_width(&bounds) * 0.7f);
 		bounds.y0 += int16((real32)rectangle2d_height(&bounds) * 0.1f);
 

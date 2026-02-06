@@ -126,7 +126,7 @@ int main(int argc, const char* argv[])
 	}
 
 	printf("Launcher: Creating process for `%s` with commandline '%s'\n", ExecutableName, CommandLine);
-	if (DetourCreateProcessWithDllA(ExecutablePath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
+	if (DetourCreateProcessWithDllA(ExecutablePath, CommandLine, nullptr, nullptr, TRUE, CREATE_DEFAULT_ERROR_MODE, nullptr, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, nullptr) == FALSE)
 	{
 		return 6;
 	}
@@ -144,7 +144,7 @@ int main(int argc, const char* argv[])
 	// leave enough time for `remote_command_initialize` to be called
 	Sleep(1000);
 	printf("Launcher: Creating process `%s`\n", "remote_console.exe");
-	CreateProcessA("remote_console.exe", NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo);
+	CreateProcessA("remote_console.exe", nullptr, nullptr, nullptr, TRUE, CREATE_DEFAULT_ERROR_MODE, nullptr, CurrentDirectory, &StartupInfo, &ProcessInfo);
 #endif // REMOTE_CONSOLE_ENABLED
 
 	return 0;

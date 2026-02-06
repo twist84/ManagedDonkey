@@ -77,7 +77,7 @@ bool __cdecl network_arbitration_initiate(int32 managed_session_index, uns64 non
 	network_arbitration_globals.arbitration_status = _network_arbitration_status_registration_failed;
 	network_arbitration_globals.arbitration_managed_session_index = managed_session_index;
 
-	void* session_handle = NULL;
+	void* session_handle = nullptr;
 	if (!managed_session_get_handle(managed_session_index, &session_handle))
 	{
 		event(_event_warning, "networking:leaderboards:arbitration: failed to get session handle for session 0x%08X",

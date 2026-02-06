@@ -220,7 +220,7 @@ int32 __cdecl user_interface_squad_get_countdown_timer()
 {
 	//return INVOKE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 
-	if (user_interface_get_session_game_start_status(NULL, NULL) == _session_game_start_status_countdown)
+	if (user_interface_get_session_game_start_status(nullptr, nullptr) == _session_game_start_status_countdown)
 	{
 		return network_squad_session_get_countdown_timer();
 	}

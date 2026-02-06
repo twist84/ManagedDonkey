@@ -11,7 +11,7 @@ void __cdecl closed_caption_add_caption(int32 sound_definition_index, bool sound
 
 	//uns32 milliseconds = user_interface_milliseconds();
 	//
-	//s_caption_entry* caption = NULL;
+	//s_caption_entry* caption = nullptr;
 	//for (int32 caption_index = k_caption_count - 1; caption_index >= 0; caption_index--)
 	//{
 	//	if (TEST_BIT(g_closed_caption_globals.entries[caption_index].flags, 0))

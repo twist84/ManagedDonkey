@@ -52,7 +52,7 @@ const wchar_t* __cdecl autosave_queue_get_directory_path()
 
 	g_autosave_queue_globals;
 	blamlib_replays_path;
-	const wchar_t* result = NULL;
+	const wchar_t* result = nullptr;
 	HOOK_INVOKE(result =, autosave_queue_get_directory_path);
 	return L"autosave";
 }
@@ -141,7 +141,7 @@ void __cdecl delete_incomplete_files()
 	find_files_start_with_search_spec(&find_file_data, 0, &autosave_queue_directory, "*.temp");
 
 	s_file_reference file{};
-	while (find_files_next(&find_file_data, &file, NULL))
+	while (find_files_next(&find_file_data, &file, nullptr))
 	{
 		file_delete(&file);
 	}

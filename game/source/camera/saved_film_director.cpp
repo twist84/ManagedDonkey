@@ -31,7 +31,7 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 	e_controller_index controller_index = controller_index_from_user_index(m_user_index);
 	if (controller_index != k_no_controller && !camera_input_inhibited(controller_index))
 	{
-		s_game_input_state* input_state = NULL;
+		s_game_input_state* input_state = nullptr;
 		input_abstraction_get_input_state(controller_index, &input_state);
 
 		bool screen_visible = true;
@@ -90,14 +90,14 @@ void __thiscall c_saved_film_director::update_(real32 dt)
 				play_or_eject = true;
 			}
 
-			if (!saved_film_manager_film_is_ended(NULL) && screen_visible)
+			if (!saved_film_manager_film_is_ended(nullptr) && screen_visible)
 			{
 				c_load_screen_message* screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 					STRING_ID(gui, saved_film_control_pad),
 					k_any_controller,
 					k_number_of_player_windows,
 					STRING_ID(gui, top_most));
-				if (screen_message != NULL)
+				if (screen_message != nullptr)
 				{
 					int32 value = STRING_ID(gui, play_film);
 					if (play_or_eject)

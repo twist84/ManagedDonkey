@@ -169,7 +169,7 @@ const char* __cdecl winsock_error_to_string_no_default(int err)
 	ERROR_CASE(WSA_QOS_TRAFFIC_CTRL_ERROR);
 	ERROR_CASE(WSA_QOS_GENERIC_ERROR);
 	}
-	return NULL;
+	return nullptr;
 
 #undef ERROR_CASE
 }

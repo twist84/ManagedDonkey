@@ -51,7 +51,7 @@ void __cdecl biped_falling_damage(int32 biped_index)
 	if (!game_is_multiplayer() && biped->object.parent_object_index == NONE)
 	{
 		real_vector3d linear_velocity{};
-		object_get_velocities(biped_index, &linear_velocity, NULL);
+		object_get_velocities(biped_index, &linear_velocity, nullptr);
 
 		real32 k = linear_velocity.k;
 		real32 crouch_velocity_delta = 0.0f;

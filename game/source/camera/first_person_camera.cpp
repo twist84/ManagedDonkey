@@ -42,7 +42,7 @@ void __thiscall c_first_person_camera::update_(int32 user_index, real32 dt, s_ob
 	e_controller_index controller_index = controller_index_from_user_index(user_index);
 	if (m_allow_controlled_facing && controller_index != k_no_controller && !camera_input_inhibited(controller_index))
 	{
-		s_game_input_state* input_state = NULL;
+		s_game_input_state* input_state = nullptr;
 		real_euler_angles2d player_look_angular_velocity{};
 
 		input_abstraction_get_input_state(controller_index, &input_state);

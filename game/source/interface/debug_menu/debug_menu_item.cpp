@@ -24,7 +24,7 @@ c_debug_menu_item::~c_debug_menu_item()
 	{
 		m_child_ref->~c_debug_menu();
 	}
-	m_child_ref = NULL;
+	m_child_ref = nullptr;
 }
 
 bool c_debug_menu_item::get_active()
@@ -138,7 +138,7 @@ void c_debug_menu_item::render(c_font_cache_base* font_cache, const point2d& pos
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 	set_rectangle2d(&bounds, position.x, position.y, bounds.x1, bounds.y1);
 
 	draw_string.set_bounds(&bounds);
@@ -162,7 +162,7 @@ void c_debug_menu_item::set_name(const char* name)
 
 	int32 name_size = strlen_debug(name) + 1;
 
-	ASSERT(name != NULL && m_name == NULL);
+	ASSERT(name != nullptr && m_name == nullptr);
 	m_name = static_cast<char*>(debug_menu_malloc(name_size));
 	csstrnzcpy(m_name, name, name_size);
 }

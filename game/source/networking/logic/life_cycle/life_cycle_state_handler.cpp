@@ -35,7 +35,7 @@ void c_life_cycle_state_handler::enter(c_life_cycle_state_handler* from, int32 e
 	INVOKE_CLASS_MEMBER(0x0048D220, c_life_cycle_state_handler, enter, from, entry_data_size, entry_data);
 
 	//ASSERT(entry_data_size == 0);
-	//ASSERT(entry_data == NULL);
+	//ASSERT(entry_data == nullptr);
 	//
 	//event(_event_message, "networking:logic:life-cycle: entering state %s",
 	//	get_state_string());
@@ -64,7 +64,7 @@ c_life_cycle_state_manager* c_life_cycle_state_handler::get_manager() const
 {
 	//return INVOKE_CLASS_MEMBER(0x0048D350, c_life_cycle_state_handler, get_manager);
 
-	ASSERT(m_manager != NULL);
+	ASSERT(m_manager != nullptr);
 	return m_manager;
 }
 

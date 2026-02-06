@@ -51,7 +51,7 @@ void __cdecl loading_basic_progress_disable()
 
 	//ASSERT(loading_globals.basic_progress_enabled);
 	//loading_globals.basic_progress_enabled = false;
-	//loading_globals.scenario_path = NULL;
+	//loading_globals.scenario_path = nullptr;
 }
 
 void __cdecl loading_basic_progress_enable(const char* map_name, int32 insertion_point)
@@ -183,7 +183,7 @@ void __cdecl main_loading_dispose()
 	INVOKE(0x0052F4E0, main_loading_dispose);
 
 	//loading_globals.progress_valid = false;
-	//progress_set_default_callbacks(NULL);
+	//progress_set_default_callbacks(nullptr);
 }
 
 void __cdecl main_loading_enable_spinner(bool enable)
@@ -363,7 +363,7 @@ void __cdecl main_loading_initialize()
 	//	.progress_new_proc = main_loading_progress_new,
 	//	.progress_update_proc = main_loading_progress_update,
 	//	.progress_done_proc = main_loading_progress_done,
-	//	.progress_data = NULL
+	//	.progress_data = nullptr
 	//};
 	//progress_set_default_callbacks(&callbacks);
 	//loading_globals.progress_valid = false;

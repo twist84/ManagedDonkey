@@ -21,7 +21,7 @@ void c_game_engine_infection_variant::byteswap()
 
 void c_game_engine_infection_variant::set(const c_game_engine_infection_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	c_game_engine_base_variant::set(variant, force);
 
@@ -377,7 +377,7 @@ void c_game_engine_infection_variant::set_last_human_traits(const c_player_trait
 
 void c_infection_engine::dump_settings(s_file_reference* file) const
 {
-	ASSERT(file != NULL);
+	ASSERT(file != nullptr);
 
 	c_game_engine::dump_settings(file);
 

@@ -29,7 +29,7 @@ void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, co
 	c_rasterizer_draw_string draw_string{};
 
 	rectangle2d bounds{};
-	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
 
 	ASSERT(!(is_number && is_letter));
 

@@ -119,7 +119,7 @@ void c_start_menu_game_saved_film::initialize_datasource()
 
 	c_gui_screen_widget::initialize_datasource();
 
-	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), NULL);
+	c_gui_data* sidebar_items_data = c_gui_screen_widget::get_data(STRING_ID(gui, sidebar_items), nullptr);
 	if (!sidebar_items_data)
 	{
 		return;

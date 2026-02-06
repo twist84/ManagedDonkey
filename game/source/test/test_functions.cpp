@@ -51,7 +51,7 @@ void test_download_storage_file_update()
 		c_network_http_request_queue* request_queue = c_network_http_request_queue::get(_network_http_request_queue_type_optional);
 
 		int32 bytes_read = 0;
-		e_network_http_request_result request_result = request_queue->read_bytes(g_test_download_storage.request_cookie, buffer, sizeof(buffer), &bytes_read, NULL);
+		e_network_http_request_result request_result = request_queue->read_bytes(g_test_download_storage.request_cookie, buffer, sizeof(buffer), &bytes_read, nullptr);
 
 		bool v2 = true;
 		if (bytes_read > 0 && !file_write(&g_test_download_storage.request_file, bytes_read, buffer))

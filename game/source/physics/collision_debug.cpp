@@ -249,7 +249,7 @@ void collision_debug_render()
 			if (collision_test_vector_result)
 			{
 				c_static_string<128> shader_name("UNKNOWN");
-				const real_matrix4x3* matrix = NULL;
+				const real_matrix4x3* matrix = nullptr;
 		
 				e_collision_result_type collision_result_type = collision.type;
 				switch (collision_result_type)

@@ -303,12 +303,12 @@ void c_simulation_world::get_join_status(
 		constexpr uns32 view_type_mask = FLAG(_simulation_view_type_synchronous_to_remote_client) | FLAG(_simulation_view_type_distributed_to_remote_client);
 		c_simulation_world::iterator_begin(&iterator, view_type_mask);
 
-		c_simulation_view* view = NULL;
+		c_simulation_view* view = nullptr;
 		while (c_simulation_world::iterator_next(&iterator, &view))
 		{
 			ASSERT(view);
 
-			if (!view->is_dead(NULL))
+			if (!view->is_dead(nullptr))
 			{
 				if (!view->established())
 				{

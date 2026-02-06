@@ -46,9 +46,9 @@ c_network_link::c_network_link() :
 	m_next_channel_identifier(0),
 	m_next_first_channel_index(0),
 	//m_endpoints_created(false),
-	m_endpoints({ NULL }),
+	m_endpoints({ nullptr }),
 	//m_simulation_parameters(),
-	m_out_of_band_consumer(NULL)
+	m_out_of_band_consumer(nullptr)
 {
 	//c_network_link::reset_simulation_state();
 }
@@ -294,7 +294,7 @@ void c_network_link::destroy_endpoints()
 		if (m_endpoints[packet_mode])
 		{
 			transport_endpoint_delete(m_endpoints[packet_mode]);
-			m_endpoints[packet_mode] = NULL;
+			m_endpoints[packet_mode] = nullptr;
 		}
 	}
 #endif
@@ -308,15 +308,15 @@ void c_network_link::destroy_link()
 	//m_incoming_queue.destroy_queue();
 	//m_outgoing_queue.destroy_queue();
 
-	for (const c_network_channel* channel = network_channel_iterate(NULL);
-		channel != NULL;
+	for (const c_network_channel* channel = network_channel_iterate(nullptr);
+		channel != nullptr;
 		channel = network_channel_iterate(channel))
 	{
 		ASSERT(channel->allocated() == false);
 	}
 
 	c_network_link::destroy_endpoints();
-	m_out_of_band_consumer = NULL;
+	m_out_of_band_consumer = nullptr;
 	m_initialized = false;
 #endif
 }
@@ -370,7 +370,7 @@ c_network_channel* c_network_link::get_associated_channel(const transport_addres
 	return INVOKE_CLASS_MEMBER(0x0043BA40, c_network_link, get_associated_channel, address);
 
 #if 0
-	c_network_channel* channel = NULL;
+	c_network_channel* channel = nullptr;
 	while (channel = network_channel_iterate(channel))
 	{
 		if (channel->is_channel_remote_address(address))
@@ -486,8 +486,8 @@ void c_network_link::process_all_channels()
 	c_network_channel* channels[k_maximum_machines * 2] = {};
 	int32 channel_count = 0;
 
-	for (c_network_channel* channel = network_channel_iterate(NULL);
-		channel != NULL;
+	for (c_network_channel* channel = network_channel_iterate(nullptr);
+		channel != nullptr;
 		channel = network_channel_iterate(channel))
 	{
 		ASSERT(channel_count < NUMBEROF(channels));
@@ -504,7 +504,7 @@ void c_network_link::process_all_channels()
 			channel_index = (channel_index + 1) % channel_count)
 		{
 			c_network_channel* channel = channels[channel_index];
-			ASSERT(channels[channel_index] != NULL);
+			ASSERT(channels[channel_index] != nullptr);
 
 			if (channel->idle() && channel_index == channel_start)
 			{
@@ -588,7 +588,7 @@ void c_network_link::process_incoming_packets()
 							break;
 						}
 
-						if (!processed_channels[index] == NULL)
+						if (!processed_channels[index] == nullptr)
 						{
 							processed_channels[index] = channel;
 							break;
@@ -624,7 +624,7 @@ void c_network_link::process_packet_internal(const s_link_packet* packet)
 	case _network_packet_mode_channel:
 	{
 		c_network_channel* channel = c_network_link::get_associated_channel(&packet->address);
-		if (channel != NULL && !channel->closed())
+		if (channel != nullptr && !channel->closed())
 		{
 			if (packet->game_data_length > 0)
 			{
@@ -794,7 +794,7 @@ void c_network_link::send_channel(const c_bitstream* game_data, int32 voice_data
 	INVOKE_CLASS_MEMBER(0x0043C020, c_network_link, send_channel, game_data, voice_data_length, voice_data, address, out_bytes_on_wire);
 
 #if 0
-	ASSERT(voice_data_length == 0 || voice_data != NULL);
+	ASSERT(voice_data_length == 0 || voice_data != nullptr);
 
 	int32 bytes_transmitted_on_wire = 0;
 	bool packet_valid = true;

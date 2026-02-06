@@ -77,7 +77,7 @@ void c_user_interface_main_menu_music::render()
 
 		c_simple_font_draw_string draw_string;
 		draw_string.set_color(global_real_argb_yellow);
-		draw_string.draw(NULL, music_states[m_next_music_state]);
+		draw_string.draw(nullptr, music_states[m_next_music_state]);
 	}
 }
 

@@ -153,7 +153,7 @@ public:
 							c_havok_component* body_havok_component = DATUM_GET(g_havok_component_data, c_havok_component, OBJECT_GET(body_object_index)->object.havok_component_index);
 
 							real_vector3d linear_velocity{};
-							object_get_localized_velocities(body_havok_component->get_object_index(), &linear_velocity, NULL, NULL, NULL);
+							object_get_localized_velocities(body_havok_component->get_object_index(), &linear_velocity, nullptr, nullptr, nullptr);
 							if (magnitude_squared3d(&linear_velocity) >= proximity_mine->minimum_velocity_to_trigger * proximity_mine->minimum_velocity_to_trigger)
 							{
 								object_moving_in_proximity = true;
@@ -180,7 +180,7 @@ public:
 								global_up3d,
 								_match_all_markers,
 								_effect_deterministic,
-								NULL,
+								nullptr,
 								&equipment->object.location);
 						}
 						if (proximity_mine->explosion_damage_effect.index != NONE)
@@ -276,7 +276,7 @@ public:
 				if (invincibility->activation_effect.index != NONE)
 				{
 					s_damage_reporting_info damage_reporting_info{};
-					effect_new_from_object(invincibility->activation_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0f, 0.0f, NULL, NULL, _effect_deterministic);
+					effect_new_from_object(invincibility->activation_effect.index, nullptr, damage_reporting_info, owner_unit_index, 0.0f, 0.0f, nullptr, nullptr, _effect_deterministic);
 				}
 			}
 
@@ -286,7 +286,7 @@ public:
 				//if (invincibility->ending_effect.index != NONE)
 				//{
 				//	s_damage_reporting_info damage_reporting_info{};
-				//	effect_new_from_object(invincibility->ending_effect.index, NULL, damage_reporting_info, owner_unit_index, 0.0, 0.0, NULL, NULL, _effect_deterministic);
+				//	effect_new_from_object(invincibility->ending_effect.index, nullptr, damage_reporting_info, owner_unit_index, 0.0, 0.0, nullptr, nullptr, _effect_deterministic);
 				//}
 
 				// sub_B888E0
@@ -295,13 +295,13 @@ public:
 					s_damage_reporting_info damage_reporting_info{};
 					effect_new_from_object(
 						invincibility->ongoing_effect.index,
-						NULL,
+						nullptr,
 						damage_reporting_info,
 						owner_unit_index,
 						0.0f,
 						0.0f,
-						NULL,
-						NULL,
+						nullptr,
+						nullptr,
 						_effect_deterministic);
 				}
 			}
@@ -313,13 +313,13 @@ public:
 					s_damage_reporting_info damage_reporting_info{};
 					equipment->equipment.looping_effect_index = effect_new_from_object(
 						invincibility->ongoing_effect.index,
-						NULL,
+						nullptr,
 						damage_reporting_info,
 						owner_unit_index,
 						0.0f,
 						0.0f,
-						NULL,
-						NULL,
+						nullptr,
+						nullptr,
 						_effect_not_deterministic);
 				}
 				else

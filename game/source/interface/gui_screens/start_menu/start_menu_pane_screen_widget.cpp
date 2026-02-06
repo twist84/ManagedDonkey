@@ -142,7 +142,7 @@ bool c_start_menu_pane_screen_widget::set_focused_datasource_element_from_value(
 {
 	//return INVOKE_CLASS_MEMBER(0x00B1F950, c_start_menu_pane_screen_widget, set_focused_datasource_element_from_value, list_widget, value_name, value_to_set, play_animations_on_focus_change);
 
-	ASSERT(list_widget != NULL);
+	ASSERT(list_widget != nullptr);
 	return list_widget->set_focused_datasource_element_from_value(value_name, value_to_set, play_animations_on_focus_change);
 }
 

@@ -106,7 +106,7 @@ void __cdecl c_transparency_renderer::render(bool depth_test)
 				render_debug_string_at_point(&transparent->centroid, sort_position, global_real_argb_green);
 
 				wchar_t sort_position_wide[256]{};
-				ascii_string_to_wchar_string(sort_position, sort_position_wide, NUMBEROF(sort_position_wide), NULL);
+				ascii_string_to_wchar_string(sort_position, sort_position_wide, NUMBEROF(sort_position_wide), nullptr);
 				rasterizer_profile_begin_event(_rasterizer_profile_element_transparents, sort_position_wide);
 			}
 

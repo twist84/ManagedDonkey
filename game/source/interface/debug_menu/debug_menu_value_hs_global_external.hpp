@@ -34,7 +34,7 @@ public:
 
 		if (m_hs_global_external_index != NONE)
 		{
-			ASSERT(hs_external_globals[m_hs_global_external_index]->pointer != NULL);
+			ASSERT(hs_external_globals[m_hs_global_external_index]->pointer != nullptr);
 			*(t_type*)bytes = *(t_type*)hs_external_globals[m_hs_global_external_index]->pointer;
 		}
 
@@ -45,7 +45,7 @@ public:
 	{
 		if (m_hs_global_external_index != NONE)
 		{
-			ASSERT(hs_external_globals[m_hs_global_external_index]->pointer != NULL);
+			ASSERT(hs_external_globals[m_hs_global_external_index]->pointer != nullptr);
 			*(t_type*)hs_external_globals[m_hs_global_external_index]->pointer = value;
 		}
 	}

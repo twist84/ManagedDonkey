@@ -34,8 +34,8 @@ bool console_dump_to_debug_display = false;
 c_static_string<256> console_token_buffer;
 int32 suggestion_current_index;
 
-s_status_line* g_status_line_head = NULL;
-s_status_line* g_status_line_tail = NULL;
+s_status_line* g_status_line_head = nullptr;
+s_status_line* g_status_line_tail = nullptr;
 
 s_status_string g_status_strings[20];
 
@@ -59,7 +59,7 @@ s_string_cache::s_string_cache() :
 
 FILE* console_open_init_by_application_type(e_shell_application_type application_type)
 {
-	FILE* file = NULL;
+	FILE* file = nullptr;
 	c_static_string<256> file_name;
 
 	if (application_type == _shell_application_tool)
@@ -278,7 +278,7 @@ void __cdecl console_initialize()
 		for (int32 index = 0; index < NUMBEROF(g_status_strings); index++)
 		{
 			s_status_line* line = &g_status_strings[index].line;
-			status_lines_initialize(line, NULL, 1);
+			status_lines_initialize(line, nullptr, 1);
 			line->flags.set(_status_line_left_justify_bit, true);
 		}
 
@@ -320,7 +320,7 @@ void __cdecl console_printf(const char* format, ...)
 	{
 		char buffer[255];
 		cvsnzprintf(buffer, sizeof(buffer), format, arglist);
-		terminal_printf(NULL, buffer);
+		terminal_printf(nullptr, buffer);
 		if (console_dump_to_debug_display)
 		{
 			display_debug_string(buffer);
@@ -542,7 +542,7 @@ bool __cdecl console_process_command(const char* command, bool interactive)
 	}
 #endif
 
-	main_status("console_command", NULL);
+	main_status("console_command", nullptr);
 	return result;
 }
 
@@ -553,10 +553,10 @@ bool __cdecl debugging_system_has_focus()
 
 void status_line_add_single(s_status_line* in_status_line)
 {
-	ASSERT(NULL == in_status_line->prev);
-	ASSERT(NULL == in_status_line->next);
+	ASSERT(nullptr == in_status_line->prev);
+	ASSERT(nullptr == in_status_line->next);
 
-	in_status_line->next = NULL;
+	in_status_line->next = nullptr;
 	in_status_line->prev = g_status_line_tail;
 	
 	if (g_status_line_tail)
@@ -659,8 +659,8 @@ void status_line_dump()
 
 void status_line_remove_single(s_status_line* status_line)
 {
-	ASSERT(status_line->next != NULL || status_line == g_status_line_tail);
-	ASSERT(status_line->prev != NULL || status_line == g_status_line_head);
+	ASSERT(status_line->next != nullptr || status_line == g_status_line_tail);
+	ASSERT(status_line->prev != nullptr || status_line == g_status_line_head);
 
 	if (status_line->prev)
 	{
@@ -680,8 +680,8 @@ void status_line_remove_single(s_status_line* status_line)
 		g_status_line_tail = status_line->prev;
 	}
 
-	status_line->prev = NULL;
-	status_line->next = NULL;
+	status_line->prev = nullptr;
+	status_line->next = nullptr;
 }
 
 bool status_line_visible(const s_status_line* line)
@@ -735,7 +735,7 @@ void status_lines_enable(const char* identifier)
 
 void status_lines_initialize(s_status_line* status_lines, bool* flag, int32 count)
 {
-	status_lines_initialize_simple(status_lines, flag, NULL, count);
+	status_lines_initialize_simple(status_lines, flag, nullptr, count);
 }
 
 void status_lines_initialize_simple(s_status_line* status_line, bool* flag, const char* identifier, int32 count)
@@ -822,7 +822,7 @@ void status_strings(const char* status, const char* strings)
 		int32 line = 0;
 
 		csstrnzcpy(buffer, strings, sizeof(buffer));
-		for (char* line_end = csstrtok(buffer, "\r\n", 1, data); line_end; line_end = csstrtok(NULL, "\r\n", 1, data))
+		for (char* line_end = csstrtok(buffer, "\r\n", 1, data); line_end; line_end = csstrtok(nullptr, "\r\n", 1, data))
 		{
 			c_static_string<256> string;
 			string.print("%d%s", line++, status);

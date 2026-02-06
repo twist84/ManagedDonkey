@@ -257,7 +257,7 @@ void __cdecl c_screen_postprocess::gaussian_blur(
 		1.0f,
 		1.0f,
 		1.0f,
-		NULL);
+		nullptr);
 	c_screen_postprocess::copy(
 		c_rasterizer_globals::_shader_bloom_blur_kernel_11_vertical,
 		temp_surface,
@@ -268,7 +268,7 @@ void __cdecl c_screen_postprocess::gaussian_blur(
 		1.0f,
 		1.0f,
 		1.0f,
-		NULL);
+		nullptr);
 }
 
 //REFERENCE_DECLARE_ARRAY(0x01694F08, real_vector4d const, kernel_vertical, 5);
@@ -292,7 +292,7 @@ void __cdecl c_screen_postprocess::gaussian_blur_fixed(
 		1.0f,
 		1.0f,
 		1.0f,
-		NULL);
+		nullptr);
 	c_rasterizer::resolve_surface(temp_surface, 0, 0, 0, 0);
 
 	{
@@ -318,7 +318,7 @@ void __cdecl c_screen_postprocess::gaussian_blur_fixed(
 		scale_g,
 		scale_b,
 		scale_a,
-		NULL);
+		nullptr);
 }
 
 c_rasterizer::e_surface __cdecl c_screen_postprocess::postprocess_bloom_buffer(
@@ -451,7 +451,7 @@ void __cdecl c_screen_postprocess::setup_rasterizer_for_postprocess(bool clear_t
 	}
 	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_opaque);
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_off);
-	c_rasterizer::set_scissor_rect(NULL);
+	c_rasterizer::set_scissor_rect(nullptr);
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_off);
 	c_rasterizer::set_color_write_enable(0, c_rasterizer::_color_write_enable_all);
 }

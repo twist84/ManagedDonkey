@@ -43,7 +43,7 @@ const c_game_engine* __cdecl current_game_engine()
 {
 	//return INVOKE(0x005CE150, current_game_engine);
 
-	const c_game_engine* game_engine = NULL;
+	const c_game_engine* game_engine = nullptr;
 	if (game_engine_globals && IN_RANGE(game_engine_globals->game_engine_index, _game_engine_type_none, k_game_engine_type_count))
 	{
 		game_engine = game_engines[game_engine_globals->game_engine_index];
@@ -55,7 +55,7 @@ const c_game_variant* __cdecl current_game_variant()
 {
 	//return INVOKE(0x005CE190, current_game_variant);
 
-	const c_game_variant* variant = NULL;
+	const c_game_variant* variant = nullptr;
 	game_options* options = game_options_get();
 	if (options->game_mode == _game_mode_multiplayer)
 	{

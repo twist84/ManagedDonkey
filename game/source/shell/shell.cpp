@@ -123,7 +123,7 @@ void __cdecl shell_halt_with_message(const char* message)
 	//while (true)
 	//{
 	//	c_static_wchar_string<256> status_message;
-	//	ascii_string_to_wchar_string(message, status_message.get_buffer(), status_message.element_count, NULL);
+	//	ascii_string_to_wchar_string(message, status_message.get_buffer(), status_message.element_count, nullptr);
 	//	status_message.print(L"|n%s", spinner_states[(system_milliseconds() / 100) & 3]);
 	//	main_loop_status_message(status_message.get_string());
 	//}

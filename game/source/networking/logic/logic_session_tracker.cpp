@@ -299,12 +299,12 @@ bool c_session_tracker::initialize(bool verify)
 
 	m_session_count = 0;
 	m_session_storage_size_bytes = 0;
-	m_session_storage = NULL;
+	m_session_storage = nullptr;
 
 	m_unsuitable_session_count = 0;
 	m_unsuitable_session_maximum_count = 0;
 	m_unsuitable_session_storage_size_bytes = 0;
-	m_unsuitable_session_storage = NULL;
+	m_unsuitable_session_storage = nullptr;
 
 	m_maximum_qos_tasks = 0;
 

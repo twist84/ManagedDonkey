@@ -72,7 +72,7 @@ void __cdecl chud_debug_draw_reticle(int32 user_index, real32 angle, const real_
 {
 	//INVOKE(0x00AC7F50, chud_debug_draw_reticle, user_index, angle, color);
 
-	chud_debug_draw_reticle_labeled(user_index, angle, NULL, 0.0f, color);
+	chud_debug_draw_reticle_labeled(user_index, angle, nullptr, 0.0f, color);
 }
 
 void __cdecl chud_debug_draw_reticle_labeled(int32 user_index, real32 angle, const char* label, real32 a4, const real_argb_color* color)

@@ -85,7 +85,7 @@ void* __cdecl object_header_block_get_with_count(int32 object_index, const objec
 	if (reference->offset == NONE)
 	{
 		*element_count = 0;
-		return NULL;
+		return nullptr;
 	}
 
 	void* block = object_header_block_get(object_index, reference);
@@ -119,7 +119,7 @@ void* __cdecl object_get_and_verify_type(int32 object_index, uns32 valid_type_fl
 {
 	//VASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
-	object_datum* result = NULL;
+	object_datum* result = nullptr;
 	if (const object_header_datum* object_header = object_header_get(object_index))
 	{
 		object_datum* object = object_header->datum;
@@ -1023,7 +1023,7 @@ int32 __cdecl object_new(object_placement_data* data)
 	//struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, data->definition_index);
 	//object_type_definition* type_definition = object_type_definition_get(object_definition->object.type);
 	//
-	//s_model_definition* model_definition = NULL;
+	//s_model_definition* model_definition = nullptr;
 	//if (object_definition->object.model.index != NONE)
 	//	model_definition = TAG_GET(MODEL_TAG, s_model_definition, object_definition->object.model.index);
 	//
@@ -1353,8 +1353,8 @@ void __cdecl object_placement_data_set_location(object_placement_data* data, con
 {
 	INVOKE(0x00B31750, object_placement_data_set_location, data, location);
 
-	//ASSERT(data != NULL);
-	//ASSERT(location != NULL);
+	//ASSERT(data != nullptr);
+	//ASSERT(location != nullptr);
 	//
 	//data->location = *location;
 	//data->location_set = true;
@@ -1618,7 +1618,7 @@ bool __cdecl object_set_position_internal(int32 object_index, const real_point3d
 	//	simulation_action_object_update(object_index, _simulation_object_update_forward_and_up);
 	//}
 	//
-	//havok_object_set_position(object_index, position == NULL, false, false);
+	//havok_object_set_position(object_index, position == nullptr, false, false);
 	//
 	//if (connected_to_map)
 	//{
@@ -1900,7 +1900,7 @@ void __cdecl objects_update()
 	//{
 	//	PROFILER(objects_update)
 	//	{
-	//		int32* object_early_movers = NULL;
+	//		int32* object_early_movers = nullptr;
 	//		int32 object_early_movers_count = 0;
 	//		object_get_early_movers(&object_early_movers, &object_early_movers_count);
 	//		//object_profile_reset();
@@ -2050,7 +2050,7 @@ void object_debug_teleport(int32 object_index, const real_point3d* position)
 			object_set_in_limbo(object_index, false);
 		}
 
-		object_set_position_internal(object_index, position, NULL, NULL, NULL, false, true, false, true);
+		object_set_position_internal(object_index, position, nullptr, nullptr, nullptr, false, true, false, true);
 
 		havok_can_modify_state_disallow();
 	}
@@ -2098,7 +2098,7 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 	{
 		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
 
-		s_model_definition* model_definition = NULL;
+		s_model_definition* model_definition = nullptr;
 		if (object_definition->object.model.index != NONE)
 		{
 			model_definition = object_definition->object.model.cast_to<s_model_definition>();
@@ -2187,7 +2187,7 @@ void object_render_debug_internal(int32 object_index)
 		real_vector3d linear_velocity{};
 
 		object_get_world_matrix(object_index, &matrix);
-		object_get_velocities(object_index, &linear_velocity, NULL);
+		object_get_velocities(object_index, &linear_velocity, nullptr);
 
 		render_debug_matrix(true, &matrix, object->object.bounding_sphere_radius);
 		render_debug_vector(true, &matrix.position, &linear_velocity,1.0f, global_real_argb_yellow);
@@ -2245,7 +2245,7 @@ void object_render_debug_internal(int32 object_index)
 
 	if (debug_objects_model_targets)
 	{
-		s_model_definition* model_definition = NULL;
+		s_model_definition* model_definition = nullptr;
 		if (object_definition->object.model.index != NONE)
 		{
 			model_definition = object_definition->object.model.cast_to<s_model_definition>();

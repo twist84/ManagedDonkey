@@ -11,7 +11,7 @@ HOOK_DECLARE(0x00AD86B0, parse_build_number);
 
 bool parse_build_number(void* this_ptr, wchar_t* buffer, int32 buffer_length)
 {
-	ASSERT(buffer != NULL);
+	ASSERT(buffer != nullptr);
 	ASSERT(buffer_length > 0);
 
 	static const char* build_name = version_get_build_name();

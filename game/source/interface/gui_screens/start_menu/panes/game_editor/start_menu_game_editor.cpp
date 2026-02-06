@@ -45,7 +45,7 @@ c_start_menu_game_editor::c_start_menu_game_editor(int32 name) :
 	m_confirmation_result(_result_indeterminate),
 	m_variant_on_disk(),
 	m_asynchronous_operation_controller(k_no_controller),
-	m_keyboard_task(c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_no_controller, NULL, NULL, NULL, NUMBEROF(m_virtual_keyboard_results_buffer), 0, true)),
+	m_keyboard_task(c_virtual_keyboard_task::get_instance(__FILE__, __LINE__, k_no_controller, nullptr, nullptr, nullptr, NUMBEROF(m_virtual_keyboard_results_buffer), 0, true)),
 	m_virtual_keyboard_results_buffer(),
 	m_multiplayer_setup(),
 	m_create_new_variant_task(INVALID_ASYNC_TASK_ID),
@@ -163,7 +163,7 @@ void c_start_menu_game_editor::update(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00AEB320, c_start_menu_game_editor, update, current_milliseconds);
 
-	c_gui_ordered_data* datasource = (c_gui_ordered_data*)c_gui_screen_widget::get_data(STRING_ID(gui, teams), NULL);
+	c_gui_ordered_data* datasource = (c_gui_ordered_data*)c_gui_screen_widget::get_data(STRING_ID(gui, teams), nullptr);
 	if (datasource)
 	{
 		const c_game_variant* variant = user_interface_game_settings_get_game_variant();
@@ -237,8 +237,8 @@ void c_start_menu_game_editor::update_save_as_new_operation()
 	if (m_create_new_variant_task == INVALID_ASYNC_TASK_ID)
 	{
 		wchar_t map_description[128]{};
-		//utf8_string_to_wchar_string(map_variant->m_metadata.description, map_description, NUMBEROF(map_description), NULL);
-		ascii_string_to_wchar_string(map_variant->m_metadata.description, map_description, NUMBEROF(map_description), NULL);
+		//utf8_string_to_wchar_string(map_variant->m_metadata.description, map_description, NUMBEROF(map_description), nullptr);
+		ascii_string_to_wchar_string(map_variant->m_metadata.description, map_description, NUMBEROF(map_description), nullptr);
 
 		wchar_t map_name[256]{};
 		ustrnzcpy(map_name, k_map_name, NUMBEROF(map_name));

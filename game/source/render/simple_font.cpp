@@ -265,7 +265,7 @@ void simple_font::s_font_data::remove()
 	{
 		bitmap_delete(bitmap);
 		c_rasterizer_texture_ref::release(hardware_format);
-		bitmap = NULL;
+		bitmap = nullptr;
 		installed = false;
 	}
 }
@@ -306,7 +306,7 @@ simple_font::s_font_data simple_font::g_font_6x10 =
 
 	.texture_width = 128,
 	.texture_height = 64,
-	.bitmap = NULL,
+	.bitmap = nullptr,
 	.hardware_format = c_rasterizer_texture_ref(),
 	.pitch = 0,
 
@@ -398,7 +398,7 @@ simple_font::s_font_data simple_font::g_font_4x6 =
 
 	.texture_width = 128,
 	.texture_height = 64,
-	.bitmap = NULL,
+	.bitmap = nullptr,
 	.hardware_format = c_rasterizer_texture_ref(),
 	.pitch = 0,
 

@@ -46,8 +46,8 @@ void c_havok_component::render_debug(
 	{
 		if (m_simple_shape_phantom && render_physics_model)
 		{
-			//ASSERT(m_simple_shape_phantom->getCollidable()->getShape() != NULL);
-			ASSERT(m_simple_shape_phantom->m_collidable.m_shape != NULL);
+			//ASSERT(m_simple_shape_phantom->getCollidable()->getShape() != nullptr);
+			ASSERT(m_simple_shape_phantom->m_collidable.m_shape != nullptr);
 			real_matrix4x3 direct_transform{};
 			matrix4x3_from_hkTransform(&direct_transform, &m_simple_shape_phantom->m_motionState.m_transform);
 			render_debug_physics_shape(m_simple_shape_phantom->m_collidable.m_shape, &direct_transform, global_real_argb_blue);
@@ -92,8 +92,8 @@ void c_havok_component::render_debug(
 					}
 				}
 
-				//ASSERT(rigid_body->getCollidable()->getShape() != NULL);
-				ASSERT(rigid_body->m_collidable.m_shape != NULL);
+				//ASSERT(rigid_body->getCollidable()->getShape() != nullptr);
+				ASSERT(rigid_body->m_collidable.m_shape != nullptr);
 
 				real_matrix4x3 direct_transform{};
 				matrix4x3_from_hkTransform(&direct_transform, &rigid_body->m_motion.m_motionState.m_transform);

@@ -10,9 +10,9 @@
 #include "tag_files/tag_resource_internals.hpp"
 
 #define TAG_GET(GROUP, TYPE, INDEX) ((TYPE*)tag_get((GROUP), (INDEX)))
-#define TAG_GET_SAFE(GROUP, TYPE, INDEX) ((INDEX) != NONE ? ((TYPE*)tag_get((GROUP), (INDEX))) : NULL)
+#define TAG_GET_SAFE(GROUP, TYPE, INDEX) ((INDEX) != NONE ? ((TYPE*)tag_get((GROUP), (INDEX))) : nullptr)
 #define TAG_BLOCK_GET_ELEMENT(BLOCK, INDEX, TYPE) ((TYPE*)tag_block_get_element_with_size((BLOCK), (INDEX), sizeof(TYPE)))
-#define TAG_BLOCK_GET_ELEMENT_SAFE(BLOCK, INDEX, TYPE) (VALID_INDEX((INDEX), (BLOCK)->count) ? ((TYPE*)tag_block_get_element_with_size((BLOCK), (INDEX), sizeof(TYPE))) : NULL)
+#define TAG_BLOCK_GET_ELEMENT_SAFE(BLOCK, INDEX, TYPE) (VALID_INDEX((INDEX), (BLOCK)->count) ? ((TYPE*)tag_block_get_element_with_size((BLOCK), (INDEX), sizeof(TYPE))) : nullptr)
 #define TAG_DATA_GET_POINTER(DATA, OFFSET, SIZE, TYPE) ((TYPE*)tag_data_get_pointer((DATA), (OFFSET), (SIZE)))
 
 typedef c_static_array<s_network_http_request_hash, 1> c_cache_file_content_hashes_array;

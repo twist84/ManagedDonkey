@@ -108,7 +108,7 @@ void __cdecl game_engine_player_prepare_to_change_team(int32 player_index, e_gam
 		if (team_index != player->configuration.host.team_index && player->unit_index != NONE)
 		{
 			random_seed_allow_use();
-			object_kill_instantly(player->unit_index, false, true, true, NULL, { .type = _damage_reporting_type_guardians });
+			object_kill_instantly(player->unit_index, false, true, true, nullptr, { .type = _damage_reporting_type_guardians });
 			random_seed_disallow_use();
 
 			if (player->unit_index != NONE)

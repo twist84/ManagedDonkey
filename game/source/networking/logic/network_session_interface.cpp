@@ -14,7 +14,7 @@ REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_inter
 int32 __cdecl network_squad_session_get_countdown_timer()
 {
 	int32 countdown_timer = NONE;
-	c_network_session* session = NULL;
+	c_network_session* session = nullptr;
 	if (network_life_cycle_in_squad_session(&session) && session->established())
 	{
 		c_network_session_parameters* session_parameters = session->get_session_parameters();
@@ -211,7 +211,7 @@ int32 __cdecl network_session_interface_get_team_index(int32 user_index)
 	team_index = user->desired_team_index;
 	if (team_index == NONE)
 	{
-		c_network_session* session = NULL;
+		c_network_session* session = nullptr;
 		if (network_life_cycle_in_squad_session(&session) && session->established())
 		{
 			const c_network_session_membership* session_membership = session->get_session_membership();
@@ -403,7 +403,7 @@ bool __cdecl network_squad_session_can_set_game_settings()
 {
 	//return INVOKE(0x00438590, network_squad_session_can_set_game_settings);
 
-	c_network_session* in_squad_session = NULL;
+	c_network_session* in_squad_session = nullptr;
 	return network_life_cycle_in_squad_session(&in_squad_session)
 		&& in_squad_session->established()
 		&& in_squad_session->is_leader()
@@ -554,7 +554,7 @@ bool __cdecl network_squad_session_set_session_mode(e_network_session_mode sessi
 	//if (network_squad_session_can_set_game_settings())
 	if (network_squad_session_local_peer_is_leader())
 	{
-		c_network_session* session = NULL;
+		c_network_session* session = nullptr;
 		if (network_life_cycle_in_squad_session(&session))
 		{
 			ASSERT(session);

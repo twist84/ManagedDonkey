@@ -109,7 +109,7 @@ void c_gui_bitmap_widget::assemble_render_data(
 	else if (render_as_player_emblem)
 	{
 		c_gui_screen_widget* parent_screen = get_parent_screen();
-		ASSERT(parent_screen != NULL);
+		ASSERT(parent_screen != nullptr);
 
 		bool emblem_info_valid = parent_screen->try_and_get_render_data_emblem_info(this, &bitmap_render_data->source.emblem);
 		if (!emblem_info_valid)
@@ -252,7 +252,7 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 {
 	//INVOKE(0x00B170F0, render_bitmap, render_data, window_bounds);
 
-	ASSERT(render_data != NULL);
+	ASSERT(render_data != nullptr);
 
 	real32 width = render_data->projected_bounds.get_width();
 	real32 height = render_data->projected_bounds.get_height();
@@ -266,7 +266,7 @@ void __cdecl render_bitmap(const s_gui_bitmap_widget_render_data* render_data, c
 
 	rectangle2d render_bounds{};
 	rectangle2d out_display_bounds{};
-	interface_get_current_display_settings(&render_bounds, NULL, &out_display_bounds, NULL);
+	interface_get_current_display_settings(&render_bounds, nullptr, &out_display_bounds, nullptr);
 	
 	real32 render_width = (real32)rectangle2d_width(&render_bounds);
 	real32 render_height = (real32)rectangle2d_height(&render_bounds);

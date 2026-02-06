@@ -42,7 +42,7 @@ static void http_route_handler_500(s_http_client* client, const s_http_request* 
 bool http_server_initialize(uns16 port)
 {
 	s_http_server* server = http_server_get();
-	ASSERT(server != NULL);
+	ASSERT(server != nullptr);
 
 	csmemset(server, 0, sizeof(s_http_server));
 	server->port = port;
@@ -93,14 +93,14 @@ bool http_server_initialize(uns16 port)
 			{
 				event(_event_error, "networking:http_server: failed to listen on port %d", port);
 				transport_endpoint_delete(server->server_endpoint);
-				server->server_endpoint = NULL;
+				server->server_endpoint = nullptr;
 			}
 		}
 		else
 		{
 			event(_event_error, "networking:http_server: failed to bind to port %d", port);
 			transport_endpoint_delete(server->server_endpoint);
-			server->server_endpoint = NULL;
+			server->server_endpoint = nullptr;
 		}
 	}
 	else
@@ -114,7 +114,7 @@ bool http_server_initialize(uns16 port)
 void http_server_dispose()
 {
 	s_http_server* server = http_server_get();
-	ASSERT(server != NULL);
+	ASSERT(server != nullptr);
 
 	if (server->server_endpoint)
 	{
@@ -136,7 +136,7 @@ void http_server_dispose()
 
 		transport_endpoint_disconnect(server->server_endpoint);
 		transport_endpoint_delete(server->server_endpoint);
-		server->server_endpoint = NULL;
+		server->server_endpoint = nullptr;
 	}
 
 	server->route_count = 0;
@@ -146,7 +146,7 @@ void http_server_dispose()
 void http_server_update()
 {
 	s_http_server* server = http_server_get();
-	ASSERT(server != NULL);
+	ASSERT(server != nullptr);
 
 	if (server->running && server->server_endpoint)
 	{
@@ -157,7 +157,7 @@ void http_server_update()
 			transport_endpoint* client_endpoint = transport_endpoint_accept(server->server_endpoint);
 			if (client_endpoint)
 			{
-				s_http_client* client = NULL;
+				s_http_client* client = nullptr;
 				for (int32 client_index = 0; client_index < s_http_server::k_max_clients; client_index++)
 				{
 					if (!http_client_is_active(&server->clients[client_index]))
@@ -264,9 +264,9 @@ void http_server_update()
 bool http_server_register_route(const char* path, e_http_method method, void (*handler)(s_http_client*, const s_http_request*, s_http_response*))
 {
 	s_http_server* server = http_server_get();
-	ASSERT(server != NULL);
-	ASSERT(path != NULL);
-	ASSERT(handler != NULL);
+	ASSERT(server != nullptr);
+	ASSERT(path != nullptr);
+	ASSERT(handler != nullptr);
 
 	bool success = false;
 
@@ -298,14 +298,14 @@ bool http_server_register_route(const char* path, e_http_method method, void (*h
 
 static void http_client_init(s_http_client* client)
 {
-	ASSERT(client != NULL);
+	ASSERT(client != nullptr);
 	csmemset(client, 0, sizeof(s_http_client));
 	client->state = _http_client_state_idle;
 }
 
 static void http_client_reset(s_http_client* client)
 {
-	ASSERT(client != NULL);
+	ASSERT(client != nullptr);
 
 	transport_endpoint* saved_endpoint = client->endpoint;
 	transport_address saved_address = client->address;
@@ -314,17 +314,17 @@ static void http_client_reset(s_http_client* client)
 	if (client->request.body)
 	{
 		system_free(client->request.body);
-		client->request.body = NULL;
+		client->request.body = nullptr;
 	}
 	if (client->response.body)
 	{
 		system_free(client->response.body);
-		client->response.body = NULL;
+		client->response.body = nullptr;
 	}
 	if (client->response.response_buffer)
 	{
 		system_free(client->response.response_buffer);
-		client->response.response_buffer = NULL;
+		client->response.response_buffer = nullptr;
 	}
 
 	csmemset(client, 0, sizeof(s_http_client));
@@ -337,13 +337,13 @@ static void http_client_reset(s_http_client* client)
 
 static void http_client_close(s_http_client* client)
 {
-	ASSERT(client != NULL);
+	ASSERT(client != nullptr);
 
 	if (client->endpoint)
 	{
 		transport_endpoint_disconnect(client->endpoint);
 		transport_endpoint_delete(client->endpoint);
-		client->endpoint = NULL;
+		client->endpoint = nullptr;
 	}
 
 	http_client_reset(client);
@@ -373,8 +373,8 @@ static bool http_client_has_timed_out(const s_http_client* client)
 
 static bool http_client_read_request(s_http_client* client)
 {
-	ASSERT(client != NULL);
-	ASSERT(client->endpoint != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(client->endpoint != nullptr);
 
 	bool success = false;
 
@@ -425,8 +425,8 @@ static bool http_client_read_request(s_http_client* client)
 
 static bool http_client_process_request(s_http_server* server, s_http_client* client)
 {
-	ASSERT(server != NULL);
-	ASSERT(client != NULL);
+	ASSERT(server != nullptr);
+	ASSERT(client != nullptr);
 
 	bool success = false;
 
@@ -483,8 +483,8 @@ static void http_client_handle_route(s_http_server* server, s_http_client* clien
 
 static bool http_client_write_response(s_http_client* client)
 {
-	ASSERT(client != NULL);
-	ASSERT(client->endpoint != NULL);
+	ASSERT(client != nullptr);
+	ASSERT(client->endpoint != nullptr);
 
 	bool success = false;
 
@@ -581,7 +581,7 @@ static void http_route_handler_500(s_http_client* client, const s_http_request* 
 
 void http_response_initialize(s_http_response* response)
 {
-	ASSERT(response != NULL);
+	ASSERT(response != nullptr);
 	csmemset(response, 0, sizeof(s_http_response));
 	response->status_code = _http_status_ok;
 	csstrnzcpy(response->content_type, "text/html", sizeof(response->content_type));
@@ -589,43 +589,43 @@ void http_response_initialize(s_http_response* response)
 
 void http_response_dispose(s_http_response* response)
 {
-	ASSERT(response != NULL);
+	ASSERT(response != nullptr);
 
 	if (response->body)
 	{
 		system_free(response->body);
-		response->body = NULL;
+		response->body = nullptr;
 	}
 
 	if (response->response_buffer)
 	{
 		system_free(response->response_buffer);
-		response->response_buffer = NULL;
+		response->response_buffer = nullptr;
 	}
 }
 
 void http_response_set_status(s_http_response* response, e_http_status status)
 {
-	ASSERT(response != NULL);
+	ASSERT(response != nullptr);
 	response->status_code = status;
 }
 
 void http_response_set_content_type(s_http_response* response, const char* content_type)
 {
-	ASSERT(response != NULL);
-	ASSERT(content_type != NULL);
+	ASSERT(response != nullptr);
+	ASSERT(content_type != nullptr);
 	csstrnzcpy(response->content_type, content_type, sizeof(response->content_type));
 }
 
 void http_response_set_body(s_http_response* response, const char* body, int32 length)
 {
-	ASSERT(response != NULL);
-	ASSERT(body != NULL);
+	ASSERT(response != nullptr);
+	ASSERT(body != nullptr);
 
 	if (response->body)
 	{
 		system_free(response->body);
-		response->body = NULL;
+		response->body = nullptr;
 	}
 
 	response->body = (char*)system_malloc(length + 1);
@@ -640,8 +640,8 @@ void http_response_set_body(s_http_response* response, const char* body, int32 l
 
 void http_response_append_body(s_http_response* response, const char* data, int32 length)
 {
-	ASSERT(response != NULL);
-	ASSERT(data != NULL);
+	ASSERT(response != nullptr);
+	ASSERT(data != nullptr);
 
 	bool has_new_body = false;
 
@@ -657,7 +657,7 @@ void http_response_append_body(s_http_response* response, const char* data, int3
 			{
 				csmemcpy(new_body, response->body, response->body_length);
 				system_free(response->body);
-				response->body = NULL;
+				response->body = nullptr;
 			}
 
 			response->body = new_body;
@@ -683,8 +683,8 @@ void http_response_set_json(s_http_response* response, const char* json)
 
 void http_response_set_file(s_http_response* response, const char* filepath)
 {
-	ASSERT(response != NULL);
-	ASSERT(filepath != NULL);
+	ASSERT(response != nullptr);
+	ASSERT(filepath != nullptr);
 
 	s_file_reference file{};
 	if (file_reference_create_from_path(&file, filepath, false) && file_exists(&file))
@@ -698,7 +698,7 @@ void http_response_set_file(s_http_response* response, const char* filepath)
 			http_response_set_body(response, file_content, file_size);
 
 			system_free(file_content);
-			file_content = NULL;
+			file_content = nullptr;
 		}
 		else
 		{
@@ -715,14 +715,14 @@ void http_response_set_file(s_http_response* response, const char* filepath)
 
 bool http_response_build(s_http_response* response)
 {
-	ASSERT(response != NULL);
+	ASSERT(response != nullptr);
 
 	bool success = false;
 
 	if (response->response_buffer)
 	{
 		system_free(response->response_buffer);
-		response->response_buffer = NULL;
+		response->response_buffer = nullptr;
 	}
 
 	c_static_string<512> headers;
@@ -758,8 +758,8 @@ bool http_response_build(s_http_response* response)
 
 bool http_request_parse(const char* buffer, int32 length, s_http_request* request)
 {
-	ASSERT(buffer != NULL);
-	ASSERT(request != NULL);
+	ASSERT(buffer != nullptr);
+	ASSERT(request != nullptr);
 
 	bool success = false;
 

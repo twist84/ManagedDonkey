@@ -157,7 +157,7 @@ void c_online_file_manager::memory_initialize(e_map_memory_configuration memory_
 		return;
 	}
 
-	ASSERT(m_compression_scratch_buffer == NULL);
+	ASSERT(m_compression_scratch_buffer == nullptr);
 
 	char* compression_scratch_buffer = (char*)_physical_memory_malloc(_memory_stage_map_configuration, "online_files", k_data_compression_scratch_size, 0);
 
@@ -229,7 +229,7 @@ void __cdecl online_files_test_upload(const char* local_filename, int32 slot_ind
 	//		file_size > sizeof(s_blf_chunk_start_of_file) &&
 	//		file_read(&source_file, sizeof(s_blf_chunk_start_of_file), 1, buffer))
 	//	{
-	//		start_of_file_valid = network_blf_verify_start_of_file(buffer, sizeof(s_blf_chunk_start_of_file), NULL, NULL);
+	//		start_of_file_valid = network_blf_verify_start_of_file(buffer, sizeof(s_blf_chunk_start_of_file), nullptr, nullptr);
 	//	}
 	//}
 	//
@@ -274,13 +274,13 @@ void __cdecl online_files_test_upload(const char* local_filename, int32 slot_ind
 	//	description.metadata.size_in_bytes = file_size;
 	//	description.task_owner = user_xuid;
 	//	name.copy_to(description.metadata.display_name, NUMBEROF(description.metadata.display_name));
-	//	description.metadata.date = _time64(NULL);
+	//	description.metadata.date = _time64(nullptr);
 	//
 	//	g_online_file_manager.enqueue_for_transfer(
 	//		_queued_work_item_type_upload,
 	//		&description,
 	//		file_name_to_upload.get_string(),
-	//		NULL,
+	//		nullptr,
 	//		user_xuid,
 	//		user_xuid,
 	//		slot_index,

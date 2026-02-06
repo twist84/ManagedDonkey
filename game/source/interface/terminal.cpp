@@ -42,7 +42,7 @@ void terminal_dispose()
 			}
 
 			data_dispose(terminal_globals.output_lines);
-			terminal_globals.output_lines = NULL;
+			terminal_globals.output_lines = nullptr;
 		}
 	}
 }
@@ -135,7 +135,7 @@ void terminal_draw(rectangle2d* screen_bounds, rectangle2d* frame_bounds)
 
 bool terminal_gets_active()
 {
-	return terminal_globals.input_state != NULL;
+	return terminal_globals.input_state != nullptr;
 }
 
 bool terminal_gets_begin(terminal_gets_state* state)
@@ -166,7 +166,7 @@ void terminal_gets_end(terminal_gets_state* state)
 
 	if (state == terminal_globals.input_state)
 	{
-		terminal_globals.input_state = NULL;
+		terminal_globals.input_state = nullptr;
 	}
 }
 
@@ -196,7 +196,7 @@ void terminal_initialize()
 		data_make_valid(terminal_globals.output_lines);
 
 		terminal_globals.console_output = false;
-		terminal_globals.input_state = NULL;
+		terminal_globals.input_state = nullptr;
 		terminal_globals.newest_output_line_index = NONE;
 		terminal_globals.oldest_output_line_index = NONE;
 		terminal_globals.initialized = true;
@@ -246,7 +246,7 @@ void terminal_output_to_console(bool console_output)
 
 void terminal_printf(const real_argb_color* color, const char* format, ...)
 {
-	ASSERT(format != NULL);
+	ASSERT(format != nullptr);
 
 	char buffer[256]{};
 

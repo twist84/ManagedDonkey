@@ -148,9 +148,9 @@ bool __cdecl netdebug_initialize(const char* title_string, const char* build_ide
 {
 	return INVOKE(0x0042FEA0, netdebug_initialize, title_string, build_identifier_string, system_identifier_string);
 
-	//ASSERT(title_string != NULL);
-	//ASSERT(build_identifier_string != NULL);
-	//ASSERT(system_identifier_string != NULL);
+	//ASSERT(title_string != nullptr);
+	//ASSERT(build_identifier_string != nullptr);
+	//ASSERT(system_identifier_string != nullptr);
 	//g_netdebug_globals.title.set(title_string);
 	//g_netdebug_globals.build.set(build_identifier_string);
 	//g_netdebug_globals.system.set(system_identifier_string);
@@ -263,7 +263,7 @@ void __cdecl netdebug_upload_file(const char* custom_directory, const char* path
 {
 	//INVOKE(0x00430300, netdebug_upload_file, custom_directory, path, update_routine, completion_routine, args);
 
-	ASSERT((path != NULL) && (path[0] != '\\0'));
+	ASSERT((path != nullptr) && (path[0] != '\\0'));
 
 	bool task_queued = false;
 
@@ -369,7 +369,7 @@ bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, in
 	uns32 timeout = system_milliseconds() + 1000 * max_file_upload_time_seconds;
 	while (!upload_complete && system_milliseconds() < timeout)
 	{
-		if (!client->do_work(&upload_complete, NULL, NULL, NULL))
+		if (!client->do_work(&upload_complete, nullptr, nullptr, nullptr))
 		{
 			client->stop();
 			break;

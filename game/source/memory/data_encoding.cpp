@@ -28,7 +28,7 @@ void* data_decode_array(data_encoding_state* state, int32 element_count_size, in
 	}
 
 	if (state->overflow_flag || element_count < 0 || element_count > maximum_element_count)
-		return NULL;
+		return nullptr;
 
 	*element_count_reference = element_count;
 	return data_decode_structures(state, element_count, bs_definition);
@@ -184,7 +184,7 @@ void* data_decode_structures(data_encoding_state* state, int16 structure_count, 
 	if (structure_size + state->offset > state->buffer_size || state->overflow_flag)
 	{
 		state->overflow_flag = 1;
-		return NULL;
+		return nullptr;
 	}
 
 	byte* memory = (byte*)state->buffer + state->offset;

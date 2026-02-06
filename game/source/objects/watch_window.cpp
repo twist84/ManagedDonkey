@@ -74,7 +74,7 @@ const char* __cdecl watch_object_describe_internal(int32 object_index, char* buf
 		}
 
 		const char* tag_name = tag_get_name_safe(object->definition_index);
-		const char* object_tag_name = tag_name ? tag_name : NULL;
+		const char* object_tag_name = tag_name ? tag_name : nullptr;
 		const char* object_type_name = object_type_get_name(object->object.object_identifier.m_type);
 
 		csnzprintf(buffer, buffer_size, "%s %s%s", object_type_name, object_name, object_tag_name);

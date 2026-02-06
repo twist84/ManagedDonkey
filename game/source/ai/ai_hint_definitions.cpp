@@ -175,8 +175,8 @@ void ai_render_user_hints()
 		}
 		render_flight_hints();
 	}
-	render_well_hints(NULL, true);
-	render_sector_hints(NULL);
+	render_well_hints(nullptr, true);
+	render_sector_hints(nullptr);
 }
 
 void render_arrow(const real_point3d* point, const real_vector3d* vector, real32 length, const real_argb_color* color, bool bidirectional)
@@ -308,10 +308,10 @@ void render_jump_hint(int16 structure_index, int32 hint_index)
 	if (hint->jump.point_index0 != NONE
 		&& ai_hint_get_jump_destination_rail(structure_index,
 			&hint->jump,
-			NULL,
+			nullptr,
 			&destination_point0,
 			&destination_point1,
-			NULL,
+			nullptr,
 			&destination_reference_frame))
 	{
 		c_ai_point3d ai_point0{};
@@ -516,7 +516,7 @@ void user_hint_handle_parallelogram_point_move(user_hint_parallelogram* parallel
 				user_hint_parallelogram* other = TAG_BLOCK_GET_ELEMENT(&user_data->parallelogram_geometry, jump_hint->geometry_index, user_hint_parallelogram);
 				if (other == parallelogram)
 				{
-					c_sector_ref sector_ref = sector_from_point(point, NULL);
+					c_sector_ref sector_ref = sector_from_point(point, nullptr);
 					if (sector_ref.valid())
 					{
 						const sector* sector = pathfinding_get_sector(sector_ref);

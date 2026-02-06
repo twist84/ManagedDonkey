@@ -60,14 +60,14 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 				else
 				{
 					c_screenshots_uploader* uploader = screenshots_uploader_try_and_get();
-					if (uploader != NULL && uploader->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none)
+					if (uploader != nullptr && uploader->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none)
 					{
 						c_load_screen_message* load_screen_message = new (_ui_allocation_marker_dummy) c_load_screen_message(
 							STRING_ID(gui, saved_film_take_screenshot),
 							message->get_controller(),
 							c_gui_screen_widget::get_render_window(),
 							STRING_ID(gui, top_most));
-						if (load_screen_message != NULL)
+						if (load_screen_message != nullptr)
 						{
 							user_interface_messaging_post(load_screen_message);
 							c_gui_screen_widget::transition_out(_transition_out_normal);
@@ -143,7 +143,7 @@ bool __thiscall c_saved_film_control_pad::handle_list_item_chosen_(const c_contr
 					layered_position,
 					STRING_ID(gui_dialog, in_game_exit_film_playback),
 					dialog_invoker);
-				if (load_dialog_message != NULL)
+				if (load_dialog_message != nullptr)
 				{
 					load_dialog_message->set_parent_screen_index(get_screen_index());
 					user_interface_messaging_post(load_dialog_message);
@@ -166,7 +166,7 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 {
 	e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
 
-	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), NULL);
+	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), nullptr);
 	c_gui_list_widget* pad_list_item = c_gui_widget::get_child_list_widget(STRING_ID(gui, button_list));
 
 	c_gui_screen_widget::update(current_milliseconds);
@@ -177,7 +177,7 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 		pad_list_item->set_enabled(snippet_state == _saved_film_snippet_state_none);
 
 		for (c_gui_list_item_widget* child_button = (c_gui_list_item_widget*)pad_list_item->get_first_child_widget_by_type(_gui_list_item);
-			child_button != NULL;
+			child_button != nullptr;
 			child_button = child_button->get_next_list_item_widget(true))
 		{
 			int32 element_handle = child_button->get_element_handle();
@@ -191,7 +191,7 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 			if (data->get_string_id_value(element_handle, STRING_ID(gui, gui_item), &button_name))
 			{
 				for (c_gui_bitmap_widget* pad_item_bitmap = (c_gui_bitmap_widget*)child_button->get_first_child_widget_by_type(_gui_bitmap);
-					pad_item_bitmap != NULL;
+					pad_item_bitmap != nullptr;
 					pad_item_bitmap = pad_item_bitmap->get_next_bitmap_widget())
 				{
 					if (pad_item_bitmap->get_name() != STRING_ID(gui, hilite))
@@ -209,7 +209,7 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 					if (button_name == STRING_ID(gui, take_screenshot))
 					{
 						c_screenshots_uploader* uploader = screenshots_uploader_try_and_get();
-						child_button->set_enabled(uploader != NULL && uploader->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none);
+						child_button->set_enabled(uploader != nullptr && uploader->m_screenshots_uploader_task == c_screenshots_uploader::_screenshots_uploader_task_none);
 					}
 				}
 				break;
@@ -299,7 +299,7 @@ void __thiscall c_saved_film_control_pad::update_(uns32 current_milliseconds)
 		}
 	}
 
-	if (saved_film_manager_film_is_ended(NULL))
+	if (saved_film_manager_film_is_ended(nullptr))
 	{
 		c_gui_screen_widget::transition_out(_transition_out_normal);
 	}
@@ -330,8 +330,8 @@ void c_saved_film_control_pad::update_enabled_menu_items()
 {
 	//INVOKE_CLASS_MEMBER(0x00AE4F90, c_saved_film_control_pad, update_enabled_menu_items);
 
-	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), NULL);
-	if (data != NULL)
+	c_gui_data* data = c_gui_screen_widget::get_data(STRING_ID(gui, saved_film_control_buttons), nullptr);
+	if (data != nullptr)
 	{
 		e_saved_film_snippet_state saved_film_snippet_state = saved_film_manager_get_snippet_state();
 

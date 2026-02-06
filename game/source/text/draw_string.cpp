@@ -14,7 +14,7 @@ void c_draw_string::get_cursor(point2d* cursor) const
 {
 	//DECLFUNC(0x006583E0, void, __thiscall, const c_draw_string*, point2d*)(this, cursor);
 
-	ASSERT(cursor != NULL);
+	ASSERT(cursor != nullptr);
 	cursor->x = (int16)m_cursor.x;
 	cursor->y = (int16)m_cursor.y;
 }
@@ -23,7 +23,7 @@ void c_draw_string::get_cursor(real_point2d* cursor) const
 {
 	//DECLFUNC(0x00658410, void, __thiscall, const c_draw_string*, real_point2d*)(this, cursor);
 
-	ASSERT(cursor != NULL);
+	ASSERT(cursor != nullptr);
 	*cursor = m_cursor;
 }
 
@@ -194,7 +194,7 @@ void c_draw_string::set_shadow_color(uns32 color)
 
 void c_draw_string::set_shadow_color(const real_argb_color* color)
 {
-	ASSERT(color != NULL);
+	ASSERT(color != nullptr);
 
 	real_argb_color use_color = *color;
 	use_color.alpha = PIN(color->alpha, 0.0f, 1.0f);
@@ -212,7 +212,7 @@ void c_draw_string::set_style(e_text_style style)
 
 void c_draw_string::set_tab_stops(const int16* tab_stops, int16 count)
 {
-	ASSERT((tab_stops != NULL && count >= 0) || (tab_stops == NULL && count == 0));
+	ASSERT((tab_stops != nullptr && count >= 0) || (tab_stops == nullptr && count == 0));
 
 	if (tab_stops)
 	{
@@ -263,8 +263,8 @@ c_draw_string::c_draw_string() :
 	m_text_bounds(),
 	m_clip(),
 	m_cursor(),
-	m_permutation_proc(NULL),
-	m_permutation_context(NULL),
+	m_permutation_proc(nullptr),
+	m_permutation_context(nullptr),
 	m_initial_indent(0),
 	m_paragraph_indent(0),
 	m_saved_parse_state(),
@@ -277,7 +277,7 @@ c_draw_string::c_draw_string() :
 
 	rectangle2d display_bounds{};
 	rectangle2d display_title_safe_pixel_bounds{};
-	interface_get_current_display_settings(NULL, NULL, &display_bounds, &display_title_safe_pixel_bounds);
+	interface_get_current_display_settings(nullptr, nullptr, &display_bounds, &display_title_safe_pixel_bounds);
 	c_draw_string::set_bounds(&display_title_safe_pixel_bounds);
 	csmemset(&m_saved_parse_state, 0, sizeof(m_saved_parse_state));
 }

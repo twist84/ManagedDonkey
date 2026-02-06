@@ -3,12 +3,12 @@
 #include <windows.h>
 #include <detours.h>
 
-static module_address global_module = { .pointer = GetModuleHandle(NULL) };
+static module_address global_module = { .pointer = GetModuleHandle(nullptr) };
 
 uns32 global_address_get(uns32 rva)
 {
 	if (!global_module.address)
-		global_module.pointer = GetModuleHandle(NULL);
+		global_module.pointer = GetModuleHandle(nullptr);
 	ASSERT(global_module.pointer);
 
 	return global_module.address + rva;

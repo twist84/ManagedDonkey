@@ -294,7 +294,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 			const char* armor_region = customized_spartan_character.armor_region.get_string();
 
 			bool ignore_requirements = false;
-			c_static_array<c_static_string<64>, 100>* armor_type = NULL;
+			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
 			switch (string_hash(armor_region))
 			{
 			case "helmet"_hash:
@@ -374,7 +374,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 		{
 			const char* armor_region = customized_elite_character.armor_region.get_string();
 
-			c_static_array<c_static_string<64>, 100>* armor_type = NULL;
+			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
 
 			switch (string_hash(armor_region))
 			{
@@ -472,7 +472,7 @@ bool load_preference(const char* name, const char* value)
 
 void load_preferences_from_file_hs(const char* filename)
 {
-	FILE* file = NULL;
+	FILE* file = nullptr;
 	if (fopen_s(&file, filename, "r") == 0 && file)
 	{
 		char buffer[200]{};
@@ -497,7 +497,7 @@ void load_customization_from_file_hs(const char* filename)
 	bool cache_file_has_halo3_armors = false;
 	c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& armor_regions = get_armor_regions(_player_model_choice_spartan, &cache_file_has_halo3_armors);
 
-	FILE* file = NULL;
+	FILE* file = nullptr;
 	if (fopen_s(&file, filename, "r") == 0 && file)
 	{
 		s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
@@ -566,7 +566,7 @@ void load_customization_from_file_hs(const char* filename)
 					int32 armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : armor_loadout.armors.get_count();
 					for (int32 armor_region_index = 0; armor_region_index < armor_region_count; armor_region_index++)
 					{
-						const char* armor_region = NULL;
+						const char* armor_region = nullptr;
 						switch (armor_region_index)
 						{
 						case _armor_type_helmet:
@@ -605,7 +605,7 @@ void load_customization_from_file_hs(const char* filename)
 	}
 	else
 	{
-		FILE* customization_info_file = NULL;
+		FILE* customization_info_file = nullptr;
 		if (fopen_s(&customization_info_file, "customization_info.txt", "w") == 0 && customization_info_file)
 		{
 			fprintf_s(customization_info_file, "This file serves as a reference to what a customization file contains\n\n");
@@ -688,7 +688,7 @@ void load_customization_from_file_hs(const char* filename)
 			{
 				c_static_array<c_static_string<64>, 100>& armor_types = armor_regions[armor_region_index];
 
-				const char* armor_region = NULL;
+				const char* armor_region = nullptr;
 				switch (armor_region_index)
 				{
 				case _armor_type_helmet:

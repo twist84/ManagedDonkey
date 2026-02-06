@@ -16,7 +16,7 @@ void c_game_engine_sandbox_variant::byteswap()
 
 void c_game_engine_sandbox_variant::set(const c_game_engine_sandbox_variant* variant, bool force)
 {
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 
 	c_game_engine_base_variant::set(variant, force);
 

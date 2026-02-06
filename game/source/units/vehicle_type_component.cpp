@@ -408,7 +408,7 @@ c_vehicle_auto_turret* c_vehicle_type_component::get_auto_turret(int32 vehicle_i
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A680, c_vehicle_type_component, get_auto_turret, vehicle_index);
 
-	c_vehicle_auto_turret* auto_turret = NULL;
+	c_vehicle_auto_turret* auto_turret = nullptr;
 
 	switch (vehicle_get_type(vehicle_index))
 	{
@@ -444,7 +444,7 @@ const s_vehicle_engine* c_vehicle_type_component::get_engine(int32 vehicle_index
 {
 	//return INVOKE_CLASS_MEMBER(0x00B8A720, c_vehicle_type_component, get_engine, vehicle_index);
 
-	const s_vehicle_engine* engine = NULL;
+	const s_vehicle_engine* engine = nullptr;
 
 	switch (vehicle_get_type(vehicle_index))
 	{

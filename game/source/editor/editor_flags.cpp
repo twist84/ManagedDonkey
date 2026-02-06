@@ -45,7 +45,7 @@ void render_debug_scenario_comments()
 	//	{
 	//		editor_comment_definition* flag = &flags[flag_index];
 	//		editor_flag_render(flag->name,
-	//			render_comment_flags_text ? flag->description : NULL,
+	//			render_comment_flags_text ? flag->description : nullptr,
 	//			&flag->position,
 	//			global_real_argb_red,
 	//			global_real_argb_salmon);

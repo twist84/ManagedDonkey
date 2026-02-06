@@ -85,7 +85,7 @@ bool __cdecl game_engine_variant_is_observer_allowed(const c_game_variant* varia
 	return false;
 #else
 	// Halo 3
-	ASSERT(variant != NULL);
+	ASSERT(variant != nullptr);
 	return variant->get_active_variant()->get_social_options()->get_observers_enabled();
 #endif
 

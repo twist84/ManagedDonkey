@@ -14,8 +14,8 @@ file_reference_info* file_reference_get_info(s_file_reference* info)
 
 bool __cdecl datastore_read(const char* file_name, const char* field_name, int32 length, void* destination)
 {
-	ASSERT(NULL != file_name);
-	ASSERT(NULL != field_name);
+	ASSERT(nullptr != file_name);
+	ASSERT(nullptr != field_name);
 
 	ASSERT('\\0' != file_name[0]);
 	ASSERT('\\0' != field_name[0]);
@@ -28,8 +28,8 @@ bool __cdecl datastore_read(const char* file_name, const char* field_name, int32
 
 bool __cdecl datastore_write(const char* file_name, const char* field_name, int32 length, const void* source)
 {
-	ASSERT(NULL != file_name);
-	ASSERT(NULL != field_name);
+	ASSERT(nullptr != file_name);
+	ASSERT(nullptr != field_name);
 
 	ASSERT('\\0' != file_name[0]);
 	ASSERT('\\0' != field_name[0]);

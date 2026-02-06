@@ -116,7 +116,7 @@ bool __cdecl ai_enemies_can_see_player(int32* object_index)
 {
 	return INVOKE(0x014316D0, ai_enemies_can_see_player, object_index);
 
-	//int32 actor_index = actor_endangering_player(false, false, NULL);
+	//int32 actor_index = actor_endangering_player(false, false, nullptr);
 	//if (actor_index != NONE)
 	//{
 	//	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
