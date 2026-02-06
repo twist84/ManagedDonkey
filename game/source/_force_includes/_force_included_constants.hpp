@@ -4008,14 +4008,31 @@ enum e_vehicle_trick_type
 
 enum
 {
-	k_latest_font_package_header_version = 0xC0000003,
+	k_font_version = 0xF0000005,
 
-	k_font_package_file_size = 0x8000,
+	k_font_package_version = 0xC0000003,
+	k_font_package_size = 0x8000,
 	k_font_package_entry_count = 8,
-	k_font_count = 16,
+	k_font_package_maximum_fonts = 16,
+	k_font_package_maximum_packages = 65536,
 
-	k_latest_font_header_version = 0xF0000005,
-	k_font_header_kerning_pair_index_count = 256,
+	k_font_location_page_index_bits = 21,
+	k_font_location_page_count_bits = 11,
+	k_font_location_invalid = NONE,
+
+	k_font_character_page_size = 8,
+	k_font_character_page_size_bits = 3,
+	k_font_character_maximum_pages = 1026,
+	k_font_character_maximum_bitmap_width = 256,
+	k_font_character_maximum_bitmap_height = 64,
+
+	k_font_unicode_character_size = 4,
+
+	k_font_maximum_characters = 65536,
+	k_font_maximum_number_of_kerning_pairs = 255,
+	k_font_maximum_kerned_character = 255,
+	k_font_maximum_packed_byte_count = 8192,
+	k_font_maximum_unpacked_pixel_count = 16384,
 };
 
 enum e_font_index

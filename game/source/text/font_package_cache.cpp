@@ -30,18 +30,19 @@ bool __cdecl font_package_file_header_validate(const s_font_package_file_header*
 
 	ASSERT(package_header);
 
-	bool valid = package_header->version == k_latest_font_package_header_version;
+	bool valid = package_header->version == k_font_package_version;
 	if (!valid)
 	{
 		event(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			package_header->version,
-			k_latest_font_package_header_version);
+			k_font_package_version);
 	}
 
-	valid = valid && package_header->font_count > 1 && package_header->font_count <= k_font_count && package_header->header_data_offset >= sizeof(s_font_package_file_header);
+	valid = valid && IN_RANGE_INCLUSIVE(package_header->font_count, 2, k_font_package_maximum_fonts);
+	valid = valid && package_header->header_data_offset >= sizeof(s_font_package_file_header);
 	valid = valid && package_header->header_data_offset + package_header->header_data_size <= package_header->package_table_offset;
-	valid = valid && (package_header->package_table_count > 0 && package_header->package_table_count <= 65536);
-	valid = valid && package_header->package_table_offset >= package_header->header_data_offset + package_header->header_data_size;;
+	valid = valid && IN_RANGE_INCLUSIVE(package_header->package_table_count, 1, k_font_package_maximum_packages);
+	valid = valid && package_header->package_table_offset >= package_header->header_data_offset + package_header->header_data_size;
 
 	for (int32 font_index = 0; valid && font_index < package_header->font_count; font_index++)
 	{
@@ -50,7 +51,7 @@ bool __cdecl font_package_file_header_validate(const s_font_package_file_header*
 		valid = valid && font->header_size >= sizeof(s_font_header);
 		valid = valid && font->header_offset >= package_header->header_data_offset;
 		valid = valid && font->header_offset + font->header_size <= package_header->header_data_offset + package_header->header_data_size;
-		valid = valid && font->package_table_index < sizeof(s_font_package_file);
+		valid = valid && font->package_table_index < k_font_package_size;
 		valid = valid && font->package_table_index + font->package_table_count <= package_header->package_table_count;
 
 		for (int32 test_font_index = 0; test_font_index < font_index; test_font_index++)
@@ -65,7 +66,7 @@ bool __cdecl font_package_file_header_validate(const s_font_package_file_header*
 	for (int32 font_mapping_index = 0; font_mapping_index < NUMBEROF(package_header->font_mapping); font_mapping_index++)
 	{
 		int32 font_index = package_header->font_mapping[font_mapping_index];
-		valid = valid && font_index == NONE || VALID_INDEX(font_index, package_header->font_count);
+		valid = valid && (font_index == NONE || VALID_INDEX(font_index, package_header->font_count));
 	}
 
 	return valid;
@@ -100,18 +101,20 @@ void __cdecl font_package_cache_flush()
 {
 	INVOKE(0x0065C200, font_package_cache_flush);
 
-	//c_font_cache_scope_lock scope_lock;
-	//for (int32 entry_index = 0; entry_index < k_font_package_entry_count; entry_index++)
-	//{
-	//	s_font_package_cache_entry* entry = &g_font_package_cache.entries[entry_index];
-	//	if (entry->async_task != INVALID_ASYNC_TASK_ID)
-	//	{
-	//		font_package_do_work(true, entry);
-	//		ASSERT(entry->async_task == INVALID_ASYNC_TASK_ID);
-	//	}
-	//	entry->package_index = NONE;
-	//	entry->status = _font_package_unavailable;
-	//}
+#if 0
+	c_font_cache_scope_lock scope_lock;
+	for (int32 entry_index = 0; entry_index < k_font_package_entry_count; entry_index++)
+	{
+		s_font_package_cache_entry* entry = &g_font_package_cache.entries[entry_index];
+		if (entry->async_task != INVALID_ASYNC_TASK_ID)
+		{
+			font_package_do_work(true, entry);
+			ASSERT(entry->async_task == INVALID_ASYNC_TASK_ID);
+		}
+		entry->package_index = NONE;
+		entry->status = _font_package_unavailable;
+	}
+#endif
 }
 
 void __cdecl font_package_cache_idle()

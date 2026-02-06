@@ -309,7 +309,7 @@ c_gui_bitmap_widget* c_gui_widget::create_bitmap_widget(const s_runtime_bitmap_w
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB81A0, c_gui_widget, create_bitmap_widget, definition);
 
-	return new (_ui_allocation_marker_dummy) c_gui_bitmap_widget();;
+	return new (_ui_allocation_marker_dummy) c_gui_bitmap_widget();
 }
 
 c_gui_button_key_widget* c_gui_widget::create_button_key_widget(const s_button_key_definition* definition)

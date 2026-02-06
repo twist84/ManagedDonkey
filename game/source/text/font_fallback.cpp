@@ -3,12 +3,6 @@
 #include "text/font_group.hpp"
 #include "text/font_loading.hpp"
 
-enum : uns32
-{
-	k_font_character_page_size = 8,
-	k_font_character_maximum_pages = 1026,
-};
-
 const s_font_header* g_fallback_font_header = nullptr;
 
 bool fallback_font_get_character(e_utf32 utf_character, const s_font_character** out_character, const void** out_pixel_data)
@@ -21,12 +15,13 @@ bool fallback_font_get_character(e_utf32 utf_character, const s_font_character**
 		uns32 location = *(uns32*)offset_pointer(k_fallback_font_data, g_fallback_font_header->location_table_offset + sizeof(uns32) * utf_character);
 		if (location != NONE)
 		{
-			uns32 page_index = location & MASK(21);
-			uns32 page_count = location >> 21;
+			uns32 page_index = location & MASK(k_font_location_page_index_bits);
+			uns32 page_count = location >> k_font_location_page_index_bits;
+
 			uns32 character_offset = g_fallback_font_header->character_data_offset + k_font_character_page_size * page_index;
 			s_font_character* character = (s_font_character*)offset_pointer(k_fallback_font_data, character_offset);
 			ASSERT(page_count > 0 && page_count <= k_font_character_maximum_pages);
-			ASSERT(page_index >= 0 && page_index + page_count <= g_fallback_font_header->character_data_size_bytes / k_font_character_page_size);
+			ASSERT(page_index >= 0 && page_index + page_count <= uns32(g_fallback_font_header->character_data_size_bytes / k_font_character_page_size));
 			ASSERT(character_offset >= 0 && character_offset + sizeof(s_font_character) <= sizeof(k_fallback_font_data));
 			ASSERT(font_character_validate(character));
 			ASSERT(character->packed_size > 0 && character->packed_size + sizeof(s_font_character) <= page_count * k_font_character_page_size);
@@ -73,7 +68,7 @@ void fallback_font_initialize()
 
 				uns32 character_offset = header->character_data_offset + k_font_character_page_size * page_index;
 				ASSERT(page_count > 0 && page_count <= k_font_character_maximum_pages);
-				ASSERT(page_index >= 0 && page_index + page_count <= header->character_data_size_bytes / k_font_character_page_size);
+				ASSERT(page_index >= 0 && page_index + page_count <= uns32(header->character_data_size_bytes / k_font_character_page_size));
 				ASSERT(character_offset >= 0 && character_offset + sizeof(s_font_character) <= sizeof(k_fallback_font_data));
 				s_font_character* character = (s_font_character*)offset_pointer(header, character_offset);
 				ASSERT(font_character_validate(character));

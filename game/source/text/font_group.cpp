@@ -11,14 +11,14 @@ bool __cdecl font_character_validate(const s_font_character* character)
 	return INVOKE(0x0065B4B0, font_character_validate, character);
 
 #if 0
-	ASSERT(character);
+	ASSERT(character != nullptr);
 
-	bool valid = (character->initial_offset < 0 ? -character->initial_offset : character->initial_offset) < 256;
-	valid = valid && character->bitmap_height < 64;
-	valid = valid && character->bitmap_width < 256;
-	valid = valid && character->packed_size < 0x2000;
-	valid = valid && (character->character_width < 0 ? -character->character_width : character->character_width) <= 256;
-	valid = valid && (character->bitmap_origin_y < 0 ? -character->bitmap_origin_y : character->bitmap_origin_y) < 64;
+	bool valid = (character->initial_offset < 0 ? -character->initial_offset : character->initial_offset) < k_font_character_maximum_bitmap_width;
+	valid = valid && character->bitmap_height < k_font_character_maximum_bitmap_height;
+	valid = valid && character->bitmap_width < k_font_character_maximum_bitmap_width;
+	valid = valid && character->packed_size < k_font_maximum_packed_byte_count;
+	valid = valid && (character->character_width < 0 ? -character->character_width : character->character_width) <= k_font_character_maximum_bitmap_width;
+	valid = valid && (character->bitmap_origin_y < 0 ? -character->bitmap_origin_y : character->bitmap_origin_y) < k_font_character_maximum_bitmap_height;
 
 	return valid;
 #endif
@@ -50,47 +50,53 @@ bool __cdecl font_header_validate(const s_font_header* header)
 {
 	//return INVOKE(0x0065B620, font_header_validate, header);
 
-	ASSERT(header);
+	ASSERT(header != nullptr);
 
-	bool valid = header->version == k_latest_font_header_version;
+	bool valid = header->version == k_font_version;
 	if (!valid)
 	{
 		event(_event_error, "fonts: header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			header->version,
-			k_latest_font_header_version);
+			k_font_version);
 	}
 
-	valid = valid && IN_RANGE_INCLUSIVE(header->ascending_height, 0, 64);
-	valid = valid && IN_RANGE_INCLUSIVE(header->descending_height, 0, 64);
-	valid = valid && IN_RANGE_INCLUSIVE(header->leading_height, 0, 64);
-	valid = valid && IN_RANGE_INCLUSIVE(header->leading_width, 0, 256) && header->ascending_height + header->descending_height > 0;
-	valid = valid && IN_RANGE_INCLUSIVE(header->kerning_pair_count, 0, k_font_header_kerning_pair_index_count - 1);
+	valid = valid && IN_RANGE_INCLUSIVE(header->ascending_height, 0, k_font_character_maximum_bitmap_height);
+	valid = valid && IN_RANGE_INCLUSIVE(header->descending_height, 0, k_font_character_maximum_bitmap_height);
+	valid = valid && IN_RANGE_INCLUSIVE(header->leading_height, 0, k_font_character_maximum_bitmap_height);
+	valid = valid && IN_RANGE_INCLUSIVE(header->leading_width, 0, k_font_character_maximum_bitmap_width);
+	valid = valid && header->ascending_height + header->descending_height > 0;
+	valid = valid && IN_RANGE_INCLUSIVE(header->kerning_pair_count, 0, k_font_maximum_number_of_kerning_pairs);
 
 	int32 last_kerning_pair_index = 0;
-	for (int32 kerned_character_index = 0; kerned_character_index <= k_font_header_kerning_pair_index_count - 1; kerned_character_index++)
+	for (int32 kerned_character_index = 0; kerned_character_index <= k_font_maximum_number_of_kerning_pairs; kerned_character_index++)
 	{
 		int32 kerning_pair_index = header->character_first_kerning_pair_index[kerned_character_index];
 		valid = valid && kerning_pair_index <= header->kerning_pair_count;
-		valid = valid && kerning_pair_index >= kerning_pair_index;
+		valid = valid && kerning_pair_index >= last_kerning_pair_index;
 
 		last_kerning_pair_index = kerning_pair_index;
 	}
 
 	valid = valid && header->location_table_offset >= (header->kerning_pairs_offset + (int32)sizeof(s_kerning_pair) * header->kerning_pair_count);
 	valid = valid && IN_RANGE_INCLUSIVE(header->location_table_count, 0, 65536);
-	valid = valid && IN_RANGE_INCLUSIVE(header->character_count, 1, 65536) && header->character_count <= header->location_table_count;
+	valid = valid && IN_RANGE_INCLUSIVE(header->character_count, 1, k_font_maximum_characters);
+	valid = valid && header->character_count <= header->location_table_count;
 
-	if (valid && header->no_such_character_data_location != NONE)
+	if (valid && header->no_such_character_data_location != k_font_location_invalid)
 	{
-		//int32 page_count;
-		//int32 page_index;
+		constexpr int32 k_page_count_mask = MASK(k_font_location_page_count_bits) << k_font_location_page_index_bits;
+		constexpr int32 k_page_index_mask = MASK(k_font_location_page_index_bits);
+		static_assert(k_page_count_mask == 0xFFE00000);
+		static_assert(k_page_index_mask == 0x001FFFFF);
 
-		int32 v1 = (header->no_such_character_data_location & 0xFFE00000) >> 21;
-		int32 v2 = (header->no_such_character_data_location & 0x001FFFFF + v1);
-		valid = valid && v1 && v1 <= 0x402 && v2 <= header->character_data_size_bytes / CHAR_BYTES;
+		int32 page_count = (header->no_such_character_data_location & k_page_count_mask) >> k_font_location_page_index_bits;
+		int32 page_index = header->no_such_character_data_location & k_page_index_mask;
+
+		valid = valid && IN_RANGE_INCLUSIVE(page_count, 1, k_font_character_maximum_pages);
+		valid = valid && page_index + page_count <= header->character_data_size_bytes / k_font_character_page_size;
 	}
 
-	valid = valid && IN_RANGE_INCLUSIVE(header->maximum_packed_pixel_size_bytes, 1, 0x2000);
+	valid = valid && IN_RANGE_INCLUSIVE(header->maximum_packed_pixel_size_bytes, 1, k_font_maximum_packed_byte_count);
 	valid = valid && IN_RANGE_INCLUSIVE(header->maximum_unpacked_pixel_size_bytes, 1, 0x8000);
 	valid = valid && IN_RANGE_INCLUSIVE(header->total_packed_pixel_size_bytes, 1, 0x8000000);
 
