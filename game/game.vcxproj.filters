@@ -4511,7 +4511,7 @@
     <ClInclude Include="source\_force_includes\_force_included_types.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\_force_includes\_force_included_enums.hpp">
+    <ClInclude Include="source\_force_includes\_force_included_constants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\_force_includes\_force_included_macros.hpp">
