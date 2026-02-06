@@ -213,6 +213,9 @@ void c_draw_string::set_shadow_color(const real_argb_color* color)
 
 void c_draw_string::set_style(e_text_style style)
 {
+	ASSERT(style == _text_style_plain || VALID_INDEX(style, k_text_style_count));
+	VASSERT(style == _text_style_plain, "text style changes not supported");
+
 	m_style = style;
 }
 
