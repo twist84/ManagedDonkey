@@ -188,8 +188,9 @@ void c_draw_string::set_scale(real32 scale)
 
 void c_draw_string::set_shadow_color(uns32 color)
 {
-	real_argb_color real_color{};
-	set_shadow_color(pixel32_to_real_argb_color({ .value = color }, &real_color));
+	real_argb_color argb_color;
+	pixel32_to_real_argb_color({ .value = color }, &argb_color);
+	set_shadow_color(&argb_color);
 }
 
 void c_draw_string::set_shadow_color(const real_argb_color* color)
@@ -197,10 +198,15 @@ void c_draw_string::set_shadow_color(const real_argb_color* color)
 	ASSERT(color != nullptr);
 
 	real_argb_color use_color = *color;
-	use_color.alpha = PIN(color->alpha, 0.0f, 1.0f);
-	use_color.red = PIN(color->red, 0.0f, 1.0f);
-	use_color.green = PIN(color->green, 0.0f, 1.0f);
-	use_color.blue = PIN(color->blue, 0.0f, 1.0f);
+
+	bool valid_color = valid_real_argb_color(color);
+	if (!valid_color)
+	{
+		use_color.alpha = real_pin(color->alpha, 0.0f, 1.0f);
+		use_color.red = real_pin(color->red, 0.0f, 1.0f);
+		use_color.green = real_pin(color->green, 0.0f, 1.0f);
+		use_color.blue = real_pin(color->blue, 0.0f, 1.0f);
+	}
 
 	m_shadow_color = use_color;
 }
@@ -313,7 +319,7 @@ c_simple_font_draw_string::s_character_group_render_data::s_character_group_rend
 
 bool c_simple_font_draw_string::s_character_group_render_data::is_full()
 {
-	return count == 255;
+	return count == NUMBEROF(characters) - 1;
 }
 
 void c_simple_font_draw_string::s_character_group_render_data::reset()
