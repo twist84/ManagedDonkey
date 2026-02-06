@@ -93,137 +93,155 @@ bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_upd
 {
 	return INVOKE(0x0046F5A0, simulation_update_decode, packet, update);
 
-	//bool result = true;
-	//PROFILER(simulation_update_decode)
-	//{
-	//	ASSERT(packet);
-	//	ASSERT(update);
-	//
-	//	update->update_number = packet->read_integer("update-number", 32);
-	//	update->flags.set_unsafe(packet->read_integer("flags", 4));
-	//	update->player_flags = packet->read_integer("player-flags", 16);
-	//	update->action_test_flags = packet->read_integer("action-test-flags", 26);
-	//
-	//	for (int32 i = 0; i < 16; i++)
-	//	{
-	//		if (TEST_BIT(update->player_flags, i))
-	//			result &= player_action_decode(packet, &update->player_actions[i]);
-	//	}
-	//
-	//	update->valid_actor_mask = packet->read_integer("valid-actor-mask", 16);
-	//	for (int32 i = 0; i < 16; i++)
-	//	{
-	//		if (TEST_BIT(update->valid_actor_mask, i))
-	//		{
-	//			update->actor_unit_indices[i] = packet->read_integer("actor-unit-index", 32);
-	//			result &= unit_control_decode(packet, &update->actor_control[i]);
-	//		}
-	//	}
-	//
-	//	update->machine_update_exists = packet->read_bool("machine-update-exists");
-	//	if (update->machine_update_exists)
-	//	{
-	//		result &= simulation_machine_update_decode(packet, &update->machine_update);
-	//	}
-	//
-	//	update->valid_player_prediction_mask = packet->read_integer("valid-player-prediction-mask", 16);
-	//	for (int32 i = 0; i < 16; i++)
-	//	{
-	//		if (TEST_BIT(update->valid_player_prediction_mask, i))
-	//			result &= player_prediction_decode(packet, &update->player_prediction[i], false);
-	//	}
-	//
-	//	update->valid_camera_mask = packet->read_integer("valid-camera-mask", 1);
-	//	for (int32 i = 0; i < 1; i++)
-	//	{
-	//		if (TEST_BIT(update->valid_camera_mask, i))
-	//			result &= simulation_camera_update_decode(packet, &update->camera_updates[i]);
-	//	}
-	//
-	//	update->verify_game_time = packet->read_integer("verify-game-time", 32);
-	//	update->verify_random = packet->read_integer("verify-random", 32);
-	//	//result &= determinism_debug_manager_decode_game_state_checksum(packet, &update->determinism_verification);
-	//	result &= update->bookkeeping_simulation_queue.decode(packet);
-	//	result &= update->game_simulation_queue.decode(packet);
-	//	result &= !packet->error_occurred();
-	//	result &= update->verify_game_time >= 0;
-	//	result &= update->update_number >= 0;
-	//	result &= update->flags.valid();
-	//	if (!result)
-	//	{
-	//		update->bookkeeping_simulation_queue.dispose();
-	//		update->game_simulation_queue.dispose();
-	//	}
-	//}
-	//return result;
+#if 0
+	bool success = true;
+	PROFILER(simulation_update_decode)
+	{
+		ASSERT(packet);
+		ASSERT(update);
+	
+		update->update_number = packet->read_integer("update-number", 32);
+		update->flags.set_unsafe(packet->read_integer("flags", 4));
+		update->player_flags = packet->read_integer("player-flags", 16);
+		update->action_test_flags = packet->read_integer("action-test-flags", 26);
+	
+		for (int32 player_index = 0; player_index < 16; player_index++)
+		{
+			if (TEST_BIT(update->player_flags, player_index))
+			{
+				success = success && player_action_decode(packet, &update->player_actions[player_index]);
+			}
+		}
+	
+		update->valid_actor_mask = packet->read_integer("valid-actor-mask", 16);
+		for (int32 actor_index = 0; actor_index < 16; actor_index++)
+		{
+			if (TEST_BIT(update->valid_actor_mask, actor_index))
+			{
+				update->actor_unit_indices[actor_index] = packet->read_integer("actor-unit-index", 32);
+				success = success && unit_control_decode(packet, &update->actor_control[actor_index]);
+			}
+		}
+	
+		update->machine_update_exists = packet->read_bool("machine-update-exists");
+		if (update->machine_update_exists)
+		{
+			success = success && simulation_machine_update_decode(packet, &update->machine_update);
+		}
+	
+		update->valid_player_prediction_mask = packet->read_integer("valid-player-prediction-mask", 16);
+		for (int32 player_index = 0; player_index < 16; player_index++)
+		{
+			if (TEST_BIT(update->valid_player_prediction_mask, player_index))
+			{
+				success = success && player_prediction_decode(packet, &update->player_prediction[player_index], false);
+			}
+		}
+	
+		update->valid_camera_mask = packet->read_integer("valid-camera-mask", 1);
+		for (int32 camera_track_index = 0; camera_track_index < NUMBEROF(update->camera_updates); camera_track_index++)
+		{
+			if (TEST_BIT(update->valid_camera_mask, camera_track_index))
+			{
+				success = success && simulation_camera_update_decode(packet, &update->camera_updates[camera_track_index]);
+			}
+		}
+	
+		update->verify_game_time = packet->read_integer("verify-game-time", 32);
+		update->verify_random = packet->read_integer("verify-random", 32);
+		//success = success && determinism_debug_manager_decode_game_state_checksum(packet, &update->determinism_verification);
+		success = success && update->bookkeeping_simulation_queue.decode(packet);
+		success = success && update->game_simulation_queue.decode(packet);
+		success = success && !packet->error_occurred();
+		success = success && update->verify_game_time >= 0;
+		success = success && update->update_number >= 0;
+		success = success && update->flags.valid();
+		if (!success)
+		{
+			update->bookkeeping_simulation_queue.dispose();
+			update->game_simulation_queue.dispose();
+		}
+	}
+	return success;
+#endif
 }
 
 void __cdecl simulation_update_encode(c_bitstream* packet, const struct simulation_update* update)
 {
 	INVOKE(0x0046F830, simulation_update_encode, packet, update);
 
-	//PROFILER(simulation_update_encode)
-	//{
-	//	int32 start_bit_position = packet->get_current_stream_bit_position();
-	//
-	//	ASSERT(packet);
-	//	ASSERT(update);
-	//
-	//	packet->write_integer("update-number", update->update_number, 32);
-	//	packet->write_integer("flags", update->flags.get_unsafe(), 4);
-	//	packet->write_integer("player-flags", update->player_flags, 16);
-	//
-	//	packet->write_integer("action-test-flags", update->action_test_flags, 26);
-	//	for (int32 i = 0; i < 16; i++)
-	//	{
-	//		if (TEST_BIT(update->player_flags, i))
-	//			player_action_encode(packet, &update->player_actions[i]);
-	//	}
-	//
-	//	packet->write_integer("valid-actor-mask", update->valid_actor_mask, 16);
-	//	for (int32 i = 0; i < 16; i++)
-	//	{
-	//		if (TEST_BIT(update->valid_actor_mask, i))
-	//		{
-	//			packet->write_integer("actor-unit-index", update->actor_unit_indices[i], 32);
-	//			unit_control_encode(packet, &update->actor_control[i]);
-	//		}
-	//	}
-	//
-	//	packet->write_bool("machine-update-exists", update->machine_update_exists);
-	//	if (update->machine_update_exists)
-	//		simulation_machine_update_encode(packet, &update->machine_update);
-	//
-	//	packet->write_integer("valid-player-prediction-mask", update->valid_player_prediction_mask, 16);
-	//	for (int32 i = 0; i < 16; i++)
-	//	{
-	//		if (TEST_BIT(update->valid_player_prediction_mask, i))
-	//			player_prediction_encode(packet, &update->player_prediction[i], false);
-	//	}
-	//
-	//	packet->write_integer("valid-camera-mask", update->valid_camera_mask, 1);
-	//	for (int32 i = 0; i < 1; i++)
-	//	{
-	//		if (TEST_BIT(update->valid_camera_mask, i))
-	//			simulation_camera_update_encode(packet, &update->camera_updates[i]);
-	//	}
-	//
-	//	packet->write_integer("verify-game-time", update->verify_game_time, 32);
-	//	packet->write_integer("verify-random", update->verify_random, 32);
-	//
-	//	int32 pre_queues_encoded_size = (packet->get_current_stream_bit_position() - start_bit_position + 7) / 8;
-	//	ASSERT(pre_queues_encoded_size > 0);
-	//
-	//	if (pre_queues_encoded_size > 0x1800)
-	//	{
-	//		event(_event_critical, "simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]",
-	//			pre_queues_encoded_size,
-	//			0x1800);
-	//	}
-	//
-	//	update->bookkeeping_simulation_queue.encode(packet);
-	//	update->game_simulation_queue.encode(packet);
-	//}
+#if 0
+	PROFILER(simulation_update_encode)
+	{
+		int32 start_bit_position = packet->get_current_stream_bit_position();
+	
+		ASSERT(packet);
+		ASSERT(update);
+	
+		packet->write_integer("update-number", update->update_number, 32);
+		packet->write_integer("flags", update->flags.get_unsafe(), 4);
+		packet->write_integer("player-flags", update->player_flags, 16);
+	
+		packet->write_integer("action-test-flags", update->action_test_flags, 26);
+		for (int32 player_index = 0; player_index < 16; player_index++)
+		{
+			if (TEST_BIT(update->player_flags, player_index))
+			{
+				player_action_encode(packet, &update->player_actions[player_index]);
+			}
+		}
+	
+		packet->write_integer("valid-actor-mask", update->valid_actor_mask, 16);
+		for (int32 actor_index = 0; actor_index < 16; actor_index++)
+		{
+			if (TEST_BIT(update->valid_actor_mask, actor_index))
+			{
+				packet->write_integer("actor-unit-index", update->actor_unit_indices[actor_index], 32);
+				unit_control_encode(packet, &update->actor_control[actor_index]);
+			}
+		}
+	
+		packet->write_bool("machine-update-exists", update->machine_update_exists);
+		if (update->machine_update_exists)
+		{
+			simulation_machine_update_encode(packet, &update->machine_update);
+		}
+	
+		packet->write_integer("valid-player-prediction-mask", update->valid_player_prediction_mask, 16);
+		for (int32 player_index = 0; player_index < 16; player_index++)
+		{
+			if (TEST_BIT(update->valid_player_prediction_mask, player_index))
+			{
+				player_prediction_encode(packet, &update->player_prediction[player_index], false);
+			}
+		}
+	
+		packet->write_integer("valid-camera-mask", update->valid_camera_mask, 1);
+		for (int32 camera_track_index = 0; camera_track_index < NUMBEROF(update->camera_updates); camera_track_index++)
+		{
+			if (TEST_BIT(update->valid_camera_mask, camera_track_index))
+			{
+				simulation_camera_update_encode(packet, &update->camera_updates[camera_track_index]);
+			}
+		}
+	
+		packet->write_integer("verify-game-time", update->verify_game_time, 32);
+		packet->write_integer("verify-random", update->verify_random, 32);
+	
+		int32 pre_queues_encoded_size = (packet->get_current_stream_bit_position() - start_bit_position + 7) / 8;
+		ASSERT(pre_queues_encoded_size > 0);
+	
+		if (pre_queues_encoded_size > 0x1800)
+		{
+			event(_event_critical, "simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]",
+				pre_queues_encoded_size,
+				0x1800);
+		}
+	
+		update->bookkeeping_simulation_queue.encode(packet);
+		update->game_simulation_queue.encode(packet);
+	}
+#endif
 }
 
 void __cdecl simulation_write_location(c_bitstream* packet, const s_location* location)

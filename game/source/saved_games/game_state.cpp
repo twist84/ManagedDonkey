@@ -487,30 +487,30 @@ bool __cdecl game_state_read_core(const char* core_name, void* buffer, uns32 buf
 		ASSERT(game_state_proc_globals_get_state() == _game_state_proc_state_loading);
 	}
 
-	s_file_reference file{};
-	game_state_get_core_file_reference(core_name, &file);
+	s_file_reference core_file{};
+	game_state_get_core_file_reference(core_name, &core_file);
+
+	bool success = false;
 
 	uns32 error = 0;
-	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &error))
+	if (file_open(&core_file, FLAG(_file_open_flag_desired_access_read), &error))
 	{
-		return false;
-	}
+		success = file_read(&core_file, buffer_length, false, buffer);
+		file_close(&core_file);
 
-	bool result = file_read(&file, buffer_length, false, buffer);
-	file_close(&file);
-
-	if (buffer == game_state_globals.base_address)
-	{
-		result &= game_state_security_verify_signature_insecure(NULL);
-		if (!result)
+		if (buffer == game_state_globals.base_address)
 		{
-			event(_event_critical, "game_state: core '%s' failed signature check", core_name);
-		}
+			success = success && game_state_security_verify_signature_insecure(NULL);
+			if (!success)
+			{
+				event(_event_critical, "game_state: core '%s' failed signature check", core_name);
+			}
 
-		game_state_buffer_handle_read();
+			game_state_buffer_handle_read();
+		}
 	}
 
-	return result;
+	return success;
 }
 
 bool __cdecl game_state_read_from_persistent_storage_blocking(e_controller_index controller_index, void* buffer, uns32 buffer_size)

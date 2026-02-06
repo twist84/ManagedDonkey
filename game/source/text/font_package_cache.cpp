@@ -32,37 +32,40 @@ bool __cdecl font_package_file_header_validate(const s_font_package_file_header*
 
 	bool valid = package_header->version == k_latest_font_package_header_version;
 	if (!valid)
+	{
 		event(_event_error, "fonts: package header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			package_header->version,
 			k_latest_font_package_header_version);
+	}
 
-	valid &= package_header->font_count > 1 && package_header->font_count <= k_font_count && package_header->header_data_offset >= sizeof(s_font_package_file_header);
-	valid &= package_header->header_data_offset + package_header->header_data_size <= package_header->package_table_offset;
-	valid &= (package_header->package_table_count > 0 && package_header->package_table_count <= 65536)
-		&& package_header->package_table_offset >= package_header->header_data_offset + package_header->header_data_size;
+	valid = valid && package_header->font_count > 1 && package_header->font_count <= k_font_count && package_header->header_data_offset >= sizeof(s_font_package_file_header);
+	valid = valid && package_header->header_data_offset + package_header->header_data_size <= package_header->package_table_offset;
+	valid = valid && (package_header->package_table_count > 0 && package_header->package_table_count <= 65536);
+	valid = valid && package_header->package_table_offset >= package_header->header_data_offset + package_header->header_data_size;;
 
-	for (int32 i = 0; valid && i < package_header->font_count; i++)
+	for (int32 font_index = 0; valid && font_index < package_header->font_count; font_index++)
 	{
-		const s_font_package_font* font = &package_header->fonts[i];
+		const s_font_package_font* font = &package_header->fonts[font_index];
 
-		valid &= font->header_size >= sizeof(s_font_header);
-		valid &= font->header_offset >= package_header->header_data_offset
-			&& font->header_offset + font->header_size <= package_header->header_data_offset + package_header->header_data_size;
-		valid &= font->package_table_index < sizeof(s_font_package_file)
-			&& font->package_table_index + font->package_table_count <= package_header->package_table_count;
+		valid = valid && font->header_size >= sizeof(s_font_header);
+		valid = valid && font->header_offset >= package_header->header_data_offset;
+		valid = valid && font->header_offset + font->header_size <= package_header->header_data_offset + package_header->header_data_size;
+		valid = valid && font->package_table_index < sizeof(s_font_package_file);
+		valid = valid && font->package_table_index + font->package_table_count <= package_header->package_table_count;
 
-		for (int32 j = 0; j < i; j++)
+		for (int32 test_font_index = 0; test_font_index < font_index; test_font_index++)
 		{
-			valid &= package_header->fonts[j].header_offset + package_header->fonts[j].header_size <= font->header_offset
-				&& package_header->fonts[j].package_table_index + package_header->fonts[j].package_table_count - 1 <= font->package_table_index;
+			const s_font_package_font* test_font = &package_header->fonts[test_font_index];
+
+			valid = valid && test_font->header_offset + test_font->header_size <= font->header_offset;
+			valid = valid && test_font->package_table_index + test_font->package_table_count - 1 <= font->package_table_index;
 		}
 	}
 
-	for (int32 k = 0; k < NUMBEROF(package_header->font_mapping); k++)
+	for (int32 font_mapping_index = 0; font_mapping_index < NUMBEROF(package_header->font_mapping); font_mapping_index++)
 	{
-		valid &= package_header->font_mapping[k] == NONE
-			|| package_header->font_mapping[k] >= 0
-			&& package_header->font_mapping[k] < package_header->font_count;
+		int32 font_index = package_header->font_mapping[k];
+		valid = valid && font_index == NONE || VALID_INDEX(font_index, package_header->font_count);
 	}
 
 	return valid;
@@ -124,7 +127,9 @@ void __cdecl font_package_cache_new()
 
 	g_font_package_cache.time = 0;
 	for (s_font_package_cache_entry& entry : g_font_package_cache.entries)
+	{
 		font_package_clear(&entry);
+	}
 	g_font_package_cache.initialized = true;
 }
 

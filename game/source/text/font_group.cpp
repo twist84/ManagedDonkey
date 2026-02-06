@@ -37,10 +37,12 @@ int32 __cdecl font_get_line_height(const s_font_header* header)
 {
 	//return INVOKE(0x0065B5E0, font_get_line_height, header);
 
-	if (header)
-		return header->descending_height + header->leading_height + header->ascending_height;
-
-	return 10;
+	long line_height = 10;
+	if (header != NULL)
+	{
+		line_height = header->descending_height + header->leading_height + header->ascending_height;
+	}
+	return line_height;
 }
 
 void __cdecl font_header_byteswap(s_font_header* header)
@@ -56,37 +58,45 @@ bool __cdecl font_header_validate(const s_font_header* header)
 
 	bool valid = header->version == k_latest_font_header_version;
 	if (!valid)
+	{
 		event(_event_error, "fonts: header version mismatch 0x%08X != 0x%08X, maybe you need to get new fonts?",
 			header->version,
 			k_latest_font_header_version);
-
-	valid &= IN_RANGE_INCLUSIVE(header->ascending_height, 0, 64);
-	valid &= IN_RANGE_INCLUSIVE(header->descending_height, 0, 64);
-	valid &= IN_RANGE_INCLUSIVE(header->leading_height, 0, 64);
-	valid &= IN_RANGE_INCLUSIVE(header->leading_width, 0, 256) && header->ascending_height + header->descending_height > 0;
-	valid &= IN_RANGE_INCLUSIVE(header->kerning_pair_count, 0, k_font_header_kerning_pair_index_count - 1);
-
-	int32 kerning_pair = 0;
-	for (int32 i = 0; i <= k_font_header_kerning_pair_index_count - 1; i++)
-	{
-		valid &= header->character_first_kerning_pair_index[i] <= header->kerning_pair_count
-			&& header->character_first_kerning_pair_index[i] >= (kerning_pair = header->character_first_kerning_pair_index[i]);
 	}
 
-	valid &= header->location_table_offset >= (header->kerning_pairs_offset + (int32)sizeof(s_kerning_pair) * header->kerning_pair_count);
-	valid &= IN_RANGE_INCLUSIVE(header->location_table_count, 0, 65536);
-	valid &= IN_RANGE_INCLUSIVE(header->character_count, 1, 65536) && header->character_count <= header->location_table_count;
+	valid = valid && IN_RANGE_INCLUSIVE(header->ascending_height, 0, 64);
+	valid = valid && IN_RANGE_INCLUSIVE(header->descending_height, 0, 64);
+	valid = valid && IN_RANGE_INCLUSIVE(header->leading_height, 0, 64);
+	valid = valid && IN_RANGE_INCLUSIVE(header->leading_width, 0, 256) && header->ascending_height + header->descending_height > 0;
+	valid = valid && IN_RANGE_INCLUSIVE(header->kerning_pair_count, 0, k_font_header_kerning_pair_index_count - 1);
+
+	int32 last_kerning_pair_index = 0;
+	for (int32 kerned_character_index = 0; kerned_character_index <= k_font_header_kerning_pair_index_count - 1; kerned_character_index++)
+	{
+		int32 kerning_pair_index = header->character_first_kerning_pair_index[kerned_character_index];
+		valid = valid && kerning_pair_index <= header->kerning_pair_count;
+		valid = valid && kerning_pair_index >= kerning_pair_index;
+
+		last_kerning_pair_index = kerning_pair_index;
+	}
+
+	valid = valid && header->location_table_offset >= (header->kerning_pairs_offset + (int32)sizeof(s_kerning_pair) * header->kerning_pair_count);
+	valid = valid && IN_RANGE_INCLUSIVE(header->location_table_count, 0, 65536);
+	valid = valid && IN_RANGE_INCLUSIVE(header->character_count, 1, 65536) && header->character_count <= header->location_table_count;
 
 	if (valid && header->no_such_character_data_location != NONE)
 	{
+		//int32 page_count;
+		//int32 page_index;
+
 		int32 v1 = (header->no_such_character_data_location & 0xFFE00000) >> 21;
-		int32 v2 = (header->no_such_character_data_location & 0x1FFFFF + v1);
-		valid &= v1 && v1 <= 0x402 && v2 <= header->character_data_size_bytes / CHAR_BYTES;
+		int32 v2 = (header->no_such_character_data_location & 0x001FFFFF + v1);
+		valid = valid && v1 && v1 <= 0x402 && v2 <= header->character_data_size_bytes / CHAR_BYTES;
 	}
 
-	valid &= IN_RANGE_INCLUSIVE(header->maximum_packed_pixel_size_bytes, 1, 0x2000);
-	valid &= IN_RANGE_INCLUSIVE(header->maximum_unpacked_pixel_size_bytes, 1, 0x8000);
-	valid &= IN_RANGE_INCLUSIVE(header->total_packed_pixel_size_bytes, 1, 0x8000000);
+	valid = valid && IN_RANGE_INCLUSIVE(header->maximum_packed_pixel_size_bytes, 1, 0x2000);
+	valid = valid && IN_RANGE_INCLUSIVE(header->maximum_unpacked_pixel_size_bytes, 1, 0x8000);
+	valid = valid && IN_RANGE_INCLUSIVE(header->total_packed_pixel_size_bytes, 1, 0x8000000);
 
 	return valid;
 }
