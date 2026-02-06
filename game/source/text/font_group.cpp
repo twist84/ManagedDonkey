@@ -4,46 +4,85 @@
 #include "memory/module.hpp"
 #include "text/font_loading.hpp"
 
+HOOK_DECLARE(0x0065B4B0, font_character_validate);
+HOOK_DECLARE(0x0065B560, font_get_kerning_pair_offset);
+HOOK_DECLARE(0x0065B5E0, font_get_line_height);
+HOOK_DECLARE(0x0065B610, font_header_byteswap);
 HOOK_DECLARE(0x0065B620, font_header_validate);
+HOOK_DECLARE(0x0065B810, font_kerning_pairs_byteswap);
 
 bool __cdecl font_character_validate(const s_font_character* character)
 {
-	return INVOKE(0x0065B4B0, font_character_validate, character);
+	//return INVOKE(0x0065B4B0, font_character_validate, character);
 
-#if 0
 	ASSERT(character != nullptr);
 
-	bool valid = (character->initial_offset < 0 ? -character->initial_offset : character->initial_offset) < k_font_character_maximum_bitmap_width;
+	bool valid = IN_RANGE(character->initial_offset, -k_font_character_maximum_bitmap_width, k_font_character_maximum_bitmap_width);
 	valid = valid && character->bitmap_height < k_font_character_maximum_bitmap_height;
 	valid = valid && character->bitmap_width < k_font_character_maximum_bitmap_width;
 	valid = valid && character->packed_size < k_font_maximum_packed_byte_count;
-	valid = valid && (character->character_width < 0 ? -character->character_width : character->character_width) <= k_font_character_maximum_bitmap_width;
-	valid = valid && (character->bitmap_origin_y < 0 ? -character->bitmap_origin_y : character->bitmap_origin_y) < k_font_character_maximum_bitmap_height;
+	valid = valid && IN_RANGE_INCLUSIVE(character->character_width, -k_font_character_maximum_bitmap_width, k_font_character_maximum_bitmap_width);
+	valid = valid && IN_RANGE_INCLUSIVE(character->bitmap_origin_y, -k_font_character_maximum_bitmap_height, k_font_character_maximum_bitmap_height);
 
 	return valid;
-#endif
 }
 
 int16 __cdecl font_get_kerning_pair_offset(const s_font_header* header, uns32 first_character, uns32 second_character)
 {
-	return INVOKE(0x0065B560, font_get_kerning_pair_offset, header, first_character, second_character);
+	//return INVOKE(0x0065B560, font_get_kerning_pair_offset, header, first_character, second_character);
+
+	ASSERT(header != nullptr);
+
+	int16 offset = 0;
+
+	if (IN_RANGE_INCLUSIVE(first_character, 1, k_font_maximum_kerned_character) && IN_RANGE_INCLUSIVE(second_character, 1, k_font_maximum_kerned_character))
+	{
+		const s_kerning_pair* kerning_pairs = (const s_kerning_pair*)offset_pointer(header, header->kerning_pairs_offset);
+
+		int32 first_kerning_pair_index = header->character_first_kerning_pair_index[first_character];
+		int32 last_kerning_pair_index = first_character < k_font_maximum_kerned_character ? header->character_first_kerning_pair_index[first_character + 1] : header->kerning_pair_count;
+
+		ASSERT(first_kerning_pair_index <= header->kerning_pair_count);
+		ASSERT(last_kerning_pair_index <= header->kerning_pair_count);
+		ASSERT(first_kerning_pair_index <= last_kerning_pair_index);
+
+		for (int32 kerning_pair_index = first_kerning_pair_index; kerning_pair_index < last_kerning_pair_index; kerning_pair_index++)
+		{
+			if (kerning_pairs[kerning_pair_index].second_character == second_character)
+			{
+				offset = kerning_pairs[kerning_pair_index].offset;
+				break;
+			}
+
+			if (kerning_pairs[kerning_pair_index].second_character > second_character)
+			{
+				break;
+			}
+		}
+	}
+
+	return offset;
 }
 
 int32 __cdecl font_get_line_height(const s_font_header* header)
 {
 	//return INVOKE(0x0065B5E0, font_get_line_height, header);
 
-	long line_height = 10;
+	long line_height;
 	if (header != nullptr)
 	{
 		line_height = header->descending_height + header->leading_height + header->ascending_height;
+	}
+	else
+	{
+		line_height = 10;
 	}
 	return line_height;
 }
 
 void __cdecl font_header_byteswap(s_font_header* header)
 {
-	INVOKE(0x0065B610, font_header_byteswap, header);
+	//INVOKE(0x0065B610, font_header_byteswap, header);
 }
 
 bool __cdecl font_header_validate(const s_font_header* header)
@@ -105,6 +144,6 @@ bool __cdecl font_header_validate(const s_font_header* header)
 
 void __cdecl font_kerning_pairs_byteswap(s_kerning_pair* kerning_pairs, int32 kerning_pair_count)
 {
-	INVOKE(0x0065B810, font_kerning_pairs_byteswap, kerning_pairs, kerning_pair_count);
+	//INVOKE(0x0065B810, font_kerning_pairs_byteswap, kerning_pairs, kerning_pair_count);
 }
 
