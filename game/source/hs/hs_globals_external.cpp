@@ -111,27 +111,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	display_pulse_rates,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_throttle_rates,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_lag_times,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_frame_deltas,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknownA,
 	_hs_type_string_id,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	console_status_string_render,
@@ -146,32 +146,32 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	framerate_infinite,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	framerate_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	framerate_use_system_time,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	framerate_stabilization,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown11,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown12,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_controller_latency,
@@ -181,7 +181,7 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_physical_memory,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	terminal_render,
@@ -191,7 +191,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	events_debug_spam_render,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	console_dump_to_debug_display,
@@ -241,37 +241,37 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	flying_camera_has_collision,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	flying_camera_use_old_controls,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	editor_director_mouse_wheel_speed_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	async_display_statistics,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	suppress_upload_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	lightmap_pointsample,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_no_frustum_clip,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_camera_projection,
@@ -281,7 +281,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_bink,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	game_paused,
@@ -311,197 +311,197 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	recover_saved_games_hack,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	game_state_verify_on_write,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	game_state_verify_on_read,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	output_bad_pda_model_info,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_globals_empty,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	dont_load_material_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	dont_load_lightmaps,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	editor_strip_dialogue_sounds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	scenario_load_fast,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	scenario_load_fast_and_playable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_global_use_empty,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_material_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_lightmaps,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_add_single_bsp_zones,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_force_single_bsp_zone_set,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_for_environment_editing,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_force_solo_mode,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_for_environment_editing_keep_cinematics,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_for_environment_editing_keep_scenery,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_scenario_use_gray_shader,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_global_dialog_sounds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_global,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_global_keep_playable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	prune_error_geometry,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_sampling,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_precache_progress,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	log_precache_progress,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	fake_precache_percentage,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	force_aligned_utility_drive,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_object_garbage_collection,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_object_dump_log,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	allow_all_sounds_on_player,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_player_rotation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	player_rotation_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_respawn,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_synchronous_client_maximum_catchup_chunk_size,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_editor_maximum_edited_object_speed,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_editor_edited_object_spring_constant,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_editor_maximum_rotation_speed,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	chud_enabled,
@@ -521,7 +521,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	chud_cortana_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	chud_debug_crosshair,
@@ -536,7 +536,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_unit_all_animations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_enable_force_phonebooth_assassinate,
@@ -546,62 +546,62 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_unit_animations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_unit_illumination,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_unit_active_camo_frequency_modulator,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_unit_active_camo_frequency_modulator_bias,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_melee_attack,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_boarding_force_enemy,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_animation_influenced_flight,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_flight_noise,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_player_transitions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_node_interpolation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_analog_movement,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_transition_animations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	cheat_deathless_player,
@@ -666,12 +666,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown74,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown75,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	effects_corpse_nonviolent,
@@ -681,42 +681,42 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_effects_nonviolent,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_effects_locations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	effects_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_effects_allocation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_effects_play_distances,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_effects_lightprobe_sampling,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	player_effects_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown7E,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	sound_global_room_gain,
@@ -726,7 +726,7 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	sound_direct_path_gain,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_pc_sound,
@@ -761,57 +761,57 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown82,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown83,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown84,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown85,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown86,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown87,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown88,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown89,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown8A,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown8B,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown8C,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown8D,
@@ -826,37 +826,37 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown8F,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown90,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown91,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown92,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown93,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown94,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown95,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown96,
@@ -866,42 +866,42 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown97,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown98,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown99,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown9A,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown9B,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown9C,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown9D,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	collision_log_time,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	havok_collision_tolerance,
@@ -1036,27 +1036,27 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_object_scheduler,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_cache_state,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_environment,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_objects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	visibility_debug_use_old_sphere_test,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_lightmap_shadows,
@@ -1066,12 +1066,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_lightmap_shadows_apply,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_lights,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_water_tessellated,
@@ -1101,22 +1101,22 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_first_person,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_mode,
 	_hs_type_short_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_safe_frame_bounds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_colorbars,
 	_hs_type_short_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_debug_aspect_ratio_scale,
@@ -1131,27 +1131,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_transparents,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_slow_transparents,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_transparents,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_transparent_cull,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_transparent_cull_flip,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_debug_transparent_sort_method,
@@ -1161,22 +1161,22 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_lens_flares,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_instanced_geometry,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_sky,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_lens_flares,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_decorators,
@@ -1186,37 +1186,37 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	light_decorators,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_decorator_bounds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_decorator_spheres,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_decorator_bsp_test_offset_scale_parameter,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_muffins,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_muffins,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_force_cinematic_lights,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_debug_pix_events,
@@ -1226,27 +1226,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_atmosphere_cluster_blend_data,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_display_command_buffer_data,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_screen_shaders,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_screen_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_screen_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_pc_specular,
@@ -1261,12 +1261,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_save_surface,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_disable_screen_effects_not_first_person,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_screen_flashes,
@@ -1301,12 +1301,12 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_exposure_stops,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_exposure,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_HDR_target_stops,
@@ -1526,37 +1526,37 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_disable_prt,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	force_render_lightmap_mesh,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	screenshot_anisotropic_level,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	screenshot_gamma,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_light_intensity,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_light_clip_planes,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_light_opaque,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	cubemap_debug,
@@ -1566,47 +1566,47 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_cloth,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_antennas,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_leaf_systems,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_object_lighting,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_object_lighting_refresh,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_use_cholocate_mountain,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_object_lighting_use_scenery_probe,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_object_lighting_use_device_probe,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_object_lighting_use_air_probe,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_debug_show_air_probes,
@@ -1616,7 +1616,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_infinite_framerate,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_debug_toggle_default_lightmaps_texaccum,
@@ -1661,282 +1661,282 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_show_4x3_bounds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_weather_bounds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_cinematic_clip,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_buffer_gamma,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_screen_gamma,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_buffer_gamma_curve,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_color_balance_red,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_color_balance_green,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_color_balance_blue,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_black_level_red,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_black_level_green,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_black_level_blue,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_volume_samples,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_create,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_frame_advance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_render,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_render_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_render_latest_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_cull,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_fade,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_dump,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_z_bias,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	decal_slope_z_bias,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_create,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_frame_advance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_render,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_render_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_render_debug_spheres,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_render_debug_emitters,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_cull,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_dump,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_force_cpu,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	particle_force_gpu,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown156,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown157,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown158,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	effect_priority_cutoff,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	weather_occlusion_max_height,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_method_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_viewport_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_light_probes,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	effect_property_culling,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	contrail_create,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	contrail_pulse,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	contrail_frame_advance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	contrail_submit,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	contrail_dump,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	light_volume_create,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	light_volume_frame_advance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	light_volume_submit,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	light_volume_dump,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	beam_create,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	beam_frame_advance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	beam_submit,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	beam_dump,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_inactive_objects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_pvs,
@@ -1956,7 +1956,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	pvs_building_disabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_pvs_editor_mode,
@@ -1971,12 +1971,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	visibility_debug_portals,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	visibility_debug_audio_clusters,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	visibility_debug_visible_clusters,
@@ -1986,27 +1986,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	visibility_debug_portals_structure_bsp_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	visibility_debug_portals_cluster_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_draw_names,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_tangent_space,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_lightmap_lights,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects,
@@ -2126,7 +2126,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_functions_all,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_model_targets,
@@ -2171,17 +2171,17 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_unit_lipsync,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_unit_lipsync_verbose,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_unit_emotion,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_unit_acceleration,
@@ -2201,7 +2201,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_biped_melee_in_range,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_physics_control_node,
@@ -2226,12 +2226,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_devices,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_machines,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_garbage,
@@ -2266,52 +2266,52 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_spawn_timers,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_freeze_ragdolls,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_disable_relaxation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_sentinel_physics_ignore_lag,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_ignore_node_masks,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_force_awake,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_disable_node_animation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_dump_memory_stats,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_object,
 	_hs_type_object,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_by_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_player_only,
@@ -2321,7 +2321,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_vehicle_suspension,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_skeletons,
@@ -2331,77 +2331,77 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_cluster_counts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_cluster_count_threshold,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_nodes,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_point_counts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_vertex_counts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_names,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_triangle_counts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_collision_vertex_counts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_collision_surface_counts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_texture_usage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_geometry_usage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_cost,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_markers,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_no_geometry,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_model_skinning_disable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_damage,
@@ -2411,7 +2411,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_damage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_damage_verbose,
@@ -2421,7 +2421,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_damage_radius,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	hs_verbose,
@@ -2431,7 +2431,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	breakpoints_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_trigger_volumes,
@@ -2441,12 +2441,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_trigger_volume_triangulation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_point_physics,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	water_physics_debug,
@@ -2701,52 +2701,52 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_obstacle_path,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_obstacle_path_on_failure,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_obstacle_path_start_point_x,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_obstacle_path_start_point_y,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_obstacle_path_goal_point_x,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_obstacle_path_goal_point_y,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	suppress_pathfinding_generation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_pathfinding_generation_xbox,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_generate_flood_sector_wrl,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_pathfinding_generate_stats,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_zone_set_critical_portals,
@@ -2771,7 +2771,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_control_autoaim_always_active,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_structure,
@@ -2811,27 +2811,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_soft_ceilings_biped,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_soft_ceilings_vehicle,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_soft_ceilings_huge_vehicle,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_soft_ceilings_camera,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_soft_ceilings_test_observer,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	soft_ceilings_disable,
@@ -2851,12 +2851,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_seams,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_structure_seam_triangles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_structure_automatic,
@@ -2906,17 +2906,17 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_bsp,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_plane_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_surface_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_input,
@@ -2936,32 +2936,32 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_leaf0_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_leaf1_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_leaf_connection_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_cluster_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_weapons,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_models,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_first_person_skeleton,
@@ -2976,17 +2976,17 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_lights,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_light_passes,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_biped_landing,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_biped_throttle,
@@ -2996,72 +2996,72 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_biped_relaxation_pose,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_biped_node_velocities,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_collision_skip_instanced_geometry,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_collision_skip_objects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_collision_skip_vectors,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_collision_object_payload_collision,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_material_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_material_default_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	player_training_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	player_training_disable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	game_engine_debug_statborg,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	jaime_control_hack,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	bertone_control_hack,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	motor_system_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_profile_disable,
@@ -3131,7 +3131,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_lineoffire_crouching,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_lineoffire,
@@ -3151,112 +3151,112 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vision_cones,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_current_state,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_detailed_state,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_web,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_no_friends,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_unreachable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_unopposable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_stimulus,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_dialogue,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_salience,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_props_update,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_idle_look,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_support_surfaces,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_recent_damage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_current_damage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_threats,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_emotions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_audibility,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_aiming_vectors,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_secondary_looking,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_targets,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_targets_all,
@@ -3266,62 +3266,62 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_targets_last_visible,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_states,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vitality,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_evaluations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_evaluations_detailed,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_evaluations_text,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_evaluations_shading,
 	_hs_type_short_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_evaluations_shading_type,
 	_hs_type_short_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_pursuit,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_shooting,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_trigger,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_projectile_aiming,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_aiming_validity,
@@ -3336,32 +3336,32 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_leadership,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_status_flags,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_goal_state,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_behavior_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_active_camo,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vehicle_attachment,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_vehicle_reservations,
@@ -3371,17 +3371,17 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_actor_blinddeaf,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_morphing,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_look_orders,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_character_names,
@@ -3391,7 +3391,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_behavior_failure,
 	_hs_type_ai_behavior,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_dialogue,
@@ -3406,7 +3406,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_dialogue_records,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_dialogue_player_weights,
@@ -3416,42 +3416,42 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_dialogue_test_mode,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_dialogue_datamine_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_teams,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_player_ratings,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_spatial_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_firing_positions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_firing_position_statistics,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_firing_position_obstacles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_mission_critical,
@@ -3461,32 +3461,32 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_gun_positions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_aiming_positions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_burst_geometry,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vehicle_avoidance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vehicles_enterable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_melee_check,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_dialogue_variants,
@@ -3496,142 +3496,142 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_grenades,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_danger_zones,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_control,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_activation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_text,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_selected_only,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_destination,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_raw,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_current,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_failed,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_smoothed,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_avoided,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_error_thresholds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_avoidance_segment,
 	_hs_type_short_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_avoidance_obstacles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_avoidance_search,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_nodes,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_nodes_all,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_nodes_polygons,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_nodes_costs,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_nodes_closest,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_paths_distance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_player_aiming_blocked,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_squad_patrol_state,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_deceleration_obstacles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_recent_obstacles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_combat_range,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_dynamic_firing_positions,
@@ -3701,7 +3701,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_pathfinding_generation_verbose,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_sectors_range_max,
@@ -3731,7 +3731,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_area_flight_hints,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_hints,
@@ -3761,17 +3761,17 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_hints_movement,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_orders_print_entries,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_orders_print_entries_verbose,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_orders,
@@ -3786,12 +3786,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_squad_patrol,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_formations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_objectives,
@@ -3806,27 +3806,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_squad_fronts,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_squad_fronts_detailed,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_ai_iterator,
 	_hs_type_ai,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_child_stack,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_behavior_stack,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_behavior_stack_all,
@@ -3841,7 +3841,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_combat_status,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_decisions,
@@ -3861,12 +3861,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_script_data,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_hide_actor_errors,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_debug_tracking_data,
@@ -3886,7 +3886,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_tracked_props,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_tracked_props_all,
@@ -3896,7 +3896,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_vignettes,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_joint_behaviors,
@@ -3906,7 +3906,7 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_swarm,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_flocks,
@@ -3931,12 +3931,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_prop_refresh,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_all_disposable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_current_squad,
@@ -3951,12 +3951,12 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_vehicle_turns,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_discarded_firing_positions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ai_render_firing_positions_all,
@@ -3966,17 +3966,17 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_firing_position_info,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_inspect_avoidance_failure,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_render_action_selection_failure,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_combat_status_asleep,
@@ -4711,242 +4711,242 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_major_upgrade,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_evaluation_statistics,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_communication,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_communication_player,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_vocalizations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_placement,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_speech,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_allegiance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_lost_speech,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_migration,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_scripting,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_disposal,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_print_killing_sprees,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_naimad_spew,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_maxd_spew,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_fast_los,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_evaluate_all_positions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_start_freeze,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_end_freeze,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_flood,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_maximum_radius,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_attractor,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_attractor_radius,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_attractor_weight,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_accept_radius,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_radius,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_destructible,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_giant,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_ballistic_lineoffire_freeze,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_naive_estimate,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_blind,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_deaf,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_invisible_player,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_ignore_player,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_force_all_active,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_disable_smoothing,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ai_debug_path_disable_obstacle_avoidance,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_bitstream_debug,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_bitstream_display_errors,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_bitstream_capture_structure,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_never_timeout,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_use_local_time,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_traffic_warnings,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_traffic_print,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_messages_print,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_replication_requests_print,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_packet_print_mask,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	net_experimental,
@@ -4956,37 +4956,37 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	net_rate_unlimited,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_rate_server,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_rate_client,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_window_unlimited,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_window_size,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_bandwidth_unlimited,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_bandwidth_per_channel,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	net_skip_countdown,
@@ -4996,257 +4996,257 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	net_streams_disable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_disable_flooding,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_ignore_version,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_ignore_join_checking,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_ignore_migration_checking,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_maximum_machine_count,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_maximum_player_count,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_debug_random_seeds,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_allow_out_of_sync,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_distributed_always,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_distributed_never,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_force_gather,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_force_search,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_fail_arbitration,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_connectivity_model_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_nat_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_nat_check_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_hopper_id_adjustment,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_use_last_map_and_game,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_allow_early_start,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_skip_host_migration,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_force_disband,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_enable_host_migration_loop,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_fake_progress,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_force_no_joining,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_allow_idle_controllers,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_simulation_set_stream_bandwidth,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_set_channel_disconnect_interval,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_enable_block_detection,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_override_base_xp,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_override_ranked_games_played,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_matchmaking_mask_maps,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_memory,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_link,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_sim,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_channels,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_connections,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_message_queues,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_observer,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_sessions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_leaderboard,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_status_leaderboard_mask,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test_rate,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test_update_server,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test_update_client,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test_replication_scheduler,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test_debug_spheres,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_test_matchmaking_playlist_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_voice_diagnostics,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_http_failure_ratio,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	net_show_network_quality,
@@ -5286,27 +5286,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_teleport,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_players,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_input,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_survival_mode,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_rumble_status_lines,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_pc_joystick,
@@ -5316,102 +5316,102 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_show_mipmap_bias,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_graph,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_list,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_force_low_detail,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_force_medium_detail,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_force_high_detail,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_status,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_usage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_block_warning,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_lod_bias,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	texture_cache_dynamic_low_detail_texture,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_low_res_textures,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	geometry_cache_graph,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	geometry_cache_list,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	geometry_cache_status,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	geometry_cache_block_warning,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	geometry_cache_never_block,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	geometry_cache_debug_display,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	director_camera_switch_fast,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	director_camera_switch_disable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	director_camera_speed_scale,
@@ -5421,47 +5421,47 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	director_disable_first_person,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	director_use_dt,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	observer_collision_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	observer_collision_anticipation_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	observer_collision_water_flags,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_observer_wave_height,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_recording,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_recording_newlines,
 	_hs_type_short_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	cinematic_letterbox_style,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	run_game_scripts,
@@ -5471,82 +5471,82 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	vehicle_status_display,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	vehicle_disable_suspension_animations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	vehicle_disable_acceleration_screens,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_meter_display,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_verbose_disk_usage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_disk_usage,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	default_scenario_ai_type,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_menu_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	catch_exceptions,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_base,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_movement,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_jitter,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_overlay,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_pitch_turn,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_ammo,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_first_person_hide_ik,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	global_playtest_mode,
@@ -5556,12 +5556,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	g_override_logon_task,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_logon_task_override_result_code,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	ui_time_scale,
@@ -5571,17 +5571,17 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ui_display_memory,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ui_memory_verify,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	xov_display_memory,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_text_bounds_global,
@@ -5621,22 +5621,22 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_comment_flags,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_comment_flags_text,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_comment_flags_look_at,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_controller_flag_drop,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	sapien_keyboard_toggle_for_camera_movement,
@@ -5646,7 +5646,7 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	override_player_representation_index,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	e3,
@@ -5656,92 +5656,92 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_tag_dependencies,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_network_hopper_download,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_network_configuration_download,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	check_system_heap,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	data_mine_player_update_interval,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	data_mine_mp_player_update_interval,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	data_mine_debug_menu_interval,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	data_mine_spam_enabled,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	webstats_file_zip_writes_per_frame,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_projectiles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_damage_effects,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_damage_effect_obstacles,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	force_player_walking,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unit_animation_report_missing_animations,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	font_cache_status,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	font_cache_debug_texture,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	font_cache_debug_graph,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	font_cache_debug_list,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	lruv_lirp_enabled,
@@ -5751,12 +5751,12 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	halt_on_stack_overflow,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_progress_screen,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	render_thread_enable,
@@ -5766,27 +5766,27 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	character_force_physics,
 	_hs_type_enum_character_physics_override,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_new_ik_method,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	animation_throttle_dampening_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	animation_blend_change_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_fitting_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_animation_fp_sprint_disable,
@@ -5796,167 +5796,167 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_fitting_root_offset_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_pivot_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_pivot_allow_player,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_hunt_player,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_hunting_min_radius,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_hunting_max_radius,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_hunting_throttle_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_weapon_wait_time,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_weapon_trigger_time,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_ik,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_foot_ik,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_ankle_ik,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_elevation_control,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_force_buckle,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_force_crouch,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_force_death,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_buckle_rotation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_giant_feet,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_giant_buckle,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_xsync_timings,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	allow_restricted_tag_groups_to_load,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	xsync_restricted_tag_groups,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_cache_build_resources,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	xma_compression_level_default,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_console_window,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	display_colors_in_banded_gamma,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	use_tool_command_legacy,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	maximum_tool_command_history,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_unit_aim_screens,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_unit_look_screens,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_unit_eye_tracking,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_tag_resource_xsync,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	dont_recompile_shaders,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	use_temp_directory_for_files,
@@ -5966,102 +5966,102 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	scenario_load_all_tags,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	synchronization_debug,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	profiler_pulse_rates,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	profiler_collection_interval,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_scenery,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_switch_zone_sets,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	facial_animation_testing_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	profiler_datamine_uploads_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_object_recycling,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_sound_over_network,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	lsp_allow_lsp_connections,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	lsp_allow_raw_connections,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	lsp_service_id_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	shared_files_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	sound_manager_debug_suppression,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	serialize_update_and_render,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	minidump_use_retail_provider,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	scenario_use_non_bsp_zones,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	allow_restricted_active_zone_reloads,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_cinematic_controls_enable,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_skulls,
@@ -6071,42 +6071,42 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_campaign_metagame,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_campaign_metagame_verbose,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	aiming_interpolation_stop_delta,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	aiming_interpolation_start_delta,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	aiming_interpolation_rate,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	airborne_arc_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	airborne_descent_test_duration,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	airborne_descent_test_count,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_amortized_prediction,
@@ -6136,137 +6136,137 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_main_loop_throttle,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	force_unit_walking,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_force_start_rotation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_force_end_rotation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_force_flight_start_rotation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_force_flight_end_rotation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_flight_path_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_departure_power,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_departure_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_arrival_power,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_arrival_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_twist_power,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_cannonball_power,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_cannonball_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_idle_power,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_idle_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_overlay_power,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_overlay_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	leap_interpolation_limit,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_fake_soft_landing,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_fake_hard_landing,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_soft_landing_recovery_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_hard_landing_recovery_scale,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	biped_landing_absorbtion,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_player_network_aiming,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	aim_assist_disable_target_lead_vector,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_tag_edit_sync,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	instance_default_fade_start_pixels,
@@ -6281,7 +6281,7 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_dont_flash_low_res_textures,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	debug_objects_pendulum,
@@ -6291,82 +6291,82 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	ui_alpha,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ui_alpha_lockdown,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ui_alpha_eula_accepted,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ui_alpha_custom_games_enabled,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_client_badness_rating_threshold_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_disable_bad_client_anticheating_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_disable_bad_connectivity_anticheating_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_disable_bad_bandwidth_anticheating_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_maximum_multiplayer_split_screen_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_crash_handling_minidump_type_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	net_config_crash_handling_ui_display_override,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	online_files_slowdown,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_trace_main_events,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	force_xsync_memory_buyback,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	bitmaps_trim_unused_pixels,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	bitmaps_interleave_compressed_bitmaps,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	ignore_predefined_performance_throttles,
@@ -6386,37 +6386,37 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_structure_audibility,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_sound_transmission,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	minidump_force_regular_minidump_with_ui,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	giant_custom_anim_recovery_time,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	facial_animation_enable_lipsync,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	facial_animation_enable_gestures,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	facial_animation_enable_noise,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_alpha_to_coverage,
@@ -6426,17 +6426,17 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	rasterizer_disable_vsync,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	scale_ui_to_maintain_aspect_ratio,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	maximum_aspect_ratio_scale_percentage,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	enable_sound_transmission,
@@ -6446,7 +6446,7 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	disable_audibility_generation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	motion_blur_expected_dt,
@@ -6481,47 +6481,47 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	unicode_warn_on_truncation,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_determinism_version,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_determinism_compatible_version,
 	_hs_type_long_integer,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_environment_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_lightmap_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_seam_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_instance_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	error_geometry_object_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_unit_melee,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	force_buffer_2_frames,
@@ -6536,12 +6536,12 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	utility_drive_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_objects_root_node_print,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE(
 	enable_better_cpu_gpu_sync,
@@ -6551,12 +6551,12 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	require_secure_cache_files,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	debug_aim_assist_targets_enabled,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	motion_blur_max_viewport_count,
@@ -6571,7 +6571,7 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	render_debug_cortana_ticks,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	skies_delete_on_zone_set_switch_enable,
@@ -6586,82 +6586,82 @@ EXTERNAL_GLOBAL_DECLARE(
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown50A,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown50B,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown50C,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown50D,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown50E,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown50F,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown510,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown511,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown512,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown513,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown514,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown515,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown516,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown517,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown518,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown519,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown51A,
@@ -6671,27 +6671,27 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown51B,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown51C,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown51D,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	load_time_multiplier,
 	_hs_type_real,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	g_enable_debug_animation_solving,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	allow_480p_resolutions,
@@ -6701,12 +6701,12 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE2(
 	display_prefetch_progress,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	survival_mode_allow_flying_camera,
 	_hs_type_boolean,
-	nullptr, // $TODO write the global chuckle nuts
+	NULL, // $TODO write the global chuckle nuts
 );
 
 EXTERNAL_GLOBAL_DECLARE(

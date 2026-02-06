@@ -10,22 +10,18 @@ bool __cdecl font_character_validate(const s_font_character* character)
 {
 	return INVOKE(0x0065B4B0, font_character_validate, character);
 
-	//ASSERT(character);
-	//int16 character_width = character->character_width;
-	//if (character->character_width < 0)
-	//	character_width = -character_width;
-	//int16 initial_offset = character->initial_offset;
-	//if (initial_offset < 0)
-	//	initial_offset = -initial_offset;
-	//bool valid = initial_offset < 256
-	//	&& character->bitmap_height < 64
-	//	&& character->bitmap_width < 256
-	//	&& character->packed_size < 0x2000
-	//	&& character_width <= 256;
-	//int16 bitmap_origin_y = character->bitmap_origin_y;
-	//if (bitmap_origin_y < 0)
-	//	bitmap_origin_y = -bitmap_origin_y;
-	//return bitmap_origin_y < 64 && valid;
+#if 0
+	ASSERT(character);
+
+	bool valid = (character->initial_offset < 0 ? -character->initial_offset : character->initial_offset) < 256;
+	valid = valid && character->bitmap_height < 64;
+	valid = valid && character->bitmap_width < 256;
+	valid = valid && character->packed_size < 0x2000;
+	valid = valid && (character->character_width < 0 ? -character->character_width : character->character_width) <= 256;
+	valid = valid && (character->bitmap_origin_y < 0 ? -character->bitmap_origin_y : character->bitmap_origin_y) < 64;
+
+	return valid;
+#endif
 }
 
 int16 __cdecl font_get_kerning_pair_offset(const s_font_header* header, uns32 first_character, uns32 second_character)

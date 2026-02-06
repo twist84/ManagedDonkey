@@ -78,11 +78,14 @@ c_gui_screen_widget::c_gui_screen_widget(int32 name) :
 	m_current_focused_widget(nullptr),
 	m_suppress_focus(false),
 	m_render_in_screenshot(false),
+	m_current_display_group_widgets(),
+	m_previous_display_group_widgets(),
+	m_current_display_group_indicies(),
 	m_reload_next_frame(false),
 	m_responds_to_controller_events(true),
 	m_initial_focused_widget(NONE),
 	m_initial_focused_widget_element_handle(NONE),
-	m_initial_focused_widget_column_name(NONE),
+	m_initial_focused_widget_column_name(_string_id_invalid),
 	m_initial_focused_widget_column_value(NONE),
 	m_definition(),
 	m_datasource_count(0),
@@ -1199,7 +1202,7 @@ bool c_gui_screen_widget::try_and_get_render_data_emblem_info(c_gui_bitmap_widge
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB2930, c_gui_screen_widget, try_and_get_render_data_emblem_info, bitmap_widget, emblem_info);
 
-	return nullptr;
+	return false;
 }
 
 void c_gui_screen_widget::update(uns32 current_milliseconds)

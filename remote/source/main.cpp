@@ -83,7 +83,7 @@ void c_raw_connection::connect()
 {
 	SOCKADDR_IN server_addr;
 
-	assert(m_remote_ip && m_remote_ip[0] != nullptr);
+	assert(m_remote_ip && m_remote_ip[0] != 0);
 	assert(m_remote_port);
 
 	server_addr.sin_family = AF_INET;

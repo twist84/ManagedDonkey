@@ -64,7 +64,7 @@ bool __cdecl font_package_file_header_validate(const s_font_package_file_header*
 
 	for (int32 font_mapping_index = 0; font_mapping_index < NUMBEROF(package_header->font_mapping); font_mapping_index++)
 	{
-		int32 font_index = package_header->font_mapping[k];
+		int32 font_index = package_header->font_mapping[font_mapping_index];
 		valid = valid && font_index == NONE || VALID_INDEX(font_index, package_header->font_count);
 	}
 

@@ -119,7 +119,7 @@ c_gui_widget::c_gui_widget(e_gui_widget_type type) :
 	m_children(nullptr),
 	m_next(nullptr),
 	m_previous(nullptr),
-	m_name(nullptr),
+	m_name(_string_id_invalid),
 	__unknown44(0),
 	m_flags(0),
 	__unknown4C(0),

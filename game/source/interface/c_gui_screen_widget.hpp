@@ -279,8 +279,8 @@ public:
 	c_gui_widget* m_current_focused_widget;
 	bool m_suppress_focus;
 	bool m_render_in_screenshot;
-	int32 m_current_display_group_widgets[k_display_group_type_count];
-	int32 m_previous_display_group_widgets[k_display_group_type_count];
+	c_gui_group_widget* m_current_display_group_widgets[k_display_group_type_count];
+	c_gui_group_widget* m_previous_display_group_widgets[k_display_group_type_count];
 	int32 m_current_display_group_indicies[k_display_group_type_count];
 	bool m_reload_next_frame;
 	bool m_responds_to_controller_events;

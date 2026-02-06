@@ -401,7 +401,7 @@ uns32 __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 	MessageBoxA(nullptr, "Player Review UI Placeholder", "networking:online:guide", MB_OK);
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	ASSERT(target_user_xuid != nullptr);
+	ASSERT(target_user_xuid != NULL);
 
 	//uns32 result = E_FAIL;
 	//c_static_string<256> error_string;

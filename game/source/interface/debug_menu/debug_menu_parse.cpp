@@ -312,7 +312,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		real32 max_value = g_parser_state.m_has_max ? g_parser_state.m_max : k_real_max;
 		real32 min_value = g_parser_state.m_has_min ? g_parser_state.m_min : k_real_min;
 
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, nullptr, g_parser_state.m_variable, min_value, max_value, inc_value);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_real, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 	}
 	break;
 	case _hs_type_short_integer:
@@ -321,7 +321,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		int16 max_value = g_parser_state.m_has_max ? (int16)g_parser_state.m_max : SHRT_MAX - 1;
 		int16 min_value = g_parser_state.m_has_min ? (int16)g_parser_state.m_min : SHRT_MIN + 1;
 
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, nullptr, g_parser_state.m_variable, min_value, max_value, inc_value);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_short, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 	}
 	break;
 	case _hs_type_long_integer:
@@ -330,7 +330,7 @@ const char* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		int32 max_value = g_parser_state.m_has_max ? (int32)g_parser_state.m_max : LONG_MAX - 1;
 		int32 min_value = g_parser_state.m_has_min ? (int32)g_parser_state.m_min : LONG_MIN + 1;
 
-		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, nullptr, g_parser_state.m_variable, min_value, max_value, inc_value);
+		item = DEBUG_MENU_MALLOC(c_debug_menu_item_type_long, menu, name, NULL, g_parser_state.m_variable, min_value, max_value, inc_value);
 	}
 	break;
 	}

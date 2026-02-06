@@ -56,7 +56,7 @@ c_splash_screen::c_splash_screen() :
 	m_instance(GetModuleHandle(nullptr)),
 	m_hwnd(nullptr),
 	m_bitmap(nullptr),
-	m_gdiplus_token(nullptr),
+	m_gdiplus_token(NULL),
 	m_alpha(0),
 	m_step(0),
 	m_timer_interval(0),
