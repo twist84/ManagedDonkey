@@ -1162,92 +1162,81 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	uns32 error = 0;
 	uns32 file_size = 0;
 	int32 chunk_size = 0;
-	const char* chunk_buffer = nullptr;
+	const char* found_chunk = nullptr;
 	bool eof_chunk = false;
 	const s_blf_chunk_scenario* scenario = nullptr;
 	bool byte_swap = false;
 
-	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
+	if (!file_open(file, FLAG(_permission_read_bit), &error))
 	{
 		event(_event_warning, "levels: failed to open level info file");
 		file_close(file);
-		goto function_end;
 	}
-
-	if (!file_get_size(file, &file_size))
+	else if (!file_get_size(file, &file_size))
 	{
-		event(_event_warning, "levels: failed to get file size of level info file");
-		goto function_finish;
+		event(_event_warning, "levels: failed to get file size for level info file");
 	}
-
-	// .mapinfo file size
-	// - 0x4E91, Halo 3
-	// - 0x9A01, Halo 3: ODST
-	// - 0xCDD9, Halo Reach
-	// - 0x11F19, Halo 4
-	if (file_size > 0xCDD9)
+	else if (file_size > 0xCDD9)
 	{
-		event(_event_warning, "levels: unexpected file size for level info file");
-		goto function_finish;
-	}
+		// .mapinfo file size
+		// - 0x4E91, Halo 3
+		// - 0x9A01, Halo 3: ODST
+		// - 0xCDD9, Halo Reach
+		// - 0x11F19, Halo 4
 
-	if (!file_read(file, file_size, false, file_buffer))
+		event(_event_warning, "levels: level info file had unexpected size");
+	}
+	else if (!file_read(file, file_size, false, file_buffer))
 	{
 		event(_event_warning, "levels: failed to read level info file");
-		goto function_finish;
 	}
-
-	if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
+	else if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
 	{
 		event(_event_warning, "levels: failed to verify blf start of file");
-		goto function_finish;
 	}
-
-	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_scenario::k_chunk_type, s_blf_chunk_scenario::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+	else if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_scenario::k_chunk_type, s_blf_chunk_scenario::k_chunk_major_version, &chunk_size, &found_chunk, nullptr, nullptr, &eof_chunk))
 	{
 		event(_event_warning, "levels: failed to find blf scenario chunk");
-		goto function_finish;
 	}
-
-	if (chunk_buffer)
+	else if (found_chunk != nullptr)
 	{
-		scenario = reinterpret_cast<const s_blf_chunk_scenario*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		scenario = reinterpret_cast<const s_blf_chunk_scenario*>(found_chunk - sizeof(s_blf_header));
+		if (found_chunk != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &found_chunk, nullptr, nullptr, &eof_chunk))
 		{
 			if (eof_chunk)
 			{
-				if (chunk_size == sizeof(s_blf_chunk_end_of_file) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), s_blf_chunk_end_of_file::k_authentication_type))
+				if (chunk_size == sizeof(s_blf_chunk_end_of_file) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, found_chunk - sizeof(s_blf_header), s_blf_chunk_end_of_file::k_authentication_type))
 				{
 					file_added = true;
 				}
-				else if (chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), s_blf_chunk_end_of_file_with_rsa::k_authentication_type))
+				else if (chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, found_chunk - sizeof(s_blf_header), s_blf_chunk_end_of_file_with_rsa::k_authentication_type))
 				{
 					file_added = true;
 				}
-
-				if (file_added)
-					goto function_finish;
+				else
+				{
+					event(_event_warning, "levels: failed to find expected blf end of file chunk");
+				}
 			}
-
-			event(_event_warning, "levels: failed to verify blf end of file chunk");
+			else
+			{
+				event(_event_warning, "levels: failed to verify blf end of file chunk");
+			}
 		}
 	}
 
-function_finish:
 	if (file_added)
 	{
 		*out_scenario = scenario;
 		*must_byte_swap = byte_swap;
 		file_close(file);
 	}
-function_end:
-
-	if (!file_added)
+	else
 	{
 		uns32 flags = FLAG(0) | FLAG(2) | FLAG(3);
 		char filename[256]{};
 		file_reference_get_name(file, flags, filename, NUMBEROF(filename));
-		event(_event_warning, "levels: failed to add level file '%s'", file->path.get_string());
+		event(_event_warning, "levels: failed to add level file '%s'", file->path);
 	}
 }
 
