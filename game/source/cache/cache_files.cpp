@@ -952,7 +952,7 @@ void __cdecl cache_file_load_tags_section()
 		return;
 	}
 
-	if (g_cache_file_globals.tags_section.path.is_empty())
+	if (g_cache_file_globals.tags_section.path[0] == 0)
 	{
 		file_reference_create_from_path(&g_cache_file_globals.tags_section, k_cache_tags_file, false);
 	}

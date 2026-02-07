@@ -83,7 +83,7 @@ bool __cdecl file_close(s_file_reference* reference)
 	if (CloseHandle(reference->handle.handle))
 	{
 		invalidate_file_handle(&reference->handle);
-		reference->position = 0;
+		reference->file_location = 0;
 
 		return true;
 	}
@@ -124,14 +124,14 @@ bool __cdecl file_create(s_file_reference* reference)
 
 	if (TEST_BIT(reference->flags, _file_reference_flag_is_file_name))
 	{
-		HANDLE handle = CreateFileA(reference->path.get_string(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		HANDLE handle = CreateFileA(reference->path, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (handle && handle != INVALID_HANDLE_VALUE)
 		{
 			CloseHandle(handle);
 			return true;
 		}
 	}
-	else if (CreateDirectoryA(reference->path.get_string(), nullptr))
+	else if (CreateDirectoryA(reference->path, nullptr))
 	{
 		return true;
 	}
@@ -174,11 +174,11 @@ void __cdecl file_error(const char* file_function, s_file_reference* reference_a
 		char system_message[1024]{};
 		if (info1)
 		{
-			csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path.get_string(), info1->path.get_string());
+			csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path, info1->path);
 		}
 		else
 		{
-			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path.get_string());
+			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path);
 		}
 
 		char error_message[2048]{};
@@ -201,7 +201,7 @@ bool __cdecl file_exists(const s_file_reference* reference)
 
 	ASSERT(reference);
 
-	return GetFileAttributesA(reference->path.get_string()) != INVALID_FILE_ATTRIBUTES;
+	return GetFileAttributesA(reference->path) != INVALID_FILE_ATTRIBUTES;
 }
 
 bool __cdecl file_get_creation_date(const s_file_reference* reference, struct s_file_last_modification_date* date)
@@ -234,7 +234,7 @@ bool __cdecl file_get_size(s_file_reference* reference, uns32* out_file_size)
 	ASSERT(out_file_size);
 
 	WIN32_FILE_ATTRIBUTE_DATA file_info{};
-	if (GetFileAttributesExA(reference->path.get_string(), GetFileExInfoStandard, &file_info))
+	if (GetFileAttributesExA(reference->path, GetFileExInfoStandard, &file_info))
 	{
 		*out_file_size = file_info.nFileSizeLow;
 		return true;
@@ -277,118 +277,130 @@ bool __cdecl file_move_to(const s_file_reference* reference, const s_file_refere
 	return INVOKE(0x0052A0C0, file_move_to, reference, other);
 }
 
-bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* error)
+bool __cdecl file_open(s_file_reference* reference, uns32 flags, uns32* error_code)
 {
 	//bool result = false;
-	//HOOK_INVOKE(result =, file_open, reference, open_flags, error);
+	//HOOK_INVOKE(result =, file_open, reference, flags, error);
 	//return result;
 
-	ASSERT(reference);
-	ASSERT(error);
+	ASSERT(reference != nullptr);
+	ASSERT(error_code != nullptr);
 
 	bool result = false;
-	uns32 desired_access = 0;
+	uns32 permission = 0;
 	uns32 share_mode = 0;
 	uns32 flags_and_attributes = FILE_READ_ATTRIBUTES;
 
-	*error = _file_open_error_none;
+	*error_code = _file_open_ok;
 
-	if (TEST_BIT(open_flags, _file_open_flag_desired_access_read))
+	if (TEST_BIT(flags, _permission_read_bit))
 	{
-		desired_access = GENERIC_READ;
+		permission = GENERIC_READ;
 	}
-	if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+	if (TEST_BIT(flags, _permission_write_bit))
 	{
-		desired_access |= GENERIC_WRITE;
+		permission |= GENERIC_WRITE;
 	}
 
-	if (TEST_BIT(open_flags, _file_open_flag_share_mode_read))
+	if (TEST_BIT(flags, _permission_write_allow_read_bit))
 	{
 		share_mode |= FILE_SHARE_READ;
 	}
-	if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+	if (TEST_BIT(flags, _permission_write_bit))
 	{
 		share_mode |= FILE_SHARE_WRITE;
 	}
 
-	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_write))
+	if (TEST_BIT(flags, _file_open_temporary_bit))
 	{
 		flags_and_attributes = FILE_WRITE_ATTRIBUTES;
 	}
-	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_delete_on_close))
+	if (TEST_BIT(flags, _file_open_delete_on_close_bit))
 	{
 		flags_and_attributes = FILE_FLAG_DELETE_ON_CLOSE;
 	}
-	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_random_access))
+	if (TEST_BIT(flags, _file_open_random_access_bit))
 	{
 		flags_and_attributes = FILE_FLAG_RANDOM_ACCESS;
 	}
-	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_sequecial_scan))
+	if (TEST_BIT(flags, _file_open_sequential_scan_bit))
 	{
 		flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
 	}
 
-	HANDLE handle = CreateFileA(reference->path.get_string(), desired_access, share_mode, nullptr, OPEN_EXISTING, flags_and_attributes, nullptr);
-	if (!handle || handle == INVALID_HANDLE_VALUE)
-	{
-		switch (GetLastError())
-		{
-		case ERROR_FILE_NOT_FOUND:
-		{
-			*error = _file_open_error_file_not_found;
-		}
-		break;
-		case ERROR_PATH_NOT_FOUND:
-		{
-			*error = _file_open_error_path_not_found;
-		}
-		break;
-		case ERROR_ACCESS_DENIED:
-		{
-			*error = _file_open_error_access_denied;
-		}
-		break;
-		case ERROR_INVALID_DRIVE:
-		{
-			*error = _file_open_error_invalid_drive;
-		}
-		break;
-		case ERROR_SHARING_VIOLATION:
-		{
-			*error = _file_open_error_sharing_violation;
-		}
-		break;
-		default:
-		{
-			*error = _file_open_error_unknown;
-		}
-		break;
-		}
-	}
-	else
+	HANDLE file_handle = CreateFileA(reference->path, permission, share_mode, nullptr, OPEN_EXISTING, flags_and_attributes, nullptr);
+	if (file_handle != nullptr && file_handle != INVALID_HANDLE_VALUE)
 	{
 		result = true;
 
-		reference->handle.handle = handle;
-		reference->position = 0;
+		reference->handle.handle = file_handle;
+		reference->file_location = 0;
 
-		if (TEST_BIT(open_flags, _file_open_flag_set_file_end_and_close))
+		if (TEST_BIT(flags, _permission_write_append_bit))
 		{
-			reference->position = SetFilePointer(reference->handle.handle, 0, 0, FILE_END);
-			if (reference->position == INVALID_SET_FILE_POINTER)
+			reference->file_location = SetFilePointer(reference->handle.handle, 0, 0, FILE_END);
+			if (reference->file_location == INVALID_SET_FILE_POINTER)
 			{
 				CloseHandle(reference->handle.handle);
 				invalidate_file_handle(&reference->handle);
-				reference->position = 0;
+				reference->file_location = 0;
 
 				result = false;
 			}
 		}
 	}
+	else
+	{
+		DWORD last_error = GetLastError();
+		switch (last_error)
+		{
+		case ERROR_FILE_NOT_FOUND:
+		{
+			*error_code = _file_open_no_exist;
+		}
+		break;
+		case ERROR_PATH_NOT_FOUND:
+		{
+			*error_code = _file_open_bad_path;
+		}
+		break;
+		case ERROR_ACCESS_DENIED:
+		{
+			*error_code = _file_open_access_denied;
+		}
+		break;
+		case ERROR_INVALID_DRIVE:
+		{
+			*error_code = _file_open_bad_drive;
+		}
+		break;
+		case ERROR_SHARING_VIOLATION:
+		{
+			*error_code = _file_open_sharing_violation;
+		}
+		break;
+		case ERROR_INVALID_NAME:
+		{
+			*error_code = _file_open_unknown_error;
+		}
+		break;
+		default:
+		{
+			VASSERT_EXCEPTION(false, "unknown file error", false);
+			*error_code = _file_open_unknown_error;
+		}
+		break;
+		}
+	}
 
-	if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+	if (TEST_BIT(flags, _permission_write_bit))
 	{
 		reference->flags &= ~FLAG(_file_reference_flag_open_for_write);
+	}
+
+	if (!result)
+	{
+		file_error("file_open", reference, nullptr, TEST_BIT(flags, _file_open_silent_bit));
 	}
 
 	return result;
@@ -444,7 +456,7 @@ bool __cdecl file_read(s_file_reference* reference, uns32 size, bool print_error
 			SetLastError(ERROR_HANDLE_EOF);
 	}
 
-	reference->position += bytes_read;
+	reference->file_location += bytes_read;
 
 	if (!result)
 	{
@@ -517,19 +529,19 @@ bool __cdecl file_set_eof(s_file_reference* reference, uns32 offset)
 
 bool __cdecl file_set_position(s_file_reference* reference, uns32 offset, bool print_error)
 {
-	if (reference->position == offset)
+	if (reference->file_location == offset)
 		return true;
 
 	if (file_handle_is_valid(reference->handle))
 	{
-		reference->position = SetFilePointer(reference->handle.handle, offset, 0, 0);
+		reference->file_location = SetFilePointer(reference->handle.handle, offset, 0, 0);
 	}
 	else
 	{
 		SetLastError(ERROR_INVALID_HANDLE);
 	}
 
-	bool result = reference->position != INVALID_SET_FILE_POINTER;
+	bool result = reference->file_location != INVALID_SET_FILE_POINTER;
 	if (!result)
 	{
 		file_error(__FUNCTION__, reference, nullptr, print_error);
@@ -599,7 +611,7 @@ void __cdecl find_files_start_with_search_spec(s_find_file_data* data, uns32 fla
 	data->depth = 0;
 	data->location = file->location;
 
-	data->path.append_print(L"%hs", file->path.get_string());
+	data->path.append_print(L"%hs", file->path);
 	data->search_spec.append_print(L"%hs", search_spec);
 }
 
@@ -621,10 +633,12 @@ void find_files_recursive(void* userdata, s_file_reference* directory, uns32 ope
 	s_file_reference found_file{};
 	while (find_files_next(&find_file_data, &found_file, nullptr))
 	{
-		if (found_file.path.is_equal(".") || found_file.path.is_equal(".."))
+#define string_is_equal(string_a, string_b) (csstrnlen(string_a, NUMBEROF(string_a)) == csstrnlen(string_a, NUMBEROF(string_a)) && csmemcmp(string_a, string_b, csstrnlen(string_a, NUMBEROF(string_a))) == 0)
+		if (string_is_equal(found_file.path, ".") || string_is_equal(found_file.path, ".."))
 		{
 			continue;
 		}
+#undef string_is_equal
 
 		if (find_file_data.active_find_file_state.find_data.dwFileAttributes & k_file_attribute_directory)
 		{

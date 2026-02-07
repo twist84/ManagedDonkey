@@ -31,14 +31,14 @@ struct file_reference_info
 	tag signature;
 	uns16 flags;
 	int16 location;
-	c_static_string<k_tag_long_string_length> path;
+	char path[256];
 };
 COMPILE_ASSERT(sizeof(file_reference_info) == 0x108);
 
 struct s_file_reference : file_reference_info
 {
 	s_file_handle handle;
-	int32 position;
+	uns32 file_location;
 };
 COMPILE_ASSERT(sizeof(s_file_reference) == 0x110);
 
