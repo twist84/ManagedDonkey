@@ -198,9 +198,9 @@ void random_seed_debug_log_begin(const game_options* options)
 		csnzprintf(rand_filename, sizeof(rand_filename), "rand_%s_%s_m%d.txt", scenario_name, date_and_time, options->dump_machine_index);
 		if (create_report_file_reference(&random_seed_debug_file, rand_filename, true) && file_create(&random_seed_debug_file))
 		{
-			uns32 file_open_flags = FLAG(_file_open_flag_desired_access_write);
-			file_open_flags |= FLAG(_file_open_flag_set_file_end_and_close);
-			file_open_flags |= FLAG(_file_open_flag_share_mode_read);
+			uns32 file_open_flags = FLAG(_permission_write_bit);
+			file_open_flags |= FLAG(_permission_write_append_bit);
+			file_open_flags |= FLAG(_permission_write_allow_read_bit);
 
 			uns32 error = 0;
 			random_seed_debug_file_open = file_open(&random_seed_debug_file, file_open_flags, &error);

@@ -958,7 +958,7 @@ void __cdecl cache_file_load_tags_section()
 	}
 
 	uns32 error = 0;
-	if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
+	if (file_open(&g_cache_file_globals.tags_section, FLAG(_permission_read_bit), &error))
 	{
 		uns32 file_size = 0;
 		file_get_size(&g_cache_file_globals.tags_section, &file_size);

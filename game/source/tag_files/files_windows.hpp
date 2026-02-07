@@ -12,30 +12,39 @@ enum
 	NUMBER_OF_FIND_FILES_FLAGS,
 };
 
-enum e_file_open_flags
+enum
 {
-	_file_open_flag_desired_access_read = 0,
-	_file_open_flag_desired_access_write,
-	_file_open_flag_set_file_end_and_close,
-	_file_open_flag_share_mode_read,
-	_file_open_flag_print_error,
-	_file_open_flag_flags_and_attributes_write,
-	_file_open_flag_flags_and_attributes_delete_on_close,
-	_file_open_flag_flags_and_attributes_random_access,
-	_file_open_flag_flags_and_attributes_sequecial_scan,
+	_permission_read_bit = 0,
+	_permission_write_bit,
+	_permission_write_append_bit,
+	_permission_write_allow_read_bit,
+
+	NUMBER_OF_PERMISSION_FLAGS,
 };
 
-enum e_file_open_error
+enum
 {
-	_file_open_error_none = 0,
-	_file_open_error_file_not_found,
-	_file_open_error_access_denied,
-	_file_open_error_path_not_found,
-	_file_open_error_invalid_drive,
-	_file_open_error_sharing_violation,
-	_file_open_error_unknown,
+	_file_open_last_permission_bit = _permission_write_allow_read_bit,
+	_file_open_silent_bit,
+	_file_open_temporary_bit,
+	_file_open_delete_on_close_bit,
+	_file_open_random_access_bit,
+	_file_open_sequential_scan_bit,
 
-	k_file_open_error_count
+	NUMBER_OF_FILE_OPEN_FLAGS,
+};
+
+enum
+{
+	_file_open_ok = 0,
+	_file_open_no_exist,
+	_file_open_access_denied,
+	_file_open_bad_path,
+	_file_open_bad_drive,
+	_file_open_sharing_violation,
+	_file_open_unknown_error,
+
+	NUMBER_OF_FILE_OPEN_ERROR_FLAGS
 };
 
 enum : uns32
@@ -153,7 +162,7 @@ extern bool __cdecl file_last_modification_date_to_time(const s_file_last_modifi
 //extern void __cdecl file_location_get_full_path_wide(int16 location, const wchar_t* path, wchwchar_tar_t(&out_full_path)[256]);
 //extern void __cdecl file_location_get_full_path_wide(int16 location, const wchar_t* path, wchar_t* out_full_path, int32 full_path_length);
 extern bool __cdecl file_move_to(const s_file_reference* reference, const s_file_reference* other);
-extern bool __cdecl file_open(s_file_reference* reference, uns32 open_flags, uns32* error);
+extern bool __cdecl file_open(s_file_reference* reference, uns32 flags, uns32* error);
 extern void __cdecl file_path_add_extension(wchar_t* path, int32 maximum_path_length, const wchar_t* extension);
 //extern void __cdecl file_path_add_name(wchar_t(&path)[256], const wchar_t* name);
 extern void __cdecl file_path_add_name(wchar_t* path, int32 maximum_path_length, const wchar_t* name);

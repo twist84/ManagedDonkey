@@ -493,7 +493,7 @@ bool __cdecl game_state_read_core(const char* core_name, void* buffer, uns32 buf
 	bool success = false;
 
 	uns32 error = 0;
-	if (file_open(&core_file, FLAG(_file_open_flag_desired_access_read), &error))
+	if (file_open(&core_file, FLAG(_permission_read_bit), &error))
 	{
 		success = file_read(&core_file, buffer_length, false, buffer);
 		file_close(&core_file);
@@ -726,7 +726,7 @@ void __cdecl game_state_shell_initialize()
 
 	uns32 error = 0;
 	create_report_file_reference(&g_game_state_allocation_file_reference, "gamestate.txt", true);
-	if (file_create(&g_game_state_allocation_file_reference) && file_open(&g_game_state_allocation_file_reference, FLAG(_file_open_flag_desired_access_write), &error))
+	if (file_create(&g_game_state_allocation_file_reference) && file_open(&g_game_state_allocation_file_reference, FLAG(_permission_write_bit), &error))
 	{
 		file_printf(&g_game_state_allocation_file_reference, "game state allocations from: %s\r\n", version_get_full_string());
 		file_printf(&g_game_state_allocation_file_reference, "memory total, %u\r\n", k_game_state_file_size);
@@ -789,7 +789,7 @@ bool __cdecl game_state_write_core(const char* core_name, const void* buffer, un
 	}
 
 	uns32 error = 0;
-	if (!file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
+	if (!file_open(&file, FLAG(_permission_write_bit), &error))
 	{
 		return false;
 	}

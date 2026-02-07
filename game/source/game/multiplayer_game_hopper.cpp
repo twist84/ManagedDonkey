@@ -1283,7 +1283,7 @@ void __cdecl network_game_variant_file_juju(const char* file_path, bool use_vari
 	}
 
 	uns32 unused_error_code = 0;
-	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+	if (!file_open(&file, FLAG(_permission_read_bit), &unused_error_code))
 	{
 		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
@@ -1354,7 +1354,7 @@ void __cdecl network_packed_game_variant_file_juju(const char* file_path, bool u
 	}
 
 	uns32 unused_error_code = 0;
-	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+	if (!file_open(&file, FLAG(_permission_read_bit), &unused_error_code))
 	{
 		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
@@ -1436,7 +1436,7 @@ void __cdecl network_map_variant_file_juju(const char* file_path, bool use_varia
 	}
 
 	uns32 unused_error_code = 0;
-	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+	if (!file_open(&file, FLAG(_permission_read_bit), &unused_error_code))
 	{
 		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;
@@ -1563,7 +1563,7 @@ void __cdecl network_packed_map_variant_file_juju(const char* file_path, bool us
 	}
 
 	uns32 unused_error_code = 0;
-	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+	if (!file_open(&file, FLAG(_permission_read_bit), &unused_error_code))
 	{
 		event(_event_warning, "networking:configuration: failed to open file '%s'", file_path);
 		return;

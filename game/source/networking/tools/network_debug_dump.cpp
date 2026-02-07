@@ -178,7 +178,7 @@ bool __cdecl netdebug_process_file_upload(s_netdebug_upload_task* task)
 	ASSERT(task);
 
 	uns32 error = 0;
-	if (!file_open(&task->file_to_upload, FLAG(_file_open_flag_desired_access_read), &error))
+	if (!file_open(&task->file_to_upload, FLAG(_permission_read_bit), &error))
 	{
 		char filename[256];
 		file_reference_get_filename(&task->file_to_upload, filename);
@@ -421,7 +421,7 @@ void __cdecl create_session_description()
 	}
 
 	uns32 error = 0;
-	if (file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
+	if (file_open(&file, FLAG(_permission_write_bit), &error))
 	{
 		session_description.print("%s%s\r\n", k_session_description_title_string, g_netdebug_globals.title.get_string());
 		session_description.append_print("%s%s\r\n", k_session_description_build_string, g_netdebug_globals.build.get_string());

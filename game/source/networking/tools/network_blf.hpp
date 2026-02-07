@@ -459,7 +459,7 @@ void find_blf_chunk(s_file_reference* file, char* const file_buffer, const t_blf
 	const t_blf_chunk_type* blf_chunk_type = nullptr;
 	bool byte_swap = false;
 
-	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
+	if (!file_open(file, FLAG(_permission_read_bit), &error))
 	{
 		//c_console::write_line("blf: failed to open file");
 		file_close(file);

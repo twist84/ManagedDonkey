@@ -322,7 +322,7 @@ e_async_completion __cdecl font_load_callback(s_font_loading_task* in_task)
 
 		completion = _async_completion_done;
 	}
-	else if (file_open(&loading_state->file_reference, FLAG(_file_open_flag_desired_access_read), &unused_error_code))
+	else if (file_open(&loading_state->file_reference, FLAG(_permission_read_bit), &unused_error_code))
 	{
 		loading_state->file_open = true;
 	}

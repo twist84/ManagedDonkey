@@ -537,7 +537,7 @@ callback_result_t net_session_create_callback(const void* userdata, int32 token_
 		file_create(&invite_file);
 
 		uns32 error = 0;
-		if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
+		if (file_open(&invite_file, FLAG(_permission_write_bit), &error))
 			file_printf(&invite_file, "%s", invite_string.get_string());
 
 		file_close(&invite_file);

@@ -33,7 +33,7 @@ bool write_bink_tag_resource_to_disk(int32 tag_index, const char* filename)
 	}
 
 	uns32 error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
+	if (!file_open(&info, FLAG(_permission_write_bit), &error))
 	{
 		return false;
 	}

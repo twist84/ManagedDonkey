@@ -29,7 +29,7 @@ void test_download_storage_file(const char* url, const char* local_filename)
 	{
 		enum
 		{
-			open_flags = FLAG(_file_open_flag_desired_access_read) | FLAG(_file_open_flag_desired_access_write) | FLAG(_file_open_flag_set_file_end_and_close)
+			open_flags = FLAG(_permission_read_bit) | FLAG(_permission_write_bit) | FLAG(_permission_write_append_bit)
 		};
 
 		uns32 error = 0;

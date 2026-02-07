@@ -71,7 +71,7 @@ bool __cdecl game_state_read_from_file_storage(int32 storage_index, int32 game_s
 		file_reference_create_from_path(&scratch_save_file, "core\\scratch_save_file.bin", false);
 
 		uns32 error = 0;
-		if (file_open(&scratch_save_file, FLAG(_file_open_flag_desired_access_read), &error))
+		if (file_open(&scratch_save_file, FLAG(_permission_read_bit), &error))
 		{
 			game_state_call_before_load_procs(game_state_proc_flags);
 			bool file_result = file_read(&scratch_save_file, pc_game_state_globals.buffer_size_to_persist, false, pc_game_state_globals.allocation);
@@ -155,7 +155,7 @@ void __cdecl game_state_write_to_file_storage(int32 storage_index)
 			file_create(&scratch_save_file);
 
 		uns32 error = 0;
-		if (file_open(&scratch_save_file, FLAG(_file_open_flag_desired_access_write), &error))
+		if (file_open(&scratch_save_file, FLAG(_permission_write_bit), &error))
 		{
 			bool file_result = file_write(&scratch_save_file, pc_game_state_globals.buffer_size_to_persist, pc_game_state_globals.allocation);
 			file_close(&scratch_save_file);

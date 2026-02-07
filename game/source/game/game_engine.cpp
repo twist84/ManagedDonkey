@@ -754,7 +754,7 @@ void __cdecl game_engine_dump_variant_settings(const char* filename)
 				file_create(&file);
 
 			uns32 error = 0;
-			if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
+			if (file_exists(&file) && file_open(&file, FLAG(_permission_write_bit), &error))
 			{
 				const c_game_engine* game_engine = current_game_engine();
 				switch (game_engine->get_type())

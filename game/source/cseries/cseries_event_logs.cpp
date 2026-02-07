@@ -282,9 +282,9 @@ s_file_reference* acquire_report_file_reference(int32 event_log_index)
 		}
 
 		constexpr uns32 open_flags
-			= FLAG(_file_open_flag_desired_access_write)
-			| FLAG(_file_open_flag_set_file_end_and_close)
-			| FLAG(_file_open_flag_share_mode_read);
+			= FLAG(_permission_write_bit)
+			| FLAG(_permission_write_append_bit)
+			| FLAG(_permission_write_allow_read_bit);
 
 		uns32 error_code = 0;
 		if (file_open(&event_log->stream, open_flags, &error_code))

@@ -2344,7 +2344,7 @@ bool get_device_context_for_window(HWND window_handle, const char* file_name, HB
 	}
 
 	uns32 error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
+	if (!file_open(&info, FLAG(_permission_write_bit), &error))
 	{
 		c_console::write_line("could not open bitmap file");
 

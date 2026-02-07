@@ -263,7 +263,7 @@ e_async_completion __cdecl load_image_from_blf_file_callback(s_async_task* work)
 			task->image_source_was_dlc = content_catalogue_open_dlc(name, true);
 
 			uns32 error_code = 0;
-			constexpr int32 opent_flags = FLAG(_file_open_flag_desired_access_read);
+			constexpr int32 opent_flags = FLAG(_permission_read_bit);
 			if (file_open(task->file, opent_flags, &error_code))
 			{
 				if (file_get_size(task->file, &task->file_size) && task->file_size < (uns32)task->load_buffer_length)

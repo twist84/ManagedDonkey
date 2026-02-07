@@ -2366,7 +2366,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(const char* crash_info, 
 	}
 
 	uns32 error = 0;
-	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
+	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_permission_write_bit), &error))
 	{
 		const char* string = "stack:\r\n";
 		file_write(&crash_info_output_file, strlen_debug(string), string);
