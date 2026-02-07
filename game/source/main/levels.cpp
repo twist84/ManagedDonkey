@@ -1082,85 +1082,74 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 	uns32 error = 0;
 	uns32 file_size = 0;
 	int32 chunk_size = 0;
-	const char* chunk_buffer = nullptr;
+	const char* found_chunk = nullptr;
 	bool eof_chunk = false;
 	const s_blf_chunk_campaign* campaign = nullptr;
 	bool byte_swap = false;
 
-	if (!file_open(file, FLAG(_file_open_flag_desired_access_read), &error))
+	if (!file_open(file, FLAG(_permission_read_bit), &error))
 	{
 		event(_event_warning, "levels: failed to open campaign info file");
 		file_close(file);
-		goto function_end;
 	}
-
-	if (!file_get_size(file, &file_size))
+	else if (!file_get_size(file, &file_size))
 	{
 		event(_event_warning, "levels: failed to get file size of campaign info file");
-		goto function_finish;
 	}
-
-	// .campaign file size
-	// - 0x1459, Halo 3 to Halo Reach
-	// - 0x18AC, Specific to Halo Online?
-	// - 0x1C19, Halo 4
-	if (file_size > 0x18AC)
+	else if (file_size > 0x18AC)
 	{
-		event(_event_warning, "levels: unexpected file size for campaign info file");
-		goto function_finish;
-	}
+		// .campaign file size
+		// - 0x1459, Halo 3 to Halo Reach
+		// - 0x18AC, Specific to Halo Online?
+		// - 0x1C19, Halo 4
 
-	if (!file_read(file, file_size, 0, file_buffer))
+		event(_event_warning, "levels: unexpected file size for campaign info file");
+	}
+	else if (!file_read(file, file_size, 0, file_buffer))
 	{
 		event(_event_warning, "levels: failed to read campaign info file");
-		goto function_finish;
 	}
-
-	if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
+	else if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
 	{
 		event(_event_warning, "levels: failed to verify blf start of file for campaign info file");
-		goto function_finish;
 	}
-
-	if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_campaign::k_chunk_type, s_blf_chunk_campaign::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+	else if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_campaign::k_chunk_type, s_blf_chunk_campaign::k_chunk_major_version, &chunk_size, &found_chunk, nullptr, nullptr, &eof_chunk))
 	{
 		event(_event_warning, "levels: failed to find blf campaign chunk");
-		goto function_finish;
 	}
-
-	if (chunk_buffer)
+	else if (found_chunk != nullptr)
 	{
-		campaign = reinterpret_cast<const s_blf_chunk_campaign*>(chunk_buffer - sizeof(s_blf_header));
-		if (chunk_buffer != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		campaign = reinterpret_cast<const s_blf_chunk_campaign*>(found_chunk - sizeof(s_blf_header));
+		if (found_chunk != (const char*)sizeof(s_blf_header) && network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_chunk_major_version, &chunk_size, &found_chunk, nullptr, nullptr, &eof_chunk))
 		{
-			if (chunk_buffer)
+			if (found_chunk)
 			{
-				if (chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), _blf_file_authentication_type_rsa))
+				if (chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) && network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, found_chunk - sizeof(s_blf_header), _blf_file_authentication_type_rsa))
 				{
 					file_added = true;
 				}
-
-				if (file_added)
-					goto function_finish;
+				else
+				{
+					event(_event_warning, "levels: failed to find expected blf end of file chunk");
+				}
 			}
-
-			event(_event_warning, "levels: failed to verify blf end of file chunk");
+			else
+			{
+				event(_event_warning, "levels: failed to verify blf end of file chunk");
+			}
 		}
 	}
 
-function_finish:
 	if (file_added)
 	{
 		*out_campaign = campaign;
 		*must_byte_swap = byte_swap;
 		file_close(file);
 	}
-function_end:
-
-	if (!file_added)
+	else
 	{
 		// $TODO file_reference_get_name
-		event(_event_warning, "levels: failed to add campaign file '%s'", file->path.get_string());
+		event(_event_warning, "levels: failed to add campaign file '%s'", file->path);
 	}
 }
 
