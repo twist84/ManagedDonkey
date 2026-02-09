@@ -1771,7 +1771,7 @@ void __cdecl hs_handle_deleted_object(int32 object_index)
 		}
 
 		{
-			const struct scenario* scenario = global_scenario_get();
+			const s_scenario* scenario = global_scenario_get();
 
 			s_hs_thread_iterator iterator;
 			hs_thread_iterator_new(&iterator, true, true);
@@ -2273,7 +2273,7 @@ void __cdecl hs_runtime_initialize_for_new_map()
 		hs_thread* internal_thread = hs_thread_get(internal_thread_index);
 		hs_runtime_globals->globals_initialization = true;
 
-		const struct scenario* scenario = global_scenario_get();
+		const s_scenario* scenario = global_scenario_get();
 		for (int32 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
 		{
 			const hs_global_internal* internal_global = TAG_BLOCK_GET_ELEMENT(&scenario->hs_globals, global_index, const hs_global_internal);
@@ -2321,7 +2321,7 @@ void __cdecl hs_runtime_initialize_threads()
 
 	if (global_scenario_index_get() != NONE)
 	{
-		const struct scenario* scenario = global_scenario_get();
+		const s_scenario* scenario = global_scenario_get();
 		for (int32 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 		{
 			hs_script* script = TAG_BLOCK_GET_ELEMENT(&scenario->hs_scripts, script_index, hs_script);
@@ -3670,7 +3670,7 @@ void __cdecl render_debug_scripting_globals()
 		c_rasterizer_draw_string draw_string{};
 		c_font_cache_mt_safe font_cache{};
 		int16 tab_stops[]{ 300 };
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 		interface_set_bitmap_text_draw_mode(&draw_string, _terminal_font, _text_style_plain, _text_justification_left, 0, 5, 0);
 		draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 
@@ -3697,7 +3697,7 @@ void __cdecl render_debug_trigger_volumes()
 {
 	if (debug_trigger_volumes)
 	{
-		const struct scenario* scenario = global_scenario_get();
+		const s_scenario* scenario = global_scenario_get();
 		
 		for (int32 trigger_index = 0; trigger_index < scenario->trigger_volumes.count; trigger_index++)
 		{

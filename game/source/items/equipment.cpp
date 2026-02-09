@@ -57,7 +57,7 @@ bool __cdecl equipment_activate(int32 equipment_index, int32 owner_unit_index, b
 	bool result = false;
 	
 	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 	
 	bool immediate = true;
 	if (equipment_active_fraction(equipment_index) == 0.0f)
@@ -177,7 +177,7 @@ real32 __cdecl equipment_active_fraction(int32 equipment_index)
 	//return (real32)DECLFUNC(0x00B87DA0, real64, __cdecl, int32)(equipment_index);
 
 	const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 
 	real32 fraction = 0.0f;
 	if (equipment_is_active(equipment_index) && equipment_definition->equipment.duration > 0.001f)
@@ -382,7 +382,7 @@ void __cdecl equipment_definition_handle_pickup(int32 player_index, int32 equipm
 	const player_datum* player = DATUM_GET(player_data, const player_datum, player_index);
 	if (player->unit_index != NONE)
 	{
-		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment_definition_index);
+		const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment_definition_index);
 		if (equipment_definition->equipment.pickup_sound.index != NONE)
 		{
 			s_sound_location sound_location{};
@@ -472,7 +472,7 @@ bool __cdecl equipment_new(int32 equipment_index, object_placement_data* data, b
 	//return INVOKE(0x00B88DA0, equipment_new, equipment_index, data, out_of_memory);
 
 	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 	const int32 now = game_time_get();
 
 	equipment->equipment.game_time_at_creation = now;
@@ -542,7 +542,7 @@ int32 __cdecl equipment_remaining_charges(int32 equipment_index)
 	//return INVOKE(0x00B89190, equipment_remaining_charges, equipment_index);
 
 	const equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 	return equipment_definition->equipment.charges != NONE ? equipment_definition->equipment.charges - equipment->equipment.charges_used : NONE;
 }
 
@@ -582,7 +582,7 @@ void __cdecl equipment_update(int32 equipment_index, int32 owner_unit_index)
 				continue;
 			case _equipment_type_invincibility:
 			{
-				const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+				const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 				const s_equipment_type_invincibility* invincibility = equipment_get_invincibility_mode_definition(equipment->definition_index);
 				if (equipment_is_active(equipment_index))
 				{
@@ -686,7 +686,7 @@ bool __cdecl equipment_update(int32 equipment_index)
 	//return INVOKE(0x00B89550, equipment_update, equipment_index);
 
 	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 
 	bool updated = equipment_update_phantoms(equipment_index);
 	if (!equipment->object.damage_flags.test(_object_dead_bit))
@@ -883,7 +883,7 @@ bool __cdecl equipment_update(int32 equipment_index)
 bool __cdecl equipment_update_animation(int32 equipment_index)
 {
 	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 
 	bool animating = false;
 	if (object_has_animation_manager(equipment_index))
@@ -919,7 +919,7 @@ bool __cdecl equipment_update_animation(int32 equipment_index)
 bool __cdecl equipment_update_phantoms(int32 equipment_index)
 {
 	equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-	const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+	const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 
 	bool phantom_volumes_active = false;
 	if (equipment->object.physics_flags.test(_object_has_havok_shape_phantoms_bit) && equipment->object.havok_component_index != NONE)

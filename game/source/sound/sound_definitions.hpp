@@ -95,7 +95,7 @@ struct looping_sound_detail
 };
 COMPILE_ASSERT(sizeof(looping_sound_detail) == 0x3C);
 
-struct looping_sound_definition
+typedef struct looping_sound_definition
 {
 	uns32 flags;
 
@@ -116,7 +116,7 @@ struct looping_sound_definition
 
 	// detail sounds play at random throughout the duration of the looping sound.
 	c_typed_tag_block<looping_sound_detail> details;
-};
+} s_looping_sound_definition;
 COMPILE_ASSERT(sizeof(looping_sound_definition) == 0x40);
 
 struct s_sound_globals_definition

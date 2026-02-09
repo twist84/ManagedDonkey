@@ -132,7 +132,7 @@ struct _equipment_definition
 };
 COMPILE_ASSERT(sizeof(_equipment_definition) == 0x1B0);
 
-struct equipment_definition
+typedef struct equipment_definition
 {
 	static tag const k_group_tag = EQUIPMENT_TAG;
 
@@ -141,7 +141,7 @@ struct equipment_definition
 	_equipment_definition equipment;
 
 	void update_reference_names();
-};
+} s_equipment_definition;
 COMPILE_ASSERT(sizeof(equipment_definition) == sizeof(_object_definition) + sizeof(_item_definition) + sizeof(_equipment_definition));
 
 struct s_equipment_type_super_shield

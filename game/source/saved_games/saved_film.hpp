@@ -52,12 +52,12 @@ public:
 	void dispose(c_allocation_base* allocator);
 	bool open_for_read(const char* filename, e_controller_index controller_index, bool disable_version_check);
 	bool read_update(s_saved_film_update* update_out);
-	bool read_simulation_update(const s_saved_film_update* update, struct simulation_update* simulation_update_out);
+	bool read_simulation_update(const s_saved_film_update* update, s_simulation_update* simulation_update_out);
 	bool read_gamestate(const s_saved_film_update* update, void* compressed_game_state_buffer_out, int32 buffer_size, int32* compressed_game_state_size_out, int32* update_number_out);
 	int32 get_position();
 	bool set_position(int32 position);
 	bool open_for_write(const char* filename, const game_options* options, e_controller_index controller_index);
-	bool write_simulation_update(const struct simulation_update* update);
+	bool write_simulation_update(const s_simulation_update* update);
 	bool write_gamestate();
 	bool write_gamestate_from_buffer(int32 update_number, const void* gamestate, int32 gamestate_size);
 	int32 get_ticks_remaining() const;

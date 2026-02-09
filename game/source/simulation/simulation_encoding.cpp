@@ -84,12 +84,12 @@ void __cdecl simulation_read_quantized_position(c_bitstream* packet, real_point3
 	INVOKE(0x0046F3F0, simulation_read_quantized_position, packet, position, axis_encoding_size_in_bits, world_bounds);
 }
 
-bool __cdecl simulation_update_compare(const struct simulation_update* update1, struct simulation_update* update2)
+bool __cdecl simulation_update_compare(const s_simulation_update* update1, s_simulation_update* update2)
 {
 	return INVOKE(0x0046F4A0, simulation_update_compare, update1, update2);
 }
 
-bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_update* update)
+bool __cdecl simulation_update_decode(c_bitstream* packet, s_simulation_update* update)
 {
 	return INVOKE(0x0046F5A0, simulation_update_decode, packet, update);
 
@@ -166,7 +166,7 @@ bool __cdecl simulation_update_decode(c_bitstream* packet, struct simulation_upd
 #endif
 }
 
-void __cdecl simulation_update_encode(c_bitstream* packet, const struct simulation_update* update)
+void __cdecl simulation_update_encode(c_bitstream* packet, const s_simulation_update* update)
 {
 	INVOKE(0x0046F830, simulation_update_encode, packet, update);
 

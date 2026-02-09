@@ -9,7 +9,7 @@ bool c_simulation_world::actor_exists(int32 simulation_actor_index) const
 	return INVOKE_CLASS_MEMBER(0x00467D40, c_simulation_world, actor_exists, simulation_actor_index);
 }
 
-void c_simulation_world::advance_update(const struct simulation_update* update)
+void c_simulation_world::advance_update(const s_simulation_update* update)
 {
 	INVOKE_CLASS_MEMBER(0x00467D60, c_simulation_world, advance_update, update);
 }
@@ -24,7 +24,7 @@ void c_simulation_world::apply_simulation_queue(const c_simulation_queue* simula
 	INVOKE_CLASS_MEMBER(0x00467E00, c_simulation_world, apply_simulation_queue, simulation_queue);
 }
 
-void c_simulation_world::attach_simulation_queues_to_update(struct simulation_update* update)
+void c_simulation_world::attach_simulation_queues_to_update(s_simulation_update* update)
 {
 	INVOKE_CLASS_MEMBER(0x00467F00, c_simulation_world, attach_simulation_queues_to_update, update);
 }
@@ -44,12 +44,12 @@ bool c_simulation_world::authority_join_timeout_expired() const
 	return INVOKE_CLASS_MEMBER(0x00467FC0, c_simulation_world, authority_join_timeout_expired);
 }
 
-void c_simulation_world::build_player_actions(struct simulation_update* update)
+void c_simulation_world::build_player_actions(s_simulation_update* update)
 {
 	INVOKE_CLASS_MEMBER(0x00468010, c_simulation_world, build_player_actions, update);
 }
 
-void c_simulation_world::build_update(bool build_for_simulation_in_progress, struct simulation_update* update, s_simulation_update_metadata* metadata)
+void c_simulation_world::build_update(bool build_for_simulation_in_progress, s_simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	INVOKE_CLASS_MEMBER(0x00468160, c_simulation_world, build_update, build_for_simulation_in_progress, update, metadata);
 }
@@ -138,7 +138,7 @@ void c_simulation_world::delete_player(int32 player_index)
 	INVOKE_CLASS_MEMBER(0x00468AC0, c_simulation_world, delete_player, player_index);
 }
 
-void __cdecl c_simulation_world::destroy_update(struct simulation_update* update)
+void __cdecl c_simulation_world::destroy_update(s_simulation_update* update)
 {
 	//INVOKE(0x00468B40, c_simulation_world::destroy_update, update);
 
@@ -168,7 +168,7 @@ void c_simulation_world::disconnect()
 	INVOKE_CLASS_MEMBER(0x00468CC0, c_simulation_world, disconnect);
 }
 
-void c_simulation_world::distribute_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
+void c_simulation_world::distribute_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	INVOKE_CLASS_MEMBER(0x00468CF0, c_simulation_world, distribute_update, update, metadata);
 }
@@ -493,7 +493,7 @@ void c_simulation_world::go_out_of_sync(bool determinism_failure)
 	INVOKE_CLASS_MEMBER(0x004695E0, c_simulation_world, go_out_of_sync, determinism_failure);
 }
 
-bool c_simulation_world::handle_playback_update(const struct simulation_update* update, s_simulation_update_metadata* metadata)
+bool c_simulation_world::handle_playback_update(const s_simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	return INVOKE_CLASS_MEMBER(0x00469610, c_simulation_world, handle_playback_update, update, metadata);
 }
@@ -508,7 +508,7 @@ bool c_simulation_world::handle_synchronous_playback_control(e_network_synchrono
 	return INVOKE_CLASS_MEMBER(0x00469760, c_simulation_world, handle_synchronous_playback_control, type, identifier, update_number);
 }
 
-bool c_simulation_world::handle_synchronous_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
+bool c_simulation_world::handle_synchronous_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	return INVOKE_CLASS_MEMBER(0x004697D0, c_simulation_world, handle_synchronous_update, update, metadata);
 }
@@ -711,7 +711,7 @@ bool c_simulation_world::simulation_queues_empty()
 	return INVOKE_CLASS_MEMBER(0x0046A660, c_simulation_world, simulation_queues_empty);
 }
 
-void c_simulation_world::synchronous_authority_dispatch_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
+void c_simulation_world::synchronous_authority_dispatch_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	INVOKE_CLASS_MEMBER(0x0046A690, c_simulation_world, synchronous_authority_dispatch_update, update, metadata);
 }
@@ -841,7 +841,7 @@ bool c_simulation_world::update_queue_handle_playback_event(e_simulation_playbac
 	return INVOKE_CLASS_MEMBER(0x0046BA00, c_simulation_world, update_queue_handle_playback_event, event_type, event_data, event_update_number);
 }
 
-bool c_simulation_world::update_queue_handle_server_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
+bool c_simulation_world::update_queue_handle_server_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	return INVOKE_CLASS_MEMBER(0x0046BA90, c_simulation_world, update_queue_handle_server_update, update, metadata);
 }
@@ -856,7 +856,7 @@ bool c_simulation_world::update_queue_retrieve_event(e_simulation_playback_event
 	return INVOKE_CLASS_MEMBER(0x0046BBC0, c_simulation_world, update_queue_retrieve_event, out_event_type, out_event_data, out_event_update_number);
 }
 
-void c_simulation_world::update_queue_retrieve_update(struct simulation_update* update, s_simulation_update_metadata* metadata)
+void c_simulation_world::update_queue_retrieve_update(s_simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	INVOKE_CLASS_MEMBER(0x0046BC50, c_simulation_world, update_queue_retrieve_update, update, metadata);
 }

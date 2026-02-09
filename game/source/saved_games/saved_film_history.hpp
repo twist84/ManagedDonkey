@@ -5,6 +5,7 @@
 enum e_saved_film_revert_type;
 struct s_saved_film_hud_interface_state;
 struct s_simulation_update_metadata;
+typedef struct simulation_update s_simulation_update;
 
 enum
 {
@@ -90,6 +91,6 @@ extern bool saved_film_history_revert_internal(int32 target_record_index);
 extern bool saved_film_history_should_flush_gamestate(int32 update_number);
 extern bool saved_film_history_time_for_chapter_archive(int32 film_tick);
 extern void saved_film_history_update();
-extern void saved_film_history_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+extern void saved_film_history_update_after_simulation_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 extern void saved_film_history_update_before_simulation_update(bool disable_adding_history_records);
 

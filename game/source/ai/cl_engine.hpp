@@ -44,6 +44,10 @@ enum e_ai_atom
 	k_ai_atom_count
 };
 
+struct cs_script_data;
+struct cs_point_set;
+typedef struct scenario s_scenario;
+
 struct cs_command
 {
 	int8 atom_type;
@@ -189,9 +193,6 @@ struct command_script_datum :
 };
 COMPILE_ASSERT(sizeof(command_script_datum) == 0x188);
 
-struct cs_script_data;
-struct cs_point_set;
-
 extern bool __cdecl cs_blocked(int32 thread_index);
 extern void __cdecl cs_dispose();
 extern void __cdecl cs_dispose_from_old_map();
@@ -201,7 +202,7 @@ extern void __cdecl cs_handle_thread_delete(int32 deleted_thread_index);
 extern void __cdecl cs_initialize();
 extern void __cdecl cs_initialize_for_new_map();
 extern void __cdecl cs_initialize_for_new_structure_bsp(int32 activating_structure_bsp_mask);
-extern cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario);
+extern cs_script_data* __cdecl cs_scenario_get_script_data(s_scenario* scenario);
 extern void __cdecl cs_setup_global_script_context(int32 thread_index);
 extern bool __cdecl point_ref_get_position_and_orientation(int32 point_ref, real_point3d* position, real_vector3d* forward, real_vector3d* up);
 

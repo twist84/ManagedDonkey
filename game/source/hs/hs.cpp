@@ -173,7 +173,7 @@ int16 __cdecl hs_find_script_by_name(const char* name, int16 num_arguments)
 
 	if (global_scenario_index_get() != NONE)
 	{
-		const struct scenario* scenario = global_scenario_get();
+		const s_scenario* scenario = global_scenario_get();
 
 		for (int32 script_index = 0; script_index < scenario->hs_scripts.count; script_index++)
 		{
@@ -230,7 +230,7 @@ void __cdecl hs_initialize_for_new_map(bool force_recompile, bool verbose)
 
 	ASSERT(TEST_BIT(g_hs_syntax_data->flags, _data_array_disconnected_bit));
 
-	const struct scenario* scenario = global_scenario_try_and_get();
+	const s_scenario* scenario = global_scenario_try_and_get();
 	if (scenario)
 	{
 		hs_scenario_postprocess(force_recompile, false, verbose);
@@ -308,7 +308,7 @@ bool __cdecl hs_scenario_postprocess(bool force_recompile, bool fail_on_error, b
 	//return INVOKE(0x006795D0, hs_scenario_postprocess, force_recompile, fail_on_error, verbose);
 
 	const void* old_syntax_data = g_hs_syntax_data;
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	bool ai_failure = false;
 	const char* error_message = nullptr;
 	const char* error_source = nullptr;
@@ -713,7 +713,7 @@ void __cdecl hs_enumerate_ai_names(void)
 {
 	if (global_scenario_index_get() != NONE)
 	{
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 
 		for (s_squad_definition& squad : scenario->squads)
 		{
@@ -753,7 +753,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 {
 	if (global_scenario_index_get() != NONE)
 	{
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 
 		for (hs_script& script : scenario->hs_scripts)
 		{

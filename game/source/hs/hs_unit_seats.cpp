@@ -12,7 +12,7 @@ bool hs_get_unit_seats_from_substring(int32 unit_definition_index, const char* s
 
 	out_unit_seats->clear();
 
-	struct unit_definition* unit_definition = TAG_GET(UNIT_TAG, struct unit_definition, unit_definition_index);
+	s_unit_definition* unit_definition = TAG_GET(UNIT_TAG, s_unit_definition, unit_definition_index);
 
 	for (int32 seat_index = 0; seat_index < unit_definition->unit.seats_block.count; seat_index++)
 	{

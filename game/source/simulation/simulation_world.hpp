@@ -75,12 +75,12 @@ public:
 
 public:
 	bool actor_exists(int32 simulation_actor_index) const;
-	void advance_update(const struct simulation_update* update);
+	void advance_update(const s_simulation_update* update);
 	bool all_client_views_active() const;
 	void apply_simulation_queue(const c_simulation_queue* simulation_queue);
 
 private:
-	void attach_simulation_queues_to_update(struct simulation_update* update);
+	void attach_simulation_queues_to_update(s_simulation_update* update);
 
 public:
 	void attach_to_map();
@@ -90,8 +90,8 @@ private:
 	bool authority_join_timeout_expired() const;
 
 public:
-	void build_player_actions(struct simulation_update* update);
-	void build_update(bool build_for_simulation_in_progress, struct simulation_update* update, s_simulation_update_metadata* metadata);
+	void build_player_actions(s_simulation_update* update);
+	void build_update(bool build_for_simulation_in_progress, s_simulation_update* update, s_simulation_update_metadata* metadata);
 	bool can_generate_updates() const;
 	void change_state_active();
 	void change_state_dead();
@@ -113,12 +113,12 @@ private:
 public:
 	void delete_all_players();
 	void delete_player(int32 player_index);
-	static void destroy_update(struct simulation_update* update);
+	static void destroy_update(s_simulation_update* update);
 	void destroy_world();
 	void detach_from_map();
 	void detach_view(c_simulation_view* view, int32 view_index);
 	void disconnect();
-	void distribute_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	void distribute_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 
 private:
 	void distributed_authority_dispatch_actor_control(uns32 actor_valid_mask, const unit_control_data* actor_control);
@@ -169,10 +169,10 @@ public:
 	int32 get_view_count() const;
 	e_simulation_world_type get_world_type() const;
 	void go_out_of_sync(bool determinism_failure);
-	bool handle_playback_update(const struct simulation_update* update, s_simulation_update_metadata* metadata);
+	bool handle_playback_update(const s_simulation_update* update, s_simulation_update_metadata* metadata);
 	void handle_synchronous_client_actions(const s_machine_identifier* remote_machine_identifier, uns32 valid_user_mask, const player_action* user_actions);
 	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
-	bool handle_synchronous_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	bool handle_synchronous_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 	void handle_view_activation(c_simulation_view* view, bool active);
 	void handle_view_establishment(c_simulation_view* view, bool established);
 	void initialize_world(e_game_simulation_type simulation_type, e_game_playback_type playback_type, bool reset_next_update_number, c_simulation_type_collection* type_collection, c_simulation_watcher* watcher, c_simulation_distributed_world* distributed_world);
@@ -214,7 +214,7 @@ public:
 	bool simulation_queues_empty();
 
 private:
-	void synchronous_authority_dispatch_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	void synchronous_authority_dispatch_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 	int32 synchronous_authority_get_maximum_update_queue_size();
 	int32 synchronous_authority_get_maximum_updates();
 
@@ -242,10 +242,10 @@ private:
 	int32 update_queue_get_available_updates() const;
 	int32 update_queue_get_next_expected_update_number() const;
 	bool update_queue_handle_playback_event(e_simulation_playback_event event_type, int32 event_data, int32 event_update_number);
-	bool update_queue_handle_server_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+	bool update_queue_handle_server_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 	void update_queue_reset();
 	bool update_queue_retrieve_event(e_simulation_playback_event* out_event_type, int32* out_event_data, int32* out_event_update_number);
-	void update_queue_retrieve_update(struct simulation_update* update, s_simulation_update_metadata* metadata);
+	void update_queue_retrieve_update(s_simulation_update* update, s_simulation_update_metadata* metadata);
 	void update_queue_start(int32 next_update_number, bool flush_update_queue);
 	void update_queue_stop();
 

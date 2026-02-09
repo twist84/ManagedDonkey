@@ -137,19 +137,19 @@ void __cdecl object_placement_reset_from_teleport(int32 object_index)
 //.text:00B5A660 ; 
 //.text:00B5A6A0 ; private: void __cdecl c_scenario_object_to_object_datum_mapping::remove_dirty_objects()
 //.text:00B5A840 ; 
-//.text:00B5A880 ; s_tag_block* __cdecl scenario_get_object_type_scenario_datums(scenario*, e_object_type, int32*)
-//.text:00B5A8B0 ; s_tag_block* __cdecl scenario_get_object_type_scenario_palette(scenario*, e_object_type)
+//.text:00B5A880 ; s_tag_block* __cdecl scenario_get_object_type_scenario_datums(s_scenario*, e_object_type, int32*)
+//.text:00B5A8B0 ; s_tag_block* __cdecl scenario_get_object_type_scenario_palette(s_scenario*, e_object_type)
 //.text:00B5A8D0 ; 
 //.text:00B5A920 ; 
 //.text:00B5A9A0 ; 
-//.text:00B5A9E0 ; const s_scenario_object* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
-//.text:00B5AA30 ; object_definition* __cdecl scenario_object_get_object_definition(struct scenario*, const s_scenario_object*)
-//.text:00B5AA60 ; int32 __cdecl scenario_object_get_object_definition_tag_index(struct scenario*, const s_scenario_object*)
-//.text:00B5AAD0 ; scenario_object_palette_entry* __cdecl scenario_object_get_palette_entry(scenario*, const s_scenario_object*)
+//.text:00B5A9E0 ; const s_scenario_object* __cdecl scenario_object_try_and_get(s_scenario*, e_object_type, int32)
+//.text:00B5AA30 ; object_definition* __cdecl scenario_object_get_object_definition(s_scenario*, const s_scenario_object*)
+//.text:00B5AA60 ; int32 __cdecl scenario_object_get_object_definition_tag_index(s_scenario*, const s_scenario_object*)
+//.text:00B5AAD0 ; scenario_object_palette_entry* __cdecl scenario_object_get_palette_entry(s_scenario*, const s_scenario_object*)
 //.text:00B5AB30 ; real32 __cdecl scenario_object_get_scale(const s_scenario_object*)
-//.text:00B5AB60 ; bool __cdecl scenario_object_has_persistent_state(scenario*, const s_scenario_object*)
-//.text:00B5ABB0 ; bool __cdecl scenario_object_is_placed_globally(scenario*, const s_scenario_object*)
-//.text:00B5AC40 ; bool __cdecl scenario_object_managed_by_script(struct scenario*, const s_scenario_object*)
+//.text:00B5AB60 ; bool __cdecl scenario_object_has_persistent_state(s_scenario*, const s_scenario_object*)
+//.text:00B5ABB0 ; bool __cdecl scenario_object_is_placed_globally(s_scenario*, const s_scenario_object*)
+//.text:00B5AC40 ; bool __cdecl scenario_object_managed_by_script(s_scenario*, const s_scenario_object*)
 //.text:00B5AC60 ; const s_scenario_object* __cdecl scenario_object_try_and_get(scenario*, e_object_type, int32)
-//.text:00B5ACB0 ; void __cdecl scenario_objects_synchronize_parent_placement(const uns32*, scenario*)
+//.text:00B5ACB0 ; void __cdecl scenario_objects_synchronize_parent_placement(const uns32*, s_scenario*)
 

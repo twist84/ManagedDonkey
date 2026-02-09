@@ -145,7 +145,7 @@ hs_source_file* source_offset_get_source_file(int32 offset, int32* offset_within
 {
 	hs_source_file* result = nullptr;
 
-	const struct scenario* scenario = global_scenario_get();
+	const s_scenario* scenario = global_scenario_get();
 	int32 total_source_size = 0;
 	{
 		for (int16 source_index = 0; source_index < scenario->hs_source_files.count; source_index++)
@@ -344,7 +344,7 @@ bool hs_add_script(int32 expression_index)
 						const hs_syntax_node* actual_name_node = hs_syntax_get(actual_name_index);
 					}
 					{
-						struct scenario* scenario = global_scenario_get();
+						s_scenario* scenario = global_scenario_get();
 						int32 script_index;
 						int16 num_parameters;
 						{
@@ -1044,7 +1044,7 @@ bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose)
 {
 	bool success = true;
 
-	const struct scenario* scenario = global_scenario_get();
+	const s_scenario* scenario = global_scenario_get();
 #if 1
 	for (int16 global_index = 0; global_index < scenario->hs_globals.count; global_index++)
 	{
@@ -1155,7 +1155,7 @@ bool hs_compile_source(bool fail_on_error, bool verbose)
 	int32 total_source_size = 0;
 
 #if 1
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	for (int16 source_index = 0; source_index < (int16)scenario->hs_source_files.count; source_index++)
 	{
 		hs_source_file* source_file = TAG_BLOCK_GET_ELEMENT(&scenario->hs_source_files, source_index, hs_source_file);
@@ -1302,7 +1302,7 @@ void hs_compile_source_error(const char* file_name, const char* error_message, c
 	}
 }
 
-void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* state)
+void hs_compile_state_initialize(s_scenario* scenario, s_hs_compile_state* state)
 {
 	csmemset(state->failed_globals, 0, sizeof(state->failed_globals));
 	csmemset(state->failed_scripts, 0, sizeof(state->failed_scripts));
@@ -1312,7 +1312,7 @@ void fail_special_form_recursive(int32* strip_globals, int32* strip_scripts, int
 {
 #if 0
 	s_hs_reference* reference = nullptr;
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	switch (type)
 	{
 	case _hs_reference_type_global:
@@ -1371,7 +1371,7 @@ void hs_compile_strip_failed_special_forms(const s_hs_compile_state* compile_sta
 {
 	return;
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 
 	int32 strip_globals[9]{};
 	int32 strip_scripts[32]{};
@@ -1666,7 +1666,7 @@ bool hs_parse_budget_reference(int32 expression_index)
 	{
 		ASSERT(HS_TYPE_IS_BUDGET_REFERENCE(expression->type));
 
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 		for (int32 budget_reference_index = 0; budget_reference_index < scenario->budget_references.count; budget_reference_index++)
 		{
 			s_scenario_budget_reference& budget_reference = scenario->budget_references[budget_reference_index];
@@ -1915,7 +1915,7 @@ bool hs_parse_folder(int32 expression_index)
 		ASSERT(expression->type == _hs_type_folder);
 
 		const char* folder_name = &hs_compile_globals.compiled_source[expression->source_offset];
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 		if (scenario->editor_folders.count > 0)
 		{
 			for (int32 index = 0; index < scenario->editor_folders.count; index++)
@@ -2657,7 +2657,7 @@ bool hs_parse_tag_reference(int32 expression_index)
 		ASSERT(HS_TYPE_IS_TAG_REFERENCE(expression->type));
 
 		tag group_tag = hs_tag_reference_type_group_tags[expression->type - _hs_type_sound];
-		const struct scenario* scenario = global_scenario_get();
+		const s_scenario* scenario = global_scenario_get();
 		const char* tag_name = &hs_compile_globals.compiled_source[expression->source_offset];
 
 		for (int16 reference_index = 0; reference_index < scenario->hs_references.count; reference_index++)
@@ -2797,7 +2797,7 @@ bool hs_parse_unit_seat_mapping(int32 expression_index)
 		}
 		else
 		{
-			struct scenario* scenario = global_scenario_get();
+			s_scenario* scenario = global_scenario_get();
 			int32 seat_mapping_start_index = NONE;
 			int32 seat_mapping_count = unit_seat_mapping_stack.count();
 

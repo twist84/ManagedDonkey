@@ -311,7 +311,7 @@ struct _unit_definition
 };
 COMPILE_ASSERT(sizeof(_unit_definition) == 0x2C8);
 
-struct unit_definition
+typedef struct unit_definition
 {
 	static tag const k_group_tag = UNIT_TAG;
 
@@ -319,7 +319,7 @@ struct unit_definition
 	_unit_definition unit;
 
 	void update_reference_names();
-};
+} s_unit_definition;
 COMPILE_ASSERT(sizeof(unit_definition) == sizeof(_object_definition) + sizeof(_unit_definition));
 
 struct s_posture_definition

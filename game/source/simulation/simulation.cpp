@@ -169,12 +169,12 @@ void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, cons
 	INVOKE(0x00440DF0, simulation_add_view_to_world, view_type, remote_machine_identifier, remote_machine_index, remote_machine_name);
 }
 
-void __cdecl simulation_apply_after_game(const struct simulation_update* update)
+void __cdecl simulation_apply_after_game(const s_simulation_update* update)
 {
 	INVOKE(0x00440E40, simulation_apply_after_game, update);
 }
 
-void __cdecl simulation_apply_before_game(const struct simulation_update* update)
+void __cdecl simulation_apply_before_game(const s_simulation_update* update)
 {
 	INVOKE(0x00440E50, simulation_apply_before_game, update);
 
@@ -275,7 +275,7 @@ void __cdecl simulation_build_player_updates()
 	INVOKE(0x00441030, simulation_build_player_updates);
 }
 
-void __cdecl simulation_build_update(bool should_build, struct simulation_update* update, s_simulation_update_metadata* metadata)
+void __cdecl simulation_build_update(bool should_build, s_simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	INVOKE(0x004410E0, simulation_build_update, should_build, update, metadata);
 
@@ -291,8 +291,8 @@ void __cdecl simulation_build_update(bool should_build, struct simulation_update
 	//		ASSERT(update);
 	//		ASSERT(metadata);
 	//
-	//		csmemset(update, 0, sizeof(struct simulation_update));
-	//		csmemset(metadata, 0, sizeof(struct s_simulation_update_metadata));
+	//		csmemset(update, 0, sizeof(s_simulation_update));
+	//		csmemset(metadata, 0, sizeof(s_simulation_update_metadata));
 	//
 	//		saved_film_manager_update_before_simulation_update();
 	//		simulation_globals.world->build_update(should_build, update, metadata);
@@ -393,7 +393,7 @@ void __cdecl simulation_describe_status(char* buffer, int32 buffer_size)
 	}
 }
 
-void __cdecl simulation_destroy_update(struct simulation_update* update)
+void __cdecl simulation_destroy_update(s_simulation_update* update)
 {
 	INVOKE(0x00441220, simulation_destroy_update, update);
 
@@ -444,7 +444,7 @@ void __cdecl simulation_fatal_error()
 	INVOKE(0x00441310, simulation_fatal_error);
 }
 
-bool __cdecl simulation_film_record_update(const struct simulation_update* update)
+bool __cdecl simulation_film_record_update(const s_simulation_update* update)
 {
 	//return INVOKE(0x00441320, simulation_film_record_update, update);
 
@@ -513,7 +513,7 @@ bool __cdecl simulation_film_retrieve_updates(int32 maximum_updates_to_read, int
 			return false;
 		}
 	
-		struct simulation_update simulation_update_out{};
+		s_simulation_update simulation_update_out{};
 		s_simulation_update_metadata metadata{};
 		metadata.flags.set(_simulation_update_from_saved_film_bit, true);
 		metadata.saved_film_position = position;
@@ -1043,7 +1043,7 @@ void __cdecl simulation_process_input(uns32 user_action_mask, const player_actio
 	//simulation_globals.world->process_input(user_action_mask, user_actions);
 }
 
-void __cdecl simulation_record_update(const struct simulation_update* update)
+void __cdecl simulation_record_update(const s_simulation_update* update)
 {
 	//INVOKE(0x00441F90, simulation_record_update, update);
 
@@ -1534,7 +1534,7 @@ void __cdecl simulation_update()
 	}
 }
 
-void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata)
+void __cdecl simulation_update_aftermath(const s_simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	INVOKE(0x004423F0, simulation_update_aftermath, update, metadata);
 
@@ -1571,7 +1571,7 @@ void __cdecl simulation_update_pregame()
 		return;
 	}
 	
-	struct simulation_update update{};
+	s_simulation_update update{};
 	s_simulation_update_metadata metadata{};
 	simulation_build_update(false, &update, &metadata);
 	ASSERT(!update.flags.test(_simulation_update_simulation_in_progress_bit));
@@ -1585,14 +1585,14 @@ void __cdecl simulation_update_pregame()
 	simulation_destroy_update(&update);
 }
 
-bool simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, const uns8* buffer)
+bool simulation_update_read_from_buffer(s_simulation_update* update, int32 buffer_size, const uns8* buffer)
 {
 	return INVOKE(0x004427C0, simulation_update_read_from_buffer, update, buffer_size, buffer);
 
 	//ASSERT(update);
 	//ASSERT(buffer);
 	//c_bitstream decoded_update((byte*)buffer, buffer_size);
-	//csmemset(update, 0, sizeof(struct simulation_update));
+	//csmemset(update, 0, sizeof(s_simulation_update));
 	//decoded_update.begin_reading();
 	//if (!simulation_update_decode(&decoded_update, update))
 	//{
@@ -1603,7 +1603,7 @@ bool simulation_update_read_from_buffer(struct simulation_update* update, int32 
 	//return true;
 }
 
-bool __cdecl simulation_update_write_to_buffer(const struct simulation_update* update, int32 buffer_size, uns8* buffer, int32* out_update_length)
+bool __cdecl simulation_update_write_to_buffer(const s_simulation_update* update, int32 buffer_size, uns8* buffer, int32* out_update_length)
 {
 	return INVOKE(0x00442840, simulation_update_write_to_buffer, update, buffer_size, buffer, out_update_length);
 

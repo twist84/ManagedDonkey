@@ -88,14 +88,14 @@ struct _control_definition
 };
 COMPILE_ASSERT(sizeof(_control_definition) == 0x3C);
 
-struct control_definition
+typedef struct control_definition
 {
 	static tag const k_group_tag = DEVICE_CONTROL_TAG;
 
 	_object_definition object;
 	_device_definition device;
 	_control_definition control;
-};
+} s_control_definition;
 COMPILE_ASSERT(sizeof(control_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_control_definition));
 
 enum // type
@@ -200,13 +200,13 @@ struct _arg_device_definition
 };
 COMPILE_ASSERT(sizeof(_arg_device_definition) == 0x4);
 
-struct arg_device_definition
+typedef struct arg_device_definition
 {
 	static tag const k_group_tag = DEVICE_ARG_DEVICE_TAG;
 
 	_object_definition object;
 	_device_definition device;
 	_arg_device_definition arg_device;
-};
+} s_arg_device_definition;
 COMPILE_ASSERT(sizeof(arg_device_definition) == sizeof(_object_definition) + sizeof(_device_definition) + sizeof(_arg_device_definition));
 

@@ -550,7 +550,7 @@ void debug_effects_full()
 	for (int32 effect_index = data_next_index(effect_data, NONE); effect_index != NONE; effect_index = data_next_index(effect_data, effect_index))
 	{
 		effect_datum* effect = DATUM_GET(effect_data, effect_datum, effect_index);
-		struct effect_definition* effect_definition = TAG_GET(EFFECT_TAG, struct effect_definition, effect->definition_index);
+		s_effect_definition* effect_definition = TAG_GET(EFFECT_TAG, s_effect_definition, effect->definition_index);
 
 		c_static_string<256> effect_string;
 		effect_string.print("effect: %s (%s %s %s)|n",

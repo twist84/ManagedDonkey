@@ -68,7 +68,7 @@ enum e_effect_disposition
 };
 
 struct effect_event_definition;
-struct effect_definition
+typedef struct effect_definition
 {
 	//c_flags<e_effect_definition_flags, uns32, k_effect_definition_flag_count> flags;
 	uns32 flags;
@@ -105,7 +105,7 @@ struct effect_definition
 	real32 local_space_death_delay;
 
 	s_tag_block conical_distribution;
-};
+} s_effect_definition;
 COMPILE_ASSERT(sizeof(effect_definition) == 0x68);
 
 enum e_effect_part_flags

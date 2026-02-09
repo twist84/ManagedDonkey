@@ -1,6 +1,6 @@
 #include "scenario/scenario_definitions.hpp"
 
-int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(const struct scenario* scenario, string_id name)
+int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(const s_scenario* scenario, string_id name)
 {
 	for (int32 cinematic_lighting_palette_entry = 0; cinematic_lighting_palette_entry < scenario->cinematic_lighting_palette.count; cinematic_lighting_palette_entry++)
 	{

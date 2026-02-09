@@ -230,7 +230,7 @@ void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* pvs, bool local_only, 
 
 	{
 		uns32 active_structure_bsp_mask = g_active_structure_bsp_mask;
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 		s_scenario_zone_set* zone_set = TAG_BLOCK_GET_ELEMENT(&scenario->zone_sets, scenario_zone_set_index_get(), s_scenario_zone_set);
 		s_scenario_zone_set_pvs* zone_set_pvs = TAG_BLOCK_GET_ELEMENT(&scenario->zone_set_pvs, zone_set->pvs_index, s_scenario_zone_set_pvs);
 
@@ -1770,7 +1770,7 @@ void __cdecl game_tick()
 
 	PROFILER(game_tick)
 	{
-		struct simulation_update update = { .flags = 0 };
+		s_simulation_update update = { .flags = 0 };
 		s_simulation_update_metadata metadata = { .flags = 0 };
 
 		game_globals->game_had_an_update_tick_this_frame = true;
@@ -1890,7 +1890,7 @@ void __cdecl game_tick()
 	}
 }
 
-void __cdecl game_tick_pulse_random_seed_deterministic(const struct simulation_update* update)
+void __cdecl game_tick_pulse_random_seed_deterministic(const s_simulation_update* update)
 {
 	INVOKE(0x005333A0, game_tick_pulse_random_seed_deterministic, update);
 }

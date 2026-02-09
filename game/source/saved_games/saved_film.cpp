@@ -131,7 +131,7 @@ bool c_saved_film::read_update(s_saved_film_update* update_out)
 	return true;
 }
 
-bool c_saved_film::read_simulation_update(const s_saved_film_update* update, struct simulation_update* simulation_update_out)
+bool c_saved_film::read_simulation_update(const s_saved_film_update* update, s_simulation_update* simulation_update_out)
 {
 	ASSERT(simulation_update_out);
 	ASSERT(update->update_type == _saved_film_update_type_simulation_update);
@@ -404,7 +404,7 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 }
 
 // $REVIEW
-bool c_saved_film::write_simulation_update(const struct simulation_update* update)
+bool c_saved_film::write_simulation_update(const s_simulation_update* update)
 {
 	ASSERT(update);
 	ASSERT(m_film_state == _saved_film_open_for_write);

@@ -35,12 +35,12 @@ uns32 __cdecl scenario_zone_set_designer_zone_required_mask_get(int32 zone_set_i
 //.text:005FB290 ; uns32 __cdecl scenario_zone_set_get_valid_designer_zones(int32, uns32)
 //.text:005FB2D0 ; bool __cdecl scenario_zone_set_switch_loads_anything(const s_scenario_game_state*, int32)
 
-const char* scenario_get_designer_zone_name(struct scenario* scenario, int32 designer_zone_index)
+const char* scenario_get_designer_zone_name(s_scenario* scenario, int32 designer_zone_index)
 {
 	return scenario->designer_zones[designer_zone_index].name.get_string();
 }
 
-const char* scenario_get_cinematic_zone_name(struct scenario* scenario, int32 cinematic_zone_index)
+const char* scenario_get_cinematic_zone_name(s_scenario* scenario, int32 cinematic_zone_index)
 {
 	int32 cinematic_index = scenario->cinematics[cinematic_zone_index].name.index;
 	if (cinematic_index != NONE)

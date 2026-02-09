@@ -4,7 +4,7 @@
 
 struct s_network_message_synchronous_update
 {
-	struct simulation_update update;
+	s_simulation_update update;
 	s_simulation_update_metadata metadata;
 };
 COMPILE_ASSERT(sizeof(s_network_message_synchronous_update) == 0x1668);

@@ -81,6 +81,6 @@ extern bool saved_film_snippet_recording_or_previewing();
 extern bool saved_film_snippet_start_recording();
 extern bool saved_film_snippet_stop_recording();
 extern bool saved_film_snippet_update();
-extern bool saved_film_snippet_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+extern bool saved_film_snippet_update_after_simulation_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 extern void saved_film_snippets_notify_reverted_for_seek(bool* set_director_state_out);
 

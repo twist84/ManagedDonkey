@@ -80,7 +80,7 @@ bool __cdecl vehicle_moving_near_any_player(int32* out_vehicle_index)
 void __cdecl vehicle_render_debug(int32 vehicle_index)
 {
 	vehicle_datum* vehicle = VEHICLE_GET(vehicle_index);
-	struct vehicle_definition* vehicle_definition = TAG_GET(VEHICLE_TAG, struct vehicle_definition, vehicle->definition_index);
+	s_vehicle_definition* vehicle_definition = TAG_GET(VEHICLE_TAG, s_vehicle_definition, vehicle->definition_index);
 
 	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
 	{

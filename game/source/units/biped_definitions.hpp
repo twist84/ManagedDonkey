@@ -235,7 +235,7 @@ struct _biped_definition
 };
 COMPILE_ASSERT(sizeof(_biped_definition) == 0x23C);
 
-struct biped_definition
+typedef struct biped_definition
 {
 	static tag const k_group_tag = BIPED_TAG;
 
@@ -244,6 +244,6 @@ struct biped_definition
 	_biped_definition biped;
 
 	void update_reference_names();
-};
+} s_biped_definition;
 COMPILE_ASSERT(sizeof(biped_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_biped_definition));
 

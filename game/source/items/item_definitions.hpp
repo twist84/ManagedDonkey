@@ -73,7 +73,7 @@ struct _item_definition
 };
 COMPILE_ASSERT(sizeof(_item_definition) == 0xB4);
 
-struct item_definition
+typedef struct item_definition
 {
 	static tag const k_group_tag = ITEM_TAG;
 
@@ -81,7 +81,7 @@ struct item_definition
 	_item_definition item;
 
 	void update_reference_names();
-};
+} s_item_definition;
 COMPILE_ASSERT(sizeof(item_definition) == sizeof(_object_definition) + sizeof(_item_definition));
 
 struct s_predicted_bitmaps

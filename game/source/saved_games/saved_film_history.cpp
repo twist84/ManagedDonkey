@@ -667,7 +667,7 @@ void saved_film_history_update()
 	}
 }
 
-void saved_film_history_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata * metadata)
+void saved_film_history_update_after_simulation_update(const s_simulation_update* update, const s_simulation_update_metadata * metadata)
 {
 	ASSERT(update);
 	ASSERT(metadata);

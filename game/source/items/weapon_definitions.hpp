@@ -642,7 +642,7 @@ COMPILE_ASSERT(0x1DC == OFFSETOF(_weapon_definition, __unknown1DC));
 COMPILE_ASSERT(0x1FE == OFFSETOF(_weapon_definition, GTIXVRPA));
 COMPILE_ASSERT(0x280 == OFFSETOF(_weapon_definition, __unknown280));
 
-struct weapon_definition
+typedef struct weapon_definition
 {
 	static tag const k_group_tag = WEAPON_TAG;
 
@@ -651,7 +651,7 @@ struct weapon_definition
 	_weapon_definition weapon;
 
 	void update_reference_names();
-};
+} s_weapon_definition;
 COMPILE_ASSERT(sizeof(weapon_definition) == sizeof(_weapon_definition) + sizeof(_item_definition) + sizeof(_object_definition));
 
 

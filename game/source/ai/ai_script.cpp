@@ -1,6 +1,7 @@
 #include "ai/ai_script.hpp"
 
 #include "ai/ai.hpp"
+#include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_runtime.hpp"
 
@@ -43,7 +44,7 @@ bool __cdecl ai_handle_script_verification(bool suppress_errors)
 //.text:0143CD60 ; void __cdecl ai_index_actor_iterator_new(int32, ai_index_actor_iterator*)
 //.text:0143CE10 ; actor_datum* __cdecl ai_index_actor_iterator_next(ai_index_actor_iterator*)
 
-bool __cdecl ai_index_from_string(struct scenario* scenario, const char* ai_string, int32* ai_index_reference)
+bool __cdecl ai_index_from_string(s_scenario* scenario, const char* ai_string, int32* ai_index_reference)
 {
 	ASSERT(ai_string && ai_index_reference);
 
@@ -57,7 +58,7 @@ bool __cdecl ai_index_from_string(struct scenario* scenario, const char* ai_stri
 //.text:0143D130 ; bool __cdecl ai_index_player_nearby(int32, real32)
 //.text:0143D250 ; void __cdecl ai_index_squad_iterator_new(int32, ai_index_squad_iterator*)
 //.text:0143D400 ; squad_datum* __cdecl ai_index_squad_iterator_next(ai_index_squad_iterator*)
-//.text:0143D500 ; void __cdecl ai_index_to_string(int32, struct scenario*, char*, int32)
+//.text:0143D500 ; void __cdecl ai_index_to_string(int32, s_scenario*, char*, int32)
 //.text:0143D5D0 ; void __cdecl ai_magically_see(int32, int32)
 //.text:0143D700 ; void __cdecl ai_magically_see_object(int32, int32)
 //.text:0143D830 ; int16 __cdecl ai_play_line(int32, int32)

@@ -73,7 +73,7 @@ public:
 	bool handle_synchronous_actions(int32 action_number, int32 current_action_number, uns32 user_flags, const player_action* actions);
 	bool handle_synchronous_gamestate(const s_network_message_synchronous_gamestate* synchronous_gamestate, const void* chunk);
 	bool handle_synchronous_playback_control(e_network_synchronous_playback_control type, int32 identifier, int32 update_number);
-	bool handle_synchronous_update(const struct simulation_update* update);
+	bool handle_synchronous_update(const s_simulation_update* update);
 	bool is_client_view() const;
 	bool is_dead(int32* death_reason) const;
 	int32 synchronous_catchup_attempt_count() const;

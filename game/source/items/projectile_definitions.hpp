@@ -157,7 +157,7 @@ struct _projectile_definition
 };
 COMPILE_ASSERT(sizeof(_projectile_definition) == 0x1AC);
 
-struct projectile_definition
+typedef struct projectile_definition
 {
 	static tag const k_group_tag = PROJECTILE_TAG;
 
@@ -165,7 +165,7 @@ struct projectile_definition
 	_projectile_definition projectile;
 
 	void update_reference_names();
-};
+} s_projectile_definition;
 COMPILE_ASSERT(sizeof(projectile_definition) == sizeof(_projectile_definition) + sizeof(_object_definition));
 
 struct s_projectile_material_response_definition

@@ -584,7 +584,7 @@ void __cdecl unit_render_debug(int32 unit_index)
 	//INVOKE(0x00B47080, unit_render_debug, unit_index);
 
 	unit_datum* unit = UNIT_GET(unit_index);
-	struct unit_definition* unit_definition = TAG_GET(UNIT_TAG, struct unit_definition, unit->definition_index);
+	s_unit_definition* unit_definition = TAG_GET(UNIT_TAG, s_unit_definition, unit->definition_index);
 
 	if (debug_objects_unit_vectors)
 	{

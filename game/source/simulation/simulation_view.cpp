@@ -16,7 +16,7 @@ bool c_simulation_view::client_join_is_finished() const
 //.text:00465FC0 ; void c_simulation_view::detach_observer_channel()
 //.text:00466100 ; void c_simulation_view::dispatch_synchronous_actions(uns32, const c_static_array<player_action, 4>&)
 //.text:00466230 ; void c_simulation_view::dispatch_synchronous_playback_control(e_network_synchronous_playback_control, int32, int32)
-//.text:004662A0 ; void c_simulation_view::dispatch_synchronous_update(const struct simulation_update*, const s_simulation_update_metadata*)
+//.text:004662A0 ; void c_simulation_view::dispatch_synchronous_update(const s_simulation_update*, const s_simulation_update_metadata*)
 //.text:00466350 ; void c_simulation_view::distributed_join_abort()
 //.text:00466370 ; static void c_simulation_view::distributed_join_complete()
 //.text:00466380 ; bool c_simulation_view::distributed_join_in_progress() const
@@ -181,7 +181,7 @@ bool c_simulation_view::handle_synchronous_playback_control(e_network_synchronou
 	return INVOKE_CLASS_MEMBER(0x00466D10, c_simulation_view, handle_synchronous_playback_control, type, identifier, update_number);
 }
 
-bool c_simulation_view::handle_synchronous_update(const struct simulation_update* update)
+bool c_simulation_view::handle_synchronous_update(const s_simulation_update* update)
 {
 	return INVOKE_CLASS_MEMBER(0x00466D50, c_simulation_view, handle_synchronous_update, update);
 }

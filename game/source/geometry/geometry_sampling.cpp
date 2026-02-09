@@ -21,7 +21,7 @@ void __cdecl c_geometry_sampler::show_all_air_probes()
 {
 	//INVOKE(0x00754900, c_geometry_sampler::show_all_air_probes);
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	if (scenario->airprobes.count)
 	{
 		real_matrix4x3 camera{};

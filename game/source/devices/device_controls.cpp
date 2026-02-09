@@ -8,7 +8,7 @@ void __cdecl control_destroyed(int32 control_index)
 	INVOKE(0x00BBFB20, control_destroyed, control_index);
 
 	//control_datum* control = CONTROL_GET(control_index);
-	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index);
+	//s_control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, s_control_definition, control->definition_index);
 	//if (control_definition->control.trigger == _control_trigger_destruction)
 	//{
 	//	control_toggle(control_index);
@@ -20,7 +20,7 @@ int32 __cdecl control_get_action_string(int32 control_index)
 	return INVOKE(0x00BBFB70, control_get_action_string, control_index);
 
 	//control_datum* control = CONTROL_GET(control_index);
-	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index);
+	//s_control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, s_control_definition, control->definition_index);
 	//return control_definition->control.action_string;
 }
 
@@ -43,7 +43,7 @@ void __cdecl control_toggle(int32 control_index)
 	INVOKE(0x00BBFC30, control_toggle, control_index);
 
 	//control_datum* control = CONTROL_GET(control_index);
-	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index)
+	//s_control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, s_control_definition, control->definition_index)
 	//int32 position_group_index = control->device.position_group_index;
 	//// $IMPLEMENT
 }
@@ -53,7 +53,7 @@ void __cdecl control_touched(int32 control_index, int32 unit_index)
 	INVOKE(0x00BBFD50, control_touched, control_index, unit_index);
 
 	//control_datum* control = CONTROL_GET(control_index);
-	//struct control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, struct control_definition, control->definition_index);
+	//s_control_definition* control_definition = TAG_GET(DEVICE_CONTROL_TAG, s_control_definition, control->definition_index);
 	//if (control_definition->control.trigger == _control_trigger_player)
 	//{
 	//	control_toggle(control_index);

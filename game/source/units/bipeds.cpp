@@ -477,7 +477,7 @@ void __cdecl biped_update_camera(int32 biped_index)
 		real32 camera_height_delta = biped_get_desired_camera_height(biped_index) - biped->biped.camera_height;
 		real32 camera_height = fabsf(camera_height_delta);
 		real32 scale = real_pin(camera_height, 0.0f, 1.0f);
-		struct biped_definition* biped_definition = TAG_GET(BIPED_TAG, struct biped_definition, biped->definition_index);
+		s_biped_definition* biped_definition = TAG_GET(BIPED_TAG, s_biped_definition, biped->definition_index);
 		real32 height_velocity = biped_definition->biped.camera_height_velocity_function.evaluate_scalar(scale, 0.0f);
 		real32 step = real_min(height_velocity * game_tick_length(), camera_height);
 		int32 sign = (camera_height_delta == 0.0f) ? 0 : (camera_height_delta >= 0.0f ? 1 : -1);

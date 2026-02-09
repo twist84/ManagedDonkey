@@ -181,7 +181,7 @@ extern void saved_film_manager_playback_lock_set(real32 playback_game_speed, boo
 extern bool saved_film_manager_preparing_film();
 extern void saved_film_manager_preview_snippet_start();
 extern void saved_film_manager_preview_snippet_stop();
-extern bool saved_film_manager_read_simulation_update(const s_saved_film_update* update, struct simulation_update* simulation_update_out);
+extern bool saved_film_manager_read_simulation_update(const s_saved_film_update* update, s_simulation_update* simulation_update_out);
 extern bool saved_film_manager_read_update(s_saved_film_update* update_out);
 extern void saved_film_manager_render_debug();
 extern void saved_film_manager_replay_film();
@@ -205,12 +205,12 @@ extern void saved_film_manager_start_recording_snippet();
 extern void saved_film_manager_stop_recording_snippet();
 extern bool saved_film_manager_timestamp_enabled_internal();
 extern void saved_film_manager_toggle_automatic_debug_saving(bool enable);
-extern void saved_film_manager_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata);
+extern void saved_film_manager_update_after_simulation_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata);
 extern void saved_film_manager_update_before_simulation_update();
 extern void saved_film_manager_update_seeking(int32 current_film_tick);
 extern void saved_film_manager_update_snippet_authored_cameras();
 extern void saved_film_manager_update_ui_screens();
 extern void saved_film_manager_update();
 extern int32 saved_film_manager_upload_start(int32 maximum_file_count, s_file_reference* out_file_list);
-extern bool saved_film_manager_write_simulation_update(const struct simulation_update* update);
+extern bool saved_film_manager_write_simulation_update(const s_simulation_update* update);
 

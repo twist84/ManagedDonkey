@@ -1,11 +1,11 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+typedef struct scenario s_scenario;
 
 extern bool ai_print_scripting;
 
 extern bool __cdecl ai_handle_script_verification(bool suppress_errors);
-extern bool __cdecl ai_index_from_string(struct scenario* scenario, const char* ai_string, int32* ai_index_reference);
+extern bool __cdecl ai_index_from_string(s_scenario* scenario, const char* ai_string, int32* ai_index_reference);
 extern void __cdecl ai_script_dispose();
 extern void __cdecl ai_script_dispose_from_old_map();
 extern void __cdecl ai_script_initialize();

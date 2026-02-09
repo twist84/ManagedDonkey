@@ -104,7 +104,7 @@ void __cdecl cs_initialize_for_new_structure_bsp(int32 activating_structure_bsp_
 //.text:01444950 ; void __cdecl cs_reset_cast(int32)
 //.text:014449C0 ; int32 __cdecl cs_role(int32, int16)
 
-cs_script_data* __cdecl cs_scenario_get_script_data(struct scenario* scenario)
+cs_script_data* __cdecl cs_scenario_get_script_data(s_scenario* scenario)
 {
 	//return INVOKE(0x01444A50, cs_scenario_get_script_data, scenario);
 

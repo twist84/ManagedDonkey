@@ -205,7 +205,7 @@ void c_lightmap_shadows_view::render(int32 ignore_object_index)
 			{
 				c_lightmap_shadows_view::compute_visibility(object_index, NONE);
 
-				struct object_definition* object_definition = TAG_GET_SAFE(OBJECT_TAG, struct object_definition, object->definition_index);
+				s_object_definition* object_definition = TAG_GET_SAFE(OBJECT_TAG, s_object_definition, object->definition_index);
 				if (object_definition
 					&& object_definition->object.lightmap_shadow_mode == _lightmap_shadow_mode_blur
 					&& object_definition->object.model.index != NONE)

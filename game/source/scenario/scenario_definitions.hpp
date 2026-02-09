@@ -134,7 +134,7 @@ struct trigger_definition;
 struct user_hint_data;
 struct zone_definition;
 struct s_background_bitmap_reference_definition;
-struct scenario
+typedef struct scenario
 {
 	static tag const k_group_tag = SCENARIO_TAG;
 
@@ -369,8 +369,8 @@ struct scenario
 	c_typed_tag_block<s_background_bitmap_reference_definition> background_bitmap_references;
 	
 	void update_reference_names();
-};
-COMPILE_ASSERT(sizeof(struct scenario) == 0x824);
+} s_scenario;
+COMPILE_ASSERT(sizeof(s_scenario) == 0x824);
 
 enum e_scenario_structure_size
 {
@@ -808,5 +808,5 @@ struct scenario_decal_palette_entry
 };
 COMPILE_ASSERT(sizeof(scenario_decal_palette_entry) == sizeof(s_tag_reference));
 
-extern int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(const struct scenario* scenario, string_id name);
+extern int32 __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(const s_scenario* scenario, string_id name);
 

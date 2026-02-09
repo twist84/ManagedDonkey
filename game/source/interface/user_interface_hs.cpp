@@ -25,7 +25,7 @@ int32 start_script(const hs_script* script, int32 index)
 
 int32 user_interface_start_hs_script_by_name(const char* name)
 {
-	struct scenario* scenario = global_scenario_try_and_get();
+	s_scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 		return NONE;
 

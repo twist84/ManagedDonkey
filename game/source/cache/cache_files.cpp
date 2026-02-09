@@ -1516,7 +1516,7 @@ bool __cdecl scenario_tags_load(const char* scenario_path)
 	if (tag_index != NONE)
 	{
 		global_scenario_game_globals_index = cache_file_get_global_tag_index(GLOBALS_TAG);
-		global_scenario = TAG_GET(SCENARIO_TAG, struct scenario, global_scenario_index);
+		global_scenario = TAG_GET(SCENARIO_TAG, s_scenario, global_scenario_index);
 		global_game_globals = TAG_GET(GLOBALS_TAG, s_game_globals, global_scenario_game_globals_index);
 
 		c_rasterizer_globals* rasterizer_globals = global_game_globals->rasterizer_globals_ref.cast_to<c_rasterizer_globals>();
@@ -1934,7 +1934,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 		return;
 	}
 
-	struct scenario* scenario = instance->cast_to<struct scenario>();
+	s_scenario* scenario = instance->cast_to<s_scenario>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2037,7 +2037,7 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 		return;
 	}
 
-	struct object_definition* object_definition = instance->cast_to<struct object_definition>();
+	s_object_definition* object_definition = instance->cast_to<s_object_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2070,7 +2070,7 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 		return;
 	}
 
-	struct unit_definition* unit_definition = instance->cast_to<struct unit_definition>();
+	s_unit_definition* unit_definition = instance->cast_to<s_unit_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2103,7 +2103,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 		return;
 	}
 
-	struct biped_definition* biped_definition = instance->cast_to<struct biped_definition>();
+	s_biped_definition* biped_definition = instance->cast_to<s_biped_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2146,7 +2146,7 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 		return;
 	}
 
-	struct vehicle_definition* vehicle_definition = instance->cast_to<struct vehicle_definition>();
+	s_vehicle_definition* vehicle_definition = instance->cast_to<s_vehicle_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2179,7 +2179,7 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 		return;
 	}
 
-	struct item_definition* item_definition = instance->cast_to<struct item_definition>();
+	s_item_definition* item_definition = instance->cast_to<s_item_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2212,7 +2212,7 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 		return;
 	}
 
-	struct equipment_definition* equipment_definition = instance->cast_to<struct equipment_definition>();
+	s_equipment_definition* equipment_definition = instance->cast_to<s_equipment_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2245,7 +2245,7 @@ void apply_weapon_definition_instance_modification(cache_file_tag_instance* inst
 		return;
 	}
 
-	struct weapon_definition* weapon_definition = instance->cast_to<struct weapon_definition>();
+	s_weapon_definition* weapon_definition = instance->cast_to<s_weapon_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2278,7 +2278,7 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 		return;
 	}
 
-	struct projectile_definition* projectile_definition = instance->cast_to<struct projectile_definition>();
+	s_projectile_definition* projectile_definition = instance->cast_to<s_projectile_definition>();
 	const char* tag_name = instance->get_tag_name();
 	const char* group_tag_name = instance->tag_group.name.get_string();
 

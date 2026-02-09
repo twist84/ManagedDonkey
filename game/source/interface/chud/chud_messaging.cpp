@@ -60,7 +60,7 @@ void __cdecl chud_post_action_response(int32 user_index)
 			return;
 
 		item_datum* item = ITEM_GET(action_context->interaction.object_index);
-		struct item_definition* item_definition = TAG_GET(ITEM_TAG, struct item_definition, item->definition_index);
+		s_item_definition* item_definition = TAG_GET(ITEM_TAG, s_item_definition, item->definition_index);
 
 		string_id message = k_string_id_empty_string;
 		string_id message_dual = k_string_id_empty_string;

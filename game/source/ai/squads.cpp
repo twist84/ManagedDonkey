@@ -52,7 +52,7 @@ squad_datum* __cdecl squad_get(int32 squad_index)
 }
 
 //.text:01490B80 ; int32 __cdecl squad_get_by_name(const char*)
-//.text:01490BA0 ; int32 __cdecl squad_get_by_name(struct scenario*, const char*)
+//.text:01490BA0 ; int32 __cdecl squad_get_by_name(s_scenario*, const char*)
 //.text:01490C10 ; 
 //.text:01490E70 ; 
 //.text:01490F00 ; 
@@ -64,10 +64,10 @@ squad_datum* __cdecl squad_get(int32 squad_index)
 //.text:014910C0 ; void __cdecl squad_group_add_group_child(int32, int32)
 //.text:01491110 ; void __cdecl squad_group_add_leaf_child(int32, int32)
 //.text:01491180 ; int32 __cdecl squad_group_get_by_name(const char*)
-//.text:014911A0 ; int32 __cdecl squad_group_get_by_name(struct scenario*, const char*)
+//.text:014911A0 ; int32 __cdecl squad_group_get_by_name(s_scenario*, const char*)
 //.text:01491210 ; void __cdecl squad_group_iterator_new(squad_group_iterator*)
 //.text:01491250 ; squad_group_datum* __cdecl squad_group_iterator_next(squad_group_iterator*)
-//.text:014912A0 ; void __cdecl squad_group_new(const struct squad_group_definition*)
+//.text:014912A0 ; void __cdecl squad_group_new(const squad_group_definition*)
 //.text:01491320 ; void __cdecl squad_group_squad_iterator_new(squad_group_squad_iterator*, int32)
 //.text:01491390 ; squad_datum* __cdecl squad_group_squad_iterator_next(squad_group_squad_iterator*)
 //.text:01491460 ; void __cdecl squad_group_test_activation(int32)

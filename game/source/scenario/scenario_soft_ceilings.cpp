@@ -41,7 +41,7 @@ void __cdecl scenario_soft_ceilings_initialize_for_new_map()
 
 bool __cdecl scenario_soft_ceilings_should_render_soft_ceiling(string_id name, bool biped, bool vehicle, bool huge_vehicle, bool camera)
 {
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	if (!scenario)
 		return true;
 

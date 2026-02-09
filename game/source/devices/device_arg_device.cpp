@@ -12,7 +12,7 @@ int32 __cdecl device_arg_device_get_action_string(int32 arg_device_index)
 	return INVOKE(0x00BB81E0, device_arg_device_get_action_string, arg_device_index);
 
 	//arg_device_datum* arg_device = ARG_DEVICE_GET(arg_device_index);
-	//struct arg_device_definition* arg_device_definition = TAG_GET(DEVICE_ARG_DEVICE_TAG, struct arg_device_definition, arg_device->definition_index);
+	//s_arg_device_definition* arg_device_definition = TAG_GET(DEVICE_ARG_DEVICE_TAG, s_arg_device_definition, arg_device->definition_index);
 	//return arg_device_definition->arg_device.action_string;
 }
 
@@ -60,7 +60,7 @@ void __cdecl device_arg_device_touched(int32 arg_device_index, int32 unit_index,
 	//int16 script_index = held_script ? arg_device->arg_device.held_script_index : arg_device->arg_device.pressed_script_index;
 	//if (script_index != NONE)
 	//{
-	//	struct scenario* scenario = global_scenario_get();
+	//	s_scenario* scenario = global_scenario_get();
 	//	script = &scenario->scripts[script_index];
 	//}
 	//

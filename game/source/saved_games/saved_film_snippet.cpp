@@ -600,7 +600,7 @@ bool saved_film_snippet_update()
 	return success;
 }
 
-bool saved_film_snippet_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
+bool saved_film_snippet_update_after_simulation_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	bool success = false;
 

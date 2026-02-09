@@ -4,7 +4,7 @@
 
 int16 orders_get_by_name(const char* name)
 {
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	if (scenario)
 	{
 		for (int16 orders_index = 0; orders_index < scenario->orders.count; orders_index++)

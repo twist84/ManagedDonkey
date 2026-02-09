@@ -94,7 +94,7 @@ void __cdecl weapon_barrel_fire(int32 weapon_index, int16 barrel_index, bool pre
 	weapon->weapon.heat = 0.0f;
 	weapon->weapon.age = 0.0f;
 
-	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
+	s_weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, s_weapon_definition, weapon->definition_index);
 	int16 magazine_index = weapon_definition->weapon.barrels[barrel_index].magazine;
 	if (magazine_index != NONE && magazine_index < weapon_definition->weapon.magazines.count)
 		const_cast<weapon_magazine*>(weapon->weapon.magazines)[magazine_index].rounds_loaded = weapon_definition->weapon.magazines[magazine_index].rounds_loaded_maximum;
@@ -119,7 +119,7 @@ bool __cdecl weapon_can_be_dual_wielded(int32 weapon_index)
 	//return INVOKE(0x00B61550, weapon_can_be_dual_wielded, weapon_index);
 
 	weapon_datum* weapon = WEAPON_GET(weapon_index);
-	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
+	s_weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, s_weapon_definition, weapon->definition_index);
 	return weapon_definition->weapon.flags.test(_weapon_can_be_dual_wielded_bit) || weapon_definition->weapon.flags.test(_weapon_can_only_be_dual_wielded_bit);
 }
 
@@ -138,7 +138,7 @@ bool __cdecl weapon_can_be_dual_wielded(int32 weapon_index)
 void weapon_debug_render(int32 weapon_index, int32 weapon_slot)
 {
 	weapon_datum* weapon = WEAPON_GET(weapon_index);
-	struct weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, struct weapon_definition, weapon->definition_index);
+	s_weapon_definition* weapon_definition = TAG_GET(WEAPON_TAG, s_weapon_definition, weapon->definition_index);
 
 	int32 inventory_unit_index = NONE;
 	if (weapon->item.inventory_state)

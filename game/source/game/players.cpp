@@ -1573,14 +1573,14 @@ void verify_coop_respawn_effect()
 	}
 }
 
-void __cdecl players_update_after_game(const struct simulation_update* update)
+void __cdecl players_update_after_game(const s_simulation_update* update)
 {
 	verify_coop_respawn_effect();
 
 	INVOKE(0x00543650, players_update_after_game, update);
 }
 
-void __cdecl players_update_before_game(const struct simulation_update* update)
+void __cdecl players_update_before_game(const s_simulation_update* update)
 {
 	INVOKE(0x00543D20, players_update_before_game, update);
 }
@@ -1728,7 +1728,7 @@ int16 multiplayer_universal_data_get_absolute_weapons_selection_block_index(cons
 
 bool scenario_is_solo()
 {
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	return scenario && scenario->type == _scenario_type_solo;
 }
 

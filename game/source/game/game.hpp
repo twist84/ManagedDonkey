@@ -231,7 +231,7 @@ extern void __cdecl game_start(e_game_create_mode mode);
 extern bool __cdecl game_survival_allow_respawn();
 //extern bool __cdecl game_test_cluster_activation(const s_cluster_reference*);
 extern void __cdecl game_tick();
-extern void __cdecl game_tick_pulse_random_seed_deterministic(const struct simulation_update* update);
+extern void __cdecl game_tick_pulse_random_seed_deterministic(const s_simulation_update* update);
 extern int32 __cdecl game_tick_rate_get();
 extern void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time);
 //extern e_game_time_holiday __cdecl game_time_get_holiday();

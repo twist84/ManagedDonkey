@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+typedef struct scenario s_scenario;
+
 int32 const k_hs_compile_error_buffer_size = 1024;
 
 enum e_hs_fakery
@@ -108,7 +110,7 @@ extern bool hs_compile_register_error_listener(c_hs_compile_error_listener* list
 extern bool hs_compile_second_pass(s_hs_compile_state* compile_state, bool verbose);
 extern bool hs_compile_source(bool fail_on_error, bool verbose);
 extern void hs_compile_source_error(const char* file_name, const char* error_message, const char* error_source, const char* source);
-extern void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* state);
+extern void hs_compile_state_initialize(s_scenario* scenario, s_hs_compile_state* state);
 extern void hs_compile_strip_failed_special_forms(const s_hs_compile_state* compile_state, bool verbose);
 extern void hs_compile_unregister_error_listener(c_hs_compile_error_listener* listener);
 extern int16 hs_count_children(int32 expression_index);

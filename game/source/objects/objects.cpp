@@ -375,7 +375,7 @@ s_scenario_object* c_object_identifier::find_scenario_object(int32* tag_block_in
 	return find_scenario_object_from_scenario(global_scenario, tag_block_index);
 }
 
-s_scenario_object* c_object_identifier::find_scenario_object_from_scenario(struct scenario* scenario, int32* tag_block_index) const
+s_scenario_object* c_object_identifier::find_scenario_object_from_scenario(s_scenario* scenario, int32* tag_block_index) const
 {
 	return INVOKE_CLASS_MEMBER(0x00B28820, c_object_identifier, find_scenario_object_from_scenario, scenario, tag_block_index);
 
@@ -1020,7 +1020,7 @@ int32 __cdecl object_new(object_placement_data* data)
 	//if ((data->definition_index != NONE && object_definition_can_be_placed(data->definition_index, data->model_variant_index)) || data->definition_index == NONE)
 	//	return NONE;
 	//
-	//struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, data->definition_index);
+	//s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, data->definition_index);
 	//object_type_definition* type_definition = object_type_definition_get(object_definition->object.type);
 	//
 	//s_model_definition* model_definition = nullptr;
@@ -1262,7 +1262,7 @@ void __cdecl object_place(int32 object_index, const s_scenario_object* scenario_
 	INVOKE(0x00B31470, object_place, object_index, scenario_object);
 
 	//object_datum* object = object_get(object_index);
-	//struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
+	//s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, object->definition_index);
 	//if (object_definition->object.ai_properties.count > 0)
 	//{
 	//	bool non_flight_blocking = object_definition->object.ai_properties[0].ai_flags.test(_ai_properties_non_flight_blocking_bit);
@@ -2073,7 +2073,7 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 	name->clear();
 	if (object->object.name_index != NONE)
 	{
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 		scenario_object_name& object_name = scenario->object_names[object->object.name_index];
 
 		name->append_print("%s|n", object_name.name.get_string());
@@ -2096,7 +2096,7 @@ void object_get_debug_name(int32 object_index, bool full_name, c_static_string<2
 	}
 	else
 	{
-		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
+		s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, object->definition_index);
 
 		s_model_definition* model_definition = nullptr;
 		if (object_definition->object.model.index != NONE)
@@ -2120,7 +2120,7 @@ void object_render_debug_internal(int32 object_index)
 	const object_header_datum* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
 
-	struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
+	s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, object->definition_index);
 
 	c_static_string<4096> string;
 

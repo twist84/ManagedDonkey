@@ -158,7 +158,7 @@ void __cdecl hs_damage_object(int32 object_index, int32 material_name, real32 da
 		if (falling_damage->hs_damage.index != NONE && object_index != NONE)
 		{
 			const object_datum* object = OBJECT_GET(object_index);
-			const struct object_definition* object_definition = TAG_GET(OBJECT_TAG, const struct object_definition, object->definition_index);
+			const s_object_definition* object_definition = TAG_GET(OBJECT_TAG, const s_object_definition, object->definition_index);
 			if (object_definition->object.model.index != NONE)
 			{
 				const s_model_definition* model_definition = TAG_GET(MODEL_TAG, const s_model_definition, object_definition->object.model.index);
@@ -625,7 +625,7 @@ void __cdecl hs_object_create_folder(int32 folder_index)
 
 	//if (folder_index != NONE)
 	//{
-	//	struct scenario* scenario = global_scenario_get();
+	//	s_scenario* scenario = global_scenario_get();
 	//	hs_object_create_folder_internal(folder_index, &scenario->crates, &scenario->crate_palette, sizeof(s_scenario_crate));
 	//	hs_object_create_folder_internal(folder_index, &scenario->scenery, &scenario->scenery_palette, sizeof(s_scenario_scenery));
 	//	hs_object_create_folder_internal(folder_index, &scenario->bipeds, &scenario->biped_palette, sizeof(s_scenario_biped));
@@ -775,7 +775,7 @@ void __cdecl hs_object_destroy_folder(int32 folder_index)
 
 	//if (folder_index != NONE)
 	//{
-	//	struct scenario* scenario = global_scenario_get();
+	//	s_scenario* scenario = global_scenario_get();
 	//	hs_object_destroy_folder_internal(folder_index, &scenario->crates, &scenario->crate_palette, sizeof(s_scenario_crate));
 	//	hs_object_destroy_folder_internal(folder_index, &scenario->scenery, &scenario->scenery_palette, sizeof(s_scenario_scenery));
 	//	hs_object_destroy_folder_internal(folder_index, &scenario->bipeds, &scenario->biped_palette, sizeof(s_scenario_biped));
@@ -832,7 +832,7 @@ void __cdecl hs_object_iterate_names_containing(const char* name_string, void(__
 {
 	//INVOKE(0x0096E250, hs_object_iterate_names_containing, name_string, iterator);
 
-	const struct scenario* scenario = global_scenario_get();
+	const s_scenario* scenario = global_scenario_get();
 	for (int16 object_name_index = 0; object_name_index < global_scenario->object_names.count; object_name_index++)
 	{
 		scenario_object_name* object_name = TAG_BLOCK_GET_ELEMENT(&global_scenario->object_names, object_name_index, scenario_object_name);

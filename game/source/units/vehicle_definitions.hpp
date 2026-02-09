@@ -647,7 +647,7 @@ struct _vehicle_definition
 };
 COMPILE_ASSERT(sizeof(_vehicle_definition) == 0x140);
 
-struct vehicle_definition
+typedef struct vehicle_definition
 {
 	static tag const k_group_tag = VEHICLE_TAG;
 
@@ -656,7 +656,7 @@ struct vehicle_definition
 	_vehicle_definition vehicle;
 
 	void update_reference_names();
-};
+} s_vehicle_definition;
 COMPILE_ASSERT(sizeof(vehicle_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_vehicle_definition));
 
 extern void __cdecl vehicle_definition_fixup(int32 vehicle_definition_index);

@@ -155,14 +155,14 @@ struct _object_definition
 };
 COMPILE_ASSERT(sizeof(_object_definition) == 0x120);
 
-struct object_definition
+typedef struct object_definition
 {
 	static tag const k_group_tag = OBJECT_TAG;
 
 	_object_definition object;
 
 	void update_reference_names();
-};
+} s_object_definition;
 COMPILE_ASSERT(sizeof(object_definition) == sizeof(_object_definition));
 
 struct s_object_early_mover_obb_definition
@@ -414,6 +414,8 @@ struct s_scenario_multiplayer_object_properties
 COMPILE_ASSERT(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
 
 struct s_scenario_object;
+typedef struct scenario s_scenario;
+
 class c_object_identifier
 {
 public:
@@ -426,7 +428,7 @@ public:
 	void create_from_structure(e_object_type type, int16 origin_bsp_index, int32 unique_id);
 	int32 find_object_index() const;
 	s_scenario_object* find_scenario_object(int32* tag_block_index) const;
-	s_scenario_object* find_scenario_object_from_scenario(struct scenario* scenario, int32* tag_block_index) const;
+	s_scenario_object* find_scenario_object_from_scenario(s_scenario* scenario, int32* tag_block_index) const;
 	int32 get_unique_id_direct() const;
 	bool is_equal(const c_object_identifier* other) const;
 	e_object_type get_type() const;

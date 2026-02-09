@@ -98,7 +98,7 @@ public:
 	bool update(int32 equipment_index) const override
 	{
 		equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+		const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 
 		bool waiting_to_self_destruct = false;
 		if (equipment_is_active(equipment_index) && !game_is_predicted())
@@ -263,7 +263,7 @@ public:
 	void update(int32 equipment_index, int32 owner_unit_index) const override
 	{
 		equipment_datum* equipment = EQUIPMENT_GET(equipment_index);
-		const struct equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const struct equipment_definition, equipment->definition_index);
+		const s_equipment_definition* equipment_definition = TAG_GET(EQUIPMENT_TAG, const s_equipment_definition, equipment->definition_index);
 		const s_equipment_type_invincibility* invincibility = equipment_get_invincibility_mode_definition(equipment->definition_index);
 
 		if (equipment_is_active(equipment_index))

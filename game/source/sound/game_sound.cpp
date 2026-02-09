@@ -120,7 +120,7 @@ void __cdecl scripting_looping_sound_spam()
 
 	for (int32 loop_tag_index = tag_iterator_next(&loop_iterator); loop_tag_index != NONE; loop_tag_index = tag_iterator_next(&loop_iterator))
 	{
-		struct looping_sound_definition* looping_sound_definition = TAG_GET(SOUND_LOOPING_TAG, struct looping_sound_definition, loop_tag_index);
+		s_looping_sound_definition* looping_sound_definition = TAG_GET(SOUND_LOOPING_TAG, s_looping_sound_definition, loop_tag_index);
 		if (TEST_BIT(looping_sound_definition->flags, _looping_sound_behave_like_impulse_sound_bit))
 		{
 			continue;

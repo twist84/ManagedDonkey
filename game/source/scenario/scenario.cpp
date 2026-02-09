@@ -26,7 +26,7 @@
 REFERENCE_DECLARE(0x0189CCF8, int32, global_scenario_index);
 REFERENCE_DECLARE(0x0189CCFC, int32, global_scenario_game_globals_index);
 REFERENCE_DECLARE(0x0189CD0C, int32, global_zone_set_index);
-REFERENCE_DECLARE(0x022AAEB4, struct scenario*, global_scenario);
+REFERENCE_DECLARE(0x022AAEB4, s_scenario*, global_scenario);
 REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
 REFERENCE_DECLARE(0x022AAEBC, uns32, g_active_structure_bsp_mask);
 REFERENCE_DECLARE(0x022AAEC0, uns32, g_touched_structure_bsp_mask);
@@ -118,23 +118,23 @@ uns32 __cdecl global_designer_zone_active_mask_get()
 //.text:004E95F0 ; 
 //.text:004E9640 ; 
 
-int32 __cdecl global_scenario_index_get()
-{
-	return global_scenario_index;
-}
-
-struct scenario* __cdecl global_scenario_get()
+s_scenario* __cdecl global_scenario_get()
 {
 	// halo 3
 	ASSERT(global_scenario);
 	return global_scenario;
 
 	// halo online
-	//struct scenario* result = TAG_GET(SCENARIO_TAG, struct scenario, global_scenario_index);
+	//s_scenario* result = TAG_GET(SCENARIO_TAG, s_scenario, global_scenario_index);
 	//return result;
 }
 
-struct scenario* __cdecl global_scenario_try_and_get()
+int32 __cdecl global_scenario_index_get()
+{
+	return global_scenario_index;
+}
+
+s_scenario* __cdecl global_scenario_try_and_get()
 {
 	if (global_scenario)
 		return global_scenario_get();
@@ -369,7 +369,7 @@ const char* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic
 {
 	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 
 	bool first_cinematic = true;
 	for (int32 cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
@@ -389,7 +389,7 @@ const char* __cdecl scenario_get_cinematic_zone_string_from_mask(uns32 cinematic
 	return cinematic_zone_string;
 }
 
-int32 __cdecl scenario_get_designer_zone_index_by_name(const struct scenario* scenario, const char* name)
+int32 __cdecl scenario_get_designer_zone_index_by_name(const s_scenario* scenario, const char* name)
 {
 	string_id retrieved_string_id = string_id_retrieve(name);
 	if (retrieved_string_id != NONE)
@@ -409,7 +409,7 @@ const char* __cdecl scenario_get_designer_zone_string_from_mask(uns32 designer_z
 {
 	csnzprintf(designer_zone_string, designer_zone_string_size, "");
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 
 	bool first_designer_zone = true;
 	for (int32 designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
@@ -449,7 +449,7 @@ const char* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_
 {
 	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 
 	bool first_structure_bsp = true;
 	for (int32 structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
@@ -473,7 +473,7 @@ const char* __cdecl scenario_get_structure_bsp_string_from_mask(uns32 structure_
 //.text:004EA290 ; uns32 __cdecl scenario_get_touched_bsp_mask_internal()
 //.text:004EA2A0 ; uns32 __cdecl scenario_get_touched_cinematics_mask_internal()
 
-int32 __cdecl scenario_get_zone_set_index_by_name(const struct scenario* scenario, const char* name, bool strip_path)
+int32 __cdecl scenario_get_zone_set_index_by_name(const s_scenario* scenario, const char* name, bool strip_path)
 {
 	for (int32 zone_set_index = 0; zone_set_index < scenario->zone_sets.count; zone_set_index++)
 	{
@@ -662,7 +662,7 @@ bool __cdecl scenario_modify_zone_activation_internal(int32 new_zone_set_index, 
 	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, new_zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, new_touched_bsp_mask, non_bsp_zone_change, new_touched_cinematics_mask, unload_old_bsps);
 }
 
-int16 __cdecl scenario_object_name_index_from_string(struct scenario* scenario, const char* name)
+int16 __cdecl scenario_object_name_index_from_string(s_scenario* scenario, const char* name)
 {
 	for (int16 object_name_index = 0; object_name_index < static_cast<int16>(global_scenario_get()->object_names.count); object_name_index++)
 	{
@@ -678,7 +678,7 @@ bool __cdecl scenario_preload_initial_zone_set(int16 initial_zone_set_index)
 {
 	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, initial_zone_set_index);
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	if (VALID_INDEX(initial_zone_set_index, scenario->zone_sets.count))
 	{
 		s_scenario_zone_state zone_state{};
@@ -809,7 +809,7 @@ bool __cdecl scenario_switch_zone_set_internal(int32 new_zone_set_index, bool un
 
 const char* __cdecl scenario_tag_get_structure_bsp_name(int32 scenario_index, int32 structure_bsp_index)
 {
-	struct scenario* scenario = TAG_GET(SCENARIO_TAG, struct scenario, scenario_index);
+	s_scenario* scenario = TAG_GET(SCENARIO_TAG, s_scenario, scenario_index);
 	scenario_structure_bsp_reference& structure_bsp_reference = scenario->structure_bsp_references[structure_bsp_index];
 
 	const char* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
@@ -827,7 +827,7 @@ bool __cdecl scenario_tags_match(e_campaign_id campaign_id, e_map_id map_id, con
 
 	ASSERT(scenario_path != 0);
 
-	struct scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	if (levels_map_id_is_fake(map_id))
 		return true;
 
@@ -878,7 +878,7 @@ void __cdecl scenario_zone_set_debug_status(const char* status, int32 zone_set_i
 
 	if (zone_set_index != NONE)
 	{
-		struct scenario* scenario = global_scenario_try_and_get();
+		s_scenario* scenario = global_scenario_try_and_get();
 		if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
 		{
 			status_string.print("%s", scenario->zone_sets[zone_set_index].name.get_string());
@@ -916,15 +916,15 @@ int32 __cdecl scenario_zone_set_name_get()
 	return INVOKE(0x004EBAF0, scenario_zone_set_name_get);
 }
 
-const structure_bsp* __cdecl scenario_structure_bsp_get(const struct scenario* scenario, int32 structure_bsp_index)
+const structure_bsp* __cdecl scenario_structure_bsp_get(const s_scenario* scenario, int32 structure_bsp_index)
 {
 	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
 }
 
-//.text:007662B0 ; int32 __cdecl scenario_structure_bsp_tag_index_get(const struct scenario*, int32)
-//.text:007662D0 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(const struct scenario*, int32, int32, int32)
+//.text:007662B0 ; int32 __cdecl scenario_structure_bsp_tag_index_get(const s_scenario*, int32)
+//.text:007662D0 ; int32 __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(const s_scenario*, int32, int32, int32)
 
-int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(const struct scenario* scenario, int32 zone_set_index, int32 structure_bsp_index, int32 cluster_index)
+int32 __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(const s_scenario* scenario, int32 zone_set_index, int32 structure_bsp_index, int32 cluster_index)
 {
 	return INVOKE(0x00766380, scenario_zone_set_structure_bsp_cluster_visible_sky_index_get, scenario, zone_set_index, structure_bsp_index, cluster_index);
 }
@@ -1173,7 +1173,7 @@ if (universal_data->customized_##NAME##_characters.count)\
 
 void on_scenario_loaded()
 {
-	struct scenario* scenario = global_scenario_try_and_get();
+	s_scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 		return;
 

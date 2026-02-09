@@ -758,7 +758,7 @@ void ai_render_object_properties()
 	while (object_iterator.next())
 	{
 		object_datum* object = object_iterator.get_datum();
-		struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object->definition_index);
+		s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, object->definition_index);
 
 		if (object_definition->object.ai_properties.count)
 		{
@@ -819,7 +819,7 @@ void ai_debug_render_squads()
 	squad_iterator_new(&squad_iter);
 	while (squad_datum* squad = squad_iterator_next(&squad_iter))
 	{
-		struct scenario* scenario = global_scenario_get();
+		s_scenario* scenario = global_scenario_get();
 		s_squad_definition* squad_def = &scenario->squads[DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_iter.squad_index)];
 		real_point3d position = *global_origin3d;
 

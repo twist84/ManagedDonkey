@@ -105,7 +105,7 @@ void __cdecl cheat_all_powerups()
 				break;
 			}
 
-			struct equipment_definition* equipment_definition = TAG_GET(iterator.key_group_tag, struct equipment_definition, tag_index);
+			s_equipment_definition* equipment_definition = TAG_GET(iterator.key_group_tag, s_equipment_definition, tag_index);
 			if (equipment_definition->equipment.spawner.count)
 			{
 				tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
@@ -130,7 +130,7 @@ void __cdecl cheat_all_vehicles()
 			break;
 		}
 
-		struct vehicle_definition* vehicle_definition = TAG_GET(iterator.key_group_tag, struct vehicle_definition, tag_index);
+		s_vehicle_definition* vehicle_definition = TAG_GET(iterator.key_group_tag, s_vehicle_definition, tag_index);
 		if (vehicle_definition->unit.powered_seats.count > 0)
 		{
 			tag_reference_set(&references[reference_count++], iterator.key_group_tag, tag_get_name(tag_index));
@@ -208,7 +208,7 @@ bool __cdecl cheat_drop_object(tag drop_group_tag, const char* drop_tag_path, ta
 			object_placement_data placement_data{};
 			object_placement_data_new(&placement_data, object_definition_index, NONE, nullptr);
 
-			struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, object_definition_index);
+			s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, object_definition_index);
 			real32 bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 			if (variant_name != NONE)
@@ -490,7 +490,7 @@ void __cdecl cheat_objects(s_tag_reference* references, int16 reference_count)
 			s_tag_reference& reference = references[reference_index];
 			if (reference.index != NONE)
 			{
-				struct object_definition* object_definition = TAG_GET(OBJECT_TAG, struct object_definition, reference.index);
+				s_object_definition* object_definition = TAG_GET(OBJECT_TAG, s_object_definition, reference.index);
 				if (object_definition)
 				{
 					real32 bounding_radius = object_definition->object.bounding_radius + 1.5f;

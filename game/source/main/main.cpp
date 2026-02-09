@@ -1801,7 +1801,7 @@ void __cdecl main_prepare_for_switch_zone_set(int32 zone_set_index)
 {
 	//INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
 
-	struct scenario* scenario = global_scenario_try_and_get();
+	s_scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 	{
 		console_warning("tried to switch to a zone-set without a scenario loaded");
@@ -2139,7 +2139,7 @@ void __cdecl main_switch_zone_set(int32 zone_set_index)
 {
 	//INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
 
-	struct scenario* scenario = global_scenario_try_and_get();
+	s_scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 	{
 		console_warning("tried to switch to a zone-set without a scenario loaded");

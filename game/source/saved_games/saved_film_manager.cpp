@@ -1280,7 +1280,7 @@ void saved_film_manager_preview_snippet_stop()
 	}
 }
 
-bool saved_film_manager_read_simulation_update(const s_saved_film_update* update, struct simulation_update* simulation_update_out)
+bool saved_film_manager_read_simulation_update(const s_saved_film_update* update, s_simulation_update* simulation_update_out)
 {
 	ASSERT(saved_film_manager_globals.initialized);
 
@@ -1697,7 +1697,7 @@ void saved_film_manager_toggle_automatic_debug_saving(bool enable)
 	saved_film_manager_globals.automatic_debug_saving_enabled = enable;
 }
 
-void saved_film_manager_update_after_simulation_update(const struct simulation_update* update, const s_simulation_update_metadata* metadata)
+void saved_film_manager_update_after_simulation_update(const s_simulation_update* update, const s_simulation_update_metadata* metadata)
 {
 	saved_film_history_update_after_simulation_update(update, metadata);
 
@@ -1888,7 +1888,7 @@ int32 saved_film_manager_upload_start(int32 maximum_file_count, s_file_reference
 	//}
 }
 
-bool saved_film_manager_write_simulation_update(const struct simulation_update* update)
+bool saved_film_manager_write_simulation_update(const s_simulation_update* update)
 {
 	ASSERT(saved_film_manager_globals.initialized);
 

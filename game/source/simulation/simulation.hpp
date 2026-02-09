@@ -38,7 +38,7 @@ struct s_simulation_camera_update
 };
 COMPILE_ASSERT(sizeof(s_simulation_camera_update) == 0x24);
 
-struct simulation_update
+typedef struct simulation_update
 {
 	int32 update_number;
 
@@ -69,8 +69,8 @@ struct simulation_update
 
 	c_simulation_queue bookkeeping_simulation_queue;
 	c_simulation_queue game_simulation_queue;
-};
-COMPILE_ASSERT(sizeof(struct simulation_update) == 0x1658);
+} s_simulation_update;
+COMPILE_ASSERT(sizeof(s_simulation_update) == 0x1658);
 
 struct s_simulation_update_metadata
 {
@@ -86,7 +86,7 @@ struct s_simulation_queued_update
 	e_update_queue_node node_type;
 	struct
 	{
-		struct simulation_update update;
+		s_simulation_update update;
 		s_simulation_update_metadata metadata;
 	} update;
 
@@ -139,19 +139,19 @@ extern bool g_simulation_status_views;
 extern void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason);
 extern bool __cdecl simulation_aborted();
 extern void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, const s_machine_identifier* remote_machine_identifier, int32 remote_machine_index, const char* remote_machine_name);
-extern void __cdecl simulation_apply_after_game(const struct simulation_update* update);
-extern void __cdecl simulation_apply_before_game(const struct simulation_update* update);
+extern void __cdecl simulation_apply_after_game(const s_simulation_update* update);
+extern void __cdecl simulation_apply_before_game(const s_simulation_update* update);
 extern bool __cdecl simulation_boot_machine(const s_machine_identifier* machine, e_network_session_boot_reason boot_reason);
 extern void __cdecl simulation_build_machine_update(bool* machine_update_valid, simulation_machine_update* machine_update);
 extern void __cdecl simulation_build_player_updates();
-extern void __cdecl simulation_build_update(bool should_build, struct simulation_update* update, s_simulation_update_metadata* metadata);
+extern void __cdecl simulation_build_update(bool should_build, s_simulation_update* update, s_simulation_update_metadata* metadata);
 extern void __cdecl simulation_clear_errors();
 extern void __cdecl simulation_describe_status(char* buffer, int32 buffer_size);
-extern void __cdecl simulation_destroy_update(struct simulation_update* update);
+extern void __cdecl simulation_destroy_update(s_simulation_update* update);
 extern void __cdecl simulation_dispose();
 extern void __cdecl simulation_dispose_from_old_map();
 extern void __cdecl simulation_end(e_simulation_abort_reason abort_reason);
-extern bool __cdecl simulation_film_record_update(const struct simulation_update* update);
+extern bool __cdecl simulation_film_record_update(const s_simulation_update* update);
 extern void __cdecl simulation_fatal_error();
 extern bool __cdecl simulation_film_retrieve_updates(int32 maximum_updates_to_read, int32* updates_read_out);
 extern bool __cdecl simulation_film_start_recording();
@@ -196,7 +196,7 @@ extern void __cdecl simulation_prepare_to_load_saved_game(int32 game_state_proc_
 extern void __cdecl simulation_prepare_to_send();
 extern void __cdecl simulation_process_actor_control(int32 simulation_actor_index, const unit_control_data* actor_control);
 extern void __cdecl simulation_process_input(uns32 user_action_mask, const player_action* user_actions);
-extern void __cdecl simulation_record_update(const struct simulation_update* update);
+extern void __cdecl simulation_record_update(const s_simulation_update* update);
 extern void __cdecl simulation_remove_view_from_world(c_simulation_view* view);
 extern void __cdecl simulation_reset();
 extern bool __cdecl simulation_reset_in_progress();
@@ -210,12 +210,12 @@ extern void __cdecl simulation_stop();
 extern void __cdecl simulation_test_update();
 extern int32 __cdecl simulation_time_get_maximum_available(bool* match_remote_time);
 extern void __cdecl simulation_update();
-extern void __cdecl simulation_update_aftermath(const struct simulation_update* update, s_simulation_update_metadata* metadata);
+extern void __cdecl simulation_update_aftermath(const s_simulation_update* update, s_simulation_update_metadata* metadata);
 extern void __cdecl simulation_update_out_of_sync();
 extern bool __cdecl simulation_update_player_netdebug_data(int32 player_index, s_simulation_player_netdebug_data* netdebug_data);
 extern void __cdecl simulation_update_pregame();
-extern bool __cdecl simulation_update_read_from_buffer(struct simulation_update* update, int32 buffer_size, const uns8* buffer);
-extern bool __cdecl simulation_update_write_to_buffer(const struct simulation_update* update, int32 buffer_size, uns8* buffer, int32* out_update_length);
+extern bool __cdecl simulation_update_read_from_buffer(s_simulation_update* update, int32 buffer_size, const uns8* buffer);
+extern bool __cdecl simulation_update_write_to_buffer(const s_simulation_update* update, int32 buffer_size, uns8* buffer, int32* out_update_length);
 
 extern void simulation_debug_render();
 

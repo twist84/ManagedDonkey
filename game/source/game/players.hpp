@@ -11,6 +11,7 @@
 #include "text/unicode.hpp"
 
 struct s_game_cluster_bit_vectors;
+typedef struct simulation_update s_simulation_update;
 struct transport_address;
 
 enum e_bungienet_user
@@ -795,8 +796,8 @@ extern void __cdecl players_rebuild_user_mapping(bool force_rebuild);
 extern void __cdecl players_set_local_machine(const s_machine_identifier* machine_identifier);
 extern void __cdecl players_set_machines(uns32 new_machine_valid_mask, const s_machine_identifier* new_machine_identifiers);
 extern void __cdecl players_verify();
-extern void __cdecl players_update_after_game(const struct simulation_update* update);
-extern void __cdecl players_update_before_game(const struct simulation_update* update);
+extern void __cdecl players_update_after_game(const s_simulation_update* update);
+extern void __cdecl players_update_before_game(const s_simulation_update* update);
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
 extern int32 multiplayer_universal_data_get_absolute_equipment_block_index(const char* name);
