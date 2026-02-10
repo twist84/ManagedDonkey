@@ -525,27 +525,24 @@ bool c_http_client::start(c_http_stream* stream, int32 ip_address, uns16 port, c
 	m_address.port = port;
 	get_ip_address_string(ip_address, &m_ip_address_string);
 
-	if (!transport_address_valid(&m_address))
+	bool success = transport_address_valid(&m_address);
+	if (success)
 	{
-		return false;
+		transport_endpoint_setup(m_endpoint_ptr, _transport_type_tcp);
+
+		if (endpoint_is_alpha)
+		{
+			SET_BIT(m_endpoint_ptr->flags, _transport_endpoint_alpha_bit, true);
+		}
+
+		success = start_connect();
+		if (success)
+		{
+			event(_event_message, "networking:http_client: request started to '%s'", url);
+			m_http_stream->set_url(url);
+		}
 	}
-
-	transport_endpoint_setup(m_endpoint_ptr, _transport_type_tcp);
-
-	if (endpoint_is_alpha)
-	{
-		m_endpoint_ptr->flags |= FLAG(6);
-	}
-
-	if (!start_connect())
-	{
-		return false;
-	}
-
-	event(_event_message, "networking:http_client: request started to '%s'", url);
-	m_http_stream->set_url(url);
-
-	return true;
+	return success;
 }
 
 
@@ -557,35 +554,33 @@ bool c_http_client::start_connect()
 	ASSERT(m_address.port != 0);
 	ASSERT(m_socket_count == 0);
 
-	if (transport_endpoint_async_connect(m_endpoint_ptr, &m_address))
+	bool success = transport_endpoint_async_connect(m_endpoint_ptr, &m_address);
+	if (success)
 	{
 		m_socket_count++;
 		m_current_state = _upload_state_connecting;
-
-		return true;
 	}
-
-	transport_endpoint_disconnect(m_endpoint_ptr);
-	event(_event_message, "networking:http_client: transport_endpoint_async_connect() failed to %s.", m_ip_address_string);
-
-	return false;
+	else
+	{
+		transport_endpoint_disconnect(m_endpoint_ptr);
+		event(_event_message, "networking:http_client: transport_endpoint_async_connect() failed to %s.", m_ip_address_string);
+	}
+	return success;
 }
 
 bool c_http_client::stop()
 {
-	if (m_current_state == _upload_state_none)
+	bool success = m_current_state != _upload_state_none;
+	if (success)
 	{
-		return true;
+		success = m_http_stream->reset();
+		ASSERT(m_socket_count == 1);
+
+		transport_endpoint_disconnect(m_endpoint_ptr);
+		m_socket_count--;
+		m_current_state = _upload_state_none;
 	}
-
-	bool result = m_http_stream->reset();
-	ASSERT(m_socket_count == 1);
-
-	transport_endpoint_disconnect(m_endpoint_ptr);
-	m_socket_count--;
-	m_current_state = _upload_state_none;
-
-	return result;
+	return success;
 }
 
 void c_http_client::transport_shutdown(void* client)
