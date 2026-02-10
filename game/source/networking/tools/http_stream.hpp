@@ -51,7 +51,6 @@ protected:
 
 	// Halo Online
 	bool m_is_json;
-	byte __pad139[0x3];
 };
 COMPILE_ASSERT(sizeof(c_http_post_source) == 0x13C);
 
@@ -84,10 +83,10 @@ public:
 
 protected:
 	c_static_string<k_url_size> m_url;
-	c_static_string<k_http_header_size> m_headers;
-	int32 m_headers_length;
+	c_static_string<k_http_header_size> m_http_header;
+	int32 m_http_header_length;
 	c_static_string<k_extra_headers_size> m_extra_headers;
-	int32 m_position;
+	int32 m_overall_position;
 };
 COMPILE_ASSERT(sizeof(c_http_stream) == 0xB0C);
 
@@ -125,15 +124,15 @@ protected:
 	virtual bool verify_nescessary_state_is_set() override;
 
 public:
-	virtual bool read(char* buffer, int32 buffer_length, int32* bytes_read) override;
+	virtual bool read(char* buffer, int32 buffer_max_length, int32* bytes_read) override;
 	virtual int32 get_length() override;
 	virtual bool at_end() override;
 
 protected:
-	c_http_post_source m_post_source;
+	c_http_post_source m_http_post_source;
 	c_static_string<k_mime_header_size> m_mime_header;
 	c_static_string<k_mime_footer_size> m_mime_footer;
-	int32 m_extra_headers_length;
+	int32 m_http_header_length;
 	int32 m_mime_header_length;
 	int32 m_mime_footer_length;
 };
