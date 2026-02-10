@@ -230,6 +230,7 @@ extern bool handle_assert_as_exception(const char* statement, const char* file, 
 extern int(__cdecl* csmemcmp)(const void* _Buf1, const void* _Buf2, size_t _Size);
 extern void* (__cdecl* csmemcpy)(void* _Dst, const void* _Src, size_t _Size);
 extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
+extern void* (__cdecl* csmemmove)(void* _Dst, void const* _Src, size_t _Size);
 
 extern size_t strlen_debug(const char* str);
 extern int strncmp_debug(const char* s1, const char* s2, size_t size);

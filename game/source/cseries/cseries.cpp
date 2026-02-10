@@ -153,6 +153,7 @@ bool handle_assert_as_exception(const char* statement, const char* file, int32 l
 int(__cdecl* csmemcmp)(const void* _Buf1, const void* _Buf2, size_t _Size) = memcmp;
 void* (__cdecl* csmemcpy)(void* _Dst, const void* _Src, size_t _Size) = memcpy;
 void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size) = memset;
+void* (__cdecl* csmemmove)(void* _Dst, void const* _Src, size_t _Size) = memmove;
 
 #define MAXIMUM_STRING_SIZE 0x100000
 
