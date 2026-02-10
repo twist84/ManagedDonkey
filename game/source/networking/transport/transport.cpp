@@ -20,7 +20,7 @@ bool __cdecl transport_available()
 {
 	//return INVOKE(0x00430630, transport_available);
 
-	return transport_globals.initialized && transport_globals.winsock_initialized;
+	return transport_globals.initialized && transport_globals.started;
 }
 
 void __cdecl transport_dispose()
@@ -69,9 +69,9 @@ void __cdecl transport_global_update()
 	if (transport_globals.initialized)
 	{
 		bool network_available = transport_network_available();
-		if (transport_globals.is_started != network_available)
+		if (transport_globals.network_available != network_available)
 		{
-			transport_globals.is_started = network_available;
+			transport_globals.network_available = network_available;
 			if (network_available)
 			{
 				event(_event_message, "networking:transport: network interface connection restored, resetting networking");
@@ -84,7 +84,7 @@ void __cdecl transport_global_update()
 			}
 		}
 
-		if (transport_globals.is_started)
+		if (transport_globals.network_available)
 		{
 			transport_secure_address_resolve();
 		}
@@ -152,7 +152,7 @@ void __cdecl transport_shutdown()
 {
 	//INVOKE(0x004307C0, transport_shutdown);
 
-	if (transport_globals.winsock_initialized)
+	if (transport_globals.started)
 	{
 		network_session_interface_handle_message(_network_message_network_interface_connection_lost);
 		for (int32 function_index = 0; function_index < transport_globals.transition_function_count; function_index++)
@@ -165,7 +165,7 @@ void __cdecl transport_shutdown()
 		}
 
 		transport_qos_shutdown();
-		transport_globals.winsock_initialized = false;
+		transport_globals.started = false;
 
 		::WSACleanup();
 	}
@@ -175,10 +175,10 @@ void __cdecl transport_startup()
 {
 	//INVOKE(0x00430820, transport_startup);
 
-	if (!transport_globals.winsock_initialized)
+	if (!transport_globals.started)
 	{
 		bool success = true;
-		bool winsock_initialized = false;
+		bool started = false;
 
 		{
 			WSAData info;
@@ -194,13 +194,13 @@ void __cdecl transport_startup()
 			}
 			else
 			{
-				winsock_initialized = true;
+				started = true;
 			}
 		}
 
 		if (success)
 		{
-			transport_globals.winsock_initialized = winsock_initialized;
+			transport_globals.started = started;
 			transport_security_startup();
 			transport_qos_startup();
 
