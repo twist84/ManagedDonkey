@@ -140,13 +140,14 @@ struct s_external_ip
 
 s_external_ip g_external_ip = { .address = transport_address() };
 
-uns32 get_external_ip()
+uns32 lookup_external_ip()
 {
-	if (g_external_ip.address.ipv4_address == 0)
+	if (g_external_ip.address.ipv4_address == IPV4_UNKNOWN_ADDRESS)
 	{
 		constexpr const char* host = "ifconfig.me";
 		transport_address_from_host(host, g_external_ip.address);
 
+		g_external_ip.get_stream.clear_headers();
 		g_external_ip.get_stream.add_header("Host", host);
 		g_external_ip.get_stream.add_header("Connection", "close");
 		g_external_ip.get_stream.add_header("User-Agent", "DonkeyClient");
@@ -157,9 +158,8 @@ uns32 get_external_ip()
 			char response_content_buffer[4096]{};
 			int32 http_response_code = 0;
 
-			int32 seconds = 1800;
-			uns32 v7 = 1000 * seconds + system_milliseconds();
-			while (system_milliseconds() < v7)
+			uns32 ip_lookup_end_msec = 10'000 + system_milliseconds();
+			while (system_milliseconds() < ip_lookup_end_msec)
 			{
 				int32 response_content_buffer_count = NUMBEROF(response_content_buffer);
 				if (!g_external_ip.http_client.do_work(&completed_successfully, response_content_buffer, &response_content_buffer_count, &http_response_code))
@@ -168,15 +168,15 @@ uns32 get_external_ip()
 					break;
 				}
 
-				Sleep(0);
-
 				if (completed_successfully)
 				{
 					break;
 				}
+
+				Sleep(1);
 			}
 
-			if (completed_successfully)
+			if (completed_successfully && http_response_code == 200)
 			{
 				transport_address_from_host(response_content_buffer, g_external_ip.address);
 			}

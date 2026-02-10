@@ -351,7 +351,7 @@ void __cdecl network_initialize()
 				network_set_online_environment(false);
 				network_globals.initialized = true;
 
-				get_external_ip();
+				lookup_external_ip();
 
 				// Initialize HTTP server
 				if (http_server_initialize(11770))

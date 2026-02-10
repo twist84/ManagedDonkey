@@ -35,7 +35,7 @@ transport_address::transport_address(uns32 _ipv4_address, uns16 _port, int16 _ad
 }
 
 transport_address::transport_address(const s_player_identifier* player_identifier) :
-	ipv4_address(0),
+	ipv4_address(IPV4_UNKNOWN_ADDRESS),
 	port(0),
 	address_length(0)
 {

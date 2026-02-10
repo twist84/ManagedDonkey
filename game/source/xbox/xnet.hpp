@@ -24,5 +24,5 @@ extern bool __cdecl _XNetInAddrToXnAddr(const transport_address* address, s_tran
 extern bool __cdecl XNetInAddrToXnAddr(const transport_address* address, s_transport_secure_address* out_secure_address, s_transport_secure_identifier* out_secure_identifier);
 extern void __cdecl XNetRemoveEntry(const transport_address* address);
 
-extern uns32 get_external_ip();
+extern uns32 lookup_external_ip();
 

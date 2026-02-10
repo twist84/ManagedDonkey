@@ -1717,7 +1717,7 @@ void c_network_message_handler::handle_directed_search(const transport_address* 
 	}
 
 	transport_address _address{};
-	transport_address_ipv4_build(&_address, get_external_ip(), g_broadcast_port);
+	transport_address_ipv4_build(&_address, lookup_external_ip(), g_broadcast_port);
 	game_status.update_host_player_identifier(&_address);
 
 	s_network_message_broadcast_reply broadcast_reply =
