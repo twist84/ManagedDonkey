@@ -25,14 +25,15 @@ private:
 	int32 get_pregame_lobby_name(int32 game_mode);
 
 public:
-	bool get_show_postgame_stats_upon_lobby_entrance() const;
-	void set_running(bool running);
-	void set_show_postgame_stats_upon_lobby_entrance(bool value);
-	void update();
 	void change_location(int32 new_location_name);
 	e_gui_location get_current_ui_location();
 	c_gui_screen_widget* get_location_screen();
 	int32 get_location_screen_name(int32 gui_location);
+	bool get_show_postgame_stats_upon_lobby_entrance() const;
+	void set_running(bool running);
+	void set_show_postgame_stats_upon_lobby_entrance(bool value);
+	void update();
+	void update_change_location();
 
 //protected:
 	bool m_running;

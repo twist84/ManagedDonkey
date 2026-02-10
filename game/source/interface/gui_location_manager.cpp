@@ -24,6 +24,8 @@ HOOK_DECLARE(0x00ADF9D0, location_manager_get);
 HOOK_DECLARE(0x00ADF9E0, location_manager_start);
 HOOK_DECLARE(0x00ADF9F0, location_manager_stop);
 
+const long k_location_change_throttle_threshold = 30;
+
 void __thiscall c_gui_location_manager::update_()
 {
 	c_gui_location_manager::update();
@@ -34,7 +36,7 @@ c_gui_location_manager::c_gui_location_manager() :
 	m_location_mode(_location_mode_unset),
 	m_show_postgame_stats(false),
 	m_location_change_throttle_time(-1),
-	m_location_change_throttle_count(30)
+	m_location_change_throttle_count(k_location_change_throttle_threshold)
 {
 	//DECLFUNC(0x00ADF680, void, __thiscall, c_gui_location_manager*)(this);
 }
@@ -71,7 +73,7 @@ bool c_gui_location_manager::can_change_location()
 {
 	//return INVOKE_CLASS_MEMBER(0x00ADF6C0, c_gui_location_manager, can_change_location);
 
-	return m_location_change_throttle_count >= 30;
+	return m_location_change_throttle_count >= k_location_change_throttle_threshold;
 }
 
 void c_gui_location_manager::change_location(int32 new_location_name)
@@ -295,92 +297,91 @@ void c_gui_location_manager::update()
 {
 	//INVOKE_CLASS_MEMBER(0x00ADFA10, c_gui_location_manager, update);
 
-	if (!m_running)
+	if (m_running)
 	{
-		return;
-	}
+		update_change_location();
 
-	uns32 current_milliseconds = user_interface_milliseconds();
-	if (m_location_change_throttle_time != current_milliseconds)
-	{
-		if (m_location_change_throttle_count < 30)
+		e_gui_location current_networking_location = user_interface_networking_get_current_location();
+		if (current_networking_location != _gui_location_none && user_interface_networking_get_start_game_when_ready())
 		{
-			m_location_change_throttle_count++;
-		}
-	}
-	m_location_change_throttle_time = current_milliseconds;
-
-	e_gui_location current_location = user_interface_networking_get_current_location();
-	if (current_location == _gui_location_none || user_interface_networking_get_start_game_when_ready())
-	{
-		return;
-	}
-
-	if (m_location_mode == _location_mode_unset || current_location)
-	{
-		m_location_mode = e_location_mode(_location_mode_editor_or_game_start - user_interface_squad_exists());
-	}
-
-	e_gui_location current_ui_location = c_gui_location_manager::get_current_ui_location();
-	const c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen();
-
-	c_network_session* session = nullptr;
-	bool in_session = network_life_cycle_in_session(&session);
-	if (game_in_progress() &&
-		game_is_ui_shell() &&
-		current_location == _gui_location_in_game &&
-		!network_life_cycle_map_load_pending() &&
-		(!in_session || session->is_host()))
-	{
-		event(_event_warning, "ui:location_manager: Resetting network location.  If you got here and didn't just issue a console command, this is a bug.");
-		network_life_cycle_end();
-	}
-	else if (current_ui_location == current_location)
-	{
-		if (current_ui_location == _gui_location_pregame_lobby)
-		{
-			e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
-			if (game_mode != _gui_game_setup_mode_none)
+			if (m_location_mode == _location_mode_unset || current_networking_location)
 			{
-				ASSERT(location_screen && location_screen->get_gui_location() == _gui_location_pregame_lobby);
+				m_location_mode = e_location_mode(_location_mode_editor_or_game_start - user_interface_squad_exists());
+			}
 
-				c_gui_screen_pregame_lobby* pregame_lobby_screen = (c_gui_screen_pregame_lobby*)location_screen;
-				if (pregame_lobby_screen->get_gui_game_mode() != game_mode)
+			e_gui_location current_ui_location = c_gui_location_manager::get_current_ui_location();
+			c_gui_screen_widget* location_screen = c_gui_location_manager::get_location_screen();
+
+			c_network_session* session = nullptr;
+			bool in_session = network_life_cycle_in_session(&session);
+			if (game_in_progress() &&
+				game_is_ui_shell() &&
+				current_networking_location == _gui_location_in_game &&
+				!network_life_cycle_map_load_pending() &&
+				(!in_session || session->is_host()))
+			{
+				event(_event_warning, "ui:location_manager: Resetting network location.  If you got here and didn't just issue a console command, this is a bug.");
+				network_life_cycle_end();
+			}
+			else if (current_ui_location == current_networking_location)
+			{
+				if (current_ui_location == _gui_location_pregame_lobby)
 				{
-					c_gui_location_manager::change_location(c_gui_location_manager::get_pregame_lobby_name(game_mode));
+					e_gui_game_mode game_mode = user_interface_squad_get_ui_game_mode();
+					if (game_mode != _gui_game_setup_mode_none)
+					{
+						ASSERT(location_screen && location_screen->get_gui_location() == _gui_location_pregame_lobby);
+
+						c_gui_screen_pregame_lobby* pregame_lobby_screen = (c_gui_screen_pregame_lobby*)location_screen;
+						if (pregame_lobby_screen->get_gui_game_mode() != game_mode)
+						{
+							c_gui_location_manager::change_location(c_gui_location_manager::get_pregame_lobby_name(game_mode));
+						}
+					}
+				}
+			}
+			else if (current_networking_location || current_ui_location != _gui_location_in_game || m_location_mode != _location_mode_editor_or_game_start)
+			{
+				if (!game_is_ui_shell() && (current_ui_location == _gui_location_in_game || current_networking_location == _gui_location_pregame_lobby))
+				{
+					main_menu_launch();
+					c_gui_location_manager::set_show_postgame_stats_upon_lobby_entrance(true);
+				}
+				else
+				{
+					c_gui_location_manager::begin_enter_location(current_ui_location, current_networking_location);
+					c_gui_location_manager::change_location(c_gui_location_manager::get_location_screen_name(current_networking_location));
+				}
+			}
+
+			if (location_screen != nullptr)
+			{
+				for (c_gui_screen_widget* screen_widget = window_manager_get()->get_screen_below(k_number_of_player_windows, location_screen);
+					screen_widget;
+					screen_widget = window_manager_get()->get_screen_below(k_number_of_player_windows, screen_widget))
+				{
+					if (screen_widget->transitioning_out())
+					{
+						break;
+					}
+
+					screen_widget->transition_out(_transition_out_normal);
 				}
 			}
 		}
 	}
-	else if (current_location || current_ui_location != _gui_location_in_game || m_location_mode != _location_mode_editor_or_game_start)
+}
+
+void c_gui_location_manager::update_change_location()
+{
+	uns32 current_ui_time = user_interface_milliseconds();
+	if (current_ui_time != m_location_change_throttle_time)
 	{
-		if (!game_is_ui_shell() && (current_ui_location == _gui_location_in_game || current_location == _gui_location_pregame_lobby))
+		if (!can_change_location())
 		{
-			main_menu_launch();
-			c_gui_location_manager::set_show_postgame_stats_upon_lobby_entrance(true);
-		}
-		else
-		{
-			c_gui_location_manager::begin_enter_location(current_ui_location, current_location);
-			c_gui_location_manager::change_location(c_gui_location_manager::get_location_screen_name(current_location));
+			m_location_change_throttle_count++;
 		}
 	}
-
-	if (!location_screen)
-	{
-		return;
-	}
-
-	for (c_gui_screen_widget* screen = window_manager_get()->get_screen_below(k_number_of_player_windows, location_screen);
-		screen;
-		screen = window_manager_get()->get_screen_below(k_number_of_player_windows, screen))
-	{
-		if (screen->transitioning_out())
-		{
-			break;
-		}
-
-		screen->transition_out(_transition_out_normal);
-	}
+	m_location_change_throttle_time = current_ui_time;
 }
 
