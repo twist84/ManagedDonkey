@@ -92,11 +92,13 @@ public:
 	int32 get_list_item_index_from_element_handle(int32 element_handle);
 	int32 get_scroll_position();
 	int32 get_selectable_item_count();
+	bool has_active_submenu() const;
 	bool invoke_submenu(int32 submenu_name, int32 custom_datasource_name, bool reset_datasource);
 	bool invoke_submenu(const s_list_widget_block* submenu_definition, int32 custom_datasource_name, bool reset_datasource);
 	bool is_submenu_that_needs_disposal() const;
 	bool list_has_more_elements_following();
 	bool list_has_more_elements_preceeding();
+	bool list_selection_visible_without_focus() const;
 	bool list_wraps() const;
 	void mark_as_submenu(bool is_submenu);
 

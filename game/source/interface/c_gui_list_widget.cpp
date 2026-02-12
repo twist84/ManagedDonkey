@@ -240,6 +240,12 @@ int32 c_gui_list_widget::get_selectable_item_count()
 
 //.text:00B152C0 ; 
 //.text:00B15390 ; 
+
+bool c_gui_list_widget::has_active_submenu() const
+{
+	return m_submenu_item != nullptr;
+}
+
 //.text:00B15450 ; private: bool c_gui_list_widget::handle_grid_tab(c_gui_list_item_widget*, e_event_type)
 
 bool c_gui_list_widget::handle_tab(const c_controller_input_message* message)
@@ -302,6 +308,12 @@ bool c_gui_list_widget::list_has_more_elements_following()
 bool c_gui_list_widget::list_has_more_elements_preceeding()
 {
 	return INVOKE_CLASS_MEMBER(0x00B15F40, c_gui_list_widget, list_has_more_elements_preceeding);
+}
+
+bool c_gui_list_widget::list_selection_visible_without_focus() const
+{
+	bool result = TEST_BIT(m_definition.flags, _list_widget_definition_flag_selection_visible_without_focus_bit);
+	return result;
 }
 
 bool c_gui_list_widget::list_wraps() const
