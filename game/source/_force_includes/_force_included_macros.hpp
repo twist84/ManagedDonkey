@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 #define STRINGIFY_DETAIL(x) #x
 #define STRINGIFY(x) STRINGIFY_DETAIL(x)
 
@@ -44,11 +46,17 @@ const int32 SHORT_BITS = SIZEOF_BITS(int16);
 const int32 LONG_BITS = SIZEOF_BITS(int32);
 const int32 QWORD_BITS = SIZEOF_BITS(uns64);
 
+#define FLAGS_8(...) FLAGS_impl<uns8>(__VA_ARGS__)
+#define FLAGS_16(...) FLAGS_impl<uns16>(__VA_ARGS__)
+#define FLAGS_32(...) FLAGS_impl<uns32>(__VA_ARGS__)
+#define FLAGS_64(...) FLAGS_impl<uns64>(__VA_ARGS__)
+
 #define FLAG(bit) ((unsigned)1 << (unsigned)(bit))
 #define FLAG_64(bit) (1ULL << (unsigned)(bit))
 #define RANGE(bit) (FLAG((bit) - 1))
 #define MASK(bit) ((RANGE((bit))) | ((bit) <= 1 ? 0 : ((RANGE((bit)) - 1))))
 #define TEST_BIT(flags, bit) (((flags) & FLAG((bit))) != 0)
+#define TEST_BIT_64(flags, bit) (((flags) & FLAG_64((bit))) != 0)
 #define TEST_RANGE(flags, start_bit, end_bit) (((flags) & (((1 << ((end_bit) - (start_bit) + 1)) - 1) << (start_bit))) != 0)
 #define TEST_FLAG(flags, bit) (flags.test((bit)))
 #define TEST_MASK(flags, mask) (((flags) & (mask)) != 0)
@@ -95,5 +103,14 @@ constexpr uns64 operator"" _hash(const char* str, size_t len)
 constexpr size_t operator"" _len(const char* str, size_t len)
 {
 	return len;
+}
+
+template<typename t_result, typename t_type, typename... t_rest>
+constexpr t_result FLAGS_impl(t_type first, t_rest... rest)
+{
+	COMPILE_ASSERT(std::is_integral_v<t_type> || std::is_enum_v<t_type>, "FLAGS requires an integral or enum type");
+	COMPILE_ASSERT((std::is_same_v<t_type, t_rest> && ...), "All flags must have the same type");
+
+	return (static_cast<t_result>(t_result{ 1 } << first) | ... | static_cast<t_result>(t_result{ 1 } << rest));
 }
 
