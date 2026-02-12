@@ -52,7 +52,10 @@ void __cdecl c_gui_bitmap_widget::add_definition_fields(const s_bitmap_widget_de
 	INVOKE(0x00B166E0, c_gui_bitmap_widget::add_definition_fields, source_definition, dest_definition, positioning_bounds, was_templated);
 }
 
-//.text:00B16760 ; public: static void __cdecl c_gui_bitmap_widget::assemble_definition(const s_bitmap_widget_block*, s_runtime_bitmap_widget_definition*, real_rectangle2d*)
+void __cdecl c_gui_bitmap_widget::assemble_definition(const s_bitmap_widget_block* template_and_override_block, s_runtime_bitmap_widget_definition* definition, real_rectangle2d* positioning_bounds)
+{
+	INVOKE(0x00B16760, c_gui_bitmap_widget::assemble_definition, template_and_override_block, definition, positioning_bounds);
+}
 
 void c_gui_bitmap_widget::assemble_render_data(
 	s_gui_widget_render_data* render_data,

@@ -1,5 +1,6 @@
 #include "interface/c_gui_widget.hpp"
 
+#include "cache/cache_files.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_group_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
@@ -16,7 +17,65 @@
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_profile.hpp"
+#include "render/old_render_debug.hpp"
 #include "text/draw_string.hpp"
+#include "user_interface_window_manager.hpp"
+
+constexpr uns64 k_animation_state_ambient = FLAGS_64(
+	_focused_ambient,
+	_unfocused_ambient,
+	_focused_disabled_ambient,
+	_unfocused_disabled_ambient,
+	_alternate_focused_ambient,
+	_alternate_unfocused_ambient,
+	_indicator_ambient_additional_items,
+	_indicator_ambient_no_additional_items,
+	_child_submenu_ambient_focused,
+	_child_submenu_ambient_unfocused);
+static_assert(0x00300C003Full == k_animation_state_ambient);
+
+constexpr uns64 k_animation_state_screen_transition = FLAGS_64(
+	_transition_from_screen,
+	_transition_to_screen,
+	_transition_back_from_screen,
+	_transition_back_to_screen,
+	_cycle_in_previous_screen,
+	_cycle_in_next_screen,
+	_cycle_out_previous_screen,
+	_cycle_out_next_screen,
+	_custom_screen_transition_in0,
+	_custom_screen_transition_out0,
+	_custom_screen_transition_in1,
+	_custom_screen_transition_out1);
+static_assert(0x0F00003FC0ull == k_animation_state_screen_transition);
+
+constexpr uns64 k_animation_state_widget_transition = FLAGS_64(
+	_list_display_group_transition_in,
+	_list_display_group_transition_out,
+	_load_submenu_focused,
+	_load_submenu_unfocused,
+	_unload_submenu_focused,
+	_unload_submenu_unfocused,
+	_load_as_submenu,
+	_unload_as_submenu,
+	_custom_animation0,
+	_custom_animation1);
+static_assert(0x00CFC0C000ull == k_animation_state_widget_transition);
+
+constexpr uns64 k_animation_state_focus_transfer = FLAGS_64(
+	_control_received_focus,
+	_control_lost_focus);
+static_assert(0x0000030000ull == k_animation_state_focus_transfer);
+
+constexpr uns64 k_animation_state_list_item_indicator_activated = FLAGS_64(
+	_indicator_activated_additional_items,
+	_indicator_activated_no_additional_items);
+static_assert(0x0000300000ull == k_animation_state_list_item_indicator_activated);
+
+//constexpr uns64 k_animation_state_mouse_hover = FLAGS_64(
+//	_mouse_enter,
+//	_mouse_leave);
+//static_assert(0x3000000000ull == k_animation_state_mouse_hover);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00AB81A0, c_gui_widget, create_bitmap_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB8200, c_gui_widget, create_button_key_widget_);
@@ -26,19 +85,20 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB8720, c_gui_widget, get_ambient_state_);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9980, c_gui_widget, handle_alt_stick_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9A40, c_gui_widget, handle_controller_input_message_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9B40, c_gui_widget, handle_tab_);
 
-bool gui_debug_text_bounds_global = false;
-bool gui_debug_bitmap_bounds_global = false;
-bool gui_debug_model_bounds_global = false;
-bool gui_debug_list_item_bounds_global = false;
-bool gui_debug_list_bounds_global = false;
-bool gui_debug_group_bounds_global = false;
-bool gui_debug_screen_bounds_global = false;
+bool g_gui_debug_text_bounds = false;
+bool g_gui_debug_bitmap_bounds = false;
+bool g_gui_debug_model_bounds = false;
+bool g_gui_debug_list_item_bounds = false;
+bool g_gui_debug_list_bounds = false;
+bool g_gui_debug_group_bounds = false;
+bool g_gui_debug_screen_bounds = false;
 
 c_gui_bitmap_widget* __thiscall c_gui_widget::create_bitmap_widget_(const s_runtime_bitmap_widget_definition* definition)
 {
@@ -78,6 +138,11 @@ c_gui_text_widget* __thiscall c_gui_widget::create_text_widget_(const s_runtime_
 e_animation_state __thiscall c_gui_widget::get_ambient_state_()
 {
 	return c_gui_widget::get_ambient_state();
+}
+
+c_gui_widget* __thiscall c_gui_widget::get_child_widget_(e_gui_widget_type type, int32 name)
+{
+	return c_gui_widget::get_child_widget(type, name);
 }
 
 gui_real_rectangle2d* __thiscall c_gui_widget::get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
@@ -143,10 +208,15 @@ c_gui_widget::~c_gui_widget()
 {
 	//DECLFUNC(0x00AB63A0, void, __thiscall, c_gui_widget*)(this);
 
-	c_gui_widget::delete_all_children();
+	delete_all_children();
+	//c_window_manager* window_manager = window_manager_get();
+	//window_manager->on_widget_delete(this);
 }
 
-//.text:00AB63D0 ; public: void c_gui_widget::add_child_widget(c_gui_widget*)
+void c_gui_widget::add_child_widget(c_gui_widget* child)
+{
+	INVOKE_CLASS_MEMBER(0x00AB63D0, c_gui_widget, add_child_widget, child);
+}
 
 void __cdecl c_gui_widget::add_definition_fields(e_gui_widget_type type, const s_core_widget_definition* source_definition, s_runtime_core_widget_definition* dest_definition, const real_rectangle2d* unanimated_bounds, bool was_templated)
 {
@@ -162,15 +232,15 @@ void c_gui_widget::animate_recursively(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB6C20, c_gui_widget, animate_recursively, current_milliseconds);
 
-	c_gui_widget::animate(current_milliseconds);
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
-	{
-		if (child_widget->m_type == _gui_screen)
-		{
-			continue;
-		}
+	animate(current_milliseconds);
 
-		child_widget->animate_recursively(current_milliseconds);
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+	{
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
+		{
+			child->animate_recursively(current_milliseconds);
+		}
 	}
 }
 
@@ -190,52 +260,61 @@ void c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, c
 	ASSERT(render_data != nullptr);
 	ASSERT(window_bounds != nullptr);
 
-	render_data->type = m_type;
+	render_data->type = get_type();
 
 	real_rectangle2d current_bounds{};
 	get_current_bounds(&current_bounds);
-	get_projected_bounds(window_bounds, &render_data->projected_bounds, apply_translation, apply_scale, apply_rotation);
 
+	get_projected_bounds(window_bounds, &render_data->projected_bounds, apply_translation, apply_scale, apply_rotation);
 	render_data->local_controller_index = local_controller_index;
+
 	render_data->flags.clear();
 	render_data->flags.set(s_gui_widget_render_data::_render_in_screenshot_bit, get_render_in_screenshot());
 
 	// >= profile builds
-	render_data->name = m_name;
+	render_data->name = get_name();
 
 	// >= play builds
 	const real_argb_color* debug_color = get_debug_color();
 	render_data->debug_color = real_argb_color_to_pixel32(debug_color);
-	render_data->animation_state_flags = m_animated_state.state_flags;
-	render_data->rotation_origin_with_depth = m_animated_state.position;
-	render_data->render_debug_name = TEST_BIT(m_flags, _debug_name_bit);
-	render_data->render_debug_animation_state = TEST_BIT(m_flags, _debug_animation_state_bit) || TEST_BIT(get_core_definition()->flags, 2);
-	render_data->render_debug_bounds = TEST_BIT(m_flags, _debug_bounds_bit);
-	render_data->render_debug_rotation_origin = TEST_BIT(m_flags, _debug_rotation_origin_bit);
 
-	switch (m_type)
+	render_data->animation_state_flags = m_animated_state.state_flags;
+
+	render_data->rotation_origin_with_depth.x = (m_animated_state.position.x + current_bounds.x0) + m_animated_state.local_rotation_origin.x;
+	render_data->rotation_origin_with_depth.y = (m_animated_state.position.y + current_bounds.y0) + m_animated_state.local_rotation_origin.y;
+	render_data->rotation_origin_with_depth.z = m_animated_state.position.z;
+	gui_real_rectangle2d::transform_real_point3d(&render_data->rotation_origin_with_depth, window_bounds);
+
+	render_data->render_debug_name = get_debug_name();
+	render_data->render_debug_animation_state = get_debug_animation_state();
+	render_data->render_debug_bounds = get_debug_bounds();
+	render_data->render_debug_rotation_origin = get_debug_rotation_origin();
+
+	switch (render_data->type)
 	{
 	case _gui_text:
 		render_data->render_debug_name = false;
-		render_data->render_debug_bounds |= gui_debug_text_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_text_bounds;
 		break;
 	case _gui_bitmap:
-		render_data->render_debug_bounds |= gui_debug_bitmap_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_bitmap_bounds;
 		break;
 	case _gui_model:
-		render_data->render_debug_bounds |= gui_debug_model_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_model_bounds;
 		break;
 	case _gui_group:
-		render_data->render_debug_bounds |= gui_debug_group_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_group_bounds;
 		break;
 	case _gui_list_item:
-		render_data->render_debug_bounds |= gui_debug_list_item_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_list_item_bounds;
 		break;
 	case _gui_list:
-		render_data->render_debug_bounds |= gui_debug_list_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_list_bounds;
 		break;
 	case _gui_screen:
-		render_data->render_debug_bounds |= gui_debug_screen_bounds_global;
+		render_data->render_debug_bounds |= g_gui_debug_screen_bounds;
+		break;
+	default:
 		break;
 	}
 }
@@ -247,12 +326,33 @@ void c_gui_widget::calculate_animation_transform(e_animation_state animation_sta
 
 bool const c_gui_widget::can_all_children_be_disposed()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB7850, c_gui_widget, can_all_children_be_disposed);
+	//return INVOKE_CLASS_MEMBER(0x00AB7850, c_gui_widget, can_all_children_be_disposed);
+
+	bool result = true;
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+	{
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
+		{
+			result &= child->can_be_disposed();
+		}
+	}
+	return result;
 }
 
 bool const c_gui_widget::can_be_disposed()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB78C0, c_gui_widget, can_be_disposed);
+	//return INVOKE_CLASS_MEMBER(0x00AB78C0, c_gui_widget, can_be_disposed);
+
+	bool result = m_needs_disposal;
+	if (result)
+	{
+		for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+		{
+			result &= child->can_be_disposed();
+		}
+	}
+	return result;
 }
 
 bool c_gui_widget::can_receive_focus()
@@ -266,24 +366,28 @@ bool c_gui_widget::contains_point(const point2d* point)
 {
 	ASSERT(point != nullptr);
 
-	rectangle2d bounds{};
-	c_gui_widget::get_mouse_region(&bounds);
+	rectangle2d bounds;
+	get_mouse_region(&bounds);
 
-	int16 x0 = bounds.x0;
-	if (bounds.x0 > bounds.x1)
 	{
-		bounds.x0 = bounds.x1;
-		bounds.x1 = x0;
+		short temp = bounds.x0;
+		if (bounds.x0 > bounds.x1)
+		{
+			bounds.x0 = bounds.x1;
+			bounds.x1 = temp;
+		}
+	}
+	{
+		short temp = bounds.y0;
+		if (bounds.y0 > bounds.y1)
+		{
+			bounds.y0 = bounds.y1;
+			bounds.y1 = temp;
+		}
 	}
 
-	int16 y0 = bounds.y0;
-	if (bounds.y0 > bounds.y1)
-	{
-		bounds.y0 = bounds.y1;
-		bounds.y1 = y0;
-	}
-
-	return point2d_in_rectangle2d(&bounds, point);
+	bool result = point2d_in_rectangle2d(&bounds, point);
+	return result;
 }
 
 bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
@@ -297,12 +401,63 @@ bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 
 c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
+	//return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
+
+	ASSERT(bitmap_widget_block != nullptr);
+
+	c_gui_widget* parent = get_parent();
+	ASSERT(parent != nullptr);
+
+	s_runtime_bitmap_widget_definition definition;
+	real_rectangle2d positioning_bounds;
+
+	parent->get_authored_bounds(&positioning_bounds);
+	c_gui_bitmap_widget::assemble_definition(bitmap_widget_block, &definition, &positioning_bounds);
+
+	c_gui_bitmap_widget* bitmap_widget = create_bitmap_widget(&definition);
+	if (bitmap_widget != nullptr)
+	{
+		add_child_widget(bitmap_widget);
+		bitmap_widget->initialize(bitmap_widget_block);
+	}
+	return bitmap_widget;
 }
 
 void c_gui_widget::create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index)
 {
 	INVOKE_CLASS_MEMBER(0x00AB7AC0, c_gui_widget, create_and_add_child_list_item_widgets, list_items_block, gui_skin_tag_index);
+
+#if 0
+	ASSERT(list_items_block != nullptr);
+
+	if (gui_skin_tag_index == NONE)
+	{
+		event(_event_warning, "ui: list widget with no gui skin");
+	}
+	else
+	{
+		s_gui_skin_definition const* skin_definition = TAG_GET(GUI_SKIN_DEFINITION_TAG, s_gui_skin_definition, gui_skin_tag_index);
+		for (long item_index = 0; item_index < list_items_block->count; item_index++)
+		{
+			s_list_item_widget_block const* item_block = TAG_BLOCK_GET_ELEMENT(list_items_block, item_index, s_list_item_widget_block);
+
+			c_gui_screen_widget* parent_screen = get_parent_screen();
+			c_gui_list_item_widget* item = parent_screen != nullptr ? parent_screen->create_list_item_widget(item_block) : create_list_item_widget(item_block);
+			if (item == nullptr)
+			{
+				break;
+			}
+
+			add_child_widget(item);
+			item->set_list_item_index(item_index);
+			item->initialize(item_block);
+
+			short render_depth_bias = item->get_render_depth_bias();
+			long animation_collection_reference_index = item->get_animation_collection_reference_index();
+			item->create_and_add_children_from_skin_definition(skin_definition, animation_collection_reference_index, render_depth_bias);
+		}
+	}
+#endif
 }
 
 //.text:00AB7B80 ; public: c_gui_list_widget* c_gui_widget::create_and_add_child_list_widget(const s_list_widget_block*)
@@ -315,81 +470,124 @@ c_gui_bitmap_widget* c_gui_widget::create_bitmap_widget(const s_runtime_bitmap_w
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB81A0, c_gui_widget, create_bitmap_widget, definition);
 
-	return new (_ui_allocation_marker_dummy) c_gui_bitmap_widget();
+	c_gui_bitmap_widget* bitmap_widget = new (_ui_allocation_marker_dummy) c_gui_bitmap_widget();
+	return bitmap_widget;
 }
 
 c_gui_button_key_widget* c_gui_widget::create_button_key_widget(const s_button_key_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8200, c_gui_widget, create_button_key_widget, definition);
 
-	//return new (_ui_allocation_marker_dummy) c_gui_button_key_widget();
+	//c_gui_button_key_widget* button_key_widget = new (_ui_allocation_marker_dummy) c_gui_button_key_widget();
+	//return button_key_widget;
 }
 
 c_gui_group_widget* c_gui_widget::create_group_widget(const s_group_widget_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8260, c_gui_widget, create_group_widget, definition);
 
-	//return new (_ui_allocation_marker_dummy) c_gui_group_widget();
+	//c_gui_group_widget* group_widget = new (_ui_allocation_marker_dummy) c_gui_group_widget();
+	//return group_widget;
 }
 
 c_gui_list_item_widget* c_gui_widget::create_list_item_widget(const s_list_item_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget, definition);
 
-	return new (_ui_allocation_marker_dummy) c_gui_list_item_widget();
+	c_gui_list_item_widget* list_item_widget = new (_ui_allocation_marker_dummy) c_gui_list_item_widget();
+	return list_item_widget;
 }
 
 c_gui_list_widget* c_gui_widget::create_list_widget(const s_list_widget_block* definition)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget, definition);
 
-	return new (_ui_allocation_marker_dummy) c_gui_list_widget();
+	c_gui_list_widget* list_widget = new (_ui_allocation_marker_dummy) c_gui_list_widget();
+	return list_widget;
 }
 
 c_gui_model_widget* c_gui_widget::create_model_widget(const s_model_widget_block* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget, definition);
 
-	//return new (_ui_allocation_marker_dummy) c_gui_model_widget();
+	//c_gui_model_widget* model_widget = new (_ui_allocation_marker_dummy) c_gui_model_widget();
+	//return model_widget;
 }
 
 c_gui_text_widget* c_gui_widget::create_text_widget(const s_runtime_text_widget_definition* definition)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget, definition);
 
-	//c_gui_text_widget* result = nullptr;
-	//if (TEST_BIT(definition->flags, 14))
+	//c_gui_text_widget* widget;
+	//
+	//if (TEST_BIT(definition->flags, s_text_widget_definition::_extra_large_text_field_bit))
 	//{
-	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<1024>();
+	//	widget = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<1024>();
 	//}
-	//else if (TEST_BIT(definition->flags, 13))
+	//else if (TEST_BIT(definition->flags, s_text_widget_definition::_large_text_field_bit))
 	//{
-	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<256>();
+	//	widget = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<256>();
 	//}
 	//else
 	//{
-	//	result = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<48>();
+	//	widget = new (_ui_allocation_marker_dummy) c_gui_sized_text_widget<48>();
 	//}
-	//return result;
+	//
+	//return widget;
 }
 
 void c_gui_widget::delete_all_children()
 {
-	INVOKE_CLASS_MEMBER(0x00AB8590, c_gui_widget, delete_all_children);
+	//INVOKE_CLASS_MEMBER(0x00AB8590, c_gui_widget, delete_all_children);
 
-	//for (c_gui_widget* child_widget = get_children(); child_widget; child_widget = child_widget->get_next())
-	//{
-	//	c_gui_widget::set_children(nullptr);
-	//	c_gui_widget::set_parent(nullptr);
-	//
-	//	child_widget->dispose();
-	//	ui_track_delete<c_gui_widget>(child_widget);
-	//}
+	c_gui_widget* child = get_children();
+	set_children(nullptr);
+
+	while (child != nullptr)
+	{
+		c_gui_widget* next = child->get_next();
+
+		child->set_parent(nullptr);
+		ui_track_delete<c_gui_widget>(child);
+
+		child = next;
+	}
 }
 
 void c_gui_widget::dispose()
 {
-	INVOKE_CLASS_MEMBER(0x00AB8620, c_gui_widget, dispose);
+	//INVOKE_CLASS_MEMBER(0x00AB8620, c_gui_widget, dispose);
+
+	c_gui_screen_widget* parent_screen;
+
+	if (get_type() == _gui_screen)
+	{
+		parent_screen = static_cast<c_gui_screen_widget*>(this);
+	}
+	else
+	{
+		parent_screen = get_parent_screen();
+	}
+
+	if (parent_screen != nullptr && parent_screen->get_focused_widget() == this)
+	{
+		for (c_gui_widget* focus_candidate = get_parent(); focus_candidate != nullptr; focus_candidate = focus_candidate->get_parent())
+		{
+			if (focus_candidate->can_receive_focus())
+			{
+				parent_screen->transfer_focus(focus_candidate);
+				break;
+			}
+		}
+	}
+
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+	{
+		if (child->get_type() != _gui_screen)
+		{
+			child->dispose();
+		}
+	}
 }
 
 //.text:00AB8710 ; 
@@ -528,12 +726,65 @@ c_gui_text_widget* c_gui_widget::get_child_text_widget(int32 name)
 
 c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type type, int32 name)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget, type, name);
+	//return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget, type, name);
+
+	c_gui_widget* found_widget = nullptr;
+
+	if (get_type() == type && get_name() == name)
+	{
+		found_widget = this;
+	}
+	else
+	{
+		for (bool search_recursively = false; ; search_recursively = true)
+		{
+			for (c_gui_widget* test_widget = get_children(); test_widget != nullptr && found_widget == nullptr; test_widget = test_widget->get_next())
+			{
+				if (search_recursively)
+				{
+					found_widget = test_widget->get_child_widget(type, name);
+				}
+				else
+				{
+					if (test_widget->get_type() == type && test_widget->get_name() == name)
+					{
+						found_widget = test_widget;
+					}
+				}
+			}
+
+			if (found_widget != nullptr || search_recursively)
+			{
+				break;
+			}
+		}
+	}
+
+	return found_widget;
 }
 
 real_rectangle2d* c_gui_widget::get_container_current_bounds(real_rectangle2d* unanimated_bounds)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8BC0, c_gui_widget, get_container_current_bounds, unanimated_bounds);
+	//return INVOKE_CLASS_MEMBER(0x00AB8BC0, c_gui_widget, get_container_current_bounds, unanimated_bounds);
+
+	get_current_bounds(unanimated_bounds);
+
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+	{
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
+		{
+			real_rectangle2d child_rectangle;
+			child->get_container_current_bounds(&child_rectangle);
+
+			unanimated_bounds->x0 = MIN(child_rectangle.x0, unanimated_bounds->x0);
+			unanimated_bounds->y0 = MIN(child_rectangle.y0, unanimated_bounds->y0);
+			unanimated_bounds->x1 = MAX(child_rectangle.x1, unanimated_bounds->x1);
+			unanimated_bounds->y1 = MAX(child_rectangle.y1, unanimated_bounds->y1);
+		}
+	}
+
+	return unanimated_bounds;
 }
 
 int32 c_gui_widget::get_controller_mask() const
@@ -577,6 +828,16 @@ int32 c_gui_widget::get_datasource_index()
 	}
 
 	return parent_list_item->get_datasource_index();
+}
+
+bool c_gui_widget::get_debug_animation_state()
+{
+	return TEST_BIT(m_flags, _debug_animation_state_bit);
+}
+
+bool c_gui_widget::get_debug_bounds() const
+{
+	return TEST_BIT(m_flags, _debug_bounds_bit);
 }
 
 const real_argb_color* c_gui_widget::get_debug_color()
@@ -631,41 +892,61 @@ const real_argb_color* c_gui_widget::get_debug_color()
 	return result;
 }
 
+bool c_gui_widget::get_debug_name() const
+{
+	return TEST_BIT(m_flags, _debug_name_bit);
+}
+
+bool c_gui_widget::get_debug_rotation_origin() const
+{
+	return TEST_BIT(m_flags, _debug_rotation_origin_bit);
+}
+
 c_gui_widget* c_gui_widget::get_deepest_widget_that_can_receive_focus()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8DA0, c_gui_widget, get_deepest_widget_that_can_receive_focus);
+	//return INVOKE_CLASS_MEMBER(0x00AB8DA0, c_gui_widget, get_deepest_widget_that_can_receive_focus);
+
+	c_gui_widget* widget = nullptr;
+
+	for (c_gui_widget* child = get_children(); child != nullptr && widget == nullptr; child = child->get_next())
+	{
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
+		{
+			widget = child->get_deepest_widget_that_can_receive_focus();
+		}
+	}
+
+	if (widget == nullptr && can_receive_focus())
+	{
+		widget = this;
+	}
+
+	return widget;
 }
 
 int32 c_gui_widget::get_definition_index()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8E20, c_gui_widget, get_definition_index);
+	//return INVOKE_CLASS_MEMBER(0x00AB8E20, c_gui_widget, get_definition_index);
 
-	//c_gui_widget* parent_widget = get_parent();
-	//if (!parent_widget)
-	//{
-	//	return NONE;
-	//}
-	//
-	//c_gui_widget* child_widget = parent_widget->get_children();
-	//if (!child_widget)
-	//{
-	//	return NONE;
-	//}
-	//
-	//int32 definition_index = 0;
-	//
-	//while (child_widget != this)
-	//{
-	//	child_widget = child_widget->get_next();
-	//	if (!child_widget)
-	//	{
-	//		return NONE;
-	//	}
-	//
-	//	definition_index++;
-	//}
-	//
-	//return definition_index;
+	int32 my_index;
+
+	c_gui_widget* parent = get_parent();
+	if (parent != nullptr)
+	{
+		int32 test_index = 0;
+		for (c_gui_widget* child = parent->get_children(); child != this; child = child->get_next())
+		{
+			test_index++;
+		}
+		my_index = test_index;
+	}
+	else
+	{
+		my_index = NONE;
+	}
+
+	return my_index;
 }
 
 e_controller_index c_gui_widget::get_driving_controller() const
@@ -704,13 +985,19 @@ int32 c_gui_widget::get_element_index()
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB8F50, c_gui_widget, get_element_index);
 
+	int32 element_handle;
+
 	c_gui_list_item_widget* parent_list_item = get_parent_list_item();
-	if (!parent_list_item)
+	if (parent_list_item != nullptr)
 	{
-		return NONE;
+		element_handle = parent_list_item->get_element_handle();
+	}
+	else
+	{
+		element_handle = NONE;
 	}
 
-	return parent_list_item->get_definition_index();
+	return element_handle;
 }
 
 bool c_gui_widget::get_enabled()
@@ -722,7 +1009,19 @@ bool c_gui_widget::get_enabled()
 
 c_gui_widget* c_gui_widget::get_first_child_widget_by_type(e_gui_widget_type type)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8F80, c_gui_widget, get_first_child_widget_by_type, type);
+	//return INVOKE_CLASS_MEMBER(0x00AB8F80, c_gui_widget, get_first_child_widget_by_type, type);
+
+	c_gui_widget* child = get_children();
+	while (child != nullptr)
+	{
+		e_gui_widget_type child_type = child->get_type();
+		if (child_type == type)
+		{
+			break;
+		}
+		child = child->get_next();
+	}
+	return child;
 }
 
 //.text:00AB8FE0 ; 
@@ -730,19 +1029,22 @@ c_gui_widget* c_gui_widget::get_first_child_widget_by_type(e_gui_widget_type typ
 
 c_gui_widget* c_gui_widget::get_last_child_widget_by_type(e_gui_widget_type type)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB9010, c_gui_widget, get_last_child_widget_by_type, type);
+	//return INVOKE_CLASS_MEMBER(0x00AB9010, c_gui_widget, get_last_child_widget_by_type, type);
 
-	//c_gui_widget* last_child_widget = nullptr;
-	//for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
-	//{
-	//	if (child_widget->m_type != type)
-	//	{
-	//		continue;
-	//	}
-	//
-	//	last_child_widget = child_widget;
-	//}
-	//return last_child_widget;
+	c_gui_widget* last_child_of_type = nullptr;
+
+	c_gui_widget* child = get_children();
+	while (child != nullptr)
+	{
+		e_gui_widget_type child_type = child->get_type();
+		if (child_type == type)
+		{
+			last_child_of_type = child;
+		}
+		child = child->get_next();
+	}
+
+	return last_child_of_type;
 }
 
 //.text:00AB9080 ; void __cdecl get_local_coordinate_system_position_from_rotation_keyframe(c_gui_widget*, const s_rotation_keyframe_block*, real_point2d*)
@@ -785,13 +1087,12 @@ c_gui_list_item_widget* c_gui_widget::get_next_list_item_widget(bool only_consid
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9230, c_gui_widget, get_next_list_item_widget, only_consider_valid_items);
 
-	c_gui_list_item_widget* result = (c_gui_list_item_widget*)c_gui_widget::get_next_widget_of_type(_gui_list_item);
-	if (result && only_consider_valid_items && result->get_element_handle() == NONE)
+	c_gui_list_item_widget* next_item = static_cast<c_gui_list_item_widget*>(get_next_widget_of_type(_gui_list_item));
+	if (next_item != nullptr && only_consider_valid_items && next_item->get_element_handle() == NONE)
 	{
-		return nullptr;
+		next_item = nullptr;
 	}
-
-	return result;
+	return next_item;
 }
 
 c_gui_list_widget* c_gui_widget::get_next_list_widget()
@@ -817,7 +1118,19 @@ c_gui_text_widget* c_gui_widget::get_next_text_widget()
 
 c_gui_widget* c_gui_widget::get_next_widget_of_type(e_gui_widget_type type)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB9290, c_gui_widget, get_next_widget_of_type, type);
+	//return INVOKE_CLASS_MEMBER(0x00AB9290, c_gui_widget, get_next_widget_of_type, type);
+
+	c_gui_widget* test = get_next();
+	while (test != nullptr)
+	{
+		e_gui_widget_type test_type = test->get_type();
+		if (test_type == type)
+		{
+			break;
+		}
+		test = test->get_next();
+	}
+	return test;
 }
 
 c_gui_group_widget* c_gui_widget::get_parent_group()
@@ -897,26 +1210,40 @@ c_gui_text_widget* c_gui_widget::get_previous_text_widget()
 
 c_gui_widget* c_gui_widget::get_previous_widget_of_type(e_gui_widget_type type)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB9570, c_gui_widget, get_previous_widget_of_type, type);
+	//return INVOKE_CLASS_MEMBER(0x00AB9570, c_gui_widget, get_previous_widget_of_type, type);
+
+	c_gui_widget* test = get_previous();
+	while (test != nullptr)
+	{
+		e_gui_widget_type test_type = test->get_type();
+		if (test_type == type)
+		{
+			break;
+		}
+		test = test->get_previous();
+	}
+	return test;
 }
 
 gui_real_rectangle2d* c_gui_widget::get_projected_bounds(const rectangle2d* window_bounds, gui_real_rectangle2d* projected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB95D0, c_gui_widget, get_projected_bounds, window_bounds, projected_bounds, apply_translation, apply_scale, apply_rotation);
 
-	ASSERT(window_bounds != nullptr);
-	ASSERT(projected_bounds != nullptr);
+	ASSERT(window_bounds != NULL);
+	ASSERT(projected_bounds != NULL);
 
 	c_gui_widget::get_unprojected_bounds(projected_bounds, apply_translation, apply_scale, apply_rotation);
+
 	projected_bounds->apply_projection_transform(m_animated_state.position.z, window_bounds);
 	return projected_bounds;
 }
 
 int16 c_gui_widget::get_render_depth_bias()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB9610, c_gui_widget, get_render_depth_bias);
+	//return INVOKE_CLASS_MEMBER(0x00AB9610, c_gui_widget, get_render_depth_bias);
 
-	//return (int16)get_core_definition()->render_depth_bias;
+	s_runtime_core_widget_definition* definition = get_core_definition();
+	return (int16)definition->render_depth_bias;
 }
 
 bool c_gui_widget::get_render_in_screenshot()
@@ -1021,12 +1348,19 @@ bool c_gui_widget::handle_alt_tab(const c_controller_input_message* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab, message);
 
-	if (!get_parent())
+	bool handled;
+
+	c_gui_widget* parent = get_parent();
+	if (parent != nullptr)
 	{
-		return false;
+		handled = parent->handle_alt_tab(message);
+	}
+	else
+	{
+		handled = false;
 	}
 
-	return get_parent()->handle_alt_tab(message);
+	return handled;
 }
 
 bool c_gui_widget::handle_controller_input_message(const c_controller_input_message* message)
@@ -1047,12 +1381,19 @@ bool c_gui_widget::handle_tab(const c_controller_input_message* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9B40, c_gui_widget, handle_tab, message);
 
-	if (!get_parent())
+	bool handled;
+
+	c_gui_widget* parent = get_parent();
+	if (parent != nullptr)
 	{
-		return false;
+		handled = parent->handle_tab(message);
+	}
+	else
+	{
+		handled = false;
 	}
 
-	return get_parent()->handle_tab(message);
+	return handled;
 }
 
 bool c_gui_widget::handle_widget_back_out()
@@ -1075,16 +1416,24 @@ void c_gui_widget::initialize()
 {
 	//INVOKE_CLASS_MEMBER(0x00AB9BD0, c_gui_widget, initialize);
 
-	real_rectangle2d widget_bounds{};
+	SET_BIT(m_flags, _initializing_bit, true);
 
-	SET_BIT(m_flags, 4, true);
+	real_rectangle2d widget_bounds;
 	get_current_bounds(&widget_bounds);
-	get_core_definition()->runtime_bounds = widget_bounds;
+
+	s_runtime_core_widget_definition* definition = get_core_definition();
+	definition->runtime_bounds = widget_bounds;
 }
 
 bool c_gui_widget::is_animation_active(e_animation_state animation_state)
 {
 	return INVOKE_CLASS_MEMBER(0x00AB9C10, c_gui_widget, is_animation_active, animation_state);
+
+	ASSERT(animation_state != k_invalid_animation_state);
+
+	ASSERT((FLAG_64(animation_state) & k_animation_state_ambient) == 0);
+	bool result = TEST_BIT_64(m_animated_state.state_flags, animation_state);
+	return result;
 }
 
 //.text:00AB9C50 ; 
@@ -1144,22 +1493,40 @@ void c_gui_widget::post_initialize()
 {
 	//INVOKE_CLASS_MEMBER(0x00AB9DD0, c_gui_widget, post_initialize);
 
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
 	{
-		if (child_widget->m_type == _gui_screen)
+		if (child->get_type() != _gui_screen)
 		{
-			continue;
+			child->post_initialize();
 		}
-
-		child_widget->post_initialize();
 	}
 
-	SET_BIT(m_flags, 4, false);
+	SET_BIT(m_flags, _initializing_bit, false);
 }
 
 void c_gui_widget::remove_child_widget(c_gui_widget* child)
 {
-	INVOKE_CLASS_MEMBER(0x00AB9E40, c_gui_widget, remove_child_widget, child);
+	//INVOKE_CLASS_MEMBER(0x00AB9E40, c_gui_widget, remove_child_widget, child);
+
+	ASSERT(child != nullptr);
+	ASSERT(child->get_parent() == this);
+
+	c_gui_widget* previous = child->get_previous();
+	c_gui_widget* next = child->get_next();
+
+	if (previous != nullptr)
+	{
+		previous->set_next(next);
+	}
+	if (next != nullptr)
+	{
+		next->set_previous(previous);
+	}
+	if (get_children() == child)
+	{
+		set_children(next);
+	}
+	child->set_parent(nullptr);
 }
 
 void c_gui_widget::render(int32 user_index, const s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, bool is_screenshot)
@@ -1414,15 +1781,15 @@ void c_gui_widget::set_animated_state_baseline(s_animation_transform* transform)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB9FD0, c_gui_widget, set_animated_state_baseline, transform);
 
-	transform->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	transform->position = { 0.0f, 0.0f, 0.0f };
-	transform->scale = { 1.0f, 1.0f };
-	transform->local_scale_origin = { 0.0f, 0.0f };
+	set_real_argb_color(&transform->color, 1.0f, 1.0f, 1.0f, 1.0f);
+	set_real_point3d(&transform->position, 0.0f, 0.0f, 0.0f);
+	set_real_vector2d(&transform->scale, 1.0f, 1.0f);
+	set_real_point2d(&transform->local_scale_origin, 0.0f, 0.0f);
 	transform->rotation_angle_radians = 0.0f;
 	transform->sine_rotation_angle = 0.0f;
 	transform->cosine_rotation_angle = 1.0f;
-	transform->local_rotation_origin = { 0.0f, 0.0f };
-	transform->texture_uv = { 0.0f, 0.0f };
+	set_real_point2d(&transform->local_rotation_origin, 0.0f, 0.0f);
+	set_real_point2d(&transform->texture_uv, 0.0f, 0.0f);
 	transform->bitmap_sprite_sequence = 0;
 	transform->bitmap_sprite_frame = 0;
 	transform->font = _terminal_font;
@@ -1435,9 +1802,10 @@ void c_gui_widget::set_child_bitmap_sprite_frame(int32 widget_name, int32 sprite
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA1E0, c_gui_widget, set_child_bitmap_sprite_frame, widget_name, sprite_frame_index);
 
-	if (c_gui_bitmap_widget* child_widget = c_gui_widget::get_child_bitmap_widget(widget_name))
+	c_gui_bitmap_widget* bitmap_widget = get_child_bitmap_widget(widget_name);
+	if (bitmap_widget != nullptr)
 	{
-		child_widget->set_sprite_sequence(sprite_frame_index);
+		bitmap_widget->set_sprite_frame(sprite_frame_index);
 	}
 }
 
@@ -1445,9 +1813,10 @@ void c_gui_widget::set_child_enabled(e_gui_widget_type widget_type, int32 widget
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA200, c_gui_widget, set_child_enabled, widget_type, widget_name, enabled);
 
-	if (c_gui_widget* child_widget = c_gui_widget::get_child_widget(widget_type, widget_name))
+	c_gui_widget* widget = get_child_widget(widget_type, widget_name);
+	if (widget != nullptr)
 	{
-		child_widget->set_enabled(enabled);
+		widget->set_enabled(enabled);
 	}
 }
 
@@ -1455,9 +1824,10 @@ void c_gui_widget::set_child_use_alternate_ambient_state(e_gui_widget_type widge
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA220, c_gui_widget, set_child_use_alternate_ambient_state, widget_type, widget_name, value);
 
-	if (c_gui_widget* child_widget = c_gui_widget::get_child_widget(widget_type, widget_name))
+	c_gui_widget* widget = get_child_widget(widget_type, widget_name);
+	if (widget != nullptr)
 	{
-		child_widget->set_use_alternate_ambient_state(value);
+		widget->set_use_alternate_ambient_state(value);
 	}
 }
 
@@ -1465,9 +1835,10 @@ void c_gui_widget::set_child_visible(e_gui_widget_type widget_type, int32 widget
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA240, c_gui_widget, set_child_visible, widget_type, widget_name, visible);
 
-	if (c_gui_widget* child_widget = c_gui_widget::get_child_widget(widget_type, widget_name))
+	c_gui_widget* widget = get_child_widget(widget_type, widget_name);
+	if (widget != nullptr)
 	{
-		child_widget->set_visible(visible);
+		widget->set_visible(visible);
 	}
 }
 
@@ -1513,17 +1884,16 @@ void c_gui_group_widget::set_dispose_as_display_group(bool dispose)
 void c_gui_widget::set_enabled(bool value)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA2D0, c_gui_widget, set_enabled, value);
-
+	
 	m_enabled = value;
 
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
 	{
-		if (child_widget->m_type == _gui_screen)
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
 		{
-			continue;
+			child->set_enabled(value);
 		}
-
-		child_widget->set_enabled(value);
 	}
 }
 
@@ -1532,11 +1902,12 @@ void c_gui_widget::set_full_animation_state(const s_animation_transform* transfo
 	//INVOKE_CLASS_MEMBER(0x00ABA340, c_gui_widget, set_full_animation_state, transform, recursive);
 
 	m_animated_state = *transform;
+
 	if (recursive)
 	{
-		for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
+		for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
 		{
-			child_widget->set_full_animation_state(transform, recursive);
+			child->set_full_animation_state(transform, recursive);
 		}
 	}
 }
@@ -1573,6 +1944,7 @@ void c_gui_widget::set_tint_color_direct(const real_argb_color* color)
 	//INVOKE_CLASS_MEMBER(0x00ABA730, c_gui_widget, set_tint_color_direct, color);
 
 	ASSERT(color != nullptr);
+
 	m_animated_state.color = *color;
 }
 
@@ -1581,9 +1953,10 @@ void c_gui_widget::set_use_alternate_ambient_state(bool value)
 	//INVOKE_CLASS_MEMBER(0x00ABA760, c_gui_widget, set_use_alternate_ambient_state, value);
 
 	m_use_alternate_ambient_state = value;
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
+
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
 	{
-		child_widget->set_use_alternate_ambient_state(value);
+		child->set_use_alternate_ambient_state(value);
 	}
 }
 
@@ -1594,14 +1967,14 @@ void c_gui_widget::set_visible(bool value)
 	//INVOKE_CLASS_MEMBER(0x00ABA7E0, c_gui_widget, set_visible, value);
 
 	m_visible = value;
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
-	{
-		if (m_type == _gui_screen)
-		{
-			continue;
-		}
 
-		child_widget->set_visible(value);
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+	{
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
+		{
+			child->set_visible(value);
+		}
 	}
 }
 
@@ -1609,18 +1982,22 @@ bool c_gui_widget::should_render(bool* add_to_render_list)
 {
 	//return INVOKE_CLASS_MEMBER(0x00ABA850, c_gui_widget, should_render, add_to_render_list);
 
-	if (add_to_render_list)
+	bool render_me = get_visible();
+
+	e_gui_widget_type type = get_type();
+	if (add_to_render_list != nullptr)
 	{
-		*add_to_render_list = m_type != _gui_text || m_type == _gui_bitmap || m_type == _gui_model;
+		*add_to_render_list = type != _gui_text || type == _gui_bitmap || type == _gui_model;
 	}
-	return m_visible;
+
+	return render_me;
 }
 
 void c_gui_widget::start_animation(e_animation_state animation_state, bool recursive)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABA890, c_gui_widget, start_animation, animation_state, recursive);
 
-	c_gui_widget::start_animation_at_time(animation_state, -1, recursive);
+	start_animation_at_time(animation_state, 0xFFFFFFFF, recursive);
 }
 
 void c_gui_widget::start_animation_at_time(e_animation_state animation_state, uns32 animation_start_time, bool recursive)
@@ -1659,14 +2036,18 @@ void c_gui_widget::update(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABB070, c_gui_widget, update, current_milliseconds);
 
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
+	c_gui_widget* child = get_children();
+	while (child != nullptr)
 	{
-		if (child_widget->m_type == _gui_screen)
+		c_gui_widget* next = child->get_next();
+
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
 		{
-			continue;
+			child->update(current_milliseconds);
 		}
 
-		child_widget->update(current_milliseconds);
+		child = next;
 	}
 }
 
@@ -1674,36 +2055,33 @@ void c_gui_widget::update_animation(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABB0E0, c_gui_widget, update_animation, current_milliseconds);
 
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
+	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
 	{
-		if (child_widget->m_type == _gui_screen)
+		e_gui_widget_type type = child->get_type();
+		if (type != _gui_screen)
 		{
-			continue;
+			child->update_animation(current_milliseconds);
 		}
-
-		child_widget->update_animation(current_milliseconds);
 	}
 
-	c_gui_widget::animate(current_milliseconds);
+	animate(current_milliseconds);
 
-	if (!c_gui_widget::can_be_disposed() || !c_gui_widget::can_all_children_be_disposed())
+	if (can_be_disposed() && can_all_children_be_disposed())
 	{
-		return;
-	}
-
-	switch (m_type)
-	{
-	case _gui_group:
-	case _gui_button_key:
-	{
-		((c_gui_group_widget*)this)->set_dispose_as_display_group(true);
-	}
-	break;
-	case _gui_list:
-	{
-		((c_gui_list_widget*)this)->mark_as_submenu_that_needs_disposal(true);
-	}
-	break;
+		e_gui_widget_type type = get_type();
+		if (type == _gui_group || type == _gui_button_key)
+		{
+			c_gui_group_widget* group_widget = static_cast<c_gui_group_widget*>(this);
+			group_widget->set_dispose_as_display_group(true);
+		}
+		else if (type == _gui_list)
+		{
+			c_gui_list_widget* list = static_cast<c_gui_list_widget*>(this);
+			if (list->is_submenu())
+			{
+				list->mark_as_submenu_that_needs_disposal(true);
+			}
+		}
 	}
 }
 
@@ -1711,19 +2089,16 @@ void c_gui_widget::update_render_state(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00ABB1A0, c_gui_widget, update_render_state, current_milliseconds);
 
-	if (!m_visible)
+	if (m_visible)
 	{
-		return;
-	}
-
-	for (c_gui_widget* child_widget = c_gui_widget::get_children(); child_widget; child_widget = child_widget->get_next())
-	{
-		if (child_widget->m_type == _gui_screen)
+		for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
 		{
-			continue;
+			e_gui_widget_type type = child->get_type();
+			if (type != _gui_screen)
+			{
+				child->update_render_state(current_milliseconds);
+			}
 		}
-
-		child_widget->update_render_state(current_milliseconds);
 	}
 }
 
@@ -1738,26 +2113,49 @@ const char* __cdecl c_gui_widget::widget_name_to_string(int32 name)
 {
 	//return INVOKE(0x00ABB270, c_gui_widget::widget_name_to_string, name);
 
-	return "";
+	char const* string = string_id_get_string_const(name);
+	return string;
 }
 
-const char* __cdecl gui_widget_type_to_string(e_gui_widget_type type)
+const char* __cdecl c_gui_widget::widget_type_to_string(e_gui_widget_type type)
 {
-	//return INVOKE(0x00ABB280, gui_widget_type_to_string, type);
+	//return INVOKE(0x00ABB280, c_gui_widget::widget_type_to_string, type);
 
+	char const* type_name;
 	switch (type)
 	{
-	case _gui_text:       return "text";
-	case _gui_bitmap:     return "bitmap";
-	case _gui_model:      return "model";
-	case _gui_group:      return "group";
-	case _gui_button_key: return "button_key";
-	case _gui_list_item:  return "item";
-	case _gui_slider:     return "slider";
-	case _gui_list:       return "list";
-	case _gui_screen:     return "screen";
+	case _gui_text:
+		type_name = "text";
+		break;
+	case _gui_bitmap:
+		type_name = "bitmap";
+		break;
+	case _gui_model:
+		type_name = "model";
+		break;
+	case _gui_group:
+		type_name = "group";
+		break;
+	case _gui_button_key:
+		type_name = "button_key";
+		break;
+	case _gui_list_item:
+		type_name = "item";
+		break;
+	case _gui_slider:
+		type_name = "slider";
+		break;
+	case _gui_list:
+		type_name = "list";
+		break;
+	case _gui_screen:
+		type_name = "screen";
+		break;
+	default:
+		type_name = "<unknown>";
+		break;
 	}
-	return "<unknown>";
+	return type_name;
 }
 
 bool c_gui_widget::within_focus_chain()

@@ -95,6 +95,7 @@ public:
 public:
 	c_gui_bitmap_widget();
 	static void __cdecl add_definition_fields(const s_bitmap_widget_definition* source_definition, s_runtime_bitmap_widget_definition* dest_definition, real_rectangle2d* positioning_bounds, bool was_templated);
+	static void __cdecl assemble_definition(const s_bitmap_widget_block* template_and_override_block, s_runtime_bitmap_widget_definition* definition, real_rectangle2d* positioning_bounds);
 	bool renders_as_player_emblem() const;
 	void set_sprite_frame(int32 sprite_frame);
 	void set_sprite_sequence(int32 sprite_sequence);

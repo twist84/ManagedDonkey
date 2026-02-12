@@ -1152,7 +1152,7 @@ void c_gui_screen_widget::transfer_focus_without_animations(c_gui_widget* new_fo
 	if (!new_focused_widget->can_receive_focus())
 	{
 		event(_event_verbose, "ui: tried to give focus to an invalid child widget (type= %s, name= %s)",
-			gui_widget_type_to_string(new_focused_widget->m_type),
+			widget_type_to_string(new_focused_widget->m_type),
 			c_gui_widget::widget_name_to_string(new_focused_widget->m_name));
 		return;
 	}

@@ -158,6 +158,7 @@ public:
 	c_gui_text_widget* __thiscall create_text_widget_(const s_runtime_text_widget_definition* definition);
 
 	e_animation_state __thiscall get_ambient_state_();
+	c_gui_widget* __thiscall get_child_widget_(e_gui_widget_type type, int32 name);
 	gui_real_rectangle2d* __thiscall get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 
 	bool __thiscall handle_alt_stick_(const c_controller_input_message* message);
@@ -208,6 +209,7 @@ public:
 
 public:
 	c_gui_widget(e_gui_widget_type type);
+	void add_child_widget(c_gui_widget* child);
 	static void __cdecl add_definition_fields(e_gui_widget_type type, const s_core_widget_definition* source_definition, s_runtime_core_widget_definition* dest_definition, const real_rectangle2d* unanimated_bounds, bool was_templated);
 
 private:
@@ -236,7 +238,11 @@ public:
 	c_gui_widget* get_child_widget(e_gui_widget_type type, int32 name);
 	c_gui_widget* get_children();
 	int32 get_controller_mask() const;
+	bool get_debug_animation_state();
+	bool get_debug_bounds() const;
 	const real_argb_color* get_debug_color();
+	bool get_debug_name() const;
+	bool get_debug_rotation_origin() const;
 	c_gui_widget* get_deepest_widget_that_can_receive_focus();
 	int32 get_definition_index();
 	e_controller_index get_driving_controller() const;
@@ -299,6 +305,7 @@ public:
 	void update_animation(uns32 current_milliseconds);
 	bool verify_animation_period(e_animation_state animation_state, int32 period);
 	static const char* __cdecl widget_name_to_string(int32 name);
+	static const char* __cdecl widget_type_to_string(e_gui_widget_type type);
 
 //protected:
 	int32 __unknown4;
@@ -338,12 +345,12 @@ COMPILE_ASSERT(0x50 == OFFSETOF(c_gui_widget, m_animated_state));
 COMPILE_ASSERT(0xD8 == OFFSETOF(c_gui_widget, m_last_animated_milliseconds));
 COMPILE_ASSERT(0xDC == OFFSETOF(c_gui_widget, __unknownDC));
 
-extern bool gui_debug_text_bounds_global;
-extern bool gui_debug_bitmap_bounds_global;
-extern bool gui_debug_model_bounds_global;
-extern bool gui_debug_list_item_bounds_global;
-extern bool gui_debug_list_bounds_global;
-extern bool gui_debug_group_bounds_global;
-extern bool gui_debug_screen_bounds_global;
+extern bool g_gui_debug_text_bounds;
+extern bool g_gui_debug_bitmap_bounds;
+extern bool g_gui_debug_model_bounds;
+extern bool g_gui_debug_list_item_bounds;
+extern bool g_gui_debug_list_bounds;
+extern bool g_gui_debug_group_bounds;
+extern bool g_gui_debug_screen_bounds;
 
-extern const char* __cdecl gui_widget_type_to_string(e_gui_widget_type type);
+extern const char* __cdecl widget_type_to_string(e_gui_widget_type type);

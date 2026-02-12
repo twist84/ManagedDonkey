@@ -5586,37 +5586,37 @@ EXTERNAL_GLOBAL_DECLARE2(
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_text_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_text_bounds_global,
+	&g_gui_debug_text_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_bitmap_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_bitmap_bounds_global,
+	&g_gui_debug_bitmap_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_model_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_model_bounds_global,
+	&g_gui_debug_model_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_list_item_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_list_item_bounds_global,
+	&g_gui_debug_list_item_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_list_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_list_bounds_global,
+	&g_gui_debug_list_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_group_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_group_bounds_global,
+	&g_gui_debug_group_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE(
 	gui_debug_screen_bounds_global,
 	_hs_type_boolean,
-	&gui_debug_screen_bounds_global,
+	&g_gui_debug_screen_bounds,
 );
 EXTERNAL_GLOBAL_DECLARE2(
 	render_comment_flags,

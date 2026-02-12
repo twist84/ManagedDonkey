@@ -3,31 +3,31 @@
 #include "interface/c_gui_widget.hpp"
 #include "interface/user_interface_text.hpp"
 
-enum e_text_widget_definition_flags
-{
-	_text_widget_definition_flag_left_justify_bit = k_core_widget_definition_flags,
-	_text_widget_definition_flag_right_justify_bit,
-	_text_widget_definition_flag_scrollable_bit,
-	_text_widget_definition_flag_uppercase_bit,
-	_text_widget_definition_flag_string_from_exported_text_bit,
-	_text_widget_definition_flag_string_from_exported_string_id_bit,
-	_text_widget_definition_flag_string_from_exported_global_string_id_bit,
-	_text_widget_definition_flag_string_from_exported_integer_bit,
-	_text_widget_definition_flag_string_from_list_item_label_bit,
-	_text_widget_definition_flag_use_brackets_to_indicate_focus_bit,
-	_text_widget_definition_flag_large_text_buffer_255_chars_bit,
-	_text_widget_definition_flag_extra_large_text_buffer_bit,
-	_text_widget_definition_flag_single_drop_shadow_bit,
-	_text_widget_definition_flag_no_drop_shadow_bit,
-	_text_widget_definition_flag_allow_list_item_to_override_animation_skin_bit,
-	_text_widget_definition_flag_do_not_wrap_text_bit,
-
-	k_text_widget_definition_flags
-};
-
 struct s_text_widget_definition :
 	s_core_widget_definition
 {
+	enum e_text_widget_definition_flags
+	{
+		_left_justify_text_bit = k_core_widget_definition_flags,
+		_right_justify_text_bit,
+		_scrollable_text_bit,
+		_uppercase_text_bit,
+		_attach_string_to_exported_text_bit,
+		_attach_string_to_exported_string_id_bit,
+		_attach_string_to_exported_global_string_id_bit,
+		_attach_string_to_exported_integer_bit,
+		_attach_string_to_parent_list_item_label_bit,
+		_use_backets_to_indicate_focus_bit,
+		_large_text_field_bit,
+		_extra_large_text_field_bit,
+		_standard_drop_shadow_bit,
+		_no_drop_shadow_bit,
+		_allow_list_item_to_override_animation_skin,
+		_do_not_wrap_horizontally_bit,
+
+		k_number_of_text_widget_definition_flags
+	};
+
 	string_id value_override_list;
 	string_id value_identifier;
 	string_id text_color_preset;

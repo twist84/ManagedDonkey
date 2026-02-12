@@ -293,6 +293,11 @@ bool c_gui_list_widget::invoke_submenu(const s_list_widget_block* submenu_defini
 	return DECLFUNC(0x00B15CD0, bool, __thiscall, c_gui_list_widget*, const s_list_widget_block*, int32, bool)(this, submenu_definition, custom_datasource_name, reset_datasource);
 }
 
+bool c_gui_list_widget::is_submenu() const
+{
+	return m_is_submenu;
+}
+
 bool c_gui_list_widget::is_submenu_that_needs_disposal() const
 {
 	//return INVOKE_CLASS_MEMBER(0x00B15EA0, c_gui_list_widget, is_submenu_that_needs_disposal);

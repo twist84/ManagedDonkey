@@ -428,8 +428,8 @@ void c_window_manager::debug_widget_state_for_screen(c_gui_screen_widget* screen
 	//if (child_widget)
 	//{
 	//	event(_event_warning, "ui: failed to find widget of type '%s' named '%s'",
-	//		gui_widget_type_to_string(type),
-	//		string_id_get_string_const(name));
+	//		c_gui_widget::widget_type_to_string(type),
+	//		c_gui_widget::widget_name_to_string(name));
 	//	return;
 	//}
 	//
