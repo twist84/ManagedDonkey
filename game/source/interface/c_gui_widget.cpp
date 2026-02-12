@@ -25,6 +25,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AB82C0, c_gui_widget, create_list_item_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget_);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB8720, c_gui_widget, get_ambient_state_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9980, c_gui_widget, handle_alt_stick_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab_);
@@ -72,6 +73,11 @@ c_gui_model_widget* __thiscall c_gui_widget::create_model_widget_(const s_model_
 c_gui_text_widget* __thiscall c_gui_widget::create_text_widget_(const s_runtime_text_widget_definition* definition)
 {
 	return c_gui_widget::create_text_widget(definition);
+}
+
+e_animation_state __thiscall c_gui_widget::get_ambient_state_()
+{
+	return c_gui_widget::get_ambient_state();
 }
 
 gui_real_rectangle2d* __thiscall c_gui_widget::get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation)
@@ -390,7 +396,70 @@ void c_gui_widget::dispose()
 
 e_animation_state c_gui_widget::get_ambient_state()
 {
-	return INVOKE_CLASS_MEMBER(0x00AB8720, c_gui_widget, get_ambient_state);
+	//return INVOKE_CLASS_MEMBER(0x00AB8720, c_gui_widget, get_ambient_state);
+
+	e_animation_state ambient_state;
+
+	c_gui_list_widget* parent_list = c_gui_widget::get_parent_list();
+	if (parent_list != nullptr && parent_list->has_active_submenu())
+	{
+		ambient_state = within_focus_chain() ? _child_submenu_ambient_focused : _child_submenu_ambient_unfocused;
+	}
+	else
+	{
+		ambient_state = k_invalid_animation_state;
+	}
+
+	if (ambient_state == k_invalid_animation_state)
+	{
+		bool has_focus = c_gui_widget::within_focus_chain();
+		if (!has_focus)
+		{
+			e_gui_widget_type type = get_type();
+			if (type != _gui_list && parent_list != nullptr && parent_list->list_selection_visible_without_focus())
+			{
+				c_gui_list_item_widget* list_item;
+
+				if (type == _gui_list_item)
+				{
+					list_item = static_cast<c_gui_list_item_widget*>(this);
+				}
+				else
+				{
+					list_item = get_parent_list_item();
+				}
+
+				if (list_item != nullptr)
+				{
+					int32 focused_item_index = parent_list->get_focused_item_index();
+					int32 list_item_index = focused_item_index - parent_list->get_scroll_position();
+					has_focus = list_item_index == list_item->get_list_item_index();
+				}
+			}
+		}
+
+		//if (get_enabled() && !has_focus && has_highlight())
+		//{
+		//	ambient_state = _mouse_hover_ambient;
+		//}
+		//else
+		{
+			if (!get_enabled())
+			{
+				ambient_state = has_focus ? _focused_disabled_ambient : _unfocused_disabled_ambient;
+			}
+			else if (m_use_alternate_ambient_state)
+			{
+				ambient_state = has_focus ? _alternate_focused_ambient : _alternate_unfocused_ambient;
+			}
+			else
+			{
+				ambient_state = has_focus ? _focused_ambient : _unfocused_ambient;
+			}
+		}
+	}
+
+	return ambient_state;
 }
 
 //.text:00AB8810 ; 

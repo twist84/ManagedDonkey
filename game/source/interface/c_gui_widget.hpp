@@ -157,6 +157,7 @@ public:
 	c_gui_model_widget* __thiscall create_model_widget_(const s_model_widget_block* definition);
 	c_gui_text_widget* __thiscall create_text_widget_(const s_runtime_text_widget_definition* definition);
 
+	e_animation_state __thiscall get_ambient_state_();
 	gui_real_rectangle2d* __thiscall get_unprojected_bounds_(gui_real_rectangle2d* unprojected_bounds, bool apply_translation, bool apply_scale, bool apply_rotation);
 
 	bool __thiscall handle_alt_stick_(const c_controller_input_message* message);
