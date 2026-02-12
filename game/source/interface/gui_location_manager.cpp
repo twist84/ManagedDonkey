@@ -24,7 +24,7 @@ HOOK_DECLARE(0x00ADF9D0, location_manager_get);
 HOOK_DECLARE(0x00ADF9E0, location_manager_start);
 HOOK_DECLARE(0x00ADF9F0, location_manager_stop);
 
-const long k_location_change_throttle_threshold = 30;
+const int32 k_location_change_throttle_threshold = 30;
 
 void __thiscall c_gui_location_manager::update_()
 {

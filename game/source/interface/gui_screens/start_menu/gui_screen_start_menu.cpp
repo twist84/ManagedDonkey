@@ -305,7 +305,7 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(const 
 		}
 		else if (controller->in_use() && controller->get_user_index() != INT16_MAX)
 		{
-			unsigned long long target_player_xuid = controller->get_player_xuid();
+			uns64 target_player_xuid = controller->get_player_xuid();
 
 			s_player_identifier target_player_id;
 			controller->get_player_identifier(&target_player_id);
@@ -398,7 +398,7 @@ void c_start_menu_screen_widget::load_pane(int32 pane_to_load, bool is_top_level
 		{
 			s_start_menu_breadcrumb* previous_breadcrumb = m_breadcrumbs.get_top();
 
-			long element_handle = NONE;
+			int32 element_handle = NONE;
 			if (current_pane)
 			{
 				c_gui_widget* focused_widget = get_focused_widget();

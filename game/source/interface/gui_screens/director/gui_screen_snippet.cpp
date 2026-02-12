@@ -72,7 +72,7 @@ bool c_saved_film_snippet_screen::handle_list_item_chosen(const c_controller_inp
 	if (list_name == STRING_ID(gui, snippet_option_list))
 	{
 		string_id item_name = _string_id_invalid;
-		long element_handle = list_item_widget->get_element_handle();
+		int32 element_handle = list_item_widget->get_element_handle();
 		if (datasource->get_string_id_value(element_handle, STRING_ID(gui, gui_item), &item_name))
 		{
 			e_controller_index controller_index = message->get_controller();

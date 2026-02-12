@@ -542,7 +542,7 @@ void events_debug_render()
 		if (current_time - event_globals.last_console_response_event_time <= 1000)
 		{
 			const char* spinner_chars[] = { "/", "-", "\\" };
-			long spinner_index = (8 * current_time / 1000) % 3;
+			int32 spinner_index = (8 * current_time / 1000) % 3;
 			const char* spinner_text = spinner_chars[spinner_index];
 			draw_string.draw(nullptr, spinner_text);
 		}
@@ -1352,7 +1352,7 @@ void event_generated_handle_console(e_event_level event_level, int32 category_in
 	write_to_console(event_level, category_index, final_text);
 }
 
-void format_event_for_log(char* buffer, long buffer_size, e_event_level event_level, const char* custom_event_category_buffer, const char* context_text, const char* event_text)
+void format_event_for_log(char* buffer, int32 buffer_size, e_event_level event_level, const char* custom_event_category_buffer, const char* context_text, const char* event_text)
 {
 	ASSERT(VALID_INDEX(event_level, NUMBEROF(k_event_level_severity_strings)));
 
@@ -1664,7 +1664,7 @@ void event_set_remote_log_level_global(int32 remote_log_level)
 	}
 }
 
-static void event_set_category_level_by_name_internal(char const* category, c_category_properties_flags flags, e_event_level event_level, long event_listener_index, bool display_results_to_console)
+static void event_set_category_level_by_name_internal(char const* category, c_category_properties_flags flags, e_event_level event_level, int32 event_listener_index, bool display_results_to_console)
 {
 	// $IMPLEMENT
 }

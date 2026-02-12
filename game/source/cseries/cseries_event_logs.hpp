@@ -90,5 +90,5 @@ extern void event_logs_work_function();
 extern void flush_event_log_cache();
 extern void write_event_log_cache_entry(bool use_report_buffers, int32 event_log_index, const char* string, bool flush);
 extern void write_to_event_log(const int32* event_log_indices, int32 event_log_count, const char* string);
-extern void write_to_event_log_cache(const long* event_log_indices, long event_log_count, const char* string);
+extern void write_to_event_log_cache(const int32* event_log_indices, int32 event_log_count, const char* string);
 

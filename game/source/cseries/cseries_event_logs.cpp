@@ -435,7 +435,7 @@ void write_to_event_log(const int32* event_log_indices, int32 event_log_count, c
 	}
 }
 
-void write_to_event_log_cache(const long* event_log_indices, long event_log_count, const char* string)
+void write_to_event_log_cache(const int32* event_log_indices, int32 event_log_count, const char* string)
 {
 	ASSERT(string);
 	ASSERT(event_log_indices);

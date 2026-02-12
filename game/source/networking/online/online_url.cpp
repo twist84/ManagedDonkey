@@ -250,7 +250,7 @@ void __cdecl online_url_make_cache_key(const c_url_string* url, s_network_storag
 
 	//c_static_string<256> url_string;
 	//{
-	//	long remove_length;
+	//	int32 remove_length;
 	//	c_static_string<256> temp;
 	//}
 }

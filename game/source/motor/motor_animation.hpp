@@ -18,5 +18,5 @@ COMPILE_ASSERT(0xF == _motor_resource_mask_all);
 COMPILE_ASSERT(0xC == _motor_resource_mask_impulse);
 COMPILE_ASSERT(0x1 == _motor_resource_mask_state);
 
-extern bool __cdecl motor_animation_resource_busy(long mover_index, e_motor_resource resource);
+extern bool __cdecl motor_animation_resource_busy(int32 mover_index, e_motor_resource resource);
 

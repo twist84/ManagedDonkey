@@ -216,7 +216,7 @@ void c_session_tracker::dispose()
 
 //.text:004E2960 ; 
 //.text:004E2970 ; 
-//.text:004E2980 ; public: static long c_static_array<s_session_tracker_qos_attempt, 10>::get_count(void)
+//.text:004E2980 ; public: static int32 c_static_array<s_session_tracker_qos_attempt, 10>::get_count(void)
 
 int32 c_session_tracker::get_maximum_qos_target_count(e_transport_qos_type qos_type)
 {

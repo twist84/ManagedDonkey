@@ -330,8 +330,8 @@ void __cdecl chud_update(real32 world_seconds_elapsed)
 //.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(int32 user_index, int32 grenade_slot_index)
 //.text:00A8AB70 ; void __cdecl chud_user_tried_banned_vehicle_entrance(int32 user_index)
 //.text:00A8ABC0 ; 
-//.text:00A8ABD0 ; public: long c_chud_update_user_data::compute_actual_widget_state(int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, int32 desired_widget_state, int32 current_widget_state, int32 current_widget_timer)
-//.text:00A8AD70 ; public: long c_chud_update_user_data::compute_desired_widget_state(int32 user_index, int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, bool* hidden)
+//.text:00A8ABD0 ; public: int32 c_chud_update_user_data::compute_actual_widget_state(int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, int32 desired_widget_state, int32 current_widget_state, int32 current_widget_timer)
+//.text:00A8AD70 ; public: int32 c_chud_update_user_data::compute_desired_widget_state(int32 user_index, int32 chud_definition_index, int32 collection_index, int32 widget_index, int32 weapon_index, bool* hidden)
 
 void c_chud_update_user_data::compute_weapon_update(int32 weapon_index, int32 chud_definition_type, const s_aim_assist_targeting_result* aim_assist_targeting)
 {

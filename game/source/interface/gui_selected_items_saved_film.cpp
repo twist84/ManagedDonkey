@@ -238,7 +238,7 @@ int __cdecl saved_film_sort_proc(const void* a, const void* b)
 	return INVOKE(0x00ADD2E0, saved_film_sort_proc, a, b);
 }
 
-//.text:00ADD3A0 ; public: void c_static_array<c_gui_saved_film_selected_item, 151>::sort(long, int(__cdecl*)(const void *, const void*))
+//.text:00ADD3A0 ; public: void c_static_array<c_gui_saved_film_selected_item, 151>::sort(int32, int(__cdecl*)(const void *, const void*))
 //.text:00ADD3C0 ; public: virtual void c_gui_saved_film_subitem_datasource::update()
 
 void c_gui_saved_film_subitem_datasource::update_autosave_enumeration()

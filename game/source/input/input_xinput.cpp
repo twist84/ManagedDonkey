@@ -226,7 +226,7 @@ bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec
 	XINPUT_STATE xinput_state{};
 	if (XInputGetState_proxy(gamepad_index, &xinput_state) == ERROR_SUCCESS)
 	{
-		for (long button_index = FIRST_GAMEPAD_BINARY_BUTTON; button_index < NUMBER_OF_GAMEPAD_BUTTONS; button_index++)
+		for (int32 button_index = FIRST_GAMEPAD_BINARY_BUTTON; button_index < NUMBER_OF_GAMEPAD_BUTTONS; button_index++)
 		{
 			bool binary_down = TEST_MASK(xinput_state.Gamepad.wButtons, button_to_xinput_button_mask[button_index]);
 			update_button(
@@ -242,7 +242,7 @@ bool __cdecl input_xinput_update_gamepad(uns32 gamepad_index, uns32 elapsed_msec
 		update_trigger(xinput_state.Gamepad.bLeftTrigger, &in_out_gamepad_state->analog_buttons[_gamepad_analog_button_left_trigger]);
 		update_trigger(xinput_state.Gamepad.bRightTrigger, &in_out_gamepad_state->analog_buttons[_gamepad_analog_button_right_trigger]);
 
-		for (long button_index = 0; button_index < NUMBER_OF_GAMEPAD_ANALOG_BUTTONS; button_index++)
+		for (int32 button_index = 0; button_index < NUMBER_OF_GAMEPAD_ANALOG_BUTTONS; button_index++)
 		{
 			bool binary_down = in_out_gamepad_state->analog_buttons[button_index] > in_out_gamepad_state->analog_button_thresholds[button_index];
 			update_button(

@@ -413,7 +413,7 @@ bool hs_parse_inequality(int16 function_index, int32 expression_index)
 	ASSERT(function_index >= _hs_function_gt && function_index <= _hs_function_lte);
 
 	bool success = false;
-	long parameter_indices[2];
+	int32 parameter_indices[2];
 	if (hs_get_parameter_indices(hs_function_get(function_index)->name, NUMBEROF(parameter_indices), parameter_indices, expression_index))
 	{
 		if (hs_parse(parameter_indices[0], _hs_unparsed)
