@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef COMPILE_ASSERT
-#define COMPILE_ASSERT(EXPRESSION) typedef char __static_assert_t[(EXPRESSION) ? 1 : -1]
+#define COMPILE_ASSERT(EXPRESSION, ...) typedef char __static_assert_t[(EXPRESSION) ? 1 : -1]
 //#define COMPILE_ASSERT(EXPR) static_assert((EXPR), #EXPR)
 #endif // COMPILE_ASSERT
 
