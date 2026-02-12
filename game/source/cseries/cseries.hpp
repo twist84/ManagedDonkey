@@ -239,7 +239,7 @@ extern int32 csstricmp(const char* s1, const char* s2);
 extern int32 csstrcmp(const char* s1, const char* s2);
 extern int32 csstrnicmp(const char* s1, const char* s2, uns32 max_count);
 extern char* __cdecl csstristr(const char* s1, const char* s2);
-extern char* csstrnzcpy(char* s1, const char* s2, uns32 size);
+extern char* csstrnzcpy(char* s1, const char* s2, uns32 s1_size);
 extern char* csstrnzcat(char* s1, const char* s2, uns32 size);
 extern uns32 csstrnlen(const char* s, uns32 size);
 extern char* csstrnupr(char* s, uns32 size);

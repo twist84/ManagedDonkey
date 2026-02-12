@@ -190,15 +190,24 @@ char* __cdecl csstristr(const char* s1, const char* s2)
 	return INVOKE(0x00401520, csstristr, s1, s2);
 }
 
-char* csstrnzcpy(char* s1, const char* s2, uns32 size)
+char* csstrnzcpy(char* s1, const char* s2, uns32 s1_size)
 {
 	ASSERT(s1 && s2);
-	ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
+	ASSERT(s1_size > 0 && s1_size <= MAXIMUM_STRING_SIZE);
 
-	char* result = strncpy(s1, s2, size);
-	s1[size - 1] = 0;
+	size_t len = csstrnlen(s2, s1_size);
+	strncpy_s(s1, s1_size, s2, _TRUNCATE);
 
-	return result;
+	if (len < s1_size)
+	{
+		csmemset(&s1[len], 0, s1_size - len);
+	}
+	else
+	{
+		s1[s1_size - 1] = 0;
+	}
+
+	return s1;
 }
 
 char* csstrnzcat(char* s1, const char* s2, uns32 size)
