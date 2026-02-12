@@ -302,7 +302,7 @@ void c_gui_location_manager::update()
 		update_change_location();
 
 		e_gui_location current_networking_location = user_interface_networking_get_current_location();
-		if (current_networking_location != _gui_location_none && user_interface_networking_get_start_game_when_ready())
+		if (current_networking_location != _gui_location_none && !user_interface_networking_get_start_game_when_ready())
 		{
 			if (m_location_mode == _location_mode_unset || current_networking_location)
 			{
