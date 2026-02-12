@@ -202,14 +202,15 @@ COMPILE_ASSERT(sizeof(s_sound_effect_datum) == 0x64);
 class c_sound_playback_controller :
 	public s_datum_header
 {
-	// reference ^= (reference ^ (reference + 1)) & 0x3F
-	uns8 reference;
-
-	int8 m_ready_count;
-	int32 identifier;
-	uns32 random_seed;
-
-	byte __dataC[0x10];
+	uns8 m_reference_count : 6;
+	int8 m_flip_flop : 1;
+	int8 m_unused : 1;
+	uns8 m_ready_count : 6;
+	int8 m_ever_synchronized : 1;
+	int8 m_synchronized_yet : 1;
+	int32 m_controller_identifier;
+	uns32 m_random_seed;
+	real32 m_doppler_shift[4];
 };
 COMPILE_ASSERT(sizeof(c_sound_playback_controller) == 0x1C);
 
