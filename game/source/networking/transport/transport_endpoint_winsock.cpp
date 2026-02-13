@@ -503,14 +503,14 @@ bool __cdecl transport_endpoint_get_socket_address(const transport_address* addr
 		ipv6_address->sin6_family = AF_INET6;
 		ipv6_address->sin6_port = bswap_uns16(address->port);
 		ipv6_address->sin6_flowinfo = 0;
-		ipv6_address->sin6_addr.s6_words[0] = bswap_uns16(address->ina6.words[0]);
-		ipv6_address->sin6_addr.s6_words[1] = bswap_uns16(address->ina6.words[1]);
-		ipv6_address->sin6_addr.s6_words[2] = bswap_uns16(address->ina6.words[2]);
-		ipv6_address->sin6_addr.s6_words[3] = bswap_uns16(address->ina6.words[3]);
-		ipv6_address->sin6_addr.s6_words[4] = bswap_uns16(address->ina6.words[4]);
-		ipv6_address->sin6_addr.s6_words[5] = bswap_uns16(address->ina6.words[5]);
-		ipv6_address->sin6_addr.s6_words[6] = bswap_uns16(address->ina6.words[6]);
-		ipv6_address->sin6_addr.s6_words[7] = bswap_uns16(address->ina6.words[7]);
+		ipv6_address->sin6_addr.s6_words[0] = bswap_uns16(address->ipv6_address[0]);
+		ipv6_address->sin6_addr.s6_words[1] = bswap_uns16(address->ipv6_address[1]);
+		ipv6_address->sin6_addr.s6_words[2] = bswap_uns16(address->ipv6_address[2]);
+		ipv6_address->sin6_addr.s6_words[3] = bswap_uns16(address->ipv6_address[3]);
+		ipv6_address->sin6_addr.s6_words[4] = bswap_uns16(address->ipv6_address[4]);
+		ipv6_address->sin6_addr.s6_words[5] = bswap_uns16(address->ipv6_address[5]);
+		ipv6_address->sin6_addr.s6_words[6] = bswap_uns16(address->ipv6_address[6]);
+		ipv6_address->sin6_addr.s6_words[7] = bswap_uns16(address->ipv6_address[7]);
 		ipv6_address->sin6_scope_id = 0;
 
 		*socket_address_size = sizeof(sockaddr_in6);
@@ -554,14 +554,14 @@ bool __cdecl transport_endpoint_get_transport_address(int32 socket_address_lengt
 		const sockaddr_in6* ipv6_address = (const sockaddr_in6*)socket_address;
 		ASSERT(ipv6_address->sin6_family == AF_INET6);
 
-		address->ina6.words[0] = bswap_uns16(ipv6_address->sin6_addr.s6_words[0]);
-		address->ina6.words[1] = bswap_uns16(ipv6_address->sin6_addr.s6_words[1]);
-		address->ina6.words[2] = bswap_uns16(ipv6_address->sin6_addr.s6_words[2]);
-		address->ina6.words[3] = bswap_uns16(ipv6_address->sin6_addr.s6_words[3]);
-		address->ina6.words[4] = bswap_uns16(ipv6_address->sin6_addr.s6_words[4]);
-		address->ina6.words[5] = bswap_uns16(ipv6_address->sin6_addr.s6_words[5]);
-		address->ina6.words[6] = bswap_uns16(ipv6_address->sin6_addr.s6_words[6]);
-		address->ina6.words[7] = bswap_uns16(ipv6_address->sin6_addr.s6_words[7]);
+		address->ipv6_address[0] = bswap_uns16(ipv6_address->sin6_addr.s6_words[0]);
+		address->ipv6_address[1] = bswap_uns16(ipv6_address->sin6_addr.s6_words[1]);
+		address->ipv6_address[2] = bswap_uns16(ipv6_address->sin6_addr.s6_words[2]);
+		address->ipv6_address[3] = bswap_uns16(ipv6_address->sin6_addr.s6_words[3]);
+		address->ipv6_address[4] = bswap_uns16(ipv6_address->sin6_addr.s6_words[4]);
+		address->ipv6_address[5] = bswap_uns16(ipv6_address->sin6_addr.s6_words[5]);
+		address->ipv6_address[6] = bswap_uns16(ipv6_address->sin6_addr.s6_words[6]);
+		address->ipv6_address[7] = bswap_uns16(ipv6_address->sin6_addr.s6_words[7]);
 		address->port = bswap_uns16(ipv6_address->sin6_port);
 		address->address_length = IPV6_ADDRESS_LENGTH;
 

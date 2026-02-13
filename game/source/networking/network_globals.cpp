@@ -828,7 +828,7 @@ void network_test_ipv6(const char* host, const char* port, const char* url)
 				if (ptr->ai_family == AF_INET)
 				{
 					sockaddr_in* ipv4 = (sockaddr_in*)ptr->ai_addr;
-					out_address->address_length = sizeof(out_address->ina);
+					out_address->address_length = sizeof(out_address->ipv4_address);
 					out_address->port = bswap_uns16(ipv4->sin_port);
 					out_address->ipv4_address = bswap_uns32(ipv4->sin_addr.s_addr);
 					break;
@@ -836,11 +836,11 @@ void network_test_ipv6(const char* host, const char* port, const char* url)
 				else if (ptr->ai_family == AF_INET6)
 				{
 					sockaddr_in6* ipv6 = (sockaddr_in6*)ptr->ai_addr;
-					out_address->address_length = sizeof(out_address->ina6);
+					out_address->address_length = sizeof(out_address->ipv6_address);
 					out_address->port = bswap_uns16(ipv6->sin6_port);
-					for (int32 i = 0; i < NUMBEROF(out_address->ina6.words); ++i)
+					for (int32 i = 0; i < NUMBEROF(out_address->ipv6_address); ++i)
 					{
-						out_address->ina6.words[i] = bswap_uns16(ipv6->sin6_addr.u.Word[i]);
+						out_address->ipv6_address[i] = bswap_uns16(ipv6->sin6_addr.u.Word[i]);
 					}
 					break;
 				}

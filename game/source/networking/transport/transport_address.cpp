@@ -81,7 +81,7 @@ void __cdecl transport_address_ipv6_build(transport_address* address, const uns1
 {
 	ASSERT(address);
 
-	csmemcpy(&address->ina6, ipv6_address, IPV6_ADDRESS_LENGTH);
+	csmemcpy(address->ipv6_address, ipv6_address, IPV6_ADDRESS_LENGTH);
 	address->address_length = IPV6_ADDRESS_LENGTH;
 	address->port = port;
 }
@@ -108,7 +108,7 @@ bool __cdecl transport_address_is_loopback(const transport_address* address)
 		loopback = address->ipv4_address == IPV4_LOOPBACK_ADDRESS;
 		break;
 	case IPV6_ADDRESS_LENGTH:
-		loopback = csmemcmp(&address->ina6, IPV6_LOOPBACK_ADDRESS, IPV6_ADDRESS_LENGTH) == 0;
+		loopback = csmemcmp(&address->ipv6_address, IPV6_LOOPBACK_ADDRESS, IPV6_ADDRESS_LENGTH) == 0;
 		break;
 	}
 	return loopback;
@@ -132,10 +132,10 @@ char* __cdecl transport_address_to_string(const transport_address* address, cons
 	case IPV4_ADDRESS_LENGTH:
 	{
 		csnzprintf(string, maximum_string_length, "%hd.%hd.%hd.%hd",
-			address->ina.bytes[3],
-			address->ina.bytes[2],
-			address->ina.bytes[1],
-			address->ina.bytes[0]);
+			address->ipv4_bytes[3],
+			address->ipv4_bytes[2],
+			address->ipv4_bytes[1],
+			address->ipv4_bytes[0]);
 
 		if (include_port)
 		{
@@ -246,7 +246,7 @@ void __cdecl transport_get_broadcast_address(transport_address* address, uns16 p
 	ASSERT(address);
 
 #ifdef USE_IPV6
-	csmemcpy(&address->ina6, IPV6_BROADCAST_ADDRESS, IPV6_ADDRESS_LENGTH);
+	csmemcpy(&address->ipv6_address, IPV6_BROADCAST_ADDRESS, IPV6_ADDRESS_LENGTH);
 	address->address_length = IPV6_ADDRESS_LENGTH;
 	address->port = port;
 #else
@@ -263,7 +263,7 @@ void __cdecl transport_get_listen_address(transport_address* address, uns16 port
 	ASSERT(address);
 
 #ifdef USE_IPV6
-	csmemcpy(&address->ina6, IPV6_UNKNOWN_ADDRESS, IPV6_ADDRESS_LENGTH);
+	csmemcpy(&address->ipv6_address, IPV6_UNKNOWN_ADDRESS, IPV6_ADDRESS_LENGTH);
 	address->address_length = IPV6_ADDRESS_LENGTH;
 	address->port = port;
 #else
@@ -280,7 +280,7 @@ void __cdecl transport_get_loopback_address(transport_address* address, uns16 po
 	ASSERT(address);
 
 #ifdef USE_IPV6
-	csmemcpy(&address->ina6, IPV6_LOOPBACK_ADDRESS, IPV6_ADDRESS_LENGTH);
+	csmemcpy(&address->ipv6_address, IPV6_LOOPBACK_ADDRESS, IPV6_ADDRESS_LENGTH);
 	address->address_length = IPV6_ADDRESS_LENGTH;
 	address->port = port;
 #else
@@ -295,10 +295,10 @@ void transport_address_from_string(const wchar_t* str, transport_address& addres
 	uns8 ip_addr[4]{};
 	if (swscanf_s(str, L"%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
 	{
-		address.ina.bytes[0] = ip_addr[0];
-		address.ina.bytes[1] = ip_addr[1];
-		address.ina.bytes[2] = ip_addr[2];
-		address.ina.bytes[3] = ip_addr[3];
+		address.ipv4_bytes[0] = ip_addr[0];
+		address.ipv4_bytes[1] = ip_addr[1];
+		address.ipv4_bytes[2] = ip_addr[2];
+		address.ipv4_bytes[3] = ip_addr[3];
 
 		address.address_length = IPV4_ADDRESS_LENGTH;
 	}
@@ -309,10 +309,10 @@ void transport_address_from_string(const char* str, transport_address& address)
 	uns8 ip_addr[4]{};
 	if (sscanf_s(str, "%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
 	{
-		address.ina.bytes[0] = ip_addr[0];
-		address.ina.bytes[1] = ip_addr[1];
-		address.ina.bytes[2] = ip_addr[2];
-		address.ina.bytes[3] = ip_addr[3];
+		address.ipv4_bytes[0] = ip_addr[0];
+		address.ipv4_bytes[1] = ip_addr[1];
+		address.ipv4_bytes[2] = ip_addr[2];
+		address.ipv4_bytes[3] = ip_addr[3];
 
 		address.address_length = IPV4_ADDRESS_LENGTH;
 	}

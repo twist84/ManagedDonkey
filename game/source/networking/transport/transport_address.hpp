@@ -32,21 +32,7 @@ struct transport_address
 		uns32 ipv4_address;
 		uns16 ipv6_address[8];
 
-		// in_addr
-		// address_length == 0x4
-		union
-		{
-			uns8 bytes[4];
-			uns16 words[2];
-		} ina;
-
-		// in6_addr
-		// address_length == 0x10
-		union
-		{
-			uns8 bytes[16];
-			uns16 words[8];
-		} ina6;
+		uns8 ipv4_bytes[sizeof(ipv4_address)];
 
 		// address_length == 0xFFFF
 		const char* file_socket_name;
