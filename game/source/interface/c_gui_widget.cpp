@@ -1294,34 +1294,43 @@ gui_real_rectangle2d* c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d*
 {
 	//INVOKE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds, unprojected_bounds, apply_translation, apply_scale, apply_rotation);
 
-	real_rectangle2d authored_bounds{};
+	ASSERT(unprojected_bounds != nullptr);
+
+	//const s_animation_transform* transform = get_animated_state();
+	const s_animation_transform* transform = &m_animated_state;
+
+	real_rectangle2d authored_bounds;
 	get_current_bounds(&authored_bounds);
 	unprojected_bounds->set(&authored_bounds);
 
 	if (apply_scale)
 	{
-		unprojected_bounds->scale_about_local_point(&m_animated_state.local_scale_origin, &m_animated_state.scale);
+		unprojected_bounds->scale_about_local_point(&transform->local_scale_origin, &transform->scale);
 	}
 
 	if (apply_rotation)
 	{
-		unprojected_bounds->rotate_about_local_point(&m_animated_state.local_rotation_origin, m_animated_state.sine_rotation_angle, m_animated_state.cosine_rotation_angle);
+		unprojected_bounds->rotate_about_local_point(&transform->local_rotation_origin, transform->sine_rotation_angle, transform->cosine_rotation_angle);
 	}
 
 	if (apply_translation)
 	{
-		unprojected_bounds->offset(m_animated_state.position.x, m_animated_state.position.y);
+		unprojected_bounds->offset(transform->position.x, transform->position.y);
 	}
 
-	// this is more or less what Halo 3 MCC is doing
-
-	rectangle2d render_window_bounds;
-	interface_get_current_display_settings(nullptr, nullptr, &render_window_bounds, nullptr);
-
-	real_vector2d scale{};
-	scale.i = rectangle2d_width(&render_window_bounds) / 1152.0f;
-	scale.j = rectangle2d_height(&render_window_bounds) / 640.0f;
-	unprojected_bounds->scale_direct(&scale);
+	{
+		rectangle2d render_window_bounds;
+		interface_get_current_display_settings(nullptr, nullptr, &render_window_bounds, nullptr);
+	
+		real32 resolution_scale = (real32)rectangle2d_width(&render_window_bounds);
+		resolution_scale *= (1.0f / 1152.0f);
+	
+		for (size_t index = 0; index < NUMBEROF(unprojected_bounds->vertex); index++)
+		{
+			real_vector2d* vertex = (real_vector2d*)&unprojected_bounds->vertex[index];
+			scale_vector2d(vertex, resolution_scale, vertex);
+		}
+	}
 
 	return unprojected_bounds;
 }
