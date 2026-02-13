@@ -85,7 +85,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x00AB8320, c_gui_widget, create_list_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB8380, c_gui_widget, create_model_widget_);
 //HOOK_DECLARE_CLASS_MEMBER(0x00AB83E0, c_gui_widget, create_text_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB8720, c_gui_widget, get_ambient_state_);
-HOOK_DECLARE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget_);
+//HOOK_DECLARE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB9980, c_gui_widget, handle_alt_stick_);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB99E0, c_gui_widget, handle_alt_tab_);
@@ -401,8 +401,9 @@ bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 
 c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
+	return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
 
+#if 0
 	ASSERT(bitmap_widget_block != nullptr);
 
 	c_gui_widget* parent = get_parent();
@@ -421,6 +422,7 @@ c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bi
 		bitmap_widget->initialize(bitmap_widget_block);
 	}
 	return bitmap_widget;
+#endif
 }
 
 void c_gui_widget::create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index)
@@ -547,7 +549,9 @@ void c_gui_widget::delete_all_children()
 	{
 		c_gui_widget* next = child->get_next();
 
+		//sub_AB9AA0(child);
 		child->set_parent(nullptr);
+		child->dispose();
 		ui_track_delete<c_gui_widget>(child);
 
 		child = next;
@@ -726,8 +730,9 @@ c_gui_text_widget* c_gui_widget::get_child_text_widget(int32 name)
 
 c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type type, int32 name)
 {
-	//return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget, type, name);
+	return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget, get_child_widget, type, name);
 
+#if 0 // $REVIEW
 	c_gui_widget* found_widget = nullptr;
 
 	if (get_type() == type && get_name() == name)
@@ -761,6 +766,7 @@ c_gui_widget* c_gui_widget::get_child_widget(e_gui_widget_type type, int32 name)
 	}
 
 	return found_widget;
+#endif
 }
 
 real_rectangle2d* c_gui_widget::get_container_current_bounds(real_rectangle2d* unanimated_bounds)
