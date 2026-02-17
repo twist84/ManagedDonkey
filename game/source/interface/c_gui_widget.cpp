@@ -1351,12 +1351,19 @@ bool c_gui_widget::handle_alt_stick(const c_controller_input_message* message)
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9980, c_gui_widget, handle_alt_stick, message);
 
-	if (!get_parent())
+	bool handled;
+
+	c_gui_widget* parent = get_parent();
+	if (parent != nullptr)
 	{
-		return false;
+		handled = parent->handle_alt_stick(message);
+	}
+	else
+	{
+		handled = false;
 	}
 
-	return get_parent()->handle_alt_stick(message);
+	return handled;
 }
 
 bool c_gui_widget::handle_alt_tab(const c_controller_input_message* message)
@@ -1382,12 +1389,19 @@ bool c_gui_widget::handle_controller_input_message(const c_controller_input_mess
 {
 	//return INVOKE_CLASS_MEMBER(0x00AB9A40, c_gui_widget, handle_controller_input_message, message);
 
-	if (!get_parent())
+	bool handled;
+
+	c_gui_widget* parent = get_parent();
+	if (parent != nullptr)
 	{
-		return false;
+		handled = parent->handle_controller_input_message(message);
+	}
+	else
+	{
+		handled = false;
 	}
 
-	return get_parent()->handle_controller_input_message(message);
+	return handled;
 }
 
 //.text:00AB9AA0 ; c_gui_widget::handle_?
