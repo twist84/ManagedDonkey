@@ -1,14 +1,10 @@
 #pragma once
 
-#include <intrin.h>
+#include <type_traits>
 
-#pragma intrinsic(_byteswap_ushort)
-#pragma intrinsic(_byteswap_ulong)
-#pragma intrinsic(_byteswap_uint64)
-
-#define bswap_uns16(value) _byteswap_ushort(value)
-#define bswap_uns32(value) _byteswap_ulong(value)
-#define bswap_uns64(value) _byteswap_uint64(value)
+#define bswap_uns16(value) bswap_impl<uns16>(value)
+#define bswap_uns32(value) bswap_impl<uns32>(value)
+#define bswap_uns64(value) bswap_impl<uns64>(value)
 #define bswap_uns16_inplace(value) value = bswap_uns16(value)
 #define bswap_uns32_inplace(value) value = bswap_uns32(value)
 #define bswap_uns64_inplace(value) value = bswap_uns64(value)
@@ -53,4 +49,59 @@ extern void __cdecl byte_swap_data_explicit(const char* name, int32 size, const 
 extern byte_swap_definition* __cdecl byte_swap_definition_verify(byte_swap_definition* definition);
 extern int32 __cdecl byte_swap_get_runtime_byte_order();
 extern void __cdecl byte_swap_memory(void* memory, int32 count, int32 code);
+
+template <typename t_integer>
+constexpr t_integer bswap_impl(t_integer value) noexcept
+	requires std::is_integral_v<t_integer>
+{
+	using t_unsigned = std::make_unsigned_t<t_integer>;
+	t_unsigned unsigned_value = static_cast<t_unsigned>(value);
+
+	if constexpr (sizeof(t_integer) == sizeof(__int8))
+	{
+		return value;
+	}
+	else if constexpr (sizeof(t_integer) == sizeof(__int16))
+	{
+		unsigned_value =
+			(unsigned_value >> 8) |
+			(unsigned_value << 8);
+	}
+	else if constexpr (sizeof(t_integer) == sizeof(__int32))
+	{
+		unsigned_value =
+			((unsigned_value & 0x000000FFu) << 24) |
+			((unsigned_value & 0x0000FF00u) << 8)  |
+			((unsigned_value & 0x00FF0000u) >> 8)  |
+			((unsigned_value & 0xFF000000u) >> 24);
+	}
+	else if constexpr (sizeof(t_integer) == sizeof(__int64))
+	{
+		unsigned_value =
+			((unsigned_value & 0x00000000000000FFull) << 56) |
+			((unsigned_value & 0x000000000000FF00ull) << 40) |
+			((unsigned_value & 0x0000000000FF0000ull) << 24) |
+			((unsigned_value & 0x00000000FF000000ull) << 8)  |
+			((unsigned_value & 0x000000FF00000000ull) >> 8)  |
+			((unsigned_value & 0x0000FF0000000000ull) >> 24) |
+			((unsigned_value & 0x00FF000000000000ull) >> 40) |
+			((unsigned_value & 0xFF00000000000000ull) >> 56);
+	}
+	else
+	{
+		COMPILE_ASSERT(sizeof(t_integer) <= sizeof(__int64), "unsupported integer size");
+	}
+
+	return static_cast<t_integer>(unsigned_value);
+}
+
+template<typename t_integer, int32 t_integer_count>
+constexpr void bswap_array(t_integer(&data)[t_integer_count]) noexcept
+	requires std::is_integral_v<t_integer>
+{
+	for (int32 integer_index = 0; integer_index < t_integer_count; integer_index++)
+	{
+		data[integer_index] = bswap_impl<t_integer>(data[integer_index]);
+	}
+}
 
