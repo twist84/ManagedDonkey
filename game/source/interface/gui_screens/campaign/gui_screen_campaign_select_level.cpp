@@ -394,45 +394,37 @@ bool c_gui_insertion_point_data::initialize(string_id name)
 
 int16 c_gui_insertion_point_data::set_campaign_level_id(e_campaign_id campaign_id, e_map_id map_id)
 {
-	s_level_insertion_datum insertion{};
-	if (!levels_try_and_get_campaign_insertion(map_id, &insertion))
-	{
-		return 0;
-	}
-
-	if (map_id == _map_id_none)
-	{
-		return 0;
-	}
-
-	m_insertion_point_unlocked = 0;
-	m_insertion_point_count = insertion.insertion_point_count;
-	for (int32 insertion_point_index = 0; insertion_point_index < m_insertion_point_count; insertion_point_index++)
-	{
-		ustrnzcpy(m_insertion_point_names[insertion_point_index], insertion.insertion_point_names[insertion_point_index], NUMBEROF(m_insertion_point_names[0]));
-		ustrnzcpy(m_insertion_point_descriptions[insertion_point_index], insertion.insertion_point_descriptions[insertion_point_index], NUMBEROF(m_insertion_point_descriptions[0]));
-	}
-
-	int16 campaign_level_index = levels_get_campaign_level_index(campaign_id, map_id);
-
 	int16 insertion_point_count = 0;
-	for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
+
+	s_level_insertion_datum insertion{};
+	if (levels_try_and_get_campaign_insertion(map_id, &insertion) && map_id != _map_id_none)
 	{
-		c_controller_interface* controller = controller_get(controller_index);
-		if (!controller->in_use())
+		m_insertion_point_unlocked = 0;
+		m_insertion_point_count = insertion.insertion_point_count;
+		for (int32 insertion_point_index = 0; insertion_point_index < m_insertion_point_count; insertion_point_index++)
 		{
-			continue;
+			ustrnzcpy(m_insertion_point_names[insertion_point_index], insertion.insertion_point_names[insertion_point_index], NUMBEROF(m_insertion_point_names[0]));
+			ustrnzcpy(m_insertion_point_descriptions[insertion_point_index], insertion.insertion_point_descriptions[insertion_point_index], NUMBEROF(m_insertion_point_descriptions[0]));
 		}
 
-		c_player_profile_interface* player_profile = controller->get_player_profile_interface();
-		for (int16 insertion_point_index = 0; insertion_point_index < m_insertion_point_count; insertion_point_index++)
+		int16 campaign_level_index = levels_get_campaign_level_index(campaign_id, map_id);
+
+		for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 		{
-			//if (!TEST_BIT(m_insertion_point_unlocked, insertion_point_index) &&
-			//	(player_profile->player_campaign_progress_test_insertion_point(campaign_level_index, insertion_point_index) || !insertion_point_index))
-			//{
-				SET_BIT(m_insertion_point_unlocked, insertion_point_index, true);
-				insertion_point_count++;
-			//}
+			c_controller_interface* controller = controller_get(controller_index);
+			if (controller->in_use())
+			{
+				c_player_profile_interface* player_profile = controller->get_player_profile_interface();
+				for (int16 insertion_point_index = 0; insertion_point_index < m_insertion_point_count; insertion_point_index++)
+				{
+					//if (!TEST_BIT(m_insertion_point_unlocked, insertion_point_index) &&
+					//	(player_profile->player_campaign_progress_test_insertion_point(campaign_level_index, insertion_point_index) || !insertion_point_index))
+					//{
+						SET_BIT(m_insertion_point_unlocked, insertion_point_index, true);
+						insertion_point_count++;
+					//}
+				}
+			}
 		}
 	}
 
