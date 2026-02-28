@@ -922,6 +922,7 @@ void c_network_link::send_data_immediate(int32 packet_mode, const transport_addr
 			else if (bytes_written >= 0)
 			{
 				event(_event_warning, "networking:link:send: send_data_immediate: write underflow %d<%d bytes on packet mode %s to '%s'",
+					bytes_written,
 					packet_data_length,
 					c_network_link::get_packet_mode_string(packet_mode),
 					transport_address_get_string(&full_address));
