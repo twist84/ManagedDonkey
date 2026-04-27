@@ -2124,7 +2124,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 		// "edge drop" fix
 		biped_definition->biped.physics.ground.scale_ground_adhesion_velocity = 30.0f / 60;
 
-		//void __cdecl biped_initialize_character_physics_update_input(int32, s_character_physics_update_input_datum* physics_input, bool, bool, real32, bool, bool)
+		//void __cdecl biped_initialize_character_physics_update_input(int32 biped_index, s_character_physics_update_input_datum* physics_input, bool paralyze, bool biped_airborne, real32 bank, bool relaxed, bool climb_anything)
 		//{
 		//	if (biped_definition->biped.physics.ground.scale_ground_adhesion_velocity > 0.0f)
 		//	{

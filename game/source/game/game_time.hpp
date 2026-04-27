@@ -74,7 +74,7 @@ COMPILE_ASSERT(sizeof(s_game_tick_time_samples) == 0x14);
 struct game_time_globals_definition
 {
 	bool initialized;
-	c_flags<e_game_time_pause_reason, uns16, k_game_time_pause_reason_count> flags;
+	c_flags<e_game_time_pause_reason, uns16, k_game_time_pause_reason_count> paused_flags;
 	int16 tick_rate;
 	real32 tick_length;
 	int32 time;

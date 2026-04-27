@@ -87,7 +87,7 @@ public:
 	bool host_set_player_current_properties(int32 player_index, const s_player_configuration* player_data);
 	void idle();
 	bool initialize_session(int32 session_index, e_network_session_type session_type, c_network_message_gateway* message_gateway, c_network_observer* observer, c_network_session_manager* session_manager);
-	void initiate_leave_protocol(bool leave_immediately);
+	void initiate_leave_protocol(bool immediate);
 	bool is_peer_joining_this_session() const;
 	bool join_abort(const transport_address* incoming_address, uns64 join_nonce);
 	bool join_abort_in_progress(const transport_address* address) const;

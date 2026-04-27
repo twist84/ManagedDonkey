@@ -389,17 +389,15 @@ void __cdecl main_game_configure_map_memory_pop()
 {
 	INVOKE(0x00567230, main_game_configure_map_memory_pop);
 
-	//if (main_game_globals.map_memory_configuration <= _map_memory_configuration_none)
+	//if (main_game_globals.map_memory_configuration > _map_memory_configuration_none)
 	//{
-	//	return;
-	//}
-	//
-	//for (int32 i = NUMBEROF(g_configure_memory_procs); i >= 0; i--)
-	//{
-	//	const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
-	//	if (configure_memory->dispose_memory_proc)
+	//	for (int32 i = NUMBEROF(g_configure_memory_procs); i >= 0; i--)
 	//	{
-	//		configure_memory->dispose_memory_proc();
+	//		const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
+	//		if (configure_memory->dispose_memory_proc)
+	//		{
+	//			configure_memory->dispose_memory_proc();
+	//		}
 	//	}
 	//}
 }
@@ -408,20 +406,18 @@ void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration desi
 {
 	INVOKE(0x00567270, main_game_configure_map_memory_push, desired_memory_configuration);
 
-	//if (desired_memory_configuration <= _map_memory_configuration_none)
+	//if (desired_memory_configuration > _map_memory_configuration_none)
 	//{
-	//	return;
-	//}
+	//	physical_memory_stage_push(_memory_stage_map_configuration);
+	//	main_game_globals.map_memory_configuration = desired_memory_configuration;
 	//
-	//physical_memory_stage_push(_memory_stage_map_configuration);
-	//main_game_globals.map_memory_configuration = desired_memory_configuration;
-	//
-	//for (int32 i = 0; i < NUMBEROF(g_configure_memory_procs); i++)
-	//{
-	//	const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
-	//	if (configure_memory->configure_memory_proc)
+	//	for (int32 i = 0; i < NUMBEROF(g_configure_memory_procs); i++)
 	//	{
-	//		configure_memory->configure_memory_proc(desired_memory_configuration);
+	//		const s_configure_memory* configure_memory = &g_configure_memory_procs[i];
+	//		if (configure_memory->configure_memory_proc)
+	//		{
+	//			configure_memory->configure_memory_proc(desired_memory_configuration);
+	//		}
 	//	}
 	//}
 }

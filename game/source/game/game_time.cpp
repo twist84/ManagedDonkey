@@ -176,7 +176,7 @@ bool __cdecl game_time_get_paused()
 	bool result = false;
 	if (game_time_globals->initialized)
 	{
-		c_flags<e_game_time_pause_reason, uns16, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
+		c_flags<e_game_time_pause_reason, uns16, k_game_time_pause_reason_count>& pause_flags = game_time_globals->paused_flags;
 	
 		bool v1 = game_is_campaign() && !(game_is_playback() && !game_is_authoritative_playback());
 		result = TEST_FLAG(pause_flags, _game_time_pause_debug);
@@ -200,7 +200,7 @@ bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason)
 {
 	//return INVOKE(0x00564E20, game_time_get_paused_for_reason, reason);
 
-	return game_time_globals->initialized && game_time_globals->flags.test(reason);
+	return game_time_globals->initialized && game_time_globals->paused_flags.test(reason);
 }
 
 real32 __cdecl game_time_get_safe_in_seconds()
@@ -268,7 +268,7 @@ void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason)
 
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
-	game_time_globals->flags.set(reason, enable);
+	game_time_globals->paused_flags.set(reason, enable);
 	game_time_update_paused_flags();
 	cinematic_game_pause_handler(game_time_get_paused());
 	sound_game_pause_handler(game_time_get_paused());
@@ -509,43 +509,52 @@ void __cdecl game_time_update_paused_flags()
 
 	if (!game_time_get_paused_for_reason(_game_time_pause_recursion_lock_internal))
 	{
-		game_time_globals->flags.set(_game_time_pause_recursion_lock_internal, true);
+		game_time_globals->paused_flags.set(_game_time_pause_recursion_lock_internal, true);
 	
-		bool v1 = true;
-		if (game_is_campaign() && game_is_or_was_cooperative())
-			v1 = game_is_server() && user_interface_squad_get_machine_count() <= 1;
+		bool campaign_pause_game_allowed =
+			!game_is_campaign() ||
+			!game_is_or_was_cooperative() ||
+			game_is_server() && user_interface_squad_get_machine_count() <= 1;
 	
 		if (bink_playback_active())
-			v1 = false;
+		{
+			campaign_pause_game_allowed = false;
+		}
 	
-		if (game_time_get_paused_for_reason(_game_time_pause_ui) && !v1)
+		if (game_time_get_paused_for_reason(_game_time_pause_ui) && !campaign_pause_game_allowed)
+		{
 			game_time_set_paused(false, _game_time_pause_ui);
+		}
 	
 		for (e_controller_index controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 		{
 			c_controller_interface* controller = controller_get(controller_index);
-			if (controller->in_use() && !controller->is_attached() && v1 && controller->get_user_index() != NONE)
+			if (controller->in_use() && !controller->is_attached() && campaign_pause_game_allowed && controller->get_user_index() != NONE)
 			{
 				game_time_set_paused(true, k_controller_pause_reasons[controller_index]);
 			}
 			else
 			{
 				if (game_time_get_paused_for_reason(k_controller_pause_reasons[controller_index]))
+				{
 					game_time_set_paused(false, k_controller_pause_reasons[controller_index]);
+				}
 			}
 		}
 	
 		if (user_interface_xbox_guide_is_active())
 		{
-			if (v1 && !game_time_get_paused_for_reason(_game_time_pause_xbox_guide_ui))
+			if (campaign_pause_game_allowed && !game_time_get_paused_for_reason(_game_time_pause_xbox_guide_ui))
+			{
 				game_time_set_paused(true, _game_time_pause_xbox_guide_ui);
+			}
 		}
 		else if (game_time_get_paused_for_reason(_game_time_pause_xbox_guide_ui))
 		{
 			game_time_set_paused(false, _game_time_pause_xbox_guide_ui);
 		}
 	
-		game_time_globals->flags.set(_game_time_pause_recursion_lock_internal, false);
+		game_time_globals->paused_flags.set(_game_time_pause_recursion_lock_internal, false);
 	}
 }
 
