@@ -103,7 +103,12 @@ bool __cdecl actor_general_update(int32 actor_index)
 //.text:0142AC90 ; void __cdecl actor_get_timeslices(int32)
 //.text:0142ADB0 ; int32 __cdecl actor_get_weapon(int32)
 //.text:0142AE50 ; void __cdecl actor_handle_change_internal(int32, bool, bool)
-//.text:0142AF40 ; void __cdecl actor_handle_damage(int32, int16, int32, int32, real32, const real_vector3d*)
+
+void __cdecl actor_handle_damage(int32 actor_index, int16 damage_type, int32 damage_aftermath_flags, int32 aggressor_unit_index, real32 damage_fraction, const real_vector3d* damage_velocity)
+{
+	INVOKE(0x0142AF40, actor_handle_damage, actor_index, damage_type, damage_aftermath_flags, aggressor_unit_index, damage_fraction, damage_velocity);
+}
+
 //.text:0142B2C0 ; void __cdecl actor_handle_deleted_actor(int32, int32)
 //.text:0142B350 ; void __cdecl actor_handle_deleted_object(int32, int32)
 

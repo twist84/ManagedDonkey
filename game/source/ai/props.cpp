@@ -45,7 +45,12 @@
 //.text:014A7DA0 ; bool __cdecl prop_perceive(int32, int32, int16, int32, int32, int32)
 //.text:014A7DD0 ; bool __cdecl prop_perceive(int32, int32, int16, e_prop_stimulus, int16, int32, int32, int32)
 //.text:014A8250 ; void __cdecl prop_ref_delete(int32, int32, int32)
-//.text:014A82D0 ; int32 __cdecl prop_ref_get_acknowledged_by_object_index(int32, int32)
+
+int32 __cdecl prop_ref_get_acknowledged_by_object_index(int32 actor_index, int32 object_index)
+{
+	return INVOKE(0x014A82D0, prop_ref_get_acknowledged_by_object_index, actor_index, object_index);
+}
+
 //.text:014A8380 ; int32 __cdecl prop_ref_get_by_object_index(int32, int32)
 //.text:014A83A0 ; int32 __cdecl prop_ref_get_by_object_index(int32, int32, bool, e_clump_importance)
 //.text:014A84E0 ; void __cdecl prop_ref_reset_search(int32, bool)
@@ -65,7 +70,12 @@ prop_state* __cdecl prop_state_get(const prop_ref_datum* pref)
 //.text:014A8C60 ; real32 __cdecl prop_track_weight(int32)
 //.text:014A8D50 ; void __cdecl prop_unacknowledge(int32, int32)
 //.text:014A8DD0 ; prop_view* __cdecl prop_view_get(int32)
-//.text:014A8E20 ; prop_view* __cdecl prop_view_get(const prop_ref_datum*)
+
+prop_view* __cdecl prop_view_get(const prop_ref_datum* pref)
+{
+	return INVOKE(0x014A8E20, prop_view_get, pref);
+}
+
 //.text:014A8E60 ; void __cdecl prop_view_new(prop_view*)
 //.text:014A8EF0 ; void __cdecl prop_view_reset_search(prop_view*)
 

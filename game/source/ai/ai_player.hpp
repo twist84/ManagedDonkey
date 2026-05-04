@@ -22,6 +22,7 @@ COMPILE_ASSERT(sizeof(ai_player_state) * 0x2C);
 COMPILE_ASSERT(sizeof(ai_player_state) * 4 == 0xB0);
 
 extern void __cdecl ai_player_initialize();
+extern ai_player_state* __cdecl ai_player_state_get(int32 player_index);
 extern bool __cdecl ai_player_state_needs_vehicle(int16 ai_player_index);
 extern void __cdecl ai_player_state_update();
 extern void __cdecl ai_players_initialize_for_new_map();

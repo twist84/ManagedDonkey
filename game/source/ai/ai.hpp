@@ -23,6 +23,25 @@
 #include "cseries/cseries.hpp"
 #include "render/render_visibility_collection.hpp"
 
+enum
+{
+	_damage_category_none = 0,
+	_damage_category_falling,
+	_damage_category_bullet,
+	_damage_category_grenade,
+	_damage_category_highexplosive,
+	_damage_category_sniper,
+	_damage_category_melee,
+	_damage_category_flame,
+	_damage_category_mountedweapon,
+	_damage_category_vehicle,
+	_damage_category_plasma,
+	_damage_category_needle,
+	_damage_category_shotgun,
+
+	NUMBER_OF_DAMAGE_CATEGORIES,
+};
+
 struct ai_mission_critical_actor
 {
 	int32 object_index;
@@ -125,11 +144,13 @@ extern bool __cdecl ai_enemies_attacking_players(int32* attacking_object_index, 
 extern bool __cdecl ai_enemies_can_see_player(int32* object_index);
 extern void __cdecl ai_erase(int32 squad_index, bool delete_immediately);
 extern bool __cdecl ai_get_active_clusters(int32 structure_bsp_index, uns32* activation_bitvector, int32 cluster_count);
+extern int32 __cdecl ai_get_unit_responsible_for_damage(int32 damage_owner_object_index, bool responsible_for_weapon_fire);
 extern void __cdecl ai_globals_initialize();
 extern void __cdecl ai_globals_initialize_for_new_map();
 extern void __cdecl ai_globals_set_ai_active(bool enable);
 extern void __cdecl ai_globals_update();
 extern void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, const real_vector3d* old_velocity);
+extern void __cdecl ai_handle_damage(int32 unit_index, int32 damage_owner_object_index, int16 damage_category, int32 damage_aftermath_flags, real32 fraction, const real_vector3d* damage_velocity, bool delayed);
 extern void __cdecl ai_handle_noisemaker(int32 equipment_index);
 extern void __cdecl ai_initialize();
 extern void __cdecl ai_initialize_for_new_map();

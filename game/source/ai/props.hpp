@@ -3,6 +3,33 @@
 #include "ai/joint_behavior.hpp"
 #include "cseries/cseries.hpp"
 
+enum
+{
+	_prop_type_unused = 0,
+	_prop_type_enemy,
+	_prop_type_friend,
+	_prop_type_danger_zone,
+	_prop_type_vehicle,
+	_prop_type_neutral_body,
+	_prop_type_enemy_body,
+	_prop_type_friend_body,
+	_prop_type_interesting_object,
+
+	k_prop_type_count,
+};
+
+enum e_prop_ref_flags
+{
+	_prop_ref_valid_target_bit = 0,
+	_prop_ref_process_event_bit,
+	_prop_ref_behind_glass,
+	_prop_ref_salience_dirty_bit,
+	_prop_ref_unboardable_bit,
+
+	k_prop_ref_flag_count,
+};
+typedef c_flags<e_prop_ref_flags, uns8, k_prop_ref_flag_count> c_prop_ref_flags;
+
 struct prop_ref_datum :
 	s_datum_header
 {
@@ -26,7 +53,7 @@ struct prop_ref_datum :
 	int8 perception;
 	int8 visibility : 4;
 	int8 line_of_sight : 4;
-	uns8 flags;
+	c_prop_ref_flags flags;
 	int16 status_refresh_timer;
 	int16 state_refresh_timer;
 	int32 actor_next_prop_ref_index;
@@ -153,7 +180,9 @@ struct actor_prop_ref_iterator
 };
 COMPILE_ASSERT(sizeof(actor_prop_ref_iterator) == 0x8);
 
+extern int32 __cdecl prop_ref_get_acknowledged_by_object_index(int32 actor_index, int32 object_index);
 extern prop_state* __cdecl prop_state_get(const prop_ref_datum* pref);
+extern prop_view* __cdecl prop_view_get(const prop_ref_datum* pref);
 extern void __cdecl props_dispose();
 extern void __cdecl props_dispose_from_old_map();
 extern void __cdecl props_initialize();

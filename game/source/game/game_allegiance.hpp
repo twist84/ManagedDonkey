@@ -32,5 +32,7 @@ extern void __cdecl game_allegiance_dispose();
 extern void __cdecl game_allegiance_dispose_from_old_map();
 extern void __cdecl game_allegiance_initialize();
 extern void __cdecl game_allegiance_initialize_for_new_map();
+extern void __cdecl game_allegiance_provoke(e_game_team aggressor_team_index, e_game_team victim_team_index);
 extern void __cdecl game_allegiance_update();
+extern bool __cdecl game_team_is_enemy(e_game_team our_team, e_game_team other_team);
 

@@ -42,7 +42,12 @@ void __cdecl game_allegiance_initialize_for_new_map()
 
 //.text:006702F0 ; void __cdecl game_allegiance_notify_change(e_game_team, e_game_team)
 //.text:00670370 ; void __cdecl game_allegiance_propogate_broken(e_game_team, e_game_team, bool, bool)
-//.text:00670410 ; void __cdecl game_allegiance_provoke(e_game_team, e_game_team)
+
+void __cdecl game_allegiance_provoke(e_game_team aggressor_team_index, e_game_team victim_team_index)
+{
+    INVOKE(0x00670410, game_allegiance_provoke, aggressor_team_index, victim_team_index);
+}
+
 //.text:006704B0 ; bool __cdecl game_allegiance_remove(e_game_team, e_game_team)
 
 void __cdecl game_allegiance_update()
@@ -55,7 +60,12 @@ void __cdecl game_allegiance_update()
 //.text:006709B0 ; e_game_team __cdecl game_get_unit_team(int32)
 //.text:00670A50 ; bool __cdecl game_team_ally_status_changed(e_game_team, e_game_team)
 //.text:00670AE0 ; bool __cdecl game_team_is_ally(e_game_team, e_game_team)
-//.text:00670B80 ; bool __cdecl game_team_is_enemy(e_game_team, e_game_team)
+
+bool __cdecl game_team_is_enemy(e_game_team our_team, e_game_team other_team)
+{
+    return INVOKE(0x00670B80, game_team_is_enemy, our_team, other_team);
+}
+
 //.text:00670C10 ; bool __cdecl game_team_is_friendly(e_game_team, e_game_team)
 //.text:00670C40 ; bool __cdecl game_team_is_traitor(const c_game_team&, const c_game_team&)
 //.text:00670CD0 ; t_restricted_allocation_manager<3, 0, 0, &void __cdecl __tls_set_g_game_allegiance_globals_allocator(void*)>::reserve_memory

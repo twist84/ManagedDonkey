@@ -1315,7 +1315,7 @@ void __cdecl object_placement_data_new(object_placement_data* data, int32 defini
 		{
 			unit_datum* unit = (unit_datum*)owner_object;
 			data->owner_player_index = unit->unit.player_index;
-			data->owner_team_index = unit->unit.team;
+			data->owner_team_index = unit->unit.team_index;
 		}
 	}
 	else

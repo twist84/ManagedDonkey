@@ -55,9 +55,9 @@ void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_inde
 	//INVOKE(0x01457200, actor_stimulus_prop_acknowledged, actor_index, prop_index, first_acknowledgement);
 
 	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
-	prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, prop_index);
+	const prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, prop_index);
 
-	if (first_acknowledgement && pref->type == 3)
+	if (first_acknowledgement && pref->type == _actor_hunter)
 	{
 		actor_stimulus_acknowledged_danger_zone(actor_index, prop_index);
 	}
@@ -69,18 +69,21 @@ void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_inde
 	if (cheat.medusa)
 	{
 		prop_state* state = prop_state_get(pref);
-		prop_datum* prop = DATUM_GET(prop_data, prop_datum, pref->prop_index);
-		if (prop->player && prop->enemy && !state->dead && actor->meta.type != _actor_mounted_weapon)
+		prop_datum* cprop = DATUM_GET(prop_data, prop_datum, pref->prop_index);
+		if (cprop->player && cprop->enemy && !state->dead && actor->meta.type != _actor_mounted_weapon)
+		{
 			actor_kill(actor_index, false, true);
+		}
 	}
 
-	if (pref->type == 1 && first_acknowledgement && (pref->flags & 1) != 0)
+	if (pref->type == _prop_type_enemy && first_acknowledgement && pref->flags.test(_prop_ref_valid_target_bit))
 	{
-		if (character_perception_properties* actor_perception_properties = actor_perception_properties_get(actor_index))
+		const character_perception_properties* perception_properties = actor_perception_properties_get(actor_index);
+		if (perception_properties != nullptr)
 		{
-			if (actor_perception_properties->first_acknowledgement_surprise_distance > pref->distance || actor->state.combat_status == 0)
+			if (perception_properties->first_acknowledgement_surprise_distance > pref->distance || actor->state.combat_status == _actor_combat_status_asleep)
 			{
-				prop_state* state = prop_state_get(pref);
+				const prop_state* state = prop_state_get(pref);
 				real_vector3d surprise_vector{};
 				vector_from_points3d(&actor->input.position.body_position, &state->body_position, &surprise_vector);
 				actor_stimulus_surprise(actor_index, 1, prop_index, &surprise_vector);

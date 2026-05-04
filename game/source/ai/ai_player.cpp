@@ -25,7 +25,12 @@ void __cdecl ai_player_initialize()
 
 //.text:01436520 ; void __cdecl ai_player_state_create(int32)
 //.text:01436590 ; void __cdecl ai_player_state_delete(int32)
-//.text:01436600 ; ai_player_state* __cdecl ai_player_state_get(int32)
+
+ai_player_state* __cdecl ai_player_state_get(int32 player_index)
+{
+	return INVOKE(0x01436600, ai_player_state_get, player_index);
+}
+
 //.text:01436650 ; void __cdecl ai_player_state_handle_deleted_object(int32)
 
 bool __cdecl ai_player_state_needs_vehicle(int16 ai_player_index)

@@ -72,6 +72,22 @@ struct s_actor_patrol_state
 };
 COMPILE_ASSERT(sizeof(s_actor_patrol_state) == 0x8);
 
+enum
+{
+	_actor_combat_status_asleep = 0,
+	_actor_combat_status_idle,
+	_actor_combat_status_alert,
+	_actor_combat_status_active,
+	_actor_combat_status_uninspected,
+	_actor_combat_status_definite,
+	_actor_combat_status_certain,
+	_actor_combat_status_visible,
+	_actor_combat_status_clear_los,
+	_actor_combat_status_dangerous,
+
+	NUMBER_OF_ACTOR_COMBAT_STATUS_LEVELS,
+};
+
 struct actor_state_data
 {
 	byte behavior_state_data[512];
@@ -753,6 +769,7 @@ extern bool __cdecl actor_datum_available_to_current_thread();
 extern void __cdecl actor_delete(int32 actor_index, bool died);
 extern void __cdecl actor_erase(int32 actor_index, bool delete_immediately);
 extern bool __cdecl actor_general_update(int32 actor_index);
+extern void __cdecl actor_handle_damage(int32 actor_index, int16 damage_type, int32 damage_aftermath_flags, int32 aggressor_unit_index, real32 damage_fraction, const real_vector3d* damage_velocity);
 extern void __cdecl actor_handle_equipment_delete(int32 actor_index);
 extern bool __cdecl actor_is_active(const actor_datum* actor);
 extern bool __cdecl actor_is_blind(int32 actor_index);

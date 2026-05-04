@@ -663,6 +663,11 @@ EXTERNAL_GLOBAL_DECLARE(
 	_hs_type_boolean,
 	&cheat.chevy,
 );
+EXTERNAL_GLOBAL_DECLARE(
+	cheat_porcupine,
+	_hs_type_boolean,
+	&cheat.porcupine,
+);
 EXTERNAL_GLOBAL_DECLARE2(
 	unknown74,
 	_hs_type_boolean,
@@ -8089,6 +8094,11 @@ static hs_global_external* const hs_external_globals[]
 	&allow_480p_resolutions_definition,
 	&display_prefetch_progress_definition,
 	&survival_mode_allow_flying_camera_definition,
+
+	// donkey
+
+	&cheat_porcupine_definition, // Halo Reach
+
 	&debug_weapons_definition,
 	&debug_weapons_triggers_definition,
 	&debug_weapons_barrels_definition,

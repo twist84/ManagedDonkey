@@ -622,15 +622,21 @@ void __cdecl player_find_action_context(int32 player_index, s_player_action_cont
 							object_datum* child_object = nullptr;
 
 							for (int32 child_object_index = object->object.first_child_object_index;
-								child_object_index != NONE && object_count < NUMBEROF(object_indices);
+								child_object_index != NONE;
 								child_object_index = child_object->object.next_object_index)
 							{
+								if (object_count >= NUMBEROF(object_indices))
+								{
+									break;
+								}
+
+								child_object = object_get(child_object_index);
+
 								e_object_type child_object_type = child_object->object.object_identifier.get_type();
 								bool consider_child = TEST_BIT(local_exclude_type_mask, child_object_type);
 								if (!consider_child &&
 									(!examine_children || point_in_sphere(&child_object->object.bounding_sphere_center, &unit->object.bounding_sphere_center, search_radius + child_object->object.bounding_sphere_radius)))
 								{
-									child_object = object_get(child_object_index);
 									object_indices[object_count++] = child_object_index;
 								}
 							}

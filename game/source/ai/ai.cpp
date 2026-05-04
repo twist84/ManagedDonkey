@@ -1,7 +1,11 @@
 #include "ai/ai.hpp"
 
 #include "ai/ai_reference_frame.hpp"
+#include "game/cheats.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+
+HOOK_DECLARE(0x01432990, ai_handle_damage);
 
 //.text:014308D0 ; void __cdecl __tls_set_g_ai_globals_allocator(void*)
 
@@ -170,7 +174,12 @@ bool __cdecl ai_get_active_clusters(int32 structure_bsp_index, uns32* activation
 }
 
 //.text:01431D50 ; void __cdecl ai_get_center_of_mass(int32, real_point3d*)
-//.text:01431DE0 ; int32 __cdecl ai_get_unit_responsible_for_damage(int32, bool)
+
+int32 __cdecl ai_get_unit_responsible_for_damage(int32 damage_owner_object_index, bool responsible_for_weapon_fire)
+{
+	return INVOKE(0x01431DE0, ai_get_unit_responsible_for_damage, damage_owner_object_index, responsible_for_weapon_fire);
+}
+
 //.text:01431E30 ; void __cdecl ai_globals_dialogue_enable(bool)
 //.text:01431E50 ; bool __cdecl ai_globals_dialogue_enabled()
 //.text:01431E80 ; void __cdecl ai_globals_dialogue_suppress(real32)
@@ -214,7 +223,72 @@ void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, const real_ve
 }
 
 //.text:01432980 ; void __cdecl ai_handle_cs_data_point_move(int16, int16)
-//.text:01432990 ; void __cdecl ai_handle_damage(int32, int32, int16, int32, real32, const real_vector3d*, bool)
+
+void __cdecl ai_handle_damage(int32 unit_index, int32 damage_owner_object_index, int16 damage_category, int32 damage_aftermath_flags, real32 fraction, const real_vector3d* damage_velocity, bool delayed)
+{
+	//INVOKE(0x01432990, ai_handle_damage, unit_index, damage_owner_object_index, damage_category, damage_aftermath_flags, fraction, damage_velocity, delayed);
+
+	if (ai_globals->ai_initialized_for_map)
+	{
+		const unit_datum* unit = UNIT_GET(unit_index);
+
+		int32 shooter_unit_index = ai_get_unit_responsible_for_damage(damage_owner_object_index, damage_category != _damage_category_vehicle);
+		const unit_datum* shooter_unit = shooter_unit_index == NONE ? nullptr : UNIT_GET(shooter_unit_index);
+		if (shooter_unit != nullptr)
+		{
+			if (shooter_unit->unit.actor_index != NONE)
+			{
+				int32 pref_index = prop_ref_get_acknowledged_by_object_index(shooter_unit->unit.actor_index, unit_index);
+				if (pref_index != NONE)
+				{
+					const prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, pref_index);
+					prop_view* view = prop_view_get(pref);
+					if (view != nullptr)
+					{
+						view->awareness_of_me += 0.2f;
+					}
+
+					if (cheat.porcupine)
+					{
+						prop_state* state = prop_state_get(pref);
+						prop_datum* cprop = DATUM_GET(prop_data, prop_datum, pref->prop_index);
+						actor_datum* actor = DATUM_GET(actor_data, actor_datum, shooter_unit->unit.actor_index);
+						if (cprop->player && cprop->enemy && !state->dead && actor->meta.type != _actor_mounted_weapon)
+						{
+							actor_kill(shooter_unit->unit.actor_index, false, true);
+						}
+					}
+				}
+
+				if (shooter_unit->unit.player_index != NONE &&
+					unit->unit.parent_seat_index != NONE &&
+					!game_team_is_enemy(shooter_unit->unit.team_index, unit->unit.team_index))
+				{
+					ai_player_state* player_state = ai_player_state_get(shooter_unit->unit.player_index);
+					if (player_state != nullptr)
+					{
+						player_state->last_friendly_vehicle_shoot_time = game_time_get();
+						player_state->last_friendly_vehicle_shoot_index = object_get_root_object(unit->object.parent_object_index);
+					}
+				}
+			}
+		}
+
+		if (unit->unit.actor_index != NONE)
+		{
+			if (!delayed && damage_category != _damage_category_falling)
+			{
+				actor_handle_damage(unit->unit.actor_index, damage_category, damage_aftermath_flags, shooter_unit_index, fraction, damage_velocity);
+			}
+
+			if (shooter_unit != nullptr)
+			{
+				game_allegiance_provoke(shooter_unit->unit.team_index, unit->unit.team_index);
+			}
+		}
+	}
+}
+
 //.text:01432B20 ; void __cdecl ai_handle_death(int32, int32, int16, int32, real32)
 //.text:01433040 ; void __cdecl ai_handle_deleted_object(int32)
 //.text:014332F0 ; void __cdecl ai_handle_effect_creation(int32, int16, int32, int16, real32, real32, const real_matrix4x3*)

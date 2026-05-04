@@ -171,7 +171,7 @@ struct _unit_datum
 	int32 actor_index;
 	int32 simulation_actor_index;
 	uns32 flags;
-	int32 team;
+	e_game_team team_index;
 	int32 player_index;
 	int32 last_player_index;
 	int32 game_time_at_last_unit_effect;
