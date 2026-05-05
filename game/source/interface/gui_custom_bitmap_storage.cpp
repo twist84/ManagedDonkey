@@ -293,35 +293,38 @@ bool c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(int32 bitmap_s
 {
 	//return INVOKE_CLASS_MEMBER(0x00AE5440, c_gui_custom_bitmap_storage_manager, load_bitmap_from_buffer, bitmap_storage_index, buffer, buffer_length, aspect_ratio);
 
-	bool result = false;
-
 	s_bitmap_storage_handle_datum* bitmap_storage_handle_datum = nullptr;
 	{
 		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-		if (bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index))
+		bitmap_storage_handle_datum = DATUM_TRY_AND_GET(m_bitmap_storage_items, s_bitmap_storage_handle_datum, bitmap_storage_index);
+		if (bitmap_storage_handle_datum != nullptr)
 		{
 			bitmap_storage_handle_datum->state = _bitmap_storage_state_loading;
 		}
 	}
 
+	bool result;
+
 	if (bitmap_storage_handle_datum != nullptr)
 	{
-		return false;
+		event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer starting %d",
+			bitmap_storage_index);
+
+		result = bitmap_storage_handle_datum->storage_item.load_from_buffer(buffer, buffer_length, m_d3dx_scratch_buffer, m_d3dx_scratch_buffer_length, aspect_ratio);
+
+		{
+			c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
+			ASSERT(bitmap_storage_handle_datum->state == _bitmap_storage_state_loading);
+			bitmap_storage_handle_datum->state = result ? _bitmap_storage_state_ready : _bitmap_storage_state_none;
+		}
+
+		event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer ending %d",
+			bitmap_storage_index);
 	}
-
-	event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer starting %d",
-		bitmap_storage_index);
-
-	result = bitmap_storage_handle_datum->storage_item.load_from_buffer(buffer, buffer_length, m_d3dx_scratch_buffer, m_d3dx_scratch_buffer_length, aspect_ratio);
-
+	else
 	{
-		c_critical_section_scope section_scope(k_crit_section_ui_custom_bitmaps_lock);
-		ASSERT(bitmap_storage_handle_datum->state == _bitmap_storage_state_loading);
-		bitmap_storage_handle_datum->state = result ? _bitmap_storage_state_ready : _bitmap_storage_state_none;
+		result = false;
 	}
-
-	event(_event_message, "ui:custom_bitmaps: load_bitmap_from_buffer ending %d",
-		bitmap_storage_index);
 
 	return result;
 }
