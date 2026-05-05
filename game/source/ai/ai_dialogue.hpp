@@ -56,6 +56,7 @@ struct vocalization_timers
 COMPILE_ASSERT(sizeof(vocalization_timers) == 0xFB8);
 
 extern void __cdecl ai_dialogue_dispose_from_old_map();
+extern void __cdecl ai_dialogue_handle_ai_reset();
 extern void __cdecl ai_dialogue_initialize();
 extern void __cdecl ai_dialogue_initialize_for_new_map();
 extern void __cdecl ai_dialogue_update();

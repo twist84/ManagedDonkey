@@ -145,6 +145,8 @@ extern bool __cdecl ai_enemies_can_see_player(int32* object_index);
 extern void __cdecl ai_erase(int32 squad_index, bool delete_immediately);
 extern bool __cdecl ai_get_active_clusters(int32 structure_bsp_index, uns32* activation_bitvector, int32 cluster_count);
 extern int32 __cdecl ai_get_unit_responsible_for_damage(int32 damage_owner_object_index, bool responsible_for_weapon_fire);
+extern void __cdecl ai_globals_dialogue_enable(bool enable);
+extern bool __cdecl ai_globals_dialogue_enabled();
 extern void __cdecl ai_globals_initialize();
 extern void __cdecl ai_globals_initialize_for_new_map();
 extern void __cdecl ai_globals_set_ai_active(bool enable);

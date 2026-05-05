@@ -2,23 +2,25 @@
 
 #include "ai/ai_reference_frame.hpp"
 #include "game/cheats.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "units/vehicles.hpp"
 
 HOOK_DECLARE(0x01432990, ai_handle_damage);
 
-//.text:014308D0 ; void __cdecl __tls_set_g_ai_globals_allocator(void*)
+//.text:014308D0 ; void __cdecl __tls_set_g_ai_globals_allocator(void* new_address)
 
 int32 __cdecl actor_endangering_player(bool must_be_attacking, bool build_player_mask, uns32* player_mask_out)
 {
 	return INVOKE(0x014308F0, actor_endangering_player, must_be_attacking, build_player_mask, player_mask_out);
 }
 
-//.text:01430DB0 ; bool __cdecl actor_resurrection_biped_safe(int32)
-//.text:014310A0 ; bool __cdecl ai_adjust_damage(int32, int32, s_damage_data*, real32*)
-//.text:014312F0 ; real64 __cdecl ai_chance_this_tick(real32)
-//.text:01431360 ; void __cdecl ai_create_mounted_weapons_for_unit(int32)
-//.text:014313B0 ; real64 __cdecl ai_danger_level(int16)
+//.text:01430DB0 ; bool __cdecl actor_resurrection_biped_safe(int32 biped_index)
+//.text:014310A0 ; bool __cdecl ai_adjust_damage(int32 owner_object_index, int32 damaged_object_index, s_damage_data* damage_data, real32* damage)
+//.text:014312F0 ; real64 __cdecl ai_chance_this_tick(real32 chance_per_second)
+//.text:01431360 ; void __cdecl ai_create_mounted_weapons_for_unit(int32 unit_index)
+//.text:014313B0 ; real64 __cdecl ai_danger_level(int16 danger_level)
 
 void __cdecl ai_debug_update()
 {
@@ -94,7 +96,7 @@ void __cdecl ai_dispose_from_old_structure_bsp(uns32 deactivating_structure_bsp_
 			{
 				squad_actor_iterator squad_actor_iter{};
 				squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
-				if (!squad_actor_iterator_next(&squad_actor_iter))
+				if (squad_actor_iterator_next(&squad_actor_iter) == nullptr)
 				{
 					squad_deactivate(squad_iter.squad_index);
 				}
@@ -107,27 +109,31 @@ bool __cdecl ai_enemies_attacking_players(int32* attacking_object_index, uns32* 
 {
 	return INVOKE(0x01431670, ai_enemies_attacking_players, attacking_object_index, player_mask_out);
 
-	//int32 actor_index = actor_endangering_player(true, true, player_mask_out);
-	//if (actor_index != NONE)
-	//{
-	//	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
-	//	*attacking_object_index = actor->meta.unit_index;
-	//}
-	//return *player_mask_out != 0;
+#if 0
+	int32 actor_index = actor_endangering_player(true, true, player_mask_out);
+	if (actor_index != NONE)
+	{
+		actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
+		*attacking_object_index = actor->meta.unit_index;
+	}
+	return *player_mask_out != 0;
+#endif
 }
 
 bool __cdecl ai_enemies_can_see_player(int32* object_index)
 {
 	return INVOKE(0x014316D0, ai_enemies_can_see_player, object_index);
 
-	//int32 actor_index = actor_endangering_player(false, false, nullptr);
-	//if (actor_index != NONE)
-	//{
-	//	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
-	//	*object_index = actor->meta.unit_index;
-	//	return true;
-	//}
-	//return false;
+#if 0
+	int32 actor_index = actor_endangering_player(false, false, nullptr);
+	if (actor_index != NONE)
+	{
+		actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
+		*object_index = actor->meta.unit_index;
+		return true;
+	}
+	return false;
+#endif
 }
 
 void __cdecl ai_erase(int32 squad_index, bool delete_immediately)
@@ -141,21 +147,25 @@ void __cdecl ai_erase(int32 squad_index, bool delete_immediately)
 			actor_iterator iterator{};
 			actor_iterator_new(&iterator, false);
 			while (actor_iterator_next(&iterator))
+			{
 				actor_erase(iterator.index, delete_immediately);
+			}
 		}
 		else
 		{
 			squad_actor_iterator iterator{};
 			squad_actor_iterator_new(&iterator, squad_index, false);
 			while (squad_actor_iterator_next(&iterator))
+			{
 				actor_erase(iterator.index, delete_immediately);
+			}
 		}
 	}
 }
 
-//.text:014317D0 ; void __cdecl ai_find_inactive_squads(int32, uns8*, int32)
-//.text:014318F0 ; void __cdecl ai_find_line_of_fire_friend_pills(int32, int32, line_of_fire_pill*)
-//.text:01431B50 ; bool __cdecl ai_find_location(const real_point3d*, s_location*)
+//.text:014317D0 ; void __cdecl ai_find_inactive_squads(int32 garbage_collection_mode, byte* working_memory, int32 working_memory_size)
+//.text:014318F0 ; void __cdecl ai_find_line_of_fire_friend_pills(int32 actor_index, int32 max_pill_count, line_of_fire_pill* pills)
+//.text:01431B50 ; bool __cdecl ai_find_location(const real_point3d* position, s_location* location)
 
 void __cdecl ai_flush_spatial_effects()
 {
@@ -166,30 +176,46 @@ void __cdecl ai_flush_spatial_effects()
 	csmemset(ai_globals->spatial_effects, 0, sizeof(ai_globals->spatial_effects));
 }
 
-//.text:01431C00 ; void __cdecl ai_generate_line_of_fire_pill(int32, int32, line_of_fire_pill*)
+//.text:01431C00 ; void __cdecl ai_generate_line_of_fire_pill(int32 unit_index, int32 prop_index, line_of_fire_pill* pill)
 
 bool __cdecl ai_get_active_clusters(int32 structure_bsp_index, uns32* activation_bitvector, int32 cluster_count)
 {
 	return INVOKE(0x01431C90, ai_get_active_clusters, structure_bsp_index, activation_bitvector, cluster_count);
 }
 
-//.text:01431D50 ; void __cdecl ai_get_center_of_mass(int32, real_point3d*)
+//.text:01431D50 ; void __cdecl ai_get_center_of_mass(int32 object_index, real_point3d* center_of_mass)
 
 int32 __cdecl ai_get_unit_responsible_for_damage(int32 damage_owner_object_index, bool responsible_for_weapon_fire)
 {
 	return INVOKE(0x01431DE0, ai_get_unit_responsible_for_damage, damage_owner_object_index, responsible_for_weapon_fire);
 }
 
-//.text:01431E30 ; void __cdecl ai_globals_dialogue_enable(bool)
-//.text:01431E50 ; bool __cdecl ai_globals_dialogue_enabled()
-//.text:01431E80 ; void __cdecl ai_globals_dialogue_suppress(real32)
+void __cdecl ai_globals_dialogue_enable(bool enable)
+{
+	//INVOKE(0x01431E30, ai_globals_dialogue_enable, enable);
+
+	ASSERT(ai_globals != nullptr);
+	ai_globals->dialogue_enabled = enable;
+}
+
+bool __cdecl ai_globals_dialogue_enabled()
+{
+	//return INVOKE(0x01431E50, ai_globals_dialogue_enabled);
+
+	ASSERT(ai_globals != nullptr);
+	bool result = ai_globals->dialogue_enabled && ai_globals->dialogue_suppression_ticks <= 0;
+}
+
+//.text:01431E80 ; void __cdecl ai_globals_dialogue_suppress(real32 time)
 //.text:01431EC0 ; bool __cdecl ai_globals_get_ai_active()
-//.text:01431EE0 ; void __cdecl ai_globals_grenades_enabled(bool)
-//.text:01431F10 ; void __cdecl ai_globals_infection_suppress(int32)
+//.text:01431EE0 ; void __cdecl ai_globals_grenades_enabled(bool enable)
+//.text:01431F10 ; void __cdecl ai_globals_infection_suppress(int32 ticks)
 
 void __cdecl ai_globals_initialize()
 {
-	INVOKE(0x01431F60, ai_globals_initialize);
+	//INVOKE(0x01431F60, ai_globals_initialize);
+
+	csmemset(ai_globals, 0, sizeof(ai_globals_type));
 }
 
 void __cdecl ai_globals_initialize_for_new_map()
@@ -197,15 +223,18 @@ void __cdecl ai_globals_initialize_for_new_map()
 	INVOKE(0x01431F90, ai_globals_initialize_for_new_map);
 }
 
-//.text:01432120 ; void __cdecl ai_globals_player_dialogue_enable(bool)
+//.text:01432120 ; void __cdecl ai_globals_player_dialogue_enable(bool enable)
 //.text:01432140 ; bool __cdecl ai_globals_player_dialogue_enabled()
 
 void __cdecl ai_globals_set_ai_active(bool enable)
 {
-	INVOKE(0x01432160, ai_globals_set_ai_active, enable);
+	//INVOKE(0x01432160, ai_globals_set_ai_active, enable);
+
+	ASSERT(ai_globals != nullptr);
+	ai_globals->ai_active = enable;
 }
 
-//.text:01432180 ; void __cdecl ai_globals_set_fast_and_dumb(bool)
+//.text:01432180 ; void __cdecl ai_globals_set_fast_and_dumb(bool enable)
 //.text:014321A0 ; s_ai_globals_data* __cdecl ai_globals_try_and_get_data(const s_ai_globals_definition*)
 
 void __cdecl ai_globals_update()
@@ -213,16 +242,16 @@ void __cdecl ai_globals_update()
 	INVOKE(0x014321C0, ai_globals_update);
 }
 
-//.text:01432690 ; void __cdecl ai_handle_ai_point_move(const real_point3d*, c_ai_point3d*)
-//.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_game_team, e_game_team, bool, bool, bool)
-//.text:01432890 ; void __cdecl ai_handle_areas_delete(int16, const uns32*)
+//.text:01432690 ; void __cdecl ai_handle_ai_point_move(const real_point3d* point_in, c_ai_point3d* ai_point_out)
+//.text:014326E0 ; void __cdecl ai_handle_allegiance_status_changed(e_game_team team1_index, e_game_team team2_index, bool broken, bool permanently_broken, bool propogate_broken)
+//.text:01432890 ; void __cdecl ai_handle_areas_delete(int16 zone_index, const uns32* deleted_areas)
 
 void __cdecl ai_handle_bump(int32 biped_index, int32 object_index, const real_vector3d* old_velocity)
 {
 	INVOKE(0x014328E0, ai_handle_bump, biped_index, object_index, old_velocity);
 }
 
-//.text:01432980 ; void __cdecl ai_handle_cs_data_point_move(int16, int16)
+//.text:01432980 ; void __cdecl ai_handle_cs_data_point_move(int16 point_set_index, int16 point_index)
 
 void __cdecl ai_handle_damage(int32 unit_index, int32 damage_owner_object_index, int16 damage_category, int32 damage_aftermath_flags, real32 fraction, const real_vector3d* damage_velocity, bool delayed)
 {
@@ -289,13 +318,13 @@ void __cdecl ai_handle_damage(int32 unit_index, int32 damage_owner_object_index,
 	}
 }
 
-//.text:01432B20 ; void __cdecl ai_handle_death(int32, int32, int16, int32, real32)
-//.text:01433040 ; void __cdecl ai_handle_deleted_object(int32)
-//.text:014332F0 ; void __cdecl ai_handle_effect_creation(int32, int16, int32, int16, real32, real32, const real_matrix4x3*)
-//.text:01433390 ; void __cdecl ai_handle_equipment_release(int32, int32)
-//.text:01433490 ; void __cdecl ai_handle_firing_position_move(int16, int16, const real_vector3d*)
-//.text:014334A0 ; void __cdecl ai_handle_get_attention(int32, int32)
-//.text:014334D0 ; bool __cdecl ai_handle_killing_spree(int32, int16)
+//.text:01432B20 ; void __cdecl ai_handle_death(int32 unit_index, int32 damage_owner_object_index, int16 damage_category, int32 special_death_type, real32 damage_fraction)
+//.text:01433040 ; void __cdecl ai_handle_deleted_object(int32 deleted_object_index)
+//.text:014332F0 ; void __cdecl ai_handle_effect_creation(int32 character_definition_index, int16 ticks, int32 object_index, int16 node_index, real32 velocity_min, real32 velocity_max, const real_matrix4x3* local_transform)
+//.text:01433390 ; void __cdecl ai_handle_equipment_release(int32 object_index, int32 creator_object_index)
+//.text:01433490 ; void __cdecl ai_handle_firing_position_move(int16 zone_index, int16 firing_position_index, const real_vector3d* surface_normal)
+//.text:014334A0 ; void __cdecl ai_handle_get_attention(int32 actor_index, int32 player_unit_index)
+//.text:014334D0 ; bool __cdecl ai_handle_killing_spree(int32 unit_index, int16 killing_spree_count)
 
 void __cdecl ai_handle_noisemaker(int32 equipment_index)
 {
@@ -303,27 +332,27 @@ void __cdecl ai_handle_noisemaker(int32 equipment_index)
 }
 
 //.text:01433690 ; void __cdecl ai_handle_objectives_editing()
-//.text:014336A0 ; void __cdecl ai_handle_projectile_attach(int32, int32)
-//.text:01433790 ; void __cdecl ai_handle_projectile_impact(int32, int32)
-//.text:014337C0 ; void __cdecl ai_handle_sector_point_move(int16, int16, int16, const real_vector3d*, const s_tag_block_definition*)
-//.text:014337D0 ; void __cdecl ai_handle_spatial_effect(int32, const real_point3d*, int16, int16, int16)
+//.text:014336A0 ; void __cdecl ai_handle_projectile_attach(int32 unit_index, int32 projectile_index)
+//.text:01433790 ; void __cdecl ai_handle_projectile_impact(int32 projectile_index, int32 hit_object_index)
+//.text:014337C0 ; void __cdecl ai_handle_sector_point_move(int16 structure_index, int16 sector_hint_index, int16 point_index, const real_vector3d* surface_normal, const s_tag_block_definition* block_definition)
+//.text:014337D0 ; void __cdecl ai_handle_spatial_effect(int32 object_index, const real_point3d* position, int16 effect_type, int16 volume, int16 count)
 //.text:01433A70 ; void __cdecl ai_handle_spawn_point_change(int16, int16)
-//.text:01433A80 ; void __cdecl ai_handle_squad_addition(int32)
-//.text:01433A90 ; void __cdecl ai_handle_squad_deletion(const uns32*)
+//.text:01433A80 ; void __cdecl ai_handle_squad_addition(int32 squad_index)
+//.text:01433A90 ; void __cdecl ai_handle_squad_deletion(const uns32* deleted_squads_bit_vector)
 //.text:01433AA0 ; void __cdecl ai_handle_squad_editing()
-//.text:01433AB0 ; void __cdecl ai_handle_squad_group_addition(int32)
-//.text:01433AC0 ; void __cdecl ai_handle_squad_group_deletion(const uns32*)
+//.text:01433AB0 ; void __cdecl ai_handle_squad_group_addition(int32 squad_group_index)
+//.text:01433AC0 ; void __cdecl ai_handle_squad_group_deletion(const uns32* deleted_squad_groups_bitvector)
 //.text:01433AD0 ; void __cdecl ai_handle_squad_patrol_editing()
 //.text:01433AE0 ; void __cdecl ai_handle_squad_patrol_waypoint_addition(int32, int32, int32)
 //.text:01433B90 ; void __cdecl ai_handle_squad_patrol_waypoint_deletion(int32, int32, int32)
-//.text:01433C80 ; void __cdecl ai_handle_stun(int32, real32, const real_vector3d*)
-//.text:01433CE0 ; void __cdecl ai_handle_tasks_addition(int32)
-//.text:01433CF0 ; void __cdecl ai_handle_tasks_deletion(const uns32*)
-//.text:01433D00 ; void __cdecl ai_handle_unit_effect(int32, e_sound_type, e_ai_sound_volume)
-//.text:01433E40 ; void __cdecl ai_handle_weapon_trade(int32, int32, int32, int32)
-//.text:01433E70 ; void __cdecl ai_handle_well_point_move(int16, int16, const real_vector3d*)
-//.text:01433E80 ; void __cdecl ai_handle_zone_addition(int32)
-//.text:01433E90 ; void __cdecl ai_handle_zone_deletion(const uns32*)
+//.text:01433C80 ; void __cdecl ai_handle_stun(int32 unit_index, real32 stun, const real_vector3d* damage_velocity)
+//.text:01433CE0 ; void __cdecl ai_handle_tasks_addition(int32 task_index)
+//.text:01433CF0 ; void __cdecl ai_handle_tasks_deletion(const uns32* deleted_objectices_bit_vector)
+//.text:01433D00 ; void __cdecl ai_handle_unit_effect(int32 owner_unit_index, e_sound_type effect_type, e_ai_sound_volume vo)
+//.text:01433E40 ; void __cdecl ai_handle_weapon_trade(int32 actor_index, int32 player_index, int32 old_weapon_index, int32 new_weapon_index)
+//.text:01433E70 ; void __cdecl ai_handle_well_point_move(int16 well_index, int16 point_index, const real_vector3d* surface_normal)
+//.text:01433E80 ; void __cdecl ai_handle_zone_addition(int32 new_zone_index)
+//.text:01433E90 ; void __cdecl ai_handle_zone_deletion(const uns32* deleted_zones_bit_vector)
 
 void __cdecl ai_initialize()
 {
@@ -409,7 +438,7 @@ void __cdecl ai_initialize_for_new_structure_bsp(uns32 activating_structure_bsp_
 	//}
 }
 
-//.text:01434150 ; void __cdecl ai_initialize_for_saved_game(int32)
+//.text:01434150 ; void __cdecl ai_initialize_for_saved_game(int32 game_state_proc_flags)
 
 void __cdecl ai_place(int32 game_mode)
 {
@@ -423,31 +452,63 @@ void __cdecl ai_place(int32 game_mode)
 	//}
 }
 
-//.text:014341B0 ; int32 __cdecl ai_release_inactive_squads(int32, uns8*, int32, bool*, char*, int32)
-//.text:01434230 ; int32 __cdecl ai_release_inactive_swarms(int32, uns8*, int32, bool*, char*, int32)
+//.text:014341B0 ; int32 __cdecl ai_release_inactive_squads(int32 garbage_collection_mode, byte* working_memory, int32 working_memory_size, bool* more_to_release, char* description, int32 description_length)
+//.text:01434230 ; int32 __cdecl ai_release_inactive_swarms(int32 garbage_collection_mode, byte* working_memory, int32 working_memory_size, bool* more_to_release, char* description, int32 description_length)
 
 void __cdecl ai_reset()
 {
 	INVOKE(0x014342E0, ai_reset);
+
+#if 0
+	if (ai_globals->ai_initialized_for_map)
+	{
+		console_printf("*** AI Reset ***");
+
+		actor_iterator iterator{};
+		actor_iterator_new(&iterator, false);
+		while (const actor_datum* actor = actor_iterator_next(&iterator))
+		{
+			actor_erase(iterator.index, true);
+		}
+
+		{
+			c_object_iterator<vehicle_datum> vehicle_iterator;
+			vehicle_iterator.begin(_object_mask_vehicle, 0);
+			while (vehicle_iterator.next())
+			{
+				vehicle_datum* vehicle = vehicle_iterator.get_datum();
+				if (vehicle->vehicle.squad_index != NONE)
+				{
+					vehicle->vehicle.squad_index = NONE;
+				}
+			}
+		}
+
+		ai_dialogue_handle_ai_reset();
+		ai_dispose_from_old_map();
+		ai_initialize_for_new_map();
+		ai_initialize_for_new_structure_bsp(global_structure_bsp_active_mask_get());
+	}
+#endif
 }
 
-//.text:014343B0 ; void* __cdecl ai_scratch_allocate(unsigned int)
-//.text:01434450 ; void __cdecl ai_scratch_free(void*)
-//.text:014344B0 ; bool __cdecl ai_test_ballistic_line_of_fire(int32, const real_point3d*, real32, const real_vector3d*, real32, int32, bool)
+//.text:014343B0 ; void* __cdecl ai_scratch_allocate(unsigned int size)
+//.text:01434450 ; void __cdecl ai_scratch_free(void* buffer)
+//.text:014344B0 ; bool __cdecl ai_test_ballistic_line_of_fire(int32 actor_index, const real_point3d* origin, real32 arc_time, const real_vector3d* arc_initial_velocity, real32 arc_acceleration, int32 ignore_object_index, bool ignore_vehicles)
 
 bool __cdecl ai_test_line_of_fire(int32 actor_index, int32 ignore_unit_index, const real_point3d* origin, const real_vector3d* vector, int32* prop_index_reference)
 {
 	return INVOKE(0x014346F0, ai_test_line_of_fire, actor_index, ignore_unit_index, origin, vector, prop_index_reference);
 }
 
-//.text:014347D0 ; bool __cdecl ai_test_line_of_fire_geometry(int32, int32, const real_point3d*, const real_point3d*)
+//.text:014347D0 ; bool __cdecl ai_test_line_of_fire_geometry(int32 actor_index, int32 ignore_object_index, const real_point3d* origin, const real_point3d* point)
 
 int16 __cdecl ai_test_line_of_sight(const real_point3d* p0, s_cluster_reference p0_cluster_ref, const real_point3d* p1, s_cluster_reference p1_cluster_ref, int16 mode, bool test_line_of_fire, int32 ignore_object_index, int32 ignore_object_index2, bool ignore_vehicles, bool allow_early_out, int32* blocking_object_index_ref, bool* two_sided_obstruction_ref)
 {
 	return INVOKE(0x01434AD0, ai_test_line_of_sight, p0, p0_cluster_ref, p1, p1_cluster_ref, mode, test_line_of_fire, ignore_object_index, ignore_object_index2, ignore_vehicles, allow_early_out, blocking_object_index_ref, two_sided_obstruction_ref);
 }
 
-//.text:014350F0 ; bool __cdecl ai_try_vehicle_eviction(int32, int32, bool)
+//.text:014350F0 ; bool __cdecl ai_try_vehicle_eviction(int32 actor_index, int32 requesting_unit_index, bool actually_evict)
 
 void __cdecl ai_update()
 {
@@ -502,7 +563,7 @@ void __cdecl ai_verify_tags()
 //.text:01435400 ; 
 //.text:01435420 ; 
 //.text:01435430 ; 
-//.text:01435450 ; bool __cdecl compare_releasable_inactive_squads(const void*, const void*, const void*)
+//.text:01435450 ; bool __cdecl compare_releasable_inactive_squads(const void* p1, const void* p2, const void* compare_data)
 //.text:01435480 ; 
 //.text:014354B0 ; 
 //.text:014354E0 ; 

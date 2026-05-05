@@ -32,7 +32,11 @@ void __cdecl ai_dialogue_dispose_from_old_map()
 //.text:01438090 ; void __cdecl ai_dialogue_finished(int32, int16, int16, int32, ai_information_packet*)
 //.text:014380B0 ; int16 __cdecl ai_dialogue_get_involuntary_vocalization_index(int16)
 //.text:01438120 ; ai_dialogue_definitions* __cdecl ai_dialogue_globals_get()
-//.text:01438170 ; void __cdecl ai_dialogue_handle_ai_reset()
+
+void __cdecl ai_dialogue_handle_ai_reset()
+{
+	INVOKE(0x01438170, ai_dialogue_handle_ai_reset);
+}
 
 void __cdecl ai_dialogue_initialize()
 {
