@@ -203,7 +203,7 @@ bool __cdecl ai_globals_dialogue_enabled()
 	//return INVOKE(0x01431E50, ai_globals_dialogue_enabled);
 
 	ASSERT(ai_globals != nullptr);
-	bool result = ai_globals->dialogue_enabled && ai_globals->dialogue_suppression_ticks <= 0;
+	return ai_globals->dialogue_enabled && ai_globals->dialogue_suppression_ticks <= 0;
 }
 
 //.text:01431E80 ; void __cdecl ai_globals_dialogue_suppress(real32 time)
