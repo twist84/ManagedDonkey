@@ -67,6 +67,30 @@
       "Command": "-maps maps\\test9\\"
     },
     {
+      "Id": "5a0a4ca0-d164-489e-8cd9-ea9a680a60db",
+      "Command": "-maps maps\\old\\"
+    },
+    {
+      "Id": "2a7751a4-f2da-462d-8d23-679541fa4a83",
+      "Command": "-maps ..\\0.5.x\\maps\\"
+    },
+    {
+      "Id": "9c0f7554-565d-4fe8-806b-a52e3426f90f",
+      "Command": "-maps ..\\0.6.1\\maps\\"
+    },
+    {
+      "Id": "1e6f612f-ba59-46a4-9103-c487757ba9bc",
+      "Command": "-maps maps\\project_crucible\\"
+    },
+    {
+      "Id": "8799c462-f7c9-4d7d-bb1b-81a1272ce4a6",
+      "Command": "-maps maps\\rs_leak\\"
+    },
+    {
+      "Id": "4fe4d71f-e6f9-48d7-845d-5cf4efbbabe3",
+      "Command": "-maps maps\\H3_Sierra117\\"
+    },
+    {
       "Id": "577377b4-9a20-4dfe-a8df-bb0e3e5602a7",
       "Command": "/?"
     },
