@@ -199,7 +199,7 @@ public:
 	void* m_src_buffer;
 };
 
-HOOK_DECLARE_CLASS_MEMBER(0x00A57DC0, c_contrail_gpu, render);
+//HOOK_DECLARE_CLASS_MEMBER(0x00A57DC0, c_contrail_gpu, render);
 
 REFERENCE_DECLARE(0x018F3A8C, bool, effects_enabled);
 REFERENCE_DECLARE(0x018F3A8F, bool, effects_render);
@@ -356,7 +356,8 @@ void s_gpu_global_vertex_shader::initialize(const s_tag_reference* _shader_refer
 
 void c_contrail_gpu::render(const c_contrail_states* contrail_states) const
 {
-	//INVOKE_CLASS_MEMBER(0x00A57DC0, c_contrail_gpu, render, contrail_states);
+	INVOKE_CLASS_MEMBER(0x00A57DC0, c_contrail_gpu, render, contrail_states);
+	return;
 
 	if (!sub_42E5D0() && effects_enabled)
 	{
