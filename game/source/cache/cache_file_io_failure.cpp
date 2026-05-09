@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+static bool show_ddode = false;
+
 c_io_result::c_io_result()
 {
 	//DECLFUNC(0x005FB380, void, __thiscall, c_io_result*)(this);
@@ -61,8 +63,10 @@ void c_simple_io_result::set_checksum_failure()
 {
 	//INVOKE_CLASS_MEMBER(0x005FB400, c_simple_io_result, set_checksum_failure);
 
-	//if (m_halt_and_display_error)
+	//if (show_ddode)
+	//{
 	//	damaged_media_halt_and_display_error();
+	//}
 
 	m_checksum_failure = true;
 }
@@ -71,8 +75,10 @@ void c_simple_io_result::set_disk_failure()
 {
 	//INVOKE_CLASS_MEMBER(0x005FB420, c_simple_io_result, set_disk_failure);
 
-	//if (m_halt_and_display_error)
+	//if (show_ddode)
+	//{
 	//	damaged_media_halt_and_display_error();
+	//}
 
 	m_disk_failure = true;
 }
@@ -81,8 +87,10 @@ void c_simple_io_result::set_fail_boat()
 {
 	//INVOKE_CLASS_MEMBER(0x005FB440, c_simple_io_result, set_fail_boat);
 
-	//if (m_halt_and_display_error)
+	//if (show_ddode)
+	//{
 	//	damaged_media_halt_and_display_error();
+	//}
 
 	m_fail_boat = true;
 }

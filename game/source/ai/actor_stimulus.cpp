@@ -57,7 +57,7 @@ void __cdecl actor_stimulus_prop_acknowledged(int32 actor_index, int32 prop_inde
 	actor_datum* actor = DATUM_GET(actor_data, actor_datum, actor_index);
 	const prop_ref_datum* pref = DATUM_GET(prop_ref_data, prop_ref_datum, prop_index);
 
-	if (first_acknowledgement && pref->type == _actor_hunter)
+	if (first_acknowledgement && pref->type == _prop_type_danger_zone)
 	{
 		actor_stimulus_acknowledged_danger_zone(actor_index, prop_index);
 	}

@@ -34,8 +34,6 @@ protected:
 	bool m_disk_failure;
 	bool m_checksum_failure;
 	bool m_checked_failure;
-
-	static bool m_halt_and_display_error;
 };
 COMPILE_ASSERT(sizeof(c_simple_io_result) == 0xC);
 

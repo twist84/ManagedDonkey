@@ -38,7 +38,7 @@ struct prop_ref_datum :
 		return object_index;
 	}
 
-	int8 type;
+	int8 type; // _prop_type_*
 	int8 dialogue_event;
 	int8 dialogue_index;
 	uns8 dialogue_ticks;
