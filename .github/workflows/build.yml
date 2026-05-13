@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Initialize Submodules 
       uses: snickerbockers/submodules-init@v4
@@ -29,7 +29,7 @@ jobs:
         Write-Host "::set-output name=version::$version"
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
 
     - name: Build
       run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ env.SOLUTION_FILE_PATH }}
@@ -39,7 +39,7 @@ jobs:
         7z a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
 
     - name: Update Latest Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       with:
         files: "*.7z"
         tag_name: latest
@@ -51,7 +51,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     #- name: Upload
-    #  uses: actions/upload-artifact@v3
+    #  uses: actions/upload-artifact@v7
     #  with:
     #    name: ${{ matrix.BUILD_CONFIGURATION }}
     #    path: ./bin/${{ matrix.BUILD_CONFIGURATION }}/
