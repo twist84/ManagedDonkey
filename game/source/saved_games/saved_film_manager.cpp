@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "cache/physical_memory_map.hpp"
+#include "cache/restricted_memory.hpp"
 #include "camera/director.hpp"
 #include "camera/saved_film_director.hpp"
 #include "cseries/async.hpp"
@@ -197,8 +198,6 @@ void saved_film_manager_close()
 
 void saved_film_manager_commit_snippet_autoname(e_controller_index controller_index)
 {
-	return;
-
 	e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
 	if (snippet_state == _saved_film_snippet_state_none)
 	{
@@ -224,8 +223,6 @@ void saved_film_manager_commit_snippet_autoname(e_controller_index controller_in
 
 void saved_film_manager_commit_snippet_keyboard(e_controller_index controller_index)
 {
-	return;
-
 	e_saved_film_snippet_state snippet_state = saved_film_manager_get_snippet_state();
 	if (snippet_state == _saved_film_snippet_state_none)
 	{
@@ -305,8 +302,6 @@ void saved_film_manager_create_film_directory()
 
 void saved_film_manager_delete_current_snippet()
 {
-	return;
-
 	if (!saved_film_manager_snippets_available())
 	{
 		event(_event_warning, "networking:saved_film:manager: snippts not available (can't delete)");
@@ -521,7 +516,6 @@ void saved_film_manager_get_hud_interface_state(s_saved_film_hud_interface_state
 	saved_film_snippet_get_hud_interface_state(hud_state);
 }
 
-// $REVIEW
 bool saved_film_manager_get_last_recorded_film(char* filepath, int32 maximum_characters, s_saved_game_item_metadata* out_optional_metadata)
 {
 	s_file_reference directory{};
@@ -614,8 +608,6 @@ bool saved_film_manager_get_simulation_camera_updates(int32 camera_index, s_simu
 
 int32 saved_film_manager_get_snippet_start_tick()
 {
-	return NONE;
-
 	if (!game_in_progress() || !game_is_playback())
 	{
 		return NONE;
@@ -792,66 +784,89 @@ bool saved_film_manager_is_writing()
 	return saved_film_manager_globals.saved_film.get_film_state() == _saved_film_open_for_write;
 }
 
-void saved_film_manager_load_pending_gamestate()
-{
-	// $IMPLEMENT
-	
-	//bool success;
-	//event(...);
-	//event(...);
-	//{
-	//	c_game_state_compressor* game_state_compressor;
-	//	event(...);
-	//	{
-	//		int32 original_file_position;
-	//		event(...);
-	//		{
-	//			int32 update_number;
-	//			s_saved_film_update saved_film_update;
-	//			event(...);
-	//			event(...);
-	//			{
-	//				int32 compressed_game_state_size;
-	//				int32 buffer_size;
-	//				byte* compressed_game_state;
-	//				event(...);
-	//			}
-	//		}
-	//		event(...);
-	//	}
-	//}
-}
-
 bool saved_film_manager_load_pending_gamestate_to_compressor()
 {
-	// $IMPLEMENT
+	if (!saved_film_manager_globals.pending_gamestate_load)
+	{
+		return false;
+	}
 
-	//bool success;
-	//event(...);
-	//event(...);
-	//{
-	//	c_game_state_compressor* game_state_compressor;
-	//	event(...);
-	//	{
-	//		int32 original_file_position;
-	//		event(...);
-	//		{
-	//			int32 update_number;
-	//			s_saved_film_update saved_film_update;
-	//			event(...);
-	//			event(...);
-	//			{
-	//				int32 compressed_game_state_size;
-	//				int32 buffer_size;
-	//				byte* compressed_game_state;
-	//				event(...);
-	//			}
-	//		}
-	//		event(...);
-	//	}
-	//}
+	if (saved_film_manager_globals.gamestate_file_position == NONE)
+	{
+		event(_event_warning, "networking:saved_film:manager: no pending gamestate file position to load");
+		return false;
+	}
 
-	return false;
+	if (!saved_film_manager_globals.saved_film.set_position(saved_film_manager_globals.gamestate_file_position))
+	{
+		event(_event_warning, "networking:saved_film:manager: failed to seek to pending gamestate file position %d",
+			saved_film_manager_globals.gamestate_file_position);
+		return false;
+	}
+
+	s_saved_film_update saved_film_update{};
+	if (!saved_film_manager_globals.saved_film.read_update(&saved_film_update))
+	{
+		event(_event_warning, "networking:saved_film:manager: failed to read pending gamestate update header");
+		return false;
+	}
+
+	if (saved_film_update.update_type != _saved_film_update_type_gamestate)
+	{
+		event(_event_warning, "networking:saved_film:manager: pending gamestate update is not a gamestate update [%d]",
+			saved_film_update.update_type);
+		return false;
+	}
+
+	byte* compressed_game_state = (byte*)overlapped_malloc(k_game_state_maximum_compressed_size);
+	if (!compressed_game_state)
+	{
+		event(_event_warning, "networking:saved_film:manager: failed to allocate compressed gamestate buffer");
+		return false;
+	}
+
+	int32 compressed_game_state_size = 0;
+	int32 update_number = 0;
+	bool success = saved_film_manager_globals.saved_film.read_gamestate(&saved_film_update,
+		compressed_game_state,
+		k_game_state_maximum_compressed_size,
+		&compressed_game_state_size,
+		&update_number);
+
+	if (success)
+	{
+		event(_event_message, "networking:saved_film:manager: loaded pending gamestate [update %d size %d]",
+			update_number,
+			compressed_game_state_size);
+	}
+	else
+	{
+		event(_event_warning, "networking:saved_film:manager: failed to read pending gamestate");
+	}
+
+	overlapped_free(compressed_game_state);
+	return success;
+}
+
+void saved_film_manager_load_pending_gamestate()
+{
+	if (!saved_film_manager_globals.pending_gamestate_load)
+	{
+		return;
+	}
+
+	bool success = saved_film_manager_load_pending_gamestate_to_compressor();
+	if (success)
+	{
+		event(_event_message, "networking:saved_film:manager: pending gamestate loaded");
+	}
+	else
+	{
+		event(_event_warning, "networking:saved_film:manager: failed to load pending gamestate");
+	}
+
+	saved_film_manager_globals.pending_gamestate_load = false;
+	saved_film_manager_globals.gamestate_file_position = NONE;
 }
 
 void saved_film_manager_memory_dispose()
@@ -940,6 +955,7 @@ void saved_film_manager_notify_gamestate_load(e_saved_film_game_state_load_sourc
 
 void saved_film_manager_notify_out_of_sync()
 {
+	event(_event_warning, "networking:saved_film:manager: out of sync detected");
 }
 
 void saved_film_manager_notify_remote_end_film()
@@ -975,8 +991,6 @@ void saved_film_manager_notify_reverted_gamestate_loaded(int32 history_record_in
 
 void saved_film_manager_notify_snippet_preview_complete()
 {
-	return;
-
 	event(_event_message, "networking:saved_film:manager: notified film snippet complete");
 	ASSERT(game_is_authoritative_playback());
 
@@ -1298,7 +1312,7 @@ void saved_film_manager_render_debug()
 {
 	if (game_in_progress() && game_is_playback() && g_saved_films_show_timestamp)
 	{
-		// $IMPLEMENT
+		saved_film_history_render_debug();
 	}
 }
 
@@ -1464,7 +1478,6 @@ bool saved_film_manager_seeking(int32* seek_time_available_out)
 	return seeking;
 }
 
-// $REVIEW
 void saved_film_manager_set_director_state(const s_saved_film_manager_director_state* director_state)
 {
 	TAG_RESOURCES_GAME_LOCK();
@@ -1846,7 +1859,7 @@ void saved_film_manager_update()
 	{
 		if (game_is_playback())
 		{
-			// $IMPLEMENT
+			saved_film_manager_update_snippet_authored_cameras();
 		}
 
 		if (!game_is_playback() && saved_film_manager_globals.saved_film.get_film_state() > _saved_film_open_for_write)
@@ -1859,33 +1872,6 @@ void saved_film_manager_update()
 int32 saved_film_manager_upload_start(int32 maximum_file_count, s_file_reference* out_file_list)
 {
 	return NONE;
-
-	//int32 file_count;
-	//{
-	//	c_static_string<128> source_file_path;
-	//	bool file_name_found;
-	//	c_static_string<128> destination_file_path;
-	//	{
-	//		int32 content_item_index;
-	//		c_content_catalogue* content_catalogue;
-	//		{
-	//			c_debug_output_path debug_output_path;
-	//			c_static_string<260> game_description;
-	//		}
-	//	}
-	//	{
-	//		s_file_reference temp_reference;
-	//		{
-	//			char file_name[256];
-	//			c_debug_output_path debug_output_path;
-	//		}
-	//	}
-	//	{
-	//		e_saved_film_state current_film_state;
-	//		e_saved_film_file_path_creation_purpose name_build_creation_purpose;
-	//		c_debug_output_path debug_output_path;
-	//	}
-	//}
 }
 
 bool saved_film_manager_write_simulation_update(const s_simulation_update* update)

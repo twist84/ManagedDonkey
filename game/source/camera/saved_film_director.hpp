@@ -14,6 +14,9 @@ public:
 		INVOKE_CLASS_MEMBER(0x007276C0, c_saved_film_director, constructor, user_index);
 	}
 
+	virtual e_director_mode get_type() const;
+	virtual void select_fallback_target();
+	
 	void notify_revert();
 	static bool __cdecl player_is_film_recorder(int32 player_index);
 

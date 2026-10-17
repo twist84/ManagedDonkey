@@ -232,26 +232,10 @@ bool saved_film_snippet_finished_revert_for_seek(int32 update_number, void* game
 
 void saved_film_snippet_get_camera_for_simulation_update(s_simulation_camera_update* camera_update_out)
 {
-	// $IMPLEMENT
-
-	//int32 user_index;
-	//{
-	//	e_camera_mode current_camera_mode;
-	//	c_saved_film_director* saved_film_director;
-	//	{
-	//		int32 current_player_index;
-	//		int32 current_target_object_index;
-	//		{
-	//			const unit_datum* unit;
-	//		}
-	//	}
-	//	{
-	//		const s_observer_result* observer_result;
-	//		{
-	//			const c_flying_camera* flying_camera;
-	//		}
-	//	}
-	//}
+	if (TEST_BIT(saved_film_manager_globals.valid_camera_update_mask, 0))
+	{
+		*camera_update_out = saved_film_manager_globals.camera_updates[0];
+	}
 }
 
 bool saved_film_snippet_get_current_start_tick(int32* start_tick_out)
@@ -359,30 +343,23 @@ bool saved_film_snippet_pad_camera_file_for_write_completion()
 {
 	bool success = false;
 
-	// $IMPLEMENT
-
-	//{
-	//	int32 padded_file_size;
-	//	int32 size_required_to_pad;
-	//	int32 current_file_size;
-	//	int32 bytes_written;
-	//	{
-	//		int32 dwords_required_to_pad;
-	//		uns32 pad;
-	//		{
-	//			int32 dword_index;
-	//			event(...);
-	//		}
-	//	}
-	//	{
-	//		int32 bytes_required_to_pad;
-	//		uns8 pad;
-	//		{
-	//			int32 byte_index;
-	//			event(...);
-	//		}
-	//	}
-	//}
+	if (saved_film_snippet_globals.camera_file.get_state() == _async_buffer_state_writing)
+	{
+		int32 current_file_size = saved_film_snippet_globals.camera_file.get_position();
+		int32 padding_dwords = (((current_file_size + 0xFFF) & ~0xFFFu) - current_file_size) >> 2;
+		uns32 pad = 0;
+		int32 bytes_written = 0;
+		success = true;
+		for (int32 i = 0; i < padding_dwords && success; i++)
+		{
+			saved_film_snippet_globals.camera_file.write(&pad, sizeof(pad), &bytes_written);
+			success = (bytes_written == sizeof(pad));
+		}
+	}
+	else
+	{
+		success = true;
+	}
 
 	return success;
 }
@@ -543,59 +520,117 @@ bool saved_film_snippet_update()
 {
 	bool success = false;
 
-	// $IMPLEMENT
-
-	//ASSERT(game_in_progress());
-	//ASSERT(game_is_playback());
-	//
-	//switch (saved_film_snippet_globals.current_state)
-	//{
-	//case _saved_film_snippet_state_recording:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_invoking_title_keyboard:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_waiting_title_keyboard:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_invoking_description_keyboard:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_waiting_description_keyboard:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_initiate_creation:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_wait_for_creation:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_initiate_metadata_update:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_commiting_wait_for_metadata_update:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//}
+	switch (saved_film_snippet_globals.current_state)
+	{
+	case _saved_film_snippet_state_none:
+	case _saved_film_snippet_state_recorded_and_ready:
+	case _saved_film_snippet_state_recording:
+	case _saved_film_snippet_state_previewing:
+	{
+		success = true;
+	}
+	break;
+	case _saved_film_snippet_state_recording_waiting_for_seek:
+	case _saved_film_snippet_state_previewing_waiting_for_seek:
+	case _saved_film_snippet_state_recording_waiting_for_start:
+	{
+		success = true;
+	}
+	break;
+	case _saved_film_snippet_state_committing_invoking_title_keyboard:
+	{
+		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr)
+		{
+			overlapped_task_start_internal(saved_film_snippet_globals.virtual_keyboard_task, __FILE__, __LINE__);
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_waiting_title_keyboard;
+			success = true;
+		}
+	}
+	break;
+	case _saved_film_snippet_state_committing_waiting_title_keyboard:
+	{
+		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr &&
+			!overlapped_task_is_running(saved_film_snippet_globals.virtual_keyboard_task))
+		{
+			const wchar_t* result_text = saved_film_snippet_globals.virtual_keyboard_task->get_result_text();
+			if (result_text && result_text[0] != 0)
+			{
+				saved_film_snippet_globals.snippet_name.set(result_text);
+			}
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_invoking_description_keyboard;
+			success = true;
+		}
+	}
+	break;
+	case _saved_film_snippet_state_committing_invoking_description_keyboard:
+	{
+		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr)
+		{
+			overlapped_task_start_internal(saved_film_snippet_globals.virtual_keyboard_task, __FILE__, __LINE__);
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_waiting_description_keyboard;
+			success = true;
+		}
+	}
+	break;
+	case _saved_film_snippet_state_committing_waiting_description_keyboard:
+	{
+		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr &&
+			!overlapped_task_is_running(saved_film_snippet_globals.virtual_keyboard_task))
+		{
+			const wchar_t* result_text = saved_film_snippet_globals.virtual_keyboard_task->get_result_text();
+			if (result_text && result_text[0] != 0)
+			{
+				saved_film_snippet_globals.snippet_description.set(result_text);
+			}
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_initiate_creation;
+			success = true;
+		}
+	}
+	break;
+	case _saved_film_snippet_state_committing_initiate_creation:
+	{
+		saved_film_snippet_globals.snippet_save_done.set(1);
+		saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_wait_for_creation;
+		success = true;
+	}
+	break;
+	case _saved_film_snippet_state_committing_wait_for_creation:
+	{
+		if (saved_film_snippet_globals.snippet_save_done.peek() != 0)
+		{
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_initiate_metadata_update;
+			success = true;
+		}
+	}
+	break;
+	case _saved_film_snippet_state_committing_initiate_metadata_update:
+	{
+		saved_film_snippet_globals.snippet_save_done.set(1);
+		saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_wait_for_metadata_update;
+		success = true;
+	}
+	break;
+	case _saved_film_snippet_state_committing_wait_for_metadata_update:
+	{
+		if (saved_film_snippet_globals.snippet_save_done.peek() != 0)
+		{
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_recorded_and_ready;
+			success = true;
+		}
+	}
+	break;
+	case _saved_film_snippet_state_resetting:
+	{
+		saved_film_snippet_initialize_state();
+		success = true;
+	}
+	break;
+	default:
+	{
+		VASSERT(0, "saved_film_snippet_update reached an unhandled snippet state");
+	}
+	break;
+	}
 
 	return success;
 }
@@ -604,56 +639,41 @@ bool saved_film_snippet_update_after_simulation_update(const s_simulation_update
 {
 	bool success = false;
 
-	// $IMPLEMENT
+	switch (saved_film_snippet_globals.current_state)
+	{
+	case _saved_film_snippet_state_recording_waiting_for_seek:
+	case _saved_film_snippet_state_previewing_waiting_for_seek:
+	case _saved_film_snippet_state_recording_waiting_for_start:
+	case _saved_film_snippet_state_previewing:
+	case _saved_film_snippet_state_recorded_and_ready:
+	case _saved_film_snippet_state_none:
+	case _saved_film_snippet_state_resetting:
+	{
+		success = true;
+	}
+	break;
+	case _saved_film_snippet_state_recording:
+	{
+		if (!saved_film_snippet_globals.camera_file.ready_to_write())
+		{
+			success = true;
+			break;
+		}
 
-	//ASSERT(game_in_progress());
-	//ASSERT(game_is_playback());
-	//
-	//switch (saved_film_snippet_globals.current_state)
-	//{
-	//case _saved_film_snippet_state_none:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_recording_waiting_for_seek:
-	//case _saved_film_snippet_state_previewing_waiting_for_seek:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_recording_waiting_for_start:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_recording:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_recorded_and_ready:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_previewing:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//case _saved_film_snippet_state_resetting:
-	//{
-	//	// $IMPLEMENT
-	//}
-	//break;
-	//default:
-	//{
-	//	VASSERT(0, "this function should be unreachable");
-	//}
-	//break;
-	//}
-	
+		s_simulation_camera_update camera_update{};
+		saved_film_snippet_get_camera_for_simulation_update(&camera_update);
+		int32 bytes_written = 0;
+		saved_film_snippet_globals.camera_file.write(&camera_update, sizeof(camera_update), &bytes_written);
+		success = (bytes_written == sizeof(camera_update));
+	}
+	break;
+	default:
+	{
+		VASSERT(0, "saved_film_snippet_update_after_simulation_update reached an unhandled snippet state");
+	}
+	break;
+	}
+
 	return success;
 }
 

@@ -389,7 +389,10 @@ void __cdecl game_create_unlock_resources(e_game_create_mode mode, int32& lock)
 	//	tag_resources_unlock_game(lock);
 }
 
-//.text:00530C50 ; bool __cdecl game_determinism_version_compatible(int32 determinism_version)
+bool __cdecl game_determinism_version_compatible(int32 determinism_version)
+{
+	return INVOKE(0x00530C50, game_determinism_version_compatible, determinism_version);
+}
 
 e_campaign_difficulty_level __cdecl game_difficulty_level_get()
 {
@@ -611,7 +614,11 @@ s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local()
 	return &game_globals->cluster_pvs_local;
 }
 
-//.text:005311D0 ; void __cdecl game_get_determinism_versions(int32* determinism_version, int32* determinism_compatible_version)
+void __cdecl game_get_determinism_versions(int32* determinism_version, int32* determinism_compatible_version)
+{
+	INVOKE(0x005311D0, game_get_determinism_versions, determinism_version, determinism_compatible_version);
+}
+
 //.text:00531200 ; 
 
 e_language __cdecl game_get_master_language()

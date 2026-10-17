@@ -245,7 +245,12 @@ void game_state_get_core_file_reference(const char* core_name, s_file_reference*
 
 //.text:0050F6A0 ; c_game_state_compressor::game_state_get_storage
 //.text:0050F6C0 ; c_game_state_compressor::game_state_get_compressed_checksum
-//.text:0050F6E0 ; c_game_state_compressor::game_state_get_compressed_from_buffer
+
+bool c_game_state_compressor::game_state_get_compressed_from_buffer(e_game_state_compression_level compression_level, const void* gamestate, int32 gamestate_size, byte** compressed_game_state_out, int32* compressed_size_out)
+{
+	return INVOKE_CLASS_MEMBER(0x0050F6E0, c_game_state_compressor, game_state_get_compressed_from_buffer, compression_level, gamestate, gamestate_size, compressed_game_state_out, compressed_size_out);
+}
+
 //.text:0050F710 ; c_game_state_compressor::game_state_get_compressed_size
 
 c_game_state_compressor* __cdecl game_state_get_compressor()
@@ -880,7 +885,12 @@ void __cdecl initialize_game_state_section(int32 section_index, unsigned int siz
 
 //.text:005111A0 ; c_game_state_compressor::is_lock_pending
 //.text:005111B0 ; c_game_state_compressor::is_locked
-//.text:005111C0 ; c_game_state_compressor::lock
+
+bool c_game_state_compressor::lock()
+{
+	return INVOKE_CLASS_MEMBER(0x005111C0, c_game_state_compressor, lock);
+}
+
 //.text:00511200 ; c_game_state_compressor::locked_get_compressed_chunk
 //.text:00511240 ; c_game_state_compressor::locked_write_compressed_chunk
 
@@ -891,5 +901,9 @@ bool __cdecl player_identifier_exists_in_game_header(const s_player_identifier* 
 
 //.text:00511310 ; c_game_state_compressor::set_lock_pending
 //.text:00511320 ; c_game_state_compressor_callback::terminate
-//.text:00511370 ; c_game_state_compressor::unlock
+
+void c_game_state_compressor::unlock()
+{
+	INVOKE_CLASS_MEMBER(0x00511370, c_game_state_compressor, unlock);
+}
 

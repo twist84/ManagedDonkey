@@ -12,6 +12,7 @@
 #include "networking/network_utilities.hpp"
 #include "networking/tools/network_debug_dump.hpp"
 #include "simulation/simulation.hpp"
+#include "tag_files/files_windows.hpp"
 
 bool g_saved_films_show_timestamp = false;
 
@@ -39,7 +40,6 @@ void c_saved_film::dispose(c_allocation_base* allocator)
 	m_async_double_buffer.release_storage(allocator);
 }
 
-// $REVIEW
 bool c_saved_film::open_for_read(const char* filename, e_controller_index controller_index, bool disable_version_check)
 {
 	ASSERT(m_film_state == k_saved_film_state_none);
@@ -403,7 +403,6 @@ bool c_saved_film::open_for_write(const char* filename, const game_options* opti
 	return true;
 }
 
-// $REVIEW
 bool c_saved_film::write_simulation_update(const s_simulation_update* update)
 {
 	ASSERT(update);
@@ -468,89 +467,83 @@ bool c_saved_film::write_simulation_update(const s_simulation_update* update)
 	return true;
 }
 
-// $REVIEW
 bool c_saved_film::write_gamestate()
 {
 	ASSERT(m_film_state == _saved_film_open_for_write);
 
-	return false;
+	c_game_state_compressor* compressor = game_state_get_compressor();
+	byte* compressed_game_state = nullptr;
+	int32 compressed_size = 0;
 
-	//c_game_state_compressor* compressor = game_state_get_compressor();
-	//byte* compressed_game_state = nullptr;
-	//int32 compressed_size = 0;
-	//
-	//if (!compressor->lock())
-	//{
-	//	event(_event_error, "networking:saved_film: failed to lock game state compressor for write_gamestate");
-	//
-	//	event(_event_warning, "networking:saved_film: failed to write gamestate, marking as fatal error");
-	//	m_fatal_error_encountered_during_write = true;
-	//	return false;
-	//}
-	//
-	//if (!c_saved_film::write_game_state_internal(0, compressed_game_state, compressed_size))
-	//{
-	//	event(_event_warning, "networking:saved_film: failed to write compressed gamestate [%d/%d]",
-	//		(uns32)compressed_game_state,
-	//		compressed_size);
-	//
-	//	compressor->unlock();
-	//
-	//	event(_event_warning, "networking:saved_film: failed to write gamestate, marking as fatal error");
-	//	m_fatal_error_encountered_during_write = true;
-	//	return false;
-	//}
-	//
-	//compressor->unlock();
-	//return true;
+	if (!compressor->lock())
+	{
+		event(_event_error, "networking:saved_film: failed to lock game state compressor for write_gamestate");
+
+		event(_event_warning, "networking:saved_film: failed to write gamestate, marking as fatal error");
+		m_fatal_error_encountered_during_write = true;
+		return false;
+	}
+
+	if (!c_saved_film::write_game_state_internal(0, compressed_game_state, compressed_size))
+	{
+		event(_event_warning, "networking:saved_film: failed to write compressed gamestate [%d/%d]",
+			(uns32)compressed_game_state,
+			compressed_size);
+
+		compressor->unlock();
+
+		event(_event_warning, "networking:saved_film: failed to write gamestate, marking as fatal error");
+		m_fatal_error_encountered_during_write = true;
+		return false;
+	}
+
+	compressor->unlock();
+	return true;
 }
 
-// $REVIEW
 bool c_saved_film::write_gamestate_from_buffer(int32 update_number, const void* gamestate, int32 gamestate_size)
 {
 	ASSERT(m_film_state == _saved_film_open_for_write);
 
-	return false;
+	c_game_state_compressor* compressor = game_state_get_compressor();
+	byte* compressed_game_state = nullptr;
+	int32 compressed_size = 0;
 
-	//c_game_state_compressor* compressor = game_state_get_compressor();
-	//byte* compressed_game_state = nullptr;
-	//int32 compressed_size = 0;
-	//
-	//if (!compressor->lock())
-	//{
-	//	event(_event_error, "networking:saved_film: write lock game state compressor for write_gamestate_from_buffer");
-	//
-	//	event(_event_warning, "networking:saved_film: failed to write gamestate from buffer, marking as fatal error");
-	//	m_fatal_error_encountered_during_write = true;
-	//	return false;
-	//}
-	//
-	//if (!compressor->game_state_get_compressed_from_buffer(_game_state_compression_level_fast, gamestate, gamestate_size, &compressed_game_state, &compressed_size))
-	//{
-	//	event(_event_error, "networking:saved_film: write failed to compress game state");
-	//
-	//	compressor->unlock();
-	//
-	//	event(_event_warning, "networking:saved_film: failed to write gamestate from buffer, marking as fatal error");
-	//	m_fatal_error_encountered_during_write = true;
-	//	return false;
-	//}
-	//
-	//if (!c_saved_film::write_game_state_internal(update_number, compressed_game_state, compressed_size))
-	//{
-	//	event(_event_warning, "networking:saved_film: failed to write compressed gamestate from buffer [%d/%d]",
-	//		(uns32)compressed_game_state,
-	//		compressed_size);
-	//
-	//	compressor->unlock();
-	//
-	//	event(_event_warning, "networking:saved_film: failed to write gamestate from buffer, marking as fatal error");
-	//	m_fatal_error_encountered_during_write = true;
-	//	return false;
-	//}
-	//
-	//compressor->unlock();
-	//return true;
+	if (!compressor->lock())
+	{
+		event(_event_error, "networking:saved_film: write lock game state compressor for write_gamestate_from_buffer");
+
+		event(_event_warning, "networking:saved_film: failed to write gamestate from buffer, marking as fatal error");
+		m_fatal_error_encountered_during_write = true;
+		return false;
+	}
+
+	if (!compressor->game_state_get_compressed_from_buffer(_game_state_compression_level_fast, gamestate, gamestate_size, &compressed_game_state, &compressed_size))
+	{
+		event(_event_error, "networking:saved_film: write failed to compress game state");
+
+		compressor->unlock();
+
+		event(_event_warning, "networking:saved_film: failed to write gamestate from buffer, marking as fatal error");
+		m_fatal_error_encountered_during_write = true;
+		return false;
+	}
+
+	if (!c_saved_film::write_game_state_internal(update_number, compressed_game_state, compressed_size))
+	{
+		event(_event_warning, "networking:saved_film: failed to write compressed gamestate from buffer [%d/%d]",
+			(uns32)compressed_game_state,
+			compressed_size);
+
+		compressor->unlock();
+
+		event(_event_warning, "networking:saved_film: failed to write gamestate from buffer, marking as fatal error");
+		m_fatal_error_encountered_during_write = true;
+		return false;
+	}
+
+	compressor->unlock();
+	return true;
 }
 
 int32 c_saved_film::get_ticks_remaining() const
@@ -685,7 +678,6 @@ bool c_saved_film::close()
 	return result;
 }
 
-// $REVIEW
 bool c_saved_film::header_valid(const s_blf_saved_film* header, bool disable_version_check) const
 {
 	ASSERT(header);
@@ -698,41 +690,41 @@ bool c_saved_film::header_valid(const s_blf_saved_film* header, bool disable_ver
 		return false;
 	}
 
-	//if (!disable_version_check)
-	//{
-	//	int32 local_executable_type = 0;
-	//	int32 local_executable_version = 0;
-	//	int32 local_compatible_version = 0;
-	//	network_get_build_identifiers(&local_executable_type, &local_executable_version, &local_compatible_version);
-	//
-	//	int32 local_determinism_version = 0;
-	//	int32 local_determinism_compatible_version = 0;
-	//	game_get_determinism_versions(&local_determinism_version, &local_determinism_compatible_version);
-	//
-	//	if (header->film_header.build_compatibility.executable_type != local_executable_type)
-	//	{
-	//		event(_event_warning, "networking:saved_film: executable type mismatch [%d!=%d], film not valid",
-	//			header->film_header.build_compatibility.executable_type,
-	//			local_executable_type);
-	//		return false;
-	//	}
-	//
-	//	if (!game_determinism_version_compatible(header->film_header.options.determinism_version))
-	//	{
-	//		event(_event_warning, "networking:saved_film: determinism version mismatch [film %d local %d/%d], film not valid",
-	//			header->film_header.options.determinism_version,
-	//			local_determinism_version,
-	//			local_determinism_compatible_version);
-	//		return false;
-	//	}
-	//
-	//	if (header->film_header.build_compatibility.network_executable_version != local_executable_version)
-	//	{
-	//		event(_event_warning, "networking:saved_film: film executable version is different than local [%d != %d], relying on deterministic version",
-	//			header->film_header.build_compatibility.network_executable_version,
-	//			local_executable_version);
-	//	}
-	//}
+	if (!disable_version_check)
+	{
+		int32 local_executable_type = 0;
+		int32 local_executable_version = 0;
+		int32 local_compatible_version = 0;
+		network_get_build_identifiers(&local_executable_type, &local_executable_version, &local_compatible_version);
+
+		int32 local_determinism_version = 0;
+		int32 local_determinism_compatible_version = 0;
+		game_get_determinism_versions(&local_determinism_version, &local_determinism_compatible_version);
+
+		if (header->film_header.build_compatibility.executable_type != local_executable_type)
+		{
+			event(_event_warning, "networking:saved_film: executable type mismatch [%d!=%d], film not valid",
+				header->film_header.build_compatibility.executable_type,
+				local_executable_type);
+			return false;
+		}
+
+		if (!game_determinism_version_compatible(header->film_header.options.determinism_version))
+		{
+			event(_event_warning, "networking:saved_film: determinism version mismatch [film %d local %d/%d], film not valid",
+				header->film_header.options.determinism_version,
+				local_determinism_version,
+				local_determinism_compatible_version);
+			return false;
+		}
+
+		if (header->film_header.build_compatibility.network_executable_version != local_executable_version)
+		{
+			event(_event_warning, "networking:saved_film: film executable version is different than local [%d != %d], relying on deterministic version",
+				header->film_header.build_compatibility.network_executable_version,
+				local_executable_version);
+		}
+	}
 
 	char error_string[512]{};
 	if (!game_options_verify(&header->film_header.options, error_string, sizeof(error_string)))
@@ -840,7 +832,23 @@ const byte* c_saved_film::get_map_signature_bytes() const
 	return m_film_header.film_header.build_compatibility.map_signature_bytes;
 }
 
-//void c_saved_film::copy_film(const char* source_file, const char* destination_file)
+void c_saved_film::copy_film(const char* source_file, const char* destination_file)
+{
+	ASSERT(source_file);
+	ASSERT(destination_file);
+
+	s_file_reference source_reference{};
+	s_file_reference destination_reference{};
+	file_reference_create_from_path(&source_reference, source_file, false);
+	file_reference_create_from_path(&destination_reference, destination_file, false);
+
+	if (!file_copy_to(&source_reference, &destination_reference, true))
+	{
+		event(_event_warning, "networking:saved_film: failed to copy film '%s' to '%s'",
+			source_file,
+			destination_file);
+	}
+}
 
 void c_saved_film::reset_internal_state()
 {

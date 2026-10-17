@@ -97,10 +97,21 @@ public:
 	virtual void handle_allocation(const c_restricted_memory* manager, const char* name, const char* type_name, int32 member_index, void* primary_address, unsigned int size) override;
 };
 
+enum e_game_state_compression_level
+{
+	_game_state_compression_level_fast = 0,
+	_game_state_compression_level_best,
+
+	k_game_state_compression_level_count
+};
+
 class c_game_state_compressor
 {
 public:
 	void initialize();
+	bool game_state_get_compressed_from_buffer(e_game_state_compression_level compression_level, const void* gamestate, int32 gamestate_size, byte** compressed_game_state_out, int32* compressed_size_out);
+	bool lock();
+	void unlock();
 
 protected:
 	bool m_locked;
