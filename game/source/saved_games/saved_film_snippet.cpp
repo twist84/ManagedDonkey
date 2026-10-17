@@ -537,17 +537,17 @@ bool saved_film_snippet_update()
 		success = true;
 	}
 	break;
-	case _saved_film_snippet_state_committing_invoking_title_keyboard:
+	case _saved_film_snippet_state_commiting_invoking_title_keyboard:
 	{
 		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr)
 		{
 			overlapped_task_start_internal(saved_film_snippet_globals.virtual_keyboard_task, __FILE__, __LINE__);
-			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_waiting_title_keyboard;
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_waiting_title_keyboard;
 			success = true;
 		}
 	}
 	break;
-	case _saved_film_snippet_state_committing_waiting_title_keyboard:
+	case _saved_film_snippet_state_commiting_waiting_title_keyboard:
 	{
 		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr &&
 			!overlapped_task_is_running(saved_film_snippet_globals.virtual_keyboard_task))
@@ -557,22 +557,22 @@ bool saved_film_snippet_update()
 			{
 				saved_film_snippet_globals.snippet_name.set(result_text);
 			}
-			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_invoking_description_keyboard;
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_invoking_description_keyboard;
 			success = true;
 		}
 	}
 	break;
-	case _saved_film_snippet_state_committing_invoking_description_keyboard:
+	case _saved_film_snippet_state_commiting_invoking_description_keyboard:
 	{
 		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr)
 		{
 			overlapped_task_start_internal(saved_film_snippet_globals.virtual_keyboard_task, __FILE__, __LINE__);
-			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_waiting_description_keyboard;
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_waiting_description_keyboard;
 			success = true;
 		}
 	}
 	break;
-	case _saved_film_snippet_state_committing_waiting_description_keyboard:
+	case _saved_film_snippet_state_commiting_waiting_description_keyboard:
 	{
 		if (saved_film_snippet_globals.virtual_keyboard_task != nullptr &&
 			!overlapped_task_is_running(saved_film_snippet_globals.virtual_keyboard_task))
@@ -582,35 +582,35 @@ bool saved_film_snippet_update()
 			{
 				saved_film_snippet_globals.snippet_description.set(result_text);
 			}
-			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_initiate_creation;
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_initiate_creation;
 			success = true;
 		}
 	}
 	break;
-	case _saved_film_snippet_state_committing_initiate_creation:
+	case _saved_film_snippet_state_commiting_initiate_creation:
 	{
 		saved_film_snippet_globals.snippet_save_done.set(1);
-		saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_wait_for_creation;
+		saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_wait_for_creation;
 		success = true;
 	}
 	break;
-	case _saved_film_snippet_state_committing_wait_for_creation:
+	case _saved_film_snippet_state_commiting_wait_for_creation:
 	{
 		if (saved_film_snippet_globals.snippet_save_done.peek() != 0)
 		{
-			saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_initiate_metadata_update;
+			saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_initiate_metadata_update;
 			success = true;
 		}
 	}
 	break;
-	case _saved_film_snippet_state_committing_initiate_metadata_update:
+	case _saved_film_snippet_state_commiting_initiate_metadata_update:
 	{
 		saved_film_snippet_globals.snippet_save_done.set(1);
-		saved_film_snippet_globals.current_state = _saved_film_snippet_state_committing_wait_for_metadata_update;
+		saved_film_snippet_globals.current_state = _saved_film_snippet_state_commiting_wait_for_metadata_update;
 		success = true;
 	}
 	break;
-	case _saved_film_snippet_state_committing_wait_for_metadata_update:
+	case _saved_film_snippet_state_commiting_wait_for_metadata_update:
 	{
 		if (saved_film_snippet_globals.snippet_save_done.peek() != 0)
 		{
