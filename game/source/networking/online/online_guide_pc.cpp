@@ -438,27 +438,9 @@ bool __cdecl online_guide_show_sign_in_ui(int32 pane_count, uns32 flags)
 	return true;
 }
 
-//uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, const wchar_t* default_text, const wchar_t* title_text, const wchar_t* description_text, wchar_t* result_text, uns32 maximum_character_count, struct _XOVERLAPPED* platform_handle)
-uns32 __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, uns32 character_flags, const wchar_t* default_text, const wchar_t* title_text, const wchar_t* description_text, wchar_t* result_text, uns32 maximum_character_count, void* overlapped)
-{
-	//return INVOKE(0x004E1970, online_guide_show_virtual_keyboard_ui, controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, overlapped);
+// Implemented in virtual_keyboard_pc.cpp (Xbox 360 style PC virtual keyboard from pc_virtual_keyboard).
+// XShowKeyboardUI dialog implementation is intentionally unused.
 
-	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
-	ASSERT(result_text != nullptr);
-	ASSERT(maximum_character_count > 0);
-	ASSERT(overlapped != nullptr);
-
-	c_controller_interface* controller = controller_get(controller_index);
-	if (!controller->is_signed_in_to_machine())
-	{
-		return E_FAIL;
-	}
-
-	// $TODO properly implement `XShowKeyboardUI`
-	return ERROR_SUCCESS;
-
-	return XShowKeyboardUI(controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, overlapped);
-}
 
 void __cdecl online_guide_update()
 {
@@ -534,6 +516,11 @@ void c_virtual_keyboard_task::set_title_text(const wchar_t* title_text)
 	{
 		m_title_text_buffer[0] = 0;
 	}
+}
+
+const wchar_t* c_virtual_keyboard_task::get_result_text() const
+{
+	return m_result_text_buffer;
 }
 
 //.text:004E19E0 ; public: virtual uns32 c_invite_task::start(void*)

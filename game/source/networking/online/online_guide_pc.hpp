@@ -64,6 +64,7 @@ public:
 	void set_maximum_input_characters(uns32 maximum_input_characters);
 	void set_sanitize_result(bool sanitize_result);
 	void set_title_text(const wchar_t* title_text);
+	const wchar_t* get_result_text() const;
 
 	static c_virtual_keyboard_task* m_instance;
 

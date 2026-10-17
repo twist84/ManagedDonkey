@@ -2124,6 +2124,9 @@
     <ClCompile Include="source\interface\gui_screens\director\gui_screen_snippet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\online\virtual_keyboard_pc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
