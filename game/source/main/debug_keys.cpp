@@ -709,7 +709,7 @@ void __cdecl debug_keys_dispose()
 bool __cdecl debug_key_update(int32 key_index, debug_key* key, bool* modifier_down, int32 force_key_down)
 {
 	bool result = false;
-	if ((game_in_progress() || key->allow_out_of_game) && (!game_in_editor() || key->allow_in_editor) && input_globals.mouse_acquired)
+	if ((game_in_progress() || key->allow_out_of_game) && (!game_in_editor() || key->allow_in_editor) && input_globals.active_flag)
 	{
 		ASSERT(VALID_INDEX(key->modifier, 6)); // NUMBEROF(modifier_down) == 6
 		bool key_down = input_key_frames_down((e_input_key_code)key->key_code, _input_type_game) && modifier_down[key->modifier];

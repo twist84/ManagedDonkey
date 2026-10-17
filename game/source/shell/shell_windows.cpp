@@ -599,7 +599,7 @@ bool __cdecl input_process_key(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	//return INVOKE(0x00511F40, input_process_key, uMsg, wParam, lParam);
 
-	if (!input_globals.mouse_acquired)
+	if (!input_globals.active_flag)
 	{
 		return false;
 	}

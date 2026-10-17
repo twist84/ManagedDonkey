@@ -90,7 +90,7 @@ void __cdecl input_activate()
 	INVOKE(0x005115A0, input_activate);
 
 	//input_globals.update_time = system_milliseconds();
-	//input_globals.mouse_acquired = true;
+	//input_globals.active_flag = true;
 	//if (input_globals.raw_input_mouse_state_update)
 	//{
 	//	sub_5114A0();
@@ -126,7 +126,7 @@ void __cdecl input_deactivate()
 	//{
 	//	sub_5125A0();
 	//}
-	//input_globals.mouse_acquired = false;
+	//input_globals.active_flag = false;
 }
 
 void __cdecl input_dispose()
@@ -343,7 +343,7 @@ bool __cdecl sub_511B40()
 {
 	return INVOKE(0x00511B40, sub_511B40);
 
-	//return input_globals.mouse_acquired;
+	//return input_globals.active_flag;
 }
 
 bool __cdecl input_type_suppressed(e_input_type input_type)
@@ -541,7 +541,7 @@ void __cdecl input_update()
 {
 	//INVOKE(0x00512690, input_update);
 
-	if (input_globals.initialized && (input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
+	if (input_globals.initialized && (input_globals.active_flag || game_in_editor() && sub_42E000()))
 	{
 		uns32 time = system_milliseconds();
 		int32 elapsed_msec = CLAMP(time - input_globals.update_time, 0, 100);

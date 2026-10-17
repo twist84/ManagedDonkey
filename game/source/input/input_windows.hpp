@@ -429,7 +429,7 @@ COMPILE_ASSERT(sizeof(rumble_state) == 0x4);
 struct s_input_globals
 {
 	bool initialized;
-	bool mouse_acquired;
+	bool active_flag;
 	bool input_suppressed;
 	c_static_array<bool, k_input_type_count> input_type_suppressed;
 	bool feedback_suppressed;
