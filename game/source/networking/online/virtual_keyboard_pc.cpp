@@ -1227,9 +1227,8 @@ namespace
         {
             if (m_overlapped != nullptr)
             {
-                m_overlapped->InternalLow = status;
+                m_overlapped->Internal = status;
                 m_overlapped->InternalHigh = bytes;
-                m_overlapped->dwExtendedError = status;
                 if (m_overlapped->hEvent != nullptr)
                 {
                     SetEvent(m_overlapped->hEvent);
