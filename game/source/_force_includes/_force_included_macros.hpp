@@ -27,8 +27,8 @@
 #define BIT_VECTOR_SET_FLAG(BIT_VECTOR, BIT, ENABLE) (BIT_VECTOR[BIT >> 5] = (ENABLE) ? BIT_VECTOR[BIT >> 5] | (1 << (BIT & (LONG_BITS - 1))) : BIT_VECTOR[BIT >> 5] & ~(1 << (BIT & (LONG_BITS - 1))))
 
 #define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define MIN(a, b) ((a) > (b) ? (b) : (a))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define PIN(a, b, c) MIN(MAX((a), (b)), (c))
 #define CLAMP(a, b, c) (((a) < (b)) ? (b) : ((a) > (c)) ? (c) : (a))
 #define CLAMP_LOWER(a, b, c) (((a) >= ((c) - (b))) ? ((a) - (c)) : (b))
@@ -112,5 +112,35 @@ constexpr t_result FLAGS_impl(t_type first, t_rest... rest)
 	COMPILE_ASSERT((std::is_same_v<t_type, t_rest> && ...), "All flags must have the same type");
 
 	return (static_cast<t_result>(t_result{ 1 } << first) | ... | static_cast<t_result>(t_result{ 1 } << rest));
+}
+
+template<typename t_type>
+t_type const& TMIN(t_type const& a, t_type const& b)
+{
+	return a > b ? b : a;
+}
+
+template<typename t_type>
+t_type const& TMAX(t_type const& a, t_type const& b)
+{
+	return a > b ? a : b;
+}
+
+template<typename t_type>
+t_type const& TFLOOR(t_type const& n, t_type const& floor)
+{
+	return (n > floor) ? n : floor;
+}
+
+template<typename t_type>
+t_type const& TCEILING(t_type const& n, t_type const& ceiling)
+{
+	return (n < ceiling) ? n : ceiling;
+}
+
+template<typename t_type>
+t_type const& TPIN(t_type const& n, t_type const& floor, t_type const& ceiling)
+{
+	return TCEILING(TFLOOR(n, floor), ceiling);
 }
 
