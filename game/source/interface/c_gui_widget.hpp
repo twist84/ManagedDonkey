@@ -226,6 +226,7 @@ public:
 	bool controller_can_drive(e_controller_index controller_index);
 	c_gui_bitmap_widget* create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block);
 	void create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index);
+	void create_and_add_children_from_skin_definition(const s_gui_skin_definition* skin_definition, int32 override_animation_collection_reference_index, int16 render_depth_bias);
 	void delete_all_children();
 	e_controller_index get_arbitrary_responding_controller() const;
 	real_rectangle2d* get_authored_bounds(real_rectangle2d* unanimated_bounds);

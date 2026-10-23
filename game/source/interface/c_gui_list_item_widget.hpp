@@ -2,6 +2,7 @@
 
 #include "interface/c_gui_widget.hpp"
 
+#define gui_skin_definition_get(INDEX) TAG_GET(GUI_SKIN_DEFINITION_TAG, s_gui_skin_definition, (INDEX))
 struct s_list_item_widget_block :
 	s_core_widget_definition
 {

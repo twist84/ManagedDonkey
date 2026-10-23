@@ -153,6 +153,13 @@ const wchar_t* c_gui_text_widget::get_text()
 	return INVOKE_CLASS_MEMBER(0x00B18F90, c_gui_text_widget, get_text);
 }
 
+bool c_gui_text_widget::get_text_bounds(c_font_cache_base* font_cache, rectangle2d* bounds)
+{
+	return INVOKE_CLASS_MEMBER(0x00B18FA0, c_gui_text_widget, get_text_bounds, font_cache, bounds);
+}
+
+//.text:00B190C0 ; 
+
 void c_gui_text_widget::initialize(const s_text_widget_block* template_and_override_block)
 {
 	INVOKE_CLASS_MEMBER(0x00B190D0, c_gui_text_widget, initialize, template_and_override_block);

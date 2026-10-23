@@ -99,6 +99,11 @@ public:
 
 private:
 	void compute_text_bounds(const rectangle2d* window_bounds, real_point2d rotation_origin, real32 position_x, real32 position_y, real32 depth, real32 scale_i, real32 scale_j, real_point2d* out_rotation_origin, real_rectangle2d* out_transformed_text_rect, real_rectangle2d* out_transformed_clip_rect, real32* out_glyph_scale);
+
+public:
+	bool get_text_bounds(c_font_cache_base* font_cache, rectangle2d* bounds);
+
+private:
 	bool set_string_from_string_id(c_static_wchar_string<1024>* buffer, c_gui_widget* string_list_owner, int32 value_name, bool forcibly_set_text);
 	void set_text_internal(const wchar_t* string, const s_text_source_data* source_data, bool forcibly_set);
 

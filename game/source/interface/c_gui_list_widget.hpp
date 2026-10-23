@@ -14,6 +14,8 @@ enum e_list_widget_definition_flags
 	k_list_widget_definition_flags
 };
 
+class c_font_cache_base;
+
 struct s_list_widget_definition :
 	s_core_widget_definition
 {
@@ -84,6 +86,8 @@ public:
 	void close_active_submenu(c_gui_list_widget* submenu_widget);
 	void create_and_add_additional_items_indicators_bitmaps();
 	void dispose_submenu(c_gui_list_widget* submenu_widget);
+	void get_child_list_item_text_bounds(c_font_cache_base* font_cache, rectangle2d* max_bounds, bool* all_text_precached);
+	void get_child_list_item_widget_bounds(real_rectangle2d* max_bounds);
 	c_gui_data* get_data();
 	int32 get_element_handle_from_list_item_index(int32 list_item_index);
 	int32 get_focused_element_handle();
@@ -93,6 +97,13 @@ public:
 	int32 get_scroll_position();
 	int32 get_selectable_item_count();
 	bool has_active_submenu() const;
+
+private:
+	bool handle_grid_tab(c_gui_list_item_widget* current_item, e_event_type event_type);
+	bool handle_tab_direction(c_gui_list_item_widget* focused_item, e_list_scroll_direction scroll_direction);
+	bool handle_tab_to_list_item(c_gui_list_item_widget* old_focused_item, c_gui_list_item_widget* new_focused_item);
+
+public:
 	bool invoke_submenu(int32 submenu_name, int32 custom_datasource_name, bool reset_datasource);
 	bool invoke_submenu(const s_list_widget_block* submenu_definition, int32 custom_datasource_name, bool reset_datasource);
 	bool is_submenu() const;
@@ -108,6 +119,13 @@ private:
 
 public:
 	void mark_as_submenu_that_needs_disposal(bool dispose);
+	bool scrolls_horizontally() const;
+	bool scrolls_vertically();
+
+private:
+	void set_datasource_name(string_id name);
+
+public:
 	bool set_focused_datasource_element_from_value(int32 value_name, int32 value, bool play_animations_on_focus_change);
 	bool set_focused_element_handle(int32 element_handle, bool play_animations_on_focus_change);
 	bool set_focused_item_index(int32 focused_item_index, bool play_animations_on_focus_change);

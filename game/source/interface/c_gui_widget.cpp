@@ -215,7 +215,30 @@ c_gui_widget::~c_gui_widget()
 
 void c_gui_widget::add_child_widget(c_gui_widget* child)
 {
-	INVOKE_CLASS_MEMBER(0x00AB63D0, c_gui_widget, add_child_widget, child);
+	//INVOKE_CLASS_MEMBER(0x00AB63D0, c_gui_widget, add_child_widget, child);
+
+	ASSERT(child != nullptr);
+	ASSERT(child->get_parent() == nullptr);
+	ASSERT(child->get_previous() == nullptr);
+	ASSERT(child->get_next() == nullptr);
+
+	if (get_children() != nullptr)
+	{
+		c_gui_widget* tail = get_children();
+		while (tail->get_next() != nullptr)
+		{
+			tail = tail->get_next();
+		}
+
+		tail->set_next(child);
+		child->set_previous(tail);
+	}
+	else
+	{
+		set_children(child);
+	}
+
+	child->set_parent(this);
 }
 
 void __cdecl c_gui_widget::add_definition_fields(e_gui_widget_type type, const s_core_widget_definition* source_definition, s_runtime_core_widget_definition* dest_definition, const real_rectangle2d* unanimated_bounds, bool was_templated)
@@ -231,7 +254,7 @@ void c_gui_widget::animate(uns32 current_milliseconds)
 void c_gui_widget::animate_recursively(uns32 current_milliseconds)
 {
 	//INVOKE_CLASS_MEMBER(0x00AB6C20, c_gui_widget, animate_recursively, current_milliseconds);
-
+	
 	animate(current_milliseconds);
 
 	for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
@@ -392,27 +415,24 @@ bool c_gui_widget::contains_point(const point2d* point)
 
 bool c_gui_widget::controller_can_drive(e_controller_index controller_index)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB7960, c_gui_widget, controller_can_drive, controller_index);
+	//return INVOKE_CLASS_MEMBER(0x00AB7960, c_gui_widget, controller_can_drive, controller_index);
 
-	//return controller_index == k_any_controller || get_driving_controller() == k_any_controller || get_driving_controller() == controller_index;
+	return controller_index == k_any_controller || get_driving_controller() == k_any_controller || get_driving_controller() == controller_index;
 }
 
 //.text:00AB79D0 ; public: c_gui_button_key_widget* c_gui_widget::create_and_add_button_key(const s_button_key_block*)
 
 c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block)
 {
-	return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
-
-#if 0
-	ASSERT(bitmap_widget_block != nullptr);
-
-	c_gui_widget* parent = get_parent();
-	ASSERT(parent != nullptr);
+	//return INVOKE_CLASS_MEMBER(0x00AB7A30, c_gui_widget, create_and_add_child_bitmap_widget, bitmap_widget_block);
 
 	s_runtime_bitmap_widget_definition definition;
-	real_rectangle2d positioning_bounds;
 
-	parent->get_authored_bounds(&positioning_bounds);
+	ASSERT(bitmap_widget_block != nullptr);
+	ASSERT(get_parent() != nullptr);
+
+	real_rectangle2d positioning_bounds;
+	get_parent()->get_authored_bounds(&positioning_bounds);
 	c_gui_bitmap_widget::assemble_definition(bitmap_widget_block, &definition, &positioning_bounds);
 
 	c_gui_bitmap_widget* bitmap_widget = create_bitmap_widget(&definition);
@@ -422,50 +442,52 @@ c_gui_bitmap_widget* c_gui_widget::create_and_add_child_bitmap_widget(const s_bi
 		bitmap_widget->initialize(bitmap_widget_block);
 	}
 	return bitmap_widget;
-#endif
 }
 
 void c_gui_widget::create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index)
 {
 	INVOKE_CLASS_MEMBER(0x00AB7AC0, c_gui_widget, create_and_add_child_list_item_widgets, list_items_block, gui_skin_tag_index);
 
-#if 0
-	ASSERT(list_items_block != nullptr);
-
-	if (gui_skin_tag_index == NONE)
-	{
-		event(_event_warning, "ui: list widget with no gui skin");
-	}
-	else
-	{
-		s_gui_skin_definition const* skin_definition = TAG_GET(GUI_SKIN_DEFINITION_TAG, s_gui_skin_definition, gui_skin_tag_index);
-		for (long item_index = 0; item_index < list_items_block->count; item_index++)
-		{
-			s_list_item_widget_block const* item_block = TAG_BLOCK_GET_ELEMENT(list_items_block, item_index, s_list_item_widget_block);
-
-			c_gui_screen_widget* parent_screen = get_parent_screen();
-			c_gui_list_item_widget* item = parent_screen != nullptr ? parent_screen->create_list_item_widget(item_block) : create_list_item_widget(item_block);
-			if (item == nullptr)
-			{
-				break;
-			}
-
-			add_child_widget(item);
-			item->set_list_item_index(item_index);
-			item->initialize(item_block);
-
-			short render_depth_bias = item->get_render_depth_bias();
-			long animation_collection_reference_index = item->get_animation_collection_reference_index();
-			item->create_and_add_children_from_skin_definition(skin_definition, animation_collection_reference_index, render_depth_bias);
-		}
-	}
-#endif
+	//ASSERT(list_items_block != nullptr);
+	//
+	//if (gui_skin_tag_index != NONE)
+	//{
+	//	s_gui_skin_definition const* skin_definition = gui_skin_definition_get(gui_skin_tag_index);
+	//	for (long item_index = 0; item_index < list_items_block->count; item_index++)
+	//	{
+	//		s_list_item_widget_block const* item_block = &static_cast<s_list_item_widget_block*>(list_items_block->address)[item_index];
+	//
+	//		c_gui_screen_widget* parent_screen = get_parent_screen();
+	//		c_gui_list_item_widget* item = parent_screen != nullptr
+	//			? parent_screen->create_list_item_widget(item_block)
+	//			: create_list_item_widget(item_block);
+	//
+	//		if (item == nullptr)
+	//		{
+	//			break;
+	//		}
+	//
+	//		add_child_widget(item);
+	//		item->set_list_item_index(item_index);
+	//		item->initialize(item_block);
+	//		item->create_and_add_children_from_skin_definition(skin_definition, item->get_animation_collection_reference_index(), item->get_render_depth_bias());
+	//	}
+	//}
+	//else
+	//{
+	//	event(_event_warning, "ui: list widget with no gui skin");
+	//}
 }
 
 //.text:00AB7B80 ; public: c_gui_list_widget* c_gui_widget::create_and_add_child_list_widget(const s_list_widget_block*)
 //.text:00AB7BC0 ; public: c_gui_model_widget* c_gui_widget::create_and_add_child_model_widget(const s_model_widget_block*)
 //.text:00AB7C00 ; public: c_gui_text_widget* c_gui_widget::create_and_add_child_text_widget(const s_text_widget_block*)
-//.text:00AB7C90 ; public: void c_gui_widget::create_and_add_children_from_skin_definition(const s_gui_skin_definition*, int32, int16)
+
+void __thiscall c_gui_widget::create_and_add_children_from_skin_definition(const s_gui_skin_definition* skin_definition, int32 override_animation_collection_reference_index, int16 render_depth_bias)
+{
+	INVOKE_CLASS_MEMBER(0x00AB7C90, c_gui_widget, create_and_add_children_from_skin_definition, skin_definition, override_animation_collection_reference_index, render_depth_bias);
+}
+
 //.text:00AB8160 ; public: c_gui_group_widget* c_gui_widget::create_and_add_group(const s_group_widget_block*)
 
 c_gui_bitmap_widget* c_gui_widget::create_bitmap_widget(const s_runtime_bitmap_widget_definition* definition)
