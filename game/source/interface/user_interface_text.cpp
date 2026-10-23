@@ -65,7 +65,12 @@ bool __cdecl parse_xml_ui_screen_party_privacy(void* this_ptr, wchar_t* buffer, 
 //.text:00ABCF70 ; public: virtual void* c_user_interface_text::`scalar deleting destructor'(unsigned int)
 //.text:00ABCFA0 ; protected: bool c_user_interface_text::compute_bounds_internal(c_font_cache_base*, int32, const rectangle2d*, real32, const rectangle2d*, int16, rectangle2d*, rectangle2d*)
 //.text:00ABD170 ; public: void c_user_interface_text::compute_caret_bounds(c_font_cache_base*, int32, const rectangle2d*, real32, const rectangle2d*, int16, rectangle2d*)
-//.text:00ABD1B0 ; public: bool c_user_interface_text::compute_text_bounds(c_font_cache_base*, int32, const rectangle2d*, real32, const rectangle2d*, rectangle2d*)
+
+bool c_user_interface_text::compute_text_bounds(c_font_cache_base* font_cache, int32 user_index, const rectangle2d* text_rect, real32 depth, const rectangle2d* window_bounds, rectangle2d* out_text_bounds)
+{
+	return INVOKE_CLASS_MEMBER(0x00ABD1B0, c_user_interface_text, compute_text_bounds, font_cache, user_index, text_rect, depth, window_bounds, out_text_bounds);
+}
+
 //.text:00ABD200 ; 
 //.text:00ABD210 ; public: bool c_user_interface_text::get_align_vertically() const
 //.text:00ABD220 ; public: real_argb_color c_user_interface_text::get_argb_color() const
@@ -78,9 +83,29 @@ bool __cdecl parse_xml_ui_screen_party_privacy(void* this_ptr, wchar_t* buffer, 
 //.text:00ABD410 ; public: const real_point2d* c_user_interface_text::get_rotation_origin() const
 //.text:00ABD420 ; public: real64 c_user_interface_text::get_scale() const
 //.text:00ABD430 ; public: e_text_style c_user_interface_text::get_style() const
-//.text:00ABD440 ; public: void c_user_interface_text::get_tab_stops(int16*, int16*)
+
+void c_user_interface_text::get_tab_stops(int16* tab_stops, int16* in_out_count)
+{
+	//INVOKE_CLASS_MEMBER(0x00ABD440, c_user_interface_text, get_tab_stops, tab_stops, in_out_count);
+
+	ASSERT(in_out_count != nullptr);
+
+	*in_out_count = static_cast<int16>(MIN(m_tab_stop_count, static_cast<int32>(*in_out_count)));
+	if (*in_out_count > 0)
+	{
+		const size_t k_tab_stops_size = sizeof(*in_out_count) * static_cast<size_t>(*in_out_count);
+		csmemcpy(tab_stops, m_tab_stops, k_tab_stops_size);
+	}
+}
+
 //.text:00ABD480 ; 
 //.text:00ABD490 ; public: bool c_user_interface_text::get_wrap_horizontally() const
+
+bool c_user_interface_text::has_overflowed() const
+{
+	return TEST_BIT(m_flags, _has_overflowed_bit);
+}
+
 //.text:00ABD4A0 ; public: void c_user_interface_text::initialize(const wchar_t*, int16, e_font_id, const real_rgb_color*, int32, e_text_style, e_text_justification, e_controller_index)
 //.text:00ABD510 ; 
 
@@ -264,6 +289,11 @@ void c_user_interface_text::set_drop_shadow_style(e_text_drop_shadow_style drop_
 	m_drop_shadow_style = drop_shadow_style;
 }
 
+void c_user_interface_text::set_render_uppercase(bool uppercase)
+{
+	SET_BIT(m_flags, _interface_text_render_uppercase_bit, uppercase);
+}
+
 void c_user_interface_text::set_rotation_origin(real32 x, real32 y)
 {
 	m_rotation_origin.x = x;
@@ -284,6 +314,20 @@ void c_user_interface_text::set_scroll_amount(real32 i, real32 j)
 void c_user_interface_text::set_scale(real32 scale)
 {
 	m_scale = scale;
+}
+
+void c_user_interface_text::set_tab_stops(const int16* tab_stops, int32 tab_stop_count)
+{
+	ASSERT(tab_stop_count <= NUMBEROF(m_tab_stops));
+
+	const size_t k_tab_stops_size = sizeof(*m_tab_stops) * static_cast<size_t>(tab_stop_count);
+	csmemcpy(m_tab_stops, tab_stops, k_tab_stops_size);
+	m_tab_stop_count = tab_stop_count;
+}
+
+void c_user_interface_text::set_wrap_horizontally(bool wrap)
+{
+	SET_BIT(m_flags, _wrap_horizontally_bit, wrap);
 }
 
 void user_interface_text_debug_display_font_index(bool display_font_index_in_place_of_text)

@@ -381,7 +381,7 @@ static bool get_current_model_selection_area_and_item_index(c_gui_screen_widget*
 
 	c_player_profile_interface* player_profile = controller->get_player_profile_interface();
 	int32 current_model_customization_value = get_current_model_customization_value(player_profile, *area_name);
-	if (*area_name == NONE || *area_name <= k_string_id_empty_string)
+	if (*area_name == NONE || *area_name <= _string_id_empty_string)
 	{
 		return false;
 	}
@@ -485,7 +485,7 @@ bool __cdecl parse_xml_part_description(void* this_ptr, wchar_t* buffer, int32 b
 		return false;
 	}
 
-	if (description == NONE || description <= k_string_id_empty_string)
+	if (description == NONE || description <= _string_id_empty_string)
 	{
 		return false;
 	}

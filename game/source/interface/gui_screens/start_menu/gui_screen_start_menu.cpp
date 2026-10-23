@@ -252,7 +252,7 @@ bool c_start_menu_screen_widget::handle_controller_input_message(const c_control
 
 			string_id pane_to_show = NONE;
 			if (data->get_string_id_value(target_element_handle, STRING_ID(gui, target), &pane_to_show)
-				&& pane_to_show != _string_id_invalid && pane_to_show != k_string_id_empty_string)
+				&& pane_to_show != _string_id_invalid && pane_to_show != _string_id_empty_string)
 			{
 				c_start_menu_settings* current_pane = (c_start_menu_settings*)c_start_menu_screen_widget::get_current_pane();
 

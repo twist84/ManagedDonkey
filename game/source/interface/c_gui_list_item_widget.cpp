@@ -74,6 +74,11 @@ c_gui_text_widget* c_gui_list_item_widget::create_text_widget(const s_runtime_te
 	return c_gui_widget::get_parent_screen()->create_text_widget(definition);
 }
 
+int32 c_gui_list_item_widget::get_animation_collection_reference_index() const
+{
+	return m_definition.animation_collection_reference_index;
+}
+
 s_runtime_core_widget_definition* c_gui_list_item_widget::get_core_definition()
 {
 	//return INVOKE_CLASS_MEMBER(0x00B18490, c_gui_list_item_widget, get_core_definition);

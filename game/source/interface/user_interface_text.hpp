@@ -319,6 +319,9 @@ public:
 	virtual const wchar_t* get_string();// = 0;
 	virtual void update(int32 user_index);// = 0;
 
+	bool compute_text_bounds(c_font_cache_base* font_cache, int32 user_index, const rectangle2d* text_rect, real32 depth, const rectangle2d* window_bounds, rectangle2d* out_text_bounds);
+	void get_tab_stops(int16* tab_stops, int16* in_out_count);
+	bool has_overflowed() const;
 	static void __cdecl render(s_user_interface_text_render_data* render_data, const rectangle2d* window_bounds);
 
 	void set_argb_color(real_argb_color* color);
@@ -328,10 +331,14 @@ public:
 	void set_flags(uns32 flags);
 	void set_controller_index(e_controller_index controller_index);
 	void set_drop_shadow_style(e_text_drop_shadow_style drop_shadow_style);
+	void set_render_uppercase(bool uppercase);
 	void set_rotation_origin(real32 x, real32 y);
 	void set_rotation(real32 rotation);
 	void set_scroll_amount(real32 i, real32 j);
 	void set_scale(real32 scale);
+	void set_tab_stops(const int16* tab_stops, int32 tab_stop_count);
+	void set_wrap_horizontally(bool wrap);
+	bool get_string_was_set() const;
 
 //protected:
 	uns32 m_flags;

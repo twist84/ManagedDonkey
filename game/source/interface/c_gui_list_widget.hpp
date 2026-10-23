@@ -22,11 +22,11 @@ struct s_list_widget_definition :
 	s_list_widget_definition();
 
 	c_string_id datasource_name;
-	s_tag_reference skin;
+	s_tag_reference gui_skin_reference;
 	int32 rows;
-	s_tag_block items;
-	s_tag_reference prev_indicator_bitmap;
-	s_tag_reference next_indicator_bitmap;
+	s_tag_block list_items;
+	s_tag_reference previous_indicator_bitmap_reference;
+	s_tag_reference next_indicator_bitmap_reference;
 };
 COMPILE_ASSERT(sizeof(s_list_widget_definition) == sizeof(s_core_widget_definition) + 0x44);
 

@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_events.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
+#include "interface/c_gui_group_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
@@ -29,18 +30,18 @@ void ui_track_delete<c_gui_list_widget>(const c_gui_list_widget* object)
 }
 
 c_gui_list_widget::c_gui_list_widget() :
-	c_gui_widget(_gui_list),
-	m_definition(),
-	m_datasource_name(NONE),
-	m_more_items_preceeding_bitmap(nullptr),
-	m_more_items_following_bitmap(nullptr),
-	m_focused_item_index(0),
-	m_current_scroll_direction(_list_scroll_direction_none),
-	m_scroll_position(0),
-	m_selectable_item_cap(NONE),
-	m_submenu_item(nullptr),
-	m_is_submenu(false),
-	m_is_submenu_needs_disposal(false)
+    c_gui_widget(_gui_list),
+    m_definition(),
+    m_datasource_name(_string_id_invalid),
+    m_more_items_preceeding_bitmap(nullptr),
+    m_more_items_following_bitmap(nullptr),
+    m_focused_item_index(0),
+    m_current_scroll_direction(_list_scroll_direction_none),
+    m_scroll_position(0),
+    m_selectable_item_cap(NONE),
+    m_submenu_item(nullptr),
+    m_is_submenu(false),
+    m_is_submenu_needs_disposal(false)
 {
 	//DECLFUNC(0x00B14890, void, __thiscall, c_gui_list_widget*)(this);
 }
@@ -66,7 +67,40 @@ s_runtime_list_widget_definition::s_runtime_list_widget_definition()
 
 void c_gui_list_widget::add_definition_fields(const s_list_widget_definition* definition, bool was_templated)
 {
-	INVOKE_CLASS_MEMBER(0x00B14AB0, c_gui_list_widget, add_definition_fields, definition, was_templated);
+	//INVOKE_CLASS_MEMBER(0x00B14AB0, c_gui_list_widget, add_definition_fields, definition, was_templated);
+
+	ASSERT(get_parent() != nullptr);
+
+	real_rectangle2d positioning_bounds;
+	get_parent()->get_authored_bounds(&positioning_bounds);
+
+	c_gui_widget::add_definition_fields(get_type(), definition, &m_definition, &positioning_bounds, was_templated);
+
+	if (definition->datasource_name != _string_id_invalid && definition->datasource_name != _string_id_empty_string)
+	{
+		m_definition.datasource_name = definition->datasource_name;
+		m_datasource_name = definition->datasource_name;
+	}
+	if (definition->gui_skin_reference.index != NONE && definition->gui_skin_reference.index != 0)
+	{
+		m_definition.gui_skin_reference_index = definition->gui_skin_reference.index;
+	}
+	if (definition->rows != 0)
+	{
+		m_definition.rows = definition->rows;
+	}
+	if (definition->list_items.count > 0 && definition->list_items.address != nullptr)
+	{
+		m_definition.list_items = definition->list_items;
+	}
+	if (definition->previous_indicator_bitmap_reference.index != NONE && definition->previous_indicator_bitmap_reference.index != 0)
+	{
+		m_definition.previous_indicator_bitmap_reference_index = definition->previous_indicator_bitmap_reference.index;
+	}
+	if (definition->next_indicator_bitmap_reference.index != NONE && definition->next_indicator_bitmap_reference.index != 0)
+	{
+		m_definition.next_indicator_bitmap_reference_index = definition->next_indicator_bitmap_reference.index;
+	}
 }
 
 void c_gui_list_widget::close_active_submenu(c_gui_list_widget* submenu_widget)
@@ -783,13 +817,103 @@ void c_gui_list_widget::initialize(const s_list_widget_block* template_and_overr
 bool c_gui_list_widget::invoke_submenu(int32 submenu_name, int32 custom_datasource_name, bool reset_datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B15C20, c_gui_list_widget, invoke_submenu, submenu_name, custom_datasource_name, reset_datasource);
-	return DECLFUNC(0x00B15C20, bool, __thiscall, c_gui_list_widget*, int32, int32, bool)(this, submenu_name, custom_datasource_name, reset_datasource);
+	//return DECLFUNC(0x00B15C20, bool, __thiscall, c_gui_list_widget*, int32, int32, bool)(this, submenu_name, custom_datasource_name, reset_datasource);
+
+	bool success = false;
+	
+	c_gui_group_widget* parent_group = get_parent_group();
+	s_list_widget_block submenu_definition;
+	if (parent_group != nullptr && parent_group->contains_submenu_control_definition(submenu_name, &submenu_definition))
+	{
+		success = invoke_submenu(&submenu_definition, custom_datasource_name, reset_datasource);
+	}
+	
+	return success;
 }
 
 bool c_gui_list_widget::invoke_submenu(const s_list_widget_block* submenu_definition, int32 custom_datasource_name, bool reset_datasource)
 {
 	//return INVOKE_CLASS_MEMBER(0x00B15CD0, c_gui_list_widget, invoke_submenu, submenu_definition, custom_datasource_name, reset_datasource);
-	return DECLFUNC(0x00B15CD0, bool, __thiscall, c_gui_list_widget*, const s_list_widget_block*, int32, bool)(this, submenu_definition, custom_datasource_name, reset_datasource);
+	//return DECLFUNC(0x00B15CD0, bool, __thiscall, c_gui_list_widget*, const s_list_widget_block*, int32, bool)(this, submenu_definition, custom_datasource_name, reset_datasource);
+
+	bool success = false;
+
+	ASSERT(submenu_definition != nullptr);
+
+	c_gui_screen_widget* parent_screen = get_parent_screen();
+	ASSERT(parent_screen != nullptr);
+
+	c_gui_widget* focused_item = parent_screen->get_focused_widget();
+	ASSERT(focused_item != nullptr && focused_item->get_type() == _gui_list_item);
+
+	c_gui_list_widget* submenu_widget = focused_item->create_and_add_child_list_widget(submenu_definition);
+	if (submenu_widget != nullptr)
+	{
+		c_gui_data const* submenu_datasource;
+
+		if (custom_datasource_name != _string_id_invalid && custom_datasource_name != _string_id_empty_string)
+		{
+			long unused_datasource_index;
+			submenu_datasource = parent_screen->get_data(custom_datasource_name, &unused_datasource_index);
+			if (submenu_datasource != nullptr)
+			{
+				submenu_widget->set_datasource_name(custom_datasource_name);
+			}
+			else
+			{
+				event(_event_error, "ui: submenu tried to reference screen datasource '%s' which does not exist",
+					string_id_get_string_const(custom_datasource_name));
+			}
+		}
+		else
+		{
+			submenu_datasource = submenu_widget->get_data();
+		}
+
+		if (submenu_datasource != nullptr)
+		{
+			c_gui_widget* focused_widget = submenu_widget->get_deepest_widget_that_can_receive_focus();
+			if (focused_widget != nullptr && focused_widget->get_type() == _gui_list_item && focused_widget->get_parent() == submenu_widget)
+			{
+				parent_screen->transfer_focus_without_animations(focused_widget, true, false);
+				submenu_widget->post_initialize();
+
+				start_animation(_load_submenu_focused, false);
+
+				for (c_gui_widget* child = get_children(); child != nullptr; child = child->get_next())
+				{
+					e_animation_state animation_state = child != focused_item
+						? _load_submenu_unfocused
+						: _load_submenu_focused;
+					child->start_animation(animation_state, true);
+				}
+				submenu_widget->start_animation(_load_as_submenu, true);
+				submenu_widget->mark_as_submenu(true);
+				m_submenu_item = static_cast<c_gui_list_item_widget*>(focused_item);
+				parent_screen->submenu_invoked(submenu_widget);
+
+				success = true;
+			}
+			else
+			{
+				event(_event_warning, "ui: failed to set focused submenu list item!");
+
+				dispose_submenu(submenu_widget);
+			}
+		}
+		else
+		{
+			event(_event_warning, "ui: item's submenu does not reference a valid datasource");
+
+			dispose_submenu(submenu_widget);
+		}
+	}
+	else
+	{
+		event(_event_warning, "ui: failed to invoke submenu!");
+	}
+
+	return success;
 }
 
 bool c_gui_list_widget::is_submenu() const

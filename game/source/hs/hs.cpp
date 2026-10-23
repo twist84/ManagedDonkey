@@ -830,7 +830,7 @@ const int32 _hs_type_long_integer_default = 0;
 const int16 _hs_type_script_default = NONE;
 
 // 0166D5FC
-const int32 _hs_type_string_id_default = k_string_id_empty_string;
+const int32 _hs_type_string_id_default = _string_id_empty_string;
 
 // 0166D600
 const int32 _hs_type_unit_seat_mapping_default = NONE;

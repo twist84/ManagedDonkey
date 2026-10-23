@@ -138,6 +138,7 @@ copy /b "$(ProjectDir)source\config\version.cpp" +,, "$(ProjectDir)source\config
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\havok\hkWorld.cpp" />
+    <ClCompile Include="source\interface\c_gui_group_widget.cpp" />
     <ClCompile Include="source\interface\gui_screens\director\gui_screen_snippet.cpp" />
     <ClCompile Include="source\interface\gui_screens\in_progress\gui_screen_in_progress.cpp" />
     <ClCompile Include="source\networking\http\http_routes.cpp" />

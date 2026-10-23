@@ -235,7 +235,7 @@ s_string_id_globals g_string_id_globals{};
 
 s_constant_string_id const g_constant_string_id_table[]
 {
-	DEFINE_CONSTANT_STRING_ID_DIRECT(k_string_id_empty_string, ""),
+	DEFINE_CONSTANT_STRING_ID_DIRECT(_string_id_empty_string, ""),
 #pragma region GUI
 	DEFINE_CONSTANT_STRING_ID(gui, primary_label),
 	DEFINE_CONSTANT_STRING_ID(gui, secondary_label),

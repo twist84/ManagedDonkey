@@ -6,6 +6,18 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/tag_groups.hpp"
 
+struct s_color_preset
+{
+	enum
+	{
+		k_maximum_color_presets = 64,
+	};
+
+	c_string_id name;
+	real_argb_color color;
+};
+COMPILE_ASSERT(sizeof(s_color_preset) == 0x14);
+
 struct s_user_interface_widget_reference
 {
 	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG, INVALID_TAG> widget_tag;
@@ -78,7 +90,7 @@ struct s_user_interface_shared_globals
 	// Colors are defined here and used in text widgets throughout the UI.
 	// Specify a string_id here and the same one in a text widget.
 	// If you don't specify one in a text widget, you'll use the first entry here.
-	s_tag_block color_presets;
+	c_typed_tag_block<struct s_color_preset> color_presets;
 
 	// Tint colors
 	// These colors are used for tinting widgets by team or player color.

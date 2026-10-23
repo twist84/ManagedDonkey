@@ -196,8 +196,8 @@ public:
 	virtual void update(uns32 current_milliseconds);
 	virtual void update_render_state(uns32 current_milliseconds);
 	virtual void set_animated_state_baseline(s_animation_transform* transform);
-	virtual bool transitioning_in();
-	virtual bool transitioning_out();
+	virtual bool transitioning_in() const;
+	virtual bool transitioning_out() const;
 	virtual void assemble_render_data(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 	virtual bool handle_widget_back_out();
 	virtual bool handle_widget_selected();
@@ -226,6 +226,9 @@ public:
 	bool controller_can_drive(e_controller_index controller_index);
 	c_gui_bitmap_widget* create_and_add_child_bitmap_widget(const s_bitmap_widget_block* bitmap_widget_block);
 	void create_and_add_child_list_item_widgets(const s_tag_block* list_items_block, int32 gui_skin_tag_index);
+	c_gui_list_widget* create_and_add_child_list_widget(const s_list_widget_block* list_widget_block);
+	c_gui_model_widget* create_and_add_child_model_widget(const s_model_widget_block* model_widget_block);
+	c_gui_text_widget* create_and_add_child_text_widget(const s_text_widget_block* text_widget_block);
 	void create_and_add_children_from_skin_definition(const s_gui_skin_definition* skin_definition, int32 override_animation_collection_reference_index, int16 render_depth_bias);
 	void delete_all_children();
 	e_controller_index get_arbitrary_responding_controller() const;

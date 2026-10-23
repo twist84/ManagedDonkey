@@ -431,7 +431,7 @@ string_id __cdecl global_preferences_get_last_main_menu_item()
 {
 	//return INVOKE(0x0050B810, global_preferences_get_last_main_menu_item);
 
-	string_id last_main_menu_item = k_string_id_empty_string;
+	string_id last_main_menu_item = _string_id_empty_string;
 	if (global_preferences_available())
 	{
 		c_global_preferences_scope_lock scope_lock;

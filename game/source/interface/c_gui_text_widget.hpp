@@ -25,7 +25,13 @@ struct s_text_widget_definition :
 		_allow_list_item_to_override_animation_skin,
 		_do_not_wrap_horizontally_bit,
 
-		k_number_of_text_widget_definition_flags
+		k_number_of_text_widget_definition_flags,
+
+
+		_brackets_added_for_focus_current_frame_bit,
+		_text_clipped_insufficient_buffer_size_bit,
+
+		k_number_of_text_widget_runtime_definition_flags
 	};
 
 	string_id value_override_list;
@@ -62,6 +68,8 @@ class c_gui_text_widget :
 public:
 	void __thiscall assemble_render_data_(s_gui_widget_render_data* render_data, const rectangle2d* window_bounds, e_controller_index local_controller_index, bool apply_translation, bool apply_scale, bool apply_rotation);
 	bool __thiscall set_string_from_string_id_(c_static_wchar_string<1024>* buffer, c_gui_widget* string_list_owner, int32 value_name, bool forcibly_set_text);
+	void __thiscall update_(uns32 current_milliseconds);
+	void __thiscall update_render_state_(uns32 current_milliseconds);
 
 	struct s_text_source_data
 	{
@@ -93,18 +101,29 @@ public:
 	virtual c_user_interface_text* get_text_internal() = 0;
 	virtual unsigned int get_text_buffer_size() const = 0;
 	virtual void initialize(const s_text_widget_block* template_and_override_block);
-	virtual void set_text(const wchar_t* text);
-	virtual void set_text_from_string_id(c_gui_screen_widget* screen, int32 id);
+	virtual void set_text(const wchar_t* string);
+	virtual void set_text_from_string_id(c_gui_screen_widget* parent_screen, int32 parent_screen_string_id);
 	virtual const wchar_t* get_text();
+
+public:
+	c_gui_text_widget();
 
 private:
 	void compute_text_bounds(const rectangle2d* window_bounds, real_point2d rotation_origin, real32 position_x, real32 position_y, real32 depth, real32 scale_i, real32 scale_j, real_point2d* out_rotation_origin, real_rectangle2d* out_transformed_text_rect, real_rectangle2d* out_transformed_clip_rect, real32* out_glyph_scale);
 
 public:
+	static void __cdecl add_definition_fields(const s_text_widget_definition* source_definition, s_runtime_text_widget_definition* dest_definition, real_rectangle2d const* positioning_bounds, bool was_templated);
+	static void __cdecl assemble_definition(const s_text_widget_block* template_and_override_block, s_runtime_text_widget_definition* definition, real_rectangle2d* positioning_bounds);
+	void get_tab_stops(int16* tab_stops, int16* in_out_count);
 	bool get_text_bounds(c_font_cache_base* font_cache, rectangle2d* bounds);
 
 private:
 	bool set_string_from_string_id(c_static_wchar_string<1024>* buffer, c_gui_widget* string_list_owner, int32 value_name, bool forcibly_set_text);
+
+public:
+	void set_tab_stops(const int16* tab_stops, int32 tab_stop_count);
+
+private:
 	void set_text_internal(const wchar_t* string, const s_text_source_data* source_data, bool forcibly_set);
 
 protected:

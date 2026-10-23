@@ -24,7 +24,15 @@
 //	}
 //}
 
-//int ustrcmp(const wchar_t*, const wchar_t*)
+int ustrcmp(const wchar_t* string1, const wchar_t* string2)
+{
+	ASSERT(string1 != nullptr);
+	ASSERT(string2 != nullptr);
+
+	int result = wcscmp(string1, string2);
+	return result;
+}
+
 //unsigned int ustrlen(const wchar_t*)
 
 unsigned int ustrnlen(const wchar_t* string, int32 count)
@@ -34,7 +42,14 @@ unsigned int ustrnlen(const wchar_t* string, int32 count)
 	return wcsnlen(string, count);
 }
 
-//const wchar_t* ustrchr(const wchar_t*,wchar_t)
+const wchar_t* ustrchr(const wchar_t* string, wchar_t c)
+{
+	ASSERT(string != nullptr);
+
+	wchar_t const* result = wcschr(string, c);
+	return result;
+}
+
 //int ustrcoll(const wchar_t*,const wchar_t*)
 //unsigned int ustrcspn(const wchar_t*,const wchar_t*)
 

@@ -12,6 +12,7 @@
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
@@ -19,7 +20,6 @@
 #include "rasterizer/rasterizer_profile.hpp"
 #include "render/old_render_debug.hpp"
 #include "text/draw_string.hpp"
-#include "user_interface_window_manager.hpp"
 
 constexpr uns64 k_animation_state_ambient = FLAGS_64(
 	_focused_ambient,
@@ -448,42 +448,80 @@ void c_gui_widget::create_and_add_child_list_item_widgets(const s_tag_block* lis
 {
 	INVOKE_CLASS_MEMBER(0x00AB7AC0, c_gui_widget, create_and_add_child_list_item_widgets, list_items_block, gui_skin_tag_index);
 
-	//ASSERT(list_items_block != nullptr);
-	//
-	//if (gui_skin_tag_index != NONE)
-	//{
-	//	s_gui_skin_definition const* skin_definition = gui_skin_definition_get(gui_skin_tag_index);
-	//	for (long item_index = 0; item_index < list_items_block->count; item_index++)
-	//	{
-	//		s_list_item_widget_block const* item_block = &static_cast<s_list_item_widget_block*>(list_items_block->address)[item_index];
-	//
-	//		c_gui_screen_widget* parent_screen = get_parent_screen();
-	//		c_gui_list_item_widget* item = parent_screen != nullptr
-	//			? parent_screen->create_list_item_widget(item_block)
-	//			: create_list_item_widget(item_block);
-	//
-	//		if (item == nullptr)
-	//		{
-	//			break;
-	//		}
-	//
-	//		add_child_widget(item);
-	//		item->set_list_item_index(item_index);
-	//		item->initialize(item_block);
-	//		item->create_and_add_children_from_skin_definition(skin_definition, item->get_animation_collection_reference_index(), item->get_render_depth_bias());
-	//	}
-	//}
-	//else
-	//{
-	//	event(_event_warning, "ui: list widget with no gui skin");
-	//}
+	ASSERT(list_items_block != nullptr);
+	
+	if (gui_skin_tag_index != NONE)
+	{
+		s_gui_skin_definition const* skin_definition = gui_skin_definition_get(gui_skin_tag_index);
+		for (long item_index = 0; item_index < list_items_block->count; item_index++)
+		{
+			s_list_item_widget_block const* item_block = &static_cast<s_list_item_widget_block*>(list_items_block->address)[item_index];
+	
+			c_gui_screen_widget* parent_screen = get_parent_screen();
+			c_gui_list_item_widget* item = parent_screen != nullptr
+				? parent_screen->create_list_item_widget(item_block)
+				: create_list_item_widget(item_block);
+	
+			if (item == nullptr)
+			{
+				break;
+			}
+	
+			add_child_widget(item);
+			item->set_list_item_index(item_index);
+			item->initialize(item_block);
+			item->create_and_add_children_from_skin_definition(skin_definition, item->get_animation_collection_reference_index(), item->get_render_depth_bias());
+		}
+	}
+	else
+	{
+		event(_event_warning, "ui: list widget with no gui skin");
+	}
 }
 
-//.text:00AB7B80 ; public: c_gui_list_widget* c_gui_widget::create_and_add_child_list_widget(const s_list_widget_block*)
-//.text:00AB7BC0 ; public: c_gui_model_widget* c_gui_widget::create_and_add_child_model_widget(const s_model_widget_block*)
-//.text:00AB7C00 ; public: c_gui_text_widget* c_gui_widget::create_and_add_child_text_widget(const s_text_widget_block*)
+c_gui_list_widget* c_gui_widget::create_and_add_child_list_widget(const s_list_widget_block* list_widget_block)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB7B80, c_gui_widget, create_and_add_child_list_widget, list_widget_block);
+}
 
-void __thiscall c_gui_widget::create_and_add_children_from_skin_definition(const s_gui_skin_definition* skin_definition, int32 override_animation_collection_reference_index, int16 render_depth_bias)
+c_gui_model_widget* c_gui_widget::create_and_add_child_model_widget(s_model_widget_block const* model_widget_block)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB7BC0, c_gui_widget, create_and_add_child_model_widget, model_widget_block);
+
+	//c_gui_model_widget* model_widget = create_model_widget(model_widget_block);
+	//if (model_widget != nullptr)
+	//{
+	//	add_child_widget(model_widget);
+	//	model_widget->initialize(model_widget_block);
+	//}
+	//return model_widget;
+}
+
+c_gui_text_widget* c_gui_widget::create_and_add_child_text_widget(const s_text_widget_block* text_widget_block)
+{
+	return INVOKE_CLASS_MEMBER(0x00AB7C00, c_gui_widget, create_and_add_child_text_widget, text_widget_block);
+
+	s_runtime_text_widget_definition definition = s_runtime_text_widget_definition();
+
+	ASSERT(text_widget_block != nullptr);
+
+	ASSERT(get_parent() != nullptr);
+
+	real_rectangle2d positioning_bounds;
+	get_parent()->get_authored_bounds(&positioning_bounds);
+	c_gui_text_widget::assemble_definition(text_widget_block, &definition, &positioning_bounds);
+
+	c_gui_text_widget* text_widget = create_text_widget(&definition);
+	if (text_widget != nullptr)
+	{
+		add_child_widget(text_widget);
+		text_widget->initialize(text_widget_block);
+	}
+	return text_widget;
+
+}
+
+void c_gui_widget::create_and_add_children_from_skin_definition(const s_gui_skin_definition* skin_definition, int32 override_animation_collection_reference_index, int16 render_depth_bias)
 {
 	INVOKE_CLASS_MEMBER(0x00AB7C90, c_gui_widget, create_and_add_children_from_skin_definition, skin_definition, override_animation_collection_reference_index, render_depth_bias);
 }
@@ -2069,12 +2107,12 @@ void c_gui_widget::stomp_bounds(const real_rectangle2d* new_bounds)
 //.text:00ABAC30 ; 
 //.text:00ABAC40 ; 
 
-bool c_gui_widget::transitioning_in()
+bool c_gui_widget::transitioning_in() const
 {
 	return INVOKE_CLASS_MEMBER(0x00ABAC60, c_gui_widget, transitioning_in);
 }
 
-bool c_gui_widget::transitioning_out()
+bool c_gui_widget::transitioning_out() const
 {
 	return INVOKE_CLASS_MEMBER(0x00ABACB0, c_gui_widget, transitioning_in);
 }

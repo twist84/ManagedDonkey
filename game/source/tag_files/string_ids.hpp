@@ -50,7 +50,7 @@ enum e_string_id
 
 enum e_string_id_global
 {
-	k_string_id_empty_string = 0,
+	_string_id_empty_string = 0,
 
 	_string_id_global__default,
 	_string_id_global__reload_1,
@@ -4128,7 +4128,7 @@ COMPILE_ASSERT(0x073 == k_string_id_namespace_input_count);
 
 enum
 {
-	k_first_string_offset = k_string_id_empty_string + 1,
+	k_first_string_offset = _string_id_empty_string + 1,
 
 	k_last_string_offset
 	= k_string_id_namespace_gui_count

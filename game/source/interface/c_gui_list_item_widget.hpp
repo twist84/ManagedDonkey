@@ -3,6 +3,17 @@
 #include "interface/c_gui_widget.hpp"
 
 #define gui_skin_definition_get(INDEX) TAG_GET(GUI_SKIN_DEFINITION_TAG, s_gui_skin_definition, (INDEX))
+#define button_key_definition_get(INDEX) TAG_GET(s_button_key_definition::k_button_key_definition_tag, s_button_key_definition, (INDEX))
+#define datasource_definition_get(INDEX) TAG_GET(s_datasource_definition::k_datasource_definition_tag, s_datasource_definition, (INDEX))
+#define text_widget_definition_get(INDEX) TAG_GET(GUI_TEXT_WIDGET_DEFINITION_TAG, s_text_widget_definition, (INDEX))
+#define list_widget_definition_get(INDEX) TAG_GET(s_list_widget_definition::k_list_widget_definition_tag, s_list_widget_definition, (INDEX))
+#define group_widget_definition_get(INDEX) TAG_GET(s_group_widget_definition::k_group_widget_definition_tag, s_group_widget_definition, (INDEX))
+#define model_widget_definition_get(INDEX) TAG_GET(s_model_widget_definition::k_model_widget_definition_tag, s_model_widget_definition, (INDEX))
+#define bitmap_widget_definition_get(INDEX) TAG_GET(s_bitmap_widget_definition::k_bitmap_widget_definition_tag, s_bitmap_widget_definition, (INDEX))
+#define screen_widget_definition_get(INDEX) TAG_GET(s_screen_widget_definition::k_screen_widget_definition_tag, s_screen_widget_definition, (INDEX))
+#define widget_animation_definition_get(INDEX) TAG_GET(s_widget_animation_definition::k_widget_animation_definition_tag, s_widget_animation_definition, (INDEX))
+#define widget_animation_collection_definition_get(INDEX) TAG_GET(s_widget_animation_collection_definition::k_widget_animation_collection_definition_tag, s_widget_animation_collection_definition, (INDEX))
+
 struct s_list_item_widget_block :
 	s_core_widget_definition
 {
@@ -42,6 +53,7 @@ public:
 
 public:
 	c_gui_list_item_widget();
+	int32 get_animation_collection_reference_index() const;
 	int32 get_item_label();
 	bool invokes_submenu(int32* submenu_name);
 	void set_list_item_index(int32 list_item_index);

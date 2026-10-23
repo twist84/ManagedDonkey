@@ -3,12 +3,12 @@
 #include <stdarg.h>
 
 
-//extern int ustrcmp(const wchar_t*, const wchar_t*);
+extern int ustrcmp(const wchar_t*, const wchar_t*);
 //extern unsigned int ustrlen(const wchar_t*);
 
 extern unsigned int ustrnlen(const wchar_t*, int32);
 
-//extern const wchar_t* ustrchr(const wchar_t*,wchar_t);
+extern const wchar_t* ustrchr(const wchar_t*,wchar_t);
 //extern int ustrcoll(const wchar_t*,const wchar_t*);
 //extern unsigned int ustrcspn(const wchar_t*,const wchar_t*);
 

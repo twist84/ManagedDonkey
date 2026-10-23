@@ -454,7 +454,7 @@ bool c_gui_screen_widget::get_string_by_string_id(int32 string_identifier, c_sta
 
 	//ASSERT(buffer!=nullptr);
 	//
-	//if (string_identifier == k_string_id_empty_string)
+	//if (string_identifier == _string_id_empty_string)
 	//{
 	//	return false;
 	//}
@@ -855,7 +855,7 @@ void c_gui_screen_widget::initialize_datasource()
 		}
 
 		int32 name = datasource_definition->name;
-		if (name == _string_id_invalid || name == k_string_id_empty_string)
+		if (name == _string_id_invalid || name == _string_id_empty_string)
 		{
 			name = m_name;
 		}
